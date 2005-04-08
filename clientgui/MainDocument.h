@@ -38,6 +38,7 @@ public:
     virtual void*  Entry();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
     void           ForceReconnect() { m_bForceReconnect = true; };
+    wxInt32        FrameShutdownDetected();
     wxInt32        GetConnectedComputerName( wxString& strMachine );
     wxInt32        GetConnectingComputerName( wxString& strMachine );
     wxInt32        SetNewComputerName( const wxChar* szComputer );
@@ -53,6 +54,7 @@ public:
 
 private:
     CMainDocument* m_pDocument;
+    bool           m_bFrameShutdownDetected;
     bool           m_bConnectEvent;
     bool           m_bForceReconnect;
     bool           m_bReconnectOnError;
@@ -131,6 +133,7 @@ public:
     wxInt32                     CachedStateLock();
     wxInt32                     CachedStateUnlock();
 
+    wxInt32                     FrameShutdownDetected();
     wxInt32                     GetCoreClientVersion();
     wxInt32                     CoreClientQuit();
 

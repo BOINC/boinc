@@ -35,6 +35,7 @@ CNetworkConnectionThread::CNetworkConnectionThread(CMainDocument* pDocument) :
     m_strConnectedComputerPassword = wxEmptyString;
     m_strNewComputerName = wxEmptyString;
     m_strNewComputerPassword = wxEmptyString;
+    m_bFrameShutdownDetected = false;
     m_bConnectEvent = false;
     m_bConnected = false;
     m_bReconnecting = false;
@@ -49,6 +50,7 @@ CNetworkConnectionThread::~CNetworkConnectionThread() {
     m_bReconnecting = false;
     m_bConnected = false;
     m_bConnectEvent = false;
+    m_bFrameShutdownDetected = true;
     m_strNewComputerPassword = wxEmptyString;
     m_strNewComputerName = wxEmptyString;
     m_strConnectedComputerPassword = wxEmptyString;
@@ -116,6 +118,11 @@ void* CNetworkConnectionThread::Entry() {
 }
 
 
+wxInt32 CNetworkConnectionThread::FrameShutdownDetected() {
+    m_bFrameShutdownDetected = true;
+    return 0;
+}
+
 wxInt32 CNetworkConnectionThread::GetConnectedComputerName( wxString& strMachine ) {
     strMachine = m_strConnectedComputerName;
     return 0;
@@ -142,7 +149,7 @@ wxInt32 CNetworkConnectionThread::SetNewComputerPassword( const wxChar* szPasswo
 
 void CNetworkConnectionThread::SetStateErrorAuthentication() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if (pFrame && wxGetApp().GetTopWindow()) {
+    if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = false;
         m_bReconnecting = false;
@@ -157,7 +164,7 @@ void CNetworkConnectionThread::SetStateErrorAuthentication() {
 
 void CNetworkConnectionThread::SetStateError() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if (pFrame && wxGetApp().GetTopWindow()) {
+    if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = false;
         m_bReconnecting = false;
@@ -172,7 +179,7 @@ void CNetworkConnectionThread::SetStateError() {
 
 void CNetworkConnectionThread::SetStateReconnecting() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if (pFrame && wxGetApp().GetTopWindow()) {
+    if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = false;
         m_bReconnectOnError = false;
@@ -184,7 +191,7 @@ void CNetworkConnectionThread::SetStateReconnecting() {
 
 void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::string& strComputerPassword ) {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if (pFrame && wxGetApp().GetTopWindow()) {
+    if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = true;
         m_bReconnecting = false;
@@ -203,7 +210,7 @@ void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::s
 
 void CNetworkConnectionThread::SetStateDisconnected() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
-    if (pFrame && wxGetApp().GetTopWindow()) {
+    if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = false;
     }
@@ -262,11 +269,13 @@ CMainDocument::~CMainDocument() {
 
 
 wxInt32 CMainDocument::CachedStateUpdate() {
+    CMainFrame* pFrame = wxGetApp().GetFrame();
     wxInt32     retval = 0;
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
     if (!m_bCachedStateLocked && IsConnected() && (ts.GetSeconds() > 3600) ) {
-        wxLogStatus(_("Retrieving system state; please wait..."));
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
 
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
         retval = rpc.get_state(state);
@@ -275,7 +284,7 @@ wxInt32 CMainDocument::CachedStateUpdate() {
             m_pNetworkConnectionThread->SetStateDisconnected();
         }
 
-        wxLogStatus(_("Retrieving host information; please wait..."));
+        pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
 
         retval = rpc.get_host_info(host);
         if (retval) {
@@ -407,8 +416,12 @@ wxInt32 CMainDocument::CachedStateUnlock() {
 }
 
 
+wxInt32 CMainDocument::FrameShutdownDetected() {
+    return m_pNetworkConnectionThread->FrameShutdownDetected();
+}
+
 wxInt32 CMainDocument::GetCoreClientVersion() {
-    return rpc.client_version;    
+    return rpc.client_version;
 }
 
 

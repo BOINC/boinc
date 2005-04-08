@@ -228,6 +228,10 @@ CMainFrame::~CMainFrame()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function Begin"));
 
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pRefreshStateTimer);
     wxASSERT(NULL != m_pFrameRenderTimer);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
@@ -261,6 +265,8 @@ CMainFrame::~CMainFrame()
 
     if (m_pMenubar)
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
+
+    
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function End"));
 }
