@@ -59,7 +59,7 @@ APP_INIT_DATA::~APP_INIT_DATA() {
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
-	string str1, str2;
+    string str1, str2;
     fprintf(f, "<app_init_data>\n<core_version>%d</core_version>\n", ai.core_version);
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
@@ -68,13 +68,13 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
     if (strlen(ai.team_name)) {
-		str1 = ai.team_name;
-		xml_escape(str1, str2);
+        str1 = ai.team_name;
+        xml_escape(str1, str2);
         fprintf(f, "<team_name>%s</team_name>\n", str2.c_str());
     }
     if (strlen(ai.user_name)) {
-		str1 = ai.user_name;
-		xml_escape(str1, str2);
+        str1 = ai.user_name;
+        xml_escape(str1, str2);
         fprintf(f, "<user_name>%s</user_name>\n", str2.c_str());
     }
     if (strlen(ai.project_dir)) {

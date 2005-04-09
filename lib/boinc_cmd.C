@@ -23,16 +23,16 @@
 // usage: boinc_cmd [--host hostname] [--passwd passwd] command
 //
 // commands:
-// --get_state               	show entire state
-// --get_results             	show results
-// --get_file_transfers			show file transfers
-// --get_project_status			show status of all projects
+// --get_state                   show entire state
+// --get_results                 show results
+// --get_file_transfers            show file transfers
+// --get_project_status            show status of all projects
 // --get_disk_usage
 // --result
 //      {suspend | resume | abort | graphics_window | graphics_fullscreen}
 //      url result_name
 // --project
-//		{reset | detach | update | suspend | resume | nomorework | allowmorework}
+//        {reset | detach | update | suspend | resume | nomorework | allowmorework}
 //      url
 // --project_attach url auth
 // --file_transfer {retry | abort} url filename
@@ -42,7 +42,7 @@
 // --set_network_mode {always | auto | never}
 // --get_proxy_settings
 // --set_proxy_settings
-// --get_messages seqno			show messages > seqno
+// --get_messages seqno            show messages > seqno
 // --get_host_info
 // --acct_mgr_rpc url name password
 // --run_benchmarks

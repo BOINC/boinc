@@ -974,8 +974,9 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
             printf("asynch error: %d\n", retval);
         }
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-        printf("connect: %d %s\n", retval, host);
-        perror("connect");
+        if (retval) {
+            perror("connect");
+        }
         return 0;
     } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
@@ -1012,13 +1013,10 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &error_fds);
 
     tv.tv_sec = tv.tv_usec = 0;
-    int n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
-    printf("select: %d\n",n);
+    select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
     if (FD_ISSET(sock, &error_fds)) return ERR_CONNECT;
     if (FD_ISSET(sock, &write_fds)) {
-        printf("read set\n");
         retval = get_socket_error(sock);
-        printf("socket error %d\n", retval);
         if (retval) {
             if (tried_alt_port) {
                 return retval;

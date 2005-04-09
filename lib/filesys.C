@@ -392,15 +392,15 @@ bool boinc_file_exists(const char* path) {
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32
-	if (CopyFile(orig, newf, FALSE)) {
-		return 0;
+    if (CopyFile(orig, newf, FALSE)) {
+        return 0;
     } else {
-		return GetLastError();
+        return GetLastError();
     }
 #else
-	char cmd[256];
-	sprintf(cmd, "cp %s %s", orig, newf);
-	return system(cmd);
+    char cmd[256];
+    sprintf(cmd, "cp %s %s", orig, newf);
+    return system(cmd);
 #endif
 }
 
@@ -468,7 +468,7 @@ int FILE_LOCK::lock(const char* filename) {
     handle = CreateFile(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
-	);
+    );
     if (handle == INVALID_HANDLE_VALUE) {
         retval = 1;
     }
@@ -520,28 +520,28 @@ void relative_to_absolute(const char* relname, char* path) {
 //
 int get_filesystem_info(double &total_space, double &free_space) {
 #ifdef _WIN32
-	FreeFn pGetDiskFreeSpaceEx;
-	pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"),
+    FreeFn pGetDiskFreeSpaceEx;
+    pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"),
                                                  "GetDiskFreeSpaceExA");
-	if (pGetDiskFreeSpaceEx) {
-		ULARGE_INTEGER TotalNumberOfFreeBytes;
-		ULARGE_INTEGER TotalNumberOfBytes;
-		ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
-		pGetDiskFreeSpaceEx(NULL, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
-		signed __int64 uMB;
-		uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
-		free_space = uMB * 1024.0 * 1024.0;
-		uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
-		total_space = uMB * 1024.0 * 1024.0;
-	} else {
-		DWORD dwSectPerClust;
-		DWORD dwBytesPerSect;
-		DWORD dwFreeClusters;
-		DWORD dwTotalClusters;
-		GetDiskFreeSpace(NULL, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
-		free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
-		total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
-	}
+    if (pGetDiskFreeSpaceEx) {
+        ULARGE_INTEGER TotalNumberOfFreeBytes;
+        ULARGE_INTEGER TotalNumberOfBytes;
+        ULARGE_INTEGER TotalNumberOfBytesFreeToCaller;
+        pGetDiskFreeSpaceEx(NULL, &TotalNumberOfBytesFreeToCaller, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
+        signed __int64 uMB;
+        uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
+        free_space = uMB * 1024.0 * 1024.0;
+        uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
+        total_space = uMB * 1024.0 * 1024.0;
+    } else {
+        DWORD dwSectPerClust;
+        DWORD dwBytesPerSect;
+        DWORD dwFreeClusters;
+        DWORD dwTotalClusters;
+        GetDiskFreeSpace(NULL, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
+        free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
+        total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
+    }
 #else
 #ifdef STATFS
     struct STATFS fs_info;

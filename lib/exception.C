@@ -45,35 +45,35 @@ long  boinc_base_exception::ErrorValue() {
 }
 
 const char * boinc_base_exception::what() {
-	m_strErrorBuffer.empty();
+    m_strErrorBuffer.empty();
 
-	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
+    memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
     snprintf(m_szConversionBuffer, sizeof(m_szConversionBuffer), "%ld", m_lErrorValue);
     
-	m_strErrorBuffer.append(m_strErrorType);
-	m_strErrorBuffer.append(" ");
-	m_strErrorBuffer.append(m_szConversionBuffer);
-	m_strErrorBuffer.append(" ");
-	m_strErrorBuffer.append(m_strErrorMessage);
+    m_strErrorBuffer.append(m_strErrorType);
+    m_strErrorBuffer.append(" ");
+    m_strErrorBuffer.append(m_szConversionBuffer);
+    m_strErrorBuffer.append(" ");
+    m_strErrorBuffer.append(m_strErrorMessage);
 
-	m_strErrorBuffer.append("\n");
+    m_strErrorBuffer.append("\n");
 
-	m_strErrorBuffer.append(m_strErrorData);
+    m_strErrorBuffer.append(m_strErrorData);
 
-	m_strErrorBuffer.append("\n");
+    m_strErrorBuffer.append("\n");
 
-	m_strErrorBuffer.append("Filename: '");
-	m_strErrorBuffer.append(m_strFilename);
-	m_strErrorBuffer.append("'\n");
+    m_strErrorBuffer.append("Filename: '");
+    m_strErrorBuffer.append(m_strFilename);
+    m_strErrorBuffer.append("'\n");
 
-	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
+    memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
     snprintf(m_szConversionBuffer, sizeof(m_szConversionBuffer), "%ld", m_lLineNumber);
 
-	m_strErrorBuffer.append("Line: '");
-	m_strErrorBuffer.append(m_szConversionBuffer);
-	m_strErrorBuffer.append("'\n");
+    m_strErrorBuffer.append("Line: '");
+    m_strErrorBuffer.append(m_szConversionBuffer);
+    m_strErrorBuffer.append("'\n");
 
-	return m_strErrorBuffer.c_str();
+    return m_strErrorBuffer.c_str();
 }
 
 

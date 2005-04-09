@@ -106,7 +106,7 @@ int PROXY_INFO::write(MIOFILE& out) {
 void PROXY_INFO::clear() {
     use_http_proxy = false;
     use_socks_proxy = false;
-	use_http_auth = false;
+    use_http_auth = false;
     strcpy(socks_server_name, "");
     strcpy(http_server_name, "");
     socks_server_port = 80;
