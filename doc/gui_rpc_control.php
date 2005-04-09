@@ -2,16 +2,27 @@
 require_once("docutil.php");
 page_head("Access control for GUI RPC");
 echo "
-By default the core client accepts GUI RPC connections
-only from programs on the same host.
+Since GUI RPCs can control the BOINC client
+(e.g. attaching/detaching projects)
+it is important to protect your BOINC client
+from unauthorized control.
+There are two levels of protection:
+<ul>
+<li> You can associate a password with the client;
+GUI RPCs must be authenticated with this password.
+<li> You can restrict RPCs to a limited set of hosts.
+</ul>
 
+<h2>Password protection</h2>
 <p>
-<b>
-NOTE: this means that any user on the same machine
-can control the core client.
-This is undesirable; we are planning to add
-a password-based protection mechanism to GUI RPC.
-</b>
+If you place a password in a file <b>gui_rpc_auth.cfg</b>
+in your BOINC directory,
+GUI RPCs must be authenticated using the password.
+
+<h2>Remote host restriction</h2>
+<p>
+By default the core client accepts GUI RPCs
+only from the same host.
 
 <p>
 You can allow remote hosts to control a core client in two ways:

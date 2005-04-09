@@ -22,6 +22,9 @@ public:
     int sock;
     char nonce[256];
     bool auth_needed;
+        // if true, don't allow operations other than authentication
+    bool is_local;
+        // connection is from local host
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
     int handle_rpc();

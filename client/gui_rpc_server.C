@@ -525,12 +525,25 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_auth1(mf);
     } else if (match_tag(request_msg, "<auth2")) {
         handle_auth2(request_msg, mf);
-    } else if (auth_needed) {
+
+    } else if (auth_needed && !is_local) {
         auth_failure(mf);
+
+    // operations that require authentication for non-local clients start here
+
     } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
         gstate.write_tasks_gui(mf);
+    } else if (match_tag(request_msg, "<get_screensaver_mode")) {
+        handle_get_screensaver_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_screensaver_mode")) {
+        handle_set_screensaver_mode(request_msg, mf);
+
+    // Operations that require authentication start here
+
+    } else if (auth_needed) {
+        auth_failure(mf);
     } else if (match_tag(request_msg, "<get_file_transfers")) {
         gstate.write_file_transfers_gui(mf);
     } else if (match_tag(request_msg, "<get_project_status")) {
@@ -585,10 +598,6 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_op(request_msg, mf, "resume");
     } else if (match_tag(request_msg, "<get_host_info")) {
         handle_get_host_info(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_screensaver_mode")) {
-        handle_get_screensaver_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<set_screensaver_mode")) {
-        handle_set_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<quit")) {
         handle_quit(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_rpc")) {
@@ -625,9 +634,6 @@ int GUI_RPC_CONN_SET::get_password() {
 int GUI_RPC_CONN_SET::get_allowed_hosts() {
  
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-     
-    // add localhost
-    allowed_remote_ip_addresses.push_back(0x7f000001);
      
     NET_XFER temp; // network address resolver is in this class
     int ipaddr;
@@ -746,6 +752,7 @@ bool GUI_RPC_CONN_SET::poll(double) {
     vector<GUI_RPC_CONN*>::iterator iter;
     GUI_RPC_CONN* gr;
     struct timeval tv;
+    bool is_local = false;
 
     if (lsock < 0) return false;
     FD_ZERO(&read_fds);
@@ -783,6 +790,11 @@ bool GUI_RPC_CONN_SET::poll(double) {
         // 2) client host is included in "remote_hosts" file or
         // 3) client is on localhost
         //
+        if (peer_ip == 0x7f000001) {
+            allowed = true;
+            is_local = true;
+        }
+
         if ( !(gstate.allow_remote_gui_rpc) && !(allowed)) {
             in_addr ia;
             ia.s_addr = htonl(peer_ip);
@@ -793,6 +805,7 @@ bool GUI_RPC_CONN_SET::poll(double) {
             if (strlen(password)) {
                 gr->auth_needed = true;
             }
+            gr->is_local = is_local;
             insert(gr);
         }
     }
