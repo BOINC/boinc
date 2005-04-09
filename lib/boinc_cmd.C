@@ -54,13 +54,13 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_net.h"
+#else
+#include <cstdio>
+#include <unistd.h>
 #endif
+
 #include <vector>
 using std::vector;
-
-#ifndef _WIN32
-#include <cstdio>
-#endif
 
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
@@ -130,11 +130,28 @@ int main(int argc, char** argv) {
         passwd = argv[i+1];
         i += 2;
     }
-    retval = rpc.init(hostname);
+#if 1
+    retval = rpc.init(hostname, false);
     if (retval) {
         fprintf(stderr, "can't connect\n");
         exit(1);
     }
+#else
+    retval = rpc.init(hostname, true);
+    while (1) {
+        retval = rpc.init_poll();
+        if (!retval) break;
+        if (retval == ERR_RETRY) {
+            printf("sleeping\n");
+            sleep(1);
+            continue;
+        }
+        fprintf(stderr, "can't connect: %d\n", retval);
+        exit(1);
+    }
+    printf("connected\n");
+#endif
+
     if (passwd) {
         retval = rpc.authorize(passwd);
         if (retval) {

@@ -23,6 +23,11 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #endif
 
 #include "miofile.h"
@@ -389,6 +394,9 @@ class RPC_CLIENT {
 public:
     int sock;
     int client_version;
+    bool tried_alt_port;
+    sockaddr_in addr;
+
     int send_request(const char*);
     int get_reply(char*&);
     RPC_CLIENT();

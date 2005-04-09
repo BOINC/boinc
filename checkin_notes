@@ -26942,3 +26942,10 @@ David  8 April 2005
         error_numbers.h
         gui_rpc_client.C,h
         network.C,h
+
+David  8 April 2005
+    - debugged asynchronous connect for GUI RPC
+
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C,h

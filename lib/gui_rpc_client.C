@@ -29,10 +29,6 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <arpa/inet.h>
-#include <netdb.h>
 #endif
 
 #include "diagnostics.h"
@@ -950,7 +946,6 @@ void RPC_CLIENT::close() {
 
 int RPC_CLIENT::init(const char* host, bool asynch) {
     int retval;
-    sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT_ALT);
 
@@ -973,8 +968,15 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
     if (retval) return retval;
 
     if (asynch) {
-        boinc_socket_asynch(sock, true);
+        tried_alt_port = false;
+        retval = boinc_socket_asynch(sock, true);
+        if (retval) {
+            printf("asynch error: %d\n", retval);
+        }
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+        printf("connect: %d %s\n", retval, host);
+        perror("connect");
+        return 0;
     } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
@@ -999,6 +1001,7 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
 int RPC_CLIENT::init_poll() {
     fd_set read_fds, write_fds, error_fds;
     struct timeval tv;
+    int retval;
 
     FD_ZERO(&read_fds);
     FD_ZERO(&write_fds);
@@ -1009,10 +1012,30 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &error_fds);
 
     tv.tv_sec = tv.tv_usec = 0;
-    select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
+    int n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
+    printf("select: %d\n",n);
     if (FD_ISSET(sock, &error_fds)) return ERR_CONNECT;
-    if (FD_ISSET(sock, &read_fds)) {
-        boinc_socket_asynch(sock, false);
+    if (FD_ISSET(sock, &write_fds)) {
+        printf("read set\n");
+        retval = get_socket_error(sock);
+        printf("socket error %d\n", retval);
+        if (retval) {
+            if (tried_alt_port) {
+                return retval;
+            } else {
+                boinc_close_socket(sock);
+                retval = boinc_socket(sock);
+                retval = boinc_socket_asynch(sock, true);
+                addr.sin_port = htons(GUI_RPC_PORT);
+                retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+                return ERR_RETRY;
+                tried_alt_port = true;
+            }
+        }
+        retval = boinc_socket_asynch(sock, false);
+        if (retval) {
+            printf("asynch error: %d\n", retval);
+        }
         return 0;
     }
     return ERR_RETRY;
@@ -1058,7 +1081,11 @@ int RPC_CLIENT::send_request(const char* p) {
         p
     );
     int n = send(sock, buf, strlen(buf), 0);
-    if (n < 0) return ERR_WRITE;
+    if (n < 0) {
+        printf("send: %d\n", n);
+        perror("send");
+        return ERR_WRITE;
+    }
     return 0;
 }
 
