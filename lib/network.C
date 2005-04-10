@@ -23,12 +23,90 @@
 #include <unistd.h>
 #include <cstdio>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <fcntl.h>
 
 #endif
 
 #include "error_numbers.h"
 #include "network.h"
+
+int resolve_hostname(char* hostname, int &ip_addr, char* msg) {
+
+    // if the hostname is in Internet Standard dotted notation, 
+    // return that address.
+    //
+    ip_addr = inet_addr(hostname);
+    if (ip_addr != -1) {
+        return 0;
+    }
+
+    // else resolve the name
+    //
+    hostent* hep;
+    hep = gethostbyname(hostname);
+    if (!hep) {
+        int n;
+
+        n = sprintf(msg, "Can't resolve hostname [%s] ", hostname);
+#ifdef WIN32
+
+        switch (WSAGetLastError()) {
+        case WSANOTINITIALISED:
+            break;
+        case WSAENETDOWN:
+            sprintf(msg+n, "(the network subsystem has failed)");
+            break;
+        case WSAHOST_NOT_FOUND:
+            sprintf(msg+n, "(host name not found)");
+            break;
+        case WSATRY_AGAIN:
+            sprintf(msg+n, "(no response from server)");
+            break;
+        case WSANO_RECOVERY:
+            sprintf(msg+n, "(a nonrecoverable error occurred)");
+            break;
+        case WSANO_DATA:
+            sprintf(msg+n, "(valid name, no data record of requested type)");
+            break;
+        case WSAEINPROGRESS:
+            sprintf(msg+n, "(a blocking socket call in progress)");
+            break;
+        case WSAEFAULT:
+            sprintf(msg+n, "(invalid part of user address space)");
+            break;
+        case WSAEINTR:
+            sprintf(msg+n, "(a blocking socket call was canceled)");
+            break;
+        }
+        NetClose();
+
+#else
+
+        switch (h_errno) {
+        case HOST_NOT_FOUND:
+            sprintf(msg+n, "(host not found)");
+            break;
+        case NO_DATA:
+            sprintf(msg+n, "(valid name, no data record of requested type)");
+            break;
+        case NO_RECOVERY:
+            sprintf(msg+n, "(a nonrecoverable error occurred)");
+            break;
+        case TRY_AGAIN:
+            sprintf(msg+n, "(host not found or server failure)");
+            break;
+        }
+
+#endif
+        return ERR_GETHOSTBYNAME;
+    }
+    ip_addr = *(int*)hep->h_addr_list[0];
+    return 0;
+}
 
 int boinc_socket(int& fd) {
     fd = socket(AF_INET, SOCK_STREAM, 0);

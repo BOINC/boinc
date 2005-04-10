@@ -32,24 +32,12 @@
 #endif
 
 #ifndef _WIN32
-
 #include <cstdio>
-#include <cmath>
-#include <sys/time.h>
-#include <sys/socket.h>
-#include <sys/select.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netdb.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
 #include <cerrno>
 #include <cstdlib>
-#include <ctime>
 #include <cstring>
-
 #endif
 
 #include "error_numbers.h"
@@ -67,99 +55,24 @@ using std::vector;
 // in this many seconds, error out
 #define NET_XFER_TIMEOUT    600
 
-int NET_XFER::get_ip_addr(int &ip_addr) {
-
-#ifdef WIN32
-    int retval;
-    retval = NetOpen();
-    if (retval) return retval;
-#endif
-
-    // if the hostname is in Internet Standard dotted notation, 
-    // return that address.
-    //
-    int temp_ip_addr = inet_addr(hostname);
-    if (-1 != temp_ip_addr) {
-        ip_addr = temp_ip_addr;
-        return 0;
-    }
-
-    // else resolve the name
-    //
-    hostent* hep;
-    hep = gethostbyname(hostname);
-    if (!hep) {
-        char msg[256];
-        int n;
-
-        n = sprintf(msg, "Can't resolve hostname [%s] ", hostname);
-#ifdef WIN32
-
-        switch (WSAGetLastError()) {
-        case WSANOTINITIALISED:
-            break;
-        case WSAENETDOWN:
-            sprintf(msg+n, "(the network subsystem has failed)");
-            break;
-        case WSAHOST_NOT_FOUND:
-            sprintf(msg+n, "(host name not found)");
-            break;
-        case WSATRY_AGAIN:
-            sprintf(msg+n, "(no response from server)");
-            break;
-        case WSANO_RECOVERY:
-            sprintf(msg+n, "(a nonrecoverable error occurred)");
-            break;
-        case WSANO_DATA:
-            sprintf(msg+n, "(valid name, no data record of requested type)");
-            break;
-        case WSAEINPROGRESS:
-            sprintf(msg+n, "(a blocking socket call in progress)");
-            break;
-        case WSAEFAULT:
-            sprintf(msg+n, "(invalid part of user address space)");
-            break;
-        case WSAEINTR:
-            sprintf(msg+n, "(a blocking socket call was canceled)");
-            break;
-        }
-        NetClose();
-
-#else
-
-        switch (h_errno) {
-        case HOST_NOT_FOUND:
-            sprintf(msg+n, "(host not found)");
-            break;
-        case NO_DATA:
-            sprintf(msg+n, "(valid name, no data record of requested type)");
-            break;
-        case NO_RECOVERY:
-            sprintf(msg+n, "(a nonrecoverable error occurred)");
-            break;
-        case TRY_AGAIN:
-            sprintf(msg+n, "(host not found or server failure)");
-            break;
-        }
-
-#endif
-        msg_printf(0, MSG_ERROR, "%s\n", msg);
-        return ERR_GETHOSTBYNAME;
-    }
-    ip_addr = *(int*)hep->h_addr_list[0];
-
-    return 0;
-}
-
 
 // Attempt to open a nonblocking socket to a server
 //
 int NET_XFER::open_server() {
     sockaddr_in addr;
     int fd=0, ipaddr, retval=0;
+    char msg[256];
 
-    retval = get_ip_addr(ipaddr);
+#ifdef WIN32
+    retval = NetOpen();
     if (retval) return retval;
+#endif
+
+    retval = resolve_hostname(hostname, ipaddr, msg);
+    if (retval) {
+        msg_printf(0, MSG_ERROR, "%s\n", msg);
+        return retval;
+    }
 
     retval = boinc_socket(fd);
     if (retval) return retval;

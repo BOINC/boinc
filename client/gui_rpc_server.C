@@ -632,12 +632,10 @@ int GUI_RPC_CONN_SET::get_password() {
 }
 
 int GUI_RPC_CONN_SET::get_allowed_hosts() {
- 
+    int ipaddr, retval;
+    char buf[256], msg[256];
+
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-     
-    NET_XFER temp; // network address resolver is in this class
-    int ipaddr;
-    char buf[256];
  
     // open file remote_hosts.cfg and read in the
     // allowed host list and resolve them to an ip address
@@ -655,8 +653,8 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         while (fgets(buf, 256, f) != NULL) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
-                strcpy(temp.hostname, buf);
-                if (temp.get_ip_addr(ipaddr) == 0) {
+                retval = resolve_hostname(buf, ipaddr, msg);
+                if (!retval) {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
             }

@@ -21,30 +21,20 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-
-#ifndef _WIN32
-#include <cstring>
-#include <sstream>
-
-#if HAVE_SYS_STAT_H
+#else
 #include <sys/stat.h>
-#endif
-#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-#endif
-#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
-#endif
-#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#endif
+
+#include <cstring>
+#include <sstream>
 
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
+#include "network.h"
 #include "client_msgs.h"
 #include "parse.h"
 
@@ -330,7 +320,7 @@ bool PROXY::proxy_negotiated() {
 bool PROXY::proxy_poll() {
     int n, retval, ip_addr, nbytes;
     bool action = false;
-    char buf[256];
+    char buf[256], msg[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_PROXY);
 
@@ -400,7 +390,7 @@ bool PROXY::proxy_poll() {
             }
             break;
         case PROXY_STATE_SOCKS_SEND_CONNECT_REQ:
-            retval = get_ip_addr(ip_addr);
+            retval = resolve_hostname(hostname, ip_addr, msg);
             if (retval) {
                 proxy_failed(retval);
                 break;

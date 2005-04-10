@@ -26958,3 +26958,14 @@ David  9 April 2005
 
     client/
         gui_rpc_server.C,h
+
+David  9 April 2005
+    - move NET_XFER::get_ip_addr() to lib/network.C,
+        and rename it resolve_hostname()
+
+    client/
+        gui_rpc_server.C
+        net_xfer.C
+        proxy.C
+    lib/
+        network.C,h

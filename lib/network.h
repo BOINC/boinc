@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+extern int resolve_hostname(char* hostname, int& ip_addr, char* msg);
 extern int boinc_socket(int& sock);
 extern int boinc_socket_asynch(int sock, bool asynch);
 extern void boinc_close_socket(int sock);
