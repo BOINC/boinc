@@ -867,10 +867,10 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             pDlg->m_ComputerPasswordCtrl->GetValue(),
             TRUE
         );
-        if (!(0 == lRetVal)) {
+        if (lRetVal) {
             ::wxMessageBox(
-                _("Failed to connect to the requested computer, please check the name of the computer and try again."),
-                _("Failed to connect..."),
+                _("Connection failed."),
+                _("Connection failed."),
                 wxICON_ERROR
            );
         }
@@ -1147,8 +1147,8 @@ void CMainFrame::OnConnectError(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
 
     ::wxMessageBox(
-        _("Connection failed.\nIf using a Client Firewall, please try again."),
-        _("Connection Error"),
+        _("Connection failed."),
+        _("Connection failed."),
         wxICON_ERROR
     );
 

@@ -977,6 +977,7 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         if (retval) {
             perror("connect");
         }
+        //fprintf(stderr, "attempting connect to alt port\n");
         return 0;
     } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
@@ -1014,30 +1015,37 @@ int RPC_CLIENT::init_poll() {
 
     tv.tv_sec = tv.tv_usec = 0;
     select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
-    if (FD_ISSET(sock, &error_fds)) return ERR_CONNECT;
-    if (FD_ISSET(sock, &write_fds)) {
+    retval = 0;
+    if (FD_ISSET(sock, &error_fds)) {
+        retval =  ERR_CONNECT;
+    } else if (FD_ISSET(sock, &write_fds)) {
         retval = get_socket_error(sock);
-        if (retval) {
-            if (tried_alt_port) {
+        //fprintf(stderr, "init_poll: get_socket_error(): %d\n", retval);
+        if (!retval) {
+            retval = boinc_socket_asynch(sock, false);
+            if (retval) {
+                fprintf(stderr, "asynch error: %d\n", retval);
                 return retval;
-            } else {
-                boinc_close_socket(sock);
-                retval = boinc_socket(sock);
-                retval = boinc_socket_asynch(sock, true);
-                addr.sin_port = htons(GUI_RPC_PORT);
-                retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-                return ERR_RETRY;
-                tried_alt_port = true;
             }
+            return 0;
         }
-        retval = boinc_socket_asynch(sock, false);
-        if (retval) {
-            printf("asynch error: %d\n", retval);
+    }
+    if (retval) {
+        if (tried_alt_port) {
+            //fprintf(stderr, "already tried both ports, giving up\n");
+            return retval;
+        } else {
+            boinc_close_socket(sock);
+            retval = boinc_socket(sock);
+            retval = boinc_socket_asynch(sock, true);
+            addr.sin_port = htons(GUI_RPC_PORT);
+            retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+            //fprintf(stderr, "attempting connect to main port\n");
+            tried_alt_port = true;
+            return ERR_RETRY;
         }
-        return 0;
     }
     return ERR_RETRY;
-
 }
 
 int RPC_CLIENT::authorize(const char* passwd) {
