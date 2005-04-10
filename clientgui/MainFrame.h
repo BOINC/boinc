@@ -76,6 +76,7 @@ public:
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
     void OnListPanelRender( wxTimerEvent& event );
+    void OnDocumentPoll( wxTimerEvent& event );
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
@@ -103,6 +104,7 @@ private:
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
+    wxTimer*        m_pDocumentPollTimer;
 
     wxString        m_strBaseTitle;
 

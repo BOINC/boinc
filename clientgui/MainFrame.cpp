@@ -164,6 +164,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
+    EVT_TIMER(ID_DOCUMENTPOLLTIMER, CMainFrame::OnDocumentPoll)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
 END_EVENT_TABLE ()
 
@@ -207,9 +208,13 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
 
+    m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
+    wxASSERT(NULL != m_pDocumentPollTimer);
+
     m_pRefreshStateTimer->Start(60000);              // Send event every 60 seconds
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
+    m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
 
     RestoreState();
 
@@ -235,6 +240,7 @@ CMainFrame::~CMainFrame()
     wxASSERT(NULL != m_pRefreshStateTimer);
     wxASSERT(NULL != m_pFrameRenderTimer);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
+    wxASSERT(NULL != m_pDocumentPollTimer);
     wxASSERT(NULL != m_pMenubar);
     wxASSERT(NULL != m_pNotebook);
     wxASSERT(NULL != m_pStatusbar);
@@ -255,6 +261,11 @@ CMainFrame::~CMainFrame()
     if (m_pFrameListPanelRenderTimer) {
         m_pFrameListPanelRenderTimer->Stop();
         delete m_pFrameListPanelRenderTimer;
+    }
+
+    if (m_pDocumentPollTimer) {
+        m_pDocumentPollTimer->Stop();
+        delete m_pDocumentPollTimer;
     }
 
     if (m_pStatusbar)
@@ -1167,7 +1178,7 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (!pDoc->IsConnected())
-        pDoc->Connect(wxEmptyString);
+        pDoc->Connect(wxEmptyString, wxEmptyString, TRUE);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
 }
@@ -1359,6 +1370,16 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
     FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function End"));
+}
+
+
+void CMainFrame::OnDocumentPoll( wxTimerEvent& event ) {
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->OnPoll();
 }
 
 

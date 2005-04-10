@@ -189,6 +189,9 @@
 				RelativePath="..\lib\miofile.C">
 			</File>
 			<File
+				RelativePath="..\lib\network.C">
+			</File>
+			<File
 				RelativePath="..\lib\parse.C">
 			</File>
 			<File
@@ -248,6 +251,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\miofile.h">
+			</File>
+			<File
+				RelativePath="..\lib\network.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">

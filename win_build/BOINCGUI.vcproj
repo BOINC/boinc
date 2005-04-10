@@ -327,6 +327,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\network.C">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\lib\parse.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -499,6 +508,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\miofile.h">
+			</File>
+			<File
+				RelativePath="..\lib\network.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">

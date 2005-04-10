@@ -27,8 +27,8 @@
 #include "error_numbers.h"
 
 
-CNetworkConnectionThread::CNetworkConnectionThread(CMainDocument* pDocument) :
-    wxThread(wxTHREAD_JOINABLE) {
+CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
+    wxObject() {
     m_pDocument = pDocument;
 
     m_strConnectedComputerName = wxEmptyString;
@@ -44,7 +44,7 @@ CNetworkConnectionThread::CNetworkConnectionThread(CMainDocument* pDocument) :
 }
 
 
-CNetworkConnectionThread::~CNetworkConnectionThread() {
+CNetworkConnection::~CNetworkConnection() {
     m_bReconnectOnError = false;
     m_bForceReconnect = false;
     m_bReconnecting = false;
@@ -60,94 +60,102 @@ CNetworkConnectionThread::~CNetworkConnectionThread() {
 }
 
 
-void* CNetworkConnectionThread::Entry() {
+void* CNetworkConnection::Poll() {
     wxInt32 iRetVal = -1;
     std::string strComputer;
     std::string strComputerPassword;
 
-    while (!TestDestroy()) {
-        if (IsConnectEventSignaled() || m_bReconnectOnError ) {
-            if ( ( IsConnected()  && m_bForceReconnect ) ||
-                 ( !IsConnected() && m_bReconnectOnError ) 
-            ) {
-                m_pDocument->ResetState();
-                SetStateReconnecting();
+    if (IsReconnecting()) {
+        wxLogTrace("CNetworkConnection::Poll - Reconnection Detected");
+        iRetVal = m_pDocument->rpc.init_poll();
+        if        (ERR_CONNECT == iRetVal) {
+            wxLogTrace("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing...");
+            iRetVal = m_pDocument->rpc.authorize(strComputerPassword.c_str());
+            if (0 == iRetVal) {
+                wxLogTrace("CNetworkConnection::Poll - Connection Success");
+                SetStateSuccess( strComputer, strComputerPassword );
+            } else if (ERR_AUTHENTICATOR == iRetVal) {
+                wxLogTrace("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR");
+                SetStateErrorAuthentication();
+            } else {
+                wxLogTrace("CNetworkConnection::Poll - RPC Authorization Failed '%d'", iRetVal);
+                SetStateError();
             }
-
-            if (!IsConnected()) {
-                // determine computer name and password to use.
-                if (!m_strNewComputerName.empty()) {
-                    strComputer = m_strNewComputerName;
-                    strComputerPassword = m_strNewComputerPassword;
-                } else {
-                    if (!m_strConnectedComputerName.empty()) {
-                        strComputer = m_strConnectedComputerName.c_str();
-                        strComputerPassword = m_strConnectedComputerPassword.c_str();
-                    }
-                }
-
-                if (strComputer.empty()) {
-                    iRetVal = m_pDocument->rpc.init(NULL);
-                } else {
-                    iRetVal = m_pDocument->rpc.init(strComputer.c_str());
-                }
-
-                if (0 == iRetVal) {
-                    iRetVal = m_pDocument->rpc.authorize(strComputerPassword.c_str());
-                    if (0 == iRetVal) {
-                        wxLogTrace("CNetworkConnectionThread::Entry - Connection Success");
-                        SetStateSuccess( strComputer, strComputerPassword );
-                    } else if (ERR_AUTHENTICATOR == iRetVal) {
-                        wxLogTrace("CNetworkConnectionThread::Entry - RPC Authorization Failed '%d'", iRetVal);
-                        SetStateErrorAuthentication();
-                    } else {
-                        wxLogTrace("CNetworkConnectionThread::Entry - RPC Authorization Failed '%d'", iRetVal);
-                        SetStateError();
-                    }
-                } else {
-                    wxLogTrace("CNetworkConnectionThread::Entry - RPC Initialization Failed '%d'", iRetVal);
-                    SetStateError();
-                }
-            }
+        } else if (ERR_RETRY != iRetVal) {
+            wxLogTrace("CNetworkConnection::Poll - RPC Connection Failed '%d'", iRetVal);
+            SetStateError();
+        }
+    } else if (IsConnectEventSignaled() || m_bReconnectOnError ) {
+        if ( ( m_bForceReconnect ) ||
+             ( !IsConnected() && m_bReconnectOnError ) 
+        ) {
+            wxLogTrace("CNetworkConnection::Poll - Resetting Document State");
+            m_pDocument->ResetState();
+            wxLogTrace("CNetworkConnection::Poll - Setting connection state to reconnecting");
+            SetStateReconnecting();
         }
 
-        Sleep(250);
+        if (!IsConnected()) {
+            // determine computer name and password to use.
+            if (!m_strNewComputerName.empty()) {
+                strComputer = m_strNewComputerName;
+                strComputerPassword = m_strNewComputerPassword;
+            } else {
+                if (!m_strConnectedComputerName.empty()) {
+                    strComputer = m_strConnectedComputerName.c_str();
+                    strComputerPassword = m_strConnectedComputerPassword.c_str();
+                }
+            }
+
+            if (strComputer.empty()) {
+                iRetVal = m_pDocument->rpc.init(NULL, true);
+            } else {
+                iRetVal = m_pDocument->rpc.init(strComputer.c_str(), true);
+            }
+
+            if (0 == iRetVal) {
+                wxLogTrace("CNetworkConnection::Poll - RPC Initialization Called");
+            } else {
+                wxLogTrace("CNetworkConnection::Poll - RPC Initialization Failed '%d'", iRetVal);
+                SetStateError();
+            }
+        }
     }
 
     return NULL;
 }
 
 
-wxInt32 CNetworkConnectionThread::FrameShutdownDetected() {
+wxInt32 CNetworkConnection::FrameShutdownDetected() {
     m_bFrameShutdownDetected = true;
     return 0;
 }
 
-wxInt32 CNetworkConnectionThread::GetConnectedComputerName( wxString& strMachine ) {
+wxInt32 CNetworkConnection::GetConnectedComputerName( wxString& strMachine ) {
     strMachine = m_strConnectedComputerName;
     return 0;
 }
 
 
-wxInt32 CNetworkConnectionThread::GetConnectingComputerName( wxString& strMachine ) {
+wxInt32 CNetworkConnection::GetConnectingComputerName( wxString& strMachine ) {
     strMachine = m_strNewComputerName;
     return 0;
 }
 
 
-wxInt32 CNetworkConnectionThread::SetNewComputerName( const wxChar* szComputer ) {
+wxInt32 CNetworkConnection::SetNewComputerName( const wxChar* szComputer ) {
     m_strNewComputerName = szComputer;
     return 0;
 }
 
 
-wxInt32 CNetworkConnectionThread::SetNewComputerPassword( const wxChar* szPassword ) {
+wxInt32 CNetworkConnection::SetNewComputerPassword( const wxChar* szPassword ) {
     m_strNewComputerPassword = szPassword;
     return 0;
 }
 
 
-void CNetworkConnectionThread::SetStateErrorAuthentication() {
+void CNetworkConnection::SetStateErrorAuthentication() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -162,7 +170,7 @@ void CNetworkConnectionThread::SetStateErrorAuthentication() {
 }
 
 
-void CNetworkConnectionThread::SetStateError() {
+void CNetworkConnection::SetStateError() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -177,7 +185,7 @@ void CNetworkConnectionThread::SetStateError() {
 }
 
 
-void CNetworkConnectionThread::SetStateReconnecting() {
+void CNetworkConnection::SetStateReconnecting() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -189,7 +197,7 @@ void CNetworkConnectionThread::SetStateReconnecting() {
 }
 
 
-void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::string& strComputerPassword ) {
+void CNetworkConnection::SetStateSuccess( std::string& strComputer, std::string& strComputerPassword ) {
     CMainFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -208,7 +216,7 @@ void CNetworkConnectionThread::SetStateSuccess( std::string& strComputer, std::s
 }
 
 
-void CNetworkConnectionThread::SetStateDisconnected() {
+void CNetworkConnection::SetStateDisconnected() {
     CMainFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -281,7 +289,7 @@ wxInt32 CMainDocument::CachedStateUpdate() {
         retval = rpc.get_state(state);
         if (retval) {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
 
         pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
@@ -289,7 +297,7 @@ wxInt32 CMainDocument::CachedStateUpdate() {
         retval = rpc.get_host_info(host);
         if (retval) {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
 
         pFrame->UpdateStatusText(wxEmptyString);
@@ -313,11 +321,7 @@ wxInt32 CMainDocument::OnInit() {
     acct_mgr.init();
 
     // start the connect management thread
-    m_pNetworkConnectionThread = new CNetworkConnectionThread(this);
-    if (m_pNetworkConnectionThread->Create() != wxTHREAD_NO_ERROR)
-        wxLogTrace("CMainDocument::OnInit - Failed to create network connection thread");
-
-    m_pNetworkConnectionThread->Run();
+    m_pNetworkConnection = new CNetworkConnection(this);
 
     return iRetVal;
 }
@@ -329,11 +333,20 @@ wxInt32 CMainDocument::OnExit() {
     // attempt to cleanup the account management information
     acct_mgr.close();
 
-    if (m_pNetworkConnectionThread) {
-        m_pNetworkConnectionThread->Delete();
-        m_pNetworkConnectionThread->Wait();
-        m_pNetworkConnectionThread->Kill();
-        delete m_pNetworkConnectionThread;
+    if (m_pNetworkConnection) {
+        delete m_pNetworkConnection;
+        m_pNetworkConnection = NULL;
+    }
+
+    return iRetVal;
+}
+
+
+wxInt32 CMainDocument::OnPoll() {
+    wxInt32 iRetVal = 0;
+
+    if (m_pNetworkConnection) {
+        m_pNetworkConnection->Poll();
     }
 
     return iRetVal;
@@ -370,36 +383,36 @@ wxInt32 CMainDocument::ResetState() {
 wxInt32 CMainDocument::Connect(const wxChar* szComputer, const wxChar* szComputerPassword, bool bDisconnect) {
 
     if ( bDisconnect ) {
-        m_pNetworkConnectionThread->ForceReconnect();
+        m_pNetworkConnection->ForceReconnect();
     }
 
-    m_pNetworkConnectionThread->SetNewComputerName( szComputer );
-    m_pNetworkConnectionThread->SetNewComputerPassword( szComputerPassword );
+    m_pNetworkConnection->SetNewComputerName( szComputer );
+    m_pNetworkConnection->SetNewComputerPassword( szComputerPassword );
 
-    m_pNetworkConnectionThread->FireReconnectEvent();
+    m_pNetworkConnection->FireReconnectEvent();
     return 0;
 }
 
 
 wxInt32 CMainDocument::GetConnectedComputerName(wxString& strMachine) {
-    m_pNetworkConnectionThread->GetConnectedComputerName( strMachine );
+    m_pNetworkConnection->GetConnectedComputerName( strMachine );
     return 0;
 }
 
 
 wxInt32 CMainDocument::GetConnectingComputerName(wxString& strMachine) {
-    m_pNetworkConnectionThread->GetConnectingComputerName( strMachine );
+    m_pNetworkConnection->GetConnectingComputerName( strMachine );
     return 0;
 }
 
 
 bool CMainDocument::IsConnected() {
-    return m_pNetworkConnectionThread->IsConnected();
+    return m_pNetworkConnection->IsConnected();
 }
 
 
 bool CMainDocument::IsReconnecting() {
-    return m_pNetworkConnectionThread->IsReconnecting();
+    return m_pNetworkConnection->IsReconnecting();
 }
 
 
@@ -417,7 +430,7 @@ wxInt32 CMainDocument::CachedStateUnlock() {
 
 
 wxInt32 CMainDocument::FrameShutdownDetected() {
-    return m_pNetworkConnectionThread->FrameShutdownDetected();
+    return m_pNetworkConnection->FrameShutdownDetected();
 }
 
 wxInt32 CMainDocument::GetCoreClientVersion() {
@@ -542,7 +555,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate() {
         iRetVal = rpc.get_project_status(project_status);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
 
         m_fProjectTotalResourceShare = 0.0;
@@ -972,7 +985,7 @@ wxInt32 CMainDocument::CachedResultsStatusUpdate() {
         iRetVal = rpc.get_results(results);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
     }
 
@@ -1492,7 +1505,7 @@ wxInt32 CMainDocument::CachedMessageUpdate() {
         iRetVal = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
 
         if (messages.messages.size() != 0)
@@ -1603,7 +1616,7 @@ wxInt32 CMainDocument::CachedFileTransfersUpdate() {
         iRetVal = rpc.get_file_transfers(ft);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
     }
 
@@ -1851,7 +1864,7 @@ wxInt32 CMainDocument::CachedResourceStatusUpdate() {
         iRetVal = rpc.get_disk_usage(resource_status);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
     }
 
@@ -1923,7 +1936,7 @@ wxInt32 CMainDocument::CachedStatisticsStatusUpdate() {
         iRetVal = rpc.get_statistics(statistics_status);
         if (iRetVal) {
             wxLogTrace("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
-            m_pNetworkConnectionThread->SetStateDisconnected();
+            m_pNetworkConnection->SetStateDisconnected();
         }
     }
 
@@ -2152,7 +2165,7 @@ wxInt32 CMainDocument::UpdateAccountManagerAccounts() {
     );
     if (iRetVal) {
         wxLogTrace("CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
-        m_pNetworkConnectionThread->SetStateDisconnected();
+        m_pNetworkConnection->SetStateDisconnected();
     }
 
     return iRetVal;

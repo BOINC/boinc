@@ -26969,3 +26969,14 @@ David  9 April 2005
         proxy.C
     lib/
         network.C,h
+
+Rom    9 April 2005
+    - Initial checkin for async sockets wok for the manager.
+
+      NOTE: It currently reports back a -103 ERR_WRITE from the
+      rpc.authorize function.
+
+    clientgui/
+        Events.h
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h

@@ -29,13 +29,13 @@
 
 class CMainDocument;
 
-class CNetworkConnectionThread : public wxThread
+class CNetworkConnection : public wxObject
 {
 public:
-    CNetworkConnectionThread( CMainDocument* pDocument );
-    ~CNetworkConnectionThread();
+    CNetworkConnection( CMainDocument* pDocument );
+    ~CNetworkConnection();
 
-    virtual void*  Entry();
+    virtual void*  Poll();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
     void           ForceReconnect() { m_bForceReconnect = true; };
     wxInt32        FrameShutdownDetected();
@@ -105,7 +105,7 @@ public:
     //
 private:
 
-    CNetworkConnectionThread*   m_pNetworkConnectionThread;
+    CNetworkConnection*         m_pNetworkConnection;
 
     bool                        m_bCachedStateLocked;
 
@@ -124,6 +124,7 @@ public:
 
     wxInt32                     OnInit();
     wxInt32                     OnExit();
+    wxInt32                     OnPoll();
 
     wxInt32                     OnRefreshState();
     wxInt32                     ResetState();
