@@ -27,72 +27,71 @@
 
 class CBOINCBaseView;
 
-class CBOINCTaskCtrl : public wxHtmlWindow
-{
+class CBOINCTaskCtrl : public wxHtmlWindow {
     DECLARE_DYNAMIC_CLASS( CBOINCTaskCtrl )
 
 public:
     CBOINCTaskCtrl();
-    CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags );
+    CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iHtmlWindowID, int iHtmlWindowFlags );
 
     ~CBOINCTaskCtrl();
 
-    virtual void                BeginTaskPage();
-    virtual void                BeginTaskSection(  const wxString& strTaskHeaderFilename, 
+    virtual void BeginTaskPage();
+    virtual void BeginTaskSection(  const wxString& strTaskHeaderFilename, 
                                                    bool  bHidden );
 #if 0
-    virtual void                BeginTaskSection(  const wxString& strLink,
+    virtual void BeginTaskSection(  const wxString& strLink,
                                                    const wxString& strTaskHeaderFilename, 
                                                    bool  bHidden );
 #endif
-    virtual void                CreateTask(        const wxString& strLink,
+    virtual void CreateTask(        const wxString& strLink,
                                                    const wxString& strTaskName,
                                                    bool  bHidden );
-    virtual void                CreateTask(        const wxString& strLink,
+    virtual void CreateTask(        const wxString& strLink,
                                                    const wxString& strTaskIconFilename, 
                                                    const wxString& strTaskName,
                                                    bool  bHidden );
-    virtual void                CreateTaskSeparator( bool  bHidden );
-    virtual void                EndTaskSection(    bool  bHidden );
-    virtual void                UpdateQuickTip(    const wxString& strIconFilename,
+    virtual void CreateTaskSeparator( bool  bHidden );
+    virtual void EndTaskSection(    bool  bHidden );
+    virtual void UpdateQuickTip(    const wxString& strIconFilename,
                                                    const wxString& strTip,
                                                    bool  bHidden );
 #if 0
-    virtual void                UpdateQuickTip(    const wxString& strLink,
+    virtual void UpdateQuickTip(    const wxString& strLink,
                                                    const wxString& strIconFilename,
                                                    const wxString& strTip,
                                                    bool  bHidden );
 #endif
-    virtual void                EndTaskPage();
+    virtual void EndTaskPage();
 
 
-    virtual void                CreateTaskHeader(  const wxString& strFilename, 
+    virtual void CreateTaskHeader(  const wxString& strFilename, 
                                                    const wxBitmap& itemTaskBitmap, 
                                                    const wxString& strTaskName ); 
 
 
-    virtual void                AddVirtualFile(    const wxString& strFilename, 
+    virtual void AddVirtualFile(    const wxString& strFilename, 
                                                    wxImage& itemImage, 
                                                    long lType );
-    virtual void                AddVirtualFile(    const wxString& strFilename, 
+    virtual void AddVirtualFile(    const wxString& strFilename, 
                                                    const wxBitmap& itemBitmap, 
                                                    long lType );
-    virtual void                RemoveVirtualFile( const wxString& strFilename );
+    virtual void RemoveVirtualFile( const wxString& strFilename );
 
 
-    virtual bool                OnSaveState( wxConfigBase* pConfig );
-    virtual bool                OnRestoreState( wxConfigBase* pConfig );
+    virtual bool OnSaveState( wxConfigBase* pConfig );
+    virtual bool OnRestoreState( wxConfigBase* pConfig );
 
-    virtual void                OnLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void                OnCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
-    virtual void                OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+    virtual void OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void OnCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
+    virtual void OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual wxHtmlOpeningStatus OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect );
 
 private:
     
-    CBOINCBaseView*         m_pParentView;
+    CBOINCBaseView* m_pParentView;
 
-    wxString                m_strTaskPage;
+    wxString m_strTaskPage;
 
 };
 

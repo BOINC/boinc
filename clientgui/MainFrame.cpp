@@ -67,7 +67,7 @@ CStatusBar::CStatusBar(wxWindow *parent) :
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function Begin"));
 
-    const wxInt32 widths[] = {-1, 200, 20};
+    const int widths[] = {-1, 200, 20};
     SetFieldsCount(WXSIZEOF(widths), widths);
 
     m_pbmpConnected = new wxStaticBitmap(this, -1, wxIcon(connect_xpm));
@@ -229,21 +229,20 @@ CMainFrame::CMainFrame(wxString strTitle) :
 }
 
 
-CMainFrame::~CMainFrame()
-{
+CMainFrame::~CMainFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function Begin"));
 
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != m_pRefreshStateTimer);
-    wxASSERT(NULL != m_pFrameRenderTimer);
-    wxASSERT(NULL != m_pFrameListPanelRenderTimer);
-    wxASSERT(NULL != m_pDocumentPollTimer);
-    wxASSERT(NULL != m_pMenubar);
-    wxASSERT(NULL != m_pNotebook);
-    wxASSERT(NULL != m_pStatusbar);
+    wxASSERT(m_pRefreshStateTimer);
+    wxASSERT(m_pFrameRenderTimer);
+    wxASSERT(m_pFrameListPanelRenderTimer);
+    wxASSERT(m_pDocumentPollTimer);
+    wxASSERT(m_pMenubar);
+    wxASSERT(m_pNotebook);
+    wxASSERT(m_pStatusbar);
 
 
     SaveState();
@@ -299,13 +298,13 @@ bool CMainFrame::CreateMenu() {
         ID_HIDE, 
         _("Close"),
         _("Closes the main BOINC Manager window")
-  );
+    );
 #else
     menuFile->Append(
         ID_HIDE, 
         _("&Hide"),
         _("Hides the main BOINC Manager window")
-  );
+    );
 #endif
     menuFile->AppendSeparator();
 
@@ -313,17 +312,17 @@ bool CMainFrame::CreateMenu() {
         ID_ACTIVITYRUNALWAYS,
         _("&Run always"),
         _("Does work regardless of preferences")
-  );
+    );
     menuFile->AppendRadioItem(
         ID_ACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
         _("Does work according to your preferences")
-  );
+    );
     menuFile->AppendRadioItem(
         ID_ACTIVITYSUSPEND,
         _("&Suspend"),
         _("Stops work regardless of preferences")
-  );
+    );
 
     menuFile->AppendSeparator();
 
@@ -331,7 +330,7 @@ bool CMainFrame::CreateMenu() {
         ID_NETWORKSUSPEND,
         _("&Disable BOINC Network Access"),
         _("Stops BOINC network activity")
-  );
+    );
 
     menuFile->AppendSeparator();
 
@@ -339,7 +338,7 @@ bool CMainFrame::CreateMenu() {
         ID_RUNBENCHMARKS, 
         _("Run &Benchmarks"),
         _("Runs BOINC CPU benchmarks")
-  );
+    );
 
     menuFile->AppendSeparator();
 
@@ -347,7 +346,7 @@ bool CMainFrame::CreateMenu() {
         ID_SELECTCOMPUTER, 
         _("Select Computer..."),
         _("Connect to another computer running BOINC")
-  );
+    );
 
     menuFile->AppendSeparator();
 
@@ -355,7 +354,7 @@ bool CMainFrame::CreateMenu() {
         wxID_EXIT,
         _("E&xit"),
         _("Exit the BOINC Manager")
-  );
+    );
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -364,7 +363,7 @@ bool CMainFrame::CreateMenu() {
             ID_TOOLSUPDATEACCOUNTS, 
             _("&Update Accounts"),
             _("Connect to your account manager website and update all of your accounts")
-      );
+        );
 
         menuTools->AppendSeparator();
     }
@@ -373,7 +372,7 @@ bool CMainFrame::CreateMenu() {
         ID_TOOLSOPTIONS, 
         _("&Options"),
         _("Configure GUI options and proxy settings")
-  );
+    );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
@@ -381,22 +380,22 @@ bool CMainFrame::CreateMenu() {
         wxID_ABOUT,
         _("&About BOINC Manager..."), 
         _("Show information about BOINC and BOINC Manager")
-  );
+    );
 
     // construct menu
     m_pMenubar = new wxMenuBar;
     m_pMenubar->Append(
         menuFile,
         _("&File")
-  );
+    );
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
-  );
+    );
     m_pMenubar->Append(
         menuHelp,
         _("&Help")
-  );
+    );
     SetMenuBar(m_pMenubar);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function End"));
@@ -450,7 +449,7 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebookPage - Function Begin"));
 
     wxImageList*    pImageList;
-    wxInt32         iImageIndex = 0;
+    int         iImageIndex = 0;
 
     wxASSERT(NULL != pwndNewNotebookPage);
     wxASSERT(NULL != m_pNotebook);
@@ -608,7 +607,7 @@ bool CMainFrame::SaveState() {
         pConfig->Write(
             strBuffer,
             m_aSelectedComputerMRU.Item(iIndex)
-       );
+        );
     }
 
     pConfig->SetPath(strPreviousLocation);
@@ -652,7 +651,7 @@ bool CMainFrame::RestoreState() {
     //
     // Restore Frame State
     //
-    wxInt32         iCurrentPage;
+    int         iCurrentPage;
 
 
     pConfig->SetPath(strBaseConfigLocation);
@@ -795,7 +794,7 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-    wxInt32        iCurrentNetworkMode = -1;
+    int        iCurrentNetworkMode = -1;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -912,7 +911,7 @@ void CMainFrame::OnToolsUpdateAccounts(wxCommandEvent& WXUNUSED(event))
 
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CDlgAccountManager* pDlg = new CDlgAccountManager(this);
-    wxInt32             iAnswer = 0;
+    int             iAnswer = 0;
     wxString            strLogin = wxEmptyString;
     wxString            strPassword = wxEmptyString;
 
@@ -945,10 +944,10 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CDlgOptions*   pDlg = new CDlgOptions(this);
-    wxInt32        iAnswer = 0;
+    int        iAnswer = 0;
     bool           bProxyInformationConfigured = false;
     bool           bBuffer = false;
-    wxInt32        iBuffer = 0;
+    int        iBuffer = 0;
     wxString       strBuffer = wxEmptyString;
 
     wxASSERT(NULL != pDoc);
@@ -1109,7 +1108,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-    wxInt32            iAnswer = 0;
+    int            iAnswer = 0;
     long               lProjectCount = 0;
 
     wxASSERT(m_pNotebook);
@@ -1256,8 +1255,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
                 // Update the menu bar
                 wxMenuBar*     pMenuBar      = GetMenuBar();
-                wxInt32        iActivityMode = -1;
-                wxInt32        iNetworkMode  = -1;
+                int        iActivityMode = -1;
+                int        iNetworkMode  = -1;
 
                 wxASSERT(NULL != pMenuBar);
                 wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
@@ -1373,7 +1372,7 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
 }
 
 
-void CMainFrame::OnDocumentPoll( wxTimerEvent& event ) {
+void CMainFrame::OnDocumentPoll(wxTimerEvent& event) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);

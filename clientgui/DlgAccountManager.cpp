@@ -45,13 +45,13 @@
  * CDlgAccountManager type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CDlgAccountManager, wxDialog )
+IMPLEMENT_DYNAMIC_CLASS(CDlgAccountManager, wxDialog)
 
 /*!
  * CDlgAccountManager event table definition
  */
 
-BEGIN_EVENT_TABLE( CDlgAccountManager, wxDialog )
+BEGIN_EVENT_TABLE(CDlgAccountManager, wxDialog)
 
 ////@begin CDlgAccountManager event table entries
 ////@end CDlgAccountManager event table entries
@@ -62,11 +62,11 @@ END_EVENT_TABLE()
  * CDlgAccountManager constructors
  */
 
-CDlgAccountManager::CDlgAccountManager( )
+CDlgAccountManager::CDlgAccountManager()
 {
 }
 
-CDlgAccountManager::CDlgAccountManager( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+CDlgAccountManager::CDlgAccountManager(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
     Create(parent, id, caption, pos, size, style);
 }
@@ -75,7 +75,7 @@ CDlgAccountManager::CDlgAccountManager( wxWindow* parent, wxWindowID id, const w
  * CDlgAccountManager creator
  */
 
-bool CDlgAccountManager::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+bool CDlgAccountManager::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
 ////@begin CDlgAccountManager member initialisation
     m_AcctManagerUsernameCtrl = NULL;
@@ -84,7 +84,7 @@ bool CDlgAccountManager::Create( wxWindow* parent, wxWindowID id, const wxString
 
 ////@begin CDlgAccountManager creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    wxDialog::Create(parent, id, caption, pos, size, style);
 
     CreateControls();
     GetSizer()->Fit(this);
@@ -114,37 +114,37 @@ void CDlgAccountManager::CreateControls()
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText5 = new wxStaticText;
-    itemStaticText5->Create( itemDialog1, wxID_STATIC, _("Username:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemStaticText5->Create(itemDialog1, wxID_STATIC, _("Username:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT);
     itemFlexGridSizer4->Add(itemStaticText5, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_AcctManagerUsernameCtrl = new wxTextCtrl;
-    m_AcctManagerUsernameCtrl->Create( itemDialog1, ID_ACCTMANAGERUSERNAME, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
+    m_AcctManagerUsernameCtrl->Create(itemDialog1, ID_ACCTMANAGERUSERNAME, _T(""), wxDefaultPosition, wxSize(200, -1), 0);
     itemFlexGridSizer4->Add(m_AcctManagerUsernameCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText7 = new wxStaticText;
-    itemStaticText7->Create( itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemStaticText7->Create(itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT);
     itemFlexGridSizer4->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_AcctManagerPasswordCtrl = new wxTextCtrl;
-    m_AcctManagerPasswordCtrl->Create( itemDialog1, ID_ACCTMANAGERPASSWORD, _T(""), wxDefaultPosition, wxSize(200, -1), wxTE_PASSWORD );
+    m_AcctManagerPasswordCtrl->Create(itemDialog1, ID_ACCTMANAGERPASSWORD, _T(""), wxDefaultPosition, wxSize(200, -1), wxTE_PASSWORD);
     itemFlexGridSizer4->Add(m_AcctManagerPasswordCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer9 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer3->Add(itemBoxSizer9, 0, wxALIGN_TOP|wxALL, 5);
 
     wxButton* itemButton10 = new wxButton;
-    itemButton10->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton10->Create(itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0);
     itemButton10->SetDefault();
     itemBoxSizer9->Add(itemButton10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxButton* itemButton11 = new wxButton;
-    itemButton11->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton11->Create(itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0);
     itemBoxSizer9->Add(itemButton11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 
     // Set validators
-    m_AcctManagerUsernameCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerUsername) );
-    m_AcctManagerPasswordCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerPassword) );
+    m_AcctManagerUsernameCtrl->SetValidator(wxGenericValidator(& m_strAcctManagerUsername));
+    m_AcctManagerPasswordCtrl->SetValidator(wxGenericValidator(& m_strAcctManagerPassword));
 ////@end CDlgAccountManager content construction
 }
 
@@ -152,8 +152,7 @@ void CDlgAccountManager::CreateControls()
  * Should we show tooltips?
  */
 
-bool CDlgAccountManager::ShowToolTips()
-{
+bool CDlgAccountManager::ShowToolTips() {
     return TRUE;
 }
 
@@ -161,8 +160,7 @@ bool CDlgAccountManager::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgAccountManager::GetBitmapResource( const wxString& name )
-{
+wxBitmap CDlgAccountManager::GetBitmapResource(const wxString&) {
     // Bitmap retrieval
 ////@begin CDlgAccountManager bitmap retrieval
     return wxNullBitmap;
@@ -173,8 +171,7 @@ wxBitmap CDlgAccountManager::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgAccountManager::GetIconResource( const wxString& name )
-{
+wxIcon CDlgAccountManager::GetIconResource(const wxString&) {
     // Icon retrieval
 ////@begin CDlgAccountManager icon retrieval
     return wxNullIcon;

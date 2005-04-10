@@ -27,28 +27,27 @@
 
 class CBOINCBaseView;
 
-class CBOINCListCtrl : public wxListView
-{
-    DECLARE_DYNAMIC_CLASS( CBOINCListCtrl )
+class CBOINCListCtrl : public wxListView {
+    DECLARE_DYNAMIC_CLASS(CBOINCListCtrl)
 
 public:
     CBOINCListCtrl();
-    CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags );
+    CBOINCListCtrl(CBOINCBaseView* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
     ~CBOINCListCtrl();
 
-    virtual bool            OnSaveState( wxConfigBase* pConfig );
-    virtual bool            OnRestoreState( wxConfigBase* pConfig );
+    virtual bool            OnSaveState(wxConfigBase* pConfig);
+    virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
 private:
     
-    virtual void            OnClick( wxCommandEvent& event );
-    virtual void            OnSelected( wxListEvent& event );
-    virtual void            OnDeselected( wxListEvent& event );
+    virtual void            OnClick(wxCommandEvent& event);
+    virtual void            OnSelected(wxListEvent& event);
+    virtual void            OnDeselected(wxListEvent& event);
 
-    virtual wxString        OnGetItemText( long item, long column ) const;
-    virtual int             OnGetItemImage( long item ) const;
-    virtual wxListItemAttr* OnGetItemAttr( long item ) const;
+    virtual wxString        OnGetItemText(long item, long column) const;
+    virtual int             OnGetItemImage(long item) const;
+    virtual wxListItemAttr* OnGetItemAttr(long item) const;
 
     bool                    m_bIsSingleSelection;
 

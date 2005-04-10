@@ -35,39 +35,38 @@
 #endif
 
 
-class CTaskBarIcon : public wxTaskBarIconEx
-{
+class CTaskBarIcon : public wxTaskBarIconEx {
     DECLARE_DYNAMIC_CLASS(CTaskBarIcon)
 
 public:
     CTaskBarIcon();
     ~CTaskBarIcon();
 
-    void OnOpen( wxCommandEvent& event );
-    void OnActivitySelection( wxCommandEvent& event );
-    void OnNetworkSelection( wxCommandEvent& event );
-    void OnAbout( wxCommandEvent& event );
-    void OnExit( wxCommandEvent& event );
+    void OnOpen(wxCommandEvent& event);
+    void OnActivitySelection(wxCommandEvent& event);
+    void OnNetworkSelection(wxCommandEvent& event);
+    void OnAbout(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
 #ifdef __WXMSW__
-    void OnShutdown( wxTaskBarIconExEvent& event );
+    void OnShutdown(wxTaskBarIconExEvent& event);
 #endif
 
-    void OnIdle( wxIdleEvent& event );
-    void OnClose( wxCloseEvent& event );
+    void OnIdle(wxIdleEvent& event);
+    void OnClose(wxCloseEvent& event);
 
 #ifdef __WXMSW__
-    void OnMouseMove( wxTaskBarIconEvent& event );
+    void OnMouseMove(wxTaskBarIconEvent& event);
 #endif
-    void OnLButtonDClick( wxTaskBarIconEvent& event );
+    void OnLButtonDClick(wxTaskBarIconEvent& event);
 
 #ifdef __WXMSW__
-    void OnContextMenu( wxTaskBarIconExEvent& event );
+    void OnContextMenu(wxTaskBarIconExEvent& event);
 #else
-    void OnContextMenu( wxTaskBarIconEvent& event );
+    void OnContextMenu(wxTaskBarIconEvent& event);
 #endif
 
-    void OnRButtonDown( wxTaskBarIconEvent& event );
-    void OnRButtonUp( wxTaskBarIconEvent& event );
+    void OnRButtonDown(wxTaskBarIconEvent& event);
+    void OnRButtonUp(wxTaskBarIconEvent& event);
 
     wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);

@@ -37,8 +37,8 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(
-    wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags,
-    wxWindowID iListWindowID, wxInt32 iListWindowFlags, bool donothing
+    wxNotebook* pNotebook, wxWindowID iHtmlWindowID, int iHtmlWindowFlags,
+    wxWindowID iListWindowID, int iListWindowFlags, bool donothing
 ) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
     if (!donothing) {
         wxASSERT(NULL != pNotebook);
@@ -104,7 +104,7 @@ const char** CBOINCBaseView::GetViewIcon() {
 }
 
 
-wxInt32 CBOINCBaseView::GetListRowCount() {
+int CBOINCBaseView::GetListRowCount() {
     wxASSERT(m_pListPane);
     return m_pListPane->GetItemCount();
 }
@@ -174,7 +174,7 @@ void CBOINCBaseView::FireOnTaskCellMouseHover(
 }
 
 
-wxInt32 CBOINCBaseView::GetDocCount() {
+int CBOINCBaseView::GetDocCount() {
     return 0;
 }
 
@@ -185,15 +185,15 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
 
         wxASSERT(m_pListPane);
 
-        wxInt32 iDocCount = GetDocCount();
-        wxInt32 iCacheCount = GetCacheCount();
+        int iDocCount = GetDocCount();
+        int iCacheCount = GetCacheCount();
         if (iDocCount != iCacheCount) {
             if (0 >= iDocCount) {
                 EmptyCache();
                 m_pListPane->DeleteAllItems();
             } else {
-                wxInt32 iIndex = 0;
-                wxInt32 iReturnValue = -1;
+                int iIndex = 0;
+                int iReturnValue = -1;
                 if (iDocCount > iCacheCount) {
                     for (iIndex = 0; iIndex < (iDocCount - iCacheCount); iIndex++
                     ) {
@@ -344,31 +344,31 @@ void CBOINCBaseView::SetCurrentQuickTip(const wxString& strQuickTip, const wxStr
 }
 
 
-wxInt32 CBOINCBaseView::AddCacheElement() {
+int CBOINCBaseView::AddCacheElement() {
     return -1;
 }
 
     
-wxInt32 CBOINCBaseView::EmptyCache() {
+int CBOINCBaseView::EmptyCache() {
     return -1;
 }
 
 
-wxInt32 CBOINCBaseView::GetCacheCount() {
+int CBOINCBaseView::GetCacheCount() {
     return -1;
 }
 
 
-wxInt32 CBOINCBaseView::RemoveCacheElement() {
+int CBOINCBaseView::RemoveCacheElement() {
     return -1;
 }
 
 
-wxInt32 CBOINCBaseView::SyncronizeCache() {
-    wxInt32         iRowIndex        = 0;
-    wxInt32         iRowTotal        = 0;
-    wxInt32         iColumnIndex     = 0;
-    wxInt32         iColumnTotal     = 0;
+int CBOINCBaseView::SyncronizeCache() {
+    int         iRowIndex        = 0;
+    int         iRowTotal        = 0;
+    int         iColumnIndex     = 0;
+    int         iColumnTotal     = 0;
     wxString        strDocumentText  = wxEmptyString;
     wxString        strListPaneText  = wxEmptyString;
     bool            bNeedRefreshData = false;
@@ -403,7 +403,7 @@ wxInt32 CBOINCBaseView::SyncronizeCache() {
 }
 
 
-wxInt32 CBOINCBaseView::UpdateCache(
+int CBOINCBaseView::UpdateCache(
     long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData)
 ) {
     return -1;

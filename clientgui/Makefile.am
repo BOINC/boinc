@@ -29,17 +29,7 @@ boinc_gui_SOURCES = \
     ViewResources.cpp \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
-    ViewWork.cpp \
-    ../lib/acct_mgr_client.C \
-    ../lib/diagnostics.C \
-    ../lib/gui_rpc_client.C \
-    ../lib/filesys.C \
-    ../lib/mfile.C \
-    ../lib/miofile.C \
-    ../lib/parse.C \
-    ../lib/util.C \
-    ../lib/md5_file.C \
-    ../lib/md5.c
+    ViewWork.cpp
 
 EXTRA_DIST = *.h \
     res \
@@ -48,7 +38,7 @@ EXTRA_DIST = *.h \
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_LDADD = $(CLIENTGUILIBS)
+boinc_gui_LDADD = $(CLIENTGUILIBS) -L ../lib -lboinc
 
 all-local: client_gui-bin
 client_gui-bin: @CLIENT_GUI_BIN_FILENAME@

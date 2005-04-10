@@ -32,8 +32,7 @@
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
 
-class CTaskItem : wxObject
-{
+class CTaskItem : wxObject {
 public:
     wxString    m_strTaskName;
     wxString    m_strTaskDescription;
@@ -43,8 +42,7 @@ public:
     bool        m_bIsClicked;
 };
 
-class CBOINCBaseView : public wxPanel
-{
+class CBOINCBaseView : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
 
 public:
@@ -53,9 +51,9 @@ public:
     CBOINCBaseView(
         wxNotebook* pNotebook,
         wxWindowID iHtmlWindowID,
-        wxInt32 iHtmlWindowFlags,
+        int iHtmlWindowFlags,
         wxWindowID iListWindowID,
-        wxInt32 iListWindowFlags,
+        int iListWindowFlags,
 		bool donothing=false
     );
 
@@ -63,7 +61,7 @@ public:
 
     virtual wxString        GetViewName();
     virtual const char**    GetViewIcon();
-    virtual wxInt32         GetListRowCount();
+    virtual int         GetListRowCount();
 
     void                    FireOnListRender( wxTimerEvent& event );
     bool                    FireOnSaveState( wxConfigBase* pConfig );
@@ -82,7 +80,7 @@ public:
 
 protected:
 
-    virtual wxInt32         GetDocCount();
+    virtual int         GetDocCount();
 
     virtual void            OnListRender( wxTimerEvent& event );
 
@@ -109,12 +107,12 @@ protected:
     wxString                GetCurrentQuickTipText();
     void                    SetCurrentQuickTip( const wxString& strQuickTip, const wxString& strQuickTipText );
 
-    virtual wxInt32         AddCacheElement();
-    virtual wxInt32         EmptyCache();
-    virtual wxInt32         GetCacheCount();
-    virtual wxInt32         RemoveCacheElement();
-    virtual wxInt32         SyncronizeCache();
-    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
+    virtual int         AddCacheElement();
+    virtual int         EmptyCache();
+    virtual int         GetCacheCount();
+    virtual int         RemoveCacheElement();
+    virtual int         SyncronizeCache();
+    virtual int         UpdateCache( long item, long column, wxString& strNewData );
 
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();

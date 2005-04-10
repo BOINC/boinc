@@ -36,8 +36,7 @@
 #endif
 
 
-class CBOINCGUIApp : public wxApp
-{
+class CBOINCGUIApp : public wxApp {
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
 protected:
@@ -54,8 +53,8 @@ protected:
     void            StartupBOINCCore();
     void            ShutdownBOINCCore();
 
-    wxInt32         StartupSystemIdleDetection();
-    wxInt32         ShutdownSystemIdleDetection();
+    int         StartupSystemIdleDetection();
+    int         ShutdownSystemIdleDetection();
 
     wxConfig*       m_pConfig;
     wxLocale*       m_pLocale;
@@ -73,7 +72,7 @@ protected:
     bool            m_bBOINCStartedByManager;
     bool            m_bFrameVisible;
 
-    wxInt32         m_lBOINCCoreProcessId;
+    int         m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
     HANDLE          m_hBOINCCoreProcess;
@@ -92,19 +91,19 @@ public:
 
     bool            OnInit();
 
-    wxInt32         UpdateSystemIdleDetection();
+    int         UpdateSystemIdleDetection();
 
-    CMainFrame*     GetFrame()                   { return m_pFrame; };
-    CMainDocument*  GetDocument()                { return m_pDocument; };
+    CMainFrame*     GetFrame()                   { return m_pFrame; }
+    CMainDocument*  GetDocument()                { return m_pDocument; }
 #ifndef NOTASKBAR
-    CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; };
+    CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; }
 #ifdef __APPLE__
-    CMacSystemMenu* GetMacSystemMenu()           { return m_pMacSystemMenu; };
+    CMacSystemMenu* GetMacSystemMenu()           { return m_pMacSystemMenu; }
 #endif
 #endif
 
-    wxString*       GetSupportedLanguages()      { return (wxString*)&m_strLanguages; };
-    wxInt32         GetSupportedLanguagesCount() { return WXSIZEOF(m_strLanguages); };
+    wxString*       GetSupportedLanguages()      { return (wxString*)&m_strLanguages; }
+    int         GetSupportedLanguagesCount() { return WXSIZEOF(m_strLanguages); }
 };
 
 

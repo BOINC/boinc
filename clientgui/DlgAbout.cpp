@@ -187,7 +187,7 @@ wxBitmap CDlgAbout::GetBitmapResource(const wxString& name) {
  * Get icon resources
  */
 
-wxIcon CDlgAbout::GetIconResource(const wxString& name) {
+wxIcon CDlgAbout::GetIconResource(const wxString&) {
     // Icon retrieval
 ////@begin CDlgAbout icon retrieval
     return wxNullIcon;
