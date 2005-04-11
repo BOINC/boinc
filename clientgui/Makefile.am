@@ -29,7 +29,8 @@ boinc_gui_SOURCES = \
     ViewResources.cpp \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
-    ViewWork.cpp
+    ViewWork.cpp \
+    ../lib/gui_rpc_client.C
 
 EXTRA_DIST = *.h \
     res \

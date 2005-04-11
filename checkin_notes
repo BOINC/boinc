@@ -26998,3 +26998,13 @@ David  10 April 2005
         filesys.C,h
     zip/
         boinc_zip.cpp
+
+David  10 April 2005
+    - Unix compile fixes
+
+    client/
+        Makefile.am
+    clientgui/
+        Makefile.am
+    lib/
+        filesys.C

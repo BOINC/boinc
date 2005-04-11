@@ -81,14 +81,12 @@ char boinc_failed_file[256];
 
 int is_file(const char* path) {
     struct stat sbuf;
-    memset(&sbuf, 0, sizeof(struct stat));
     int retval = stat(path, &sbuf);
     return (retval==0) && (sbuf.st_mode & S_IFREG);
 }
 
 int is_dir(const char* path) {
     struct stat sbuf;
-    memset(&sbuf, 0, sizeof(struct stat));
     int retval = stat(path, &sbuf);
     return (retval==0) && (sbuf.st_mode & S_IFDIR);
 }

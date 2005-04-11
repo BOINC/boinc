@@ -20,7 +20,7 @@ EXTRA_DIST = *.h *.C
 libboinc_a_SOURCES =        \
     acct_mgr_client.C       \
     app_ipc.C               \
-	base64.C                \
+    base64.C                \
     crypt.C                 \
     diagnostics.C           \
     exception.C             \
@@ -37,24 +37,10 @@ libboinc_a_SOURCES =        \
     parse.C                 \
     prefs.C                 \
     proxy_info.C            \
-	shmem.C                 \
-    util.C					\
-	base64.h  				\
-	crypt.h  				\
-	error_numbers.h  		\
-	exception.h  			\
-	gui_rpc_client.h  		\
-	language.h  			\
-	md5_file.h  			\
-	md5.h  					\
-	msg_log.h  				\
-	msg_queue.h  			\
-	parse.h  				\
-	result_state.h  		\
-	shmem.h  				\
-	stackwalker_win.h  		\
-	std_fixes.h  			\
-	synch.h  
+    shmem.C                 \
+    util.C
+
+EXTRA_DIST = *.h
 
 include_HEADERS =               \
                 acct_mgr_client.h       \

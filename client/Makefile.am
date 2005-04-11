@@ -72,33 +72,9 @@ all-local: client-bin
 
 ## these source files need to be specified because no rule uses them.
 
-EXTRA_DIST =                                    \
-    app.h                                       \
-    client_msgs.h                               \
-    client_state.h                              \
-    client_types.h                              \
-    cpp.h                                       \
-    cpu_benchmark.h                             \
-    dhrystone.h                                 \
-    file_names.h                                \
-    file_xfer.h                                 \
-    gui_rpc_server.h                            \
-    gui_titles.h                                \
-    hostinfo_network.h                          \
-    http.h                                      \
-    log_flags.h                                 \
-    mac                                         \
-    main.h                                      \
-    net_stats.h                                 \
-    net_xfer.h                                  \
-    pers_file_xfer.h                            \
-    proxy.h                                     \
-    scheduler_op.h                              \
-    ss_logic.h                                  \
-    ssl_http.h                                  \
-    ssl_net_xfer.h                              \
-    time_stats.h                                \
-    translation                                 \
+EXTRA_DIST = *.h \
+    mac \
+    translation \
     win
 
 clean-local:
