@@ -335,16 +335,16 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
 
     LINK_TASKUSERTOTAL       = SECTION_TASK + wxT("user_total");
-    LINKDESC_TASKUSERTOTAL   = _("");
+    LINKDESC_TASKUSERTOTAL   = wxT("");
 
     LINK_TASKUSERAVG         = SECTION_TASK + wxT("user_avg");
-    LINKDESC_TASKUSERAVG     = _("");
+    LINKDESC_TASKUSERAVG     = wxT("");
 
     LINK_TASKHOSTTOTAL       = SECTION_TASK + wxT("host_total");
-    LINKDESC_TASKHOSTTOTAL   = _("");
+    LINKDESC_TASKHOSTTOTAL   = wxT("");
 
     LINK_TASKHOSTAVG         = SECTION_TASK + wxT("host_avg");
-    LINKDESC_TASKHOSTAVG     = _("");
+    LINKDESC_TASKHOSTAVG     = wxT("");
 
     //
     // Setup View
