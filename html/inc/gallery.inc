@@ -20,28 +20,24 @@ function write_page_links($filename, $currPageNum, $numPages) {
 
     // Make the 'previous' and 'next' page links as appropriate.
     if ($currPageNum > 1) {
-        echo "<a href={$filename}_{$prevPageNum}.html>Previous Page</a>";
+        echo "<a href={$filename}_{$prevPageNum}.html>Previous page</a>";
 
         if ($currPageNum != $numPages) {
             echo " | ";
         }
     }
     if ($currPageNum != $numPages) {
-        //fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
-        echo "<a href={$filename}_{$nextPageNum}.html>Next Page</a>";
+        echo "<a href={$filename}_{$nextPageNum}.html>Next page</a>";
     }
 
-    //fwrite($descriptor, "<p>Jump to Page:\n");
     echo "<p>Jump to Page:\n";
 
     // Make the individual page links (or a bold non-link for the current page).
     //
     for ($i = 1; $i <= $numPages; $i++) {
         if ($i != $currPageNum) {
-            //fwrite($descriptor, "<a href=$filename" . "_" . $i . ".html>$i</a>\n");
             echo "<a href={$filename}_{$i}.html>$i</a>\n";
         } else {
-            //fwrite($descriptor, "<b>$i</b>\n");
             echo "<b>$i</b>\n";
         }
     }
@@ -96,37 +92,21 @@ function build_picture_pages($width, $height) {
 
     for ($page = 1; $page <= $numPages; $page++) {
         $filename = PROFILE_PATH . "user_gallery_" . $page . ".html";
-        //$descriptor = fopen($file, "w");
         open_output_buffer();
 
-        page_head("User Picture Gallery: Page $page of $numPages");
+        page_head("Profile gallery: page $page of $numPages");
 
-        //fwrite($descriptor,
-        //    "Last updated "
-        //    . pretty_time_str(time())
-        //    . "\n<p>Browse the user profiles by picture.
-        //    Only user profiles with pictures are listed here."
-        //);
         echo "Last updated ", pretty_time_str(time()),
             "\n<p>Browse the user profiles by picture.
             Only user profiles with pictures are listed here.";
 
 
-        //fwrite($descriptor, "<table class=bordered border=1 cellpadding=5>\n");
         echo "<table class=bordered border=1 cellpadding=5\n";
 
         for ($row = 0; $row < $height; $row++) {
-            //fwrite($descriptor, "<tr>");
             echo "<tr>";
             for ($col = 0; $col < $width; $col++) {
 	            if ($count < $numIds) {
-                    //fwrite($descriptor,
-                    //    "<td class=bordered align=\"center\"><a href=\""
-                    //    . URL_BASE . "view_profile.php?userid="
-                    //    . $userIds[$count] . "\"><img src=\""
-                    //    . URL_BASE . IMAGE_URL . $userIds[$count] . '_sm.jpg'
-                    //    . "\"></a></td>"
-                    //);
                     echo "<td class=bordered align=\"center\"><a href=\"",
                         URL_BASE, "view_profile.php?userid=",
                         $userIds[$count], "\"><img src=\"",
@@ -136,14 +116,12 @@ function build_picture_pages($width, $height) {
                     $count++;
                 }
             }
-            //fwrite($descriptor, "</tr>\n");
             echo "</tr>\n";
             if ($count == $numIds) {
                 break;
             }
         }
 
-        //fwrite($descriptor, "</table>\n");
         echo "</table>\n";
 
         // Previous and Next links
@@ -152,7 +130,6 @@ function build_picture_pages($width, $height) {
 
         page_tail(false);
 
-        //fclose($descriptor);
         close_output_buffer($filename);
     }
 
@@ -276,13 +253,11 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
     for ($page = 1; $page <= $numPages; $page++) {
 
         $filename = $filePath . $baseFileName . "_" . $page . ".html";
-        //$descriptor = fopen($filename, "w");
         open_output_buffer();
 
         $head = $pageHead . ": Page $page of $numPages";
         page_head($pageTitle);
 
-        //fwrite($descriptor, "Last updated " . pretty_time_str(time()) . "<p>\n");
         echo "Last updated ", pretty_time_str(time()), "<p>\n";
 
         $offset = (($page-1) * $rowsPerPage * $colsPerPage);
@@ -302,7 +277,6 @@ function build_country_summary_page($countryMembers) {
     $countries = array_keys($countryMembers);
 
     $filename = PROFILE_PATH . "profile_country.html";
-    //$descriptor = fopen($filename, "w");
     open_output_buffer();
 
     page_head("User Profiles by Country");
@@ -322,7 +296,6 @@ function build_country_summary_page($countryMembers) {
     echo "</table>";
     page_tail(false);
 
-    //fclose($descriptor);
     close_output_buffer($filename);
 }
 
@@ -330,7 +303,6 @@ function build_alpha_summary_page($characters_used) {
     global $alphabet;
 
     $filename = PROFILE_PATH."profile_alpha.html";
-    //$descriptor = fopen($filename, "w");
     open_output_buffer();
 
     foreach ($alphabet as $character) {
