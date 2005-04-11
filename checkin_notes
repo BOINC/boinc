@@ -27009,7 +27009,7 @@ David  10 April 2005
     lib/
         filesys.C
 
-Bruce 11 April 2--5
+Bruce 11 April 2005
     - Added signal handler to file_upload_handler along with a bit
       of logging.  This is intended to help debug file uploading
       problems, where apache kills the file upload handler because
@@ -27018,3 +27018,9 @@ Bruce 11 April 2--5
     sched/
         file_upload_handler.C
 
+
+David  11 April 2005
+    - GUI RPC: if core client is < 4.30, don't do password authentication
+
+    lib/
+        gui_rpc_client.C

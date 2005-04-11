@@ -18,12 +18,6 @@ function site($url, $name) {
 }
 
 page_head("Web sites for BOINC participants");
-echo "
-Information for BOINC participants is available in several languages
-(also see
- <a href=guis.php>GUIs and add-on software</a>).
-
-";
 
 list_start();
 echo "

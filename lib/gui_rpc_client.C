@@ -1057,6 +1057,13 @@ int RPC_CLIENT::authorize(const char* passwd) {
     retval = rpc.do_rpc("<auth1/>\n");
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
+        if (parse_int(buf, "client_version", client_version)) {
+            // core clients earlier than 4.30 don't do password authentication
+            //
+            if (client_version < 430) {
+                return 0;
+            }
+        }
         if (parse_str(buf, "<nonce>", nonce, sizeof(nonce))) {
             found = true;
         }

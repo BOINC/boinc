@@ -26,26 +26,25 @@ echo "
     <br>Go here if you want to run BOINC on unusual platforms,
         or if you want to inspect the source code before
         you run it.
+<li> <a href=links.php>Web sites related to BOINC</a>
 </ul>
 <p>
-<b>Graphical User Interfaces (GUIs)</b>
+<b>Add-on software</b>
 <ul>
-<li> <a href=gui_rpc.php>Framework for separate GUIs</a>
-<li> <a href=gui_rpc_control.php>Access control</a>
-<li> <a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>Separate GUIs</a>
+<li> <a href=download_network.php>Add-on software</a>
+<li> <a href=gui_rpc.php>GUI RPCs</a>
+    <br> Lets you write programs
+    that control or display the status of BOINC clients,
+    even across a network.
+<li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 <p>
 <b>Statistics web sites</b>
 <ul>
+<li> <a href=stats_sites.php>BOINC statistics sites</a>
 <li> <a href=db_dump.php>Downloading statistics data</a>
 <li> <a href=cpid.php>Cross-project identification</a>
 <li> <a href=acct_mgt.php>Web services (possibly useful for statistics sites)</a>
-</ul>
-<b>Third-party software and web sites</b>
-<ul>
-<li> <a href=links.php>Web sites related to BOINC</a>
-<li> <a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>GUIs and add-on software for BOINC</a>
-<li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 ";
 page_tail();

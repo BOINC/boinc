@@ -57,10 +57,10 @@ computer resources
     2) <a href=download.php>Download</a> and run BOINC software.
     <p>
     You can participate in any or all projects -- the choice is up to you.
-    It's a good idea to participate in several projects,
-    because your computer will be busy even when one project has no work.
     You control the percentage of your computing power
     that goes to each project.
+    If you participate in several projects,
+    your computer will be busy even when one project has no work.
     <p>
     <a href=participate.php>... learn more</a>
 
@@ -71,8 +71,8 @@ computer resources
     If you're a scientist with a computationally-intensive task,
     you may be able to use BOINC.
     <p>
-    A BOINC project can run on a single Linux server,
-    and can give you computing power equivalent
+    A BOINC project requires just a single Linux server,
+    and can provide computing power equivalent
     to a cluster with tens of thousands of nodes.
     <p>
       <a href=create_project.php>
@@ -83,7 +83,7 @@ computer resources
   <tr><td bgcolor=$light_blue><h2>Resources</h2></td></tr>
   <tr><td>
     <ul>
-    <li> <a href=links.php>Web sites</a>
+    <li> <a href=links.php>Web sites</a> for BOINC participants
     <li> <a href=community.php#email_lists>Email lists</a>
     <li> An <a href=intro.php>overview</a> of BOINC, and links to papers
     <li>

@@ -18,7 +18,7 @@ in various languages.
 
 <p>
 See also
-<a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>GUIs and add-on software for BOINC</a>.
+<a href=download_network.php>GUIs and add-on software for BOINC</a>.
 
 <a name=email_lists>
 <h2>Email lists</h2>
