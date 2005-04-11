@@ -49,6 +49,8 @@ SCHED_CONFIG config;
 
 #define DEBUG_LEVEL     SCHED_MSG_LOG::NORMAL
 
+char this_filename[256];
+
 struct FILE_INFO {
     char name[256];
     double max_nbytes;
@@ -72,7 +74,10 @@ int FILE_INFO::parse(FILE* in) {
             continue;
         }
         strcatdup(signed_xml, buf);
-        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) {
+            strcpy(this_filename, name);
+            continue;
+        }
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
         if (match_tag(buf, "<generated_locally/>")) continue;
         if (match_tag(buf, "<upload_when_present/>")) continue;
@@ -128,6 +133,7 @@ int return_success(const char* text) {
 }
 
 #define BLOCK_SIZE  16382
+double bytes_left;
 
 // read from socket, write to file
 // ALWAYS returns an HTML reply
@@ -137,7 +143,6 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     char buf2[256];
     FILE* out;
     int retval, n, m;
-    double bytes_left;
 
     out = fopen(path, "ab");
     if (!out) {
@@ -285,7 +290,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             );
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
-                "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
+                "PID=%d Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
+                getpid(),
                 file_info.name,
                 get_remote_addr(),
                 offset, nbytes
@@ -413,30 +419,40 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     return 0;
 }
 
-void boinc_catch_signal(int ) {
+int pid;
+
+void boinc_catch_signal(int signal_num) {
+    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+        "FILE=%s (%.0f bytes left) IP=%s PID=%d caught signal %d [%s]\n",
+        this_filename, bytes_left, get_remote_addr(), pid, signal_num, sys_siglist[signal_num]
+    );
+    exit(1);
 }
 
 void installer() {
+    pid=getpid();
+
     signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
     signal(SIGINT, boinc_catch_signal);  // interrupt program
-    signal(SIGQUIT, boinc_catch_signal);         // quit program
+    signal(SIGQUIT, boinc_catch_signal); // quit program
     signal(SIGILL, boinc_catch_signal);  // illegal instruction
-    signal(SIGTRAP, boinc_catch_signal);  // illegal instruction
+    signal(SIGTRAP, boinc_catch_signal); // illegal instruction
     signal(SIGABRT, boinc_catch_signal); // abort(2) call
     signal(SIGFPE, boinc_catch_signal);  // bus error
-    signal(SIGKILL, boinc_catch_signal);  // bus error
+    signal(SIGKILL, boinc_catch_signal); // bus error
     signal(SIGBUS, boinc_catch_signal);  // bus error
     signal(SIGSEGV, boinc_catch_signal); // segmentation violation
     signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
     signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
-    signal(SIGTERM, boinc_catch_signal); // write on a pipe with no reader
-    signal(SIGSTOP, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGTERM, boinc_catch_signal); // terminate process
 }
 
 int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
+
+    installer();
 
     get_log_path(log_path, "file_upload_handler.log");
     if (!freopen(log_path, "a", stderr)) {

@@ -27008,3 +27008,13 @@ David  10 April 2005
         Makefile.am
     lib/
         filesys.C
+
+Bruce 11 April 2--5
+    - Added signal handler to file_upload_handler along with a bit
+      of logging.  This is intended to help debug file uploading
+      problems, where apache kills the file upload handler because
+      something is going wrong.
+
+    sched/
+        file_upload_handler.C
+
