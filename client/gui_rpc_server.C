@@ -686,7 +686,11 @@ int GUI_RPC_CONN_SET::init() {
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT);
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    } else {
+        addr.sin_addr.s_addr = htonl(0x7f000001);
+    }
 
     int one = 1;
     setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
@@ -793,7 +797,7 @@ bool GUI_RPC_CONN_SET::poll(double) {
             is_local = true;
         }
 
-        if ( !(gstate.allow_remote_gui_rpc) && !(allowed)) {
+        if (!(gstate.allow_remote_gui_rpc) && !(allowed)) {
             in_addr ia;
             ia.s_addr = htonl(peer_ip);
             show_connect_error(ia);

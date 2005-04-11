@@ -27028,3 +27028,13 @@ David  11 April 2005
 Rom    11 April 2005 (boinc)
     - Tag for 4.30 release, all platforms
       boinc_core_release_4_30
+
+David  11 April 2005
+    - Core client: if we're configured to not accept remote GUI RPC connections
+        (i.e., remote_hosts.cfg if absent or empty,
+        and the -allow_remote_gui_rpc cmdline is absent)
+        then bind our listening socket to 127.0.0.1 rather than INADDR_ANY.
+        This will in theory disallow remote connections.
+
+    client/
+        gui_rpc_server.C
