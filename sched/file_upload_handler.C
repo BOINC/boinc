@@ -307,7 +307,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             retval = copy_socket_to_file(in, path, offset, nbytes);
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
-                "Ended upload of %s from %s; retval %d\n",
+                "PID=%d Ended upload of %s from %s; retval %d\n",
+                getpid(),
                 file_info.name,
                 get_remote_addr(),
                 retval
