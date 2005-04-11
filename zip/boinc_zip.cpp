@@ -16,7 +16,6 @@ int zip_main(int argc, char** argv);
 #include <string>
 #include <string.h>
 using std::string;
-#define _S_IFDIR S_IFDIR
 #endif
 
 #include "./unzip/unzip.h"
@@ -299,7 +298,7 @@ bool boinc_filelist(const std::string directory,
 			// NB: first get stat to make sure it really is a file
 			strFullPath = strUserDir + strFile;
 			// only add if the file really exists (i.e. not a directory)
-			if (stat(strFullPath.c_str(), &statF) != -1 && !(statF.st_mode & _S_IFDIR)) {
+            if (is_file(strFullPath.c_str())) {
 				ZipFileEntry zfe(strFullPath, statF, ucSort);
 				pList->push_back(zfe);
 			}

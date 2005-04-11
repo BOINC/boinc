@@ -79,7 +79,7 @@ char boinc_failed_file[256];
 
 // routines for enumerating the entries in a directory
 
-int is_file(char* path) {
+int is_file(const char* path) {
     struct stat sbuf;
     memset(&sbuf, 0, sizeof(struct stat));
     int retval = stat(path, &sbuf);
