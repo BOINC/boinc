@@ -40,8 +40,6 @@ libboinc_a_SOURCES =        \
     shmem.C                 \
     util.C
 
-EXTRA_DIST = *.h
-
 include_HEADERS =               \
                 acct_mgr_client.h       \
                 app_ipc.h       \
