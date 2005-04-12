@@ -56,11 +56,11 @@ void CBOINCTaskCtrl::BeginTaskPage() {
     m_strTaskPage.Clear();
     m_strTaskPage += wxT("<html>");
     m_strTaskPage += wxT("<head>");
-    if (wxLocale::GetSystemEncodingName().size() > 0) {
-        m_strTaskPage += wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=");
-        m_strTaskPage += wxLocale::GetSystemEncodingName();
-        m_strTaskPage += wxT("\">");
-    }
+//    if (wxLocale::GetSystemEncodingName().size() > 0) {
+//        m_strTaskPage += wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=");
+//        m_strTaskPage += wxLocale::GetSystemEncodingName();
+//        m_strTaskPage += wxT("\">");
+//    }
     m_strTaskPage += wxT("</head>");
 
     m_strTaskPage += wxT("<body bgcolor=" BGCOLOR ">");
@@ -194,7 +194,7 @@ void CBOINCTaskCtrl::UpdateQuickTip(const wxString& strIconFilename, const wxStr
 void CBOINCTaskCtrl::EndTaskPage()
 {
     m_strTaskPage += wxT("</body></html>");
-
+/*
     // ok, now get the corresponding encoding
     wxFontEncoding fontenc = wxFontMapper::Get()->CharsetToEncoding( wxLocale::GetSystemEncodingName(), false );
     if ( (NULL == fontenc) && !wxFontMapper::Get()->IsEncodingAvailable(fontenc) ) {
@@ -229,6 +229,7 @@ void CBOINCTaskCtrl::EndTaskPage()
     }
 
     SetFonts(profont.GetFaceName(), fixedfont.GetFaceName(), NULL);
+*/
     SetPage(m_strTaskPage);
 }
 

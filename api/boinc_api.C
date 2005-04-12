@@ -568,7 +568,7 @@ int set_worker_timer() {
 
     // lower our priority here
     //
-    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST);
+    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 #else
     struct sigaction sa;
     itimerval value;

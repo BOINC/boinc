@@ -957,11 +957,7 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-#ifdef _WIN32
         addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-#else
-        addr.sin_addr.s_addr = htonl(INADDR_ANY);
-#endif
     }
 
     retval = boinc_socket(sock);

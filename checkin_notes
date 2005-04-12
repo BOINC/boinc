@@ -27108,3 +27108,18 @@ David  12 April 2005
         pers_file_xfer.C
     sched/
         sched_send.C
+
+Rom    12 April 2005
+    - Bug Fix: The manager shuold look for the daemon on the loop back adapter
+        since that is where the daemon is listening.
+    - Bug Fix: THREAD_PRIORITY_IDLE is even lower than THREAD_PRIORITY_LOWEST
+    - Bug Fix: Once again back out a change to support Japanese until we
+        understand the font problems futher, basically trying to support
+        Japanese right now causes problems for English based systems.
+
+    api/
+        boinc_api.C
+    clientgui/
+        BOINCTaskCtrl.cpp
+    lib/
+        gui_rpc_client.C
