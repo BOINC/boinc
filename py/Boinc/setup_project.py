@@ -459,11 +459,11 @@ class Project:
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
         install(srcdir('html/user', 'forum_sample_index.php'),
-            dir('html/user', 'forum_index.php'))
+            self.dir('html/user/forum_index.php'))
         install(srcdir('html/user', 'sample_rss_main.php'),
-            dir('html/user', 'rss_main.php'))
+            self.dir('html/user/rss_main.php'))
         install(srcdir('html/user', 'sample_status.php'),
-            dir('html/user', 'status.php'))
+            self.dir('html/user/status.php'))
 
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))

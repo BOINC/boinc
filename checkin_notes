@@ -27053,4 +27053,17 @@ Bruce 11 April 2005
         sched_locality.C
         file_upload_handler.C
 
+David  12 April 2005
+    - The test script test_uc.py didn't work.  There were 2 problems:
+        1) the core client's logic for checking an account filename
+            was too strict.  It required a dot in the hostname,
+            which wasn't present here ("localhost")
+        2) the Python code for signing executables needed to look
+            both in bin/ (for "upgrade") and ../tools/ (for test)
+            for the sign_executable program
 
+    client/
+        file_names.C
+    py/Boinc/
+        setup_project.py
+        tools.py

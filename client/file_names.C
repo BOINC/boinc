@@ -153,13 +153,8 @@ bool is_account_file(const char* filename) {
     const char* p, *q;
     p = strstr(filename, "account_");
     if (p != filename) return false;
+
     q = filename + strlen("account_");
-
-    p = strstr(q, ".");
-    if (!p) return bad_account_filename(filename);
-    if (p == q) return bad_account_filename(filename);
-
-    q = p+1;
     p = strstr(q, ".xml");
     if (!p) return bad_account_filename(filename);
     if (p == q) return bad_account_filename(filename);

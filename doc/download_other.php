@@ -22,7 +22,10 @@ list_heading_array(array(
 ));
 list_item_array(array(
     "<a href=http://www.lb.shuttle.de/apastron/boincDown.shtml>Stefan Urbat</a>",
-    "Solaris 10 AMD64 (Opteron)<br> GNU/Linux AMD64 (Opteron)<br> Mac OS X 10.3 on PowerPC 7450 and later",
+    "Solaris 10 AMD64 (Opteron) and x86
+    <br> GNU/Linux AMD64 (Opteron)
+    <br> GNU/Linux PowerPC,
+    <br> Mac OS X 10.3 on PowerPC 7450 and later",
     "BOINC core client, SETI@home"
 ));
 

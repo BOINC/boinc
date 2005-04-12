@@ -74,10 +74,16 @@ def sign_executable(executable_path, quiet=False):
         query_sign_executable(executable_path)
         print 'Signing', executable_path
     code_sign_key = os.path.join(config.config.key_dir, 'code_sign_private')
+
+    # sign_executable could be in bin/ or ../tool/, depending on
+    # whether this is a test or an upgrade
+
     sign_executable_path = 'bin/sign_executable'
     if not os.path.exists(sign_executable_path):
-        print os.getcwd()
-        raise SystemExit("sign_executable not found! did you `make' it?")
+        sign_executable_path = '../tools/sign_executable'
+        if not os.path.exists(sign_executable_path):
+            print os.getcwd()
+            raise SystemExit("sign_executable not found! did you `make' it?")
     signature_text = os.popen('%s %s %s'%(sign_executable_path,
         executable_path,code_sign_key)).read()
     if not signature_text:
