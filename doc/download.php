@@ -226,7 +226,6 @@ version(
     Provide support for UMTS networks
     <li>
     Numerious usability fixes
-    <li>
     </ul>
     ",
     "<ul>
