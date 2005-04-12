@@ -200,16 +200,36 @@ version(
 );
 version(
     "Windows",
-    "4.27",
+    "4.30",
     "Development version",
-    "boinc_4.27_windows_intelx86.exe",
-    "24 Mar 2005",
+    "boinc_4.30_windows_intelx86.exe",
+    "11 Apr 2005",
     win_new(),
-    null,
     "<ul>
+    <li>
+    <a href=acct_mgt.php>Account Management via websites</a>
+    <li>
+    <a href=gui_rpc.php>Password protection for GUI RPC's</a>
     <li>
     This release should workaround the Intellisense/Intellipoint issue of
     closing down any application while Windows is in screensaver mode.
+    <li>
+    This release fixes a few issues with managed deployments with 
+    Active Directory.
+    <li>
+    A new select computer dialog has been created that remembers
+    which computers you have connected too.
+    <li>
+    A new statistics tab has been added to the BOINC manager, thanks to
+    Jens Breitbart for the great feature.
+    <li>
+    Provide support for UMTS networks
+    <li>
+    Numerious usability fixes
+    <li>
+    </ul>
+    ",
+    "<ul>
     <li>
     Applications that were built before October 2004 do not
     display screensaver graphics
@@ -285,10 +305,10 @@ version(
 );
 version(
     "Linux/x86",
-    "4.27",
+    "4.30",
     "Development version",
-    "boinc_4.27_i686-pc-linux-gnu.sh",
-    "16 Mar 2005",
+    "boinc_4.30_i686-pc-linux-gnu.sh",
+    "11 Apr 2005",
     sea()
 );
 xecho( "
@@ -305,10 +325,10 @@ version(
 );
 version(
     "Solaris/SPARC",
-    "4.26",
+    "4.30",
     "Development version",
-    "boinc_4.26_sparc-sun-solaris2.7.sh",
-    "10 Mar 2005",
+    "boinc_4.30_sparc-sun-solaris2.7.sh",
+    "11 Apr 2005",
     sea()
 );
 
