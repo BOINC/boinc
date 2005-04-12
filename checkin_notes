@@ -27044,6 +27044,13 @@ Bruce 11 April 2005
       sleep, and then try again, but DON'T find more work available, give up
       trying to make work for that file.
 
+    - File upload handler: to prevent multiple instances of file_upload_handler
+      from trying to upload the SAME file, use lockf() to place an advisory lock on
+      the file.  David, I probably should have discussed this with you first, but it's
+      too early in the morning.  Please revert if this is a mistake!
+
     sched/
         sched_locality.C
+        file_upload_handler.C
+
 

@@ -142,11 +142,24 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     unsigned char buf[BLOCK_SIZE];
     char buf2[256];
     FILE* out;
-    int retval, n, m;
+    int retval, n, m, fd, lockret;
 
     out = fopen(path, "ab");
     if (!out) {
         return return_error(ERR_TRANSIENT, "can't open file %s: %s", path, strerror(errno));
+    }
+
+    // get file descriptor for locking purposes
+    fd=fileno(out);
+    if (fd<0) {
+        return return_error(ERR_TRANSIENT, "can't get file descriptor for file %s: %s", path, strerror(errno));
+    }
+
+    // Put an advisory lock on the file.  This will prevent OTHER instances of file_upload_handler
+    // from being able to write to the file.
+    lockret=lockf(fd, F_TLOCK, 0);
+    if (lockret) {
+        return return_error(ERR_TRANSIENT, "can't get exclusive lock on file %s: %s", path, strerror(errno));
     }
 
     // TODO: use a 64-bit variant
@@ -424,8 +437,8 @@ int pid;
 
 void boinc_catch_signal(int signal_num) {
     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-        "FILE=%s (%.0f bytes left) IP=%s PID=%d caught signal %d [%s]\n",
-        this_filename, bytes_left, get_remote_addr(), pid, signal_num, sys_siglist[signal_num]
+        "PID=%d FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s]\n",
+        pid, this_filename, bytes_left, get_remote_addr(), signal_num, sys_siglist[signal_num]
     );
     exit(1);
 }
