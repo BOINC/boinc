@@ -389,7 +389,7 @@ static int send_results_for_file(
 ) {
     DB_RESULT result, prev_result;
     char buf[256], query[1024];
-    int i, maxid, retval_max, retval_lookup;
+    int i, maxid, retval_max, retval_lookup, has_slept=0;
 
     nsent = 0;
 
@@ -516,15 +516,17 @@ static int send_results_for_file(
                 break;
             } // make_work_retval
 
-            // if the user has not configured us to wait and try
-            // again, we are finished.
+            // If the user has not configured us to wait and try
+            // again, or we have already tried to find work for this
+            // file, we are finished.
             //
-            if (!config.locality_scheduling_wait_period) {
+            if (!config.locality_scheduling_wait_period || has_slept) {
                 break;
             }
 
             // wait a bit and try again to find a suitable unsent result
             sleep(config.locality_scheduling_wait_period);
+            has_slept=1;
           
         } // query_retval
         else {

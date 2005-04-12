@@ -27038,3 +27038,12 @@ David  11 April 2005
 
     client/
         gui_rpc_server.C
+
+Bruce 11 April 2005
+    - Scheduler: with locality scheduling, if we touch a trigger file then
+      sleep, and then try again, but DON'T find more work available, give up
+      trying to make work for that file.
+
+    sched/
+        sched_locality.C
+
