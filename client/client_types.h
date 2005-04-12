@@ -214,10 +214,10 @@ public:
         // send the list of permanent files associated/with the project
         // in the next scheduler reply
     bool suspended_via_gui;
- 	bool dont_request_more_work; 
-		// set the project to only return work and not request more
- 		// for a clean exit to a project, or if a user wants to 
- 		// pause doing work for the project
+     bool dont_request_more_work; 
+        // set the project to only return work and not request more
+         // for a clean exit to a project, or if a user wants to 
+         // pause doing work for the project
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
@@ -265,8 +265,8 @@ public:
     // returns true if min_rpc_time > now; may print a message
     bool waiting_until_min_rpc_time(double now);
 
-	// statistic of the last x days
-	std::vector<STATISTIC> statistics;
+    // statistic of the last x days
+    std::vector<STATISTIC> statistics;
     int parse_statistics(MIOFILE&);
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
@@ -373,7 +373,5 @@ struct RESULT {
     double estimated_cpu_time();
     double estimated_cpu_time_remaining();
 };
-
-int verify_downloaded_file(char* pathname, FILE_INFO& file_info);
 
 #endif
