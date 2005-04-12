@@ -27093,3 +27093,18 @@ David  12 April 2005
         filesys.C,h
     sched/
         handle_request.C
+
+David  12 April 2005
+    - core client: merge verify_existing_file() and verify_downloaded_file()
+        into a single function verify_file(bool strict),
+        where "strict" says whether to check checksum/signature
+        (this is skipped when seeing if a result's input files are available)
+        This fixes a bug in the dont_verify_images logic
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        pers_file_xfer.C
+    sched/
+        sched_send.C

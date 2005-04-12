@@ -947,7 +947,7 @@ int send_work(
         }
         if (reply.wreq.daily_result_quota_exceeded) {
             char helpful[256];
-            sprintf(helpful, "(daily quota of %d WU reached)", reply.wreq.daily_result_quota);
+            sprintf(helpful, "(reached daily quota of %d results)", reply.wreq.daily_result_quota);
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
             log_messages.printf(

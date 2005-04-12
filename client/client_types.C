@@ -490,28 +490,6 @@ int FILE_INFO::set_permissions() {
 #endif
 }
 
-// see if a file markes as present actually IS present
-// and have the right size.
-// If not, mark it as not present
-//
-bool FILE_INFO::verify_existing_file() {
-    int retval;
-    double size;
-    char path[256];
-
-    get_pathname(this, path);
-    retval = file_size(path, size);
-    if (retval) {
-        status = FILE_NOT_PRESENT;
-        return false;
-    }
-    if (!log_flags.dont_check_file_sizes && size!=nbytes) {
-        status = FILE_NOT_PRESENT;
-        return false;
-    }
-    return true;
-}
-
 // If from server, make an exact copy of everything
 // except the start/end tags and the <xml_signature> element.
 //

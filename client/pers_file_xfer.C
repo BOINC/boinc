@@ -91,9 +91,9 @@ int PERS_FILE_XFER::start_xfer() {
         char pathname[256];
         get_pathname(fip, pathname);
 
-        // see if file already exists and looks OK
+        // see if file already exists and is valid
         //
-        if (!fip->verify_downloaded_file()) {
+        if (!fip->verify_file(true)) {
             retval = fip->set_permissions();
             fip->status = FILE_PRESENT;
             pers_xfer_done = true;

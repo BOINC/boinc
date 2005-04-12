@@ -107,9 +107,8 @@ public:
     const char* get_current_url(bool);
     bool is_correct_url_type(bool, std::string&);
     bool had_failure(int& failnum, char* buf=0);
-    bool verify_existing_file();
     int merge_info(FILE_INFO&);
-    int verify_downloaded_file();
+    int verify_file(bool);
     int update_time();       // updates time last used to the current time
 };
 

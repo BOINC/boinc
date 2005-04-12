@@ -43,6 +43,7 @@
 #include "client_state.h"
 #include "client_msgs.h"
 #include "file_xfer.h"
+#include "log_flags.h"
 
 #define MAX_TRANSFERS_PER_PROJECT   2
 
@@ -81,10 +82,16 @@ int CLIENT_STATE::make_project_dirs() {
     return 0;
 }
 
-// Verify the validity of a downloaded file,
-// through MD5 checksum or an RSA signature
+// Verify the validity of a file,
+// based on its size, its MD5 checksum or an RSA signature
+// This is called
+// 1) right after download is finished (CLIENT_STATE::handle_pers_file_xfers())
+// 2) if a needed file is already on disk (PERS_FILE_XFER::start_xfer())
+// 3) in checking whether a result's input files are available
+//    (CLIENT_STATE::input_files_available()).
+//    In this case we just check existence and size (no checksum)
 //
-int FILE_INFO::verify_downloaded_file() {
+int FILE_INFO::verify_file(bool strict) {
     char cksum[64], pathname[256];
     bool verified;
     int retval;
@@ -92,6 +99,7 @@ int FILE_INFO::verify_downloaded_file() {
 
     get_pathname(this, pathname);
     if (file_size(pathname, size)) {
+        status = FILE_NOT_PRESENT;
         return ERR_FILE_MISSING;
     }
 
@@ -102,9 +110,12 @@ int FILE_INFO::verify_downloaded_file() {
         return 0;
     }
 
-    if (nbytes && (nbytes != size)) {
+    if (nbytes && (nbytes != size) && (!log_flags.dont_check_file_sizes)) {
         return ERR_WRONG_SIZE;
     }
+
+    if (!strict) return 0;
+
     if (signature_required) {
         if (!strlen(file_signature)) {
             msg_printf(project, MSG_ERROR, "Application file %s missing signature", name);
@@ -218,7 +229,7 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
 
                 // verify the file with RSA or MD5, and change permissions
                 //
-                retval = fip->verify_downloaded_file();
+                retval = fip->verify_file(true);
                 if (retval) {
                     msg_printf(fip->project, MSG_ERROR,
                         "Checksum or signature error for %s", fip->name
