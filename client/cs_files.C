@@ -88,11 +88,23 @@ int FILE_INFO::verify_downloaded_file() {
     char cksum[64], pathname[256];
     bool verified;
     int retval;
+    double size;
 
-    if (gstate.global_prefs.dont_verify_images && is_image_file(name)) {
+    get_pathname(this, pathname);
+    if (file_size(pathname, size)) {
+        return ERR_FILE_MISSING;
+    }
+
+    if (gstate.global_prefs.dont_verify_images
+        && is_image_file(name)
+        && size>0
+    ) {
         return 0;
     }
-    get_pathname(this, pathname);
+
+    if (nbytes && (nbytes != size)) {
+        return ERR_WRONG_SIZE;
+    }
     if (signature_required) {
         if (!strlen(file_signature)) {
             msg_printf(project, MSG_ERROR, "Application file %s missing signature", name);

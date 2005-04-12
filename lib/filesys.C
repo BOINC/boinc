@@ -79,16 +79,16 @@ char boinc_failed_file[256];
 
 // routines for enumerating the entries in a directory
 
-int is_file(const char* path) {
+bool is_file(const char* path) {
     struct stat sbuf;
     int retval = stat(path, &sbuf);
-    return (retval==0) && (sbuf.st_mode & S_IFREG);
+    return (!retval && (sbuf.st_mode & S_IFREG));
 }
 
-int is_dir(const char* path) {
+bool is_dir(const char* path) {
     struct stat sbuf;
     int retval = stat(path, &sbuf);
-    return (retval==0) && (sbuf.st_mode & S_IFDIR);
+    return (!retval && (sbuf.st_mode & S_IFDIR));
 }
 
 // Open a directory

@@ -145,3 +145,4 @@
 #define ERR_ABORTED_VIA_GUI -197
 #define ERR_INSUFFICIENT_RESOURCE   -198
 #define ERR_RETRY           -199
+#define ERR_WRONG_SIZE      -200

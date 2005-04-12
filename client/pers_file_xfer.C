@@ -90,30 +90,20 @@ int PERS_FILE_XFER::start_xfer() {
     if (!is_upload) {
         char pathname[256];
         get_pathname(fip, pathname);
-        double existing_size = 0;
 
         // see if file already exists and looks OK
         //
-        if (!file_size(pathname, existing_size)) {
-            if (gstate.global_prefs.dont_verify_images && is_image_file(fip->name)) {
-                retval = 0;
-            } else if (existing_size != fip->nbytes) {
-                retval = 1;
-            } else {
-                retval = fip->verify_downloaded_file();
-            }
-            if (!retval) {
-                retval = fip->set_permissions();
-                fip->status = FILE_PRESENT;
-                pers_xfer_done = true;
+        if (!fip->verify_downloaded_file()) {
+            retval = fip->set_permissions();
+            fip->status = FILE_PRESENT;
+            pers_xfer_done = true;
 
-                msg_printf(
-                    fip->project, MSG_INFO,
-                    "File %s exists already, skipping download", fip->name
-                );
+            msg_printf(
+                fip->project, MSG_INFO,
+                "File %s exists already, skipping download", fip->name
+            );
 
-                return 0;
-            }
+            return 0;
         }
     }
 
@@ -164,8 +154,6 @@ int PERS_FILE_XFER::start_xfer() {
 //
 bool PERS_FILE_XFER::poll(double now) {
     int retval;
-    char pathname[256], buf[256];
-    double existing_size = 0;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
@@ -214,21 +202,6 @@ bool PERS_FILE_XFER::poll(double now) {
                         fip->project, MSG_INFO, "Throughput %d bytes/sec",
                         (int)fxp->xfer_speed
                     );
-                }
-            }
-            if (!is_upload && fip->nbytes) {
-                // If we know the file size, make sure that what we downloaded
-                // has the right size
-                //
-                get_pathname(fip, pathname);
-                file_size(pathname, existing_size);
-                if (existing_size != fip->nbytes) {
-                    sprintf(buf,
-                        "Downloaded file had wrong size: expected %.0f, got %.0f",
-                        fip->nbytes, existing_size
-                    );
-                    check_giveup(buf);
-                    return true;
                 }
             }
             pers_xfer_done = true;

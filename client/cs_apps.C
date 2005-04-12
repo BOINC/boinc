@@ -180,7 +180,7 @@ bool CLIENT_STATE::handle_finished_apps(double now) {
         case PROCESS_COULDNT_START:
         case PROCESS_ABORTED:
             msg_printf(atp->wup->project, MSG_INFO,
-                "Computation for result %s finished", atp->wup->name
+                "Computation for result %s finished", atp->result->name
             );
             scope_messages.printf(
                 "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",

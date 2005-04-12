@@ -27067,3 +27067,29 @@ David  12 April 2005
     py/Boinc/
         setup_project.py
         tools.py
+
+David  12 April 2005
+    - core client: in result-finished message, show result name, not WU name
+    - core client: fix handling of dont_verify_images preference
+        FILE_INFO::verify_downloaded_file():
+            if image file and dont_verify_images is set,
+            and file is present and nonempty, count it as verified.
+            Also move file size checking logic here.
+        PERS_FILE_XFER::start_xfer(): use FILE_INFO::verify_downloaded_file()
+            to decide whether to use existing file,
+            rather than doing a bunch of checks manually
+        PERS_FILE_XFER::poll(): don't check size on completion of xfer.
+            Leave it to verify_downloaded_file().
+    - is_dir() and is_file() return bool, not int
+        (hope this doesn't break C compile)
+    - scheduler: the parent of a zombie host might be a zombie
+
+    client/
+        cs_apps.C
+        cs_files.C
+        pers_file_xfer.C
+    lib/
+        error_numbers.h
+        filesys.C,h
+    sched/
+        handle_request.C

@@ -87,7 +87,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (sreq.hostid) {
         retval = host.lookup_id(sreq.hostid);
-        if (!retval && host.userid==0) {
+        while (!retval && host.userid==0) {
             // if host record is zombie, follow link to new host
             //
             retval = host.lookup_id(host.rpc_seqno);
