@@ -91,6 +91,9 @@
 #include <wx/process.h>
 #include <wx/dynarray.h>
 #include <wx/thread.h>
+#include <wx/font.h>
+#include <wx/fontmap.h>
+#include <wx/fontenum.h>
 
 #ifndef NOTASKBAR
 #include <wx/taskbar.h>         // taskbar support

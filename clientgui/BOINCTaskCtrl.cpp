@@ -35,6 +35,7 @@
 
 #define BGCOLOR "#ffffff"
 
+
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxHtmlWindow)
 
 
@@ -193,6 +194,41 @@ void CBOINCTaskCtrl::UpdateQuickTip(const wxString& strIconFilename, const wxStr
 void CBOINCTaskCtrl::EndTaskPage()
 {
     m_strTaskPage += wxT("</body></html>");
+
+    // ok, now get the corresponding encoding
+    wxFontEncoding fontenc = wxFontMapper::Get()->CharsetToEncoding( wxLocale::GetSystemEncodingName(), false );
+    if ( (NULL == fontenc) && !wxFontMapper::Get()->IsEncodingAvailable(fontenc) ) {
+        // try to find some similar encoding:
+        wxFontEncoding encAlt;
+        if ( wxFontMapper::Get()->GetAltForEncoding(fontenc, &encAlt) ) {
+            wxEncodingConverter conv;
+
+            if (conv.Init(fontenc, encAlt)) {
+                fontenc = encAlt;
+                m_strTaskPage.Replace(
+                    wxLocale::GetSystemEncodingName(),
+                    wxFontMapper::Get()->GetEncodingName(fontenc)
+                );
+                m_strTaskPage = conv.Convert(m_strTaskPage);
+            } else {
+                wxLogTrace(wxT("Cannot convert from '%s' to '%s'."),
+                             wxFontMapper::GetEncodingDescription(fontenc).c_str(),
+                             wxFontMapper::GetEncodingDescription(encAlt).c_str());
+            }
+        } else {
+            wxLogTrace(wxT("No fonts for encoding '%s' on this system."),
+                         wxFontMapper::GetEncodingDescription(fontenc).c_str());
+        }
+    }
+
+    wxFont profont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxEmptyString, fontenc);
+    wxFont fixedfont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxEmptyString, fontenc);
+
+    if ( !profont.Ok() || !fixedfont.Ok() ) {
+        wxASSERT( false );
+    }
+
+    SetFonts(profont.GetFaceName(), fixedfont.GetFaceName(), NULL);
     SetPage(m_strTaskPage);
 }
 

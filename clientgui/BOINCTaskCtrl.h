@@ -64,7 +64,6 @@ public:
 #endif
     virtual void EndTaskPage();
 
-
     virtual void CreateTaskHeader(  const wxString& strFilename, 
                                                    const wxBitmap& itemTaskBitmap, 
                                                    const wxString& strTaskName ); 
@@ -92,7 +91,6 @@ private:
     CBOINCBaseView* m_pParentView;
 
     wxString m_strTaskPage;
-
 };
 
 
