@@ -957,7 +957,14 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        // We need to figure out why when the server binds with the loopback adapter
+        //   and the client attempts to connect to the server through the loopback 
+        //   adapter, the client fails to connect on *nix platforms.
+#ifdef _WIN32
+        addr.sin_addr.s_addr = htonl(0x7f000001);
+#else
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+#endif
     }
 
     retval = boinc_socket(sock);

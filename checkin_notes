@@ -27135,3 +27135,12 @@ David  13 April 2005
 	lib/
 		boinc_win.h
 		prefs.C,h
+
+Rom    13 April 2005
+    - Bug Fix: Re-enable INADDR_ANY for the *nix platforms since they cannot
+        seem to connect through the loopback adapter.
+
+    client/
+        gui_rpc_server.C
+    clientgui/
+        gui_rpc_client.C
