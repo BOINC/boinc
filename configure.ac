@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 4.30)
+AC_INIT(BOINC, 4.35)
 
 AC_ARG_ENABLE(debug, 
     AC_HELP_STRING([--enable-debug],
