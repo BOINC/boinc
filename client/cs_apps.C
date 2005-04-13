@@ -461,11 +461,11 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     //
     first = true;
     double total_long_term_debt = 0;
-	int count_cpu_intensive = 0;
+    int count_cpu_intensive = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
-		count_cpu_intensive++;
+        count_cpu_intensive++;
         double debt_inc =
             (p->resource_share/local_total_resource_share)
             * cpu_sched_work_done_this_period

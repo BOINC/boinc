@@ -334,12 +334,12 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
     out.printf(
         "<project_statistics>\n"
-		"    <master_url>%s</master_url>\n",
-		master_url
-	);
+        "    <master_url>%s</master_url>\n",
+        master_url
+    );
 
-	for (std::vector<STATISTIC>::iterator i=statistics.begin();
-		i!=statistics.end(); ++i
+    for (std::vector<STATISTIC>::iterator i=statistics.begin();
+        i!=statistics.end(); ++i
     ) {
         out.printf(
             "    <daily_statistics>\n"
@@ -355,7 +355,7 @@ int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
             i->host_total_credit,
             i->host_expavg_credit
         );
-	}
+    }
     out.printf(
         "</project_statistics>\n"
     );
@@ -662,7 +662,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n"
         "    <status>%d</status>\n",
-		project->master_url,
+        project->master_url,
         project->project_name,
         name,
         nbytes,

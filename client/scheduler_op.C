@@ -594,34 +594,34 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         }
         if (match_tag(buf, "</scheduler_reply>")) {
 
-			// update statistics after parsing the scheduler reply
+            // update statistics after parsing the scheduler reply
 
-			// check if vector is empty or we have a new day
-			if (project->statistics.empty() || project->statistics.back().day!=dday()) {
-				// check if max. number of statistics already saved
-				while (project->statistics.size()>30) {
-					project->statistics.erase(project->statistics.begin());
-				}
+            // check if vector is empty or we have a new day
+            if (project->statistics.empty() || project->statistics.back().day!=dday()) {
+                // check if max. number of statistics already saved
+                while (project->statistics.size()>30) {
+                    project->statistics.erase(project->statistics.begin());
+                }
 
-				project->statistics.push_back(STATISTIC());
-			}
+                project->statistics.push_back(STATISTIC());
+            }
 
-			project->statistics.back().day=dday();
-			project->statistics.back().user_total_credit=project->user_total_credit;
-			project->statistics.back().user_expavg_credit=project->user_expavg_credit;
-			project->statistics.back().host_total_credit=project->host_total_credit;
-			project->statistics.back().host_expavg_credit=project->host_expavg_credit;
+            project->statistics.back().day=dday();
+            project->statistics.back().user_total_credit=project->user_total_credit;
+            project->statistics.back().user_expavg_credit=project->user_expavg_credit;
+            project->statistics.back().host_total_credit=project->host_total_credit;
+            project->statistics.back().host_expavg_credit=project->host_expavg_credit;
 
-			project->write_statistics_file();
+            project->write_statistics_file();
 
             return 0;
         }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
-		else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
+        else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
         else if (parse_double(buf, "<user_create_time>", project->user_create_time)) continue;
-		else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
+        else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;

@@ -229,16 +229,16 @@ int PROXY::socks_parse_method_ack(char *buf) {
 
     // Depending on the method, move to a different state or return an error
     switch (buf[1]) {
-        case SOCKS_AUTH_NONE_NEEDED:
-            proxy_state = PROXY_STATE_SOCKS_SEND_CONNECT_REQ;
-            break;
-        case SOCKS_AUTH_USER_PASS:
-            proxy_state = PROXY_STATE_SOCKS_SEND_USER_PASS;
-            break;
-        case SOCKS_AUTH_GSSAPI:
-        case SOCKS_AUTH_NONE_ACCEPTABLE:
-        default:
-            return ERR_SOCKS_UNSUPPORTED;
+    case SOCKS_AUTH_NONE_NEEDED:
+        proxy_state = PROXY_STATE_SOCKS_SEND_CONNECT_REQ;
+        break;
+    case SOCKS_AUTH_USER_PASS:
+        proxy_state = PROXY_STATE_SOCKS_SEND_USER_PASS;
+        break;
+    case SOCKS_AUTH_GSSAPI:
+    case SOCKS_AUTH_NONE_ACCEPTABLE:
+    default:
+        return ERR_SOCKS_UNSUPPORTED;
     }
 
     return 0;
@@ -261,53 +261,53 @@ int PROXY::socks_parse_user_pass_ack(char *buf) {
 
 int PROXY::socks_parse_connect_ack(char *buf) {
     switch (pi.socks_version) {
-        case SOCKS_VERSION_4:
-            if (buf[0] != 0) return ERR_SOCKS_UNKNOWN_FAILURE;
+    case SOCKS_VERSION_4:
+        if (buf[0] != 0) return ERR_SOCKS_UNKNOWN_FAILURE;
 
-            switch (buf[1]) {
-                case SOCKS4_REQ_GRANTED:
-                    proxy_state = PROXY_STATE_DONE;
-                    proxy_retval = 0;
-                    break;
-                case SOCKS4_REQ_REJECTED:
-	                return ERR_SOCKS_REQUEST_FAILED;
-                case SOCKS4_REQ_NO_IDENTD:
-	                return ERR_SOCKS_REQUEST_FAILED;
-                case SOCKS4_REQ_BAD_USER_PASS:
-	                return ERR_SOCKS_BAD_USER_PASS;
-                default:
-                    return ERR_SOCKS_UNKNOWN_FAILURE;
-            }
+        switch (buf[1]) {
+        case SOCKS4_REQ_GRANTED:
+            proxy_state = PROXY_STATE_DONE;
+            proxy_retval = 0;
             break;
-        case SOCKS_VERSION_5:
-            if (buf[0] != SOCKS_VERSION_5) return ERR_SOCKS_UNKNOWN_FAILURE;
-            switch (buf[1]) {
-                case SOCKS5_CONNECTION_SUCCEEDED:
-                    proxy_state = PROXY_STATE_DONE;
-                    proxy_retval = 0;
-                    break;
-                case SOCKS5_ERR_SERVER_FAILURE:
-                    return ERR_SOCKS_UNKNOWN_FAILURE;
-                case SOCKS5_ERR_NOT_ALLOWED:
-                    return ERR_SOCKS_REQUEST_FAILED;
-                case SOCKS5_ERR_NETWORK_UNREACHABLE:
-                    return ERR_SOCKS_CANT_REACH_HOST;
-                case SOCKS5_ERR_HOST_UNREACHABLE:
-                    return ERR_SOCKS_CANT_REACH_HOST;
-                case SOCKS5_ERR_CONNECTION_REFUSED:
-                    return ERR_SOCKS_CONN_REFUSED;
-                case SOCKS5_ERR_TTL_EXPIRED:
-                    return ERR_SOCKS_UNKNOWN_FAILURE;
-                case SOCKS5_ERR_COMMAND_UNSUPPORTED:
-                    return ERR_SOCKS_UNKNOWN_FAILURE;
-                case SOCKS5_ERR_ADDR_TYPE_UNSUPPORTED:
-                    return ERR_SOCKS_UNKNOWN_FAILURE;
-                default:
-                    return ERR_SOCKS_UNKNOWN_FAILURE;
-            }
-            break;
+        case SOCKS4_REQ_REJECTED:
+            return ERR_SOCKS_REQUEST_FAILED;
+        case SOCKS4_REQ_NO_IDENTD:
+            return ERR_SOCKS_REQUEST_FAILED;
+        case SOCKS4_REQ_BAD_USER_PASS:
+            return ERR_SOCKS_BAD_USER_PASS;
         default:
             return ERR_SOCKS_UNKNOWN_FAILURE;
+        }
+        break;
+    case SOCKS_VERSION_5:
+        if (buf[0] != SOCKS_VERSION_5) return ERR_SOCKS_UNKNOWN_FAILURE;
+        switch (buf[1]) {
+        case SOCKS5_CONNECTION_SUCCEEDED:
+            proxy_state = PROXY_STATE_DONE;
+            proxy_retval = 0;
+            break;
+        case SOCKS5_ERR_SERVER_FAILURE:
+            return ERR_SOCKS_UNKNOWN_FAILURE;
+        case SOCKS5_ERR_NOT_ALLOWED:
+            return ERR_SOCKS_REQUEST_FAILED;
+        case SOCKS5_ERR_NETWORK_UNREACHABLE:
+            return ERR_SOCKS_CANT_REACH_HOST;
+        case SOCKS5_ERR_HOST_UNREACHABLE:
+            return ERR_SOCKS_CANT_REACH_HOST;
+        case SOCKS5_ERR_CONNECTION_REFUSED:
+            return ERR_SOCKS_CONN_REFUSED;
+        case SOCKS5_ERR_TTL_EXPIRED:
+            return ERR_SOCKS_UNKNOWN_FAILURE;
+        case SOCKS5_ERR_COMMAND_UNSUPPORTED:
+            return ERR_SOCKS_UNKNOWN_FAILURE;
+        case SOCKS5_ERR_ADDR_TYPE_UNSUPPORTED:
+            return ERR_SOCKS_UNKNOWN_FAILURE;
+        default:
+            return ERR_SOCKS_UNKNOWN_FAILURE;
+        }
+        break;
+    default:
+        return ERR_SOCKS_UNKNOWN_FAILURE;
     }
 
     return 0;
