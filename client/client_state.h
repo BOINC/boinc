@@ -147,6 +147,8 @@ private:
     //
     double cpu_sched_last_time;
     double cpu_sched_work_done_this_period;
+	bool work_fetch_no_new_work;
+	bool cpu_crunch_nearest_first;
 
 // --------------- client_state.C:
 public:
@@ -219,6 +221,7 @@ private:
     int app_finished(ACTIVE_TASK&);
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
+    bool schedule_nearest_deadline_project(double expected_pay_off);
     bool start_apps();
     bool schedule_cpus(double);
     bool handle_finished_apps(double);
@@ -282,6 +285,9 @@ private:
     bool scheduler_rpc_poll(double);
     double ettprc(PROJECT*, int);
     double avg_proc_rate(PROJECT*);
+	bool should_get_work();
+    bool no_work_for_a_cpu();
+	void set_cpu_scheduler_modes();
 
 // --------------- cs_statefile.C:
 public:

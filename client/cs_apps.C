@@ -347,6 +347,36 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     best_project->next_runnable_result = 0;
     return true;
 }
+// The CPU scheduler is in panic mode.
+// Schedule the active task with the earliest deadline
+// Return true iff a task was scheduled.
+//
+bool CLIENT_STATE::schedule_nearest_deadline_project(double expected_pay_off) {
+    PROJECT *best_project = NULL;
+    RESULT *best_result = NULL;
+    double earliest_deadline;
+    bool first = true;
+    unsigned int i;
+
+    for (i=0; i < results.size(); ++i) {
+        RESULT *r = results[i];
+        if (RESULT_FILES_DOWNLOADED != r->state) continue;
+        if (r->project->non_cpu_intensive) continue;
+        if (r->already_selected) continue;
+        if (first || r->report_deadline < earliest_deadline) {
+            first = false;
+            best_project = r->project;
+            best_result = r;
+            earliest_deadline = r->report_deadline;
+        }
+    }
+    if (!best_result) return false;
+
+    schedule_result(best_result);
+    best_project->anticipated_debt -= expected_pay_off;
+    best_project->next_runnable_result = 0;
+    return true;
+}
 
 // Schedule active tasks to be run and preempted.
 //
@@ -399,6 +429,8 @@ bool CLIENT_STATE::schedule_cpus(double now) {
         results[i]->already_selected = false;
     }
 
+    set_cpu_scheduler_modes();
+
     // do work accounting for active tasks
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -428,17 +460,23 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     // reset temporary fields
     //
     first = true;
+    double total_long_term_debt = 0;
+	int count_cpu_intensive = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
+		count_cpu_intensive++;
+        double debt_inc =
+            (p->resource_share/local_total_resource_share)
+            * cpu_sched_work_done_this_period
+            - p->work_done_this_period;
+        p->long_term_debt += debt_inc;
+        total_long_term_debt += p->long_term_debt;
         if (!p->next_runnable_result) {
             p->debt = 0;
             p->anticipated_debt = 0;
-        } else {
-            p->debt +=
-                (p->resource_share/local_total_resource_share)
-                * cpu_sched_work_done_this_period
-                - p->work_done_this_period;
+       } else {
+            p->debt += debt_inc;
             if (first) {
                 first = false;
                 min_debt = p->debt;
@@ -451,6 +489,8 @@ bool CLIENT_STATE::schedule_cpus(double now) {
             p->project_name, p->debt
         );
     }
+
+    double avg_long_term_debt = total_long_term_debt / count_cpu_intensive;
 
     // Normalize debts to zero
     //
@@ -466,6 +506,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
             //msg_printf(p, MSG_INFO, "debt %f", p->debt);
             p->next_runnable_result = NULL;
         }
+        p->long_term_debt -= avg_long_term_debt;
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt
@@ -477,7 +518,11 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     expected_pay_off = cpu_sched_work_done_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
         assign_results_to_projects();
-        if (!schedule_largest_debt_project(expected_pay_off)) break;
+        if (cpu_crunch_nearest_first) {
+            if (!schedule_nearest_deadline_project(expected_pay_off)) break;
+        } else {
+            if (!schedule_largest_debt_project(expected_pay_off)) break;
+        }
     }
 
     // schedule non CPU intensive tasks

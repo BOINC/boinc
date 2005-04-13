@@ -33,6 +33,8 @@
 #include <math.h>
 #include <time.h>
 #include <strings.h>
+#include <map>
+#include <set>
 #endif
 
 #include "crypt.h"
@@ -68,13 +70,17 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 //
 #define REPORT_DEADLINE_CUSHION SECONDS_PER_DAY
 
+// try to maintain no more than this load factor on the CPU.
+//
+#define MAX_CPU_LOAD_FACTOR 0.8
+
 static int proj_min_results(PROJECT* p, int ncpus) {
     return (int)(ceil(ncpus*p->resource_share/trs));
 }
 void PROJECT::set_min_rpc_time(double future_time) {
-    if (future_time > min_rpc_time) {
-        min_rpc_time = future_time;
-    }
+	if (future_time > min_rpc_time) {
+		min_rpc_time = future_time;
+	}
     min_report_min_rpc_time = 0;
 }
 
@@ -139,7 +145,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 // 4) has dont_request_more_work == false
 //
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
-    PROJECT *p;
+    PROJECT *p, *p_prospect = NULL;
     double now = dtime();
     unsigned int i;
     bool found_old = (old == 0);
@@ -153,11 +159,13 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
         if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->suspended_via_gui) continue;
         if (p->dont_request_more_work) continue;
+        if (p->long_term_debt < 0 && !no_work_for_a_cpu()) continue;
+        if (p_prospect && p->long_term_debt < p_prospect->long_term_debt && !p->non_cpu_intensive) continue;
         if (found_old && p->work_request > 0) {
-            return p;
+            p_prospect = p;
         }
     }
-    return 0;
+    return p_prospect;
 }
 
 // Write a scheduler request to a disk file
@@ -194,22 +202,22 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-        p->anonymous_platform?"anonymous":platform_name,
+		p->anonymous_platform?"anonymous":platform_name,
         core_client_major_version,
         core_client_minor_version,
         work_req,
         p->resource_share / trs,
         ettprc(p, proj_min_results(p, ncpus)-1)
     );
-    if (p->anonymous_platform) {
-        fprintf(f, "    <app_versions>\n");
-        for (i=0; i<app_versions.size(); i++) {
-            APP_VERSION* avp = app_versions[i];
-            if (avp->project != p) continue;
-            avp->write(mf);
-        }
-        fprintf(f, "    </app_versions>\n");
-    }
+	if (p->anonymous_platform) {
+		fprintf(f, "    <app_versions>\n");
+		for (i=0; i<app_versions.size(); i++) {
+			APP_VERSION* avp = app_versions[i];
+			if (avp->project != p) continue;
+			avp->write(mf);
+		}
+		fprintf(f, "    </app_versions>\n");
+	}
 #if 0
     anything_free(free);
     fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
@@ -352,7 +360,7 @@ double CLIENT_STATE::avg_proc_rate(PROJECT *p) {
     double running_frac = time_stats.on_frac * time_stats.active_frac;
     if (running_frac < 0.1) running_frac = 0.1;
     if (running_frac > 1) running_frac = 1;
-    return (p->resource_share / trs) * ncpus * running_frac;
+	return (p ? (p->resource_share / trs) : 1) * ncpus * running_frac;
 }
 
 // "estimated time to project result count"
@@ -411,6 +419,7 @@ int CLIENT_STATE::compute_work_requests() {
         if (p->min_rpc_time >= now) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
+        if (p->long_term_debt < 0 && !no_work_for_a_cpu()) continue;
 
         int min_results = proj_min_results(p, ncpus);
         double estimated_time_to_starvation = ettprc(p, min_results-1);
@@ -471,7 +480,9 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
         if (network_suspended) break;
-        urgency = compute_work_requests();
+		if (should_get_work()) {
+			urgency = compute_work_requests(); 
+        }
         
         // highest priority is to report overdue results
         //
@@ -486,14 +497,11 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                     global_prefs.work_buf_min_days
                 );
             } else if (urgency == NEED_WORK_IMMEDIATELY) {
-                msg_printf(NULL, MSG_INFO,
-                    "Insufficient work; requesting more"
-                );
-            }
-            scheduler_op->init_get_work();
+}
+            scheduler_op->init_get_work(false);
             action = true;
         } else if ((p=next_project_master_pending())) {
-            scheduler_op->init_get_work();
+            scheduler_op->init_get_work(true);
             action = true;
         } else if ((p=next_project_sched_rpc_pending())) {
             scheduler_op->init_return_results(p);
@@ -559,7 +567,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // see if we have a new venue from this project
     //
-    if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
+	if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
         safe_strcpy(project->host_venue, sr.host_venue);
         msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
         update_project_prefs = true;
@@ -596,10 +604,10 @@ int CLIENT_STATE::handle_scheduler_reply(
             sr.global_prefs_xml
         );
         fclose(f);
-        update_global_prefs = true;
-    }
+		update_global_prefs = true;
+	}
 
-    if (update_global_prefs) {
+	if (update_global_prefs) {
         bool found_venue;
         retval = global_prefs.parse_file(
             GLOBAL_PREFS_FILE_NAME, project->host_venue, found_venue
@@ -811,6 +819,144 @@ int CLIENT_STATE::handle_scheduler_reply(
     scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): State after handle_scheduler_reply():\n");
     print_summary();
     return 0;
+}
+
+// Prevents work from being downloaded if there may be too much if more is downloaded.
+bool CLIENT_STATE::should_get_work() {
+	// if there are fewer wus available then CPUS, then we need more work.
+	if (no_work_for_a_cpu()) return true;
+
+    double tot_cpu_time_remaining = 0;
+    for (unsigned int i = 0; i < results.size();++i) {
+        tot_cpu_time_remaining += results[i]->estimated_cpu_time_remaining();
+    }
+    if (tot_cpu_time_remaining < global_prefs.work_buf_min_days * SECONDS_PER_DAY) return true;
+
+	// if the CPU started this time period over loaded, let it crunch for a while to get out 
+    // of the CPU overload status.
+    if (!work_fetch_no_new_work) {
+        set_cpu_scheduler_modes();
+    }
+    bool ret = !work_fetch_no_new_work;
+
+    return ret;
+}
+
+// CPU idle check.
+bool CLIENT_STATE::no_work_for_a_cpu() {
+	return (unsigned int)ncpus > results.size();
+}
+
+// sets a couple of variables showing the needed state for the CPU scheduler.
+void CLIENT_STATE::set_cpu_scheduler_modes() {
+    std::map < double, RESULT * > results_by_deadline;
+    std::set < PROJECT * > projects_with_work;
+    // cheap sorting trick.  This works on every implementation of std::map that I know of, and 
+    // it will be hard to avoid this behavour since inserts, lookups and deletes are all guaranteed lg(N)
+	std::vector<RESULT*>::iterator it_u;
+    for (it_u = results.begin() ; it_u != results.end(); ++it_u) {
+        if (RESULT_COMPUTE_ERROR > (*it_u)->state && !(*it_u)->project->non_cpu_intensive) {
+            results_by_deadline[(*it_u)->report_deadline] = *it_u;
+            projects_with_work.insert((*it_u)->project);
+        }
+    }
+
+	bool should_not_fetch_work = false;
+	bool should_crunch_nearest = false;
+	double now;
+    double frac_booked;
+    std::vector <double> booked_to;
+	now = dtime();
+	frac_booked = 0;
+    for (int i = 0; i < ncpus; ++i) booked_to.push_back(now);
+
+    std::map<double, RESULT*>::iterator it;
+	double up_frac = avg_proc_rate(0);
+    for (it = results_by_deadline.begin(); it != results_by_deadline.end() && !should_not_fetch_work; ++it) {
+        RESULT *r = (*it).second;
+		if (RESULT_COMPUTE_ERROR > ((*it).second)->state) {
+            double lowest_book = booked_to[0];
+            int lowest_booked_cpu = 0;
+            for(int i = 1; i < ncpus; ++i)
+            {
+                if (booked_to[i] < lowest_book) {
+                    lowest_book = booked_to[i];
+                    lowest_booked_cpu = i;
+                }
+            }
+            booked_to[lowest_booked_cpu] += ((*it).second)->estimated_cpu_time_remaining();
+
+            // Are the deadlines too tight to meet reliably?
+            if (booked_to[lowest_booked_cpu] - now > (r->report_deadline - now) * MAX_CPU_LOAD_FACTOR * up_frac) {
+
+                should_not_fetch_work = true;
+                should_crunch_nearest = true;
+                if (!cpu_crunch_nearest_first || !work_fetch_no_new_work) {
+                    msg_printf(NULL, MSG_INFO,
+                        "Work fetch policy, CPU Scheduler policy - Overbooked.");
+                }
+            }
+            // Is the deadline soon?
+            if (r->report_deadline - now < 60 * 60 * 24) {
+                should_crunch_nearest = true; 
+                if (!cpu_crunch_nearest_first) {
+                    msg_printf(NULL, MSG_INFO,
+                        "CPU Scheduler policy - Deadline < 1 day.");
+                }
+            }
+
+            // is there a deadline < twice the users connect period?  If so, we should crunch nearest so
+            // that it can be returned the next connection if possible.
+            if (r->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
+                should_crunch_nearest = true; 
+                if (!cpu_crunch_nearest_first) {
+                    msg_printf(NULL, MSG_INFO,
+                        "CPU Scheduler policy - deadline < 2 * queue size.");
+                }
+            }
+
+		    // is it getting a little uncomfortable?
+            frac_booked += r->estimated_cpu_time_remaining() / (r->report_deadline - now);
+        }
+    }
+
+    // Is it getting a little uncomfortable?
+    if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus) {
+        should_not_fetch_work = true;
+        if (!work_fetch_no_new_work) {
+            msg_printf(NULL, MSG_INFO,
+                    "Work fetch policy - uncomfortable.");
+        }
+    }
+
+	// check for too many projects that have work
+    if (projects_with_work.size() >= (unsigned int)global_prefs.max_projects_on_client) {
+        should_not_fetch_work = true;
+        if (!work_fetch_no_new_work) {
+            msg_printf(NULL, MSG_INFO,
+                    "Work fetch policy - max projects exceeded.");
+        }
+    }
+
+    if (work_fetch_no_new_work && !should_not_fetch_work) { // display only when the policy changes to avoid once per second
+             msg_printf(NULL, MSG_INFO,
+                "Work fetch policy - work fetch now allowed.");
+    }
+    if (!work_fetch_no_new_work && should_not_fetch_work) {  // display only when the policy changes to avoid once per second
+             msg_printf(NULL, MSG_INFO,
+                "Work fetch policy - no work fetch allowed.");
+    }
+    if (cpu_crunch_nearest_first && !should_crunch_nearest) {  // display only when the policy changes to avoid once per second
+             msg_printf(NULL, MSG_INFO,
+                 "CPU scheduler policy - crunch highest debt first (normal mode).");
+    }
+    if (!cpu_crunch_nearest_first && should_crunch_nearest) { // display only when the policy changes to avoid once per second
+             msg_printf(NULL, MSG_INFO,
+                 "CPU scheduler policy - crunch earliest deadline first (panic mode).");
+    }
+
+	work_fetch_no_new_work = should_not_fetch_work;
+	cpu_crunch_nearest_first = should_crunch_nearest;
 }
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";

@@ -27123,3 +27123,15 @@ Rom    12 April 2005
         BOINCTaskCtrl.cpp
     lib/
         gui_rpc_client.C
+
+David  13 April 2005
+	client/
+		app_control.C
+		client_state.C,h
+		client_types.C,h
+		cs_apps.C
+		cs_scheduler.C
+		scheduler_op.C,h
+	lib/
+		boinc_win.h
+		prefs.C,h

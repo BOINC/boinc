@@ -86,6 +86,7 @@ void PROJECT::init() {
     anonymous_platform = false;
     non_cpu_intensive = false;
     debt = 0;
+    long_term_debt = 0;
     send_file_list = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
@@ -176,6 +177,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
 #endif
         else if (parse_double(buf, "<debt>", debt)) continue;
+        else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
@@ -221,6 +223,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
         "    <debt>%f</debt>\n"
+        "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "%s%s%s%s%s%s",
         master_url,
@@ -247,6 +250,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         master_fetch_failures,
         min_rpc_time,
         debt,
+        long_term_debt,
         resource_share,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
@@ -314,6 +318,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     sched_rpc_pending = p.sched_rpc_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
     debt = p.debt;
+    long_term_debt = p.long_term_debt;
     send_file_list = p.send_file_list;
     non_cpu_intensive = p.non_cpu_intensive;
     suspended_via_gui = p.suspended_via_gui;
@@ -657,7 +662,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n"
         "    <status>%d</status>\n",
-        project->master_url,
+		project->master_url,
         project->project_name,
         name,
         nbytes,

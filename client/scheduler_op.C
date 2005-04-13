@@ -80,14 +80,14 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 // PRECONDITION: compute_work_requests() has been called
 // to fill in PROJECT::work_request
 //
-int SCHEDULER_OP::init_get_work() {
+int SCHEDULER_OP::init_get_work(bool master_file_only) {
     int retval;
     char err_msg[256];
     double ns;
 
     must_get_work = true;
     project = gstate.next_project_need_work(0);
-    if (project) {
+    if (project && !master_file_only) {
         ns = project->work_request;
         msg_printf(project, MSG_INFO, "Requesting %.2f seconds of work", ns);
         retval = init_op_project(ns);
@@ -614,14 +614,14 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 
 			project->write_statistics_file();
 
-			return 0;
+            return 0;
         }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
-        else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
+		else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
         else if (parse_double(buf, "<user_create_time>", project->user_create_time)) continue;
-        else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
+		else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;

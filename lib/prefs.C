@@ -51,6 +51,7 @@ void GLOBAL_PREFS::defaults() {
     dont_verify_images = false;
     work_buf_min_days = 0.1;
     max_cpus = 1;
+	max_projects_on_client = 5;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
     disk_max_used_gb = 1;
@@ -175,6 +176,9 @@ int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
         } else if (parse_int(buf, "<max_cpus>", max_cpus)) {
             if (max_cpus < 1) max_cpus = 1;
             continue;
+		} else if (parse_int(buf, "<max_projects_on_client>", max_projects_on_client)) {
+			if (max_projects_on_client < 1) max_projects_on_client = 1;
+            continue;
         } else if (parse_double(buf, "<disk_interval>", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
             continue;
@@ -235,6 +239,7 @@ int GLOBAL_PREFS::write(FILE* f) {
         "%s%s%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <max_cpus>%d</max_cpus>\n"
+		"   <max_projects_on_client>%d</max_projects_on_client>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
         "   <disk_interval>%f</disk_interval>\n"
         "   <disk_max_used_gb>%f</disk_max_used_gb>\n"
@@ -258,6 +263,7 @@ int GLOBAL_PREFS::write(FILE* f) {
         dont_verify_images?"   <dont_verify_images/>\n":"",
         work_buf_min_days,
         max_cpus,
+		max_projects_on_client,
         cpu_scheduling_period_minutes,
         disk_interval,
         disk_max_used_gb,

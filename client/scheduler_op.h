@@ -73,7 +73,7 @@ struct SCHEDULER_OP {
 
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
-    int init_get_work();
+    int init_get_work(bool master_file_only);
     int init_return_results(PROJECT*);
     int init_op_project(double ns);
     int init_master_fetch();

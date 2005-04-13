@@ -232,6 +232,7 @@ public:
     struct RESULT *next_runnable_result; // the next result to run for this project
     
     // the following used by work-fetch algorithm
+	double long_term_debt;		// how much CPU time we owe this project in the long term (secs)
     double work_request;
         // the unit is "normalized CPU seconds",
         // i.e. the work should take 1 CPU on this host

@@ -46,6 +46,7 @@ struct GLOBAL_PREFS {
     bool dont_verify_images;
     double work_buf_min_days;
     int max_cpus;
+	int max_projects_on_client;
     double cpu_scheduling_period_minutes;
     double disk_interval;
     double disk_max_used_gb;
