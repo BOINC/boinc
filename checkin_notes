@@ -27173,6 +27173,7 @@ Bruce 14 April 2005
       file IS open (locked), then do NOT hand back the file length.
       Instead return a transient error. This will prevent
       transmission of upload data starting at the wrong offset.
+    - file_upload_handler: ignore <data_server_request>tag
     - To help understand when/why multiple file_upload_handlers
       are trying to write to the same file, set default log level
       to DEBUG.  Also log messages at level CRITICAL if there is
