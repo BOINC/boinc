@@ -66,23 +66,23 @@ void* CNetworkConnection::Poll() {
     std::string strComputerPassword;
 
     if (IsReconnecting()) {
-        wxLogTrace("CNetworkConnection::Poll - Reconnection Detected");
+        fprintf(stderr, "CNetworkConnection::Poll - Reconnection Detected");
         retval = m_pDocument->rpc.init_poll();
         if (!retval) {
-            wxLogTrace("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing...");
+            fprintf(stderr, "CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing...");
             retval = m_pDocument->rpc.authorize(strComputerPassword.c_str());
             if (!retval) {
-                wxLogTrace("CNetworkConnection::Poll - Connection Success");
+                fprintf(stderr, "CNetworkConnection::Poll - Connection Success");
                 SetStateSuccess(strComputer, strComputerPassword);
             } else if (ERR_AUTHENTICATOR == retval) {
-                wxLogTrace("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR");
+                fprintf(stderr, "CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR");
                 SetStateErrorAuthentication();
             } else {
-                wxLogTrace("CNetworkConnection::Poll - RPC Authorization Failed '%d'", retval);
+                fprintf(stderr, "CNetworkConnection::Poll - RPC Authorization Failed '%d'", retval);
                 SetStateError();
             }
         } else if (ERR_RETRY != retval) {
-            wxLogTrace("CNetworkConnection::Poll - RPC Connection Failed '%d'", retval);
+            fprintf(stderr, "CNetworkConnection::Poll - RPC Connection Failed '%d'", retval);
             SetStateError();
         }
     } else if (IsConnectEventSignaled() || m_bReconnectOnError) {
