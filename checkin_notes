@@ -27144,3 +27144,24 @@ Rom    13 April 2005
         gui_rpc_server.C
     clientgui/
         gui_rpc_client.C
+
+David  13 April 2005
+    - schedule_cpus(): if using deadlines,
+        DON'T call assign_result_to_projects().
+        That sets the already_selected fields of running results,
+        and schedule_earliest_deadline_result() skips over them,
+        even though they may have the earliest deadline
+    - name changes
+        cpu_crunch_nearest_first -> cpu_earliest_deadline_first
+        schedule_nearest_deadline_project()
+            -> schedule_earliest_deadline_result()
+    - core client: make function request_schedule_cpus() so you can
+        see why CPU is being rescheduled
+    - don't use "crunch" or "panic mode", especially in user interface
+
+    client/
+        app_control.C
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        gui_rpc_server.C

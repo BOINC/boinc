@@ -110,7 +110,7 @@ CLIENT_STATE::CLIENT_STATE() {
     executing_as_daemon = false;
     redirect_io = false;
     work_fetch_no_new_work = false;
-    cpu_crunch_nearest_first = false;
+    cpu_earliest_deadline_first = false;
 
     cpu_sched_last_time = 0;
     cpu_sched_work_done_this_period = 0;
@@ -1004,7 +1004,7 @@ bool CLIENT_STATE::update_results(double now) {
         case RESULT_FILES_DOWNLOADING:
             if (input_files_available(rp)) {
                 rp->state = RESULT_FILES_DOWNLOADED;
-                must_schedule_cpus = true;
+                request_schedule_cpus("files downloaded");
                 action = true;
             }
             break;

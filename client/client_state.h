@@ -148,7 +148,7 @@ private:
     double cpu_sched_last_time;
     double cpu_sched_work_done_this_period;
 	bool work_fetch_no_new_work;
-	bool cpu_crunch_nearest_first;
+	bool cpu_earliest_deadline_first;
 
 // --------------- client_state.C:
 public:
@@ -196,9 +196,11 @@ private:
         // should be move to a new file, but this will do it for testing
 
 // --------------- cs_apps.C:
-public:
+private:
     bool must_schedule_cpus;
-        // Reschedule CPUs ASAP.  Set when:
+public:
+    void request_schedule_cpus(const char*);
+        // Reschedule CPUs ASAP.  Called when:
         // - core client starts (CS::init())
         // - an app exits (ATS::check_app_exited())
         // - Tasks are killed (ATS::exit_tasks())
@@ -221,7 +223,7 @@ private:
     int app_finished(ACTIVE_TASK&);
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
-    bool schedule_nearest_deadline_project(double expected_pay_off);
+    bool schedule_earliest_deadline_result(double expected_pay_off);
     bool start_apps();
     bool schedule_cpus(double);
     bool handle_finished_apps(double);

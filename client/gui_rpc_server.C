@@ -167,7 +167,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
      } else if (!strcmp(op, "allowmorework")) {
          p->dont_request_more_work = false;
      }
-    gstate.must_schedule_cpus = true;
+    gstate.request_schedule_cpus("project op");
     gstate.set_client_state_dirty("Project RPC");
     fout.printf("<success/>\n");
 }
@@ -398,7 +398,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }
-    gstate.must_schedule_cpus = true;
+    gstate.request_schedule_cpus("result op");
     gstate.set_client_state_dirty("Result RPC");
     fout.printf("<success/>\n");
 }

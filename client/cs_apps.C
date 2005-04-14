@@ -347,20 +347,19 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     best_project->next_runnable_result = 0;
     return true;
 }
-// The CPU scheduler is in panic mode.
 // Schedule the active task with the earliest deadline
 // Return true iff a task was scheduled.
 //
-bool CLIENT_STATE::schedule_nearest_deadline_project(double expected_pay_off) {
+bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
     PROJECT *best_project = NULL;
     RESULT *best_result = NULL;
-    double earliest_deadline;
+    double earliest_deadline=0;
     bool first = true;
     unsigned int i;
 
     for (i=0; i < results.size(); ++i) {
         RESULT *r = results[i];
-        if (RESULT_FILES_DOWNLOADED != r->state) continue;
+        if (r->state != RESULT_FILES_DOWNLOADED) continue;
         if (r->project->non_cpu_intensive) continue;
         if (r->already_selected) continue;
         if (first || r->report_deadline < earliest_deadline) {
@@ -372,7 +371,9 @@ bool CLIENT_STATE::schedule_nearest_deadline_project(double expected_pay_off) {
     }
     if (!best_result) return false;
 
+    msg_printf(0, MSG_INFO, "earliest deadline: %f %s", earliest_deadline, best_result->name);
     schedule_result(best_result);
+    best_result->already_selected = true;
     best_project->anticipated_debt -= expected_pay_off;
     best_project->next_runnable_result = 0;
     return true;
@@ -408,10 +409,12 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     elapsed_time = now - cpu_sched_last_time;
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
+        msg_printf(0, MSG_INFO, "schedule_cpus: must schedule");
     } else {
         if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
+        msg_printf(0, MSG_INFO, "schedule_cpus: time %f", elapsed_time);
     }
     cpu_sched_last_time = now;
 
@@ -517,10 +520,10 @@ bool CLIENT_STATE::schedule_cpus(double now) {
 
     expected_pay_off = cpu_sched_work_done_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
-        assign_results_to_projects();
-        if (cpu_crunch_nearest_first) {
-            if (!schedule_nearest_deadline_project(expected_pay_off)) break;
+        if (cpu_earliest_deadline_first) {
+            if (!schedule_earliest_deadline_result(expected_pay_off)) break;
         } else {
+            assign_results_to_projects();
             if (!schedule_largest_debt_project(expected_pay_off)) break;
         }
     }
@@ -563,7 +566,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
 
                 // if we couldn't run something, reschedule
                 //
-                must_schedule_cpus = true;
+                request_schedule_cpus("start failed");
                 continue;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
@@ -667,6 +670,11 @@ void CLIENT_STATE::handle_file_xfer_apps() {
             rp->reset_files();
         }
     }
+}
+
+void CLIENT_STATE::request_schedule_cpus(const char* where) {
+    must_schedule_cpus = true;
+    msg_printf(0, MSG_INFO, "request_reschedule_cpus: %s", where);
 }
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

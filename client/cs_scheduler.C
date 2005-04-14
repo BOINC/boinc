@@ -832,7 +832,7 @@ bool CLIENT_STATE::should_get_work() {
     if (tot_cpu_time_remaining < global_prefs.work_buf_min_days * SECONDS_PER_DAY) return true;
 
     // if the CPU started this time period overloaded,
-    // let it crunch for a while to get out of the CPU overload state.
+    // let it process for a while to get out of the CPU overload state.
     //
     if (!work_fetch_no_new_work) {
         set_cpu_scheduler_modes();
@@ -847,19 +847,14 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     return (unsigned int)ncpus > results.size();
 }
 
-// sets a couple of variables showing the needed state for the CPU scheduler.
+// decide on the CPU scheduler state
 //
 void CLIENT_STATE::set_cpu_scheduler_modes() {
-    std::map < double, RESULT * > results_by_deadline;
-    std::set < PROJECT * > projects_with_work;
-
-    // cheap sorting trick.
-    // This works on every implementation of std::map that I know of,
-    // and it will be hard to avoid this behavour since inserts,
-    // lookups and deletes are all guaranteed lg(N)
+    std::map<double, RESULT*> results_by_deadline;
+    std::set<PROJECT*> projects_with_work;
 
     std::vector<RESULT*>::iterator it_u;
-    for (it_u = results.begin() ; it_u != results.end(); ++it_u) {
+    for (it_u = results.begin(); it_u != results.end(); ++it_u) {
         if (RESULT_COMPUTE_ERROR > (*it_u)->state && !(*it_u)->project->non_cpu_intensive) {
             results_by_deadline[(*it_u)->report_deadline] = *it_u;
             projects_with_work.insert((*it_u)->project);
@@ -867,19 +862,23 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     }
 
     bool should_not_fetch_work = false;
-    bool should_crunch_nearest = false;
+    bool use_earliest_deadline_first = false;
     double now;
     double frac_booked;
     std::vector <double> booked_to;
     now = dtime();
     frac_booked = 0;
-    for (int i = 0; i < ncpus; ++i) {
+    for (int i=0; i<ncpus; i++) {
         booked_to.push_back(now);
     }
 
     std::map<double, RESULT*>::iterator it;
     double up_frac = avg_proc_rate(0);
-    for (it = results_by_deadline.begin(); it != results_by_deadline.end() && !should_not_fetch_work; ++it) {
+    for (
+        it = results_by_deadline.begin();
+        it != results_by_deadline.end() && !should_not_fetch_work;
+        it++
+    ) {
         RESULT *r = (*it).second;
         if (RESULT_COMPUTE_ERROR > ((*it).second)->state) {
             double lowest_book = booked_to[0];
@@ -895,35 +894,32 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
             // Are the deadlines too tight to meet reliably?
             //
             if (booked_to[lowest_booked_cpu] - now > (r->report_deadline - now) * MAX_CPU_LOAD_FACTOR * up_frac) {
-
                 should_not_fetch_work = true;
-                should_crunch_nearest = true;
-                if (!cpu_crunch_nearest_first || !work_fetch_no_new_work) {
+                use_earliest_deadline_first = true;
+                if (!cpu_earliest_deadline_first || !work_fetch_no_new_work) {
                     msg_printf(NULL, MSG_INFO,
-                        "Work fetch policy, CPU Scheduler policy - Overbooked."
+                        "Host is overcommitted"
                     );
                 }
             }
-            // Is the deadline soon?
+            // Is the nearest deadline within a day?
             //
             if (r->report_deadline - now < 60 * 60 * 24) {
-                should_crunch_nearest = true; 
-                if (!cpu_crunch_nearest_first) {
+                use_earliest_deadline_first = true; 
+                if (!cpu_earliest_deadline_first) {
                     msg_printf(NULL, MSG_INFO,
-                        "CPU Scheduler policy - Deadline < 1 day."
+                        "Less than 1 day until deadline."
                     );
                 }
             }
 
             // is there a deadline < twice the users connect period?
-            // If so, we should crunch nearest so that it can be returned
-            // the next connection if possible.
             //
             if (r->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
-                should_crunch_nearest = true; 
-                if (!cpu_crunch_nearest_first) {
+                use_earliest_deadline_first = true; 
+                if (!cpu_earliest_deadline_first) {
                     msg_printf(NULL, MSG_INFO,
-                        "CPU Scheduler policy - deadline < 2 * queue size."
+                        "Deadline is before reconnect time"
                     );
                 }
             }
@@ -956,29 +952,29 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     //
     if (work_fetch_no_new_work && !should_not_fetch_work) {
         msg_printf(NULL, MSG_INFO,
-            "Work fetch policy - work fetch now allowed."
+            "New work fetch policy: work fetch allowed."
         );
     }
 
     if (!work_fetch_no_new_work && should_not_fetch_work) {
         msg_printf(NULL, MSG_INFO,
-            "Work fetch policy - no work fetch allowed."
+            "New work fetch policy: no work fetch allowed."
         );
     }
 
-    if (cpu_crunch_nearest_first && !should_crunch_nearest) {
+    if (cpu_earliest_deadline_first && !use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
-            "CPU scheduler policy - crunch highest debt first (normal mode)."
+            "New CPU scheduler policy: highest debt first."
         );
     }
-    if (!cpu_crunch_nearest_first && should_crunch_nearest) {
+    if (!cpu_earliest_deadline_first && use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
-            "CPU scheduler policy - crunch earliest deadline first (panic mode)."
+            "New CPU scheduler policy: earliest deadline first."
         );
     }
 
     work_fetch_no_new_work = should_not_fetch_work;
-    cpu_crunch_nearest_first = should_crunch_nearest;
+    cpu_earliest_deadline_first = use_earliest_deadline_first;
 }
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";

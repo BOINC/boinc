@@ -419,7 +419,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     }
 #endif
 
-    if (found) gstate.must_schedule_cpus = true;
+    if (found) {
+        gstate.request_schedule_cpus("process exited");
+    }
     return found;
 }
 
@@ -626,7 +628,7 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     //
     get_msgs();
 
-    gstate.must_schedule_cpus = true;
+    gstate.request_schedule_cpus("exit_tasks");
     return 0;
 }
 
