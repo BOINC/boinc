@@ -47,7 +47,7 @@ SCHED_CONFIG config;
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
-#define DEBUG_LEVEL     SCHED_MSG_LOG::NORMAL
+#define DEBUG_LEVEL     SCHED_MSG_LOG::DEBUG
 
 char this_filename[256];
 
@@ -342,7 +342,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 int handle_get_file_size(char* file_name) {
     struct stat sbuf;
     char path[256], buf[256];
-    int retval;
+    int retval,fd;
+    FILE *fp;
 
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
@@ -350,12 +351,54 @@ int handle_get_file_size(char* file_name) {
     dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, true, path);
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning error\n", file_name);
+        // file DOES perhaps exit, but can't stat it:try again later
+        //
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_get_file_size(): [%s] returning error\n", file_name);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
+        // file does not exist: return zero length
+        //
         log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
+    } else if (!(fp=fopen(path, "ab"))) { 
+        // file exists, but can't be written to: try again later
+        // 
+        /* Opening a file with append mode (a as the first character in
+           the  mode argument) causes all subsequent writes to the file
+           to be forced to the then current end-of-file, regardless  of
+           intervening  calls  to  fseek(3C). If two separate processes
+           open the same file for append, each process may write freely
+           to  the file without fear of destroying output being written
+           by the other.  The output from the  two  processes  will  be
+           intermixed in the file in the order in which it is written.
+        */
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "handle_get_file_size(): [%s] %d bytes long returning error\n",
+            file_name, (int)sbuf.st_size
+        );
+        return return_error(ERR_TRANSIENT, "can't open file for writing" );
+    } else if ((fd=fileno(fp))<0) {
+        // file exists and is writable, but can't get file descriptor: try again later
+        //
+        fclose(fp);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "handle_get_file_size(): [%s] %d bytes long returning error\n",
+            file_name, (int)sbuf.st_size
+        );
+        return return_error(ERR_TRANSIENT, "can't get file descriptor" );
+    } else if (lockf(fd, F_TEST, 0)) {
+        // file locked by another file_upload_handler: try again later
+        //
+        fclose(fp);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "handle_get_file_size(): [%s] %d bytes long returning error\n",
+            file_name, (int)sbuf.st_size
+        );
+        return return_error(ERR_TRANSIENT, "file locked by another file_upload_handler" );
     } else {
+        // file exists, writable, not locked, so return length.
+        //
+        fclose(fp);
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
             file_name, (int)sbuf.st_size
@@ -408,6 +451,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             }
             did_something = true;
             break;
+        } else if (match_tag(buf, "<data_server_request>")) {
+            // DO NOTHING
         } else {
             log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_request: unrecognized %s\n", buf);
         }

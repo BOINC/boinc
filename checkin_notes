@@ -27165,3 +27165,21 @@ David  13 April 2005
         cs_apps.C
         cs_scheduler.C
         gui_rpc_server.C
+
+Bruce 14 April 2005
+    - file_upload_handler: when responding to a request for the
+      file length, check first that the file is not already
+      in open (locked) by another file_upload_handler.  If the
+      file IS open (locked), then do NOT hand back the file length.
+      Instead return a transient error. This will prevent
+      transmission of upload data starting at the wrong offset.
+    - To help understand when/why multiple file_upload_handlers
+      are trying to write to the same file, set default log level
+      to DEBUG.  Also log messages at level CRITICAL if there is
+      an attempt to write to a locked file. We may want to change
+      this level to DEBUG in the future, if this turns out to be
+      'normal' TCP buffering of data between host and server.
+
+    sched/
+        file_upload_handler.C
+
