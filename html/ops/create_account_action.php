@@ -4,7 +4,6 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 // create an account with given email address
 //
 function create_account($email_addr, $user_name, $munge) {
-    $user = array();
     $user->authenticator = random_string();
     $user->name = $user_name;
     if ($munge) {
