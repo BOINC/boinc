@@ -141,6 +141,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     char buf2[256];
     FILE* out;
     int retval, n, m, fd, lockret;
+    struct stat sbuf;
 
     out = fopen(path, "ab");
     if (!out) {
@@ -150,6 +151,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     // get file descriptor for locking purposes
     fd=fileno(out);
     if (fd<0) {
+        fclose(out);
         return return_error(ERR_TRANSIENT, "can't get file descriptor for file %s: %s", path, strerror(errno));
     }
 
@@ -157,17 +159,22 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     // from being able to write to the file.
     lockret=lockf(fd, F_TLOCK, 0);
     if (lockret) {
+        fclose(out);
         return return_error(ERR_TRANSIENT, "can't get exclusive lock on file %s: %s", path, strerror(errno));
     }
 
-    // TODO: use a 64-bit variant
-
-    retval = fseek(out, (long)offset, SEEK_CUR);
-
+    // check that file length corresponds to offset
+   // TODO: use a 64-bit variant
+    retval=stat(path, &sbuf);
     if (retval) {
         fclose(out);
-        return return_error(ERR_TRANSIENT, "can't seek file: %s", strerror(errno));
+        return return_error(ERR_TRANSIENT, "can't stat file %s: %s", path, strerror(errno));
     }
+    if (sbuf.st_size != offset) {
+        fclose(out);
+	return return_error(ERR_TRANSIENT, "length of file %s %d bytes != offset %d bytes", path, (int)sbuf.st_size, offset);
+    }
+
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
         fclose(out);

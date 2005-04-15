@@ -27236,3 +27236,16 @@ David  15 April 2005
         ViewMessages.cpp
         ViewProjects.cpp,h
         ViewStatistics.cpp
+
+Bruce 15 April 2005
+    - file_upload_handler: fixed another bug.  If you fopen(path, "a") in
+      append mode then fseek() then write to the file, the fseek() HAS
+      NO EFFECT.  This is documented ANSI C.  So I have eliminated the
+      fseek.  We now check that the file size corresponds exactly to the
+      claimed offset of the data.  If they do not agree then return a
+      transient error to force the host to ask again for the file length
+      and re-transmit data.
+ 
+    sched/
+        file_upload_handler.C
+
