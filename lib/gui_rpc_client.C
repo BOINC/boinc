@@ -923,7 +923,6 @@ void MESSAGES::clear() {
 }
 
 RPC_CLIENT::RPC_CLIENT() {
-    close();
     client_version = 0;
 }
 
@@ -936,7 +935,7 @@ RPC_CLIENT::~RPC_CLIENT() {
 // call this and then call init() again.
 //
 void RPC_CLIENT::close() {
-    fprintf(stderr, "RPC_CLIENT::close Called");
+    fprintf(stderr, "RPC_CLIENT::close called\n");
 #ifdef _WIN32
     ::closesocket(sock);
 #else
@@ -970,7 +969,7 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
     }
 
     retval = boinc_socket(sock);
-    fprintf(stderr, "RPC_CLIENT::init right after call to boinc_socket sock = '%d'", sock);
+    fprintf(stderr, "RPC_CLIENT::init boinc_socket returned %d\n", sock);
     if (retval) return retval;
 
     if (asynch) {
@@ -981,20 +980,20 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         }
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
-            fprintf(stderr, "connect");
+            fprintf(stderr, "connect returned %d\n", retval);
         }
         fprintf(stderr, "attempting connect to alt port\n");
     } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
 #ifdef _WIN32
-            printf( "connect 1: Winsock error '%d'\n", WSAGetLastError() );
+            printf("connect 1: Winsock error '%d'\n", WSAGetLastError());
 #endif
             addr.sin_port = htons(GUI_RPC_PORT);
             retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
             if (retval) {
 #ifdef _WIN32
-                printf( "connect 2: Winsock error '%d'\n", WSAGetLastError() );
+                printf("connect 2: Winsock error '%d'\n", WSAGetLastError());
 #endif
                 perror("connect");
                 close();
@@ -1002,7 +1001,6 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
             }
         }
     }
-    fprintf(stderr, "RPC_CLIENT::init sock = '%d'", sock);
     return 0;
 }
 
@@ -1019,7 +1017,7 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &write_fds);
     FD_SET(sock, &error_fds);
 
-    fprintf(stderr, "RPC_CLIENT::init_poll sock = '%d'", sock);
+    fprintf(stderr, "RPC_CLIENT::init_poll sock = %d\n", sock);
 
     tv.tv_sec = tv.tv_usec = 0;
     select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
@@ -1042,7 +1040,7 @@ int RPC_CLIENT::init_poll() {
     }
     if (retval) {
         if (tried_alt_port) {
-            //fprintf(stderr, "already tried both ports, giving up\n");
+            fprintf(stderr, "already tried both ports, giving up\n");
             return retval;
         } else {
             boinc_close_socket(sock);
@@ -1050,7 +1048,7 @@ int RPC_CLIENT::init_poll() {
             retval = boinc_socket_asynch(sock, true);
             addr.sin_port = htons(GUI_RPC_PORT);
             retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-            //fprintf(stderr, "attempting connect to main port\n");
+            fprintf(stderr, "attempting connect to main port\n");
             tried_alt_port = true;
             return ERR_RETRY;
         }

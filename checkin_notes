@@ -27249,3 +27249,10 @@ Bruce 15 April 2005
     sched/
         file_upload_handler.C
 
+David  15 April 2005
+    - removed close() call in RPC_CLIENT constructor (???)
+        Manager works on Linux now
+
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C
