@@ -96,9 +96,9 @@ void* CNetworkConnection::Poll() {
         if ((m_bForceReconnect) ||
              (!IsConnected() && m_bReconnectOnError) 
        ) {
-            wxLogTrace("CNetworkConnection::Poll - Resetting Document State");
+            fprintf(stderr, "CNetworkConnection::Poll - Resetting Document State");
             m_pDocument->ResetState();
-            wxLogTrace("CNetworkConnection::Poll - Setting connection state to reconnecting");
+            fprintf(stderr, "CNetworkConnection::Poll - Setting connection state to reconnecting");
             SetStateReconnecting();
         }
 
