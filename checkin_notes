@@ -27257,9 +27257,16 @@ David  15 April 2005
         boinc_cmd.C
         gui_rpc_client.C
 
-David  15 APril 2005
+David  15 April 2005
     - core client: added "-dir path" cmdline option
         (chdir to the given directory at startup)
 
     client/
         cs_cmdline.C
+
+David  15 April 2005
+    - Fortran API: trim whitespace from filenames passed from FORTRAN,
+        and blank-pad filenames passed to FORTRAN (from Don Bashford)
+
+    api/
+        boinc_api_fortran.C

@@ -19,23 +19,41 @@
 
 // This file defines a Fortran wrapper to the BOINC API.
 
-#include "boinc_api.h"
-#include "graphics_api.h"
-// helper class that makes a C-string from a character array and length,
-// automatically deleted on destruction
+// Define this symbol (here or in Makefile) if you want graphics functions
+//#define GRAPHICS
 
+#include "util.h"
+#include "boinc_api.h"
+#ifdef GRAPHICS
+#include "graphics_api.h"
+#endif
+
+// helper class that makes a C-string from a character array and length,
+// automatically deleted on destruction.
 // Fortran strings are passed as character array plus length
-class StringFromFortran {
+//
+class STRING_FROM_FORTRAN {
     char* p;
 public:
-    StringFromFortran(const char* s, int s_len) {
+    STRING_FROM_FORTRAN(const char* s, int s_len) {
         p = new char[s_len + 1];
         memcpy(p, s, s_len);
         p[s_len] = 0;
     }
-    ~StringFromFortran() { delete [] p; }
-    operator char* () const { return p; }
+    ~STRING_FROM_FORTRAN() { delete [] p; }
+    void strip_whitespace() {
+        ::strip_whitespace(p);
+    }
+    const char* c_str() { return p; }
 };
+
+// remove terminating null and pad with blanks a la FORTRAN
+//
+static void string_to_fortran(char* p, int len) {
+    for (int i=strlen(p); i<len; i++) {
+        p[i] = ' ';
+    }
+}
 
 extern "C" {
 
@@ -46,27 +64,26 @@ extern "C" {
     void boinc_finish_(int* status) {
         boinc_finish(*status);
     }
-	
-	void boinc_init_graphics_(){
-		boinc_init_graphics();
-	}
 
-	void boinc_finish_graphics_(){
-		boinc_finish_graphics();
-	}
+#ifdef GRAPHICS
+    void boinc_init_graphics_(){
+        boinc_init_graphics();
+    }
+
+    void boinc_finish_graphics_(){
+        boinc_finish_graphics();
+    }
+#endif
 
     void boinc_is_standalone_(int* result) {
         *result = boinc_is_standalone();
     }
 
-    void boinc_resolve_filename_(
-        const char* s, char* t, int* length, int s_len, int t_len
-    ) {
-        boinc_resolve_filename(StringFromFortran(s, s_len), t, *length);
-    }
-	
-	void boincrf_(const char* s, char* t, int s_len, int t_len) {
-        boinc_resolve_filename(StringFromFortran(s, s_len), t, t_len);
+    void boincrf_(const char* s, char* t, int s_len, int t_len) {
+        STRING_FROM_FORTRAN sff(s, s_len);
+        sff.strip_whitespace();
+        boinc_resolve_filename(sff.c_str(), t, t_len);
+        string_to_fortran(t, t_len);
     }
 
     void boinc_parse_init_data_file_() {
@@ -76,19 +93,6 @@ extern "C" {
     void boinc_write_init_data_file_() {
         boinc_write_init_data_file();
     }
-
-// TODO: structs? common?
-// extern int	boinc_get_init_data(APP_INIT_DATA&);
-
-    // void boinc_send_trickle_up_(char* s, int s_len)
-    // {
-    //     boinc_send_trickle_up(StringFromFortran(s,s_len));
-    // }
-
-    // void boinc_receive_trickle_down_(char* buf, int len)
-    // {
-    //     boinc_receive_trickle_down(buf, len);
-    // }
 
     void boinc_time_to_checkpoint_(int* result) {
         *result = boinc_time_to_checkpoint();
@@ -106,11 +110,9 @@ extern "C" {
         boinc_wu_cpu_time(*d_out);
     }
 
-    void boinc_calling_thread_cpu_time_(double* d1_out, double* d2_out) {
-        boinc_calling_thread_cpu_time(*d1_out, *d2_out);
+    void boinc_calling_thread_cpu_time_(double* d) {
+        boinc_calling_thread_cpu_time(*d);
     }
-	
 }
-
 
 const char *BOINC_RCSID_4f5153609c = "$Id$";
