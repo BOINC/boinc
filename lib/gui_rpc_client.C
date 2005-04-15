@@ -970,6 +970,7 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
     }
 
     retval = boinc_socket(sock);
+    fprintf(stderr, "RPC_CLIENT::init right after call to boinc_socket sock = '%d'", sock);
     if (retval) return retval;
 
     if (asynch) {
