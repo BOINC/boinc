@@ -27270,3 +27270,10 @@ David  15 April 2005
 
     api/
         boinc_api_fortran.C
+
+David  15 April 2005
+    - Ops web: create account script broken
+        (fixes from Andy Read)
+
+    html/ops
+        create_account_action.php

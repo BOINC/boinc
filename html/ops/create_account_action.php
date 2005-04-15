@@ -9,10 +9,9 @@ function create_account($email_addr, $user_name, $munge) {
     if ($munge) {
         $email_addr = munge_email_addr($email_addr, $user->authenticator);
     }
-    $user->email_addr = $email_addr;
     $user->cross_project_id = random_string();
     $t = time();
-    $query = "insert into user (create_time, email_addr, name, authenticator, cross_project_id) values ($t, '$user->email_addr', '$user->name', '$user->authenticator', '$user->cross_project_id')";
+    $query = "insert into user (create_time, email_addr, name, authenticator, cross_project_id) values ($t, '$email_addr', '$user->name', '$user->authenticator', '$user->cross_project_id')";
     $result = mysql_query($query);
     if ($result) return $user;
     return false;
@@ -51,6 +50,7 @@ echo "
     <a href=\"$url\"> $url </a>
 ";
 
+$user->email_addr = $email_addr;
 send_auth_email($user, true, false);
 
 admin_page_tail();
