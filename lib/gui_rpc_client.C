@@ -936,6 +936,7 @@ RPC_CLIENT::~RPC_CLIENT() {
 // call this and then call init() again.
 //
 void RPC_CLIENT::close() {
+    fprintf(stderr, "RPC_CLIENT::close Called");
 #ifdef _WIN32
     ::closesocket(sock);
 #else

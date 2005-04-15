@@ -308,8 +308,14 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 
 
 bool CBOINCGUIApp::IsBOINCCoreRunning() {
+    fprintf(stderr, "CBOINCGUIApp::IsBOINCCoreRunning - Function Begin");
+
+    bool retval;
     RPC_CLIENT rpc;
-    return (0 == rpc.init( wxT("localhost") ) );
+    retval = (0 == rpc.init( wxT("localhost") ) );
+
+    fprintf(stderr, "CBOINCGUIApp::IsBOINCCoreRunning - Function End");
+    return retval;
 }
 
 
