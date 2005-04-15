@@ -95,7 +95,7 @@ void* CNetworkConnection::Poll() {
     } else if (IsConnectEventSignaled() || m_bReconnectOnError) {
         if ((m_bForceReconnect) ||
              (!IsConnected() && m_bReconnectOnError) 
-       ) {
+      ) {
             fprintf(stderr, "CNetworkConnection::Poll - Resetting Document State");
             m_pDocument->ResetState();
             fprintf(stderr, "CNetworkConnection::Poll - Setting connection state to reconnecting");
@@ -529,7 +529,7 @@ int CMainDocument::GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSu
         m_dtCachedActivityStateTimestamp = wxDateTime::Now();
 
         if (IsConnected()) {
-			iRetVal = rpc.get_activity_state(bActivitiesSuspended, bNetworkSuspended);
+            iRetVal = rpc.get_activity_state(bActivitiesSuspended, bNetworkSuspended);
             if (0 == iRetVal) {
                 m_iCachedActivitiesSuspended = bActivitiesSuspended;
                 m_iCachedNetworkSuspended = bNetworkSuspended;
@@ -622,7 +622,7 @@ int CMainDocument::GetProjectProjectURL(int iIndex, wxString& strBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         strBuffer = pProject->master_url.c_str();
 
     return 0;
@@ -640,7 +640,7 @@ int CMainDocument::GetProjectAccountName(int iIndex, wxString& strBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         strBuffer = pProject->user_name.c_str();
 
     return 0;
@@ -658,7 +658,7 @@ int CMainDocument::GetProjectTeamName(int iIndex, wxString& strBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         strBuffer = pProject->team_name.c_str();
 
     return 0;
@@ -676,7 +676,7 @@ int CMainDocument::GetProjectTotalCredit(int iIndex, float& fBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         fBuffer = pProject->user_total_credit;
 
     return 0;
@@ -694,7 +694,7 @@ int CMainDocument::GetProjectAvgCredit(int iIndex, float& fBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         fBuffer = pProject->user_expavg_credit;
 
     return 0;
@@ -712,7 +712,7 @@ int CMainDocument::GetProjectResourceShare(int iIndex, float& fBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         fBuffer = pProject->resource_share;
 
     return 0;
@@ -736,9 +736,9 @@ int CMainDocument::GetProjectMinRPCTime(int iIndex, int& iBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject) {
+    if (pProject) {
         iBuffer = (int)pProject->min_rpc_time;
-	}
+    }
 
     return 0;
 }
@@ -756,7 +756,7 @@ int CMainDocument::GetProjectWebsiteCount(int iIndex) {
     str = strProjectURL.c_str();
     pProject = state.lookup_project(str);
 
-    if (NULL != pProject)
+    if (pProject)
         iCount = pProject->gui_urls.size();
 
     return iCount;
@@ -775,7 +775,7 @@ int CMainDocument::GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, w
     str = strProjectURL.c_str();
     pProject = state.lookup_project(str);
 
-    if (NULL != pProject) {
+    if (pProject) {
         Url = pProject->gui_urls.at(iWebsiteIndex);
         strBuffer = Url.name.c_str();
     }
@@ -796,7 +796,7 @@ int CMainDocument::GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteI
     str = strProjectURL.c_str();
     pProject = state.lookup_project(str);
 
-    if (NULL != pProject) {
+    if (pProject) {
         Url = pProject->gui_urls.at(iWebsiteIndex);
         strBuffer = Url.description.c_str();
     }
@@ -817,7 +817,7 @@ int CMainDocument::GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, w
     str = strProjectURL.c_str();
     pProject = state.lookup_project(str);
 
-    if (NULL != pProject) {
+    if (pProject) {
         Url = pProject->gui_urls.at(iWebsiteIndex);
         strBuffer = Url.url.c_str();
     }
@@ -838,12 +838,29 @@ bool CMainDocument::IsProjectSuspended(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         bRetVal = pProject->suspended_via_gui;
 
     return bRetVal;
 }
 
+bool CMainDocument::IsProjectAllowedToGetWork(int iIndex) {
+    PROJECT* pProject = NULL;
+    bool     bRetVal  = false;
+
+    try {
+        if (!project_status.projects.empty())
+            pProject = project_status.projects.at(iIndex);
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    if (pProject)
+        bRetVal = pProject->dont_request_more_work;
+
+    return bRetVal;
+}
 
 bool CMainDocument::IsProjectRPCPending(int iIndex) {
     PROJECT* pProject = NULL;
@@ -857,7 +874,7 @@ bool CMainDocument::IsProjectRPCPending(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         bRetVal = pProject->sched_rpc_pending;
 
     return bRetVal;
@@ -881,7 +898,7 @@ int CMainDocument::ProjectDetach(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("detach"));
 
     return iRetVal;
@@ -900,7 +917,7 @@ int CMainDocument::ProjectUpdate(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("update"));
 
     return iRetVal;
@@ -919,7 +936,7 @@ int CMainDocument::ProjectReset(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("reset"));
 
     return iRetVal;
@@ -939,12 +956,12 @@ int CMainDocument::ProjectSuspend(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject) {
+    if (pProject) {
         iRetVal = rpc.project_op((*pProject), wxT("suspend"));
         if (0 == iRetVal) {
             pProject->suspended_via_gui = true;
             pStateProject = state.lookup_project(pProject->master_url);
-            if (NULL != pStateProject)
+            if (pStateProject)
                 pStateProject->suspended_via_gui = true;
             else
                 ForceCacheUpdate();
@@ -968,13 +985,13 @@ int CMainDocument::ProjectResume(int iIndex) {
         pProject = NULL;
     }
 
-    if (NULL != pProject) {
+    if (pProject) {
         iRetVal = rpc.project_op((*pProject), wxT("resume"));
         if (0 == iRetVal)
         {
             pProject->suspended_via_gui = false;
             pStateProject = state.lookup_project(pProject->master_url);
-            if (NULL != pStateProject)
+            if (pStateProject)
                 pStateProject->suspended_via_gui = false;
             else
                 ForceCacheUpdate();
@@ -984,6 +1001,61 @@ int CMainDocument::ProjectResume(int iIndex) {
     return iRetVal;
 }
 
+int CMainDocument::ProjectNoMoreWork(int iIndex) {
+    PROJECT* pProject = NULL;
+    PROJECT* pStateProject = NULL;
+    int iRetVal = -1;
+
+    try {
+        if (!project_status.projects.empty())
+            pProject = project_status.projects.at(iIndex);
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    if (pProject) {
+        iRetVal = rpc.project_op((*pProject), wxT("nomorework"));
+        if (!iRetVal) {
+          pProject->dont_request_more_work = true;
+            pStateProject = state.lookup_project(pProject->master_url);
+            if (pStateProject) {
+                pStateProject->dont_request_more_work = true;
+            } else {
+                ForceCacheUpdate();
+            }
+        }
+    }
+    return iRetVal;
+}
+
+int CMainDocument::ProjectAllowMoreWork(int iIndex) {
+    PROJECT* pProject = NULL;
+    PROJECT* pStateProject = NULL;
+    int iRetVal = -1;
+
+    try {
+        if (!project_status.projects.empty())
+            pProject = project_status.projects.at(iIndex);
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    if (pProject) {
+        iRetVal = rpc.project_op((*pProject), wxT("allowmorework"));
+        if (!iRetVal) {
+            pProject->dont_request_more_work = false;
+            pStateProject = state.lookup_project(pProject->master_url);
+            if (pStateProject) {
+                pStateProject->dont_request_more_work = false;
+            } else {
+                ForceCacheUpdate();
+            }
+        }
+    }
+    return iRetVal;
+}
 
 int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
@@ -1026,11 +1098,11 @@ int CMainDocument::GetWorkProjectName(int iIndex, wxString& strBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (NULL != pStateResult) {
+        if (pStateResult) {
             pProject = pStateResult->project;
-            if (NULL != pProject) {
+            if (pProject) {
                 strBuffer = pProject->project_name.c_str();
             }
         } else {
@@ -1053,7 +1125,7 @@ int CMainDocument::GetWorkProjectURL(int iIndex, wxString& strBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         strBuffer = pResult->project_url.c_str();
 
     return 0;
@@ -1074,13 +1146,13 @@ int CMainDocument::GetWorkApplicationName(int iIndex, wxString& strBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (NULL != pStateResult) {
+        if (pStateResult) {
             pWorkunit = pStateResult->wup;
-            if (NULL != pWorkunit) {
+            if (pWorkunit) {
                 pAppVersion = pWorkunit->avp;
-                if (NULL != pAppVersion) {
+                if (pAppVersion) {
                     strBuffer = pAppVersion->app_name.c_str();
                 }
             }
@@ -1107,13 +1179,13 @@ int CMainDocument::GetWorkApplicationVersion(int iIndex, int& iBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (NULL != pStateResult) {
+        if (pStateResult) {
             pWorkunit = pStateResult->wup;
-            if (NULL != pWorkunit) {
+            if (pWorkunit) {
                 pAppVersion = pWorkunit->avp;
-                if (NULL != pAppVersion) {
+                if (pAppVersion) {
                     iBuffer = pAppVersion->version_num;
                 }
             }
@@ -1137,7 +1209,7 @@ int CMainDocument::GetWorkName(int iIndex, wxString& strBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         strBuffer = pResult->name.c_str();
 
     return 0;
@@ -1155,7 +1227,7 @@ int CMainDocument::GetWorkCurrentCPUTime(int iIndex, float& fBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         fBuffer = pResult->current_cpu_time;
 
     return 0;
@@ -1173,7 +1245,7 @@ int CMainDocument::GetWorkEstimatedCPUTime(int iIndex, float& fBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         fBuffer = pResult->estimated_cpu_time_remaining;
 
     return 0;
@@ -1191,7 +1263,7 @@ int CMainDocument::GetWorkFinalCPUTime(int iIndex, float& fBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         fBuffer = pResult->final_cpu_time;
 
     return 0;
@@ -1209,7 +1281,7 @@ int CMainDocument::GetWorkFractionDone(int iIndex, float& fBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         fBuffer = pResult->fraction_done;
 
     return 0;
@@ -1227,7 +1299,7 @@ int CMainDocument::GetWorkReportDeadline(int iIndex, int& iBuffer) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         iBuffer = pResult->report_deadline;
 
     return 0;
@@ -1246,7 +1318,7 @@ int CMainDocument::GetWorkState(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         iBuffer = pResult->state;
 
     return iBuffer;
@@ -1265,7 +1337,7 @@ int CMainDocument::GetWorkSchedulerState(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         iBuffer = pResult->scheduler_state;
 
     return iBuffer;
@@ -1284,7 +1356,7 @@ bool CMainDocument::IsWorkAborted(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         bRetVal = pResult->aborted_via_gui;
 
     return bRetVal;
@@ -1303,7 +1375,7 @@ bool CMainDocument::IsWorkAcknowledged(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         bRetVal = pResult->got_server_ack;
 
     return bRetVal;
@@ -1322,7 +1394,7 @@ bool CMainDocument::IsWorkActive(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         bRetVal = pResult->active_task;
 
     return bRetVal;
@@ -1341,7 +1413,7 @@ bool CMainDocument::IsWorkReadyToReport(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         bRetVal = pResult->ready_to_report;
 
     return bRetVal;
@@ -1360,7 +1432,7 @@ bool CMainDocument::IsWorkSuspended(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         bRetVal = pResult->suspended_via_gui;
 
     return bRetVal;
@@ -1379,7 +1451,7 @@ bool CMainDocument::IsWorkGraphicsSupported(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult)
+    if (pResult)
         bRetVal = pResult->supports_graphics;
 
     return bRetVal;
@@ -1399,9 +1471,9 @@ int CMainDocument::WorkSuspend(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (NULL != pStateResult) {
+        if (pStateResult) {
             iRetVal = rpc.result_op((*pStateResult), wxT("suspend"));
             if (0 == iRetVal) {
                 pResult->suspended_via_gui = true;
@@ -1429,9 +1501,9 @@ int CMainDocument::WorkResume(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (NULL != pStateResult) {
+        if (pStateResult) {
             iRetVal = rpc.result_op((*pStateResult), wxT("resume"));
             if (0 == iRetVal) {
                 pResult->suspended_via_gui = false;
@@ -1459,7 +1531,7 @@ int CMainDocument::WorkShowGraphics(int iIndex, bool bFullScreen,
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         DISPLAY_INFO di;
         strcpy(di.window_station, WindowStation.c_str());
         strcpy(di.desktop, Desktop.c_str());
@@ -1468,7 +1540,7 @@ int CMainDocument::WorkShowGraphics(int iIndex, bool bFullScreen,
         iRetVal = rpc.show_graphics(
             pResult->project_url.c_str(), pResult->name.c_str(),
             bFullScreen, di
-       );
+      );
     }
 
     return iRetVal;
@@ -1488,9 +1560,9 @@ int CMainDocument::WorkAbort(int iIndex) {
         pResult = NULL;
     }
 
-    if (NULL != pResult) {
+    if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (NULL != pStateResult) {
+        if (pStateResult) {
             iRetVal = rpc.result_op((*pStateResult), wxT("abort"));
             if (0 == iRetVal) {
                 pResult->aborted_via_gui = true;
@@ -1547,7 +1619,7 @@ int CMainDocument::GetMessageProjectName(int iIndex, wxString& strBuffer) {
         pMessage = NULL;
     }
 
-    if (NULL != pMessage)
+    if (pMessage)
         strBuffer = pMessage->project.c_str();
 
     return 0;
@@ -1565,7 +1637,7 @@ int CMainDocument::GetMessageTime(int iIndex, wxDateTime& dtBuffer) {
         pMessage = NULL;
     }
 
-    if (NULL != pMessage) {
+    if (pMessage) {
         wxDateTime dtTemp((time_t)pMessage->timestamp);
         dtBuffer = dtTemp;
     }
@@ -1585,7 +1657,7 @@ int CMainDocument::GetMessagePriority(int iIndex, int& iBuffer) {
         pMessage = NULL;
     }
 
-    if (NULL != pMessage)
+    if (pMessage)
         iBuffer = pMessage->priority;
 
     return 0;
@@ -1603,7 +1675,7 @@ int CMainDocument::GetMessageMessage(int iIndex, wxString& strBuffer) {
         pMessage = NULL;
     }
 
-    if (NULL != pMessage)
+    if (pMessage)
         strBuffer = pMessage->body.c_str();
 
     return 0;
@@ -1655,7 +1727,7 @@ int CMainDocument::GetTransferProjectName(int iIndex, wxString& strBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         strBuffer = pFT->project_name.c_str();
 
     return 0;
@@ -1673,7 +1745,7 @@ int CMainDocument::GetTransferFileName(int iIndex, wxString& strBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         strBuffer = pFT->name.c_str();
 
     return 0;
@@ -1691,7 +1763,7 @@ int CMainDocument::GetTransferFileSize(int iIndex, float& fBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         fBuffer = pFT->nbytes;
 
     return 0;
@@ -1710,7 +1782,7 @@ int CMainDocument::GetTransferBytesXfered(int iIndex, float& fBuffer)
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         fBuffer = pFT->bytes_xferred;
 
     return 0;
@@ -1728,7 +1800,7 @@ int CMainDocument::GetTransferSpeed(int iIndex, float& fBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         fBuffer = pFT->xfer_speed;
 
     return 0;
@@ -1746,7 +1818,7 @@ int CMainDocument::GetTransferTime(int iIndex, float& fBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         fBuffer = pFT->time_so_far;
 
     return 0;
@@ -1764,7 +1836,7 @@ int CMainDocument::GetTransferNextRequestTime(int iIndex, int& iBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         iBuffer = pFT->next_request_time;
 
     return 0;
@@ -1782,7 +1854,7 @@ int CMainDocument::GetTransferStatus(int iIndex, int& iBuffer) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         iBuffer = pFT->status;
 
     return 0;
@@ -1801,7 +1873,7 @@ bool CMainDocument::IsTransferActive(int iIndex) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         bRetVal = pFT->pers_xfer_active;
 
     return bRetVal;
@@ -1819,7 +1891,7 @@ bool CMainDocument::IsTransferGeneratedLocally(int iIndex) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         bRetVal = pFT->generated_locally;
 
     return bRetVal;
@@ -1838,7 +1910,7 @@ int CMainDocument::TransferRetryNow(int iIndex) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), wxT("retry"));
 
     return iRetVal;
@@ -1857,7 +1929,7 @@ int CMainDocument::TransferAbort(int iIndex) {
         pFT = NULL;
     }
 
-    if (NULL != pFT)
+    if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), wxT("abort"));
 
     return iRetVal;
@@ -1905,9 +1977,9 @@ int CMainDocument::GetResourceProjectName(int iIndex, wxString& strBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject) {
+    if (pProject) {
         pStateProject = state.lookup_project(pProject->master_url);
-        if (NULL != pStateProject) {
+        if (pStateProject) {
             strBuffer = pStateProject->project_name.c_str();
         } else {
             ForceCacheUpdate();
@@ -1929,7 +2001,7 @@ int CMainDocument::GetResourceDiskspace(int iIndex, float& fBuffer) {
         pProject = NULL;
     }
 
-    if (NULL != pProject)
+    if (pProject)
         fBuffer = pProject->disk_usage;
 
     return 0;
@@ -1977,9 +2049,9 @@ int CMainDocument::GetStatisticsProjectName(int iIndex, wxString& strBuffer)
         pProject = NULL;
     }
 
-    if (NULL != pProject) {
+    if (pProject) {
         pStateProject = state.lookup_project(pProject->master_url);
-        if (NULL != pStateProject) {
+        if (pStateProject) {
             strBuffer = pStateProject->project_name.c_str();
         } else {
             ForceCacheUpdate();
@@ -1993,7 +2065,7 @@ int CMainDocument::GetProxyConfiguration() {
     int     iRetVal = 0;
     wxString    strEmpty = wxEmptyString;
 
-	iRetVal = rpc.get_proxy_settings(proxy_info);
+    iRetVal = rpc.get_proxy_settings(proxy_info);
     if (iRetVal) {
         wxLogTrace("CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", iRetVal);
     }
@@ -2078,7 +2150,7 @@ int CMainDocument::SetProxyConfiguration() {
     if (!proxy_info.socks5_user_name.empty() || !proxy_info.socks5_user_passwd.empty())
         proxy_info.socks_version = 5;
 
-	iRetVal = rpc.set_proxy_settings(proxy_info);
+    iRetVal = rpc.set_proxy_settings(proxy_info);
     if (iRetVal) {
         wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", iRetVal);
     }

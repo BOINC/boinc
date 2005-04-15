@@ -27221,3 +27221,18 @@ David  15 April 2005
     lib/
         boinc_cmd.C
         gui_rpc_client.C
+
+David  15 April 2005
+    - Manager: added "no more work" toggle for projects
+        (from James Drews)
+        and fix compile warnings
+
+    clientgui/
+        DlgAttachProject.cpp
+        DlgConnection.cpp
+        DlgSelectComputer.cpp
+        MainDocument.cpp,h
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp,h
+        ViewStatistics.cpp

@@ -162,7 +162,7 @@ bool CDlgSelectComputer::ShowToolTips(){
  * Get bitmap resources
  */
 
-wxBitmap CDlgSelectComputer::GetBitmapResource( const wxString& name )
+wxBitmap CDlgSelectComputer::GetBitmapResource( const wxString& /*name*/ )
 {
     // Bitmap retrieval
 ////@begin CDlgSelectComputer bitmap retrieval
@@ -174,7 +174,7 @@ wxBitmap CDlgSelectComputer::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgSelectComputer::GetIconResource( const wxString& name )
+wxIcon CDlgSelectComputer::GetIconResource( const wxString& /*name*/ )
 {
     // Icon retrieval
 ////@begin CDlgSelectComputer icon retrieval

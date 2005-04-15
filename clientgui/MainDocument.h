@@ -185,7 +185,11 @@ public:
     wxInt32                     GetProjectWebsiteLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strBuffer );
     bool                        IsProjectSuspended( wxInt32 iIndex );
     bool                        IsProjectRPCPending( wxInt32 iIndex );
+    bool                       IsProjectAllowedToGetWork(wxInt32 iIndex);
 
+
+    wxInt32                     ProjectNoMoreWork( wxInt32 iIndex );
+    wxInt32                     ProjectAllowMoreWork( wxInt32 iIndex );
     wxInt32                     ProjectAttach(const wxString& strURL, const wxString& strAccountKey );
     wxInt32                     ProjectDetach( wxInt32 iIndex );
     wxInt32                     ProjectUpdate( wxInt32 iIndex );

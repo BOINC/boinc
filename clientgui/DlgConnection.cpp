@@ -143,7 +143,7 @@ bool CDlgConnection::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgConnection::GetBitmapResource( const wxString& name )
+wxBitmap CDlgConnection::GetBitmapResource( const wxString& )
 {
     // Bitmap retrieval
 ////@begin CDlgConnection bitmap retrieval
@@ -155,7 +155,7 @@ wxBitmap CDlgConnection::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgConnection::GetIconResource( const wxString& name )
+wxIcon CDlgConnection::GetIconResource( const wxString& )
 {
     // Icon retrieval
 ////@begin CDlgConnection icon retrieval

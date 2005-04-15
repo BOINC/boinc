@@ -168,7 +168,7 @@ bool CDlgAttachProject::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgAttachProject::GetBitmapResource( const wxString& name )
+wxBitmap CDlgAttachProject::GetBitmapResource( const wxString& )
 {
     // Bitmap retrieval
 ////@begin CDlgAttachProject bitmap retrieval
@@ -180,7 +180,7 @@ wxBitmap CDlgAttachProject::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgAttachProject::GetIconResource( const wxString& name )
+wxIcon CDlgAttachProject::GetIconResource( const wxString& )
 {
     // Icon retrieval
 ////@begin CDlgAttachProject icon retrieval

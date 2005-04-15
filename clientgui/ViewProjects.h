@@ -66,6 +66,8 @@ protected:
     bool                    m_bTaskSuspendHidden;
     bool                    m_bTaskResumeHidden;
     bool                    m_bTaskUpdateHidden;
+    bool                    m_bTaskNoMoreWorkHidden;
+    bool                    m_bTaskMoreWorkHidden;
 
     bool                    m_bWebsiteHeaderHidden;
     bool                    m_bWebsiteBOINCHidden;
@@ -136,6 +138,12 @@ protected:
 
     wxString                LINK_TASKSUSPEND;
     wxString                LINKDESC_TASKSUSPEND;
+
+    wxString                LINK_TASKNOMOREWORK;
+    wxString                LINKDESC_TASKNOMOREWORK;
+
+    wxString                LINK_TASKALLOWMOREWORK;
+    wxString                LINKDESC_TASKALLOWMOREWORK;
 
     wxString                LINK_TASKRESUME;
     wxString                LINKDESC_TASKRESUME;

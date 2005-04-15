@@ -232,10 +232,10 @@ CMainFrame::CMainFrame(wxString strTitle) :
 CMainFrame::~CMainFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    //CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    //wxASSERT(pDoc);
+    //wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
     wxASSERT(m_pFrameListPanelRenderTimer);
@@ -1372,7 +1372,7 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
 }
 
 
-void CMainFrame::OnDocumentPoll(wxTimerEvent& event) {
+void CMainFrame::OnDocumentPoll(wxTimerEvent& /*event*/) {
     fprintf(stderr, "CMainFrame::OnDocumentPoll - Function Begin");
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 

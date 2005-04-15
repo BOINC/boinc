@@ -133,6 +133,20 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     LINKDESC_TASKRESUME  = 
         _("<b>Resume project</b><br>"
           "Resume work for this project");
+    LINK_TASKNOMOREWORK  = SECTION_TASK + wxT("nomorework");
+    LINKDESC_TASKNOMOREWORK =
+        _("<b>Don't Get New Work</b><br>"
+            "Tell the project to not "
+            "fetch additional work for this "
+            "project. Any work already downloaded will "
+            "still be processed and returned."
+        );
+    LINK_TASKALLOWMOREWORK  = SECTION_TASK + wxT("allowmorework");
+    LINKDESC_TASKALLOWMOREWORK =
+        _("<b>Allow Work Downloads</b><br>"
+            "Allow the project to fetch "
+            "additional work."
+        );
 
     LINK_TASKUPDATE      = SECTION_TASK + wxT("update");
     LINKDESC_TASKUPDATE  = 
@@ -391,6 +405,14 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
         pDoc->ProjectResume(
             iProjectIndex 
        );
+    } else if (link.GetHref() == LINK_TASKNOMOREWORK) {
+       pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
+       iProjectIndex = m_pListPane->GetFirstSelected();
+       pDoc->ProjectNoMoreWork( iProjectIndex );
+    } else if (link.GetHref() == LINK_TASKALLOWMOREWORK) {
+       pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
+       iProjectIndex = m_pListPane->GetFirstSelected();
+       pDoc->ProjectAllowMoreWork( iProjectIndex );
     } else if (link.GetHref() == LINK_WEBBOINC) {
         pFrame->UpdateStatusText(_("Opening a browser to the BOINC homepage..."));
 
@@ -452,6 +474,10 @@ void CViewProjects::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), 
             bUpdateSelection = true;
         else if (UpdateQuickTip(strLink, LINK_WEBPROJECT, LINKDESC_WEBPROJECT))
             bUpdateSelection = true;
+        else if (UpdateQuickTip(strLink, LINK_TASKNOMOREWORK, LINKDESC_TASKNOMOREWORK))
+           bUpdateSelection = true;
+        else if (UpdateQuickTip(strLink, LINK_TASKALLOWMOREWORK, LINKDESC_TASKALLOWMOREWORK))
+           bUpdateSelection = true;
         else if (IsWebsiteLink(strLink)) {
             ConvertLinkToWebsiteIndex(strLink, iProjectIndex, iWebsiteIndex);
 
@@ -621,6 +647,8 @@ void CViewProjects::UpdateTaskPane() {
         m_pTaskPane->CreateTask(LINK_TASKUPDATE, _("Update project"), m_bTaskUpdateHidden);
         m_pTaskPane->CreateTask(LINK_TASKSUSPEND, _("Suspend project"), m_bTaskSuspendHidden);
         m_pTaskPane->CreateTask(LINK_TASKRESUME, _("Resume project"), m_bTaskResumeHidden);
+        m_pTaskPane->CreateTask(LINK_TASKNOMOREWORK, _("Don't Get New Work"), m_bTaskNoMoreWorkHidden);
+        m_pTaskPane->CreateTask(LINK_TASKALLOWMOREWORK, _("Allow Work Downloads"), m_bTaskMoreWorkHidden);
 
         m_pTaskPane->CreateTaskSeparator(m_bTaskUpdateHidden || (m_bTaskSuspendHidden && m_bTaskResumeHidden));
 
@@ -759,8 +787,10 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     strBuffer.Clear();
 
-    if      (pDoc->IsProjectSuspended(item)) {
-        strBuffer = _("Project Suspended");
+    if (pDoc->IsProjectSuspended(item)) {
+        strBuffer = _("Project suspended");
+    } else if (pDoc->IsProjectAllowedToGetWork(item)) {
+        strBuffer = _("Won't get new work");
     } else if (pDoc->IsProjectRPCPending(item)) {
         pDoc->GetProjectMinRPCTime(item, iNextRPC);
 

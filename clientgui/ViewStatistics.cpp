@@ -66,7 +66,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
     wxCoord width = 0, height = 0, heading_height=0, rectangle_x_start=0, rectangle_y_start=0,
 		rectangle_x_end=0, rectangle_y_end=0;
 
-    GetClientSize( &width, &height );
+    GetClientSize(&width, &height);
 
 	dc.SetBackground(*wxWHITE_BRUSH);
 
@@ -121,7 +121,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	
 	for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();
 		i!=proj->projects.end(); ++i
-    ) {
+   ) {
 		++count;
 
 		//No statistics
@@ -176,7 +176,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 		//Draw scale
 		{
 			dc.SetBrush(*wxLIGHT_GREY_BRUSH);
-			dc.SetPen(wxPen(wxColour ( 0 , 0 , 0 ) , 1 , wxSOLID) );
+			dc.SetPen(wxPen(wxColour (0 , 0 , 0) , 1 , wxSOLID));
 
 
 			wxCoord w_temp, h_temp, des_temp, lead_temp;
@@ -203,10 +203,10 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 			for (std::vector<STATISTIC>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
 				double day=dday()-j->day;
 				day=day/(60*60*24);
-				dc.SetPen(wxPen(wxColour ( 0 , 0 , 0 ) , 1 , wxSOLID) );
+				dc.SetPen(wxPen(wxColour (0 , 0 , 0) , 1 , wxSOLID));
 				if (j!=(--(*i)->statistics.end())) dc.DrawText(wxString::Format("-%.0f", day),xpos,rectangle_y_end);
 				if (j!=(--(*i)->statistics.end()) && j!=(*i)->statistics.begin()) {
-					dc.SetPen(wxPen(wxColour ( 200 , 200 , 200 ) , 1 , wxSOLID) );
+					dc.SetPen(wxPen(wxColour (200 , 200 , 200) , 1 , wxSOLID));
 					dc.DrawLine(xpos,rectangle_y_start+1,xpos,rectangle_y_end-1);
 				}
 				xpos+=(rectangle_x_end-rectangle_x_start)/((*i)->statistics.size()-1);
@@ -219,10 +219,9 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 			const double xscale=(rectangle_x_end-rectangle_x_start-1)/((*i)->statistics.size()-1);
 
 
-			dc.SetPen(wxPen(wxColour ( 255, 255, 0 ) , 1 , wxSOLID) );
+			dc.SetPen(wxPen(wxColour (255, 255, 0) , 1 , wxSOLID));
 
 			wxCoord last_x=rectangle_x_start, last_y=0, xpos=rectangle_x_start, ypos=0;
-			std::vector<STATISTIC>::const_iterator j=(*i)->statistics.begin();
 
 			for (std::vector<STATISTIC>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
 
@@ -270,7 +269,7 @@ CViewStatistics::CViewStatistics()
 
 
 CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
-    CBOINCBaseView( pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS, true ) {
+    CBOINCBaseView(pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS, true) {
 	wxASSERT(NULL != pNotebook);
 
     m_bProcessingTaskRenderEvent = false;
@@ -300,16 +299,16 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
     
-    m_pTaskPane = new CBOINCTaskCtrl( this, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS );
+    m_pTaskPane = new CBOINCTaskCtrl(this, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS);
     wxASSERT(NULL != m_pTaskPane);
 
 	//Needed for compatibility
-	m_pListPane = new CBOINCListCtrl( this, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS );
+	m_pListPane = new CBOINCListCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS);
 	wxASSERT(NULL != m_pListPane);
 	m_pListPane->Show(false);
 
 
-	m_PaintStatistics = new CPaintStatistics( this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1, -1), DEFAULT_LIST_SINGLE_SEL_FLAGS );
+	m_PaintStatistics = new CPaintStatistics(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1, -1), DEFAULT_LIST_SINGLE_SEL_FLAGS);
 	wxASSERT(NULL != m_PaintStatistics);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
@@ -366,7 +365,7 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     SetCurrentQuickTip(
         LINK_DEFAULT, 
         LINKDESC_DEFAULT
-    );
+   );
 
     UpdateSelection();
 
@@ -405,7 +404,7 @@ wxInt32 CViewStatistics::GetDocCount() {
 }
 
 
-void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link ) {
+void CViewStatistics::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(NULL != pFrame);
@@ -419,19 +418,19 @@ void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link ) {
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 
-	if ( link.GetHref() == LINK_TASKUSERTOTAL ) {
+	if (link.GetHref() == LINK_TASKUSERTOTAL) {
 		m_PaintStatistics->heading="User Total";
 		m_PaintStatistics->m_SelectedStatistic=0;
 	}
-	if ( link.GetHref() == LINK_TASKUSERAVG ) {
+	if (link.GetHref() == LINK_TASKUSERAVG) {
 		m_PaintStatistics->heading="User Average";
 		m_PaintStatistics->m_SelectedStatistic=1;
 	}
-	if ( link.GetHref() == LINK_TASKHOSTTOTAL ) {
+	if (link.GetHref() == LINK_TASKHOSTTOTAL) {
 		m_PaintStatistics->heading="Host Total";
 		m_PaintStatistics->m_SelectedStatistic=2;
 	}
-	if ( link.GetHref() == LINK_TASKHOSTAVG ) {
+	if (link.GetHref() == LINK_TASKHOSTAVG) {
 		m_PaintStatistics->heading="Host Average";
 		m_PaintStatistics->m_SelectedStatistic=3;
 	}
@@ -440,7 +439,7 @@ void CViewStatistics::OnTaskLinkClicked( const wxHtmlLinkInfo& link ) {
     pFrame->ProcessRefreshView();
     m_PaintStatistics->Refresh();
 
-    pFrame->UpdateStatusText( wxEmptyString );
+    pFrame->UpdateStatusText(wxEmptyString);
 
 }
 
@@ -455,16 +454,16 @@ void CViewStatistics::UpdateTaskPane() {
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
     if (!m_bTaskHeaderHidden) {
-        m_pTaskPane->CreateTask( LINK_TASKUSERTOTAL, _("Show user total"), false );
-        m_pTaskPane->CreateTask( LINK_TASKUSERAVG, _("Show user average"), false );
-        m_pTaskPane->CreateTask( LINK_TASKHOSTTOTAL, _("Show host total"), false );
-        m_pTaskPane->CreateTask( LINK_TASKHOSTAVG, _("Show host average"), false );
+        m_pTaskPane->CreateTask(LINK_TASKUSERTOTAL, _("Show user total"), false);
+        m_pTaskPane->CreateTask(LINK_TASKUSERAVG, _("Show user average"), false);
+        m_pTaskPane->CreateTask(LINK_TASKHOSTTOTAL, _("Show host total"), false);
+        m_pTaskPane->CreateTask(LINK_TASKHOSTAVG, _("Show host average"), false);
     }
-    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
+    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }
