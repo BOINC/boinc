@@ -53,7 +53,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#include "win_net.h"
 #else
 #include <cstdio>
 #include <unistd.h>

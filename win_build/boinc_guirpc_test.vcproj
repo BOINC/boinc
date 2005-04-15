@@ -189,6 +189,9 @@
 				RelativePath="..\lib\miofile.C">
 			</File>
 			<File
+				RelativePath="..\lib\network.C">
+			</File>
+			<File
 				RelativePath="..\Lib\parse.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -222,6 +225,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath="..\lib\boinc_win.h">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.h">
 			</File>
 			<File
@@ -247,6 +253,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\miofile.h">
+			</File>
+			<File
+				RelativePath="..\lib\network.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
