@@ -689,15 +689,7 @@ int GUI_RPC_CONN_SET::init() {
     if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
     } else {
-        // We need to figure out why when we bind with the loopback adapter and
-        //   the client attempts to connect to us through the loopback adapter,
-        //   the client fails to connect on *nix platforms.
-#ifdef _WIN32
         addr.sin_addr.s_addr = htonl(0x7f000001);
-#else
-        //addr.sin_addr.s_addr = htonl(INADDR_ANY);
-        addr.sin_addr.s_addr = htonl(0x7f000001);
-#endif
     }
 
     int one = 1;

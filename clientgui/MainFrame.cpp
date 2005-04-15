@@ -1169,7 +1169,7 @@ void CMainFrame::OnConnectErrorAuthentication(CMainFrameEvent&) {
 
 
 void CMainFrame::OnInitialized(CMainFrameEvent&) {
-    fprintf(stderr, "CMainFrame::OnInitialized - Function Begin");
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 
@@ -1179,7 +1179,7 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
     if (!pDoc->IsConnected())
         pDoc->Connect(wxEmptyString, wxEmptyString, TRUE);
 
-    fprintf(stderr, "CMainFrame::OnInitialized - Function End");
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
 }
 
 
@@ -1373,14 +1373,12 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
 
 
 void CMainFrame::OnDocumentPoll(wxTimerEvent& /*event*/) {
-    fprintf(stderr, "CMainFrame::OnDocumentPoll - Function Begin");
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->OnPoll();
-    fprintf(stderr, "CMainFrame::OnDocumentPoll - Function End");
 }
 
 

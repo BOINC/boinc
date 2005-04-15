@@ -935,7 +935,7 @@ RPC_CLIENT::~RPC_CLIENT() {
 // call this and then call init() again.
 //
 void RPC_CLIENT::close() {
-    fprintf(stderr, "RPC_CLIENT::close called\n");
+    //fprintf(stderr, "RPC_CLIENT::close called\n");
 #ifdef _WIN32
     ::closesocket(sock);
 #else
@@ -957,19 +957,11 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        // We need to figure out why when the server binds with the loopback adapter
-        //   and the client attempts to connect to the server through the loopback 
-        //   adapter, the client fails to connect on *nix platforms.
-#ifdef _WIN32
         addr.sin_addr.s_addr = htonl(0x7f000001);
-#else
-        //addr.sin_addr.s_addr = htonl(INADDR_ANY);
-        addr.sin_addr.s_addr = htonl(0x7f000001);
-#endif
     }
 
     retval = boinc_socket(sock);
-    fprintf(stderr, "RPC_CLIENT::init boinc_socket returned %d\n", sock);
+    //fprintf(stderr, "RPC_CLIENT::init boinc_socket returned %d\n", sock);
     if (retval) return retval;
 
     if (asynch) {
@@ -980,9 +972,10 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         }
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
-            fprintf(stderr, "connect returned %d\n", retval);
+            perror("connect");
+            //fprintf(stderr, "connect returned %d\n", retval);
         }
-        fprintf(stderr, "attempting connect to alt port\n");
+        //fprintf(stderr, "attempting connect to alt port\n");
     } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
@@ -1017,7 +1010,7 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &write_fds);
     FD_SET(sock, &error_fds);
 
-    fprintf(stderr, "RPC_CLIENT::init_poll sock = %d\n", sock);
+    //fprintf(stderr, "RPC_CLIENT::init_poll sock = %d\n", sock);
 
     tv.tv_sec = tv.tv_usec = 0;
     select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
@@ -1027,7 +1020,7 @@ int RPC_CLIENT::init_poll() {
     } else if (FD_ISSET(sock, &write_fds)) {
         retval = get_socket_error(sock);
         if (!retval) {
-            fprintf(stderr, "Connected to port %d\n", ntohs(addr.sin_port));
+            //fprintf(stderr, "Connected to port %d\n", ntohs(addr.sin_port));
             retval = boinc_socket_asynch(sock, false);
             if (retval) {
                 fprintf(stderr, "asynch error: %d\n", retval);
@@ -1140,7 +1133,7 @@ RPC::~RPC() {
 int RPC::do_rpc(const char* req) {
     int retval;
 
-    fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);
+    //fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);
     if (rpc_client->sock == 0) return ERR_CONNECT;
 #ifdef DEBUG
     puts(req);
