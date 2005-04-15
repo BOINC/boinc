@@ -24,16 +24,18 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
-
 #include "LogBOINC.h"
 #include "MainFrame.h"
-#include "MainDocument.h"
+
 #ifndef NOTASKBAR
-#include "BOINCTaskBar.h"
+#include "BOINCTaskBar.h"   // Must be included before MainDocument.h
 #ifdef __APPLE__
-#include "MacSysMenu.h"
+#include "MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
 #endif
+
+#include "MainDocument.h"
+
 
 
 class CBOINCGUIApp : public wxApp {

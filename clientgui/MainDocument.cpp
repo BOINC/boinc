@@ -26,6 +26,13 @@
 #include "MainDocument.h"
 #include "error_numbers.h"
 
+#ifdef __APPLE__
+// The Mac uses WxWidgets 2.5.3.  The version 2.5.3 log.h file now says:
+    // there is no more unconditional LogTrace: it is not different from
+    // LogDebug and it creates overload ambiguities
+    inline void wxLogTrace(const wxChar *, ...) { }
+#endif
+
 
 CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     wxObject() {

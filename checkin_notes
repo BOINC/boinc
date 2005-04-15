@@ -25847,7 +25847,7 @@ Charlie    11 Mar 2005
     and SETI@home application using XCODE IDE on Macintosh.
     Removed Eric Heien's old boinc.pbroj which is confusing 
     on CVS because it is a bundle, which looks like a directory
-    to CVS.  New boinc.proj bundle is checked in zipped.
+    to CVS.  New boinc.pbproj bundle is checked in zipped.
 
     - Changes for Mac GUI BOINC manager and core client.
     Major rework of XCode project file.
@@ -25867,8 +25867,8 @@ Charlie    11 Mar 2005
     lib/
         hostinfo.h
     mac_build/
-        boinc.proj/boinc.proj (directory & file both removed)
-        boinc.proj.zip (new)
+        boinc.pbproj/project.pbxproj (directory & file both removed)
+        boinc.pbproj.zip (new)
         info.plist (new)
         HowToBuildBOINC_XCode.rtf
 
@@ -26189,7 +26189,7 @@ Charlie    25 Mar 2005
     mac_build/
         Info.plist (add)
         SystemMenu-Info.plist (add)
-        boinc.pbproj/boinc.pbproj (add)
+        boinc.pbproj/project.pbxproj (add)
 
 Charlie    26 Mar 2005
     - BOINC Manager: Workaround apparent bug in Mac version of WxWidgets which 
@@ -26200,7 +26200,8 @@ Charlie    26 Mar 2005
     clientGUI/
         MainFrame.cpp
     mac_build/
-        boinc.pbproj/boinc.pbproj
+        boinc.pbproj/
+            project.pbxproj
 
 Rom    28 Mar 2005
     - Well now that I've fully tested and deployed BOINC via Active Directory,
@@ -26372,7 +26373,8 @@ Charlie    29 Mar 2005
     clientGUI/mac/
             SetVersion.C (add)
     mac_build/
-        boinc.pbproj/boinc.pbproj
+        boinc.pbproj/
+            project.pbxproj
 
 David  30 Mar 2005
     - Fixed bug where clients report a result CPU time as zero,
@@ -27183,4 +27185,18 @@ Bruce 14 April 2005
 
     sched/
         file_upload_handler.C
+
+Charlie    15 April 2005
+    Mac: Fix compile errors for BOINC Manager.
+        
+    client/
+        net_xfer.C
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+        English.lproj/
+            InfoPlist.strings
 
