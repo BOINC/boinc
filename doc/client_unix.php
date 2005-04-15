@@ -21,6 +21,12 @@ and for automatic startup of the core client, are
 <h3>command-line options</h3>
 ";
 list_start();
+list_item("-help",
+    "Show client options."
+);
+list_item("-version",
+    "Show client version."
+);
 list_item("<nobr>-attach_project URL account_key</nobr>",
     "Attach this computer to a new project."
 );
@@ -37,13 +43,11 @@ list_item("-reset_project URL",
     Use this if there is a problem that is preventing
     your computer from working."
 );
-
 list_item("-update_prefs URL",
     "Contact a project's server to obtain new preferences.
     This will also report completed results
     and get new work if needed."
 );
-
 list_item("-return_results_immediately",
     "Contact scheduler as soon as any result done."
 );
@@ -62,12 +66,8 @@ list_item("-exit_when_idle",
 list_item("-allow_remote_gui_rpc",
     "Allow GUI RPCs from remote hosts"
 );
-list_item("-help",
-    "Show client options."
-);
-
-list_item("-version",
-    "Show client version."
+list_item("-dir abs_path",
+    "Use the given directory as BOINC home"
 );
 list_end();
 echo "

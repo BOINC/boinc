@@ -21,10 +21,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include <stdio.h>
+#include <unistd.h>
 #endif
 
 #include "main.h"
@@ -35,18 +34,20 @@
 static void print_options(char* prog) {
     printf(
         "Usage: %s [options]\n"
-        "    -version               show version info\n"
-        "    -exit_when_idle        Get/process/report work, then exit\n"
-        "    -show_projects         show attached projects\n"
+        "    -help                      show options\n"
+        "    -version                   show version info\n"
+        "    -exit_when_idle            Get/process/report work, then exit\n"
+        "    -show_projects             show attached projects\n"
         "    -return_results_immediately   contact server when have results\n"
-        "    -detach_project URL    detach from a project\n"
-        "    -reset_project URL     reset (clear) a project\n"
-        "    -attach_project        attach to a project (will prompt for URL, account key)\n"
-        "    -update_prefs URL      contact a project to update preferences\n"
-        "    -run_cpu_benchmarks    run the CPU benchmarks\n"
-        "    -check_all_logins      check input from remote users\n"
-        "    -allow_remote_gui_rpc  allow remote GUI RPC connections\n"
-        "    -redirectio            redirect stdout and stderr to log files\n",
+        "    -detach_project URL        detach from a project\n"
+        "    -reset_project URL         reset (clear) a project\n"
+        "    -attach_project URL key    attach to a project\n"
+        "    -update_prefs URL          contact a project to update preferences\n"
+        "    -run_cpu_benchmarks        run the CPU benchmarks\n"
+        "    -check_all_logins          for idle detection, check remote logins\n too"
+        "    -allow_remote_gui_rpc      allow remote GUI RPC connections\n"
+        "    -redirectio                redirect stdout and stderr to log files\n"
+        "    -dir abs_path              use given dir as BOINC home\n",
         prog
     );
 }
@@ -162,6 +163,11 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(help)) {
             print_options(argv[0]);
             exit(0);
+        } else if (ARG(dir)) {
+            if (i == argc-1) show_options = true;
+            if (chdir(argv[++i])) {
+                perror("chdir");
+            }
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;

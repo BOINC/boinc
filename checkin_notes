@@ -27256,3 +27256,10 @@ David  15 April 2005
     lib/
         boinc_cmd.C
         gui_rpc_client.C
+
+David  15 APril 2005
+    - core client: added "-dir path" cmdline option
+        (chdir to the given directory at startup)
+
+    client/
+        cs_cmdline.C
