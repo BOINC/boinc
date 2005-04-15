@@ -27200,3 +27200,14 @@ Charlie    15 April 2005
         English.lproj/
             InfoPlist.strings
 
+David  15 April 2005
+    - file upload handler: Solaris compile fix
+    - mail_passwd.php: if an account exists with non-munged address,
+        return that account key (old code could return account key
+        for a munged address, even though a non-munged one exists)
+
+    html/user/
+        get_passwd.php
+        mail_passwd.php
+    sched/
+        file_upload_handler.C

@@ -28,9 +28,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <cerrno>
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include <csignal>
 
 #include "crypt.h"
@@ -483,7 +481,8 @@ int pid;
 void boinc_catch_signal(int signal_num) {
     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
         "PID=%d FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s]\n",
-        pid, this_filename, bytes_left, get_remote_addr(), signal_num, sys_siglist[signal_num]
+        pid, this_filename, bytes_left, get_remote_addr(),
+        signal_num, strsignal(signal_num)
     );
     exit(1);
 }

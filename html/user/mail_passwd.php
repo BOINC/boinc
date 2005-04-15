@@ -7,10 +7,13 @@ require_once("../inc/email.inc");
 db_init();
 
 $email_addr = process_user_text(strtolower($_POST["email_addr"]));
-if (strlen($email_addr)) {
+if (!strlen($email_addr)) {
+    error_page("no address given");
+}
+$user = lookup_user_email_addr($email_addr);
+if (!$user) {
     $esc_email_addr = escape_pattern("@".$email_addr."_");
-    $query = "select * from user where email_addr = '$email_addr' "
-        . "or email_addr like '$esc_email_addr%'";
+    $query = "select * from user where email_addr like '$esc_email_addr%'";
     $result = mysql_query($query);
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
