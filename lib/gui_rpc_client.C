@@ -976,14 +976,13 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         tried_alt_port = false;
         retval = boinc_socket_asynch(sock, true);
         if (retval) {
-            printf("asynch error: %d\n", retval);
+            fprintf(stderr, "asynch error: %d\n", retval);
         }
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
-            perror("connect");
+            fprintf(stderr, "connect");
         }
-        //fprintf(stderr, "attempting connect to alt port\n");
-        return 0;
+        fprintf(stderr, "attempting connect to alt port\n");
     } else {
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
