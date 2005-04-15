@@ -121,9 +121,9 @@ void* CNetworkConnection::Poll() {
             }
 
             if (!retval) {
-                wxLogTrace("CNetworkConnection::Poll - RPC Initialization Called");
+                fprintf(stderr, "CNetworkConnection::Poll - RPC Initialization Called");
             } else {
-                wxLogTrace("CNetworkConnection::Poll - RPC Initialization Failed '%d'", retval);
+                fprintf(stderr, "CNetworkConnection::Poll - RPC Initialization Failed '%d'", retval);
                 SetStateError();
             }
         }

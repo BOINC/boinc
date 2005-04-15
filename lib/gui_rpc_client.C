@@ -1000,6 +1000,7 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
             }
         }
     }
+    fprintf(stderr, "RPC_CLIENT::init sock = '%d'", sock);
     return 0;
 }
 
@@ -1015,6 +1016,8 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &read_fds);
     FD_SET(sock, &write_fds);
     FD_SET(sock, &error_fds);
+
+    fprintf(stderr, "RPC_CLIENT::init_poll sock = '%d'", sock);
 
     tv.tv_sec = tv.tv_usec = 0;
     select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
@@ -1135,6 +1138,7 @@ RPC::~RPC() {
 int RPC::do_rpc(const char* req) {
     int retval;
 
+    fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);
     if (rpc_client->sock == 0) return ERR_CONNECT;
 #ifdef DEBUG
     puts(req);
