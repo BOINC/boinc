@@ -695,7 +695,8 @@ int GUI_RPC_CONN_SET::init() {
 #ifdef _WIN32
         addr.sin_addr.s_addr = htonl(0x7f000001);
 #else
-        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        //addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        addr.sin_addr.s_addr = htonl(0x7f000001);
 #endif
     }
 

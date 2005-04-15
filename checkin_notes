@@ -27211,3 +27211,13 @@ David  15 April 2005
         mail_passwd.php
     sched/
         file_upload_handler.C
+
+David  15 April 2005
+    - core client, GUI RPC: if no remote connections allowed,
+        use lookback address (127.0.0.1) for listening socket
+
+    client/
+        gui_rpc_server.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C

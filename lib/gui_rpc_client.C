@@ -964,7 +964,8 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
 #ifdef _WIN32
         addr.sin_addr.s_addr = htonl(0x7f000001);
 #else
-        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        //addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        addr.sin_addr.s_addr = htonl(0x7f000001);
 #endif
     }
 
@@ -1027,14 +1028,16 @@ int RPC_CLIENT::init_poll() {
         retval =  ERR_CONNECT;
     } else if (FD_ISSET(sock, &write_fds)) {
         retval = get_socket_error(sock);
-        //fprintf(stderr, "init_poll: get_socket_error(): %d\n", retval);
         if (!retval) {
+            fprintf(stderr, "Connected to port %d\n", ntohs(addr.sin_port));
             retval = boinc_socket_asynch(sock, false);
             if (retval) {
                 fprintf(stderr, "asynch error: %d\n", retval);
                 return retval;
             }
             return 0;
+        } else {
+            fprintf(stderr, "init_poll: get_socket_error(): %d\n", retval);
         }
     }
     if (retval) {

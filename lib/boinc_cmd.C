@@ -129,6 +129,9 @@ int main(int argc, char** argv) {
         passwd = argv[i+1];
         i += 2;
     }
+
+    // change the following to debug GUI RPC's asynchronous connection mechanism
+    //
 #if 1
     retval = rpc.init(hostname, false);
     if (retval) {
