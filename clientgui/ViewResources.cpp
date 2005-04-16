@@ -75,7 +75,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
 
     LINKDESC_DEFAULT         = 
-        _("No available options currently defined.");
+        _("No available commands");
 
 
     //
