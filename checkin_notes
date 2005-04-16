@@ -27277,3 +27277,10 @@ David  15 April 2005
 
     html/ops
         create_account_action.php
+
+David  15 April 2005
+    - On Mac OS X apparently binding a socket to address 127.0.0.1 fails.
+        Use INADDR_ANY instead.
+
+    client/
+        gui_rpc_server.C

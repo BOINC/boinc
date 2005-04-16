@@ -686,11 +686,15 @@ int GUI_RPC_CONN_SET::init() {
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT);
+#ifdef __APPLE__
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+#else
     if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
     } else {
         addr.sin_addr.s_addr = htonl(0x7f000001);
     }
+#endif
 
     int one = 1;
     setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
