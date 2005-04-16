@@ -200,10 +200,10 @@ version(
 );
 version(
     "Windows",
-    "4.30",
+    "4.32",
     "Development version",
-    "boinc_4.30_windows_intelx86.exe",
-    "11 Apr 2005",
+    "boinc_4.32_windows_intelx86.exe",
+    "15 Apr 2005",
     win_new(),
     "<ul>
     <li>
@@ -226,6 +226,8 @@ version(
     Provide support for UMTS networks
     <li>
     Numerious usability fixes
+    <li>
+    Fixed a few connectivity problems on all platforms.
     </ul>
     ",
     "<ul>
@@ -304,10 +306,10 @@ version(
 );
 version(
     "Linux/x86",
-    "4.30",
+    "4.32",
     "Development version",
-    "boinc_4.30_i686-pc-linux-gnu.sh",
-    "11 Apr 2005",
+    "boinc_4.32_i686-pc-linux-gnu.sh",
+    "15 Apr 2005",
     sea()
 );
 xecho( "
@@ -324,10 +326,10 @@ version(
 );
 version(
     "Solaris/SPARC",
-    "4.30",
+    "4.32",
     "Development version",
-    "boinc_4.30_sparc-sun-solaris2.7.sh",
-    "11 Apr 2005",
+    "boinc_4.32_sparc-sun-solaris2.7.sh",
+    "15 Apr 2005",
     sea()
 );
 
