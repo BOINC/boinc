@@ -27294,3 +27294,11 @@ Charlie    16 April 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  16 April 2005
+	- fixed GUI RPC connection problem on Mac
+		(if a connect on a socket fails, you need to close it
+		and make a new one before trying another connect)
+
+	lib/
+		gui_rpc_client.C
