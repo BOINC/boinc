@@ -957,7 +957,11 @@ int RPC_CLIENT::init(const char* host, bool asynch) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
+#ifdef __APPLE__
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+#else
         addr.sin_addr.s_addr = htonl(0x7f000001);
+#endif
     }
 
     retval = boinc_socket(sock);
