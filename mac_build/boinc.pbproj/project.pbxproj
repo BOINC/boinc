@@ -42,6 +42,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CPLUSPLUSFLAGS = "-D__WXDEBUG__";
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -204,65 +205,73 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = app_ipc.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = app_ipc.C;
+			path = ../lib/app_ipc.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AA8B6B1C046C364400A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = app_ipc.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = app_ipc.h;
+			path = ../lib/app_ipc.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AA8B6B23046C366200A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = ss_logic.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = ss_logic.C;
+			path = ../client/ss_logic.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AA8B6B24046C366200A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = ss_logic.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = ss_logic.h;
+			path = ../client/ss_logic.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AA8FCBF40486CFD000A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = language.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = language.C;
+			path = ../lib/language.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AA8FCBF50486CFD000A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = language.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = language.h;
+			path = ../lib/language.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AAA31C97042157A800A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = shmem.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = shmem.C;
+			path = ../lib/shmem.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		AAA31C98042157A800A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = shmem.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = shmem.h;
+			path = ../lib/shmem.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 //AA0
 //AA1
@@ -367,7 +376,7 @@
 				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.5 ../wxinclude";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.5.3/osx-build/lib";
+				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3";
 				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
 				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
 				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
@@ -692,18 +701,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = DlgSelectComputer.cpp;
-			path = ../../boinc/clientgui/DlgSelectComputer.cpp;
-			refType = 4;
-			sourceTree = "<group>";
+			path = ../clientgui/DlgSelectComputer.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD2D25CC07FAB41700151141 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = DlgSelectComputer.h;
-			path = ../../boinc/clientgui/DlgSelectComputer.h;
-			refType = 4;
-			sourceTree = "<group>";
+			path = ../clientgui/DlgSelectComputer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD2D25CD07FAB41700151141 = {
 			fileRef = DD2D25CB07FAB41700151141;
@@ -716,18 +725,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = MacSysMenu.h;
-			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/MacSysMenu.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../clientgui/mac/MacSysMenu.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD2F32F707F2A88B00645DDC = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = MacSysMenu.cpp;
-			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/MacSysMenu.cpp;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../clientgui/mac/MacSysMenu.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD2F32F807F2A88B00645DDC = {
 			fileRef = DD2F32F707F2A88B00645DDC;
@@ -784,17 +793,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = base64.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = base64.C;
+			path = ../lib/base64.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344B6407C5ACEB0043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = base64.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = base64.h;
+			path = ../lib/base64.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344B6B07C5AD270043025C = {
 			fileEncoding = 30;
@@ -917,17 +928,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = diagnostics.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = diagnostics.C;
+			path = ../lib/diagnostics.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BA307C5AE5A0043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = diagnostics.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = diagnostics.h;
+			path = ../lib/diagnostics.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BAD07C5AEB70043025C = {
 			fileEncoding = 30;
@@ -951,17 +964,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = hostinfo.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = hostinfo.C;
+			path = ../lib/hostinfo.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BB707C5AEEE0043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = hostinfo.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = hostinfo.h;
+			path = ../lib/hostinfo.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BC007C5AF280043025C = {
 			fileEncoding = 30;
@@ -1003,81 +1018,91 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = mfile.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = mfile.C;
+			path = ../lib/mfile.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BD307C5B1150043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = mfile.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = mfile.h;
+			path = ../lib/mfile.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BD407C5B1150043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = miofile.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = miofile.h;
+			path = ../lib/miofile.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BD507C5B1150043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = miofile.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = miofile.C;
+			path = ../lib/miofile.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BDA07C5B11E0043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = msg_log.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = msg_log.C;
+			path = ../lib/msg_log.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BDB07C5B11E0043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = msg_log.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = msg_log.h;
+			path = ../lib/msg_log.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BE407C5B1670043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = prefs.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = prefs.C;
+			path = ../lib/prefs.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BE507C5B1670043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = prefs.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = prefs.h;
+			path = ../lib/prefs.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BEE07C5B1770043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = proxy_info.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = proxy_info.h;
+			path = ../lib/proxy_info.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BEF07C5B1770043025C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = proxy_info.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = proxy_info.C;
+			path = ../lib/proxy_info.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344BFA07C5B1A80043025C = {
 			fileEncoding = 30;
@@ -1930,10 +1955,9 @@
 		DD40CDFA07F0386B0096C645 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "SystemMenu-Info.plist";
-			path = "/Volumes/Moon/BOINC_Mac/boinc/mac_build/SystemMenu-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "SystemMenu-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD40CDFE07F038990096C645 = {
 			fileEncoding = 30;
@@ -2151,9 +2175,10 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = result_state.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = result_state.h;
+			path = ../lib/result_state.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD81C3F707C5D03B0098A04D = {
 			children = (
@@ -2210,9 +2235,9 @@
 			);
 			isa = PBXGroup;
 			name = clientgui;
-			path = /Volumes/Moon/BOINC_Mac/boinc_public_021005/lib;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../boinc_public_021005/lib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD81C3FE07C5D1020098A04D = {
 			fileEncoding = 30;
@@ -2596,25 +2621,28 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = gui_rpc_client.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = gui_rpc_client.C;
+			path = ../lib/gui_rpc_client.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD81C5F007C5D8290098A04D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = boinc_win.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = boinc_win.h;
+			path = ../lib/boinc_win.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD81C60307C5D8630098A04D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = gui_rpc_client.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = gui_rpc_client.h;
+			path = ../lib/gui_rpc_client.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD81C6ED07C611D80098A04D = {
 			fileEncoding = 30;
@@ -2691,9 +2719,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = SetVersion.C;
-			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/SetVersion.C;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../clientgui/mac/SetVersion.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DDAEC9FF07FA5A5C00A7BC36 = {
 			fileRef = DDAEC9E707FA58A000A7BC36;
@@ -3496,8 +3524,9 @@
 			);
 			isa = PBXGroup;
 			name = Documentation;
-			refType = 4;
-			sourceTree = "<group>";
+			path = "";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DDF9385407E28906004DC076 = {
 			fileEncoding = 30;
@@ -3581,33 +3610,37 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = md5.c;
-			refType = 4;
-			sourceTree = "<group>";
+			name = md5.c;
+			path = ../lib/md5.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5159563029EB02001F5651B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = md5.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = md5.h;
+			path = ../lib/md5.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5159564029EB02001F5651B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = md5_file.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = md5_file.C;
+			path = ../lib/md5_file.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5159565029EB02001F5651B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = md5_file.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = md5_file.h;
+			path = ../lib/md5_file.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F519F98D02C44A7501BDB3CA = {
 			fileEncoding = 30;
@@ -3668,17 +3701,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = crypt.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = crypt.C;
+			path = ../lib/crypt.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F51DA64E02DB97FF010E292A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = crypt.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = crypt.h;
+			path = ../lib/crypt.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F51DA65102DBA8F1010E292A = {
 			children = (
@@ -3953,9 +3988,10 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = error_numbers.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = error_numbers.h;
+			path = ../lib/error_numbers.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F54B8FBE02AC0A0C01FB7237 = {
 			children = (
@@ -4248,17 +4284,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = parse.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = parse.h;
+			path = ../lib/parse.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F54B901602AC0A2201FB7237 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = parse.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = parse.C;
+			path = ../lib/parse.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F54FF8B6029F2FFC012012A7 = {
 			children = (
@@ -4306,17 +4344,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = graphics_api.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = graphics_api.h;
+			path = ../api/graphics_api.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F59DD6F7032FF0AF01A80164 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = graphics_api.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = graphics_api.C;
+			path = ../api/graphics_api.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5C5403402BFC5C701BEDAB8 = {
 			children = (
@@ -4334,33 +4374,37 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = filesys.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = filesys.h;
+			path = ../lib/filesys.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5EAD475031AEFF8018E201A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = filesys.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = filesys.C;
+			path = ../lib/filesys.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5EAD478031AF001018E201A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = util.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = util.h;
+			path = ../lib/util.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		F5EAD479031AF001018E201A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			path = util.C;
-			refType = 4;
-			sourceTree = "<group>";
+			name = util.C;
+			path = ../lib/util.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 	};
 	rootObject = 20286C28FDCF999611CA2CEA;

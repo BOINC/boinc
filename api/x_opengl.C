@@ -123,6 +123,16 @@ void mouse_click_move(int x, int y){
 
 static void maybe_render() {
     int width, height;
+#ifdef __APPLE__
+    static int menuToHide = 50;
+    if (menuToHide)
+      if (boinc_is_standalone()) {
+        menuToHide = 0;
+      } else {
+        ClearMenuBar();
+        menuToHide--;
+      }
+#endif
     if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
         width = glutGet(GLUT_WINDOW_WIDTH);
         height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -161,8 +171,7 @@ static void make_new_window(int mode) {
 #ifdef __APPLE__
     glutWMCloseFunc(CloseWindow);   // Enable the window's close box
 
-    SetSystemUIMode(kUIModeAllHidden, 0);   // Hide Menu Bar
-        
+//    SetSystemUIMode(kUIModeAllHidden, 0);   // Hide Menu Bar & Dock
     ProcessSerialNumber	myProcess;
     GetCurrentProcess(&myProcess);
     SetFrontProcess(&myProcess);     // Bring ourselves to the front

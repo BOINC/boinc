@@ -27284,3 +27284,13 @@ David  15 April 2005
 
     client/
         gui_rpc_server.C
+
+Charlie    16 April 2005
+    Mac: Fix paths in XCode project to make them fully portable / relative.
+    Clear menu bar in science apps using Bernd's suggested code.
+    
+    api/
+        x_opengl.C
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
