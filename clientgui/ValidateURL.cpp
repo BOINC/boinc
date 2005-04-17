@@ -51,34 +51,34 @@ bool CValidateURL::Copy(const CValidateURL& val) {
 
 
 bool CValidateURL::Validate(wxWindow *parent) {
-    if( !CheckValidator() )
+    if(!CheckValidator())
         return FALSE;
 
     wxTextCtrl *control = (wxTextCtrl *) m_validatorWindow ;
 
-    if ( !control->IsEnabled() )
+    if (!control->IsEnabled())
         return TRUE;
 
     wxURL val(control->GetValue());
 
     bool ok = TRUE;
 
-    if ( wxURL_NOERR != val.GetError() ) {
+    if (wxURL_NOERR != val.GetError()) {
         ok = FALSE;
 
-        if ( ( wxURL_NOPROTO == val.GetError() ) || wxURL_SNTXERR == val.GetError() ) {
+        if ((wxURL_NOPROTO == val.GetError()) || wxURL_SNTXERR == val.GetError()) {
             // Special case: we want to allow the user to specify the URL without
             //   specifing the protocol.
             ok = TRUE;
         }
-        else if ( wxURL_NOHOST == val.GetError() )
+        else if (wxURL_NOHOST == val.GetError())
             m_errormsg = _("'%s' does not contain a valid host name.");
-        else if ( wxURL_NOPATH == val.GetError() )
+        else if (wxURL_NOPATH == val.GetError())
             m_errormsg = _("'%s' does not contain a valid path.");
     }
 
-    if ( !ok ) {
-        wxASSERT_MSG( !m_errormsg.empty(), _T("you forgot to set errormsg") );
+    if (!ok) {
+        wxASSERT_MSG(!m_errormsg.empty(), _T("you forgot to set errormsg"));
 
         m_validatorWindow->SetFocus();
 
@@ -86,7 +86,8 @@ bool CValidateURL::Validate(wxWindow *parent) {
         buf.Printf(m_errormsg, control->GetValue().c_str());
 
         wxMessageBox(buf, _("Validation conflict"),
-                     wxOK | wxICON_EXCLAMATION, parent);
+            wxOK | wxICON_EXCLAMATION, parent
+        );
     }
 
     return ok;
@@ -94,7 +95,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
 
 
 bool CValidateURL::TransferToWindow() {
-    if( !CheckValidator() )
+    if(!CheckValidator())
         return FALSE;
     
     if (!m_stringValue)
@@ -108,27 +109,29 @@ bool CValidateURL::TransferToWindow() {
 
 
 bool CValidateURL::TransferFromWindow() {
-    if( !CheckValidator() )
+    if(!CheckValidator())
         return FALSE;
 
     if (!m_stringValue)
         return TRUE;
 
     wxTextCtrl *control = (wxTextCtrl *) m_validatorWindow ;
-    * m_stringValue = control->GetValue() ;
+    *m_stringValue = control->GetValue() ;
 
     return TRUE;
 }
 
 
 bool CValidateURL::CheckValidator() const {
-    wxCHECK_MSG( m_validatorWindow, FALSE,
-                    _T("No window associated with validator") );
-    wxCHECK_MSG( m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl)), FALSE,
-                    _T("wxTextValidator is only for wxTextCtrl's") );
-    wxCHECK_MSG( m_stringValue, FALSE,
-                    _T("No variable storage for validator") );
-
+    wxCHECK_MSG(m_validatorWindow, FALSE,
+        _T("No window associated with validator")
+    );
+    wxCHECK_MSG(m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl)), FALSE,
+        _T("wxTextValidator is only for wxTextCtrl's")
+    );
+    wxCHECK_MSG(m_stringValue, FALSE,
+        _T("No variable storage for validator")
+    );
     return TRUE;
 }
 

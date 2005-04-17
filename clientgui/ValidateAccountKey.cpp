@@ -53,26 +53,25 @@ bool CValidateAccountKey::Copy(const CValidateAccountKey& val) {
 
 
 bool CValidateAccountKey::Validate(wxWindow *parent) {
-    if( !CheckValidator() )
+    if(!CheckValidator())
         return FALSE;
 
     wxTextCtrl *control = (wxTextCtrl *) m_validatorWindow ;
 
-    if ( !control->IsEnabled() )
+    if (!control->IsEnabled())
         return TRUE;
 
     wxString val(control->GetValue());
 
     bool ok = TRUE;
 
-    if ( (!wxIsAlphaNumeric(val)) ) {
+    if ((!wxIsAlphaNumeric(val))) {
         ok = FALSE;
-
         m_errormsg = _("Invalid Account Key; please enter a valid Account Key");
     }
 
-    if ( !ok ) {
-        wxASSERT_MSG( !m_errormsg.empty(), _T("you forgot to set errormsg") );
+    if (!ok) {
+        wxASSERT_MSG(!m_errormsg.empty(), _T("you forgot to set errormsg"));
 
         m_validatorWindow->SetFocus();
 
@@ -80,7 +79,8 @@ bool CValidateAccountKey::Validate(wxWindow *parent) {
         buf.Printf(m_errormsg, control->GetValue().c_str());
 
         wxMessageBox(buf, _("Validation conflict"),
-                     wxOK | wxICON_EXCLAMATION, parent);
+            wxOK | wxICON_EXCLAMATION, parent
+        );
     }
 
     return ok;
@@ -88,7 +88,7 @@ bool CValidateAccountKey::Validate(wxWindow *parent) {
 
 
 bool CValidateAccountKey::TransferToWindow(void) {
-    if( !CheckValidator() )
+    if(!CheckValidator())
         return FALSE;
     
     if (!m_stringValue)
@@ -102,7 +102,7 @@ bool CValidateAccountKey::TransferToWindow(void) {
 
 
 bool CValidateAccountKey::TransferFromWindow(void) {
-    if( !CheckValidator() )
+    if(!CheckValidator())
         return FALSE;
 
     if (!m_stringValue)
@@ -117,7 +117,7 @@ bool CValidateAccountKey::TransferFromWindow(void) {
 
 bool CValidateAccountKey::wxIsAlphaNumeric(const wxString& val) {
     int i;
-    for ( i = 0; i < (int)val.Length(); i++) {
+    for (i = 0; i < (int)val.Length(); i++) {
         if (!wxIsalnum(val[i]))
             return FALSE;
     }
@@ -126,12 +126,12 @@ bool CValidateAccountKey::wxIsAlphaNumeric(const wxString& val) {
 
 
 bool CValidateAccountKey::CheckValidator() const {
-    wxCHECK_MSG( m_validatorWindow, FALSE,
-                    _T("No window associated with validator") );
-    wxCHECK_MSG( m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl)), FALSE,
-                    _T("wxTextValidator is only for wxTextCtrl's") );
-    wxCHECK_MSG( m_stringValue, FALSE,
-                    _T("No variable storage for validator") );
+    wxCHECK_MSG(m_validatorWindow, FALSE,
+                    _T("No window associated with validator"));
+    wxCHECK_MSG(m_validatorWindow->IsKindOf(CLASSINFO(wxTextCtrl)), FALSE,
+                    _T("wxTextValidator is only for wxTextCtrl's"));
+    wxCHECK_MSG(m_stringValue, FALSE,
+                    _T("No variable storage for validator"));
 
     return TRUE;
 }

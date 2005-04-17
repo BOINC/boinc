@@ -140,13 +140,13 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
             "fetch additional work for this "
             "project. Any work already downloaded will "
             "still be processed and returned."
-        );
+       );
     LINK_TASKALLOWMOREWORK  = SECTION_TASK + wxT("allowmorework");
     LINKDESC_TASKALLOWMOREWORK =
         _("<b>Allow Work Downloads</b><br>"
             "Allow the project to fetch "
             "additional work."
-        );
+       );
 
     LINK_TASKUPDATE      = SECTION_TASK + wxT("update");
     LINKDESC_TASKUPDATE  = 
@@ -203,7 +203,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     SetCurrentQuickTip(
         LINK_DEFAULT, 
         LINKDESC_DEFAULT
-   );
+    );
 
     UpdateSelection();
 }
@@ -239,27 +239,27 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
     wxString  strBuffer   = wxEmptyString;
 
     switch(column) {
-        case COLUMN_PROJECT:
-            strBuffer = project->m_strProjectName;
-            break;
-        case COLUMN_ACCOUNTNAME:
-            strBuffer = project->m_strAccountName;
-            break;
-        case COLUMN_TEAMNAME:
-            strBuffer = project->m_strTeamName;
-            break;
-        case COLUMN_TOTALCREDIT:
-            strBuffer = project->m_strTotalCredit;
-            break;
-        case COLUMN_AVGCREDIT:
-            strBuffer = project->m_strAVGCredit;
-            break;
-        case COLUMN_RESOURCESHARE:
-            strBuffer = project->m_strResourceShare;
-            break;
-        case COLUMN_STATUS:
-            strBuffer = project->m_strStatus;
-            break;
+    case COLUMN_PROJECT:
+        strBuffer = project->m_strProjectName;
+        break;
+    case COLUMN_ACCOUNTNAME:
+        strBuffer = project->m_strAccountName;
+        break;
+    case COLUMN_TEAMNAME:
+        strBuffer = project->m_strTeamName;
+        break;
+    case COLUMN_TOTALCREDIT:
+        strBuffer = project->m_strTotalCredit;
+        break;
+    case COLUMN_AVGCREDIT:
+        strBuffer = project->m_strAVGCredit;
+        break;
+    case COLUMN_RESOURCESHARE:
+        strBuffer = project->m_strResourceShare;
+        break;
+    case COLUMN_STATUS:
+        strBuffer = project->m_strStatus;
+        break;
     }
 
     return strBuffer;
@@ -270,27 +270,27 @@ wxString CViewProjects::OnDocGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
 
     switch(column) {
-        case COLUMN_PROJECT:
-            FormatProjectName(item, strBuffer);
-            break;
-        case COLUMN_ACCOUNTNAME:
-            FormatAccountName(item, strBuffer);
-            break;
-        case COLUMN_TEAMNAME:
-            FormatTeamName(item, strBuffer);
-            break;
-        case COLUMN_TOTALCREDIT:
-            FormatTotalCredit(item, strBuffer);
-            break;
-        case COLUMN_AVGCREDIT:
-            FormatAVGCredit(item, strBuffer);
-            break;
-        case COLUMN_RESOURCESHARE:
-            FormatResourceShare(item, strBuffer);
-            break;
-        case COLUMN_STATUS:
-            FormatStatus(item, strBuffer);
-            break;
+    case COLUMN_PROJECT:
+        FormatProjectName(item, strBuffer);
+        break;
+    case COLUMN_ACCOUNTNAME:
+        FormatAccountName(item, strBuffer);
+        break;
+    case COLUMN_TEAMNAME:
+        FormatTeamName(item, strBuffer);
+        break;
+    case COLUMN_TOTALCREDIT:
+        FormatTotalCredit(item, strBuffer);
+        break;
+    case COLUMN_AVGCREDIT:
+        FormatAVGCredit(item, strBuffer);
+        break;
+    case COLUMN_RESOURCESHARE:
+        FormatResourceShare(item, strBuffer);
+        break;
+    case COLUMN_STATUS:
+        FormatStatus(item, strBuffer);
+        break;
     }
 
     return strBuffer;
@@ -321,7 +321,7 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     m_bTipsHeaderHidden = false;
 
     if (link.GetHref() == LINK_TASKATTACH) {
-        pFrame->UpdateStatusText(_("Ataching to project..."));
+        pFrame->UpdateStatusText(_("Attaching to project..."));
 
         CDlgAttachProject* pDlg = new CDlgAttachProject(this);
         wxASSERT(NULL != pDlg);
@@ -332,7 +332,7 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
             pDoc->ProjectAttach(
                 pDlg->GetProjectAddress(), 
                 pDlg->GetProjectAccountKey()
-           );
+            );
         }
 
         if (pDlg)
@@ -345,19 +345,18 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 
         strMessage.Printf(
             _("Are you sure you want to detach from project '%s'?"), 
-            strProjectName.c_str());
+            strProjectName.c_str()
+        );
 
         iAnswer = wxMessageBox(
             strMessage,
             _("Detach from Project"),
             wxYES_NO | wxICON_QUESTION, 
             this
-       );
+        );
 
         if (wxYES == iAnswer) {
-            pDoc->ProjectDetach(
-                iProjectIndex 
-           );
+            pDoc->ProjectDetach(iProjectIndex);
         }
     } else if (link.GetHref() == LINK_TASKRESET) {
         pFrame->UpdateStatusText(_("Resetting project..."));
@@ -374,45 +373,37 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
             _("Reset Project"),
             wxYES_NO | wxICON_QUESTION, 
             this
-       );
+        );
 
         if (wxYES == iAnswer) {
-            pDoc->ProjectReset(
-                iProjectIndex 
-           );
+            pDoc->ProjectReset(iProjectIndex);
         }
     } else if (link.GetHref() == LINK_TASKUPDATE) {
         pFrame->UpdateStatusText(_("Updating project..."));
 
         iProjectIndex = m_pListPane->GetFirstSelected();
 
-        pDoc->ProjectUpdate(
-            iProjectIndex 
-       );
+        pDoc->ProjectUpdate(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKSUSPEND) {
         pFrame->UpdateStatusText(_("Suspending project..."));
 
         iProjectIndex = m_pListPane->GetFirstSelected();
 
-        pDoc->ProjectSuspend(
-            iProjectIndex 
-       );
+        pDoc->ProjectSuspend(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKRESUME) {
         pFrame->UpdateStatusText(_("Resuming project..."));
 
         iProjectIndex = m_pListPane->GetFirstSelected();
 
-        pDoc->ProjectResume(
-            iProjectIndex 
-       );
+        pDoc->ProjectResume(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKNOMOREWORK) {
        pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
        iProjectIndex = m_pListPane->GetFirstSelected();
-       pDoc->ProjectNoMoreWork( iProjectIndex );
+       pDoc->ProjectNoMoreWork(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKALLOWMOREWORK) {
        pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
        iProjectIndex = m_pListPane->GetFirstSelected();
-       pDoc->ProjectAllowMoreWork( iProjectIndex );
+       pDoc->ProjectAllowMoreWork(iProjectIndex);
     } else if (link.GetHref() == LINK_WEBBOINC) {
         pFrame->UpdateStatusText(_("Opening a browser to the BOINC homepage..."));
 
@@ -436,7 +427,7 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     UpdateSelection();
     pFrame->ProcessRefreshView();
 
-    pFrame->UpdateStatusText( wxEmptyString );
+    pFrame->UpdateStatusText(wxEmptyString);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function End"));
 }
@@ -495,7 +486,7 @@ void CViewProjects::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), 
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
                         LINKDESC_DEFAULT
-                   );
+                    );
 
                     bUpdateSelection = true;
                 }
@@ -520,8 +511,7 @@ wxInt32 CViewProjects::AddCacheElement() {
 }
 
 
-wxInt32 CViewProjects::EmptyCache()
-{
+wxInt32 CViewProjects::EmptyCache() {
     unsigned int i;
     for (i=0; i<m_ProjectCache.size(); i++) {
         delete m_ProjectCache[i];
@@ -599,7 +589,7 @@ void CViewProjects::UpdateSelection() {
             SetCurrentQuickTip(
                 LINK_DEFAULT, 
                 LINKDESC_DEFAULT
-           );
+            );
         }
         m_bItemSelected = false;
     } else {
