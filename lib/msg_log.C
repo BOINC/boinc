@@ -68,6 +68,7 @@ MSG_LOG::MSG_LOG(FILE* output_) {
     output = output_;
     indent_level = 0;
     spaces[0] = 0;
+    pid = 0;
     strcpy(spaces+1, "                                                                              ");
 }
 
@@ -80,9 +81,15 @@ void MSG_LOG::enter_level(int diff) {
 }
 
 void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
+    char buf[256];
     const char* now_timestamp = time_to_string(time(0));
     if (!v_message_wanted(kind)) return;
-    fprintf(output, "%s [%s]%s ", now_timestamp, v_format_kind(kind), spaces);
+    if (pid) {
+        sprintf(buf, " [PID=%-5d]", pid);
+    } else {
+        buf[0] = 0;
+    }
+    fprintf(output, "%s%s [%s]%s ", now_timestamp, buf, v_format_kind(kind), spaces);
     vfprintf(output, format, va);
 }
 

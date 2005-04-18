@@ -149,6 +149,7 @@ int main() {
     char* code_sign_key;
     bool project_stopped = false;
     int length=-1;
+    log_messages.pid = getpid();
 
     // install a signal handler that catches SIGTERMS sent by Apache if the cgi
     // times out.

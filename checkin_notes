@@ -27313,3 +27313,12 @@ David  17 April 2005
     - (from Reinhard Prix) add IOKit framework to Mac compile of core client
 
     configure.ac
+
+David  17 April 2005
+    - add PID to log messages of scheduler and file upload handler
+
+    lib/
+        msg_log.C,h
+    sched/
+        main.C
+        file_upload_handler.C

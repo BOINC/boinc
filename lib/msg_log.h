@@ -41,6 +41,7 @@ class MSG_LOG {
     char spaces[80];
     FILE* output;
 public:
+    int pid;
 
     MSG_LOG(FILE* output);
     void enter_level(int = 1);

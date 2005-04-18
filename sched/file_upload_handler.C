@@ -526,6 +526,7 @@ int main() {
         exit(1);
     }
 
+    log_messages.pid = getpid();
     log_messages.set_debug_level(DEBUG_LEVEL);
 
     retval = config.parse_file("..");
