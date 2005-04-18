@@ -27331,3 +27331,14 @@ David  18 April 2005
         sched_send.C,h
         server_types.C,h
         validate_util.C
+
+Bruce 18 April 2005
+    - Added ops page script to email owners of 'problem' hosts.  Thanks to
+      Christian Beer for writing this.
+
+    html/
+        inc/
+            email.inc
+        ops/
+            problem_host.php
+

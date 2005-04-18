@@ -206,5 +206,82 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
 }
 
+function send_problem_email($user, $host) {
+    $body = "";
+	
+    $host_content = "ID: ".$host->id."
+    Created: ".time_str($host->create_time)."
+    Venue: ".$host->venue."
+    Total credit: ".$host->total_credit."
+    Average credit: ".$host->expavg_credit."
+    Average update time: ".time_str($host->expavg_time)."
+    IP address: $host->last_ip_addr (same the last $host->nsame_ip_addr times)
+    Domain name: " . $host->domain_name;
+    $x = $host->timezone/3600;
+    $host_content.="
+    Time zone UTC - $x hours
+    Number of CPUs: " . $host->p_ncpus."
+    CPU: $host->p_vendor $host->p_model
+    FP ops/sec: ".$host->p_fpops."
+    Int ops/sec: ".$host->p_iops."
+    memory bandwidth: ".$host->p_membw."
+    Operating System: $host->os_name $host->os_version";
+    $x = $host->m_nbytes/(1024*1024);
+    $y = round($x, 2);
+    $host_content.="
+    Memory: $y MB";
+    $x = $host->m_cache/1024;
+    $y = round($x, 2);
+    $host_content.="
+    Cache: $y KB";
+    $x = $host->m_swap/(1024*1024);
+    $y = round($x, 2);
+    $host_content.="
+    Swap Space: $y MB";
+    $x = $host->d_total/(1024*1024*1024);
+    $y = round($x, 2);
+    $host_content.="
+    Total Disk Space: $y GB";
+    $x = $host->d_free/(1024*1024*1024);
+    $y = round($x, 2);
+    $host_content.="
+    Free Disk Space: $y GB
+    Avg network bandwidth (upstream): $host->n_bwup bytes/sec
+    Avg network bandwidth (downstream): $host->n_bwdown bytes/sec";
+    $x = $host->avg_turnaround/86400;
+    $host_content.="
+    Average turnaround: ".round($x, 2)." days
+    Number of RPCs: $host->rpc_seqno
+    Last RPC: ".time_str($host->rpc_time)."
+    % of time client on: ". 100*$host->on_frac." %
+    % of time host connected: " . 100*$host->connected_frac." %
+    % of time user active: " . 100*$host->active_frac." %
+    # of results today: " . $host->nresults_today;
+    
+    if (defined('EMAIL_FROM')) {
+        $headers = "From: ". EMAIL_FROM;
+    } else {
+        $headers ="";
+    }
+    $subject = PROJECT." notice for $user->name";
+    $body = PROJECT." notification:
+
+Dear $user->name
+Your machine (host # $host->id) described below appears to have a misconfigured BOINC
+installation.  Could you please have a look at it?
+
+Sincerely,
+	The ". PROJECT." team
+";
+$body .= "
+
+This is the content of our database:
+" . $host_content."
+
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    echo nl2br($body) . "<br><br>"; 
+    return mail($user->email_addr, $subject, $body, $headers);
+
+}
 
 ?>
