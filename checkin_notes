@@ -27322,3 +27322,12 @@ David  17 April 2005
     sched/
         main.C
         file_upload_handler.C
+
+David  18 April 2005
+    - code cleanup in scheduler
+
+    sched/
+        handle_request.C
+        sched_send.C,h
+        server_types.C,h
+        validate_util.C

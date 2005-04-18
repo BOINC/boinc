@@ -1059,10 +1059,6 @@ leave:
 }
 
 
-
-extern double max_allowable_disk(SCHEDULER_REQUEST& req);
-extern double watch_diskspace[3];
-
 // returns zero if there is a file we can delete.
 //
 int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
@@ -1078,14 +1074,14 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
 
         sprintf(buf,
             "No disk space (you must free %.1f MB before BOINC gets space).  ",
-            fabs(max_allowable_disk(sreq))/1.e6
+            fabs(max_allowable_disk(sreq, sreply))/1.e6
         );
 
-        if (watch_diskspace[0] != 0.0) {
+        if (sreply.disk_limits.max_used != 0.0) {
             strcat(buf, "Review preferences for maximum disk space used.");
-        } else if (watch_diskspace[1] != 0.0) {
+        } else if (sreply.disk_limits.max_frac != 0.0) {
             strcat(buf, "Review preferences for maximum disk percentage used.");
-        } else if (watch_diskspace[2] != 0.0) {
+        } else if (sreply.disk_limits.min_free != 0.0) {
             strcat(buf, "Review preferences for minimum disk free space allowed.");
         }
         USER_MESSAGE um(buf, "high");

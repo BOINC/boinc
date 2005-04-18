@@ -43,10 +43,10 @@ extern SCHED_CONFIG config;
 //
 int get_output_file_path(RESULT const& result, string& path_str) {
     char buf[256], path[256];
-    bool flag;
 
-    flag = parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf));
-    if (!flag) return ERR_XML_PARSE;
+    if (!parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf))) {
+        return ERR_XML_PARSE;
+    }
     dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, true, path);
 	if (!boinc_file_exists(path)) {
 		dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, false, path);

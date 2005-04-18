@@ -71,19 +71,9 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
     return false;
 }
 
-// This is an ugly way to keep track of *why* a particular host didn't
-// get its work request satisfied.  Unfortunately I don't see a clean
-// way of doing this without global vars.  David, Rom?
-//
-
-// Initialized to zero, since it's static memory.
-double watch_diskspace[3];
-
 // compute the max additional disk usage we can impose on the host
 //
-double max_allowable_disk(SCHEDULER_REQUEST& req) {
-// ROMW: Reverting back to older implementation until all clients are 4.x
-//       or higher.
+double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
 #if 1
     HOST host = req.host;
     GLOBAL_PREFS prefs = req.global_prefs;
@@ -109,12 +99,13 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
     x = min(x1, min(x2, x3));
 
     // keep track of which bound is the most stringent
+    //
     if (x==x1) {
-        watch_diskspace[0]=x;
+        reply.disk_limits.max_used = x;
     } else if (x==x2) {
-        watch_diskspace[1]=x;
+        reply.disk_limits.max_frac = x;
     } else {
-        watch_diskspace[2]=x;
+        reply.disk_limits.min_free = x;
     }
 
     if (x < 0) {
@@ -823,7 +814,7 @@ int send_work(
     SCHED_SHMEM& ss
 ) {
 #if 1
-    reply.wreq.disk_available = max_allowable_disk(sreq);
+    reply.wreq.disk_available = max_allowable_disk(sreq, reply);
 #else
     reply.wreq.disk_available = sreq.project_disk_free;
 #endif

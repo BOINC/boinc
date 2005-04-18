@@ -145,11 +145,20 @@ struct USER_MESSAGE {
     USER_MESSAGE(const char* m, const char*p);
 };
 
+// keep track of bottleneck disk preference
+//
+struct DISK_LIMITS {
+    double max_used;
+    double max_frac;
+    double min_free;
+};
+
 // NOTE: if any field requires initialization,
 // you must do it in the constructor.  Nothing is zeroed by default.
 //
 struct SCHEDULER_REPLY {
     WORK_REQ wreq;
+    DISK_LIMITS disk_limits;
     double request_delay;       // don't request again until this time elapses
     std::vector<USER_MESSAGE> messages;
     int hostid;
