@@ -8,8 +8,8 @@ db_init();
 
 function buttons($i) {
     echo "
-        <input type=\"radio\" name=\"user$i\" value=\"0\" checked=\"checked\"> skip <br>
-        <input type=\"radio\" name=\"user$i\" value=\"1\"> accept <br>
+        <input type=\"radio\" name=\"user$i\" value=\"0\"> skip <br>
+        <input type=\"radio\" name=\"user$i\" value=\"1\" checked=\"checked\"> accept <br>
         <input type=\"radio\" name=\"user$i\" value=\"-1\"> reject
     ";
 }

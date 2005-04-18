@@ -27302,3 +27302,10 @@ David  16 April 2005
 
 	lib/
 		gui_rpc_client.C
+
+Bruce 17 April 2005
+    - Made default choice 'ACCEPT' for screening user profiles for UOTD.
+    html/
+        ops/
+            profile_screen_form.php
+
