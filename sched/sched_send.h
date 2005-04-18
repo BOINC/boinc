@@ -40,6 +40,7 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 #define INFEASIBLE_MEM      1
 #define INFEASIBLE_DISK     2
 #define INFEASIBLE_CPU      4
+#define INFEASIBLE_WORK_BUF 8
 
 extern int wu_is_infeasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 

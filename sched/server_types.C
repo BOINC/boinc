@@ -715,15 +715,18 @@ int HOST::parse_net_stats(FILE* fin) {
 }
 
 void GLOBAL_PREFS::parse(char* buf, char* venue) {
+    char buf2[LARGE_BLOB_SIZE];
+
     disk_max_used_gb = 0;
     disk_max_used_pct = 0;
     disk_min_free_gb = 0;
-    char buf2[LARGE_BLOB_SIZE];
+    work_buf_min_days = 0;
 
     extract_venue(buf, venue, buf2);
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);
     parse_double(buf2, "<disk_min_free_gb>", disk_min_free_gb);
+    parse_double(buf2, "<work_buf_min_days>", work_buf_min_days);
 }
 
 void GUI_URLS::init() {

@@ -238,6 +238,16 @@ int wu_is_infeasible(
             reply.wreq.insufficient_speed = true;
             reason |= INFEASIBLE_CPU;
         }
+        if (wu.delay_bound < request.global_prefs.work_buf_min_days*SECONDS_IN_DAY) {
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "[WU#%d %s] can't send to [HOST#%d]; delay_bound is %d, work buf min is %f)\n",
+                wu.id, wu.name, reply.host.id, wu.delay_bound,
+                request.global_prefs.work_buf_min_days*SECONDS_IN_DAY
+            );
+            reply.wreq.excessive_work_buf = true;
+            reason |= INFEASIBLE_WORK_BUF;
+        }
     }
 
     return reason;
@@ -821,6 +831,7 @@ int send_work(
     reply.wreq.insufficient_disk = false;
     reply.wreq.insufficient_mem = false;
     reply.wreq.insufficient_speed = false;
+    reply.wreq.excessive_work_buf = false;
     reply.wreq.no_app_version = false;
     reply.wreq.homogeneous_redundancy_reject = false;
     reply.wreq.daily_result_quota_exceeded = false;
@@ -935,6 +946,13 @@ int send_work(
                 SCHED_MSG_LOG::NORMAL,
                 "Not sending work because core client is outdated\n"
             );
+        }
+        if (reply.wreq.excessive_work_buf) {
+            USER_MESSAGE um(
+                "(Your network connection interval is too high)",
+                "high"
+            );
+            reply.insert_message(um);
         }
         if (reply.wreq.daily_result_quota_exceeded) {
             char helpful[256];

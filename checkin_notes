@@ -27342,3 +27342,11 @@ Bruce 18 April 2005
         ops/
             problem_host.php
 
+David  18 April 2005
+    - scheduler: don't send a result to a host
+        if its network connection period (work_buf_min_days)
+        is greater than WU's delay bound
+
+    sched/
+        sched_send.C,h
+        server_types.C,h

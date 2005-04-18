@@ -42,6 +42,7 @@ struct WORK_REQ {
     bool insufficient_disk;
     bool insufficient_mem;
     bool insufficient_speed;
+    bool excessive_work_buf;
     bool no_app_version;
     bool homogeneous_redundancy_reject;
     bool outdated_core;
@@ -79,6 +80,7 @@ struct GLOBAL_PREFS {
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;
+    double work_buf_min_days;
 
     void parse(char* buf, char* venue);
 };
