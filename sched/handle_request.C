@@ -1247,7 +1247,7 @@ void handle_request(
     //
     if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
         debug_sched(sreq, sreply, "../debug_sched");
-    } else if (max_allowable_disk(sreq)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
+    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
         debug_sched(sreq, sreply, "../debug_sched");
     }
 #endif
