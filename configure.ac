@@ -400,6 +400,16 @@ for Linux and Solaris, and will have no effect.
 	;; 
 esac
 
+ ## we need to link IOKit.framework on MacOSX for the client-build
+case $target in
+   *darwin*)  
+       if test "${enable_client}" = yes; then
+           LIBS="$LIBS -framework IOKit"
+       fi
+       ;;
+       *) ;;
+esac
+
 if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" = yes ); then
    echo "----------"
    echo "NOTE: Building portable client binaries"

@@ -140,7 +140,8 @@ Click on your computer type, or scroll down.
     If your computer is not of one of these types, you can
     <ul>
     <li> <a href=anonymous_platform.php>download the BOINC source code and compile it yourself</a> or
-    <li> <a href=download_other.php>download executables from a third-party site</a>.
+    <li> <a href=download_other.php>download executables from a third-party site</a>
+        (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
     </ul>
     <p>
     Download information is also available in
@@ -207,34 +208,32 @@ version(
     win_new(),
     "<ul>
     <li>
-    <a href=acct_mgt.php>Account Management via websites</a>
+    Fixes a bug in which Intellisense/Intellipoint
+    closes applications while in screensaver mode.
     <li>
-    <a href=gui_rpc.php>Password protection for GUI RPC's</a>
+    Fixes bugs with managed deployments with Active Directory.
     <li>
-    This release should workaround the Intellisense/Intellipoint issue of
-    closing down any application while Windows is in screensaver mode.
+    A new 'Select Computer' dialog remembers
+    which computers you have connected to.
     <li>
-    This release fixes a few issues with managed deployments with 
-    Active Directory.
+    A new statistics tab has been added to the BOINC manager (thanks to
+    Jens Breitbart for the great feature).
     <li>
-    A new select computer dialog has been created that remembers
-    which computers you have connected too.
+    Support for UMTS networks.
     <li>
-    A new statistics tab has been added to the BOINC manager, thanks to
-    Jens Breitbart for the great feature.
+    Numerious usability fixes.
     <li>
-    Provide support for UMTS networks
+    Fixed connectivity problems on all platforms.
     <li>
-    Numerious usability fixes
+    Support for <a href=acct_mgt.php>account management websites</a>.
     <li>
-    Fixed a few connectivity problems on all platforms.
+    <a href=gui_rpc.php>Password protection for GUI access</a>.
     </ul>
     ",
     "<ul>
     <li>
     Applications that were built before October 2004 do not
-    display screensaver graphics
-    with the Service or Shared install type,
+    display screensaver graphics with the Service or Shared install type,
     or the Single-user install type with the password protect screensaver
     option on NT based machines.
     <li>

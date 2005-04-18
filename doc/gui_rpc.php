@@ -1,21 +1,18 @@
 <?php
 require_once("docutil.php");
-page_head("Framework for separate GUIs");
+page_head("Controlling the core client via RPC");
 echo "
 <p>
 The BOINC core client provides a set of RPCs
 (remote procedure calls) for control and state interrogation.
-This will enable the development of GUI (graphical user interface)
+This enables the development of GUI (graphical user interface)
 programs separately from the core client.
-This will make it easier to develop new GUIs,
-and will eliminate security issues related
-to having GUI code in the core client.
 <p>
 BOINC provides a C++ interface to these RPCs.
 The interface is based on the GUI_RPC class,
 which provides the following functions
 (the code is in <code>lib/gui_rpc_client.h</code>,
- and the program <code>gui_test.C</code> gives a usage example):
+and the program <code>boinc_cmd.C</code> gives a usage example):
 <p>
 ";
 list_start();

@@ -44,9 +44,8 @@ using std::string;
 //
 // MSG_LOG has an "indent_level" state for how many spaces to indent output.
 // This corresponds in general to the function-call recursion level.
-// Call MSG_LOG::enter_level() to increase by 1 level
-// and leave_level() to decrease by 1 level.
-// The SCOPE_MSG_LOG class takes care of calling leave_level() for you.
+// Call MSG_LOG::enter_level() to increase or decrease by 1 level.
+// The SCOPE_MSG_LOG class takes care of these calls for you.
 // Create a SCOPE_MSG_LOG object on the stack at the beginning of a function;
 // it will increment the level by 1 on construction,
 // and decrement the level by 1 on destruction at end of scope.
@@ -88,6 +87,7 @@ void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
 }
 
 // break a multi-line string into lines (so that we show prefix on each line)
+//
 void MSG_LOG::vprintf_multiline(
     int kind, const char* str, const char* prefix_format, va_list va
 ) {

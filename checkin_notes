@@ -27309,3 +27309,7 @@ Bruce 17 April 2005
         ops/
             profile_screen_form.php
 
+David  17 April 2005
+    - (from Reinhard Prix) add IOKit framework to Mac compile of core client
+
+    configure.ac
