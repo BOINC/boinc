@@ -67,6 +67,7 @@
 				DD35353107E1E05C00C4718D,
 				DD40CDF907F0386A0096C645,
 				DDAEC9E107FA583B00A7BC36,
+				DD96AFF90811075000A06F22,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -104,6 +105,7 @@
 				DD095EF007D87AE900362260,
 				DD40CDF807F0386A0096C645,
 				DDAEC9E007FA583B00A7BC36,
+				DD96AFF80811075000A06F22,
 			);
 		};
 		20286C29FDCF999611CA2CEA = {
@@ -119,6 +121,7 @@
 				20286C32FDCF999611CA2CEA,
 				195DF8C9FE9D4F0611CA2CBB,
 				DD40CDFA07F0386B0096C645,
+				DD96AFFA0811075100A06F22,
 			);
 			isa = PBXGroup;
 			name = "¬´PROJECTNAME¬ª";
@@ -142,6 +145,9 @@
 			children = (
 				DDE2552B07C62F3E008E7D6E,
 				20286C33FDCF999611CA2CEA,
+				DD7C5DB908110A98002FCE1E,
+				DD7C5E7908110B11002FCE1E,
+				DD7C5E7508110AE3002FCE1E,
 				DD40CE0807F039350096C645,
 				DD40CE0C07F039680096C645,
 				DD40CFB407F039ED0096C645,
@@ -1630,6 +1636,7 @@
 				DD40826207D3076400163EF5,
 				DD40826307D3076400163EF5,
 				DD40826507D3076400163EF5,
+				DD6D82DE08131B72008F7200,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1654,6 +1661,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				OTHER_CFLAGS = "-D_THREAD_SAFE -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc_graphics_api;
@@ -2156,6 +2164,124 @@
 			settings = {
 			};
 		};
+		DD6D82DA08131AB1008F7200 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = macglutfix.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD6D82DE08131B72008F7200 = {
+			fileRef = DD6D82DA08131AB1008F7200;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5D1F08110A60002FCE1E = {
+			fileRef = DD40CE0807F039350096C645;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5D2308110A6A002FCE1E = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5DB908110A98002FCE1E = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = ApplicationServices.framework;
+			path = /System/Library/Frameworks/ApplicationServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD7C5DBB08110A9E002FCE1E = {
+			fileRef = DD7C5DB908110A98002FCE1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5E7508110AE3002FCE1E = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = ScreenSaver.framework;
+			path = /System/Library/Frameworks/ScreenSaver.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD7C5E7608110AE3002FCE1E = {
+			fileRef = DD7C5E7508110AE3002FCE1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5E7908110B11002FCE1E = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = System.framework;
+			path = /System/Library/Frameworks/System.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD7C5E7A08110B11002FCE1E = {
+			fileRef = DD7C5E7908110B11002FCE1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5E9508110D0B002FCE1E = {
+			children = (
+				DD7C5EA008110D69002FCE1E,
+				DD7C5EA108110D69002FCE1E,
+				DD7C5EAD08110DD1002FCE1E,
+			);
+			isa = PBXGroup;
+			name = mac;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD7C5EA008110D69002FCE1E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Mac_Saver_ModuleView.h;
+			path = ../client/mac/Mac_Saver_ModuleView.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD7C5EA108110D69002FCE1E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = Mac_Saver_ModuleView.m;
+			path = ../client/mac/Mac_Saver_ModuleView.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD7C5EA308110D69002FCE1E = {
+			fileRef = DD7C5EA108110D69002FCE1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD7C5EAD08110DD1002FCE1E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = mac_saver_module.cpp;
+			path = ../client/mac/mac_saver_module.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD7C5EAE08110DD1002FCE1E = {
+			fileRef = DD7C5EAD08110DD1002FCE1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD7E49CD080F9B09002716F9 = {
 			fileRef = DD6D0A8507E9A61B007F882B;
 			isa = PBXBuildFile;
@@ -2652,6 +2778,99 @@
 			path = ../config.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DD96AFF50811075000A06F22 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD96AFF60811075000A06F22 = {
+			buildActionMask = 2147483647;
+			files = (
+				DD7C5EA308110D69002FCE1E,
+				DD7C5EAE08110DD1002FCE1E,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD96AFF70811075000A06F22 = {
+			buildActionMask = 2147483647;
+			files = (
+				DD7C5D1F08110A60002FCE1E,
+				DD7C5D2308110A6A002FCE1E,
+				DD7C5DBB08110A9E002FCE1E,
+				DD7C5E7608110AE3002FCE1E,
+				DD7C5E7A08110B11002FCE1E,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD96AFF80811075000A06F22 = {
+			buildPhases = (
+				DD96AFF50811075000A06F22,
+				DD96AFF60811075000A06F22,
+				DD96AFF70811075000A06F22,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "ScreenSaver-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BOINC.saver;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = ScreenSaver;
+			productName = ScreenSaver;
+			productReference = DD96AFF90811075000A06F22;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>ScreenSaver</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.ScreenSaver</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		DD96AFF90811075000A06F22 = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = BOINC.saver.bundle;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD96AFFA0811075100A06F22 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "ScreenSaver-Info.plist";
+			path = "/Volumes/Moon/BOINC_Mac/boinc/mac_build/ScreenSaver-Info.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		DDA975B307D5FEB1002F0AA9 = {
 			fileRef = DDE2552B07C62F3E008E7D6E;
@@ -4039,6 +4258,7 @@
 				F54B8FD502AC0A0C01FB7237,
 				F54B8FD602AC0A0C01FB7237,
 				F54B8FD702AC0A0C01FB7237,
+				DD7C5E9508110D0B002FCE1E,
 				DD344BCE07C5B0B80043025C,
 				DD344BCF07C5B0B80043025C,
 				F54B8FDA02AC0A0C01FB7237,
@@ -4310,6 +4530,7 @@
 				DD40825407D3076400163EF5,
 				DD40825507D3076400163EF5,
 				DD40825607D3076400163EF5,
+				DD6D82DA08131AB1008F7200,
 				DD40825707D3076400163EF5,
 				DD40825807D3076400163EF5,
 				DD40825907D3076400163EF5,

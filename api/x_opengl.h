@@ -7,6 +7,11 @@ extern "C" {
 
 extern int xwin_glut_is_initialized();  
 
+#ifdef __APPLE__
+extern void MacGLUTFix(bool isScreenSaver);  
+extern void BringAppToFront(void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

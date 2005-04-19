@@ -27350,3 +27350,17 @@ David  18 April 2005
     sched/
         sched_send.C,h
         server_types.C,h
+
+Charlie    18 April 2005
+    Mac: Move some Mac-specific code out of x_opengl.C into new
+    Cocoa source file macglutfix.m.  Replace Carbon API calls 
+    with equivalent Cocoa calls soScience apps don't need to link 
+    with Carbon framework.  They will need to link with AppKit 
+    framework (Macintosh only)
+    
+    api/
+        x_opengl.C/h
+        macglutfix.m (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

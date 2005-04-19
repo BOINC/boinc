@@ -17,11 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>    
 #include <setjmp.h>    
@@ -124,14 +119,15 @@ void mouse_click_move(int x, int y){
 static void maybe_render() {
     int width, height;
 #ifdef __APPLE__
-    static int menuToHide = 50;
-    if (menuToHide)
-      if (boinc_is_standalone()) {
-        menuToHide = 0;
-      } else {
-        ClearMenuBar();
-        menuToHide--;
-      }
+    switch (current_graphics_mode) {
+    case MODE_WINDOW:
+        MacGLUTFix(false);
+        break;
+    case MODE_FULLSCREEN:
+    case MODE_BLANKSCREEN:
+        MacGLUTFix(true);
+        break;
+    }
 #endif
     if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
         width = glutGet(GLUT_WINDOW_WIDTH);
@@ -170,11 +166,7 @@ static void make_new_window(int mode) {
     glEnable(GL_DEPTH_TEST);    
 #ifdef __APPLE__
     glutWMCloseFunc(CloseWindow);   // Enable the window's close box
-
-//    SetSystemUIMode(kUIModeAllHidden, 0);   // Hide Menu Bar & Dock
-    ProcessSerialNumber	myProcess;
-    GetCurrentProcess(&myProcess);
-    SetFrontProcess(&myProcess);     // Bring ourselves to the front
+    BringAppToFront();
 #endif
     app_graphics_init();
 
