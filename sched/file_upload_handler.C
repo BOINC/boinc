@@ -173,7 +173,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     // from being able to write to the file.
     if ((pid=mylockf(fd))) {
         close(fd);
-        return return_error(ERR_TRANSIENT, "can't get exclusive lock on file %s: %s locked by PID=%d\n", path, strerror(errno), pid);
+        return return_error(ERR_TRANSIENT, "can't lock file %s: %s locked by PID=%d\n", path, strerror(errno), pid);
     }
 
     // check that file length corresponds to offset
@@ -392,7 +392,7 @@ int handle_get_file_size(char* file_name) {
         //
         close(fd);
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_get_file_size(): [%s] returning error\n", file_name);
-        return return_error(ERR_TRANSIENT, "file locked by another file_upload_handler (PID=%d)", pid);
+        return return_error(ERR_TRANSIENT, "[%s] locked by file_upload_handler PID=%d", file_name, pid);
     } 
     // file exists, writable, not locked by anyone else, so return length.
     //
