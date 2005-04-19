@@ -122,12 +122,14 @@ int main(int argc, char** argv) {
     if (argc < 2) usage();
     i = 1;
     if (!strcmp(argv[i], "--host")) {
-        hostname = argv[i+1];
-        i += 2;
+        if (++i == argc) usage();
+        hostname = argv[i];
+        i++;
     }
-    if (!strcmp(argv[i], "--passwd")) {
-        passwd = argv[i+1];
-        i += 2;
+    if ((i<argc)&& !strcmp(argv[i], "--passwd")) {
+        if (++i == argc) usage();
+        passwd = argv[i];
+        i++;
     }
 
     // change the following to debug GUI RPC's asynchronous connection mechanism

@@ -1073,7 +1073,10 @@ int RPC_CLIENT::authorize(const char* passwd) {
             found = true;
         }
     }
-    if (!found) return ERR_AUTHENTICATOR;
+    if (!found) {
+        fprintf(stderr, "Nonce not found\n");
+        return ERR_AUTHENTICATOR;
+    }
 
     sprintf(buf, "%s%s", nonce, passwd);
     md5_block((const unsigned char*)buf, strlen(buf), nonce_hash);

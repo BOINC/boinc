@@ -77,10 +77,12 @@ void* CNetworkConnection::Poll() {
         retval = m_pDocument->rpc.init_poll();
         if (!retval) {
             wxLogTrace(wxT("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing..."));
-            retval = m_pDocument->rpc.authorize(strComputerPassword.c_str());
+            retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.c_str());
             if (!retval) {
                 wxLogTrace(wxT("CNetworkConnection::Poll - Connection Success"));
-                SetStateSuccess(strComputer, strComputerPassword);
+                std::string host=m_strNewComputerName;
+                std::string pwd=m_strNewComputerPassword;
+                SetStateSuccess(host, pwd);
             } else if (ERR_AUTHENTICATOR == retval) {
                 wxLogTrace(wxT("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR"));
                 SetStateErrorAuthentication();

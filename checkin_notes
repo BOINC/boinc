@@ -27396,3 +27396,9 @@ Bruce 19 April 2005
             index.php
             problem_host.php
 
+David  19 April 2005
+	- BOINC manager: remote connection wasn't working because
+		it was using the wrong password variable.
+
+	clientgui/
+		MainDocument.cpp
