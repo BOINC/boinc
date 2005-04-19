@@ -27378,3 +27378,12 @@ Bruce 19 April 2005
 
     sched/
         file_upload_handler.C
+
+David  19 April 2005
+    - bug fixes for remote GUI RPC
+
+    client/
+        gui_rpc_client.C
+    lib/
+        gui_rpc_client.C
+

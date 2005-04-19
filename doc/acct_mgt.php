@@ -5,8 +5,7 @@ page_head("Account management systems");
 
 echo "
 <p>
-The 'manual' procedure for creating BOINC accounts is as follows.
-A participant must:
+To create an account with a BOINC project, a participant must:
 <ul>
 <li> locate BOINC project web sites,
 read them, and decide which to join;
@@ -36,8 +35,8 @@ The participant experience is:
 <li> Visit the account manager site,
 set up a 'meta-account' (name, email, password),
 browse a list of projects, and click checkboxes to select projects.
-<li> Handle an email from each selected project
-(click on a link in the email).
+<li> Receive email from each selected project,
+and click on a link in the email.
 <li> Download and install the BOINC client software from the account manager.
 <li> Enter the meta-account name and password in a BOINC client dialog.
 </ul>
@@ -74,13 +73,52 @@ the name and password of his meta-account.
 to the account manager, obtaining a list of accounts.
 It then attaches to these accounts and proceeds.
 </ol>
+
+<h2>Core client functionality</h2>
+<p>
+The BOINC core client uses the following files to
+keep track of account manager information.
+<dl>
+<dt>
+<b>acct_mgr_url.xml</b>
+<dd>
+This file identifies the account manager.
+It is typically bundled with the BOINC client in
+an installer package.
+Its format is:
+".html_text("
+<acct_mgr>
+    <name>Name of BOINC account management system</name>
+    <url>http://acctmgr.com/</url>
+</acct_mgr>
+")."
+
+<dt>
+<b>acct_mgr_login.xml</b>
+<dd>
+This file contains meta-account information.
+Its format is:
+".html_text("
+<acct_mgr_login>
+   <login>name</login>
+   <password>xxx</password>
+</acct_mgr_login>
+")."
+</dl>
+If the core client finds acct_mgr_url.xml but not acct_mgr_login.xml,
+it prompts for a name and password,
+stores them in acct_mgr_login.xml,
+and makes an account manager RPC.
+The core client offers menu items for making an account manager RPC,
+and for changing the name/password.
+
+<h2>Remote Procedure Call (RPC) Specifications</h2>
 <p>
 This architecture involves two RPC mechanisms:
 <ul>
 <li> <b>Account creation RPCs</b> (steps 2 and 5 above);
-<li> A <b>Account manager RPCs</b> (step 8 above).
+<li> <b>Account manager RPCs</b> (step 8 above).
 </ul>
-This document describes these two RPC mechanisms.
 The underlying protocol of both mechanisms is as follows:
 <ul>
 <li> Each RPC is an HTTP GET transaction.
@@ -88,14 +126,14 @@ The underlying protocol of both mechanisms is as follows:
 ".html_text("
 param1=val1&param2=val2&...&paramn=valn
 ")."
-there param1 ... paramN are the parameter names,
+where param1 ... paramN are the parameter names,
 and val1 ... valn are the values.
-The outputs are XML.
+<li>
+The output is XML.
 </ul>
 
 <h2>Account creation RPCs</h2>
 <p>
-The RPC functions are as follows:
 
 <h3>Create account</h3>
 ";
@@ -224,9 +262,7 @@ echo "
 ";
 
 list_start();
-list_item("URL", "Given in the file account_manager_url.xml,
-    included in the installer"
-);
+list_item("URL", "Given in the file <b>acct_manager_url.xml</b>");
 list_item("input", "name
     <br>password"
 );
