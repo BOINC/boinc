@@ -27402,3 +27402,10 @@ David  19 April 2005
 
 	clientgui/
 		MainDocument.cpp
+
+David  19 April 2005
+    - error checking in boinc_cmd
+
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C
