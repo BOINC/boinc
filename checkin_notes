@@ -27364,3 +27364,17 @@ Charlie    18 April 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Bruce 19 April 2005
+    - rework of file_upload_handler.  I learned that is it not
+      reliable to use flock/lockf/fnctl file locking with buffered
+      IO.  This is because the stream libraries might unexpectedly
+      open/close/dup file descriptors on you.  So I have modified
+      the file write/append functions to use raw IO rather than
+      buffered IO.  In doing this I also found and fixed some small
+      bugs. There is no guarantee that one can mix flock/lockf/fnctl
+      file locking so I have settled on fnctl since it is POSIX and
+      gives the most control.
+
+    sched/
+        file_upload_handler.C

@@ -30,6 +30,7 @@
 #include <cerrno>
 #include <unistd.h>
 #include <csignal>
+#include <fcntl.h>
 
 #include "crypt.h"
 #include "parse.h"
@@ -130,76 +131,102 @@ int return_success(const char* text) {
     return 0;
 }
 
+// Lock entire file for writing.
+// returns zero on success, else PID of process currently holding lock, or -1
+// if something else is wrong, for example a bad file descriptor
+//
+int mylockf(int fd) {
+    struct flock fl;
+    fl.l_type=F_WRLCK;
+    fl.l_whence=SEEK_SET;
+    fl.l_start=0;
+    fl.l_len=0;
+    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
+
+    // if lock failed, find out why
+    errno=0;
+    fcntl(fd, F_GETLK, &fl);
+    if (fl.l_pid>0) return fl.l_pid;
+    return -1;
+}
+
 #define BLOCK_SIZE  16382
-double bytes_left;
+double bytes_left=-1;
 
 // read from socket, write to file
 // ALWAYS returns an HTML reply
 //
 int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     unsigned char buf[BLOCK_SIZE];
-    char buf2[256];
-    FILE* out;
-    int retval, n, m, fd, lockret;
     struct stat sbuf;
+    int pid;
 
-    out = fopen(path, "ab");
-    if (!out) {
-        return return_error(ERR_TRANSIENT, "can't open file %s: %s", path, strerror(errno));
-    }
-
-    // get file descriptor for locking purposes
-    fd=fileno(out);
+    // open file.  We use raw IO not buffered IO so that we can use reliable
+    // posix file locking. Advisory file locking is not guaranteed reliable when
+    // used with stream buffered IO.
+    int fd=open(path, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd<0) {
-        fclose(out);
-        return return_error(ERR_TRANSIENT, "can't get file descriptor for file %s: %s", path, strerror(errno));
+        return return_error(ERR_TRANSIENT, "can't open file %s: %s\n", path, strerror(errno));
     }
 
     // Put an advisory lock on the file.  This will prevent OTHER instances of file_upload_handler
     // from being able to write to the file.
-    lockret=lockf(fd, F_TLOCK, 0);
-    if (lockret) {
-        fclose(out);
-        return return_error(ERR_TRANSIENT, "can't get exclusive lock on file %s: %s", path, strerror(errno));
+    if ((pid=mylockf(fd))) {
+        close(fd);
+        return return_error(ERR_TRANSIENT, "can't get exclusive lock on file %s: %s locked by PID=%d\n", path, strerror(errno), pid);
     }
 
     // check that file length corresponds to offset
    // TODO: use a 64-bit variant
-    retval=stat(path, &sbuf);
-    if (retval) {
-        fclose(out);
-        return return_error(ERR_TRANSIENT, "can't stat file %s: %s", path, strerror(errno));
+    if (stat(path, &sbuf)) {
+        close(fd);
+        return return_error(ERR_TRANSIENT, "can't stat file %s: %s\n", path, strerror(errno));
     }
     if (sbuf.st_size != offset) {
-        fclose(out);
-	return return_error(ERR_TRANSIENT, "length of file %s %d bytes != offset %d bytes", path, (int)sbuf.st_size, offset);
+        close(fd);
+        return return_error(ERR_TRANSIENT, "length of file %s %d bytes != offset %.0f bytes", path, (int)sbuf.st_size, offset);
     }
 
+    // caller guarantees that nbytes > offset
     bytes_left = nbytes - offset;
-    if (bytes_left == 0) {
-        fclose(out);
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "offset == nbytes: %f\n", nbytes);
-        return return_success(0);
-    }
 
     while (1) {
-        m = BLOCK_SIZE;
-        if (m > bytes_left) m = (int)bytes_left;
+        int n, m, to_write, errno_save;
+
+        if (0 == bytes_left) break;
+
+        m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
+
+        // try to get m bytes from socket (n is number actually returned)
+        errno=0;
         n = fread(buf, 1, m, in);
+        errno_save=errno;
         if (n <= 0) {
-            fclose(out);
-            sprintf(buf2, "can't read file: asked for %d, got %d: %s", m, n, strerror(errno));
-            return return_error(ERR_TRANSIENT, buf2);
+            close(fd);
+            return return_error(ERR_TRANSIENT, "can't read socket: asked for %d, got %d: %s\n", m, n, strerror(errno));
         }
-        m = fwrite(buf, 1, n, out);
-        if (m != n) {
-            fclose(out);
-            return return_error(ERR_TRANSIENT, "can't write file: %s", strerror(errno));
+
+        // try to write n bytes to file
+        errno=0;
+        to_write=n;
+        while (to_write > 0) {
+            ssize_t ret=write(fd, buf+n-to_write, to_write);
+            if (ret < 0) { 
+                close(fd);
+                return return_error(ERR_TRANSIENT, "can't write file %s: %s\n", path, strerror(errno));
+            }
+            to_write -= ret;
         }
+
+        // check that we got all bytes from socket that were requested
+        if (n != m) {
+            close(fd);
+            return return_error(ERR_TRANSIENT, "socket read incomplete: asked for %d, got %d: %s\n", m, n, strerror(errno_save));
+        }
+
         bytes_left -= n;
-        if (bytes_left == 0) break;
     }
-    fclose(out);
+    close(fd);
     return return_success(0);
 }
 
@@ -308,8 +335,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             );
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
-                "PID=%d Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
-                getpid(),
+                "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
                 file_info.name,
                 get_remote_addr(),
                 offset, nbytes
@@ -325,8 +351,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             retval = copy_socket_to_file(in, path, offset, nbytes);
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
-                "PID=%d Ended upload of %s from %s; retval %d\n",
-                getpid(),
+                "Ended upload of %s from %s; retval %d\n",
                 file_info.name,
                 get_remote_addr(),
                 retval
@@ -347,71 +372,52 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 int handle_get_file_size(char* file_name) {
     struct stat sbuf;
     char path[256], buf[256];
-    int retval,fd;
-    FILE *fp;
+    int retval, pid, fd;
 
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
     //
     dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, true, path);
-    retval = stat( path, &sbuf );
-    if (retval && errno != ENOENT) {
-        // file DOES perhaps exit, but can't stat it:try again later
-        //
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_get_file_size(): [%s] returning error\n", file_name);
-        return return_error(ERR_TRANSIENT, "cannot open file" );
-    } else if (retval) {
+    fd=open(path, O_WRONLY|O_APPEND);
+
+    if (fd<0 && ENOENT==errno) {
         // file does not exist: return zero length
         //
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "handle_get_file_size(): [%s] returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
-    } else if (!(fp=fopen(path, "ab"))) { 
-        // file exists, but can't be written to: try again later
-        // 
-        /* Opening a file with append mode (a as the first character in
-           the  mode argument) causes all subsequent writes to the file
-           to be forced to the then current end-of-file, regardless  of
-           intervening  calls  to  fseek(3C). If two separate processes
-           open the same file for append, each process may write freely
-           to  the file without fear of destroying output being written
-           by the other.  The output from the  two  processes  will  be
-           intermixed in the file in the order in which it is written.
-        */
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-            "handle_get_file_size(): [%s] %d bytes long returning error\n",
-            file_name, (int)sbuf.st_size
-        );
-        return return_error(ERR_TRANSIENT, "can't open file for writing" );
-    } else if ((fd=fileno(fp))<0) {
-        // file exists and is writable, but can't get file descriptor: try again later
+    }
+
+    if (fd<0) {
+        // can't get file descriptor: try again later
         //
-        fclose(fp);
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-            "handle_get_file_size(): [%s] %d bytes long returning error\n",
-            file_name, (int)sbuf.st_size
-        );
-        return return_error(ERR_TRANSIENT, "can't get file descriptor" );
-    } else if (lockf(fd, F_TEST, 0)) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_get_file_size(): can't open [%s] %s\n", file_name, strerror(errno));
+        return return_error(ERR_TRANSIENT, "can't open file");
+    }
+
+    if ((pid=mylockf(fd))) {
         // file locked by another file_upload_handler: try again later
         //
-        fclose(fp);
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-            "handle_get_file_size(): [%s] %d bytes long returning error\n",
-            file_name, (int)sbuf.st_size
-        );
-        return return_error(ERR_TRANSIENT, "file locked by another file_upload_handler" );
-    } else {
-        // file exists, writable, not locked, so return length.
+        close(fd);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_get_file_size(): [%s] returning error\n", file_name);
+        return return_error(ERR_TRANSIENT, "file locked by another file_upload_handler (PID=%d)", pid);
+    } 
+    // file exists, writable, not locked by anyone else, so return length.
+    //
+    retval = stat(path, &sbuf);
+    close(fd);
+    if (retval) {
+        // file DOES perhaps exist, but can't stat it: try again later
         //
-        fclose(fp);
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
-            file_name, (int)sbuf.st_size
-        );
-        sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
-        return return_success(buf);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_get_file_size(): [%s] returning error %s\n", file_name, strerror(errno));
+        return return_error(ERR_TRANSIENT, "cannot stat file" );
     }
-    return 0;
+
+    log_messages.printf(
+        SCHED_MSG_LOG::NORMAL, "handle_get_file_size(): [%s] returning %d\n",
+        file_name, (int)sbuf.st_size
+    );
+    sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
+    return return_success(buf);
 }
 
 // always generates an HTML reply
@@ -483,20 +489,21 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     return 0;
 }
 
-int pid;
-
 void boinc_catch_signal(int signal_num) {
     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-        "PID=%d FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s]\n",
-        pid, this_filename, bytes_left, get_remote_addr(),
+        "FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s]\n",
+        this_filename, bytes_left, get_remote_addr(),
         signal_num, strsignal(signal_num)
     );
+
+    // there is no point in trying to return an error.  At this point Apache has broken
+    // the connection so a write to stdout will just generate a SIGPIPE
+    //
+    // return_error(ERR_TRANSIENT, "while downloading %s server caught signal %d", this_filename, signal_num);
     exit(1);
 }
 
 void installer() {
-    pid=getpid();
-
     signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
     signal(SIGINT, boinc_catch_signal);  // interrupt program
     signal(SIGQUIT, boinc_catch_signal); // quit program
