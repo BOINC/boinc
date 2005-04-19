@@ -190,24 +190,17 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     // caller guarantees that nbytes > offset
     bytes_left = nbytes - offset;
 
-    while (1) {
-        int n, m, to_write, errno_save;
+    while (bytes_left > 0) {
 
-        if (0 == bytes_left) break;
+        int n, m, to_write, errno_save;
 
         m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
 
-        // try to get m bytes from socket (n is number actually returned)
-        errno=0;
+        // try to get m bytes from socket (n>=0 is number actually returned)
         n = fread(buf, 1, m, in);
         errno_save=errno;
-        if (n <= 0) {
-            close(fd);
-            return return_error(ERR_TRANSIENT, "can't read socket: asked for %d, got %d: %s\n", m, n, strerror(errno));
-        }
 
         // try to write n bytes to file
-        errno=0;
         to_write=n;
         while (to_write > 0) {
             ssize_t ret=write(fd, buf+n-to_write, to_write);
