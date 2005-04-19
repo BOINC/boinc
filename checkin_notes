@@ -27393,5 +27393,6 @@ Bruce 19 April 2005
 
     html/
         ops/
+            index.php
             problem_host.php
 
