@@ -27409,3 +27409,13 @@ David  19 April 2005
     lib/
         boinc_cmd.C
         gui_rpc_client.C
+
+David  19 April 2005
+    - fix bug in -attach_project command line option (from Tony Murray)
+    - GUI RPC: include <rss_bytes> for active tasks,
+        (even though it's always zero)
+
+    client/
+        app.C
+        cs_cmdline.C
+        gui_rpc_server.C

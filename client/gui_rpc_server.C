@@ -611,6 +611,7 @@ int GUI_RPC_CONN::handle_rpc() {
     mf.printf("</boinc_gui_rpc_reply>\n\003");
     m.get_buf(p, n);
     if (p) {
+        scope_messages.printf("GUI RPC reply: '%s'\n", p);
         send(sock, p, n, 0);
         free(p);
     }

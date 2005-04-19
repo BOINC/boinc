@@ -352,6 +352,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <vm_bytes>%f</vm_bytes>\n"
+        "    <rss_bytes>%f</rss_bytes>\n"
         "%s"
         "</active_task>\n",
         result->project->master_url,
@@ -364,6 +365,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         fraction_done,
         current_cpu_time,
         vm_bytes,
+        rss_bytes,
         supports_graphics()?"   <supports_graphics/>\n":""
     );
     return 0;

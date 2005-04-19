@@ -34,20 +34,20 @@
 static void print_options(char* prog) {
     printf(
         "Usage: %s [options]\n"
-        "    -help                      show options\n"
-        "    -version                   show version info\n"
-        "    -exit_when_idle            Get/process/report work, then exit\n"
-        "    -show_projects             show attached projects\n"
-        "    -return_results_immediately   contact server when have results\n"
-        "    -detach_project URL        detach from a project\n"
-        "    -reset_project URL         reset (clear) a project\n"
-        "    -attach_project URL key    attach to a project\n"
-        "    -update_prefs URL          contact a project to update preferences\n"
-        "    -run_cpu_benchmarks        run the CPU benchmarks\n"
-        "    -check_all_logins          for idle detection, check remote logins\n too"
-        "    -allow_remote_gui_rpc      allow remote GUI RPC connections\n"
-        "    -redirectio                redirect stdout and stderr to log files\n"
-        "    -dir abs_path              use given dir as BOINC home\n",
+        "    -help                          show options\n"
+        "    -version                       show version info\n"
+        "    -exit_when_idle                Get/process/report work, then exit\n"
+        "    -show_projects                 show attached projects\n"
+        "    -return_results_immediately    contact server when have results\n"
+        "    -detach_project <URL>          detach from a project\n"
+        "    -reset_project <URL>           reset (clear) a project\n"
+        "    -attach_project <URL> <key>    attach to a project\n"
+        "    -update_prefs <URL>            contact a project to update preferences\n"
+        "    -run_cpu_benchmarks            run the CPU benchmarks\n"
+        "    -check_all_logins              for idle detection, check remote logins\n too"
+        "    -allow_remote_gui_rpc          allow remote GUI RPC connections\n"
+        "    -redirectio                    redirect stdout and stderr to log files\n"
+        "    -dir <path>                    use given dir as BOINC home\n",
         prog
     );
 }
@@ -149,9 +149,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i > argc-2) {
                 show_options = true;
             } else {
-                strcpy(attach_project_url, argv[i+1]);
-                strcpy(attach_project_auth, argv[i+1]);
-                i += 2;
+                strcpy(attach_project_url, argv[++i]);
+                strcpy(attach_project_auth, argv[++i]);
             }
         } else if (ARG(version)) {
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
