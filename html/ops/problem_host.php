@@ -31,15 +31,17 @@ if (!$hostid) {
     ";
 } else {
     $res = mysql_query("select * from host where id='$hostid'");
-    if (0) {
-      echo "No host with that ID";
-      exit;
-    }
     $host = mysql_fetch_object($res);
-    $res = mysql_query("select * from user where id='$host->userid'");
-    $user = mysql_fetch_object($res);
-    send_problem_email($user, $host);
-    echo "Email to ".$user->email_addr." has been send.";
+    if (!$host) {
+    	echo "<h2>No host with that ID</h2>
+	 	<center>Please <a href=\"problem_host.php\">try again</a></center>";
+    } else {
+    	$res = mysql_query("select * from user where id='$host->userid'");
+    	$user = mysql_fetch_object($res);
+    	send_problem_email($user, $host);
+    	echo "Email to ".$user->email_addr." has been send.<br>
+		<a href=\"problem_host.php\">Do another?</a>";
+	}
 }
 
 admin_page_tail();

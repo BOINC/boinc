@@ -27387,3 +27387,11 @@ David  19 April 2005
     lib/
         gui_rpc_client.C
 
+Bruce 19 April 2005
+    - Better error reporting from problem_host.php reporting page, if
+      host does not exist.  Thanks to Christian Beer.
+
+    html/
+        ops/
+            problem_host.php
+
