@@ -37,7 +37,7 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(
-    wxNotebook* pNotebook, wxWindowID iHtmlWindowID, int iHtmlWindowFlags,
+    wxNotebook* pNotebook, wxWindowID iTaskWindowID, int iTaskWindowFlags,
     wxWindowID iListWindowID, int iListWindowFlags, bool donothing
 ) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
     if (!donothing) {
@@ -47,14 +47,6 @@ CBOINCBaseView::CBOINCBaseView(
         m_bProcessingListRenderEvent = false;
 
         m_bItemSelected = false;
-
-        m_strQuickTip = wxEmptyString;
-        m_strQuickTipText = wxEmptyString;
-
-        //
-        // Globalization/Localization
-        //
-        LINK_DEFAULT             = wxT("default");
 
         //
         // Setup View
@@ -70,7 +62,7 @@ CBOINCBaseView::CBOINCBaseView(
         itemFlexGridSizer->AddGrowableRow(0);
         itemFlexGridSizer->AddGrowableCol(1);
         
-        m_pTaskPane = new CBOINCTaskCtrl(this, iHtmlWindowID, iHtmlWindowFlags);
+        m_pTaskPane = new CBOINCTaskCtrl(this, iTaskWindowID, iTaskWindowFlags);
         wxASSERT(NULL != m_pTaskPane);
 
         m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
@@ -104,17 +96,6 @@ const char** CBOINCBaseView::GetViewIcon() {
 }
 
 
-int CBOINCBaseView::GetListRowCount() {
-    wxASSERT(m_pListPane);
-    return m_pListPane->GetItemCount();
-}
-
-
-void CBOINCBaseView::FireOnListRender (wxTimerEvent& event) {
-    OnListRender(event);
-}
-
-
 bool CBOINCBaseView::FireOnSaveState(wxConfigBase* pConfig) {
     return OnSaveState(pConfig);
 }
@@ -125,8 +106,14 @@ bool CBOINCBaseView::FireOnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-void CBOINCBaseView::FireOnChar(wxKeyEvent& event) {
-    OnChar(event);
+int CBOINCBaseView::GetListRowCount() {
+    wxASSERT(m_pListPane);
+    return m_pListPane->GetItemCount();
+}
+
+
+void CBOINCBaseView::FireOnListRender (wxTimerEvent& event) {
+    OnListRender(event);
 }
 
 
@@ -152,30 +139,6 @@ int CBOINCBaseView::FireOnListGetItemImage(long item) const {
 
 wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
     return OnListGetItemAttr(item);
-}
-
-
-void CBOINCBaseView::FireOnTaskLinkClicked(const wxHtmlLinkInfo& link) {
-    OnTaskLinkClicked(link);
-}
-
-
-void CBOINCBaseView::FireOnTaskCellClicked(
-    wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event
-) {
-    OnTaskCellClicked(cell, x, y, event);
-}
-
-
-void CBOINCBaseView::FireOnTaskCellMouseHover(
-    wxHtmlCell* cell, wxCoord x, wxCoord y
-) {
-    OnTaskCellMouseHover(cell, x, y);
-}
-
-
-int CBOINCBaseView::GetDocCount() {
-    return 0;
 }
 
 
@@ -264,22 +227,13 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-void CBOINCBaseView::OnChar(wxKeyEvent& event) {
-    event.Skip();
-}
-
-
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
-    SetCurrentQuickTip(LINK_DEFAULT, wxT(""));
-
     UpdateSelection();
     event.Skip();
 }
 
 
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
-    SetCurrentQuickTip(LINK_DEFAULT, wxT(""));
-
     UpdateSelection();
     event.Skip();
 }
@@ -302,6 +256,11 @@ wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long WXUNUSED(item)) const {
 }
 
 
+int CBOINCBaseView::GetDocCount() {
+    return 0;
+}
+
+
 wxString CBOINCBaseView::OnDocGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
     return wxString("Undefined");
 }
@@ -314,33 +273,6 @@ wxString CBOINCBaseView::OnDocGetItemImage(long WXUNUSED(item)) const {
 
 wxString CBOINCBaseView::OnDocGetItemAttr(long WXUNUSED(item)) const {
     return wxString("Undefined");
-}
-
-
-void CBOINCBaseView::OnTaskLinkClicked(const wxHtmlLinkInfo& WXUNUSED(link)) {}
-
-
-void CBOINCBaseView::OnTaskCellClicked(wxHtmlCell* WXUNUSED(cell), wxCoord WXUNUSED(x) , wxCoord WXUNUSED(y), const wxMouseEvent& WXUNUSED(event))
-{}
-
-
-void CBOINCBaseView::OnTaskCellMouseHover(wxHtmlCell* WXUNUSED(cell), wxCoord WXUNUSED(x) , wxCoord WXUNUSED(y))
-{}
-
-
-wxString CBOINCBaseView::GetCurrentQuickTip() {
-    return m_strQuickTip;
-}
-
-
-wxString CBOINCBaseView::GetCurrentQuickTipText() {
-    return m_strQuickTipText;
-}
-
-
-void CBOINCBaseView::SetCurrentQuickTip(const wxString& strQuickTip, const wxString& strQuickTipText) {
-    m_strQuickTip = strQuickTip;
-    m_strQuickTipText = strQuickTipText;
 }
 
 
@@ -410,6 +342,14 @@ int CBOINCBaseView::UpdateCache(
 }
 
 
+void CBOINCBaseView::UpdateSelection()
+{}
+
+
+void CBOINCBaseView::UpdateTaskPane()
+{}
+
+
 bool CBOINCBaseView::_EnsureLastItemVisible() {
     return EnsureLastItemVisible();
 }
@@ -418,31 +358,6 @@ bool CBOINCBaseView::_EnsureLastItemVisible() {
 bool CBOINCBaseView::EnsureLastItemVisible() {
     return false;
 }
-
-
-bool CBOINCBaseView::UpdateQuickTip(
-    const wxString& strCurrentLink, const wxString& strQuickTip,
-    const wxString& strQuickTipText
-) {
-    bool bRetVal;
-
-    bRetVal = false;
-
-    if ((strCurrentLink == strQuickTip) && (strQuickTip != GetCurrentQuickTip())) {
-        SetCurrentQuickTip(strQuickTip, strQuickTipText);
-        bRetVal = true;
-    }
-
-    return bRetVal;
-}
-
-
-void CBOINCBaseView::UpdateSelection()
-{}
-
-
-void CBOINCBaseView::UpdateTaskPane()
-{}
 
 
 const char *BOINC_RCSID_0a1bd38a5a = "$Id$";

@@ -70,7 +70,6 @@ public:
     void OnAbout( wxCommandEvent& event );
 
     void OnClose( wxCloseEvent& event );
-    void OnChar( wxKeyEvent& event );
     void OnHelp( wxHelpEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );

@@ -33,9 +33,6 @@
 
 #include "res/boinc.xpm"
 #include "res/proj.xpm"
-#include "res/task.xpm"
-#include "res/web.xpm"
-#include "res/tips.xpm"
 
 
 #define COLUMN_PROJECT              0
@@ -71,124 +68,130 @@ CProject::~CProject() {
 
 IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
 
+BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
+    EVT_BUTTON(ID_TASK_PROJECT_UPDATE, CViewProjects::OnProjectUpdate)
+    EVT_BUTTON(ID_TASK_PROJECT_SUSPEND, CViewProjects::OnProjectSuspend)
+    EVT_BUTTON(ID_TASK_PROJECT_RESUME, CViewProjects::OnProjectResume)
+    EVT_BUTTON(ID_TASK_PROJECT_NONEWWORK, CViewProjects::OnProjectNoNewWork)
+    EVT_BUTTON(ID_TASK_PROJECT_ALLOWNEWWORK, CViewProjects::OnProjectAllowNewWork)
+    EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
+    EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
+    EVT_BUTTON(ID_TASK_PROJECT_ATTACH, CViewProjects::OnProjectAttach)
+END_EVENT_TABLE ()
+
 
 CViewProjects::CViewProjects() {}
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_PROJECTSVIEW, DEFAULT_HTML_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_HTML_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
 {
+	CTaskItemGroup* pGroup = NULL;
+	CTaskItem*      pItem = NULL;
+
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
-
-    //
-    // Globalization/Localization
-    //
-    VIEW_HEADER          = wxT("proj");
-
-    SECTION_TASK         = VIEW_HEADER + wxT("task");
-    SECTION_WEB          = VIEW_HEADER + wxT("web");
-    SECTION_TIPS         = VIEW_HEADER + wxT("tips");
-
-    BITMAP_PROJECTS      = VIEW_HEADER + wxT(".xpm");
-    BITMAP_TASKHEADER    = SECTION_TASK + wxT(".xpm");
-    BITMAP_WEBHEADER     = SECTION_WEB + wxT(".xpm");
-    BITMAP_TIPSHEADER    = SECTION_TIPS + wxT(".xpm");
-    BITMAP_BOINC         = wxT("boinc.xpm");
-
-
-    LINKDESC_DEFAULT     = 
-        _("Click a project to see additional options.");
-
-    LINK_TASKATTACH      = SECTION_TASK + wxT("attach");
-    LINKDESC_TASKATTACH  = 
-        _("<b>Attach to new project</b><br>"
-          "Attach this computer to a BOINC project.  "
-          "You'll need a project URL and account key "
-          "(visit the project's web site to get these).");
-
-    LINK_TASKDETACH      = SECTION_TASK + wxT("detach");
-    LINKDESC_TASKDETACH  = 
-        _("<b>Detach from project</b><br>"
-          "Detach this computer from this project.  "
-          "Work in progress will be lost. "
-          "You can update the project first to report "
-          "any completed work.");
-
-    LINK_TASKRESET       = SECTION_TASK + wxT("reset");
-    LINKDESC_TASKRESET   = 
-        _("<b>Reset project</b><br>"
-          "Delete all files and work associated with this project, "
-          "and get new work.  "
-          "You can update the project "
-          "first to report any completed work.");
-
-    LINK_TASKSUSPEND     = SECTION_TASK + wxT("suspend");
-    LINKDESC_TASKSUSPEND = 
-        _("<b>Suspend project</b><br>"
-          "Stop work for this project "
-          "(you can resume later).");
-
-    LINK_TASKRESUME      = SECTION_TASK + wxT("resume");
-    LINKDESC_TASKRESUME  = 
-        _("<b>Resume project</b><br>"
-          "Resume work for this project");
-    LINK_TASKNOMOREWORK  = SECTION_TASK + wxT("nomorework");
-    LINKDESC_TASKNOMOREWORK =
-        _("<b>Don't Get New Work</b><br>"
-            "Tell the project to not "
-            "fetch additional work for this "
-            "project. Any work already downloaded will "
-            "still be processed and returned."
-       );
-    LINK_TASKALLOWMOREWORK  = SECTION_TASK + wxT("allowmorework");
-    LINKDESC_TASKALLOWMOREWORK =
-        _("<b>Allow Work Downloads</b><br>"
-            "Allow the project to fetch "
-            "additional work."
-       );
-
-    LINK_TASKUPDATE      = SECTION_TASK + wxT("update");
-    LINKDESC_TASKUPDATE  = 
-        _("<b>Update project</b><br>"
-          "Report all completed work and refresh "
-          "your credit and preferences for this project.");
-
-    LINK_WEBBOINC        = SECTION_WEB + wxT("boinc");
-    LINKDESC_WEBBOINC    = 
-        _("<b>BOINC home page</b><br>"
-          "Open the BOINC home page in a web browser.");
-
-    LINK_WEBPROJECT      = SECTION_WEB + wxT("project");
-    LINKDESC_WEBPROJECT  = 
-        _("<b>Project home page</b><br>"
-          "Open this project's home page in a web browser.");
-
-    LINK_WEB             = SECTION_WEB + wxT(":");
 
 
     //
     // Setup View
     //
-    wxBitmap bmpProject(proj_xpm);
-    wxBitmap bmpTask(task_xpm);
-    wxBitmap bmpWeb(web_xpm);
-    wxBitmap bmpTips(tips_xpm);
-    wxBitmap bmpBOINC(boinc_xpm);
+	pGroup = new CTaskItemGroup( _("Tasks") );
+	m_TaskGroups.push_back( pGroup );
 
-    bmpProject.SetMask(new wxMask(bmpProject, wxColour(255, 0, 255)));
-    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
-    bmpWeb.SetMask(new wxMask(bmpWeb, wxColour(255, 0, 255)));
-    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
-    bmpBOINC.SetMask(new wxMask(bmpBOINC, wxColour(255, 0, 255)));
+	pItem = new CTaskItem(
+        _("Update project"),
+        _("Report all completed work and refresh "
+          "your credit and preferences for this project."),
+        ID_TASK_PROJECT_UPDATE 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
-    m_pTaskPane->AddVirtualFile(BITMAP_PROJECTS, bmpProject, wxBITMAP_TYPE_XPM);
-    m_pTaskPane->AddVirtualFile(BITMAP_BOINC, bmpBOINC, wxBITMAP_TYPE_XPM);
+	pItem = new CTaskItem(
+        _("Suspend project"),
+        _("Stop work for this project "
+          "(you can resume later)."),
+        ID_TASK_PROJECT_SUSPEND 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
-    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_WEBHEADER, bmpWeb, _("Web sites"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
+	pItem = new CTaskItem(
+        _("Resume project"),
+        _("Resume work for this project"),
+        ID_TASK_PROJECT_RESUME 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
+	pItem = new CTaskItem(
+        _("Don't Get New Work"),
+        _("Tell the project to not "
+          "fetch additional work for this "
+          "project. Any work already downloaded will "
+          "still be processed and returned."),
+        ID_TASK_PROJECT_NONEWWORK 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Allow Work Downloads"),
+        _("Allow the project to fetch "
+          "additional work."),
+        ID_TASK_PROJECT_ALLOWNEWWORK 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Reset project"),
+        _("Delete all files and work associated with this project, "
+          "and get new work.  "
+          "You can update the project "
+          "first to report any completed work."),
+        ID_TASK_PROJECT_RESET 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Detach from project"),
+        _("Detach this computer from this project.  "
+          "Work in progress will be lost. "
+          "You can update the project first to report "
+          "any completed work."),
+        ID_TASK_PROJECT_DETACH 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Attach to new project"),
+        _("Attach this computer to a BOINC project.  "
+          "You'll need a project URL and account key "
+          "(visit the project's web site to get these)."),
+        ID_TASK_PROJECT_ATTACH 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+
+	pGroup = new CTaskItemGroup( _("Web sites") );
+	m_TaskGroups.push_back( pGroup );
+
+	pItem = new CTaskItem(
+        _("BOINC"),
+        _("Open the BOINC home page in a web browser."),
+        ID_TASK_PROJECT_WEB_BOINC 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Project"),
+        _("Open this project's home page in a web browser."),
+        ID_TASK_PROJECT_WEB_PROJECT 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+
+    // Create Task Pane Items
+    m_pTaskPane->CreateTaskControls();
+
+    // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, 80);
@@ -196,21 +199,23 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. credit"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource share"), wxLIST_FORMAT_CENTRE, 85);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
-
-    m_bTipsHeaderHidden = false;
-    m_bItemSelected = false;
-
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        LINKDESC_DEFAULT
-    );
-
-    UpdateSelection();
 }
 
 
 CViewProjects::~CViewProjects() {
+    unsigned int i;
+    unsigned int j;
+
     EmptyCache();
+
+    for (i=0; i<m_TaskGroups.size(); i++) {
+        for (j=0; j<m_TaskGroups[i]->m_Tasks.size(); j++) {
+            delete m_TaskGroups[i]->m_Tasks[j];
+        }
+        m_TaskGroups[i]->m_Tasks.clear();
+        delete m_TaskGroups[i];
+    }
+    m_TaskGroups.clear();
 }
 
 
@@ -224,6 +229,231 @@ const char** CViewProjects::GetViewIcon() {
 }
 
 
+void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Updating project..."));
+    pDoc->ProjectUpdate(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function End"));
+}
+
+
+void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Suspending project..."));
+    pDoc->ProjectSuspend(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function End"));
+}
+
+
+void CViewProjects::OnProjectResume( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectResume - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Resuming project..."));
+    pDoc->ProjectResume(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectResume - Function End"));
+}
+
+
+void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectNoNewWork - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
+    pDoc->ProjectNoMoreWork(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectNoNewWork - Function End"));
+}
+
+
+void CViewProjects::OnProjectAllowNewWork( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAllowNewWork - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
+    pDoc->ProjectAllowMoreWork(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAllowNewWork - Function End"));
+}
+
+
+void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxString strProjectName = wxEmptyString;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Resetting project..."));
+
+    pDoc->GetProjectProjectName(m_pListPane->GetFirstSelected(), strProjectName);
+
+    strMessage.Printf(
+        _("Are you sure you want to reset project '%s'?"), 
+        strProjectName.c_str());
+
+    iAnswer = wxMessageBox(
+        strMessage,
+        _("Reset Project"),
+        wxYES_NO | wxICON_QUESTION, 
+        this
+    );
+
+    if (wxYES == iAnswer) {
+        pDoc->ProjectReset(m_pListPane->GetFirstSelected());
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function End"));
+}
+
+
+void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxString strProjectName = wxEmptyString;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Detaching from project..."));
+
+    pDoc->GetProjectProjectName(m_pListPane->GetFirstSelected(), strProjectName);
+
+    strMessage.Printf(
+        _("Are you sure you want to detach from project '%s'?"), 
+        strProjectName.c_str()
+    );
+
+    iAnswer = wxMessageBox(
+        strMessage,
+        _("Detach from Project"),
+        wxYES_NO | wxICON_QUESTION, 
+        this
+    );
+
+    if (wxYES == iAnswer) {
+        pDoc->ProjectDetach(m_pListPane->GetFirstSelected());
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function End"));
+}
+
+
+void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Attaching to project..."));
+
+    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
+    wxASSERT(NULL != pDlg);
+
+    iAnswer = pDlg->ShowModal();
+
+    if (wxID_OK == iAnswer) {
+        pDoc->ProjectAttach(
+            pDlg->GetProjectAddress(), 
+            pDlg->GetProjectAccountKey()
+        );
+    }
+
+    if (pDlg)
+        pDlg->Destroy();
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function End"));
+}
+
+    
 wxInt32 CViewProjects::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -297,9 +527,9 @@ wxString CViewProjects::OnDocGetItemText(long item, long column) const {
 }
 
 
+/*
 void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function Begin"));
-
     wxInt32  iAnswer        = 0; 
     wxInt32  iProjectIndex  = 0; 
     wxInt32  iWebsiteIndex  = 0; 
@@ -321,89 +551,13 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
     m_bTipsHeaderHidden = false;
 
     if (link.GetHref() == LINK_TASKATTACH) {
-        pFrame->UpdateStatusText(_("Attaching to project..."));
-
-        CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-        wxASSERT(NULL != pDlg);
-
-        iAnswer = pDlg->ShowModal();
- 
-        if (wxID_OK == iAnswer) {
-            pDoc->ProjectAttach(
-                pDlg->GetProjectAddress(), 
-                pDlg->GetProjectAccountKey()
-            );
-        }
-
-        if (pDlg)
-            pDlg->Destroy();
     } else if (link.GetHref() == LINK_TASKDETACH) {
-        pFrame->UpdateStatusText(_("Detaching from project..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
-
-        strMessage.Printf(
-            _("Are you sure you want to detach from project '%s'?"), 
-            strProjectName.c_str()
-        );
-
-        iAnswer = wxMessageBox(
-            strMessage,
-            _("Detach from Project"),
-            wxYES_NO | wxICON_QUESTION, 
-            this
-        );
-
-        if (wxYES == iAnswer) {
-            pDoc->ProjectDetach(iProjectIndex);
-        }
     } else if (link.GetHref() == LINK_TASKRESET) {
-        pFrame->UpdateStatusText(_("Resetting project..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetProjectProjectName(iProjectIndex, strProjectName);
-
-        strMessage.Printf(
-            _("Are you sure you want to reset project '%s'?"), 
-            strProjectName.c_str());
-
-        iAnswer = wxMessageBox(
-            strMessage,
-            _("Reset Project"),
-            wxYES_NO | wxICON_QUESTION, 
-            this
-        );
-
-        if (wxYES == iAnswer) {
-            pDoc->ProjectReset(iProjectIndex);
-        }
     } else if (link.GetHref() == LINK_TASKUPDATE) {
-        pFrame->UpdateStatusText(_("Updating project..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-
-        pDoc->ProjectUpdate(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKSUSPEND) {
-        pFrame->UpdateStatusText(_("Suspending project..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-
-        pDoc->ProjectSuspend(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKRESUME) {
-        pFrame->UpdateStatusText(_("Resuming project..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-
-        pDoc->ProjectResume(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKNOMOREWORK) {
-       pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
-       iProjectIndex = m_pListPane->GetFirstSelected();
-       pDoc->ProjectNoMoreWork(iProjectIndex);
     } else if (link.GetHref() == LINK_TASKALLOWMOREWORK) {
-       pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
-       iProjectIndex = m_pListPane->GetFirstSelected();
-       pDoc->ProjectAllowMoreWork(iProjectIndex);
     } else if (link.GetHref() == LINK_WEBBOINC) {
         pFrame->UpdateStatusText(_("Opening a browser to the BOINC homepage..."));
 
@@ -431,8 +585,10 @@ void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function End"));
 }
+*/
 
 
+/*
 void CViewProjects::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
     if (NULL != cell->GetLink()) {
         bool           bUpdateSelection     = false;
@@ -498,6 +654,7 @@ void CViewProjects::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), 
         }
     }
 }
+*/
 
 
 wxInt32 CViewProjects::AddCacheElement() {
@@ -565,114 +722,11 @@ wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData)
 
 
 void CViewProjects::UpdateSelection() {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    if (0 == m_pListPane->GetSelectedItemCount()) {
-        m_bTaskHeaderHidden = false;
-        m_bTaskAttachHidden = false;
-        m_bTaskDetachHidden = true;
-        m_bTaskResetHidden = true;
-        m_bTaskSuspendHidden = true;
-        m_bTaskResumeHidden = true;
-        m_bTaskUpdateHidden = true;
-
-        m_bWebsiteHeaderHidden = false;
-        m_bWebsiteBOINCHidden = false;
-        m_bWebsiteProjectHidden = true;
-
-        if (m_bItemSelected) {
-            SetCurrentQuickTip(
-                LINK_DEFAULT, 
-                LINKDESC_DEFAULT
-            );
-        }
-        m_bItemSelected = false;
-    } else {
-        m_bTaskHeaderHidden = false;
-        m_bTaskAttachHidden = false;
-        m_bTaskDetachHidden = false;
-        m_bTaskResetHidden = false;
-
-        if (pDoc->IsProjectSuspended(m_pListPane->GetFirstSelected())) {
-            m_bTaskSuspendHidden = true;
-            m_bTaskResumeHidden = false;
-        } else {
-            m_bTaskSuspendHidden = false;
-            m_bTaskResumeHidden = true;
-        }
-
-        m_bTaskUpdateHidden = false;
-
-        m_bWebsiteHeaderHidden = false;
-        m_bWebsiteBOINCHidden = false;
-        m_bWebsiteProjectHidden = false;
-
-        m_bItemSelected = true;
-    }
-    UpdateTaskPane();
 }
 
 
 void CViewProjects::UpdateTaskPane() {
-    wxInt32  iProjectIndex  = 0;
-    wxInt32  iWebsiteIndex  = 0;
-    wxInt32  iWebsiteCount  = 0;
-    wxString strWebsiteName = wxEmptyString;
-    wxString strWebsiteLink = wxEmptyString;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != m_pTaskPane);
-
-    m_pTaskPane->BeginTaskPage();
-
-    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
-    if (!m_bTaskHeaderHidden) {
-        m_pTaskPane->CreateTask(LINK_TASKUPDATE, _("Update project"), m_bTaskUpdateHidden);
-        m_pTaskPane->CreateTask(LINK_TASKSUSPEND, _("Suspend project"), m_bTaskSuspendHidden);
-        m_pTaskPane->CreateTask(LINK_TASKRESUME, _("Resume project"), m_bTaskResumeHidden);
-        m_pTaskPane->CreateTask(LINK_TASKNOMOREWORK, _("Don't Get New Work"), m_bTaskNoMoreWorkHidden);
-        m_pTaskPane->CreateTask(LINK_TASKALLOWMOREWORK, _("Allow Work Downloads"), m_bTaskMoreWorkHidden);
-
-        m_pTaskPane->CreateTaskSeparator(m_bTaskUpdateHidden || (m_bTaskSuspendHidden && m_bTaskResumeHidden));
-
-        m_pTaskPane->CreateTask(LINK_TASKDETACH, _("Detach from project"), m_bTaskDetachHidden);
-        m_pTaskPane->CreateTask(LINK_TASKRESET, _("Reset project"), m_bTaskResetHidden);
-
-        m_pTaskPane->CreateTaskSeparator(m_bTaskDetachHidden || m_bTaskResetHidden);
-
-        m_pTaskPane->CreateTask(LINK_TASKATTACH, _("Attach to new project"), m_bTaskAttachHidden);
-    }
-    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
-
-
-    m_pTaskPane->BeginTaskSection(BITMAP_WEBHEADER, m_bWebsiteHeaderHidden);
-    if (!m_bWebsiteHeaderHidden) {
-        m_pTaskPane->CreateTask(LINK_WEBBOINC, _("BOINC"), m_bWebsiteBOINCHidden);
-        m_pTaskPane->CreateTask(LINK_WEBPROJECT, _("Project"), m_bWebsiteProjectHidden);
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        if (-1 != iProjectIndex) {
-            iWebsiteCount = pDoc->GetProjectWebsiteCount(iProjectIndex);
-            for (iWebsiteIndex = 0; iWebsiteIndex < iWebsiteCount; iWebsiteIndex++) {
-                ConvertWebsiteIndexToLink(iProjectIndex, iWebsiteIndex, strWebsiteLink);
-                pDoc->GetProjectWebsiteName(iProjectIndex, iWebsiteIndex, strWebsiteName);
-                
-                m_pTaskPane->CreateTask(strWebsiteLink, strWebsiteName, false);
-            }
-        }
-    }
-    m_pTaskPane->EndTaskSection(m_bWebsiteHeaderHidden);
-
-    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
-
-    m_pTaskPane->EndTaskPage();
 }
 
 
@@ -800,7 +854,7 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 bool CViewProjects::IsWebsiteLink(const wxString& strLink) {
     bool bReturnValue = false;
 
-    if (strLink.StartsWith(LINK_WEB + wxT(":")))
+    if (strLink.StartsWith(wxT("web:")))
         bReturnValue = true;
 
     return bReturnValue;
@@ -808,7 +862,7 @@ bool CViewProjects::IsWebsiteLink(const wxString& strLink) {
 
 
 wxInt32 CViewProjects::ConvertWebsiteIndexToLink(wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink) {
-    strLink.Printf(wxT("%s:%d:%d"), LINK_WEB.c_str(), iProjectIndex, iWebsiteIndex);
+    strLink.Printf(wxT("web:%d:%d"), iProjectIndex, iWebsiteIndex);
     return 0;
 }
 
@@ -817,7 +871,7 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
     wxString strTemplate = strLink;
     wxString strBuffer = wxEmptyString;
 
-    strTemplate.Replace(LINK_WEB + wxT(":"), wxEmptyString);
+    strTemplate.Replace(wxT("web:"), wxEmptyString);
 
     strBuffer = strTemplate;
     strBuffer.Remove(strBuffer.Find(wxT(":")));

@@ -27,11 +27,11 @@
 #include "Events.h"
 #include "BOINCBaseView.h"
 #include "ViewProjects.h"
-#include "ViewWork.h"
-#include "ViewTransfers.h"
-#include "ViewMessages.h"
-#include "ViewResources.h"
-#include "ViewStatistics.h"
+//#include "ViewWork.h"
+//#include "ViewTransfers.h"
+//#include "ViewMessages.h"
+//#include "ViewResources.h"
+//#include "ViewStatistics.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgAttachProject.h"
@@ -154,7 +154,6 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
     EVT_CLOSE(CMainFrame::OnClose)
-    EVT_CHAR(CMainFrame::OnChar)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
     EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
@@ -427,11 +426,11 @@ bool CMainFrame::CreateNotebook() {
 
     // create the various notebook pages
     CreateNotebookPage(new CViewProjects(m_pNotebook));
-    CreateNotebookPage(new CViewWork(m_pNotebook));
-    CreateNotebookPage(new CViewTransfers(m_pNotebook));
-    CreateNotebookPage(new CViewMessages(m_pNotebook));
-	CreateNotebookPage(new CViewStatistics(m_pNotebook));
-    CreateNotebookPage(new CViewResources(m_pNotebook));
+    //CreateNotebookPage(new CViewWork(m_pNotebook));
+    //CreateNotebookPage(new CViewTransfers(m_pNotebook));
+    //CreateNotebookPage(new CViewMessages(m_pNotebook));
+	//CreateNotebookPage(new CViewStatistics(m_pNotebook));
+    //CreateNotebookPage(new CViewResources(m_pNotebook));
 
 
     // have the panel calculate everything after the pages are created so
@@ -660,7 +659,7 @@ bool CMainFrame::RestoreState() {
 
 
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
-    m_pNotebook->SetSelection(iCurrentPage);
+    //m_pNotebook->SetSelection(iCurrentPage);
 
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
@@ -1061,30 +1060,6 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function End"));
-}
-
-
-void CMainFrame::OnChar(wxKeyEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnChar - Function Begin"));
-
-    if (IsShown()) {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-
-        wxASSERT(NULL != m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage(event.GetId() - ID_LIST_BASE);
-        wxASSERT(NULL != pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
-
-        pView->FireOnChar(event);
-    }
-
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnChar - Function End"));
 }
 
 

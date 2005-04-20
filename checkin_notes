@@ -27457,3 +27457,13 @@ Janus  20 April 2005
         ops/
             db_update.php
 
+Rom    20 April 2005
+    - The new UI scheme for the project tab, the rest of the tabs will
+        follow.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        Events.h
+        MainFrame.cpp, .h
+        ViewProjects.cpp, .h

@@ -57,26 +57,16 @@ public:
     virtual wxString        GetViewName();
     virtual const char**    GetViewIcon();
 
+    void                    OnProjectUpdate( wxCommandEvent& event );
+    void                    OnProjectSuspend( wxCommandEvent& event );
+    void                    OnProjectResume( wxCommandEvent& event );
+    void                    OnProjectNoNewWork( wxCommandEvent& event );
+    void                    OnProjectAllowNewWork( wxCommandEvent& event );
+    void                    OnProjectReset( wxCommandEvent& event );
+    void                    OnProjectDetach( wxCommandEvent& event );
+    void                    OnProjectAttach( wxCommandEvent& event );
+
 protected:
-
-    bool                    m_bTaskHeaderHidden;
-    bool                    m_bTaskAttachHidden;
-    bool                    m_bTaskDetachHidden;
-    bool                    m_bTaskResetHidden;
-    bool                    m_bTaskSuspendHidden;
-    bool                    m_bTaskResumeHidden;
-    bool                    m_bTaskUpdateHidden;
-    bool                    m_bTaskNoMoreWorkHidden;
-    bool                    m_bTaskMoreWorkHidden;
-
-    bool                    m_bWebsiteHeaderHidden;
-    bool                    m_bWebsiteBOINCHidden;
-    bool                    m_bWebsiteProjectHidden;
-
-    bool                    m_bTipsHeaderHidden;
-
-    bool                    m_bItemSelected;
-
     std::vector<CProject*>  m_ProjectCache;
 
     virtual wxInt32         GetDocCount();
@@ -84,9 +74,6 @@ protected:
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual wxString        OnDocGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
@@ -109,56 +96,7 @@ protected:
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
 
-
-    //
-    // Globalization/Localization
-    //
-    wxString                VIEW_HEADER;
-
-    wxString                SECTION_TASK;
-    wxString                SECTION_WEB;
-    wxString                SECTION_TIPS;
-
-    wxString                BITMAP_PROJECTS;
-    wxString                BITMAP_TASKHEADER;
-    wxString                BITMAP_WEBHEADER;
-    wxString                BITMAP_TIPSHEADER;
-    wxString                BITMAP_BOINC;
-
-    wxString                LINKDESC_DEFAULT;
-
-    wxString                LINK_TASKATTACH;
-    wxString                LINKDESC_TASKATTACH;
-
-    wxString                LINK_TASKDETACH;
-    wxString                LINKDESC_TASKDETACH;
-
-    wxString                LINK_TASKRESET;
-    wxString                LINKDESC_TASKRESET;
-
-    wxString                LINK_TASKSUSPEND;
-    wxString                LINKDESC_TASKSUSPEND;
-
-    wxString                LINK_TASKNOMOREWORK;
-    wxString                LINKDESC_TASKNOMOREWORK;
-
-    wxString                LINK_TASKALLOWMOREWORK;
-    wxString                LINKDESC_TASKALLOWMOREWORK;
-
-    wxString                LINK_TASKRESUME;
-    wxString                LINKDESC_TASKRESUME;
-
-    wxString                LINK_TASKUPDATE;
-    wxString                LINKDESC_TASKUPDATE;
-
-    wxString                LINK_WEBBOINC;
-    wxString                LINKDESC_WEBBOINC;
-
-    wxString                LINK_WEBPROJECT;
-    wxString                LINKDESC_WEBPROJECT;
-
-    wxString                LINK_WEB;
-
+    DECLARE_EVENT_TABLE()
 };
 
 

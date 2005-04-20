@@ -59,6 +59,18 @@
 #define ID_HTML_TRANSFERSVIEW               8002
 #define ID_HTML_MESSAGESVIEW                8003
 #define ID_HTML_RESOURCEUTILIZATIONVIEW     8004
+#define ID_TASK_PROJECT_UPDATE              9000
+#define ID_TASK_PROJECT_SUSPEND             9001
+#define ID_TASK_PROJECT_RESUME              9002
+#define ID_TASK_PROJECT_NONEWWORK           9003
+#define ID_TASK_PROJECT_ALLOWNEWWORK        9004
+#define ID_TASK_PROJECT_RESET               9005
+#define ID_TASK_PROJECT_DETACH              9006
+#define ID_TASK_PROJECT_ATTACH              9007
+#define ID_TASK_PROJECT_WEB_BOINC           9098
+#define ID_TASK_PROJECT_WEB_PROJECT         9099
+#define ID_TASK_PROJECT_WEB_PROJDEF_MIN     9100
+#define ID_TASK_PROJECT_WEB_PROJDEF_MAX     9199
 
 
 #endif

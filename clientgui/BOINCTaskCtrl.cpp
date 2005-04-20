@@ -24,264 +24,56 @@
 #include "stdwx.h"
 #include "BOINCBaseView.h"
 #include "BOINCTaskCtrl.h"
-#include "ViewProjects.h"
-#include "ViewWork.h"
-#include "ViewTransfers.h"
-#include "ViewMessages.h"
-#include "ViewResources.h"
-
-#include "res/visibleheader.xpm"
-#include "res/hiddenheader.xpm"
-
-#define BGCOLOR "#ffffff"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxHtmlWindow)
+IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxPanel)
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
 
-CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags) :
-    wxHtmlWindow(pView, iHtmlWindowID, wxDefaultPosition, wxSize(225, -1), iHtmlWindowFlags)
+CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
+    wxPanel(pView, iTaskWindowID, wxDefaultPosition, wxSize(150, -1), iTaskWindowFlags)
 {
-    m_pParentView = pView;
+    m_pParent = pView;
+    m_pBoxSizer = NULL;
 }
 
 
 CBOINCTaskCtrl::~CBOINCTaskCtrl() {}
 
 
-void CBOINCTaskCtrl::BeginTaskPage() {
-    m_strTaskPage.Clear();
-    m_strTaskPage += wxT("<html>");
-    m_strTaskPage += wxT("<head>");
-//    if (wxLocale::GetSystemEncodingName().size() > 0) {
-//        m_strTaskPage += wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=");
-//        m_strTaskPage += wxLocale::GetSystemEncodingName();
-//        m_strTaskPage += wxT("\">");
-//    }
-    m_strTaskPage += wxT("</head>");
 
-    m_strTaskPage += wxT("<body bgcolor=" BGCOLOR ">");
-}
+wxInt32 CBOINCTaskCtrl::CreateTaskControls() {
+    unsigned int        i;
+    unsigned int        j;
+    CTaskItemGroup*     pGroup = NULL;
+    CTaskItem*          pItem = NULL;
 
+    m_pBoxSizer = new wxBoxSizer(wxVERTICAL);
+    m_pBoxSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);        
 
-void CBOINCTaskCtrl::BeginTaskSection(const wxString& strTaskHeaderFilename, bool bHidden) {
-    wxString strModifiedTaskHeaderFilename;
+    for (i=0; i < m_pParent->m_TaskGroups.size(); i++) {
+        pGroup = m_pParent->m_TaskGroups[i];
 
-    if (bHidden)
-        strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".hidden");
-    else
-        strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".visible");
+        pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
+        pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
 
-    m_strTaskPage += wxT("<table border=0 width=100% cellpadding=0 cellspacing=0>");
-    m_strTaskPage += wxT("  <tr>");
-    m_strTaskPage += wxT("    <td width=100%>");
-    m_strTaskPage += wxT("        <img src=\"memory:") + strModifiedTaskHeaderFilename + wxT("\">");
-    m_strTaskPage += wxT("    </td>");
-    m_strTaskPage += wxT("  </tr>");
+        for (j=0; j < pGroup->m_Tasks.size(); j++) {
+            pItem = pGroup->m_Tasks[j];
 
-    if (!bHidden) {
-        m_strTaskPage += wxT(
-            "    <tr><td>"
-            "     <table border=1 cellpadding=0 cellspacing=0>"
-            "      <tr><td>"
-            "       <table width=100% border=0 cellpadding=0 cellspacing=0>"
-            "        <tr><td>&nbsp;</td></tr>"
-       );
-    }
-}
-
-void CBOINCTaskCtrl::EndTaskSection(bool bHidden) {
-    if (!bHidden) {
-        m_strTaskPage += wxT(
-            "       <tr><td>&nbsp;</td></tr>"
-            "      </table>"
-            "     </td></tr>"
-            "   </table>"
-       );
-    }
-
-    m_strTaskPage += wxT("</table>");
-    m_strTaskPage += wxT("<p></p>");
-}
-
-void CBOINCTaskCtrl::CreateTaskSeparator(bool  bHidden) {
-    if (!bHidden) {
-        m_strTaskPage += wxT("<tr><td><hr></td></tr>");
-    }
-}
-
-void CBOINCTaskCtrl::CreateTask(const wxString& strLink, const wxString& strTaskName, bool  bHidden) {
-    if (!bHidden) {
-        m_strTaskPage += wxT("        <tr>");
-        m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">&nbsp;&nbsp;");
-
-        if (strLink.empty()) {
-            m_strTaskPage += wxT("<font color=\"#000000\">") + strTaskName + wxT("</font>");
-        } else {
-            m_strTaskPage += wxT(
-                "<a href=\"") + strLink + wxT("\">"
-                  "<font color=\"#000000\">") + strTaskName + wxT("</font>"
-                "</a>"
-           );
+            pItem->m_pButton = new wxButton;
+            pItem->m_pButton->Create( this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, 0 );
+            pItem->m_pButton->SetToolTip(pItem->m_strDescription);
+            pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
         }
 
-        m_strTaskPage += wxT("          </td>");
-        m_strTaskPage += wxT("        </tr>");
-    }
-}
-
-
-void CBOINCTaskCtrl::CreateTask(const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName, bool  bHidden) {
-    if (!bHidden) {
-        m_strTaskPage += wxT("        <tr>");
-        m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">");
-
-        if (!strLink.empty())
-            m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
-
-        m_strTaskPage += wxT("              <img src=\"memory:") + strTaskIconFilename + wxT("\">");
-
-        if (!strLink.empty())
-            m_strTaskPage += wxT("            </a>");
-
-        m_strTaskPage += wxT("            &nbsp;&nbsp;");
-
-        if (strLink.empty()) {
-            m_strTaskPage += wxT("<font color=\"#000000\">") + strTaskName + wxT("</font>");
-        } else {
-            m_strTaskPage += wxT(
-                "<a href=\"") + strLink + wxT("\">"
-                "  <font color=\"#000000\">") + strTaskName + wxT("</font>"
-                "</a>"
-           );
-        }
-        m_strTaskPage += wxT("          </td>");
-        m_strTaskPage += wxT("        </tr>");
-    }
-}
-
-
-
-
-void CBOINCTaskCtrl::UpdateQuickTip(const wxString& strIconFilename, const wxString& strTip, bool bHidden) {
-    if (!strTip.empty()) {
-        BeginTaskSection(strIconFilename, bHidden);
-        if (!bHidden) {
-            m_strTaskPage += wxT(
-                "<tr>"
-                " <td width=\"100%\">"
-                "  <table border=0 cellpadding=0 cellspacing=0>"
-                "   <tr>"
-                "    <td width=1%><nobr>&nbsp;&nbsp;</nobr></td>"
-                "    <td>"
-           );
-            m_strTaskPage += strTip;
-            m_strTaskPage += wxT(
-                "    </td>"
-                "   </tr>"
-                "  </table>"
-                " </td>"
-                "</tr>"
-           );
-        }
-        EndTaskSection(bHidden);
-    }
-}
-
-void CBOINCTaskCtrl::EndTaskPage()
-{
-    m_strTaskPage += wxT("</body></html>");
-/*
-    // ok, now get the corresponding encoding
-    wxFontEncoding fontenc = wxFontMapper::Get()->CharsetToEncoding( wxLocale::GetSystemEncodingName(), false );
-    if ( (NULL == fontenc) && !wxFontMapper::Get()->IsEncodingAvailable(fontenc) ) {
-        // try to find some similar encoding:
-        wxFontEncoding encAlt;
-        if ( wxFontMapper::Get()->GetAltForEncoding(fontenc, &encAlt) ) {
-            wxEncodingConverter conv;
-
-            if (conv.Init(fontenc, encAlt)) {
-                fontenc = encAlt;
-                m_strTaskPage.Replace(
-                    wxLocale::GetSystemEncodingName(),
-                    wxFontMapper::Get()->GetEncodingName(fontenc)
-                );
-                m_strTaskPage = conv.Convert(m_strTaskPage);
-            } else {
-                wxLogTrace(wxT("Cannot convert from '%s' to '%s'."),
-                             wxFontMapper::GetEncodingDescription(fontenc).c_str(),
-                             wxFontMapper::GetEncodingDescription(encAlt).c_str());
-            }
-        } else {
-            wxLogTrace(wxT("No fonts for encoding '%s' on this system."),
-                         wxFontMapper::GetEncodingDescription(fontenc).c_str());
-        }
+        m_pBoxSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);        
+        m_pBoxSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);        
     }
 
-    wxFont profont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxEmptyString, fontenc);
-    wxFont fixedfont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxEmptyString, fontenc);
-
-    if ( !profont.Ok() || !fixedfont.Ok() ) {
-        wxASSERT( false );
-    }
-
-    SetFonts(profont.GetFaceName(), fixedfont.GetFaceName(), NULL);
-*/
-    SetPage(m_strTaskPage);
-}
-
-
-void CBOINCTaskCtrl::CreateTaskHeader(const wxString& strFilename, const wxBitmap& itemTaskBitmap, const wxString& strTaskName)
-{
-    wxMemoryDC dc;
-    wxBitmap   bmpHeaderVisible(visibleheader_xpm);
-    wxBitmap   bmpHeaderHidden(hiddenheader_xpm);
-
-    bmpHeaderVisible.SetMask(new wxMask(bmpHeaderVisible, wxColour(255, 0, 255)));
-    bmpHeaderHidden.SetMask(new wxMask(bmpHeaderHidden, wxColour(255, 0, 255)));
-
-
-    dc.SelectObject(bmpHeaderVisible);
-    dc.DrawBitmap(itemTaskBitmap, 17, 9, true);
-
-    dc.SetBackgroundMode(wxTRANSPARENT);
-    dc.SetTextForeground(wxColour(255, 255, 255));
-    dc.DrawText(strTaskName, 44, 12);
-
-    dc.SelectObject(wxNullBitmap);
-
-    dc.SelectObject(bmpHeaderHidden);
-    dc.DrawBitmap(itemTaskBitmap, 17, 9, true);
-
-    dc.SetBackgroundMode(wxTRANSPARENT);
-    dc.SetTextForeground(wxColour(255, 255, 255));
-    dc.DrawText(strTaskName, 44, 12);
-
-    dc.SelectObject(wxNullBitmap);
-
-    wxImage imgHeaderVisible = bmpHeaderVisible.ConvertToImage();
-    wxImage imgHeaderHidden = bmpHeaderHidden.ConvertToImage();
-
-    AddVirtualFile(strFilename + wxT(".visible"), bmpHeaderVisible, wxBITMAP_TYPE_XPM);
-    AddVirtualFile(strFilename + wxT(".hidden"), bmpHeaderHidden, wxBITMAP_TYPE_XPM);
-}
-
-
-void CBOINCTaskCtrl::AddVirtualFile(const wxString& strFilename, wxImage& itemImage, long lType) {
-    wxMemoryFSHandler::AddFile(strFilename, itemImage, lType);
-}
-
-
-void CBOINCTaskCtrl::AddVirtualFile(const wxString& strFilename, const wxBitmap& itemBitmap, long lType) {
-    wxMemoryFSHandler::AddFile(strFilename, itemBitmap, lType);
-}
-
-
-void CBOINCTaskCtrl::RemoveVirtualFile(const wxString& strFilename) {
-    wxMemoryFSHandler::RemoveFile(strFilename);
+    SetSizerAndFit(m_pBoxSizer);
+    return 0;
 }
 
 
@@ -297,7 +89,7 @@ bool CBOINCTaskCtrl::OnSaveState(wxConfigBase* pConfig) {
 
     pConfig->SetPath(strBaseConfigLocation + wxT("TaskCtrl/"));
 
-    WriteCustomization(pConfig);
+    //WriteCustomization(pConfig);
 
     pConfig->SetPath(strBaseConfigLocation);
 
@@ -317,52 +109,11 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     pConfig->SetPath(strBaseConfigLocation + wxT("TaskCtrl/"));
 
-    ReadCustomization(pConfig);
+    //ReadCustomization(pConfig);
 
     pConfig->SetPath(strBaseConfigLocation);
 
-    // Aparently reading the customizations back in from the registry
-    // delete the contents of the page, so lets force an update
-    m_pParentView->UpdateTaskPane();
-
     return true;
-}
-
-
-void CBOINCTaskCtrl::OnLinkClicked(const wxHtmlLinkInfo& link) {
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    m_pParentView->FireOnTaskLinkClicked(link);
-}
-
-
-void CBOINCTaskCtrl::OnCellClicked(wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event) {
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    m_pParentView->FireOnTaskCellClicked(cell, x, y, event);
-    wxHtmlWindow::OnCellClicked(cell, x, y, event);
-}
-
-
-void CBOINCTaskCtrl::OnCellMouseHover(wxHtmlCell* cell, wxCoord x, wxCoord y) {
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    m_pParentView->FireOnTaskCellMouseHover(cell, x, y);
-}
-
-
-wxHtmlOpeningStatus CBOINCTaskCtrl::OnOpeningURL(wxHtmlURLType type, const wxString& WXUNUSED(url), wxString* WXUNUSED(redirect)) {
-    wxHtmlOpeningStatus retval;
-
-    retval = wxHTML_BLOCK;
-
-    if (wxHTML_URL_IMAGE == type)
-        retval = wxHTML_OPEN;
-
-    return retval;
 }
 
 

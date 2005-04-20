@@ -24,7 +24,7 @@
 #pragma interface "BOINCBaseView.cpp"
 #endif
 
-#define DEFAULT_HTML_FLAGS             wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL
+#define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxADJUST_MINSIZE
 #define DEFAULT_LIST_SINGLE_SEL_FLAGS  wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL
 #define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
@@ -34,13 +34,34 @@ class CBOINCListCtrl;
 
 class CTaskItem : wxObject {
 public:
-    wxString    m_strTaskName;
-    wxString    m_strTaskDescription;
-    wxString    m_strLink;
-    bool        m_bIsHidden;
-    bool        m_bIsHovering;
-    bool        m_bIsClicked;
+	CTaskItem();
+	CTaskItem( wxString strName, wxString strDescription, wxInt32 iEventID ) :
+		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID), m_pButton(NULL) {};
+    ~CTaskItem() {};
+
+    wxString                m_strName;
+    wxString                m_strDescription;
+    wxInt32                 m_iEventID;
+
+	wxButton*				m_pButton;
 };
+
+
+class CTaskItemGroup : wxObject {
+public:
+	CTaskItemGroup();
+	CTaskItemGroup( wxString strName ) :
+		m_strName(strName), m_pStaticBox(NULL), m_pStaticBoxSizer(NULL) { m_Tasks.clear(); };
+    ~CTaskItemGroup() {};
+
+    wxString                m_strName;
+
+    wxStaticBox*            m_pStaticBox;
+    wxStaticBoxSizer*       m_pStaticBoxSizer;
+
+	std::vector<CTaskItem*> m_Tasks;
+};
+
 
 class CBOINCBaseView : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
@@ -50,8 +71,8 @@ public:
     CBOINCBaseView();
     CBOINCBaseView(
         wxNotebook* pNotebook,
-        wxWindowID iHtmlWindowID,
-        int iHtmlWindowFlags,
+        wxWindowID iTaskWindowID,
+        int iTaskWindowFlags,
         wxWindowID iListWindowID,
         int iListWindowFlags,
 		bool donothing=false
@@ -61,83 +82,57 @@ public:
 
     virtual wxString        GetViewName();
     virtual const char**    GetViewIcon();
-    virtual int         GetListRowCount();
 
-    void                    FireOnListRender( wxTimerEvent& event );
     bool                    FireOnSaveState( wxConfigBase* pConfig );
     bool                    FireOnRestoreState( wxConfigBase* pConfig );
-    void                    FireOnChar( wxKeyEvent& event );
+
+    virtual int             GetListRowCount();
+    void                    FireOnListRender( wxTimerEvent& event );
     void                    FireOnListSelected( wxListEvent& event );
     void                    FireOnListDeselected( wxListEvent& event );
     wxString                FireOnListGetItemText( long item, long column ) const;
     int                     FireOnListGetItemImage( long item ) const;
     wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
-    void                    FireOnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    void                    FireOnTaskCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
-    void                    FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
-    virtual void            UpdateTaskPane();
+    std::vector<CTaskItemGroup*> m_TaskGroups;
 
 protected:
-
-    virtual int         GetDocCount();
-
-    virtual void            OnListRender( wxTimerEvent& event );
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
-    virtual void            OnChar( wxKeyEvent& event );
+    virtual void            OnListRender( wxTimerEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
-
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
+    virtual int             GetDocCount();
     virtual wxString        OnDocGetItemText( long item, long column ) const;
     virtual wxString        OnDocGetItemImage( long item ) const;
     virtual wxString        OnDocGetItemAttr( long item ) const;
 
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellClicked( wxHtmlCell* cell, wxCoord x, wxCoord y, const wxMouseEvent& event );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+    virtual int             AddCacheElement();
+    virtual int             EmptyCache();
+    virtual int             GetCacheCount();
+    virtual int             RemoveCacheElement();
+    virtual int             SyncronizeCache();
+    virtual int             UpdateCache( long item, long column, wxString& strNewData );
 
-    wxString                GetCurrentQuickTip();
-    wxString                GetCurrentQuickTipText();
-    void                    SetCurrentQuickTip( const wxString& strQuickTip, const wxString& strQuickTipText );
-
-    virtual int         AddCacheElement();
-    virtual int         EmptyCache();
-    virtual int         GetCacheCount();
-    virtual int         RemoveCacheElement();
-    virtual int         SyncronizeCache();
-    virtual int         UpdateCache( long item, long column, wxString& strNewData );
+    virtual void            UpdateSelection();
+    virtual void            UpdateTaskPane();
 
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();
-
-    virtual bool            UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText );
-    virtual void            UpdateSelection();
-
-    std::vector<CTaskItem*> m_DefinedTasks;
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
     bool                    m_bItemSelected;
 
-    wxString                m_strQuickTip;
-    wxString                m_strQuickTipText;
-
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
-
-    //
-    // Globalization/Localization
-    //
-    wxString                LINK_DEFAULT;
-
 };
 
 
