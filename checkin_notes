@@ -27467,3 +27467,16 @@ Rom    20 April 2005
         Events.h
         MainFrame.cpp, .h
         ViewProjects.cpp, .h
+
+David  20 April 2005
+    - added Janus' DB changes to schema.sql
+    - use get_int() etc. in forum_rate.php
+    - no time limit in update_forum_activitie.php
+
+    db/
+        schema.sql
+    html/
+        ops/
+            update_forum_activities.php
+        user/
+            forum_rate.php

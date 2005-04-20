@@ -5,6 +5,7 @@ require_once("../inc/forum.inc");
 
 define('MAX_REWARD', 4096);
 define('SCALAR', 0.9);
+set_time_limit(0);
 
 db_init();
 

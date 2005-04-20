@@ -8,12 +8,11 @@ require_once('../inc/credit.inc');
 db_init();
 
 if (!empty($_GET['post'])) {
-    $postId = $_GET['post'];
-    $choice = $_POST['submit'];
-    $rating = $_POST['rating'];
-    if (!$choice) $choice = $_GET['choice'];
+    $postId = get_int('post');
+    $choice = post_str('submit', true);
+    $rating = post_int('rating', true);
+    if (!$choice) $choice = get_str('choice', true);
     
-
     if ($choice == SOLUTION or $choice=="p") {
         $rating = 1;
     } else if ($choice == OFF_TOPIC or $choice=="n") {
@@ -30,18 +29,20 @@ if (!empty($_GET['post'])) {
     $user = getForumPreferences($user);
 
 	// Temporary:
-        // Check the user's credit average to see if it is greater than 5, if not,
-        //   treat them as though they have already rated the post.  This should keep
-        //   people from creating multiple accounts just to harass forum members.
-	// TODO: Use the forum table fields rate_min_total_credit and rate_min_expavg_credit
-	// 	to determine instead of hardcoded value.
+    // Check the user's credit average to see if it is greater than 5,
+    // if not, treat them as though they have already rated the post.
+    // This should keep people from creating multiple accounts
+    // just to harass forum members.
+	// TODO: Use the forum table fields rate_min_total_credit
+    // and rate_min_expavg_credit to determine instead of hardcoded value.
+
     $avg = $user->expavg_credit;
     $avg_time = $user->expavg_time;
     $now = time(0);
     update_average($now, 0, 0, $avg, $avg_time);
     
-    if ($avg<5){
-	error_page("To rate a post you must have a certain amount of credit");
+    if ($avg<5) {
+        error_page("You need more average credit to rate a post.");
     }
     
     if (getHasRated($user,$postId)) {

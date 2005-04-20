@@ -331,6 +331,11 @@ create table forum (
         -- time of last new or modified thread or post
     threads             integer     not null,
     posts               integer     not null,
+    rate_min_expavg_credit integer not null,
+    rate_min_total_credit integer not null,
+    post_min_interval   integer not null,
+    post_min_expavg_credit integer not null,
+    post_min_total_credit integer not null,
     primary key (id)
 ) type=InnoDB;
 
@@ -356,6 +361,7 @@ create table thread (
         -- when this record was created
     hidden              integer     not null,
         -- nonzero if hidden by moderators
+    sticky              tinyint unsigned not null default 0,
     primary key (id)
 );
 
@@ -392,6 +398,7 @@ create table forum_preferences (
     userid              integer     not null default 0,
     signature           varchar(254) not null default '',
     posts               integer     not null default 0,
+    last_post           integer not null,
     avatar              varchar(254) not null default '',
     avatar_type         tinyint(4)  not null default 0,
     hide_avatars        tinyint(1) unsigned not null default 0,
