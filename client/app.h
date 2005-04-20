@@ -204,6 +204,7 @@ public:
     int get_free_slot();
     void send_heartbeats();
     void send_trickle_downs();
+    void report_overdue(double);
 
     // screensaver-related functions
     ACTIVE_TASK* get_ss_app();

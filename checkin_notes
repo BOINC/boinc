@@ -27419,3 +27419,11 @@ David  19 April 2005
         app.C
         cs_cmdline.C
         gui_rpc_server.C
+
+David  19 April 2005
+    - core client: warn user if results are overdue
+
+    client/
+        app.C,h
+        client_state.C
+        cs_apps.C

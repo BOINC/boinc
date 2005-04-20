@@ -492,4 +492,22 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     }
 }
 
+void ACTIVE_TASK_SET::report_overdue(double now) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        double diff = (now - atp->result->report_deadline)/86400;
+        if (diff > 0) {
+            msg_printf(atp->result->project, MSG_ERROR,
+                "Result %s is %.2f days overdue.", atp->result->name, diff
+            );
+            msg_printf(atp->result->project, MSG_ERROR,
+                "You may not get credit for it.  Consider aborting it."
+            );
+        }
+    }
+}
+
 const char *BOINC_RCSID_778b61195e = "$Id$";

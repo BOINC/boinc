@@ -658,8 +658,7 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     return best;
 }
 
-// goes through results and checks if the associated apps has no app files
-// then there is nothing to do, never start the app, close the result
+// handle file-transfer applications
 //
 void CLIENT_STATE::handle_file_xfer_apps() {
     unsigned int i;

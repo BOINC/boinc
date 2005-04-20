@@ -329,6 +329,8 @@ int CLIENT_STATE::init() {
     retval = make_project_dirs();
     if (retval) return retval;
 
+    active_tasks.report_overdue(dtime());
+
     // Just to be on the safe side; something may have been modified
     //
     set_client_state_dirty("init");
