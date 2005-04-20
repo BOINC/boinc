@@ -27427,3 +27427,33 @@ David  19 April 2005
         app.C,h
         client_state.C
         cs_apps.C
+
+Janus  20 April 2005
+    - Added "sticky forum thread" code from BURP (lightning)
+    - Added support for per sub-forum posting rules for threads and replies:
+      - You must have at least X total credit
+      - You must have at least Y recent credit
+      - You must wait Z secs between each post
+    - Moved temporary rules for rating to the forum_rate.php file.
+      (this file needs a bit of work)
+    - Added some DB fields to make the above features work
+
+    html/
+        inc/
+            forum.inc
+            forum_show.inc
+        user/
+            forum_thread.php
+            forum_moderate_thread_action.php
+            forum_reply.php
+            forum_post.php
+            forum_rate.php
+            img/
+                unread_post.png (moved)
+                filtered_post.png (moved)
+                emphasized_post (moved)
+                unread_sticky.png (new)
+                stick_post.png (new)
+        ops/
+            db_update.php
+
