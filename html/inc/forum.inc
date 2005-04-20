@@ -5,7 +5,6 @@ require_once('../inc/db.inc');
 require_once('../inc/sanitize_html.inc');
 require_once('../inc/time.inc');
 require_once('../inc/forum_moderators.inc');
-require_once('../inc/credit.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
@@ -30,11 +29,13 @@ define('FORUM_CONTROLS', 1);
 define('HELPDESK_CONTROLS', 2);
 define("EXCERPT_LENGTH", "120");
 
-define('NEW_IMAGE', 'unread_post.png');
+define('NEW_IMAGE', 'img/unread_post.png');
+define('NEW_IMAGE_STICKY', 'img/unread_sticky.png');
+define('STICKY_IMAGE', 'img/sticky_post.png');
 define('NEW_IMAGE_HEIGHT','15');
-define('EMPHASIZE_IMAGE', 'emphasized_post.png');
+define('EMPHASIZE_IMAGE', 'img/emphasized_post.png');
 define('EMPHASIZE_IMAGE_HEIGHT','15');
-define('FILTER_IMAGE', 'filtered_post.png');
+define('FILTER_IMAGE', 'img/filtered_post.png');
 define('FILTER_IMAGE_HEIGHT','15');
 
 define ('SOLUTION', 'This answered my question');
@@ -99,39 +100,42 @@ function getForums($categoryID) {
   return mysql_query($sql);
 }
 
-function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $show_hidden = 0) {
+function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $show_hidden = 0, $sticky = 1) {
 	/* Calling function:  Set $show_hidden to 1 if it is a moderator reading */
-    $sql = 'SELECT * FROM thread WHERE forum = ' . $forumID;
+    $sql = 'SELECT * FROM thread WHERE forum = ' . $forumID ;
+    if ($sticky){
+	$stickysql = "sticky DESC, ";
+    }
     if (!$show_hidden) {
     	$sql .= ' AND hidden = 0';
     }
     switch($sort_style) {
     case 'modified-new':
-        $sql .= ' ORDER BY timestamp DESC';
+        $sql .= ' ORDER BY '.$stickysql.'timestamp DESC';
         break;
     case 'modified-old':
-        $sql .= ' ORDER BY timestamp ASC';
+        $sql .= ' ORDER BY '.$stickysql.'timestamp ASC';
         break;
     case 'views-most':
-        $sql .= ' ORDER BY views DESC';
+        $sql .= ' ORDER BY '.$stickysql.'views DESC';
         break;
     case 'replies-most':
-        $sql .= ' ORDER BY replies DESC';
+        $sql .= ' ORDER BY '.$stickysql.'replies DESC';
         break;
     case 'create_time':
-        $sql .= ' ORDER by create_time desc';
+        $sql .= ' ORDER by '.$stickysql.'create_time desc';
         break;
     case 'timestamp':
-        $sql .= ' ORDER by timestamp desc';
+        $sql .= ' ORDER by '.$stickysql.'timestamp desc';
         break;
     case 'sufferers':
-        $sql .= ' ORDER by sufferers desc';
+        $sql .= ' ORDER by '.$stickysql.'sufferers desc';
         break;
     case 'activity':
-        $sql .= ' ORDER by activity desc';
+        $sql .= ' ORDER by '.$stickysql.'activity desc';
         break;
     case 'score':
-        $sql .= ' ORDER by score desc';
+        $sql .= ' ORDER by '.$stickysql.'score desc';
         break;
     }
     if ($min > -1) {
@@ -143,7 +147,9 @@ function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $sh
         $sql .= ' LIMIT '.$nRec;
     }
 
-    return mysql_query($sql);
+    $data = mysql_query($sql);
+    echo mysql_error();
+    return $data;
 }
 
 function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp", $show_hidden = false) {
@@ -252,6 +258,7 @@ function getForumPreferences($user){
         $user->low_rating_threshold=$prefs->low_rating_threshold;
         $user->high_rating_threshold=$prefs->high_rating_threshold;
         $user->ignorelist=$prefs->ignorelist;
+        $user->last_post=$prefs->last_post;
         $user->forum_preferences=1;
 
         //Set defaults in certain cases:
@@ -272,14 +279,7 @@ function isSpecialUser($user, $specialbit){
 }
 
 function getHasRated($user, $postid){
-	// Check the user's credit average to see if it is greater than 5.0, if not,
-	//   treat them as though they have already rated the post.  This should keep
-	//   people from creating multiple accounts just to harass forum members.
-    $avg = $user->expavg_credit;
-    $avg_time = $user->expavg_time;
-    $now = time(0);
-    update_average($now, 0, 0, $avg, $avg_time);
-    return ( strstr($user->rated_posts,"|".$postid) || ($avg <= 5.0) );
+    return (strstr($user->rated_posts,"|".$postid));
 }
 
 function setHasRated($user, $postid){
@@ -378,7 +378,7 @@ function createThread($forumID, $ownerID, $title, $content, $add_signature=false
 
     addPost($threadID, $ownerID, NULL, $content, $add_signature);
 
-    $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $ownerID . " LIMIT 1";
+    $sql = "UPDATE forum_preferences SET posts = posts + 1, last_post = ".time()." WHERE userid = " . $ownerID . " LIMIT 1";
     mysql_query($sql);
 
     $sql = "UPDATE forum SET threads = threads + 1, posts = posts + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $forumID . " LIMIT 1";
@@ -394,7 +394,7 @@ function replyToThread($threadID, $userID, $content, $parent_post=NULL, $add_sig
 
     addPost($threadID, $userID, $parent_post, $content, $add_signature);
 
-    $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $userID . " LIMIT 1";
+    $sql = "UPDATE forum_preferences SET posts = posts + 1, last_post = ".time()." WHERE userid = " . $userID . " LIMIT 1";
     mysql_query($sql);
 
     $sql = "UPDATE thread SET replies = replies + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $threadID . " LIMIT 1";

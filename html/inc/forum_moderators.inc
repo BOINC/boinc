@@ -12,5 +12,7 @@ function show_post_moderation_links($post){
 
 function show_thread_moderation_links($thread){
     echo "<a href=\"forum_moderate_thread.php?action=hide&id=".$thread->id."\">Hide thread</a><br>";
+    if($thread->sticky) { echo "<a href=\"forum_moderate_thread_action.php?action=desticky&id=".$thread->id."\">De-sticky thread</a><br>"; }
+    else { echo "<a href=\"forum_moderate_thread_action.php?action=sticky&id=".$thread->id."\">Make thread sticky</a><br>"; }
 }
 ?>
