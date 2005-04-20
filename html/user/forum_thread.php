@@ -114,7 +114,11 @@ if ($thread->hidden) {
     }
 
     if (isSpecialUser($logged_in_user,0)){    //If logged in users is moderator
-        echo "<br><a href=\"forum_moderate_thread.php?action=hide&amp;thread=$thread->id\">Delete this thread</a>";
+        echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=$thread->id\">Delete this thread</a>";
+	if($thread->sticky)
+ 	{ echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=$thread->id\">De-sticky this thread</a>"; }
+	else
+ 	{ echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=$thread->id\">Make this thread sticky</a>"; }
     }
 
     echo "</td>";

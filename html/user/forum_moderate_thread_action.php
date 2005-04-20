@@ -13,10 +13,17 @@ $user = get_logged_in_user();
 $user = getForumPreferences($user);
 
 if (!post_str('action')) {
-    echo "You must specify an action...";
-    exit();
+    if (!get_str('action')){
+	echo "You must specify an action...";
+	exit();
+    } else {
+	$action = get_str('action');
+    }
+} else {
+    $action = post_str('action');
 }
-$thread = getThread($_GET['thread']);
+
+$thread = getThread(get_int('thread'));
 if (!$thread){
     // TODO: Standard error page
     echo "Invalid thread ID.<br>";
@@ -30,11 +37,17 @@ if (!isSpecialUser($user,0)) {
     exit();
 }
 
-if (post_str('action')=="hide"){
+if ($action=="hide"){
     $result=mysql_query("update thread set hidden = ".post_int("category")." where id=".$thread->id);
     echo mysql_error();
-} elseif ($_POST['action']=="unhide"){
+} elseif ($action=="unhide"){
     $result=mysql_query("update thread set hidden = 0 where id=".$thread->id);
+    echo mysql_error();
+} elseif ($action=="sticky"){
+    $result=mysql_query("update thread set sticky = 1 where id=".$thread->id);
+    echo mysql_error();
+} elseif ($action=="desticky"){
+    $result=mysql_query("update thread set sticky = 0 where id=".$thread->id);
     echo mysql_error();
 /*} elseif ($_POST['action']=="move"){
     if (getThread($_POST['threadid'])){

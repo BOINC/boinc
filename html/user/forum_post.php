@@ -14,7 +14,20 @@ $forum = getForum($forumid);
 if (!$forum) {
     error_page("no such forum");
 }
-
+if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit){
+    //If user haven't got enough credit (according to forum regulations)
+    //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
+    error_page(
+	"In order to create a new thread in ".$forum->title." you must have a certain amount of credit. 
+	This is to prevent and protect against abuse of the system.");
+}
+if (time()-$logged_in_user->last_post<$forum->post_min_interval){
+    //If the user is posting faster than forum regulations allow
+    //Tell the user to wait a while before creating any more posts
+    error_page(
+	"You cannot create any more threads right now. Please wait a while before trying again.<br />
+	This delay has been enforced to protect against abuse of the system.");
+}
 $title = post_str("title", true);
 $content = post_str("content", true);
 if ($title && $content) {

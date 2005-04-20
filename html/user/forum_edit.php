@@ -17,7 +17,7 @@ if ($_POST['submit']) {
     $thread = getThread($post->thread);
 
     if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
-	echo "You can no longer edit this post.<br>Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
+	echo "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
 	exit();
     }
     if ($logged_in_user->id != $post->user) {
@@ -42,7 +42,7 @@ $thread = getThread($post->thread);
 $forum = getForum($thread->forum);
 $category = getCategory($forum->category);
 if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
-	echo "You can no longer edit this post.<br>Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
+	echo "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
 	exit();
 }
 

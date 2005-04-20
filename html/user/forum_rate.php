@@ -2,6 +2,8 @@
 
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
+require_once('../inc/credit.inc');
+
 
 db_init();
 
@@ -26,9 +28,24 @@ if (!empty($_GET['post'])) {
 
     $user = get_logged_in_user(true);
     $user = getForumPreferences($user);
+
+	// Temporary:
+        // Check the user's credit average to see if it is greater than 5, if not,
+        //   treat them as though they have already rated the post.  This should keep
+        //   people from creating multiple accounts just to harass forum members.
+	// TODO: Use the forum table fields rate_min_total_credit and rate_min_expavg_credit
+	// 	to determine instead of hardcoded value.
+    $avg = $user->expavg_credit;
+    $avg_time = $user->expavg_time;
+    $now = time(0);
+    update_average($now, 0, 0, $avg, $avg_time);
+    
+    if ($avg<5){
+	error_page("To rate a post you must have a certain amount of credit");
+    }
     
     if (getHasRated($user,$postId)) {
-        echo "You have already rated this post.";
+        error_page("You have already rated this post once.");
     } else {
         $result = mysql_query("SELECT * FROM post WHERE id = $postId");
         if ($result) {

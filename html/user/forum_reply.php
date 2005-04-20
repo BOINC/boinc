@@ -9,6 +9,30 @@ db_init();
 $logged_in_user = get_logged_in_user(true);
 $logged_in_user = getForumPreferences($logged_in_user);
 
+$thread = getThread(get_int('thread'));
+$forum = getForum($thread->forum);
+$category = getCategory($forum->category);
+$helpdesk = $category->is_helpdesk;
+
+if (!$thread){
+    error("No such thread found");
+}
+if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit){
+    //If user haven't got enough credit (according to forum regulations)
+    //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
+    error_page(
+        "In order to reply to a post in ".$forum->title." you must have a certain amount of credit.
+        This is to prevent and protect against abuse of the system.");
+}
+if (time()-$logged_in_user->last_post<$forum->post_min_interval){
+    //If the user is posting faster than forum regulations allow
+    //Tell the user to wait a while before creating any more posts
+    error_page(
+        "You cannot reply to any more posts right now. Please wait a while before trying again.<br />
+        This delay has been enforced to protect against abuse of the system.");
+}
+
+
 
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
     $_GET['thread'] = stripslashes($_GET['thread']);
@@ -41,10 +65,6 @@ if (!empty($_GET['post'])) {
     $post = getPost($_GET['post']);
 }
 
-$thread = getThread($_GET['thread']);
-$forum = getForum($thread->forum);
-$category = getCategory($forum->category);
-$helpdesk = $category->is_helpdesk;
 
 
 // TODO: Write a function for this.

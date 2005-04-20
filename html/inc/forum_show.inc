@@ -85,8 +85,7 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
     } else {
         start_forum_table(array("", "Threads", "Posts", "Author", "Views", "Last post"));
     }
-
-    $threads = getThreads($forum->id, $start, $threads_per_page, $sort_style);
+    $threads = getThreads($forum->id, $start, $threads_per_page, $sort_style, 0, 1);
     $n = 0;
 
     while ($thread = mysql_fetch_object($threads)) {
@@ -106,8 +105,14 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
             if ($first_post->score*$first_post->votes<$logged_in_user->low_rating_threshold) {
                 echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
             }
-            if ($unread) {
+            if ($unread && !$thread->sticky) {
                 echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
+            }
+	    elseif($unread) {
+                echo "<img src=\"".NEW_IMAGE_STICKY."\" alt=\"Unread post(s)\">";
+            }
+	    elseif($thread->sticky) {
+                echo "<img src=\"".STICKY_IMAGE."\" alt=\"Sticky\">";
             }
             echo "</nobr></td>";
         }
@@ -144,7 +149,6 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
 
         echo "</tr>";
     }
-
     end_forum_table();
 
     if ($forum->threads > $n) {
