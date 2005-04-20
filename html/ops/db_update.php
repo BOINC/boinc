@@ -255,7 +255,17 @@ function update_1_20a_2005() {
 
 function update_2_25_2005() {
     do_query("alter table host add max_results_day integer not null");
+}
 
+function update_4_20_2005(){
+    do_query("ALTER TABLE `thread` ADD `sticky` TINYINT UNSIGNED DEFAULT '0' NOT NULL");
+    do_query("ALTER TABLE `forum` ADD `post_min_total_credit` INT NOT NULL AFTER `posts`");
+    do_query("ALTER TABLE `forum` ADD `post_min_expavg_credit` INT NOT NULL AFTER `posts`");
+    do_query("ALTER TABLE `forum` ADD `post_min_interval` INT NOT NULL AFTER `posts`");
+    do_query("ALTER TABLE `forum` ADD `rate_min_total_credit` INT NOT NULL AFTER `posts`");
+    do_query("ALTER TABLE `forum` ADD `rate_min_expavg_credit` INT NOT NULL AFTER `posts`");
+    do_query("ALTER TABLE `forum_preferences` ADD `last_post` INT( 14 ) UNSIGNED NOT NULL AFTER `posts`");
+}
 //update_10_25_2004();
 
 ?>
