@@ -53,6 +53,7 @@ public:
 	CTaskItemGroup( wxString strName ) :
 		m_strName(strName), m_pStaticBox(NULL), m_pStaticBoxSizer(NULL) { m_Tasks.clear(); };
     ~CTaskItemGroup() {};
+    wxButton* button(int i) {return m_Tasks[i]->m_pButton;}
 
     wxString                m_strName;
 

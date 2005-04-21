@@ -42,6 +42,13 @@
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
 
+// buttons in the "tasks" area
+#define BTN_UPDATE  0
+#define BTN_SUSPEND 1
+#define BTN_NOWORK  2
+#define BTN_RESET   3
+#define BTN_DETACH  4
+#define BTN_ATTACH  5
 
 CProject::CProject() {
     m_strProjectName = wxEmptyString;
@@ -115,27 +122,12 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Resume project"),
-        _("Resume work for this project"),
-        ID_TASK_PROJECT_RESUME 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
-	pItem = new CTaskItem(
         _("Don't Get New Work"),
         _("Tell the project to not "
           "fetch additional work for this "
           "project. Any work already downloaded will "
           "still be processed and returned."),
         ID_TASK_PROJECT_NONEWWORK 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
-	pItem = new CTaskItem(
-        _("Allow Work Downloads"),
-        _("Allow the project to fetch "
-          "additional work."),
-        ID_TASK_PROJECT_ALLOWNEWWORK 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -580,8 +572,40 @@ wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData)
 
 
 void CViewProjects::UpdateSelection() {
-}
+    CTaskItemGroup* pGroup = m_TaskGroups[0];
 
+    if (m_pListPane->GetSelectedItemCount() == 0) {
+        pGroup->button(BTN_UPDATE)->Disable;
+        pGroup->button(BTN_SUSPEND)->Disable();
+        pGroup->button(BTN_NOWORK)->Disable();
+        pGroup->button(BTN_RESET)->Disable();
+        pGroup->button(BTN_DETACH)->Disable();
+        pGroup->button(BTN_ATTACH)->Enable();
+    } else {
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+        PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
+        pGroup->button(BTN_UPDATE)->Enable();
+        pGroup->button(BTN_SUSPEND)->Enable();
+        if (project->suspended_via_gui) {
+            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Resume"));
+            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Resume work for this project"));
+        } else {
+            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Suspend"));
+            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Suspend work for this project"));
+        }
+        pGroup->button(BTN_NOWORK)->Enable();
+        if (project->dont_request_more_work) {
+            pGroup->button(BTN_NOWORK)->SetLabel(wxString("Allow new work"));
+            pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Allow fetching new work for this project"));
+        } else {
+            pGroup->button(BTN_NOWORK)->SetLabel(wxString("No new work"));
+            pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Don't allow fetching new work for this project"));
+        }
+        pGroup->button(BTN_RESET)->Enable();
+        pGroup->button(BTN_DETACH)->Enable();
+        pGroup->button(BTN_ATTACH)->Enable();
+    }
+}
 
 void CViewProjects::UpdateTaskPane() {
 

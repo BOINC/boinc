@@ -1059,6 +1059,10 @@ int CMainDocument::ProjectAllowMoreWork(int iIndex) {
     return iRetVal;
 }
 
+PROJECT* CMainDocument::project(int i) {
+    return project_status.projects[i];
+}
+
 int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
 

@@ -26984,13 +26984,13 @@ Rom    9 April 2005
         MainFrame.cpp, .h
 
 David  10 April 2005
-	- debug BOINC manager connection code
+    - debug BOINC manager connection code
 
-	clientgui/
-		MainDocument.cpp
-		MainFrame.cpp
-	lib/
-		gui_rpc_client.C
+    clientgui/
+        MainDocument.cpp
+        MainFrame.cpp
+    lib/
+        gui_rpc_client.C
 
 David  10 April 2005
     - add is_file() to lib interface
@@ -27127,16 +27127,16 @@ Rom    12 April 2005
         gui_rpc_client.C
 
 David  13 April 2005
-	client/
-		app_control.C
-		client_state.C,h
-		client_types.C,h
-		cs_apps.C
-		cs_scheduler.C
-		scheduler_op.C,h
-	lib/
-		boinc_win.h
-		prefs.C,h
+    client/
+        app_control.C
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C,h
+    lib/
+        boinc_win.h
+        prefs.C,h
 
 Rom    13 April 2005
     - Bug Fix: Re-enable INADDR_ANY for the *nix platforms since they cannot
@@ -27296,12 +27296,12 @@ Charlie    16 April 2005
             project.pbxproj
 
 David  16 April 2005
-	- fixed GUI RPC connection problem on Mac
-		(if a connect on a socket fails, you need to close it
-		and make a new one before trying another connect)
+    - fixed GUI RPC connection problem on Mac
+        (if a connect on a socket fails, you need to close it
+        and make a new one before trying another connect)
 
-	lib/
-		gui_rpc_client.C
+    lib/
+        gui_rpc_client.C
 
 Bruce 17 April 2005
     - Made default choice 'ACCEPT' for screening user profiles for UOTD.
@@ -27397,11 +27397,11 @@ Bruce 19 April 2005
             problem_host.php
 
 David  19 April 2005
-	- BOINC manager: remote connection wasn't working because
-		it was using the wrong password variable.
+    - BOINC manager: remote connection wasn't working because
+        it was using the wrong password variable.
 
-	clientgui/
-		MainDocument.cpp
+    clientgui/
+        MainDocument.cpp
 
 David  19 April 2005
     - error checking in boinc_cmd
@@ -27513,3 +27513,11 @@ Rom    20 April 2005
 
     clientgui/
         BOINCGUIApp.cpp
+
+David  21 April 2005
+    - change buttons in task tab based on selection
+
+    clientgui/
+        BOINCBaseView.h
+        MainDocument.cpp,h
+        ViewProjects.cpp

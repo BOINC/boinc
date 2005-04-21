@@ -163,7 +163,7 @@ private:
     int                     CachedProjectStatusUpdate();
 
 public:
-
+    PROJECT* project(int);
     int                     GetProjectCount();
     int                     GetProjectProjectName(int iIndex, wxString& strBuffer);
     int                     GetProjectProjectURL(int iIndex, wxString& strBuffer);
