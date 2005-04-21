@@ -857,30 +857,6 @@ void handle_msgs_to_host(SCHEDULER_REPLY& reply) {
     }
 }
 
-#if 0
-void notify_if_newer_core_version(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
-    PLATFORM& platform, SCHED_SHMEM& ss
-) {
-    CORE_VERSION* cvp;
-    int req_version;
-
-    if (sreq.core_client_major_version != BOINC_MAJOR_VERSION) {
-        return;
-    }
-    req_version = sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-    cvp = ss.lookup_core_version(platform.id);
-    if (cvp && cvp->version_num > req_version) {
-        sprintf(reply.message,
-            "A new version (%d.%02d) of the BOINC core client is available from this project's web site.",
-            cvp->version_num/100,
-            cvp->version_num%100
-        );
-        strcpy(reply.message_priority, "low");
-    }
-}
-#endif
-
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
     char* code_sign_key

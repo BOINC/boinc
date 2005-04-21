@@ -32,7 +32,6 @@
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    50
-#define MAX_CORE_VERSIONS    50
 
 // If you increase this above 100,
 // you may exceed the max shared-memory segment size
@@ -64,7 +63,6 @@ struct SCHED_SHMEM {
     int platform_size;      // sizeof(PLATFORM)
     int app_size;           // sizeof(APP)
     int app_version_size;   // sizeof(APP_VERSION)
-    int core_version_size;  // sizeof(CORE_VERSION)
     int wu_result_size;     // sizeof(WU_RESULT)
     int nplatforms;
     int napps;
@@ -79,7 +77,6 @@ struct SCHED_SHMEM {
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];
     APP_VERSION app_versions[MAX_APP_VERSIONS];
-    CORE_VERSION core_versions[MAX_CORE_VERSIONS];
     WU_RESULT wu_results[MAX_WU_RESULTS];
 
     void init();
@@ -91,9 +88,6 @@ struct SCHED_SHMEM {
 
     APP* lookup_app(int);
     APP_VERSION* lookup_app_version(int appid, int platform, int version);
-#if 0
-    CORE_VERSION* lookup_core_version(int platform);
-#endif
     PLATFORM* lookup_platform(char*);
 };
 

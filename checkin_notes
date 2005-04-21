@@ -27480,3 +27480,13 @@ David  20 April 2005
             update_forum_activities.php
         user/
             forum_rate.php
+
+David  20 April 2005
+    - removed residual CORE_VERSION stuff
+
+    db/
+        boinc_db.C,h
+    sched/
+        db_dump.C
+        handle_request.C
+        sched_shmem.C,h

@@ -523,43 +523,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     );
 }
 
-void core_versions(char* dir) {
-    char buf[256];
-
-    sprintf(buf, "%s/core_versions.xml", dir);
-    ZFILE f("core_versions", false);
-    f.open(buf);
-
-    DB_PLATFORM platform;
-    while (!platform.enumerate("order by name")) {
-        DB_CORE_VERSION core_version;
-        char query_buf[256];
-        sprintf(query_buf, "where platformid=%d order by version_num desc", platform.id);
-        if (!core_version.enumerate(query_buf)) {
-            char url[256] = "";
-            parse_str(core_version.xml_doc, "<url>", url, sizeof(url));
-
-            fprintf(f.f,
-                "   <core_version>\n"
-                "      <id>%d</id>\n"
-                "      <platform id=\"%d\" name=\"%s\">%s</platform>\n"
-                "      <version>%d</version>\n"
-                "      <create_time>%d</create_time>\n"
-                "      <url>%s</url>\n"
-                "   </core_version>\n",
-                core_version.id,
-                platform.id, platform.name, platform.user_friendly_name,
-                core_version.version_num,
-                core_version.create_time,
-                url
-            );
-        }
-    }
-    f.close();
-}
-
 int print_app(FILE* f, APP& app) {
-
     fprintf(f, "        <application>\n");
     fprintf(f, "            <name>%s</name>\n", app.user_friendly_name);
 
@@ -827,7 +791,6 @@ int main(int argc, char** argv) {
     }
 
     tables_file(spec.output_dir);
-    core_versions(spec.output_dir);
 
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     system(buf);

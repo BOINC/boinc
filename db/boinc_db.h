@@ -56,22 +56,6 @@ struct PLATFORM {
     void clear();
 };
 
-// A version of the core client
-//
-struct CORE_VERSION {
-    int id;
-    int create_time;
-    int version_num;
-    int platformid;
-    char xml_doc[LARGE_BLOB_SIZE];      // a <file_info> for the download file
-    char message[256];      // if we get a request from this version,
-                            // send this message
-    bool deprecated;        // if we get a request from this version,
-                            // don't send it any work.
-
-    void clear();
-};
-
 // An application.
 //
 struct APP {
@@ -499,14 +483,6 @@ struct VALIDATOR_ITEM {
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
     DB_PLATFORM(DB_CONN* p=0);
-    int get_id();
-    void db_print(char*);
-    void db_parse(MYSQL_ROW &row);
-};
-
-class DB_CORE_VERSION : public DB_BASE, public CORE_VERSION {
-public:
-    DB_CORE_VERSION(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);

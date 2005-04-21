@@ -47,7 +47,6 @@ static struct random_init {
 #define UNESCAPE(x) unescape_string(x, sizeof(x))
 
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
-void CORE_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
 void USER::clear() {memset(this, 0, sizeof(*this));}
@@ -63,8 +62,6 @@ void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
-DB_CORE_VERSION::DB_CORE_VERSION(DB_CONN* dc) :
-    DB_BASE("core_version", dc?dc:&boinc_db){}
 DB_APP::DB_APP(DB_CONN* dc) :
     DB_BASE("app", dc?dc:&boinc_db){}
 DB_APP_VERSION::DB_APP_VERSION(DB_CONN* dc) :
@@ -93,7 +90,6 @@ DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
-int DB_CORE_VERSION::get_id() {return id;}
 int DB_APP::get_id() {return id;}
 int DB_APP_VERSION::get_id() {return id;}
 int DB_USER::get_id() {return id;}
@@ -121,27 +117,6 @@ void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
     strcpy2(name, r[i++]);
     strcpy2(user_friendly_name, r[i++]);
     deprecated=atol(r[i++]);
-}
-
-void DB_CORE_VERSION::db_print(char* buf) {
-    sprintf(buf,
-        "create_time=%d, version_num=%d, platformid=%d, "
-        "xml_doc='%s', message='%s', deprecated=%d",
-        create_time, version_num, platformid,
-        xml_doc, message, deprecated?1:0
-    );
-}
-
-void DB_CORE_VERSION::db_parse(MYSQL_ROW &r) {
-    int i=0;
-    clear();
-    id=atol(r[i++]);
-    create_time = atoi(r[i++]);
-    version_num = atoi(r[i++]);
-    platformid = atoi(r[i++]);
-    strcpy2(xml_doc, r[i++]);
-    strcpy2(message, r[i++]);
-    deprecated = atoi(r[i++]);
 }
 
 void DB_APP::db_print(char* buf){
