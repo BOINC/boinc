@@ -27505,3 +27505,11 @@ Rom    20 April 2005
         ViewStatistics.cpp, .h
         ViewTransfers.cpp, .h
         ViewWork.cpp, .h
+
+Rom    20 April 2005
+    - Fix an Assert where somebody attempts to close the manager and then
+        selects exit again before the daemon has a chance to close itself
+        down
+
+    clientgui/
+        BOINCGUIApp.cpp
