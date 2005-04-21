@@ -42,6 +42,9 @@
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
 
+#define BTN_SUSPEND     0
+#define BTN_GRAPHICS    1
+#define BTN_ABORT       2
 
 CWork::CWork() {
     m_strProjectName = wxEmptyString;
@@ -71,7 +74,6 @@ IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
-    EVT_BUTTON(ID_TASK_WORK_RESUME, CViewWork::OnWorkResume)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
@@ -100,15 +102,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Suspend"),
-        _("Suspend the result."),
+        _("Suspend work on the result."),
         ID_TASK_WORK_SUSPEND 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
-	pItem = new CTaskItem(
-        _("Resume"),
-        _("Resume a suspended result."),
-        ID_TASK_WORK_RESUME 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -120,9 +115,9 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Abort result"),
-        _("Delete the result from the work queue. "
-          "This will prevent you from being granted credit for the result."),
+        _("Abort"),
+        _("Abandon work on the result. "
+          "You will get no credit for it."),
         ID_TASK_WORK_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -140,6 +135,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("To completion"), wxLIST_FORMAT_RIGHT, 100);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
+
+    UpdateSelection();
 }
 
 
@@ -172,40 +169,22 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    pFrame->UpdateStatusText(_("Suspending result..."));
-    pDoc->WorkSuspend(m_pListPane->GetFirstSelected());
-    pFrame->UpdateStatusText(wxT(""));
+    RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+    if (result->suspended_via_gui) {
+        pFrame->UpdateStatusText(_("Resuming result..."));
+        pDoc->WorkResume(m_pListPane->GetFirstSelected());
+        pFrame->UpdateStatusText(wxT(""));
+    } else {
+        pFrame->UpdateStatusText(_("Suspending result..."));
+        pDoc->WorkSuspend(m_pListPane->GetFirstSelected());
+        pFrame->UpdateStatusText(wxT(""));
+    }
 
     UpdateSelection();
     pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function End"));
 }
-
-
-void CViewWork::OnWorkResume( wxCommandEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkResume - Function Begin"));
-
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    pFrame->UpdateStatusText(_("Resuming result..."));
-    pDoc->WorkResume(m_pListPane->GetFirstSelected());
-    pFrame->UpdateStatusText(wxT(""));
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkResume - Function End"));
-}
-
 
 void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
@@ -226,29 +205,36 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
 
     pDoc->GetConnectedComputerName(strMachineName);
 
+    RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+
+    // TODO: implement hide as well as show
+    if (1) {
 #ifdef _WIN32
-    if (!strMachineName.empty()) {
-        iAnswer = wxMessageBox(
-            _("Are you sure you wish to display graphics on a remote machine?"),
-            _("Show graphics"),
-            wxYES_NO | wxICON_QUESTION, 
-            this
-        );
-    } else {
-        iAnswer = wxYES;
-    }
+        if (!strMachineName.empty()) {
+            iAnswer = wxMessageBox(
+                _("Are you sure you wish to display graphics on a remote machine?"),
+                _("Show graphics"),
+                wxYES_NO | wxICON_QUESTION, 
+                this
+            );
+        } else {
+            iAnswer = wxYES;
+        }
 #else
-    iAnswer = wxYES;
+        iAnswer = wxYES;
 #endif
 
-    if (wxYES == iAnswer) {
-        pDoc->WorkShowGraphics(
-            m_pListPane->GetFirstSelected(),
-            false,
-            wxGetApp().m_strDefaultWindowStation,
-            wxGetApp().m_strDefaultDesktop,
-            wxGetApp().m_strDefaultDisplay
-        );
+        if (wxYES == iAnswer) {
+            pDoc->WorkShowGraphics(
+                m_pListPane->GetFirstSelected(),
+                false,
+                wxGetApp().m_strDefaultWindowStation,
+                wxGetApp().m_strDefaultDesktop,
+                wxGetApp().m_strDefaultDisplay
+            );
+        }
+
+        pFrame->UpdateStatusText(wxT(""));
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -450,6 +436,31 @@ wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
 
 
 void CViewWork::UpdateSelection() {
+    CTaskItemGroup* pGroup = m_TaskGroups[0];
+
+    if (m_pListPane->GetSelectedItemCount() == 0) {
+        pGroup->button(BTN_SUSPEND)->Disable();
+        pGroup->button(BTN_GRAPHICS)->Disable();
+        pGroup->button(BTN_ABORT)->Disable();
+    } else {
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+        pGroup->button(BTN_SUSPEND)->Enable();
+        if (result->suspended_via_gui) {
+            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Resume"));
+            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Resume work for this result"));
+        } else {
+            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Suspend"));
+            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Suspend work for this result"));
+        }
+        if (result->supports_graphics) {
+            pGroup->button(BTN_GRAPHICS)->Enable();
+        } else {
+            pGroup->button(BTN_GRAPHICS)->Disable();
+        }
+        pGroup->button(BTN_ABORT)->Enable();
+
+    }
 }
 
 

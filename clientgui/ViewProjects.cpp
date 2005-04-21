@@ -77,9 +77,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_UPDATE, CViewProjects::OnProjectUpdate)
     EVT_BUTTON(ID_TASK_PROJECT_SUSPEND, CViewProjects::OnProjectSuspend)
-    EVT_BUTTON(ID_TASK_PROJECT_RESUME, CViewProjects::OnProjectResume)
     EVT_BUTTON(ID_TASK_PROJECT_NONEWWORK, CViewProjects::OnProjectNoNewWork)
-    EVT_BUTTON(ID_TASK_PROJECT_ALLOWNEWWORK, CViewProjects::OnProjectAllowNewWork)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
     EVT_BUTTON(ID_TASK_PROJECT_ATTACH, CViewProjects::OnProjectAttach)
@@ -108,15 +106,15 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 	m_TaskGroups.push_back( pGroup );
 
 	pItem = new CTaskItem(
-        _("Update project"),
-        _("Report all completed work and refresh "
-          "your credit and preferences for this project."),
+        _("Update"),
+        _("Report all completed work, get latest credit, "
+          "get latest preferences, and possibly get more work."),
         ID_TASK_PROJECT_UPDATE 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Suspend project"),
+        _("Suspend"),
         _("Stop work for this project "
           "(you can resume later)."),
         ID_TASK_PROJECT_SUSPEND 
@@ -144,7 +142,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Detach from project"),
+        _("Detach"),
         _("Detach this computer from this project.  "
           "Work in progress will be lost. "
           "You can update the project first to report "
@@ -192,6 +190,8 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. credit"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource share"), wxLIST_FORMAT_CENTRE, 85);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
+
+    UpdateSelection();
 }
 
 
@@ -248,38 +248,21 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    pFrame->UpdateStatusText(_("Suspending project..."));
-    pDoc->ProjectSuspend(m_pListPane->GetFirstSelected());
-    pFrame->UpdateStatusText(wxT(""));
+    PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
+    if (project->suspended_via_gui) {
+        pFrame->UpdateStatusText(_("Resuming project..."));
+        pDoc->ProjectResume(m_pListPane->GetFirstSelected());
+        pFrame->UpdateStatusText(wxT(""));
+    } else {
+        pFrame->UpdateStatusText(_("Suspending project..."));
+        pDoc->ProjectSuspend(m_pListPane->GetFirstSelected());
+        pFrame->UpdateStatusText(wxT(""));
+    }
 
     UpdateSelection();
     pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function End"));
-}
-
-
-void CViewProjects::OnProjectResume( wxCommandEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectResume - Function Begin"));
-
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    pFrame->UpdateStatusText(_("Resuming project..."));
-    pDoc->ProjectResume(m_pListPane->GetFirstSelected());
-    pFrame->UpdateStatusText(wxT(""));
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectResume - Function End"));
 }
 
 
@@ -296,9 +279,16 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
-    pDoc->ProjectNoMoreWork(m_pListPane->GetFirstSelected());
-    pFrame->UpdateStatusText(wxT(""));
+    PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
+    if (project->dont_request_more_work) {
+        pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
+        pDoc->ProjectAllowMoreWork(m_pListPane->GetFirstSelected());
+        pFrame->UpdateStatusText(wxT(""));
+    } else {
+        pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
+        pDoc->ProjectNoMoreWork(m_pListPane->GetFirstSelected());
+        pFrame->UpdateStatusText(wxT(""));
+    }
 
     UpdateSelection();
     pFrame->ProcessRefreshView();
@@ -307,28 +297,6 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectAllowNewWork( wxCommandEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAllowNewWork - Function Begin"));
-
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
-    pDoc->ProjectAllowMoreWork(m_pListPane->GetFirstSelected());
-    pFrame->UpdateStatusText(wxT(""));
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAllowNewWork - Function End"));
-}
 
 
 void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
@@ -647,7 +615,7 @@ void CViewProjects::UpdateSelection() {
             pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Allow fetching new work for this project"));
         } else {
             pGroup->button(BTN_NOWORK)->SetLabel(wxString("No new work"));
-            pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Don't allow fetching new work for this project"));
+            pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Don't fetch new work for this project"));
         }
         pGroup->button(BTN_RESET)->Enable();
         pGroup->button(BTN_DETACH)->Enable();

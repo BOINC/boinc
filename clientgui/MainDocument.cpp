@@ -1063,6 +1063,10 @@ PROJECT* CMainDocument::project(int i) {
     return project_status.projects[i];
 }
 
+RESULT* CMainDocument::result(int i) {
+    return results.results[i];
+}
+
 int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
 

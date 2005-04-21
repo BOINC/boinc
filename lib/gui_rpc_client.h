@@ -194,6 +194,7 @@ public:
     double rss_bytes;
     double estimated_cpu_time_remaining;
     bool supports_graphics;
+    int graphics_mode_acked;
 
     APP* app;
     WORKUNIT* wup;

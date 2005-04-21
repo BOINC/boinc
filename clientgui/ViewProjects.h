@@ -59,9 +59,7 @@ public:
 
     void                    OnProjectUpdate( wxCommandEvent& event );
     void                    OnProjectSuspend( wxCommandEvent& event );
-    void                    OnProjectResume( wxCommandEvent& event );
     void                    OnProjectNoNewWork( wxCommandEvent& event );
-    void                    OnProjectAllowNewWork( wxCommandEvent& event );
     void                    OnProjectReset( wxCommandEvent& event );
     void                    OnProjectDetach( wxCommandEvent& event );
     void                    OnProjectAttach( wxCommandEvent& event );

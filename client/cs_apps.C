@@ -347,6 +347,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     best_project->next_runnable_result = 0;
     return true;
 }
+
 // Schedule the active task with the earliest deadline
 // Return true iff a task was scheduled.
 //
@@ -360,6 +361,8 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
     for (i=0; i < results.size(); ++i) {
         RESULT *r = results[i];
         if (r->state != RESULT_FILES_DOWNLOADED) continue;
+        if (r->suspended_via_gui) continue;
+        if (r->project->suspended_via_gui) continue;
         if (r->project->non_cpu_intensive) continue;
         if (r->already_selected) continue;
         if (first || r->report_deadline < earliest_deadline) {

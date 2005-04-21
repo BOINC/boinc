@@ -27522,7 +27522,7 @@ David  21 April 2005
         MainDocument.cpp,h
         ViewProjects.cpp
 
-Rom    20 April 2005
+Rom    21 April 2005
     - Code Cleanup
 
     clientgui/
@@ -27535,3 +27535,21 @@ Rom    20 April 2005
         ViewStatistics.cpp, .h
         ViewTransfers.cpp, .h
         ViewWork.cpp, .h
+
+David  21 April 2005
+	- CPU scheduler: don't run projects or results suspended via GUI,
+		even in earliest-deadline-first mode
+	- fix button logic for projects
+	- set buttons in work tab based on selection
+	- include graphics_mode_acked in GUI RPC description RESULT.
+		Could indicate whether app has window open (but doesn't yet).
+
+	client/
+		app.C
+		cs_apps.C
+	clientgui/
+		MainDocument.cpp,h
+		ViewProjects.cpp,h
+		ViewWork.cpp, h
+	lib/
+		gui_rpc_client.h

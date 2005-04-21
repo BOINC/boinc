@@ -164,6 +164,7 @@ private:
 
 public:
     PROJECT* project(int);
+    RESULT* result(int);
     int                     GetProjectCount();
     int                     GetProjectProjectName(int iIndex, wxString& strBuffer);
     int                     GetProjectProjectURL(int iIndex, wxString& strBuffer);
