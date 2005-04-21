@@ -69,13 +69,13 @@ class CBOINCBaseView : public wxPanel {
 public:
 
     CBOINCBaseView();
+    CBOINCBaseView(wxNotebook* pNotebook);
     CBOINCBaseView(
         wxNotebook* pNotebook,
         wxWindowID iTaskWindowID,
         int iTaskWindowFlags,
         wxWindowID iListWindowID,
-        int iListWindowFlags,
-		bool donothing=false
+        int iListWindowFlags
     );
 
     ~CBOINCBaseView();
@@ -97,6 +97,7 @@ public:
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
 protected:
+    virtual void            EmptyTasks();
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

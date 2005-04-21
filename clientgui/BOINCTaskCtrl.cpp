@@ -63,7 +63,7 @@ wxInt32 CBOINCTaskCtrl::CreateTaskControls() {
             pItem = pGroup->m_Tasks[j];
 
             pItem->m_pButton = new wxButton;
-            pItem->m_pButton->Create( this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, 0 );
+            pItem->m_pButton->Create( this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, wxEXPAND );
             pItem->m_pButton->SetToolTip(pItem->m_strDescription);
             pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
         }

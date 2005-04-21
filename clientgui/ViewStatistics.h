@@ -54,51 +54,25 @@ public:
     ~CViewStatistics();
 
     virtual wxString        GetViewName();
-    //virtual const char**          GetViewIcon();
 
+    void                    OnStatisticsUserTotal( wxCommandEvent& event );
+    void                    OnStatisticsUserAverage( wxCommandEvent& event );
+    void                    OnStatisticsHostTotal( wxCommandEvent& event );
+    void                    OnStatisticsHostAverage( wxCommandEvent& event );
 
 protected:
 
 	CPaintStatistics*       m_PaintStatistics;
 
-    bool                    m_bTaskHeaderHidden;
+    virtual bool            OnSaveState( wxConfigBase* pConfig );
+    virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
-    bool                    m_bTipsHeaderHidden;
-
-    virtual wxInt32         GetDocCount();
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    
+    virtual void            OnListRender( wxTimerEvent& event );
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
 
-
-    //
-    // Globalization/Localization
-    //
-    wxString                VIEW_HEADER;
-
-    wxString                SECTION_TASK;
-    wxString                SECTION_TIPS;
-
-    wxString                BITMAP_RESOURCES;
-    wxString                BITMAP_TASKHEADER;
-    wxString                BITMAP_TIPSHEADER;
-
-    wxString                LINKDESC_DEFAULT;
-
-    wxString                LINK_TASKUSERTOTAL;
-    wxString                LINKDESC_TASKUSERTOTAL;
-
-    wxString                LINK_TASKUSERAVG;
-    wxString                LINKDESC_TASKUSERAVG;
-
-    wxString                LINK_TASKHOSTTOTAL;
-    wxString                LINKDESC_TASKHOSTTOTAL;
-
-    wxString                LINK_TASKHOSTAVG;
-    wxString                LINKDESC_TASKHOSTAVG;
+	DECLARE_EVENT_TABLE()
 };
 
 

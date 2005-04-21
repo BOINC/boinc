@@ -36,43 +36,62 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 CBOINCBaseView::CBOINCBaseView() {}
 
+CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
+    wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
+{
+    wxASSERT(NULL != pNotebook);
+
+    m_bProcessingTaskRenderEvent = false;
+    m_bProcessingListRenderEvent = false;
+
+    m_bItemSelected = false;
+
+    //
+    // Setup View
+    //
+    m_pTaskPane = NULL;
+    m_pListPane = NULL;
+
+    SetAutoLayout(TRUE);
+}
+
+
 CBOINCBaseView::CBOINCBaseView(
     wxNotebook* pNotebook, wxWindowID iTaskWindowID, int iTaskWindowFlags,
-    wxWindowID iListWindowID, int iListWindowFlags, bool donothing
+    wxWindowID iListWindowID, int iListWindowFlags
 ) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
-    if (!donothing) {
-        wxASSERT(NULL != pNotebook);
 
-        m_bProcessingTaskRenderEvent = false;
-        m_bProcessingListRenderEvent = false;
+    wxASSERT(NULL != pNotebook);
 
-        m_bItemSelected = false;
+    m_bProcessingTaskRenderEvent = false;
+    m_bProcessingListRenderEvent = false;
 
-        //
-        // Setup View
-        //
-        m_pTaskPane = NULL;
-        m_pListPane = NULL;
+    m_bItemSelected = false;
 
-        SetAutoLayout(TRUE);
+    //
+    // Setup View
+    //
+    m_pTaskPane = NULL;
+    m_pListPane = NULL;
 
-        wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
-        wxASSERT(NULL != itemFlexGridSizer);
+    SetAutoLayout(TRUE);
 
-        itemFlexGridSizer->AddGrowableRow(0);
-        itemFlexGridSizer->AddGrowableCol(1);
-        
-        m_pTaskPane = new CBOINCTaskCtrl(this, iTaskWindowID, iTaskWindowFlags);
-        wxASSERT(NULL != m_pTaskPane);
+    wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
+    wxASSERT(NULL != itemFlexGridSizer);
 
-        m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
-        wxASSERT(NULL != m_pListPane);
+    itemFlexGridSizer->AddGrowableRow(0);
+    itemFlexGridSizer->AddGrowableCol(1);
+    
+    m_pTaskPane = new CBOINCTaskCtrl(this, iTaskWindowID, iTaskWindowFlags);
+    wxASSERT(NULL != m_pTaskPane);
 
-        itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
-        itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
+    m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
+    wxASSERT(NULL != m_pListPane);
 
-        SetSizerAndFit(itemFlexGridSizer);
-    }
+    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
+    itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
+
+    SetSizerAndFit(itemFlexGridSizer);
 }
 
 
@@ -96,6 +115,20 @@ const char** CBOINCBaseView::GetViewIcon() {
 }
 
 
+void CBOINCBaseView::EmptyTasks() {
+    unsigned int i;
+    unsigned int j;
+    for (i=0; i<m_TaskGroups.size(); i++) {
+        for (j=0; j<m_TaskGroups[i]->m_Tasks.size(); j++) {
+            delete m_TaskGroups[i]->m_Tasks[j];
+        }
+        m_TaskGroups[i]->m_Tasks.clear();
+        delete m_TaskGroups[i];
+    }
+    m_TaskGroups.clear();
+}
+
+    
 bool CBOINCBaseView::FireOnSaveState(wxConfigBase* pConfig) {
     return OnSaveState(pConfig);
 }

@@ -31,7 +31,6 @@
 #include "Events.h"
 
 
-#include "res/boinc.xpm"
 #include "res/proj.xpm"
 
 
@@ -84,7 +83,7 @@ CViewProjects::CViewProjects() {}
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
 {
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
@@ -203,19 +202,8 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 
 CViewProjects::~CViewProjects() {
-    unsigned int i;
-    unsigned int j;
-
     EmptyCache();
-
-    for (i=0; i<m_TaskGroups.size(); i++) {
-        for (j=0; j<m_TaskGroups[i]->m_Tasks.size(); j++) {
-            delete m_TaskGroups[i]->m_Tasks[j];
-        }
-        m_TaskGroups[i]->m_Tasks.clear();
-        delete m_TaskGroups[i];
-    }
-    m_TaskGroups.clear();
+    EmptyTasks();
 }
 
 
@@ -525,136 +513,6 @@ wxString CViewProjects::OnDocGetItemText(long item, long column) const {
 
     return strBuffer;
 }
-
-
-/*
-void CViewProjects::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function Begin"));
-    wxInt32  iAnswer        = 0; 
-    wxInt32  iProjectIndex  = 0; 
-    wxInt32  iWebsiteIndex  = 0; 
-    wxString strProjectName = wxEmptyString;
-    wxString strURL         = wxEmptyString;
-    wxString strMessage     = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    m_bTaskHeaderHidden = false;
-    m_bWebsiteHeaderHidden = false;
-    m_bTipsHeaderHidden = false;
-
-    if (link.GetHref() == LINK_TASKATTACH) {
-    } else if (link.GetHref() == LINK_TASKDETACH) {
-    } else if (link.GetHref() == LINK_TASKRESET) {
-    } else if (link.GetHref() == LINK_TASKUPDATE) {
-    } else if (link.GetHref() == LINK_TASKSUSPEND) {
-    } else if (link.GetHref() == LINK_TASKRESUME) {
-    } else if (link.GetHref() == LINK_TASKNOMOREWORK) {
-    } else if (link.GetHref() == LINK_TASKALLOWMOREWORK) {
-    } else if (link.GetHref() == LINK_WEBBOINC) {
-        pFrame->UpdateStatusText(_("Opening a browser to the BOINC homepage..."));
-
-        pFrame->ExecuteBrowserLink(wxT("http://boinc.berkeley.edu"));
-    } else if (link.GetHref() == LINK_WEBPROJECT) {
-        pFrame->UpdateStatusText(_("Opening a browser to the project homepage..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetProjectProjectURL(iProjectIndex, strURL);
-
-        pFrame->ExecuteBrowserLink(strURL);
-    } else if (link.GetHref().StartsWith(LINK_WEB)) {
-        pFrame->UpdateStatusText(_("Opening a browser to a project specified URL..."));
-
-        ConvertLinkToWebsiteIndex(link.GetHref(), iProjectIndex, iWebsiteIndex);
-        pDoc->GetProjectWebsiteLink(iProjectIndex, iWebsiteIndex, strURL);
-
-        pFrame->ExecuteBrowserLink(strURL);
-    }
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    pFrame->UpdateStatusText(wxEmptyString);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnTaskLinkClicked - Function End"));
-}
-*/
-
-
-/*
-void CViewProjects::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
-    if (NULL != cell->GetLink()) {
-        bool           bUpdateSelection     = false;
-        wxString       strLink              = wxEmptyString;
-        wxString       strWebsiteLink       = wxEmptyString;
-        wxString       strWebsiteDescripton = wxEmptyString;
-        wxInt32        iProjectIndex        = 0;
-        wxInt32        iWebsiteIndex        = 0;
-        CMainDocument* pDoc                 = wxGetApp().GetDocument();
-
-        wxASSERT(NULL != pDoc);
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        wxASSERT(NULL != m_pListPane);
-
-        strLink = cell->GetLink()->GetHref();
-
-        if      (UpdateQuickTip(strLink, LINK_TASKATTACH, LINKDESC_TASKATTACH))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKDETACH, LINKDESC_TASKDETACH))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKRESET, LINKDESC_TASKRESET))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKSUSPEND, LINKDESC_TASKSUSPEND))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKRESUME, LINKDESC_TASKRESUME))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKUPDATE, LINKDESC_TASKUPDATE))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_WEBBOINC, LINKDESC_WEBBOINC))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_WEBPROJECT, LINKDESC_WEBPROJECT))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKNOMOREWORK, LINKDESC_TASKNOMOREWORK))
-           bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKALLOWMOREWORK, LINKDESC_TASKALLOWMOREWORK))
-           bUpdateSelection = true;
-        else if (IsWebsiteLink(strLink)) {
-            ConvertLinkToWebsiteIndex(strLink, iProjectIndex, iWebsiteIndex);
-
-            pDoc->GetProjectWebsiteDescription(iProjectIndex, iWebsiteIndex, strWebsiteDescripton);
-
-            UpdateQuickTip(strLink, strLink, strWebsiteDescripton);
-
-            bUpdateSelection = true;
-        } else {
-            if (0 == m_pListPane->GetSelectedItemCount()) {
-                if  ((LINK_DEFAULT != GetCurrentQuickTip()) &&
-                      (LINK_TASKATTACH != strLink) &&
-                      (LINK_WEBBOINC != strLink))
-                {
-                    SetCurrentQuickTip(
-                        LINK_DEFAULT, 
-                        LINKDESC_DEFAULT
-                    );
-
-                    bUpdateSelection = true;
-                }
-            }
-        }
-
-        if (bUpdateSelection) {
-            UpdateSelection();
-        }
-    }
-}
-*/
 
 
 wxInt32 CViewProjects::AddCacheElement() {

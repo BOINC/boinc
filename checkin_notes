@@ -27490,3 +27490,18 @@ David  20 April 2005
         db_dump.C
         handle_request.C
         sched_shmem.C,h
+
+Rom    20 April 2005
+    - Here are the rest of the tabs converted over to the new UI scheme.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp
+        Events.h
+        MainFrame.cpp
+        ViewMessages.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewStatistics.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h

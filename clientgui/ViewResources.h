@@ -50,16 +50,9 @@ public:
     ~CViewResources();
 
     virtual wxString        GetViewName();
-    virtual const char**          GetViewIcon();
+    virtual const char**    GetViewIcon();
 
 protected:
-
-    bool                    m_bTaskHeaderHidden;
-
-    bool                    m_bTipsHeaderHidden;
-
-    bool                    m_bItemSelected;
-
     std::vector<CResource*> m_ResourceCache;
 
     virtual wxInt32         GetDocCount();
@@ -67,9 +60,6 @@ protected:
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual wxString        OnDocGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
@@ -83,21 +73,7 @@ protected:
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const;
 
-
-    //
-    // Globalization/Localization
-    //
-    wxString                VIEW_HEADER;
-
-    wxString                SECTION_TASK;
-    wxString                SECTION_TIPS;
-
-    wxString                BITMAP_RESOURCES;
-    wxString                BITMAP_TASKHEADER;
-    wxString                BITMAP_TIPSHEADER;
-
-    wxString                LINKDESC_DEFAULT;
-
+	DECLARE_EVENT_TABLE()
 };
 
 

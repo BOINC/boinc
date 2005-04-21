@@ -31,8 +31,6 @@
 
 
 #include "res/usage.xpm"
-#include "res/task.xpm"
-#include "res/tips.xpm"
 
 
 #define COLUMN_PROJECT              0
@@ -53,64 +51,38 @@ CResource::~CResource() {
 
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
+BEGIN_EVENT_TABLE (CViewResources, CBOINCBaseView)
+END_EVENT_TABLE ()
+
 
 CViewResources::CViewResources() {}
 
 
 CViewResources::CViewResources(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, DEFAULT_HTML_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS) {
+    CBOINCBaseView(pNotebook, ID_TASK_RESOURCEUTILIZATIONVIEW, DEFAULT_TASK_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+{
+	CTaskItemGroup* pGroup = NULL;
+	CTaskItem*      pItem = NULL;
+
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
     //
-    // Globalization/Localization
-    //
-    VIEW_HEADER              = wxT("resources");
-
-    SECTION_TASK             = VIEW_HEADER + wxT("task");
-    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
-
-    BITMAP_RESOURCES         = VIEW_HEADER + wxT(".xpm");
-    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
-    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
-
-    LINKDESC_DEFAULT         = 
-        _("No available commands");
-
-
-    //
     // Setup View
     //
-    wxBitmap bmpResources(usage_xpm);
-    wxBitmap bmpTask(task_xpm);
-    wxBitmap bmpTips(tips_xpm);
 
-    bmpResources.SetMask(new wxMask(bmpResources, wxColour(255, 0, 255)));
-    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
-    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
+    // Create Task Pane Items
+    m_pTaskPane->CreateTaskControls();
 
-    m_pTaskPane->AddVirtualFile(wxT(BITMAP_RESOURCES), bmpResources, wxBITMAP_TYPE_XPM);
-
-    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
-
+    // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_DISKSPACE, _("Disk Space"), wxLIST_FORMAT_LEFT, -1);
-
-    m_bTipsHeaderHidden = false;
-    m_bItemSelected = false;
-
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        LINKDESC_DEFAULT
-   );
-
-    UpdateSelection();
 }
 
 
 CViewResources::~CViewResources() {
     EmptyCache();
+    EmptyTasks();
 }
 
 
@@ -167,56 +139,6 @@ wxString CViewResources::OnDocGetItemText(long item, long column) const {
 }
 
 
-void CViewResources::OnTaskLinkClicked(const wxHtmlLinkInfo& /*link*/) {
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    wxString strMessage;
-
-    m_bTaskHeaderHidden = false;
-    m_bTipsHeaderHidden = false;
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    pFrame->UpdateStatusText( wxEmptyString );
-
-}
-
-
-void CViewResources::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
-    if (NULL != cell->GetLink()) {
-        bool        bUpdateSelection = false;
-        wxString    strLink;
-
-        strLink = cell->GetLink()->GetHref();
-
-        if      (UpdateQuickTip(strLink, wxT("test"), wxT("test"))) {
-            bUpdateSelection = true;
-        } else {
-            if (0 == m_pListPane->GetSelectedItemCount()) {
-                if  (wxT(LINK_DEFAULT) != GetCurrentQuickTip()) {
-                    SetCurrentQuickTip(
-                        LINK_DEFAULT, 
-                        LINKDESC_DEFAULT
-                    );
-
-                    bUpdateSelection = true;
-                }
-            }
-        }
-
-        if (bUpdateSelection) {
-            UpdateSelection();
-        }
-    }
-}
-
-
 wxInt32 CViewResources::AddCacheElement() {
     CResource* pItem = new CResource();
     wxASSERT(NULL != pItem);
@@ -267,41 +189,10 @@ wxInt32 CViewResources::UpdateCache(long item, long column, wxString& strNewData
 
 
 void CViewResources::UpdateSelection() {
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    if (0 == m_pListPane->GetSelectedItemCount()) {
-        m_bTaskHeaderHidden = true;
-
-        if (m_bItemSelected) {
-            SetCurrentQuickTip(
-                LINK_DEFAULT, 
-                wxT("")
-            );
-        }
-        m_bItemSelected = false;
-    } else {
-        m_bTaskHeaderHidden = true;
-
-        m_bItemSelected = true;
-    }
-    UpdateTaskPane();
 }
 
 
 void CViewResources::UpdateTaskPane() {
-    wxASSERT(NULL != m_pTaskPane);
-
-    m_pTaskPane->BeginTaskPage();
-
-    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
-    if (!m_bTaskHeaderHidden) {
-    }
-    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
-
-    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
-
-    m_pTaskPane->EndTaskPage();
 }
 
 

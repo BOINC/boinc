@@ -57,16 +57,10 @@ public:
     virtual wxString        GetViewName();
     virtual const char**    GetViewIcon();
 
+    void                    OnTransfersRetryNow( wxCommandEvent& event );
+    void                    OnTransfersAbort( wxCommandEvent& event );
+
 protected:
-
-    bool                    m_bTaskHeaderHidden;
-    bool                    m_bTaskRetryHidden;
-    bool                    m_bTaskAbortHidden;
-
-    bool                    m_bTipsHeaderHidden;
-
-    bool                    m_bItemSelected;
-
     std::vector<CTransfer*> m_TransferCache;
 
     virtual wxInt32         GetDocCount();
@@ -74,9 +68,6 @@ protected:
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual wxString        OnDocGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
@@ -95,27 +86,7 @@ protected:
     wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
-
-    //
-    // Globalization/Localization
-    //
-    wxString                VIEW_HEADER;
-
-    wxString                SECTION_TASK;
-    wxString                SECTION_TIPS;
-
-    wxString                BITMAP_TRANSFER;
-    wxString                BITMAP_TASKHEADER;
-    wxString                BITMAP_TIPSHEADER;
-
-    wxString                LINKDESC_DEFAULT;
-
-    wxString                LINK_TASKRETRY;
-    wxString                LINKDESC_TASKRETRY;
-
-    wxString                LINK_TASKABORT;
-    wxString                LINKDESC_TASKABORT;
-
+    DECLARE_EVENT_TABLE()
 };
 
 

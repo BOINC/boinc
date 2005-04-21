@@ -31,8 +31,6 @@
 
 
 #include "res/result.xpm"
-#include "res/task.xpm"
-#include "res/tips.xpm"
 
 
 #define COLUMN_PROJECT              0
@@ -71,68 +69,67 @@ CWork::~CWork() {
 
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 
+BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
+    EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
+    EVT_BUTTON(ID_TASK_WORK_RESUME, CViewWork::OnWorkResume)
+    EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
+    EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
+END_EVENT_TABLE ()
+
 
 CViewWork::CViewWork() {}
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_WORKVIEW, DEFAULT_HTML_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS) {
+    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+{
+	CTaskItemGroup* pGroup = NULL;
+	CTaskItem*      pItem = NULL;
+
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
-
-    //
-    // Globalization/Localization
-    //
-    VIEW_HEADER              = wxT("result");
-
-    SECTION_TASK             = VIEW_HEADER + wxT("task");
-    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
-
-    BITMAP_RESULTS           = VIEW_HEADER + wxT(".xpm");
-    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
-    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
-
-    LINKDESC_DEFAULT         = 
-        _("Click a result to see additional options.");
-
-    LINK_TASKSUSPEND         = SECTION_TASK + wxT("suspend");
-    LINKDESC_TASKSUSPEND     = 
-        _("<b>Suspend</b><br>"
-          "Suspend the result.");
-
-    LINK_TASKRESUME          = SECTION_TASK + wxT("resume");
-    LINKDESC_TASKRESUME      = 
-        _("<b>Resume</b><br>"
-          "Resume a suspended result.");
-
-    LINK_TASKSHOWGRAPHICS    = SECTION_TASK + wxT("showgraphics");
-    LINKDESC_TASKSHOWGRAPHICS= 
-        _("<b>Show graphics</b><br>"
-          "Show application graphics in a window.");
-
-    LINK_TASKABORT           = SECTION_TASK + wxT("abort");
-    LINKDESC_TASKABORT       = 
-        _("<b>Abort result</b><br>"
-          "Delete the result from the work queue. "
-          "This will prevent you from being granted credit for the result.");
 
 
     //
     // Setup View
     //
-    wxBitmap bmpResult(result_xpm);
-    wxBitmap bmpTask(task_xpm);
-    wxBitmap bmpTips(tips_xpm);
+	pGroup = new CTaskItemGroup( _("Tasks") );
+	m_TaskGroups.push_back( pGroup );
 
-    bmpResult.SetMask(new wxMask(bmpResult, wxColour(255, 0, 255)));
-    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
-    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
+	pItem = new CTaskItem(
+        _("Suspend"),
+        _("Suspend the result."),
+        ID_TASK_WORK_SUSPEND 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
-    m_pTaskPane->AddVirtualFile(BITMAP_RESULTS, bmpResult, wxBITMAP_TYPE_XPM);
+	pItem = new CTaskItem(
+        _("Resume"),
+        _("Resume a suspended result."),
+        ID_TASK_WORK_RESUME 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
-    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
+	pItem = new CTaskItem(
+        _("Show graphics"),
+        _("Show application graphics in a window."),
+        ID_TASK_WORK_SHOWGRAPHICS 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
+	pItem = new CTaskItem(
+        _("Abort result"),
+        _("Delete the result from the work queue. "
+          "This will prevent you from being granted credit for the result."),
+        ID_TASK_WORK_ABORT 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+
+    // Create Task Pane Items
+    m_pTaskPane->CreateTaskControls();
+
+    // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
@@ -141,21 +138,12 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("To completion"), wxLIST_FORMAT_RIGHT, 100);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
-
-    m_bTipsHeaderHidden = false;
-    m_bItemSelected = false;
-
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        LINKDESC_DEFAULT
-   );
-
-    UpdateSelection();
 }
 
 
 CViewWork::~CViewWork() {
     EmptyCache();
+    EmptyTasks();
 }
 
 
@@ -166,6 +154,138 @@ wxString CViewWork::GetViewName() {
 
 const char** CViewWork::GetViewIcon() {
     return result_xpm;
+}
+
+
+void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Suspending result..."));
+    pDoc->WorkSuspend(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function End"));
+}
+
+
+void CViewWork::OnWorkResume( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkResume - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Resuming result..."));
+    pDoc->WorkResume(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkResume - Function End"));
+}
+
+
+void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxString strMachineName = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Showing graphics for result..."));
+
+    pDoc->GetConnectedComputerName(strMachineName);
+
+#ifdef _WIN32
+    if (!strMachineName.empty()) {
+        iAnswer = wxMessageBox(
+            _("Are you sure you wish to display graphics on a remote machine?"),
+            _("Show graphics"),
+            wxYES_NO | wxICON_QUESTION, 
+            this
+        );
+    } else {
+        iAnswer = wxYES;
+    }
+#else
+    iAnswer = wxYES;
+#endif
+
+    if (wxYES == iAnswer) {
+        pDoc->WorkShowGraphics(
+            m_pListPane->GetFirstSelected(),
+            false,
+            wxGetApp().m_strDefaultWindowStation,
+            wxGetApp().m_strDefaultDesktop,
+            wxGetApp().m_strDefaultDisplay
+        );
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
+}
+
+
+void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxString strResultName  = wxEmptyString;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Aborting result..."));
+
+    pDoc->GetWorkName(m_pListPane->GetFirstSelected(), strResultName);
+    strMessage.Printf(
+        _("Are you sure you want to abort this result '%s'?"), 
+        strResultName.c_str());
+
+    iAnswer = wxMessageBox(
+        strMessage,
+        _("Abort result"),
+        wxYES_NO | wxICON_QUESTION, 
+        this
+    );
+
+    if (wxYES == iAnswer) {
+        pDoc->WorkAbort(m_pListPane->GetFirstSelected());
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function End"));
 }
 
 
@@ -248,140 +368,6 @@ wxString CViewWork::OnDocGetItemText(long item, long column) const {
 }
 
 
-void CViewWork::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
-    wxInt32  iAnswer        = 0; 
-    wxInt32  iProjectIndex  = 0; 
-    wxString strProjectURL  = wxEmptyString;
-    wxString strResultName  = wxEmptyString;
-    wxString strMachineName = wxEmptyString;
-    wxString strMessage     = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    m_bTaskHeaderHidden = false;
-    m_bTipsHeaderHidden = false;
-
-    if (link.GetHref() == LINK_TASKSUSPEND) {
-        pFrame->UpdateStatusText(_("Suspending result..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-
-        pDoc->WorkSuspend(
-            iProjectIndex
-       );
-    } else if (link.GetHref() == LINK_TASKRESUME) {
-        pFrame->UpdateStatusText(_("Resuming result..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-
-        pDoc->WorkResume(
-            iProjectIndex
-       );
-    } else if (link.GetHref() == LINK_TASKSHOWGRAPHICS) {
-        pFrame->UpdateStatusText(_("Showing graphics for result..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetConnectedComputerName(strMachineName);
-
-#ifdef _WIN32
-        if (!strMachineName.empty()) {
-            iAnswer = wxMessageBox(
-                _("Are you sure you wish to display graphics on a remote machine?"),
-                _("Show graphics"),
-                wxYES_NO | wxICON_QUESTION, 
-                this
-           );
-        } else {
-            iAnswer = wxYES;
-        }
-#else
-        iAnswer = wxYES;
-#endif
-
-        if (wxYES == iAnswer) {
-			int foo = iProjectIndex;
-            pDoc->WorkShowGraphics(
-                foo,
-                false,
-                wxGetApp().m_strDefaultWindowStation,
-                wxGetApp().m_strDefaultDesktop,
-                wxGetApp().m_strDefaultDisplay
-           );
-        }
-    } else if (link.GetHref() == LINK_TASKABORT) {
-        pFrame->UpdateStatusText(_("Aborting result..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetWorkName(iProjectIndex, strResultName);
-
-        strMessage.Printf(
-            _("Are you sure you want to abort this result '%s'?"), 
-            strResultName.c_str());
-
-        iAnswer = wxMessageBox(
-            strMessage,
-            _("Abort result"),
-            wxYES_NO | wxICON_QUESTION, 
-            this
-       );
-
-        if (wxYES == iAnswer) {
-            pDoc->WorkAbort(
-                iProjectIndex
-           );
-        }
-    }
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    pFrame->UpdateStatusText( wxEmptyString );
-
-}
-
-
-void CViewWork::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
-    if (NULL != cell->GetLink()) {
-        bool        bUpdateSelection = false;
-        wxString    strLink;
-
-        strLink = cell->GetLink()->GetHref();
-
-        if      (UpdateQuickTip(strLink, LINK_TASKSUSPEND, LINKDESC_TASKSUSPEND))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKRESUME, LINKDESC_TASKRESUME))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKSHOWGRAPHICS, LINKDESC_TASKSHOWGRAPHICS))
-            bUpdateSelection = true;
-        else if (UpdateQuickTip(strLink, LINK_TASKABORT, LINKDESC_TASKABORT))
-            bUpdateSelection = true;
-        else {
-            if (0 == m_pListPane->GetSelectedItemCount()) {
-                if  (LINK_DEFAULT != GetCurrentQuickTip()) {
-                    SetCurrentQuickTip(
-                        LINK_DEFAULT, 
-                        LINKDESC_DEFAULT
-                   );
-                    bUpdateSelection = true;
-                }
-            }
-        }
-
-        if (bUpdateSelection)
-        {
-            UpdateSelection();
-        }
-    }
-}
-
-
 wxInt32 CViewWork::AddCacheElement() {
     CWork* pItem = new CWork();
     wxASSERT(NULL != pItem);
@@ -450,81 +436,10 @@ wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
 
 
 void CViewWork::UpdateSelection() {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxInt32        iSelectedRow   = -1;
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    if (0 == m_pListPane->GetSelectedItemCount()) {
-        m_bTaskHeaderHidden = true;
-        m_bTaskSuspendHidden = true;
-        m_bTaskResumeHidden = true;
-        m_bTaskShowGraphicsHidden = true;
-        m_bTaskAbortHidden = true;
-
-        if (m_bItemSelected) {
-            SetCurrentQuickTip(
-                LINK_DEFAULT, 
-                wxT("")
-           );
-        }
-        m_bItemSelected = false;
-    } else {
-        iSelectedRow = m_pListPane->GetFirstSelected();
-
-        m_bTaskHeaderHidden = false;
-
-        if (pDoc->IsWorkSuspended(iSelectedRow)) {
-            m_bTaskSuspendHidden = true;
-            m_bTaskResumeHidden = false;
-        } else {
-            m_bTaskSuspendHidden = false;
-            m_bTaskResumeHidden = true;
-        }
-
-        if (pDoc->IsWorkGraphicsSupported(iSelectedRow) && !pDoc->IsWorkSuspended(iSelectedRow))
-            m_bTaskShowGraphicsHidden = false;
-        else
-            m_bTaskShowGraphicsHidden = true;
-
-        if (!pDoc->IsWorkAborted(iSelectedRow)) {
-            m_bTaskAbortHidden = false;
-        } else {
-            m_bTaskAbortHidden = true;
-            m_bTaskSuspendHidden = true;
-            m_bTaskResumeHidden = true;
-            UpdateQuickTip(LINK_TASKABORT, LINK_TASKABORT, LINKDESC_TASKABORT);
-        }
-
-        if (m_bTaskSuspendHidden && m_bTaskResumeHidden && m_bTaskShowGraphicsHidden && m_bTaskAbortHidden)
-            m_bTaskHeaderHidden = true;
-
-        m_bItemSelected = true;
-    }
-    UpdateTaskPane();
 }
 
 
 void CViewWork::UpdateTaskPane() {
-    wxASSERT(NULL != m_pTaskPane);
-
-    m_pTaskPane->BeginTaskPage();
-
-    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
-    if (!m_bTaskHeaderHidden) {
-        m_pTaskPane->CreateTask(LINK_TASKSUSPEND, _("Suspend"), m_bTaskSuspendHidden);
-        m_pTaskPane->CreateTask(LINK_TASKRESUME, _("Resume"), m_bTaskResumeHidden);
-        m_pTaskPane->CreateTask(LINK_TASKSHOWGRAPHICS, _("Show graphics"), m_bTaskShowGraphicsHidden);
-        m_pTaskPane->CreateTask(LINK_TASKABORT, _("Abort result"), m_bTaskAbortHidden);
-    }
-    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
-
-    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
-
-    m_pTaskPane->EndTaskPage();
 }
 
 

@@ -32,8 +32,6 @@
 
 
 #include "res/xfer.xpm"
-#include "res/task.xpm"
-#include "res/tips.xpm"
 
 
 #define COLUMN_PROJECT              0
@@ -69,58 +67,51 @@ CTransfer::~CTransfer() {
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 
+BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
+    EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
+    EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
+END_EVENT_TABLE ()
+
 
 CViewTransfers::CViewTransfers() {}
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_TRANSFERSVIEW, DEFAULT_HTML_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS) {
+    CBOINCBaseView(pNotebook, ID_TASK_TRANSFERSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+{
+	CTaskItemGroup* pGroup = NULL;
+	CTaskItem*      pItem = NULL;
+
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
-
-    //
-    // Globalization/Localization
-    //
-    VIEW_HEADER              = wxT("xfer");
-
-    SECTION_TASK             = VIEW_HEADER + wxT("task");
-    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
-
-    BITMAP_TRANSFER          = VIEW_HEADER + wxT(".xpm");
-    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
-    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
-
-    LINKDESC_DEFAULT         = 
-        _("Click an item to see additional options.");
-
-    LINK_TASKRETRY           = SECTION_TASK + wxT("retry");
-    LINKDESC_TASKRETRY       = 
-        _("<b>Retry now</b><br>"
-        "Click <b>Retry now</b> to transfer the file now");
-
-    LINK_TASKABORT           = SECTION_TASK + wxT("abort");
-    LINKDESC_TASKABORT       = 
-        _("<b>Abort transfer</b><br>"
-        "Click <b>Abort transfer</b> to delete the file from the transfer queue. "
-        "This will prevent you from being granted credit for this result.");
 
 
     //
     // Setup View
     //
-    wxBitmap bmpTransfer(xfer_xpm);
-    wxBitmap bmpTask(task_xpm);
-    wxBitmap bmpTips(tips_xpm);
+	pGroup = new CTaskItemGroup( _("Tasks") );
+	m_TaskGroups.push_back( pGroup );
 
-    bmpTransfer.SetMask(new wxMask(bmpTransfer, wxColour(255, 0, 255)));
-    bmpTask.SetMask(new wxMask(bmpTask, wxColour(255, 0, 255)));
-    bmpTips.SetMask(new wxMask(bmpTips, wxColour(255, 0, 255)));
+	pItem = new CTaskItem(
+        _("Retry Now"),
+        _("Click 'Retry now' to transfer the file now"),
+        ID_TASK_TRANSFERS_RETRYNOW 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
-    m_pTaskPane->AddVirtualFile(BITMAP_TRANSFER, bmpTransfer, wxBITMAP_TYPE_XPM);
+	pItem = new CTaskItem(
+        _("Abort Transfer"),
+        _("Click 'Abort transfer' to delete the file from the transfer queue. "
+          "This will prevent you from being granted credit for this result."),
+        ID_TASK_TRANSFERS_ABORT 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
-    m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
 
+    // Create Task Pane Items
+    m_pTaskPane->CreateTaskControls();
+
+    // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, 205);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
@@ -128,21 +119,12 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
-
-    m_bTipsHeaderHidden = false;
-    m_bItemSelected = false;
-
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        LINKDESC_DEFAULT
-   );
-
-    UpdateSelection();
 }
 
 
 CViewTransfers::~CViewTransfers() {
     EmptyCache();
+    EmptyTasks();
 }
 
 
@@ -153,6 +135,69 @@ wxString CViewTransfers::GetViewName() {
 
 const char** CViewTransfers::GetViewIcon() {
     return xfer_xpm;
+}
+
+
+void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Retrying transfer now..."));
+    pDoc->TransferRetryNow(m_pListPane->GetFirstSelected());
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function End"));
+}
+
+
+void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxInt32  iProjectIndex  = 0; 
+    wxString strName        = wxEmptyString;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Aborting transfer..."));
+
+    pDoc->GetTransferFileName(iProjectIndex, strName);
+
+    strMessage.Printf(
+        _("Are you sure you want to abort this file transfer '%s'?"), 
+        strName.c_str());
+
+    iAnswer = wxMessageBox(
+        strMessage,
+        _("Abort File Transfer"),
+        wxYES_NO | wxICON_QUESTION, 
+        this
+    );
+
+    if (wxYES == iAnswer) {
+        pDoc->TransferAbort(m_pListPane->GetFirstSelected());
+    }
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function End"));
 }
 
 
@@ -229,93 +274,6 @@ wxString CViewTransfers::OnDocGetItemText(long item, long column) const {
 }
 
 
-void CViewTransfers::OnTaskLinkClicked(const wxHtmlLinkInfo& link) {
-    wxInt32  iAnswer        = 0; 
-    wxInt32  iProjectIndex  = 0; 
-    wxString strName        = wxEmptyString;
-    wxString strMessage     = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    m_bTaskHeaderHidden = false;
-    m_bTipsHeaderHidden = false;
-
-    if (link.GetHref() == LINK_TASKRETRY) {
-        pFrame->UpdateStatusText(_("Retrying transfer now..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-
-        pDoc->TransferRetryNow(iProjectIndex);
-    } else if (link.GetHref() == LINK_TASKABORT) {
-        pFrame->UpdateStatusText(_("Aborting transfer..."));
-
-        iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetTransferFileName(iProjectIndex, strName);
-
-        strMessage.Printf(
-            _("Are you sure you want to abort this file transfer '%s'?"), 
-            strName.c_str());
-
-        iAnswer = wxMessageBox(
-            strMessage,
-            _("Abort File Transfer"),
-            wxYES_NO | wxICON_QUESTION, 
-            this
-        );
-
-        if (wxYES == iAnswer) {
-            pDoc->TransferAbort(
-                iProjectIndex
-           );
-        }
-    }
-
-    UpdateSelection();
-    pFrame->ProcessRefreshView();
-
-    pFrame->UpdateStatusText( wxEmptyString );
-
-}
-
-
-void CViewTransfers::OnTaskCellMouseHover(wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y)) {
-    if (NULL != cell->GetLink()) {
-        bool        bUpdateSelection = false;
-        wxString    strLink;
-
-        strLink = cell->GetLink()->GetHref();
-
-        if      (UpdateQuickTip(strLink, LINK_TASKRETRY, LINKDESC_TASKRETRY)) {
-            bUpdateSelection = true;
-        } else if (UpdateQuickTip(strLink, LINK_TASKABORT, LINKDESC_TASKABORT)) {
-            bUpdateSelection = true;
-        } else {
-            if (0 == m_pListPane->GetSelectedItemCount()) {
-                if  (LINK_DEFAULT != GetCurrentQuickTip()) {
-                    SetCurrentQuickTip(
-                        LINK_DEFAULT, 
-                        LINKDESC_DEFAULT
-                   );
-
-                    bUpdateSelection = true;
-                }
-            }
-        }
-
-        if (bUpdateSelection) {
-            UpdateSelection();
-        }
-    }
-}
-
-
 wxInt32 CViewTransfers::AddCacheElement() {
     CTransfer* pItem = new CTransfer();
     wxASSERT(NULL != pItem);
@@ -381,47 +339,10 @@ wxInt32 CViewTransfers::UpdateCache(long item, long column, wxString& strNewData
 
 
 void CViewTransfers::UpdateSelection() {
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    if (0 == m_pListPane->GetSelectedItemCount()) {
-        m_bTaskHeaderHidden = true;
-        m_bTaskRetryHidden = true;
-        m_bTaskAbortHidden = true;
-
-        if (m_bItemSelected) {
-            SetCurrentQuickTip(
-                LINK_DEFAULT, 
-                wxT("")
-           );
-        }
-        m_bItemSelected = false;
-    } else {
-        m_bTaskHeaderHidden = false;
-        m_bTaskRetryHidden = false;
-        m_bTaskAbortHidden = false;
-
-        m_bItemSelected = true;
-    }
-    UpdateTaskPane();
 }
 
 
 void CViewTransfers::UpdateTaskPane() {
-    wxASSERT(NULL != m_pTaskPane);
-
-    m_pTaskPane->BeginTaskPage();
-
-    m_pTaskPane->BeginTaskSection(BITMAP_TASKHEADER, m_bTaskHeaderHidden);
-    if (!m_bTaskHeaderHidden) {
-        m_pTaskPane->CreateTask(LINK_TASKRETRY, _("Retry Now"), m_bTaskRetryHidden);
-        m_pTaskPane->CreateTask(LINK_TASKABORT, _("Abort Transfer"), m_bTaskAbortHidden);
-    }
-    m_pTaskPane->EndTaskSection(m_bTaskHeaderHidden);
-
-    m_pTaskPane->UpdateQuickTip(BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
-
-    m_pTaskPane->EndTaskPage();
 }
 
 

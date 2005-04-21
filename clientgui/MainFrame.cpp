@@ -27,11 +27,11 @@
 #include "Events.h"
 #include "BOINCBaseView.h"
 #include "ViewProjects.h"
-//#include "ViewWork.h"
-//#include "ViewTransfers.h"
-//#include "ViewMessages.h"
-//#include "ViewResources.h"
-//#include "ViewStatistics.h"
+#include "ViewWork.h"
+#include "ViewTransfers.h"
+#include "ViewMessages.h"
+#include "ViewStatistics.h"
+#include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgAttachProject.h"
@@ -231,10 +231,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
 CMainFrame::~CMainFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function Begin"));
 
-    //CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    //wxASSERT(pDoc);
-    //wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
     wxASSERT(m_pFrameListPanelRenderTimer);
@@ -426,11 +422,11 @@ bool CMainFrame::CreateNotebook() {
 
     // create the various notebook pages
     CreateNotebookPage(new CViewProjects(m_pNotebook));
-    //CreateNotebookPage(new CViewWork(m_pNotebook));
-    //CreateNotebookPage(new CViewTransfers(m_pNotebook));
-    //CreateNotebookPage(new CViewMessages(m_pNotebook));
-	//CreateNotebookPage(new CViewStatistics(m_pNotebook));
-    //CreateNotebookPage(new CViewResources(m_pNotebook));
+    CreateNotebookPage(new CViewWork(m_pNotebook));
+    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+    CreateNotebookPage(new CViewMessages(m_pNotebook));
+	CreateNotebookPage(new CViewStatistics(m_pNotebook));
+    CreateNotebookPage(new CViewResources(m_pNotebook));
 
 
     // have the panel calculate everything after the pages are created so

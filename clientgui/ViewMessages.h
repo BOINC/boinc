@@ -41,14 +41,10 @@ public:
     virtual wxString        GetViewName();
     virtual const char**    GetViewIcon();
 
+    void                    OnMessagesCopyAll( wxCommandEvent& event );
+    void                    OnMessagesCopySelected( wxCommandEvent& event );
+
 protected:
-
-    bool                    m_bTaskHeaderHidden;
-    bool                    m_bTaskCopyAllHidden;
-    bool                    m_bTaskCopyMessageHidden;
-
-    bool                    m_bTipsHeaderHidden;
-
     wxInt32                 m_iPreviousDocCount;
 
     wxListItemAttr*         m_pMessageInfoAttr;
@@ -60,9 +56,6 @@ protected:
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     virtual bool            EnsureLastItemVisible();
 
@@ -82,27 +75,7 @@ protected:
     bool                    CloseClipboard();
 #endif
 
-
-    //
-    // Globalization/Localization
-    //
-    wxString                VIEW_HEADER;
-
-    wxString                SECTION_TASK;
-    wxString                SECTION_TIPS;
-
-    wxString                BITMAP_MESSAGE;
-    wxString                BITMAP_TASKHEADER;
-    wxString                BITMAP_TIPSHEADER;
-
-    wxString                LINKDESC_DEFAULT;
-
-    wxString                LINK_TASKCOPYALL;
-    wxString                LINKDESC_TASKCOPYALL;
-
-    wxString                LINK_TASKCOPYMESSAGE;
-    wxString                LINKDESC_TASKCOPYMESSAGE;
-
+    DECLARE_EVENT_TABLE()
 };
 
 

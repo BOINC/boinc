@@ -58,18 +58,12 @@ public:
     virtual wxString        GetViewName();
     virtual const char**    GetViewIcon();
 
+    void                    OnWorkSuspend( wxCommandEvent& event );
+    void                    OnWorkResume( wxCommandEvent& event );
+    void                    OnWorkShowGraphics( wxCommandEvent& event );
+    void                    OnWorkAbort( wxCommandEvent& event );
+
 protected:
-
-    bool                    m_bTaskHeaderHidden;
-    bool                    m_bTaskSuspendHidden;
-    bool                    m_bTaskResumeHidden;
-    bool                    m_bTaskShowGraphicsHidden;
-    bool                    m_bTaskAbortHidden;
-
-    bool                    m_bTipsHeaderHidden;
-
-    bool                    m_bItemSelected;
-
     std::vector<CWork*>     m_WorkCache;
 
     virtual wxInt32         GetDocCount();
@@ -77,9 +71,6 @@ protected:
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual wxString        OnDocGetItemText( long item, long column ) const;
-
-    virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
@@ -99,33 +90,7 @@ protected:
     wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
-
-    //
-    // Globalization/Localization
-    //
-    wxString                VIEW_HEADER;
-
-    wxString                SECTION_TASK;
-    wxString                SECTION_TIPS;
-
-    wxString                BITMAP_RESULTS;
-    wxString                BITMAP_TASKHEADER;
-    wxString                BITMAP_TIPSHEADER;
-
-    wxString                LINKDESC_DEFAULT;
-
-    wxString                LINK_TASKSUSPEND;
-    wxString                LINKDESC_TASKSUSPEND;
-
-    wxString                LINK_TASKRESUME;
-    wxString                LINKDESC_TASKRESUME;
-
-    wxString                LINK_TASKSHOWGRAPHICS;
-    wxString                LINKDESC_TASKSHOWGRAPHICS;
-
-    wxString                LINK_TASKABORT;
-    wxString                LINKDESC_TASKABORT;
-
+    DECLARE_EVENT_TABLE()
 };
 
 

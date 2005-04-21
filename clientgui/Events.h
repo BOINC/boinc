@@ -53,12 +53,14 @@
 #define ID_LIST_TRANSFERSVIEW               7002
 #define ID_LIST_MESSAGESVIEW                7003
 #define ID_LIST_RESOURCEUTILIZATIONVIEW     7004
-#define ID_HTML_BASE                        8000
-#define ID_HTML_PROJECTSVIEW                8000
-#define ID_HTML_WORKVIEW                    8001
-#define ID_HTML_TRANSFERSVIEW               8002
-#define ID_HTML_MESSAGESVIEW                8003
-#define ID_HTML_RESOURCEUTILIZATIONVIEW     8004
+#define ID_LIST_STATISTICSVIEW              7005
+#define ID_TASK_BASE                        8000
+#define ID_TASK_PROJECTSVIEW                8000
+#define ID_TASK_WORKVIEW                    8001
+#define ID_TASK_TRANSFERSVIEW               8002
+#define ID_TASK_MESSAGESVIEW                8003
+#define ID_TASK_STATISTICSVIEW              8004
+#define ID_TASK_RESOURCEUTILIZATIONVIEW     8005
 #define ID_TASK_PROJECT_UPDATE              9000
 #define ID_TASK_PROJECT_SUSPEND             9001
 #define ID_TASK_PROJECT_RESUME              9002
@@ -71,6 +73,18 @@
 #define ID_TASK_PROJECT_WEB_PROJECT         9099
 #define ID_TASK_PROJECT_WEB_PROJDEF_MIN     9100
 #define ID_TASK_PROJECT_WEB_PROJDEF_MAX     9199
+#define ID_TASK_WORK_SUSPEND                9200
+#define ID_TASK_WORK_RESUME                 9201
+#define ID_TASK_WORK_SHOWGRAPHICS           9202
+#define ID_TASK_WORK_ABORT                  9203
+#define ID_TASK_TRANSFERS_RETRYNOW          9300
+#define ID_TASK_TRANSFERS_ABORT             9301
+#define ID_TASK_MESSAGES_COPYALL            9400
+#define ID_TASK_MESSAGES_COPYSELECTED       9401
+#define ID_TASK_STATISTICS_USERTOTAL        9500
+#define ID_TASK_STATISTICS_USERAVERAGE      9501
+#define ID_TASK_STATISTICS_HOSTTOTAL        9502
+#define ID_TASK_STATISTICS_HOSTAVERAGE      9503
 
 
 #endif
