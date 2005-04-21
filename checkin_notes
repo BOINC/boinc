@@ -27521,3 +27521,17 @@ David  21 April 2005
         BOINCBaseView.h
         MainDocument.cpp,h
         ViewProjects.cpp
+
+Rom    20 April 2005
+    - Code Cleanup
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCListCtrl.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        ViewMessages.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewStatistics.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h

@@ -76,7 +76,6 @@ protected:
     virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
-    virtual void            UpdateTaskPane();
 
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatFileName( wxInt32 item, wxString& strBuffer ) const;

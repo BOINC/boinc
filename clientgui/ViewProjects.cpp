@@ -83,6 +83,8 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
     EVT_BUTTON(ID_TASK_PROJECT_ATTACH, CViewProjects::OnProjectAttach)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -180,7 +182,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 
     // Create Task Pane Items
-    m_pTaskPane->CreateTaskControls();
+    m_pTaskPane->UpdateControls();
 
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
@@ -226,6 +228,9 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
     pDoc->ProjectUpdate(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function End"));
 }
 
@@ -246,6 +251,9 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Suspending project..."));
     pDoc->ProjectSuspend(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function End"));
 }
@@ -268,6 +276,9 @@ void CViewProjects::OnProjectResume( wxCommandEvent& event ) {
     pDoc->ProjectResume(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectResume - Function End"));
 }
 
@@ -289,6 +300,9 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
     pDoc->ProjectNoMoreWork(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectNoNewWork - Function End"));
 }
 
@@ -309,6 +323,9 @@ void CViewProjects::OnProjectAllowNewWork( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
     pDoc->ProjectAllowMoreWork(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAllowNewWork - Function End"));
 }
@@ -350,6 +367,9 @@ void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
     }
 
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function End"));
 }
@@ -393,6 +413,9 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function End"));
 }
 
@@ -430,10 +453,13 @@ void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function End"));
 }
 
-    
+
 wxInt32 CViewProjects::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -441,6 +467,28 @@ wxInt32 CViewProjects::GetDocCount() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     return pDoc->GetProjectCount();
+}
+
+
+void CViewProjects::OnListSelected(wxListEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListSelected - Function Begin"));
+
+    
+
+    UpdateSelection();
+    event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListSelected - Function End"));
+}
+
+
+void CViewProjects::OnListDeselected(wxListEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListDeselected - Function Begin"));
+
+    UpdateSelection();
+    event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListDeselected - Function End"));
 }
 
 
@@ -572,10 +620,10 @@ wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData)
 
 
 void CViewProjects::UpdateSelection() {
+    // Update the tasks static box buttons
     CTaskItemGroup* pGroup = m_TaskGroups[0];
-
     if (m_pListPane->GetSelectedItemCount() == 0) {
-        pGroup->button(BTN_UPDATE)->Disable;
+        pGroup->button(BTN_UPDATE)->Disable();
         pGroup->button(BTN_SUSPEND)->Disable();
         pGroup->button(BTN_NOWORK)->Disable();
         pGroup->button(BTN_RESET)->Disable();
@@ -605,10 +653,6 @@ void CViewProjects::UpdateSelection() {
         pGroup->button(BTN_DETACH)->Enable();
         pGroup->button(BTN_ATTACH)->Enable();
     }
-}
-
-void CViewProjects::UpdateTaskPane() {
-
 }
 
 

@@ -70,7 +70,6 @@ protected:
     virtual void            OnListRender( wxTimerEvent& event );
 
     virtual void            UpdateSelection();
-    virtual void            UpdateTaskPane();
 
 	DECLARE_EVENT_TABLE()
 };

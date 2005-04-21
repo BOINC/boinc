@@ -71,6 +71,8 @@ protected:
 
     virtual wxInt32         GetDocCount();
 
+    virtual void            OnListSelected( wxListEvent& event );
+    virtual void            OnListDeselected( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual wxString        OnDocGetItemText( long item, long column ) const;
@@ -82,7 +84,6 @@ protected:
     virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
-    virtual void            UpdateTaskPane();
 
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;

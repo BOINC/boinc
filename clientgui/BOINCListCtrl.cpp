@@ -47,16 +47,6 @@ CBOINCListCtrl::CBOINCListCtrl(
         wxEVT_COMMAND_LEFT_CLICK, 
         (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CBOINCListCtrl::OnClick
     );
-    Connect(
-        iListWindowID, 
-        wxEVT_COMMAND_LIST_ITEM_SELECTED, 
-        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnSelected
-    );
-    Connect(
-        iListWindowID, 
-        wxEVT_COMMAND_LIST_ITEM_DESELECTED, 
-        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnDeselected
-    );
 }
 
 
@@ -154,33 +144,13 @@ void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
 
     if (m_bIsSingleSelection) {
         if (GetFocusedItem() != GetFirstSelected()) {
-            OnDeselected(leEvent);
+            m_pParentView->FireOnListDeselected(leEvent);
         }
     } else {
         if (-1 == GetFirstSelected()) {
-            OnDeselected(leEvent);
+            m_pParentView->FireOnListDeselected(leEvent);
         }
     }
-
-    event.Skip();
-}
-
-
-void CBOINCListCtrl::OnSelected(wxListEvent& event) {
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    m_pParentView->FireOnListSelected(event);
-
-    event.Skip();
-}
-
-
-void CBOINCListCtrl::OnDeselected(wxListEvent& event) {
-    wxASSERT(NULL != m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
-
-    m_pParentView->FireOnListDeselected(event);
 
     event.Skip();
 }

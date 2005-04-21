@@ -46,6 +46,8 @@ IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewMessages, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_MESSAGES_COPYALL, CViewMessages::OnMessagesCopyAll)
     EVT_BUTTON(ID_TASK_MESSAGES_COPYSELECTED, CViewMessages::OnMessagesCopySelected)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_MESSAGESVIEW, CViewMessages::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_MESSAGESVIEW, CViewMessages::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -92,7 +94,7 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 
 
     // Create Task Pane Items
-    m_pTaskPane->CreateTaskControls();
+    m_pTaskPane->UpdateControls();
 
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 115);
@@ -153,6 +155,9 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
 
 #endif
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopyAll - Function End"));
 }
 
@@ -185,6 +190,9 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
 #endif
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopySelected - Function End"));
 }
@@ -270,10 +278,6 @@ bool CViewMessages::EnsureLastItemVisible() {
 
 
 void CViewMessages::UpdateSelection() {
-}
-
-
-void CViewMessages::UpdateTaskPane() {
 }
 
 
@@ -405,5 +409,6 @@ bool CViewMessages::CloseClipboard() {
 }
 
 #endif
+
 
 const char *BOINC_RCSID_0be7149475 = "$Id$";

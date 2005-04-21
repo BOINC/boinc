@@ -36,7 +36,7 @@ public:
 
     ~CBOINCTaskCtrl();
 
-    wxInt32 CreateTaskControls();
+    wxInt32 UpdateControls();
 
     virtual bool OnSaveState( wxConfigBase* pConfig );
     virtual bool OnRestoreState( wxConfigBase* pConfig );

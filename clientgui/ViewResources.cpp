@@ -52,6 +52,8 @@ CResource::~CResource() {
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewResources, CBOINCBaseView)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CViewResources::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CViewResources::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -72,7 +74,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     //
 
     // Create Task Pane Items
-    m_pTaskPane->CreateTaskControls();
+    m_pTaskPane->UpdateControls();
 
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
@@ -189,10 +191,6 @@ wxInt32 CViewResources::UpdateCache(long item, long column, wxString& strNewData
 
 
 void CViewResources::UpdateSelection() {
-}
-
-
-void CViewResources::UpdateTaskPane() {
 }
 
 

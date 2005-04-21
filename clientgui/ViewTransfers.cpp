@@ -70,6 +70,8 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -109,7 +111,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
 
     // Create Task Pane Items
-    m_pTaskPane->CreateTaskControls();
+    m_pTaskPane->UpdateControls();
 
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
@@ -155,6 +157,9 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& event ) {
     pDoc->TransferRetryNow(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function End"));
 }
 
@@ -196,6 +201,9 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
     }
 
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function End"));
 }
@@ -339,10 +347,6 @@ wxInt32 CViewTransfers::UpdateCache(long item, long column, wxString& strNewData
 
 
 void CViewTransfers::UpdateSelection() {
-}
-
-
-void CViewTransfers::UpdateTaskPane() {
 }
 
 

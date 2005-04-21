@@ -36,7 +36,8 @@ class CTaskItem : wxObject {
 public:
 	CTaskItem();
 	CTaskItem( wxString strName, wxString strDescription, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID), m_pButton(NULL) {};
+		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID), m_pButton(NULL),
+        m_strWebSiteLink(wxT("")) {};
     ~CTaskItem() {};
 
     wxString                m_strName;
@@ -44,6 +45,7 @@ public:
     wxInt32                 m_iEventID;
 
 	wxButton*				m_pButton;
+    wxString                m_strWebSiteLink;
 };
 
 
@@ -123,7 +125,6 @@ protected:
     virtual int             UpdateCache( long item, long column, wxString& strNewData );
 
     virtual void            UpdateSelection();
-    virtual void            UpdateTaskPane();
 
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();

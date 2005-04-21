@@ -261,14 +261,22 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 
 
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
+
     UpdateSelection();
     event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function End"));
 }
 
 
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
+
     UpdateSelection();
     event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function End"));
 }
 
 
@@ -376,10 +384,6 @@ int CBOINCBaseView::UpdateCache(
 
 
 void CBOINCBaseView::UpdateSelection()
-{}
-
-
-void CBOINCBaseView::UpdateTaskPane()
 {}
 
 

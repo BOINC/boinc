@@ -60,7 +60,6 @@ protected:
     virtual bool            EnsureLastItemVisible();
 
     virtual void            UpdateSelection();
-    virtual void            UpdateTaskPane();
 
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatPriority( wxInt32 item, wxString& strBuffer ) const;

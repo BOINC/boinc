@@ -265,6 +265,8 @@ BEGIN_EVENT_TABLE (CViewStatistics, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_STATISTICS_USERAVERAGE, CViewStatistics::OnStatisticsUserAverage)
     EVT_BUTTON(ID_TASK_STATISTICS_HOSTTOTAL, CViewStatistics::OnStatisticsHostTotal)
     EVT_BUTTON(ID_TASK_STATISTICS_HOSTAVERAGE, CViewStatistics::OnStatisticsHostAverage)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_STATISTICSVIEW, CViewStatistics::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_STATISTICSVIEW, CViewStatistics::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -331,7 +333,7 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
 
     // Create Task Pane Items
-    m_pTaskPane->CreateTaskControls();
+    m_pTaskPane->UpdateControls();
 }
 
 CViewStatistics::~CViewStatistics() {
@@ -358,6 +360,9 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& event ) {
     m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function End"));
 }
 
@@ -375,6 +380,9 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& event ) {
 	m_PaintStatistics->m_SelectedStatistic=1;
     m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserAverage - Function End"));
 }
@@ -394,6 +402,9 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& event ) {
     m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostTotal - Function End"));
 }
 
@@ -411,6 +422,9 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& event ) {
 	m_PaintStatistics->m_SelectedStatistic=3;
     m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostAverage - Function End"));
 }
@@ -458,5 +472,4 @@ void CViewStatistics::UpdateSelection() {
 }
 
 
-void CViewStatistics::UpdateTaskPane() {
-}
+const char *BOINC_RCSID_7aadb93333 = "$Id$";

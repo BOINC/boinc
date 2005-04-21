@@ -42,8 +42,6 @@ public:
 private:
     
     virtual void            OnClick(wxCommandEvent& event);
-    virtual void            OnSelected(wxListEvent& event);
-    virtual void            OnDeselected(wxListEvent& event);
 
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;

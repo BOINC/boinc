@@ -74,6 +74,8 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_RESUME, CViewWork::OnWorkResume)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -127,7 +129,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 
 
     // Create Task Pane Items
-    m_pTaskPane->CreateTaskControls();
+    m_pTaskPane->UpdateControls();
 
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
@@ -174,6 +176,9 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
     pDoc->WorkSuspend(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function End"));
 }
 
@@ -194,6 +199,9 @@ void CViewWork::OnWorkResume( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Resuming result..."));
     pDoc->WorkResume(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkResume - Function End"));
 }
@@ -245,6 +253,9 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
 }
 
@@ -284,6 +295,9 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
     }
 
     pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function End"));
 }
@@ -436,10 +450,6 @@ wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
 
 
 void CViewWork::UpdateSelection() {
-}
-
-
-void CViewWork::UpdateTaskPane() {
 }
 
 
