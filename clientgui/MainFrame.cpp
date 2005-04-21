@@ -655,7 +655,7 @@ bool CMainFrame::RestoreState() {
 
 
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
-    //m_pNotebook->SetSelection(iCurrentPage);
+    m_pNotebook->SetSelection(iCurrentPage);
 
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);

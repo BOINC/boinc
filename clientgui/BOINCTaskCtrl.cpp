@@ -33,7 +33,7 @@ CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
-    wxPanel(pView, iTaskWindowID, wxDefaultPosition, wxSize(150, -1), iTaskWindowFlags)
+    wxPanel(pView, iTaskWindowID, wxDefaultPosition, wxSize(175, -1), iTaskWindowFlags)
 {
     m_pParent = pView;
     m_pBoxSizer = NULL;
@@ -47,6 +47,8 @@ CBOINCTaskCtrl::~CBOINCTaskCtrl() {}
 wxInt32 CBOINCTaskCtrl::CreateTaskControls() {
     unsigned int        i;
     unsigned int        j;
+    wxInt32             iCurrentWidth = 0;
+    wxInt32             iFutureWidth = 0;
     CTaskItemGroup*     pGroup = NULL;
     CTaskItem*          pItem = NULL;
 
@@ -63,16 +65,17 @@ wxInt32 CBOINCTaskCtrl::CreateTaskControls() {
             pItem = pGroup->m_Tasks[j];
 
             pItem->m_pButton = new wxButton;
-            pItem->m_pButton->Create( this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, wxEXPAND );
+            pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, 0);
             pItem->m_pButton->SetToolTip(pItem->m_strDescription);
-            pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+            pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxEXPAND|wxALL, 5);
         }
 
-        m_pBoxSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);        
+        m_pBoxSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);        
         m_pBoxSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);        
     }
 
     SetSizerAndFit(m_pBoxSizer);
+
     return 0;
 }
 
