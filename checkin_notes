@@ -22745,19 +22745,23 @@ Karl 2005-01-16
 
 Bruce 17 Jan 2005
     - Additional work on locality scheduling.  
-      (a) make DB queries more efficient using name>'FILE__' and name<'FILE__~' rather than
-          name like 'FILE__%'
-      (b) Set 'no remaining work for this file' flag correctly by making a DB scan if needed.
-          One can show that this is the 'cheapest' reliable place to put this scan.
-      (c) Modify deterministic algorithm for finding unsent results so that instead of
-          starting with FILE="" and scanning forward over all files, it starts at a random
-          place in file space, scans cyclicly to the end, and then from "" to the start
-          point.
-      (d) Satisfy work request if possible.  Don't terminate sending work until none left that
-          is feasible, or request satisfed.
-      (e) If a new file is needed, first pick file associated with unsent results which are more
-          than 2 hours old.  Note: need to make this a user-configurable option, and add some
-          random +- slack.
+        (a) make DB queries more efficient using name>'FILE__' and
+            name<'FILE__~' rather than name like 'FILE__%'
+      (b) Set 'no remaining work for this file' flag correctly
+          by making a DB scan if needed.
+          One can show that this is the 'cheapest'
+          reliable place to put this scan.
+      (c) Modify deterministic algorithm for finding unsent results
+          so that instead of starting with FILE="" and scanning forward
+          over all files, it starts at a random place in file space,
+          scans cyclicly to the end, and then from "" to the start point.
+      (d) Satisfy work request if possible.
+          Don't terminate sending work until none left that is feasible,
+          or request satisfed.
+      (e) If a new file is needed, first pick file associated with unsent
+          results which are more than 2 hours old.
+          Note: need to make this a user-configurable option,
+          and add some random +- slack.
       
        For the record, here is the current locality scheduler logic.
        I will update the docs once this is a bit better tested and
@@ -24439,19 +24443,18 @@ David  9 Feb 2005
         gui_rpc_server.C
 
 Bruce 10 Feb 2005
-      More sched locality and other scheduler changes.
-    - Address David's comment of Feb 2.  Now properly reduce the
-      disk size resource requirements of a WU being sent if the
-      file is already on the host, or already included in a previous
-      WU being sent. DAVID: please check that reply_copy.wus.pop_back()
-      is right.
-    - For this, define a function host_has_file().  This can also
-      be used in the future for more intelligent file deletion
-      schemes.
+    More sched locality and other scheduler changes.
+    - Address David's comment of Feb 2.
+        Now properly reduce the disk size resource requirements
+        of a WU being sent if the file is already on the host,
+        or already included in a previous WU being sent.
+        DAVID: please check that reply_copy.wus.pop_back() is right.
+    - For this, define a function host_has_file().
+        This can also be used in the future for more intelligent
+        file deletion schemes.
     - Make warnings to upgrade old clients have low priority until
-      3 days before deadline.  Then high priority.
-    - Fix sign error in messages sent to users about insufficient
-      disk space.
+        3 days before deadline.  Then high priority.
+    - Fix sign error in messages sent to users about insufficient disk space.
     - Move extract_filename() from sched_locality.C to sched_util.C
     - Pretty up the ordered list of URLs printed for a given host.
     - I've even tested these changes before committing them!
@@ -24463,10 +24466,11 @@ Bruce 10 Feb 2005
         sched_util.[hC]
 
 Bruce 10 Feb 2005
-      Added code to the scheduler so that it will dump core on SEGV.  This
-      is disabled by default.  Having this
-      is really useful if the scheduler is crashing some of the time.  You
-      can load the core dump file into a debugger to see where things are
+      Added code to the scheduler so that it will dump core on SEGV.
+      This is disabled by default.
+      Having this is really useful if the scheduler is crashing
+      some of the time.
+      You can load the core dump file into a debugger to see where things are
       breaking.  To use this, edit sched/main.C by hand and set
       #define DUMP_CORE_ON_SEGV 1
 
@@ -27047,9 +27051,11 @@ Bruce 11 April 2005
       trying to make work for that file.
 
     - File upload handler: to prevent multiple instances of file_upload_handler
-      from trying to upload the SAME file, use lockf() to place an advisory lock on
-      the file.  David, I probably should have discussed this with you first, but it's
-      too early in the morning.  Please revert if this is a mistake!
+      from trying to upload the SAME file,
+      use lockf() to place an advisory lock on the file.
+      David, I probably should have discussed this with you first,
+      but it's too early in the morning.
+      Please revert if this is a mistake!
 
     sched/
         sched_locality.C
@@ -27566,3 +27572,12 @@ Rom    21 April 2005
         ViewResources.cpp
         ViewStatistics.cpp
         ViewTransfers.cpp
+
+David  21 April 2005
+    - improve client startup messages
+
+    client/
+        client_state.C
+        client_types.h
+        cs_account.C
+        cs_scheduler.C

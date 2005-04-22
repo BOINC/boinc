@@ -883,7 +883,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         if (RESULT_COMPUTE_ERROR > ((*it).second)->state) {
             double lowest_book = booked_to[0];
             int lowest_booked_cpu = 0;
-            for(int i = 1; i < ncpus; ++i) {
+            for (int i=1; i<ncpus; i++) {
                 if (booked_to[i] < lowest_book) {
                     lowest_book = booked_to[i];
                     lowest_booked_cpu = i;
@@ -898,7 +898,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
                 use_earliest_deadline_first = true;
                 if (!cpu_earliest_deadline_first || !work_fetch_no_new_work) {
                     msg_printf(NULL, MSG_INFO,
-                        "Host is overcommitted"
+                        "Computer is overcommitted"
                     );
                 }
             }
@@ -932,7 +932,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         should_not_fetch_work = true;
         if (!work_fetch_no_new_work) {
             msg_printf(NULL, MSG_INFO,
-                "Work fetch policy - nearly overcommitted."
+                "Nearly overcommitted."
             );
         }
     }
@@ -943,7 +943,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         should_not_fetch_work = true;
         if (!work_fetch_no_new_work) {
             msg_printf(NULL, MSG_INFO,
-                "Work fetch policy - max projects exceeded."
+                "Too many projects have work."
             );
         }
     }

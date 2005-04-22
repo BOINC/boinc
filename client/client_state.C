@@ -284,9 +284,19 @@ int CLIENT_STATE::init() {
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->hostid) {
-            msg_printf(p, MSG_INFO, "Host ID is %d", p->hostid);
+            sprintf(buf, "%d", p->hostid);
         } else {
-            msg_printf(p, MSG_INFO, "Host ID not assigned yet");
+            strcpy(buf, "not assigned yet");
+        }
+        msg_printf(p, MSG_INFO, "Computer ID is %s, location is %s",
+            buf, p->host_venue
+        );
+        if (p->using_venue_specific_prefs) {
+            msg_printf(p, MSG_INFO,
+                "Using separate projects prefs for %s", p->host_venue
+            );
+        } else {
+            msg_printf(p, MSG_INFO, "Using your default projects prefs");
         }
     }
 

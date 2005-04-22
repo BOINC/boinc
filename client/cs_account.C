@@ -103,6 +103,7 @@ int PROJECT::parse_account(FILE* in) {
     strcpy(master_url, "");
     strcpy(host_venue, "");
     strcpy(authenticator, "");
+    using_venue_specific_prefs = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "<project_preferences>")) continue;
@@ -110,18 +111,12 @@ int PROJECT::parse_account(FILE* in) {
         if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         if (match_tag(buf, "</account>")) {
             if (strlen(host_venue)) {
-                msg_printf(this, MSG_INFO, "Host location: %s", host_venue);
                 if (got_venue_prefs) {
-                    msg_printf(this, MSG_INFO, "Using separate project prefs for %s", host_venue);
-                } else {
-                    msg_printf(this, MSG_INFO, "Using your default project prefs");
+                    using_venue_specific_prefs = true;
                 }
-            } else {
-                msg_printf(this, MSG_INFO, "Using your default project prefs");
             }
             return 0;
         }
-
         else if (match_tag(buf, "<venue")) {
             parse_attr(buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, host_venue)) {
