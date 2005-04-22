@@ -425,7 +425,7 @@ void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectWebsiteClicked( wxCommandEvent& event ) {
+void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function Begin"));
 
     CMainFrame*         pFrame = wxGetApp().GetFrame();

@@ -64,7 +64,7 @@ public:
     void                    OnProjectDetach( wxCommandEvent& event );
     void                    OnProjectAttach( wxCommandEvent& event );
 
-    void                    OnProjectWebsiteClicked( wxCommandEvent& event );
+    void                    OnProjectWebsiteClicked( wxEvent& event );
 
 protected:
     std::vector<CProject*>  m_ProjectCache;
