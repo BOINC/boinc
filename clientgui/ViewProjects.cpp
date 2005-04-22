@@ -50,6 +50,7 @@
 #define BTN_DETACH  4
 #define BTN_ATTACH  5
 
+
 CProject::CProject() {
     m_strProjectName = wxEmptyString;
     m_strAccountName = wxEmptyString;

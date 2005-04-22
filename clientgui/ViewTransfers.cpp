@@ -42,6 +42,10 @@
 #define COLUMN_SPEED                5
 #define COLUMN_STATUS               6
 
+// buttons in the "tasks" area
+#define BTN_RETRY       0
+#define BTN_ABORT       1
+
 
 CTransfer::CTransfer() {
     m_strProjectName = wxEmptyString;
@@ -349,6 +353,14 @@ wxInt32 CViewTransfers::UpdateCache(long item, long column, wxString& strNewData
 
 
 void CViewTransfers::UpdateSelection() {
+    CTaskItemGroup* pGroup = m_TaskGroups[0];
+    if (m_pListPane->GetSelectedItemCount() == 0) {
+        pGroup->button(BTN_RETRY)->Disable();
+        pGroup->button(BTN_ABORT)->Disable();
+    } else {
+        pGroup->button(BTN_RETRY)->Enable();
+        pGroup->button(BTN_ABORT)->Enable();
+    }
 }
 
 

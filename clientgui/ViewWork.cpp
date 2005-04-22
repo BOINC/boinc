@@ -42,9 +42,11 @@
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
 
+// buttons in the "tasks" area
 #define BTN_SUSPEND     0
 #define BTN_GRAPHICS    1
 #define BTN_ABORT       2
+
 
 CWork::CWork() {
     m_strProjectName = wxEmptyString;
