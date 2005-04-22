@@ -69,10 +69,8 @@
 #define ID_TASK_PROJECT_RESET               9005
 #define ID_TASK_PROJECT_DETACH              9006
 #define ID_TASK_PROJECT_ATTACH              9007
-#define ID_TASK_PROJECT_WEB_BOINC           9098
-#define ID_TASK_PROJECT_WEB_PROJECT         9099
 #define ID_TASK_PROJECT_WEB_PROJDEF_MIN     9100
-#define ID_TASK_PROJECT_WEB_PROJDEF_MAX     9199
+#define ID_TASK_PROJECT_WEB_PROJDEF_MAX     9106
 #define ID_TASK_WORK_SUSPEND                9200
 #define ID_TASK_WORK_RESUME                 9201
 #define ID_TASK_WORK_SHOWGRAPHICS           9202

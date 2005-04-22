@@ -334,6 +334,8 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
+
+    UpdateSelection();
 }
 
 CViewStatistics::~CViewStatistics() {

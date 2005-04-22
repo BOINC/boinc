@@ -44,8 +44,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
 
-    m_bItemSelected = false;
-
     //
     // Setup View
     //
@@ -65,8 +63,6 @@ CBOINCBaseView::CBOINCBaseView(
 
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
-
-    m_bItemSelected = false;
 
     //
     // Setup View

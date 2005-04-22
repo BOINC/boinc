@@ -121,6 +121,8 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
+
+    UpdateSelection();
 }
 
 

@@ -64,13 +64,13 @@ public:
     void                    OnProjectDetach( wxCommandEvent& event );
     void                    OnProjectAttach( wxCommandEvent& event );
 
+    void                    OnProjectWebsiteClicked( wxCommandEvent& event );
+
 protected:
     std::vector<CProject*>  m_ProjectCache;
 
     virtual wxInt32         GetDocCount();
 
-    virtual void            OnListSelected( wxListEvent& event );
-    virtual void            OnListDeselected( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual wxString        OnDocGetItemText( long item, long column ) const;

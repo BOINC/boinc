@@ -103,6 +103,8 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 
     m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
+
+    UpdateSelection();
 }
 
 

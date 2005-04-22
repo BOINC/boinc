@@ -81,6 +81,7 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
     EVT_BUTTON(ID_TASK_PROJECT_ATTACH, CViewProjects::OnProjectAttach)
+    EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
 END_EVENT_TABLE ()
@@ -92,6 +93,7 @@ CViewProjects::CViewProjects() {}
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
 {
+    wxInt32         iCurrentEventID = 0;
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
 
@@ -164,20 +166,14 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 	pGroup = new CTaskItemGroup( _("Web sites") );
 	m_TaskGroups.push_back( pGroup );
 
-	pItem = new CTaskItem(
-        _("BOINC"),
-        _("Open the BOINC home page in a web browser."),
-        ID_TASK_PROJECT_WEB_BOINC 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
-	pItem = new CTaskItem(
-        _("Project"),
-        _("Open this project's home page in a web browser."),
-        ID_TASK_PROJECT_WEB_PROJECT 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
+    for (iCurrentEventID = ID_TASK_PROJECT_WEB_PROJDEF_MIN; iCurrentEventID <= ID_TASK_PROJECT_WEB_PROJDEF_MAX; iCurrentEventID++) {
+        pItem = new CTaskItem(
+            wxT(""),
+            wxT(""),
+            iCurrentEventID 
+        );
+        pGroup->m_Tasks.push_back( pItem );
+    }
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
@@ -428,6 +424,32 @@ void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
 }
 
 
+void CViewProjects::OnProjectWebsiteClicked( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function Begin"));
+
+    CMainFrame*         pFrame = wxGetApp().GetFrame();
+
+    wxASSERT(NULL != pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    pFrame->UpdateStatusText(_("Launching browser..."));
+
+    int website_task_index = event.GetId() - ID_TASK_PROJECT_WEB_PROJDEF_MIN;
+    pFrame->ExecuteBrowserLink(
+        m_TaskGroups[1]->m_Tasks[website_task_index]->m_strWebSiteLink
+        );
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->ProcessRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function End"));
+}
+
+
 wxInt32 CViewProjects::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -435,28 +457,6 @@ wxInt32 CViewProjects::GetDocCount() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     return pDoc->GetProjectCount();
-}
-
-
-void CViewProjects::OnListSelected(wxListEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListSelected - Function Begin"));
-
-    
-
-    UpdateSelection();
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListSelected - Function End"));
-}
-
-
-void CViewProjects::OnListDeselected(wxListEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListDeselected - Function Begin"));
-
-    UpdateSelection();
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnListDeselected - Function End"));
 }
 
 
@@ -588,8 +588,17 @@ wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData)
 
 
 void CViewProjects::UpdateSelection() {
+    unsigned int        j;
+    CTaskItemGroup*     pGroup = NULL;
+    CTaskItem*          pItem = NULL;
+    PROJECT*            project = NULL;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
     // Update the tasks static box buttons
-    CTaskItemGroup* pGroup = m_TaskGroups[0];
+    pGroup = m_TaskGroups[0];
     if (m_pListPane->GetSelectedItemCount() == 0) {
         pGroup->button(BTN_UPDATE)->Disable();
         pGroup->button(BTN_SUSPEND)->Disable();
@@ -598,28 +607,61 @@ void CViewProjects::UpdateSelection() {
         pGroup->button(BTN_DETACH)->Disable();
         pGroup->button(BTN_ATTACH)->Enable();
     } else {
-        CMainDocument* pDoc = wxGetApp().GetDocument();
-        PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
+        project = pDoc->project(m_pListPane->GetFirstSelected());
         pGroup->button(BTN_UPDATE)->Enable();
         pGroup->button(BTN_SUSPEND)->Enable();
         if (project->suspended_via_gui) {
-            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Resume"));
-            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Resume work for this project"));
+            pGroup->button(BTN_SUSPEND)->SetLabel(_("Resume"));
+            pGroup->button(BTN_SUSPEND)->SetToolTip(_("Resume work for this project"));
         } else {
-            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Suspend"));
-            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Suspend work for this project"));
+            pGroup->button(BTN_SUSPEND)->SetLabel(_("Suspend"));
+            pGroup->button(BTN_SUSPEND)->SetToolTip(_("Suspend work for this project"));
         }
         pGroup->button(BTN_NOWORK)->Enable();
         if (project->dont_request_more_work) {
-            pGroup->button(BTN_NOWORK)->SetLabel(wxString("Allow new work"));
-            pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Allow fetching new work for this project"));
+            pGroup->button(BTN_NOWORK)->SetLabel(_("Allow new work"));
+            pGroup->button(BTN_NOWORK)->SetToolTip(_("Allow fetching new work for this project"));
         } else {
-            pGroup->button(BTN_NOWORK)->SetLabel(wxString("No new work"));
-            pGroup->button(BTN_NOWORK)->SetToolTip(wxString("Don't fetch new work for this project"));
+            pGroup->button(BTN_NOWORK)->SetLabel(_("No new work"));
+            pGroup->button(BTN_NOWORK)->SetToolTip(_("Don't fetch new work for this project"));
         }
         pGroup->button(BTN_RESET)->Enable();
         pGroup->button(BTN_DETACH)->Enable();
         pGroup->button(BTN_ATTACH)->Enable();
+    }
+
+    // Update the websites list
+    pGroup = m_TaskGroups[1];
+    pGroup->m_pStaticBox->Hide();
+    for (j=0; j < pGroup->m_Tasks.size(); j++) {
+        pItem = pGroup->m_Tasks[j];
+        pItem->m_pButton->Hide();
+    }
+    if (m_pListPane->GetSelectedItemCount()) {
+        project = pDoc->project(m_pListPane->GetFirstSelected());
+
+        pGroup->m_pStaticBox->Show();
+
+        // Default project url
+        pItem = pGroup->m_Tasks[0];
+        pItem->m_pButton->SetLabel(project->project_name.c_str());
+        pItem->m_pButton->SetToolTip(wxT(""));
+        pItem->m_pButton->Show();
+        pItem->m_strWebSiteLink = project->master_url.c_str();
+
+
+        // Project defined urls
+        unsigned int number_of_gui_urls = project->gui_urls.size();
+        unsigned int max_number_of_buttons = ID_TASK_PROJECT_WEB_PROJDEF_MAX-ID_TASK_PROJECT_WEB_PROJDEF_MIN;
+        int gui_url_index = 0;
+        for (j=1;j<=number_of_gui_urls && j<=max_number_of_buttons;j++) {
+            gui_url_index = j - 1;
+            pItem = pGroup->m_Tasks[j];
+            pItem->m_pButton->SetLabel(project->gui_urls[gui_url_index].name.c_str());
+            pItem->m_pButton->SetToolTip(project->gui_urls[gui_url_index].description.c_str());
+            pItem->m_pButton->Show();
+            pItem->m_strWebSiteLink = project->gui_urls[gui_url_index].url.c_str();
+        }
     }
 }
 

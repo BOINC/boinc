@@ -27553,3 +27553,16 @@ David  21 April 2005
 		ViewWork.cpp, h
 	lib/
 		gui_rpc_client.h
+
+Rom    21 April 2005
+    - More code cleanup
+    - Enable the various project defined website under new GUI scheme
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        Events.h
+        ViewMessages.cpp
+        ViewProjects.cpp, .h
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
