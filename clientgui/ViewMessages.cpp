@@ -133,15 +133,15 @@ const char** CViewMessages::GetViewIcon() {
 void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopyAll - Function Begin"));
 
-#ifndef NOCLIPBOARD
-
-    wxInt32 iIndex          = -1;
-    wxInt32 iRowCount       = 0;
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(NULL != pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
+#ifndef NOCLIPBOARD
+
+    wxInt32 iIndex          = -1;
+    wxInt32 iRowCount       = 0;
     pFrame->UpdateStatusText(_("Copying all messages to the clipboard..."));
     OpenClipboard();
 
@@ -165,14 +165,15 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
 void CViewMessages::OnMessagesCopySelected( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopySelected - Function Begin"));
 
-#ifndef NOCLIPBOARD
-
-    wxInt32 iIndex          = -1;
-    wxInt32 iRowCount       = 0;
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(NULL != pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
+#ifndef NOCLIPBOARD
+
+    wxInt32 iIndex          = -1;
+    wxInt32 iRowCount       = 0;
 
     pFrame->UpdateStatusText(_("Aborting transfer..."));
     OpenClipboard();
