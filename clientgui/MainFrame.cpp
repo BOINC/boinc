@@ -1369,7 +1369,7 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->FireOnListRender(timerEvent);
+        FireRefreshView();
     }
 
     event.Skip();

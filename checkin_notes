@@ -27581,3 +27581,12 @@ David  21 April 2005
         client_types.h
         cs_account.C
         cs_scheduler.C
+
+Rom    22 April 2005
+    - Post an update request instead of forcing one right as the user is changing
+        tabs, this increases preceived performance since the tab switches over
+        and the update happens around the same time as ones eyeballs move to the
+        part of the screen where they are expecting to see a change.
+
+    clientgui/
+        MainFrame.cpp
