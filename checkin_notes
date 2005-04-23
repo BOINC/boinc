@@ -27600,10 +27600,10 @@ Charlie    23 April 2005
         BOINCGUIApp.cpp
         mac/
             mac_saver_module.cpp (new)
-            mac_saver_module.tiff (new)
+            boinc.tiff (new)
             Mac_Saver_ModuleView.h (new)
             Mac_Saver_ModuleView.m (new)
-            BOINCSaver.nib (new)
+            BOINCSaver.nib.sit (new)
     mac_build/
         Info.plist
         ScreenSaver-Info.plist (new)
