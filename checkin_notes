@@ -27590,3 +27590,22 @@ Rom    22 April 2005
 
     clientgui/
         MainFrame.cpp
+
+Charlie    23 April 2005
+    Mac: Rename "BOINC.app" to "BoincManager.app", rename "boinc_client" 
+    to "boinc".
+    Create screen saver, add it to BOINC XCode project.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            mac_saver_module.cpp (new)
+            mac_saver_module.tiff (new)
+            Mac_Saver_ModuleView.h (new)
+            Mac_Saver_ModuleView.m (new)
+            BOINCSaver.nib (new)
+    mac_build/
+        Info.plist
+        ScreenSaver-Info.plist (new)
+        boinc.pbproj/
+            project.pbxproj

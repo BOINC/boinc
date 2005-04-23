@@ -365,7 +365,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
             if (err == noErr) {
                 strExecute = wxT("\"");            
                 strExecute += wxT(buf);
-                strExecute += wxT("/Contents/Resources/boinc_client\" -redirectio");
+                strExecute += wxT("/Contents/Resources/boinc\" -redirectio");
             } else {
                 buf[0] = '\0';
             }

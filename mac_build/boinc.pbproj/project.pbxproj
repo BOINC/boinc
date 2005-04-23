@@ -131,6 +131,8 @@
 		};
 		20286C2CFDCF999611CA2CEA = {
 			children = (
+				DD0C5A8A0816711400CEC5D7,
+				DD48091E081A66F100A174AA,
 				DD64E7D507D89DB800B176C8,
 				DDF3028907CCCE2C00701169,
 				F51BDF4903086C46012012A7,
@@ -295,7 +297,6 @@
 				DD095EF407D87B1600362260,
 				DD095F5A07D883E500362260,
 				DD095F5B07D883E600362260,
-				DD64E7D607D89DB800B176C8,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,7 +388,7 @@
 				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
 				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BOINC;
+				PRODUCT_NAME = BOINCManager;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = NO;
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
@@ -428,7 +429,7 @@
 			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = BOINC.app;
+			path = BOINCManager.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -698,6 +699,59 @@
 		};
 		DD09609207D8840900362260 = {
 			fileRef = DDBE3E1607C954300042BE67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD0C59580816573E00CEC5D7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = mac_saver_module.cpp;
+			path = ../clientgui/mac/mac_saver_module.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD0C59590816573E00CEC5D7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Mac_Saver_ModuleView.h;
+			path = ../clientgui/mac/Mac_Saver_ModuleView.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD0C595A0816573E00CEC5D7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = Mac_Saver_ModuleView.m;
+			path = ../clientgui/mac/Mac_Saver_ModuleView.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD0C595B0816573E00CEC5D7 = {
+			fileRef = DD0C59580816573E00CEC5D7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD0C595D0816573E00CEC5D7 = {
+			fileRef = DD0C595A0816573E00CEC5D7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD0C5A8A0816711400CEC5D7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = boinc.tiff;
+			path = ../clientgui/mac/boinc.tiff;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD0C5A8B0816711400CEC5D7 = {
+			fileRef = DD0C5A8A0816711400CEC5D7;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2048,6 +2102,20 @@
 			target = DD40CDF807F0386A0096C645;
 			targetProxy = DD40D36007F03B600096C645;
 		};
+		DD48091E081A66F100A174AA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = BOINCSaver.nib;
+			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/BOINCSaver.nib;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD48091F081A66F100A174AA = {
+			fileRef = DD48091E081A66F100A174AA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD4DD0A207EAA648008A6468 = {
 			fileRef = DD81C40307C5D1020098A04D;
 			isa = PBXBuildFile;
@@ -2078,6 +2146,12 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		DD616A3008150050006981C1 = {
+			fileRef = F51BDF4903086C46012012A7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD64E7D507D89DB800B176C8 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2085,12 +2159,6 @@
 			path = Info.plist;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD64E7D607D89DB800B176C8 = {
-			fileRef = DD64E7D507D89DB800B176C8;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DD6D07B307E99881007F882B = {
 			fileEncoding = 30;
@@ -2178,6 +2246,18 @@
 			settings = {
 			};
 		};
+		DD791FF00819063C00BE2906 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD96AFF80811075000A06F22;
+			remoteInfo = ScreenSaver;
+		};
+		DD791FF10819063C00BE2906 = {
+			isa = PBXTargetDependency;
+			target = DD96AFF80811075000A06F22;
+			targetProxy = DD791FF00819063C00BE2906;
+		};
 		DD7C5D1F08110A60002FCE1E = {
 			fileRef = DD40CE0807F039350096C645;
 			isa = PBXBuildFile;
@@ -2228,56 +2308,6 @@
 		};
 		DD7C5E7A08110B11002FCE1E = {
 			fileRef = DD7C5E7908110B11002FCE1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD7C5E9508110D0B002FCE1E = {
-			children = (
-				DD7C5EA008110D69002FCE1E,
-				DD7C5EA108110D69002FCE1E,
-				DD7C5EAD08110DD1002FCE1E,
-			);
-			isa = PBXGroup;
-			name = mac;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		DD7C5EA008110D69002FCE1E = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = Mac_Saver_ModuleView.h;
-			path = ../client/mac/Mac_Saver_ModuleView.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD7C5EA108110D69002FCE1E = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = Mac_Saver_ModuleView.m;
-			path = ../client/mac/Mac_Saver_ModuleView.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD7C5EA308110D69002FCE1E = {
-			fileRef = DD7C5EA108110D69002FCE1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD7C5EAD08110DD1002FCE1E = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = mac_saver_module.cpp;
-			path = ../client/mac/mac_saver_module.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD7C5EAE08110DD1002FCE1E = {
-			fileRef = DD7C5EAD08110DD1002FCE1E;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2361,7 +2391,7 @@
 			);
 			isa = PBXGroup;
 			name = clientgui;
-			path = ../../boinc_public_021005/lib;
+			path = ../clientgui;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2782,6 +2812,9 @@
 		DD96AFF50811075000A06F22 = {
 			buildActionMask = 2147483647;
 			files = (
+				DD616A3008150050006981C1,
+				DD0C5A8B0816711400CEC5D7,
+				DD48091F081A66F100A174AA,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2789,8 +2822,17 @@
 		DD96AFF60811075000A06F22 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD7C5EA308110D69002FCE1E,
-				DD7C5EAE08110DD1002FCE1E,
+				DD0C595B0816573E00CEC5D7,
+				DD0C595D0816573E00CEC5D7,
+				DDFD5F0F0818F2EE002B23D4,
+				DDFD5F270818F329002B23D4,
+				DDFD5F280818F33C002B23D4,
+				DDFD5F290818F346002B23D4,
+				DDFD5F2A0818F34F002B23D4,
+				DDFD5F2B0818F359002B23D4,
+				DDFD5F2C0818F368002B23D4,
+				DDFD5F2D0818F372002B23D4,
+				DDFD5F2E0818F3A1002B23D4,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2820,12 +2862,14 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = " -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = " -include ../config.h";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BOINC.saver;
+				PRODUCT_NAME = BOINCSaver;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = saver;
 			};
 			dependencies = (
 			);
@@ -2860,7 +2904,7 @@
 			explicitFileType = wrapper.cfbundle;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = BOINC.saver.bundle;
+			path = BOINCSaver.saver;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -2990,6 +3034,7 @@
 				DDBD681107FA830E0082C20D,
 				DDBD681307FA830E0082C20D,
 				DDBD681507FA830E0082C20D,
+				DD791FF10819063C00BE2906,
 				DDBD681707FA830E0082C20D,
 			);
 			isa = PBXAggregateTarget;
@@ -3177,7 +3222,7 @@
 				OTHER_CFLAGS = "-D_THREAD_SAFE  -D__WXMAC -include ../config.h";
 				OTHER_LDFLAGS = "-framework Carbon";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = boinc_client;
+				PRODUCT_NAME = boinc;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
@@ -3195,7 +3240,7 @@
 			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = boinc_client;
+			path = boinc;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -3756,6 +3801,60 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		DDFD5F0F0818F2EE002B23D4 = {
+			fileRef = DD81C5CC07C5D7D90098A04D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F270818F329002B23D4 = {
+			fileRef = F5EAD475031AEFF8018E201A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F280818F33C002B23D4 = {
+			fileRef = F5159562029EB02001F5651B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F290818F346002B23D4 = {
+			fileRef = F5159564029EB02001F5651B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F2A0818F34F002B23D4 = {
+			fileRef = DD344BD207C5B1150043025C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F2B0818F359002B23D4 = {
+			fileRef = DD344BD507C5B1150043025C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F2C0818F368002B23D4 = {
+			fileRef = DD6D0A8507E9A61B007F882B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F2D0818F372002B23D4 = {
+			fileRef = F54B901602AC0A2201FB7237;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDFD5F2E0818F3A1002B23D4 = {
+			fileRef = F5EAD479031AF001018E201A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //DD0
 //DD1
 //DD2
@@ -4258,7 +4357,6 @@
 				F54B8FD502AC0A0C01FB7237,
 				F54B8FD602AC0A0C01FB7237,
 				F54B8FD702AC0A0C01FB7237,
-				DD7C5E9508110D0B002FCE1E,
 				DD344BCE07C5B0B80043025C,
 				DD344BCF07C5B0B80043025C,
 				F54B8FDA02AC0A0C01FB7237,
@@ -4584,6 +4682,9 @@
 				DD2F32F707F2A88B00645DDC,
 				DD2F32EF07F2A83E00645DDC,
 				DD40CDFE07F038990096C645,
+				DD0C59580816573E00CEC5D7,
+				DD0C59590816573E00CEC5D7,
+				DD0C595A0816573E00CEC5D7,
 			);
 			isa = PBXGroup;
 			name = mac;

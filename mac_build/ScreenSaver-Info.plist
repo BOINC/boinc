@@ -5,18 +5,20 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>BOINCManager</string>
-	<key>CFBundleIconFile</key>
-	<string>BOINCMgr.icns</string>
+	<string>BOINCSaver</string>
 	<key>CFBundleIdentifier</key>
-	<string>edu.berkeley.boinc</string>
+	<string>edu.berkeley.boincsaver</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>BOINCSaver</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>BNDL</string>
 	<key>CFBundleSignature</key>
-	<string>BNC!</string>
+	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.40</string>
+	<string>1.0</string>
+	<key>NSPrincipalClass</key>
+	<string>BOINC_Saver_ModuleView</string>
 </dict>
 </plist>
