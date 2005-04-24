@@ -27609,3 +27609,9 @@ Charlie    23 April 2005
         ScreenSaver-Info.plist (new)
         boinc.pbproj/
             project.pbxproj
+
+Rom    23 April 2005
+    - More code cleanup work in the manager
+
+    clientgui/
+        MainDocument.cpp, .h

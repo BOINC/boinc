@@ -592,15 +592,9 @@ int CMainDocument::GetProjectCount() {
 
 int CMainDocument::GetProjectProjectName(int iIndex, wxString& strBuffer) {
     PROJECT* pProject = NULL;
-    strBuffer = "";
+    strBuffer = wxEmptyString;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (!pProject) return 0;
 
@@ -616,13 +610,7 @@ int CMainDocument::GetProjectProjectName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetProjectProjectURL(int iIndex, wxString& strBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         strBuffer = pProject->master_url.c_str();
@@ -634,13 +622,7 @@ int CMainDocument::GetProjectProjectURL(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetProjectAccountName(int iIndex, wxString& strBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         strBuffer = pProject->user_name.c_str();
@@ -652,13 +634,7 @@ int CMainDocument::GetProjectAccountName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetProjectTeamName(int iIndex, wxString& strBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         strBuffer = pProject->team_name.c_str();
@@ -670,13 +646,7 @@ int CMainDocument::GetProjectTeamName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetProjectTotalCredit(int iIndex, float& fBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         fBuffer = pProject->user_total_credit;
@@ -688,13 +658,7 @@ int CMainDocument::GetProjectTotalCredit(int iIndex, float& fBuffer) {
 int CMainDocument::GetProjectAvgCredit(int iIndex, float& fBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         fBuffer = pProject->user_expavg_credit;
@@ -706,13 +670,7 @@ int CMainDocument::GetProjectAvgCredit(int iIndex, float& fBuffer) {
 int CMainDocument::GetProjectResourceShare(int iIndex, float& fBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         fBuffer = pProject->resource_share;
@@ -730,17 +688,10 @@ int CMainDocument::GetProjectTotalResourceShare(int WXUNUSED(iIndex), float& fBu
 int CMainDocument::GetProjectMinRPCTime(int iIndex, int& iBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
-    if (pProject) {
+    if (pProject)
         iBuffer = (int)pProject->min_rpc_time;
-    }
 
     return 0;
 }
@@ -832,13 +783,7 @@ bool CMainDocument::IsProjectSuspended(int iIndex) {
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         bRetVal = pProject->suspended_via_gui;
@@ -850,13 +795,7 @@ bool CMainDocument::IsProjectAllowedToGetWork(int iIndex) {
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         bRetVal = pProject->dont_request_more_work;
@@ -868,13 +807,7 @@ bool CMainDocument::IsProjectRPCPending(int iIndex) {
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         bRetVal = pProject->sched_rpc_pending;
@@ -892,13 +825,7 @@ int CMainDocument::ProjectDetach(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("detach"));
@@ -911,13 +838,7 @@ int CMainDocument::ProjectUpdate(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("update"));
@@ -930,13 +851,7 @@ int CMainDocument::ProjectReset(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("reset"));
@@ -950,25 +865,10 @@ int CMainDocument::ProjectSuspend(int iIndex) {
     PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
-    if (pProject) {
+    if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("suspend"));
-        if (0 == iRetVal) {
-            pProject->suspended_via_gui = true;
-            pStateProject = state.lookup_project(pProject->master_url);
-            if (pStateProject)
-                pStateProject->suspended_via_gui = true;
-            else
-                ForceCacheUpdate();
-        }
-    }
 
     return iRetVal;
 }
@@ -979,26 +879,10 @@ int CMainDocument::ProjectResume(int iIndex) {
     PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
-    if (pProject) {
+    if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("resume"));
-        if (0 == iRetVal)
-        {
-            pProject->suspended_via_gui = false;
-            pStateProject = state.lookup_project(pProject->master_url);
-            if (pStateProject)
-                pStateProject->suspended_via_gui = false;
-            else
-                ForceCacheUpdate();
-        }
-    }
 
     return iRetVal;
 }
@@ -1008,26 +892,11 @@ int CMainDocument::ProjectNoMoreWork(int iIndex) {
     PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = project(iIndex);
 
-    if (pProject) {
+    if (pProject)
         iRetVal = rpc.project_op((*pProject), wxT("nomorework"));
-        if (!iRetVal) {
-          pProject->dont_request_more_work = true;
-            pStateProject = state.lookup_project(pProject->master_url);
-            if (pStateProject) {
-                pStateProject->dont_request_more_work = true;
-            } else {
-                ForceCacheUpdate();
-            }
-        }
-    }
+
     return iRetVal;
 }
 
@@ -1036,36 +905,35 @@ int CMainDocument::ProjectAllowMoreWork(int iIndex) {
     PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
+    pProject = project(iIndex);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), wxT("allowmorework"));
+
+    return iRetVal;
+}
+
+
+PROJECT* CMainDocument::project(int i) {
+    PROJECT* pProject = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
     try {
         if (!project_status.projects.empty())
-            pProject = project_status.projects.at(iIndex);
+            pProject = project_status.projects.at(i);
     }
     catch (std::out_of_range e) {
         pProject = NULL;
     }
 
-    if (pProject) {
-        iRetVal = rpc.project_op((*pProject), wxT("allowmorework"));
-        if (!iRetVal) {
-            pProject->dont_request_more_work = false;
-            pStateProject = state.lookup_project(pProject->master_url);
-            if (pStateProject) {
-                pStateProject->dont_request_more_work = false;
-            } else {
-                ForceCacheUpdate();
-            }
-        }
-    }
-    return iRetVal;
+    return pProject;
 }
 
-PROJECT* CMainDocument::project(int i) {
-    return project_status.projects[i];
-}
-
-RESULT* CMainDocument::result(int i) {
-    return results.results[i];
-}
 
 int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
@@ -1100,13 +968,7 @@ int CMainDocument::GetWorkProjectName(int iIndex, wxString& strBuffer) {
     RESULT* pStateResult = NULL;
     PROJECT* pProject = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
@@ -1127,13 +989,7 @@ int CMainDocument::GetWorkProjectName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetWorkProjectURL(int iIndex, wxString& strBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         strBuffer = pResult->project_url.c_str();
@@ -1148,13 +1004,7 @@ int CMainDocument::GetWorkApplicationName(int iIndex, wxString& strBuffer) {
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
@@ -1181,13 +1031,7 @@ int CMainDocument::GetWorkApplicationVersion(int iIndex, int& iBuffer) {
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
@@ -1211,13 +1055,7 @@ int CMainDocument::GetWorkApplicationVersion(int iIndex, int& iBuffer) {
 int CMainDocument::GetWorkName(int iIndex, wxString& strBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         strBuffer = pResult->name.c_str();
@@ -1229,13 +1067,7 @@ int CMainDocument::GetWorkName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetWorkCurrentCPUTime(int iIndex, float& fBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         fBuffer = pResult->current_cpu_time;
@@ -1247,13 +1079,7 @@ int CMainDocument::GetWorkCurrentCPUTime(int iIndex, float& fBuffer) {
 int CMainDocument::GetWorkEstimatedCPUTime(int iIndex, float& fBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         fBuffer = pResult->estimated_cpu_time_remaining;
@@ -1265,13 +1091,7 @@ int CMainDocument::GetWorkEstimatedCPUTime(int iIndex, float& fBuffer) {
 int CMainDocument::GetWorkFinalCPUTime(int iIndex, float& fBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         fBuffer = pResult->final_cpu_time;
@@ -1283,13 +1103,7 @@ int CMainDocument::GetWorkFinalCPUTime(int iIndex, float& fBuffer) {
 int CMainDocument::GetWorkFractionDone(int iIndex, float& fBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         fBuffer = pResult->fraction_done;
@@ -1301,13 +1115,7 @@ int CMainDocument::GetWorkFractionDone(int iIndex, float& fBuffer) {
 int CMainDocument::GetWorkReportDeadline(int iIndex, int& iBuffer) {
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         iBuffer = pResult->report_deadline;
@@ -1320,13 +1128,7 @@ int CMainDocument::GetWorkState(int iIndex) {
     int iBuffer = 0;
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         iBuffer = pResult->state;
@@ -1339,13 +1141,7 @@ int CMainDocument::GetWorkSchedulerState(int iIndex) {
     int iBuffer = 0;
     RESULT* pResult = NULL;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         iBuffer = pResult->scheduler_state;
@@ -1358,13 +1154,7 @@ bool CMainDocument::IsWorkAborted(int iIndex) {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         bRetVal = pResult->aborted_via_gui;
@@ -1377,13 +1167,7 @@ bool CMainDocument::IsWorkAcknowledged(int iIndex) {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         bRetVal = pResult->got_server_ack;
@@ -1396,13 +1180,7 @@ bool CMainDocument::IsWorkActive(int iIndex) {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         bRetVal = pResult->active_task;
@@ -1415,13 +1193,7 @@ bool CMainDocument::IsWorkReadyToReport(int iIndex) {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         bRetVal = pResult->ready_to_report;
@@ -1434,13 +1206,7 @@ bool CMainDocument::IsWorkSuspended(int iIndex) {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         bRetVal = pResult->suspended_via_gui;
@@ -1453,13 +1219,7 @@ bool CMainDocument::IsWorkGraphicsSupported(int iIndex) {
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult)
         bRetVal = pResult->supports_graphics;
@@ -1473,22 +1233,12 @@ int CMainDocument::WorkSuspend(int iIndex) {
     RESULT* pStateResult = NULL;
     int iRetVal = 0;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
         if (pStateResult) {
             iRetVal = rpc.result_op((*pStateResult), wxT("suspend"));
-            if (0 == iRetVal) {
-                pResult->suspended_via_gui = true;
-                pStateResult->suspended_via_gui = true;
-            }
         } else {
             ForceCacheUpdate();
         }
@@ -1503,22 +1253,12 @@ int CMainDocument::WorkResume(int iIndex) {
     RESULT* pStateResult = NULL;
     int iRetVal = 0;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
         if (pStateResult) {
             iRetVal = rpc.result_op((*pStateResult), wxT("resume"));
-            if (0 == iRetVal) {
-                pResult->suspended_via_gui = false;
-                pStateResult->suspended_via_gui = false;
-            }
         } else {
             ForceCacheUpdate();
         }
@@ -1533,13 +1273,7 @@ int CMainDocument::WorkShowGraphics(int iIndex, bool bFullScreen,
     RESULT* pResult = NULL;
     int iRetVal = 0;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         DISPLAY_INFO di;
@@ -1562,28 +1296,39 @@ int CMainDocument::WorkAbort(int iIndex) {
     RESULT* pStateResult = NULL;
     int iRetVal = 0;
 
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
+    pResult = result(iIndex);
 
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
         if (pStateResult) {
             iRetVal = rpc.result_op((*pStateResult), wxT("abort"));
-            if (0 == iRetVal) {
-                pResult->aborted_via_gui = true;
-                pStateResult->aborted_via_gui = true;
-            }
         } else {
             ForceCacheUpdate();
         }
     }
 
     return iRetVal;
+}
+
+
+RESULT* CMainDocument::result(int i) {
+    RESULT* pResult = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!results.results.empty())
+            pResult = results.results.at(i);
+    }
+    catch (std::out_of_range e) {
+        pResult = NULL;
+    }
+
+    return pResult;
 }
 
 
@@ -1621,13 +1366,7 @@ int CMainDocument::GetMessageCount() {
 int CMainDocument::GetMessageProjectName(int iIndex, wxString& strBuffer) {
     MESSAGE* pMessage = NULL;
 
-    try {
-        if (!messages.messages.empty())
-            pMessage = messages.messages.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pMessage = NULL;
-    }
+    pMessage = message(iIndex);
 
     if (pMessage)
         strBuffer = pMessage->project.c_str();
@@ -1639,13 +1378,7 @@ int CMainDocument::GetMessageProjectName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetMessageTime(int iIndex, wxDateTime& dtBuffer) {
     MESSAGE* pMessage = NULL;
 
-    try {
-        if (!messages.messages.empty())
-            pMessage = messages.messages.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pMessage = NULL;
-    }
+    pMessage = message(iIndex);
 
     if (pMessage) {
         wxDateTime dtTemp((time_t)pMessage->timestamp);
@@ -1659,13 +1392,7 @@ int CMainDocument::GetMessageTime(int iIndex, wxDateTime& dtBuffer) {
 int CMainDocument::GetMessagePriority(int iIndex, int& iBuffer) {
     MESSAGE* pMessage = NULL;
 
-    try {
-        if (!messages.messages.empty())
-            pMessage = messages.messages.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pMessage = NULL;
-    }
+    pMessage = message(iIndex);
 
     if (pMessage)
         iBuffer = pMessage->priority;
@@ -1677,13 +1404,7 @@ int CMainDocument::GetMessagePriority(int iIndex, int& iBuffer) {
 int CMainDocument::GetMessageMessage(int iIndex, wxString& strBuffer) {
     MESSAGE* pMessage = NULL;
 
-    try {
-        if (!messages.messages.empty())
-            pMessage = messages.messages.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pMessage = NULL;
-    }
+    pMessage = message(iIndex);
 
     if (pMessage)
         strBuffer = pMessage->body.c_str();
@@ -1697,6 +1418,28 @@ int CMainDocument::ResetMessageState() {
     m_iMessageSequenceNumber = 0;
     return 0;
 }
+
+
+MESSAGE* CMainDocument::message(int i) {
+    MESSAGE* pMessage = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!messages.messages.empty())
+            pMessage = messages.messages.at(i);
+    }
+    catch (std::out_of_range e) {
+        pMessage = NULL;
+    }
+
+    return pMessage;
+}
+
 
 int CMainDocument::CachedFileTransfersUpdate() {
     int     iRetVal = 0;
@@ -1729,13 +1472,7 @@ int CMainDocument::GetTransferCount() {
 int CMainDocument::GetTransferProjectName(int iIndex, wxString& strBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         strBuffer = pFT->project_name.c_str();
@@ -1747,13 +1484,7 @@ int CMainDocument::GetTransferProjectName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetTransferFileName(int iIndex, wxString& strBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         strBuffer = pFT->name.c_str();
@@ -1765,13 +1496,7 @@ int CMainDocument::GetTransferFileName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetTransferFileSize(int iIndex, float& fBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         fBuffer = pFT->nbytes;
@@ -1784,13 +1509,7 @@ int CMainDocument::GetTransferBytesXfered(int iIndex, float& fBuffer)
 {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         fBuffer = pFT->bytes_xferred;
@@ -1802,13 +1521,7 @@ int CMainDocument::GetTransferBytesXfered(int iIndex, float& fBuffer)
 int CMainDocument::GetTransferSpeed(int iIndex, float& fBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         fBuffer = pFT->xfer_speed;
@@ -1820,13 +1533,7 @@ int CMainDocument::GetTransferSpeed(int iIndex, float& fBuffer) {
 int CMainDocument::GetTransferTime(int iIndex, float& fBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         fBuffer = pFT->time_so_far;
@@ -1838,13 +1545,7 @@ int CMainDocument::GetTransferTime(int iIndex, float& fBuffer) {
 int CMainDocument::GetTransferNextRequestTime(int iIndex, int& iBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         iBuffer = pFT->next_request_time;
@@ -1856,13 +1557,7 @@ int CMainDocument::GetTransferNextRequestTime(int iIndex, int& iBuffer) {
 int CMainDocument::GetTransferStatus(int iIndex, int& iBuffer) {
     FILE_TRANSFER* pFT = NULL;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         iBuffer = pFT->status;
@@ -1875,13 +1570,7 @@ bool CMainDocument::IsTransferActive(int iIndex) {
     FILE_TRANSFER* pFT = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         bRetVal = pFT->pers_xfer_active;
@@ -1893,13 +1582,7 @@ bool CMainDocument::IsTransferGeneratedLocally(int iIndex) {
     FILE_TRANSFER* pFT = NULL;
     bool bRetVal    = false;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         bRetVal = pFT->generated_locally;
@@ -1912,13 +1595,7 @@ int CMainDocument::TransferRetryNow(int iIndex) {
     FILE_TRANSFER* pFT = NULL;
     int iRetVal = 0;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), wxT("retry"));
@@ -1931,18 +1608,33 @@ int CMainDocument::TransferAbort(int iIndex) {
     FILE_TRANSFER* pFT = NULL;
     int iRetVal = 0;
 
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
+    pFT = file_transfer(iIndex);
 
     if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), wxT("abort"));
 
     return iRetVal;
+}
+
+
+FILE_TRANSFER* CMainDocument::file_transfer(int i) {
+    FILE_TRANSFER* pFT = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!ft.file_transfers.empty())
+            pFT = ft.file_transfers.at(i);
+    }
+    catch (std::out_of_range e) {
+        pFT = NULL;
+    }
+
+    return pFT;
 }
 
 
@@ -1978,14 +1670,7 @@ int CMainDocument::GetResourceProjectName(int iIndex, wxString& strBuffer) {
     PROJECT* pProject = NULL;
     PROJECT* pStateProject = NULL;
 
-    try {
-        if (!resource_status.projects.empty()) {
-            pProject = resource_status.projects.at(iIndex);
-        }
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = resource(iIndex);
 
     if (pProject) {
         pStateProject = state.lookup_project(pProject->master_url);
@@ -2003,19 +1688,36 @@ int CMainDocument::GetResourceProjectName(int iIndex, wxString& strBuffer) {
 int CMainDocument::GetResourceDiskspace(int iIndex, float& fBuffer) {
     PROJECT* pProject = NULL;
 
-    try {
-        if (!resource_status.projects.empty())
-            pProject = resource_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = resource(iIndex);
 
     if (pProject)
         fBuffer = pProject->disk_usage;
 
     return 0;
 }
+
+
+PROJECT* CMainDocument::resource(int i) {
+    PROJECT* pProject = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!resource_status.projects.empty()) {
+            pProject = resource_status.projects.at(i);
+        }
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    return pProject;
+}
+
 
 int CMainDocument::CachedStatisticsStatusUpdate() {
     int     iRetVal = 0;
@@ -2051,13 +1753,7 @@ int CMainDocument::GetStatisticsProjectName(int iIndex, wxString& strBuffer)
     PROJECT* pProject = NULL;
     PROJECT* pStateProject = NULL;
 
-    try {
-        if (!statistics_status.projects.empty())
-            pProject = statistics_status.projects.at(iIndex);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
+    pProject = statistic(iIndex);
 
     if (pProject) {
         pStateProject = state.lookup_project(pProject->master_url);
@@ -2070,6 +1766,28 @@ int CMainDocument::GetStatisticsProjectName(int iIndex, wxString& strBuffer)
 
     return 0;
 }
+
+
+PROJECT* CMainDocument::statistic(int i) {
+    PROJECT* pProject = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!statistics_status.projects.empty())
+            pProject = statistics_status.projects.at(i);
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    return pProject;
+}
+
 
 int CMainDocument::GetProxyConfiguration() {
     int     iRetVal = 0;

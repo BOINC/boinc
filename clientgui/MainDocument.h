@@ -37,11 +37,11 @@ public:
     virtual void*  Poll();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
     void           ForceReconnect() { m_bForceReconnect = true; };
-    int        FrameShutdownDetected();
-    int        GetConnectedComputerName(wxString& strMachine);
-    int        GetConnectingComputerName(wxString& strMachine);
-    int        SetNewComputerName(const wxChar* szComputer);
-    int        SetNewComputerPassword(const wxChar* szPassword);
+    int            FrameShutdownDetected();
+    int            GetConnectedComputerName(wxString& strMachine);
+    int            GetConnectingComputerName(wxString& strMachine);
+    int            SetNewComputerName(const wxChar* szComputer);
+    int            SetNewComputerPassword(const wxChar* szPassword);
     void           SetStateError();
     void           SetStateErrorAuthentication();
     void           SetStateReconnecting();
@@ -107,44 +107,44 @@ private:
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
     wxDateTime                  m_dtCachedActivityStateTimestamp;
-    int                     m_iCachedActivityRunMode;
-    int                     m_iCachedNetworkRunMode;
+    int                         m_iCachedActivityRunMode;
+    int                         m_iCachedNetworkRunMode;
     bool                        m_iCachedActivitiesSuspended;
     bool                        m_iCachedNetworkSuspended;
 
-    int                     CachedStateUpdate();
-    int                     ForceCacheUpdate();
+    int                         CachedStateUpdate();
+    int                         ForceCacheUpdate();
 
 public:
 
-    int                     OnInit();
-    int                     OnExit();
-    int                     OnPoll();
+    int                         OnInit();
+    int                         OnExit();
+    int                         OnPoll();
 
-    int                     OnRefreshState();
-    int                     ResetState();
+    int                         OnRefreshState();
+    int                         ResetState();
 
-    int                     Connect(const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = FALSE);
+    int                         Connect(const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = FALSE);
 
-    int                     CachedStateLock();
-    int                     CachedStateUnlock();
+    int                         CachedStateLock();
+    int                         CachedStateUnlock();
 
-    int                     FrameShutdownDetected();
-    int                     GetCoreClientVersion();
-    int                     CoreClientQuit();
+    int                         FrameShutdownDetected();
+    int                         GetCoreClientVersion();
+    int                         CoreClientQuit();
 
-    int                     GetConnectedComputerName(wxString& strMachine);
-    int                     GetConnectingComputerName(wxString& strMachine);
+    int                         GetConnectedComputerName(wxString& strMachine);
+    int                         GetConnectingComputerName(wxString& strMachine);
     bool                        IsConnected();
     bool                        IsReconnecting();
 
-    int                     GetActivityRunMode(int& iMode);
-    int                     SetActivityRunMode(int iMode);
-    int                     GetNetworkRunMode(int& iMode);
-    int                     SetNetworkRunMode(int iMode);
-    int                     GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSuspended);
+    int                         GetActivityRunMode(int& iMode);
+    int                         SetActivityRunMode(int iMode);
+    int                         GetNetworkRunMode(int& iMode);
+    int                         SetNetworkRunMode(int iMode);
+    int                         GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSuspended);
 
-    int                     RunBenchmarks();
+    int                         RunBenchmarks();
 
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
@@ -160,39 +160,38 @@ private:
 
     float                       m_fProjectTotalResourceShare;
 
-    int                     CachedProjectStatusUpdate();
+    int                         CachedProjectStatusUpdate();
 
 public:
-    PROJECT* project(int);
-    RESULT* result(int);
-    int                     GetProjectCount();
-    int                     GetProjectProjectName(int iIndex, wxString& strBuffer);
-    int                     GetProjectProjectURL(int iIndex, wxString& strBuffer);
-    int                     GetProjectAccountName(int iIndex, wxString& strBuffer);
-    int                     GetProjectTeamName(int iIndex, wxString& strBuffer);
-    int                     GetProjectTotalCredit(int iIndex, float& fBuffer);
-    int                     GetProjectAvgCredit(int iIndex, float& fBuffer);
-    int                     GetProjectResourceShare(int iIndex, float& fBuffer);
-    int                     GetProjectTotalResourceShare(int iIndex, float& fBuffer);
-    int                     GetProjectMinRPCTime(int iIndex, int& iBuffer);
-    int                     GetProjectWebsiteCount(int iIndex);
-    int                     GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    int                     GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    int                     GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    int                         GetProjectCount();
+    int                         GetProjectProjectName(int iIndex, wxString& strBuffer);
+    int                         GetProjectProjectURL(int iIndex, wxString& strBuffer);
+    int                         GetProjectAccountName(int iIndex, wxString& strBuffer);
+    int                         GetProjectTeamName(int iIndex, wxString& strBuffer);
+    int                         GetProjectTotalCredit(int iIndex, float& fBuffer);
+    int                         GetProjectAvgCredit(int iIndex, float& fBuffer);
+    int                         GetProjectResourceShare(int iIndex, float& fBuffer);
+    int                         GetProjectTotalResourceShare(int iIndex, float& fBuffer);
+    int                         GetProjectMinRPCTime(int iIndex, int& iBuffer);
+    int                         GetProjectWebsiteCount(int iIndex);
+    int                         GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    int                         GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    int                         GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
     bool                        IsProjectSuspended(int iIndex);
     bool                        IsProjectRPCPending(int iIndex);
-    bool                       IsProjectAllowedToGetWork(int iIndex);
+    bool                        IsProjectAllowedToGetWork(int iIndex);
 
 
-    int                     ProjectNoMoreWork(int iIndex);
-    int                     ProjectAllowMoreWork(int iIndex);
-    int                     ProjectAttach(const wxString& strURL, const wxString& strAccountKey);
-    int                     ProjectDetach(int iIndex);
-    int                     ProjectUpdate(int iIndex);
-    int                     ProjectReset(int iIndex);
-    int                     ProjectSuspend(int iIndex);
-    int                     ProjectResume(int iIndex);
+    int                         ProjectNoMoreWork(int iIndex);
+    int                         ProjectAllowMoreWork(int iIndex);
+    int                         ProjectAttach(const wxString& strURL, const wxString& strAccountKey);
+    int                         ProjectDetach(int iIndex);
+    int                         ProjectUpdate(int iIndex);
+    int                         ProjectReset(int iIndex);
+    int                         ProjectSuspend(int iIndex);
+    int                         ProjectResume(int iIndex);
 
+    PROJECT*                    project(int);
     PROJECTS                    project_status;
 
 
@@ -201,23 +200,23 @@ public:
     //
 private:
 
-    int                     CachedResultsStatusUpdate();
+    int                         CachedResultsStatusUpdate();
 
 public:
 
-    int                     GetWorkCount();
-    int                     GetWorkProjectName(int iIndex, wxString& strBuffer);
-    int                     GetWorkProjectURL(int iIndex, wxString& strBuffer);
-    int                     GetWorkApplicationName(int iIndex, wxString& strBuffer);
-    int                     GetWorkApplicationVersion(int iIndex, int& iBuffer);
-    int                     GetWorkName(int iIndex, wxString& strBuffer);
-    int                     GetWorkCurrentCPUTime(int iIndex, float& fBuffer);
-    int                     GetWorkEstimatedCPUTime(int iIndex, float& fBuffer);
-    int                     GetWorkFinalCPUTime(int iIndex, float& fBuffer);
-    int                     GetWorkFractionDone(int iIndex, float& fBuffer);
-    int                     GetWorkReportDeadline(int iIndex, int& iBuffer);
-    int                     GetWorkState(int iIndex);
-    int                     GetWorkSchedulerState(int iIndex);
+    int                         GetWorkCount();
+    int                         GetWorkProjectName(int iIndex, wxString& strBuffer);
+    int                         GetWorkProjectURL(int iIndex, wxString& strBuffer);
+    int                         GetWorkApplicationName(int iIndex, wxString& strBuffer);
+    int                         GetWorkApplicationVersion(int iIndex, int& iBuffer);
+    int                         GetWorkName(int iIndex, wxString& strBuffer);
+    int                         GetWorkCurrentCPUTime(int iIndex, float& fBuffer);
+    int                         GetWorkEstimatedCPUTime(int iIndex, float& fBuffer);
+    int                         GetWorkFinalCPUTime(int iIndex, float& fBuffer);
+    int                         GetWorkFractionDone(int iIndex, float& fBuffer);
+    int                         GetWorkReportDeadline(int iIndex, int& iBuffer);
+    int                         GetWorkState(int iIndex);
+    int                         GetWorkSchedulerState(int iIndex);
     bool                        IsWorkAborted(int iIndex);
     bool                        IsWorkAcknowledged(int iIndex);
     bool                        IsWorkActive(int iIndex);
@@ -225,11 +224,12 @@ public:
     bool                        IsWorkSuspended(int iIndex);
     bool                        IsWorkGraphicsSupported(int iIndex);
 
-    int                     WorkSuspend(int iIndex);
-    int                     WorkResume(int iIndex);
-    int                     WorkShowGraphics(int iIndex, bool bFullScreen, std::string, std::string, std::string);
-    int                     WorkAbort(int iIndex);
+    int                         WorkSuspend(int iIndex);
+    int                         WorkResume(int iIndex);
+    int                         WorkShowGraphics(int iIndex, bool bFullScreen, std::string, std::string, std::string);
+    int                         WorkAbort(int iIndex);
 
+    RESULT*                     result(int);
     RESULTS                     results;
 
 
@@ -238,20 +238,21 @@ public:
     //
 private:
 
-    int                     CachedMessageUpdate();
+    int                         CachedMessageUpdate();
 
 public:
 
-    int                     GetMessageCount();
-    int                     GetMessageProjectName(int iIndex, wxString& strBuffer);
-    int                     GetMessageTime(int iIndex, wxDateTime& dtBuffer);
-    int                     GetMessagePriority(int iIndex, int& iBuffer);
-    int                     GetMessageMessage(int iIndex, wxString& strBuffer);
+    int                         GetMessageCount();
+    int                         GetMessageProjectName(int iIndex, wxString& strBuffer);
+    int                         GetMessageTime(int iIndex, wxDateTime& dtBuffer);
+    int                         GetMessagePriority(int iIndex, int& iBuffer);
+    int                         GetMessageMessage(int iIndex, wxString& strBuffer);
 
-    int                     ResetMessageState();
+    int                         ResetMessageState();
 
+    MESSAGE*                    message(int);
     MESSAGES                    messages;
-    int                     m_iMessageSequenceNumber;
+    int                         m_iMessageSequenceNumber;
 
 
     //
@@ -259,25 +260,26 @@ public:
     //
 private:
 
-    int                     CachedFileTransfersUpdate();
+    int                         CachedFileTransfersUpdate();
 
 public:
 
-    int                     GetTransferCount();
-    int                     GetTransferProjectName(int iIndex, wxString& strBuffer);
-    int                     GetTransferFileName(int iIndex, wxString& strBuffer);
-    int                     GetTransferFileSize(int iIndex, float& fBuffer);
-    int                     GetTransferBytesXfered(int iIndex, float& fBuffer);
-    int                     GetTransferSpeed(int iIndex, float& fBuffer);
-    int                     GetTransferTime(int iIndex, float& fBuffer);
-    int                     GetTransferNextRequestTime(int iIndex, int& iBuffer);
-    int                     GetTransferStatus(int iIndex, int& iBuffer);
+    int                         GetTransferCount();
+    int                         GetTransferProjectName(int iIndex, wxString& strBuffer);
+    int                         GetTransferFileName(int iIndex, wxString& strBuffer);
+    int                         GetTransferFileSize(int iIndex, float& fBuffer);
+    int                         GetTransferBytesXfered(int iIndex, float& fBuffer);
+    int                         GetTransferSpeed(int iIndex, float& fBuffer);
+    int                         GetTransferTime(int iIndex, float& fBuffer);
+    int                         GetTransferNextRequestTime(int iIndex, int& iBuffer);
+    int                         GetTransferStatus(int iIndex, int& iBuffer);
     bool                        IsTransferActive(int iIndex);
     bool                        IsTransferGeneratedLocally(int iIndex);
 
-    int                     TransferRetryNow(int iIndex);
-    int                     TransferAbort(int iIndex);
+    int                         TransferRetryNow(int iIndex);
+    int                         TransferAbort(int iIndex);
 
+    FILE_TRANSFER*              file_transfer(int);
     FILE_TRANSFERS              ft;
 
 
@@ -286,14 +288,15 @@ public:
     //
 private:
 
-    int                     CachedResourceStatusUpdate();
+    int                         CachedResourceStatusUpdate();
 
 public:
 
-    int                     GetResourceCount();
-    int                     GetResourceProjectName(int iIndex, wxString& strBuffer);
-    int                     GetResourceDiskspace(int iIndex, float& fBuffer);
+    int                         GetResourceCount();
+    int                         GetResourceProjectName(int iIndex, wxString& strBuffer);
+    int                         GetResourceDiskspace(int iIndex, float& fBuffer);
 
+    PROJECT*                    resource(int);
     PROJECTS                    resource_status;
 
 
@@ -302,13 +305,14 @@ public:
 	//
 private:
 
-    int                     CachedStatisticsStatusUpdate();
+    int                         CachedStatisticsStatusUpdate();
 
 public:
 
-    int                     GetStatisticsCount();
-    int                     GetStatisticsProjectName(int iIndex, wxString& strBuffer);
+    int                         GetStatisticsCount();
+    int                         GetStatisticsProjectName(int iIndex, wxString& strBuffer);
 	
+    PROJECT*                    statistic(int);
 	PROJECTS                    statistics_status;
 
 
@@ -319,29 +323,29 @@ private:
 
 public:
 
-    int                     GetProxyConfiguration();
-    int                     GetProxyHTTPProxyEnabled(bool& bEnabled);
-    int                     GetProxyHTTPServerName(wxString& strServerName);
-    int                     GetProxyHTTPServerPort(int& iPortNumber);
-    int                     GetProxyHTTPUserName(wxString& strUserName);
-    int                     GetProxyHTTPPassword(wxString& strPassword);
-    int                     GetProxySOCKSProxyEnabled(bool& bEnabled);
-    int                     GetProxySOCKSServerName(wxString& strServerName);
-    int                     GetProxySOCKSServerPort(int& iPortNumber);
-    int                     GetProxySOCKSUserName(wxString& strUserName);
-    int                     GetProxySOCKSPassword(wxString& strPassword);
+    int                         GetProxyConfiguration();
+    int                         GetProxyHTTPProxyEnabled(bool& bEnabled);
+    int                         GetProxyHTTPServerName(wxString& strServerName);
+    int                         GetProxyHTTPServerPort(int& iPortNumber);
+    int                         GetProxyHTTPUserName(wxString& strUserName);
+    int                         GetProxyHTTPPassword(wxString& strPassword);
+    int                         GetProxySOCKSProxyEnabled(bool& bEnabled);
+    int                         GetProxySOCKSServerName(wxString& strServerName);
+    int                         GetProxySOCKSServerPort(int& iPortNumber);
+    int                         GetProxySOCKSUserName(wxString& strUserName);
+    int                         GetProxySOCKSPassword(wxString& strPassword);
 
-    int                     SetProxyConfiguration();
-    int                     SetProxyHTTPProxyEnabled(const bool bEnabled);
-    int                     SetProxyHTTPServerName(const wxString& strServerName);
-    int                     SetProxyHTTPServerPort(const int iPortNumber);
-    int                     SetProxyHTTPUserName(const wxString& strUserName);
-    int                     SetProxyHTTPPassword(const wxString& strPassword);
-    int                     SetProxySOCKSProxyEnabled(const bool bEnabled);
-    int                     SetProxySOCKSServerName(const wxString& strServerName);
-    int                     SetProxySOCKSServerPort(const int iPortNumber);
-    int                     SetProxySOCKSUserName(const wxString& strUserName);
-    int                     SetProxySOCKSPassword(const wxString& strPassword);
+    int                         SetProxyConfiguration();
+    int                         SetProxyHTTPProxyEnabled(const bool bEnabled);
+    int                         SetProxyHTTPServerName(const wxString& strServerName);
+    int                         SetProxyHTTPServerPort(const int iPortNumber);
+    int                         SetProxyHTTPUserName(const wxString& strUserName);
+    int                         SetProxyHTTPPassword(const wxString& strPassword);
+    int                         SetProxySOCKSProxyEnabled(const bool bEnabled);
+    int                         SetProxySOCKSServerName(const wxString& strServerName);
+    int                         SetProxySOCKSServerPort(const int iPortNumber);
+    int                         SetProxySOCKSUserName(const wxString& strUserName);
+    int                         SetProxySOCKSPassword(const wxString& strPassword);
 
 	PROXY_INFO					proxy_info;
 
@@ -352,10 +356,10 @@ public:
 private:
 
 public:
-    int                     GetAccountManagerName(wxString& strName);
+    int                         GetAccountManagerName(wxString& strName);
 
-    int                     InitializeAccountManagerLogin(const wxString& strLogin, const wxString& strPassword);
-    int                     UpdateAccountManagerAccounts();
+    int                         InitializeAccountManagerLogin(const wxString& strLogin, const wxString& strPassword);
+    int                         UpdateAccountManagerAccounts();
 
     bool                        IsAccountManagerFound();
     bool                        IsAccountManagerLoginFound();
