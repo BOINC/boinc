@@ -2911,10 +2911,9 @@
 		DD96AFFA0811075100A06F22 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "ScreenSaver-Info.plist";
-			path = "/Volumes/Moon/BOINC_Mac/boinc/mac_build/ScreenSaver-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "ScreenSaver-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DDA975B307D5FEB1002F0AA9 = {
 			fileRef = DDE2552B07C62F3E008E7D6E;
