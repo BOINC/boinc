@@ -28,11 +28,17 @@
 void MacGLUTFix(bool isScreenSaver);
 void BringAppToFront(void);
 
+// The standard ScreenSaverView class actually sets the window 
+// level to 2002, not the 1000 defined by NSScreenSaverWindowLevel 
+// and kCGScreenSaverWindowLevel
+#define RealSaverLevel 2002
+
 void MacGLUTFix(bool isScreenSaver) {
     static NSMenu * emptyMenu;
+    NSOpenGLContext * myContext = nil;
+    NSView *myView = nil;
     NSWindow* myWindow = nil;
-    int newWindowLevel = isScreenSaver ? 
-                NSScreenSaverWindowLevel : NSNormalWindowLevel;
+    int newWindowLevel;
 
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
@@ -40,14 +46,24 @@ void MacGLUTFix(bool isScreenSaver) {
             [ NSApp setMainMenu:emptyMenu ];
         }
     }
-    
-    myWindow = [ NSApp mainWindow ];
+
+    // In screensaver mode, set our window's level just above 
+    // our BOINC screensaver's window level so it can appear 
+    // over it.  This doesn't interfere with the screensaver 
+    // password dialog because the dialog appears only after 
+    // our screensaver is closed.
+    myContext = [ NSOpenGLContext currentContext ];
+    if (myContext)
+        myView = [ myContext view ];
+    if (myView)
+        myWindow = [ myView window ];
     if (myWindow == nil)
         return;
+        
+    newWindowLevel = isScreenSaver ? RealSaverLevel+20 : NSNormalWindowLevel;
     if ([ myWindow level ] == newWindowLevel)
         return;
     [ myWindow setLevel:newWindowLevel ];
-    //fprintf(stdout, "myWindow = %ld  \n", (long)myWindow);
 }
 
 void BringAppToFront() {

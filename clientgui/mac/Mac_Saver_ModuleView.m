@@ -102,20 +102,8 @@ int gBlankingTime;   // Delay in minutes before blanking the screen
 }
 
 - (void)drawRect:(NSRect)rect {
-    NSView* myView = nil;
-    NSWindow* myWindow = nil;
-    
     [ super drawRect:rect ];
 
-    // Set our blanking window slightly below screen saver window level 
-    // so that our application's graphics can draw over it.
-    if (! [ self isPreview ] ) {
-        myView = [ NSView focusView ];
-        if (myView)
-            myWindow = [ myView window ];
-        if (myWindow)
-            [ myWindow setLevel:kCGStatusWindowLevel ];
-    }
 //  optionally draw here
 }
 
@@ -123,6 +111,7 @@ int gBlankingTime;   // Delay in minutes before blanking the screen
     int newFrequency;
     NSRect theFrame = [ self frame ];
     Point p = { 0, 0 };
+    AbsoluteTime timeToUnblock, frameStartTime = UpTime();
 
     if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
@@ -160,6 +149,12 @@ int gBlankingTime;   // Delay in minutes before blanking the screen
     QDFlushPortBuffer([ mainQDView qdPort ], nil);
     if (newFrequency)
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
+    // setAnimationTimeInterval does not seem to be working, so we 
+    // throttle the screensaver directly here.
+        timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, 
+                                                        frameStartTime);
+        MPDelayUntil(&timeToUnblock);
+    
 }
 
 - (BOOL)hasConfigureSheet {

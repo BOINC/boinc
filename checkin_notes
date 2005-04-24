@@ -27615,3 +27615,17 @@ Rom    23 April 2005
 
     clientgui/
         MainDocument.cpp, .h
+
+Charlie    24 April 2005
+    Mac: Fix screensaver to work properly with password option. 
+    MacGLUTFix() gets GLUT graphics window pointer correctly, 
+    sets screensaver window level to 2020 instead of 1000.  
+    Don't change screensaver blanking window's level.  Add blocking 
+    to main screensaver thread to yield more time to BOINC apps.
+
+    api/
+        macglutfix.m
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+            Mac_Saver_ModuleView.m
