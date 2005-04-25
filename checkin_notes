@@ -27629,3 +27629,16 @@ Charlie    24 April 2005
         mac/
             mac_saver_module.cpp
             Mac_Saver_ModuleView.m
+
+Charlie    25 April 2005
+    Mac: screensaver tweaks: banners scroll faster & smoother, 
+    reduce annoying flashes when screensaver graphics are starting.
+    gutil.C - fix compiler warning.
+
+    api/
+        macglutfix.m
+        x_opengl.C
+        gutil.C
+    clientgui/
+        mac/
+            mac_saver_module.cpp

@@ -33,12 +33,16 @@ void BringAppToFront(void);
 // and kCGScreenSaverWindowLevel
 #define RealSaverLevel 2002
 
+// Delay when switching to screensaver mode to reduce annoying flashes
+#define SAVERDELAY 30
+
 void MacGLUTFix(bool isScreenSaver) {
     static NSMenu * emptyMenu;
     NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
     NSWindow* myWindow = nil;
     int newWindowLevel;
+    static int stabilizationDelay = 0;
 
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
@@ -62,7 +66,14 @@ void MacGLUTFix(bool isScreenSaver) {
         
     newWindowLevel = isScreenSaver ? RealSaverLevel+20 : NSNormalWindowLevel;
     if ([ myWindow level ] == newWindowLevel)
+    {
+        stabilizationDelay = 0;
         return;
+    }
+    
+    if (++stabilizationDelay < SAVERDELAY)
+        return;
+        
     [ myWindow setLevel:newWindowLevel ];
 }
 

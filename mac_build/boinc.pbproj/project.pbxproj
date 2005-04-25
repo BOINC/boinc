@@ -2106,9 +2106,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
 			name = BOINCSaver.nib;
-			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/BOINCSaver.nib;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../clientgui/mac/BOINCSaver.nib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD48091F081A66F100A174AA = {
 			fileRef = DD48091E081A66F100A174AA;

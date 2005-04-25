@@ -71,6 +71,7 @@ void strip_cr(char *buf);
 #endif
 
 #define BANNER_GAP 30	/* Space between repeats of banner text */
+#define BANNERDELTA 2   /* Number of pixels to move banner each frame */
 
 enum SaverState {
     SaverState_Idle,
@@ -288,7 +289,7 @@ int drawGraphics(GrafPtr aPort) {
         SetPort(aPort);
         drawBanner(aPort);
         SetGWorld(savePort, saveGDH);
-        newFrequency = 45;
+        newFrequency = 100;
     } else
         newFrequency = 4;
     
@@ -429,6 +430,8 @@ void setBannerText(ConstStringPtr msg, GrafPtr aPort) {
     TextSize(24);
     TextFace(bold);
     bannerWidth = StringWidth(bannerText) + BANNER_GAP;
+    // Round up bannerWidth to an integral multiple of BANNERDELTA
+    bannerWidth = ((bannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
     SetPort(savePort);
 }
 
@@ -451,10 +454,10 @@ void drawBanner(GrafPtr aPort) {
     ForeColor(whiteColor);
     BackColor(blackColor);
     GetPortBounds(aPort, &wRect);
-    if ( (bannerPos + bannerWidth) < wRect.left)
+    if ( (bannerPos + bannerWidth) <= wRect.left)
         bannerPos = wRect.left;
     else
-        bannerPos -= 1;
+        bannerPos -= BANNERDELTA;
 
    x = bannerPos;
    y = (wRect.bottom - wRect.top) / 3 + wRect.top;

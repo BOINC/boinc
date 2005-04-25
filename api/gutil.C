@@ -137,7 +137,7 @@ bool get_viewport(int view[4]) {
 void get_2d_positions(double x, double y, double z,
 	double model[16], double proj[16], int viewport[4], double proj_pos[3]
 ) {
-	gluProject(x, y, z,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);
+	gluProject(x, y, z,model,proj,(GLint*)viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);
 }
 
 void mode_lines() {
