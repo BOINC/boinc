@@ -85,7 +85,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     }
 
     if (bCreateMainSizer) {
-        SetSizerAndFit(m_pBoxSizer);
+        SetSizer(m_pBoxSizer);
     } else {
         Fit();
     }
