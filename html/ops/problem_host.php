@@ -38,9 +38,9 @@ if (!$hostid) {
     } else {
     	$res = mysql_query("select * from user where id='$host->userid'");
     	$user = mysql_fetch_object($res);
+    	echo "<a href=\"problem_host.php\">Do another?</a><br><br>";
     	send_problem_email($user, $host);
-    	echo "Email to ".$user->email_addr." has been send.<br>
-		<a href=\"problem_host.php\">Do another?</a>";
+    	echo "Email to ".$user->email_addr." has been sent.<br>";
 	}
 }
 
