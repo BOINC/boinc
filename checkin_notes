@@ -27642,3 +27642,14 @@ Charlie    25 April 2005
     clientgui/
         mac/
             mac_saver_module.cpp
+
+Eric	25 Apr 2005
+    GUI fix for platforms without tooltips.
+    Typo fix in Makefile.am
+
+    clientgui/
+    	Makefile.am
+	BOINCTaskCtrl.cpp
+	ViewProjects.cpp
+	ViewWork.cpp
+
