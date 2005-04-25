@@ -76,7 +76,9 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
             if (!pItem->m_pButton) {
                 pItem->m_pButton = new wxButton;
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, 0);
+#if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strDescription);
+#endif
                 pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxEXPAND|wxALL, 5);
             }
         }

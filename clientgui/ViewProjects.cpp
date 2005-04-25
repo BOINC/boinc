@@ -613,18 +613,26 @@ void CViewProjects::UpdateSelection() {
         pGroup->button(BTN_SUSPEND)->Enable();
         if (project->suspended_via_gui) {
             pGroup->button(BTN_SUSPEND)->SetLabel(_("Resume"));
+#if wxUSE_TOOLTIPS
             pGroup->button(BTN_SUSPEND)->SetToolTip(_("Resume work for this project"));
+#endif
         } else {
             pGroup->button(BTN_SUSPEND)->SetLabel(_("Suspend"));
+#if wxUSE_TOOLTIPS
             pGroup->button(BTN_SUSPEND)->SetToolTip(_("Suspend work for this project"));
+#endif
         }
         pGroup->button(BTN_NOWORK)->Enable();
         if (project->dont_request_more_work) {
             pGroup->button(BTN_NOWORK)->SetLabel(_("Allow new work"));
+#if wxUSE_TOOLTIPS
             pGroup->button(BTN_NOWORK)->SetToolTip(_("Allow fetching new work for this project"));
+#endif
         } else {
             pGroup->button(BTN_NOWORK)->SetLabel(_("No new work"));
+#if wxUSE_TOOLTIPS
             pGroup->button(BTN_NOWORK)->SetToolTip(_("Don't fetch new work for this project"));
+#endif
         }
         pGroup->button(BTN_RESET)->Enable();
         pGroup->button(BTN_DETACH)->Enable();
@@ -646,7 +654,9 @@ void CViewProjects::UpdateSelection() {
         // Default project url
         pItem = pGroup->m_Tasks[0];
         pItem->m_pButton->SetLabel(project->project_name.c_str());
+#if wxUSE_TOOLTIPS
         pItem->m_pButton->SetToolTip(wxT(""));
+#endif
         pItem->m_pButton->Show();
         pItem->m_strWebSiteLink = project->master_url.c_str();
 
@@ -659,7 +669,9 @@ void CViewProjects::UpdateSelection() {
             gui_url_index = j - 1;
             pItem = pGroup->m_Tasks[j];
             pItem->m_pButton->SetLabel(project->gui_urls[gui_url_index].name.c_str());
+#if wxUSE_TOOLTIPS
             pItem->m_pButton->SetToolTip(project->gui_urls[gui_url_index].description.c_str());
+#endif
             pItem->m_pButton->Show();
             pItem->m_strWebSiteLink = project->gui_urls[gui_url_index].url.c_str();
         }

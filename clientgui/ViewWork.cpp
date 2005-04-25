@@ -450,10 +450,14 @@ void CViewWork::UpdateSelection() {
         pGroup->button(BTN_SUSPEND)->Enable();
         if (result->suspended_via_gui) {
             pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Resume"));
+#if wxUSE_TOOLTIPS
             pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Resume work for this result"));
+#endif
         } else {
             pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Suspend"));
+#if wxUSE_TOOLTIPS
             pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Suspend work for this result"));
+#endif
         }
         if (result->supports_graphics) {
             pGroup->button(BTN_GRAPHICS)->Enable();
