@@ -17,6 +17,12 @@ $helpdesk = $category->is_helpdesk;
 if (!$thread){
     error("No such thread found");
 }
+if ($thread->hidden) {
+    //If the thread has been hidden, do not display it, or allow people to continue to post
+    //to it.
+    error_page(
+        "This thread has been hidden for administrative purposes.");
+}
 if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit){
     //If user haven't got enough credit (according to forum regulations)
     //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.

@@ -27653,3 +27653,9 @@ Eric	25 Apr 2005
 	ViewProjects.cpp
 	ViewWork.cpp
 
+Rom    25 April 2005
+    - Don't allow people to continue posting or reading from a thread that has
+        already been closed for administrative purposes.
+
+    html/user
+        forum_reply.php
