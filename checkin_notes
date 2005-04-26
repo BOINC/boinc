@@ -27673,3 +27673,16 @@ Rom    25 April 2005
         taskbarex.cpp, .h
     win_build/
         BOINCGUI.vcproj
+
+Charlie    26 April 2005
+    Mac: Changes for compatibility with wxMac-2.6.0
+    Don't open BOINCManager window if launched automatically at login.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            MacSysMenu.cpp
+            MacSysMenu.m
+            mac_saver_module.cpp
+    mac_build/
+        HowToBuildBOINC_XCode.rtf

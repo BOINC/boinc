@@ -154,18 +154,18 @@
 				DD40CE0C07F039680096C645,
 				DD40CFB407F039ED0096C645,
 				0249A669FF388E3911CA2CEA,
-				DDE2550F07C62E1D008E7D6E,
-				DDE2551007C62E1D008E7D6E,
-				DDE2551107C62E1D008E7D6E,
-				DDE2551207C62E1D008E7D6E,
-				DDE2551307C62E1D008E7D6E,
-				DDE2551407C62E1D008E7D6E,
-				DDE2551507C62E1D008E7D6E,
-				DDAB6C9B07C809CB0049E7F8,
-				DDBE3E1307C954300042BE67,
-				DDBE3E1407C954300042BE67,
-				DDBE3E1507C954300042BE67,
-				DDBE3E1607C954300042BE67,
+				DD6F71B7081E509200F5B280,
+				DD6F71B5081E509200F5B280,
+				DD6F71B9081E509200F5B280,
+				DD6F71BB081E509200F5B280,
+				DD6F71B2081E509200F5B280,
+				DD6F71BA081E509200F5B280,
+				DD6F71B4081E509200F5B280,
+				DD6F71B8081E509200F5B280,
+				DD6F71B3081E509200F5B280,
+				DD6F71B1081E509200F5B280,
+				DD6F71B6081E509200F5B280,
+				DD6F71BC081E509200F5B280,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -347,19 +347,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD09608707D8840000362260,
-				DD09608807D8840100362260,
-				DD09608907D8840100362260,
-				DD09608A07D8840200362260,
-				DD09608B07D8840200362260,
-				DD09608C07D8840300362260,
-				DD09608D07D8840400362260,
-				DD09608E07D8840500362260,
-				DD09608F07D8840600362260,
-				DD09609007D8840700362260,
-				DD09609107D8840800362260,
-				DD09609207D8840900362260,
 				DD40D05107F03A030096C645,
 				DD40D05207F03A0E0096C645,
+				DD6F71EE081E516B00F5B280,
+				DD6F71EF081E516C00F5B280,
+				DD6F71F0081E516D00F5B280,
+				DD6F71F1081E516D00F5B280,
+				DD6F71F2081E516E00F5B280,
+				DD6F71F3081E516F00F5B280,
+				DD6F71F4081E517000F5B280,
+				DD6F71F5081E517000F5B280,
+				DD6F71F6081E517100F5B280,
+				DD6F71F7081E517200F5B280,
+				DD6F71F8081E517200F5B280,
+				DD6F71F9081E517300F5B280,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,12 +381,12 @@
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.5 ../wxinclude";
+				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.6 ../wxinclude";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3";
-				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -include../config.h";
+				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -include../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -include../config.h";
 				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCManager;
@@ -633,72 +634,6 @@
 		};
 		DD09608707D8840000362260 = {
 			fileRef = 0249A669FF388E3911CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608807D8840100362260 = {
-			fileRef = DDE2550F07C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608907D8840100362260 = {
-			fileRef = DDE2551007C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608A07D8840200362260 = {
-			fileRef = DDE2551107C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608B07D8840200362260 = {
-			fileRef = DDE2551207C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608C07D8840300362260 = {
-			fileRef = DDE2551307C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608D07D8840400362260 = {
-			fileRef = DDE2551407C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608E07D8840500362260 = {
-			fileRef = DDE2551507C62E1D008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09608F07D8840600362260 = {
-			fileRef = DDBE3E1307C954300042BE67;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09609007D8840700362260 = {
-			fileRef = DDBE3E1407C954300042BE67;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09609107D8840800362260 = {
-			fileRef = DDBE3E1507C954300042BE67;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD09609207D8840900362260 = {
-			fileRef = DDBE3E1607C954300042BE67;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2246,6 +2181,174 @@
 			settings = {
 			};
 		};
+		DD6F71B1081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwxjpeg-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwxjpeg-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B2081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_mac_core-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_core-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B3081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwxexpat-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwxexpat-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B4081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_mac_html-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_html-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B5081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_base_carbon_xml-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon_xml-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B6081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwxpng-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwxpng-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B7081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_base_carbon_net-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon_net-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B8081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_mac_xrc-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_xrc-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71B9081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_base_carbon-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71BA081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_mac_gl-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_gl-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71BB081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwx_mac_adv-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_adv-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71BC081E509200F5B280 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.ar;
+			name = "libwxtiff-2.6.a";
+			path = "../../wxMac-2.6.0/osx-build/lib/libwxtiff-2.6.a";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6F71EE081E516B00F5B280 = {
+			fileRef = DD6F71B1081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71EF081E516C00F5B280 = {
+			fileRef = DD6F71B2081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F0081E516D00F5B280 = {
+			fileRef = DD6F71B3081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F1081E516D00F5B280 = {
+			fileRef = DD6F71B4081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F2081E516E00F5B280 = {
+			fileRef = DD6F71B5081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F3081E516F00F5B280 = {
+			fileRef = DD6F71B6081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F4081E517000F5B280 = {
+			fileRef = DD6F71B7081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F5081E517000F5B280 = {
+			fileRef = DD6F71B8081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F6081E517100F5B280 = {
+			fileRef = DD6F71B9081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F7081E517200F5B280 = {
+			fileRef = DD6F71BA081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F8081E517200F5B280 = {
+			fileRef = DD6F71BB081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6F71F9081E517300F5B280 = {
+			fileRef = DD6F71BC081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD791FF00819063C00BE2906 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
 			isa = PBXContainerItemProxy;
@@ -2862,6 +2965,7 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = "/Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
 				OTHER_CFLAGS = " -include ../config.h";
 				OTHER_CPLUSPLUSFLAGS = " -include ../config.h";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
@@ -2920,14 +3024,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		DDAB6C9B07C809CB0049E7F8 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_gl-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_mac_gl-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		DDAEC9DE07FA583B00A7BC36 = {
 			buildActionMask = 2147483647;
@@ -3087,38 +3183,6 @@
 			isa = PBXTargetDependency;
 			target = DD095EF007D87AE900362260;
 			targetProxy = DDBD681607FA830E0082C20D;
-		};
-		DDBE3E1307C954300042BE67 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxtiff-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwxtiff-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDBE3E1407C954300042BE67 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxpng-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwxpng-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDBE3E1507C954300042BE67 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxjpeg-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwxjpeg-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDBE3E1607C954300042BE67 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxexpat-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwxexpat-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		DDD74D8407CF482E0065AC9D = {
 			buildActionMask = 2147483647;
@@ -3684,62 +3748,6 @@
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDE2550F07C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_xrc-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_mac_xrc-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDE2551007C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_html-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_mac_html-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDE2551107C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_core-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_mac_core-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDE2551207C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_adv-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_mac_adv-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDE2551307C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_base_carbon_xml-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_base_carbon_xml-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDE2551407C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_base_carbon_net-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_base_carbon_net-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDE2551507C62E1D008E7D6E = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_base_carbon-2.5.a";
-			path = "../../wxMac-2.5.3/osx-build/lib/libwx_base_carbon-2.5.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		DDE2552B07C62F3E008E7D6E = {
 			isa = PBXFileReference;

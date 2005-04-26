@@ -26,6 +26,7 @@
 #include "MacSysMenu.h"
 #include "DlgAbout.h"
 #include "Events.h"
+#include "wx/mac/private.h"     // for wxBitmapRefData::GetPictHandle
 #include "../res/boinc.xpm"
 
 pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
@@ -41,11 +42,12 @@ IMPLEMENT_DYNAMIC_CLASS(CMacSystemMenu, CTaskBarIcon)
 CMacSystemMenu::CMacSystemMenu() : CTaskBarIcon()
 {
     CFBundleRef	SysMenuBundle	= NULL;
-    bool isOK;
+    wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
 
     wxBitmap theBits = wxBitmap(boinc_xpm);
-    thePICT = (PicHandle)theBits.GetPict(&isOK);
+    theBitsRefData = theBits.GetBitmapData();
+    thePICT = theBitsRefData->GetPictHandle();
 
     LoadPrivateFrameworkBundle( CFSTR("SystemMenu.bundle"), &SysMenuBundle );
     if ( SysMenuBundle != NULL )
@@ -54,7 +56,7 @@ CMacSystemMenu::CMacSystemMenu() : CTaskBarIcon()
                             CFBundleGetFunctionPointerForName( SysMenuBundle, CFSTR("SetUpSystemMenu") );
         SetSystemMenuIcon = (SetSystemMenuIconProc) 
                             CFBundleGetFunctionPointerForName( SysMenuBundle, CFSTR("SetSystemMenuIcon") );
-        if ( (SetUpSystemMenu != NULL ) && isOK)
+        if ( (SetUpSystemMenu != NULL ) && (thePICT != NULL) )
         {
             // Currently, the system menu is the same as the Dock menu with the addition of 
             // the Quit menu item.  If in the future you wish to make the system menu different 
@@ -97,12 +99,13 @@ CMacSystemMenu::~CMacSystemMenu()
 // Set the System Menu Icon from XPM data
 void CMacSystemMenu::SetIcon(const char **iconData)
 {
-    bool isOK;
+    wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
     
     wxBitmap theBits = wxBitmap(iconData);
-    thePICT = (PicHandle)theBits.GetPict(&isOK);
-    if ( (SetSystemMenuIcon != NULL ) && isOK)
+    theBitsRefData = theBits.GetBitmapData();
+    thePICT = theBitsRefData->GetPictHandle();
+    if ( (SetSystemMenuIcon != NULL ) && (thePICT != NULL) )
         SetSystemMenuIcon(thePICT);
 }
 
@@ -228,4 +231,3 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
     
     return eventNotHandledErr;
 }
-

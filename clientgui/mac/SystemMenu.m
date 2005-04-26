@@ -63,8 +63,8 @@ typedef BOOL (*NSApplicationLoadFuncPtr)( void );
 void	InitializeCocoa()
 {
 	CFBundleRef 				appKitBundleRef;
-	NSApplicationLoadFuncPtr	myNSApplicationLoad;
-	OSStatus					err;
+	NSApplicationLoadFuncPtr                myNSApplicationLoad;
+	OSStatus				err;
 	
 	//	Load the "AppKit.framework" bundl to locate NSApplicationLoad
 	err = LoadFrameworkBundle( CFSTR("AppKit.framework"), &appKitBundleRef );
@@ -78,7 +78,7 @@ void	InitializeCocoa()
 	return;
 
 FallbackMethod:
-	{	NSApplication	*NSApp=[NSApplication sharedApplication];	}
+	{   /* NSApplication *NSApp = */ [NSApplication sharedApplication]; }
 }
 
 

@@ -11,7 +11,7 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 3/3/05\
+Last updated 4/26/05\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.\
@@ -22,10 +22,12 @@ NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout th
 \f1\b0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-(1)After building wxMac-2.5.3, I made a symbolic link named wx-config in \
-/usr/bin/ to the file \
-[wxpath]/wxMac-2.5.3/osx-build/lib/wx/config/inplace-mac-ansi-release-static-2.5.\
-I'm not sure whether or not this is necessary to build the Mac BOINC software.\
+(1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:\
+cd [wxpath]/wxMac-2.6.0\
+mkdir osx-build\
+cd osx-build\
+../configure --disable-shared --with-opengl\
+make\
 \
 (2) Run Configure to create the correct config.h file:\
 \
@@ -49,8 +51,6 @@ cd [wxpath]/boinc \
 ln -s [wxpath]/wxMac-2.5.3/osx-build/lib ./wx_lib\
 \
 ln -s [wxpath]/wxMac-2.5.3/include ./wxinclude\
-\
-ln -s [wxpath]/wxMac-2.5.3/osx-build/lib ./wx_lib\
 \
 ln -s [wxpath]/jpeg-6b ./jpeglib\
 \
@@ -89,6 +89,15 @@ After selecting BOINC.app, select \ul Create archive of "BOINC"\ulnone  from the
 Rename the zip file as appropriate to show the version number; for example, 
 \f2 BOINC_Mac_4_67.zip
 \f1  \
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\f0\b\fs28 \cf0 Building Screen Saver
+\f1\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+Unstuff boinc/clientgui/mac/BOINCSaver.nib.sit\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc

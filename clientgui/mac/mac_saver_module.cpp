@@ -120,9 +120,6 @@ int initBOINCSaver(Boolean ispreview) {
         return 8;
         
     setBannerText(0, NULL);
-    
-    if (ispreview)
-        return 0;
 
     // If there are multiple displays, initBOINCSaver may get called 
     // multiple times (once for each display), so we need to guard 

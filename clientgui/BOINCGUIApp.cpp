@@ -81,7 +81,7 @@ bool CBOINCGUIApp::OnInit() {
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
         strDirectory += wxT("/BOINC Data");
-        if (! wxPathExists(strDirectory))
+        if (! wxDirExists(strDirectory))
             success = wxMkdir(wxT("BOINC Data"), 0777);    // Does nothing if dir exists
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
@@ -188,6 +188,26 @@ bool CBOINCGUIApp::OnInit() {
 
     // Detect if we need to start the BOINC Core Client due to configuration
     StartupBOINCCore();
+
+#ifdef __WXMAC__
+    ProcessSerialNumber psn;
+    ProcessInfoRec pInfo;
+    OSStatus err;
+    
+    GetCurrentProcess(&psn);
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    err = GetProcessInformation(&psn, &pInfo);
+    if (!err) {
+        psn = pInfo.processLauncher;
+        memset(&pInfo, 0, sizeof(pInfo));
+        pInfo.processInfoLength = sizeof( ProcessInfoRec );
+        err = GetProcessInformation(&psn, &pInfo);
+    }
+    // Don't open main window if we were started automatically at login
+    if (pInfo.processSignature == 'lgnw')   // Login Window app
+        m_bFrameVisible = false;
+#endif
 
     // Show the UI
     SetTopWindow(m_pFrame);
