@@ -103,6 +103,7 @@ Boolean gQuitRPCThread = false; // Flag to tell RPC thread to exit gracefully
 
 const ConstStringPtr CantLaunchCCMsg = "\pUnable to launch BOINC application.";
 const ConstStringPtr LaunchingCCMsg = "\pLaunching BOINC application.";
+const ConstStringPtr ConnectingCCMsg = "\pConnecting to BOINC application.";
 const ConstStringPtr BOINCSuspendedMsg = "\pBOINC is currently suspended.";
 const ConstStringPtr BOINCNoAppsExecutingMsg = "\pBOINC is currently idle.";
 const ConstStringPtr BOINCNoProjectsDetectedMsg = "\pBOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
@@ -197,8 +198,11 @@ int drawGraphics(GrafPtr aPort) {
 
     switch (saverState) {
     case  SaverState_LaunchingCoreClient:
-        setBannerText(LaunchingCCMsg, aPort);
-        
+        if (wasAlreadyRunning)
+             setBannerText(ConnectingCCMsg, aPort);
+        else
+            setBannerText(LaunchingCCMsg, aPort);
+       
         myPid = FindProcessPID(NULL, CoreClientPID);
         if (myPid) {
             saverState = SaverState_CoreClientRunning;
@@ -209,7 +213,7 @@ int drawGraphics(GrafPtr aPort) {
                 saverState = SaverState_UnrecoverableError;
                 break;
             }
-
+            
             if (gTerminationQueue == NULL) {
                 err = MPCreateQueue(&gTerminationQueue);	/* Create the queue which will report the completion of the task. */
                 if (err) {
