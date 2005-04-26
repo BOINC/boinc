@@ -410,14 +410,12 @@ bool CMainFrame::CreateNotebook() {
     m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize,
                                 wxNB_FIXEDWIDTH|wxCLIP_CHILDREN);
 
-    wxNotebookSizer *pNotebookSizer = new wxNotebookSizer(m_pNotebook);
-
     // layout frame panel
     wxBoxSizer *pPanelSizer = new wxBoxSizer(wxVERTICAL);
 
     pPanelSizer->Add(new wxStaticLine(pPanel, -1), 0, wxEXPAND);
 	pPanelSizer->Add(0, 5);
-    pPanelSizer->Add(pNotebookSizer, 1, wxEXPAND);
+    pPanelSizer->Add(m_pNotebook, 1, wxEXPAND);
 
 
     // create the various notebook pages
@@ -877,7 +875,7 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         //   might exist with the new head value
         for (lIndex = 1; lIndex < aComputerNames.Count(); lIndex++) {
             if (aComputerNames.Item(lIndex) == aComputerNames.Item(0))
-                aComputerNames.Remove(lIndex);
+                aComputerNames.RemoveAt(lIndex);
         }
 
         // Store the modified computer name MRU list back to the system state

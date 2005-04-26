@@ -27659,3 +27659,17 @@ Rom    25 April 2005
 
     html/user
         forum_reply.php
+
+Rom    25 April 2005
+    - Update the manager so that it'll build against wxWidgets 2.6.0
+
+      NOTE: You'll need to upgrade to wxWidgets 2.6.0 and make sure that you
+        are building the ANSI version of the libraries.
+
+    clientgui/
+        MainDocument.cpp
+        MainFrame.cpp
+    clientgui/msw/
+        taskbarex.cpp, .h
+    win_build/
+        BOINCGUI.vcproj

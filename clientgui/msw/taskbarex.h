@@ -17,6 +17,7 @@
 #pragma interface "taskbarex.cpp"
 #endif
 
+
 // ----------------------------------------------------------------------------
 // wxTaskBarIconEx 
 // ----------------------------------------------------------------------------
@@ -68,9 +69,6 @@ public:
     bool PopupMenu(wxMenu *menu); //, int x, int y);
 
 // Implementation
-    static wxTaskBarIconEx* FindObjectForHWND(WXHWND hWnd);
-    static void AddObject(wxTaskBarIconEx* obj);
-    static void RemoveObject(wxTaskBarIconEx* obj);
     static bool RegisterWindowClass();
     static WXHWND CreateTaskBarWindow( wxChar* szWindowTitle );
     static bool IsBalloonsSupported();
@@ -81,7 +79,6 @@ protected:
     WXHWND          m_hWnd;
     bool            m_iconAdded;
     NOTIFYICONDATA  notifyData;
-    static wxList   sm_taskBarIcons;
     static bool     sm_registeredClass;
     static unsigned int sm_taskbarMsg;
 
@@ -99,7 +96,7 @@ class wxTaskBarIconExEvent : public wxEvent
 {
 public:
     wxTaskBarIconExEvent(wxEventType evtType, wxTaskBarIconEx *tbIcon)
-        : wxEvent(-1, evtType)
+        : wxEvent(wxID_ANY, evtType)
         {
             SetEventObject(tbIcon);
         }
@@ -107,28 +104,35 @@ public:
     virtual wxEvent *Clone() const { return new wxTaskBarIconExEvent(*this); }
 };
 
+typedef void (wxEvtHandler::*wxTaskBarIconExEventFunction)(wxTaskBarIconExEvent&);
 
 BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_CREATED, 1557 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_CONTEXT_MENU, 1558 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SELECT, 1559 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_KEY_SELECT, 1560 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW, 1561 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE, 1562 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT, 1563 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK, 1564 )
-DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN, 1565 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_CREATED, 1557 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_CONTEXT_MENU, 1558 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SELECT, 1559 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_KEY_SELECT, 1560 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW, 1561 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE, 1562 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT, 1563 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK, 1564 )
+    DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN, 1565 )
 END_DECLARE_EVENT_TYPES()
 
-#define EVT_TASKBAR_CREATED(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_CREATED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_CONTEXT_MENU(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_CONTEXT_MENU, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_SELECT(fn)               DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_SELECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_KEY_SELECT(fn)           DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_KEY_SELECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_BALLOON_SHOW(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_SHOW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_BALLOON_HIDE(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_HIDE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_BALLOON_TIMEOUT(fn)      DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_TIMEOUT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_CONTEXT_USERCLICK(fn)    DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_USERCLICK, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_SHUTDOWN(fn)             DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_SHUTDOWN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define wxTaskBarIconExEventHandler(func) \
+    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxTaskBarIconExEventFunction, &func)
+
+#define wx__DECLARE_TASKBAREXEVT(evt, fn) \
+    wx__DECLARE_EVT0(wxEVT_TASKBAR_ ## evt, wxTaskBarIconExEventHandler(fn))
+
+#define EVT_TASKBAR_CREATED(fn)              wx__DECLARE_TASKBAREXEVT(CREATED, fn)
+#define EVT_TASKBAR_CONTEXT_MENU(fn)         wx__DECLARE_TASKBAREXEVT(CONTEXT_MENU, fn)
+#define EVT_TASKBAR_SELECT(fn)               wx__DECLARE_TASKBAREXEVT(SELECT, fn)
+#define EVT_TASKBAR_KEY_SELECT(fn)           wx__DECLARE_TASKBAREXEVT(KEY_SELECT, fn)
+#define EVT_TASKBAR_BALLOON_SHOW(fn)         wx__DECLARE_TASKBAREXEVT(BALLOON_SHOW, fn)
+#define EVT_TASKBAR_BALLOON_HIDE(fn)         wx__DECLARE_TASKBAREXEVT(BALLOON_HIDE, fn)
+#define EVT_TASKBAR_BALLOON_TIMEOUT(fn)      wx__DECLARE_TASKBAREXEVT(BALLOON_TIMEOUT, fn)
+#define EVT_TASKBAR_CONTEXT_USERCLICK(fn)    wx__DECLARE_TASKBAREXEVT(BALLOON_USERCLICK, fn)
+#define EVT_TASKBAR_SHUTDOWN(fn)             wx__DECLARE_TASKBAREXEVT(SHUTDOWN, fn)
 
 
 #endif

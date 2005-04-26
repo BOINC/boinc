@@ -26,13 +26,6 @@
 #include "MainDocument.h"
 #include "error_numbers.h"
 
-#ifdef __APPLE__
-// The Mac uses WxWidgets 2.5.3.  The version 2.5.3 log.h file now says:
-    // there is no more unconditional LogTrace: it is not different from
-    // LogDebug and it creates overload ambiguities
-    inline void wxLogTrace(const wxChar *, ...) { }
-#endif
-
 
 CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     wxObject() {
@@ -73,34 +66,34 @@ void* CNetworkConnection::Poll() {
     std::string strComputerPassword;
 
     if (IsReconnecting()) {
-        wxLogTrace(wxT("CNetworkConnection::Poll - Reconnection Detected"));
+        wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Reconnection Detected"));
         retval = m_pDocument->rpc.init_poll();
         if (!retval) {
-            wxLogTrace(wxT("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing..."));
+            wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing..."));
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.c_str());
             if (!retval) {
-                wxLogTrace(wxT("CNetworkConnection::Poll - Connection Success"));
+                wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));
                 std::string host = m_strNewComputerName.c_str();
                 std::string pwd = m_strNewComputerPassword.c_str();
                 SetStateSuccess(host, pwd);
             } else if (ERR_AUTHENTICATOR == retval) {
-                wxLogTrace(wxT("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR"));
+                wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR"));
                 SetStateErrorAuthentication();
             } else {
-                wxLogTrace(wxT("CNetworkConnection::Poll - RPC Authorization Failed '%d'"), retval);
+                wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Authorization Failed '%d'"), retval);
                 SetStateError();
             }
         } else if (ERR_RETRY != retval) {
-            wxLogTrace(wxT("CNetworkConnection::Poll - RPC Connection Failed '%d'"), retval);
+            wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Connection Failed '%d'"), retval);
             SetStateError();
         }
     } else if (IsConnectEventSignaled() || m_bReconnectOnError) {
         if ((m_bForceReconnect) ||
              (!IsConnected() && m_bReconnectOnError) 
       ) {
-            wxLogTrace(wxT("CNetworkConnection::Poll - Resetting Document State"));
+            wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Resetting Document State"));
             m_pDocument->ResetState();
-            wxLogTrace(wxT("CNetworkConnection::Poll - Setting connection state to reconnecting"));
+            wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Setting connection state to reconnecting"));
             SetStateReconnecting();
         }
 
@@ -123,9 +116,9 @@ void* CNetworkConnection::Poll() {
             }
 
             if (!retval) {
-                wxLogTrace(wxT("CNetworkConnection::Poll - RPC Initialization Called"));
+                wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Initialization Called"));
             } else {
-                wxLogTrace(wxT("CNetworkConnection::Poll - RPC Initialization Failed '%d'"), retval);
+                wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Initialization Failed '%d'"), retval);
                 SetStateError();
             }
         }
@@ -244,7 +237,7 @@ CMainDocument::CMainDocument() {
 
     retval = WSAStartup(MAKEWORD(1, 1), &wsdata);
     if (retval) {
-        wxLogTrace("CMainDocument::CMainDocument - Winsock Initialization Failure '%d'", retval);
+        wxLogTrace(wxT("Function Status"), "CMainDocument::CMainDocument - Winsock Initialization Failure '%d'", retval);
     }
 #endif
 
@@ -297,7 +290,7 @@ int CMainDocument::CachedStateUpdate() {
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
         retval = rpc.get_state(state);
         if (retval) {
-            wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -305,7 +298,7 @@ int CMainDocument::CachedStateUpdate() {
 
         retval = rpc.get_host_info(host);
         if (retval) {
-            wxLogTrace("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -563,7 +556,7 @@ int CMainDocument::CachedProjectStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_project_status(project_status);
         if (iRetVal) {
-            wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -941,7 +934,7 @@ int CMainDocument::CachedResultsStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_results(results);
         if (iRetVal) {
-            wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
             m_pNetworkConnection->SetStateDisconnected();
         }
     }
@@ -1338,7 +1331,7 @@ int CMainDocument::CachedMessageUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (iRetVal) {
-            wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -1447,7 +1440,7 @@ int CMainDocument::CachedFileTransfersUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_file_transfers(ft);
         if (iRetVal) {
-            wxLogTrace("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
             m_pNetworkConnection->SetStateDisconnected();
         }
     }
@@ -1644,7 +1637,7 @@ int CMainDocument::CachedResourceStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_disk_usage(resource_status);
         if (iRetVal) {
-            wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
             m_pNetworkConnection->SetStateDisconnected();
         }
     }
@@ -1726,7 +1719,7 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_statistics(statistics_status);
         if (iRetVal) {
-            wxLogTrace("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
             m_pNetworkConnection->SetStateDisconnected();
         }
     }
@@ -1795,7 +1788,7 @@ int CMainDocument::GetProxyConfiguration() {
 
     iRetVal = rpc.get_proxy_settings(proxy_info);
     if (iRetVal) {
-        wxLogTrace("CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", iRetVal);
+        wxLogTrace(wxT("Function Status"), "CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", iRetVal);
     }
 
     return iRetVal;
@@ -1880,7 +1873,7 @@ int CMainDocument::SetProxyConfiguration() {
 
     iRetVal = rpc.set_proxy_settings(proxy_info);
     if (iRetVal) {
-        wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", iRetVal);
+        wxLogTrace(wxT("Function Status"), "CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", iRetVal);
     }
 
     return iRetVal;
@@ -1971,7 +1964,7 @@ int CMainDocument::UpdateAccountManagerAccounts() {
         acct_mgr.acct_mgr_login.password.c_str()
     );
     if (iRetVal) {
-        wxLogTrace("CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
+        wxLogTrace(wxT("Function Status"), "CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
         m_pNetworkConnection->SetStateDisconnected();
     }
 

@@ -19,13 +19,14 @@
 
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
 
-wxChar *wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
-wxChar *wxTaskBarExWindow = (wxChar*) wxT("wxTaskBarExWindow");
+static wxTaskBarIconEx* gpInstance;
+
+wxChar* wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
+wxChar* wxTaskBarExWindow = (wxChar*) wxT("wxTaskBarExWindow");
 
 const UINT WM_TASKBARCREATED   = ::RegisterWindowMessage(wxT("TaskbarCreated"));
 const UINT WM_TASKBARSHUTDOWN  = ::RegisterWindowMessage(wxT("TaskbarShutdown"));
 
-wxList wxTaskBarIconEx::sm_taskBarIcons;
 bool   wxTaskBarIconEx::sm_registeredClass = FALSE;
 UINT   wxTaskBarIconEx::sm_taskbarMsg = 0;
 
@@ -51,8 +52,7 @@ wxTaskBarIconEx::wxTaskBarIconEx(void)
 {
     m_hWnd = 0;
     m_iconAdded = FALSE;
-
-    AddObject(this);
+    gpInstance = this;
 
     if (RegisterWindowClass())
         m_hWnd = CreateTaskBarWindow( wxTaskBarExWindow );
@@ -63,16 +63,12 @@ wxTaskBarIconEx::wxTaskBarIconEx( wxChar* szWindowTitle )
     m_hWnd = 0;
     m_iconAdded = FALSE;
 
-    AddObject(this);
-
     if (RegisterWindowClass())
         m_hWnd = CreateTaskBarWindow( szWindowTitle );
 }
 
 wxTaskBarIconEx::~wxTaskBarIconEx(void)
 {
-    RemoveObject(this);
-
     if (m_iconAdded)
     {
         RemoveIcon();
@@ -256,29 +252,6 @@ bool wxTaskBarIconEx::PopupMenu(wxMenu *menu) //, int x, int y);
 }
 
 
-wxTaskBarIconEx* wxTaskBarIconEx::FindObjectForHWND(WXHWND hWnd)
-{
-    wxNode*node = sm_taskBarIcons.First();
-    while (node)
-    {
-        wxTaskBarIconEx* obj = (wxTaskBarIconEx*) node->Data();
-        if (obj->GetHWND() == hWnd)
-            return obj;
-        node = node->Next();
-    }
-    return NULL;
-}
-
-void wxTaskBarIconEx::AddObject(wxTaskBarIconEx* obj)
-{
-    sm_taskBarIcons.Append(obj);
-}
-
-void wxTaskBarIconEx::RemoveObject(wxTaskBarIconEx* obj)
-{
-    sm_taskBarIcons.DeleteObject(obj);
-}
-
 bool wxTaskBarIconEx::RegisterWindowClass()
 {
     if (sm_registeredClass)
@@ -355,7 +328,7 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
     {
         wxLogTrace(wxT("Function Status"), wxT("wxTaskBarIconEx::WindowProc - WM_CLOSE Detected"));
  
-        wxCloseEvent eventClose(wxEVT_CLOSE_WINDOW, hWnd);
+        wxCloseEvent eventClose(wxEVT_CLOSE_WINDOW);
         ProcessEvent(eventClose);
 
         if ( !eventClose.GetSkipped() )
@@ -452,7 +425,7 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
 
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam )
 {
-    wxTaskBarIconEx* obj = wxTaskBarIconEx::FindObjectForHWND((WXHWND) hWnd);
+    wxTaskBarIconEx* obj = gpInstance;
     if (obj)
         return obj->WindowProc((WXHWND) hWnd, msg, wParam, lParam);
     else
