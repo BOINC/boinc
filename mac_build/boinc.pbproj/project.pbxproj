@@ -789,7 +789,7 @@
 				DD1277BE081F3E73007B5DE1,
 				DD1277BF081F3E73007B5DE1,
 				DD1277C0081F3E73007B5DE1,
-				DD12787F081F464E007B5DE1,
+				DDB8D5A5081FC8C700A5A1E8,
 				DD127880081F464E007B5DE1,
 			);
 			isa = PBXGroup;
@@ -860,15 +860,6 @@
 			isa = PBXTargetDependency;
 			target = DD1277B2081F3D67007B5DE1;
 			targetProxy = DD127876081F44E5007B5DE1;
-		};
-		DD12787F081F464E007B5DE1 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			name = postinstall.txt;
-			path = ../mac_installer/postinstall.txt;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		DD127880081F464E007B5DE1 = {
 			fileEncoding = 30;
@@ -3303,6 +3294,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = ./build/SetVersion;
+		};
+		DDB8D5A5081FC8C700A5A1E8 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.script.csh;
+			name = postinstall;
+			path = ../mac_installer/postinstall;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DDBD680D07FA82BB0082C20D = {
 			buildPhases = (
