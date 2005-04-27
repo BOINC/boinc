@@ -104,7 +104,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Suspend"),
-        _("Suspend work on the result."),
+        _("Suspend work for this result."),
         ID_TASK_WORK_SUSPEND 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -438,34 +438,34 @@ wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
 
 
 void CViewWork::UpdateSelection() {
-    CTaskItemGroup* pGroup = m_TaskGroups[0];
+    CTaskItemGroup*     pGroup = NULL;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
 
-    if (m_pListPane->GetSelectedItemCount() == 0) {
-        pGroup->button(BTN_SUSPEND)->Disable();
-        pGroup->button(BTN_GRAPHICS)->Disable();
-        pGroup->button(BTN_ABORT)->Disable();
-    } else {
-        CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != m_pTaskPane);
+
+    pGroup = m_TaskGroups[0];
+    if (m_pListPane->GetSelectedItemCount()) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
-        pGroup->button(BTN_SUSPEND)->Enable();
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (result->suspended_via_gui) {
-            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Resume"));
-#if wxUSE_TOOLTIPS
-            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Resume work for this result"));
-#endif
+            m_pTaskPane->UpdateTask(
+                pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this result.")
+            );
         } else {
-            pGroup->button(BTN_SUSPEND)->SetLabel(wxString("Suspend"));
-#if wxUSE_TOOLTIPS
-            pGroup->button(BTN_SUSPEND)->SetToolTip(wxString("Suspend work for this result"));
-#endif
+            m_pTaskPane->UpdateTask(
+                pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this result.")
+            );
         }
         if (result->supports_graphics) {
-            pGroup->button(BTN_GRAPHICS)->Enable();
+            m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
         } else {
-            pGroup->button(BTN_GRAPHICS)->Disable();
+            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
         }
-        pGroup->button(BTN_ABORT)->Enable();
-
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
+    } else {
+        m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
 }
 

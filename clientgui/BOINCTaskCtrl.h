@@ -25,6 +25,8 @@
 #endif
 
 
+class CTaskItem;
+class CTaskItemGroup;
 class CBOINCBaseView;
 
 class CBOINCTaskCtrl : public wxPanel {
@@ -35,6 +37,15 @@ public:
     CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iTaskWindowID, int iTaskWindowFlags );
 
     ~CBOINCTaskCtrl();
+
+    wxInt32 DeleteTaskGroupAndTasks( CTaskItemGroup* pGroup );
+    wxInt32 DisableTaskGroupTasks( CTaskItemGroup* pGroup );
+    wxInt32 EnableTaskGroupTasks( CTaskItemGroup* pGroup );
+
+    wxInt32 DeleteTask( CTaskItemGroup* pGroup, CTaskItem* pItem );
+    wxInt32 DisableTask( CTaskItem* pItem );
+    wxInt32 EnableTask( CTaskItem* pItem );
+    wxInt32 UpdateTask( CTaskItem* pItem, wxString strName, wxString strDescription );
 
     wxInt32 UpdateControls();
 

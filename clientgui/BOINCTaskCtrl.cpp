@@ -33,7 +33,7 @@ CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
-    wxPanel(pView, iTaskWindowID, wxDefaultPosition, wxSize(175, -1), iTaskWindowFlags)
+    wxPanel(pView, iTaskWindowID, wxDefaultPosition, wxSize(200, -1), iTaskWindowFlags)
 {
     m_pParent = pView;
     m_pBoxSizer = NULL;
@@ -43,6 +43,98 @@ CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, 
 CBOINCTaskCtrl::~CBOINCTaskCtrl() {}
 
 
+wxInt32 CBOINCTaskCtrl::DeleteTaskGroupAndTasks( CTaskItemGroup* pGroup ) {
+    unsigned int i;
+    CTaskItem*   pItem = NULL;
+
+    for (i=0; i < pGroup->m_Tasks.size(); i++) {
+        pItem = pGroup->m_Tasks[i];
+        DeleteTask(pGroup, pItem);
+    }
+    if (pGroup->m_pStaticBoxSizer) {
+        m_pBoxSizer->Detach(pGroup->m_pStaticBoxSizer);
+        pGroup->m_pStaticBoxSizer->Detach(pGroup->m_pStaticBox);
+
+        delete pGroup->m_pStaticBox;
+        delete pGroup->m_pStaticBoxSizer;
+
+        pGroup->m_pStaticBox = NULL;
+        pGroup->m_pStaticBoxSizer = NULL;
+    }
+
+    return 0;
+}
+
+
+wxInt32 CBOINCTaskCtrl::DisableTaskGroupTasks( CTaskItemGroup* pGroup ) {
+    unsigned int i;
+    CTaskItem*   pItem = NULL;
+
+    if (pGroup) {
+        for (i=0; i < pGroup->m_Tasks.size(); i++) {
+            pItem = pGroup->m_Tasks[i];
+            DisableTask(pItem);
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CBOINCTaskCtrl::EnableTaskGroupTasks( CTaskItemGroup* pGroup ) {
+    unsigned int i;
+    CTaskItem*   pItem = NULL;
+
+    if (pGroup) {
+        for (i=0; i < pGroup->m_Tasks.size(); i++) {
+            pItem = pGroup->m_Tasks[i];
+            EnableTask(pItem);
+        }
+    }
+
+    return 0;
+}
+
+
+wxInt32 CBOINCTaskCtrl::DeleteTask( CTaskItemGroup* pGroup, CTaskItem* pItem ) {
+    if (pItem->m_pButton) {
+        pGroup->m_pStaticBoxSizer->Detach(pItem->m_pButton);
+        delete pItem->m_pButton;
+        pItem->m_pButton = NULL;
+    }
+    return 0;
+}
+
+
+wxInt32 CBOINCTaskCtrl::DisableTask( CTaskItem* pItem ) {
+    if (pItem->m_pButton) {
+        pItem->m_pButton->Disable();
+    }
+    return 0;
+}
+
+
+wxInt32 CBOINCTaskCtrl::EnableTask( CTaskItem* pItem ) {
+    if (pItem->m_pButton) {
+        pItem->m_pButton->Enable();
+    }
+    return 0;
+}
+
+
+wxInt32 CBOINCTaskCtrl::UpdateTask( CTaskItem* pItem, wxString strName, wxString strDescription ) {
+    if (pItem->m_pButton) {
+        pItem->m_strName = strName;
+        pItem->m_strDescription = strDescription;
+
+        pItem->m_pButton->SetLabel( strName );
+#if wxUSE_TOOLTIPS
+        pItem->m_pButton->SetToolTip( strDescription );
+#endif
+    }
+    return 0;
+}
+
 
 wxInt32 CBOINCTaskCtrl::UpdateControls() {
     unsigned int        i;
@@ -51,20 +143,22 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     CTaskItemGroup*     pGroup = NULL;
     CTaskItem*          pItem = NULL;
 
-    bCreateMainSizer = (!GetSizer());
-    if (bCreateMainSizer) { 
+
+    bCreateMainSizer = !GetSizer();
+    if (bCreateMainSizer) {
+        SetAutoLayout(TRUE);
         m_pBoxSizer = new wxBoxSizer(wxVERTICAL);
         m_pBoxSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     }
 
+
     // Create static boxes and sizers if they don't exist
     for (i=0; i < m_pParent->m_TaskGroups.size(); i++) {
         pGroup = m_pParent->m_TaskGroups[i];
-        if (!pGroup->m_pStaticBox) {
+        if (!pGroup->m_pStaticBoxSizer) {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
             m_pBoxSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
-            m_pBoxSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
         }
     }
 
@@ -84,11 +178,12 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         }
     }
 
+
     if (bCreateMainSizer) {
         SetSizer(m_pBoxSizer);
-    } else {
-        Fit();
     }
+
+    Layout();
 
     return 0;
 }

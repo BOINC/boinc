@@ -297,7 +297,7 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_PaintStatistics, 1, wxGROW|wxALL, 1);
 
-    SetSizerAndFit(itemFlexGridSizer);
+    SetSizer(itemFlexGridSizer);
 
 
 	pGroup = new CTaskItemGroup( _("Tasks") );
@@ -334,6 +334,8 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
+
+    Layout();
 
     UpdateSelection();
 }

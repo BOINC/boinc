@@ -87,7 +87,9 @@ CBOINCBaseView::CBOINCBaseView(
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
-    SetSizerAndFit(itemFlexGridSizer);
+    SetSizer(itemFlexGridSizer);
+
+    Layout();
 }
 
 
@@ -111,20 +113,6 @@ const char** CBOINCBaseView::GetViewIcon() {
 }
 
 
-void CBOINCBaseView::EmptyTasks() {
-    unsigned int i;
-    unsigned int j;
-    for (i=0; i<m_TaskGroups.size(); i++) {
-        for (j=0; j<m_TaskGroups[i]->m_Tasks.size(); j++) {
-            delete m_TaskGroups[i]->m_Tasks[j];
-        }
-        m_TaskGroups[i]->m_Tasks.clear();
-        delete m_TaskGroups[i];
-    }
-    m_TaskGroups.clear();
-}
-
-    
 bool CBOINCBaseView::FireOnSaveState(wxConfigBase* pConfig) {
     return OnSaveState(pConfig);
 }
@@ -379,6 +367,20 @@ int CBOINCBaseView::UpdateCache(
 }
 
 
+void CBOINCBaseView::EmptyTasks() {
+    unsigned int i;
+    unsigned int j;
+    for (i=0; i<m_TaskGroups.size(); i++) {
+        for (j=0; j<m_TaskGroups[i]->m_Tasks.size(); j++) {
+            delete m_TaskGroups[i]->m_Tasks[j];
+        }
+        m_TaskGroups[i]->m_Tasks.clear();
+        delete m_TaskGroups[i];
+    }
+    m_TaskGroups.clear();
+}
+
+    
 void CBOINCBaseView::UpdateSelection()
 {}
 

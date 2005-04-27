@@ -42,13 +42,17 @@
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
 
+// groups that contain buttons
+#define GRP_TASKS    0
+#define GRP_WEBSITES 1
+
 // buttons in the "tasks" area
-#define BTN_UPDATE  0
-#define BTN_SUSPEND 1
-#define BTN_NOWORK  2
-#define BTN_RESET   3
-#define BTN_DETACH  4
-#define BTN_ATTACH  5
+#define BTN_UPDATE   0
+#define BTN_SUSPEND  1
+#define BTN_NOWORK   2
+#define BTN_RESET    3
+#define BTN_DETACH   4
+#define BTN_ATTACH   5
 
 
 CProject::CProject() {
@@ -94,7 +98,6 @@ CViewProjects::CViewProjects() {}
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
 {
-    wxInt32         iCurrentEventID = 0;
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
 
@@ -118,18 +121,14 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Suspend"),
-        _("Stop work for this project "
-          "(you can resume later)."),
+        _("Suspend work for this project."),
         ID_TASK_PROJECT_SUSPEND 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Don't Get New Work"),
-        _("Tell the project to not "
-          "fetch additional work for this "
-          "project. Any work already downloaded will "
-          "still be processed and returned."),
+        _("No new work"),
+        _("Don't fetch new work for this project."),
         ID_TASK_PROJECT_NONEWWORK 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -163,18 +162,6 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     );
     pGroup->m_Tasks.push_back( pItem );
 
-
-	pGroup = new CTaskItemGroup( _("Web sites") );
-	m_TaskGroups.push_back( pGroup );
-
-    for (iCurrentEventID = ID_TASK_PROJECT_WEB_PROJDEF_MIN; iCurrentEventID <= ID_TASK_PROJECT_WEB_PROJDEF_MAX; iCurrentEventID++) {
-        pItem = new CTaskItem(
-            wxT(""),
-            wxT(""),
-            iCurrentEventID 
-        );
-        pGroup->m_Tasks.push_back( pItem );
-    }
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
@@ -589,7 +576,7 @@ wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData)
 
 
 void CViewProjects::UpdateSelection() {
-    unsigned int        j;
+    unsigned int        i;
     CTaskItemGroup*     pGroup = NULL;
     CTaskItem*          pItem = NULL;
     PROJECT*            project = NULL;
@@ -597,85 +584,92 @@ void CViewProjects::UpdateSelection() {
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != m_pTaskPane);
 
     // Update the tasks static box buttons
+    //
     pGroup = m_TaskGroups[0];
-    if (m_pListPane->GetSelectedItemCount() == 0) {
-        pGroup->button(BTN_UPDATE)->Disable();
-        pGroup->button(BTN_SUSPEND)->Disable();
-        pGroup->button(BTN_NOWORK)->Disable();
-        pGroup->button(BTN_RESET)->Disable();
-        pGroup->button(BTN_DETACH)->Disable();
-        pGroup->button(BTN_ATTACH)->Enable();
-    } else {
+    if (m_pListPane->GetSelectedItemCount()) {
         project = pDoc->project(m_pListPane->GetFirstSelected());
-        pGroup->button(BTN_UPDATE)->Enable();
-        pGroup->button(BTN_SUSPEND)->Enable();
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (project->suspended_via_gui) {
-            pGroup->button(BTN_SUSPEND)->SetLabel(_("Resume"));
-#if wxUSE_TOOLTIPS
-            pGroup->button(BTN_SUSPEND)->SetToolTip(_("Resume work for this project"));
-#endif
+            m_pTaskPane->UpdateTask(
+                pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this project.")
+            );
         } else {
-            pGroup->button(BTN_SUSPEND)->SetLabel(_("Suspend"));
-#if wxUSE_TOOLTIPS
-            pGroup->button(BTN_SUSPEND)->SetToolTip(_("Suspend work for this project"));
-#endif
+            m_pTaskPane->UpdateTask(
+                pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this project.")
+            );
         }
-        pGroup->button(BTN_NOWORK)->Enable();
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_NOWORK]);
         if (project->dont_request_more_work) {
-            pGroup->button(BTN_NOWORK)->SetLabel(_("Allow new work"));
-#if wxUSE_TOOLTIPS
-            pGroup->button(BTN_NOWORK)->SetToolTip(_("Allow fetching new work for this project"));
-#endif
+            m_pTaskPane->UpdateTask(
+                pGroup->m_Tasks[BTN_NOWORK], _("Allow new work"), _("Allow fetching new work for this project.")
+            );
         } else {
-            pGroup->button(BTN_NOWORK)->SetLabel(_("No new work"));
-#if wxUSE_TOOLTIPS
-            pGroup->button(BTN_NOWORK)->SetToolTip(_("Don't fetch new work for this project"));
-#endif
+            m_pTaskPane->UpdateTask(
+                pGroup->m_Tasks[BTN_NOWORK], _("No new work"), _("Don't fetch new work for this project.")
+            );
         }
-        pGroup->button(BTN_RESET)->Enable();
-        pGroup->button(BTN_DETACH)->Enable();
-        pGroup->button(BTN_ATTACH)->Enable();
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ATTACH]);
+    } else {
+        m_pTaskPane->DisableTaskGroupTasks(pGroup);
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ATTACH]);
     }
 
     // Update the websites list
-    pGroup = m_TaskGroups[1];
-    pGroup->m_pStaticBox->Hide();
-    for (j=0; j < pGroup->m_Tasks.size(); j++) {
-        pItem = pGroup->m_Tasks[j];
-        pItem->m_pButton->Hide();
+    //
+    if (m_TaskGroups.size() > 1) {
+
+        // Delete task group, objects, and controls.
+        pGroup = m_TaskGroups[1];
+
+        m_pTaskPane->DeleteTaskGroupAndTasks(pGroup);
+        for (i=0; i<pGroup->m_Tasks.size(); i++) {
+            delete pGroup->m_Tasks[i];
+        }
+        pGroup->m_Tasks.clear();
+        delete pGroup;
+
+        pGroup = NULL;
+
+        m_TaskGroups.erase( m_TaskGroups.begin() + 1 );
     }
+
+    // If something is selected create the tasks and controls
     if (m_pListPane->GetSelectedItemCount()) {
         project = pDoc->project(m_pListPane->GetFirstSelected());
 
-        pGroup->m_pStaticBox->Show();
+        // Create the web sites task group
+  	    pGroup = new CTaskItemGroup( _("Web sites") );
+	    m_TaskGroups.push_back( pGroup );
 
         // Default project url
-        pItem = pGroup->m_Tasks[0];
-        pItem->m_pButton->SetLabel(project->project_name.c_str());
-#if wxUSE_TOOLTIPS
-        pItem->m_pButton->SetToolTip(wxT(""));
-#endif
-        pItem->m_pButton->Show();
-        pItem->m_strWebSiteLink = project->master_url.c_str();
+        pItem = new CTaskItem(
+            project->project_name.c_str(), 
+            wxT(""), 
+            project->master_url.c_str(),
+            ID_TASK_PROJECT_WEB_PROJDEF_MIN
+        );
+        pGroup->m_Tasks.push_back(pItem);
 
 
         // Project defined urls
-        unsigned int number_of_gui_urls = project->gui_urls.size();
-        unsigned int max_number_of_buttons = ID_TASK_PROJECT_WEB_PROJDEF_MAX-ID_TASK_PROJECT_WEB_PROJDEF_MIN;
-        int gui_url_index = 0;
-        for (j=1;j<=number_of_gui_urls && j<=max_number_of_buttons;j++) {
-            gui_url_index = j - 1;
-            pItem = pGroup->m_Tasks[j];
-            pItem->m_pButton->SetLabel(project->gui_urls[gui_url_index].name.c_str());
-#if wxUSE_TOOLTIPS
-            pItem->m_pButton->SetToolTip(project->gui_urls[gui_url_index].description.c_str());
-#endif
-            pItem->m_pButton->Show();
-            pItem->m_strWebSiteLink = project->gui_urls[gui_url_index].url.c_str();
+        for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
+            pItem = new CTaskItem(
+                project->gui_urls[i].name.c_str(),
+                project->gui_urls[i].description.c_str(),
+                project->gui_urls[i].url.c_str(),
+                ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
+            );
+            pGroup->m_Tasks.push_back(pItem);
         }
     }
+
+    m_pTaskPane->UpdateControls();
 }
 
 

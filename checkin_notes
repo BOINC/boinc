@@ -27686,3 +27686,22 @@ Charlie    26 April 2005
             mac_saver_module.cpp
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+Rom    26 April 2005
+    - More code cleanup in the manager.
+    - Take care of a couple crashing conditions that occurred after the
+        migration to wxWidgets 2.6.0
+    - Make the website buttons work again
+    - Layout() seems to work better than the call to Fit() to adjust the
+        various window locations.  So switch all the calls from Fit() to
+        Layout() and see if this fixes the Mac scrollbar issue.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        Events.h
+        MainFrame.cpp
+        ViewProjects.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

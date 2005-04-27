@@ -354,12 +354,10 @@ wxInt32 CViewTransfers::UpdateCache(long item, long column, wxString& strNewData
 
 void CViewTransfers::UpdateSelection() {
     CTaskItemGroup* pGroup = m_TaskGroups[0];
-    if (m_pListPane->GetSelectedItemCount() == 0) {
-        pGroup->button(BTN_RETRY)->Disable();
-        pGroup->button(BTN_ABORT)->Disable();
+    if (m_pListPane->GetSelectedItemCount()) {
+        m_pTaskPane->EnableTaskGroupTasks(pGroup);
     } else {
-        pGroup->button(BTN_RETRY)->Enable();
-        pGroup->button(BTN_ABORT)->Enable();
+        m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
 }
 

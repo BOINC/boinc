@@ -427,9 +427,8 @@ bool CMainFrame::CreateNotebook() {
     CreateNotebookPage(new CViewResources(m_pNotebook));
 
 
-    // have the panel calculate everything after the pages are created so
-    //   the mac can display the html control width correctly
-    pPanel->SetSizerAndFit(pPanelSizer);
+    pPanel->SetSizer(pPanelSizer);
+    pPanel->Layout();
 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebook - Function End"));

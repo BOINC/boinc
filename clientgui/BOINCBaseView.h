@@ -36,8 +36,11 @@ class CTaskItem : wxObject {
 public:
 	CTaskItem();
 	CTaskItem( wxString strName, wxString strDescription, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID), m_pButton(NULL),
-        m_strWebSiteLink(wxT("")) {};
+		m_strName(strName), m_strDescription(strDescription), m_strWebSiteLink(wxT("")), 
+        m_iEventID(iEventID), m_pButton(NULL) {};
+	CTaskItem( wxString strName, wxString strDescription, wxString strWebSiteLink, wxInt32 iEventID ) :
+		m_strName(strName), m_strDescription(strDescription), m_strWebSiteLink(strWebSiteLink), 
+        m_iEventID(iEventID), m_pButton(NULL) {};
     ~CTaskItem() {};
 
     wxString                m_strName;
@@ -100,7 +103,6 @@ public:
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
 protected:
-    virtual void            EmptyTasks();
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
@@ -123,6 +125,8 @@ protected:
     virtual int             RemoveCacheElement();
     virtual int             SyncronizeCache();
     virtual int             UpdateCache( long item, long column, wxString& strNewData );
+
+    virtual void            EmptyTasks();
 
     virtual void            UpdateSelection();
 
