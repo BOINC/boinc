@@ -62,7 +62,7 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     wxInt32     iColumnCount = 0;
 
 
-    wxASSERT(NULL != pConfig);
+    wxASSERT(pConfig);
 
 
     // Retrieve the base location to store configuration information
@@ -101,7 +101,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     wxInt32     iTempValue = 0;
 
 
-    wxASSERT(NULL != pConfig);
+    wxASSERT(pConfig);
 
 
     // Retrieve the base location to store configuration information
@@ -136,7 +136,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
 
 void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
-    wxASSERT(NULL != m_pParentView);
+    wxASSERT(m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
     wxListEvent leEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
@@ -157,7 +157,7 @@ void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
 
 
 wxString CBOINCListCtrl::OnGetItemText(long item, long column) const {
-    wxASSERT(NULL != m_pParentView);
+    wxASSERT(m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
     return m_pParentView->FireOnListGetItemText(item, column);
@@ -165,7 +165,7 @@ wxString CBOINCListCtrl::OnGetItemText(long item, long column) const {
 
 
 int CBOINCListCtrl::OnGetItemImage(long item) const {
-    wxASSERT(NULL != m_pParentView);
+    wxASSERT(m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
     return m_pParentView->FireOnListGetItemImage(item);
@@ -173,7 +173,7 @@ int CBOINCListCtrl::OnGetItemImage(long item) const {
 
 
 wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
-    wxASSERT(NULL != m_pParentView);
+    wxASSERT(m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
     return m_pParentView->FireOnListGetItemAttr(item);

@@ -857,9 +857,36 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
                 wup->project->sched_rpc_pending = true;
             }
         }
+        if (match_tag(msg_buf, "<have_new_upload_file/>")) {
+            handle_upload_files();
+        }
         found = true;
     }
     return found;
+}
+
+// scan the slot director, looking for files with names
+// of the form boinc_ufr_X.
+// Then mark file X as being present (and uploadable)
+//
+int ACTIVE_TASK::handle_upload_files() {
+    std::string filename;
+    char buf[256], path[256];
+
+    DirScanner dirscan(slot_dir);
+    while (dirscan.scan(filename)) {
+        strcpy(buf, filename.c_str());
+        if (strstr(buf, "boinc_ufr") == buf) {
+            char* p = buf+strlen("boinc_ufr");
+            FILE_INFO* fip = gstate.lookup_file_info(result->project, p);
+            if (fip) {
+                fip->status = FILE_PRESENT;
+            }
+            sprintf(path, "%s/%s", slot_dir, buf);
+            boinc_delete_file(path);
+        }
+    }
+    return 0;
 }
 
 // check for msgs from active tasks.

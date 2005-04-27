@@ -27705,3 +27705,48 @@ Rom    26 April 2005
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+        
+David  26 April 2005
+	- Preliminary checkin for "intermediate upload" feature for CPDN.
+		This allows an app to upload a file in the middle of a result.
+	- code cleanup in Manager code:
+		- Started to get rid of member functions of CMainDocument
+			that access elements of PROJECT (????).
+			e.g.:
+				GetProjectProjectName()
+				GetProjectTeamName()
+			Rom: please complete this.
+		- Started to get rid of functions like
+			CViewProjects::FormatProjectName()
+			Rom: please complete this
+		- ASSERT(NULL != X) -> ASSERT(X)
+			(do not undo these - please replace everywhere)
+		- Destructors don't need to reset fields.
+		TODO: replace the OnDocGetItemText() functions
+			with functions that get all items at once
+
+	api/
+		boinc_api.C
+	client/
+		app.h
+		app_control.C
+		cs_files.C
+	clientgui/
+		BOINCBaseView.cpp
+		BOINCGUIApp.cpp
+		BOINCListCtrl.cpp
+		BOINCTaskBar.cpp
+		BOINCTaskCtrl.cpp
+		MainDocument.cpp,h
+		MainFrame.cpp
+		ViewMessages.cpp
+		ViewProjects.cpp,h
+		ViewResources.cpp
+		ViewStatistics.cpp
+		ViewTransfers.cpp,h
+		ViewWork.cpp
+	lib/
+		gui_rpc_client.C,h
+		shmem.C,h
+	win_build/
+		boinc_cli.vcproj

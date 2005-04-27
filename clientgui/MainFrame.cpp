@@ -71,19 +71,19 @@ CStatusBar::CStatusBar(wxWindow *parent) :
     SetFieldsCount(WXSIZEOF(widths), widths);
 
     m_pbmpConnected = new wxStaticBitmap(this, -1, wxIcon(connect_xpm));
-    wxASSERT(NULL != m_pbmpConnected);
+    wxASSERT(m_pbmpConnected);
     m_pbmpConnected->Hide();
 
     m_ptxtConnected = new wxStaticText(this, -1, _("Connected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
-    wxASSERT(NULL != m_ptxtConnected);
+    wxASSERT(m_ptxtConnected);
     m_ptxtConnected->Hide();
 
     m_pbmpDisconnect = new wxStaticBitmap(this, -1, wxIcon(disconnect_xpm));
-    wxASSERT(NULL != m_pbmpDisconnect);
+    wxASSERT(m_pbmpDisconnect);
     m_pbmpDisconnect->Hide();
 
     m_ptxtDisconnect = new wxStaticText(this, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
-    wxASSERT(NULL != m_ptxtDisconnect);
+    wxASSERT(m_ptxtDisconnect);
     m_ptxtDisconnect->Hide();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function End"));
@@ -199,16 +199,16 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
-    wxASSERT(NULL != m_pRefreshStateTimer);
+    wxASSERT(m_pRefreshStateTimer);
 
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
-    wxASSERT(NULL != m_pFrameRenderTimer);
+    wxASSERT(m_pFrameRenderTimer);
 
     m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
-    wxASSERT(NULL != m_pFrameListPanelRenderTimer);
+    wxASSERT(m_pFrameListPanelRenderTimer);
 
     m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
-    wxASSERT(NULL != m_pDocumentPollTimer);
+    wxASSERT(m_pDocumentPollTimer);
 
     m_pRefreshStateTimer->Start(60000);              // Send event every 60 seconds
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
@@ -282,7 +282,7 @@ bool CMainFrame::CreateMenu() {
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     // File menu
@@ -443,8 +443,8 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
     wxImageList*    pImageList;
     int         iImageIndex = 0;
 
-    wxASSERT(NULL != pwndNewNotebookPage);
-    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(pwndNewNotebookPage);
+    wxASSERT(m_pNotebook);
     wxASSERT(wxDynamicCast(pwndNewNotebookPage, CBOINCBaseView));
 
 
@@ -470,7 +470,7 @@ bool CMainFrame::CreateStatusbar() {
         return true;
 
     m_pStatusbar = new CStatusBar(this);
-    wxASSERT(NULL != m_pStatusbar);
+    wxASSERT(m_pStatusbar);
 
     SetStatusBar(m_pStatusbar);
 
@@ -492,11 +492,11 @@ bool CMainFrame::DeleteNotebook() {
 
     wxImageList*    pImageList;
 
-    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(m_pNotebook);
 
     pImageList = m_pNotebook->GetImageList();
 
-    wxASSERT(NULL != pImageList);
+    wxASSERT(pImageList);
 
     if (pImageList)
         delete pImageList;
@@ -574,7 +574,7 @@ bool CMainFrame::SaveState() {
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
+        wxASSERT(pView);
 
         strPreviousLocation = pConfig->GetPath();
         strConfigLocation = strPreviousLocation + pView->GetViewName();
@@ -636,8 +636,8 @@ bool CMainFrame::RestoreState() {
     long            iWidth = 0;
 
 
-    wxASSERT(NULL != pConfig);
-    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(pConfig);
+    wxASSERT(m_pNotebook);
 
 
     //
@@ -712,7 +712,7 @@ bool CMainFrame::RestoreState() {
         wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
+        wxASSERT(pView);
 
         strPreviousLocation = pConfig->GetPath();
         strConfigLocation = strPreviousLocation + pView->GetViewName();
@@ -763,7 +763,7 @@ void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
@@ -788,7 +788,7 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     int        iCurrentNetworkMode = -1;
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
@@ -816,8 +816,8 @@ void CMainFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRunBenchmarks - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxASSERT(NULL != m_pNotebook);
-    wxASSERT(NULL != pDoc);
+    wxASSERT(m_pNotebook);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
@@ -837,9 +837,9 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     long                lRetVal = -1;
     wxArrayString       aComputerNames;
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
 
     // Lets copy the template store in the system state
@@ -908,9 +908,9 @@ void CMainFrame::OnToolsUpdateAccounts(wxCommandEvent& WXUNUSED(event))
     wxString            strPassword = wxEmptyString;
 
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
     if (!pDoc->IsAccountManagerLoginFound()) {
         iAnswer = pDlg->ShowModal();
@@ -942,9 +942,9 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     int        iBuffer = 0;
     wxString       strBuffer = wxEmptyString;
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
 
     bProxyInformationConfigured = (0 == pDoc->GetProxyConfiguration());
@@ -1029,7 +1029,7 @@ void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAbout - Function Begin"));
 
     CDlgAbout* pDlg = new CDlgAbout(this);
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
     pDlg->ShowModal();
 
@@ -1164,13 +1164,13 @@ void CMainFrame::OnRefreshView(CMainFrameEvent&) {
             CBOINCBaseView* pView = NULL;
             wxTimerEvent    timerEvent;
 
-            wxASSERT(NULL != m_pNotebook);
+            wxASSERT(m_pNotebook);
 
             pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
             wxASSERT(pwndNotebookPage);
 
             pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-            wxASSERT(NULL != pView);
+            wxASSERT(pView);
 
             pView->FireOnListRender(timerEvent);
         }
@@ -1218,7 +1218,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         wxGetApp().UpdateSystemIdleDetection();
 
         if (IsShown()) {
-            if (NULL != pDoc) {
+            if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
                 // Update the menu bar
@@ -1226,16 +1226,16 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 int        iActivityMode = -1;
                 int        iNetworkMode  = -1;
 
-                wxASSERT(NULL != pMenuBar);
+                wxASSERT(pMenuBar);
                 wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-                if (NULL != pMenuBar->FindItem(ID_ACTIVITYRUNALWAYS, NULL))
+                if (pMenuBar->FindItem(ID_ACTIVITYRUNALWAYS, NULL))
                     pMenuBar->Check(ID_ACTIVITYRUNALWAYS, false);
 
-                if (NULL != pMenuBar->FindItem(ID_ACTIVITYSUSPEND, NULL))
+                if (pMenuBar->FindItem(ID_ACTIVITYSUSPEND, NULL))
                     pMenuBar->Check(ID_ACTIVITYSUSPEND, false);
 
-                if (NULL != pMenuBar->FindItem(ID_ACTIVITYRUNBASEDONPREPERENCES, NULL))
+                if (pMenuBar->FindItem(ID_ACTIVITYRUNBASEDONPREPERENCES, NULL))
                     pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
 
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
@@ -1249,14 +1249,14 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 }
 
 #if 0
-                if (NULL != pMenuBar->FindItem(ID_NETWORKRUNALWAYS, NULL))
+                if (pMenuBar->FindItem(ID_NETWORKRUNALWAYS, NULL))
                     pMenuBar->Check(ID_NETWORKRUNALWAYS, false);
 #endif
-                if (NULL != pMenuBar->FindItem(ID_NETWORKSUSPEND, NULL))
+                if (pMenuBar->FindItem(ID_NETWORKSUSPEND, NULL))
                     pMenuBar->Check(ID_NETWORKSUSPEND, false);
 
 #if 0
-                if (NULL != pMenuBar->FindItem(ID_NETWORKRUNBASEDONPREPERENCES, NULL))
+                if (pMenuBar->FindItem(ID_NETWORKRUNBASEDONPREPERENCES, NULL))
                     pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
 #endif
 
@@ -1358,13 +1358,13 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         CBOINCBaseView* pView = NULL;
         wxTimerEvent    timerEvent;
 
-        wxASSERT(NULL != m_pNotebook);
+        wxASSERT(m_pNotebook);
 
         pwndNotebookPage = m_pNotebook->GetPage(event.GetSelection());
-        wxASSERT(NULL != pwndNotebookPage);
+        wxASSERT(pwndNotebookPage);
 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
+        wxASSERT(pView);
 
         FireRefreshView();
     }

@@ -163,20 +163,19 @@ private:
     int                         CachedProjectStatusUpdate();
 
 public:
-    int                         GetProjectCount();
-    int                         GetProjectProjectName(int iIndex, wxString& strBuffer);
-    int                         GetProjectProjectURL(int iIndex, wxString& strBuffer);
-    int                         GetProjectAccountName(int iIndex, wxString& strBuffer);
-    int                         GetProjectTeamName(int iIndex, wxString& strBuffer);
-    int                         GetProjectTotalCredit(int iIndex, float& fBuffer);
-    int                         GetProjectAvgCredit(int iIndex, float& fBuffer);
-    int                         GetProjectResourceShare(int iIndex, float& fBuffer);
-    int                         GetProjectTotalResourceShare(int iIndex, float& fBuffer);
-    int                         GetProjectMinRPCTime(int iIndex, int& iBuffer);
-    int                         GetProjectWebsiteCount(int iIndex);
-    int                         GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    int                         GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    int                         GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    PROJECT* project(int);
+    int                     GetProjectCount();
+    int                     GetProjectProjectURL(int iIndex, wxString& strBuffer);
+    int                     GetProjectAccountName(int iIndex, wxString& strBuffer);
+    int                     GetProjectTotalCredit(int iIndex, float& fBuffer);
+    int                     GetProjectAvgCredit(int iIndex, float& fBuffer);
+    int                     GetProjectResourceShare(int iIndex, float& fBuffer);
+    int                     GetProjectTotalResourceShare(int iIndex, float& fBuffer);
+    int                     GetProjectMinRPCTime(int iIndex, int& iBuffer);
+    int                     GetProjectWebsiteCount(int iIndex);
+    int                     GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    int                     GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    int                     GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
     bool                        IsProjectSuspended(int iIndex);
     bool                        IsProjectRPCPending(int iIndex);
     bool                        IsProjectAllowedToGetWork(int iIndex);
@@ -191,7 +190,6 @@ public:
     int                         ProjectSuspend(int iIndex);
     int                         ProjectResume(int iIndex);
 
-    PROJECT*                    project(int);
     PROJECTS                    project_status;
 
 

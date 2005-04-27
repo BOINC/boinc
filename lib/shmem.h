@@ -38,8 +38,8 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview)
 //
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp);
 
-// detach from a shared-mem segment.  Once all processes have
-// detached, the segment is destroyed
+// detach from a shared-mem segment.
+// Once all processes have detached, the segment is destroyed
 //
 int detach_shmem(HANDLE hSharedMem, void* p);
 

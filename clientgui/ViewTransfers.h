@@ -28,8 +28,7 @@
 #include "BOINCBaseView.h"
 
 
-class CTransfer : public wxObject
-{
+class CTransfer : public wxObject {
 public:
 	CTransfer();
 	~CTransfer();
@@ -44,8 +43,7 @@ public:
 };
 
 
-class CViewTransfers : public CBOINCBaseView
-{
+class CViewTransfers : public CBOINCBaseView {
     DECLARE_DYNAMIC_CLASS( CViewTransfers )
 
 public:

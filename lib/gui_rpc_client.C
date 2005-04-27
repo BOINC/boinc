@@ -75,6 +75,13 @@ PROJECT::~PROJECT() {
     clear();
 }
 
+void PROJECT::get_name(std::string& s) {
+    if (project_name.length() == 0) {
+        s = master_url;
+    } else {
+        s = project_name;
+    }
+}
 int PROJECT::parse(MIOFILE& in) {
     char buf[256];
     int retval;

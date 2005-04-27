@@ -137,7 +137,7 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
 #ifndef NOCLIPBOARD
@@ -169,7 +169,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& event ) {
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
 #ifndef NOCLIPBOARD

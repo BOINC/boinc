@@ -112,7 +112,8 @@ public:
     int parse(MIOFILE&);
     void print();
     void clear();
-    
+    void get_name(std::string&);
+
     // statistic of the last x days
     std::vector<STATISTIC> statistics;
 };

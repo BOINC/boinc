@@ -66,8 +66,8 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
 
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     //
     // Setup View
@@ -103,7 +103,7 @@ const char** CViewResources::GetViewIcon() {
 wxInt32 CViewResources::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     return pDoc->GetResourceCount();
@@ -145,8 +145,8 @@ wxString CViewResources::OnDocGetItemText(long item, long column) const {
 
 wxInt32 CViewResources::AddCacheElement() {
     CResource* pItem = new CResource();
-    wxASSERT(NULL != pItem);
-    if (NULL != pItem) {
+    wxASSERT(pItem);
+    if (pItem) {
         m_ResourceCache.push_back(pItem);
         return 0;
     }
@@ -200,7 +200,7 @@ wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) con
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -219,7 +219,7 @@ wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const
     double         xKilo = 1024.0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();

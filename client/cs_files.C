@@ -194,7 +194,6 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
             pers_file_xfers->insert(fip->pers_file_xfer);
             action = true;
         } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
-
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
             fip->pers_file_xfer = pfx;

@@ -92,8 +92,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
 
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
 
     //
@@ -164,12 +164,12 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
     if (result->suspended_via_gui) {
@@ -196,12 +196,12 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Showing graphics for result..."));
 
@@ -257,12 +257,12 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Aborting result..."));
 
@@ -294,7 +294,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
 wxInt32 CViewWork::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     return pDoc->GetWorkCount();
@@ -372,8 +372,8 @@ wxString CViewWork::OnDocGetItemText(long item, long column) const {
 
 wxInt32 CViewWork::AddCacheElement() {
     CWork* pItem = new CWork();
-    wxASSERT(NULL != pItem);
-    if (NULL != pItem) {
+    wxASSERT(pItem);
+    if (pItem) {
         m_WorkCache.push_back(pItem);
         return 0;
     }
@@ -473,7 +473,7 @@ void CViewWork::UpdateSelection() {
 wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -489,7 +489,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
     wxString       strTempName = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -509,7 +509,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
 wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -528,7 +528,7 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
     wxTimeSpan     ts;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -562,7 +562,7 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -590,7 +590,7 @@ wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) con
     wxTimeSpan     ts;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -618,7 +618,7 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
     wxDateTime     dtTemp;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -639,7 +639,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     bool           bNetworkSuspended = false;
 
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();

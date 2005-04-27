@@ -192,7 +192,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
 bool CBOINCTaskCtrl::OnSaveState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
 
-    wxASSERT(NULL != pConfig);
+    wxASSERT(pConfig);
 
 
     // Retrieve the base location to store configuration information
@@ -212,7 +212,7 @@ bool CBOINCTaskCtrl::OnSaveState(wxConfigBase* pConfig) {
 bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
 
-    wxASSERT(NULL != pConfig);
+    wxASSERT(pConfig);
 
 
     // Retrieve the base location to store configuration information

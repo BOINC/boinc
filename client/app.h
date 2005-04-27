@@ -175,6 +175,7 @@ public:
     bool supports_graphics();
     int write_app_init_file();
     int move_trickle_file();
+    int handle_upload_files();
 
     int write(MIOFILE&);
     int parse(MIOFILE&);

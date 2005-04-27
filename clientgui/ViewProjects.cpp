@@ -56,17 +56,11 @@
 
 
 CProject::CProject() {
-    m_strProjectName = wxEmptyString;
-    m_strAccountName = wxEmptyString;
-    m_strTeamName = wxEmptyString;
-    m_strTotalCredit = wxEmptyString;
-    m_strAVGCredit = wxEmptyString;
-    m_strResourceShare = wxEmptyString;
-    m_strStatus = wxEmptyString;
 }
 
 
 CProject::~CProject() {
+    // ??? NOT NEEDED
     m_strProjectName.Clear();
     m_strAccountName.Clear();
     m_strTeamName.Clear();
@@ -101,8 +95,8 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
 
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
 
     //
@@ -201,12 +195,12 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Updating project..."));
     pDoc->ProjectUpdate(m_pListPane->GetFirstSelected());
@@ -225,12 +219,12 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
     if (project->suspended_via_gui) {
@@ -256,12 +250,12 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
     if (project->dont_request_more_work) {
@@ -287,25 +281,27 @@ void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
-    wxString strProjectName = wxEmptyString;
+    std::string strProjectName;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Resetting project..."));
 
-    pDoc->GetProjectProjectName(m_pListPane->GetFirstSelected(), strProjectName);
+    PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
+    project->get_name(strProjectName);
 
     strMessage.Printf(
         _("Are you sure you want to reset project '%s'?"), 
-        strProjectName.c_str());
+        strProjectName.c_str()
+    );
 
     iAnswer = wxMessageBox(
         strMessage,
@@ -331,21 +327,22 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
-    wxString strProjectName = wxEmptyString;
+    std::string strProjectName;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Detaching from project..."));
 
-    pDoc->GetProjectProjectName(m_pListPane->GetFirstSelected(), strProjectName);
+    PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
+    project->get_name(strProjectName);
 
     strMessage.Printf(
         _("Are you sure you want to detach from project '%s'?"), 
@@ -379,17 +376,17 @@ void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Attaching to project..."));
 
     CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-    wxASSERT(NULL != pDlg);
+    wxASSERT(pDlg);
 
     iAnswer = pDlg->ShowModal();
 
@@ -417,17 +414,17 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
 
     CMainFrame*         pFrame = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Launching browser..."));
 
     int website_task_index = event.GetId() - ID_TASK_PROJECT_WEB_PROJDEF_MIN;
     pFrame->ExecuteBrowserLink(
         m_TaskGroups[1]->m_Tasks[website_task_index]->m_strWebSiteLink
-        );
+    );
 
     pFrame->UpdateStatusText(wxT(""));
 
@@ -441,7 +438,7 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
 wxInt32 CViewProjects::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     return pDoc->GetProjectCount();
@@ -482,10 +479,14 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
 
 wxString CViewProjects::OnDocGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
+    std::string foo;
 
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = pDoc->project(item);
     switch(column) {
     case COLUMN_PROJECT:
-        FormatProjectName(item, strBuffer);
+        project->get_name(foo);
+        strBuffer = wxString(foo.c_str());
         break;
     case COLUMN_ACCOUNTNAME:
         FormatAccountName(item, strBuffer);
@@ -513,8 +514,8 @@ wxString CViewProjects::OnDocGetItemText(long item, long column) const {
 
 wxInt32 CViewProjects::AddCacheElement() {
     CProject* pItem = new CProject();
-    wxASSERT(NULL != pItem);
-    if (NULL != pItem) {
+    wxASSERT(pItem);
+    if (pItem) {
         m_ProjectCache.push_back(pItem);
         return 0;
     }
@@ -582,7 +583,7 @@ void CViewProjects::UpdateSelection() {
     PROJECT*            project = NULL;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
 
@@ -673,24 +674,11 @@ void CViewProjects::UpdateSelection() {
 }
 
 
-wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    strBuffer.Clear();
-
-    pDoc->GetProjectProjectName(item, strBuffer);
-
-    return 0;
-}
-
 
 wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -704,12 +692,13 @@ wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) cons
 wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    strBuffer.Clear();
+    //strBuffer.Clear();
 
-    pDoc->GetProjectTeamName(item, strBuffer);
+    PROJECT* project = pDoc->project(item);
+    strBuffer = wxString(project->team_name.c_str());
 
     return 0;
 }
@@ -719,7 +708,7 @@ wxInt32 CViewProjects::FormatTotalCredit(wxInt32 item, wxString& strBuffer) cons
     float fBuffer;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -735,7 +724,7 @@ wxInt32 CViewProjects::FormatAVGCredit(wxInt32 item, wxString& strBuffer) const 
     float fBuffer;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -752,7 +741,7 @@ wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) co
     float fTotalResourceShareBuffer;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -769,7 +758,7 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxInt32 iNextRPC;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();

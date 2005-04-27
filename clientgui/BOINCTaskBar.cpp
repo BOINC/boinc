@@ -237,7 +237,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
         wxInt32  iIndex          = 0;
         CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-        wxASSERT(NULL != pDoc);
+        wxASSERT(pDoc);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
@@ -343,7 +343,7 @@ void CTaskBarIcon::CreateContextMenu() {
 
 wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxMenu*        menu          = new wxMenu;
-    wxASSERT(NULL != menu);
+    wxASSERT(menu);
 
 #ifdef __WXMSW__
 
@@ -381,7 +381,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     wxInt32        iActivityMode = -1;
     wxInt32        iNetworkMode  = -1;
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->GetActivityRunMode(iActivityMode);

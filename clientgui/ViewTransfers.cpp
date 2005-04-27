@@ -88,8 +88,8 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;
 
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
 
     //
@@ -152,12 +152,12 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Retrying transfer now..."));
     pDoc->TransferRetryNow(m_pListPane->GetFirstSelected());
@@ -180,12 +180,12 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Aborting transfer..."));
 
@@ -218,7 +218,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
 wxInt32 CViewTransfers::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     return pDoc->GetTransferCount();
@@ -290,8 +290,8 @@ wxString CViewTransfers::OnDocGetItemText(long item, long column) const {
 
 wxInt32 CViewTransfers::AddCacheElement() {
     CTransfer* pItem = new CTransfer();
-    wxASSERT(NULL != pItem);
-    if (NULL != pItem) {
+    wxASSERT(pItem);
+    if (pItem) {
         m_TransferCache.push_back(pItem);
         return 0;
     }
@@ -365,7 +365,7 @@ void CViewTransfers::UpdateSelection() {
 wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -379,7 +379,7 @@ wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) con
 wxInt32 CViewTransfers::FormatFileName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -395,7 +395,7 @@ wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const 
     float          fFileSize = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -422,7 +422,7 @@ wxInt32 CViewTransfers::FormatSize(wxInt32 item, wxString& strBuffer) const {
     double         xKilo = 1024.0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -471,7 +471,7 @@ wxInt32 CViewTransfers::FormatTime(wxInt32 item, wxString& strBuffer) const {
     wxTimeSpan     ts;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -494,7 +494,7 @@ wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
     float          fTransferSpeed = 0;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();
@@ -518,7 +518,7 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     bool           bActivitiesSuspended = false;
     bool           bNetworkSuspended = false;
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     strBuffer.Clear();

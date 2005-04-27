@@ -39,7 +39,7 @@ CBOINCBaseView::CBOINCBaseView() {}
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
 {
-    wxASSERT(NULL != pNotebook);
+    wxASSERT(pNotebook);
 
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
@@ -59,7 +59,7 @@ CBOINCBaseView::CBOINCBaseView(
     wxWindowID iListWindowID, int iListWindowFlags
 ) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
 
-    wxASSERT(NULL != pNotebook);
+    wxASSERT(pNotebook);
 
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
@@ -73,16 +73,16 @@ CBOINCBaseView::CBOINCBaseView(
     SetAutoLayout(TRUE);
 
     wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
-    wxASSERT(NULL != itemFlexGridSizer);
+    wxASSERT(itemFlexGridSizer);
 
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
     
     m_pTaskPane = new CBOINCTaskCtrl(this, iTaskWindowID, iTaskWindowFlags);
-    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(m_pTaskPane);
 
     m_pListPane = new CBOINCListCtrl(this, iListWindowID, iListWindowFlags);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(m_pListPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
@@ -212,9 +212,9 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
 bool CBOINCBaseView::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
 
-    wxASSERT(NULL != pConfig);
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     if (!m_pTaskPane->OnSaveState(pConfig)) {
         bReturnValue = false;

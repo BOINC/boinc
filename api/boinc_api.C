@@ -99,6 +99,14 @@ static MMRESULT timer_id;
 static BOINC_OPTIONS options;
 static volatile BOINC_STATUS boinc_status;
 
+// vars related to intermediate file upload
+struct UPLOAD_FILE_STATUS {
+    std::string name;
+    int status;
+};
+static bool have_new_upload_file;
+static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
+
 static int setup_shared_mem() {
     if (standalone) {
         fprintf(stderr, "Standalone mode, so not using shared memory.\n");
@@ -170,7 +178,7 @@ static bool update_app_progress(
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
 
-// the following 2 functions are used when there's no graphics
+// the following 2 functions are used for apps without graphics
 //
 int boinc_init() {
     boinc_options_defaults(options);
@@ -247,10 +255,22 @@ int boinc_get_status(BOINC_STATUS& s) {
     return 0;
 }
 
+// if we have any new trickle-ups or file upload requests,
+// send a message describing them
+//
 static void send_trickle_up_msg() {
+    char buf[MSG_CHANNEL_SIZE];
+    strcpy(buf, "");
     if (have_new_trickle_up) {
-        if (app_client_shm->shm->trickle_up.send_msg("<have_new_trickle_up/>\n")) {
+        strcat(buf, "<have_new_trickle_up/>\n");
+    }
+    if (have_new_upload_file) {
+        strcat(buf, "<have_new_upload_file/>\n");
+    }
+    if (strlen(buf)) {
+        if (app_client_shm->shm->trickle_up.send_msg(buf)) {
             have_new_trickle_up = false;
+            have_new_upload_file = false;
         }
     }
 }
@@ -409,11 +429,36 @@ static void handle_heartbeat_msg() {
     }
 }
 
+static void handle_upload_file_status() {
+    char path[256], buf[256];
+    std::string filename;
+    int status;
+
+    relative_to_absolute("", path);
+    DirScanner dirscan(path);
+    while (dirscan.scan(filename)) {
+        fprintf(stderr, "scan: %s\n", filename.c_str());
+        FILE* f = boinc_fopen(filename.c_str(), "r");
+        if (!f) continue;
+        fgets(buf, 256, f);
+        parse_int(buf, "<status>", status);
+        UPLOAD_FILE_STATUS uf;
+        uf.name = filename;
+        uf.status = status;
+        upload_file_status.push_back(uf);
+    }
+}
+
+// handle trickle and file upload messages
+//
 static void handle_trickle_down_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->trickle_down.get_msg(buf)) {
         if (match_tag(buf, "<have_trickle_down/>")) {
             have_trickle_down = true;
+        }
+        if (match_tag(buf, "<upload_file_status>")) {
+            handle_upload_file_status();
         }
     }
 }
@@ -641,7 +686,6 @@ bool boinc_receive_trickle_down(char* buf, int len) {
     if (have_trickle_down) {
         relative_to_absolute("", path);
         DirScanner dirscan(path);
-        fprintf(stderr, "starting scan of %s\n", path);
         while (dirscan.scan(filename)) {
             fprintf(stderr, "scan: %s\n", filename.c_str());
             if (strstr(filename.c_str(), "trickle_down")) {
@@ -653,5 +697,27 @@ bool boinc_receive_trickle_down(char* buf, int len) {
     }
     return false;
 }
+
+int boinc_upload_file(std::string& name) {
+    char buf[256];
+
+    sprintf(buf, "boinc_ufr_%s", name.c_str());
+    FILE* f = boinc_fopen(buf, "w");
+    if (!f) return ERR_FOPEN;
+    have_new_upload_file = true;
+    return 0;
+}
+
+
+int boinc_upload_status(std::string& name) {
+    for (unsigned int i=0; i<upload_file_status.size(); i++) {
+        UPLOAD_FILE_STATUS& ufs = upload_file_status[i];
+        if (ufs.name == name) {
+            return ufs.status;
+        }
+    }
+    return ERR_NOT_FOUND;
+}
+
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

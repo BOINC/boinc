@@ -45,20 +45,10 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
 
 
 CNetworkConnection::~CNetworkConnection() {
-    m_bReconnectOnError = false;
-    m_bForceReconnect = false;
-    m_bReconnecting = false;
-    m_bConnected = false;
-    m_bConnectEvent = false;
-    m_bFrameShutdownDetected = true;
-    m_strNewComputerPassword = wxEmptyString;
-    m_strNewComputerName = wxEmptyString;
-    m_strConnectedComputerPassword = wxEmptyString;
-    m_strConnectedComputerName = wxEmptyString;
-
-    m_pDocument = NULL;
 }
 
+
+// TODO: get rid of "reconnecting" stuff
 
 void* CNetworkConnection::Poll() {
     int retval;
@@ -90,7 +80,7 @@ void* CNetworkConnection::Poll() {
     } else if (IsConnectEventSignaled() || m_bReconnectOnError) {
         if ((m_bForceReconnect) ||
              (!IsConnected() && m_bReconnectOnError) 
-      ) {
+        ) {
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Resetting Document State"));
             m_pDocument->ResetState();
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Setting connection state to reconnecting"));
@@ -258,6 +248,7 @@ CMainDocument::CMainDocument() {
 
 
 CMainDocument::~CMainDocument() {
+    // ??? huh?
     m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityStateTimestamp = wxDateTime::Now();
@@ -583,23 +574,6 @@ int CMainDocument::GetProjectCount() {
 }
 
 
-int CMainDocument::GetProjectProjectName(int iIndex, wxString& strBuffer) {
-    PROJECT* pProject = NULL;
-    strBuffer = wxEmptyString;
-
-    pProject = project(iIndex);
-
-    if (!pProject) return 0;
-
-    if (pProject->project_name.length() == 0) {
-        strBuffer = pProject->master_url.c_str();
-    } else {
-        strBuffer = pProject->project_name.c_str();
-    }
-    return 0;
-}
-
-
 int CMainDocument::GetProjectProjectURL(int iIndex, wxString& strBuffer) {
     PROJECT* pProject = NULL;
 
@@ -623,17 +597,6 @@ int CMainDocument::GetProjectAccountName(int iIndex, wxString& strBuffer) {
     return 0;
 }
 
-
-int CMainDocument::GetProjectTeamName(int iIndex, wxString& strBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        strBuffer = pProject->team_name.c_str();
-
-    return 0;
-}
 
 
 int CMainDocument::GetProjectTotalCredit(int iIndex, float& fBuffer) {

@@ -124,7 +124,7 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
     wxConfigBase::Set(m_pConfig);
-    wxASSERT(NULL != m_pConfig);
+    wxASSERT(m_pConfig);
 
     m_pConfig->SetPath(wxT("/"));
 
@@ -144,7 +144,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
-    wxASSERT(NULL != m_pLocale);
+    wxASSERT(m_pLocale);
 
     wxInt32 iSelectedLanguage = m_pConfig->Read(wxT("Language"), 0L);
 
@@ -162,21 +162,21 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
-    wxASSERT(NULL != m_pDocument);
+    wxASSERT(m_pDocument);
 
     m_pDocument->OnInit();
 
     // Initialize the main gui window
     m_pFrame = new CMainFrame(GetAppName());
-    wxASSERT(NULL != m_pFrame);
+    wxASSERT(m_pFrame);
 
 #ifndef NOTASKBAR
     // Initialize the task bar icon
     m_pTaskBarIcon = new CTaskBarIcon();
-    wxASSERT(NULL != m_pTaskBarIcon);
+    wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu();
-    wxASSERT(NULL != m_pMacSystemMenu);
+    wxASSERT(m_pMacSystemMenu);
 #endif
 #endif
 
@@ -320,7 +320,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 
     for (iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++) {
         liLanguage = wxLocale::GetLanguageInfo(iIndex);
-        if (NULL != liLanguage) {
+        if (liLanguage) {
             m_strLanguages[iIndex] = liLanguage->Description;
         }
     }

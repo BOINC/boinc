@@ -84,7 +84,6 @@ HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
     return hMap;
 }
 
-
 int detach_shmem(HANDLE hMap, void* p) {
     if (p) UnmapViewOfFile(p);
     CloseHandle(hMap);

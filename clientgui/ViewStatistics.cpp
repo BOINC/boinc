@@ -51,11 +51,11 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	//Init global
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	PROJECTS *proj=&(pDoc->statistics_status);
-	wxASSERT(NULL != proj);
+	wxASSERT(proj);
 
 	//Init drawing
     wxPaintDC dc (this);
@@ -283,16 +283,16 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     // Setup View
     //
     wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
-    wxASSERT(NULL != itemFlexGridSizer);
+    wxASSERT(itemFlexGridSizer);
 
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
     
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_STATISTICSVIEW, DEFAULT_TASK_FLAGS);
-    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(m_pTaskPane);
 
 	m_PaintStatistics = new CPaintStatistics(this, ID_LIST_STATISTICSVIEW, wxDefaultPosition, wxSize(-1, -1), 0);
-	wxASSERT(NULL != m_PaintStatistics);
+	wxASSERT(m_PaintStatistics);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_PaintStatistics, 1, wxGROW|wxALL, 1);
@@ -355,7 +355,7 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& event ) {
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
@@ -376,7 +376,7 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& event ) {
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
@@ -397,7 +397,7 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& event ) {
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
@@ -418,7 +418,7 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& event ) {
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
-    wxASSERT(NULL != pFrame);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
@@ -437,8 +437,8 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& event ) {
 bool CViewStatistics::OnSaveState(wxConfigBase* pConfig) {
     bool bReturnValue = true;
 
-    wxASSERT(NULL != pConfig);
-    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
 
     if (!m_pTaskPane->OnSaveState(pConfig)) {
         bReturnValue = false;
@@ -463,7 +463,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 void CViewStatistics::OnListRender( wxTimerEvent& event ) {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
-    wxASSERT(NULL != pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	if (pDoc->GetStatisticsCount()) {

@@ -1111,6 +1111,9 @@
 				RelativePath="..\client\scheduler_op.h">
 			</File>
 			<File
+				RelativePath="..\lib\shmem.h">
+			</File>
+			<File
 				RelativePath="..\client\ss_logic.h">
 			</File>
 			<File
