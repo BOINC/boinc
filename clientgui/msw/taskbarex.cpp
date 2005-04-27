@@ -15,11 +15,11 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "msw/taskbarex.h"
 
-LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
 
-static wxTaskBarIconEx* gpInstance;
+LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
 
 wxChar* wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
 wxChar* wxTaskBarExWindow = (wxChar*) wxT("wxTaskBarExWindow");
@@ -52,7 +52,6 @@ wxTaskBarIconEx::wxTaskBarIconEx(void)
 {
     m_hWnd = 0;
     m_iconAdded = FALSE;
-    gpInstance = this;
 
     if (RegisterWindowClass())
         m_hWnd = CreateTaskBarWindow( wxTaskBarExWindow );
@@ -425,11 +424,7 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
 
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam )
 {
-    wxTaskBarIconEx* obj = gpInstance;
-    if (obj)
-        return obj->WindowProc((WXHWND) hWnd, msg, wParam, lParam);
-    else
-        return DefWindowProc(hWnd, msg, wParam, lParam);
+    return wxGetApp().GetTaskBarIcon()->WindowProc((WXHWND) hWnd, msg, wParam, lParam);
 }
 
 

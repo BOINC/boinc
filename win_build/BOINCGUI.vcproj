@@ -23,7 +23,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				GlobalOptimizations="TRUE"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api;..\clientgui;..\client\win;.."
+				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\msw;..\lib;..\api;..\clientgui;..\client\win;.."
 				PreprocessorDefinitions="WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -84,7 +84,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;&quot;$(WXWIN)\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;&quot;$(WXWIN)\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
 				StringPooling="TRUE"
 				MinimalRebuild="FALSE"

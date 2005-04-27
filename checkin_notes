@@ -27773,3 +27773,13 @@ graphics.
         MainFrame.cpp
         mac/
             mac_saver_module.cpp
+
+Rom    27 April 2005
+    - Make the taskbar work again after the wxWidget conversion to 2.6.0
+    - Fix the Windows projects so that they look for the setup.h file in
+        correct location.
+
+    clientgui/msw/
+        taskbarex.cpp
+    win_build/
+        BOINCGUI.vcproj
