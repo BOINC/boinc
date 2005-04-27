@@ -33,6 +33,11 @@ wxLogBOINC::wxLogBOINC() {
 
 void wxLogBOINC::DoLogString(const wxChar *szString, time_t t) {
     diagnostics_cycle_logs();
+#ifdef __WXMSW__
+    wxString strDebug = szString;
+    strDebug += wxT("\r\n");
+    ::OutputDebugString(strDebug.c_str());
+#endif
     wxLogStderr::DoLogString(szString, t);
 }
 
