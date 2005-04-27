@@ -63,17 +63,16 @@ bool CBOINCGUIApp::OnInit() {
     wxString strDirectory = wxEmptyString;
     bool success;
 
-// We have postponed implementing the umask change due to security concerns.
-//    umask(0);   // Set file creation mask to make all files world-writable
-                // Our umask will be inherited by all our child processes
-
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
-#if 1   // Code for data in user's private directory
+#if 0       // Code for separate data in each user's private directory
     wxChar buf[1024];
     wxExpandPath(buf, "~/Library/Application Support");
     strDirectory = wxT(buf);
-#else   // Code for data in shared directory
+#else       // All users share the same data
+    // The mac installer sets the "setuid & setgid" bits for the 
+    // BOINC Manager and core client so any user can run them and 
+    // they can operate on shared data.
     strDirectory = wxT("/Library/Application Support");
 #endif
 
@@ -205,8 +204,13 @@ bool CBOINCGUIApp::OnInit() {
         err = GetProcessInformation(&psn, &pInfo);
     }
     // Don't open main window if we were started automatically at login
-    if (pInfo.processSignature == 'lgnw')   // Login Window app
+    if (pInfo.processSignature == 'lgnw') {  // Login Window app
         m_bFrameVisible = false;
+
+        // If the system was just started, we usually get a "Connection 
+        // failed" error if we try to connect too soon, so delay a bit.
+        sleep(10);
+    }
 #endif
 
     // Show the UI

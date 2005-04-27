@@ -1,0 +1,11 @@
+#!/bin/csh
+
+##
+# post-Install Script for Macintosh BOINC Manager for OS X revised 4/26/05
+##
+
+cd "$1"
+/ Run the Postinstall Application
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall
+
+chmod -R a+s /Applications/BOINCManager.app

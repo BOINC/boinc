@@ -47,6 +47,7 @@ int drawGraphics(GrafPtr aPort);
 void drawPreview(GrafPtr aPort);
 void closeBOINCSaver(void);
 void setBannerText(ConstStringPtr msg, GrafPtr aPort);
+void updateBannerText(ConstStringPtr msg, GrafPtr aPort);
 void drawBanner(GrafPtr aPort);
 void FlashIcon(void);
 OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
@@ -58,6 +59,8 @@ OSStatus RPCThread(void* param);
 }	// extern "C"
 #endif
 
+// Flags for testing & debugging
+#define SIMULATE_NO_GRAPHICS 0
 #define CREATE_LOG 1
 
 #ifdef __cplusplus
@@ -72,6 +75,8 @@ void strip_cr(char *buf);
 
 #define BANNER_GAP 30	/* Space between repeats of banner text */
 #define BANNERDELTA 2   /* Number of pixels to move banner each frame */
+#define BANNERFREQUENCY 90 /* Number of times per second to scroll banner */
+#define STATUSUPDATEINTERVAL 15 /* seconds between status display updates */
 
 enum SaverState {
     SaverState_Idle,
@@ -80,6 +85,7 @@ enum SaverState {
     SaverState_CoreClientSetToSaverMode,
     
     SaverState_CantLaunchCoreClient,
+    SaverState_ControlPanelTestMode,
     SaverState_UnrecoverableError
 };
 
@@ -88,9 +94,9 @@ extern int gGoToBlank;      // True if we are to blank the screen
 extern int gBlankingTime;   // Delay in minutes before blanking the screen
 
 
-static Boolean wasAlreadyRunning;
+static Boolean wasAlreadyRunning = false;
 static pid_t CoreClientPID = nil;
-static Str255 bannerText;
+static unsigned char msgBuf[2048], bannerText[2048];
 static int bannerWidth;
 static SaverState saverState = SaverState_Idle;
 static StringPtr CurrentBannerMessage = 0;
@@ -101,6 +107,10 @@ MPTaskID gRPC_thread_id;	// IDs of the thread we create
 int gClientSaverStatus = 0;     // status returned by get_screensaver_mode RPC
 Boolean gQuitRPCThread = false; // Flag to tell RPC thread to exit gracefully
 
+// Display first status update after 5 seconds
+static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
+Boolean gStatusMessageUpdated = false;
+
 const ConstStringPtr CantLaunchCCMsg = "\pUnable to launch BOINC application.";
 const ConstStringPtr LaunchingCCMsg = "\pLaunching BOINC application.";
 const ConstStringPtr ConnectingCCMsg = "\pConnecting to BOINC application.";
@@ -109,18 +119,37 @@ const ConstStringPtr BOINCNoAppsExecutingMsg = "\pBOINC is currently idle.";
 const ConstStringPtr BOINCNoProjectsDetectedMsg = "\pBOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
 const ConstStringPtr BOINCNoGraphicAppsExecutingMsg = "\pBOINC is currently not executing any applications with graphics";
 const ConstStringPtr BOINCUnrecoverableErrorMsg = "\pSorry, an unrecoverable error occurred";
-
+const ConstStringPtr BOINCTestmodeMg = "\pThis BOINC screensaver does not support Test mode";
 
 
 // Returns desired Animation Frequency (per second) or 0 for no change
 int initBOINCSaver(Boolean ispreview) {
     int newFrequency = 15;
+    ProcessSerialNumber psn;
+    ProcessInfoRec pInfo;
     OSStatus err;
     
     if (ispreview)
         return 8;
         
     setBannerText(0, NULL);
+
+    // Ugly workaround for a problem with the System Preferences app
+    // For an unknown reason, when this screensaver is run using the 
+    // Test button in the System Prefs Screensaver control panel, the 
+    // control panel calls our stopAnimation function as soon as the 
+    // science application opens a GLUT window.  This problem does not 
+    // occur when the screensaver is run nornally (from the screensaver 
+    // engine.)  So we just display a message and don't access the core 
+    // client.
+    GetCurrentProcess(&psn);
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    pInfo.processName = NULL;
+    err = GetProcessInformation(&psn, &pInfo);
+    if ( (err == noErr) && (pInfo.processSignature == 'sprf') ) {
+        saverState = SaverState_ControlPanelTestMode;
+    }
 
     // If there are multiple displays, initBOINCSaver may get called 
     // multiple times (once for each display), so we need to guard 
@@ -166,8 +195,12 @@ OSStatus initBOINCApp() {
         return -1;
     else if (myPid == 0)			// child
     {
+#if 0   // Code for separate data in each user's private directory
         strcpy(buf, getenv("HOME"));
         strcat(buf, "/Library/Application Support/BOINC Data");
+#else   // All users share the same data
+        strcpy(buf, "/Library/Application Support/BOINC Data");
+#endif
         status = chdir(buf);
         if (status) {
             perror("chdir");
@@ -195,11 +228,13 @@ int drawGraphics(GrafPtr aPort) {
     OSStatus err;
     
     ObscureCursor();
+    
+    statusUpdateCounter++;
 
     switch (saverState) {
     case  SaverState_LaunchingCoreClient:
         if (wasAlreadyRunning)
-             setBannerText(ConnectingCCMsg, aPort);
+            setBannerText(ConnectingCCMsg, aPort);
         else
             setBannerText(LaunchingCCMsg, aPort);
        
@@ -265,12 +300,24 @@ int drawGraphics(GrafPtr aPort) {
             setBannerText(BOINCNoProjectsDetectedMsg, aPort);
             break;
         case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
-            setBannerText(BOINCNoGraphicAppsExecutingMsg, aPort);
+            if (msgBuf[0] == 0) {
+                PLstrcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
+                setBannerText(msgBuf, aPort);
+            }
+            if (gStatusMessageUpdated) {
+                updateBannerText(msgBuf, aPort);
+                gStatusMessageUpdated = false;
+            }
+            // Handled in RPCThread()
             break;
         case SS_STATUS_QUIT:
             // Handled in RPCThread()
             break;
         }       // end switch (gClientSaverStatus)
+        break;
+
+    case SaverState_ControlPanelTestMode:
+        setBannerText(BOINCTestmodeMg, aPort);
         break;
 
     case SaverState_UnrecoverableError:
@@ -290,7 +337,7 @@ int drawGraphics(GrafPtr aPort) {
         SetPort(aPort);
         drawBanner(aPort);
         SetGWorld(savePort, saveGDH);
-        newFrequency = 100;
+        newFrequency = BANNERFREQUENCY;
     } else
         newFrequency = 4;
     
@@ -324,7 +371,7 @@ void closeBOINCSaver() {
     rpc = NULL;
 
     setBannerText(0, NULL);
-    
+   
     // Kill core client if we launched it
     if (!wasAlreadyRunning)
         if (CoreClientPID)
@@ -339,10 +386,19 @@ void closeBOINCSaver() {
 
 
 OSStatus RPCThread(void* param) {
-    int val = 0;
-//    CC_STATE state;
-    AbsoluteTime timeToUnblock;
-    long time_to_blank;
+    int             val             = 0;
+    CC_STATE        state;
+    AbsoluteTime    timeToUnblock;
+    long            time_to_blank;
+    char            statusBuf[256];
+    unsigned int    len;
+    RESULTS         results;
+    PROJECT*        pProject;
+    bool            bIsActive       = false;
+    bool            bIsExecuting    = false;
+    bool            bIsDownloaded   = false;
+    int             iResultCount    = 0;
+    int             iIndex          = 0;
 
     while (true) {
         if (gQuitRPCThread)     // If main thread has requested we exit
@@ -357,7 +413,10 @@ OSStatus RPCThread(void* param) {
             time_to_blank = time(0) + (gBlankingTime * 60);
         else
             time_to_blank = 0;
+
+#if ! SIMULATE_NO_GRAPHICS
         val = rpc->set_screensaver_mode(true, time_to_blank, di);
+#endif
         if (val == noErr)
             break;
         
@@ -371,18 +430,11 @@ OSStatus RPCThread(void* param) {
 
     while (true) {
         if (gQuitRPCThread)     // If main thread has requested we exit
-{
             MPExit(noErr);       // Exit the thread
-}
 
         timeToUnblock = AddDurationToAbsolute(durationSecond/4, UpTime());
         MPDelayUntil(&timeToUnblock);
 
-#if 0
-        val = rpc->get_state(state);
-        if (val) {
-        }
-#endif        
         val = rpc->get_screensaver_mode(gClientSaverStatus);
         if (val) {
             // Attempt to reinitialize the RPC client and state
@@ -390,32 +442,83 @@ OSStatus RPCThread(void* param) {
             rpc->init(NULL);
             // Error message after timeout?
         }
+
+#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
+        gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+#endif
+        if (gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING) {
+            if (statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) {
+                statusUpdateCounter = 0;
+
+                if (! gStatusMessageUpdated) {
+                    PLstrcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
+        
+                    MPYield();
+                    val = rpc->get_state(state);
+                    MPYield();
+                    if (val == 0)
+                        val = rpc->get_results(results);
+                    if (val == 0) {
+                        iResultCount = results.results.size();
+
+                        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state);
+                            bIsActive     = (results.results.at(iIndex)->active_task);
+                            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state);
+
+                            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
+                            pProject = state.lookup_project(results.results.at(iIndex)->project_url);
+                            if (pProject != NULL) {
+                                len = sprintf(statusBuf, ("    %s: %.2f%%"), 
+                                    pProject->project_name.c_str(),
+                                    results.results.at(iIndex)->fraction_done * 100 
+                                );
+
+                                // Append C string to Pascal string
+                                if ((len + msgBuf[0] + 1) < sizeof(msgBuf)) {
+                                    BlockMove(statusBuf, msgBuf+msgBuf[0]+1, len);
+                                    msgBuf[0] += len;
+                                }
+                            }       // end if (pProject != NULL)
+                        }           // end for() loop
+                        gStatusMessageUpdated = true;
+                    } else {        // rpc call returned error
+                        rpc->close();
+                        rpc->init(NULL);
+                    }               // end if (rpc.get_results(results) {} else {}
+                    
+                }   // end if (! gStatusMessageUpdated)
+                
+            }                   // end if (statusUpdateCounter > time to update)
+        }                       // end if SS_STATUS_NOGRAPHICSAPPSEXECUTING
         
         if (gClientSaverStatus == SS_STATUS_QUIT) {
             rpc->set_screensaver_mode(false, 0, di);
-            MPExit(noErr);       // Exit the thread
+            MPExit(noErr);      // Exit the thread
         }
-    }
+    }                           // end while(true)
 }
 
 
-
 void setBannerText(ConstStringPtr msg, GrafPtr aPort) {
+    if (msg == 0)
+        bannerText[0] = 0;
+    
+    if ((ConstStringPtr)CurrentBannerMessage != msg)
+        updateBannerText(msg, aPort);
+}
+
+
+void updateBannerText(ConstStringPtr msg, GrafPtr aPort) {
     CGrafPtr savePort;
     RGBColor saveBackColor;
     Rect wRect;
     
-    if ((ConstStringPtr)CurrentBannerMessage == msg)
-        return;
-    
     CurrentBannerMessage = (StringPtr)msg;
-    
-    if (msg == 0) {
-        bannerText[0] = 0;
-        if (aPort != NULL)
-            drawBanner(aPort);
+
+    if (aPort == NULL)
         return;
-    }
         
     GetPort(&savePort);
     SetPort(aPort);
@@ -427,12 +530,15 @@ void setBannerText(ConstStringPtr msg, GrafPtr aPort) {
     EraseRect(&wRect);
     RGBBackColor(&saveBackColor);
    
-    BlockMove(msg, bannerText, msg[0]+1);
-    TextSize(24);
-    TextFace(bold);
-    bannerWidth = StringWidth(bannerText) + BANNER_GAP;
-    // Round up bannerWidth to an integral multiple of BANNERDELTA
-    bannerWidth = ((bannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
+   if (msg) {
+        BlockMove(msg, bannerText, msg[0]+1);
+        TextSize(24);
+        TextFace(bold);
+        bannerWidth = StringWidth(bannerText) + BANNER_GAP;
+        // Round up bannerWidth to an integral multiple of BANNERDELTA
+        bannerWidth = ((bannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
+    }
+    
     SetPort(savePort);
 }
 
@@ -444,9 +550,11 @@ void drawBanner(GrafPtr aPort) {
     short x, y;
     Rect wRect;
     FontInfo fInfo;
-
     static short bannerPos;
     
+    if (aPort == NULL)
+        return;
+        
     GetGWorld(&savePort, &saveGDH);
     SetPort(aPort);
     
@@ -485,7 +593,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
     char buf[1024];
-    size_t n;
+    size_t n = 0;
     pid_t aPID;
     
     if (name != NULL)     // Search ny name

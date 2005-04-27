@@ -27750,3 +27750,26 @@ David  26 April 2005
 		shmem.C,h
 	win_build/
 		boinc_cli.vcproj
+
+Charlie    27 April 2005
+Mac: created installer.  Changed working directory from 
+user-specific "~/Library/Application Support/BOINC Data" 
+to global "/Library/Application Support/BOINC Data".
+Fixed CViewProjects::OnProjectWebsiteClicked for Mac.
+Added progress display to screensaver when no application 
+graphics.
+ 
+    mac-installer/
+        LoginItemAPI.c (new)
+        LoginItemAPI.h (new)
+        PostInstall.cpp (new)
+        postinstall (new)
+        postupgrade (new)
+        ReadMe.rtf (new)
+        License.rtf (new)
+        BOINC.pmsp (new)
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp
+        mac/
+            mac_saver_module.cpp

@@ -42,7 +42,6 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_CPLUSPLUSFLAGS = "-D__WXDEBUG__";
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -68,6 +67,7 @@
 				DD40CDF907F0386A0096C645,
 				DDAEC9E107FA583B00A7BC36,
 				DD96AFF90811075000A06F22,
+				DD1277B3081F3D67007B5DE1,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -106,6 +106,7 @@
 				DD40CDF807F0386A0096C645,
 				DDAEC9E007FA583B00A7BC36,
 				DD96AFF80811075000A06F22,
+				DD1277B2081F3D67007B5DE1,
 			);
 		};
 		20286C29FDCF999611CA2CEA = {
@@ -113,6 +114,7 @@
 				DD40827D07D30AA800163EF5,
 				F54B8FBE02AC0A0C01FB7237,
 				DD81C3F707C5D03B0098A04D,
+				DD1277BC081F3E59007B5DE1,
 				DDF9385307E288F0004DC076,
 				F515955F029EB02001F5651B,
 				F54FF8B6029F2FFC012012A7,
@@ -122,6 +124,7 @@
 				195DF8C9FE9D4F0611CA2CBB,
 				DD40CDFA07F0386B0096C645,
 				DD96AFFA0811075100A06F22,
+				DD1277B5081F3D67007B5DE1,
 			);
 			isa = PBXGroup;
 			name = "¬´PROJECTNAME¬ª";
@@ -691,6 +694,191 @@
 			settings = {
 			};
 		};
+		DD1277AF081F3D67007B5DE1 = {
+			buildActionMask = 2147483647;
+			files = (
+				DD1277E5081F4461007B5DE1,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1277B0081F3D67007B5DE1 = {
+			buildActionMask = 2147483647;
+			files = (
+				DD1277C2081F3E73007B5DE1,
+				DD1277C4081F3E73007B5DE1,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1277B1081F3D67007B5DE1 = {
+			buildActionMask = 2147483647;
+			files = (
+				DD1277E6081F44C1007B5DE1,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1277B2081F3D67007B5DE1 = {
+			buildPhases = (
+				DD1277AF081F3D67007B5DE1,
+				DD1277B0081F3D67007B5DE1,
+				DD1277B1081F3D67007B5DE1,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "PostInstall-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Carbon";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Postinstall;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Installer;
+			productName = Installer;
+			productReference = DD1277B3081F3D67007B5DE1;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Installer</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Installer</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		DD1277B3081F3D67007B5DE1 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Postinstall.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD1277B5081F3D67007B5DE1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Installer-Info.plist";
+			path = "/Volumes/Moon/BOINC_Mac/boinc/mac_build/Installer-Info.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD1277BC081F3E59007B5DE1 = {
+			children = (
+				DD1277BE081F3E73007B5DE1,
+				DD1277BF081F3E73007B5DE1,
+				DD1277C0081F3E73007B5DE1,
+				DD12787F081F464E007B5DE1,
+				DD127880081F464E007B5DE1,
+			);
+			isa = PBXGroup;
+			name = mac_installer;
+			path = "";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD1277BE081F3E73007B5DE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = LoginItemAPI.c;
+			path = ../mac_installer/LoginItemAPI.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD1277BF081F3E73007B5DE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = LoginItemAPI.h;
+			path = ../mac_installer/LoginItemAPI.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD1277C0081F3E73007B5DE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = PostInstall.cpp;
+			path = ../mac_installer/PostInstall.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD1277C2081F3E73007B5DE1 = {
+			fileRef = DD1277BE081F3E73007B5DE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD1277C4081F3E73007B5DE1 = {
+			fileRef = DD1277C0081F3E73007B5DE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD1277E5081F4461007B5DE1 = {
+			fileRef = DD1277B5081F3D67007B5DE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD1277E6081F44C1007B5DE1 = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD127876081F44E5007B5DE1 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD1277B2081F3D67007B5DE1;
+			remoteInfo = Installer;
+		};
+		DD127877081F44E5007B5DE1 = {
+			isa = PBXTargetDependency;
+			target = DD1277B2081F3D67007B5DE1;
+			targetProxy = DD127876081F44E5007B5DE1;
+		};
+		DD12787F081F464E007B5DE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			name = postinstall.txt;
+			path = ../mac_installer/postinstall.txt;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD127880081F464E007B5DE1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.script.csh;
+			name = postupgrade;
+			path = ../mac_installer/postupgrade;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
 		DD2D25CB07FAB41700151141 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1258,11 +1446,13 @@
 			buildRules = (
 			);
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				OTHER_CFLAGS = "-D_THREAD_SAFE  -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-D_THREAD_SAFE  -include ../config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
@@ -3131,6 +3321,7 @@
 				DDBD681507FA830E0082C20D,
 				DD791FF10819063C00BE2906,
 				DDBD681707FA830E0082C20D,
+				DD127877081F44E5007B5DE1,
 			);
 			isa = PBXAggregateTarget;
 			name = Build_All;

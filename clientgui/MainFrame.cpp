@@ -1428,7 +1428,12 @@ void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
     if (ft) {
         wxString cmd;
         if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
+#ifdef __WXMAC__
+            cmd.Replace(wxT("<"), wxEmptyString);
+            cmd.Prepend(wxT("open ")); 
+#else
             cmd.Replace(wxT("file://"), wxEmptyString);
+#endif
             ::wxExecute(cmd);
         }
 
