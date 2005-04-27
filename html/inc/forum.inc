@@ -522,8 +522,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     echo "<br>";
     global $special_user_bitfield; 
     if ($user->special_user) {                                                                        //If this user is somehow special
+	$keys = array_keys($special_user_bitfield);
 	for ($i=0; $i<sizeof($special_user_bitfield);$i++){
-	    if (isSpecialUser($user,$i)) $fstatus.=$special_user_bitfield[$i]."<br>";
+	    if (isSpecialUser($user,$keys[$i])) $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
 	}
     } else {
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW."<br>";
