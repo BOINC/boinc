@@ -27820,3 +27820,9 @@ Update build instructions to include screensaver & installer.
         boinc.pbproj/
             project.pbxproj
 
+Rom    28 April 2005
+    - Add a timeout to any gui rpc connection attempt, this should get
+        around the manager hanging when a firewall is blocking 31416.
+
+    lib/
+        gui_roc_client.C, .h

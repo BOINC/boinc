@@ -397,6 +397,7 @@ public:
     int sock;
     int client_version;
     bool tried_alt_port;
+    long connect_timestamp;
     sockaddr_in addr;
 
     int send_request(const char*);
