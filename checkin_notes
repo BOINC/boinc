@@ -27784,6 +27784,32 @@ Rom    27 April 2005
     win_build/
         BOINCGUI.vcproj
 
+Janus  28 April 2005
+     - Updates from Rob Ogilvie:
+       - Forum rules apply to rating as well
+       - Quoting is now done with blockquotes instead of >
+       - Added blockquote to stylesheet and valid html in sanitizer
+       - Loads of get_int/get_str corrections
+       - Moderators can view hidden threads if going direct by ID
+     - Made the special user feature aware of "holes" in the bitfield
+       (corrects a potential bug when part of the bitfield isn't specified)
+     - Added a 5 sec delay to userw.php in the case where the user does not
+       exist. This will in particular force people to not lookup the
+       non-existant user 0 hundreds of times per min - which is waste of
+       resources (DB and bandwidth).
+
+     html/
+        inc/
+            sanitize_html.inc
+            forum.inc
+        user/
+            forum_rate.php
+            forum_reply.php
+            forum_thread.php
+            style-black.css
+            style.css
+            userw.php
+
 Charlie    28 April 2005
 Mac: Clean up XCode project by removing unused libraries 
 and frameworks.
@@ -27793,3 +27819,4 @@ Update build instructions to include screensaver & installer.
         HowToBuildBOINC_XCode.rtf
         boinc.pbproj/
             project.pbxproj
+
