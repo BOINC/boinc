@@ -39,9 +39,8 @@ if (time()-$logged_in_user->last_post<$forum->post_min_interval){
 }
 
 
-
-if (!empty($_GET['thread']) && !empty($_POST['content'])) {
-    $_GET['thread'] = stripslashes($_GET['thread']);
+if (!empty($_POST['content'])) {
+    $thread_id = get_int('thread');
 
     if (!empty($_GET['post'])) {
         $parent_post = $_GET['post'];
@@ -55,20 +54,14 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
         $add_signature=false;
     }
 
-    replyToThread($_GET['thread'], $logged_in_user->id, $_POST['content'], $parent_post, $add_signature);
-    notify_subscribers($_GET['thread']);
-    header('Location: forum_thread.php?id='.$_GET['thread']);
+    replyToThread($thread_id, $logged_in_user->id, $_POST['content'], $parent_post, $add_signature);
+    notify_subscribers($thread_id);
+    header('Location: forum_thread.php?id='.$thread_id);
 }
 
 
-if (empty($_GET['thread'])) {
-    // TODO: Standard error page.
-    echo "No thread ID specified.<br>";
-    exit();
-}
-
-if (!empty($_GET['post'])) {
-    $post = getPost($_GET['post']);
+if (get_int('post')) {
+    $post = getPost(get_int('post'));
 }
 
 
@@ -131,32 +124,8 @@ function show_message_row($thread, $category, $post=NULL) {
     row2($x1, $x2);
 }
 
-function quote_text($text, $cols) {
-    $quoteChar = ">";
-
-    $lines = explode("\n", $text);
-
-    $lineChars = strlen($quoteChar);
-    $final = $quoteChar;
-
-    for ($i = 0; $i < count($lines); $i++) {
-        $words = explode(" ", $lines[$i]);
-
-        for ($j = 0; $j < count($words); $j++) {
-            $wordLen = strlen($words[$j]);
-
-            if (($lineChars + $wordLen) >= $cols) {
-                $final = $final . "\n" . $quoteChar;
-                $lineChars = strlen($quoteChar);
-            }
-            $final = $final . " " . $words[$j];
-            $lineChars += $wordLen + 1;
-        }
-
-        $final = $final . "\n" . $quoteChar;
-        $lineChars = strlen($quoteChar);
-    }
-
-    return $final;
+function quote_text($text, $cols = 0) {
+    $text = "<blockquote>" . $text . "</blockquote>";
+    return $text;
 }
 ?>

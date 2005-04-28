@@ -5,26 +5,19 @@ require_once('../inc/util.inc');
 
 db_init();
 
-if (empty($_GET['id'])) {
-    // TODO: Standard error page
-    echo "No thread was specified.<br>";
-    exit();
-}
+$threadid = get_int('id');
+$sort_style = get_str('sort', true);
+$filter = get_str('filter', true);
 
-$_GET['id'] = stripslashes(strip_tags($_GET['id']));
-
-$sort_style = $_GET['sort'];
-
-$filter = $_GET['filter'];
 if ($filter != "false"){
     $filter = true;
 } else {
     $filter = false;
 }
 
-$thread = getThread($_GET['id']);
+$thread = getThread($threadid);
 if (!$thread) {
-    error_page("no such thread");
+    error_page("No such thread found");
 }
 incThreadViews($thread->id);
 
@@ -73,12 +66,12 @@ if ($logged_in_user) {
 
 show_forum_title($forum, $thread, $category->is_helpdesk);
 
-if ($thread->hidden) {
-
-    echo "
-        <b>This thread has been hidden for administrative purposes</b>
-    ";
-
+if (($thread->hidden) && (!isSpecialUser($logged_in_user,0))) {
+    /* If the user logged in is a moderator, show him the
+    + * thread if he goes so far as to name it by ID like this.
+    + * Otherwise, hide the thread.
+    + */
+    error_page("This thread has been hidden for administrative purposes");
 } else {
     
     echo "
