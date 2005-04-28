@@ -128,6 +128,7 @@
 #define strdup                  _strdup
 #define read                    _read
 #define stat                    _stat
+#define finite                  _finite
 
 
 // On the Win32 platform include file and line number information for each
