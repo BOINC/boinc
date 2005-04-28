@@ -14,9 +14,18 @@ if [ `uname` = SunOS ]; then
 	export PATH
 fi
 
+if [ -d autom4te.cache ]; then
+  /bin/rm -rf autom4te.cache
+fi
+
 echo "Bootstrapping configure script and makefiles:"
 
-if aclocal -I m4 && autoheader && automake && autoconf; then
+ACLOCAL=aclocal
+AUTOHEADER=autoheader
+AUTOMAKE=automake
+AUTOCONF=autoconf
+
+if $ACLOCAL -I m4 && $AUTOHEADER && $AUTOMAKE && $AUTOCONF; then
     ## We don't always run ./configure ourselves here, because the user may not
    ## want to run it, or may want to run with custom parameters.
 
