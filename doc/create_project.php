@@ -23,6 +23,7 @@ BOINC's abstractions of data and computation.
 <li><a href=work_distribution.php>Work distribution</a>
 <li><a href=sched_locality.php>Locality scheduling</a>
 <li><a href=trickle.php>Trickle messages</a>
+<li><a href=int_upload.php>Intermediate upload</a>
 <!--
 <li><a href=batch.php>Batches</a>
 <li><a href=sequence.php>Handling long, large-footprint computations</a>

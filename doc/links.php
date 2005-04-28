@@ -106,6 +106,7 @@ language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));
 language("Spanish", array(
+    site("http://www.seti-argentina.com.ar", "BOINC Argentina"),
     site("http://boinc.blogspot.com", "Boinc y Astronomia")
     //site("http://boincspain.shyper.com/", "BOINC España</a>")
 ));

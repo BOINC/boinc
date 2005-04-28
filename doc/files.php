@@ -66,7 +66,8 @@ list_item("executable",
     execution."
 );
 list_item("upload_when_present",
-    "If present, indicates that the file should be uploaded after it is created.
+    "If present, indicates that the file should be uploaded
+     when the application that generates it exits.
 ");
 list_item("sticky",
     "If present, indicates that the file should be retained

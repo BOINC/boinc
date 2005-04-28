@@ -25,6 +25,7 @@ list_item_array(array(
     "Solaris 10 AMD64 (Opteron) and x86
     <br> GNU/Linux AMD64 (Opteron)
     <br> GNU/Linux PowerPC,
+    <br> HPUX,
     <br> Mac OS X 10.3 on PowerPC 7450 and later",
     "BOINC core client, SETI@home"
 ));
