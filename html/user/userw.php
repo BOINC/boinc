@@ -9,6 +9,7 @@
 
     $user = lookup_user_id($userid);
     if (!$user) {
+	sleep(5);
         error_page("No such user");
     }
     show_user_wap($user);
