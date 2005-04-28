@@ -150,25 +150,12 @@
 			children = (
 				DDE2552B07C62F3E008E7D6E,
 				20286C33FDCF999611CA2CEA,
-				DD7C5DB908110A98002FCE1E,
-				DD7C5E7908110B11002FCE1E,
 				DD7C5E7508110AE3002FCE1E,
-				DD40CE0807F039350096C645,
-				DD40CE0C07F039680096C645,
-				DD40CFB407F039ED0096C645,
 				0249A669FF388E3911CA2CEA,
 				DD6F71B7081E509200F5B280,
-				DD6F71B5081E509200F5B280,
 				DD6F71B9081E509200F5B280,
 				DD6F71BB081E509200F5B280,
 				DD6F71B2081E509200F5B280,
-				DD6F71BA081E509200F5B280,
-				DD6F71B4081E509200F5B280,
-				DD6F71B8081E509200F5B280,
-				DD6F71B3081E509200F5B280,
-				DD6F71B1081E509200F5B280,
-				DD6F71B6081E509200F5B280,
-				DD6F71BC081E509200F5B280,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -349,21 +336,11 @@
 		DD095EEF07D87AE900362260 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD09608707D8840000362260,
 				DD40D05107F03A030096C645,
-				DD40D05207F03A0E0096C645,
-				DD6F71EE081E516B00F5B280,
-				DD6F71EF081E516C00F5B280,
-				DD6F71F0081E516D00F5B280,
-				DD6F71F1081E516D00F5B280,
-				DD6F71F2081E516E00F5B280,
-				DD6F71F3081E516F00F5B280,
-				DD6F71F4081E517000F5B280,
-				DD6F71F5081E517000F5B280,
-				DD6F71F6081E517100F5B280,
-				DD6F71F7081E517200F5B280,
-				DD6F71F8081E517200F5B280,
-				DD6F71F9081E517300F5B280,
+				DD130C1F0820C1ED001A0291,
+				DD130C220820C21F001A0291,
+				DD130C240820C234001A0291,
+				DD130C260820C26B001A0291,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,7 +364,7 @@
 				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.6 ../wxinclude";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3";
+				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
 				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -include../config.h";
 				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -include../config.h";
 				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
@@ -635,12 +612,6 @@
 			settings = {
 			};
 		};
-		DD09608707D8840000362260 = {
-			fileRef = 0249A669FF388E3911CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD0C59580816573E00CEC5D7 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -869,6 +840,48 @@
 			path = ../mac_installer/postupgrade;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DD130C1F0820C1ED001A0291 = {
+			fileRef = DD6F71B2081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD130C220820C21F001A0291 = {
+			fileRef = DD6F71BB081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD130C240820C234001A0291 = {
+			fileRef = DD6F71B9081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD130C260820C26B001A0291 = {
+			fileRef = DD6F71B7081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD130E740820C422001A0291 = {
+			fileRef = DD7C5E7508110AE3002FCE1E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD130F320820C47C001A0291 = {
+			fileRef = DDE2552B07C62F3E008E7D6E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD130F340820C4C4001A0291 = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DD2D25CB07FAB41700151141 = {
 			fileEncoding = 30;
@@ -1814,7 +1827,6 @@
 		DD40823807D304F000163EF5 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD539EFB08014FF8002D46D4,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2065,10 +2077,7 @@
 		DD40CDF707F0386A0096C645 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD40CFAC07F0399B0096C645,
-				DD40CFAD07F0399C0096C645,
-				DD40CFAE07F039A00096C645,
-				DD40CFB507F039ED0096C645,
+				DD130F340820C4C4001A0291,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2146,62 +2155,8 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD40CE0807F039350096C645 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Cocoa.framework;
-			path = /System/Library/Frameworks/Cocoa.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		DD40CE0C07F039680096C645 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Foundation.framework;
-			path = /System/Library/Frameworks/Foundation.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		DD40CFAC07F0399B0096C645 = {
-			fileRef = DD40CE0807F039350096C645;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40CFAD07F0399C0096C645 = {
-			fileRef = DD40CE0C07F039680096C645;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40CFAE07F039A00096C645 = {
-			fileRef = 20286C33FDCF999611CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40CFB407F039ED0096C645 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = AppKit.framework;
-			path = /System/Library/Frameworks/AppKit.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		DD40CFB507F039ED0096C645 = {
-			fileRef = DD40CFB407F039ED0096C645;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD40D05107F03A030096C645 = {
 			fileRef = 20286C33FDCF999611CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40D05207F03A0E0096C645 = {
-			fileRef = DDE2552B07C62F3E008E7D6E;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2234,12 +2189,6 @@
 		};
 		DD4DD0A207EAA648008A6468 = {
 			fileRef = DD81C40307C5D1020098A04D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD539EFB08014FF8002D46D4 = {
-			fileRef = 20286C33FDCF999611CA2CEA;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2362,51 +2311,11 @@
 			settings = {
 			};
 		};
-		DD6F71B1081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxjpeg-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwxjpeg-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		DD6F71B2081E509200F5B280 = {
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libwx_mac_core-2.6.a";
 			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_core-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71B3081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxexpat-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwxexpat-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71B4081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_html-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_html-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71B5081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_base_carbon_xml-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon_xml-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71B6081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxpng-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwxpng-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2418,27 +2327,11 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD6F71B8081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_xrc-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_xrc-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		DD6F71B9081E509200F5B280 = {
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libwx_base_carbon-2.6.a";
 			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71BA081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwx_mac_gl-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_gl-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2449,86 +2342,6 @@
 			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_adv-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71BC081E509200F5B280 = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libwxtiff-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwxtiff-2.6.a";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6F71EE081E516B00F5B280 = {
-			fileRef = DD6F71B1081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71EF081E516C00F5B280 = {
-			fileRef = DD6F71B2081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F0081E516D00F5B280 = {
-			fileRef = DD6F71B3081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F1081E516D00F5B280 = {
-			fileRef = DD6F71B4081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F2081E516E00F5B280 = {
-			fileRef = DD6F71B5081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F3081E516F00F5B280 = {
-			fileRef = DD6F71B6081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F4081E517000F5B280 = {
-			fileRef = DD6F71B7081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F5081E517000F5B280 = {
-			fileRef = DD6F71B8081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F6081E517100F5B280 = {
-			fileRef = DD6F71B9081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F7081E517200F5B280 = {
-			fileRef = DD6F71BA081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F8081E517200F5B280 = {
-			fileRef = DD6F71BB081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD6F71F9081E517300F5B280 = {
-			fileRef = DD6F71BC081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DD791FF00819063C00BE2906 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
@@ -2542,32 +2355,6 @@
 			target = DD96AFF80811075000A06F22;
 			targetProxy = DD791FF00819063C00BE2906;
 		};
-		DD7C5D1F08110A60002FCE1E = {
-			fileRef = DD40CE0807F039350096C645;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD7C5D2308110A6A002FCE1E = {
-			fileRef = 20286C33FDCF999611CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD7C5DB908110A98002FCE1E = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = ApplicationServices.framework;
-			path = /System/Library/Frameworks/ApplicationServices.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		DD7C5DBB08110A9E002FCE1E = {
-			fileRef = DD7C5DB908110A98002FCE1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD7C5E7508110AE3002FCE1E = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -2575,26 +2362,6 @@
 			path = /System/Library/Frameworks/ScreenSaver.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
-		};
-		DD7C5E7608110AE3002FCE1E = {
-			fileRef = DD7C5E7508110AE3002FCE1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD7C5E7908110B11002FCE1E = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = System.framework;
-			path = /System/Library/Frameworks/System.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		DD7C5E7A08110B11002FCE1E = {
-			fileRef = DD7C5E7908110B11002FCE1E;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DD7E49CD080F9B09002716F9 = {
 			fileRef = DD6D0A8507E9A61B007F882B;
@@ -3124,11 +2891,7 @@
 		DD96AFF70811075000A06F22 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD7C5D1F08110A60002FCE1E,
-				DD7C5D2308110A6A002FCE1E,
-				DD7C5DBB08110A9E002FCE1E,
-				DD7C5E7608110AE3002FCE1E,
-				DD7C5E7A08110B11002FCE1E,
+				DD130E740820C422001A0291,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3199,12 +2962,6 @@
 			path = "ScreenSaver-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DDA975B307D5FEB1002F0AA9 = {
-			fileRef = DDE2552B07C62F3E008E7D6E;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDAEC9DE07FA583B00A7BC36 = {
 			buildActionMask = 2147483647;
@@ -3455,8 +3212,7 @@
 		DDD74D8507CF482E0065AC9D = {
 			buildActionMask = 2147483647;
 			files = (
-				DDD74E7707CF49910065AC9D,
-				DDA975B307D5FEB1002F0AA9,
+				DD130F320820C47C001A0291,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3908,12 +3664,6 @@
 		};
 		DDD74DE207CF496D0065AC9D = {
 			fileRef = F51DA66B02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74E7707CF49910065AC9D = {
-			fileRef = 0249A669FF388E3911CA2CEA;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -27783,3 +27783,13 @@ Rom    27 April 2005
         taskbarex.cpp
     win_build/
         BOINCGUI.vcproj
+
+Charlie    28 April 2005
+Mac: Clean up XCode project by removing unused libraries 
+and frameworks.
+Update build instructions to include screensaver & installer.
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj

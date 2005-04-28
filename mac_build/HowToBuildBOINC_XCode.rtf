@@ -29,75 +29,110 @@ cd osx-build\
 ../configure --disable-shared --with-opengl\
 make\
 \
-(2) Run Configure to create the correct config.h file:\
+(2) Run Configure to create the correct config.h file for BOINC:\
 \
 cd [boincpath] /boinc \
 ./configure --disable-server --with-apple-opengl-framework\
 \
 (3) Create a  symbolic link [path]/ boinc/wx_lib pointing to \
-[wxpath]/wxMac-2.5.3/osx-build/lib/\
+[wxpath]/wxMac-2.6.0/osx-build/lib/\
 \
 (4) Create a  symbolic link [path]/ boinc/wxinclude pointing to \
-[wxpath]/wxMac-2.5.3/include\
+[wxpath]/wxMac-2.6.0/include\
 \
 (5) Create a  symbolic link [path]/ boinc/jpeglib pointing to \
 your jpeg-6b directory (or whatever directory contains the jpeglib source files).  If you have the seti_boinc source directory which contains jpeglib, you can point the symbolic link there.\
 \
-For example, if the boinc, wxMac-2.5.3 and jpeg-6b directories are all in \
+For example, if the boinc, wxMac-2.6.0 and jpeg-6b directories are all in \
     [wxpath]    then the commands would be:\
 \
-cd [wxpath]/boinc \
+cd [boincpath]/boinc \
 \
-ln -s [wxpath]/wxMac-2.5.3/osx-build/lib ./wx_lib\
+ln -s [wxpath]/wxMac-2.6.0/osx-build/lib ./wx_lib\
 \
-ln -s [wxpath]/wxMac-2.5.3/include ./wxinclude\
+ln -s [wxpath]/wxMac-2.6.0/include ./wxinclude\
 \
 ln -s [wxpath]/jpeg-6b ./jpeglib\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b \cf0 Building the BOINC Manager and embedded Core Client
+\f0\b \cf0 Building the BOINC Manager with embedded Core Client, plus \
+BOINC libraries, screensaver and helper applications
 \f1\b0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 (1) Double-click on [boincpath]/boinc/mac_build/boinc.pbproj to launch the XCode development IDE with the BOINC project.\
 \
-(2) In the Active Target popup, select mgr_boinc or Build_All.  Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.  These libraries are not needed by the BOINC Manager or Core Client.\
+(2) In the Active Target popup, select mgr_boinc or Build_All.  Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.  These libraries are not needed by the BOINC Manager or Core Client.  In addition, Build_All builds the screensaver BOINCSaver.saver and the installer halper application Postinstall.app.\
 \
 (3) In the Active Build Style popup, choose Development (for debugging) or Deployment (for release builds.)\
 \
 (4) If you have switched Build Style, be sure to do a "Clean All Targets" from the Build menu; otherwise object files from the old build style will not be rebuilt in the new build style.\
 \
-(5) Select Build from the Build menu.  I suggest you also open the Detailed Build Results window from the Build menu.  Wait a long  time while it compiles.\
+(5) If you are building the screensaver, be sure to unstuff the file: \
+boinc/clientgui/mac/BOINCSaver.nib.sit\
 \
-(6) In addition to the BOINC Manager BOINC.app and Core Client boinc_client, this will also build the SystemMenu.bundle framework and a small helper utility SetVersion.  \
+(6) Select Build from the Build menu.  I suggest you also open the Detailed Build Results window from the Build menu.  Wait a long  time while it compiles.\
+\
+(7) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion.  \
 \
 SetVersion is run automatically as part of the build process to update the Mac version information file InfoPlist.strings, using the contents of version.h.  The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b \cf0 Package BOINC manager for distribution\
+\f0\b \cf0 Building the installer
+\f1\b0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-
-\f1\b0 \cf0 \
+\cf0 \
 After creating the 
 \f0\b deployment
-\f1\b0  build of the mgr_boinc target, use the Finder to select BOINC.app at [boincpath]/boinc/mac_build/build/BOINC (the file extension .app is usually hidden by the Finder, but is visible using the Get Info function from the Finder's File menu).  \
+\f1\b0  build of all targets using Build_All, use the Finder to do the following:\
+(1) In a convenient place on disk, create a directory "Installer_Resources".  Copy the following items into this directory:\
+	[boincpath]/boinc/mac_installer/License.rtf\
+	[boincpath]/boinc/mac_installer/ReadMe.rtf\
+	[boincpath]/boinc/mac_installer/postinstall\
+	[boincpath]/boinc/mac_installer/postupgrade\
+	[boincpath]/boinc/mac_build/build/Postinstall.app\
 \
-After selecting BOINC.app, select \ul Create archive of "BOINC"\ulnone  from the Finder's File menu.  This will zip the file.\
+NOTE: the file extensions (such as .app and .saver) may be hidden by the Finder.  You can check an item's extension by selecting it in the Finder and using Get Info function from the Finder's File menu.\
 \
-Rename the zip file as appropriate to show the version number; for example, 
-\f2 BOINC_Mac_4_67.zip
-\f1  \
+(2) Create another directory "Pkg_Root", and inside that create two more directories "Applications" and "Library".  Create a "Screen Savers" directory inside your new Library directory.  Correct spelling of these names is critical.\
 \
+(3) Copy [boincpath]/boinc/mac_build/build/BOINCManager.app into your \
+Pkg_Root/Applications directory.\
+\
+(4) Copy [boincpath]/boinc/mac_build/build/BOINCSaver.saver into your \
+Pkg_Root/Library/Screen Savers directory.  You will now have the following directory structure:\
+	Pkg_Root\
+	        Applications\
+	                BOINCManager.app\
+	        Library\
+	                Screen Savers\
+	                        BOINCSaver.saver\
+\
+(5) From the Finder, open [boincpath]/boinc/mac_installer/BOINC.pmsp.  it will open in the PackageMaker application.  In the Files tab, set the path to your Pkg_Root directory.  in the Resources tab, set the path to your Installer_Resources directory. \
+\
+(6) Select "Create Package" from PackageMaker's File menu.  You can give any name you wish to the installer package when you create it, but do 
+\f0\b not
+\f1\b0  change the package name 
+\f0\b after
+\f1\b0  it is created.\
+\
+(7) Quit PackageMaker.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Building Screen Saver
-\f1\b0\fs24 \
+\f0\b \cf0 Package BOINC installer for distribution\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 \
-Unstuff boinc/clientgui/mac/BOINCSaver.nib.sit\
+
+\f1\b0 \cf0 \
+(1) Create a directory and name it appropriately, e.g. BOINC_Mac_Installer.  Copy the installer package and the ReadMe file into the directory.\
+\
+(2)After selecting the directory you just created and populated, select \ul Create archive\ulnone  from the Finder's File menu.  This will zip the file.  (Note: if you want to stuff the file instead of zipping it, be sure to uncheck "stuff originals instead of aliases" in DropStuff's preferences.)\
+\
+(3) Rename the zip file as appropriate to show the version number; for example, 
+\f2 BOINC_Mac_4_67.zip
+\f1  \
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
