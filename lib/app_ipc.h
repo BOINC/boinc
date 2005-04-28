@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <string>
+#include <cstdio>
 
 #include "hostinfo.h"
 #include "proxy_info.h"
@@ -98,6 +99,9 @@ struct SHARED_MEM {
         // <have_new_trickle_down/>
 };
 
+// MSG_QUEUE provides a queuing mechanism for shared-mem messages
+// (which don't have one otherwise)
+//
 struct MSG_QUEUE {
     std::vector<std::string> msgs;
     char name[256];
@@ -122,8 +126,6 @@ struct MSG_QUEUE {
 #define MODE_QUIT               6
 
 #define NGRAPHICS_MSGS  7
-
-#include <cstdio>
 
 struct GRAPHICS_MSG {
     int mode;
@@ -212,8 +214,10 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define STDERR_FILE           "stderr.txt"
 #define STDOUT_FILE           "stdout.txt"
 #define LOCKFILE               "boinc_lockfile"
+#define UPLOAD_FILE_REQ_PREFIX      "boinc_ufr_"
+#define UPLOAD_FILE_STATUS_PREFIX   "boinc_ufs_"
 
 extern const char* xml_graphics_modes[NGRAPHICS_MSGS];
-int boinc_link(const char* existing, const char* new_link);
+extern int boinc_link(const char* phys_name, const char* logical_name);
 
 #endif

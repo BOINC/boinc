@@ -277,7 +277,7 @@ int file_size(const char* path, double& size) {
     int retval;
 
     retval = stat(path, &sbuf);
-    if (retval) return retval;
+    if (retval) return ERR_NOT_FOUND;
     size = (double)sbuf.st_size;
     return 0;
 }

@@ -146,3 +146,5 @@
 #define ERR_INSUFFICIENT_RESOURCE   -198
 #define ERR_RETRY           -199
 #define ERR_WRONG_SIZE      -200
+#define ERR_USER_PERMISSION -201
+    // e.g. user didn't allow network connection

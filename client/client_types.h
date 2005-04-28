@@ -372,6 +372,8 @@ struct RESULT {
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(std::string&);
     void reset_files();
+    FILE_REF* lookup_file(FILE_INFO*);
+    FILE_INFO* lookup_file_logical(const char*);
     double estimated_cpu_time();
     double estimated_cpu_time_remaining();
 };

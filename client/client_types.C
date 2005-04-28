@@ -1372,4 +1372,22 @@ double RESULT::estimated_cpu_time_remaining() {
     return estimated_cpu_time();
 }
 
+FILE_REF* RESULT::lookup_file(FILE_INFO* fip) {
+    for (unsigned int i=0; i<output_files.size(); i++) {
+        FILE_REF& fr = output_files[i];
+        if (fr.file_info == fip) return &fr;
+    }
+    return 0;
+}
+
+FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
+    for (unsigned int i=0; i<output_files.size(); i++) {
+        FILE_REF& fr = output_files[i];
+        if (!strcmp(lname, fr.open_name)) {
+            return fr.file_info;
+        }
+    }
+    return 0;
+}
+
 const char *BOINC_RCSID_b81ff9a584 = "$Id$";

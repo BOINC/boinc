@@ -350,6 +350,11 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
             sent = atp->app_client_shm.shm->trickle_down.send_msg("<have_trickle_down/>\n");
             if (sent) atp->have_trickle_down = false;
         }
+        if (atp->send_upload_file_status) {
+            if (!atp->app_client_shm.shm) continue;
+            sent = atp->app_client_shm.shm->trickle_down.send_msg("<upload_file_status/>\n");
+            if (sent) atp->send_upload_file_status = false;
+       }
     }
 }
 
@@ -863,30 +868,6 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
         found = true;
     }
     return found;
-}
-
-// scan the slot director, looking for files with names
-// of the form boinc_ufr_X.
-// Then mark file X as being present (and uploadable)
-//
-int ACTIVE_TASK::handle_upload_files() {
-    std::string filename;
-    char buf[256], path[256];
-
-    DirScanner dirscan(slot_dir);
-    while (dirscan.scan(filename)) {
-        strcpy(buf, filename.c_str());
-        if (strstr(buf, "boinc_ufr") == buf) {
-            char* p = buf+strlen("boinc_ufr");
-            FILE_INFO* fip = gstate.lookup_file_info(result->project, p);
-            if (fip) {
-                fip->status = FILE_PRESENT;
-            }
-            sprintf(path, "%s/%s", slot_dir, buf);
-            boinc_delete_file(path);
-        }
-    }
-    return 0;
 }
 
 // check for msgs from active tasks.

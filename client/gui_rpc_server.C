@@ -507,7 +507,7 @@ int GUI_RPC_CONN::handle_rpc() {
 #else
         n = read(sock, request_msg, 4095);
 #endif
-    if (n <= 0) return -1;
+    if (n <= 0) return ERR_READ;
     request_msg[n] = 0;
 
     scope_messages.printf("GUI RPC Command = '%s'\n", request_msg);

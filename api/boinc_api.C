@@ -70,7 +70,7 @@ static volatile double last_wu_cpu_time;
 static bool standalone          = false;
 static double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
-static volatile bool have_trickle_down   = true;
+static volatile bool have_trickle_down = true;
     // on first call, scan slot dir for msgs
 static volatile int heartbeat_giveup_time;
 static volatile bool heartbeat_active;
@@ -430,22 +430,31 @@ static void handle_heartbeat_msg() {
 }
 
 static void handle_upload_file_status() {
-    char path[256], buf[256];
+    char path[256], buf[256], log_name[256];
     std::string filename;
     int status;
 
     relative_to_absolute("", path);
     DirScanner dirscan(path);
     while (dirscan.scan(filename)) {
-        fprintf(stderr, "scan: %s\n", filename.c_str());
+        strcpy(buf, filename.c_str());
+        if (strstr(buf, UPLOAD_FILE_STATUS_PREFIX) != buf) continue;
+        strcpy(log_name, buf+strlen(UPLOAD_FILE_STATUS_PREFIX));
         FILE* f = boinc_fopen(filename.c_str(), "r");
-        if (!f) continue;
+        if (!f) {
+            fprintf(stderr, "handle_file_upload_status: can't open %s\n", filename.c_str());
+            continue;
+        }
         fgets(buf, 256, f);
-        parse_int(buf, "<status>", status);
-        UPLOAD_FILE_STATUS uf;
-        uf.name = filename;
-        uf.status = status;
-        upload_file_status.push_back(uf);
+        fclose(f);
+        if (parse_int(buf, "<status>", status)) {
+            UPLOAD_FILE_STATUS uf;
+            uf.name = std::string(log_name);
+            uf.status = status;
+            upload_file_status.push_back(uf);
+        } else {
+            fprintf(stderr, "handle_upload_file_status: can't parse %s\n", buf);
+        }
     }
 }
 
@@ -457,7 +466,7 @@ static void handle_trickle_down_msg() {
         if (match_tag(buf, "<have_trickle_down/>")) {
             have_trickle_down = true;
         }
-        if (match_tag(buf, "<upload_file_status>")) {
+        if (match_tag(buf, "<upload_file_status/>")) {
             handle_upload_file_status();
         }
     }
@@ -700,8 +709,12 @@ bool boinc_receive_trickle_down(char* buf, int len) {
 
 int boinc_upload_file(std::string& name) {
     char buf[256];
+    std::string pname;
+    int retval;
 
-    sprintf(buf, "boinc_ufr_%s", name.c_str());
+    retval = boinc_resolve_filename_s(name.c_str(), pname);
+    if (retval) return retval;
+    sprintf(buf, "%s%s", UPLOAD_FILE_REQ_PREFIX, name.c_str());
     FILE* f = boinc_fopen(buf, "w");
     if (!f) return ERR_FOPEN;
     have_new_upload_file = true;

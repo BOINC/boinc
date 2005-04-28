@@ -27752,12 +27752,12 @@ David  26 April 2005
 		boinc_cli.vcproj
 
 Charlie    27 April 2005
-Mac: created installer.  Changed working directory from 
-user-specific "~/Library/Application Support/BOINC Data" 
-to global "/Library/Application Support/BOINC Data".
-Fixed CViewProjects::OnProjectWebsiteClicked for Mac.
-Added progress display to screensaver when no application 
-graphics.
+	Mac: created installer.  Changed working directory from 
+	user-specific "~/Library/Application Support/BOINC Data" 
+	to global "/Library/Application Support/BOINC Data".
+	Fixed CViewProjects::OnProjectWebsiteClicked for Mac.
+	Added progress display to screensaver when no application 
+	graphics.
  
     mac-installer/
         LoginItemAPI.c (new)
@@ -27811,9 +27811,9 @@ Janus  28 April 2005
             userw.php
 
 Charlie    28 April 2005
-Mac: Clean up XCode project by removing unused libraries 
-and frameworks.
-Update build instructions to include screensaver & installer.
+	Mac: Clean up XCode project by removing unused libraries 
+	and frameworks.
+	Update build instructions to include screensaver & installer.
 
     mac_build/
         HowToBuildBOINC_XCode.rtf
@@ -27826,3 +27826,31 @@ Rom    28 April 2005
 
     lib/
         gui_roc_client.C, .h
+
+David  28 April 2005
+	- debugged intermediate upload feature
+	- Got rid of some -1 returns.
+		 A BOINC function should never return -1
+		 (or the return value of a system call)
+		 since this discards info about where the error came from
+	 - parse_double(): don't accept NaN or +- infinity
+
+	api/
+		boinc_api.C,h
+	apps/
+		upper_case.C
+	client/
+		app.C,h
+		app_control.C
+		client_state.C
+		client_types.C,h
+		cs_apps.C
+		cs_files.C
+		gui_rpc_server.C
+	lib/
+		app_ipc.h
+		error_numbers.h
+		filesys.C
+		mfile.C
+		network.C
+		parse.C

@@ -223,6 +223,7 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
                     fip->delete_file();
                 }
                 fip->uploaded = true;
+                active_tasks.upload_notify_app(fip);
             } else if (fip->status >= 0) {
                 // file transfer did not fail (non-negative status)
 
@@ -260,5 +261,6 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
 
     return action;
 }
+
 
 const char *BOINC_RCSID_66410b3cab = "$Id$";

@@ -122,6 +122,7 @@ public:
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;   // abort if memory usage exceeds this
     bool have_trickle_down;
+    bool send_upload_file_status;
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
@@ -176,6 +177,7 @@ public:
     int write_app_init_file();
     int move_trickle_file();
     int handle_upload_files();
+    void upload_notify_app(const FILE_INFO*, const FILE_REF*);
 
     int write(MIOFILE&);
     int parse(MIOFILE&);
@@ -206,6 +208,8 @@ public:
     void send_heartbeats();
     void send_trickle_downs();
     void report_overdue(double);
+    void handle_upload_files();
+    void upload_notify_app(FILE_INFO*);
 
     // screensaver-related functions
     ACTIVE_TASK* get_ss_app();

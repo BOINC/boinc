@@ -26,6 +26,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include <float.h>
 #endif
 
 #ifndef _WIN32
@@ -73,13 +74,18 @@ bool parse_int(const char* buf, const char* tag, int& x) {
 // Same, for doubles
 //
 bool parse_double(const char* buf, const char* tag, double& x) {
+    double y;
     char* p = strstr(buf, tag);
     if (!p) return false;
     std::string strLocale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
-    x = atof(p+strlen(tag));
+    y = atof(p+strlen(tag));
     setlocale(LC_NUMERIC, strLocale.c_str());
-    return true;
+    if (_finite(y)) {
+        x = y;
+        return true;
+    }
+    return false;
 }
 
 // parse a string of the form ...<tag attrs>string</tag>...;

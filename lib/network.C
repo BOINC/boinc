@@ -249,13 +249,13 @@ int NetOpen() {
             // Don't Autodial if already connected to Internet by Modem or LAN
             if (!rc) {
                 if((double)time(NULL) < net_last_dial_time + CONFIRM_WAIT) {
-                    return -1;
+                    return ERR_USER_PERMISSION;
                 }
 #if !defined(_WIN32) && !defined(_CONSOLE)
                 if(gstate.global_prefs.confirm_before_connecting) {
                     net_last_req_time = (double)time(NULL);
                     if(!RequestNetConnect()) {
-                        return -1;
+                        return ERR_USER_PERMISSION;
                     }
                 }
 #endif
@@ -274,7 +274,7 @@ int NetOpen() {
                     rc = GetLastError();
                     // Don't continue if busy signal, no answer or user cancelled
                     if (rc == ERROR_USER_DISCONNECTION) {
-                        return -1;
+                        return ERR_USER_PERMISSION;
                     }
                 }
             }

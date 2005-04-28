@@ -100,6 +100,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     vm_bytes = 0;
     rss_bytes = 0;
     have_trickle_down = false;
+    send_upload_file_status = false;
     pending_suspend_via_quit = false;
 #ifdef _WIN32
     pid_handle = 0;
@@ -294,7 +295,7 @@ int ACTIVE_TASK::move_trickle_file() {
 //
 double ACTIVE_TASK::est_cpu_time_to_completion() {
     if (fraction_done <= 0 || fraction_done > 1) {
-        return -1;
+        return 0;
     }
     return (current_cpu_time / fraction_done) - current_cpu_time;
 }
@@ -336,7 +337,7 @@ int ACTIVE_TASK_SET::get_free_slot() {
         }
         if (!found) return j;
     }
-    return -1;   // probably never get here
+    return ERR_NOT_FOUND;   // probably never get here
 }
 
 int ACTIVE_TASK::write(MIOFILE& fout) {
@@ -511,6 +512,63 @@ void ACTIVE_TASK_SET::report_overdue(double now) {
             msg_printf(atp->result->project, MSG_ERROR,
                 "You may not get credit for it.  Consider aborting it."
             );
+        }
+    }
+}
+
+// scan the slot directory, looking for files with names
+// of the form boinc_ufr_X.
+// Then mark file X as being present (and uploadable)
+//
+int ACTIVE_TASK::handle_upload_files() {
+    std::string filename;
+    char buf[256], path[256];
+
+    DirScanner dirscan(slot_dir);
+    while (dirscan.scan(filename)) {
+        strcpy(buf, filename.c_str());
+        if (strstr(buf, UPLOAD_FILE_REQ_PREFIX) == buf) {
+            char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
+            FILE_INFO* fip = result->lookup_file_logical(p);
+            if (fip) {
+                fip->status = FILE_PRESENT;
+            } else {
+                msg_printf(0, MSG_ERROR, "Can't find %s", p);
+            }
+            sprintf(path, "%s/%s", slot_dir, buf);
+            boinc_delete_file(path);
+        }
+    }
+    return 0;
+}
+
+void ACTIVE_TASK_SET::handle_upload_files() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        atp->handle_upload_files();
+    }
+}
+
+void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
+    char path[256];
+    sprintf(path, "%s/%s%s", slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name);
+    FILE* f = boinc_fopen(path, "w");
+    if (!f) return;
+    fprintf(f, "<status>%d</status>\n", fip->status);
+    fclose(f);
+    send_upload_file_status = true;
+}
+
+// a file upload has finished.
+// If any running apps are waiting for it, notify them
+//
+void ACTIVE_TASK_SET::upload_notify_app(FILE_INFO* fip) {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        RESULT* rp = atp->result;
+        FILE_REF* frp = rp->lookup_file(fip);
+        if (frp) {
+            atp->upload_notify_app(fip, frp);
         }
     }
 }

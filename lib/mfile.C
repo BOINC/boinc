@@ -51,7 +51,7 @@ MFILE::~MFILE() {
 
 int MFILE::open(const char* path, const char* mode) {
     f = boinc_fopen(path, mode);
-    if (!f) return -1;
+    if (!f) return ERR_FOPEN;
     return 0;
 }
 
@@ -64,7 +64,7 @@ int MFILE::vprintf(const char* format, va_list ap) {
     buf = (char*)realloc(buf, len+n+1);
     if (!buf) {
         errno = ERR_MALLOC;
-        return -1;
+        return ERR_MALLOC;
     }
     strncpy(buf+len, buf2, n);
     len += n;
