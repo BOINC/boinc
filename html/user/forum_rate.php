@@ -25,24 +25,18 @@ if (!empty($_GET['post'])) {
         exit();
     }
 
+    $post = getPost($postId);
+    $thread = getThread($post->thread);
+    $forum = getForum($thread->forum);
+
     $user = get_logged_in_user(true);
     $user = getForumPreferences($user);
 
-	// Temporary:
-    // Check the user's credit average to see if it is greater than 5,
-    // if not, treat them as though they have already rated the post.
-    // This should keep people from creating multiple accounts
-    // just to harass forum members.
-	// TODO: Use the forum table fields rate_min_total_credit
-    // and rate_min_expavg_credit to determine instead of hardcoded value.
-
-    $avg = $user->expavg_credit;
-    $avg_time = $user->expavg_time;
-    $now = time(0);
-    update_average($now, 0, 0, $avg, $avg_time);
-    
-    if ($avg<5) {
-        error_page("You need more average credit to rate a post.");
+    /* Make sure the user has the forum's minimum amount of RAC and total credit
+     * before allowing them to rate a post.
+     */
+    if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$forum->rate_min_expavg_credit) {
+        error_page("You need more average or total credit to rate a post.");
     }
     
     if (getHasRated($user,$postId)) {
