@@ -81,7 +81,11 @@ bool parse_double(const char* buf, const char* tag, double& x) {
     setlocale(LC_NUMERIC, "C");
     y = atof(p+strlen(tag));
     setlocale(LC_NUMERIC, strLocale.c_str());
+#ifdef _WIN32_
     if (_finite(y)) {
+#else
+    if (finite(y)) {
+#endif
         x = y;
         return true;
     }
