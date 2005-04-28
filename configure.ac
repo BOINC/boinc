@@ -2,11 +2,11 @@ dnl -*- autoconf -*-
 
 dnl $Id$
 
-dnl NOTE: on milkyway.ssl and jill.ssl , need autoconf/automake et al from quarl's
+dnl NOTE: on milkyway.ssl and jill.ssl , need autoconf/automake et al from quarls
 dnl directory; the _autosetup script does this.
 
-dnl not sure exactly what the minimum version is (but 2.13 won't work)
-AC_PREREQ(2.57)
+dnl not sure exactly what the minimum version is (but 2.13 wont work)
+AC_PREREQ(2.59)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.68)
@@ -52,7 +52,6 @@ if test "${enable_debug}" = yes ; then
 else
     build_state='Release'
 fi
-
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
 echo "--- Build Components: (${configured_to_build}) ---"
@@ -103,9 +102,9 @@ dnl AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String 
 dnl AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
 dnl AC_DEFINE_UNQUOTED([BOINC_MINOR_VERSION], $BOINC_MINOR_VERSION, [Minor part of BOINC version number])
 
-dnl Need to duplicate these AC_SUBST because some versions of autoconf won't 
+dnl Need to duplicate these AC_SUBST because some versions of autoconf wont 
 dnl find AC_SUBST in a macro unless subsequently used in a DEFINE or SUBST
-dnl outside of a macro.  Don't ask me why.
+dnl outside of a macro.  Dont ask me why.
 AC_SUBST([BOINC_VERSION_STRING])
 AC_SUBST([BOINC_MAJOR_VERSION])
 AC_SUBST([BOINC_MINOR_VERSION])
@@ -126,6 +125,18 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 AC_PROG_LN_S
 
+dnl enable objective-C 
+_AM_DEPENDENCIES([OBJC])
+OBJC="$CC"
+AC_SUBST(OBJC)
+OBJCFLAGS="-ObjC"
+AC_SUBST(OBJCFLAGS)
+
+AC_LIBTOOL_DLOPEN
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
+SAH_OPTION_BITNESS
+
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile
 dnl support breaks C++ compiles by defining away many of the C standard library
@@ -137,6 +148,9 @@ dnl define is checked in std_fixes.h and the appropriate functions are defined
 dnl in order to solve the problem.
 AC_SYS_LARGEFILE
 
+dnl Find the extensions used on shared and static libraries on this system
+SAH_LIBEXT
+SAH_DLLEXT
 
 dnl enable debug mode on all components using standard debug flags
 if test "${enable_debug}" = yes; then
@@ -153,7 +167,7 @@ if test "${enable_server}" = yes; then
       AC_MSG_WARN([ mysql not found.
 ======================================================================
 WARNING: trying to build BOINC-server, but MYSQL was not be found.
-If you don't want to build the server you should use --disable-server.
+If you dont want to build the server you should use --disable-server.
 
 I am continuing now as if --disable-server had been specified.
 
@@ -163,19 +177,48 @@ I am continuing now as if --disable-server had been specified.
    fi
 fi
 
-dnl Checks for libraries.
-AC_CHECK_LIB(m, sin)
-AC_CHECK_LIB(cygipc, shmget)
 
-dnl  NOTE: we might want to link the following libs statically 
-dnl for building portable binaries, so we store them in a separate variable
-dnl BOINC_EXTRA_LIBS for later post-processing instead of the default-action,
-dnl which would prepend them to LIBS
-dnl (note, we also don't define HAVE_LIBXXX, because currently they aren't used
-AC_CHECK_LIB(nsl, gethostbyname, [BOINC_EXTRA_LIBS="-lnsl ${BOINC_EXTRA_LIBS}"])
-AC_CHECK_LIB(socket, setservent, [BOINC_EXTRA_LIBS="-lsocket ${BOINC_EXTRA_LIBS}"])
-AC_CHECK_LIB(z, gzopen, [BOINC_EXTRA_LIBS="-lz ${BOINC_EXTRA_LIBS}"])
-AC_CHECK_LIB(dl, dlopen, [BOINC_EXTRA_LIBS="-ldl ${BOINC_EXTRA_LIBS}"])
+
+dnl Checks for libraries.
+
+dnl NOTE: Libraries subject to version changes, or those that might not be
+dnl installed everywhere should be linked statically when building portable 
+dnl binaries.  Put libraries that should be linked statically on every platform
+dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only 
+dnl the '*' wildcard is supported).
+STATIC_LIB_LIST="stdc++ gcc gcc_eh gtk* gdk* gmodule gthread glib wx* tiff jpeg
+png Xi glut socket z"
+
+dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later 
+dnl post-processing instead of the default-action, which would append 
+dnl them to LIBS (note, we also dont define HAVE_LIBXXX, because 
+dnl currently they arent used)
+
+dnl Special rules for specific targets go here:  It's easier to add static libs
+dnl than subtract them.  If you need to remove something from the list above,
+dnl please add it to the lists below...
+case ${target} in
+	*-linux*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
+	;;
+	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X*"
+	;;
+esac
+
+dnl save the libs
+SAVELIBS_AAF="${LIBS}"
+SAH_CHECK_LIB([cygipc], [shmget],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([aio], [aio_fork],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([dl], [dlopen], 
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([nsl], [gethostbyname], 
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([socket], [bind], 
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([z], [gzopen], 
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
@@ -258,15 +301,10 @@ AH_TEMPLATE([HAVE_STD_LOCALE],[Define to 1 if locale is in namespace std::])
 AH_TEMPLATE([HAVE_STD_TRANSFORM],[Define to 1 if transform is in namespace std:: ])
 SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *) 0,(char *)0,(int(*)(int))malloc)'] ['locale("")']],std)
 AC_LANG_POP
-dnl TODO: use compiler to test these; there probably exists an autoconf macro already!
-case "$target" in
-*-linux-* | *-sun-* | *openbsd* )
-        AC_DEFINE(GETSOCKOPT_SOCKLEN_T, 1, [getsockopt uses socklen_t])
-        ;;
-*sysv5OpenUNIX8*)
-        AC_DEFINE(GETSOCKOPT_SIZE_T, 1, [getsockopt uses size_t])
-        ;;
-esac
+
+dnl Cleaning up configure.ac  Moved type checking for getsockopt to
+dnl m4/boinc_getsockopt.m4
+BOINC_GETSOCKOPT_TYPE
 
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
@@ -353,7 +391,7 @@ AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes 
 
 dnl --------------------------------------------------------------------------------
 
-dnl Here's another way to set up host-specific stuff
+dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
@@ -372,7 +410,11 @@ AC_ARG_ENABLE([client-release], AS_HELP_STRING([--enable-client-release],
 	this links libstd++ statically. You will probably need gcc-3.0 for 
 	this to produce a portable client-binary. 
 	It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
-	(Default = no)]), [], [enable_client_release=no])
+	(Default = no)]), 
+	[enable_client_release=yes
+	disable_static_client=no], 
+	[enable_client_release=no
+	disable_static_client=yes])
 
 dnl Some platform specific settings
 case $target in
@@ -382,9 +424,6 @@ case $target in
 --------------------------------------------------
 The switch --enable-client-release is only useful for building the client and will be ignored
 --------------------------------------------------]) 
-        else
-            LDSTATIC="-Wl,-Bstatic"
-	    LDDYNAMIC="-Wl,-Bdynamic"
         fi
 	;;
    *)	## in the non-linux, non-solaris case, --enable-client-release is not allowed
@@ -395,36 +434,42 @@ Sorry, the switch --enable-client-release is currently only implemented
 for Linux and Solaris, and will have no effect.
 ----------------------------------------------------------------------])
 	fi  
-	LDSTATIC=
-	LDDYNAMIC=
 	;; 
 esac
 
- ## we need to link IOKit.framework on MacOSX for the client-build
-case $target in
-   *darwin*)  
-       if test "${enable_client}" = yes; then
-           LIBS="$LIBS -framework IOKit"
-       fi
-       ;;
-       *) ;;
-esac
-
-if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" = yes ); then
+CLIENTLIBS=
+if ( test "${disable_static_client}" != yes ) && ( test "${enable_client}" = yes ); then
    echo "----------"
    echo "NOTE: Building portable client binaries"
    echo "----------"
-   AC_CHECK_LIB(gcc_eh, _Unwind_Resume, [have_gcc_eh=yes], [have_gcc_eh=no])
-   if test "$have_gcc_eh" = yes; then
-      GCC_EH_LIB=-lgcc_eh
-   else
-      GCC_EH_LIB=
-   fi
-
-   CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
-else
-   CLIENTLIBS=
 fi
+SAH_CHECK_LIB([stdc++],[sscanf],[
+    AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
+    AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+SAH_CHECK_LIB([gcc],[sscanf], [
+    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+SAH_CHECK_LIB([m],[sin], [
+    AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+SAH_CHECK_LIB([pthread],[pthread_join],[
+    AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+SAH_CHECK_LIB([c],[atexit], [
+    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
+   echo CLIENTLIBS=${CLIENTLIBS}
+
 AC_SUBST(CLIENTLIBS)
 
 ## --------------------
@@ -437,44 +482,16 @@ fi
 
 CLIENTGUILIBS=${WX_LIBS}
 
-if test "${enable_client_release}" = yes; then
-   ## list of possible libraries, which we have to link statically against 
-   ## in order to avoid portability problems
-      
-   ## extend this list as necessary if you find additional libs required on your system
-   ## ****************************************
-   blacklist="gtk gdk gmodule gthread glib Xi png jpeg tiff nsl socket"
-   case $target in 
-      *linux*)
-         blacklist="$blacklist z"
-         ;;
-      *)
-         ;;
-   esac
-   ## ****************************************
-
-   ## now we walk through the blacklist and turn all matching libs found in 
-   ## WX_LIBS_STATIC into a static link-command
-   CLIENTGUILIBS="-L. ${WX_LIBS_STATIC} -L."  ## dummy -L's to make sure the regexp always works
-   echo "DEBUG: before mangling CLIENTGUILIBS='$CLIENTGUILIBS'" 
-   for somelib in ${blacklist}; do
-       CLIENTGUILIBS=`echo "$CLIENTGUILIBS" | sed -e "s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
-   done
-   echo "DEBUG: final link-line for CLIENTGUILIBS = $CLIENTGUILIBS"
-
-   ## do exactly the same for all BOINC_EXTRA_LIBS
-   BOINC_EXTRA_LIBS="-L. ${BOINC_EXTRA_LIBS} -L."    ## dummy -L's to make sure the regexp always works
-   echo "DEBUG: before mangling BOINC_EXTRA_LIBS='$BOINC_EXTRA_LIBS'"
-   for somelib in ${blacklist}; do
-       BOINC_EXTRA_LIBS=`echo "$BOINC_EXTRA_LIBS" | sed -e "s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
-   done
-   echo "DEBUG: final BOINC_EXTRA_LIBS= $BOINC_EXTRA_LIBS"
+if test "${enable_client_release}" = "yes" ; then
+   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC}],[CLIENTGUILIBS])
+   SAH_STATICIZE_LDFLAGS([${GLUT_LIBS}],[GLUT_LIBS])
+   SAH_STATICIZE_LDFLAGS([${BOINC_EXTRA_LIBS}],[BOINC_EXTRA_LIBS])
 
 
-   ## NOTE: it's *extremely* important to always compile with __NO_CTYPE 
+
+   ## NOTE: its *extremely* important to always compile with __NO_CTYPE 
    ## defined, because this avoids GLIBC_2.3 symbols being pulled in via ctype.h-macros,
    CPPFLAGS="$CPPFLAGS -D__NO_CTYPE"
-
 fi
 
 ## prepend BOINC_EXTRA_LIBS (mangled or not) to LIBS for standard linking
@@ -516,7 +533,7 @@ AC_CONFIG_FILES([
                  ])
 
 dnl AC_CONFIG_HEADER([config.h])
-AC_CONFIG_HEADERS([config.h])
+AM_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
 
