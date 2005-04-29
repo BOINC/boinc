@@ -72,6 +72,16 @@
 using std::string;
 
 #ifdef __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include <IOKit/ps/IOPowerSources.h>
+#include <IOKit/ps/IOPSKeys.h>
+#ifdef __cplusplus
+}	// extern "C"
+#endif
+
 NXEventHandle gEventHandle;
 #endif  // __APPLE__
 
@@ -115,10 +125,31 @@ int get_timezone() {
 // Returns true if the host is currently running off battery power
 // If you can't figure out, return false
 //
-// TODO: port this to other platforms (Windows, Mac OS X, others?)
+// TODO: port this to other platforms (Windows, others?)
 //
 bool HOST_INFO::host_is_running_on_batteries() {
-#ifdef linux
+#if defined(__APPLE__)
+  CFDictionaryRef pSource = NULL;
+  CFStringRef psState;
+  int i;
+  bool retval = false;
+  
+  CFTypeRef blob = IOPSCopyPowerSourcesInfo();
+  CFArrayRef list = IOPSCopyPowerSourcesList(blob);
+
+  for(i = 0; i < CFArrayGetCount(list); i++) {
+    pSource = IOPSGetPowerSourceDescription(blob, CFArrayGetValueAtIndex(list, i));
+    if(!pSource) break;
+    psState = (CFStringRef)CFDictionaryGetValue(pSource, CFSTR(kIOPSPowerSourceStateKey));
+    if(!CFStringCompare(psState,CFSTR(kIOPSBatteryPowerValue),0))
+      retval = true;
+  }
+
+  CFRelease(blob);
+  CFRelease(list);
+  return(retval);
+
+#elif defined(linux)
     bool    retval = false;
 
     FILE* fapm = fopen("/proc/apm", "r");
@@ -587,3 +618,4 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 
 
 const char *BOINC_RCSID_2cf92d205b = "$Id$";
+
