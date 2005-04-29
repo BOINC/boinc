@@ -17,7 +17,7 @@ function update_average($now, $work_start_time, $work, &$avg, &$avg_time) {
             $avg += (1.0-$weight)*($work/$diff_days);
         }
         else {
-            $avg += M_LN2*work*86400/CREDIT_HALF_LIFE;
+            $avg += M_LN2*$work*86400/CREDIT_HALF_LIFE;
         }
     } else if ($work) {
         $dd = ($now - $work_start_time)/86400;
