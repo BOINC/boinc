@@ -201,9 +201,9 @@ version(
 );
 version(
     "Windows",
-    "4.32",
+    "4.35",
     "Development version",
-    "boinc_4.32_windows_intelx86.exe",
+    "boinc_4.35_windows_intelx86.exe",
     "15 Apr 2005",
     win_new(),
     "<ul>
@@ -228,6 +228,16 @@ version(
     Support for <a href=acct_mgt.php>account management websites</a>.
     <li>
     <a href=gui_rpc.php>Password protection for GUI access</a>.
+    <li>
+    BOINC Manager now sports a new button based interface which replaces the
+    html based interface in previous versions.
+    <li>
+    BOINC Manager now is built with wxWidgets 2.6.0
+    <li>
+    Symbol files (*.pdb) have been removed from the installer to help out those
+    on dialup connections.  We were not receiving very many, if any crashes in 
+    the last few months.  We'll make the symbol files available as a seperate
+    download.
     </ul>
     ",
     "<ul>
