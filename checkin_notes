@@ -5813,3 +5813,13 @@ David  28 April 2005
 		mfile.C
 		network.C
 		parse.C
+
+Rom    28 April 2005
+    - Adjust the installer so that it will not include the pdb files in future
+        releases.
+    - Keep previous manager look and feel around.
+
+    clientgui/archive/
+        <Add previous look and feel for reference in case we need them>
+    win_build/installerv2/
+        BOINC.ism

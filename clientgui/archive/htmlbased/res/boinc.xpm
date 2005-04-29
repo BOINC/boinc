@@ -1,0 +1,70 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+/* XPM */
+static const char *boinc_xpm[] = {
+"16 16 32 1",
+" 	c None",
+".	c #000066",
+"X	c #000033",
+"o	c #333333",
+"O	c #555555",
+"+	c #000080",
+"@	c #4D4D4D",
+"#	c #996666",
+"$	c #393939",
+"%	c #000099",
+"&	c #424242",
+"*	c #FFCC99",
+"=	c #FFCC66",
+"-	c #999933",
+";	c #808080",
+":	c #CC9966",
+">	c #CC9933",
+",	c #CCCC33",
+"<	c #333366",
+"1	c #292929",
+"2	c #FFCC33",
+"3	c #5F5F5F",
+"4	c #666633",
+"5	c #333399",
+"6	c #666666",
+"7	c #996633",
+"8	c #CCCC66",
+"9	c #666699",
+"0	c #777777",
+"q	c #666600",
+"w	c #868686",
+"e	c #969696",
+"       .XoO     ",
+"    +.XXXXXXO   ",
+"   +.XX@###$XO  ",
+"  %+X&***===-X; ",
+" %++X:*=>.,,-<$ ",
+" ++.X1=23.2-4O< ",
+"5++.X6=2O>27O<<@",
+"++.XX82>-,27&<11",
+"...X1=>69@2>7<o1",
+"<.XX4=>05X>>qO<<",
+" XXX-2-<XX24O9< ",
+" XXX727XX>-&w9< ",
+" 0XXX>>>>73ew3  ",
+"  3XX4446ww93   ",
+"   0o<6ww96O    ",
+"      0660      "};
