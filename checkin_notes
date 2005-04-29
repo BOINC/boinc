@@ -5870,4 +5870,7 @@ Bruce 29 April 2005
 	
     lib/
         util.C
+    html/
+        inc/
+            credit.inc
 
