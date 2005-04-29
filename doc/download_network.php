@@ -21,7 +21,8 @@ echo "
     <li>
     The <a href='http://www.boinc.dk/index.php?page=mirror_file_list'>BOINC Download Network</a>
     is designed and maintained by <a href='http://www.boinc.dk'>BOINC.dk</a> as a service for the BOINC community.
-    Visit the BOINC Download Network site to add an entry to this list.
+    Visit the BOINC Download Network site and click on 'add new file'
+    (at the bottom of the page) to add an entry to this list.
 
     </ul>
 ";

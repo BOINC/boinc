@@ -261,8 +261,10 @@ make_new_host:
     //
     if (strlen(sreq.cross_project_id)) {
         if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
-            strcpy(reply.user.cross_project_id, sreq.cross_project_id);
-            reply.update_user_record = true;
+            DB_USER user;
+            user.id = reply.user.id;
+            sprintf(buf, "cross_project_id='%s'", sreq.cross_project_id);
+            user.update_field(buf);
         }
     }
     return 0;
@@ -344,6 +346,7 @@ static int update_host_record(HOST& xhost, USER& user) {
 // Decide whether to send global prefs in reply msg
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    char buf[256];
     reply.send_global_prefs = false;
 
     if (strlen(sreq.global_prefs_xml)) {
@@ -371,7 +374,10 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         if (update_prefs) {
             strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
-            reply.update_user_record = true;
+            DB_USER user;
+            user.id = reply.user.id;
+            sprintf(buf, "global_prefs='%s'", sreq.global_prefs_xml);
+            user.update_field(buf);
         }
     } else {
         // request message has no global prefs;
@@ -986,12 +992,6 @@ void process_request(
     reply.deletion_policy_priority = config.deletion_policy_priority;
     reply.deletion_policy_expire = config.deletion_policy_expire;
 #endif
-
-    if (reply.update_user_record) {
-        DB_USER user;
-        user = reply.user;
-        user.update();
-    }
 
     handle_results(sreq, reply);
 

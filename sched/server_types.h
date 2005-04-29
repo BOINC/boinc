@@ -183,7 +183,6 @@ struct SCHEDULER_REPLY {
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;
-    bool update_user_record;
     bool deletion_policy_priority;
     bool deletion_policy_expire;
 

@@ -136,8 +136,11 @@ Set your PATH variable to include MySQL programs
 (typically /usr/local/mysql and /usr/local/mysql/bin).
 
 <li>
-Transactions are only supported by MySQL 4.0+;
-to use MySQL 3.23, disable &lt;use_transactions/&gt; in config.xml
+You'll need to back up your database.
+Generally this requires stopping the project,
+making a copy or snapshot, and restarting.
+An example is <a href=mysql_backup.txt>here</a>.
+
 </ul>
 
 <h3>PHP notes</h3>

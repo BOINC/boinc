@@ -5825,8 +5825,22 @@ Rom    28 April 2005
         BOINC.ism
 
 Charlie    28 April 2005
-Mac: Add Bernd's HOST_INFO::host_is_running_on_batteries 
-code for Macintosh.
+    Mac: Add Bernd's HOST_INFO::host_is_running_on_batteries 
+    code for Macintosh.
 
     client/
         hostinfo_unic.C
+
+David  28 April 2005
+    - Get rid of a user.update() in the scheduler.
+        This updates all fields of the user record,
+        possibly overwriting fields updated by the validator
+        around the same time.
+        Replace it with user.update_field()
+        (From Bruce Allen)
+
+        TODO: there's also a host.update() that needs to be dealt with.
+
+    sched/
+        handle_request.C
+        server_types.C,h

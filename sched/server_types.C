@@ -313,7 +313,6 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     probable_user_browser = false;
     send_msg_ack = false;
     strcpy(email_hash, "");
-    update_user_record = false;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
