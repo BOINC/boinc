@@ -202,6 +202,8 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
             m_pListPane->EnsureVisible(iDocCount - 1);
         }
 
+        UpdateSelection();
+
         m_bProcessingListRenderEvent = false;
     }
 

@@ -5880,3 +5880,11 @@ rather than absolute.
 Checked in Installer-info.plist.
     mac_build/
         Installer-info.plist (new)
+
+Rom    29 April 2005
+    - Bug Fix: UpdateSelection should be called everytime the listview has
+        been refreshed in case a project/result/transfer has changed its
+        status which might cause a button change.
+
+    clientgui/
+        BOINCBaseView.cpp
