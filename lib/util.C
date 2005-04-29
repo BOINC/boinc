@@ -766,6 +766,18 @@ int boinc_calling_thread_cpu_time(double &cpu_t) {
 // NOTE: if you change this, also change update_average in
 // html/inc/credit.inc
 //
+
+// David, the quick fix I have done is minimalist.  Consider the limit
+// as diff->0, using the first-order Taylor expansion of
+// exp(x)=1+x+O(x^2).
+// So to the lowest order in diff:
+// weight = 1 - diff ln(2) / half_life
+// so one has
+// avg += (1-weight)*(work/diff_days)
+// avg += [diff*ln(2)/half_life] * (work*SECONDS_PER_DAY/diff)
+// notice that diff cancels out, leaving
+// avg += [ln(2)/half_life] * work*SECONDS_PER_DAY
+
 void update_average(
     double work_start_time,       // when new work was started
                                     // (or zero if no new work)
@@ -777,12 +789,22 @@ void update_average(
     double now = dtime();
 
     if (avg_time) {
-        double diff = now - avg_time;
-        if (diff<=0) diff=3600;     // just in case
-        double diff_days = diff/SECONDS_PER_DAY;
-        double weight = exp(-diff*M_LN2/half_life);
+        double diff, diff_days, weight;
+
+        diff = now - avg_time;
+        if (diff<0) diff=0;
+
+        diff_days = diff/SECONDS_PER_DAY;
+        weight = exp(-diff*M_LN2/half_life);
+
         avg *= weight;
-        avg += (1-weight)*(work/diff_days);
+
+        if (diff>0) {
+	    avg += (1-weight)*(work/diff_days);
+        }
+        else {
+            avg += M_LN2*work*SECONDS_PER_DAY/half_life;
+	}
     } else if (work) {
         double dd = (now - work_start_time)/SECONDS_PER_DAY;
         avg = work/dd;

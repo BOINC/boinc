@@ -5852,3 +5852,22 @@ target to greatly speed up compilation.
     clientgui/
         mac/
             MacGUI.pch (new)
+
+Bruce 29 April 2005
+    - Fixed update_average() function to do the right thing when the time
+      between successive calls is small (zero seconds):
+
+      Consider the limit
+      as diff->0, using the first-order Taylor expansion of
+      exp(x)=1+x+O(x^2).
+      So to the lowest order in diff:
+      weight = 1 - diff ln(2) / half_life
+      so one has
+      avg += (1-weight)*(work/diff_days)
+      avg += [diff*ln(2)/half_life] * (work*SECONDS_PER_DAY/diff)
+      notice that diff cancels out, leaving
+      avg += [ln(2)/half_life] * work*SECONDS_PER_DAY
+	
+    lib/
+        util.C
+
