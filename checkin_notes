@@ -5829,7 +5829,7 @@ Charlie    28 April 2005
     code for Macintosh.
 
     client/
-        hostinfo_unic.C
+        hostinfo_unix.C
 
 David  28 April 2005
     - Get rid of a user.update() in the scheduler.
@@ -5844,3 +5844,11 @@ David  28 April 2005
     sched/
         handle_request.C
         server_types.C,h
+
+Charlie    29 April 2005
+Mac: Add precompiled header to XCode project for mgr_boinc 
+target to greatly speed up compilation.
+
+    clientgui/
+        mac/
+            MacGUI.pch (new)

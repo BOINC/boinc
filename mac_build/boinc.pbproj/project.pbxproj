@@ -359,14 +359,14 @@
 				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_CW_ASM_SYNTAX = NO;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.6 ../wxinclude";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
-				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -include../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -include../config.h";
+				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
+				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCManager;
@@ -882,6 +882,24 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		DD1F0AC2082205B900AFC5FA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MacGUI.pch;
+			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/MacGUI.pch;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD1F0ACD0822069E00AFC5FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MacGUI.pch;
+			path = ../clientgui/mac/MacGUI.pch;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD2D25CB07FAB41700151141 = {
 			fileEncoding = 30;
@@ -4261,6 +4279,7 @@
 		};
 		F54B8FBE02AC0A0C01FB7237 = {
 			children = (
+				DD1F0AC2082205B900AFC5FA,
 				DD344B3D07C5ABF40043025C,
 				DD344B3E07C5ABF40043025C,
 				F54B8FC102AC0A0C01FB7237,
@@ -4628,6 +4647,7 @@
 		F5C5403402BFC5C701BEDAB8 = {
 			children = (
 				DD2F32F707F2A88B00645DDC,
+				DD1F0ACD0822069E00AFC5FA,
 				DD2F32EF07F2A83E00645DDC,
 				DD40CDFE07F038990096C645,
 				DD0C59580816573E00CEC5D7,
