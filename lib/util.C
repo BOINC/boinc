@@ -799,7 +799,7 @@ void update_average(
 
         avg *= weight;
 
-        if (diff>0) {
+        if ((1.0-weight) > 1.e-6) {
 	    avg += (1-weight)*(work/diff_days);
         }
         else {
