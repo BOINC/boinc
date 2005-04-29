@@ -5823,3 +5823,10 @@ Rom    28 April 2005
         <Add previous look and feel for reference in case we need them>
     win_build/installerv2/
         BOINC.ism
+
+Charlie    28 April 2005
+Mac: Add Bernd's HOST_INFO::host_is_running_on_batteries 
+code for Macintosh.
+
+    client/
+        hostinfo_unic.C
