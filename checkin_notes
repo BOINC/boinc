@@ -5874,3 +5874,9 @@ Bruce 29 April 2005
         inc/
             credit.inc
 
+Charlie    29 April 2005
+Mac: made path to Installer-info.plist in XCode project relative 
+rather than absolute.
+Checked in Installer-info.plist.
+    mac_build/
+        Installer-info.plist (new)

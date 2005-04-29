@@ -27,7 +27,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OPTIMIZATION_CFLAGS = "-O0";
@@ -750,10 +750,9 @@
 		DD1277B5081F3D67007B5DE1 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Installer-Info.plist";
-			path = "/Volumes/Moon/BOINC_Mac/boinc/mac_build/Installer-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "Installer-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD1277BC081F3E59007B5DE1 = {
 			children = (
