@@ -147,7 +147,6 @@ void CLIENT_STATE::check_suspend_activities(double /*now*/, int& reason) {
         return;
     }
 
-fprintf(stdout, "global_prefs.run_on_batteries = %d\n", (int)global_prefs.run_on_batteries);
     if (!global_prefs.run_on_batteries
         && host_info.host_is_running_on_batteries()
     ) {
