@@ -5891,3 +5891,14 @@ Rom    29 April 2005
     clientgui/
         BOINCBaseView.cpp
         BOINCTaskBar.cpp
+
+Charlie    29 April 2005
+Mac: Update version to 4.35.  Update build instructions.
+
+    clientgui/
+    mac-installer/
+        BOINC.pmsp
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        Info.plist
+
