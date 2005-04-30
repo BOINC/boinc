@@ -214,12 +214,14 @@ int main(int argc, char **argv) {
 
 #ifdef TEST_INT_UPLOAD
         if (nchars == fsize/2) {
+            string tmpname=UPLOAD_FILE_NAME;
             retval = write_upload_file();
             fprintf(stderr, "write_upload_file() %d\n", retval);
-            retval = boinc_upload_file(std::string(UPLOAD_FILE_NAME));
+            retval = boinc_upload_file(tmpname);
             fprintf(stderr, "boinc_upload_file() %d\n", retval);
         } else if (nchars >= fsize/2) {
-            retval = boinc_upload_status(std::string(UPLOAD_FILE_NAME));
+            string tmpname=UPLOAD_FILE_NAME;
+            retval = boinc_upload_status(tmpname);
             fprintf(stderr, "upload status %d\n", retval);
         }
 #endif

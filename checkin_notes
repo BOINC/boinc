@@ -5920,4 +5920,9 @@ Janus  30 April 2005
                 rate_positive.png (new)
                 rate_negative.png (new)
 
+Bruce 30 April 2005
+    - Compile fix for upper_case (was broken under gcc/Linux)
+
+    apps/
+        upper_case.C
 
