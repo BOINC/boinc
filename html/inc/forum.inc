@@ -263,6 +263,7 @@ function getForumPreferences($user){
         $user->high_rating_threshold=$prefs->high_rating_threshold;
         $user->ignorelist=$prefs->ignorelist;
         $user->last_post=$prefs->last_post;
+        $user->ignore_sticky_posts=$prefs->ignore_sticky_posts;
         $user->forum_preferences=1;
 
         //Set defaults in certain cases:

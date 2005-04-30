@@ -85,7 +85,8 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
     } else {
         start_forum_table(array("", "Threads", "Posts", "Author", "Views", "Last post"));
     }
-    $threads = getThreads($forum->id, $start, $threads_per_page, $sort_style, 0, 1);
+    $sticky_first = !$logged_in_user->ignore_sticky_posts;
+    $threads = getThreads($forum->id, $start, $threads_per_page, $sort_style, 0, $sticky_first);
     $n = 0;
 
     while ($thread = mysql_fetch_object($threads)) {

@@ -64,6 +64,7 @@ row2("Sort styles<br><font size=-2>How to sort the replies in the message board 
 if ($user->link_popup==1){$forum_link_externally="checked=\"checked\"";} else {$forum_link_externally="";}
 if ($user->images_as_links==1){$forum_image_as_link="checked=\"checked\"";} else {$forum_image_as_link="";}
 if ($user->jump_to_unread==1){$forum_jump_to_unread="checked=\"checked\"";} else {$forum_jump_to_unread="";}
+if ($user->ignore_sticky_posts==1){$forum_ignore_sticky_posts="checked=\"checked\"";} else {$forum_ignore_sticky_posts="";}
 
 row2("Display and Behavior".
     "<br><font size=-2>How to treat links and images in the forum<br>and how to act on unread posts</font>",
@@ -71,6 +72,7 @@ row2("Display and Behavior".
         <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
         <input type=\"checkbox\" name=\"forum_link_externally\" ".$forum_link_externally."> Open links in new window/tab<br>
         <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
+        <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">Do not reorder sticky posts<br>
     </td></tr></table>"
 );
 

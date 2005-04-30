@@ -5906,11 +5906,18 @@ Janus  30 April 2005
     - Changed rating +/- links to be images instead (more visible)
       Suggested by Eric Myers.
 	- Added example images
+    - Made "sticky sorting" optional. Users can now ignore sticky posts and
+      have posts sorted by time as usual if they like.
 
     html/
-	inc/
-	    forum.inc
-	user/img
-	    rate_positive.png (new)
-	    rate_negative.png (new)
+        inc/
+            forum.inc
+            forum_show.inc
+        user/
+            edit_forum_preferences_form.php
+            edit_forum_preferences_action.php
+            img/
+                rate_positive.png (new)
+                rate_negative.png (new)
+
 

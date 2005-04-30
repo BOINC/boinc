@@ -52,6 +52,7 @@ $link_externally = ($HTTP_POST_VARS["forum_link_externally"]!="");
 $hide_avatars = ($HTTP_POST_VARS["forum_hide_avatars"]!="");
 $hide_signatures = ($HTTP_POST_VARS["forum_hide_signatures"]!="");
 $jump_to_unread = ($HTTP_POST_VARS["forum_jump_to_unread"]!="");
+$ignore_sticky_posts = ($HTTP_POST_VARS["forum_ignore_sticky_posts"]!="");
 $low_rating_threshold = intval($HTTP_POST_VARS["forum_low_rating_threshold"]);
 $high_rating_threshold = intval($HTTP_POST_VARS["forum_high_rating_threshold"]);
 $add_user_to_filter = ($HTTP_POST_VARS["add_user_to_filter"]!="");
@@ -101,6 +102,7 @@ $result = mysql_query(
         link_popup='".$link_externally."', 
         hide_avatars='".$hide_avatars."', 
         no_signature_by_default='".$no_signature_by_default."', 
+        ignore_sticky_posts='".$ignore_sticky_posts."', 
         sorting='".$forum_sorting."',
         signature='$signature',
         jump_to_unread='".$jump_to_unread."',

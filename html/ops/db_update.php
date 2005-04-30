@@ -266,6 +266,11 @@ function update_4_20_2005(){
     do_query("ALTER TABLE `forum` ADD `rate_min_expavg_credit` INT NOT NULL AFTER `posts`");
     do_query("ALTER TABLE `forum_preferences` ADD `last_post` INT( 14 ) UNSIGNED NOT NULL AFTER `posts`");
 }
+
+function update_4_30_2005(){
+    do_query("ALTER TABLE `forum_preferences` ADD `ignore_sticky_posts` TINYINT( 1 ) UNSIGNED NOT NULL AFTER `no_signature_by_default`");
+}    
+
 //update_10_25_2004();
 
 ?>
