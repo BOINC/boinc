@@ -204,7 +204,7 @@ version(
     "4.35",
     "Development version",
     "boinc_4.35_windows_intelx86.exe",
-    "15 Apr 2005",
+    "28 Apr 2005",
     win_new(),
     "<ul>
     <li>
@@ -294,11 +294,11 @@ version(
 );
 version(
     "Mac",
-    "4.25",
-    "Development version (command line)",
-    "boinc_4.25_powerpc-apple-darwin.gz",
-    "3 Mar 2005",
-    bare_core()
+    "4.35",
+    "Development version (advanced GUI)",
+    "boinc_4.35_powerpc-apple-darwin.zip",
+    "29 Apr 2005",
+    mac_advanced()
 );
 
 xecho("
