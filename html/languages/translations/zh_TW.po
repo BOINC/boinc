@@ -2,35 +2,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-03-20 18:32+0800\n"
+"PO-Revision-Date: 2005-04-10 18:38+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-##########################################
+# #########################################
 # Language: Chiense (Traditional)
 # FileID  : $Id$
 # Author  : Jose Sun
 # Email   : josesun@cpatch.org
-##########################################
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
+# #########################################
 msgid "CHARSET"
 msgstr "UTF-8"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "Chinese/Taiwan"
+msgstr "中文 (繁體)"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Chinese/Taiwan"
+msgstr "Chinese (Traditional)"
 
-
-#########################################
+# ########################################
 # Apps page (apps.php)
-#########################################
+# ########################################
 msgid "APPS_TITLE"
 msgstr "應用程式"
 
@@ -46,9 +47,9 @@ msgstr "目前版本"
 msgid "APPS_INSTALLTIME"
 msgstr "已安裝"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
-#########################################
+# ########################################
 msgid "RULES_TITLE"
 msgstr "規定與政策"
 
@@ -109,9 +110,9 @@ msgstr "其他的專案也使用像 $PROJECT 一樣的平台 - BONIC。也許你
 msgid "RULES_OTHER_TEXT_B"
 msgstr "其他的專案與 $PROJECT 並無任何關聯，同時我們對其他專案的安全性和研究性質不做任何擔保。加入這些專案的風險請自行承擔。"
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
-#########################################
+# ########################################
 msgid "CREATE_AC_TITLE"
 msgstr "建立帳號"
 
@@ -154,9 +155,9 @@ msgstr "目前 $PROJECT 的帳號建立已經停止。請稍後再試一遍。"
 msgid "CREATE_AC_TEAM"
 msgstr "這個帳號屬於 %s  團隊並且有團隊創立者自己的專案偏好設定。"
 
-#########################################
+# ########################################
 # Account created page (account_created.php)
-#########################################
+# ########################################
 msgid "AC_READY_TITLE"
 msgstr "帳號已建立。"
 
@@ -169,10 +170,10 @@ msgstr "請在這裡貼上你的帳號金鑰以繼續下一步："
 msgid "AC_READY_CLICK"
 msgstr "然後按一下"
 
-#########################################
+# ########################################
 # Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
+# ########################################
+# also used in account_setup_nonfirst.php:
 msgid "AC_SETUP_TITLE"
 msgstr "帳號設定"
 
@@ -189,11 +190,11 @@ msgid "AC_SETUP_FIRST"
 msgstr "是的 - 這是我的第一個 BONIC 專案"
 
 msgid "AC_SETUP_NONFIRST"
-msgstr "不是 - 我已經參與了一個以上其它的 BOINC 專案"
+msgstr "不是 - 我已經參與了一個以上它的 BOINC 專案"
 
-#########################################
+# ########################################
 # First Account setup page (account_setup_first.php)
-#########################################
+# ########################################
 msgid "AC_FIRST_TITLE"
 msgstr "帳號偏好設定"
 
@@ -203,10 +204,10 @@ msgstr "你可以控制 $PROJECT 運用你電腦的時間和方式"
 msgid "AC_FIRST_DEFAULT"
 msgstr "如果要套用預設的設定值，請捲動頁面到最底端並按一下 OK。"
 
-#########################################
+# ########################################
 # First Account setup done page (account_setup_first_done.php)
 # and (account_setup_nonfirst_done.php
-#########################################
+# ########################################
 msgid "AC_DONE_TITLE"
 msgstr "帳號設定：完成"
 
@@ -231,15 +232,15 @@ msgstr "下載 BOINC 軟體"
 msgid "AC_DONE_THANKS"
 msgstr "感謝你參與 $PROJECT 專案"
 
-#########################################
+# ########################################
 # Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
+# ########################################
 msgid "AC_NONFIRST_TITLE"
 msgstr "帳號設定：資源分享"
 
-#########################################
+# ########################################
 # Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
+# ########################################
 msgid "AC_DONE_MUST_USE"
 msgstr "下一步你必須告訴你電腦使用這個帳號。"
 
@@ -261,16 +262,22 @@ msgstr "所有使用者都要複製下面的訊息並貼上到軟體中："
 msgid "AC_DONE_INSTALLED"
 msgstr "已經完成了 $PROJECT 的安裝。"
 
-#########################################
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_TITLE"
+msgstr "$PROJECT 留言板"
+
+# ########################################
 # Different strange places:
-#########################################
+# ########################################
 # account_created.php
 msgid "AC_CREATED_TITLE"
 msgstr "組態你的帳號"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
-#########################################
+# ########################################
 msgid "OPTIONAL"
 msgstr "非必要"
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-04-17 09:52+0100\n"
+"PO-Revision-Date: 2005-04-30 08:36+0100\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -11,8 +11,8 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
-"X-Poedit-SearchPath-0: clientgui\n"
+"X-Poedit-Basepath: D:\\NEW\\BOINC\\\n"
+"X-Poedit-SearchPath-0: _Lang-cs\n"
 
 #############################################
 # FileID	: BOINC Manager.po, ver1.6, 2005/04/17 8:49:37 
@@ -24,98 +24,73 @@ msgstr ""
 msgid "CHARSET"
 msgstr "utf-8"
 
-#: clientgui/BOINCGUIApp.cpp:240
-#: clientgui/archive/BOINCGUIApp.cpp:237
+#: clientgui/BOINCGUIApp.cpp:264
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Spouštěj BOINC minimalizovaný do ikony v trayi"
 
-#: clientgui/BOINCGUIApp.cpp:297
+#: clientgui/BOINCGUIApp.cpp:321
 #: clientgui/DlgOptions.cpp:136
 #: clientgui/DlgOptions.cpp:137
-#: clientgui/archive/BOINCGUIApp.cpp:294
-#: clientgui/archive/DlgOptions.cpp:137
-#: clientgui/archive/DlgOptions.cpp:138
 msgid "(Automatic Detection)"
 msgstr "(Zvolit automaticky)"
 
-#: clientgui/BOINCGUIApp.cpp:298
-#: clientgui/archive/BOINCGUIApp.cpp:295
+#: clientgui/BOINCGUIApp.cpp:322
 msgid "(Unknown)"
 msgstr "(Neznámý)"
 
-#: clientgui/BOINCGUIApp.cpp:299
-#: clientgui/archive/BOINCGUIApp.cpp:296
+#: clientgui/BOINCGUIApp.cpp:323
 msgid "(User Defined)"
 msgstr "(Definováno uživatelem)"
 
 #: clientgui/BOINCTaskBar.cpp:66
 #: clientgui/DlgAbout.cpp:112
-#: clientgui/archive/BOINCTaskBar.cpp:66
-#: clientgui/archive/DlgAbout.cpp:112
 msgid "BOINC Manager"
 msgstr "Správce BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:336
-#: clientgui/MainFrame.cpp:355
-#: clientgui/archive/BOINCTaskBar.cpp:336
-#: clientgui/archive/MainFrame.cpp:337
-#: clientgui/archive/mac/MacSysMenu.cpp:68
-#: clientgui/mac/MacSysMenu.cpp:68
+#: clientgui/MainFrame.cpp:350
+#: clientgui/mac/MacSysMenu.cpp:70
 msgid "E&xit"
 msgstr "&Konec"
 
 #: clientgui/BOINCTaskBar.cpp:355
 #: clientgui/BOINCTaskBar.cpp:362
-#: clientgui/archive/BOINCTaskBar.cpp:355
-#: clientgui/archive/BOINCTaskBar.cpp:362
 msgid "&Open BOINC Manager..."
 msgstr "&Otevři Správce BOINC"
 
 #: clientgui/BOINCTaskBar.cpp:366
-#: clientgui/MainFrame.cpp:313
-#: clientgui/archive/BOINCTaskBar.cpp:366
-#: clientgui/archive/MainFrame.cpp:295
+#: clientgui/MainFrame.cpp:308
 msgid "&Run always"
 msgstr "&Počítej nepřetržitě"
 
 #: clientgui/BOINCTaskBar.cpp:367
-#: clientgui/MainFrame.cpp:318
-#: clientgui/archive/BOINCTaskBar.cpp:367
-#: clientgui/archive/MainFrame.cpp:300
+#: clientgui/MainFrame.cpp:313
 msgid "Run based on &preferences"
 msgstr "Počítej podle &Nastavení"
 
 #: clientgui/BOINCTaskBar.cpp:368
-#: clientgui/MainFrame.cpp:323
-#: clientgui/archive/BOINCTaskBar.cpp:368
-#: clientgui/archive/MainFrame.cpp:305
+#: clientgui/MainFrame.cpp:318
 msgid "&Suspend"
 msgstr "Po&zastavit"
 
 #: clientgui/BOINCTaskBar.cpp:370
-#: clientgui/archive/BOINCTaskBar.cpp:370
 msgid "&Disable BOINC network access"
 msgstr "&Zakázat přístup BOINC k síti"
 
 #: clientgui/BOINCTaskBar.cpp:372
-#: clientgui/MainFrame.cpp:381
-#: clientgui/archive/BOINCTaskBar.cpp:372
-#: clientgui/archive/MainFrame.cpp:363
+#: clientgui/MainFrame.cpp:376
 msgid "&About BOINC Manager..."
 msgstr "&O Správci BOINC..."
 
 #: clientgui/DlgAbout.cpp:126
-#: clientgui/archive/DlgAbout.cpp:131
 msgid "Version:"
 msgstr "Verze:"
 
 #: clientgui/DlgAbout.cpp:134
-#: clientgui/archive/DlgAbout.cpp:147
 msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:138
-#: clientgui/archive/DlgAbout.cpp:151
 msgid ""
 "(C) 2005 University of California at Berkeley.\n"
 "All Rights Reserved."
@@ -124,14 +99,12 @@ msgstr ""
 "Všechna práva vyhrazena."
 
 #: clientgui/DlgAbout.cpp:142
-#: clientgui/archive/DlgAbout.cpp:155
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 "Berkeley Open Infrastructure for Network Computing \n"
-"(Otevřená Infrastruktura pro Síťové Výpočty z Berkeley)"
+"(Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)"
 
 #: clientgui/DlgAbout.cpp:146
-#: clientgui/archive/DlgAbout.cpp:163
 msgid "http://boinc.berkeley.edu/"
 msgstr "http://boinc.berkeley.edu/"
 
@@ -141,17 +114,10 @@ msgstr "http://boinc.berkeley.edu/"
 #: clientgui/DlgConnection.cpp:122
 #: clientgui/DlgOptions.cpp:264
 #: clientgui/DlgSelectComputer.cpp:139
-#: clientgui/archive/DlgAbout.cpp:171
-#: clientgui/archive/DlgAccountManager.cpp:136
-#: clientgui/archive/DlgAttachProject.cpp:144
-#: clientgui/archive/DlgConnection.cpp:122
-#: clientgui/archive/DlgOptions.cpp:265
-#: clientgui/archive/DlgSelectComputer.cpp:139
 msgid "&OK"
 msgstr "&OK"
 
 #: clientgui/DlgAccountManager.cpp:117
-#: clientgui/archive/DlgAccountManager.cpp:117
 msgid "Username:"
 msgstr "Uživatelské jméno:"
 
@@ -159,10 +125,6 @@ msgstr "Uživatelské jméno:"
 #: clientgui/DlgOptions.cpp:189
 #: clientgui/DlgOptions.cpp:245
 #: clientgui/DlgSelectComputer.cpp:128
-#: clientgui/archive/DlgAccountManager.cpp:125
-#: clientgui/archive/DlgOptions.cpp:190
-#: clientgui/archive/DlgOptions.cpp:246
-#: clientgui/archive/DlgSelectComputer.cpp:128
 msgid "Password:"
 msgstr "Heslo:"
 
@@ -171,26 +133,18 @@ msgstr "Heslo:"
 #: clientgui/DlgConnection.cpp:127
 #: clientgui/DlgOptions.cpp:269
 #: clientgui/DlgSelectComputer.cpp:144
-#: clientgui/archive/DlgAccountManager.cpp:141
-#: clientgui/archive/DlgAttachProject.cpp:149
-#: clientgui/archive/DlgConnection.cpp:127
-#: clientgui/archive/DlgOptions.cpp:270
-#: clientgui/archive/DlgSelectComputer.cpp:144
 msgid "&Cancel"
 msgstr "&Zrušit"
 
 #: clientgui/DlgAttachProject.cpp:121
-#: clientgui/archive/DlgAttachProject.cpp:121
 msgid "URL:"
 msgstr "URL:"
 
 #: clientgui/DlgAttachProject.cpp:129
-#: clientgui/archive/DlgAttachProject.cpp:129
 msgid "Account Key:"
 msgstr "Klíč (Account Key):"
 
 #: clientgui/DlgAttachProject.cpp:137
-#: clientgui/archive/DlgAttachProject.cpp:137
 msgid ""
 "These are emailed to you when you create an account.\n"
 "Go to project web sites to create accounts.\n"
@@ -201,7 +155,6 @@ msgstr ""
 "Seznam projektů najdete na adrese: http://boinc.berkeley.edu"
 
 #: clientgui/DlgConnection.cpp:115
-#: clientgui/archive/DlgConnection.cpp:115
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -210,960 +163,717 @@ msgstr ""
 "Připojit?"
 
 #: clientgui/DlgOptions.cpp:132
-#: clientgui/archive/DlgOptions.cpp:132
 msgid "Language Selection:"
 msgstr "Volba jazyka:"
 
 #: clientgui/DlgOptions.cpp:140
-#: clientgui/archive/DlgOptions.cpp:141
 msgid "General"
 msgstr "Obecné"
 
 #: clientgui/DlgOptions.cpp:148
-#: clientgui/archive/DlgOptions.cpp:149
 msgid "Connect via HTTP proxy server"
 msgstr "Připojit přes HTTP proxy server"
 
 #: clientgui/DlgOptions.cpp:152
-#: clientgui/archive/DlgOptions.cpp:153
 msgid "HTTP Proxy Server Configuration"
 msgstr "Nastavení HTTP proxy serveru"
 
 #: clientgui/DlgOptions.cpp:160
 #: clientgui/DlgOptions.cpp:216
-#: clientgui/archive/DlgOptions.cpp:161
-#: clientgui/archive/DlgOptions.cpp:217
 msgid "Address:"
 msgstr "Adresa:"
 
 #: clientgui/DlgOptions.cpp:168
 #: clientgui/DlgOptions.cpp:224
-#: clientgui/archive/DlgOptions.cpp:169
-#: clientgui/archive/DlgOptions.cpp:225
 msgid "Port:"
 msgstr "Port:"
 
 #: clientgui/DlgOptions.cpp:175
 #: clientgui/DlgOptions.cpp:231
-#: clientgui/archive/DlgOptions.cpp:176
-#: clientgui/archive/DlgOptions.cpp:232
 msgid "Leave these blank if not needed"
 msgstr "Autorizace (nevyplňujte, pokud není vyžadováno proxy serverem)"
 
 #: clientgui/DlgOptions.cpp:181
 #: clientgui/DlgOptions.cpp:237
-#: clientgui/archive/DlgOptions.cpp:182
-#: clientgui/archive/DlgOptions.cpp:238
 msgid "User Name:"
 msgstr "Uživatelské jméno:"
 
 #: clientgui/DlgOptions.cpp:196
-#: clientgui/archive/DlgOptions.cpp:197
 msgid "HTTP Proxy"
 msgstr "HTTP proxy server"
 
 #: clientgui/DlgOptions.cpp:204
-#: clientgui/archive/DlgOptions.cpp:205
 msgid "Connect via SOCKS proxy server"
 msgstr "Připojit přes SOCKS proxy server"
 
 #: clientgui/DlgOptions.cpp:208
-#: clientgui/archive/DlgOptions.cpp:209
 msgid "SOCKS Proxy Server Configuration"
 msgstr "Nastavení SOCKS proxy serveru"
 
 #: clientgui/DlgOptions.cpp:252
-#: clientgui/archive/DlgOptions.cpp:253
 msgid "SOCKS Proxy"
 msgstr "SOCKS proxy server"
 
 #: clientgui/DlgSelectComputer.cpp:119
-#: clientgui/archive/DlgSelectComputer.cpp:119
 msgid "Host name:"
 msgstr "Jméno počítače:"
 
-#: clientgui/MainDocument.cpp:286
-#: clientgui/archive/MainDocument.cpp:239
+#: clientgui/MainDocument.cpp:279
 msgid "Retrieving system state; please wait..."
 msgstr "Zjišťuji stav systému. Prosím čekej..."
 
-#: clientgui/MainDocument.cpp:295
-#: clientgui/archive/MainDocument.cpp:247
+#: clientgui/MainDocument.cpp:288
 msgid "Retrieving host information; please wait..."
 msgstr "Zjišťuji stav hostitele. Prosím čekej..."
 
 #: clientgui/MainFrame.cpp:77
-#: clientgui/archive/MainFrame.cpp:77
 msgid "Connected"
-msgstr "Connected"
+msgstr "Připojen"
 
 #: clientgui/MainFrame.cpp:85
-#: clientgui/archive/MainFrame.cpp:85
 msgid "Disconnected"
 msgstr "Odpojen"
 
-#: clientgui/MainFrame.cpp:299
-#: clientgui/archive/MainFrame.cpp:281
+#: clientgui/MainFrame.cpp:294
 msgid "Close"
 msgstr "Uzavřít"
 
-#: clientgui/MainFrame.cpp:300
-#: clientgui/archive/MainFrame.cpp:282
+#: clientgui/MainFrame.cpp:295
 msgid "Closes the main BOINC Manager window"
 msgstr "Uzavře hlavní okno Správce BOINC"
 
-#: clientgui/MainFrame.cpp:305
-#: clientgui/archive/MainFrame.cpp:287
+#: clientgui/MainFrame.cpp:300
 msgid "&Hide"
 msgstr "&Minimalizuj"
 
-#: clientgui/MainFrame.cpp:306
-#: clientgui/archive/MainFrame.cpp:288
+#: clientgui/MainFrame.cpp:301
 msgid "Hides the main BOINC Manager window"
 msgstr "Minimalizuje hlavní okno správce BOINC"
 
-#: clientgui/MainFrame.cpp:314
-#: clientgui/archive/MainFrame.cpp:296
+#: clientgui/MainFrame.cpp:309
 msgid "Does work regardless of preferences"
 msgstr "Pracuje bez ohledu na nastavení"
 
-#: clientgui/MainFrame.cpp:319
-#: clientgui/archive/MainFrame.cpp:301
+#: clientgui/MainFrame.cpp:314
 msgid "Does work according to your preferences"
 msgstr "Pracuje podle nastavení"
 
-#: clientgui/MainFrame.cpp:324
-#: clientgui/archive/MainFrame.cpp:306
+#: clientgui/MainFrame.cpp:319
 msgid "Stops work regardless of preferences"
 msgstr "Pozastavuje práci bez ohledu na nastavení"
 
-#: clientgui/MainFrame.cpp:331
-#: clientgui/archive/MainFrame.cpp:313
+#: clientgui/MainFrame.cpp:326
 msgid "&Disable BOINC Network Access"
-msgstr "&Disable BOINC Network Access"
+msgstr "&Zakázat přístup BOINC k síti"
 
-#: clientgui/MainFrame.cpp:332
-#: clientgui/archive/MainFrame.cpp:314
+#: clientgui/MainFrame.cpp:327
 msgid "Stops BOINC network activity"
 msgstr "Zakazuje Správci BOINC využívat síť"
 
-#: clientgui/MainFrame.cpp:339
-#: clientgui/archive/MainFrame.cpp:321
+#: clientgui/MainFrame.cpp:334
 msgid "Run &Benchmarks"
 msgstr "Spusť &Testy"
 
-#: clientgui/MainFrame.cpp:340
-#: clientgui/archive/MainFrame.cpp:322
+#: clientgui/MainFrame.cpp:335
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Spouští testy procesoru"
 
-#: clientgui/MainFrame.cpp:347
-#: clientgui/archive/MainFrame.cpp:329
+#: clientgui/MainFrame.cpp:342
 msgid "Select Computer..."
 msgstr "Zvol počítač..."
 
-#: clientgui/MainFrame.cpp:348
-#: clientgui/archive/MainFrame.cpp:330
+#: clientgui/MainFrame.cpp:343
 msgid "Connect to another computer running BOINC"
-msgstr "Připojit k jinému počítači se spuštěným BOINC"
+msgstr "Umožňuje připojení k jinému počítači se spuštěným BOINC"
 
-#: clientgui/MainFrame.cpp:356
-#: clientgui/archive/MainFrame.cpp:338
+#: clientgui/MainFrame.cpp:351
 msgid "Exit the BOINC Manager"
-msgstr "Ukončit Správce BOINC"
+msgstr "Ukončuje Správce BOINC"
 
-#: clientgui/MainFrame.cpp:364
-#: clientgui/archive/MainFrame.cpp:346
+#: clientgui/MainFrame.cpp:359
 msgid "&Update Accounts"
 msgstr "&Aktualizuj účty"
 
-#: clientgui/MainFrame.cpp:365
-#: clientgui/archive/MainFrame.cpp:347
+#: clientgui/MainFrame.cpp:360
 msgid "Connect to your account manager website and update all of your accounts"
 msgstr "Připojí se k internetové stránce spravující vaše účty, a aktualizuje informace o všech vašich účtech"
 
-#: clientgui/MainFrame.cpp:373
-#: clientgui/archive/MainFrame.cpp:355
+#: clientgui/MainFrame.cpp:368
 msgid "&Options"
 msgstr "&Možnosti"
 
-#: clientgui/MainFrame.cpp:374
-#: clientgui/archive/MainFrame.cpp:356
+#: clientgui/MainFrame.cpp:369
 msgid "Configure GUI options and proxy settings"
-msgstr "Nastavit vzhled a proxy serveru"
+msgstr "Nastavení vzhledu a proxy serveru"
 
-#: clientgui/MainFrame.cpp:382
-#: clientgui/archive/MainFrame.cpp:364
+#: clientgui/MainFrame.cpp:377
 msgid "Show information about BOINC and BOINC Manager"
-msgstr "Zobrazit informace o BOINC a o Správci BOINC"
+msgstr "Zobrazí informace o BOINC a o Správci BOINC"
 
-#: clientgui/MainFrame.cpp:389
-#: clientgui/archive/MainFrame.cpp:371
+#: clientgui/MainFrame.cpp:384
 msgid "&File"
 msgstr "&Soubor"
 
-#: clientgui/MainFrame.cpp:393
-#: clientgui/archive/MainFrame.cpp:375
+#: clientgui/MainFrame.cpp:388
 msgid "&Tools"
 msgstr "&Nástroje"
 
-#: clientgui/MainFrame.cpp:397
-#: clientgui/archive/MainFrame.cpp:379
+#: clientgui/MainFrame.cpp:392
 msgid "&Help"
 msgstr "&Pomoc"
 
-#: clientgui/MainFrame.cpp:871
-#: clientgui/MainFrame.cpp:872
-#: clientgui/MainFrame.cpp:1149
-#: clientgui/MainFrame.cpp:1150
+#: clientgui/MainFrame.cpp:863
+#: clientgui/MainFrame.cpp:864
+#: clientgui/MainFrame.cpp:1117
+#: clientgui/MainFrame.cpp:1118
 msgid "Connection failed."
 msgstr "Připojení selhalo"
 
-#: clientgui/MainFrame.cpp:1020
-#: clientgui/archive/MainFrame.cpp:998
+#: clientgui/MainFrame.cpp:1012
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Jazyk Správce BOINC byl změněn. Aby se změna projevila, je nutné Správce ukončit a znovu spustit."
 
-#: clientgui/MainFrame.cpp:1021
-#: clientgui/archive/MainFrame.cpp:999
+#: clientgui/MainFrame.cpp:1013
 msgid "Language Selection..."
 msgstr "Volba jazyka..."
 
-#: clientgui/MainFrame.cpp:1162
+#: clientgui/MainFrame.cpp:1130
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Zadané heslo je chybné. Prosím, zkuste znovu."
 
-#: clientgui/MainFrame.cpp:1163
-#: clientgui/archive/MainFrame.cpp:1129
+#: clientgui/MainFrame.cpp:1131
 msgid "Connection Error"
 msgstr "Chyba připojení"
 
-#: clientgui/MainFrame.cpp:1337
-#: clientgui/MainFrame.cpp:1340
-#: clientgui/archive/MainFrame.cpp:1303
-#: clientgui/archive/MainFrame.cpp:1310
+#: clientgui/MainFrame.cpp:1305
+#: clientgui/MainFrame.cpp:1308
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1338
-#: clientgui/archive/MainFrame.cpp:1304
+#: clientgui/MainFrame.cpp:1306
 #, c-format
 msgid "Connecting to %s"
-msgstr "Připojuji se k %s"
+msgstr "Připojuji se k:  %s"
 
-#: clientgui/MainFrame.cpp:1341
+#: clientgui/MainFrame.cpp:1309
 #, c-format
 msgid "Connected to %s"
-msgstr "Připojeno k %s"
+msgstr "Připojeno k:  %s"
 
-#: clientgui/ValidateAccountKey.cpp:71
-#: clientgui/archive/ValidateAccountKey.cpp:71
+#: clientgui/ValidateAccountKey.cpp:70
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "Neplatný klíč. Vložte prosím platný klíč"
 
-#: clientgui/ValidateAccountKey.cpp:82
+#: clientgui/ValidateAccountKey.cpp:81
 #: clientgui/ValidateURL.cpp:88
-#: clientgui/archive/ValidateAccountKey.cpp:82
-#: clientgui/archive/ValidateURL.cpp:88
 msgid "Validation conflict"
 msgstr "Ověření platnosti selhalo"
 
 #: clientgui/ValidateURL.cpp:75
-#: clientgui/archive/ValidateURL.cpp:75
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' neobsahuje platné jméno počítače."
 
 #: clientgui/ValidateURL.cpp:77
-#: clientgui/archive/ValidateURL.cpp:77
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' neobsahuje platnou cestu."
 
-#: clientgui/ViewMessages.cpp:78
-#: clientgui/archive/ViewMessages.cpp:78
-msgid "Click a message to see additional options."
-msgstr "Kliknutím na zprávu zobrazíte další možnosti."
-
-#: clientgui/ViewMessages.cpp:82
-#: clientgui/archive/ViewMessages.cpp:82
-msgid "<b>Copy all</b><br>Copy all the messages to the clipboard."
-msgstr "<b>Zkopíruj vše</b><br>Zkopíruje všechny zprávy do schránky."
-
-#: clientgui/ViewMessages.cpp:87
-#: clientgui/archive/ViewMessages.cpp:87
-msgid "<b>Copy selected messages</b><br>Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "<b>Zkopíruj označené zprávy</b><br>Zkopíruje označené zprávy do schránky. Zvolit více zpráv je možno klikáním na zprávy se současně stisknutou klávesou Shift nebo Ctrl."
-
-#: clientgui/ViewMessages.cpp:105
-#: clientgui/ViewProjects.cpp:174
-#: clientgui/ViewResources.cpp:94
-#: clientgui/ViewStatistics.cpp:359
-#: clientgui/ViewTransfers.cpp:121
-#: clientgui/ViewWork.cpp:133
-#: clientgui/archive/ViewMessages.cpp:105
-#: clientgui/archive/ViewProjects.cpp:246
-#: clientgui/archive/ViewResources.cpp:94
-#: clientgui/archive/ViewStatistics.cpp:359
-#: clientgui/archive/ViewTransfers.cpp:121
-#: clientgui/archive/ViewWork.cpp:133
+#: clientgui/ViewMessages.cpp:76
+#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewStatistics.cpp:303
+#: clientgui/ViewTransfers.cpp:98
+#: clientgui/ViewWork.cpp:102
 msgid "Tasks"
 msgstr "Úlohy"
 
-#: clientgui/ViewMessages.cpp:106
-#: clientgui/ViewProjects.cpp:176
-#: clientgui/ViewResources.cpp:95
-#: clientgui/ViewStatistics.cpp:360
-#: clientgui/ViewTransfers.cpp:122
-#: clientgui/ViewWork.cpp:134
-#: clientgui/archive/ViewMessages.cpp:106
-#: clientgui/archive/ViewProjects.cpp:248
-#: clientgui/archive/ViewResources.cpp:95
-#: clientgui/archive/ViewStatistics.cpp:360
-#: clientgui/archive/ViewTransfers.cpp:122
-#: clientgui/archive/ViewWork.cpp:134
-msgid "Tips"
-msgstr "Tipy"
-
-#: clientgui/ViewMessages.cpp:108
-#: clientgui/ViewProjects.cpp:178
-#: clientgui/ViewProjects.cpp:640
-#: clientgui/ViewResources.cpp:97
-#: clientgui/ViewTransfers.cpp:124
-#: clientgui/ViewWork.cpp:136
-#: clientgui/archive/ViewMessages.cpp:108
-#: clientgui/archive/ViewProjects.cpp:250
-#: clientgui/archive/ViewProjects.cpp:729
-#: clientgui/archive/ViewResources.cpp:97
-#: clientgui/archive/ViewTransfers.cpp:124
-#: clientgui/archive/ViewWork.cpp:136
-msgid "Project"
-msgstr "Projekt"
-
-#: clientgui/ViewMessages.cpp:109
-#: clientgui/ViewTransfers.cpp:128
-#: clientgui/archive/ViewMessages.cpp:109
-#: clientgui/archive/ViewTransfers.cpp:128
-msgid "Time"
-msgstr "Čas"
-
-#: clientgui/ViewMessages.cpp:110
-#: clientgui/archive/ViewMessages.cpp:110
-msgid "Message"
-msgstr "Zpráva"
-
-#: clientgui/ViewMessages.cpp:141
-#: clientgui/archive/ViewMessages.cpp:141
-msgid "Messages"
-msgstr "Zprávy"
-
-#: clientgui/ViewMessages.cpp:238
-#: clientgui/archive/ViewMessages.cpp:236
-msgid "Copying all messages to the clipboard..."
-msgstr "Kopíruji všechny zprávy do schránky..."
-
-#: clientgui/ViewMessages.cpp:251
-#: clientgui/archive/ViewMessages.cpp:249
-msgid "Copying selected message(s) to the clipboard..."
-msgstr "Kkopíruji označené zprávy do schránky..."
-
-#: clientgui/ViewMessages.cpp:339
-#: clientgui/archive/ViewMessages.cpp:345
+#: clientgui/ViewMessages.cpp:80
 msgid "Copy all messages"
 msgstr "Zkopíruj všechny zprávy"
 
-#: clientgui/ViewMessages.cpp:340
-#: clientgui/archive/ViewMessages.cpp:346
+#: clientgui/ViewMessages.cpp:81
+msgid "Copy all the messages to the clipboard."
+msgstr "Zkopíruje všechny zprávy do schránky"
+
+#: clientgui/ViewMessages.cpp:87
 msgid "Copy selected messages"
 msgstr "Zkopíruj označené zprávy"
 
-#: clientgui/ViewProjects.cpp:101
-#: clientgui/archive/ViewProjects.cpp:173
-msgid "Click a project to see additional options."
-msgstr "Kliknutím na projekt zobrazíte další možnosti."
+#: clientgui/ViewMessages.cpp:88
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "Zkopíruje označené zprávy do schránky. Zvolit více zpráv je možno klikáním na zprávy se současně stisknutou klávesou Shift nebo Ctrl."
 
-#: clientgui/ViewProjects.cpp:105
-#: clientgui/archive/ViewProjects.cpp:105
-#: clientgui/archive/ViewProjects.cpp:177
-msgid "<b>Attach to new project</b><br>Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "<b>Připojit se k novému projektu</b><br>Připojit se k dalšímu BOINC projektu. Zajistěte si adresu (URL) a klíč (account key) projektu. Obojí získáte z webových stránek projektu."
+#: clientgui/ViewMessages.cpp:100
+#: clientgui/ViewProjects.cpp:164
+#: clientgui/ViewResources.cpp:80
+#: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewWork.cpp:132
+msgid "Project"
+msgstr "Projekt"
 
-#: clientgui/ViewProjects.cpp:112
-#: clientgui/archive/ViewProjects.cpp:117
-#: clientgui/archive/ViewProjects.cpp:184
-msgid "<b>Detach from project</b><br>Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
-msgstr "<b>Opustit projekt</b><br>Odpojí tento počítač z daného projektu. Rozdělaná práce bude ztracena. Před opuštěním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny dokončené výsledky."
+#: clientgui/ViewMessages.cpp:101
+#: clientgui/ViewTransfers.cpp:125
+msgid "Time"
+msgstr "Čas"
 
-#: clientgui/ViewProjects.cpp:120
-#: clientgui/archive/ViewProjects.cpp:130
-#: clientgui/archive/ViewProjects.cpp:192
-msgid "<b>Reset project</b><br>Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
-msgstr "<b>Restartovat projekt</b><br>Všechny soubory související s tímto projektem budou smazány a budou staženy nové. Před restartováním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny dokončené výsledky."
+#: clientgui/ViewMessages.cpp:102
+msgid "Message"
+msgstr "Zpráva"
 
-#: clientgui/ViewProjects.cpp:128
-#: clientgui/archive/ViewProjects.cpp:143
-#: clientgui/archive/ViewProjects.cpp:200
-msgid "<b>Suspend project</b><br>Stop work for this project (you can resume later)."
-msgstr "<b>Pozastavit projekt</b><br>Pozastaví práci pro tento projekt (později bude možné v práci opět pokračovat)."
+#: clientgui/ViewMessages.cpp:126
+msgid "Messages"
+msgstr "Zprávy"
 
-#: clientgui/ViewProjects.cpp:134
-#: clientgui/archive/ViewProjects.cpp:154
-#: clientgui/archive/ViewProjects.cpp:206
-msgid "<b>Resume project</b><br>Resume work for this project"
-msgstr "<b>Obnovit projekt</b><br>Obnoví práci pro tento projekt"
+#: clientgui/ViewMessages.cpp:147
+msgid "Copying all messages to the clipboard..."
+msgstr "Kopíruji všechny zprávy do schránky..."
 
-#: clientgui/ViewProjects.cpp:139
-#: clientgui/archive/ViewProjects.cpp:164
-#: clientgui/archive/ViewProjects.cpp:211
-msgid "<b>Update project</b><br>Report all completed work and refresh your credit and preferences for this project."
-msgstr "<b>Aktualizuj projekt</b><br>Ohlásí veškerou dokončenou práci pro daný projekt a aktualizuje nastavení a kredit projektu."
+#: clientgui/ViewMessages.cpp:180
+#: clientgui/ViewTransfers.cpp:190
+msgid "Aborting transfer..."
+msgstr "Odstraňuji soubor..."
 
-#: clientgui/ViewProjects.cpp:145
-#: clientgui/archive/ViewProjects.cpp:217
-msgid "<b>BOINC home page</b><br>Open the BOINC home page in a web browser."
-msgstr "<b>Webová stránka BOINC</b><br>Otevře domovskou stránku BOINC v internetovém prohlížeči."
+#: clientgui/ViewProjects.cpp:109
+msgid "Update"
+msgstr "Aktualizovat"
 
-#: clientgui/ViewProjects.cpp:150
-#: clientgui/archive/ViewProjects.cpp:222
-msgid "<b>Project home page</b><br>Open this project's home page in a web browser."
-msgstr "<b>Webová stránka projektu</b><br>Otevře domovskou stránku projektu v internetovém prohlížeči."
+#: clientgui/ViewProjects.cpp:110
+msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Oznámit veškerou dokončenou práci, získat nejnovější informace o kreditu a nastavení, přijmout další práci"
 
-#: clientgui/ViewProjects.cpp:175
-#: clientgui/archive/ViewProjects.cpp:247
-msgid "Web sites"
-msgstr "Webové stránky"
+#: clientgui/ViewProjects.cpp:117
+#: clientgui/ViewProjects.cpp:603
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:458
+msgid "Suspend"
+msgstr "Pozastavit"
 
-#: clientgui/ViewProjects.cpp:179
-#: clientgui/archive/ViewProjects.cpp:251
+#: clientgui/ViewProjects.cpp:118
+#: clientgui/ViewProjects.cpp:603
+msgid "Suspend work for this project."
+msgstr "Pozastaví práci na projektu."
+
+#: clientgui/ViewProjects.cpp:124
+#: clientgui/ViewProjects.cpp:613
+msgid "No new work"
+msgstr "Žádnou další práci"
+
+#: clientgui/ViewProjects.cpp:125
+#: clientgui/ViewProjects.cpp:613
+msgid "Don't fetch new work for this project."
+msgstr "Zakázat projektu přijímat další práci"
+
+#: clientgui/ViewProjects.cpp:131
+msgid "Reset project"
+msgstr "Restartovat projekt"
+
+#: clientgui/ViewProjects.cpp:132
+msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
+msgstr "Smazat všechny soubory související s tímto projektem a stáhnout nové. Před restartováním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny dokončené výsledky."
+
+#: clientgui/ViewProjects.cpp:141
+msgid "Detach"
+msgstr "Opustit"
+
+#: clientgui/ViewProjects.cpp:142
+msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
+msgstr "Odpojit se z daného projektu. Rozdělaná práce bude ztracena. Před opuštěním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny dokončené výsledky."
+
+#: clientgui/ViewProjects.cpp:151
+msgid "Attach to new project"
+msgstr "Připojit se k novému projektu"
+
+#: clientgui/ViewProjects.cpp:152
+msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
+msgstr "Připojit se k dalšímu BOINC projektu. Budete potřebovat adresu (URL) a klíč (account key) projektu. Obojí získáte z webových stránek projektu."
+
+#: clientgui/ViewProjects.cpp:165
 msgid "Account"
 msgstr "Účet"
 
-#: clientgui/ViewProjects.cpp:180
-#: clientgui/archive/ViewProjects.cpp:252
+#: clientgui/ViewProjects.cpp:166
 msgid "Team"
 msgstr "Tým"
 
-#: clientgui/ViewProjects.cpp:181
-#: clientgui/archive/ViewProjects.cpp:253
+#: clientgui/ViewProjects.cpp:167
 msgid "Total credit"
 msgstr "Celkový kredit"
 
-#: clientgui/ViewProjects.cpp:182
-#: clientgui/archive/ViewProjects.cpp:254
+#: clientgui/ViewProjects.cpp:168
 msgid "Avg. credit"
 msgstr "Průměrný kredit"
 
-#: clientgui/ViewProjects.cpp:183
-#: clientgui/archive/ViewProjects.cpp:255
+#: clientgui/ViewProjects.cpp:169
 msgid "Resource share"
 msgstr "Rozdělení práce"
 
-#: clientgui/ViewProjects.cpp:184
-#: clientgui/ViewTransfers.cpp:130
-#: clientgui/ViewWork.cpp:143
-#: clientgui/archive/ViewProjects.cpp:256
-#: clientgui/archive/ViewTransfers.cpp:130
-#: clientgui/archive/ViewWork.cpp:143
+#: clientgui/ViewProjects.cpp:170
+#: clientgui/ViewTransfers.cpp:127
+#: clientgui/ViewWork.cpp:139
 msgid "Status"
 msgstr "Stav"
 
-#: clientgui/ViewProjects.cpp:204
-#: clientgui/archive/ViewProjects.cpp:277
+#: clientgui/ViewProjects.cpp:183
 msgid "Projects"
 msgstr "Projekty"
 
-#: clientgui/ViewProjects.cpp:310
-#: clientgui/archive/ViewProjects.cpp:390
-msgid "Ataching to project..."
-msgstr "Připojuji se k projektu..."
+#: clientgui/ViewProjects.cpp:205
+msgid "Updating project..."
+msgstr "Aktualizuji projekt..."
 
-#: clientgui/ViewProjects.cpp:327
-#: clientgui/archive/ViewProjects.cpp:407
-msgid "Detaching from project..."
-msgstr "Opouštím projekt..."
+#: clientgui/ViewProjects.cpp:231
+msgid "Resuming project..."
+msgstr "Obnovuji projekt..."
 
-#: clientgui/ViewProjects.cpp:333
-#: clientgui/archive/ViewProjects.cpp:413
-#, c-format
-msgid "Are you sure you want to detach from project '%s'?"
-msgstr "Opravdu chceš opustit projekt '%s'?"
+#: clientgui/ViewProjects.cpp:235
+msgid "Suspending project..."
+msgstr "Pozastavuji projekt..."
 
-#: clientgui/ViewProjects.cpp:338
-#: clientgui/archive/ViewProjects.cpp:418
-msgid "Detach from Project"
-msgstr "Opustit projekt"
+#: clientgui/ViewProjects.cpp:262
+msgid "Telling project to allow additional work downloads..."
+msgstr "Povoluji projektu přijímat další práci..."
 
-#: clientgui/ViewProjects.cpp:349
-#: clientgui/archive/ViewProjects.cpp:429
+#: clientgui/ViewProjects.cpp:266
+msgid "Telling project to not fetch additional work..."
+msgstr "Zakazuji projektu přijímat další práci..."
+
+#: clientgui/ViewProjects.cpp:296
 msgid "Resetting project..."
 msgstr "Restartuji projekt..."
 
-#: clientgui/ViewProjects.cpp:355
-#: clientgui/archive/ViewProjects.cpp:435
+#: clientgui/ViewProjects.cpp:302
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Opravdu chceš restartovat projekt '%s'?"
 
-#: clientgui/ViewProjects.cpp:360
-#: clientgui/archive/ViewProjects.cpp:440
+#: clientgui/ViewProjects.cpp:308
 msgid "Reset Project"
 msgstr "Restartovat projekt"
 
-#: clientgui/ViewProjects.cpp:371
-#: clientgui/archive/ViewProjects.cpp:451
-msgid "Updating project..."
-msgstr "Aktualizuji projekt..."
+#: clientgui/ViewProjects.cpp:342
+msgid "Detaching from project..."
+msgstr "Opouštím projekt..."
 
-#: clientgui/ViewProjects.cpp:379
-#: clientgui/archive/ViewProjects.cpp:459
-msgid "Suspending project..."
-msgstr "Pozastavuji projekt..."
+#: clientgui/ViewProjects.cpp:348
+#, c-format
+msgid "Are you sure you want to detach from project '%s'?"
+msgstr "Opravdu chceš opustit projekt '%s'?"
 
-#: clientgui/ViewProjects.cpp:387
-#: clientgui/archive/ViewProjects.cpp:467
-msgid "Resuming project..."
-msgstr "Obnovuji projekt..."
-
-#: clientgui/ViewProjects.cpp:395
-#: clientgui/archive/ViewProjects.cpp:475
-msgid "Opening a browser to the BOINC homepage..."
-msgstr "Otevírám domovskou stránku BOINC v internetovém prohlížeči..."
-
-#: clientgui/ViewProjects.cpp:399
-#: clientgui/archive/ViewProjects.cpp:479
-msgid "Opening a browser to the project homepage..."
-msgstr "Otevírám domovskou stránku projektu v internetovém prohlížeči..."
-
-#: clientgui/ViewProjects.cpp:406
-#: clientgui/archive/ViewProjects.cpp:486
-msgid "Opening a browser to a project specified URL..."
-msgstr "Otevírám projektem definovanou adresu v internetovém prohlížeči..."
-
-#: clientgui/ViewProjects.cpp:621
-#: clientgui/archive/ViewProjects.cpp:163
-msgid "Update project"
-msgstr "Aktualizovat projekt"
-
-#: clientgui/ViewProjects.cpp:622
-#: clientgui/archive/ViewProjects.cpp:142
-msgid "Suspend project"
-msgstr "Pozastavit projekt"
-
-#: clientgui/ViewProjects.cpp:623
-#: clientgui/archive/ViewProjects.cpp:153
-msgid "Resume project"
-msgstr "Obnovit projekt"
-
-#: clientgui/ViewProjects.cpp:627
-#: clientgui/archive/ViewProjects.cpp:116
-msgid "Detach from project"
+#: clientgui/ViewProjects.cpp:354
+msgid "Detach from Project"
 msgstr "Opustit projekt"
 
-#: clientgui/ViewProjects.cpp:628
-#: clientgui/archive/ViewProjects.cpp:129
-msgid "Reset project"
-msgstr "Restartovat projekt"
+#: clientgui/ViewProjects.cpp:386
+msgid "Attaching to project..."
+msgstr "Připojuji se k projektu..."
 
-#: clientgui/ViewProjects.cpp:632
-#: clientgui/archive/ViewProjects.cpp:104
-msgid "Attach to new project"
-msgstr "Připojit se k novému projektu"
+#: clientgui/ViewProjects.cpp:422
+msgid "Launching browser..."
+msgstr "Spouštím internetový prohlížeč..."
 
-#: clientgui/ViewProjects.cpp:639
-#: clientgui/archive/ViewProjects.cpp:728
-msgid "BOINC"
-msgstr "BOINC"
+#: clientgui/ViewProjects.cpp:599
+#: clientgui/ViewWork.cpp:454
+msgid "Resume"
+msgstr "Obnovit"
 
-#: clientgui/ViewProjects.cpp:763
-#: clientgui/archive/ViewProjects.cpp:852
-msgid "Project Suspended"
+#: clientgui/ViewProjects.cpp:599
+msgid "Resume work for this project."
+msgstr "Obnoví práci pro tento projekt"
+
+#: clientgui/ViewProjects.cpp:609
+msgid "Allow new work"
+msgstr "Povol přijímat další práci"
+
+#: clientgui/ViewProjects.cpp:609
+msgid "Allow fetching new work for this project."
+msgstr "Povol projektu přijímat další práci"
+
+#: clientgui/ViewProjects.cpp:648
+msgid "Web sites"
+msgstr "Webové stránky"
+
+#: clientgui/ViewProjects.cpp:767
+msgid "Project suspended"
 msgstr "Projekt pozastaven"
 
-#: clientgui/ViewProjects.cpp:772
-#: clientgui/ViewTransfers.cpp:600
-#: clientgui/archive/ViewProjects.cpp:861
-#: clientgui/archive/ViewTransfers.cpp:600
+#: clientgui/ViewProjects.cpp:769
+msgid "Won't get new work"
+msgstr "Nelze získat další práci"
+
+#: clientgui/ViewProjects.cpp:778
+#: clientgui/ViewTransfers.cpp:537
 msgid "Retry in "
 msgstr "Znovu zkusím za "
 
-#: clientgui/ViewResources.cpp:78
-#: clientgui/ViewStatistics.cpp:334
-#: clientgui/archive/ViewResources.cpp:78
-#: clientgui/archive/ViewStatistics.cpp:334
-msgid "No available options currently defined."
-msgstr "Zatím nejsou definovány žádné možnosti."
-
-#: clientgui/ViewResources.cpp:98
-#: clientgui/archive/ViewResources.cpp:98
+#: clientgui/ViewResources.cpp:81
 msgid "Disk Space"
 msgstr "Místo na disku"
 
-#: clientgui/ViewResources.cpp:118
-#: clientgui/archive/ViewResources.cpp:118
+#: clientgui/ViewResources.cpp:94
 msgid "Disk"
 msgstr "Disk"
 
-#: clientgui/ViewStatistics.cpp:379
-#: clientgui/archive/ViewStatistics.cpp:379
+#: clientgui/ViewStatistics.cpp:307
+msgid "Show user total"
+msgstr "Celkový kredit uživatele"
+
+#: clientgui/ViewStatistics.cpp:314
+msgid "Show user average"
+msgstr "Průměrný kredit uživatele"
+
+#: clientgui/ViewStatistics.cpp:321
+msgid "Show host total"
+msgstr "Celkový kredit počítače"
+
+#: clientgui/ViewStatistics.cpp:328
+msgid "Show host average"
+msgstr "Průměrný kredit počítače"
+
+#: clientgui/ViewStatistics.cpp:349
 msgid "Statistics"
 msgstr "Statistiky"
 
-#: clientgui/ViewStatistics.cpp:420
-#: clientgui/archive/ViewStatistics.cpp:420
+#: clientgui/ViewStatistics.cpp:361
+#: clientgui/ViewStatistics.cpp:382
+#: clientgui/ViewStatistics.cpp:403
+#: clientgui/ViewStatistics.cpp:424
 msgid "Updating charts..."
 msgstr "Aktualizuji grafy..."
 
-#: clientgui/ViewStatistics.cpp:460
-#: clientgui/archive/ViewStatistics.cpp:460
-msgid "Show user total"
-msgstr "Ukaž celkový kredit uživatele"
+#: clientgui/ViewStatistics.cpp:362
+msgid "User Total"
+msgstr "Celkový kredit uživatele"
 
-#: clientgui/ViewStatistics.cpp:461
-#: clientgui/archive/ViewStatistics.cpp:461
-msgid "Show user average"
-msgstr "Ukaž průměrný kredit uživatele"
+#: clientgui/ViewStatistics.cpp:383
+msgid "User Average"
+msgstr "Průměrný kredit uživatele"
 
-#: clientgui/ViewStatistics.cpp:462
-#: clientgui/archive/ViewStatistics.cpp:462
-msgid "Show host total"
-msgstr "Ukaž celkový kredit počítače"
+#: clientgui/ViewStatistics.cpp:404
+msgid "Host Total"
+msgstr "Celkový kredit počítače"
 
-#: clientgui/ViewStatistics.cpp:463
-#: clientgui/archive/ViewStatistics.cpp:463
-msgid "Show host average"
-msgstr "Ukaž průměrný kredit počítače"
+#: clientgui/ViewStatistics.cpp:425
+msgid "Host Average"
+msgstr "Průměrný kredit počítače"
 
-#: clientgui/ViewTransfers.cpp:94
-#: clientgui/archive/ViewTransfers.cpp:94
-msgid "Click an item to see additional options."
-msgstr "Kliknutím na položku zobrazíte další možnosti."
-
-#: clientgui/ViewTransfers.cpp:98
-#: clientgui/archive/ViewTransfers.cpp:98
-msgid "<b>Retry now</b><br>Click <b>Retry now</b> to transfer the file now"
-msgstr "<b>Obnov přenos</b><br>Klikni na <b>Obnov přenos</b> pro odeslání souboru"
+#: clientgui/ViewTransfers.cpp:102
+msgid "Retry Now"
+msgstr "Obnov přenos"
 
 #: clientgui/ViewTransfers.cpp:103
-#: clientgui/archive/ViewTransfers.cpp:103
-msgid "<b>Abort transfer</b><br>Click <b>Abort transfer</b> to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "<b>Zruš přenos</b><br>Klikni na <b>Zruš přenos</b> pro odstranění souboru z frony. Za odstraněný výsledek nebude přidělen žádný kredit."
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "Klikni na <Obnov přenos> pro odeslání souboru"
 
-#: clientgui/ViewTransfers.cpp:125
-#: clientgui/archive/ViewTransfers.cpp:125
+#: clientgui/ViewTransfers.cpp:109
+msgid "Abort Transfer"
+msgstr "Zruš přenos"
+
+#: clientgui/ViewTransfers.cpp:110
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "Klikni na <Zruš přenos> pro odstranění souboru z frony. Za odstraněný výsledek nebude přidělen žádný kredit."
+
+#: clientgui/ViewTransfers.cpp:122
 msgid "File"
 msgstr "Soubor"
 
-#: clientgui/ViewTransfers.cpp:126
-#: clientgui/ViewWork.cpp:140
-#: clientgui/archive/ViewTransfers.cpp:126
-#: clientgui/archive/ViewWork.cpp:140
+#: clientgui/ViewTransfers.cpp:123
+#: clientgui/ViewWork.cpp:136
 msgid "Progress"
 msgstr "Průběh"
 
-#: clientgui/ViewTransfers.cpp:127
-#: clientgui/archive/ViewTransfers.cpp:127
+#: clientgui/ViewTransfers.cpp:124
 msgid "Size"
 msgstr "Velikost"
 
-#: clientgui/ViewTransfers.cpp:129
-#: clientgui/archive/ViewTransfers.cpp:129
+#: clientgui/ViewTransfers.cpp:126
 msgid "Speed"
 msgstr "Rychlost"
 
-#: clientgui/ViewTransfers.cpp:150
-#: clientgui/archive/ViewTransfers.cpp:150
+#: clientgui/ViewTransfers.cpp:140
 msgid "Transfers"
 msgstr "Přenos"
 
-#: clientgui/ViewTransfers.cpp:251
-#: clientgui/archive/ViewTransfers.cpp:251
+#: clientgui/ViewTransfers.cpp:162
 msgid "Retrying transfer now..."
 msgstr "Pokouším se obnovit přenos..."
 
-#: clientgui/ViewTransfers.cpp:257
-#: clientgui/archive/ViewTransfers.cpp:257
-msgid "Aborting transfer..."
-msgstr "Odstraňuji soubor..."
-
-#: clientgui/ViewTransfers.cpp:263
-#: clientgui/archive/ViewTransfers.cpp:263
+#: clientgui/ViewTransfers.cpp:195
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
 msgstr "Opravdu chceš zrušit přenos souboru '%s'?"
 
-#: clientgui/ViewTransfers.cpp:268
-#: clientgui/archive/ViewTransfers.cpp:268
+#: clientgui/ViewTransfers.cpp:200
 msgid "Abort File Transfer"
 msgstr "Zruš přenos souboru"
 
-#: clientgui/ViewTransfers.cpp:417
-#: clientgui/archive/ViewTransfers.cpp:417
-msgid "Retry Now"
-msgstr "Obnov přenos"
-
-#: clientgui/ViewTransfers.cpp:418
-#: clientgui/archive/ViewTransfers.cpp:418
-msgid "Abort Transfer"
-msgstr "Zruš přenos"
-
-#: clientgui/ViewTransfers.cpp:602
-#: clientgui/ViewWork.cpp:713
-#: clientgui/archive/ViewTransfers.cpp:602
-#: clientgui/archive/ViewWork.cpp:713
+#: clientgui/ViewTransfers.cpp:539
+#: clientgui/ViewWork.cpp:655
 msgid "Download failed"
 msgstr "Chyba při přijímání"
 
-#: clientgui/ViewTransfers.cpp:604
-#: clientgui/ViewWork.cpp:748
-#: clientgui/archive/ViewTransfers.cpp:604
-#: clientgui/archive/ViewWork.cpp:748
+#: clientgui/ViewTransfers.cpp:541
+#: clientgui/ViewWork.cpp:690
 msgid "Upload failed"
 msgstr "Chyba při odesílání"
 
-#: clientgui/ViewTransfers.cpp:607
-#: clientgui/ViewTransfers.cpp:615
-#: clientgui/ViewWork.cpp:722
-#: clientgui/ViewWork.cpp:726
-#: clientgui/ViewWork.cpp:732
-#: clientgui/ViewWork.cpp:766
-#: clientgui/archive/ViewTransfers.cpp:607
-#: clientgui/archive/ViewTransfers.cpp:615
-#: clientgui/archive/ViewWork.cpp:722
-#: clientgui/archive/ViewWork.cpp:726
-#: clientgui/archive/ViewWork.cpp:732
-#: clientgui/archive/ViewWork.cpp:766
+#: clientgui/ViewTransfers.cpp:544
+#: clientgui/ViewTransfers.cpp:552
+#: clientgui/ViewWork.cpp:664
+#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:674
+#: clientgui/ViewWork.cpp:708
 msgid "Suspended"
 msgstr "Pozastaveno"
 
-#: clientgui/ViewTransfers.cpp:609
-#: clientgui/ViewWork.cpp:750
-#: clientgui/archive/ViewTransfers.cpp:609
-#: clientgui/archive/ViewWork.cpp:750
+#: clientgui/ViewTransfers.cpp:546
+#: clientgui/ViewWork.cpp:692
 msgid "Uploading"
 msgstr "Odesílám"
 
-#: clientgui/ViewTransfers.cpp:609
-#: clientgui/ViewWork.cpp:715
-#: clientgui/archive/ViewTransfers.cpp:609
-#: clientgui/archive/ViewWork.cpp:715
+#: clientgui/ViewTransfers.cpp:546
+#: clientgui/ViewWork.cpp:657
 msgid "Downloading"
 msgstr "Stahuji"
 
-#: clientgui/ViewWork.cpp:96
-#: clientgui/archive/ViewWork.cpp:96
-msgid "Click a result to see additional options."
-msgstr "Kliknutím na položku zobrazíte další možnosti."
+#: clientgui/ViewWork.cpp:107
+#: clientgui/ViewWork.cpp:458
+msgid "Suspend work for this result."
+msgstr "Pozastaví práci na tomto souboru"
 
-#: clientgui/ViewWork.cpp:100
-#: clientgui/archive/ViewWork.cpp:100
-msgid "<b>Suspend</b><br>Suspend the result."
-msgstr "<b>Pozastavit</b><br>Pozastaví zpracování daného souboru."
-
-#: clientgui/ViewWork.cpp:105
-#: clientgui/archive/ViewWork.cpp:105
-msgid "<b>Resume</b><br>Resume a suspended result."
-msgstr "<b>Obnovit</b><br>Obnovit práci na pozastaveném výsledku."
-
-#: clientgui/ViewWork.cpp:110
-#: clientgui/archive/ViewWork.cpp:110
-msgid "<b>Show graphics</b><br>Show application graphics in a window."
-msgstr "<b>Zobrazit grafiku</b><br>Zobrazí grafické okno aplikace"
-
-#: clientgui/ViewWork.cpp:115
-#: clientgui/archive/ViewWork.cpp:115
-msgid "<b>Abort result</b><br>Delete the result from the work queue. This will prevent you from being granted credit for the result."
-msgstr "<b>Odstranit soubor</b><br>Odstraní soubor čekající na zpracování. Za odstraněný soubor nebude přidělen žádný kredit."
-
-#: clientgui/ViewWork.cpp:137
-#: clientgui/archive/ViewWork.cpp:137
-msgid "Application"
-msgstr "Aplikace"
-
-#: clientgui/ViewWork.cpp:138
-#: clientgui/archive/ViewWork.cpp:138
-msgid "Name"
-msgstr "Název"
-
-#: clientgui/ViewWork.cpp:139
-#: clientgui/archive/ViewWork.cpp:139
-msgid "CPU time"
-msgstr "Procesorový čas"
-
-#: clientgui/ViewWork.cpp:141
-#: clientgui/archive/ViewWork.cpp:141
-msgid "To completion"
-msgstr "Dokončí za"
-
-#: clientgui/ViewWork.cpp:142
-#: clientgui/archive/ViewWork.cpp:142
-msgid "Report deadline"
-msgstr "Odevzdat do"
-
-#: clientgui/ViewWork.cpp:163
-#: clientgui/archive/ViewWork.cpp:163
-msgid "Work"
-msgstr "Práce"
-
-#: clientgui/ViewWork.cpp:272
-#: clientgui/archive/ViewWork.cpp:272
-msgid "Suspending result..."
-msgstr "Pozastavuji..."
-
-#: clientgui/ViewWork.cpp:280
-#: clientgui/archive/ViewWork.cpp:280
-msgid "Resuming result..."
-msgstr "Obnovuji..."
-
-#: clientgui/ViewWork.cpp:288
-#: clientgui/archive/ViewWork.cpp:288
-msgid "Showing graphics for result..."
-msgstr "Zobrazuji grafické okno aplikace..."
-
-#: clientgui/ViewWork.cpp:296
-#: clientgui/archive/ViewWork.cpp:296
-msgid "Are you sure you wish to display graphics on a remote machine?"
-msgstr "Opravdu chcete zobrazit grafiku na vzdáleném počítači?"
-
-#: clientgui/ViewWork.cpp:297
-#: clientgui/ViewWork.cpp:520
-#: clientgui/archive/ViewWork.cpp:297
-#: clientgui/archive/ViewWork.cpp:520
+#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:218
 msgid "Show graphics"
 msgstr "Zobrazit grafiku"
 
-#: clientgui/ViewWork.cpp:319
-#: clientgui/archive/ViewWork.cpp:319
+#: clientgui/ViewWork.cpp:114
+msgid "Show application graphics in a window."
+msgstr "Zobrazí grafické okno aplikace"
+
+#: clientgui/ViewWork.cpp:120
+msgid "Abort"
+msgstr "Zrušit"
+
+#: clientgui/ViewWork.cpp:121
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "Ukončí práci na daném souboru. Za soubor nebude přidělen žádný kredit."
+
+#: clientgui/ViewWork.cpp:133
+msgid "Application"
+msgstr "Aplikace"
+
+#: clientgui/ViewWork.cpp:134
+msgid "Name"
+msgstr "Název"
+
+#: clientgui/ViewWork.cpp:135
+msgid "CPU time"
+msgstr "Procesorový čas"
+
+#: clientgui/ViewWork.cpp:137
+msgid "To completion"
+msgstr "Dokončí za"
+
+#: clientgui/ViewWork.cpp:138
+msgid "Report deadline"
+msgstr "Odevzdat do"
+
+#: clientgui/ViewWork.cpp:152
+msgid "Work"
+msgstr "Práce"
+
+#: clientgui/ViewWork.cpp:176
+msgid "Resuming result..."
+msgstr "Obnovuji..."
+
+#: clientgui/ViewWork.cpp:180
+msgid "Suspending result..."
+msgstr "Pozastavuji..."
+
+#: clientgui/ViewWork.cpp:206
+msgid "Showing graphics for result..."
+msgstr "Zobrazuji grafické okno aplikace..."
+
+#: clientgui/ViewWork.cpp:217
+msgid "Are you sure you wish to display graphics on a remote machine?"
+msgstr "Opravdu chcete zobrazit grafiku na vzdáleném počítači?"
+
+#: clientgui/ViewWork.cpp:267
 msgid "Aborting result..."
 msgstr "Odstraňuji soubor..."
 
-#: clientgui/ViewWork.cpp:325
-#: clientgui/archive/ViewWork.cpp:325
+#: clientgui/ViewWork.cpp:271
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "Opravdu chceš odstranit soubor '%s'?"
 
-#: clientgui/ViewWork.cpp:330
-#: clientgui/ViewWork.cpp:521
-#: clientgui/archive/ViewWork.cpp:330
-#: clientgui/archive/ViewWork.cpp:521
+#: clientgui/ViewWork.cpp:276
 msgid "Abort result"
 msgstr "Odstranit soubor"
 
-#: clientgui/ViewWork.cpp:518
-#: clientgui/archive/ViewWork.cpp:518
-msgid "Suspend"
-msgstr "Pozastavit"
+#: clientgui/ViewWork.cpp:454
+msgid "Resume work for this result."
+msgstr "Obnoví práci na tomto souboru"
 
-#: clientgui/ViewWork.cpp:519
-#: clientgui/archive/ViewWork.cpp:519
-msgid "Resume"
-msgstr "Obnovit"
-
-#: clientgui/ViewWork.cpp:709
-#: clientgui/archive/ViewWork.cpp:709
+#: clientgui/ViewWork.cpp:651
 msgid "New"
 msgstr "Nový"
 
-#: clientgui/ViewWork.cpp:720
-#: clientgui/archive/ViewWork.cpp:720
+#: clientgui/ViewWork.cpp:662
 msgid "Aborted"
 msgstr "Vyřazeno"
 
-#: clientgui/ViewWork.cpp:728
-#: clientgui/archive/ViewWork.cpp:728
+#: clientgui/ViewWork.cpp:670
 msgid "Running"
 msgstr "Počítám"
 
-#: clientgui/ViewWork.cpp:734
-#: clientgui/archive/ViewWork.cpp:734
+#: clientgui/ViewWork.cpp:676
 msgid "Paused"
 msgstr "Pozastaven"
 
-#: clientgui/ViewWork.cpp:737
-#: clientgui/ViewWork.cpp:740
-#: clientgui/archive/ViewWork.cpp:737
-#: clientgui/archive/ViewWork.cpp:740
+#: clientgui/ViewWork.cpp:679
+#: clientgui/ViewWork.cpp:682
 msgid "Ready to run"
 msgstr "Připraven"
 
-#: clientgui/ViewWork.cpp:744
-#: clientgui/archive/ViewWork.cpp:744
+#: clientgui/ViewWork.cpp:686
 msgid "Computation error"
 msgstr "Chyba při výpočtu"
 
-#: clientgui/ViewWork.cpp:755
-#: clientgui/archive/ViewWork.cpp:755
+#: clientgui/ViewWork.cpp:697
 msgid "Acknowledged"
 msgstr "Potvrzeno"
 
-#: clientgui/ViewWork.cpp:757
-#: clientgui/archive/ViewWork.cpp:757
+#: clientgui/ViewWork.cpp:699
 msgid "Ready to report"
 msgstr "Výsledek odeslán"
 
-#: clientgui/ViewWork.cpp:759
-#: clientgui/archive/ViewWork.cpp:759
+#: clientgui/ViewWork.cpp:701
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Chyba: Neplatný stav '%d'"
 
-#: clientgui/archive/DlgAbout.cpp:139
-msgid "Licence type:"
-msgstr "Druh licence:"
-
-#: clientgui/archive/DlgAbout.cpp:143
-msgid "Lesser GNU Public License"
-msgstr "Lesser GNU Public License"
-
-#: clientgui/archive/DlgAbout.cpp:159
-msgid "A software platform for distributed computing using volunteered computer resources"
-msgstr "Programová platforma pro distribuované výpočty, využívající volné zdroje počítačů přihlášených uživatelů."
-
-#: clientgui/archive/MainFrame.cpp:849
-msgid "Failed to connect to the requested computer, please check the name of the computer and try again."
-msgstr "Připojení ke zvolenému počítači selhalo. Zkontroluj prosím jméno počítače a zkus znovu."
-
-#: clientgui/archive/MainFrame.cpp:850
-msgid "Failed to connect..."
-msgstr "Připojení selhalo..."
-
-#: clientgui/archive/MainFrame.cpp:1127
-msgid "The BOINC client you have attempted to connect you could not be reached, please check the computer name/password and try again."
-msgstr "Klient BOINC, ke kterému se snažíte připojit, je nedosažitelný. Zkontrolujte prosím jméno počítače a heslo."
-
-#: clientgui/archive/MainFrame.cpp:1311
-#, c-format
-msgid "Connected to %s (%s)"
-msgstr "Připojeno k %s (%s)"
-
 #: clientgui/DlgAbout.h:50
-#: clientgui/archive/DlgAbout.h:50
 msgid "About BOINC Manager"
-msgstr "&O Správci BOINC..."
+msgstr "O Správci BOINC..."
 
 #: clientgui/DlgAccountManager.h:49
-#: clientgui/archive/DlgAccountManager.h:49
 msgid "Account Manager Credentials"
 msgstr "Oprávnění správce účtu"
 
 #: clientgui/DlgAttachProject.h:48
-#: clientgui/archive/DlgAttachProject.h:48
 msgid "Attach to Project"
 msgstr "Připojit k projektu"
 
 #: clientgui/DlgConnection.h:48
-#: clientgui/archive/DlgConnection.h:48
 msgid "Connection"
 msgstr "Připojení"
 
 #: clientgui/DlgOptions.h:49
-#: clientgui/archive/DlgOptions.h:49
 msgid "Options"
 msgstr "Možnosti"
 
 #: clientgui/DlgSelectComputer.h:49
-#: clientgui/archive/DlgSelectComputer.h:49
 msgid "Select Computer"
 msgstr "Zvol počítač"
 
