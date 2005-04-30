@@ -5902,3 +5902,15 @@ Mac: Update version to 4.35.  Update build instructions.
         HowToBuildBOINC_XCode.rtf
         Info.plist
 
+Janus  30 April 2005
+    - Changed rating +/- links to be images instead (more visible)
+      Suggested by Eric Myers.
+	- Added example images
+
+    html/
+	inc/
+	    forum.inc
+	user/img
+	    rate_positive.png (new)
+	    rate_negative.png (new)
+
