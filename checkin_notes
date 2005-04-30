@@ -5885,6 +5885,9 @@ Rom    29 April 2005
     - Bug Fix: UpdateSelection should be called everytime the listview has
         been refreshed in case a project/result/transfer has changed its
         status which might cause a button change.
+    - Bug Fix: Double clicking on the taskbar icon will restore the window
+        as well as show it.
 
     clientgui/
         BOINCBaseView.cpp
+        BOINCTaskBar.cpp
