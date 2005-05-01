@@ -5958,4 +5958,5 @@ Bruce 1 May 2005
     lib/
         error_numbers.h
         util.C
+        util.h
 

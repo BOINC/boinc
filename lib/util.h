@@ -127,4 +127,9 @@ extern int boinc_calling_thread_cpu_time(double&);
 //
 extern void mysql_timestamp(double, char*);
 
+// returns short text description of error corresponding to
+// int errornumber from error_numbers.h
+//
+extern const char* boincerror(int which_error);
+
 #endif
