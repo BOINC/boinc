@@ -5941,3 +5941,10 @@ David  30 April 2005
 
     api/
         windows_opengl.C
+
+David  30 April 2005
+    - changed library order in clientgui Makefile
+        (from JR Oldroyd; needed for link on FreeBSD)
+
+    clientgui/
+        Makefile.am
