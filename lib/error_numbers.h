@@ -18,7 +18,8 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // NOTE:  add new errors to the end of the list and don't change
-// old error numbers to avoid confusion between versions
+// old error numbers to avoid confusion between versions.  Add
+// a text description of your error to boincerror() in util.C.
 //
 #define BOINC_SUCCESS       0
 #define ERR_SELECT          -100
@@ -148,3 +149,7 @@
 #define ERR_WRONG_SIZE      -200
 #define ERR_USER_PERMISSION -201
     // e.g. user didn't allow network connection
+
+// PLEASE: add a text description of your error to 
+// the text description function boincerror() in util.C.
+

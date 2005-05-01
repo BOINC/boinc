@@ -5948,3 +5948,14 @@ David  30 April 2005
 
     clientgui/
         Makefile.am
+
+Bruce 1 May 2005
+    - Added a utility function to 'print' a text description of errors
+      in error_numbers.h.  In the future, when adding a new error number
+      to this file, please update boincerror() in util.C to contain a
+      short text description of the error.
+
+    lib/
+        error_numbers.h
+        util.C
+

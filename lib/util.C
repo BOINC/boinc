@@ -822,4 +822,116 @@ void mysql_timestamp(double dt, char* p) {
     );
 }
 
+// Return a text-string description of a given error.  Must be kept
+// consistent with error_numbers.h
+//
+const char* boincerror(int which_error) {
+    switch (which_error) {
+        case BOINC_SUCCESS: return "Success";
+        case ERR_SELECT: return "system select";
+        case ERR_MALLOC: return "system malloc";
+        case ERR_READ: return "system read";
+        case ERR_WRITE: return "system write";
+        case ERR_FREAD: return "system fread";
+        case ERR_FWRITE: return "system fwrite";
+        case ERR_IO: return "system I/O";
+        case ERR_CONNECT: return "system connect";
+        case ERR_FOPEN: return "system fopen";
+        case ERR_RENAME: return "system rename";
+        case ERR_UNLINK: return "system unlink";
+        case ERR_OPENDIR: return "system opendir";
+        case ERR_XML_PARSE: return "unexpected XML tag or syntax";
+        case ERR_GETHOSTBYNAME: return "can't resolve hostname";
+        case ERR_GIVEUP_DOWNLOAD: return "timeout on download";
+        case ERR_GIVEUP_UPLOAD: return "timeout on upload";
+        case ERR_NULL: return "null pointer";
+        case ERR_NEG: return "unexpected negative value";
+        case ERR_BUFFER_OVERFLOW: return "buffer overflow";
+        case ERR_MD5_FAILED: return "md5 checksum failed for file";
+        case ERR_RSA_FAILED: return "RSA key check failed for file";
+        case ERR_OPEN: return "system open";
+        case ERR_DUP2: return "system dup";
+        case ERR_NO_SIGNATURE: return "no signature";
+        case ERR_THREAD: return "creating a thread";
+        case ERR_SIGNAL_CATCH: return "caught signal";
+        case ERR_UPLOAD_TRANSIENT: return "transient upload error";
+        case ERR_UPLOAD_PERMANENT: return "fatal upload error";
+        case ERR_IDLE_PERIOD: return "user preferences say can't start work";
+        case ERR_ALREADY_ATTACHED: return "already attached to project";
+        case ERR_FILE_TOO_BIG: return "file size too big";
+        case ERR_GETRUSAGE: return "system getrusage";
+        case ERR_BENCHMARK_FAILED: return "benchmark failed";
+        case ERR_BAD_HEX_FORMAT: return "hex format key data bad";
+        case ERR_USER_REJECTED: return "user rejected executable file";
+        case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
+        case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
+        case ERR_DB_CANT_CONNECT: return "can't connect to datbase";
+        case ERR_GETS: return "system gets/fgets";
+        case ERR_SCANF: return "system scanf/fscanf";
+        case ERR_STRCHR: return "system strchr";
+        case ERR_STRSTR: return "system strstr";
+        case ERR_READDIR: return "system readdir";
+        case ERR_SHMGET: return "system shmget";
+        case ERR_SHMCTL: return "system shmctl";
+        case ERR_SHMAT: return "system shmat";
+        case ERR_FORK: return "system fork";
+        case ERR_EXEC: return "system exec";
+        case ERR_NOT_EXITED: return "process didn't exit";
+        case ERR_NOT_IMPLEMENTED: return "system call not implemented";
+        case ERR_GETHOSTNAME: return "system gethostname";
+        case ERR_NETOPEN: return "system netopen";
+        case ERR_SOCKET: return "system socket";
+        case ERR_FCNTL: return "system fcntl";
+        case ERR_AUTHENTICATOR: return "host id doesn't match authenticator";
+        case ERR_SCHED_SHMEM: return "scheduler shared memory contents bad";
+        case ERR_ASYNCSELECT: return "system async select";
+        case ERR_BAD_RESULT_STATE: return "bad result state";
+        case ERR_DB_CANT_INIT: return "can't init database";
+        case ERR_NOT_UNIQUE: return "state files have redundant entries";
+        case ERR_NOT_FOUND: return "inconsistent client state";
+        case ERR_NO_EXIT_STATUS: return "no exit status in scheduler request";
+        case ERR_FILE_MISSING: return "file missing";
+        case ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED: return "nested unhandled exception";
+        case ERR_SEMGET: return "system get semaphore";
+        case ERR_SEMCTL: return "system control semaphore";
+        case ERR_SEMOP: return "system op semaphore";
+        case ERR_FTOK: return "system ftok";
+        case ERR_SOCKS_UNKNOWN_FAILURE: return "socket unknown";
+        case ERR_SOCKS_REQUEST_FAILED: return "socket request";
+        case ERR_SOCKS_BAD_USER_PASS: return "socket bad user password";
+        case ERR_SOCKS_UNKNOWN_SERVER_VERSION: return "socket unknown server version";
+        case ERR_SOCKS_UNSUPPORTED: return "socket unsupported";
+        case ERR_SOCKS_CANT_REACH_HOST: return "socket can't reach host";
+        case ERR_SOCKS_CONN_REFUSED: return "socket connection refused";
+        case ERR_TIMER_INIT: return "timer init";
+        case ERR_RSC_LIMIT_EXCEEDED: return "resource limit exceeded";
+        case ERR_INVALID_PARAM: return "invalid parameter";
+        case ERR_SIGNAL_OP: return "signal op";
+        case ERR_BIND: return "system bind";
+        case ERR_LISTEN: return "system listen";
+        case ERR_TIMEOUT: return "timeout";
+        case ERR_PROJECT_DOWN: return "project down";
+        case ERR_HTTP_ERROR: return "http error";
+        case ERR_RESULT_START: return "result start";
+        case ERR_RESULT_DOWNLOAD: return "result download";
+        case ERR_RESULT_UPLOAD: return "result upload";
+        case ERR_INVALID_URL: return "invalid URL";
+        case ERR_MAJOR_VERSION: return "major version";
+        case ERR_NO_OPTION: return "no option";
+        case ERR_MKDIR: return "mkdir";
+        case ERR_INVALID_EVENT: return "invalid event";
+        case ERR_ALREADY_RUNNING: return "already running";
+        case ERR_NO_APP_VERSION: return "no app version";
+        case ERR_WU_USER_RULE: return "user already did result for this workunit";
+        case ERR_ABORTED_VIA_GUI: return "result aborted via GUI";
+        case ERR_INSUFFICIENT_RESOURCE: return "insufficient resources";
+        case ERR_RETRY: return "retry";
+        case ERR_WRONG_SIZE: return "wrong size";
+        case ERR_USER_PERMISSION: return "user permission";
+    }
+    return "UNRECOGNIZED: make lib/util.C consistent with lib/error_numbers.h";
+}
+ 
+
+
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";
