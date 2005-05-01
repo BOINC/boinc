@@ -346,7 +346,7 @@ static int update_host_record(HOST& xhost, USER& user) {
 // Decide whether to send global prefs in reply msg
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    char buf[256];
+    char buf[LARGE_BLOB_SIZE];
     reply.send_global_prefs = false;
 
     if (strlen(sreq.global_prefs_xml)) {
@@ -377,7 +377,12 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             DB_USER user;
             user.id = reply.user.id;
             sprintf(buf, "global_prefs='%s'", sreq.global_prefs_xml);
-            user.update_field(buf);
+            int retval = user.update_field(buf);
+            if (retval) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                    "user.update_field() failed: %d\n", retval
+                );
+            }
         }
     } else {
         // request message has no global prefs;

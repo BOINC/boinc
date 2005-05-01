@@ -5875,9 +5875,10 @@ Bruce 29 April 2005
             credit.inc
 
 Charlie    29 April 2005
-Mac: made path to Installer-info.plist in XCode project relative 
-rather than absolute.
-Checked in Installer-info.plist.
+    Mac: made path to Installer-info.plist in XCode project relative 
+    rather than absolute.
+    Checked in Installer-info.plist.
+
     mac_build/
         Installer-info.plist (new)
 
@@ -5893,7 +5894,7 @@ Rom    29 April 2005
         BOINCTaskBar.cpp
 
 Charlie    29 April 2005
-Mac: Update version to 4.35.  Update build instructions.
+    Mac: Update version to 4.35.  Update build instructions.
 
     clientgui/
     mac-installer/
@@ -5926,3 +5927,9 @@ Bruce 30 April 2005
     apps/
         upper_case.C
 
+David  30 April 2005
+    - bug fix in scheduler (buffer overrun on user prefs update)
+
+    sched/
+        handle_request.C
+        sched_shmem.C

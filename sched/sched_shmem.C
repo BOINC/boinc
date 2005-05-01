@@ -50,16 +50,21 @@ void SCHED_SHMEM::init() {
     nwu_results = MAX_WU_RESULTS;
 }
 
+static int error_return(char* p) {
+    fprintf(stderr, "Error in structure: %s\n", p);
+    return ERR_SCHED_SHMEM;
+}
+
 int SCHED_SHMEM::verify() {
-    if (ss_size != sizeof(SCHED_SHMEM)) return ERR_SCHED_SHMEM;
-    if (platform_size != sizeof(PLATFORM)) return ERR_SCHED_SHMEM;
-    if (app_size != sizeof(APP)) return ERR_SCHED_SHMEM;
-    if (app_version_size != sizeof(APP_VERSION)) return ERR_SCHED_SHMEM;
-    if (wu_result_size != sizeof(WU_RESULT)) return ERR_SCHED_SHMEM;
-    if (max_platforms != MAX_PLATFORMS) return ERR_SCHED_SHMEM;
-    if (max_apps != MAX_APPS) return ERR_SCHED_SHMEM;
-    if (max_app_versions != MAX_APP_VERSIONS) return ERR_SCHED_SHMEM;
-    if (max_wu_results != MAX_WU_RESULTS) return ERR_SCHED_SHMEM;
+    if (ss_size != sizeof(SCHED_SHMEM)) return error_return("shmem");
+    if (platform_size != sizeof(PLATFORM)) return error_return("platform");
+    if (app_size != sizeof(APP)) return error_return("app");
+    if (app_version_size != sizeof(APP_VERSION)) return error_return("app_version");
+    if (wu_result_size != sizeof(WU_RESULT)) return error_return("wu_result");
+    if (max_platforms != MAX_PLATFORMS) return error_return("max platform");
+    if (max_apps != MAX_APPS) return error_return("max apps");
+    if (max_app_versions != MAX_APP_VERSIONS) return error_return("max app version");
+    if (max_wu_results != MAX_WU_RESULTS) return error_return("max wu_result");
     return 0;
 }
 
