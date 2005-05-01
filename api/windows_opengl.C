@@ -43,6 +43,10 @@ static HDESK            hInteractiveDesktop = NULL;
 
 static bool visible = true;
 
+#define GLUT_CTRL_KEY 17
+static bool ctrl_key_pressed = false;   // remember if Ctrl key is pressed
+
+
 void KillWindow() {
 	wglMakeCurrent(NULL,NULL);  // release GL rendering context
 	if (hRC) {
@@ -253,15 +257,23 @@ LRESULT CALLBACK WndProc(
 	case WM_ERASEBKGND:		// Check To See If Windows Is Trying To Erase The Background
 			return 0;
 	case WM_KEYDOWN:
+        if(((int)wParam) == GLUT_CTRL_KEY) {
+            ctrl_key_pressed=true;
+        }
+        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
+               set_mode(MODE_QUIT);
+        } else {           
+            boinc_app_key_press((int)wParam, (int)lParam);
+        }
+        return 0;
 	case WM_KEYUP:
-		if (current_graphics_mode == MODE_FULLSCREEN) {
+       if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
 			set_mode(MODE_QUIT);
         } else {
-            if (uMsg == WM_KEYDOWN) {
-                boinc_app_key_press((int)wParam, (int)lParam);
-            } else {
-                boinc_app_key_release((int)wParam, (int)lParam);
-            }
+            boinc_app_key_release((int)wParam, (int)lParam);           
+        }
+        if (((int)wParam) == GLUT_CTRL_KEY) {
+            ctrl_key_pressed=false;
         }
         return 0;
 	case WM_LBUTTONDOWN:
@@ -270,8 +282,8 @@ LRESULT CALLBACK WndProc(
 	case WM_LBUTTONUP:
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
-		if (current_graphics_mode == MODE_FULLSCREEN) {
-			set_mode(MODE_QUIT);
+        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
+            set_mode(MODE_QUIT);
 		} else  {
             int which;
             bool down;
@@ -284,8 +296,8 @@ LRESULT CALLBACK WndProc(
 	case WM_MOUSEMOVE:
 		POINT cPos;
 		GetCursorPos(&cPos);
-		if(current_graphics_mode == MODE_FULLSCREEN) {
-			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
+        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed ) { 
+            if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
     			set_mode(MODE_QUIT);
 			}
 		} else {

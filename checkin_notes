@@ -5933,3 +5933,11 @@ David  30 April 2005
     sched/
         handle_request.C
         sched_shmem.C
+
+David  30 April 2005
+    - (from Eric Myers)
+        Windows: if user holds down control key while in screensaver mode,
+        input is handled by the app (and screensaver mode is not exited)
+
+    api/
+        windows_opengl.C
