@@ -27,6 +27,7 @@
 
 #include "boinc_db.h"
 #include "error_numbers.h"
+#include "util.h"
 #include "filesys.h"
 
 #include "main.h"
@@ -540,9 +541,9 @@ static int send_results_for_file(
             );
             boinc_db.commit_transaction();
 
-            // if no app version, give up completely
+            // if no app version or not enough resources, give up completely
             //
-            if (retval_send == ERR_NO_APP_VERSION) return ERR_NO_APP_VERSION;
+            if (retval_send == ERR_NO_APP_VERSION || retval_send==ERR_INSUFFICIENT_RESOURCE) return retval_send;
 
             // if we couldn't send it for other reason, something's wacky;
             // print a message, but keep on looking.
@@ -563,6 +564,11 @@ static int send_results_for_file(
                 log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                     "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n",
                     i, result.id, retval_send
+                );
+            } else {
+                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                    "possibly_send_result [RESULT#%d]: %s\n",
+                    result.id, boincerror(retval_send)
                 );
             }
 
@@ -634,7 +640,7 @@ static int send_new_file_work_deterministic_seeded(
             filename, nsent, sreq, reply, platform, ss, false
         );
 
-        if (retval==ERR_NO_APP_VERSION) return retval;
+        if (retval==ERR_NO_APP_VERSION || retval==ERR_INSUFFICIENT_RESOURCE) return retval;
 
         if (nsent>0 || !reply.work_needed(true)) break; 
         // construct a name which is lexically greater than the name of any result
@@ -733,14 +739,14 @@ static int send_new_file_work(
 
         retval_sow=send_old_work(sreq, reply, platform, ss, start, end);
 
-        if (retval_sow==ERR_NO_APP_VERSION) return retval_sow;
+        if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return retval_sow;
     
         if (reply.work_needed(true)) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "send_new_file_work(): try to send from working set\n"
             );
             retval_snfwws=send_new_file_work_working_set(sreq, reply, platform, ss);
-            if (retval_snfwws==ERR_NO_APP_VERSION) return retval_snfwws;
+            if (retval_snfwws==ERR_NO_APP_VERSION || retval_snfwws==ERR_INSUFFICIENT_RESOURCE) return retval_snfwws;
 
         }    
 
@@ -816,9 +822,9 @@ static int send_old_work(
                     "Note: sent NON-LOCALITY result %s\n", result.name
                 );
             }
-        } else if (retval == ERR_NO_APP_VERSION) {
-            // if no app version found, give up completely!
-            return ERR_NO_APP_VERSION;
+        } else if (retval == ERR_NO_APP_VERSION || retval==ERR_INSUFFICIENT_RESOURCE) {
+            // if no app version found or no resources, give up completely!
+            return retval;
         }
 
     } else {
@@ -876,7 +882,7 @@ void send_work_locality(
     if (config.locality_scheduling_send_timeout && sreq.host.n_bwdown>100000) {
         int until=time(0)-config.locality_scheduling_send_timeout;
         int retval_sow=send_old_work(sreq, reply, platform, ss, INT_MIN, until);
-        if (retval_sow==ERR_NO_APP_VERSION) return;
+        if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return;
     }
 
     // send work for existing files
@@ -891,7 +897,7 @@ void send_work_locality(
             fi.name, nsent, sreq, reply, platform, ss, false
         );
 
-        if (retval_srff==ERR_NO_APP_VERSION) return;
+        if (retval_srff==ERR_NO_APP_VERSION || retval_srff==ERR_INSUFFICIENT_RESOURCE) return;
 
         // if we couldn't send any work for this file, and we STILL need work,
         // then it must be that there was no additional work remaining for this

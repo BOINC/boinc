@@ -5965,3 +5965,14 @@ David  2 May 2005
 
 	client/
 		app.C
+
+Bruce 2 May 2005
+    - locality scheduling: if host resources are inadequate for ANY WU,
+      assume that they are inadequate for ALL WU.  Without this we will
+      execute an expensive deterministic search over all WU, looking
+      for one that is appropriate.  This could be a config option if
+      desired, or one might add in an extra search step to find WU with
+      appropriate resources.  But for now this is the cleanest.
+
+    sched/
+        sched_locality.C
