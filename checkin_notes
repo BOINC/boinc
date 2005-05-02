@@ -5960,3 +5960,8 @@ Bruce 1 May 2005
         util.C
         util.h
 
+David  2 May 2005
+	- bug fix for intermediate upload feature
+
+	client/
+		app.C

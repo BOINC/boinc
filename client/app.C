@@ -523,6 +523,7 @@ void ACTIVE_TASK_SET::report_overdue(double now) {
 int ACTIVE_TASK::handle_upload_files() {
     std::string filename;
     char buf[256], path[256];
+    int retval;
 
     DirScanner dirscan(slot_dir);
     while (dirscan.scan(filename)) {
@@ -531,7 +532,13 @@ int ACTIVE_TASK::handle_upload_files() {
             char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
             FILE_INFO* fip = result->lookup_file_logical(p);
             if (fip) {
-                fip->status = FILE_PRESENT;
+                get_pathname(fip, path);
+                retval =  md5_file(path, fip->md5_cksum, fip->nbytes);
+                if (retval) {
+                    fip->status = retval;
+                } else {
+                    fip->status = FILE_PRESENT;
+                }
             } else {
                 msg_printf(0, MSG_ERROR, "Can't find %s", p);
             }
