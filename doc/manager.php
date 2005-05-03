@@ -39,10 +39,9 @@ computer it is connected too.
 <h1>BOINC Manager Tabs</h1>
 <h2>Projects</h2>
 <p>Shows the projects in which this computer is participating.</p>
-<p>Click on a project name to enable the following additional buttons:</p>
-
 <img src=mgrprojects.png>
 
+<p>Click on a project name to enable the following additional buttons:</p>
 <ul>
 <li> <b>Update</b>:
     Connect to the project;
