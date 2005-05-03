@@ -70,29 +70,35 @@ Each time new credit is granted,
 the following function is used to update the
 recent average credit of the host, user and team:
 <pre>",htmlspecialchars("
-#define CREDIT_HALF_LIFE  (SECONDS_IN_DAY*7)
 
-// Update an estimate of \"units per day\" of something (credit or CPU time).
-// The estimate is exponentially averaged with a given half-life
-// (i.e. if no new work is done, the average will decline by 50% in this time).
-// This function can be called either with new work,
-// or with zero work to decay an existing average.
-//
 void update_average(
-    double now,                     // current time
     double work_start_time,       // when new work was started
                                     // (or zero if no new work)
     double work,                    // amount of new work
+    double half_life,
     double& avg,                    // average work per day (in and out)
     double& avg_time                // when average was last computed
 ) {
+    double now = dtime();
+
     if (avg_time) {
-        double diff = now - avg_time;
-        double diff_days = diff/SECONDS_PER_DAY;
-        double weight = exp(-diff*M_LN2/CREDIT_HALF_LIFE);
+        double diff, diff_days, weight;
+
+        diff = now - avg_time;
+        if (diff<0) diff=0;
+
+        diff_days = diff/SECONDS_PER_DAY;
+        weight = exp(-diff*M_LN2/half_life);
+
         avg *= weight;
-        avg += (1-weight)*(work/diff_days);
-    } else {
+
+        if ((1.0-weight) > 1.e-6) {
+	    avg += (1-weight)*(work/diff_days);
+        }
+        else {
+            avg += M_LN2*work*SECONDS_PER_DAY/half_life;
+	}
+    } else if (work) {
         double dd = (now - work_start_time)/SECONDS_PER_DAY;
         avg = work/dd;
     }

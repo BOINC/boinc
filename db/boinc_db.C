@@ -409,6 +409,161 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     max_results_day = atoi(r[i++]);
 }
 
+// update fields that differ from the argument HOST
+//
+int DB_HOST::update_diff(HOST& h) {
+    char buf[LARGE_BLOB_SIZE], updates[LARGE_BLOB_SIZE], query[LARGE_BLOB_SIZE];
+    strcpy(updates, "");
+    if (rpc_seqno != h.rpc_seqno) {
+        sprintf(buf, " rpc_seqno=%d,", rpc_seqno);
+        strcat(updates, buf);
+    }
+    if (rpc_time != h.rpc_time) {
+        sprintf(buf, " rpc_time=%d,", rpc_time);
+        strcat(updates, buf);
+    }
+    if (timezone != h.timezone) {
+        sprintf(buf, " timezone=%d,", timezone);
+        strcat(updates, buf);
+    }
+    if (strcmp(domain_name, h.domain_name)) {
+        sprintf(buf, " domain_name='%s',", domain_name);
+        strcat(updates, buf);
+    }
+    if (strcmp(serialnum, h.serialnum)) {
+        sprintf(buf, " serialnum='%s',", serialnum);
+        strcat(updates, buf);
+    }
+    if (strcmp(last_ip_addr, h.last_ip_addr)) {
+        sprintf(buf, " last_ip_addr='%s',", last_ip_addr);
+        strcat(updates, buf);
+    }
+    if (nsame_ip_addr != h.nsame_ip_addr) {
+        sprintf(buf, " nsame_ip_addr=%d,", nsame_ip_addr);
+        strcat(updates, buf);
+    }
+    if (on_frac != h.on_frac) {
+        sprintf(buf, " on_frac=%f,", on_frac);
+        strcat(updates, buf);
+    }
+    if (connected_frac != h.connected_frac) {
+        sprintf(buf, " connected_frac=%f,", connected_frac);
+        strcat(updates, buf);
+    }
+    if (active_frac != h.active_frac) {
+        sprintf(buf, " active_frac=%f,", active_frac);
+        strcat(updates, buf);
+    }
+    if (p_ncpus != h.p_ncpus) {
+        sprintf(buf, " p_ncpus=%d,", p_ncpus);
+        strcat(updates, buf);
+    }
+    if (strcmp(p_vendor, h.p_vendor)) {
+        sprintf(buf, " p_vendor='%s',", p_vendor);
+        strcat(updates, buf);
+    }
+    if (strcmp(p_model, h.p_model)) {
+        sprintf(buf, " p_model='%s',", p_model);
+        strcat(updates, buf);
+    }
+    if (p_fpops != h.p_fpops) {
+        sprintf(buf, " p_fpops=%f,", p_fpops);
+        strcat(updates, buf);
+    }
+    if (p_iops != h.p_iops) {
+        sprintf(buf, " p_iops=%f,", p_iops);
+        strcat(updates, buf);
+    }
+    if (p_membw != h.p_membw) {
+        sprintf(buf, " p_membw=%f,", p_membw);
+        strcat(updates, buf);
+    }
+    if (strcmp(os_name, h.os_name)) {
+        sprintf(buf, " os_name='%s',", os_name);
+        strcat(updates, buf);
+    }
+    if (strcmp(os_version, h.os_version)) {
+        sprintf(buf, " os_version='%s',", os_version);
+        strcat(updates, buf);
+    }
+    if (m_nbytes != h.m_nbytes) {
+        sprintf(buf, " m_nbytes=%f,", m_nbytes);
+        strcat(updates, buf);
+    }
+    if (m_cache != h.m_cache) {
+        sprintf(buf, " m_cache=%f,", m_cache);
+        strcat(updates, buf);
+    }
+    if (m_swap != h.m_swap) {
+        sprintf(buf, " m_swap=%f,", m_swap);
+        strcat(updates, buf);
+    }
+    if (d_total != h.d_total) {
+        sprintf(buf, " d_total=%f,", d_total);
+        strcat(updates, buf);
+    }
+    if (d_free != h.d_free) {
+        sprintf(buf, " d_free=%f,", d_free);
+        strcat(updates, buf);
+    }
+    if (d_boinc_used_total != h.d_boinc_used_total) {
+        sprintf(buf, " d_boinc_used_total=%f,", d_boinc_used_total);
+        strcat(updates, buf);
+    }
+    if (d_boinc_used_project != h.d_boinc_used_project) {
+        sprintf(buf, " d_boinc_used_project=%f,", d_boinc_used_project);
+        strcat(updates, buf);
+    }
+    if (d_boinc_max != h.d_boinc_max) {
+        sprintf(buf, " d_boinc_max=%f,", d_boinc_max);
+        strcat(updates, buf);
+    }
+    if (n_bwup != h.n_bwup) {
+        sprintf(buf, " n_bwup=%f,", n_bwup);
+        strcat(updates, buf);
+    }
+    if (credit_per_cpu_sec != h.credit_per_cpu_sec) {
+        sprintf(buf, " credit_per_cpu_sec=%f,", credit_per_cpu_sec);
+        strcat(updates, buf);
+    }
+    if (strcmp(venue, h.venue)) {
+        sprintf(buf, " venue='%s',", venue);
+        strcat(updates, buf);
+    }
+    if (nresults_today != h.nresults_today) {
+        sprintf(buf, " nresults_today=%d,", nresults_today);
+        strcat(updates, buf);
+    }
+    if (avg_turnaround != h.avg_turnaround) {
+        sprintf(buf, " avg_turnaround=%f,", avg_turnaround);
+        strcat(updates, buf);
+    }
+    if (strcmp(host_cpid, h.host_cpid)) {
+        sprintf(buf, " host_cpid='%s',", host_cpid);
+        strcat(updates, buf);
+    }
+    if (strcmp(external_ip_addr, h.external_ip_addr)) {
+        sprintf(buf, " external_ip_addr='%s',", external_ip_addr);
+        strcat(updates, buf);
+    }
+    if (max_results_day != h.max_results_day) {
+        sprintf(buf, " max_results_day=%d,", max_results_day);
+        strcat(updates, buf);
+    }
+
+    int n = strlen(updates);
+    if (n == 0) {
+        return 0;
+    }
+
+    // trim the final comma
+    //
+    updates[n-1] = 0;
+
+    sprintf(query, "update host set %s where id=%d", updates, id);
+    return db->do_query(query);
+}
+
 void DB_WORKUNIT::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, appid=%d, "

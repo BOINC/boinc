@@ -215,7 +215,6 @@ struct HOST {
     double p_iops;          // measured integer ops/sec of CPU
     double p_membw;         // measured memory bandwidth (bytes/sec) of CPU
                             // The above are per CPU, not total
-    double p_calculated;    // when the above were calculated
 
     char os_name[256];      // Name of operating system
     char os_version[256];   // Version of operating system
@@ -525,6 +524,7 @@ class DB_HOST : public DB_BASE, public HOST {
 public:
     DB_HOST(DB_CONN* p=0);
     int get_id();
+    int update_diff(HOST&);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(HOST& r) {HOST::operator=(r);}

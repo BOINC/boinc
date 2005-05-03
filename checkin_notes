@@ -5982,3 +5982,20 @@ Rom    3 May 2005
 
     clientgui/
         ViewStatistics.cpp
+
+David  3 May 2005
+    - scheduler: fixed a bug where host::update()
+        could potentially overwrite a credit update
+        happening around the same time.
+        Did this by adding a function HOST::update_diff(HOST& initial)
+        which does an update only of those fields that have
+        changed relative to the given initial values.
+        (from Bruce Allen)
+    - removed unused "p_calculated" from HOST
+    - removed code to parse non-existent fields p_fpop_err etc. in HOST
+
+    db/
+        boinc_db.C,h
+    sched/
+        handle_request.C
+        server_types.C

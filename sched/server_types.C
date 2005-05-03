@@ -639,7 +639,6 @@ int RESULT::parse_from_client(FILE* fin) {
 //
 int HOST::parse(FILE* fin) {
     char buf[256];
-    int p_fpop_err, p_iop_err, p_membw_err;
 
     p_ncpus = 1;
     while (fgets(buf, 256, fin)) {
@@ -655,10 +654,6 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
-        else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
-        else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
-        else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
-        else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
@@ -669,7 +664,9 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
         else {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL, "HOST::parse(): unrecognized: %s\n", buf);
+            log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                "HOST::parse(): unrecognized: %s\n", buf
+            );
         }
     }
     return ERR_XML_PARSE;

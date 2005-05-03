@@ -302,7 +302,6 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.p_fpops = sreq.host.p_fpops;
     host.p_iops = sreq.host.p_iops;
     host.p_membw = sreq.host.p_membw;
-    host.p_calculated = sreq.host.p_calculated;
     strncpy(host.os_name, sreq.host.os_name, sizeof(host.os_name));
     strncpy(host.os_version, sreq.host.os_version, sizeof(host.os_version));
     host.m_nbytes = sreq.host.m_nbytes;
@@ -312,13 +311,16 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.d_free = sreq.host.d_free;
     host.n_bwup = sreq.host.n_bwup;
     host.n_bwdown = sreq.host.n_bwdown;
+    if (strlen(sreq.host.host_cpid)) {
+        strcpy(host.host_cpid, sreq.host.host_cpid);
+    }
     host.fix_nans();
 
     compute_credit_rating(host);
     return 0;
 }
 
-static int update_host_record(HOST& xhost, USER& user) {
+static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     DB_HOST host;
     int retval;
     char buf[1024];
@@ -333,7 +335,7 @@ static int update_host_record(HOST& xhost, USER& user) {
     if (p) {
         strlcpy(host.external_ip_addr, p, sizeof(host.external_ip_addr));
     }
-    retval = host.update();
+    retval = host.update_diff(initial_host);
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.update() failed: %d\n", retval);
     }
@@ -881,6 +883,7 @@ void process_request(
     bool ok_to_send_work = true;
     bool have_no_work;
     char buf[256];
+    HOST initial_host;
 
     // if different major version of BOINC, just send a message
     //
@@ -942,6 +945,7 @@ void process_request(
     if (reply.user.id == 0) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "No user ID!\n");
     }
+    initial_host = reply.host;
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
@@ -1031,7 +1035,7 @@ void process_request(
         handle_msgs_to_host(reply);
     }
 
-    update_host_record(reply.host, reply.user);
+    update_host_record(initial_host, reply.host, reply.user);
 
 leave:
     if (!have_no_work) {
