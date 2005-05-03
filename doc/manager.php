@@ -36,26 +36,43 @@ Hovering over the BOINC icon will display a status balloon which contains
 the project it is currently working on, how far along it is, and which
 computer it is connected too.
 </p>
+<h1>BOINC Manager Tabs</h1>
+<h2>Projects</h2>
+<p>Shows the projects in which this computer is participating.</p>
+<p>Click on a project name to enable the following additional buttons:</p>
+
+<img src=mgrprojects.png>
+
+<ul>
+<li> <b>Update</b>:
+    Connect to the project;
+    report all completed results,
+    get more work if necessary,
+    and get your latest <a href=prefs.php>preferences</a>.
+<li> <b>Suspend</b>:
+    Suspends any further processing of this project.
+<li> <b>Resume</b>:
+    Resumes processing of a previous suspended project.
+<li> <b>No new work</b>:
+    Do not download any additional work for this project.
+<li> <b>Allow new work</b>:
+    Allow the project to download additional work, if needed.
+<li> <b>Reset project</b>:
+    Stop the project's current work, if any,
+    and start from scratch.
+    Use this if BOINC has become stuck for some reason.
+<li> <b>Detach</b>:
+    Your computer will stop working for the project.
+<li> <b>Attach to new project</b>:
+    Attach to a new project with the account key and URL sent to you
+    by the project administrator.
+</ul>
+
 <p>
 The BOINC manager window has several tabs:
 <ul>
 <li> <b>Projects</b>:
-    Shows the projects in which this computer is participating.
-    Right-click on a project name brings up a menu:
-    <ul>
-    <li> <b>Web site</b>: visit the project's web site.
-    <li> <b>Update</b>:
-        Connect to the project;
-        report all completed results,
-        get more work if necessary,
-        and get your latest <a href=prefs.php>preferences</a>.
-    <li> <b>Detach</b> from the project.
-        Your computer will stop working for the project.
-    <li> <b>Reset project</b>:
-        Stop the project's current work, if any,
-        and start from scratch.
-        Use this if BOINC has become stuck for some reason.
-    </ul>
+    
 <li> <b>Work</b>:
     Shows the work units currently on your computer.
     Each work unit is either
