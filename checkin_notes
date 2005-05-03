@@ -5976,3 +5976,9 @@ Bruce 2 May 2005
 
     sched/
         sched_locality.C
+
+Rom    3 May 2005
+    - Bug Fix: Global Loc issue with the statistics tab on creation.
+
+    clientgui/
+        ViewStatistics.cpp

@@ -37,13 +37,13 @@ END_EVENT_TABLE ()
 
 CPaintStatistics::CPaintStatistics() {
 	m_SelectedStatistic=0;
-	heading="User Total";
+	heading=_("User Total");
 }
 
 CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
 				wxPanel(parent, id, pos, size, style, name) {
 	m_SelectedStatistic=0;
-	heading="User Total";
+	heading=_("User Total");
 }
 
 void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
