@@ -56,7 +56,7 @@ The BOINC screensaver will only show textual information.
 <p>
 The new BOINC installer is an MSI package.
 
-<h3>Active Directory Deployment<h3>
+<h3>Active Directory Deployment</h3>
 
 Suppose you want to modify it so that you can
 deploy BOINC across a Windows network using Active Directory,
