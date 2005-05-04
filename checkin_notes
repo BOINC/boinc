@@ -6013,3 +6013,11 @@ Bruce 3 May 2005
         inc/
             host.inc
 
+Janus   4 May 2005
+    - Split forum.inc into two files. One DB related (db_forum.inc) and one
+      that has to do with usual forum functions (like showing posts etc).
+
+    html/inc/
+	forum.inc
+	db_forum.inc (new)
+
