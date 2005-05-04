@@ -224,7 +224,24 @@ plus the following parameters:
             <tr>
                 <td>SERVICE_DOMAINUSERNAME</td>
                 <td>
-                    Whether to automatically launch BOINC Manager after setup completes.<br>
+                    Which user account should the service use.<br>
+                    Valid Values: '%ComputerName%\\%UserName%' <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;%ComputerName% can be either the local computername or a domain name.
+                    &nbsp;&nbsp;&nbsp;&nbsp;%UserName% should be the username of the user to use.
+                </td>
+            </tr>
+            <tr>
+                <td>SERVICE_PASSWORD</td>
+                <td>
+                    Which user account should the service use.<br>
+                    Valid Values: '%Password%' <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;%Password% the password for the above user account.
+                </td>
+            </tr>
+            <tr>
+                <td>SERVICE_GRANTEXECUTIONRIGHT</td>
+                <td>
+                    Grant the above user account the 'Logon as a Service' user right.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
