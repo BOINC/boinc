@@ -6037,3 +6037,10 @@ Bruce 4 May 2005
         file_upload_handler.C
         sched_locality.C
 
+Jeff 4 May 2005
+    - Accounted for the fact that function finite() is prototyped in ieeefp.h
+      under solaris and math.h under linux.
+
+    configure.ac
+    lib/
+	parse.C 

@@ -34,6 +34,9 @@
 #include <cstdlib>
 #include <locale>
 #include <string>
+#if HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
 #endif
 
 #include "error_numbers.h"
