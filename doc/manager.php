@@ -153,12 +153,41 @@ computer it is connected too.
     You can <a href=client_debug.php>control what messages are shown</a>.
     Messages are also written to a file 'stdoutdae.txt'.</p>
 <img src=mgrmessages.png>
-    
+
+<p>Click on one or more messages to enable the following additional buttons:</p>
 <ul>
-<li> <b>Disk</b>:
-    This shows how much disk space is available for use by BOINC,
-    and how much is currently being used by each project.
+<li> <b>Copy all messages</b>: 
+    Copies all the messages to the clipboard.
+<li> <b>Copy selected messages</b>:
+    Copies the highlighted messages to the clipboard. NOTE: To highlight a message
+    hold down the CTRL key and then click on the messages you want to store in the
+    clipboard.  When done click on the 'Copy selected messages' button to copy them
+    to the clipboard.
 </ul>
+
+<h2>Statistics</h2>
+<p>Shows some simple charts and graphs about the user and host progress</p>
+<img src=mgrstatistics.png>
+<p>NOTE: This feature requires three connections to each project scheduler on three
+   different days before it starts to work properly.</p>
+<p>Click on any of the buttons to change to a different chart:</p>
+<ul>
+<li> <b>Show user total</b>: 
+    Shows the user's credit totals for each project.
+<li> <b>Show user average</b>:
+    Shows the users's credit averages for each project.
+<li> <b>Show host total</b>: 
+    Shows the host's credit totals for each project.
+<li> <b>Show host average</b>:
+    Shows the host's credit averages for each project.
+</ul>
+
+<h2>Disk</h2>
+<p>This shows how much disk space is currently being used by each project.</p>
+<img src=mgrdisk.png>
+
+<h1>BOINC Manager Menus</h1>
+
 The BOINC manager's menu items are as follows:
 <ul>
 <li> <b>File</b>
