@@ -642,6 +642,9 @@ int HOST::parse(FILE* fin) {
 
     p_ncpus = 1;
     while (fgets(buf, 256, fin)) {
+        int trash_int;
+        double trash_double;
+
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
@@ -663,6 +666,12 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
+        // following four lines can be eliminated with a later version of
+        // the core client.
+        else if (parse_int(buf, "<p_fpop_err>", trash_int)) continue; 	 
+        else if (parse_int(buf, "<p_iop_err>", trash_int)) continue; 	 
+        else if (parse_int(buf, "<p_membw_err>", trash_int)) continue; 	 
+        else if (parse_double(buf, "<p_calculated>", trash_double)) continue;
         else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL,
                 "HOST::parse(): unrecognized: %s\n", buf
