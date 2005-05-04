@@ -78,35 +78,35 @@ plus the following parameters:
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>INSTALLDIR</td>
                 <td>
                     The location to install BOINC too.<br>
                     Example: 'C:\\BOINC'
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>SETUPTYPE</td>
                 <td>
                     The type of installation to perform.<br>
                     Valid Values: 'Single'.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ALLUSERS</td>
                 <td>
                     Whether the shortcuts appear for just one user or all users.<br>
                     Valid Values: '0' for Single.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ENABLESCREENSAVER</td>
                 <td>
                     Whether to automatically enable the screensaver.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ENABLELAUNCHATLOGON</td>
                 <td>
                     Whether to automatically start BOINC when the installing user or all 
@@ -114,7 +114,7 @@ plus the following parameters:
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>LAUNCHPROGRAM</td>
                 <td>
                     Whether to automatically launch BOINC Manager after setup completes.<br>
@@ -128,35 +128,35 @@ plus the following parameters:
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>INSTALLDIR</td>
                 <td>
                     The location to install BOINC too.<br>
                     Example: 'C:\\BOINC'
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>SETUPTYPE</td>
                 <td>
                     The type of installation to perform.<br>
                     Valid Values: 'Shared'.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ALLUSERS</td>
                 <td>
                     Whether the shortcuts appear for just one user or all users.<br>
                     Valid Values: '1' for shared.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ENABLESCREENSAVER</td>
                 <td>
                     Whether to automatically enable the screensaver.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ENABLELAUNCHATLOGON</td>
                 <td>
                     Whether to automatically start BOINC when the installing user or all 
@@ -164,7 +164,7 @@ plus the following parameters:
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>LAUNCHPROGRAM</td>
                 <td>
                     Whether to automatically launch BOINC Manager after setup completes.<br>
@@ -173,40 +173,40 @@ plus the following parameters:
             </tr>
         </table>
     <li>Service Install:<br>
-        <table valign=top>
+        <table>
             <tr BGCOLOR=#d8e8ff>
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>INSTALLDIR</td>
                 <td>
                     The location to install BOINC too.<br>
                     Example: 'C:\\BOINC'
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>SETUPTYPE</td>
                 <td>
                     The type of installation to perform.<br>
                     Valid Values: 'Service'.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ALLUSERS</td>
                 <td>
                     Whether the shortcuts appear for just one user or all users.<br>
                     Valid Values: '1' for service.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ENABLESCREENSAVER</td>
                 <td>
                     Whether to automatically enable the screensaver.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>ENABLELAUNCHATLOGON</td>
                 <td>
                     Whether to automatically start BOINC when the installing user or all 
@@ -214,14 +214,14 @@ plus the following parameters:
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>LAUNCHPROGRAM</td>
                 <td>
                     Whether to automatically launch BOINC Manager after setup completes.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>SERVICE_DOMAINUSERNAME</td>
                 <td>
                     Which user account should the service use.<br>
@@ -230,7 +230,7 @@ plus the following parameters:
                     &nbsp;&nbsp;&nbsp;&nbsp;%UserName% should be the username of the user to use.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>SERVICE_PASSWORD</td>
                 <td>
                     Which user account should the service use.<br>
@@ -238,7 +238,7 @@ plus the following parameters:
                     &nbsp;&nbsp;&nbsp;&nbsp;%Password% the password for the above user account.
                 </td>
             </tr>
-            <tr>
+            <tr valign=top>
                 <td>SERVICE_GRANTEXECUTIONRIGHT</td>
                 <td>
                     Grant the above user account the 'Logon as a Service' user right.<br>
