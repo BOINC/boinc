@@ -74,21 +74,21 @@ plus the following parameters:
     <ul>
     <li>Single-user install:<br>
         <table>
-            <tr BGCOLOR=LightGray>
+            <tr BGCOLOR=#d8e8ff>
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
         </table>
     <li>Shared install:<br>
         <table>
-            <tr BGCOLOR=LightGray>
+            <tr BGCOLOR=#d8e8ff>
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
         </table>
     <li>Service Install:<br>
         <table>
-            <tr BGCOLOR=LightGray>
+            <tr BGCOLOR=#d8e8ff>
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
