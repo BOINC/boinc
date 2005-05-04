@@ -78,12 +78,98 @@ plus the following parameters:
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
+            <tr>
+                <td>INSTALLDIR</td>
+                <td>
+                    The location to install BOINC too.<br>
+                    Example: 'C:\\BOINC'
+                </td>
+            </tr>
+            <tr>
+                <td>SETUPTYPE</td>
+                <td>
+                    The type of installation to perform.<br>
+                    Valid Values: 'Single'.
+                </td>
+            </tr>
+            <tr>
+                <td>ALLUSERS</td>
+                <td>
+                    Whether the shortcuts appear for just one user or all users.<br>
+                    Valid Values: '0' for Single.
+                </td>
+            </tr>
+            <tr>
+                <td>ENABLESCREENSAVER</td>
+                <td>
+                    Whether to automatically enable the screensaver.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>ENABLELAUNCHATLOGON</td>
+                <td>
+                    Whether to automatically start BOINC when the installing user or all 
+                    users signon to the computer.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>LAUNCHPROGRAM</td>
+                <td>
+                    Whether to automatically launch BOINC Manager after setup completes.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
         </table>
     <li>Shared install:<br>
         <table>
             <tr BGCOLOR=#d8e8ff>
                 <td>Parameter</td>
                 <td>Description</td>
+            </tr>
+            <tr>
+                <td>INSTALLDIR</td>
+                <td>
+                    The location to install BOINC too.<br>
+                    Example: 'C:\\BOINC'
+                </td>
+            </tr>
+            <tr>
+                <td>SETUPTYPE</td>
+                <td>
+                    The type of installation to perform.<br>
+                    Valid Values: 'Shared'.
+                </td>
+            </tr>
+            <tr>
+                <td>ALLUSERS</td>
+                <td>
+                    Whether the shortcuts appear for just one user or all users.<br>
+                    Valid Values: '1' for shared.
+                </td>
+            </tr>
+            <tr>
+                <td>ENABLESCREENSAVER</td>
+                <td>
+                    Whether to automatically enable the screensaver.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>ENABLELAUNCHATLOGON</td>
+                <td>
+                    Whether to automatically start BOINC when the installing user or all 
+                    users signon to the computer.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>LAUNCHPROGRAM</td>
+                <td>
+                    Whether to automatically launch BOINC Manager after setup completes.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
             </tr>
         </table>
     <li>Service Install:<br>
@@ -92,18 +178,73 @@ plus the following parameters:
                 <td>Parameter</td>
                 <td>Description</td>
             </tr>
+            <tr>
+                <td>INSTALLDIR</td>
+                <td>
+                    The location to install BOINC too.<br>
+                    Example: 'C:\\BOINC'
+                </td>
+            </tr>
+            <tr>
+                <td>SETUPTYPE</td>
+                <td>
+                    The type of installation to perform.<br>
+                    Valid Values: 'Service'.
+                </td>
+            </tr>
+            <tr>
+                <td>ALLUSERS</td>
+                <td>
+                    Whether the shortcuts appear for just one user or all users.<br>
+                    Valid Values: '1' for service.
+                </td>
+            </tr>
+            <tr>
+                <td>ENABLESCREENSAVER</td>
+                <td>
+                    Whether to automatically enable the screensaver.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>ENABLELAUNCHATLOGON</td>
+                <td>
+                    Whether to automatically start BOINC when the installing user or all 
+                    users signon to the computer.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>LAUNCHPROGRAM</td>
+                <td>
+                    Whether to automatically launch BOINC Manager after setup completes.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
+            <tr>
+                <td>SERVICE_DOMAINUSERNAME</td>
+                <td>
+                    Whether to automatically launch BOINC Manager after setup completes.<br>
+                    Valid Values: '0' for disabled, '1' for enabled.
+                </td>
+            </tr>
         </table>
     </ul>
-<li> The global property ACCOUNTS_LOCATION specifies
-(either in UNC or drive:path format)
-a directory containing initial account files (normally null).
-You can edit this to point to the account file you want.
-For large-scale deployments it is probably safer
-to use UNC paths.
 </ul>
 
 <h3>Command line deployment</h3>
 
+An example for the single-user install would be:
+
+msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Single' ALLUSERS=0 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUCHPROGRAM=0
+
+An example for the shared install would be:
+
+msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Shared' ALLUSERS=1 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUCHPROGRAM=0
+
+An example for the service install would be:
+
+msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Service' ALLUSERS=0 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUCHPROGRAM=0 SERVICE_DOMAINUSERNAME='%ComputerName%\\%UserName%' SERVICE_PASSWORD='%Password%' SERVICE_GRANTEXECUTIONRIGHT=1
 
 <hr>
 <h2>Technical details</h2>
