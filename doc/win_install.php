@@ -173,7 +173,7 @@ plus the following parameters:
             </tr>
         </table>
     <li>Service Install:<br>
-        <table>
+        <table valign=top>
             <tr BGCOLOR=#d8e8ff>
                 <td>Parameter</td>
                 <td>Description</td>
@@ -225,8 +225,8 @@ plus the following parameters:
                 <td>SERVICE_DOMAINUSERNAME</td>
                 <td>
                     Which user account should the service use.<br>
-                    Valid Values: '%ComputerName%\\%UserName%' <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;%ComputerName% can be either the local computername or a domain name.
+                    Valid Values: '%ComputerName%\\%UserName%'<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;%ComputerName% can be either the local computername or a domain name.<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;%UserName% should be the username of the user to use.
                 </td>
             </tr>
