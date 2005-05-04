@@ -44,6 +44,9 @@ computer it is connected too.
 <ul>
 <li>Suspended: 
     The project is currently suspended.
+<li>Retry in ...:
+    The client will wait the specified amount of time before attempting
+    to contact the project server again.
 <li>Won't get new work:
     The project will not fill the cache for this project 
     when it runs out of work.
@@ -51,28 +54,28 @@ computer it is connected too.
 
 <p>Click on a project name to enable the following additional buttons:</p>
 <ul>
+<li> <b>Allow new work</b>:
+    Allow the project to download additional work, if needed.
+<li> <b>Attach to new project</b>:
+    Attach to a new project with the account key and URL sent to you
+    by the project administrator.
+<li> <b>Detach</b>:
+    Your computer will stop working for the project.
+<li> <b>No new work</b>:
+    Do not download any additional work for this project.
+<li> <b>Reset project</b>:
+    Stop the project's current work, if any,
+    and start from scratch.
+    Use this if BOINC has become stuck for some reason.
+<li> <b>Resume</b>:
+    Resumes processing of a previous suspended project.
+<li> <b>Suspend</b>:
+    Suspends any further processing of this project.
 <li> <b>Update</b>:
     Connect to the project;
     report all completed results,
     get more work if necessary,
     and get your latest <a href=prefs.php>preferences</a>.
-<li> <b>Suspend</b>:
-    Suspends any further processing of this project.
-<li> <b>Resume</b>:
-    Resumes processing of a previous suspended project.
-<li> <b>No new work</b>:
-    Do not download any additional work for this project.
-<li> <b>Allow new work</b>:
-    Allow the project to download additional work, if needed.
-<li> <b>Reset project</b>:
-    Stop the project's current work, if any,
-    and start from scratch.
-    Use this if BOINC has become stuck for some reason.
-<li> <b>Detach</b>:
-    Your computer will stop working for the project.
-<li> <b>Attach to new project</b>:
-    Attach to a new project with the account key and URL sent to you
-    by the project administrator.
 </ul>
 
 <p>Project administrators can add <a href=gui_urls.php>buttons</a> 
@@ -89,31 +92,32 @@ computer it is connected too.
     as a computational error.
 <li>Downloading: 
     Input files are being downloaded.
-<li>Ready to run:
-    An estimate of the total CPU time is shown.
-<li>Running:
-    Elapsed CPU time and estimated percent done is shown.
-<li>Uploading: 
-    Output files are being uploaded.
-<li>Suspended: 
-    Result has been suspended.
 <li>Paused: 
     Result has been suspended by the client-side scheduler and will be
     resumed the next time the project comes up in the processing rotation.
 <li>Ready to report: 
     Waiting to notify the scheduling server.
+<li>Ready to run:
+    An estimate of the total CPU time is shown.
+<li>Running:
+    Elapsed CPU time and estimated percent done is shown.
+<li>Suspended: 
+    Result has been suspended.
+<li>Uploading: 
+    Output files are being uploaded.
 </ul>
 
 <p>Click on a result name to enable the following additional buttons:</p>
 <ul>
-<li> <b>Suspend</b>:
-    Suspends any further processing of this result.
+<li> <b>Abort</b>: 
+    Abort processing for a result. NOTE: This will prevent you from receiving
+    credit for any work already completed.
 <li> <b>Resume</b>:
     Resumes processing of a previous suspended result.
 <li> <b>Show graphics</b>: 
     Open a window showing application graphics.
-<li> <b>Abort</b>: 
-    Abort processing for a result.
+<li> <b>Suspend</b>:
+    Suspends any further processing of this result.
 </ul>
 
 <h2>Transfers</h2>
@@ -121,15 +125,36 @@ computer it is connected too.
     These may be ready to start, in progress, and completed.</p>
 <img src=mgrtransfers.png>
 
-
-
 <ul>
-<li> <b>Messages</b>:
-    Shows status and error messages.
+<li>Aborted: 
+    Result has been aborted and will be reported to the project server
+    as a computational error.
+<li>Downloading: 
+    Input files are being downloaded.
+<li>Retry in ...:
+    The client will wait the specified amount of time before attempting
+    to contact the project server again.
+<li>Uploading: 
+    Output files are being uploaded.
+</ul>
+
+<p>Click on a file name to enable the following additional buttons:</p>
+<ul>
+<li> <b>Retry Now</b>: 
+    Retry the file transfer now.
+<li> <b>Abort Transfer</b>:
+    Abort the file transfer. NOTE: This will prevent you from receiving credit
+    for any work already completed.
+</ul>
+
+<h2>Messages</h2>
+<p>Shows status and error messages.
     Messages can be sorted by project or time.
     You can <a href=client_debug.php>control what messages are shown</a>.
-    Messages are also written to a file 'messages.txt'.
+    Messages are also written to a file 'stdoutdae.txt'.</p>
+<img src=mgrmessages.png>
     
+<ul>
 <li> <b>Disk</b>:
     This shows how much disk space is available for use by BOINC,
     and how much is currently being used by each project.
