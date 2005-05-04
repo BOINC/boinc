@@ -41,6 +41,14 @@ computer it is connected too.
 <p>Shows the projects in which this computer is participating.</p>
 <img src=mgrprojects.png>
 
+<ul>
+<li>Suspended: 
+    The project is currently suspended.
+<li>Won't get new work:
+    The project will not fill the cache for this project 
+    when it runs out of work.
+</ul>
+
 <p>Click on a project name to enable the following additional buttons:</p>
 <ul>
 <li> <b>Update</b>:
@@ -67,30 +75,55 @@ computer it is connected too.
     by the project administrator.
 </ul>
 
-<p>
-The BOINC manager window has several tabs:
+<p>Project administrators can add <a href=gui_urls.php>buttons</a> 
+   to the manager to quickly navigate the project website.</p>
+
+<h2>Work</h2>
+<p>Shows the work units currently on your computer.
+    Each work unit is either</p>
+<img src=mgrwork.png>
+
 <ul>
-<li> <b>Projects</b>:
-    
-<li> <b>Work</b>:
-    Shows the work units currently on your computer.
-    Each work unit is either
-    <ul>
-    <li>Downloading: input files are being downloaded.
-    <li>Ready to run:
-        An estimate of the total CPU time is shown.
-    <li>Running: currently running.
-        Elapsed CPU time and estimated percent done is shown.
-    <li>Uploading: output files are being uploaded.
-    <li>Ready to report: waiting to notify the scheduling server.
-    </ul>
-    Right-click on a work unit to:
-    <ul>
-    <li> <b>Show graphics</b>: open a window showing application graphics.
-    </ul>
-<li> <b>Transfers</b>:
-    Shows file transfers (uploads and downloads).
-    These may be ready to start, in progress, and completed.
+<li>Aborted: 
+    Result has been aborted and will be reported to the project server
+    as a computational error.
+<li>Downloading: 
+    Input files are being downloaded.
+<li>Ready to run:
+    An estimate of the total CPU time is shown.
+<li>Running:
+    Elapsed CPU time and estimated percent done is shown.
+<li>Uploading: 
+    Output files are being uploaded.
+<li>Suspended: 
+    Result has been suspended.
+<li>Paused: 
+    Result has been suspended by the client-side scheduler and will be
+    resumed the next time the project comes up in the processing rotation.
+<li>Ready to report: 
+    Waiting to notify the scheduling server.
+</ul>
+
+<p>Click on a result name to enable the following additional buttons:</p>
+<ul>
+<li> <b>Suspend</b>:
+    Suspends any further processing of this result.
+<li> <b>Resume</b>:
+    Resumes processing of a previous suspended result.
+<li> <b>Show graphics</b>: 
+    Open a window showing application graphics.
+<li> <b>Abort</b>: 
+    Abort processing for a result.
+</ul>
+
+<h2>Transfers</h2>
+<p>Shows file transfers (uploads and downloads).
+    These may be ready to start, in progress, and completed.</p>
+<img src=mgrtransfers.png>
+
+
+
+<ul>
 <li> <b>Messages</b>:
     Shows status and error messages.
     Messages can be sorted by project or time.
