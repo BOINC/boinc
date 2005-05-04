@@ -390,7 +390,7 @@ static int send_results_for_file(
 ) {
     DB_RESULT result, prev_result;
     char buf[256], query[1024];
-    int i, maxid, retval_max, retval_lookup, has_slept=0;
+    int i, maxid, retval_max, retval_lookup, sleep_made_no_work=0;
 
     nsent = 0;
 
@@ -521,13 +521,13 @@ static int send_results_for_file(
             // again, or we have already tried to find work for this
             // file, we are finished.
             //
-            if (!config.locality_scheduling_wait_period || has_slept) {
+            if (!config.locality_scheduling_wait_period || sleep_made_no_work) {
                 break;
             }
 
             // wait a bit and try again to find a suitable unsent result
             sleep(config.locality_scheduling_wait_period);
-            has_slept=1;
+            sleep_made_no_work=1;
           
         } // query_retval
         else {
@@ -560,6 +560,7 @@ static int send_results_for_file(
             // this is only wacky if !one_wu_per_result_per_host.
             if (!retval_send) {
                 nsent++;
+                sleep_made_no_work=0;
             } else if (!config.one_result_per_user_per_wu) {
                 log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                     "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n",

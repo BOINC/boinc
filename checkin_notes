@@ -6025,6 +6025,8 @@ Bruce 4 May 2005
     - log execution times for two cgi scripts (scheduler and
       file_upload_handler)
     - better print format for timezone
+    - bug fix: with locality scheduling, permit multiple requests
+      to make work for same file. Bug introduced April 11, 2005.
 
     sched/
         sched_util.h
@@ -6033,4 +6035,5 @@ Bruce 4 May 2005
         main.C
         sched_send.C
         file_upload_handler.C
+        sched_locality.C
 
