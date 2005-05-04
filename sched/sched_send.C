@@ -949,7 +949,7 @@ int send_work(
         }
         if (reply.wreq.excessive_work_buf) {
             USER_MESSAGE um(
-                "(Your network connection interval is too high)",
+                "(Your network connection interval is longer than WU deadline)",
                 "high"
             );
             reply.insert_message(um);
