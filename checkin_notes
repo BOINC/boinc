@@ -5991,6 +5991,8 @@ David  3 May 2005
         which does an update only of those fields that have
         changed relative to the given initial values.
         (from Bruce Allen)
+    - scheduler: fixed a bug where host_cpid wasn't being maintained properly.
+        Caused it to change on each RPC.
     - removed unused "p_calculated" from HOST
     - removed code to parse non-existent fields p_fpop_err etc. in HOST
 
@@ -6044,3 +6046,12 @@ Jeff 4 May 2005
     configure.ac
     lib/
 	parse.C 
+
+David  4 May 2005
+    - bug fix in boinc_upload_file() (from Tolu Aina)
+    - added forum_preferences.ignore_sticky_posts to schema
+
+    api/
+        boinc_api.C
+    db/
+        schema.sql

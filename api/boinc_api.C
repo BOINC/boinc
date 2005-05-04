@@ -718,6 +718,7 @@ int boinc_upload_file(std::string& name) {
     FILE* f = boinc_fopen(buf, "w");
     if (!f) return ERR_FOPEN;
     have_new_upload_file = true;
+    fclose(f);
     return 0;
 }
 
