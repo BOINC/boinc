@@ -222,4 +222,15 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
     host.avg_turnaround = new_avg;
 }
 
+int elapsed_time() {
+    static time_t execution_time=0;
+
+    if (!execution_time) {
+        execution_time=time(0);
+        return 0;
+    }
+
+    return (int)(time(0)-execution_time);
+}
+
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

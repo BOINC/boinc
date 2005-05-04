@@ -466,6 +466,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         return return_error(ERR_PERMANENT, "no command");
     }
 
+    log_messages.printf(SCHED_MSG_LOG::DEBUG, "run time %d seconds\n", elapsed_time());
+
     return retval;
 }
 
@@ -484,9 +486,9 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
 
 void boinc_catch_signal(int signal_num) {
     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-        "FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s]\n",
+        "FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s] run time %d seconds\n",
         this_filename, bytes_left, get_remote_addr(),
-        signal_num, strsignal(signal_num)
+        signal_num, strsignal(signal_num), elapsed_time()
     );
 
     // there is no point in trying to return an error.  At this point Apache has broken
@@ -516,6 +518,7 @@ int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
+    elapsed_time();
 
     installer();
 

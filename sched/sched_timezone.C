@@ -160,7 +160,7 @@ URLTYPE* read_download_list() {
     );
     for (i=0; i<count; i++) {
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "zone=%+d url=%s\n", cached[i].zone, cached[i].name
+            SCHED_MSG_LOG::DEBUG, "zone=%+06d url=%s\n", cached[i].zone, cached[i].name
         );
     }
     return cached;

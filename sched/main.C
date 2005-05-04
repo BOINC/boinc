@@ -106,8 +106,8 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
 //
 void sigterm_handler(int signo) {
    log_messages.printf(SCHED_MSG_LOG::CRITICAL, 
-       "BOINC scheduler (pid=%d) caught signal %d.  Exit(1)ing\n",
-       (int)getpid(), signo
+       "Caught signal %d [scheduler ran %d seconds].  Exit(1)ing\n",
+       signo, elapsed_time()
     );
     fflush(NULL);
     exit(1);
@@ -150,6 +150,9 @@ int main() {
     bool project_stopped = false;
     int length=-1;
     log_messages.pid = getpid();
+
+    // initialized timer
+    elapsed_time();
 
     // install a signal handler that catches SIGTERMS sent by Apache if the cgi
     // times out.

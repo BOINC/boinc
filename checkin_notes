@@ -6021,3 +6021,16 @@ Janus   4 May 2005
 	forum.inc
 	db_forum.inc (new)
 
+Bruce 4 May 2005
+    - log execution times for two cgi scripts (scheduler and
+      file_upload_handler)
+    - better print format for timezone
+
+    sched/
+        sched_util.h
+        sched_util.C
+        sched_timezone.C
+        main.C
+        sched_send.C
+        file_upload_handler.C
+

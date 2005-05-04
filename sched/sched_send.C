@@ -881,8 +881,8 @@ int send_work(
 #endif
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results\n",
-        reply.host.id, reply.wreq.nresults
+        SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results [scheduler ran %d seconds]\n",
+        reply.host.id, reply.wreq.nresults, elapsed_time() 
     );
 
     if (reply.wreq.nresults == 0) {

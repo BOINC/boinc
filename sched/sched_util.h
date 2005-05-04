@@ -58,4 +58,8 @@ extern int extract_filename(char* in, char* out);
 
 extern void compute_avg_turnaround(HOST& host, double turnaround);
 
+// used to track execution time of cgi scripts
+extern int elapsed_time();
+
+
 #endif
