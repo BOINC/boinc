@@ -60,10 +60,9 @@ if (!empty($_POST['content'])) {
 }
 
 
-if (get_int('post')) {
+if (get_int('post', true)) {
     $post = getPost(get_int('post'));
 }
-
 
 
 // TODO: Write a function for this.
