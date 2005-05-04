@@ -55,13 +55,45 @@ The BOINC screensaver will only show textual information.
 <h2>Customizing the installer</h2>
 <p>
 The new BOINC installer is an MSI package.
+
+<h3>Active Directory Deployment<h3>
+
 Suppose you want to modify it so that you can
-deploy BOINC across a Windows network using Active Directories,
+deploy BOINC across a Windows network using Active Directory,
 and have all the PCs attached to a particular account.
 Here's how to do this:
+
+
 <ul>
+<li> Download the BOINC client package and execute it with the /a parameter.
+<li> Drop the files to a share that can be accessed by all the computers on the network.
 <li> Using <a href=http://support.microsoft.com/kb/255905/EN-US/>Microsoft ORCA</a>,
-edit the installer to set the installation parameters to what you want.
+or some other MSI packaging tool, create an MSI Transform that contains the the 
+account_*.xml files of the projects you have already attached too on another machine
+plus the following parameters:
+    <ul>
+    <li>Single-user install:<br>
+        <table>
+            <tr BGCOLOR=LightGray>
+                <td>Parameter</td>
+                <td>Description</td>
+            </tr>
+        </table>
+    <li>Shared install:<br>
+        <table>
+            <tr BGCOLOR=LightGray>
+                <td>Parameter</td>
+                <td>Description</td>
+            </tr>
+        </table>
+    <li>Service Install:<br>
+        <table>
+            <tr BGCOLOR=LightGray>
+                <td>Parameter</td>
+                <td>Description</td>
+            </tr>
+        </table>
+    </ul>
 <li> The global property ACCOUNTS_LOCATION specifies
 (either in UNC or drive:path format)
 a directory containing initial account files (normally null).
@@ -69,6 +101,10 @@ You can edit this to point to the account file you want.
 For large-scale deployments it is probably safer
 to use UNC paths.
 </ul>
+
+<h3>Command line deployment</h3>
+
+
 <hr>
 <h2>Technical details</h2>
 <p>
