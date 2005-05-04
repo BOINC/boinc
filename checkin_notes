@@ -6004,7 +6004,12 @@ Bruce 3 May 2005
     - ignore fields p_fpop_err in scheduler requests (still there from
       4.19 core clients) else these generate lots of logfile noise.
       David, please revert if you don't like it.
+    - in host page visible to ordinary users, include daily result
+      quota info.
 
     sched/
         server_types.C
+    html/
+        inc/
+            host.inc
 
