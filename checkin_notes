@@ -6079,3 +6079,19 @@ Bruce 4 May 2005
             host.inc
             db_ops.inc
  
+Rom    4 May 2005
+    - Bug Fix: Fix the screensaver on Win9x class of machines.
+    - Bug Fix: The help menu needed to include items for the BOINC website
+        and manager page.
+    - Some code cleanup
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        Events.h
+        MainFrame.cpp, .h
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

@@ -164,7 +164,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function End"));
 }
@@ -209,7 +209,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function End"));
 }

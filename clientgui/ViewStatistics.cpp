@@ -365,7 +365,7 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function End"));
 }
@@ -386,7 +386,7 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserAverage - Function End"));
 }
@@ -407,7 +407,7 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostTotal - Function End"));
 }
@@ -428,7 +428,7 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostAverage - Function End"));
 }
@@ -461,14 +461,6 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 
 
 void CViewStatistics::OnListRender( wxTimerEvent& event ) {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-	if (pDoc->GetStatisticsCount()) {
-		m_PaintStatistics->Refresh();
-	}
 }
 
 

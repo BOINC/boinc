@@ -67,10 +67,12 @@ public:
 
     void OnToolsUpdateAccounts( wxCommandEvent& event );
     void OnToolsOptions( wxCommandEvent& event );
-    void OnAbout( wxCommandEvent& event );
+
+    void OnHelpBOINCManager( wxHelpEvent& event );
+    void OnHelpBOINCWebsite( wxCommandEvent& event );
+    void OnHelpAbout( wxCommandEvent& event );
 
     void OnClose( wxCloseEvent& event );
-    void OnHelp( wxHelpEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
@@ -91,7 +93,6 @@ public:
     void FireConnectError();
     void FireConnectErrorAuthentication();
     void FireRefreshView();
-    void ProcessRefreshView();
 
     void ExecuteBrowserLink( const wxString& strLink );
 

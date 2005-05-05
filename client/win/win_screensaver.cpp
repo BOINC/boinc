@@ -867,13 +867,14 @@ BOOL CScreensaver::GetTextForError(
 // Create the thread that is used to talk to the daemon.
 //
 BOOL CScreensaver::CreateDataManagementThread() {
+    DWORD dwThreadID = 0;
     m_hDataManagementThread = CreateThread(
         NULL,                        // default security attributes 
         0,                           // use default stack size  
         DataManagementProcStub,      // thread function 
         NULL,                        // argument to thread function 
         0,                           // use default creation flags 
-        NULL);                       // returns the thread identifier 
+        &dwThreadID );               // returns the thread identifier 
  
    if (m_hDataManagementThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateDataManagementThread: Failed to create data management thread '%d'\n"), GetLastError());

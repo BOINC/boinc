@@ -183,7 +183,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
     }
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function End"));
 }
@@ -242,7 +242,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
 }
@@ -285,7 +285,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function End"));
 }

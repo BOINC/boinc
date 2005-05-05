@@ -207,7 +207,7 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function End"));
 }
@@ -238,7 +238,7 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
     }
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function End"));
 }
@@ -269,7 +269,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
     }
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectNoNewWork - Function End"));
 }
@@ -317,7 +317,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function End"));
 }
@@ -363,7 +363,7 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function End"));
 }
@@ -403,7 +403,7 @@ void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function End"));
 }
@@ -429,7 +429,7 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function End"));
 }

@@ -47,6 +47,8 @@
 #define ID_TB_NETWORKRUNALWAYS              6022
 #define ID_TB_NETWORKRUNBASEDONPREPERENCES  6023
 #define ID_TB_NETWORKSUSPEND                6024
+#define ID_HELPBOINC                        6025
+#define ID_HELPBOINCMANAGER                 6026
 #define ID_LIST_BASE                        7000
 #define ID_LIST_PROJECTSVIEW                7000
 #define ID_LIST_WORKVIEW                    7001

@@ -158,7 +158,7 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
 #endif
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopyAll - Function End"));
 }
@@ -195,7 +195,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& event ) {
 #endif
 
     UpdateSelection();
-    pFrame->ProcessRefreshView();
+    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopySelected - Function End"));
 }

@@ -152,9 +152,10 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSUPDATEACCOUNTS, CMainFrame::OnToolsUpdateAccounts)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
-    EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
+    EVT_HELP(ID_FRAME, CMainFrame::OnHelpBOINCManager)
+    EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
+    EVT_MENU(wxID_ABOUT, CMainFrame::OnHelpAbout)
     EVT_CLOSE(CMainFrame::OnClose)
-    EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
     EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
     EVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION(CMainFrame::OnConnectErrorAuthentication)
@@ -372,9 +373,23 @@ bool CMainFrame::CreateMenu() {
     // Help menu
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(
+        ID_HELPBOINCMANAGER,
+        _("&BOINC Manager\tF1"), 
+        _("Show information about the BOINC Manager")
+    );
+
+    menuHelp->Append(
+        ID_HELPBOINC,
+        _("BOINC &Website"), 
+        _("Show information about BOINC and BOINC Manager")
+    );
+
+    menuHelp->AppendSeparator();
+
+    menuHelp->Append(
         wxID_ABOUT,
         _("&About BOINC Manager..."), 
-        _("Show information about BOINC and BOINC Manager")
+        _("Licensing and copyright information.")
     );
 
     // construct menu
@@ -1025,8 +1040,34 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAbout - Function Begin"));
+void CMainFrame::OnHelpBOINCManager(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function Begin"));
+
+    if (IsShown()) {
+        if (ID_FRAME == event.GetId()) {
+            ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
+        } else {
+            event.Skip();
+        }
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function End"));
+}
+
+
+void CMainFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCWebsite - Function Begin"));
+
+    if (IsShown()) {
+        ExecuteBrowserLink(wxT("http://boinc.berkeley.edu"));
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCWebsite - Function End"));
+}
+
+
+void CMainFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpAbout - Function Begin"));
 
     CDlgAbout* pDlg = new CDlgAbout(this);
     wxASSERT(pDlg);
@@ -1036,7 +1077,7 @@ void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     if (pDlg)
         pDlg->Destroy();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAbout - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpAbout - Function End"));
 }
 
 
@@ -1053,21 +1094,6 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function End"));
-}
-
-
-void CMainFrame::OnHelp(wxHelpEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelp - Function Begin"));
-
-    if (IsShown()) {
-        if (ID_FRAME == event.GetId()) {
-            ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
-        } else {
-            event.Skip();
-        }
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelp - Function End"));
 }
 
 
@@ -1403,12 +1429,6 @@ void CMainFrame::FireConnectErrorAuthentication() {
 void CMainFrame::FireRefreshView() {
     CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
     AddPendingEvent(event);
-}
-
-
-void CMainFrame::ProcessRefreshView() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
-    ProcessEvent(event);
 }
 
 
