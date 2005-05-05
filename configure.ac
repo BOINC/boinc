@@ -362,9 +362,9 @@ AM_OPTIONS_WXCONFIG
 dnl check for wxWidgets
 
 if test "${enable_debug}" = yes ; then
-    AM_PATH_WXCONFIG([2.3.4], [wxWin=1], [wxWin=0], --debug)
+    AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --debug)
 else
-    AM_PATH_WXCONFIG([2.3.4], [wxWin=1], [wxWin=0])
+    AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0])
 fi
 
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
@@ -377,8 +377,8 @@ WARNING: wxWidgets could not be found ==> building client without clientgui.
   If wxWidgets is installed on your system, please check that wx-config is 
   in the path, that the directory where wxWidgets libraries are installed 
   (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
-  and that wxWidgets version is 2.3.4 or above. Currently wxWidgets version
-  2.4.2 (gtk based) is known to work with boinc_gui under Linux. You can
+  and that wxWidgets version is 2.6.0 or above. Currently wxWidgets version
+  2.6.0 (gtk based) is known to work with boinc_gui under Linux. You can
   use wx-config --version to find what version you have currently installed.
 
   You can get wxWidgets by following the DOWNLOAD link at:

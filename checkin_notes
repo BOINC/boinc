@@ -6113,3 +6113,9 @@ David  4 May 2005
             black.css
             style.css
             style-black.css
+
+Rom    4 May 2005
+    - Update the minimum wxWidgets version we support to 2.6.0.
+
+    /
+        configure.ac
