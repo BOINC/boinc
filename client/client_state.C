@@ -288,16 +288,10 @@ int CLIENT_STATE::init() {
         } else {
             strcpy(buf, "not assigned yet");
         }
-        msg_printf(p, MSG_INFO, "Computer ID is %s, location is %s",
-            buf, p->host_venue
+        msg_printf(p, MSG_INFO, "Computer ID: %s; location: %s; project prefs: %s",
+            buf, p->host_venue,
+            p->using_venue_specific_prefs?p->host_venue:"default"
         );
-        if (p->using_venue_specific_prefs) {
-            msg_printf(p, MSG_INFO,
-                "Using separate projects prefs for %s", p->host_venue
-            );
-        } else {
-            msg_printf(p, MSG_INFO, "Using your default projects prefs");
-        }
     }
 
     // Read the global preferences file.
@@ -507,6 +501,16 @@ bool CLIENT_STATE::do_something(double now) {
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "Couldn't write state file: %d", retval);
+        boinc_sleep(60.0);
+
+        // if we can't write the state file twice in a row, something's hosed;
+        // better to not keep trying
+        //
+        retval = write_state_file_if_needed();
+        if (retval) {
+            msg_printf(NULL, MSG_ERROR, "Couldn't write state file: %d; giving up", retval);
+            exit(retval);
+        }
     }
     --log_messages;
     scope_messages.printf(

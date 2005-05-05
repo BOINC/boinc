@@ -225,7 +225,7 @@ int SCHEDULER_OP::start_rpc() {
     if (log_flags.sched_ops) {
         msg_printf(
             project, MSG_INFO,
-            "Sending request to scheduler: %s\n", scheduler_url
+            "Sending scheduler request to %s\n", scheduler_url
         );
     }
 
@@ -427,7 +427,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(project, MSG_ERROR,
-                        "Scheduler RPC to %s failed\n",
+                        "Scheduler request to %s failed\n",
                         project->scheduler_urls[url_index].c_str()
                     );
                 }
@@ -455,7 +455,7 @@ bool SCHEDULER_OP::poll() {
                 if (log_flags.sched_ops) {
                     msg_printf(
                         project, MSG_INFO,
-                        "Scheduler RPC to %s succeeded\n",
+                        "Scheduler request to %s succeeded\n",
                         project->scheduler_urls[url_index].c_str()
                     );
                 }

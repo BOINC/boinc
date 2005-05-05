@@ -6148,4 +6148,9 @@ set up BOINC Data directory properly if installed by non-admin user.
         PostInstall.cpp
         ReadMe.rtf
 
+David  5 May 2005
+    - core client: exit if can't write state file
 
+    client/
+        client_state.C
+        scheduler_op.C
