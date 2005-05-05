@@ -6057,14 +6057,16 @@ David  4 May 2005
         schema.sql
 
 Bruce 4 May 2005
-    - bug fix so that Unix hosts report their timezones correctly.
-      NOTE: hosts that lack a gmt offset in the tm structure (System V
-      with no BSD extensions) will have the WRONG SIGN for the timezone.
-      This can be fixed by changing the signs of __timezone, _timezone and
-      timezone in get_timezone(), but I won't do it until David signs
-      off.
+    - bug fix so that Unix hosts report their timezones correctly
+      taking into account the effect of DST on their localtime.
 
-    - Note that with this change we adopt the convention that the database
+      NOTE: hosts that lacked a gmt offset in the tm structure (System V
+      with no BSD extensions) had the WRONG SIGN for the timezone.
+      This is now fixed. These host types (AIX, Cygwin?) will now have a
+      change in sign in their timezone, making it consistent with other
+      Unix hosts and with Win32 hosts.
+
+    - Note that with these changes we adopt the convention that the database
       timezone value is the (Local Standard Time) - (UTC time).  This
       quantity only depends upon spatial location on the earth's surface and
       is NOT a function of time.

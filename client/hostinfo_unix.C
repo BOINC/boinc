@@ -118,14 +118,11 @@ int get_timezone() {
         return time_data->tm_gmtoff;
     }
 #elif defined(linux)
-    return __timezone;
-    // SHOULD BE -1*__timezone;
+    return -1*(__timezone);
 #elif defined(__CYGWIN32__)
-    return _timezone;
-    // SHOULD BE -1*_timezone;
+    return -1*(_timezone);
 #elif defined(unix)
-    return timezone;
-    // SHOULD BE -1*timezone;
+    return -1*timezone;
 #else
 #error timezone
 #endif
