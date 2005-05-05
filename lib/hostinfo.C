@@ -40,7 +40,7 @@
 // Reset the host info struct to default values
 //
 void HOST_INFO::clear_host_info() {
-    timezone = 0;        // seconds added to local time to get UTC
+    timezone = 0;        // local STANDARD time - UTC time (in seconds) 
     strcpy(domain_name, "");
     strcpy(serialnum, "");
     strcpy(ip_addr, "");

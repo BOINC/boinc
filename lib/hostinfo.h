@@ -31,7 +31,7 @@
 // NET_STATS (average network bandwidths)
 
 struct HOST_INFO {
-    int timezone;    // local STANDARD time - UTC time
+    int timezone;    // local STANDARD time - UTC time (in seconds)
     char domain_name[256];
     char serialnum[256];
     char ip_addr[256];

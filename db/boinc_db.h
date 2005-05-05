@@ -198,7 +198,8 @@ struct HOST {
     double expavg_time;     // last time the above was updated
 
     // all remaining items are assigned by the client
-    int timezone;           // hours difference from GMT
+    int timezone;           // local STANDARD time at host - UTC time
+                            // (in seconds) 
     char domain_name[256];
     char serialnum[256];
     char last_ip_addr[256]; // internal IP address as of last RPC

@@ -280,7 +280,7 @@ public:
 };
 
 struct HOST_INFO {
-    int timezone;    // seconds added to local time to get UTC
+    int timezone;    // local STANDARD time - UTC time (in seconds) 
     char domain_name[256];
     char serialnum[256];
     char ip_addr[256];
