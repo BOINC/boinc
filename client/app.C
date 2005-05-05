@@ -212,6 +212,7 @@ bool ACTIVE_TASK_SET::poll(double now) {
     graphics_poll();
     process_control_poll();
     action |= check_rsc_limits_exceeded();
+    action |= check_quit_timeout_exceeded();
     if (get_msgs()) {
         action = true;
     }

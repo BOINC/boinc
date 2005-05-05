@@ -186,7 +186,6 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     remove_benchmark_file(BM_TYPE_INT);
     cpu_benchmarks_start = dtime();
 
-    msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
     if (!benchmark_descs) {
         benchmark_descs = (BENCHMARK_DESC*)calloc(
             host_info.p_ncpus, sizeof(BENCHMARK_DESC)
@@ -297,6 +296,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     switch (bm_state) {
     case BM_FP_INIT:
         if (now - cpu_benchmarks_start > FP_START) {
+            msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
             make_benchmark_file(BM_TYPE_FP);
             bm_state = BM_FP;
         }

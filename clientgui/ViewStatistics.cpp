@@ -361,7 +361,6 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("User Total");
 	m_PaintStatistics->m_SelectedStatistic=0;
-    m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -382,7 +381,6 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("User Average");
 	m_PaintStatistics->m_SelectedStatistic=1;
-    m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -403,7 +401,6 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("Host Total");
 	m_PaintStatistics->m_SelectedStatistic=2;
-    m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -424,7 +421,6 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("Host Average");
 	m_PaintStatistics->m_SelectedStatistic=3;
-    m_PaintStatistics->Refresh();
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -461,6 +457,14 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 
 
 void CViewStatistics::OnListRender( wxTimerEvent& event ) {
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+	if (pDoc->GetStatisticsCount()) {
+		m_PaintStatistics->Refresh();
+	}
 }
 
 

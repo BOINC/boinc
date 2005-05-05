@@ -6199,3 +6199,23 @@ David  5 May 2005
             team.inc
         user/
             team_display.php
+
+Rom    5 May 2005
+    - When running benchmarks, close down and remove science applications
+        from memory.  If a science application isn't listening to the quit request
+        it may not be responding to suspend/resume either which would cause problems
+        during the benchmark process.
+    - If a science application doesn't shutdown within 10 seconds, kill it.
+    - Fix the bug I introduced last night with the view statistics tab.
+    - Make suspend_all call atp->preempt() instead of doing the same thing itself.
+    - Move the starting benchmark message to a place right before the benchmarks
+        start.  We were receiving a few process control messages and people might
+        interpret that to mean other stuff was going on during the benchmarks.
+
+    client/
+        app.C, .h
+        app_control.C
+        cs_benchmark.C
+        cs_prefs.C
+    clientgui/
+        ViewStatistics.cpp
