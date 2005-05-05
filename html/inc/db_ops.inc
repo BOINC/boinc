@@ -799,7 +799,8 @@ function show_host($host) {
     row("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
     row("Domain name", $host->domain_name);
     $x = $host->timezone/3600;
-    row("Time zone", "UTC - $x hours");
+    if ($x >= 0) $x="+$x";
+    row("Local Standard Time", "UTC $x hours");
     row("Number of CPUs", $host->p_ncpus);
     row("CPU", "$host->p_vendor $host->p_model");
     row("FP ops/sec", $host->p_fpops);

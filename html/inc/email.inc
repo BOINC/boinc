@@ -218,8 +218,9 @@ function send_problem_email($user, $host) {
     IP address: $host->last_ip_addr (same the last $host->nsame_ip_addr times)
     Domain name: " . $host->domain_name;
     $x = $host->timezone/3600;
+    if ($x >= 0) $x="+$x";
     $host_content.="
-    Time zone UTC - $x hours
+    Local Time = UTC $x hours
     Number of CPUs: " . $host->p_ncpus."
     CPU: $host->p_vendor $host->p_model
     FP ops/sec: ".$host->p_fpops."
