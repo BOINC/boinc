@@ -24,17 +24,15 @@ function db_init_cli() {
     }
     $in = fopen("php://stdin","r");
     print "Database username for $db_name@$host: ";
-    ob_flush();
     $user = rtrim(fgets($in, 80));
     print "Database password for $db_name@host: ";
-    ob_flush();
     $pass = rtrim(fgets($in, 80));
 
     $retval = mysql_pconnect($host, $user, $pass);
     if (!$retval) {
         return 1;
     }
-    if(!mysql_select_db($db_name)) {
+    if (!mysql_select_db($db_name)) {
         return 2;
     }
     return 0;

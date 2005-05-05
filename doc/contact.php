@@ -73,6 +73,7 @@ show_name("Bernd Machenschalk");
 show_name("Sebastian Masch");
 show_name("Kenichi Miyoshi");
 show_name("Tony Murray");
+show_name("Eric Myers");
 show_name("Kjell Nedrelid");
 show_name("J.R. Oldroyd");
 show_name("Jakob Pedersen");

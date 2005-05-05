@@ -146,11 +146,15 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 //
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
     PROJECT *p, *p_prospect = NULL;
+    double work_on_prospect;
     double now = dtime();
     unsigned int i;
     bool found_old = (old == 0);
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
+        
+        
+        double work_on_current = ettprc(p, 0);
         if (p == old) {
             found_old = true;
             continue;
@@ -160,9 +164,11 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
         if (p->suspended_via_gui) continue;
         if (p->dont_request_more_work) continue;
         if (p->long_term_debt < 0 && !no_work_for_a_cpu()) continue;
-        if (p_prospect && p->long_term_debt < p_prospect->long_term_debt && !p->non_cpu_intensive) continue;
+        if (p_prospect && p->long_term_debt - work_on_current < p_prospect->long_term_debt - work_on_prospect) continue;
+        if (p->non_cpu_intensive) continue;
         if (found_old && p->work_request > 0) {
             p_prospect = p;
+            work_on_prospect = work_on_current;
         }
     }
     return p_prospect;
@@ -497,7 +503,10 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                     global_prefs.work_buf_min_days
                 );
             } else if (urgency == NEED_WORK_IMMEDIATELY) {
-}
+                msg_printf(NULL, MSG_INFO,
+                    "Insufficient work; requesting more"
+                );
+            }
             scheduler_op->init_get_work(false);
             action = true;
         } else if ((p=next_project_master_pending())) {
@@ -842,9 +851,20 @@ bool CLIENT_STATE::should_get_work() {
     return ret;
 }
 
-// CPU idle check.
+// return true iff we don't have enough runnable tasks to keep all CPUs busy
+//
 bool CLIENT_STATE::no_work_for_a_cpu() {
-    return (unsigned int)ncpus > results.size();
+    int count = 0;
+    for (unsigned int i = 0; i < results.size(); ++i){
+        if (!results[i]->project->non_cpu_intensive &&
+            !(RESULT_COMPUTE_ERROR > results[i]->state) &&
+            !results[i]->suspended_via_gui &&
+            !results[i]->project->suspended_via_gui
+        ) {
+            count++;
+        }
+    }
+    return ncpus > count;
 }
 
 // decide on the CPU scheduler state

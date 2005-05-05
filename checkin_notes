@@ -6095,3 +6095,10 @@ Rom    4 May 2005
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  4 May 2005
+    - core client: fix bug where sometimes we don't fetch work
+        even though a CPU is idle (from John McLeod)
+
+    client/
+        cs_scheduler.C
