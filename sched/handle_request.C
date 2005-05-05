@@ -61,7 +61,9 @@ int unmunge_email_addr(DB_USER& user) {
     if (!p) return ERR_NULL;
     *p = 0;
     strcpy(email, user.email_addr+1);
+    escape_string(email, sizeof(email));
     sprintf(buf, "email_addr='%s'", email);
+    unescape_string(email, sizeof(email));
     retval = user.update_field(buf);
     if (retval) return retval;
     strcpy(user.email_addr, email);
@@ -263,7 +265,9 @@ make_new_host:
         if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
             DB_USER user;
             user.id = reply.user.id;
+            escape_string(sreq.cross_project_id, sizeof(sreq.cross_project_id));
             sprintf(buf, "cross_project_id='%s'", sreq.cross_project_id);
+            unescape_string(sreq.cross_project_id, sizeof(sreq.cross_project_id));
             user.update_field(buf);
         }
     }
@@ -378,7 +382,9 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
             DB_USER user;
             user.id = reply.user.id;
+            escape_string(sreq.global_prefs_xml, sizeof(sreq.global_prefs_xml));
             sprintf(buf, "global_prefs='%s'", sreq.global_prefs_xml);
+            unescape_string(sreq.global_prefs_xml, sizeof(sreq.global_prefs_xml));
             int retval = user.update_field(buf);
             if (retval) {
                 log_messages.printf(SCHED_MSG_LOG::CRITICAL,

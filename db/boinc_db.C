@@ -291,21 +291,22 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     seti_id = safe_atoi(r[i++]);
 }
 
-// set NaNs to a reasonable value
+// set NaNs and infs to zeroes
+//
 void HOST::fix_nans() {
-    if (isnan(p_fpops)) p_fpops = 0;
-    if (isnan(p_iops)) p_iops = 0;
-    if (isnan(p_membw)) p_membw = 0;
-    if (isnan(m_nbytes)) m_nbytes = 0;
-    if (isnan(m_cache)) m_cache = 0;
-    if (isnan(m_swap)) m_swap = 0;
-    if (isnan(d_total)) d_total = 0;
-    if (isnan(d_free)) d_free = 0;
-    if (isnan(d_boinc_used_total)) d_boinc_used_total = 0;
-    if (isnan(d_boinc_used_project)) d_boinc_used_project = 0;
-    if (isnan(d_boinc_max)) d_boinc_max = 0;
-    if (isnan(n_bwup)) n_bwup = 0;
-    if (isnan(n_bwdown)) n_bwdown = 0;
+    if (!finite(p_fpops)) p_fpops = 0;
+    if (!finite(p_iops)) p_iops = 0;
+    if (!finite(p_membw)) p_membw = 0;
+    if (!finite(m_nbytes)) m_nbytes = 0;
+    if (!finite(m_cache)) m_cache = 0;
+    if (!finite(m_swap)) m_swap = 0;
+    if (!finite(d_total)) d_total = 0;
+    if (!finite(d_free)) d_free = 0;
+    if (!finite(d_boinc_used_total)) d_boinc_used_total = 0;
+    if (!finite(d_boinc_used_project)) d_boinc_used_project = 0;
+    if (!finite(d_boinc_max)) d_boinc_max = 0;
+    if (!finite(n_bwup)) n_bwup = 0;
+    if (!finite(n_bwdown)) n_bwdown = 0;
 }
 
 void DB_HOST::db_print(char* buf){
@@ -427,15 +428,21 @@ int DB_HOST::update_diff(HOST& h) {
         strcat(updates, buf);
     }
     if (strcmp(domain_name, h.domain_name)) {
+        escape_string(domain_name, sizeof(domain_name));
         sprintf(buf, " domain_name='%s',", domain_name);
+        unescape_string(domain_name, sizeof(domain_name));
         strcat(updates, buf);
     }
     if (strcmp(serialnum, h.serialnum)) {
+        escape_string(serialnum, sizeof(serialnum));
         sprintf(buf, " serialnum='%s',", serialnum);
+        unescape_string(serialnum, sizeof(serialnum));
         strcat(updates, buf);
     }
     if (strcmp(last_ip_addr, h.last_ip_addr)) {
+        escape_string(last_ip_addr, sizeof(last_ip_addr));
         sprintf(buf, " last_ip_addr='%s',", last_ip_addr);
+        unescape_string(last_ip_addr, sizeof(last_ip_addr));
         strcat(updates, buf);
     }
     if (nsame_ip_addr != h.nsame_ip_addr) {
@@ -459,11 +466,15 @@ int DB_HOST::update_diff(HOST& h) {
         strcat(updates, buf);
     }
     if (strcmp(p_vendor, h.p_vendor)) {
+        escape_string(p_vendor, sizeof(p_vendor));
         sprintf(buf, " p_vendor='%s',", p_vendor);
+        unescape_string(p_vendor, sizeof(p_vendor));
         strcat(updates, buf);
     }
     if (strcmp(p_model, h.p_model)) {
+        escape_string(p_model, sizeof(p_model));
         sprintf(buf, " p_model='%s',", p_model);
+        unescape_string(p_model, sizeof(p_model));
         strcat(updates, buf);
     }
     if (p_fpops != h.p_fpops) {
@@ -479,11 +490,15 @@ int DB_HOST::update_diff(HOST& h) {
         strcat(updates, buf);
     }
     if (strcmp(os_name, h.os_name)) {
+        escape_string(os_name, sizeof(os_name));
         sprintf(buf, " os_name='%s',", os_name);
+        unescape_string(os_name, sizeof(os_name));
         strcat(updates, buf);
     }
     if (strcmp(os_version, h.os_version)) {
+        escape_string(os_version, sizeof(os_version));
         sprintf(buf, " os_version='%s',", os_version);
+        unescape_string(os_version, sizeof(os_version));
         strcat(updates, buf);
     }
     if (m_nbytes != h.m_nbytes) {
@@ -527,7 +542,9 @@ int DB_HOST::update_diff(HOST& h) {
         strcat(updates, buf);
     }
     if (strcmp(venue, h.venue)) {
+        escape_string(venue, sizeof(venue));
         sprintf(buf, " venue='%s',", venue);
+        unescape_string(venue, sizeof(venue));
         strcat(updates, buf);
     }
     if (nresults_today != h.nresults_today) {
@@ -539,11 +556,15 @@ int DB_HOST::update_diff(HOST& h) {
         strcat(updates, buf);
     }
     if (strcmp(host_cpid, h.host_cpid)) {
+        escape_string(host_cpid, sizeof(host_cpid));
         sprintf(buf, " host_cpid='%s',", host_cpid);
+        unescape_string(host_cpid, sizeof(host_cpid));
         strcat(updates, buf);
     }
     if (strcmp(external_ip_addr, h.external_ip_addr)) {
+        escape_string(external_ip_addr, sizeof(external_ip_addr));
         sprintf(buf, " external_ip_addr='%s',", external_ip_addr);
+        unescape_string(external_ip_addr, sizeof(external_ip_addr));
         strcat(updates, buf);
     }
     if (max_results_day != h.max_results_day) {

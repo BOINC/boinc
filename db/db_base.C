@@ -320,7 +320,6 @@ int DB_BASE::sum(double& x, const char* field, const char* clause) {
     return get_double(query, x);
 }
 
-
 DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN* p) : db(p) {
 }
 

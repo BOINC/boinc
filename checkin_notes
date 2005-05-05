@@ -6168,3 +6168,15 @@ David  5 May 2005
         BOINCGUIApp.cpp
     lib/
         network.C
+
+David  5 May 2005
+    - scheduler: HOST::fix_nans(): use !finite() instead of isnan()
+        (to detect infinity as well as NaN)
+    - DB_HOST::update_diff(): escape/unescape strings
+    - scheduler: escape/unescape strings in a could of update_field()s
+
+    db/
+        boinc_db.C
+        db_base.C
+    sched/
+        handle_request.C
