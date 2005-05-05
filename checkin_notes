@@ -6180,3 +6180,13 @@ David  5 May 2005
         db_base.C
     sched/
         handle_request.C
+
+David  5 May 2005
+    - core client: parse multiple <schedule> tags per line from a master file
+        This should fix a minor bug for UMTS users.
+        UMTS apparently strips CRLFs from HTML files.
+        So UMTS users would see only 1 scheduler from a project,
+        even if it has multiple schedulers.
+
+    client/
+        scheduler_op.C

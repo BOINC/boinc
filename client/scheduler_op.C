@@ -284,9 +284,16 @@ int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
     }
     project->scheduler_urls.clear();
     while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<scheduler>", str)) {
+
+        // allow for the possibility of > 1 tag per line here
+        // (UMTS may collapse lines)
+        //
+        char* p = buf;
+        while (p && parse_str(p, "<scheduler>", str)) {
             strip_whitespace(str);
             urls.push_back(str);
+            p = strstr(p, "</scheduler>");
+            if (p) p += strlen("</schedule>");
         }
     }
     fclose(f);
