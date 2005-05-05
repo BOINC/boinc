@@ -32,6 +32,8 @@ void BringAppToFront(void);
 // level to 2002, not the 1000 defined by NSScreenSaverWindowLevel 
 // and kCGScreenSaverWindowLevel
 #define RealSaverLevel 2002
+// Glut sets the window level to 100 when it sets full screen mode
+#define GlutFullScreenWindowLevel 100
 
 // Delay when switching to screensaver mode to reduce annoying flashes
 #define SAVERDELAY 30
@@ -41,8 +43,6 @@ void MacGLUTFix(bool isScreenSaver) {
     NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
     NSWindow* myWindow = nil;
-    int newWindowLevel;
-    static int stabilizationDelay = 0;
 
     if (! boinc_is_standalone()) {
         if (emptyMenu == nil) {
@@ -51,6 +51,9 @@ void MacGLUTFix(bool isScreenSaver) {
         }
     }
 
+    if (!isScreenSaver)
+        return;
+    
     // In screensaver mode, set our window's level just above 
     // our BOINC screensaver's window level so it can appear 
     // over it.  This doesn't interfere with the screensaver 
@@ -64,17 +67,8 @@ void MacGLUTFix(bool isScreenSaver) {
     if (myWindow == nil)
         return;
         
-    newWindowLevel = isScreenSaver ? RealSaverLevel+20 : NSNormalWindowLevel;
-    if ([ myWindow level ] == newWindowLevel)
-    {
-        stabilizationDelay = 0;
-        return;
-    }
-    
-    if (++stabilizationDelay < SAVERDELAY)
-        return;
-        
-    [ myWindow setLevel:newWindowLevel ];
+    if ([ myWindow level ] == GlutFullScreenWindowLevel)
+        [ myWindow setLevel:RealSaverLevel+20 ];
 }
 
 void BringAppToFront() {

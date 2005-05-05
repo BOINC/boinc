@@ -87,6 +87,8 @@
 //204
 		20286C28FDCF999611CA2CEA = {
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.0.sdk;
 			};
 			buildStyles = (
 				05952DFCFFF02D1B11CA0E50,
@@ -365,9 +367,10 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
-				OTHER_CFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CPLUSPLUSFLAGS = "-DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -ldl -lz -lm";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES  -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DWX_PRECOMP -DNO_GCC_PRAGMA -DNOCLIPBOARD -DwxHAS_TASK_BAR_ICON -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
+				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -lz -lm";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCManager;
 				SECTORDER_FLAGS = "";
@@ -703,7 +706,9 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Installer-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
 				OTHER_LDFLAGS = "-framework Carbon";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Postinstall;
@@ -887,9 +892,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = MacGUI.pch;
-			path = /Volumes/Moon/BOINC_Mac/boinc/clientgui/mac/MacGUI.pch;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../clientgui/mac/MacGUI.pch;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD1F0ACD0822069E00AFC5FA = {
 			fileEncoding = 30;
@@ -1360,7 +1365,9 @@
 			buildSettings = {
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
-				OTHER_CFLAGS = "-D_THREAD_SAFE  -include ../config.h";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc_api;
@@ -1472,8 +1479,9 @@
 				GCC_PREFIX_HEADER = "";
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
-				OTHER_CFLAGS = "-D_THREAD_SAFE  -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-D_THREAD_SAFE  -include ../config.h";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
@@ -1859,8 +1867,9 @@
 			buildSettings = {
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
-				OTHER_CFLAGS = "-D_THREAD_SAFE -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc_graphics_api;
@@ -2112,7 +2121,9 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_CFLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = SystemMenu;
@@ -2927,8 +2938,9 @@
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = "/Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
-				OTHER_CFLAGS = " -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = " -include ../config.h";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../config.h";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCSaver;
@@ -3246,7 +3258,9 @@
 				GCC_PREFIX_HEADER = "";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
-				OTHER_CFLAGS = "-D_THREAD_SAFE  -D__WXMAC -include ../config.h";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../config.h";
 				OTHER_LDFLAGS = "-framework Carbon";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;

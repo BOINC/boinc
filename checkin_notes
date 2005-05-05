@@ -6119,3 +6119,33 @@ Rom    4 May 2005
 
     /
         configure.ac
+
+Charlie    5 May 2005
+Mac: Modify projects and rebuild with OS 10.3.0 compatibility SDK.
+Rebuild WxMac-2.6.0 library with OS 10.3.0 compatibility SDK.
+Update build instructions.  Update version number in various 
+*info.plist files.  Update ReadMe file.  Better logic for avoiding 
+annoying flashes in screensaver.  Avoid screensaver hang if graphics 
+application is non-responsive.  Installer: don't require reboot; 
+launch BOINC at end of install; refuse to install if OS < 10.3; 
+set up BOINC Data directory properly if installed by non-admin user.
+
+    api/
+        macglutfix.m
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        Info.plist
+        SystemMenu-Info.plist
+        ScrenSaver-Info.plist
+        Installer-Info.plist
+        boinc.pbproj/
+            project.pbxproj
+    mac_installer/
+        BOINC.pmsp
+        PostInstall.cpp
+        ReadMe.rtf
+
+

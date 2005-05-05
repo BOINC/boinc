@@ -357,17 +357,14 @@ void drawPreview(GrafPtr aPort) {
 // against any problems that may cause.
 void closeBOINCSaver() {
     gQuitRPCThread = true;  // Tell RPC Thread to exit
-    if (gTerminationQueue) {  // Wait up to 10 seconds for RPC thread to exit
-        MPWaitOnQueue(gTerminationQueue, NULL, NULL, NULL, kDurationMillisecond*10000);
+    if (gTerminationQueue) {  // Wait up to 5 seconds for RPC thread to exit
+        MPWaitOnQueue(gTerminationQueue, NULL, NULL, NULL, kDurationMillisecond*5000);
         MPDeleteQueue(gTerminationQueue);
         gTerminationQueue = NULL;
     }
     
     if (rpc)
-    {
-        rpc->set_screensaver_mode(false, 0, di);
         delete rpc;
-    }
     rpc = NULL;
 
     setBannerText(0, NULL);
@@ -429,9 +426,11 @@ OSStatus RPCThread(void* param) {
     saverState = SaverState_CoreClientSetToSaverMode;
 
     while (true) {
-        if (gQuitRPCThread)     // If main thread has requested we exit
+        if (gQuitRPCThread) {     // If main thread has requested we exit
+            rpc->set_screensaver_mode(false, 0, di);
             MPExit(noErr);       // Exit the thread
-
+        }
+        
         timeToUnblock = AddDurationToAbsolute(durationSecond/4, UpTime());
         MPDelayUntil(&timeToUnblock);
 

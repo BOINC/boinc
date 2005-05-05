@@ -11,10 +11,14 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 4/26/05\
+Last updated 5/5/05\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.\
+NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.  Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".\
+\
+These directions are for building under OS X version 10.3 (Panther) using XCode Developer Tools version 1.5.\
+\
+You must have installed XCode's optional Cross-Development SDK for system 10.3.0 from the XCode Tools CD.  This guarantees that all builds are backward compatible to OS 10.3.0.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -23,7 +27,17 @@ NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout th
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 (1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:\
-cd [wxpath]/wxMac-2.6.0\
+Set the following three environment variables NEXT_ROOT, CPPFLAGS and LDFLAGS.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  These environment variables allow the application to be built using the OS 10.3.0 compatibility SDK.\
+\
+NEXT_ROOT=/Developer/SDKs/MacOSX10.3.0.sdk;export NEXT_ROOT\
+\
+CPPFLAGS="-isystem /Developer/SDKs/MacOSX10.3.0.sdk/usr/include -DMAC_OS_X_VERSION_MAX_ALLOWED=1030";export CPPFLAGS\
+\
+LDFLAGS=-L/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib/gcc/darwin/3.3;export LDFLAGS\
+\
+The continue building wxMac-2.6.0:\
+\
+cd [wxpath]\
 mkdir osx-build\
 cd osx-build\
 ../configure --disable-shared --with-opengl\
@@ -31,14 +45,14 @@ make\
 \
 (2) Run Configure to create the correct config.h file for BOINC:\
 \
-cd [boincpath] /boinc \
+cd [boincpath]\
 ./configure --disable-server --with-apple-opengl-framework\
 \
 (3) Create a  symbolic link [path]/ boinc/wx_lib pointing to \
-[wxpath]/wxMac-2.6.0/osx-build/lib/\
+[wxpath]/osx-build/lib/\
 \
 (4) Create a  symbolic link [path]/ boinc/wxinclude pointing to \
-[wxpath]/wxMac-2.6.0/include\
+[wxpath]/include\
 \
 (5) Create a  symbolic link [path]/ boinc/jpeglib pointing to \
 your jpeg-6b directory (or whatever directory contains the jpeglib source files).  If you have the seti_boinc source directory which contains jpeglib, you can point the symbolic link there.\
@@ -46,13 +60,14 @@ your jpeg-6b directory (or whatever directory contains the jpeglib source files)
 For example, if the boinc, wxMac-2.6.0 and jpeg-6b directories are all in \
     [wxpath]    then the commands would be:\
 \
-cd [boincpath]/boinc \
+cd [boincpath] \
 \
-ln -s [wxpath]/wxMac-2.6.0/osx-build/lib ./wx_lib\
+ln -s [wxpath]/osx-build/lib ./wx_lib\
 \
-ln -s [wxpath]/wxMac-2.6.0/include ./wxinclude\
+ln -s [wxpath]/include ./wxinclude\
 \
-ln -s [wxpath]/jpeg-6b ./jpeglib\
+ln -s [path]/jpeg-6b ./jpeglib\
+\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -61,7 +76,7 @@ BOINC libraries, screensaver and helper applications
 \f1\b0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-(1) Double-click on [boincpath]/boinc/mac_build/boinc.pbproj to launch the XCode development IDE with the BOINC project.\
+(1) Double-click on [boincpath]/mac_build/boinc.pbproj to launch the XCode development IDE with the BOINC project.\
 \
 (2) In the Active Target popup, select mgr_boinc or Build_All.  Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.  These libraries are not needed by the BOINC Manager or Core Client.  In addition, Build_All builds the screensaver BOINCSaver.saver and the installer halper application Postinstall.app.\
 \
@@ -72,13 +87,19 @@ BOINC libraries, screensaver and helper applications
 (5) If you are building the screensaver, be sure to unstuff the file: \
 boinc/clientgui/mac/BOINCSaver.nib.sit\
 \
-(6) Update the version number in the file [boincpath]/boinc/mac_build/info.plist.\
+(6) Update the version number in the file [boincpath]/mac_build/info.plist.\
 \
 (7) Select Build from the Build menu.  I suggest you also open the Detailed Build Results window from the Build menu.  Wait a long  time while it compiles.\
 \
 (8) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion.  \
 \
-SetVersion is run automatically as part of the build process to update the Mac version information file InfoPlist.strings, using the contents of version.h.  The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
+(9) SetVersion is run automatically as part of the build process to update the Mac version information file InfoPlist.strings, using the contents of version.h.  The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
+\
+(1) For completeness, you should manually update the value of \CocoaLigature0 CFBundleVersion to the new BOINC version number in the following four files:\
+Info.plist (under the resources group)\
+SystemMenu-Info.plist\
+ScrenSaver-Info.plist\
+Installer-Info.plist\CocoaLigature1 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -90,37 +111,58 @@ After creating the
 \f0\b deployment
 \f1\b0  build of all targets using Build_All, use the Finder to do the following:\
 (1) In a convenient place on disk, create a directory "Installer_Resources".  Copy the following items into this directory:\
-	[boincpath]/boinc/mac_installer/License.rtf\
-	[boincpath]/boinc/mac_installer/ReadMe.rtf\
-	[boincpath]/boinc/mac_installer/postinstall\
-	[boincpath]/boinc/mac_installer/postupgrade\
-	[boincpath]/boinc/mac_build/build/Postinstall.app\
+	[boincpath]/mac_installer/License.rtf\
+	[boincpath]/mac_installer/ReadMe.rtf\
+	[boincpath]/mac_installer/postinstall\
+	[boincpath]/mac_installer/postupgrade\
+	[boincpath]/mac_build/build/Postinstall.app\
 \
 NOTE: the file extensions (such as .app and .saver) may be hidden by the Finder.  You can check an item's extension by selecting it in the Finder and using Get Info function from the Finder's File menu.\
 \
-(2) Create another directory "Pkg_Root", and inside that create two more directories "Applications" and "Library".  Create a "Screen Savers" directory inside your new Library directory.  Correct spelling of these names is critical.\
+(2) Create another directory "Pkg_Root", and inside that create two more directories "Applications" and"Library".  Create:\
+ - a "Screen Savers" directory inside your new Library directory,\
+ - an "Application Support" directory inside your new Library directory,\
+ - a "BOINC Data" directory inside your new Application Support directory,\
+ - a "locale" directory inside your new BOINC Data directory  \
+Correct spelling of these names is critical.\
 \
-(3) Copy [boincpath]/boinc/mac_build/build/BOINCManager.app into your \
-Pkg_Root/Applications directory.\
+(3) Copy [boincpath]/mac_build/build/BOINCManager.app into your \
+"Pkg_Root/Applications" directory.\
 \
-(4) Copy [boincpath]/boinc/mac_build/build/BOINCSaver.saver into your \
-Pkg_Root/Library/Screen Savers directory.  You will now have the following directory structure:\
+(4) Copy [boincpath]/mac_build/build/BOINCSaver.saver into your \
+"Pkg_Root/Library/Screen Savers" directory.  \
+\
+(5) Copy the 
+\f0\b contents
+\f1\b0  
+\f0\b of
+\f1\b0  boincpath]/locale/client/ into your \
+"Pkg_Root/Library/Application Support/BOINC Data/locale" directory.  (You may optionally exclude the CVS subdirectories to save space.)\
+\
+You will now have the following directory structure:\
 	Pkg_Root\
 	        Applications\
 	                BOINCManager.app\
 	        Library\
+	                Application Support\
+                                    BOINC Data\
+                                            locale\
+                                                    de\
+                                                    en_US\
+                                                    it\
+                                                    etc.....\
 	                Screen Savers\
 	                        BOINCSaver.saver\
 \
-(5) From the Finder, open [boincpath]/boinc/mac_installer/BOINC.pmsp.  it will open in the PackageMaker application.  In the Files tab, set the path to your Pkg_Root directory.  in the Resources tab, set the path to your Installer_Resources directory.   Update the  version number in multiple places in the Description and Version tabs.\
+(6) From the Finder, open [boincpath]/mac_installer/BOINC.pmsp.  it will open in the PackageMaker application.  In the Files tab, set the path to your Pkg_Root directory.  in the Resources tab, set the path to your Installer_Resources directory.   Update the  version number in multiple places in the Description and Version tabs.\
 \
-(6) Select "Create Package" from PackageMaker's File menu.  You can give any name you wish to the installer package when you create it, but do 
+(7) Select "Create Package" from PackageMaker's File menu.  You can give any name you wish to the installer package when you create it, but do 
 \f0\b not
 \f1\b0  change the package name 
 \f0\b after
 \f1\b0  it is created.\
 \
-(7) Quit PackageMaker.\
+(8) Quit PackageMaker.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -149,17 +191,28 @@ Pkg_Root/Library/Screen Savers directory.  You will now have the following direc
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\b0 \cf0 \
-1) Run Configure to create the correct config.h file:\
+(1) Set the following five environment variables NEXT_ROOT, CPPFLAG, LDFLAGS, PROJECTDIR and BOINCDIR.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  The first three environment variables allow the application to be built using the OS 10.3.0 compatibility SDK.\
 \
-env PROJECTDIR=[boincpath]/seti_boinc BOINCDIR=[boincpath] /boinc LDFlags="-L[boincpath]/seti_boinc/jpeglib -ljpeg" ./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics\
+NEXT_ROOT=/Developer/SDKs/MacOSX10.3.0.sdk;export NEXT_ROOT\
 \
-(2) Copy the correct jpebglib.a into [path]/seti_boinc/jpeg/   ?????\
+CPPFLAGS="-isystem /Developer/SDKs/MacOSX10.3.0.sdk/usr/include -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[boincpath]/seti_boinc/jpeglib -ljpeg";export CPPFLAGS\
 \
-(3)Create a  symbolic link [path]/seti_boinc/boinc pointing to the boinc directory\
+LDFLAGS=-L/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib/gcc/darwin/3.3;export LDFLAGS\
+\
+PROJECTDIR=[boincpath]/seti_boinc;export PROJECTDIR\
+\
+BOINCDIR=[boincpath];export BOINCDIR\
+\
+(2) Run Configure to create the correct config.h file:\
+\
+./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics\
+\
+(3) Copy the correct jpebglib.a into [path]/seti_boinc/jpeg/   ?????\
+\
+(4)Create a  symbolic link [path]/seti_boinc/boinc pointing to the boinc directory\
 \
 cd [boincpath]/seti_boinc \
-\
-ln -s [boincpath]/boinc ./boinc\
+ln -s [boincpath] ./boinc\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
