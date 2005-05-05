@@ -166,8 +166,13 @@ int get_socket_error(int fd) {
     int n;
 #ifdef WIN32
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
-#elif __APPLE__
+#elif defined(__APPLE__)
     getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+#elif defined(__FreeBSD__)
+    // workaround for FreeBSD. I don't understand this.
+    struct sockaddr_in sin;
+    socklen_t sinsz = sizeof(sin);
+    n = getpeername(fd, (struct sockaddr *)&sin, &sinsz);
 #else
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
 #endif

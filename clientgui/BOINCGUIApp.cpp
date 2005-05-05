@@ -110,8 +110,10 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#ifdef _WIN32
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
+#endif
         BOINC_DIAG_TRACETOSTDOUT;
 
     diagnostics_init(
@@ -334,12 +336,15 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 bool CBOINCGUIApp::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function Begin"));
 
-    bool retval;
+    int retval;
+    bool running;
     RPC_CLIENT rpc;
-    retval = (0 == rpc.init( wxT("localhost") ) );
+    retval = rpc.init("localhost", false);  // synchronous is OK since local
+    running = (retval == 0);
+    rpc.close();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function End"));
-    return retval;
+    return running;
 }
 
 

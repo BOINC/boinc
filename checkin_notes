@@ -6154,3 +6154,15 @@ David  5 May 2005
     client/
         client_state.C
         scheduler_op.C
+
+David  5 May 2005
+    - fixes for FreeBSD from J.R. Oldroyd
+    - BOINC Manager:
+        Don't use BOINC_DIAG_REDIRECTSTDERR and BOINC_DIAG_REDIRECTSTDOUT
+            on non-Windows
+        IsBOINCCoreRunning(): close RPC connection
+
+    clientgui/
+        BOINCGUIApp.cpp
+    lib/
+        network.C
