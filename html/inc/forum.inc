@@ -188,7 +188,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     echo "
         <tr class=\"row$n\" valign=\"top\">
-        <td>
+        <td>\n\t\t<div class=\"authorcol\">
         <a name=\"$post->id\"></a>
     ";
 
@@ -219,7 +219,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     // its cheap, easy, and doesn't require any additional database calls.
     echo "ID: $user->id<br>";
 
-    echo "</font></td><td>
+    echo "</font></div></td>\n\t\t<td>
     ";
 
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {

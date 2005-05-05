@@ -118,3 +118,8 @@ img {
 	font-size: 80%;
 	font-weight: normal;
 }
+
+.authorcol {
+	width: 100px;
+	overflow: hidden;
+}

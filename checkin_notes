@@ -6102,3 +6102,14 @@ David  4 May 2005
 
     client/
         cs_scheduler.C
+
+David  4 May 2005
+    - limit size of author field in forums (from Rob Ogilvie)
+
+    html/
+        inc/
+            forum.inc
+        user/
+            black.css
+            style.css
+            style-black.css

@@ -54,3 +54,8 @@ blockquote {
 	border: 1px solid black;
 	font-style: italic;
 }
+
+.authorcol {
+	width: 100px;
+	overflow: hidden;
+}
