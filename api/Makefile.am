@@ -19,6 +19,10 @@ graphics_api_files = 	\
 	gutil.C	            \
 	x_opengl.C
 
+if OS_DARWIN
+  graphics_api_files += macglutfix.m
+endif
+
 # library for main-program part of split apps
 graphics_lib_files =    \
     graphics_lib.C      \
