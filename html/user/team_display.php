@@ -10,7 +10,7 @@ $teamid = get_int("teamid");
 
 if ($offset > 1000) {
     page_head("Limit exceeded");
-    echo "Sorry, we're currently showing only the first 1000.";
+    echo "Sorry, we're currently showing only the first 1000 members.";
     page_tail();
     exit();
 }

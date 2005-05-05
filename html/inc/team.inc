@@ -29,9 +29,9 @@ function display_team_page($team, $offset, $sort_by) {
 
 // there aren't indices to support sorting by credit.
 // set the following to turn off sorted output.
-// (or use caching)
+// (though since caching is generally used this shouldn't needed)
 //
-    $nosort = true;
+    $nosort = false;
 
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc";

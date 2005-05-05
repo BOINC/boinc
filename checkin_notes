@@ -6190,3 +6190,12 @@ David  5 May 2005
 
     client/
         scheduler_op.C
+
+David  5 May 2005
+    - sort team pages
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_display.php
