@@ -201,10 +201,10 @@ version(
 );
 version(
     "Windows",
-    "4.35",
+    "4.36",
     "Development version",
-    "boinc_4.35_windows_intelx86.exe",
-    "28 Apr 2005",
+    "boinc_4.36_windows_intelx86.exe",
+    "5 May 2005",
     win_new(),
     "<ul>
     <li>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-04-28 23:48-0800\n"
+"PO-Revision-Date: 2005-05-05 00:34-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -37,38 +37,38 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:336
-#: clientgui/MainFrame.cpp:350
+#: clientgui/BOINCTaskBar.cpp:341
+#: clientgui/MainFrame.cpp:351
 #: clientgui/mac/MacSysMenu.cpp:70
 msgid "E&xit"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:355
-#: clientgui/BOINCTaskBar.cpp:362
+#: clientgui/BOINCTaskBar.cpp:360
+#: clientgui/BOINCTaskBar.cpp:367
 msgid "&Open BOINC Manager..."
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:366
-#: clientgui/MainFrame.cpp:308
+#: clientgui/BOINCTaskBar.cpp:371
+#: clientgui/MainFrame.cpp:309
 msgid "&Run always"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:367
-#: clientgui/MainFrame.cpp:313
+#: clientgui/BOINCTaskBar.cpp:372
+#: clientgui/MainFrame.cpp:314
 msgid "Run based on &preferences"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:368
-#: clientgui/MainFrame.cpp:318
+#: clientgui/BOINCTaskBar.cpp:373
+#: clientgui/MainFrame.cpp:319
 msgid "&Suspend"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:370
+#: clientgui/BOINCTaskBar.cpp:375
 msgid "&Disable BOINC network access"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:372
-#: clientgui/MainFrame.cpp:376
+#: clientgui/BOINCTaskBar.cpp:377
+#: clientgui/MainFrame.cpp:391
 msgid "&About BOINC Manager..."
 msgstr ""
 
@@ -215,129 +215,145 @@ msgstr ""
 msgid "Disconnected"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:294
+#: clientgui/MainFrame.cpp:295
 msgid "Close"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:295
+#: clientgui/MainFrame.cpp:296
 msgid "Closes the main BOINC Manager window"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:300
+#: clientgui/MainFrame.cpp:301
 msgid "&Hide"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:301
+#: clientgui/MainFrame.cpp:302
 msgid "Hides the main BOINC Manager window"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:309
+#: clientgui/MainFrame.cpp:310
 msgid "Does work regardless of preferences"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:314
+#: clientgui/MainFrame.cpp:315
 msgid "Does work according to your preferences"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:319
+#: clientgui/MainFrame.cpp:320
 msgid "Stops work regardless of preferences"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:326
+#: clientgui/MainFrame.cpp:327
 msgid "&Disable BOINC Network Access"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:327
+#: clientgui/MainFrame.cpp:328
 msgid "Stops BOINC network activity"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:334
+#: clientgui/MainFrame.cpp:335
 msgid "Run &Benchmarks"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:335
+#: clientgui/MainFrame.cpp:336
 msgid "Runs BOINC CPU benchmarks"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:342
+#: clientgui/MainFrame.cpp:343
 msgid "Select Computer..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:343
+#: clientgui/MainFrame.cpp:344
 msgid "Connect to another computer running BOINC"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:351
+#: clientgui/MainFrame.cpp:352
 msgid "Exit the BOINC Manager"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:359
+#: clientgui/MainFrame.cpp:360
 msgid "&Update Accounts"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:360
+#: clientgui/MainFrame.cpp:361
 msgid "Connect to your account manager website and update all of your accounts"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:368
+#: clientgui/MainFrame.cpp:369
 msgid "&Options"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:369
+#: clientgui/MainFrame.cpp:370
 msgid "Configure GUI options and proxy settings"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:377
-msgid "Show information about BOINC and BOINC Manager"
+msgid "&BOINC Manager\tF1"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:378
+msgid "Show information about the BOINC Manager"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:383
+msgid "BOINC &Website"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:384
-msgid "&File"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:388
-msgid "&Tools"
+msgid "Show information about BOINC and BOINC Manager"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:392
+msgid "Licensing and copyright information."
+msgstr ""
+
+#: clientgui/MainFrame.cpp:399
+msgid "&File"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:403
+msgid "&Tools"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:407
 msgid "&Help"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:863
-#: clientgui/MainFrame.cpp:864
-#: clientgui/MainFrame.cpp:1117
-#: clientgui/MainFrame.cpp:1118
+#: clientgui/MainFrame.cpp:878
+#: clientgui/MainFrame.cpp:879
+#: clientgui/MainFrame.cpp:1143
+#: clientgui/MainFrame.cpp:1144
 msgid "Connection failed."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1012
+#: clientgui/MainFrame.cpp:1027
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1013
+#: clientgui/MainFrame.cpp:1028
 msgid "Language Selection..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1130
+#: clientgui/MainFrame.cpp:1156
 msgid "The password you have provided is incorrect, please try again."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1131
+#: clientgui/MainFrame.cpp:1157
 msgid "Connection Error"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1305
-#: clientgui/MainFrame.cpp:1308
+#: clientgui/MainFrame.cpp:1331
+#: clientgui/MainFrame.cpp:1334
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1306
+#: clientgui/MainFrame.cpp:1332
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1309
+#: clientgui/MainFrame.cpp:1335
 #, c-format
 msgid "Connected to %s"
 msgstr ""
@@ -595,6 +611,12 @@ msgstr ""
 msgid "Disk"
 msgstr ""
 
+#: clientgui/ViewStatistics.cpp:40
+#: clientgui/ViewStatistics.cpp:46
+#: clientgui/ViewStatistics.cpp:362
+msgid "User Total"
+msgstr ""
+
 #: clientgui/ViewStatistics.cpp:307
 msgid "Show user total"
 msgstr ""
@@ -620,10 +642,6 @@ msgstr ""
 #: clientgui/ViewStatistics.cpp:403
 #: clientgui/ViewStatistics.cpp:424
 msgid "Updating charts..."
-msgstr ""
-
-#: clientgui/ViewStatistics.cpp:362
-msgid "User Total"
 msgstr ""
 
 #: clientgui/ViewStatistics.cpp:383
