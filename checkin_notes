@@ -6055,3 +6055,19 @@ David  4 May 2005
         boinc_api.C
     db/
         schema.sql
+
+Bruce 4 May 2005
+    - bug fix so that Unix hosts report their timezones correctly.
+      NOTE: hosts that lack a gmt offset in the tm structure (System V
+      with no BSD extensions) will have the WRONG SIGN for the timezone.
+      This can be fixed by changing the signs of __timezone, _timezone and
+      timezone in get_timezone(), but I won't do it until David signs
+      off.
+    - Note that with this change we adopt the convention that the database
+      timezone value is the (Local Standard Time) - (UTC time).  This
+      quantity only depends upon spatial location on the earth's surface and
+      is NOT a function of time.
+
+    client/
+        hostinfo_unix.C
+ 

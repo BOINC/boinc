@@ -98,7 +98,8 @@ char* ip_addr_string(int ip_addr) {
 }
 #endif
 
-// Returns the number of seconds difference from UTC
+// Returns the offset between LOCAL STANDARD TIME and UTC.
+// LOCAL_STANDARD_TIME = UTC_TIME + get_timezone().
 //
 int get_timezone() {
     tzset();
@@ -109,13 +110,22 @@ int get_timezone() {
 
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
-    return time_data->tm_gmtoff;
+    if (time_data->tm_isdst>0) {
+        // daylight savings in effect
+        return (time_data->tm_gmtoff)-3600;
+    } else {
+        // no daylight savings in effect
+        return time_data->tm_gmtoff;
+    }
 #elif defined(linux)
     return __timezone;
+    // SHOULD BE -1*__timezone;
 #elif defined(__CYGWIN32__)
     return _timezone;
+    // SHOULD BE -1*_timezone;
 #elif defined(unix)
     return timezone;
+    // SHOULD BE -1*timezone;
 #else
 #error timezone
 #endif
