@@ -549,6 +549,7 @@ bool ACTIVE_TASK_SET::check_quit_timeout_exceeded() {
     unsigned int j;
     ACTIVE_TASK *atp;
     double now = dtime();
+    bool retval = false;
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
@@ -557,12 +558,12 @@ bool ACTIVE_TASK_SET::check_quit_timeout_exceeded() {
         if (atp->pending_suspend_via_quit) {
             if ((now - atp->pending_suspend_via_quit_time) > 10.0) {
                 atp->kill_task();
-                return true;
+                retval = true;
             }
         }
     }
 
-    return false;
+    return retval;
 }
 
 // If process is running, send it a kill signal
