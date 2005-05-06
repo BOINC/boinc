@@ -32,8 +32,9 @@
 
 void Initialize(void);	/* function prototypes */
 void SetUIDBackToUser (void);
+OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
+pid_t FindProcessPID(pid_t thePID);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
-static OSErr DoKillInstaller(void);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
@@ -44,22 +45,27 @@ int main(int argc, char *argv[])
     char *p, *q;
     Boolean Success;
     long response;
-    ProcessSerialNumber	ourProcess;
+    ProcessSerialNumber	ourProcess, installerPSN;
     short itemHit;
-    int NumberOfLoginItems, Counter;
-    pid_t myPid;
+    int NumberOfLoginItems, Counter, i;
+    pid_t myPid = 0, installerPID = 0;
     OSStatus err;
 
     Initialize();
 
     Success = false;
     
+    ::GetCurrentProcess (&ourProcess);
+    
+    err = FindProcess ('APPL', 'xins', &installerPSN);
+    if (err == noErr)
+        err = GetProcessPID(&installerPSN , &installerPID);
+
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
     
     if (response < 0x1030) {
-        ::GetCurrentProcess (&ourProcess);
         ::SetFrontProcess(&ourProcess);
         StandardAlert (kAlertStopAlert, "\pSorry, BOINC requires system 10.3 or higher.",
                                                 NULL, NULL, &itemHit);
@@ -70,7 +76,7 @@ int main(int argc, char *argv[])
 	system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
 	system ("rm -rf /Library/Receipts/BOINC.pkg");
 	
-	DoKillInstaller();
+        err = kill(installerPID, SIGKILL);
 	ExitToShell();
     }
     
@@ -105,16 +111,18 @@ int main(int argc, char *argv[])
     
 
     // Fork a process to launch the BOINCManager after the installer quits
-    if ( (myPid = fork()) < 0)
+    if ( (myPid = fork()) < 0)                  // error
         return -1;
-    else if (myPid == 0)			// child
-
-    {
-        // Give installer time to finish
-        sleep (7);
+    else if (myPid == 0) {			// child
+        for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
+            sleep (1);
+            if (FindProcessPID(installerPID) == 0)
+                    break;
+        }
+        
         system("/Applications/BOINCManager.app/Contents/MacOS/BOINCManager");
     }
-    
+    // We get here if parent (myPID > 0)
     return 0;
 }
 
@@ -144,56 +152,64 @@ void Initialize()	/* Initialize some managers */
         ExitToShell();
 }
 
+// ---------------------------------------------------------------------------
+/* This runs through the process list looking for the indicated application */
+/*  Searches for process by file type and signature (creator code)          */
+// ---------------------------------------------------------------------------
+OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN)
+{
+    ProcessInfoRec tempInfo;
+    FSSpec procSpec;
+    Str31 processName;
+    OSErr myErr = noErr;
+    /* null out the PSN so we're starting at the beginning of the list */
+    processSN->lowLongOfPSN = kNoProcess;
+    processSN->highLongOfPSN = kNoProcess;
+    /* initialize the process information record */
+    tempInfo.processInfoLength = sizeof(ProcessInfoRec);
+    tempInfo.processName = processName;
+    tempInfo.processAppSpec = &procSpec;
+    /* loop through all the processes until we */
+    /* 1) find the process we want */
+    /* 2) error out because of some reason (usually, no more processes) */
+    do {
+        myErr = GetNextProcess(processSN);
+        if (myErr == noErr)
+            GetProcessInformation(processSN, &tempInfo);
+    }
+            while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
+                   myErr == noErr);
+    return(myErr);
+}
+
+
+pid_t FindProcessPID(pid_t thePID)
+{
+    FILE *f;
+    char buf[1024];
+    pid_t aPID;
+
+    f = popen("ps -a -x -c -o command,pid", "r");
+    if (f == NULL)
+        return 0;
+    
+    while (fgets(buf, sizeof(buf), f)) {
+        aPID = atol(buf+16);
+        if (aPID == thePID) {
+            pclose(f);
+            return aPID;
+        }
+    }
+    pclose(f);
+    return 0;
+}
+
 
 static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon )
 {
     gQuitFlag =  true;
     
     return noErr;
-}
-
-
-static OSErr DoKillInstaller(void)
-{
-	bool				done = false;
-	ProcessSerialNumber thisPSN;
-	ProcessInfoRec		thisPIR;
-	OSErr				err = noErr;
-	Str63				thisProcessName;
-	
-
-	thisPIR.processInfoLength = sizeof (ProcessInfoRec);
-	thisPIR.processName = thisProcessName;
-	thisPIR.processAppSpec = nil;
-	
-	thisPSN.highLongOfPSN = 0;
-	thisPSN.lowLongOfPSN = kNoProcess;
-	
-	while (done == false) {		
-		err = GetNextProcess(&thisPSN);
-		if (err == procNotFound)	
-			done = true;		// apparently the installer isn't running.  This makes my head hurt.
-		else {		
-			err = GetProcessInformation(&thisPSN,&thisPIR);
-			if (err != noErr)
-				goto bail;
-				
-			if (thisPIR.processSignature == 'xins') {	// is it an instance of the package installer?
-				pid_t thisPID;				// if so, we need to kill it off with SIGKILL
-															// (and we hope there's only one installer running now)					
-				err = GetProcessPID(&thisPSN , &thisPID);
-				if (err == noErr)
-					err = kill(thisPID, SIGKILL);
-
-				done = true;		// we've done it... we're a patricide
-			}
-		}
-	}
-
-bail:
-
-	return err;
-
 }
 
 

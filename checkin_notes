@@ -6253,3 +6253,9 @@ Eric	05/05/05  Woo Hoo!
         network.C
 	network.h
         std_fixes.h
+
+Charlie    5 May 2005
+Mac installer: Wait until installer quits before launching BOINC.
+    mac_installer/
+        PostInstall.cpp
+
