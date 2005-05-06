@@ -201,12 +201,15 @@ version(
 );
 version(
     "Windows",
-    "4.36",
+    "4.37",
     "Development version",
-    "boinc_4.36_windows_intelx86.exe",
-    "5 May 2005",
+    "boinc_4.37_windows_intelx86.exe",
+    "7 May 2005",
     win_new(),
     "<ul>
+    <li>
+    A new scheduler has been written for the client-side application so the
+    client can be attached to many more without missing deadlines.
     <li>
     Fixes a bug in which Intellisense/Intellipoint
     closes applications while in screensaver mode.
