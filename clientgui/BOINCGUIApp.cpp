@@ -464,7 +464,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 }
 
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
 
 void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32  iCount = 0;
@@ -494,6 +494,56 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
         if (!bClientQuit) {
             ::wxKill(m_lBOINCCoreProcessId);
         }
+    }
+}
+
+#elif defined(__WXMAC__)
+
+bool CBOINCGUIApp::ProcessExists(pid_t thePID)
+{
+    FILE *f;
+    char buf[256];
+    pid_t aPID;
+
+    f = popen("ps -a -x -c -o pid,state", "r");
+    if (f == NULL)
+        return false;
+    
+    while (fgets(buf, sizeof(buf), f)) {
+        aPID = atol(buf);
+        if (aPID == thePID) {
+            if (strchr(buf, 'Z'))   // A 'zombie', stopped but waiting
+                break;              // for us (its parent) to quit
+            pclose(f);
+            return true;
+        }
+    }
+    pclose(f);
+    return false;
+}
+
+// wxProcess::Exists and wxKill are unimplemented in WxMac-2.6.0
+void CBOINCGUIApp::ShutdownBOINCCore() {
+    wxInt32 iCount = 0;
+    wxString strMachineName = wxT("localhost");
+
+    if (m_bBOINCStartedByManager) {
+        // The user may have gone off to look at another machine on the network, and
+        //   we don't want to leave any dangling processes if we started them up.
+        m_pDocument->Connect(strMachineName);
+        
+        if (ProcessExists(m_lBOINCCoreProcessId)) {
+            m_pDocument->CoreClientQuit();
+            for (iCount = 0; iCount <= 10; iCount++) {
+                if (!ProcessExists(m_lBOINCCoreProcessId))
+                    return;
+
+                ::wxSleep(1);
+            }
+        }
+        
+        // Client did not quit after 10 seconds so kill it
+        kill(m_lBOINCCoreProcessId, SIGKILL);
     }
 }
 

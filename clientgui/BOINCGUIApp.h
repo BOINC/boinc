@@ -54,6 +54,9 @@ protected:
     bool            IsBOINCCoreRunning();
     void            StartupBOINCCore();
     void            ShutdownBOINCCore();
+#ifdef __APPLE__
+    bool            ProcessExists(pid_t thePID);
+#endif
 
     int         StartupSystemIdleDetection();
     int         ShutdownSystemIdleDetection();

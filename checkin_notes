@@ -6259,3 +6259,10 @@ Mac installer: Wait until installer quits before launching BOINC.
     mac_installer/
         PostInstall.cpp
 
+Charlie    6 May 2005
+Macintosh only: wxProcess::Exists() and wxKill() are unimplemented 
+in WxMac-2.6.0 so create our own CBOINCGUIApp::ProcessExists(), use 
+it and kill() in CBOINCGUIApp::ShutdownBOINCCore().
+
+    clientgui/
+        BOINCGUIApp.cpp/h
