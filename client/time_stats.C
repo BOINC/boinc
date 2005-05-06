@@ -27,6 +27,10 @@
 #include <cmath>
 #endif
 
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
