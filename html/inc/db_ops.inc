@@ -181,7 +181,7 @@ class SqlQueryString {
         if ($clause) {
             $c = stripslashes(urldecode($clause));
             $this->add("( $c )");
-            $clause = urlencode($clause);
+            $clause = urlencode(stripslashes($clause));
             $this->urlquery .= "&clauses=$clause";
         }
     }
