@@ -449,7 +449,7 @@ bool SCHEDULER_OP::poll() {
                     if (must_get_work) {
                         int urgency = gstate.compute_work_requests();
                         project = gstate.next_project_need_work(project);
-                        if (project && urgency != DONT_NEED_WORK) {
+                        if (project && urgency != WORK_FETCH_DONT_NEED) {
                             retval = init_op_project(project->work_request);
                         } else {
                             scheduler_op_done = true;
@@ -511,7 +511,7 @@ bool SCHEDULER_OP::poll() {
                 //
                 if (must_get_work) {
                     int urgency = gstate.compute_work_requests();
-                    if (urgency != DONT_NEED_WORK) {
+                    if (urgency != WORK_FETCH_DONT_NEED) {
                         project = gstate.next_project_need_work(project);
                         if (project) {
                             retval = init_op_project(project->work_request);

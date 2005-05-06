@@ -233,7 +233,8 @@ public:
     struct RESULT *next_runnable_result; // the next result to run for this project
     
     // the following used by work-fetch algorithm
-	double long_term_debt;		// how much CPU time we owe this project in the long term (secs)
+	double long_term_debt;
+        // how much CPU time we owe this project in the long term (secs)
     double work_request;
         // the unit is "normalized CPU seconds",
         // i.e. the work should take 1 CPU on this host
@@ -242,6 +243,7 @@ public:
         // 1) other projects and resource share;
         // 2) on_frac and active_frac
         // see doc/work_req.php
+    int work_request_urgency;
 
 #if 0
     // used in disk-space management (temp)

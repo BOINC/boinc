@@ -6221,9 +6221,10 @@ Rom    5 May 2005
         ViewStatistics.cpp
 
 Eric	05/05/05  Woo Hoo!
-    - Modified the BOINC_GETSOCKOPT_TYPE macro so it determines the proper type of
-      parameter 5 to getsockopt() by using the compiler.  The macro was in danger 
-      of becoming an ever expanding list of case statements, since some platforms 
+    - Modified the BOINC_GETSOCKOPT_TYPE macro so it determines the proper type
+        of parameter 5 to getsockopt() by using the compiler.
+        The macro was in danger of becoming an ever expanding list of
+        case statements, since some platforms 
       use socklen_t, others use size_t, and still others use int.  Some aren't 
       even consistent from OS rev to OS rev.
     - A macro BOINC_SOCKLEN_T is set in config.h to indicate the proper type.  
@@ -6255,14 +6256,26 @@ Eric	05/05/05  Woo Hoo!
         std_fixes.h
 
 Charlie    5 May 2005
-Mac installer: Wait until installer quits before launching BOINC.
+    Mac installer: Wait until installer quits before launching BOINC.
     mac_installer/
         PostInstall.cpp
 
 Charlie    6 May 2005
-Macintosh only: wxProcess::Exists() and wxKill() are unimplemented 
-in WxMac-2.6.0 so create our own CBOINCGUIApp::ProcessExists(), use 
-it and kill() in CBOINCGUIApp::ShutdownBOINCCore().
+    Macintosh only: wxProcess::Exists() and wxKill() are unimplemented 
+    in WxMac-2.6.0 so create our own CBOINCGUIApp::ProcessExists(), use 
+    it and kill() in CBOINCGUIApp::ShutdownBOINCCore().
 
     clientgui/
         BOINCGUIApp.cpp/h
+
+
+David  6 May 2005
+    - fixes to work fetch policy (from John McLeod)
+    - changed names of work-fetch urgency constants to WORK_FETCH_*
+        (use common prefix for related symbols)
+
+    client/
+        client_state.h
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C

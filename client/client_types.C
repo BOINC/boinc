@@ -96,6 +96,7 @@ void PROJECT::init() {
     work_done_this_period = 0;
     next_runnable_result = NULL;
     work_request = 0;
+    work_request_urgency = WORK_FETCH_DONT_NEED;
 }
 
 PROJECT::~PROJECT() {

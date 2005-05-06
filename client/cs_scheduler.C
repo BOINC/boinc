@@ -144,17 +144,16 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 // 3) has master_url_fetch_pending == false
 // 4) has dont_request_more_work == false
 //
-PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
+PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old) {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect;
     double now = dtime();
     unsigned int i;
     bool found_old = (old == 0);
+    bool cpu_idle = no_work_for_a_cpu();
+
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
-        
-        
-        double work_on_current = ettprc(p, 0);
         if (p == old) {
             found_old = true;
             continue;
@@ -163,9 +162,22 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
         if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->suspended_via_gui) continue;
         if (p->dont_request_more_work) continue;
-        if (p->long_term_debt < 0 && !no_work_for_a_cpu()) continue;
-        if (p_prospect && p->long_term_debt - work_on_current < p_prospect->long_term_debt - work_on_prospect) continue;
+        if (p->long_term_debt < 0 && !cpu_idle) continue;
         if (p->non_cpu_intensive) continue;
+
+        double work_on_current = ettprc(p, 0);
+        if (p_prospect
+            && p->long_term_debt - work_on_current < p_prospect->long_term_debt - work_on_prospect
+            && !p->non_cpu_intensive
+        ) {
+            continue;
+        }
+        if (p->work_request_urgency == WORK_FETCH_DONT_NEED
+            && (!cpu_idle || p->non_cpu_intensive)
+        ) {
+            continue;
+        }
+
         if (found_old && p->work_request > 0) {
             p_prospect = p;
             work_on_prospect = work_on_current;
@@ -405,7 +417,7 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
 // a scheduler RPC
 //
 int CLIENT_STATE::compute_work_requests() {
-    int urgency = DONT_NEED_WORK;
+    int urgency = WORK_FETCH_DONT_NEED;
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double now = dtime();
@@ -422,6 +434,7 @@ int CLIENT_STATE::compute_work_requests() {
         PROJECT *p = projects[i];
 
         p->work_request = 0;
+        p->work_request_urgency = WORK_FETCH_DONT_NEED;
         if (p->min_rpc_time >= now) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
@@ -437,14 +450,16 @@ int CLIENT_STATE::compute_work_requests() {
 #if DEBUG_SCHED
                 msg_printf(p, MSG_INFO, "is starved");
 #endif
-                urgency = NEED_WORK_IMMEDIATELY;
+                urgency = WORK_FETCH_NEED_IMMEDIATELY;
+                p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
             } else {
 #if DEBUG_SCHED
                 msg_printf(p, MSG_INFO, "will starve in %.2f sec",
                     estimated_time_to_starvation
                 );
 #endif
-                urgency = max(NEED_WORK, urgency);
+                urgency = max(WORK_FETCH_NEED, urgency);
+                urgency = WORK_FETCH_NEED;
             }
         }
 
@@ -462,7 +477,7 @@ int CLIENT_STATE::compute_work_requests() {
 #endif
     }
 
-    if (urgency == DONT_NEED_WORK) {
+    if (urgency == WORK_FETCH_DONT_NEED) {
         for (i=0; i<projects.size(); ++i) {
             projects[i]->work_request = 0;
         }
@@ -475,7 +490,7 @@ int CLIENT_STATE::compute_work_requests() {
 // initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll(double now) {
-    int urgency = DONT_NEED_WORK;
+    int urgency = WORK_FETCH_DONT_NEED;
     PROJECT *p;
     bool action=false;
     static double last_time=0;
@@ -496,13 +511,13 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
         if (p) {
             scheduler_op->init_return_results(p);
             action = true;
-        } else if (!(exit_when_idle && contacted_sched_server) && urgency != DONT_NEED_WORK) {
-            if (urgency == NEED_WORK) {
+        } else if (!(exit_when_idle && contacted_sched_server) && urgency != WORK_FETCH_DONT_NEED) {
+            if (urgency == WORK_FETCH_NEED) {
                 msg_printf(NULL, MSG_INFO,
                     "May run out of work in %.2f days; requesting more",
                     global_prefs.work_buf_min_days
                 );
-            } else if (urgency == NEED_WORK_IMMEDIATELY) {
+            } else if (urgency == WORK_FETCH_NEED_IMMEDIATELY) {
                 msg_printf(NULL, MSG_INFO,
                     "Insufficient work; requesting more"
                 );

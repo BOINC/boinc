@@ -71,6 +71,7 @@ show_name("Tim Lan");
 show_name("Gilson Laurent");
 show_name("Bernd Machenschalk");
 show_name("Sebastian Masch");
+show_name("John McLeod VII");
 show_name("Kenichi Miyoshi");
 show_name("Tony Murray");
 show_name("Eric Myers");
