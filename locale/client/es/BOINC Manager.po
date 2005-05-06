@@ -2,33 +2,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-04-29 16:49+0100\n"
+"PO-Revision-Date: 2005-05-06 08:59+0100\n"
 "Last-Translator: Alejandro Martín Covarrubias <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
+"X-Poedit-Basepath: C:\\BOINC\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:264
+#: clientgui/BOINCGUIApp.cpp:266
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Arrancar BOINC de forma que sólo sea visible el icono en el área de notificación"
 
-#: clientgui/BOINCGUIApp.cpp:321
+#: clientgui/BOINCGUIApp.cpp:323
 #: clientgui/DlgOptions.cpp:136
 #: clientgui/DlgOptions.cpp:137
 msgid "(Automatic Detection)"
 msgstr "(Detección Automática)"
 
-#: clientgui/BOINCGUIApp.cpp:322
+#: clientgui/BOINCGUIApp.cpp:324
 msgid "(Unknown)"
 msgstr "(Desconocido)"
 
-#: clientgui/BOINCGUIApp.cpp:323
+#: clientgui/BOINCGUIApp.cpp:325
 msgid "(User Defined)"
 msgstr "(Definido por el Usuario)"
 
@@ -37,38 +37,38 @@ msgstr "(Definido por el Usuario)"
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCTaskBar.cpp:336
-#: clientgui/MainFrame.cpp:350
+#: clientgui/BOINCTaskBar.cpp:341
+#: clientgui/MainFrame.cpp:351
 #: clientgui/mac/MacSysMenu.cpp:70
 msgid "E&xit"
 msgstr "&Salir"
 
-#: clientgui/BOINCTaskBar.cpp:355
-#: clientgui/BOINCTaskBar.cpp:362
+#: clientgui/BOINCTaskBar.cpp:360
+#: clientgui/BOINCTaskBar.cpp:367
 msgid "&Open BOINC Manager..."
 msgstr "&Abrir BOINC Manager"
 
-#: clientgui/BOINCTaskBar.cpp:366
-#: clientgui/MainFrame.cpp:308
+#: clientgui/BOINCTaskBar.cpp:371
+#: clientgui/MainFrame.cpp:309
 msgid "&Run always"
 msgstr "&Ejecutar siempre"
 
-#: clientgui/BOINCTaskBar.cpp:367
-#: clientgui/MainFrame.cpp:313
+#: clientgui/BOINCTaskBar.cpp:372
+#: clientgui/MainFrame.cpp:314
 msgid "Run based on &preferences"
 msgstr "Ejecutar según &preferencias"
 
-#: clientgui/BOINCTaskBar.cpp:368
-#: clientgui/MainFrame.cpp:318
+#: clientgui/BOINCTaskBar.cpp:373
+#: clientgui/MainFrame.cpp:319
 msgid "&Suspend"
 msgstr "S&uspender"
 
-#: clientgui/BOINCTaskBar.cpp:370
+#: clientgui/BOINCTaskBar.cpp:375
 msgid "&Disable BOINC network access"
 msgstr "&Desactivar el acceso a la red de BOINC"
 
-#: clientgui/BOINCTaskBar.cpp:372
-#: clientgui/MainFrame.cpp:376
+#: clientgui/BOINCTaskBar.cpp:377
+#: clientgui/MainFrame.cpp:391
 msgid "&About BOINC Manager..."
 msgstr "Acerca de &BOINC Manager..."
 
@@ -222,129 +222,145 @@ msgstr "Conectado"
 msgid "Disconnected"
 msgstr "Desconectado"
 
-#: clientgui/MainFrame.cpp:294
+#: clientgui/MainFrame.cpp:295
 msgid "Close"
 msgstr "Cerrar"
 
-#: clientgui/MainFrame.cpp:295
+#: clientgui/MainFrame.cpp:296
 msgid "Closes the main BOINC Manager window"
 msgstr "Cierra la ventana principal de BOINC Manager"
 
-#: clientgui/MainFrame.cpp:300
+#: clientgui/MainFrame.cpp:301
 msgid "&Hide"
 msgstr "&Ocultar"
 
-#: clientgui/MainFrame.cpp:301
+#: clientgui/MainFrame.cpp:302
 msgid "Hides the main BOINC Manager window"
 msgstr "Oculta la ventana principal de BOINC Manager"
 
-#: clientgui/MainFrame.cpp:309
+#: clientgui/MainFrame.cpp:310
 msgid "Does work regardless of preferences"
 msgstr "Hace el trabajo sin tener en cuenta sus preferencias"
 
-#: clientgui/MainFrame.cpp:314
+#: clientgui/MainFrame.cpp:315
 msgid "Does work according to your preferences"
 msgstr "Hace el trabajo de acuerdo con sus preferencias"
 
-#: clientgui/MainFrame.cpp:319
+#: clientgui/MainFrame.cpp:320
 msgid "Stops work regardless of preferences"
 msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
 
-#: clientgui/MainFrame.cpp:326
+#: clientgui/MainFrame.cpp:327
 msgid "&Disable BOINC Network Access"
 msgstr "&Desactivar el acceso a la red de BOINC"
 
-#: clientgui/MainFrame.cpp:327
+#: clientgui/MainFrame.cpp:328
 msgid "Stops BOINC network activity"
 msgstr "Detiene la actividad de red de BOINC"
 
-#: clientgui/MainFrame.cpp:334
+#: clientgui/MainFrame.cpp:335
 msgid "Run &Benchmarks"
 msgstr "Ejecutar &Pruebas de rendimiento"
 
-#: clientgui/MainFrame.cpp:335
+#: clientgui/MainFrame.cpp:336
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Ejecuta las pruebas de rendimiento de BOINC"
 
-#: clientgui/MainFrame.cpp:342
+#: clientgui/MainFrame.cpp:343
 msgid "Select Computer..."
 msgstr "Seleccionar Ordenador..."
 
-#: clientgui/MainFrame.cpp:343
+#: clientgui/MainFrame.cpp:344
 msgid "Connect to another computer running BOINC"
 msgstr "Conecta a otro ordenador ejecutando BOINC"
 
-#: clientgui/MainFrame.cpp:351
+#: clientgui/MainFrame.cpp:352
 msgid "Exit the BOINC Manager"
 msgstr "Sale de BOINC Manager"
 
-#: clientgui/MainFrame.cpp:359
+#: clientgui/MainFrame.cpp:360
 msgid "&Update Accounts"
 msgstr "&Actualizar Cuentas"
 
-#: clientgui/MainFrame.cpp:360
+#: clientgui/MainFrame.cpp:361
 msgid "Connect to your account manager website and update all of your accounts"
 msgstr "Conecta a su página web de gestión de cuentas y las actualiza todas"
 
-#: clientgui/MainFrame.cpp:368
+#: clientgui/MainFrame.cpp:369
 msgid "&Options"
 msgstr "&Opciones"
 
-#: clientgui/MainFrame.cpp:369
+#: clientgui/MainFrame.cpp:370
 msgid "Configure GUI options and proxy settings"
 msgstr "Configura las opciones del interfaz de usuario y los valores del proxy"
 
 #: clientgui/MainFrame.cpp:377
+msgid "&BOINC Manager\tF1"
+msgstr "&BOINC Manager\tF1"
+
+#: clientgui/MainFrame.cpp:378
+msgid "Show information about the BOINC Manager"
+msgstr "Muestra información acerca de BOINC Manager"
+
+#: clientgui/MainFrame.cpp:383
+msgid "BOINC &Website"
+msgstr "Página &Web de BOINC"
+
+#: clientgui/MainFrame.cpp:384
 msgid "Show information about BOINC and BOINC Manager"
 msgstr "Muestra información acerca de BOINC y BOINC Manager"
 
-#: clientgui/MainFrame.cpp:384
+#: clientgui/MainFrame.cpp:392
+msgid "Licensing and copyright information."
+msgstr "Información de licencia y copyright"
+
+#: clientgui/MainFrame.cpp:399
 msgid "&File"
 msgstr "&Archivo"
 
-#: clientgui/MainFrame.cpp:388
+#: clientgui/MainFrame.cpp:403
 msgid "&Tools"
 msgstr "&Herramientas"
 
-#: clientgui/MainFrame.cpp:392
+#: clientgui/MainFrame.cpp:407
 msgid "&Help"
 msgstr "A&yuda"
 
-#: clientgui/MainFrame.cpp:863
-#: clientgui/MainFrame.cpp:864
-#: clientgui/MainFrame.cpp:1117
-#: clientgui/MainFrame.cpp:1118
+#: clientgui/MainFrame.cpp:878
+#: clientgui/MainFrame.cpp:879
+#: clientgui/MainFrame.cpp:1143
+#: clientgui/MainFrame.cpp:1144
 msgid "Connection failed."
 msgstr "Conexión fallida."
 
-#: clientgui/MainFrame.cpp:1012
+#: clientgui/MainFrame.cpp:1027
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Se ha cambiado el idioma por defecto, para que éste cambio tenga efecto debe reiniciar BOINC Manager."
 
-#: clientgui/MainFrame.cpp:1013
+#: clientgui/MainFrame.cpp:1028
 msgid "Language Selection..."
 msgstr "Selección de Idioma..."
 
-#: clientgui/MainFrame.cpp:1130
+#: clientgui/MainFrame.cpp:1156
 msgid "The password you have provided is incorrect, please try again."
 msgstr "La clave que ha introducido no es válida, por favor inténtelo de nuevo."
 
-#: clientgui/MainFrame.cpp:1131
+#: clientgui/MainFrame.cpp:1157
 msgid "Connection Error"
 msgstr "Error de Conexión"
 
-#: clientgui/MainFrame.cpp:1305
-#: clientgui/MainFrame.cpp:1308
+#: clientgui/MainFrame.cpp:1331
+#: clientgui/MainFrame.cpp:1334
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1306
+#: clientgui/MainFrame.cpp:1332
 #, c-format
 msgid "Connecting to %s"
 msgstr "Conectando a %s"
 
-#: clientgui/MainFrame.cpp:1309
+#: clientgui/MainFrame.cpp:1335
 #, c-format
 msgid "Connected to %s"
 msgstr "Conectado a %s"
@@ -602,6 +618,12 @@ msgstr "Espacio en disco"
 msgid "Disk"
 msgstr "Disco"
 
+#: clientgui/ViewStatistics.cpp:40
+#: clientgui/ViewStatistics.cpp:46
+#: clientgui/ViewStatistics.cpp:362
+msgid "User Total"
+msgstr "Total Usuario"
+
 #: clientgui/ViewStatistics.cpp:307
 msgid "Show user total"
 msgstr "Mostrar totales del usuario"
@@ -623,25 +645,21 @@ msgid "Statistics"
 msgstr "Estadísticas"
 
 #: clientgui/ViewStatistics.cpp:361
-#: clientgui/ViewStatistics.cpp:382
-#: clientgui/ViewStatistics.cpp:403
-#: clientgui/ViewStatistics.cpp:424
+#: clientgui/ViewStatistics.cpp:381
+#: clientgui/ViewStatistics.cpp:401
+#: clientgui/ViewStatistics.cpp:421
 msgid "Updating charts..."
 msgstr "Actualizando gráficas..."
 
-#: clientgui/ViewStatistics.cpp:362
-msgid "User Total"
-msgstr "Total Usuario"
-
-#: clientgui/ViewStatistics.cpp:383
+#: clientgui/ViewStatistics.cpp:382
 msgid "User Average"
 msgstr "Promedio Usuario"
 
-#: clientgui/ViewStatistics.cpp:404
+#: clientgui/ViewStatistics.cpp:402
 msgid "Host Total"
 msgstr "Total Ordenador"
 
-#: clientgui/ViewStatistics.cpp:425
+#: clientgui/ViewStatistics.cpp:422
 msgid "Host Average"
 msgstr "Promedio Ordenador"
 
