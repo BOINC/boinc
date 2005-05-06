@@ -77,13 +77,11 @@
 #include "client_msgs.h"
 
 #if defined(_WIN32) 
-typedef int socklen_t;
+typedef int boinc_socklen_t;
 #elif defined ( __APPLE__)
-typedef int32_t socklen_t;
-#elif !GETSOCKOPT_SOCKLEN_T
-#ifndef socklen_t
-typedef size_t socklen_t;
-#endif
+typedef int32_t boinc_socklen_t;
+#else
+typedef BOINC_SOCKLEN_T boinc_socklen_t;
 #endif
 
 // if an active transfer doesn't get any activity
@@ -91,7 +89,7 @@ typedef size_t socklen_t;
 #define NET_XFER_TIMEOUT    600
 
 int get_socket_error(int fd) {
-    socklen_t intsize = sizeof(int);
+    boinc_socklen_t intsize = sizeof(int);
     int n;
 #ifdef WIN32
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);

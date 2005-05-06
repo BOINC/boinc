@@ -702,10 +702,10 @@ int GUI_RPC_CONN_SET::init() {
     int one = 1;
     setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
 
-    retval = bind(lsock, (const sockaddr*)(&addr), (socklen_t)sizeof(addr));
+    retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
     if (retval) {
         addr.sin_port = htons(GUI_RPC_PORT_ALT);
-        retval = bind(lsock, (const sockaddr*)(&addr), (socklen_t)sizeof(addr));
+        retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
         if (retval) {
             msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
             boinc_close_socket(lsock);
@@ -778,7 +778,7 @@ bool GUI_RPC_CONN_SET::poll(double) {
     if (FD_ISSET(lsock, &read_fds)) {
         struct sockaddr_in addr;
 
-        socklen_t addr_len = sizeof(addr);
+        boinc_socklen_t addr_len = sizeof(addr);
         sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 
         int peer_ip = (int) ntohl(addr.sin_addr.s_addr);

@@ -16,6 +16,8 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#ifndef _BOINC_NETWORK_H_
+#define _BOINC_NETWORK_H_
 
 extern int resolve_hostname(char* hostname, int& ip_addr, char* msg);
 extern int boinc_socket(int& sock);
@@ -24,12 +26,12 @@ extern void boinc_close_socket(int sock);
 extern int get_socket_error(int fd);
 
 #if defined(_WIN32)
-typedef int socklen_t;
+typedef int boinc_socklen_t;
 #define SHUT_WR SD_SEND
 #elif defined( __APPLE__)
-typedef int32_t socklen_t;
-#elif !defined(GETSOCKOPT_SOCKLEN_T) && !defined(_SOCKLEN_T_DECLARED) && !defined(socklen_t)
-typedef size_t socklen_t;
+typedef int32_t boinc_socklen_t;
+#else
+typedef BOINC_SOCKLEN_T boinc_socklen_t;
 #endif
 
 #define CONNECTED_STATE_NOT_CONNECTED   0
@@ -44,4 +46,5 @@ extern int WinsockCleanup();
 extern int  NetOpen();
 extern void NetClose();
 extern void NetCheck(bool hangup_if_dialed);
+#endif
 #endif
