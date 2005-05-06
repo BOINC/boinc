@@ -6219,3 +6219,37 @@ Rom    5 May 2005
         cs_prefs.C
     clientgui/
         ViewStatistics.cpp
+
+Eric	05/05/05  Woo Hoo!
+    - Modified the BOINC_GETSOCKOPT_TYPE macro so it determines the proper type of
+      parameter 5 to getsockopt() by using the compiler.  The macro was in danger 
+      of becoming an ever expanding list of case statements, since some platforms 
+      use socklen_t, others use size_t, and still others use int.  Some aren't 
+      even consistent from OS rev to OS rev.
+    - A macro BOINC_SOCKLEN_T is set in config.h to indicate the proper type.  
+      This is typedef to be boinc_socklen_t in lib/network.h.  The special cases 
+      for __APPLE__ and WIN32 can probably be removed at a later time.  Places 
+      where socklen_t was used have been changed to boinc_socklen_t.
+    - Added double inclusion protection to network.h
+    - Added libtool.m4 so porters don't need to install libtool.
+    - Fixed header order problem in SAH_HEADER_STDCXX which caused problems
+      on solaris
+    - Added caching of results to SAH_CHECK_NAMESPACES and
+      SAH_FUNCS_IN_NAMESPACE
+    - Small changes to configure.ac to improve compatibility with earlier
+      versions of automake.
+    - Added include of <sys/socket.h> to time_stats.C
+    - Fixed problem with std_fixes.h when included from C.
+    m4/
+        libtool.m4
+        boinc_getsockopt.m4
+	sah_header_stdcxx.m4
+	sah_namespace.m4
+    client/
+        time_stats.C
+        gui_rpc_server.C
+	ssl_net_xfer.C
+    lib/
+        network.C
+	network.h
+        std_fixes.h
