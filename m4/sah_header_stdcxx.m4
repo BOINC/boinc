@@ -7,9 +7,10 @@ AC_PREREQ([2.54])
 	
 AC_DEFUN([SAH_HEADER_STDCXX],[
   save_inc="$ac_includes_default"
-  ac_includes_default="$ac_includes_default 
+  ac_includes_default="
 #define CONFIG_TEST
 #include \"lib/std_fixes.h\"
+$ac_includes_default 
 "
 
   sah_stdcxx_headers="algorithm bitset cassert cctype cerrno cfloat climits clocale cmath complex csetjmp csignal cstdarg cstddef cstdio cstdlib cstring ctime deque fstream functional iomanip ios iosfwd iostream istream iterator limits list locale map memory numeric ostream queue set sstream stack stdexcept streambuf string utility valarray vector"
@@ -25,8 +26,8 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
   done
   AC_COMPILE_IFELSE([
     AC_LANG_PROGRAM([[
-$tmp_includes
 $ac_includes_default
+$tmp_includes
       ]],
       []
     )],
