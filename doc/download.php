@@ -204,7 +204,7 @@ version(
     "4.37",
     "Development version",
     "boinc_4.37_windows_intelx86.exe",
-    "7 May 2005",
+    "6 May 2005",
     win_new(),
     "<ul>
     <li>
