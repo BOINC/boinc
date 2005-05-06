@@ -6,7 +6,7 @@ dnl NOTE: on milkyway.ssl and jill.ssl , need autoconf/automake et al from quarl
 dnl directory; the _autosetup script does this.
 
 dnl not sure exactly what the minimum version is (but 2.13 wont work)
-AC_PREREQ(2.59)
+AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.68)
@@ -134,7 +134,7 @@ AC_SUBST(OBJCFLAGS)
 
 AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 SAH_OPTION_BITNESS
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
@@ -405,7 +405,7 @@ AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 dnl ======================================================================
 dnl some vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================
-AC_ARG_ENABLE([client-release], AS_HELP_STRING([--enable-client-release],
+AC_ARG_ENABLE([client-release], AC_HELP_STRING([--enable-client-release],
 	[Try building a portable "release-candidate" (currently implemented for Linux and Solaris only): \
 	this links libstd++ statically. You will probably need gcc-3.0 for 
 	this to produce a portable client-binary. 
