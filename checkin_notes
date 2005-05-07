@@ -6279,3 +6279,10 @@ David  6 May 2005
         client_types.C,h
         cs_scheduler.C
         scheduler_op.C
+
+David  6 May 2005
+    - prevent users from changing their name to empty string
+        (from Rob Ogilvie)
+
+    html/user/
+        edit_user_info_action.php

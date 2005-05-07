@@ -9,7 +9,12 @@ db_init();
 $user = get_logged_in_user();
 
 $name = process_user_text(post_str("user_name"));
-$name = strip_tags($name);
+if ($name != strip_tags($name)) {
+    error_page("HTML tags not allowed in name");
+}
+if (strlen($name) == 0) {
+   error_page("You must supply a name for your account.");
+}
 $url = process_user_text(post_str("url"));
 $url = strip_tags($url);
 $country = post_str("country");
@@ -23,9 +28,7 @@ $result = mysql_query("update user set name='$name', url='$url', country='$count
 if ($result) {
     Header("Location: home.php");
 } else {
-    page_head("User info update");
-    echo "Couldn't update user info.";
-    page_tail();
+    error_page("Couldn't update user info.");
 }
 
 ?>
