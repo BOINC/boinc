@@ -6297,3 +6297,10 @@ annoying flash of window).
         BOINCGUIApp.cpp
         BOINCTaskBar.cpp
         MainFrame.cpp
+
+Bruce 7 May 2005
+    - compile fix for HPUX and AIX
+
+    client/
+        hostinfo_unix.C
+
