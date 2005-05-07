@@ -123,6 +123,8 @@ int get_timezone() {
     return -1*(_timezone);
 #elif defined(unix)
     return -1*timezone;
+#elif defined(HAVE_TZNAME)
+    return -1*timezone;
 #else
 #error timezone
 #endif
