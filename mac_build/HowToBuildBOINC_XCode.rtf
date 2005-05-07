@@ -87,15 +87,13 @@ BOINC libraries, screensaver and helper applications
 (5) If you are building the screensaver, be sure to unstuff the file: \
 boinc/clientgui/mac/BOINCSaver.nib.sit\
 \
-(6) Update the version number in the file [boincpath]/mac_build/info.plist.\
+(6) Select Build from the Build menu.  I suggest you also open the Detailed Build Results window from the Build menu.  Wait a long  time while it compiles.\
 \
-(7) Select Build from the Build menu.  I suggest you also open the Detailed Build Results window from the Build menu.  Wait a long  time while it compiles.\
+(7) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion.  \
 \
-(8) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion.  \
+(8) SetVersion is run automatically as part of the build process to update the Mac version information file InfoPlist.strings, using the contents of version.h.  The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
 \
-(9) SetVersion is run automatically as part of the build process to update the Mac version information file InfoPlist.strings, using the contents of version.h.  The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
-\
-(1) For completeness, you should manually update the value of \CocoaLigature0 CFBundleVersion to the new BOINC version number in the following four files:\
+(9) For completeness, you should manually update the value of \CocoaLigature0 CFBundleVersion to the new BOINC version number in the following four files:\
 Info.plist (under the resources group)\
 SystemMenu-Info.plist\
 ScrenSaver-Info.plist\
