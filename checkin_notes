@@ -6286,3 +6286,14 @@ David  6 May 2005
 
     html/user/
         edit_user_info_action.php
+
+Charlie    7 May 2005
+Mac: Fix problems with window position & size caused by 
+calling Maximize(false).  If m_bFrameVisible-visible is 
+false at startup, don't show & hide window (to eliminate 
+annoying flash of window).
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        MainFrame.cpp

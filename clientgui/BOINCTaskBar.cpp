@@ -116,11 +116,13 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 
     if (pFrame) {
         pFrame->Show();
+#ifndef __WXMAC__
         if (pFrame->IsMaximized()) {
             pFrame->Maximize(true);
         } else {
             pFrame->Maximize(false);
         }
+#endif
         pFrame->SendSizeEvent();
 
 #ifdef __WXMSW__
