@@ -6304,3 +6304,38 @@ Bruce 7 May 2005
     client/
         hostinfo_unix.C
 
+Janus  8 May 2005
+    - Security patches and improvements from Rob Ogilvie making it harder 
+      to misuse the forums.
+      - escape all strings before inserting into SQL and check everything else
+      - use regex do search and remove images instead of old slow function
+      - added a function cleanTextBox that prepares text to be dropped into
+        a textarea (replacing < and >). Also added the use of it to the
+        reply-page and edit-page.
+      - <pre> changes in the stylesheet
+      - Added max width on authorcols in forum to css
+      - Added nicer style to blockquotes
+    - Removed some old code from forum show_post that wasn't used anymore but
+      still accessed the database and threw away the result.
+    - Added a tiny part of the PayPal donation system from BURP, more parts
+      will show up later when they have been rewritten to work with php4
+      Please check if the license of the original PayPal script
+      (http://opensource.org/licenses/cpl.php) fits with the BOINC license. The
+      way I read it there should be no problems (since BOINC is opensource as
+      well).
+
+    html/
+        inc/
+            db_forum.inc
+            forum.inc
+            paypal_global_config.php (new)
+        user/
+            black.css
+            forum_edit.php
+            forum_reply.php
+            style.css
+            style-black.css
+	    white.css
+            payment_success.php (new)
+            payment_process.php (new)
+
