@@ -165,13 +165,9 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 }
 
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false, $filter=true) {
-    global $post_ratings;   // <------ Old obsolete rating method (remove someday)
-
     $user = lookup_user_id($post->user);
     $user = getForumPreferences($user);
-    $data = mysql_query("SELECT userid FROM profile WHERE userid = " . $user->id);                //Lookup existance of profile for user
-    $user->has_profile = (mysql_numrows($data) > 0);                                                //and store this info in the user object
-    $user->has_avatar = ($user->avatar != "");                                                        //for later access
+    $user->has_avatar = ($user->avatar != "");
 
     //If the user that made this post is on the list of people to ignore, change thresholds to be more strict
 
@@ -337,24 +333,22 @@ function externalize_links($text){
 
 function image_as_link($text){
 /* This function depends on sanitized HTML - always use KSES or equivalent before using this */
-    $i=0;
-    while (true){                                      //Find an image
-        $imgpos=strpos($text,"<img ",$i);
-        if ($imgpos===false) break;
-        $out.= substr($text,$i,$imgpos-$i)."<a href="; //Replace with link start
-        $temp1=strpos($text,"src=",$imgpos)+5;         //Find the image source
-        $temp2=strpos($text,">",$imgpos)+1;            //Or the end of the tag
-        if ($temp1<$temp2){                            //If source was found within tag
-            $temp3=strpos($text,"\"",$temp1);         //Find the end of source
-            $out.=substr($text,$temp1,$temp3-$temp1);    //output the source
-        }
-        $out.=">[Image link]</a>";
-        $i=$temp2;                        //Now move to end of tag to continue
-    }
-    $out.=substr($text,$i);                            //Output the rest
-    return $out;
+    // Build some regex (should be a *lot* faster)
+    $pattern = '@<img src=([^>]+)>@si'; // Gives us the URL in ${1}...
+    $replacement = '<a href=${1}>[Image Link]</a>'; // Turns that URL into a hyperlink
+    $text = preg_replace($pattern, $replacement, $text);
+    return $text;
 }
 
+function cleanTextBox($content) {
+	/* Cleans the contents of a post for dropping in a text box
+	 * Currently I'm only replacing <'s and >'s with the proper HTML entities
+	 * ...are there others we should handle?  & itself is being escaped somewhere
+	 * else, probably by the slash stuff in the calling function.
+	 */
+	$answer = preg_replace('/&lt;/','&amp;lt;',preg_replace('/&gt;/','&amp;gt;',$content));
+	return $answer;
+}
 
 function start_forum_table($headings) {
     start_table();
