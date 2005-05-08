@@ -114,6 +114,11 @@ h3 , h4 {
 	font-weight: bold;
 }
 
+pre {
+	white-space: normal;
+	margin: 0;
+}
+
 img {
     border: 0px;
 }
@@ -126,4 +131,18 @@ img {
 .description {
 	font-size: 80%;
 	font-weight: normal;
+}
+
+.authorcol {
+	width: 115px;
+	overflow: hidden;
+}
+
+blockquote {
+	border-left: 2px solid blue;
+	padding-left: 5px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	font-style: italic;
 }
