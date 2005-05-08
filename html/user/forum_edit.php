@@ -68,7 +68,7 @@ if ($post->parent_post==0 and $thread->owner==$logged_in_user->id) {
 
 row2(
     "Message content",
-    "<textarea name=\"content\" rows=12 cols=80>".stripslashes($post->content)."</textarea>"
+    "<textarea name=\"content\" rows=12 cols=80>".cleanTextBox(stripslashes($post->content))."</textarea>"
 );
 row2(
     "",

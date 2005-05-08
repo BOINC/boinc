@@ -106,13 +106,13 @@ function show_message_row($thread, $category, $post=NULL) {
     }
 
     $x2 .= " method=post><textarea name=content rows=18 cols=80>";
-    if ($post) $x2 .= quote_text(stripslashes($post->content), 80);
+    if ($post) $x2 .= cleanTextBox(quote_text(stripslashes($post->content), 80));
     if ($logged_in_user->no_signature_by_default==0){
         $enable_signature="checked=\"true\"";
     } else {
         $enable_signature="";
     }
-    $x2 .= "</textarea><p>
+    $x2 .= "\n</textarea><p>
         <input type=submit value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
         <input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this reply                                
@@ -124,6 +124,7 @@ function show_message_row($thread, $category, $post=NULL) {
 }
 
 function quote_text($text, $cols = 0) {
+	/* $cols is depricated. */
     $text = "<blockquote>" . $text . "</blockquote>";
     return $text;
 }
