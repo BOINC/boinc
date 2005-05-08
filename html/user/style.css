@@ -39,6 +39,11 @@ h3 , h4 {
 	font-weight: bold;
 }
 
+pre {
+	white-space: normal;
+	margin: 0;
+}
+
 .title {
 	font-size: small;
 	font-weight: bold;
@@ -59,3 +64,4 @@ blockquote {
 	width: 100px;
 	overflow: hidden;
 }
+
