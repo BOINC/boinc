@@ -18,6 +18,7 @@ AC_DEFUN([SAH_CHECK_LIB],[
    if test "${lib_is_static}" = "no" ; then
      SAH_DYNAMIC_LIB_REQUIRED(${alib},[$2],[
          sah_lib_last="${sah_dynamic_lib_last}"
+	 $3
      ],[$4])
    fi
 ])
@@ -65,7 +66,7 @@ AC_DEFUN([SAH_LINKAGE_FLAGS],[
     ld_dynamic_option=""
     LD_EXPORT_DYNAMIC=""
   else
-    if test -z "${ld_static_option}" 
+    if test -z "${ld_static_option}"
     then
       case $target in
         *linux* | *solaris* | *cygwin* )
@@ -74,6 +75,14 @@ AC_DEFUN([SAH_LINKAGE_FLAGS],[
 	  AC_MSG_RESULT($ld_static_option)
           AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
 	  ld_dynamic_option="-Wl,-Bdynamic"
+	  AC_MSG_RESULT($ld_dynamic_option)
+          ;;
+        *darwin* )
+          AC_MSG_CHECKING([${CC} flags for static linkage ...])
+	  ld_static_option="-static"
+	  AC_MSG_RESULT($ld_static_option)
+          AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
+	  ld_dynamic_option="-dynamic"
 	  AC_MSG_RESULT($ld_dynamic_option)
           ;;
 	*)
@@ -338,7 +347,7 @@ then
   tmp_libpath="${tmp_libpath}:${PATH}"
 fi  
 
-gcc_version=`${CC} -v 2>&1 | grep "gcc version" | awk '{print $[]3}'`
+gcc_version=`${CC} -v 2>&1 | grep "gcc version" | $AWK '{print $[]3}'`
 
 for gcc_host in `${CC} -v 2>&1 | grep host` --host=${ac_cv_target}
 do
@@ -354,7 +363,7 @@ do
   if test -n "`echo x$dirs | grep x--prefix=`"
   then
     gcc_prefix="`echo $dirs | sed 's/--prefix=//'`"
-    gcc_specs=`${CC} -v 2>&1 | grep specs | awk '{print $[]4}' | sed 's/\/specs//'`
+    gcc_specs=`${CC} -v 2>&1 | grep specs | $AWK '{print $[]4}' | sed 's/\/specs//'`
     tmp_libpath="${gcc_specs}:${gcc_prefix}/lib:${gcc_prefix}/lib/gcc-lib/${gcc_host}/${gcc_version}:${tmp_libpath}"
     break
   fi
@@ -433,7 +442,7 @@ else
     fi
   fi
  
-  tmp_dir_list=`echo ${tmp_libpath}:/lib:/usr/lib:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | awk -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
+  tmp_dir_list=`echo ${tmp_libpath}:/lib:/usr/lib:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | $AWK -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
  
   tmp_lib_name=
   # now that we know where we are looking, find our library
