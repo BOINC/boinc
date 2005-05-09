@@ -231,7 +231,7 @@ public:
     double work_done_this_period; // how much CPU time has been devoted to this
                                   // project in the current period (secs)
     struct RESULT *next_runnable_result; // the next result to run for this project
-    
+
     // the following used by work-fetch algorithm
 	double long_term_debt;
         // how much CPU time we owe this project in the long term (secs)
@@ -365,6 +365,13 @@ struct RESULT {
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
+    bool high_priority; // this will override the normal CPU handler so that this WU will run to completion
+                        // before any other normal work is run.  It will not override the panic mode scheduler.
+                        // this can be set by the server supplying the WU.  This was strongly requested by
+                        // Folding@Home.
+    bool return_result_immediately; // this is what it says.  It can be set by the project supplying the WU.
+                                    // It will be set to true by the parsing code if high_priority is set, even
+                                    // if it is not set by the calling server.
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);

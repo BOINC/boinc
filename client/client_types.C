@@ -1129,6 +1129,8 @@ void RESULT::clear() {
     app = NULL;
     wup = NULL;
     project = NULL;
+    high_priority = false;
+    return_result_immediately = false;
 }
 
 // parse a <result> element from scheduling server.
@@ -1147,6 +1149,13 @@ int RESULT::parse_server(MIOFILE& in) {
         if (parse_double(buf, "<report_deadline>", report_deadline)) {
             validate_time(report_deadline);
             continue;
+        }
+        if (match_tag(buf, "<high_priority>")) {
+            high_priority = true;
+            return_result_immediately = true;
+        }
+        if (match_tag(buf, "<return_result_immediately>")) {
+            return_result_immediately = true;
         }
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
@@ -1257,6 +1266,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (ready_to_report) out.printf("    <ready_to_report/>\n");
         if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
         if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
+        if (high_priority) out.printf("    <high_priority/>\n");
+        if (return_result_immediately) out.printf("    <return_result_immediately/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%f</report_deadline>\n",
@@ -1296,6 +1307,8 @@ int RESULT::write_gui(MIOFILE& out) {
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
+    if (high_priority) out.printf("    <high_priority/>\n");
+    if (return_result_immediately) out.printf("    <return_result_immediately/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write(out);

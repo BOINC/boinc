@@ -1319,7 +1319,7 @@ double CLIENT_STATE::total_resource_share() {
 
     double x = 0;
     for (i=0; i<projects.size(); i++) {
-        x += projects[i]->resource_share;
+        if (!projects[i]->non_cpu_intensive ) x += projects[i]->resource_share;
     }
     return x;
 }

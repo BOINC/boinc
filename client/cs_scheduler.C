@@ -75,7 +75,7 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 #define MAX_CPU_LOAD_FACTOR 0.8
 
 static int proj_min_results(PROJECT* p, int ncpus) {
-    return (int)(ceil(ncpus*p->resource_share/trs));
+    return p->non_cpu_intensive ? 1 : (int)(ceil(ncpus*p->resource_share/trs));
 }
 void PROJECT::set_min_rpc_time(double future_time) {
     if (future_time > min_rpc_time) {
@@ -144,7 +144,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 // 3) has master_url_fetch_pending == false
 // 4) has dont_request_more_work == false
 //
-PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old) {
+PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect;
     double now = dtime();
@@ -163,7 +163,18 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old) {
         if (p->suspended_via_gui) continue;
         if (p->dont_request_more_work) continue;
         if (p->long_term_debt < 0 && !cpu_idle) continue;
-        if (p->non_cpu_intensive) continue;
+        if (p->work_request_urgency == WORK_FETCH_DONT_NEED) continue;
+
+        // if we don't really need work, and we don't really need work from this project, pass.
+        if (urgency <= WORK_FETCH_OK && p->work_request_urgency <= WORK_FETCH_OK) continue;
+
+        // if there is a project for which a work request is OK and one that has a higher priority, take the one
+        // with the higher priority.
+        if (p_prospect && p->work_request_urgency == WORK_FETCH_OK && 
+            p_prospect->work_request_urgency > p->work_request_urgency) {
+        
+            continue;
+        }
 
         double work_on_current = ettprc(p, 0);
         if (p_prospect
@@ -172,17 +183,13 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old) {
         ) {
             continue;
         }
-        if (p->work_request_urgency == WORK_FETCH_DONT_NEED
-            && (!cpu_idle || p->non_cpu_intensive)
-        ) {
-            continue;
-        }
 
-        if (found_old && p->work_request > 0) {
+        if (p->work_request > 0) {
             p_prospect = p;
             work_on_prospect = work_on_current;
         }
     }
+    if (p_prospect && !(p_prospect->work_request > 0.0)) p_prospect->work_request = 1.0;
     return p_prospect;
 }
 
@@ -405,7 +412,12 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
             --num_results_to_skip;
             continue;
         }
-        est += rp->estimated_cpu_time_remaining();
+        if (rp->project->non_cpu_intensive) {
+            // if it is a non_cpu intensive project, it needs only one at a time.
+            est = max(rp->estimated_cpu_time_remaining(), global_prefs.work_buf_min_days * SECONDS_PER_DAY);  
+        } else {
+            est += rp->estimated_cpu_time_remaining();
+        }
     }
     double apr = avg_proc_rate(p);
     return est/apr;
@@ -418,10 +430,36 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
 //
 int CLIENT_STATE::compute_work_requests() {
     int urgency = WORK_FETCH_DONT_NEED;
+    int highest_project_urgency = WORK_FETCH_DONT_NEED;
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double now = dtime();
+    double global_work_need = work_needed_secs();
     
+    for (i = 0; i < projects.size(); ++i) {
+        projects[i]->work_request_urgency = WORK_FETCH_DONT_NEED;
+        projects[i]->work_request = 0;
+    }
+
+
+    if (!should_get_work()) {
+        return WORK_FETCH_DONT_NEED;
+    } else if (no_work_for_a_cpu()) {
+        urgency = WORK_FETCH_NEED_IMMEDIATELY;
+    } else if (global_work_need > 0) {
+        urgency = WORK_FETCH_NEED;
+    } else {
+        urgency = WORK_FETCH_OK;
+    }
+
+    double max_fetch = work_min_period;
+        // it is possible to have a work fetch policy of no new work and also have 
+        // a CPU idle or not enough to fill the cache.  In this case, we get work, but in little tiny increments
+        // as we are already in trouble and we need to minimize the damage.
+    if (this->work_fetch_no_new_work) {
+        max_fetch = 1.0;
+    }
+
     trs = total_resource_share();
 
     // for each project, compute
@@ -435,10 +473,11 @@ int CLIENT_STATE::compute_work_requests() {
 
         p->work_request = 0;
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
+        if (p->master_url_fetch_pending) continue;
         if (p->min_rpc_time >= now) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
-        if (p->long_term_debt < 0 && !no_work_for_a_cpu()) continue;
+        if ((p->long_term_debt < 0) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
 
         int min_results = proj_min_results(p, ncpus);
         double estimated_time_to_starvation = ettprc(p, min_results-1);
@@ -450,7 +489,6 @@ int CLIENT_STATE::compute_work_requests() {
 #if DEBUG_SCHED
                 msg_printf(p, MSG_INFO, "is starved");
 #endif
-                urgency = WORK_FETCH_NEED_IMMEDIATELY;
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
             } else {
 #if DEBUG_SCHED
@@ -458,10 +496,14 @@ int CLIENT_STATE::compute_work_requests() {
                     estimated_time_to_starvation
                 );
 #endif
-                urgency = max(WORK_FETCH_NEED, urgency);
-                urgency = WORK_FETCH_NEED;
+                p->work_request_urgency = WORK_FETCH_NEED;
             }
+        } else if (WORK_FETCH_OK < urgency) {
+            p->work_request_urgency = WORK_FETCH_OK;
+            p->work_request = global_work_need;
         }
+
+        highest_project_urgency = max(highest_project_urgency, p->work_request_urgency);
 
         // determine work requests for each project
         // NOTE: don't need to divide by active_frac etc.;
@@ -475,12 +517,6 @@ int CLIENT_STATE::compute_work_requests() {
 #if DEBUG_SCHED
         msg_printf(p, MSG_INFO, "work req: %f sec", p->work_request);
 #endif
-    }
-
-    if (urgency == WORK_FETCH_DONT_NEED) {
-        for (i=0; i<projects.size(); ++i) {
-            projects[i]->work_request = 0;
-        }
     }
 
     return urgency;
@@ -522,10 +558,10 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                     "Insufficient work; requesting more"
                 );
             }
-            scheduler_op->init_get_work(false);
+            scheduler_op->init_get_work(false, urgency);
             action = true;
         } else if ((p=next_project_master_pending())) {
-            scheduler_op->init_get_work(true);
+            scheduler_op->init_get_work(true, urgency);
             action = true;
         } else if ((p=next_project_sched_rpc_pending())) {
             scheduler_op->init_return_results(p);
@@ -1010,6 +1046,20 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
     work_fetch_no_new_work = should_not_fetch_work;
     cpu_earliest_deadline_first = use_earliest_deadline_first;
+}
+
+double CLIENT_STATE::work_needed_secs()
+{
+    double total_work = 0;
+    for( unsigned int i = 0; i < results.size(); ++i) {
+        if (results[i]->project->non_cpu_intensive) continue;
+        total_work += results[i]->estimated_cpu_time_remaining();
+    }
+    if (total_work > global_prefs.work_buf_min_days) {
+        return 0;
+    } else {
+        return global_prefs.work_buf_min_days - total_work;
+    }
 }
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";

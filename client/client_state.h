@@ -47,8 +47,9 @@
 #define USER_RUN_REQUEST_NEVER      3
 
 #define WORK_FETCH_DONT_NEED 0
-#define WORK_FETCH_NEED      1
-#define WORK_FETCH_NEED_IMMEDIATELY 2
+#define WORK_FETCH_OK        1
+#define WORK_FETCH_NEED      2
+#define WORK_FETCH_NEED_IMMEDIATELY 3
 
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
@@ -273,7 +274,7 @@ private:
 public:
     double work_needed_secs();
     PROJECT* next_project_master_pending();
-    PROJECT* next_project_need_work(PROJECT*);
+    PROJECT* next_project_need_work(PROJECT* old, int urgency);
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     int compute_work_requests();
@@ -287,9 +288,9 @@ private:
     bool scheduler_rpc_poll(double);
     double ettprc(PROJECT*, int);
     double avg_proc_rate(PROJECT*);
-	bool should_get_work();
+    bool should_get_work();
     bool no_work_for_a_cpu();
-	void set_cpu_scheduler_modes();
+    void set_cpu_scheduler_modes();
 
 // --------------- cs_statefile.C:
 public:

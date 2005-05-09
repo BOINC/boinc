@@ -6339,3 +6339,11 @@ Janus  8 May 2005
             payment_success.php (new)
             payment_process.php (new)
 
+David  8 May 2005
+    - work fetch and CPU scheduling fixes (from John McLeod)
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C,h

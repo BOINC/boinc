@@ -80,13 +80,13 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 // PRECONDITION: compute_work_requests() has been called
 // to fill in PROJECT::work_request
 //
-int SCHEDULER_OP::init_get_work(bool master_file_only) {
+int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
     int retval;
     char err_msg[256];
     double ns;
 
     must_get_work = true;
-    project = gstate.next_project_need_work(0);
+    project = gstate.next_project_need_work(0, urgency);
     if (project && !master_file_only) {
         ns = project->work_request;
         msg_printf(project, MSG_INFO, "Requesting %.2f seconds of work", ns);
@@ -209,6 +209,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
         p->nrpc_failures++;
     }
     set_min_rpc_time(p);
+    p->long_term_debt -= (p->min_rpc_time - dtime()) / gstate.global_prefs.max_projects_on_client;
 }
 
 // low-level routine to initiate an RPC
@@ -448,10 +449,13 @@ bool SCHEDULER_OP::poll() {
                     backoff(project, "No schedulers responded");
                     if (must_get_work) {
                         int urgency = gstate.compute_work_requests();
-                        project = gstate.next_project_need_work(project);
-                        if (project && urgency != WORK_FETCH_DONT_NEED) {
-                            retval = init_op_project(project->work_request);
-                        } else {
+                        if (urgency != WORK_FETCH_DONT_NEED) {
+                            project = gstate.next_project_need_work(project, urgency);
+                            if (project) {
+                                retval = init_op_project(project->work_request);
+                            } else {
+                                scheduler_op_done = true;
+                            }
                             scheduler_op_done = true;
                         }
                     } else {
@@ -512,7 +516,7 @@ bool SCHEDULER_OP::poll() {
                 if (must_get_work) {
                     int urgency = gstate.compute_work_requests();
                     if (urgency != WORK_FETCH_DONT_NEED) {
-                        project = gstate.next_project_need_work(project);
+                        project = gstate.next_project_need_work(project, urgency);
                         if (project) {
                             retval = init_op_project(project->work_request);
                         } else {
