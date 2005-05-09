@@ -600,7 +600,14 @@ int add_result_to_reply(
     result.userid = reply.user.id;
     result.sent_time = time(0);
     result.report_deadline = result.sent_time + wu.delay_bound;
-    result.update_subset();
+    retval = result.update_subset();
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "add_result_to_reply: can't update result: %d\n", retval
+        );
+        return retval;
+    }
 
     wu_seconds_filled = estimate_wallclock_duration(wu, request, reply);
     log_messages.printf(
@@ -613,8 +620,9 @@ int add_result_to_reply(
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "send_work: can't update WU transition time\n"
+            "add_result_to_reply: can't update WU transition time: %d\n", retval
         );
+        return retval;
     }
 
     // The following overwrites the result's xml_doc field.
@@ -623,15 +631,18 @@ int add_result_to_reply(
     retval = insert_name_tags(result, wu);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "send_work: can't insert name tags\n"
+            SCHED_MSG_LOG::CRITICAL, "send_work: can't insert name tags: %d\n",
+            retval
         );
+        return retval;
     }
     retval = insert_deadline_tag(result);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "send_work: can't insert deadline tag\n"
+            "send_work: can't insert deadline tag: %d\n", retval
         );
+        return retval;
     }
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;

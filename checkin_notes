@@ -6347,3 +6347,11 @@ David  8 May 2005
         client_types.C,h
         cs_scheduler.C
         scheduler_op.C,h
+
+David  9 May 2005
+    - scheduler: return error (and don't send result)
+        if result DB update, WU DB update, or XML mods fail
+        (from Ian Hay)
+
+    sched/
+        sched_send.C
