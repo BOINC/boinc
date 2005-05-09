@@ -1,6 +1,6 @@
 AC_DEFUN([SAH_STATICIZE_LDFLAGS],[
    STATIC_LIB_LIST="${STATIC_LIB_LIST} $3"
-   liblist=`echo $1 | awk '{for (i=1;i<(NF+1);i++) {print $[]i;}}' | grep -v "Wl,[sd]" ` 
+   liblist=`echo $1 | $AWK '{for (i=1;i<(NF+1);i++) {print $[]i;}}' | grep -v "Wl,[sd]" ` 
    ssl_sah_save_libs="${LIBS}"
    echo "DEBUG: before mangling $2:$1" 
    sah_outputlibs=
