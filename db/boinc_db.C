@@ -24,6 +24,11 @@
 #include <cmath>
 #include <math.h>
 
+// For machines with finite() defined in ieeefp.h
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
+
 #include "util.h"
 #include "boinc_db.h"
 
