@@ -33,6 +33,9 @@
 #if HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #endif
+#if HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
