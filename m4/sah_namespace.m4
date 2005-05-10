@@ -5,6 +5,9 @@
 #
 # Revision Log:
 # $Log$
+# Revision 1.3  2005/05/10 15:43:56  korpela
+# Fixed bug in caching of SAH_FUNCS_IN_NAMESPACE results.
+#
 # Revision 1.2  2005/05/06 00:31:05  korpela
 # Added caching of results to SAH_CHECK_NAMESPACES and SAH_FUNCS_IN_NAMESPACE
 #
@@ -69,15 +72,13 @@ AC_DEFUN([SAH_FUNCS_IN_NAMESPACE],[
 		]])],
         [
 	 eval sah_cv_func_$2_$ac_func_upper="yes"
-	 tmp_res="yes"
 	],
         [
 	 eval sah_cv_func_$2_$ac_func_upper="no"
-	 tmp_res="no"
 	]
       )
     ])
-    if test "${tmp_res}" = "yes" ; then
+    if test "`eval echo '${'sah_cv_func_$2_$ac_func_upper'}'`" = "yes" ; then
         AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
 	["Define to 1 if $func_name is in namespace $t_ns::"  ])
     fi
