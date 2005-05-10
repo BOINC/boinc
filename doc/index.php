@@ -137,7 +137,6 @@ echo "
 </table>
 
 <hr>
-<center>
 ";
 copyright();
 ?>

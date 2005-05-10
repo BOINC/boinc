@@ -29,24 +29,22 @@ function page_head($title) {
 }
 
 function copyright() {
+    $y = date("Y ");
     echo "
-        Copyright &copy; $y University of California
-    ";
-    return;
-    echo "
-        <br><br>
-        <!-- Creative Commons License -->
-        <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/2.0/\"><img alt=\"Creative Commons License\" border=\"0\" src=\"http://creativecommons.org/images/public/somerights20.gif\" /></a><br />
+        <font color=888888>
+        Copyright &copy; $y University of California.
+        Permission is granted to copy, distribute and/or modify this document
+        under the terms of the GNU Free Documentation License,
+        Version 1.2 or any later version published by the Free Software Foundation.</font>
     ";
 }
 
 function page_tail() {
-    $y = date("Y ");
     echo "
         <hr size=1>
         <p align='center'>
         <a href='/'>Return to BOINC main page</a>
-        <br/><br/>
+        </p>
     ";
     copyright();
     echo "
