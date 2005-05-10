@@ -297,15 +297,15 @@ version(
 );
 version(
     "Mac",
-    "4.35",
+    "4.37",
     "Development version (advanced GUI)",
-    "boinc_4.35_powerpc-apple-darwin.zip",
-    "29 Apr 2005",
+    "boinc_4.37_macOSX.zip",
+    "6 May 2005",
     mac_advanced(),
     "",
     "<ul>
      <li>
-     This version of BOINC currently does not work on 10.2.  This will be fixed in a future release.
+     We have dropped the requirement of our distribution running on 10.2 since 10.4 has been released.  You should still be able to build the client yourself and have it run on a 10.2 machine.
      </ul>
     "
 );
