@@ -542,6 +542,9 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
 
+    // config.daily_result_quota is PER CPU (up to max of four CPUs)
+    // host.max_results_day is between 1 and config.daily_result_quota inclusive
+    // wreq.daily_result_quota is between ncpus and ncpus*host.max_results_day inclusive
     if (config.daily_result_quota) {
         if (host.max_results_day <= 0 || host.max_results_day>config.daily_result_quota) {
             host.max_results_day = config.daily_result_quota;

@@ -46,7 +46,11 @@ using namespace std;
 #define PIDFILE                 "transitioner.pid"
 
 #define SELECT_LIMIT    1000
+#ifdef EINSTEIN_AT_HOME
+#define SLEEP_INTERVAL  1
+#else
 #define SLEEP_INTERVAL  5
+#endif
 #define BATCH_INSERT    1
 
 int startup_time;
