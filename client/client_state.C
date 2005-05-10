@@ -76,7 +76,6 @@ CLIENT_STATE::CLIENT_STATE() {
     client_state_dirty = false;
     exit_when_idle = false;
     check_all_logins = false;
-    return_results_immediately = false;
     allow_remote_gui_rpc = false;
     run_cpu_benchmarks = false;
     skip_cpu_benchmarks = false;

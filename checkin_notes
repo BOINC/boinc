@@ -6391,3 +6391,9 @@ Janus  10 May 2005
     html/user/
         forum_reply.php
 
+Rom    10 May 2005
+    - work fetch and CPU scheduling fixes (from John McLeod)
+
+    client/
+        client_state.C
+        cs_scheduler.C

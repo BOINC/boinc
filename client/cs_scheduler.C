@@ -54,7 +54,6 @@ using std::vector;
 using std::string;
 
 static double trs;
-
 // quantities like avg CPU time decay by a factor of e every week
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
@@ -477,7 +476,7 @@ int CLIENT_STATE::compute_work_requests() {
         p->work_request = 0;
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
         if (p->master_url_fetch_pending) continue;
-        if (p->min_rpc_time >= now) continue;
+        if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
         if ((p->long_term_debt < 0) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
@@ -540,6 +539,7 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
     PROJECT *p;
     bool action=false;
     static double last_time=0;
+    static double work_need_inform_time = 0;
 
     if (now - last_time < 1.0) return false;
     last_time = now;
@@ -558,24 +558,30 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
             scheduler_op->init_return_results(p);
             action = true;
         } else if (!(exit_when_idle && contacted_sched_server) && urgency != WORK_FETCH_DONT_NEED) {
-            if (urgency == WORK_FETCH_NEED) {
-                msg_printf(NULL, MSG_INFO,
-                    "May run out of work in %.2f days; requesting more",
-                    global_prefs.work_buf_min_days
-                );
-            } else if (urgency == WORK_FETCH_NEED_IMMEDIATELY) {
-                msg_printf(NULL, MSG_INFO,
-                    "Insufficient work; requesting more"
-                );
+            if (work_need_inform_time < now) {
+                if (urgency == WORK_FETCH_NEED) {
+                    msg_printf(NULL, MSG_INFO,
+                        "May run out of work in %.2f days; requesting more",
+                        global_prefs.work_buf_min_days
+                    );
+                } else if (urgency == WORK_FETCH_NEED_IMMEDIATELY) {
+                    msg_printf(NULL, MSG_INFO,
+                        "Insufficient work; requesting more"
+                    );
+                }
+                work_need_inform_time = now + 60.0 * 60.0;
             }
             scheduler_op->init_get_work(false, urgency);
             action = true;
-        } else if ((p=next_project_master_pending())) {
-            scheduler_op->init_get_work(true, urgency);
-            action = true;
-        } else if ((p=next_project_sched_rpc_pending())) {
-            scheduler_op->init_return_results(p);
-            action = true;
+        }
+        if (!action) {
+            if ((p=next_project_master_pending())) {
+                scheduler_op->init_get_work(true, urgency);
+                action = true;
+            } else if ((p=next_project_sched_rpc_pending())) {
+                scheduler_op->init_return_results(p);
+                action = true;
+            }
         }
         break;
     default:
@@ -937,7 +943,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
     std::vector<RESULT*>::iterator it_u;
     for (it_u = results.begin(); it_u != results.end(); ++it_u) {
-        if (RESULT_COMPUTE_ERROR > (*it_u)->state && !(*it_u)->project->non_cpu_intensive) {
+        if ((RESULT_COMPUTE_ERROR > (*it_u)->state) && !(*it_u)->project->non_cpu_intensive) {
             results_by_deadline[(*it_u)->report_deadline] = *it_u;
             projects_with_work.insert((*it_u)->project);
         }
@@ -962,6 +968,10 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         it++
     ) {
         RESULT *r = (*it).second;
+
+        // non CPU intensive results don't count.
+        if (r->project->non_cpu_intensive) continue;
+
         if (RESULT_COMPUTE_ERROR > ((*it).second)->state) {
             double lowest_book = booked_to[0];
             int lowest_booked_cpu = 0;
