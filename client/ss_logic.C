@@ -68,6 +68,7 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
 }
 
 // called in response to a set_screensaver_mode RPC without <enabled>
+// or ACTIVE_TASK::check_graphics_mode_ack() when mode == MODE_QUIT
 // Stop providing screensaver graphics
 //
 void SS_LOGIC::stop_ss() {
