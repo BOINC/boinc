@@ -21,6 +21,13 @@ page_head("Web sites for BOINC participants");
 
 list_start();
 echo "
+<h2>Project status</h2>
+<a href=http://boincprojectstatus.ath.cx/boinc/>BOINC project status</a>
+<h2>Statistics</h2>
+";
+stats_sites();
+echo "
+<h2>Informational sites</h2>
 <tr><th>Language</th><th>Site</th></tr>
 ";
 

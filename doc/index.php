@@ -135,5 +135,9 @@ echo "
 </td></tr></table>
 </td></tr>
 </table>
+
+<hr>
+<center>
 ";
+copyright();
 ?>

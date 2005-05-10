@@ -28,6 +28,18 @@ function page_head($title) {
     ";
 }
 
+function copyright() {
+    echo "
+        Copyright &copy; $y University of California
+    ";
+    return;
+    echo "
+        <br><br>
+        <!-- Creative Commons License -->
+        <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/2.0/\"><img alt=\"Creative Commons License\" border=\"0\" src=\"http://creativecommons.org/images/public/somerights20.gif\" /></a><br />
+    ";
+}
+
 function page_tail() {
     $y = date("Y ");
     echo "
@@ -35,7 +47,9 @@ function page_tail() {
         <p align='center'>
         <a href='/'>Return to BOINC main page</a>
         <br/><br/>
-        Copyright &copy; $y University of California
+    ";
+    copyright();
+    echo "
         </p>
         </body>
         </html>
@@ -107,4 +121,35 @@ function list_end() {
     echo "</table><p>\n";
 }
 
+function stats_sites() {
+    echo "
+        <ul>
+        <li>
+        <a href=http://www.setisynergy.com/stats/index.php>BOINC Statistics for the WORLD!</a>
+        developed by Zain Upton (email: zain.upton at setisynergy.com)
+        <li>
+        <a href=http://www.boincstats.com/>www.boincstats.com</a>
+        by Willy de Zutter
+        <li>
+        <a href=http://www.seti.nl/boinc_team.php>
+        SETI@Netherlands stats page</a>
+        <li>
+        <a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>,
+        developed by Janus Kristensen (email: stats at boinc.dk).
+        <li>
+        <a href=http://www.saschapfalz.de/boincstats/boinc-stats.php>boincstats</a>,
+        developed by Sascha Pfalz.
+
+        <li>
+        <a href=http://stats.boincbzh.net/BZHwds/index.php>BOINC Alliance Francophone</a>,
+        developed by Vincent Mary (email: stats at hoincbzh.net).
+        Supports competition between 'mini-teams'.
+        <li>
+        <a href=http://stats.kwsn.net/>The Knights Who Say 'Ni' stats</a>
+
+        <li>
+    <a href=http://www.teamocuk.com/>Team OcUK stats</a>
+    </ul>
+    ";
+}
 ?>

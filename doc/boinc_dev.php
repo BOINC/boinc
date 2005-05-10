@@ -66,6 +66,7 @@ Various implementation notes:
 <li> <a href=version_diff.txt>How to see what has changed
 between two versions of an executable</a>.
 <li> <a href=acct_mgt.php>Account management systems</a>
+<li> <a href=spec.txt>Spec info for RPMs</a>
 </ul>
 
 ";

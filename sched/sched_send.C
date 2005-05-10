@@ -238,6 +238,7 @@ int wu_is_infeasible(
             reply.wreq.insufficient_speed = true;
             reason |= INFEASIBLE_CPU;
         }
+#if 0
         if (wu.delay_bound < request.global_prefs.work_buf_min_days*SECONDS_IN_DAY) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
@@ -248,6 +249,7 @@ int wu_is_infeasible(
             reply.wreq.excessive_work_buf = true;
             reason |= INFEASIBLE_WORK_BUF;
         }
+#endif
     }
 
     return reason;
