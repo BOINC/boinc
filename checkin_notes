@@ -6355,3 +6355,21 @@ David  9 May 2005
 
     sched/
         sched_send.C
+
+Rom    9 May 2005
+    - Remove last Friday's benchmark checkin and introduce a benchmark startup
+        timeout.  If an application cannot be shutdown because an application
+        fails to shutdown, it'll just skip the benchmarks.
+    - Add a new log flag for the cpu scheduler called '<sched_cpu_debug>' so
+        that people can debug client-side issues with the scheduler
+    - Convert the #ifdef scheduler debug code to log flag calls
+    - Fix a CPU scheduling bug where the client thought all the CPU's were idle.
+
+    client/
+        app.C, .h
+        app_control.C
+        client_msgs.C, .h
+        client_state.C
+        cs_benchmark.C
+        cs_scheduler.C
+        log_flags.C, .h

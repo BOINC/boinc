@@ -51,6 +51,7 @@ public:
     bool measurement_debug; // host measurement notices
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
+    bool sched_cpu_debug;
     bool dont_check_file_sizes;
 
     LOG_FLAGS();

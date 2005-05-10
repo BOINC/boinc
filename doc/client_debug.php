@@ -63,6 +63,8 @@ The flags are as follows:
 <dd> Log debugging information about measurements of CPU speed, platform, disk space, etc. 
 <dt> &lt;guirpc_debug/&gt; 
 <dd> Log debugging information about the GUI RPC interface. 
+<dt> &lt;sched_cpu_debug/&gt; 
+<dd> Log debugging information about the CPU scheduler. 
 </dl>
 ";
 page_tail();

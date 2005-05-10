@@ -124,8 +124,6 @@ public:
     bool have_trickle_down;
     bool send_upload_file_status;
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
-    double pending_suspend_via_quit_time; // check to see if the application has quit
-                                          // before timing out, otherwise kill it.
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;

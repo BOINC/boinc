@@ -48,6 +48,7 @@ const char* CLIENT_MSG_LOG::v_format_kind(int kind) const {
     case DEBUG_MEASUREMENT: return "DEBUG_MEASUREMENT";
     case DEBUG_POLL:        return "DEBUG_POLL       ";
     case DEBUG_GUIRPC:      return "DEBUG_GUIRPC     ";
+    case DEBUG_SCHED_CPU:   return "DEBUG_SCHED_CPU  ";
     default:                return "*** internal error: invalid MessageKind ***";
     }
 }
@@ -65,6 +66,7 @@ bool CLIENT_MSG_LOG::v_message_wanted(int kind) const {
     case DEBUG_MEASUREMENT: return log_flags.measurement_debug;
     case DEBUG_POLL:        return log_flags.poll_debug;
     case DEBUG_GUIRPC:      return log_flags.guirpc_debug;
+    case DEBUG_SCHED_CPU:   return log_flags.sched_cpu_debug;
     default: return false;
     }
 }

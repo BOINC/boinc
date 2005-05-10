@@ -171,7 +171,6 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     if (quit_task) {
         retval = request_exit();
         pending_suspend_via_quit = true;
-        pending_suspend_via_quit_time = dtime();
     } else {
         retval = suspend();
     }
@@ -540,30 +539,6 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     }
 
     return false;
-}
-
-// Check if any of the active tasks have exceeded their
-// timeout to quit gracefully
-//
-bool ACTIVE_TASK_SET::check_quit_timeout_exceeded() {
-    unsigned int j;
-    ACTIVE_TASK *atp;
-    double now = dtime();
-    bool retval = false;
-
-    for (j=0;j<active_tasks.size();j++) {
-        atp = active_tasks[j];
-        if (atp->task_state != PROCESS_EXECUTING) continue;
-        if (atp->scheduler_state != CPU_SCHED_PREEMPTED) continue;
-        if (atp->pending_suspend_via_quit) {
-            if ((now - atp->pending_suspend_via_quit_time) > 10.0) {
-                atp->kill_task();
-                retval = true;
-            }
-        }
-    }
-
-    return retval;
 }
 
 // If process is running, send it a kill signal

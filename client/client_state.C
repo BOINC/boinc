@@ -421,10 +421,9 @@ bool CLIENT_STATE::do_something(double now) {
     if (suspend_reason & SUSPEND_REASON_BENCHMARKS) {
         // wait for applications to become suspended
         //
+        cpu_benchmarks_poll();
         if (active_tasks.is_task_executing()) {
             POLL_ACTION(active_tasks, active_tasks.poll);
-        } else {
-            cpu_benchmarks_poll();
         }
         return gui_rpcs.poll(dtime());
     }

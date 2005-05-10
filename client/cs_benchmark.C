@@ -291,6 +291,18 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     // and well.
     active_tasks.send_heartbeats();
 
+    // should we abort the benchmarks?
+    if (now >= (cpu_benchmarks_start + 10.0) && active_tasks.is_task_executing()) {
+        msg_printf(NULL, MSG_ERROR,
+            "Aborting CPU benchmarks, one or more active tasks are still running."
+        );
+        host_info.p_calculated = now;
+        abort_cpu_benchmarks();
+        benchmarks_running = false;
+        set_client_state_dirty("CPU benchmarks");
+        return false;
+    }
+
     // do transitions through benchmark states
     //
     switch (bm_state) {

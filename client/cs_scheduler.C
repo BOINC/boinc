@@ -55,8 +55,6 @@ using std::string;
 
 static double trs;
 
-//#define DEBUG_SCHED   1
-
 // quantities like avg CPU time decay by a factor of e every week
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
@@ -435,7 +433,9 @@ int CLIENT_STATE::compute_work_requests() {
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double now = dtime();
     double global_work_need = work_needed_secs();
-    
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+
     for (i = 0; i < projects.size(); ++i) {
         projects[i]->work_request_urgency = WORK_FETCH_DONT_NEED;
         projects[i]->work_request = 0;
@@ -443,10 +443,13 @@ int CLIENT_STATE::compute_work_requests() {
 
 
     if (!should_get_work()) {
+        scope_messages.printf("CLIENT_STATE::compute_work_requests(): we don't need any work\n");
         return WORK_FETCH_DONT_NEED;
     } else if (no_work_for_a_cpu()) {
+        scope_messages.printf("CLIENT_STATE::compute_work_requests(): CPU is idle\n");
         urgency = WORK_FETCH_NEED_IMMEDIATELY;
     } else if (global_work_need > 0) {
+        scope_messages.printf("CLIENT_STATE::compute_work_requests(): global work needed is greater than one\n");
         urgency = WORK_FETCH_NEED;
     } else {
         urgency = WORK_FETCH_OK;
@@ -486,16 +489,16 @@ int CLIENT_STATE::compute_work_requests() {
         //
         if (estimated_time_to_starvation < work_min_period) {
             if (estimated_time_to_starvation == 0) {
-#if DEBUG_SCHED
-                msg_printf(p, MSG_INFO, "is starved");
-#endif
+                scope_messages.printf(
+                    "CLIENT_STATE::compute_work_requests(): project '%s' is starved\n",
+                    p->project_name
+                );
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
             } else {
-#if DEBUG_SCHED
-                msg_printf(p, MSG_INFO, "will starve in %.2f sec",
-                    estimated_time_to_starvation
+                scope_messages.printf(
+                    "CLIENT_STATE::compute_work_requests(): project '%s' will starve in %.2f sec\n",
+                    p->project_name, estimated_time_to_starvation
                 );
-#endif
                 p->work_request_urgency = WORK_FETCH_NEED;
             }
         } else if (WORK_FETCH_OK < urgency) {
@@ -514,10 +517,17 @@ int CLIENT_STATE::compute_work_requests() {
             (work_min_period - estimated_time_to_starvation)
             * ncpus
         );
-#if DEBUG_SCHED
-        msg_printf(p, MSG_INFO, "work req: %f sec", p->work_request);
-#endif
+
+        scope_messages.printf(
+            "CLIENT_STATE::compute_work_requests(): project '%s' work req: %f sec\n",
+            p->project_name, p->work_request
+        );
     }
+
+    scope_messages.printf(
+        "CLIENT_STATE::compute_work_requests(): returning urgency '%d'\n",
+        urgency
+    );
 
     return urgency;
 }
@@ -902,15 +912,16 @@ bool CLIENT_STATE::should_get_work() {
     return ret;
 }
 
-// return true iff we don't have enough runnable tasks to keep all CPUs busy
+// return true if we don't have enough runnable tasks to keep all CPUs busy
 //
 bool CLIENT_STATE::no_work_for_a_cpu() {
-    int count = 0;
-    for (unsigned int i = 0; i < results.size(); ++i){
-        if (!results[i]->project->non_cpu_intensive &&
-            !(RESULT_COMPUTE_ERROR > results[i]->state) &&
-            !results[i]->suspended_via_gui &&
-            !results[i]->project->suspended_via_gui
+    int  count = 0;
+    for (unsigned int i = 0; i < results.size(); i++){
+        RESULT* rp = results[i];
+        if (!rp->project->non_cpu_intensive &&
+            !rp->project->suspended_via_gui &&
+            (RESULT_COMPUTE_ERROR > rp->state) &&
+            !rp->suspended_via_gui
         ) {
             count++;
         }
