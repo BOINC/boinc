@@ -261,7 +261,7 @@ version(
 );
 xecho( "
 <a name=mac>
-<h2>Macintosh OS/X (10.2 and later)</h2>
+<h2>Macintosh OS/X (10.3 and later)</h2>
 ");
 version(
     "Mac",
