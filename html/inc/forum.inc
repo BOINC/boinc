@@ -234,9 +234,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"!\" height=\"".EMPHASIZE_IMAGE_HEIGHT."\">";
     }
 
+    echo " <a href=\"#$post->id\">Message $post->id</a> - ";
     if ($post->hidden) echo "<font color=red>[deleted] </font>";
     echo "
-        Posted: ", pretty_time_str($post->timestamp);
+        Posted ", pretty_time_str($post->timestamp);
     ;
 
     if ($post->parent_post) echo " - in response to <a href=\"#$post->parent_post\">Message ID $post->parent_post</a>.";

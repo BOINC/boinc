@@ -6373,3 +6373,14 @@ Rom    9 May 2005
         cs_benchmark.C
         cs_scheduler.C
         log_flags.C, .h
+
+Bruce 10 May 2005
+    - Forums: added an html/bookmark style link to the header for each message.
+      This makes it a bit more convenient to reference a particular message (rather
+      than the entire thread) in an email or another thread.  Janus, Rob, I hope this
+      is OK with you.  Feel free to revert if you don't like it.
+
+    html/
+        inc/
+            forum.inc
+
