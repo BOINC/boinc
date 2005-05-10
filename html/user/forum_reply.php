@@ -14,15 +14,26 @@ $forum = getForum($thread->forum);
 $category = getCategory($forum->category);
 $helpdesk = $category->is_helpdesk;
 
-if (!$thread){
-    error("No such thread found");
+$sort_style = get_str('sort', true);
+$filter = get_str('filter', true);
+
+if ($filter != "false"){
+    $filter = true;
+} else {
+    $filter = false;
 }
+
+if (!$thread){
+    error_page("No such thread found");
+}
+
 if ($thread->hidden) {
     //If the thread has been hidden, do not display it, or allow people to continue to post
     //to it.
     error_page(
         "This thread has been hidden for administrative purposes.");
 }
+
 if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit){
     //If user haven't got enough credit (according to forum regulations)
     //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
@@ -30,6 +41,7 @@ if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_us
         "In order to reply to a post in ".$forum->title." you must have a certain amount of credit.
         This is to prevent and protect against abuse of the system.");
 }
+
 if (time()-$logged_in_user->last_post<$forum->post_min_interval){
     //If the user is posting faster than forum regulations allow
     //Tell the user to wait a while before creating any more posts
@@ -38,6 +50,24 @@ if (time()-$logged_in_user->last_post<$forum->post_min_interval){
         This delay has been enforced to protect against abuse of the system.");
 }
 
+if ($category->is_helpdesk) {
+    if (!$sort_style) {
+        $sort_style = getSortStyle($logged_in_user,"answer");
+    } else {
+        setSortStyle($logged_in_user,"answer", $sort_style);
+    }
+    page_head($title);
+} else {
+    if (!$sort_style) {
+        $sort_style = getSortStyle($logged_in_user,"thread");
+    } else {
+        setSortStyle($logged_in_user,"thread", $sort_style);
+    }
+}
+
+if ($sort_style == NULL) {
+    $sort_style = "timestamp";
+}
 
 if (!empty($_POST['content'])) {
     $thread_id = get_int('thread');
@@ -76,10 +106,8 @@ show_forum_title($forum, $thread, $helpdesk);
 
 start_forum_table(array("Author", "Message"));
 
-// TODO: Use the same sorting method that the user had in the thread view.
-
-show_posts($thread, 'modified-new',-2, false, false, $helpdesk);
 show_message_row($thread, $category, $post);
+show_posts($thread, $sort_style,-2, false, false, $helpdesk);
 
 end_forum_table();
 
