@@ -921,16 +921,16 @@ bool CLIENT_STATE::should_get_work() {
 // return true if we don't have enough runnable tasks to keep all CPUs busy
 //
 bool CLIENT_STATE::no_work_for_a_cpu() {
+    unsigned int i = 0;
     int  count = 0;
-    for (unsigned int i = 0; i < results.size(); i++){
+    for (i = 0; i < results.size(); i++){
         RESULT* rp = results[i];
-        if (!rp->project->non_cpu_intensive &&
-            !rp->project->suspended_via_gui &&
-            (RESULT_COMPUTE_ERROR > rp->state) &&
-            !rp->suspended_via_gui
-        ) {
-            count++;
-        }
+        if (rp->project->non_cpu_intensive ) continue;
+        if (RESULT_COMPUTE_ERROR <= rp->state) continue;
+        if (rp->suspended_via_gui) continue;
+        if (rp->project->suspended_via_gui) continue;
+
+        count++;
     }
     return ncpus > count;
 }
