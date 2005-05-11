@@ -291,6 +291,7 @@ function getThreadLastVisited($user, $thread){
 	/* $user->id - int
 	 * $thread->id - int
 	 */
+    if (!$user) return $user;
     if ($user->id==""){                                        //Disable read/unread stuff for users that are not logged in
         $user->thread_last_visited=time();                //Always display as visited
         return $user;

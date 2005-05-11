@@ -6422,6 +6422,7 @@ Bruce 11 May 2005
             util.inc
             prefs.inc
             forum_show.inc
+            db_forum.inc
             host.inc
         user/
             prefs.php
