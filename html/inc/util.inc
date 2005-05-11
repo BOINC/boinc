@@ -482,7 +482,7 @@ function get_venue($name) {
 
 function post_str($name, $optional=false) {
     $x = $_POST[$name];
-    if (!$x && !optional) {
+    if (!$x && !$optional) {
         error_page("missing or bad parameter: $name");
     }
     return $x;
