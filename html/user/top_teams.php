@@ -6,8 +6,11 @@ require_once("../inc/team.inc");
 
 $n = 20;
 
-$sort_by = $_GET["sort_by"];
-if (!$sort_by) $sort_by = "expavg_credit";
+if (isset($_GET["sort_by"])) {
+    $sort_by = $_GET["sort_by"];
+} else {
+    $sort_by = "expavg_credit";
+}
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
 $type = get_int("type", true);
