@@ -6,7 +6,7 @@ include_once("../inc/util.inc");
 session_start();
 session_destroy();
 
-if ($_COOKIE['auth']) {
+if (isset($_COOKIE['auth'])) {
     setcookie('auth', "", time());
 }
 
