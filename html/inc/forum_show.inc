@@ -40,7 +40,7 @@ function show_page_nav($forum) {
         } else {
             $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($curPage-1)*$threads_per_page);
-            $gotoStr .= '&sort='.$_GET["sort"];
+            if (isset($_GET["sort"])) $gotoStr .= '&sort='.$_GET["sort"];
             $gotoStr .= '">Previous</a> <a href="forum_forum.php?id='.$_GET['id'].'&start=0">1</a>';
         }
 
@@ -52,7 +52,7 @@ function show_page_nav($forum) {
                 $gotoStr .= ($i > 0 && $pages[$i-1] == $pages[$i] - 1)?', ':' ... ';
                 $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
                 $gotoStr .= '&start='.($pages[$i]*$threads_per_page);
-                $gotoStr .= '&sort='.$_GET["sort"];
+                if (isset($_GET["sort"])) $gotoStr .= '&sort='.$_GET["sort"];
                 $gotoStr .= '">'.($pages[$i]+1).'</a>';
             }
         }
@@ -62,11 +62,11 @@ function show_page_nav($forum) {
         } else {
             $gotoStr .= ', <a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($totalPages-1)*$threads_per_page);
-            $gotoStr .= '&sort='.$_GET["sort"];
+            if (isset($_GET["sort"])) $gotoStr .= '&sort='.$_GET["sort"];
             $gotoStr .= '">'.$totalPages.'</a> ';
             $gotoStr .= '<a href="forum_forum.php?id='.$_GET['id'];
             $gotoStr .= '&start='.(($curPage+1)*$threads_per_page);
-            $gotoStr .= '&sort='.$_GET["sort"];
+            if (isset($_GET["sort"])) $gotoStr .= '&sort='.$_GET["sort"];
             $gotoStr .= '">Next</a>';
         }
 
