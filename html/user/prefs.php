@@ -13,7 +13,7 @@ if (isset($_GET["cols"])) {
 
     $subset = $_GET["subset"];
     page_head(subset_name($subset)." preferences");
-	if ($_GET['updated']) {
+	if (isset($_GET['updated'])) {
 	    echo "<p style='color: red'>
             Your preferences have been updated.
             They will take effect when your computer communicates
