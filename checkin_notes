@@ -6417,6 +6417,7 @@ Bruce 11 May 2005
 
     html/
         inc/
+            forum.inc
             util.inc
             host.inc
         user/
