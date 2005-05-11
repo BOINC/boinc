@@ -450,7 +450,8 @@ function get_int($name, $optional=false) {
 }
 
 function post_int($name, $optional=false) {
-    $x = $_POST[$name];
+    $x = null;
+    if (isset($_POST[$name])) $x = $_POST[$name];
     if (!is_numeric($x)) {
         if ($optional) {
             return null;
