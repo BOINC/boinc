@@ -32,7 +32,7 @@ function BOINC_download_network_platform_downloads($realplatform, $contents) {
         or (($contents[$i]["platform"]=="3" or $contents[$i]["platform"]=="7" or $contents[$i]["platform"]=="6" or $contents[$i]["platform"]=="9") and $realplatform==3)
         or ($contents[$i]["platform"]=="8" and $realplatform==8))
         {
-            if ($contens[$i]["platform"]!=100 and $contents[$i+1]["filename"]!=$contents[$i]["filename"]){
+            if ($contents[$i]["platform"]!=100 and $contents[$i+1]["filename"]!=$contents[$i]["filename"]){
               row3("<a href='http://www.boinc.dk/download.php?file=".$contents[$i]["filename"]."'>".$contents[$i]["name"]."</a>",$contents[$i]["version"],$contents[$i]["short_description"]);
             }
             //echo $contents[$i]["platform"];
