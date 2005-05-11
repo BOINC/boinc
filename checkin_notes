@@ -6413,6 +6413,7 @@ Bruce 11 May 2005
           $x=default_value;
           if (isset($_GET["x"])) $x=$_GET["x"];
       This prevents PHP notice-type error messages.
+    - Typo in download_network.php
 
     html/
         inc/
@@ -6420,4 +6421,5 @@ Bruce 11 May 2005
         user/
             prefs.php
             sample_rss_main.php
+            download_network.php
 
