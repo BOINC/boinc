@@ -684,6 +684,7 @@ function venue_show($user) {
 }
 
 function venue_form($user) {
+    $h=$w=$s="";
     if ($user->venue == "home") $h = "selected";
     if ($user->venue == "work") $w = "selected";
     if ($user->venue == "school") $s = "selected";

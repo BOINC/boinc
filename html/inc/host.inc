@@ -4,6 +4,7 @@ require_once("../inc/credit.inc");
 
 function location_form($host) {
     $none = "selected";
+    $h=$w=$s="";
     if ($host->venue == "home") $h = "selected";
     if ($host->venue == "work") $w = "selected";
     if ($host->venue == "school") $s = "selected";

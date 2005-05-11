@@ -6420,6 +6420,7 @@ Bruce 11 May 2005
         inc/
             forum.inc
             util.inc
+            prefs.inc
             host.inc
         user/
             prefs.php
