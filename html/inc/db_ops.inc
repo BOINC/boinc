@@ -164,7 +164,11 @@ class SqlQueryString {
     var $urlquery;
 
     function SqlQueryString() {
-        $this->table = $_GET['table'];
+        if (isset($_GET['table'])) {
+            $this->table = $_GET['table'];
+        } else {
+            $this->table = "";
+        }
         //$this->query = $_GET['query'];
         $this->query = "";
         $this->urlquery = "";
@@ -478,11 +482,15 @@ function show_result_summary() {
     $_GET['table'] = 'result';
     $_GET['sort_by'] = ''; // ignore sort
 
-    $query_appid = $_GET['appid'];
+    if (isset($_GET['appid'])) {
+        $query_appid = $_GET['appid'];
+    } else {
+        $query_appid = "";
+    }     
     $query_mod_time = 0;
-    if ($_GET['nsecs']) {
+    if (isset($_GET['nsecs'])) {
         //$query_mod_time = time() - $_GET['nsecs'];
-		$query_mod_time = $_GET['nsecs'];
+        $query_mod_time = $_GET['nsecs'];
     }
     if (isset($_GET['workunitid'])) {
         $query_wuid = $_GET['workunitid'];
