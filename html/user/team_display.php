@@ -2,8 +2,12 @@
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 
-$sort_by = $_GET["sort_by"];
-if (!$sort_by) $sort_by = "expavg_credit";
+if (isset($_GET["sort_by"])) {
+    $sort_by = $_GET["sort_by"];
+} else {
+    $sort_by = "expavg_credit";
+}
+
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
 $teamid = get_int("teamid");
