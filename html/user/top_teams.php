@@ -14,6 +14,10 @@ $type = get_int("type", true);
 if ($type < 1 || $type > 7) {
     $type = null;
 }
+$type_url="";
+$type_sql="";
+$type_name="";
+
 if ($type) {
     $type_url = "&type=$type";
     $type_sql = "where type=$type";
