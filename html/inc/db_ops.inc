@@ -186,14 +186,22 @@ class SqlQueryString {
         }
     }
     function addeq($name) {
-        $value = $_GET[$name];
+        if (isset($_GET[$name])) {
+            $value = $_GET[$name];
+        } else {
+            $value = "";
+        }
         if (strlen($value)) {
             $this->add("$name = '$value'");
             $this->urlquery .= "&$name=".urlencode($value);
         }
     }
     function addeq_not_CHOOSE_ALL($name) {
-        $value = $_GET[$name];
+        if (isset($_GET[$name])) {
+            $value = $_GET[$name];
+        } else {
+            $value = "";
+        }
         // On the selection menu, the ALL selection criteria sets (for example)
         // outcome=='CHOOSE_ALL' rather than a numeric value.  This means that
         // we enter no condition for this case.
@@ -203,15 +211,27 @@ class SqlQueryString {
         }
     }
     function addgt($name) {
-        $value = $_GET[$name];
+        if (isset($_GET[$name])) {
+            $value = $_GET[$name];
+        } else {
+            $value = '';
+        }
         if (strlen($value) && $value > 0) {
             $this->add("$name > '$value'");
             $this->urlquery .= "&$name=".urlencode($value);
         }
     }
     function addsort($name, $order) {
-        $value = $_GET[$name];
-        $order = $_GET[$order];
+        if (isset($_GET[$name])) {
+            $value = $_GET[$name];
+        } else {
+            $value=null;
+        }
+        if (isset($_GET[$order])) {
+             $order = $_GET[$order];
+        } else {
+             $order = null;
+        }
         if (strlen($value)) {
             if ($order == 'asc') {
                 $this->query .= " order by $value asc";
@@ -258,7 +278,7 @@ class SqlQueryString {
         $this->addeq('userid');
         $this->addeq('teamid');
         $this->addeq('exit_status');
-        if ($_GET['nsecs']) {
+        if (isset($_GET['nsecs'])) {
             $_GET['mod_time'] = date("YmdHis",time() - $_GET['nsecs']);
         }
         $this->addgt('mod_time');
@@ -266,7 +286,11 @@ class SqlQueryString {
         $this->addeq_not_CHOOSE_ALL('outcome');
         $this->addeq_not_CHOOSE_ALL('client_state');
         $this->addeq_not_CHOOSE_ALL('validate_state');
-        $clauses = $_GET['clauses'];
+        if (isset($_GET['clauses'])) {
+            $clauses = $_GET['clauses'];
+        } else {
+            $clauses = null;
+        }
         if ($clauses) {
             $this->addclause($clauses);
         }
@@ -460,8 +484,11 @@ function show_result_summary() {
         //$query_mod_time = time() - $_GET['nsecs'];
 		$query_mod_time = $_GET['nsecs'];
     }
-    $query_wuid = $_GET['workunitid'];
-
+    if (isset($_GET['workunitid'])) {
+        $query_wuid = $_GET['workunitid'];
+    } else {
+        $query_wuid = null;
+    }
     $q = new SqlQueryString();
     $q->process_form_items();
 
