@@ -82,7 +82,8 @@ public:
         DEBUG_MEASUREMENT, // host measurement notices
         DEBUG_POLL,        // show what polls are responding
         DEBUG_GUIRPC,
-        DEBUG_SCHED_CPU
+        DEBUG_SCHED_CPU,
+        DEBUG_SCRSAVE
     };
     CLIENT_MSG_LOG(): MSG_LOG(stdout) {}
 };

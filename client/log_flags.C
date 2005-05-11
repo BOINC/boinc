@@ -59,6 +59,7 @@ LOG_FLAGS::LOG_FLAGS() {
     measurement_debug = false;
     guirpc_debug = false;
     sched_cpu_debug = false;
+    scrsave_debug = false;
     dont_check_file_sizes = false;
 }
 
@@ -115,6 +116,9 @@ int LOG_FLAGS::parse(FILE* in) {
             continue;
         } else if (match_tag(buf, "<sched_cpu_debug/>")) {
             sched_cpu_debug = true;
+            continue;
+        } else if (match_tag(buf, "<scrsave_debug/>")) {
+            scrsave_debug = true;
             continue;
         } else if (match_tag(buf, "<dont_check_file_sizes/>")) {
             dont_check_file_sizes = true;

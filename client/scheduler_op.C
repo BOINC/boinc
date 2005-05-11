@@ -81,7 +81,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 // to fill in PROJECT::work_request
 //
 int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
-    int retval;
+    int retval = 0;
     char err_msg[256];
     double ns;
 
@@ -97,10 +97,11 @@ int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
             return retval;
         }
     } else {
-        check_master_fetch_start();
+        bool ret = check_master_fetch_start();
+        retval = ret ? 1 : 0;
     }
 
-    return 0;
+    return retval;
 }
 
 // report results for a particular project.

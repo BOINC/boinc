@@ -6393,7 +6393,14 @@ Janus  10 May 2005
 
 Rom    10 May 2005
     - work fetch and CPU scheduling fixes (from John McLeod)
+    - Convert screen saver debug messages to scoped messages so that everyone
+        can see them by adding a flag to log_flags.xml
 
     client/
+        app_graphics.C
+        client_msgs.C, .h
         client_state.C
         cs_scheduler.C
+        log_flags.C, .h
+        scheduler_op.C
+        ss_logic.C

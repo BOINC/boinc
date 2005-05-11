@@ -25,8 +25,6 @@
 #include "client_msgs.h"
 #include "ss_logic.h"
 
-//#define SS_DEBUG
-
 SS_LOGIC::SS_LOGIC() {
     do_ss = false;
     blank_time = 0;
@@ -35,12 +33,12 @@ SS_LOGIC::SS_LOGIC() {
 }
 
 void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
+
     atp->request_graphics_mode(m);
     atp->is_ss_app = true;
     ack_deadline = time(0) + 5;
-#ifdef SS_DEBUG
-    msg_printf(0, MSG_INFO, "starting %s\n", atp->result->name);
-#endif
+    scope_messages.printf("SS_LOGIC::ask_app(): starting %s\n", atp->result->name);
 }
 
 // called in response to a set_screensaver_mode RPC with <enabled>.
@@ -72,13 +70,13 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
 // Stop providing screensaver graphics
 //
 void SS_LOGIC::stop_ss() {
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
+
     if (!do_ss) return;
     reset();
     do_ss = false;
     ss_status = SS_STATUS_QUIT;
-#ifdef SS_DEBUG
-    msg_printf(0, MSG_INFO, "stop_ss\n");
-#endif
+    scope_messages.printf("SS_LOGIC::stop_ss(): stopping screen saver\n");
     gstate.active_tasks.restore_apps();
 }
 
@@ -87,13 +85,12 @@ void SS_LOGIC::stop_ss() {
 //
 void SS_LOGIC::reset() {
     GRAPHICS_MSG m;
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     m.mode = MODE_HIDE_GRAPHICS;
     ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
     if (atp) {
-#ifdef SS_DEBUG
-        msg_printf(0, MSG_INFO, "reset: %s\n", atp->result->name);
-#endif
+        scope_messages.printf("SS_LOGIC::reset(): resetting %s\n", atp->result->name);
         atp->request_graphics_mode(m);
         atp->is_ss_app = false;
     }
@@ -105,6 +102,7 @@ void SS_LOGIC::poll(double now) {
     ACTIVE_TASK* atp;
     GRAPHICS_MSG m;
     static double last_time=0;
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     double dt = now - last_time;
     if (dt < 1) return;
@@ -130,9 +128,7 @@ void SS_LOGIC::poll(double now) {
     //
     if (blank_time && (time(0) > blank_time)) {
         if (SS_STATUS_BLANKED != ss_status) {
-#ifdef SS_DEBUG
-            msg_printf(0, MSG_INFO, "poll: going to black");
-#endif
+            scope_messages.printf("SS_LOGIC::poll(): going to black");
             reset();
             ss_status = SS_STATUS_BLANKED;
         }
@@ -142,16 +138,12 @@ void SS_LOGIC::poll(double now) {
             bool stop_app_ss = false;
             if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
                 if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
-#ifdef SS_DEBUG
-                    msg_printf(0, MSG_INFO, "poll: app %s not scheduled", atp->result->name);
-#endif
+                    scope_messages.printf("SS_LOGIC::poll(): app %s not scheduled", atp->result->name);
                     stop_app_ss = true;
                 }
             } else {
                 if (time(0) > ack_deadline) {
-#ifdef SS_DEBUG
-                    msg_printf(0, MSG_INFO, "poll: app %s not respond", atp->result->name);
-#endif
+                    scope_messages.printf("SS_LOGIC::poll(): app %s not respond", atp->result->name);
                     stop_app_ss = true;
                 }
             }
@@ -170,14 +162,10 @@ void SS_LOGIC::poll(double now) {
         //
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
-#ifdef SS_DEBUG
-            msg_printf(0, MSG_INFO, "poll: picked %s, request restart", atp->result->name);
-#endif
+            scope_messages.printf("SS_LOGIC::poll(): picked %s, request restart", atp->result->name);
             ask_app(atp, saved_graphics_msg);
         } else {
-#ifdef SS_DEBUG
-            msg_printf(0, MSG_INFO, "poll: no app found");
-#endif
+            scope_messages.printf("SS_LOGIC::poll(): no app found");
             if (gstate.active_tasks.active_tasks.size()==0) {
                 if (gstate.projects.size()>0) {
                     ss_status = SS_STATUS_NOAPPSEXECUTING;

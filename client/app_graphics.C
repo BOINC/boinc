@@ -66,13 +66,15 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 void ACTIVE_TASK::check_graphics_mode_ack() {
     GRAPHICS_MSG gm;
     char buf[MSG_CHANNEL_SIZE];
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         app_client_shm.decode_graphics_msg(buf, gm);
-#ifdef SS_DEBUG
-        msg_printf(0, MSG_INFO, "got graphics ack %s for %s\n", buf, result->name);
-#endif
+        scope_messages.printf(
+            "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s\n",
+            buf, result->name
+        );
         if (gm.mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = gm.mode;
         }

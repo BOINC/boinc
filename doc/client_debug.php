@@ -65,6 +65,8 @@ The flags are as follows:
 <dd> Log debugging information about the GUI RPC interface. 
 <dt> &lt;sched_cpu_debug/&gt; 
 <dd> Log debugging information about the CPU scheduler. 
+<dt> &lt;scrsave_debug/&gt; 
+<dd> Log debugging information about the screen saver. 
 </dl>
 ";
 page_tail();

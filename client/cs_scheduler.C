@@ -571,8 +571,7 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                 }
                 work_need_inform_time = now + 60.0 * 60.0;
             }
-            scheduler_op->init_get_work(false, urgency);
-            action = true;
+            action = scheduler_op->init_get_work(false, urgency) ? true : false;
         }
         if (!action) {
             if ((p=next_project_master_pending())) {
@@ -922,14 +921,13 @@ bool CLIENT_STATE::should_get_work() {
 //
 bool CLIENT_STATE::no_work_for_a_cpu() {
     unsigned int i = 0;
-    int  count = 0;
+    int count = 0;
     for (i = 0; i < results.size(); i++){
         RESULT* rp = results[i];
         if (rp->project->non_cpu_intensive ) continue;
         if (RESULT_COMPUTE_ERROR <= rp->state) continue;
         if (rp->suspended_via_gui) continue;
         if (rp->project->suspended_via_gui) continue;
-
         count++;
     }
     return ncpus > count;
