@@ -68,7 +68,7 @@ function get_user_from_id($id) {
 function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = init_session();
     if (!$authenticator) {
-        $authenticator = $_COOKIE['auth'];
+        if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
     }
     $authenticator = process_user_text($authenticator);
     $user = get_user_from_auth($authenticator);
@@ -352,8 +352,8 @@ function parse_bool($xml, $tag) {
 // Call this if for dynamic pages
 //
 function no_cache() {
-    header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");    // Date in the past
-    header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
+    header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
+    header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
     header ("Cache-Control: no-cache, must-revalidate");  // HTTP/1.1
     header ("Pragma: no-cache");                          // HTTP/1.0
 }
