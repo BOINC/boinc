@@ -416,7 +416,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                 xml_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;
-            if (MODE_QUIT == current_graphics_mode) {
+            if (MODE_QUIT == acked_graphics_mode) {
                 current_graphics_mode = MODE_HIDE_GRAPHICS;
             }
         }
