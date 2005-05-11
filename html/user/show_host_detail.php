@@ -7,7 +7,8 @@ require_once("../inc/host.inc");
 
 db_init();
 $hostid = get_int("hostid");
-$ipprivate = $_GET["ipprivate"];
+$ipprivate=null;
+if (isset($_GET["ipprivate"])) $ipprivate = $_GET["ipprivate"];
 $host = lookup_host($hostid);
 if (!$host) {
     echo "Couldn't find computer";
