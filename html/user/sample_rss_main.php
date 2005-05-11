@@ -14,16 +14,14 @@ header ("Content-Type: text/xml");
 // Get or set display options
 // - from 1 to 9 News could be set by option news, default is up to 9
 //
-$news = $_GET["news"];
-if (!$news) { 
+$news = "9";
+if (isset($_GET["news"])) $news=$_GET["news"];
+
+if($news < "1" or $news > "9") {
     $news = "9";
-} else {
-    if($news < "1" or $news > "9") {
-        $news = "9";
-    }
 }
 
-// inclue project constants and news file
+// include project constants and news file
 //
 require_once("../project/project.inc");
 require_once("../project/project_news.inc");

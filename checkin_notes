@@ -6379,6 +6379,8 @@ Bruce 10 May 2005
       This makes it a bit more convenient to reference a particular message (rather
       than the entire thread) in an email or another thread.  Janus, Rob, I hope this
       is OK with you.  Feel free to revert if you don't like it.
+    - Forums: added credit and recent average credit to the brief description
+      of users.
 
     html/
         inc/
@@ -6404,3 +6406,18 @@ Rom    10 May 2005
         log_flags.C, .h
         scheduler_op.C
         ss_logic.C
+
+Bruce 11 May 2005
+    - Eliminate some annoying 'undefined index' errors in PHP log. Note
+      that in general the right way to use _GET[] is like this:
+          $x=default_value;
+          if (isset($_GET["x"])) $x=$_GET["x"];
+      This prevents PHP notice-type error messages.
+
+    html/
+        inc/
+            host.inc
+        user/
+            prefs.php
+            sample_rss_main.php
+

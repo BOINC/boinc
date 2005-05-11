@@ -93,7 +93,7 @@ function show_host($host, $private, $ipprivate) {
     $x = $host->avg_turnaround/86400;
     row2("Average turnaround time", round($x, 2)." days");
     $mrd= $host->max_results_day;
-    row2("Maximum daily WU quota", $mrd."/day");
+    row2("Maximum daily WU quota per CPU", $mrd."/day");
     $config = get_config();
     if (parse_bool($config, "show_results")) {
         $nresults = host_nresults($host);

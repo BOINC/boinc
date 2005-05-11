@@ -1,7 +1,7 @@
 <?php
     require_once("../inc/db.inc");
     require_once("../inc/util.inc");
-if ($_GET["cols"]) {
+if (isset($_GET["cols"])) {
     require_once("../inc/prefs_col.inc");
 } else {
     require_once("../inc/prefs.inc");
