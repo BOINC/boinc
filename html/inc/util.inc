@@ -437,7 +437,8 @@ function html_info() {
 }
 
 function get_int($name, $optional=false) {
-    $x = $_GET[$name];
+    $x=null;
+    if (isset($_GET[$name])) $x = $_GET[$name];
     if (!is_numeric($x)) {
         if ($optional) {
             return null;
@@ -462,7 +463,7 @@ function post_int($name, $optional=false) {
 
 function get_str($name, $optional=false) {
     $x = $_GET[$name];
-    if (!$x && !optional) {
+    if (!$x && !$optional) {
         error_page("missing or bad parameter: $name");
     }
     return $x;
