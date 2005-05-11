@@ -214,6 +214,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     // by displaying the  user id of the poster.
     // its cheap, easy, and doesn't require any additional database calls.
     echo "ID: $user->id<br>";
+    printf("Credit: %.0f<br>", $user->total_credit);
+    printf("RAC: %.1f<br>", $user->expavg_credit);
 
     echo "</font></div></td>\n\t\t<td>
     ";
