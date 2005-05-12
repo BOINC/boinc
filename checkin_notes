@@ -6486,3 +6486,10 @@ David  12 May 2005
             team_edit_action.php
     sched/
         db_dump.C
+
+David  12 May 2005
+    - core client: dir_scan() shouldn't skip over all entries
+        starting with ".".  It should only skip over "." and "..".
+
+    lib/
+        filesys.C

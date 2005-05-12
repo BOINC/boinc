@@ -118,7 +118,8 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
     while (1) {
         dirent* dp = readdir(dirp);
         if (dp) {
-            if (dp->d_name[0] == '.') continue;
+            if (!strcmp(dp->d_name, ".")) continue;
+            if (!strcmp(dp->d_name, "..")) continue;
             if (p) safe_strncpy(p, dp->d_name, p_len);
             return 0;
         } else {
@@ -135,13 +136,17 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             if (dirp->handle == INVALID_HANDLE_VALUE) {
                 return ERR_READDIR;
             } else {
-                if (data.cFileName[0] == '.') continue;
+                // does Windows have "." and ".."?  well, just in case.
+                //
+                if (!strcmp(data.cFileName, ".")) continue;
+                if (!strcmp(data.cFileName, "..")) continue;
                 if (p) safe_strncpy(p, data.cFileName, p_len);
                 return 0;
             }
         } else {
             if (FindNextFile(dirp->handle, &data)) {
-                if (data.cFileName[0] == '.') continue;
+                if (!strcmp(data.cFileName, ".")) continue;
+                if (!strcmp(data.cFileName, "..")) continue;
                 if (p) safe_strncpy(p, data.cFileName, p_len);
                 return 0;
             } else {
