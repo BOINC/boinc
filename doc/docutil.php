@@ -42,13 +42,12 @@ function copyright() {
 function page_tail() {
     echo "
         <hr size=1>
-        <p align='center'>
+        <center>
         <a href='/'>Return to BOINC main page</a>
-        </p>
+        </center><p>
     ";
     copyright();
     echo "
-        </p>
         </body>
         </html>
     ";

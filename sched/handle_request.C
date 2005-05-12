@@ -190,7 +190,6 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             goto make_new_host;
         }
-        reply.host.rpc_seqno = sreq.rpc_seqno;
     } else {
 
         // here no hostid was given; we'll have to create a new host record
@@ -952,6 +951,7 @@ void process_request(
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "No user ID!\n");
     }
     initial_host = reply.host;
+    reply.host.rpc_seqno = sreq.rpc_seqno;
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,

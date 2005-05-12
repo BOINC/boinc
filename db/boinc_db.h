@@ -192,6 +192,7 @@ struct HOST {
         // this field is set to zero and rpc_seqno is used to
         // store the ID of the new host (kludge, but what the heck)
     int rpc_seqno;          // last seqno received from client
+        // also used as a "forwarding ID" for zombied hosts (see above)
     int rpc_time;           // time of last scheduler RPC
     double total_credit;
     double expavg_credit;   // credit per second, recent average

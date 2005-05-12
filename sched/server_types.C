@@ -71,13 +71,20 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     int retval;
 
     strcpy(authenticator, "");
+    strcpy(platform_name, "");
+    strcpy(cross_project_id, "");
     hostid = 0;
+    core_client_major_version = 0;
+    core_client_minor_version = 0;
+    rpc_seqno = 0;
     work_req_seconds = 0;
     resource_share_fraction = 1.0;
     estimated_delay = 0;
     strcpy(global_prefs_xml, "");
     strcpy(code_sign_key, "");
-    strcpy(cross_project_id, "");
+    anonymous_platform = false;
+    memset(&global_prefs, 0, sizeof(global_prefs));
+    memset(&host, 0, sizeof(host));
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
