@@ -6458,9 +6458,15 @@ David  11 May 2005
 Bruce 12 May 2005
     - forums: allow project admin, project developers and forum moderators to edit
       their own posts at any time (not just within one hour).
+    - scheduler: if host reaches daily result quota and contacts the scheduler, tell
+      it to delay until a random time falling within the first hour of the following
+      day.  Previously the host would be told to delay one hour, which could lead to
+      as many as 24 retries in a one-day period.
 
     html/
         user/
             forum_edit.php
+    sched/
+        sched_send.C
 
 

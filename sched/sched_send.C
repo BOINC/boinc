@@ -972,6 +972,9 @@ int send_work(
         }
         if (reply.wreq.daily_result_quota_exceeded) {
             char helpful[256];
+            struct tm *rpc_time_tm;
+            int delay_time;
+
             sprintf(helpful, "(reached daily quota of %d results)", reply.wreq.daily_result_quota);
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
@@ -980,6 +983,17 @@ int send_work(
                 "Daily result quota exceeded for host %d\n",
                 reply.host.id
             );
+
+            // set delay so host won't return until a random time in
+            // the first hour of 'the next day'.  This is to prevent a
+            // lot of hosts from flooding the scheduler with requests
+            // at the same time of day.
+            rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
+            delay_time  = (23 - rpc_time_tm->tm_hour) * 3600 +
+                          (59 - rpc_time_tm->tm_min) * 60 +
+                          (60 - rpc_time_tm->tm_sec) + 
+                          (int)(3600*(double)rand()/(double)RAND_MAX);
+            reply.set_delay(delay_time);
         }
     }
     return 0;
