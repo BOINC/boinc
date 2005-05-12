@@ -6493,3 +6493,9 @@ David  12 May 2005
 
     lib/
         filesys.C
+
+David  12 May 2005
+    - parse unused ACTIVE_TASK entries to avoid error messages
+
+    client/
+        app.C

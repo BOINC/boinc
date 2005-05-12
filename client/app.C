@@ -379,7 +379,8 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 
 int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
-    int app_version_num=0;
+    int app_version_num=0, n;
+    double x;
     PROJECT* project;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
@@ -440,6 +441,9 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (parse_int(buf, "<active_task_state>", n)) continue;
+        else if (parse_double(buf, "<vm_bytes>", x)) continue;
+        else if (parse_double(buf, "<rss_bytes>", x)) continue;
         else scope_messages.printf("ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return ERR_XML_PARSE;
