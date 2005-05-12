@@ -12,8 +12,11 @@ function show_page_nav($forum) {
 
     if ($forum->threads > $threads_per_page) {
         $totalPages = ceil($forum->threads / $threads_per_page);
-        $curPage = floor($_GET['start'] / $threads_per_page);
-
+        if (isset($_GET['start'])) {
+            $curPage = floor($_GET['start'] / $threads_per_page);
+        } else {
+            $curPage = 0;
+        }
         if ($totalPages == 2) {
             $pages = array(0, 1);
         } else {
