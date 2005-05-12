@@ -201,9 +201,9 @@ version(
 );
 version(
     "Windows",
-    "4.38",
+    "4.39",
     "Development version",
-    "boinc_4.38_windows_intelx86.exe",
+    "boinc_4.39_windows_intelx86.exe",
     "9 May 2005",
     win_new(),
     "<ul>
