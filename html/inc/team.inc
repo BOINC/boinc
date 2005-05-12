@@ -38,9 +38,9 @@ function display_team_page($team, $offset, $sort_by) {
     } else {
         $sort_clause = "expavg_credit desc";
     }
-
+    
     if (strlen($team->name_html)) {
-        page_head("$team->name_html");
+        page_head("$team->name_html", "", "$team->name");
     } else {
         page_head("$team->name");
     }

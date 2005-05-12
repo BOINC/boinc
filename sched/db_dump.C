@@ -282,6 +282,7 @@ void NUMBERED_ZFILE::set_id(int id) {
         last_filenum = filenum;
     }
 }
+
 void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
     string p_vendor, p_model, os_name, os_version;
@@ -299,8 +300,12 @@ void write_host(HOST& host, FILE* f, bool detail) {
         DB_USER user;
         retval = user.lookup_id(host.userid);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "user lookup: %d\n", retval);
-            exit(1);
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "user lookup of user %d for host %d: %d\n",
+                host.userid, host.id, retval
+            );
+            return;
+            //exit(1);
         }
         if (user.show_hosts) {
             fprintf(f,
@@ -426,7 +431,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            boinc_db.print_error("host enum");
+            boinc_db.print_error("host enum: %d", retval);
             exit(retval);
         }
     }
@@ -514,7 +519,9 @@ void write_team(TEAM& team, FILE* f, bool detail) {
             write_user(user, f, false);
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            boinc_db.print_error("user enum");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "user enum: %d", retval
+            );
             exit(retval);
         }
     }
@@ -658,7 +665,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            boinc_db.print_error("user enum");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "user enum: %d", retval
+            );
             exit(retval);
         }
         break;
@@ -680,7 +689,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            boinc_db.print_error("host enum");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "host enum: %d", retval
+            );
             exit(retval);
         }
         break;
@@ -702,7 +713,9 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             }
         }
         if (retval != ERR_DB_NOT_FOUND) {
-            boinc_db.print_error("team enum");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "team enum: %d", retval
+            );
             exit(retval);
         }
         break;

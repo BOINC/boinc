@@ -7,22 +7,32 @@
     db_init();
 
     $user = get_logged_in_user();
-    if (!strlen($_POST["name"])) {
-        page_head("Error");
-        echo "You must specify a name for your team.";
-        exit();
+    
+    $name = process_user_text(strip_tags(post_str("name"))); 
+    if (strlen($name) == 0) {
+    	error_page("Must set team name");
     }
+    $name_lc = strtolower($name);
+    $url = process_user_text(strip_tags(post_str("url", true)));
+    if (strstr($url, "http://")) {
+    	$url = substr($url, 7);
+    }
+    $type = process_user_text(strip_tags(post_str("type", true))); 
+    $name_html = process_user_text(post_str("name_html", true));
+    $description = process_user_text(post_str("description", true));
+    $country = process_user_text(post_str("country", true));
+    
     $query = sprintf(
         "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d)",
         $user->id,
         time(),
-        $_POST["name"],
-        strtolower($_POST["name"]),
-        $_POST["url"],
-        $_POST["type"],
-        $_POST["name_html"],
-        $_POST["description"],
-        $_POST["country"],
+        $name,
+        $name_lc,
+        $url,
+        $type,
+        $name_html,
+        $description,
+        $country,
         0
     );
 
@@ -35,9 +45,7 @@
         user_join_team($new_team, $user);
         Header("Location: team_display.php?teamid=$teamid");
     } else {
-        page_head("Error");
-        echo "Couldn't create team - please try later.<br>\n";
-        echo "You may need to try a different team name.\n";
-        page_tail();
+    	error_page("Could not create team - please try later.  <br>" .
+    			"You may need to try a diffrent team name.");
     }
 ?>

@@ -6439,9 +6439,11 @@ Bruce 11 May 2005
             view_profile.php
 
 Rom    11 May 2005
-    - When adjusting the graphics mode to the application from within the application
-        use the acked_graphics_mode instead of the current_graphics_mode since the current
-        graphics mode is what we would like to be, not necessarily what we are.
+    - When adjusting the graphics mode to the application from within
+        the application use the acked_graphics_mode instead of the
+        current_graphics_mode since the current
+        graphics mode is what we would like to be,
+        not necessarily what we are.
 
     api/
         windows_opengl.C
@@ -6456,12 +6458,13 @@ David  11 May 2005
         server_types.C
 
 Bruce 12 May 2005
-    - forums: allow project admin, project developers and forum moderators to edit
-      their own posts at any time (not just within one hour).
-    - scheduler: if host reaches daily result quota and contacts the scheduler, tell
-      it to delay until a random time falling within the first hour of the following
-      day.  Previously the host would be told to delay one hour, which could lead to
-      as many as 24 retries in a one-day period.
+    - forums: allow project admin, project developers and forum moderators
+        to edit their own posts at any time (not just within one hour).
+    - scheduler: if host reaches daily result quota and contacts the scheduler,
+        tell it to delay until a random time falling within the first hour
+        of the following day.
+        Previously the host would be told to delay one hour,
+        which could lead to as many as 24 retries in a one-day period.
 
     html/
         user/
@@ -6469,4 +6472,17 @@ Bruce 12 May 2005
     sched/
         sched_send.C
 
+David  12 May 2005
+    - db_dump: don't exit if user lookup fails
+    - user web: improve processing of team names (from Rob Ogilvie)
 
+    html/
+        inc/
+            team.inc
+            util.inc
+        user/
+            team_create_action.php
+            team_display.php
+            team_edit_action.php
+    sched/
+        db_dump.C

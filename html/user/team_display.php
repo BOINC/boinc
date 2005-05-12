@@ -13,10 +13,7 @@ if (!$offset) $offset=0;
 $teamid = get_int("teamid");
 
 if ($offset > 1000) {
-    page_head("Limit exceeded");
-    echo "Sorry, we're currently showing only the first 1000 members.";
-    page_tail();
-    exit();
+	error_page("Limit exceeded:  Only displaying the first 1000 members.");
 }
 
 $cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
