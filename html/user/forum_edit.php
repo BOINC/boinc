@@ -7,6 +7,16 @@ db_init();
 
 $logged_in_user = get_logged_in_user();
 
+// decorate object with forum preference info (uses DB)
+// needed to see if user is 'special'.
+$logged_in_user = getForumPreferences($logged_in_user);
+
+// if user is a project admin or project developer or forum admin,
+// allow them to edit their own posts indefinitely.
+$is_spec = isSpecialUser($logged_in_user,0) ||
+           isSpecialUser($logged_in_user,1) ||
+           isSpecialUser($logged_in_user,2);
+
 $postid = get_int("id");
 $post = getPost($postid);
 if (!$post) {
@@ -16,7 +26,7 @@ if (!$post) {
 if ($_POST['submit']) {    
     $thread = getThread($post->thread);
 
-    if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
+    if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
 	echo "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
 	exit();
     }
@@ -41,7 +51,7 @@ page_head('Forum');
 $thread = getThread($post->thread);
 $forum = getForum($thread->forum);
 $category = getCategory($forum->category);
-if (time() > $post->timestamp + MAXIMUM_EDIT_TIME){
+if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
 	echo "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
 	exit();
 }

@@ -6454,3 +6454,13 @@ David  11 May 2005
     sched/
         handle_request.C
         server_types.C
+
+Bruce 12 May 2005
+    - forums: allow project admin, project developers and forum moderators to edit
+      their own posts at any time (not just within one hour).
+
+    html/
+        user/
+            forum_edit.php
+
+
