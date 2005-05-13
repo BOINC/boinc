@@ -223,27 +223,10 @@ function getForumPreferences($user){
     if (mysql_num_rows($result)>0) {
         $prefs=mysql_fetch_object($result);
 
-        //TODO - find out how to simply merge two objects instead of specifying all the fields manually here
-        $user->avatar=$prefs->avatar;
-        $user->hide_avatars=$prefs->hide_avatars;
-        $user->sorting=$prefs->sorting;
-        $user->images_as_links=$prefs->images_as_links;
-        $user->signature=$prefs->signature;
-        $user->posts=$prefs->posts;
-        $user->avatar_type=$prefs->avatar_type;
-        $user->no_signature_by_default=$prefs->no_signature_by_default;
-        $user->link_popup=$prefs->link_popup;
-        $user->mark_as_read_timestamp=$prefs->mark_as_read_timestamp;
-        $user->special_user=$prefs->special_user;
-        $user->jump_to_unread=$prefs->jump_to_unread;
-        $user->hide_signatures=$prefs->hide_signatures;
-        $user->rated_posts=$prefs->rated_posts;
-        $user->low_rating_threshold=$prefs->low_rating_threshold;
-        $user->high_rating_threshold=$prefs->high_rating_threshold;
-        $user->ignorelist=$prefs->ignorelist;
-        $user->last_post=$prefs->last_post;
-        $user->ignore_sticky_posts=$prefs->ignore_sticky_posts;
-        $user->forum_preferences=1;
+	// Combine the $user and $prefs objects
+        $data = array_merge((array)$user, (array)$prefs); 
+        $user = (object)$data;
+	$user->forum_preferences = 1;
 
         //Set defaults in certain cases:
         if ($user->low_rating_threshold==0 and $user->high_rating_threshold==0){
