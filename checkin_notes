@@ -6524,3 +6524,54 @@ Charlie    13 may 2005
         main.C
     mac_build/
         HowToBuildBOINC_XCode.rtf
+
+Janus  13 May 2005
+    - Really make optional fields (postal code and url) optional
+         For those who rewrite stuff to using get_str etc please remember to
+         consider if the variable is optional (add true to get_str) or not.
+    - Added support for css class names in start_forum_table:
+         Use array(array("Header 1", "style_name_1"), "Header 2", array("Header 3", "style_name_2"))
+         It defaults to the old "heading" style.
+    - Checking in patch from Rob Oglivie:
+         - Figured out how to simply merge two objects together in
+           db_forum.inc's forum preferences function
+         - Moved forum-related text transforming functions in to
+           text_transform.inc - these can certainly be used elsewhere
+         - Defined a text transforming options class where default options 
+           are set
+         - Created a new output_transform() function that takes text and options
+           and outputs text transformed as such.
+         - Implemented said function in show_post and show_post2, as well as in
+           the signature preview on edit_forum_preferences_form.php
+         - Various wrappers and modifiers to clean up forum-related table
+           display when people use long nonbreaking words for thread subjects or
+           their usernames.  These fixes all work in Firefox.  IE, Opera, and KTHML
+           users will get most of the benefits, but not all of them.
+         - Wrote a page explaining how to use bbcode tags and linked to it
+           instead of the allowed HTML tags section
+         - After editing forum preferences, people are now taken back to the
+           forum preferences page again - so they can see how it looks
+         - Quoting text on the forums now uses bbcode instead of HTML
+         - Added a signature delimiter
+    - Renamed get_settings_from_user to get_transform_settings_from_user
+    - Made compile_languages optional in the translator (wow how did anything work
+          without this in earlier versions?)
+
+    html/
+        inc/
+            db_forum.inc
+            forum.inc
+            forum_show.inc
+            translation.inc
+            util.inc
+            text_transform.inc (new)
+        user/
+            edit_forum_preferences_form.php
+            edit_forum_preferences_action.php
+            edit_user_info_action.php
+            forum_edit.php
+            forum_reply.php
+            forum_thread.php
+            white.css
+            bbcode.php (new)
+
