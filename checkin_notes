@@ -6583,3 +6583,12 @@ Rom    13 May 2005
 
     api/
         windows_opengl.C
+
+Rom    13 May 2005
+    - Cause the screensaver process to exit when a power broadcast event is fired.
+        It was already shutting down the screensaver when the APMSUSPEND event was fired
+        but now we shutdown during the system query phase which happens before the
+        system actually decides to shutdown
+
+    client/win/
+        win_screensaver.cpp

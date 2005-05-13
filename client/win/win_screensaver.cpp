@@ -1394,7 +1394,7 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_POWERBROADCAST:
-            if (wParam == PBT_APMSUSPEND && m_VerifySaverPassword == NULL)
+            if (wParam == PBT_APMQUERYSUSPEND && m_VerifySaverPassword == NULL)
                 InterruptSaver();
             break;
     }
