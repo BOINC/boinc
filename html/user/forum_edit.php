@@ -6,7 +6,6 @@ require_once('../inc/util.inc');
 db_init();
 
 $logged_in_user = get_logged_in_user();
-$logged_in_user = getForumPreferences($logged_in_user);
 
 // decorate object with forum preference info (uses DB)
 // needed to see if user is 'special'.
