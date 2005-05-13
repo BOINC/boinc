@@ -33,6 +33,7 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #else
 #include "config.h"
 #ifdef HAVE_SYS_SOCKET_H
+#include <sys/types.h>
 #include <sys/socket.h>
 #endif
 #include <unistd.h>

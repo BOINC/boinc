@@ -6518,7 +6518,9 @@ Rom    12 May 2005
         win_screensaver.cpp
         
 Charlie    13 may 2005
-	Mac: Update build instructions.
-
+	Mac: Update build instructions. 
+        Fix compile error.
+    client/
+        main.C
     mac_build/
         HowToBuildBOINC_XCode.rtf
