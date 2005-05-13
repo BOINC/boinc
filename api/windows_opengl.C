@@ -313,9 +313,17 @@ LRESULT CALLBACK WndProc(
         if (boinc_is_standalone()) {
             exit(0);
         } else {
-		    set_mode(MODE_HIDE_GRAPHICS);
-		    return 0;
+            if (current_graphics_mode != MODE_FULLSCREEN) {
+                set_mode(MODE_HIDE_GRAPHICS);
+            }
         }
+        return 0;
+    case WM_POWERBROADCAST:
+        if (PBT_APMQUERYSUSPEND == wParam && current_graphics_mode == MODE_FULLSCREEN) {
+            set_mode(MODE_HIDE_GRAPHICS);
+            return TRUE;
+        }
+        break;
 	case WM_PAINT:
 		PAINTSTRUCT ps;
 		RECT winRect;

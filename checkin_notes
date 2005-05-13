@@ -6575,3 +6575,11 @@ Janus  13 May 2005
             white.css
             bbcode.php (new)
 
+Rom    13 May 2005
+    - When an application is in screensaver mode, do not respond to the WM_CLOSE event
+        since Intellitype/Intellipoint will try to shutdown the screensavers.
+    - When in screensaver mode respond to a power broadcast event by shutting ourselves
+        down so the OS can go to sleep.
+
+    api/
+        windows_opengl.C
