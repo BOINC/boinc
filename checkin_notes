@@ -6516,3 +6516,9 @@ Rom    12 May 2005
         app_graphics.C
     client/win/
         win_screensaver.cpp
+        
+Charlie    13 may 2005
+	Mac: Update build instructions.
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
