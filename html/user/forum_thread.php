@@ -128,13 +128,14 @@ if (($thread->hidden) && (!isSpecialUser($logged_in_user,0))) {
 
     echo "</tr>\n</table>\n</form>\n";
 
+    // Here is where the actual thread begins.
     if ($category->is_helpdesk) {
-        $headings = array("Author", "Question");
+        $headings = array(array("Author","authorcol"), "Question");
     } else {
-        $headings = array("Author", "Message");
+        $headings = array(array("Author","authorcol"), "Message");
     }
 
-    start_forum_table($headings);
+    start_forum_table($headings, "id=\"thread\" width=100%");
     show_posts($thread, $sort_style, $filter, true, true, $category->is_helpdesk);
     end_forum_table();
 
