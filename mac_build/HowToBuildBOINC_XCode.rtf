@@ -29,18 +29,23 @@ You must have installed XCode's optional Cross-Development SDK for system 10.3.0
 (1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:\
 Set the following three environment variables NEXT_ROOT, CPPFLAGS and LDFLAGS.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  These environment variables allow the application to be built using the OS 10.3.0 compatibility SDK.\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 CPPFLAGS="-isystem /Developer/SDKs/MacOSX10.3.0.sdk/usr/include -DMAC_OS_X_VERSION_MAX_ALLOWED=1030";export CPPFLAGS\
+\f2 \cf0 CPPFLAGS="-isystem /Developer/SDKs/MacOSX10.3.0.sdk/usr/include -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib";export CPPFLAGS\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
+\f1 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 LDFLAGS=-L/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib/gcc/darwin/3.3;export LDFLAGS\
+\f2 \cf0 LDFLAGS=-L/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib/gcc/darwin/3.3;export LDFLAGS\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
+\f1 \cf0 \
 Then continue building wxMac-2.6.0:\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 cd [wxpath]\
+\f2 \cf0 cd [wxpath]\
 \
 autoconf\
 \
@@ -49,63 +54,71 @@ mkdir osx-build\
 cd osx-build\
 \
 ./configure --disable-shared --with-opengl\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
-(2) Run Configure to create the correct config.h file for BOINC:\
-\
-Add the path to wx-config to the standard search path:\
-\
-
-\f2 PATH=$PATH:[wxpath]/osx-build;export PATH\
-
-\f1 \
-Then continue configuring BOINC:\
-\
-
-\f2 cd [boincpath]\
-\
-./_autosetup\
-\
-autoconf\
-
-\f1 \
-Note: It appears that you can safely ignore error messages from _autosetup.\
-\
-
-\f2 ./configure --disable-server --with-apple-opengl-framework --oldincludedir=/Developer/SDKs/MacOSX10.3.0.sdk/usr/include --libdir=/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib \
-
-\f1 \
-If you wish to build BOINC from the command line:\
-\
-
-\f2 make\
-
-\f1 \
-\
-\
-(3) Create a  symbolic link [boincpath]/wx_lib pointing to \
+\f1 \cf0 \
+(2) Create a  symbolic link [boincpath]/wx_lib pointing to \
 [wxpath]/osx-build/lib/\
 \
-(4) Create a  symbolic link  [boincpath]/wxinclude pointing to \
+(3) Create a  symbolic link  [boincpath]/wxinclude pointing to \
 [wxpath]/include\
 \
-(5) Create a  symbolic link  [boincpath]/jpeglib pointing to \
+(4) Create a  symbolic link  [boincpath]/jpeglib pointing to \
 your jpeg-6b directory (or whatever directory contains the jpeglib source files).  If you have the seti_boinc source directory which contains jpeglib, you can point the symbolic link there.\
 \
 For example, if the boinc, wxMac-2.6.0 and jpeg-6b directories are all in \
     [wxpath]    then the commands would be:\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 cd [boincpath] \
+\f2 \cf0 cd [boincpath] \
 \
 ln -s [wxpath]/osx-build/lib ./wx_lib\
 \
 ln -s [wxpath]/include ./wxinclude\
 \
 ln -s [jpegpath]/jpeg-6b ./jpeglib\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
+\f1 \cf0 \
+(5) Run Configure to create the correct config.h file for BOINC:\
 \
+Add the path to wx-config to the standard search path:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 PATH=$PATH:[wxpath]/osx-build;export PATH\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 \
+Then continue configuring BOINC:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 cd [boincpath]\
+\
+./_autosetup\
+\
+autoconf\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 \
+Note: It appears that you can safely ignore error messages from _autosetup.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 ./configure --disable-server --with-apple-opengl-framework --oldincludedir=/Developer/SDKs/MacOSX10.3.0.sdk/usr/include --libdir=/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 \
+If you wish to build BOINC from the command line:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 make\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b \cf0 Building the BOINC Manager with embedded Core Client, plus \
@@ -228,8 +241,9 @@ You will now have the following directory structure:\
 \f1\b0 \cf0 \
 (1) Set the following five environment variables NEXT_ROOT, CPPFLAG, LDFLAGS, PROJECTDIR and BOINCDIR.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  The first three environment variables allow the application to be built using the OS 10.3.0 compatibility SDK.\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 NEXT_ROOT=/Developer/SDKs/MacOSX10.3.0.sdk;export NEXT_ROOT\
+\f2 \cf0 NEXT_ROOT=/Developer/SDKs/MacOSX10.3.0.sdk;export NEXT_ROOT\
 \
 CPPFLAGS="-isystem /Developer/SDKs/MacOSX10.3.0.sdk/usr/include -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[boincpath]/seti_boinc/jpeglib -ljpeg";export CPPFLAGS\
 \
@@ -238,23 +252,28 @@ LDFLAGS=-L/Developer/SDKs/MacOSX10.3.0.sdk/usr/lib/gcc/darwin/3.3;export LDFLAGS
 PROJECTDIR=[boincpath]/seti_boinc;export PROJECTDIR\
 \
 BOINCDIR=[boincpath];export BOINCDIR\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
+\f1 \cf0 \
 (2) Run Configure to create the correct config.h file:\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 ./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics\
+\f2 \cf0 ./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
+\f1 \cf0 \
 (3) Copy the correct jpebglib.a into [path]/seti_boinc/jpeg/   ?????\
 \
 (4)Create a  symbolic link [path]/seti_boinc/boinc pointing to the boinc directory\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 cd [boincpath]/seti_boinc \
+\f2 \cf0 cd [boincpath]/seti_boinc \
 ln -s [boincpath] ./boinc\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1 \
+\f1 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b \cf0 Building the BOINC SETI client application
