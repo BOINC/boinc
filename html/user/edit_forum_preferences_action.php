@@ -114,7 +114,7 @@ $result = mysql_query(
 );
 if ($result) {
     echo mysql_error();
-    Header("Location: home.php");
+    Header("Location: edit_forum_preferences_form.php");
 } else {
     page_head("Forum preferences update");
     echo "Couldn't update forum preferences.<br>\n";
