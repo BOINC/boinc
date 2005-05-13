@@ -3,9 +3,9 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once('../inc/db.inc');
 require_once('../inc/db_forum.inc');
-require_once('../inc/sanitize_html.inc');
 require_once('../inc/time.inc');
 require_once('../inc/forum_moderators.inc');
+require_once('../inc/text_transform.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
@@ -180,8 +180,9 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         $rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
     }
 
-    $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
-
+	
+    $can_edit = ($logged_in_user && $user->id == $logged_in_user->id); //Only the creator can edit the post
+    //$can_edit = ((isSpecialUser($logged_in_user,0)) || ($logged_in_user && $user->id == $logged_in_user->id));// Everybody assumes we can edit posts, why not make it so?
     echo "
         <tr class=\"row$n\" valign=\"top\">
         <td>\n\t\t<div class=\"authorcol\">
@@ -278,18 +279,16 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     //If either filtering is turned off of this post is not below the threshold
     if (!$filter || !$rated_below_threshold){
-        $posttext=nl2br(stripslashes($post->content));
-        if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
-            $posttext.=nl2br("\n".stripslashes($user->signature));                                //wants it to be shown for this post AND the logged in
+    	$posttext = $post->content;
+    	if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
+            $posttext.="<hr class=\"sigdelim\">".$user->signature;                                //wants it to be shown for this post AND the logged in
         }                                                                                        //user has signatures enabled: show it
 
-        if ($logged_in_user->images_as_links==1){
-            $posttext=image_as_link($posttext);
-        }
-        if ($logged_in_user->link_popup==1){
-            $posttext=externalize_links($posttext);
-        }
-        echo "<p>", $posttext, "</p>";
+		$options = get_transform_settings_from_user($logged_in_user);
+    	
+		$posttext = output_transform($posttext,$options);
+        
+        echo "<div class=\"cellwrap\"><p>", $posttext, "</p></div>";
         echo "<table width=\"100%\" cellspacing=0 cellpadding=0>
             <tr valign=\"bottom\">
             <td style=\"border:0px;\"><font size=-2><i>ID: ", $post->id;
@@ -323,44 +322,19 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
 // utility functions
 
-function externalize_links($text){
-    $i=0;$linkpos=true;
-    while (true){                                //Find a link
-        $linkpos=strpos($text,"<a ",$i);
-        if ($linkpos===false) break;
-        $out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\" ";        //Replace with target='_new'
-        $i=$linkpos+3;
-    }
-    $out.=substr($text,$i);
-    return $out;
-}
-
-function image_as_link($text){
-/* This function depends on sanitized HTML - always use KSES or equivalent before using this */
-    // Build some regex (should be a *lot* faster)
-    $pattern = '@<img src=([^>]+)>@si'; // Gives us the URL in ${1}...
-    $replacement = '<a href=${1}>[Image Link]</a>'; // Turns that URL into a hyperlink
-    $text = preg_replace($pattern, $replacement, $text);
-    return $text;
-}
-
-function cleanTextBox($content) {
-	/* Cleans the contents of a post for dropping in a text box
-	 * Currently I'm only replacing <'s and >'s with the proper HTML entities
-	 * ...are there others we should handle?  & itself is being escaped somewhere
-	 * else, probably by the slash stuff in the calling function.
-	 */
-	$answer = preg_replace('/&lt;/','&amp;lt;',preg_replace('/&gt;/','&amp;gt;',$content));
-	return $answer;
-}
-
-function start_forum_table($headings) {
-    start_table();
+function start_forum_table($headings, $extra="width=100%") {
+    start_table($extra);
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {
-        $title = $headings[$i];
-        echo "<th class=heading>$title</th>";
+	if (is_array($headings[$i])){
+	    $title = $headings[$i][0];
+	    $class = $headings[$i][1];
+	} else {
+	    $title = $headings[$i];
+	    $class = "heading";
+	}
+        echo "<th class=$class>$title</th>";
     }
     echo "</tr>\n";
 }
@@ -456,13 +430,13 @@ function show_thread($thread, $n) {
 
 // show a post with its context (e.g. for search results)
 //
-function show_post2($post, $n) {
-    $thread = getThread($post->thread);
+function show_post2($post, $n) {	// This is such a lovely function I think I will
+    $thread = getThread($post->thread);	// do away with it sometime soon.
     $forum = getForum($thread->forum);
     $category = getCategory($forum->category);
     $where = $category->is_helpdesk?"Questions and answers":"Message boards";
     $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
-    $content = nl2br(stripslashes($post->content));
+    $content = output_transform($post->content);
     $when = time_diff_str($post->timestamp, time());
     $user = lookup_user_id($post->user);
     $title = cleanup_title($thread->title);
