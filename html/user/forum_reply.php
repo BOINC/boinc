@@ -153,7 +153,7 @@ function show_message_row($thread, $category, $post=NULL) {
 
 function quote_text($text, $cols = 0) {
 	/* $cols is depricated. */
-    $text = "<blockquote>" . $text . "</blockquote>";
+    $text = "[quote]" . $text . "[/quote]";
     return $text;
 }
 ?>

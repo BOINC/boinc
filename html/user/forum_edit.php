@@ -6,6 +6,7 @@ require_once('../inc/util.inc');
 db_init();
 
 $logged_in_user = get_logged_in_user();
+$logged_in_user = getForumPreferences($logged_in_user);
 
 // decorate object with forum preference info (uses DB)
 // needed to see if user is 'special'.
@@ -31,7 +32,8 @@ if ($_POST['submit']) {
 	exit();
     }
     if ($logged_in_user->id != $post->user) {
-        // Can't edit other's posts.
+	//if (!(isSpecialUser($logged_in_user,0)) && ($logged_in_user->id != $post->user)) {
+        // Can't edit other's posts unless you're a moderator
         echo "You are not authorized to edit this post.";
         exit();
     }
@@ -57,7 +59,8 @@ if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
 }
 
 if ($logged_in_user->id != $post->user) {
-    // Can't edit other's posts.
+    //if (!(isSpecialUser($logged_in_user,0)) && ($logged_in_user->id != $post->user)) {
+    // Can't edit other's posts unless you're a moderator
     echo "You are not authorized to edit this post.";
     exit();
 }
