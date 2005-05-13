@@ -1488,7 +1488,13 @@ VOID CScreensaver::ShutdownSaver() {
 	ShutdownBOINC();
 
     // Post message to drop out of message loop
-    PostQuitMessage(0);
+    // This can be called from the data management thread, so specifically
+    // lookup and post to the primary window instead of calling PostQuitMessage
+    // since PostQuitMessage posts to the current threads message pump if it
+    // exists.
+    if (m_Monitors[0].hWnd) {
+        PostMessage(m_Monitors[0].hWnd, WM_QUIT, 0, 0);
+    }
 }
 
 

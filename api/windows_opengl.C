@@ -228,7 +228,7 @@ static void set_mode(int mode) {
     }
    
     current_graphics_mode = new_mode;
-    if (new_mode != MODE_HIDE_GRAPHICS && new_mode != MODE_QUIT && new_mode != MODE_UNSUPPORTED) {
+    if (new_mode != MODE_HIDE_GRAPHICS && new_mode != MODE_UNSUPPORTED) {
         make_new_window();
     }
 
@@ -261,14 +261,14 @@ LRESULT CALLBACK WndProc(
             ctrl_key_pressed=true;
         }
         if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
-               set_mode(MODE_QUIT);
+               set_mode(MODE_HIDE_GRAPHICS);
         } else {           
             boinc_app_key_press((int)wParam, (int)lParam);
         }
         return 0;
 	case WM_KEYUP:
        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
-			set_mode(MODE_QUIT);
+			set_mode(MODE_HIDE_GRAPHICS);
         } else {
             boinc_app_key_release((int)wParam, (int)lParam);           
         }
@@ -283,7 +283,7 @@ LRESULT CALLBACK WndProc(
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
         if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
-            set_mode(MODE_QUIT);
+            set_mode(MODE_HIDE_GRAPHICS);
 		} else  {
             int which;
             bool down;
@@ -298,7 +298,7 @@ LRESULT CALLBACK WndProc(
 		GetCursorPos(&cPos);
         if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed ) { 
             if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-    			set_mode(MODE_QUIT);
+    			set_mode(MODE_HIDE_GRAPHICS);
 			}
 		} else {
 			boinc_app_mouse_move(
@@ -416,9 +416,6 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                 xml_graphics_modes[current_graphics_mode]
             );
             if (sent) acked_graphics_mode = current_graphics_mode;
-            if (MODE_QUIT == acked_graphics_mode) {
-                current_graphics_mode = MODE_HIDE_GRAPHICS;
-            }
         }
     }
     if (!visible) return;

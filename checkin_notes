@@ -6499,3 +6499,20 @@ David  12 May 2005
 
     client/
         app.C
+
+Rom    12 May 2005
+    - Bug Fix: ShutdownSaver() can be called from the data management thread
+        in the scrrensaver, so specifically look up the primary window and
+        post a quit message there instead of the default window proc of the
+        thread, which in our case doesn't exist.
+    - Bug Fix: Remove MODE_QUIT from the CC logic and use MODE_HIDE_GRAPHICS
+        with is_ss_app to stop the screensaver.  Some projects were not giving
+        us the MODE_QUIT message and so the screensaver wouldn't shutdown in
+        a timely manor.
+
+    api/
+        windows_opengl.C
+    client/
+        app_graphics.C
+    client/win/
+        win_screensaver.cpp
