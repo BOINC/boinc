@@ -138,6 +138,11 @@ img {
 	overflow: hidden;
 }
 
+.cellwrap{
+	width: 100%;
+	overflow: auto;
+}
+
 blockquote {
 	border-left: 2px solid blue;
 	padding-left: 5px;
@@ -145,4 +150,18 @@ blockquote {
 	margin-bottom: 0px;
 	margin-left: 10px;
 	font-style: italic;
+}
+
+#thread table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.sigdelim {
+	width: 60%;
+	height: 1px;
+	background-color: black;
+	color: black;
+	border: 0;
+	margin-right: 100%;
 }
