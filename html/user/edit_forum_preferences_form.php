@@ -132,7 +132,7 @@ row2("Signature for message boards".html_info().
 if ($user->signature!=""){
 row2("Signature preview".
     "<br><font size=-2>This is how your signature will look in the forums</font>",
-    nl2br(sanitize_html(stripslashes($user->signature)))
+    output_transform($user->signature)
 );
 }
 row2("", "<input type=submit value='Update info'>");
