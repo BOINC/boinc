@@ -344,7 +344,7 @@ function language_log($message, $loglevel=0){
 
 
 
-if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || get_str("compile_languages")){
+if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || get_str("compile_languages",true)){
     buildLanguages($lang_language_dir,$lang_translations_dir,$lang_prj_translations_dir, $lang_compiled_dir);
 }
 
