@@ -440,7 +440,7 @@ function close_output_buffer($filename) {
 }
 
 function html_info() {
-    return "<br><a href=html.php><font size=-2>You may use HTML tags</font></a>\n";
+    return "<br><a href=\"bbcode.php\" target=\"_new\"><font size=-2>You may use BBCode tags</font></a>\n";
 }
 
 function get_int($name, $optional=false) {
