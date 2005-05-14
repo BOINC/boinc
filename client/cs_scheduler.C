@@ -569,18 +569,15 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                         "Insufficient work; requesting more"
                     );
                 }
-                work_need_inform_time = now + 60.0 * 60.0;
+                work_need_inform_time = now + 3600;
             }
-            action = scheduler_op->init_get_work(false, urgency) ? true : false;
-        }
-        if (!action) {
-            if ((p=next_project_master_pending())) {
-                scheduler_op->init_get_work(true, urgency);
-                action = true;
-            } else if ((p=next_project_sched_rpc_pending())) {
-                scheduler_op->init_return_results(p);
-                action = true;
-            }
+            scheduler_op->init_get_work(false, urgency);
+        } else if (p=next_project_master_pending()) {
+            scheduler_op->init_get_work(true, urgency);
+            action = true;
+        } else if (p=next_project_sched_rpc_pending()) {
+            scheduler_op->init_return_results(p);
+            action = true;
         }
         break;
     default:

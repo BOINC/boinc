@@ -34,6 +34,50 @@
 #include "error_numbers.h"
 #include "network.h"
 
+char* socket_error_str() {
+    static char buf[80];
+#ifdef _WIN32
+    int e = WSAGetLastError();
+    switch (e) {
+    case WSANOTINITIALISED:
+        return "WSA not initialized";
+    case WSAENETDOWN:
+        return "the network subsystem has failed";
+    case WSAHOST_NOT_FOUND:
+        return "host name not found";
+    case WSATRY_AGAIN:
+        return "no response from server";
+    case WSANO_RECOVERY:
+        return "a nonrecoverable error occurred";
+    case WSANO_DATA:
+        return "valid name, no data record of requested type";
+    case WSAEINPROGRESS:
+        return "a blocking socket call in progress";
+    case WSAEFAULT:
+        return "invalid part of user address space";
+    case WSAEINTR:
+        return "a blocking socket call was canceled";
+    case WSAENOTSOCK:
+        return "not a socket";
+    }
+    sprintf(buf, "error %d", e);
+    return buf;
+#else
+    switch (h_errno) {
+    case HOST_NOT_FOUND:
+        return "host not found";
+    case NO_DATA:
+        return "valid name, no data record of requested type";
+    case NO_RECOVERY:
+        return "a nonrecoverable error occurred";
+    case TRY_AGAIN:
+        return "host not found or server failure";
+    }
+    sprintf(buf, "error %d", h_errno);
+    return buf;
+#endif
+}
+
 int resolve_hostname(char* hostname, int &ip_addr, char* msg) {
 
     // if the hostname is in Internet Standard dotted notation, 
@@ -49,58 +93,9 @@ int resolve_hostname(char* hostname, int &ip_addr, char* msg) {
     hostent* hep;
     hep = gethostbyname(hostname);
     if (!hep) {
-        int n;
-
-        n = sprintf(msg, "Can't resolve hostname [%s] ", hostname);
+        sprintf(msg, "Can't resolve hostname [%s] %s", hostname, socket_error_str());
 #ifdef WIN32
-
-        switch (WSAGetLastError()) {
-        case WSANOTINITIALISED:
-            break;
-        case WSAENETDOWN:
-            sprintf(msg+n, "(the network subsystem has failed)");
-            break;
-        case WSAHOST_NOT_FOUND:
-            sprintf(msg+n, "(host name not found)");
-            break;
-        case WSATRY_AGAIN:
-            sprintf(msg+n, "(no response from server)");
-            break;
-        case WSANO_RECOVERY:
-            sprintf(msg+n, "(a nonrecoverable error occurred)");
-            break;
-        case WSANO_DATA:
-            sprintf(msg+n, "(valid name, no data record of requested type)");
-            break;
-        case WSAEINPROGRESS:
-            sprintf(msg+n, "(a blocking socket call in progress)");
-            break;
-        case WSAEFAULT:
-            sprintf(msg+n, "(invalid part of user address space)");
-            break;
-        case WSAEINTR:
-            sprintf(msg+n, "(a blocking socket call was canceled)");
-            break;
-        }
         NetClose();
-
-#else
-
-        switch (h_errno) {
-        case HOST_NOT_FOUND:
-            sprintf(msg+n, "(host not found)");
-            break;
-        case NO_DATA:
-            sprintf(msg+n, "(valid name, no data record of requested type)");
-            break;
-        case NO_RECOVERY:
-            sprintf(msg+n, "(a nonrecoverable error occurred)");
-            break;
-        case TRY_AGAIN:
-            sprintf(msg+n, "(host not found or server failure)");
-            break;
-        }
-
 #endif
         return ERR_GETHOSTBYNAME;
     }

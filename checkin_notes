@@ -6592,3 +6592,22 @@ Rom    13 May 2005
 
     client/win/
         win_screensaver.cpp
+
+David  14 May 2005
+	- fix bug where multiple scheduler RPCs or master file fetches
+		could be started simultaneously (this is a no-no).
+	- NET_XFER_SET::do_select(): don't add a socket to fd_set
+		if io_done is true.
+		This causes the select() to fail and all I/O locks up.
+	- break out English strings for socket errors
+		into a separate function (socket_error_str())
+		instead of having them embedded in resolve_hostname() (???)
+
+	client/
+		cs_scheduler.C
+		net_xfer.C
+		scheduler_op.C
+		win/
+			wingui_mainwindow.cpp
+	lib/
+		network.C,h

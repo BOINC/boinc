@@ -119,9 +119,11 @@ int NET_XFER::open_server() {
 }
 
 void NET_XFER::close_socket() {
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 #ifdef WIN32
     NetClose();
 #endif
+    scope_messages.printf("NET_XFER_SET::close_socket(): %d\n", socket);
     if (socket) {
         boinc_close_socket(socket);
         socket = 0;
@@ -287,13 +289,16 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     nsocks_queried = 0;
     for (i=0; i<net_xfers.size(); i++) {
         nxp = net_xfers[i];
+        if (nxp->io_done) continue;
         if (!nxp->is_connected) {
             if (nxp->check_timeout(time_passed)) continue;
+            //scope_messages.printf("NET_XFER_SET::do_select(): set %d in write mask\n", nxp->socket);
             FD_SET(nxp->socket, &write_fds);
             nsocks_queried++;
         } else if (nxp->want_download) {
             if (nxp->check_timeout(time_passed)) continue;
             if (bytes_left_down > 0) {
+                //scope_messages.printf("NET_XFER_SET::do_select(): set %d in read mask\n", nxp->socket);
                 FD_SET(nxp->socket, &read_fds);
                 nsocks_queried++;
             } else {
@@ -322,7 +327,12 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
         nsocks_queried, n
     );
     if (n == 0) return 0;
-    if (n < 0) return ERR_SELECT;
+    if (n < 0) {
+        scope_messages.printf(
+            "NET_XFER_SET::do_select(): %s\n", socket_error_str()
+        );
+        return ERR_SELECT;
+    }
 
     // if got a descriptor, find the first one in round-robin order
     // and do I/O on it

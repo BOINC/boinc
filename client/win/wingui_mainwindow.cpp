@@ -574,7 +574,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                 xSent = f_size;
             }
 //            if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
+            if (pfx->fip->nbytes > 0) {
                 m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
+            } else {
+                m_XferListCtrl.SetItemProgress(i, 2, 0);
+            }
 
             // size
             char size_buf[256];

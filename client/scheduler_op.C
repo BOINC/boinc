@@ -50,7 +50,8 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     http_ops = h;
 }
 
-// see if there's a pending master file fetch.  start it if so.
+// See if there's a pending master file fetch.
+// If so, start it and return true.
 //
 bool SCHEDULER_OP::check_master_fetch_start() {
     int retval;
@@ -76,12 +77,12 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     return false;
 }
 
-// try to get work, from any project from which we need it
+// Try to get work, from any project from which we need it
 // PRECONDITION: compute_work_requests() has been called
 // to fill in PROJECT::work_request
 //
 int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
-    int retval = 0;
+    int retval;
     char err_msg[256];
     double ns;
 
@@ -97,11 +98,9 @@ int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
             return retval;
         }
     } else {
-        bool ret = check_master_fetch_start();
-        retval = ret ? 1 : 0;
+        check_master_fetch_start();
     }
-
-    return retval;
+    return 0;
 }
 
 // report results for a particular project.
