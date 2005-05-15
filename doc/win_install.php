@@ -68,7 +68,7 @@ Here is how to do this:
 <li> Download the BOINC client package and execute it with the /a parameter.
 <li> Drop the files to a share that can be accessed by all the computers on the network.
 <li> Using <a href=http://support.microsoft.com/kb/255905/EN-US/>Microsoft ORCA</a>,
-or some other MSI packaging tool, create an MSI Transform that contains the the 
+or some other MSI packaging tool, create an MSI Transform that contains the 
 account_*.xml files of the projects you have already attached too on another machine
 plus the following parameters:
     <ul>
