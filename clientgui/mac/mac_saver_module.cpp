@@ -375,7 +375,7 @@ void closeBOINCSaver() {
         {
             kill(CoreClientPID, SIGTERM);
         }
-        CoreClientPID = NULL;
+        CoreClientPID = 0;
         wasAlreadyRunning = false;
         gQuitRPCThread = false;
         saverState = SaverState_Idle;

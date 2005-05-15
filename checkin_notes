@@ -6611,3 +6611,15 @@ David  14 May 2005
 			wingui_mainwindow.cpp
 	lib/
 		network.C,h
+
+Charlie    15 may 2005
+	Mac: Update XCode project and build instructions for 
+        OS 10.4 (Tiger) and XCode 2.0. Fix gcc-4.0 compiler warning.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj
