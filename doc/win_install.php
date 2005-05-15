@@ -61,7 +61,7 @@ The new BOINC installer is an MSI package.
 Suppose you want to modify it so that you can
 deploy BOINC across a Windows network using Active Directory,
 and have all the PCs attached to a particular account.
-Here's how to do this:
+Here is how to do this:
 
 
 <ul>
@@ -81,7 +81,7 @@ plus the following parameters:
             <tr valign=top>
                 <td>INSTALLDIR</td>
                 <td>
-                    The location to install BOINC too.<br>
+                    The location to install BOINC to.<br>
                     Example: 'C:\\BOINC'
                 </td>
             </tr>
@@ -110,7 +110,7 @@ plus the following parameters:
                 <td>ENABLELAUNCHATLOGON</td>
                 <td>
                     Whether to automatically start BOINC when the installing user or all 
-                    users signon to the computer.<br>
+                    users sign on to the computer.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
@@ -160,7 +160,7 @@ plus the following parameters:
                 <td>ENABLELAUNCHATLOGON</td>
                 <td>
                     Whether to automatically start BOINC when the installing user or all 
-                    users signon to the computer.<br>
+                    users sign on to the computer.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
@@ -210,7 +210,7 @@ plus the following parameters:
                 <td>ENABLELAUNCHATLOGON</td>
                 <td>
                     Whether to automatically start BOINC when the installing user or all 
-                    users signon to the computer.<br>
+                    users sign on to the computer.<br>
                     Valid Values: '0' for disabled, '1' for enabled.
                 </td>
             </tr>
