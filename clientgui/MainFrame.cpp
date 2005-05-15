@@ -1134,7 +1134,7 @@ void CMainFrame::OnConnectError(CMainFrameEvent&) {
 
     ::wxMessageBox(
         _("Connection failed."),
-        _("Connection failed."),
+        _("BOINC Manager - Connection failed."),
         wxICON_ERROR
     );
 
@@ -1147,7 +1147,7 @@ void CMainFrame::OnConnectErrorAuthentication(CMainFrameEvent&) {
 
     ::wxMessageBox(
         _("The password you have provided is incorrect, please try again."),
-        _("Connection Error"),
+        _("BOINC Manager - Connection Error"),
         wxICON_ERROR
     );
 

@@ -1043,7 +1043,7 @@ int RPC_CLIENT::init_poll() {
             fprintf(stderr, "init_poll: get_socket_error(): %d\n", retval);
         }
     }
-    if (retval || time(0) > (connect_timestamp + 30)) {
+    if (retval || time(0) > (connect_timestamp + 60)) {
         if (tried_alt_port) {
             fprintf(stderr, "already tried both ports, giving up\n");
             return retval;
