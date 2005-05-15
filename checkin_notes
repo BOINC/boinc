@@ -6576,19 +6576,21 @@ Janus  13 May 2005
             bbcode.php (new)
 
 Rom    13 May 2005
-    - When an application is in screensaver mode, do not respond to the WM_CLOSE event
-        since Intellitype/Intellipoint will try to shutdown the screensavers.
-    - When in screensaver mode respond to a power broadcast event by shutting ourselves
-        down so the OS can go to sleep.
+    - When an application is in screensaver mode,
+        do not respond to the WM_CLOSE event since Intellitype/Intellipoint
+        will try to shutdown the screensavers.
+    - When in screensaver mode respond to a power broadcast event
+        by shutting ourselves down so the OS can go to sleep.
 
     api/
         windows_opengl.C
 
 Rom    13 May 2005
-    - Cause the screensaver process to exit when a power broadcast event is fired.
-        It was already shutting down the screensaver when the APMSUSPEND event was fired
-        but now we shutdown during the system query phase which happens before the
-        system actually decides to shutdown
+    - Cause the screensaver process to exit when a power broadcast event
+        is fired.  It was already shutting down the screensaver
+        when the APMSUSPEND event was fired
+        but now we shutdown during the system query phase which happens
+        before the system actually decides to shutdown
 
     client/win/
         win_screensaver.cpp
@@ -6623,3 +6625,12 @@ Charlie    15 may 2005
         HowToBuildBOINC_XCode.rtf
         boinc.pbproj/
             project.pbxproj
+
+David  15 May 2005
+    - small web cleanup
+
+    html/
+        inc/
+            mail.inc
+        user/
+            mail_passwd.php

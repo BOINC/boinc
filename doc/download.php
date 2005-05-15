@@ -273,27 +273,21 @@ version(
 );
 version(
     "Mac",
-    "4.25 (v2)",
+    "4.37 (3)",
     "Development version (simple GUI)",
-    "boinc_menubar_4.25_v2_mac.zip",
-    "29 Mar 2005",
+    "boinc_menubar_v4.37_(3)_mac.zip",
+    "14 May 2005",
     mac_simple(),
-    "<ul>
-     <li>
-     Adds support for HTTP and SOCKS proxies (see Known Issues below).
-     <li>
-     Adds support for  dual processor machines.
-     <li>
-     Fixes a bug which caused the menubar to disappear while leaving BOINC running in the background.
-     <li>
-     Fixes a bug which caused the application to freeze when choosing &quot;Stop&quot; or &quot;Quit BOINC Menubar&quot;.
-     <li>
-     Various other fixes and improvements.
+    "<li>Includes improved BOINC client</li>
+     <li>Fixes a problem which prevented some users from using proxies</li>
+     <li>Now displays the current status in the menubar by changing the icon and indicating the amount of work completed</li>
+     <li>Fixes a bug on dual processor machines where the status of both processes was not always being displayed </li>
+     <li>Adds a preference to share data between users </li><li>Improves security by hiding and encrypting proxy password</li>
+     <li>Adds ability to manually run benchmarks</li>
+     <li>Improved efficiency</li>
+     </ul>
     ",
-    "<ul>
-     <li>
-     Proxies are still causing us problems. This feature may not be working properly yet.
-    "
+    NULL
 );
 version(
     "Mac",

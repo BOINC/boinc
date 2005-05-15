@@ -43,9 +43,6 @@ under the BOINC public license).
 (core client, scheduling server, etc.).
 <dt> sched/
 <dd> The scheduling server, feeder, and file upload handler.
-<dt> sched_fcgi/
-<dd> Separate directory for compiling the server
-and file upload handler as Fast CGI programs.
 <dt> test/
 <dd> Test scripts.
 <dt> tools/

@@ -107,7 +107,8 @@ function munge_email_addr($email, $string) {
     return "@".$email."_".$string;
 }
 
-// if email_addr is of the form @X_Y, split out the X and return true.
+// if email_addr is of the form @X_auth, split out the X and return true.
+// (if auth is null, match anything)
 // otherwise return false
 //
 function split_munged_email_addr($addr, $auth, &$email) {

@@ -11,12 +11,15 @@ if (!strlen($email_addr)) {
     error_page("no address given");
 }
 $user = lookup_user_email_addr($email_addr);
-if (!$user) {
+if ($user) {
+    $is_auth = true;
+} else {
     $esc_email_addr = escape_pattern("@".$email_addr."_");
     $query = "select * from user where email_addr like '$esc_email_addr%'";
     $result = mysql_query($query);
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
+    $is_auth = false;
 }
 
 if (!$user) {
@@ -25,13 +28,8 @@ if (!$user) {
         Try reentering your email address.<p>
     ";
 } else {
+    $user->email_addr = $email_addr;
     page_head("Mailed account key");
-    if (split_munged_email_addr($user->email_addr, $auth, $orig_email)) {
-        $is_auth = false;
-        $user->email_addr = $orig_email;
-    } else {
-        $is_auth = true;
-    }
     $retval = send_auth_email($user, false, $is_auth);
     if ($retval) {
         email_sent_message($email_addr);

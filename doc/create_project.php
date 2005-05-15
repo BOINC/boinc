@@ -63,6 +63,9 @@ The components of a BOINC project, and how to create them.
 <ul>
 <li> <a href=compile.php>Compile BOINC software</a>
 <li> <a href=project_cookbook.php>Project creation cookbook</a>
+    <ul>
+    <li> <a href=bashford_cookbook.txt>Another cookbook, from Don Bashford</a>
+    </ul>
 <li> <a href=server_components.php>What is a project?</a>
 <li> <a href=database.php>The BOINC database</a>
 <li> <a href=server_dirs.php>Directory structure</a>
