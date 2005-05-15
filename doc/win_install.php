@@ -235,7 +235,7 @@ plus the following parameters:
                 <td>
                     The password for the account described in the SERVICE_DOMAINUSERNAME property.<br>
                     Valid Values: '%Password%' <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;%Password% the password for the above user account.
+                    &nbsp;&nbsp;&nbsp;&nbsp;%Password% the password for the SERVICE_DOMAINUSERNAME user account.
                 </td>
             </tr>
             <tr valign=top>
