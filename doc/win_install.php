@@ -233,7 +233,7 @@ plus the following parameters:
             <tr valign=top>
                 <td>SERVICE_PASSWORD</td>
                 <td>
-                    Which user account should the service use.<br>
+                    The password for the account described in the SERVICE_DOMAINUSERNAME property.<br>
                     Valid Values: '%Password%' <br>
                     &nbsp;&nbsp;&nbsp;&nbsp;%Password% the password for the above user account.
                 </td>
