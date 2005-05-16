@@ -67,8 +67,17 @@ function show_result_page($action, $success, $thread) {
 
 }
 
-function notify_subscribers($threadID) {
-    $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $threadID;
+/**
+ * Notify everyone who has subscriped except the user object specified in the optional
+ * parameter $except_user.
+ **/
+function notify_subscribers($threadID, $except_user=null) {
+    if ($except_user){
+	$extra = " and userid!=".intval($except_user->id);
+    } else {
+	$extra = "";
+    }
+    $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $threadID.$extra;
     $result = mysql_query($sql);
 
     while ($row = mysql_fetch_object($result)) {

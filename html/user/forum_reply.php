@@ -85,7 +85,7 @@ if (!empty($_POST['content'])) {
     }
 
     replyToThread($thread_id, $logged_in_user->id, $_POST['content'], $parent_post, $add_signature);
-    notify_subscribers($thread_id);
+    notify_subscribers($thread_id, $logged_in_user); //Notify all subscribers except the user who posted (if the user has also subscribed)
     header('Location: forum_thread.php?id='.$thread_id);
 }
 

@@ -6646,3 +6646,15 @@ David  15 May 2005
 	client/
 		cs_scheduler.C
 		scheduler_op.C,h
+
+Janus  16 May 2005
+    - Don't send reply-notifications in the forum to the user who posted the
+      reply, this just adds needless datatransfer for sending the mail and
+      later because the user will check if there actually was a reply...
+
+    html/
+        inc/
+           subsribe.inc
+        user/
+           forum_reply.php
+
