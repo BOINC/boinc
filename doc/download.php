@@ -201,10 +201,10 @@ version(
 );
 version(
     "Windows",
-    "4.41",
+    "4.42",
     "Development version",
-    "boinc_4.41_windows_intelx86.exe",
-    "14 May 2005",
+    "boinc_4.42_windows_intelx86.exe",
+    "16 May 2005",
     win_new(),
     "<ul>
     <li>
@@ -338,10 +338,10 @@ version(
 );
 version(
     "Solaris/SPARC",
-    "4.32",
+    "4.42",
     "Development version",
-    "boinc_4.32_sparc-sun-solaris2.7.sh",
-    "15 Apr 2005",
+    "boinc_4.42_sparc-sun-solaris2.7.sh",
+    "16 May 2005",
     sea()
 );
 
