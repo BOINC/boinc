@@ -143,7 +143,7 @@ function getCategory($categoryID) {
 	if (! is_numeric($categoryID)) {
 		return NULL; // Something's rotten in Denmark
 	}
-    $sql = "SELECT * FROM category WHERE id = ".$categoryID . "\"";
+    $sql = "SELECT * FROM category WHERE id = ".$categoryID ;
     $result = mysql_query($sql);
     if ($result) {
       return mysql_fetch_object($result);
