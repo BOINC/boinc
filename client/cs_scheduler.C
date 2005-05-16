@@ -557,7 +557,9 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
         if (p) {
             scheduler_op->init_return_results(p);
             action = true;
-        } else if (!(exit_when_idle && contacted_sched_server) && urgency != WORK_FETCH_DONT_NEED) {
+            break;
+        }
+        if (!(exit_when_idle && contacted_sched_server) && urgency != WORK_FETCH_DONT_NEED) {
             if (work_need_inform_time < now) {
                 if (urgency == WORK_FETCH_NEED) {
                     msg_printf(NULL, MSG_INFO,
@@ -571,11 +573,17 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                 }
                 work_need_inform_time = now + 3600;
             }
-            scheduler_op->init_get_work(false, urgency);
-        } else if (p=next_project_master_pending()) {
-            scheduler_op->init_get_work(true, urgency);
+            scheduler_op->init_get_work(urgency);
+            if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
+                break;
+            }
+        }
+        if (scheduler_op->check_master_fetch_start()) {
             action = true;
-        } else if (p=next_project_sched_rpc_pending()) {
+            break;
+        }
+        p = next_project_sched_rpc_pending();
+        if (p) {
             scheduler_op->init_return_results(p);
             action = true;
         }

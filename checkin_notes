@@ -6634,3 +6634,15 @@ David  15 May 2005
             mail.inc
         user/
             mail_passwd.php
+
+David  15 May 2005
+	- fix bug where sometimes master file fetch
+		or user-requested scheduler RPC wouldn't happen
+	- SCHEDULER_OP::init_get_work(): remove master_file_only argument
+		NOTE: functions should do one thing only.
+		Please do not overload them with extra arguments
+		and orthogonal functionality
+
+	client/
+		cs_scheduler.C
+		scheduler_op.C,h

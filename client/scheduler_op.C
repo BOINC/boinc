@@ -57,38 +57,37 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     int retval;
 
     project = gstate.next_project_master_pending();
-    if (project) {
-        retval = init_master_fetch();
-        if (retval) {
-            msg_printf(project, MSG_ERROR,
-                "Couldn't read master page for %s: error %d",
-                project->get_project_name(), retval
-            );
-            if (project->tentative) {
-                msg_printf(project, MSG_ERROR, "Detaching from project - check for URL error");
-                project_add_failed(project);
-            } else {
-                project->master_fetch_failures++;
-                backoff(project, "Master file fetch failed\n");
-            }
+    if (!project) return false;
+    retval = init_master_fetch();
+    if (retval) {
+        msg_printf(project, MSG_ERROR,
+            "Couldn't read master page for %s: error %d",
+            project->get_project_name(), retval
+        );
+        if (project->tentative) {
+            msg_printf(project, MSG_ERROR, "Detaching from project - check for URL error");
+            project_add_failed(project);
+        } else {
+            project->master_fetch_failures++;
+            backoff(project, "Master file fetch failed\n");
         }
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 // Try to get work, from any project from which we need it
 // PRECONDITION: compute_work_requests() has been called
 // to fill in PROJECT::work_request
 //
-int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
+int SCHEDULER_OP::init_get_work(int urgency) {
     int retval;
     char err_msg[256];
     double ns;
 
     must_get_work = true;
     project = gstate.next_project_need_work(0, urgency);
-    if (project && !master_file_only) {
+    if (project) {
         ns = project->work_request;
         msg_printf(project, MSG_INFO, "Requesting %.2f seconds of work", ns);
         retval = init_op_project(ns);
@@ -97,8 +96,6 @@ int SCHEDULER_OP::init_get_work(bool master_file_only, int urgency) {
             backoff(project, err_msg);
             return retval;
         }
-    } else {
-        check_master_fetch_start();
     }
     return 0;
 }
