@@ -6677,7 +6677,8 @@ Charlie    17 May 2005
         string in all 5 files where needed, but does not touch 
         these files if the version number is current.  Update build 
         instructions to reflect this new automation.
-        Fix new warnings from gcc 4.0 compiler.
+        Fix new warnings from gcc 4.0 compiler.  Installer makes 
+        old BOINC quit before starting newly installed BOINC Manager.
 
     clientgui/
         mac/
@@ -6689,3 +6690,4 @@ Charlie    17 May 2005
             project.pbxproj
         mac_installer
             BOINC.pmproj (new, replaces BOINC.pmsp in Tiger)
+            PostInstall.cpp

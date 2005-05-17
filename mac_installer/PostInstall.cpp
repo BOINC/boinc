@@ -34,6 +34,7 @@ void Initialize(void);	/* function prototypes */
 void SetUIDBackToUser (void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(pid_t thePID);
+static OSErr QuitBOINCManager(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -56,6 +57,8 @@ int main(int argc, char *argv[])
     Success = false;
     
     ::GetCurrentProcess (&ourProcess);
+
+    QuitBOINCManager('BNC!'); // Quit any old instance of BOINC
     
     err = FindProcess ('APPL', 'xins', &installerPSN);
     if (err == noErr)
@@ -202,6 +205,70 @@ pid_t FindProcessPID(pid_t thePID)
     }
     pclose(f);
     return 0;
+}
+
+
+static OSErr QuitBOINCManager(OSType signature) {
+    bool			done = false;
+    ProcessSerialNumber         thisPSN;
+    ProcessInfoRec		thisPIR;
+    OSErr                       err = noErr;
+    Str63			thisProcessName;
+    AEAddressDesc		thisPSNDesc;
+    AppleEvent			thisQuitEvent, thisReplyEvent;
+    
+
+    thisPIR.processInfoLength = sizeof (ProcessInfoRec);
+    thisPIR.processName = thisProcessName;
+    thisPIR.processAppSpec = nil;
+    
+    thisPSN.highLongOfPSN = 0;
+    thisPSN.lowLongOfPSN = kNoProcess;
+    
+    while (done == false) {		
+        err = GetNextProcess(&thisPSN);
+        if (err == procNotFound)	
+            done = true;		// apparently the demo app isn't running.  Odd but not impossible
+        else {		
+            err = GetProcessInformation(&thisPSN,&thisPIR);
+            if (err != noErr)
+                goto bail;
+                    
+            if (thisPIR.processSignature == signature) {	// is it or target process?
+                err = AECreateDesc(typeProcessSerialNumber, (Ptr)&thisPSN,
+                                            sizeof(thisPSN), &thisPSNDesc);
+                if (err != noErr)
+                        goto bail;
+
+                // Create the 'quit' Apple event for this process.
+                err = AECreateAppleEvent(kCoreEventClass, kAEQuitApplication, &thisPSNDesc,
+                                                kAutoGenerateReturnID, kAnyTransactionID, &thisQuitEvent);
+                if (err != noErr) {
+                    AEDisposeDesc (&thisPSNDesc);
+                    goto bail;		// don't know how this could happen, but limp gamely onward
+                }
+
+                // send the event 
+                err = AESend(&thisQuitEvent, &thisReplyEvent, kAEWaitReply,
+                                           kAENormalPriority, kAEDefaultTimeout, 0L, 0L);
+                AEDisposeDesc (&thisQuitEvent);
+                AEDisposeDesc (&thisPSNDesc);
+#if 0
+                if (err == errAETimeout) {
+                    pid_t thisPID;
+                        
+                    err = GetProcessPID(&thisPSN , &thisPID);
+                    if (err == noErr)
+                        err = kill(thisPID, SIGKILL);
+                }
+#endif
+                done = true;		// we've killed the process, presumably
+            }
+        }
+    }
+
+bail:
+    return err;
 }
 
 
