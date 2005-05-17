@@ -288,7 +288,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     	
 		$posttext = output_transform($posttext,$options);
         
-        echo "<div class=\"cellwrap\" width=\"100%\"><p>", $posttext, "</p></div>";
+        echo "<p>", $posttext, "</p>";
         echo "<table width=\"100%\" cellspacing=0 cellpadding=0>
             <tr valign=\"bottom\">
             <td style=\"border:0px;\"><font size=-2><i>ID: ", $post->id;

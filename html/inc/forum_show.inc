@@ -120,13 +120,13 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
             }
             echo "</nobr></td>";
         }
-        $titlelength = 42; 	// The answer to Life, the Universe, and Everything
-        					// 				...and it makes the forum look better
+
+        $titlelength = 48;
         $title = cleanup_title($thread->title);
         if (strlen($title) > $titlelength) {
         	$title = substr($title,0,$titlelength)."...";
         }
-        echo "<td style=\"font-size:10pt; text-align:left\"><div class=\"cellwrap\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", $title, "</b></a><br>";
+        echo "<td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", $title, "</b></a><br>";
         $n = ($n+1)%2;
 
         if ($category->is_helpdesk) {
@@ -138,22 +138,22 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
             echo "<br><font size=-2>Asked $x; asked $na times";
         }
 
-        echo "</div></td>";
+        echo "</td>";
         $x = time_diff_str($thread->timestamp, time());
 
         if ($category->is_helpdesk) {
             if ($thread->replies == 0) $x = "---";
-            echo "<td align=left><div class=\"cellwrap\">
+            echo "<td align=left>
                 Total: $thread->replies
                 <br>Last: $x
-                </div></td>
+                </td>
             ";
         } else {
             echo "
-                <td><div class=\"cellwrap\">", $thread->replies+1, "</div></td>
-                <td align=left><div class=\"cellwrap\">", user_links($user), "</div></td>
-                <td><div class=\"cellwrap\">", $thread->views, "</div></td>
-                <td style=\"text-align:right\"><div class=\"cellwrap\">", $x, "</div></td>
+                <td>", $thread->replies+1, "</td>
+                <td align=left><div class=\"authorcol\">", user_links($user), "</div></td>
+                <td>", $thread->views, "</td>
+                <td style=\"text-align:right\">", $x, "</td>
             ";
         }
 
