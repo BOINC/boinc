@@ -6687,3 +6687,5 @@ Charlie    17 May 2005
         HowToBuildBOINC_XCode.rtf
         boinc.pbproj/
             project.pbxproj
+        mac_installer
+            BOINC.pmproj (new, replaces BOINC.pmsp in Tiger)
