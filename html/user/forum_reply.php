@@ -56,7 +56,6 @@ if ($category->is_helpdesk) {
     } else {
         setSortStyle($logged_in_user,"answer", $sort_style);
     }
-    page_head($title);
 } else {
     if (!$sort_style) {
         $sort_style = getSortStyle($logged_in_user,"thread");
