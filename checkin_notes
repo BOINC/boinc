@@ -6658,3 +6658,18 @@ Janus  16 May 2005
         user/
            forum_reply.php
 
+Bruce 17 May 2005
+    - scheduler: use locking to prevent more than one scheduler instance from
+      running for a given host.  This works by creating a file called
+      CGI_<HOSTID> in the cgi-bin/ directory, and using Posix advisory file
+      locking.  I have been testing this code for three days and am seeing
+      *some* invocations of this.  David, I'll send details to the dev mailing
+      list or talk with you about it later this week.  Note: this code probably
+      can be removed in the future, when the core client problems are fixed.
+      Also note: I don't know if this is compatible with the fast cgi sched.
+
+    sched/
+        handle_request.C
+        server_types.h
+
+

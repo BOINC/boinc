@@ -29,6 +29,9 @@ using namespace std;
 
 #include <unistd.h>
 #include <sys/wait.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #include "boinc_db.h"
 #include "backend_lib.h"
@@ -47,6 +50,52 @@ using namespace std;
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+// returns zero if we get lock on file with file descriptor fd.
+// returns < 0 if error
+// returns PID > 0 if another process has lock
+//
+int mylockf(int fd) {
+    struct flock fl;
+    fl.l_type=F_WRLCK;
+    fl.l_whence=SEEK_SET;
+    fl.l_start=0;
+    fl.l_len=0;
+    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
+
+    // if lock failed, find out why
+    errno=0;
+    fcntl(fd, F_GETLK, &fl);
+    if (fl.l_pid>0) return fl.l_pid;
+    return -1;
+}
+
+// use advisory locking to establish a lock to run a scheduler
+// instance for this host. Return values same as mylockf().
+//
+int lock_sched(SCHEDULER_REPLY& reply) {
+    char filename[64];
+    char pid_string[16];
+    int fd, pid, count;
+
+    reply.lockfile_fd=-1;
+
+    sprintf(filename, "CGI_%07d", reply.host.id);
+
+    if ((fd=open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH))<0) return -1;
+
+    // if we can't get an advisory write lock on the file, return the PID
+    // of the process that DOES hold the lock.
+    if ((pid=mylockf(fd))) return pid;
+
+    // write PID into the CGI_<HOSTID> file and flush to disk
+    count=sprintf(pid_string, "%d\n", getpid());
+    write(fd, pid_string, count);
+    fsync(fd);
+
+    reply.lockfile_fd=fd;
+    return 0;
+}
 
 // If user's email addr is munged (i.e. of the form @X_Y,
 // where X is email and Y is authenticator) then unmunge it.
@@ -889,6 +938,7 @@ void process_request(
     bool have_no_work;
     char buf[256];
     HOST initial_host;
+    int pid_with_lock;
 
     // if different major version of BOINC, just send a message
     //
@@ -960,6 +1010,15 @@ void process_request(
         sreq.core_client_major_version, sreq.core_client_minor_version
     );
     ++log_messages;
+
+    if ((pid_with_lock=lock_sched(reply))) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "Another scheduler instance [PID=%d] is running for this host\n",
+            pid_with_lock
+        );
+        send_message("Another scheduler instance is running for this host", 60);
+        goto leave;
+    }
 
     last_rpc_time = reply.host.rpc_time;
     rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
@@ -1244,6 +1303,12 @@ void handle_request(
 #endif
     
     sreply.write(fout);
+    if (sreply.lockfile_fd>=0) {
+        char filename[64];
+        sprintf(filename, "CGI_%07d", sreply.host.id);
+        unlink(filename);
+        close(sreply.lockfile_fd);
+    }
 }
 
 const char *BOINC_RCSID_2ac231f9de = "$Id$";

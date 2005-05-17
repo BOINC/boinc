@@ -166,6 +166,7 @@ struct SCHEDULER_REPLY {
     int hostid;
         // nonzero only if a new host record was created.
         // this tells client to reset rpc_seqno
+    int lockfile_fd; // file descriptor of lockfile, or -1 if no lock.
     bool send_global_prefs;     // whether to send global preferences
     bool nucleus_only;          // send only message
     bool probable_user_browser;
