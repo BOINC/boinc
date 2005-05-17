@@ -61,5 +61,11 @@ extern void compute_avg_turnaround(HOST& host, double turnaround);
 // used to track execution time of cgi scripts
 extern int elapsed_time();
 
+// returns zero if we get lock on file with file descriptor fd.
+// returns < 0 if error
+// returns PID > 0 if another process has lock
+//
+extern int mylockf(int fd);
+
 
 #endif

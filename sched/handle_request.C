@@ -38,37 +38,20 @@ using namespace std;
 #include "error_numbers.h"
 #include "parse.h"
 #include "util.h"
+#include "filesys.h"
+
+#include "main.h"
 #include "server_types.h"
 #include "sched_util.h"
-#include "main.h"
 #include "handle_request.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_config.h"
-#include "../lib/filesys.h"
+#include "sched_locality.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
-
-// returns zero if we get lock on file with file descriptor fd.
-// returns < 0 if error
-// returns PID > 0 if another process has lock
-//
-int mylockf(int fd) {
-    struct flock fl;
-    fl.l_type=F_WRLCK;
-    fl.l_whence=SEEK_SET;
-    fl.l_start=0;
-    fl.l_len=0;
-    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
-
-    // if lock failed, find out why
-    errno=0;
-    fcntl(fd, F_GETLK, &fl);
-    if (fl.l_pid>0) return fl.l_pid;
-    return -1;
-}
 
 // use advisory locking to establish a lock to run a scheduler
 // instance for this host. Return values same as mylockf().
@@ -119,9 +102,14 @@ int unmunge_email_addr(DB_USER& user) {
     return 0;
 }
 
-// Look up the host and its user, and make sure the authenticator matches.
-// If no host ID is supplied, or if RPC seqno mismatch,
-// create a new host record and return its ID
+// Based on the info in the request message,
+// look up the host and its user, and make sure the authenticator matches.
+// Some special cases:
+//  1) If no host ID is supplied, or if RPC seqno mismatch,
+//     create a new host record
+//  2) If the host record specified by sreq.hostid is a "zombie"
+//     (i.e. it was merged with another host via the web site)
+//     then follow links to find the proper host
 //
 // POSTCONDITION:
 // If this returns zero, then:
@@ -456,9 +444,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
 // New handle completed results
 //
-int handle_results(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
-) {
+int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_SCHED_RESULT_ITEM_SET result_handler;
     SCHED_RESULT_ITEM* srip;
     unsigned int i;
@@ -548,7 +534,7 @@ int handle_results(
             continue;
         }
 
-        if (srip->hostid != sreq.hostid) {
+        if (srip->hostid != reply.host.id) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
@@ -627,7 +613,7 @@ int handle_results(
             srip->validate_state = VALIDATE_STATE_INVALID;
             reply.got_bad_result();
         }
-    } // end of loop over all incoming results
+    } // loop over all incoming results
 
 
     // update all the results we have kept in memory, by storing to database.
@@ -1056,10 +1042,6 @@ void process_request(
         goto leave;
     }
     
-#if 0
-    notify_if_newer_core_version(sreq, reply, *platform, ss);
-#endif
-
     handle_global_prefs(sreq, reply);
 
 #if 0
@@ -1108,67 +1090,9 @@ leave:
     }
 }
 
-
-// returns zero if there is a file we can delete.
-//
-int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
-    int nfiles = (int)sreq.file_infos.size();
-    char buf[256];
-
-    if (!nfiles) {
-
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
-        );
-
-        sprintf(buf,
-            "No disk space (you must free %.1f MB before BOINC gets space).  ",
-            fabs(max_allowable_disk(sreq, sreply))/1.e6
-        );
-
-        if (sreply.disk_limits.max_used != 0.0) {
-            strcat(buf, "Review preferences for maximum disk space used.");
-        } else if (sreply.disk_limits.max_frac != 0.0) {
-            strcat(buf, "Review preferences for maximum disk percentage used.");
-        } else if (sreply.disk_limits.min_free != 0.0) {
-            strcat(buf, "Review preferences for minimum disk free space allowed.");
-        }
-        USER_MESSAGE um(buf, "high");
-        sreply.insert_message(um);
-        sreply.set_delay(24*3600);
-        return 1;
-    }
-    
-    // pick a data file to delete.
-    // Do this deterministically so that we always tell host to delete the same file.
-    // But to prevent all hosts from removing 'the same' file,
-    // choose a file which depends upon the hostid.
-    //
-    // Assumption is that if nothing has changed on the host,
-    // the order in which it reports files is fixed.
-    // If this is false, we need to sort files into order by name!
-    //
-    int j = sreply.host.id % nfiles;
-    FILE_INFO& fi = sreq.file_infos[j];
-    sreply.file_deletes.push_back(fi);
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
-        "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
-    );
-
-    // give host 4 hours to nuke the file and come back.
-    // This might in general be too soon, since host needs to complete any work
-    // that depends upon this file, before it will be removed by core client.
-    //
-    sprintf(buf, "Removing file %s to free up disk space", fi.name);
-    USER_MESSAGE um(buf, "low");
-    sreply.insert_message(um);
-    sreply.set_delay(4*3600);
-    return 0;
-}   
-
-void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger) {
+void debug_sched(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
+) {
     char tmpfilename[256];
     FILE *fp;
 
@@ -1272,6 +1196,7 @@ void handle_request(
 #endif
     
     // if we got no work, and we have no file space, delete some files
+    //
     if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
         // try to delete a file to make more space.
         // Also give some hints to the user about what's going wrong

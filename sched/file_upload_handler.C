@@ -131,25 +131,6 @@ int return_success(const char* text) {
     return 0;
 }
 
-// Lock entire file for writing.
-// returns zero on success, else PID of process currently holding lock, or -1
-// if something else is wrong, for example a bad file descriptor
-//
-int mylockf(int fd) {
-    struct flock fl;
-    fl.l_type=F_WRLCK;
-    fl.l_whence=SEEK_SET;
-    fl.l_start=0;
-    fl.l_len=0;
-    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
-
-    // if lock failed, find out why
-    errno=0;
-    fcntl(fd, F_GETLK, &fl);
-    if (fl.l_pid>0) return fl.l_pid;
-    return -1;
-}
-
 #define BLOCK_SIZE  16382
 double bytes_left=-1;
 

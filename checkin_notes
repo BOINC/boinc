@@ -6699,3 +6699,18 @@ Bruce 17 May 2005
         inc/
             forum.inc
 
+David  17 May 2005
+    - (from Bruce Allen) fix bug in scheduler in case where
+        host has been merged,
+        and results are reported with old (zombie) host ID.
+        Results in the DB have already been updated to new hostid;
+        compare with that ID, not old ID
+    - move mylockf() to sched_util.C
+        (eliminate duplicate definition in scheduler/file upload handler)
+    - move delete_file_from_host() to sched_locality.C
+
+    sched/
+        file_upload_handler.C
+        handle_request.C
+        sched_locality.C,h
+        sched_util.C,h

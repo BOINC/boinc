@@ -40,6 +40,65 @@
 
 #define VERBOSE_DEBUG
 
+// returns zero if there is a file we can delete.
+//
+int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
+    int nfiles = (int)sreq.file_infos.size();
+    char buf[256];
+
+    if (!nfiles) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
+        );
+
+        sprintf(buf,
+            "No disk space (you must free %.1f MB before BOINC gets space).  ",
+            fabs(max_allowable_disk(sreq, sreply))/1.e6
+        );
+
+        if (sreply.disk_limits.max_used != 0.0) {
+            strcat(buf, "Review preferences for maximum disk space used.");
+        } else if (sreply.disk_limits.max_frac != 0.0) {
+            strcat(buf, "Review preferences for maximum disk percentage used.");
+        } else if (sreply.disk_limits.min_free != 0.0) {
+            strcat(buf, "Review preferences for minimum disk free space allowed.");
+        }
+        USER_MESSAGE um(buf, "high");
+        sreply.insert_message(um);
+        sreply.set_delay(24*3600);
+        return 1;
+    }
+    
+    // pick a data file to delete.
+    // Do this deterministically so that we always tell host
+    // to delete the same file.
+    // But to prevent all hosts from removing 'the same' file,
+    // choose a file which depends upon the hostid.
+    //
+    // Assumption is that if nothing has changed on the host,
+    // the order in which it reports files is fixed.
+    // If this is false, we need to sort files into order by name!
+    //
+    int j = sreply.host.id % nfiles;
+    FILE_INFO& fi = sreq.file_infos[j];
+    sreply.file_deletes.push_back(fi);
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
+    );
+
+    // give host 4 hours to nuke the file and come back.
+    // This might in general be too soon, since host needs to complete any work
+    // that depends upon this file, before it will be removed by core client.
+    //
+    sprintf(buf, "Removing file %s to free up disk space", fi.name);
+    USER_MESSAGE um(buf, "low");
+    sreply.insert_message(um);
+    sreply.set_delay(4*3600);
+    return 0;
+}   
+
 // returns true if the host already has the file, or if the file is
 // included with a previous result being sent to this host.
 //

@@ -25,6 +25,7 @@ using namespace std;
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <fcntl.h>
 
 #include "filesys.h"
 #include "md5_file.h"
@@ -231,6 +232,25 @@ int elapsed_time() {
     }
 
     return (int)(time(0)-execution_time);
+}
+
+// returns zero if we get lock on file with file descriptor fd.
+// returns < 0 if error
+// returns PID > 0 if another process has lock
+//
+int mylockf(int fd) {
+    struct flock fl;
+    fl.l_type=F_WRLCK;
+    fl.l_whence=SEEK_SET;
+    fl.l_start=0;
+    fl.l_len=0;
+    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
+
+    // if lock failed, find out why
+    errno=0;
+    fcntl(fd, F_GETLK, &fl);
+    if (fl.l_pid>0) return fl.l_pid;
+    return -1;
 }
 
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";
