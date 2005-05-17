@@ -281,14 +281,14 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if (!$filter || !$rated_below_threshold){
     	$posttext = $post->content;
     	if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
-            $posttext.="<hr class=\"sigdelim\">".$user->signature;                                //wants it to be shown for this post AND the logged in
+            $posttext.="<br />____________<br />".$user->signature;                                //wants it to be shown for this post AND the logged in
         }                                                                                        //user has signatures enabled: show it
 
 		$options = get_transform_settings_from_user($logged_in_user);
     	
 		$posttext = output_transform($posttext,$options);
         
-        echo "<div class=\"cellwrap\"><p>", $posttext, "</p></div>";
+        echo "<div class=\"cellwrap\" width=\"100%\"><p>", $posttext, "</p></div>";
         echo "<table width=\"100%\" cellspacing=0 cellpadding=0>
             <tr valign=\"bottom\">
             <td style=\"border:0px;\"><font size=-2><i>ID: ", $post->id;
