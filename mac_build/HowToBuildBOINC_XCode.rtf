@@ -12,7 +12,7 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 5/15/05\
+Last updated 5/17/05\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.  Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".\
@@ -29,7 +29,7 @@ Upgrades for autoconf and automake are available from www.gnu.org.  XCode instal
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3\i0 \cf0 PATH=/usr/local/bin:$PATH;export PATH
+\f3\i0 \cf0 export PATH=/usr/local/bin:$PATH
 \f4\i \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -53,7 +53,7 @@ You will need to set the environment variables CPPFLAGS and LDFLAGS as described
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f3 \cf0 \
-CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib";export CPPFLAGS\
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib"\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -61,7 +61,7 @@ If you are building under OS 10.3:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib";export CPPFLAGS\
+\f3 \cf0 export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib"\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -88,7 +88,7 @@ cd osx-build\
 \f1\b0  the make:
 \f3 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk";export LDFLAGS
+\cf0 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
 \f1 \
 
 \f3 \
@@ -133,7 +133,7 @@ Add the path to wx-config to the standard search path.
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 PATH=[wxpath]/osx-build:$PATH;export PATH\
+\f3 \cf0 export PATH=[wxpath]/osx-build:$PATH\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -142,7 +142,7 @@ Add the path to wx-config to the standard search path.
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 PATH=/usr/local/bin:[wxpath]/osx-build:$PATH;export PATH
+\f3 \cf0 export PATH=/usr/local/bin:[wxpath]/osx-build:$PATH
 \f2\i \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -151,7 +151,7 @@ Set the CPPFlags environment variable. If you are building under OS 10.4:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f3 \cf0 \
-CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib -I../wxinclude -L../wx_lib";export CPPFLAGS\
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib -I../wxinclude -L../wx_lib"\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -159,7 +159,7 @@ If you are building under OS 10.3:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib -I../wxinclude -L../wx_lib";export CPPFLAGS\
+\f3 \cf0 export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib -I../wxinclude -L../wx_lib"\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -188,7 +188,7 @@ Then continue configuring BOINC:\
 
 \f3 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -L../wx_lib -F/Developer/SDKs/MacOSX10.3.9.sdk/System/Library/Frameworks";export LDFLAGS\
+\cf0 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -L../wx_lib -F/Developer/SDKs/MacOSX10.3.9.sdk/System/Library/Frameworks"\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -196,7 +196,7 @@ If you are building under OS 10.3:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 LDFLAGS="-L../wx_lib";export LDFLAGS\
+\f3 \cf0 export LDFLAGS="-L../wx_lib"\
 \
 make\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -231,14 +231,17 @@ BOINC libraries, screensaver and helper applications
 \
 (8) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion.  \
 \
-(9) SetVersion is run automatically as part of the build process to update the Mac version information file InfoPlist.strings, using the contents of version.h.  The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
+(9) SetVersion is run automatically as part of the build process to update the following Mac version information files using the contents of version.h:\
+  InfoPlist.strings, \
+  \CocoaLigature0 Info.plist (under the resources group)\
+\CocoaLigature1   \CocoaLigature0 SystemMenu-Info.plist\
+\CocoaLigature1   \CocoaLigature0 ScreenSaver-Info.plist\
+\CocoaLigature1   \CocoaLigature0 Installer-Info.plist\CocoaLigature1 \
+\
+The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.\
 \
 (10) For completeness, you should manually update the value of \CocoaLigature0 CFBundleVersion to the new BOINC version number in the following four files:\
-Info.plist (under the resources group)\
-SystemMenu-Info.plist\
-ScrenSaver-Info.plist\
-Installer-Info.plist\CocoaLigature1 \
-\
+\CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b \cf0 Building the installer
@@ -346,7 +349,7 @@ You will now have the following directory structure:\
 \
 First set the CPPFlags environment variable. If you are building under OS 10.4:
 \f3 \
-CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[setipath]/jpeglib -ljpeg";export CPPFLAGS
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[setipath]/jpeglib -ljpeg"
 \f1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -357,11 +360,11 @@ CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLO
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[setipath]/jpeglib -ljpeg";export CPPFLAGS\
+\f3 \cf0 export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[setipath]/jpeglib -ljpeg"\
 \
-PROJECTDIR=[setipath];export PROJECTDIR\
+export PROJECTDIR=[setipath]\
 \
-BOINCDIR=[boincpath];export BOINCDIR\
+export BOINCDIR=[boincpath]\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -369,7 +372,7 @@ If your autoconf and automake are in /usr/local/bin/:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f3 \cf0 PATH=/usr/local/bin:$PATH;export PATH\
+\f3 \cf0 export PATH=/usr/local/bin:$PATH\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \

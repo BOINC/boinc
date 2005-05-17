@@ -399,7 +399,7 @@ OSStatus RPCThread(void* param) {
 
     while (true) {
         if (gQuitRPCThread)     // If main thread has requested we exit
-            MPExit(noErr);       // Exit the thread
+            MPExit(noErr);      // Exit the thread
 
         timeToUnblock = AddDurationToAbsolute(durationSecond/4, UpTime());
         MPDelayUntil(&timeToUnblock);
@@ -495,6 +495,7 @@ OSStatus RPCThread(void* param) {
         if (gClientSaverStatus == SS_STATUS_QUIT) {
             rpc->set_screensaver_mode(false, 0, di);
             MPExit(noErr);      // Exit the thread
+            return noErr;       // should never get here; it fixes compiler warning
         }
     }                           // end while(true)
 }

@@ -6672,4 +6672,18 @@ Bruce 17 May 2005
         handle_request.C
         server_types.h
 
+Charlie    17 May 2005
+	Mac: SetVersion now automatically updates version number 
+        string in all 5 files where needed, but does not touch 
+        these files if the version number is current.  Update build 
+        instructions to reflect this new automation.
+        Fix new warnings from gcc 4.0 compiler.
 
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+            SetVersion.C
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj
