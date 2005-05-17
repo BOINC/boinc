@@ -6691,3 +6691,11 @@ Charlie    17 May 2005
         mac_installer
             BOINC.pmproj (new, replaces BOINC.pmsp in Tiger)
             PostInstall.cpp
+
+Bruce 17 May 2005
+    - forum style: use 'comma-separated' number format for credit/RAC
+
+    html/
+        inc/
+            forum.inc
+
