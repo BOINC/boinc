@@ -6724,3 +6724,12 @@ Rom    17 May 2005
 
     client/
         app_graphics.C
+
+Charlie    18 May 2005
+	Mac: Fix some compiler warnings.  Add --build=powerpc-apple-darwin to 
+        configure args in build instructions to force generic platform name.
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj
