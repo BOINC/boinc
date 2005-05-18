@@ -75,16 +75,16 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
             "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s\n",
             buf, result->name
         );
-        if (gm.mode != MODE_REREAD_PREFS) {
-            graphics_mode_acked = gm.mode;
-        }
-        if (gm.mode == MODE_HIDE_GRAPHICS &&
-            graphics_mode_acked_old == MODE_FULLSCREEN &&
+        if (gm.mode == MODE_HIDE_GRAPHICS &&          // new mode
+            graphics_mode_acked == MODE_FULLSCREEN && // old mode
             is_ss_app) {
             gstate.ss_logic.stop_ss();
             scope_messages.printf(
                 "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver"
             );
+        }
+        if (gm.mode != MODE_REREAD_PREFS) {
+            graphics_mode_acked = gm.mode;
         }
     }
 }
