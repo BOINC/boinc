@@ -39,7 +39,10 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
     atp->request_graphics_mode(m);
     atp->is_ss_app = true;
     ack_deadline = dtime() + 5.0;
-    scope_messages.printf("SS_LOGIC::ask_app(): starting %s\n", atp->result->name);
+    scope_messages.printf(
+        "SS_LOGIC::ask_app(): starting %s currenttime %f deadline %f \n",
+        atp->result->name, dtime(), ack_deadline
+    );
 }
 
 // called in response to a set_screensaver_mode RPC with <enabled>.
@@ -144,7 +147,10 @@ void SS_LOGIC::poll(double now) {
                 }
             } else {
                 if (dtime() > ack_deadline) {
-                    scope_messages.printf("SS_LOGIC::poll(): app %s not respond\n", atp->result->name);
+                    scope_messages.printf(
+                        "SS_LOGIC::poll(): app %s did not respond, current time %f deadline %f\n",
+                        atp->result->name, dtime(), ack_deadline
+                    );
                     stop_app_ss = true;
                 }
             }
