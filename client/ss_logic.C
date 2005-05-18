@@ -24,6 +24,7 @@
 #include "client_state.h"
 #include "client_msgs.h"
 #include "ss_logic.h"
+#include "util.h"
 
 SS_LOGIC::SS_LOGIC() {
     do_ss = false;
@@ -37,7 +38,7 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
 
     atp->request_graphics_mode(m);
     atp->is_ss_app = true;
-    ack_deadline = time(0) + 5;
+    ack_deadline = dtime() + 5.0;
     scope_messages.printf("SS_LOGIC::ask_app(): starting %s\n", atp->result->name);
 }
 
@@ -126,7 +127,7 @@ void SS_LOGIC::poll(double now) {
 
     // check if it's time to go to black screen
     //
-    if (blank_time && (time(0) > blank_time)) {
+    if (blank_time && (dtime() > blank_time)) {
         if (SS_STATUS_BLANKED != ss_status) {
             scope_messages.printf("SS_LOGIC::poll(): going to black\n");
             reset();
@@ -142,7 +143,7 @@ void SS_LOGIC::poll(double now) {
                     stop_app_ss = true;
                 }
             } else {
-                if (time(0) > ack_deadline) {
+                if (dtime() > ack_deadline) {
                     scope_messages.printf("SS_LOGIC::poll(): app %s not respond\n", atp->result->name);
                     stop_app_ss = true;
                 }

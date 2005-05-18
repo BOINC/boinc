@@ -6743,6 +6743,9 @@ Rom    18 May 2005
         to establish the listening socket for the next rpc request.
     - Convert the remaining #ifdef'ed debug messages into scoped messages
         so they can be tracked in debug/release builds on all platforms.
+    - We store most if not all time values internally as doubles, so make
+        the calls to time(0) to dtime() to see if that fixes a deadline
+        problem on the mac with the screensaver.
 
     client/
         app_graphics.C
