@@ -207,7 +207,7 @@ OSStatus initBOINCApp() {
             _exit(status);
         }
 
-        status = execl(boincPath, " -redirectio", (char *) 0);
+        status = execl(boincPath, "boinc", "-redirectio", (char *) 0);
         _exit(127);         // execl error (execl should never return)
     } else {
         CoreClientPID = myPid;		// make this available globally
@@ -495,9 +495,9 @@ OSStatus RPCThread(void* param) {
         if (gClientSaverStatus == SS_STATUS_QUIT) {
             rpc->set_screensaver_mode(false, 0, di);
             MPExit(noErr);      // Exit the thread
-            return noErr;       // should never get here; it fixes compiler warning
         }
     }                           // end while(true)
+            return noErr;       // should never get here; it fixes compiler warning
 }
 
 
