@@ -6741,6 +6741,11 @@ Charlie    18 May 2005
 Rom    18 May 2005
     - Bug Fix: After starting the CC wait for 5 seconds to give the CC time
         to establish the listening socket for the next rpc request.
+    - Convert the remaining #ifdef'ed debug messages into scoped messages
+        so they can be tracked in debug/release builds on all platforms.
 
+    client/
+        app_graphics.C
+        ss_logic.C
     clientgui/
         BOINCGUIApp.cpp

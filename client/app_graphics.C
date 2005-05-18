@@ -66,7 +66,7 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 void ACTIVE_TASK::check_graphics_mode_ack() {
     GRAPHICS_MSG gm;
     char buf[MSG_CHANNEL_SIZE];
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
@@ -80,7 +80,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
             is_ss_app) {
             gstate.ss_logic.stop_ss();
             scope_messages.printf(
-                "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver"
+                "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver\n"
             );
         }
         if (gm.mode != MODE_REREAD_PREFS) {
@@ -110,6 +110,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::get_ss_app() {
 void ACTIVE_TASK_SET::save_app_modes() {
     unsigned int i;
     ACTIVE_TASK* atp;
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
@@ -120,7 +121,9 @@ void ACTIVE_TASK_SET::save_app_modes() {
             atp->graphics_mode_acked = MODE_HIDE_GRAPHICS;
         }
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
-        //BOINCTRACE("saved mode %d\n", atp->graphics_mode_acked);
+        scope_messages.printf(
+            "ACTIVE_TASK_SET::save_app_modes(): saved mode %d\n", atp->graphics_mode_acked
+        );
     }
 }
 
@@ -178,6 +181,7 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     unsigned int i, j;
     ACTIVE_TASK *atp, *best_atp;
     PROJECT *p;
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     // check to see if the applications have changed the graphics ack
     // since they were first started, this can happen if their is a
@@ -211,16 +215,16 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
                 best_atp = atp;
             }
             if (best_atp) {
-#ifdef SS_DEBUG
-                msg_printf(0, MSG_INFO, "get_next_app: %s\n", best_atp->result->name);
-#endif
+                scope_messages.printf(
+                    "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: %s\n", best_atp->result->name
+                );
                 return atp;
             }
         }
     }
-#ifdef SS_DEBUG
-    msg_printf(0, MSG_INFO, "get_next_app: none\n");
-#endif
+    scope_messages.printf(
+        "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: none\n"
+    );
     return NULL;
 }
 

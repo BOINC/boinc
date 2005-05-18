@@ -128,7 +128,7 @@ void SS_LOGIC::poll(double now) {
     //
     if (blank_time && (time(0) > blank_time)) {
         if (SS_STATUS_BLANKED != ss_status) {
-            scope_messages.printf("SS_LOGIC::poll(): going to black");
+            scope_messages.printf("SS_LOGIC::poll(): going to black\n");
             reset();
             ss_status = SS_STATUS_BLANKED;
         }
@@ -138,12 +138,12 @@ void SS_LOGIC::poll(double now) {
             bool stop_app_ss = false;
             if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
                 if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
-                    scope_messages.printf("SS_LOGIC::poll(): app %s not scheduled", atp->result->name);
+                    scope_messages.printf("SS_LOGIC::poll(): app %s not scheduled\n", atp->result->name);
                     stop_app_ss = true;
                 }
             } else {
                 if (time(0) > ack_deadline) {
-                    scope_messages.printf("SS_LOGIC::poll(): app %s not respond", atp->result->name);
+                    scope_messages.printf("SS_LOGIC::poll(): app %s not respond\n", atp->result->name);
                     stop_app_ss = true;
                 }
             }
@@ -162,10 +162,10 @@ void SS_LOGIC::poll(double now) {
         //
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
-            scope_messages.printf("SS_LOGIC::poll(): picked %s, request restart", atp->result->name);
+            scope_messages.printf("SS_LOGIC::poll(): picked %s, request restart\n", atp->result->name);
             ask_app(atp, saved_graphics_msg);
         } else {
-            scope_messages.printf("SS_LOGIC::poll(): no app found");
+            scope_messages.printf("SS_LOGIC::poll(): no app found\n");
             if (gstate.active_tasks.active_tasks.size()==0) {
                 if (gstate.projects.size()>0) {
                     ss_status = SS_STATUS_NOAPPSEXECUTING;
