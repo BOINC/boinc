@@ -6714,3 +6714,13 @@ David  17 May 2005
         handle_request.C
         sched_locality.C,h
         sched_util.C,h
+
+Rom    17 May 2005
+    - Bug Fix: The Mac screensaver sends us a MODE_HIDE_GRAPHICS even before
+        it acknowledges the MODE_FULLSCREEN change which in turn tells the CC
+        to shutdown the screensaver.  So lets improve the robustness of the
+        shutdown logic to only shutdown the screensaver if the CC has received
+        an ack for the MODE_FULLSCREEN message.
+
+    client/
+        app_graphics.C

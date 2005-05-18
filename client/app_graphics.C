@@ -78,7 +78,9 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
         if (gm.mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = gm.mode;
         }
-        if (gm.mode == MODE_HIDE_GRAPHICS && is_ss_app) {
+        if (gm.mode == MODE_HIDE_GRAPHICS &&
+            graphics_mode_acked_old == MODE_FULLSCREEN &&
+            is_ss_app) {
             gstate.ss_logic.stop_ss();
             scope_messages.printf(
                 "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver"
