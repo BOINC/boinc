@@ -462,6 +462,11 @@ void CBOINCGUIApp::StartupBOINCCore() {
         if (0 != m_lBOINCCoreProcessId) {
             m_bBOINCStartedByManager = true;
         }
+
+        // Sleep for 5 seconds to avoid connection failures that might occur if
+        //   the core client has not opened any sockets by the next time we
+        //   request network IO
+        ::wxSleep(5);
     }
 }
 

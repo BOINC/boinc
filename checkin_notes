@@ -6737,3 +6737,10 @@ Charlie    18 May 2005
     clientgui/
         mac/
             mac_saver_module.cpp
+
+Rom    18 May 2005
+    - Bug Fix: After starting the CC wait for 5 seconds to give the CC time
+        to establish the listening socket for the next rpc request.
+
+    clientgui/
+        BOINCGUIApp.cpp
