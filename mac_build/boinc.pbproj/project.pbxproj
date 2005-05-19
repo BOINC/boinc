@@ -2936,7 +2936,7 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = "/Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../config.h";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../config.h";

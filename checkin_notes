@@ -6752,3 +6752,14 @@ Rom    18 May 2005
         ss_logic.C
     clientgui/
         BOINCGUIApp.cpp
+
+Charlie    18 May 2005
+	Mac: Eliminate an absolute library search path in project. 
+        In build instructions, don't suggeest using jpeglib.h from
+        seti_boinc project.
+
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj
+        
