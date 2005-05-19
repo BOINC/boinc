@@ -6376,9 +6376,10 @@ Rom    9 May 2005
 
 Bruce 10 May 2005
     - Forums: added an html/bookmark style link to the header for each message.
-      This makes it a bit more convenient to reference a particular message (rather
-      than the entire thread) in an email or another thread.  Janus, Rob, I hope this
-      is OK with you.  Feel free to revert if you don't like it.
+      This makes it a bit more convenient to reference a particular message
+      (rather than the entire thread) in an email or another thread.
+      Janus, Rob, I hope this is OK with you.
+      Feel free to revert if you don't like it.
     - Forums: added credit and recent average credit to the brief description
       of users.
 
@@ -6387,8 +6388,8 @@ Bruce 10 May 2005
             forum.inc
 
 Janus  10 May 2005
-    - Reply box on reply page in the forums is now at the top of the page to avoid scrolling
-      (From Rob Oglivie)
+    - Reply box on reply page in the forums is now at the top of the page
+        to avoid scrolling (From Rob Oglivie)
 
     html/user/
         forum_reply.php
