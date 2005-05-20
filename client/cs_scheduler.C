@@ -333,8 +333,13 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     return 0;
 }
 
-// find a project with results that are overdue to report,
-// and which we're allowed to contact.
+// find a project with finished results that should be reported.
+// This means:
+//    - we're not backing off contacting the project
+//    - the result is ready_to_report (compute done; files uploaded)
+//    - we're either within a day of the report deadline,
+//      or at least work_buf_min_days time has elapsed since
+//      result was completed.
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
@@ -344,9 +349,6 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     for (i=0; i<results.size(); i++) {
         r = results[i];
         // return the project for this result to report if:
-        //    - we're not backing off a scheduler request for its project
-        //    - we're ready_to_report (compute done; files uploaded)
-        //    - we're almost at the report_deadline
         //
 
         PROJECT* p = r->project;
@@ -354,7 +356,10 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (p->suspended_via_gui) continue;
 
         if (!r->ready_to_report) continue;
-        if (r->report_deadline <= (now + REPORT_DEADLINE_CUSHION)) {
+        if (now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
+            return p;
+        }
+        if (now > r->completed_time + global_prefs.work_buf_min_days) {
             return p;
         }
     }

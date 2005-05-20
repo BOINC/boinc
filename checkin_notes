@@ -6800,3 +6800,17 @@ David  20 May 2005
     doc/
         download.php
         versions.inc (new)
+
+David  20 May 2005
+    - Added mechanism to report results sooner in some cases.
+        - results have a new field "completed time":
+            the time when ready_to_report was set.
+        - a project's completed results are reported when either
+            1) the time is within a day of a report deadline, or
+            2) the time is more than work_buf_min_days after
+                r.completed_time for some result r.
+
+    client/
+        client_state.C
+        client_types.C,h
+        cs_scheduler.C

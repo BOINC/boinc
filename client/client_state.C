@@ -1029,6 +1029,7 @@ bool CLIENT_STATE::update_results(double now) {
         case RESULT_FILES_UPLOADING:
             if (rp->is_upload_done()) {
                 rp->ready_to_report = true;
+                rp->completed_time = now;
                 rp->state = RESULT_FILES_UPLOADED;
                 action = true;
             }
@@ -1079,6 +1080,7 @@ int CLIENT_STATE::report_result_error(
     }
 
     res.ready_to_report = true;
+    res.completed_time = dtime();
 
     va_list va;
     va_start(va, format);

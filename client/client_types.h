@@ -334,6 +334,8 @@ struct RESULT {
         // we're ready to report this result to the server;
         // either computation is done and all the files have been uploaded
         // or there was an error
+    double completed_time;
+        // time when ready_to_report was set
     bool got_server_ack;
         // we're received the ack for this result from the server
     double final_cpu_time;
