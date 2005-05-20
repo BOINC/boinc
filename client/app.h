@@ -137,6 +137,7 @@ public:
     GRAPHICS_MSG graphics_msg;
     void request_graphics_mode(GRAPHICS_MSG&);
     int request_reread_prefs();
+    int request_reread_app_info();
     void check_graphics_mode_ack();
     int link_user_files();
     int get_shmem_seg_name();
@@ -220,6 +221,7 @@ public:
     void graphics_poll();
     void process_control_poll();
     void request_reread_prefs(PROJECT*);
+    void request_reread_app_info();
 
     int write(MIOFILE&);
     int parse(MIOFILE&);

@@ -590,9 +590,22 @@ int ACTIVE_TASK::request_reread_prefs() {
 
     retval = write_app_init_file();
     if (retval) return retval;
-    if (!app_client_shm.shm) return 0;
-    app_client_shm.shm->graphics_request.send_msg(
-        xml_graphics_modes[MODE_REREAD_PREFS]
+    graphics_request_queue.msg_queue_send(
+        xml_graphics_modes[MODE_REREAD_PREFS],
+        app_client_shm.shm->graphics_request
+    );
+    return 0;
+}
+
+// tell a running app to reread the app_info file
+// (e.g. because proxy settings have changed: this is for F@h)
+//
+int ACTIVE_TASK::request_reread_app_info() {
+    int retval = write_app_init_file();
+    if (retval) return retval;
+    process_control_queue.msg_queue_send(
+        "<reread_app_info/>",
+        app_client_shm.shm->process_control_request
     );
     return 0;
 }
@@ -608,6 +621,14 @@ void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
         if (atp->result->project != project) continue;
         if (!atp->process_exists()) continue;
         atp->request_reread_prefs();
+    }
+}
+
+void ACTIVE_TASK_SET::request_reread_app_info() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (!atp->process_exists()) continue;
+        atp->request_reread_app_info();
     }
 }
 

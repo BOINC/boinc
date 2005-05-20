@@ -143,7 +143,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 //
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
     PROJECT *p, *p_prospect = NULL;
-    double work_on_prospect;
+    double work_on_prospect=0;
     double now = dtime();
     unsigned int i;
     bool found_old = (old == 0);
@@ -162,11 +162,15 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
         if (p->long_term_debt < 0 && !cpu_idle) continue;
         if (p->work_request_urgency == WORK_FETCH_DONT_NEED) continue;
 
-        // if we don't really need work, and we don't really need work from this project, pass.
+        // if we don't really need work,
+        // and we don't really need work from this project, pass.
+        //
         if (urgency <= WORK_FETCH_OK && p->work_request_urgency <= WORK_FETCH_OK) continue;
 
-        // if there is a project for which a work request is OK and one that has a higher priority, take the one
-        // with the higher priority.
+        // if there is a project for which a work request is OK
+        // and one that has a higher priority,
+        // take the one with the higher priority.
+        //
         if (p_prospect && p->work_request_urgency == WORK_FETCH_OK && 
             p_prospect->work_request_urgency > p->work_request_urgency) {
         

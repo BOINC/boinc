@@ -521,6 +521,9 @@ static void handle_process_control_msg() {
                 boinc_exit(0);
             }
         }
+        if (match_tag(buf, "<reread_app_info/>")) {
+            boinc_status.reread_init_data_file = true;
+        }
     }
 }
 

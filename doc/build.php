@@ -17,8 +17,8 @@ Other Unix-like systems should work without too much configuration.
     <th>Server</th>
     <th>Core client<br>(non-graphical)</th>
     <th>Core client<br>(graphical)</th>
-    <th>API<br>(non-graphical)</th>
-    <th>API<br>(graphical)</th>
+    <th>Applications<br>(non-graphical)</th>
+    <th>Applications<br>(graphical)</th>
 </tr>
 <tr>
     <td>GNU tools:

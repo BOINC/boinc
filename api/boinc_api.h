@@ -61,6 +61,7 @@ struct BOINC_STATUS {
     bool no_heartbeat;
     bool suspended;
     bool quit_request;
+    bool reread_init_data_file;
 };
 
 extern int boinc_init(void);

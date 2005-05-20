@@ -6764,3 +6764,15 @@ Charlie    18 May 2005
         boinc.pbproj/
             project.pbxproj
         
+David  19 May 2005
+    - Core client: When proxy info is updated (via RPC) send a
+        <reread_app_info/> message to the process_control channel,
+        telling the app to reread the app_info file (for Folding@home)
+
+    api/
+        boinc_api.C,h
+    client/
+        app.h
+        app_control.C
+        cs_scheduler.C
+        gui_rpc_server.C
