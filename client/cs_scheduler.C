@@ -354,9 +354,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (p->suspended_via_gui) continue;
 
         if (!r->ready_to_report) continue;
-        if (return_results_immediately ||
-             (r->report_deadline <= (now + REPORT_DEADLINE_CUSHION))
-        ) {
+        if (r->report_deadline <= (now + REPORT_DEADLINE_CUSHION)) {
             return p;
         }
     }

@@ -6787,3 +6787,16 @@ Charlie    20 May 2005
         HowToBuildBOINC_XCode.rtf
         boinc.pbproj/
             project.pbxproj
+
+David  20 May 2005
+    - changed download page to make it small;
+        details are on separate pages.
+    - removed "high_priority" and "return_result_immediately" attributes
+        from RESULT (no changes like this without discussion!)
+
+    client/
+        client_types.C,h
+        cs_scheduler.C
+    doc/
+        download.php
+        versions.inc (new)
