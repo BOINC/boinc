@@ -7,7 +7,7 @@
 Written by Charlie Fenton
 
 <p>
-Last updated 5/17/05
+Last updated 5/20/05
 
 </center>
  
@@ -221,6 +221,23 @@ Installer-Info.plist
 <p>
 
 (10) The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process. 
+
+ 
+<p>
+
+(11) If you wish to run the Core Client under the debugger, you will need to set up the command-line arguments.  In the Groups & Files column of the XCode project window, select "BOINC_Client" under Executables.  Then click on the round blue "info" button at the top of the project window to open the info window.  In the info window's Arguments tab, add the following line to the Argument list:
+
+<pre>
+-dir /Library/Application\ Support/BOINC\ Data/
+</pre>
+
+Normally, stdio and stderr output will be sent to XCode's console.  If you want stdio and stderr to be redirected to files as BOINC normally does, add a second line to the Argument list:
+
+<pre>
+-redirectio
+</pre>
+
+These arguments will be used only when running the BOINC Core Client from XCode using XCode's Run or Debug commands.
 
 <h2>Building the installer</h2>
 
