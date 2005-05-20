@@ -6780,6 +6780,8 @@ David  19 May 2005
 Charlie    20 May 2005
 	Mac: Change how wxWidgets libraries are linked so the static 
         versions are used even if the dynamic libraries are present.
+        In XCode project, set up arguments to core client to allow 
+        running boinc client under debugger.
 
     mac_build/
         boinc.pbproj/
