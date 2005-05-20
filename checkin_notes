@@ -6830,3 +6830,9 @@ Rom    20 May 2005
         ss_logic.C
     client/win/
         win_screensaver.cpp
+
+David  20 May 2005
+    - get rid of warnings in ACTIVE_TASK parse
+
+    client/
+        app.C

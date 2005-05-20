@@ -444,6 +444,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_int(buf, "<active_task_state>", n)) continue;
         else if (parse_double(buf, "<vm_bytes>", x)) continue;
         else if (parse_double(buf, "<rss_bytes>", x)) continue;
+        else if (match_tag(buf, "<supports_graphics/>")) continue;
+        else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;
         else scope_messages.printf("ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return ERR_XML_PARSE;
