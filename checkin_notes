@@ -6776,3 +6776,11 @@ David  19 May 2005
         app_control.C
         cs_scheduler.C
         gui_rpc_server.C
+
+Charlie    20 May 2005
+	Mac: Change how wxWidgets libraries are linked so the static 
+        versions are used even if the dynamic libraries are present.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

@@ -339,10 +339,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD40D05107F03A030096C645,
-				DD130C1F0820C1ED001A0291,
-				DD130C220820C21F001A0291,
-				DD130C240820C234001A0291,
-				DD130C260820C26B001A0291,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,11 +362,11 @@
 				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.6 ../wxinclude";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.6.0/osx-build/lib";
+				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -lz -lm";
+				OTHER_LDFLAGS = "-D_THREAD_SAFE ../wx_lib/libwx_base_carbon_net-2.6.a ../wx_lib/libwx_base_carbon-2.6.a ../wx_lib/libwx_mac_adv-2.6.a ../wx_lib/libwx_mac_core-2.6.a -lz -lpthread -liconv -lz -lm";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCManager;
 				SECTORDER_FLAGS = "";
@@ -844,30 +840,6 @@
 			path = ../mac_installer/postupgrade;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD130C1F0820C1ED001A0291 = {
-			fileRef = DD6F71B2081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD130C220820C21F001A0291 = {
-			fileRef = DD6F71BB081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD130C240820C234001A0291 = {
-			fileRef = DD6F71B9081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD130C260820C26B001A0291 = {
-			fileRef = DD6F71B7081E509200F5B280;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DD130E740820C422001A0291 = {
 			fileRef = DD7C5E7508110AE3002FCE1E;
