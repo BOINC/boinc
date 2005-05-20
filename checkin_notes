@@ -6814,3 +6814,19 @@ David  20 May 2005
         client_state.C
         client_types.C,h
         cs_scheduler.C
+
+Rom    20 May 2005
+    - Reduce flicker in the screensaver by delaying the request to
+        enter fullscreen mode until after the app has ack'ed the hide_graphics
+        request.
+    - Fix what appears to be a long standing bug in the Windows screensaver
+        where after the first execution of the screensaver the core client
+        continues to report the screensaver mode as SS_STATUS_QUIT even when
+        the screensaver is starting up for the second time which causes the
+        screensaver to exit.
+
+    client/
+        app_graphics.C
+        ss_logic.C
+    client/win/
+        win_screensaver.cpp

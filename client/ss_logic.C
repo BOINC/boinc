@@ -40,7 +40,7 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
     atp->is_ss_app = true;
     ack_deadline = dtime() + 5.0;
     scope_messages.printf(
-        "SS_LOGIC::ask_app(): starting %s currenttime %f deadline %f \n",
+        "SS_LOGIC::ask_app(): starting %s current time %f deadline %f \n",
         atp->result->name, dtime(), ack_deadline
     );
 }
@@ -61,12 +61,6 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
 
     m.mode = MODE_FULLSCREEN;
     saved_graphics_msg = m;
-    if (!gstate.activities_suspended) {
-        atp = gstate.get_next_graphics_capable_app();
-        if (atp) {
-            ask_app(atp, m);
-        }
-    }
 }
 
 // called in response to a set_screensaver_mode RPC without <enabled>
@@ -148,7 +142,7 @@ void SS_LOGIC::poll(double now) {
             } else {
                 if (dtime() > ack_deadline) {
                     scope_messages.printf(
-                        "SS_LOGIC::poll(): app %s did not respond, current time %f deadline %f\n",
+                        "SS_LOGIC::poll(): app %s is no longer fullscreen and passed ack deadline, current time %f deadline %f\n",
                         atp->result->name, dtime(), ack_deadline
                     );
                     stop_app_ss = true;

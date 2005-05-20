@@ -1007,13 +1007,13 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 
 
         GetError(bErrorMode, hrError, NULL, 0);
-        if (!m_bCoreNotified && !bErrorMode) {
-            BOINCTRACE(_T("CScreensaver::DataManagementProc - Startup BOINC Screensaver\n"));
-            StartupBOINC();
+        if (SS_STATUS_QUIT == m_iStatus && m_bCoreNotified) {
+            BOINCTRACE(_T("CScreensaver::DataManagementProc - Shutdown BOINC Screensaver\n"));
+            ShutdownSaver();
         } else {
-            if (SS_STATUS_QUIT == m_iStatus) {
-                BOINCTRACE(_T("CScreensaver::DataManagementProc - Shutdown BOINC Screensaver\n"));
-                ShutdownSaver();
+            if (!bErrorMode && !m_bCoreNotified) {
+                BOINCTRACE(_T("CScreensaver::DataManagementProc - Startup BOINC Screensaver\n"));
+                StartupBOINC();
             }
         }
 

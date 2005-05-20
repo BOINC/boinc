@@ -207,16 +207,20 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
         for (j=0; j<active_tasks.active_tasks.size(); j++) {
             atp = active_tasks.active_tasks[j];
             if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+            // don't choose an application that doesn't support graphics
+            if (atp->graphics_mode_acked == MODE_UNSUPPORTED) continue;
+            // don't choose an application that hasn't ack'ed the
+            // hide graphics request
+            if (atp->graphics_mode_acked != MODE_HIDE_GRAPHICS) continue;
             if (atp->result->project != p) continue;
-            if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED && 
-                atp->graphics_mode_before_ss == MODE_WINDOW) {
+
+            if (!best_atp && atp->graphics_mode_before_ss == MODE_WINDOW) {
                 best_atp = atp;
             }
-            if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED && 
-                atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
+            if (!best_atp && atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
                 best_atp = atp;
             }
-            if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED) {
+            if (!best_atp) {
                 best_atp = atp;
             }
             if (best_atp) {
