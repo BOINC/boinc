@@ -37,6 +37,7 @@
 
 void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
     char buf[MSG_CHANNEL_SIZE], buf2[256];
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     if (!app_client_shm.shm) return;
 
@@ -56,6 +57,10 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
         strcat(buf, buf2);
     }
 
+    scope_messages.printf(
+        "ACTIVE_TASK::request_graphics_mode(): requesting graphics mode %s for %s\n",
+        xml_graphics_modes[m.mode], result->name
+    );
     graphics_request_queue.msg_queue_send(
         buf,
         app_client_shm.shm->graphics_request
