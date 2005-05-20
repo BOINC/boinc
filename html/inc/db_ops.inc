@@ -800,6 +800,8 @@ function host_short_header() {
         <th>host ID</th>
         <th>IP address</th>
         <th>name</th>
+        <th>RAC</th>
+        <th>total credit</th>
         <th>CPU</th>
         <th>OS</th>
         </tr>
@@ -811,8 +813,10 @@ function show_host_short($host) {
         <tr>
         <td><a href=\"db_action.php?table=host&id=$host->id\">$host->id</a></td>
         <td>$host->last_ip_addr</td>
-        <td>$host->domain_name</td>
-        <td>$host->p_vendor $host->p_model</td>
+        <td>$host->domain_name</td>";
+       printf("<td>%.2f</td>", $host->expavg_credit);
+       printf("<td>%.1f</td>", $host->total_credit);
+    echo "<td>$host->p_vendor $host->p_model</td>
         <td>$host->os_name $host->os_version</td>
         </tr>
     ";
