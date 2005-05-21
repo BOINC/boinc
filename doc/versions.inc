@@ -54,19 +54,58 @@ function mac_advanced() {
     }
 }
 
-$w425 = array(
-    "num"=>"4.25",
-    "file"=>"boinc_4.25_windows_intelx86.exe",
+$w419 = array(
+    "num"=>"4.19",
+    "status"=>"Older version",
+    "file"=>"boinc_4.19_windows_intelx86.exe",
+    "date"=>"25 Jan 2005",
+    "type"=>win_old(),
+    null,
+    "<ul>
+    <li> Doesn't work with some HTTP proxies (fixed in later versions).
+    <li>
+    If BOINC runs at the same time as Windows XP 3D screensavers,
+    the system becomes sluggish and unresponsive.
+    </ul>
+    "
+);
+
+$w443= array(
+    "num"=>"4.43",
     "status"=>"Recommended version",
-    "date"=>"3 Mar 2005",
+    "file"=>"boinc_4.43_windows_intelx86.exe",
+    "date"=>"19 May 2005",
     "type"=>win_new(),
-    "features"=>"Works with HTTP proxies",
+    "features"=>"<ul>
+    <li>
+    Scheduling within the client software package has been improved to support
+    a larger group of projects.
+    <li>
+    Fixes a bug in which Intellisense/Intellipoint
+    closes applications while in screensaver mode.
+    <li>
+    Fixes bugs with managed deployments with Active Directory.
+    <li>
+    A new 'Select Computer' dialog remembers which computers you have connected to.
+    <li>
+    A new statistics tab has been added to the BOINC manager (thanks to
+    Jens Breitbart for the great feature).
+    <li>
+    Support for UMTS networks.
+    <li>
+    Support for <a href=acct_mgt.php>account management websites</a>.
+    <li>
+    <a href=gui_rpc.php>Password protection for GUI access</a>.
+    <li>
+    BOINC Manager now sports a new button based interface which replaces the
+    html based interface in previous versions.
+    </ul>
+    ",
     "bugs"=>"<ul>
-    <li/> The BOINC screensaver conflicts with Microsoft Intellitype software.
-    <li/>
+    <li>
     Applications that were built before October 2004 do not
-    display screensaver graphics with the Service or Shared installation,
-    or the Single-user installation with the password protect screensaver
+    display screensaver graphics with the Service or Shared install type,
+    or the Single-user install type with the password protect screensaver
     option on NT based machines.
     <li>
     If BOINC runs at the same time as Windows XP 3D screensavers,
@@ -86,84 +125,24 @@ $w425 = array(
     "
 );
 
-$w419 = array(
-    "num"=>"4.19",
-    "status"=>"Older version",
-    "file"=>"boinc_4.19_windows_intelx86.exe",
-    "date"=>"25 Jan 2005",
-    "type"=>win_old(),
-    null,
-    "<ul>
-    <li> Doesn't work with some HTTP proxies (fixed in later versions).
-    <li>
-    If BOINC runs at the same time as Windows XP 3D screensavers,
-    the system becomes sluggish and unresponsive.
-    </ul>
-    "
-);
-$w443= array(
+$m443 = array(
     "num"=>"4.43",
-    "status"=>"Development version",
-    "file"=>"boinc_4.43_windows_intelx86.exe",
-    "date"=>"19 May 2005",
-    "type"=>win_new(),
-    "features"=>"<ul>
-    <li>
-    A new scheduler has been written for the client-side application so the
-    client can be attached to many more without missing deadlines.
-    <li>
-    Fixes a bug in which Intellisense/Intellipoint
-    closes applications while in screensaver mode.
-    <li>
-    Fixes bugs with managed deployments with Active Directory.
-    <li>
-    A new 'Select Computer' dialog remembers
-    which computers you have connected to.
-    <li>
-    A new statistics tab has been added to the BOINC manager (thanks to
-    Jens Breitbart for the great feature).
-    <li>
-    Support for UMTS networks.
-    <li>
-    Numerious usability fixes.
-    <li>
-    Fixed connectivity problems on all platforms.
-    <li>
-    Support for <a href=acct_mgt.php>account management websites</a>.
-    <li>
-    <a href=gui_rpc.php>Password protection for GUI access</a>.
-    <li>
-    BOINC Manager now sports a new button based interface which replaces the
-    html based interface in previous versions.
-    <li>
-    BOINC Manager now is built with wxWidgets 2.6.0
-    <li>
-    Symbol files (*.pdb) have been removed from the installer to help out those
-    on dialup connections.  We were not receiving very many, if any crashes in 
-    the last few months.  We'll make the symbol files available as a seperate
-    download.
-    </ul>
-    ",
+    "status"=>"Recommended version (advanced GUI)",
+    "file"=>"boinc_4.43_macOSX.zip",
+    "date"=>"21 May 2005",
+    "type"=>mac_advanced(),
     "bugs"=>"<ul>
-    <li>
-    Applications that were built before October 2004 do not
-    display screensaver graphics with the Service or Shared install type,
-    or the Single-user install type with the password protect screensaver
-    option on NT based machines.
-    <li>
-    If BOINC runs at the same time as Windows XP 3D screensavers,
-    the system becomes sluggish and unresponsive.
-    <li>
-    Same issues for dialup users as 4.25.
-    <li>
-    Same issues for ATI graphics cards as 4.25.
-    </ul>
+     <li>
+     We have dropped the requirement of our distribution running on 10.2 since 10.4 has been released.  You should still be able to build the client yourself and have it run on a 10.2 machine.
+     </ul>
+    If you experience any of these problems,
+    we recommend using BOINC version 4.19.
     "
 );
 
 $m419 = array(
     "num"=>"4.19",
-    "status"=>"Recommended version",
+    "status"=>"Old version",
     "file"=>"boinc_4.19_powerpc-apple-darwin.gz",
     "date"=>"25 Jan 2005",
     "type"=>bare_core()
@@ -182,19 +161,6 @@ $m437s = array(
      <li>Adds a preference to share data between users </li><li>Improves security by hiding and encrypting proxy password</li>
      <li>Adds ability to manually run benchmarks</li>
      <li>Improved efficiency</li>
-     </ul>
-    "
-);
-
-$m437 = array(
-    "num"=>"4.37",
-    "status"=>"Development version (advanced GUI)",
-    "file"=>"boinc_4.37_macOSX.zip",
-    "date"=>"6 May 2005",
-    "type"=>mac_advanced(),
-    "bugs"=>"<ul>
-     <li>
-     We have dropped the requirement of our distribution running on 10.2 since 10.4 has been released.  You should still be able to build the client yourself and have it run on a 10.2 machine.
      </ul>
     "
 );
@@ -232,17 +198,16 @@ $s442 = array(
 $windows = array(
     "name"=>"Windows",
     "versions"=>array(
-        $w425,
-        $w419,
         $w443,
+        $w419,
     )
 );
 $mac = array(
     "name"=>"Macintosh OS X",
     "versions"=>array(
-        $m419,
+        $m443,
         $m437s,
-        $m437
+        $m419,
     )
 );
 $linux = array(
