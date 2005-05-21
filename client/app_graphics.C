@@ -77,12 +77,10 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         app_client_shm.decode_graphics_msg(buf, gm);
         scope_messages.printf(
-            "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s\n",
-            buf, result->name
+            "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s, previous mode %s\n",
+            buf, result->name, xml_graphics_modes[graphics_mode_acked]
         );
-        if (gm.mode == MODE_HIDE_GRAPHICS &&          // new mode
-            graphics_mode_acked == MODE_FULLSCREEN && // old mode
-            is_ss_app) {
+        if (is_ss_app && (gm.mode != MODE_FULLSCREEN) && (gm.mode != MODE_REREAD_PREFS)) {
             gstate.ss_logic.stop_ss();
             scope_messages.printf(
                 "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver\n"

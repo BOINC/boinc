@@ -6836,3 +6836,10 @@ David  20 May 2005
 
     client/
         app.C
+
+Rom    20 May 2005
+    - Fix the one off bug that would allow the screensaver to continue operation
+        when only one click of the mouse occurred or one click of the keyboard.
+
+    client/
+        app_graphics.C
