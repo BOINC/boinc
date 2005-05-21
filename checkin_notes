@@ -6848,7 +6848,13 @@ Charlie    21 may 2005
 	Mac: If core client exits screensaver mode but Mac screensaver engine 
         doesn't (as in the case of a mouse button click with no mouse movement)
         then show message "BOINC is no longer in screensaver mode."
+        Update installer to work around problems launching BOINC Manager.
 
     clientgui/
         mac/
             mac_saver_module.cpp
+    mac_installer/
+        postinstall
+        postupgrade
+        PostInstall.cpp
+

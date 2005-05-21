@@ -48,8 +48,9 @@ int main(int argc, char *argv[])
     long response;
     ProcessSerialNumber	ourProcess, installerPSN;
     short itemHit;
-    int NumberOfLoginItems, Counter, i;
-    pid_t myPid = 0, installerPID = 0;
+    int NumberOfLoginItems, Counter;
+    pid_t installerPID = 0;
+    FSRef fileRef;
     OSStatus err;
 
     Initialize();
@@ -82,6 +83,10 @@ int main(int argc, char *argv[])
         err = kill(installerPID, SIGKILL);
 	ExitToShell();
     }
+
+    err = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
+    if (err == noErr)
+        err = LSOpenFSRef(&fileRef, NULL);
     
 // *****************************************************************************************
 //  Everything after this REQUIRES us to be setuid to the login user's user ID
@@ -111,7 +116,10 @@ int main(int argc, char *argv[])
 
     Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
-    
+
+#if 0
+    int i;
+    pid_t myPid = 0;
 
     // Fork a process to launch the BOINCManager after the installer quits
     if ( (myPid = fork()) < 0)                  // error
@@ -126,6 +134,7 @@ int main(int argc, char *argv[])
         system("/Applications/BOINCManager.app/Contents/MacOS/BOINCManager");
     }
     // We get here if parent (myPID > 0)
+#endif
     return 0;
 }
 
