@@ -6843,3 +6843,12 @@ Rom    20 May 2005
 
     client/
         app_graphics.C
+
+Charlie    21 may 2005
+	Mac: If core client exits screensaver mode but Mac screensaver engine 
+        doesn't (as in the case of a mouse button click with no mouse movement)
+        then show message "BOINC is no longer in screensaver mode."
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp

@@ -120,6 +120,7 @@ const ConstStringPtr BOINCNoProjectsDetectedMsg = "\pBOINC is not attached to an
 const ConstStringPtr BOINCNoGraphicAppsExecutingMsg = "\pBOINC is currently not executing any applications with graphics";
 const ConstStringPtr BOINCUnrecoverableErrorMsg = "\pSorry, an unrecoverable error occurred";
 const ConstStringPtr BOINCTestmodeMg = "\pThis BOINC screensaver does not support Test mode";
+const ConstStringPtr BOINCExitedSaverMode = "\pBOINC is no longer in screensaver mode.";
 
 
 // Returns desired Animation Frequency (per second) or 0 for no change
@@ -311,7 +312,7 @@ int drawGraphics(GrafPtr aPort) {
             // Handled in RPCThread()
             break;
         case SS_STATUS_QUIT:
-            // Handled in RPCThread()
+            setBannerText(BOINCExitedSaverMode, aPort);
             break;
         }       // end switch (gClientSaverStatus)
         break;
