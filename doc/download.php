@@ -21,7 +21,7 @@ function show_detail($v) {
     $path = "dl/$file";
     $url = "http://boinc.berkeley.edu/$path";
     $dlink = "<a href=$url>$file</a>";
-    $md = md5_file($path);
+    //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
     $type = $v["type"];
@@ -33,7 +33,7 @@ function show_detail($v) {
     dl_item("Version number", $num);
     dl_item("Release date", $date);
     dl_item("Installer type", $type);
-    dl_item("MD5 checksum of download file", $md);
+    //dl_item("MD5 checksum of download file", $md);
     if ($features) {
         dl_item ("New features", $features);
     }
@@ -66,7 +66,7 @@ function show_version_xml($v, $long_name) {
     $path = "dl/$file";
     $url = "http://boinc.berkeley.edu/$path";
     $dlink = "<a href=$url>$file</a>";
-    $md = md5_file($path);
+    //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
     $type = $v["type"];
@@ -83,12 +83,12 @@ function show_version_xml($v, $long_name) {
     <url>$url</url>
     <filename>$file</filename>
     <size_mb>$s</size_mb>
-    <md5>$md</md5>
     <installer>$type</installer>
     <features>$features</features>
     <issues>$bugs</issues>
 </version>
 ";
+//    <md5>$md</md5>
 }
 
 function show_version($pname, $i, $v) {

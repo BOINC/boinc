@@ -56,6 +56,7 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
+static pthread_t timer_thread_handle;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -594,6 +595,17 @@ static void worker_timer(int /*a*/) {
 #endif
 }
 
+#ifndef _USECONDS_T_DECLARED
+typedef unsigned int useconds_t;
+#endif
+
+void * timer_thread(void *) {
+    while(1) {
+        usleep((useconds_t)(TIMER_PERIOD*1000000));
+        worker_timer(0);
+    }
+    /*NOTREACHED*/
+}
 
 // set up a periodic timer interrupt for the worker thread.
 // This is called only and always by the worker thread
@@ -627,6 +639,12 @@ int set_worker_timer() {
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 #else
+#if 1
+    retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
+    if (retval) {
+        perror("set_worker_timer(): pthread_create(): %d");
+    }
+#else
     struct sigaction sa;
     itimerval value;
     sa.sa_handler = worker_timer;
@@ -643,6 +661,7 @@ int set_worker_timer() {
     if (retval) {
         perror("boinc set_worker_timer() setitimer");
     }
+#endif
 #endif
     return retval;
 }

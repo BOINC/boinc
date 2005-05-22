@@ -6858,3 +6858,16 @@ Charlie    21 may 2005
         postupgrade
         PostInstall.cpp
 
+David  21 May 2005
+    - API: there seem to be problems with the user of timer signals
+        in the BOINC API (Unix version).
+        On some platforms the signals are delivered to both
+        the worker and graphics thread,
+        and they can deadlock on something down in _vprintf().
+
+        Rather than try to sort this out,
+        we'll switch to using a separate thread instead of signals.
+        (from J.R. Oldroyd)
+
+    api/
+        boinc_api.C
