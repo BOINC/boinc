@@ -126,9 +126,9 @@ $w443= array(
 );
 
 $m443 = array(
-    "num"=>"4.43",
+    "num"=>"4.37",
     "status"=>"Recommended version (advanced GUI)",
-    "file"=>"boinc_4.43_macOSX.zip",
+    "file"=>"boinc_4.37_macOSX.zip",
     "date"=>"21 May 2005",
     "type"=>mac_advanced(),
     "bugs"=>"<ul>
