@@ -9,3 +9,5 @@ chmod -R a+s /Applications/BOINCManager.app
 cd "$1"
 # Run the Postinstall Application
 Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall &
+
+exit 0
