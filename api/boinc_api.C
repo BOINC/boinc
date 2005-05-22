@@ -56,7 +56,12 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-static pthread_t timer_thread_handle;
+#ifndef _WIN32
+static pthread_t timer_thread;
+extern pthread_t worker_thread;
+#endif
+static double worker_thread_cpu_time=0;
+
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -141,9 +146,7 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
     }
     return 0;
 #else
-    // no CPU time calls in pthreads - return process total
-    //
-    return boinc_calling_thread_cpu_time(cpu);
+    cpu = worker_thread_cpu_time;
 #endif
 }
 
@@ -528,6 +531,15 @@ static void handle_process_control_msg() {
     }
 }
 
+#ifndef _WIN32
+static void timer_signal_handler(int) {
+    if (pthread_equal(pthread_self(), worker_thread)) {
+        int retval = boinc_calling_thread_cpu_time(worker_thread_cpu_time);
+    }
+}
+
+#endif
+
 #ifdef _WIN32
 static void CALLBACK worker_timer(
     UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2
@@ -639,15 +651,13 @@ int set_worker_timer() {
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 #else
-#if 1
-    retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
+    retval = pthread_create(&timer_thread, NULL, timer_thread, NULL);
     if (retval) {
         perror("set_worker_timer(): pthread_create(): %d");
     }
-#else
     struct sigaction sa;
     itimerval value;
-    sa.sa_handler = worker_timer;
+    sa.sa_handler = timer_signal_handler;
     sa.sa_flags = SA_RESTART;
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
@@ -661,7 +671,6 @@ int set_worker_timer() {
     if (retval) {
         perror("boinc set_worker_timer() setitimer");
     }
-#endif
 #endif
     return retval;
 }
@@ -678,16 +687,13 @@ int boinc_send_trickle_up(char* variety, char* p) {
     return 0;
 }
 
-// logically this should be a bool.  But it need to be an int to be
-// compatible with C API.
+// logically this should be a bool.
+// But it needs to be an int to be compatible with C
+//
 int boinc_time_to_checkpoint() {
-
-    // If the application has received a quit request it should checkpoint
-    //
     if (ready_to_checkpoint) {
-      return 1;
+        return 1;
     }
-
     return 0;
 }
 

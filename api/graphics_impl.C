@@ -136,7 +136,7 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     retval = pthread_attr_setschedparam(&worker_thread_attr, &param);
     if (retval) return ERR_THREAD;
 
-    // initialze thread-id of calling thread (which is the graphics-thread!)
+    // initialize ID of calling thread (the graphics-thread!)
     graphics_thread = pthread_self();
     
     retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);

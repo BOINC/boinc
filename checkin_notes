@@ -6892,3 +6892,23 @@ Charlie    22 may 2005
         postupgrade
         PostInstall.cpp
 
+David  22 May 2005
+    - debugged yesterday's API change on Linux.
+        It worked OK except CPU time wasn't getting reported.
+        It turns out that getrusage(), on Linux at least,
+        returns CPU time only for the calling thread
+        (in this case the timer thread,
+        whereas we wanted the worker thread).
+
+        So: put back a timer signal, but use it ONLY to get worker CPU time,
+        and only do that if the worker thread is the one handling the signal.
+        Store the worker CPU time in a variable (worker_thread_cpu_time)
+        which is read by the timer thread.
+
+        Aargh!!
+
+        Still need to make sure this works on Mac OS X, Solaris etc.
+
+    api/
+        boinc_api.C
+        graphics_impl.C
