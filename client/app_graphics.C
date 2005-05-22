@@ -186,9 +186,8 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     PROJECT *p;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
-    // check to see if the applications have changed the graphics ack
-    // since they were first started, this can happen if their is a
-    // failure to find the target desktop
+    // check to see if the applications have changed the graphics mode;
+    // this can happen if they fail to find the target desktop
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];

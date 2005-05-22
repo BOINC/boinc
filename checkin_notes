@@ -6912,3 +6912,14 @@ David  22 May 2005
     api/
         boinc_api.C
         graphics_impl.C
+
+David  22 May 2005
+	- screensaver logic: if > 1 apps are running (e.g. multiprocessor)
+		switch between them every 10 minutes
+	- compile fix for Win
+
+	api/
+		boinc_api.C
+	client/
+		app_graphics.C
+		ss_logic.C

@@ -607,6 +607,7 @@ static void worker_timer(int /*a*/) {
 #endif
 }
 
+#ifndef _WIN32
 #ifndef _USECONDS_T_DECLARED
 typedef unsigned int useconds_t;
 #endif
@@ -618,6 +619,7 @@ void * timer_thread(void *) {
     }
     /*NOTREACHED*/
 }
+#endif
 
 // set up a periodic timer interrupt for the worker thread.
 // This is called only and always by the worker thread

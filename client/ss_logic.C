@@ -26,6 +26,9 @@
 #include "ss_logic.h"
 #include "util.h"
 
+#define SS_CHANGE_PERIOD    600
+    // if > 1 CPUs, change screensaver every 600 secs
+
 SS_LOGIC::SS_LOGIC() {
     do_ss = false;
     blank_time = 0;
@@ -49,8 +52,6 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
 // Start providing screensaver graphics
 //
 void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
-    ACTIVE_TASK* atp;
-
     if (do_ss) return;
     do_ss = true;
     ss_status = SS_STATUS_ENABLED;
@@ -97,9 +98,10 @@ void SS_LOGIC::reset() {
 // called 10X per second
 //
 void SS_LOGIC::poll(double now) {
-    ACTIVE_TASK* atp;
+    ACTIVE_TASK* atp, *new_atp;
     GRAPHICS_MSG m;
     static double last_time=0;
+    static double ss_change_time = 0;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     double dt = now - last_time;
@@ -138,6 +140,11 @@ void SS_LOGIC::poll(double now) {
                 if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
                     scope_messages.printf("SS_LOGIC::poll(): app %s not scheduled\n", atp->result->name);
                     stop_app_ss = true;
+                } else if (now-ss_change_time > SS_CHANGE_PERIOD) {
+                    new_atp = gstate.get_next_graphics_capable_app();
+                    if (new_atp && (new_atp != atp)) {
+                        stop_app_ss = true;
+                    }
                 }
             } else {
                 if (dtime() > ack_deadline) {
@@ -150,8 +157,7 @@ void SS_LOGIC::poll(double now) {
             }
             if (!stop_app_ss) return;
 
-            // app failed to go into fullscreen, or is preempted.
-            // tell it not to do SSG
+            // tell app not to do SSG any more
             //
             m.mode = MODE_HIDE_GRAPHICS;
             atp->request_graphics_mode(m);
@@ -161,10 +167,16 @@ void SS_LOGIC::poll(double now) {
         // here if no app currently doing SSG
         // try to find one.
         //
-        atp = gstate.get_next_graphics_capable_app();
+        if (new_atp) {
+            atp = new_atp;
+        } else {
+            atp = gstate.get_next_graphics_capable_app();
+        }
+
         if (atp) {
             scope_messages.printf("SS_LOGIC::poll(): picked %s, request restart\n", atp->result->name);
             ask_app(atp, saved_graphics_msg);
+            ss_change_time = now;
         } else {
             scope_messages.printf("SS_LOGIC::poll(): no app found\n");
             if (gstate.active_tasks.active_tasks.size()==0) {
