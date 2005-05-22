@@ -22,6 +22,7 @@
 
 const UINT              WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
+static BOOL             is_windows_9x         = FALSE;
 
 static HDC		        hDC                   = NULL;
 static HGLRC	        hRC                   = NULL;
@@ -173,6 +174,7 @@ static void make_new_window() {
 //
 static void set_mode(int mode) {
     int new_mode = mode;
+    GRAPHICS_MSG current_desktop;
 
     if (mode == current_graphics_mode) return;
 	if (current_graphics_mode != MODE_FULLSCREEN) {
@@ -189,10 +191,34 @@ static void set_mode(int mode) {
 
     KillWindow();
 
-    if (!boinc_is_standalone() && 
+    // Detect our current desktop and window station.
+    memset(current_desktop.window_station, 0, sizeof(current_desktop.window_station)/sizeof(char));
+    memset(current_desktop.desktop, 0, sizeof(current_desktop.desktop)/sizeof(char));
+
+    if (!is_windows_9x) {
+        GetUserObjectInformation(
+            GetProcessWindowStation(), 
+            UOI_NAME, 
+            current_desktop.window_station,
+            (sizeof(current_desktop.window_station) / sizeof(char)),
+            NULL
+        );
+        GetUserObjectInformation(
+            GetThreadDesktop(GetCurrentThreadId()), 
+            UOI_NAME, 
+            current_desktop.desktop,
+            (sizeof(current_desktop.desktop) / sizeof(char)),
+            NULL
+        );
+    }
+
+    if (!is_windows_9x &&
+        !boinc_is_standalone() && 
         strlen(graphics_msg.window_station) > 0 &&
-        strlen(graphics_msg.desktop) > 0)
-    {
+        strlen(graphics_msg.desktop) > 0 &&
+        (strcmp(current_desktop.window_station, graphics_msg.window_station) ||
+        strcmp(current_desktop.desktop, graphics_msg.desktop))) {
+
         GetDesktopWindow();
 
         if (NULL == hOriginalWindowStation) {
@@ -443,6 +469,13 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 
 void win_graphics_event_loop() {
 	MSG					msg;		// Windows Message Structure
+
+    // Detect platform information
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx(&osvi);
+    is_windows_9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
+
 
 	// Register window class and graphics mode message
 	reg_win_class();

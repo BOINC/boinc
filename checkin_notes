@@ -6871,3 +6871,15 @@ David  21 May 2005
 
     api/
         boinc_api.C
+
+Rom    21 May 2005
+    - Bug Fix: The ATI graphics drivers do not like to be told to switch
+        to the original desktop and window station that the application started
+        with.  So now the application will detect which window station and
+        desktop it is currently running under and only switch if it is different
+        from the desired desktop and window station.  There was no API
+        failure codes to look for, the application believed everything was
+        running like it was supposed to be.
+
+    api/
+        windows_opengl.C
