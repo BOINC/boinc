@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     long response;
     ProcessSerialNumber	ourProcess, installerPSN;
     short itemHit;
-    int NumberOfLoginItems, Counter;
+    int NumberOfLoginItems, Counter, i;
     pid_t installerPID = 0;
     FSRef fileRef;
     OSStatus err;
@@ -74,23 +74,17 @@ int main(int argc, char *argv[])
         StandardAlert (kAlertStopAlert, "\pSorry, BOINC requires system 10.3 or higher.",
                                                 NULL, NULL, &itemHit);
 
+        err = kill(installerPID, SIGKILL);
+
         // Remove everything we've installed
 	system ("rm -rf /Applications/BOINCManager.app");
 	system ("rm -rf /Library/Screen\\ Savers/BOINCSaver.saver");
 	system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
 	system ("rm -rf /Library/Receipts/BOINC.pkg");
 	
-        err = kill(installerPID, SIGKILL);
 	ExitToShell();
     }
 
-    err = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
-    if (err == noErr)
-        err = LSOpenFSRef(&fileRef, NULL);
-    
-// *****************************************************************************************
-//  Everything after this REQUIRES us to be setuid to the login user's user ID
-// *****************************************************************************************
     // Installer is running as root.  We must setuid back to the logged in user 
     //  in order to add a startup item to the user's login preferences
 
@@ -117,24 +111,18 @@ int main(int argc, char *argv[])
     Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
 
-#if 0
-    int i;
-    pid_t myPid = 0;
+    // Launch BOINC Manager when user closes installer or after 15 seconds
 
-    // Fork a process to launch the BOINCManager after the installer quits
-    if ( (myPid = fork()) < 0)                  // error
-        return -1;
-    else if (myPid == 0) {			// child
-        for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
-            sleep (1);
-            if (FindProcessPID(installerPID) == 0)
-                    break;
-        }
-        
-        system("/Applications/BOINCManager.app/Contents/MacOS/BOINCManager");
+    for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
+        sleep (1);
+        if (FindProcessPID(installerPID) == 0)
+            break;
     }
-    // We get here if parent (myPID > 0)
-#endif
+
+    err = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
+    if (err == noErr)
+        err = LSOpenFSRef(&fileRef, NULL);
+
     return 0;
 }
 

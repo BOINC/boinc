@@ -6883,3 +6883,12 @@ Rom    21 May 2005
 
     api/
         windows_opengl.C
+
+Charlie    21 may 2005
+        Fix problems launching BOINC Manager from installer.
+
+    mac_installer/
+        postinstall
+        postupgrade
+        PostInstall.cpp
+
