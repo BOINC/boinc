@@ -147,7 +147,7 @@ if ($xml) {
         <p>
         If your computer is not of one of these types, you can
         <ul>
-        <li> <a href=anonymous_platform.php>download the BOINC source code and compile it yourself</a> or
+        <li> <a href=anonymous_platform.php>make your own client software</a> or
         <li> <a href=download_other.php>download executables from a third-party site</a>
             (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
         </ul>

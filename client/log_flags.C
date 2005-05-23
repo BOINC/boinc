@@ -71,6 +71,7 @@ int LOG_FLAGS::parse(FILE* in) {
     fgets(buf, 256, in);
     if (!match_tag(buf, "<log_flags>")) return ERR_XML_PARSE;
     while (fgets(buf, 256, in)) {
+        if (strlen(buf) < 2) continue;
         if (match_tag(buf, "</log_flags>")) return 0;
         else if (match_tag(buf, "<task/>")) {
             task = true;

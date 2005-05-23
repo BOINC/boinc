@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Compiling BOINC client software yourself");
+page_head("Make your own client software");
 
 echo "
 <p>
@@ -30,18 +30,35 @@ you want to optimize applications for particular architectures.
 </ul>
 
 <p>
-To handle these cases, BOINC lets you compile programs yourself rather than
-downloading them from the project.  Here's how it works:
+To handle these cases, BOINC lets you make or obtain
+the client software yourself rather than downloading it.
+<p>
+First, get the BOINC client software for your computer.
+You can do this in either of two ways:
+
 
 <ul>
 <li>
-<a href=source_code.php>Download</a> the source code for the BOINC core
-client and the project's applications, and compile them on your computer
-(instructions for compiling the core client are <a
-href=build_client.php>here</a>).  Steffen M&ouml;ller has made <a
-href=http://bioinformatics.pzr.uni-rostock.de/~moeller/debian/boinc/>Debian
-packages</a>.  Or download executables from a server of your choosing.
+<a href=compile.php>Download and compile</a>
+the BOINC client software on your computer.
+client and the project's applications, and compile them on your computer.
+<li>
+If available, download BOINC executablers for your
+computer from a third-party source.
+A list of such sources is <a href=download_other.php>here</a>.
+</ul>
 
+Second, get the project's application for your computer.
+Again, you can either compile it yourself
+or download the executable from a third party.
+The details vary between projects,
+and not all projects make their source code available.
+As an example, instructions for SETI@home are
+<a href=http://setiweb.ssl.berkeley.edu/sah_porting.php>here</a>.
+
+<p>
+Finally:
+<ul>
 <li>
 Run the core client and attach to the project.  This will create a
 'project directory' (whose name is the project URL) in the BOINC

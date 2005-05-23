@@ -6923,3 +6923,10 @@ David  22 May 2005
 	client/
 		app_graphics.C
 		ss_logic.C
+
+David  22 May 2005
+    - Unix API: don't do any floating-point math in the timer signal handler
+    - compile fixes
+
+    api/
+        boinc_api.C

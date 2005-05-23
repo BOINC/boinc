@@ -2,8 +2,10 @@ Packages required for running the server:
 
   mysql-server mysql-client libmysqlclient
 
-  apache or apache2 or other webserver
+  apache, apache2, apache-ssl
   php4-cgi (or php4 if running apache 1)
+
+  python-mysqldb, python-xml
 
 Packages required for compilation:
 

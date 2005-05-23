@@ -5,12 +5,6 @@ page_head("The BOINC build system");
 echo "
 See the <a href=build.php>Software Prerequisites</a>.
 
-<p>
-  The BOINC build system uses <a
-  href=http://www.gnu.org/software/autoconf/>autoconf</a> 2.57 and <a
- href=http://www.gnu.org/software/automake/automake.html>automake</a>
-1.7.
-
 <h2>Maintainer-mode</h2>
 
 The BOINC configuration system enables an Automake feature

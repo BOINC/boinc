@@ -32,6 +32,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <sys/resource.h>
 #include <pthread.h>
 #include <sched.h>
 using namespace std;
@@ -57,10 +58,10 @@ using namespace std;
 // (not counting the part after the last checkpoint in an episode).
 
 #ifndef _WIN32
-static pthread_t timer_thread;
+static pthread_t timer_thread_handle;
 extern pthread_t worker_thread;
+static struct rusage worker_thread_ru;
 #endif
-static double worker_thread_cpu_time=0;
 
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
@@ -146,7 +147,9 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
     }
     return 0;
 #else
-    cpu = worker_thread_cpu_time;
+    cpu = (double)worker_thread_ru.ru_utime.tv_sec + (((double)worker_thread_ru.ru_utime.tv_usec) / ((double)1000000.0));
+    cpu += (double)worker_thread_ru.ru_stime.tv_sec + (((double)worker_thread_ru.ru_stime.tv_usec) / ((double)1000000.0));
+
 #endif
 }
 
@@ -534,7 +537,7 @@ static void handle_process_control_msg() {
 #ifndef _WIN32
 static void timer_signal_handler(int) {
     if (pthread_equal(pthread_self(), worker_thread)) {
-        int retval = boinc_calling_thread_cpu_time(worker_thread_cpu_time);
+        getrusage(RUSAGE_SELF, &worker_thread_ru);
     }
 }
 
@@ -653,7 +656,7 @@ int set_worker_timer() {
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 #else
-    retval = pthread_create(&timer_thread, NULL, timer_thread, NULL);
+    retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
         perror("set_worker_timer(): pthread_create(): %d");
     }
