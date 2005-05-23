@@ -126,15 +126,27 @@ $w443= array(
 );
 
 $m443 = array(
-    "num"=>"4.37",
+    "num"=>"4.43",
     "status"=>"Recommended version (advanced GUI)",
-    "file"=>"boinc_4.37_macOSX.zip",
+    "file"=>"boinc_4.43_macOSX.zip",
     "date"=>"21 May 2005",
     "type"=>mac_advanced(),
     "bugs"=>"<ul>
      <li>
      We have dropped the requirement of our distribution running on 10.2 since 10.4 has been released.  You should still be able to build the client yourself and have it run on a 10.2 machine.
      </ul>
+    If you experience any of these problems,
+    we recommend using BOINC version 4.19.
+    "
+);
+
+$m443c = array(
+    "num"=>"4.43",
+    "status"=>"Recommended version (command line)",
+    "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
+    "date"=>"21 May 2005",
+    "type"=>bare_core(),
+    "bugs"=>"
     If you experience any of these problems,
     we recommend using BOINC version 4.19.
     "
@@ -199,15 +211,16 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w443,
-        $w419,
+        $w419
     )
 );
 $mac = array(
     "name"=>"Macintosh OS X",
     "versions"=>array(
         $m443,
+        $m443c,
         $m437s,
-        $m419,
+        $m419
     )
 );
 $linux = array(
