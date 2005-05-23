@@ -12,10 +12,9 @@ db_init();
 $user = get_logged_in_user();
 $user = getForumPreferences($user);
 
-if (!post_str('action')) {
-    if (!get_str('action')){
-	echo "You must specify an action...";
-	exit();
+if (!post_str('action', true)) {
+    if (!get_str('action', true)){
+	    error_page("You must specify an action...");
     } else {
 	$action = get_str('action');
     }
@@ -67,7 +66,7 @@ if ($action=="hide"){
 
 if ($result) {
     echo mysql_error();
-    if (post_str('reason')){
+    if (post_str('reason', true)){
         send_thread_moderation_email(lookup_user_id($post->user),$thread, post_str("reason"));
     }
     header('Location: forum_thread.php?id='.$thread->id);

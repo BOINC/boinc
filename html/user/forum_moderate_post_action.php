@@ -17,9 +17,15 @@ if (!isSpecialUser($user,0)) {
     exit();
 }
 
-if (!post_str('action')) {
-    echo "You must specify an action...";
-    exit();
+// TODO:  Write a request_str function to prevent stuff like this
+if (!post_str('action', true)) {
+    if (!get_str('action', true)){
+	    error_page("You must specify an action...");
+    } else {
+	$action = get_str('action');
+    }
+} else {
+    $action = post_str('action');
 }
 
 $post = getPost(get_int('id'));
@@ -31,13 +37,13 @@ if (!$post) {
 
 $thread = getThread($post->thread);
 
-if (post_str('action')=="hide"){
+if ($action=="hide"){
     $result=mysql_query("update post set hidden = ".post_int("category")." where id=".$post->id);
     echo mysql_error();
-} elseif (post_str('action')=="unhide"){
+} elseif ($action=="unhide"){
     $result=mysql_query("update post set hidden = 0 where id=".$post->id);
     echo mysql_error();
-} elseif (post_str('action')=="move"){
+} elseif ($action=="move"){
     if (getThread(post_int('threadid'))){
         $result=mysql_query("update post set thread = ".post_int('threadid')." where id=".$post->id);
         echo mysql_error();
@@ -55,7 +61,7 @@ if (post_str('action')=="hide"){
 
 if ($result) {
     echo mysql_error();
-    if (post_str('reason')){
+    if (post_str('reason', true)){
         send_moderation_email(lookup_user_id($post->user),$thread, $post, post_str("reason"));
     }
     header('Location: forum_thread.php?id='.$thread->id);
