@@ -5,24 +5,6 @@
 	};
 	objectVersion = 39;
 	objects = {
-		0249A669FF388E3911CA2CEA = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.ar;
-			name = "libstdc++.a";
-			path = "/usr/lib/libstdc++.a";
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-//020
-//021
-//022
-//023
-//024
-//050
-//051
-//052
-//053
-//054
 		05952DFCFFF02D1B11CA0E50 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -68,6 +50,7 @@
 				DDAEC9E107FA583B00A7BC36,
 				DD96AFF90811075000A06F22,
 				DD1277B3081F3D67007B5DE1,
+				DD69FEE808416C1300C01361,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -101,6 +84,7 @@
 			targets = (
 				DDBD680D07FA82BB0082C20D,
 				DDD74D8607CF482E0065AC9D,
+				DD69FEE708416C1300C01361,
 				DD407A4907D2FB1200163EF5,
 				DD40823907D304F000163EF5,
 				DD35353007E1E05C00C4718D,
@@ -153,7 +137,6 @@
 				DDE2552B07C62F3E008E7D6E,
 				20286C33FDCF999611CA2CEA,
 				DD7C5E7508110AE3002FCE1E,
-				0249A669FF388E3911CA2CEA,
 				DD6F71B7081E509200F5B280,
 				DD6F71B9081E509200F5B280,
 				DD6F71BB081E509200F5B280,
@@ -2225,6 +2208,99 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		DD69FEE508416C1300C01361 = {
+			buildActionMask = 2147483647;
+			files = (
+				DD69FEF508416C6B00C01361,
+				DD69FEF708416C9A00C01361,
+				DD69FF0C084171CF00C01361,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD69FEE608416C1300C01361 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD69FEE708416C1300C01361 = {
+			buildPhases = (
+				DD69FEE508416C1300C01361,
+				DD69FEE608416C1300C01361,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "-lboinc";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = boinc_cmd;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				DD69FEFF08416D1000C01361,
+			);
+			isa = PBXNativeTarget;
+			name = cmd_boinc;
+			productName = cmd_boinc;
+			productReference = DD69FEE808416C1300C01361;
+			productType = "com.apple.product-type.tool";
+		};
+		DD69FEE808416C1300C01361 = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = boinc_cmd;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD69FEF508416C6B00C01361 = {
+			fileRef = DD81C5CC07C5D7D90098A04D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD69FEF608416C9A00C01361 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = boinc_cmd.C;
+			path = ../lib/boinc_cmd.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD69FEF708416C9A00C01361 = {
+			fileRef = DD69FEF608416C9A00C01361;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD69FEFE08416D1000C01361 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
+			remoteInfo = libboinc;
+		};
+		DD69FEFF08416D1000C01361 = {
+			isa = PBXTargetDependency;
+			target = DD407A4907D2FB1200163EF5;
+			targetProxy = DD69FEFE08416D1000C01361;
+		};
+		DD69FF0C084171CF00C01361 = {
+			fileRef = DD6D0A8507E9A61B007F882B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD6D07B307E99881007F882B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3823,6 +3899,7 @@
 				AA8B6B1C046C364400A80164,
 				DD344B6307C5ACEB0043025C,
 				DD344B6407C5ACEB0043025C,
+				DD69FEF608416C9A00C01361,
 				DD81C5F007C5D8290098A04D,
 				F51DA64D02DB97FF010E292A,
 				F51DA64E02DB97FF010E292A,
