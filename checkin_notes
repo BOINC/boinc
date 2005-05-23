@@ -6946,3 +6946,9 @@ Charlie    22 may 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  22 May 2005
+    - compile fix
+
+    api/
+        boinc_api.C

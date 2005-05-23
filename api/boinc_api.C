@@ -59,7 +59,7 @@ using namespace std;
 
 #ifndef _WIN32
 static pthread_t timer_thread_handle;
-extern pthread_t worker_thread;
+static pthread_t worker_thread;
 static struct rusage worker_thread_ru;
 #endif
 
@@ -660,6 +660,8 @@ int set_worker_timer() {
     if (retval) {
         perror("set_worker_timer(): pthread_create(): %d");
     }
+    worker_thread = pthread_self();
+
     struct sigaction sa;
     itimerval value;
     sa.sa_handler = timer_signal_handler;
