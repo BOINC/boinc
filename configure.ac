@@ -361,11 +361,20 @@ AM_OPTIONS_WXCONFIG
 
 dnl check for wxWidgets
 
-if test "${enable_debug}" = yes ; then
-    AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --debug)
+if test "${enable_client_release}" = yes ; then
+    if test "${enable_debug}" = yes ; then
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
+    else
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
+    fi
 else
-    AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0])
+    if test "${enable_debug}" = yes ; then
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
+    else
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
+    fi
 fi
+
 
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
    AC_MSG_WARN([

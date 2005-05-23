@@ -6952,3 +6952,11 @@ David  22 May 2005
 
     api/
         boinc_api.C
+
+Rom    23 May 2005
+    - Modify the configure.ac script to explicitly state which combination
+        of wxWidget libraries we need to link against, otherwise it will
+        fall back to a default which may cause more harm than good.
+
+    /
+        configure.ac
