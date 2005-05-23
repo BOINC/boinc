@@ -6930,3 +6930,19 @@ David  22 May 2005
 
     api/
         boinc_api.C
+
+Charlie    22 may 2005
+    Mac: add build of boinc_cmd command-line application to XCode project.
+    Remove wxRESIZE_BORDER from dialog styles so they are not resizeable.
+    
+    clientgui/
+        DlgAbout.h
+        DlgAccountManager.h
+        DlgAttachProject.h
+        DlgConnection.h
+        DlgOptions.h
+        DlgSelectComputer.h
+        
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
