@@ -178,11 +178,11 @@ $l419 = array(
     "date"=>"25 Jan 2005",
     "type"=>bare_core()
 );
-$l432 = array(
-    "num"=>"4.32",
+$l443 = array(
+    "num"=>"4.43",
     "status"=>"Development version",
-    "file"=>"boinc_4.32_i686-pc-linux-gnu.sh",
-    "date"=>"15 Apr 2005",
+    "file"=>"boinc_4.43_i686-pc-linux-gnu.sh",
+    "date"=>"23 May 2005",
     "type"=>sea()
 );
 $s419 = array(
