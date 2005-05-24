@@ -161,18 +161,12 @@ $m419 = array(
 );
 
 $m437s = array(
-    "num"=>"4.37 (3)",
+    "num"=>"4.43 (4)",
     "status"=>"Development version (simple GUI)",
-    "file"=>"boinc_menubar_v4.37_(3)_mac.zip",
-    "date"=>"14 May 2005",
+    "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
+    "date"=>"23 May 2005",
     "type"=>mac_simple(),
     "bugs"=>"<li>Includes improved BOINC client</li>
-     <li>Fixes a problem which prevented some users from using proxies</li>
-     <li>Now displays the current status in the menubar by changing the icon and indicating the amount of work completed</li>
-     <li>Fixes a bug on dual processor machines where the status of both processes was not always being displayed </li>
-     <li>Adds a preference to share data between users </li><li>Improves security by hiding and encrypting proxy password</li>
-     <li>Adds ability to manually run benchmarks</li>
-     <li>Improved efficiency</li>
      </ul>
     "
 );

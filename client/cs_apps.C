@@ -366,6 +366,7 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
         if (r->project->suspended_via_gui) continue;
         if (r->project->non_cpu_intensive) continue;
         if (r->already_selected) continue;
+        if (r->suspended_via_gui) continue;
         if (first || r->report_deadline < earliest_deadline) {
             first = false;
             best_project = r->project;
@@ -462,58 +463,60 @@ bool CLIENT_STATE::schedule_cpus(double now) {
         }
     }
 
-    // adjust project debts
-    // reset debts for projects with no runnable results
-    // reset temporary fields
-    //
-    first = true;
-    double total_long_term_debt = 0;
-    int count_cpu_intensive = 0;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        count_cpu_intensive++;
-        double debt_inc =
-            (p->resource_share/local_total_resource_share)
-            * cpu_sched_work_done_this_period
-            - p->work_done_this_period;
-        p->long_term_debt += debt_inc;
-        total_long_term_debt += p->long_term_debt;
-        if (!p->next_runnable_result) {
-            p->debt = 0;
-            p->anticipated_debt = 0;
-       } else {
-            p->debt += debt_inc;
-            if (first) {
-                first = false;
-                min_debt = p->debt;
-            } else if (p->debt < min_debt) {
-                min_debt = p->debt;
+    if (local_total_resource_share > 0) {
+        // adjust project debts
+        // reset debts for projects with no runnable results
+        // reset temporary fields
+        //
+        first = true;
+        double total_long_term_debt = 0;
+        int count_cpu_intensive = 0;
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            if (p->non_cpu_intensive) continue;
+            count_cpu_intensive++;
+            double debt_inc =
+                (p->resource_share/local_total_resource_share)
+                * cpu_sched_work_done_this_period
+                - p->work_done_this_period;
+            p->long_term_debt += debt_inc;
+            total_long_term_debt += p->long_term_debt;
+            if (!p->next_runnable_result) {
+                p->debt = 0;
+                p->anticipated_debt = 0;
+           } else {
+                p->debt += debt_inc;
+                if (first) {
+                    first = false;
+                    min_debt = p->debt;
+                } else if (p->debt < min_debt) {
+                    min_debt = p->debt;
+                }
             }
+            scope_messages.printf(
+                "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
+                p->project_name, p->debt
+            );
         }
-        scope_messages.printf(
-            "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
-            p->project_name, p->debt
-        );
-    }
 
-    double avg_long_term_debt = total_long_term_debt / count_cpu_intensive;
+        double avg_long_term_debt = total_long_term_debt / count_cpu_intensive;
 
-    // Normalize debts to zero
-    //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->next_runnable_result) {
-            p->debt -= min_debt;
-            if (p->debt > MAX_DEBT) {
-                p->debt = MAX_DEBT;
+        // Normalize debts to zero
+        //
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            if (p->non_cpu_intensive) continue;
+            if (p->next_runnable_result) {
+                p->debt -= min_debt;
+                if (p->debt > MAX_DEBT) {
+                    p->debt = MAX_DEBT;
+                }
+                p->anticipated_debt = p->debt;
+                //msg_printf(p, MSG_INFO, "debt %f", p->debt);
+                p->next_runnable_result = NULL;
             }
-            p->anticipated_debt = p->debt;
-            //msg_printf(p, MSG_INFO, "debt %f", p->debt);
-            p->next_runnable_result = NULL;
+            p->long_term_debt -= avg_long_term_debt;
         }
-        p->long_term_debt -= avg_long_term_debt;
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt

@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("BOINC Menubar v4.37 (3)");
+page_head("BOINC Menubar v4.43 (4)");
 
 echo "
 
@@ -137,6 +137,11 @@ echo "
   <li>Adds a preference to share data between users </li><li>Improves security by hiding and encrypting proxy password</li>
   <li>Adds ability to manually run benchmarks</li>
   <li>Improved efficiency</li></ul>
+
+<p>&nbsp;</p>
+<p><strong>Version 4.43 (4)</strong></p>
+<ul>
+  <li>Includes improved BOINC client</li></ul>
 
 ";
 

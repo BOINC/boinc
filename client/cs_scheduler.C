@@ -434,7 +434,6 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
 //
 int CLIENT_STATE::compute_work_requests() {
     int urgency = WORK_FETCH_DONT_NEED;
-    int highest_project_urgency = WORK_FETCH_DONT_NEED;
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double now = dtime();
@@ -511,8 +510,6 @@ int CLIENT_STATE::compute_work_requests() {
             p->work_request_urgency = WORK_FETCH_OK;
             p->work_request = global_work_need;
         }
-
-        highest_project_urgency = max(highest_project_urgency, p->work_request_urgency);
 
         // determine work requests for each project
         // NOTE: don't need to divide by active_frac etc.;
@@ -1079,18 +1076,17 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     cpu_earliest_deadline_first = use_earliest_deadline_first;
 }
 
-double CLIENT_STATE::work_needed_secs()
-{
+double CLIENT_STATE::work_needed_secs() {
     double total_work = 0;
     for( unsigned int i = 0; i < results.size(); ++i) {
         if (results[i]->project->non_cpu_intensive) continue;
         total_work += results[i]->estimated_cpu_time_remaining();
     }
-    if (total_work > global_prefs.work_buf_min_days) {
+    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY - total_work;
+    if (x < 0) {
         return 0;
-    } else {
-        return global_prefs.work_buf_min_days - total_work;
     }
+    return x;
 }
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";

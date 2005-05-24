@@ -206,7 +206,6 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
         p->nrpc_failures++;
     }
     set_min_rpc_time(p);
-    p->long_term_debt -= (p->min_rpc_time - dtime()) / gstate.global_prefs.max_projects_on_client;
 }
 
 // low-level routine to initiate an RPC

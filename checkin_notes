@@ -6960,3 +6960,16 @@ Rom    23 May 2005
 
     /
         configure.ac
+
+David  23 May 2005
+    - scheduler fixes (from John McLeod and others)
+        - estimate remaining CPU correctly if frac done = 0
+        - avoid div by zero error
+        - fix seconds-per-day scaling problem
+
+    client/
+        app.C
+        client_types.C
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
