@@ -6991,3 +6991,10 @@ David  23 May 2005
     sched/
         handle_request.C
         sched_config.C,h
+
+David  23 May 2005
+    - factored out CLIENT_STATE::adjust_debts()
+        from CLIENT_STATE::schedule_cpus()
+
+    client/
+        cs_apps.C

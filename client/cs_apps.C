@@ -384,12 +384,82 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
     return true;
 }
 
-// Schedule active tasks to be run and preempted.
+// adjust project debts
+// reset debts for projects with no runnable results
+// reset temporary fields
 //
-// This is called every second in the do_something() loop
-// (with must_reschedule=false)
-// and whenever all the input files for a result finish downloading
-// (with must_reschedule=true)
+void CLIENT_STATE::adjust_debts(double now, double local_total_resource_share) {
+    unsigned int i;
+    bool first = true;
+    double total_long_term_debt = 0;
+    int count_cpu_intensive = 0;
+    PROJECT *p;
+    double min_debt=0;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        count_cpu_intensive++;
+        double debt_inc =
+            (p->resource_share/local_total_resource_share)
+            * cpu_sched_work_done_this_period
+            - p->work_done_this_period
+        ;
+        // if the project is suspended or communications is deferred or 
+        // the user has asked for no work.
+        // This prevents projects that are not supplying
+        // work from running away too quickly.
+        // They will still accumulate LT debt when we are not asking.
+        // exception for rpc time and don't request work
+        // is work being processed currently
+        //
+        double current_work = ettprc(p, 0);
+        if (!p->suspended_via_gui && ((p->min_rpc_time < now && !p->dont_request_more_work) || current_work > 0)) {
+            p->long_term_debt += debt_inc;
+        }
+        total_long_term_debt += p->long_term_debt;
+        if (!p->next_runnable_result) {
+            p->debt = 0;
+            p->anticipated_debt = 0;
+        } else {
+            p->debt += debt_inc;
+            if (first) {
+                first = false;
+                min_debt = p->debt;
+            } else if (p->debt < min_debt) {
+                min_debt = p->debt;
+            }
+        }
+        scope_messages.printf(
+            "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
+            p->project_name, p->debt
+        );
+    }
+
+    double avg_long_term_debt = total_long_term_debt / count_cpu_intensive;
+
+    // Normalize debts to zero
+    //
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->next_runnable_result) {
+            p->debt -= min_debt;
+            if (p->debt > MAX_DEBT) {
+                p->debt = MAX_DEBT;
+            }
+            p->anticipated_debt = p->debt;
+            //msg_printf(p, MSG_INFO, "debt %f", p->debt);
+            p->next_runnable_result = NULL;
+        }
+        p->long_term_debt -= avg_long_term_debt;
+    }
+}
+
+// Schedule active tasks to be run and preempted.
+// This is called in the do_something() loop
 //
 bool CLIENT_STATE::schedule_cpus(double now) {
     double expected_pay_off;
@@ -398,7 +468,6 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     bool some_app_started = false, first;
     double local_total_resource_share;
     int retval, j;
-    double min_debt=0;
     double vm_limit, elapsed_time;
     unsigned int i;
 
@@ -439,12 +508,12 @@ bool CLIENT_STATE::schedule_cpus(double now) {
 
     set_cpu_scheduler_modes();
 
-    // do work accounting for active tasks
+    // do work accounting for active tasks,
+    // and make them as preempted
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        //double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
         double task_cpu_time = elapsed_time;
         atp->result->project->work_done_this_period += task_cpu_time;
         cpu_sched_work_done_this_period += task_cpu_time;
@@ -464,71 +533,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     }
 
     if (local_total_resource_share > 0) {
-        // adjust project debts
-        // reset debts for projects with no runnable results
-        // reset temporary fields
-        //
-        first = true;
-        double total_long_term_debt = 0;
-        int count_cpu_intensive = 0;
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            if (p->non_cpu_intensive) continue;
-            count_cpu_intensive++;
-            double debt_inc =
-                (p->resource_share/local_total_resource_share)
-                * cpu_sched_work_done_this_period
-                - p->work_done_this_period
-            ;
-            // if the project is suspended or communications is deferred or 
-            // the user has asked for no work.
-            // This prevents projects that are not supplying
-            // work from running away too quickly.
-            // They will still accumulate LT debt when we are not asking.
-            // exception for rpc time and don't request work
-            // is work being processed currently
-            //
-            double current_work = ettprc(p,0);
-            if (!p->suspended_via_gui && ((p->min_rpc_time < now && !p->dont_request_more_work) || current_work > 0)) {
-                p->long_term_debt += debt_inc;
-            }
-            total_long_term_debt += p->long_term_debt;
-            if (!p->next_runnable_result) {
-                p->debt = 0;
-                p->anticipated_debt = 0;
-            } else {
-                p->debt += debt_inc;
-                if (first) {
-                    first = false;
-                    min_debt = p->debt;
-                } else if (p->debt < min_debt) {
-                    min_debt = p->debt;
-                }
-            }
-            scope_messages.printf(
-                "CLIENT_STATE::schedule_cpus(): overall project debt; project '%s', debt '%f'\n",
-                p->project_name, p->debt
-            );
-        }
-
-        double avg_long_term_debt = total_long_term_debt / count_cpu_intensive;
-
-        // Normalize debts to zero
-        //
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            if (p->non_cpu_intensive) continue;
-            if (p->next_runnable_result) {
-                p->debt -= min_debt;
-                if (p->debt > MAX_DEBT) {
-                    p->debt = MAX_DEBT;
-                }
-                p->anticipated_debt = p->debt;
-                //msg_printf(p, MSG_INFO, "debt %f", p->debt);
-                p->next_runnable_result = NULL;
-            }
-            p->long_term_debt -= avg_long_term_debt;
-        }
+        adjust_debts(now, local_total_resource_share);
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt
