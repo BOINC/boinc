@@ -220,6 +220,11 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
     SetStatusBarPane(0);
 
+    // Limit the number of times the UI can update itself to two times a second
+    //   NOTE: Linux and Mac were updating several times a second and eating
+    //         CPU time
+    wxUpdateUIEvent::SetUpdateInterval(500);
+
     // The second half of the initialization process picks up in the OnFrameRender()
     //   routine since the menus' and status bars' are drawn in the frameworks
     //   on idle routines, on idle events are sent in between the end of the

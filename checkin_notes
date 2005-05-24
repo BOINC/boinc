@@ -7030,3 +7030,11 @@ Rom    24 May 2005
     clientgui/
          BOINCGUIApp.cpp
          MainFrame.cpp, .h
+
+Rom    24 May 2005
+    - Throttle back how often the UI is aloud to update itself to two times
+        a second, the Mac was consuming 12% of the CPU just processing events
+        in the BOINC Manager
+
+    clientgui/
+        MainFrame.cpp
