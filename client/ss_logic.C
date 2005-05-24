@@ -98,7 +98,7 @@ void SS_LOGIC::reset() {
 // called 10X per second
 //
 void SS_LOGIC::poll(double now) {
-    ACTIVE_TASK* atp, *new_atp;
+    ACTIVE_TASK* atp, *new_atp=0;
     GRAPHICS_MSG m;
     static double last_time=0;
     static double ss_change_time = 0;
