@@ -478,13 +478,25 @@ bool CLIENT_STATE::schedule_cpus(double now) {
             double debt_inc =
                 (p->resource_share/local_total_resource_share)
                 * cpu_sched_work_done_this_period
-                - p->work_done_this_period;
-            p->long_term_debt += debt_inc;
+                - p->work_done_this_period
+            ;
+            // if the project is suspended or communications is deferred or 
+            // the user has asked for no work.
+            // This prevents projects that are not supplying
+            // work from running away too quickly.
+            // They will still accumulate LT debt when we are not asking.
+            // exception for rpc time and don't request work
+            // is work being processed currently
+            //
+            double current_work = ettprc(p,0);
+            if (!p->suspended_via_gui && ((p->min_rpc_time < now && !p->dont_request_more_work) || current_work > 0)) {
+                p->long_term_debt += debt_inc;
+            }
             total_long_term_debt += p->long_term_debt;
             if (!p->next_runnable_result) {
                 p->debt = 0;
                 p->anticipated_debt = 0;
-           } else {
+            } else {
                 p->debt += debt_inc;
                 if (first) {
                     first = false;
