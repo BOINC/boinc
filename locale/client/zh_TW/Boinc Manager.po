@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-04-30 14:49+0800\n"
+"PO-Revision-Date: 2005-05-22 16:56+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,660 +14,869 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:169
+#: clientgui/BOINCGUIApp.cpp:264
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "只以系統匣圖示啟動 BOINC"
 
-#: clientgui/BOINCTaskBar.cpp:319
-#: clientgui/BOINCTaskBar.cpp:326
-msgid "&Open BOINC Manager..."
-msgstr "開啟 BOINC 管理員(&O)..."
+#: clientgui/BOINCGUIApp.cpp:321
+#: clientgui/DlgOptions.cpp:136
+#: clientgui/DlgOptions.cpp:137
+msgid "(Automatic Detection)"
+msgstr "(自動偵測)"
 
-#: clientgui/BOINCTaskBar.cpp:330
-#: clientgui/MainFrame.cpp:173
-msgid "&Run always"
-msgstr "持續執行(&R)"
+#: clientgui/BOINCGUIApp.cpp:322
+msgid "(Unknown)"
+msgstr "(未知的語言)"
 
-#: clientgui/BOINCTaskBar.cpp:331
-#: clientgui/MainFrame.cpp:178
-msgid "Run based on &preferences"
-msgstr "以偏好設定執行(&P)"
+#: clientgui/BOINCGUIApp.cpp:323
+msgid "(User Defined)"
+msgstr "(使用者定義)"
 
-#: clientgui/BOINCTaskBar.cpp:332
-#: clientgui/MainFrame.cpp:183
-msgid "&Suspend"
-msgstr "暫止(&S)"
+#: clientgui/BOINCTaskBar.cpp:66
+#: clientgui/DlgAbout.cpp:112
+msgid "BOINC Manager"
+msgstr "BOINC 管理員"
 
-#: clientgui/BOINCTaskBar.cpp:334
-msgid "&Disable BOINC network access"
-msgstr "停用 BOINC 網路存取(&D)"
-
-#: clientgui/BOINCTaskBar.cpp:336
-#: clientgui/MainFrame.cpp:231
-msgid "&About BOINC Manager..."
-msgstr "關於 BOINC 管理員(&A)..."
-
-#: clientgui/BOINCTaskBar.cpp:338
-#: clientgui/MainFrame.cpp:215
+#: clientgui/BOINCTaskBar.cpp:341
+#: clientgui/MainFrame.cpp:351
+#: clientgui/mac/MacSysMenu.cpp:70
 msgid "E&xit"
 msgstr "離開(&X)"
 
-#: clientgui/DlgAbout.cpp:137
-#: clientgui/DlgAttachProject.cpp:103
-#: clientgui/DlgConnection.cpp:83
-#: clientgui/DlgOptions.cpp:228
+#: clientgui/BOINCTaskBar.cpp:360
+#: clientgui/BOINCTaskBar.cpp:367
+msgid "&Open BOINC Manager..."
+msgstr "開啟 BOINC 管理員(&O)..."
+
+#: clientgui/BOINCTaskBar.cpp:371
+#: clientgui/MainFrame.cpp:309
+msgid "&Run always"
+msgstr "持續執行(&R)"
+
+#: clientgui/BOINCTaskBar.cpp:372
+#: clientgui/MainFrame.cpp:314
+msgid "Run based on &preferences"
+msgstr "以偏好設定執行(&P)"
+
+#: clientgui/BOINCTaskBar.cpp:373
+#: clientgui/MainFrame.cpp:319
+msgid "&Suspend"
+msgstr "暫止(&S)"
+
+#: clientgui/BOINCTaskBar.cpp:375
+msgid "&Disable BOINC network access"
+msgstr "停用 BOINC 網路存取(&D)"
+
+#: clientgui/BOINCTaskBar.cpp:377
+#: clientgui/MainFrame.cpp:391
+msgid "&About BOINC Manager..."
+msgstr "關於 BOINC 管理員(&A)..."
+
+#: clientgui/DlgAbout.cpp:126
+msgid "Version:"
+msgstr "版本:"
+
+#: clientgui/DlgAbout.cpp:134
+msgid "Copyright:"
+msgstr "Copyright:"
+
+#: clientgui/DlgAbout.cpp:138
+msgid ""
+"(C) 2005 University of California at Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"(C) 2005 University of California at Berkeley.\n"
+"All Rights Reserved."
+
+#: clientgui/DlgAbout.cpp:142
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "柏克萊開放式網路運算平台"
+
+#: clientgui/DlgAbout.cpp:146
+msgid "http://boinc.berkeley.edu/"
+msgstr "http://boinc.berkeley.edu/"
+
+#: clientgui/DlgAbout.cpp:154
+#: clientgui/DlgAccountManager.cpp:136
+#: clientgui/DlgAttachProject.cpp:144
+#: clientgui/DlgConnection.cpp:122
+#: clientgui/DlgOptions.cpp:264
+#: clientgui/DlgSelectComputer.cpp:139
 msgid "&OK"
 msgstr "確定(&O)"
 
-#: clientgui/DlgAttachProject.cpp:82
-msgid "URL:"
-msgstr "網址:"
+#: clientgui/DlgAccountManager.cpp:117
+msgid "Username:"
+msgstr "使用者名稱:"
 
-#: clientgui/DlgAttachProject.cpp:91
-msgid "Account Key:"
-msgstr "帳號金鑰:"
+#: clientgui/DlgAccountManager.cpp:125
+#: clientgui/DlgOptions.cpp:189
+#: clientgui/DlgOptions.cpp:245
+#: clientgui/DlgSelectComputer.cpp:128
+msgid "Password:"
+msgstr "密碼:"
 
-#: clientgui/DlgAttachProject.cpp:108
-#: clientgui/DlgConnection.cpp:88
-#: clientgui/DlgOptions.cpp:233
+#: clientgui/DlgAccountManager.cpp:141
+#: clientgui/DlgAttachProject.cpp:149
+#: clientgui/DlgConnection.cpp:127
+#: clientgui/DlgOptions.cpp:269
+#: clientgui/DlgSelectComputer.cpp:144
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: clientgui/DlgConnection.cpp:76
+#: clientgui/DlgAttachProject.cpp:121
+msgid "URL:"
+msgstr "網址:"
+
+#: clientgui/DlgAttachProject.cpp:129
+msgid "Account Key:"
+msgstr "帳號金鑰:"
+
+#: clientgui/DlgAttachProject.cpp:137
+msgid ""
+"These are emailed to you when you create an account.\n"
+"Go to project web sites to create accounts.\n"
+"Visit http://boinc.berkeley.edu for a list of projects."
+msgstr ""
+"當你建立新帳號時，這些資訊將會寄給你。\n"
+"請前往專案網頁建立帳號。\n"
+
+#: clientgui/DlgConnection.cpp:115
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
 msgstr "BOINC 需要連線到網路。你要現在連線嗎？"
 
-#: clientgui/DlgOptions.cpp:99
-msgid "This page is intentionally left blank"
-msgstr "這個頁面故意留空"
+#: clientgui/DlgOptions.cpp:132
+msgid "Language Selection:"
+msgstr "語言選擇:"
 
-#: clientgui/DlgOptions.cpp:102
+#: clientgui/DlgOptions.cpp:140
 msgid "General"
 msgstr "一般"
 
-#: clientgui/DlgOptions.cpp:109
+#: clientgui/DlgOptions.cpp:148
 msgid "Connect via HTTP proxy server"
 msgstr "經由 HTTP Proxy 伺服器連線"
 
-#: clientgui/DlgOptions.cpp:114
+#: clientgui/DlgOptions.cpp:152
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP Proxy 伺服器組態設定"
 
-#: clientgui/DlgOptions.cpp:122
-#: clientgui/DlgOptions.cpp:182
+#: clientgui/DlgOptions.cpp:160
+#: clientgui/DlgOptions.cpp:216
 msgid "Address:"
 msgstr "位址:"
 
-#: clientgui/DlgOptions.cpp:131
-#: clientgui/DlgOptions.cpp:191
+#: clientgui/DlgOptions.cpp:168
+#: clientgui/DlgOptions.cpp:224
 msgid "Port:"
 msgstr "埠:"
 
-#: clientgui/DlgOptions.cpp:139
-#: clientgui/DlgOptions.cpp:199
+#: clientgui/DlgOptions.cpp:175
+#: clientgui/DlgOptions.cpp:231
 msgid "Leave these blank if not needed"
 msgstr "如不需要請留空"
 
-#: clientgui/DlgOptions.cpp:145
-#: clientgui/DlgOptions.cpp:205
+#: clientgui/DlgOptions.cpp:181
+#: clientgui/DlgOptions.cpp:237
 msgid "User Name:"
 msgstr "使用者名稱:"
 
-#: clientgui/DlgOptions.cpp:154
-#: clientgui/DlgOptions.cpp:214
-msgid "Password:"
-msgstr "密碼:"
-
-#: clientgui/DlgOptions.cpp:162
+#: clientgui/DlgOptions.cpp:196
 msgid "HTTP Proxy"
 msgstr "HTTP Proxy"
 
-#: clientgui/DlgOptions.cpp:169
+#: clientgui/DlgOptions.cpp:204
 msgid "Connect via SOCKS proxy server"
 msgstr "經由 SOCKS Proxy 伺服器連線"
 
-#: clientgui/DlgOptions.cpp:174
+#: clientgui/DlgOptions.cpp:208
 msgid "SOCKS Proxy Server Configuration"
 msgstr "SOCKS Proxy 伺服器組態設定"
 
-#: clientgui/DlgOptions.cpp:222
+#: clientgui/DlgOptions.cpp:252
 msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
-#: clientgui/MainDocument.cpp:96
+#: clientgui/DlgSelectComputer.cpp:119
+msgid "Host name:"
+msgstr "主機名稱:"
+
+#: clientgui/MainDocument.cpp:279
 msgid "Retrieving system state; please wait..."
 msgstr "取回系統狀態中；請稍候..."
 
-#: clientgui/MainDocument.cpp:106
+#: clientgui/MainDocument.cpp:288
 msgid "Retrieving host information; please wait..."
 msgstr "取回主機資訊中；請稍候..."
 
-#: clientgui/MainFrame.cpp:165
-msgid "&Hide"
-msgstr "隱藏(&H)"
-
-#: clientgui/MainFrame.cpp:166
-msgid "Hides the main BOINC Manager window"
-msgstr "隱藏 BONIC 管理員主視窗"
-
-#: clientgui/MainFrame.cpp:174
-msgid "Does work regardless of preferences"
-msgstr "不管偏好設定運行工作"
-
-#: clientgui/MainFrame.cpp:179
-msgid "Does work according to your preferences"
-msgstr "依照你的偏好設定運行工作"
-
-#: clientgui/MainFrame.cpp:184
-msgid "Stops work regardless of preferences"
-msgstr "不管偏好設定停止工作"
-
-#: clientgui/MainFrame.cpp:191
-msgid "&Disable BOINC Network Access"
-msgstr "停用 BONIC 網路存取(&D)"
-
-#: clientgui/MainFrame.cpp:192
-msgid "Stops BOINC network activity"
-msgstr "停止 BONIC 的網路活動"
-
-#: clientgui/MainFrame.cpp:199
-msgid "Run &Benchmarks"
-msgstr "執行效能測試(&B)"
-
-#: clientgui/MainFrame.cpp:200
-msgid "Runs BOINC CPU benchmarks"
-msgstr "執行 BONIC 的 CPU 效能測試"
-
-#: clientgui/MainFrame.cpp:207
-msgid "Select Computer..."
-msgstr "選擇電腦..."
-
-#: clientgui/MainFrame.cpp:208
-msgid "Connect to another computer running BOINC"
-msgstr "連線到另一台運行 BONIC 的電腦"
-
-#: clientgui/MainFrame.cpp:216
-msgid "Exit the BOINC Manager"
-msgstr "離開 BOINC 管理員"
-
-#: clientgui/MainFrame.cpp:223
-msgid "&Options"
-msgstr "選項(&O)"
-
-#: clientgui/MainFrame.cpp:224
-msgid "Configure GUI options and proxy settings"
-msgstr "GUI 組態選項和 Proxy 設定"
-
-#: clientgui/MainFrame.cpp:232
-msgid "Show information about BOINC and BOINC Manager"
-msgstr "顯示關於 BONIC 和其管理員的資訊"
-
-#: clientgui/MainFrame.cpp:239
-msgid "&File"
-msgstr "檔案(&F)"
-
-#: clientgui/MainFrame.cpp:243
-msgid "&Tools"
-msgstr "工具 (&T)"
-
-#: clientgui/MainFrame.cpp:247
-msgid "&Help"
-msgstr "說明 (&H)"
-
-#: clientgui/MainFrame.cpp:344
+#: clientgui/MainFrame.cpp:77
 msgid "Connected"
 msgstr "已連線"
 
-#: clientgui/MainFrame.cpp:350
+#: clientgui/MainFrame.cpp:85
 msgid "Disconnected"
 msgstr "已斷線"
 
-#: clientgui/MainFrame.cpp:620
-msgid "Which computer do you wish to connect to?"
-msgstr "你想要連線到哪台電腦？"
+#: clientgui/MainFrame.cpp:295
+msgid "Close"
+msgstr "關閉"
 
-#: clientgui/MainFrame.cpp:621
-msgid "Select computer..."
+#: clientgui/MainFrame.cpp:296
+msgid "Closes the main BOINC Manager window"
+msgstr "關閉 BONIC 管理員主視窗"
+
+#: clientgui/MainFrame.cpp:301
+msgid "&Hide"
+msgstr "隱藏(&H)"
+
+#: clientgui/MainFrame.cpp:302
+msgid "Hides the main BOINC Manager window"
+msgstr "隱藏 BONIC 管理員主視窗"
+
+#: clientgui/MainFrame.cpp:310
+msgid "Does work regardless of preferences"
+msgstr "不管偏好設定運行工作"
+
+#: clientgui/MainFrame.cpp:315
+msgid "Does work according to your preferences"
+msgstr "依照你的偏好設定運行工作"
+
+#: clientgui/MainFrame.cpp:320
+msgid "Stops work regardless of preferences"
+msgstr "不管偏好設定停止工作"
+
+#: clientgui/MainFrame.cpp:327
+msgid "&Disable BOINC Network Access"
+msgstr "停用 BONIC 網路存取(&D)"
+
+#: clientgui/MainFrame.cpp:328
+msgid "Stops BOINC network activity"
+msgstr "停止 BONIC 的網路活動"
+
+#: clientgui/MainFrame.cpp:335
+msgid "Run &Benchmarks"
+msgstr "執行效能測試(&B)"
+
+#: clientgui/MainFrame.cpp:336
+msgid "Runs BOINC CPU benchmarks"
+msgstr "執行 BONIC 的 CPU 效能測試"
+
+#: clientgui/MainFrame.cpp:343
+msgid "Select Computer..."
 msgstr "選擇電腦..."
 
-#: clientgui/MainFrame.cpp:627
-msgid "Failed to connect to the requested computer, please check the name of the computer and try again."
-msgstr "連線到要求的電腦失敗，請檢查電腦名稱後重試。"
+#: clientgui/MainFrame.cpp:344
+msgid "Connect to another computer running BOINC"
+msgstr "連線到另一台運行 BONIC 的電腦"
 
-#: clientgui/MainFrame.cpp:628
-msgid "Failed to connect..."
-msgstr "連線失敗..."
+#: clientgui/MainFrame.cpp:352
+msgid "Exit the BOINC Manager"
+msgstr "離開 BOINC 管理員"
 
-#: clientgui/MainFrame.cpp:978
-msgid "Connected to "
-msgstr "連線到"
+#: clientgui/MainFrame.cpp:360
+msgid "&Update Accounts"
+msgstr "更新帳號(&U)"
 
-#: clientgui/ValidateAccountKey.cpp:77
+#: clientgui/MainFrame.cpp:361
+msgid "Connect to your account manager website and update all of your accounts"
+msgstr "連線到你的帳號管理網頁並更新所有帳號資訊"
+
+#: clientgui/MainFrame.cpp:369
+msgid "&Options"
+msgstr "選項(&O)"
+
+#: clientgui/MainFrame.cpp:370
+msgid "Configure GUI options and proxy settings"
+msgstr "GUI 組態選項和 Proxy 設定"
+
+#: clientgui/MainFrame.cpp:377
+msgid "&BOINC Manager\tF1"
+msgstr "BOINC 管理員(&B)\tF1"
+
+#: clientgui/MainFrame.cpp:378
+msgid "Show information about the BOINC Manager"
+msgstr "顯示關於 BONIC 管理員的資訊"
+
+#: clientgui/MainFrame.cpp:383
+msgid "BOINC &Website"
+msgstr "BOINC 網站(&W)"
+
+#: clientgui/MainFrame.cpp:384
+msgid "Show information about BOINC and BOINC Manager"
+msgstr "顯示關於 BONIC 和其管理員的資訊"
+
+#: clientgui/MainFrame.cpp:392
+msgid "Licensing and copyright information."
+msgstr "授權與版權資訊。"
+
+#: clientgui/MainFrame.cpp:399
+msgid "&File"
+msgstr "檔案(&F)"
+
+#: clientgui/MainFrame.cpp:403
+msgid "&Tools"
+msgstr "工具(&T)"
+
+#: clientgui/MainFrame.cpp:407
+msgid "&Help"
+msgstr "說明(&H)"
+
+#: clientgui/MainFrame.cpp:878
+#: clientgui/MainFrame.cpp:879
+#: clientgui/MainFrame.cpp:1143
+#: clientgui/MainFrame.cpp:1144
+msgid "Connection failed."
+msgstr "連線失敗。"
+
+#: clientgui/MainFrame.cpp:1027
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr "BOINC 管理員預設的語言已改變。為了使變更生效， 你必須重新啟動管理員。"
+
+#: clientgui/MainFrame.cpp:1028
+msgid "Language Selection..."
+msgstr "語言選擇..."
+
+#: clientgui/MainFrame.cpp:1156
+msgid "The password you have provided is incorrect, please try again."
+msgstr "你提供的密碼不正確，請再試一遍。"
+
+#: clientgui/MainFrame.cpp:1157
+msgid "Connection Error"
+msgstr "連線錯誤"
+
+#: clientgui/MainFrame.cpp:1331
+#: clientgui/MainFrame.cpp:1334
+#, c-format
+msgid "%s - (%s)"
+msgstr "%s - (%s)"
+
+#: clientgui/MainFrame.cpp:1332
+#, c-format
+msgid "Connecting to %s"
+msgstr "正在連線到 %s"
+
+#: clientgui/MainFrame.cpp:1335
+#, c-format
+msgid "Connected to %s"
+msgstr "已連線到 %s"
+
+#: clientgui/ValidateAccountKey.cpp:70
 msgid "Invalid Account Key; please enter a valid Account Key"
 msgstr "無效的帳號金鑰；請輸入有效的帳號金鑰"
 
-#: clientgui/ValidateAccountKey.cpp:89
-#: clientgui/ValidateURL.cpp:96
+#: clientgui/ValidateAccountKey.cpp:81
+#: clientgui/ValidateURL.cpp:88
 msgid "Validation conflict"
 msgstr "驗證衝突"
 
-#: clientgui/ValidateURL.cpp:78
-msgid "No URL supplied; please enter a valid project URL."
-msgstr "沒有填入網址；請輸入有效的專案網址。"
-
-#: clientgui/ValidateURL.cpp:80
-#, c-format
-msgid "'%s' does not start with http://"
-msgstr " '%s' 不是以 http:// 開頭。"
-
-#: clientgui/ValidateURL.cpp:82
+#: clientgui/ValidateURL.cpp:75
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr " '%s' 不是有效的主機名稱。"
 
-#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:77
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr " '%s' 不是有效的路徑。"
 
-#: clientgui/ViewMessages.cpp:149
-msgid "Click a message to see additional options."
-msgstr "按一下訊息可看見額外的選項。"
-
-#: clientgui/ViewMessages.cpp:153
-msgid "<b>Copy all</b><br>Copy all the messages to the clipboard."
-msgstr "<b>全部複製</b><br>複製全部訊息到剪貼簿。"
-
-#: clientgui/ViewMessages.cpp:158
-msgid "<b>Copy selected messages</b><br>Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "<b>複製選取的訊息</b><br>只複製已選取的訊息到剪貼簿。 你可以在選取訊息時按住 Shitf 或 Control 鍵以同時選取多個訊息。"
-
-#: clientgui/ViewMessages.cpp:176
-#: clientgui/ViewProjects.cpp:276
-#: clientgui/ViewResources.cpp:127
-#: clientgui/ViewTransfers.cpp:224
-#: clientgui/ViewWork.cpp:250
+#: clientgui/ViewMessages.cpp:76
+#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewStatistics.cpp:303
+#: clientgui/ViewTransfers.cpp:98
+#: clientgui/ViewWork.cpp:102
 msgid "Tasks"
 msgstr "工作"
 
-#: clientgui/ViewMessages.cpp:177
-#: clientgui/ViewProjects.cpp:278
-#: clientgui/ViewResources.cpp:128
-#: clientgui/ViewTransfers.cpp:225
-msgid "Tips"
-msgstr "提示"
-
-#: clientgui/ViewMessages.cpp:179
-#: clientgui/ViewProjects.cpp:280
-#: clientgui/ViewProjects.cpp:768
-#: clientgui/ViewResources.cpp:130
-#: clientgui/ViewTransfers.cpp:227
-#: clientgui/ViewWork.cpp:253
-msgid "Project"
-msgstr "專案"
-
-#: clientgui/ViewMessages.cpp:180
-#: clientgui/ViewTransfers.cpp:231
-msgid "Time"
-msgstr "時間"
-
-#: clientgui/ViewMessages.cpp:181
-msgid "Message"
-msgstr "訊息"
-
-#: clientgui/ViewMessages.cpp:218
-msgid "Messages"
-msgstr "訊息"
-
-#: clientgui/ViewMessages.cpp:505
+#: clientgui/ViewMessages.cpp:80
 msgid "Copy all messages"
 msgstr "複製所有訊息"
 
-#: clientgui/ViewMessages.cpp:506
+#: clientgui/ViewMessages.cpp:81
+msgid "Copy all the messages to the clipboard."
+msgstr "複製全部訊息到剪貼簿。"
+
+#: clientgui/ViewMessages.cpp:87
 msgid "Copy selected messages"
 msgstr "複製選取的訊息"
 
-#: clientgui/ViewProjects.cpp:203
-msgid "Click a project to see additional options."
-msgstr "按一下專案可看見額外的選項。"
+#: clientgui/ViewMessages.cpp:88
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "只複製已選取的訊息到剪貼簿。 你可以在選取訊息時按住 Shitf 或 Control 鍵以同時選取多個訊息。"
 
-#: clientgui/ViewProjects.cpp:207
-msgid "<b>Attach to new project</b><br>Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "<b>加入新專案</b><br>將這台電腦加入新的 BOINC 專案。 你會需要專案網址和帳號金鑰 (拜訪專案網頁可以取得這些資訊)。"
+#: clientgui/ViewMessages.cpp:100
+#: clientgui/ViewProjects.cpp:164
+#: clientgui/ViewResources.cpp:80
+#: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewWork.cpp:132
+msgid "Project"
+msgstr "專案"
 
-#: clientgui/ViewProjects.cpp:214
-msgid "<b>Detach from project</b><br>Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
-msgstr "<b>退出專案</b><br>從專案中退出這台電腦。 進行中的工作將會遺失。 在退出之前你可以先更新專案來回報已完成的工作。"
+#: clientgui/ViewMessages.cpp:101
+#: clientgui/ViewTransfers.cpp:125
+msgid "Time"
+msgstr "時間"
 
-#: clientgui/ViewProjects.cpp:222
-msgid "<b>Reset project</b><br>Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
-msgstr "<b>重新開始專案</b><br>刪除所有和這個專案相關的檔案和工作後取得新的工作。 在重新開始之前你可以先更新專案來回報已完成的工作。"
+#: clientgui/ViewMessages.cpp:102
+msgid "Message"
+msgstr "訊息"
 
-#: clientgui/ViewProjects.cpp:230
-msgid "<b>Suspend project</b><br>Stop work for this project (you can resume later)."
-msgstr "<b>暫止專案</b><br>停止這個專案的工作 (稍後還可以繼續)。"
+#: clientgui/ViewMessages.cpp:126
+msgid "Messages"
+msgstr "訊息"
 
-#: clientgui/ViewProjects.cpp:236
-msgid "<b>Resume project</b><br>Resume work for this project"
-msgstr "<b>繼續專案</b><br>繼續這個專案的工作。"
+#: clientgui/ViewMessages.cpp:147
+msgid "Copying all messages to the clipboard..."
+msgstr "複製全部訊息到剪貼簿..."
 
-#: clientgui/ViewProjects.cpp:241
-msgid "<b>Update project</b><br>Report all completed work and refresh your credit and preferences for this project."
-msgstr "<b>更新專案</b><br>回報所有已完成的工作並更新你在這個專案的積分和偏好設定。"
+#: clientgui/ViewMessages.cpp:180
+#: clientgui/ViewTransfers.cpp:190
+msgid "Aborting transfer..."
+msgstr "中止檔案傳送中..."
 
-#: clientgui/ViewProjects.cpp:247
-msgid "<b>BOINC home page</b><br>Open the BOINC home page in a web browser."
-msgstr "<b>BOINC 首頁</b><br>在瀏覽器開啟 BOINC 的首頁。"
+#: clientgui/ViewProjects.cpp:109
+msgid "Update"
+msgstr "更新"
 
-#: clientgui/ViewProjects.cpp:252
-msgid "<b>Project home page</b><br>Open this project's home page in a web browser."
-msgstr "<b>專案首頁</b><br>在瀏覽器開啟這個專案的首頁。"
+#: clientgui/ViewProjects.cpp:110
+msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "回報所有已完成的工作；取得最新的積分與偏好設定資訊且儘可能的取得工作。"
 
-#: clientgui/ViewProjects.cpp:277
-msgid "Web sites"
-msgstr "網站"
+#: clientgui/ViewProjects.cpp:117
+#: clientgui/ViewProjects.cpp:603
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:458
+msgid "Suspend"
+msgstr "暫止"
 
-#: clientgui/ViewProjects.cpp:281
+#: clientgui/ViewProjects.cpp:118
+#: clientgui/ViewProjects.cpp:603
+msgid "Suspend work for this project."
+msgstr "暫止這個專案的工作。"
+
+#: clientgui/ViewProjects.cpp:124
+#: clientgui/ViewProjects.cpp:613
+msgid "No new work"
+msgstr "不要新工作"
+
+#: clientgui/ViewProjects.cpp:125
+#: clientgui/ViewProjects.cpp:613
+msgid "Don't fetch new work for this project."
+msgstr "不要取得新工作給這個專案。"
+
+#: clientgui/ViewProjects.cpp:131
+msgid "Reset project"
+msgstr "重新開始專案"
+
+#: clientgui/ViewProjects.cpp:132
+msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
+msgstr "刪除所有和這個專案相關的檔案和工作後取得新的工作。 在重新開始之前你可以先更新專案來回報已完成的工作。"
+
+#: clientgui/ViewProjects.cpp:141
+msgid "Detach"
+msgstr "退出"
+
+#: clientgui/ViewProjects.cpp:142
+msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
+msgstr "從專案中退出這台電腦。 進行中的工作將會遺失。 在退出之前你可以先更新專案來回報已完成的工作。"
+
+#: clientgui/ViewProjects.cpp:151
+msgid "Attach to new project"
+msgstr "加入新專案"
+
+#: clientgui/ViewProjects.cpp:152
+msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
+msgstr "將這台電腦加入新的 BOINC 專案。 你會需要專案網址和帳號金鑰 (拜訪專案網頁可以取得這些資訊)。"
+
+#: clientgui/ViewProjects.cpp:165
 msgid "Account"
 msgstr "帳號"
 
-#: clientgui/ViewProjects.cpp:282
+#: clientgui/ViewProjects.cpp:166
 msgid "Team"
 msgstr "團隊"
 
-#: clientgui/ViewProjects.cpp:283
+#: clientgui/ViewProjects.cpp:167
 msgid "Total credit"
 msgstr "總積分"
 
-#: clientgui/ViewProjects.cpp:284
+#: clientgui/ViewProjects.cpp:168
 msgid "Avg. credit"
 msgstr "平均積分"
 
-#: clientgui/ViewProjects.cpp:285
+#: clientgui/ViewProjects.cpp:169
 msgid "Resource share"
 msgstr "資源分享"
 
-#: clientgui/ViewProjects.cpp:286
-#: clientgui/ViewTransfers.cpp:233
-#: clientgui/ViewWork.cpp:260
+#: clientgui/ViewProjects.cpp:170
+#: clientgui/ViewTransfers.cpp:127
+#: clientgui/ViewWork.cpp:139
 msgid "Status"
 msgstr "狀態"
 
-#: clientgui/ViewProjects.cpp:308
+#: clientgui/ViewProjects.cpp:183
 msgid "Projects"
 msgstr "專案"
 
-#: clientgui/ViewProjects.cpp:439
-#, c-format
-msgid "Are you sure you want to detach from project '%s'?"
-msgstr "你確定從專案 '%s' 中退出嗎？"
+#: clientgui/ViewProjects.cpp:205
+msgid "Updating project..."
+msgstr "正在更新專案..."
 
-#: clientgui/ViewProjects.cpp:444
-msgid "Detach from Project"
-msgstr "退出專案"
+#: clientgui/ViewProjects.cpp:231
+msgid "Resuming project..."
+msgstr "正在繼續專案..."
 
-#: clientgui/ViewProjects.cpp:462
+#: clientgui/ViewProjects.cpp:235
+msgid "Suspending project..."
+msgstr "正在暫止專案..."
+
+#: clientgui/ViewProjects.cpp:262
+msgid "Telling project to allow additional work downloads..."
+msgstr "通知專案可以下載額外的工作..."
+
+#: clientgui/ViewProjects.cpp:266
+msgid "Telling project to not fetch additional work..."
+msgstr "通知專案不要取得額外的工作..."
+
+#: clientgui/ViewProjects.cpp:296
+msgid "Resetting project..."
+msgstr "正在重新設定專案..."
+
+#: clientgui/ViewProjects.cpp:302
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "你確定要重新開始專案 '%s' 嗎？"
 
-#: clientgui/ViewProjects.cpp:467
+#: clientgui/ViewProjects.cpp:308
 msgid "Reset Project"
 msgstr "重新開始專案"
 
-#: clientgui/ViewProjects.cpp:748
-msgid "Update project"
-msgstr "更新專案"
+#: clientgui/ViewProjects.cpp:342
+msgid "Detaching from project..."
+msgstr "正在退出專案..."
 
-#: clientgui/ViewProjects.cpp:749
-msgid "Suspend project"
-msgstr "暫止專案"
+#: clientgui/ViewProjects.cpp:348
+#, c-format
+msgid "Are you sure you want to detach from project '%s'?"
+msgstr "你確定從專案 '%s' 中退出嗎？"
 
-#: clientgui/ViewProjects.cpp:750
-msgid "Resume project"
-msgstr "繼續專案"
-
-#: clientgui/ViewProjects.cpp:754
-msgid "Detach from project"
+#: clientgui/ViewProjects.cpp:354
+msgid "Detach from Project"
 msgstr "退出專案"
 
-#: clientgui/ViewProjects.cpp:755
-msgid "Reset project"
-msgstr "重新開始專案"
+#: clientgui/ViewProjects.cpp:386
+msgid "Attaching to project..."
+msgstr "正在加入專案..."
 
-#: clientgui/ViewProjects.cpp:759
-msgid "Attach to new project"
-msgstr "加入新專案"
+#: clientgui/ViewProjects.cpp:422
+msgid "Launching browser..."
+msgstr "啟動瀏覽器..."
+
+#: clientgui/ViewProjects.cpp:599
+#: clientgui/ViewWork.cpp:454
+msgid "Resume"
+msgstr "繼續"
+
+#: clientgui/ViewProjects.cpp:599
+msgid "Resume work for this project."
+msgstr "繼續這個專案的工作。"
+
+#: clientgui/ViewProjects.cpp:609
+msgid "Allow new work"
+msgstr "允許新工作"
+
+#: clientgui/ViewProjects.cpp:609
+msgid "Allow fetching new work for this project."
+msgstr "允許此專案取得新工作。"
+
+#: clientgui/ViewProjects.cpp:648
+msgid "Web sites"
+msgstr "網站"
 
 #: clientgui/ViewProjects.cpp:767
-msgid "BOINC"
-msgstr "BOINC"
-
-#: clientgui/ViewProjects.cpp:901
-msgid "Project Suspended"
+msgid "Project suspended"
 msgstr "專案已暫止"
 
-#: clientgui/ViewProjects.cpp:913
-#: clientgui/ViewTransfers.cpp:755
+#: clientgui/ViewProjects.cpp:769
+msgid "Won't get new work"
+msgstr "無法取得新工作"
+
+#: clientgui/ViewProjects.cpp:778
+#: clientgui/ViewTransfers.cpp:537
 msgid "Retry in "
 msgstr "重試於 "
 
-#: clientgui/ViewResources.cpp:111
-msgid "No available options currently defined."
-msgstr "當前的定義無可用的選項。"
-
-#: clientgui/ViewResources.cpp:131
+#: clientgui/ViewResources.cpp:81
 msgid "Disk Space"
 msgstr "磁碟空間"
 
-#: clientgui/ViewResources.cpp:153
+#: clientgui/ViewResources.cpp:94
 msgid "Disk"
 msgstr "磁碟"
 
-#: clientgui/ViewTransfers.cpp:197
-msgid "Click an item to see additional options."
-msgstr "按一下物件可看見額外的選項。"
+#: clientgui/ViewStatistics.cpp:40
+#: clientgui/ViewStatistics.cpp:46
+#: clientgui/ViewStatistics.cpp:362
+msgid "User Total"
+msgstr "使用者總計"
 
-#: clientgui/ViewTransfers.cpp:201
-msgid "<b>Retry now</b><br>Click <b>Retry now</b> to upload the file now"
-msgstr "<b>立即重試</b><br>按一下 <b>立即重試</b> 可以立即上傳檔案。"
+#: clientgui/ViewStatistics.cpp:307
+msgid "Show user total"
+msgstr "顯示使用者總計"
 
-#: clientgui/ViewTransfers.cpp:206
-msgid "<b>Abort upload</b><br>Click <b>Abort upload</b> to delete the file from the upload queue. This will prevent you from being granted credit for this result."
-msgstr "<b>中止上傳</b><br>按一下 <b>中止傳送</b> 可以從上傳佇列中刪除這個檔案。 這個動作會使你無法從這個運算結果中獲取積分。"
+#: clientgui/ViewStatistics.cpp:314
+msgid "Show user average"
+msgstr "顯示使用者平均"
 
-#: clientgui/ViewTransfers.cpp:228
+#: clientgui/ViewStatistics.cpp:321
+msgid "Show host total"
+msgstr "顯示此主機總計"
+
+#: clientgui/ViewStatistics.cpp:328
+msgid "Show host average"
+msgstr "顯示此主機平均"
+
+#: clientgui/ViewStatistics.cpp:349
+msgid "Statistics"
+msgstr "統計"
+
+#: clientgui/ViewStatistics.cpp:361
+#: clientgui/ViewStatistics.cpp:382
+#: clientgui/ViewStatistics.cpp:403
+#: clientgui/ViewStatistics.cpp:424
+msgid "Updating charts..."
+msgstr "更新圖表中..."
+
+#: clientgui/ViewStatistics.cpp:383
+msgid "User Average"
+msgstr "使用者平均"
+
+#: clientgui/ViewStatistics.cpp:404
+msgid "Host Total"
+msgstr "此主機總計"
+
+#: clientgui/ViewStatistics.cpp:425
+msgid "Host Average"
+msgstr "此主機平均"
+
+#: clientgui/ViewTransfers.cpp:102
+msgid "Retry Now"
+msgstr "立即重試"
+
+#: clientgui/ViewTransfers.cpp:103
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "按一下 '立即重試' 可以立即上傳檔案。"
+
+#: clientgui/ViewTransfers.cpp:109
+msgid "Abort Transfer"
+msgstr "中止檔案傳送"
+
+#: clientgui/ViewTransfers.cpp:110
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "按一下 '中止傳送' 可以從上傳佇列中刪除這個檔案。 這個動作會使你無法從這個運算結果中獲取積分。"
+
+#: clientgui/ViewTransfers.cpp:122
 msgid "File"
 msgstr "檔案"
 
-#: clientgui/ViewTransfers.cpp:229
-#: clientgui/ViewWork.cpp:257
+#: clientgui/ViewTransfers.cpp:123
+#: clientgui/ViewWork.cpp:136
 msgid "Progress"
 msgstr "進度"
 
-#: clientgui/ViewTransfers.cpp:230
+#: clientgui/ViewTransfers.cpp:124
 msgid "Size"
 msgstr "大小"
 
-#: clientgui/ViewTransfers.cpp:232
+#: clientgui/ViewTransfers.cpp:126
 msgid "Speed"
 msgstr "速度"
 
-#: clientgui/ViewTransfers.cpp:255
+#: clientgui/ViewTransfers.cpp:140
 msgid "Transfers"
 msgstr "傳送"
 
-#: clientgui/ViewTransfers.cpp:374
+#: clientgui/ViewTransfers.cpp:162
+msgid "Retrying transfer now..."
+msgstr "立即重試檔案傳送..."
+
+#: clientgui/ViewTransfers.cpp:195
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
 msgstr "你確定要中止這個檔案傳送 '%s' 嗎？"
 
-#: clientgui/ViewTransfers.cpp:379
+#: clientgui/ViewTransfers.cpp:200
 msgid "Abort File Transfer"
 msgstr "中止檔案傳送"
 
-#: clientgui/ViewTransfers.cpp:546
-msgid "Retry Now"
-msgstr "立即重試"
-
-#: clientgui/ViewTransfers.cpp:547
-msgid "Abort Upload"
-msgstr "中止上傳"
-
-#: clientgui/ViewTransfers.cpp:759
-#: clientgui/ViewWork.cpp:861
+#: clientgui/ViewTransfers.cpp:539
+#: clientgui/ViewWork.cpp:655
 msgid "Download failed"
 msgstr "下載失敗"
 
-#: clientgui/ViewTransfers.cpp:763
-#: clientgui/ViewWork.cpp:907
+#: clientgui/ViewTransfers.cpp:541
+#: clientgui/ViewWork.cpp:690
 msgid "Upload failed"
 msgstr "上傳失敗"
 
-#: clientgui/ViewTransfers.cpp:767
-#: clientgui/ViewWork.cpp:911
-msgid "Uploading"
-msgstr "上傳中"
-
-#: clientgui/ViewTransfers.cpp:767
-#: clientgui/ViewWork.cpp:865
-msgid "Downloading"
-msgstr "下載中"
-
-#: clientgui/ViewTransfers.cpp:774
-#: clientgui/ViewWork.cpp:884
-#: clientgui/ViewWork.cpp:934
+#: clientgui/ViewTransfers.cpp:544
+#: clientgui/ViewTransfers.cpp:552
+#: clientgui/ViewWork.cpp:664
+#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:674
+#: clientgui/ViewWork.cpp:708
 msgid "Suspended"
 msgstr "已暫止"
 
-#: clientgui/ViewWork.cpp:213
-msgid "Click a result to see additional options."
-msgstr "按一下結果可看見額外的選項。"
+#: clientgui/ViewTransfers.cpp:546
+#: clientgui/ViewWork.cpp:692
+msgid "Uploading"
+msgstr "上傳中"
 
-#: clientgui/ViewWork.cpp:217
-msgid "<b>Suspend</b><br>Suspend the result."
-msgstr "<b>暫止</b><br>暫止這個結果。"
+#: clientgui/ViewTransfers.cpp:546
+#: clientgui/ViewWork.cpp:657
+msgid "Downloading"
+msgstr "下載中"
 
-#: clientgui/ViewWork.cpp:222
-msgid "<b>Resume</b><br>Resume a suspended result."
-msgstr "<b>繼續</b><br>繼續已暫止的結果。"
+#: clientgui/ViewWork.cpp:107
+#: clientgui/ViewWork.cpp:458
+msgid "Suspend work for this result."
+msgstr "暫止這個結果的工作。"
 
-#: clientgui/ViewWork.cpp:227
-msgid "<b>Show graphics</b><br>Show application graphics in a window."
-msgstr "<b>顯示圖形</b><br>於新視窗中顯示應用程式的圖形。"
-
-#: clientgui/ViewWork.cpp:232
-msgid "<b>Abort result</b><br>Delete the result from the work queue. This will prevent you from being granted credit for the result."
-msgstr "<b>中止結果</b><br>從工作佇列中刪除這個結果。 這個動作會使你無法從這個運算結果中獲取積分。"
-
-#: clientgui/ViewWork.cpp:251
-msgid "Quick tips"
-msgstr "快顯提示"
-
-#: clientgui/ViewWork.cpp:254
-msgid "Application"
-msgstr "應用程式"
-
-#: clientgui/ViewWork.cpp:255
-msgid "Name"
-msgstr "名稱"
-
-#: clientgui/ViewWork.cpp:256
-msgid "CPU time"
-msgstr "CPU 時間"
-
-#: clientgui/ViewWork.cpp:258
-msgid "To completetion"
-msgstr "剩餘時間"
-
-#: clientgui/ViewWork.cpp:259
-msgid "Report deadline"
-msgstr "回報期限"
-
-#: clientgui/ViewWork.cpp:282
-msgid "Work"
-msgstr "工作"
-
-#: clientgui/ViewWork.cpp:418
-msgid "Are you sure you wish to display graphics on a remote machine?"
-msgstr "你確定要顯示遠端電腦的圖形嗎？"
-
-#: clientgui/ViewWork.cpp:419
-#: clientgui/ViewWork.cpp:655
+#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:218
 msgid "Show graphics"
 msgstr "顯示圖形"
 
-#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewWork.cpp:114
+msgid "Show application graphics in a window."
+msgstr "於新視窗中顯示應用程式的圖形。"
+
+#: clientgui/ViewWork.cpp:120
+msgid "Abort"
+msgstr "中止"
+
+#: clientgui/ViewWork.cpp:121
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "放棄這個結果的工作。你將不會取得任何積分。"
+
+#: clientgui/ViewWork.cpp:133
+msgid "Application"
+msgstr "應用程式"
+
+#: clientgui/ViewWork.cpp:134
+msgid "Name"
+msgstr "名稱"
+
+#: clientgui/ViewWork.cpp:135
+msgid "CPU time"
+msgstr "CPU 時間"
+
+#: clientgui/ViewWork.cpp:137
+msgid "To completion"
+msgstr "剩餘時間"
+
+#: clientgui/ViewWork.cpp:138
+msgid "Report deadline"
+msgstr "回報期限"
+
+#: clientgui/ViewWork.cpp:152
+msgid "Work"
+msgstr "工作"
+
+#: clientgui/ViewWork.cpp:176
+msgid "Resuming result..."
+msgstr "正在繼續結果..."
+
+#: clientgui/ViewWork.cpp:180
+msgid "Suspending result..."
+msgstr "暫止結果中..."
+
+#: clientgui/ViewWork.cpp:206
+msgid "Showing graphics for result..."
+msgstr "顯示此結果圖形..."
+
+#: clientgui/ViewWork.cpp:217
+msgid "Are you sure you wish to display graphics on a remote machine?"
+msgstr "你確定要顯示遠端電腦的圖形嗎？"
+
+#: clientgui/ViewWork.cpp:267
+msgid "Aborting result..."
+msgstr "中止結果中..."
+
+#: clientgui/ViewWork.cpp:271
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "你確定要中止這個結果 '%s' 嗎？"
 
-#: clientgui/ViewWork.cpp:451
-#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewWork.cpp:276
 msgid "Abort result"
 msgstr "中止結果"
 
-#: clientgui/ViewWork.cpp:653
-msgid "Suspend"
-msgstr "暫止"
+#: clientgui/ViewWork.cpp:454
+msgid "Resume work for this result."
+msgstr "繼續這個結果的工作。"
 
-#: clientgui/ViewWork.cpp:654
-msgid "Resume"
-msgstr "繼續"
-
-#: clientgui/ViewWork.cpp:856
+#: clientgui/ViewWork.cpp:651
 msgid "New"
 msgstr "新工作"
 
-#: clientgui/ViewWork.cpp:871
+#: clientgui/ViewWork.cpp:662
 msgid "Aborted"
 msgstr "已中止"
 
-#: clientgui/ViewWork.cpp:878
+#: clientgui/ViewWork.cpp:670
 msgid "Running"
 msgstr "運行中"
 
-#: clientgui/ViewWork.cpp:888
+#: clientgui/ViewWork.cpp:676
 msgid "Paused"
 msgstr "已暫停"
 
-#: clientgui/ViewWork.cpp:893
-#: clientgui/ViewWork.cpp:898
+#: clientgui/ViewWork.cpp:679
+#: clientgui/ViewWork.cpp:682
 msgid "Ready to run"
 msgstr "準備執行"
 
-#: clientgui/ViewWork.cpp:902
+#: clientgui/ViewWork.cpp:686
 msgid "Computation error"
 msgstr "運算錯誤"
 
-#: clientgui/ViewWork.cpp:917
+#: clientgui/ViewWork.cpp:697
 msgid "Acknowledged"
 msgstr "已認可"
 
-#: clientgui/ViewWork.cpp:921
+#: clientgui/ViewWork.cpp:699
 msgid "Ready to report"
 msgstr "準備回報"
 
-#: clientgui/ViewWork.cpp:925
+#: clientgui/ViewWork.cpp:701
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "錯誤: 無效狀態 '%s' "
+msgstr "錯誤: 無效狀態 '%d' "
 
-#: clientgui/DlgAbout.h:30
-msgid "About BOINC"
-msgstr "關於 BOINC"
+#: clientgui/DlgAbout.h:50
+msgid "About BOINC Manager"
+msgstr "關於 BOINC 管理員..."
 
-#: clientgui/DlgAttachProject.h:30
+#: clientgui/DlgAccountManager.h:49
+msgid "Account Manager Credentials"
+msgstr "帳號管理證書"
+
+#: clientgui/DlgAttachProject.h:48
 msgid "Attach to Project"
 msgstr "加入專案"
 
-#: clientgui/DlgConnection.h:31
+#: clientgui/DlgConnection.h:48
 msgid "Connection"
 msgstr "連線"
 
-#: clientgui/DlgOptions.h:30
+#: clientgui/DlgOptions.h:49
 msgid "Options"
 msgstr "選項"
+
+#: clientgui/DlgSelectComputer.h:49
+msgid "Select Computer"
+msgstr "選擇電腦"
 
