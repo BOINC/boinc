@@ -220,10 +220,12 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
     SetStatusBarPane(0);
 
-    // Complete any remaining initialization that has to happen after we are up
-    //   and running
-    CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
-    AddPendingEvent(event);
+    // The second half of the initialization process picks up in the OnFrameRender()
+    //   routine since the menus' and status bars' are drawn in the frameworks
+    //   on idle routines, on idle events are sent in between the end of the
+    //   constructor and the first call to OnFrameRender
+    //
+    // Look for the 'if (!bAlreadyRunOnce) {' statement
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -1163,8 +1165,9 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (!pDoc->IsConnected())
+    if (!pDoc->IsConnected()) {
         pDoc->Connect(wxEmptyString, wxEmptyString, TRUE);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
 }
@@ -1228,13 +1231,21 @@ void CMainFrame::OnRefreshState(wxTimerEvent &event) {
 void CMainFrame::OnFrameRender(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
     static bool bAlreadyRunningLoop = false;
+    static bool bAlreadyRunOnce = false;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
 
         wxGetApp().UpdateSystemIdleDetection();
+
+        if (!bAlreadyRunOnce) {
+            // Complete any remaining initialization that has to happen after we are up
+            //   and running
+            FireInitialize();
+            bAlreadyRunOnce = true;
+        }
 
         if (IsShown()) {
             if (pDoc) {
@@ -1398,6 +1409,12 @@ void CMainFrame::UpdateStatusText(const wxChar* szStatus) {
     wxString strStatus = szStatus;
     m_pStatusbar->SetStatusText(strStatus);
     ::wxSleep(0);
+}
+
+
+void CMainFrame::FireInitialize() {
+    CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
+    AddPendingEvent(event);
 }
 
 

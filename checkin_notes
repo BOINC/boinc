@@ -7020,3 +7020,13 @@ David  24 May 2005
     lib/
         prefs.C,h
         result_state.h
+
+Rom    24 May 2005
+    - Instead of going to sleep to give the CC enough time to open a
+        listening socket we should attempt to connect after we have received
+        our first OnFrameRender timer event which will happen after at
+        least one window idle event.
+
+    clientgui/
+         BOINCGUIApp.cpp
+         MainFrame.cpp, .h

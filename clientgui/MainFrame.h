@@ -89,6 +89,7 @@ public:
 
     void UpdateStatusText( const wxChar* szStatus );
 
+    void FireInitialize();
     void FireConnect();
     void FireConnectError();
     void FireConnectErrorAuthentication();
