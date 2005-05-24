@@ -6982,3 +6982,12 @@ Rom    23 May 2005
 
     client/
         app_graphics.C
+
+David  23 May 2005
+    - added <sched_lockfile_dir> entry to sched config file (optional).
+        Specifies where scheduler PID lockfiles are kept
+        (default is cgi-bin dir)
+
+    sched/
+        handle_request.C
+        sched_config.C,h

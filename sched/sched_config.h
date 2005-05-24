@@ -38,6 +38,7 @@ public:
         // (file deleter looks here if not in main dir)
     char upload_url[256];
     char upload_dir[256];
+    char sched_lockfile_dir[256];
     bool one_result_per_user_per_wu;
     bool msg_to_host;
     int min_sendwork_interval;

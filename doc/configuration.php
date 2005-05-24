@@ -51,6 +51,7 @@ htmlspecialchars("
     [ <choose_download_url_by_timezone>  N </choose_download_url_by_timezone>  ]
     [ <cache_md5_info>  N </cache_md5_info>  ]
     [ <nowork_skip>  N </nowork_skip>  ]
+    [ <sched_lockfile_dir>  path </sched_lockfile_dir>  ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -122,6 +123,8 @@ features on the administrative pages.  Note: enabling 'grep logs' with
 very long log files can hang your server, since grepping GB files can
 take a long time.  If you enable this feature, be sure to rotate the
 logs so that they are not too big.");
+list_item("sched_lockfile_dir", "Directory where scheduler lockfiles
+    are stored.  Must be writeable to the Apache user.");
 list_end();
 
 echo "

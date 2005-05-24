@@ -57,21 +57,28 @@ using namespace std;
 // instance for this host. Return values same as mylockf().
 //
 int lock_sched(SCHEDULER_REPLY& reply) {
-    char filename[64];
+    char filename[256];
     char pid_string[16];
     int fd, pid, count;
 
     reply.lockfile_fd=-1;
 
-    sprintf(filename, "CGI_%07d", reply.host.id);
+    if (strlen(config.sched_lockfile_dir)) {
+        sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, reply.host.id);
+    } else {
+        sprintf(filename, "CGI_%07d", reply.host.id);
+    }
 
-    if ((fd=open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH))<0) return -1;
+    fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+    if (fd < 0) return -1;
 
-    // if we can't get an advisory write lock on the file, return the PID
-    // of the process that DOES hold the lock.
+    // if we can't get an advisory write lock on the file,
+    // return the PID of the process that DOES hold the lock.
+    //
     if ((pid=mylockf(fd))) return pid;
 
     // write PID into the CGI_<HOSTID> file and flush to disk
+    //
     count=sprintf(pid_string, "%d\n", getpid());
     write(fd, pid_string, count);
     fsync(fd);

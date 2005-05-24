@@ -69,6 +69,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_str(buf, "<download_dir_alt>", download_dir_alt, sizeof(download_dir_alt));
     parse_str(buf, "<upload_url>", upload_url, sizeof(upload_url));
     parse_str(buf, "<upload_dir>", upload_dir, sizeof(upload_dir));
+    parse_str(buf, "<sched_lockfile_dir>", sched_lockfile_dir, sizeof(sched_lockfile_dir));
     parse_bool(buf, "one_result_per_user_per_wu", one_result_per_user_per_wu);
     parse_bool(buf, "non_cpu_intensive", non_cpu_intensive);
     parse_bool(buf,"homogeneous_redundancy", homogeneous_redundancy);
