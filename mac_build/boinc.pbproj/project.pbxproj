@@ -71,7 +71,7 @@
 		20286C28FDCF999611CA2CEA = {
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.0.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 			};
 			buildStyles = (
 				05952DFCFFF02D1B11CA0E50,
@@ -2967,6 +2967,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD130E740820C422001A0291,
+				DDA3717B0842BBDE0039BAC7,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3038,6 +3039,12 @@
 			path = "ScreenSaver-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DDA3717B0842BBDE0039BAC7 = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DDAEC9DE07FA583B00A7BC36 = {
 			buildActionMask = 2147483647;
