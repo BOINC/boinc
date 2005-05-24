@@ -80,7 +80,17 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
             "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s, previous mode %s\n",
             buf, result->name, xml_graphics_modes[graphics_mode_acked]
         );
-        if (is_ss_app && (gm.mode != MODE_FULLSCREEN) && (gm.mode != MODE_REREAD_PREFS)) {
+        // if we receive MODE_HIDE_GRAPHICS from an application acting as the
+        // screensaver it can be for one of two reasons:
+        //   1) application shut down because it was done processing.
+        //   2) user input was detected.
+        //
+        // in the first condition we should promote another application to be
+        // screensaver in the SS_LOGIC::poll function.  In the second condition
+        // we should inform the various screensaver components to shutdown.
+        if (is_ss_app && 
+            (gm.mode != MODE_FULLSCREEN) && (gm.mode != MODE_REREAD_PREFS) &&
+            !gstate.host_info.users_idle(true, 0.5)) {
             gstate.ss_logic.stop_ss();
             scope_messages.printf(
                 "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver\n"

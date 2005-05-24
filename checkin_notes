@@ -6973,3 +6973,12 @@ David  23 May 2005
         cs_apps.C
         cs_scheduler.C
         scheduler_op.C
+
+Rom    23 May 2005
+    - Introduce a change in the screensaver logic so that it checks user idle
+        activity before informing the screensaver to shutdown, so that in the
+        case of an application exiting due to it completing the result the CC
+        can promote another application to screensaver status and continue on.
+
+    client/
+        app_graphics.C
