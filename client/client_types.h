@@ -380,6 +380,7 @@ struct RESULT {
     FILE_INFO* lookup_file_logical(const char*);
     double estimated_cpu_time();
     double estimated_cpu_time_remaining();
+    bool computing_done();
 };
 
 #endif

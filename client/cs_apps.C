@@ -284,7 +284,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
 
-        project = rp->wup->project;
+        project = rp->project;
         if (project->suspended_via_gui) continue;
         if (project->next_runnable_result) continue;
 

@@ -929,12 +929,13 @@ bool CLIENT_STATE::should_get_work() {
 // return true if we don't have enough runnable tasks to keep all CPUs busy
 //
 bool CLIENT_STATE::no_work_for_a_cpu() {
-    unsigned int i = 0;
+    unsigned int i;
     int count = 0;
-    for (i = 0; i < results.size(); i++){
+
+    for (i=0; i< results.size(); i++){
         RESULT* rp = results[i];
         if (rp->project->non_cpu_intensive ) continue;
-        if (RESULT_COMPUTE_ERROR <= rp->state) continue;
+        if (rp->computing_done()) continue;
         if (rp->suspended_via_gui) continue;
         if (rp->project->suspended_via_gui) continue;
         count++;
@@ -942,18 +943,26 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     return ncpus > count;
 }
 
-// decide on the CPU scheduler state
+// Decide on modes for work-fetch and CPU sched policies.
+// Namely, set the variables
+// - work_fetch_no_new_work
+// - cpu_earliest_deadline_first
+// and print a message if we're changing their value
 //
 void CLIENT_STATE::set_cpu_scheduler_modes() {
     std::map<double, RESULT*> results_by_deadline;
     std::set<PROJECT*> projects_with_work;
+    RESULT* rp;
+    int i;
 
     std::vector<RESULT*>::iterator it_u;
     for (it_u = results.begin(); it_u != results.end(); ++it_u) {
-        if ((RESULT_COMPUTE_ERROR > (*it_u)->state) && !(*it_u)->project->non_cpu_intensive) {
-            results_by_deadline[(*it_u)->report_deadline] = *it_u;
-            projects_with_work.insert((*it_u)->project);
-        }
+        rp = *it_u;
+        if (rp->computing_done()) continue;
+        if (rp->project->non_cpu_intensive) continue;
+
+        results_by_deadline[rp->report_deadline] = rp;
+        projects_with_work.insert(rp->project);
     }
 
     bool should_not_fetch_work = false;
@@ -963,7 +972,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     std::vector <double> booked_to;
     now = dtime();
     frac_booked = 0;
-    for (int i=0; i<ncpus; i++) {
+    for (i=0; i<ncpus; i++) {
         booked_to.push_back(now);
     }
 
@@ -974,57 +983,55 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         it != results_by_deadline.end() && !should_not_fetch_work;
         it++
     ) {
-        RESULT *r = (*it).second;
+        rp = (*it).second;
 
-        // non CPU intensive results don't count.
-        if (r->project->non_cpu_intensive) continue;
+        if (rp->project->non_cpu_intensive) continue;
+        if (rp->computing_done()) continue;
 
-        if (RESULT_COMPUTE_ERROR > ((*it).second)->state) {
-            double lowest_book = booked_to[0];
-            int lowest_booked_cpu = 0;
-            for (int i=1; i<ncpus; i++) {
-                if (booked_to[i] < lowest_book) {
-                    lowest_book = booked_to[i];
-                    lowest_booked_cpu = i;
-                }
+        double lowest_book = booked_to[0];
+        int lowest_booked_cpu = 0;
+        for (i=1; i<ncpus; i++) {
+            if (booked_to[i] < lowest_book) {
+                lowest_book = booked_to[i];
+                lowest_booked_cpu = i;
             }
-            booked_to[lowest_booked_cpu] += ((*it).second)->estimated_cpu_time_remaining();
-
-            // Are the deadlines too tight to meet reliably?
-            //
-            if (booked_to[lowest_booked_cpu] - now > (r->report_deadline - now) * MAX_CPU_LOAD_FACTOR * up_frac) {
-                should_not_fetch_work = true;
-                use_earliest_deadline_first = true;
-                if (!cpu_earliest_deadline_first || !work_fetch_no_new_work) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Computer is overcommitted"
-                    );
-                }
-            }
-            // Is the nearest deadline within a day?
-            //
-            if (r->report_deadline - now < 60 * 60 * 24) {
-                use_earliest_deadline_first = true; 
-                if (!cpu_earliest_deadline_first) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Less than 1 day until deadline."
-                    );
-                }
-            }
-
-            // is there a deadline < twice the users connect period?
-            //
-            if (r->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
-                use_earliest_deadline_first = true; 
-                if (!cpu_earliest_deadline_first) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Deadline is before reconnect time"
-                    );
-                }
-            }
-
-            frac_booked += r->estimated_cpu_time_remaining() / (r->report_deadline - now);
         }
+        booked_to[lowest_booked_cpu] += rp->estimated_cpu_time_remaining();
+
+        // Are the deadlines too tight to meet reliably?
+        //
+        if (booked_to[lowest_booked_cpu] - now > (rp->report_deadline - now) * MAX_CPU_LOAD_FACTOR * up_frac) {
+            should_not_fetch_work = true;
+            use_earliest_deadline_first = true;
+            if (!cpu_earliest_deadline_first || !work_fetch_no_new_work) {
+                msg_printf(NULL, MSG_INFO,
+                    "Computer is overcommitted"
+                );
+            }
+        }
+        // Is the nearest deadline within a day?
+        //
+        if (rp->report_deadline - now < 60 * 60 * 24) {
+            use_earliest_deadline_first = true; 
+            if (!cpu_earliest_deadline_first) {
+                msg_printf(NULL, MSG_INFO,
+                    "Less than 1 day until deadline."
+                );
+            }
+        }
+
+        // is there a deadline < twice the users connect period?
+        //
+        if (rp->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
+            use_earliest_deadline_first = true; 
+            if (!cpu_earliest_deadline_first) {
+                msg_printf(NULL, MSG_INFO,
+                    "Deadline is before reconnect time"
+                );
+            }
+        }
+
+        frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - now);
     }
 
     if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus) {
@@ -1032,17 +1039,6 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         if (!work_fetch_no_new_work) {
             msg_printf(NULL, MSG_INFO,
                 "Nearly overcommitted."
-            );
-        }
-    }
-
-    // check for too many projects that have work
-    //
-    if (projects_with_work.size() >= (unsigned int)global_prefs.max_projects_on_client) {
-        should_not_fetch_work = true;
-        if (!work_fetch_no_new_work) {
-            msg_printf(NULL, MSG_INFO,
-                "Too many projects have work."
             );
         }
     }

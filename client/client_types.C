@@ -1359,6 +1359,10 @@ void RESULT::reset_files() {
     }
 }
 
+bool RESULT::computing_done() {
+    return (state >= RESULT_COMPUTE_ERROR);
+}
+
 // estimate how long a result will take on this host
 //
 double RESULT::estimated_cpu_time() {
@@ -1366,9 +1370,7 @@ double RESULT::estimated_cpu_time() {
 }
 
 double RESULT::estimated_cpu_time_remaining() {
-    double x=-1;
-
-    if (state >= RESULT_COMPUTE_ERROR) return -1;
+    if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp && atp->fraction_done > 0) {
         return atp->est_cpu_time_to_completion();

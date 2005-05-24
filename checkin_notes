@@ -7006,3 +7006,17 @@ Charlie    24 may 2005
     
     client/
         app_graphics.C
+
+David  24 May 2005
+    - Removed "max_projects_on_client" from GLOBAL_PREFS structure.
+    - added RESULT::computing_done() function.
+        This replaces explicit references to RESULT::state
+    - minor code cleanup in CPU scheduler
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+    lib/
+        prefs.C,h
+        result_state.h

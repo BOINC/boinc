@@ -22,7 +22,7 @@
 
 // States of a result on a client.
 // THESE MUST BE IN NUMERICAL ORDER
-// (because of the >= comparison in current_work_buf_days())
+// (because of the > comparison in RESULT::computing_done())
 //
 #define RESULT_NEW               0
     // New result

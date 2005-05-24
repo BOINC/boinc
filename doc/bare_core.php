@@ -43,6 +43,8 @@ startup of BOINC on various versions of Unix:
 <a href=autostart_unix.txt>Linux with KDE</a>.
 <li>
 <a href=autostart_dennett.txt>Red Hat 9, should also work on Solaris</a>
+<li>
+<a href=gentoo.txt>Gentoo Linux</a> (from Gabor Nagy)
 </ul>
 
 <h2>Automatic startup on Mac OS X</h2>
