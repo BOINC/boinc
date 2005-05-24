@@ -88,7 +88,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
         // in the first condition we should promote another application to be
         // screensaver in the SS_LOGIC::poll function.  In the second condition
         // we should inform the various screensaver components to shutdown.
-        if (is_ss_app && 
+        if (is_ss_app && (graphics_mode_acked == MODE_FULLSCREEN) &&
             (gm.mode != MODE_FULLSCREEN) && (gm.mode != MODE_REREAD_PREFS) &&
             !gstate.host_info.users_idle(true, 0.5)) {
             gstate.ss_logic.stop_ss();

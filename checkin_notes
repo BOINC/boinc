@@ -6998,3 +6998,11 @@ David  23 May 2005
 
     client/
         cs_apps.C
+
+Charlie    24 may 2005
+    Tweaked Rom's fix to screensaver logic to also check if previous mode 
+    was MODE_FULLSCREEN.  This makes it work reliably when screensaver is 
+    activated by moving mouse into hot corner.
+    
+    client/
+        app_graphics.C
