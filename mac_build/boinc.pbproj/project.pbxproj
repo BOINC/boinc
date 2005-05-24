@@ -2208,17 +2208,17 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD664F0308431E96009BFB11 = {
+		DD664F18084321A2009BFB11 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
 			isa = PBXContainerItemProxy;
 			proxyType = 1;
 			remoteGlobalIDString = DD69FEE708416C1300C01361;
 			remoteInfo = cmd_boinc;
 		};
-		DD664F0408431E96009BFB11 = {
+		DD664F19084321A2009BFB11 = {
 			isa = PBXTargetDependency;
 			target = DD69FEE708416C1300C01361;
-			targetProxy = DD664F0308431E96009BFB11;
+			targetProxy = DD664F18084321A2009BFB11;
 		};
 		DD69FEE508416C1300C01361 = {
 			buildActionMask = 2147483647;
@@ -2979,7 +2979,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD130E740820C422001A0291,
-				DDA3717B0842BBDE0039BAC7,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3051,12 +3050,6 @@
 			path = "ScreenSaver-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DDA3717B0842BBDE0039BAC7 = {
-			fileRef = 20286C33FDCF999611CA2CEA;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDAEC9DE07FA583B00A7BC36 = {
 			buildActionMask = 2147483647;
@@ -3174,7 +3167,7 @@
 				DD791FF10819063C00BE2906,
 				DDBD681707FA830E0082C20D,
 				DD127877081F44E5007B5DE1,
-				DD664F0408431E96009BFB11,
+				DD664F19084321A2009BFB11,
 			);
 			isa = PBXAggregateTarget;
 			name = Build_All;
