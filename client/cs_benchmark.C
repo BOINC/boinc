@@ -287,11 +287,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
     double now = dtime();
 
-    // Send heartbeat to all active tasks so they know we are alive
-    // and well.
     active_tasks.send_heartbeats();
 
-    // should we abort the benchmarks?
+    // if active tasks don't quit after 10 sec, give up on benchmark
+    //
     if (now >= (cpu_benchmarks_start + 10.0) && active_tasks.is_task_executing()) {
         msg_printf(NULL, MSG_ERROR,
             "Aborting CPU benchmarks, one or more active tasks are still running."

@@ -163,12 +163,15 @@ bool ACTIVE_TASK::has_task_exited() {
 
 // preempt this task
 // called from the CLIENT_STATE::schedule_cpus()
-// if quit_task is true always do this by quitting (we're low on swap space)
+// if quit_task is true do this by quitting
 //
 int ACTIVE_TASK::preempt(bool quit_task) {
     int retval;
 
-    if (quit_task) {
+    // If the app hasn't checkpoint yet, suspend instead of quit
+    // (accommodate apps that never checkpoint)
+    //
+    if (quit_task && (checkpoint_cpu_time>0)) {
         retval = request_exit();
         pending_suspend_via_quit = true;
     } else {

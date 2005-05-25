@@ -7073,3 +7073,12 @@ David  25 May 2005
 
     client/
         cs_scheduler.C
+
+David  25 May 2005
+    - if an app hasn't checkpointed yet, never preempt it by killing it
+        (even in CPU benchmark case)
+
+    client/
+        app_control.C
+        cs_apps.C
+        cs_benchmark.C

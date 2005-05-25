@@ -573,11 +573,6 @@ bool CLIENT_STATE::schedule_cpus(double now) {
             bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
             preempt_by_quit |= active_tasks.vm_limit_exceeded(vm_limit);
 
-            // if app hasn't checkpointed yet, always leave it in memory
-            //
-            if (atp->checkpoint_cpu_time == 0) {
-                preempt_by_quit = false;
-            }
             atp->preempt(preempt_by_quit);
         } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_SCHEDULED

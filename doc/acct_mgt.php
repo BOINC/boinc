@@ -143,7 +143,10 @@ list_item("URL", "project_url/am_create.php");
 list_item(
 	"input",
         "email_addr: email address
-		<br>nonce: nonce ID (crypto-random string)"
+		<br>nonce: nonce ID (a long random string that is hard to guess,
+            e.g. in PHP:
+             <code>md5(uniqid(rand(), true))</code>
+)"
 );
 list_item(
 	"output",
@@ -175,7 +178,7 @@ echo "
 list_start();
 list_item("URL", "project_url/am_query.php");
 list_item("input",
-    "nonce"
+    "nonce (the one passed to am_create.php)"
 );
 list_item("output",
     html_text("<am_query_reply>
