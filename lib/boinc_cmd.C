@@ -135,13 +135,13 @@ int main(int argc, char** argv) {
     // change the following to debug GUI RPC's asynchronous connection mechanism
     //
 #if 1
-    retval = rpc.init(hostname, false);
+    retval = rpc.init(hostname);
     if (retval) {
         fprintf(stderr, "can't connect\n");
         exit(1);
     }
 #else
-    retval = rpc.init(hostname, true);
+    retval = rpc.init_asynch(hostname, 60., false);
     while (1) {
         retval = rpc.init_poll();
         if (!retval) break;

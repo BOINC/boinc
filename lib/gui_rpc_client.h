@@ -397,14 +397,27 @@ public:
     int sock;
     int client_version;
     bool tried_alt_port;
-    long connect_timestamp;
+    double start_time;
+    double timeout;
+    bool retry;
     sockaddr_in addr;
 
     int send_request(const char*);
     int get_reply(char*&);
     RPC_CLIENT();
     ~RPC_CLIENT();
-    int init(const char* host, bool asynch=false);
+    int init(const char* host);
+    int init_asynch(const char* host, double timeout, bool retry);
+        // timeout == how long to wait until give up
+        //    If the caller (i.e. BOINC Manager) just launched the core client,
+        //    this should be large enough to allow the process to
+        //    run and open its listening socket (e.g. 60 sec)
+        //    If connecting to a remote client, it should be large enough
+        //    for the user to deal with a "personal firewall" popup
+        //    (e.g. 60 sec)
+        // retry: if true, keep retrying (alternating between ports)
+        //    until succeed or timeout.
+        //    Use this if just launched the core client.
     int init_poll();
     void close();
     int authorize(const char* passwd);

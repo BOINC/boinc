@@ -341,7 +341,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     int retval;
     bool running;
     RPC_CLIENT rpc;
-    retval = rpc.init("localhost", false);  // synchronous is OK since local
+    retval = rpc.init("localhost");  // synchronous is OK since local
     running = (retval == 0);
     rpc.close();
 

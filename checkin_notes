@@ -7047,3 +7047,23 @@ Charlie    25 may 2005
     clientgui/
         mac/
             mac_saver_module.cpp
+
+David  25 May 2005
+    - Changed the interface for creating a GUI RPC connection.
+        RPC_CLIENT::init() synchronous
+        RPC_CLIENT::init_asynch(double timeout, bool retry)
+            If retry is true, keep trying (alternating between
+            alternate and main ports) until succeed or time out.
+            This is used by the BOINC manager when it starts up
+            the core client, since it may take many seconds before
+            the core client runs and creates the listening socket.
+    NOTE: the BOINC Manager sees if the core client is running by
+        connecting to it.  It then closes this connection and connects again.
+        Would be better to connect just once.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C,h

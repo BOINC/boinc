@@ -8,7 +8,7 @@ send_file(int host_id, const char* file_name, int priority, long int exp_date)
 </pre>
 or the command line program
 <pre>
-send_file -host_id X -file_name Y -priority Z -days_exp
+send_file -host_id X -file_name Y -priority Z -days_exp N
 </pre>
 <ul>
 <li> priority is the relative importance of the file (default = 1)
@@ -32,7 +32,10 @@ The message has the form:
 	<app_name>FILE_MOVER</app_name>
 	<version_num>n</version_num>
 </app_version>
-	RESULT_XML
+<result>
+    <wu_name>x</wu_name>
+    <name>y</name>
+</result>
 <file_info>
 	<name>file_name</name>
 	<url>download_dir/file_name</url>

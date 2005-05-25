@@ -100,9 +100,9 @@ void* CNetworkConnection::Poll() {
             }
 
             if (strComputer.empty()) {
-                retval = m_pDocument->rpc.init(NULL, true);
+                retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
             } else {
-                retval = m_pDocument->rpc.init(strComputer.c_str(), true);
+                retval = m_pDocument->rpc.init_asynch(strComputer.c_str(), 60., false);
             }
 
             if (!retval) {
