@@ -77,6 +77,7 @@ void strip_cr(char *buf);
 #define BANNER_GAP 30	/* Space between repeats of banner text */
 #define BANNERDELTA 2   /* Number of pixels to move banner each frame */
 #define BANNERFREQUENCY 90 /* Number of times per second to scroll banner */
+#define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
 #define STATUSUPDATEINTERVAL 15 /* seconds between status display updates */
 
 enum SaverState {
@@ -166,7 +167,7 @@ int initBOINCSaver(Boolean ispreview) {
             gQuitRPCThread = false;
             if (rpc == NULL)
                 rpc = new RPC_CLIENT;
-            newFrequency = 4;
+            newFrequency = NOBANNERFREQUENCY;
         }
     }
     return newFrequency;
@@ -316,9 +317,8 @@ int drawGraphics(GrafPtr aPort) {
             break;
         case SS_STATUS_QUIT:
 //            setBannerText(BOINCExitedSaverMode, aPort);
- 
             // Wait 1 second to allow Give ScreenSaver engine to close us down
-            if (++gQuitCounter > (BANNERFREQUENCY)) {
+            if (++gQuitCounter > (bannerText[0] ? BANNERFREQUENCY : NOBANNERFREQUENCY)) {
                 closeBOINCSaver();
                 KillScreenSaver(); // Stop the ScreenSaver Engine
             }
@@ -349,7 +349,7 @@ int drawGraphics(GrafPtr aPort) {
         SetGWorld(savePort, saveGDH);
         newFrequency = BANNERFREQUENCY;
     } else
-        newFrequency = 4;
+        newFrequency = NOBANNERFREQUENCY;
     
     return newFrequency;
 }
