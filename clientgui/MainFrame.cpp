@@ -1236,9 +1236,10 @@ void CMainFrame::OnRefreshState(wxTimerEvent &event) {
 void CMainFrame::OnFrameRender(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
-    static bool bAlreadyRunningLoop = false;
-    static bool bAlreadyRunOnce = false;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    static bool     bAlreadyRunningLoop = false;
+    static bool     bAlreadyRunOnce = false;
+    static wxString strCachedStatusText = wxEmptyString;
+    CMainDocument*  pDoc = wxGetApp().GetDocument();
 
     if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
@@ -1345,7 +1346,12 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     }
 
                     SetTitle(strTitle);
-                    m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
+                    // The Mac takes a huge performance hit changing the text of a floating
+                    //   window, so don't change the text unless we really have too.
+                    if (strStatusText != strCachedStatusText) {
+                        strCachedStatusText = strStatusText;
+                        m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
+                    }
                 } else {
                     m_pStatusbar->m_pbmpConnected->Hide();
                     m_pStatusbar->m_ptxtConnected->Hide();
