@@ -54,6 +54,7 @@ OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
 pid_t FindProcessPID(char* name, pid_t thePID);
 OSErr GetpathToBOINCManagerApp(char* path, int maxLen);
 OSStatus RPCThread(void* param);
+OSErr KillScreenSaver();
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -106,6 +107,7 @@ MPQueueID gTerminationQueue;	// This queue will report the completion of our thr
 MPTaskID gRPC_thread_id;	// IDs of the thread we create
 int gClientSaverStatus = 0;     // status returned by get_screensaver_mode RPC
 Boolean gQuitRPCThread = false; // Flag to tell RPC thread to exit gracefully
+int gQuitCounter = 0;
 
 // Display first status update after 5 seconds
 static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
@@ -120,7 +122,7 @@ const ConstStringPtr BOINCNoProjectsDetectedMsg = "\pBOINC is not attached to an
 const ConstStringPtr BOINCNoGraphicAppsExecutingMsg = "\pBOINC is currently not executing any applications with graphics";
 const ConstStringPtr BOINCUnrecoverableErrorMsg = "\pSorry, an unrecoverable error occurred";
 const ConstStringPtr BOINCTestmodeMg = "\pThis BOINC screensaver does not support Test mode";
-const ConstStringPtr BOINCExitedSaverMode = "\pBOINC is no longer in screensaver mode.";
+//const ConstStringPtr BOINCExitedSaverMode = "\pBOINC is no longer in screensaver mode.";
 
 
 // Returns desired Animation Frequency (per second) or 0 for no change
@@ -277,6 +279,7 @@ int drawGraphics(GrafPtr aPort) {
 
     case SaverState_CoreClientRunning:
             // set_screensaver_mode RPC called in RPCThread()
+            setBannerText(ConnectingCCMsg, aPort);
         break;
     
     case SaverState_CoreClientSetToSaverMode:
@@ -312,7 +315,13 @@ int drawGraphics(GrafPtr aPort) {
             // Handled in RPCThread()
             break;
         case SS_STATUS_QUIT:
-            setBannerText(BOINCExitedSaverMode, aPort);
+//            setBannerText(BOINCExitedSaverMode, aPort);
+ 
+            // Wait 1 second to allow Give ScreenSaver engine to close us down
+            if (++gQuitCounter > (BANNERFREQUENCY)) {
+                closeBOINCSaver();
+                KillScreenSaver(); // Stop the ScreenSaver Engine
+            }
             break;
         }       // end switch (gClientSaverStatus)
         break;
@@ -377,6 +386,7 @@ void closeBOINCSaver() {
             kill(CoreClientPID, SIGTERM);
         }
         CoreClientPID = 0;
+        gQuitCounter = 0;
         wasAlreadyRunning = false;
         gQuitRPCThread = false;
         saverState = SaverState_Idle;
@@ -637,6 +647,21 @@ OSErr GetpathToBOINCManagerApp(char* path, int maxLen)
     if (status == noErr)
         status = FSRefMakePath(&theFSRef, (unsigned char *)path, maxLen);
     return status;
+}
+
+
+// Send a Quit AppleEvent to the process which called this module
+// (i.e., tell the ScreenSaver engine to quit)
+OSErr KillScreenSaver() {
+    ProcessSerialNumber         thisPSN;
+    pid_t                       thisPID;
+    OSErr                       err = noErr;
+
+    GetCurrentProcess(&thisPSN);
+    err = GetProcessPID(&thisPSN , &thisPID);
+    if (err == noErr)
+        err = kill(thisPID, SIGABRT);   // SIGINT
+    return err;
 }
 
 

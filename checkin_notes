@@ -7038,3 +7038,12 @@ Rom    24 May 2005
 
     clientgui/
         MainFrame.cpp
+
+Charlie    25 may 2005
+	Mac: If core client sends screensaver SS_STATUS_QUIT, kill the 
+        screensaver engine if it has not quit after 1 second.  Eliminate
+        "BOINC is no longer in screensaver mode" message.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp
