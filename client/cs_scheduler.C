@@ -550,7 +550,7 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
-        if (network_suspended) break;
+        if (network_suspended || activities_suspended) break;
         if (should_get_work()) {
             urgency = compute_work_requests(); 
         }

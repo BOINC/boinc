@@ -7067,3 +7067,9 @@ David  25 May 2005
     lib/
         boinc_cmd.C
         gui_rpc_client.C,h
+
+David  25 May 2005
+    - don't initiate scheduler RPC is activity suspended
+
+    client/
+        cs_scheduler.C
