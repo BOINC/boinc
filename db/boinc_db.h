@@ -618,7 +618,7 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     // CURSOR cursor;
-    int enumerate(int limit, const char* order_clause);
+    int enumerate(int limit, const char* select_clause, const char* order_clause);
         // used by feeder
     int read_result();
         // used by scheduler to read result server state

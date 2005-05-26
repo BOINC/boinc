@@ -1211,7 +1211,9 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(wu.result_template_file, r[i++]);
 }
 
-int DB_WORK_ITEM::enumerate(int limit, const char* order_clause) {
+int DB_WORK_ITEM::enumerate(
+    int limit, const char* select_clause, const char* order_clause
+) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
@@ -1221,9 +1223,11 @@ int DB_WORK_ITEM::enumerate(int limit, const char* order_clause) {
             "select high_priority result.id, workunit.* from result left join workunit "
             "on workunit.id = result.workunitid "
             "where result.server_state=%d "
-            "%s"
+            " %s "
+            " %s "
             "limit %d",
             RESULT_SERVER_STATE_UNSENT,
+            select_clause,
             order_clause,
             limit
         );

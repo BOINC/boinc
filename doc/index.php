@@ -49,6 +49,8 @@ computer resources
     investigate protein-related diseases
     <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
     Look for radio evidence of extraterrestrial life
+    <li><a href=http://www.cellcomputing.net/>Cell Computing</a>
+        (Japanese; requires nonstandard client software)
     </ul>
     To participate in a project:
     <br>

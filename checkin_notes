@@ -7082,3 +7082,12 @@ David  25 May 2005
         app_control.C
         cs_apps.C
         cs_benchmark.C
+
+David  26 May 2005
+    - feeder: added a "-mod n i" option.
+        This lets you run schedulers on more than one host.
+
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C

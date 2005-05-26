@@ -61,11 +61,11 @@ $w419 = array(
     "date"=>"25 Jan 2005",
     "type"=>win_old(),
     null,
-    "<ul>
+    "bugs"=>"<ul>
     <li> Doesn't work with some HTTP proxies (fixed in later versions).
     <li>
-    If BOINC runs at the same time as Windows XP 3D screensavers,
-    the system becomes sluggish and unresponsive.
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
+    the system becomes sluggish.
     </ul>
     "
 );
@@ -78,8 +78,9 @@ $w443= array(
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
-    Scheduling within the client software package has been improved to support
-    a larger group of projects.
+    When a slow computer is attached to a large number of projects,
+    BOINC does work only for a few of them at a time,
+    to avoid missed deadlines.
     <li>
     Fixes a bug in which Intellisense/Intellipoint
     closes applications while in screensaver mode.
@@ -88,8 +89,8 @@ $w443= array(
     <li>
     A new 'Select Computer' dialog remembers which computers you have connected to.
     <li>
-    A new statistics tab has been added to the BOINC manager (thanks to
-    Jens Breitbart for the great feature).
+    A new statistics tab has been added to the BOINC manager
+    (thanks to Jens Breitbart for the great feature).
     <li>
     Support for UMTS networks.
     <li>
@@ -97,8 +98,7 @@ $w443= array(
     <li>
     <a href=gui_rpc.php>Password protection for GUI access</a>.
     <li>
-    BOINC Manager now sports a new button based interface which replaces the
-    html based interface in previous versions.
+    BOINC Manager now uses buttons instead of web-type links.
     </ul>
     ",
     "bugs"=>"<ul>
@@ -108,20 +108,17 @@ $w443= array(
     or the Single-user install type with the password protect screensaver
     option on NT based machines.
     <li>
-    If BOINC runs at the same time as Windows XP 3D screensavers,
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
     the system becomes sluggish and unresponsive.
     <li>
     Dial-up users should choose the single-user installation.
     <li>
     Graphics sometimes do not work with ATI Graphics card.
-    If you have this problem,
-    please visit
+    If you have this problem, please visit
     <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>the SETI@home Q&A area</a>,
     fill in the requested information, and click on the
     \"I also have this question\" button.
     </ul>
-    If you experience any of these problems,
-    we recommend using BOINC version 4.19.
     "
 );
 
@@ -133,10 +130,8 @@ $m443 = array(
     "type"=>mac_advanced(),
     "bugs"=>"<ul>
      <li>
-     We have dropped the requirement of our distribution running on 10.2 since 10.4 has been released.  You should still be able to build the client yourself and have it run on a 10.2 machine.
+     BOINC no longer works on Mac OS 10.2.
      </ul>
-    If you experience any of these problems,
-    we recommend using BOINC version 4.19.
     "
 );
 
@@ -147,8 +142,6 @@ $m443c = array(
     "date"=>"21 May 2005",
     "type"=>bare_core(),
     "bugs"=>"
-    If you experience any of these problems,
-    we recommend using BOINC version 4.19.
     "
 );
 
@@ -166,7 +159,7 @@ $m437s = array(
     "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
     "date"=>"23 May 2005",
     "type"=>mac_simple(),
-    "bugs"=>"<li>Includes improved BOINC client</li>
+    "features"=>"<ul><li>Includes improved BOINC client
      </ul>
     "
 );

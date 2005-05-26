@@ -31,6 +31,19 @@ then use the daemon program
 <a href=busy_work.php>make_work</a>
 to copy this workunit as needed to maintain a given supply of work.
 
+<h3>Feeder</h3>
+<p>
+This program is supplied by BOINC and is application independent.
+It creates a shared-memory segment used to pass database records
+to CGI scheduler processes.
+It has the command-line option:
+<pre>
+-mod n i
+</pre>
+If present, this instance of the feeder will handle
+only workunits for which mod(id, n) = i.
+This lets you run schedulers on arbitrarily many machines.
+
 <h3>Transitioner</h3>
 <p>
 This program is supplied by BOINC and is application independent.

@@ -19,8 +19,12 @@
 
 // -------------------------------
 //
-// feeder [-asynch] [-d debug_level] [-random_order | -priority_order]
-// -asynch      fork and run in a separate process
+// feeder
+//  [ -asynch ]           fork and run in a separate process
+//  [ -d x ]              debug level x
+//  [ -random_order ]     order by "random" field of result
+//  [ -priority_order ]   order by "priority" field of result
+//  [ -mod n i ]          handle only results with (id mod n) == i
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
@@ -125,6 +129,7 @@ SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
 key_t sema_key;
 const char* order_clause="";
+char select_clause[256];
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -216,7 +221,7 @@ static void scan_work_array(
             break;
 #endif
         case WR_STATE_EMPTY:
-            retval = wi.enumerate(ENUM_LIMIT, order_clause);
+            retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause);
             if (retval) {
 
                 // if we already restarted the enum on this array scan,
@@ -232,7 +237,7 @@ static void scan_work_array(
                 // restart the enumeration
                 //
                 restarted_enum = true;
-                retval = wi.enumerate(ENUM_LIMIT, order_clause);
+                retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG,
                     "restarting enumeration\n"
                 );
@@ -384,6 +389,15 @@ int main(int argc, char** argv) {
             order_clause = "order by random ";
         } else if (!strcmp(argv[i], "-priority_order")) {
             order_clause = "order by priority desc ";
+        } else if (!strcmp(argv[i], "-mod")) {
+            int n = atoi(argv[++i]);
+            int j = atoi(argv[++i]);
+            sprintf(select_clause, "and result.id %% d = %d ", n, j);
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "bad cmdline arg: %s\n", argv[i]
+            );
+            exit(1);
         }
     }
 
