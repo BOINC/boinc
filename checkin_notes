@@ -7091,3 +7091,14 @@ David  26 May 2005
         boinc_db.C,h
     sched/
         feeder.C
+
+David  26 May 2005
+    - file_deleter: if a file is present but can't be deleted,
+        don't mark the WU or result as file_delete_state = DONE;
+        leave it READY.
+        This addresses the case where files can't be deleted because
+        of dir permissions.
+        (From Kevin Reed)
+
+    sched/
+        file_deleter.C
