@@ -6885,12 +6885,18 @@ Rom    21 May 2005
         windows_opengl.C
 
 Charlie    22 may 2005
-        Fix problems launching BOINC Manager from installer.
+        Fix problems launching BOINC Manager from installer.  Build release 
+        using BOINC.pmsp with PackageMaker 1.2 (from XCode 1.5 / Panther) 
+        instead of BOINC.pmproj with PackageMaker 2.0 (XCode 2.0 / Tiger) 
+        to avoid "null volume" error when installing on Mac OS 10.3.x.  So 
+        updated version number strings in BOINC.pmsp.
 
     mac_installer/
+        BOINC.pmsp
         postinstall
         postupgrade
         PostInstall.cpp
+
 
 David  22 May 2005
     - debugged yesterday's API change on Linux.
@@ -7113,3 +7119,8 @@ Rom    26 May 2005
     win_build/
         boinc.sln
         boinc_guirpc_test.vcproj
+
+Rom    26 May 2005 (boinc_public)
+    - Tag for 4.44 release, all platforms
+      boinc_core_release_4_44
+
