@@ -42,23 +42,23 @@
 
 SCHED_CONFIG config;
 
-// David -- not sure what the previous code was meant to do, since dir_hier_path
-// always returns 0 if the last argument (eg, missing below) argument is set to
-// false.
+// Given a filename, find its full path in the upload directory hierarchy
+// Return an error if file isn't there.
 //
-int get_file_path(char *buf, char* upload_dir, int fanout, char* path) {
+int get_file_path(char *filename, char* upload_dir, int fanout, char* path) {
 
-    dir_hier_path(buf, upload_dir, fanout, true, path);
-    if (boinc_file_exists(path))
+    dir_hier_path(filename, upload_dir, fanout, true, path);
+    if (boinc_file_exists(path)) {
         return 0;
+    }
             	
     // TODO: get rid of the old hash in about 3/2005
     //
-    dir_hier_path(buf, upload_dir, fanout, false, path);
-    if (boinc_file_exists(path))
+    dir_hier_path(filename, upload_dir, fanout, false, path);
+    if (boinc_file_exists(path)) {
         return 0;
-
-    return 1;
+    }
+    return ERR_NOT_FOUND;
 }
 
 
@@ -66,9 +66,9 @@ int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval;
+    int count_deleted = 0, retval, mthd_retval = 0;
 
-    if (strstr(wu.name, "nodelete")) return 0;
+    if (strstr(wu.name, "nodelete")) return mthd_retval;
 
     safe_strcpy(buf, wu.xml_doc);
     
@@ -83,33 +83,38 @@ int wu_delete_files(WORKUNIT& wu) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                    retval=get_file_path(filename, config.download_dir, config.uldl_dir_fanout,
+                retval = get_file_path(filename, config.download_dir, config.uldl_dir_fanout,
                     pathname
                 );
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] dir_hier_path: %d\n", wu.name, retval);
+                    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] get_file_path: %d\n", wu.name, retval);
                 } else {
                     log_messages.printf(SCHED_MSG_LOG::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
                     retval = unlink(pathname);
                     if (retval && strlen(config.download_dir_alt)) {
-                        sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
-                        unlink(pathname);
+                    	sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
+                    	retval = unlink(pathname);
                     }
-                    ++count_deleted;
+                    if (retval) {
+                		log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[WU#%d] failed deleting %s\n", wu.id, filename);
+                    	mthd_retval = retval;
+                    } else {
+                		count_deleted++;
+                    }
                 }
             }
         }
         p = strtok(0, "\n");
     }
     log_messages.printf(SCHED_MSG_LOG::DEBUG, "[%s] deleted %d file(s)\n", wu.name, count_deleted);
-    return 0;
+    return mthd_retval;
 }
 
 int result_delete_files(RESULT& result) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval;
+    int count_deleted = 0, retval, mthd_retval = 0;
 
     safe_strcpy(buf, result.xml_doc_in);
     p = strtok(buf,"\n");
@@ -127,16 +132,24 @@ int result_delete_files(RESULT& result) {
                 );
                 if (retval) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                        "[%s] dir_hier_path: %d\n", result.name, retval
+                        "[RESULT#%d] get_file_path: %d\n", result.id, retval
                     );
                 } else {
                     retval = unlink(pathname);
-                    ++count_deleted;
-                    log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                        "[%s] unlinked %s; retval %d %s\n",
-                         result.name, pathname, retval,
-                         (retval && errno)?strerror(errno):""
-                    );
+                    if (retval) {
+                    	mthd_retval = retval;
+                    	log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        	"[RESULT#%d] unlink %s returned %d %s\n",
+                         	result.id, pathname, retval,
+                         	(retval && errno)?strerror(errno):""
+                        );
+                    } else {
+                    	count_deleted++;
+                    	log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                        	"[RESULT#%d] unlinked %s\n",
+                         	result.id, pathname, retval,
+                    	);
+                    }
                 }
             }
         }
@@ -146,7 +159,7 @@ int result_delete_files(RESULT& result) {
     log_messages.printf(SCHED_MSG_LOG::DEBUG,
         "[%s] deleted %d file(s)\n", result.name, count_deleted
     );
-    return 0;
+    return mthd_retval;
 }
 
 // set by corresponding command line arguments.
@@ -168,35 +181,41 @@ bool do_pass() {
     while (!wu.enumerate(buf)) {
         did_something = true;
         
+        retval = 0;
         if (!preserve_wu_files) {
-            wu_delete_files(wu);
+            retval = wu_delete_files(wu);
         }
-        wu.file_delete_state = FILE_DELETE_DONE;
-        sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
-        retval= wu.update_field(buf);
-        if (retval) {
-             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "[%s] workunit failed to update file_delete_state with %d\n", 
-                wu.name, retval 
-             );
+        if (retval == 0) {
+        	wu.file_delete_state = FILE_DELETE_DONE;
+	        sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
+	        retval= wu.update_field(buf);
+	        if (retval) {
+	             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+	                "[WU#%d] workunit failed to update file_delete_state with %d\n", 
+	                wu.id, retval 
+	             );
+	        }
         }
     }
 
     sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
     while (!result.enumerate(buf)) {
         did_something = true;
+        retval = 0;
         if (!preserve_result_files) {
-            result_delete_files(result);
+            retval = result_delete_files(result);
         }
-        result.file_delete_state = FILE_DELETE_DONE;
-        sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
-        retval= result.update_field(buf);
-        if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "[%s] result failed to update file_delete_state with %d\n",
-                result.name, retval
-            );
-        } 
+        if (retval == 0) {
+        	result.file_delete_state = FILE_DELETE_DONE;
+	        sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
+	        retval= result.update_field(buf);
+	        if (retval) {
+	            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+	                "[%s] result failed to update file_delete_state with %d\n",
+	                result.name, retval
+	            );
+	        } 
+        }
     }
     return did_something;
 }

@@ -465,7 +465,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
-    bool some_app_started = false, first;
+    bool some_app_started = false;
     double local_total_resource_share;
     int retval, j;
     double vm_limit, elapsed_time;
