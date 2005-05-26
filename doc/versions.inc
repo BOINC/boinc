@@ -193,11 +193,11 @@ $s419 = array(
     "type"=>bare_core()
 );
 
-$s442 = array(
-    "num"=>"4.42",
+$s443 = array(
+    "num"=>"4.43",
     "status"=>"Development version",
-    "file"=>"boinc_4.42_sparc-sun-solaris2.7.sh",
-    "date"=>"16 May 2005",
+    "file"=>"boinc_4.43_sparc-sun-solaris2.7.sh",
+    "date"=>"26 May 2005",
     "type"=>sea()
 );
 
@@ -228,7 +228,7 @@ $solaris = array(
     "name"=>"Solaris/SPARC",
     "versions"=>array(
         $s419,
-        $s442
+        $s443
     )
 );
 
