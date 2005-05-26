@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="boinc_guirpctest"
+	Name="boinc_cmd"
 	RootNamespace="boinc_guirpctest"
 	SccProjectName=""
 	SccLocalPath="">
@@ -14,7 +14,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\Build\Debug"
-			IntermediateDirectory=".\Build\Debug\boinc_guirpctest\obj"
+			IntermediateDirectory=".\Build\Debug\boinc_cmd\obj"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -43,13 +43,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
-				OutputFile=".\Build\Debug/boinc_guirpctest.exe"
+				OutputFile=".\Build\Debug/boinccmd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Debug/boinc_guirpctest.pdb"
+				ProgramDatabaseFile=".\Build\Debug/boinccmd.pdb"
 				SubSystem="1"
 				OptimizeReferences="0"
 				TargetMachine="1"/>
@@ -85,7 +85,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\Build\Release"
-			IntermediateDirectory=".\Build\Release\boinc_guirpctest\obj"
+			IntermediateDirectory=".\Build\Release\boinc_cmd\obj"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -115,13 +115,13 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib libcmt.lib libcpmt.lib oldnames.lib"
 				ShowProgress="0"
-				OutputFile=".\Build\Release/boinc_guirpctest.exe"
+				OutputFile=".\Build\Release/boinccmd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/boinc_guirpctest.pdb"
+				ProgramDatabaseFile=".\Build\Release/boinccmd.pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				TargetMachine="1"/>
@@ -142,7 +142,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories=".."/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -225,6 +226,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath="..\client\win\boinc_cmd.h">
+			</File>
+			<File
 				RelativePath="..\lib\boinc_win.h">
 			</File>
 			<File
@@ -270,6 +274,9 @@
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="..\client\win\boinc_cmd.rc">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

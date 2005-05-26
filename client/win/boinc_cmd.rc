@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "boinc_cli.h"
+#include "boinc_cmd.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "boinc_cli.h\0"
+    "boinc_cmd.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -72,12 +72,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
-            VALUE "FileDescription", "BOINC Daemon"
+            VALUE "FileDescription", "BOINC Command Line Interface"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_cli"
             VALUE "LegalCopyright", "Copyright © 2003-2005 University of California"
             VALUE "OriginalFilename", "boinc_cli.exe"
-            VALUE "ProductName", "BOINC Daemon"
+            VALUE "ProductName", "BOINC Command Line Interface"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END

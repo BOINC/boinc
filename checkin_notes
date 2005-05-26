@@ -7102,3 +7102,14 @@ David  26 May 2005
 
     sched/
         file_deleter.C
+
+Rom    26 May 2005
+    - Include version information for boinc_cmd.exe so the Windows installer
+        will know it can upgrade the file with future revisions.
+
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc, .h (Added)
+    win_build/
+        boinc.sln
+        boinc_guirpc_test.vcproj
