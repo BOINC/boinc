@@ -122,6 +122,53 @@ $w443= array(
     "
 );
 
+$w444= array(
+    "num"=>"4.44",
+    "status"=>"Development version",
+    "file"=>"boinc_4.44_windows_intelx86.exe",
+    "date"=>"26 May 2005",
+    "type"=>win_new(),
+    "features"=>"<ul>
+    <li>
+    We are now including a tool with command line interface to control boinc within the 
+    default distribution
+    </ul>
+    ",
+    "bugs"=>"<ul>
+    <li>
+    Applications that were built before October 2004 do not
+    display screensaver graphics with the Service or Shared install type,
+    or the Single-user install type with the password protect screensaver
+    option on NT based machines.
+    <li>
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
+    the system becomes sluggish and unresponsive.
+    <li>
+    Dial-up users should choose the single-user installation.
+    <li>
+    Graphics sometimes do not work with ATI Graphics card.
+    This bug has been fixed, but it requires new applications to be built.  Please check 
+    with the various projects to find out when they'll release a new applicaton with the fix.
+    </ul>
+    "
+);
+
+$w419 = array(
+    "num"=>"4.19",
+    "status"=>"Older version",
+    "file"=>"boinc_4.19_windows_intelx86.exe",
+    "date"=>"25 Jan 2005",
+    "type"=>win_old(),
+    null,
+    "bugs"=>"<ul>
+    <li> Doesn't work with some HTTP proxies (fixed in later versions).
+    <li>
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
+    the system becomes sluggish.
+    </ul>
+    "
+);
+
 $m443 = array(
     "num"=>"4.43",
     "status"=>"Recommended version (advanced GUI)",
@@ -198,6 +245,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w443,
+        $w444,
         $w419
     )
 );
