@@ -22,33 +22,7 @@
 //
 // usage: boinc_cmd [--host hostname] [--passwd passwd] command
 //
-// commands:
-// --get_state                   show entire state
-// --get_results                 show results
-// --get_file_transfers            show file transfers
-// --get_project_status            show status of all projects
-// --get_disk_usage
-// --result
-//      {suspend | resume | abort | graphics_window | graphics_fullscreen}
-//      url result_name
-// --project
-//        {reset | detach | update | suspend | resume | nomorework | allowmorework}
-//      url
-// --project_attach url auth
-// --file_transfer {retry | abort} url filename
-// --get_run_mode
-// --set_run_mode {always | auto | never}
-// --get_network_mode
-// --set_network_mode {always | auto | never}
-// --get_proxy_settings
-// --set_proxy_settings
-// --get_messages seqno            show messages > seqno
-// --get_host_info
-// --acct_mgr_rpc url name password
-// --run_benchmarks
-// --get_screensaver_mode
-// --set_screensaver_mode on|off blank_time {desktop window_station}
-// --quit
+// See help() below for a list of commands.
 
 
 #ifdef _WIN32
@@ -63,9 +37,48 @@ using std::vector;
 
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
+#include "version.h"
 
 void usage() {
-    fprintf(stderr, "bad usage\n");
+  fprintf(stderr, "\
+Usage:  boinc_cmd [--host hostname] [--passwd passwd] command\n\
+Give --help as a command for a list of commands\n\
+");
+    exit(1);
+}
+
+void version(){
+  printf("boinc_cmd,  built from %s \n", PACKAGE_STRING );
+  exit(0);
+}
+
+void help() {
+  printf("\n\n\
+  usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
+Commands:\n\
+ --get_state                   show entire state\n\
+ --get_results                 show results\n\
+ --get_file_transfers            show file transfers\n\
+ --get_project_status            show status of all projects\n\
+ --get_disk_usage\n\
+ --result url result_name {suspend | resume | abort | graphics_window | graphics_fullscreen}\n\
+ --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
+ --project_attach url auth\n\
+ --file_transfer {retry | abort} url filename\n\
+ --get_run_mode\n\
+ --set_run_mode {always | auto | never}\n\
+ --get_network_mode\n\
+ --set_network_mode {always | auto | never}\n\
+ --get_proxy_settings\n\
+ --set_proxy_settings\n\
+ --get_messages seqno            show messages > seqno\n\
+ --get_host_info\n\
+ --acct_mgr_rpc url name password\n\
+ --run_benchmarks\n\
+ --get_screensaver_mode\n\
+ --set_screensaver_mode on|off blank_time {desktop window_station}\n\
+ --quit\n\
+   ");
     exit(1);
 }
 
@@ -103,6 +116,8 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
+
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i;
@@ -121,6 +136,11 @@ int main(int argc, char** argv) {
 #endif
     if (argc < 2) usage();
     i = 1;
+    if (!strcmp(argv[i], "--help")) help();
+    if (!strcmp(argv[i], "-h"))     help();
+    if (!strcmp(argv[i], "--version")) version();
+    if (!strcmp(argv[i], "-V"))     version();
+
     if (!strcmp(argv[i], "--host")) {
         if (++i == argc) usage();
         hostname = argv[i];
@@ -188,8 +208,8 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--result")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);
-        char* name = next_arg(argc, argv, i);
         result.project_url = project_url;
+        char* name = next_arg(argc, argv, i);
         result.name = name;
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "suspend")) {

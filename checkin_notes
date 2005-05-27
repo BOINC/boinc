@@ -7124,3 +7124,9 @@ Rom    26 May 2005 (boinc_public)
     - Tag for 4.44 release, all platforms
       boinc_core_release_4_44
 
+David  27 May 2005
+    - added help and version cmdline options to boinc_cmd.C
+        (from Eric Myers)
+
+    lib/
+        boinc_cmd.C
