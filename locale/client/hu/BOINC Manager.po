@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-05-14 22:13+0100\n"
+"PO-Revision-Date: 2005-05-27 21:16+0100\n"
 "Last-Translator: Tóth Dávid <dvid@mail.datanet.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgid ""
 msgstr ""
 "(C) 2005 Berkeley, Kaliforniai Egyetem.\n"
 "Minden jog fenntartva.\n"
-"Fordítás: <b>DViD</b>"
+"Fordítás: DViD"
 
 #: clientgui/DlgAbout.cpp:142
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -462,7 +462,7 @@ msgstr "Projekt munkájának felfüggesztése."
 #: clientgui/ViewProjects.cpp:124
 #: clientgui/ViewProjects.cpp:613
 msgid "No new work"
-msgstr "Csomagletöltés: <b>NEM</b>"
+msgstr "Csomagletöltés: NEM"
 
 #: clientgui/ViewProjects.cpp:125
 #: clientgui/ViewProjects.cpp:613
@@ -588,7 +588,7 @@ msgstr "Munka folytatása ebben a projekten."
 
 #: clientgui/ViewProjects.cpp:609
 msgid "Allow new work"
-msgstr "Csomagletöltés: <b>IGEN</b>"
+msgstr "Csomagletöltés: IGEN"
 
 #: clientgui/ViewProjects.cpp:609
 msgid "Allow fetching new work for this project."
