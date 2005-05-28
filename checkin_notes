@@ -7143,3 +7143,10 @@ David  28 May 2005
         (fix problem where Linux platform name contains "redhat")
 
     config.guess
+
+David  28 May 2005
+    - reschedule CPUs when resume activities for whatever reason
+        (from Jim Harris)
+
+    client/
+        cs_prefs.C

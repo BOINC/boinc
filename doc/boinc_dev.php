@@ -17,7 +17,6 @@ before getting into the source code.
 <p>
 Read about:
 <ul>
-<li> <a href=source_code.php>Getting the source code</a>
 <li> <a href=compile.php>Compiling BOINC software</a>
 <li> <a href=bugs.php>Reporting bugs</a>
 <li> <a href=coding.php>BOINC coding style</a>

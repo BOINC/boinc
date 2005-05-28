@@ -203,6 +203,7 @@ int CLIENT_STATE::suspend_activities(int reason) {
 int CLIENT_STATE::resume_activities() {
     msg_printf(NULL, MSG_INFO, "Resuming computation and network activity");
     active_tasks.unsuspend_all();
+    gstate.request_schedule_cpus("Resuming activities");
     return 0;
 }
 
