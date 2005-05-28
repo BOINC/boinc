@@ -93,6 +93,8 @@ boinc_cmd [--host hostname] [--passwd passwd] command
 The commands are as follows:
 ";
 list_start();
+list_item("--help, -h", "help (show commands)");
+list_item("--version, -V", "show version");
 list_item("--get_state", "show client state");
 list_item("--get_results", "show results");
 list_item("--get_file_transfers", "show file transfers");

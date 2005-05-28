@@ -7101,10 +7101,17 @@ David  26 May 2005
 David  26 May 2005
     - file_deleter: if a file is present but can't be deleted,
         don't mark the WU or result as file_delete_state = DONE;
-        leave it READY.
+        leave it in state READY.
         This addresses the case where files can't be deleted because
         of dir permissions.
+
+        If such an error occurs, sleep for 5 seconds before next scan
+        (avoid rapid infinite loop)
+
         (From Kevin Reed)
+
+    - Change log messages in file_deleter to same format as other daemons,
+        e.g. [WU#12345]
 
     sched/
         file_deleter.C
@@ -7130,3 +7137,9 @@ David  27 May 2005
 
     lib/
         boinc_cmd.C
+
+David  28 May 2005
+    - commented out RedHat stuff from config.guess
+        (fix problem where Linux platform name contains "redhat")
+
+    config.guess
