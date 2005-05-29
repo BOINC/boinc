@@ -73,28 +73,6 @@ public:
     CMainDocument();
     ~CMainDocument();
 
-    enum RESULTTYPES {
-        NEW = RESULT_NEW,
-        FILES_DOWNLOADING = RESULT_FILES_DOWNLOADING,
-        FILES_DOWNLOADED = RESULT_FILES_DOWNLOADED,
-        COMPUTE_ERROR = RESULT_COMPUTE_ERROR,
-        FILES_UPLOADING = RESULT_FILES_UPLOADING,
-        FILES_UPLOADED = RESULT_FILES_UPLOADED
-    };
-
-    enum CPUSCHEDTYPES {
-        SCHED_UNINITIALIZED = CPU_SCHED_UNINITIALIZED,
-        SCHED_PREEMPTED = CPU_SCHED_PREEMPTED,
-        SCHED_SCHEDULED = CPU_SCHED_SCHEDULED
-    };
-
-    enum RUNMODETYPES {
-        MODE_ALWAYS = RUN_MODE_ALWAYS,
-        MODE_NEVER = RUN_MODE_NEVER,
-        MODE_AUTO = RUN_MODE_AUTO
-    };
-
-
     //
     // Global
     //
@@ -176,9 +154,6 @@ public:
     int                     GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
     int                     GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
     int                     GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    bool                        IsProjectSuspended(int iIndex);
-    bool                        IsProjectRPCPending(int iIndex);
-    bool                        IsProjectAllowedToGetWork(int iIndex);
 
 
     int                         ProjectNoMoreWork(int iIndex);
@@ -213,13 +188,6 @@ public:
     int                         GetWorkFinalCPUTime(int iIndex, float& fBuffer);
     int                         GetWorkFractionDone(int iIndex, float& fBuffer);
     int                         GetWorkReportDeadline(int iIndex, int& iBuffer);
-    int                         GetWorkState(int iIndex);
-    int                         GetWorkSchedulerState(int iIndex);
-    bool                        IsWorkAborted(int iIndex);
-    bool                        IsWorkAcknowledged(int iIndex);
-    bool                        IsWorkActive(int iIndex);
-    bool                        IsWorkReadyToReport(int iIndex);
-    bool                        IsWorkSuspended(int iIndex);
     bool                        IsWorkGraphicsSupported(int iIndex);
 
     int                         WorkSuspend(int iIndex);

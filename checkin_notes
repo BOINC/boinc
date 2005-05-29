@@ -7150,3 +7150,33 @@ David  28 May 2005
 
     client/
         cs_prefs.C
+
+David  28 May 2005
+	- BOINC manager: changed message in work tab
+		try to make it clear WHY a result is not running
+		Not quite done - need to show if project is suspended
+	- BOINC manager: changed message in projects tab
+		"Project suspended" -> "Suspended by user"
+		Also, don't show "won't get new work"
+	- BOINC manager code cleanup
+		- got rid of enums in CMainDocument for RESULTTYPE, CPU_SCHED_TYPE,
+			and RUN_TYPE.
+			?? Why make new constants when we already have perfectly good ones?
+		- got rid of (in CMainDocument):
+			bool                        IsProjectSuspended(int iIndex);
+			bool                        IsProjectRPCPending(int iIndex);
+			bool                        IsProjectAllowedToGetWork(int iIndex);
+			int                         GetWorkState(int iIndex);
+			int                         GetWorkSchedulerState(int iIndex);
+			bool                        IsWorkAborted(int iIndex);
+			bool                        IsWorkAcknowledged(int iIndex);
+			bool                        IsWorkActive(int iIndex);
+			bool                        IsWorkReadyToReport(int iIndex);
+			bool                        IsWorkSuspended(int iIndex);
+
+
+	clientgui/
+		BOINCTaskBar.cpp
+		MainDocument.cpp,h
+		ViewProjects.cpp
+		ViewWork.cpp

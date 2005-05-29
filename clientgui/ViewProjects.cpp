@@ -763,11 +763,10 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     strBuffer.Clear();
 
-    if (pDoc->IsProjectSuspended(item)) {
-        strBuffer = _("Project suspended");
-    } else if (pDoc->IsProjectAllowedToGetWork(item)) {
-        strBuffer = _("Won't get new work");
-    } else if (pDoc->IsProjectRPCPending(item)) {
+    PROJECT* p = pDoc->project(item);
+    if (p->suspended_via_gui) {
+        strBuffer = _("Suspended by user");
+    } else if (p->sched_rpc_pending) {
         pDoc->GetProjectMinRPCTime(item, iNextRPC);
 
         wxDateTime dtNextRPC((time_t)iNextRPC);

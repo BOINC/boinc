@@ -783,13 +783,13 @@ void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
 
     switch(event.GetId()) {
     case ID_ACTIVITYRUNALWAYS:
-        pDoc->SetActivityRunMode(CMainDocument::MODE_ALWAYS);
+        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS);
         break;
     case ID_ACTIVITYSUSPEND:
-        pDoc->SetActivityRunMode(CMainDocument::MODE_NEVER);
+        pDoc->SetActivityRunMode(RUN_MODE_NEVER);
         break;
     case ID_ACTIVITYRUNBASEDONPREPERENCES:
-        pDoc->SetActivityRunMode(CMainDocument::MODE_AUTO);
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO);
         break;
     }
 
@@ -810,16 +810,16 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
         case ID_NETWORKSUSPEND:
             pDoc->GetNetworkRunMode(iCurrentNetworkMode);
 
-            if (iCurrentNetworkMode == CMainDocument::MODE_ALWAYS)
-                pDoc->SetNetworkRunMode(CMainDocument::MODE_NEVER);
+            if (iCurrentNetworkMode == RUN_MODE_ALWAYS)
+                pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
             else
-                pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
+                pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
 
             break;
         case ID_NETWORKRUNALWAYS:
         case ID_NETWORKRUNBASEDONPREPERENCES:
         default:
-            pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
+            pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
             break;
     }
 
@@ -1275,12 +1275,12 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
 
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
-                    if (CMainDocument::MODE_ALWAYS == iActivityMode)
+                    if (iActivityMode == RUN_MODE_ALWAYS)
                         pMenuBar->Check(ID_ACTIVITYRUNALWAYS, true);
 
-                    if (CMainDocument::MODE_NEVER == iActivityMode)
+                    if (iActivityMode == RUN_MODE_NEVER)
                         pMenuBar->Check(ID_ACTIVITYSUSPEND, true);
-                    if (CMainDocument::MODE_AUTO == iActivityMode)
+                    if (iActivityMode == RUN_MODE_AUTO)
                         pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, true);
                 }
 
@@ -1298,15 +1298,15 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode))) {
 #if 0
-                    if (CMainDocument::MODE_ALWAYS == iNetworkMode)
+                    if (RUN_MODE_ALWAYS == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKRUNALWAYS, true);
 #endif
 
-                    if (CMainDocument::MODE_NEVER == iNetworkMode)
+                    if (RUN_MODE_NEVER == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKSUSPEND, true);
 
 #if 0
-                    if (CMainDocument::MODE_AUTO == iNetworkMode)
+                    if (RUN_MODE_AUTO == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, true);
 #endif
                 }

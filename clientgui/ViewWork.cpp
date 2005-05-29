@@ -533,10 +533,11 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 
     strBuffer.Clear();
 
-    if (pDoc->IsWorkActive(item)) {
+    RESULT* rp = pDoc->result(item);
+    if (rp->active_task) {
         pDoc->GetWorkCurrentCPUTime(item, fBuffer);
     } else {
-        if(pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR)
+        if(rp->state < RESULT_COMPUTE_ERROR)
             fBuffer = 0;
         else 
             pDoc->GetWorkFinalCPUTime(item, fBuffer);
@@ -567,8 +568,9 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 
     strBuffer.Clear();
 
-    if (!pDoc->IsWorkActive(item)) {
-        if(pDoc->GetWorkState(item) < CMainDocument::COMPUTE_ERROR)
+    RESULT* rp = pDoc->result(item);
+    if (rp->active_task) {
+        if(rp->state < RESULT_COMPUTE_ERROR)
             strBuffer.Printf(wxT("%.2f%%"), 0.0);
         else 
             strBuffer.Printf(wxT("%.2f%%"), 100.00);
@@ -646,66 +648,61 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
     pDoc->GetActivityRunMode(iActivityMode);
 
-    switch(pDoc->GetWorkState(item)) {
-        case CMainDocument::NEW:
+    RESULT* rp = pDoc->result(item);
+    switch(rp->state) {
+        case RESULT_NEW:
             strBuffer = _("New"); 
             break;
-        case CMainDocument::FILES_DOWNLOADING:
-            if (pDoc->IsWorkReadyToReport(item)) {
+        case RESULT_FILES_DOWNLOADING:
+            if (rp->ready_to_report) {
                 strBuffer = _("Download failed");
             } else {
                 strBuffer = _("Downloading");
             }
             break;
-        case CMainDocument::FILES_DOWNLOADED:
-            if      (pDoc->IsWorkAborted(item)) {
-                strBuffer = _("Aborted");
-            } else if (!pDoc->IsWorkActive(item) && pDoc->IsWorkSuspended(item)) {
-                strBuffer = _("Suspended");
-            } else if (pDoc->IsWorkActive(item)) {
-                wxInt32 iSchedulerState = pDoc->GetWorkSchedulerState(item);
-                if      (CMainDocument::SCHED_SCHEDULED == iSchedulerState) {
-                    if (bActivitiesSuspended) { strBuffer = _("Suspended");
-                    } else {
-                        strBuffer = _("Running");
-                    }
-                } else if (CMainDocument::SCHED_PREEMPTED == iSchedulerState) {
-                    if (pDoc->IsWorkSuspended(item)) {
-                        strBuffer = _("Suspended");
-                    } else {
-                        strBuffer = _("Paused");
-                    }
-                } else if (CMainDocument::SCHED_UNINITIALIZED == iSchedulerState) {
+        case RESULT_FILES_DOWNLOADED:
+            if (rp->aborted_via_gui) {
+                strBuffer = _("Aborted by user");
+            } else if (rp->suspended_via_gui) {
+                strBuffer = _("Suspended by user");
+            } else if (bActivitiesSuspended) {
+                strBuffer = _("Activities suspended");
+            } else if (rp->active_task) {
+                if (rp->scheduler_state == CPU_SCHED_SCHEDULED) {
+                     strBuffer = _("Running");
+                } else if (rp->scheduler_state == CPU_SCHED_PREEMPTED) {
+                    strBuffer = _("Preempted");
+                } else if (rp->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                     strBuffer = _("Ready to run");
                 }
             } else {
                 strBuffer = _("Ready to run");
             }
             break;
-        case CMainDocument::COMPUTE_ERROR:
+        case RESULT_COMPUTE_ERROR:
             strBuffer = _("Computation error");
             break;
-        case CMainDocument::FILES_UPLOADING:
-            if (pDoc->IsWorkReadyToReport(item)) {
+        case RESULT_FILES_UPLOADING:
+            if (rp->ready_to_report) {
                 strBuffer = _("Upload failed");
             } else {
                 strBuffer = _("Uploading");
             }
             break;
         default:
-            if      (pDoc->IsWorkAcknowledged(item)) {
+            if (rp->got_server_ack) {
                 strBuffer = _("Acknowledged");
-            } else if (pDoc->IsWorkReadyToReport(item)) {
+            } else if (rp->ready_to_report) {
                 strBuffer = _("Ready to report");
             } else {
-                strBuffer.Format(_("Error: invalid state '%d'"), pDoc->GetWorkState(item));
+                strBuffer.Format(_("Error: invalid state '%d'"), rp->state);
             }
             break;
     }
 
-    if (CMainDocument::MODE_NEVER == iActivityMode) {
+    if (!bActivitiesSuspended && iActivityMode == RUN_MODE_NEVER) {
         strBuffer = wxT(" (") + strBuffer + wxT(") ");
-        strBuffer = _("Suspended") + strBuffer;
+        strBuffer = _("Activities suspended by user") + strBuffer;
     }
 
     return 0;

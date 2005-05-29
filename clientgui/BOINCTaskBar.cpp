@@ -142,13 +142,13 @@ void CTaskBarIcon::OnActivitySelection(wxCommandEvent& event) {
 
     switch(event.GetId()) {
     case ID_TB_ACTIVITYRUNALWAYS:
-        pDoc->SetActivityRunMode(CMainDocument::MODE_ALWAYS);
+        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS);
         break;
     case ID_TB_ACTIVITYSUSPEND:
-        pDoc->SetActivityRunMode(CMainDocument::MODE_NEVER);
+        pDoc->SetActivityRunMode(RUN_MODE_NEVER);
         break;
     case ID_TB_ACTIVITYRUNBASEDONPREPERENCES:
-        pDoc->SetActivityRunMode(CMainDocument::MODE_AUTO);
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO);
         break;
     }
 }
@@ -167,16 +167,16 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
     case ID_TB_NETWORKSUSPEND:
         pDoc->GetNetworkRunMode(iCurrentNetworkMode);
 
-        if (iCurrentNetworkMode == CMainDocument::MODE_ALWAYS)
-            pDoc->SetNetworkRunMode(CMainDocument::MODE_NEVER);
+        if (iCurrentNetworkMode == RUN_MODE_ALWAYS)
+            pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
         else
-            pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
+            pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
 
         break;
     case ID_TB_NETWORKRUNALWAYS:
     case ID_TB_NETWORKRUNBASEDONPREPERENCES:
     default:
-        pDoc->SetNetworkRunMode(CMainDocument::MODE_ALWAYS);
+        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
         break;
     }
 }
@@ -258,9 +258,10 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
 
         iResultCount = pDoc->GetWorkCount();
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            bIsDownloaded = (CMainDocument::FILES_DOWNLOADED == pDoc->GetWorkState(iIndex));
-            bIsActive     = (pDoc->IsWorkActive(iIndex));
-            bIsExecuting  = (CMainDocument::SCHED_SCHEDULED == pDoc->GetWorkSchedulerState(iIndex));
+            RESULT* rp = pDoc->result(iIndex);
+            bIsDownloaded = (rp->state == RESULT_FILES_DOWNLOADED);
+            bIsActive     = rp->active_task;
+            bIsExecuting  = (rp->scheduler_state == CPU_SCHED_SCHEDULED);
             if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 
             pDoc->GetWorkProjectName(iIndex, strProjectName);
@@ -393,19 +394,19 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
 
     pDoc->GetActivityRunMode(iActivityMode);
     switch(iActivityMode) {
-    case CMainDocument::MODE_ALWAYS:
+    case RUN_MODE_ALWAYS:
         menu->Check(ID_TB_ACTIVITYRUNALWAYS, true);
         break;
-    case CMainDocument::MODE_NEVER:
+    case RUN_MODE_NEVER:
         menu->Check(ID_TB_ACTIVITYSUSPEND, true);
         break;
-    case CMainDocument::MODE_AUTO:
+    case RUN_MODE_AUTO:
         menu->Check(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, true);
         break;
     }
 
     pDoc->GetNetworkRunMode(iNetworkMode);
-    if (CMainDocument::MODE_NEVER == iNetworkMode) {
+    if (RUN_MODE_NEVER == iNetworkMode) {
         menu->Check(ID_TB_NETWORKSUSPEND, true);
     } else {
         menu->Check(ID_TB_NETWORKSUSPEND, false);

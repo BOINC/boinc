@@ -547,7 +547,7 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (CMainDocument::MODE_NEVER == iActivityMode) {
+    if (iActivityMode == RUN_MODE_NEVER) {
         strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Suspended") + strBuffer;
     }
