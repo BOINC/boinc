@@ -70,7 +70,8 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+				AdditionalIncludeDirectories=".."/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
