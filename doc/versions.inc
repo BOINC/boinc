@@ -211,19 +211,19 @@ $m437s = array(
     "
 );
 
-$l419 = array(
-    "num"=>"4.19",
-    "status"=>"Recommended version",
-    "file"=>"boinc_4.19_i686-pc-linux-gnu.gz",
-    "date"=>"25 Jan 2005",
-    "type"=>bare_core()
-);
 $l443 = array(
     "num"=>"4.43",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_4.43_i686-pc-linux-gnu.sh",
     "date"=>"23 May 2005",
     "type"=>sea()
+);
+$l419 = array(
+    "num"=>"4.19",
+    "status"=>"Old Version",
+    "file"=>"boinc_4.19_i686-pc-linux-gnu.gz",
+    "date"=>"25 Jan 2005",
+    "type"=>bare_core()
 );
 $s419 = array(
     "num"=>"4.19",
@@ -261,8 +261,8 @@ $mac = array(
 $linux = array(
     "name"=>"Linux/x86",
     "versions"=>array(
-        $l419,
-        $l443
+        $l443,
+        $l419
     )
 );
 $solaris = array(
