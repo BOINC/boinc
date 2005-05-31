@@ -170,6 +170,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             // do NOTHING here
         } else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
+            retval = skip_unrecognized(buf, fin);
+            if (retval) return retval;
         }
     }
     return ERR_XML_PARSE;

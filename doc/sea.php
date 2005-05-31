@@ -24,9 +24,9 @@ run_client
 and runs the core client.
 </dl>
 
-You will need to develop your own mechanism
-to run the executable each time your machine boots
+You may want to run the executable each time your machine boots
 or you log on.
+Information on this is <a href=bare_core.php>here</a>.
 
 ";
 page_tail();

@@ -7180,3 +7180,52 @@ David  28 May 2005
 		MainDocument.cpp,h
 		ViewProjects.cpp
 		ViewWork.cpp
+
+David  31 May 2005
+    - Add 2 new items to scheduler RPC request:
+        - <other_results>
+            List of other results for this project
+            (besides those being reported, if any)
+            This can be used by the scheduler to resend
+            previously sent results that were lost somehow.
+            Includes only the name of the result.
+        - <in_progress_results>
+            List of all results for which computation is not done.
+            Includes estimated remaining CPU time, report deadline.
+            This can be used by the scheduler to decide whether
+            to send short-deadline results.
+
+        Note 1: the scheduler doesn't use the above info yet.
+            Need to get this code into clients first.
+
+        Note 2: I used tag names <other_result> and <ip_result>
+            for the results within each element.
+            This will prevent the current scheduler from
+            mistaking them for elements being reported.
+            This is a kludge, but is fixed in new scheduler code
+            (see next item)
+
+    - add skip_unrecognized() function to lib/parse.C
+        Call this when get an unrecognized line.
+        If it's a single tag "<foo>",
+        this will skip all lines up to and including "</foo>"
+
+    - Change Win name from "BOINC Daemon" to "BOINC client"
+        (let's not introduce random new terms at this point)
+
+    - boinc_cmd: print error messages in some cases
+        (should finish this to handle other cases)
+
+    - fix bug in boinc_cmd: wasn't connecting to alternate port
+
+    client/
+        cs_scheduler.C
+        win/
+            boinc_cli.rc
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C,h
+        parse.C,h
+        util.C
+    sched/
+        server_types.C

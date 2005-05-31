@@ -184,7 +184,7 @@ $m443 = array(
 
 $m443c = array(
     "num"=>"4.43",
-    "status"=>"Recommended version (command line)",
+    "status"=>"Recommended version (command line, no GUI)",
     "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
     "date"=>"21 May 2005",
     "type"=>bare_core(),
@@ -253,8 +253,8 @@ $mac = array(
     "name"=>"Macintosh OS X",
     "versions"=>array(
         $m443,
-        $m443c,
         $m437s,
+        $m443c,
         $m419
     )
 );

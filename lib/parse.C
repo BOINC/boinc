@@ -375,5 +375,35 @@ void xml_unescape(string& in, string& out) {
     }
 }
 
+// we got an unrecognized line.
+// If it has two <'s (e.g. <foo>xx</foo>) return 0.
+// If it's of the form <foo> then scan for </foo> and return 0.
+// Otherwise return ERR_XML_PARSE
+//
+int skip_unrecognized(char* buf, FILE* in) {
+    char* p, *q, buf2[256];
+    std::string close_tag;
+
+    p = strchr(buf, '<');
+    if (!p) {
+        return ERR_XML_PARSE;
+    }
+    if (strchr(p+1, '<')) {
+        return 0;
+    }
+    q = strchr(p+1, '>');
+    if (!q) {
+        return ERR_XML_PARSE;
+    }
+    *q = 0;
+    close_tag = string("</") + string(p+1) + string(">");
+    while (fgets(buf2, 256, in)) {
+        if (strstr(buf2, close_tag.c_str())) {
+            return 0;
+        }
+        
+    }
+    return ERR_XML_PARSE;
+}
 
 const char *BOINC_RCSID_3f3de9eb18 = "$Id$";

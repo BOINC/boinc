@@ -50,5 +50,6 @@ extern void xml_escape(std::string&, std::string&);
 extern void xml_escape(char*, std::string&);
 extern void xml_unescape(std::string&, std::string&);
 extern void extract_venue(char*, char*, char*);
+extern int skip_unrecognized(char* buf, FILE*);
 
 #endif

@@ -41,7 +41,6 @@ You can do this in either of two ways:
 <li>
 <a href=compile.php>Download and compile</a>
 the BOINC client software on your computer.
-client and the project's applications, and compile them on your computer.
 <li>
 If available, download BOINC executablers for your
 computer from a third-party source.

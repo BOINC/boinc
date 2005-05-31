@@ -462,4 +462,5 @@ struct RPC {
     RPC(RPC_CLIENT*);
     ~RPC();
     int do_rpc(const char*);
+    int parse_reply();
 };

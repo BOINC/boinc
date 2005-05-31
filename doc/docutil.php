@@ -11,15 +11,15 @@ function page_head($title) {
     $d = last_mod();
     echo "<html>
         <head>
-        <link rel='stylesheet' type='text/css' href='white.css'/>
-        <link rel='shortcut icon' href='iconsmall.ico'/>
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>
+        <link rel=\"shortcut icon\" href=\"iconsmall.ico\"/>
         <title>$title</title>
         </head>
         <body bgcolor='ffffff'>
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><a href='.'><img src='boinc.gif'></a>
+        <td align=right><a href=\".\"><img src=\"boinc.gif\"></a>
             <br>
             <nobr><font size='2'>Last modified $d</font></nobr>
         </td>
@@ -43,7 +43,7 @@ function page_tail() {
     echo "
         <hr size=1>
         <center>
-        <a href='/'>Return to BOINC main page</a>
+        <a href=\"/\">Return to BOINC main page</a>
         </center><p>
     ";
     copyright();

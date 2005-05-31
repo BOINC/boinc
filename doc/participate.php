@@ -15,7 +15,7 @@ echo "
 <li> <a href=win_install.php>The Windows installer</a>
 <li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
 <li> <a href=client_mac.php>Installing BOINC on Mac OS/X</a>
-<li> <a href=sea.php>Self-extracting archive (UNIX></a>
+<li> <a href=sea.php>Self-extracting archive (UNIX)</a>
 <li> <a href=screensaver.php>The BOINC screensaver</a>
 </ul>
 <li> <a href=prefs.php>Preferences</a>

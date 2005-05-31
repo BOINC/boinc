@@ -37,6 +37,7 @@ using std::vector;
 
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
+#include "util.h"
 #include "version.h"
 
 void usage() {
@@ -99,13 +100,7 @@ void parse_display_args(char** argv, int& i, DISPLAY_INFO& di) {
 }
 
 void show_error(int retval) {
-    switch(retval) {
-    case ERR_AUTHENTICATOR:
-        fprintf(stderr, "Authentication failure\n");
-        break;
-    default:
-        fprintf(stderr, "Error %d\n", retval);
-    }
+    fprintf(stderr, "Error %d: %s\n", retval, boincerror(retval));
 }
 
 char* next_arg(int argc, char** argv, int& i) {

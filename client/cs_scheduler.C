@@ -327,6 +327,42 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
             fip->name, fip->nbytes, fip->status
         );
     }
+
+    // send names of results in progress for this project
+    //
+    fprintf(f, "<other_results>\n");
+    for (i=0; i<results.size(); i++) {
+        rp = results[i];
+        if (rp->project == p && !rp->ready_to_report) {
+            fprintf(f,
+                "    <other_result>\n"
+                "        <name>%s</name>\n"
+                "    </other_result>\n",
+                rp->name
+            );
+        }
+    }
+    fprintf(f, "</other_results>\n");
+
+    // send summary of in-progress results
+    // to give scheduler info on our CPU commitment
+    //
+    fprintf(f, "<in_progress_results>\n");
+    for (i=0; i<results.size(); i++) {
+        rp = results[i];
+        double x = rp->estimated_cpu_time_remaining();
+        if (x == 0) continue;
+        fprintf(f,
+            "    <ip_result>\n"
+            "        <report_deadline>%f</report_deadline>\n"
+            "        <cpu_time_remaining>%f</cpu_time_remaining>\n"
+            "    </ip_result>\n",
+            rp->report_deadline,
+            x
+        );
+    }
+    fprintf(f, "</in_progress_results>\n");
+
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);

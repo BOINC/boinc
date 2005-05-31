@@ -274,7 +274,7 @@ list_item("output",
     [ <error>MSG</error> ]
     [ <account>
         <url>URL</url>
-        <key>KEY</key>
+        <authenticator>KEY</authenticator>
       </account>
       ...
     ]

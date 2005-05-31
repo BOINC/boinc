@@ -4,6 +4,7 @@ require_once("boinc_news.inc");
 require_once("../html/inc/news.inc");
 
 echo "
+<html>
 <head>
 <link rel=\"shortcut icon\" href=\"iconsmall.ico\">
 <link rel=\"stylesheet\" type=text/css href=white.css>
@@ -11,7 +12,7 @@ echo "
 <meta name=description content=\"BOINC is a software platform for developing public-participation distributed computing projects\">
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
-<body bgcolor=ffffff text=000088 link=000088 vlink=000088>
+<body bgcolor=#ffffff text=#000088 link=#000088 vlink=#000088>
 <img hspace=30 vspace=10 align=left src=boinc.gif>
 <center>
 <br>
@@ -141,4 +142,5 @@ echo "
 <hr>
 ";
 copyright();
+echo "</html>\n";
 ?>

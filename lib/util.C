@@ -882,13 +882,13 @@ const char* boincerror(int which_error) {
         case ERR_NETOPEN: return "system netopen";
         case ERR_SOCKET: return "system socket";
         case ERR_FCNTL: return "system fcntl";
-        case ERR_AUTHENTICATOR: return "host id doesn't match authenticator";
+        case ERR_AUTHENTICATOR: return "authentication error";
         case ERR_SCHED_SHMEM: return "scheduler shared memory contents bad";
         case ERR_ASYNCSELECT: return "system async select";
         case ERR_BAD_RESULT_STATE: return "bad result state";
         case ERR_DB_CANT_INIT: return "can't init database";
         case ERR_NOT_UNIQUE: return "state files have redundant entries";
-        case ERR_NOT_FOUND: return "inconsistent client state";
+        case ERR_NOT_FOUND: return "not found";
         case ERR_NO_EXIT_STATUS: return "no exit status in scheduler request";
         case ERR_FILE_MISSING: return "file missing";
         case ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED: return "nested unhandled exception";

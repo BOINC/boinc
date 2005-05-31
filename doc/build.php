@@ -163,6 +163,7 @@ To get the X11 support,
 select the relevant options when you're installing Linux,
 or (Redhat) go to System Settings/Add Software.
 
+<ul>
 <li>
 Notes for <a href=debian_linux_install.txt>Debian Linux</a>.
 </ul>

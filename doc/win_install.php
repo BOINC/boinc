@@ -316,4 +316,5 @@ Files are accessable only to the installing user.
 
 
 ";
+page_tail();
 ?>

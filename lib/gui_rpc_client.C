@@ -966,10 +966,11 @@ int RPC_CLIENT::init(const char* host) {
     } else {
         addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     }
+    boinc_socket(sock);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
         BOINCTRACE("RPC_CLIENT::init connect 2 on %d returned %d\n", sock, retval);
-        perror("connect");
+        //perror("connect");
         boinc_close_socket(sock);
         boinc_socket(sock);
 #ifdef _WIN32
@@ -1188,6 +1189,15 @@ int RPC::do_rpc(const char* req) {
     puts(mbuf);
 #endif
     return 0;
+}
+
+int RPC::parse_reply() {
+    char buf[256];
+    while (fin.fgets(buf, 256)) {
+        if (strstr(buf, "unauthorized")) return ERR_AUTHENTICATOR;
+        if (strstr(buf, "success")) return 0;
+    }
+    return ERR_NOT_FOUND;
 }
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
@@ -1424,6 +1434,7 @@ int RPC_CLIENT::show_graphics(
 int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     char buf[256];
     const char *tag;
+    int retval;
     RPC rpc(this);
 
     if (!strcmp(op, "reset")) {
@@ -1451,7 +1462,9 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         project.master_url.c_str(),
         tag
     );
-    return rpc.do_rpc(buf);
+    retval =  rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::project_attach(const char* url, const char* auth) {

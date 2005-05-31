@@ -97,6 +97,7 @@ function show_version($pname, $i, $v) {
     $status = $v["status"];
     $path = "dl/$file";
     $s = number_format(filesize($path)/1000000, 2);
+    $type = $v["type"];
     echo "<tr><td width=3%><nobr>
         $num</td><td> $status
         </nobr>
@@ -104,9 +105,11 @@ function show_version($pname, $i, $v) {
         <td>
         <a href=dl/$file><b>Download</b></a> ($s MB)
         </td>
+        <td>
+        $type
+        </td>
         <td width=1%>
-        <a href=download.php?platform=$pname&i=$i>
-        <font size=-1>details</a>
+        <a href=download.php?platform=$pname&i=$i>details</a>
         </td>
         </tr>
     ";
