@@ -83,14 +83,11 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 int SCHEDULER_OP::init_get_work(int urgency) {
     int retval;
     char err_msg[256];
-    double ns;
 
     must_get_work = true;
     project = gstate.next_project_need_work(0, urgency);
     if (project) {
-        ns = project->work_request;
-        msg_printf(project, MSG_INFO, "Requesting %.2f seconds of work", ns);
-        retval = init_op_project(ns);
+        retval = init_op_project();
         if (retval) {
             sprintf(err_msg, "init_op_project failed, error %d\n", retval);
             backoff(project, err_msg);
@@ -107,13 +104,13 @@ int SCHEDULER_OP::init_get_work(int urgency) {
 int SCHEDULER_OP::init_return_results(PROJECT* p) {
     must_get_work = false;
     project = p;
-    return init_op_project(p->work_request);
+    return init_op_project();
 }
 
 // try to initiate an RPC to the current project.
 // If there are multiple schedulers, start with the first one
 //
-int SCHEDULER_OP::init_op_project(double ns) {
+int SCHEDULER_OP::init_op_project() {
     int retval;
     char err_msg[256];
 
@@ -129,7 +126,7 @@ int SCHEDULER_OP::init_op_project(double ns) {
         retval = init_master_fetch();
         goto done;
     }
-    retval = gstate.make_scheduler_request(project, ns);
+    retval = gstate.make_scheduler_request(project);
     if (retval) {
         msg_printf(project, MSG_ERROR, "make_scheduler_request: %d\n", retval);
         goto done;
@@ -223,6 +220,11 @@ int SCHEDULER_OP::start_rpc() {
         msg_printf(
             project, MSG_INFO,
             "Sending scheduler request to %s\n", scheduler_url
+        );
+        msg_printf(
+            project, MSG_INFO,
+            "Requesting %.0f seconds of work, returning %d results\n",
+            project->work_request, project->nresults_returned
         );
     }
 
@@ -448,7 +450,7 @@ bool SCHEDULER_OP::poll() {
                         if (urgency != WORK_FETCH_DONT_NEED) {
                             project = gstate.next_project_need_work(project, urgency);
                             if (project) {
-                                retval = init_op_project(project->work_request);
+                                retval = init_op_project();
                             } else {
                                 scheduler_op_done = true;
                             }
@@ -514,7 +516,7 @@ bool SCHEDULER_OP::poll() {
                     if (urgency != WORK_FETCH_DONT_NEED) {
                         project = gstate.next_project_need_work(project, urgency);
                         if (project) {
-                            retval = init_op_project(project->work_request);
+                            retval = init_op_project();
                         } else {
                             scheduler_op_done = true;
                         }

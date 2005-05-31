@@ -197,7 +197,7 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
 // Write a scheduler request to a disk file
 // (later sent to the scheduling server)
 //
-int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
+int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     char buf[1024];
 
     get_sched_request_filename(*p, buf);
@@ -231,7 +231,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         p->anonymous_platform?"anonymous":platform_name,
         core_client_major_version,
         core_client_minor_version,
-        work_req,
+        p->work_request,
         p->resource_share / trs,
         ettprc(p, proj_min_results(p, ncpus)-1)
     );
@@ -301,9 +301,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     if (retval) return retval;
     retval = host_info.write(mf);
     if (retval) return retval;
+    p->nresults_returned = 0;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->project == p && rp->ready_to_report) {
+            p->nresults_returned++;
             rp->write(mf, true);
         }
     }
@@ -1039,32 +1041,38 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         if (booked_to[lowest_booked_cpu] - now > (rp->report_deadline - now) * MAX_CPU_LOAD_FACTOR * up_frac) {
             should_not_fetch_work = true;
             use_earliest_deadline_first = true;
+#if 0
             if (!cpu_earliest_deadline_first || !work_fetch_no_new_work) {
                 msg_printf(NULL, MSG_INFO,
                     "Computer is overcommitted"
                 );
             }
+#endif
         }
         // Is the nearest deadline within a day?
         //
         if (rp->report_deadline - now < 60 * 60 * 24) {
             use_earliest_deadline_first = true; 
+#if 0
             if (!cpu_earliest_deadline_first) {
                 msg_printf(NULL, MSG_INFO,
                     "Less than 1 day until deadline."
                 );
             }
+#endif
         }
 
         // is there a deadline < twice the users connect period?
         //
         if (rp->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
-            use_earliest_deadline_first = true; 
+            use_earliest_deadline_first = true;
+#if 0
             if (!cpu_earliest_deadline_first) {
                 msg_printf(NULL, MSG_INFO,
                     "Deadline is before reconnect time"
                 );
             }
+#endif
         }
 
         frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - now);
@@ -1072,35 +1080,37 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
     if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus) {
         should_not_fetch_work = true;
+#if 0
         if (!work_fetch_no_new_work) {
             msg_printf(NULL, MSG_INFO,
                 "Nearly overcommitted."
             );
         }
+#endif
     }
 
     // display only when the policy changes to avoid once per second
     //
     if (work_fetch_no_new_work && !should_not_fetch_work) {
         msg_printf(NULL, MSG_INFO,
-            "New work fetch policy: work fetch allowed."
+            "Allowing work fetch again."
         );
     }
 
     if (!work_fetch_no_new_work && should_not_fetch_work) {
         msg_printf(NULL, MSG_INFO,
-            "New work fetch policy: no work fetch allowed."
+            "Suspending work fetch because computer is overcommitted."
         );
     }
 
     if (cpu_earliest_deadline_first && !use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
-            "New CPU scheduler policy: highest debt first."
+            "Resuming round-robin CPU scheduling."
         );
     }
     if (!cpu_earliest_deadline_first && use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
-            "New CPU scheduler policy: earliest deadline first."
+            "Using earliest-deadline-first scheduling because computer is overcommitted."
         );
     }
 

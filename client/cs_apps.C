@@ -376,7 +376,7 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
     }
     if (!best_result) return false;
 
-    msg_printf(0, MSG_INFO, "earliest deadline: %f %s", earliest_deadline, best_result->name);
+//    msg_printf(0, MSG_INFO, "earliest deadline: %f %s", earliest_deadline, best_result->name);
     schedule_result(best_result);
     best_result->already_selected = true;
     best_project->anticipated_debt -= expected_pay_off;
@@ -483,12 +483,12 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     elapsed_time = now - cpu_sched_last_time;
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
-        msg_printf(0, MSG_INFO, "schedule_cpus: must schedule");
+//        msg_printf(0, MSG_INFO, "schedule_cpus: must schedule");
     } else {
         if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
-        msg_printf(0, MSG_INFO, "schedule_cpus: time %f", elapsed_time);
+//        msg_printf(0, MSG_INFO, "schedule_cpus: time %f", elapsed_time);
     }
     cpu_sched_last_time = now;
 

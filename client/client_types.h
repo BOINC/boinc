@@ -244,6 +244,8 @@ public:
         // 2) on_frac and active_frac
         // see doc/work_req.php
     int work_request_urgency;
+    int nresults_returned;
+        // # of results being returned in current scheduler op
 
 #if 0
     // used in disk-space management (temp)

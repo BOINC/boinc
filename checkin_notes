@@ -7229,3 +7229,22 @@ David  31 May 2005
         util.C
     sched/
         server_types.C
+
+David  31 May 2005
+	- core client: remove extraneous scheduling-related messages.
+		Just say when we're entering/leaving either
+		no-work-fetch mode or deadline-scheduling mode
+
+	- got rid of work_request arg to
+		CLIENT_STATE::make_scheduler_request() and
+		SCHEDULER_OP::init_op_project()
+
+	- When making a scheduler RPC, always show
+		the work request and the # of results being returned
+
+	client/
+		client_state.h
+		client_types.h
+		cs_apps.C
+		cs_scheduler.C
+		scheduler_op.C,h
