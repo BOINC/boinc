@@ -177,7 +177,7 @@ $m443 = array(
     "type"=>mac_advanced(),
     "bugs"=>"<ul>
      <li>
-     BOINC no longer works on Mac OS 10.2.
+     BOINC no longer works on Mac OS 10.2 and requires 10.3.9 or higher.
      </ul>
     "
 );
