@@ -188,7 +188,7 @@ int CLIENT_STATE::init() {
     unsigned int i;
     char buf[256];
 
-    srand(time(NULL));
+    srand(time(0));
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 

@@ -226,11 +226,13 @@ public:
     // the following fields used by CPU scheduler
     double debt;                // how much CPU time we owe this project (secs)
 
-    // the following items are transient; not saved in state file
-    double anticipated_debt;    // expected debt by the end of the preemption period
-    double work_done_this_period; // how much CPU time has been devoted to this
-                                  // project in the current period (secs)
-    struct RESULT *next_runnable_result; // the next result to run for this project
+    double anticipated_debt;
+        // expected debt by the end of the preemption period
+    double work_done_this_period;
+        // how much CPU time has been devoted to this
+        // project in the current period (secs)
+    struct RESULT *next_runnable_result;
+        // the next result to run for this project
 
     // the following used by work-fetch algorithm
 	double long_term_debt;
@@ -244,8 +246,11 @@ public:
         // 2) on_frac and active_frac
         // see doc/work_req.php
     int work_request_urgency;
+
     int nresults_returned;
         // # of results being returned in current scheduler op
+    const char* get_scheduler_url(int index, double r);
+        // get scheduler URL with random offset r
 
 #if 0
     // used in disk-space management (temp)

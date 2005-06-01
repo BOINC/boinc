@@ -7248,3 +7248,14 @@ David  31 May 2005
 		cs_apps.C
 		cs_scheduler.C
 		scheduler_op.C,h
+
+David  31 May 2005
+    - If a project has multiple scheduler URLs,
+        contact them cyclically but starting at a random index.
+    - Add error-checking on start_rpc() for schedulers beyond the first one.
+        This might fix some of the problems seen recently with Pirate.
+
+    client/
+        client_state.C
+        client_types.C,h
+        scheduler_op.C,h

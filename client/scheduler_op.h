@@ -69,7 +69,8 @@ struct SCHEDULER_OP {
     PROJECT* project;               // project we're currently contacting
     char scheduler_url[256];
     bool must_get_work;             // true iff in get_work mode
-    unsigned int url_index;         // index within project's URL list
+    int url_index;                  // index within project's URL list
+    double url_random;              // used to randomize order
 
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();

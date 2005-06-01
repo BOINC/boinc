@@ -48,6 +48,7 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
+    url_random = drand();
 }
 
 // See if there's a pending master file fetch.
@@ -108,7 +109,7 @@ int SCHEDULER_OP::init_return_results(PROJECT* p) {
 }
 
 // try to initiate an RPC to the current project.
-// If there are multiple schedulers, start with the first one
+// If there are multiple schedulers, start with a random one
 //
 int SCHEDULER_OP::init_op_project() {
     int retval;
@@ -118,25 +119,29 @@ int SCHEDULER_OP::init_op_project() {
 
     scope_messages.printf("SCHEDULER_OP::init_op_project(): starting op for %s\n", project->master_url);
 
-    // if project has no schedulers, skip everything else
-    // and just get its master file.
+    // if project has no schedulers,
+    // skip everything else and just get its master file.
     //
-    url_index = 0;
     if (project->scheduler_urls.size() == 0) {
         retval = init_master_fetch();
-        goto done;
+        if (retval) {
+            sprintf(err_msg,
+                "Master fetch initialization failed: %d\n", retval
+            );
+            backoff(project, err_msg);
+        }
+        return retval;
     }
+
+    url_index = 0;
     retval = gstate.make_scheduler_request(project);
-    if (retval) {
-        msg_printf(project, MSG_ERROR, "make_scheduler_request: %d\n", retval);
-        goto done;
+    if (!retval) {
+        retval = start_rpc();
     }
-    retval = start_rpc();
-done:
     if (retval) {
         sprintf(err_msg,
-            "scheduler init_op_project to %s failed, error %d\n",
-            project->scheduler_urls[url_index].c_str(), retval
+            "Scheduler request initialization to %s failed, error %d\n",
+            project->get_scheduler_url(url_index, url_random), retval
         );
         backoff(project, err_msg);
     }
@@ -215,7 +220,7 @@ int SCHEDULER_OP::start_rpc() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    safe_strcpy(scheduler_url, project->scheduler_urls[url_index].c_str());
+    safe_strcpy(scheduler_url, project->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(
             project, MSG_INFO,
@@ -234,12 +239,20 @@ int SCHEDULER_OP::start_rpc() {
     scope_messages.printf_file(request_file, "req:");
 
     http_op.set_proxy(&gstate.proxy_info);
-    retval = http_op.init_post(
-        scheduler_url, request_file, reply_file
-    );
-    if (retval) return retval;
+    retval = http_op.init_post(scheduler_url, request_file, reply_file);
+    if (retval) {
+        msg_printf(project, MSG_ERROR,
+            "Scheduler request failed init_post(): %d", retval
+        );
+        return retval;
+    }
     retval = http_ops->insert(&http_op);
-    if (retval) return retval;
+    if (retval) {
+        msg_printf(project, MSG_ERROR,
+            "Scheduler request failed HTTP insert: %d", retval
+        );
+        return retval;
+    }
     project->rpc_seqno++;
     state = SCHEDULER_OP_STATE_RPC;
     return 0;
@@ -434,16 +447,19 @@ bool SCHEDULER_OP::poll() {
                 if (log_flags.sched_ops) {
                     msg_printf(project, MSG_ERROR,
                         "Scheduler request to %s failed\n",
-                        project->scheduler_urls[url_index].c_str()
+                        project->get_scheduler_url(url_index, url_random)
                     );
                 }
 
                 // scheduler RPC failed.  Try another scheduler if one exists
                 //
-                url_index++;
-                if (url_index < project->scheduler_urls.size()) {
-                    start_rpc();
-                } else {
+                while (1) {
+                    url_index++;
+                    if (url_index == project->scheduler_urls.size()) break;
+                    retval = start_rpc();
+                    if (!retval) break;
+                }
+                if (url_index == project->scheduler_urls.size()) {
                     backoff(project, "No schedulers responded");
                     if (must_get_work) {
                         int urgency = gstate.compute_work_requests();
@@ -465,7 +481,7 @@ bool SCHEDULER_OP::poll() {
                     msg_printf(
                         project, MSG_INFO,
                         "Scheduler request to %s succeeded\n",
-                        project->scheduler_urls[url_index].c_str()
+                        project->get_scheduler_url(url_index, url_random)
                     );
                 }
                 retval = gstate.handle_scheduler_reply(project, scheduler_url, nresults);

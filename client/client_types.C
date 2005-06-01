@@ -371,6 +371,13 @@ char* PROJECT::get_project_name() {
     }
 }
 
+const char* PROJECT::get_scheduler_url(int index, double r) {
+    int n = (int) scheduler_urls.size();
+    int ir = (int)(r*n);
+    int i = (index + ir)%n;
+    return scheduler_urls[i].c_str();
+}
+
 #if 0
 // comment?  what does this do?
 // Does it do a lot of disk access to do it??
