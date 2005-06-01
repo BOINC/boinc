@@ -154,6 +154,14 @@ function validated($user) {
     return true;
 }
 
+function validate_user($user, $email) {
+    $email = trim(strtolower($email));
+    mysql_query("update user set email_addr='$email' where id=$user->id");
+    $n = mysql_affected_rows();
+    if ($n <= 0) return false;
+    return true;
+}
+
 //////////////////////////////////////////////
 
 function send_moderation_email($user, $thread,  $post, $message) {

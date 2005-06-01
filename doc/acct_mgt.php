@@ -5,7 +5,7 @@ page_head("Account management systems");
 
 echo "
 <p>
-To create an account with a BOINC project, a participant must:
+To create an account with BOINC projects, a participant must:
 <ul>
 <li> locate BOINC project web sites,
 read them, and decide which to join;
@@ -65,7 +65,7 @@ waiting for all accounts to become confirmed.
 the participant downloads and installs the BOINC client software
 from the account manager.
 The install package includes a file
-(specific to this account manager)
+(specific to the account manager)
 containing the URL of the account manager.
 <li> The BOINC client runs, and asks the participant to enter
 the name and password of his meta-account.
@@ -143,11 +143,13 @@ list_item("URL", "project_url/am_create.php");
 list_item(
 	"input",
         "email_addr: email address
-		<br>nonce: nonce ID (a long random string that is hard to guess,
+		<br>
+        nonce: nonce ID (a long random string that is hard to guess,
             e.g. in PHP:
-             <code>md5(uniqid(rand(), true))</code>
-)"
-);
+            <code>md5(uniqid(rand(), true))</code>
+        <br>
+        acct_mgr_name: name of the account manager site
+");
 list_item(
 	"output",
     html_text("<am_create_reply>
@@ -158,16 +160,19 @@ list_item(
 );
 list_item(
 	"action",
-		"The server creates a tentative account.
-		The server sends email to the given address, of the form:
+		"If the project already has an account with that email address,
+        it returns an error.
+        Otherwise the project creates a tentative account
+		and sends email to the given address, of the form:
         <pre>
-Someone (hopefully you) joined [project name] with this email address.
-To confirm your participation in [project name] please visit the following URL:
+The computing project [ project name ] has been requested by [ acct_mgr_name ]
+to create an account with email address [ email_addr ].
+To confirm, visit the following URL:
     xxx
 
-If you do not want to participate in [project name], just ignore this message.
+If you didn't initiate this request, ignore this message.
         </pre>
-		When the participant visits xxx, the account is confirmed.
+		When the participant visits xxx, the tentative account is confirmed.
 ");
 list_end();
 
@@ -191,7 +196,11 @@ list_item("output",
     ")
 );
 list_item("action",
-    "If the account has been confirmed, returns the account key."
+    "If the tentative account has been confirmed,
+    attempts to create an account with the previously given email address.
+    If this fails (e.g., because an account with that email address
+    already exists) returns an error.
+    Otherwise returns returns the account key."
 );
 list_end();
 
@@ -270,7 +279,7 @@ list_item("input", "name
     <br>password"
 );
 list_item("output",
-    html_text("<account_manager_reply>
+    html_text("<accounts>
     [ <error>MSG</error> ]
     [ <account>
         <url>URL</url>
@@ -278,7 +287,7 @@ list_item("output",
       </account>
       ...
     ]
-</account_manager_reply>")
+</accounts>")
 );
 list_item("action",
     "returns a list of the accounts associated with this meta-account"

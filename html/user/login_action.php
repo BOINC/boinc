@@ -32,10 +32,7 @@ if (!$user) {
     // If so activate it.
 
     if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
-        $email=trim(strtolower($email));
-        mysql_query("update user set email_addr='$email' where id=$user->id");
-        $n = mysql_affected_rows();
-        if ($n <= 0) {
+        if (!validate_user($user, $email)) {
             page_head("Account already exists");
             echo "
                 We can't activate this account because

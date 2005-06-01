@@ -7259,3 +7259,36 @@ David  31 May 2005
         client_state.C
         client_types.C,h
         scheduler_op.C,h
+
+David  1 June 2005
+    - Restrict the account management mechanism to reduce its security risk.
+        1) am_create.php now returns an error if an account
+            (validated or not) exists with the given email address.
+        2) The account-confirmation email cautions the recipient
+            to ignore it if they didn't make the request
+        2) am_query.php returns an error if an account with same email exists.
+    - Add an "acct_mgr_name" argument to am_create.php so we can
+        tell the user where the request came from
+
+    The reason for this change is as follows.
+    Suppose a hacker X knows or guesses the email address of a user Y.
+    X sends an am_create RPC to the project.
+    Y receives an email and, without thinking, clicks on the URL.
+    X then does an am_query RPC and gets Y's authenticator.
+    These changes prevent this attack.
+
+    There's still a small security risk.
+    A hacker could spam a project with am_create RPCs
+    with various known email addresses.
+    A small fraction of recipients might click on validate link,
+    which would create accounts with authenticators known to the hacker.
+    However I don't see this as a significant problem.
+
+
+    html/
+        inc/
+            email.inc
+        user/
+            am_create.php
+            am_query.php
+            login_action.php

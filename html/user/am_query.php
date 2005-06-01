@@ -2,6 +2,7 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
+require_once("../inc/email.inc");
 
 db_init();
 
@@ -36,15 +37,19 @@ if (!$tuser->confirmed) {
 }
 
 $user = lookup_user_email_addr($tuser->email_addr);
-
 if (!$user) {
-    $authenticator = random_string();
-    $cross_project_id = random_string();
-    $now = time();
-    $query = "insert into user (create_time, email_addr, authenticator, cross_project_id) values($now, '$tuser->email_addr', '$authenticator', '$cross_project_id')";
-    $result = mysql_query($query);
-    $user = lookup_user_auth($authenticator);
+    $user = lookup_user_munged_email($tuser->email_addr);
 }
+if ($user) {
+    error("user record already exists");
+}
+
+$authenticator = random_string();
+$cross_project_id = random_string();
+$now = time();
+$query = "insert into user (create_time, email_addr, authenticator, cross_project_id) values($now, '$tuser->email_addr', '$authenticator', '$cross_project_id')";
+$result = mysql_query($query);
+$user = lookup_user_auth($authenticator);
 
 if (!$user) {
     error("couldn't create user record");
