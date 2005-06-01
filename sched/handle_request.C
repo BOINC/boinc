@@ -1074,7 +1074,11 @@ void process_request(
                 );
                 USER_MESSAGE um(buf, "low");
                 reply.insert_message(um);
-                reply.set_delay(config.min_sendwork_interval);
+
+                // the 1.01 is in case client's clock
+                // is slightly faster than ours
+                //
+                reply.set_delay(1.01*config.min_sendwork_interval);
             }
         }
         if (ok_to_send_work) {

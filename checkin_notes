@@ -7323,3 +7323,15 @@ David  1 June 2005
 
     client/
         client_types.C
+
+David  1 June 2005
+    - Scheduler: when send the client a delay request because
+        it's contacted us before min_sendwork_interval,
+        add an additional 1% to the delay request.
+        This handles the case where the client's clock is
+        slightly faster than the servers,
+        and it repeatedly does an RPC slightly before it should
+        (from John McLeod)
+
+    sched/
+        handle_request.C
