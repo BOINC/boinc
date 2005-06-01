@@ -57,7 +57,7 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members", $team->nusers);
+    row2("Members (with AND without Credit)", $team->nusers);
 
     row2("Total credit", format_credit($team->total_credit));
     row2("Recent average credit", format_credit($team->expavg_credit));
@@ -70,7 +70,7 @@ function display_team_page($team, $offset, $sort_by) {
     echo "</table>";
     echo "<p>";
     start_table();
-    row1("Active members", 4);
+    row1("Active members (have gotten Credit)", 4);
     echo "<tr>
         <th>Name</th>
     ";
