@@ -48,7 +48,6 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
-    url_random = drand();
 }
 
 // See if there's a pending master file fetch.

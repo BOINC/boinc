@@ -189,6 +189,7 @@ int CLIENT_STATE::init() {
     char buf[256];
 
     srand(time(0));
+    scheduler_op->url_random = drand();
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
