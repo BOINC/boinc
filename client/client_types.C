@@ -1367,7 +1367,7 @@ void RESULT::reset_files() {
 }
 
 bool RESULT::computing_done() {
-    return (state >= RESULT_COMPUTE_ERROR);
+    return (state >= RESULT_COMPUTE_ERROR || ready_to_report);
 }
 
 // estimate how long a result will take on this host

@@ -7317,3 +7317,9 @@ David  1 June 2005
         client_state.C
         cs_scheduler.C
         schedule_op.C,h
+
+David  1 June 2005
+    - a result is not "in progress" if it's ready to report
+
+    client/
+        client_types.C
