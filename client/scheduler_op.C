@@ -56,20 +56,20 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
 bool SCHEDULER_OP::check_master_fetch_start() {
     int retval;
 
-    project = gstate.next_project_master_pending();
-    if (!project) return false;
-    retval = init_master_fetch();
+    PROJECT* p = gstate.next_project_master_pending();
+    if (!p) return false;
+    retval = init_master_fetch(p);
     if (retval) {
-        msg_printf(project, MSG_ERROR,
+        msg_printf(p, MSG_ERROR,
             "Couldn't read master page for %s: error %d",
-            project->get_project_name(), retval
+            p->get_project_name(), retval
         );
-        if (project->tentative) {
-            msg_printf(project, MSG_ERROR, "Detaching from project - check for URL error");
-            project_add_failed(project);
+        if (p->tentative) {
+            msg_printf(p, MSG_ERROR, "Detaching from project - check for URL error");
+            project_add_failed(p);
         } else {
-            project->master_fetch_failures++;
-            backoff(project, "Master file fetch failed\n");
+            p->master_fetch_failures++;
+            backoff(p, "Master file fetch failed\n");
         }
         return false;
     }
@@ -85,12 +85,12 @@ int SCHEDULER_OP::init_get_work(int urgency) {
     char err_msg[256];
 
     must_get_work = true;
-    project = gstate.next_project_need_work(0, urgency);
-    if (project) {
-        retval = init_op_project();
+    PROJECT* p = gstate.next_project_need_work(0, urgency);
+    if (p) {
+        retval = init_op_project(p);
         if (retval) {
             sprintf(err_msg, "init_op_project failed, error %d\n", retval);
-            backoff(project, err_msg);
+            backoff(p, err_msg);
             return retval;
         }
     }
@@ -103,46 +103,48 @@ int SCHEDULER_OP::init_get_work(int urgency) {
 //
 int SCHEDULER_OP::init_return_results(PROJECT* p) {
     must_get_work = false;
-    project = p;
-    return init_op_project();
+    return init_op_project(p);
 }
 
-// try to initiate an RPC to the current project.
+// try to initiate an RPC to the given project.
 // If there are multiple schedulers, start with a random one
 //
-int SCHEDULER_OP::init_op_project() {
+int SCHEDULER_OP::init_op_project(PROJECT* p) {
     int retval;
     char err_msg[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    scope_messages.printf("SCHEDULER_OP::init_op_project(): starting op for %s\n", project->master_url);
+    scope_messages.printf(
+        "SCHEDULER_OP::init_op_project(): starting op for %s\n",
+        p->master_url
+    );
 
     // if project has no schedulers,
     // skip everything else and just get its master file.
     //
-    if (project->scheduler_urls.size() == 0) {
-        retval = init_master_fetch();
+    if (p->scheduler_urls.size() == 0) {
+        retval = init_master_fetch(p);
         if (retval) {
             sprintf(err_msg,
                 "Master fetch initialization failed: %d\n", retval
             );
-            backoff(project, err_msg);
+            backoff(p, err_msg);
         }
         return retval;
     }
 
     url_index = 0;
-    retval = gstate.make_scheduler_request(project);
+    retval = gstate.make_scheduler_request(p);
     if (!retval) {
-        retval = start_rpc();
+        retval = start_rpc(p);
     }
     if (retval) {
         sprintf(err_msg,
             "Scheduler request initialization to %s failed, error %d\n",
-            project->get_scheduler_url(url_index, url_random), retval
+            p->get_scheduler_url(url_index, url_random), retval
         );
-        backoff(project, err_msg);
+        backoff(p, err_msg);
     }
     return retval;
 }
@@ -213,73 +215,78 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
 // If successful, creates an HTTP_OP that must be polled
 // PRECONDITION: the request file has been created
 //
-int SCHEDULER_OP::start_rpc() {
+int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
     char request_file[1024], reply_file[1024];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    safe_strcpy(scheduler_url, project->get_scheduler_url(url_index, url_random));
+    safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(
-            project, MSG_INFO,
+            p, MSG_INFO,
             "Sending scheduler request to %s\n", scheduler_url
         );
         msg_printf(
-            project, MSG_INFO,
+            p, MSG_INFO,
             "Requesting %.0f seconds of work, returning %d results\n",
-            project->work_request, project->nresults_returned
+            p->work_request, p->nresults_returned
         );
     }
 
-    get_sched_request_filename(*project, request_file);
-    get_sched_reply_filename(*project, reply_file);
+    get_sched_request_filename(*p, request_file);
+    get_sched_reply_filename(*p, reply_file);
 
     scope_messages.printf_file(request_file, "req:");
 
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
     if (retval) {
-        msg_printf(project, MSG_ERROR,
+        msg_printf(p, MSG_ERROR,
             "Scheduler request failed init_post(): %d", retval
         );
         return retval;
     }
     retval = http_ops->insert(&http_op);
     if (retval) {
-        msg_printf(project, MSG_ERROR,
+        msg_printf(p, MSG_ERROR,
             "Scheduler request failed HTTP insert: %d", retval
         );
         return retval;
     }
-    project->rpc_seqno++;
+    p->rpc_seqno++;
+    cur_proj = p;    // remember what project we're talking to
     state = SCHEDULER_OP_STATE_RPC;
     return 0;
 }
 
 // initiate a fetch of a project's master URL file
 //
-int SCHEDULER_OP::init_master_fetch() {
+int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     int retval;
     char master_filename[256];
 
-    get_master_filename(*project, master_filename);
+    get_master_filename(*p, master_filename);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    scope_messages.printf("SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n", project->master_url);
+    scope_messages.printf(
+        "SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
+        p->master_url
+    );
     http_op.set_proxy(&gstate.proxy_info);
-    retval = http_op.init_get(project->master_url, master_filename, true);
+    retval = http_op.init_get(p->master_url, master_filename, true);
     if (retval) return retval;
     retval = http_ops->insert(&http_op);
     if (retval) return retval;
+    cur_proj = p;
     state = SCHEDULER_OP_STATE_GET_MASTER;
     return 0;
 }
 
 // parse a master file.
 //
-int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
+int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     char buf[256];
     char master_filename[256];
     std::string str;
@@ -287,24 +294,24 @@ int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    get_master_filename(*project, master_filename);
+    get_master_filename(*p, master_filename);
     f = boinc_fopen(master_filename, "r");
     if (!f) {
-        msg_printf(project, MSG_ERROR, "Can't open master file\n");
+        msg_printf(p, MSG_ERROR, "Can't open master file\n");
         return ERR_FOPEN;
     }
-    project->scheduler_urls.clear();
+    p->scheduler_urls.clear();
     while (fgets(buf, 256, f)) {
 
         // allow for the possibility of > 1 tag per line here
         // (UMTS may collapse lines)
         //
-        char* p = buf;
-        while (p && parse_str(p, "<scheduler>", str)) {
+        char* q = buf;
+        while (q && parse_str(q, "<scheduler>", str)) {
             strip_whitespace(str);
             urls.push_back(str);
-            p = strstr(p, "</scheduler>");
-            if (p) p += strlen("</schedule>");
+            q = strstr(q, "</scheduler>");
+            if (q) q += strlen("</schedule>");
         }
     }
     fclose(f);
@@ -323,15 +330,15 @@ int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
 // transfer scheduler URLs to project.
 // Return true if any of them is new
 //
-bool SCHEDULER_OP::update_urls(vector<std::string> &urls) {
+bool SCHEDULER_OP::update_urls(PROJECT* p, vector<std::string> &urls) {
     unsigned int i, j;
     bool found, any_new;
 
     any_new = false;
     for (i=0; i<urls.size(); i++) {
         found = false;
-        for (j=0; j<project->scheduler_urls.size(); j++) {
-            if (urls[i] == project->scheduler_urls[j]) {
+        for (j=0; j<p->scheduler_urls.size(); j++) {
+            if (urls[i] == p->scheduler_urls[j]) {
                 found = true;
                 break;
             }
@@ -339,9 +346,9 @@ bool SCHEDULER_OP::update_urls(vector<std::string> &urls) {
         if (!found) any_new = true;
     }
 
-    project->scheduler_urls.clear();
+    p->scheduler_urls.clear();
     for (i=0; i<urls.size(); i++) {
-        project->scheduler_urls.push_back(urls[i]);
+        p->scheduler_urls.push_back(urls[i]);
     }
 
     return any_new;
@@ -353,8 +360,8 @@ bool SCHEDULER_OP::poll() {
     int retval, nresults;
     vector<std::string> urls;
     bool changed, scheduler_op_done;
-    bool action = false, err = false;
-    char err_msg[256], *err_url=NULL;
+    bool err = false;
+    char err_msg[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
@@ -363,75 +370,64 @@ bool SCHEDULER_OP::poll() {
         // here we're fetching the master file for a project
         //
         if (http_op.http_op_state == HTTP_STATE_DONE) {
-            action = true;
-            project->master_url_fetch_pending = false;
-            gstate.set_client_state_dirty("master URL fetch done");
+            state = SCHEDULER_OP_STATE_IDLE;
+            cur_proj->master_url_fetch_pending = false;
             http_ops->remove(&http_op);
+            gstate.set_client_state_dirty("master URL fetch done");
             if (http_op.http_op_retval == 0) {
                 scope_messages.printf(
                     "SCHEDULER_OP::poll(): Got master file from %s; parsing\n",
-                     project->master_url
+                     cur_proj->master_url
                 );
-                retval = parse_master_file(urls);
+                retval = parse_master_file(cur_proj, urls);
                 if (retval) {
                     // master file parse failed.
                     //
-                    if (project->tentative) {
-                        PROJECT* project_temp = project;
-                        project = 0;        // keep detach(0) from removing HTTP OP
-                        state = SCHEDULER_OP_STATE_IDLE;    // avoid double remove
+                    if (cur_proj->tentative) {
+                        PROJECT* project_temp = cur_proj;
+                        cur_proj = 0;   // keep detach(0) from removing HTTP OP
                         project_add_failed(project_temp);
                         err = true;
                     } else {
-                        project->master_fetch_failures++;
-                        backoff(project, "Master file parse failed\n");
-                        err_url = project->master_url;
+                        cur_proj->master_fetch_failures++;
+                        backoff(cur_proj, "Master file parse failed\n");
                     }
                 } else {
-                    // everything succeeded.  Clear error counters
+                    // parse succeeded
                     //
-                    changed = update_urls(urls);
+                    cur_proj->master_fetch_failures = 0;
+                    changed = update_urls(cur_proj, urls);
+                    
+                    // reenable scheduler RPCs if have new URLs
+                    //
                     if (changed) {
-                        project->min_rpc_time = 0;
-                        project->nrpc_failures = 0;
-                        project->master_fetch_failures = 0;
+                        cur_proj->min_rpc_time = 0;
+                        cur_proj->nrpc_failures = 0;
                     }
                 }
             } else {
                 // master file fetch failed.
                 //
-                project->master_fetch_failures++;
-                backoff(project, "Master file fetch failed\n");
-                err_url = project->master_url;
+                cur_proj->master_fetch_failures++;
+                backoff(cur_proj, "Master file fetch failed\n");
             }
 
             // Done with master file fetch.
             // If tentative project and don't have any schedulers,
             // it may be the wrong URL.  notify the user
             //
-            if (!err && project->scheduler_urls.size() == 0) {
-                if (project->tentative) {
-                    state = SCHEDULER_OP_STATE_IDLE;    // avoid double remove
-                    project_add_failed(project);
+            if (!err && cur_proj->scheduler_urls.size() == 0) {
+                if (cur_proj->tentative) {
+                    project_add_failed(cur_proj);
                 } else {
-                    sprintf(err_msg,
-                        "Could not contact any schedulers for %s.",
-                        err_url
-                    );
-                    msg_printf(project, MSG_ERROR, err_msg);
-                    project->master_fetch_failures++;
-                    backoff(project, err_msg);
+                    sprintf(err_msg, "Master page has no schedulers");
+                    msg_printf(cur_proj, MSG_ERROR, err_msg);
+                    cur_proj->master_fetch_failures++;
+                    backoff(cur_proj, err_msg);
                 }
             }
-
-            // See if need to read master file for another project;
-            // if not, we're done for now
-            //
-            if (!check_master_fetch_start()) {
-                state = SCHEDULER_OP_STATE_IDLE;
-                scope_messages.printf("SCHEDULER_OP::poll(): return to idle state\n");
-            }
-
+            cur_proj = NULL;
+            return true;
         }
         break;
     case SCHEDULER_OP_STATE_RPC:
@@ -440,13 +436,13 @@ bool SCHEDULER_OP::poll() {
         //
         scheduler_op_done = false;
         if (http_op.http_op_state == HTTP_STATE_DONE) {
-            action = true;
+            state = SCHEDULER_OP_STATE_IDLE;
             http_ops->remove(&http_op);
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
-                    msg_printf(project, MSG_ERROR,
+                    msg_printf(cur_proj, MSG_ERROR,
                         "Scheduler request to %s failed\n",
-                        project->get_scheduler_url(url_index, url_random)
+                        cur_proj->get_scheduler_url(url_index, url_random)
                     );
                 }
 
@@ -454,53 +450,36 @@ bool SCHEDULER_OP::poll() {
                 //
                 while (1) {
                     url_index++;
-                    if (url_index == project->scheduler_urls.size()) break;
-                    retval = start_rpc();
-                    if (!retval) break;
+                    if (url_index == cur_proj->scheduler_urls.size()) break;
+                    retval = start_rpc(cur_proj);
+                    if (!retval) return true;
                 }
-                if (url_index == project->scheduler_urls.size()) {
-                    backoff(project, "No schedulers responded");
-                    if (must_get_work) {
-                        int urgency = gstate.compute_work_requests();
-                        if (urgency != WORK_FETCH_DONT_NEED) {
-                            project = gstate.next_project_need_work(project, urgency);
-                            if (project) {
-                                retval = init_op_project();
-                            } else {
-                                scheduler_op_done = true;
-                            }
-                            scheduler_op_done = true;
-                        }
-                    } else {
-                        scheduler_op_done = true;
-                    }
+                if (url_index == cur_proj->scheduler_urls.size()) {
+                    backoff(cur_proj, "No schedulers responded");
+                    scheduler_op_done = true;
                 }
             } else {
                 if (log_flags.sched_ops) {
                     msg_printf(
-                        project, MSG_INFO,
+                        cur_proj, MSG_INFO,
                         "Scheduler request to %s succeeded\n",
-                        project->get_scheduler_url(url_index, url_random)
+                        cur_proj->get_scheduler_url(url_index, url_random)
                     );
                 }
-                retval = gstate.handle_scheduler_reply(project, scheduler_url, nresults);
+                retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
 
                 // if this was a tentative project and we didn't get user name,
                 // the account ID must be bad.  Tell the user.
                 //
-                if (project->tentative) {
-                    if (retval || strlen(project->user_name)==0) {
-                        state = SCHEDULER_OP_STATE_IDLE;    // avoid double remove
-                        project_add_failed(project);
+                if (cur_proj->tentative) {
+                    if (retval || strlen(cur_proj->user_name)==0) {
+                        project_add_failed(cur_proj);
                     } else {
-                        project->tentative = false;
-                        retval = project->write_account_file();
+                        cur_proj->tentative = false;
+                        retval = cur_proj->write_account_file();
                         if (retval) {
-                            project_add_failed(project);
+                            project_add_failed(cur_proj);
                         }
-#if 0
-                        gstate.calc_all_proj_size();
-#endif
                     }
                 } else {
                     switch (retval) {
@@ -509,61 +488,33 @@ bool SCHEDULER_OP::poll() {
                         // back off this project
                         //
                         if (must_get_work && nresults==0) {
-                            backoff(project, "No work from project\n");
+                            backoff(cur_proj, "No work from project\n");
                         } else {
-                            project->nrpc_failures = 0;
+                            cur_proj->nrpc_failures = 0;
                         }
                         break;
                     case ERR_PROJECT_DOWN:
-                        backoff(project, "Project is down");
+                        backoff(cur_proj, "Project is down");
                         break;
                     default:
-                        backoff(project, "Can't parse scheduler reply");
+                        backoff(cur_proj, "Can't parse scheduler reply");
                         break;
                     }
                 }
-
-                // if we didn't get all the work we needed,
-                // ask another project for work
-                //
-                if (must_get_work) {
-                    int urgency = gstate.compute_work_requests();
-                    if (urgency != WORK_FETCH_DONT_NEED) {
-                        project = gstate.next_project_need_work(project, urgency);
-                        if (project) {
-                            retval = init_op_project();
-                        } else {
-                            scheduler_op_done = true;
-                        }
-                    } else {
-                        scheduler_op_done = true;
-                    }
-                } else {
-                    scheduler_op_done = true;
-                }
             }
+            cur_proj = NULL;
+            return true;
         }
-
-        // If no outstanding ops, see if need a master fetch
-        //
-        if (scheduler_op_done) {
-            project = gstate.next_project_master_pending();
-            if (project) {
-                retval = init_master_fetch();
-                if (retval) {
-                    scope_messages.printf("SCHEDULER_OP::poll(): init_master_fetch failed.\n" );
-                    backoff(project, "Scheduler op: init_master_fetch failed.\n" );
-                }
-            } else {
-                state = SCHEDULER_OP_STATE_IDLE;
-                scope_messages.printf("SCHEDULER_OP::poll(): return to idle state\n");
-            }
-        }
-        break;
-    default:
-        break;
     }
-    return action;
+    return false;
+}
+
+void SCHEDULER_OP::abort(PROJECT* p) {
+    if (state != SCHEDULER_OP_STATE_IDLE && cur_proj == p) {
+        gstate.http_ops->remove(&http_op);
+        state = SCHEDULER_OP_STATE_IDLE;
+        cur_proj = NULL;
+    }
 }
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {

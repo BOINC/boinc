@@ -141,6 +141,8 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 // 3) has master_url_fetch_pending == false
 // 4) has dont_request_more_work == false
 //
+// TODO: finish this comment.  What is "urgency"?
+//
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect=0;

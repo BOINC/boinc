@@ -7292,3 +7292,28 @@ David  1 June 2005
             am_create.php
             am_query.php
             login_action.php
+
+David  1 June 2005
+    - Reorganization of schedule RPC and master file fetch code
+        trying to get rid of bug where once project's scheduler URLS
+        end up in another project.
+
+        The following conditions are either all true or all false:
+            1) SCHEDULER_OP::project is nonzero
+            2) SCHEDULER_OP::state is not IDLE
+            3) SCHEDULER_OP::http_op is in HTTP_OP_SET.
+
+        These become true in:
+            SCHEDULER_OP::start_rpc()
+            SCHEDULER_OP::init_master_fetch()
+
+        These become false in:
+            SCHEDULER_OP::poll() (when an operation finishes)
+            SCHEDULER_OP::abort() (called when reset or abort project)
+
+    - Changed SCHEDULER_OP from struct to class and hid some of its data
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        schedule_op.C,h

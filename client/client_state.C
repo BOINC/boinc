@@ -1189,12 +1189,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 
     // if we're in the middle of a scheduler op to the project, abort it
     //
-    if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE
-        && scheduler_op->project == project
-    ) {
-        http_ops->remove(&scheduler_op->http_op);
-        scheduler_op->state = SCHEDULER_OP_STATE_IDLE;
-    }
+    scheduler_op->abort(project);
 
     // mark results as server-acked.
     // This will cause garbage_collect to delete them,

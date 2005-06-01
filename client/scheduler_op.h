@@ -61,30 +61,36 @@
 #define SCHEDULER_OP_STATE_GET_MASTER   1
 #define SCHEDULER_OP_STATE_RPC          2
 
-struct SCHEDULER_OP {
-    int state;
+class SCHEDULER_OP {
+private:
     int scheduler_op_retval;
     HTTP_OP http_op;
     HTTP_OP_SET* http_ops;
-    PROJECT* project;               // project we're currently contacting
+    PROJECT* cur_proj;               // project we're currently contacting
     char scheduler_url[256];
     bool must_get_work;             // true iff in get_work mode
     int url_index;                  // index within project's URL list
+public:
+    int state;
     double url_random;              // used to randomize order
 
+public:
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
     int init_get_work(int urgency);
     int init_return_results(PROJECT*);
-    int init_op_project();
-    int init_master_fetch();
-    int set_min_rpc_time(PROJECT*);
-    bool update_urls(std::vector<std::string> &urls);
-    int start_op(PROJECT*);
+    int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();
     void backoff(PROJECT* p, const char *error_msg);
-    int start_rpc();
-    int parse_master_file(std::vector<std::string>&);
+    void abort(PROJECT*);
+        // if we're doing an op to this project, abort it
+private:
+    int init_op_project(PROJECT*);
+    int set_min_rpc_time(PROJECT*);
+    bool update_urls(PROJECT*, std::vector<std::string> &urls);
+    int start_op(PROJECT*);
+    int start_rpc(PROJECT*);
+    int parse_master_file(PROJECT*, std::vector<std::string>&);
 };
 
 struct USER_MESSAGE {
