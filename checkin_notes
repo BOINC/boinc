@@ -7364,6 +7364,7 @@ David  2 June 2005
 
 David  2 June 2005
     - Scheduler: don't write Content-type: text/plain twice
+        (from Bruce Allen)
     - move set_core_dump_size_limit() code to separate function
 
     sched/
