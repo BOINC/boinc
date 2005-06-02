@@ -7336,6 +7336,18 @@ David  1 June 2005
     sched/
         handle_request.C
 
+David  1 June 2005
+    - add <work_fetch_no_new_work> and <cpu_earlist_deadline_first>
+        items to  GUI RPC "get_state" reply.
+        These indicate the current work-fetch and CPU sched policies.
+        They're integers - 1 means in effect, 0 means not.
+    - don't write cpu_sched_work_done_this period to statefile,
+        or in get_state GUI RPC
+        
+    client/
+        client_state.h
+        cs_statefile.C
+
 David  2 June 2005
 	- add a new value FILE_DELETE_ERROR for file delete state
 		(for when the unlink failed, e.g. because of permissions).
@@ -7349,3 +7361,11 @@ David  2 June 2005
 		db_ops.inc
 	sched/
 		file_deleter.C
+
+David  2 June 2005
+    - Scheduler: don't write Content-type: text/plain twice
+    - move set_core_dump_size_limit() code to separate function
+
+    sched/
+        handle_request.C
+        main.C,h

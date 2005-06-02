@@ -66,6 +66,7 @@ especially if applications checkpoint infrequently.
 Applications are preempted by suspending them;
 they remain in virtual memory while preempted
 (they don't necessarily occupy physical memory).
+</ul>
 
 ";
    page_tail();

@@ -268,7 +268,6 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
-        } else if (parse_double(buf, "<cpu_sched_work_done_this_period>", cpu_sched_work_done_this_period)) {
         } else if (match_tag(buf, "<proxy_info>")) {
             retval = proxy_info.parse(mf);
             if (retval) {
@@ -363,15 +362,6 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         user_network_request
     );
 
-    // save CPU scheduling state
-    //
-    f.printf(
-        "<cpu_sched_work_done_this_period>%f</cpu_sched_work_done_this_period>\n",
-        cpu_sched_work_done_this_period
-    );
-
-    // save proxy info
-    //
     proxy_info.write(f);
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
@@ -509,19 +499,18 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         }
     }
     f.printf(
+        "<work_fetch_no_new_work>%d</work_fetch_no_new_work>\n"
+        "<cpu_earliest_deadline_first>%d</cpu_earliest_deadline_first>\n",
+        work_fetch_no_new_work?1:0,
+        cpu_earliest_deadline_first?1:0
+    );
+    f.printf(
         "<platform_name>%s</platform_name>\n"
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n",
         platform_name,
         core_client_major_version,
         core_client_minor_version
-    );
-
-    // save CPU scheduling state
-    //
-    f.printf(
-        "<cpu_sched_work_done_this_period>%f</cpu_sched_work_done_this_period>\n",
-        cpu_sched_work_done_this_period
     );
 
     proxy_info.write(f);

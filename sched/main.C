@@ -69,10 +69,13 @@ SCHED_CONFIG config;
 GUI_URLS gui_urls;
 key_t sema_key;
 int g_pid;
+static bool db_opened=false;
 
-void send_message(const char* msg, int delay) {
+void send_message(const char* msg, int delay, bool send_header) {
+    if (send_header) {
+        printf("Content-type: text/plain\n\n");
+    }
     printf(
-        "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
         "    <request_delay>%d</request_delay>\n"
@@ -82,7 +85,6 @@ void send_message(const char* msg, int delay) {
     );
 }
 
-static bool db_opened=false;
 int open_database() {
     int retval;
 
@@ -139,6 +141,44 @@ void log_request_info(int& length) {
     }
 }
 
+#if DUMP_CORE_ON_SEGV
+void set_core_dump_size_limit() {
+    struct rlimit limit;
+    if (getrlimit(RLIMIT_CORE, &limit)) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "Unable to read resource limit for core dump size.\n"
+        );
+    } else {
+        char short_string[256], *short_message=short_string;
+
+        short_message += sprintf(short_message,"Default resource limit for core dump size curr=");
+        if (limit.rlim_cur == RLIM_INFINITY)
+            short_message += sprintf(short_message,"Inf max=");
+        else
+            short_message += sprintf(short_message,"%d max=", (int)limit.rlim_cur);
+
+        if (limit.rlim_max == RLIM_INFINITY)
+            short_message += sprintf(short_message,"Inf\n");
+        else
+            short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
+      
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "%s", short_string);
+        
+        // now set limit to the maximum allowed value
+        limit.rlim_cur=limit.rlim_max;
+        if (setrlimit(RLIMIT_CORE, &limit)) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "Unable to set current resource limit for core dump size to max value.\n"
+            );
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "Set limit for core dump size to max value.\n"
+            );
+        }   
+    }
+}
+#endif
+
 int main() {
     FILE* fin, *fout;
     int i, retval;
@@ -165,7 +205,7 @@ int main() {
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         sprintf(buf, "Server can't open log file (%s)", path);
-        send_message(buf, 3600);
+        send_message(buf, 3600, true);
         exit(0);
     }
     // install a larger buffer for stderr.  This ensures that
@@ -184,54 +224,18 @@ int main() {
     log_messages.set_debug_level(DEBUG_LEVEL);
 
 #if DUMP_CORE_ON_SEGV
-    {
-        struct rlimit limit;
-        if (getrlimit(RLIMIT_CORE, &limit)) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "Unable to read resource limit for core dump size.\n"
-            );
-        }
-        else {
-            char short_string[256], *short_message=short_string;
-
-            short_message += sprintf(short_message,"Default resource limit for core dump size curr=");
-            if (limit.rlim_cur == RLIM_INFINITY)
-                short_message += sprintf(short_message,"Inf max=");
-            else
-                short_message += sprintf(short_message,"%d max=", (int)limit.rlim_cur);
-
-            if (limit.rlim_max == RLIM_INFINITY)
-                short_message += sprintf(short_message,"Inf\n");
-            else
-                short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
-          
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "%s", short_string);
-            
-            // now set limit to the maximum allowed value
-            limit.rlim_cur=limit.rlim_max;
-            if (setrlimit(RLIMIT_CORE, &limit)) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                    "Unable to set current resource limit for core dump size to max value.\n"
-                );
-            }
-            else {
-                log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                    "Set limit for core dump size to max value.\n"
-                );
-            }   
-        }
-    }
+    set_core_dump_size_limit();
 #endif
 
     if (check_stop_sched()) {
-        send_message("Project is temporarily shut down for maintenance", 3600);
+        send_message("Project is temporarily shut down for maintenance", 3600, true);
         goto done;
     }
 
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
-        send_message("Server can't parse configuration file", 3600);
+        send_message("Server can't parse configuration file", 3600, true);
         exit(0);
     }
 
@@ -243,7 +247,7 @@ int main() {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
-        send_message("Server can't find key file", 3600);
+        send_message("Server can't find key file", 3600, true);
         exit(0);
     }
 
@@ -263,7 +267,7 @@ int main() {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
-            send_message("Server has software problem", 3600);
+            send_message("Server has software problem", 3600, true);
             exit(0);
         }
 
@@ -274,7 +278,7 @@ int main() {
         }
         if (!ssp->ready) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "feeder doesn't seem to be running\n");
-            send_message("Server has software problem", 3600);
+            send_message("Server has software problem", 3600, true);
             exit(0);
         }
     }
@@ -286,7 +290,7 @@ int main() {
     counter++;
 #endif
     if (project_stopped) {
-        send_message("Project is temporarily shut down for maintenance", 3600);
+        send_message("Project is temporarily shut down for maintenance", 3600, true);
         goto done;
     }
     log_request_info(length);
@@ -354,10 +358,9 @@ done:
     continue;
     }
     if (counter == MAX_FCGI_COUNT) {
-      fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
-    }
-    else {
-      fprintf(stderr, "FCGI: FCGI_Accept failed - exiting..\n");
+        fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
+    } else {
+        fprintf(stderr, "FCGI: FCGI_Accept failed - exiting..\n");
     }
     // when exiting, write headers back to apache so it won't complain
     // about "incomplete headers"

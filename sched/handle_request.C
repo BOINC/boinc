@@ -984,7 +984,7 @@ void process_request(
     //
     retval = open_database();
     if (retval) {
-        send_message("Server can't open database", 3600);
+        send_message("Server can't open database", 3600, false);
         goto leave;
     }
 
@@ -1009,7 +1009,7 @@ void process_request(
             "Another scheduler instance [PID=%d] is running for this host\n",
             pid_with_lock
         );
-        send_message("Another scheduler instance is running for this host", 60);
+        send_message("Another scheduler instance is running for this host", 60, false);
         goto leave;
     }
 

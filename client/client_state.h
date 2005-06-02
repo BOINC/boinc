@@ -148,6 +148,7 @@ private:
     //
     double cpu_sched_last_time;
     double cpu_sched_work_done_this_period;
+        // CPU time since last schedule_cpus()
 	bool work_fetch_no_new_work;
 	bool cpu_earliest_deadline_first;
 
