@@ -472,7 +472,7 @@ function show_result_summary() {
     for ($cs=1; $cs<6; $cs++) {
         $client_state[$cs] = 0;
     }
-    for ($fds=0; $fds<3; $fds++) {
+    for ($fds=0; $fds<4; $fds++) {
         $delete_state[$fds] = 0;
     }
     for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
@@ -524,6 +524,7 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '0' then 1 else 0 end) AS filedeletestate_init,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '1' then 1 else 0 end) AS filedeletestate_ready,
        SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '2' then 1 else 0 end) AS filedeletestate_done,
+       SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '3' then 1 else 0 end) AS filedeletestate_error,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '0' then 1 else 0 end) AS clientstate_init,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '1' then 1 else 0 end) AS clientstate_downloading,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '2' then 1 else 0 end) AS clientstate_downloaded,
@@ -585,8 +586,9 @@ FROM result WHERE
         $file_delete[0]  = $res->filedeletestate_init;
         $file_delete[1]  = $res->filedeletestate_ready;
         $file_delete[2]  = $res->filedeletestate_done;
+        $file_delete[3]  = $res->filedeletestate_error;
 
-        $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done;
+        $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done + $res->filedeletestate_error;
         mysql_free_result($result);
     }
 
@@ -627,12 +629,12 @@ FROM result WHERE
     echo "<table border=\"2\" cellpadding=\"4\"\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
   
-    for ($fds=0; $fds<3; $fds++) {
+    for ($fds=0; $fds<4; $fds++) {
         row2(file_delete_state_str($fds),
         link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
     }
     row2("Total files deleted",
-    link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
+    link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2 or file_delete_state=3)"));
     echo "</table></td>";
 
     echo "<td><table border=\"2\" cellpadding=\"4\"\n";
@@ -924,6 +926,7 @@ function file_delete_state_str($s) {
     case 0: return "Initial";
     case 1: return "Ready to delete";
     case 2: return "Deleted";
+    case 3: return "Delete Error";
     }
     echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";

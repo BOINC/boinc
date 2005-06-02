@@ -7335,3 +7335,17 @@ David  1 June 2005
 
     sched/
         handle_request.C
+
+David  2 June 2005
+	- add a new value FILE_DELETE_ERROR for file delete state
+		(for when the unlink failed, e.g. because of permissions).
+	- add a new cmdline flag -retry_errors to file deleter
+
+	(from Kevin Reed)
+
+	db/
+		boinc_db.h
+	html/inc/
+		db_ops.inc
+	sched/
+		file_deleter.C

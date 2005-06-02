@@ -266,8 +266,9 @@ struct HOST {
 #define FILE_DELETE_READY       1
     // set to this value only when we believe all files are uploaded
 #define FILE_DELETE_DONE        2
-    // means the file uploader ATTEMPTED to delete files.
-    // May have failed.  TODO: retry delete later
+    // means the files were successfully deleted
+#define FILE_DELETE_ERROR		3
+    // Any error was returned while attempting to delete the file
 
 // values for assimilate_state
 #define ASSIMILATE_INIT         0

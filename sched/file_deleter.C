@@ -178,16 +178,20 @@ static bool preserve_result_files=false;
 
 // return nonzero if did anything
 //
-bool do_pass() {
+bool do_pass(bool retry_error) {
     DB_WORKUNIT wu;
     DB_RESULT result;
-    bool did_something = false, got_error = false;
+    bool did_something = false;
     char buf[256];
     int retval;
 
     check_stop_daemons();
 
-    sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
+    if (retry_error) {
+    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR);
+    } else {
+    	sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
+    }
     while (!wu.enumerate(buf)) {
         did_something = true;
         
@@ -196,20 +200,20 @@ bool do_pass() {
             retval = wu_delete_files(wu);
         }
         if (retval) {
-            got_error = true;
+        	wu.file_delete_state = FILE_DELETE_ERROR;
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[WU#%d] update failed: %d\n", wu.id, retval);
         } else {
         	wu.file_delete_state = FILE_DELETE_DONE;
-	        sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
-	        retval= wu.update_field(buf);
-	        if (retval) {
-	             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-	                "[WU#%d] update failed: %d\n", wu.id, retval 
-	             );
-	        }
         }
+        sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
+        retval= wu.update_field(buf);
     }
 
-    sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
+    if ( retry_error ) {
+    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR);
+    } else {
+    	sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
+    }
     while (!result.enumerate(buf)) {
         did_something = true;
         retval = 0;
@@ -217,27 +221,20 @@ bool do_pass() {
             retval = result_delete_files(result);
         }
         if (retval) {
-            got_error = true;
+        	result.file_delete_state = FILE_DELETE_ERROR;
+	        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[RESULT#%d] update failed: %d\n", result.id, retval);
         } else {
         	result.file_delete_state = FILE_DELETE_DONE;
-	        sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
-	        retval= result.update_field(buf);
-	        if (retval) {
-	            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-	                "[RESULT#%d] update failed: %d\n", result.id, retval
-	            );
-	        } 
         }
-    }
-    if (got_error) {
-        sleep(SLEEP_INTERVAL);
+	    sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
+	    retval= result.update_field(buf);
     }
     return did_something;
 }
 
 int main(int argc, char** argv) {
     int retval;
-    bool asynch = false, one_pass = false;
+    bool asynch = false, one_pass = false, retry_error = false;
     int i;
 
     check_stop_daemons();
@@ -246,6 +243,8 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-retry_error")) {
+            retry_error=true;
         } else if (!strcmp(argv[i], "-preserve_wu_files")) {
             // This option is primarily for testing.
             // If enabled, the file_deleter will function 'normally'
@@ -298,10 +297,10 @@ int main(int argc, char** argv) {
     }
     install_stop_signal_handler();
     if (one_pass) {
-        do_pass();
+        do_pass(retry_error);
     } else {
         while (1) {
-            if (!do_pass()) sleep(SLEEP_INTERVAL);
+            if (!do_pass(retry_error)) sleep(SLEEP_INTERVAL);
         }
     }
 }
