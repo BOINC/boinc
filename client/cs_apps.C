@@ -392,21 +392,26 @@ void CLIENT_STATE::adjust_debts(double now, double local_total_resource_share) {
     unsigned int i;
     bool first = true;
     double total_long_term_debt = 0;
+    double local_total_lt_available_resource_share = 0;
     int count_cpu_intensive = 0;
     PROJECT *p;
     double min_debt=0;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
+    for (i=0; i<projects.size(); ++i) {
+        p = projects[i];
+        if (p->suspended_via_gui) continue;
+        if (p->dont_request_more_work && !p->next_runnable_result) continue;
+        if (p->min_rpc_time < now && !p->next_runnable_result) continue;
+
+        local_total_lt_available_resource_share += p->resource_share;
+    }
+
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         count_cpu_intensive++;
-        double debt_inc =
-            (p->resource_share/local_total_resource_share)
-            * cpu_sched_work_done_this_period
-            - p->work_done_this_period
-        ;
         // if the project is suspended or communications is deferred or 
         // the user has asked for no work.
         // This prevents projects that are not supplying
@@ -417,14 +422,18 @@ void CLIENT_STATE::adjust_debts(double now, double local_total_resource_share) {
         //
         double current_work = ettprc(p, 0);
         if (!p->suspended_via_gui && ((p->min_rpc_time < now && !p->dont_request_more_work) || current_work > 0)) {
-            p->long_term_debt += debt_inc;
+            p->long_term_debt += (p->resource_share/local_total_lt_available_resource_share)
+                * cpu_sched_work_done_this_period
+                - p->work_done_this_period ;
         }
         total_long_term_debt += p->long_term_debt;
         if (!p->next_runnable_result) {
             p->debt = 0;
             p->anticipated_debt = 0;
         } else {
-            p->debt += debt_inc;
+            p->debt += (p->resource_share/local_total_resource_share)
+                * cpu_sched_work_done_this_period
+                - p->work_done_this_period ;
             if (first) {
                 first = false;
                 min_debt = p->debt;
@@ -535,7 +544,6 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     if (local_total_resource_share > 0) {
         adjust_debts(now, local_total_resource_share);
     }
-
     // schedule tasks for projects in order of decreasing anticipated debt
     //
     for (i=0; i<results.size(); i++) {

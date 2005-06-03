@@ -157,11 +157,6 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
             found_old = true;
             continue;
         }
-        if (p->master_url_fetch_pending) continue;
-        if (p->waiting_until_min_rpc_time(now)) continue;
-        if (p->suspended_via_gui) continue;
-        if (p->dont_request_more_work) continue;
-        if (p->long_term_debt < 0 && !cpu_idle) continue;
         if (p->work_request_urgency == WORK_FETCH_DONT_NEED) continue;
 
         // if we don't really need work,
@@ -525,7 +520,7 @@ int CLIENT_STATE::compute_work_requests() {
         if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
-        if ((p->long_term_debt < 0) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
+        if ((p->long_term_debt < -this->global_prefs.cpu_scheduling_period_minutes * 60) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
 
         int min_results = proj_min_results(p, ncpus);
         double estimated_time_to_starvation = ettprc(p, min_results-1);
@@ -994,6 +989,16 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     std::set<PROJECT*> projects_with_work;
     RESULT* rp;
     int i;
+    double now = dtime();
+    bool should_not_fetch_work = false;
+    bool use_earliest_deadline_first = false;
+    double frac_booked = 0;
+    std::vector <double> booked_to;
+    std::map<double, RESULT*>::iterator it;
+    double up_frac = avg_proc_rate(0);
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+
 
     std::vector<RESULT*>::iterator it_u;
     for (it_u = results.begin(); it_u != results.end(); ++it_u) {
@@ -1005,19 +1010,10 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         projects_with_work.insert(rp->project);
     }
 
-    bool should_not_fetch_work = false;
-    bool use_earliest_deadline_first = false;
-    double now;
-    double frac_booked;
-    std::vector <double> booked_to;
-    now = dtime();
-    frac_booked = 0;
     for (i=0; i<ncpus; i++) {
         booked_to.push_back(now);
     }
 
-    std::map<double, RESULT*>::iterator it;
-    double up_frac = avg_proc_rate(0);
     for (
         it = results_by_deadline.begin();
         it != results_by_deadline.end() && !should_not_fetch_work;
@@ -1040,41 +1036,29 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
         // Are the deadlines too tight to meet reliably?
         //
-        if (booked_to[lowest_booked_cpu] - now > (rp->report_deadline - now) * MAX_CPU_LOAD_FACTOR * up_frac) {
+        if (booked_to[lowest_booked_cpu] - now > (rp->report_deadline - now) * MAX_CPU_LOAD_FACTOR * (up_frac / ncpus)) {
             should_not_fetch_work = true;
             use_earliest_deadline_first = true;
-#if 0
-            if (!cpu_earliest_deadline_first || !work_fetch_no_new_work) {
-                msg_printf(NULL, MSG_INFO,
-                    "Computer is overcommitted"
-                );
-            }
-#endif
+            scope_messages.printf(
+                "CLIENT_STATE::compute_work_requests(): Computer is overcommitted\n"
+            );
         }
         // Is the nearest deadline within a day?
         //
         if (rp->report_deadline - now < 60 * 60 * 24) {
             use_earliest_deadline_first = true; 
-#if 0
-            if (!cpu_earliest_deadline_first) {
-                msg_printf(NULL, MSG_INFO,
-                    "Less than 1 day until deadline."
-                );
-            }
-#endif
+            scope_messages.printf(
+                "CLIENT_STATE::compute_work_requests(): Less than 1 day until deadline.\n"
+            );
         }
 
         // is there a deadline < twice the users connect period?
         //
         if (rp->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
             use_earliest_deadline_first = true;
-#if 0
-            if (!cpu_earliest_deadline_first) {
-                msg_printf(NULL, MSG_INFO,
-                    "Deadline is before reconnect time"
-                );
-            }
-#endif
+            scope_messages.printf(
+                "CLIENT_STATE::compute_work_requests(): Deadline is before reconnect time.\n"
+            );
         }
 
         frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - now);
@@ -1082,13 +1066,9 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
     if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus) {
         should_not_fetch_work = true;
-#if 0
-        if (!work_fetch_no_new_work) {
-            msg_printf(NULL, MSG_INFO,
-                "Nearly overcommitted."
-            );
-        }
-#endif
+        scope_messages.printf(
+            "CLIENT_STATE::compute_work_requests(): Nearly overcommitted.\n"
+        );
     }
 
     // display only when the policy changes to avoid once per second
@@ -1126,7 +1106,7 @@ double CLIENT_STATE::work_needed_secs() {
         if (results[i]->project->non_cpu_intensive) continue;
         total_work += results[i]->estimated_cpu_time_remaining();
     }
-    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY - total_work;
+    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY*avg_proc_rate(0) - total_work;
     if (x < 0) {
         return 0;
     }

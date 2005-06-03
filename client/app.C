@@ -295,6 +295,7 @@ int ACTIVE_TASK::move_trickle_file() {
 // CALL THIS ONLY IF FRACTION_DONE > 0
 //
 double ACTIVE_TASK::est_cpu_time_to_completion() {
+    if (fraction_done <= 0) return result->estimated_cpu_time();
     if (fraction_done >= 1) return 0;
     return (current_cpu_time / fraction_done) - current_cpu_time;
 }

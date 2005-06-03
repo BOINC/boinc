@@ -1379,7 +1379,7 @@ double RESULT::estimated_cpu_time() {
 double RESULT::estimated_cpu_time_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
-    if (atp && atp->fraction_done > 0) {
+    if (atp) {
         return atp->est_cpu_time_to_completion();
     }
     return estimated_cpu_time();

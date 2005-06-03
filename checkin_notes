@@ -7370,3 +7370,13 @@ David  2 June 2005
     sched/
         handle_request.C
         main.C,h
+
+David  2 June 2005
+    - scheduler/work fetch changes
+        (from John McLeod)
+
+    client/
+        app.C
+        client_types.C
+        cs_apps.C
+        cs_scheduler.C
