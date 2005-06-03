@@ -86,6 +86,8 @@ computer resources
   <tr><td bgcolor=$light_blue><h2>Resources</h2></td></tr>
   <tr><td>
     <ul>
+    <li> <a href=http://boinc-doc.net/boinc-wiki/>BOINC documentation Wiki</a>:
+        much of the content of this web site, in Wiki (editable) form.
     <li> <a href=links.php>Web sites</a> for BOINC participants
     <li> <a href=community.php#email_lists>Email lists</a>
     <li> An <a href=intro.php>overview</a> of BOINC, and links to papers

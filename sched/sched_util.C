@@ -234,9 +234,10 @@ int elapsed_time() {
     return (int)(time(0)-execution_time);
 }
 
-// returns zero if we get lock on file with file descriptor fd.
-// returns < 0 if error
-// returns PID > 0 if another process has lock
+// Request lock on the given file with given fd.  Returns:
+// 0 if we get lock
+// PID (>0) if another process has lock
+// -1 if error
 //
 int mylockf(int fd) {
     struct flock fl;

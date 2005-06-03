@@ -7380,3 +7380,18 @@ David  2 June 2005
         client_types.C
         cs_apps.C
         cs_scheduler.C
+
+David  3 June 2005
+    Stuff related to per-host lockfiles in scheduler:
+
+    - enable locking only if <sched_lockfile_dir> is present in config file
+    - delete lockfiles from sched_lockfile_dir (NOT necessarily CGI dir)
+    - if mylockf(fd) fails (can't lock file) close fd before returning
+        Otherwise would overflow fd limit under FCGI
+    - Fix error message if lock_sched() returns -1
+        (-1 is not a PID)
+    - move lock-release logic into separate function (unlock_sched())
+
+    sched/
+        handle_request.C
+        sched_util.C
