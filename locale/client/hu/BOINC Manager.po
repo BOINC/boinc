@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-05-27 21:16+0100\n"
-"Last-Translator: Tóth Dávid <dvid@mail.datanet.hu>\n"
+"PO-Revision-Date: 2005-05-28 21:17+0100\n"
+"Last-Translator: horvathd <horvathd@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -11,8 +11,8 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
-"X-Poedit-SearchPath-0: clientgui\n"
+"X-Poedit-Basepath: C:\\Documents and settings\\Horváth Dávid\\Dokumentumok\\Programok\\Boinc\n"
+"X-Poedit-SearchPath-0: BOINC Manager\n"
 
 #: clientgui/BOINCGUIApp.cpp:264
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -30,7 +30,7 @@ msgstr "(Ismeretlen)"
 
 #: clientgui/BOINCGUIApp.cpp:323
 msgid "(User Defined)"
-msgstr "(Felhasználó által megadott)"
+msgstr "(Felhasználó által definiált)"
 
 #: clientgui/BOINCTaskBar.cpp:66
 #: clientgui/DlgAbout.cpp:112
@@ -78,24 +78,30 @@ msgstr "Verzió:"
 
 #: clientgui/DlgAbout.cpp:134
 msgid "Copyright:"
-msgstr "Szerzői jog:"
+msgstr "Készítő:"
 
 #: clientgui/DlgAbout.cpp:138
 msgid ""
 "(C) 2005 University of California at Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2005 Berkeley, Kaliforniai Egyetem.\n"
-"Minden jog fenntartva.\n"
-"Fordítás: DViD"
+"(C) 2005 University of California at Berkeley.\n"
+"Minden jog fenntartva."
 
 #: clientgui/DlgAbout.cpp:142
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Nyílt Infrastruktúra a Hálózati Számitásért (BOINC)"
 
 #: clientgui/DlgAbout.cpp:146
 msgid "http://boinc.berkeley.edu/"
-msgstr "http://boinc.berkeley.edu/"
+msgstr ""
+"http://boinc.berkeley.edu/\n"
+"\n"
+"Magyar fordítás:\n"
+"horvathd@mailbox.hu\n"
+"\n"
+"dvid@mail.datanet.hu\n"
+"fordítása alapján."
 
 #: clientgui/DlgAbout.cpp:154
 #: clientgui/DlgAccountManager.cpp:136
@@ -104,7 +110,7 @@ msgstr "http://boinc.berkeley.edu/"
 #: clientgui/DlgOptions.cpp:264
 #: clientgui/DlgSelectComputer.cpp:139
 msgid "&OK"
-msgstr "&OK"
+msgstr "&Rendben"
 
 #: clientgui/DlgAccountManager.cpp:117
 msgid "Username:"
@@ -131,7 +137,7 @@ msgstr "URL:"
 
 #: clientgui/DlgAttachProject.cpp:129
 msgid "Account Key:"
-msgstr "Felhasználói Fiók Kulcsa:"
+msgstr "Felhasználói fiók kulcs:"
 
 #: clientgui/DlgAttachProject.cpp:137
 msgid ""
@@ -139,9 +145,9 @@ msgid ""
 "Go to project web sites to create accounts.\n"
 "Visit http://boinc.berkeley.edu for a list of projects."
 msgstr ""
-"Ezeket az adatokat a felhasználói fiók létrehozásakor küldött e-mail tartalmazza.\n"
-"A projektek oldalain hozhat létre felhasználói fiókokat.\n"
-"Látogasson el a 'http://boinc.berkeley.edu'-ra a projektek megtekintéséhez."
+"Az adatokat emailben kapja, mikor létrehoz egy felhasználói fiókot.\n"
+"Felhasználói fiókot a projectek honlapján készíthet.\n"
+"Látogasson a http://boinc.berkeley.edu weblapra a projectek listájáért. "
 
 #: clientgui/DlgConnection.cpp:115
 msgid ""
@@ -165,7 +171,7 @@ msgstr "Csatlakozás HTTP proxy szerveren keresztül"
 
 #: clientgui/DlgOptions.cpp:152
 msgid "HTTP Proxy Server Configuration"
-msgstr "HTTP Proxy Szerver Beállítás"
+msgstr "HTTP proxy szerver beállítás"
 
 #: clientgui/DlgOptions.cpp:160
 #: clientgui/DlgOptions.cpp:216
@@ -197,23 +203,23 @@ msgstr "Csatlakozás SOCKS proxy szerveren keresztül"
 
 #: clientgui/DlgOptions.cpp:208
 msgid "SOCKS Proxy Server Configuration"
-msgstr "SOCKS Proxy Szerver Beállítása"
+msgstr "SOCKS proxy szerver beállítása"
 
 #: clientgui/DlgOptions.cpp:252
 msgid "SOCKS Proxy"
-msgstr "SOCKS Proxy"
+msgstr "SOCKS proxy"
 
 #: clientgui/DlgSelectComputer.cpp:119
 msgid "Host name:"
-msgstr "Számítógép neve:"
+msgstr "Számítógépnév:"
 
 #: clientgui/MainDocument.cpp:279
 msgid "Retrieving system state; please wait..."
-msgstr "Rendszerállapot lekérdezése; kérem várjon..."
+msgstr "Rendszerállapot lekérdezése, kérem várjon..."
 
 #: clientgui/MainDocument.cpp:288
 msgid "Retrieving host information; please wait..."
-msgstr "Számítógépre vonatkozó beállítások lekérdezése; kérem várjon..."
+msgstr "Gépre vonatkozó beállítások lekérdezése, kérem várjon..."
 
 #: clientgui/MainFrame.cpp:77
 msgid "Connected"
@@ -225,11 +231,11 @@ msgstr "Kapcsolat lebontva"
 
 #: clientgui/MainFrame.cpp:295
 msgid "Close"
-msgstr "Bezár"
+msgstr "Bezárás"
 
 #: clientgui/MainFrame.cpp:296
 msgid "Closes the main BOINC Manager window"
-msgstr "Bezárja a BOINC Kezelő főablakát"
+msgstr "A BOINC Kezelő fő ablakának bezárása"
 
 #: clientgui/MainFrame.cpp:301
 msgid "&Hide"
@@ -237,7 +243,7 @@ msgstr "&Elrejt"
 
 #: clientgui/MainFrame.cpp:302
 msgid "Hides the main BOINC Manager window"
-msgstr "Elrejti a BOINC Kezelő főablakát"
+msgstr "A BOINC Kezelő fő ablakának elrejtése"
 
 #: clientgui/MainFrame.cpp:310
 msgid "Does work regardless of preferences"
@@ -281,11 +287,11 @@ msgstr "Kilépés a BOINC Kezelőből"
 
 #: clientgui/MainFrame.cpp:360
 msgid "&Update Accounts"
-msgstr "Felhasználói Fiókok &frissítése"
+msgstr "Felhasználói fiókok frissítése"
 
 #: clientgui/MainFrame.cpp:361
 msgid "Connect to your account manager website and update all of your accounts"
-msgstr "Csatlakozás a felhasználói fiókokat kezelő weboldalra, és az összes fiók adatainak frissítése"
+msgstr "Kapcsolódás a felhasználói fiók kezelő weblaphoz, és az összes felhasználói fiók frissítése"
 
 #: clientgui/MainFrame.cpp:369
 msgid "&Options"
@@ -293,7 +299,7 @@ msgstr "&Beállítások"
 
 #: clientgui/MainFrame.cpp:370
 msgid "Configure GUI options and proxy settings"
-msgstr "GUI (Grafikus Felhasználói Felület) és proxy beállítások konfigurálása"
+msgstr "Grafikus felület (GUI) és proxy beállítások"
 
 #: clientgui/MainFrame.cpp:377
 msgid "&BOINC Manager\tF1"
@@ -301,11 +307,11 @@ msgstr "&BOINC Kezelő\tF1"
 
 #: clientgui/MainFrame.cpp:378
 msgid "Show information about the BOINC Manager"
-msgstr "BOINC Kezelő információi"
+msgstr "Információ mutatása a BOINC Kezelőről"
 
 #: clientgui/MainFrame.cpp:383
 msgid "BOINC &Website"
-msgstr "BOINC &Weboldal"
+msgstr "BOINC weboldala"
 
 #: clientgui/MainFrame.cpp:384
 msgid "Show information about BOINC and BOINC Manager"
@@ -313,7 +319,7 @@ msgstr "BOINC és BOINC Kezelő információi"
 
 #: clientgui/MainFrame.cpp:392
 msgid "Licensing and copyright information."
-msgstr "Licenszelési, Szerzői jogi információk"
+msgstr "Licensz és szerzői jogi információ"
 
 #: clientgui/MainFrame.cpp:399
 msgid "&File"
@@ -332,23 +338,23 @@ msgstr "&Súgó"
 #: clientgui/MainFrame.cpp:1143
 #: clientgui/MainFrame.cpp:1144
 msgid "Connection failed."
-msgstr "Kapcsolódás sikertelen."
+msgstr "Sikertelen kapcsolódás."
 
 #: clientgui/MainFrame.cpp:1027
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
-msgstr "A BOINC Kezelő alapértelmezett nyelve megváltozott, a változások életbe léptetéséhez újra kell indítani a programot."
+msgstr "A BOINC Kezelő alapértelmezett nyelve megváltozott, a változás érvénybe lépéséhez újra kell indítani a kezelőt."
 
 #: clientgui/MainFrame.cpp:1028
 msgid "Language Selection..."
-msgstr "Nyelv Kiválasztása..."
+msgstr "Nyelv kiválasztása..."
 
 #: clientgui/MainFrame.cpp:1156
 msgid "The password you have provided is incorrect, please try again."
-msgstr "A megadott jelszó hibás, kérjük próbálja újra."
+msgstr "Az Ön által megadott jelszó helytelen, próbálja újra."
 
 #: clientgui/MainFrame.cpp:1157
 msgid "Connection Error"
-msgstr "Kapcsolódási hiba"
+msgstr "Hibás kapcsolat"
 
 #: clientgui/MainFrame.cpp:1331
 #: clientgui/MainFrame.cpp:1334
@@ -359,31 +365,31 @@ msgstr "%s - (%s)"
 #: clientgui/MainFrame.cpp:1332
 #, c-format
 msgid "Connecting to %s"
-msgstr "Kapcsolódás: %s"
+msgstr "Kapcsolódás %s-hoz"
 
 #: clientgui/MainFrame.cpp:1335
 #, c-format
 msgid "Connected to %s"
-msgstr "Kapcsolódva: %s"
+msgstr "Kapcsolódva %s-hoz"
 
 #: clientgui/ValidateAccountKey.cpp:70
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Érvénytelen Kulcs; kérem adjon meg egy érvényeset."
+msgstr "Érvénytelen Felhasználói Kulcs; kérem adjon meg egy érvényeset."
 
 #: clientgui/ValidateAccountKey.cpp:81
 #: clientgui/ValidateURL.cpp:88
 msgid "Validation conflict"
-msgstr "Ellentmondás az érvényesítésnél"
+msgstr "Ellenőrzési hiba"
 
 #: clientgui/ValidateURL.cpp:75
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "'%s' nem tartalmaz érvényes számítógépnevet."
+msgstr "\"%s\" nem tartalmaz érvényes gépnevet."
 
 #: clientgui/ValidateURL.cpp:77
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr "'%s' nem tartalmaz érvényes útvonalat."
+msgstr "\"%s\" nem tartalmaz érvényes útvonalat."
 
 #: clientgui/ViewMessages.cpp:76
 #: clientgui/ViewProjects.cpp:105
@@ -391,7 +397,7 @@ msgstr "'%s' nem tartalmaz érvényes útvonalat."
 #: clientgui/ViewTransfers.cpp:98
 #: clientgui/ViewWork.cpp:102
 msgid "Tasks"
-msgstr "Opciók"
+msgstr "Feladatok"
 
 #: clientgui/ViewMessages.cpp:80
 msgid "Copy all messages"
@@ -399,7 +405,7 @@ msgstr "Minden üzenet másolása"
 
 #: clientgui/ViewMessages.cpp:81
 msgid "Copy all the messages to the clipboard."
-msgstr "Minden üzenetet kimásol a vágólapra."
+msgstr "Minden üzenet másolása a vágólapra."
 
 #: clientgui/ViewMessages.cpp:87
 msgid "Copy selected messages"
@@ -407,7 +413,7 @@ msgstr "Kijelölt üzenetek másolása"
 
 #: clientgui/ViewMessages.cpp:88
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "Kijelölt üzenetek kimásolása a vágólapra. Több üzenetet is kijelölhet, ha a control vagy shift gombokat lenyomva kattint az üzenetekre."
+msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
 
 #: clientgui/ViewMessages.cpp:100
 #: clientgui/ViewProjects.cpp:164
@@ -432,12 +438,12 @@ msgstr "Üzenetek"
 
 #: clientgui/ViewMessages.cpp:147
 msgid "Copying all messages to the clipboard..."
-msgstr "Összes üzenet másolása a vágólapra..."
+msgstr "Minden üzenet másolása a vágólapra..."
 
 #: clientgui/ViewMessages.cpp:180
 #: clientgui/ViewTransfers.cpp:190
 msgid "Aborting transfer..."
-msgstr "Adatforgalom megszakítása..."
+msgstr "Átvitel megszakítása..."
 
 #: clientgui/ViewProjects.cpp:109
 msgid "Update"
@@ -445,53 +451,53 @@ msgstr "Frissítés"
 
 #: clientgui/ViewProjects.cpp:110
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Minden feldolgozott csomag jelentése, a projekthez tartozó kredit és beállítások frissítése, esetleges új csomagok letöltése."
+msgstr "Befejezett munkák jelentése, legutóbbi kreditek és beállítások letöltése, és talán új munka letöltése."
 
 #: clientgui/ViewProjects.cpp:117
 #: clientgui/ViewProjects.cpp:603
 #: clientgui/ViewWork.cpp:106
 #: clientgui/ViewWork.cpp:458
 msgid "Suspend"
-msgstr "Felfüggeszt"
+msgstr "Felfüggesztés"
 
 #: clientgui/ViewProjects.cpp:118
 #: clientgui/ViewProjects.cpp:603
 msgid "Suspend work for this project."
-msgstr "Projekt munkájának felfüggesztése."
+msgstr "A projekt munkáinak felfüggesztése."
 
 #: clientgui/ViewProjects.cpp:124
 #: clientgui/ViewProjects.cpp:613
 msgid "No new work"
-msgstr "Csomagletöltés: NEM"
+msgstr "Új munka letiltása"
 
 #: clientgui/ViewProjects.cpp:125
 #: clientgui/ViewProjects.cpp:613
 msgid "Don't fetch new work for this project."
-msgstr "Nem tölt le több csomagot ehhez a projekthez."
+msgstr "A projekthez nem tölt le új munkát"
 
 #: clientgui/ViewProjects.cpp:131
 msgid "Reset project"
-msgstr "Projekt újraindítása"
+msgstr "Projekt nullázása"
 
 #: clientgui/ViewProjects.cpp:132
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
-msgstr "Töröl minden fájlt és csomagot ezzel a projekttel kapcsolatban, majd új csomagokat tölt le. Előbb frissítse a projektet, hogy jelentsen minden feldolgozott csomagot."
+msgstr "A projekthez kapcsolódó összes fájl és munka törlése, és új munka kérése. Először frissítse a projektet, hogy az összes elkészült munkát jelentse."
 
 #: clientgui/ViewProjects.cpp:141
 msgid "Detach"
-msgstr "Eltávolítás"
+msgstr "Leválasztás"
 
 #: clientgui/ViewProjects.cpp:142
 msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
-msgstr "Leválasztja erről a projektről ezt a számítógépet. Az éppen feldolgozott csomag elveszik. Előbb frissítse a projektet, hogy jelentsen minden feldolgozott csomagot."
+msgstr "A projekt leválasztása a számítógépről. Folyamatban lévő munka elveszik. Először frissítse a projektet, hogy az összes elkészült munkát jelentse."
 
 #: clientgui/ViewProjects.cpp:151
 msgid "Attach to new project"
-msgstr "Új projekt hozzáadása"
+msgstr "Új projekt csatlakoztatása"
 
 #: clientgui/ViewProjects.cpp:152
 msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "Hozzáadja a számítógépet egy új BOINC projekthez. Szüksége lesz a projekt URL-re és a felhasználói kulcsra (ezekért keresse fel a projekt weboldalát)."
+msgstr "Új BOINC projekt csatlakoztatása a számítógéphez. Szüksége lesz a projekt URL-re és a felhasználó fiók kulcsra (látogasson el a projekt weblapjára, hogy megkapja ezeket)."
 
 #: clientgui/ViewProjects.cpp:165
 msgid "Account"
@@ -511,7 +517,7 @@ msgstr "Átlag kredit"
 
 #: clientgui/ViewProjects.cpp:169
 msgid "Resource share"
-msgstr "Erőforráselosztás"
+msgstr "Erőforrásmegosztás"
 
 #: clientgui/ViewProjects.cpp:170
 #: clientgui/ViewTransfers.cpp:127
@@ -537,41 +543,41 @@ msgstr "Projekt felfüggesztése..."
 
 #: clientgui/ViewProjects.cpp:262
 msgid "Telling project to allow additional work downloads..."
-msgstr "Projekt kényszerítése további csomagok letöltésére..."
+msgstr "A projekt tájékoztatása, hogy további munka letöltése engedélyezett..."
 
 #: clientgui/ViewProjects.cpp:266
 msgid "Telling project to not fetch additional work..."
-msgstr "Projekt kényszerítése további csomagok letöltésének megszakítására..."
+msgstr "A projekt tájékoztatása, hogy további munka letöltése nem engedélyezett..."
 
 #: clientgui/ViewProjects.cpp:296
 msgid "Resetting project..."
-msgstr "Projekt újrakezdése..."
+msgstr "Projekt nullázása..."
 
 #: clientgui/ViewProjects.cpp:302
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Biztosan újra akarja kezdeni a(z) '%s' projektet?"
+msgstr "Biztos benne, hogy a(z) \"%s\" projektet nullázza?"
 
 #: clientgui/ViewProjects.cpp:308
 msgid "Reset Project"
-msgstr "Projekt újrakezdése"
+msgstr "Projekt nullázása"
 
 #: clientgui/ViewProjects.cpp:342
 msgid "Detaching from project..."
-msgstr "Projekt eltávolítása..."
+msgstr "Projekt leválasztása..."
 
 #: clientgui/ViewProjects.cpp:348
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr "Biztosan el akarja távolítani a(z) '%s' projektet?"
+msgstr "Biztos benne, hogy a(z) \"%s\" projektet leválasztja?"
 
 #: clientgui/ViewProjects.cpp:354
 msgid "Detach from Project"
-msgstr "Projekt eltávolítása"
+msgstr "Projekt leválasztása"
 
 #: clientgui/ViewProjects.cpp:386
 msgid "Attaching to project..."
-msgstr "Projekt hozzáadása..."
+msgstr "Projekt csatlakoztatása..."
 
 #: clientgui/ViewProjects.cpp:422
 msgid "Launching browser..."
@@ -580,19 +586,19 @@ msgstr "Böngésző indítása..."
 #: clientgui/ViewProjects.cpp:599
 #: clientgui/ViewWork.cpp:454
 msgid "Resume"
-msgstr "Folytatás"
+msgstr "Folyatás"
 
 #: clientgui/ViewProjects.cpp:599
 msgid "Resume work for this project."
-msgstr "Munka folytatása ebben a projekten."
+msgstr "A projekt munkáinak folytatása."
 
 #: clientgui/ViewProjects.cpp:609
 msgid "Allow new work"
-msgstr "Csomagletöltés: IGEN"
+msgstr "Új munka engedélyezése"
 
 #: clientgui/ViewProjects.cpp:609
 msgid "Allow fetching new work for this project."
-msgstr "További csomagok letöltésének engedélyezése ehhez a projekthez."
+msgstr "Engedélyezi az új munka letöltését a projekthez."
 
 #: clientgui/ViewProjects.cpp:648
 msgid "Web sites"
@@ -604,7 +610,7 @@ msgstr "Projekt felfüggesztve"
 
 #: clientgui/ViewProjects.cpp:769
 msgid "Won't get new work"
-msgstr "Nem tölt le új csomagokat"
+msgstr "Nem tölt le új munkát"
 
 #: clientgui/ViewProjects.cpp:778
 #: clientgui/ViewTransfers.cpp:537
@@ -623,23 +629,23 @@ msgstr "Lemez"
 #: clientgui/ViewStatistics.cpp:46
 #: clientgui/ViewStatistics.cpp:362
 msgid "User Total"
-msgstr "Felhasználó Összes  - grafikon"
+msgstr "Felhasználó - Összes kredit"
 
 #: clientgui/ViewStatistics.cpp:307
 msgid "Show user total"
-msgstr "Felhasználó Összes"
+msgstr "Felhasználó - Összes kredit"
 
 #: clientgui/ViewStatistics.cpp:314
 msgid "Show user average"
-msgstr "Felhasználó Átlag"
+msgstr "Felhasználó - Átlag kredit"
 
 #: clientgui/ViewStatistics.cpp:321
 msgid "Show host total"
-msgstr "Számítógép Összes"
+msgstr "Számítógép - Összes kredit"
 
 #: clientgui/ViewStatistics.cpp:328
 msgid "Show host average"
-msgstr "Számítógép Átlag"
+msgstr "Számítógép - Átlag kredit"
 
 #: clientgui/ViewStatistics.cpp:349
 msgid "Statistics"
@@ -654,15 +660,15 @@ msgstr "Grafikonok frissítése..."
 
 #: clientgui/ViewStatistics.cpp:383
 msgid "User Average"
-msgstr "Felhasználó Átlag - grafikon"
+msgstr "Felhasználó - Átlag kredit"
 
 #: clientgui/ViewStatistics.cpp:404
 msgid "Host Total"
-msgstr "Számítógép Összes - grafikon"
+msgstr "Számítógép - Összes kredit"
 
 #: clientgui/ViewStatistics.cpp:425
 msgid "Host Average"
-msgstr "Számítógép Átlag - grafikon"
+msgstr "Számítógép - Átlag kredit"
 
 #: clientgui/ViewTransfers.cpp:102
 msgid "Retry Now"
@@ -670,7 +676,7 @@ msgstr "Próbálja most"
 
 #: clientgui/ViewTransfers.cpp:103
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Kattintson a 'Próbálja most' gombra a fájl azonnali küldéséhez/fogadásához."
+msgstr "Kattintson a \"Próbálja most\" gombra, hogy a fájl átvitelét megkezdje"
 
 #: clientgui/ViewTransfers.cpp:109
 msgid "Abort Transfer"
@@ -678,7 +684,7 @@ msgstr "Átvitel megszakítása"
 
 #: clientgui/ViewTransfers.cpp:110
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "Kattintson az 'Átvetel megszakítása' gombra a fájl átviteli sorból való törléséhez. Ezután nem kapja meg az ezért az eredményért járó kreditet."
+msgstr "Kattintson a \"Átvitel megszakítása\" gombra, hogy törölje a fájlt az átviteli sorból. Ez megakadályozza, hogy a munkáért kreditet kapjon."
 
 #: clientgui/ViewTransfers.cpp:122
 msgid "File"
@@ -703,16 +709,16 @@ msgstr "Adatforgalom"
 
 #: clientgui/ViewTransfers.cpp:162
 msgid "Retrying transfer now..."
-msgstr "Adatátvitel újrapróbálása most..."
+msgstr "Próbálkozás az átvitellel..."
 
 #: clientgui/ViewTransfers.cpp:195
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
-msgstr "Biztosan meg akarja szakítani a következő fájl átvitelét: '%s'?"
+msgstr "Biztosan megszakítja a(z) \"%s\" fájl átvitelét?"
 
 #: clientgui/ViewTransfers.cpp:200
 msgid "Abort File Transfer"
-msgstr "Fájlátvitel megszakítása"
+msgstr "Adatátvitel megszakítása"
 
 #: clientgui/ViewTransfers.cpp:539
 #: clientgui/ViewWork.cpp:655
@@ -746,7 +752,7 @@ msgstr "Letöltés..."
 #: clientgui/ViewWork.cpp:107
 #: clientgui/ViewWork.cpp:458
 msgid "Suspend work for this result."
-msgstr "Csomag feldolgozásának felfüggesztése."
+msgstr "Munka felfüggesztése a jelen csomagon."
 
 #: clientgui/ViewWork.cpp:113
 #: clientgui/ViewWork.cpp:218
@@ -755,15 +761,15 @@ msgstr "Grafikus ablak megjelenítése"
 
 #: clientgui/ViewWork.cpp:114
 msgid "Show application graphics in a window."
-msgstr "Alkalmazás grafikus ablakának megjelenítése."
+msgstr "Az alkalmazás grafikájának megjelenítése egy új ablakban."
 
 #: clientgui/ViewWork.cpp:120
 msgid "Abort"
-msgstr "Megszakítás"
+msgstr "Eldobás"
 
 #: clientgui/ViewWork.cpp:121
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Megszakítja a munkát, és törli a csomagot. Így nem kap kreditet ez után."
+msgstr "Jelen csomag eldobása. Nem fog kreditet kapni érte."
 
 #: clientgui/ViewWork.cpp:133
 msgid "Application"
@@ -775,7 +781,7 @@ msgstr "Név"
 
 #: clientgui/ViewWork.cpp:135
 msgid "CPU time"
-msgstr "CPU-idő"
+msgstr "Processzor idő"
 
 #: clientgui/ViewWork.cpp:137
 msgid "To completion"
@@ -791,36 +797,36 @@ msgstr "Munka"
 
 #: clientgui/ViewWork.cpp:176
 msgid "Resuming result..."
-msgstr "Csomag folytatása..."
+msgstr "Munka folytatása a jelen csomagon..."
 
 #: clientgui/ViewWork.cpp:180
 msgid "Suspending result..."
-msgstr "Csomag felfüggesztése..."
+msgstr "Munka felfüggesztése a jelen csomagon..."
 
 #: clientgui/ViewWork.cpp:206
 msgid "Showing graphics for result..."
-msgstr "Csomag grafikus ablakának indítása..."
+msgstr "A jelen csomag grafikájának megjelenítése..."
 
 #: clientgui/ViewWork.cpp:217
 msgid "Are you sure you wish to display graphics on a remote machine?"
-msgstr "Biztosan egy távoli gépen kívánja megjeleníteni a grafikus ablakot?"
+msgstr "Biztosan egy távoli gépen szeretné megjeleníteni a grafikus ablakot?"
 
 #: clientgui/ViewWork.cpp:267
 msgid "Aborting result..."
-msgstr "Csomag törlése..."
+msgstr "Csomag eldobása..."
 
 #: clientgui/ViewWork.cpp:271
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
-msgstr "Biztosan törli a(z) '%s' csomagot?"
+msgstr "Biztosan eldobja a(z) \"%s\" csomagot?"
 
 #: clientgui/ViewWork.cpp:276
 msgid "Abort result"
-msgstr "Csomag törlése"
+msgstr "Csomag eldobása"
 
 #: clientgui/ViewWork.cpp:454
 msgid "Resume work for this result."
-msgstr "Csomag feldolgozásának folytatása."
+msgstr "Munka folytatása a jelen csomagon."
 
 #: clientgui/ViewWork.cpp:651
 msgid "New"
@@ -828,7 +834,7 @@ msgstr "Új"
 
 #: clientgui/ViewWork.cpp:662
 msgid "Aborted"
-msgstr "Megszakítva"
+msgstr "Eldobva"
 
 #: clientgui/ViewWork.cpp:670
 msgid "Running"
@@ -841,7 +847,7 @@ msgstr "Szüneteltetett"
 #: clientgui/ViewWork.cpp:679
 #: clientgui/ViewWork.cpp:682
 msgid "Ready to run"
-msgstr "Feldolgozásra kész"
+msgstr "Indításra kész"
 
 #: clientgui/ViewWork.cpp:686
 msgid "Computation error"
@@ -858,7 +864,7 @@ msgstr "Jelentésre kész"
 #: clientgui/ViewWork.cpp:701
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "Hiba: érvénytelen állapot '%d'"
+msgstr "Hiba: érvénytelen állapot \"%d\""
 
 #: clientgui/DlgAbout.h:50
 msgid "About BOINC Manager"
@@ -866,11 +872,11 @@ msgstr "BOINC Kezelő névjegye"
 
 #: clientgui/DlgAccountManager.h:49
 msgid "Account Manager Credentials"
-msgstr "Felhasználói Fiókkezelő Megbízólevelek"
+msgstr "Felhasználói fiók kezelői megbízás"
 
 #: clientgui/DlgAttachProject.h:48
 msgid "Attach to Project"
-msgstr "Projekt hozzáadása"
+msgstr "Projekt csatlakoztatása"
 
 #: clientgui/DlgConnection.h:48
 msgid "Connection"
