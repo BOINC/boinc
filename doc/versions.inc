@@ -178,7 +178,7 @@ $m443c = array(
 
 $m419 = array(
     "num"=>"4.19",
-    "status"=>"Old version",
+    "status"=>"Older version",
     "file"=>"boinc_4.19_powerpc-apple-darwin.gz",
     "date"=>"25 Jan 2005",
     "type"=>bare_core()
@@ -186,7 +186,7 @@ $m419 = array(
 
 $m437s = array(
     "num"=>"4.43 (4)",
-    "status"=>"Development version (simple GUI)",
+    "status"=>"Recommended version (simple GUI)",
     "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
     "date"=>"23 May 2005",
     "type"=>mac_simple(),
@@ -204,7 +204,7 @@ $l443 = array(
 );
 $l419 = array(
     "num"=>"4.19",
-    "status"=>"Old Version",
+    "status"=>"Older version",
     "file"=>"boinc_4.19_i686-pc-linux-gnu.gz",
     "date"=>"25 Jan 2005",
     "type"=>bare_core()

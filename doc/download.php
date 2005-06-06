@@ -3,6 +3,7 @@
 require_once("docutil.php");
 
 $xml = $_GET["xml"];
+$dev = $_GET["dev"];
 
 require_once("versions.inc");
 
@@ -91,10 +92,21 @@ function show_version_xml($v, $long_name) {
 //    <md5>$md</md5>
 }
 
+function is_dev($v) {
+    return (strstr($v["status"], "Development") != null);
+}
+
 function show_version($pname, $i, $v) {
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
+    if (is_dev($v)) {
+        $status = $status."
+            <font color=dd0000><b>
+            (MAY BE UNSTABLE - USE ONLY FOR TESTING)
+            </b></font>
+        ";
+    }
     $path = "dl/$file";
     $s = number_format(filesize($path)/1000000, 2);
     $type = $v["type"];
@@ -115,11 +127,13 @@ function show_version($pname, $i, $v) {
     ";
 }
 
-function show_platform($short_name, $p) {
+function show_platform($short_name, $p, $dev) {
     $long_name = $p["name"];
     list_bar($long_name);
     foreach ($p["versions"] as $i=>$v) {
-        show_version($short_name, $i, $v);
+        if ($dev || !is_dev($v)) {
+            show_version($short_name, $i, $v);
+        }
     }
 }
 
@@ -143,7 +157,7 @@ if ($xml) {
     page_head("Download BOINC client software");
     echo "<table border=2 cellpadding=4 width=100%>";
     foreach($platforms as $short_name=>$p) {
-        show_platform($short_name, $p);
+        show_platform($short_name, $p, $dev);
     }
     list_end();
     echo "

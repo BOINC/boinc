@@ -570,13 +570,14 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 
     RESULT* rp = pDoc->result(item);
     if (rp->active_task) {
-        if(rp->state < RESULT_COMPUTE_ERROR)
-            strBuffer.Printf(wxT("%.2f%%"), 0.0);
-        else 
-            strBuffer.Printf(wxT("%.2f%%"), 100.00);
-    } else {
         pDoc->GetWorkFractionDone(item, fBuffer);
         strBuffer.Printf(wxT("%.2f%%"), fBuffer * 100);
+    } else {
+        if(rp->state < RESULT_COMPUTE_ERROR) {
+            strBuffer.Printf(wxT("%.2f%%"), 0.0);
+        } else {
+            strBuffer.Printf(wxT("%.2f%%"), 100.00);
+        }
     }
 
     return 0;

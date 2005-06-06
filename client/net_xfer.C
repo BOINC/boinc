@@ -504,8 +504,11 @@ void NET_XFER::update_speed() {
     double delta_t = dtime() - start_time;
     if (delta_t > 0) {
         xfer_speed = bytes_xferred / delta_t;
+#if 0
+    // TODO: figure out what to do here
     } else if (xfer_speed == 0) {
         xfer_speed = 999999999;
+#endif
     }
 }
 

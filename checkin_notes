@@ -7405,3 +7405,21 @@ David  6 June 2005
         file_names.C
     lib/
         util.C,h
+
+David  6 June 2005
+    - (scheduler changes from John McLeod):
+        I believe that I may have found the idle CPU problem for multiple CPUs.
+        I have also changed one variable name that was apparently
+        causing some confusion and chqanged a couple of debug messages
+        to print a bit more information.
+
+    client/
+        cs_scheduler.C
+        net_xfer.C
+
+David  6 June 2005
+    - Manager: show frac done correctly
+        (from Glenn Dill)
+
+    clientgui/
+        ViewWork.cpp

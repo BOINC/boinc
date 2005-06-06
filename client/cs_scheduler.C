@@ -143,7 +143,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 //
 // TODO: finish this comment.  What is "urgency"?
 //
-PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
+PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int overall_work_request_urgency) {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect=0;
     double now = dtime();
@@ -162,7 +162,7 @@ PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int urgency) {
         // if we don't really need work,
         // and we don't really need work from this project, pass.
         //
-        if (urgency <= WORK_FETCH_OK && p->work_request_urgency <= WORK_FETCH_OK) continue;
+        if (overall_work_request_urgency <= WORK_FETCH_OK && p->work_request_urgency <= WORK_FETCH_OK) continue;
 
         // if there is a project for which a work request is OK
         // and one that has a higher priority,
@@ -541,30 +541,30 @@ int CLIENT_STATE::compute_work_requests() {
                 );
                 p->work_request_urgency = WORK_FETCH_NEED;
             }
+            // determine work requests for each project
+            // NOTE: don't need to divide by active_frac etc.;
+            // the scheduler does that (see sched/sched_send.C)
+            //
+            p->work_request = max(0.0,
+                //(2*work_min_period - estimated_time_to_starvation)
+                (work_min_period - estimated_time_to_starvation)
+                * ncpus
+            );
+
         } else if (WORK_FETCH_OK < urgency) {
             p->work_request_urgency = WORK_FETCH_OK;
-            p->work_request = global_work_need;
+            p->work_request = max(global_work_need, 1.0);  //In the case of an idle CPU, we need at least one second.
         }
 
-        // determine work requests for each project
-        // NOTE: don't need to divide by active_frac etc.;
-        // the scheduler does that (see sched/sched_send.C)
-        //
-        p->work_request = max(0.0,
-            //(2*work_min_period - estimated_time_to_starvation)
-            (work_min_period - estimated_time_to_starvation)
-            * ncpus
-        );
-
         scope_messages.printf(
-            "CLIENT_STATE::compute_work_requests(): project '%s' work req: %f sec\n",
-            p->project_name, p->work_request
+            "CLIENT_STATE::compute_work_requests(): project '%s' work req: %f sec  urgency: '%d'\n",
+            p->project_name, p->work_request, p->work_request_urgency
         );
     }
 
     scope_messages.printf(
-        "CLIENT_STATE::compute_work_requests(): returning urgency '%d'\n",
-        urgency
+        "CLIENT_STATE::compute_work_requests(): client work need: '%f' sec  returning urgency '%d'\n",
+        global_work_need, urgency
     );
 
     return urgency;
