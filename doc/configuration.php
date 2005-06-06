@@ -123,8 +123,11 @@ features on the administrative pages.  Note: enabling 'grep logs' with
 very long log files can hang your server, since grepping GB files can
 take a long time.  If you enable this feature, be sure to rotate the
 logs so that they are not too big.");
-list_item("sched_lockfile_dir", "Directory where scheduler lockfiles
-    are stored.  Must be writeable to the Apache user.");
+list_item("sched_lockfile_dir",
+    "Enables scheduler locking (recommended) and specifies
+    directory where scheduler lockfiles are stored.
+    Must be writeable to the Apache user.
+");
 list_end();
 
 echo "

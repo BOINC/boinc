@@ -2,6 +2,14 @@
 
 $project_news = array(
 
+array("June 3, 2005",
+    "Two Wiki-based BOINC informational sites have been launched recently:
+    <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a>
+    (in English) and
+    <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German).
+    Because these sites are Wikis,
+    participants can add and modify content."
+),
 array("May 31, 2005",
     "BOINC is featured in <a href=http://sciencereview.berkeley.edu:7066/pdf/5.1/briefs_pt3.pdf>The Berkeley Science Review</a>."
 ),

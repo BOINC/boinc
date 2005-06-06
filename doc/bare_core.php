@@ -33,7 +33,7 @@ Some examples follow.
 Instructions from Paul Buck's
 <a href=http://boinc-doc.net/site-boinc/oman-app/inst-mac.php>BOINC Owner's Manual</a>.
 <li>
-<a href=mac_yenigun.html>Instructions from Berki Yenigun</a>,
+<a href=mac_yenigun.php>Instructions from Berki Yenigun</a>,
 deadsmile at minitel.net
 <li>
 <a href=http://stegic.net/archives/2005/05/boinc_as_a_syst.html>Running

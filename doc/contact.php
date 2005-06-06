@@ -26,7 +26,7 @@ Contact him at rwalton at ssl.berkeley.edu.
 </dl>
 
 <p>
-Other BOINC developers (many of them volunteers) include:
+BOINC developers (many of them volunteers) include:
 <p>
 ";
 $i = 0;

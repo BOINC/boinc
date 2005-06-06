@@ -54,22 +54,6 @@ function mac_advanced() {
     }
 }
 
-$w419 = array(
-    "num"=>"4.19",
-    "status"=>"Older version",
-    "file"=>"boinc_4.19_windows_intelx86.exe",
-    "date"=>"25 Jan 2005",
-    "type"=>win_old(),
-    null,
-    "bugs"=>"<ul>
-    <li> Doesn't work with some HTTP proxies (fixed in later versions).
-    <li>
-    If BOINC runs at the same time as Windows XP 3-D screensavers,
-    the system becomes sluggish.
-    </ul>
-    "
-);
-
 $w443= array(
     "num"=>"4.43",
     "status"=>"Recommended version",

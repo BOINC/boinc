@@ -7395,3 +7395,13 @@ David  3 June 2005
     sched/
         handle_request.C
         sched_util.C
+
+David  6 June 2005
+    - remove char* versions of starts_with() and ends_with().
+        (Attempt to fix app_start problem on HPUX)
+
+    client/
+        cs_trickle.C
+        file_names.C
+    lib/
+        util.C,h

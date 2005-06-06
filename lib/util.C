@@ -371,6 +371,7 @@ void strip_whitespace(string& str) {
     }
 }
 
+#if 0
 bool starts_with(const char* str, const char* prefix) {
     if (strstr(str, prefix) == str) return true;
     return false;
@@ -384,6 +385,7 @@ bool ends_with(const char* str, const char* suffix) {
     if (strcmp(str+nstr-nsuff, suffix)) return false;
     return true;
 }
+#endif
 
 void unescape_url(char *url) {
     int x,y;

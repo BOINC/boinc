@@ -20,8 +20,7 @@ with the following files:
 <dd> The BOINC manager
 <dt>
 run_client
-<dd> A script the cd's into the BOINC directory
-and runs the core client.
+<dd> A script that cd's into the BOINC directory and runs the core client.
 </dl>
 
 You may want to run the executable each time your machine boots
