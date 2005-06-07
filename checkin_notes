@@ -7488,3 +7488,19 @@ David  7 June 2005
         client_types.C,h
         cs_scheduler.C
         scheduler_op.C,h
+
+David  7 June 2005
+    - code cleanup: use new functions (like RESULT::runnable() etc.)
+        instead of inspecting member variables (like suspended_via_gui)
+    - Added RESULT::runnable_soon(): true iff result is
+        downloading or runnable, not suspended, project not suspended
+    - fix bug in Rom's last checkin (Rom, please verify)
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        msg_log.C
+        network.C,h

@@ -75,10 +75,10 @@ MSG_LOG::MSG_LOG(FILE* output_) {
 void MSG_LOG::enter_level(int diff) {
     assert (indent_level >= 0);
 
-    if (enter_level <= 0 ) enter_level = 0;
-    if ((enter_level + diff) <= 0) return;
-    if (enter_level >= 39 ) enter_level = 39;
-    if ((enter_level + diff) >= 39) return;
+    if (indent_level <= 0 ) indent_level = 0;
+    if ((indent_level + diff) <= 0) return;
+    if (indent_level >= 39 ) indent_level = 39;
+    if ((indent_level + diff) >= 39) return;
 
     spaces[indent_level] = ' ';
     indent_level += diff*2;

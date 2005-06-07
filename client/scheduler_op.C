@@ -451,11 +451,13 @@ bool SCHEDULER_OP::poll() {
                 //
                 while (1) {
                     url_index++;
-                    if (url_index == cur_proj->scheduler_urls.size()) break;
+                    if (url_index == (int)cur_proj->scheduler_urls.size()) {
+                        break;
+                    }
                     retval = start_rpc(cur_proj);
                     if (!retval) return true;
                 }
-                if (url_index == cur_proj->scheduler_urls.size()) {
+                if (url_index == (int) cur_proj->scheduler_urls.size()) {
                     backoff(cur_proj, "No schedulers responded");
                     scheduler_op_done = true;
                 }

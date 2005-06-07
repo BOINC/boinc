@@ -146,7 +146,6 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect=0;
     unsigned int i;
-    bool cpu_idle = no_work_for_a_cpu();
 
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
@@ -969,10 +968,7 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 
     for (i=0; i< results.size(); i++){
         RESULT* rp = results[i];
-        if (rp->project->non_cpu_intensive ) continue;
-        if (rp->computing_done()) continue;
-        if (rp->suspended_via_gui) continue;
-        if (rp->project->suspended_via_gui) continue;
+        if (!rp->runnable_soon()) continue;
         count++;
     }
     return ncpus > count;

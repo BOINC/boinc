@@ -254,12 +254,12 @@ void CLIENT_STATE::assign_results_to_projects() {
     //
     for (i=0; i<active_tasks.active_tasks.size(); ++i) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
-        if (atp->result->suspended_via_gui) continue;
-        if (atp->result->already_selected) continue;
-        project = atp->wup->project;
-        if (project->suspended_via_gui) continue;
+        rp = atp->result;
+        if (rp->already_selected) continue;
+        if (!rp->runnable()) continue;
+        project = rp->project;
         if (!project->next_runnable_result) {
-            project->next_runnable_result = atp->result;
+            project->next_runnable_result = rp;
             continue;
         }
 
@@ -283,15 +283,13 @@ void CLIENT_STATE::assign_results_to_projects() {
     //
     for (i=0; i<results.size(); i++) {
         rp = results[i];
+        if (rp->already_selected) continue;
+        if (lookup_active_task_by_result(rp)) continue;
+        if (!rp->runnable()) continue;
 
         project = rp->project;
-        if (project->suspended_via_gui) continue;
         if (project->next_runnable_result) continue;
 
-        if (rp->already_selected) continue;
-        if (rp->suspended_via_gui) continue;
-        if (rp->state != RESULT_FILES_DOWNLOADED) continue;
-        if (lookup_active_task_by_result(rp)) continue;
         project->next_runnable_result = rp;
     }
 
@@ -360,18 +358,15 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
     unsigned int i;
 
     for (i=0; i < results.size(); ++i) {
-        RESULT *r = results[i];
-        if (r->state != RESULT_FILES_DOWNLOADED) continue;
-        if (r->suspended_via_gui) continue;
-        if (r->project->suspended_via_gui) continue;
-        if (r->project->non_cpu_intensive) continue;
-        if (r->already_selected) continue;
-        if (r->suspended_via_gui) continue;
-        if (first || r->report_deadline < earliest_deadline) {
+        RESULT *rp = results[i];
+        if (!rp->runnable()) continue;
+        if (rp->project->non_cpu_intensive) continue;
+        if (rp->already_selected) continue;
+        if (first || rp->report_deadline < earliest_deadline) {
             first = false;
-            best_project = r->project;
-            best_result = r;
-            earliest_deadline = r->report_deadline;
+            best_project = rp->project;
+            best_result = rp;
+            earliest_deadline = rp->report_deadline;
         }
     }
     if (!best_result) return false;

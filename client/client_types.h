@@ -407,6 +407,9 @@ struct RESULT {
     bool computing_done();
     bool runnable();
         // downloaded, not finished, not suspended, project not suspended
+    bool runnable_soon();
+        // downloading or downloaded,
+        // not finished, suspended, project not suspended
 };
 
 #endif

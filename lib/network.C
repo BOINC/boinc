@@ -34,7 +34,7 @@
 #include "error_numbers.h"
 #include "network.h"
 
-char* socket_error_str() {
+const char* socket_error_str() {
     static char buf[80];
 #ifdef _WIN32
     int e = WSAGetLastError();

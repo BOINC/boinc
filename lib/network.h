@@ -24,7 +24,7 @@ extern int boinc_socket(int& sock);
 extern int boinc_socket_asynch(int sock, bool asynch);
 extern void boinc_close_socket(int sock);
 extern int get_socket_error(int fd);
-extern char* socket_error_str();
+extern const char* socket_error_str();
 
 #if defined(_WIN32)
 typedef int boinc_socklen_t;

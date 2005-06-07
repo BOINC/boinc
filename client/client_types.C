@@ -418,7 +418,7 @@ bool PROJECT::downloading() {
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
-        if (rp->state = RESULT_FILES_DOWNLOADING) return true;
+        if (rp->state == RESULT_FILES_DOWNLOADING) return true;
     }
     return false;
 }
@@ -1427,6 +1427,13 @@ bool RESULT::runnable() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (state != RESULT_FILES_DOWNLOADED) return false;
+    return true;
+}
+
+bool RESULT::runnable_soon() {
+    if (suspended_via_gui) return false;
+    if (project->suspended_via_gui) return false;
+    if (computing_done()) return false;
     return true;
 }
 
