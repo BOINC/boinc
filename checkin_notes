@@ -7465,3 +7465,10 @@ David  7 June 2005
 
     client/
         *.C, *.h
+
+Rom    7 June 2005 (from Walt Gribben)
+    - Adjust the logging functions so they do not randomly write outside
+        the scoped area defined for spacing which might cause random crashes
+        
+    lib/
+        msg_log.C
