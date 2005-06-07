@@ -141,7 +141,13 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 // 3) has master_url_fetch_pending == false
 // 4) has dont_request_more_work == false
 //
+// return NULL if none
+//
+// maximize long term debt - amount of current work
+//
 // TODO: finish this comment.  What is "urgency"?
+//
+// old no longer relevant?
 //
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int overall_work_request_urgency) {
     PROJECT *p, *p_prospect = NULL;
@@ -452,7 +458,9 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
             continue;
         }
         if (rp->project->non_cpu_intensive) {
-            // if it is a non_cpu intensive project, it needs only one at a time.
+            // if it is a non_cpu intensive project,
+            // it needs only one at a time.
+            //
             est = max(rp->estimated_cpu_time_remaining(), global_prefs.work_buf_min_days * SECONDS_PER_DAY);  
         } else {
             est += rp->estimated_cpu_time_remaining();
@@ -496,10 +504,13 @@ int CLIENT_STATE::compute_work_requests() {
     }
 
     double max_fetch = work_min_period;
-        // it is possible to have a work fetch policy of no new work and also have 
-        // a CPU idle or not enough to fill the cache.  In this case, we get work, but in little tiny increments
-        // as we are already in trouble and we need to minimize the damage.
-    if (this->work_fetch_no_new_work) {
+
+    // it is possible to have a work fetch policy of no new work and also have 
+    // a CPU idle or not enough to fill the cache.
+    // In this case, we get work, but in little tiny increments
+    // as we are already in trouble and we need to minimize the damage.
+    //
+    if (work_fetch_no_new_work) {
         max_fetch = 1.0;
     }
 
@@ -520,7 +531,7 @@ int CLIENT_STATE::compute_work_requests() {
         if (p->waiting_until_min_rpc_time(now)) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
-        if ((p->long_term_debt < -this->global_prefs.cpu_scheduling_period_minutes * 60) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
+        if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes * 60) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
 
         int min_results = proj_min_results(p, ncpus);
         double estimated_time_to_starvation = ettprc(p, min_results-1);
@@ -551,9 +562,10 @@ int CLIENT_STATE::compute_work_requests() {
                 * ncpus
             );
 
-        } else if (WORK_FETCH_OK < urgency) {
+        } else if (urgency > WORK_FETCH_OK) {
             p->work_request_urgency = WORK_FETCH_OK;
-            p->work_request = max(global_work_need, 1.0);  //In the case of an idle CPU, we need at least one second.
+            p->work_request = max(global_work_need, 1.0);
+                //In the case of an idle CPU, we need at least one second.
         }
 
         scope_messages.printf(

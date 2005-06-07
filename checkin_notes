@@ -7423,3 +7423,30 @@ David  6 June 2005
 
     clientgui/
         ViewWork.cpp
+
+David  7 June 2005
+    code cleanup in CPU sched/work fetch area:
+    - introduced concepts of
+        "runnable result"
+        "runnable project"
+        "potentially runnable project"
+        These encapsulate a lot of the checks
+        (suspended via gui, blah blah) that we do everywhere.
+        For each of these, added a bool function.
+    - rename things in terms of these concepts, e.g.
+        local_total_resource_share -> runnable_resource_share
+            (i.e. sum of resource shares of runnable projects)
+        local_total_lt_available_resource_share
+            -> potentially_runnable_source_share
+    - eliminate the use of PROJECT::next_runnable_result
+        as an indicator of whether a project has a runnable result.
+        Just call PROJECT::runnable().
+        Eliminate the use of assign_results_to_project()
+        to see if projects have a runnable result.
+    - rename "debt" to "short_term_debt", including in client_state.xml
+        (this will cause one-time parse error, shouldn't hurt anything)
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C

@@ -223,8 +223,26 @@ public:
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
     
-    // the following fields used by CPU scheduler
-    double debt;                // how much CPU time we owe this project (secs)
+    // fields used by CPU scheduler and work fetch
+    // everything from here on applies only to CPU intensive projects
+
+    bool runnable();
+        // project has a runnable result
+    bool potentially_runnable(double now);
+        // not suspended
+        // and (has runnable result)
+        //     or (!dont_request_more_work and !min_rpc_time)
+
+    // "debt" is how much CPU time we owe this project relative to others
+
+    double short_term_debt;
+        // computed over runnable projects
+        // used for CPU scheduling
+	double long_term_debt;
+        // Computed over potentially runnable projects
+        // (defined for all projects, but doesn't change if
+        // not potentially runnable).
+        // Normalized so mean over all projects is zero
 
     double anticipated_debt;
         // expected debt by the end of the preemption period
@@ -234,9 +252,6 @@ public:
     struct RESULT *next_runnable_result;
         // the next result to run for this project
 
-    // the following used by work-fetch algorithm
-	double long_term_debt;
-        // how much CPU time we owe this project in the long term (secs)
     double work_request;
         // the unit is "normalized CPU seconds",
         // i.e. the work should take 1 CPU on this host
@@ -388,6 +403,8 @@ struct RESULT {
     double estimated_cpu_time();
     double estimated_cpu_time_remaining();
     bool computing_done();
+    bool runnable();
+        // downloaded, not finished, not suspended, project not suspended
 };
 
 #endif

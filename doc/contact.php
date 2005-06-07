@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Personnel");
+page_head("Personnel and contributors");
 echo "
 
 The BOINC project is based at the

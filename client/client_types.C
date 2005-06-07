@@ -85,7 +85,7 @@ void PROJECT::init() {
     tentative = false;
     anonymous_platform = false;
     non_cpu_intensive = false;
-    debt = 0;
+    short_term_debt = 0;
     long_term_debt = 0;
     send_file_list = false;
     suspended_via_gui = false;
@@ -177,7 +177,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
         else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
 #endif
-        else if (parse_double(buf, "<debt>", debt)) continue;
+        else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
@@ -223,7 +223,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <nrpc_failures>%d</nrpc_failures>\n"
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
-        "    <debt>%f</debt>\n"
+        "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "%s%s%s%s%s%s",
@@ -250,7 +250,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         nrpc_failures,
         master_fetch_failures,
         min_rpc_time,
-        debt,
+        short_term_debt,
         long_term_debt,
         resource_share,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
@@ -318,7 +318,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
-    debt = p.debt;
+    short_term_debt = p.short_term_debt;
     long_term_debt = p.long_term_debt;
     send_file_list = p.send_file_list;
     non_cpu_intensive = p.non_cpu_intensive;
@@ -400,6 +400,26 @@ bool PROJECT::associate_file(FILE_INFO* fip) {
     }
 }
 #endif
+
+bool PROJECT::runnable() {
+    if (non_cpu_intensive) return false;
+    if (suspended_via_gui) return false;
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != this) continue;
+        if (rp->runnable()) return true;
+    }
+    return false;
+}
+
+bool PROJECT::potentially_runnable(double now) {
+    if (non_cpu_intensive) return false;
+    if (suspended_via_gui) return false;
+    if (runnable()) return true;
+    if (dont_request_more_work) return false;
+    if (min_rpc_time < now) return false;
+    return true;
+}
 
 int APP::parse(MIOFILE& in) {
     char buf[256];
@@ -1383,6 +1403,13 @@ double RESULT::estimated_cpu_time_remaining() {
         return atp->est_cpu_time_to_completion();
     }
     return estimated_cpu_time();
+}
+
+bool RESULT::runnable() {
+    if (suspended_via_gui) return false;
+    if (project->suspended_via_gui) return false;
+    if (state != RESULT_FILES_DOWNLOADED) return false;
+    return true;
 }
 
 FILE_REF* RESULT::lookup_file(FILE_INFO* fip) {
