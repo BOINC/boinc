@@ -89,7 +89,13 @@ int CLIENT_STATE::make_project_dirs() {
 // 2) if a needed file is already on disk (PERS_FILE_XFER::start_xfer())
 // 3) in checking whether a result's input files are available
 //    (CLIENT_STATE::input_files_available()).
-//    In this case we just check existence and size (no checksum)
+//    In this case "strictI is false,
+//    and we just check existence and size (no checksum)
+//
+// If a failure occurs, set the file's "status" field.
+// This will cause the app_version or workunit that used the file
+// to error out (via APP_VERSION::had_download_failure()
+// WORKUNIT::had_download_failure())
 //
 int FILE_INFO::verify_file(bool strict) {
     char cksum[64], pathname[256];
@@ -98,6 +104,10 @@ int FILE_INFO::verify_file(bool strict) {
     double size;
 
     get_pathname(this, pathname);
+
+    // If the file isn't there at all, set status to FILE_NOT_PRESENT;
+    // this will trigger a new download rather than erroring out
+    //
     if (file_size(pathname, size)) {
         status = FILE_NOT_PRESENT;
         return ERR_FILE_MISSING;
@@ -111,6 +121,7 @@ int FILE_INFO::verify_file(bool strict) {
     }
 
     if (nbytes && (nbytes != size) && (!log_flags.dont_check_file_sizes)) {
+        status = ERR_WRONG_SIZE;
         return ERR_WRONG_SIZE;
     }
 
@@ -121,6 +132,7 @@ int FILE_INFO::verify_file(bool strict) {
             msg_printf(project, MSG_ERROR, "Application file %s missing signature", name);
             msg_printf(project, MSG_ERROR, "This BOINC client cannot accept unsigned application files");
             error_msg = "missing signature";
+            status = ERR_NO_SIGNATURE;
             return ERR_NO_SIGNATURE;
         }
         retval = verify_file2(
@@ -132,6 +144,7 @@ int FILE_INFO::verify_file(bool strict) {
                 name
             );
             error_msg = "signature verification error";
+            status = ERR_RSA_FAILED;
             return ERR_RSA_FAILED;
         }
         if (!verified) {
@@ -140,6 +153,7 @@ int FILE_INFO::verify_file(bool strict) {
                name
             );
             error_msg = "signature verification failed";
+            status = ERR_RSA_FAILED;
             return ERR_RSA_FAILED;
         }
     } else if (strlen(md5_cksum)) {
@@ -150,6 +164,7 @@ int FILE_INFO::verify_file(bool strict) {
                 name, retval
             );
             error_msg = "MD5 computation error";
+            status = retval;
             return retval;
         }
         if (strcmp(cksum, md5_cksum)) {
@@ -160,6 +175,7 @@ int FILE_INFO::verify_file(bool strict) {
                 "expected %s, got %s\n", md5_cksum, cksum
             );
             error_msg = "MD5 check failed";
+            status = ERR_MD5_FAILED;
             return ERR_MD5_FAILED;
         }
     }

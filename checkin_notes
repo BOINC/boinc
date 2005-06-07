@@ -7504,3 +7504,22 @@ David  7 June 2005
     lib/
         msg_log.C
         network.C,h
+
+David  7 June 2005
+    - FILE_INFO::verify_file(): if a file fails verification,
+        set its "status" field to the appropriate error code.
+        This wasn't being done, so in most cases the
+        core client would verify the file over and over.
+
+        This was exacerbated by a bug I introduced 7 months and 3 weeks ago
+        (and fixed earlier today).
+        In CLIENT_STATE::update_result() I had
+
+        if (now - last_time < 1.0) return false;
+        last_time = 0;
+
+        It should be "now", not zero.  This caused input files to
+        get checked 10 times a second, rather than once.
+
+    client/
+        cs_files.C
