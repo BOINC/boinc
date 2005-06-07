@@ -102,7 +102,7 @@ class HTTP_OP_SET {
     NET_XFER_SET* net_xfers;
 public:
     HTTP_OP_SET(NET_XFER_SET*);
-    bool poll(double);
+    bool poll();
     int insert(HTTP_OP*);
     int remove(HTTP_OP*);
 };

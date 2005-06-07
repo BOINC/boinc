@@ -44,7 +44,7 @@ using std::vector;
 
 PERS_FILE_XFER::PERS_FILE_XFER() {
     nretry = 0;
-    first_request_time = dtime();
+    first_request_time = gstate.now;
     next_request_time = first_request_time;
     time_so_far = 0;
     fip = NULL;
@@ -152,7 +152,7 @@ int PERS_FILE_XFER::start_xfer() {
 // If it's time to start it, then attempt to start it.
 // If it has finished or failed, then deal with it appropriately
 //
-bool PERS_FILE_XFER::poll(double now) {
+bool PERS_FILE_XFER::poll() {
     int retval;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
@@ -165,8 +165,8 @@ bool PERS_FILE_XFER::poll(double now) {
         // Either initial or resume after failure.
         // See if it's time to try again.
         //
-        if (now >= next_request_time) {
-            last_time = now;
+        if (gstate.now >= next_request_time) {
+            last_time = gstate.now;
             fip->upload_offset = -1;
             retval = start_xfer();
             return (retval == 0);
@@ -177,11 +177,11 @@ bool PERS_FILE_XFER::poll(double now) {
 
     // don't count suspended periods in total time
     //
-    double diff = now - last_time;
+    double diff = gstate.now - last_time;
     if (diff <= 2) {
         time_so_far += diff;
     }
-    last_time = now;
+    last_time = gstate.now;
 
     if (fxp->file_xfer_done) {
         scope_messages.printf(
@@ -285,7 +285,6 @@ void PERS_FILE_XFER::check_giveup(const char* why) {
 // Handle a transfer failure
 //
 void PERS_FILE_XFER::handle_xfer_failure() {
-    double now = dtime();
 
     // If it was a bad range request, delete the file and start over
     //
@@ -308,7 +307,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
 
     // See if it's time to give up on the persistent file xfer
     //
-    if ((now - first_request_time) > gstate.file_xfer_giveup_period) {
+    if ((gstate.now - first_request_time) > gstate.file_xfer_giveup_period) {
         check_giveup("too much elapsed time");
     } else {
         retry_or_backoff();
@@ -338,7 +337,7 @@ void PERS_FILE_XFER::retry_or_backoff() {
             "pers_file_xfer",
             nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max
         );
-        next_request_time = dtime() + backoff;
+        next_request_time = gstate.now + backoff;
         msg_printf(fip->project, MSG_INFO,
             "Backing off %s on %s of file %s",
             timediff_format(backoff).c_str(),
@@ -435,16 +434,16 @@ PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
 // Run through the set, starting any transfers that need to be
 // started and deleting any that have finished
 //
-bool PERS_FILE_XFER_SET::poll(double now) {
+bool PERS_FILE_XFER_SET::poll() {
     unsigned int i;
     bool action = false;
     static double last_time=0;
 
-    if (now - last_time < 1.0) return false;
-    last_time = now;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     for (i=0; i<pers_file_xfers.size(); i++) {
-        action |= pers_file_xfers[i]->poll(now);
+        action |= pers_file_xfers[i]->poll();
     }
 
     if (action) gstate.set_client_state_dirty("pers_file_xfer_set poll");

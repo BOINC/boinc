@@ -325,8 +325,7 @@ int boinc_main_loop() {
     gstate.parse_env_vars();
 
     while (1) {
-        dt = dtime();
-        if (!gstate.do_something(dt)) {
+        if (!gstate.do_something()) {
             dt = dtime();
             gstate.net_sleep(0.1);
             dt = dtime() - dt;

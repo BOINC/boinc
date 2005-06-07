@@ -189,6 +189,7 @@ int CLIENT_STATE::init() {
     char buf[256];
 
     srand(time(0));
+    now = dtime();
     scheduler_op->url_random = drand();
 
     language.read_language_file(LANGUAGE_FILE_NAME);
@@ -329,14 +330,14 @@ int CLIENT_STATE::init() {
     // set period start time and reschedule
     //
     must_schedule_cpus = true;
-    cpu_sched_last_time = dtime();
+    cpu_sched_last_time = now;
 
     // set up the project and slot directories
     //
     retval = make_project_dirs();
     if (retval) return retval;
 
-    active_tasks.report_overdue(dtime());
+    active_tasks.report_overdue();
     active_tasks.handle_upload_files();
 
     // Just to be on the safe side; something may have been modified
@@ -370,7 +371,7 @@ int CLIENT_STATE::net_sleep(double x) {
 }
 
 #define POLL_ACTION(name, func) \
-    do { if (func(now)) { \
+    do { if (func()) { \
             ++actions; \
             scope_messages.printf("CLIENT_STATE::do_something(): active task: " #name "\n"); \
         } } while(0)
@@ -380,10 +381,12 @@ int CLIENT_STATE::net_sleep(double x) {
 // Returns true if something happened
 // (in which case should call this again immediately)
 //
-bool CLIENT_STATE::do_something(double now) {
+bool CLIENT_STATE::do_something() {
     int actions = 0, suspend_reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
     static bool tasks_restarted = false;
+
+    now = dtime();
 
     if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
         run_cpu_benchmarks = false;
@@ -428,7 +431,7 @@ bool CLIENT_STATE::do_something(double now) {
         if (active_tasks.is_task_executing()) {
             POLL_ACTION(active_tasks, active_tasks.poll);
         }
-        return gui_rpcs.poll(dtime());
+        return gui_rpcs.poll();
     }
 
     check_suspend_network(now, suspend_reason);
@@ -456,7 +459,7 @@ bool CLIENT_STATE::do_something(double now) {
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before schedule_cpus()
 
-    ss_logic.poll(now);
+    ss_logic.poll();
     if (activities_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
         //POLL_ACTION(data_manager           , data_manager_poll      );
@@ -521,7 +524,7 @@ bool CLIENT_STATE::do_something(double now) {
     if (actions > 0) {
         return true;
     } else {
-        time_stats.update(now, !activities_suspended);
+        time_stats.update(!activities_suspended);
         return false;
     }
 }
@@ -738,7 +741,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
 //
 void CLIENT_STATE::print_summary() {
     unsigned int i;
-    double t, now=dtime();
+    double t;
     if (!log_flags.state_debug) return;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
@@ -780,9 +783,17 @@ void CLIENT_STATE::print_summary() {
     --log_messages;
 }
 
+bool CLIENT_STATE::garbage_collect() {
+    static double last_time=0;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
+
+    return garbage_collect_always();
+}
+
 // delete unneeded records and files
 //
-bool CLIENT_STATE::garbage_collect(double now) {
+bool CLIENT_STATE::garbage_collect_always() {
     unsigned int i, j;
     int failnum;
     FILE_INFO* fip;
@@ -797,12 +808,6 @@ bool CLIENT_STATE::garbage_collect(double now) {
     string error_msgs;
     PROJECT* project;
     char buf[1024];
-
-    static double last_time=0;
-    if (now>0) {
-        if (now - last_time < 1.0) return false;
-        last_time = now;
-    }
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -997,14 +1002,14 @@ bool CLIENT_STATE::garbage_collect(double now) {
 
 // update the state of results
 //
-bool CLIENT_STATE::update_results(double now) {
+bool CLIENT_STATE::update_results() {
     RESULT* rp;
     vector<RESULT*>::iterator result_iter;
     bool action = false;
     static double last_time=0;
 
-    if (now - last_time < 1.0) return false;
-    last_time = 0;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     result_iter = results.begin();
     while (result_iter != results.end()) {
@@ -1030,7 +1035,7 @@ bool CLIENT_STATE::update_results(double now) {
         case RESULT_FILES_UPLOADING:
             if (rp->is_upload_done()) {
                 rp->ready_to_report = true;
-                rp->completed_time = now;
+                rp->completed_time = gstate.now;
                 rp->state = RESULT_FILES_UPLOADED;
                 action = true;
             }
@@ -1050,7 +1055,7 @@ bool CLIENT_STATE::time_to_exit() {
     if (!exit_when_idle && !exit_after_app_start_secs) return false;
     if (exit_after_app_start_secs
         && (app_started>0)
-        && ((dtime() - app_started) >= exit_after_app_start_secs)
+        && ((now - app_started) >= exit_after_app_start_secs)
     ) {
         msg_printf(NULL, MSG_INFO, "exiting because time is up: %d\n", exit_after_app_start_secs);
         return true;
@@ -1081,7 +1086,7 @@ int CLIENT_STATE::report_result_error(
     }
 
     res.ready_to_report = true;
-    res.completed_time = dtime();
+    res.completed_time = now;
 
     va_list va;
     va_start(va, format);
@@ -1202,7 +1207,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         }
     }
 
-    garbage_collect(0);
+    garbage_collect_always();
 
     // forcibly remove apps and app_versions
     // (but not if anonymous platform)
@@ -1229,7 +1234,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
                 app_iter++;
             }
         }
-        garbage_collect(0);
+        garbage_collect_always();
     }
 
     write_state_file();

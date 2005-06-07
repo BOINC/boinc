@@ -102,7 +102,7 @@ public:
     int last_time;
     int insert(NET_XFER*);
     int remove(NET_XFER*);
-    bool poll(double);
+    bool poll();
     int net_sleep(double);
     int do_select(double& bytes_transferred, double timeout);
     NET_XFER* lookup_fd(int);   // lookup by fd

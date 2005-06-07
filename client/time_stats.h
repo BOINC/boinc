@@ -17,6 +17,9 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#ifndef _TIME_STATS_
+#define _TIME_STATS_
+
 #include "miofile.h"
 
 class TIME_STATS {
@@ -35,9 +38,11 @@ public:
         // the fraction it is enabled to work
         // (as determined by preferences, manual suspend/resume, etc.)
 
-    void update(double now, bool is_active);
+    void update(bool is_active);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);
     int parse(MIOFILE&);
 };
+
+#endif

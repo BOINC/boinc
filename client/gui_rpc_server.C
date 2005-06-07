@@ -731,16 +731,15 @@ static void show_connect_error(in_addr ia) {
     static double last_time=0;
     static int count=0;
 
-    double now = dtime();
     if (last_time == 0) {
-        last_time = now;
+        last_time = gstate.now;
         count = 1;
     } else {
-        if (now-last_time < 600) {
+        if (gstate.now - last_time < 600) {
             count++;
             return;
         }
-        last_time = now;
+        last_time = gstate.now;
     }
     msg_printf(
         NULL, MSG_ERROR,
@@ -757,7 +756,7 @@ static void show_connect_error(in_addr ia) {
     count = 0;
 }
 
-bool GUI_RPC_CONN_SET::poll(double) {
+bool GUI_RPC_CONN_SET::poll() {
     int n = 0;
     unsigned int i;
     fd_set read_fds, error_fds;

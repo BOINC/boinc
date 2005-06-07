@@ -44,7 +44,7 @@ struct ACCT_MGR {
     std::vector<ACCOUNT> accounts;
     int do_rpc(std::string url, std::string name, std::string password);
     int parse(MIOFILE&);
-    bool poll(double);
+    bool poll();
     void handle_reply();
 
     ACCT_MGR();

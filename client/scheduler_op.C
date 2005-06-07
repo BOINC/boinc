@@ -174,7 +174,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
             gstate.retry_base_period
         );
     }
-    p->set_min_rpc_time(dtime() + exp_backoff);
+    p->set_min_rpc_time(gstate.now + exp_backoff);
     // note: we don't need to print a message now, it will be printed the
     // next time p->waiting_until_min_rpc_time() is called.
     return 0;

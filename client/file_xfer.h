@@ -57,7 +57,7 @@ public:
     FILE_XFER_SET(HTTP_OP_SET*);
     int insert(FILE_XFER*);
     int remove(FILE_XFER*);
-    bool poll(double);
+    bool poll();
 };
 
 #endif

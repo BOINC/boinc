@@ -144,7 +144,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         //
         PROJECT* p = rp->project;
         update_average(
-            dtime()-rp->final_cpu_time,
+            gstate.now - rp->final_cpu_time,
                 // KLUDGE - should be result start time
             rp->final_cpu_time,
             CPU_HALF_LIFE,
@@ -162,13 +162,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
 // clean up after finished apps
 //
-bool CLIENT_STATE::handle_finished_apps(double now) {
+bool CLIENT_STATE::handle_finished_apps() {
     unsigned int i;
     ACTIVE_TASK* atp;
     bool action = false;
     static double last_time = 0;
-    if (now - last_time < 1.0) return false;
-    last_time = now;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
@@ -391,7 +391,7 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
 //  p->work_done_this_period
 // have been computed
 //
-void CLIENT_STATE::adjust_debts(double now, double runnable_resource_share) {
+void CLIENT_STATE::adjust_debts(double runnable_resource_share) {
     unsigned int i;
     bool first = true;
     double total_long_term_debt = 0;
@@ -404,7 +404,7 @@ void CLIENT_STATE::adjust_debts(double now, double runnable_resource_share) {
 
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
-        if (p->potentially_runnable(now)) {
+        if (p->potentially_runnable()) {
             potentially_runnable_resource_share += p->resource_share;
         }
     }
@@ -416,7 +416,7 @@ void CLIENT_STATE::adjust_debts(double now, double runnable_resource_share) {
 
         // adjust long-term debts
         //
-        if (p->potentially_runnable(now)) {
+        if (p->potentially_runnable()) {
             share_frac = p->resource_share/potentially_runnable_resource_share;
             p->long_term_debt += share_frac*cpu_sched_work_done_this_period
                 - p->work_done_this_period
@@ -471,7 +471,7 @@ void CLIENT_STATE::adjust_debts(double now, double runnable_resource_share) {
 // Schedule active tasks to be run and preempted.
 // This is called in the do_something() loop
 //
-bool CLIENT_STATE::schedule_cpus(double now) {
+bool CLIENT_STATE::schedule_cpus() {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
@@ -490,7 +490,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     // or if must_schedule_cpus is set
     // (meaning a new result is available, or a CPU has been freed).
     //
-    elapsed_time = now - cpu_sched_last_time;
+    elapsed_time = gstate.now - cpu_sched_last_time;
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
 //        msg_printf(0, MSG_INFO, "schedule_cpus: must schedule");
@@ -500,7 +500,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
         }
 //        msg_printf(0, MSG_INFO, "schedule_cpus: time %f", elapsed_time);
     }
-    cpu_sched_last_time = now;
+    cpu_sched_last_time = gstate.now;
 
     // mark file xfer results as completed;
     // TODO: why do this here??
@@ -541,7 +541,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     }
 
     if (runnable_resource_share > 0) {
-        adjust_debts(now, runnable_resource_share);
+        adjust_debts(runnable_resource_share);
     }
 
     expected_pay_off = cpu_sched_work_done_this_period / ncpus;
@@ -607,7 +607,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     cpu_sched_work_done_this_period = 0;
 
     if (some_app_started) {
-        app_started = now;
+        app_started = gstate.now;
     }
 
     // debts and active_tasks can only change if some project was runnable 

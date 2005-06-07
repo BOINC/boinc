@@ -375,7 +375,6 @@ FILE_INFO* CLIENT_STATE::get_priority_or_lru(PROJECT* p, int priority) {
 //
 double CLIENT_STATE::delete_expired(PROJECT* p) {
     FILE_INFO* fip;
-    double time_now = dtime();
     double space_expired = 0;
     unsigned int i;
 
@@ -383,7 +382,7 @@ double CLIENT_STATE::delete_expired(PROJECT* p) {
         fip = file_infos[i];
         // files that have no wu's or results and are permenant
         if (fip->ref_cnt==0 && fip->project == p && fip->sticky) {
-            if (fip->exp_date > time_now) {
+            if (fip->exp_date > gstate.now) {
                 fip->sticky = false;
                 space_expired += fip->nbytes;
             }
@@ -530,7 +529,7 @@ int CLIENT_STATE::total_potential_self(PROJECT* p, double& tps) {
         if (fip->ref_cnt == 0 && fip->project == p && fip->sticky) {
             if (!p->deletion_policy_expire) {
                 tps += fip->nbytes;
-            } else if (p->deletion_policy_expire && (fip->exp_date > dtime())) {
+            } else if (p->deletion_policy_expire && (fip->exp_date > gstate.now)) {
                 tps += fip->nbytes;
             }
         }
@@ -557,7 +556,7 @@ double CLIENT_STATE::proj_potentially_free(PROJECT* p) {
         if (fip->ref_cnt==0 && fip->project == p && fip->sticky) {
             if (!p->deletion_policy_expire) {
                 tps += fip->nbytes;
-            } else if (p->deletion_policy_expire && (fip->exp_date > dtime())) {
+            } else if (p->deletion_policy_expire && (fip->exp_date > gstate.now)) {
                 tps += fip->nbytes;
             }
         }

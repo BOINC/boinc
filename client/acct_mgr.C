@@ -49,11 +49,11 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
     return 0;
 }
 
-bool ACCT_MGR::poll(double now) {
+bool ACCT_MGR::poll() {
     if (state == ACCT_MGR_STATE_IDLE) return false;
     static double last_time=0;
-    if (now-last_time < 1) return false;
-    last_time = now;
+    if (gstate.now-last_time < 1) return false;
+    last_time = gstate.now;
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
         if (http_op.http_op_retval == 0) {

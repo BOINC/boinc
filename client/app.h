@@ -168,7 +168,6 @@ public:
     bool check_max_disk_exceeded();
     bool check_max_mem_exceeded();
 
-    void estimate_frac_rate_of_change(double);
     bool get_app_status_msg();
     bool get_trickle_up_msg();
     double est_cpu_time_to_completion();
@@ -191,7 +190,7 @@ public:
     int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
-    bool poll(double);
+    bool poll();
     void suspend_all(bool leave_apps_in_memory=true);
     void unsuspend_all();
     bool is_task_executing();
@@ -209,7 +208,7 @@ public:
     int get_free_slot();
     void send_heartbeats();
     void send_trickle_downs();
-    void report_overdue(double);
+    void report_overdue();
     void handle_upload_files();
     void upload_notify_app(FILE_INFO*);
 

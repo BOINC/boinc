@@ -100,7 +100,7 @@ public:
     PERS_FILE_XFER();
     ~PERS_FILE_XFER();
     int init(FILE_INFO*, bool is_file_upload);
-    bool poll(double);
+    bool poll();
     void handle_xfer_failure();
     void retry_or_backoff();
     void check_giveup(const char*);
@@ -119,7 +119,7 @@ public:
     PERS_FILE_XFER_SET(FILE_XFER_SET*);
     int insert(PERS_FILE_XFER*);
     int remove(PERS_FILE_XFER*);
-    bool poll(double);
+    bool poll();
     void suspend();
 };
 

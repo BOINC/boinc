@@ -200,11 +200,11 @@ void ACTIVE_TASK_SET::free_mem() {
 // - check if any has exited, and clean up
 // - see if any has exceeded its CPU or disk space limits, and abort it
 //
-bool ACTIVE_TASK_SET::poll(double now) {
+bool ACTIVE_TASK_SET::poll() {
     bool action;
     static double last_time = 0;
-    if (now - last_time < 1.0) return false;
-    last_time = now;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     action = check_app_exited();
     send_heartbeats();
@@ -238,33 +238,6 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::remove(): not found\n");
     return ERR_NOT_FOUND;
 }
-
-#if 0
-// compute frac_rate_of_change
-//
-void ACTIVE_TASK::estimate_frac_rate_of_change(double now) {
-    if (last_frac_update == 0) {
-        last_frac_update = now;
-        last_frac_done = fraction_done;
-        recent_change = 0;
-    } else {
-        recent_change += (fraction_done - last_frac_done);
-        int tdiff = (int)(now-last_frac_update);
-        if (tdiff>0) {
-            double recent_frac_rate_of_change = max(0.0, recent_change) / tdiff;
-            if (frac_rate_of_change == 0) {
-                frac_rate_of_change = recent_frac_rate_of_change;
-            } else {
-                double x = exp(-1*log(2.0)/20.0);
-                frac_rate_of_change = frac_rate_of_change*x + recent_frac_rate_of_change*(1-x);
-            }
-            last_frac_update = now;
-            last_frac_done = fraction_done;
-            recent_change = 0;
-        }
-    }
-}
-#endif
 
 // There's a new trickle file.
 // Move it from slot dir to project dir
@@ -504,13 +477,13 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     }
 }
 
-void ACTIVE_TASK_SET::report_overdue(double now) {
+void ACTIVE_TASK_SET::report_overdue() {
     unsigned int i;
     ACTIVE_TASK* atp;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        double diff = (now - atp->result->report_deadline)/86400;
+        double diff = (gstate.now - atp->result->report_deadline)/86400;
         if (diff > 0) {
             msg_printf(atp->result->project, MSG_ERROR,
                 "Result %s is %.2f days overdue.", atp->result->name, diff

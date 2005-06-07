@@ -557,7 +557,7 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
     return 0;
 }
 
-bool HTTP_OP_SET::poll(double) {
+bool HTTP_OP_SET::poll() {
     unsigned int i;
     HTTP_OP* htp;
     int n, retval;

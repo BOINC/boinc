@@ -226,9 +226,11 @@ public:
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects
 
+    bool contactable();
+        // not suspended and not deferred and not no more work
     bool runnable();
         // project has a runnable result
-    bool potentially_runnable(double now);
+    bool potentially_runnable();
         // not suspended
         // and (has runnable result)
         //     or (!dont_request_more_work and !min_rpc_time)
@@ -289,7 +291,7 @@ public:
     // set min_rpc_time and have_reported_min_rpc_time
     void set_min_rpc_time(double future_time);
     // returns true if min_rpc_time > now; may print a message
-    bool waiting_until_min_rpc_time(double now);
+    bool waiting_until_min_rpc_time();
 
     // statistic of the last x days
     std::vector<STATISTIC> statistics;

@@ -48,7 +48,7 @@ public:
 
     void start_ss(GRAPHICS_MSG&, double blank_time);
     void stop_ss();
-    void poll(double);
+    void poll();
     void reset();
     int  get_ss_status() { return ss_status; };
     void ask_app(ACTIVE_TASK*, GRAPHICS_MSG&);

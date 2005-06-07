@@ -21,6 +21,9 @@
 // namely exponentially weighted averages of upload and download speeds
 //
 
+#ifndef _NET_STATS_
+#define _NET_STATS_
+
 #ifndef _WIN32
 #include <cstdio>
 #endif
@@ -53,3 +56,5 @@ public:
     int write(MIOFILE&);
     int parse(MIOFILE&);
 };
+
+#endif

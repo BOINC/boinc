@@ -412,12 +412,12 @@ bool PROJECT::runnable() {
     return false;
 }
 
-bool PROJECT::potentially_runnable(double now) {
+bool PROJECT::potentially_runnable() {
     if (non_cpu_intensive) return false;
     if (suspended_via_gui) return false;
     if (runnable()) return true;
     if (dont_request_more_work) return false;
-    if (min_rpc_time < now) return false;
+    if (min_rpc_time < gstate.now) return false;
     return true;
 }
 
@@ -473,8 +473,8 @@ FILE_INFO::FILE_INFO() {
     strcpy(file_signature, "");
 #if 0
     priority = P_LOW;
-    time_last_used = dtime();
-    exp_date = dtime() + 60*SECONDS_PER_DAY;
+    time_last_used = gstate.now;
+    exp_date = gstate.now + 60*SECONDS_PER_DAY;
 #endif
 }
 
@@ -584,7 +584,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (parse_int(buf, "<priority>", priority)) continue;
         else if (parse_double(buf, "<exp_date>", exp_date)) continue;
         else if (parse_double(buf, "<exp_days>", exp_days)) {
-            exp_date = dtime() + exp_days*SECONDS_PER_DAY;
+            exp_date = gstate.now + exp_days*SECONDS_PER_DAY;
         }
 #endif
         else if (match_tag(buf, "<persistent_file_xfer>")) {
@@ -853,7 +853,7 @@ bool FILE_INFO::had_failure(int& failnum, char* buf) {
 #if 0
 // Sets the time_last_used to be equal to the current time
 int FILE_INFO::update_time() {
-    time_last_used = dtime();
+    time_last_used = gstate.now;
     return 0;
 }
 #endif

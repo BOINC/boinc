@@ -41,6 +41,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
+#include "client_state.h"
 
 #include "net_stats.h"
 
@@ -77,16 +78,15 @@ double NET_INFO::throughput() {
 }
 
 void NET_STATS::poll(NET_XFER_SET& nxs) {
-    double t, dt;
+    double dt;
     bool upload_active, download_active;
 
-    t = dtime();
     if (last_time == 0) {
         dt = 0;
     } else {
-        dt = t - last_time;
+        dt = gstate.now - last_time;
     }
-    last_time = t;
+    last_time = gstate.now;
 
     nxs.check_active(upload_active, download_active);
     up.update(dt, nxs.bytes_up, upload_active);

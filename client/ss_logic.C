@@ -41,10 +41,10 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
 
     atp->request_graphics_mode(m);
     atp->is_ss_app = true;
-    ack_deadline = dtime() + 5.0;
+    ack_deadline = gstate.now + 5.0;
     scope_messages.printf(
         "SS_LOGIC::ask_app(): starting %s current time %f deadline %f \n",
-        atp->result->name, dtime(), ack_deadline
+        atp->result->name, gstate.now, ack_deadline
     );
 }
 
@@ -97,16 +97,16 @@ void SS_LOGIC::reset() {
 
 // called 10X per second
 //
-void SS_LOGIC::poll(double now) {
+void SS_LOGIC::poll() {
     ACTIVE_TASK* atp, *new_atp=0;
     GRAPHICS_MSG m;
     static double last_time=0;
     static double ss_change_time = 0;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
-    double dt = now - last_time;
+    double dt = gstate.now - last_time;
     if (dt < 1) return;
-    last_time = now;
+    last_time = gstate.now;
 
 #if 0
     // if you want to debug screensaver functionality...
@@ -126,7 +126,7 @@ void SS_LOGIC::poll(double now) {
 
     // check if it's time to go to black screen
     //
-    if (blank_time && (dtime() > blank_time)) {
+    if (blank_time && (gstate.now > blank_time)) {
         if (SS_STATUS_BLANKED != ss_status) {
             scope_messages.printf("SS_LOGIC::poll(): going to black\n");
             reset();
@@ -140,17 +140,17 @@ void SS_LOGIC::poll(double now) {
                 if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
                     scope_messages.printf("SS_LOGIC::poll(): app %s not scheduled\n", atp->result->name);
                     stop_app_ss = true;
-                } else if (now-ss_change_time > SS_CHANGE_PERIOD) {
+                } else if (gstate.now - ss_change_time > SS_CHANGE_PERIOD) {
                     new_atp = gstate.get_next_graphics_capable_app();
                     if (new_atp && (new_atp != atp)) {
                         stop_app_ss = true;
                     }
                 }
             } else {
-                if (dtime() > ack_deadline) {
+                if (gstate.now > ack_deadline) {
                     scope_messages.printf(
                         "SS_LOGIC::poll(): app %s is no longer fullscreen and passed ack deadline, current time %f deadline %f\n",
-                        atp->result->name, dtime(), ack_deadline
+                        atp->result->name, gstate.now, ack_deadline
                     );
                     stop_app_ss = true;
                 }
@@ -176,7 +176,7 @@ void SS_LOGIC::poll(double now) {
         if (atp) {
             scope_messages.printf("SS_LOGIC::poll(): picked %s, request restart\n", atp->result->name);
             ask_app(atp, saved_graphics_msg);
-            ss_change_time = now;
+            ss_change_time = gstate.now;
         } else {
             scope_messages.printf("SS_LOGIC::poll(): no app found\n");
             if (gstate.active_tasks.active_tasks.size()==0) {

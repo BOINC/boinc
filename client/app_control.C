@@ -528,15 +528,14 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     unsigned int j;
     ACTIVE_TASK *atp;
     static double last_disk_check_time = 0;
-    double now = dtime();
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
         if (atp->task_state != PROCESS_EXECUTING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
         else if (atp->check_max_mem_exceeded()) return true;
-        else if (now>last_disk_check_time + gstate.global_prefs.disk_interval) {
-            last_disk_check_time = now;
+        else if (gstate.now>last_disk_check_time + gstate.global_prefs.disk_interval) {
+            last_disk_check_time = gstate.now;
             if (atp->check_max_disk_exceeded()) return true;
         }
     }
@@ -904,7 +903,6 @@ bool ACTIVE_TASK_SET::get_msgs() {
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
         if (atp->get_app_status_msg()) {
-            //atp->estimate_frac_rate_of_change(dtime());
             if (old_time != atp->checkpoint_cpu_time) {
                 action = true;
             }

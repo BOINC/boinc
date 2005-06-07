@@ -84,14 +84,14 @@ void PROJECT::set_min_rpc_time(double future_time) {
 // Return true iff we should not contact the project yet.
 // Print a message to the user if we haven't recently
 //
-bool PROJECT::waiting_until_min_rpc_time(double now) {
-    if (min_rpc_time > now ) {
-        if (now >= min_report_min_rpc_time) {
-            min_report_min_rpc_time = now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
+bool PROJECT::waiting_until_min_rpc_time() {
+    if (min_rpc_time > gstate.now ) {
+        if (gstate.now >= min_report_min_rpc_time) {
+            min_report_min_rpc_time = gstate.now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
             msg_printf(
                 this, MSG_ERROR,
                "Deferring communication with project for %s\n",
-               timediff_format(min_rpc_time - now).c_str()
+               timediff_format(min_rpc_time - gstate.now).c_str()
             );
         }
         return true;
@@ -104,11 +104,10 @@ bool PROJECT::waiting_until_min_rpc_time(double now) {
 PROJECT* CLIENT_STATE::next_project_master_pending() {
     unsigned int i;
     PROJECT* p;
-    double now = dtime();
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
         if (p->master_url_fetch_pending) {
             return p;
@@ -121,12 +120,11 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
-    double now = dtime();
     PROJECT* p;
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
         if (p->sched_rpc_pending) {
             return p;
@@ -152,7 +150,6 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT* old, int overall_work_request_urgency) {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect=0;
-    double now = dtime();
     unsigned int i;
     bool found_old = (old == 0);
     bool cpu_idle = no_work_for_a_cpu();
@@ -385,7 +382,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
     RESULT* r;
-    double now = dtime();
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
@@ -393,14 +389,14 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         //
 
         PROJECT* p = r->project;
-        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
 
         if (!r->ready_to_report) continue;
-        if (now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
+        if (gstate.now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
             return p;
         }
-        if (now > r->completed_time + global_prefs.work_buf_min_days) {
+        if (gstate.now > r->completed_time + global_prefs.work_buf_min_days) {
             return p;
         }
     }
@@ -413,10 +409,9 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 //
 bool CLIENT_STATE::some_project_rpc_ok() {
     unsigned int i;
-    double now = dtime();
 
     for (i=0; i<projects.size(); i++) {
-        if (projects[i]->min_rpc_time < now) return true;
+        if (projects[i]->min_rpc_time < gstate.now) return true;
     }
     return false;
 }
@@ -479,7 +474,6 @@ int CLIENT_STATE::compute_work_requests() {
     int urgency = WORK_FETCH_DONT_NEED;
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
-    double now = dtime();
     double global_work_need = work_needed_secs();
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
@@ -528,7 +522,7 @@ int CLIENT_STATE::compute_work_requests() {
         p->work_request = 0;
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
         if (p->master_url_fetch_pending) continue;
-        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (p->waiting_until_min_rpc_time()) continue;
         if (p->dont_request_more_work) continue;
         if (p->suspended_via_gui) continue;
         if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes * 60) && (urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
@@ -585,15 +579,15 @@ int CLIENT_STATE::compute_work_requests() {
 // called from the client's polling loop.
 // initiate scheduler RPC activity if needed and possible
 //
-bool CLIENT_STATE::scheduler_rpc_poll(double now) {
+bool CLIENT_STATE::scheduler_rpc_poll() {
     int urgency = WORK_FETCH_DONT_NEED;
     PROJECT *p;
     bool action=false;
     static double last_time=0;
     static double work_need_inform_time = 0;
 
-    if (now - last_time < 1.0) return false;
-    last_time = now;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
@@ -611,7 +605,7 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
             break;
         }
         if (!(exit_when_idle && contacted_sched_server) && urgency != WORK_FETCH_DONT_NEED) {
-            if (work_need_inform_time < now) {
+            if (work_need_inform_time < gstate.now) {
                 if (urgency == WORK_FETCH_NEED) {
                     msg_printf(NULL, MSG_INFO,
                         "May run out of work in %.2f days; requesting more",
@@ -622,7 +616,7 @@ bool CLIENT_STATE::scheduler_rpc_poll(double now) {
                         "Insufficient work; requesting more"
                     );
                 }
-                work_need_inform_time = now + 3600;
+                work_need_inform_time = gstate.now + 3600;
             }
             scheduler_op->init_get_work(urgency);
             if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
@@ -940,7 +934,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     // handle delay request
     //
     if (sr.request_delay) {
-        double x = dtime() + sr.request_delay;
+        double x = gstate.now + sr.request_delay;
         if (x > project->min_rpc_time) project->min_rpc_time = x;
     } else {
         project->min_rpc_time = 0;
@@ -1001,7 +995,6 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     std::set<PROJECT*> projects_with_work;
     RESULT* rp;
     int i;
-    double now = dtime();
     bool should_not_fetch_work = false;
     bool use_earliest_deadline_first = false;
     double frac_booked = 0;
@@ -1023,7 +1016,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     }
 
     for (i=0; i<ncpus; i++) {
-        booked_to.push_back(now);
+        booked_to.push_back(gstate.now);
     }
 
     for (
@@ -1048,7 +1041,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
         // Are the deadlines too tight to meet reliably?
         //
-        if (booked_to[lowest_booked_cpu] - now > (rp->report_deadline - now) * MAX_CPU_LOAD_FACTOR * (up_frac / ncpus)) {
+        if (booked_to[lowest_booked_cpu] - gstate.now > (rp->report_deadline - gstate.now) * MAX_CPU_LOAD_FACTOR * (up_frac / ncpus)) {
             should_not_fetch_work = true;
             use_earliest_deadline_first = true;
             scope_messages.printf(
@@ -1057,7 +1050,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         }
         // Is the nearest deadline within a day?
         //
-        if (rp->report_deadline - now < 60 * 60 * 24) {
+        if (rp->report_deadline - gstate.now < 60 * 60 * 24) {
             use_earliest_deadline_first = true; 
             scope_messages.printf(
                 "CLIENT_STATE::compute_work_requests(): Less than 1 day until deadline.\n"
@@ -1066,14 +1059,14 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
         // is there a deadline < twice the users connect period?
         //
-        if (rp->report_deadline - now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
+        if (rp->report_deadline - gstate.now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
             use_earliest_deadline_first = true;
             scope_messages.printf(
                 "CLIENT_STATE::compute_work_requests(): Deadline is before reconnect time.\n"
             );
         }
 
-        frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - now);
+        frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - gstate.now);
     }
 
     if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus) {

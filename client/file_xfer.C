@@ -184,14 +184,14 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
 // Run through the FILE_XFER_SET and determine if any of the file
 // transfers are complete or had an error
 //
-bool FILE_XFER_SET::poll(double now) {
+bool FILE_XFER_SET::poll() {
     unsigned int i;
     FILE_XFER* fxp;
     bool action = false;
     static double last_time=0;
 
-    if (now - last_time < 1.0) return false;
-    last_time = now;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 

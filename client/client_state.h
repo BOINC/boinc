@@ -129,6 +129,7 @@ public:
     bool size_overflow;
     bool redirect_io;
         // redirect stdout, stderr to log files
+    double now;
 
 private:
     bool client_state_dirty;
@@ -156,7 +157,7 @@ private:
 public:
     CLIENT_STATE();
     int init();
-    bool do_something(double t);
+    bool do_something();
         // Initiates and completes actions (file transfers, process executions)
         // Never blocks.
         // Returns true if it actually did something,
@@ -184,8 +185,9 @@ private:
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);
     void print_summary();
-    bool garbage_collect(double);
-    bool update_results(double);
+    bool garbage_collect();
+    bool garbage_collect_always();
+    bool update_results();
     double total_resource_share();
 
 // --------------- cs_account.C:
@@ -199,7 +201,7 @@ private:
 
 // --------------- cs_apps.C:
 private:
-    void adjust_debts(double, double);
+    void adjust_debts(double);
     bool must_schedule_cpus;
 public:
     void request_schedule_cpus(const char*);
@@ -228,8 +230,8 @@ private:
     bool schedule_largest_debt_project(double expected_pay_off);
     bool schedule_earliest_deadline_result(double expected_pay_off);
     bool start_apps();
-    bool schedule_cpus(double);
-    bool handle_finished_apps(double);
+    bool schedule_cpus();
+    bool handle_finished_apps();
     void handle_file_xfer_apps();
     int schedule_result(RESULT*);
 
@@ -252,7 +254,7 @@ public:
     bool start_new_file_xfer(PERS_FILE_XFER&);
 private:
     int make_project_dirs();
-    bool handle_pers_file_xfers(double);
+    bool handle_pers_file_xfers();
 
 // --------------- cs_prefs.C:
 public:
@@ -287,7 +289,7 @@ private:
     PROJECT* find_project_with_overdue_results();
     PROJECT* next_project_sched_rpc_pending();
     //bool some_project_rpc_ok();
-    bool scheduler_rpc_poll(double);
+    bool scheduler_rpc_poll();
     double ettprc(PROJECT*, int);
     double avg_proc_rate(PROJECT*);
     bool should_get_work();

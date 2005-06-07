@@ -35,6 +35,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
+#include "client_state.h"
 #include "network.h"
 
 #include "time_stats.h"
@@ -59,7 +60,7 @@ TIME_STATS::TIME_STATS() {
 // so these get written to disk only when other activities
 // cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(double now, bool is_active) {
+void TIME_STATS::update(bool is_active) {
     double dt, w1, w2;
 
     if (last_update == 0) {
@@ -70,9 +71,9 @@ void TIME_STATS::update(double now, bool is_active) {
         connected_frac = 1;
         active_frac = 1;
         first = false;
-        last_update = now;
+        last_update = gstate.now;
     } else {
-        dt = now - last_update;
+        dt = gstate.now - last_update;
         if (dt <= 10) return;
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period
         w2 = 1 - w1;                // weight for everything before that
@@ -100,7 +101,7 @@ void TIME_STATS::update(double now, bool is_active) {
             active_frac *= w2;
             if (is_active) active_frac += w1;
         }
-        last_update = now;
+        last_update = gstate.now;
     }
 #if 0
     msg_printf(0, MSG_INFO, "on %f; active %f; conn %f",

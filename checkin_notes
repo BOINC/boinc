@@ -7455,3 +7455,13 @@ Rom    7 June 2005 (boinc_public)
     - Tag for 4.45 release, all platforms
       boinc_core_release_4_45
 
+David  7 June 2005
+    - core client: eliminated the practice of passing "now" (time of day)
+        as an argument, e.g. to poll functions.
+        Instead, reference gstate.now.
+        This is updated at the top of do_something().
+        If you're doing something that requires high resolution
+        (e.g. NET_XFER_SET_POLL()) then call dtime() yourself.
+
+    client/
+        *.C, *.h

@@ -169,7 +169,7 @@ int FILE_INFO::verify_file(bool strict) {
 // scan all FILE_INFOs and PERS_FILE_XFERs.
 // start and finish downloads and uploads as needed.
 //
-bool CLIENT_STATE::handle_pers_file_xfers(double now) {
+bool CLIENT_STATE::handle_pers_file_xfers() {
     unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
@@ -177,8 +177,8 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
     int retval;
     static double last_time;
 
-    if (now - last_time < 1.0) return false;
-    last_time = now;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
 
     // Look for FILE_INFOs for which we should start a transfer,
     // and make PERS_FILE_XFERs for them

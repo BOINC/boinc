@@ -143,7 +143,7 @@ void NET_XFER::init(char* host, int p, int b) {
     safe_strcpy(hostname, host);
     port = p;
     blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
-    start_time = dtime();
+    start_time = gstate.now;
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
     bytes_xferred = 0;
@@ -214,7 +214,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 // Keep doing I/O until would block, or we hit rate limits,
 // or .5 second goes by
 //
-bool NET_XFER_SET::poll(double now) {
+bool NET_XFER_SET::poll() {
     double bytes_xferred;
     int retval;
     bool action = false;
@@ -224,7 +224,7 @@ bool NET_XFER_SET::poll(double now) {
         if (retval) break;
         if (bytes_xferred == 0) break;
         action = true;
-        if ((dtime() - now) > 0.5) break;
+        if ((dtime() - gstate.now) > 0.5) break;
     }
     return action;
 }
@@ -244,7 +244,7 @@ int NET_XFER_SET::net_sleep(double x) {
     retval = do_select(bytes_xferred, x);
     if (retval) return retval;
     if (bytes_xferred) {
-        return poll(dtime());
+        return poll();
     }
     return 0;
 }
