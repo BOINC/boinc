@@ -7523,3 +7523,7 @@ David  7 June 2005
 
     client/
         cs_files.C
+
+Rom    7 June 2005 (boinc_public)
+    - Tag for 4.45a release, all platforms
+      boinc_core_release_4_45a
