@@ -229,11 +229,11 @@ public:
     bool contactable();
         // not suspended and not deferred and not no more work
     bool runnable();
-        // project has a runnable result
+        // has a runnable result
+    bool downloading();
+        // has a result in downloading state
     bool potentially_runnable();
-        // not suspended
-        // and (has runnable result)
-        //     or (!dont_request_more_work and !min_rpc_time)
+        // runnable or contactable or downloading
 
     // "debt" is how much CPU time we owe this project relative to others
 

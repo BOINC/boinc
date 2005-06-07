@@ -47,9 +47,17 @@
 #define USER_RUN_REQUEST_NEVER      3
 
 #define WORK_FETCH_DONT_NEED 0
+    // project: suspended, deferred, or no new work (can't ask for more work)
+    // overall: not work_fetch_ok (from CPU policy)
 #define WORK_FETCH_OK        1
+    // project: has more than min queue * share, not suspended/def/nonewwork
+    // overall: at least min queue, work fetch OK
 #define WORK_FETCH_NEED      2
+    // project: less than min queue * resource share of DL/runnable results
+    // overall: less than min queue
 #define WORK_FETCH_NEED_IMMEDIATELY 3
+    // project: no downloading or runnable results
+    // overall: at least one idle CPU
 
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
@@ -278,13 +286,14 @@ private:
 public:
     double work_needed_secs();
     PROJECT* next_project_master_pending();
-    PROJECT* next_project_need_work(PROJECT* old, int urgency);
+    PROJECT* next_project_need_work();
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     int compute_work_requests();
 private:
     SCHEDULER_OP* scheduler_op;
     bool contacted_sched_server;
+    int overall_work_fetch_urgency;
 
     PROJECT* find_project_with_overdue_results();
     PROJECT* next_project_sched_rpc_pending();

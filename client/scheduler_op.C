@@ -76,16 +76,17 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     return true;
 }
 
-// Try to get work, from any project from which we need it
+// Try to get work from eligible project with biggest long term debt
 // PRECONDITION: compute_work_requests() has been called
 // to fill in PROJECT::work_request
+// and CLIENT_STATE::overall_work_fetch_urgency
 //
-int SCHEDULER_OP::init_get_work(int urgency) {
+int SCHEDULER_OP::init_get_work() {
     int retval;
     char err_msg[256];
 
     must_get_work = true;
-    PROJECT* p = gstate.next_project_need_work(0, urgency);
+    PROJECT* p = gstate.next_project_need_work();
     if (p) {
         retval = init_op_project(p);
         if (retval) {

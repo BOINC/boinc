@@ -412,13 +412,31 @@ bool PROJECT::runnable() {
     return false;
 }
 
-bool PROJECT::potentially_runnable() {
+bool PROJECT::downloading() {
     if (non_cpu_intensive) return false;
     if (suspended_via_gui) return false;
-    if (runnable()) return true;
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != this) continue;
+        if (rp->state = RESULT_FILES_DOWNLOADING) return true;
+    }
+    return false;
+}
+
+
+bool PROJECT::contactable() {
+    if (suspended_via_gui) return false;
+    if (master_url_fetch_pending) return false;
+    if (min_rpc_time > gstate.now) return false;
     if (dont_request_more_work) return false;
-    if (min_rpc_time < gstate.now) return false;
     return true;
+}
+
+bool PROJECT::potentially_runnable() {
+    if (runnable()) return true;
+    if (contactable()) return true;
+    if (downloading()) return true;
+    return false;
 }
 
 int APP::parse(MIOFILE& in) {

@@ -7472,3 +7472,19 @@ Rom    7 June 2005 (from Walt Gribben)
         
     lib/
         msg_log.C
+
+David  7 June 2005
+    - core client: store the overall work fetch urgency in
+        CLIENT_STATE::overall_work_fetch_urgency,
+        and don't pass it around as an argument
+    - add PROJECT::downloading(): true if the project
+        has a result in state RESULT_FILES_DOWNLOADING
+    - got rid of "old" argument to CLIENT_STATE::next_project_need_work()
+    - CLIENT_STATE::compute_work_requests():
+        return value is an error code, not overall urgency.
+
+    client/
+        client_state.h
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C,h
