@@ -38,8 +38,9 @@
 //
 class NET_XFER {
 public:
-    char hostname[256];     // The host we're connecting to (possibly a proxy)
+    FILE* file;
     int socket;
+    char hostname[256];     // The host we're connecting to (possibly a proxy)
     bool is_connected;
     bool want_download;     // at most one should be true
     bool want_upload;
@@ -56,7 +57,6 @@ public:
         // - reached end of disk file on upload
         // - got file read error on upload
         // - write to socket failed on upload
-    FILE* file;
     bool io_ready;
         // Signals higher layers that they can read or write socket now
         // (used if !do_file_io)
@@ -70,10 +70,14 @@ public:
     int file_read_buf_offset, file_read_buf_len;
     int seconds_until_timeout;
 
+    NET_XFER();
+    ~NET_XFER();
+    void reset();
     void init(char* host, int port, int blocksize);
     int get_ip_addr(int &ip_addr);
     int open_server();
     void close_socket();
+    void close_file();
     int do_xfer(int&);
     void update_speed();
     void got_error();

@@ -56,8 +56,34 @@ using std::vector;
 
 // if an active transfer doesn't get any activity
 // in this many seconds, error out
+//
 #define NET_XFER_TIMEOUT    600
 
+
+void NET_XFER::reset() {
+    socket = 0;
+    is_connected = false;
+    want_download = false;
+    want_upload = false;
+    do_file_io = false;
+    io_done = false;
+    file = NULL;
+    io_ready = false;
+    error = 0;
+    file_read_buf_offset = 0;
+    file_read_buf_len = 0;
+    bytes_xferred = 0;
+    xfer_speed = 0;
+}
+
+NET_XFER::NET_XFER() {
+    reset();
+}
+
+NET_XFER::~NET_XFER() {
+    close_socket();
+    close_file();
+}
 
 // Attempt to open a nonblocking socket to a server
 //
@@ -130,24 +156,19 @@ void NET_XFER::close_socket() {
     }
 }
 
+void NET_XFER::close_file() {
+    if (file) {
+        fclose(file);
+        file = 0;
+    }
+}
+
 void NET_XFER::init(char* host, int p, int b) {
-    socket = -1;
-    is_connected = false;
-    want_download = false;
-    want_upload = false;
-    do_file_io = false;
-    io_done = false;
-    file = NULL;
-    io_ready = false;
-    error = 0;
+    reset();
     safe_strcpy(hostname, host);
     port = p;
     blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
     start_time = gstate.now;
-    file_read_buf_offset = 0;
-    file_read_buf_len = 0;
-    bytes_xferred = 0;
-    xfer_speed = 0;
     reset_timeout();
 }
 
@@ -195,8 +216,6 @@ int NET_XFER_SET::insert(NET_XFER* nxp) {
 //
 int NET_XFER_SET::remove(NET_XFER* nxp) {
     vector<NET_XFER*>::iterator iter;
-
-    nxp->close_socket();
 
     iter = net_xfers.begin();
     while (iter != net_xfers.end()) {

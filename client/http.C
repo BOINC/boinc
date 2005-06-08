@@ -626,7 +626,7 @@ bool HTTP_OP_SET::poll() {
                 n = send(
                     htp->socket, htp->request_header,
                     strlen(htp->request_header), 0
-                    );
+                );
                 scope_messages.printf(
                     "HTTP_OP_SET::poll(): wrote HTTP header to socket %d: %d bytes\n",
                     htp->socket, n
@@ -699,10 +699,7 @@ bool HTTP_OP_SET::poll() {
                 scope_messages.printf("HTTP_OP_SET::poll(): finished sending request body\n");
                 htp->hrh.init();
                 htp->http_op_state = HTTP_STATE_REPLY_HEADER;
-                if (htp->file) {
-                    fclose(htp->file);
-                    htp->file = 0;
-                }
+                htp->close_file();
                 htp->do_file_io = false;
                 htp->want_upload = false;
                 htp->want_download = true;
@@ -842,8 +839,7 @@ bool HTTP_OP_SET::poll() {
             default:
                 if (htp->io_done) {
                     action = true;
-                    fclose(htp->file);
-                    htp->file = 0;
+                    htp->close_file();
                     scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
                     htp->http_op_retval = 0;
                     if (htp->hrh.content_length) {

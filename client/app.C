@@ -512,7 +512,7 @@ int ACTIVE_TASK::handle_upload_files() {
             FILE_INFO* fip = result->lookup_file_logical(p);
             if (fip) {
                 get_pathname(fip, path);
-                retval =  md5_file(path, fip->md5_cksum, fip->nbytes);
+                retval = md5_file(path, fip->md5_cksum, fip->nbytes);
                 if (retval) {
                     fip->status = retval;
                 } else {

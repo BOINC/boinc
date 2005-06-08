@@ -7527,3 +7527,16 @@ David  7 June 2005
 Rom    7 June 2005 (boinc_public)
     - Tag for 4.45a release, all platforms
       boinc_core_release_4_45a
+
+David  8 June 2005
+    - core client: add constructor and destructor to NET_XFER,
+        and have them close the file and/or socket if present.
+        This should fix a bug where a file was left open
+        in the case of a download failure,
+        causing process creation failure later on.
+
+    client/
+        app.C
+        http.C
+        net_xfer.C,h
+        pers_file_xfer.C

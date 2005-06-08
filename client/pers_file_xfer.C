@@ -413,14 +413,6 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
 
 void PERS_FILE_XFER::suspend() {
     if (fxp) {
-        if (fxp->socket) {
-            fxp->close_socket();
-            fxp->socket = 0;
-        }
-        if (fxp->file) {
-            fclose(fxp->file);
-            fxp->file = 0;
-        }
         gstate.file_xfers->remove(fxp);     // this removes from http_op_set too
         delete fxp;
         fxp = 0;
