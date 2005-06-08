@@ -3,34 +3,34 @@ require_once("docutil.php");
 page_head("Debugging BOINC on Windows");
 echo "
 <h2>Symbol Files</h2>
-Symbol files are used by various Windows debugging engines to match up
+<p>Symbol files are used by various Windows debugging engines to match up
 memory addresses to symbol names.  Symbol names are names of variables, 
 functions, and subroutines that a developer has named a piece of code
-before the compilation process.
+before the compilation process.</p>
 
-Symbol files for BOINC can be found here:
-<a href=http://boinc.berkeley.edu/dl/>http://boinc.berkeley.edu/dl/</a>
+<p>Symbol files for BOINC can be found here:<br>
+<a href=http://boinc.berkeley.edu/dl/>http://boinc.berkeley.edu/dl/</a></p>
 
-The files generally start out like boinc_xxx_pdb.zip where the xxx is 
-the version of BOINC you are running.
+<p>The files generally start out like boinc_xxx_pdb.zip where the xxx is 
+the version of BOINC you are running.</p>
 
-The uncompressed files should be stored in the same directory as BOINC
-was installed too.
+<p>The uncompressed files should be stored in the same directory as BOINC
+was installed too.</p>
 
-<h2>Crashes<h2>
-In the unfortunate event that either BOINC or the BOINC Manager crash, 
+<h2>Crashes</h2>
+<p>In the unfortunate event that either BOINC or the BOINC Manager crash, 
 which is to say they unexpectedly stop running or disappear, there 
 should be some diagnostic information recorded in stderrdae.txt for 
-BOINC and stderrgui.txt for the BOINC Manager.
+BOINC and stderrgui.txt for the BOINC Manager.</p>
 
-The diagnostic information we are looking for is called a callstack which 
-is described below.
+<p>The diagnostic information we are looking for is called a callstack which 
+is described below.</p>
 
 <h2>Callstacks</h2>
-Callstacks help us identify where the problem is by telling us which file
-and what line number in the source code the error occurred in.
+<p>Callstacks help us identify where the problem is by telling us which file
+and what line number in the source code the error occurred in.</p>
 
-Here is an example of a good callstack:
+<p>Here is an example of a good callstack:
 <pre>
 ***UNHANDLED EXCEPTION****
 Reason: Access Violation (0xc0000005) at address 0x00411A87 write attempt to address 0x00000000
@@ -38,9 +38,9 @@ Reason: Access Violation (0xc0000005) at address 0x00411A87 write attempt to add
 1: 06/08/05 15:07:01
 1: c:\\boincsrc\\main\\boinc\\client\\cs_benchmark.c(310) +8 bytes (CLIENT_STATE::cpu_benchmarks_poll)
 1: c:\\boincsrc\\main\\boinc\\client\\client_state.c(431) +0 bytes (CLIENT_STATE::do_something)
-</pre>
+</pre></p>
 
-Here is an example of a bad callstack:
+<p>Here is an example of a bad callstack:
 <pre>
 ***UNHANDLED EXCEPTION****
 Reason: Access Violation (0xc0000005) at address 0x7C34FEDC read attempt to address 0x05595D90
@@ -50,23 +50,23 @@ Reason: Access Violation (0xc0000005) at address 0x7C34FEDC read attempt to addr
 1: SymGetLineFromAddr(): GetLastError = 126
 1: SymGetLineFromAddr(): GetLastError = 126
 1: SymGetLineFromAddr(): GetLastError = 126
-</pre>
+</pre></p>
 
 <h2>Extracting callstacks</h2>
-If we need a callstack to help solve a problem that doesn't manifest itself as a crash you
+<p>If we need a callstack to help solve a problem that doesn't manifest itself as a crash you
 can still extract a callstack from a running program using some freeware tools Microsoft
-publishes called Debugging Tool for Windows.
+publishes called Debugging Tool for Windows.</p>
 
-The Debugging Tools for Windows can be found here:
-<a href=http://www.microsoft.com/whdc/DevTools/Debugging/default.mspx>Debugging Tools for Windows</a>
+<p>The Debugging Tools for Windows can be found here:
+<a href=http://www.microsoft.com/whdc/DevTools/Debugging/default.mspx>Debugging Tools for Windows</a></p>
 
-Once these tools are installed on your machine and the symbol files are extracted to the
+<p>Once these tools are installed on your machine and the symbol files are extracted to the
 BOINC installation directory you can run 'WinDBG.exe' and attach to the 'BOINC.exe' process
 through the file menu to begin your debugging session.  Once 'WinDBG.exe' has attached itself 
 to 'BOINC.exe' you can view the callstack by typing 'kb' in the command window and then hitting
-enter.
+enter.</p>
 
-Here is an example of the output 'WinDBG.exe' displays when it dumps a callstack:
+<p>Here is an example of the output 'WinDBG.exe' displays when it dumps a callstack:
 <pre>
 ChildEBP RetAddr  Args to Child              
 0012fafc 7c821364 77e42439 00000000 0012fb40 ntdll!KiFastSystemCallRet
@@ -82,10 +82,10 @@ ChildEBP RetAddr  Args to Child
 0012ff60 00431c0d 00000002 017acfc0 016def68 boinc!main+0x11f [c:\\boincsrc\\main\\boinc_public\\client\\main.c @ 412]
 0012ffc0 77e523cd 00000000 00000000 7ffdf000 boinc!mainCRTStartup+0x143 [f:\\vs70builds\\3077\\vc\\crtbld\\crt\\src\\crtexe.c @ 398]
 0012fff0 00000000 00431aca 00000000 78746341 kernel32!BaseProcessStart+0x23
-</pre>
+</pre></p>
 
-Warning: You may need to add the BOINC directory to 'WinDBG.exe' symbol search path from the
-File menu in order to get a valid callstack.
+<p>Warning: You may need to add the BOINC directory to 'WinDBG.exe' symbol search path from the
+File menu in order to get a valid callstack.</p>
 ";
 page_tail();
 ?>
