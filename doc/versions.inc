@@ -107,10 +107,10 @@ $w443= array(
 );
 
 $w444= array(
-    "num"=>"4.44",
+    "num"=>"4.45",
     "status"=>"Development version",
-    "file"=>"boinc_4.44_windows_intelx86.exe",
-    "date"=>"26 May 2005",
+    "file"=>"boinc_4.45_windows_intelx86.exe",
+    "date"=>"6 June 2005",
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
@@ -229,7 +229,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w443,
-        $w444,
+        $w445,
         $w419
     )
 );
