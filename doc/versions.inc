@@ -106,7 +106,7 @@ $w443= array(
     "
 );
 
-$w444= array(
+$w445= array(
     "num"=>"4.45",
     "status"=>"Development version",
     "file"=>"boinc_4.45_windows_intelx86.exe",
