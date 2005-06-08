@@ -43,6 +43,8 @@ void GLOBAL_PREFS::defaults() {
     run_if_user_active = true;
     start_hour = 0;
     end_hour = 0;
+    net_start_hour = 0;
+    net_end_hour = 0;
     run_minimized = false;
     run_on_startup = false;
     leave_apps_in_memory = false;
@@ -150,6 +152,10 @@ int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
             continue;
         } else if (parse_int(buf, "<end_hour>", end_hour)) {
             continue;
+        } else if (parse_int(buf, "<net_start_hour>", net_start_hour)) {
+            continue;
+        } else if (parse_int(buf, "<net_end_hour>", net_end_hour)) {
+            continue;
         } else if (match_tag(buf, "<leave_apps_in_memory/>")) {
             leave_apps_in_memory = true;
             continue;
@@ -232,6 +238,8 @@ int GLOBAL_PREFS::write(FILE* f) {
         "%s%s"
         "   <start_hour>%d</start_hour>\n"
         "   <end_hour>%d</end_hour>\n"
+        "   <net_start_hour>%d</net_start_hour>\n"
+        "   <net_end_hour>%d</net_end_hour>\n"
         "%s%s%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <max_cpus>%d</max_cpus>\n"
@@ -250,6 +258,8 @@ int GLOBAL_PREFS::write(FILE* f) {
         run_if_user_active?"   <run_if_user_active/>\n":"",
         start_hour,
         end_hour,
+        net_start_hour,
+        net_end_hour,
         leave_apps_in_memory?"   <leave_apps_in_memory/>\n":"",
         confirm_before_connecting?"   <confirm_before_connecting/>\n":"",
         run_minimized?"   <run_minimized/>\n":"",

@@ -131,7 +131,7 @@ inline bool now_between_two_hours(int start_hour, int end_hour) {
 // See if (on the basis of user run request and prefs)
 // we should suspend activities.
 //
-void CLIENT_STATE::check_suspend_activities(double /*now*/, int& reason) {
+void CLIENT_STATE::check_suspend_activities(int& reason) {
     reason = 0;
 
     // Don't work while we're running CPU benchmarks
@@ -207,13 +207,16 @@ int CLIENT_STATE::resume_activities() {
     return 0;
 }
 
-void CLIENT_STATE::check_suspend_network(double /*now*/, int& reason) {
+void CLIENT_STATE::check_suspend_network(int& reason) {
     reason = 0;
 
     if (user_network_request == USER_RUN_REQUEST_ALWAYS) return;
     if (user_network_request == USER_RUN_REQUEST_NEVER) {
         reason |= SUSPEND_REASON_USER_REQ;
         return;
+    }
+    if (!now_between_two_hours(global_prefs.net_start_hour, global_prefs.net_end_hour)) {
+        reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
     return;
 }
@@ -223,6 +226,9 @@ int CLIENT_STATE::suspend_network(int reason) {
     s_reason = "Suspending network activity";
     if (reason & SUSPEND_REASON_USER_REQ) {
         s_reason += " - user request";
+    }
+    if (reason & SUSPEND_REASON_TIME_OF_DAY) {
+        s_reason += " - time of day";
     }
     msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
     pers_file_xfers->suspend();

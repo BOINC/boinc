@@ -7553,3 +7553,15 @@ David  8 June 2005
 
     api/
         boinc_api.C
+
+David  8 June 2005
+    - Added a new general preference: start/end hours for network communication
+
+    client/
+        client_state.C,h
+        cs_prefs.C
+        prefs_file_xfer.C
+    html/inc/
+        prefs.inc
+    lib/
+        prefs.C,h

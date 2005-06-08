@@ -7,6 +7,8 @@ Basics:
 <ul>
 <li> <a href=source_code.php>Getting source code</a>
 <li> <a href=build.php>Software prerequisites</a>
+<li> <a href=build_system.php>Building BOINC on Unix</a>
+<li> <a href=road_map.php>Source code road map</a>
 </ul>
 
 Platform-specific cookbooks:
@@ -18,12 +20,8 @@ Platform-specific cookbooks:
 <li> <a href=debian_linux_install.txt>Debian Linux packages needed</a> (out of date)
 </ul>
 
-More in-depth:
+Other information
 <ul>
-<li> <a href=road_map.php>Road map of the BOINC software</a>
-<li> <a href=build_system.php>Build system</a>
-<li> <a href=build_server.php>Building server components</a>
-<li> <a href=build_client.php>Building the core client</a>
 <li> <a href=test.php>Test applications and scripts</a>
 <li> <a href=ssl_build.txt>Build instructions for SSL (Secure Socket Layer) client</a>
 </ul>

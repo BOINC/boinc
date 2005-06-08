@@ -393,7 +393,7 @@ bool CLIENT_STATE::do_something() {
         start_cpu_benchmarks();
     }
 
-    check_suspend_activities(now, suspend_reason);
+    check_suspend_activities(suspend_reason);
 
     // Restart tasks on startup.
     // Do this here (rather than CLIENT_STATE::init())
@@ -434,7 +434,7 @@ bool CLIENT_STATE::do_something() {
         return gui_rpcs.poll();
     }
 
-    check_suspend_network(now, suspend_reason);
+    check_suspend_network(suspend_reason);
     if (suspend_reason) {
         if (!network_suspended) {
             suspend_network(suspend_reason);

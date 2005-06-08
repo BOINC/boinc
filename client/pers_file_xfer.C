@@ -411,6 +411,9 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
     return 0;
 }
 
+// suspend file transfers by killing them.
+// They'll restart automatically later.
+//
 void PERS_FILE_XFER::suspend() {
     if (fxp) {
         gstate.file_xfers->remove(fxp);     // this removes from http_op_set too

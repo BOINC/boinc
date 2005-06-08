@@ -38,6 +38,8 @@ struct GLOBAL_PREFS {
     bool run_if_user_active;
     int start_hour;     // 0..23; no restriction if start==end
     int end_hour;
+    int net_start_hour;     // 0..23; no restriction if start==end
+    int net_end_hour;
     bool leave_apps_in_memory;
     bool confirm_before_connecting;
     bool run_minimized;

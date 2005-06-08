@@ -1,39 +1,155 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC build system");
+page_head("Building BOINC on Unix");
 
 echo "
-See the <a href=build.php>Software Prerequisites</a>.
+On UNIX systems, the BOINC software (both server and client)
+can be built by typing
+<pre>
+  ./_autosetup
+  ./configure [see options below]
+  make
+  make install  [optional: installs libraries and header files useful for building apps]
+</pre>
+in the top directory.
 
-<h2>Maintainer-mode</h2>
+<h3>Configuration</h3>
 
-The BOINC configuration system enables an Automake feature
-called <b>maintainer-mode</b>.  This is enabled
-at <code>configure</code>-time.
+<p>
+Usage:
+<pre>
+./configure [OPTION]... [VAR=VALUE]...
+</pre>
+
+You can use environment
+variables to override the choices made by `configure' or to help
+it to find libraries and programs with nonstandard names/locations.
+To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE.
+Example: to compile BOINC with strict compiler warnings, use
+<pre>
+./configure CXXFLAGS=\"-Wall -W -Wmissing-prototypes -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common -Wnested-externs\"
+</pre>
+
+<p>
+Defaults for the options are specified in brackets.
 ";
 list_start();
-list_heading("command line", "Maintainer mode?", "Effect");
-list_item("<code>configure</code>", "Disabled",
-      "If you modify <code>Makefile.am</code>, you need to
-      regenerate <code>Makefile.in</code> using <code>automake</code>, and
-      your machine-dependent <code>Makefile</code>
-      using <code>config.status</code>.  (The <code>boinc/_autosetup</code>
-      script takes care of all of these; run this script every time you modify
-      a makefile.)"
+list_bar("Configuration");
+list_item("-h, --help",
+    "display this help and exit"
 );
-list_item("<nobr><code>configure --enable-maintainer-mode</code></nobr>",
-  "Enabled",
-  "If you modify <code>Makefile.am</code>, a chain of dependencies
-      automatically generates <code>Makefile.in</code>
-      and <code>Makefile</code> when you '<code>make</code>'.  This is useful
-      if you modify Makefiles a lot but could be annoying if you don't have
-      automake installed, have different versions of it among developers, or
-      check in <code>Makefile.in</code> to CVS at the same time (in which
-      case the timestamp for it will confuse the automatic dependencies)."
+list_bar("Installation directories");
+list_item("--prefix=PREFIX",
+    "install architecture-independent files in PREFIX [/usr/local]
+    By default, `make install' will install all the files in
+    `/usr/local/bin', `/usr/local/lib' etc.  You can specify
+    an installation prefix other than `/usr/local' using `--prefix',
+    for instance `--prefix=$HOME'.
+    For better control, use the options below."
 );
 
+list_bar("Optional Features");
+list_item("--disable-FEATURE",
+    "do not include FEATURE (same as --enable-FEATURE=no)"
+);
+list_item("--enable-FEATURE[=ARG]",
+    "include FEATURE [ARG=yes]"
+);
+list_item("--enable-debug",
+    "enable tracing and debugging flags for all components"
+);
+list_item("--disable-server",
+    "disable building the scheduling server"
+);
+list_item("--disable-client",
+    "disable building the client
+    Default: --enable-server --enable-client: builds
+    both server and client"
+);
+list_item("--enable-maintainer-mode",
+    "enable make rules and dependencies not useful
+    (and sometimes confusing) to the casual installer"
+);
+list_item("--enable-shared[=PKGS]",
+    "build shared libraries [default=yes]"
+);
+list_item("--enable-static[=PKGS]",
+     "build static libraries [default=yes]"
+);
+list_item("--disable-static-linkage",
+     "disable static linking of certain libraries"
+);
+list_item("--enable-client-release",
+    "Try building a portable 'release-candidate'
+    (currently implemented for Linux and Solaris only):
+    this links libstd++ statically. You will probably
+    need gcc-3.0 for this to produce a portable
+    client-binary. It is therefore recommended to use
+    CC=gcc-3.0 and CXX=g++-3.0 for this. (Default = no)"
+);
+
+list_bar("Optional Packages");
+list_item("--with-PACKAGE[=ARG]",
+    "use PACKAGE [ARG=yes]"
+);
+list_item("--without-PACKAGE",
+    "do not use PACKAGE (same as --with-PACKAGE=no)"
+);
+list_item("--with-x",
+    "use the X Window System"
+);
+list_item("--with-apple-opengl-framework",
+     "use Apple OpenGL framework (Mac OS X only)"
+);
+list_item("--with-wxdir=PATH",
+    "Use uninstalled version of wxWindows in PATH"
+);
+list_item("--with-wx-config=CONFIG",
+    "wx-config script to use (optional)"
+);
+
+list_bar("Environment variables");
+list_item("CC",
+    "C compiler command"
+);
+list_item("CFLAGS",
+    "C compiler flags"
+);
+list_item("LDFLAGS",
+    "linker flags, e.g. -L<lib dir> if you have libraries in a
+    nonstandard directory <lib dir>"
+);
+list_item("CPPFLAGS",
+    "C/C++ preprocessor flags, e.g. -I<include dir> if you have
+      headers in a nonstandard directory <include dir>"
+);
+list_item("CXX",
+    "C++ compiler command"
+);
+list_item("CXXFLAGS",
+    "C++ compiler flags.
+    "
+);
+list_item("CPP",
+    "C preprocessor"
+);
+list_item("CXXCPP",
+    "C++ preprocessor"
+);
+list_item("F77",
+    "Fortran 77 compiler command"
+);
+list_item("FFLAGS",
+    "Fortran 77 compiler flags"
+);
+list_item("MYSQL_CONFIG",
+     "mysql_config program"
+);
 list_end();
 echo "
+
+
 <h2>Source layout</h2>
 
 <p>
@@ -50,51 +166,17 @@ echo "
   sometimes it is useful to run <code>make</code> and <code>make
     check</code> in certain subdirectories (e.g. <code>client/</code>).
 
-<h2>Expansion</h2>
+<h2>Adding new directories</h2>
 If you create a new directory with another <code>Makefile.am</code>,
-you should <b>A)</b> make sure the directory is referenced by
+you should
+<ul>
+<li> make sure the directory is referenced by
 a <code>SUBDIRS=</code> line from its
-parent <code>Makefile.am</code> and <b>B)</b> add it to the
+parent <code>Makefile.am</code>
+<li>
+add it to the
 AC_CONFIG_FILES directive in <code>configure.ac</code>.
-
-<h2>Target machine configure/make</h2>
-To compile, use the usual
-<pre>
-  ./configure
-  gmake
-</pre>
-<p>
-  Example using multiple build directories under a single source
-  directory (assuming the same directory is mounted
-  on <code>milkyway</code> and <code>shaggy</code>):
-  <pre>
-    milkyway$ mkdir build
-    milkyway$ mkdir build/solaris2.7
-    milkyway$ cd build/solaris2.7
-    milkyway$ ../../configure
-    milkyway$ gmake
-
-    milkyway$ mkdir build/solaris2.7-gcc3
-    milkyway$ cd build/solaris2.7-gcc3
-    milkyway$ ../../configure CC=/opt/misc/gcc-3.0.4/bin/gcc CXX=/opt/misc/gcc-3.0.4/bin/g++
-    milkyway$ gmake
-
-    shaggy$ mkdir build/linux
-    shaggy$ cd build/linux
-    shaggy$ ../../configure
-    shaggy$ gmake
-  </pre>
-
-<h2>Testing</h2>
-
-To test the code:
-<pre>
-  gmake check
-</pre>
-
-This runs the python tests in the <code>test/</code> directory.  Old PHP-based
-tests in <code>test/</code>are also available to be run individually but not
-currently maintained.
+</ul>
 
 <h2>Version number</h2>
 To set the BOINC client version number:
@@ -112,11 +194,6 @@ To make source distributions:
   gmake dist
 </pre>
 
-<h2>Strict warning</h2>
-To compile BOINC with strict compiler warnings, use
-<pre>
-./configure CXXFLAGS=\"-Wall -W -Wmissing-prototypes -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common -Wnested-externs\"
-</pre>
 ";
 page_tail();
 ?>

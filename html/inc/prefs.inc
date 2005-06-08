@@ -85,6 +85,10 @@ define("VM_MAX_USED_PCT_DESC2", "% of total virtual memory");
 define("NETWORK_LIMIT_DESC", "Network usage");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
+define("NET_START_END_DESC",
+    "Use network only between the hours of
+    <br><font size=-2>Enforced by versions 4.46 and greater</font>"
+);
 define("DONT_VERIFY_IMAGES_DESC",
     "Skip image file verification?
     <br><font size=-2>Check this ONLY if your Internet provider
@@ -276,6 +280,12 @@ function element_end_global($parser, $name) {
     case "max_bytes_sec_up":
         $parse_result->max_bytes_sec_up = $text;
         break;
+    case "net_start_hour":
+        $parse_result->net_start_hour = $text;
+        break;
+    case "net_end_hour":
+        $parse_result->net_end_hour = $text;
+        break;
     case "dont_verify_images":
         $parse_result->dont_verify_images = true;
         break;
@@ -316,6 +326,8 @@ function default_prefs_global() {
     $p->vm_max_used_pct = 75;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
+    $p->net_start_hour = 0;
+    $p->net_end_hour = 0;
     $p->dont_verify_images = false;
     return $p;
 }
@@ -422,6 +434,14 @@ function prefs_show_global($prefs) {
     $x = max_bytes_display_mode($prefs->max_bytes_sec_up);
     $y = "$x " . BYTE_ABBR;
     row2(MAX_BYTES_SEC_UP_DESC, $x?"$y":"no limit");
+    if ($prefs->net_start_hour == $prefs->net_end_hour) {
+        $x = "(no restriction)";
+    } else {
+        $s = hour_str($prefs->net_start_hour);
+        $e = hour_str($prefs->net_end_hour);
+        $x = "$s and $e";
+    }
+    row2(NET_START_END_DESC, $x);
     row2(DONT_VERIFY_IMAGES_DESC, $prefs->dont_verify_images?"yes":"no");
 }
 
@@ -628,6 +648,9 @@ function prefs_form_global($user, $prefs) {
     row2(MAX_BYTES_SEC_UP_DESC,
         "<input size=7 name=max_bytes_sec_up value='$ut'> " . BYTE_UNITS
     );
+    $x = NET_START_END_DESC.START_END_DESC2;
+    $y = hour_select($prefs->net_start_hour, "net_start_hour")."and".hour_select($prefs->net_end_hour, "net_end_hour");
+    row2($x, $y);
     $x = DONT_VERIFY_IMAGES_DESC;
     $y = "yes <input type=radio name=dont_verify_images value=yes "
         .($prefs->dont_verify_images?"checked":"")
@@ -757,6 +780,8 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->vm_max_used_pct = $vm_max_used_pct;
     $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
     $prefs->max_bytes_sec_up = max_bytes_db_mode($max_bytes_sec_up);
+    $prefs->net_start_hour = $_GET["net_start_hour"];
+    $prefs->net_end_hour = $_GET["net_end_hour"];
     $prefs->dont_verify_images = ($dont_verify_images == "yes");
 }
 
@@ -819,6 +844,10 @@ function global_prefs_make_xml($prefs, $primary=true) {
         ."<vm_max_used_pct>$prefs->vm_max_used_pct</vm_max_used_pct>\n"
         ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
         ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
+    if ($prefs->net_start_hour != $prefs->net_end_hour) {
+        $xml = $xml."<net_start_hour>$prefs->net_start_hour</net_start_hour>\n"
+            ."<net_end_hour>$prefs->net_end_hour</net_end_hour>\n";
+    }
     if ($prefs->dont_verify_images) {
         $xml = $xml."<dont_verify_images/>\n";
     }

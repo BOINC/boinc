@@ -82,7 +82,7 @@ language("German", array(
     site("http://www.setigermany.de", "SETI.Germany"),
     site("http://www.sar-hessen.de", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
-    site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (Lübeck, Germany)"),
+    site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (L&uuml;beck, Germany)"),
     site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),
     site( "http://www.emuleatboinc.de/board", "Official eMule @ BOINC Team Page")
 ));

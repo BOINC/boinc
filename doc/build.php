@@ -5,11 +5,12 @@ page_head("Software prerequisites");
 ?>
 
 <h2>Unix</h2>
-We develop on Solaris 2.6-2.9, Red Hat 8 and Enterprise Edition,
-Mac OS X, and Debian Linux stable and unstable,
-so those currently work out-of-the-box.
-Other Unix-like systems should work without too much configuration.
+Solaris 2.6-2.9, Red Hat 8 and Enterprise Edition,
+Mac OS X, and Debian Linux (stable and unstable)
+should work out of the box.
+Other Unix-like systems should work without too much effort.
 <p>
+You'll need to install the following software before building BOINC:
 
 <table border=1 cellpadding=8>
 <tr>
@@ -145,6 +146,14 @@ You'll need to back up your database.
 Generally this requires stopping the project,
 making a copy or snapshot, and restarting.
 An example is <a href=mysql_backup.txt>here</a>.
+<li>
+BOINC gets MySQL compiler and linker flags from a program
+called <code>mysql_config</code> which comes with your MySQL distribution.
+This sometimes references libraries that are not part of your base system
+installation, such as <code>-lnsl</code> or <code>-lnss_files</code>.
+You may need to install additional packages
+(often you can use something called 'mysql-dev' or 'mysql-devel')
+or fiddle with Makefiles.
 
 </ul>
 

@@ -272,10 +272,10 @@ public:
     int allowed_disk_usage(double&);
     int allowed_project_disk_usage(double&);
 private:
-    void check_suspend_activities(double, int&);
+    void check_suspend_activities(int&);
     int suspend_activities(int reason);
     int resume_activities();
-    void check_suspend_network(double, int&);
+    void check_suspend_network(int&);
     int suspend_network(int reason);
     int resume_network();
     void install_global_prefs();

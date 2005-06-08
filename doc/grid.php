@@ -9,7 +9,7 @@ or to a GRAM job manager.
 They developed two utilities,
 kill_wu and poll_wu, to support this.
 They are in the boinc/tools directory.
-Concact Christian Søttrup (chrulle at fatbat.dk) for more info.
+Contact Christian S&oslash;ttrup (chrulle at fatbat.dk) for more info.
 <p>
 The <a href=http://lattice.umiacs.umd.edu/>Lattice</a> project
 from the University of Maryland
