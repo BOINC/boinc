@@ -7540,3 +7540,16 @@ David  8 June 2005
         http.C
         net_xfer.C,h
         pers_file_xfer.C
+
+David  8 June 2005
+    - API, Unix/Linux/Mac:
+        Don't use a SIGALRM signal in the worker thread to get CPU time.
+        It turns out that the signal handler is usually
+        called in a different thread anyway,
+        and getrusage() return CPU time for the entire process,
+        so it doesn't matter what thread we call it from.
+        Instead, just call getrusage() from the timer thread.
+        (From J.R. Oldroyd and Bernd Machenschalk)
+
+    api/
+        boinc_api.C

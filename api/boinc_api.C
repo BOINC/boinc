@@ -50,7 +50,6 @@ using namespace std;
 #include "boinc_api.h"
 
 // The BOINC API communicates CPU time and fraction done to the core client.
-// Currently this is done using a timer.
 // Remember that the processing of a result can be divided
 // into multiple "episodes" (executions of the app),
 // each of which resumes from the checkpointed state of the previous episode.
@@ -59,7 +58,6 @@ using namespace std;
 
 #ifndef _WIN32
 static pthread_t timer_thread_handle;
-static pthread_t worker_thread;
 static struct rusage worker_thread_ru;
 #endif
 
@@ -97,8 +95,8 @@ static volatile int nrunning_ticks = 0;
     // quit if we cannot aquire slot resource in this #secs
 
 #ifdef _WIN32
-static HANDLE   hSharedMem;
-HANDLE   worker_thread_handle;
+static HANDLE hSharedMem;
+HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 static MMRESULT timer_id;
 #endif
@@ -145,12 +143,11 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
     if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
-    return 0;
 #else
     cpu = (double)worker_thread_ru.ru_utime.tv_sec + (((double)worker_thread_ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu += (double)worker_thread_ru.ru_stime.tv_sec + (((double)worker_thread_ru.ru_stime.tv_usec) / ((double)1000000.0));
-
 #endif
+    return 0;
 }
 
 // communicate to the core client (via shared mem)
@@ -534,15 +531,6 @@ static void handle_process_control_msg() {
     }
 }
 
-#ifndef _WIN32
-static void timer_signal_handler(int) {
-    if (pthread_equal(pthread_self(), worker_thread)) {
-        getrusage(RUSAGE_SELF, &worker_thread_ru);
-    }
-}
-
-#endif
-
 #ifdef _WIN32
 static void CALLBACK worker_timer(
     UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2
@@ -615,10 +603,11 @@ static void worker_timer(int /*a*/) {
 typedef unsigned int useconds_t;
 #endif
 
-void * timer_thread(void *) {
+void* timer_thread(void*) {
     while(1) {
         usleep((useconds_t)(TIMER_PERIOD*1000000));
         worker_timer(0);
+        getrusage(RUSAGE_SELF, &worker_thread_ru);
     }
     /*NOTREACHED*/
 }
@@ -660,24 +649,7 @@ int set_worker_timer() {
     if (retval) {
         perror("set_worker_timer(): pthread_create(): %d");
     }
-    worker_thread = pthread_self();
 
-    struct sigaction sa;
-    itimerval value;
-    sa.sa_handler = timer_signal_handler;
-    sa.sa_flags = SA_RESTART;
-    retval = sigaction(SIGALRM, &sa, NULL);
-    if (retval) {
-        perror("boinc set_worker_timer() sigaction");
-        return retval;
-    }
-    value.it_value.tv_sec = TIMER_PERIOD;
-    value.it_value.tv_usec = 0;
-    value.it_interval = value.it_value;
-    retval = setitimer(ITIMER_REAL, &value, NULL);
-    if (retval) {
-        perror("boinc set_worker_timer() setitimer");
-    }
 #endif
     return retval;
 }
