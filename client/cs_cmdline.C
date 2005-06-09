@@ -146,7 +146,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(run_cpu_benchmarks)) {
             run_cpu_benchmarks = true;
         } else if (ARG(attach_project)) {
-            if (i > argc-2) {
+            if (i >= argc-2) {
                 show_options = true;
             } else {
                 strcpy(attach_project_url, argv[++i]);

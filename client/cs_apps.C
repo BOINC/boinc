@@ -83,7 +83,6 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     char path[256];
     int retval;
     double size;
-    double task_cpu_time;
 
     bool had_error = false;
 
@@ -157,9 +156,9 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         );
     }
 
-    task_cpu_time = at.current_cpu_time - at.cpu_time_at_last_sched;
-    at.result->project->work_done_this_period += task_cpu_time;
-    cpu_sched_work_done_this_period += task_cpu_time;
+    double wall_cpu_time = now - cpu_sched_last_time;
+    at.result->project->wall_cpu_time_this_period += wall_cpu_time;
+    total_wall_cpu_time_this_period += wall_cpu_time;
 
     return 0;
 }
@@ -394,18 +393,29 @@ void CLIENT_STATE::adjust_debts() {
     int count_cpu_intensive = 0;
     PROJECT *p;
     double min_short_term_debt=0, share_frac;
-    double elapsed_time = gstate.now - cpu_sched_last_time;
+    double wall_cpu_time = gstate.now - cpu_sched_last_time;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
-    // total up work done since last CPU reschedule
+    // Total up total and per-project "wall CPU" since last CPU reschedule.
+    // "Wall CPU" is the wall time during which a task was
+    // runnable (at the OS level).
+    //
+    // We use wall CPU for debt calculation
+    // (instead of reported actual CPU) for two reasons:
+    // 1) the process might have paged a lot, so the actual CPU
+    //    may be a lot less than wall CPU
+    // 2) BOINC relies on apps to report their CPU time.
+    //    Sometimes there are bugs and apps report zero CPU.
+    //    It's safer not to trust them.
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        double task_cpu_time = elapsed_time;
-        atp->result->project->work_done_this_period += task_cpu_time;
-        cpu_sched_work_done_this_period += task_cpu_time;
+        if (atp->result->project->non_cpu_intensive) continue;
+
+        atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
+        total_wall_cpu_time_this_period += wall_cpu_time;
     }
 
     // find total resource shares of runnable and potentially runnable projects
@@ -429,8 +439,8 @@ void CLIENT_STATE::adjust_debts() {
         //
         if (p->potentially_runnable()) {
             share_frac = p->resource_share/potentially_runnable_resource_share;
-            p->long_term_debt += share_frac*cpu_sched_work_done_this_period
-                - p->work_done_this_period
+            p->long_term_debt += share_frac*total_wall_cpu_time_this_period
+                - p->wall_cpu_time_this_period
             ;
         }
         total_long_term_debt += p->long_term_debt;
@@ -442,8 +452,8 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = 0;
         } else {
             share_frac = p->resource_share/runnable_resource_share;
-            p->short_term_debt += share_frac*cpu_sched_work_done_this_period
-                - p->work_done_this_period
+            p->short_term_debt += share_frac*total_wall_cpu_time_this_period
+                - p->wall_cpu_time_this_period
             ;
             if (first) {
                 first = false;
@@ -536,7 +546,7 @@ bool CLIENT_STATE::schedule_cpus() {
         atp = active_tasks.active_tasks[i];
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
-    expected_pay_off = cpu_sched_work_done_this_period / ncpus;
+    expected_pay_off = total_wall_cpu_time_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
         if (cpu_earliest_deadline_first) {
             if (!schedule_earliest_deadline_result(expected_pay_off)) break;
@@ -590,13 +600,13 @@ bool CLIENT_STATE::schedule_cpus() {
 
     // reset work accounting
     // doing this at the end of schedule_cpus() because
-    // work_done_this_period's can change as apps finish
+    // wall_cpu_time_this_period's can change as apps finish
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        p->work_done_this_period = 0;
+        p->wall_cpu_time_this_period = 0;
     }
-    cpu_sched_work_done_this_period = 0;
+    total_wall_cpu_time_this_period = 0;
 
     set_client_state_dirty("schedule_cpus");
     return true;

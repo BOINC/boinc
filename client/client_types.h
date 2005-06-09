@@ -248,9 +248,9 @@ public:
 
     double anticipated_debt;
         // expected debt by the end of the preemption period
-    double work_done_this_period;
-        // how much CPU time has been devoted to this
-        // project in the current period (secs)
+    double wall_cpu_time_this_period;
+        // how much "wall CPU time" has been devoted to this
+        // project in the current scheduling period (secs)
     struct RESULT *next_runnable_result;
         // the next result to run for this project
 

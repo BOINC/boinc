@@ -7596,3 +7596,18 @@ David  8 June 2005
         cs_apps.C
         cs_benchmark.C
         net_stats.C
+
+David  9 June 2005
+    - Changed variable names from "work_done" to "wall_cpu_time";
+        it's important to emphasize that debt accounting
+        is done on the basis of how long a process is running,
+        NOT how much CPU time it actually or reportedly got.
+    - don't count non-CPU-intensive apps in calculation of
+        total_wall_cpu_time_this_period
+    - fixed crash if you run core client with -attach_project X
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_cmdline.C

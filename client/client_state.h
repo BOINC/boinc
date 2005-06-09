@@ -156,8 +156,8 @@ private:
     // CPU sched state
     //
     double cpu_sched_last_time;
-    double cpu_sched_work_done_this_period;
-        // CPU time since last schedule_cpus()
+    double total_wall_cpu_time_this_period;
+        // "wall CPU time" accumulated since last schedule_cpus()
 	bool work_fetch_no_new_work;
 	bool cpu_earliest_deadline_first;
 
