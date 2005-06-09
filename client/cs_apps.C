@@ -55,6 +55,10 @@ using std::vector;
 int CLIENT_STATE::quit_activities() {
     int retval;
 
+    // calculate long-term debts (for state file)
+    //
+    adjust_debts();
+
     retval = active_tasks.exit_tasks();
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.quit_activities: exit_tasks failed\n");
@@ -381,24 +385,36 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
 
 // adjust project debts (short, long-term)
 //
-// assumes:
-//  cpu_sched_work_done_this_period
-//  p->work_done_this_period
-// have been computed
-//
-void CLIENT_STATE::adjust_debts(double runnable_resource_share) {
+void CLIENT_STATE::adjust_debts() {
     unsigned int i;
     bool first = true;
     double total_long_term_debt = 0;
     double potentially_runnable_resource_share = 0;
+    double runnable_resource_share = 0;
     int count_cpu_intensive = 0;
     PROJECT *p;
     double min_short_term_debt=0, share_frac;
+    double elapsed_time = gstate.now - cpu_sched_last_time;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
+    // total up work done since last CPU reschedule
+    //
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+        double task_cpu_time = elapsed_time;
+        atp->result->project->work_done_this_period += task_cpu_time;
+        cpu_sched_work_done_this_period += task_cpu_time;
+    }
+
+    // find total resource shares of runnable and potentially runnable projects
+    //
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
+        if (p->runnable()) {
+            runnable_resource_share += p->resource_share;
+        }
         if (p->potentially_runnable()) {
             potentially_runnable_resource_share += p->resource_share;
         }
@@ -463,6 +479,7 @@ void CLIENT_STATE::adjust_debts(double runnable_resource_share) {
     }
 }
 
+
 // Schedule active tasks to be run and preempted.
 // This is called in the do_something() loop
 //
@@ -470,8 +487,6 @@ bool CLIENT_STATE::schedule_cpus() {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
-    bool some_app_started = false;
-    double runnable_resource_share;
     int retval, j;
     double vm_limit, elapsed_time;
     unsigned int i;
@@ -512,33 +527,15 @@ bool CLIENT_STATE::schedule_cpus() {
     }
 
     set_cpu_scheduler_modes();
+    adjust_debts();
 
-    // do work accounting for active tasks,
-    // and make them as preempted
+    // mark active tasks as preempted
+    // MUST DO THIS AFTER accumulate_work()
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        double task_cpu_time = elapsed_time;
-        atp->result->project->work_done_this_period += task_cpu_time;
-        cpu_sched_work_done_this_period += task_cpu_time;
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
-
-    // compute total resource share among runnable projects
-    //
-    runnable_resource_share = 0;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->runnable()) {
-            runnable_resource_share += p->resource_share;
-        }
-    }
-
-    if (runnable_resource_share > 0) {
-        adjust_debts(runnable_resource_share);
-    }
-
     expected_pay_off = cpu_sched_work_done_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
         if (cpu_earliest_deadline_first) {
@@ -586,7 +583,7 @@ bool CLIENT_STATE::schedule_cpus() {
                 continue;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
-            some_app_started = true;
+            app_started = gstate.now;
         }
         atp->cpu_time_at_last_sched = atp->current_cpu_time;
     }
@@ -601,19 +598,8 @@ bool CLIENT_STATE::schedule_cpus() {
     }
     cpu_sched_work_done_this_period = 0;
 
-    if (some_app_started) {
-        app_started = gstate.now;
-    }
-
-    // debts and active_tasks can only change if some project was runnable 
-    // (and thus if runnable_resource_share is positive)
-    //
-    if (runnable_resource_share > 0) {
-        set_client_state_dirty("schedule_cpus");
-        return true;
-    } else {
-        return false;
-    }
+    set_client_state_dirty("schedule_cpus");
+    return true;
 }
 
 // This is called when the client is initialized.

@@ -7582,3 +7582,17 @@ David  8 June 2005
 		cs_scheduler.C
 		win/
 			wingui_mainwindow.cpp
+
+David  8 June 2005
+    - bug fix in net stats calculation
+        (from Glenn Dill)
+    - refactor code so adjust_debts() is independent from schedule_cpus()
+    - call adjust_debts() from quit_activities(), so that long-term debt
+        updated and written to state file when exit core client
+        (from Glenn Dill)
+
+    client/
+        client_state.h
+        cs_apps.C
+        cs_benchmark.C
+        net_stats.C

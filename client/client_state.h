@@ -209,7 +209,7 @@ private:
 
 // --------------- cs_apps.C:
 private:
-    void adjust_debts(double);
+    void adjust_debts();
     bool must_schedule_cpus;
 public:
     void request_schedule_cpus(const char*);

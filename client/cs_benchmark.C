@@ -285,8 +285,6 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     int i;
     if (!benchmarks_running) return false;
 
-    double now = dtime();
-
     active_tasks.send_heartbeats();
 
     // if active tasks don't quit after 10 sec, give up on benchmark

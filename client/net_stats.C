@@ -65,7 +65,7 @@ double NET_INFO::throughput() {
     double x, tp;
     if (starting_throughput > 0) {
         if (delta_t > 0) {
-            x = exp(delta_t*EXP_DECAY_RATE);
+            x = exp(-delta_t*EXP_DECAY_RATE);
             tp = delta_nbytes/delta_t;
             return x*starting_throughput + (1-x)*tp;
         } else {
