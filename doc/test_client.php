@@ -1,15 +1,9 @@
 <?php
 require_once("docutil.php");
-page_head("Build Verification Tests for BOINC");
+page_head("Testing the BOINC client");
 echo "
-<h2>Build Verification Tests</h2>
-<p>Build verification tests are used to determine if a particular release 
-of software is even worth passing off to the Alpha group for further testing.</p>
 
-<p>They are not meant to be a comprehensive set of tests, just merely a set of 
-tests to determine if a build is good enough for further testing.</p>
-
-<p>The following list of tests is meant for the single-user installation scenario:
+<p>The following tests are meant for the single-user installation scenario:
 <ol>
 <li>Attach to a project.
 <li>Schedule an RPC to the project server requesting results to process.
