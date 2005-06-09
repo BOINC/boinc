@@ -116,7 +116,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
     return 0;
 }
 
-// find a project that needs to contact its scheduling server
+// find a project for which the user has requested a scheduler RPC
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
@@ -584,12 +584,25 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
-        if (network_suspended || activities_suspended) break;
+        if (scheduler_op->check_master_fetch_start()) {
+            action = true;
+            break;
+        }
+
         if (should_get_work()) {
             compute_work_requests(); 
         }
+        // contact project requested by user
+        //
+        p = next_project_sched_rpc_pending();
+        if (p) {
+            scheduler_op->init_return_results(p);
+            action = true;
+            break;
+        }
+        if (network_suspended || activities_suspended) break;
         
-        // highest priority is to report overdue results
+        // report overdue results
         //
         p = find_project_with_overdue_results();
         if (p) {
@@ -615,15 +628,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
                 break;
             }
-        }
-        if (scheduler_op->check_master_fetch_start()) {
-            action = true;
-            break;
-        }
-        p = next_project_sched_rpc_pending();
-        if (p) {
-            scheduler_op->init_return_results(p);
-            action = true;
         }
         break;
     default:

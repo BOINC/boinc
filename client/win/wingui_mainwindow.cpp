@@ -2178,7 +2178,7 @@ void CMainWindow::OnTimer(UINT uEventID) {
         KillTimer(m_nGuiTimerID);
 
         // update state and gui
-        while(gstate.do_something(dtime()));
+        while(gstate.do_something());
 
         // check if network connection can be terminated
         NetCheck(gstate.global_prefs.hangup_if_dialed);

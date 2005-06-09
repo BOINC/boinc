@@ -7565,3 +7565,20 @@ David  8 June 2005
         prefs.inc
     lib/
         prefs.C,h
+
+David  8 June 2005
+	- Check network start/end hours even if user_network_request is ALWAYS.
+		Currently that's the default,
+		and in fact there's no interface for changing it to AUTO.
+	- CLIENT_STATE::scheduler_rpc_poll():
+		check for master file fetch and user-requested scheduler RPCs
+		before checking network_suspended flag.
+		Otherwise the user might get into a state where their
+		prefs don't allow network access (e.g. because of time-of-day),
+		and they can't do an "update" to change the prefs
+
+	client/
+		cs_prefs.C
+		cs_scheduler.C
+		win/
+			wingui_mainwindow.cpp
