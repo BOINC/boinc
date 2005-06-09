@@ -54,12 +54,18 @@ function mac_advanced() {
     }
 }
 
-$w443= array(
-    "num"=>"4.43",
+$w445= array(
+    "num"=>"4.45",
     "status"=>"Recommended version",
-    "file"=>"boinc_4.43_windows_intelx86.exe",
-    "date"=>"19 May 2005",
+    "file"=>"boinc_4.45_windows_intelx86.exe",
+    "date"=>"6 June 2005",
     "type"=>win_new(),
+    "features"=>"<ul>
+    <li>
+    We are now including a tool with command line interface to control boinc within the 
+    default distribution
+    </ul>
+    ",
     "features"=>"<ul>
     <li>
     When a slow computer is attached to a large number of projects,
@@ -83,39 +89,6 @@ $w443= array(
     <a href=gui_rpc.php>Password protection for GUI access</a>.
     <li>
     BOINC Manager now uses buttons instead of web-type links.
-    </ul>
-    ",
-    "bugs"=>"<ul>
-    <li>
-    Applications that were built before October 2004 do not
-    display screensaver graphics with the Service or Shared install type,
-    or the Single-user install type with the password protect screensaver
-    option on NT based machines.
-    <li>
-    If BOINC runs at the same time as Windows XP 3-D screensavers,
-    the system becomes sluggish and unresponsive.
-    <li>
-    Dial-up users should choose the single-user installation.
-    <li>
-    Graphics sometimes do not work with ATI Graphics card.
-    If you have this problem, please visit
-    <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>the SETI@home Q&A area</a>,
-    fill in the requested information, and click on the
-    \"I also have this question\" button.
-    </ul>
-    "
-);
-
-$w445= array(
-    "num"=>"4.45",
-    "status"=>"Development version",
-    "file"=>"boinc_4.45_windows_intelx86.exe",
-    "date"=>"6 June 2005",
-    "type"=>win_new(),
-    "features"=>"<ul>
-    <li>
-    We are now including a tool with command line interface to control boinc within the 
-    default distribution
     </ul>
     ",
     "bugs"=>"<ul>
@@ -228,7 +201,6 @@ $s443 = array(
 $windows = array(
     "name"=>"Windows",
     "versions"=>array(
-        $w443,
         $w445,
         $w419
     )
