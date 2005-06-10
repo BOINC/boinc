@@ -7611,3 +7611,14 @@ David  9 June 2005
         client_types.C,h
         cs_apps.C
         cs_cmdline.C
+
+David  10 June 2005
+	- Fixed major goof in last checkin:
+		caused all debt calculations to be no-op
+	- Manager: in "status" column of Projects tab,
+		show all relevant info, comma-separated
+
+	client/
+		cs_apps.C
+	clientgui/
+		ViewProjects.cpp

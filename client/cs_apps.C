@@ -520,7 +520,6 @@ bool CLIENT_STATE::schedule_cpus() {
         }
 //        msg_printf(0, MSG_INFO, "schedule_cpus: time %f", elapsed_time);
     }
-    cpu_sched_last_time = gstate.now;
 
     // mark file xfer results as completed;
     // TODO: why do this here??
@@ -607,6 +606,7 @@ bool CLIENT_STATE::schedule_cpus() {
         p->wall_cpu_time_this_period = 0;
     }
     total_wall_cpu_time_this_period = 0;
+    cpu_sched_last_time = gstate.now;
 
     set_client_state_dirty("schedule_cpus");
     return true;

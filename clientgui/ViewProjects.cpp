@@ -753,29 +753,39 @@ wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) co
     return 0;
 }
 
+static void comma_append(wxString& existing, const wxChar* additional) {
+    if (existing.size() == 0) {
+        existing = additional;
+    } else {
+        existing = existing + ", " + additional;
+    }
+}
 
-wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& status) const {
     wxInt32 iNextRPC;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    strBuffer.Clear();
+    status.Clear();
 
     PROJECT* p = pDoc->project(item);
     if (p->suspended_via_gui) {
-        strBuffer = _("Suspended by user");
-    } else if (p->sched_rpc_pending) {
-        pDoc->GetProjectMinRPCTime(item, iNextRPC);
-
-        wxDateTime dtNextRPC((time_t)iNextRPC);
-        wxDateTime dtNow(wxDateTime::Now());
-
-        if (dtNextRPC > dtNow) {
-            wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-            strBuffer = _("Retry in ") + tsNextRPC.Format();
-        }
+        comma_append(status, _("Suspended by user"));
+    }
+    if (p->dont_request_more_work) {
+        comma_append(status, _("Won't get new work"));
+    }
+    if (p->sched_rpc_pending) {
+        comma_append(status, _("Scheduler request pending"));
+    }
+    pDoc->GetProjectMinRPCTime(item, iNextRPC);
+    wxDateTime dtNextRPC((time_t)iNextRPC);
+    wxDateTime dtNow(wxDateTime::Now());
+    if (dtNextRPC > dtNow) {
+        wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
+        comma_append(status, _("Communication deferred ") + tsNextRPC.Format());
     }
 
     return 0;
