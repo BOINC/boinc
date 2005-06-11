@@ -399,6 +399,51 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     set_client_state_dirty("Add project");
     return 0;
 }
+// called when the client fails to attach to a project
+//
+void PROJECT::attach_failed(int reason) {
+    switch(reason){
+    case ATTACH_FAIL_INIT:
+        msg_printf(this, MSG_ALERT,
+            "Couldn't connect to URL %s.\n"
+            "Please check URL.",
+            master_url
+        );
+        break;
+    case ATTACH_FAIL_DOWNLOAD:
+        msg_printf(this, MSG_ALERT,
+            "Couldn't access URL %s.\n"
+            "The project's servers may be down,\n"
+            "in which case please try again later.",
+            master_url
+        );
+        break;
+    case ATTACH_FAIL_PARSE:
+        msg_printf(this, MSG_ALERT,
+            "The page at %s contains no BOINC information.\n"
+            "It may not be the URL of a BOINC project.\n"
+            "Please check the URL and try again.",
+            master_url
+        );
+        break;
+    case ATTACH_FAIL_BAD_KEY:
+        msg_printf(this, MSG_ALERT,
+            "The account key you provided for %s\n"
+            "was not recognized as a valid account key.\n"
+            "Please check the account key and try again.",
+            master_url
+        );
+        break;
+    case ATTACH_FAIL_FILE_WRITE:
+        msg_printf(this, MSG_ALERT,
+            "BOINC was unable to create an account file for %s on your disk.\n"
+            "Please check file system permissions and try again.\n",
+            master_url
+        );
+        break;
+    }
+    gstate.detach_project(this);
+}
 
 int CLIENT_STATE::parse_preferences_for_user_files() {
     unsigned int i;

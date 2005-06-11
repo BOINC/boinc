@@ -7664,3 +7664,17 @@ David  10 June 2005
 		ViewMessages.cpp
 	lib/
 		gui_rpc_client.h
+
+David  11 June 2005
+	- changed project_add_failed() to a member function of PROJECT
+		(PROJECT::attach_failed).
+		Move code out of main.C,h
+	- Removed special project_add_failed() from Win GUI code.
+
+	client/
+		client_types.h
+		cs_account.C
+		main.C,h
+		scheduler_op.C
+		win/
+			wingui_mainwindow.cpp

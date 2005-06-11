@@ -64,7 +64,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             p->get_project_name(), retval
         );
         if (p->tentative) {
-            project_add_failed(p, ADD_FAIL_INIT);
+            p->attach_failed(ATTACH_FAIL_INIT);
         } else {
             p->master_fetch_failures++;
             backoff(p, "Master file fetch failed\n");
@@ -384,7 +384,7 @@ bool SCHEDULER_OP::poll() {
                     if (cur_proj->tentative) {
                         PROJECT* project_temp = cur_proj;
                         cur_proj = 0;   // keep detach(0) from removing HTTP OP
-                        project_add_failed(project_temp, ADD_FAIL_PARSE);
+                        project_temp->attach_failed(ATTACH_FAIL_PARSE);
                         err = true;
                     } else {
                         cur_proj->master_fetch_failures++;
@@ -409,7 +409,7 @@ bool SCHEDULER_OP::poll() {
                 if (cur_proj->tentative) {
                     PROJECT* project_temp = cur_proj;
                     cur_proj = 0;
-                    project_add_failed(project_temp, ADD_FAIL_DOWNLOAD);
+                    project_temp->attach_failed(ATTACH_FAIL_DOWNLOAD);
                 } else {
                     cur_proj->master_fetch_failures++;
                     backoff(cur_proj, "Master file fetch failed\n");
@@ -464,12 +464,12 @@ bool SCHEDULER_OP::poll() {
                 //
                 if (cur_proj->tentative) {
                     if (retval || strlen(cur_proj->user_name)==0) {
-                        project_add_failed(cur_proj, ADD_FAIL_BAD_KEY);
+                        cur_proj->attach_failed(ATTACH_FAIL_BAD_KEY);
                     } else {
                         cur_proj->tentative = false;
                         retval = cur_proj->write_account_file();
                         if (retval) {
-                            project_add_failed(cur_proj, ADD_FAIL_FILE_WRITE);
+                            cur_proj->attach_failed(ATTACH_FAIL_FILE_WRITE);
                         }
                     }
                 } else {

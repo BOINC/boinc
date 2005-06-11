@@ -2294,25 +2294,5 @@ void delete_curtain() {
 //    g_myWnd->m_pSSWnd->ShowSSWindow(false);
 }
 
-void project_add_failed(PROJECT* project, int reason) {
-    char buf[512];
-    if (project->scheduler_urls.size()) {
-        sprintf( buf,
-            "BOINC failed to log in to %s.\n"
-            "Please check your account ID and try again.",
-            project->master_url
-        );
-    } else {
-        sprintf( buf,
-            "BOINC couldn't get main page for %s.\n"
-            "Please check the URL and try again.",
-            project->master_url
-        );
-    }
-    AfxMessageBox(buf);
-    g_myWnd->DetachProject(project);
-    // TODO: To be filled in
-}
-
 
 const char *BOINC_RCSID_3eaaa7525d = "$Id$";
