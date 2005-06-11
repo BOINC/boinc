@@ -7622,3 +7622,45 @@ David  10 June 2005
 		cs_apps.C
 	clientgui/
 		ViewProjects.cpp
+
+David  10 June 2005
+	- BOINC Manager: change things so that if user tries to
+		attach to a project and it fails,
+		an alert dialog shows up within a few seconds,
+		saying what went wrong and what to do about it.
+
+	This involves several pieces:
+
+	- add a new core client message priority: MSG_ALERT.
+		The accompanying message should be shown in an alert dialog.
+	- CLIENT_STATE::add_project: show alert msg if URL or key is bad
+	- project_add_failed(): add a "reason" argument,
+		and show alert messages accordingly
+	- change SCHEDULER_OP::check_master_fetch_start(), SCHEDULER_OP::poll()
+		to call project_add_failed() with appropriate reason
+	- CMainDocument::CachedMessageUpdate():
+		scan new messages; if any are MSG_ALERT priority, show alert.
+		Else append to main message vector.
+	- CMainFrame::OnListPanelRender(): call pDoc->CachedMessageUpdate().
+		This is the easiest way I could find of checking new messages
+		every 5 seconds, even when not in the Messages tab.
+
+	NOTE: there's one piece I didn't do.
+	When the Manager connects to a core client with some ALERT messages
+	already in its message log, it probably shouldn't show alerts for them.
+	Rom, please figure out how to do this.
+
+	client/
+		client_msgs.h
+		cs_account.C
+		gui_rpc_server.C
+		main.C,h
+		scheduler_op.C
+		win/
+			wingui_mainwindow.cpp
+	clientgui/
+		MainDocument.cpp,h
+		MainFrame.cpp
+		ViewMessages.cpp
+	lib/
+		gui_rpc_client.h

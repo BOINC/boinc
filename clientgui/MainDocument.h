@@ -204,9 +204,9 @@ public:
     //
 private:
 
-    int                         CachedMessageUpdate();
 
 public:
+    int                         CachedMessageUpdate();
 
     int                         GetMessageCount();
     int                         GetMessageProjectName(int iIndex, wxString& strBuffer);

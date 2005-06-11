@@ -38,11 +38,10 @@
 #include "client_msgs.h"
 #include "file_names.h"
 #include "log_flags.h"
+#include "main.h"
 #include "scheduler_op.h"
 
 using std::vector;
-
-extern void project_add_failed(PROJECT*);
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     state = SCHEDULER_OP_STATE_IDLE;
@@ -65,8 +64,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             p->get_project_name(), retval
         );
         if (p->tentative) {
-            msg_printf(p, MSG_ERROR, "Detaching from project - check for URL error");
-            project_add_failed(p);
+            project_add_failed(p, ADD_FAIL_INIT);
         } else {
             p->master_fetch_failures++;
             backoff(p, "Master file fetch failed\n");
@@ -362,7 +360,6 @@ bool SCHEDULER_OP::poll() {
     vector<std::string> urls;
     bool changed, scheduler_op_done;
     bool err = false;
-    char err_msg[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
@@ -381,13 +378,13 @@ bool SCHEDULER_OP::poll() {
                      cur_proj->master_url
                 );
                 retval = parse_master_file(cur_proj, urls);
-                if (retval) {
+                if (retval || (urls.size()==0)) {
                     // master file parse failed.
                     //
                     if (cur_proj->tentative) {
                         PROJECT* project_temp = cur_proj;
                         cur_proj = 0;   // keep detach(0) from removing HTTP OP
-                        project_add_failed(project_temp);
+                        project_add_failed(project_temp, ADD_FAIL_PARSE);
                         err = true;
                     } else {
                         cur_proj->master_fetch_failures++;
@@ -409,22 +406,13 @@ bool SCHEDULER_OP::poll() {
             } else {
                 // master file fetch failed.
                 //
-                cur_proj->master_fetch_failures++;
-                backoff(cur_proj, "Master file fetch failed\n");
-            }
-
-            // Done with master file fetch.
-            // If tentative project and don't have any schedulers,
-            // it may be the wrong URL.  notify the user
-            //
-            if (!err && cur_proj->scheduler_urls.size() == 0) {
                 if (cur_proj->tentative) {
-                    project_add_failed(cur_proj);
+                    PROJECT* project_temp = cur_proj;
+                    cur_proj = 0;
+                    project_add_failed(project_temp, ADD_FAIL_DOWNLOAD);
                 } else {
-                    sprintf(err_msg, "Master page has no schedulers");
-                    msg_printf(cur_proj, MSG_ERROR, err_msg);
                     cur_proj->master_fetch_failures++;
-                    backoff(cur_proj, err_msg);
+                    backoff(cur_proj, "Master file fetch failed\n");
                 }
             }
             cur_proj = NULL;
@@ -476,12 +464,12 @@ bool SCHEDULER_OP::poll() {
                 //
                 if (cur_proj->tentative) {
                     if (retval || strlen(cur_proj->user_name)==0) {
-                        project_add_failed(cur_proj);
+                        project_add_failed(cur_proj, ADD_FAIL_BAD_KEY);
                     } else {
                         cur_proj->tentative = false;
                         retval = cur_proj->write_account_file();
                         if (retval) {
-                            project_add_failed(cur_proj);
+                            project_add_failed(cur_proj, ADD_FAIL_FILE_WRITE);
                         }
                     }
                 } else {

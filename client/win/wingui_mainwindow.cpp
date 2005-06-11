@@ -2294,7 +2294,7 @@ void delete_curtain() {
 //    g_myWnd->m_pSSWnd->ShowSSWindow(false);
 }
 
-void project_add_failed(PROJECT* project) {
+void project_add_failed(PROJECT* project, int reason) {
     char buf[512];
     if (project->scheduler_urls.size()) {
         sprintf( buf,

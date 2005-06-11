@@ -60,23 +60,50 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #include "main.h"
 
 
-// This gets called when the client fails to add a project
+// called when the client fails to attach to a project
 //
-void project_add_failed(PROJECT* project) {
-    if (project->scheduler_urls.size()) {
-        printf(
-            "BOINC failed to log in to %s.\n "
-            "Please check your account key and try again.\n",
-            project->master_url
+void project_add_failed(PROJECT* p, int reason) {
+    switch(reason){
+    case ADD_FAIL_INIT:
+        msg_printf(p, MSG_ALERT,
+            "Couldn't connect to URL %s.\n"
+            "Please check URL.",
+            p->master_url
         );
-    } else {
-        printf(
-            "BOINC couldn't get main page for %s.\n"
-            "Please check the URL and try again.\n",
-            project->master_url
+        break;
+    case ADD_FAIL_DOWNLOAD:
+        msg_printf(p, MSG_ALERT,
+            "Couldn't access URL %s.\n"
+            "The project's servers may be down,\n"
+            "in which case please try again later.",
+            p->master_url
         );
+        break;
+    case ADD_FAIL_PARSE:
+        msg_printf(p, MSG_ALERT,
+            "The page at %s contains no BOINC information.\n"
+            "It may not be the URL of a BOINC project.\n"
+            "Please check the URL and try again.",
+            p->master_url
+        );
+        break;
+    case ADD_FAIL_BAD_KEY:
+        msg_printf(p, MSG_ALERT,
+            "The account key you provided for %s\n"
+            "was not recognized as a valid account key.\n"
+            "Please check the account key and try again.",
+            p->master_url
+        );
+        break;
+    case ADD_FAIL_FILE_WRITE:
+        msg_printf(p, MSG_ALERT,
+            "BOINC was unable to create an account file for %s on your disk.\n"
+            "Please check file system permissions and try again.\n",
+            p->master_url
+        );
+        break;
     }
-    gstate.detach_project(project);
+    gstate.detach_project(p);
 }
 
 // Display a message to the user.
@@ -109,6 +136,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 
     switch (priority) {
     case MSG_ERROR:
+    case MSG_ALERT:
         fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
         printf("%s [%s] %s\n", time_string, x, message);
         if (gstate.executing_as_daemon) {

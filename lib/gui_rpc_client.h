@@ -61,6 +61,15 @@
 #define SS_STATUS_QUIT                              8
 #define SS_STATUS_NOPROJECTSDETECTED                9
 
+// These MUST match the constants in client/client_msgs.h
+
+#define MSG_PRIORITY_INFO               1
+    // show message in black
+#define MSG_PRIORITY_ERROR              2
+    // show message in red
+#define MSG_PRIORITY_ALERT              4
+    // show message in a modal dialog
+
 struct GUI_URL {
     std::string name;
     std::string description;

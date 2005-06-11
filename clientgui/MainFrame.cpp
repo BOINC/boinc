@@ -1376,6 +1376,8 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function Begin"));
 
     FireRefreshView();
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    pDoc->CachedMessageUpdate();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function End"));
 }

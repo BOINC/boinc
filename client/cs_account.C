@@ -345,13 +345,23 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     canonicalize_master_url(canonical_master_url);
     if (!valid_master_url(canonical_master_url)) {
         msg_printf(0, MSG_ERROR, "Invalid project URL: %s", canonical_master_url);
+        msg_printf(0, MSG_ALERT,
+            "%s is not a valid URL.\n"
+            "You may have typed the URL incorrectly.\n",
+            canonical_master_url
+        );
         return ERR_INVALID_URL;
     }
 
     safe_strcpy(auth, _auth);
     strip_whitespace(auth);
     if (!strlen(auth)) {
-        msg_printf(0, MSG_ERROR, "Invalid account key: %s", auth);
+        msg_printf(0, MSG_ERROR, "Missing account key");
+        msg_printf(0, MSG_ALERT,
+            "Missing account key.\n"
+            "Visit the project's web site\n"
+            "to get your account key."
+        );
         return ERR_AUTHENTICATOR;
     }
 

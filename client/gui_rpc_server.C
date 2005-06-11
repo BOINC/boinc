@@ -287,15 +287,17 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
     int seqno=0, i, j;
     unsigned int k;
     MESSAGE_DESC* mdp;
-    bool found=false;
 
     parse_int(buf, "<seqno>", seqno);
 
+    // messages are stored in descreasing seqno,
+    // i.e. newer ones are at the head of the vector.
+    // compute j = index of first message to return
+    //
     j = message_descs.size()-1;
     for (k=0; k<message_descs.size(); k++) {
         mdp = message_descs[k];
         if (mdp->seqno <= seqno) {
-            found = true;
             j = k-1;
             break;
         }

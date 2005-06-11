@@ -38,7 +38,7 @@
 class PROJECT;
 
 // Show a message, preceded by timestamp and project name
-// priorities:
+// priorities (this MUST match those in lib/gui_rpc_client.h)
 
 #define MSG_INFO    1
     // write to stdout
@@ -48,6 +48,9 @@ class PROJECT;
     // GUI: write to msg window in bold or red
 #define MSG_WARNING 3
     // deprecated - do not use
+#define MSG_ALERT   4
+    // write to stderr
+    // GUI: put in a modal dialog
 
 // the following stores a message in memory, where it can be retrieved via RPC
 //

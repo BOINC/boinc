@@ -37,9 +37,6 @@
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
-#define PRIORITY_INFO               1
-#define PRIORITY_ERROR              2
-
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
@@ -310,10 +307,10 @@ wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
     pDoc->GetMessagePriority(item, iBuffer);
 
     switch(iBuffer) {
-    case PRIORITY_INFO:
+    case MSG_PRIORITY_INFO:
         strBuffer = wxT("I");
         break;
-    case PRIORITY_ERROR:
+    default:
         strBuffer = wxT("E");
         break;
     }

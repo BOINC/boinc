@@ -1159,20 +1159,32 @@ RESULT* CMainDocument::result(int i) {
 
 
 int CMainDocument::CachedMessageUpdate() {
-    int     iRetVal = 0;
+    int     retval = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_messages(m_iMessageSequenceNumber, messages);
-        if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
+        MESSAGES new_msgs;
+        retval = rpc.get_messages(m_iMessageSequenceNumber, new_msgs);
+        if (retval) {
+            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
             m_pNetworkConnection->SetStateDisconnected();
+            return retval;
         }
-
-        if (messages.messages.size() != 0)
-            m_iMessageSequenceNumber = messages.messages.at(messages.messages.size()-1)->seqno;
+        std::vector<MESSAGE*>::iterator mi = new_msgs.messages.begin();
+        while (mi != new_msgs.messages.end()) {
+            MESSAGE* mp = *mi;
+            m_iMessageSequenceNumber = mp->seqno;
+            if (mp->priority == MSG_PRIORITY_ALERT) {
+                wxString foo = mp->body.c_str();
+                wxMessageBox(foo, _("BOINC error"), wxOK | wxICON_ERROR);
+                delete mp;
+            } else {
+                messages.messages.push_back(mp);
+            }
+            new_msgs.messages.erase(mi);
+        }
     }
 
-    return iRetVal;
+    return retval;
 }
 
 

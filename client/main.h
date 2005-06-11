@@ -24,3 +24,12 @@ extern void suspend_client();
 extern void resume_client();
 extern int check_unique_instance();
 #endif
+
+#define ADD_FAIL_INIT       1
+#define ADD_FAIL_DOWNLOAD   2
+#define ADD_FAIL_PARSE      3
+#define ADD_FAIL_BAD_KEY    4
+#define ADD_FAIL_FILE_WRITE 5
+
+class PROJECT;
+extern void project_add_failed(PROJECT*, int reason);
