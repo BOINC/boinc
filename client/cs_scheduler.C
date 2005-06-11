@@ -388,7 +388,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (gstate.now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
             return p;
         }
-        if (gstate.now > r->completed_time + global_prefs.work_buf_min_days) {
+        if (gstate.now > r->completed_time + global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
             return p;
         }
     }
@@ -517,7 +517,7 @@ int CLIENT_STATE::compute_work_requests() {
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
         if (!p->contactable()) continue;
 
-        // ??? explain
+        // ??? explain the following
         //
         if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes * 60) && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
 

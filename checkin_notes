@@ -7678,3 +7678,11 @@ David  11 June 2005
 		scheduler_op.C
 		win/
 			wingui_mainwindow.cpp
+
+David  11 Jan 2005
+    - CLIENT_STATE::find_project_with_overdue_result():
+        need to convert work_buf_min_days to seconds
+        (from Jim Harris)
+
+    client/
+        cs_scheduler.C

@@ -5,17 +5,21 @@ echo "
 
 This document describes two related parts of the BOINC core client
 (version 4.36 and later):
-<p>
-<b>CPU scheduling policy</b>:
+<dl>
+<dt><b>CPU scheduling policy</b>
+<dd>
 Of the set of results that are runnable (see below),
 which ones to execute?
-(On a machine with N CPUs, BOINC will try to execute N results at once).
+BOINC will generally execute NCPUS results at once,
+where NCPUS is the minimum of the physical number of CPUs
+(counting hyperthreading) and the user's 'max_cpus' general preference.
 
-<p>
-<b>Work-fetch policy</b>:
+<dt><b>Work-fetch policy</b>
+<dd>
 When should the core client ask a project for more work,
 which project should it ask,
 and how much work should it ask for?
+</dl>
 
 <p>
 The goals of the CPU scheduler and work-fetch policies are
@@ -24,7 +28,11 @@ The goals of the CPU scheduler and work-fetch policies are
 <li> Results should be completed and reported by their deadline
 (results reported after their deadline
 may not have any value to the project and may not be granted credit).
-<li> Project resource shares should be honored over the long term;
+<li> NCPUS processors should be kept busy.
+<li> At any given point, enough work should be kept on hand
+so that NCPUS processors will be busy for at least
+min_queue days (min_queue is a user preference).
+<li> Project resource shares should be honored over the long term.
 <li> If a computer is attached to multiple projects,
     execution should rotate among projects on a frequent basis.
 </ul>
@@ -147,10 +155,55 @@ and maximum short-term debt is no greater than 86400 (i.e. one day).
 It is adjusted over the set of potentially runnable projects.
 It is normalized so that average long-term debt is zero.
 
+<h3>Required time fraction</h3>
+
+A result's <b>required time fraction</b> (RTF) is its
+estimated remaining CPU time divided by the time to its deadline.
+SHOULD WE ALSO TAKE INTO ACCOUNT FACTORS BESIDES CPU TIME?
+
+<p>
+A result's <b>cumulative required time fraction</b> (CRTF)
+of a result R is the estimated remaining CPU time
+of R and all results with earlier deadlines,
+divided by the time until R's deadline.
+
+<p>
+Example:
+<table cellpadding=6 border=1>
+<tr>
+    <th>Result</th>
+    <th>Remaining CPU time</th>
+    <th>Time until deadline</th>
+    <th>RTF</th>
+    <th>CRTF</th>
+</tr>
+<tr>
+    <td>A</td>
+    <td>5 hours</td>
+    <td>50 hours</td>
+    <td>0.1</td>
+    <td>0.1</td>
+</tr>
+<tr>
+    <td>B</td>
+    <td>76 hours</td>
+    <td>100 hours</td>
+    <td>0.76</td>
+    <td>0.81</td>
+</tr>
+<tr>
+    <td>C</td>
+    <td>500 hours</td>
+    <td>5000 hours</td>
+    <td>0.1</td>
+    <td>0.12</td>
+</tr>
+</table>
 
 <h2>The CPU scheduling policy</h2>
 <p>
-The CPU scheduler has two modes, <b>normal</b> and <b>panic</b>.
+The CPU scheduler has two modes, <b>normal</b> and
+<b>Earliest Deadline First (EDF)</b>.
 In normal mode, the CPU scheduler runs the project(s)
 with the greatest short-term debt.
 Specifically:
@@ -161,14 +214,14 @@ Specifically:
     (picking one that is already running, if possible)
     and schedule that result.
 <li> Decrement P's anticipated debt by the 'expected payoff'
-    (the total wall CPU in the last period divided by #CPUs).
+    (the total wall CPU in the last period divided by NCPUS).
 <li> Repeat steps 2 and 3 for additional CPUs
 </ol>
 Over the long term, this results in a round-robin policy,
 weighted by resource shares.
 
 <p>
-In panic mode, the CPU scheduler
+In EDF mode, the CPU scheduler
 schedules the runnable results with the earliest deadlines.
 This allows the client to meet deadlines that would otherwise be missed.
 
@@ -185,7 +238,7 @@ or when the user performs a UI interaction
 
 <p>
 X is the estimated wall time by which the number of
-runnable results will fall below #CPUs.
+runnable results will fall below NCPUS.
 <p>
 min_queue is the user's network-connection period general preference.
 <p>
@@ -213,7 +266,7 @@ In addition, the work-fetch policy maintains a per-project work-fetch mode:
 R(P) = fractional resource share of P
 <p>
 X(P) = estimated wall time when number of runnable results for P
-will fall below #CPUs*R(P)
+will fall below NCPUS*R(P)
 <ul>
 <li>
 <b>NEED_IMMEDIATELY</b>:
@@ -234,18 +287,19 @@ will fall below #CPUs*R(P)
 
 <h2>Mode selection</h2>
 <p>
-Sort the work units by deadline, earliest first.
-If at any point in this list, the sum of the remaining 
-processing time is greater than 0.8 * up_frac * time to deadline,
-the CPU queue is overloaded.
-This triggers both no work requests and the CPU scheduler
-into earliest deadline first.
+Work_fetch_OK is set to false if either
+<ul>
+<li> The sum of all RTFs is > 0.8
+<li> The CRTF of any result is > 0.8
+</ul>
 
-<p>
-Sum the fraction that the remaining processing time is of the time
-to deadline for each work unit.
-If this is greater than 0.8 * up_frac, the CPU queue is fully loaded.
-This triggers no work fetch.
+EDF mode is used if either
+<ul>
+<li> The CRTF of any result is > 0.8
+<li> The deadline of any result is earlier than one day from now
+<li> The deadline of any result is less than
+2 * min_queue from now.
+</ul>
 
 
 
