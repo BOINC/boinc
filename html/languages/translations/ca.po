@@ -24,11 +24,11 @@ msgstr "iso-8859-1"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "Català"
+msgstr "Catal&agrave;"
 
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Català"
+msgstr "Catal&agrave;"
 
 #########################################
 # Apps page (apps.php)

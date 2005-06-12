@@ -6,7 +6,7 @@ $imgdir = "img/flags/";
 
 $languages = getSupportedLanguages();
 
-if (get_str("set_lang")){
+if (get_str("set_lang", true)){
     if (!in_array(get_str("set_lang"), $languages) && get_str("set_lang")!="auto"){
         echo "You must select a supported language";
         exit;

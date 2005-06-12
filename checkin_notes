@@ -5502,22 +5502,22 @@ Rom    21 April 2005
         ViewWork.cpp, .h
 
 David  21 April 2005
-	- CPU scheduler: don't run projects or results suspended via GUI,
-		even in earliest-deadline-first mode
-	- fix button logic for projects
-	- set buttons in work tab based on selection
-	- include graphics_mode_acked in GUI RPC description RESULT.
-		Could indicate whether app has window open (but doesn't yet).
+    - CPU scheduler: don't run projects or results suspended via GUI,
+        even in earliest-deadline-first mode
+    - fix button logic for projects
+    - set buttons in work tab based on selection
+    - include graphics_mode_acked in GUI RPC description RESULT.
+        Could indicate whether app has window open (but doesn't yet).
 
-	client/
-		app.C
-		cs_apps.C
-	clientgui/
-		MainDocument.cpp,h
-		ViewProjects.cpp,h
-		ViewWork.cpp, h
-	lib/
-		gui_rpc_client.h
+    client/
+        app.C
+        cs_apps.C
+    clientgui/
+        MainDocument.cpp,h
+        ViewProjects.cpp,h
+        ViewWork.cpp, h
+    lib/
+        gui_rpc_client.h
 
 Rom    21 April 2005
     - More code cleanup
@@ -5602,15 +5602,15 @@ Charlie    25 April 2005
         mac/
             mac_saver_module.cpp
 
-Eric	25 Apr 2005
+Eric    25 Apr 2005
     GUI fix for platforms without tooltips.
     Typo fix in Makefile.am
 
     clientgui/
-    	Makefile.am
-	BOINCTaskCtrl.cpp
-	ViewProjects.cpp
-	ViewWork.cpp
+        Makefile.am
+    BOINCTaskCtrl.cpp
+    ViewProjects.cpp
+    ViewWork.cpp
 
 Rom    25 April 2005
     - Don't allow people to continue posting or reading from a thread that has
@@ -5666,57 +5666,57 @@ Rom    26 April 2005
         ViewWork.cpp
         
 David  26 April 2005
-	- Preliminary checkin for "intermediate upload" feature for CPDN.
-		This allows an app to upload a file in the middle of a result.
-	- code cleanup in Manager code:
-		- Started to get rid of member functions of CMainDocument
-			that access elements of PROJECT (????).
-			e.g.:
-				GetProjectProjectName()
-				GetProjectTeamName()
-			Rom: please complete this.
-		- Started to get rid of functions like
-			CViewProjects::FormatProjectName()
-			Rom: please complete this
-		- ASSERT(NULL != X) -> ASSERT(X)
-			(do not undo these - please replace everywhere)
-		- Destructors don't need to reset fields.
-		TODO: replace the OnDocGetItemText() functions
-			with functions that get all items at once
+    - Preliminary checkin for "intermediate upload" feature for CPDN.
+        This allows an app to upload a file in the middle of a result.
+    - code cleanup in Manager code:
+        - Started to get rid of member functions of CMainDocument
+            that access elements of PROJECT (????).
+            e.g.:
+                GetProjectProjectName()
+                GetProjectTeamName()
+            Rom: please complete this.
+        - Started to get rid of functions like
+            CViewProjects::FormatProjectName()
+            Rom: please complete this
+        - ASSERT(NULL != X) -> ASSERT(X)
+            (do not undo these - please replace everywhere)
+        - Destructors don't need to reset fields.
+        TODO: replace the OnDocGetItemText() functions
+            with functions that get all items at once
 
-	api/
-		boinc_api.C
-	client/
-		app.h
-		app_control.C
-		cs_files.C
-	clientgui/
-		BOINCBaseView.cpp
-		BOINCGUIApp.cpp
-		BOINCListCtrl.cpp
-		BOINCTaskBar.cpp
-		BOINCTaskCtrl.cpp
-		MainDocument.cpp,h
-		MainFrame.cpp
-		ViewMessages.cpp
-		ViewProjects.cpp,h
-		ViewResources.cpp
-		ViewStatistics.cpp
-		ViewTransfers.cpp,h
-		ViewWork.cpp
-	lib/
-		gui_rpc_client.C,h
-		shmem.C,h
-	win_build/
-		boinc_cli.vcproj
+    api/
+        boinc_api.C
+    client/
+        app.h
+        app_control.C
+        cs_files.C
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp
+        BOINCListCtrl.cpp
+        BOINCTaskBar.cpp
+        BOINCTaskCtrl.cpp
+        MainDocument.cpp,h
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp,h
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp,h
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.C,h
+        shmem.C,h
+    win_build/
+        boinc_cli.vcproj
 
 Charlie    27 April 2005
-	Mac: created installer.  Changed working directory from 
-	user-specific "~/Library/Application Support/BOINC Data" 
-	to global "/Library/Application Support/BOINC Data".
-	Fixed CViewProjects::OnProjectWebsiteClicked for Mac.
-	Added progress display to screensaver when no application 
-	graphics.
+    Mac: created installer.  Changed working directory from 
+    user-specific "~/Library/Application Support/BOINC Data" 
+    to global "/Library/Application Support/BOINC Data".
+    Fixed CViewProjects::OnProjectWebsiteClicked for Mac.
+    Added progress display to screensaver when no application 
+    graphics.
  
     mac-installer/
         LoginItemAPI.c (new)
@@ -5770,9 +5770,9 @@ Janus  28 April 2005
             userw.php
 
 Charlie    28 April 2005
-	Mac: Clean up XCode project by removing unused libraries 
-	and frameworks.
-	Update build instructions to include screensaver & installer.
+    Mac: Clean up XCode project by removing unused libraries 
+    and frameworks.
+    Update build instructions to include screensaver & installer.
 
     mac_build/
         HowToBuildBOINC_XCode.rtf
@@ -5787,32 +5787,32 @@ Rom    28 April 2005
         gui_roc_client.C, .h
 
 David  28 April 2005
-	- debugged intermediate upload feature
-	- Got rid of some -1 returns.
-		 A BOINC function should never return -1
-		 (or the return value of a system call)
-		 since this discards info about where the error came from
-	 - parse_double(): don't accept NaN or +- infinity
+    - debugged intermediate upload feature
+    - Got rid of some -1 returns.
+         A BOINC function should never return -1
+         (or the return value of a system call)
+         since this discards info about where the error came from
+     - parse_double(): don't accept NaN or +- infinity
 
-	api/
-		boinc_api.C,h
-	apps/
-		upper_case.C
-	client/
-		app.C,h
-		app_control.C
-		client_state.C
-		client_types.C,h
-		cs_apps.C
-		cs_files.C
-		gui_rpc_server.C
-	lib/
-		app_ipc.h
-		error_numbers.h
-		filesys.C
-		mfile.C
-		network.C
-		parse.C
+    api/
+        boinc_api.C,h
+    apps/
+        upper_case.C
+    client/
+        app.C,h
+        app_control.C
+        client_state.C
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        gui_rpc_server.C
+    lib/
+        app_ipc.h
+        error_numbers.h
+        filesys.C
+        mfile.C
+        network.C
+        parse.C
 
 Rom    28 April 2005
     - Adjust the installer so that it will not include the pdb files in future
@@ -5867,7 +5867,7 @@ Bruce 29 April 2005
       avg += [diff*ln(2)/half_life] * (work*SECONDS_PER_DAY/diff)
       notice that diff cancels out, leaving
       avg += [ln(2)/half_life] * work*SECONDS_PER_DAY
-	
+    
     lib/
         util.C
     html/
@@ -5906,7 +5906,7 @@ Charlie    29 April 2005
 Janus  30 April 2005
     - Changed rating +/- links to be images instead (more visible)
       Suggested by Eric Myers.
-	- Added example images
+    - Added example images
     - Made "sticky sorting" optional. Users can now ignore sticky posts and
       have posts sorted by time as usual if they like.
 
@@ -5961,10 +5961,10 @@ Bruce 1 May 2005
         util.h
 
 David  2 May 2005
-	- bug fix for intermediate upload feature
+    - bug fix for intermediate upload feature
 
-	client/
-		app.C
+    client/
+        app.C
 
 Bruce 2 May 2005
     - locality scheduling: if host resources are inadequate for ANY WU,
@@ -6020,8 +6020,8 @@ Janus   4 May 2005
       that has to do with usual forum functions (like showing posts etc).
 
     html/inc/
-	forum.inc
-	db_forum.inc (new)
+    forum.inc
+    db_forum.inc (new)
 
 Bruce 4 May 2005
     - log execution times for two cgi scripts (scheduler and
@@ -6045,7 +6045,7 @@ Jeff 4 May 2005
 
     configure.ac
     lib/
-	parse.C 
+    parse.C 
 
 David  4 May 2005
     - bug fix in boinc_upload_file() (from Tolu Aina)
@@ -6220,7 +6220,7 @@ Rom    5 May 2005
     clientgui/
         ViewStatistics.cpp
 
-Eric	05/05/05  Woo Hoo!
+Eric    05/05/05  Woo Hoo!
     - Modified the BOINC_GETSOCKOPT_TYPE macro so it determines the proper type
         of parameter 5 to getsockopt() by using the compiler.
         The macro was in danger of becoming an ever expanding list of
@@ -6244,15 +6244,15 @@ Eric	05/05/05  Woo Hoo!
     m4/
         libtool.m4
         boinc_getsockopt.m4
-	sah_header_stdcxx.m4
-	sah_namespace.m4
+    sah_header_stdcxx.m4
+    sah_namespace.m4
     client/
         time_stats.C
         gui_rpc_server.C
-	ssl_net_xfer.C
+    ssl_net_xfer.C
     lib/
         network.C
-	network.h
+    network.h
         std_fixes.h
 
 Charlie    5 May 2005
@@ -6335,7 +6335,7 @@ Janus  8 May 2005
             forum_reply.php
             style.css
             style-black.css
-	    white.css
+        white.css
             payment_success.php (new)
             payment_process.php (new)
 
@@ -6519,7 +6519,7 @@ Rom    12 May 2005
         win_screensaver.cpp
         
 Charlie    13 may 2005
-	Mac: Update build instructions. 
+    Mac: Update build instructions. 
         Fix compile error.
     client/
         main.C
@@ -6597,26 +6597,26 @@ Rom    13 May 2005
         win_screensaver.cpp
 
 David  14 May 2005
-	- fix bug where multiple scheduler RPCs or master file fetches
-		could be started simultaneously (this is a no-no).
-	- NET_XFER_SET::do_select(): don't add a socket to fd_set
-		if io_done is true.
-		This causes the select() to fail and all I/O locks up.
-	- break out English strings for socket errors
-		into a separate function (socket_error_str())
-		instead of having them embedded in resolve_hostname() (???)
+    - fix bug where multiple scheduler RPCs or master file fetches
+        could be started simultaneously (this is a no-no).
+    - NET_XFER_SET::do_select(): don't add a socket to fd_set
+        if io_done is true.
+        This causes the select() to fail and all I/O locks up.
+    - break out English strings for socket errors
+        into a separate function (socket_error_str())
+        instead of having them embedded in resolve_hostname() (???)
 
-	client/
-		cs_scheduler.C
-		net_xfer.C
-		scheduler_op.C
-		win/
-			wingui_mainwindow.cpp
-	lib/
-		network.C,h
+    client/
+        cs_scheduler.C
+        net_xfer.C
+        scheduler_op.C
+        win/
+            wingui_mainwindow.cpp
+    lib/
+        network.C,h
 
 Charlie    15 may 2005
-	Mac: Update XCode project and build instructions for 
+    Mac: Update XCode project and build instructions for 
         OS 10.4 (Tiger) and XCode 2.0. Fix gcc-4.0 compiler warning.
 
     clientgui/
@@ -6637,16 +6637,16 @@ David  15 May 2005
             mail_passwd.php
 
 David  15 May 2005
-	- fix bug where sometimes master file fetch
-		or user-requested scheduler RPC wouldn't happen
-	- SCHEDULER_OP::init_get_work(): remove master_file_only argument
-		NOTE: functions should do one thing only.
-		Please do not overload them with extra arguments
-		and orthogonal functionality
+    - fix bug where sometimes master file fetch
+        or user-requested scheduler RPC wouldn't happen
+    - SCHEDULER_OP::init_get_work(): remove master_file_only argument
+        NOTE: functions should do one thing only.
+        Please do not overload them with extra arguments
+        and orthogonal functionality
 
-	client/
-		cs_scheduler.C
-		scheduler_op.C,h
+    client/
+        cs_scheduler.C
+        scheduler_op.C,h
 
 Janus  16 May 2005
     - Don't send reply-notifications in the forum to the user who posted the
@@ -6674,7 +6674,7 @@ Bruce 17 May 2005
         server_types.h
 
 Charlie    17 May 2005
-	Mac: SetVersion now automatically updates version number 
+    Mac: SetVersion now automatically updates version number 
         string in all 5 files where needed, but does not touch 
         these files if the version number is current.  Update build 
         instructions to reflect this new automation.
@@ -6727,7 +6727,7 @@ Rom    17 May 2005
         app_graphics.C
 
 Charlie    18 May 2005
-	Mac: Fix some compiler warnings.  Add --build=powerpc-apple-darwin to 
+    Mac: Fix some compiler warnings.  Add --build=powerpc-apple-darwin to 
         configure args in build instructions to force generic platform name.
         Fix core client redirection when launched by screensaver.
 
@@ -6755,7 +6755,7 @@ Rom    18 May 2005
         BOINCGUIApp.cpp
 
 Charlie    18 May 2005
-	Mac: Eliminate an absolute library search path in project. 
+    Mac: Eliminate an absolute library search path in project. 
         In build instructions, don't suggeest using jpeglib.h from
         seti_boinc project.
 
@@ -6778,7 +6778,7 @@ David  19 May 2005
         gui_rpc_server.C
 
 Charlie    20 May 2005
-	Mac: Change how wxWidgets libraries are linked so the static 
+    Mac: Change how wxWidgets libraries are linked so the static 
         versions are used even if the dynamic libraries are present.
         Add information to Build instructions for passing arguments to 
         the Core Client for debugging under XCode.
@@ -6845,7 +6845,7 @@ Rom    20 May 2005
         app_graphics.C
 
 Charlie    21 may 2005
-	Mac: If core client exits screensaver mode but Mac screensaver engine 
+    Mac: If core client exits screensaver mode but Mac screensaver engine 
         doesn't (as in the case of a mouse button click with no mouse movement)
         then show message "BOINC is no longer in screensaver mode."
         Update installer to work around problems launching BOINC Manager.
@@ -6920,15 +6920,15 @@ David  22 May 2005
         graphics_impl.C
 
 David  22 May 2005
-	- screensaver logic: if > 1 apps are running (e.g. multiprocessor)
-		switch between them every 10 minutes
-	- compile fix for Win
+    - screensaver logic: if > 1 apps are running (e.g. multiprocessor)
+        switch between them every 10 minutes
+    - compile fix for Win
 
-	api/
-		boinc_api.C
-	client/
-		app_graphics.C
-		ss_logic.C
+    api/
+        boinc_api.C
+    client/
+        app_graphics.C
+        ss_logic.C
 
 David  22 May 2005
     - Unix API: don't do any floating-point math in the timer signal handler
@@ -7046,7 +7046,7 @@ Rom    24 May 2005
         MainFrame.cpp
 
 Charlie    25 may 2005
-	Mac: If core client sends screensaver SS_STATUS_QUIT, kill the 
+    Mac: If core client sends screensaver SS_STATUS_QUIT, kill the 
         screensaver engine if it has not quit after 1 second.  Eliminate
         "BOINC is no longer in screensaver mode" message.
 
@@ -7152,34 +7152,34 @@ David  28 May 2005
         cs_prefs.C
 
 David  28 May 2005
-	- BOINC manager: changed message in work tab
-		try to make it clear WHY a result is not running
-		Not quite done - need to show if project is suspended
-	- BOINC manager: changed message in projects tab
-		"Project suspended" -> "Suspended by user"
-		Also, don't show "won't get new work"
-	- BOINC manager code cleanup
-		- got rid of enums in CMainDocument for RESULTTYPE, CPU_SCHED_TYPE,
-			and RUN_TYPE.
-			?? Why make new constants when we already have perfectly good ones?
-		- got rid of (in CMainDocument):
-			bool                        IsProjectSuspended(int iIndex);
-			bool                        IsProjectRPCPending(int iIndex);
-			bool                        IsProjectAllowedToGetWork(int iIndex);
-			int                         GetWorkState(int iIndex);
-			int                         GetWorkSchedulerState(int iIndex);
-			bool                        IsWorkAborted(int iIndex);
-			bool                        IsWorkAcknowledged(int iIndex);
-			bool                        IsWorkActive(int iIndex);
-			bool                        IsWorkReadyToReport(int iIndex);
-			bool                        IsWorkSuspended(int iIndex);
+    - BOINC manager: changed message in work tab
+        try to make it clear WHY a result is not running
+        Not quite done - need to show if project is suspended
+    - BOINC manager: changed message in projects tab
+        "Project suspended" -> "Suspended by user"
+        Also, don't show "won't get new work"
+    - BOINC manager code cleanup
+        - got rid of enums in CMainDocument for RESULTTYPE, CPU_SCHED_TYPE,
+            and RUN_TYPE.
+            ?? Why make new constants when we already have perfectly good ones?
+        - got rid of (in CMainDocument):
+            bool                        IsProjectSuspended(int iIndex);
+            bool                        IsProjectRPCPending(int iIndex);
+            bool                        IsProjectAllowedToGetWork(int iIndex);
+            int                         GetWorkState(int iIndex);
+            int                         GetWorkSchedulerState(int iIndex);
+            bool                        IsWorkAborted(int iIndex);
+            bool                        IsWorkAcknowledged(int iIndex);
+            bool                        IsWorkActive(int iIndex);
+            bool                        IsWorkReadyToReport(int iIndex);
+            bool                        IsWorkSuspended(int iIndex);
 
 
-	clientgui/
-		BOINCTaskBar.cpp
-		MainDocument.cpp,h
-		ViewProjects.cpp
-		ViewWork.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+        MainDocument.cpp,h
+        ViewProjects.cpp
+        ViewWork.cpp
 
 David  31 May 2005
     - Add 2 new items to scheduler RPC request:
@@ -7231,23 +7231,23 @@ David  31 May 2005
         server_types.C
 
 David  31 May 2005
-	- core client: remove extraneous scheduling-related messages.
-		Just say when we're entering/leaving either
-		no-work-fetch mode or deadline-scheduling mode
+    - core client: remove extraneous scheduling-related messages.
+        Just say when we're entering/leaving either
+        no-work-fetch mode or deadline-scheduling mode
 
-	- got rid of work_request arg to
-		CLIENT_STATE::make_scheduler_request() and
-		SCHEDULER_OP::init_op_project()
+    - got rid of work_request arg to
+        CLIENT_STATE::make_scheduler_request() and
+        SCHEDULER_OP::init_op_project()
 
-	- When making a scheduler RPC, always show
-		the work request and the # of results being returned
+    - When making a scheduler RPC, always show
+        the work request and the # of results being returned
 
-	client/
-		client_state.h
-		client_types.h
-		cs_apps.C
-		cs_scheduler.C
-		scheduler_op.C,h
+    client/
+        client_state.h
+        client_types.h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C,h
 
 David  31 May 2005
     - If a project has multiple scheduler URLs,
@@ -7349,18 +7349,18 @@ David  1 June 2005
         cs_statefile.C
 
 David  2 June 2005
-	- add a new value FILE_DELETE_ERROR for file delete state
-		(for when the unlink failed, e.g. because of permissions).
-	- add a new cmdline flag -retry_errors to file deleter
+    - add a new value FILE_DELETE_ERROR for file delete state
+        (for when the unlink failed, e.g. because of permissions).
+    - add a new cmdline flag -retry_errors to file deleter
 
-	(from Kevin Reed)
+    (from Kevin Reed)
 
-	db/
-		boinc_db.h
-	html/inc/
-		db_ops.inc
-	sched/
-		file_deleter.C
+    db/
+        boinc_db.h
+    html/inc/
+        db_ops.inc
+    sched/
+        file_deleter.C
 
 David  2 June 2005
     - Scheduler: don't write Content-type: text/plain twice
@@ -7567,21 +7567,21 @@ David  8 June 2005
         prefs.C,h
 
 David  8 June 2005
-	- Check network start/end hours even if user_network_request is ALWAYS.
-		Currently that's the default,
-		and in fact there's no interface for changing it to AUTO.
-	- CLIENT_STATE::scheduler_rpc_poll():
-		check for master file fetch and user-requested scheduler RPCs
-		before checking network_suspended flag.
-		Otherwise the user might get into a state where their
-		prefs don't allow network access (e.g. because of time-of-day),
-		and they can't do an "update" to change the prefs
+    - Check network start/end hours even if user_network_request is ALWAYS.
+        Currently that's the default,
+        and in fact there's no interface for changing it to AUTO.
+    - CLIENT_STATE::scheduler_rpc_poll():
+        check for master file fetch and user-requested scheduler RPCs
+        before checking network_suspended flag.
+        Otherwise the user might get into a state where their
+        prefs don't allow network access (e.g. because of time-of-day),
+        and they can't do an "update" to change the prefs
 
-	client/
-		cs_prefs.C
-		cs_scheduler.C
-		win/
-			wingui_mainwindow.cpp
+    client/
+        cs_prefs.C
+        cs_scheduler.C
+        win/
+            wingui_mainwindow.cpp
 
 David  8 June 2005
     - bug fix in net stats calculation
@@ -7613,76 +7613,93 @@ David  9 June 2005
         cs_cmdline.C
 
 David  10 June 2005
-	- Fixed major goof in last checkin:
-		caused all debt calculations to be no-op
-	- Manager: in "status" column of Projects tab,
-		show all relevant info, comma-separated
+    - Fixed major goof in last checkin:
+        caused all debt calculations to be no-op
+    - Manager: in "status" column of Projects tab,
+        show all relevant info, comma-separated
 
-	client/
-		cs_apps.C
-	clientgui/
-		ViewProjects.cpp
+    client/
+        cs_apps.C
+    clientgui/
+        ViewProjects.cpp
 
 David  10 June 2005
-	- BOINC Manager: change things so that if user tries to
-		attach to a project and it fails,
-		an alert dialog shows up within a few seconds,
-		saying what went wrong and what to do about it.
+    - BOINC Manager: change things so that if user tries to
+        attach to a project and it fails,
+        an alert dialog shows up within a few seconds,
+        saying what went wrong and what to do about it.
 
-	This involves several pieces:
+    This involves several pieces:
 
-	- add a new core client message priority: MSG_ALERT.
-		The accompanying message should be shown in an alert dialog.
-	- CLIENT_STATE::add_project: show alert msg if URL or key is bad
-	- project_add_failed(): add a "reason" argument,
-		and show alert messages accordingly
-	- change SCHEDULER_OP::check_master_fetch_start(), SCHEDULER_OP::poll()
-		to call project_add_failed() with appropriate reason
-	- CMainDocument::CachedMessageUpdate():
-		scan new messages; if any are MSG_ALERT priority, show alert.
-		Else append to main message vector.
-	- CMainFrame::OnListPanelRender(): call pDoc->CachedMessageUpdate().
-		This is the easiest way I could find of checking new messages
-		every 5 seconds, even when not in the Messages tab.
+    - add a new core client message priority: MSG_ALERT.
+        The accompanying message should be shown in an alert dialog.
+    - CLIENT_STATE::add_project: show alert msg if URL or key is bad
+    - project_add_failed(): add a "reason" argument,
+        and show alert messages accordingly
+    - change SCHEDULER_OP::check_master_fetch_start(), SCHEDULER_OP::poll()
+        to call project_add_failed() with appropriate reason
+    - CMainDocument::CachedMessageUpdate():
+        scan new messages; if any are MSG_ALERT priority, show alert.
+        Else append to main message vector.
+    - CMainFrame::OnListPanelRender(): call pDoc->CachedMessageUpdate().
+        This is the easiest way I could find of checking new messages
+        every 5 seconds, even when not in the Messages tab.
 
-	NOTE: there's one piece I didn't do.
-	When the Manager connects to a core client with some ALERT messages
-	already in its message log, it probably shouldn't show alerts for them.
-	Rom, please figure out how to do this.
+    NOTE: there's one piece I didn't do.
+    When the Manager connects to a core client with some ALERT messages
+    already in its message log, it probably shouldn't show alerts for them.
+    Rom, please figure out how to do this.
 
-	client/
-		client_msgs.h
-		cs_account.C
-		gui_rpc_server.C
-		main.C,h
-		scheduler_op.C
-		win/
-			wingui_mainwindow.cpp
-	clientgui/
-		MainDocument.cpp,h
-		MainFrame.cpp
-		ViewMessages.cpp
-	lib/
-		gui_rpc_client.h
+    client/
+        client_msgs.h
+        cs_account.C
+        gui_rpc_server.C
+        main.C,h
+        scheduler_op.C
+        win/
+            wingui_mainwindow.cpp
+    clientgui/
+        MainDocument.cpp,h
+        MainFrame.cpp
+        ViewMessages.cpp
+    lib/
+        gui_rpc_client.h
 
 David  11 June 2005
-	- changed project_add_failed() to a member function of PROJECT
-		(PROJECT::attach_failed).
-		Move code out of main.C,h
-	- Removed special project_add_failed() from Win GUI code.
+    - changed project_add_failed() to a member function of PROJECT
+        (PROJECT::attach_failed).
+        Move code out of main.C,h
+    - Removed special project_add_failed() from Win GUI code.
 
-	client/
-		client_types.h
-		cs_account.C
-		main.C,h
-		scheduler_op.C
-		win/
-			wingui_mainwindow.cpp
+    client/
+        client_types.h
+        cs_account.C
+        main.C,h
+        scheduler_op.C
+        win/
+            wingui_mainwindow.cpp
 
-David  11 Jan 2005
+David  11 June 2005
     - CLIENT_STATE::find_project_with_overdue_result():
         need to convert work_buf_min_days to seconds
         (from Jim Harris)
 
     client/
         cs_scheduler.C
+
+David  12 June 2005
+    - In language names in .po files,
+        use HTML special characters (e.g. &agrave;)
+        instead of non-ASCII characters
+    - user web: fix bug in language select page (from Jens)
+    - db_dump: don't exit if user lookup fails
+    - change wording of user-name lookup: "starts with", not "contains"
+
+    html/
+        language/translations/
+            ca.po
+        user/
+            language_select.php
+            user_search_action.php
+    sched/
+        db_dump.C

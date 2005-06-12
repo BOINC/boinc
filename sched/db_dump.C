@@ -304,14 +304,13 @@ void write_host(HOST& host, FILE* f, bool detail) {
                 "user lookup of user %d for host %d: %d\n",
                 host.userid, host.id, retval
             );
-            return;
-            //exit(1);
-        }
-        if (user.show_hosts) {
-            fprintf(f,
-                "    <userid>%d</userid>\n",
-                host.userid
-            );
+        } else {
+            if (user.show_hosts) {
+                fprintf(f,
+                    "    <userid>%d</userid>\n",
+                    host.userid
+                );
+            }
         }
     }
     fprintf(f,

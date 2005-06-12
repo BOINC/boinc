@@ -16,7 +16,7 @@ $count = 10;
 
 page_head("Search results");
 
-echo "<h2>User names containing '$search_string'</h2>\n";
+echo "<h2>User names starting with '$search_string'</h2>\n";
 
 $search_string = str_replace('_', '\\\\_', $search_string);
 $search_string = str_replace('%', '\\\\%', $search_string);
@@ -32,7 +32,7 @@ while ($user = mysql_fetch_object($result)) {
 echo "</table>";
 mysql_free_result($result);
 if ($offset==0 && $n==0) {
-    echo "No user names found containing '$search_string'";
+    echo "No user names found starting with '$search_string'";
 }
 
 if ($n==$count) {
