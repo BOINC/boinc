@@ -149,6 +149,7 @@ int boinc_socket_asynch(int fd, bool asynch) {
 }
 
 void boinc_close_socket(int sock) {
+	
 #ifdef _WIN32
     closesocket(sock);
 #else

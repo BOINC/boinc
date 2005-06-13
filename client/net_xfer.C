@@ -92,6 +92,8 @@ int NET_XFER::open_server() {
     int fd=0, ipaddr, retval=0;
     char msg[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
+
 #ifdef WIN32
     retval = NetOpen();
     if (retval) return retval;
@@ -104,6 +106,7 @@ int NET_XFER::open_server() {
     }
 
     retval = boinc_socket(fd);
+    scope_messages.printf("opened socket %d to %s", fd, hostname);
     if (retval) return retval;
     retval = boinc_socket_asynch(fd, true);
     if (retval) return retval;
@@ -112,6 +115,7 @@ int NET_XFER::open_server() {
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = ((long)ipaddr);
     retval = connect(fd, (sockaddr*)&addr, sizeof(addr));
+    scope_messages.printf("connect() to %s on socket %d returned %d\n", hostname, fd, retval);
     if (retval) {
 #ifdef WIN32
         errno = WSAGetLastError();
@@ -407,6 +411,8 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
             }
         } else if (FD_ISSET(fd, &error_fds)) {
             scope_messages.printf("NET_XFER_SET::do_select(): got error on socket %d\n", fd);
+            scope_messages.printf("%s; %d\n", socket_error_str(), get_socket_error(fd));
+            
             nxp = lookup_fd(fd);
             if (nxp) {
                 nxp->got_error();

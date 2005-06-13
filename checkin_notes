@@ -7767,3 +7767,31 @@ David  13 June 2005
 		ViewStatistics.cpp
 		ViewTransfers.cpp
 		ViewWork.cpp
+
+David  13 June 2005
+	- core client: estimated CPU time to completion of an active result
+		as a weighted average of estimates based on
+		1) the workunit's flops count
+		2) the current reported CPU time and fraction done,
+		weighted by the fraction done.
+		This gives better estimates for apps that don't
+		estimate their fraction done well (e.g. SETI@home).
+		It should eliminate a behavior where the client gets 1 result,
+		starts running it, and immediately requests more work.
+	- core client: fix bug where we'd to a master file fetch
+		after every scheduler RPC
+	- core client: show messages when downloading master page,
+		and when it succeeds or fails
+
+	NOTE: I was seeing a bug where each file transfer would fail
+	immediately with a CONN_REFUSED error (10061 on Win),
+	but would succeed on retry.
+	This went away when I changed the settings on my
+	Symantec Personal Firewall to not check outgoing connections.
+	Seems like a bug in Symantec to me.
+
+	client/
+		app.C
+		cs_account.C
+		net_xfer.C
+		scheduler_op.C

@@ -60,17 +60,17 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     retval = init_master_fetch(p);
     if (retval) {
         msg_printf(p, MSG_ERROR,
-            "Couldn't read master page for %s: error %d",
-            p->get_project_name(), retval
+            "Couldn't start master page download: %d", retval
         );
         if (p->tentative) {
             p->attach_failed(ATTACH_FAIL_INIT);
         } else {
             p->master_fetch_failures++;
-            backoff(p, "Master file fetch failed\n");
+            backoff(p, "Master page fetch failed\n");
         }
         return false;
     }
+    msg_printf(p, MSG_ERROR, "Fetching master file");
     return true;
 }
 
@@ -193,6 +193,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
+        msg_printf(p, MSG_ERROR, "Too many backoffs - fetching master file");
         p->master_url_fetch_pending = true;
     } else {
         // if nrpc failures is a multiple of master_fetch_period,
@@ -393,6 +394,7 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // parse succeeded
                     //
+                    msg_printf(cur_proj, MSG_INFO, "Master page download succeeded");
                     cur_proj->master_fetch_failures = 0;
                     changed = update_urls(cur_proj, urls);
                     

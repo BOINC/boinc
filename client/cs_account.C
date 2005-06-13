@@ -95,11 +95,6 @@ int PROJECT::parse_account(FILE* in) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
-    // Assume master_url_fetch_pending, sched_rpc_pending are
-    // true until we read client_state.xml
-    //
-    master_url_fetch_pending = true;
-    sched_rpc_pending = true;
     strcpy(master_url, "");
     strcpy(host_venue, "");
     strcpy(authenticator, "");
@@ -198,6 +193,11 @@ int CLIENT_STATE::parse_account_files() {
             f = boinc_fopen(name.c_str(), "r");
             if (!f) continue;
             project = new PROJECT;
+            // Assume master_url_fetch_pending, sched_rpc_pending are
+            // true until we read client_state.xml
+            //
+            project->master_url_fetch_pending = true;
+            project->sched_rpc_pending = true;
             retval = project->parse_account(f);
             fclose(f);
             if (retval) {
