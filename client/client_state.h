@@ -158,6 +158,7 @@ private:
     double cpu_sched_last_time;
     double total_wall_cpu_time_this_period;
         // "wall CPU time" accumulated since last schedule_cpus()
+    double total_cpu_time_this_period;
 	bool work_fetch_no_new_work;
 	bool cpu_earliest_deadline_first;
 

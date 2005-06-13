@@ -251,10 +251,10 @@ The work-fetch policy maintains an 'overall urgency':
     there is at least one idle CPU
 <li>
 <b>NEED</b>:
-    X &lt; than min_queue 
+    X &lt; min_queue 
 <li>
 <b>OK</b>:
-    X > min_queue, work_fetch_OK is true
+    X &gt; min_queue, work_fetch_OK is true
 <li>
 <b>DONT_NEED</b>:
     work_fetch_OK is false
@@ -273,7 +273,7 @@ will fall below NCPUS*R(P)
     no results of P are runnable soon.
 <li>
 <b>NEED</b>:
-    X(P) < min_queue * R(P)
+    X(P) &lt; min_queue * R(P)
 <li>
 <b>OK</b>:
     X(P) > min_queue * R(P),

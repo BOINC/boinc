@@ -159,6 +159,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     double wall_cpu_time = now - cpu_sched_last_time;
     at.result->project->wall_cpu_time_this_period += wall_cpu_time;
     total_wall_cpu_time_this_period += wall_cpu_time;
+    total_cpu_time_this_period += at.current_cpu_time - at.cpu_time_at_last_sched;
 
     return 0;
 }
@@ -416,7 +417,12 @@ void CLIENT_STATE::adjust_debts() {
 
         atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
         total_wall_cpu_time_this_period += wall_cpu_time;
+        total_cpu_time_this_period += atp->current_cpu_time - atp->cpu_time_at_last_sched;
     }
+
+    time_stats.update_cpu_efficiency(
+        total_wall_cpu_time_this_period, total_cpu_time_this_period
+    );
 
     // find total resource shares of runnable and potentially runnable projects
     //
@@ -606,6 +612,7 @@ bool CLIENT_STATE::schedule_cpus() {
         p->wall_cpu_time_this_period = 0;
     }
     total_wall_cpu_time_this_period = 0;
+    total_cpu_time_this_period = 0;
     cpu_sched_last_time = gstate.now;
 
     set_client_state_dirty("schedule_cpus");

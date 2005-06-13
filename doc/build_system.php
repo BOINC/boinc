@@ -117,12 +117,12 @@ list_item("CFLAGS",
     "C compiler flags"
 );
 list_item("LDFLAGS",
-    "linker flags, e.g. -L<lib dir> if you have libraries in a
-    nonstandard directory <lib dir>"
+    "linker flags, e.g. -L&lt;lib dir&gt; if you have libraries in a
+    nonstandard directory &lt;lib dir&gt;"
 );
 list_item("CPPFLAGS",
-    "C/C++ preprocessor flags, e.g. -I<include dir> if you have
-      headers in a nonstandard directory <include dir>"
+    "C/C++ preprocessor flags, e.g. -I&lt;include dir&gt; if you have
+      headers in a nonstandard directory &lt;include dir&gt;"
 );
 list_item("CXX",
     "C++ compiler command"

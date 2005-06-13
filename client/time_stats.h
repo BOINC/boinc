@@ -37,8 +37,15 @@ public:
         // of the time this host runs the core client,
         // the fraction it is enabled to work
         // (as determined by preferences, manual suspend/resume, etc.)
+    double cpu_efficiency;
+        // The ratio between CPU time accumulated by BOINC apps
+        // and the wall time those apps are scheduled at the OS level.
+        // May be less than one if
+        // 1) apps page or do I/O
+        // 2) other CPU-intensive apps run
 
     void update(bool is_active);
+    void update_cpu_efficiency(double cpu_wall_time, double cpu_time);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);

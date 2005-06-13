@@ -53,6 +53,7 @@ TIME_STATS::TIME_STATS() {
     on_frac = 1;
     connected_frac = 1;
     active_frac = 1;
+    cpu_efficiency = 1;
 }
 
 // Update time statistics based on current activities
@@ -110,6 +111,12 @@ void TIME_STATS::update(bool is_active) {
 #endif
 }
 
+void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
+    double w = exp(-cpu_wall_time/86400);
+    double e = cpu_time/cpu_wall_time;
+    cpu_efficiency = w*cpu_efficiency + (1-w)*e;
+}
+
 // Write XML based time statistics
 //
 int TIME_STATS::write(MIOFILE& out, bool to_server) {
@@ -117,10 +124,12 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
         "<time_stats>\n"
         "    <on_frac>%f</on_frac>\n"
         "    <connected_frac>%f</connected_frac>\n"
-        "    <active_frac>%f</active_frac>\n",
+        "    <active_frac>%f</active_frac>\n"
+        "    <cpu_efficiency>%f</cpu_efficiency>\n",
         on_frac,
         connected_frac,
-        active_frac
+        active_frac,
+        cpu_efficiency
     );
     if (!to_server) {
         out.printf(
@@ -145,6 +154,7 @@ int TIME_STATS::parse(MIOFILE& in) {
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
+        else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
         else scope_messages.printf("TIME_STATS::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;

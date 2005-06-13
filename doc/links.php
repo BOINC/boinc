@@ -98,10 +98,8 @@ language("Japanese", array(
         "translation by Komori Hitoshi")
 ));
 language("Polish", array(
-    site( "http://www.boincatpoland.org",
-        "www.boincatpoland.org"),
-    site( "http://www.boinc.pl",
-        "www.boinc.pl")
+    site( "http://www.boincatpoland.org", "BOINC@Poland"),
+    site( "http://www.boinc.pl", "www.boinc.pl")
 ));
 language("Portuguese", array(
     site( "http://portugalathome.pt.vu/", "Portugal@home")

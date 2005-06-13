@@ -259,7 +259,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
 
     strMessage.Printf(
         _("Are you sure you want to abort this result '%s'?"), 
-        pDoc->result(m_pListPane->GetFirstSelected())->name
+        pDoc->result(m_pListPane->GetFirstSelected())->name.c_str()
     );
 
     iAnswer = wxMessageBox(
@@ -503,7 +503,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
             setlocale(LC_NUMERIC, "C");
             strBuffer.Printf(
                 wxT("%s %.2f"), 
-                state_result->wup->avp->app_name,
+                state_result->wup->avp->app_name.c_str(),
                 state_result->wup->avp->version_num/100.0
             );
             setlocale(LC_NUMERIC, strLocale.c_str());

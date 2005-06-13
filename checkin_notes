@@ -7704,6 +7704,7 @@ David  12 June 2005
     sched/
         db_dump.C
 
+
 Rom    13 June 2005
     - Code clean for the Manager
     - Added two new HTTP_STATUS constants, but haven't done anything with
@@ -7724,4 +7725,30 @@ Rom    13 June 2005
         ViewResources.cpp
         ViewStatistics.cpp
         ViewTransfers.cpp
+        ViewWork.cpp
+
+David  13 Jan 2005
+    - Add code (in TIME_STATS) to compute a quantity "cpu_efficiency".
+        This is the ratio between CPU time accumulated by BOINC apps
+        and the wall time those apps are scheduled at the OS level.
+        It may be less than one if
+        1) apps page or do I/O
+        2) other CPU-intensive apps run
+
+        This is computed with a 1-day exponential smoothing.
+
+        For now, we're just computing this.
+        At some point we'll use it to estimate how long will take.
+
+        (from Glenn Dill)
+
+    client/
+        client_state.h
+        cs_apps.C
+        time_stats.C,h
+
+David  13 June 2005
+    - bug fix in Manager: can't pass a std::string to printf(%s)
+
+    clientgui/
         ViewWork.cpp
