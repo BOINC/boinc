@@ -7752,3 +7752,18 @@ David  13 June 2005
 
     clientgui/
         ViewWork.cpp
+
+David  13 June 2005
+	- get Manager to compile on Windows:
+		- can't do DynamicCast stuff for non-wx objects
+		- don't bother doing both ASSERT(p) and if(p).
+			Better yet, don't do either
+
+	clientgui/
+		BOINCTaskBar.cpp
+		ViewMessages.cpp
+		ViewProjects.cpp
+		ViewResources.cpp
+		ViewStatistics.cpp
+		ViewTransfers.cpp
+		ViewWork.cpp

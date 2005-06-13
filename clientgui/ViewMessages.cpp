@@ -284,9 +284,6 @@ void CViewMessages::UpdateSelection() {
 wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
-    wxASSERT(message);
-    wxASSERT(wxDynamicCast(message, MESSAGE));
-
     if (message) {
         strBuffer = wxString(message->project.c_str());
     }
@@ -298,9 +295,6 @@ wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
     wxInt32  iBuffer = 0;
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
-
-    wxASSERT(message);
-    wxASSERT(wxDynamicCast(message, MESSAGE));
 
     if (message) {
         switch(message->priority) {
@@ -321,9 +315,6 @@ wxInt32 CViewMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
     wxDateTime dtBuffer;
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
-    wxASSERT(message);
-    wxASSERT(wxDynamicCast(message, MESSAGE));
-
     if (message) {
         dtBuffer.Set((time_t)message->timestamp);
         strBuffer = dtBuffer.Format();
@@ -335,9 +326,6 @@ wxInt32 CViewMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
-
-    wxASSERT(message);
-    wxASSERT(wxDynamicCast(message, MESSAGE));
 
     if (message) {
         strBuffer = wxString(message->body.c_str());

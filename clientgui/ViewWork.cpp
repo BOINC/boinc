@@ -470,7 +470,6 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(doc);
     wxASSERT(result);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         state_result = doc->state.lookup_result(result->project_url, result->name);
@@ -494,7 +493,6 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
     wxASSERT(doc);
     wxASSERT(result);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         state_result = doc->state.lookup_result(result->project_url, result->name);
@@ -520,7 +518,6 @@ wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         strBuffer = wxString(result->name.c_str());
@@ -539,7 +536,6 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         if (result->active_task) {
@@ -573,7 +569,6 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         if (result->active_task) {
@@ -602,7 +597,6 @@ wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) con
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         fBuffer = result->estimated_cpu_time_remaining;
@@ -629,7 +623,6 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(result);
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     if (result) {
         dtTemp.Set((time_t)result->report_deadline);
@@ -651,7 +644,6 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(doc);
     wxASSERT(result);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
-    wxASSERT(wxDynamicCast(result, RESULT));
 
     doc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
     doc->GetActivityRunMode(iActivityMode);

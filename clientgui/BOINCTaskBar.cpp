@@ -262,9 +262,6 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
             RESULT* state_result = NULL;
             std::string project_name;
 
-            wxASSERT(result);
-            wxASSERT(wxDynamicCast(result, RESULT));
-
             bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
             bIsActive     = result->active_task;
             bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);

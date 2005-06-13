@@ -201,9 +201,7 @@ wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) con
     std::string project_name;
 
     wxASSERT(doc);
-    wxASSERT(resource);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
-    wxASSERT(wxDynamicCast(resource, PROJECT));
 
     if (resource) {
         state_project = doc->state.lookup_project(resource->master_url);
@@ -224,9 +222,6 @@ wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const
     double         xMega = 1048576.0;
     double         xKilo = 1024.0;
     PROJECT* resource = wxGetApp().GetDocument()->resource(item);
-
-    wxASSERT(resource);
-    wxASSERT(wxDynamicCast(resource, PROJECT));
 
     if (resource) {
         fBuffer = resource->disk_usage;

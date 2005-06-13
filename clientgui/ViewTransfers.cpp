@@ -355,13 +355,9 @@ void CViewTransfers::UpdateSelection() {
 wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
-
     if (transfer) {
         strBuffer = wxString(transfer->project_name.c_str());
     }
-
     return 0;
 }
 
@@ -369,13 +365,9 @@ wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) con
 wxInt32 CViewTransfers::FormatFileName(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
-
     if (transfer) {
         strBuffer = wxString(transfer->name.c_str());
     }
-
     return 0;
 }
 
@@ -384,9 +376,6 @@ wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const 
     float          fBytesSent = 0;
     float          fFileSize = 0;
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
-
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
     if (transfer) {
         if (transfer->xfer_active)
@@ -413,9 +402,6 @@ wxInt32 CViewTransfers::FormatSize(wxInt32 item, wxString& strBuffer) const {
     double         xMega = 1048576.0;
     double         xKilo = 1024.0;
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
-
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
     if (transfer) {
         if (transfer->xfer_active)
@@ -464,9 +450,6 @@ wxInt32 CViewTransfers::FormatTime(wxInt32 item, wxString& strBuffer) const {
     wxTimeSpan     ts;
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
-
     if (transfer) {
         fBuffer = transfer->time_so_far;
     }
@@ -486,9 +469,6 @@ wxInt32 CViewTransfers::FormatTime(wxInt32 item, wxString& strBuffer) const {
 wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
     float          fTransferSpeed = 0;
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
-
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
     if (transfer) {
         if (transfer->xfer_active)
@@ -513,8 +493,6 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     wxASSERT(doc);
-    wxASSERT(transfer);
-    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     doc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);

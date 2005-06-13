@@ -674,9 +674,6 @@ wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
     PROJECT* project = wxGetApp().GetDocument()->project(item);
     std::string project_name;
 
-    wxASSERT(project);
-    wxASSERT(wxDynamicCast(project, PROJECT));
-
     if (project) {
         project->get_name(project_name);
         strBuffer = wxString(project_name.c_str());
@@ -689,9 +686,6 @@ wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(project);
-    wxASSERT(wxDynamicCast(project, PROJECT));
-
     if (project) {
         strBuffer = wxString(project->user_name.c_str());
     }
@@ -702,9 +696,6 @@ wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) cons
 
 wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    wxASSERT(project);
-    wxASSERT(wxDynamicCast(project, PROJECT));
 
     if (project) {
         strBuffer = wxString(project->team_name.c_str());
@@ -717,9 +708,6 @@ wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
 wxInt32 CViewProjects::FormatTotalCredit(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(project);
-    wxASSERT(wxDynamicCast(project, PROJECT));
-
     if (project) {
         strBuffer.Printf(wxT("%0.2f"), project->user_total_credit);
     }
@@ -730,9 +718,6 @@ wxInt32 CViewProjects::FormatTotalCredit(wxInt32 item, wxString& strBuffer) cons
 
 wxInt32 CViewProjects::FormatAVGCredit(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    wxASSERT(project);
-    wxASSERT(wxDynamicCast(project, PROJECT));
 
     if (project) {
         strBuffer.Printf(wxT("%0.2f"), project->user_expavg_credit);
@@ -747,9 +732,7 @@ wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) co
     PROJECT*       project = wxGetApp().GetDocument()->project(item);
 
     wxASSERT(pDoc);
-    wxASSERT(project);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(wxDynamicCast(project, PROJECT));
 
     if (project && pDoc) {
         strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), 
@@ -764,9 +747,6 @@ wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) co
 
 wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& status) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    wxASSERT(project);
-    wxASSERT(wxDynamicCast(project, PROJECT));
 
     if (project) {
         if (project->suspended_via_gui) {

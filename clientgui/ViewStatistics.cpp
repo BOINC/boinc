@@ -139,9 +139,6 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
             wxString name;
             std::string project_name;
 
-            wxASSERT(statistic);
-            wxASSERT(wxDynamicCast(statistic, PROJECT));
-
             if (statistic) {
                 state_project = pDoc->state.lookup_project(statistic->master_url);
                 if (state_project) {
