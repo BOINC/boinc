@@ -7769,7 +7769,7 @@ David  13 June 2005
 		ViewWork.cpp
 
 David  13 June 2005
-	- core client: estimated CPU time to completion of an active result
+	- core client: estimate CPU time to completion of an active result
 		as a weighted average of estimates based on
 		1) the workunit's flops count
 		2) the current reported CPU time and fraction done,
@@ -7795,3 +7795,9 @@ David  13 June 2005
 		cs_account.C
 		net_xfer.C
 		scheduler_op.C
+
+David  13 June 2005
+    - core client: don't reset projects on major version change
+
+    client/
+        client_state.C

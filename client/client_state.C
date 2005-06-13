@@ -267,17 +267,7 @@ int CLIENT_STATE::init() {
     print_summary();
     do_cmdline_actions();
 
-    if (core_client_major_version != old_major_version) {
-        msg_printf(NULL, MSG_INFO,
-            "State file has different major version (%d.%02d); resetting projects\n",
-            old_major_version, old_minor_version
-        );
-        for (i=0; i<projects.size(); i++) {
-            reset_project(projects[i]);
-        }
-    }
-
-    if ((core_client_major_version == old_major_version) && (core_client_minor_version != old_minor_version)) {
+    if ((core_client_major_version != old_major_version) || (core_client_minor_version != old_minor_version)) {
         msg_printf(NULL, MSG_INFO,
             "Version Change Detected (%d.%02d -> %d.%02d); running CPU benchmarks\n",
             old_major_version, old_minor_version, core_client_major_version, core_client_minor_version
