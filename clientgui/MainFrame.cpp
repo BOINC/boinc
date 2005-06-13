@@ -928,6 +928,7 @@ void CMainFrame::OnToolsUpdateAccounts(wxCommandEvent& WXUNUSED(event))
     wxASSERT(pDlg);
 
     if (!pDoc->IsAccountManagerLoginFound()) {
+        pDlg->SetTitle(pDoc->acct_mgr.acct_mgr.name.c_str());
         iAnswer = pDlg->ShowModal();
         if (wxID_OK == iAnswer) {
             strLogin = pDlg->m_AcctManagerUsernameCtrl->GetValue();

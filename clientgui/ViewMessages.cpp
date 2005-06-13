@@ -282,37 +282,35 @@ void CViewMessages::UpdateSelection() {
 
 
 wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(message);
+    wxASSERT(wxDynamicCast(message, MESSAGE));
 
-    strBuffer.Clear();
-
-    pDoc->GetMessageProjectName(item, strBuffer);
+    if (message) {
+        strBuffer = wxString(message->project.c_str());
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument*  pDoc = wxGetApp().GetDocument();
-    wxInt32         iBuffer = 0;
+    wxInt32  iBuffer = 0;
+    MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(message);
+    wxASSERT(wxDynamicCast(message, MESSAGE));
 
-    strBuffer.Clear();
-
-    pDoc->GetMessagePriority(item, iBuffer);
-
-    switch(iBuffer) {
-    case MSG_PRIORITY_INFO:
-        strBuffer = wxT("I");
-        break;
-    default:
-        strBuffer = wxT("E");
-        break;
+    if (message) {
+        switch(message->priority) {
+        case MSG_PRIORITY_INFO:
+            strBuffer = wxT("I");
+            break;
+        default:
+            strBuffer = wxT("E");
+            break;
+        }
     }
 
     return 0;
@@ -320,30 +318,30 @@ wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
-    wxDateTime     dtBuffer(wxDateTime::Now());
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxDateTime dtBuffer;
+    MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(message);
+    wxASSERT(wxDynamicCast(message, MESSAGE));
 
-    strBuffer.Clear();
-
-    pDoc->GetMessageTime(item, dtBuffer);
-    strBuffer = dtBuffer.Format();
+    if (message) {
+        dtBuffer.Set((time_t)message->timestamp);
+        strBuffer = dtBuffer.Format();
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(message);
+    wxASSERT(wxDynamicCast(message, MESSAGE));
 
-    strBuffer.Clear();
-
-    pDoc->GetMessageMessage(item, strBuffer);
+    if (message) {
+        strBuffer = wxString(message->body.c_str());
+    }
 
     strBuffer.Replace(wxT("\n"), wxT(""), true);
 

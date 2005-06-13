@@ -134,10 +134,23 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 		//Draw Project name
 		{
 			wxCoord w_temp, h_temp, des_temp, lead_temp, x, y;
-			wxString name;
-			pDoc->GetStatisticsProjectName(count,name);
+            PROJECT* statistic = wxGetApp().GetDocument()->statistic(count);
+            PROJECT* state_project = NULL;
+            wxString name;
+            std::string project_name;
 
-			dc.GetTextExtent(name, &w_temp, &h_temp, &des_temp, &lead_temp);
+            wxASSERT(statistic);
+            wxASSERT(wxDynamicCast(statistic, PROJECT));
+
+            if (statistic) {
+                state_project = pDoc->state.lookup_project(statistic->master_url);
+                if (state_project) {
+                    state_project->get_name(project_name);
+                    name = wxString(project_name.c_str());
+                }
+            }
+
+            dc.GetTextExtent(name, &w_temp, &h_temp, &des_temp, &lead_temp);
 
 			x=x_start+((x_end-x_start)/2)-(w_temp/2);
 			y=y_start+lead_temp+5;

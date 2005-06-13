@@ -300,13 +300,6 @@ int CMainDocument::CachedStateUpdate() {
 }
 
 
-int CMainDocument::ForceCacheUpdate() {
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    m_dtCachedStateTimestamp = wxDateTime((time_t)0);
-    return 0;
-}
-
-
 int CMainDocument::OnInit() {
     int iRetVal = -1;
 
@@ -530,6 +523,13 @@ int CMainDocument::GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSu
 }
 
 
+int CMainDocument::ForceCacheUpdate() {
+    m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    m_dtCachedStateTimestamp = wxDateTime((time_t)0);
+    return 0;
+}
+
+
 int CMainDocument::RunBenchmarks() {
     return rpc.run_benchmarks();
 }
@@ -561,6 +561,27 @@ int CMainDocument::CachedProjectStatusUpdate() {
 }
 
 
+PROJECT* CMainDocument::project(int i) {
+    PROJECT* pProject = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!project_status.projects.empty())
+            pProject = project_status.projects.at(i);
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    return pProject;
+}
+
+
 int CMainDocument::GetProjectCount() {
     int iCount = -1;
 
@@ -573,166 +594,6 @@ int CMainDocument::GetProjectCount() {
     return iCount;
 }
 
-
-int CMainDocument::GetProjectProjectURL(int iIndex, wxString& strBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        strBuffer = pProject->master_url.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectAccountName(int iIndex, wxString& strBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        strBuffer = pProject->user_name.c_str();
-
-    return 0;
-}
-
-
-
-int CMainDocument::GetProjectTotalCredit(int iIndex, float& fBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        fBuffer = pProject->user_total_credit;
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectAvgCredit(int iIndex, float& fBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        fBuffer = pProject->user_expavg_credit;
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectResourceShare(int iIndex, float& fBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        fBuffer = pProject->resource_share;
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectTotalResourceShare(int WXUNUSED(iIndex), float& fBuffer) {
-    fBuffer = m_fProjectTotalResourceShare;
-    return 0;
-}
-
-
-int CMainDocument::GetProjectMinRPCTime(int iIndex, int& iBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = project(iIndex);
-
-    if (pProject)
-        iBuffer = (int)pProject->min_rpc_time;
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectWebsiteCount(int iIndex) {
-    int     iCount = 0;
-    wxString    strProjectURL = wxEmptyString;
-    std::string str;
-    PROJECT*    pProject = NULL;
-
-    CachedStateUpdate();
-
-    GetProjectProjectURL(iIndex, strProjectURL);
-    str = strProjectURL.c_str();
-    pProject = state.lookup_project(str);
-
-    if (pProject)
-        iCount = pProject->gui_urls.size();
-
-    return iCount;
-}
-
-
-int CMainDocument::GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer) {
-    wxString    strProjectURL = wxEmptyString;
-    std::string str;
-    PROJECT*    pProject      = NULL;
-    GUI_URL     Url;
-
-    CachedStateUpdate();
-
-    GetProjectProjectURL(iProjectIndex, strProjectURL);
-    str = strProjectURL.c_str();
-    pProject = state.lookup_project(str);
-
-    if (pProject) {
-        Url = pProject->gui_urls.at(iWebsiteIndex);
-        strBuffer = Url.name.c_str();
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer) {
-    wxString    strProjectURL = wxEmptyString;
-    std::string str;
-    PROJECT*    pProject      = NULL;
-    GUI_URL     Url;
-
-    CachedStateUpdate();
-
-    GetProjectProjectURL(iProjectIndex, strProjectURL);
-    str = strProjectURL.c_str();
-    pProject = state.lookup_project(str);
-
-    if (pProject) {
-        Url = pProject->gui_urls.at(iWebsiteIndex);
-        strBuffer = Url.description.c_str();
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer) {
-    wxString    strProjectURL = wxEmptyString;
-    std::string str;
-    PROJECT*    pProject      = NULL;
-    GUI_URL     Url;
-
-    CachedStateUpdate();
-
-    GetProjectProjectURL(iProjectIndex, strProjectURL);
-    str = strProjectURL.c_str();
-    pProject = state.lookup_project(str);
-
-    if (pProject) {
-        Url = pProject->gui_urls.at(iWebsiteIndex);
-        strBuffer = Url.url.c_str();
-    }
-
-    return 0;
-}
 
 int CMainDocument::ProjectAttach(const wxString& strURL, const wxString& strAccountKey) {
     return rpc.project_attach(strURL.c_str(), strAccountKey.c_str());
@@ -832,27 +693,6 @@ int CMainDocument::ProjectAllowMoreWork(int iIndex) {
 }
 
 
-PROJECT* CMainDocument::project(int i) {
-    PROJECT* pProject = NULL;
-
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
-    try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(i);
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
-
-    return pProject;
-}
-
-
 int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
 
@@ -868,6 +708,27 @@ int CMainDocument::CachedResultsStatusUpdate() {
 }
 
 
+RESULT* CMainDocument::result(int i) {
+    RESULT* pResult = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!results.results.empty())
+            pResult = results.results.at(i);
+    }
+    catch (std::out_of_range e) {
+        pResult = NULL;
+    }
+
+    return pResult;
+}
+
+
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
 
@@ -878,179 +739,6 @@ int CMainDocument::GetWorkCount() {
         iCount = results.results.size();
 
     return iCount;
-}
-
-
-int CMainDocument::GetWorkProjectName(int iIndex, wxString& strBuffer) {
-    RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
-    PROJECT* pProject = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult) {
-        pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (pStateResult) {
-            pProject = pStateResult->project;
-            if (pProject) {
-                strBuffer = pProject->project_name.c_str();
-            }
-        } else {
-            ForceCacheUpdate();
-        }
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkProjectURL(int iIndex, wxString& strBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        strBuffer = pResult->project_url.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkApplicationName(int iIndex, wxString& strBuffer) {
-    RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
-    WORKUNIT* pWorkunit = NULL;
-    APP_VERSION* pAppVersion = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult) {
-        pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (pStateResult) {
-            pWorkunit = pStateResult->wup;
-            if (pWorkunit) {
-                pAppVersion = pWorkunit->avp;
-                if (pAppVersion) {
-                    strBuffer = pAppVersion->app_name.c_str();
-                }
-            }
-        }
-        else
-            ForceCacheUpdate();
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkApplicationVersion(int iIndex, int& iBuffer) {
-    RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
-    WORKUNIT* pWorkunit = NULL;
-    APP_VERSION* pAppVersion = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult) {
-        pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (pStateResult) {
-            pWorkunit = pStateResult->wup;
-            if (pWorkunit) {
-                pAppVersion = pWorkunit->avp;
-                if (pAppVersion) {
-                    iBuffer = pAppVersion->version_num;
-                }
-            }
-        } else {
-            ForceCacheUpdate();
-        }
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkName(int iIndex, wxString& strBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        strBuffer = pResult->name.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkCurrentCPUTime(int iIndex, float& fBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        fBuffer = pResult->current_cpu_time;
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkEstimatedCPUTime(int iIndex, float& fBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        fBuffer = pResult->estimated_cpu_time_remaining;
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkFinalCPUTime(int iIndex, float& fBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        fBuffer = pResult->final_cpu_time;
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkFractionDone(int iIndex, float& fBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        fBuffer = pResult->fraction_done;
-
-    return 0;
-}
-
-
-int CMainDocument::GetWorkReportDeadline(int iIndex, int& iBuffer) {
-    RESULT* pResult = NULL;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        iBuffer = pResult->report_deadline;
-
-    return 0;
-}
-
-bool CMainDocument::IsWorkGraphicsSupported(int iIndex) {
-    RESULT* pResult = NULL;
-    bool bRetVal    = false;
-
-    pResult = result(iIndex);
-
-    if (pResult)
-        bRetVal = pResult->supports_graphics;
-
-    return bRetVal;
 }
 
 
@@ -1137,27 +825,6 @@ int CMainDocument::WorkAbort(int iIndex) {
 }
 
 
-RESULT* CMainDocument::result(int i) {
-    RESULT* pResult = NULL;
-
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
-    try {
-        if (!results.results.empty())
-            pResult = results.results.at(i);
-    }
-    catch (std::out_of_range e) {
-        pResult = NULL;
-    }
-
-    return pResult;
-}
-
-
 int CMainDocument::CachedMessageUpdate() {
     int     retval = 0;
 
@@ -1188,76 +855,6 @@ int CMainDocument::CachedMessageUpdate() {
 }
 
 
-int CMainDocument::GetMessageCount() {
-    int iCount = -1;
-
-    CachedStateUpdate();
-    CachedMessageUpdate();
-
-    if (!messages.messages.empty())
-        iCount = messages.messages.size();
-
-    return iCount;
-}
-
-
-int CMainDocument::GetMessageProjectName(int iIndex, wxString& strBuffer) {
-    MESSAGE* pMessage = NULL;
-
-    pMessage = message(iIndex);
-
-    if (pMessage)
-        strBuffer = pMessage->project.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::GetMessageTime(int iIndex, wxDateTime& dtBuffer) {
-    MESSAGE* pMessage = NULL;
-
-    pMessage = message(iIndex);
-
-    if (pMessage) {
-        wxDateTime dtTemp((time_t)pMessage->timestamp);
-        dtBuffer = dtTemp;
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetMessagePriority(int iIndex, int& iBuffer) {
-    MESSAGE* pMessage = NULL;
-
-    pMessage = message(iIndex);
-
-    if (pMessage)
-        iBuffer = pMessage->priority;
-
-    return 0;
-}
-
-
-int CMainDocument::GetMessageMessage(int iIndex, wxString& strBuffer) {
-    MESSAGE* pMessage = NULL;
-
-    pMessage = message(iIndex);
-
-    if (pMessage)
-        strBuffer = pMessage->body.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::ResetMessageState() {
-    messages.clear();
-    m_iMessageSequenceNumber = 0;
-    return 0;
-}
-
-
 MESSAGE* CMainDocument::message(int i) {
     MESSAGE* pMessage = NULL;
 
@@ -1279,6 +876,26 @@ MESSAGE* CMainDocument::message(int i) {
 }
 
 
+int CMainDocument::GetMessageCount() {
+    int iCount = -1;
+
+    CachedStateUpdate();
+    CachedMessageUpdate();
+
+    if (!messages.messages.empty())
+        iCount = messages.messages.size();
+
+    return iCount;
+}
+
+
+int CMainDocument::ResetMessageState() {
+    messages.clear();
+    m_iMessageSequenceNumber = 0;
+    return 0;
+}
+
+
 int CMainDocument::CachedFileTransfersUpdate() {
     int     iRetVal = 0;
 
@@ -1294,6 +911,27 @@ int CMainDocument::CachedFileTransfersUpdate() {
 }
 
 
+FILE_TRANSFER* CMainDocument::file_transfer(int i) {
+    FILE_TRANSFER* pFT = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!ft.file_transfers.empty())
+            pFT = ft.file_transfers.at(i);
+    }
+    catch (std::out_of_range e) {
+        pFT = NULL;
+    }
+
+    return pFT;
+}
+
+
 int CMainDocument::GetTransferCount() {
     int iCount = 0;
 
@@ -1304,128 +942,6 @@ int CMainDocument::GetTransferCount() {
         iCount = ft.file_transfers.size();
 
     return iCount;
-}
-
-
-int CMainDocument::GetTransferProjectName(int iIndex, wxString& strBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        strBuffer = pFT->project_name.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferFileName(int iIndex, wxString& strBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        strBuffer = pFT->name.c_str();
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferFileSize(int iIndex, float& fBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        fBuffer = pFT->nbytes;
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferBytesXfered(int iIndex, float& fBuffer)
-{
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        fBuffer = pFT->bytes_xferred;
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferSpeed(int iIndex, float& fBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        fBuffer = pFT->xfer_speed;
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferTime(int iIndex, float& fBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        fBuffer = pFT->time_so_far;
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferNextRequestTime(int iIndex, int& iBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        iBuffer = pFT->next_request_time;
-
-    return 0;
-}
-
-
-int CMainDocument::GetTransferStatus(int iIndex, int& iBuffer) {
-    FILE_TRANSFER* pFT = NULL;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        iBuffer = pFT->status;
-
-    return 0;
-}
-
-
-bool CMainDocument::IsTransferActive(int iIndex) {
-    FILE_TRANSFER* pFT = NULL;
-    bool bRetVal    = false;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        bRetVal = pFT->pers_xfer_active;
-
-    return bRetVal;
-}
-
-bool CMainDocument::IsTransferGeneratedLocally(int iIndex) {
-    FILE_TRANSFER* pFT = NULL;
-    bool bRetVal    = false;
-
-    pFT = file_transfer(iIndex);
-
-    if (pFT)
-        bRetVal = pFT->generated_locally;
-
-    return bRetVal;
 }
 
 
@@ -1455,27 +971,6 @@ int CMainDocument::TransferAbort(int iIndex) {
 }
 
 
-FILE_TRANSFER* CMainDocument::file_transfer(int i) {
-    FILE_TRANSFER* pFT = NULL;
-
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
-    try {
-        if (!ft.file_transfers.empty())
-            pFT = ft.file_transfers.at(i);
-    }
-    catch (std::out_of_range e) {
-        pFT = NULL;
-    }
-
-    return pFT;
-}
-
-
 int CMainDocument::CachedResourceStatusUpdate() {
     int     iRetVal = 0;
 
@@ -1488,50 +983,6 @@ int CMainDocument::CachedResourceStatusUpdate() {
     }
 
     return iRetVal;
-}
-
-
-int CMainDocument::GetResourceCount() {
-    int iCount = -1;
-
-    CachedStateUpdate();
-    CachedResourceStatusUpdate();
-
-    if (!resource_status.projects.empty())
-        iCount = resource_status.projects.size();
-
-    return iCount;
-}
-
-
-int CMainDocument::GetResourceProjectName(int iIndex, wxString& strBuffer) {
-    PROJECT* pProject = NULL;
-    PROJECT* pStateProject = NULL;
-
-    pProject = resource(iIndex);
-
-    if (pProject) {
-        pStateProject = state.lookup_project(pProject->master_url);
-        if (pStateProject) {
-            strBuffer = pStateProject->project_name.c_str();
-        } else {
-            ForceCacheUpdate();
-        }
-    }
-
-    return 0;
-}
-
-
-int CMainDocument::GetResourceDiskspace(int iIndex, float& fBuffer) {
-    PROJECT* pProject = NULL;
-
-    pProject = resource(iIndex);
-
-    if (pProject)
-        fBuffer = pProject->disk_usage;
-
-    return 0;
 }
 
 
@@ -1557,6 +1008,19 @@ PROJECT* CMainDocument::resource(int i) {
 }
 
 
+int CMainDocument::GetResourceCount() {
+    int iCount = -1;
+
+    CachedStateUpdate();
+    CachedResourceStatusUpdate();
+
+    if (!resource_status.projects.empty())
+        iCount = resource_status.projects.size();
+
+    return iCount;
+}
+
+
 int CMainDocument::CachedStatisticsStatusUpdate() {
     int     iRetVal = 0;
     wxString    strEmpty = wxEmptyString;
@@ -1570,39 +1034,6 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
     }
 
     return iRetVal;
-}
-
-
-int CMainDocument::GetStatisticsCount() {
-    int iCount = -1;
-
-    CachedStateUpdate();
-    CachedStatisticsStatusUpdate();
-
-    if (!statistics_status.projects.empty())
-        iCount = statistics_status.projects.size();
-
-    return iCount;
-}
-
-
-int CMainDocument::GetStatisticsProjectName(int iIndex, wxString& strBuffer)
-{
-    PROJECT* pProject = NULL;
-    PROJECT* pStateProject = NULL;
-
-    pProject = statistic(iIndex);
-
-    if (pProject) {
-        pStateProject = state.lookup_project(pProject->master_url);
-        if (pStateProject) {
-            strBuffer = pStateProject->project_name.c_str();
-        } else {
-            ForceCacheUpdate();
-        }
-    }
-
-    return 0;
 }
 
 
@@ -1624,6 +1055,19 @@ PROJECT* CMainDocument::statistic(int i) {
     }
 
     return pProject;
+}
+
+
+int CMainDocument::GetStatisticsCount() {
+    int iCount = -1;
+
+    CachedStateUpdate();
+    CachedStatisticsStatusUpdate();
+
+    if (!statistics_status.projects.empty())
+        iCount = statistics_status.projects.size();
+
+    return iCount;
 }
 
 

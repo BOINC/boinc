@@ -7703,3 +7703,25 @@ David  12 June 2005
             user_search_action.php
     sched/
         db_dump.C
+
+Rom    13 June 2005
+    - Code clean for the Manager
+    - Added two new HTTP_STATUS constants, but haven't done anything with
+      them yet.
+    - The title of the account manager dialog is the name of the
+      organization managing the accounts.
+
+    client/
+        http.C
+        scheduler_op.C
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp, .h
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

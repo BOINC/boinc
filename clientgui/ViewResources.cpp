@@ -38,8 +38,6 @@
 
 
 CResource::CResource() {
-    m_strProjectName = wxEmptyString;
-    m_strDiskSpace = wxEmptyString;
 }
 
 
@@ -196,16 +194,24 @@ void CViewResources::UpdateSelection() {
 }
 
 
-wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) const
-{
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+    CMainDocument* doc = wxGetApp().GetDocument();
+    PROJECT* resource = wxGetApp().GetDocument()->resource(item);
+    PROJECT* state_project = NULL;
+    std::string project_name;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(doc);
+    wxASSERT(resource);
+    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(wxDynamicCast(resource, PROJECT));
 
-    strBuffer.Clear();
-
-    pDoc->GetResourceProjectName(item, strBuffer);
+    if (resource) {
+        state_project = doc->state.lookup_project(resource->master_url);
+        if (state_project) {
+            state_project->get_name(project_name);
+            strBuffer = wxString(project_name.c_str());
+        }
+    }
 
     return 0;
 }
@@ -217,14 +223,16 @@ wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const
     double         xGiga = 1073741824.0;
     double         xMega = 1048576.0;
     double         xKilo = 1024.0;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* resource = wxGetApp().GetDocument()->resource(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(resource);
+    wxASSERT(wxDynamicCast(resource, PROJECT));
 
-    strBuffer.Clear();
+    if (resource) {
+        fBuffer = resource->disk_usage;
+    }
 
-    pDoc->GetResourceDiskspace(item, fBuffer);
+    wxASSERT(fBuffer);
 
     if (fBuffer >= xTera) {
         strBuffer.Printf(wxT("%0.2f TB"), fBuffer/xTera);

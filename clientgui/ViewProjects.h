@@ -83,6 +83,7 @@ protected:
 
     virtual void            UpdateSelection();
 
+    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTotalCredit( wxInt32 item, wxString& strBuffer ) const;

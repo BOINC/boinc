@@ -49,14 +49,6 @@
 
 
 CWork::CWork() {
-    m_strProjectName = wxEmptyString;
-    m_strApplicationName = wxEmptyString;
-    m_strName = wxEmptyString;
-    m_strCPUTime = wxEmptyString;
-    m_strProgress = wxEmptyString;
-    m_strTimeToCompletion = wxEmptyString;
-    m_strReportDeadline = wxEmptyString;
-    m_strStatus = wxEmptyString;
 }
 
 
@@ -252,24 +244,23 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
-    wxString strResultName  = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
 
     wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
     pFrame->UpdateStatusText(_("Aborting result..."));
 
-    pDoc->GetWorkName(m_pListPane->GetFirstSelected(), strResultName);
     strMessage.Printf(
         _("Are you sure you want to abort this result '%s'?"), 
-        strResultName.c_str());
+        pDoc->result(m_pListPane->GetFirstSelected())->name
+    );
 
     iAnswer = wxMessageBox(
         strMessage,
@@ -471,50 +462,69 @@ void CViewWork::UpdateSelection() {
 
 
 wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* doc = wxGetApp().GetDocument();
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    RESULT* state_result = NULL;
+    std::string project_name;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(doc);
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    pDoc->GetWorkProjectName(item, strBuffer);
+    if (result) {
+        state_result = doc->state.lookup_result(result->project_url, result->name);
+        if (state_result) {
+            state_result->project->get_name(project_name);
+            strBuffer = wxString(project_name.c_str());
+        } else {
+            doc->ForceCacheUpdate();
+        }
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
-    wxInt32        iBuffer = 0;
-    wxString       strTempName = wxEmptyString;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* doc = wxGetApp().GetDocument();
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+    RESULT* state_result = NULL;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(doc);
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    pDoc->GetWorkApplicationName(item, strTempName);
-    pDoc->GetWorkApplicationVersion(item, iBuffer);
-
-    wxString strLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
-    strBuffer.Printf(wxT("%s %.2f"), strTempName.c_str(), iBuffer/100.0);
-    setlocale(LC_NUMERIC, strLocale.c_str());
+    if (result) {
+        state_result = doc->state.lookup_result(result->project_url, result->name);
+        if (state_result) {
+            wxString strLocale = setlocale(LC_NUMERIC, NULL);
+            setlocale(LC_NUMERIC, "C");
+            strBuffer.Printf(
+                wxT("%s %.2f"), 
+                state_result->wup->avp->app_name,
+                state_result->wup->avp->version_num/100.0
+            );
+            setlocale(LC_NUMERIC, strLocale.c_str());
+        } else {
+            doc->ForceCacheUpdate();
+        }
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    RESULT* result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    pDoc->GetWorkName(item, strBuffer);
+    if (result) {
+        strBuffer = wxString(result->name.c_str());
+    }
 
     return 0;
 }
@@ -526,21 +536,20 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
     wxTimeSpan     ts;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    RESULT* rp = pDoc->result(item);
-    if (rp->active_task) {
-        pDoc->GetWorkCurrentCPUTime(item, fBuffer);
-    } else {
-        if(rp->state < RESULT_COMPUTE_ERROR)
-            fBuffer = 0;
-        else 
-            pDoc->GetWorkFinalCPUTime(item, fBuffer);
+    if (result) {
+        if (result->active_task) {
+            fBuffer = result->current_cpu_time;
+        } else {
+            if(result->state < RESULT_COMPUTE_ERROR)
+                fBuffer = 0;
+            else 
+                fBuffer = result->final_cpu_time;
+        }
     }
 
     if (0 == fBuffer) {
@@ -561,44 +570,43 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    RESULT* rp = pDoc->result(item);
-    if (rp->active_task) {
-        pDoc->GetWorkFractionDone(item, fBuffer);
-        strBuffer.Printf(wxT("%.2f%%"), fBuffer * 100);
-    } else {
-        if(rp->state < RESULT_COMPUTE_ERROR) {
-            strBuffer.Printf(wxT("%.2f%%"), 0.0);
+    if (result) {
+        if (result->active_task) {
+            fBuffer = result->fraction_done * 100;
         } else {
-            strBuffer.Printf(wxT("%.2f%%"), 100.00);
+            if(result->state < RESULT_COMPUTE_ERROR) {
+                fBuffer = 0.0;
+            } else {
+                fBuffer = 100.0;
+            }
         }
     }
+
+    strBuffer.Printf(wxT("%.2f%%"), fBuffer);
 
     return 0;
 }
 
 
-wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const
-{
+wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
     wxTimeSpan     ts;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    pDoc->GetWorkEstimatedCPUTime(item, fBuffer);
+    if (result) {
+        fBuffer = result->estimated_cpu_time_remaining;
+    }
 
     if (0 >= fBuffer) {
         strBuffer = wxT("---");
@@ -617,63 +625,61 @@ wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) con
 
 
 wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const {
-    wxInt32        iBuffer = 0;
     wxDateTime     dtTemp;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-
-    pDoc->GetWorkReportDeadline(item, iBuffer);
-    dtTemp.Set((time_t)iBuffer);
-
-    strBuffer = dtTemp.Format();
+    if (result) {
+        dtTemp.Set((time_t)result->report_deadline);
+        strBuffer = dtTemp.Format();
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
     bool           bActivitiesSuspended = false;
     bool           bNetworkSuspended = false;
+    CMainDocument* doc = wxGetApp().GetDocument();
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
 
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(doc);
+    wxASSERT(result);
+    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(wxDynamicCast(result, RESULT));
 
-    strBuffer.Clear();
-    pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
-    pDoc->GetActivityRunMode(iActivityMode);
+    doc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+    doc->GetActivityRunMode(iActivityMode);
 
-    RESULT* rp = pDoc->result(item);
-    switch(rp->state) {
+    switch(result->state) {
         case RESULT_NEW:
             strBuffer = _("New"); 
             break;
         case RESULT_FILES_DOWNLOADING:
-            if (rp->ready_to_report) {
+            if (result->ready_to_report) {
                 strBuffer = _("Download failed");
             } else {
                 strBuffer = _("Downloading");
             }
             break;
         case RESULT_FILES_DOWNLOADED:
-            if (rp->aborted_via_gui) {
+            if (result->aborted_via_gui) {
                 strBuffer = _("Aborted by user");
-            } else if (rp->suspended_via_gui) {
+            } else if (result->suspended_via_gui) {
                 strBuffer = _("Suspended by user");
             } else if (bActivitiesSuspended) {
                 strBuffer = _("Activities suspended");
-            } else if (rp->active_task) {
-                if (rp->scheduler_state == CPU_SCHED_SCHEDULED) {
+            } else if (result->active_task) {
+                if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                      strBuffer = _("Running");
-                } else if (rp->scheduler_state == CPU_SCHED_PREEMPTED) {
+                } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                     strBuffer = _("Preempted");
-                } else if (rp->scheduler_state == CPU_SCHED_UNINITIALIZED) {
+                } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                     strBuffer = _("Ready to run");
                 }
             } else {
@@ -684,19 +690,19 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
             strBuffer = _("Computation error");
             break;
         case RESULT_FILES_UPLOADING:
-            if (rp->ready_to_report) {
+            if (result->ready_to_report) {
                 strBuffer = _("Upload failed");
             } else {
                 strBuffer = _("Uploading");
             }
             break;
         default:
-            if (rp->got_server_ack) {
+            if (result->got_server_ack) {
                 strBuffer = _("Acknowledged");
-            } else if (rp->ready_to_report) {
+            } else if (result->ready_to_report) {
                 strBuffer = _("Ready to report");
             } else {
-                strBuffer.Format(_("Error: invalid state '%d'"), rp->state);
+                strBuffer.Format(_("Error: invalid state '%d'"), result->state);
             }
             break;
     }

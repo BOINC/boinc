@@ -256,16 +256,28 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
         }
 
 
-        iResultCount = pDoc->GetWorkCount();
+        iResultCount = pDoc->results.results.size();
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            RESULT* rp = pDoc->result(iIndex);
-            bIsDownloaded = (rp->state == RESULT_FILES_DOWNLOADED);
-            bIsActive     = rp->active_task;
-            bIsExecuting  = (rp->scheduler_state == CPU_SCHED_SCHEDULED);
+            RESULT* result = wxGetApp().GetDocument()->result(iIndex);
+            RESULT* state_result = NULL;
+            std::string project_name;
+
+            wxASSERT(result);
+            wxASSERT(wxDynamicCast(result, RESULT));
+
+            bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+            bIsActive     = result->active_task;
+            bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
             if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
 
-            pDoc->GetWorkProjectName(iIndex, strProjectName);
-            pDoc->GetWorkFractionDone(iIndex, fProgress);
+            if (result) {
+                state_result = pDoc->state.lookup_result(result->project_url, result->name);
+                if (state_result) {
+                    state_result->project->get_name(project_name);
+                    strProjectName = wxString(project_name.c_str());
+                }
+                fProgress = result->fraction_done;
+            }
 
             strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100);
             strMessage += strBuffer;

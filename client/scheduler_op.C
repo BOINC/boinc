@@ -430,8 +430,8 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(cur_proj, MSG_ERROR,
-                        "Scheduler request to %s failed\n",
-                        cur_proj->get_scheduler_url(url_index, url_random)
+                        "Scheduler request to %s failed with a return value of %d\n",
+                        cur_proj->get_scheduler_url(url_index, url_random), http_op.http_op_retval
                     );
                 }
 

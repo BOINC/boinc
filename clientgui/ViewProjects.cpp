@@ -60,7 +60,6 @@ CProject::CProject() {
 
 
 CProject::~CProject() {
-    // ??? NOT NEEDED
     m_strProjectName.Clear();
     m_strAccountName.Clear();
     m_strTeamName.Clear();
@@ -479,14 +478,10 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
 
 wxString CViewProjects::OnDocGetItemText(long item, long column) const {
     wxString       strBuffer = wxEmptyString;
-    std::string foo;
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-    PROJECT* project = pDoc->project(item);
     switch(column) {
     case COLUMN_PROJECT:
-        project->get_name(foo);
-        strBuffer = wxString(foo.c_str());
+        FormatProjectName(item, strBuffer);
         break;
     case COLUMN_ACCOUNTNAME:
         FormatAccountName(item, strBuffer);
@@ -549,27 +544,27 @@ wxInt32 CViewProjects::UpdateCache(long item, long column, wxString& strNewData)
     CProject* project     = m_ProjectCache.at(item);
 
     switch(column) {
-        case COLUMN_PROJECT:
-            project->m_strProjectName = strNewData;
-            break;
-        case COLUMN_ACCOUNTNAME:
-            project->m_strAccountName = strNewData;
-            break;
-        case COLUMN_TEAMNAME:
-            project->m_strTeamName = strNewData;
-            break;
-        case COLUMN_TOTALCREDIT:
-            project->m_strTotalCredit = strNewData;
-            break;
-        case COLUMN_AVGCREDIT:
-            project->m_strAVGCredit = strNewData;
-            break;
-        case COLUMN_RESOURCESHARE:
-            project->m_strResourceShare = strNewData;
-            break;
-        case COLUMN_STATUS:
-            project->m_strStatus = strNewData;
-            break;
+    case COLUMN_PROJECT:
+        project->m_strProjectName = strNewData;
+        break;
+    case COLUMN_ACCOUNTNAME:
+        project->m_strAccountName = strNewData;
+        break;
+    case COLUMN_TEAMNAME:
+        project->m_strTeamName = strNewData;
+        break;
+    case COLUMN_TOTALCREDIT:
+        project->m_strTotalCredit = strNewData;
+        break;
+    case COLUMN_AVGCREDIT:
+        project->m_strAVGCredit = strNewData;
+        break;
+    case COLUMN_RESOURCESHARE:
+        project->m_strResourceShare = strNewData;
+        break;
+    case COLUMN_STATUS:
+        project->m_strStatus = strNewData;
+        break;
     }
 
     return 0;
@@ -675,117 +670,120 @@ void CViewProjects::UpdateSelection() {
 
 
 
+wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
+    std::string project_name;
+
+    wxASSERT(project);
+    wxASSERT(wxDynamicCast(project, PROJECT));
+
+    if (project) {
+        project->get_name(project_name);
+        strBuffer = wxString(project_name.c_str());
+    }
+
+    return 0;
+}
+
+
 wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(project);
+    wxASSERT(wxDynamicCast(project, PROJECT));
 
-    strBuffer.Clear();
-
-    pDoc->GetProjectAccountName(item, strBuffer);
+    if (project) {
+        strBuffer = wxString(project->user_name.c_str());
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(project);
+    wxASSERT(wxDynamicCast(project, PROJECT));
 
-    //strBuffer.Clear();
-
-    PROJECT* project = pDoc->project(item);
-    strBuffer = wxString(project->team_name.c_str());
+    if (project) {
+        strBuffer = wxString(project->team_name.c_str());
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewProjects::FormatTotalCredit(wxInt32 item, wxString& strBuffer) const {
-    float fBuffer;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(project);
+    wxASSERT(wxDynamicCast(project, PROJECT));
 
-    strBuffer.Clear();
-
-    pDoc->GetProjectTotalCredit(item, fBuffer);
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
+    if (project) {
+        strBuffer.Printf(wxT("%0.2f"), project->user_total_credit);
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewProjects::FormatAVGCredit(wxInt32 item, wxString& strBuffer) const {
-    float fBuffer;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(project);
+    wxASSERT(wxDynamicCast(project, PROJECT));
 
-    strBuffer.Clear();
-
-    pDoc->GetProjectAvgCredit(item, fBuffer);
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
+    if (project) {
+        strBuffer.Printf(wxT("%0.2f"), project->user_expavg_credit);
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) const {
-    float fResourceShareBuffer;
-    float fTotalResourceShareBuffer;
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT*       project = wxGetApp().GetDocument()->project(item);
 
     wxASSERT(pDoc);
+    wxASSERT(project);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(project, PROJECT));
 
-    strBuffer.Clear();
-
-    pDoc->GetProjectResourceShare(item, fResourceShareBuffer);
-    pDoc->GetProjectTotalResourceShare(item, fTotalResourceShareBuffer);
-    strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), fResourceShareBuffer, ((fResourceShareBuffer / fTotalResourceShareBuffer) * 100));
+    if (project && pDoc) {
+        strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), 
+            project->resource_share, 
+            ((project->resource_share / pDoc->m_fProjectTotalResourceShare) * 100)
+        );
+    }
 
     return 0;
 }
 
-static void comma_append(wxString& existing, const wxChar* additional) {
-    if (existing.size() == 0) {
-        existing = additional;
-    } else {
-        existing = existing + ", " + additional;
-    }
-}
 
 wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& status) const {
-    wxInt32 iNextRPC;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(project);
+    wxASSERT(wxDynamicCast(project, PROJECT));
 
-    status.Clear();
-
-    PROJECT* p = pDoc->project(item);
-    if (p->suspended_via_gui) {
-        comma_append(status, _("Suspended by user"));
-    }
-    if (p->dont_request_more_work) {
-        comma_append(status, _("Won't get new work"));
-    }
-    if (p->sched_rpc_pending) {
-        comma_append(status, _("Scheduler request pending"));
-    }
-    pDoc->GetProjectMinRPCTime(item, iNextRPC);
-    wxDateTime dtNextRPC((time_t)iNextRPC);
-    wxDateTime dtNow(wxDateTime::Now());
-    if (dtNextRPC > dtNow) {
-        wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-        comma_append(status, _("Communication deferred ") + tsNextRPC.Format());
+    if (project) {
+        if (project->suspended_via_gui) {
+            append_to_status(status, _("Suspended by user"));
+        }
+        if (project->dont_request_more_work) {
+            append_to_status(status, _("Won't get new work"));
+        }
+        if (project->sched_rpc_pending) {
+            append_to_status(status, _("Scheduler request pending"));
+        }
+        wxDateTime dtNextRPC((time_t)project->min_rpc_time);
+        wxDateTime dtNow(wxDateTime::Now());
+        if (dtNextRPC > dtNow) {
+            wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
+            append_to_status(status, _("Communication deferred ") + tsNextRPC.Format());
+        }
     }
 
     return 0;

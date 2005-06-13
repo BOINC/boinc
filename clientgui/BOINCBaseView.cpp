@@ -397,4 +397,13 @@ bool CBOINCBaseView::EnsureLastItemVisible() {
 }
 
 
+void CBOINCBaseView::append_to_status(wxString& existing, const wxChar* additional) {
+    if (existing.size() == 0) {
+        existing = additional;
+    } else {
+        existing = existing + ", " + additional;
+    }
+}
+
+
 const char *BOINC_RCSID_0a1bd38a5a = "$Id$";

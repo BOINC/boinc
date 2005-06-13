@@ -48,13 +48,6 @@
 
 
 CTransfer::CTransfer() {
-    m_strProjectName = wxEmptyString;
-    m_strFileName = wxEmptyString;
-    m_strProgress = wxEmptyString;
-    m_strSize = wxEmptyString;
-    m_strTime = wxEmptyString;
-    m_strSpeed = wxEmptyString;
-    m_strStatus = wxEmptyString;
 }
 
 
@@ -174,7 +167,6 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
-    wxInt32  iProjectIndex  = 0; 
     wxString strName        = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -189,11 +181,9 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
 
     pFrame->UpdateStatusText(_("Aborting transfer..."));
 
-    pDoc->GetTransferFileName(iProjectIndex, strName);
-
     strMessage.Printf(
         _("Are you sure you want to abort this file transfer '%s'?"), 
-        strName.c_str());
+        pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str());
 
     iAnswer = wxMessageBox(
         strMessage,
@@ -363,28 +353,28 @@ void CViewTransfers::UpdateSelection() {
 
 
 wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
-    strBuffer.Clear();
-
-    pDoc->GetTransferProjectName(item, strBuffer);
+    if (transfer) {
+        strBuffer = wxString(transfer->project_name.c_str());
+    }
 
     return 0;
 }
 
 
 wxInt32 CViewTransfers::FormatFileName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
-    strBuffer.Clear();
-
-    pDoc->GetTransferFileName(item, strBuffer);
+    if (transfer) {
+        strBuffer = wxString(transfer->name.c_str());
+    }
 
     return 0;
 }
@@ -393,19 +383,21 @@ wxInt32 CViewTransfers::FormatFileName(wxInt32 item, wxString& strBuffer) const 
 wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBytesSent = 0;
     float          fFileSize = 0;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
-    strBuffer.Clear();
+    if (transfer) {
+        if (transfer->xfer_active)
+            fBytesSent = transfer->bytes_xferred;
+        else
+            fBytesSent = transfer->nbytes;
 
-    if (pDoc->IsTransferActive(item))
-        pDoc->GetTransferBytesXfered(item, fBytesSent);
-    else
-        pDoc->GetTransferFileSize(item, fBytesSent);
+        fFileSize = transfer->nbytes;
+    }
 
-    pDoc->GetTransferFileSize(item, fFileSize);
+    wxASSERT(fFileSize);
 
     strBuffer.Printf(wxT("%.2f%%"), (100 * (fBytesSent / fFileSize)));
 
@@ -420,19 +412,19 @@ wxInt32 CViewTransfers::FormatSize(wxInt32 item, wxString& strBuffer) const {
     double         xGiga = 1073741824.0;
     double         xMega = 1048576.0;
     double         xKilo = 1024.0;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
-    strBuffer.Clear();
+    if (transfer) {
+        if (transfer->xfer_active)
+            fBytesSent = transfer->bytes_xferred;
+        else
+            fBytesSent = transfer->nbytes;
 
-    if (pDoc->IsTransferActive(item))
-        pDoc->GetTransferBytesXfered(item, fBytesSent);
-    else
-        pDoc->GetTransferFileSize(item, fBytesSent);
-
-    pDoc->GetTransferFileSize(item, fFileSize);
+        fFileSize = transfer->nbytes;
+    }
 
     if (fFileSize != 0) {
         if      (fFileSize >= xTera) {
@@ -459,6 +451,7 @@ wxInt32 CViewTransfers::FormatSize(wxInt32 item, wxString& strBuffer) const {
             strBuffer.Printf(wxT("%0.0f bytes"), fBytesSent);
         }
     }
+
     return 0;
 }
 
@@ -469,14 +462,14 @@ wxInt32 CViewTransfers::FormatTime(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
     wxTimeSpan     ts;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
-    strBuffer.Clear();
-
-    pDoc->GetTransferTime(item, fBuffer);
+    if (transfer) {
+        fBuffer = transfer->time_so_far;
+    }
 
     iHour = (wxInt32)(fBuffer / (60 * 60));
     iMin  = (wxInt32)(fBuffer / 60) % 60;
@@ -492,19 +485,19 @@ wxInt32 CViewTransfers::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
     float          fTransferSpeed = 0;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
 
-    strBuffer.Clear();
-
-    if (pDoc->IsTransferActive(item)) {
-        pDoc->GetTransferSpeed(item, fTransferSpeed);
-        strBuffer.Printf(wxT("%0.2f KBps"), (fTransferSpeed / 1024));
-    } else {
-        strBuffer.Printf(wxT("%.2f KBps"), 0.0);
+    if (transfer) {
+        if (transfer->xfer_active)
+            fTransferSpeed = transfer->xfer_speed / 1024;
+        else
+            fTransferSpeed = 0.0;
     }
+
+    strBuffer.Printf(wxT("%.2f KBps"), fTransferSpeed);
 
     return 0;
 }
@@ -513,37 +506,35 @@ wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
 wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iTime = 0;
     wxInt32        iStatus = 0;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
     bool           bActivitiesSuspended = false;
     bool           bNetworkSuspended = false;
+    CMainDocument* doc = wxGetApp().GetDocument();
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(doc);
+    wxASSERT(transfer);
+    wxASSERT(wxDynamicCast(transfer, FILE_TRANSFER));
+    wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    strBuffer.Clear();
-    pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+    doc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+    doc->GetActivityRunMode(iActivityMode);
 
-    pDoc->GetTransferNextRequestTime(item, iTime);
-    pDoc->GetTransferStatus(item, iStatus);
-
-    pDoc->GetActivityRunMode(iActivityMode);
-
-    wxDateTime dtNextRequest((time_t)iTime);
+    wxDateTime dtNextRequest((time_t)transfer->next_request_time);
     wxDateTime dtNow(wxDateTime::Now());
 
     if      (dtNextRequest > dtNow) {
         wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
         strBuffer = _("Retry in ") + tsNextRequest.Format();
-    } else if (ERR_GIVEUP_DOWNLOAD == iStatus) {
+    } else if (ERR_GIVEUP_DOWNLOAD == transfer->status) {
         strBuffer = _("Download failed");
-    } else if (ERR_GIVEUP_UPLOAD == iStatus) {
+    } else if (ERR_GIVEUP_UPLOAD == transfer->status) {
         strBuffer = _("Upload failed");
     } else {
         if (bNetworkSuspended) {
             strBuffer = _("Suspended");
         } else {
-            strBuffer = pDoc->IsTransferGeneratedLocally(item)? _("Uploading") : _("Downloading");
+            strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
         }
     }
 

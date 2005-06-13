@@ -133,6 +133,8 @@ protected:
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();
 
+    static  void            append_to_status(wxString& existing, const wxChar* additional);
+
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 

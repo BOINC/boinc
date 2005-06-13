@@ -91,7 +91,6 @@ private:
     bool                        m_iCachedNetworkSuspended;
 
     int                         CachedStateUpdate();
-    int                         ForceCacheUpdate();
 
 public:
 
@@ -122,6 +121,7 @@ public:
     int                         SetNetworkRunMode(int iMode);
     int                         GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSuspended);
 
+    int                         ForceCacheUpdate();
     int                         RunBenchmarks();
 
     RPC_CLIENT                  rpc;
@@ -135,26 +135,14 @@ public:
     // Project Tab
     //
 private:
-
-    float                       m_fProjectTotalResourceShare;
-
     int                         CachedProjectStatusUpdate();
 
 public:
-    PROJECT* project(int);
-    int                     GetProjectCount();
-    int                     GetProjectProjectURL(int iIndex, wxString& strBuffer);
-    int                     GetProjectAccountName(int iIndex, wxString& strBuffer);
-    int                     GetProjectTotalCredit(int iIndex, float& fBuffer);
-    int                     GetProjectAvgCredit(int iIndex, float& fBuffer);
-    int                     GetProjectResourceShare(int iIndex, float& fBuffer);
-    int                     GetProjectTotalResourceShare(int iIndex, float& fBuffer);
-    int                     GetProjectMinRPCTime(int iIndex, int& iBuffer);
-    int                     GetProjectWebsiteCount(int iIndex);
-    int                     GetProjectWebsiteName(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    int                     GetProjectWebsiteDescription(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
-    int                     GetProjectWebsiteLink(int iProjectIndex, int iWebsiteIndex, wxString& strBuffer);
+    PROJECTS                    project_status;
+    PROJECT*                    project(int);
+    float                       m_fProjectTotalResourceShare;
 
+    int                         GetProjectCount();
 
     int                         ProjectNoMoreWork(int iIndex);
     int                         ProjectAllowMoreWork(int iIndex);
@@ -165,38 +153,23 @@ public:
     int                         ProjectSuspend(int iIndex);
     int                         ProjectResume(int iIndex);
 
-    PROJECTS                    project_status;
-
 
     //
     // Work Tab
     //
 private:
-
     int                         CachedResultsStatusUpdate();
 
 public:
+    RESULTS                     results;
+    RESULT*                     result(int);
 
     int                         GetWorkCount();
-    int                         GetWorkProjectName(int iIndex, wxString& strBuffer);
-    int                         GetWorkProjectURL(int iIndex, wxString& strBuffer);
-    int                         GetWorkApplicationName(int iIndex, wxString& strBuffer);
-    int                         GetWorkApplicationVersion(int iIndex, int& iBuffer);
-    int                         GetWorkName(int iIndex, wxString& strBuffer);
-    int                         GetWorkCurrentCPUTime(int iIndex, float& fBuffer);
-    int                         GetWorkEstimatedCPUTime(int iIndex, float& fBuffer);
-    int                         GetWorkFinalCPUTime(int iIndex, float& fBuffer);
-    int                         GetWorkFractionDone(int iIndex, float& fBuffer);
-    int                         GetWorkReportDeadline(int iIndex, int& iBuffer);
-    bool                        IsWorkGraphicsSupported(int iIndex);
 
     int                         WorkSuspend(int iIndex);
     int                         WorkResume(int iIndex);
     int                         WorkShowGraphics(int iIndex, bool bFullScreen, std::string, std::string, std::string);
     int                         WorkAbort(int iIndex);
-
-    RESULT*                     result(int);
-    RESULTS                     results;
 
 
     //
@@ -206,18 +179,14 @@ private:
 
 
 public:
+    MESSAGES                    messages;
+    MESSAGE*                    message(int);
     int                         CachedMessageUpdate();
 
     int                         GetMessageCount();
-    int                         GetMessageProjectName(int iIndex, wxString& strBuffer);
-    int                         GetMessageTime(int iIndex, wxDateTime& dtBuffer);
-    int                         GetMessagePriority(int iIndex, int& iBuffer);
-    int                         GetMessageMessage(int iIndex, wxString& strBuffer);
 
     int                         ResetMessageState();
 
-    MESSAGE*                    message(int);
-    MESSAGES                    messages;
     int                         m_iMessageSequenceNumber;
 
 
@@ -229,24 +198,13 @@ private:
     int                         CachedFileTransfersUpdate();
 
 public:
+    FILE_TRANSFERS              ft;
+    FILE_TRANSFER*              file_transfer(int);
 
     int                         GetTransferCount();
-    int                         GetTransferProjectName(int iIndex, wxString& strBuffer);
-    int                         GetTransferFileName(int iIndex, wxString& strBuffer);
-    int                         GetTransferFileSize(int iIndex, float& fBuffer);
-    int                         GetTransferBytesXfered(int iIndex, float& fBuffer);
-    int                         GetTransferSpeed(int iIndex, float& fBuffer);
-    int                         GetTransferTime(int iIndex, float& fBuffer);
-    int                         GetTransferNextRequestTime(int iIndex, int& iBuffer);
-    int                         GetTransferStatus(int iIndex, int& iBuffer);
-    bool                        IsTransferActive(int iIndex);
-    bool                        IsTransferGeneratedLocally(int iIndex);
 
     int                         TransferRetryNow(int iIndex);
     int                         TransferAbort(int iIndex);
-
-    FILE_TRANSFER*              file_transfer(int);
-    FILE_TRANSFERS              ft;
 
 
     //
@@ -257,13 +215,10 @@ private:
     int                         CachedResourceStatusUpdate();
 
 public:
+    PROJECTS                    resource_status;
+    PROJECT*                    resource(int);
 
     int                         GetResourceCount();
-    int                         GetResourceProjectName(int iIndex, wxString& strBuffer);
-    int                         GetResourceDiskspace(int iIndex, float& fBuffer);
-
-    PROJECT*                    resource(int);
-    PROJECTS                    resource_status;
 
 
 	//
@@ -274,13 +229,11 @@ private:
     int                         CachedStatisticsStatusUpdate();
 
 public:
+	PROJECTS                    statistics_status;
+    PROJECT*                    statistic(int);
 
     int                         GetStatisticsCount();
-    int                         GetStatisticsProjectName(int iIndex, wxString& strBuffer);
 	
-    PROJECT*                    statistic(int);
-	PROJECTS                    statistics_status;
-
 
 	//
 	// Proxy Configuration
