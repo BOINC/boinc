@@ -188,12 +188,16 @@ static int process_wu_template(
                         config.uldl_dir_fanout, true,
 						path, true
                     );
+
+                    // if file isn't found in hierarchy,
+                    // look for it at top level and copy
+                    //
                     if (!boinc_file_exists(path)) {
                         sprintf(top_download_path,
                             "%s/%s",config.download_dir,
                             infiles[file_number]
                         );
-                        boinc_copy(top_download_path,path);
+                        boinc_copy(top_download_path, path);
                     }
 
                     if (!config.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {

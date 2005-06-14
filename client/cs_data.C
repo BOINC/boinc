@@ -469,12 +469,7 @@ double CLIENT_STATE::offender(PROJECT* p) {
 // from all other projects
 //
 double CLIENT_STATE::compute_resource_share(PROJECT *p) {
-    double total_resource_share = 0;
-
-    for (unsigned int i=0; i<projects.size(); ++i) {
-        total_resource_share += projects[i]->resource_share;
-    }
-    return p->resource_share/total_resource_share;
+    return p->resource_share/total_resource_share();
 }
 
 // Computes the size of the allowed disk share in number of bytes.

@@ -383,14 +383,51 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
     return true;
 }
 
+// find total resource shares of all projects
+//
+double CLIENT_STATE::total_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        if (!projects[i]->non_cpu_intensive ) {
+            x += projects[i]->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but only runnable projects (can use CPU right now)
+//
+double CLIENT_STATE::runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but potentially runnable (could ask for work right now)
+//
+double CLIENT_STATE::potentially_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->potentially_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
 // adjust project debts (short, long-term)
 //
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
     bool first = true;
     double total_long_term_debt = 0;
-    double potentially_runnable_resource_share = 0;
-    double runnable_resource_share = 0;
+    double prrs, rrs;
     int count_cpu_intensive = 0;
     PROJECT *p;
     double min_short_term_debt=0, share_frac;
@@ -424,17 +461,8 @@ void CLIENT_STATE::adjust_debts() {
         total_wall_cpu_time_this_period, total_cpu_time_this_period
     );
 
-    // find total resource shares of runnable and potentially runnable projects
-    //
-    for (i=0; i<projects.size(); ++i) {
-        p = projects[i];
-        if (p->runnable()) {
-            runnable_resource_share += p->resource_share;
-        }
-        if (p->potentially_runnable()) {
-            potentially_runnable_resource_share += p->resource_share;
-        }
-    }
+    rrs = runnable_resource_share();
+    prrs = potentially_runnable_resource_share();
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -444,7 +472,7 @@ void CLIENT_STATE::adjust_debts() {
         // adjust long-term debts
         //
         if (p->potentially_runnable()) {
-            share_frac = p->resource_share/potentially_runnable_resource_share;
+            share_frac = p->resource_share/prrs;
             p->long_term_debt += share_frac*total_wall_cpu_time_this_period
                 - p->wall_cpu_time_this_period
             ;
@@ -457,7 +485,7 @@ void CLIENT_STATE::adjust_debts() {
             p->short_term_debt = 0;
             p->anticipated_debt = 0;
         } else {
-            share_frac = p->resource_share/runnable_resource_share;
+            share_frac = p->resource_share/rrs;
             p->short_term_debt += share_frac*total_wall_cpu_time_this_period
                 - p->wall_cpu_time_this_period
             ;

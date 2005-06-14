@@ -214,6 +214,7 @@ list_item("input", "account_key");
 list_item("output",
 	html_text("<am_get_info_reply>
     <success/>
+    <id>ID</id>
     <name>NAME</name>
     <country>COUNTRY</country>
     <postal_code>POSTAL_CODE</postal_code>

@@ -198,6 +198,8 @@ private:
     bool garbage_collect_always();
     bool update_results();
     double total_resource_share();
+    double runnable_resource_share();
+    double potentially_runnable_resource_share();
 
 // --------------- cs_account.C:
 public:
@@ -300,10 +302,11 @@ private:
     PROJECT* next_project_sched_rpc_pending();
     //bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
-    double ettprc(PROJECT*, int);
-    double avg_proc_rate(PROJECT*);
+    double time_until_work_done(PROJECT*, int, double);
+    double avg_proc_rate();
     bool should_get_work();
     bool no_work_for_a_cpu();
+    int proj_min_results(PROJECT*, double);
     void set_cpu_scheduler_modes();
 
 // --------------- cs_statefile.C:

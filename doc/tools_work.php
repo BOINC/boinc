@@ -154,7 +154,8 @@ to the download directory hierarchy.
 Workunits can be created using either a script
 (using the <code>create_work</code> program)
 or a program (using the <code>create_work()</code> function).
-The input files must already be in the download directory.
+The input files must already be in the download hierarchy.
+
 <p>
 The utility program is
 <pre>

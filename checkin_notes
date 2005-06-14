@@ -7801,3 +7801,48 @@ David  13 June 2005
 
     client/
         client_state.C
+
+David  14 June 2005
+    - core client: use "potentially runnable resource share"
+        instead of "total resource share" in several places:
+        - estimating how long a project's work will take
+        - how many CPUs a project should occupy
+        - the "resource share fraction" reported to schedulers
+
+        The idea: if a process is not potentially runnable
+        (e.g. because it's suspended by user)
+        it's not going to get CPU time,
+        so it shouldn't be included in resource share calculations.
+        (suggested by Jim Harris)
+    - rename CLIENT_STATE::ettprc() to time_until_work_done();
+        add a "subset resource share" parameter
+    - get rid of the global variable "trs" (total resource share)
+    - make proj_min_results() a member of CLIENT_STATE,
+        remove the "ncpus" param, and add a "subset resource share" param
+    - CLIENT_STATE::avg_proc_rate() now computes processing rate
+        across all projects
+    - Multiply by TIME_STATS::cpu_efficiency in avg_proc_rate()
+    - add functions runnable_resource_share() and
+        potentially_runnable_resource_share() to CLIENT_STATE
+    - set_cpu_scheduler_modes(): remove "* ncpus" from
+         if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus)
+         (John: is this right?)
+
+    Note: in some cases (e.g. if the work-fetch policy has
+    decided to get work only for 1 or 2 project),
+    the set of projects used in resource share calculations
+    should be smaller than the potentially runnable ones.
+    It's not clear how to do this.
+
+    client/
+        client_state.C,h
+        cs_apps.C
+        cs_data.C
+        cs_scheduler.C
+
+David  14 June 2005
+    - code to get phys/virt memsize, NCPUs, OS name on HPUX
+        (from Lars Bausch)
+
+    client/
+        hostinfo_unix.C

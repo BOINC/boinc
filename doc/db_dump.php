@@ -10,8 +10,8 @@ This data can be imported and used to produce
 web sites that show statistics and leaderboards
 for one or more BOINC projects.
 Examples of such sites are listed at
-<a href=http://setiweb.ssl.berkeley.edu/sah/stats.php>
-http://setiweb.ssl.berkeley.edu/sah/stats.php</a>.
+<a href=http://setiathome.berkeley.edu/stats.php>
+http://setiathome.berkeley.edu/stats.php</a>.
 
 <p>
 Statistics data is exported in XML-format files.
@@ -19,9 +19,12 @@ XML schemas for these files are
 <a href=BOINCSchemas/>here</a>,
 and a graphical representation is
 <a href=BOINCSchemas/documentation/>here</a>.
+NOTE: these are both somewhat out of date.
+Just look at the actual files - they're pretty self-explanatory.
 <p>
 These files are contained in a download directory,
-linked to from the project's web site.
+linked to from the project's web site
+(generally X/stats/, where X is the project URL).
 A project can decide what data to export,
 and how it is divided into files.
 This is described by a file <b>db_dump.xml</b> of the following form:

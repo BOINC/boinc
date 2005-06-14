@@ -53,7 +53,6 @@ using std::max;
 using std::vector;
 using std::string;
 
-static double trs;
 // quantities like avg CPU time decay by a factor of e every week
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
@@ -71,9 +70,16 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 //
 #define MAX_CPU_LOAD_FACTOR 0.8
 
-static int proj_min_results(PROJECT* p, int ncpus) {
-    return p->non_cpu_intensive ? 1 : (int)(ceil(ncpus*p->resource_share/trs));
+// how many CPUs should this project occupy on average,
+// based on its resource share relative to a given set
+//
+int CLIENT_STATE::proj_min_results(PROJECT* p, double subset_resource_share) {
+    if (p->non_cpu_intensive) {
+        return 1;
+    }
+    return (int)(ceil(ncpus*p->resource_share/subset_resource_share));
 }
+
 void PROJECT::set_min_rpc_time(double future_time) {
     if (future_time > min_rpc_time) {
         min_rpc_time = future_time;
@@ -146,6 +152,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     PROJECT *p, *p_prospect = NULL;
     double work_on_prospect=0;
     unsigned int i;
+    double prrs = potentially_runnable_resource_share();
 
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
@@ -162,7 +169,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
             }
         }
 
-        double work_on_current = ettprc(p, 0);
+        double work_on_current = time_until_work_done (p, 0, prrs);
         if (p_prospect) {
             if (p->work_request_urgency == WORK_FETCH_OK && 
                 p_prospect->work_request_urgency > WORK_FETCH_OK
@@ -202,7 +209,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     double free, possible;
 #endif
 
-    trs = total_resource_share();
+    double prrs = potentially_runnable_resource_share();
 
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
@@ -224,8 +231,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         core_client_major_version,
         core_client_minor_version,
         p->work_request,
-        p->resource_share / trs,
-        ettprc(p, proj_min_results(p, ncpus)-1)
+        p->resource_share / prrs,
+        time_until_work_done(p, proj_min_results(p, prrs)-1, prrs)
     );
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");
@@ -410,21 +417,23 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 #endif
 
 // return the expected number of CPU seconds completed by the client
-// for project p in a second of wall-clock time.
+// in a second of wall-clock time.
 // May be > 1 on a multiprocessor.
 //
-double CLIENT_STATE::avg_proc_rate(PROJECT *p) {
+double CLIENT_STATE::avg_proc_rate() {
     double running_frac = time_stats.on_frac * time_stats.active_frac;
     if (running_frac < 0.1) running_frac = 0.1;
     if (running_frac > 1) running_frac = 1;
-    return (p ? (p->resource_share / trs) : 1) * ncpus * running_frac;
+    return ncpus*running_frac*time_stats.cpu_efficiency;
 }
 
-// "estimated time to project result count"
-// return the estimated wall-clock time until the
-// number of results for project p will reach k
+// estimate wall-clock time until the number of uncompleted results
+// for project p will reach k,
+// given the total resource share of a set of competing projects
 //
-double CLIENT_STATE::ettprc(PROJECT *p, int k) {
+double CLIENT_STATE::time_until_work_done(
+    PROJECT *p, int k, double subset_resource_share
+) {
     int num_results_to_skip = k;
     double est = 0;
     
@@ -453,7 +462,7 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
             est += rp->estimated_cpu_time_remaining();
         }
     }
-    double apr = avg_proc_rate(p);
+    double apr = avg_proc_rate()*p->resource_share/subset_resource_share;
     return est/apr;
 }
 
@@ -467,6 +476,7 @@ int CLIENT_STATE::compute_work_requests() {
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double global_work_need = work_needed_secs();
+    double prrs;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
@@ -502,7 +512,7 @@ int CLIENT_STATE::compute_work_requests() {
         max_fetch = 1.0;
     }
 
-    trs = total_resource_share();
+    prrs = potentially_runnable_resource_share();
 
     // for each project, compute
     // min_results = min # of results for project needed by CPU scheduling,
@@ -521,8 +531,8 @@ int CLIENT_STATE::compute_work_requests() {
         //
         if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes * 60) && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
 
-        int min_results = proj_min_results(p, ncpus);
-        double estimated_time_to_starvation = ettprc(p, min_results-1);
+        int min_results = proj_min_results(p, prrs);
+        double estimated_time_to_starvation = time_until_work_done(p, min_results-1, prrs);
 
         // determine project urgency
         //
@@ -994,7 +1004,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
     double frac_booked = 0;
     std::vector <double> booked_to;
     std::map<double, RESULT*>::iterator it;
-    double up_frac = avg_proc_rate(0);
+    double apr = avg_proc_rate();
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
@@ -1035,7 +1045,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
 
         // Are the deadlines too tight to meet reliably?
         //
-        if (booked_to[lowest_booked_cpu] - gstate.now > (rp->report_deadline - gstate.now) * MAX_CPU_LOAD_FACTOR * (up_frac / ncpus)) {
+        if (booked_to[lowest_booked_cpu] - gstate.now > (rp->report_deadline - gstate.now) * MAX_CPU_LOAD_FACTOR * (apr / ncpus)) {
             should_not_fetch_work = true;
             use_earliest_deadline_first = true;
             scope_messages.printf(
@@ -1063,7 +1073,7 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
         frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - gstate.now);
     }
 
-    if (frac_booked > MAX_CPU_LOAD_FACTOR * up_frac * ncpus) {
+    if (frac_booked > MAX_CPU_LOAD_FACTOR * apr) {
         should_not_fetch_work = true;
         scope_messages.printf(
             "CLIENT_STATE::compute_work_requests(): Nearly overcommitted.\n"
@@ -1105,7 +1115,7 @@ double CLIENT_STATE::work_needed_secs() {
         if (results[i]->project->non_cpu_intensive) continue;
         total_work += results[i]->estimated_cpu_time_remaining();
     }
-    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY*avg_proc_rate(0) - total_work;
+    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY*avg_proc_rate() - total_work;
     if (x < 0) {
         return 0;
     }

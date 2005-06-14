@@ -85,6 +85,10 @@ extern "C" {
 NXEventHandle gEventHandle;
 #endif  // __APPLE__
 
+#ifdef _HPUX_SOURCE
+#include <sys/pstat.h>
+#endif
+
 // functions to get name/addr of local host
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
@@ -388,6 +392,10 @@ int HOST_INFO::get_host_info() {
     mib[1] = HW_NCPU;
     len = sizeof(p_ncpus);
     sysctl(mib, 2, &p_ncpus, &len, NULL, 0);
+#elif defined(_HPUX_SOURCE)
+    struct pst_dynamic psd; 
+    pstat_getdynamic ( &psd, sizeof ( psd ), (size_t)1, 0 );
+    p_ncpus = psd.psd_proc_cnt;
 #else
 #error Need to specify a sysconf() define to obtain number of processors
 #endif
@@ -409,6 +417,10 @@ int HOST_INFO::get_host_info() {
     len = sizeof(mem_size);
     sysctl(mib, 2, &mem_size, &len, NULL, 0);    // Mac OS X
     m_nbytes = mem_size;
+#elif defined(_HPUX_SOURCE)
+    struct pst_static pst; 
+    pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
+    m_nbytes = (pst.physical_memory * pst.page_size);
 #else
 #error Need to specify a sysconf() define to obtain memory size
 #endif
@@ -455,6 +467,10 @@ int HOST_INFO::get_host_info() {
     if (!sysctl(mib, 2, &vm_info, &len, NULL, 0)) {
         m_swap = 1024. * getpagesize() * (double) vm_info.t_vm;
     }
+#elif defined(_HPUX_SOURCE)
+    struct pst_vminfo vminfo;
+    pstat_getvminfo(&vminfo, sizeof(vminfo), (size_t)1, 0);
+    m_swap = (vminfo.psv_swapspc_max * pst.page_size);
 #else
 #endif
 
@@ -467,6 +483,7 @@ int HOST_INFO::get_host_info() {
 #ifdef SI_PLATFORM
     sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
 #endif
+
 #ifdef SI_ISALIST
     sysinfo(SI_ISALIST, p_model, sizeof(p_model));
     for (unsigned int i=0; i<sizeof(p_model); i++) {
@@ -490,6 +507,10 @@ int HOST_INFO::get_host_info() {
     uname(&u);
     safe_strcpy(os_name, u.sysname);
     safe_strcpy(os_version, u.release);
+#ifdef _HPUX_SOURCE
+    safe_strcpy(p_model, u.machine);
+    safe_strcpy(p_vendor, "Hewlett-Packard");
+#endif
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
     mib[0] = CTL_KERN;
     mib[1] = KERN_OSTYPE;

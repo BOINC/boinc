@@ -25,10 +25,14 @@ results of the same workunit,
 in an attempt to obtain unearned credit
 or have erroneous results accepted as correct.
 </ul>
+
+
 Work distribution is constrained by a number of rules:
 <ul>
 <li> A result is sent only if an application version
 is available for the host's platform.
+If the application's min_version field is nonzero,
+the version number must at list this value.
 <li>
 A result is not sent if its disk or memory requirements
 are not met by the host.
@@ -53,9 +57,6 @@ A result is not sent if
 <a href=homogeneous_redundancy.php>homogeneous redundancy</a>
 is enabled and another result of the same workunit
 has been sent to a different type of host.
-<li>
-No results are sent of the core client has a different
-major version than the scheduling server.
 </ul>
 
 In general, the BOINC scheduler responds to a work request
