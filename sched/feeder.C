@@ -392,7 +392,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
-            sprintf(select_clause, "and result.id %% d = %d ", n, j);
+            sprintf(select_clause, "and result.id %% %d = %d ", n, j);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "bad cmdline arg: %s\n", argv[i]
