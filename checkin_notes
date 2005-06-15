@@ -7846,3 +7846,10 @@ David  14 June 2005
 
     client/
         hostinfo_unix.C
+
+Jeff  14 June 2005
+    - fixed a big in the feeder code that handles the mod(result id)
+      functionality.
+
+    sched/
+	feeder.C
