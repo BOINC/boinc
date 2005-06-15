@@ -569,7 +569,7 @@ bool CLIENT_STATE::schedule_cpus() {
         results[i]->already_selected = false;
     }
 
-    set_cpu_scheduler_modes();
+    set_scheduler_modes();
     adjust_debts();
 
     // mark active tasks as preempted

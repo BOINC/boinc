@@ -307,7 +307,7 @@ private:
     bool should_get_work();
     bool no_work_for_a_cpu();
     int proj_min_results(PROJECT*, double);
-    void set_cpu_scheduler_modes();
+    void set_scheduler_modes();
 
 // --------------- cs_statefile.C:
 public:

@@ -66,9 +66,10 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 //
 #define REPORT_DEADLINE_CUSHION SECONDS_PER_DAY
 
-// try to maintain no more than this load factor on the CPU.
+// assume actual CPU utilization will be this multiple
+// of what we've actually measured recently
 //
-#define MAX_CPU_LOAD_FACTOR 0.8
+#define CPU_PESSIMISM_FACTOR 0.8
 
 // how many CPUs should this project occupy on average,
 // based on its resource share relative to a given set
@@ -967,7 +968,7 @@ bool CLIENT_STATE::should_get_work() {
     // let it process for a while to get out of the CPU overload state.
     //
     if (!work_fetch_no_new_work) {
-        set_cpu_scheduler_modes();
+        set_scheduler_modes();
     }
     bool ret = !work_fetch_no_new_work;
 
@@ -994,64 +995,27 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 // - cpu_earliest_deadline_first
 // and print a message if we're changing their value
 //
-void CLIENT_STATE::set_cpu_scheduler_modes() {
+void CLIENT_STATE::set_scheduler_modes() {
     std::map<double, RESULT*> results_by_deadline;
-    std::set<PROJECT*> projects_with_work;
     RESULT* rp;
-    int i;
+    unsigned int i;
     bool should_not_fetch_work = false;
     bool use_earliest_deadline_first = false;
     double frac_booked = 0;
     std::vector <double> booked_to;
     std::map<double, RESULT*>::iterator it;
-    double apr = avg_proc_rate();
+    double total_proc_rate = avg_proc_rate();
+    double per_cpu_proc_rate = total_proc_rate/ncpus;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
 
     std::vector<RESULT*>::iterator it_u;
-    for (it_u = results.begin(); it_u != results.end(); ++it_u) {
-        rp = *it_u;
+    for (i=0; i<results.size(); i++) {
+        rp = results[i];
         if (rp->computing_done()) continue;
         if (rp->project->non_cpu_intensive) continue;
 
-        results_by_deadline[rp->report_deadline] = rp;
-        projects_with_work.insert(rp->project);
-    }
-
-    for (i=0; i<ncpus; i++) {
-        booked_to.push_back(gstate.now);
-    }
-
-    for (
-        it = results_by_deadline.begin();
-        it != results_by_deadline.end() && !should_not_fetch_work;
-        it++
-    ) {
-        rp = (*it).second;
-
-        if (rp->project->non_cpu_intensive) continue;
-        if (rp->computing_done()) continue;
-
-        double lowest_book = booked_to[0];
-        int lowest_booked_cpu = 0;
-        for (i=1; i<ncpus; i++) {
-            if (booked_to[i] < lowest_book) {
-                lowest_book = booked_to[i];
-                lowest_booked_cpu = i;
-            }
-        }
-        booked_to[lowest_booked_cpu] += rp->estimated_cpu_time_remaining();
-
-        // Are the deadlines too tight to meet reliably?
-        //
-        if (booked_to[lowest_booked_cpu] - gstate.now > (rp->report_deadline - gstate.now) * MAX_CPU_LOAD_FACTOR * (apr / ncpus)) {
-            should_not_fetch_work = true;
-            use_earliest_deadline_first = true;
-            scope_messages.printf(
-                "CLIENT_STATE::compute_work_requests(): Computer is overcommitted\n"
-            );
-        }
         // Is the nearest deadline within a day?
         //
         if (rp->report_deadline - gstate.now < 60 * 60 * 24) {
@@ -1070,14 +1034,47 @@ void CLIENT_STATE::set_cpu_scheduler_modes() {
             );
         }
 
-        frac_booked += rp->estimated_cpu_time_remaining() / (rp->report_deadline - gstate.now);
+        results_by_deadline[rp->report_deadline] = rp;
     }
 
-    if (frac_booked > MAX_CPU_LOAD_FACTOR * apr) {
-        should_not_fetch_work = true;
-        scope_messages.printf(
-            "CLIENT_STATE::compute_work_requests(): Nearly overcommitted.\n"
-        );
+    for (i=0; i<ncpus; i++) {
+        booked_to.push_back(gstate.now);
+    }
+
+    // Simulate what will happen if we do EDF schedule starting now.
+    // Go through non-done results in EDF order,
+    // keeping track in "booked_to" of how long each CPU is occupied
+    //
+    for (
+        it = results_by_deadline.begin();
+        it != results_by_deadline.end();
+        it++
+    ) {
+        rp = (*it).second;
+
+        // find the CPU that will be free first
+        //
+        double lowest_book = booked_to[0];
+        int lowest_booked_cpu = 0;
+        for (i=1; i<ncpus; i++) {
+            if (booked_to[i] < lowest_book) {
+                lowest_book = booked_to[i];
+                lowest_booked_cpu = i;
+            }
+        }
+        booked_to[lowest_booked_cpu] += rp->estimated_cpu_time_remaining()
+            /(per_cpu_proc_rate*CPU_PESSIMISM_FACTOR);
+
+        // Are the deadlines too tight to meet reliably?
+        //
+        if (booked_to[lowest_booked_cpu] > rp->report_deadline) {
+            should_not_fetch_work = true;
+            use_earliest_deadline_first = true;
+            scope_messages.printf(
+                "CLIENT_STATE::compute_work_requests(): Computer is overcommitted\n"
+            );
+            break;
+        }
     }
 
     // display only when the policy changes to avoid once per second

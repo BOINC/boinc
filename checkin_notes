@@ -7886,3 +7886,21 @@ David  15 June 2005
         forum.inc
     lib/
         app_ipc.C,h
+
+David  15 June 2005
+    Scheduler changes:
+    
+    - renamed set_cpu_scheduler_modes() to set_scheduler_modes()
+    - in set_scheduler_modes(), moved result checks that
+        don't involve EDF simulation out of the loop that does EDF simulation.
+    - in set_scheduler_modes(), change logic so that booked_to
+        is in units of wall time, not CPU time.
+        Makes things clearer.
+    - removed the frac_booked logic from set_scheduler_modes().
+        I don't think this is correct.
+        e.g. result A has deadline 1, CPU 1; result B has deadline 2, CPU 1.
+        Then frac_booked would be 1.5, but we can meet both deadlines
+    - renamed MAX_CPU_LOAD_FACTOR to CPU_PESSIMISM_FACTOR
+
+    client/
+        cs_scheduler.C
