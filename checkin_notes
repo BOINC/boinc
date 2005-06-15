@@ -7874,7 +7874,7 @@ David  14 June 2005
 
 David  15 June 2005
     - Fixed pernicious API bug:
-        boinc_get_app_init_date() was copying the APP_INIT_DATA structure,
+        boinc_get_init_data() was copying the APP_INIT_DATA structure,
         which contains a char*.
         This produced 2 pointers to the same string,
         and both pointers could eventually get free()d.
