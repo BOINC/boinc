@@ -7871,3 +7871,18 @@ David  14 June 2005
 
     client/
         time_stats.C
+
+David  15 June 2005
+    - Fixed pernicious API bug:
+        boinc_get_app_init_date() was copying the APP_INIT_DATA structure,
+        which contains a char*.
+        This produced 2 pointers to the same string,
+        and both pointers could eventually get free()d.
+        Solution: overload = and define a copy constructor for APP_INIT_DATA
+    - fixed minor bug in forum code:
+        rounding of ratings was wrong in the negative case
+
+    html/inc/
+        forum.inc
+    lib/
+        app_ipc.C,h

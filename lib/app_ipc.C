@@ -55,7 +55,22 @@ APP_INIT_DATA::APP_INIT_DATA() {
 }
 
 APP_INIT_DATA::~APP_INIT_DATA() {
-    if (project_preferences) free(project_preferences);
+    if (project_preferences) {
+        free(project_preferences);
+        project_preferences=0;      // paranoia
+    }
+}
+
+APP_INIT_DATA::APP_INIT_DATA(const APP_INIT_DATA& a) {
+    if (a.project_preferences) {
+        project_preferences = strdup(a.project_preferences);
+    }
+}
+
+void APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
+    if (a.project_preferences) {
+        project_preferences = strdup(a.project_preferences);
+    }
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {

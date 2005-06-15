@@ -190,6 +190,8 @@ struct APP_INIT_DATA {
     double fraction_done_end;
 
     APP_INIT_DATA();
+    APP_INIT_DATA(const APP_INIT_DATA&);  // copy constructor
+    void operator=(const APP_INIT_DATA&);
     ~APP_INIT_DATA();
 };
 

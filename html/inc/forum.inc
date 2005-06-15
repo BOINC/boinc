@@ -300,7 +300,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
             echo " / Score: ", round(($post->score * $post->votes),0), "</i></font></td>";
         } else {
-            echo " / Rating: ", round(intval(($post->score * $post->votes)+0.01),0), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a></font></td>";
+            $rating = floor($post->score*$post->votes + 0.01);
+            echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a></font></td>";
         }
 
         if ($controls == FORUM_CONTROLS) {
