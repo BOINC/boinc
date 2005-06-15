@@ -91,6 +91,9 @@ If you have an opinion, please contact
 <a href=contact.php>David Anderson</a>.
 
 <p>
+The 'B in a circle' icon was designed by Tim Lan.
+The Mac variant was contributed by Juho Viitasalo.
+<p>
 Check out this imaginative
 <a href=hatfield.png>BOINC graphic</a>
 by Jared Hatfield, a high school student.

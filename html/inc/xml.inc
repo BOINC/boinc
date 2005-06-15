@@ -13,6 +13,8 @@ function xml_error($msg) {
 
 function show_host_xml($host) {
     echo "    <host>
+        <id>$host->id</id>
+        <host_cpid>$host->host_cpid</host_cpid>
         <total_credit>$host->total_credit</total_credit>
         <expavg_credit>$host->expavg_credit</expavg_credit>
         <expavg_time>$host->expavg_time</expavg_time>

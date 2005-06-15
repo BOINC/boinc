@@ -7904,3 +7904,9 @@ David  15 June 2005
 
     client/
         cs_scheduler.C
+
+David  15 June 2005
+    - Add host id, host_cpid to XML output of show_user.php
+
+    html/inc/
+        xml.inc
