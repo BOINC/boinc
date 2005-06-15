@@ -7865,3 +7865,9 @@ David  14 June 2005
         user/
             show_user.php
 
+David  14 June 2005
+    - avoid divide by zero in CPU efficiency calc
+        (from John McLeod)
+
+    client/
+        time_stats.C
