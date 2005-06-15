@@ -368,6 +368,9 @@
 				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\std_fixes.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\stdwx.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
