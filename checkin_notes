@@ -7848,8 +7848,20 @@ David  14 June 2005
         hostinfo_unix.C
 
 Jeff  14 June 2005
-    - fixed a big in the feeder code that handles the mod(result id)
+    - fixed a bug in the feeder code that handles the mod(result id)
       functionality.
 
     sched/
-	feeder.C
+        feeder.C
+
+David  14 June 2005
+    - web: the XML variant of show_user.php now allows the
+        user to be identified either by ID or authenticator.
+        In the latter case, the output includes a list of the user's hosts.
+        
+    html/
+        inc/
+            xml.inc
+        user/
+            show_user.php
+

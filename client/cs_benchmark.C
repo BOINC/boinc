@@ -291,7 +291,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     //
     if (now >= (cpu_benchmarks_start + 10.0) && active_tasks.is_task_executing()) {
         msg_printf(NULL, MSG_ERROR,
-            "Aborting CPU benchmarks, one or more active tasks are still running."
+            "Failed to stop applications; aborting CPU benchmarks"
         );
         host_info.p_calculated = now;
         abort_cpu_benchmarks();

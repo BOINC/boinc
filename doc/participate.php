@@ -45,7 +45,7 @@ echo "
 <li> <a href=stats_sites.php>BOINC statistics sites</a>
 <li> <a href=db_dump.php>Downloading statistics data</a>
 <li> <a href=cpid.php>Cross-project identification</a>
-<li> <a href=acct_mgt.php>Web services (possibly useful for statistics sites)</a>
+<li> <a href=web_rpc.php>Web RPCs (possibly useful for statistics sites)</a>
 </ul>
 ";
 page_tail();

@@ -112,6 +112,7 @@ void TIME_STATS::update(bool is_active) {
 }
 
 void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
+    if (cpu_wall_time < .01) return;
     double w = exp(-cpu_wall_time/86400);
     double e = cpu_time/cpu_wall_time;
     cpu_efficiency = w*cpu_efficiency + (1-w)*e;
