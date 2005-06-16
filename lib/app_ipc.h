@@ -192,6 +192,7 @@ struct APP_INIT_DATA {
     APP_INIT_DATA();
     APP_INIT_DATA(const APP_INIT_DATA&);  // copy constructor
     void operator=(const APP_INIT_DATA&);
+    void copy(const APP_INIT_DATA&);      // actually do the copy here
     ~APP_INIT_DATA();
 };
 

@@ -7910,3 +7910,11 @@ David  15 June 2005
 
     html/inc/
         xml.inc
+
+Rom    15 June 2005
+    - Due to the previous app_ipc.C file only the project preferences were
+        being copied, so expand on the previous check-in and copy the rest
+        of the APP_INIT_DATA data.
+
+    lib/
+        app_ipc.C,h
