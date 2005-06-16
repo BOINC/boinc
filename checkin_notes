@@ -7912,8 +7912,8 @@ David  15 June 2005
         xml.inc
 
 Rom    15 June 2005
-    - Due to the previous app_ipc.C file only the project preferences were
-        being copied, so expand on the previous check-in and copy the rest
+    - Due to the previous app_ipc.C change only the project preferences
+        were being copied, so expand on the previous check-in and copy the rest
         of the APP_INIT_DATA data.
 
     lib/
