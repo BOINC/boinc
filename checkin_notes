@@ -7925,3 +7925,9 @@ Charlie    16 June 2005
     client/
         mac/
             BOINCMgr.icns
+
+David  16 June 2005
+    - use memcpy() in APP_INIT_DATA::copy()
+
+    lib/
+        app_ipc.C

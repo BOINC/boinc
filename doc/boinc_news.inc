@@ -2,6 +2,11 @@
 
 $project_news = array(
 
+array("June 16, 2005",
+    "Climateprediction.net is featured in
+    <a href=http://www.iee.org/oncomms/sector/PN_Article.cfm?objectID=3D100A5C-BC75-D279-D8D15A49EC4131B4>an article</a>
+    in the journal of the Institute of Electrical Engineers."
+),
 array("June 3, 2005",
     "Two Wiki-based BOINC informational sites have been launched recently:
     <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a>

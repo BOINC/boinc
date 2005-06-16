@@ -70,39 +70,10 @@ void APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
-    core_version = a.core_version;
-    strncpy(app_name, a.app_name, sizeof(app_name));
+    memcpy(this, &a, sizeof(APP_INIT_DATA));
     if (a.project_preferences) {
         project_preferences = strdup(a.project_preferences);
     }
-    userid = a.userid;
-    teamid = a.teamid;
-    hostid = a.hostid;
-    strncpy(user_name, a.user_name, sizeof(user_name));
-    strncpy(team_name, a.team_name, sizeof(team_name));
-    strncpy(project_dir, a.project_dir, sizeof(project_dir));
-    strncpy(boinc_dir, a.boinc_dir, sizeof(boinc_dir));
-    strncpy(wu_name, a.wu_name, sizeof(wu_name));
-    strncpy(authenticator, a.authenticator, sizeof(authenticator));
-    slot = a.slot;
-    user_total_credit = a.user_total_credit;
-    user_expavg_credit = a.user_expavg_credit;
-    host_total_credit = a.host_total_credit;
-    host_expavg_credit = a.host_expavg_credit;
-    checkpoint_period = a.checkpoint_period;
-#ifdef _WIN32
-    strncpy(shmem_seg_name, a.shmem_seg_name, sizeof(shmem_seg_name));
-#else
-    shmem_seg_name = a.shmem_seg_name;
-#endif
-    wu_cpu_time = a.wu_cpu_time;
-    fraction_done_update_period = a.fraction_done_update_period;
-    fraction_done_start = a.fraction_done_start;
-    fraction_done_end = a.fraction_done_end;
-
-    host_info = a.host_info;
-    proxy_info = a.proxy_info;
-    global_prefs = a.global_prefs;
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {

@@ -222,7 +222,7 @@ $linux = array(
     )
 );
 $solaris = array(
-    "name"=>"Solaris/SPARC",
+    "name"=>"Solaris/SPARC <a href=solaris.php><font size=-2>details</a>",
     "versions"=>array(
         $s419,
         $s443
