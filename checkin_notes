@@ -7918,3 +7918,10 @@ Rom    15 June 2005
 
     lib/
         app_ipc.C,h
+
+Charlie    16 June 2005
+    - Replace Mac BOINCManager icons with new ones contributed by Juho Viitasalo
+    
+    client/
+        mac/
+            BOINCMgr.icns
