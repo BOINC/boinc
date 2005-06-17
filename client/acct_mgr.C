@@ -23,6 +23,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
+#include "util.h"
 #include "file_names.h"
 #include "filesys.h"
 
@@ -34,16 +35,29 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
     int retval;
     char buf[256];
 
-    if (state != ACCT_MGR_STATE_IDLE) return 0;
-
-    msg_printf(NULL, MSG_INFO, "Doing account manager RPC to %s", url.c_str());
+    if (state != ACCT_MGR_STATE_IDLE) {
+        msg_printf(NULL, MSG_ALERT, "An account manager update is already in progress");
+        return 0;
+    }
+    strcpy(buf, url.c_str());
+    canonicalize_master_url(buf);
+    if (!valid_master_url(buf)) {
+        msg_printf(NULL, MSG_ALERT, "%s is not a valid URL", url.c_str());
+        return 0;
+    }
     sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
     http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(ACCT_MGR_REPLY_FILENAME);
     retval = http_op.init_get(buf, ACCT_MGR_REPLY_FILENAME, true);
-    if (retval) return retval;
-    retval = gstate.http_ops->insert(&http_op);
-    if (retval) return retval;
+    if (!retval) retval = gstate.http_ops->insert(&http_op);
+    if (retval) {
+        msg_printf(NULL, MSG_ALERT,
+            "Can't contact %s.  Please check the URL and try again",
+            url.c_str()
+        );
+        return retval;
+    }
+    msg_printf(NULL, MSG_INFO, "Doing account manager RPC to %s", url.c_str());
     state = ACCT_MGR_STATE_BUSY;
 
     return 0;
@@ -57,7 +71,7 @@ bool ACCT_MGR::poll() {
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
         if (http_op.http_op_retval == 0) {
-            msg_printf(NULL, MSG_INFO, "Account manager RPC succeeded");
+            msg_printf(NULL, MSG_ALERT, "Account manager RPC succeeded");
             FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
             if (f) {
                 MIOFILE mf;
@@ -67,7 +81,7 @@ bool ACCT_MGR::poll() {
                 handle_reply();
             }
         } else {
-            msg_printf(NULL, MSG_ERROR, "Account manager RPC failed");
+            msg_printf(NULL, MSG_ALERT, "Account manager RPC failed");
         }
         state = ACCT_MGR_STATE_IDLE;
     }

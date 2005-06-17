@@ -7949,3 +7949,11 @@ Rom    16 June 2005
         Events.h
         MainFrame.cpp, .h
         ViewTransfers.cpp
+
+David  16 June 2005
+	- validate account manager URL before trying to do RPC
+	- generate MSG_ALERT messages for account manager RPCs
+		(success or failure).
+
+	client/
+		acct_mgr.C
