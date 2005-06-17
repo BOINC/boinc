@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static const char *boinc_xpm[] = {
+static const char *APP_ICON_xpm[] = {
 "16 16 184 2",
 "  	c None",
 ". 	c #CFD2E0",
