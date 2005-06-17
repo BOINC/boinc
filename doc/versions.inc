@@ -215,7 +215,7 @@ $mac = array(
     )
 );
 $linux = array(
-    "name"=>"Linux/x86",
+    "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
         $l419

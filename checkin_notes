@@ -7957,3 +7957,12 @@ David  16 June 2005
 
 	client/
 		acct_mgr.C
+
+David  17 June 2005
+    - scheduler: handle_msgs_from_host():
+        if insert into msgs_from_host table fails,
+        don't acknowledge messages
+        (from Ian Hay)
+
+    sched/
+        handle_request.C

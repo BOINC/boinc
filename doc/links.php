@@ -77,6 +77,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
     site("http://www.boinc-halle-saale.de.vu", "BOINC@Halle/Saale"),
     site("http://www.boincfun.tk/", "BOINCfun"),

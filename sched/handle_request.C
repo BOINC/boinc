@@ -920,6 +920,11 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] message insert failed: %d\n",
                 reply.host.id, retval
             );
+            reply.send_msg_ack = false;
+
+            // may as well return; if one insert failed, others will too
+            //
+            return;
         }
     }
 }
