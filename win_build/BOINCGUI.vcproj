@@ -193,7 +193,10 @@
 				RelativePath="..\clientgui\DlgAbout.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\DlgAccountManager.cpp">
+				RelativePath="..\clientgui\DlgAccountManagerSignup.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgAccountManagerStatus.cpp">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAttachProject.cpp">
@@ -471,7 +474,10 @@
 				RelativePath="..\clientgui\DlgAbout.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\DlgAccountManager.h">
+				RelativePath="..\clientgui\DlgAccountManagerSignup.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgAccountManagerStatus.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAttachProject.h">
@@ -584,9 +590,6 @@
 				RelativePath="..\clientgui\res\boincsm.xpm">
 			</File>
 			<File
-				RelativePath="..\clientgui\res\hiddenheader.xpm">
-			</File>
-			<File
 				RelativePath="..\clientgui\res\mess.xpm">
 			</File>
 			<File
@@ -596,19 +599,7 @@
 				RelativePath="..\clientgui\res\result.xpm">
 			</File>
 			<File
-				RelativePath="..\clientgui\res\task.xpm">
-			</File>
-			<File
-				RelativePath="..\clientgui\res\tips.xpm">
-			</File>
-			<File
 				RelativePath="..\clientgui\res\usage.xpm">
-			</File>
-			<File
-				RelativePath="..\clientgui\res\visibleheader.xpm">
-			</File>
-			<File
-				RelativePath="..\clientgui\res\web.xpm">
 			</File>
 			<File
 				RelativePath="..\clientgui\res\xfer.xpm">

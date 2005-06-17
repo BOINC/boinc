@@ -24,7 +24,7 @@
 
 #define ID_FRAME                            6000
 #define ID_STATUSBAR                        6001
-#define ID_TOOLSUPDATEACCOUNTS              6002
+#define ID_TOOLSMANAGEACCOUNTS              6002
 #define ID_TOOLSOPTIONS                     6003
 #define ID_FRAMENOTEBOOK                    6004
 #define ID_REFRESHSTATETIMER                6005

@@ -35,7 +35,8 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgAttachProject.h"
-#include "DlgAccountManager.h"
+#include "DlgAccountManagerSignup.h"
+#include "DlgAccountManagerStatus.h"
 #include "DlgSelectComputer.h"
 
 #include "res/BOINCGUIApp.xpm"
@@ -134,6 +135,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 }
 
 
+DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_ALERT)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION)
@@ -150,12 +152,14 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_RUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
     EVT_MENU(ID_SELECTCOMPUTER, CMainFrame::OnSelectComputer)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
-    EVT_MENU(ID_TOOLSUPDATEACCOUNTS, CMainFrame::OnToolsUpdateAccounts)
+    EVT_MENU(ID_TOOLSMANAGEACCOUNTS, CMainFrame::OnToolsManageAccounts)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelpBOINCManager)
+    EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnHelpAbout)
     EVT_CLOSE(CMainFrame::OnClose)
+    EVT_MAINFRAME_ALERT(CMainFrame::OnAlert)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
     EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
     EVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION(CMainFrame::OnConnectErrorAuthentication)
@@ -361,15 +365,13 @@ bool CMainFrame::CreateMenu() {
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
-    if (pDoc->IsAccountManagerFound()) {
-        menuTools->Append(
-            ID_TOOLSUPDATEACCOUNTS, 
-            _("&Update Accounts"),
-            _("Connect to your account manager website and update all of your accounts")
-        );
+    menuTools->Append(
+        ID_TOOLSMANAGEACCOUNTS, 
+        _("&Manage Accounts"),
+        _("Connect to an account manager website and update all of your accounts")
+    );
 
-        menuTools->AppendSeparator();
-    }
+    menuTools->AppendSeparator();
 
     menuTools->Append(
         ID_TOOLSOPTIONS, 
@@ -912,38 +914,46 @@ void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CMainFrame::OnToolsUpdateAccounts(wxCommandEvent& WXUNUSED(event))
+void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsUpdateAccounts - Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsManageAccounts - Function Begin"));
 
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CDlgAccountManager* pDlg = new CDlgAccountManager(this);
-    int             iAnswer = 0;
+    int                 iAnswer = 0;
     wxString            strLogin = wxEmptyString;
     wxString            strPassword = wxEmptyString;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CDlgAccountManagerSignup* pDlgSignup = new CDlgAccountManagerSignup(this);
+    CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
 
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pDlg);
+    wxASSERT(pDlgSignup);
+    wxASSERT(pDlgStatus);
 
-    if (!pDoc->IsAccountManagerLoginFound()) {
-        pDlg->SetTitle(pDoc->acct_mgr.acct_mgr.name.c_str());
-        iAnswer = pDlg->ShowModal();
-        if (wxID_OK == iAnswer) {
-            strLogin = pDlg->m_AcctManagerUsernameCtrl->GetValue();
-            strPassword = pDlg->m_AcctManagerUsernameCtrl->GetValue();
-
-            pDoc->InitializeAccountManagerLogin(strLogin, strPassword);            
+    if (pDoc->IsAccountManagerFound()) {
+        iAnswer = pDlgStatus->ShowModal();
+    } else {
+        if (!pDoc->IsAccountManagerLoginFound()) {
+            //pDlgSignup->SetTitle(pDoc->acct_mgr.acct_mgr.name.c_str());
+            iAnswer = pDlgSignup->ShowModal();
+            //if (wxID_OK == iAnswer) {
+            //    strLogin = pDlgSignup->m_AcctManagerUsernameCtrl->GetValue();
+            //    strPassword = pDlgSignup->m_AcctManagerUsernameCtrl->GetValue();
+            //
+            //    pDoc->InitializeAccountManagerLogin(strLogin, strPassword);            
+            //}
         }
     }
 
     pDoc->UpdateAccountManagerAccounts();
 
-    if (pDlg)
-        pDlg->Destroy();
+    if (pDlgSignup)
+        pDlgSignup->Destroy();
+    if (pDlgStatus)
+        pDlgStatus->Destroy();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsUpdateAccounts - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsManageAccounts - Function End"));
 }
 
 
@@ -1056,6 +1066,17 @@ void CMainFrame::OnHelpBOINCManager(wxHelpEvent& event) {
 }
 
 
+void CMainFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function Begin"));
+
+    if (IsShown()) {
+        ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function End"));
+}
+
+
 void CMainFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCWebsite - Function Begin"));
 
@@ -1095,6 +1116,12 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function End"));
+}
+
+
+void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function End"));
 }
 
 
@@ -1432,6 +1459,12 @@ void CMainFrame::FireInitialize() {
 }
 
 
+void CMainFrame::FireRefreshView() {
+    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
+    AddPendingEvent(event);
+}
+
+
 void CMainFrame::FireConnect() {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
     AddPendingEvent(event);
@@ -1446,12 +1479,6 @@ void CMainFrame::FireConnectError() {
 
 void CMainFrame::FireConnectErrorAuthentication() {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, this);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::FireRefreshView() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
     AddPendingEvent(event);
 }
 
