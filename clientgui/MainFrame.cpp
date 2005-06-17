@@ -931,10 +931,10 @@ void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
     wxASSERT(pDlgSignup);
     wxASSERT(pDlgStatus);
 
-    if (pDoc->IsAccountManagerFound()) {
+    if (pDoc->acct_mgr.acct_mgr_found) {
         iAnswer = pDlgStatus->ShowModal();
     } else {
-        if (!pDoc->IsAccountManagerLoginFound()) {
+        if (!pDoc->acct_mgr.acct_mgr_login_found) {
             //pDlgSignup->SetTitle(pDoc->acct_mgr.acct_mgr.name.c_str());
             iAnswer = pDlgSignup->ShowModal();
             //if (wxID_OK == iAnswer) {

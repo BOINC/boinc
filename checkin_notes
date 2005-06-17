@@ -7966,3 +7966,11 @@ David  17 June 2005
 
     sched/
         handle_request.C
+
+David  17 June 2005
+	- BOINC manager: get rid of
+		CMainDocument::IsAccountManagerFound() etc.
+
+	clientgui/
+		MainDocument.cpp,h
+		MainFrame.cpp

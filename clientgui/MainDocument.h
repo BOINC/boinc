@@ -279,10 +279,6 @@ public:
 
     int                         InitializeAccountManagerLogin(const wxString& strLogin, const wxString& strPassword);
     int                         UpdateAccountManagerAccounts();
-
-    bool                        IsAccountManagerFound();
-    bool                        IsAccountManagerLoginFound();
-
     ACCT_MGR_CLIENT             acct_mgr;
 
 };

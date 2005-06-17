@@ -1260,15 +1260,4 @@ int CMainDocument::UpdateAccountManagerAccounts() {
     return iRetVal;
 }
 
-
-bool CMainDocument::IsAccountManagerFound() {
-    return acct_mgr.acct_mgr_found;    
-}
-
-
-bool CMainDocument::IsAccountManagerLoginFound() {
-    return acct_mgr.acct_mgr_login_found;
-}
-
-
 const char *BOINC_RCSID_aa03a835ba = "$Id$";
