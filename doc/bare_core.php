@@ -54,6 +54,8 @@ startup of BOINC on various versions of Unix:
 <a href=autostart_dennett.txt>Red Hat 9, should also work on Solaris</a>
 <li>
 <a href=gentoo.txt>Gentoo Linux</a> (from Gabor Nagy)
+<li>
+<a href=hpux.txt>HPUX</a> (mostly relevant to UNIX in general)
 </ul>
 
 ";

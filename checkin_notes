@@ -7974,3 +7974,13 @@ David  17 June 2005
 	clientgui/
 		MainDocument.cpp,h
 		MainFrame.cpp
+
+David  17 June 2005
+    - Run CPU on the same # of CPUs that BOINC will use,
+        reflecting global preferences.
+        (from Glenn Dill)
+
+    client/
+        cs_benchmark.C
+        cs_scheduler.C
+

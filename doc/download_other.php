@@ -14,7 +14,9 @@ The following sites offer downloads of BOINC software
 and BOINC project applications, compiled for various platforms.
 These downloads are not endorsed by BOINC or any BOINC project;
 Use them at your own risk.
-    <p>
+<p>
+Read <a href=bare_core.php>Installing the command-line client</a>.
+<p>
 ";
 list_start();
 list_heading_array(array(

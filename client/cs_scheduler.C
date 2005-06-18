@@ -749,7 +749,14 @@ int CLIENT_STATE::handle_scheduler_reply(
             msg_printf(project, MSG_ERROR, "Can't parse general preferences");
         } else {
             show_global_prefs_source(found_venue);
+            int ncpus_old = ncpus;
             install_global_prefs();
+            if (ncpus != ncpus_old) {
+                msg_printf(0, MSG_INFO,
+                    "Number of usable CPUs has changed.  Running benchmarks."
+                );
+                run_cpu_benchmarks = true;
+            }
         }
     }
 
