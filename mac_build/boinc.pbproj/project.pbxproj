@@ -285,7 +285,6 @@
 				DD4DD0A207EAA648008A6468,
 				DD095F1C07D882EB00362260,
 				DD095F1E07D882EE00362260,
-				DD6D0A2007E9999C007F882B,
 				DD095F2007D882EF00362260,
 				DD095F2207D882F100362260,
 				DD095F2407D882F200362260,
@@ -314,6 +313,8 @@
 				DD2D25CD07FAB41700151141,
 				DDEF38900802B73500E87552,
 				DD7E49CD080F9B09002716F9,
+				DDA4573D086447BC00DE260C,
+				DDA4573F086447BC00DE260C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2344,30 +2345,6 @@
 			settings = {
 			};
 		};
-		DD6D07B307E99881007F882B = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = DlgAccountManager.cpp;
-			path = ../clientgui/DlgAccountManager.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6D07B407E99881007F882B = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = DlgAccountManager.h;
-			path = ../clientgui/DlgAccountManager.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6D0A2007E9999C007F882B = {
-			fileRef = DD6D07B307E99881007F882B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD6D0A2C07E99A08007F882B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2520,8 +2497,10 @@
 				DD81C43807C5D2240098A04D,
 				DD81C40207C5D1020098A04D,
 				DD81C43707C5D2240098A04D,
-				DD6D07B307E99881007F882B,
-				DD6D07B407E99881007F882B,
+				DDA45739086447BC00DE260C,
+				DDA4573A086447BC00DE260C,
+				DDA4573B086447BC00DE260C,
+				DDA4573C086447BC00DE260C,
 				DD81C40107C5D1020098A04D,
 				DD81C43607C5D2240098A04D,
 				DD81C40007C5D1020098A04D,
@@ -3075,6 +3054,66 @@
 			path = "ScreenSaver-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DDA45739086447BC00DE260C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = DlgAccountManagerSignup.cpp;
+			path = ../clientgui/DlgAccountManagerSignup.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDA4573A086447BC00DE260C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DlgAccountManagerSignup.h;
+			path = ../clientgui/DlgAccountManagerSignup.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDA4573B086447BC00DE260C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = DlgAccountManagerStatus.cpp;
+			path = ../clientgui/DlgAccountManagerStatus.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDA4573C086447BC00DE260C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DlgAccountManagerStatus.h;
+			path = ../clientgui/DlgAccountManagerStatus.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDA4573D086447BC00DE260C = {
+			fileRef = DDA45739086447BC00DE260C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDA4573E086447BC00DE260C = {
+			fileRef = DDA4573A086447BC00DE260C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDA4573F086447BC00DE260C = {
+			fileRef = DDA4573B086447BC00DE260C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDA45740086447BC00DE260C = {
+			fileRef = DDA4573C086447BC00DE260C;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DDAEC9DE07FA583B00A7BC36 = {
 			buildActionMask = 2147483647;
@@ -3808,6 +3847,8 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
+				DDA4573E086447BC00DE260C,
+				DDA45740086447BC00DE260C,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
