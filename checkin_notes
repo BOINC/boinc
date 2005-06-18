@@ -7984,3 +7984,10 @@ David  17 June 2005
         cs_benchmark.C
         cs_scheduler.C
 
+Rom    17 June 2005
+    - Per community request, after verifing that the _CrtMemBlockHeader structure
+      is the same in VS 2005 I've adjusted stackwalkers requirements so that
+      BOINC can be built with VS 2005.
+
+    lib/
+        stackwalker.h

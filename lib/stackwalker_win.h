@@ -27,9 +27,9 @@
 #error Only INTEL envirnoments are supported!
 #endif
 
-// Only MS VC++ 5 to 7
-#if (_MSC_VER < 1100) || (_MSC_VER > 1310)
-#error Only MS VC++ 5/6/7 supported. Check if the '_CrtMemBlockHeader' has not changed with this compiler!
+// Only MS VC++ 5 to 8
+#if (_MSC_VER < 1100) || (_MSC_VER > 1400)
+#error Only MS VC++ 5/6/7/8 supported. Check if the '_CrtMemBlockHeader' has not changed with this compiler!
 #endif
 
 typedef enum eAllocCheckOutput
