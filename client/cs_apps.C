@@ -143,7 +143,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     } else {
         rp->state = RESULT_FILES_UPLOADING;
 
-        // HANDLE SUCCESS RESULTS HERE
+        rp->project->update_duration_correction_factor(rp);
     }
 
     double wall_cpu_time = now - cpu_sched_last_time;

@@ -224,7 +224,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
-        "    <estimated_delay>%f</estimated_delay>\n",
+        "    <estimated_delay>%f</estimated_delay>\n"
+        "    <duration_correction_factor>%f</duration_correction_factor>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -233,7 +234,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         core_client_minor_version,
         p->work_request,
         p->resource_share / prrs,
-        time_until_work_done(p, proj_min_results(p, prrs)-1, prrs)
+        time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
+        p->duration_correction_factor
     );
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");
@@ -1008,11 +1010,15 @@ void CLIENT_STATE::set_scheduler_modes() {
     unsigned int i, j;
     bool should_not_fetch_work = false;
     bool use_earliest_deadline_first = false;
+#if 0
     double frac_booked = 0;
     std::vector <double> booked_to;
     std::map<double, RESULT*>::iterator it;
+#endif
     double total_proc_rate = avg_proc_rate();
+#if 0
     double per_cpu_proc_rate = total_proc_rate/ncpus;
+#endif
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 

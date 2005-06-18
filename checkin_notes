@@ -8023,3 +8023,19 @@ David  18 June 2005
         client_types.C,h
         cs_apps.C
         cs_scheduler.C
+
+David  18 June 2005
+    - Add a per-project "duration correction factor" used
+        to scale the estimated CPU time of a result.
+        This should improve the accuracy of predictions of how much
+        CPU time results will take,
+        which should improve the effectiveness of the CPU scheduling
+        and work fetch policies,
+        and will also cause schedulers to send more appropriate
+        amounts of work (once we modify the scheduler)
+        (from John McLeod)
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C

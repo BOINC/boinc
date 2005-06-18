@@ -213,7 +213,7 @@ public:
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
     bool anonymous_platform;    // app_versions.xml file found in project dir;
-                                // use those apps rather then getting from server
+                            // use those apps rather then getting from server
     bool non_cpu_intensive;
     bool send_file_list;
         // send the list of permanent files associated/with the project
@@ -226,6 +226,15 @@ public:
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
+
+    // Multiply by this when estimating the CPU time of a result
+    // (based on FLOPs estimated and benchmarks).
+    // This is dynamically updated in a way that maintains an upper bound.
+    // it goes down slowly but if a new estimate X is larger,
+    // the factor is set to X.
+    //
+    double duration_correction_factor;
+    void update_duration_correction_factor(RESULT*);
     
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects
@@ -408,6 +417,7 @@ struct RESULT {
     FILE_REF* lookup_file(FILE_INFO*);
     FILE_INFO* lookup_file_logical(const char*);
     double estimated_cpu_time();
+    double estimated_cpu_time_uncorrected();
     double estimated_cpu_time_remaining();
     bool computing_done();
     bool runnable();

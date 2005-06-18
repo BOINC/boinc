@@ -95,6 +95,7 @@ void PROJECT::init() {
     next_runnable_result = NULL;
     work_request = 0;
     work_request_urgency = WORK_FETCH_DONT_NEED;
+    duration_correction_factor = 1;
 }
 
 PROJECT::~PROJECT() {
@@ -173,6 +174,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
+        else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -217,6 +219,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
+        "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -242,6 +245,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         short_term_debt,
         long_term_debt,
         resource_share,
+        duration_correction_factor,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
@@ -315,6 +319,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     deletion_policy_priority = p.deletion_policy_priority;
     deletion_policy_expire = p.deletion_policy_expire;
 #endif
+    duration_correction_factor = p.duration_correction_factor;
 }
 
 // Write project statistic to project statistics file
@@ -424,6 +429,19 @@ bool PROJECT::potentially_runnable() {
     if (contactable()) return true;
     if (downloading()) return true;
     return false;
+}
+
+void PROJECT::update_duration_correction_factor(RESULT* rp) {
+    double factor = rp->final_cpu_time / rp->estimated_cpu_time();
+    if (factor > duration_correction_factor) {
+        duration_correction_factor = factor;
+    } else {
+        if (factor < 0.1) {
+            duration_correction_factor *= 0.99;
+        } else {
+            duration_correction_factor *= 0.9;
+        }
+    }
 }
 
 int APP::parse(MIOFILE& in) {
@@ -1395,10 +1413,14 @@ bool RESULT::computing_done() {
     return (state >= RESULT_COMPUTE_ERROR || ready_to_report);
 }
 
+double RESULT::estimated_cpu_time_uncorrected() {
+    return wup->rsc_fpops_est/gstate.host_info.p_fpops;
+}
+
 // estimate how long a result will take on this host
 //
 double RESULT::estimated_cpu_time() {
-    return wup->rsc_fpops_est/gstate.host_info.p_fpops;
+    return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
 }
 
 double RESULT::estimated_cpu_time_remaining() {
