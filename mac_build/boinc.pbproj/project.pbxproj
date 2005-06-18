@@ -335,6 +335,9 @@
 				DDD7F08807F0692D00BA3B90,
 			);
 			buildRules = (
+				DD6826EE08641BE00070CDB8,
+				DD6826ED08641BDF0070CDB8,
+				DD6826EC08641BDF0070CDB8,
 			);
 			buildSettings = {
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -679,12 +682,16 @@
 				DD1277B1081F3D67007B5DE1,
 			);
 			buildRules = (
+				DD6826FA08641C5B0070CDB8,
+				DD6826F908641C5A0070CDB8,
+				DD6826F808641C5A0070CDB8,
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Installer-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
@@ -907,6 +914,15 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		DD30446A0864332D00D73756 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = config.h;
+			path = ../clientgui/mac/config.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD344B3D07C5ABF40043025C = {
 			fileEncoding = 30;
@@ -1286,14 +1302,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD35352D07E1E05C00C4718D = {
-			buildActionMask = 2147483647;
-			files = (
-				DD35353707E1E14000C4718D,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DD35352E07E1E05C00C4718D = {
 			buildActionMask = 2147483647;
 			files = (
@@ -1311,18 +1319,20 @@
 		};
 		DD35353007E1E05C00C4718D = {
 			buildPhases = (
-				DD35352D07E1E05C00C4718D,
 				DD35352E07E1E05C00C4718D,
 				DD35352F07E1E05C00C4718D,
 			);
 			buildRules = (
+				DD6826EB08641BC30070CDB8,
+				DD6826EA08641BC20070CDB8,
+				DD6826E908641BC20070CDB8,
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../clientgui/mac/config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc_api;
@@ -1350,42 +1360,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		DD35353707E1E14000C4718D = {
-			fileRef = F5755AD402FE063A012012A7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A4607D2FB1200163EF5 = {
-			buildActionMask = 2147483647;
-			files = (
-				DD407A4E07D2FB6600163EF5,
-				DD407A5007D2FB7200163EF5,
-				DD407A5207D2FB7900163EF5,
-				DD407A5407D2FB7C00163EF5,
-				DD407A5607D2FB8500163EF5,
-				DD407A5707D2FB8A00163EF5,
-				DD407A5A07D2FB9B00163EF5,
-				DD407A5C07D2FBA100163EF5,
-				DD407A5E07D2FBA400163EF5,
-				DD407A6007D2FBAE00163EF5,
-				DD407A6107D2FBB200163EF5,
-				DD407A6407D2FBB600163EF5,
-				DD407A6607D2FBBB00163EF5,
-				DD407A6807D2FBBE00163EF5,
-				DD407A6A07D2FBC200163EF5,
-				DD407A6C07D2FBC800163EF5,
-				DD407A6E07D2FBD200163EF5,
-				DD407ABA07D2FC7D00163EF5,
-				DD407ABC07D2FC7D00163EF5,
-				DD407AC407D2FCBD00163EF5,
-				DD407AD107D2FDE300163EF5,
-				DD407ADD07D2FDF700163EF5,
-				DD407AEB07D2FE6500163EF5,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DD407A4707D2FB1200163EF5 = {
 			buildActionMask = 2147483647;
@@ -1422,11 +1396,13 @@
 		};
 		DD407A4907D2FB1200163EF5 = {
 			buildPhases = (
-				DD407A4607D2FB1200163EF5,
 				DD407A4707D2FB1200163EF5,
 				DD407A4807D2FB1200163EF5,
 			);
 			buildRules = (
+				DD6826E508641B8A0070CDB8,
+				DD6826E408641B8A0070CDB8,
+				DD6826E308641B8A0070CDB8,
 			);
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1435,8 +1411,8 @@
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../config.h";
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../clientgui/mac/config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
@@ -1466,20 +1442,8 @@
 			settings = {
 			};
 		};
-		DD407A4E07D2FB6600163EF5 = {
-			fileRef = AA8B6B1C046C364400A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A4F07D2FB7100163EF5 = {
 			fileRef = DD344B6307C5ACEB0043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A5007D2FB7200163EF5 = {
-			fileRef = DD344B6407C5ACEB0043025C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1490,38 +1454,14 @@
 			settings = {
 			};
 		};
-		DD407A5207D2FB7900163EF5 = {
-			fileRef = F51DA64E02DB97FF010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A5307D2FB7C00163EF5 = {
 			fileRef = DD344BA207C5AE5A0043025C;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		DD407A5407D2FB7C00163EF5 = {
-			fileRef = DD344BA307C5AE5A0043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A5507D2FB8400163EF5 = {
 			fileRef = F5EAD475031AEFF8018E201A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A5607D2FB8500163EF5 = {
-			fileRef = F5EAD474031AEFF8018E201A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A5707D2FB8A00163EF5 = {
-			fileRef = DD344BB707C5AEEE0043025C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1538,20 +1478,8 @@
 			settings = {
 			};
 		};
-		DD407A5A07D2FB9B00163EF5 = {
-			fileRef = AA8FCBF50486CFD000A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A5B07D2FBA000163EF5 = {
 			fileRef = F5159562029EB02001F5651B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A5C07D2FBA100163EF5 = {
-			fileRef = F5159563029EB02001F5651B;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1562,26 +1490,8 @@
 			settings = {
 			};
 		};
-		DD407A5E07D2FBA400163EF5 = {
-			fileRef = F5159565029EB02001F5651B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A5F07D2FBAE00163EF5 = {
 			fileRef = DD344BD207C5B1150043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A6007D2FBAE00163EF5 = {
-			fileRef = DD344BD307C5B1150043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A6107D2FBB200163EF5 = {
-			fileRef = DD344BD407C5B1150043025C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1598,20 +1508,8 @@
 			settings = {
 			};
 		};
-		DD407A6407D2FBB600163EF5 = {
-			fileRef = DD344BDB07C5B11E0043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A6507D2FBBA00163EF5 = {
 			fileRef = F54B901602AC0A2201FB7237;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A6607D2FBBB00163EF5 = {
-			fileRef = F54B901502AC0A2201FB7237;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1622,20 +1520,8 @@
 			settings = {
 			};
 		};
-		DD407A6807D2FBBE00163EF5 = {
-			fileRef = DD344BE507C5B1670043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A6907D2FBC200163EF5 = {
 			fileRef = DD344BEF07C5B1770043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A6A07D2FBC200163EF5 = {
-			fileRef = DD344BEE07C5B1770043025C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1646,20 +1532,8 @@
 			settings = {
 			};
 		};
-		DD407A6C07D2FBC800163EF5 = {
-			fileRef = AAA31C98042157A800A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407A6D07D2FBD100163EF5 = {
 			fileRef = F5EAD479031AF001018E201A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407A6E07D2FBD200163EF5 = {
-			fileRef = F5EAD478031AF001018E201A;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1706,32 +1580,8 @@
 			settings = {
 			};
 		};
-		DD407ABA07D2FC7D00163EF5 = {
-			fileRef = DD407AB607D2FC7D00163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407ABB07D2FC7D00163EF5 = {
 			fileRef = DD407AB707D2FC7D00163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407ABC07D2FC7D00163EF5 = {
-			fileRef = DD407AB807D2FC7D00163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407AC407D2FCBD00163EF5 = {
-			fileRef = F51DE2B302DE4D0301D42C55;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD407AD107D2FDE300163EF5 = {
-			fileRef = DD81C6ED07C611D80098A04D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1745,12 +1595,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD407ADD07D2FDF700163EF5 = {
-			fileRef = DD407ADC07D2FDF700163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407AEA07D2FE6500163EF5 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1760,12 +1604,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD407AEB07D2FE6500163EF5 = {
-			fileRef = DD407AEA07D2FE6500163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD407AED07D2FE7200163EF5 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1774,20 +1612,6 @@
 			path = ../lib/synch.C;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD40823607D304F000163EF5 = {
-			buildActionMask = 2147483647;
-			files = (
-				DD40824907D3068B00163EF5,
-				DD40825D07D3076400163EF5,
-				DD40825F07D3076400163EF5,
-				DD40826107D3076400163EF5,
-				DD40826407D3076400163EF5,
-				DD40826607D3076400163EF5,
-				DD40827E07D30AA800163EF5,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DD40823707D304F000163EF5 = {
 			buildActionMask = 2147483647;
@@ -1813,18 +1637,20 @@
 		};
 		DD40823907D304F000163EF5 = {
 			buildPhases = (
-				DD40823607D304F000163EF5,
 				DD40823707D304F000163EF5,
 				DD40823807D304F000163EF5,
 			);
 			buildRules = (
+				DD6826E808641BAB0070CDB8,
+				DD6826E708641BAA0070CDB8,
+				DD6826E608641BAA0070CDB8,
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../config.h";
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc_graphics_api;
@@ -1850,12 +1676,6 @@
 		};
 		DD40824807D3068A00163EF5 = {
 			fileRef = F59DD6F7032FF0AF01A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40824907D3068B00163EF5 = {
-			fileRef = F59DD6F6032FF0AF01A80164;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1965,32 +1785,14 @@
 			settings = {
 			};
 		};
-		DD40825D07D3076400163EF5 = {
-			fileRef = DD40825207D3076400163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD40825E07D3076400163EF5 = {
 			fileRef = DD40825307D3076400163EF5;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		DD40825F07D3076400163EF5 = {
-			fileRef = DD40825407D3076400163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD40826007D3076400163EF5 = {
 			fileRef = DD40825507D3076400163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40826107D3076400163EF5 = {
-			fileRef = DD40825607D3076400163EF5;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2007,20 +1809,8 @@
 			settings = {
 			};
 		};
-		DD40826407D3076400163EF5 = {
-			fileRef = DD40825907D3076400163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD40826507D3076400163EF5 = {
 			fileRef = DD40825A07D3076400163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD40826607D3076400163EF5 = {
-			fileRef = DD40825B07D3076400163EF5;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2033,12 +1823,6 @@
 			path = ../jpeglib/jpeglib.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD40827E07D30AA800163EF5 = {
-			fileRef = DD40827D07D30AA800163EF5;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DD40CDF507F0386A0096C645 = {
 			buildActionMask = 2147483647;
@@ -2070,12 +1854,16 @@
 				DD40CDF707F0386A0096C645,
 			);
 			buildRules = (
+				DD6826F108641BFC0070CDB8,
+				DD6826F008641BFC0070CDB8,
+				DD6826EF08641BFB0070CDB8,
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
@@ -2220,6 +2008,246 @@
 			target = DD69FEE708416C1300C01361;
 			targetProxy = DD664F18084321A2009BFB11;
 		};
+		DD6826DD08641B010070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826DE08641B110070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826DF08641B1E0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E008641B5E0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E108641B690070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E208641B6A0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E308641B8A0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E408641B8A0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E508641B8A0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E608641BAA0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E708641BAA0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E808641BAB0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826E908641BC20070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826EA08641BC20070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826EB08641BC30070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826EC08641BDF0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826ED08641BDF0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826EE08641BE00070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826EF08641BFB0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F008641BFC0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F108641BFC0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F208641C250070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F308641C260070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F408641C260070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F508641C410070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F608641C420070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F708641C420070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F808641C5A0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826F908641C5A0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		DD6826FA08641C5B0070CDB8 = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
 		DD69FEE508416C1300C01361 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -2243,6 +2271,9 @@
 				DD69FEE608416C1300C01361,
 			);
 			buildRules = (
+				DD6826E208641B6A0070CDB8,
+				DD6826E108641B690070CDB8,
+				DD6826E008641B5E0070CDB8,
 			);
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -2938,15 +2969,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD81C6ED07C611D80098A04D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = config.h;
-			path = ../config.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		DD96AFF50811075000A06F22 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -2990,6 +3012,9 @@
 				DD96AFF70811075000A06F22,
 			);
 			buildRules = (
+				DD6826F708641C420070CDB8,
+				DD6826F608641C420070CDB8,
+				DD6826F508641C410070CDB8,
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -2998,8 +3023,8 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../config.h";
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../clientgui/mac/config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030  -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCSaver;
@@ -3072,6 +3097,9 @@
 				DDAEC9DF07FA583B00A7BC36,
 			);
 			buildRules = (
+				DD6826F408641C260070CDB8,
+				DD6826F308641C260070CDB8,
+				DD6826F208641C250070CDB8,
 			);
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
@@ -3312,6 +3340,9 @@
 				DDD74D8507CF482E0065AC9D,
 			);
 			buildRules = (
+				DD6826DF08641B1E0070CDB8,
+				DD6826DE08641B110070CDB8,
+				DD6826DD08641B010070CDB8,
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -3319,8 +3350,8 @@
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../config.h";
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../clientgui/mac/config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "-framework Carbon";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
@@ -4368,7 +4399,6 @@
 				F54B8FC402AC0A0C01FB7237,
 				F54B8FC502AC0A0C01FB7237,
 				F54B8FC602AC0A0C01FB7237,
-				DD81C6ED07C611D80098A04D,
 				DD81C3D507C5CEB50098A04D,
 				DD344B7907C5AD970043025C,
 				F54B8FC702AC0A0C01FB7237,
@@ -4720,6 +4750,7 @@
 		};
 		F5C5403402BFC5C701BEDAB8 = {
 			children = (
+				DD30446A0864332D00D73756,
 				DD2F32F707F2A88B00645DDC,
 				DD1F0ACD0822069E00AFC5FA,
 				DD2F32EF07F2A83E00645DDC,

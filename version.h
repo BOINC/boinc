@@ -12,7 +12,7 @@
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "4.68"
 
-#ifdef _WIN32
+#if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
 #define PACKAGE "boinc"
 
@@ -31,7 +31,7 @@
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "4.68"
 
-#endif /* #ifdef _WIN32 */
+#endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
 #endif /* #ifndef BOINC_VERSION_H */
 

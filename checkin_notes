@@ -7991,3 +7991,18 @@ Rom    17 June 2005
 
     lib/
         stackwalker.h
+
+Charlie    18 June 2005
+    - Fix XCode project to use gcc 3.3 compiler for bnackward compatibility 
+      with systems 10.3.0 through 10.3.8 as well as 10.3.9 and later.
+    - Use pre-built special config.h for Macintosh (don't require running 
+      autoconf.)
+    - Modify version.h so PACKAGE_STRING is defined for Mac as well as Windows.
+      make this chaneg iin version.h.in so it will be retained when version.h 
+      is rebuilt by configure process.
+    
+    clientgui/
+        mac/
+            config.h (added)
+    version.h
+    version.h.in
