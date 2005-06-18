@@ -68,8 +68,6 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_DISK_SIZE = 32
 };
 
-#define CPU_HALF_LIFE (86400*7)
-
 // CLIENT_STATE encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //

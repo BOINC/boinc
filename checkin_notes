@@ -8006,3 +8006,20 @@ Charlie    18 June 2005
             config.h (added)
     version.h
     version.h.in
+
+David  18 June 2005
+    - CLIENT_STATE::set_scheduler_modes():
+        Remove EDF simulation.
+        Instead, simulate weighted round-robin,
+        and if a deadline is missed, use EDF
+    - Remove PROJECT::exp_avg_cpu, PROJECT::exp_avg_mod_time.
+        This was an attempt, introduced a while back but never used,
+        to improve estimates of result CPU time.
+        It's fatally flawed because it assumes all results
+        from a project are the same #FLOPs.
+        It will soon be replaced by a better mechanism.
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C

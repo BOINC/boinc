@@ -1005,7 +1005,7 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 void CLIENT_STATE::set_scheduler_modes() {
     std::map<double, RESULT*> results_by_deadline;
     RESULT* rp;
-    unsigned int i;
+    unsigned int i, j;
     bool should_not_fetch_work = false;
     bool use_earliest_deadline_first = false;
     double frac_booked = 0;
@@ -1016,8 +1016,38 @@ void CLIENT_STATE::set_scheduler_modes() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
+    // simulate weighted round-robin scheduling,
+    // and see if any result misses its deadline
+    //
+    bool round_robin_misses_deadline = false;
+    double rrs = runnable_resource_share();
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (!p->runnable()) continue;
+        double proc_rate = total_proc_rate * (p->resource_share/rrs);
+        double start_time = now;
+        for (j=0; j<results.size(); j++) {
+            rp = results[j];
+            if (rp->project != p) continue;
+            if (!rp->runnable()) continue;
+            start_time += rp->estimated_cpu_time_remaining()/proc_rate;
+            msg_printf(p, MSG_INFO, "result %s: est %f, deadline %f\n",
+                rp->name, start_time, rp->report_deadline
+            );
+            if (start_time > rp->report_deadline) {
+                round_robin_misses_deadline = true;
+                break;
+            }
+        }
+        if (round_robin_misses_deadline) break;
+    }
+    if (round_robin_misses_deadline) {
+        use_earliest_deadline_first = true;
+        if (!no_work_for_a_cpu()) {
+            should_not_fetch_work = true;
+        }
+    }
 
-    std::vector<RESULT*>::iterator it_u;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->computing_done()) continue;
@@ -1041,9 +1071,12 @@ void CLIENT_STATE::set_scheduler_modes() {
             );
         }
 
+#if 0
         results_by_deadline[rp->report_deadline] = rp;
+#endif
     }
 
+#if 0
     for (i=0; i<ncpus; i++) {
         booked_to.push_back(gstate.now);
     }
@@ -1083,6 +1116,7 @@ void CLIENT_STATE::set_scheduler_modes() {
             break;
         }
     }
+#endif
 
     // display only when the policy changes to avoid once per second
     //

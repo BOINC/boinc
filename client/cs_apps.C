@@ -143,17 +143,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     } else {
         rp->state = RESULT_FILES_UPLOADING;
 
-        // if success, update average CPU time per result for project
-        //
-        PROJECT* p = rp->project;
-        update_average(
-            gstate.now - rp->final_cpu_time,
-                // KLUDGE - should be result start time
-            rp->final_cpu_time,
-            CPU_HALF_LIFE,
-            p->exp_avg_cpu,
-            p->exp_avg_mod_time
-        );
+        // HANDLE SUCCESS RESULTS HERE
     }
 
     double wall_cpu_time = now - cpu_sched_last_time;

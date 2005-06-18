@@ -74,8 +74,6 @@ void PROJECT::init() {
     host_total_credit = 0;
     host_expavg_credit = 0;
     host_create_time = 0;
-    exp_avg_cpu = 0;
-    exp_avg_mod_time = 0;
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
@@ -147,11 +145,6 @@ int PROJECT::parse_state(MIOFILE& in) {
             validate_time(user_create_time);
             continue;
         }
-        else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
-        else if (parse_double(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) {
-            validate_time(exp_avg_mod_time);
-            continue;
-        }
         else if (match_tag(buf, "<code_sign_key>")) {
             retval = copy_element_contents(
                 in,
@@ -218,8 +211,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <host_total_credit>%f</host_total_credit>\n"
         "    <host_expavg_credit>%f</host_expavg_credit>\n"
         "    <host_create_time>%f</host_create_time>\n"
-        "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
-        "    <exp_avg_mod_time>%f</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%f</min_rpc_time>\n"
@@ -245,8 +236,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         host_total_credit,
         host_expavg_credit,
         host_create_time,
-        exp_avg_cpu,
-        exp_avg_mod_time,
         nrpc_failures,
         master_fetch_failures,
         min_rpc_time,
@@ -310,8 +299,6 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     host_total_credit = p.host_total_credit;
     host_expavg_credit = p.host_expavg_credit;
     host_create_time = p.host_create_time;
-    exp_avg_cpu = p.exp_avg_cpu;
-    exp_avg_mod_time = p.exp_avg_mod_time;
     nrpc_failures = p.nrpc_failures;
     master_fetch_failures = p.master_fetch_failures;
     min_rpc_time = p.min_rpc_time;

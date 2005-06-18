@@ -201,8 +201,6 @@ public:
     double host_total_credit;      // as reported by server
     double host_expavg_credit;     // as reported by server
     double host_create_time;       // as reported by server
-    double exp_avg_cpu;            // exponentially weighted CPU time
-    double exp_avg_mod_time;       // last time average was changed
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
     int master_fetch_failures;
