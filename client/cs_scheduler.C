@@ -1008,17 +1008,16 @@ void CLIENT_STATE::set_scheduler_modes() {
     std::map<double, RESULT*> results_by_deadline;
     RESULT* rp;
     unsigned int i, j;
+    int k;
     bool should_not_fetch_work = false;
     bool use_earliest_deadline_first = false;
+    std::vector <double> booked_to;
 #if 0
     double frac_booked = 0;
-    std::vector <double> booked_to;
     std::map<double, RESULT*>::iterator it;
 #endif
     double total_proc_rate = avg_proc_rate();
-#if 0
     double per_cpu_proc_rate = total_proc_rate/ncpus;
-#endif
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
@@ -1027,20 +1026,29 @@ void CLIENT_STATE::set_scheduler_modes() {
     //
     bool round_robin_misses_deadline = false;
     double rrs = runnable_resource_share();
+    for (k=0; k<ncpus; k++) {
+        booked_to.push_back(now);
+    }
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (!p->runnable()) continue;
-        double proc_rate = total_proc_rate * (p->resource_share/rrs);
-        double start_time = now;
+        double project_proc_rate = per_cpu_proc_rate * (p->resource_share/rrs);
         for (j=0; j<results.size(); j++) {
             rp = results[j];
             if (rp->project != p) continue;
             if (!rp->runnable()) continue;
-            start_time += rp->estimated_cpu_time_remaining()/proc_rate;
+            double first = booked_to[0];
+            int ifirst = 0;
+            for (k=1; k<ncpus; k++) {
+                if (first < booked_to[ifirst]) {
+                    first = booked_to[ifirst];
+                }
+            }
+            booked_to[ifirst] += rp->estimated_cpu_time_remaining()/project_proc_rate;
             scope_messages.printf("set_scheduler_modes() result %s: est %f, deadline %f\n",
-                rp->name, start_time, rp->report_deadline
+                rp->name, booked_to[ifirst], rp->report_deadline
             );
-            if (start_time > rp->report_deadline) {
+            if (booked_to[ifirst] > rp->report_deadline) {
                 round_robin_misses_deadline = true;
                 break;
             }

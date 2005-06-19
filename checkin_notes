@@ -8047,3 +8047,14 @@ David  18 June 2005
 	client/
 		cs_scheduler.C
 		time_stats.C
+
+David  18 June 2005
+	- Refine the round-robin simulation added earlier today
+		to model multiple CPUs.
+	- Fix bug in update of duration_correction_factor
+
+	(both from John McLeod)
+
+	client/
+		client_types.C
+		cs_scheduler.C
