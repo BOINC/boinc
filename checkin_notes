@@ -8039,3 +8039,11 @@ David  18 June 2005
         client_types.C,h
         cs_apps.C
         cs_scheduler.C
+
+David  18 June 2005
+	- don't let cpu_efficiency become negative.
+		Somehow it was -1 on my machine and that hosed everything
+
+	client/
+		cs_scheduler.C
+		time_stats.C

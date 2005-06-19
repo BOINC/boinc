@@ -570,13 +570,13 @@ int CLIENT_STATE::compute_work_requests() {
         }
 
         scope_messages.printf(
-            "CLIENT_STATE::compute_work_requests(): project '%s' work req: %f sec  urgency: '%d'\n",
+            "CLIENT_STATE::compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
             p->project_name, p->work_request, p->work_request_urgency
         );
     }
 
     scope_messages.printf(
-        "CLIENT_STATE::compute_work_requests(): client work need: '%f' sec  returning urgency '%d'\n",
+        "CLIENT_STATE::compute_work_requests(): client work need: %f sec, urgency %d\n",
         global_work_need, overall_work_fetch_urgency
     );
     return 0;
@@ -1037,7 +1037,7 @@ void CLIENT_STATE::set_scheduler_modes() {
             if (rp->project != p) continue;
             if (!rp->runnable()) continue;
             start_time += rp->estimated_cpu_time_remaining()/proc_rate;
-            msg_printf(p, MSG_INFO, "result %s: est %f, deadline %f\n",
+            scope_messages.printf("set_scheduler_modes() result %s: est %f, deadline %f\n",
                 rp->name, start_time, rp->report_deadline
             );
             if (start_time > rp->report_deadline) {
@@ -1064,7 +1064,7 @@ void CLIENT_STATE::set_scheduler_modes() {
         if (rp->report_deadline - gstate.now < 60 * 60 * 24) {
             use_earliest_deadline_first = true; 
             scope_messages.printf(
-                "CLIENT_STATE::compute_work_requests(): Less than 1 day until deadline.\n"
+                "set_scheduler_modes(): Less than 1 day until deadline.\n"
             );
         }
 
@@ -1073,7 +1073,7 @@ void CLIENT_STATE::set_scheduler_modes() {
         if (rp->report_deadline - gstate.now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
             use_earliest_deadline_first = true;
             scope_messages.printf(
-                "CLIENT_STATE::compute_work_requests(): Deadline is before reconnect time.\n"
+                "set_scheduler_modes(): Deadline is before reconnect time.\n"
             );
         }
 
@@ -1117,7 +1117,7 @@ void CLIENT_STATE::set_scheduler_modes() {
             should_not_fetch_work = true;
             use_earliest_deadline_first = true;
             scope_messages.printf(
-                "CLIENT_STATE::compute_work_requests(): Computer is overcommitted\n"
+                "set_scheduler_modes(): Computer is overcommitted\n"
             );
             break;
         }

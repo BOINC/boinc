@@ -113,8 +113,11 @@ void TIME_STATS::update(bool is_active) {
 
 void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
     if (cpu_wall_time < .01) return;
-    double w = exp(-cpu_wall_time/86400);
+    double w = exp(-cpu_wall_time/SECONDS_PER_DAY);
     double e = cpu_time/cpu_wall_time;
+    if (e<0) {
+    	return;
+    }
     cpu_efficiency = w*cpu_efficiency + (1-w)*e;
 }
 
@@ -155,7 +158,11 @@ int TIME_STATS::parse(MIOFILE& in) {
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
+        else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) {
+            if (cpu_efficiency < 0) cpu_efficiency = 1;
+            if (cpu_efficiency > 1) cpu_efficiency = 1;
+            continue;
+        }
         else scope_messages.printf("TIME_STATS::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
