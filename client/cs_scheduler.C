@@ -998,34 +998,18 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     return ncpus > count;
 }
 
-// Decide on modes for work-fetch and CPU sched policies.
-// Namely, set the variables
-// - work_fetch_no_new_work
-// - cpu_earliest_deadline_first
-// and print a message if we're changing their value
+// simulate weighted round-robin scheduling,
+// and see if any result misses its deadline
 //
-void CLIENT_STATE::set_scheduler_modes() {
-    std::map<double, RESULT*> results_by_deadline;
-    RESULT* rp;
-    unsigned int i, j;
-    int k;
-    bool should_not_fetch_work = false;
-    bool use_earliest_deadline_first = false;
+bool CLIENT_STATE::round_robin_misses_deadline(double per_cpu_proc_rate, double rrs) {
+    bool round_robin_misses_deadline = false;
     std::vector <double> booked_to;
-#if 0
-    double frac_booked = 0;
-    std::map<double, RESULT*>::iterator it;
-#endif
-    double total_proc_rate = avg_proc_rate();
-    double per_cpu_proc_rate = total_proc_rate/ncpus;
+    int k;
+    unsigned int i, j;
+    RESULT* rp;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
-    // simulate weighted round-robin scheduling,
-    // and see if any result misses its deadline
-    //
-    bool round_robin_misses_deadline = false;
-    double rrs = runnable_resource_share();
     for (k=0; k<ncpus; k++) {
         booked_to.push_back(now);
     }
@@ -1050,16 +1034,98 @@ void CLIENT_STATE::set_scheduler_modes() {
                 rp->name, booked_to[ifirst], rp->report_deadline
             );
             if (booked_to[ifirst] > rp->report_deadline) {
-                round_robin_misses_deadline = true;
-                break;
+                return true;
             }
         }
-        if (round_robin_misses_deadline) break;
     }
-    if (round_robin_misses_deadline) {
+    return false;
+}
+
+#if 0
+// Simulate what will happen if we do EDF schedule starting now.
+// Go through non-done results in EDF order,
+// keeping track in "booked_to" of how long each CPU is occupied
+//
+bool CLIENT_STATE::edf_misses_deadline(double per_cpu_proc_rate) {
+    std::map<double, RESULT*>::iterator it;
+    std::map<double, RESULT*> results_by_deadline;
+    std::vector <double> booked_to;
+    unsigned int i;
+    int j;
+    RESULT* rp;
+
+    for (j=0; j<ncpus; j++) {
+        booked_to.push_back(now);
+    }
+
+    for (i=0; i<results.size(); i++) {
+        rp = results[i];
+        if (rp->computing_done()) continue;
+        if (rp->project->non_cpu_intensive) continue;
+        results_by_deadline[rp->report_deadline] = rp;
+    }
+
+    for (
+        it = results_by_deadline.begin();
+        it != results_by_deadline.end();
+        it++
+    ) {
+        rp = (*it).second;
+
+        // find the CPU that will be free first
+        //
+        double lowest_book = booked_to[0];
+        int lowest_booked_cpu = 0;
+        for (j=1; j<ncpus; j++) {
+            if (booked_to[j] < lowest_book) {
+                lowest_book = booked_to[j];
+                lowest_booked_cpu = j;
+            }
+        }
+        booked_to[lowest_booked_cpu] += rp->estimated_cpu_time_remaining()
+            /(per_cpu_proc_rate*CPU_PESSIMISM_FACTOR);
+        if (booked_to[lowest_booked_cpu] > rp->report_deadline) {
+            return true;
+        }
+    }
+    return false;
+}
+#endif
+
+// Decide on modes for work-fetch and CPU sched policies.
+// Namely, set the variables
+// - work_fetch_no_new_work
+// - cpu_earliest_deadline_first
+// and print a message if we're changing their value
+//
+void CLIENT_STATE::set_scheduler_modes() {
+    RESULT* rp;
+    unsigned int i;
+    bool should_not_fetch_work = false;
+    bool use_earliest_deadline_first = false;
+    double total_proc_rate = avg_proc_rate();
+    double per_cpu_proc_rate = total_proc_rate/ncpus;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+
+    double rrs = runnable_resource_share();
+    if (round_robin_misses_deadline(per_cpu_proc_rate, rrs)) {
+        // if round robin would miss a deadline, use EDF
+        //
         use_earliest_deadline_first = true;
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
+        }
+    } else {
+        // if fetching more work would cause round-robin to
+        // miss a deadline, don't fetch more work
+        //
+        PROJECT* p = next_project_need_work();
+        if (p && !p->runnable()) {
+            rrs += p->resource_share;
+            if (round_robin_misses_deadline(per_cpu_proc_rate, rrs)) {
+                should_not_fetch_work = true;
+            }
         }
     }
 
@@ -1085,51 +1151,17 @@ void CLIENT_STATE::set_scheduler_modes() {
                 "set_scheduler_modes(): Deadline is before reconnect time.\n"
             );
         }
-
-#if 0
-        results_by_deadline[rp->report_deadline] = rp;
-#endif
     }
 
 #if 0
-    for (i=0; i<ncpus; i++) {
-        booked_to.push_back(gstate.now);
-    }
-
-    // Simulate what will happen if we do EDF schedule starting now.
-    // Go through non-done results in EDF order,
-    // keeping track in "booked_to" of how long each CPU is occupied
+    // Are the deadlines too tight to meet reliably?
     //
-    for (
-        it = results_by_deadline.begin();
-        it != results_by_deadline.end();
-        it++
-    ) {
-        rp = (*it).second;
-
-        // find the CPU that will be free first
-        //
-        double lowest_book = booked_to[0];
-        int lowest_booked_cpu = 0;
-        for (i=1; i<ncpus; i++) {
-            if (booked_to[i] < lowest_book) {
-                lowest_book = booked_to[i];
-                lowest_booked_cpu = i;
-            }
-        }
-        booked_to[lowest_booked_cpu] += rp->estimated_cpu_time_remaining()
-            /(per_cpu_proc_rate*CPU_PESSIMISM_FACTOR);
-
-        // Are the deadlines too tight to meet reliably?
-        //
-        if (booked_to[lowest_booked_cpu] > rp->report_deadline) {
-            should_not_fetch_work = true;
-            use_earliest_deadline_first = true;
-            scope_messages.printf(
-                "set_scheduler_modes(): Computer is overcommitted\n"
-            );
-            break;
-        }
+    if (edf_misses_deadline(per_cpu_proc_rate)) {
+        should_not_fetch_work = true;
+        use_earliest_deadline_first = true;
+        scope_messages.printf(
+            "set_scheduler_modes(): Computer is overcommitted\n"
+        );
     }
 #endif
 

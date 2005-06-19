@@ -305,6 +305,8 @@ private:
     bool should_get_work();
     bool no_work_for_a_cpu();
     int proj_min_results(PROJECT*, double);
+    bool round_robin_misses_deadline(double, double);
+    bool edf_misses_deadline(double);
     void set_scheduler_modes();
 
 // --------------- cs_statefile.C:

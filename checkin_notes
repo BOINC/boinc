@@ -8065,3 +8065,14 @@ David  19 June 2005
 
     client/
         cs_scheduler.C
+
+David  19 June 2005
+	- work-fetch policy:
+		if fetching work would cause deadlines to be missed
+		(based on round-robin simulation) then don't fetch work
+	- factor simulations of EDF and round-robin
+		into separate functions
+
+	client/
+		client_state.h
+		cs_scheduler.C
