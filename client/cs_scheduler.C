@@ -1040,8 +1040,9 @@ void CLIENT_STATE::set_scheduler_modes() {
             double first = booked_to[0];
             int ifirst = 0;
             for (k=1; k<ncpus; k++) {
-                if (first < booked_to[ifirst]) {
-                    first = booked_to[ifirst];
+                if (booked_to[k] < first) {
+                    first = booked_to[k];
+                    ifirst = k;
                 }
             }
             booked_to[ifirst] += rp->estimated_cpu_time_remaining()/project_proc_rate;

@@ -8058,3 +8058,10 @@ David  18 June 2005
 	client/
 		client_types.C
 		cs_scheduler.C
+
+David  19 June 2005
+    - bug fix in scheduler
+        (from Glenn Dill)
+
+    client/
+        cs_scheduler.C

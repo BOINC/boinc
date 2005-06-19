@@ -52,5 +52,9 @@ list_item_array(array(
 ));
 
 list_end();
+echo "
+If you have a download server not listed here,
+please send email to davea at ssl.berkeley.edu.
+";
 page_tail();
 ?>
