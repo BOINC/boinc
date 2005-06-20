@@ -87,12 +87,18 @@ public:
 
 ////@begin CDlgAccountManagerStatus event handler declarations
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_UPDATE
+    void OnUpdateClick( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CHANGE
+    void OnChangeClick( wxCommandEvent& event );
+
 ////@end CDlgAccountManagerStatus event handler declarations
 
 ////@begin CDlgAccountManagerStatus member function declarations
 
-    wxString GetStrAcctManagerURL() const { return m_strAcctManagerURL ; }
-    void SetStrAcctManagerURL(wxString value) { m_strAcctManagerURL = value ; }
+    wxString GetAcctManager() const { return m_strAcctManager ; }
+    void SetAcctManager(wxString value) { m_strAcctManager = value ; }
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
@@ -105,8 +111,8 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgAccountManagerStatus member variables
-    wxStaticText* m_AcctManagerURLCtrl;
-    wxString m_strAcctManagerURL;
+    wxStaticText* m_AcctManagerCtrl;
+    wxString m_strAcctManager;
 ////@end CDlgAccountManagerStatus member variables
 };
 

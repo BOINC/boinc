@@ -99,20 +99,12 @@ void ACCT_MGR_LOGIN::clear() {
 
 
 ACCT_MGR_CLIENT::ACCT_MGR_CLIENT() {
-    acct_mgr_found = false;
-    acct_mgr_login_found = false;
-    acct_mgr_login_initialized = false;
-    acct_mgr.clear();
-    acct_mgr_login.clear();
+    clear();
 }
 
 
 ACCT_MGR_CLIENT::~ACCT_MGR_CLIENT() {
-    acct_mgr_found = false;
-    acct_mgr_login_found = false;
-    acct_mgr_login_initialized = false;
-    acct_mgr.clear();
-    acct_mgr_login.clear();
+    clear();
 }
 
 
@@ -123,8 +115,12 @@ int ACCT_MGR_CLIENT::init() {
     FILE*   acct_mgr_file;
     FILE*   acct_mgr_login_file;
 
+    // reset any state variables that might already have data
+    // in them.
+    clear();
+
     acct_mgr_file = fopen("acct_mgr_url.xml", "r");
-    if (acct_mgr_file ) {
+    if (acct_mgr_file) {
         acct_mgr_found = true;
 
         mf.init_file(acct_mgr_file);
@@ -163,6 +159,23 @@ int ACCT_MGR_CLIENT::init() {
 
 
 void ACCT_MGR_CLIENT::close() {
+    if (!acct_mgr_found && acct_mgr_initialized) {
+        FILE* acct_mgr_file;
+        acct_mgr_file = fopen("acct_mgr_url.xml", "w");
+        if (acct_mgr_file) {
+            fprintf(
+                acct_mgr_file, 
+                "<acct_mgr>\n"
+                "    <name>%s</name>\n"
+                "    <url>%s</url>\n"
+                "</acct_mgr>\n",
+                acct_mgr.name.c_str(),
+                acct_mgr.url.c_str()
+            );
+            fclose(acct_mgr_file);
+        }
+    }
+
     if (!acct_mgr_login_found && acct_mgr_login_initialized) {
         FILE* acct_mgr_login_file;
         acct_mgr_login_file = fopen("acct_mgr_login.xml", "w");
@@ -179,5 +192,15 @@ void ACCT_MGR_CLIENT::close() {
             fclose(acct_mgr_login_file);
         }
     }
+}
+
+
+void ACCT_MGR_CLIENT::clear() {
+    acct_mgr.clear();
+    acct_mgr_login.clear();
+    acct_mgr_found = false;
+    acct_mgr_initialized = false;
+    acct_mgr_login_found = false;
+    acct_mgr_login_initialized = false;
 }
 

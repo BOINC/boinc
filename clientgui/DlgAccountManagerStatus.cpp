@@ -53,6 +53,10 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgAccountManagerStatus, wxDialog )
 BEGIN_EVENT_TABLE( CDlgAccountManagerStatus, wxDialog )
 
 ////@begin CDlgAccountManagerStatus event table entries
+    EVT_BUTTON( ID_UPDATE, CDlgAccountManagerStatus::OnUpdateClick )
+
+    EVT_BUTTON( ID_CHANGE, CDlgAccountManagerStatus::OnChangeClick )
+
 ////@end CDlgAccountManagerStatus event table entries
 
 END_EVENT_TABLE()
@@ -77,7 +81,7 @@ CDlgAccountManagerStatus::CDlgAccountManagerStatus( wxWindow* parent, wxWindowID
 bool CDlgAccountManagerStatus::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgAccountManagerStatus member initialisation
-    m_AcctManagerURLCtrl = NULL;
+    m_AcctManagerCtrl = NULL;
 ////@end CDlgAccountManagerStatus member initialisation
 
 ////@begin CDlgAccountManagerStatus creation
@@ -115,9 +119,9 @@ void CDlgAccountManagerStatus::CreateControls()
     itemStaticText5->Create( itemDialog1, wxID_STATIC, _("Your account manager is:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer4->Add(itemStaticText5, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    m_AcctManagerURLCtrl = new wxStaticText;
-    m_AcctManagerURLCtrl->Create( itemDialog1, wxID_STATIC, _("http://a/b/c/"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer4->Add(m_AcctManagerURLCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_AcctManagerCtrl = new wxStaticText;
+    m_AcctManagerCtrl->Create( itemDialog1, wxID_STATIC, _("http://a/b/c/"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer4->Add(m_AcctManagerCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer3->Add(itemBoxSizer7, 0, wxALIGN_TOP|wxALL, 5);
@@ -136,7 +140,7 @@ void CDlgAccountManagerStatus::CreateControls()
     itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     // Set validators
-    m_AcctManagerURLCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );
+    m_AcctManagerCtrl->SetValidator( wxGenericValidator(& m_strAcctManager) );
 ////@end CDlgAccountManagerStatus content construction
 }
 
@@ -172,3 +176,30 @@ wxIcon CDlgAccountManagerStatus::GetIconResource( const wxString& name )
     return wxNullIcon;
 ////@end CDlgAccountManagerStatus icon retrieval
 }
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_UPDATE
+ */
+
+void CDlgAccountManagerStatus::OnUpdateClick( wxCommandEvent& event )
+{
+    if ( Validate() && TransferDataFromWindow() )
+    {
+        EndModal(ID_UPDATE);
+    }
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CHANGE
+ */
+
+void CDlgAccountManagerStatus::OnChangeClick( wxCommandEvent& event )
+{
+    if ( Validate() && TransferDataFromWindow() )
+    {
+        EndModal(ID_CHANGE);
+    }
+}
+
+

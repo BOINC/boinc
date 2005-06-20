@@ -58,15 +58,17 @@ public:
 
 class ACCT_MGR_CLIENT {
 public:
-    bool acct_mgr_found;
     ACCT_MGR acct_mgr;
+    ACCT_MGR_LOGIN acct_mgr_login;
+    bool acct_mgr_found;
+    bool acct_mgr_initialized;
     bool acct_mgr_login_found;
     bool acct_mgr_login_initialized;
-    ACCT_MGR_LOGIN acct_mgr_login;
 
     ACCT_MGR_CLIENT();
     ~ACCT_MGR_CLIENT();
 
     int init();
     void close();
+    void clear();
 };

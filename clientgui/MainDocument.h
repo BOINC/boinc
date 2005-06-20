@@ -275,12 +275,9 @@ public:
 private:
 
 public:
-    int                         GetAccountManagerName(wxString& strName);
-
-    int                         InitializeAccountManagerLogin(const wxString& strLogin, const wxString& strPassword);
-    int                         UpdateAccountManagerAccounts();
     ACCT_MGR_CLIENT             acct_mgr;
 
+    int                         UpdateAccountManagerAccounts();
 };
 
 #endif

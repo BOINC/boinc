@@ -8083,3 +8083,14 @@ David  19 June 2005
     client/
         cs_apps.C
         cs_scheduler.C
+
+Rom    19 June 2005
+    - Checkin the rest of the Account Manager updates to the UI.
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgAccountManagerStatus.cpp, .h
+        MainDocument.cpp, .h
+        MainFrame.cpp
+    lib/
+        acct_mgr_client.C, .h

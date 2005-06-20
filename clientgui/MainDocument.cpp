@@ -303,9 +303,6 @@ int CMainDocument::CachedStateUpdate() {
 int CMainDocument::OnInit() {
     int iRetVal = -1;
 
-    // attempt to lookup account management information
-    acct_mgr.init();
-
     // start the connect management thread
     m_pNetworkConnection = new CNetworkConnection(this);
 
@@ -315,9 +312,6 @@ int CMainDocument::OnInit() {
 
 int CMainDocument::OnExit() {
     int iRetVal = 0;
-
-    // attempt to cleanup the account management information
-    acct_mgr.close();
 
     if (m_pNetworkConnection) {
         delete m_pNetworkConnection;
@@ -641,7 +635,6 @@ int CMainDocument::ProjectReset(int iIndex) {
 
 int CMainDocument::ProjectSuspend(int iIndex) {
     PROJECT* pProject = NULL;
-    PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
@@ -655,7 +648,6 @@ int CMainDocument::ProjectSuspend(int iIndex) {
 
 int CMainDocument::ProjectResume(int iIndex) {
     PROJECT* pProject = NULL;
-    PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
@@ -668,7 +660,6 @@ int CMainDocument::ProjectResume(int iIndex) {
 
 int CMainDocument::ProjectNoMoreWork(int iIndex) {
     PROJECT* pProject = NULL;
-    PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
@@ -681,7 +672,6 @@ int CMainDocument::ProjectNoMoreWork(int iIndex) {
 
 int CMainDocument::ProjectAllowMoreWork(int iIndex) {
     PROJECT* pProject = NULL;
-    PROJECT* pStateProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
@@ -1225,21 +1215,6 @@ int CMainDocument::SetProxySOCKSUserName(const wxString& strUserName) {
 
 int CMainDocument::SetProxySOCKSPassword(const wxString& strPassword) {
     proxy_info.socks5_user_passwd = strPassword.c_str();
-    return 0;
-}
-
-
-int CMainDocument::GetAccountManagerName(wxString& strName) {
-    strName.Clear();
-    strName = acct_mgr.acct_mgr.name.c_str();
-    return 0;
-}
-
-
-int CMainDocument::InitializeAccountManagerLogin(const wxString& strLogin, const wxString& strPassword) {
-    acct_mgr.acct_mgr_login_initialized = true;
-    acct_mgr.acct_mgr_login.login = strLogin.c_str();
-    acct_mgr.acct_mgr_login.password = strPassword.c_str();
     return 0;
 }
 
