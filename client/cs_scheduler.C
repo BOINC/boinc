@@ -1002,7 +1002,6 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 // and see if any result misses its deadline
 //
 bool CLIENT_STATE::round_robin_misses_deadline(double per_cpu_proc_rate, double rrs) {
-    bool round_robin_misses_deadline = false;
     std::vector <double> booked_to;
     int k;
     unsigned int i, j;

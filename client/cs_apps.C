@@ -415,12 +415,12 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
 //
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
-    bool first = true;
     double total_long_term_debt = 0;
+    double total_short_term_debt = 0;
     double prrs, rrs;
-    int count_cpu_intensive = 0;
+    int nprojects = 0;
     PROJECT *p;
-    double min_short_term_debt=0, share_frac;
+    double share_frac;
     double wall_cpu_time = gstate.now - cpu_sched_last_time;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
@@ -457,7 +457,7 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
-        count_cpu_intensive++;
+        nprojects++;
 
         // adjust long-term debts
         //
@@ -471,20 +471,15 @@ void CLIENT_STATE::adjust_debts() {
 
         // adjust short term debts
         //
-        if (!p->runnable()) {
-            p->short_term_debt = 0;
-            p->anticipated_debt = 0;
-        } else {
+        if (p->runnable()) {
             share_frac = p->resource_share/rrs;
             p->short_term_debt += share_frac*total_wall_cpu_time_this_period
                 - p->wall_cpu_time_this_period
             ;
-            if (first) {
-                first = false;
-                min_short_term_debt = p->short_term_debt;
-            } else if (p->short_term_debt < min_short_term_debt) {
-                min_short_term_debt = p->short_term_debt;
-            }
+            total_short_term_debt += p->short_term_debt;
+        } else {
+            p->short_term_debt = 0;
+            p->anticipated_debt = 0;
         }
         scope_messages.printf(
             "CLIENT_STATE::schedule_cpus(): project %s: short-term debt %f\n",
@@ -495,16 +490,20 @@ void CLIENT_STATE::adjust_debts() {
     // long-term debt:
     //  normalize so mean is zero,
     // short-term debt:
-    //  normalize so min is zero, and cap at MAX_DEBT
+    //  normalize so mean is zero, and limit abs value at MAX_DEBT
     //
-    double avg_long_term_debt = total_long_term_debt / count_cpu_intensive;
+    double avg_long_term_debt = total_long_term_debt / nprojects;
+    double avg_short_term_debt = total_short_term_debt / nprojects;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         if (p->runnable()) {
-            p->short_term_debt -= min_short_term_debt;
+            p->short_term_debt -= avg_short_term_debt;
             if (p->short_term_debt > MAX_DEBT) {
                 p->short_term_debt = MAX_DEBT;
+            }
+            if (p->short_term_debt < -MAX_DEBT) {
+                p->short_term_debt = -MAX_DEBT;
             }
             p->anticipated_debt = p->short_term_debt;
             //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);

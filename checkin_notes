@@ -8076,3 +8076,10 @@ David  19 June 2005
 	client/
 		client_state.h
 		cs_scheduler.C
+
+David  19 June 2005
+    - change normalization of short-term debt so average (not min) is zero
+        
+    client/
+        cs_apps.C
+        cs_scheduler.C
