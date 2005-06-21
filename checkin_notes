@@ -8174,3 +8174,13 @@ David  21 June 2005
 		scheduler_op.C
 	clientgui/
 		MainDocument.cpp
+
+David  21 June 2005
+    - Unix compile fixes
+
+    client/
+        main.C
+    clientgui/
+        Makefile.am
+    lib/
+        Makefile.am

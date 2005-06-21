@@ -125,15 +125,17 @@ list_item("input", "name
     <br>password"
 );
 list_item("output",
-    html_text("<accounts>
+    html_text("<acct_mgr_reply>
+    <name>Account Manager Name</name>
     [ <error>MSG</error> ]
-    [ <account>
-        <url>URL</url>
-        <authenticator>KEY</authenticator>
+    [ 
+      <account>
+         <url>URL</url>
+         <authenticator>KEY</authenticator>
       </account>
-      ...
+        ...
     ]
-</accounts>")
+</acct_mgr_reply>")
 );
 list_item("action",
     "returns a list of the accounts associated with this meta-account"

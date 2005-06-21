@@ -13,7 +13,8 @@ boinc_gui_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskCtrl.cpp \
     DlgAbout.cpp \
-    DlgAccountManager.cpp \
+    DlgAccountManagerSignup.cpp \
+    DlgAccountManagerStatus.cpp \
     DlgAttachProject.cpp \
     DlgConnection.cpp \
     DlgOptions.cpp \

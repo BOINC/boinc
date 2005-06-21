@@ -18,7 +18,6 @@ lib_LIBRARIES = libboinc.a
 EXTRA_DIST = *.h *.C
 
 libboinc_a_SOURCES =        \
-    acct_mgr_client.C       \
     app_ipc.C               \
     base64.C                \
     crypt.C                 \
@@ -41,7 +40,6 @@ libboinc_a_SOURCES =        \
     util.C
 
 include_HEADERS =               \
-                acct_mgr_client.h       \
                 app_ipc.h       \
                 boinc_win.h     \
                 diagnostics.h   \
