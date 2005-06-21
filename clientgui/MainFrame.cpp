@@ -1079,7 +1079,7 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CMainFrame::OnHelpBOINCManager(wxHelpEvent& event) {
+void CMainFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {

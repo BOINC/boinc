@@ -187,7 +187,7 @@ static void signal_handler(int signum) {
         gstate.user_run_request = USER_RUN_REQUEST_AUTO;
         break;
     default:
-        msg_printf(NULL, MSG_WARNING, "Signal not handled");
+        msg_printf(NULL, MSG_ERROR, "Signal not handled");
     }
 }
 #endif

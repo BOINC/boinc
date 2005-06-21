@@ -69,7 +69,7 @@ public:
     void OnToolsManageAccounts( wxCommandEvent& event );
     void OnToolsOptions( wxCommandEvent& event );
 
-    void OnHelpBOINCManager( wxHelpEvent& event );
+    void OnHelp( wxHelpEvent& event );
     void OnHelpBOINCManager( wxCommandEvent& event );
     void OnHelpBOINCWebsite( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
