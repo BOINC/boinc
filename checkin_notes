@@ -8184,3 +8184,10 @@ David  21 June 2005
         Makefile.am
     lib/
         Makefile.am
+
+David  21 June 2005
+    - Manager: don't reenter message-display code
+        (else can show same msg or alert twice)
+
+    clientgui/
+        MainWindow.cpp

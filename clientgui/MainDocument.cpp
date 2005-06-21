@@ -817,6 +817,10 @@ int CMainDocument::WorkAbort(int iIndex) {
 
 int CMainDocument::CachedMessageUpdate() {
     int retval;
+    static bool in_this_func = false;
+
+    if (in_this_func) return 0;
+    in_this_func = true;
 
     if (IsConnected()) {
         MESSAGES new_msgs;
@@ -824,7 +828,7 @@ int CMainDocument::CachedMessageUpdate() {
         if (retval) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
             m_pNetworkConnection->SetStateDisconnected();
-            return retval;
+            goto done;
         }
         std::vector<MESSAGE*>::iterator mi = new_msgs.messages.begin();
         while (mi != new_msgs.messages.end()) {
@@ -848,7 +852,8 @@ int CMainDocument::CachedMessageUpdate() {
             new_msgs.messages.erase(mi);
         }
     }
-
+done:
+    in_this_func = false;
     return 0;
 }
 
