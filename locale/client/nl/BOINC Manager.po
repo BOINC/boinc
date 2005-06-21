@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-05-10 21:02+0100\n"
+"PO-Revision-Date: 2005-06-19 13:39+0100\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,21 +14,21 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:264
+#: clientgui/BOINCGUIApp.cpp:268
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Start BOINC zodat deze alleen zichbaar is in het syteemvak."
 
-#: clientgui/BOINCGUIApp.cpp:321
+#: clientgui/BOINCGUIApp.cpp:325
 #: clientgui/DlgOptions.cpp:136
 #: clientgui/DlgOptions.cpp:137
 msgid "(Automatic Detection)"
 msgstr "(Automatische Detectie)"
 
-#: clientgui/BOINCGUIApp.cpp:322
+#: clientgui/BOINCGUIApp.cpp:326
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
-#: clientgui/BOINCGUIApp.cpp:323
+#: clientgui/BOINCGUIApp.cpp:327
 msgid "(User Defined)"
 msgstr "(Gedefineerd door gebruiker)"
 
@@ -37,38 +37,38 @@ msgstr "(Gedefineerd door gebruiker)"
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCTaskBar.cpp:341
-#: clientgui/MainFrame.cpp:351
+#: clientgui/BOINCTaskBar.cpp:353
+#: clientgui/MainFrame.cpp:358
 #: clientgui/mac/MacSysMenu.cpp:70
 msgid "E&xit"
 msgstr "Afsluiten"
 
-#: clientgui/BOINCTaskBar.cpp:360
-#: clientgui/BOINCTaskBar.cpp:367
+#: clientgui/BOINCTaskBar.cpp:372
+#: clientgui/BOINCTaskBar.cpp:379
 msgid "&Open BOINC Manager..."
 msgstr "Open de B&OINC Manager..."
 
-#: clientgui/BOINCTaskBar.cpp:371
-#: clientgui/MainFrame.cpp:309
+#: clientgui/BOINCTaskBar.cpp:383
+#: clientgui/MainFrame.cpp:316
 msgid "&Run always"
 msgstr "Voe&r altijd uit"
 
-#: clientgui/BOINCTaskBar.cpp:372
-#: clientgui/MainFrame.cpp:314
+#: clientgui/BOINCTaskBar.cpp:384
+#: clientgui/MainFrame.cpp:321
 msgid "Run based on &preferences"
 msgstr "Voer uit o&p basis van voorkeuren"
 
-#: clientgui/BOINCTaskBar.cpp:373
-#: clientgui/MainFrame.cpp:319
+#: clientgui/BOINCTaskBar.cpp:385
+#: clientgui/MainFrame.cpp:326
 msgid "&Suspend"
 msgstr "Manager pauzeren"
 
-#: clientgui/BOINCTaskBar.cpp:375
+#: clientgui/BOINCTaskBar.cpp:387
 msgid "&Disable BOINC network access"
 msgstr "Sluit &de Boinc netwerkverbinding"
 
-#: clientgui/BOINCTaskBar.cpp:377
-#: clientgui/MainFrame.cpp:391
+#: clientgui/BOINCTaskBar.cpp:389
+#: clientgui/MainFrame.cpp:398
 msgid "&About BOINC Manager..."
 msgstr "Inform&atie over de Boinc Manager..."
 
@@ -214,6 +214,10 @@ msgstr "Systeem gegevens aan het opvragen; even geduld a.u.b..."
 msgid "Retrieving host information; please wait..."
 msgstr "Host gegevens aan het opvragen; even geduld a.u.b..."
 
+#: clientgui/MainDocument.cpp:845
+msgid "BOINC error"
+msgstr "Interne BOINC fout"
+
 #: clientgui/MainFrame.cpp:77
 msgid "Connected"
 msgstr "Verbonden"
@@ -222,145 +226,148 @@ msgstr "Verbonden"
 msgid "Disconnected"
 msgstr "Verbinding verbroken"
 
-#: clientgui/MainFrame.cpp:295
+#: clientgui/MainFrame.cpp:302
 msgid "Close"
 msgstr "Afsluiten"
 
-#: clientgui/MainFrame.cpp:296
+#: clientgui/MainFrame.cpp:303
 msgid "Closes the main BOINC Manager window"
 msgstr "Sluit het hoofd venster van de BOINC Manager"
 
-#: clientgui/MainFrame.cpp:301
+#: clientgui/MainFrame.cpp:308
 msgid "&Hide"
 msgstr "&Verberg de Manager"
 
-#: clientgui/MainFrame.cpp:302
+#: clientgui/MainFrame.cpp:309
 msgid "Hides the main BOINC Manager window"
 msgstr "Laat de BOINC Manager draaien op de achtergrond"
 
-#: clientgui/MainFrame.cpp:310
+#: clientgui/MainFrame.cpp:317
 msgid "Does work regardless of preferences"
 msgstr "Actief ongeacht de persoonlijke voorkeuren"
 
-#: clientgui/MainFrame.cpp:315
+#: clientgui/MainFrame.cpp:322
 msgid "Does work according to your preferences"
 msgstr "Actief op basis van de persoonlijke voorkeuren"
 
-#: clientgui/MainFrame.cpp:320
+#: clientgui/MainFrame.cpp:327
 msgid "Stops work regardless of preferences"
 msgstr "Stopt al het werk en verbreekt de BOINC netwerk verbinding"
 
-#: clientgui/MainFrame.cpp:327
+#: clientgui/MainFrame.cpp:334
 msgid "&Disable BOINC Network Access"
 msgstr "Verbreek &de BOINC Netwerk Verbinding"
 
-#: clientgui/MainFrame.cpp:328
+#: clientgui/MainFrame.cpp:335
 msgid "Stops BOINC network activity"
 msgstr "Stopt de netwerk activiteiten van BOINC...  (de manager zelf blijft actief)"
 
-#: clientgui/MainFrame.cpp:335
+#: clientgui/MainFrame.cpp:342
 msgid "Run &Benchmarks"
 msgstr "Start de &Benchmark"
 
-#: clientgui/MainFrame.cpp:336
+#: clientgui/MainFrame.cpp:343
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Voert de BOINC processor benchmark uit"
 
-#: clientgui/MainFrame.cpp:343
+#: clientgui/MainFrame.cpp:350
 msgid "Select Computer..."
 msgstr "Selecteer Computer..."
 
-#: clientgui/MainFrame.cpp:344
+#: clientgui/MainFrame.cpp:351
 msgid "Connect to another computer running BOINC"
 msgstr "Verbind met een andere BOINC computer"
 
-#: clientgui/MainFrame.cpp:352
+#: clientgui/MainFrame.cpp:359
 msgid "Exit the BOINC Manager"
 msgstr "Sluit de BOINC Manager af"
 
-#: clientgui/MainFrame.cpp:360
+#: clientgui/MainFrame.cpp:367
 msgid "&Update Accounts"
 msgstr "Werk acco&unts bij"
 
-#: clientgui/MainFrame.cpp:361
+#: clientgui/MainFrame.cpp:368
 msgid "Connect to your account manager website and update all of your accounts"
 msgstr "Maak verbinding met de website van het project en werk je accounts bij"
 
-#: clientgui/MainFrame.cpp:369
+#: clientgui/MainFrame.cpp:376
 msgid "&Options"
 msgstr "&Opties"
 
-#: clientgui/MainFrame.cpp:370
+#: clientgui/MainFrame.cpp:377
 msgid "Configure GUI options and proxy settings"
 msgstr "Configureer GUI opties en proxy instellingen"
 
-#: clientgui/MainFrame.cpp:377
+#: clientgui/MainFrame.cpp:384
 msgid "&BOINC Manager\tF1"
 msgstr "&BOINC Manager\tF1"
 
-#: clientgui/MainFrame.cpp:378
+#: clientgui/MainFrame.cpp:385
 msgid "Show information about the BOINC Manager"
 msgstr "Bekijk de online help pagina over het gebruik van de BOINC Manager."
 
-#: clientgui/MainFrame.cpp:383
+#: clientgui/MainFrame.cpp:390
 msgid "BOINC &Website"
 msgstr "BOINC &Website"
 
-#: clientgui/MainFrame.cpp:384
+#: clientgui/MainFrame.cpp:391
 msgid "Show information about BOINC and BOINC Manager"
 msgstr "Ga naar de BOINC en de BOINC Manager website"
 
-#: clientgui/MainFrame.cpp:392
+#: clientgui/MainFrame.cpp:399
 msgid "Licensing and copyright information."
 msgstr "Gebruiks en copyright informatie."
 
-#: clientgui/MainFrame.cpp:399
+#: clientgui/MainFrame.cpp:406
 msgid "&File"
 msgstr "&Bestand"
 
-#: clientgui/MainFrame.cpp:403
+#: clientgui/MainFrame.cpp:410
 msgid "&Tools"
 msgstr "&Extra"
 
-#: clientgui/MainFrame.cpp:407
+#: clientgui/MainFrame.cpp:414
 msgid "&Help"
 msgstr "&Help"
 
 #: clientgui/MainFrame.cpp:878
 #: clientgui/MainFrame.cpp:879
-#: clientgui/MainFrame.cpp:1143
 #: clientgui/MainFrame.cpp:1144
 msgid "Connection failed."
 msgstr "Verbinding mislukt."
 
-#: clientgui/MainFrame.cpp:1027
+#: clientgui/MainFrame.cpp:1028
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "De standaard taal van de BOINC Manager is gewijzigd, om dit te activeren dien je de manager te herstarten."
 
-#: clientgui/MainFrame.cpp:1028
+#: clientgui/MainFrame.cpp:1029
 msgid "Language Selection..."
 msgstr "Taalselectie..."
 
-#: clientgui/MainFrame.cpp:1156
+#: clientgui/MainFrame.cpp:1145
+msgid "BOINC Manager - Connection failed."
+msgstr "BOINC Manager - Verbinding mislukt."
+
+#: clientgui/MainFrame.cpp:1157
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Het opgegeven wachtwoord is niet correct, voer a.u.b. een geldige in."
 
-#: clientgui/MainFrame.cpp:1157
-msgid "Connection Error"
-msgstr "Verbindings Fout"
+#: clientgui/MainFrame.cpp:1158
+msgid "BOINC Manager - Connection Error"
+msgstr "Boinc Manager - Verbindings Fout."
 
-#: clientgui/MainFrame.cpp:1331
-#: clientgui/MainFrame.cpp:1334
+#: clientgui/MainFrame.cpp:1342
+#: clientgui/MainFrame.cpp:1345
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1332
+#: clientgui/MainFrame.cpp:1343
 #, c-format
 msgid "Connecting to %s"
 msgstr "Bezig te verbinden met %s"
 
-#: clientgui/MainFrame.cpp:1335
+#: clientgui/MainFrame.cpp:1346
 #, c-format
 msgid "Connected to %s"
 msgstr "Verbonden met %s"
@@ -384,480 +391,492 @@ msgstr "'%s' bezit geen geldige host naam."
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' bezit geen geldige bestands lokatie."
 
-#: clientgui/ViewMessages.cpp:76
-#: clientgui/ViewProjects.cpp:105
-#: clientgui/ViewStatistics.cpp:303
-#: clientgui/ViewTransfers.cpp:98
-#: clientgui/ViewWork.cpp:102
+#: clientgui/ViewMessages.cpp:73
+#: clientgui/ViewProjects.cpp:104
+#: clientgui/ViewStatistics.cpp:313
+#: clientgui/ViewTransfers.cpp:91
+#: clientgui/ViewWork.cpp:94
 msgid "Tasks"
-msgstr "Taken"
+msgstr "Opdrachten"
 
-#: clientgui/ViewMessages.cpp:80
+#: clientgui/ViewMessages.cpp:77
 msgid "Copy all messages"
 msgstr "Alle berichten kopiëren"
 
-#: clientgui/ViewMessages.cpp:81
+#: clientgui/ViewMessages.cpp:78
 msgid "Copy all the messages to the clipboard."
 msgstr "Alle berichten naar het klembord kopiëren."
 
-#: clientgui/ViewMessages.cpp:87
+#: clientgui/ViewMessages.cpp:84
 msgid "Copy selected messages"
 msgstr "Selectie kopiëren"
 
-#: clientgui/ViewMessages.cpp:88
+#: clientgui/ViewMessages.cpp:85
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr "De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere berichten selecteren door met behulp van de Shift of Ctrl toets op de bestanden te klikken."
 
-#: clientgui/ViewMessages.cpp:100
-#: clientgui/ViewProjects.cpp:164
-#: clientgui/ViewResources.cpp:80
-#: clientgui/ViewTransfers.cpp:121
-#: clientgui/ViewWork.cpp:132
+#: clientgui/ViewMessages.cpp:97
+#: clientgui/ViewProjects.cpp:163
+#: clientgui/ViewResources.cpp:78
+#: clientgui/ViewTransfers.cpp:114
+#: clientgui/ViewWork.cpp:124
 msgid "Project"
 msgstr "Project"
 
-#: clientgui/ViewMessages.cpp:101
-#: clientgui/ViewTransfers.cpp:125
+#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewTransfers.cpp:118
 msgid "Time"
 msgstr "Tijd"
 
-#: clientgui/ViewMessages.cpp:102
+#: clientgui/ViewMessages.cpp:99
 msgid "Message"
 msgstr "Bericht"
 
-#: clientgui/ViewMessages.cpp:126
+#: clientgui/ViewMessages.cpp:123
 msgid "Messages"
 msgstr "Berichten"
 
-#: clientgui/ViewMessages.cpp:147
+#: clientgui/ViewMessages.cpp:144
 msgid "Copying all messages to the clipboard..."
 msgstr "Bezig met kopiëren van de berichten naar het klembord..."
 
-#: clientgui/ViewMessages.cpp:180
-#: clientgui/ViewTransfers.cpp:190
+#: clientgui/ViewMessages.cpp:177
+#: clientgui/ViewTransfers.cpp:182
 msgid "Aborting transfer..."
 msgstr "Bezig met afbreken overdracht..."
 
-#: clientgui/ViewProjects.cpp:109
+#: clientgui/ViewProjects.cpp:108
 msgid "Update"
-msgstr "Bijwerken"
+msgstr "Project bijwerken"
 
-#: clientgui/ViewProjects.cpp:110
+#: clientgui/ViewProjects.cpp:109
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr "Rapporteer het voltooide werk, werk de punten bij, werk de voorkeuren bij en verkrijg mogelijk nieuw werk."
 
-#: clientgui/ViewProjects.cpp:117
-#: clientgui/ViewProjects.cpp:603
-#: clientgui/ViewWork.cpp:106
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewProjects.cpp:116
+#: clientgui/ViewProjects.cpp:598
+#: clientgui/ViewWork.cpp:98
+#: clientgui/ViewWork.cpp:449
 msgid "Suspend"
 msgstr "Onderbreken"
 
-#: clientgui/ViewProjects.cpp:118
-#: clientgui/ViewProjects.cpp:603
+#: clientgui/ViewProjects.cpp:117
+#: clientgui/ViewProjects.cpp:598
 msgid "Suspend work for this project."
-msgstr "Onderbreek het werk aan dit project."
+msgstr "Het werk aan dit project handmatig onderbreken."
 
-#: clientgui/ViewProjects.cpp:124
-#: clientgui/ViewProjects.cpp:613
+#: clientgui/ViewProjects.cpp:123
+#: clientgui/ViewProjects.cpp:608
 msgid "No new work"
 msgstr "Geen nieuw werk vragen"
 
-#: clientgui/ViewProjects.cpp:125
-#: clientgui/ViewProjects.cpp:613
+#: clientgui/ViewProjects.cpp:124
+#: clientgui/ViewProjects.cpp:608
 msgid "Don't fetch new work for this project."
-msgstr "Geen nieuw werk vragen voor dit project."
+msgstr "Nieuw werk (tijdelijk) opschorten voor dit project."
+
+#: clientgui/ViewProjects.cpp:130
+msgid "Reset project"
+msgstr "Project resetten"
 
 #: clientgui/ViewProjects.cpp:131
-msgid "Reset project"
-msgstr "Reset het project"
-
-#: clientgui/ViewProjects.cpp:132
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr "Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw werk. Het is mogelijk het project eerst bij te werken om het voltooide werk te rapporteren."
 
-#: clientgui/ViewProjects.cpp:141
+#: clientgui/ViewProjects.cpp:140
 msgid "Detach"
-msgstr "Verwijder"
+msgstr "Project verwijderen"
 
-#: clientgui/ViewProjects.cpp:142
+#: clientgui/ViewProjects.cpp:141
 msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
 msgstr "Verwijder deze computer uit het project. Lopend werk zal verloren gaan. Het is mogelijk het project eerst bij te werken om het voltooide werk te rapporteren."
 
-#: clientgui/ViewProjects.cpp:151
+#: clientgui/ViewProjects.cpp:150
 msgid "Attach to new project"
-msgstr "Nieuw project toevoegen."
+msgstr "Nieuw project toevoegen"
 
-#: clientgui/ViewProjects.cpp:152
+#: clientgui/ViewProjects.cpp:151
 msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
 msgstr "Voeg een project toe aan deze computer. Er zal een project URL en Account Key nodig zijn (bezoek een project website om deze te verkrijgen)."
 
-#: clientgui/ViewProjects.cpp:165
+#: clientgui/ViewProjects.cpp:164
 msgid "Account"
 msgstr "Account"
 
-#: clientgui/ViewProjects.cpp:166
+#: clientgui/ViewProjects.cpp:165
 msgid "Team"
 msgstr "Team"
 
-#: clientgui/ViewProjects.cpp:167
+#: clientgui/ViewProjects.cpp:166
 msgid "Total credit"
-msgstr "Totale punten"
+msgstr "Punten totaal"
 
-#: clientgui/ViewProjects.cpp:168
+#: clientgui/ViewProjects.cpp:167
 msgid "Avg. credit"
 msgstr "Gemiddelde punten"
 
-#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewProjects.cpp:168
 msgid "Resource share"
 msgstr "Gedeelde bronnen"
 
-#: clientgui/ViewProjects.cpp:170
-#: clientgui/ViewTransfers.cpp:127
-#: clientgui/ViewWork.cpp:139
+#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewTransfers.cpp:120
+#: clientgui/ViewWork.cpp:131
 msgid "Status"
 msgstr "Status"
 
-#: clientgui/ViewProjects.cpp:183
+#: clientgui/ViewProjects.cpp:182
 msgid "Projects"
 msgstr "Projecten"
 
-#: clientgui/ViewProjects.cpp:205
+#: clientgui/ViewProjects.cpp:204
 msgid "Updating project..."
 msgstr "Bezig met bijwerken..."
 
-#: clientgui/ViewProjects.cpp:231
+#: clientgui/ViewProjects.cpp:230
 msgid "Resuming project..."
 msgstr "Bezig met hervatten..."
 
-#: clientgui/ViewProjects.cpp:235
+#: clientgui/ViewProjects.cpp:234
 msgid "Suspending project..."
 msgstr "Bezig met opschorten..."
 
-#: clientgui/ViewProjects.cpp:262
+#: clientgui/ViewProjects.cpp:261
 msgid "Telling project to allow additional work downloads..."
 msgstr "Bezig met het toestaan van aanvullende downloads..."
 
-#: clientgui/ViewProjects.cpp:266
+#: clientgui/ViewProjects.cpp:265
 msgid "Telling project to not fetch additional work..."
-msgstr "Bezig met het verzoek voor aanvullende downloads..."
+msgstr "'Geen nieuw werk' verzoek aan het doorgeven..."
 
-#: clientgui/ViewProjects.cpp:296
+#: clientgui/ViewProjects.cpp:295
 msgid "Resetting project..."
 msgstr "Bezig project te resetten..."
 
-#: clientgui/ViewProjects.cpp:302
+#: clientgui/ViewProjects.cpp:301
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Weet je zeker dat je het project '%s' wilt resetten?"
 
-#: clientgui/ViewProjects.cpp:308
+#: clientgui/ViewProjects.cpp:307
 msgid "Reset Project"
-msgstr "Reset het project"
+msgstr "Project resetten"
 
-#: clientgui/ViewProjects.cpp:342
+#: clientgui/ViewProjects.cpp:341
 msgid "Detaching from project..."
 msgstr "Bezig met verwijderen van het project..."
 
-#: clientgui/ViewProjects.cpp:348
+#: clientgui/ViewProjects.cpp:347
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Weet je zeker dat je het project '%s' wilt verwijderen?"
 
-#: clientgui/ViewProjects.cpp:354
+#: clientgui/ViewProjects.cpp:353
 msgid "Detach from Project"
 msgstr "Project verwijderen"
 
-#: clientgui/ViewProjects.cpp:386
+#: clientgui/ViewProjects.cpp:385
 msgid "Attaching to project..."
 msgstr "Bezig met toevoegen van project..."
 
-#: clientgui/ViewProjects.cpp:422
+#: clientgui/ViewProjects.cpp:421
 msgid "Launching browser..."
 msgstr "Browser aan het openen..."
 
-#: clientgui/ViewProjects.cpp:599
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewProjects.cpp:594
+#: clientgui/ViewWork.cpp:445
 msgid "Resume"
 msgstr "Hervatten"
 
-#: clientgui/ViewProjects.cpp:599
+#: clientgui/ViewProjects.cpp:594
 msgid "Resume work for this project."
-msgstr "Hervat werk aan dit project."
+msgstr "Hervat het werk aan dit project."
 
-#: clientgui/ViewProjects.cpp:609
+#: clientgui/ViewProjects.cpp:604
 msgid "Allow new work"
 msgstr "Sta nieuw werk toe"
 
-#: clientgui/ViewProjects.cpp:609
+#: clientgui/ViewProjects.cpp:604
 msgid "Allow fetching new work for this project."
 msgstr "Sta nieuw werk toe voor dit project."
 
-#: clientgui/ViewProjects.cpp:648
+#: clientgui/ViewProjects.cpp:643
 msgid "Web sites"
 msgstr "Websites"
 
-#: clientgui/ViewProjects.cpp:767
-msgid "Project suspended"
-msgstr "Project opgeschort"
+#: clientgui/ViewProjects.cpp:753
+#: clientgui/ViewWork.cpp:666
+msgid "Suspended by user"
+msgstr "Opgeschort door gebruiker"
 
-#: clientgui/ViewProjects.cpp:769
+#: clientgui/ViewProjects.cpp:756
 msgid "Won't get new work"
-msgstr "Geen nieuw werk vragen"
+msgstr "Nieuw werk niet verkregen"
 
-#: clientgui/ViewProjects.cpp:778
-#: clientgui/ViewTransfers.cpp:537
-msgid "Retry in "
-msgstr "Probeer opnieuw over "
+#: clientgui/ViewProjects.cpp:759
+msgid "Scheduler request pending"
+msgstr "Bijwerk verzoek aan het afwachten"
 
-#: clientgui/ViewResources.cpp:81
+#: clientgui/ViewProjects.cpp:765
+msgid "Communication deferred "
+msgstr "Communicatie uitgesteld"
+
+#: clientgui/ViewResources.cpp:79
 msgid "Disk Space"
 msgstr "Gebruikte ruimte op schijf"
 
-#: clientgui/ViewResources.cpp:94
+#: clientgui/ViewResources.cpp:92
 msgid "Disk"
 msgstr "Schijfgebruik"
 
 #: clientgui/ViewStatistics.cpp:40
 #: clientgui/ViewStatistics.cpp:46
-#: clientgui/ViewStatistics.cpp:362
+#: clientgui/ViewStatistics.cpp:372
 msgid "User Total"
 msgstr "Gebruikers Totaal"
 
-#: clientgui/ViewStatistics.cpp:307
+#: clientgui/ViewStatistics.cpp:317
 msgid "Show user total"
 msgstr "Bekijk gebruikers totaal"
 
-#: clientgui/ViewStatistics.cpp:314
+#: clientgui/ViewStatistics.cpp:324
 msgid "Show user average"
 msgstr "Bekijk gebruikers gemiddelde"
 
-#: clientgui/ViewStatistics.cpp:321
+#: clientgui/ViewStatistics.cpp:331
 msgid "Show host total"
-msgstr "Bekijk totaal van computer"
+msgstr "Bekijk computer totaal"
 
-#: clientgui/ViewStatistics.cpp:328
+#: clientgui/ViewStatistics.cpp:338
 msgid "Show host average"
-msgstr "Bekijk gemiddelde van computer"
+msgstr "Bekijk computer gemiddelde"
 
-#: clientgui/ViewStatistics.cpp:349
+#: clientgui/ViewStatistics.cpp:359
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: clientgui/ViewStatistics.cpp:361
-#: clientgui/ViewStatistics.cpp:382
-#: clientgui/ViewStatistics.cpp:403
-#: clientgui/ViewStatistics.cpp:424
+#: clientgui/ViewStatistics.cpp:371
+#: clientgui/ViewStatistics.cpp:391
+#: clientgui/ViewStatistics.cpp:411
+#: clientgui/ViewStatistics.cpp:431
 msgid "Updating charts..."
 msgstr "Grafieken aan het bijwerken"
 
-#: clientgui/ViewStatistics.cpp:383
+#: clientgui/ViewStatistics.cpp:392
 msgid "User Average"
 msgstr "Gebruikers gemiddelde"
 
-#: clientgui/ViewStatistics.cpp:404
+#: clientgui/ViewStatistics.cpp:412
 msgid "Host Total"
 msgstr "Totaal van computer"
 
-#: clientgui/ViewStatistics.cpp:425
+#: clientgui/ViewStatistics.cpp:432
 msgid "Host Average"
 msgstr "Gemiddelde van computer"
 
-#: clientgui/ViewTransfers.cpp:102
+#: clientgui/ViewTransfers.cpp:95
 msgid "Retry Now"
 msgstr "Probeer opnieuw"
 
-#: clientgui/ViewTransfers.cpp:103
+#: clientgui/ViewTransfers.cpp:96
 msgid "Click 'Retry now' to transfer the file now"
 msgstr "Klik op 'Probeer opnieuw' voor overdracht van het bestand"
 
-#: clientgui/ViewTransfers.cpp:109
+#: clientgui/ViewTransfers.cpp:102
 msgid "Abort Transfer"
 msgstr "Overdracht afbreken"
 
-#: clientgui/ViewTransfers.cpp:110
+#: clientgui/ViewTransfers.cpp:103
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr "Klik op 'Overdracht afbreken' om dit bestand uit de wachtrij te verwijderen. Er zullen in dit geval geen punten voor dit resultaat worden toegekend."
 
-#: clientgui/ViewTransfers.cpp:122
+#: clientgui/ViewTransfers.cpp:115
 msgid "File"
 msgstr "Bestand"
 
-#: clientgui/ViewTransfers.cpp:123
-#: clientgui/ViewWork.cpp:136
+#: clientgui/ViewTransfers.cpp:116
+#: clientgui/ViewWork.cpp:128
 msgid "Progress"
 msgstr "Voortgang"
 
-#: clientgui/ViewTransfers.cpp:124
+#: clientgui/ViewTransfers.cpp:117
 msgid "Size"
 msgstr "Grootte"
 
-#: clientgui/ViewTransfers.cpp:126
+#: clientgui/ViewTransfers.cpp:119
 msgid "Speed"
 msgstr "Snelheid"
 
-#: clientgui/ViewTransfers.cpp:140
+#: clientgui/ViewTransfers.cpp:133
 msgid "Transfers"
 msgstr "Overdracht"
 
-#: clientgui/ViewTransfers.cpp:162
+#: clientgui/ViewTransfers.cpp:155
 msgid "Retrying transfer now..."
 msgstr "Bezig met overdracht..."
 
-#: clientgui/ViewTransfers.cpp:195
+#: clientgui/ViewTransfers.cpp:185
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
 msgstr "Weet je zeker dat je de overdracht van '%s' wilt annuleren?"
 
-#: clientgui/ViewTransfers.cpp:200
+#: clientgui/ViewTransfers.cpp:190
 msgid "Abort File Transfer"
 msgstr "Annuleer bestands overdracht"
 
-#: clientgui/ViewTransfers.cpp:539
-#: clientgui/ViewWork.cpp:655
+#: clientgui/ViewTransfers.cpp:506
+msgid "Retry in "
+msgstr "Opnieuw proberen over"
+
+#: clientgui/ViewTransfers.cpp:508
+#: clientgui/ViewWork.cpp:657
 msgid "Download failed"
 msgstr "Downloaden mislukt"
 
-#: clientgui/ViewTransfers.cpp:541
-#: clientgui/ViewWork.cpp:690
+#: clientgui/ViewTransfers.cpp:510
+#: clientgui/ViewWork.cpp:686
 msgid "Upload failed"
 msgstr "Uploaden mislukt"
 
-#: clientgui/ViewTransfers.cpp:544
-#: clientgui/ViewTransfers.cpp:552
-#: clientgui/ViewWork.cpp:664
-#: clientgui/ViewWork.cpp:668
-#: clientgui/ViewWork.cpp:674
-#: clientgui/ViewWork.cpp:708
+#: clientgui/ViewTransfers.cpp:513
+#: clientgui/ViewTransfers.cpp:521
 msgid "Suspended"
 msgstr "Opgeschort"
 
-#: clientgui/ViewTransfers.cpp:546
-#: clientgui/ViewWork.cpp:692
+#: clientgui/ViewTransfers.cpp:515
+#: clientgui/ViewWork.cpp:688
 msgid "Uploading"
 msgstr "Bezig met uploaden"
 
-#: clientgui/ViewTransfers.cpp:546
-#: clientgui/ViewWork.cpp:657
+#: clientgui/ViewTransfers.cpp:515
+#: clientgui/ViewWork.cpp:659
 msgid "Downloading"
 msgstr "Bezig met downloaden"
 
-#: clientgui/ViewWork.cpp:107
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:99
+#: clientgui/ViewWork.cpp:449
 msgid "Suspend work for this result."
 msgstr "Onderbreek het werk aan dit resultaat."
 
-#: clientgui/ViewWork.cpp:113
-#: clientgui/ViewWork.cpp:218
+#: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:210
 msgid "Show graphics"
 msgstr "Bekijk grafische weergave"
 
-#: clientgui/ViewWork.cpp:114
+#: clientgui/ViewWork.cpp:106
 msgid "Show application graphics in a window."
 msgstr "Bekijk een grafische weergave van dit project in een nieuw venster."
 
-#: clientgui/ViewWork.cpp:120
+#: clientgui/ViewWork.cpp:112
 msgid "Abort"
-msgstr "Breek af"
+msgstr "Werk afbreken"
 
-#: clientgui/ViewWork.cpp:121
+#: clientgui/ViewWork.cpp:113
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Annuleer het werk aan dit resultaat. Er zullen geen punten worden toegekend."
 
-#: clientgui/ViewWork.cpp:133
+#: clientgui/ViewWork.cpp:125
 msgid "Application"
 msgstr "Programma"
 
-#: clientgui/ViewWork.cpp:134
+#: clientgui/ViewWork.cpp:126
 msgid "Name"
 msgstr "Naam van bestand"
 
-#: clientgui/ViewWork.cpp:135
+#: clientgui/ViewWork.cpp:127
 msgid "CPU time"
 msgstr "Processor tijd"
 
-#: clientgui/ViewWork.cpp:137
+#: clientgui/ViewWork.cpp:129
 msgid "To completion"
 msgstr "Tot voltooiing"
 
-#: clientgui/ViewWork.cpp:138
+#: clientgui/ViewWork.cpp:130
 msgid "Report deadline"
 msgstr "Rapporteren voor"
 
-#: clientgui/ViewWork.cpp:152
+#: clientgui/ViewWork.cpp:144
 msgid "Work"
 msgstr "Werk"
 
-#: clientgui/ViewWork.cpp:176
+#: clientgui/ViewWork.cpp:168
 msgid "Resuming result..."
 msgstr "Resultaat word hervat..."
 
-#: clientgui/ViewWork.cpp:180
+#: clientgui/ViewWork.cpp:172
 msgid "Suspending result..."
 msgstr "Bezig met opschorten..."
 
-#: clientgui/ViewWork.cpp:206
+#: clientgui/ViewWork.cpp:198
 msgid "Showing graphics for result..."
 msgstr "Bezig met het laten zien van grafische weergave..."
 
-#: clientgui/ViewWork.cpp:217
+#: clientgui/ViewWork.cpp:209
 msgid "Are you sure you wish to display graphics on a remote machine?"
 msgstr "Weet je zeker dat je de grafische weergave wilt laten zien op een andere computer?"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:258
 msgid "Aborting result..."
 msgstr "Resultaat word geannuleerd"
 
-#: clientgui/ViewWork.cpp:271
+#: clientgui/ViewWork.cpp:261
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "Weet je zeker dat je het resultaat '%s' wilt annuleren?"
 
-#: clientgui/ViewWork.cpp:276
+#: clientgui/ViewWork.cpp:267
 msgid "Abort result"
 msgstr "Annuleer resultaat"
 
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:445
 msgid "Resume work for this result."
 msgstr "Hervat werk voor dit resultaat."
 
-#: clientgui/ViewWork.cpp:651
+#: clientgui/ViewWork.cpp:653
 msgid "New"
 msgstr "Nieuw"
 
-#: clientgui/ViewWork.cpp:662
-msgid "Aborted"
-msgstr "Geannuleerd"
+#: clientgui/ViewWork.cpp:664
+msgid "Aborted by user"
+msgstr "Geannuleerd door gebruiker"
 
-#: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:668
+msgid "Activities suspended"
+msgstr "Activiteiten opgeschort"
+
+#: clientgui/ViewWork.cpp:671
 msgid "Running"
 msgstr "Bezig met uitvoeren"
 
-#: clientgui/ViewWork.cpp:676
-msgid "Paused"
+#: clientgui/ViewWork.cpp:673
+msgid "Preempted"
 msgstr "Gepauzeerd"
 
-#: clientgui/ViewWork.cpp:679
-#: clientgui/ViewWork.cpp:682
+#: clientgui/ViewWork.cpp:675
+#: clientgui/ViewWork.cpp:678
 msgid "Ready to run"
 msgstr "Staat in de wacht"
 
-#: clientgui/ViewWork.cpp:686
+#: clientgui/ViewWork.cpp:682
 msgid "Computation error"
 msgstr "Berekenings fout"
 
-#: clientgui/ViewWork.cpp:697
+#: clientgui/ViewWork.cpp:693
 msgid "Acknowledged"
 msgstr "Bevestigd"
 
-#: clientgui/ViewWork.cpp:699
+#: clientgui/ViewWork.cpp:695
 msgid "Ready to report"
 msgstr "Staat klaar om te rapporteren"
 
-#: clientgui/ViewWork.cpp:701
+#: clientgui/ViewWork.cpp:697
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Fout: ongeldige status '%d'"
+
+#: clientgui/ViewWork.cpp:704
+msgid "Activities suspended by user"
+msgstr "Activiteiten opgeschort door gebruiker"
 
 #: clientgui/DlgAbout.h:50
 msgid "About BOINC Manager"
