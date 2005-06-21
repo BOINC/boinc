@@ -300,7 +300,6 @@
 				DD095F3707D8830500362260,
 				DD095F3907D8830700362260,
 				DD095F3B07D8830800362260,
-				DD6D0A2E07E99A08007F882B,
 				DD095F4507D8838F00362260,
 				DD095F4807D8839200362260,
 				DD095F4A07D8839300362260,
@@ -2345,30 +2344,6 @@
 			settings = {
 			};
 		};
-		DD6D0A2C07E99A08007F882B = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = acct_mgr_client.C;
-			path = ../lib/acct_mgr_client.C;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6D0A2D07E99A08007F882B = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = acct_mgr_client.h;
-			path = ../lib/acct_mgr_client.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD6D0A2E07E99A08007F882B = {
-			fileRef = DD6D0A2C07E99A08007F882B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD6D0A8507E9A61B007F882B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3978,8 +3953,6 @@
 //F54
 		F515955F029EB02001F5651B = {
 			children = (
-				DD6D0A2C07E99A08007F882B,
-				DD6D0A2D07E99A08007F882B,
 				AA8B6B1B046C364400A80164,
 				AA8B6B1C046C364400A80164,
 				DD344B6307C5ACEB0043025C,
