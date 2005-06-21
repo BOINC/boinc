@@ -998,10 +998,129 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     return ncpus > count;
 }
 
+// more detailed variant
+bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
+    PROJECT* p, *pbest;
+    RESULT* rp, *rpbest;
+    vector<RESULT*> active;
+    unsigned int i;
+    double x;
+    vector<RESULT*>::iterator it;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+
+    // Initilize the "active" and "pending" lists for each project.
+    // These keep track of that project's results
+    //
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        p->active.clear();
+        p->pending.clear();
+        p->rrsim_proc_rate = per_cpu_proc_rate * p->resource_share/rrs;
+    }
+
+    for (i=0; i<results.size(); i++) {
+        rp = results[i];
+        if (!rp->runnable()) continue;
+        rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
+        p = rp->project;
+        if (p->active.size() < (unsigned int)ncpus) {
+            active.push_back(rp);
+            p->active.push_back(rp);
+        } else {
+            p->pending.push_back(rp);
+        }
+    }
+
+    // Simulation loop.  Keep going until work done
+    //
+    double sim_now = now;
+    while (active.size()) {
+
+        // compute finish times and see which result finishes first
+        //
+        rpbest = NULL;
+        for (i=0; i<active.size(); i++) {
+            rp = active[i];
+            p = rp->project;
+            rp->rrsim_finish_delay = rp->rrsim_cpu_left/p->rrsim_proc_rate;
+            if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
+                rpbest = rp;
+            }
+        }
+
+        // "rpbest" is first result to finish.  Does it miss its deadline?
+        //
+        double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->report_deadline;
+        if (diff > 0) {
+            scope_messages.printf(
+                "rr_sim: result %s misses deadline by %f\n", rpbest->name, diff
+            );
+            return true;
+        }
+
+        // remove *rpbest from active set,
+        // and adjust CPU time left for other results
+        //
+        it = active.begin();
+        while (it != active.end()) {
+            rp = *it;
+            if (rp == rpbest) {
+                it = active.erase(it);
+            } else {
+                x = rp->project->rrsim_proc_rate*rpbest->rrsim_finish_delay;
+                rp->rrsim_cpu_left -= x;
+                it++;
+            }
+        }
+
+        pbest = rpbest->project;
+
+        // remove *rpbest from its project's active set
+        //
+        it = pbest->active.begin();
+        while (it != pbest->active.end()) {
+            rp = *it;
+            if (rp == rpbest) {
+                it = pbest->active.erase(it);
+            } else {
+                it++;
+            }
+        }
+
+        // If project has more results, add one to active set.
+        //
+        if (pbest->pending.size()) {
+            rp = pbest->pending[0];
+            pbest->pending.erase(pbest->pending.begin());
+            active.push_back(rp);
+            pbest->active.push_back(rp);
+        }
+
+        // If all work done for a project, subtract that project's share
+        // and recompute processing rates
+        //
+        if (pbest->active.size() == 0) {
+            rrs -= pbest->resource_share;
+            for (i=0; i<projects.size(); i++) {
+                p = projects[i];
+                p->rrsim_proc_rate = per_cpu_proc_rate*p->resource_share/rrs;
+            }
+        }
+
+        sim_now += rpbest->rrsim_finish_delay;
+    }
+    scope_messages.printf( "rr_sim: deadlines met\n");
+    return false;
+}
+
+#if 0
 // simulate weighted round-robin scheduling,
-// and see if any result misses its deadline
+// and see if any result misses its deadline.
 //
-bool CLIENT_STATE::round_robin_misses_deadline(double per_cpu_proc_rate, double rrs) {
+bool CLIENT_STATE::round_robin_misses_deadline(
+    double per_cpu_proc_rate, double rrs
+) {
     std::vector <double> booked_to;
     int k;
     unsigned int i, j;
@@ -1039,6 +1158,7 @@ bool CLIENT_STATE::round_robin_misses_deadline(double per_cpu_proc_rate, double 
     }
     return false;
 }
+#endif
 
 #if 0
 // Simulate what will happen if we do EDF schedule starting now.
@@ -1108,7 +1228,7 @@ void CLIENT_STATE::set_scheduler_modes() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
     double rrs = runnable_resource_share();
-    if (round_robin_misses_deadline(per_cpu_proc_rate, rrs)) {
+    if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
         // if round robin would miss a deadline, use EDF
         //
         use_earliest_deadline_first = true;
@@ -1122,7 +1242,7 @@ void CLIENT_STATE::set_scheduler_modes() {
         PROJECT* p = next_project_need_work();
         if (p && !p->runnable()) {
             rrs += p->resource_share;
-            if (round_robin_misses_deadline(per_cpu_proc_rate, rrs)) {
+            if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
                 should_not_fetch_work = true;
             }
         }
@@ -1151,18 +1271,6 @@ void CLIENT_STATE::set_scheduler_modes() {
             );
         }
     }
-
-#if 0
-    // Are the deadlines too tight to meet reliably?
-    //
-    if (edf_misses_deadline(per_cpu_proc_rate)) {
-        should_not_fetch_work = true;
-        use_earliest_deadline_first = true;
-        scope_messages.printf(
-            "set_scheduler_modes(): Computer is overcommitted\n"
-        );
-    }
-#endif
 
     // display only when the policy changes to avoid once per second
     //

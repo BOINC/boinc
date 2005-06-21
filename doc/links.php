@@ -79,7 +79,7 @@ language("French", array(
 language("German", array(
     site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
-    site("http://www.boinc-halle-saale.de.vu", "BOINC@Halle/Saale"),
+    site("http://www.boinc-halle-saale.de", "BOINC@Halle/Saale"),
     site("http://www.boincfun.tk/", "BOINCfun"),
     site("http://www.setigermany.de", "SETI.Germany"),
     site("http://www.sar-hessen.de", "Team Science and Research Hessen"),

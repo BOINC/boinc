@@ -8094,3 +8094,19 @@ Rom    19 June 2005
         MainFrame.cpp
     lib/
         acct_mgr_client.C, .h
+
+David  20 June 2005
+    - Wrote version 3 of the round-robin scheduling simulator
+        (used to decide whether to enter EDF more,
+        and whether to suspend work fetch).
+        This version (CLIENT_STATE::rr_misses_deadline())
+        models the fact that when all the work for a project is finished,
+        the fractional resource share of other runnable projects increases.
+        So, e.g., a few short results and one long one,
+        which almost saturates the CPU, is feasible.
+
+    client/
+        client_state.h
+        client_types.h
+        cs_apps.C
+        cs_scheduler.C

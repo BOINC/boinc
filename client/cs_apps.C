@@ -319,7 +319,7 @@ int CLIENT_STATE::schedule_result(RESULT* rp) {
 //
 bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     PROJECT *best_project = NULL;
-    double best_debt = 0;
+    double best_debt = -MAX_DEBT;
     bool first = true;
     unsigned int i;
 
@@ -368,8 +368,6 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
 //    msg_printf(0, MSG_INFO, "earliest deadline: %f %s", earliest_deadline, best_result->name);
     schedule_result(best_result);
     best_result->already_selected = true;
-    best_project->anticipated_debt -= expected_pay_off;
-    best_project->next_runnable_result = 0;
     return true;
 }
 

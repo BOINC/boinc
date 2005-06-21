@@ -248,6 +248,11 @@ public:
     bool potentially_runnable();
         // runnable or contactable or downloading
 
+    // temps used in CLIENT_STATE::rr_misses_deadline();
+    std::vector<RESULT*>active;
+    std::vector<RESULT*>pending;
+    double rrsim_proc_rate;
+
     // "debt" is how much CPU time we owe this project relative to others
 
     double short_term_debt;
@@ -401,6 +406,10 @@ struct RESULT {
     WORKUNIT* wup;
         // this may be NULL after result is finished
     PROJECT* project;
+
+    // temporaries used in CLIENT_STATE::rr_misses_deadline():
+    double rrsim_cpu_left;
+    double rrsim_finish_delay;
 
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice

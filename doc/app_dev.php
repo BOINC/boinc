@@ -18,11 +18,21 @@ These traces will be returned in the
 'stderr_out' field of results.
 
 <h2>Windows-specific issues</h2>
-<p>
+<ul>
+<li>
 The set of 'standard' DLL differs somewhat among
 9X/NT/2000/XP.
 To avoid crashing because a DLL is missing,
 call ::LoadLibrary() and then get function pointers.
+<li>
+Visual Studio: set 'Create/Use Precompiled Header' to
+'Automatically Generate' (/YX)
+in C/C++ Precompiled Header project properties.
+<li>
+Visual Studio: change 'Compile As' to
+'Compile as C++ Code (/TP)'
+in C/C++ 'Compile As' project properties.
+</ul>
 
 <h2>Unix-specific issues</h2>
 <p>
