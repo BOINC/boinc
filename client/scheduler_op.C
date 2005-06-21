@@ -192,6 +192,11 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
+    if (p->tentative) {
+        p->attach_failed(ATTACH_FAIL_INIT);
+        return;
+    }
+        
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         msg_printf(p, MSG_ERROR, "Too many backoffs - fetching master file");
         p->master_url_fetch_pending = true;
@@ -472,6 +477,10 @@ bool SCHEDULER_OP::poll() {
                         retval = cur_proj->write_account_file();
                         if (retval) {
                             cur_proj->attach_failed(ATTACH_FAIL_FILE_WRITE);
+                        } else if (cur_proj->show_alerts) {
+                            msg_printf(cur_proj, MSG_ALERT_INFO,
+                                "Successfully attached to %s", cur_proj->get_project_name()
+                            );
                         }
                     }
                 } else {

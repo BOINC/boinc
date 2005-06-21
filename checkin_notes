@@ -8149,3 +8149,28 @@ David  21 June 2005
 		gui_rpc_client.C,h
 	win_build/
 		BOINCGUI.vcproj
+
+David  21 June 2005
+	- GUI principle for manager:
+		For any user action that can potentially fail
+		(project attach, acct mgr update)
+		ALWAYS show an alert when the action is finished.
+		E.g. show "Attach succeeded" if an attach succeeds.
+		Don't require users to look in Messages for outcome.
+	- Add a "show_alerts" argument to add_project().
+		Says whether to show alert when attach succeeds or fails.
+		True for attaches via GUI,
+		false for others (e.g. account manager attaches)
+	- SCHEDULER_OP::backoff(): if account is tentative,
+		call attach_failed().
+
+	client/
+		acct_mgr.C
+		client_state.h
+		client_types.h
+		cs_account.C
+		cs_cmdline.C
+		gui_rpc_server.C
+		scheduler_op.C
+	clientgui/
+		MainDocument.cpp

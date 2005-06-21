@@ -182,7 +182,7 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing authenticator</error>\n");
         return;
     }
-    gstate.add_project(url.c_str(), authenticator.c_str());
+    gstate.add_project(url.c_str(), authenticator.c_str(), true);
     fout.printf("<success/>\n");
 }
 

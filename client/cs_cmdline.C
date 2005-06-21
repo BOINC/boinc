@@ -272,7 +272,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(attach_project_url)) {
-        add_project(attach_project_url, attach_project_auth);
+        add_project(attach_project_url, attach_project_auth, false);
     }
 }
 

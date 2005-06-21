@@ -816,7 +816,7 @@ int CMainDocument::WorkAbort(int iIndex) {
 
 
 int CMainDocument::CachedMessageUpdate() {
-    int     retval = 0;
+    int retval;
 
     if (IsConnected()) {
         MESSAGES new_msgs;
@@ -849,7 +849,7 @@ int CMainDocument::CachedMessageUpdate() {
         }
     }
 
-    return retval;
+    return 0;
 }
 
 

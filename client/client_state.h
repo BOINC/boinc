@@ -205,7 +205,7 @@ private:
 
 // --------------- cs_account.C:
 public:
-    int add_project(const char* master_url, const char* authenticator);
+    int add_project(const char* master_url, const char* authenticator, bool show_alrts);
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();
