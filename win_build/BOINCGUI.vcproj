@@ -145,21 +145,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\lib\acct_mgr_client.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\clientgui\BOINCBaseView.cpp">
 			</File>
 			<File
@@ -445,9 +430,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\clientgui\_wx_intellisense.h">
-			</File>
-			<File
-				RelativePath="..\lib\acct_mgr_client.h">
 			</File>
 			<File
 				RelativePath="..\lib\boinc_win.h">

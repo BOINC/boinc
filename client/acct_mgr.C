@@ -26,33 +26,38 @@
 #include "util.h"
 #include "file_names.h"
 #include "filesys.h"
-
 #include "client_state.h"
 
 #include "acct_mgr.h"
+
 
 int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
     int retval;
     char buf[256];
 
     if (state != ACCT_MGR_STATE_IDLE) {
-        msg_printf(NULL, MSG_ALERT, "An account manager update is already in progress");
+        msg_printf(NULL, MSG_ALERT_ERROR, "An account manager update is already in progress");
         return 0;
     }
     strcpy(buf, url.c_str());
     canonicalize_master_url(buf);
     if (!valid_master_url(buf)) {
-        msg_printf(NULL, MSG_ALERT, "%s is not a valid URL", url.c_str());
+        msg_printf(NULL, MSG_ALERT_ERROR, "Can't contact account manager:\n'%s' is not a valid URL", url.c_str());
         return 0;
     }
+    ami.acct_mgr_url = url;
+    ami.acct_mgr_name = "";
+    ami.login_name = name;
+    ami.password = password;
+
     sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
     http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(ACCT_MGR_REPLY_FILENAME);
     retval = http_op.init_get(buf, ACCT_MGR_REPLY_FILENAME, true);
     if (!retval) retval = gstate.http_ops->insert(&http_op);
     if (retval) {
-        msg_printf(NULL, MSG_ALERT,
-            "Can't contact %s.  Please check the URL and try again",
+        msg_printf(NULL, MSG_ALERT_ERROR,
+            "Can't contact account manager at '%s'.\nPlease check the URL and try again",
             url.c_str()
         );
         return retval;
@@ -64,6 +69,7 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
 }
 
 bool ACCT_MGR::poll() {
+    int retval;
     if (state == ACCT_MGR_STATE_IDLE) return false;
     static double last_time=0;
     if (gstate.now-last_time < 1) return false;
@@ -71,17 +77,23 @@ bool ACCT_MGR::poll() {
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
         if (http_op.http_op_retval == 0) {
-            msg_printf(NULL, MSG_ALERT, "Account manager RPC succeeded");
             FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
             if (f) {
                 MIOFILE mf;
                 mf.init_file(f);
-                parse(mf);
+                retval = parse(mf);
                 fclose(f);
-                handle_reply();
+                if (!retval) {
+                    handle_reply();     // this generates messages
+                }
+            } else {
+                retval = ERR_FOPEN;
             }
         } else {
-            msg_printf(NULL, MSG_ALERT, "Account manager RPC failed");
+            retval = http_op.http_op_retval;
+        }
+        if (retval) {
+            msg_printf(NULL, MSG_ALERT_ERROR, "Account manager update failed:\nerror %d", retval);
         }
         state = ACCT_MGR_STATE_IDLE;
     }
@@ -116,8 +128,11 @@ int ACCT_MGR::parse(MIOFILE& in) {
     int retval;
 
     accounts.clear();
+    error_str = "";
     while (in.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</accounts>")) return 0;
+        if (match_tag(buf, "</acct_mgr_reply>")) return 0;
+        if (parse_str(buf, "<name>", ami.acct_mgr_name)) continue;
+        if (parse_str(buf, "<error>", error_str)) continue;
         if (match_tag(buf, "<account>")) {
             ACCOUNT account;
             retval = account.parse(in);
@@ -131,6 +146,18 @@ void ACCT_MGR::handle_reply() {
     unsigned int i;
 
     msg_printf(NULL, MSG_INFO, "Handling account manager RPC reply");
+    if (error_str.size()) {
+        msg_printf(NULL, MSG_ALERT_ERROR, "Account manager update failed:\n%s", error_str.c_str());
+        return;
+    }
+    msg_printf(NULL, MSG_ALERT_INFO, "Account manager update succeeded.\nSee Messages for more info.");
+
+    gstate.acct_mgr_info.acct_mgr_url = ami.acct_mgr_url;
+    gstate.acct_mgr_info.acct_mgr_name = ami.acct_mgr_name;
+    gstate.acct_mgr_info.login_name = ami.login_name;
+    gstate.acct_mgr_info.password = ami.password;
+    gstate.acct_mgr_info.write_info();
+
     for (i=0; i<accounts.size(); i++) {
         ACCOUNT& acct = accounts[i];
         PROJECT* pp = gstate.lookup_project(acct.url.c_str());
@@ -150,5 +177,73 @@ void ACCT_MGR::handle_reply() {
     if (accounts.size() == 0) {
         msg_printf(NULL, MSG_ERROR, "No accounts reported by account manager");
     }
+}
+
+int ACCT_MGR_INFO::write_info() {
+    FILE* p;
+    if (acct_mgr_url.size()) {
+        p = fopen(ACCT_MGR_URL_FILENAME, "w");
+        if (p) {
+            fprintf(
+                p, 
+                "<acct_mgr>\n"
+                "    <name>%s</name>\n"
+                "    <url>%s</url>\n"
+                "</acct_mgr>\n",
+                acct_mgr_name.c_str(),
+                acct_mgr_url.c_str()
+            );
+            fclose(p);
+        }
+    }
+
+    if (login_name.size()) {
+        p = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
+        if (p) {
+            fprintf(
+                p, 
+                "<acct_mgr_login>\n"
+                "    <login>%s</login>\n"
+                "    <password>%s</password>\n"
+                "</acct_mgr_login>\n",
+                login_name.c_str(),
+                password.c_str()
+            );
+            fclose(p);
+        }
+    }
+    return 0;
+}
+
+int ACCT_MGR_INFO::init() {
+    char    buf[256];
+    int     retval=0;
+    MIOFILE mf;
+    FILE*   p;
+
+    p = fopen(ACCT_MGR_URL_FILENAME, "r");
+    if (p) {
+        mf.init_file(p);
+        while(mf.fgets(buf, sizeof(buf))) {
+            if (match_tag(buf, "</acct_mgr>")) break;
+            else if (parse_str(buf, "<name>", acct_mgr_name)) continue;
+            else if (parse_str(buf, "<url>", acct_mgr_url)) continue;
+        }
+        fclose(p);
+    } else {
+        return 0;
+    }
+
+    p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
+    if (p) {
+        mf.init_file(p);
+        while(mf.fgets(buf, sizeof(buf))) {
+            if (match_tag(buf, "</acct_mgr_login>")) break;
+            else if (parse_str(buf, "<login>", login_name)) continue;
+            else if (parse_str(buf, "<password>", password)) continue;
+        }
+        fclose(p);
+    }
+    return 0;
 }
 const char *BOINC_RCSID_8fd9e873bf="$Id$";

@@ -26,6 +26,22 @@
 #include "miofile.h"
 #include "http.h"
 
+// represents info stored on files
+//
+struct ACCT_MGR_INFO {
+    std::string acct_mgr_name;
+    std::string acct_mgr_url;
+    std::string login_name;
+    std::string password;
+
+    int parse_url(MIOFILE&);
+    int parse_login(MIOFILE&);
+    int write_info();
+    int init();
+};
+
+// stuff after here related to RPCs to account managers
+
 struct ACCOUNT {
     std::string url;
     std::string authenticator;
@@ -40,6 +56,8 @@ struct ACCOUNT {
 
 struct ACCT_MGR {
     int state;
+    ACCT_MGR_INFO ami;
+    std::string error_str;
     HTTP_OP http_op;
     std::vector<ACCOUNT> accounts;
     int do_rpc(std::string url, std::string name, std::string password);

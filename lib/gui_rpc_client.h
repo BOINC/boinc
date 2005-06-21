@@ -67,8 +67,10 @@
     // show message in black
 #define MSG_PRIORITY_ERROR              2
     // show message in red
-#define MSG_PRIORITY_ALERT              4
+#define MSG_PRIORITY_ALERT_INFO              4
     // show message in a modal dialog
+#define MSG_PRIORITY_ALERT_ERROR              5
+    // show error message in a modal dialog
 
 struct GUI_URL {
     std::string name;
@@ -401,6 +403,15 @@ struct DISPLAY_INFO {
     void print_str(char*);
 };
 
+struct ACCT_MGR_INFO {
+    std::string acct_mgr_name;
+    std::string acct_mgr_url;
+    std::string login_name;
+    std::string password;
+
+    int parse(MIOFILE&);
+};
+
 class RPC_CLIENT {
 public:
     int sock;
@@ -459,6 +470,7 @@ public:
     int get_host_info(HOST_INFO&);
     int quit();
     int acct_mgr_rpc(const char* url, const char* name, const char* passwd);
+    int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
 };

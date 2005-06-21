@@ -25,7 +25,6 @@
 #endif
 
 #include "gui_rpc_client.h"
-#include "acct_mgr_client.h"
 
 class CMainDocument;
 
@@ -268,16 +267,6 @@ public:
 
 	PROXY_INFO					proxy_info;
 
-
-    //
-    // Account Management
-    //
-private:
-
-public:
-    ACCT_MGR_CLIENT             acct_mgr;
-
-    int                         UpdateAccountManagerAccounts();
 };
 
 #endif

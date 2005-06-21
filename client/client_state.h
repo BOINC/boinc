@@ -160,6 +160,10 @@ private:
 	bool work_fetch_no_new_work;
 	bool cpu_earliest_deadline_first;
 
+// --------------- acct_mgr.C:
+public:
+    ACCT_MGR_INFO acct_mgr_info;
+
 // --------------- client_state.C:
 public:
     CLIENT_STATE();

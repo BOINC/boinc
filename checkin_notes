@@ -8110,3 +8110,42 @@ David  20 June 2005
         client_types.h
         cs_apps.C
         cs_scheduler.C
+
+David  21 June 2005
+	- Account management: move responsibility for the
+		acct_mgr_url.xml and acct_mgr_login.xml files
+		from the manager to the core client.
+		Do this because only the core client knows when an
+		account manager RPC has succeeded;
+		unless this happens, these files should not be changed.
+
+		Add new type ACCT_MGR_INFO to core client
+		(member of CLIENT_STATE).
+		Read files on startup.
+		When acct manager RPC succeeds, write files.
+	- Add new GUI RPC for getting acct manager info
+	- Manager: for "Manage Accounts", get account manager info via RPC,
+		then decide what dialogs to put up.
+	- Message types (replace MSG_ALERT):
+		MSG_ALERT_ERROR shows an error alert
+		MSG_ALERT_INFO shows an info alert
+	- Show on info alert when acct mgr RPC succeeds
+	- Manager: get rid of CMainDocument::UpdateAccountManagerAccounts()
+		(???)
+
+	client/
+		acct_mgr.C,h
+		client_msgs.h
+		client_state.C,h
+		cs_account.C
+		file_names.h
+		gui_rpc_server.C
+		main.C
+	clientgui/
+		MainDocument.cpp,h
+		MainFrame.cpp
+	lib/
+		acct_mgr_client.C,h (removed)
+		gui_rpc_client.C,h
+	win_build/
+		BOINCGUI.vcproj

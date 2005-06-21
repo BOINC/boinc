@@ -458,6 +458,20 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     }
 }
 
+static void handle_acct_mgr_info(char*, MIOFILE& fout) {
+    fout.printf(
+        "<acct_mgr_info>\n"
+        "   <acct_mgr_url>%s</acct_mgr_url>\n"
+        "   <acct_mgr_name>%s</acct_mgr_name>\n"
+        "   <login_name>%s</login_name>\n"
+        "   <password>%s</password>\n",
+        gstate.acct_mgr_info.acct_mgr_url.c_str(),
+        gstate.acct_mgr_info.acct_mgr_name.c_str(),
+        gstate.acct_mgr_info.login_name.c_str(),
+        gstate.acct_mgr_info.password.c_str()
+    );
+}
+
 static void auth_failure(MIOFILE& fout) {
     fout.printf("<unauthorized/>\n");
 }
@@ -608,6 +622,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_quit(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_rpc")) {
         handle_acct_mgr_rpc(request_msg, mf);
+    } else if (match_tag(request_msg, "<acct_mgr_info")) {
+        handle_acct_mgr_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
         handle_get_statistics(request_msg,mf);
     } else {

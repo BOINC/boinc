@@ -929,58 +929,51 @@ void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
     wxASSERT(pDlgSignup);
     wxASSERT(pDlgStatus);
 
-    
-    // Read state from account manager files
-    pDoc->acct_mgr.init();
-
-    if (pDoc->acct_mgr.acct_mgr_found) {
+    ACCT_MGR_INFO ami;
+    pDoc->rpc.acct_mgr_info(ami);
+    if (ami.acct_mgr_url.size()) {
         strTitle = pDlgSignup->GetTitle();
-        if (!pDoc->acct_mgr.acct_mgr.name.empty()) {
-            strTitle += wxT(" - ") + wxString(pDoc->acct_mgr.acct_mgr.name.c_str());
-        } else if (!pDoc->acct_mgr.acct_mgr.url.empty()) {
-            strTitle += wxT(" - ") + wxString(pDoc->acct_mgr.acct_mgr.url.c_str());
+        if (!ami.acct_mgr_name.empty()) {
+            strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
+            pDlgStatus->SetAcctManager(ami.acct_mgr_name.c_str());
+        } else {
+            strTitle += wxT(" - ") + wxString(ami.acct_mgr_url.c_str());
+            pDlgStatus->SetAcctManager(ami.acct_mgr_url.c_str());
         }
         pDlgStatus->SetTitle(strTitle);
-        if (!pDoc->acct_mgr.acct_mgr.name.empty()) {
-            pDlgStatus->SetAcctManager(pDoc->acct_mgr.acct_mgr.name.c_str());
-        } else if (!pDoc->acct_mgr.acct_mgr.url.empty()) {
-            pDlgStatus->SetAcctManager(pDoc->acct_mgr.acct_mgr.url.c_str());
-        }
 
         iAnswer = pDlgStatus->ShowModal();
     } else {
-        if (!pDoc->acct_mgr.acct_mgr_login_found) {
+        if (ami.login_name.empty()) {
             iAnswer = ID_CHANGE;
         }
     }
 
     if (ID_CHANGE == iAnswer) {
         strTitle = pDlgSignup->GetTitle();
-        if (!pDoc->acct_mgr.acct_mgr.name.empty()) {
-            strTitle += wxT(" - ") + wxString(pDoc->acct_mgr.acct_mgr.name.c_str());
-        } else if (!pDoc->acct_mgr.acct_mgr.url.empty()) {
-            strTitle += wxT(" - ") + wxString(pDoc->acct_mgr.acct_mgr.url.c_str());
+        if (!ami.acct_mgr_name.empty()) {
+            strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
+        } else if (!ami.acct_mgr_url.empty()) {
+            strTitle += wxT(" - ") + wxString(ami.acct_mgr_url.c_str());
         }
         pDlgSignup->SetTitle(strTitle);
-        pDlgSignup->m_strAcctManagerURL = pDoc->acct_mgr.acct_mgr.url.c_str();
-        pDlgSignup->m_strAcctManagerUsername = pDoc->acct_mgr.acct_mgr_login.login.c_str();
-        pDlgSignup->m_strAcctManagerPassword = pDoc->acct_mgr.acct_mgr_login.password.c_str();
+        pDlgSignup->m_strAcctManagerURL = ami.acct_mgr_url.c_str();
+        pDlgSignup->m_strAcctManagerUsername = ami.login_name.c_str();
+        pDlgSignup->m_strAcctManagerPassword = ami.password.c_str();
         iAnswer = pDlgSignup->ShowModal();
         if (wxID_OK == iAnswer) {
-            pDoc->acct_mgr.acct_mgr_initialized = true;
-            pDoc->acct_mgr.acct_mgr_login_initialized = true;
-            pDoc->acct_mgr.acct_mgr.url = pDlgSignup->m_strAcctManagerURL.c_str();
-            pDoc->acct_mgr.acct_mgr_login.login = pDlgSignup->m_strAcctManagerUsername.c_str();
-            pDoc->acct_mgr.acct_mgr_login.password = pDlgSignup->m_strAcctManagerPassword.c_str();
+            ami.acct_mgr_url = pDlgSignup->m_strAcctManagerURL;
+            ami.login_name = pDlgSignup->m_strAcctManagerUsername.c_str();
+            ami.password = pDlgSignup->m_strAcctManagerPassword.c_str();
         }
     }
 
     if (wxID_CANCEL != iAnswer) {
-        // Save state to account manager files
-        pDoc->acct_mgr.close();
-
-        // Notify CC to update accounts based on saved state
-        pDoc->UpdateAccountManagerAccounts();
+        pDoc->rpc.acct_mgr_rpc(
+            ami.acct_mgr_url.c_str(),
+            ami.login_name.c_str(),
+            ami.password.c_str()
+        );
     }
 
     if (pDlgSignup)

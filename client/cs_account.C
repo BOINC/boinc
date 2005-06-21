@@ -345,7 +345,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     canonicalize_master_url(canonical_master_url);
     if (!valid_master_url(canonical_master_url)) {
         msg_printf(0, MSG_ERROR, "Invalid project URL: %s", canonical_master_url);
-        msg_printf(0, MSG_ALERT,
+        msg_printf(0, MSG_ALERT_ERROR,
             "%s is not a valid URL.\n"
             "You may have typed the URL incorrectly.\n",
             canonical_master_url
@@ -357,7 +357,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     strip_whitespace(auth);
     if (!strlen(auth)) {
         msg_printf(0, MSG_ERROR, "Missing account key");
-        msg_printf(0, MSG_ALERT,
+        msg_printf(0, MSG_ALERT_ERROR,
             "Missing account key.\n"
             "Visit the project's web site\n"
             "to get your account key."
@@ -404,14 +404,14 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
 void PROJECT::attach_failed(int reason) {
     switch(reason){
     case ATTACH_FAIL_INIT:
-        msg_printf(this, MSG_ALERT,
+        msg_printf(this, MSG_ALERT_ERROR,
             "Couldn't connect to URL %s.\n"
             "Please check URL.",
             master_url
         );
         break;
     case ATTACH_FAIL_DOWNLOAD:
-        msg_printf(this, MSG_ALERT,
+        msg_printf(this, MSG_ALERT_ERROR,
             "Couldn't access URL %s.\n"
             "The project's servers may be down,\n"
             "in which case please try again later.",
@@ -419,7 +419,7 @@ void PROJECT::attach_failed(int reason) {
         );
         break;
     case ATTACH_FAIL_PARSE:
-        msg_printf(this, MSG_ALERT,
+        msg_printf(this, MSG_ALERT_ERROR,
             "The page at %s contains no BOINC information.\n"
             "It may not be the URL of a BOINC project.\n"
             "Please check the URL and try again.",
@@ -427,7 +427,7 @@ void PROJECT::attach_failed(int reason) {
         );
         break;
     case ATTACH_FAIL_BAD_KEY:
-        msg_printf(this, MSG_ALERT,
+        msg_printf(this, MSG_ALERT_ERROR,
             "The account key you provided for %s\n"
             "was not recognized as a valid account key.\n"
             "Please check the account key and try again.",
@@ -435,7 +435,7 @@ void PROJECT::attach_failed(int reason) {
         );
         break;
     case ATTACH_FAIL_FILE_WRITE:
-        msg_printf(this, MSG_ALERT,
+        msg_printf(this, MSG_ALERT_ERROR,
             "BOINC was unable to create an account file for %s on your disk.\n"
             "Please check file system permissions and try again.\n",
             master_url

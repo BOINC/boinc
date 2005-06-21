@@ -930,6 +930,22 @@ void MESSAGES::clear() {
     messages.clear();
 }
 
+int ACCT_MGR_INFO::parse(MIOFILE& in) {
+    char buf[256];
+    acct_mgr_name = "";
+    acct_mgr_url = "";
+    login_name = "";
+    password = "";
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</acct_mgr_info>")) return 0;
+        if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
+        if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
+        if (parse_str(buf, "<login_name>", login_name)) continue;
+        if (parse_str(buf, "<password>", password)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 RPC_CLIENT::RPC_CLIENT() {
     client_version = 0;
 }
@@ -1767,6 +1783,14 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
         url, name, password
     );
     return rpc.do_rpc(buf);
+}
+
+int RPC_CLIENT::acct_mgr_info(ACCT_MGR_INFO& ami) {
+    int retval;
+    RPC rpc(this);
+    retval = rpc.do_rpc("<acct_mgr_info/>\n");
+    if (retval) return retval;
+    return ami.parse(rpc.fin);
 }
 
 const char *BOINC_RCSID_6802bead97 = "$Id$";

@@ -46,11 +46,14 @@ class PROJECT;
 #define MSG_ERROR   2
     // write to stderr
     // GUI: write to msg window in bold or red
-#define MSG_WARNING 3
+//#define MSG_WARNING 3
     // deprecated - do not use
-#define MSG_ALERT   4
-    // write to stderr
+#define MSG_ALERT_INFO   4
+    // write to stdout
     // GUI: put in a modal dialog
+#define MSG_ALERT_ERROR     5
+    // write to stderr
+    // GUI: put in a modal error dialog
 
 // the following stores a message in memory, where it can be retrieved via RPC
 //

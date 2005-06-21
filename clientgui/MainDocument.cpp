@@ -830,11 +830,19 @@ int CMainDocument::CachedMessageUpdate() {
         while (mi != new_msgs.messages.end()) {
             MESSAGE* mp = *mi;
             m_iMessageSequenceNumber = mp->seqno;
-            if (mp->priority == MSG_PRIORITY_ALERT) {
-                wxString foo = mp->body.c_str();
+            wxString foo;
+            switch(mp->priority) {
+            case MSG_PRIORITY_ALERT_ERROR:
+                foo = mp->body.c_str();
                 wxMessageBox(foo, _("BOINC error"), wxOK | wxICON_ERROR);
                 delete mp;
-            } else {
+                break;
+            case MSG_PRIORITY_ALERT_INFO:
+                foo = mp->body.c_str();
+                wxMessageBox(foo, _("BOINC info"), wxOK | wxICON_INFORMATION);
+                delete mp;
+                break;
+            default:
                 messages.messages.push_back(mp);
             }
             new_msgs.messages.erase(mi);
@@ -1216,23 +1224,6 @@ int CMainDocument::SetProxySOCKSUserName(const wxString& strUserName) {
 int CMainDocument::SetProxySOCKSPassword(const wxString& strPassword) {
     proxy_info.socks5_user_passwd = strPassword.c_str();
     return 0;
-}
-
-
-int CMainDocument::UpdateAccountManagerAccounts() {
-    int     iRetVal = 0;
-
-    iRetVal = rpc.acct_mgr_rpc(
-        acct_mgr.acct_mgr.url.c_str(),
-        acct_mgr.acct_mgr_login.login.c_str(),
-        acct_mgr.acct_mgr_login.password.c_str()
-    );
-    if (iRetVal) {
-        wxLogTrace(wxT("Function Status"), "CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
-        m_pNetworkConnection->SetStateDisconnected();
-    }
-
-    return iRetVal;
 }
 
 const char *BOINC_RCSID_aa03a835ba = "$Id$";

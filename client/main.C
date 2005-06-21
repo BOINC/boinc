@@ -91,7 +91,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 
     switch (priority) {
     case MSG_ERROR:
-    case MSG_ALERT:
+    case MSG_ALERT_ERROR:
         fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
         printf("%s [%s] %s\n", time_string, x, message);
         if (gstate.executing_as_daemon) {
@@ -103,6 +103,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 #endif
         }
         break;
+#if 0
     case MSG_WARNING:
         printf("%s [%s] %s\n", time_string,  x, message);
         if (gstate.executing_as_daemon) {
@@ -114,7 +115,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
 #endif
         }
         break;
+#endif
     case MSG_INFO:
+    case MSG_ALERT_INFO:
         printf("%s [%s] %s\n", time_string,  x, message);
         if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)

@@ -337,6 +337,8 @@ int CLIENT_STATE::init() {
     retval = gui_rpcs.init();
     if (retval) return retval;
 
+    acct_mgr_info.init();
+
     return 0;
 }
 
