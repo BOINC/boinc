@@ -8269,4 +8269,13 @@ Rom    22 June 2005
         boinc_guirpc_test.vcproj
         boinc_ss.vcproj
 
+Charlie    22 June 2005
+    Mac: Update build instructions for pre-built config.h file, 
+    using gcc 3.3 compiler, etc.
+    Added lib/prefs.C to builds of BOINC Manager, screen saver.
+    
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj
     

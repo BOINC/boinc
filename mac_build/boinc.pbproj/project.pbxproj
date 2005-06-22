@@ -286,7 +286,6 @@
 				DD095F1C07D882EB00362260,
 				DD095F1E07D882EE00362260,
 				DD095F2007D882EF00362260,
-				DD095F2207D882F100362260,
 				DD095F2407D882F200362260,
 				DD095F2707D882F400362260,
 				DD2F32F807F2A88B00645DDC,
@@ -314,6 +313,7 @@
 				DD7E49CD080F9B09002716F9,
 				DDA4573D086447BC00DE260C,
 				DDA4573F086447BC00DE260C,
+				DD0A06F20869A288007CD86E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,12 +453,6 @@
 			settings = {
 			};
 		};
-		DD095F2207D882F100362260 = {
-			fileRef = DD81C40007C5D1020098A04D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD095F2407D882F200362260 = {
 			fileRef = DD81C3FF07C5D1020098A04D;
 			isa = PBXBuildFile;
@@ -593,6 +587,18 @@
 		};
 		DD095F5B07D883E600362260 = {
 			fileRef = F51BDF4903086C46012012A7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD0A06F20869A288007CD86E = {
+			fileRef = DD344BE407C5B1670043025C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD0A06F50869A2D2007CD86E = {
+			fileRef = DD344BE407C5B1670043025C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2478,8 +2484,6 @@
 				DDA4573C086447BC00DE260C,
 				DD81C40107C5D1020098A04D,
 				DD81C43607C5D2240098A04D,
-				DD81C40007C5D1020098A04D,
-				DD81C43507C5D2240098A04D,
 				DD81C3FF07C5D1020098A04D,
 				DD81C43907C5D2240098A04D,
 				DD2D25CB07FAB41700151141,
@@ -2533,15 +2537,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = DlgOptions.cpp;
 			path = ../clientgui/DlgOptions.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD81C40007C5D1020098A04D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = DlgConnection.cpp;
-			path = ../clientgui/DlgConnection.cpp;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2704,15 +2699,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = BOINCBaseView.h;
 			path = ../clientgui/BOINCBaseView.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD81C43507C5D2240098A04D = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = DlgConnection.h;
-			path = ../clientgui/DlgConnection.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2947,6 +2933,7 @@
 				DDFD5F2C0818F368002B23D4,
 				DDFD5F2D0818F372002B23D4,
 				DDFD5F2E0818F3A1002B23D4,
+				DD0A06F50869A2D2007CD86E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
