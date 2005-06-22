@@ -178,7 +178,7 @@ struct SCHEDULER_REPLY {
     std::vector<APP_VERSION> app_versions;
     std::vector<WORKUNIT>wus;
     std::vector<RESULT>results;
-    std::vector<RESULT>result_acks;
+    std::vector<std::string>result_acks;
     std::vector<MSG_TO_HOST>msgs_to_host;
     std::vector<FILE_INFO>file_deletes;
     char code_sign_key[4096];

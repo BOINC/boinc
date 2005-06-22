@@ -508,11 +508,6 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
 
-        // acknowledge the result even if we couldn't find it in DB --
-        // don't want it to keep coming back
-        //
-        reply.result_acks.push_back(*rp);
-
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
             log_messages.printf(
@@ -520,6 +515,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
                 reply.host.id, rp->name
             );
+            reply.result_acks.push_back(std::string(rp->name));
             continue;
         }
 
@@ -539,6 +535,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 reply.host.id, srip->id, srip->name, srip->server_state
             );
             srip->id=0; // mark to skip when updating DB
+            reply.result_acks.push_back(std::string(rp->name));
             continue;
         }
 
@@ -549,6 +546,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 reply.host.id, srip->id, srip->name
             );
             srip->id=0;  // mark to skip when updating DB
+            reply.result_acks.push_back(std::string(rp->name));
             continue;
         }
 
@@ -568,6 +566,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     srip->id, srip->name, srip->hostid
                 );
                 srip->id=0; // mark to skip when updating DB
+                reply.result_acks.push_back(std::string(rp->name));
                 continue;
             } else if (result_host.userid != reply.host.userid) {
                 log_messages.printf(
@@ -576,6 +575,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     reply.host.userid, reply.host.id, srip->id, srip->name, result_host.userid
                 );
                 srip->id=0; // mark to skip when updating DB
+                reply.result_acks.push_back(std::string(rp->name));
                 continue;
             } else {
                 log_messages.printf(
@@ -649,15 +649,17 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // (skip items that we previously marked to skip)
     //
     for (i=0; i<result_handler.results.size(); i++) {
-        if (result_handler.results[i].id == 0) continue;
-        retval = result_handler.update_result(result_handler.results[i]);
+        SCHED_RESULT_ITEM& sri = result_handler.results[i];
+        if (sri.id == 0) continue;
+        retval = result_handler.update_result(sri);
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                reply.host.id, result_handler.results[i].id,
-                result_handler.results[i].name, boinc_db.error_string()
+                reply.host.id, sri.id, sri.name, boinc_db.error_string()
             );
+        } else {
+            reply.result_acks.push_back(std::string(sri.name));
         }
     }
 

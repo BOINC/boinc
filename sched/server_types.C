@@ -460,7 +460,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             "<result_ack>\n"
             "    <name>%s</name>\n"
             "</result_ack>\n",
-            result_acks[i].name
+            result_acks[i].c_str()
         );
     }
 

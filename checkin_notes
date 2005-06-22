@@ -8211,3 +8211,16 @@ David  21 June 2005
 
     client/
         cs_scheduler.C
+
+David  21 June 2005
+    - scheduler: don't send acks for results for which DB update failed
+        (from Ian Hay)
+    - change result_acks vector from RESULT to std::string
+    - scheduler: fix workunit update query empty case
+        (from Bruce Allen)
+
+    db/
+        boinc_db.C
+    sched/
+        handle_request.C
+        server_types.C,h

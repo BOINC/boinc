@@ -1403,7 +1403,11 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
         strcat(query, buf);
     }
     strcat(query, ")");
-    return db->do_query(query);
+    if (first) {
+        return 0;
+    } else {
+        return db->do_query(query);
+    }
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";
