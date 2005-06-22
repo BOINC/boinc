@@ -8224,3 +8224,13 @@ David  21 June 2005
     sched/
         handle_request.C
         server_types.C,h
+
+David  21 June 2005
+	- add_project(): set sched_rpc_pending so we always do
+		a scheduler RPC even if not fetching work
+	- win compile fixes
+
+	client/
+		cs_account.C
+	client/win/
+		wingui_mainwindow.cpp

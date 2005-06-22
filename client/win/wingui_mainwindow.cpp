@@ -713,7 +713,6 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 					{
 					case MSG_INFO: m_nToggleIconState = ICON_INFO; break;
 					case MSG_ERROR: m_nToggleIconState = ICON_ERROR; break;
-					case MSG_WARNING: m_nToggleIconState = ICON_WARNING; break;
 					}
 				} else {
 					SetStatusIcon(m_nToggleIconState);
@@ -727,7 +726,6 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 				{
 				case MSG_INFO: m_nToggleIconState = ICON_INFO; break;
 				case MSG_ERROR: m_nToggleIconState = ICON_ERROR; break;
-				case MSG_WARNING: m_nToggleIconState = ICON_WARNING; break;
 				}
 				SetStatusIcon(m_nToggleIconState);
 				tcItem.dwState = TCIS_HIGHLIGHTED;
@@ -764,9 +762,9 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int nPriority)
 
 		if (nPriority == MSG_ERROR){
             m_nMessage = nPriority;
-		} else if ((nPriority == MSG_WARNING) && (m_nMessage != MSG_ERROR)){
+		} else if (m_nMessage != MSG_ERROR){
             m_nMessage = nPriority;
-		} else if ((nPriority == MSG_INFO) && ((m_nMessage != MSG_WARNING) || (m_nMessage != MSG_ERROR))){
+		} else if ((nPriority == MSG_INFO) && (m_nMessage != MSG_ERROR)){
             m_nMessage = nPriority;
 		}
     }
@@ -1262,7 +1260,9 @@ void CMainWindow::OnCommandSettingsLogin()
     if(nResult == IDOK) {
         gstate.add_project(
             dlg.m_strUrl.GetBuffer(dlg.m_strUrl.GetLength()+10),
-            dlg.m_strAuth.GetBuffer(0));
+            dlg.m_strAuth.GetBuffer(0),
+            false
+        );
         dlg.m_strUrl.ReleaseBuffer(); // might have been changed by canonicalize_url()
     }
 }

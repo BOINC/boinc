@@ -408,9 +408,11 @@ int CLIENT_STATE::add_project(
     retval = make_project_dir(*project);
     if (retval) return retval;
     projects.push_back(project);
+    project->sched_rpc_pending = true;
     set_client_state_dirty("Add project");
     return 0;
 }
+
 // called when the client fails to attach to a project
 //
 void PROJECT::attach_failed(int reason) {
