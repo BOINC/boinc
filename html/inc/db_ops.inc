@@ -1159,7 +1159,7 @@ function result_short_header() {
         <th>delete<br>state</th>
         <th>exit<br>status</th>
         <th>host<br>(user)</th>
-        <th>client<br>ver</th>
+        <th>app<br>ver</th>
         <th>received <i>or</i> <font color=\"33cc33\">deadline</font></th>
         <th>CPU<br>hours</th>
         <th>claimed<br>credit</th>
