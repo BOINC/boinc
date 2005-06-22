@@ -20,49 +20,48 @@
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
-const UINT              WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
+const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
-static BOOL             is_windows_9x         = FALSE;
+static BOOL is_windows_9x = FALSE;
 
-static HDC		        hDC                   = NULL;
-static HGLRC	        hRC                   = NULL;
-static HWND		        hWnd                  = NULL;		// Holds Our Window Handle
-static HINSTANCE        hInstance;		                    // Holds The Instance Of The Application
-static RECT		        rect                  = {50, 50, 50+640, 50+480};
-static int		        current_graphics_mode = MODE_HIDE_GRAPHICS;
-static int              acked_graphics_mode = -1;
-static POINT	        mousePos;
-static HDC              myhDC;
-BOOL		            win_loop_done;
-
-static GRAPHICS_MSG     graphics_msg;
-static HWINSTA          hOriginalWindowStation = NULL;
-static HDESK            hOriginalDesktop = NULL;
-static HWINSTA          hInteractiveWindowStation = NULL;
-static HDESK            hInteractiveDesktop = NULL;
-
+static HDC hDC = NULL;
+static HGLRC hRC = NULL;
+static HWND hWnd = NULL;        // Holds Our Window Handle
+static HINSTANCE hInstance;     // Holds The Instance Of The Application
+static RECT rect = {50, 50, 50+640, 50+480};
+static int current_graphics_mode = MODE_HIDE_GRAPHICS;
+static int acked_graphics_mode = -1;
+static POINT mousePos;
+static HDC myhDC;
+static GRAPHICS_MSG graphics_msg;
+static HWINSTA hOriginalWindowStation = NULL;
+static HDESK hOriginalDesktop = NULL;
+static HWINSTA hInteractiveWindowStation = NULL;
+static HDESK hInteractiveDesktop = NULL;
 
 static bool visible = true;
+static bool window_ready=false;
 
 #define GLUT_CTRL_KEY 17
 static bool ctrl_key_pressed = false;   // remember if Ctrl key is pressed
 
 
 void KillWindow() {
-	wglMakeCurrent(NULL,NULL);  // release GL rendering context
-	if (hRC) {
-		wglDeleteContext(hRC);
-		hRC=NULL;
-	}
+    window_ready=false;
+    wglMakeCurrent(NULL,NULL);  // release GL rendering context
+    if (hRC) {
+        wglDeleteContext(hRC);
+        hRC=NULL;
+    }
 
     if (hWnd && hDC) {
         ReleaseDC(hWnd,hDC);
-	}
+    }
     hDC = NULL;
 
     if (hWnd) {
         DestroyWindow(hWnd);
-	}
+    }
     hWnd = NULL;
 
     if (hOriginalWindowStation) {
@@ -109,62 +108,65 @@ void SetupPixelFormat(HDC hDC) {
 }
 
 static void make_new_window() {
-	RECT WindowRect = {0,0,0,0};
-	int width, height;
-	DWORD dwExStyle;
-	DWORD dwStyle;
+    RECT WindowRect = {0,0,0,0};
+    int width, height;
+    DWORD dwExStyle;
+    DWORD dwStyle;
 
-	if (current_graphics_mode == MODE_FULLSCREEN) {
-		HDC screenDC=GetDC(NULL);
-		WindowRect.left = WindowRect.top = 0;
-		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
-		WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
-		ReleaseDC(NULL, screenDC);
-		dwExStyle=WS_EX_TOPMOST;
-		dwStyle=WS_POPUP;
-		while(ShowCursor(false) >= 0);
-	} else {
-		WindowRect = rect;
-		dwExStyle=WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
-		dwStyle=WS_OVERLAPPEDWINDOW;
-		while(ShowCursor(true) < 0);
-	}
+    if (current_graphics_mode == MODE_FULLSCREEN) {
+        HDC screenDC=GetDC(NULL);
+        WindowRect.left = WindowRect.top = 0;
+        WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
+        WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
+        ReleaseDC(NULL, screenDC);
+        dwExStyle=WS_EX_TOPMOST;
+        dwStyle=WS_POPUP;
+        while(ShowCursor(false) >= 0);
+    } else {
+        WindowRect = rect;
+        dwExStyle=WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
+        dwStyle=WS_OVERLAPPEDWINDOW;
+        while(ShowCursor(true) < 0);
+    }
 
     APP_INIT_DATA aid;
     boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
-	hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, aid.app_name,
-		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
-		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
-		NULL, NULL, hInstance, NULL
+    hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, aid.app_name,
+        dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
+        WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
+        NULL, NULL, hInstance, NULL
     );
 
-	SetForegroundWindow(hWnd);
+    SetForegroundWindow(hWnd);
 
-	GetCursorPos(&mousePos);
+    GetCursorPos(&mousePos);
 
-	hDC = GetDC(hWnd);
-	myhDC=hDC;
-	SetupPixelFormat(myhDC);
+    hDC = GetDC(hWnd);
+    myhDC=hDC;
+    SetupPixelFormat(myhDC);
 
-	if(!(hRC = wglCreateContext(hDC))) {
-		ReleaseDC(hWnd, hDC);
-		return;
-	}
+    hRC = wglCreateContext(hDC);
+    if (hRC == 0) {
+        ReleaseDC(hWnd, hDC);
+        return;
+    }
 
-	if(!wglMakeCurrent(hDC, hRC)) {
-		ReleaseDC(hWnd, hDC);
-		wglDeleteContext(hRC);
-		return;
-	}
+    if(!wglMakeCurrent(hDC, hRC)) {
+        ReleaseDC(hWnd, hDC);
+        wglDeleteContext(hRC);
+        return;
+    }
 
-	width = WindowRect.right-WindowRect.left;
-	height = WindowRect.bottom-WindowRect.top;
+    width = WindowRect.right-WindowRect.left;
+    height = WindowRect.bottom-WindowRect.top;
 
-	ShowWindow(hWnd, SW_SHOW);
-	SetFocus(hWnd);
+    ShowWindow(hWnd, SW_SHOW);
+    SetFocus(hWnd);
 
     app_graphics_init();
+    app_graphics_resize(width, height);     
+    window_ready=true;
 }
 
 // switch to the given graphics mode.  This is called:
@@ -177,17 +179,17 @@ static void set_mode(int mode) {
     GRAPHICS_MSG current_desktop;
 
     if (mode == current_graphics_mode) return;
-	if (current_graphics_mode != MODE_FULLSCREEN) {
-		if (IsIconic(hWnd) || IsZoomed(hWnd)){
+    if (current_graphics_mode != MODE_FULLSCREEN) {
+        if (IsIconic(hWnd) || IsZoomed(hWnd)){
             // If graphics window is minimized or maximized
             // then set default values of window size
-			rect.left = 50;
+            rect.left = 50;
             rect.top = 50;
             rect.right = 50+640;
             rect.bottom = 50+480;
-		}
-		else GetWindowRect(hWnd, &rect); // else get current values
-	}
+        }
+        else GetWindowRect(hWnd, &rect); // else get current values
+    }
 
     KillWindow();
 
@@ -242,7 +244,10 @@ static void set_mode(int mode) {
         } else {
             BOINCTRACE(_T("Retrieved the required window station\n"));
             SetProcessWindowStation(hInteractiveWindowStation);
-            hInteractiveDesktop = OpenDesktop( graphics_msg.desktop, NULL, FALSE, GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU );
+            hInteractiveDesktop = OpenDesktop(
+                graphics_msg.desktop, NULL, FALSE,
+                GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU
+            );
             if (NULL == hInteractiveDesktop) {
                 BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
                 new_mode = MODE_UNSUPPORTED;
@@ -261,28 +266,29 @@ static void set_mode(int mode) {
 }
 
 void parse_mouse_event(UINT uMsg, int& which, bool& down) {
-	switch(uMsg) {
-	case WM_LBUTTONDOWN: which = 0; down = true; break;
-	case WM_MBUTTONDOWN: which = 1; down = true; break;
-	case WM_RBUTTONDOWN: which = 2; down = true; break;
-	case WM_LBUTTONUP: which = 0; down = false; break;
-	case WM_MBUTTONUP: which = 1; down = false; break;
-	case WM_RBUTTONUP: which = 2; down = false; break;
+    switch(uMsg) {
+    case WM_LBUTTONDOWN: which = 0; down = true; break;
+    case WM_MBUTTONDOWN: which = 1; down = true; break;
+    case WM_RBUTTONDOWN: which = 2; down = true; break;
+    case WM_LBUTTONUP: which = 0; down = false; break;
+    case WM_MBUTTONUP: which = 1; down = false; break;
+    case WM_RBUTTONUP: which = 2; down = false; break;
     }
 }
 
 // message handler (includes timer, Windows msgs)
 //
 LRESULT CALLBACK WndProc(
-    HWND	hWnd,			// Handle For This Window
-    UINT	uMsg,			// Message For This Window
-    WPARAM	wParam,			// Additional Message Information
-    LPARAM	lParam			// Additional Message Information
+    HWND    hWnd,            // Handle For This Window
+    UINT    uMsg,            // Message For This Window
+    WPARAM    wParam,            // Additional Message Information
+    LPARAM    lParam            // Additional Message Information
 ) {
-	switch(uMsg) {
-	case WM_ERASEBKGND:		// Check To See If Windows Is Trying To Erase The Background
-			return 0;
-	case WM_KEYDOWN:
+    switch(uMsg) {
+    case WM_ERASEBKGND:        // Check To See If Windows Is Trying To Erase The Background
+            return 0;
+    case WM_KEYDOWN:
+        if(!window_ready) return 0;    
         if(((int)wParam) == GLUT_CTRL_KEY) {
             ctrl_key_pressed=true;
         }
@@ -292,9 +298,10 @@ LRESULT CALLBACK WndProc(
             boinc_app_key_press((int)wParam, (int)lParam);
         }
         return 0;
-	case WM_KEYUP:
-       if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
-			set_mode(MODE_HIDE_GRAPHICS);
+    case WM_KEYUP:
+        if(!window_ready) return 0;    
+        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
+            set_mode(MODE_HIDE_GRAPHICS);
         } else {
             boinc_app_key_release((int)wParam, (int)lParam);           
         }
@@ -302,40 +309,43 @@ LRESULT CALLBACK WndProc(
             ctrl_key_pressed=false;
         }
         return 0;
-	case WM_LBUTTONDOWN:
-	case WM_MBUTTONDOWN:
-	case WM_RBUTTONDOWN:
-	case WM_LBUTTONUP:
-	case WM_MBUTTONUP:
-	case WM_RBUTTONUP:
+    case WM_LBUTTONDOWN:
+    case WM_MBUTTONDOWN:
+    case WM_RBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_MBUTTONUP:
+    case WM_RBUTTONUP:
+        if(!window_ready) return 0;    
+
         if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
             set_mode(MODE_HIDE_GRAPHICS);
-		} else  {
+        } else  {
             int which;
             bool down;
-		    POINT cPos;
-		    GetCursorPos(&cPos);
+            POINT cPos;
+            GetCursorPos(&cPos);
             parse_mouse_event(uMsg, which, down);
-			boinc_app_mouse_button(cPos.x, cPos.y, which, down);
-		}
-		return 0;
-	case WM_MOUSEMOVE:
-		POINT cPos;
-		GetCursorPos(&cPos);
+            boinc_app_mouse_button(cPos.x, cPos.y, which, down);
+        }
+        return 0;
+    case WM_MOUSEMOVE:
+        if(!window_ready) return 0;    
+        POINT cPos;
+        GetCursorPos(&cPos);
         if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed ) { 
             if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-    			set_mode(MODE_HIDE_GRAPHICS);
-			}
-		} else {
-			boinc_app_mouse_move(
+                set_mode(MODE_HIDE_GRAPHICS);
+            }
+        } else {
+            boinc_app_mouse_move(
                 cPos.x, cPos.y,
                 (wParam&MK_LBUTTON)!=0,
                 (wParam&MK_MBUTTON)!=0,
                 (wParam&MK_RBUTTON)!=0
             );
-		}
-		return 0;
-	case WM_CLOSE:
+        }
+        return 0;
+    case WM_CLOSE:
         if (boinc_is_standalone()) {
             exit(0);
         } else {
@@ -350,72 +360,74 @@ LRESULT CALLBACK WndProc(
             return TRUE;
         }
         break;
-	case WM_PAINT:
-		PAINTSTRUCT ps;
-		RECT winRect;
-		HDC pdc;
-		pdc = BeginPaint(hWnd, &ps);
-		GetClientRect(hWnd, &winRect);
-		FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
-		EndPaint(hWnd, &ps);
-		return 0;
-	case WM_CREATE:
-		app_graphics_init();
-		return 0;
-	case WM_SIZE:
+    case WM_PAINT:
+        PAINTSTRUCT ps;
+        RECT winRect;
+        HDC pdc;
+        pdc = BeginPaint(hWnd, &ps);
+        GetClientRect(hWnd, &winRect);
+        FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+        EndPaint(hWnd, &ps);
+        return 0;
+    //case WM_CREATE:
+    //app_graphics_init();
+    //return 0;
+    case WM_SIZE:
         if ( SIZE_MINIMIZED == wParam ) {
             visible = FALSE;
         } else {
             visible = TRUE;
-        }
-		app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
-		return 0;
+        }          
+        if(!window_ready) return 0;    
+        app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
+        return 0;
     default:
         if ( WM_BOINCSFW == uMsg ) {
             SetForegroundWindow(hWnd);
         }
-	}
+    }
 
-	// Pass All Unhandled Messages To DefWindowProc
-	return DefWindowProc(hWnd,uMsg,wParam,lParam);
+    // Pass All Unhandled Messages To DefWindowProc
+    return DefWindowProc(hWnd,uMsg,wParam,lParam);
 }
 
 BOOL reg_win_class() {
-	WNDCLASS	wc;						// Windows Class Structure
+    WNDCLASS    wc;                        // Windows Class Structure
 
-	hInstance			= GetModuleHandle(NULL);				// Grab An Instance For Our Window
-	wc.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraw On Size, And Own DC For Window.
-	wc.lpfnWndProc		= (WNDPROC) WndProc;					// WndProc Handles Messages
-	wc.cbClsExtra		= 0;									// No Extra Window Data
-	wc.cbWndExtra		= 0;									// No Extra Window Data
-	wc.hInstance		= hInstance;							// Set The Instance
-	wc.hIcon			= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
-	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
-	wc.hbrBackground	= NULL;									// No Background Required For GL
-	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
-	wc.lpszClassName	= BOINC_WINDOW_CLASS_NAME;				// Set The Class Name
+    hInstance = GetModuleHandle(NULL);       // Grab An Instance For Our Window
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+        // Redraw On Size, And Own DC For Window.
+    wc.lpfnWndProc = (WNDPROC) WndProc;             // WndProc Handles Messages
+    wc.cbClsExtra = 0;                                // No Extra Window Data
+    wc.cbWndExtra = 0;                                  // No Extra Window Data
+    wc.hInstance = hInstance;                            // Set The Instance
+    wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);            // Load The Default Icon
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);            // Load The Arrow Pointer
+    wc.hbrBackground = NULL;                 // No Background Required For GL
+    wc.lpszMenuName = NULL;                  // We Don't Want A Menu
+    wc.lpszClassName = BOINC_WINDOW_CLASS_NAME;       // Set The Class Name
 
-	if (!RegisterClass(&wc))									// Attempt To Register The Window Class
-	{
-		MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;											// Return FALSE
-	}
+    // Attempt To Register The Window Class
+    if (!RegisterClass(&wc)) {
+        MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+        return FALSE;                                            // Return FALSE
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL unreg_win_class() {
-	if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME,hInstance)) {
-		MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-		hInstance=NULL;									// Set hInstance To NULL
-	}
+    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME,hInstance)) {
+        MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+        hInstance=NULL;                                    // Set hInstance To NULL
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
-	RECT rt;
-	int width, height;
+    RECT rt;
+    int width, height;
     char buf[MSG_CHANNEL_SIZE];
 
     // check for graphics-related message from core client
@@ -426,14 +438,14 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
             app_client_shm->decode_graphics_msg(buf, graphics_msg);
             switch (graphics_msg.mode) {
             case MODE_REREAD_PREFS:
-				// only reread graphics prefs if we have a window open
-				//
-				switch(current_graphics_mode) {
-				case MODE_WINDOW:
-				case MODE_FULLSCREEN:
-					app_graphics_reread_prefs();
-					break;
-				}
+                // only reread graphics prefs if we have a window open
+                //
+                switch(current_graphics_mode) {
+                case MODE_WINDOW:
+                case MODE_FULLSCREEN:
+                    app_graphics_reread_prefs();
+                    break;
+                }
                 break;
             case MODE_HIDE_GRAPHICS:
             case MODE_WINDOW:
@@ -453,22 +465,22 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
         }
     }
     if (!visible) return;
-	if (current_graphics_mode == MODE_HIDE_GRAPHICS) return;
+    if (current_graphics_mode == MODE_HIDE_GRAPHICS) return;
     if (!hWnd) return;
 
     // TODO: remove width, height from API
     //
-	GetClientRect(hWnd, &rt);
-	width = rt.right-rt.left;
-	height = rt.bottom-rt.top;
+    GetClientRect(hWnd, &rt);
+    width = rt.right-rt.left;
+    height = rt.bottom-rt.top;
 
     if (throttled_app_render(width, height, dtime())) {
-		SwapBuffers(hDC);
+        SwapBuffers(hDC);
     }
 }
 
 void win_graphics_event_loop() {
-	MSG					msg;		// Windows Message Structure
+    MSG                    msg;        // Windows Message Structure
 
     // Detect platform information
     OSVERSIONINFO osvi; 
@@ -477,29 +489,28 @@ void win_graphics_event_loop() {
     is_windows_9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
 
 
-	// Register window class and graphics mode message
-	reg_win_class();
+    // Register window class and graphics mode message
+    reg_win_class();
 
-	SetTimer(NULL, 1, 30, &timer_handler);
+    SetTimer(NULL, 1, 30, &timer_handler);
 
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
     } else {
         set_mode(MODE_HIDE_GRAPHICS);
     }
-	win_loop_done = false;
-	while(!win_loop_done) {
-		if (GetMessage(&msg,NULL,0,0)) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		} else {
-			win_loop_done = true;
-		}
-	}
+    while(1) {
+        if (GetMessage(&msg,NULL,0,0)) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        } else {
+            break;
+        }
+    }
 
-	unreg_win_class();
+    unreg_win_class();
 
-	SetEvent(hQuitEvent);		// Signal the worker thread that we're quitting
+    SetEvent(hQuitEvent);        // Signal the worker thread that we're quitting
 }
 
 

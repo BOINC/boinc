@@ -871,6 +871,16 @@ int send_work(
         reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
+    // TODO: add code to send results that were sent earlier but not reported.
+    // Cautions (from John McLeod):
+    // - make sure the result is still needed
+    // - don't send if the project has been reset since first send,
+    //   since result may have been cause of the reset
+    //   (need to pass reset time?)
+    // - make sure can complete by deadline
+    // - don't send if project is suspended or "no more work" on client
+    //   (need to pass these)
+
     if (config.locality_scheduling) {
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply, platform, ss);
@@ -883,18 +893,6 @@ int send_work(
         reply.wreq.infeasible_only = false;
         scan_work_array(sreq, reply, platform, ss);
     }
-
-#if 0
-    // huh???
-    if (wreq.nresults == 0) {
-        wreq.disk_available = sreq.potentially_free_offender;
-        scan_work_array(wreq, sreq, reply, platform, ss);
-    }
-    if (wreq.nresults == 0 && config.delete_from_self) {
-        wreq.disk_available = sreq.potentially_free_self;
-        scan_work_array(wreq, sreq, reply, platform, ss);
-    }
-#endif
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results [scheduler ran %d seconds]\n",

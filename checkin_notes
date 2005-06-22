@@ -8279,3 +8279,13 @@ Charlie    22 June 2005
         boinc.pbproj/
             project.pbxproj
     
+David  22 June 2005
+    - API: Don't call app_init_graphics() until we've created GL context
+        (Windows)
+        (From Eric Myers)
+
+    api/
+        graphics_api.h
+        windows_opengl.C
+    sched/
+        sched_send.C
