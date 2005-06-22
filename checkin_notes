@@ -8191,3 +8191,13 @@ David  21 June 2005
 
     clientgui/
         MainWindow.cpp
+
+David  21 June 2005
+    - scheduler: when handling results, if any of them fails the
+        sanity checks (e.g. it was already returned)
+        then don't update the transition time of the corresponding WU
+
+    db/
+        boinc_db.C
+    sched/
+        handle_request.C

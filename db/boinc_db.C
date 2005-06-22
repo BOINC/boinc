@@ -1382,16 +1382,23 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
     return retval;
 }
 
+// set transition times of workunits -
+// but only those corresponding to updated results
+// (i.e. those that passed "sanity checks")
+//
 int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
     char query[MAX_QUERY_LEN], buf[256];
     unsigned int i;
+    bool first= true;
 
     sprintf(query,
         "UPDATE workunit SET transition_time=%d WHERE id in (",
         (int)time(0)
     );
     for (i=0; i<results.size(); i++) {
-        if (i>0) strcat(query, ",");
+        if (results[i].id == 0) continue;   // skip non-updated results
+        if (!first) strcat(query, ",");
+        first = false;
         sprintf(buf, "%d", results[i].workunitid);
         strcat(query, buf);
     }

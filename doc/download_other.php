@@ -23,6 +23,22 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "<a href=http://www.pperry.f2s.com/downloads.htm>SETI-Linux</a>",
+    "Linux i686, linux athlon xp, Linux AMD64,
+    Linux Pentium 2 and 3. Some Links to other Plattforms",
+    "BOINC, SETI@home"
+));
+list_item_array(array(
+    "<a href=http://www.guntec.de/Crunch3r>Mattias Pilch</a>",
+    "Linux on DEC",
+    "BOINC, SETI@home"
+));
+list_item_array(array(
+    "<a href=http://www.kulthea.net/boinc/>SETI@Kulthea.net</a>",
+    "Linux on Sparc",
+    "BOINC, SETI@home"
+));
+list_item_array(array(
     "<a href=http://www.lb.shuttle.de/apastron/boincDown.shtml>Stefan Urbat</a>",
     "Solaris 10 AMD64 (Opteron) and x86
     <br> GNU/Linux AMD64 (Opteron)

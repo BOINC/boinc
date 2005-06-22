@@ -467,7 +467,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 }
 
 
-// New handle completed results
+// handle completed results
 //
 int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_SCHED_RESULT_ITEM_SET result_handler;
@@ -484,14 +484,13 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         result_handler.add_result(sreq.results[i].name);
     }
     
-    // read results with those names from database
-    // Quantities that MUST be read from the DB are those
-    // where srip appears as an rval.
+    // read results from database into "result_handler".
+    // Quantities that must be read from the DB are those
+    // where srip (see below) appears as an rval.
     // These are: id, name, server_state, received_time, hostid.
-    // Quantities that must be WRITTEN to the DB are those for
+    // Quantities that must be written to the DB are those for
     // which srip appears as an lval. These are:
-    // hostid,
-    // teamid, received_time, client_state, cpu_time, exit_status,
+    // hostid, teamid, received_time, client_state, cpu_time, exit_status,
     // app_version_num, claimed_credit, server_state, stderr_out,
     // xml_doc_out, outcome, validate_state
     //
@@ -504,7 +503,6 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
     }
 
-
     // loop over results reported by client
     //
     for (i=0; i<sreq.results.size(); i++) {
@@ -514,8 +512,6 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // don't want it to keep coming back
         //
         reply.result_acks.push_back(*rp);
-
-        // See if result was found in DB
 
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
@@ -532,12 +528,9 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.host.id, srip->id, srip->name
         );
 
-        // Comment -- In the sanity checks that follow, should we
-        // verify that the results validate_state is consistent with
-        // this being a newly arrived result?
-        // What happens if a workunit was canceled after a result was sent?
-        // When it gets back in, do we want to leave the validate state 'as is'?
-        // Probably yes, which is as the code currently behaves.
+        // Do various sanity checks.
+        // If one of them fails, set srip->id = 0,
+        // which suppresses the DB update later on
         //
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
@@ -593,8 +586,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             }
         } // hostids do not match
 
-        // modify the result record in the in-memory copy obtained
-        // from the DB earlier.
+        // Modify the in-memory copy obtained from the DB earlier.
         // If we found a problem above,
         // we have continued and skipped this modify
         //
@@ -641,8 +633,6 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     } // loop over all incoming results
 
 
-    // update all the results we have kept in memory, by storing to database.
-    //
     if (config.use_transactions) {
         retval = boinc_db.start_transaction();
         if (retval) {
@@ -653,22 +643,23 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
     }
 
+    // Update the result records
+    // (skip items that we previously marked to skip)
+    //
     for (i=0; i<result_handler.results.size(); i++) {
-        // skip items that we previously marked to skip!
-        if (result_handler.results[i].id > 0) {
-            retval = result_handler.update_result(result_handler.results[i]);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name,
-                    boinc_db.error_string()
-                );
-            }
+        if (result_handler.results[i].id == 0) continue;
+        retval = result_handler.update_result(result_handler.results[i]);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
+                reply.host.id, result_handler.results[i].id,
+                result_handler.results[i].name, boinc_db.error_string()
+            );
         }
     }
 
-    // trigger the transition handle for the results' WUs
+    // set transition_time for the results' WUs
     //
     retval = result_handler.update_workunits();
     if (retval) {
