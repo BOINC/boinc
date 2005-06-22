@@ -99,7 +99,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -185,9 +185,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAttachProject.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgConnection.cpp">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgOptions.cpp">
@@ -353,10 +350,22 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\stackwalker_win.cpp">
+				RelativePath="..\lib\prefs.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\std_fixes.h">
+				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
 				RelativePath="..\clientgui\stdwx.cpp">
@@ -465,9 +474,6 @@
 				RelativePath="..\clientgui\DlgAttachProject.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\DlgConnection.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\DlgOptions.h">
 			</File>
 			<File
@@ -513,10 +519,16 @@
 				RelativePath="..\lib\parse.h">
 			</File>
 			<File
+				RelativePath="..\lib\prefs.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\resource.h">
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">
+			</File>
+			<File
+				RelativePath="..\lib\std_fixes.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\stdwx.h">

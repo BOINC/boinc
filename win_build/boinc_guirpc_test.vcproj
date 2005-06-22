@@ -217,6 +217,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\prefs.C">
+			</File>
+			<File
 				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
@@ -264,6 +267,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
+			</File>
+			<File
+				RelativePath="..\lib\prefs.h">
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">

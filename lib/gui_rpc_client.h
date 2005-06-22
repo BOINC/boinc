@@ -31,6 +31,7 @@
 #endif
 
 #include "miofile.h"
+#include "prefs.h"
 
 #define GUI_RPC_PORT                                1043
 #define GUI_RPC_PORT_ALT                            31416
@@ -332,6 +333,8 @@ public:
     std::vector<APP_VERSION*> app_versions;
     std::vector<WORKUNIT*> wus;
     std::vector<RESULT*> results;
+
+    GLOBAL_PREFS global_prefs;
 
     CC_STATE();
     ~CC_STATE();

@@ -8234,3 +8234,39 @@ David  21 June 2005
 		cs_account.C
 	client/win/
 		wingui_mainwindow.cpp
+
+Rom    22 June 2005
+    - Remove code that causes the CC to block on network requests, the 
+      dial-up
+ functionality is being moved into the manager
+    - Add global preferences to the get_state GUI RPC and remove the
+      proxy_info from get_state since proxy_info has two RPC's of it's
+      own.
+    - Add a frequency reminder slider to the Tools/Option dialog so we
+      don't repeatedly spam the user with connection requests.
+    - Remove the DlgConnection dialog since we are going to use a
+      message box instead
+    - Add prefs.C to various project files for Windows.
+    - Remove some unused headers from stdwx.h
+ 
+    client/
+        cs_statefile.C
+        net_xfer.C
+    clientgui/
+        BOINCGUI.pjd
+        BOINCGUIApp.cpp
+        DlgOptions.cpp, .h
+        MainFrame.cpp
+        stdwx.h
+        DlgConnection.cpp, .h (Removed)
+    lib/
+        app_ipc.C
+        gui_rpc_client.C, .h
+        network.C, .h
+        prefs.C, .h
+    win_build/
+        BOINCGUI.vcproj
+        boinc_guirpc_test.vcproj
+        boinc_ss.vcproj
+
+    

@@ -21,6 +21,7 @@
 #define _PREFS_
 
 #include <cstdio>
+#include "miofile.h"
 
 // Global preferences are edited and stored on BOINC servers.
 // The native representation of preferences is XML.
@@ -66,9 +67,9 @@ struct GLOBAL_PREFS {
     GLOBAL_PREFS();
     void defaults();
     void clear_bools();
-    int parse(FILE*, const char* venue, bool& found_venue);
+    int parse(MIOFILE&, const char* venue, bool& found_venue);
     int parse_file(const char* filename, const char* venue, bool& found_venue);
-    int write(FILE*);
+    int write(MIOFILE&);
 };
 
 #endif

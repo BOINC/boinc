@@ -94,9 +94,6 @@ int resolve_hostname(char* hostname, int &ip_addr, char* msg) {
     hep = gethostbyname(hostname);
     if (!hep) {
         sprintf(msg, "Can't resolve hostname [%s] %s", hostname, socket_error_str());
-#ifdef WIN32
-        NetClose();
-#endif
         return ERR_GETHOSTBYNAME;
     }
     ip_addr = *(int*)hep->h_addr_list[0];
@@ -107,9 +104,6 @@ int boinc_socket(int& fd) {
     fd = socket(AF_INET, SOCK_STREAM, 0);
     if (fd < 0) {
         perror("socket");
-#ifdef WIN32
-        NetClose();
-#endif
         return ERR_SOCKET;
     }
     return 0;
@@ -149,7 +143,6 @@ int boinc_socket_asynch(int fd, bool asynch) {
 }
 
 void boinc_close_socket(int sock) {
-	
 #ifdef _WIN32
     closesocket(sock);
 #else
@@ -176,25 +169,6 @@ int get_socket_error(int fd) {
 }
 
 #ifdef _WIN32
-
-#define DIAL_WAIT       60          // seconds after dial to wait (in case of cancel)
-#define CONFIRM_WAIT    60          // seconds after user says not to connect to ask again
-#define CLOSE_WAIT      5           // seconds after last call to close that the connection should be terminated
-
-int net_ref_count = -1;             // -1 closed, 0 open but not used, >0 number of users
-double net_last_req_time = 0;       // last time user was requested to connect in seconds
-double net_last_dial_time = 0;      // last time modem was dialed
-double net_close_time = 0;          // 0 don't close, >0 time when network connection should be terminated in seconds
-bool dialed = false;
-
-int WinsockInitialize() {
-    WSADATA wsdata;
-    return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
-}
-
-int WinsockCleanup() {
-    return WSACleanup();
-}
 
 typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
 
@@ -223,96 +197,13 @@ int get_connected_state( ) {
     return CONNECTED_STATE_UNKNOWN;
 }
 
-int NetOpen() {
-    int rc;
-
-    typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
-    typedef BOOL (WINAPI *AutoDialProc)( IN DWORD    dwFlags, IN DWORD    dwReserved);
-
-    if (net_ref_count >= 0) {
-        net_ref_count ++;
-        return 0;
-    }
-
-    GetStateProc GetState = NULL;
-    AutoDialProc AutoDial = NULL;
-    DWORD connectionFlags;
-    HMODULE libmodule = NULL;
-
-    libmodule = LoadLibrary("wininet.dll");
-    if (libmodule) {
-        GetState = (GetStateProc)GetProcAddress(libmodule, "InternetGetConnectedState");
-        AutoDial = (AutoDialProc)GetProcAddress(libmodule, "InternetAutodial");
-
-        if (GetState && AutoDial) {
-            rc = (*GetState)(&connectionFlags, 0);
-
-            // Don't Autodial if already connected to Internet by Modem or LAN
-            if (!rc) {
-                if((double)time(NULL) < net_last_dial_time + CONFIRM_WAIT) {
-                    return ERR_USER_PERMISSION;
-                }
-#if !defined(_WIN32) && !defined(_CONSOLE)
-                if(gstate.global_prefs.confirm_before_connecting) {
-                    net_last_req_time = (double)time(NULL);
-                    if(!RequestNetConnect()) {
-                        return ERR_USER_PERMISSION;
-                    }
-                }
-#endif
-                net_last_dial_time = (double)time(NULL);
-                rc = (*AutoDial)(INTERNET_AUTODIAL_FORCE_UNATTENDED, 0);
-                if (rc) {
-                    dialed = true;
-                } else {
-                    // InternetAutodial() returns error 86 for some users
-                    // and 668 for some other users, but a subsequent call
-                    // to gethostbyname() or connect() autodials successfully.
-                    // So (with one exception) we ignore failure returns
-                    // from InternetAutodial() to work around this problem.
-                    // Error 86 is "The specified Network Password is not correct."
-                    // Error 668 is RAS Error "The connection dropped."
-                    rc = GetLastError();
-                    // Don't continue if busy signal, no answer or user cancelled
-                    if (rc == ERROR_USER_DISCONNECTION) {
-                        return ERR_USER_PERMISSION;
-                    }
-                }
-            }
-        }
-    }
-
-    net_ref_count = 1;
-    return 0;
+int WinsockInitialize() {
+    WSADATA wsdata;
+    return WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
 }
 
-void NetClose() {
-    if (net_ref_count > 0) net_ref_count --;
-    if (net_ref_count == 0) {
-        net_close_time = (double)time(NULL) + CLOSE_WAIT;
-    }
-}
-
-void NetCheck(bool hangup_if_dialed) {
-    if (net_ref_count == 0 && net_close_time > 0 && net_close_time < (double)time(NULL)) {
-
-        typedef BOOL (WINAPI *HangupProc)(IN DWORD    dwReserved);
-        HangupProc HangUp = NULL;
-        HMODULE libmodule = NULL;
-
-        // Hang up the modem if we dialed it
-        if (dialed && hangup_if_dialed) {
-            libmodule = LoadLibrary("wininet.dll");
-            if (libmodule) {
-                HangUp = (HangupProc)GetProcAddress(libmodule, "InternetAutodialHangup");
-                if (HangUp)     int rc = (* HangUp)(0);
-            }
-        }
-        dialed = false;
-        net_ref_count = -1;
-        net_close_time = 0;
-
-    }
+int WinsockCleanup() {
+    return WSACleanup();
 }
 
 #else

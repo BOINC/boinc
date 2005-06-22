@@ -1273,6 +1273,11 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             state.results.push_back(result);
             continue;
         }
+        else if (match_tag(buf, "<global_preferences>")) {
+            bool flag = false;
+            state.global_prefs.parse(rpc.fin, "", flag);
+            continue;
+        }
     }
     return 0;
 }

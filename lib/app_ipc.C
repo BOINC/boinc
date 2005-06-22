@@ -140,7 +140,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     mf.init_file(f);
     ai.host_info.write(mf);
     ai.proxy_info.write(mf);
-    ai.global_prefs.write(f);
+    ai.global_prefs.write(mf);
     fprintf(f, "</app_init_data>\n");
     return 0;
 }
@@ -150,9 +150,13 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     int retval;
     bool flag;
 
+    MIOFILE mf;
+    mf.init_file(f);
+
     memset(&ai, 0, sizeof(ai));
     ai.fraction_done_start = 0;
     ai.fraction_done_end = 1;
+
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<project_preferences>")) {
             retval = dup_element_contents(f, "</project_preferences>", &ai.project_preferences);
@@ -160,13 +164,11 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             continue;
         }
         if (match_tag(buf, "<global_preferences>")) {
-            retval = ai.global_prefs.parse(f, "", flag);
+            retval = ai.global_prefs.parse(mf, "", flag);
             if (retval) return retval;
             continue;
         }
         else if (match_tag(buf, "<host_info>")) {
-            MIOFILE mf;
-            mf.init_file(f);
             ai.host_info.parse(mf);
             continue;
         }

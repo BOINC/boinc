@@ -44,8 +44,5 @@ extern int get_connected_state();
 #ifdef _WIN32
 extern int WinsockInitialize();
 extern int WinsockCleanup();
-extern int  NetOpen();
-extern void NetClose();
-extern void NetCheck(bool hangup_if_dialed);
 #endif
 #endif

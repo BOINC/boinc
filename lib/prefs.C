@@ -94,7 +94,7 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 // where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
-int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
+int GLOBAL_PREFS::parse(MIOFILE& in, const char* host_venue, bool& found_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
 
@@ -105,7 +105,7 @@ int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
     strcpy(source_scheduler, "");
 
     found_venue = false;
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (in_venue) {
             if (match_tag(buf, "</venue>")) {
                 if (in_correct_venue) {
@@ -224,15 +224,17 @@ int GLOBAL_PREFS::parse_file(
 
     f = fopen(filename, "r");
     if (!f) return ERR_FOPEN;
-    retval = parse(f, host_venue, found_venue);
+    MIOFILE mf;
+    mf.init_file(f);
+    retval = parse(mf, host_venue, found_venue);
     fclose(f);
     return retval;
 }
 
 // this is used only to write the app init data file
 //
-int GLOBAL_PREFS::write(FILE* f) {
-    fprintf(f,
+int GLOBAL_PREFS::write(MIOFILE& f) {
+    f.printf(
         "<global_preferences>\n"
         "   <mod_time>%d</mod_time>\n"
         "%s%s"

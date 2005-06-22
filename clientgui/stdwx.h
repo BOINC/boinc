@@ -66,16 +66,13 @@
 #include <wx/timer.h>           // timer support
 #include <wx/image.h>
 #include <wx/url.h>
-#include <wx/file.h>            // filesystem support
-#include <wx/fs_mem.h>          // memory virtual filesystem support
-#include <wx/dcmemory.h>        // memory based device context
+#include <wx/filename.h>        // filesystem support
 #include <wx/bitmap.h>          // bitmap modification support
 #include <wx/toolbar.h>         // toolbars support
 #include <wx/listctrl.h>        // list control support
 #include <wx/msgdlg.h>          // messagebox dialog support
 #include <wx/panel.h>           // panel support
 #include <wx/notebook.h>        // notebook support
-#include <wx/html/htmlwin.h>    // html window support
 #include <wx/statline.h>        // static line support
 #include <wx/statbmp.h>         // static bitmap support
 #include <wx/stattext.h>        // static text support
@@ -87,13 +84,8 @@
 #include <wx/list.h>
 #include <wx/icon.h>
 #include <wx/utils.h>
-#include <wx/settings.h>
 #include <wx/process.h>
-#include <wx/dynarray.h>
-#include <wx/thread.h>
-#include <wx/font.h>
-#include <wx/fontmap.h>
-#include <wx/fontenum.h>
+#include <wx/dialup.h>
 
 #ifndef NOTASKBAR
 #include <wx/taskbar.h>         // taskbar support

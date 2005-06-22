@@ -94,11 +94,6 @@ int NET_XFER::open_server() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
-#ifdef WIN32
-    retval = NetOpen();
-    if (retval) return retval;
-#endif
-
     retval = resolve_hostname(hostname, ipaddr, msg);
     if (retval) {
         msg_printf(0, MSG_ERROR, "%s\n", msg);
@@ -121,7 +116,6 @@ int NET_XFER::open_server() {
         errno = WSAGetLastError();
         if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
             closesocket(fd);
-            NetClose();
             return ERR_CONNECT;
         }
 #ifndef _CONSOLE
@@ -129,7 +123,6 @@ int NET_XFER::open_server() {
             errno = WSAGetLastError();
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
                 closesocket(fd);
-                NetClose();
                 return ERR_ASYNCSELECT;
             }
         }
@@ -150,9 +143,6 @@ int NET_XFER::open_server() {
 
 void NET_XFER::close_socket() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-#ifdef WIN32
-    NetClose();
-#endif
     scope_messages.printf("NET_XFER_SET::close_socket(): %d\n", socket);
     if (socket) {
         boinc_close_socket(socket);

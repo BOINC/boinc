@@ -513,7 +513,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         core_client_minor_version
     );
 
-    proxy_info.write(f);
+    global_prefs.write(f);
 
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
