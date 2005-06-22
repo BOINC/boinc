@@ -633,6 +633,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     } // loop over all incoming results
 
 
+#if 0
     if (config.use_transactions) {
         retval = boinc_db.start_transaction();
         if (retval) {
@@ -642,6 +643,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
         }
     }
+#endif
 
     // Update the result records
     // (skip items that we previously marked to skip)
@@ -670,6 +672,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
     }
 
+#if 0
     if (config.use_transactions) {
         retval = boinc_db.commit_transaction();
         if (retval) {
@@ -680,6 +683,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
         }
     }
+#endif
     return 0;
 }
 

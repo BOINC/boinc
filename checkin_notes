@@ -8201,3 +8201,13 @@ David  21 June 2005
         boinc_db.C
     sched/
         handle_request.C
+
+David  21 June 2005
+    - core client: round-robin simulator wasn't excluding
+        non-CPU-intensive projects
+        (from John McLeod)
+    - scheduler: comment out transaction stuff.
+        It's not clear what this does, or if we want it.
+
+    client/
+        cs_scheduler.C

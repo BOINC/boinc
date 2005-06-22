@@ -1022,6 +1022,7 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (!rp->runnable()) continue;
+        if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
         p = rp->project;
         if (p->active.size() < (unsigned int)ncpus) {
