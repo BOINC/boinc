@@ -326,3 +326,28 @@ msgstr "Configure your account"
 #########################################
 msgid "OPTIONAL"
 msgstr "Optional"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Top participants"
+
+msgid "USER_TABLE_RANK"
+msgstr "Rank"
+
+msgid "USER_TABLE_NAME"
+msgstr "Name"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "Total Credit"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "Recent average credit"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Country"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Participant since"
