@@ -96,10 +96,10 @@ int NET_XFER::open_server() {
 
 #ifdef _WIN32
     if (get_connected_state == CONNECTED_STATE_NOT_CONNECTED) {
-        want_network_flag = true;
+        gstate.want_network_flag = true;
         return ERR_CONNECT;
     } else {
-        want_network_flag = false;
+        gstate.want_network_flag = false;
     }
 #endif
 
