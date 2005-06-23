@@ -8353,5 +8353,7 @@ Charlie    23 June 2005
     Mac: add a separate icon for Mac menu bar.
     
     clientgui/
+        mac/
+            MacSysMenu.cpp
         res/
             boinc_mac.xpm (new)
