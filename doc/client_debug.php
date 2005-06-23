@@ -53,20 +53,26 @@ The flags are as follows:
 <dd> Log debugging information about file transfers. 
 <dt> &lt;sched_op_debug/&gt; 
 <dd> Log the request and reply messages of exchanges with scheduling servers. 
-<dt> &lt;time_debug/&gt; 
-<dd> Log the passage of time. 
 <dt> &lt;http_debug/&gt; 
 <dd> Log debugging information about HTTP operations. 
+<dt> &lt;proxy_debug/&gt; 
+<dd> Log debugging information about HTTP proxy operations. 
+<dt> &lt;time_debug/&gt; 
+<dd> Log the passage of time. 
 <dt> &lt;net_xfer_debug/&gt; 
 <dd> Log debugging information about network communication. 
 <dt> &lt;measurement_debug/&gt; 
 <dd> Log debugging information about measurements of CPU speed, platform, disk space, etc. 
+<dt> &lt;poll_debug/&gt; 
+<dd> Show what poll functions do
 <dt> &lt;guirpc_debug/&gt; 
 <dd> Log debugging information about the GUI RPC interface. 
 <dt> &lt;sched_cpu_debug/&gt; 
 <dd> Log debugging information about the CPU scheduler. 
 <dt> &lt;scrsave_debug/&gt; 
 <dd> Log debugging information about the screen saver. 
+<dt> &lt;dont_check_file_sizes/&gt; 
+<dd> Don't check file sizes
 </dl>
 ";
 page_tail();

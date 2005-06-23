@@ -188,6 +188,9 @@ public:
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
     int version();
+    bool want_network_flag;
+    bool want_network();
+    void network_available();
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);

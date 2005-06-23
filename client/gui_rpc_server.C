@@ -507,6 +507,17 @@ void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
+void handle_network_query(char*, MIOFILE& fout) {
+    fout.printf(
+        "<want_network>%d</want_network>\n",
+        gstate.want_network()?1:0
+    );
+}
+
+void handle_network_available(char*, MIOFILE& fout) {
+    gstate.network_available();
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -625,7 +636,11 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<acct_mgr_info")) {
         handle_acct_mgr_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
-        handle_get_statistics(request_msg,mf);
+        handle_get_statistics(request_msg, mf);
+    } else if (match_tag(request_msg, "<network_query")) {
+        handle_network_query(request_msg, mf);
+    } else if (match_tag(request_msg, "<network_available")) {
+        handle_network_available(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

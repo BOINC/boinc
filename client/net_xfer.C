@@ -94,6 +94,15 @@ int NET_XFER::open_server() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
+#ifdef _WIN32
+    if (get_connected_state == CONNECTED_STATE_NOT_CONNECTED) {
+        want_network_flag = true;
+        return ERR_CONNECT;
+    } else {
+        want_network_flag = false;
+    }
+#endif
+
     retval = resolve_hostname(hostname, ipaddr, msg);
     if (retval) {
         msg_printf(0, MSG_ERROR, "%s\n", msg);
@@ -197,7 +206,8 @@ NET_XFER_SET::NET_XFER_SET() {
     down_active = false;
 }
 
-// Insert a NET_XFER object into the set
+// Connect to a server,
+// and if successful insert the NET_XFER object into the set
 //
 int NET_XFER_SET::insert(NET_XFER* nxp) {
     int retval = nxp->open_server();

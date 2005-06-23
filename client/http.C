@@ -881,4 +881,8 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
     return ERR_NOT_FOUND;
 }
 
+int HTTP_OP_SET::nops() {
+    return http_ops.size();
+}
+
 const char *BOINC_RCSID_57f273bb60 = "$Id$";

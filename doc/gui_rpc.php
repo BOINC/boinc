@@ -128,6 +128,18 @@ list_item_func(
     \"abort\".
     "
 );
+list_item_func(
+    "network_query(int& network_wanted)",
+    "Returns a nonzero value in network_wanted if the core client
+    wants a network connection or is currently using one.
+    Wait to get a false twice (with a few seconds delay)
+    before closing a connection."
+);
+list_item_func(
+    "network_available()",
+    "Tells the core client that a network connection is available,
+    and that it should do as much network activity as it can."
+);
 list_end();
 echo "
 <p>

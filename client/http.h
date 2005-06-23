@@ -100,13 +100,14 @@ public:
 // represents a set of HTTP requests in progress
 //
 class HTTP_OP_SET {
-  std::vector<HTTP_OP*> http_ops;
+    std::vector<HTTP_OP*> http_ops;
     NET_XFER_SET* net_xfers;
 public:
     HTTP_OP_SET(NET_XFER_SET*);
     bool poll();
     int insert(HTTP_OP*);
     int remove(HTTP_OP*);
+    int nops();
 };
 
 #define HTTP_STATE_IDLE             0

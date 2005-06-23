@@ -117,6 +117,7 @@ CLIENT_STATE::CLIENT_STATE() {
     cpu_sched_last_time = 0;
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
+    want_network_flag = false;
 }
 
 #if 0
@@ -1312,6 +1313,25 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
 int CLIENT_STATE::version() {
     return core_client_major_version*100 + core_client_minor_version;
+}
+
+bool CLIENT_STATE::want_network() {
+    if (http_ops->nops()) return true;
+    if (want_network_flag) return true;
+    return false;
+}
+
+void CLIENT_STATE::network_available() {
+    unsigned int i;
+
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];
+        pfx->next_request_time = 0;
+    }
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->min_rpc_time = 0;
+    }
 }
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

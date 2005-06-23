@@ -476,6 +476,8 @@ public:
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
+    int network_query(int&);
+    int network_available();
 };
 
 struct RPC {

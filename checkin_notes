@@ -8237,8 +8237,7 @@ David  21 June 2005
 
 Rom    22 June 2005
     - Remove code that causes the CC to block on network requests, the 
-      dial-up
- functionality is being moved into the manager
+      dial-up functionality is being moved into the manager
     - Add global preferences to the get_state GUI RPC and remove the
       proxy_info from get_state since proxy_info has two RPC's of it's
       own.
@@ -8289,3 +8288,36 @@ David  22 June 2005
         windows_opengl.C
     sched/
         sched_send.C
+
+David  22 June 2005
+    - Add two new GUI RPCs that let the Manager be in charge of
+        opening and closing modem connections.
+
+        network_query() returns true if the CC wants a network connection,
+            or is currently using one.
+            NOTE: wait to get false twice (with a few seconds delay)
+            before closing a connection
+
+        network_available() tells the CC that a connection is available,
+            and that it should do all the network activity it can.
+
+        These are relevant only on Windows.
+
+        Implementation:
+        - CLIENT_STATE has a new member, bool want_network_flag.
+            If the CC tries to create a network connection and
+            there's no physical connection, it sets this.
+        - network_query() return true is want_network_flag is set
+            or there an HTTP_OP.
+        - network_available() resets all backoff timers
+            (of PERS_FILE_XFERs and PROJECTs) to zero,
+            so everything will be retried immediately.
+
+    client/
+        client_state.C,h
+        gui_rpc_server.C
+        http.C,h
+        net_xfer.C
+    lib/
+        gui_rpc_client.C,h
+        network.C

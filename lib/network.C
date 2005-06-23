@@ -173,7 +173,7 @@ int get_socket_error(int fd) {
 typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
 
 int get_connected_state( ) {
-    int        online = 0;
+    int online = 0;
     static bool first=true;
     static HMODULE libmodule;
     static GetStateProc GetState;

@@ -1409,6 +1409,30 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
     return 0;
 }
 
+int RPC_CLIENT::network_query(int& want_network) {
+    RPC rpc(this);
+    int retval;
+    char buf[256];
+
+    retval = rpc.do_rpc("<network_query/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (parse_int(buf, "<want_network>", want_network)) {
+            return 0;
+        }
+    }
+    return -1;
+}
+
+int RPC_CLIENT::network_available() {
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<network_available/>\n");
+    if (retval) return retval;
+    return 0;
+}
+
 void DISPLAY_INFO::print_str(char* p) {
     char buf[256];
     if (strlen(window_station)) {
