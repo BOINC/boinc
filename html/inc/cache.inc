@@ -73,11 +73,9 @@ function clean_cache($max_age, $dir) {
     chdir($start_dir);
 } 
 
-function start_cache($max_age, $params=""){
-    $path = get_path($params);
 
-    // check free disk space every once in a while
-    //
+// check free disk space every once in a while
+function cache_check_diskspace(){
     if (!(rand() % CACHE_SIZE_CHECK_FREQ)) {
        $too_old=86400;
        while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
@@ -86,9 +84,10 @@ function start_cache($max_age, $params=""){
            $too_old/=2;
        }
     }
+}
 
+function cache_need_to_regenerate($path, $max_age){
     $regenerate = false;
-    if ($max_age) {
         $request = getallheaders();
 
         clearstatcache();
@@ -123,7 +122,29 @@ function start_cache($max_age, $params=""){
         } else {
             $regenerate = true;
         }
+    return $regenerate;
+}
 
+// Returns cached data or false if nothing was found
+function get_cached_data($max_age,$params=""){
+    $path = get_path($params);
+    cache_check_diskspace();
+    if ($max_age) {
+	$regenerate=cache_need_to_regenerate($path, $max_age);
+	if (!$regenerate){
+	    return file_get_contents($path);
+	}
+    }
+    return false; //No data was cached, just return
+}
+
+function start_cache($max_age, $params=""){
+    $path = get_path($params);
+
+    cache_check_diskspace(); //Check free disk space once in a while
+
+    if ($max_age) {
+	$regenerate = cache_need_to_regenerate($path, $max_age); //Is the stored version too old, do we need to regenerate it?
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
@@ -171,4 +192,15 @@ function end_cache($max_age,$params=""){
         fclose($fhandle);
     }
 }
-?>
+
+function set_cache_data($data,$params=""){
+    // for the benefit of hackers
+    if (strstr($params, "..")) {
+        return;
+    }
+    $path = get_path($params);
+    //echo $path;
+    $fhandle=fopen($path, "w");
+    fwrite($fhandle, $data);
+    fclose($fhandle);
+}?>
