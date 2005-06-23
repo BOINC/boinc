@@ -147,23 +147,23 @@ function user_table_start($sort_by) {
     start_table();
     echo "
         <tr>
-        <th>Rank</th>
-        <th>Name</th>
+        <th>".tr(USER_TABLE_RANK)."</th>
+        <th>".tr(USER_TABLE_NAME)."</th>
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>Recent average credit</a></th>
-            <th>Total credit</th>
+            <th><a href=top_users.php?sort_by=expavg_credit>".tr(USER_TABLE_EXPAVG)."</a></th>
+            <th>".tr(USER_TABLE_TOTAL_CREDIT)."</th>
         ";
     } else {
         echo "
-            <th>Recent average credit</th>
-            <th><a href=top_users.php?sort_by=total_credit>Total credit</a></th>
+            <th>".tr(USER_TABLE_EXPAVG)."</th>
+            <th><a href=top_users.php?sort_by=total_credit>".tr(USER_TABLE_TOTAL_CREDIT)."</a></th>
         ";
     }
     echo "
-        <th>Country</th>
-        <th>Participant since</th>
+        <th>".tr(USER_TABLE_COUNTRY)."</th>
+        <th>".tr(USER_TABLE_PTIME)."</th>
         </tr>
     ";
 }
