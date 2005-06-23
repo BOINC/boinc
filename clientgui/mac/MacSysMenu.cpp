@@ -27,7 +27,12 @@
 #include "DlgAbout.h"
 #include "Events.h"
 #include "wx/mac/private.h"     // for wxBitmapRefData::GetPictHandle
+
+#ifdef __APPLE__
+#include "../res/boinc_mac.xpm"
+#else
 #include "../res/boinc.xpm"
+#endif
 
 pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);

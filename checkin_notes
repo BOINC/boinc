@@ -8348,3 +8348,10 @@ David 23 June 2005
         handle_request.C
         sched_send.C
         server_types.C
+
+Charlie    23 June 2005
+    Mac: add a separate icon for Mac menu bar.
+    
+    clientgui/
+        res/
+            boinc_mac.xpm (new)
