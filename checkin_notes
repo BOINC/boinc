@@ -8357,3 +8357,23 @@ Charlie    23 June 2005
             MacSysMenu.cpp
         res/
             boinc_mac.xpm (new)
+
+Janus	23 June 2005
+   - Added translation functions for cached pages
+     The data from SQL queries is saved in the cache directory on the server
+     and is reused to display the information again and again - even in 
+     different languages.
+   - Used the above feature to make the top_user page translatable
+     (could someone please do the work to also make top_teams and top_hosts
+     translatable like this?)
+   - Added the new tokens to the english language file
+
+    html/
+        inc/
+            user.inc
+            cache.inc
+        languages/translations
+            en.po
+        user/
+            top_users.php
+
