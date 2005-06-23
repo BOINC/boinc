@@ -171,8 +171,7 @@ static double estimate_wallclock_duration(
     double running_frac;
     if (reply.wreq.core_client_version<=419) {
         running_frac = reply.host.on_frac;
-    }
-    else {
+    } else {
         running_frac = reply.host.active_frac * reply.host.on_frac;
     }
     if (running_frac < HOST_ACTIVE_FRAC_MIN) {
@@ -181,6 +180,12 @@ static double estimate_wallclock_duration(
     if (running_frac > 1) running_frac = 1;
     double ecd = estimate_cpu_duration(wu, reply);
     double ewd = ecd/(running_frac*request.resource_share_fraction);
+    if (reply.host.duration_correction_factor) {
+        ewd *= reply.host.duration_correction_factor;
+    }
+    if (reply.host.cpu_efficiency) {
+        ewd /= reply.host.cpu_efficiency;
+    }
 #ifdef EINSTEIN_AT_HOME
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG, "est cpu dur %f; running_frac %f; rsf %f; est %f\n",

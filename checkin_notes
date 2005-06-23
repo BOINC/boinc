@@ -8321,3 +8321,30 @@ David  22 June 2005
     lib/
         gui_rpc_client.C,h
         network.C
+
+David 23 June 2005
+    - server: handle the new fields
+        "cpu_efficiency": for each wall-clock second that
+            a BOINC app runs, how much CPU time does it get?
+        "duration_correction_factor": ratio between actual CPU time
+            and FLOPs-based estimate.
+        1) parse them in scheduler request
+        2) store them in DB host record
+        3) use them in estimating result duration
+
+    - show fields in web page for host
+
+    NOTE: this change requires a database update.
+    See html/ops/db_update.php
+
+    db/
+        boinc_db.C,h
+    html/
+        ops/
+            db_update.php
+        inc/
+            host.inc
+    sched/
+        handle_request.C
+        sched_send.C
+        server_types.C

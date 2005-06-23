@@ -329,7 +329,9 @@ void DB_HOST::db_print(char* buf){
         "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%.15e, "
         "timezone=%d, domain_name='%s', serialnum='%s', "
         "last_ip_addr='%s', nsame_ip_addr=%d, "
-        "on_frac=%.15e, connected_frac=%.15e, active_frac=%.15e, "
+        "on_frac=%.15e, connected_frac=%.15e, "
+        "active_frac=%.15e, cpu_efficiency=%.15e, "
+        "duration_correction_factor=%.15e, "
         "p_ncpus=%d, p_vendor='%s', p_model='%s', "
         "p_fpops=%.15e, p_iops=%.15e, p_membw=%.15e, "
         "os_name='%s', os_version='%s', "
@@ -347,6 +349,7 @@ void DB_HOST::db_print(char* buf){
         timezone, domain_name, serialnum,
         last_ip_addr, nsame_ip_addr,
         on_frac, connected_frac, active_frac,
+        cpu_efficiency, duration_correction_factor,
         p_ncpus, p_vendor, p_model,
         p_fpops, p_iops, p_membw,
         os_name, os_version,
@@ -388,6 +391,8 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     on_frac = atof(r[i++]);
     connected_frac = atof(r[i++]);
     active_frac = atof(r[i++]);
+    cpu_efficiency = atof(r[i++]);
+    duration_correction_factor = atof(r[i++]);
     p_ncpus = atoi(r[i++]);
     strcpy2(p_vendor, r[i++]);
     strcpy2(p_model, r[i++]);
@@ -464,6 +469,14 @@ int DB_HOST::update_diff(HOST& h) {
     }
     if (active_frac != h.active_frac) {
         sprintf(buf, " active_frac=%f,", active_frac);
+        strcat(updates, buf);
+    }
+    if (cpu_efficiency != h.cpu_efficiency) {
+        sprintf(buf, " cpu_efficiency=%f,", cpu_efficiency);
+        strcat(updates, buf);
+    }
+    if (duration_correction_factor != h.duration_correction_factor) {
+        sprintf(buf, " duration_correction_factor=%f,", duration_correction_factor);
         strcat(updates, buf);
     }
     if (p_ncpus != h.p_ncpus) {

@@ -360,6 +360,8 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.on_frac = sreq.host.on_frac;
     host.connected_frac = sreq.host.connected_frac;
     host.active_frac = sreq.host.active_frac;
+    host.cpu_efficiency = sreq.host.cpu_efficiency;
+    host.duration_correction_factor = sreq.host.duration_correction_factor;
     host.p_ncpus = sreq.host.p_ncpus;
     strncpy(host.p_vendor, sreq.host.p_vendor, sizeof(host.p_vendor));
         // unlikely this will change

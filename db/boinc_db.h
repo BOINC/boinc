@@ -209,6 +209,8 @@ struct HOST {
     double on_frac;         // see client/time_stats.h
     double connected_frac;
     double active_frac;
+    double cpu_efficiency;
+    double duration_correction_factor;
 
     int p_ncpus;            // Number of CPUs on host
     char p_vendor[256];     // Vendor name of CPU

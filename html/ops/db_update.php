@@ -271,6 +271,10 @@ function update_4_30_2005(){
     do_query("ALTER TABLE `forum_preferences` ADD `ignore_sticky_posts` TINYINT( 1 ) UNSIGNED NOT NULL");
 }    
 
+function update_6_22_2005() {
+    do_query("alter table host add cpu_efficiency double not null after active_frac, add duration_correction_factor double not null after cpu_efficiency");
+}
+
 //update_10_25_2004();
 
 ?>
