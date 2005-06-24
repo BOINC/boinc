@@ -126,6 +126,30 @@ MFILE buffers data in memory
 and writes to disk only on <code>flush()</code> or <code>close()</code>.
 This lets you write output files and state files more or less atomically.
 
+<h3>Credit reporting</h3>
+<p>
+By default, the credit assigned to a result is based on
+the product of its total CPU time and
+benchmarks run by the core client.
+This can produce results that are too low if
+the application uses processor-specific optimizations
+not present in the core client,
+is compiled with different compiler settings,
+or uses a GPU or other non-CPU computing resource.
+To handle such cases, the following functions can be used.
+<pre>
+void boinc_fpops_per_cpu_second(double);
+</pre>
+This reports the results of an application-specific benchmark,
+expressed as number of floating-point operations per CPU second.
+<pre>
+void boinc_fpops_cumulative(double);
+</pre>
+This reports the total number of floating-point operations
+since the start of the result.
+It must be called just before boinc_finish(),
+and optionally at intermediate points.
+
 <h3>Communicating with the core client</h3>
 <p>
 The core client GUI displays the percent done of workunits in progress.

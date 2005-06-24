@@ -514,7 +514,7 @@ void handle_network_query(char*, MIOFILE& fout) {
     );
 }
 
-void handle_network_available(char*, MIOFILE& fout) {
+void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
 }
 

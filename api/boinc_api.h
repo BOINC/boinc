@@ -100,6 +100,8 @@ extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
+extern void boinc_fpops_per_cpu_sec(double);
+extern void boinc_fpops_cumulative(double);
 
 /////////// API ENDS HERE
 

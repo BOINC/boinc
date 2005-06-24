@@ -244,7 +244,7 @@ private:
     int app_finished(ACTIVE_TASK&);
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
-    bool schedule_earliest_deadline_result(double expected_pay_off);
+    bool schedule_earliest_deadline_result();
     bool start_apps();
     bool schedule_cpus();
     bool handle_finished_apps();

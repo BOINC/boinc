@@ -1177,6 +1177,8 @@ void RESULT::clear() {
     stderr_out = "";
     suspended_via_gui = false;
     aborted_via_gui = false;
+    fpops_per_cpu_sec = 0;
+    fpops_cumulative = 0;
     app = NULL;
     wup = NULL;
     project = NULL;
@@ -1253,6 +1255,8 @@ int RESULT::parse_state(MIOFILE& in) {
             }
             continue;
         }
+        else if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
+        else if (parse_double(buf, "<fpops_cumulative>", fpops_cumulative)) continue;
         else scope_messages.printf("RESULT::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -1274,6 +1278,16 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         exit_status,
         state
     );
+    if (fpops_per_cpu_sec) {
+        out.printf(
+            "    <fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec
+        );
+    }
+    if (fpops_cumulative) {
+        out.printf(
+            "    <fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative
+        );
+    }
     if (to_server) {
         out.printf(
             "    <app_version_num>%d</app_version_num>\n",

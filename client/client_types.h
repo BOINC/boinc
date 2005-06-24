@@ -384,8 +384,10 @@ struct RESULT {
     bool got_server_ack;
         // we're received the ack for this result from the server
     double final_cpu_time;
-    int state;              // state of this result: see lib/result_state.h
-    int exit_status;        // return value from the application
+    double fpops_per_cpu_sec;   // nonzero if reported by app
+    double fpops_cumulative;    // nonzero if reported by app
+    int state;                  // state of this result: see lib/result_state.h
+    int exit_status;            // return value from the application
     std::string stderr_out;
         // the concatenation of:
         //

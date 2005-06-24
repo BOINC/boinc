@@ -28,7 +28,7 @@ To assign environment variables (e.g., CC, CFLAGS...), specify them as
 VAR=VALUE.
 Example: to compile BOINC with strict compiler warnings, use
 <pre>
-./configure CXXFLAGS=\"-Wall -W -Wmissing-prototypes -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common -Wnested-externs\"
+./configure CXXFLAGS=\"-Wall -W -Wmissing-prototypes -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \"
 </pre>
 
 <p>

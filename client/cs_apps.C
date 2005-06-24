@@ -344,7 +344,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 // Schedule the active task with the earliest deadline
 // Return true iff a task was scheduled.
 //
-bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
+bool CLIENT_STATE::schedule_earliest_deadline_result() {
     PROJECT *best_project = NULL;
     RESULT *best_result = NULL;
     double earliest_deadline=0;
@@ -569,7 +569,7 @@ bool CLIENT_STATE::schedule_cpus() {
     expected_pay_off = total_wall_cpu_time_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
         if (cpu_earliest_deadline_first) {
-            if (!schedule_earliest_deadline_result(expected_pay_off)) break;
+            if (!schedule_earliest_deadline_result()) break;
         } else {
             assign_results_to_projects();
             if (!schedule_largest_debt_project(expected_pay_off)) break;

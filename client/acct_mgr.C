@@ -217,7 +217,6 @@ int ACCT_MGR_INFO::write_info() {
 
 int ACCT_MGR_INFO::init() {
     char    buf[256];
-    int     retval=0;
     MIOFILE mf;
     FILE*   p;
 

@@ -83,6 +83,8 @@ static volatile bool heartbeat_active;
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
 #endif
+static double fpops_per_cpu_sec = 0;
+static double fpops_cumulative = 0;
 
 #define TIMER_PERIOD 1
     // period of worker-thread timer
@@ -177,6 +179,14 @@ static bool update_app_progress(
     }
     if (vm) {
         sprintf(buf, "<vm_bytes>%f</vm_bytes>\n", vm);
+        strcat(msg_buf, buf);
+    }
+    if (fpops_per_cpu_sec) {
+        sprintf(buf, "<fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
+        strcat(msg_buf, buf);
+    }
+    if (fpops_cumulative) {
+        sprintf(buf, "<fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative);
         strcat(msg_buf, buf);
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
@@ -740,5 +750,12 @@ int boinc_upload_status(std::string& name) {
     return ERR_NOT_FOUND;
 }
 
+void boinc_fpops_per_cpu_sec(double x) {
+    fpops_per_cpu_sec = x;
+}
+
+void boinc_fpops_cumulative(double x) {
+    fpops_cumulative = x;
+}
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

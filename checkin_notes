@@ -8377,3 +8377,34 @@ Janus	23 June 2005
         user/
             top_users.php
 
+David  23 June 2005
+    - Add new API calls so that optimized apps can claim credit more accurately:
+
+        boinc_fpops_per_cpu_sec()
+            Report results of app-specific benchmarks
+        boinc_fpops_cumulative()
+            Report total FP operations so far in this result
+
+        These are stored by the API library and passed to the core client
+        in status messages.
+        The core client stores them in the RESULT and sends them to server
+    - scheduling server: assign claimed credit based on
+        fpops_per_cpu_sec or fpops_cumulative if present
+    - remove compile warnings
+
+    api/
+        boinc_api.C,h
+    client/
+        acct_mgr.C
+        client_state.h
+        client_types.C,h
+        cs_apps.C
+        gui_rpc_server.C
+    db/
+        boinc_db.h
+    doc/
+        api.php
+    sched/
+        handle_request.C
+        sched_shmem.C
+        server_types.C

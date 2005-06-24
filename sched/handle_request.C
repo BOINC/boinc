@@ -324,7 +324,6 @@ make_new_host:
     //
     if (strlen(sreq.cross_project_id)) {
         if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
-            DB_USER user;
             user.id = reply.user.id;
             escape_string(sreq.cross_project_id, sizeof(sreq.cross_project_id));
             sprintf(buf, "cross_project_id='%s'", sreq.cross_project_id);
@@ -335,14 +334,19 @@ make_new_host:
     return 0;
 }
 
+#define COBBLESTONE_FACTOR 100.0
+
 // somewhat arbitrary formula for credit as a function of CPU time.
 // Could also include terms for RAM size, network speed etc.
 //
 static void compute_credit_rating(HOST& host) {
-    double cobblestone_factor = 100;
     host.credit_per_cpu_sec =
         (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9)
-        * cobblestone_factor / (2 * SECONDS_PER_DAY);
+        * COBBLESTONE_FACTOR / (2 * SECONDS_PER_DAY);
+}
+
+static double fpops_to_credit(double fpops) {
+    return (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
 }
 
 // modify host struct based on request.
@@ -599,7 +603,13 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         srip->cpu_time = rp->cpu_time;
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
-        srip->claimed_credit = rp->cpu_time * reply.host.credit_per_cpu_sec;
+        if (rp->fpops_cumulative) {
+            srip->claimed_credit = fpops_to_credit(rp->fpops_cumulative);
+        } else if (rp->fpops_per_cpu_sec) {
+            srip->claimed_credit = fpops_to_credit(rp->fpops_per_cpu_sec*rp->cpu_time);
+        } else {
+            srip->claimed_credit = rp->cpu_time * reply.host.credit_per_cpu_sec;
+        }
 #ifdef EINSTEIN_AT_HOME
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.credit_per_cpu_sec, srip->claimed_credit

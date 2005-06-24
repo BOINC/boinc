@@ -50,7 +50,7 @@ void SCHED_SHMEM::init() {
     nwu_results = MAX_WU_RESULTS;
 }
 
-static int error_return(char* p) {
+static int error_return(const char* p) {
     fprintf(stderr, "Error in structure: %s\n", p);
     return ERR_SCHED_SHMEM;
 }
