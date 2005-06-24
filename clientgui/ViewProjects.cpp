@@ -47,12 +47,13 @@
 #define GRP_WEBSITES 1
 
 // buttons in the "tasks" area
-#define BTN_UPDATE   0
-#define BTN_SUSPEND  1
-#define BTN_NOWORK   2
-#define BTN_RESET    3
-#define BTN_DETACH   4
-#define BTN_ATTACH   5
+#define BTN_UPDATE       0
+#define BTN_UPDATE_ALL   1
+#define BTN_SUSPEND      2
+#define BTN_NOWORK       3
+#define BTN_RESET        4
+#define BTN_DETACH       5
+#define BTN_ATTACH       6
 
 
 CProject::CProject() {
@@ -74,6 +75,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_UPDATE, CViewProjects::OnProjectUpdate)
+    EVT_BUTTON(ID_TASK_PROJECT_UPDATE_ALL, CViewProjects::OnProjectUpdateAll)
     EVT_BUTTON(ID_TASK_PROJECT_SUSPEND, CViewProjects::OnProjectSuspend)
     EVT_BUTTON(ID_TASK_PROJECT_NONEWWORK, CViewProjects::OnProjectNoNewWork)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
@@ -109,6 +111,14 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
         _("Report all completed work, get latest credit, "
           "get latest preferences, and possibly get more work."),
         ID_TASK_PROJECT_UPDATE 
+    );
+    pGroup->m_Tasks.push_back( pItem );
+
+	pItem = new CTaskItem(
+        _("Update All"),
+        _("Report all upload items, completed work, get latest credit, "
+          "get latest preferences, and possibly get more work."),
+        ID_TASK_PROJECT_UPDATE_ALL
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -212,6 +222,30 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
 }
 
 
+void CViewProjects::OnProjectUpdateAll( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdateAll - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
+
+    pFrame->UpdateStatusText(_("Updating all project(s)..."));
+    pDoc->rpc.network_available();
+    pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdateAll - Function End"));
+}
+
+
 void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function Begin"));
 
@@ -302,10 +336,10 @@ void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
         strProjectName.c_str()
     );
 
-    iAnswer = wxMessageBox(
+    iAnswer = ::wxMessageBox(
         strMessage,
         _("Reset Project"),
-        wxYES_NO | wxICON_QUESTION, 
+        wxYES_NO | wxICON_QUESTION,
         this
     );
 
@@ -348,10 +382,10 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
         strProjectName.c_str()
     );
 
-    iAnswer = wxMessageBox(
+    iAnswer = ::wxMessageBox(
         strMessage,
         _("Detach from Project"),
-        wxYES_NO | wxICON_QUESTION, 
+        wxYES_NO | wxICON_QUESTION,
         this
     );
 
@@ -588,6 +622,7 @@ void CViewProjects::UpdateSelection() {
     if (m_pListPane->GetSelectedItemCount()) {
         project = pDoc->project(m_pListPane->GetFirstSelected());
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE_ALL]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (project->suspended_via_gui) {
             m_pTaskPane->UpdateTask(
@@ -613,6 +648,7 @@ void CViewProjects::UpdateSelection() {
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ATTACH]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE_ALL]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ATTACH]);
     }
 

@@ -87,18 +87,14 @@ public:
     void OnInitialized( CMainFrameEvent& event );
     void OnRefreshView( CMainFrameEvent& event );
     void OnConnect( CMainFrameEvent& event );
-    void OnConnectError( CMainFrameEvent& event );
-    void OnConnectErrorAuthentication( CMainFrameEvent& event );
 
     void UpdateStatusText( const wxChar* szStatus );
 
-    void FireAlert( wxString& title, wxString& message, int style );
     void FireInitialize();
     void FireRefreshView();
     void FireConnect();
-    void FireConnectError();
-    void FireConnectErrorAuthentication();
 
+    void ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only = false );
     void ExecuteBrowserLink( const wxString& strLink );
 
 private:
@@ -106,6 +102,7 @@ private:
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
+    wxDialUpManager* m_pDialupManager;
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
@@ -114,6 +111,7 @@ private:
     wxString        m_strBaseTitle;
 
     wxInt32         m_iSelectedLanguage;
+    wxInt32         m_iReminderFrequency;
     wxArrayString   m_aSelectedComputerMRU;
 
 
@@ -151,8 +149,8 @@ public:
 class CMainFrameAlertEvent : public wxEvent
 {
 public:
-    CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style)
-        : wxEvent(-1, evtType), title(title), message(message), style(style)
+    CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style, bool notification_only)
+        : wxEvent(-1, evtType), title(title), message(message), style(style), notification_only(notification_only)
         {
             SetEventObject(frame);
         }
@@ -163,6 +161,7 @@ public:
             title = event.title;
             message = event.message;
             style = event.style;
+            notification_only = event.notification_only;
         }
 
     virtual wxEvent *Clone() const { return new CMainFrameAlertEvent(*this); }
@@ -170,23 +169,19 @@ public:
     wxString title;
     wxString message;
     int      style;
+    bool     notification_only;
 };
 
 
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_ALERT, 10000 )
 DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT, 10001 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR, 10002 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, 10003 )
 DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED, 10004 )
 DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW, 10005 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_MAINFRAME_ALERT(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_ALERT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_MAINFRAME_CONNECT(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_MAINFRAME_CONNECT_ERROR(fn)      DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT_ERROR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION(fn) \
-                                             DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_MAINFRAME_INITIALIZED(fn)        DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_INITIALIZED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_MAINFRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 

@@ -205,10 +205,10 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
     if (1) {
 #ifdef _WIN32
         if (!strMachineName.empty()) {
-            iAnswer = wxMessageBox(
+            iAnswer = ::wxMessageBox(
                 _("Are you sure you wish to display graphics on a remote machine?"),
                 _("Show graphics"),
-                wxYES_NO | wxICON_QUESTION, 
+                wxYES_NO | wxICON_QUESTION,
                 this
             );
         } else {
@@ -262,10 +262,10 @@ void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
         pDoc->result(m_pListPane->GetFirstSelected())->name.c_str()
     );
 
-    iAnswer = wxMessageBox(
+    iAnswer = ::wxMessageBox(
         strMessage,
         _("Abort result"),
-        wxYES_NO | wxICON_QUESTION, 
+        wxYES_NO | wxICON_QUESTION,
         this
     );
 

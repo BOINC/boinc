@@ -58,6 +58,7 @@ public:
     virtual const char**    GetViewIcon();
 
     void                    OnProjectUpdate( wxCommandEvent& event );
+    void                    OnProjectUpdateAll( wxCommandEvent& event );
     void                    OnProjectSuspend( wxCommandEvent& event );
     void                    OnProjectNoNewWork( wxCommandEvent& event );
     void                    OnProjectReset( wxCommandEvent& event );

@@ -157,7 +157,11 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->FireConnectErrorAuthentication();
+        pFrame->ShowAlert(
+            _("BOINC Manager - Connection Error"),
+            _("The password you have provided is incorrect, please try again."),
+            wxICON_ERROR
+        );
     }
 }
 
@@ -172,7 +176,11 @@ void CNetworkConnection::SetStateError() {
 
         m_bConnectEvent = false;
 
-        pFrame->FireConnectError();
+        pFrame->ShowAlert(
+            _("BOINC Manager - Connection failed"),
+            _("Connection failed."),
+            wxICON_ERROR
+        );
     }
 }
 
@@ -555,7 +563,7 @@ int CMainDocument::CachedProjectStatusUpdate() {
 }
 
 
-PROJECT* CMainDocument::project(int i) {
+PROJECT* CMainDocument::project(unsigned int i) {
     PROJECT* pProject = NULL;
 
     // It is not safe to assume that the vector actually contains the data,
@@ -698,7 +706,7 @@ int CMainDocument::CachedResultsStatusUpdate() {
 }
 
 
-RESULT* CMainDocument::result(int i) {
+RESULT* CMainDocument::result(unsigned int i) {
     RESULT* pResult = NULL;
 
     // It is not safe to assume that the vector actually contains the data,
@@ -823,7 +831,12 @@ int CMainDocument::CachedMessageUpdate() {
     in_this_func = true;
 
     if (IsConnected()) {
+        CMainFrame* pFrame = wxGetApp().GetFrame();
         MESSAGES new_msgs;
+
+        wxASSERT(pFrame);
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
         retval = rpc.get_messages(m_iMessageSequenceNumber, new_msgs);
         if (retval) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
@@ -833,17 +846,25 @@ int CMainDocument::CachedMessageUpdate() {
         std::vector<MESSAGE*>::iterator mi = new_msgs.messages.begin();
         while (mi != new_msgs.messages.end()) {
             MESSAGE* mp = *mi;
-            m_iMessageSequenceNumber = mp->seqno;
-            wxString foo;
             switch(mp->priority) {
             case MSG_PRIORITY_ALERT_ERROR:
-                foo = mp->body.c_str();
-                wxMessageBox(foo, _("BOINC error"), wxOK | wxICON_ERROR);
+                if (m_iMessageSequenceNumber) {
+                    pFrame->ShowAlert(
+                        _("BOINC error"),
+                        mp->body.c_str(),
+                        wxICON_ERROR
+                    );
+                }
                 delete mp;
                 break;
             case MSG_PRIORITY_ALERT_INFO:
-                foo = mp->body.c_str();
-                wxMessageBox(foo, _("BOINC info"), wxOK | wxICON_INFORMATION);
+                if (m_iMessageSequenceNumber) {
+                    pFrame->ShowAlert(
+                        _("BOINC info"),
+                        mp->body.c_str(),
+                        wxICON_INFORMATION
+                    );
+                }
                 delete mp;
                 break;
             default:
@@ -851,6 +872,9 @@ int CMainDocument::CachedMessageUpdate() {
             }
             new_msgs.messages.erase(mi);
         }
+
+        if (messages.messages.size() != 0)
+            m_iMessageSequenceNumber = messages.messages.at(messages.messages.size()-1)->seqno;
     }
 done:
     in_this_func = false;
@@ -858,7 +882,7 @@ done:
 }
 
 
-MESSAGE* CMainDocument::message(int i) {
+MESSAGE* CMainDocument::message(unsigned int i) {
     MESSAGE* pMessage = NULL;
 
     // It is not safe to assume that the vector actually contains the data,
@@ -914,7 +938,7 @@ int CMainDocument::CachedFileTransfersUpdate() {
 }
 
 
-FILE_TRANSFER* CMainDocument::file_transfer(int i) {
+FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
     FILE_TRANSFER* pFT = NULL;
 
     // It is not safe to assume that the vector actually contains the data,
@@ -989,7 +1013,7 @@ int CMainDocument::CachedResourceStatusUpdate() {
 }
 
 
-PROJECT* CMainDocument::resource(int i) {
+PROJECT* CMainDocument::resource(unsigned int i) {
     PROJECT* pProject = NULL;
 
     // It is not safe to assume that the vector actually contains the data,
@@ -1040,8 +1064,9 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
 }
 
 
-PROJECT* CMainDocument::statistic(int i) {
+PROJECT* CMainDocument::statistic(unsigned int i) {
     PROJECT* pProject = NULL;
+
 
     // It is not safe to assume that the vector actually contains the data,
     //   doing so will lead to those annoying dialogs about the list control
@@ -1056,6 +1081,7 @@ PROJECT* CMainDocument::statistic(int i) {
     catch (std::out_of_range e) {
         pProject = NULL;
     }
+
 
     return pProject;
 }
@@ -1087,72 +1113,6 @@ int CMainDocument::GetProxyConfiguration() {
 }
 
 
-int CMainDocument::GetProxyHTTPProxyEnabled(bool& bEnabled) {
-    bEnabled = proxy_info.use_http_proxy;
-    return 0;
-}
-
-
-int CMainDocument::GetProxyHTTPServerName(wxString& strServerName) {
-    strServerName.Clear();
-    strServerName = proxy_info.http_server_name.c_str();
-    return 0;
-}
-
-
-int CMainDocument::GetProxyHTTPServerPort(int& iPortNumber) {
-    iPortNumber = proxy_info.http_server_port;
-    return 0;
-}
-
-
-int CMainDocument::GetProxyHTTPUserName(wxString& strUserName) {
-    strUserName.Clear();
-    strUserName = proxy_info.http_user_name.c_str();
-    return 0;
-}
-
-
-int CMainDocument::GetProxyHTTPPassword(wxString& strPassword) {
-    strPassword.Clear();
-    strPassword = proxy_info.http_user_passwd.c_str();
-    return 0;
-}
-
-
-int CMainDocument::GetProxySOCKSProxyEnabled(bool& bEnabled) {
-    bEnabled = proxy_info.use_socks_proxy;
-    return 0;
-}
-
-
-int CMainDocument::GetProxySOCKSServerName(wxString& strServerName) {
-    strServerName.Clear();
-    strServerName = proxy_info.socks_server_name.c_str();
-    return 0;
-}
-
-
-int CMainDocument::GetProxySOCKSServerPort(int& iPortNumber) {
-    iPortNumber = proxy_info.socks_server_port;
-    return 0;
-}
-
-
-int CMainDocument::GetProxySOCKSUserName(wxString& strUserName) {
-    strUserName.Clear();
-    strUserName = proxy_info.socks5_user_name.c_str();
-    return 0;
-}
-
-
-int CMainDocument::GetProxySOCKSPassword(wxString& strPassword) {
-    strPassword.Clear();
-    strPassword = proxy_info.socks5_user_passwd.c_str();
-    return 0;
-}
-
-    
 int CMainDocument::SetProxyConfiguration() {
     int     iRetVal = 0;
 
@@ -1171,64 +1131,5 @@ int CMainDocument::SetProxyConfiguration() {
     return iRetVal;
 }
 
-
-int CMainDocument::SetProxyHTTPProxyEnabled(const bool bEnabled) {
-    proxy_info.use_http_proxy = bEnabled;
-    return 0;
-}
-
-
-int CMainDocument::SetProxyHTTPServerName(const wxString& strServerName) {
-    proxy_info.http_server_name = strServerName.c_str();
-    return 0;
-}
-
-
-int CMainDocument::SetProxyHTTPServerPort(const int iPortNumber) {
-    proxy_info.http_server_port = iPortNumber;
-    return 0;
-}
-
-
-int CMainDocument::SetProxyHTTPUserName(const wxString& strUserName) {
-    proxy_info.http_user_name = strUserName.c_str();
-    return 0;
-}
-
-
-int CMainDocument::SetProxyHTTPPassword(const wxString& strPassword) {
-    proxy_info.http_user_passwd = strPassword.c_str();
-    return 0;
-}
-
-
-int CMainDocument::SetProxySOCKSProxyEnabled(const bool bEnabled) {
-    proxy_info.use_socks_proxy = bEnabled;
-    return 0;
-}
-
-
-int CMainDocument::SetProxySOCKSServerName(const wxString& strServerName) {
-    proxy_info.socks_server_name = strServerName.c_str();
-    return 0;
-}
-
-
-int CMainDocument::SetProxySOCKSServerPort(const int iPortNumber) {
-    proxy_info.socks_server_port = iPortNumber;
-    return 0;
-}
-
-
-int CMainDocument::SetProxySOCKSUserName(const wxString& strUserName) {
-    proxy_info.socks5_user_name = strUserName.c_str();
-    return 0;
-}
-
-
-int CMainDocument::SetProxySOCKSPassword(const wxString& strPassword) {
-    proxy_info.socks5_user_passwd = strPassword.c_str();
-    return 0;
-}
 
 const char *BOINC_RCSID_aa03a835ba = "$Id$";

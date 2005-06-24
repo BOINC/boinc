@@ -79,9 +79,9 @@ public:
     }
 #endif
 
-private:
-
     wxIcon     m_iconTaskBarIcon;
+
+private:
     wxDateTime m_dtLastHoverDetected;
     wxDateTime m_dtLastBalloonDisplayed;
 

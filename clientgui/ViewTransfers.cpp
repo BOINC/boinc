@@ -185,10 +185,10 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
         _("Are you sure you want to abort this file transfer '%s'?"), 
         pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str());
 
-    iAnswer = wxMessageBox(
+    iAnswer = ::wxMessageBox(
         strMessage,
         _("Abort File Transfer"),
-        wxYES_NO | wxICON_QUESTION, 
+        wxYES_NO | wxICON_QUESTION,
         this
     );
 

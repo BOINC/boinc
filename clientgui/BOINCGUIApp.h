@@ -58,8 +58,8 @@ protected:
     bool            ProcessExists(pid_t thePID);
 #endif
 
-    int         StartupSystemIdleDetection();
-    int         ShutdownSystemIdleDetection();
+    int             StartupSystemIdleDetection();
+    int             ShutdownSystemIdleDetection();
 
     wxConfig*       m_pConfig;
     wxLocale*       m_pLocale;
@@ -77,7 +77,7 @@ protected:
     bool            m_bBOINCStartedByManager;
     bool            m_bFrameVisible;
 
-    int         m_lBOINCCoreProcessId;
+    int             m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
     HANDLE          m_hBOINCCoreProcess;

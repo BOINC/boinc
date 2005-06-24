@@ -33,13 +33,6 @@ public:
 
     virtual ~wxTaskBarIconEx(void);
 
-    enum ICONTYPES
-    {
-        Info = NIIF_INFO,
-        Warning = NIIF_WARNING,
-        Error = NIIF_ERROR
-    };
-
 // Events
     virtual void OnClose( wxCloseEvent& event );
     virtual void OnTaskBarCreated( wxTaskBarIconExEvent& event );
@@ -61,7 +54,7 @@ public:
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int timeout = 5000,
-        ICONTYPES iconballoon = ICONTYPES::Info
+        unsigned int iconballoon = NIIF_INFO
     );
 
     bool RemoveIcon();

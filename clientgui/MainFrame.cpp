@@ -137,8 +137,6 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_ALERT)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT)
-DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR)
-DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
 
@@ -161,8 +159,6 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_CLOSE(CMainFrame::OnClose)
     EVT_MAINFRAME_ALERT(CMainFrame::OnAlert)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
-    EVT_MAINFRAME_CONNECT_ERROR(CMainFrame::OnConnectError)
-    EVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION(CMainFrame::OnConnectErrorAuthentication)
     EVT_MAINFRAME_INITIALIZED(CMainFrame::OnInitialized)
     EVT_MAINFRAME_REFRESH(CMainFrame::OnRefreshView)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
@@ -189,6 +185,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
     m_iSelectedLanguage = 0;
+    m_iReminderFrequency = 0;
 
     m_strBaseTitle = strTitle;
 
@@ -202,6 +199,8 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
+    m_pDialupManager = wxDialUpManager::Create();
+    wxASSERT(m_pDialupManager);
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -250,6 +249,7 @@ CMainFrame::~CMainFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
+    wxASSERT(m_pDialupManager);
 
 
     SaveState();
@@ -283,7 +283,9 @@ CMainFrame::~CMainFrame() {
     if (m_pMenubar)
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
 
-    
+    if (m_pDialupManager)
+        delete m_pDialupManager;
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function End"));
 }
@@ -563,12 +565,19 @@ bool CMainFrame::SaveState() {
     wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
 
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
     //
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Write(wxT("Language"), m_iSelectedLanguage);
+    pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
@@ -663,6 +672,11 @@ bool CMainFrame::RestoreState() {
     wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
 
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
 
     //
     // Restore Frame State
@@ -673,6 +687,7 @@ bool CMainFrame::RestoreState() {
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
+    pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
 
 
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
@@ -876,7 +891,7 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             TRUE
         );
         if (lRetVal) {
-            ::wxMessageBox(
+            ShowAlert(
                 _("Connection failed."),
                 _("Connection failed."),
                 wxICON_ERROR
@@ -990,10 +1005,9 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CDlgOptions*   pDlg = new CDlgOptions(this);
-    int        iAnswer = 0;
+    int            iAnswer = 0;
     bool           bProxyInformationConfigured = false;
-    bool           bBuffer = false;
-    int        iBuffer = 0;
+    int            iBuffer = 0;
     wxString       strBuffer = wxEmptyString;
 
     wxASSERT(pDoc);
@@ -1004,65 +1018,49 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     bProxyInformationConfigured = (0 == pDoc->GetProxyConfiguration());
     if (bProxyInformationConfigured) {
         pDlg->m_bProxySectionConfigured = true;
-        if (0 == pDoc->GetProxyHTTPProxyEnabled(bBuffer))
-            pDlg->m_EnableHTTPProxyCtrl->SetValue(bBuffer);
-        if (0 == pDoc->GetProxyHTTPServerName(strBuffer)) 
-            pDlg->m_HTTPAddressCtrl->SetValue(strBuffer);
-        if (0 == pDoc->GetProxyHTTPServerPort(iBuffer)) {
-            strBuffer.Printf(wxT("%d"), iBuffer);
-            pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
-        }
-        if (0 == pDoc->GetProxyHTTPUserName(strBuffer)) 
-            pDlg->m_HTTPUsernameCtrl->SetValue(strBuffer);
-        if (0 == pDoc->GetProxyHTTPPassword(strBuffer)) 
-            pDlg->m_HTTPPasswordCtrl->SetValue(strBuffer);
+        pDlg->m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
+        pDlg->m_HTTPAddressCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
+        pDlg->m_HTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
+        pDlg->m_HTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
 
-        if (0 == pDoc->GetProxySOCKSProxyEnabled(bBuffer))
-            pDlg->m_EnableSOCKSProxyCtrl->SetValue(bBuffer);
-        if (0 == pDoc->GetProxySOCKSServerName(strBuffer)) 
-            pDlg->m_SOCKSAddressCtrl->SetValue(strBuffer);
-        if (0 == pDoc->GetProxySOCKSServerPort(iBuffer)) {
-            strBuffer.Printf(wxT("%d"), iBuffer);
-            pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
-        }
-        if (0 == pDoc->GetProxySOCKSUserName(strBuffer)) 
-            pDlg->m_SOCKSUsernameCtrl->SetValue(strBuffer);
-        if (0 == pDoc->GetProxySOCKSPassword(strBuffer)) 
-            pDlg->m_SOCKSPasswordCtrl->SetValue(strBuffer);
+        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
+        pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
+
+        pDlg->m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
+        pDlg->m_SOCKSAddressCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
+        pDlg->m_SOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
+        pDlg->m_SOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
+
+        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
+        pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
 
         pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     }
 
     iAnswer = pDlg->ShowModal();
     if (wxID_OK == iAnswer) {
-        bBuffer = pDlg->m_EnableHTTPProxyCtrl->GetValue();
-        pDoc->SetProxyHTTPProxyEnabled(bBuffer);
-        strBuffer = pDlg->m_HTTPAddressCtrl->GetValue();
-        pDoc->SetProxyHTTPServerName(strBuffer);
+        pDoc->proxy_info.use_http_proxy = pDlg->m_EnableHTTPProxyCtrl->GetValue();
+        pDoc->proxy_info.http_server_name = pDlg->m_HTTPAddressCtrl->GetValue().c_str();
+        pDoc->proxy_info.http_user_name = pDlg->m_HTTPUsernameCtrl->GetValue().c_str();
+        pDoc->proxy_info.http_user_passwd = pDlg->m_HTTPPasswordCtrl->GetValue().c_str();
+
         strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
         strBuffer.ToLong((long*)&iBuffer);
-        pDoc->SetProxyHTTPServerPort(iBuffer);
-        strBuffer = pDlg->m_HTTPUsernameCtrl->GetValue();
-        pDoc->SetProxyHTTPUserName(strBuffer);
-        strBuffer = pDlg->m_HTTPPasswordCtrl->GetValue();
-        pDoc->SetProxyHTTPPassword(strBuffer);
+        pDoc->proxy_info.http_server_port = iBuffer;
 
-        bBuffer = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
-        pDoc->SetProxySOCKSProxyEnabled(bBuffer);
-        strBuffer = pDlg->m_SOCKSAddressCtrl->GetValue();
-        pDoc->SetProxySOCKSServerName(strBuffer);
+        pDoc->proxy_info.use_socks_proxy = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
+        pDoc->proxy_info.socks_server_name = pDlg->m_SOCKSAddressCtrl->GetValue().c_str();
+        pDoc->proxy_info.socks5_user_name = pDlg->m_SOCKSUsernameCtrl->GetValue().c_str();
+        pDoc->proxy_info.socks5_user_passwd = pDlg->m_SOCKSPasswordCtrl->GetValue().c_str();
+
         strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
         strBuffer.ToLong((long*)&iBuffer);
-        pDoc->SetProxySOCKSServerPort(iBuffer);
-        strBuffer = pDlg->m_SOCKSUsernameCtrl->GetValue();
-        pDoc->SetProxySOCKSUserName(strBuffer);
-        strBuffer = pDlg->m_SOCKSPasswordCtrl->GetValue();
-        pDoc->SetProxySOCKSPassword(strBuffer);
+        pDoc->proxy_info.socks_server_port = iBuffer;
 
         pDoc->SetProxyConfiguration();
 
         if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
-            ::wxMessageBox(
+            ShowAlert(
                 _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
                 _("Language Selection..."),
                 wxICON_INFORMATION
@@ -1149,6 +1147,41 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 
 void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
+
+#ifdef __WXMSW__
+    if (IsShown() && !event.notification_only) {
+        ::wxMessageBox(event.message, event.title, event.style, this);
+    } else {
+        // If the main window is hidden or minimzed use the system tray ballon
+        //   to notify the user instead.  This keeps dialogs from interfering
+        //   with people typing email messages or any other activity where they
+        //   do not want keyboard focus changed to another window while typing.
+        CTaskBarIcon* taskbar = wxGetApp().GetTaskBarIcon();
+        unsigned int  icon_type;
+        wxASSERT(taskbar);
+
+        if (wxICON_ERROR & event.style) {
+            icon_type = NIIF_ERROR;
+        } else if (wxICON_WARNING & event.style) {
+            icon_type = NIIF_WARNING;
+        } else if (wxICON_INFORMATION & event.style) {
+            icon_type = NIIF_INFO;
+        } else {
+            icon_type = NIIF_NONE;
+        }
+
+        taskbar->SetBalloon(
+            taskbar->m_iconTaskBarIcon,
+            event.title,
+            event.message,
+            5000,
+            icon_type
+        );
+    }
+#else
+    ::wxMessageBox(event.message, event.title, event.style, this);
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function End"));
 }
 
@@ -1189,32 +1222,6 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     }
    
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
-}
-
-
-void CMainFrame::OnConnectError(CMainFrameEvent&) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function Begin"));
-
-    ::wxMessageBox(
-        _("Connection failed."),
-        _("BOINC Manager - Connection failed."),
-        wxICON_ERROR
-    );
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectError - Function End"));
-}
-
-
-void CMainFrame::OnConnectErrorAuthentication(CMainFrameEvent&) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectErrorAuthentication - Function Begin"));
-
-    ::wxMessageBox(
-        _("The password you have provided is incorrect, please try again."),
-        _("BOINC Manager - Connection Error"),
-        wxICON_ERROR
-    );
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnectErrorAuthentication - Function End"));
 }
 
 
@@ -1292,10 +1299,11 @@ void CMainFrame::OnRefreshState(wxTimerEvent &event) {
 void CMainFrame::OnFrameRender(wxTimerEvent &event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
-    static bool     bAlreadyRunningLoop = false;
-    static bool     bAlreadyRunOnce = false;
-    static wxString strCachedStatusText = wxEmptyString;
-    CMainDocument*  pDoc = wxGetApp().GetDocument();
+    static bool       bAlreadyRunningLoop = false;
+    static bool       bAlreadyRunOnce = false;
+    static wxString   strCachedStatusText = wxEmptyString;
+
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
 
     if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
@@ -1309,12 +1317,132 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             bAlreadyRunOnce = true;
         }
 
+#ifdef __WXMSW__
+        // Determine if we need to connect to the Internet
+        //   Executes every ten seconds
+        static bool         successfully_connected = false;
+        static bool         disconnect_event_already_detected = false;
+        static wxDateTime   dtLastDialupCheck = wxDateTime((time_t)0);
+        static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
+        static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
+        int                 want_network = 0;
+        int                 answer = 0;
+        wxTimeSpan          tsLastDialupCheck(wxDateTime::Now() - dtLastDialupCheck);
+        wxTimeSpan          tsLastDialupAlertSent;
+        wxTimeSpan          tsLastDialupRequest;
+
+        if (m_pDialupManager) {
+            if ((tsLastDialupCheck.GetSeconds() >= 10) && (!m_pDialupManager->IsAlwaysOnline()) && (pDoc)) {
+                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                dtLastDialupCheck = wxDateTime::Now();
+
+                pDoc->rpc.network_query(want_network);
+                if (!m_pDialupManager->IsOnline() && want_network) {
+                    if (!IsShown()) {
+                        // BOINC Manager is hidden and displaying a dialog might interupt what they
+                        //   are doing.
+                        tsLastDialupAlertSent = wxDateTime::Now() - dtLastDialupAlertSent;
+                        if (tsLastDialupAlertSent.GetSeconds() >= (m_iReminderFrequency * 60)) {
+                            dtLastDialupAlertSent = wxDateTime::Now();
+                            ShowAlert(
+                                _("BOINC Manager - Network Status"),
+                                _("BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."),
+                                wxICON_INFORMATION
+                            );
+                        }
+                    } else {
+                        // BOINC Manager is visable and can process user input.
+                        tsLastDialupRequest = wxDateTime::Now() - dtLastDialupRequest;
+                        if (tsLastDialupRequest.GetSeconds() >= (m_iReminderFrequency * 60)) {
+                            dtLastDialupRequest = wxDateTime::Now();
+
+                            if(pDoc->state.global_prefs.confirm_before_connecting) {
+                                answer = ::wxMessageBox(
+                                    _("BOINC needs to connect to the network.\nMay it do so now?"),
+                                    _("BOINC Manager - Network Status"),
+                                    wxYES_NO | wxICON_QUESTION,
+                                    this
+                                );
+                            } else {
+                                ShowAlert(
+                                    _("BOINC Manager - Network Status"),
+                                    _("BOINC is connecting to the internet."),
+                                    wxICON_INFORMATION,
+                                    true
+                                );
+                                answer = wxYES;
+                            }
+
+                            // Process any UI update events
+                            ::wxYield();
+
+                            // Are we allow to connect?
+                            if (wxYES == answer) {
+                                if (m_pDialupManager->Dial(wxEmptyString, wxEmptyString, wxEmptyString, false)) {
+                                    ShowAlert(
+                                        _("BOINC Manager - Network Status"),
+                                        _("BOINC has successfully connected to the internet."),
+                                        wxICON_INFORMATION
+                                    );
+
+                                    successfully_connected = true;
+                                    disconnect_event_already_detected = false;
+                                    pDoc->rpc.network_available();
+                                } else {
+                                    ShowAlert(
+                                        _("BOINC Manager - Network Status"),
+                                        _("BOINC failed to connect to the internet."),
+                                        wxICON_ERROR
+                                    );
+
+                                    successfully_connected = false;
+                                    disconnect_event_already_detected = false;
+                                }
+                            }
+                        }
+                    }
+                } else if (m_pDialupManager->IsOnline() && want_network) {
+                    // We are already online but BOINC for some reason is in a state
+                    //   where it belives it has some pending work to do, so give it
+                    //   a nudge
+                    pDoc->rpc.network_available();
+                } else if (m_pDialupManager->IsOnline() && !want_network && successfully_connected) {
+                    // Should we disconnect now? The first time we see the disconnect event
+                    //   we should ignore it and allow an additional loop in case BOINC really
+                    //   isn't done.
+                    if (disconnect_event_already_detected) {
+                        if (pDoc->state.global_prefs.hangup_if_dialed) {
+                            if (m_pDialupManager->HangUp()) {
+                                ShowAlert(
+                                    _("BOINC Manager - Network Status"),
+                                    _("BOINC has successfully disconnected from the internet."),
+                                    wxICON_INFORMATION
+                                );
+
+                                successfully_connected = false;
+                                disconnect_event_already_detected = false;
+                            } else {
+                                ShowAlert(
+                                    _("BOINC Manager - Network Status"),
+                                    _("BOINC failed to disconnected from the internet."),
+                                    wxICON_ERROR
+                                );
+                            }
+                        }
+                    } else {
+                        disconnect_event_already_detected = true;
+                    }
+                }
+            }
+        }
+#endif
+
         if (IsShown()) {
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
                 // Update the menu bar
-                wxMenuBar*     pMenuBar      = GetMenuBar();
+                wxMenuBar* pMenuBar      = GetMenuBar();
                 int        iActivityMode = -1;
                 int        iNetworkMode  = -1;
 
@@ -1503,14 +1631,8 @@ void CMainFrame::FireConnect() {
 }
 
 
-void CMainFrame::FireConnectError() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR, this);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::FireConnectErrorAuthentication() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT_ERROR_AUTHENTICATION, this);
+void CMainFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only ) {
+    CMainFrameAlertEvent event(wxEVT_MAINFRAME_ALERT, this, title, message, style, notification_only);
     AddPendingEvent(event);
 }
 
@@ -1543,7 +1665,6 @@ void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
         delete ft;
     }
 }
-
 
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

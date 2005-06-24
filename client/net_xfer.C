@@ -95,7 +95,7 @@ int NET_XFER::open_server() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
 #ifdef _WIN32
-    if (get_connected_state == CONNECTED_STATE_NOT_CONNECTED) {
+    if (get_connected_state() == CONNECTED_STATE_NOT_CONNECTED) {
         gstate.want_network_flag = true;
         return ERR_CONNECT;
     } else {

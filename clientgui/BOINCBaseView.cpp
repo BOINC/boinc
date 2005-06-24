@@ -129,7 +129,7 @@ int CBOINCBaseView::GetListRowCount() {
 }
 
 
-void CBOINCBaseView::FireOnListRender (wxTimerEvent& event) {
+void CBOINCBaseView::FireOnListRender(wxTimerEvent& event) {
     OnListRender(event);
 }
 

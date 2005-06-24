@@ -8420,3 +8420,40 @@ David  24 June 2005
 
     client/
         app_start.C
+
+Rom    24 June 2005
+    - Initial checkin of Dial-up connection support for service and shared
+        install states.  Prompting for connect/disconnect requests is now
+        handled in the manager instead of the CC so the CC won't lock up
+        when configured to confirm before connect.
+
+        When multiple ISP's are detected but none are defined as the default
+        another dialog will appear giving you a choice as to which ISP to
+        use.
+
+        If the manager is hidden then the taskbar will display a balloon
+        stating that BOINC needs to connect and by opening the BOINC
+        manager you'll be able to connect up and update all projects.
+    - Added an 'Update All' button to the projects tab.
+    - More manager code clean-up
+    - Make alerts show up as a balloon if the manager is hidden.  Model
+        dialogs can be annoying when your typing an email or document and
+        it pops up right in front of the document.  What is even worse is
+        if you are typing and dismiss the dialog before you have even had a
+        chance to look at it.  The balloons show up in the lower right hand
+        corner and automatically go away after 5 seconds or so.
+    - If alerts already exist in the message queue when you connect up
+        to a remote computer, ignore them.
+
+    client/
+        net_xfer.C
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.h
+        BOINCTaskBar.h
+        Events.h
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+        ViewProjects.cpp, .h
+        ViewTransfers.cpp
+        ViewWork.cpp

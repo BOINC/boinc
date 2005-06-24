@@ -138,7 +138,7 @@ private:
 
 public:
     PROJECTS                    project_status;
-    PROJECT*                    project(int);
+    PROJECT*                    project(unsigned int);
     float                       m_fProjectTotalResourceShare;
 
     int                         GetProjectCount();
@@ -161,7 +161,7 @@ private:
 
 public:
     RESULTS                     results;
-    RESULT*                     result(int);
+    RESULT*                     result(unsigned int);
 
     int                         GetWorkCount();
 
@@ -179,7 +179,7 @@ private:
 
 public:
     MESSAGES                    messages;
-    MESSAGE*                    message(int);
+    MESSAGE*                    message(unsigned int);
     int                         CachedMessageUpdate();
 
     int                         GetMessageCount();
@@ -198,7 +198,7 @@ private:
 
 public:
     FILE_TRANSFERS              ft;
-    FILE_TRANSFER*              file_transfer(int);
+    FILE_TRANSFER*              file_transfer(unsigned int);
 
     int                         GetTransferCount();
 
@@ -215,7 +215,7 @@ private:
 
 public:
     PROJECTS                    resource_status;
-    PROJECT*                    resource(int);
+    PROJECT*                    resource(unsigned int);
 
     int                         GetResourceCount();
 
@@ -229,7 +229,7 @@ private:
 
 public:
 	PROJECTS                    statistics_status;
-    PROJECT*                    statistic(int);
+    PROJECT*                    statistic(unsigned int);
 
     int                         GetStatisticsCount();
 	
@@ -240,32 +240,9 @@ public:
 private:
 
 public:
-
-    int                         GetProxyConfiguration();
-    int                         GetProxyHTTPProxyEnabled(bool& bEnabled);
-    int                         GetProxyHTTPServerName(wxString& strServerName);
-    int                         GetProxyHTTPServerPort(int& iPortNumber);
-    int                         GetProxyHTTPUserName(wxString& strUserName);
-    int                         GetProxyHTTPPassword(wxString& strPassword);
-    int                         GetProxySOCKSProxyEnabled(bool& bEnabled);
-    int                         GetProxySOCKSServerName(wxString& strServerName);
-    int                         GetProxySOCKSServerPort(int& iPortNumber);
-    int                         GetProxySOCKSUserName(wxString& strUserName);
-    int                         GetProxySOCKSPassword(wxString& strPassword);
-
-    int                         SetProxyConfiguration();
-    int                         SetProxyHTTPProxyEnabled(const bool bEnabled);
-    int                         SetProxyHTTPServerName(const wxString& strServerName);
-    int                         SetProxyHTTPServerPort(const int iPortNumber);
-    int                         SetProxyHTTPUserName(const wxString& strUserName);
-    int                         SetProxyHTTPPassword(const wxString& strPassword);
-    int                         SetProxySOCKSProxyEnabled(const bool bEnabled);
-    int                         SetProxySOCKSServerName(const wxString& strServerName);
-    int                         SetProxySOCKSServerPort(const int iPortNumber);
-    int                         SetProxySOCKSUserName(const wxString& strUserName);
-    int                         SetProxySOCKSPassword(const wxString& strPassword);
-
 	PROXY_INFO					proxy_info;
+    int                         GetProxyConfiguration();
+    int                         SetProxyConfiguration();
 
 };
 
