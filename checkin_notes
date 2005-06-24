@@ -8408,3 +8408,15 @@ David  23 June 2005
         handle_request.C
         sched_shmem.C
         server_types.C
+
+David  24 June 2005
+    - attempt to fix bug on multiprocessors running Red Hat 9
+        (and maybe others)
+        where shared-memory segment names were all returning -1
+        (and multiple tasks where using same seg!!).
+        The problem: we were using the path of the init data file
+        to generate the key (using ftok)
+        but doing this before creating the file.
+
+    client/
+        app_start.C

@@ -930,6 +930,7 @@ const char* boincerror(int which_error) {
         case ERR_RETRY: return "retry";
         case ERR_WRONG_SIZE: return "wrong size";
         case ERR_USER_PERMISSION: return "user permission";
+        case ERR_SHMEM_NAME: return "can't get shared mem segment name";
     }
     return "UNRECOGNIZED: make lib/util.C consistent with lib/error_numbers.h";
 }

@@ -2,6 +2,49 @@
 
 $project_news = array(
 
+array("June 24, 2005",
+    "We have added
+    <a href=http://boinc.berkeley.edu/api.php#credit>new API calls</a>
+    that allow applications to do their own CPU benchmarking,
+    or directly report their floating-point operation count.
+    This will give more accurate credit numbers for
+    applications that are optimized for specific architectures
+    or that use non-CPU computing resources such as GPUs."
+),
+array("June 24, 2005",
+    "We've added two mechanisms that give better estimates
+    of result completion time
+    (and thus better scheduling and fewer missed deadlines):
+    1) we track the 'CPU efficiency': the average fraction
+    of CPU time that BOINC apps receive while they're running
+    (this can be less than one on systems that run
+    compute-intensive tasks other than BOINC);
+    2) we dynamically maintain a per-project upper bound on the
+    ratio of actual CPU time to predicted CPU time."
+),
+array("June 24, 2005",
+    "We've improved and simplified the CPU scheduling and work-fetch policies,
+    using a detailed simulation of BOINC's weighted round-robin scheduling.
+    When the simulator predicts that a deadline will be missed,
+    the client switches to earliest-deadline-first scheduling.
+    When the simulator predicts that fetching additional work
+    will cause a deadline to be missed, it suspends work fetch."
+),
+array("June 24, 2005",
+    "<a href=acct_mgt.php>Account management system</a>
+    are web sites that let participants sign up for
+    multiple projects with just a few clicks (and no account keys).
+    The BOINC manager (development version) now lets you
+    select, change, or get updated account info from an account manager."
+),
+array("June 24, 2005",
+    "BOINC now works in Windows 'service' mode on computers
+    with dialup connections and the 'confirm before connect' preference set.
+    The connection confirmation and setup process has been
+    moved to the BOINC manager, which (unlike a service)
+    is able to do GUI activities."
+),
+
 array("June 16, 2005",
     "Climateprediction.net is featured in
     <a href=http://www.iee.org/oncomms/sector/PN_Article.cfm?objectID=3D100A5C-BC75-D279-D8D15A49EC4131B4>an article</a>

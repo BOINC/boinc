@@ -149,6 +149,7 @@
 #define ERR_WRONG_SIZE      -200
 #define ERR_USER_PERMISSION -201
     // e.g. user didn't allow network connection
+#define ERR_SHMEM_NAME      -202
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.

@@ -126,11 +126,12 @@ MFILE buffers data in memory
 and writes to disk only on <code>flush()</code> or <code>close()</code>.
 This lets you write output files and state files more or less atomically.
 
+<a name=credit>
 <h3>Credit reporting</h3>
 <p>
-By default, the credit assigned to a result is based on
-the product of its total CPU time and
-benchmarks run by the core client.
+By default, the claimed credit of a result is based on
+the product of its total CPU time and the
+benchmark values obtained by the core client.
 This can produce results that are too low if
 the application uses processor-specific optimizations
 not present in the core client,
