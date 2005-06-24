@@ -1,432 +1,241 @@
-<center>
-<h2>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</h2>
-
- 
-
-<p>
-Written by Charlie Fenton
-
-<p>
-Last updated 5/20/05
-
-</center>
- 
-
-NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.  Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".
-
- 
-
-<p>
-These directions are for building under OS X version 10.4 (Tiger) using XCode Developer Tools version 2.0, or OS X version 10.3 (Panther) using XCode 1.5.  
-
-<p>
-
-XCode 1.5 installs autoconf version 2.57 and automake 1.63.  XCode 2.0 installs autoconf 2.59 and automake 1.63.  To determine the version number, type "autoconf --version" or "automake --version" .  Building BOINC requires autoconf 2.59 and automake 1.93 or later.
-
-<p>
-Upgrades for autoconf and automake are available from www.gnu.org.  XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.  If you install there, you must also set your PATH environment variable to include that location before proceeding with any of the steps below; type the following at the start of your terminal session:
-
-<pre>
-export PATH=/usr/local/bin:$PATH
-</pre>
-
-<p>
-If you are building under OS 10.4, you must first install XCode's optional Cross-Development SDK for system 10.3.9 from the XCode Tools CD.  This guarantees that all builds are backward compatible to OS 10.3.9.  This is not necessary for building under OS 10.3.
-
- 
-
-<h2>ONE_TIME SETUP for BOINC Manager and embedded Core Client</h2>
-
- 
-
-(1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:
-
-<p>
-You will need to set the environment variables CPPFLAGS and LDFLAGS as described below.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.
-
-<p>
-First set the CPPFlags environment variable. If you are building under OS 10.4:
-
-<pre>
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib"
-</pre>
-
-<p>
-If you are building under OS 10.3:
-
-<pre>
-export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib"
-</pre>
-
-Then continue building wxMac-2.6.0:
-
- 
-<pre>
-cd [wxpath]
-autoconf
-mkdir osx-build
-cd osx-build
-../configure --disable-shared --with-opengl --disable-webkit
-make
-</pre>
-If you are building under OS 10.4, set the LDFlags environment variable
-<b>after</b> the configure but <b>before</b> the make:
-<pre>
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
-
-make
-</pre>
-
-
-(2) Open a new terminal window to reset your session environment variables and set the working directory:
-
-<pre>
-cd [boincpath] 
-</pre>
-
-(3) Create a  symbolic link [boincpath]/wx_lib pointing to 
-[wxpath]/osx-build/lib/
-
-<p>
-(4) Create a  symbolic link  [boincpath]/wxinclude pointing to 
-[wxpath]/include
-
-<p>
-(5) Create a  symbolic link  [boincpath]/jpeglib pointing to 
-your jpeg-6b directory (or whatever directory contains the jpeglib source files).
-
-<p>
-For example, if the boinc, wxMac-2.6.0 directory is at [wxpath] and the jpeg-6b directory is at [jpegpath] then the commands would be:
-
-<pre>
-ln -s [wxpath]/osx-build/lib wx_lib
-ln -s [wxpath]/include wxinclude
-ln -s [jpegpath] jpeglib
-</pre>
-
-(6) Run Configure to create the correct config.h file for BOINC:
-
- 
-<p>
-Add the path to wx-config to the standard search path.  Either:
-
-<pre>
-export PATH=[wxpath]/osx-build:$PATH
-</pre>
-
-or (if your autoconf and automake are in /usr/local/bin/):
-
-<pre>
-export PATH=/usr/local/bin:[wxpath]/osx-build:$PATH;
-</pre>
-
-Set the CPPFlags environment variable. If you are building under OS 10.4:
-
-<pre>
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib -I../wxinclude -L../wx_lib"
-</pre>
-
-If you are building under OS 10.3:
-
-<pre>
-export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -I../jpeglib -I../wxinclude -L../wx_lib"
-</pre>
-
-Then continue configuring BOINC:
-
-<pre>
-./_autosetup
-./configure --disable-server --with-apple-opengl-framework --build=powerpc-apple-darwin
-</pre>
-
-
-(7) Since we have an XCode project, you don't normally need to build BOINC from the command line.  But if you wish to do so:
-
-<p>
-Set the LDFlags environment variable after the configure but before the make.  If you are building under OS 10.4:
-
-<pre>
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -L../wx_lib -F/Developer/SDKs/MacOSX10.3.9.sdk/System/Library/Frameworks"
-</pre>
-
-If you are building under OS 10.3:
-
-<pre>
-export LDFLAGS="-L../wx_lib"
-make
-</pre>
-
-<h2>Building the BOINC Manager with embedded Core Client, plus
-
-BOINC libraries, screensaver and helper applications</h2>
-
- 
-<p>
-(1) Double-click on [boincpath]/mac_build/boinc.pbproj to launch the XCode development IDE with the BOINC project.
-
- 
-<p>
-(2) Select the appropriate cross-development sdk as follows:
-<ul>
-<li>
- select the boinc project icon at the top of the Groups & Files column
-<li>
-  press command-i to open the Project "boinc" info window.
-<li>
-   In the "General" tab, set the popup menu "Cross-Develop Using Target SDK."   For OS 10.4, select "MacOSX10.3.9.sdk"; for OS 10.3 select "current Mac OS".
-</ul>
-
-<p>
-(3) In the Active Target popup, select mgr_boinc or Build_All.  Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.  These libraries are not needed by the BOINC Manager or Core Client.  In addition, Build_All builds the screensaver BOINCSaver.saver and the installer halper application Postinstall.app.
-
- 
-
-<p>
-(4) In the Active Build Style popup, choose Development (for debugging) or Deployment (for release builds.)
-
- 
-
-<p>
-(5) If you have switched Build Style, be sure to do a "Clean All Targets" from the Build menu; otherwise object files from the old build style will not be rebuilt in the new build style.
-
- 
-
-<p>
-(6) If you are building the screensaver, be sure to unstuff the file:
-
-[boincpath]/clientgui/mac/BOINCSaver.nib.sit
-
- 
-<p>
-
-(7) Select Build from the Build menu.  I suggest you also open the Detailed Build Results window from the Build menu.  Wait a long  time while it compiles.
-
- 
-<p>
-
-(8) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion. 
-
- 
-<p>
-
-(9) SetVersion is run automatically as part of the build process to update the following Mac version information files using the contents of version.h:
-<pre>
-InfoPlist.strings,
-Info.plist (under the resources group)
-SystemMenu-Info.plist
-ScreenSaver-Info.plist
-Installer-Info.plist
-</pre>
- 
-<p>
-
-(10) The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process. 
-
- 
-<p>
-
-(11) If you wish to run the Core Client under the debugger, you will need to set up the command-line arguments.  In the Groups & Files column of the XCode project window, select "BOINC_Client" under Executables.  Then click on the round blue "info" button at the top of the project window to open the info window.  In the info window's Arguments tab, add the following line to the Argument list:
-
-<pre>
--dir /Library/Application\ Support/BOINC\ Data/
-</pre>
-
-Normally, stdio and stderr output will be sent to XCode's console.  If you want stdio and stderr to be redirected to files as BOINC normally does, add a second line to the Argument list:
-
-<pre>
--redirectio
-</pre>
-
-These arguments will be used only when running the BOINC Core Client from XCode using XCode's Run or Debug commands.
-
-<h2>Building the installer</h2>
-
-<p>
- 
-
-After creating the deployment build of all targets using Build_All, use the Finder to do the following:
-
-<p>
-(1) In a convenient place on disk, create a directory "Installer_Resources".  Copy the following items into this directory:
-<pre>
-[boincpath]/mac_installer/License.rtf
-[boincpath]/mac_installer/ReadMe.rtf
-[boincpath]/mac_installer/postinstall
-[boincpath]/mac_installer/postupgrade
-[boincpath]/mac_build/build/Postinstall.app
-</pre>
-
-NOTE: the file extensions (such as .app and .saver) may be hidden by the Finder.  You can check an item's extension by selecting it in the Finder and using Get Info function from the Finder's File menu.
-
- 
-<p>
-
-(2) Create another directory "Pkg_Root", and inside that create two more directories "Applications" and"Library".  Create:
-
-<ul>
-<li>
- a "Screen Savers" directory inside your new Library directory,
-
-<li> an "Application Support" directory inside your new Library directory,
-
-<li> a "BOINC Data" directory inside your new Application Support directory,
-
-<li> a "locale" directory inside your new BOINC Data directory 
-
-</ul>
-Correct spelling of these names is critical.
-
- 
-<p>
-
-(3) Copy [boincpath]/mac_build/build/BOINCManager.app into your
-
-"Pkg_Root/Applications" directory.
-
-<p>
- 
-
-(4) Copy [boincpath]/mac_build/build/BOINCSaver.saver into your
-
-"Pkg_Root/Library/Screen Savers" directory. 
-
-<p>
- 
-
-(5) Copy the contents of boincpath]/locale/client/ into your
-
-"Pkg_Root/Library/Application Support/BOINC Data/locale" directory.  (You may optionally exclude the CVS subdirectories to save space.)
-
- 
-<p>
-
-You will now have the following directory structure:
-<pre>
-Pkg_Root
-        Applications
-                BOINCManager.app
-        Library
-                Application Support
-                        BOINC Data
-                                locale
-                                        de
-                                        en_US
-                                        it
-                                        etc.....
-                Screen Savers
-                        BOINCSaver.saver
-</pre>
-
-<p>
-(6) From the Finder, open [boincpath]/mac_installer/BOINC.pmproj (if running OS 10.3, use BOINC.pmsp). 
-It will open in the PackageMaker application.  In the Files tab, set the path to your Pkg_Root directory.  in the Resources tab, set the path to your Installer_Resources directory.   Update the  version number in multiple places in the Description and Version tabs.
-
- 
-<p>
-
-(7) Select "Create Package" from PackageMaker's File menu.  You can give any name you wish to the installer package when you create it, but do not change the package name after it is created.
-
- 
-<p>
-
-(8) Quit PackageMaker.
-
- 
-
-<h2>Package BOINC installer for distribution</h2>
-
- 
-
-<p>
-(1) Create a directory and name it appropriately, e.g. "boinc_4.37_macOSX".  Copy the installer package and the ReadMe file into the directory.
-
- 
-
-<p>
-(2)After selecting the directory you just created and populated, select Create archive from the Finder's File menu.  This will zip the file.  (Note: if you want to stuff the file instead of zipping it, be sure to uncheck "stuff originals instead of aliases" in DropStuff's preferences.)
-
- 
-<p>
-
-(3) Rename the zip file as appropriate to show the version number;
-for example, boinc_4.37_maxOSX.zip.
- 
-
- 
-
-<h1>BOINC SETI client application</h1>
-
- 
-
-<h2>ONE_TIME SETUP for BOINC SETI client application</h2>
-
- 
-<i>This section needs more work</i>
-
-<p>
-(1) Open a new terminal window to reset your session environment variables and set the working directory:
-
-<pre>
-cd [setipath] 
-</pre>
-
-(2) You will need to set some environment variables as described below.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.
-
-<p>
-First set the CPPFlags environment variable. If you are building under OS 10.4:
-<pre>
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[setipath]/jpeglib -ljpeg"
-</pre>
-
-<p>
-If you are building under OS 10.3:
-
-<pre>
-export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -L[setipath]/jpeglib -ljpeg"
-
-export PROJECTDIR=[setipath]
-
-export BOINCDIR=[boincpath]
-</pre>
-
-If your autoconf and automake are in /usr/local/bin/:
-
-<pre>
-export PATH=/usr/local/bin:$PATH
-</pre>
-
-(2) Run Configure to create the correct config.h file:
-
-
-<pre>
-./_autosetup
-./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics
-</pre>
- 
-
-<p>
-(3) Copy the correct jpebglib.a into [path]/seti_boinc/jpeg/   ?????
-
- 
-<p>
-
-(4)Create a  symbolic link [path]/seti_boinc/boinc pointing to the boinc directory
-
- 
-<pre>
-cd [boincpath]/seti_boinc
-ln -s [boincpath] ./boinc
-</pre>
- 
-
-<h2>Building the BOINC SETI client application</h2>
-
- 
-<p>
-
-The XCODE project for building the BOINC SETI@home client application is
-
-[boincpath]/seti_boinc/mac_build/seti_boinc.xcode.
-
- 
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="824.1">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px Helvetica}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #ff0000; min-height: 14.0px}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #0000ff; min-height: 14.0px}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; min-height: 14.0px}
+    span.s1 {text-decoration: underline}
+    span.s2 {font: 12.0px Lucida Grande}
+  </style>
+</head>
+<body>
+<p class="p1"><b>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</b></p>
+<p class="p2"><br></p>
+<p class="p3">Written by Charlie Fenton</p>
+<p class="p3">Last updated 6/22/05</p>
+<p class="p2"><br></p>
+<p class="p4">NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.<span class="Apple-converted-space">  </span>Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".</p>
+<p class="p2"><br></p>
+<p class="p4">These directions are for building under OS X version 10.4.x (Tiger) using XCode Developer Tools version 2.0, or OS X version 10.3.9 (Panther) using XCode 1.5. <span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">If you are building under OS 10.4, you must first install XCode's optional Cross-Development SDK for system 10.3.9 from the XCode Tools CD.<span class="Apple-converted-space">  </span>This guarantees that all builds are backward compatible to OS 10.3.9.<span class="Apple-converted-space">  </span>This is not necessary for building under OS 10.3.</p>
+<p class="p5"><br></p>
+<p class="p4">If you are building with XCode 2.0 under OS 10.4, the default compiler is GCC 4.0.<span class="Apple-converted-space">  </span>Software compiled with GCC 4.0 cannot run on systems earlier than OS 10.3.9.<span class="Apple-converted-space">  </span>To ensure compatibility back to OS 10.3.0, all BOINC software <b>must</b> be compiled using GCC version 3.3. <span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">The BOINC XCode project is already set up to use GCC 3.3.<span class="Apple-converted-space">  </span>For builds from the command-line under OS 10.4, you must set the environment variables CC and CXX.<span class="Apple-converted-space">  </span>For the bash shell:</p>
+<p class="p2"><br></p>
+<p class="p6">export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3</p>
+<p class="p2"><br></p>
+<p class="p4">To make sure that other XCode projects (such as client science applications) use GCC 3.0, do the following:</p>
+<p class="p2"><br></p>
+<p class="p4">In the XCode project, select your target under the Groups &amp; Files column.<span class="Apple-converted-space">  </span>Press command-I to open the info window for the target, and select the "Rules" tab.<span class="Apple-converted-space">  </span>Press the "+" at the bottom of the window twice to create two new rules.<span class="Apple-converted-space">  </span>Set one rule for C sources to use GCC 3.3, set the other rule for C++ sources to use GCC 3.3.<span class="Apple-converted-space">  </span>Close the window.<span class="Apple-converted-space">  </span>Repeat this for each target in the project.</p>
+<p class="p2"><br></p>
+<p class="p4">If you are building under OS 10.3.9, the default compiler is GCC 3.3, so these steps are not necessary (but they won't do any harm).</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p3"><b>ONE_TIME SETUP for BOINC Manager and embedded Core Client</b></p>
+<p class="p2"><br></p>
+<p class="p4">(1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:</p>
+<p class="p4">You will need to set the environment variables CPPFLAGS and LDFLAGS as described below.<span class="Apple-converted-space">  </span>These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.<span class="Apple-converted-space">  </span>Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.</p>
+<p class="p7"><br></p>
+<p class="p4">First set the CPPFlags environment variable. If you are building under OS 10.4:</p>
+<p class="p8"><br></p>
+<p class="p6">export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030";export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3</p>
+<p class="p2"><br></p>
+<p class="p4">If you are building under OS 10.3:</p>
+<p class="p2"><br></p>
+<p class="p6">export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030"</p>
+<p class="p2"><br></p>
+<p class="p4">Then continue building wxMac-2.6.0:</p>
+<p class="p2"><br></p>
+<p class="p6">cd [wxpath]</p>
+<p class="p7"><br></p>
+<p class="p6">mkdir osx-build</p>
+<p class="p8"><br></p>
+<p class="p6">cd osx-build</p>
+<p class="p8"><br></p>
+<p class="p6">../configure --disable-shared --with-opengl --disable-webkit</p>
+<p class="p8"><br></p>
+<p class="p4">If you are building under OS 10.4, set the LDFlags environment variable <b>after</b> the configure but <b>before</b> the make:</p>
+<p class="p6">export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"</p>
+<p class="p8"><br></p>
+<p class="p6">make</p>
+<p class="p2"><br></p>
+<p class="p4">(2) Open a new terminal window to reset your session environment variables and set the working directory:</p>
+<p class="p2"><br></p>
+<p class="p6">cd [boincpath]<span class="Apple-converted-space"> </span></p>
+<p class="p8"><br></p>
+<p class="p4">(3) Create a<span class="Apple-converted-space">  </span>symbolic link [boincpath]/wx_lib pointing to<span class="Apple-converted-space"> </span></p>
+<p class="p4">[wxpath]/osx-build/lib/</p>
+<p class="p2"><br></p>
+<p class="p4">(4) Create a<span class="Apple-converted-space">  </span>symbolic link<span class="Apple-converted-space">  </span>[boincpath]/wxinclude pointing to<span class="Apple-converted-space"> </span></p>
+<p class="p4">[wxpath]/include</p>
+<p class="p2"><br></p>
+<p class="p4">(5) Create a<span class="Apple-converted-space">  </span>symbolic link<span class="Apple-converted-space">  </span>[boincpath]/jpeglib pointing to<span class="Apple-converted-space"> </span></p>
+<p class="p4">your jpeg-6b directory (or whatever directory contains the jpeglib source files).<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">For example, if the boinc, wxMac-2.6.0 directory is at [wxpath] and the jpeg-6b directory is at [jpegpath] then the commands would be:</p>
+<p class="p2"><br></p>
+<p class="p6">ln -s [wxpath]/osx-build/lib wx_lib</p>
+<p class="p8"><br></p>
+<p class="p6">ln -s [wxpath]/include wxinclude</p>
+<p class="p8"><br></p>
+<p class="p6">ln -s [jpegpath] jpeglib</p>
+<p class="p2"><br></p>
+<p class="p3"><b>Building the BOINC Manager with embedded Core Client, plus<span class="Apple-converted-space"> </span></b></p>
+<p class="p3"><b>BOINC libraries, screensaver and helper applications</b></p>
+<p class="p2"><br></p>
+<p class="p4">(1) Double-click on [boincpath]/mac_build/boinc.pbproj to launch the XCode development IDE with the BOINC project.</p>
+<p class="p2"><br></p>
+<p class="p4">(2) Select the appropriate cross-development sdk as follows:</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- select the boinc project icon at the top of the Groups &amp; Files column</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- press command-i to open the Project "boinc" info window.</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- In the "General" tab, set the popup menu "Cross-Develop Using Target SDK." <span class="Apple-converted-space">  </span>For OS 10.4, select "MacOSX10.3.9.sdk"; for OS 10.3 select "current Mac OS".</p>
+<p class="p2"><br></p>
+<p class="p4">(3) In the Active Target popup, select mgr_boinc or Build_All.<span class="Apple-converted-space">  </span>Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.<span class="Apple-converted-space">  </span>These libraries are not needed by the BOINC Manager or Core Client.<span class="Apple-converted-space">  </span>In addition, Build_All builds the screensaver BOINCSaver.saver and the installer helper application Postinstall.app.</p>
+<p class="p2"><br></p>
+<p class="p4">(4) In the Active Build Style popup, choose Development (for debugging) or Deployment (for release builds.)</p>
+<p class="p2"><br></p>
+<p class="p4">(5) If you have switched Build Style, be sure to do a "Clean All Targets" from the Build menu; otherwise object files from the old build style will not be rebuilt in the new build style.</p>
+<p class="p2"><br></p>
+<p class="p4">(6) If you are building the screensaver, be sure to unstuff the file:<span class="Apple-converted-space"> </span></p>
+<p class="p4">[boincpath]/clientgui/mac/BOINCSaver.nib.sit</p>
+<p class="p2"><br></p>
+<p class="p4">(7) Select Build from the Build menu.<span class="Apple-converted-space">  </span>I suggest you also open the Detailed Build Results window from the Build menu.<span class="Apple-converted-space">  </span>Wait a long<span class="Apple-converted-space">  </span>time while it compiles.</p>
+<p class="p2"><br></p>
+<p class="p4">(8) In addition to the BOINC Manager BOINC.app and Core Client boinc, the mgr_boinc target will also build the SystemMenu.bundle framework and a small helper utility SetVersion. <span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">(9) SetVersion is run automatically as part of the build process to update the following Mac version information files using the contents of version.h:</p>
+<p class="p4"><span class="Apple-converted-space">  </span>InfoPlist.strings,<span class="Apple-converted-space"> </span></p>
+<p class="p4"><span class="Apple-converted-space">  </span>Info.plist (under the resources group)</p>
+<p class="p4"><span class="Apple-converted-space">  </span>SystemMenu-Info.plist</p>
+<p class="p4"><span class="Apple-converted-space">  </span>ScreenSaver-Info.plist</p>
+<p class="p4"><span class="Apple-converted-space">  </span>Installer-Info.plist</p>
+<p class="p2"><br></p>
+<p class="p4">(10) The boinc-client, SystemMenu.bundle and InfoPlist.strings will all be embedded automatically inside the BOINC.app application bundle as part of the build process.</p>
+<p class="p2"><br></p>
+<p class="p4">(11) If you wish to run the Core Client under the debugger, you will need to set up the command-line arguments.<span class="Apple-converted-space">  </span>In the Groups &amp; Files column of the XCode project window, select "BOINC_Client" under Executables.<span class="Apple-converted-space">  </span>Then click on the round blue "info" button at the top of the project window to open the info window.<span class="Apple-converted-space">  </span>In the info window's Arguments tab, add the following line to the Argument list:</p>
+<p class="p2"><br></p>
+<p class="p6">-dir /Library/Application\ Support/BOINC\ Data/</p>
+<p class="p8"><br></p>
+<p class="p4">Normally, stdio and stderr output will be sent to XCode's console.<span class="Apple-converted-space">  </span>If you want stdio and stderr to be redirected to files as BOINC normally does, add a second line to the Argument list:</p>
+<p class="p2"><br></p>
+<p class="p6">-redirectio</p>
+<p class="p2"><br></p>
+<p class="p4">These arguments will be used only when running the BOINC Core Client from XCode using XCode's Run or Debug commands.</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p3"><b>Building the installer</b></p>
+<p class="p2"><br></p>
+<p class="p4">After creating the <b>deployment</b> build of all targets using Build_All, use the Finder to do the following:</p>
+<p class="p4">(1) In a convenient place on disk, create a directory "Installer_Resources".<span class="Apple-converted-space">  </span>Copy the following items into this directory:</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span></span>[boincpath]/mac_installer/License.rtf</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span></span>[boincpath]/mac_installer/ReadMe.rtf</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span></span>[boincpath]/mac_installer/postinstall</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span></span>[boincpath]/mac_installer/postupgrade</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span></span>[boincpath]/mac_build/build/Postinstall.app</p>
+<p class="p2"><br></p>
+<p class="p4">NOTE: the file extensions (such as .app and .saver) may be hidden by the Finder.<span class="Apple-converted-space">  </span>You can check an item's extension by selecting it in the Finder and using Get Info function from the Finder's File menu.</p>
+<p class="p2"><br></p>
+<p class="p4">(2) Create another directory "Pkg_Root", and inside that create two more directories "Applications" and"Library".<span class="Apple-converted-space">  </span>Create:</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- a "Screen Savers" directory inside your new Library directory,</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- an "Application Support" directory inside your new Library directory,</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- a "BOINC Data" directory inside your new Application Support directory,</p>
+<p class="p4"><span class="Apple-converted-space"> </span>- a "locale" directory inside your new BOINC Data directory <span class="Apple-converted-space"> </span></p>
+<p class="p4">Correct spelling of these names is critical.</p>
+<p class="p2"><br></p>
+<p class="p4">(3) Copy [boincpath]/mac_build/build/BOINCManager.app into your<span class="Apple-converted-space"> </span></p>
+<p class="p4">"Pkg_Root/Applications" directory.</p>
+<p class="p2"><br></p>
+<p class="p4">(4) Copy [boincpath]/mac_build/build/BOINCSaver.saver into your<span class="Apple-converted-space"> </span></p>
+<p class="p4">"Pkg_Root/Library/Screen Savers" directory. <span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">(5) Copy the <b>contents</b> <b>of</b> boincpath]/locale/client/ into your<span class="Apple-converted-space"> </span></p>
+<p class="p4">"Pkg_Root/Library/Application Support/BOINC Data/locale" directory.<span class="Apple-converted-space">  </span>(You may optionally exclude the CVS subdirectories to save space.)</p>
+<p class="p2"><br></p>
+<p class="p4">You will now have the following directory structure:</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span></span>Pkg_Root</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span>        </span>Applications</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span>                </span>BOINCManager.app</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span>        </span>Library</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span>                </span>Application Support</p>
+<p class="p4"><span class="Apple-converted-space">                                    </span>BOINC Data</p>
+<p class="p4"><span class="Apple-converted-space">                                            </span>locale</p>
+<p class="p4"><span class="Apple-converted-space">                                                    </span>de</p>
+<p class="p4"><span class="Apple-converted-space">                                                    </span>en_US</p>
+<p class="p4"><span class="Apple-converted-space">                                                    </span>it</p>
+<p class="p4"><span class="Apple-converted-space">                                                    </span>etc.....</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span>                </span>Screen Savers</p>
+<p class="p4"><span class="Apple-converted-space"><span class="Apple-converted-tab">    </span>                        </span>BOINCSaver.saver</p>
+<p class="p2"><br></p>
+<p class="p4">(6) From the Finder, open [boincpath]/mac_installer/BOINC.pmproj (if running OS 10.3, use BOINC.pmsp).<span class="Apple-converted-space">  </span>it will open in the PackageMaker application.<span class="Apple-converted-space">  </span>In the Files tab, set the path to your Pkg_Root directory.<span class="Apple-converted-space">  </span>in the Resources tab, set the path to your Installer_Resources directory. <span class="Apple-converted-space">  </span>Update the<span class="Apple-converted-space">  </span>version number in multiple places in the Description and Version tabs.</p>
+<p class="p2"><br></p>
+<p class="p4">(7) Select "Create Package" from PackageMaker's File menu.<span class="Apple-converted-space">  </span>You can give any name you wish to the installer package when you create it, but do <b>not</b> change the package name <b>after</b> it is created.</p>
+<p class="p2"><br></p>
+<p class="p4">(8) Quit PackageMaker.</p>
+<p class="p2"><br></p>
+<p class="p3"><b>Package BOINC installer for distribution</b></p>
+<p class="p2"><br></p>
+<p class="p4">(1) Create a directory and name it appropriately, e.g. "boinc_4.37_macOSX".<span class="Apple-converted-space">  </span>Copy the installer package and the ReadMe file into the directory.</p>
+<p class="p2"><br></p>
+<p class="p4">(2)After selecting the directory you just created and populated, select <span class="s1">Create archive</span> from the Finder's File menu.<span class="Apple-converted-space">  </span>This will zip the file.<span class="Apple-converted-space">  </span>(Note: if you want to stuff the file instead of zipping it, be sure to uncheck "stuff originals instead of aliases" in DropStuff's preferences.)</p>
+<p class="p2"><br></p>
+<p class="p4">(3) Rename the zip file as appropriate to show the version number; for example, boinc_4.37_macOSX<span class="s2">.zip</span><span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><b>BOINC SETI client application</b></p>
+<p class="p2"><br></p>
+<p class="p3"><b>ONE_TIME SETUP for BOINC SETI client application</b></p>
+<p class="p2"><br></p>
+<p class="p4"><i>XCode 1.5 installs autoconf version 2.57 and automake 1.63.<span class="Apple-converted-space">  </span>XCode 2.0 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building seti_boinc requires autoconf 2.59 and automake 1.93 or later.</i></p>
+<p class="p2"><i></i><br></p>
+<p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org.<span class="Apple-converted-space">  </span>XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.<span class="Apple-converted-space">  </span>If you install there, you must also set your PATH environment variable to include that location before proceeding with any of the steps below; type the following at the start of your terminal session:</i></p>
+<p class="p2"><i></i><br></p>
+<p class="p6">export PATH=/usr/local/bin:$PATH</p>
+<p class="p2"><br></p>
+<p class="p4">(1) Open a new terminal window to reset your session environment variables and set the working directory:</p>
+<p class="p2"><br></p>
+<p class="p6">cd [setipath]<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">(2) You will need to set some environment variables as described below.<span class="Apple-converted-space">  </span>These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell. <span class="Apple-converted-space"> </span></p>
+<p class="p8"><br></p>
+<p class="p6">export PROJECTDIR=[setipath]</p>
+<p class="p8"><br></p>
+<p class="p6">export BOINCDIR=[boincpath]</p>
+<p class="p2"><br></p>
+<p class="p4">If your autoconf and automake are in /usr/local/bin/:</p>
+<p class="p2"><br></p>
+<p class="p6">export PATH=/usr/local/bin:$PATH</p>
+<p class="p2"><br></p>
+<p class="p4">(2) Run Configure to create the correct config.h file:</p>
+<p class="p2"><br></p>
+<p class="p4">./_autosetup</p>
+<p class="p2"><br></p>
+<p class="p6">./configure --disable-server --with-apple-opengl-framework --disable-dynamic-graphics</p>
+<p class="p2"><br></p>
+<p class="p4">(3) Copy the correct libjpeg.a into [path]/seti_boinc/jpeglib/</p>
+<p class="p2"><br></p>
+<p class="p4">(4) Create a<span class="Apple-converted-space">  </span>symbolic link [setipath]/boinc pointing to the boinc directory</p>
+<p class="p2"><br></p>
+<p class="p6">cd [setipath]<span class="Apple-converted-space"> </span></p>
+<p class="p6">ln -s [boincpath] ./boinc</p>
+<p class="p2"><br></p>
+<p class="p3"><b>Building the BOINC SETI client application</b></p>
+<p class="p2"><br></p>
+<p class="p4">The XCODE project for building the BOINC SETI@home client application is<span class="Apple-converted-space"> </span></p>
+<p class="p4">[setipath]/mac_build/seti_boinc.xcode.</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+</body>
+</html>
