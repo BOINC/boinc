@@ -8476,3 +8476,28 @@ David  24 June 2005
 		app_start.C
 		win/
 			wingui_mainwindow.cpp
+
+David  24 June 2005
+    - API library: potential bug:
+        if the core client sends a "quit" message that is handled
+        (but the timer handler) while the worker thread is
+        in the middle of checkpointing,
+        the result could be an incomplete checkpoint,
+        which in general screws up the result.
+        Same problem exists if the app exits due to no CC heartbeat
+        while a checkpoint is in progress.
+
+        Solution: if boinc_time_to_checkpoint() returns true,
+        it sets a flag (checkpointing) that suppresses
+        the handling of process control messages
+        and the checking of heartbeat timeout.
+        boinc_checkpoint_completed() clears the flag.
+
+        One consequence of this design:
+        if boinc_time_to_checkpoint() returns true,
+        you HAVE to checkpoint immediately.
+        So don't call boinc_time_to_checkpoint() unless
+        you're prepared to checkpoint.
+
+    api/
+        boinc_api.C

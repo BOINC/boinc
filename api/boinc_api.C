@@ -71,6 +71,7 @@ static volatile int time_until_fraction_done_update;
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
+static bool checkpointing = false;
 static volatile double last_wu_cpu_time;
 static bool standalone          = false;
 static double initial_wu_cpu_time;
@@ -564,14 +565,15 @@ static void worker_timer(int /*a*/) {
         if (options.handle_trickle_downs) {
             handle_trickle_down_msg();
         }
-        if (options.handle_process_control) {
+        if (!checkpointing && options.handle_process_control) {
             handle_process_control_msg();
         }
     }
 
     // see if the core client has died, which means we need to die too
+    // (unless we're checkpointing)
     //
-    if (options.check_heartbeat && heartbeat_active) {
+    if (!checkpointing && options.check_heartbeat && heartbeat_active) {
         int now = time(0);
         if (heartbeat_giveup_time < now) {
             fprintf(stderr,
@@ -681,6 +683,7 @@ int boinc_send_trickle_up(char* variety, char* p) {
 //
 int boinc_time_to_checkpoint() {
     if (ready_to_checkpoint) {
+        checkpointing = true;
         return 1;
     }
     return 0;
@@ -693,6 +696,7 @@ int boinc_checkpoint_completed() {
     last_checkpoint_cpu_time = last_wu_cpu_time;
     update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
     time_until_checkpoint = (int)aid.checkpoint_period;
+    checkpointing = false;
     ready_to_checkpoint = false;
 
     return 0;

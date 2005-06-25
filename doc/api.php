@@ -98,7 +98,8 @@ An application must call
 </pre>
 whenever it reaches a point where it is able to checkpoint.
 If this returns nonzero,
-the application should write the state file and flush all output files,
+the application must checkpoint immediately
+(i.e., write the state file and flush all output files),
 then call
 <pre>
     void boinc_checkpoint_completed();
