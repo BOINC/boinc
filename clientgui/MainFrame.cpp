@@ -1405,6 +1405,12 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     // We are already online but BOINC for some reason is in a state
                     //   where it belives it has some pending work to do, so give it
                     //   a nudge
+                    ShowAlert(
+                        _("BOINC Manager - Network Status"),
+                        _("BOINC has detected it is now connected to the internet, updating all projects and retrying all transfers."),
+                        wxICON_INFORMATION,
+                        true
+                    );
                     pDoc->rpc.network_available();
                 } else if (m_pDialupManager->IsOnline() && !want_network && successfully_connected) {
                     // Should we disconnect now? The first time we see the disconnect event
