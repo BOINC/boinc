@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("June 25, 2005",
+    "BOINC statistics sites continue to evolve.
+    Check out <a href=http://home.btconnect.com/Gabys_Bazar/hwupgrade.html>Every Earthly Hour</a>, developed by Hydnum Repandum"
+),
 array("June 24, 2005",
     "We have added
     <a href=http://boinc.berkeley.edu/api.php#credit>new API calls</a>

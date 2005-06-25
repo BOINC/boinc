@@ -132,8 +132,9 @@ and do not necessarily reflect the views of the National Science Foundation.
 <h2>News</h2>
 </center>
 ";
-show_news($project_news, 6);
-if (count($project_news) > 6) {
+$nnews_items = 8;
+show_news($project_news, $nnews_items);
+if (count($project_news) > $nnews_items) {
     echo "<a href=old_news.php>... more</a>\n";
 }
 

@@ -985,12 +985,23 @@ bool CLIENT_STATE::should_get_work() {
 }
 
 void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
-    if (active.size() == 0) return;
-    double x = 1;
-    if ((int)active.size() < gstate.ncpus) {
-        x = ((double)gstate.ncpus)/active.size();
+    int nactive = (int)active.size();
+    if (nactive == 0) return;
+    double x = resource_share/rrs;
+
+    // if this project has fewer active results than CPUs,
+    // scale up its share to reflect this
+    //
+    if (nactive < gstate.ncpus) {
+        x *= ((double)gstate.ncpus)/nactive;
     }
-    rrsim_proc_rate = x*per_cpu_proc_rate*resource_share/rrs;
+
+    // But its rate on a given CPU can't exceed the CPU speed
+    //
+    if (x>1) {
+        x = 1;
+    }
+    rrsim_proc_rate = x*per_cpu_proc_rate;
 }
 
 // return true if we don't have enough runnable tasks to keep all CPUs busy

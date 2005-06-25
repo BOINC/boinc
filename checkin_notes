@@ -8511,3 +8511,10 @@ David  25 June 2005
         boinc_api.C
     sched/
         server_types.C
+
+David  25 June 2005
+    - Fix to PROJECT::set_rrsim_proc_rate()
+        (problem identified by John McLeod)
+
+    client/
+        cs_scheduler.C
