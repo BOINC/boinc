@@ -128,7 +128,7 @@ $w419 = array(
 
 $m443 = array(
     "num"=>"4.43",
-    "status"=>"Recommended version (advanced GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_4.43_macOSX.zip",
     "date"=>"21 May 2005",
     "type"=>mac_advanced(),
@@ -141,7 +141,7 @@ $m443 = array(
 
 $m443c = array(
     "num"=>"4.43",
-    "status"=>"Recommended version (command line, no GUI)",
+    "status"=>"Unix command-line version",
     "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
     "date"=>"21 May 2005",
     "type"=>bare_core(),

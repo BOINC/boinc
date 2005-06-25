@@ -441,7 +441,7 @@ bool ACTIVE_TASK::check_max_cpu_exceeded() {
             "Aborting result %s: exceeded CPU time limit %f\n",
             result->name, max_cpu_time
         );
-        abort_task("Maximum CPU time exceeded");
+        abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum CPU time exceeded");
         return true;
     }
     return false;
@@ -465,7 +465,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
                 "Aborting result %s: exceeded disk limit: %f > %f\n",
                 result->name, disk_usage, max_disk_usage
             );
-            abort_task("Maximum disk usage exceeded");
+            abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum disk usage exceeded");
             return true;
         }
     }
@@ -484,7 +484,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
             result->name,
             min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
         );
-        abort_task("Maximum memory usage exceeded");
+        abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
         return true;
     }
     return false;
@@ -500,7 +500,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
             rss_bytes,
             max_mem_usage
         );
-        //abort_task("Maximum memory usage exceeded");
+        //abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
         return true;
     }
     return false;
@@ -546,13 +546,14 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // If process is running, send it a kill signal
 // This is done when app has exceeded CPU, disk, or mem limits
 //
-int ACTIVE_TASK::abort_task(const char* msg) {
+int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
         task_state = PROCESS_ABORT_PENDING;
         kill_task();
     } else {
         task_state = PROCESS_ABORTED;
     }
+    result->exit_status = exit_status;
     gstate.report_result_error(*result, msg);
     return 0;
 }
@@ -817,7 +818,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
     }
 }
 
-// suspend a task
+// send a <suspend> message
 //
 int ACTIVE_TASK::suspend() {
     if (!app_client_shm.shm) return 0;

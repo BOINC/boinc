@@ -148,13 +148,21 @@ public:
     void close_process_handles();
     void cleanup_task();
 
-    int start(bool first_time);         // start the task running
-    int request_exit();                 // Send a SIGQUIT signal or equivalent
+    int start(bool first_time);         // start a process
+    int request_exit();
+        // ask the process to exit gracefully,
+        // i.e. by sending a <quit> message
     bool process_exists();
-    int kill_task();                    // send a SIGKILL signal or equivalent
-    int suspend();                      // send a SIGSTOP signal or equivalent
-    int unsuspend();                    // send a SIGCONT signal or equivalent
-    int abort_task(const char*);        // flag as abort pending and send kill signal
+    int kill_task();
+        // Kill process forcibly,
+        // Unix: send a SIGKILL signal, Windows: TerminateProcess()
+    int suspend();
+        // ask a process to stop executing (but stay in mem)
+        // Done by sending it a <suspend> message
+    int unsuspend();
+        // Undo a suspend: send a <resume> message
+    int abort_task(int exit_status, const char*);
+        // can be called whether or not process exists
     bool has_task_exited();             // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
     int resume_or_start();

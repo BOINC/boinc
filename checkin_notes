@@ -8518,3 +8518,16 @@ David  25 June 2005
 
     client/
         cs_scheduler.C
+
+David  25 June 2005
+    - add an exit_status parameter to ACTIVE_TASK::abort_task.
+        This may be either ERR_ABORTED_VIA_GUI or ERR_RSC_LIMIT_EXCEEDED
+        Without this, results aborted for either reason
+        end up with exit_status = ERR_RESULT_START
+        (bug reported by Bruce Allen)
+
+    client/
+        app.h
+        app_control.C
+        client_state.C
+        gui_rpc_server_C

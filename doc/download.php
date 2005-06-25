@@ -118,10 +118,10 @@ function show_version($pname, $i, $v) {
         <a href=dl/$file><b>Download</b></a> ($s MB)
         </td>
         <td>
-        $type
+        Instructions: $type
         </td>
         <td width=1%>
-        <a href=download.php?platform=$pname&i=$i>details</a>
+        <a href=download.php?platform=$pname&i=$i><nobr>version details</nobr></a>
         </td>
         </tr>
     ";

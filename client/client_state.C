@@ -1065,9 +1065,7 @@ bool CLIENT_STATE::time_to_exit() {
 //   (so don't crash over and over)
 // - Append a description of the error to result.stderr_out
 //
-int CLIENT_STATE::report_result_error(
-    RESULT& res, const char* format, ...
-) {
+int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     char buf[MAX_BLOB_LEN],  err_msg[MAX_BLOB_LEN];
     unsigned int i;
     int failnum;
