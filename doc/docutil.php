@@ -125,6 +125,8 @@ function stats_sites() {
         <a href=http://www.setisynergy.com/stats/index.php>BOINC Statistics for the WORLD!</a>
         developed by Zain Upton (email: zain.upton at setisynergy.com)
         <li>
+        <a href=http://home.btconnect.com/Gabys_Bazar/hwupgrade.html>Every Earthly Hour</a> - developed by Hydnum Repandum.
+        <li>
         <a href=http://www.boincstats.com/>www.boincstats.com</a>
         by Willy de Zutter
         <li>

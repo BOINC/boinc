@@ -8501,3 +8501,13 @@ David  24 June 2005
 
     api/
         boinc_api.C
+
+David  25 June 2005
+    - scheduler: skip over <other_results>, <in_progress_results> elements
+        without log message
+    - API: don't use perror() for pthread errors
+
+    api/
+        boinc_api.C
+    sched/
+        server_types.C

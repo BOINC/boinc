@@ -659,7 +659,7 @@ int set_worker_timer() {
 #else
     retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
-        perror("set_worker_timer(): pthread_create(): %d");
+        fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
     }
 
 #endif

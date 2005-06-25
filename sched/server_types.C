@@ -167,7 +167,13 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
                 file_infos.push_back(fi);
             }
         } else if (match_tag(buf, "<host_venue>")) {
-            // do NOTHING here
+            continue;
+        } else if (match_tag(buf, "<other_results>")) {
+            skip_unrecognized(buf, fin);
+            continue;
+        } else if (match_tag(buf, "<in_progress_results>")) {
+            skip_unrecognized(buf, fin);
+            continue;
         } else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
             retval = skip_unrecognized(buf, fin);
