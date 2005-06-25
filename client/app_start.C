@@ -119,6 +119,11 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 #else
     char init_data_path[256];
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
+
+	// ftok() only works if there's a file at the given location
+	//
+    FILE* f = boinc_fopen(init_data_path, "w");
+    if (f) fclose(f);
     shmem_seg_name = ftok(init_data_path, slot);
     if (shmem_seg_name == -1) return ERR_SHMEM_NAME;
 #endif
@@ -252,13 +257,6 @@ int ACTIVE_TASK::start(bool first_time) {
     cpu_time_at_last_sched = checkpoint_cpu_time;
     fraction_done = 0;
 
-    // NOTE: must create app init file before getting share mem seg name,
-    // because on Unix the seg name is derived (using ftok) from
-    // the init file path, and on some systems it must actually exist
-
-    retval = write_app_init_file();
-    if (retval) return retval;
-
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
         if (retval) {
@@ -268,6 +266,12 @@ int ACTIVE_TASK::start(bool first_time) {
             return retval;
         }
     }
+
+    // this must go AFTER creating shmem,
+    // since the shmem name is part of the file
+    //
+    retval = write_app_init_file();
+    if (retval) return retval;
 
     // set up applications files
     //

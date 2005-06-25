@@ -8466,3 +8466,13 @@ David  24 June 2005
 
     client/
         cs_scheduler.C
+
+David  24 June 2005
+	- Doh!  My checkin earlier today for the Red Hat 9 problem
+		was wrong, and screwed things up on all platforms.
+		Fixed now, and the Red Hat problem fixed a different way
+
+	client/
+		app_start.C
+		win/
+			wingui_mainwindow.cpp
