@@ -254,6 +254,7 @@ public:
     std::vector<RESULT*>active;
     std::vector<RESULT*>pending;
     double rrsim_proc_rate;
+    void set_rrsim_proc_rate(double, double);
 
     // "debt" is how much CPU time we owe this project relative to others
 

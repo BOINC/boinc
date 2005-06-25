@@ -984,6 +984,15 @@ bool CLIENT_STATE::should_get_work() {
     return ret;
 }
 
+void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
+    if (active.size() == 0) return;
+    double x = 1;
+    if ((int)active.size() < gstate.ncpus) {
+        x = ((double)gstate.ncpus)/active.size();
+    }
+    rrsim_proc_rate = x*per_cpu_proc_rate*resource_share/rrs;
+}
+
 // return true if we don't have enough runnable tasks to keep all CPUs busy
 //
 bool CLIENT_STATE::no_work_for_a_cpu() {
@@ -1016,7 +1025,6 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
         p = projects[i];
         p->active.clear();
         p->pending.clear();
-        p->rrsim_proc_rate = per_cpu_proc_rate * p->resource_share/rrs;
     }
 
     for (i=0; i<results.size(); i++) {
@@ -1031,6 +1039,11 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
         } else {
             p->pending.push_back(rp);
         }
+    }
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        p->set_rrsim_proc_rate(per_cpu_proc_rate, rrs);
     }
 
     // Simulation loop.  Keep going until work done
@@ -1105,7 +1118,7 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
             rrs -= pbest->resource_share;
             for (i=0; i<projects.size(); i++) {
                 p = projects[i];
-                p->rrsim_proc_rate = per_cpu_proc_rate*p->resource_share/rrs;
+                p->set_rrsim_proc_rate(per_cpu_proc_rate, rrs);
             }
         }
 

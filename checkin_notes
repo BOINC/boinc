@@ -8457,3 +8457,12 @@ Rom    24 June 2005
         ViewProjects.cpp, .h
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  24 June 2005
+    - Bug fix in round-robin simulator:
+        If N is the # of CPUs, and a project has M < N runnable results,
+        its per_cpu_proc_rate should be scaled by N/M.
+        (Thanks to John McLeod for identifying this error)
+
+    client/
+        cs_scheduler.C

@@ -236,8 +236,8 @@ public:
     double get_fraction_done(RESULT* result);
     bool input_files_available(RESULT*);
     ACTIVE_TASK* get_next_graphics_capable_app();
-private:
     int ncpus;
+private:
     int nslots;
 
     int choose_version_num(char*, SCHEDULER_REPLY&);
