@@ -141,7 +141,7 @@ void get_account_filename(char* master_url, char* path) {
 }
 
 static bool bad_account_filename(const char* filename) {
-    msg_printf(NULL, MSG_ERROR, "Invalid account file: %s", filename);
+    msg_printf(NULL, MSG_ERROR, "Invalid account filename: %s", filename);
     return false;
 }
 
