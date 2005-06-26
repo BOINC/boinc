@@ -206,7 +206,7 @@ $windows = array(
     )
 );
 $mac = array(
-    "name"=>"Macintosh OS X",
+    "name"=>"Macintosh OS X (10.3 or higher)",
     "versions"=>array(
         $m443,
         $m437s,

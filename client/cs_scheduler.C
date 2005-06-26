@@ -69,7 +69,7 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 // assume actual CPU utilization will be this multiple
 // of what we've actually measured recently
 //
-#define CPU_PESSIMISM_FACTOR 0.8
+#define CPU_PESSIMISM_FACTOR 0.9
 
 // how many CPUs should this project occupy on average,
 // based on its resource share relative to a given set
@@ -1001,7 +1001,7 @@ void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
     if (x>1) {
         x = 1;
     }
-    rrsim_proc_rate = x*per_cpu_proc_rate;
+    rrsim_proc_rate = x*per_cpu_proc_rate*CPU_PESSIMISM_FACTOR;
 }
 
 // return true if we don't have enough runnable tasks to keep all CPUs busy

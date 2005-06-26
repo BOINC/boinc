@@ -8531,3 +8531,10 @@ David  25 June 2005
         app_control.C
         client_state.C
         gui_rpc_server_C
+
+David  25 June 2005
+    - add "pessimism factor" of 0.9 to the round-robin simulation
+        used to determine CPU sched and work fetch policies
+
+    client/
+        cs_scheduler.C
