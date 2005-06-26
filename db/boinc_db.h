@@ -648,6 +648,7 @@ struct SCHED_RESULT_ITEM {
     int hostid;
     int userid;
     int teamid;
+    int sent_time;
     int received_time;
     double cpu_time;
     double claimed_credit;

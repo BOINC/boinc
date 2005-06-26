@@ -601,6 +601,24 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         srip->received_time = time(0);
         srip->client_state = rp->client_state;
         srip->cpu_time = rp->cpu_time;
+
+        // check for impossible CPU time
+        //
+        double elapsed_time = srip->received_time - srip->sent_time;
+        if (elapsed_time < 0) {
+            log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                "[RESULT#%d] inconsistent sent/received times\n", srip->id
+            );
+        } else {
+            if (srip->cpu_time > elapsed_time) {
+                log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                    "[RESULT#%d] excessive CPU time reported: %f\n",
+                    srip->id, srip->cpu_time
+                );
+                srip->cpu_time = elapsed_time;
+            }
+        }
+
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
         if (rp->fpops_cumulative) {

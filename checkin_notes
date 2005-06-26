@@ -8538,3 +8538,18 @@ David  25 June 2005
 
     client/
         cs_scheduler.C
+
+David  26 June 2005
+    - scheduler: when handling a reported result,
+        cap CPU time at now - sent_time.
+        (from Rattledagger)
+
+        Note: this assumes that applications never use >1 CPU
+        for non-graphical computation.
+        Currently this is the case,
+        but if it changes we need to rethink this check.
+
+    db/
+        boinc_db.C,h
+    sched/
+        handle_request.C

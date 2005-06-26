@@ -1264,6 +1264,7 @@ int DB_WORK_ITEM::enumerate(
 
 // The items that appear here must agree with those that appear in the
 // enumerate method just below!
+//
 void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     clear();
@@ -1273,6 +1274,7 @@ void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     server_state = atoi(r[i++]);
     hostid = atoi(r[i++]);
     userid = atoi(r[i++]);
+    sent_time = atoi(r[i++]);
     received_time = atoi(r[i++]);
 }
 
@@ -1300,6 +1302,7 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   server_state, "
         "   hostid, "
         "   userid, "
+        "   sent_time, "
         "   received_time "
         "FROM "
         "   result "
