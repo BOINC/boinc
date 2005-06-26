@@ -624,9 +624,9 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (rp->fpops_cumulative) {
             srip->claimed_credit = fpops_to_credit(rp->fpops_cumulative);
         } else if (rp->fpops_per_cpu_sec) {
-            srip->claimed_credit = fpops_to_credit(rp->fpops_per_cpu_sec*rp->cpu_time);
+            srip->claimed_credit = fpops_to_credit(rp->fpops_per_cpu_sec*srip->cpu_time);
         } else {
-            srip->claimed_credit = rp->cpu_time * reply.host.credit_per_cpu_sec;
+            srip->claimed_credit = srip->cpu_time * reply.host.credit_per_cpu_sec;
         }
 #ifdef EINSTEIN_AT_HOME
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
