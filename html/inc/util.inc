@@ -170,7 +170,7 @@ function time_diff($x) {
 		$datestring .= "$days days ";
 	if ($hours || strlen($datestring))
 		$datestring .= "$hours hours ";
-	if ($min || strlen($datestring))
+	if ($minutes || strlen($datestring))
 		$datestring .= "$minutes min ";
 	if ($seconds)
 		$datestring .= "$seconds sec";
