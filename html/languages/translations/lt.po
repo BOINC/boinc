@@ -1,0 +1,284 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-06-17 16:19-0800\n"
+"Last-Translator: miksiukas <miksiukas@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+##########################################
+# Language: English (International)
+# FileID  : $Id$
+# Author  : Janus Kristensen
+# Email   : jbk@visualgroup.dk
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Lietuvių"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Lithuanian"
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Programos"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT projektas naudoja sekančias programas. Kai Jūs dalyvaujate $PROJECT projekte, viena ar kelios iš šių programų vykdys darbą Jūsų kompiuteryje. Aktualiausia programos versija bus atsiųsta į Jūsų kompiuterį. Tai įvyks automatiškai ir jums nereikia nieko dėl to daryti."
+
+msgid "APPS_PLATFORM"
+msgstr "Platforma"
+
+msgid "APPS_VERSION"
+msgstr "Aktuali versija"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Data"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Taisyklės ir politika"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Apie kompiuterius, kuriuose galite vykdyti $PROJECT projektą"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Projektą $PROJECT vykdykite tik su tais kompiuteriais, kurių savininkas esate pats arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip $PROJECT ."
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Kaip $PROJECT projektas naudos Jūsų kompiuterį"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Kai bus vykdomas $PROJECT projektas jūsų kompiuteryje, jis naudos dalį kompiuterio procesoriaus galios, disko vietos ir interneto ryšio. Jūs galite kontroliuoti kiek savo resursų skirtite $PROJECT projektui ir kada juos galima naudoti."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Darbas, kuri atliks Jūsų kompiuteris, padės įgyvendinti $PROJECT projekto tikslus, kurie surašyti šioje interneto svetainėje. Projekto programos laikui bėgant gali keistis."
+
+msgid "RULES_PRIVACY"
+msgstr "Privatumo politika"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Jūsų vartotojo abonementas $PROJECT projekte yra nustatomas pagal jūsų pasirinktą vardą. Šis vardas gali būti rodomas $PROJECT projekto interneto svetainėje kartu su apibendrintais duomenimis apie kompiuterio atliktą darbą $PROJECT projektui. Jei norite likti anonimiškas - pasirinkite vardą, kuris neatskleistų jūsų tapatybės."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Jei dalyvaujate $PROJECT projekte, informacija apie jūsų kompiuterį (tokia kaip procesoriaus tipas, atminties kiekis ir kt.) bus įrašyta $PROJECT projekto duomenų bazėje ir pagal ją bus sprendžiama kokį darbą skirti jūsų kompiuteriui. Ši informacija taip pat bus rodoma $PROJECT projekto interneto svetainėje. Jokia informacija, kuri galėtų atskleisti jūsų kompiuterio buvimo vietą (domeno pavadinima ar tinklo adresą) nebus rodoma."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "Norint dalyvauti $PROJECT projekte, jums reikia turėti elektroninio pašto dėžutę. Jūsų elektroninio pašto adresas nebus rodomas $PROJECT projekto interneto svetainėje ar perduotas kitoms organizacijoms. $PROJECT projektas gali jums atsiųsti periodinius naujienių biuletenius, tačiau jų galima atsisakyti bet kuriuo metu."
+
+msgid "RULES_SAFE"
+msgstr "Ar saugu vykdyti $PROJECT projektą?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Kiekvieną kartą, kai siunčiatės programą per internetą, gali būti kad: programa turi pavojingų klaidų ar serveris gali būti  'nulaužtas'. $PROJECT projektas dėjo pastangas sumažinti šią riziką. Mes atidžiai išbandėme savo programas. Mūsų serveriai yra saugomi ugniasienių ir nustatyti aukščiausiam saugumo lygiui. Visos vykdomosios bylos yra pasirašytos skaitmeniniu parašu kompiuteryje, kuris nėra prijungtas prie interneto."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "$PROJECT projekto vykdomos programos gali perkaitinti kai kuriuos kompiuterius. Jei taip atsitinka, nustokite vykdyti $PROJECT projektą arba naudokite %s, kurios riboja kompiuterio procesoriaus naudojimą."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "papildomas programas"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT projektą sukūrė %s. BOINC buvo sukurtas Kalifornijos universitete."
+
+msgid "RULES_LIABILITY"
+msgstr "Atsakomybė"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT projektas ir %s neprisiima atsakomybės už žalą padarytą Jūsų kompiuteriui, duomenų praradinimą ar kokį kitą įvykį ar sąlygą, kuri galėjo kilti dėl dalyvavimo $PROJECT projekte."
+
+msgid "RULES_OTHER"
+msgstr "Kiti BOINC projektai"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Kiti projektai, kaip ir $PROJECT, naudoja BOINC. Jūs galite nuspręsti prisijungti prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris darys naudingą darbą kai $PROJECT projektas jo neturės.."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Išvardinti projektai nėra susijį su $PROJECT, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs sprendžiate ar prisijungti prie kitų projektų."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Susikurti abonentą"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Prieš kurdami vartotojo abonementą perskaitykite %s."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Nepildykite šios formos, jei Jūs jau gavote vartotojo abonemento slaptažodį. Eikite į %s."
+
+msgid "CREATE_AC_NAME"
+msgstr "Vardas"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Identifikuoja vartotoja mūsų interneto svetainėje. Galite naudoti savo tikrą vardą arba slapyvardį."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Elektroninio pašto adresas"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Turi būti teisingas adresas pagal formatą 'vardas@domenas'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Šalis"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Jei norite, galite pasirinkti šalį kuriai atstovausite."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Pašto kodas"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Sukurti vartotojo abonementą"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Vartotojo abonementų kūrimas yra išjungtas"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "$PROJECT projekto vartotojų abonementų kūrimas šiuo metu yra išjungtas. Prašome bandyti vėliau."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Šis vartotojo abonementas priklausys %s komandai ir bus naudojami komandos įkūrėjo nustatymai."
+
+#########################################
+# Account created page (account_created.php)
+#########################################
+msgid "AC_READY_TITLE"
+msgstr "Sukurtas vartotojo abonementas"
+
+msgid "AC_READY_WELCOME"
+msgstr "Sveikiname - Jums sukurtas $PROJECT projekto vartotojo abonementas."
+
+msgid "AC_READY_PASTE"
+msgstr "Čia reikia įvesti vartotojo abonemento slaptažodį:"
+
+msgid "AC_READY_CLICK"
+msgstr "ir paspauskite"
+
+#########################################
+# Account setup page (account_setuo.php)
+#########################################
+#also used in account_setup_nonfirst.php:
+msgid "AC_SETUP_TITLE"
+msgstr "Vartotojo abonento diegimas"
+
+msgid "AC_SETUP_USES_BOINC"
+msgstr "$PROJECT projektas naudoja BOINC programą."
+
+msgid "AC_SETUP_DIVISION"
+msgstr "BOINC leidžia jūsų kompiuterio darbo laiką padalinti keliems projektams."
+
+msgid "AC_SETUP_ISFIRST"
+msgstr "Ar tai pirmas Jūsų BOINC projektas?"
+
+msgid "AC_SETUP_FIRST"
+msgstr "Taip - tai pirmas mano BOINC projektas."
+
+msgid "AC_SETUP_NONFIRST"
+msgstr "Ne - aš jau dalyvauju bent viename BOINC projekte."
+
+#########################################
+# First Account setup page (account_setup_first.php)
+#########################################
+msgid "AC_FIRST_TITLE"
+msgstr "Abonemento nustatymai"
+
+msgid "AC_FIRST_CONTROL"
+msgstr "Jūs galite kontroliuoti, kaip ir kada $PROJECT projektas naudos Jūsų kompiuterį."
+
+msgid "AC_FIRST_DEFAULT"
+msgstr "Jei naudosite numatytus nustatymus, eikite į puslapio pabaigą ir paspauskite OK."
+
+#########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "Abonemento diegimas: baigta"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Jūsų vartotojo abonemento diegimas yra baigtas."
+
+msgid "AC_DONE_BOINC"
+msgstr "Toliau Jūs turite parsisiųsti ir instaliuoti BOINC programą ir nurodyti kompiuteriui (-iams) nauditi šį abonementą."
+
+msgid "AC_DONE_URL"
+msgstr "Pirmą kartą paleidus BOINC programą, Jūs būsite paprašytas įvesti <b>projekto internetinį adresą (URL)</b> ir <b>abonemento slaptažodį</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Nukopijuokite ir įklijuokite juos iš čia:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "Dabar Jūs galite %s ir baigti $PROJECT projekto diegimą."
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "parsisiųsti BOINC programą"
+
+msgid "AC_DONE_THANKS"
+msgstr "Dėkojame, kad dalyvaujate $PROJECT projekte."
+
+#########################################
+# Non-first Account setup page (account_setup_nonfirst.php)
+#########################################
+msgid "AC_NONFIRST_TITLE"
+msgstr "Abonemento nustatymai: resursų padalinimas"
+
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "Toliau nurodykite kompiuteriui(-iams) naudoti šį abonementą."
+
+msgid "AC_DONE_WIN"
+msgstr "Windows naudotojai:"
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Dvigubu pelės paspaudimu sistemos dėkle paleiskite BOINC programą. Pasirinkite Nustatymų meniu ir 'Prisijungti prie projekto'. Jūs turėsite įvesti projekto internetinį adresq (URL) ir vartotojo abonemento slaptažodį."
+
+msgid "AC_DONE_UNIX"
+msgstr "Mac, Unix ir Linux naudotojai:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Uždarykite BOINC klientą. tada paleiskite BOINC klientą su -attach_project funkcija. Jūs turėsite įvesti projekto internetinį adresą (URL) ir abonemento slaptažodį."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "Kiekvienu atveju nukopijuokite ir įiklijuokite tai:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "$PROJECT projekto diegimas baigtas."
+
+#########################################
+# Forum sample index page
+#########################################
+msgid "FORUM_TITLE"
+msgstr "$PROJECT Pranešimų lentos"
+
+#########################################
+# Different strange places:
+#########################################
+# account_created.php
+msgid "AC_CREATED_TITLE"
+msgstr "Abonemento nustatymai"
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Papildomas pasirinkimas"
+
