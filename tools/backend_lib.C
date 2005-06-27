@@ -399,6 +399,9 @@ int create_result(
         char datafilename[512];
         char *last=strstr(result.name, "__");
         if (result.name<last && last<(result.name+255)) {
+            sprintf(datafilename, "../locality_scheduling/working_set_removal/");
+            strncat(datafilename, result.name, last-result.name);
+            unlink(datafilename);
             sprintf(datafilename, "../locality_scheduling/work_available/");
             strncat(datafilename, result.name, last-result.name);
             boinc_touch_file(datafilename);
