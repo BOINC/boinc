@@ -324,24 +324,6 @@ static bool work_generation_over(char *filename) {
     return boinc_file_exists(fullpath);
 }
 
-// returns zero on success, nonzero if didn't touch file
-//
-int touch_file(char *path) {
-    FILE *fp;
-
-    if (boinc_file_exists(path)) {
-        return 0;
-    }
-
-    if ((fp=fopen(path, "w"))) {
-        fclose(fp);
-        return 0;
-    }
-
-    return -1;
-}
-
-
 // Ask the WU generator to make more WUs for this file.
 // Returns nonzero if can't make more work.
 // Returns zero if it *might* have made more work
@@ -365,7 +347,7 @@ int make_more_work_for_file(char* filename) {
     // If this operation fails, don't worry or tarry!
     //
     sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
-    if (touch_file(fullpath)) {
+    if (boinc_touch_file(fullpath)) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "unable to touch %s\n", fullpath
@@ -431,7 +413,7 @@ error_exit:
 static void flag_for_possible_removal(char* filename) {
     char path[256];
     sprintf(path, "../locality_scheduling/working_set_removal/%s", filename);
-    touch_file(path);
+    boinc_touch_file(path);
     return;
 }
 

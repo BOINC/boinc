@@ -392,6 +392,22 @@ bool boinc_file_exists(const char* path) {
    return true;
 }
 
+// returns zero on success, nonzero if didn't touch file
+//
+int boinc_touch_file(const char *path) {
+    FILE *fp;
+                                                                                                                                                                               
+    if (boinc_file_exists(path)) {
+        return 0;
+    }
+                                                                                                                                                                               
+    if ((fp=fopen(path, "w"))) {
+        fclose(fp);
+        return 0;
+    }
+                                                                                                                                                                               
+    return -1;
+}
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32

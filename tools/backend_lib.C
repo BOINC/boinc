@@ -391,6 +391,19 @@ int create_result(
             return retval;
         }
     }
+
+    // if using locality scheduling, advertise data file
+    // associated with this newly-created result
+    //
+    if (config.locality_scheduling) {
+        char datafilename[512];
+        char *last=strstr(result.name, "__");
+        if (result.name<last && last<(result.name+255)) {
+            sprintf(datafilename, "../locality_scheduling/work_available/");
+            strncat(datafilename, result.name, last-result.name);
+            boinc_touch_file(datafilename);
+        } 
+    }
     return 0;
 }
 

@@ -8568,3 +8568,18 @@ David  26 June 2005
         file_names.C
     html/ops
         cancel_wu_action.php
+
+Bruce  27 June 2005
+    - when using locality scheduler, have transitioner or backend
+      lib advertise data file when new result is created.
+    - code organization: create new lib function boinc_touch_file()
+      from code that was in locality scheduler module.
+
+    lib/
+        filesys.C
+        filesys.h
+    tools/
+        backend_lib.C
+    sched/
+        transitioner.C
+        sched_locality.C

@@ -60,6 +60,7 @@ typedef DIR *DIRREF;
 extern "C" {
 #endif
   extern int boinc_delete_file(const char*);
+  extern int boinc_touch_file(const char *path);
   extern int clean_out_dir(const char*);
   extern FILE* boinc_fopen(const char* path, const char* mode);
   extern int boinc_copy(const char* orig, const char* newf);
