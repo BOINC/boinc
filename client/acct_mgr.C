@@ -76,6 +76,7 @@ bool ACCT_MGR::poll() {
     last_time = gstate.now;
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
+        gstate.http_ops->remove(&http_op);
         if (http_op.http_op_retval == 0) {
             FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
             if (f) {

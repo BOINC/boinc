@@ -8583,3 +8583,13 @@ Bruce  27 June 2005
     sched/
         transitioner.C
         sched_locality.C
+
+David  27 June 2005
+	- fix bug in Manager message display
+		(can end up showing alerts over and over)
+	- acct mgr: remove HTTP_OP from set when op finishes
+
+	client/
+		acct_mgr.C
+	clientgui/
+		MainDocument.cpp
