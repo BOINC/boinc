@@ -8666,3 +8666,18 @@ David  28 June 2005
         main.C
     lib/
         prefs.C
+
+Bruce  28 June 2005
+    - locality scheduler: make searches over file names distinguish
+      lower case and upper case
+    - locality scheduler: when searching for new work using advertised
+      files, retry ten times before starting a deterministic search.
+      We should probably modify this to try ALL advertised files in
+      a random order before moving onto a deterministic search.
+
+    sched/
+        sched_locality.C
+
+
+
+

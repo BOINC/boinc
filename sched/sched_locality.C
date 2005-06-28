@@ -447,11 +447,11 @@ static int send_results_for_file(
     char pattern[256], escaped_pattern[256];
     sprintf(pattern, "%s__", filename);
     escape_mysql_like_pattern(pattern, escaped_pattern);
-    sprintf(buf, "where userid=%d and name like '%s%%'",
+    sprintf(buf, "where userid=%d and name like binary '%s%%'",
         reply.user.id, escaped_pattern
     );
 #else
-    sprintf(buf, "where userid=%d and name>'%s__' and name<'%s__~'",
+    sprintf(buf, "where userid=%d and name>binary '%s__' and name<binary '%s__~'",
         reply.user.id, filename, filename
     );
 #endif
@@ -480,24 +480,24 @@ static int send_results_for_file(
             //
 #ifdef USE_REGEXP
             sprintf(query,
-                "where name like '%s%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
+                "where name like binary '%s%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
                 escaped_pattern, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #else
             sprintf(query,
-                "where name>'%s__' and name<'%s__~' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
+                "where name>binary '%s__' and name<binary '%s__~' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
                 filename, filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #endif
         } else {
 #ifdef USE_REGEXP
             sprintf(query,
-                "where name like '%s%%' and id>%d and server_state=%d order by id limit 1 ",
+                "where name like binary '%s%%' and id>%d and server_state=%d order by id limit 1 ",
                 escaped_pattern, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #else
             sprintf(query,
-                "where name>'%s__' and name<'%s__~' and id>%d and server_state=%d order by id limit 1 ",
+                "where name>binary '%s__' and name<binary '%s__~' and id>%d and server_state=%d order by id limit 1 ",
                 filename, filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #endif
@@ -533,12 +533,12 @@ static int send_results_for_file(
                     // do an EXPENSIVE db query 
 #ifdef USE_REGEXP
                     sprintf(query,
-                        "where server_state=%d and name like '%s%%' limit 1",
+                        "where server_state=%d and name like binary '%s%%' limit 1",
                         RESULT_SERVER_STATE_UNSENT, escaped_pattern
                     );
 #else
                     sprintf(query,
-                        "where server_state=%d and name>'%s__' and name<'%s__~' limit 1",
+                        "where server_state=%d and name>binary '%s__' and name<binary '%s__~' limit 1",
                         RESULT_SERVER_STATE_UNSENT, filename, filename
                     );
 #endif
@@ -771,6 +771,7 @@ static int send_new_file_work(
         int now   = time(0);
         int end   = now - config.locality_scheduling_send_timeout/2;
         int start = end - (int)(0.5*frac*config.locality_scheduling_send_timeout);
+        int retry=0;
 
         // send work that's been hanging around the queue for an
         // interval that which (1) starts at a random time between
@@ -785,11 +786,13 @@ static int send_new_file_work(
         retval_sow=send_old_work(sreq, reply, platform, ss, start, end);
 
         if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return retval_sow;
+
     
-        if (reply.work_needed(true)) {
+        while (reply.work_needed(true) && retry<10) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "send_new_file_work(): try to send from working set\n"
+                "send_new_file_work(%d): try to send from working set\n", retry
             );
+            retry++;
             retval_snfwws=send_new_file_work_working_set(sreq, reply, platform, ss);
             if (retval_snfwws==ERR_NO_APP_VERSION || retval_snfwws==ERR_INSUFFICIENT_RESOURCE) return retval_snfwws;
 
