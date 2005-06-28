@@ -826,7 +826,7 @@ int CMainDocument::WorkAbort(int iIndex) {
 int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
-    int new_msg_seqno;
+    int new_msg_seqno = m_iMessageSequenceNumber;
 
     if (in_this_func) return 0;
     in_this_func = true;

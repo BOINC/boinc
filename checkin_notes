@@ -8648,3 +8648,9 @@ Rom    28 June 2005
         BOINCGUIApp.cpp, .h
         DlgOptions.cpp, .h
         MainFrame.cpp, .h
+
+David  28 June 2005
+	- manager: fixed messages bug
+
+	cliengui/
+		MainDocument.cpp
