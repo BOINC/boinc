@@ -534,6 +534,8 @@ wxIcon CDlgOptions::GetIconResource(const wxString&) {
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON
  */
 
+#if defined(__WXMSW__)
+
 void CDlgOptions::OnNetworkautodetectSelected( wxCommandEvent& event )
 {
 ////@begin wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON in CDlgOptions.
@@ -542,6 +544,10 @@ void CDlgOptions::OnNetworkautodetectSelected( wxCommandEvent& event )
 ////@end wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON in CDlgOptions. 
 }
 
+#endif
+
+
+#if defined(__WXMSW__)
 
 /*!
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON1
@@ -555,6 +561,9 @@ void CDlgOptions::OnNetworklanSelected( wxCommandEvent& event )
 ////@end wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON1 in CDlgOptions. 
 }
 
+#endif
+
+#if defined(__WXMSW__)
 
 /*!
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON2
@@ -568,4 +577,4 @@ void CDlgOptions::OnNetworkdialupSelected( wxCommandEvent& event )
 ////@end wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_RADIOBUTTON2 in CDlgOptions. 
 }
 
-
+#endif
