@@ -8629,5 +8629,14 @@ Charlie 28 June 2005
     mac_build/
         HowToBuildBOINC_XCode.rtf
         
-    
+Bruce 28 June 2005
+    - Added a php script grant_credit.php.  Running this will grant credit
+      to users/hosts/teams for workunits that have been cancelled or have
+      otherwise failed with some problem (error_mask!=0).  The script
+      can be run multiple times without doing any harm.  Documentation
+      contained within as a comment.
 
+    html/
+        ops/
+            grant_credit.php
+          
