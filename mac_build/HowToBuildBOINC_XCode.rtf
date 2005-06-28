@@ -2,7 +2,7 @@
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fmodern\fcharset77 Courier;
 \f3\fnil\fcharset77 LucidaGrande;\f4\fswiss\fcharset77 Helvetica-Oblique;\f5\fmodern\fcharset77 Courier-Oblique;
 }
-{\colortbl;\red255\green255\blue255;\red255\green0\blue0;\red0\green0\blue0;\red0\green0\blue255;
+{\colortbl;\red255\green255\blue255;\red255\green0\blue0;\red0\green0\blue255;\red0\green0\blue0;
 }
 \margl1440\margr1440\vieww9000\viewh9000\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -13,7 +13,7 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 6/22/05\
+Last updated 6/28/05\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.  Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".\
@@ -24,7 +24,7 @@ If you are building under OS 10.4, you must first install XCode's optional Cross
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf2 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf3 If you are building with XCode 2.0 under OS 10.4, the default compiler is GCC 4.0.  Software compiled with GCC 4.0 cannot run on systems earlier than OS 10.3.9.  To ensure compatibility back to OS 10.3.0, all BOINC software 
+\cf0 If you are building with XCode 2.0 under OS 10.4, the default compiler is GCC 4.0.  Software compiled with GCC 4.0 cannot run on systems earlier than OS 10.3.9.  To ensure compatibility back to OS 10.3.0, all BOINC software 
 \f0\b must
 \f1\b0  be compiled using GCC version 3.3.  \
 \
@@ -32,7 +32,7 @@ The BOINC XCode project is already set up to use GCC 3.3.  For builds from the c
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 \cf3 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
+\f2 \cf0 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 \f1 \
 \
 To make sure that other XCode projects (such as client science applications) use GCC 3.0, do the following:\
@@ -41,8 +41,7 @@ In the XCode project, select your target under the Groups & Files column.  Press
 \
 If you are building under OS 10.3.9, the default compiler is GCC 3.3, so these steps are not necessary (but they won't do any harm).\
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 \
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b \cf0 ONE_TIME SETUP for BOINC Manager and embedded Core Client
@@ -53,15 +52,14 @@ If you are building under OS 10.3.9, the default compiler is GCC 3.3, so these s
 You will need to set the environment variables CPPFLAGS and LDFLAGS as described below.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2 \cf4 \
+\f2 \cf3 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 First set the CPPFlags environment variable. If you are building under OS 10.4:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f2 \cf0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf3 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030";export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3\cf0 \
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -DMAC_OS_X_VERSION_MAX_ALLOWED=1030";export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
@@ -79,7 +77,7 @@ Then continue building wxMac-2.6.0:\
 
 \f2 \cf0 cd [wxpath]\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf4 \
+\cf3 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 mkdir osx-build\
 \
@@ -279,7 +277,7 @@ You will now have the following directory structure:\
 \f1\b0 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f4\i \cf3 XCode 1.5 installs autoconf version 2.57 and automake 1.63.  XCode 2.0 installs autoconf 2.59 and automake 1.63.
+\f4\i \cf0 XCode 1.5 installs autoconf version 2.57 and automake 1.63.  XCode 2.0 installs autoconf 2.59 and automake 1.63.
 \f1\i0   
 \f4\i To determine the version number, type "autoconf --version" or "automake --version" .  Building seti_boinc requires autoconf 2.59 and automake 1.93 or later.\
 \
@@ -287,7 +285,7 @@ Upgrades for autoconf and automake are available from www.gnu.org.  XCode instal
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\i0 \cf3 export PATH=/usr/local/bin:$PATH
+\f2\i0 \cf0 export PATH=/usr/local/bin:$PATH
 \f5\i \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -348,5 +346,28 @@ ln -s [boincpath] ./boinc\
 The XCODE project for building the BOINC SETI@home client application is \
 [setipath]/mac_build/seti_boinc.xcode.\
 \
+There is an optional api setMacIcon() in the libboinc_api.a library.  This allows science applications to \CocoaLigature0 display an application icon in the Dock) and in the Finder.   (The icon does not appear in the Dock until the application displays graphics.)  To implement this, do the following:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf4 \
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
+\cf4 (1)Use "/Developer/Applications/utilities/Icon Composer.app" to \cf0 create a xxx.icns file.  (Use any name you wish instead of xxx.)\cf4 \
 \
+(2) Convert the \cf0 xxx\cf4 .icns file to an app_icon.h file as follows: in Terminal, run: \
+
+\f2 MakeAppIcon_h <source_file> <dest_file> \
+
+\f1 (The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)  Add the \cf0 app_icon.h file to your science application's project.\cf4 \
+\
+(3) In the science application's main(), add \
+
+\f2 #include "app_icon.h" 
+\f1 \
+and call:\
+
+\f2   setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));\
+
+\f1 \
+(4) The science application must link with Carbon.framework to use \cf0 \CocoaLigature1 setMacIcon()\cf4 \CocoaLigature0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf4 \CocoaLigature1 \
 }

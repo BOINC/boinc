@@ -30,6 +30,10 @@
 #endif // defined(_MSC_VER) && (_MSC_VER > 1020)
 #endif // (!defined __cplusplus) && (!defined bool)
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 // ANSI C API BEGINS HERE
 
 #ifdef __cplusplus
@@ -82,6 +86,9 @@ extern int boinc_time_to_checkpoint();
 extern bool boinc_is_standalone(void);
 extern bool boinc_receive_trickle_down(char* buf, int len);
 
+#ifdef __APPLE__
+extern int setMacIcon(char *filename, char *iconData, long iconSize);
+#endif
 
 #ifdef __cplusplus
 } // extern "C" {

@@ -51,6 +51,7 @@
 				DD96AFF90811075000A06F22,
 				DD1277B3081F3D67007B5DE1,
 				DD69FEE808416C1300C01361,
+				DD6381EA0870DC9D007A2F8E,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -93,6 +94,7 @@
 				DDAEC9E007FA583B00A7BC36,
 				DD96AFF80811075000A06F22,
 				DD1277B2081F3D67007B5DE1,
+				DD6381E90870DC9D007A2F8E,
 			);
 		};
 		20286C29FDCF999611CA2CEA = {
@@ -111,6 +113,7 @@
 				DD40CDFA07F0386B0096C645,
 				DD96AFFA0811075100A06F22,
 				DD1277B5081F3D67007B5DE1,
+				DD6381F80870DD83007A2F8E,
 			);
 			isa = PBXGroup;
 			name = "¬´PROJECTNAME¬ª";
@@ -1312,6 +1315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD35353607E1E13F00C4718D,
+				DD6381460870DB78007A2F8E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1994,6 +1998,86 @@
 			settings = {
 			};
 		};
+		DD6381450870DB78007A2F8E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = mac_icon.C;
+			path = ../api/mac_icon.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6381460870DB78007A2F8E = {
+			fileRef = DD6381450870DB78007A2F8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD6381E70870DC9D007A2F8E = {
+			buildActionMask = 2147483647;
+			files = (
+				DD6381F90870DD83007A2F8E,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD6381E80870DC9D007A2F8E = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD6381E90870DC9D007A2F8E = {
+			buildPhases = (
+				DD6381E70870DC9D007A2F8E,
+				DD6381E80870DC9D007A2F8E,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = MakeAppIcon_h;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = MakeAppIcon_h;
+			productName = MakeAppIcon_h;
+			productReference = DD6381EA0870DC9D007A2F8E;
+			productType = "com.apple.product-type.tool";
+		};
+		DD6381EA0870DC9D007A2F8E = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = MakeAppIcon_h;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD6381F80870DD83007A2F8E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = make_app_icon_h.C;
+			path = ../api/make_app_icon_h.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD6381F90870DD83007A2F8E = {
+			fileRef = DD6381F80870DD83007A2F8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD64E7D507D89DB800B176C8 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2373,6 +2457,18 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		DD6D35F30871509300BBCDEE = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD6381E90870DC9D007A2F8E;
+			remoteInfo = MakeAppIcon_h;
+		};
+		DD6D35F40871509300BBCDEE = {
+			isa = PBXTargetDependency;
+			target = DD6381E90870DC9D007A2F8E;
+			targetProxy = DD6D35F30871509300BBCDEE;
 		};
 		DD6D82DA08131AB1008F7200 = {
 			fileEncoding = 4;
@@ -3197,6 +3293,7 @@
 				DDBD681707FA830E0082C20D,
 				DD127877081F44E5007B5DE1,
 				DD664F19084321A2009BFB11,
+				DD6D35F40871509300BBCDEE,
 			);
 			isa = PBXAggregateTarget;
 			name = Build_All;
@@ -4701,6 +4798,7 @@
 				DD40825507D3076400163EF5,
 				DD40825607D3076400163EF5,
 				DD6D82DA08131AB1008F7200,
+				DD6381450870DB78007A2F8E,
 				DD40825707D3076400163EF5,
 				DD40825807D3076400163EF5,
 				DD40825907D3076400163EF5,

@@ -8612,3 +8612,22 @@ David  27 June 2005
         db_base.C,h
     sched/
         sched_locality.C
+        
+Charlie 28 June 2005
+    Mac: Adapt code from Bernd Machenschalk to allow science apps to display
+        application icons in Dock (when displaying graphics) and in Finder.
+        Created small command-line utility MakeAppIcon_h (built by boinc 
+        XCode project) which converts a xxx.icns file to app_icon.h header 
+        file for use with new setMacIcon() api.
+        Update build instructions with directions for using this new api.
+        
+    api/
+        mac_icon.C (new)
+        make_app_icon_h.C (new)
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        
+    
+
