@@ -173,7 +173,15 @@ $l443 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_4.43_i686-pc-linux-gnu.sh",
     "date"=>"23 May 2005",
-    "type"=>sea()
+    "type"=>sea(),
+    "bugs"=>"<ul>
+     <li>
+     boincmgr currently requires a later version of glibc than what we want.  When running
+     boincmgr you might see this error message:<br>
+         boincmgr: /lib/libpthread.so.0: version `GLIBC_2.3.2' not found (required by boincmgr)<br><br>
+     We are investigating this issue.
+      </ul>
+    "
 );
 $l419 = array(
     "num"=>"4.19",
