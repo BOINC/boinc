@@ -22,6 +22,7 @@
 #endif
 
 #include "stdwx.h"
+#include "hyperlink.h"
 #include "BOINCGUIApp.h"
 #include "MainFrame.h"
 #include "Events.h"
@@ -209,8 +210,10 @@ CMainFrame::CMainFrame(wxString strTitle) :
     SetStatusBarPane(0);
 
 
+#ifdef __WXMSW__
     m_pDialupManager = wxDialUpManager::Create();
     wxASSERT(m_pDialupManager->IsOk());
+#endif
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -256,8 +259,9 @@ CMainFrame::~CMainFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
+#ifdef __WXMSW__
     wxASSERT(m_pDialupManager);
-
+#endif
 
     SaveState();
 
@@ -290,8 +294,10 @@ CMainFrame::~CMainFrame() {
     if (m_pMenubar)
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
 
+#ifdef __WXMSW__
     if (m_pDialupManager)
         delete m_pDialupManager;
+#endif
 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function End"));
@@ -1021,8 +1027,13 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pDlg);
-    wxASSERT(m_pDialupManager);
 
+#ifdef __WXMSW__
+    wxASSERT(m_pDialupManager);
+#endif
+
+
+    pDoc->GetProxyConfiguration();
 
     // General Tab
     pDlg->m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
@@ -1035,28 +1046,38 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 #endif
 
     // Proxy Tabs
-    bProxyInformationConfigured = (0 == pDoc->GetProxyConfiguration());
-    if (bProxyInformationConfigured) {
-        pDlg->m_bProxySectionConfigured = true;
-        pDlg->m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
-        pDlg->m_HTTPAddressCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
-        pDlg->m_HTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
-        pDlg->m_HTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
+    pDlg->m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
+    pDlg->m_HTTPAddressCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
+    pDlg->m_HTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
+    pDlg->m_HTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
 
-        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
-        pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
+    strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
+    pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
 
-        pDlg->m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
-        pDlg->m_SOCKSAddressCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
-        pDlg->m_SOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
-        pDlg->m_SOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
+    pDlg->m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
+    pDlg->m_SOCKSAddressCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
+    pDlg->m_SOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
+    pDlg->m_SOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
 
-        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
-        pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
-    }
+    strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
+    pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
 
     iAnswer = pDlg->ShowModal();
     if (wxID_OK == iAnswer) {
+        // General Tab
+        if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
+            ShowAlert(
+                _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
+                _("Language Selection..."),
+                wxICON_INFORMATION
+           );
+        }
+
+        m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
+
+        // Connections Tab
+
+        // Proxy Tabs
         pDoc->proxy_info.use_http_proxy = pDlg->m_EnableHTTPProxyCtrl->GetValue();
         pDoc->proxy_info.http_server_name = pDlg->m_HTTPAddressCtrl->GetValue().c_str();
         pDoc->proxy_info.http_user_name = pDlg->m_HTTPUsernameCtrl->GetValue().c_str();
@@ -1076,16 +1097,6 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
         pDoc->proxy_info.socks_server_port = iBuffer;
 
         pDoc->SetProxyConfiguration();
-
-        if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
-            ShowAlert(
-                _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
-                _("Language Selection..."),
-                wxICON_INFORMATION
-           );
-        }
-
-        m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
     }
 
     if (pDlg)
@@ -1680,32 +1691,7 @@ void CMainFrame::ShowAlert( const wxString title, const wxString message, const 
 
 
 void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
-    wxString strMimeType = wxEmptyString;
-
-    if      (strLink.StartsWith(wxT("http://")))
-        strMimeType = wxT("text/html");
-    else if (strLink.StartsWith(wxT("ftp://")))
-        strMimeType = wxT("text/html");
-    else if (strLink.StartsWith(wxT("mailto:")))
-        strMimeType = wxT("message/rfc822");
-    else
-        return;
-
-    wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(strMimeType);
-    if (ft) {
-        wxString cmd;
-        if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
-#ifdef __WXMAC__
-            cmd.Replace(wxT("<"), wxEmptyString);
-            cmd.Prepend(wxT("open ")); 
-#else
-            cmd.Replace(wxT("file://"), wxEmptyString);
-#endif
-            ::wxExecute(cmd);
-        }
-
-        delete ft;
-    }
+    wxHyperLink::ExecuteLink(strLink);
 }
 
 

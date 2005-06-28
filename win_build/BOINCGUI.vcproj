@@ -239,6 +239,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\clientgui\hyperlink.cpp">
+			</File>
+			<File
 				RelativePath="..\clientgui\LogBOINC.cpp">
 			</File>
 			<File
@@ -490,6 +493,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\gui_rpc_client.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\hyperlink.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\LogBOINC.h">

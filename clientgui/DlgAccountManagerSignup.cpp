@@ -113,44 +113,48 @@ void CDlgAccountManagerSignup::CreateControls()
     itemStaticText4->Create( itemDialog1, ID_ACCTMANAGERTEXT, _("foo"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer5 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemBoxSizer3->Add(itemFlexGridSizer5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxHyperLink* itemHyperLink5 = new wxHyperLink;
+    itemHyperLink5->Create( itemDialog1, ID_ACCTMANAGERLINK, _T("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(itemHyperLink5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxStaticText* itemStaticText6 = new wxStaticText;
-    itemStaticText6->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemBoxSizer3->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxStaticText* itemStaticText7 = new wxStaticText;
+    itemStaticText7->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_AcctManagerURLCtrl = new wxTextCtrl;
     m_AcctManagerURLCtrl->Create( itemDialog1, ID_ACCTMANAGERURL, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer5->Add(m_AcctManagerURLCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(m_AcctManagerURLCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText8 = new wxStaticText;
-    itemStaticText8->Create( itemDialog1, wxID_STATIC, _("Username:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxStaticText* itemStaticText9 = new wxStaticText;
+    itemStaticText9->Create( itemDialog1, wxID_STATIC, _("Username:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_AcctManagerUsernameCtrl = new wxTextCtrl;
     m_AcctManagerUsernameCtrl->Create( itemDialog1, ID_ACCTMANAGERUSERNAME, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer5->Add(m_AcctManagerUsernameCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(m_AcctManagerUsernameCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText10 = new wxStaticText;
-    itemStaticText10->Create( itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemFlexGridSizer5->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxStaticText* itemStaticText11 = new wxStaticText;
+    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_AcctManagerPasswordCtrl = new wxTextCtrl;
     m_AcctManagerPasswordCtrl->Create( itemDialog1, ID_ACCTMANAGERPASSWORD, _T(""), wxDefaultPosition, wxSize(200, -1), wxTE_PASSWORD );
-    itemFlexGridSizer5->Add(m_AcctManagerPasswordCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(m_AcctManagerPasswordCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer12 = new wxFlexGridSizer(2, 1, 0, 0);
-    itemFlexGridSizer2->Add(itemFlexGridSizer12, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
-
-    wxButton* itemButton13 = new wxButton;
-    itemButton13->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton13->SetDefault();
-    itemFlexGridSizer12->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer13 = new wxFlexGridSizer(2, 1, 0, 0);
+    itemFlexGridSizer2->Add(itemFlexGridSizer13, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
 
     wxButton* itemButton14 = new wxButton;
-    itemButton14->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer12->Add(itemButton14, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemButton14->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton14->SetDefault();
+    itemFlexGridSizer13->Add(itemButton14, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxButton* itemButton15 = new wxButton;
+    itemButton15->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer13->Add(itemButton15, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     m_AcctManagerURLCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );

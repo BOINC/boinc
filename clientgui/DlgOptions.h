@@ -30,6 +30,7 @@
 
 ////@begin includes
 #include "wx/notebook.h"
+#include "wx/valtext.h"
 ////@end includes
 
 /*!
@@ -118,30 +119,49 @@ public:
 
 #if defined(__WXMSW__)
     /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKAUTODETECT
-    void OnNetworkautodetectSelected( wxCommandEvent& event );
+    void OnNetworkAutoDetectSelected( wxCommandEvent& event );
+
+    /// wxEVT_UPDATE_UI event handler for ID_NETWORKAUTODETECT
+    void OnNetworkAutoDetectUpdate( wxUpdateUIEvent& event );
 
 #endif
 #if defined(__WXMSW__)
     /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKLAN
-    void OnNetworklanSelected( wxCommandEvent& event );
+    void OnNetworkLANSelected( wxCommandEvent& event );
+
+    /// wxEVT_UPDATE_UI event handler for ID_NETWORKLAN
+    void OnNetworkLANUpdate( wxUpdateUIEvent& event );
 
 #endif
 #if defined(__WXMSW__)
     /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKDIALUP
-    void OnNetworkdialupSelected( wxCommandEvent& event );
+    void OnNetworkDialupSelected( wxCommandEvent& event );
+
+    /// wxEVT_UPDATE_UI event handler for ID_NETWORKDIALUP
+    void OnNetworkDialupUpdate( wxUpdateUIEvent& event );
+
+#endif
+#if defined(__WXMSW__)
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
+    void OnDialupSetDefaultClick( wxCommandEvent& event );
+
+#endif
+#if defined(__WXMSW__)
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPCLEARDEFAULT
+    void OnDialupClearDefaultClick( wxCommandEvent& event );
 
 #endif
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
-    void OnEnablehttpproxyctrlClick( wxCommandEvent& event );
+    void OnEnableHTTPProxyCtrlClick( wxCommandEvent& event );
 
     /// wxEVT_UPDATE_UI event handler for ID_ENABLEHTTPPROXYCTRL
-    void OnEnablehttpproxyctrlUpdate( wxUpdateUIEvent& event );
+    void OnEnableHTTPProxyCtrlUpdate( wxUpdateUIEvent& event );
 
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLESOCKSPROXYCTRL
-    void OnEnablesocksproxyctrlClick( wxCommandEvent& event );
+    void OnEnableSOCKSProxyCtrlClick( wxCommandEvent& event );
 
     /// wxEVT_UPDATE_UI event handler for ID_ENABLESOCKSPROXYCTRL
-    void OnEnablesocksproxyctrlUpdate( wxUpdateUIEvent& event );
+    void OnEnableSOCKSProxyCtrlUpdate( wxUpdateUIEvent& event );
 
 ////@end CDlgOptions event handler declarations
 
@@ -149,6 +169,9 @@ public:
 
     bool GetProxySectionConfigured() const { return m_bProxySectionConfigured ; }
     void SetProxySectionConfigured(bool value) { m_bProxySectionConfigured = value ; }
+
+    wxString GetDefaultDialupConnection() const { return m_strDefaultDialupConnection ; }
+    void SetDefaultDialupConnection(wxString value) { m_strDefaultDialupConnection = value ; }
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
@@ -201,6 +224,7 @@ public:
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
     bool m_bProxySectionConfigured;
+    wxString m_strDefaultDialupConnection;
 ////@end CDlgOptions member variables
 };
 

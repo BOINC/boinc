@@ -8678,6 +8678,14 @@ Bruce  28 June 2005
     sched/
         sched_locality.C
 
+Rom    28 June 2005
+    - Additional Dial-up work
+    - Add space for description and hyperlink access to the
+        DlgAccountManagerSignup dialog.
 
-
-
+    clientgui/
+        BOINCGUI.pjd
+        DlgOptions.cpp, .h
+        DlgAccountManagerSignup.cpp, .h
+        hyperlink.cpp, .h (Added)
+        MainFrame.cpp

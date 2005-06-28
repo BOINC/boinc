@@ -29,6 +29,7 @@
  */
 
 ////@begin includes
+#include "hyperlink.h"
 #include "wx/valgen.h"
 ////@end includes
 
@@ -51,6 +52,7 @@
 #define SYMBOL_CDLGACCOUNTMANAGERSIGNUP_SIZE wxSize(400, 300)
 #define SYMBOL_CDLGACCOUNTMANAGERSIGNUP_POSITION wxDefaultPosition
 #define ID_ACCTMANAGERTEXT 10028
+#define ID_ACCTMANAGERLINK 10029
 #define ID_ACCTMANAGERURL 10001
 #define ID_ACCTMANAGERUSERNAME 10002
 #define ID_ACCTMANAGERPASSWORD 10003
