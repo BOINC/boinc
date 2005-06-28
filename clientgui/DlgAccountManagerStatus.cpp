@@ -81,7 +81,8 @@ CDlgAccountManagerStatus::CDlgAccountManagerStatus( wxWindow* parent, wxWindowID
 bool CDlgAccountManagerStatus::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
 ////@begin CDlgAccountManagerStatus member initialisation
-    m_AcctManagerCtrl = NULL;
+    m_AcctManagerNameCtrl = NULL;
+    m_AcctManagerURLCtrl = NULL;
 ////@end CDlgAccountManagerStatus member initialisation
 
 ////@begin CDlgAccountManagerStatus creation
@@ -116,23 +117,27 @@ void CDlgAccountManagerStatus::CreateControls()
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText5 = new wxStaticText;
-    itemStaticText5->Create( itemDialog1, wxID_STATIC, _("Your account manager is:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer4->Add(itemStaticText5, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemStaticText5->Create( itemDialog1, wxID_STATIC, _("Your current account manager:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer4->Add(itemStaticText5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    m_AcctManagerCtrl = new wxStaticText;
-    m_AcctManagerCtrl->Create( itemDialog1, wxID_STATIC, _("http://a/b/c/"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer4->Add(m_AcctManagerCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_AcctManagerNameCtrl = new wxStaticText;
+    m_AcctManagerNameCtrl->Create( itemDialog1, wxID_STATIC, _("http://a/b/c/"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer4->Add(m_AcctManagerNameCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+
+    m_AcctManagerURLCtrl = new wxStaticText;
+    m_AcctManagerURLCtrl->Create( itemDialog1, wxID_STATIC, _("http://a/b/c/"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer4->Add(m_AcctManagerURLCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer3->Add(itemBoxSizer7, 0, wxALIGN_TOP|wxALL, 5);
 
     wxButton* itemButton8 = new wxButton;
-    itemButton8->Create( itemDialog1, ID_UPDATE, _("&Update"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton8->Create( itemDialog1, ID_UPDATE, _("&Update accounts"), wxDefaultPosition, wxDefaultSize, 0 );
     itemButton8->SetDefault();
     itemBoxSizer7->Add(itemButton8, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxButton* itemButton9 = new wxButton;
-    itemButton9->Create( itemDialog1, ID_CHANGE, _("Change"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton9->Create( itemDialog1, ID_CHANGE, _("Change manager"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(itemButton9, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxButton* itemButton10 = new wxButton;
@@ -140,7 +145,9 @@ void CDlgAccountManagerStatus::CreateControls()
     itemBoxSizer7->Add(itemButton10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     // Set validators
-    m_AcctManagerCtrl->SetValidator( wxGenericValidator(& m_strAcctManager) );
+    m_AcctManagerNameCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerName) );
+    m_AcctManagerURLCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );
+
 ////@end CDlgAccountManagerStatus content construction
 }
 

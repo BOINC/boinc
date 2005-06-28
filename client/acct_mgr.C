@@ -40,15 +40,24 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
         return 0;
     }
     strcpy(buf, url.c_str());
+
+    if (!strlen(buf) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
+        msg_printf(NULL, MSG_ALERT_INFO, "Removing account manager info");
+        gstate.acct_mgr_info.clear();
+        boinc_delete_file(ACCT_MGR_URL_FILENAME);
+        boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
+        return 0;
+    }
+
     canonicalize_master_url(buf);
     if (!valid_master_url(buf)) {
         msg_printf(NULL, MSG_ALERT_ERROR, "Can't contact account manager:\n'%s' is not a valid URL", url.c_str());
         return 0;
     }
-    ami.acct_mgr_url = url;
-    ami.acct_mgr_name = "";
-    ami.login_name = name;
-    ami.password = password;
+    strcpy(ami.acct_mgr_url, url.c_str());
+    strcpy(ami.acct_mgr_name, "");
+    strcpy(ami.login_name, name.c_str());
+    strcpy(ami.password, password.c_str());
 
     sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
     http_op.set_proxy(&gstate.proxy_info);
@@ -132,7 +141,7 @@ int ACCT_MGR::parse(MIOFILE& in) {
     error_str = "";
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</acct_mgr_reply>")) return 0;
-        if (parse_str(buf, "<name>", ami.acct_mgr_name)) continue;
+        if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
         if (match_tag(buf, "<account>")) {
             ACCOUNT account;
@@ -153,10 +162,7 @@ void ACCT_MGR::handle_reply() {
     }
     msg_printf(NULL, MSG_ALERT_INFO, "Account manager update succeeded.\nSee Messages for more info.");
 
-    gstate.acct_mgr_info.acct_mgr_url = ami.acct_mgr_url;
-    gstate.acct_mgr_info.acct_mgr_name = ami.acct_mgr_name;
-    gstate.acct_mgr_info.login_name = ami.login_name;
-    gstate.acct_mgr_info.password = ami.password;
+    gstate.acct_mgr_info = ami;
     gstate.acct_mgr_info.write_info();
 
     for (i=0; i<accounts.size(); i++) {
@@ -182,7 +188,7 @@ void ACCT_MGR::handle_reply() {
 
 int ACCT_MGR_INFO::write_info() {
     FILE* p;
-    if (acct_mgr_url.size()) {
+    if (strlen(acct_mgr_url)) {
         p = fopen(ACCT_MGR_URL_FILENAME, "w");
         if (p) {
             fprintf(
@@ -191,14 +197,14 @@ int ACCT_MGR_INFO::write_info() {
                 "    <name>%s</name>\n"
                 "    <url>%s</url>\n"
                 "</acct_mgr>\n",
-                acct_mgr_name.c_str(),
-                acct_mgr_url.c_str()
+                acct_mgr_name,
+                acct_mgr_url
             );
             fclose(p);
         }
     }
 
-    if (login_name.size()) {
+    if (strlen(login_name)) {
         p = fopen(ACCT_MGR_LOGIN_FILENAME, "w");
         if (p) {
             fprintf(
@@ -207,8 +213,8 @@ int ACCT_MGR_INFO::write_info() {
                 "    <login>%s</login>\n"
                 "    <password>%s</password>\n"
                 "</acct_mgr_login>\n",
-                login_name.c_str(),
-                password.c_str()
+                login_name,
+                password
             );
             fclose(p);
         }
@@ -216,18 +222,30 @@ int ACCT_MGR_INFO::write_info() {
     return 0;
 }
 
+void ACCT_MGR_INFO::clear() {
+    strcpy(acct_mgr_name, "");
+    strcpy(acct_mgr_url, "");
+    strcpy(login_name, "");
+    strcpy(password, "");
+}
+
+ACCT_MGR_INFO::ACCT_MGR_INFO() {
+    clear();
+}
+
 int ACCT_MGR_INFO::init() {
     char    buf[256];
     MIOFILE mf;
     FILE*   p;
 
+    clear();
     p = fopen(ACCT_MGR_URL_FILENAME, "r");
     if (p) {
         mf.init_file(p);
         while(mf.fgets(buf, sizeof(buf))) {
             if (match_tag(buf, "</acct_mgr>")) break;
-            else if (parse_str(buf, "<name>", acct_mgr_name)) continue;
-            else if (parse_str(buf, "<url>", acct_mgr_url)) continue;
+            else if (parse_str(buf, "<name>", acct_mgr_name, 256)) continue;
+            else if (parse_str(buf, "<url>", acct_mgr_url, 256)) continue;
         }
         fclose(p);
     } else {
@@ -239,8 +257,8 @@ int ACCT_MGR_INFO::init() {
         mf.init_file(p);
         while(mf.fgets(buf, sizeof(buf))) {
             if (match_tag(buf, "</acct_mgr_login>")) break;
-            else if (parse_str(buf, "<login>", login_name)) continue;
-            else if (parse_str(buf, "<password>", password)) continue;
+            else if (parse_str(buf, "<login>", login_name, 256)) continue;
+            else if (parse_str(buf, "<password>", password, 256)) continue;
         }
         fclose(p);
     }

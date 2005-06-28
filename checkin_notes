@@ -8689,3 +8689,31 @@ Rom    28 June 2005
         DlgAccountManagerSignup.cpp, .h
         hyperlink.cpp, .h (Added)
         MainFrame.cpp
+
+
+David  28 June 2005
+	- Make it so that entering an empty string for the account manager URL
+		clears info about existing account manager (URL, login files)
+
+		NOTE: in the course of debugging this I encountered
+		the following;
+
+		std::string foo;
+		...
+		foo = "";
+
+		and after single-stepping throught this (in VC++)
+		foo was nonempty (a lengthy GUI-related string of some sort)
+
+		I eventually threw up my hands and changed the vars in question
+		(struct ACCT_MGR_INFO) to char[256], and it works.
+		But why didn't std::string work???
+	- show both name and URL in acct mgr status dialog
+
+	client/
+		acct_mgr.C,h
+		gui_rpc_server.C
+	clientgui/
+		DlgAccountManagerSignup.cpp
+		DlgAccountManagerStatus.cpp,h
+		MainFrame.cpp

@@ -29,15 +29,20 @@
 // represents info stored on files
 //
 struct ACCT_MGR_INFO {
-    std::string acct_mgr_name;
-    std::string acct_mgr_url;
-    std::string login_name;
-    std::string password;
+	// the following used to be std::string but there
+	// were mysterious bugs where setting it to "" didn't work
+	//
+    char acct_mgr_name[256];
+    char acct_mgr_url[256];
+    char login_name[256];
+    char password[256];
 
+    ACCT_MGR_INFO();
     int parse_url(MIOFILE&);
     int parse_login(MIOFILE&);
     int write_info();
     int init();
+    void clear();
 };
 
 // stuff after here related to RPCs to account managers
@@ -57,6 +62,8 @@ struct ACCOUNT {
 struct ACCT_MGR {
     int state;
     ACCT_MGR_INFO ami;
+        // a temporary copy while doing RPC.
+        // CLIENT_STATE::acct_mgr_info is authoratative
     std::string error_str;
     HTTP_OP http_op;
     std::vector<ACCOUNT> accounts;

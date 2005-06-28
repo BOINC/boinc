@@ -465,10 +465,10 @@ static void handle_acct_mgr_info(char*, MIOFILE& fout) {
         "   <acct_mgr_name>%s</acct_mgr_name>\n"
         "   <login_name>%s</login_name>\n"
         "   <password>%s</password>\n",
-        gstate.acct_mgr_info.acct_mgr_url.c_str(),
-        gstate.acct_mgr_info.acct_mgr_name.c_str(),
-        gstate.acct_mgr_info.login_name.c_str(),
-        gstate.acct_mgr_info.password.c_str()
+        gstate.acct_mgr_info.acct_mgr_url,
+        gstate.acct_mgr_info.acct_mgr_name,
+        gstate.acct_mgr_info.login_name,
+        gstate.acct_mgr_info.password
     );
 }
 
