@@ -254,7 +254,7 @@ static void init_core_client(int argc, char** argv) {
         exit(1);
     }
 
-// Unix/Linux console controls
+// Unix: install signal handlers
 #ifndef _WIN32
     // Handle quit signals gracefully
     boinc_set_signal_handler(SIGHUP, signal_handler);
@@ -264,11 +264,9 @@ static void init_core_client(int argc, char** argv) {
 #ifdef SIGPWR
     boinc_set_signal_handler(SIGPWR, signal_handler);
 #endif
-    //boinc_set_signal_handler_force(SIGTSTP, signal_handler);
-    //boinc_set_signal_handler_force(SIGCONT, signal_handler);
 #endif
 
-// Windows console controls
+// Windows: install console controls
 #ifdef _WIN32
     if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
         fprintf(stderr, "Failed to register the console control handler\n");
@@ -292,10 +290,19 @@ int boinc_main_loop() {
         exit(retval);
     }
 
-    // must parse env vars AFTER gstate.init();
-    // otherwise env vars will get overwritten with state file info
+    // must parse env vars after gstate.init();
+    // otherwise items will get overwritten with state file info
     //
     gstate.parse_env_vars();
+
+    if (gstate.projects.size() == 0) {
+        msg_printf(NULL, MSG_INFO, "This computer is not attached to any projects.");
+        msg_printf(NULL, MSG_INFO, "There are several ways to attach to a project:");
+        msg_printf(NULL, MSG_INFO, "1) Run the BOINC Manager and click Projects.");
+        msg_printf(NULL, MSG_INFO, "2) (Unix/Mac) Use boinc_cmd --project_attach");
+        msg_printf(NULL, MSG_INFO, "3) (Unix/Mac) Run this program with the -attach_project command-line option.");
+        msg_printf(NULL, MSG_INFO, "Visit http://boinc.berkeley.edu for more information");
+    }
 
     while (1) {
         if (!gstate.do_something()) {

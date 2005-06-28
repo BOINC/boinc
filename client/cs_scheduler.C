@@ -624,6 +624,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
         if (!(exit_when_idle && contacted_sched_server) && overall_work_fetch_urgency != WORK_FETCH_DONT_NEED) {
+
+#if 0
             if (work_need_inform_time < gstate.now) {
                 if (overall_work_fetch_urgency == WORK_FETCH_NEED) {
                     msg_printf(NULL, MSG_INFO,
@@ -637,6 +639,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
                 }
                 work_need_inform_time = gstate.now + 3600;
             }
+#endif
             scheduler_op->init_get_work();
             if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
                 break;

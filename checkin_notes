@@ -8654,3 +8654,15 @@ David  28 June 2005
 
 	cliengui/
 		MainDocument.cpp
+
+David  28 June 2005
+    - core client: if no projects on startup,
+        print messages about how to attach
+    - default general prefs: increase max CPUs, max disk limits
+    - remove spurious "fetching work" messages
+
+    client/
+        cs_scheduler.C
+        main.C
+    lib/
+        prefs.C

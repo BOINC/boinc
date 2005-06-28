@@ -52,10 +52,10 @@ void GLOBAL_PREFS::defaults() {
     hangup_if_dialed = false;
     dont_verify_images = false;
     work_buf_min_days = 0.1;
-    max_cpus = 1;
+    max_cpus = 16;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
-    disk_max_used_gb = 1;
+    disk_max_used_gb = 10;
     disk_max_used_pct = 50;
     disk_min_free_gb = 0.1;
     vm_max_used_pct = 75;

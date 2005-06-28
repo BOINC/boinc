@@ -138,7 +138,12 @@ list_item("output",
 </acct_mgr_reply>")
 );
 list_item("action",
-    "returns a list of the accounts associated with this meta-account"
+    "returns a list of the accounts associated with this meta-account.
+    <p>
+    NOTE: the XML must be as above, with the &lt;url>
+    and &lt;authenticator> elements on a single line,
+    and the &lt;account> and &lt;/account> tags
+    on separate lines."
 );
 list_end();
 
