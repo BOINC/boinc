@@ -358,5 +358,16 @@ void unescape_string(char* p, int /*len*/) {
     }
 }
 
+// replace _ with \\_, % with \\%
+//
+void escape_mysql_like_pattern(const char* in, char* out) {
+    while (*in) {
+        if (*in == '_' || *in == '%') {
+            *out++ = '\\';
+            *out++ = '\\';
+        }
+        *out++ = *in++;
+    }
+}
 
 const char *BOINC_RCSID_43d919556b = "$Id$";

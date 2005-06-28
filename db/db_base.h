@@ -116,5 +116,11 @@ public:
 
 void escape_string(char* field, int len);
 void unescape_string(char* p, int len);
+void escape_mysql_like_pattern(const char* in, char* out);
+    // if you're going to use a "like X" clause,
+    // call this function to escape the non-wildcard part of X.
+    // If it contains wildcard chars (%, _) this will put
+    // two (2) underscores before each one,
+    // so that they don't get treated as wildcards
 
 #endif

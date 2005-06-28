@@ -189,29 +189,33 @@ int CLIENT_STATE::parse_account_files() {
 
     DirScanner dir(".");
     while (dir.scan(name)) {
-        if (is_account_file(name.c_str())) {
-            f = boinc_fopen(name.c_str(), "r");
-            if (!f) continue;
-            project = new PROJECT;
-            // Assume master_url_fetch_pending, sched_rpc_pending are
-            // true until we read client_state.xml
-            //
-            project->master_url_fetch_pending = true;
-            project->sched_rpc_pending = true;
-            retval = project->parse_account(f);
-            fclose(f);
-            if (retval) {
+        if (!is_file(name.c_str())) continue;
+        if (!is_account_file(name.c_str())) continue;
+
+        f = boinc_fopen(name.c_str(), "r");
+        if (!f) continue;
+        project = new PROJECT;
+
+        // Assume master_url_fetch_pending, sched_rpc_pending are
+        // true until we read client_state.xml
+        //
+        project->master_url_fetch_pending = true;
+        project->sched_rpc_pending = true;
+        retval = project->parse_account(f);
+        fclose(f);
+        if (retval) {
+            msg_printf(NULL, MSG_ERROR,
+                "Couldn't parse account file %s", name.c_str()
+            );
+            delete project;
+        } else {
+            if (lookup_project(project->master_url)) {
                 msg_printf(NULL, MSG_ERROR,
-                    "Couldn't parse account file %s", name.c_str()
+                    "Duplicate account file %s - ignoring", name.c_str()
                 );
+                delete project;
             } else {
-                if (lookup_project(project->master_url)) {
-                    msg_printf(NULL, MSG_ERROR,
-                        "Duplicate account file %s - ignoring", name.c_str()
-                    );
-                } else {
-                    projects.push_back(project);
-                }
+                projects.push_back(project);
             }
         }
     }

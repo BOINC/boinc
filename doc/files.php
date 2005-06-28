@@ -38,7 +38,11 @@ The elements are as follows:
 ";
 list_start();
 list_item(
-    "name", "The file's name, which must be unique within the project."
+    "name",
+    "The file's name, which must be unique within the project.
+    If you want to use participant hosts on which
+    filenames are case-insensitive (e.g. Windows)
+    this uniqueness is case-insensitive."
 );
 list_item("url",
     "a URL where the file is (or will be) located on a data server."

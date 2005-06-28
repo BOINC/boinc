@@ -444,8 +444,11 @@ static int send_results_for_file(
     // set, so unsent results can not be returned by this query.
     //
 #ifdef USE_REGEXP
-    sprintf(buf, "where userid=%d and name like '%s__%%'",
-        reply.user.id, filename
+    char pattern[256], escaped_pattern[256];
+    sprintf(pattern, "%s__", filename);
+    escape_mysql_like_pattern(pattern, escaped_pattern);
+    sprintf(buf, "where userid=%d and name like '%s%%'",
+        reply.user.id, escaped_pattern
     );
 #else
     sprintf(buf, "where userid=%d and name>'%s__' and name<'%s__~'",
@@ -477,8 +480,8 @@ static int send_results_for_file(
             //
 #ifdef USE_REGEXP
             sprintf(query,
-                "where name like '%s__%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
-                filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
+                "where name like '%s%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
+                escaped_pattern, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #else
             sprintf(query,
@@ -489,8 +492,8 @@ static int send_results_for_file(
         } else {
 #ifdef USE_REGEXP
             sprintf(query,
-                "where name like '%s__%%' and id>%d and server_state=%d order by id limit 1 ",
-                filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
+                "where name like '%s%%' and id>%d and server_state=%d order by id limit 1 ",
+                escaped_pattern, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #else
             sprintf(query,
@@ -530,8 +533,8 @@ static int send_results_for_file(
                     // do an EXPENSIVE db query 
 #ifdef USE_REGEXP
                     sprintf(query,
-                        "where server_state=%d and name like '%s__%%' limit 1",
-                        RESULT_SERVER_STATE_UNSENT, filename
+                        "where server_state=%d and name like '%s%%' limit 1",
+                        RESULT_SERVER_STATE_UNSENT, escaped_pattern
                     );
 #else
                     sprintf(query,

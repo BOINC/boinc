@@ -8593,3 +8593,22 @@ David  27 June 2005
 		acct_mgr.C
 	clientgui/
 		MainDocument.cpp
+
+David  27 June 2005
+    - added new function escape_mysql_like_pattern(const char* in, char* out);
+        if you're going to use a "like X" clause,
+        call this function to escape the non-wildcard part of X.
+        If it contains wildcard chars (%, _) this will put
+        two (2) underscores before each one,
+        so that they don't get treated as wildcards
+    - use the above function in sched_locality.C
+        so that filename chars and our own __ separators
+        don't get treated as wildcards
+    - core client: when looking for account files, skip directories
+
+    client/
+        cs_account.C
+    db/
+        db_base.C,h
+    sched/
+        sched_locality.C
