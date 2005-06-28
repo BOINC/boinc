@@ -86,7 +86,7 @@ protected:
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
-    wxString        m_strLanguages[wxLANGUAGE_USER_DEFINED + 1];
+    wxArrayString  m_astrLanguages;
 
 public:
 
@@ -107,8 +107,7 @@ public:
 #endif
 #endif
 
-    wxString*       GetSupportedLanguages()      { return (wxString*)&m_strLanguages; }
-    int         GetSupportedLanguagesCount() { return WXSIZEOF(m_strLanguages); }
+    wxArrayString&  GetSupportedLanguages()      { return m_astrLanguages; }
 };
 
 

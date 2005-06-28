@@ -166,6 +166,10 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
     EVT_TIMER(ID_DOCUMENTPOLLTIMER, CMainFrame::OnDocumentPoll)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
+#ifdef __WXMSW__
+    EVT_DIALUP_CONNECTED(CMainFrame::OnInternetConnection)
+    EVT_DIALUP_DISCONNECTED(CMainFrame::OnInternetConnection)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -188,19 +192,25 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_iReminderFrequency = 0;
 
     m_strBaseTitle = strTitle;
+    m_bInternetSuccessfullyConnected = false;
+    m_bInternetDisconnectEventAlreadyDetected = false;
 
     m_aSelectedComputerMRU.Clear();
 
 
     SetIcon(wxICON(APP_ICON));
 
-
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
+    RestoreState();
+
+    SetStatusBarPane(0);
+
+
     m_pDialupManager = wxDialUpManager::Create();
-    wxASSERT(m_pDialupManager);
+    wxASSERT(m_pDialupManager->IsOk());
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -214,14 +224,11 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
     wxASSERT(m_pDocumentPollTimer);
 
-    m_pRefreshStateTimer->Start(60000);              // Send event every 60 seconds
+    m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
     m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
 
-    RestoreState();
-
-    SetStatusBarPane(0);
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -1006,15 +1013,28 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CDlgOptions*   pDlg = new CDlgOptions(this);
     int            iAnswer = 0;
-    bool           bProxyInformationConfigured = false;
     int            iBuffer = 0;
     wxString       strBuffer = wxEmptyString;
+    wxArrayString  astrDialupConnections;
+    bool           bProxyInformationConfigured = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pDlg);
+    wxASSERT(m_pDialupManager);
 
 
+    // General Tab
+    pDlg->m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
+    pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
+
+#ifdef __WXMSW__
+    // Connection Tab
+    m_pDialupManager->GetISPNames(astrDialupConnections);
+    pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+#endif
+
+    // Proxy Tabs
     bProxyInformationConfigured = (0 == pDoc->GetProxyConfiguration());
     if (bProxyInformationConfigured) {
         pDlg->m_bProxySectionConfigured = true;
@@ -1033,8 +1053,6 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 
         strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
         pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
-
-        pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     }
 
     iAnswer = pDlg->ShowModal();
@@ -1320,8 +1338,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 #ifdef __WXMSW__
         // Determine if we need to connect to the Internet
         //   Executes every ten seconds
-        static bool         successfully_connected = false;
-        static bool         disconnect_event_already_detected = false;
         static wxDateTime   dtLastDialupCheck = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
@@ -1347,7 +1363,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                             ShowAlert(
                                 _("BOINC Manager - Network Status"),
                                 _("BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."),
-                                wxICON_INFORMATION
+                                wxICON_INFORMATION,
+                                true
                             );
                         }
                     } else {
@@ -1373,31 +1390,9 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                                 answer = wxYES;
                             }
 
-                            // Process any UI update events
-                            ::wxYield();
-
                             // Are we allow to connect?
                             if (wxYES == answer) {
-                                if (m_pDialupManager->Dial(wxEmptyString, wxEmptyString, wxEmptyString, false)) {
-                                    ShowAlert(
-                                        _("BOINC Manager - Network Status"),
-                                        _("BOINC has successfully connected to the internet."),
-                                        wxICON_INFORMATION
-                                    );
-
-                                    successfully_connected = true;
-                                    disconnect_event_already_detected = false;
-                                    pDoc->rpc.network_available();
-                                } else {
-                                    ShowAlert(
-                                        _("BOINC Manager - Network Status"),
-                                        _("BOINC failed to connect to the internet."),
-                                        wxICON_ERROR
-                                    );
-
-                                    successfully_connected = false;
-                                    disconnect_event_already_detected = false;
-                                }
+                                m_pDialupManager->Dial();
                             }
                         }
                     }
@@ -1412,21 +1407,22 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         true
                     );
                     pDoc->rpc.network_available();
-                } else if (m_pDialupManager->IsOnline() && !want_network && successfully_connected) {
+                } else if (m_pDialupManager->IsOnline() && !want_network && m_bInternetSuccessfullyConnected) {
                     // Should we disconnect now? The first time we see the disconnect event
                     //   we should ignore it and allow an additional loop in case BOINC really
                     //   isn't done.
-                    if (disconnect_event_already_detected) {
+                    if (m_bInternetDisconnectEventAlreadyDetected) {
                         if (pDoc->state.global_prefs.hangup_if_dialed) {
                             if (m_pDialupManager->HangUp()) {
                                 ShowAlert(
                                     _("BOINC Manager - Network Status"),
                                     _("BOINC has successfully disconnected from the internet."),
-                                    wxICON_INFORMATION
+                                    wxICON_INFORMATION,
+                                    true
                                 );
 
-                                successfully_connected = false;
-                                disconnect_event_already_detected = false;
+                                m_bInternetSuccessfullyConnected = false;
+                                m_bInternetDisconnectEventAlreadyDetected = false;
                             } else {
                                 ShowAlert(
                                     _("BOINC Manager - Network Status"),
@@ -1436,7 +1432,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                             }
                         }
                     } else {
-                        disconnect_event_already_detected = true;
+                        m_bInternetDisconnectEventAlreadyDetected = true;
                     }
                 }
             }
@@ -1610,6 +1606,46 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function End"));
 }
+
+
+#ifdef __WXMSW__
+
+void CMainFrame::OnInternetConnection(wxDialUpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInternetConnection - Function Begin"));
+
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (event.IsOwnEvent()) {
+        if (event.IsConnectedEvent()) {
+            ShowAlert(
+                _("BOINC Manager - Network Status"),
+                _("BOINC has successfully connected to the internet, updating all transfers and projects."),
+                wxICON_INFORMATION,
+                true
+            );
+
+            m_bInternetSuccessfullyConnected = true;
+            m_bInternetDisconnectEventAlreadyDetected = false;
+            pDoc->rpc.network_available();
+        } else {
+            ShowAlert(
+                _("BOINC Manager - Network Status"),
+                _("BOINC failed to connect to the internet."),
+                wxICON_ERROR
+            );
+
+            m_bInternetSuccessfullyConnected = false;
+            m_bInternetDisconnectEventAlreadyDetected = false;
+        }
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInternetConnection - Function End"));
+}
+
+#endif
 
 
 void CMainFrame::UpdateStatusText(const wxChar* szStatus) {

@@ -16,7 +16,6 @@ boinc_gui_SOURCES = \
     DlgAccountManagerSignup.cpp \
     DlgAccountManagerStatus.cpp \
     DlgAttachProject.cpp \
-    DlgConnection.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
     LogBOINC.cpp \

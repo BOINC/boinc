@@ -52,8 +52,17 @@
 #define SYMBOL_CDLGOPTIONS_POSITION wxDefaultPosition
 #define ID_NOTEBOOK 10001
 #define ID_GENERAL 10002
-#define ID_COMBOBOX 10004
-#define ID_SLIDER 10018
+#define ID_LANGUAGESELECTION 10004
+#define ID_REMINDERFREQUENCY 10018
+#define ID_CONNECTONS 10019
+#define ID_NETWORKAUTODETECT 10020
+#define ID_NETWORKLAN 10021
+#define ID_NETWORKDIALUP 10022
+#define ID_DIALUPCONNECTIONS 10023
+#define ID_DIALUPSETDEFAULT 10024
+#define ID_DIALUPCLEARDEFAULT 10025
+#define ID_DIALUPDEFAULTCONNECTIONTEXT 10027
+#define ID_DIALUPDEFAULTCONNECTION 10026
 #define ID_HTTPPROXY 10003
 #define ID_ENABLEHTTPPROXYCTRL 10007
 #define ID_HTTPADDRESSCTRL 10010
@@ -107,6 +116,21 @@ public:
     /// wxEVT_UPDATE_UI event handler for ID_NOTEBOOK
     void OnNotebookUpdate( wxUpdateUIEvent& event );
 
+#if defined(__WXMSW__)
+    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKAUTODETECT
+    void OnNetworkautodetectSelected( wxCommandEvent& event );
+
+#endif
+#if defined(__WXMSW__)
+    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKLAN
+    void OnNetworklanSelected( wxCommandEvent& event );
+
+#endif
+#if defined(__WXMSW__)
+    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKDIALUP
+    void OnNetworkdialupSelected( wxCommandEvent& event );
+
+#endif
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
     void OnEnablehttpproxyctrlClick( wxCommandEvent& event );
 
@@ -123,8 +147,8 @@ public:
 
 ////@begin CDlgOptions member function declarations
 
-    bool GetBProxySectionConfigured() const { return m_bProxySectionConfigured ; }
-    void SetBProxySectionConfigured(bool value) { m_bProxySectionConfigured = value ; }
+    bool GetProxySectionConfigured() const { return m_bProxySectionConfigured ; }
+    void SetProxySectionConfigured(bool value) { m_bProxySectionConfigured = value ; }
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
@@ -138,6 +162,34 @@ public:
 
 ////@begin CDlgOptions member variables
     wxComboBox* m_LanguageSelectionCtrl;
+    wxSlider* m_ReminderFrequencyCtrl;
+#if defined(__WXMSW__)
+    wxRadioButton* m_NetworkAutomaticDetectionCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxRadioButton* m_NetworkUseLANCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxRadioButton* m_NetworkUseDialupCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxStaticBoxSizer* m_DialupStaticBoxCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxListBox* m_DialupConnectionsCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxButton* m_DialupSetDefaultCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxButton* m_DialupClearDefaultCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxStaticText* m_DialupDefaultConnectionTextCtrl;
+#endif
+#if defined(__WXMSW__)
+    wxStaticText* m_DialupDefaultConnectionCtrl;
+#endif
     wxCheckBox* m_EnableHTTPProxyCtrl;
     wxTextCtrl* m_HTTPAddressCtrl;
     wxTextCtrl* m_HTTPPortCtrl;

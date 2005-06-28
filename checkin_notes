@@ -8640,3 +8640,11 @@ Bruce 28 June 2005
         ops/
             grant_credit.php
           
+Rom    28 June 2005
+    - Make the Dial-up functionality Windows only.
+
+    clientgui/
+        BOINCGUI.pjd
+        BOINCGUIApp.cpp, .h
+        DlgOptions.cpp, .h
+        MainFrame.cpp, .h

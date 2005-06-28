@@ -83,6 +83,10 @@ public:
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
+#ifdef __WXMSW__
+    void OnInternetConnection( wxDialUpEvent& event );
+#endif
+
     void OnAlert( CMainFrameAlertEvent& event );
     void OnInitialized( CMainFrameEvent& event );
     void OnRefreshView( CMainFrameEvent& event );
@@ -102,7 +106,9 @@ private:
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
+#ifdef __WXMSW__
     wxDialUpManager* m_pDialupManager;
+#endif
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
@@ -113,6 +119,9 @@ private:
     wxInt32         m_iSelectedLanguage;
     wxInt32         m_iReminderFrequency;
     wxArrayString   m_aSelectedComputerMRU;
+
+    bool            m_bInternetSuccessfullyConnected;
+    bool            m_bInternetDisconnectEventAlreadyDetected;
 
 
     bool            CreateMenu();

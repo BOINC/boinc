@@ -317,15 +317,18 @@ void CBOINCGUIApp::InitSupportedLanguages() {
     wxInt32               iIndex = 0;
     const wxLanguageInfo* liLanguage = NULL;
 
+    // Prepare the array
+    m_astrLanguages.Insert(wxEmptyString, 0, wxLANGUAGE_USER_DEFINED+1);
+
     // These are just special tags so deal with them in a special way
-    m_strLanguages[wxLANGUAGE_DEFAULT]                    = _("(Automatic Detection)");
-    m_strLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
-    m_strLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
+    m_astrLanguages[wxLANGUAGE_DEFAULT]                    = _("(Automatic Detection)");
+    m_astrLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
+    m_astrLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
 
     for (iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++) {
         liLanguage = wxLocale::GetLanguageInfo(iIndex);
         if (liLanguage) {
-            m_strLanguages[iIndex] = liLanguage->Description;
+            m_astrLanguages[iIndex] = liLanguage->Description;
         }
     }
 }
