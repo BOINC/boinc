@@ -120,7 +120,7 @@ void escape_mysql_like_pattern(const char* in, char* out);
     // if you're going to use a "like X" clause,
     // call this function to escape the non-wildcard part of X.
     // If it contains wildcard chars (%, _) this will put
-    // two (2) underscores before each one,
+    // two (2) backslashes before each one,
     // so that they don't get treated as wildcards
 
 #endif

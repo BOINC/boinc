@@ -826,6 +826,7 @@ int CMainDocument::WorkAbort(int iIndex) {
 int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
+    int new_msg_seqno;
 
     if (in_this_func) return 0;
     in_this_func = true;
@@ -846,7 +847,7 @@ int CMainDocument::CachedMessageUpdate() {
         std::vector<MESSAGE*>::iterator mi = new_msgs.messages.begin();
         while (mi != new_msgs.messages.end()) {
             MESSAGE* mp = *mi;
-            m_iMessageSequenceNumber = mp->seqno;
+            new_msg_seqno = mp->seqno;
             switch(mp->priority) {
             case MSG_PRIORITY_ALERT_ERROR:
                 if (m_iMessageSequenceNumber) {
@@ -873,6 +874,7 @@ int CMainDocument::CachedMessageUpdate() {
             }
             new_msgs.messages.erase(mi);
         }
+        m_iMessageSequenceNumber = new_msg_seqno;
     }
 done:
     in_this_func = false;

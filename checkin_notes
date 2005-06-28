@@ -8599,7 +8599,7 @@ David  27 June 2005
         if you're going to use a "like X" clause,
         call this function to escape the non-wildcard part of X.
         If it contains wildcard chars (%, _) this will put
-        two (2) underscores before each one,
+        two (2) backslashes before each one,
         so that they don't get treated as wildcards
     - use the above function in sched_locality.C
         so that filename chars and our own __ separators
