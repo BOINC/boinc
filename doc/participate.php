@@ -28,6 +28,7 @@ echo "
     <br>Run BOINC on unusual platforms,
         or inspect the source code before you run it.
 <li> <a href=links.php>Web sites related to BOINC</a>
+<li> <a href=acct_mgrs.php>Account managers</a>
 </ul>
 <p>
 <b>Add-on software</b>

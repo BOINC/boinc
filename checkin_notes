@@ -8717,3 +8717,11 @@ David  28 June 2005
 		DlgAccountManagerSignup.cpp
 		DlgAccountManagerStatus.cpp,h
 		MainFrame.cpp
+
+David  28 June 2005
+    - self-extracting archive includes boinc_cmd,
+        and run_boinc passes cmdline args to core client
+        (from Bernd Machenschalk)
+
+    sea/
+        Makefile.am

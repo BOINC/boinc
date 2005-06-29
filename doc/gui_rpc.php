@@ -129,6 +129,20 @@ list_item_func(
     "
 );
 list_item_func(
+    "acct_mgr_rpc(const char* url, const char* name, const char* passwd)",
+    "Do an <a href=acct_mgt.php>Account Manager RPC</a>
+    to the given URL, passing the given name/password.
+    If the RPC is successful, save the account info on disk
+    (it can be retrieved later using acct_mgr_info(), see below).
+    If URL is the empty string, remove account manager info from disk.
+    "
+);
+list_item_func(
+    "acct_mgr_info(ACCT_MGR_INFO&)",
+    "Return the URL/name of the current account manager (if any),
+    and the user name and password."
+);
+list_item_func(
     "network_query(int& network_wanted)",
     "Returns a nonzero value in network_wanted if the core client
     wants a network connection or is currently using one.
