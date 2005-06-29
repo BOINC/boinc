@@ -28,9 +28,13 @@ function testquery($argstring) {
 }
 
 function grant_credits_for_wu($wuid) {
+
+    $ndone = 0;
     $query_r = mysql_query("select * from result where granted_credit=0 and claimed_credit>0 and workunitid=$wuid");
+ 
     while ($result = mysql_fetch_object($query_r)) {
-        echo "STARTING RESULT $result->id [Credit $result->claimed_credit]\n";
+        echo "STARTING RESULT $result->id [Credit $result->claimed_credit] ...";
+        $ndone++;
 
         $hostid  = $result->hostid;
         $query_h = mysql_query("select * from host where id=$hostid");
@@ -71,21 +75,23 @@ function grant_credits_for_wu($wuid) {
         }
         mysql_free_result($query_h);
         mysql_free_result($query_u);
-        echo "DONE WITH RESULT $result->id\n\n";
+        echo " DONE\n";
     }
     mysql_free_result($query_r);
-    return;
+    return $ndone;
 }
 
 function grant_credits_for_cancelled() {
-
+    $ngranted=0;
     $query_w  = mysql_query("select * from workunit where error_mask!=0");
     while (($workunit = mysql_fetch_object($query_w))) {
-        echo "Starting WU $workunit->id\n";
-        grant_credits_for_wu($workunit->id);
+        // echo "Starting WU $workunit->id\n";
+        $ngranted += grant_credits_for_wu($workunit->id);
         // NEED TO SET assimilate_state=READY for WU!!
     }
     mysql_free_result($query_w);
+
+    echo "\nGranted credits to $ngranted results\n";
 }
 
 grant_credits_for_cancelled();
