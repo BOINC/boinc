@@ -8748,3 +8748,10 @@ Rom    28 June 2005
         DlgOptions.cpp, .h
         MainFrame.cpp, .h
         Makefile.am
+
+Rom    28 June 2005
+    - Enable the manager to set the network connection preference to
+        based on preferences.
+
+    clientgui/
+        MainFrame.cpp

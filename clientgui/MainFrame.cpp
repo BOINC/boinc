@@ -358,9 +358,19 @@ bool CMainFrame::CreateMenu() {
 
     menuFile->AppendSeparator();
 
-    menuFile->AppendCheckItem(
+    menuFile->AppendRadioItem(
+        ID_NETWORKRUNALWAYS,
+        _("&Network activity always available"),
+        _("Does network activity regardless of preferences")
+    );
+    menuFile->AppendRadioItem(
+        ID_NETWORKRUNBASEDONPREPERENCES,
+        _("Network activity based on &preferences"),
+        _("Does network activity according to your preferences")
+    );
+    menuFile->AppendRadioItem(
         ID_NETWORKSUSPEND,
-        _("&Disable BOINC Network Access"),
+        _("&Network activity suspended"),
         _("Stops BOINC network activity")
     );
 
@@ -854,20 +864,15 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
-        case ID_NETWORKSUSPEND:
-            pDoc->GetNetworkRunMode(iCurrentNetworkMode);
-
-            if (iCurrentNetworkMode == RUN_MODE_ALWAYS)
-                pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
-            else
-                pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
-
-            break;
-        case ID_NETWORKRUNALWAYS:
-        case ID_NETWORKRUNBASEDONPREPERENCES:
-        default:
-            pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
-            break;
+    case ID_NETWORKRUNALWAYS:
+        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
+        break;
+    case ID_NETWORKSUSPEND:
+        pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
+        break;
+    case ID_NETWORKRUNBASEDONPREPERENCES:
+        pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
+        break;
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function End"));
@@ -1533,50 +1538,28 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 wxASSERT(pMenuBar);
                 wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-                if (pMenuBar->FindItem(ID_ACTIVITYRUNALWAYS, NULL))
-                    pMenuBar->Check(ID_ACTIVITYRUNALWAYS, false);
-
-                if (pMenuBar->FindItem(ID_ACTIVITYSUSPEND, NULL))
-                    pMenuBar->Check(ID_ACTIVITYSUSPEND, false);
-
-                if (pMenuBar->FindItem(ID_ACTIVITYRUNBASEDONPREPERENCES, NULL))
-                    pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
-
+                pMenuBar->Check(ID_ACTIVITYRUNALWAYS, false);
+                pMenuBar->Check(ID_ACTIVITYSUSPEND, false);
+                pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
                     if (iActivityMode == RUN_MODE_ALWAYS)
                         pMenuBar->Check(ID_ACTIVITYRUNALWAYS, true);
-
                     if (iActivityMode == RUN_MODE_NEVER)
                         pMenuBar->Check(ID_ACTIVITYSUSPEND, true);
                     if (iActivityMode == RUN_MODE_AUTO)
                         pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, true);
                 }
 
-#if 0
-                if (pMenuBar->FindItem(ID_NETWORKRUNALWAYS, NULL))
-                    pMenuBar->Check(ID_NETWORKRUNALWAYS, false);
-#endif
-                if (pMenuBar->FindItem(ID_NETWORKSUSPEND, NULL))
-                    pMenuBar->Check(ID_NETWORKSUSPEND, false);
-
-#if 0
-                if (pMenuBar->FindItem(ID_NETWORKRUNBASEDONPREPERENCES, NULL))
-                    pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
-#endif
-
+                pMenuBar->Check(ID_NETWORKRUNALWAYS, false);
+                pMenuBar->Check(ID_NETWORKSUSPEND, false);
+                pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode))) {
-#if 0
                     if (RUN_MODE_ALWAYS == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKRUNALWAYS, true);
-#endif
-
                     if (RUN_MODE_NEVER == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKSUSPEND, true);
-
-#if 0
                     if (RUN_MODE_AUTO == iNetworkMode)
                         pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, true);
-#endif
                 }
 
                 // Update the statusbar
