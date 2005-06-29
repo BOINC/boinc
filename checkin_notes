@@ -8750,11 +8750,16 @@ Rom    28 June 2005
         Makefile.am
 
 Rom    28 June 2005
-    - Enable the manager to set the network connection preference to
-        based on preferences.
+    - Add UI to the manager that allows the user to specify network activity
+      states similiar to that of the activity run modes.
+
+      network activity always available
+      network activity based on preferences
+      network activity suspended.
 
     clientgui/
         MainFrame.cpp
+
 
 David  28 June 2005
 	- add ERR_NO_NETWORK_CONNECTION error code.
