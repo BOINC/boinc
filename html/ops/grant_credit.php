@@ -11,6 +11,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/credit.inc");
 
+
 set_time_limit(0);
 
 db_init();
@@ -28,7 +29,7 @@ function testquery($argstring) {
 }
 
 function grant_credits_for_wu($wuid) {
-
+    $max_credit=300;
     $ndone = 0;
     $query_r = mysql_query("select * from result where granted_credit=0 and claimed_credit>0 and workunitid=$wuid");
  
@@ -45,7 +46,10 @@ function grant_credits_for_wu($wuid) {
         $user    = mysql_fetch_object($query_u);
 
         $credit = $result->claimed_credit;
-        if ($credit>300) $credit=300;
+        if ($credit>$max_credit) {
+            $credit=$max_credit;
+            echo " WARNING: USER $user->name ($userid) CLAIMED $result->claimed_credit CREDITS (getting $credit)!";
+        }
         $user->total_credit += $credit;
         update_average(time(0), $result->sent_time, $credit, $user->expavg_credit, $user->expavg_time);
 
