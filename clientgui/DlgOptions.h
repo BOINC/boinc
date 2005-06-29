@@ -30,7 +30,6 @@
 
 ////@begin includes
 #include "wx/notebook.h"
-#include "wx/valtext.h"
 ////@end includes
 
 /*!
@@ -46,7 +45,7 @@
 
 ////@begin control identifiers
 #define ID_DIALOG 10000
-#define SYMBOL_CDLGOPTIONS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU
+#define SYMBOL_CDLGOPTIONS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
 #define SYMBOL_CDLGOPTIONS_TITLE _("Options")
 #define SYMBOL_CDLGOPTIONS_IDNAME ID_DIALOG
 #define SYMBOL_CDLGOPTIONS_SIZE wxDefaultSize
@@ -64,6 +63,7 @@
 #define ID_DIALUPCLEARDEFAULT 10025
 #define ID_DIALUPDEFAULTCONNECTIONTEXT 10027
 #define ID_DIALUPDEFAULTCONNECTION 10026
+#define ID_DIALUPPROMPTUSERNAMEPASSWORD 10030
 #define ID_HTTPPROXY 10003
 #define ID_ENABLEHTTPPROXYCTRL 10007
 #define ID_HTTPADDRESSCTRL 10010
@@ -165,13 +165,18 @@ public:
 
 ////@end CDlgOptions event handler declarations
 
+#if defined(__WXMSW__)
+    wxString GetDefaultDialupConnection() const;
+    void SetDefaultDialupConnection(wxString value);
+
+    int GetDefaultConnectionType() const;
+    void SetDefaultConnectionType(int value);
+
+    bool GetDefaultDialupPromptCredentials() const;
+    void SetDefaultDialupPromptCredentials(bool value);
+#endif
+
 ////@begin CDlgOptions member function declarations
-
-    bool GetProxySectionConfigured() const { return m_bProxySectionConfigured ; }
-    void SetProxySectionConfigured(bool value) { m_bProxySectionConfigured = value ; }
-
-    wxString GetDefaultDialupConnection() const { return m_strDefaultDialupConnection ; }
-    void SetDefaultDialupConnection(wxString value) { m_strDefaultDialupConnection = value ; }
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
@@ -213,6 +218,9 @@ public:
 #if defined(__WXMSW__)
     wxStaticText* m_DialupDefaultConnectionCtrl;
 #endif
+#if defined(__WXMSW__)
+    wxCheckBox* m_DialupPromptCredentials;
+#endif
     wxCheckBox* m_EnableHTTPProxyCtrl;
     wxTextCtrl* m_HTTPAddressCtrl;
     wxTextCtrl* m_HTTPPortCtrl;
@@ -223,8 +231,6 @@ public:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
-    bool m_bProxySectionConfigured;
-    wxString m_strDefaultDialupConnection;
 ////@end CDlgOptions member variables
 };
 

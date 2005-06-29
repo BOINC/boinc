@@ -15,6 +15,7 @@ boinc_gui_SOURCES = \
     DlgAbout.cpp \
     DlgAccountManagerSignup.cpp \
     DlgAccountManagerStatus.cpp \
+    DlgDialupCredentials.cpp \
     DlgAttachProject.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
@@ -30,7 +31,8 @@ boinc_gui_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    ../lib/gui_rpc_client.C
+    ../lib/gui_rpc_client.C \
+    hyperlink.cpp
 
 EXTRA_DIST = *.h \
     res \

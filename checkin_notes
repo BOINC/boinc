@@ -8732,3 +8732,19 @@ David  28 June 2005
 
     sched/
         server_types.C,h
+
+Rom    28 June 2005
+    - Okay this should be the last round of functional changes for
+        dial-up functionality, there are probably some more bug fixes
+        but they should be minor.
+
+      There is now a connections tab in the options dialog where
+      the preferred network type can be configured as well as several
+      types of dial-up connection parameters.
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgDialupCredentials.cpp, .h (Added)
+        DlgOptions.cpp, .h
+        MainFrame.cpp, .h
+        Makefile.am

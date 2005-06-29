@@ -38,6 +38,7 @@
 #include "DlgAttachProject.h"
 #include "DlgAccountManagerSignup.h"
 #include "DlgAccountManagerStatus.h"
+#include "DlgDialupCredentials.h"
 #include "DlgSelectComputer.h"
 
 #include "res/BOINCGUIApp.xpm"
@@ -189,9 +190,17 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
+
+    // Configuration Settings
     m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
 
+    m_iNetworkConnectionType = ID_NETWORKAUTODETECT;
+    m_strNetworkDialupConnectionName = wxEmptyString;
+    m_bNetworkDialupPromptCredentials = false;
+
+
+    // Working Variables
     m_strBaseTitle = strTitle;
     m_bInternetSuccessfullyConnected = false;
     m_bInternetDisconnectEventAlreadyDetected = false;
@@ -199,6 +208,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_aSelectedComputerMRU.Clear();
 
 
+    // Initialize Application
     SetIcon(wxICON(APP_ICON));
 
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
@@ -592,6 +602,10 @@ bool CMainFrame::SaveState() {
     pConfig->Write(wxT("Language"), m_iSelectedLanguage);
     pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
 
+    pConfig->Write(wxT("NetworkConnectionType"), m_iNetworkConnectionType);
+    pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
+    pConfig->Write(wxT("NetworkDialupPromptCredentials"), m_bNetworkDialupPromptCredentials);
+
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
     pConfig->Write(wxT("WindowIconized"), IsIconized());
@@ -702,6 +716,9 @@ bool CMainFrame::RestoreState() {
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
     pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
 
+    pConfig->Read(wxT("NetworkConnectionType"), &m_iNetworkConnectionType, ID_NETWORKAUTODETECT);
+    pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
+    pConfig->Read(wxT("NetworkDialupPromptCredentials"), &m_bNetworkDialupPromptCredentials, false);
 
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
     m_pNotebook->SetSelection(iCurrentPage);
@@ -1021,7 +1038,7 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     int            iBuffer = 0;
     wxString       strBuffer = wxEmptyString;
     wxArrayString  astrDialupConnections;
-    bool           bProxyInformationConfigured = false;
+    bool           bRetrievedProxyConfiguration = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1032,19 +1049,34 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 #endif
 
 
-    pDoc->GetProxyConfiguration();
-
     // General Tab
     pDlg->m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
+
     pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
+    pDlg->m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
 
 #ifdef __WXMSW__
     // Connection Tab
     m_pDialupManager->GetISPNames(astrDialupConnections);
+
     pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+    pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
+    pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
+    pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
 #endif
 
     // Proxy Tabs
+    bRetrievedProxyConfiguration = (0 == pDoc->GetProxyConfiguration());
+    if(!bRetrievedProxyConfiguration) {
+        // We were unable to get the proxy configuration, so disable
+        //   the controls
+        pDlg->m_EnableHTTPProxyCtrl->Enable(false);
+        pDlg->m_EnableSOCKSProxyCtrl->Enable(false);
+    } else {
+        pDlg->m_EnableHTTPProxyCtrl->Enable(true);
+        pDlg->m_EnableSOCKSProxyCtrl->Enable(true);
+    }
+
     pDlg->m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
     pDlg->m_HTTPAddressCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
     pDlg->m_HTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
@@ -1073,29 +1105,37 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
         }
 
         m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
+        m_iReminderFrequency = pDlg->m_ReminderFrequencyCtrl->GetValue();
 
-        // Connections Tab
+#ifdef __WXMSW__
+        // Connection Tab
+        m_iNetworkConnectionType = pDlg->GetDefaultConnectionType();
+        m_strNetworkDialupConnectionName = pDlg->GetDefaultDialupConnection();
+        m_bNetworkDialupPromptCredentials = pDlg->GetDefaultDialupPromptCredentials();
+#endif
 
         // Proxy Tabs
-        pDoc->proxy_info.use_http_proxy = pDlg->m_EnableHTTPProxyCtrl->GetValue();
-        pDoc->proxy_info.http_server_name = pDlg->m_HTTPAddressCtrl->GetValue().c_str();
-        pDoc->proxy_info.http_user_name = pDlg->m_HTTPUsernameCtrl->GetValue().c_str();
-        pDoc->proxy_info.http_user_passwd = pDlg->m_HTTPPasswordCtrl->GetValue().c_str();
+        if (bRetrievedProxyConfiguration) {
+            pDoc->proxy_info.use_http_proxy = pDlg->m_EnableHTTPProxyCtrl->GetValue();
+            pDoc->proxy_info.http_server_name = pDlg->m_HTTPAddressCtrl->GetValue().c_str();
+            pDoc->proxy_info.http_user_name = pDlg->m_HTTPUsernameCtrl->GetValue().c_str();
+            pDoc->proxy_info.http_user_passwd = pDlg->m_HTTPPasswordCtrl->GetValue().c_str();
 
-        strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
-        strBuffer.ToLong((long*)&iBuffer);
-        pDoc->proxy_info.http_server_port = iBuffer;
+            strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
+            strBuffer.ToLong((long*)&iBuffer);
+            pDoc->proxy_info.http_server_port = iBuffer;
 
-        pDoc->proxy_info.use_socks_proxy = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
-        pDoc->proxy_info.socks_server_name = pDlg->m_SOCKSAddressCtrl->GetValue().c_str();
-        pDoc->proxy_info.socks5_user_name = pDlg->m_SOCKSUsernameCtrl->GetValue().c_str();
-        pDoc->proxy_info.socks5_user_passwd = pDlg->m_SOCKSPasswordCtrl->GetValue().c_str();
+            pDoc->proxy_info.use_socks_proxy = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
+            pDoc->proxy_info.socks_server_name = pDlg->m_SOCKSAddressCtrl->GetValue().c_str();
+            pDoc->proxy_info.socks5_user_name = pDlg->m_SOCKSUsernameCtrl->GetValue().c_str();
+            pDoc->proxy_info.socks5_user_passwd = pDlg->m_SOCKSPasswordCtrl->GetValue().c_str();
 
-        strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
-        strBuffer.ToLong((long*)&iBuffer);
-        pDoc->proxy_info.socks_server_port = iBuffer;
+            strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
+            strBuffer.ToLong((long*)&iBuffer);
+            pDoc->proxy_info.socks_server_port = iBuffer;
 
-        pDoc->SetProxyConfiguration();
+            pDoc->SetProxyConfiguration();
+        }
     }
 
     if (pDlg)
@@ -1351,14 +1391,29 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         static wxDateTime   dtLastDialupCheck = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
+        bool                should_check_connection = false;
         int                 want_network = 0;
         int                 answer = 0;
+        wxString            strConnectionName = wxEmptyString;
+        wxString            strConnectionUsername = wxEmptyString;
+        wxString            strConnectionPassword = wxEmptyString;
         wxTimeSpan          tsLastDialupCheck(wxDateTime::Now() - dtLastDialupCheck);
         wxTimeSpan          tsLastDialupAlertSent;
         wxTimeSpan          tsLastDialupRequest;
 
-        if (m_pDialupManager) {
-            if ((tsLastDialupCheck.GetSeconds() >= 10) && (!m_pDialupManager->IsAlwaysOnline()) && (pDoc)) {
+        if (m_pDialupManager && pDoc) {
+            // Are we configured to detect a network or told one already exists?
+            if (ID_NETWORKLAN != m_iNetworkConnectionType) {
+                if (ID_NETWORKDIALUP == m_iNetworkConnectionType) {
+                    should_check_connection = true;
+                }
+                if (ID_NETWORKAUTODETECT == m_iNetworkConnectionType) {
+                    if (!m_pDialupManager->IsAlwaysOnline())
+                        should_check_connection = true;
+                }
+            }
+
+            if ((tsLastDialupCheck.GetSeconds() >= 10) && should_check_connection) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 dtLastDialupCheck = wxDateTime::Now();
 
@@ -1402,7 +1457,24 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
                             // Are we allow to connect?
                             if (wxYES == answer) {
-                                m_pDialupManager->Dial();
+                                if (m_strNetworkDialupConnectionName.size())
+                                    strConnectionName = m_strNetworkDialupConnectionName;
+
+                                if (m_bNetworkDialupPromptCredentials) {
+                                    CDlgDialupCredentials* pDlgDialupCredentials = new CDlgDialupCredentials(this);
+
+                                    answer = pDlgDialupCredentials->ShowModal();
+                                    if (wxID_OK == answer) {
+                                        strConnectionUsername = pDlgDialupCredentials->GetUsername();
+                                        strConnectionPassword = pDlgDialupCredentials->GetPassword();
+                                    }
+
+                                    if (pDlgDialupCredentials) {
+                                        pDlgDialupCredentials->Destroy();
+                                    }
+                                }
+
+                                m_pDialupManager->Dial(strConnectionName, strConnectionUsername, strConnectionPassword);
                             }
                         }
                     }

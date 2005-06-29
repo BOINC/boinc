@@ -187,6 +187,9 @@
 				RelativePath="..\clientgui\DlgAttachProject.cpp">
 			</File>
 			<File
+				RelativePath="..\clientgui\DlgDialupCredentials.cpp">
+			</File>
+			<File
 				RelativePath="..\clientgui\DlgOptions.cpp">
 			</File>
 			<File
@@ -475,6 +478,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAttachProject.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgDialupCredentials.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgOptions.h">

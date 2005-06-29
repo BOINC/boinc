@@ -116,8 +116,13 @@ private:
 
     wxString        m_strBaseTitle;
 
-    wxInt32         m_iSelectedLanguage;
-    wxInt32         m_iReminderFrequency;
+    int             m_iSelectedLanguage;
+    int             m_iReminderFrequency;
+
+    int             m_iNetworkConnectionType;
+    wxString        m_strNetworkDialupConnectionName;
+    bool            m_bNetworkDialupPromptCredentials;
+
     wxArrayString   m_aSelectedComputerMRU;
 
     bool            m_bInternetSuccessfullyConnected;
