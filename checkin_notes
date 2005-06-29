@@ -8725,3 +8725,10 @@ David  28 June 2005
 
     sea/
         Makefile.am
+
+David  28 June 2005
+    - scheduler server: parse duration_correction_factor correctly
+        (it's not in time_stats)
+
+    sched/
+        server_types.C,h

@@ -105,6 +105,7 @@ struct SCHEDULER_REQUEST {
     double estimated_delay;
         // how many wall-clock seconds will elapse before
         // host will begin any new work for this project
+    double duration_correction_factor;
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
 

@@ -111,6 +111,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        else if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
 
 // ROMW: Added these back in since we have 3.x clients who still want
 //       want to send us the older style for determining disk usage.
@@ -708,7 +709,6 @@ int HOST::parse_time_stats(FILE* fin) {
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
         else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
-        else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else {
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
