@@ -1396,6 +1396,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         static wxDateTime   dtLastDialupCheck = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
+        bool                already_notified_update_all_projects = false;
         bool                should_check_connection = false;
         int                 want_network = 0;
         int                 answer = 0;
@@ -1418,108 +1419,116 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 }
             }
 
-            if ((tsLastDialupCheck.GetSeconds() >= 10) && should_check_connection) {
-                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-                dtLastDialupCheck = wxDateTime::Now();
+            if (tsLastDialupCheck.GetSeconds() >= 10) {
+                if (should_check_connection) {
+                    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                    dtLastDialupCheck = wxDateTime::Now();
 
-                pDoc->rpc.network_query(want_network);
-                if (!m_pDialupManager->IsOnline() && want_network) {
-                    if (!IsShown()) {
-                        // BOINC Manager is hidden and displaying a dialog might interupt what they
-                        //   are doing.
-                        tsLastDialupAlertSent = wxDateTime::Now() - dtLastDialupAlertSent;
-                        if (tsLastDialupAlertSent.GetSeconds() >= (m_iReminderFrequency * 60)) {
-                            dtLastDialupAlertSent = wxDateTime::Now();
+                    pDoc->rpc.network_query(want_network);
+                    if (!m_pDialupManager->IsOnline() && want_network) {
+                        if (!IsShown()) {
+                            // BOINC Manager is hidden and displaying a dialog might interupt what they
+                            //   are doing.
+                            tsLastDialupAlertSent = wxDateTime::Now() - dtLastDialupAlertSent;
+                            if (tsLastDialupAlertSent.GetSeconds() >= (m_iReminderFrequency * 60)) {
+                                dtLastDialupAlertSent = wxDateTime::Now();
+                                ShowAlert(
+                                    _("BOINC Manager - Network Status"),
+                                    _("BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."),
+                                    wxICON_INFORMATION,
+                                    true
+                                );
+                            }
+                        } else {
+                            // BOINC Manager is visable and can process user input.
+                            tsLastDialupRequest = wxDateTime::Now() - dtLastDialupRequest;
+                            if (tsLastDialupRequest.GetSeconds() >= (m_iReminderFrequency * 60)) {
+                                dtLastDialupRequest = wxDateTime::Now();
+
+                                if(pDoc->state.global_prefs.confirm_before_connecting) {
+                                    answer = ::wxMessageBox(
+                                        _("BOINC needs to connect to the network.\nMay it do so now?"),
+                                        _("BOINC Manager - Network Status"),
+                                        wxYES_NO | wxICON_QUESTION,
+                                        this
+                                    );
+                                } else {
+                                    ShowAlert(
+                                        _("BOINC Manager - Network Status"),
+                                        _("BOINC is connecting to the internet."),
+                                        wxICON_INFORMATION,
+                                        true
+                                    );
+                                    answer = wxYES;
+                                }
+
+                                // Are we allow to connect?
+                                if (wxYES == answer) {
+                                    if (m_strNetworkDialupConnectionName.size())
+                                        strConnectionName = m_strNetworkDialupConnectionName;
+
+                                    if (m_bNetworkDialupPromptCredentials) {
+                                        CDlgDialupCredentials* pDlgDialupCredentials = new CDlgDialupCredentials(this);
+
+                                        answer = pDlgDialupCredentials->ShowModal();
+                                        if (wxID_OK == answer) {
+                                            strConnectionUsername = pDlgDialupCredentials->GetUsername();
+                                            strConnectionPassword = pDlgDialupCredentials->GetPassword();
+                                        }
+
+                                        if (pDlgDialupCredentials) {
+                                            pDlgDialupCredentials->Destroy();
+                                        }
+                                    }
+
+                                    already_notified_update_all_projects = false;
+                                    m_pDialupManager->Dial(strConnectionName, strConnectionUsername, strConnectionPassword);
+                                }
+                            }
+                        }
+                    } else if (m_pDialupManager->IsOnline()) {
+                        if (want_network && !already_notified_update_all_projects) {
+                            already_notified_update_all_projects = true;
+
+                            // We are already online but BOINC for some reason is in a state
+                            //   where it belives it has some pending work to do, so give it
+                            //   a nudge
                             ShowAlert(
                                 _("BOINC Manager - Network Status"),
-                                _("BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."),
+                                _("BOINC has detected it is now connected to the internet, updating all projects and retrying all transfers."),
                                 wxICON_INFORMATION,
                                 true
                             );
-                        }
-                    } else {
-                        // BOINC Manager is visable and can process user input.
-                        tsLastDialupRequest = wxDateTime::Now() - dtLastDialupRequest;
-                        if (tsLastDialupRequest.GetSeconds() >= (m_iReminderFrequency * 60)) {
-                            dtLastDialupRequest = wxDateTime::Now();
+                            pDoc->rpc.network_available();
 
-                            if(pDoc->state.global_prefs.confirm_before_connecting) {
-                                answer = ::wxMessageBox(
-                                    _("BOINC needs to connect to the network.\nMay it do so now?"),
-                                    _("BOINC Manager - Network Status"),
-                                    wxYES_NO | wxICON_QUESTION,
-                                    this
-                                );
-                            } else {
-                                ShowAlert(
-                                    _("BOINC Manager - Network Status"),
-                                    _("BOINC is connecting to the internet."),
-                                    wxICON_INFORMATION,
-                                    true
-                                );
-                                answer = wxYES;
-                            }
+                        } else if (!want_network && m_bInternetSuccessfullyConnected) {
+                            // Should we disconnect now? The first time we see the disconnect event
+                            //   we should ignore it and allow an additional loop in case BOINC really
+                            //   isn't done.
+                            if (m_bInternetDisconnectEventAlreadyDetected) {
+                                if (pDoc->state.global_prefs.hangup_if_dialed) {
+                                    if (m_pDialupManager->HangUp()) {
+                                        ShowAlert(
+                                            _("BOINC Manager - Network Status"),
+                                            _("BOINC has successfully disconnected from the internet."),
+                                            wxICON_INFORMATION,
+                                            true
+                                        );
 
-                            // Are we allow to connect?
-                            if (wxYES == answer) {
-                                if (m_strNetworkDialupConnectionName.size())
-                                    strConnectionName = m_strNetworkDialupConnectionName;
-
-                                if (m_bNetworkDialupPromptCredentials) {
-                                    CDlgDialupCredentials* pDlgDialupCredentials = new CDlgDialupCredentials(this);
-
-                                    answer = pDlgDialupCredentials->ShowModal();
-                                    if (wxID_OK == answer) {
-                                        strConnectionUsername = pDlgDialupCredentials->GetUsername();
-                                        strConnectionPassword = pDlgDialupCredentials->GetPassword();
-                                    }
-
-                                    if (pDlgDialupCredentials) {
-                                        pDlgDialupCredentials->Destroy();
+                                        m_bInternetSuccessfullyConnected = false;
+                                        m_bInternetDisconnectEventAlreadyDetected = false;
+                                    } else {
+                                        ShowAlert(
+                                            _("BOINC Manager - Network Status"),
+                                            _("BOINC failed to disconnected from the internet."),
+                                            wxICON_ERROR
+                                        );
                                     }
                                 }
-
-                                m_pDialupManager->Dial(strConnectionName, strConnectionUsername, strConnectionPassword);
-                            }
-                        }
-                    }
-                } else if (m_pDialupManager->IsOnline() && want_network) {
-                    // We are already online but BOINC for some reason is in a state
-                    //   where it belives it has some pending work to do, so give it
-                    //   a nudge
-                    ShowAlert(
-                        _("BOINC Manager - Network Status"),
-                        _("BOINC has detected it is now connected to the internet, updating all projects and retrying all transfers."),
-                        wxICON_INFORMATION,
-                        true
-                    );
-                    pDoc->rpc.network_available();
-                } else if (m_pDialupManager->IsOnline() && !want_network && m_bInternetSuccessfullyConnected) {
-                    // Should we disconnect now? The first time we see the disconnect event
-                    //   we should ignore it and allow an additional loop in case BOINC really
-                    //   isn't done.
-                    if (m_bInternetDisconnectEventAlreadyDetected) {
-                        if (pDoc->state.global_prefs.hangup_if_dialed) {
-                            if (m_pDialupManager->HangUp()) {
-                                ShowAlert(
-                                    _("BOINC Manager - Network Status"),
-                                    _("BOINC has successfully disconnected from the internet."),
-                                    wxICON_INFORMATION,
-                                    true
-                                );
-
-                                m_bInternetSuccessfullyConnected = false;
-                                m_bInternetDisconnectEventAlreadyDetected = false;
                             } else {
-                                ShowAlert(
-                                    _("BOINC Manager - Network Status"),
-                                    _("BOINC failed to disconnected from the internet."),
-                                    wxICON_ERROR
-                                );
+                                m_bInternetDisconnectEventAlreadyDetected = true;
                             }
                         }
-                    } else {
-                        m_bInternetDisconnectEventAlreadyDetected = true;
                     }
                 }
             }

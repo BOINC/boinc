@@ -8773,3 +8773,11 @@ David  28 June 2005
 	lib/
 		error_numbers.h
 		util.C
+
+Rom    29 June 2005
+    - Bug Fix: Check for update all and hangup conditions every ten seconds instead of
+      every second.
+    - Bug Fix: Only perform the update all and update all notification once.
+
+    clientgui/
+        MainFrame.cpp
