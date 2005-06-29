@@ -931,8 +931,11 @@ const char* boincerror(int which_error) {
         case ERR_WRONG_SIZE: return "wrong size";
         case ERR_USER_PERMISSION: return "user permission";
         case ERR_SHMEM_NAME: return "can't get shared mem segment name";
+        case ERR_NO_NETWORK_CONNECTION: return "no available network connection";
     }
-    return "UNRECOGNIZED: make lib/util.C consistent with lib/error_numbers.h";
+    static char buf[64];
+    sprintf(buf, "error %d", which_error);
+    return buf;
 }
  
 

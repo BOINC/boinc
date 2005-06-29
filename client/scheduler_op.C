@@ -140,8 +140,8 @@ int SCHEDULER_OP::init_op_project(PROJECT* p) {
     }
     if (retval) {
         sprintf(err_msg,
-            "Scheduler request initialization to %s failed, error %d\n",
-            p->get_scheduler_url(url_index, url_random), retval
+            "Scheduler request to %s failed: %s\n",
+            p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
         backoff(p, err_msg);
     }
@@ -248,14 +248,14 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
     if (retval) {
         msg_printf(p, MSG_ERROR,
-            "Scheduler request failed init_post(): %d", retval
+            "Scheduler request failed: %s", boincerror(retval)
         );
         return retval;
     }
     retval = http_ops->insert(&http_op);
     if (retval) {
         msg_printf(p, MSG_ERROR,
-            "Scheduler request failed HTTP insert: %d", retval
+            "Scheduler request failed: %s", boincerror(retval)
         );
         return retval;
     }

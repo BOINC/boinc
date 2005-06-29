@@ -97,7 +97,7 @@ int NET_XFER::open_server() {
 #ifdef _WIN32
     if (get_connected_state() == CONNECTED_STATE_NOT_CONNECTED) {
         gstate.want_network_flag = true;
-        return ERR_CONNECT;
+        return ERR_NO_NETWORK_CONNECTION;
     } else {
         gstate.want_network_flag = false;
     }

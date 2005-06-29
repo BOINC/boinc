@@ -8755,3 +8755,16 @@ Rom    28 June 2005
 
     clientgui/
         MainFrame.cpp
+
+David  28 June 2005
+	- add ERR_NO_NETWORK_CONNECTION error code.
+		Return this if can't connect to server because no network connection.
+	- show boincerror(retval) instead of retval in a couple of messages.
+		Should do this everywhere.
+
+	client/
+		net_xfer.C
+		scheduler_op.C
+	lib/
+		error_numbers.h
+		util.C
