@@ -640,6 +640,7 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
 }
 
 
+#ifdef __WXMSW__
 wxString CDlgOptions::GetDefaultDialupConnection() const
 {
     return m_DialupDefaultConnectionCtrl->GetLabel(); 
@@ -691,6 +692,7 @@ void CDlgOptions::SetDefaultDialupPromptCredentials(bool value)
     m_DialupPromptCredentials->SetValue(value);
 }
 
+#endif // __WXMSW__
 
 /*!
  * Should we show tooltips?

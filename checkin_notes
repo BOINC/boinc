@@ -8790,3 +8790,12 @@ Rom    29 June 2005
 
     clientgui/
         MainFrame.cpp, .h
+
+Charlie 30 June 2005
+    Mac: Added hyperlink.cpp/h to XCode project BOINC Manager target.
+    Added "#ifdef __WXMSW__" to Dialog manager related calls in DlgOptions.cpp
+
+    clientgui/
+        DlgOptions.cpp
+    mac_build/
+        boinc.pbproj/project.pbxproj (directory & file both removed)
