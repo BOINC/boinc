@@ -20,7 +20,8 @@ graphics_api_files = 	\
 	x_opengl.C
 
 if OS_DARWIN
-  graphics_api_files += macglutfix.m
+  graphics_api_files += macglutfix.m \
+	mac_icon.C
 endif
 
 # library for main-program part of split apps
