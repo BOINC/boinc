@@ -126,8 +126,8 @@ private:
     wxArrayString   m_aSelectedComputerMRU;
 
     bool            m_bInternetSuccessfullyConnected;
+    bool            m_bInternetResetTimers;
     bool            m_bInternetDisconnectEventAlreadyDetected;
-
 
     bool            CreateMenu();
     bool            DeleteMenu();

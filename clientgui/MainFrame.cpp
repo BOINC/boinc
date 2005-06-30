@@ -203,6 +203,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
     // Working Variables
     m_strBaseTitle = strTitle;
     m_bInternetSuccessfullyConnected = false;
+    m_bInternetResetTimers = false;
     m_bInternetDisconnectEventAlreadyDetected = false;
 
     m_aSelectedComputerMRU.Clear();
@@ -1396,7 +1397,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         static wxDateTime   dtLastDialupCheck = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
-        bool                already_notified_update_all_projects = false;
+        static bool         already_notified_update_all_projects = false;
         bool                should_check_connection = false;
         int                 want_network = 0;
         int                 answer = 0;
@@ -1424,8 +1425,20 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                     dtLastDialupCheck = wxDateTime::Now();
 
+                    // If we have successfully connected up to the Internet, then we should
+                    //   reset the dtLastDialupAlertSent and dtLastDialupRequest variables
+                    //   so that if we are disconnected without completing the user will
+                    //   be notifed in a prompt fashion.
+                    if (m_bInternetSuccessfullyConnected || m_bInternetResetTimers) {
+                        if (m_bInternetResetTimers) {
+                            m_bInternetResetTimers = false;
+                        }
+                        dtLastDialupAlertSent = wxDateTime((time_t)0);
+                        dtLastDialupRequest = wxDateTime((time_t)0);
+                    }
+
                     pDoc->rpc.network_query(want_network);
-                    if (!m_pDialupManager->IsOnline() && want_network) {
+                    if (!m_pDialupManager->IsOnline() && !m_pDialupManager->IsDialing() && want_network) {
                         if (!IsShown()) {
                             // BOINC Manager is hidden and displaying a dialog might interupt what they
                             //   are doing.
@@ -1708,13 +1721,24 @@ void CMainFrame::OnInternetConnection(wxDialUpEvent& event) {
             ShowAlert(
                 _("BOINC Manager - Network Status"),
                 _("BOINC failed to connect to the internet."),
-                wxICON_ERROR
+                wxICON_ERROR,
+                true
             );
 
             m_bInternetSuccessfullyConnected = false;
             m_bInternetDisconnectEventAlreadyDetected = false;
         }
+    } else {
+        if (!event.IsConnectedEvent()) {
+            ShowAlert(
+                _("BOINC Manager - Network Status"),
+                _("BOINC has lost network connectivity."),
+                wxICON_INFORMATION,
+                true
+            );
+        }
     }
+    m_bInternetResetTimers = true;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInternetConnection - Function End"));
 }

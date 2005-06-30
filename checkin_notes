@@ -8781,3 +8781,12 @@ Rom    29 June 2005
 
     clientgui/
         MainFrame.cpp
+
+Rom    29 June 2005
+    - Bug Fix: Reset the notification timers when the modem looses connection in some
+        random event or we successfully connect to the target network.
+    - Bug Fix: Post a notification if the network connection disappears out from under
+        us.
+
+    clientgui/
+        MainFrame.cpp, .h
