@@ -14,7 +14,7 @@ $what = '';
 if ($_GET['titles']) {
     $what = 'titles=1';
     page_head("Titles containing '$search_string'");
-    $q = "select * from thread where match(title) against ('$search_string') limit $offset,$count";
+    $q = "select * from thread where match(title) against ('$search_string') order by create_time desc limit $offset,$count";
     $result = mysql_query($q);
     echo "<table>";
     $n = 0;
@@ -37,8 +37,9 @@ if ($_GET['bodies']) {
     $what .= 'bodies=1';
 
     page_head("Messages containing '$search_string'");
-    $q = "select * from post where match(content) against ('$search_string') limit $offset,$count";
+    $q = "select * from post where match(content) against ('$search_string') order by timestamp desc limit $offset,$count";
     $result = mysql_query($q);
+    echo mysql_error();
     echo "<table>";
     $n = 0;
     while ($post = mysql_fetch_object($result)) {
