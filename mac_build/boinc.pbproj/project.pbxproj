@@ -3180,20 +3180,8 @@
 			settings = {
 			};
 		};
-		DDA4573E086447BC00DE260C = {
-			fileRef = DDA4573A086447BC00DE260C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDA4573F086447BC00DE260C = {
 			fileRef = DDA4573B086447BC00DE260C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDA45740086447BC00DE260C = {
-			fileRef = DDA4573C086447BC00DE260C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3931,8 +3919,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
-				DDA4573E086447BC00DE260C,
-				DDA45740086447BC00DE260C,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
