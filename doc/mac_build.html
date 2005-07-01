@@ -15,19 +15,15 @@
     p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier}
     p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #0000ff; min-height: 14.0px}
     p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; min-height: 14.0px}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000; min-height: 14.0px}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000}
-    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000}
     span.s1 {text-decoration: underline}
     span.s2 {font: 12.0px Lucida Grande}
-    span.s3 {color: #000000}
   </style>
 </head>
 <body>
 <p class="p1"><b>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</b></p>
 <p class="p2"><br></p>
 <p class="p3">Written by Charlie Fenton</p>
-<p class="p3">Last updated 6/28/05</p>
+<p class="p3">Last updated 7/1/05</p>
 <p class="p2"><br></p>
 <p class="p4">NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.<span class="Apple-converted-space">  </span>Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".</p>
 <p class="p2"><br></p>
@@ -48,7 +44,13 @@
 <p class="p4">If you are building under OS 10.3.9, the default compiler is GCC 3.3, so these steps are not necessary (but they won't do any harm).</p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>
-<p class="p3"><b>ONE_TIME SETUP for BOINC Manager and embedded Core Client</b></p>
+<p class="p3"><b>One-Time Setup for BOINC Manager and embedded Core Client</b></p>
+<p class="p2"><br></p>
+<p class="p4"><i>XCode 1.5 installs autoconf version 2.57 and automake 1.63.<span class="Apple-converted-space">  </span>XCode 2.0 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building wxMac-2.6.0 requires autoconf 2.59 and automake 1.93 or later.<span class="Apple-converted-space">  </span>Building the BOINC SETI application also requires these.</i></p>
+<p class="p2"><i></i><br></p>
+<p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org.<span class="Apple-converted-space">  </span>XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.<span class="Apple-converted-space">  </span>If you install there, you must also set your PATH environment variable to include that location before proceeding with any of the steps below; type the following at the start of your terminal session:</i></p>
+<p class="p2"><i></i><br></p>
+<p class="p6">export PATH=/usr/local/bin:$PATH</p>
 <p class="p2"><br></p>
 <p class="p4">(1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:</p>
 <p class="p4">You will need to set the environment variables CPPFLAGS and LDFLAGS as described below.<span class="Apple-converted-space">  </span>These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.<span class="Apple-converted-space">  </span>Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.</p>
@@ -202,9 +204,7 @@
 <p class="p2"><br></p>
 <p class="p3"><b>ONE_TIME SETUP for BOINC SETI client application</b></p>
 <p class="p2"><br></p>
-<p class="p4"><i>XCode 1.5 installs autoconf version 2.57 and automake 1.63.<span class="Apple-converted-space">  </span>XCode 2.0 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building seti_boinc requires autoconf 2.59 and automake 1.93 or later.</i></p>
-<p class="p2"><i></i><br></p>
-<p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org.<span class="Apple-converted-space">  </span>XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.<span class="Apple-converted-space">  </span>If you install there, you must also set your PATH environment variable to include that location before proceeding with any of the steps below; type the following at the start of your terminal session:</i></p>
+<p class="p4"><i>Please see the discussion about versions<span class="Apple-converted-space">  </span>of autconf and automake in the section "ONE_TIME SETUP for BOINC Manager and embedded Core Client" above.<span class="Apple-converted-space">  </span>If you install upgrades for these in /usr/local/bin/, type the following at the start of your terminal session:</i></p>
 <p class="p2"><i></i><br></p>
 <p class="p6">export PATH=/usr/local/bin:$PATH</p>
 <p class="p2"><br></p>
@@ -241,19 +241,19 @@
 <p class="p4">[setipath]/mac_build/seti_boinc.xcode.</p>
 <p class="p2"><br></p>
 <p class="p4">There is an optional api setMacIcon() in the libboinc_api.a library.<span class="Apple-converted-space">  </span>This allows science applications to display an application icon in the Dock) and in the Finder. <span class="Apple-converted-space">  </span>(The icon does not appear in the Dock until the application displays graphics.)<span class="Apple-converted-space">  </span>To implement this, do the following:</p>
-<p class="p9"><br></p>
-<p class="p10">(1)Use "/Developer/Applications/utilities/Icon Composer.app" to <span class="s3">create a xxx.icns file.<span class="Apple-converted-space">  </span>(Use any name you wish instead of xxx.)</span></p>
-<p class="p9"><br></p>
-<p class="p10">(2) Convert the <span class="s3">xxx</span>.icns file to an app_icon.h file as follows: in Terminal, run:<span class="Apple-converted-space"> </span></p>
-<p class="p11">MakeAppIcon_h &lt;source_file&gt; &lt;dest_file&gt;<span class="Apple-converted-space"> </span></p>
-<p class="p10">(The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)<span class="Apple-converted-space">  </span>Add the <span class="s3">app_icon.h file to your science application's project.</span></p>
-<p class="p9"><br></p>
-<p class="p10">(3) In the science application's main(), add<span class="Apple-converted-space"> </span></p>
-<p class="p11">#include "app_icon.h"<span class="Apple-converted-space"> </span></p>
-<p class="p10">and call:</p>
-<p class="p11"><span class="Apple-converted-space">  </span>setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));</p>
-<p class="p9"><br></p>
-<p class="p10">(4) The science application must link with Carbon.framework to use <span class="s3">setMacIcon()</span>.</p>
-<p class="p9"><br></p>
+<p class="p2"><br></p>
+<p class="p4">(1)Use "/Developer/Applications/utilities/Icon Composer.app" to create a xxx.icns file.<span class="Apple-converted-space">  </span>(Use any name you wish instead of xxx.)</p>
+<p class="p2"><br></p>
+<p class="p4">(2) Convert the xxx.icns file to an app_icon.h file as follows: in Terminal, run:<span class="Apple-converted-space"> </span></p>
+<p class="p6">MakeAppIcon_h &lt;source_file&gt; &lt;dest_file&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p4">(The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)<span class="Apple-converted-space">  </span>Add the app_icon.h file to your science application's project.</p>
+<p class="p2"><br></p>
+<p class="p4">(3) In the science application's main(), add<span class="Apple-converted-space"> </span></p>
+<p class="p6">#include "app_icon.h"<span class="Apple-converted-space"> </span></p>
+<p class="p4">and call:</p>
+<p class="p6"><span class="Apple-converted-space">  </span>setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));</p>
+<p class="p2"><br></p>
+<p class="p4">(4) The science application must link with Carbon.framework to use setMacIcon().</p>
+<p class="p2"><br></p>
 </body>
 </html>
