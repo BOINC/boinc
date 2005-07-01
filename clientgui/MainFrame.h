@@ -83,10 +83,6 @@ public:
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
-#ifdef __WXMSW__
-    void OnInternetConnection( wxDialUpEvent& event );
-#endif
-
     void OnAlert( CMainFrameAlertEvent& event );
     void OnInitialized( CMainFrameEvent& event );
     void OnRefreshView( CMainFrameEvent& event );
@@ -124,10 +120,6 @@ private:
     bool            m_bNetworkDialupPromptCredentials;
 
     wxArrayString   m_aSelectedComputerMRU;
-
-    bool            m_bInternetSuccessfullyConnected;
-    bool            m_bInternetResetTimers;
-    bool            m_bInternetDisconnectEventAlreadyDetected;
 
     bool            CreateMenu();
     bool            DeleteMenu();

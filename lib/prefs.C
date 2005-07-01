@@ -48,7 +48,7 @@ void GLOBAL_PREFS::defaults() {
     run_minimized = false;
     run_on_startup = false;
     leave_apps_in_memory = false;
-    confirm_before_connecting = false;
+    confirm_before_connecting = true;
     hangup_if_dialed = false;
     dont_verify_images = false;
     work_buf_min_days = 0.1;

@@ -8799,3 +8799,23 @@ Charlie 30 June 2005
         DlgOptions.cpp
     mac_build/
         boinc.pbproj/project.pbxproj (directory & file both removed)
+
+Rom    30 June 2005
+    - Bug Fix: Change the method for determining connection status from being event 
+        driven to polling for the information, for some reason I stopped receiving
+        CONNECT and DISCONNECT events from wxWidgets.
+    - Bug Fix: Fix up a few more dial-up connection issues.
+    - Bug Fix: Change the default value of prefs.confirm_before_connect from false
+        to true.  In the event that the manager cannot connect up to the core client
+        we don't want it to get stuck dialing and hanging up every few minutes.
+    - Revert back to the original Windows icons on Windows.
+    - Update the dialog template with David's recent changes to the Account Manager
+        functionality.
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgAccountManagerSignup.cpp, .h
+        DlgAccountManagerStatus.cpp, .h
+        MainFrame.cpp, .h
+    lib/
+        prefs.C

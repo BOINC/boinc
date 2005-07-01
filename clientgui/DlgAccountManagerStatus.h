@@ -30,6 +30,7 @@
 
 ////@begin includes
 #include "wx/valgen.h"
+#include "hyperlink.h"
 ////@end includes
 
 /*!
@@ -45,11 +46,13 @@
 
 ////@begin control identifiers
 #define ID_DIALOG 10000
-#define SYMBOL_CDLGACCOUNTMANAGERSTATUS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU
+#define SYMBOL_CDLGACCOUNTMANAGERSTATUS_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
 #define SYMBOL_CDLGACCOUNTMANAGERSTATUS_TITLE _("Account Manager")
 #define SYMBOL_CDLGACCOUNTMANAGERSTATUS_IDNAME ID_DIALOG
-#define SYMBOL_CDLGACCOUNTMANAGERSTATUS_SIZE wxSize(500, 300)
+#define SYMBOL_CDLGACCOUNTMANAGERSTATUS_SIZE wxSize(400, 300)
 #define SYMBOL_CDLGACCOUNTMANAGERSTATUS_POSITION wxDefaultPosition
+#define ID_ACCTMANAGERNAME 10031
+#define ID_ACCTMANAGERLINK 10032
 #define ID_UPDATE 10005
 #define ID_CHANGE 10017
 ////@end control identifiers
@@ -99,6 +102,7 @@ public:
 
     wxString GetAcctManagerName() const { return m_strAcctManagerName ; }
     void SetAcctManagerName(wxString value) { m_strAcctManagerName = value ; }
+
     wxString GetAcctManagerURL() const { return m_strAcctManagerURL ; }
     void SetAcctManagerURL(wxString value) { m_strAcctManagerURL = value ; }
 
@@ -115,7 +119,6 @@ public:
 ////@begin CDlgAccountManagerStatus member variables
     wxStaticText* m_AcctManagerNameCtrl;
     wxString m_strAcctManagerName;
-    wxStaticText* m_AcctManagerURLCtrl;
     wxString m_strAcctManagerURL;
 ////@end CDlgAccountManagerStatus member variables
 };

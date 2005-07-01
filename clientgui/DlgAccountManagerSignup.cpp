@@ -110,23 +110,19 @@ void CDlgAccountManagerSignup::CreateControls()
     itemFlexGridSizer2->Add(itemBoxSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText4 = new wxStaticText;
-    itemStaticText4->Create( itemDialog1, ID_ACCTMANAGERTEXT,
-        _("Account managers make it easy to find and join BOINC projects.\n"
-        "For more information, click on the link below."),
-        wxDefaultPosition, wxDefaultSize, 0
-    );
-    itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemStaticText4->Create( itemDialog1, ID_ACCTMANAGERTEXT, _("Account managers make it easy to find and join BOINC projects.\nFor more information, click on the link below."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxHyperLink* itemHyperLink5 = new wxHyperLink;
-    itemHyperLink5->Create( itemDialog1, ID_ACCTMANAGERLINK, _T("http://boinc.berkeley.edu/acct_mgrs.php"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(itemHyperLink5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemHyperLink5->Create( itemDialog1, ID_ACCTMANAGERDOCLINK, wxT("http://boinc.berkeley.edu/acct_mgrs.php"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    itemBoxSizer3->Add(itemHyperLink5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(3, 2, 0, 0);
     itemBoxSizer3->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticText* itemStaticText7 = new wxStaticText;
     itemStaticText7->Create( itemDialog1, wxID_STATIC, _("Account Manager URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AcctManagerURLCtrl = new wxTextCtrl;
     m_AcctManagerURLCtrl->Create( itemDialog1, ID_ACCTMANAGERURL, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
@@ -134,7 +130,7 @@ void CDlgAccountManagerSignup::CreateControls()
 
     wxStaticText* itemStaticText9 = new wxStaticText;
     itemStaticText9->Create( itemDialog1, wxID_STATIC, _("Login:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AcctManagerUsernameCtrl = new wxTextCtrl;
     m_AcctManagerUsernameCtrl->Create( itemDialog1, ID_ACCTMANAGERUSERNAME, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
@@ -142,7 +138,7 @@ void CDlgAccountManagerSignup::CreateControls()
 
     wxStaticText* itemStaticText11 = new wxStaticText;
     itemStaticText11->Create( itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AcctManagerPasswordCtrl = new wxTextCtrl;
     m_AcctManagerPasswordCtrl->Create( itemDialog1, ID_ACCTMANAGERPASSWORD, _T(""), wxDefaultPosition, wxSize(200, -1), wxTE_PASSWORD );
