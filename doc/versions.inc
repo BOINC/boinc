@@ -110,6 +110,34 @@ $w445= array(
     "
 );
 
+$w500= array(
+    "num"=>"5.00",
+    "status"=>"Development version",
+    "file"=>"boinc_5.00_windows_intelx86.exe",
+    "date"=>"1 July 2005",
+    "type"=>win_new(),
+    "features"=>"<ul>
+    <li>
+    Dial-up support has now been enhanced to support service installs, and shared user installs.
+    <li>
+    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
+    <li>
+    Alerts have been enabled to provide instant feedback when certain types of errors occur.
+    </ul>
+    ",
+    "bugs"=>"<ul>
+    <li>
+    Applications that were built before October 2004 do not
+    display screensaver graphics with the Service or Shared install type,
+    or the Single-user install type with the password protect screensaver
+    option on NT based machines.
+    <li>
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
+    the system becomes sluggish and unresponsive.
+    </ul>
+    "
+);
+
 $w419 = array(
     "num"=>"4.19",
     "status"=>"Older version",
@@ -210,6 +238,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
+        $w500,
         $w419
     )
 );
