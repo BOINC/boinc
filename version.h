@@ -4,13 +4,13 @@
 #define BOINC_VERSION_H
 
 /* Major part of BOINC version number */
-#define BOINC_MAJOR_VERSION 4
+#define BOINC_MAJOR_VERSION 5
 
 /* Minor part of BOINC version number */
-#define BOINC_MINOR_VERSION 68
+#define BOINC_MINOR_VERSION 50
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "4.68"
+#define BOINC_VERSION_STRING "5.50"
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
@@ -23,13 +23,13 @@
 #define PACKAGE_NAME "BOINC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 4.68"
+#define PACKAGE_STRING "BOINC 5.50"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "boinc"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.68"
+#define PACKAGE_VERSION "5.50"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
