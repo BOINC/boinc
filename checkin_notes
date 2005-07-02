@@ -8819,3 +8819,9 @@ Rom    30 June 2005
         MainFrame.cpp, .h
     lib/
         prefs.C
+
+Rom    1 July 2005
+    - Remove the major version check from the scheduler.
+
+    sched/
+        handle_request.C

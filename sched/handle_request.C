@@ -876,21 +876,7 @@ bool wrong_core_client_version(
 ) {
     char msg[256];
     bool wrong_version = false;
-    if (sreq.core_client_major_version != BOINC_MAJOR_VERSION) {
-        // TODO: check for user-agent not empty and not BOINC
-        wrong_version = true;
-        sprintf(msg,
-            "Need major version %d of the BOINC core client. You have %d.",
-            BOINC_MAJOR_VERSION,
-            sreq.core_client_major_version
-        );
-        log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
-            "[HOST#%d] [auth %s] Wrong major version from user: wanted %d, got %d\n",
-            sreq.hostid, sreq.authenticator,
-            BOINC_MAJOR_VERSION, sreq.core_client_major_version
-        );
-    } else if (config.min_core_client_version) {
+    if (config.min_core_client_version) {
         int major = config.min_core_client_version/100;
         int minor = config.min_core_client_version % 100;
         if (sreq.core_client_minor_version < minor) {
