@@ -2,16 +2,15 @@
 # Language: German
 # FileID  : $Id$
 # Author  : Janus Kristensen (Translator: Severin Heiniger)
-# Email   : jbk@visualgroup.dk (severinheiniger@bluewin.ch)
+# Email   : jbk@visualgroup.dk (severinheiniger@gmail.com)
 ##########################################
 # For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
+# http://boinc.berkeley.edu/translation.php
 ##########################################
 
- # The charset used for the text in this file (please try to use UTF-8 if possible)
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "iso-8859-1"
-
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Deutsch"
@@ -183,7 +182,7 @@ msgstr "Die Konto-Erstellung ist abgeschaltet."
 
 msgid "CREATE_AC_DISABLED_TEXT"
 msgstr "Das Erstellen von Konten bei $PROJECT ist zur Zeit nicht möglich. "
-"Bitte versuchen Sie es später wieder."
+"Bitte versuchen Sie es später erneut."
 
 msgid "CREATE_AC_TEAM"
 msgstr "Dieses Konto wird dem Team %s angehören und die Projekteinstellungen seines Gründers haben."
@@ -246,14 +245,14 @@ msgstr "Um die standardmässigen Einstellungen zu verwenden, scrollen Sie bis zur
 # and (account_setup_nonfirst_done.php
 #########################################
 msgid "AC_DONE_TITLE"
-msgstr "Konto-Einrichtung: abgeschlossen"
+msgstr "Konto-Einrichtung abgeschlossen"
 
 msgid "AC_DONE_COMPLETE"
 msgstr "Die Einrichtung Ihres Kontos ist abgeschlossen."
 
 msgid "AC_DONE_BOINC"
 msgstr "Als nächstes müssen Sie die BOINC-Software herunterladen und installieren, sowie Ihrem Computer "
-"mitteilen, dieses Konto zu verwenden."
+"anweisen, dieses Konto zu verwenden."
 
 msgid "AC_DONE_URL"
 msgstr "Wenn Sie BOINC zum ersten Mal starten, werden Sie nach der <b>Projektadresse</b> und "
@@ -269,7 +268,7 @@ msgid "AC_DONE_DL_BOINC"
 msgstr "BOINC-Software herunterladen"
 
 msgid "AC_DONE_THANKS"
-msgstr "Vielen Dank, dass Sie an $PROJECT teilnehmen"
+msgstr "Vielen Dank, dass Sie an $PROJECT teilnehmen."
 
 
 #########################################
@@ -297,7 +296,7 @@ msgid "AC_DONE_UNIX"
 msgstr "Mac-, Unix- und Linux-Benutzer:"
 
 msgid "AC_DONE_UNIX_TEXT"
-msgstr "Verlassen Sie den BOINC-Klienten. Danach starten Sie ihn mit der Option -attach_project neu. "
+msgstr "Verlassen Sie den BOINC-Clienten. Danach starten Sie ihn mit der Option -attach_project neu. "
 "Das Programm wird Sie nach der Projektadresse und dem Kontoschlüssel fragen."
 
 msgid "AC_DONE_ANYCASE"
@@ -312,7 +311,7 @@ msgstr "Dies schliesst die Installation von $PROJECT ab."
 #########################################
   	 
 msgid "FORUM_TITLE"
-msgstr "$PROJECT-Nachrichtenforen"
+msgstr "$PROJECT-Diskussionsforen"
 
 
 #########################################
@@ -329,3 +328,28 @@ msgstr "Konto konfigurieren"
 #########################################
 msgid "OPTIONAL"
 msgstr "Freiwillig"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Beste Teilnehmer"
+
+msgid "USER_TABLE_RANK"
+msgstr "Rang"
+
+msgid "USER_TABLE_NAME"
+msgstr "Name"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "Gesamtguthaben"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "Durchschnittliches Guthaben"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Land"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Teilnehmer seit"

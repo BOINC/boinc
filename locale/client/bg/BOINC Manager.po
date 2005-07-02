@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-06-14 22:17+0200\n"
+"PO-Revision-Date: 2005-06-29 10:23+0200\n"
 "Last-Translator: Son Goku 3SSJ <timeros@gmail.com>\n"
 "Language-Team: AMD Powered @ Home Team\n"
 "MIME-Version: 1.0\n"
@@ -14,21 +14,19 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:268
+#: clientgui/BOINCGUIApp.cpp:264
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Стартирай BOINC  така че само system tray иконата е видима"
 
-#: clientgui/BOINCGUIApp.cpp:325
-#: clientgui/DlgOptions.cpp:136
-#: clientgui/DlgOptions.cpp:137
+#: clientgui/BOINCGUIApp.cpp:324
 msgid "(Automatic Detection)"
 msgstr "(Автоматичен избор)"
 
-#: clientgui/BOINCGUIApp.cpp:326
+#: clientgui/BOINCGUIApp.cpp:325
 msgid "(Unknown)"
 msgstr "(Непознат)"
 
-#: clientgui/BOINCGUIApp.cpp:327
+#: clientgui/BOINCGUIApp.cpp:326
 msgid "(User Defined)"
 msgstr "(Дефиниран от потребителя)"
 
@@ -38,8 +36,8 @@ msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
 #: clientgui/BOINCTaskBar.cpp:353
-#: clientgui/MainFrame.cpp:358
-#: clientgui/mac/MacSysMenu.cpp:70
+#: clientgui/MainFrame.cpp:387
+#: clientgui/mac/MacSysMenu.cpp:75
 msgid "E&xit"
 msgstr "&Изход"
 
@@ -49,17 +47,17 @@ msgid "&Open BOINC Manager..."
 msgstr "&Отвори  BOINC Manager-а..."
 
 #: clientgui/BOINCTaskBar.cpp:383
-#: clientgui/MainFrame.cpp:316
+#: clientgui/MainFrame.cpp:345
 msgid "&Run always"
 msgstr "Работи &винаги"
 
 #: clientgui/BOINCTaskBar.cpp:384
-#: clientgui/MainFrame.cpp:321
+#: clientgui/MainFrame.cpp:350
 msgid "Run based on &preferences"
 msgstr "Работи на база на &предпочитанията"
 
 #: clientgui/BOINCTaskBar.cpp:385
-#: clientgui/MainFrame.cpp:326
+#: clientgui/MainFrame.cpp:355
 msgid "&Suspend"
 msgstr "&Временно прекратяване"
 
@@ -68,7 +66,7 @@ msgid "&Disable BOINC network access"
 msgstr "&Забрани достъпа на BOINC към Мрежата"
 
 #: clientgui/BOINCTaskBar.cpp:389
-#: clientgui/MainFrame.cpp:398
+#: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
 msgstr "&Относно BOINC Manager-а..."
 
@@ -97,32 +95,63 @@ msgid "http://boinc.berkeley.edu/"
 msgstr "http://boinc.berkeley.edu/"
 
 #: clientgui/DlgAbout.cpp:154
-#: clientgui/DlgAccountManager.cpp:136
+#: clientgui/DlgAccountManagerSignup.cpp:155
 #: clientgui/DlgAttachProject.cpp:144
-#: clientgui/DlgConnection.cpp:122
-#: clientgui/DlgOptions.cpp:264
+#: clientgui/DlgDialupCredentials.cpp:138
+#: clientgui/DlgOptions.cpp:389
 #: clientgui/DlgSelectComputer.cpp:139
 msgid "&OK"
 msgstr "&OK"
 
-#: clientgui/DlgAccountManager.cpp:117
-msgid "Username:"
-msgstr "Потребит. име:"
+#: clientgui/DlgAccountManagerSignup.cpp:114
+msgid ""
+"Account managers make it easy to find and join BOINC projects.\n"
+"For more information, click on the link below."
+msgstr ""
+"Акаунт мениджърите ви улесняват да намерите и да се присъедините към BOINC проекти.\n"
+"За повече информация, кликнете на линка по-долу. "
 
-#: clientgui/DlgAccountManager.cpp:125
-#: clientgui/DlgOptions.cpp:189
-#: clientgui/DlgOptions.cpp:245
+#: clientgui/DlgAccountManagerSignup.cpp:128
+msgid "Account Manager URL:"
+msgstr "URL на акаунт менажера:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:136
+msgid "Login:"
+msgstr "Login:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:144
+#: clientgui/DlgDialupCredentials.cpp:127
+#: clientgui/DlgOptions.cpp:318
+#: clientgui/DlgOptions.cpp:374
 #: clientgui/DlgSelectComputer.cpp:128
 msgid "Password:"
 msgstr "Парола:"
 
-#: clientgui/DlgAccountManager.cpp:141
+#: clientgui/DlgAccountManagerSignup.cpp:160
+#: clientgui/DlgAccountManagerStatus.cpp:144
 #: clientgui/DlgAttachProject.cpp:149
-#: clientgui/DlgConnection.cpp:127
-#: clientgui/DlgOptions.cpp:269
+#: clientgui/DlgDialupCredentials.cpp:143
+#: clientgui/DlgOptions.cpp:394
 #: clientgui/DlgSelectComputer.cpp:144
 msgid "&Cancel"
 msgstr "&Отказ"
+
+#: clientgui/DlgAccountManagerStatus.cpp:120
+msgid "Your current account manager:"
+msgstr "Текущият ви акаунт мениджър: "
+
+#: clientgui/DlgAccountManagerStatus.cpp:124
+#: clientgui/DlgAccountManagerStatus.cpp:128
+msgid "http://a/b/c/"
+msgstr "http://a/b/c/"
+
+#: clientgui/DlgAccountManagerStatus.cpp:135
+msgid "&Update accounts"
+msgstr "Обнови акаунтите"
+
+#: clientgui/DlgAccountManagerStatus.cpp:140
+msgid "Change manager"
+msgstr "Промени менажера "
 
 #: clientgui/DlgAttachProject.cpp:121
 msgid "URL:"
@@ -142,63 +171,107 @@ msgstr ""
 "Отидете на  web страницата на проекта, за да създате акаунт.\n"
 "Посетете http://boinc.berkeley.edu за спъсък на проектите."
 
-#: clientgui/DlgConnection.cpp:115
-msgid ""
-"BOINC needs to connect to the network.\n"
-"May it do so now?"
-msgstr ""
-"BOINC трябва да се свърже към мрежата.\n"
-"Може ли да го направи?"
+#: clientgui/DlgDialupCredentials.cpp:119
+msgid "Username:"
+msgstr "Потребит. име:"
 
-#: clientgui/DlgOptions.cpp:132
+#: clientgui/DlgOptions.cpp:182
 msgid "Language Selection:"
 msgstr "Избор на език:"
 
-#: clientgui/DlgOptions.cpp:140
+#: clientgui/DlgOptions.cpp:189
+msgid "What language should the manager display by default."
+msgstr "Какъв език трябва да използва менажера по подразбиране?"
+
+#: clientgui/DlgOptions.cpp:193
+msgid "Reminder Frequency:"
+msgstr "Честота на напомнянията:"
+
+#: clientgui/DlgOptions.cpp:199
+msgid "How often, in minutes, should the manager remind you of possible connection events."
+msgstr "Колко често, в минути, менажера трябва да ви напомня за възможни дейности изискващи връзка към Интернет?"
+
+#: clientgui/DlgOptions.cpp:202
 msgid "General"
 msgstr "Основни"
 
-#: clientgui/DlgOptions.cpp:148
+#: clientgui/DlgOptions.cpp:211
+msgid "&Automatically detect network connection settings"
+msgstr "&Автоматично разпознавай настройките на връзката"
+
+#: clientgui/DlgOptions.cpp:216
+msgid "Use my &Local Area Network(LAN) connection"
+msgstr "Използвай мойта &Local Area Network(LAN) връзка"
+
+#: clientgui/DlgOptions.cpp:221
+msgid "Use my &Dial-up and Virtual Private Network connection"
+msgstr "Използвай мойта &Dial-up и Virtual Private Network връзка"
+
+#: clientgui/DlgOptions.cpp:225
+msgid "Dial-up and Virtual Private Network settings"
+msgstr "Dial-up и Virtual Private Network настройки"
+
+#: clientgui/DlgOptions.cpp:239
+msgid "&Set Default"
+msgstr "И&збере стойност по подразбиране"
+
+#: clientgui/DlgOptions.cpp:244
+msgid "&Clear Default"
+msgstr "&Изчисти стойностите по подразбиране"
+
+#: clientgui/DlgOptions.cpp:251
+msgid "Default Connection:"
+msgstr "Връзка по подразбиране"
+
+#: clientgui/DlgOptions.cpp:261
+msgid "&Prompt for username and password"
+msgstr "&Питай всеки път за потребителско име и парола"
+
+#: clientgui/DlgOptions.cpp:268
+msgid "Connections"
+msgstr "Връзки"
+
+#: clientgui/DlgOptions.cpp:277
 msgid "Connect via HTTP proxy server"
 msgstr "Свързвай се чрез HTTP прокси сървър"
 
-#: clientgui/DlgOptions.cpp:152
+#: clientgui/DlgOptions.cpp:281
 msgid "HTTP Proxy Server Configuration"
 msgstr "Настройки на HTTP прокси сървър"
 
-#: clientgui/DlgOptions.cpp:160
-#: clientgui/DlgOptions.cpp:216
+#: clientgui/DlgOptions.cpp:289
+#: clientgui/DlgOptions.cpp:345
 msgid "Address:"
 msgstr "Адрес:"
 
-#: clientgui/DlgOptions.cpp:168
-#: clientgui/DlgOptions.cpp:224
+#: clientgui/DlgOptions.cpp:297
+#: clientgui/DlgOptions.cpp:353
 msgid "Port:"
 msgstr "Порт:"
 
-#: clientgui/DlgOptions.cpp:175
-#: clientgui/DlgOptions.cpp:231
+#: clientgui/DlgOptions.cpp:304
+#: clientgui/DlgOptions.cpp:360
 msgid "Leave these blank if not needed"
 msgstr "Остави тези полета празни ако не са нужни"
 
-#: clientgui/DlgOptions.cpp:181
-#: clientgui/DlgOptions.cpp:237
+#: clientgui/DlgOptions.cpp:310
+#: clientgui/DlgOptions.cpp:366
 msgid "User Name:"
 msgstr "Потребит. име"
 
-#: clientgui/DlgOptions.cpp:196
+#: clientgui/DlgOptions.cpp:325
 msgid "HTTP Proxy"
 msgstr "HTTP прокси"
 
-#: clientgui/DlgOptions.cpp:204
+#: clientgui/DlgOptions.cpp:333
 msgid "Connect via SOCKS proxy server"
 msgstr "Свързвай се чрез SOCKS прокси сървър"
 
-#: clientgui/DlgOptions.cpp:208
+#: clientgui/DlgOptions.cpp:337
 msgid "SOCKS Proxy Server Configuration"
 msgstr "Настройки на SOCKS прокси сървър"
 
-#: clientgui/DlgOptions.cpp:252
+#: clientgui/DlgOptions.cpp:381
 msgid "SOCKS Proxy"
 msgstr "SOCKS прокси"
 
@@ -206,171 +279,226 @@ msgstr "SOCKS прокси"
 msgid "Host name:"
 msgstr "Име на хоста:"
 
-#: clientgui/MainDocument.cpp:279
-msgid "Retrieving system state; please wait..."
-msgstr "Обработвам състоянието на системата; моля изчакайте..."
+#: clientgui/hyperlink.cpp:78
+msgid "Failed to create wxStaticText, needed by wxHyperLink!"
+msgstr "Неуспех при създаването на wxStaticText, изискван от wxHyperLink!"
 
-#: clientgui/MainDocument.cpp:288
-msgid "Retrieving host information; please wait..."
-msgstr "Обработвам информацията за хоста; моля изчакайте..."
-
-#: clientgui/MainDocument.cpp:845
-msgid "BOINC error"
-msgstr "BOINC грешка"
-
-#: clientgui/MainFrame.cpp:77
-msgid "Connected"
-msgstr "Свързан"
-
-#: clientgui/MainFrame.cpp:85
-msgid "Disconnected"
-msgstr "Прекъснат"
-
-#: clientgui/MainFrame.cpp:302
-msgid "Close"
-msgstr "Затвори"
-
-#: clientgui/MainFrame.cpp:303
-msgid "Closes the main BOINC Manager window"
-msgstr "Затваря главният прозорец на BOINC Manager."
-
-#: clientgui/MainFrame.cpp:308
-msgid "&Hide"
-msgstr "&Скрий"
-
-#: clientgui/MainFrame.cpp:309
-msgid "Hides the main BOINC Manager window"
-msgstr "Скрива главният прозорец на BOINC Manager"
-
-#: clientgui/MainFrame.cpp:317
-msgid "Does work regardless of preferences"
-msgstr "Работи независимо от предпочитнаията"
-
-#: clientgui/MainFrame.cpp:322
-msgid "Does work according to your preferences"
-msgstr "Работи на база на предпочитанията ти"
-
-#: clientgui/MainFrame.cpp:327
-msgid "Stops work regardless of preferences"
-msgstr "Спира работата независимо от предпочитанията"
-
-#: clientgui/MainFrame.cpp:334
-msgid "&Disable BOINC Network Access"
-msgstr "&Забрани достъпа на BOINC към Мрежата"
-
-#: clientgui/MainFrame.cpp:335
-msgid "Stops BOINC network activity"
-msgstr "Спира/Пуска мрежовата активност на BOINC"
-
-#: clientgui/MainFrame.cpp:342
-msgid "Run &Benchmarks"
-msgstr "Пусни &диагностика на системата"
-
-#: clientgui/MainFrame.cpp:343
-msgid "Runs BOINC CPU benchmarks"
-msgstr "Стартира  BOINC CPU диагностика"
-
-#: clientgui/MainFrame.cpp:350
-msgid "Select Computer..."
-msgstr "Избери компютър..."
-
-#: clientgui/MainFrame.cpp:351
-msgid "Connect to another computer running BOINC"
-msgstr "Свързва се към друг компютър със стартиран BOINC"
-
-#: clientgui/MainFrame.cpp:359
-msgid "Exit the BOINC Manager"
-msgstr "Излиза от BOINC Manager-а"
-
-#: clientgui/MainFrame.cpp:367
-msgid "&Update Accounts"
-msgstr "Обнови акаунтите"
-
-#: clientgui/MainFrame.cpp:368
-msgid "Connect to your account manager website and update all of your accounts"
-msgstr "Свържете се с вашия сайт за управление на акаунтите и обновете всички ваши акаунти"
-
-#: clientgui/MainFrame.cpp:376
-msgid "&Options"
-msgstr "&Опции"
-
-#: clientgui/MainFrame.cpp:377
-msgid "Configure GUI options and proxy settings"
-msgstr "Настройка на GUI опциите и прокси настройките"
-
-#: clientgui/MainFrame.cpp:384
-msgid "&BOINC Manager\tF1"
-msgstr "&BOINC Manager\tF1"
-
-#: clientgui/MainFrame.cpp:385
-msgid "Show information about the BOINC Manager"
-msgstr "Показва информация BOINC Manager-а"
-
-#: clientgui/MainFrame.cpp:390
-msgid "BOINC &Website"
-msgstr "BOINC &Website"
-
-#: clientgui/MainFrame.cpp:391
-msgid "Show information about BOINC and BOINC Manager"
-msgstr "Показва информация за BOINC и BOINC Manager-а"
-
-#: clientgui/MainFrame.cpp:399
-msgid "Licensing and copyright information."
-msgstr "Лицензионна и copyright информация."
-
-#: clientgui/MainFrame.cpp:406
-msgid "&File"
-msgstr "&Файл"
-
-#: clientgui/MainFrame.cpp:410
-msgid "&Tools"
-msgstr "&Настройки"
-
-#: clientgui/MainFrame.cpp:414
-msgid "&Help"
-msgstr "&Помощ"
-
-#: clientgui/MainFrame.cpp:878
-#: clientgui/MainFrame.cpp:879
-#: clientgui/MainFrame.cpp:1144
-msgid "Connection failed."
-msgstr "Връзката провалена."
-
-#: clientgui/MainFrame.cpp:1028
-msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
-msgstr "Езикът на  BOINC Manager-а е променен, за да може промяната да има ефект трябва да рестартирате мениджъра."
-
-#: clientgui/MainFrame.cpp:1029
-msgid "Language Selection..."
-msgstr "Избор на език..."
-
-#: clientgui/MainFrame.cpp:1145
-msgid "BOINC Manager - Connection failed."
-msgstr "BOINC Manager - Връзката провалена"
-
-#: clientgui/MainFrame.cpp:1157
-msgid "The password you have provided is incorrect, please try again."
-msgstr "Паролата, която въведохте е грешна, моля опитайте отново. "
-
-#: clientgui/MainFrame.cpp:1158
+#: clientgui/MainDocument.cpp:161
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC Manager - Грешка при установяване на връзката"
 
-#: clientgui/MainFrame.cpp:1342
-#: clientgui/MainFrame.cpp:1345
+#: clientgui/MainDocument.cpp:162
+msgid "The password you have provided is incorrect, please try again."
+msgstr "Паролата, която въведохте е грешна, моля опитайте отново. "
+
+#: clientgui/MainDocument.cpp:180
+msgid "BOINC Manager - Connection failed"
+msgstr "BOINC Manager - Връзката провалена"
+
+#: clientgui/MainDocument.cpp:181
+#: clientgui/MainFrame.cpp:925
+#: clientgui/MainFrame.cpp:926
+msgid "Connection failed."
+msgstr "Връзката провалена."
+
+#: clientgui/MainDocument.cpp:287
+msgid "Retrieving system state; please wait..."
+msgstr "Обработвам състоянието на системата; моля изчакайте..."
+
+#: clientgui/MainDocument.cpp:296
+msgid "Retrieving host information; please wait..."
+msgstr "Обработвам информацията за хоста; моля изчакайте..."
+
+#: clientgui/MainDocument.cpp:855
+msgid "BOINC error"
+msgstr "BOINC грешка"
+
+#: clientgui/MainDocument.cpp:865
+msgid "BOINC info"
+msgstr "BOINC инфо"
+
+#: clientgui/MainFrame.cpp:80
+msgid "Connected"
+msgstr "Свързан"
+
+#: clientgui/MainFrame.cpp:88
+msgid "Disconnected"
+msgstr "Прекъснат"
+
+#: clientgui/MainFrame.cpp:331
+msgid "Close"
+msgstr "Затвори"
+
+#: clientgui/MainFrame.cpp:332
+msgid "Closes the main BOINC Manager window"
+msgstr "Затваря главният прозорец на BOINC Manager."
+
+#: clientgui/MainFrame.cpp:337
+msgid "&Hide"
+msgstr "&Скрий"
+
+#: clientgui/MainFrame.cpp:338
+msgid "Hides the main BOINC Manager window"
+msgstr "Скрива главният прозорец на BOINC Manager"
+
+#: clientgui/MainFrame.cpp:346
+msgid "Does work regardless of preferences"
+msgstr "Работи независимо от предпочитнаията"
+
+#: clientgui/MainFrame.cpp:351
+msgid "Does work according to your preferences"
+msgstr "Работи на база на предпочитанията ти"
+
+#: clientgui/MainFrame.cpp:356
+msgid "Stops work regardless of preferences"
+msgstr "Спира работата независимо от предпочитанията"
+
+#: clientgui/MainFrame.cpp:363
+msgid "&Disable BOINC Network Access"
+msgstr "&Забрани достъпа на BOINC към Мрежата"
+
+#: clientgui/MainFrame.cpp:364
+msgid "Stops BOINC network activity"
+msgstr "Спира/Пуска мрежовата активност на BOINC"
+
+#: clientgui/MainFrame.cpp:371
+msgid "Run &Benchmarks"
+msgstr "Пусни &диагностика на системата"
+
+#: clientgui/MainFrame.cpp:372
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Стартира  BOINC CPU диагностика"
+
+#: clientgui/MainFrame.cpp:379
+msgid "Select Computer..."
+msgstr "Избери компютър..."
+
+#: clientgui/MainFrame.cpp:380
+msgid "Connect to another computer running BOINC"
+msgstr "Свързва се към друг компютър със стартиран BOINC"
+
+#: clientgui/MainFrame.cpp:388
+msgid "Exit the BOINC Manager"
+msgstr "Излиза от BOINC Manager-а"
+
+#: clientgui/MainFrame.cpp:395
+msgid "&Manage Accounts"
+msgstr "&Управлявай акаунтите"
+
+#: clientgui/MainFrame.cpp:396
+msgid "Connect to an account manager website and update all of your accounts"
+msgstr "Свържете се с вашия сайт за управление на акаунтите и обновете всички ваши акаунти"
+
+#: clientgui/MainFrame.cpp:403
+msgid "&Options"
+msgstr "&Опции"
+
+#: clientgui/MainFrame.cpp:404
+msgid "Configure GUI options and proxy settings"
+msgstr "Настройка на GUI опциите и прокси настройките"
+
+#: clientgui/MainFrame.cpp:411
+msgid "&BOINC Manager\tF1"
+msgstr "&BOINC Manager\tF1"
+
+#: clientgui/MainFrame.cpp:412
+msgid "Show information about the BOINC Manager"
+msgstr "Показва информация BOINC Manager-а"
+
+#: clientgui/MainFrame.cpp:417
+msgid "BOINC &Website"
+msgstr "BOINC &Website"
+
+#: clientgui/MainFrame.cpp:418
+msgid "Show information about BOINC and BOINC Manager"
+msgstr "Показва информация за BOINC и BOINC Manager-а"
+
+#: clientgui/MainFrame.cpp:426
+msgid "Licensing and copyright information."
+msgstr "Лицензионна и copyright информация."
+
+#: clientgui/MainFrame.cpp:433
+msgid "&File"
+msgstr "&Файл"
+
+#: clientgui/MainFrame.cpp:437
+msgid "&Tools"
+msgstr "&Настройки"
+
+#: clientgui/MainFrame.cpp:441
+msgid "&Help"
+msgstr "&Помощ"
+
+#: clientgui/MainFrame.cpp:1101
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr "Езикът на  BOINC Manager-а е променен, за да може промяната да има ефект трябва да рестартирате мениджъра."
+
+#: clientgui/MainFrame.cpp:1102
+msgid "Language Selection..."
+msgstr "Избор на език..."
+
+#: clientgui/MainFrame.cpp:1429
+#: clientgui/MainFrame.cpp:1444
+#: clientgui/MainFrame.cpp:1450
+#: clientgui/MainFrame.cpp:1486
+#: clientgui/MainFrame.cpp:1500
+#: clientgui/MainFrame.cpp:1510
+#: clientgui/MainFrame.cpp:1706
+#: clientgui/MainFrame.cpp:1717
+msgid "BOINC Manager - Network Status"
+msgstr "BOINC Manager - статус на Мрежата"
+
+#: clientgui/MainFrame.cpp:1430
+msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
+msgstr "BOINC се нуждае от връзка към Интернет за да извърши подръжка на проектите, отвори BOINC Manager за да се свърже и да свърши неоходимата работа"
+
+#: clientgui/MainFrame.cpp:1443
+msgid ""
+"BOINC needs to connect to the network.\n"
+"May it do so now?"
+msgstr ""
+"BOINC трябва да се свърже към мрежата.\n"
+"Може ли да го направи?"
+
+#: clientgui/MainFrame.cpp:1451
+msgid "BOINC is connecting to the internet."
+msgstr "BOINC се свързва към интернет."
+
+#: clientgui/MainFrame.cpp:1487
+msgid "BOINC has detected it is now connected to the internet, updating all projects and retrying all transfers."
+msgstr "BOINC откри че е свързан към Интернет, обновяване на всички проекти и възстановяване на всички трансфери."
+
+#: clientgui/MainFrame.cpp:1501
+msgid "BOINC has successfully disconnected from the internet."
+msgstr "BOINC успя да се дискънектне  успешно от Интернет."
+
+#: clientgui/MainFrame.cpp:1511
+msgid "BOINC failed to disconnected from the internet."
+msgstr "BOINC не успя да се дискънектне от Интернет."
+
+#: clientgui/MainFrame.cpp:1609
+#: clientgui/MainFrame.cpp:1612
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1343
+#: clientgui/MainFrame.cpp:1610
 #, c-format
 msgid "Connecting to %s"
 msgstr "Свързване към %s"
 
-#: clientgui/MainFrame.cpp:1346
+#: clientgui/MainFrame.cpp:1613
 #, c-format
 msgid "Connected to %s"
 msgstr "Свързан към %s"
+
+#: clientgui/MainFrame.cpp:1707
+msgid "BOINC has successfully connected to the internet, updating all transfers and projects."
+msgstr "BOINC се свърза успешно към Интернет, обновяване на всички трансфери и проекти."
+
+#: clientgui/MainFrame.cpp:1718
+msgid "BOINC failed to connect to the internet."
+msgstr "BOINC не можа да се свърже към Интернет. "
 
 #: clientgui/ValidateAccountKey.cpp:70
 msgid "Invalid Account Key; please enter a valid Account Key"
@@ -392,7 +520,7 @@ msgid "'%s' does not contain a valid path."
 msgstr "'%s' не съдържа валиден път. "
 
 #: clientgui/ViewMessages.cpp:73
-#: clientgui/ViewProjects.cpp:104
+#: clientgui/ViewProjects.cpp:106
 #: clientgui/ViewStatistics.cpp:313
 #: clientgui/ViewTransfers.cpp:91
 #: clientgui/ViewWork.cpp:94
@@ -416,7 +544,7 @@ msgid "Copy the selected messages to the clipboard. You can select multiple mess
 msgstr "Копира избраните съобщения в clipboard. Може да изберете някоко съобщения като задържите клавиша Shift  или Ctrl, докато кликате на съобщенията."
 
 #: clientgui/ViewMessages.cpp:97
-#: clientgui/ViewProjects.cpp:163
+#: clientgui/ViewProjects.cpp:173
 #: clientgui/ViewResources.cpp:78
 #: clientgui/ViewTransfers.cpp:114
 #: clientgui/ViewWork.cpp:124
@@ -424,7 +552,6 @@ msgid "Project"
 msgstr "Проект"
 
 #: clientgui/ViewMessages.cpp:98
-#: clientgui/ViewTransfers.cpp:118
 msgid "Time"
 msgstr "Време"
 
@@ -445,179 +572,191 @@ msgstr "Копиране на всички съобщения в clipboard..."
 msgid "Aborting transfer..."
 msgstr "Преустановяване на трансфера..."
 
-#: clientgui/ViewProjects.cpp:108
+#: clientgui/ViewProjects.cpp:110
 msgid "Update"
 msgstr "Обнови проекта"
 
-#: clientgui/ViewProjects.cpp:109
+#: clientgui/ViewProjects.cpp:111
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Докладва всичката свършена работа, взима последните кредити и предпочитрания, и по възмойност сваля нова работа. "
+msgstr "Докладва всичката свършена работа, взима последните кредити, взима последните предпочитрания, и по възмойност сваля нова работа. "
 
-#: clientgui/ViewProjects.cpp:116
-#: clientgui/ViewProjects.cpp:598
+#: clientgui/ViewProjects.cpp:118
+msgid "Update All"
+msgstr "Обнови всички"
+
+#: clientgui/ViewProjects.cpp:119
+msgid "Report all upload items, completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Докладва всички качени и завършени работи, взима новите кредити, взима последните предпочитания, и по възможност взима нова работа. "
+
+#: clientgui/ViewProjects.cpp:126
+#: clientgui/ViewProjects.cpp:633
 #: clientgui/ViewWork.cpp:98
 #: clientgui/ViewWork.cpp:449
 msgid "Suspend"
 msgstr "Временно прекратяване"
 
-#: clientgui/ViewProjects.cpp:117
-#: clientgui/ViewProjects.cpp:598
+#: clientgui/ViewProjects.cpp:127
+#: clientgui/ViewProjects.cpp:633
 msgid "Suspend work for this project."
 msgstr "Временно преустановява работата по този проект"
 
-#: clientgui/ViewProjects.cpp:123
-#: clientgui/ViewProjects.cpp:608
+#: clientgui/ViewProjects.cpp:133
+#: clientgui/ViewProjects.cpp:643
 msgid "No new work"
 msgstr "Не взимай нова работа"
 
-#: clientgui/ViewProjects.cpp:124
-#: clientgui/ViewProjects.cpp:608
+#: clientgui/ViewProjects.cpp:134
+#: clientgui/ViewProjects.cpp:643
 msgid "Don't fetch new work for this project."
 msgstr "Не взима нова работа за този проект. "
 
-#: clientgui/ViewProjects.cpp:130
+#: clientgui/ViewProjects.cpp:140
 msgid "Reset project"
 msgstr "Рестартирай проекта"
 
-#: clientgui/ViewProjects.cpp:131
+#: clientgui/ViewProjects.cpp:141
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr "Изтрива всички файлове и работа свързана с този проект и взима нова работа. Можете първо да обновите проекта, за да докладвате за свършената работа."
 
-#: clientgui/ViewProjects.cpp:140
+#: clientgui/ViewProjects.cpp:150
 msgid "Detach"
 msgstr "Излез от проекта"
 
-#: clientgui/ViewProjects.cpp:141
+#: clientgui/ViewProjects.cpp:151
 msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
 msgstr "Изважда компютъра от този проект. Текущата работа ще бъде загубена. Можете първо да обновите проекта, за да докладвате за свършената работа."
 
-#: clientgui/ViewProjects.cpp:150
+#: clientgui/ViewProjects.cpp:160
 msgid "Attach to new project"
 msgstr "Влез в нов проект"
 
-#: clientgui/ViewProjects.cpp:151
+#: clientgui/ViewProjects.cpp:161
 msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
 msgstr "Влиза в  нов BOINC проект. Ще се нуждаете от URL на проекта и ключ на акаунта (посетете сайта на проекта, за да ги получите."
 
-#: clientgui/ViewProjects.cpp:164
+#: clientgui/ViewProjects.cpp:174
 msgid "Account"
 msgstr "Акаунт"
 
-#: clientgui/ViewProjects.cpp:165
+#: clientgui/ViewProjects.cpp:175
 msgid "Team"
 msgstr "Отбор"
 
-#: clientgui/ViewProjects.cpp:166
+#: clientgui/ViewProjects.cpp:176
 msgid "Total credit"
 msgstr "Общ кредит"
 
-#: clientgui/ViewProjects.cpp:167
+#: clientgui/ViewProjects.cpp:177
 msgid "Avg. credit"
 msgstr "Среден кредит"
 
-#: clientgui/ViewProjects.cpp:168
+#: clientgui/ViewProjects.cpp:178
 msgid "Resource share"
 msgstr "Дял ресурси"
 
-#: clientgui/ViewProjects.cpp:169
+#: clientgui/ViewProjects.cpp:179
 #: clientgui/ViewTransfers.cpp:120
 #: clientgui/ViewWork.cpp:131
 msgid "Status"
 msgstr "Стаус"
 
-#: clientgui/ViewProjects.cpp:182
+#: clientgui/ViewProjects.cpp:192
 msgid "Projects"
 msgstr "Проекти"
 
-#: clientgui/ViewProjects.cpp:204
+#: clientgui/ViewProjects.cpp:214
 msgid "Updating project..."
 msgstr "Обновяване на проекта..."
 
-#: clientgui/ViewProjects.cpp:230
+#: clientgui/ViewProjects.cpp:238
+msgid "Updating all project(s)..."
+msgstr "Одновяване на всички проект(и)..."
+
+#: clientgui/ViewProjects.cpp:264
 msgid "Resuming project..."
 msgstr "Подновяване на проекта..."
 
-#: clientgui/ViewProjects.cpp:234
+#: clientgui/ViewProjects.cpp:268
 msgid "Suspending project..."
 msgstr "Временно прекратяване на проекта..."
 
-#: clientgui/ViewProjects.cpp:261
+#: clientgui/ViewProjects.cpp:295
 msgid "Telling project to allow additional work downloads..."
 msgstr "Казвам на проект да взима допълнителна работа..."
 
-#: clientgui/ViewProjects.cpp:265
+#: clientgui/ViewProjects.cpp:299
 msgid "Telling project to not fetch additional work..."
 msgstr "Казвам на проект да не взима допълнителна работа..."
 
-#: clientgui/ViewProjects.cpp:295
+#: clientgui/ViewProjects.cpp:329
 msgid "Resetting project..."
 msgstr "Рестатртиране на проекта..."
 
-#: clientgui/ViewProjects.cpp:301
+#: clientgui/ViewProjects.cpp:335
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Сигурни ли сте, че искате да рестартирате проекта '%s'?"
 
-#: clientgui/ViewProjects.cpp:307
+#: clientgui/ViewProjects.cpp:341
 msgid "Reset Project"
 msgstr "Рестартирай проекта"
 
-#: clientgui/ViewProjects.cpp:341
+#: clientgui/ViewProjects.cpp:375
 msgid "Detaching from project..."
 msgstr "Излизане от проекта..."
 
-#: clientgui/ViewProjects.cpp:347
+#: clientgui/ViewProjects.cpp:381
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Сигурни ли сте, че искате да излезете от проекта '%s'?"
 
-#: clientgui/ViewProjects.cpp:353
+#: clientgui/ViewProjects.cpp:387
 msgid "Detach from Project"
 msgstr "Излез от проекта"
 
-#: clientgui/ViewProjects.cpp:385
+#: clientgui/ViewProjects.cpp:419
 msgid "Attaching to project..."
 msgstr "Влизане в проект..."
 
-#: clientgui/ViewProjects.cpp:421
+#: clientgui/ViewProjects.cpp:455
 msgid "Launching browser..."
 msgstr "Стартиране на браузъра..."
 
-#: clientgui/ViewProjects.cpp:594
+#: clientgui/ViewProjects.cpp:629
 #: clientgui/ViewWork.cpp:445
 msgid "Resume"
 msgstr "Подновяване"
 
-#: clientgui/ViewProjects.cpp:594
+#: clientgui/ViewProjects.cpp:629
 msgid "Resume work for this project."
 msgstr "Продължава работата за този проект."
 
-#: clientgui/ViewProjects.cpp:604
+#: clientgui/ViewProjects.cpp:639
 msgid "Allow new work"
 msgstr "Позволи нова работа"
 
-#: clientgui/ViewProjects.cpp:604
+#: clientgui/ViewProjects.cpp:639
 msgid "Allow fetching new work for this project."
 msgstr "Позволява взимането на нова работа за този проект"
 
-#: clientgui/ViewProjects.cpp:643
+#: clientgui/ViewProjects.cpp:679
 msgid "Web sites"
 msgstr "Web сайтове"
 
-#: clientgui/ViewProjects.cpp:753
+#: clientgui/ViewProjects.cpp:789
 #: clientgui/ViewWork.cpp:666
 msgid "Suspended by user"
 msgstr "Преустановено от потрбителя"
 
-#: clientgui/ViewProjects.cpp:756
+#: clientgui/ViewProjects.cpp:792
 msgid "Won't get new work"
 msgstr "Няма да взима нова работа"
 
-#: clientgui/ViewProjects.cpp:759
+#: clientgui/ViewProjects.cpp:795
 msgid "Scheduler request pending"
 msgstr "Заявка към scheduler-а се очаква"
 
-#: clientgui/ViewProjects.cpp:765
+#: clientgui/ViewProjects.cpp:801
 msgid "Communication deferred "
 msgstr "Връзката отложена"
 
@@ -702,6 +841,10 @@ msgstr "Прогрес"
 #: clientgui/ViewTransfers.cpp:117
 msgid "Size"
 msgstr "Размер"
+
+#: clientgui/ViewTransfers.cpp:118
+msgid "Elapsed Time"
+msgstr "Изминало време"
 
 #: clientgui/ViewTransfers.cpp:119
 msgid "Speed"
@@ -830,7 +973,7 @@ msgstr "Преустанови резултата"
 
 #: clientgui/ViewWork.cpp:445
 msgid "Resume work for this result."
-msgstr "Продължава работата по този резултат"
+msgstr "Продължи работата по този резултат"
 
 #: clientgui/ViewWork.cpp:653
 msgid "New"
@@ -882,17 +1025,18 @@ msgstr "Дейностите временно прекратени от потребителя"
 msgid "About BOINC Manager"
 msgstr "&Относно BOINC Manager-а..."
 
-#: clientgui/DlgAccountManager.h:49
-msgid "Account Manager Credentials"
-msgstr "Account Manager Credentials"
+#: clientgui/DlgAccountManagerSignup.h:50
+#: clientgui/DlgAccountManagerStatus.h:49
+msgid "Account Manager"
+msgstr "Акаунт мениджър"
 
 #: clientgui/DlgAttachProject.h:48
 msgid "Attach to Project"
 msgstr "Влез в проект"
 
-#: clientgui/DlgConnection.h:48
-msgid "Connection"
-msgstr "Връзка"
+#: clientgui/DlgDialupCredentials.h:49
+msgid "Dialup Logon"
+msgstr "Dialup връзка"
 
 #: clientgui/DlgOptions.h:49
 msgid "Options"
