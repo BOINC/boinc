@@ -196,6 +196,36 @@ $m437s = array(
     "
 );
 
+$m500 = array(
+    "num"=>"5.00",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.00_macOSX.zip",
+    "date"=>"3 July 2005",
+    "type"=>mac_advanced(),
+    "bugs"=>"<ul>
+     <li>
+     BOINC now works with OS 10.3.0 or higher.
+     </ul>
+    "
+);
+
+$m500c = array(
+    "num"=>"5.00",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.00_powerpc-apple-darwin.zip",
+    "date"=>"3 July 2005",
+    "type"=>bare_core(),
+    "features"=>"<ul>
+    <li>
+    We are now including a tool with command line interface to control boinc within the 
+    default distribution
+    </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+
 $l443 = array(
     "num"=>"4.43",
     "status"=>"Recommended version",
@@ -248,6 +278,8 @@ $mac = array(
         $m443,
         $m437s,
         $m443c,
+        $m500,
+        $m500c,
         $m419
     )
 );
