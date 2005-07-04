@@ -1633,7 +1633,8 @@ VOID CScreensaver::UpdateErrorBox() {
 VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
     HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
     INTERNALMONITORINFO* pMonitorInfo;
-    for(DWORD iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
+    DWORD iMonitor = 0;
+    for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
         pMonitorInfo = &m_Monitors[iMonitor];
         if (pMonitorInfo->hMonitor == hMonitor)
             break;
