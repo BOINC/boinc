@@ -879,7 +879,8 @@ bool wrong_core_client_version(
     if (config.min_core_client_version) {
         int major = config.min_core_client_version/100;
         int minor = config.min_core_client_version % 100;
-        if (sreq.core_client_minor_version < minor) {
+        if (sreq.core_client_major_version < major ||
+            ((sreq.core_client_major_version == major) && (sreq.core_client_minor_version < minor))) {
             wrong_version = true;
             sprintf(msg,
                 "Need version %d.%02d or higher of the BOINC core client. You have %d.%02d.",

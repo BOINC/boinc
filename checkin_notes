@@ -8825,3 +8825,13 @@ Rom    1 July 2005
 
     sched/
         handle_request.C
+
+Rom    4 July 2005
+    - Add additional check for the min_core_version so that it also takes into
+        account the major version as well.
+    - Sync the schema.sql file with implementation.
+
+    db/
+        schema.sql
+    sched/
+        handle_request.C

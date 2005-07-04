@@ -139,7 +139,8 @@ create table host (
     on_frac             double      not null,
     connected_frac      double      not null,
     active_frac         double      not null,
-
+    cpu_efficiency      double      not null,
+    duration_correction_factor double not null,
     p_ncpus             integer     not null,
     p_vendor            varchar(254),
     p_model             varchar(254),
