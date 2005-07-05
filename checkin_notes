@@ -8892,3 +8892,13 @@ David  5 July 2005
     api/
         boinc_api.C
         graphics_impl.C
+
+David  5 July 2005
+    - scheduler: in estimating result duration,
+        don't divide by resource share fraction.
+        This assumes round-robin across all projects,
+        which is no longer necessarily the case.
+        (From John McLeod)
+
+    sched/
+        sched_send.C

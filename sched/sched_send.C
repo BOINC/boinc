@@ -163,7 +163,10 @@ static double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
 }
 
 // estimate the amount of real time to complete this WU,
-// taking into account active_frac and resource_share_fraction
+// taking into account active_frac etc.
+// Note: don't factor in resource_share_fraction.
+// The core client no longer necessarily does round-robin
+// across all projects.
 //
 static double estimate_wallclock_duration(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
@@ -179,7 +182,7 @@ static double estimate_wallclock_duration(
     }
     if (running_frac > 1) running_frac = 1;
     double ecd = estimate_cpu_duration(wu, reply);
-    double ewd = ecd/(running_frac*request.resource_share_fraction);
+    double ewd = ecd/running_frac;
     if (reply.host.duration_correction_factor) {
         ewd *= reply.host.duration_correction_factor;
     }
