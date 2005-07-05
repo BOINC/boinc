@@ -94,6 +94,9 @@ If you have an opinion, please contact
 Banners for BOINC projects from Anthony Hern:
 <a href=images/hern_logo3.gif>with</a> and
 <a href=images/hern_logo4.gif>without</a> the BOINC logo.
+Other banners:
+<a href=images/boincheading.jpg>here</a> and
+<a href=images/boincprojectheading.jpg>here</a>.
 <p>
 The 'B in a circle' icon was designed by Tim Lan.
 The Mac variant was contributed by Juho Viitasalo.

@@ -8872,3 +8872,9 @@ David  5 July 2005
 		scheduler_op.C,h
 	clientgui/
 		ViewResources.cpp
+
+David  5 July 2005
+    - prevent infinite loop in web (from Rob Ogilvie)
+
+    html/inc
+        text_transform.inc

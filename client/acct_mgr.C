@@ -103,7 +103,7 @@ bool ACCT_MGR::poll() {
             retval = http_op.http_op_retval;
         }
         if (retval) {
-            msg_printf(NULL, MSG_ALERT_ERROR, "Account manager update failed:\nerror %d", retval);
+            msg_printf(NULL, MSG_ALERT_ERROR, "Account manager update failed:\n%s", boincerror(retval));
         }
         state = ACCT_MGR_STATE_IDLE;
     }

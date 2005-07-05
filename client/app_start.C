@@ -261,7 +261,7 @@ int ACTIVE_TASK::start(bool first_time) {
         retval = get_shmem_seg_name();
         if (retval) {
             msg_printf(wup->project, MSG_ERROR,
-                "Can't get shared memory segment name: %d", retval
+                "Can't get shared memory segment name: %s", boincerror(retval)
             );
             return retval;
         }
@@ -407,7 +407,8 @@ int ACTIVE_TASK::start(bool first_time) {
         );
         if (retval) {
             msg_printf(
-                wup->project, MSG_ERROR, "Can't create shared mem: %d", retval
+                wup->project, MSG_ERROR,
+                "Can't create shared memory: %d", boincerror(retval)
             );
             return retval;
         }
@@ -446,7 +447,7 @@ int ACTIVE_TASK::start(bool first_time) {
         sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
         msg_printf(wup->project, MSG_ERROR,
-            "execv(%s) failed: %d\n", buf, retval
+            "execv(%s) failed: %s\n", buf, boincerror(retval)
         );
         perror("execv");
         _exit(errno);
@@ -574,10 +575,12 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
         retval = atp->start(false);
 
         if (retval) {
-            msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
+            msg_printf(atp->wup->project, MSG_ERROR,
+                "Task restart failed: %s\n", boincerror(retval)
+            );
             gstate.report_result_error(
                 *(atp->result),
-                "Couldn't restart the app for this result: %d", retval
+                "Couldn't restart app: %d", retval
             );
             iter = active_tasks.erase(iter);
             delete atp;

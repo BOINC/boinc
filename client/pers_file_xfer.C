@@ -128,8 +128,8 @@ int PERS_FILE_XFER::start_xfer() {
             (is_upload ? "upload" : "download"), fip->name
         );
         msg_printf(
-            fip->project, MSG_ERROR, "URL %s: error %d",
-            fip->get_current_url(is_upload), retval
+            fip->project, MSG_ERROR, "URL %s: %s",
+            fip->get_current_url(is_upload), boincerror(retval)
         );
 
         fxp->file_xfer_retval = retval;
@@ -216,9 +216,9 @@ bool PERS_FILE_XFER::poll() {
         } else {
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Temporarily failed %s of %s: %d",
+                    fip->project, MSG_INFO, "Temporarily failed %s of %s: %s",
                     is_upload?"upload":"download", fip->name,
-                    fxp->file_xfer_retval
+                    boincerror(fxp->file_xfer_retval)
                 );
             }
             handle_xfer_failure();

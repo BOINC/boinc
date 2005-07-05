@@ -457,7 +457,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     //
     retval = current_disk_usage(disk_usage);
     if (retval) {
-        msg_printf(0, MSG_ERROR, "Can't get application disk usage: %d", retval);
+        msg_printf(0, MSG_ERROR, "Can't get application disk usage: %s", boincerror(retval));
     } else {
         if (disk_usage > max_disk_usage) {
             msg_printf(

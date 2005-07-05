@@ -131,8 +131,8 @@ function bb2html($text) {
 	// Do the actual replacing - iterations for nested items
 	$lasttext = "";
 	$i = 0;
-	// TODO:  Speed this up a little bit
-	while ($text != $lasttext) {
+	// $i<10 to prevent DoS
+	while ($text != $lasttext && $i<10) {
 		$lasttext = $text;
 		$text = preg_replace($bbtags,$htmltags,$text);
 		$i = $i + 1;

@@ -34,7 +34,7 @@ computer resources
   <tr><td>
     <p>
     If you own a computer (Windows, Mac, Linux or Unix)
-    you can help scientific research projects in many areas:
+    you can participate in scientific research in many areas:
     <ul>
     <li>
     <a href=http://climateprediction.net>Climateprediction.net</a>:
@@ -51,6 +51,7 @@ computer resources
     <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
     Look for radio evidence of extraterrestrial life
     <li><a href=http://www.cellcomputing.net/>Cell Computing</a>
+        biomedical research
         (Japanese; requires nonstandard client software)
     </ul>
     To participate in a project:

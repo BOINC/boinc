@@ -498,7 +498,9 @@ bool CLIENT_STATE::do_something() {
 
     retval = write_state_file_if_needed();
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "Couldn't write state file: %d", retval);
+        msg_printf(NULL, MSG_ERROR,
+            "Couldn't write state file: %s", boincerror(retval)
+        );
         boinc_sleep(60.0);
 
         // if we can't write the state file twice in a row, something's hosed;
@@ -506,7 +508,9 @@ bool CLIENT_STATE::do_something() {
         //
         retval = write_state_file_if_needed();
         if (retval) {
-            msg_printf(NULL, MSG_ERROR, "Couldn't write state file: %d; giving up", retval);
+            msg_printf(NULL, MSG_ERROR,
+                "Couldn't write state file: %s; giving up", boincerror(retval)
+            );
             exit(retval);
         }
     }
@@ -1286,7 +1290,9 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     get_statistics_filename(project->master_url, path);
     retval = boinc_delete_file(path);
     if (retval) {
-        msg_printf(project, MSG_ERROR, "Can't delete statistics file: %d\n", retval);
+        msg_printf(project, MSG_ERROR,
+            "Can't delete statistics file: %s\n", boincerror(retval)
+        );
     }
 
     // delete account file
@@ -1294,14 +1300,18 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     get_account_filename(project->master_url, path);
     retval = boinc_delete_file(path);
     if (retval) {
-        msg_printf(project, MSG_ERROR, "Can't delete account file: %d\n", retval);
+        msg_printf(project, MSG_ERROR,
+            "Can't delete account file: %s\n", boincerror(retval)
+        );
     }
 
     // remove project directory and its contents
     //
     retval = remove_project_dir(*project);
     if (retval) {
-        msg_printf(project, MSG_ERROR, "Can't delete project directory: %d\n", retval);
+        msg_printf(project, MSG_ERROR,
+            "Can't delete project directory: %s\n", boincerror(retval)
+        );
     }
     delete project;
     write_state_file();

@@ -60,7 +60,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     retval = init_master_fetch(p);
     if (retval) {
         msg_printf(p, MSG_ERROR,
-            "Couldn't start master page download: %d", retval
+            "Couldn't start master page download: %s", boincerror(retval)
         );
         if (p->tentative) {
             p->attach_failed(ATTACH_FAIL_INIT);
