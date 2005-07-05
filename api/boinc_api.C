@@ -56,7 +56,15 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-#ifndef _WIN32
+// On some Unix systems the use of a timer signal causes problems
+// (e.g. floating-point errors in the application).
+// We tried to fix this by using a timer thread,
+// but this broke the suspend/resume mechanism
+// and/or broke CPU time reporting.
+// To use a timer thread, uncomment the following
+//#define USE_TIMER_THREAD
+
+#ifdef USE_TIMER_THREAD
 static pthread_t timer_thread_handle;
 static struct rusage worker_thread_ru;
 #endif
@@ -147,8 +155,14 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
+
+#ifdef USE_TIMER_THREAD
     cpu = (double)worker_thread_ru.ru_utime.tv_sec + (((double)worker_thread_ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu += (double)worker_thread_ru.ru_stime.tv_sec + (((double)worker_thread_ru.ru_stime.tv_usec) / ((double)1000000.0));
+#else
+    return boinc_calling_thread_cpu_time(cpu);
+#endif
+
 #endif
     return 0;
 }
@@ -610,18 +624,13 @@ static void worker_timer(int /*a*/) {
 #endif
 }
 
-#ifndef _WIN32
-#ifndef _USECONDS_T_DECLARED
-typedef unsigned int useconds_t;
-#endif
-
+#ifdef USE_TIMER_THREAD
 void* timer_thread(void*) {
     while(1) {
-        usleep((useconds_t)(TIMER_PERIOD*1000000));
+        boinc_sleep(TIMER_PERIOD);
         worker_timer(0);
         getrusage(RUSAGE_SELF, &worker_thread_ru);
     }
-    /*NOTREACHED*/
 }
 #endif
 
@@ -657,10 +666,29 @@ int set_worker_timer() {
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 #else
+#ifdef USE_TIMER_THREAD
     retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
     }
+#else
+    struct sigaction sa;
+    itimerval value;
+    sa.sa_handler = worker_timer;
+    sa.sa_flags = SA_RESTART;
+    retval = sigaction(SIGALRM, &sa, NULL);
+    if (retval) {
+        perror("boinc set_worker_timer() sigaction");
+        return retval;
+    }
+    value.it_value.tv_sec = TIMER_PERIOD;
+    value.it_value.tv_usec = 0;
+    value.it_interval = value.it_value;
+    retval = setitimer(ITIMER_REAL, &value, NULL);
+    if (retval) {
+        perror("boinc set_worker_timer() setitimer");
+    }
+#endif
 
 #endif
     return retval;

@@ -28,17 +28,12 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 extern void win_graphics_event_loop();
-#endif
-
-#ifndef _WIN32
+#else
 #include <cstring>
 #include <cstdarg>
-
-#ifdef HAVE_PTHREAD
 #include <pthread.h>
 #include <sched.h>
-#endif
-
+#include <signal.h>
 #include "x_opengl.h"
 #endif
 
@@ -142,6 +137,13 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );
+
+    // block SIGLARM, so that the worker thread will be forced to handle it
+    //
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGALRM);
+    sigprocmask(SIG_BLOCK, &mask, NULL);
 #endif
     return 0;
 }

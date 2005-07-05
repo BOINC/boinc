@@ -8878,3 +8878,17 @@ David  5 July 2005
 
     html/inc
         text_transform.inc
+
+David  5 July 2005
+    - API: use signal instead of timer thread,
+        so that suspend/resume logic will work.
+        Also: block SIGALRM in graphics thread.
+        We weren't doing this before,
+        which could have caused CPU time reporting errors.
+
+        NOTE: this may break things on FreeBSD and OpenBSD.
+        To remedy, uncomment the #define USE_TIMER_THREAD
+
+    api/
+        boinc_api.C
+        graphics_impl.C
