@@ -81,39 +81,29 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 //
 int SCHEDULER_OP::init_get_work() {
     int retval;
-    char err_msg[256];
 
-    must_get_work = true;
     PROJECT* p = gstate.next_project_need_work();
     if (p) {
-        retval = init_op_project(p);
+        retval = init_op_project(p, REASON_NEED_WORK);
         if (retval) {
-            sprintf(err_msg, "init_op_project failed, error %d\n", retval);
-            backoff(p, err_msg);
             return retval;
         }
     }
     return 0;
 }
 
-// report results for a particular project.
-// PRECONDITION: compute_work_requests() has been called
-// to fill in PROJECT::work_request
-//
-int SCHEDULER_OP::init_return_results(PROJECT* p) {
-    must_get_work = false;
-    return init_op_project(p);
-}
 
 // try to initiate an RPC to the given project.
-// If there are multiple schedulers, start with a random one
+// If there are multiple schedulers, start with a random one.
+// User messages and backoff() is done at this level.
 //
-int SCHEDULER_OP::init_op_project(PROJECT* p) {
+int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
     int retval;
     char err_msg[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
+    reason = r;
     scope_messages.printf(
         "SCHEDULER_OP::init_op_project(): starting op for %s\n",
         p->master_url
@@ -232,6 +222,14 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
             p, MSG_INFO,
             "Sending scheduler request to %s\n", scheduler_url
         );
+        char* why;
+        switch (reason) {
+        case REASON_USER_REQ: why = "Requested by user"; break;
+        case REASON_NEED_WORK: why = "To fetch work"; break;
+        case REASON_RESULTS_DUE: why = "To report results"; break;
+        default: why = "Unknown";
+        }
+        msg_printf(p, MSG_INFO,  "Reason: %s", why);
         msg_printf(
             p, MSG_INFO,
             "Requesting %.0f seconds of work, returning %d results\n",
@@ -489,7 +487,7 @@ bool SCHEDULER_OP::poll() {
                         // if we asked for work and didn't get any,
                         // back off this project
                         //
-                        if (must_get_work && nresults==0) {
+                        if (reason==REASON_NEED_WORK && nresults==0) {
                             backoff(cur_proj, "No work from project\n");
                         } else {
                             cur_proj->nrpc_failures = 0;

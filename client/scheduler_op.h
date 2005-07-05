@@ -20,21 +20,28 @@
 #ifndef _SCHEDULER_OP_
 #define _SCHEDULER_OP_
 
-// SCHEDULER_OP encapsulates the policy and mechanism
-// for communicating with scheduling servers.
-// It is implemented as a finite-state machine.
-// It is active in one of two modes:
-//    get_work: the client wants to get work, and possibly to
-//       return results as a side-effect
-//    return_results: the client wants to return results, and possibly
-//       to get work as a side-effect
-//
-
 #include <vector>
 
 #include "client_types.h"
 #include "http.h"
 #include "prefs.h"
+
+// SCHEDULER_OP encapsulates the mechanism
+// for fetching master files and communicating with scheduling servers.
+// Only one such operation can be in progress at once:
+//
+#define SCHEDULER_OP_STATE_IDLE         0
+    // invariant: in this state, our HTTP_OP is not in the HTTP_OP_SET
+#define SCHEDULER_OP_STATE_GET_MASTER   1
+#define SCHEDULER_OP_STATE_RPC          2
+
+// reasons for making a scheduler RPC:
+//
+typedef enum {
+    REASON_USER_REQ,
+    REASON_RESULTS_DUE,
+    REASON_NEED_WORK
+} SCHEDULER_OP_REASON ;
 
 // default constants related to scheduler RPC policy
 
@@ -56,10 +63,6 @@
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
-#define SCHEDULER_OP_STATE_IDLE         0
-    // invariant: in this state, our HTTP_OP is not in the HTTP_OP_SET
-#define SCHEDULER_OP_STATE_GET_MASTER   1
-#define SCHEDULER_OP_STATE_RPC          2
 
 class SCHEDULER_OP {
 private:
@@ -68,24 +71,25 @@ private:
     HTTP_OP_SET* http_ops;
     PROJECT* cur_proj;               // project we're currently contacting
     char scheduler_url[256];
-    bool must_get_work;             // true iff in get_work mode
+    //bool must_get_work;             // true iff in get_work mode
     int url_index;                  // index within project's URL list
 public:
     int state;
+    SCHEDULER_OP_REASON reason;
     double url_random;              // used to randomize order
 
 public:
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
     int init_get_work();
-    int init_return_results(PROJECT*);
+    int init_op_project(PROJECT*, SCHEDULER_OP_REASON);
+//    int init_return_results(PROJECT*);
     int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();
     void backoff(PROJECT* p, const char *error_msg);
     void abort(PROJECT*);
         // if we're doing an op to this project, abort it
 private:
-    int init_op_project(PROJECT*);
     int set_min_rpc_time(PROJECT*);
     bool update_urls(PROJECT*, std::vector<std::string> &urls);
     int start_op(PROJECT*);

@@ -227,8 +227,6 @@ wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const
         fBuffer = resource->disk_usage;
     }
 
-    wxASSERT(fBuffer);
-
     if (fBuffer >= xTera) {
         strBuffer.Printf(wxT("%0.2f TB"), fBuffer/xTera);
     } else if (fBuffer >= xGiga) {

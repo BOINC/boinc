@@ -1315,6 +1315,7 @@ int CLIENT_STATE::version() {
 
 bool CLIENT_STATE::want_network() {
     if (http_ops->nops()) return true;
+    if (network_suspended) return false;
     if (want_network_flag) return true;
     return false;
 }

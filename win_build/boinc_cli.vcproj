@@ -1129,9 +1129,6 @@
 				RelativePath="..\lib\util.h">
 			</File>
 			<File
-				RelativePath="..\client\version.h">
-			</File>
-			<File
 				RelativePath="..\client\win\win_service.h">
 			</File>
 		</Filter>

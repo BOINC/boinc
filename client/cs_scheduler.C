@@ -609,7 +609,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = next_project_sched_rpc_pending();
         if (p) {
-            scheduler_op->init_return_results(p);
+            scheduler_op->init_op_project(p, REASON_USER_REQ);
             action = true;
             break;
         }
@@ -619,7 +619,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = find_project_with_overdue_results();
         if (p) {
-            scheduler_op->init_return_results(p);
+            scheduler_op->init_op_project(p, REASON_RESULTS_DUE);
             action = true;
             break;
         }

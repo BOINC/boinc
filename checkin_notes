@@ -8845,3 +8845,30 @@ Charlie 4 July 2005
         BOINCGUIApp.cpp
     doc/
         mac_advanced.php
+
+David  5 July 2005
+	- Always show the reason for a scheduler RPC: either
+		- requested by user
+		- results due for reporting
+		- fetching work
+
+		Implementation: add "reason" argument to init_op_project().
+		Store in SCHEDULER_OP.
+		This eliminates the need for must_get_work.
+		Remove init_return_results().
+	- handle RPC init errors (by backing off) in init_op_project(),
+		NOT in the functions that call it (e.g. init_get_work()).
+		We were backing off twice for the same error.
+	- network_query GUI RPC: return false if network suspended by user
+	- Manager: remove wxASSERT(fBuffer)
+		from CViewReousrces::FormatDiskSpace().
+		This causes crash if a project has zero disk usage.
+		?? Why is the amount of disk called "fBuffer"?
+		?? why is a PROJECT* called "resource"?
+
+	client/
+		client_state.C
+		cs_scheduler.C
+		scheduler_op.C,h
+	clientgui/
+		ViewResources.cpp
