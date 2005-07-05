@@ -8835,3 +8835,13 @@ Rom    4 July 2005
         schema.sql
     sched/
         handle_request.C
+        
+Charlie 4 July 2005
+    Mac: moved "#include <Carbon/Carbon.h>" before other includes as requested 
+    by Bernd Machenschalk to fix problem building from command-line using make.
+    Updated installation instructions for Mac advanced GUI on web site.
+
+    clientgui/
+        BOINCGUIApp.cpp
+    doc/
+        mac_advanced.php

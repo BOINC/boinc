@@ -21,6 +21,10 @@
 #pragma implementation "BOINCGUIApp.h"
 #endif
 
+#ifdef __WXMAC__
+#include <Carbon/Carbon.h>
+#endif
+
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "diagnostics.h"
@@ -32,10 +36,6 @@
 typedef BOOL (CALLBACK* IdleTrackerInit)();
 typedef void (CALLBACK* IdleTrackerTerm)();
 typedef DWORD (CALLBACK* IdleTrackerGetIdleTickCount)();
-#endif
-
-#ifdef __WXMAC__
-#include <Carbon/Carbon.h>
 #endif
 
 IMPLEMENT_APP(CBOINCGUIApp)
