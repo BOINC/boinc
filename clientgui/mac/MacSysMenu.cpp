@@ -262,6 +262,15 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                         pFrame->Show();
                         pFrame->SendSizeEvent();
                     }
+                    // If a modal dialog was open, make sure it remains in front
+                    WindowRef win = GetWindowList();
+                    WindowModality modality = kWindowModalityNone;
+                    while (win) {
+                        GetWindowModality(win, &modality, NULL);
+                        if (modality == kWindowModalityAppModal)
+                            BringToFront(win);
+                        win = GetNextWindow(win);
+                    }
                     break;
             }
             

@@ -435,7 +435,8 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     }
     
 #ifdef __WXMAC__
-    WindowRef win = ActiveNonFloatingWindow();
+//    WindowRef win = ActiveNonFloatingWindow();
+    WindowRef win = FrontWindow();
     WindowModality modality = kWindowModalityNone;
     wxMenuItem *item;
     unsigned int i;
