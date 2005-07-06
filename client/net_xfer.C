@@ -290,7 +290,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     time_t t = time(0);
     if (t != last_time) {
         time_passed = true;
-        last_time = t;
+        last_time = (int)t;
         if (bytes_left_up < max_bytes_sec_up) {
             bytes_left_up += max_bytes_sec_up;
         }

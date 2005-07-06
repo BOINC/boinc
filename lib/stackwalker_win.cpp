@@ -702,7 +702,7 @@ static void ShowStackRM( HANDLE hThread, CONTEXT& c, FILE *fLogFile, PREAD_PROCE
 
   std::string symSearchPath;
 
-  static bFirstTime = TRUE;
+  static BOOL bFirstTime = TRUE;
 
   // If no logfile is present, outpur to "stderr"
   if (fLogFile == NULL) {

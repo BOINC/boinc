@@ -803,7 +803,7 @@ const char* FILE_INFO::get_current_url(bool is_upload) {
 // This indicates the URL is an upload url
 // 
 bool FILE_INFO::is_correct_url_type(bool is_upload, std::string& url) {
-    char* has_str = strstr(url.c_str(), "file_upload_handler");
+    const char* has_str = strstr(url.c_str(), "file_upload_handler");
     if ((is_upload && !has_str) || (!is_upload && has_str)) {
         return false;
     } else {

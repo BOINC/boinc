@@ -8922,3 +8922,32 @@ Charlie 5 July 2005
         mac/
             MacSysMenu.cpp, .h
             SystemMenu.m
+
+Rom    5 July 2005
+    - Make the projects compatible with Visual Studio 2005 Express
+
+    client/
+        client_state.C
+        client_types.C
+        main.C
+        net_xfer.C
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_dll.rc
+        boinc_ss.rc
+        win_screensaver.cpp
+    clientgui/
+        DlgAbout.cpp
+        DlgAccountManagerSignup.cpp
+        DlgAccountManagerStatus.cpp
+        DlgAttachProject.cpp
+        DlgDialupCredentials.cpp
+        DlgOptions.cpp
+        DlgSelectComputer.cpp
+        stdwx.h
+    lib/
+        boinc_win.h
+        msg_log.C
+        parse.C
+        stackwalker_win.cpp

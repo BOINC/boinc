@@ -189,7 +189,7 @@ int CLIENT_STATE::init() {
     unsigned int i;
     char buf[256];
 
-    srand(time(0));
+    srand((unsigned int)time(0));
     now = dtime();
     scheduler_op->url_random = drand();
 

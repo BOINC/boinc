@@ -65,7 +65,7 @@ bool match_tag(const std::string &s, const char* tag) {
 // Note: this doesn't check for the end tag
 //
 bool parse_int(const char* buf, const char* tag, int& x) {
-    char* p = strstr(buf, tag);
+    const char* p = strstr(buf, tag);
     if (!p) return false;
     std::string strLocale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
@@ -78,7 +78,7 @@ bool parse_int(const char* buf, const char* tag, int& x) {
 //
 bool parse_double(const char* buf, const char* tag, double& x) {
     double y;
-    char* p = strstr(buf, tag);
+    const char* p = strstr(buf, tag);
     if (!p) return false;
     std::string strLocale = setlocale(LC_NUMERIC, NULL);
     setlocale(LC_NUMERIC, "C");
@@ -100,7 +100,7 @@ bool parse_double(const char* buf, const char* tag, double& x) {
 //
 bool parse_str(const char* buf, const char* tag, string& dest) {
     string str;
-    char const* p;
+    const char* p;
 
     // sanity check on NULL and empty cases. 
     if (!buf || !tag || !strlen(tag))
@@ -110,7 +110,7 @@ bool parse_str(const char* buf, const char* tag, string& dest) {
     if (!p) return false;
     p = strchr(p, '>');
     ++p;
-    char const* q = strchr(p, '<');
+    const char* q = strchr(p, '<');
     if (!q) return false;
     str.assign(p, q-p);
     strip_whitespace(str);
@@ -132,7 +132,7 @@ void parse_attr(const char* buf, const char* name, char* dest, int len) {
     char* p, *q;
 
     strcpy(dest, "");
-    p = strstr(buf, name);
+    p = strstr((char*)buf, name);
     if (!p) return;
     p = strchr(p, '"');
     if (!p) return;

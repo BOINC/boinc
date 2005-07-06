@@ -89,7 +89,7 @@ void MSG_LOG::enter_level(int diff) {
 
 void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     char buf[256];
-    const char* now_timestamp = time_to_string(time(0));
+    const char* now_timestamp = time_to_string((double)time(0));
     if (!v_message_wanted(kind)) return;
     if (pid) {
         sprintf(buf, " [PID=%-5d]", pid);
@@ -112,7 +112,7 @@ void MSG_LOG::vprintf_multiline(
     if (prefix_format) {
         vsprintf(sprefix, prefix_format, va);
     }
-    const char* now_timestamp = time_to_string(time(0));
+    const char* now_timestamp = time_to_string((double)time(0));
     const char* skind = v_format_kind(kind);
 
     string line;
@@ -139,7 +139,7 @@ void MSG_LOG::vprintf_file(
     if (prefix_format) {
         vsprintf(sprefix, prefix_format, va);
     }
-    const char* now_timestamp = time_to_string(time(0));
+    const char* now_timestamp = time_to_string((double)time(0));
     const char* skind = v_format_kind(kind);
 
     FILE* f = fopen(filename, "r");

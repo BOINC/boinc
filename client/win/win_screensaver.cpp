@@ -170,7 +170,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
     // Calculate the estimated blank time by adding the current time
     //   and and the user specified time which is in minutes
-    m_dwBlankTime = time(0) + (m_dwBlankTime * 60);
+    m_dwBlankTime = (DWORD)time(0) + (m_dwBlankTime * 60);
 
     // Create the infrastructure mutexes so we can properly aquire them to report
     //   errors

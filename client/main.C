@@ -68,7 +68,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
     const char* x;
     char message[1024];
     time_t now = time(0);
-    char* time_string = time_to_string(now);
+    char* time_string = time_to_string((double)now);
 #if defined(WIN32) && defined(_CONSOLE)
     char event_message[2048];
 #endif
@@ -87,7 +87,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         x = "---";
     }
 
-    record_message(p, priority, now, message);
+    record_message(p, priority, (int)now, message);
 
     switch (priority) {
     case MSG_ERROR:
