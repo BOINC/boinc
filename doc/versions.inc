@@ -268,7 +268,6 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w500,
         $w419
     )
 );
@@ -278,8 +277,6 @@ $mac = array(
         $m443,
         $m437s,
         $m443c,
-        $m500,
-        $m500c,
         $m419
     )
 );
