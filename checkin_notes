@@ -8925,6 +8925,8 @@ Charlie 5 July 2005
 
 Rom    5 July 2005
     - Make the projects compatible with Visual Studio 2005 Express
+    - Bug Fix: Make sure that the manager successfully connected to an
+        ISP before calling the network_available RPC to the CC.
 
     client/
         client_state.C
@@ -8945,6 +8947,7 @@ Rom    5 July 2005
         DlgDialupCredentials.cpp
         DlgOptions.cpp
         DlgSelectComputer.cpp
+        MainFrame.cpp
         stdwx.h
     lib/
         boinc_win.h

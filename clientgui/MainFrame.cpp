@@ -1513,7 +1513,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         }
                     }
                 } else if (!is_dialing && !was_dialing) {
-                    if (is_online && want_network && !already_notified_update_all_projects) {
+                    if (is_online && want_network && connected_successfully && !already_notified_update_all_projects) {
                         wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, notifing user of update to all projects"));
 
                         already_notified_update_all_projects = true;
