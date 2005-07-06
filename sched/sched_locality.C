@@ -809,7 +809,7 @@ static int send_new_file_work(
                 return 1;
             }
         }
-    }
+    } // while reply.work_needed(true)
     return 0;
 }
 
@@ -974,10 +974,13 @@ void send_work_locality(
 // (1) If there is an (one) unsent result which is older than
 // (1) config.locality_scheduling_send_timeout (7 days) and is
 // (1) feasible for the host, and host has a fast network
-// (1) connection (100kb/s) then send it.
+// (1) connection (>100kb/s) then send it.
 
 // (2) If we did send a result in the previous step, then send any
 // (2) additional results that are feasible for the same input file.
+// (2) Note that step 1 above is the ONLY place in the code where we
+// (2) can send a result that is NOT of the locality name-type
+// (2) FILENAME__other_stuff.
 
 // (3) If additional results are needed, step through input files on
 // (3) the host.  For each, if there are results that are feasible for
@@ -996,7 +999,9 @@ void send_work_locality(
 // (6) If additional results are needed, select an input file name at
 // (6) random from the current input file working set advertised by
 // (6) the WU generator.  If there are results for this input file
-// (6) that are feasible for this host, send them.
+// (6) that are feasible for this host, send them.  If no results
+// (6) were found for this file, then repeat this step 6 another nine
+// (6) times.
 
 // (7) If additional results are needed, carry out an expensive,
 // (7) deterministic search for ANY results that are feasible for the
