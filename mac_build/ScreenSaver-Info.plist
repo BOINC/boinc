@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5.50</string>
+	<string>4.70</string>
 	<key>NSPrincipalClass</key>
 	<string>BOINC_Saver_ModuleView</string>
 </dict>

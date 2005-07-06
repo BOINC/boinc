@@ -97,6 +97,10 @@ public:
     void ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only = false );
     void ExecuteBrowserLink( const wxString& strLink );
 
+#ifdef __WXMAC__
+    bool Show( bool show = true );
+#endif
+
 private:
 
     wxMenuBar*      m_pMenubar;

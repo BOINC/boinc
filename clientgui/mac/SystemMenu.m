@@ -148,11 +148,17 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon)
             newItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(NSString*)CFText action:NULL keyEquivalent:@""];
             [newItem setTarget:self];
             [sysMenu addItem:newItem];
+            if( IsMenuItemEnabled(menuToCopy, i) )
+                [newItem setEnabled:YES];
+            else
+                [newItem setEnabled:NO];
+            
             [newItem release];
             CFRelease(CFText);
         }
     }
     
+    [sysMenu setAutoenablesItems:NO];
     return;
 }
 

@@ -183,6 +183,14 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
 
 
 void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
+#ifdef __WXMAC__
+    ProcessSerialNumber psn;
+
+    GetCurrentProcess(&psn);
+    bool wasVisible = IsProcessVisible(&psn);
+    SetFrontProcess(&psn);  // Shows process if hidden
+#endif
+
     ResetTaskBar();
 
     CDlgAbout* pDlg = new CDlgAbout(NULL);
@@ -192,6 +200,11 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 
     if (pDlg) {
         pDlg->Destroy();
+
+#ifdef __WXMAC__
+    if (! wasVisible)
+        ShowHideProcess(&psn, false);
+#endif
     }
 }
 
@@ -420,6 +433,23 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     } else {
         menu->Check(ID_TB_NETWORKSUSPEND, false);
     }
+    
+#ifdef __WXMAC__
+    WindowRef win = ActiveNonFloatingWindow();
+    WindowModality modality = kWindowModalityNone;
+    wxMenuItem *item;
+    unsigned int i;
+    
+    if (win)
+        GetWindowModality(win, &modality, NULL);
+    for (i = 0; i <menu->GetMenuItemCount() ; i++) {
+        item = menu->FindItemByPosition(i);
+        if (modality == kWindowModalityAppModal)
+            item->Enable(false);
+        else
+            item->Enable(!(item->IsSeparator()));
+    }
+#endif // __WXMAC__
 }
 
 const char *BOINC_RCSID_531575eeaa = "$Id$";

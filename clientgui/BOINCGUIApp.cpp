@@ -216,7 +216,10 @@ bool CBOINCGUIApp::OnInit() {
     if (m_bFrameVisible) {
         m_pFrame->Show();
     } else {
-#ifndef __WXMAC__
+#ifdef __WXMAC__
+        GetCurrentProcess(&psn);
+        ShowHideProcess(&psn, false);
+#else
         m_pFrame->Show();
         m_pFrame->Show(false);
 #endif

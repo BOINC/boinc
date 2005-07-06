@@ -8902,3 +8902,23 @@ David  5 July 2005
 
     sched/
         sched_send.C
+
+Charlie 5 July 2005
+    Mac: Integrated Hide of BOINCManager with close of main Manager window.  
+    Closing window hides Manager application, opening window (from menubar 
+    icon menu or from Dock menu) Shows application.  Hiding or showing 
+    application closes or opens window.  This eliminates having just the 
+    manager's menu bar pop up when a foreground application quits.
+    Disable all application-specific menu items in Dock menu and menubar 
+    icon menu when a modal dialog is active.  This matches the disabling 
+    of items in the Manager's regular menus.
+    Fixed bug where all items in menubar icon menu were disabled, which 
+    required clicking on the icon repeatedly.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        MainFrame.cpp, .h
+        mac/
+            MacSysMenu.cpp, .h
+            SystemMenu.m

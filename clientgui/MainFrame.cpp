@@ -319,19 +319,11 @@ bool CMainFrame::CreateMenu() {
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-#ifdef __WXMAC__
-    menuFile->Append(
-        ID_HIDE, 
-        _("Close"),
-        _("Closes the main BOINC Manager window")
-    );
-#else
     menuFile->Append(
         ID_HIDE, 
         _("&Hide"),
         _("Hides the main BOINC Manager window")
     );
-#endif
     menuFile->AppendSeparator();
 
     menuFile->AppendRadioItem(
@@ -1786,5 +1778,21 @@ void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
     wxHyperLink::ExecuteLink(strLink);
 }
 
+#ifdef __WXMAC__
+
+bool CMainFrame::Show(bool show) {
+    ProcessSerialNumber psn;
+
+    GetCurrentProcess(&psn);
+    if (show) {
+        SetFrontProcess(&psn);  // Shows process if hidden
+    } else
+        if (IsProcessVisible(&psn))
+            ShowHideProcess(&psn, false);
+    
+    return wxFrame::Show(show);
+}
+
+#endif // __WXMAC__
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

@@ -38,6 +38,8 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
 
     EventTypeSpec myEvents[] = { {kEventClassCommand, kEventCommandProcess},
+                                    { kEventClassApplication, kEventAppHidden},
+                                    { kEventClassApplication, kEventAppShown},
                                     {kEventClassMenu, kEventMenuOpening} };
 
     EventTypeSpec removeEventList[] = { { kEventClassApplication, kEventAppGetDockTileMenu } };
@@ -54,6 +56,8 @@ CMacSystemMenu::CMacSystemMenu() : CTaskBarIcon()
     theBitsRefData = theBits.GetBitmapData();
     thePICT = theBitsRefData->GetPictHandle();
 
+    m_OpeningAboutDlg = false;
+    
     LoadPrivateFrameworkBundle( CFSTR("SystemMenu.bundle"), &SysMenuBundle );
     if ( SysMenuBundle != NULL )
     {
@@ -176,7 +180,12 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             if ((command.attributes == kHICommandFromMenu) && 
                                                     (command.commandID == 0))
                 return eventNotHandledErr;
-            
+
+            pMSM = wxGetApp().GetMacSystemMenu();
+                
+            if (command.commandID == wxID_ABOUT)
+                pMSM->SetOpeningAboutDlg(true);
+                
             // If not our system menu, pass event on to next event handler
 //            sysMenuRef = command.menu.menuRef;
             if (PLstrcmp("\pBOINC!", (GetMenuTitle((sysMenuRef), theMenuTitle) )))
@@ -184,7 +193,6 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
 
             // Change the command to point to the same item in our base (prototype) 
             //  menu and pass the event on to the Dock's menu event handler.
-            pMSM = (CMacSystemMenu*&) pData;
             baseMenu = (pMSM->GetCurrentMenu());
             baseMenuRef = (MenuRef)(baseMenu->GetHMenu());
             command.menu.menuRef = baseMenuRef;
@@ -208,7 +216,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             if (PLstrcmp("\pBOINC!", (GetMenuTitle((sysMenuRef), theMenuTitle) )))
                 return eventNotHandledErr;
 
-            pMSM = (CMacSystemMenu*&) pData;
+            pMSM = wxGetApp().GetMacSystemMenu();
             baseMenu = (pMSM->GetCurrentMenu());
             pMSM->AdjustMenuItems(baseMenu);
             
@@ -231,6 +239,33 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             }
 
             return noErr;
+
+        case kEventClassApplication:
+            CMainFrame* pFrame = wxGetApp().GetFrame();
+            pMSM = wxGetApp().GetMacSystemMenu();
+            switch (eventKind) {
+                case kEventAppHidden:
+                    if (pFrame)
+                        pFrame->Hide();
+                        pMSM->SetOpeningAboutDlg(false);
+                    break;
+
+                case kEventAppShown:
+                    // Don't open main window if "About" Dialog from task bar menu. 
+                    if (pMSM->IsOpeningAboutDlg()) {
+                        pMSM->SetOpeningAboutDlg(false);
+                        break;
+                    }
+                    if (ActiveNonFloatingWindow())  // Prevent infinite loop
+                        break;
+                    if (pFrame) {
+                        pFrame->Show();
+                        pFrame->SendSizeEvent();
+                    }
+                    break;
+            }
+            
+            return eventNotHandledErr;
             
     }   // End switch (eventClass)
     
