@@ -8954,3 +8954,10 @@ Rom    5 July 2005
         msg_log.C
         parse.C
         stackwalker_win.cpp
+
+Rom    6 July 2005
+    - Another fix that is needed to build BOINC with VS 2005 using the
+        debug profile.
+
+    lib/
+        diagnostics.h

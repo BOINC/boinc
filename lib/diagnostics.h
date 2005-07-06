@@ -121,7 +121,7 @@ extern void boinc_info_release(const char *pszFormat, ...);
 // Microsoft CRT
 //
 
-#define BOINCASSERT(expr)   _ASSERT_BASE((expr), #expr)
+#define BOINCASSERT(expr)   _ASSERTE(expr)
 #define BOINCTRACE          boinc_trace
 #define BOINCINFO           boinc_info_debug
 
