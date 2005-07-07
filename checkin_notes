@@ -8965,3 +8965,15 @@ Rom    6 July 2005
 Rom    6 July 2005 (boinc_public)
     - Tag for 4.70 release, all platforms
       boinc_core_release_4_70
+
+Charlie 7 July 2005
+    Mac installer: Installer used to set owner of all installed files 
+    and directories to 501 (BOINCManager, Core Client, Screen Saver 
+    and BOINC Data.)  Changed this to set ownership to current user if 
+    current user is member of group admin, otherwise use first member 
+    of group admin other than root.  Update installer version number 
+    to 4.70.
+    
+    mac-installer/
+        PostInstall.cpp
+        BOINC.pmproj

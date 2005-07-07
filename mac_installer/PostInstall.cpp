@@ -22,6 +22,7 @@
 #define CREATE_LOG 1    /* for debugging */
 
 #include <Carbon/Carbon.h>
+#include <grp.h>
 
 #include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
@@ -48,6 +49,8 @@ int main(int argc, char *argv[])
     long response;
     ProcessSerialNumber	ourProcess, installerPSN;
     short itemHit;
+    group *grp;
+    char s[256];
     int NumberOfLoginItems, Counter, i;
     pid_t installerPID = 0;
     FSRef fileRef;
@@ -55,8 +58,6 @@ int main(int argc, char *argv[])
 
     Initialize();
 
-    Success = false;
-    
     ::GetCurrentProcess (&ourProcess);
 
     QuitBOINCManager('BNC!'); // Quit any old instance of BOINC
@@ -85,10 +86,54 @@ int main(int argc, char *argv[])
 	ExitToShell();
     }
 
+    Success = false;
+    
+    // The BOINC Manager and Core Client have the set-user-ID-on-execution 
+    // flag set, so their ownership is important and must match the 
+    // ownership of the BOINC Data directory.
+    
+    // Find an appropriate admin user to set as owner of installed files
+    // First, try the user currently logged in
+    q = getlogin();
+
+    grp = getgrnam("admin");
+    i = 0;
+    while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group admin
+        if (strcmp(p, q) == 0) {
+            Success = true;     // Logged in user is a member of group admin
+            break;
+        }
+        ++i;
+    }
+    
+    // If currently logged in user is not admin, use first non-root admin user
+    if (!Success) {
+        i = 0;
+        while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group admin
+            if (strcmp(p, "root") != 0)
+                break;
+            ++i;
+        }
+    }
+
+    // Set owner of BOINCManager and contents, including core client
+    sprintf(s, "chown -Rf %s /Applications/BOINCManager.app", p);
+    system (s);
+
+    // Set owner of BOINC Screen Saver
+    sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/BOINCSaver.saver", p);
+    system (s);
+
+    // Set owner of BOINC Data
+    sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
+    system (s);
+
     // Installer is running as root.  We must setuid back to the logged in user 
     //  in order to add a startup item to the user's login preferences
 
     SetUIDBackToUser ();
+
+    Success = false;
 
     NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
     
