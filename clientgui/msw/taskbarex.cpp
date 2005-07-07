@@ -81,7 +81,7 @@ wxTaskBarIconEx::~wxTaskBarIconEx(void)
 }
 
 // Events
-void wxTaskBarIconEx::OnClose(wxCloseEvent& event)
+void wxTaskBarIconEx::OnClose(wxCloseEvent& WXUNUSED(event))
 {
     wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnClose - Function Begin"));
 
@@ -91,7 +91,7 @@ void wxTaskBarIconEx::OnClose(wxCloseEvent& event)
     wxLogTrace(wxT("Function Start/End"), wxT("wxTaskBarIconEx::OnClose - Function End"));
 }
 
-void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& event)
+void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& WXUNUSED(event))
 {
     if (m_iconAdded)
         Shell_NotifyIcon(NIM_MODIFY, &notifyData);

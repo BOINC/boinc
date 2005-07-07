@@ -129,7 +129,7 @@ const char** CViewMessages::GetViewIcon() {
 }
 
 
-void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
+void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopyAll - Function Begin"));
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
@@ -161,7 +161,7 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& event ) {
 }
 
 
-void CViewMessages::OnMessagesCopySelected( wxCommandEvent& event ) {
+void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopySelected - Function Begin"));
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
@@ -171,8 +171,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& event ) {
 
 #ifndef NOCLIPBOARD
 
-    wxInt32 iIndex          = -1;
-    wxInt32 iRowCount       = 0;
+    wxInt32 iIndex = -1;
 
     pFrame->UpdateStatusText(_("Aborting transfer..."));
     OpenClipboard();
@@ -293,7 +292,6 @@ wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 
 
 wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
-    wxInt32  iBuffer = 0;
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {

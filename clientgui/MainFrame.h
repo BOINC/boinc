@@ -160,7 +160,7 @@ class CMainFrameAlertEvent : public wxEvent
 {
 public:
     CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style, bool notification_only)
-        : wxEvent(-1, evtType), title(title), message(message), style(style), notification_only(notification_only)
+        : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only)
         {
             SetEventObject(frame);
         }
@@ -168,18 +168,18 @@ public:
     CMainFrameAlertEvent(const CMainFrameAlertEvent& event)
         : wxEvent(event)
         {
-            title = event.title;
-            message = event.message;
-            style = event.style;
-            notification_only = event.notification_only;
+            m_title = event.m_title;
+            m_message = event.m_message;
+            m_style = event.m_style;
+            m_notification_only = event.m_notification_only;
         }
 
     virtual wxEvent *Clone() const { return new CMainFrameAlertEvent(*this); }
 
-    wxString title;
-    wxString message;
-    int      style;
-    bool     notification_only;
+    wxString m_title;
+    wxString m_message;
+    int      m_style;
+    bool     m_notification_only;
 };
 
 

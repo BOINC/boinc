@@ -32,9 +32,9 @@
 				ObjectFile=".\Build\Debug\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_ss\obj/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>

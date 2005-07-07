@@ -65,6 +65,10 @@ protected:
 // automatically ++/--MSG_LOG on scope entry / exit.
 // See lib/msg_log.C for commentary
 //
+#if _MSC_VER >= 1300
+#pragma warning(disable: 4512) // assignment operator could not be generated
+#endif
+
 class SCOPE_MSG_LOG {
     MSG_LOG& messages;
     int kind;
@@ -79,4 +83,8 @@ public:
     void printf_multiline(const char* str, const char* prefix_format, ...) __attribute__ ((format (printf, 3, 4)));
     void printf_file(const char* filename, const char* prefix_format, ...) __attribute__ ((format (printf, 3, 4)));
 };
+
+#if _MSC_VER >= 1300
+#pragma warning(default: 4512) // assignment operator could not be generated
+#endif
 

@@ -360,7 +360,7 @@ wxString CViewStatistics::GetViewName() {
 }
 
 
-void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& event ) {
+void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function Begin"));
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
@@ -380,7 +380,7 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& event ) {
 }
 
 
-void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& event ) {
+void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserAverage - Function Begin"));
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
@@ -400,7 +400,7 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& event ) {
 }
 
 
-void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& event ) {
+void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostTotal - Function Begin"));
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
@@ -420,7 +420,7 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& event ) {
 }
 
 
-void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& event ) {
+void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostAverage - Function Begin"));
 
     CMainFrame* pFrame      = wxGetApp().GetFrame();
@@ -466,7 +466,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-void CViewStatistics::OnListRender( wxTimerEvent& event ) {
+void CViewStatistics::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);

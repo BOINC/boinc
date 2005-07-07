@@ -63,7 +63,7 @@
 #include <process.h>
 #include <commctrl.h>
 #include <raserror.h>
-#include <mmsystem.h>
+//#include <mmsystem.h>
 #include <direct.h>
 #include <io.h>
 #include <crtdbg.h>

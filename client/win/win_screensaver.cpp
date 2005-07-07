@@ -38,6 +38,12 @@
 #include "win_screensaver.h"
 #include "win_util.h"
 
+#ifdef _DEBUG
+#define UNUSED(x)
+#else
+#define UNUSED(x) x
+#endif
+
 
 // Define the stuff needed to actually do a set foreground window on
 //   Windows 2000 or later machines.
@@ -51,7 +57,7 @@ const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"))
 static CScreensaver* gs_pScreensaver = NULL;
 
 INT WINAPI WinMain(
-    HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow
+    HINSTANCE hInstance, HINSTANCE UNUSED(hPrevInstance), LPSTR UNUSED(lpCmdLine), int UNUSED(nCmdShow)
 ) {
     HRESULT      hr;
     int          retval;
@@ -781,7 +787,6 @@ VOID CScreensaver::UpdateErrorBoxText() {
     bool     bIsDownloaded   = false;
     int      iResultCount    = 0;
     int      iIndex          = 0;
-    float    fProgress       = 0;
 
 
     // Load error string
@@ -1030,7 +1035,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 // This function forwards to DataManagementProc, which has access to the
 //       "this" pointer.
 //
-DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID lpParam) {
+DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
     return gs_pScreensaver->DataManagementProc();
 }
 
@@ -1407,7 +1412,7 @@ LRESULT CScreensaver::SaverProc(
 
 
 
-INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
+INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM UNUSED(lParam)) {
 	DWORD screen_blank=0, blank_time=0;
 	char buf[256];
 	int retval;
@@ -1632,7 +1637,7 @@ VOID CScreensaver::UpdateErrorBox() {
 
 VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
     HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-    INTERNALMONITORINFO* pMonitorInfo;
+    INTERNALMONITORINFO* pMonitorInfo = NULL;
     DWORD iMonitor = 0;
     for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
         pMonitorInfo = &m_Monitors[iMonitor];

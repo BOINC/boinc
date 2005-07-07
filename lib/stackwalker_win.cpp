@@ -248,10 +248,10 @@ static bool GetModuleListTH32(ModuleList& modules, DWORD pid, FILE *fLogFile)
 
   // try both dlls...
   const TCHAR *dllname[] = { _T("kernel32.dll"), _T("tlhelp32.dll") };
-  HINSTANCE hToolhelp;
-  tCT32S pCT32S;
-  tM32F pM32F;
-  tM32N pM32N;
+  HINSTANCE hToolhelp = NULL;
+  tCT32S pCT32S = NULL;
+  tM32F pM32F = NULL;
+  tM32N pM32N = NULL;
 
   HANDLE hSnap;
   MODULEENTRY32 me;

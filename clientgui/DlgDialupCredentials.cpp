@@ -164,7 +164,7 @@ bool CDlgDialupCredentials::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgDialupCredentials::GetBitmapResource( const wxString& name )
+wxBitmap CDlgDialupCredentials::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CDlgDialupCredentials bitmap retrieval
@@ -176,7 +176,7 @@ wxBitmap CDlgDialupCredentials::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgDialupCredentials::GetIconResource( const wxString& name )
+wxIcon CDlgDialupCredentials::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CDlgDialupCredentials icon retrieval

@@ -35,7 +35,7 @@
 				ObjectFile=".\Build\Debug\boinc_cli\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_cli\obj/vc70.pdb"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"/>

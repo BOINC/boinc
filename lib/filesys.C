@@ -254,7 +254,7 @@ DirScanner::~DirScanner() {
 // Delete the file located at path
 //
 int boinc_delete_file(const char* path) {
-    int retval;
+    int retval = 0;
 
     if (!boinc_file_exists(path)) {
         return 0;

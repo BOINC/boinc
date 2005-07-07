@@ -8986,3 +8986,34 @@ David  7 July 2005
         boinc_api.C
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    7 July 2005
+    - Fix numerious compile warnings when turning on /W4 for the Microsoft
+        compilers.  This was done with VS 2003.  We are down to 100 or so
+        warnings from 400 or so.
+
+    client/win/
+        win_idle_tracker.cpp
+        win_screensaver.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+        DlgAccountManagerSignup.cpp
+        DlgAccountManagerStatus.cpp
+        DlgDialupCredentials.cpp
+        DlgOptions.cpp
+        MainFrame.cpp, .h
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    clientgui/msw/
+        taskbarex.cpp
+    lib/
+        boinc_win.h
+        diagnostics.C
+        filesys.C
+        gui_rpc_client.C
+        msg_log.h
+        stackwalker_win.cpp

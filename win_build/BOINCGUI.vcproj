@@ -96,7 +96,7 @@
 				DisableLanguageExtensions="FALSE"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdwx.h"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"
 				CompileAs="2"/>

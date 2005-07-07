@@ -198,7 +198,7 @@ const char** CViewProjects::GetViewIcon() {
 }
 
 
-void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
+void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -222,7 +222,7 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectUpdateAll( wxCommandEvent& event ) {
+void CViewProjects::OnProjectUpdateAll( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdateAll - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -246,7 +246,7 @@ void CViewProjects::OnProjectUpdateAll( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
+void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectSuspend - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -277,7 +277,7 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
+void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectNoNewWork - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -310,7 +310,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& event ) {
 
 
 
-void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
+void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectReset - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
@@ -356,7 +356,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
+void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectDetach - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
@@ -402,7 +402,7 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& event ) {
 }
 
 
-void CViewProjects::OnProjectAttach( wxCommandEvent& event ) {
+void CViewProjects::OnProjectAttach( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function Begin"));
 
     wxInt32  iAnswer        = 0; 

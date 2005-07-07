@@ -234,7 +234,7 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 }
 
 
-void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
+void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
     if (ts.GetSeconds() >= 10)
         m_dtLastHoverDetected = wxDateTime::Now();
@@ -301,24 +301,24 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& event) {
 
 
 #ifdef __WXMSW__
-void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& event) {
+void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
     CreateContextMenu();
 }
 #else
-void CTaskBarIcon::OnContextMenu(wxTaskBarIconEvent& event) {
+void CTaskBarIcon::OnContextMenu(wxTaskBarIconEvent& WXUNUSED(event)) {
     CreateContextMenu();
 }
 #endif
 
 
-void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& event) {
+void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
         m_bButtonPressed = true;
     }
 }
 
 
-void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& event) {
+void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
         if (m_bButtonPressed) {
             CreateContextMenu();

@@ -447,7 +447,7 @@ void CDlgOptions::OnNetworkAutoDetectSelected( wxCommandEvent& event )
  * wxEVT_UPDATE_UI event handler for ID_NETWORKAUTODETECT
  */
 
-void CDlgOptions::OnNetworkAutoDetectUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnNetworkAutoDetectUpdate( wxUpdateUIEvent& WXUNUSED(event) )
 {
     if (m_NetworkAutomaticDetectionCtrl->GetValue()) {
         m_DialupConnectionsCtrl->Enable(false);
@@ -486,7 +486,7 @@ void CDlgOptions::OnNetworkLANSelected( wxCommandEvent& event )
  * wxEVT_UPDATE_UI event handler for ID_NETWORKLAN
  */
 
-void CDlgOptions::OnNetworkLANUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnNetworkLANUpdate( wxUpdateUIEvent& WXUNUSED(event) )
 {
     if (m_NetworkUseLANCtrl->GetValue()) {
         m_DialupConnectionsCtrl->Enable(false);
@@ -525,7 +525,7 @@ void CDlgOptions::OnNetworkDialupSelected( wxCommandEvent& event )
  * wxEVT_UPDATE_UI event handler for ID_NETWORKDIALUP
  */
 
-void CDlgOptions::OnNetworkDialupUpdate( wxUpdateUIEvent& event )
+void CDlgOptions::OnNetworkDialupUpdate( wxUpdateUIEvent& WXUNUSED(event) )
 {
     if (m_NetworkUseDialupCtrl->GetValue()) {
         m_DialupConnectionsCtrl->Enable(true);
@@ -544,7 +544,7 @@ void CDlgOptions::OnNetworkDialupUpdate( wxUpdateUIEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
  */
 
-void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& event )
+void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& WXUNUSED(event) )
 {
     m_DialupDefaultConnectionCtrl->SetLabel(m_DialupConnectionsCtrl->GetStringSelection());
 }
@@ -556,7 +556,7 @@ void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPCLEARDEFAULT
  */
 
-void CDlgOptions::OnDialupClearDefaultClick( wxCommandEvent& event )
+void CDlgOptions::OnDialupClearDefaultClick( wxCommandEvent& WXUNUSED(event) )
 {
     m_DialupDefaultConnectionCtrl->SetLabel(wxEmptyString);
 }

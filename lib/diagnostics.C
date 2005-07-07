@@ -262,7 +262,6 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
     DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
 
-    LONG  lReturnValue = NULL;
     char  status[256];
     char  substatus[256];
 
@@ -270,7 +269,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
     // If we've been in this procedure before, something went wrong so we immediately exit
     if ( InterlockedIncrement(&lDetectNestedException) > 1 ) {
-        TerminateProcess( GetCurrentProcess(), ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED );
+        TerminateProcess( GetCurrentProcess(), (UINT)ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED );
     }
 
     switch ( exceptionCode ) {

@@ -168,7 +168,7 @@ bool CDlgAccountManagerSignup::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgAccountManagerSignup::GetBitmapResource( const wxString& name )
+wxBitmap CDlgAccountManagerSignup::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CDlgAccountManagerSignup bitmap retrieval
@@ -180,7 +180,7 @@ wxBitmap CDlgAccountManagerSignup::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgAccountManagerSignup::GetIconResource( const wxString& name )
+wxIcon CDlgAccountManagerSignup::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CDlgAccountManagerSignup icon retrieval

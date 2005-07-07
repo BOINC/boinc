@@ -1218,7 +1218,7 @@ int RPC::parse_reply() {
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
     char buf[256];
-    PROJECT* project;
+    PROJECT* project = NULL;
     RPC rpc(this);
     int retval;
 

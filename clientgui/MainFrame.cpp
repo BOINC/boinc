@@ -844,7 +844,6 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-    int        iCurrentNetworkMode = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1208,8 +1207,8 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
 
 #ifdef __WXMSW__
-    if (IsShown() && !event.notification_only) {
-        ::wxMessageBox(event.message, event.title, event.style, this);
+    if (IsShown() && !event.m_notification_only) {
+        ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
     } else {
         // If the main window is hidden or minimzed use the system tray ballon
         //   to notify the user instead.  This keeps dialogs from interfering
@@ -1219,11 +1218,11 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
         unsigned int  icon_type;
         wxASSERT(taskbar);
 
-        if (wxICON_ERROR & event.style) {
+        if (wxICON_ERROR & event.m_style) {
             icon_type = NIIF_ERROR;
-        } else if (wxICON_WARNING & event.style) {
+        } else if (wxICON_WARNING & event.m_style) {
             icon_type = NIIF_WARNING;
-        } else if (wxICON_INFORMATION & event.style) {
+        } else if (wxICON_INFORMATION & event.m_style) {
             icon_type = NIIF_INFO;
         } else {
             icon_type = NIIF_NONE;
@@ -1231,14 +1230,14 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
 
         taskbar->SetBalloon(
             taskbar->m_iconTaskBarIcon,
-            event.title,
-            event.message,
+            event.m_title,
+            event.m_message,
             5000,
             icon_type
         );
     }
 #else
-    ::wxMessageBox(event.message, event.title, event.style, this);
+    ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function End"));

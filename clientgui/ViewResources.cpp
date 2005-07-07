@@ -61,9 +61,6 @@ CViewResources::CViewResources() {}
 CViewResources::CViewResources(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_TASK_RESOURCEUTILIZATIONVIEW, DEFAULT_TASK_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
 {
-	CTaskItemGroup* pGroup = NULL;
-	CTaskItem*      pItem = NULL;
-
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 

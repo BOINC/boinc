@@ -139,7 +139,7 @@ const char** CViewTransfers::GetViewIcon() {
 }
 
 
-void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& event ) {
+void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -163,7 +163,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& event ) {
 }
 
 
-void CViewTransfers::OnTransfersAbort( wxCommandEvent& event ) {
+void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersAbort - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
@@ -484,8 +484,6 @@ wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
-    wxInt32        iTime = 0;
-    wxInt32        iStatus = 0;
     wxInt32        iActivityMode = -1;
     bool           bActivitiesSuspended = false;
     bool           bNetworkSuspended = false;

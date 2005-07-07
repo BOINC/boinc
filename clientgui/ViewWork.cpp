@@ -150,7 +150,7 @@ const char** CViewWork::GetViewIcon() {
 }
 
 
-void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
+void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -180,7 +180,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function End"));
 }
 
-void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
+void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
@@ -198,8 +198,6 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
     pFrame->UpdateStatusText(_("Showing graphics for result..."));
 
     pDoc->GetConnectedComputerName(strMachineName);
-
-    RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
 
     // TODO: implement hide as well as show
     if (1) {
@@ -240,7 +238,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& event ) {
 }
 
 
-void CViewWork::OnWorkAbort( wxCommandEvent& event ) {
+void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function Begin"));
 
     wxInt32  iAnswer        = 0; 

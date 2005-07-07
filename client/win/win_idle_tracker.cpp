@@ -33,6 +33,12 @@
 #define _WIN32_IE 0x0501        // Change this to the appropriate value to target IE 6.0 or later.
 #endif
 
+#ifdef _DEBUG
+#define UNUSED(x)
+#else
+#define UNUSED(x) x
+#endif
+
 #include <windows.h>
 #include <crtdbg.h>
 
@@ -447,7 +453,7 @@ __declspec(dllexport) void IdleTrackerTerm()
 /**
  * DLL's entry point
  **/
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID UNUSED(lpReserved))
 {
     switch(dwReason)
     {

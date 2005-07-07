@@ -153,7 +153,7 @@ bool CDlgAccountManagerStatus::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgAccountManagerStatus::GetBitmapResource( const wxString& name )
+wxBitmap CDlgAccountManagerStatus::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CDlgAccountManagerStatus bitmap retrieval
@@ -165,7 +165,7 @@ wxBitmap CDlgAccountManagerStatus::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CDlgAccountManagerStatus::GetIconResource( const wxString& name )
+wxIcon CDlgAccountManagerStatus::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CDlgAccountManagerStatus icon retrieval
@@ -177,7 +177,7 @@ wxIcon CDlgAccountManagerStatus::GetIconResource( const wxString& name )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_UPDATE
  */
 
-void CDlgAccountManagerStatus::OnUpdateClick( wxCommandEvent& event )
+void CDlgAccountManagerStatus::OnUpdateClick( wxCommandEvent& WXUNUSED(event) )
 {
     if ( Validate() && TransferDataFromWindow() )
     {
@@ -190,7 +190,7 @@ void CDlgAccountManagerStatus::OnUpdateClick( wxCommandEvent& event )
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CHANGE
  */
 
-void CDlgAccountManagerStatus::OnChangeClick( wxCommandEvent& event )
+void CDlgAccountManagerStatus::OnChangeClick( wxCommandEvent& WXUNUSED(event) )
 {
     if ( Validate() && TransferDataFromWindow() )
     {
