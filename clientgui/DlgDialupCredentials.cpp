@@ -111,17 +111,23 @@ void CDlgDialupCredentials::CreateControls()
     itemStaticText5->Create( itemDialog1, wxID_STATIC, _("Username:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemFlexGridSizer4->Add(itemStaticText5, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#if defined(__WXMSW__)
     m_UsernameCtrl = new wxTextCtrl;
     m_UsernameCtrl->Create( itemDialog1, ID_USERNAME, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
     itemFlexGridSizer4->Add(m_UsernameCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#endif
 
     wxStaticText* itemStaticText7 = new wxStaticText;
     itemStaticText7->Create( itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemFlexGridSizer4->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#if defined(__WXMSW__)
     m_PasswordCtrl = new wxTextCtrl;
     m_PasswordCtrl->Create( itemDialog1, ID_PASSWORD, _T(""), wxDefaultPosition, wxSize(200, -1), wxTE_PASSWORD );
     itemFlexGridSizer4->Add(m_PasswordCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#endif
 
     wxFlexGridSizer* itemFlexGridSizer9 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer2->Add(itemFlexGridSizer9, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
