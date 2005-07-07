@@ -175,7 +175,7 @@ static bool update_app_progress(
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
 
-    if (!app_client_shm) return false;
+    if (standalone) return true;
 
     sprintf(msg_buf,
         "<current_cpu_time>%.15e</current_cpu_time>\n"

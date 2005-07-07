@@ -86,6 +86,14 @@ computer resources
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Resources</h2></td></tr>
   <tr><td>
+    <form method=get action=http://www.google.com/search>
+    <input type=hidden name=domains value=http://boinc.berkeley.edu>
+    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
+    <nobr>
+    <input class=small name=q size=30>
+    <input type=image name=search src=images/gn_search_btn.gif>
+    </nobr>
+    </form>
     <ul>
     <li> Wikis (user-editable information and documentation):
         <ul>
@@ -145,6 +153,7 @@ echo "
 </td></tr></table>
 </td></tr>
 </table>
+
 
 <hr>
 ";

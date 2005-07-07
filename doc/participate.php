@@ -2,7 +2,7 @@
 require_once("docutil.php");
 page_head("Participating in BOINC projects");
 echo "
-<b>Running BOINC</b>
+<h3>Running BOINC</h3>
 <ul>
 <li> <a href=intro_user.php>Getting started</a>
 <li> <a href=projects.php>Choosing projects</a>
@@ -15,7 +15,7 @@ echo "
 <li> <a href=win_install.php>The Windows installer</a>
 <li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
 <li> <a href=client_mac.php>Installing BOINC on Mac OS/X</a>
-<li> <a href=sea.php>Self-extracting archive (UNIX)</a>
+<li> <a href=sea.php>Self-extracting archive (Unix/Linux)</a>
 <li> <a href=screensaver.php>The BOINC screensaver</a>
 </ul>
 <li> <a href=prefs.php>Preferences</a>
@@ -31,7 +31,7 @@ echo "
 <li> <a href=acct_mgrs.php>Account managers</a>
 </ul>
 <p>
-<b>Add-on software</b>
+<h3>Add-on software</h3>
 <ul>
 <li> <a href=download_network.php>Add-on software</a>
 <li> <a href=gui_rpc.php>GUI RPCs</a>
@@ -41,7 +41,7 @@ echo "
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 <p>
-<b>Statistics web sites</b>
+<h3>Statistics web sites</h3>
 <ul>
 <li> <a href=stats_sites.php>BOINC statistics sites</a>
 <li> <a href=db_dump.php>Downloading statistics data</a>

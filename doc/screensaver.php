@@ -2,7 +2,13 @@
 require_once("docutil.php");
 page_head("The BOINC screensaver");
 echo "
-The BOINC client software includes a screensaver program.
+The BOINC client software on Windows and Mac OS X includes a screensaver program,
+which you can select as your screensaver
+(on Windows, right-click on the desktop,
+click Properties, select Screen Saver, select BOINC).
+<p>
+NOTE: BOINC runs even if you don't use the screensaver.
+<p>
 When active, the screensaver does the following:
 
 <ul>

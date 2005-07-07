@@ -406,6 +406,11 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
 #else   // ! __WXMAC__
 
+#ifndef __WXMSW__
+        // copy the path to the boinmgr from argv[0]
+        strncpy(szExecutableDirectory, wxGetApp().argv[0], sizeof(szExecutableDirectory));
+#endif 
+
         // We are only interested in the path component of the fully qualified path.
         wxFileName::SplitPath(szExecutableDirectory, &strDirectory, NULL, NULL);
 
@@ -453,7 +458,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifndef __WXMAC__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute += wxT("boinc");
+        strExecute += wxT("boinc -redirectio");
         
 #endif  // ! __WXMAC__
 

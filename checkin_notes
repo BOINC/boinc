@@ -8480,7 +8480,7 @@ David  24 June 2005
 David  24 June 2005
     - API library: potential bug:
         if the core client sends a "quit" message that is handled
-        (but the timer handler) while the worker thread is
+        (by the timer handler) while the worker thread is
         in the middle of checkpointing,
         the result could be an incomplete checkpoint,
         which in general screws up the result.
@@ -8977,3 +8977,12 @@ Charlie 7 July 2005
     mac-installer/
         PostInstall.cpp
         BOINC.pmproj
+
+David  7 July 2005
+    - Manager: fix for core client startup on Unix
+        (From Bernd Machenschalk)
+
+    api/
+        boinc_api.C
+    clientgui/
+        BOINCGUIApp.cpp
