@@ -196,24 +196,32 @@ $m437s = array(
     "
 );
 
-$m500 = array(
-    "num"=>"5.00",
+$m470 = array(
+    "num"=>"4.70",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.00_macOSX.zip",
-    "date"=>"3 July 2005",
+    "file"=>"boinc_4.70_macOSX.zip",
+    "date"=>"7 July 2005",
     "type"=>mac_advanced(),
-    "bugs"=>"<ul>
+     "features"=>"<ul>
      <li>
      BOINC now works with OS 10.3.0 or higher.
+     <li>
+     Closing the BOINC Manager window now hides the application, and vice-versa.
+     <li>
+     The installer no longer always sets ownership to user 501. If the installing user 
+     has admin privileges, that user becomes the owner; otherwise the first non-root 
+     admin user becomes the owner.
      </ul>
+    ",
+    "bugs"=>"
     "
 );
 
-$m500c = array(
-    "num"=>"5.00",
+$m470c = array(
+    "num"=>"4.70",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.00_powerpc-apple-darwin.zip",
-    "date"=>"3 July 2005",
+    "file"=>"boinc_4.70_powerpc-apple-darwin.zip",
+    "date"=>"7 July 2005",
     "type"=>bare_core(),
     "features"=>"<ul>
     <li>
@@ -278,7 +286,9 @@ $mac = array(
         $m443,
         $m437s,
         $m443c,
-        $m419
+        $m419,
+        $m470,
+        $m470c
     )
 );
 $linux = array(
