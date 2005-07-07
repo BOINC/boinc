@@ -8961,3 +8961,7 @@ Rom    6 July 2005
 
     lib/
         diagnostics.h
+
+Rom    6 July 2005 (boinc_public)
+    - Tag for 4.70 release, all platforms
+      boinc_core_release_4_70
