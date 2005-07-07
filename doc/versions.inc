@@ -110,10 +110,10 @@ $w445= array(
     "
 );
 
-$w500= array(
-    "num"=>"5.00",
+$w470= array(
+    "num"=>"4.70",
     "status"=>"Development version",
-    "file"=>"boinc_5.00_windows_intelx86.exe",
+    "file"=>"boinc_4.70_windows_intelx86.exe",
     "date"=>"1 July 2005",
     "type"=>win_new(),
     "features"=>"<ul>
@@ -268,6 +268,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
+        $w470,
         $w419
     )
 );
