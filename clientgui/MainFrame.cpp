@@ -1523,7 +1523,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         //   a nudge
                         ShowAlert(
                             _("BOINC Manager - Network Status"),
-                            _("BOINC has detected it is now connected to the internet, updating all projects and retrying all transfers."),
+                            _("BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."),
                             wxICON_INFORMATION,
                             true
                         );
