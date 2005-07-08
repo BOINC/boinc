@@ -246,9 +246,26 @@ $l443 = array(
      boincmgr you might see this error message:<br>
          boincmgr: /lib/libpthread.so.0: version `GLIBC_2.3.2' not found (required by boincmgr)<br><br>
      We are investigating this issue.
-      </ul>
+     </ul>
     "
 );
+
+$l470 = array(
+    "num"=>"4.70",
+    "status"=>"Development version",
+    "file"=>"boinc_4.70_i686-pc-linux-gnu.sh",
+    "date"=>"08 July 2005",
+    "type"=>sea(),
+    "bugs"=>"<ul>
+     <li>
+     boincmgr currently requires a later version of glibc than what we want.  When running
+     boincmgr you might see this error message:<br>
+         boincmgr: /lib/libpthread.so.0: version `GLIBC_2.3.2' not found (required by boincmgr)<br><br>
+     We are investigating this issue.
+     </ul>
+    "
+);
+
 $l419 = array(
     "num"=>"4.19",
     "status"=>"Older version",
@@ -256,6 +273,7 @@ $l419 = array(
     "date"=>"25 Jan 2005",
     "type"=>bare_core()
 );
+
 $s419 = array(
     "num"=>"4.19",
     "status"=>"Recommended version",
@@ -295,6 +313,7 @@ $linux = array(
     "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
+        $l470,
         $l419
     )
 );
