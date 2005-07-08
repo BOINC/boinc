@@ -107,6 +107,7 @@ private:
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
 #ifdef __WXMSW__
+    wxDynamicLibrary m_WININET;
     wxDialUpManager* m_pDialupManager;
 #endif
     wxTimer*        m_pRefreshStateTimer;

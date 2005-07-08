@@ -94,6 +94,7 @@
 #include <wx/icon.h>
 #include <wx/utils.h>
 #include <wx/process.h>
+#include <wx/dynlib.h>
 #include <wx/dialup.h>
 
 #ifndef NOTASKBAR

@@ -9017,3 +9017,12 @@ Rom    7 July 2005
         gui_rpc_client.C
         msg_log.h
         stackwalker_win.cpp
+
+Rom    7 July 2005
+    - Bug Fix: Reduce the amount of time the call to 
+        wxDialUpManager->IsAlwaysOnline takes by preloading the DLL in memory.
+    - Bug Fix: Only check for an always on connection every 60 seconds.
+
+    clientgui/
+        MainFrame.cpp, .h
+        stdwx.h

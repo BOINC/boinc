@@ -215,6 +215,9 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
 
 #ifdef __WXMSW__
+    // Prefetch and Load Wininet.dll so that any calls to
+    //   wxDialUpManager->IsAlwaysOnline happen quicker.
+    m_WININET.Load(wxT("WININET"));
     m_pDialupManager = wxDialUpManager::Create();
     wxASSERT(m_pDialupManager->IsOk());
 #endif
@@ -1376,8 +1379,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         }
 
 #ifdef __WXMSW__
-        // Determine if we need to connect to the Internet
-        //   Executes every ten seconds
+        static wxDateTime   dtLastDialupIsAlreadyOnlineCheck = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
         static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
         static wxDateTime   dtFirstDialupDisconnectEvent = wxDateTime((time_t)0);
@@ -1385,6 +1387,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         static bool         connected_successfully = false;
         static bool         reset_timers = false;
         static bool         was_dialing = false;
+        static bool         is_already_online = true;
         bool                should_check_connection = false;
         bool                is_dialing = false;
         bool                is_online = false;
@@ -1394,19 +1397,28 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         wxString            strConnectionUsername = wxEmptyString;
         wxString            strConnectionPassword = wxEmptyString;
         wxString            strBuffer = wxEmptyString;
+        wxTimeSpan          tsLastDialupIsAlreadyOnlineCheck;
         wxTimeSpan          tsLastDialupAlertSent;
         wxTimeSpan          tsLastDialupRequest;
         wxTimeSpan          tsFirstDialupDisconnectEvent;
 
         wxASSERT(m_pDialupManager->IsOk());
         if (m_pDialupManager && pDoc) {
+            // Update the always online flag every 60 seconds.  This call is expensive
+            //   on slow machines.
+            tsLastDialupIsAlreadyOnlineCheck = wxDateTime::Now() - dtLastDialupIsAlreadyOnlineCheck;
+            if (tsLastDialupIsAlreadyOnlineCheck.GetSeconds() > 60) {
+                dtLastDialupIsAlreadyOnlineCheck = wxDateTime::Now();
+                is_already_online = m_pDialupManager->IsAlwaysOnline();
+            }
+
             // Are we configured to detect a network or told one already exists?
             if (ID_NETWORKLAN != m_iNetworkConnectionType) {
                 if (ID_NETWORKDIALUP == m_iNetworkConnectionType) {
                     should_check_connection = true;
                 }
                 if (ID_NETWORKAUTODETECT == m_iNetworkConnectionType) {
-                    if (!m_pDialupManager->IsAlwaysOnline()) {
+                    if (!is_already_online) {
                         should_check_connection = true;
                     }
                 }
