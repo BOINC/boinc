@@ -51,12 +51,12 @@ struct HOST_INFO {
     char os_name[256];
     char os_version[256];
 
-    double m_nbytes;
+    double m_nbytes;     // Total amount of memory in bytes
     double m_cache;
-    double m_swap;
+    double m_swap;       // Total amount of swap space in bytes
 
-    double d_total;
-    double d_free;
+    double d_total;      // Total amount of diskspace in bytes
+    double d_free;       // Total amount of available diskspace in bytes
 
     int parse(MIOFILE&);
     int write(MIOFILE&);

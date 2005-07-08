@@ -188,6 +188,7 @@ int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
     char buf[256];
+    char buf2[256];
 
     srand((unsigned int)time(0));
     now = dtime();
@@ -234,8 +235,36 @@ int CLIENT_STATE::init() {
     }
 #endif
 
-    parse_account_files();
+    // Getting host info is very fast, so we can do it anytime
+    //
+    host_info.clear_host_info();
+    host_info.get_host_info();
 
+    set_ncpus();
+
+    // Display useful diagnostic information in case the user is confused
+    //   about their own system.
+    msg_printf(NULL, MSG_INFO, 
+        "Processor Inventory: %d %s %s Processor(s)",
+        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
+    );
+
+    nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
+    nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
+    msg_printf(NULL, MSG_INFO, 
+        "Memory Inventory: Memory total - %s, Swap total - %s",
+        buf, buf2
+    );
+
+    nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
+    nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
+    msg_printf(NULL, MSG_INFO, 
+        "Disk Inventory: Disk total - %s, Disk available - %s",
+        buf, buf2
+    );
+
+    // Parse various files
+    parse_account_files();
     parse_statistics_files();
 
     // check for app_info.xml file in project dirs.
@@ -247,7 +276,6 @@ int CLIENT_STATE::init() {
     // ignoring any <project> tags (and associated stuff)
     // for projects with no account file
     //
-    host_info.clear_host_info();
     parse_state_file();
 
     // Check to see if we can write the state file.
@@ -270,7 +298,7 @@ int CLIENT_STATE::init() {
 
     if ((core_client_major_version != old_major_version) || (core_client_minor_version != old_minor_version)) {
         msg_printf(NULL, MSG_INFO,
-            "Version Change Detected (%d.%02d -> %d.%02d); running CPU benchmarks\n",
+            "Version change detected (%d.%02d -> %d.%02d); running CPU benchmarks\n",
             old_major_version, old_minor_version, core_client_major_version, core_client_minor_version
         );
         run_cpu_benchmarks = true;
@@ -311,12 +339,6 @@ int CLIENT_STATE::init() {
         show_global_prefs_source(found_venue);
     }
     install_global_prefs();
-
-    // Getting host info is very fast, so we can do it anytime
-    //
-    host_info.get_host_info();
-
-    set_ncpus();
 
     // set period start time and reschedule
     //

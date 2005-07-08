@@ -9022,7 +9022,15 @@ Rom    7 July 2005
     - Bug Fix: Reduce the amount of time the call to 
         wxDialUpManager->IsAlwaysOnline takes by preloading the DLL in memory.
     - Bug Fix: Only check for an always on connection every 60 seconds.
+    - Provide some more information about what various OS's report about the
+        client machine as part of the message log. Some people are not aware of
+        what hyperthreading does and how the various operating systems respond
+        to detecting it.
 
+    client/
+        client_state.C
     clientgui/
         MainFrame.cpp, .h
         stdwx.h
+    lib/
+        hostinfo.h
