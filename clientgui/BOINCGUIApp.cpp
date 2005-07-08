@@ -458,7 +458,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifndef __WXMAC__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute += wxT("boinc -redirectio");
+        strExecute = wxT("./boinc -redirectio");
         
 #endif  // ! __WXMAC__
 
