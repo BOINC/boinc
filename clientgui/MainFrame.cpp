@@ -972,11 +972,8 @@ void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
     if (ami.acct_mgr_url.size()) {
         strTitle = pDlgSignup->GetTitle();
         strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
-        char buf[256];
-        sprintf(buf, "Name: %s", ami.acct_mgr_name.c_str());
-        pDlgStatus->SetAcctManagerName(wxT(buf));
-        sprintf(buf, "URL: %s", ami.acct_mgr_url.c_str());
-        pDlgStatus->SetAcctManagerURL(wxT(buf));
+        pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
+        pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
         pDlgStatus->SetTitle(strTitle);
 
         iAnswer = pDlgStatus->ShowModal();

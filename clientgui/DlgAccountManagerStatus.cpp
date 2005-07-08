@@ -103,40 +103,51 @@ void CDlgAccountManagerStatus::CreateControls()
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
-    itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxVERTICAL);
+    itemBoxSizer3->Add(itemBoxSizer4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText5 = new wxStaticText;
     itemStaticText5->Create( itemDialog1, wxID_STATIC, _("Your current account manager is:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer4->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer4->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
+    itemBoxSizer4->Add(itemFlexGridSizer6, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText7 = new wxStaticText;
+    itemStaticText7->Create( itemDialog1, wxID_STATIC, _("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AcctManagerNameCtrl = new wxStaticText;
-    m_AcctManagerNameCtrl->Create( itemDialog1, ID_ACCTMANAGERNAME, _("foo"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer4->Add(m_AcctManagerNameCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AcctManagerNameCtrl->Create( itemDialog1, ID_ACCTMANAGERNAME, _("foo"), wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer6->Add(m_AcctManagerNameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxHyperLink* itemHyperLink7 = new wxHyperLink;
-    itemHyperLink7->Create( itemDialog1, ID_ACCTMANAGERLINK, wxT("http://a/b/c"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemFlexGridSizer4->Add(itemHyperLink7, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxStaticText* itemStaticText9 = new wxStaticText;
+    itemStaticText9->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer3->Add(itemBoxSizer8, 0, wxALIGN_TOP|wxALL, 5);
+    wxHyperLink* itemHyperLink10 = new wxHyperLink;
+    itemHyperLink10->Create( itemDialog1, ID_ACCTMANAGERLINK, wxT("http://a/b/c"), wxDefaultPosition, wxSize(200, -1), wxNO_BORDER );
+    itemFlexGridSizer6->Add(itemHyperLink10, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton9 = new wxButton;
-    itemButton9->Create( itemDialog1, ID_UPDATE, _("&Update"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton9->SetDefault();
-    itemBoxSizer8->Add(itemButton9, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
+    itemBoxSizer3->Add(itemBoxSizer11, 0, wxALIGN_TOP|wxALL, 5);
 
-    wxButton* itemButton10 = new wxButton;
-    itemButton10->Create( itemDialog1, ID_CHANGE, _("Change"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer8->Add(itemButton10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxButton* itemButton12 = new wxButton;
+    itemButton12->Create( itemDialog1, ID_UPDATE, _("&Update"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton12->SetDefault();
+    itemBoxSizer11->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxButton* itemButton11 = new wxButton;
-    itemButton11->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer8->Add(itemButton11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxButton* itemButton13 = new wxButton;
+    itemButton13->Create( itemDialog1, ID_CHANGE, _("Change"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer11->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxButton* itemButton14 = new wxButton;
+    itemButton14->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer11->Add(itemButton14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     // Set validators
     m_AcctManagerNameCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerName) );
-    itemHyperLink7->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );
+    itemHyperLink10->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );
 ////@end CDlgAccountManagerStatus content construction
 }
 

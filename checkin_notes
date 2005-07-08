@@ -9034,3 +9034,11 @@ Rom    7 July 2005
         stdwx.h
     lib/
         hostinfo.h
+
+Rom    8 July 2005
+    - Cleanup the Account Manager Status dialog.
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgAccountManagerStatus.cpp, .h
+        MainFrame.cpp
