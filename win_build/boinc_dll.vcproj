@@ -21,25 +21,27 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../"
+				AdditionalIncludeDirectories="../;../lib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="..\client\StdAfx.h"
-				PrecompiledHeaderFile=".\Build\Debug\boinc_dll\obj/boinc_dll.pch"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_dll\obj/"
 				ObjectFile=".\Build\Debug\boinc_dll\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_dll\obj/vc70.pdb"
 				BrowseInformation="1"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+				ForcedIncludeFiles="boinc_win.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib MSVCRTD.LIB"
+				AdditionalDependencies="kernel32.lib user32.lib MSVCRTD.LIB MSVCPRTD.LIB "
 				OutputFile="Build\Debug/boinc.dll"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
@@ -98,25 +100,26 @@
 				ImproveFloatingPointConsistency="FALSE"
 				FavorSizeOrSpeed="1"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories=".."
+				AdditionalIncludeDirectories="..;..\lib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINC_DLL_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="..\lib\boinc_win.h"
-				PrecompiledHeaderFile=".\Build\Release\boinc_dll\obj/boinc_win.pch"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_dll\obj/"
 				ObjectFile=".\Build\Release\boinc_dll\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_dll\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				ForcedIncludeFiles="boinc_win.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib MSVCRT.LIB"
+				AdditionalDependencies="kernel32.lib user32.lib MSVCRT.LIB MSVCPRT.LIB "
 				OutputFile="Build\Release/boinc.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"

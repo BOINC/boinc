@@ -63,7 +63,7 @@
 #include <process.h>
 #include <commctrl.h>
 #include <raserror.h>
-//#include <mmsystem.h>
+#include <mmsystem.h>
 #include <direct.h>
 #include <io.h>
 #include <crtdbg.h>
@@ -75,9 +75,6 @@
 //   version of the symbols.
 #undef min
 #undef max
-
-#include "stackwalker_win.h"
-
 
 // Standard Libraries
 //
@@ -98,6 +95,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <cfloat>
 #include <locale>
 #else
 #include <assert.h>
@@ -110,6 +108,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <float.h>
 #include <locale.h>
 #endif
 

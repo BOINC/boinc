@@ -24,17 +24,18 @@
 				Optimization="2"
 				GlobalOptimizations="TRUE"
 				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\vc_lib\msw;..\lib;..\api;..\clientgui;..\client\win;.."
-				PreprocessorDefinitions="WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="TRUE"
 				EnableFunctionLevelLinking="FALSE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdwx.h"
 				WarningLevel="3"
 				WarnAsError="FALSE"
 				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+				ForcedIncludeFiles="stdwx.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -85,21 +86,23 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;&quot;$(WXWIN)\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
-				StringPooling="TRUE"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
+				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="TRUE"
-				EnableFunctionLevelLinking="TRUE"
+				EnableFunctionLevelLinking="FALSE"
 				EnableEnhancedInstructionSet="0"
 				DisableLanguageExtensions="FALSE"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdwx.h"
-				WarningLevel="4"
+				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
+				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"
-				CompileAs="2"/>
+				CompileAs="2"
+				ForcedIncludeFiles="stdwx.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -255,6 +258,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\md5.c">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\md5_file.C">
@@ -445,9 +454,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\clientgui\_wx_intellisense.h">
-			</File>
-			<File
-				RelativePath="..\lib\boinc_win.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\BOINCBaseView.h">

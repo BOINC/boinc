@@ -24,6 +24,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="5"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Build\Debug\RSAEuro\obj/RSAEuro.pch"
 				AssemblerListingLocation=".\Build\Debug\RSAEuro\obj/"

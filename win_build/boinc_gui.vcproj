@@ -31,15 +31,16 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="../lib/boinc_win.h"
-				PrecompiledHeaderFile=".\Build\Release\boinc_gui\obj/boinc_win.pch"
+				PrecompiledHeaderThrough="stdafx.h"
+				PrecompiledHeaderFile="$(IntDir)/stdafx.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_gui\obj/"
 				ObjectFile=".\Build\Release\boinc_gui\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_gui\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
-				CompileAs="2"/>
+				CompileAs="2"
+				ForcedIncludeFiles="stdafx.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -101,9 +102,10 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="../client/StdAfx.h"
-				PrecompiledHeaderFile=".\Build\Debug\boinc_gui\obj/boinc_gui.pch"
+				PrecompiledHeaderThrough="stdafx.h"
+				PrecompiledHeaderFile="$(IntDir)/stdafx.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_gui\obj/"
 				ObjectFile=".\Build\Debug\boinc_gui\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_gui\obj/"
@@ -112,7 +114,7 @@
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"
-				ForcedIncludeFiles="StdAfx.h"/>
+				ForcedIncludeFiles="stdafx.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -1303,10 +1305,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1326,10 +1328,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

@@ -27,20 +27,21 @@
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../lib/,../api/,../client,../client/win,./,.."
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="../lib/boinc_win.h"
-				PrecompiledHeaderFile=".\Build\Release\upper_case\obj/boinc_win.pch"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Release\upper_case\obj/"
 				ObjectFile=".\Build\Release\upper_case\obj/"
 				ProgramDataBaseFileName=".\Build\Release\upper_case\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
-				CompileAs="2"/>
+				CompileAs="2"
+				ForcedIncludeFiles="boinc_win.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -98,7 +99,8 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Debug\upper_case\obj/upper_case.pch"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Debug\upper_case\obj/"
 				ObjectFile=".\Build\Debug\upper_case\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\upper_case\obj/vc70.pdb"
@@ -106,7 +108,8 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
-				CompileAs="2"/>
+				CompileAs="2"
+				ForcedIncludeFiles="boinc_win.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool

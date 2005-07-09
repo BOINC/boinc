@@ -40,9 +40,7 @@
  *
  *//////////////////////////////////////////////////////////////////////////////
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#endif
+#include "stackwalker_win.h"
 
 // the form of the output file
 static eAllocCheckOutput g_CallstackOutputType = ACOutput_Simple;

@@ -20,15 +20,15 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#endif
-
 #ifndef _WIN32
 #include <cstdio>
 #include <cstdarg>
 #include <cstdlib>
 #include "config.h"
+#endif
+
+#ifdef _WIN32
+#include "stackwalker_win.h"
 #endif
 
 #ifdef __GLIBC__

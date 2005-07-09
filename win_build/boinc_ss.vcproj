@@ -25,24 +25,26 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="../client/StdAfx.h"
-				PrecompiledHeaderFile=".\Build\Debug\boinc_ss\obj/boinc_ss.pch"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_ss\obj/"
 				ObjectFile=".\Build\Debug\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_ss\obj/"
 				BrowseInformation="1"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
-				CompileAs="2"/>
+				CompileAs="2"
+				ForcedIncludeFiles="boinc_win.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="LIBCMTD.LIB LIBCPMTD.LIB wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile="Build\Debug\boinc.scr"
-				LinkIncremental="1"
+				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
@@ -106,15 +108,16 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="../client/boinc_win.h"
-				PrecompiledHeaderFile=".\Build\Release\boinc_ss\obj/boinc_win.pch"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_ss\obj/"
 				ObjectFile=".\Build\Release\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_ss\obj/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
-				CompileAs="2"/>
+				CompileAs="2"
+				ForcedIncludeFiles="boinc_win.h"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool

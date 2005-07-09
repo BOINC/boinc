@@ -17,9 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#else
+#ifndef _WIN32
 #include <unistd.h>
 #include <cstdio>
 #include <sys/socket.h>
@@ -28,7 +26,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <fcntl.h>
-
 #endif
 
 #include "error_numbers.h"

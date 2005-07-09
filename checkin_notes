@@ -9042,3 +9042,41 @@ Rom    8 July 2005
         BOINCGUI.pjd
         DlgAccountManagerStatus.cpp, .h
         MainFrame.cpp
+
+Rom    8 July 2005
+    - Fix the issues with enabling precompiled headers on Windows and enable
+        them.  Compile times on a 3Ghz machine goes from 4 mins and 5 seconds
+        for all the components that are released to 1 min and 27 seconds.  On
+        slower machines the performance increase should be more dramatic.
+
+      NOTE: You should choose 'rebuild solution' after sync'ing the source
+        tree.
+
+      NOTE: If you are using Visual Studio to build your science applications
+        you'll need to force include boinc_win.h when building libboincapi and
+        libboinc.
+
+    client/win/
+        stdafx.h
+        win_service.cpp
+    clientgui/
+        stdwx.h
+    lib/
+        boinc_win.h
+        diagnostics.C
+        filesys.C
+        gui_rpc_client.C
+        network.C
+        parse.C
+        prefs.C
+        stackwalker_win.cpp
+        util.C
+    win_build/
+        BOINCGUI.vcproj
+        RSAEuro.vcproj
+        boinc_cli.vcproj
+        boinc_dll.vcproj
+        boinc_gui.vcproj
+        boinc_guirpc_test.vcproj
+        boinc_ss.vcproj
+        upper_case.vcproj

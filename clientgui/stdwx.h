@@ -52,19 +52,8 @@
 
 #endif
 
+#include <wx/wx.h>
 #include <wx/config.h>          // configuration support
-
-// For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-    #include "wx/wx.h"
-#endif
-
 #include <wx/debug.h>           // diagnostics support
 #include <wx/log.h>             // logging support
 #include <wx/accel.h>           // accelerator support
@@ -73,8 +62,6 @@
 #include <wx/settings.h>        // system settings support
 #include <wx/intl.h>            // internationalization support
 #include <wx/timer.h>           // timer support
-#include <wx/image.h>
-#include <wx/url.h>
 #include <wx/filename.h>        // filesystem support
 #include <wx/bitmap.h>          // bitmap modification support
 #include <wx/toolbar.h>         // toolbars support
@@ -87,6 +74,8 @@
 #include <wx/stattext.h>        // static text support
 #include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
+#include <wx/image.h>
+#include <wx/url.h>
 #include <wx/textdlg.h>
 #include <wx/mimetype.h>
 #include <wx/event.h>
@@ -102,7 +91,7 @@
 #endif
 
 
-#ifdef __WXMSW__
+#ifdef _WIN32
 
 // Windows Headers
 //
@@ -114,11 +103,8 @@
 //
 
 // C headers
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <cassert>
 #include <cctype>
-#include <cerrno>
 #include <cerrno>
 #include <cmath>
 #include <csetjmp>
@@ -127,11 +113,12 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <fcntl.h>
+#include <locale>
+#include <cfloat>
 
 
 // C++ headers
-#ifdef __WXMSW__
+#ifdef _WIN32
 #include <xdebug>
 #endif
 #include <algorithm>
@@ -142,10 +129,9 @@
 #include <sstream>
 #include <vector>
 #include <list>
-#include <locale>
 
 
-#ifdef __WXMSW__
+#ifdef _WIN32
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
 #define fdopen                  _fdopen
@@ -154,6 +140,7 @@
 #define strdup                  _strdup
 #define read                    _read
 #define stat                    _stat
+#define finite                  _finite
 #endif
 
 
