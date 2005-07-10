@@ -9080,3 +9080,13 @@ Rom    8 July 2005
         boinc_guirpc_test.vcproj
         boinc_ss.vcproj
         upper_case.vcproj
+
+Bruce   10 July 2005
+    - Add explicity leading path to URLs in a 'show user' function that is
+      called from one of the ops pages.  Janus, I used URL_BASE rather
+      than MASTER_URL (what's the distinction?).  Please confirm this.
+
+    html/
+        inc/
+            user.inc
+

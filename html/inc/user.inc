@@ -104,17 +104,17 @@ function show_user_summary_public($user) {
     show_credit($user);
 
     if ($user->teamid && ($team = lookup_team($user->teamid))) {
-        row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a>");
+        row2("Team", "<a href=".URL_BASE."team_display.php?teamid=$team->id>$team->name</a>");
     } else {
         row2("Team", "None");
     }
     if ($user->show_hosts) {
-        row2("Computers", "<a href=hosts_user.php?userid=$user->id>View</a>");
+        row2("Computers", "<a href=".URL_BASE."hosts_user.php?userid=$user->id>View</a>");
     } else {
         row2("Computers", "hidden");
     }
     if ($user->posts) {
-        row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts</a>");
+        row2("Message board posts", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$user->posts</a>");
     }
 }
 
