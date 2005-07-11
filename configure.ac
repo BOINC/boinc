@@ -29,6 +29,20 @@ AC_ARG_ENABLE(client,
     [],
     [enable_client=yes])
 
+dnl ======================================================================
+dnl some vodoo required for building portable client-binary (client, clientgui)
+dnl ======================================================================
+AC_ARG_ENABLE([client-release], AC_HELP_STRING([--enable-client-release],
+        [Try building a portable "release-candidate" (currently implemented for Linux and Solaris only): \
+        this links libstd++ statically. You will probably need gcc-3.0 for
+        this to produce a portable client-binary.
+        It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
+        (Default = no)]),
+        [enable_client_release=yes
+        disable_static_client=no],
+        [enable_client_release=no
+        disable_static_client=yes])
+
 m4_divert_once([HELP_ENABLE],
   AC_HELP_STRING([], [Default: --enable-server --enable-client: 
                       builds both server and client]))
@@ -136,6 +150,27 @@ AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 SAH_OPTION_BITNESS
+
+dnl Some platform specific settings
+case $target in
+   *linux* | *sun* )
+        if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
+           AC_MSG_WARN([--enable-client-release ignored.
+--------------------------------------------------
+The switch --enable-client-release is only useful for building the client and will be ignored
+--------------------------------------------------])
+        fi
+        ;;
+   *)   ## in the non-linux, non-solaris case, --enable-client-release is not allowed
+        if test "${enable_client_release}" = yes; then
+           AC_MSG_WARN([
+----------------------------------------------------------------------
+Sorry, the switch --enable-client-release is currently only implemented
+for Linux and Solaris, and will have no effect.
+----------------------------------------------------------------------])
+        fi
+        ;;
+esac
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile
@@ -411,40 +446,10 @@ AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 
 
-dnl ======================================================================
-dnl some vodoo required for building portable client-binary (client, clientgui)
-dnl ======================================================================
-AC_ARG_ENABLE([client-release], AC_HELP_STRING([--enable-client-release],
-	[Try building a portable "release-candidate" (currently implemented for Linux and Solaris only): \
-	this links libstd++ statically. You will probably need gcc-3.0 for 
-	this to produce a portable client-binary. 
-	It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
-	(Default = no)]), 
-	[enable_client_release=yes
-	disable_static_client=no], 
-	[enable_client_release=no
-	disable_static_client=yes])
 
-dnl Some platform specific settings
-case $target in
-   *linux* | *sun* ) 
-	if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
-	   AC_MSG_WARN([--enable-client-release ignored.
---------------------------------------------------
-The switch --enable-client-release is only useful for building the client and will be ignored
---------------------------------------------------]) 
-        fi
-	;;
-   *)	## in the non-linux, non-solaris case, --enable-client-release is not allowed
-	if test "${enable_client_release}" = yes; then
-	   AC_MSG_WARN([
-----------------------------------------------------------------------
-Sorry, the switch --enable-client-release is currently only implemented
-for Linux and Solaris, and will have no effect.
-----------------------------------------------------------------------])
-	fi  
-	;; 
-esac
+dnl ======================================================================
+dnl some more vodoo required for building portable client-binary (client, clientgui)
+dnl ======================================================================
 
 CLIENTLIBS=
 if ( test "${disable_static_client}" != yes ) && ( test "${enable_client}" = yes ); then
