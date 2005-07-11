@@ -2,7 +2,7 @@ AC_DEFUN([SAH_STATICIZE_LDFLAGS],[
    STATIC_LIB_LIST="${STATIC_LIB_LIST} $3"
    liblist=`echo $1 | $AWK '{for (i=1;i<(NF+1);i++) {print $[]i;}}' | grep -v "Wl,[sd]" ` 
    ssl_sah_save_libs="${LIBS}"
-   echo "DEBUG: before mangling $2:$1" 
+   echo "DEBUG: before mangling $2:$1" >&5
    sah_outputlibs=
    for somelib in ${liblist}; do
        # look for the -l to find the libraries
@@ -34,7 +34,7 @@ AC_DEFUN([SAH_STATICIZE_LDFLAGS],[
          fi
        fi
    done
-   echo "DEBUG: final link-line for $2:${sah_outputlibs}"
+   echo "DEBUG: final link-line for $2:${sah_outputlibs}" >&5
    $2=${sah_outputlibs}
    LIBS="${ssl_sah_save_libs}"
 ])
