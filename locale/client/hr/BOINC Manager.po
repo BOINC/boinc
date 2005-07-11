@@ -1,0 +1,1048 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC Manager 4.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-07-05 13:11+0100\n"
+"Last-Translator: Vedran <vedran.brnjetic@os.htnet.hr>\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
+
+#: clientgui/BOINCGUIApp.cpp:264
+msgid "Startup BOINC so only the system tray icon is visible"
+msgstr "Pokrenuti BOINC tako da je vidljiva samo ikona u trayu"
+
+#: clientgui/BOINCGUIApp.cpp:324
+msgid "(Automatic Detection)"
+msgstr "(Automatska detekcija)"
+
+#: clientgui/BOINCGUIApp.cpp:325
+msgid "(Unknown)"
+msgstr "(Nepoznato)"
+
+#: clientgui/BOINCGUIApp.cpp:326
+msgid "(User Defined)"
+msgstr "(Korisnički određeno)"
+
+#: clientgui/BOINCTaskBar.cpp:66
+#: clientgui/DlgAbout.cpp:112
+msgid "BOINC Manager"
+msgstr "BOINC Menadžer"
+
+#: clientgui/BOINCTaskBar.cpp:353
+#: clientgui/MainFrame.cpp:387
+#: clientgui/mac/MacSysMenu.cpp:75
+msgid "E&xit"
+msgstr "&Izlaz"
+
+#: clientgui/BOINCTaskBar.cpp:372
+#: clientgui/BOINCTaskBar.cpp:379
+msgid "&Open BOINC Manager..."
+msgstr "&Otvori BOINC menadžer"
+
+#: clientgui/BOINCTaskBar.cpp:383
+#: clientgui/MainFrame.cpp:345
+msgid "&Run always"
+msgstr "&Uvijek radi"
+
+#: clientgui/BOINCTaskBar.cpp:384
+#: clientgui/MainFrame.cpp:350
+msgid "Run based on &preferences"
+msgstr "&Radi ovisno o postavkama"
+
+#: clientgui/BOINCTaskBar.cpp:385
+#: clientgui/MainFrame.cpp:355
+msgid "&Suspend"
+msgstr "&Zaustavi"
+
+#: clientgui/BOINCTaskBar.cpp:387
+msgid "&Disable BOINC network access"
+msgstr "Za&brani pristup mreži"
+
+#: clientgui/BOINCTaskBar.cpp:389
+#: clientgui/MainFrame.cpp:425
+msgid "&About BOINC Manager..."
+msgstr "O &BOINC menadžeru"
+
+#: clientgui/DlgAbout.cpp:126
+msgid "Version:"
+msgstr "Verzija:"
+
+#: clientgui/DlgAbout.cpp:134
+msgid "Copyright:"
+msgstr "Autorska prava:"
+
+#: clientgui/DlgAbout.cpp:138
+msgid ""
+"(C) 2005 University of California at Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"(C) 2005 Kalifornijsko sveučilište u Berkeleyu.\n"
+"Sva prava pridržana."
+
+#: clientgui/DlgAbout.cpp:142
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+#: clientgui/DlgAbout.cpp:146
+msgid "http://boinc.berkeley.edu/"
+msgstr "http://boinc.berkeley.edu/"
+
+#: clientgui/DlgAbout.cpp:154
+#: clientgui/DlgAccountManagerSignup.cpp:155
+#: clientgui/DlgAttachProject.cpp:144
+#: clientgui/DlgDialupCredentials.cpp:138
+#: clientgui/DlgOptions.cpp:389
+#: clientgui/DlgSelectComputer.cpp:139
+msgid "&OK"
+msgstr "&U redu"
+
+#: clientgui/DlgAccountManagerSignup.cpp:114
+msgid ""
+"Account managers make it easy to find and join BOINC projects.\n"
+"For more information, click on the link below."
+msgstr ""
+"Menadžeri računa olakšavaju pronalažanje i opredjeljivanje BOINC projektima.\n"
+" Za više informacija, kliknite povezicu ispod."
+
+#: clientgui/DlgAccountManagerSignup.cpp:128
+msgid "Account Manager URL:"
+msgstr "Adresa menadžera računa:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:136
+msgid "Login:"
+msgstr "Ime:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:144
+#: clientgui/DlgDialupCredentials.cpp:127
+#: clientgui/DlgOptions.cpp:318
+#: clientgui/DlgOptions.cpp:374
+#: clientgui/DlgSelectComputer.cpp:128
+msgid "Password:"
+msgstr "Lozinka:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:160
+#: clientgui/DlgAccountManagerStatus.cpp:144
+#: clientgui/DlgAttachProject.cpp:149
+#: clientgui/DlgDialupCredentials.cpp:143
+#: clientgui/DlgOptions.cpp:394
+#: clientgui/DlgSelectComputer.cpp:144
+msgid "&Cancel"
+msgstr "&Poništi"
+
+#: clientgui/DlgAccountManagerStatus.cpp:120
+msgid "Your current account manager:"
+msgstr "Vaš trenutni menadžer računa:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:124
+#: clientgui/DlgAccountManagerStatus.cpp:128
+msgid "http://a/b/c/"
+msgstr "http://a/b/c/"
+
+#: clientgui/DlgAccountManagerStatus.cpp:135
+msgid "&Update accounts"
+msgstr "&Ažuriraj račune"
+
+#: clientgui/DlgAccountManagerStatus.cpp:140
+msgid "Change manager"
+msgstr "Promjena menadžera"
+
+#: clientgui/DlgAttachProject.cpp:121
+msgid "URL:"
+msgstr "Adresa:"
+
+#: clientgui/DlgAttachProject.cpp:129
+msgid "Account Key:"
+msgstr "Identifikator računa:"
+
+#: clientgui/DlgAttachProject.cpp:137
+msgid ""
+"These are emailed to you when you create an account.\n"
+"Go to project web sites to create accounts.\n"
+"Visit http://boinc.berkeley.edu for a list of projects."
+msgstr ""
+"Te podatke dobivate putem e-pošte kad stvorite račun.\n"
+"Za stvaranje računa posjetite web stranicu projekta.\n"
+"Posjetite http://boinc.berkeley.edu za popis projekata."
+
+#: clientgui/DlgDialupCredentials.cpp:119
+msgid "Username:"
+msgstr "Korisničko ime:"
+
+#: clientgui/DlgOptions.cpp:182
+msgid "Language Selection:"
+msgstr "Odabir jezika:"
+
+#: clientgui/DlgOptions.cpp:189
+msgid "What language should the manager display by default."
+msgstr "Koji jezik će se prikazivati automatski."
+
+#: clientgui/DlgOptions.cpp:193
+msgid "Reminder Frequency:"
+msgstr "Frekvencija podsjećenja:"
+
+#: clientgui/DlgOptions.cpp:199
+msgid "How often, in minutes, should the manager remind you of possible connection events."
+msgstr "Koliko često, u minutama, će vas menadžer podsjećati o mogućim spajanjima:"
+
+#: clientgui/DlgOptions.cpp:202
+msgid "General"
+msgstr "Općenito"
+
+#: clientgui/DlgOptions.cpp:211
+msgid "&Automatically detect network connection settings"
+msgstr "&Automatski ispitaj postavke spajanja na mrežu"
+
+#: clientgui/DlgOptions.cpp:216
+msgid "Use my &Local Area Network(LAN) connection"
+msgstr "Koristi moju &Lokalnu mrežnu (LAN) vezu"
+
+#: clientgui/DlgOptions.cpp:221
+msgid "Use my &Dial-up and Virtual Private Network connection"
+msgstr "Koristi moju &modemsku i VPN vezu"
+
+#: clientgui/DlgOptions.cpp:225
+msgid "Dial-up and Virtual Private Network settings"
+msgstr "Modemske i VPN postavke"
+
+#: clientgui/DlgOptions.cpp:239
+msgid "&Set Default"
+msgstr "&Postavi kao pretpostavljeno"
+
+#: clientgui/DlgOptions.cpp:244
+msgid "&Clear Default"
+msgstr "O&briši pretpostavljeno"
+
+#: clientgui/DlgOptions.cpp:251
+msgid "Default Connection:"
+msgstr "Pretpostavljena veza:"
+
+#: clientgui/DlgOptions.cpp:261
+msgid "&Prompt for username and password"
+msgstr "&Upitaj korisničko ime i lozinku"
+
+#: clientgui/DlgOptions.cpp:268
+msgid "Connections"
+msgstr "Veze"
+
+#: clientgui/DlgOptions.cpp:277
+msgid "Connect via HTTP proxy server"
+msgstr "Spoji se preko HTTP proxy servera"
+
+#: clientgui/DlgOptions.cpp:281
+msgid "HTTP Proxy Server Configuration"
+msgstr "Konfiguracija HTTP proxy servera"
+
+#: clientgui/DlgOptions.cpp:289
+#: clientgui/DlgOptions.cpp:345
+msgid "Address:"
+msgstr "Adresa:"
+
+#: clientgui/DlgOptions.cpp:297
+#: clientgui/DlgOptions.cpp:353
+msgid "Port:"
+msgstr "Port:"
+
+#: clientgui/DlgOptions.cpp:304
+#: clientgui/DlgOptions.cpp:360
+msgid "Leave these blank if not needed"
+msgstr "Ne ispunjavajte ukoliko nije potrebno"
+
+#: clientgui/DlgOptions.cpp:310
+#: clientgui/DlgOptions.cpp:366
+msgid "User Name:"
+msgstr "Korisničko ime:"
+
+#: clientgui/DlgOptions.cpp:325
+msgid "HTTP Proxy"
+msgstr "HTTP Proxy"
+
+#: clientgui/DlgOptions.cpp:333
+msgid "Connect via SOCKS proxy server"
+msgstr "Spoji se preko SOCKS proxy servera"
+
+#: clientgui/DlgOptions.cpp:337
+msgid "SOCKS Proxy Server Configuration"
+msgstr "Konfiguracija SOCKS proxy servera"
+
+#: clientgui/DlgOptions.cpp:381
+msgid "SOCKS Proxy"
+msgstr "SOCKS Proxy"
+
+#: clientgui/DlgSelectComputer.cpp:119
+msgid "Host name:"
+msgstr "Naziv računala:"
+
+#: clientgui/hyperlink.cpp:78
+msgid "Failed to create wxStaticText, needed by wxHyperLink!"
+msgstr "Neuspjelo kreiranje wxStaticTexta, koji je potreban wxHyperLink-u!"
+
+#: clientgui/MainDocument.cpp:161
+msgid "BOINC Manager - Connection Error"
+msgstr "BOINC menadžer - greška u spaanju"
+
+#: clientgui/MainDocument.cpp:162
+msgid "The password you have provided is incorrect, please try again."
+msgstr "Lozinka koju ste unijeli je netočna, molimo pokušajte ponovno."
+
+#: clientgui/MainDocument.cpp:180
+msgid "BOINC Manager - Connection failed"
+msgstr "BOINC menadžer - Veza prekinuta"
+
+#: clientgui/MainDocument.cpp:181
+#: clientgui/MainFrame.cpp:925
+#: clientgui/MainFrame.cpp:926
+msgid "Connection failed."
+msgstr "Veza prekinuta."
+
+#: clientgui/MainDocument.cpp:287
+msgid "Retrieving system state; please wait..."
+msgstr "Provjeravam stanje sistema; molimo pričekajte..."
+
+#: clientgui/MainDocument.cpp:296
+msgid "Retrieving host information; please wait..."
+msgstr "Provjeravam stanje računala; molimo pričekajte..."
+
+#: clientgui/MainDocument.cpp:855
+msgid "BOINC error"
+msgstr "BOINC greška"
+
+#: clientgui/MainDocument.cpp:865
+msgid "BOINC info"
+msgstr "BOINC info"
+
+#: clientgui/MainFrame.cpp:80
+msgid "Connected"
+msgstr "Spojeno"
+
+#: clientgui/MainFrame.cpp:88
+msgid "Disconnected"
+msgstr "Prekinuto"
+
+#: clientgui/MainFrame.cpp:331
+msgid "Close"
+msgstr "Zatvoriti"
+
+#: clientgui/MainFrame.cpp:332
+msgid "Closes the main BOINC Manager window"
+msgstr "Zatvara glavni prozor BOINC menadžera"
+
+#: clientgui/MainFrame.cpp:337
+msgid "&Hide"
+msgstr "&Sakrij"
+
+#: clientgui/MainFrame.cpp:338
+msgid "Hides the main BOINC Manager window"
+msgstr "Sakriva glavni prozor BOINC menadžera"
+
+#: clientgui/MainFrame.cpp:346
+msgid "Does work regardless of preferences"
+msgstr "Obrađuje bez obzira na postavke"
+
+#: clientgui/MainFrame.cpp:351
+msgid "Does work according to your preferences"
+msgstr "Obrađuje ovisno o postavkama"
+
+#: clientgui/MainFrame.cpp:356
+msgid "Stops work regardless of preferences"
+msgstr "Zaustavlja obradu bez obzira na postavke"
+
+#: clientgui/MainFrame.cpp:363
+msgid "&Disable BOINC Network Access"
+msgstr "O&nemogući pristup mreži"
+
+#: clientgui/MainFrame.cpp:364
+msgid "Stops BOINC network activity"
+msgstr "Zaustavlja mrežnu aktivnost BOINC-a"
+
+#: clientgui/MainFrame.cpp:371
+msgid "Run &Benchmarks"
+msgstr "Pokreni &testove"
+
+#: clientgui/MainFrame.cpp:372
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Pokreće BOINC-ove testove procesora"
+
+#: clientgui/MainFrame.cpp:379
+msgid "Select Computer..."
+msgstr "Odaberite računalo..."
+
+#: clientgui/MainFrame.cpp:380
+msgid "Connect to another computer running BOINC"
+msgstr "Spojite se na drugo računolo koje ima BOINC"
+
+#: clientgui/MainFrame.cpp:388
+msgid "Exit the BOINC Manager"
+msgstr "Zatvori BOINC menadžer"
+
+#: clientgui/MainFrame.cpp:395
+msgid "&Manage Accounts"
+msgstr "&Uređivanje računa"
+
+#: clientgui/MainFrame.cpp:396
+msgid "Connect to an account manager website and update all of your accounts"
+msgstr "Spojite se na website menadžera računa i ažurirajte sve vaše račune"
+
+#: clientgui/MainFrame.cpp:403
+msgid "&Options"
+msgstr "&Opcije"
+
+#: clientgui/MainFrame.cpp:404
+msgid "Configure GUI options and proxy settings"
+msgstr "Podešava GUI opcije i proxy postavke"
+
+#: clientgui/MainFrame.cpp:411
+msgid "&BOINC Manager\tF1"
+msgstr "&BOINC menadžer\tF1"
+
+#: clientgui/MainFrame.cpp:412
+msgid "Show information about the BOINC Manager"
+msgstr "Pokazuje informacije o BOINC menadžeru"
+
+#: clientgui/MainFrame.cpp:417
+msgid "BOINC &Website"
+msgstr "BOINC &Webstranica"
+
+#: clientgui/MainFrame.cpp:418
+msgid "Show information about BOINC and BOINC Manager"
+msgstr "Pokazuje informacije o BOINC-u i BOINC menadžeru"
+
+#: clientgui/MainFrame.cpp:426
+msgid "Licensing and copyright information."
+msgstr "Licenčne i autorske informacije."
+
+#: clientgui/MainFrame.cpp:433
+msgid "&File"
+msgstr "&Datoteka"
+
+#: clientgui/MainFrame.cpp:437
+msgid "&Tools"
+msgstr "&Alati"
+
+#: clientgui/MainFrame.cpp:441
+msgid "&Help"
+msgstr "&Pomoć"
+
+#: clientgui/MainFrame.cpp:1101
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr "BOINC menadžerov pretpostavljeni jezik je promijenjen, da bi ta promjena stupila na snagu menadžer mora biti restartiran."
+
+#: clientgui/MainFrame.cpp:1102
+msgid "Language Selection..."
+msgstr "Odabir jezika..."
+
+#: clientgui/MainFrame.cpp:1429
+#: clientgui/MainFrame.cpp:1444
+#: clientgui/MainFrame.cpp:1450
+#: clientgui/MainFrame.cpp:1486
+#: clientgui/MainFrame.cpp:1500
+#: clientgui/MainFrame.cpp:1510
+#: clientgui/MainFrame.cpp:1706
+#: clientgui/MainFrame.cpp:1717
+msgid "BOINC Manager - Network Status"
+msgstr "BOINC menadžer - Stanje mreže"
+
+#: clientgui/MainFrame.cpp:1430
+msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
+msgstr "BOINC treba vezu na internet radi održavanja, otvorite BOINC menadžer da se spoji i obavi potreban posao."
+
+#: clientgui/MainFrame.cpp:1443
+msgid ""
+"BOINC needs to connect to the network.\n"
+"May it do so now?"
+msgstr ""
+"BOINC se treba spojiti na internet.\n"
+"Može li to učiniti sada"
+
+#: clientgui/MainFrame.cpp:1451
+msgid "BOINC is connecting to the internet."
+msgstr "BOINC se spaja na internet."
+
+#: clientgui/MainFrame.cpp:1487
+msgid "BOINC has detected it is now connected to the internet, updating all projects and retrying all transfers."
+msgstr "BOINC je detektirao vezu na internet, ažurira sve projekte i ponovo pokušava sve prijenose."
+
+#: clientgui/MainFrame.cpp:1501
+msgid "BOINC has successfully disconnected from the internet."
+msgstr "BOINC se uspješno odpojio s interneta."
+
+#: clientgui/MainFrame.cpp:1511
+msgid "BOINC failed to disconnected from the internet."
+msgstr "BOINC se nije uspio odpojiti s interneta."
+
+#: clientgui/MainFrame.cpp:1609
+#: clientgui/MainFrame.cpp:1612
+#, c-format
+msgid "%s - (%s)"
+msgstr "%s - (%s)"
+
+#: clientgui/MainFrame.cpp:1610
+#, c-format
+msgid "Connecting to %s"
+msgstr "Spajam se na %s"
+
+#: clientgui/MainFrame.cpp:1613
+#, c-format
+msgid "Connected to %s"
+msgstr "Spojeno na %s"
+
+#: clientgui/MainFrame.cpp:1707
+msgid "BOINC has successfully connected to the internet, updating all transfers and projects."
+msgstr "BOINC se uspješno spojio na internet, ažurira sve projekte i ponovo pokušava sve prijenose."
+
+#: clientgui/MainFrame.cpp:1718
+msgid "BOINC failed to connect to the internet."
+msgstr "BOINC se nije uspio spojiti na internet."
+
+#: clientgui/ValidateAccountKey.cpp:70
+msgid "Invalid Account Key; please enter a valid Account Key"
+msgstr "Neispravan identifikator računa; molimo unesite valjani identifikator računa."
+
+#: clientgui/ValidateAccountKey.cpp:81
+#: clientgui/ValidateURL.cpp:88
+msgid "Validation conflict"
+msgstr "Konflikt pri validaciji."
+
+#: clientgui/ValidateURL.cpp:75
+#, c-format
+msgid "'%s' does not contain a valid host name."
+msgstr "'%s' ne sadrži valjano ime računala"
+
+#: clientgui/ValidateURL.cpp:77
+#, c-format
+msgid "'%s' does not contain a valid path."
+msgstr "'%s' ne sadrži valjan put."
+
+#: clientgui/ViewMessages.cpp:73
+#: clientgui/ViewProjects.cpp:106
+#: clientgui/ViewStatistics.cpp:313
+#: clientgui/ViewTransfers.cpp:91
+#: clientgui/ViewWork.cpp:94
+msgid "Tasks"
+msgstr "Zadaće"
+
+#: clientgui/ViewMessages.cpp:77
+msgid "Copy all messages"
+msgstr "Kopiraj sve poruke"
+
+#: clientgui/ViewMessages.cpp:78
+msgid "Copy all the messages to the clipboard."
+msgstr "Kopiraj sve poruke u memoriju"
+
+#: clientgui/ViewMessages.cpp:84
+msgid "Copy selected messages"
+msgstr "Kopiraj oznčene poruke"
+
+#: clientgui/ViewMessages.cpp:85
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "Kopiraj označene poruke u memoriju. Možete označiti više poruka držeći shift ili ctrl dok klikate na poruke."
+
+#: clientgui/ViewMessages.cpp:97
+#: clientgui/ViewProjects.cpp:173
+#: clientgui/ViewResources.cpp:78
+#: clientgui/ViewTransfers.cpp:114
+#: clientgui/ViewWork.cpp:124
+msgid "Project"
+msgstr "Projekt"
+
+#: clientgui/ViewMessages.cpp:98
+msgid "Time"
+msgstr "Vrijeme"
+
+#: clientgui/ViewMessages.cpp:99
+msgid "Message"
+msgstr "Poruka"
+
+#: clientgui/ViewMessages.cpp:123
+msgid "Messages"
+msgstr "Poruke"
+
+#: clientgui/ViewMessages.cpp:144
+msgid "Copying all messages to the clipboard..."
+msgstr "Kopiranje svih poruka u memoriju..."
+
+#: clientgui/ViewMessages.cpp:177
+#: clientgui/ViewTransfers.cpp:182
+msgid "Aborting transfer..."
+msgstr "Prekidam prijenos..."
+
+#: clientgui/ViewProjects.cpp:110
+msgid "Update"
+msgstr "Ažuriraj"
+
+#: clientgui/ViewProjects.cpp:111
+msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Prijavi sav završen posao, prihvati najnoviji kredit, prihvati najnovije poruke, i možda dobij još posla."
+
+#: clientgui/ViewProjects.cpp:118
+msgid "Update All"
+msgstr "Ažuriraj sve"
+
+#: clientgui/ViewProjects.cpp:119
+msgid "Report all upload items, completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Podigni sve završene radne jedinice, prijavi sav završen posao, prihvati najnoviji kredit, prihvati najnovije poruke, i možda dobij još posla."
+
+#: clientgui/ViewProjects.cpp:126
+#: clientgui/ViewProjects.cpp:633
+#: clientgui/ViewWork.cpp:98
+#: clientgui/ViewWork.cpp:449
+msgid "Suspend"
+msgstr "Zaustavi"
+
+#: clientgui/ViewProjects.cpp:127
+#: clientgui/ViewProjects.cpp:633
+msgid "Suspend work for this project."
+msgstr "Zaustavi posao za ovaj projekt"
+
+#: clientgui/ViewProjects.cpp:133
+#: clientgui/ViewProjects.cpp:643
+msgid "No new work"
+msgstr "Ne skidaj više posla"
+
+#: clientgui/ViewProjects.cpp:134
+#: clientgui/ViewProjects.cpp:643
+msgid "Don't fetch new work for this project."
+msgstr "Ne skida posao za ovaj projekt"
+
+#: clientgui/ViewProjects.cpp:140
+msgid "Reset project"
+msgstr "Resetiraj projekt"
+
+#: clientgui/ViewProjects.cpp:141
+msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
+msgstr "Briše sve datoteke i posao vezan uz projekt, i skida novi posao. Možete prvo ažurirati projekt kako bi prijavili mogući završeni posao."
+
+#: clientgui/ViewProjects.cpp:150
+msgid "Detach"
+msgstr "Isključi se"
+
+#: clientgui/ViewProjects.cpp:151
+msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
+msgstr "Isključuje ovo računalo iz označenog projekta. Posao u tijeku bit će izgubljen. Možete prvo ažurirati projekt kako bi prijavili mogući završeni posao."
+
+#: clientgui/ViewProjects.cpp:160
+msgid "Attach to new project"
+msgstr "Priključi se"
+
+#: clientgui/ViewProjects.cpp:161
+msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
+msgstr "Priključite ovo računalo novom projektu. Trebat će vam URL projekta i identifikator računa (posjetite web stranicu projekta za ove podatke)."
+
+#: clientgui/ViewProjects.cpp:174
+msgid "Account"
+msgstr "Račun"
+
+#: clientgui/ViewProjects.cpp:175
+msgid "Team"
+msgstr "Tim"
+
+#: clientgui/ViewProjects.cpp:176
+msgid "Total credit"
+msgstr "Ukupan kredit"
+
+#: clientgui/ViewProjects.cpp:177
+msgid "Avg. credit"
+msgstr "Prosječan kredit"
+
+#: clientgui/ViewProjects.cpp:178
+msgid "Resource share"
+msgstr "Djeljenje resursa"
+
+#: clientgui/ViewProjects.cpp:179
+#: clientgui/ViewTransfers.cpp:120
+#: clientgui/ViewWork.cpp:131
+msgid "Status"
+msgstr "Stanje"
+
+#: clientgui/ViewProjects.cpp:192
+msgid "Projects"
+msgstr "Projekti"
+
+#: clientgui/ViewProjects.cpp:214
+msgid "Updating project..."
+msgstr "Ažuriram projekt..."
+
+#: clientgui/ViewProjects.cpp:238
+msgid "Updating all project(s)..."
+msgstr "Ažuriram sve projekte..."
+
+#: clientgui/ViewProjects.cpp:264
+msgid "Resuming project..."
+msgstr "Nastavljam projekt"
+
+#: clientgui/ViewProjects.cpp:268
+msgid "Suspending project..."
+msgstr "Zaustavljam projekt"
+
+#: clientgui/ViewProjects.cpp:295
+msgid "Telling project to allow additional work downloads..."
+msgstr "Govorim projektu da dopusti skidanje novog posla..."
+
+#: clientgui/ViewProjects.cpp:299
+msgid "Telling project to not fetch additional work..."
+msgstr "Govorim projektu da ne skida novi posao..."
+
+#: clientgui/ViewProjects.cpp:329
+msgid "Resetting project..."
+msgstr "Resetiram projekt"
+
+#: clientgui/ViewProjects.cpp:335
+#, c-format
+msgid "Are you sure you want to reset project '%s'?"
+msgstr "Jeste li sigurni da želite resetirati projekt '%s'?"
+
+#: clientgui/ViewProjects.cpp:341
+msgid "Reset Project"
+msgstr "Resetiraj projekt"
+
+#: clientgui/ViewProjects.cpp:375
+msgid "Detaching from project..."
+msgstr "Isključujem se iz projekta..."
+
+#: clientgui/ViewProjects.cpp:381
+#, c-format
+msgid "Are you sure you want to detach from project '%s'?"
+msgstr "Jeste li sigurni da se želite isključiti iz projekta '%s'?"
+
+#: clientgui/ViewProjects.cpp:387
+msgid "Detach from Project"
+msgstr "Odvoji se od projekta"
+
+#: clientgui/ViewProjects.cpp:419
+msgid "Attaching to project..."
+msgstr "Uključujem se u projekt..."
+
+#: clientgui/ViewProjects.cpp:455
+msgid "Launching browser..."
+msgstr "Otvaram pretraživač..."
+
+#: clientgui/ViewProjects.cpp:629
+#: clientgui/ViewWork.cpp:445
+msgid "Resume"
+msgstr "Nastavi"
+
+#: clientgui/ViewProjects.cpp:629
+msgid "Resume work for this project."
+msgstr "Nastavi posao za ovaj projekt."
+
+#: clientgui/ViewProjects.cpp:639
+msgid "Allow new work"
+msgstr "Dopusti novi posao"
+
+#: clientgui/ViewProjects.cpp:639
+msgid "Allow fetching new work for this project."
+msgstr "Dopušta skidanje novog posla za ovaj projekt."
+
+#: clientgui/ViewProjects.cpp:679
+msgid "Web sites"
+msgstr "Web stranice"
+
+#: clientgui/ViewProjects.cpp:789
+#: clientgui/ViewWork.cpp:666
+msgid "Suspended by user"
+msgstr "Zaustavljen od korisnika"
+
+#: clientgui/ViewProjects.cpp:792
+msgid "Won't get new work"
+msgstr "Neće dobiti novi posao"
+
+#: clientgui/ViewProjects.cpp:795
+msgid "Scheduler request pending"
+msgstr "Scheduler request pending"
+
+#: clientgui/ViewProjects.cpp:801
+msgid "Communication deferred "
+msgstr "Communication deferred "
+
+#: clientgui/ViewResources.cpp:79
+msgid "Disk Space"
+msgstr "Diskovni prostor"
+
+#: clientgui/ViewResources.cpp:92
+msgid "Disk"
+msgstr "Disk"
+
+#: clientgui/ViewStatistics.cpp:40
+#: clientgui/ViewStatistics.cpp:46
+#: clientgui/ViewStatistics.cpp:372
+msgid "User Total"
+msgstr "Ukupno po korisniku"
+
+#: clientgui/ViewStatistics.cpp:317
+msgid "Show user total"
+msgstr "Pokaži ukupan korisnikov kredit"
+
+#: clientgui/ViewStatistics.cpp:324
+msgid "Show user average"
+msgstr "Pokaži korisnički prosjek"
+
+#: clientgui/ViewStatistics.cpp:331
+msgid "Show host total"
+msgstr "Pokaži ukupan kredit računala"
+
+#: clientgui/ViewStatistics.cpp:338
+msgid "Show host average"
+msgstr "pokaži prosjek računala"
+
+#: clientgui/ViewStatistics.cpp:359
+msgid "Statistics"
+msgstr "Statistika"
+
+#: clientgui/ViewStatistics.cpp:371
+#: clientgui/ViewStatistics.cpp:391
+#: clientgui/ViewStatistics.cpp:411
+#: clientgui/ViewStatistics.cpp:431
+msgid "Updating charts..."
+msgstr "Ažuriram grafove"
+
+#: clientgui/ViewStatistics.cpp:392
+msgid "User Average"
+msgstr "Korisnikov prosjek"
+
+#: clientgui/ViewStatistics.cpp:412
+msgid "Host Total"
+msgstr "Ukupan kredit računala"
+
+#: clientgui/ViewStatistics.cpp:432
+msgid "Host Average"
+msgstr "Prosjek računala"
+
+#: clientgui/ViewTransfers.cpp:95
+msgid "Retry Now"
+msgstr "Ponovi sada"
+
+#: clientgui/ViewTransfers.cpp:96
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "Klikni na 'ponovi sada' da prenesete datoteku sada"
+
+#: clientgui/ViewTransfers.cpp:102
+msgid "Abort Transfer"
+msgstr "Prekini prijenos"
+
+#: clientgui/ViewTransfers.cpp:103
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "Klikni 'prekini prijenos' da obrišete datoteku iz popisa za prijenos. to će vas spriječiti da dobijete kredit za taj rezultat."
+
+#: clientgui/ViewTransfers.cpp:115
+msgid "File"
+msgstr "Datoteka"
+
+#: clientgui/ViewTransfers.cpp:116
+#: clientgui/ViewWork.cpp:128
+msgid "Progress"
+msgstr "Napredak"
+
+#: clientgui/ViewTransfers.cpp:117
+msgid "Size"
+msgstr "Veličina"
+
+#: clientgui/ViewTransfers.cpp:118
+msgid "Elapsed Time"
+msgstr "Proteklo vrijeme"
+
+#: clientgui/ViewTransfers.cpp:119
+msgid "Speed"
+msgstr "Brzina"
+
+#: clientgui/ViewTransfers.cpp:133
+msgid "Transfers"
+msgstr "Prijenosi"
+
+#: clientgui/ViewTransfers.cpp:155
+msgid "Retrying transfer now..."
+msgstr "Ponovo pokušavam prenijeti sada..."
+
+#: clientgui/ViewTransfers.cpp:185
+#, c-format
+msgid "Are you sure you want to abort this file transfer '%s'?"
+msgstr "Jeste li sigurni da želite prekinuti prijenos '%s'?"
+
+#: clientgui/ViewTransfers.cpp:190
+msgid "Abort File Transfer"
+msgstr "Prekini prijenos datoteke"
+
+#: clientgui/ViewTransfers.cpp:506
+msgid "Retry in "
+msgstr "Ponovi za"
+
+#: clientgui/ViewTransfers.cpp:508
+#: clientgui/ViewWork.cpp:657
+msgid "Download failed"
+msgstr "Skidanje neuspjelo"
+
+#: clientgui/ViewTransfers.cpp:510
+#: clientgui/ViewWork.cpp:686
+msgid "Upload failed"
+msgstr "Dizanje neuspjelo"
+
+#: clientgui/ViewTransfers.cpp:513
+#: clientgui/ViewTransfers.cpp:521
+msgid "Suspended"
+msgstr "Zaustavljeno"
+
+#: clientgui/ViewTransfers.cpp:515
+#: clientgui/ViewWork.cpp:688
+msgid "Uploading"
+msgstr "Dizanje"
+
+#: clientgui/ViewTransfers.cpp:515
+#: clientgui/ViewWork.cpp:659
+msgid "Downloading"
+msgstr "Skidanje"
+
+#: clientgui/ViewWork.cpp:99
+#: clientgui/ViewWork.cpp:449
+msgid "Suspend work for this result."
+msgstr "Zausavi posao za ovaj rezultat."
+
+#: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:210
+msgid "Show graphics"
+msgstr "Pokaži grafiku"
+
+#: clientgui/ViewWork.cpp:106
+msgid "Show application graphics in a window."
+msgstr "Pokazuje grafiku aplikacije u prozoru"
+
+#: clientgui/ViewWork.cpp:112
+msgid "Abort"
+msgstr "Obriši"
+
+#: clientgui/ViewWork.cpp:113
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "Napusti posao n rezultatu. Nećete dobit kredit za njega."
+
+#: clientgui/ViewWork.cpp:125
+msgid "Application"
+msgstr "Aplikacija"
+
+#: clientgui/ViewWork.cpp:126
+msgid "Name"
+msgstr "Ime"
+
+#: clientgui/ViewWork.cpp:127
+msgid "CPU time"
+msgstr "Procesorsko vrijeme"
+
+#: clientgui/ViewWork.cpp:129
+msgid "To completion"
+msgstr "Do završetka"
+
+#: clientgui/ViewWork.cpp:130
+msgid "Report deadline"
+msgstr "Rok prijave"
+
+#: clientgui/ViewWork.cpp:144
+msgid "Work"
+msgstr "Posao"
+
+#: clientgui/ViewWork.cpp:168
+msgid "Resuming result..."
+msgstr "Nastavljam rezultat..."
+
+#: clientgui/ViewWork.cpp:172
+msgid "Suspending result..."
+msgstr "Zaustavljam rezultat..."
+
+#: clientgui/ViewWork.cpp:198
+msgid "Showing graphics for result..."
+msgstr "Prikazujem grafiku za rezultat..."
+
+#: clientgui/ViewWork.cpp:209
+msgid "Are you sure you wish to display graphics on a remote machine?"
+msgstr "Jeste li sigurni da želite prikazati rezultat na udaljenom računalu?"
+
+#: clientgui/ViewWork.cpp:258
+msgid "Aborting result..."
+msgstr "Brišem rezultat..."
+
+#: clientgui/ViewWork.cpp:261
+#, c-format
+msgid "Are you sure you want to abort this result '%s'?"
+msgstr "Jeste li sigurni da želite obrisati rezultat '%s'?"
+
+#: clientgui/ViewWork.cpp:267
+msgid "Abort result"
+msgstr "Obriši rezultat"
+
+#: clientgui/ViewWork.cpp:445
+msgid "Resume work for this result."
+msgstr "Nastavi posao za ovaj rezultat"
+
+#: clientgui/ViewWork.cpp:653
+msgid "New"
+msgstr "Novo"
+
+#: clientgui/ViewWork.cpp:664
+msgid "Aborted by user"
+msgstr "Obrisan od korisnika"
+
+#: clientgui/ViewWork.cpp:668
+msgid "Activities suspended"
+msgstr "Aktivnosti zaustavljene"
+
+#: clientgui/ViewWork.cpp:671
+msgid "Running"
+msgstr "Radi"
+
+#: clientgui/ViewWork.cpp:673
+msgid "Preempted"
+msgstr "Pauziran"
+
+#: clientgui/ViewWork.cpp:675
+#: clientgui/ViewWork.cpp:678
+msgid "Ready to run"
+msgstr "Spreman za obradu"
+
+#: clientgui/ViewWork.cpp:682
+msgid "Computation error"
+msgstr "Greška pri obradi"
+
+#: clientgui/ViewWork.cpp:693
+msgid "Acknowledged"
+msgstr "Potvrđeno"
+
+#: clientgui/ViewWork.cpp:695
+msgid "Ready to report"
+msgstr "Spreman za prijavu"
+
+#: clientgui/ViewWork.cpp:697
+#, c-format
+msgid "Error: invalid state '%d'"
+msgstr "Greška: nedopušteno stanje '%d'"
+
+#: clientgui/ViewWork.cpp:704
+msgid "Activities suspended by user"
+msgstr "Aktivnosti zaustavljene od korisnika"
+
+#: clientgui/DlgAbout.h:50
+msgid "About BOINC Manager"
+msgstr "O BOINC menadžeru"
+
+#: clientgui/DlgAccountManagerSignup.h:50
+#: clientgui/DlgAccountManagerStatus.h:49
+msgid "Account Manager"
+msgstr "Menadžer računa"
+
+#: clientgui/DlgAttachProject.h:48
+msgid "Attach to Project"
+msgstr "Priključi se projektu"
+
+#: clientgui/DlgDialupCredentials.h:49
+msgid "Dialup Logon"
+msgstr "Modemska prijava"
+
+#: clientgui/DlgOptions.h:49
+msgid "Options"
+msgstr "Opcije"
+
+#: clientgui/DlgSelectComputer.h:49
+msgid "Select Computer"
+msgstr "Odaberi računalo"
+
