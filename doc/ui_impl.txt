@@ -1,0 +1,6 @@
+Implementation notes
+
+What do we know at the start?
+If they downloaded the installer then they have network connectivity
+and working proxy setup for their browser.
+If via CD-ROM, nothing is known.
