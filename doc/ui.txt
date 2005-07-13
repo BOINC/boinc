@@ -2,11 +2,30 @@ User setup experience
 ---------------------
 
 This document describes the user experience in
-setting up BOINC for the first time on a computer,
-and for attaching to a project from a running client.
+the new BOINC setup procedure
+(i.e., setting up BOINC for the first time on a computer,
+or attaching to a project from a running client).
 
-This document does NOT describe how things are implemented.
-I've used function notation only because there is some overlap
+The design has the following advantages
+relative to the old setup procedure:
+
+1) Simplicity.
+The user interaction is simpler in all cases.
+The user doesn't have to
+deal with the authenticator in the average case,
+there's no reliance on email,
+and no need to pre-create an account on a web site.
+
+2) Resolution of common problems up front.
+In particular, is a host uses a proxy,
+the setup process figures this out and
+tells the user what to do,
+rather than erroring out and requiring the
+user to figure out what's going on.
+
+This document does NOT describe the implementation.
+(that's in ui_impl.txt).
+I've used function notation here only because there is some overlap
 between the various cases.
 
 
@@ -14,7 +33,7 @@ A) Project-specific installer case
 --------------------------------
 
 - Get installer for project (PROJ_URL)
-	either by downloading from site or by project-specific CD-ROM
+	either by downloading from site or on project-specific CD-ROM
 
 - Run installer
 
