@@ -9090,3 +9090,9 @@ Bruce   10 July 2005
         inc/
             user.inc
 
+David  13 July 2005
+    - use doubles for memory size calculation in HPUX,
+        avoid 32-bit overflow (from Walt Gribble and Lars Bausch)
+
+    client/
+        hostinfo_unix.C
