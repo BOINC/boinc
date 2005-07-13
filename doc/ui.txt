@@ -84,13 +84,15 @@ call attach_to_project(PROJ_URL, true)
 
 function attach_to_project(PROJ_URL, bool user_supplied_url)
 
-1) Dialog:
+1) Dialog ("query_key"):
 
+	Attaching to PROJ_URL.
 	Do you already have an account on PROJ_URL?
 
-	No [button]
+	No - create new account [button]
 	Yes [button]  paste account key here: ______________________ [text field]
 				  How to find an existing account key [button]
+    Cancel
 
 Dialog (how to find an existing account key):
 
@@ -119,7 +121,7 @@ If answer to 1) is "no":
 2) BOINC client tries to communicates with project, create account
 
 3) if succeed in creating account
-Dialog:
+Dialog ("welcome"):
 
 	Welcome to PROJ_NAME
 	Your web browser should now show a
@@ -135,8 +137,8 @@ Web page (foo.edu/welcome.php?auth=xxxxx)
 
 	Your new account has a name and optional email address.
 	You can changes these if you like:
-	Name: xxx
-	(this wil be shown on our web site)
+	Name: xxx (the user's account name on host)
+	(this will be shown on our web site)
 	Email address:
 	(this will not be displayed or distributed)
 	OK to send periodic email newsletters [checkbox]
@@ -158,14 +160,19 @@ Web page (foo.edu/welcome.php?auth=xxxxx)
 	go to the Foo@home home page [link]
 
 
-	(update button goes to a "account info updated" page)
+	Notes:
+		- update button goes to a "account info updated" page
+		- if email address already exists, show
+			"An account with that email address already exists.
+
+
 
 (User is done)
 
 
 4) if project replies with an error message:
 
-Dialog:
+Dialog ("project_unavailable"):
 
 	PROJ_NAME is temporarily unavailable.
 	Please check PROJ_URL [link] for information.
@@ -178,15 +185,15 @@ Go to Projects tab.
 user is done.
 
 5) If no connection failure or no reply
-	call network_failure()
-	Go to 6)
+	retry = network_failure()
+	if (retry) go to 2
 
 
 If answer to 4) is "yes":
 
 10) if account key is syntactically invalid
 
-Dialog:
+Dialog ("invalid_key"):
 
 	The account key xxx is invalid.
 	Account keys are 32 characters, each of which is a-f or 0-9.
@@ -196,7 +203,7 @@ Dialog:
 
 11) If project is up, and account key is verified
 
-Dialog:
+Dialog ("valid_key"):
 	Account key is valid.
 	This computer is now participating in Foo@home.
 
@@ -205,7 +212,7 @@ Dialog:
 User is done.
 
 12) If project is up, and account key is not verified
-Dialog:
+Dialog ("unrecognized_key"):
 	xxx is not the key of any existing account on Foo@home.
 	Account keys from other BOINC projects will not work on Foo@home.
 	Please check your account key.
@@ -216,7 +223,7 @@ Go to 4
 
 13) if project replies with an error message:
 
-Dialog:
+Dialog ("project_unavailable"):
 
 	Foo@home is temporarily unavailable.
 	Please check http://foo.edu [link] for information.
@@ -228,7 +235,7 @@ Dialog:
 Go to Projects tab.
 user is done.
 
-14) else (if no reply): call network_failure()
+14) else (if no reply): call network_failure(user_supplied_url)
 
 ----------------
 
@@ -238,7 +245,7 @@ function network_failure(bool user_supplied_url):
 or got no reply.
 Returns true if we should retry the operation.)
 
-Dialog:
+Dialog ("unable_to_contact"):
 
 	BOINC is unable to contact PROJ_URL
 	Possible reasons are:
