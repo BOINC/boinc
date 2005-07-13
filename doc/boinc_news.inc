@@ -2,6 +2,13 @@
 
 $project_news = array(
 
+array("July 08, 2005",
+  "Outage Notice.   The long awaited new main power breaker for 
+  Space Sciences Lab has arrived and a long power outage
+  is needed to install and test it.  This site will
+  be offline for 17 hours or so beginning this coming Monday,
+  July 11 at 22:00 UTC."
+),
 array("June 25, 2005",
     "BOINC statistics sites continue to evolve.
     Check out <a href=http://home.btconnect.com/Gabys_Bazar/hwupgrade.html>Every Earthly Hour</a>, developed by Hydnum Repandum"

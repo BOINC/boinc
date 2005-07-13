@@ -16,7 +16,7 @@ before getting into the source code.
 
 <ul>
 <li> <a href=compile.php>Get and compile BOINC software</a>
-<li> <a href=bugs.php>Report bugs</a>
+<li> <a href=http://bbugs.axpr.net/index.php>Report bugs</a>
 <li> <a href=coding.php>BOINC coding style</a>
 </ul>
 <p>
