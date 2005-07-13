@@ -2,12 +2,12 @@
 
 $project_news = array(
 
-array("July 08, 2005",
-  "Outage Notice.   The long awaited new main power breaker for 
-  Space Sciences Lab has arrived and a long power outage
-  is needed to install and test it.  This site will
-  be offline for 17 hours or so beginning this coming Monday,
-  July 11 at 22:00 UTC."
+array("July 11-12, 2005",
+    "The First Pangalactic BOINC Workshop was held at CERN,
+    bringing together people from ClimatePrediction.net,
+    Einstein@home, CERN, and BOINC.
+    Slides and video of CPDN and E@h talks are available at
+    http://cseminar.home.cern.ch/cseminar/ -> Past events."
 ),
 array("June 25, 2005",
     "BOINC statistics sites continue to evolve.
