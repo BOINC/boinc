@@ -9105,3 +9105,15 @@ David  13 July 2005
         boincmanager.8x8.png
         boincmanager.16x16.png
         boincmanager.32x32.png
+
+David  14 July 2005
+    - Scheduler: update the transition_time of the WU of a sent result
+        (setting it to the report deadline)
+        only if the report deadline is less than current transition_time
+
+        This fixes a bug that causes some WUs to go for several days
+        without enough potentially successful results
+        (from Bruce Allen)
+
+    sched/
+        sched_send.C

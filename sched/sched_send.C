@@ -629,13 +629,16 @@ int add_result_to_reply(
         reply.host.id, result.id, result.name, wu_seconds_filled
     );
 
-    retval = update_wu_transition_time(wu, result.report_deadline);
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "add_result_to_reply: can't update WU transition time: %d\n", retval
-        );
-        return retval;
+    if (result.report_deadline < wu.transition_time) {
+        retval = update_wu_transition_time(wu, result.report_deadline);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "add_result_to_reply: can't update WU transition time: %d\n",
+                retval
+            );
+            return retval;
+        }
     }
 
     // The following overwrites the result's xml_doc field.
