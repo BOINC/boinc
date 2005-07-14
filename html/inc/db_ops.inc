@@ -1088,9 +1088,10 @@ function validate_color($validate_state) {
 
 function outcome_color($outcome) {
     switch($outcome) {
-      // case 0: return 'eeeeee'; // unknown (server state not over probably)
+         case 0: return '9900cc'; // "Init", light green
          case 1: return '33cc33'; // "Success", green
          case 3: return 'ff3333'; // "Client error", red
+         case 4: return 'ff6699'; // "No reply", pink 
          case 6: return 'ffff33'; // "Validate error", yellow
     }
     return '';
@@ -1160,7 +1161,7 @@ function result_short_header() {
         <th>exit<br>status</th>
         <th>host<br>(user)</th>
         <th>app<br>ver</th>
-        <th>received <i>or</i> <font color=\"33cc33\">deadline</font></th>
+        <th>received <br><i>or</i> <font color=\"ff3333\">dead</font><font color=\"33cc33\">line</font> <br><i>or</i> <font color=\"9900cc\">created</font></th>
         <th>CPU<br>hours</th>
         <th>claimed<br>credit</th>
         <th>granted<br>credit</th>
@@ -1182,12 +1183,16 @@ function show_result_short($result) {
         // result has not been received yet, so show report deadline either
         // in green if in the future or in red if in the past.
         $timenow=time();
-        if ($result->report_deadline>=$timenow) {
-            $colortag="<font color=\"33cc33\">";
+        if ($result->report_deadline==0)  {
+            // not sent -- show create time in light green
+            $received = "<font color=\"9900cc\">". time_str($result->create_time) . "</font>";
+        } else if ($result->report_deadline>=$timenow) {
+            // overdue -- show deadline in red
+            $received = "<font color=\"33cc33\">". time_str($result->report_deadline) . "</font>";
         } else {
-            $colortag="<font color=\"ff3333\">";
+            // in progress and not overdue -- show deadline in green
+            $received = "<font color=\"ff3333\">". time_str($result->report_deadline) . "</font>";
         }
-        $received = $colortag . time_str($result->report_deadline) . "</font>";
     }
     $version = $result->app_version_num;
     $outcome_color = outcome_color($result->outcome);

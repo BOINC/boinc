@@ -488,10 +488,19 @@ int handle_wu(
 
     // If transition time is in the past,
     // the system is bogged down and behind schedule.
-    // Make sure we don't process this WU again for at least a day.
-    //
-    if (wu_item.transition_time < now + 86400) {
-        wu_item.transition_time = now + 86400;
+    // Delay processing of the WU by an amount DOUBLE the amount
+    // we are behind, but not less than 60 secs or more than
+    // one day.
+    if (wu_item.transition_time < now) {
+        int extra_delay = 2*(now - wu_item.transition_time);
+        if (extra_delay < 60) extra_delay = 60;
+        if (extra_delay > 86400) extra_delay = 86400;
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[WU#%d %s] transition time in past: adding extra delay %d sec\n",
+            wu_item.id, wu_item.name, extra_delay
+        );
+        wu_item.transition_time = now + extra_delay;
     }
 
     log_messages.printf(

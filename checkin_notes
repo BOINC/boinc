@@ -9158,3 +9158,27 @@ Rom    14 July 2005
         proxy_info.C
         shmem.C
         util.C
+
+Bruce  14 July 2005
+    - Transitioner would not set a new WU transition time less
+      than 24 hours away, to prevent thrashing.  But this delayed
+      reissuing of new results.  For example if two results were
+      issued a hours 17 and 18, and both timed out (no reply). At
+      time 17+deadline the first would time out and a new result
+      would be issued.  But then instead of setting the transition
+      time to 18+deadline it would be set to 18+deadline+1 day.
+
+      To prevent thrashing I have fixed this so that if a transition
+      time is in the past, I advance it by TWICE the amount it is late,
+      but never less than 1 minute or more than 1 day.
+
+    - Ops pages: show unsent/in-progress results in purple.  For
+      unsent results show create time rather than deadline.
+
+    sched/
+        transitioner.C
+    html/
+        inc/
+            db_ops.inc
+
+ if old results were both issued
