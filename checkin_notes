@@ -9182,3 +9182,12 @@ Bruce  14 July 2005
             db_ops.inc
 
  if old results were both issued
+
+Rom    14 July 2005
+    - Not all Windows machines support balloons, so if the manager is running on
+        a machine that does not support balloons display a message box instead.
+    - Display additional network control options on the taskbar menu.
+
+    clientgui/
+        BOINCTaskBar.cpp
+        MainFrame.cpp

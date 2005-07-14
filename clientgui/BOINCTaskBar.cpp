@@ -164,19 +164,14 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
-    case ID_TB_NETWORKSUSPEND:
-        pDoc->GetNetworkRunMode(iCurrentNetworkMode);
-
-        if (iCurrentNetworkMode == RUN_MODE_ALWAYS)
-            pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
-        else
-            pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
-
-        break;
     case ID_TB_NETWORKRUNALWAYS:
+        pDoc->GetNetworkRunMode(RUN_MODE_ALWAYS);
+        break;
+    case ID_TB_NETWORKSUSPEND:
+        pDoc->GetNetworkRunMode(RUN_MODE_NEVER);
+        break;
     case ID_TB_NETWORKRUNBASEDONPREPERENCES:
-    default:
-        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
+        pDoc->GetNetworkRunMode(RUN_MODE_AUTO);
         break;
     }
 }
@@ -397,7 +392,9 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     menu->AppendRadioItem(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString);
     menu->AppendRadioItem(ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString);
     menu->AppendSeparator();
-    menu->AppendCheckItem(ID_TB_NETWORKSUSPEND, _("&Disable BOINC network access"), wxEmptyString);
+    menu->AppendRadioItem(ID_NETWORKRUNALWAYS, _("&Network activity always available"), wxEmptyString);
+    menu->AppendRadioItem(ID_NETWORKRUNBASEDONPREPERENCES, _("Network activity based on &preferences"), wxEmptyString);
+    menu->AppendRadioItem(ID_NETWORKSUSPEND, _("&Network activity suspended"), wxEmptyString);
     menu->AppendSeparator();
     menu->Append(wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString);
 
@@ -428,10 +425,16 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     }
 
     pDoc->GetNetworkRunMode(iNetworkMode);
-    if (RUN_MODE_NEVER == iNetworkMode) {
+    switch(iNetworkMode) {
+    case RUN_MODE_ALWAYS:
+        menu->Check(ID_TB_NETWORKRUNALWAYS, true);
+        break;
+    case RUN_MODE_NEVER:
+        menu->Check(ID_TB_NETWORKRUNBASEDONPREPERENCES, true);
+        break;
+    case RUN_MODE_AUTO:
         menu->Check(ID_TB_NETWORKSUSPEND, true);
-    } else {
-        menu->Check(ID_TB_NETWORKSUSPEND, false);
+        break;
     }
     
 #ifdef __WXMAC__
