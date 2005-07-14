@@ -165,13 +165,13 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
 
     switch(event.GetId()) {
     case ID_TB_NETWORKRUNALWAYS:
-        pDoc->GetNetworkRunMode(RUN_MODE_ALWAYS);
+        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
         break;
     case ID_TB_NETWORKSUSPEND:
-        pDoc->GetNetworkRunMode(RUN_MODE_NEVER);
+        pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
         break;
     case ID_TB_NETWORKRUNBASEDONPREPERENCES:
-        pDoc->GetNetworkRunMode(RUN_MODE_AUTO);
+        pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
         break;
     }
 }
