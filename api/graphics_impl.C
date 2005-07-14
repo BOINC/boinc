@@ -25,8 +25,11 @@
 
 #include "config.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
+#endif
+
+#ifdef _WIN32
 extern void win_graphics_event_loop();
 #else
 #include <cstring>

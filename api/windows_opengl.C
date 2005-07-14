@@ -10,7 +10,10 @@
  * Visit My Site At nehe.gamedev.net
  * Adapted to BOINC by Eric Heien
  */
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
+#endif
+
 
 #include "diagnostics.h"
 #include "boinc_api.h"

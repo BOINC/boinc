@@ -20,6 +20,10 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
 #ifndef _WIN32
 #include <cstdio>
 #include <cstdarg>

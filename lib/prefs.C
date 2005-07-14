@@ -17,6 +17,10 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
 #ifndef _WIN32
 #include <cstdio>
 #include <cstring>

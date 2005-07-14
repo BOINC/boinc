@@ -9127,3 +9127,34 @@ David  14 July 2005
 
     sched/
         sched_send.C
+
+Rom    14 July 2005
+    - Make the requirements for precompiled headers on Windows optional.
+
+    api/
+        boinc_api.C
+        graphics_impl.C
+        gutil.C
+        reduce_lib.C
+        reduce_main.C
+        windows_opengl.C
+    client/win/
+        StdAfx.h
+    lib/
+        app_ipc.C
+        boinc_cmd.C
+        diagnostics.C
+        exception.C
+        filesys.C
+        gui_rpc_client.C
+        hostinfo.C
+        md5_file.C
+        mem_usage.C
+        mfile.C
+        miofile.C
+        network.C
+        parse.C
+        prefs.C
+        proxy_info.C
+        shmem.C
+        util.C

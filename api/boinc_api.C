@@ -20,8 +20,11 @@
 // Code that's in the BOINC app library (but NOT in the core client)
 // graphics-related code goes in graphics_api.C, not here
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
+#endif
+
+#ifdef _WIN32
 #include "version.h"
 #else
 #include "config.h"

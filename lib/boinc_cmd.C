@@ -24,10 +24,11 @@
 //
 // See help() below for a list of commands.
 
-
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
-#else
+#endif
+
+#ifndef _WIN32
 #include <cstdio>
 #include <unistd.h>
 #endif

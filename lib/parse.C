@@ -24,6 +24,10 @@
 // by the BOINC scheduling server or client.
 // Could replace this with a more general parser.
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
 #ifndef _WIN32
 #include <cstring>
 #include <cstdlib>
