@@ -1088,7 +1088,7 @@ function validate_color($validate_state) {
 
 function outcome_color($outcome) {
     switch($outcome) {
-         case 0: return '9900cc'; // "Init", light green
+         case 0: return '9900cc'; // "Init", purple 
          case 1: return '33cc33'; // "Success", green
          case 3: return 'ff3333'; // "Client error", red
          case 4: return 'ff6699'; // "No reply", pink 
@@ -1184,7 +1184,7 @@ function show_result_short($result) {
         // in green if in the future or in red if in the past.
         $timenow=time();
         if ($result->report_deadline==0)  {
-            // not sent -- show create time in light green
+            // not sent -- show create time in purple 
             $received = "<font color=\"9900cc\">". time_str($result->create_time) . "</font>";
         } else if ($result->report_deadline>=$timenow) {
             // overdue -- show deadline in red
