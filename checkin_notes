@@ -9117,3 +9117,13 @@ David  14 July 2005
 
     sched/
         sched_send.C
+
+
+David  14 July 2005
+    - Improvement on the above.
+        Set transition time (in SQL) to min of X and its current value.
+        Avoid overwriting update that occurred
+        between scheduler's read and update.
+
+    sched/
+        sched_send.C
