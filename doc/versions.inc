@@ -110,11 +110,11 @@ $w445= array(
     "
 );
 
-$w470= array(
-    "num"=>"4.70",
+$w471= array(
+    "num"=>"4.71",
     "status"=>"Development version",
-    "file"=>"boinc_4.70_windows_intelx86.exe",
-    "date"=>"1 July 2005",
+    "file"=>"boinc_4.71_windows_intelx86.exe",
+    "date"=>"14 July 2005",
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
@@ -196,10 +196,10 @@ $m437s = array(
     "
 );
 
-$m470 = array(
-    "num"=>"4.70",
+$m471 = array(
+    "num"=>"4.71",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_4.70_macOSX.zip",
+    "file"=>"boinc_4.71_macOSX.zip",
     "date"=>"7 July 2005",
     "type"=>mac_advanced(),
      "features"=>"<ul>
@@ -250,20 +250,12 @@ $l443 = array(
     "
 );
 
-$l470 = array(
-    "num"=>"4.70",
+$l471 = array(
+    "num"=>"4.71",
     "status"=>"Development version",
-    "file"=>"boinc_4.70_i686-pc-linux-gnu.sh",
-    "date"=>"08 July 2005",
-    "type"=>sea(),
-    "bugs"=>"<ul>
-     <li>
-     boincmgr currently requires a later version of glibc than what we want.  When running
-     boincmgr you might see this error message:<br>
-         boincmgr: /lib/libpthread.so.0: version `GLIBC_2.3.2' not found (required by boincmgr)<br><br>
-     We are investigating this issue.
-     </ul>
-    "
+    "file"=>"boinc_4.71_i686-pc-linux-gnu.sh",
+    "date"=>"14 July 2005",
+    "type"=>sea()
 );
 
 $l419 = array(
@@ -294,7 +286,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w470,
+        $w471,
         $w419
     )
 );
@@ -305,7 +297,7 @@ $mac = array(
         $m437s,
         $m443c,
         $m419,
-        $m470,
+        $m471,
         $m470c
     )
 );
@@ -313,7 +305,7 @@ $linux = array(
     "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
-        $l470,
+        $l471,
         $l419
     )
 );
