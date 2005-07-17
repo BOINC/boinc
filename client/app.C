@@ -150,7 +150,7 @@ void ACTIVE_TASK::cleanup_task() {
     if (app_client_shm.shm) {
         retval = detach_shmem(app_client_shm.shm);
         if (retval) {
-            msg_printf(NULL, MSG_ERROR, "Couldn't detach shared memory: %x", boincerror(retval));
+            msg_printf(NULL, MSG_ERROR, "Couldn't detach shared memory: %s", boincerror(retval));
         }
         retval = destroy_shmem(shmem_seg_name);
         if (retval) {

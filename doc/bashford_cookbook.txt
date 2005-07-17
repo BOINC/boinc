@@ -351,12 +351,12 @@ or for csh shell,
   ./boinc_4.13_i686-pc-linux-gnu >>boinc.log &) >>&error.log
 
 There is more information about running the boinc client software
-at http://noether.vassar.edu/~myers/help/boinc/unix.html
+at http://www.spy-hill.net/~myers/help/boinc/unix.html
 and http://boinc.berkeley.edu/client_unix.php.
 
 [NOTE to web doc maintainers:  There should be a link to one of
 these (and equivs for other platforms) from the download page.
-The documentation in http://noether.vassar.edu/~myers/help/boinc/unix.html
+The documentation in http://www.spy-hill.net/~myers/help/boinc/unix.html
 on putting a client invocation in the .profile
 or .login seems odd.  It then would run when your logged out!  How about a 
 nohup?]

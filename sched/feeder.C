@@ -25,6 +25,7 @@
 //  [ -random_order ]     order by "random" field of result
 //  [ -priority_order ]   order by "priority" field of result
 //  [ -mod n i ]          handle only results with (id mod n) == i
+//  [ -sleep_interval x ]   sleep x seconds if nothing to do
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
@@ -96,7 +97,7 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-#define SLEEP_INTERVAL  5
+#define DEFAULT_SLEEP_INTERVAL  5
 #define ENUM_LIMIT 1000
 
 // The following parameters determine the feeder's policy
@@ -130,6 +131,7 @@ SCHED_SHMEM* ssp;
 key_t sema_key;
 const char* order_clause="";
 char select_clause[256];
+double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -347,18 +349,18 @@ void feeder_loop() {
         }
 #endif
         if (nadditions == 0) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results added; sleeping %d sec\n", SLEEP_INTERVAL);
-            sleep(SLEEP_INTERVAL);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results added; sleeping %.2f sec\n", sleep_interval);
+            boinc_sleep(sleep_interval);
         } else {
             log_messages.printf(SCHED_MSG_LOG::DEBUG, "Added %d results to array\n", nadditions);
         }
         if (no_wus) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results available; sleeping %d sec\n", SLEEP_INTERVAL);
-            sleep(SLEEP_INTERVAL);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results available; sleeping %.2f sec\n", sleep_interval);
+            boinc_sleep(sleep_interval);
         }
         if (ncollisions) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Some results already in array - sleeping %d sec\n", SLEEP_INTERVAL);
-            sleep(SLEEP_INTERVAL);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Some results already in array - sleeping %.2f sec\n", sleep_interval);
+            boinc_sleep(sleep_interval);
         }
         fflush(stdout);
         check_stop_daemons();
@@ -393,6 +395,8 @@ int main(int argc, char** argv) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
             sprintf(select_clause, "and result.id %% %d = %d ", n, j);
+        } else if (!strcmp(argv[i], "-sleep_interval")) {
+            sleep_interval = atof(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "bad cmdline arg: %s\n", argv[i]

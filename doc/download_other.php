@@ -23,10 +23,21 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "SETI@BOINC (<a href=http://www.marisan.nl/seti/>English</a>,
+    <a href=http://www.marisan.nl/seti/index_nl.htm>Dutch</a>)",
+    "Windows",
+    "SETI@home"
+));
+list_item_array(array(
     "<a href=http://www.pperry.f2s.com/downloads.htm>SETI-Linux</a>",
     "Linux i686, linux athlon xp, Linux AMD64,
     Linux Pentium 2 and 3. Some Links to other Plattforms",
     "BOINC, SETI@home"
+));
+list_item_array(array(
+    "<a href=http://pkg-boinc.alioth.debian.org/binary/>Debian.org</a>",
+    "Debian Linux on x86",
+    "BOINC core client and manager"
 ));
 list_item_array(array(
     "<a href=http://www.guntec.de/Crunch3r>Mattias Pilch</a>",

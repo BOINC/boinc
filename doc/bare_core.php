@@ -46,7 +46,7 @@ startup of BOINC on various versions of Unix:
 
 <ul>
 <li>
-<a href=http://noether.vassar.edu/~myers/help/boinc/unix.html>Red Hat Linux</a>.
+<a href=http://www.spy-hill.net/~myers/help/boinc/unix.html>Red Hat Linux</a>.
 (includes general instructions for installing on Unix systems).
 <li>
 <a href=autostart_unix.txt>Linux with KDE</a>.

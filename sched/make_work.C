@@ -19,8 +19,9 @@
 
 // make_work
 //      -wu_name name
-//      [ -cushion n ]      // make work if fewer than this many unsent results
-//      [ -max_wus n ]      // don't make work if more than this many WUs
+//      [ -cushion n ]      // make work if fewer than N unsent results
+//      [ -max_wus n ]      // don't make work if more than N total WUs
+//      [ -one_pass ]       // quit after one pass
 //
 // Create WU and result records as needed to maintain a pool of work
 // (for testing purposes).
@@ -30,6 +31,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <errno.h>
 #include <unistd.h>
 #include <ctime>
 
@@ -47,6 +49,7 @@
 
 int max_wus = 0;
 int cushion = 300;
+bool one_pass = false;
 
 char wu_name[256];
 
@@ -141,14 +144,18 @@ void make_new_wu(
                 new_file_name, config.download_dir, config.uldl_dir_fanout, true,
                 new_pathname, true
             );
+            retval = link(pathname, new_pathname);
+#if 0
             sprintf(command,"ln %s %s", pathname, new_pathname);
             log_messages.printf(SCHED_MSG_LOG::DEBUG, "executing command: %s\n", command);
             retval = system(command);
+#endif
             if (retval) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL, "system() error %d\n", retval
+                    SCHED_MSG_LOG::CRITICAL, "link() error %d\n", retval
                 );
-                perror(command);
+                fprintf(stderr, "link: %d %d\n", errno, retval);
+                perror("link");
                 exit(1);
             }
             strcpy(new_buf, starting_xml);
@@ -256,6 +263,7 @@ void make_work() {
             make_new_wu(wu, starting_xml, start_time, seqno, config);
         }
 
+        if (one_pass) break;
         // wait a while for the transitioner to make results
         //
         sleep(60);
@@ -266,7 +274,6 @@ int main(int argc, char** argv) {
     bool asynch = false;
     int i;
 
-    check_stop_daemons();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
@@ -278,12 +285,15 @@ int main(int argc, char** argv) {
             strcpy(wu_name, argv[++i]);
         } else if (!strcmp(argv[i], "-max_wus")) {
             max_wus = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-one_pass")) {
+            one_pass = true;
         } else {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL, "unknown argument: %s\n", argv[i]
             );
         }
     }
+    check_stop_daemons();
 
 #define CHKARG(x,m) do { if (!(x)) { fprintf(stderr, "make_work: bad command line: "m"\n"); exit(1); } } while (0)
 #define CHKARG_STR(v,m) CHKARG(strlen(v),m)

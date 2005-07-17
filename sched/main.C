@@ -20,6 +20,11 @@
 // The BOINC scheduling server.
 //
 // command-line options:
+//  --batch
+//      stdin contains a catenated sequence of request messages.  Do them all.
+//
+// Note: use_files is a debugging option (see below).
+// But it's a compile setting, not a cmdline flag
 
 #include <cassert>
 #include <cstdio>
@@ -179,7 +184,7 @@ void set_core_dump_size_limit() {
 }
 #endif
 
-int main() {
+int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval;
     char req_path[256], reply_path[256], path[256];
@@ -190,6 +195,13 @@ int main() {
     bool project_stopped = false;
     int length=-1;
     log_messages.pid = getpid();
+    bool batch = false;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--batch")) {
+            batch = true;
+        }
+    }
 
     // initialized timer
     elapsed_time();
@@ -349,6 +361,11 @@ int main() {
         // unlink(req_path);
         // unlink(reply_path);
 #endif
+    } else if (batch) {
+        while (!feof(stdin)) {
+            handle_request(stdin, stdout, *ssp, code_sign_key);
+            fflush(stdout);
+        }
     } else {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }

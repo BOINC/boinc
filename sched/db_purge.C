@@ -36,7 +36,7 @@
 //
 // -min_age_days n      purge WUs with mod_time at least N days in the past
 // -max n               purge at most N WUs
-// -one_pass            purge a few (~1000) WUs, then exit
+// -one_pass            go until nothing left to purge, then exit
 //                      default: keep scanning indefinitely
 // -max_wu_per_file n   write at most N WUs to an archive file
                 // The file is then closed and another file is opened.
@@ -599,18 +599,15 @@ int main(int argc, char** argv) {
     atexit(close_db_exit_handler);
     atexit(close_all_archives);
 
-    if (one_pass) {
-        do_pass();
-    } else {
-        while (1) {
-            if (time_to_quit()) {
-                break;
-            }
-            if (!do_pass()) {
-                sleep(10);
-            }
+    while (1) {
+        if (time_to_quit()) {
+            break;
         }
-    }    
+        if (!do_pass()) {
+            if (one_pass) break;
+            sleep(10);
+        }
+    }
 
     // files and database are closed by exit handler
     exit(0);

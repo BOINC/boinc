@@ -87,9 +87,10 @@ function attach_to_project(PROJ_URL, bool user_supplied_url)
 1) Dialog ("query_key"):
 
 	Attaching to PROJ_URL.
-	Do you already have an account on PROJ_URL?
+	Do you already have an account key for PROJ_URL?
+    (example:  0123abc...)
 
-	No - create new account [button]
+	No - create new account key [button]
 	Yes [button]  paste account key here: ______________________ [text field]
 				  How to find an existing account key [button]
     Cancel
@@ -106,17 +107,29 @@ Dialog (how to find an existing account key):
 		- click on the Account Key button.
 	2) If you entered an email address for the account,
 		the account key was sent to you in an email message
-		(you can request another email by going to the
-		My Account page on foo.edu and clicking Email Account Key).
+		(you can request another email by going
+        here [link to PROJ_URL/get_passwd.php]
 
 	Copying an account key by hand is prone to errors.
 	We recommend that you transfer the account key in a file or email message
 	to the computer where it is needed,
 	and then copy and paste it into the BOINC Manager.
 
-	OK [button]
+	Close [button] (closes dialog, returns to query_key)
 
 If answer to 1) is "no":
+
+OPTIONAL: dialog
+    "We will now create a new account for you.
+    This account will not inherit the credit from any
+    previous account you may have created.
+    If you're not sure if you already have an account,
+    click here for instructions on how to get its account key:
+    Instructions [button]
+
+    Otherwise click OK to continue.
+    OK [button]
+
 
 2) BOINC client tries to communicates with project, create account
 
@@ -129,7 +142,7 @@ Dialog ("welcome"):
 	If you don't see this form, check your browser settings,
 	visit PROJ_URL [link] and click on My Account.
 
-	OK [button]
+	Close [button]
 
 Web page (foo.edu/welcome.php?auth=xxxxx)
 

@@ -58,6 +58,7 @@ SCHED_CONFIG config;
 R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
+bool one_pass = false;
 
 int result_suffix(char* name) {
     char* p = strrchr(name, '_');
@@ -527,7 +528,7 @@ bool do_pass() {
     std::vector<TRANSITIONER_ITEM> items;
     bool did_something = false;
 
-    check_stop_daemons();
+    if (!one_pass) check_stop_daemons();
 
 #if 0
     if (config.use_transactions) {
@@ -565,7 +566,7 @@ bool do_pass() {
                 exit(1);
             }
 
-            check_stop_daemons();
+            if (!one_pass) check_stop_daemons();
         }
     }
 
@@ -585,7 +586,7 @@ bool do_pass() {
     return did_something;
 }
 
-void main_loop(bool one_pass) {
+void main_loop() {
     int retval;
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
@@ -594,21 +595,19 @@ void main_loop(bool one_pass) {
         exit(1);
     }
 
-    if (one_pass) {
-        do_pass();
-    } else {
-        while (1) {
-            if (!do_pass()) sleep(SLEEP_INTERVAL);
+    while (1) {
+        if (!do_pass()) {
+            if (one_pass) break;
+            sleep(SLEEP_INTERVAL);
         }
     }
 }
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false, one_pass=false;
+    bool asynch = false;
     char path[256];
 
-    check_stop_daemons();
     startup_time = time(0);
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -623,6 +622,7 @@ int main(int argc, char** argv) {
             do_mod = true;
         }
     }
+    if (!one_pass) check_stop_daemons();
 
     retval = config.parse_file("..");
     if (retval) {
@@ -653,7 +653,7 @@ int main(int argc, char** argv) {
 
     install_stop_signal_handler();
 
-    main_loop(one_pass);
+    main_loop();
 }
 
 const char *BOINC_RCSID_be98c91511 = "$Id$";

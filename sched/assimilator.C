@@ -64,8 +64,11 @@ bool do_pass(APP& app) {
 
     check_stop_daemons();
 
-    sprintf(buf, "where appid=%d and assimilate_state=%d limit %d", app.id, ASSIMILATE_READY,
-                  one_pass_N_WU ? one_pass_N_WU : 1000);
+    sprintf(buf,
+        "where appid=%d and assimilate_state=%d limit %d",
+        app.id, ASSIMILATE_READY,
+        one_pass_N_WU ? one_pass_N_WU : 1000
+    );
     while (!wu.enumerate(buf)) {
         vector<RESULT> results;     // must be inside while()!
 
@@ -195,11 +198,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
     install_stop_signal_handler();
-    if (one_pass) {
-        do_pass(app);
-    } else {
-        while (1) {
-            if (!do_pass(app)) sleep(SLEEP_INTERVAL);
+    while (1) {
+        if (!do_pass(app)) {
+            if (one_pass) break;
+            sleep(SLEEP_INTERVAL);
         }
     }
 }

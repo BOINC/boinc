@@ -222,7 +222,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
             p, MSG_INFO,
             "Sending scheduler request to %s\n", scheduler_url
         );
-        char* why;
+        const char* why;
         switch (reason) {
         case REASON_USER_REQ: why = "Requested by user"; break;
         case REASON_NEED_WORK: why = "To fetch work"; break;

@@ -9195,3 +9195,30 @@ Rom    14 July 2005
 Rom    14 July 2005 (boinc_public)
     - Tag for 4.71 release, all platforms
       boinc_core_release_4_71
+
+David  17 July 2005
+    - changed the semantics of "-one_pass" in the daemons
+        Old: do one enumeration (typically 1000 items), then exit
+        New: process items until an enumeration returns empty, then exit.
+
+        This is to support the performance-measurement stuff I'm doing,
+        and is probably more useful anyway.
+    - add -sleep_interval x option to feeder (x can be fractional)
+        (needed for performance measurements)
+    - add --batch option to scheduler
+        Makes the scheduler handle an sequence of concatenated requests
+        (needed for performance measurements)
+    - compile fixes in client
+
+    client/
+        app.C
+        scheduler_op.C
+    sched/
+        assimilator.C
+        db_purge.C
+        feeder.C
+        file_deleter.C
+        main.C
+        make_work.C
+        transitioner.C
+        validator.C

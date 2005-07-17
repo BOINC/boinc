@@ -296,11 +296,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
     install_stop_signal_handler();
-    if (one_pass) {
-        do_pass(retry_error);
-    } else {
-        while (1) {
-            if (!do_pass(retry_error)) sleep(SLEEP_INTERVAL);
+    while (1) {
+        if (!do_pass(retry_error)) {
+            if (one_pass) break;
+            sleep(SLEEP_INTERVAL);
         }
     }
 }

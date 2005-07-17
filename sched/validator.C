@@ -61,6 +61,7 @@ char app_name[256];
 int wu_id_modulus=0;
 int wu_id_remainder=0;
 int one_pass_N_WU=0;
+bool one_pass = false;
 
 
 // here when a result has been validated;
@@ -490,7 +491,7 @@ bool do_validate_scan(APP& app) {
     return found;
 }
 
-int main_loop(bool one_pass) {
+int main_loop() {
     int retval;
     DB_APP app;
     bool did_something;
@@ -512,8 +513,8 @@ int main_loop(bool one_pass) {
     while (1) {
         check_stop_daemons();
         did_something = do_validate_scan(app);
-        if (one_pass) break;
         if (!did_something) {
+            if (one_pass) break;
             sleep(SLEEP_PERIOD);
         }
     }
@@ -526,7 +527,7 @@ int boinc_validator_debuglevel=0;
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false, one_pass = false;
+    bool asynch = false;
 
 #if 0
     int mypid=getpid();
@@ -583,7 +584,7 @@ int main(int argc, char** argv) {
 
     install_stop_signal_handler();
 
-    main_loop(one_pass);
+    main_loop();
 }
 
 const char *BOINC_RCSID_634dbda0b9 = "$Id$";

@@ -40,7 +40,8 @@ htmlspecialchars("
     [ <max_wus_to_send>                  N    </max_wus_to_send>                 ]
     [ <min_sendwork_interval>            N    </min_sendwork_interval>           ]
     [ <daily_result_quota>               N    </daily_result_quota>              ]
-    [ <ignore_delay_bound/>                                                     ]
+    [ <ignore_delay_bound/>                                                      ]
+    [ <dont_generate_upload_certificates/>                                       ]
     [ <locality_scheduling/>                                                     ]
     [ <locality_scheduling_wait_period>  N    </locality_scheduling_wait_period> ]
     [ <min_core_client_version>          N    </min_core_client_version          ]
@@ -185,6 +186,13 @@ list_item("daily_result_quota",
 list_item("ignore_delay_bound",
     "By default, results are not sent to hosts too slow to complete them within delay bound.
     If this flag is set, this rule is not enforced."
+);
+list_item("dont_generate_upload_certificates",
+    "Don't put upload certificates in results.
+    This makes result generation a lot faster,
+    since no encryption is done,
+    but you lose protection against DoS attacks
+    on your upload servers."
 );
 list_item("locality_scheduling",
     "When possible, send work that uses the same files that the host
