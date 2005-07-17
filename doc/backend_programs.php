@@ -27,6 +27,7 @@ list_item("-mod n i",
 );
 list_end();
 
+echo "
 <h3>Work generator</h3>
 <p>
 There is one work generator per application.

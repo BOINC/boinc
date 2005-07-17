@@ -9222,3 +9222,10 @@ David  17 July 2005
         make_work.C
         transitioner.C
         validator.C
+
+David  17 July 2005
+    - scheduler bug fixes for non-CPU-intensive
+        (from John McLeod)
+
+    client/
+        cs_scheduler.C

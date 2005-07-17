@@ -530,9 +530,18 @@ int CLIENT_STATE::compute_work_requests() {
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
         if (!p->contactable()) continue;
 
-        // ??? explain the following
-        //
+        // if the projects have been running in round robin without resort to EDF, then
+        // all projects will have a LT debt greater than 
+        // -global_prefs.cpu_scheduling_period_minutes * 60
+        // Therefore any project that has a LT debt greater than this 
+        // is a candidate for more work.
+        // Also if the global need is immediate, we need to get work from 
+        // someplace - anyplace that can be contacted, even if the LT debt
+        // is extremely negative.
         if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes * 60) && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
+
+        // if it is non cpu intensive and we have work, we don't need any more.
+        if (p->non_cpu_intensive && p->runnable()) continue;
 
         int min_results = proj_min_results(p, prrs);
         double estimated_time_to_starvation = time_until_work_done(p, min_results-1, prrs);
@@ -1016,6 +1025,7 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     for (i=0; i< results.size(); i++){
         RESULT* rp = results[i];
         if (!rp->runnable_soon()) continue;
+        if (rp->project->non_cpu_intensive) continue;
         count++;
     }
     return ncpus > count;

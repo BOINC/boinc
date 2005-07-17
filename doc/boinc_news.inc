@@ -3,7 +3,8 @@
 $project_news = array(
 
 array("July 11-12, 2005",
-    "The First Pangalactic BOINC Workshop was held at CERN,
+    "The <a href=cern_workshop.php>First Pangalactic BOINC Workshop</a>
+    was held at CERN,
     bringing together people from ClimatePrediction.net,
     Einstein@home, CERN, and BOINC.
     Slides and video of CPDN and E@h talks are available at
