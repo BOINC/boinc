@@ -8,14 +8,24 @@ A BOINC project includes of a set of daemons
 (programs that run all the time).
 Each program should be listed as a daemon in the
 <a href=configuration.php>config.xml</a> file.
-They all have the command-line option:
-<pre>
--d N
-</pre>
-Sets the verbosity level.
-1 = critical messages only,
-2 = normal messages,
-3 = detailed debugging info.
+They all have the command-line options:
+";
+list_start();
+list_item("-d N",
+	"Sets the verbosity level.
+	1 = critical messages only,
+	2 = normal messages,
+	3 = detailed debugging info."
+);
+list_item("-one_pass",
+	"Process all available items, then quit."
+);
+list_item("-mod n i",
+	"Handle only workunits for which mod(id, n) = i.
+	This lets you run the daemon on arbitrarily many machines.
+	(available for feeder, transitioner, validator)."
+);
+list_end();
 
 <h3>Work generator</h3>
 <p>
@@ -36,13 +46,6 @@ to copy this workunit as needed to maintain a given supply of work.
 This program is supplied by BOINC and is application independent.
 It creates a shared-memory segment used to pass database records
 to CGI scheduler processes.
-It has the command-line option:
-<pre>
--mod n i
-</pre>
-If present, this instance of the feeder will handle
-only workunits for which mod(id, n) = i.
-This lets you run schedulers on arbitrarily many machines.
 
 <h3>Transitioner</h3>
 <p>
@@ -50,13 +53,6 @@ This program is supplied by BOINC and is application independent.
 It handles state transitions of workunits and results.
 It generates initial results for workunits,
 and generates more results when timeouts or errors occur.
-It has the command-line option:
-<pre>
--mod n i
-</pre>
-If present, this instance of the transitioner will handle
-only workunits for which mod(id, n) = i.
-This lets you run arbitrarily many instances of the transitioner.
 
 <h3>Validator</h3>
 <p>
