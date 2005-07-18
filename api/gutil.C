@@ -22,7 +22,6 @@
 #endif
 
 #ifdef _WIN32
-#ifdef _WIN32
 #ifdef __cplusplus
 extern "C" {
 #endif
