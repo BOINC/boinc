@@ -1,6 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
 	ProjectSection(ProjectDependencies) = postProject
+		{48A8C65D-334A-4F36-AB78-35F759205889} = {48A8C65D-334A-4F36-AB78-35F759205889}
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 		{0B6B4994-5C4B-49F3-B717-17603AFB789E} = {0B6B4994-5C4B-49F3-B717-17603AFB789E}
 	EndProjectSection
@@ -36,6 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_cmd", "boinccmd.vcproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincmgr", "boincmgr.vcproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
