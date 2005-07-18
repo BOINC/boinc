@@ -22,7 +22,14 @@
 #endif
 
 #ifdef _WIN32
+#ifdef _WIN32
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "jpeglib.h"
+#ifdef __cplusplus
+}
+#endif
 #include "bmplib.h"
 #include "tgalib.h"
 #endif
