@@ -9238,3 +9238,9 @@ Rom    17 July 2005
     win_build/
         *.vcproj
         *.sln
+
+Rom    18 July 2005
+    - Enable clipboard functionality on Linux by default.
+
+    /
+        configure.ac
