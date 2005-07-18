@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="boinc_cmd"
+	ProjectGUID="{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
 	RootNamespace="boinc_guirpctest"
 	SccProjectName=""
 	SccLocalPath="">
@@ -23,9 +24,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client;.."
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				BufferSecurityCheck="TRUE"
 				RuntimeTypeInfo="FALSE"
 				UsePrecompiledHeader="2"
@@ -44,9 +45,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
 				OutputFile=".\Build\Debug/boinccmd.exe"
-				LinkIncremental="1"
+				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
@@ -98,9 +99,9 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client,.."
-				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
@@ -117,7 +118,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib libcmt.lib libcpmt.lib oldnames.lib"
+				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\Release/boinccmd.exe"
 				LinkIncremental="1"
@@ -170,63 +171,7 @@
 				RelativePath="..\lib\boinc_cmd.C">
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C">
-			</File>
-			<File
-				RelativePath="..\lib\exception.C">
-			</File>
-			<File
-				RelativePath="..\lib\filesys.C">
-			</File>
-			<File
 				RelativePath="..\lib\gui_rpc_client.C">
-			</File>
-			<File
-				RelativePath="..\lib\md5.c">
-			</File>
-			<File
-				RelativePath="..\lib\md5_file.C">
-			</File>
-			<File
-				RelativePath="..\lib\mfile.C">
-			</File>
-			<File
-				RelativePath="..\lib\miofile.C">
-			</File>
-			<File
-				RelativePath="..\lib\network.C">
-			</File>
-			<File
-				RelativePath="..\Lib\parse.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\prefs.C">
-			</File>
-			<File
-				RelativePath="..\lib\stackwalker_win.cpp">
-			</File>
-			<File
-				RelativePath="..\lib\util.C">
 			</File>
 		</Filter>
 		<Filter
@@ -236,49 +181,7 @@
 				RelativePath="..\client\win\boinc_cmd.h">
 			</File>
 			<File
-				RelativePath="..\lib\boinc_win.h">
-			</File>
-			<File
-				RelativePath="..\lib\diagnostics.h">
-			</File>
-			<File
-				RelativePath="..\lib\error_numbers.h">
-			</File>
-			<File
-				RelativePath="..\lib\exception.h">
-			</File>
-			<File
-				RelativePath="..\lib\filesys.h">
-			</File>
-			<File
 				RelativePath="..\lib\gui_rpc_client.h">
-			</File>
-			<File
-				RelativePath="..\lib\md5.h">
-			</File>
-			<File
-				RelativePath="..\lib\md5_file.h">
-			</File>
-			<File
-				RelativePath="..\lib\mfile.h">
-			</File>
-			<File
-				RelativePath="..\lib\miofile.h">
-			</File>
-			<File
-				RelativePath="..\lib\network.h">
-			</File>
-			<File
-				RelativePath="..\lib\parse.h">
-			</File>
-			<File
-				RelativePath="..\lib\prefs.h">
-			</File>
-			<File
-				RelativePath="..\lib\stackwalker_win.h">
-			</File>
-			<File
-				RelativePath="..\lib\util.h">
 			</File>
 		</Filter>
 		<Filter

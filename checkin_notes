@@ -9229,3 +9229,12 @@ David  17 July 2005
 
     client/
         cs_scheduler.C
+
+Rom    17 July 2005
+    - Windows project file cleanup
+        Add a library for libboinc and libboinc_api and remove duplicate
+        compilation from remain projects.
+
+    win_build/
+        *.vcproj
+        *.sln

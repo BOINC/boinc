@@ -2,7 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="RSAEuro"
+	Name="librsaeuro"
+	ProjectGUID="{48A8C65D-334A-4F36-AB78-35F759205889}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -38,7 +39,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\Build\Debug\RSAEuro.lib"
+				OutputFile=".\Build\Debug\librsaeurod.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -94,7 +95,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\Build\Release\RSAEuro.lib"
+				OutputFile=".\Build\Release\librsaeuro.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
