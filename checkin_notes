@@ -9271,3 +9271,11 @@ David  19 2005
 
 	zip/
 		boinc_zip.cpp
+
+David  19 2005
+	- API: support for RGB files (from Tolu)
+
+	api/
+		gutil.C,h
+		texture.C,h (new)
+

@@ -203,6 +203,8 @@ public:
 #define ALIGN_CENTER    1
 #define ALIGN_TOP       2
 
+extern unsigned int* read_rgb_texture (const char *, int*, int* ,int *);
+
 struct TEXTURE_DESC {
     bool present;
     unsigned int id;
@@ -215,6 +217,7 @@ struct TEXTURE_DESC {
     int CreateTextureBMP(const char* strFileName);
     int CreateTexturePPM(const char* strFileName);
     int CreateTextureTGA(const char* strFileName);
+	int CreateTextureRGB(const char* strFileName);
 };
 
 

@@ -1073,6 +1073,27 @@ int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
 	return 0;
 }
 
+
+int TEXTURE_DESC::CreateTextureRGB(const char* strFileName) {
+	if(!strFileName) return -1;
+	int sizeX;
+	int sizeY;
+	int sizeZ;
+	// Load the image and store the data
+	unsigned int *pImage = read_rgb_texture(strFileName,&sizeX,&sizeY,&sizeZ);
+	if(pImage == NULL) return -1;
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+	glGenTextures(1, (GLuint*)&id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, sizeX, sizeY, GL_RGBA, GL_UNSIGNED_BYTE, pImage);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+    if (pImage) 
+		free(pImage);
+	return 0;
+}
+
+
 int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return -1;
@@ -1125,6 +1146,8 @@ int TEXTURE_DESC::load_image_file(const char* filename) {
     retval = CreateTextureTGA(filename);
     if (!retval) return 0;
 #endif
+	retval = CreateTextureRGB(filename);
+	if (!retval) return 0;
 
 done:
     present = false;
