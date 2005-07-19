@@ -288,7 +288,7 @@ that move forwards or backwards in 3 dimensions.
 <dt>
 TEXTURE_DESC
 <dd>
-Represents an image (JPEG, Targa, BMP or PNG)
+Represents an image (JPEG, Targa, BMP, PNG, or RGB)
 displayed in 3 dimensions.
 </dl>
 

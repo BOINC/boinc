@@ -9276,6 +9276,6 @@ David  19 2005
 	- API: support for RGB files (from Tolu)
 
 	api/
+        Makefile.am
 		gutil.C,h
 		texture.C,h (new)
-

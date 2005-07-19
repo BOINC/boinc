@@ -14,9 +14,10 @@ graphics_api_files = 	\
 	graphics_api.C 		\
 	graphics_data.C 	\
     graphics_impl.C     \
+	gutil.C	            \
 	reduce_main.C		\
     reduce_lib.C        \
-	gutil.C	            \
+    texture.C           \
 	x_opengl.C
 
 if OS_DARWIN
@@ -37,18 +38,10 @@ graphics_impl_files =   \
     graphics_impl_lib.C \
 	gutil.C	            \
 	reduce_lib.C		\
+    texture.C           \
 	x_opengl.C
 
-EXTRA_DIST =            \
-    boinc_api.h         \
-	boinc_gl.h          \
-	graphics_api.h 	    \
-	graphics_data.h 	\
-    graphics_impl.h     \
-    graphics_lib.h      \
-    gutil.h             \
-	reduce.h 			\
-	x_opengl.h
+EXTRA_DIST = *.h
 
 if BUILD_GRAPHICS_API
 graphics_libs = \

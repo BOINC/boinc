@@ -11,7 +11,7 @@ array("July 11-12, 2005",
     http://cseminar.home.cern.ch/cseminar/ -> Past events."
 ),
 array("June 25, 2005",
-    "BOINC statistics sites continue to evolve.
+    "BOINC <a href=stats_sites.php>statistics</a> sites continue to evolve.
     Check out <a href=http://home.btconnect.com/Gabys_Bazar/hwupgrade.html>Every Earthly Hour</a>, developed by Hydnum Repandum"
 ),
 array("June 24, 2005",

@@ -64,6 +64,7 @@ Various implementation notes:
 between two versions of an executable</a>.
 <li> <a href=acct_mgt.php>Account management systems</a>
 <li> <a href=spec.txt>Spec info for RPMs</a>
+<li> <a href=stats_summary.php>Statistics summaries</a>
 </ul>
 
 ";

@@ -296,7 +296,8 @@ static void scan_work_array(
                 wu_result.state = WR_STATE_PRESENT;
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
-                    "Result reserved by non-existent process; resetting\n"
+                    "Result reserved by non-existent process PID %d; resetting\n",
+                    pid
                 );
             }
         }
