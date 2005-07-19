@@ -9266,16 +9266,23 @@ Charlie 19 July 2005
         boinc.pbproj/
             project.pbxproj
 
-David  19 2005
+David  19 July 2005
 	- bug fix in zip code (from Carl C.)
 
 	zip/
 		boinc_zip.cpp
 
-David  19 2005
+David  19 July 2005
 	- API: support for RGB files (from Tolu)
 
 	api/
         Makefile.am
 		gutil.C,h
 		texture.C,h (new)
+
+David  20 July 2005
+    - db_dump: write nusers, nhosts, nteams, total credit
+        in tables.xml file
+
+    sched/
+        db_dump.C

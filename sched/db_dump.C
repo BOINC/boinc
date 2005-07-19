@@ -82,6 +82,9 @@ using std::vector;
 const char* table_name[3] = {"user", "team", "host"};
 const char* tag_name[3] = {"users", "teams", "hosts"};
 
+int nusers, nhosts, nteams;
+double total_credit;
+
 struct OUTPUT {
     int recs_per_file;
     bool detail;
@@ -582,28 +585,10 @@ int tables_file(char* dir) {
         "    <update_time>%d</update_time>\n",
         (int)time(0)
     );
-#if 0
-    DB_USER user;
-    DB_TEAM team;
-    DB_HOST host;
-    int nusers, nteams, nhosts;
-    int retval;
-    // can't do counts in MySQL/InnoDB
-    retval = user.count(nusers);
-    if (retval) return retval;
-    retval = team.count(nteams);
-    if (retval) return retval;
-    retval = host.count(nhosts);
-    if (retval) return retval;
-    fprintf(f.f,
-        "    <nusers_total>%d</nusers_total>\n"
-        "    <nteams_total>%d</nteams_total>\n"
-        "    <nhosts_total>%d</nhosts_total>\n",
-        nusers,
-        nteams,
-        nhosts
-    );
-#endif
+    if (nusers) fprintf(f.f, "    <nusers_total>%d</nusers_total>\n", nusers);
+    if (nteams) fprintf(f.f, "    <nteams_total>%d</nteams_total>\n", nteams);
+    if (nhosts) fprintf(f.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
+    if (total_credit) fprintf(f.f, "    <total_credit>%lf</total_credit>\n", total_credit);
     print_apps(f.f);
     f.close();
     return 0;
@@ -651,6 +636,8 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         while (1) {
             retval = user.enumerate(clause, true);
             if (retval) break;
+            nusers++;
+            total_credit += user.total_credit;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -675,6 +662,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         while(1) {
             retval = host.enumerate(clause);
             if (retval) break;
+            nhosts++;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
@@ -699,6 +687,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         while(1) {
             retval = team.enumerate(clause);
             if (retval) break;
+            nteams++;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];
                 if (sort == SORT_ID && out.recs_per_file) {
