@@ -9244,3 +9244,24 @@ Rom    18 July 2005
 
     /
         configure.ac
+
+Charlie 19 July 2005
+    Mac: include Carbon.h in stdwx.h instead of MacGUI.pch as 
+    requested by Bern so command line build (using autoconf / 
+    make) works without using precompiled header.
+    Add a "Run Script" Phase to builds of BOINCManager and Core 
+    Client in XCode project.  This creates a subdirectory named 
+    SymbolTables under the build directory, and copies the 
+    BOINCManager and Core Client executables there before they are 
+    stripped of symbols.  This is useful for analyzing crash reports 
+    from the field.  We can use the atos command line utility and 
+    these symbol files to convert addresses from the stack frames to 
+    symbols and line numbers in source files. 
+
+    clientgui/
+        stdwx.h
+        mac/
+            MacGUI.pch
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

@@ -337,6 +337,7 @@
 				DD095EEE07D87AE900362260,
 				DD095EEF07D87AE900362260,
 				DDD7F08807F0692D00BA3B90,
+				DD8F75CB088D159D001AFCCA,
 			);
 			buildRules = (
 				DD6826EE08641BE00070CDB8,
@@ -1955,6 +1956,21 @@
 			target = DD40CDF807F0386A0096C645;
 			targetProxy = DD40D36007F03B600096C645;
 		};
+		DD46A43A088D1BEE00052C57 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				$TARGET_BUILD_DIR/$PRODUCT_NAME,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				$TARGET_BUILD_DIR/SymbolTables/$PRODUCT_NAME,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir $TARGET_BUILD_DIR/SymbolTables\ncp -Rf $TARGET_BUILD_DIR/$PRODUCT_NAME $TARGET_BUILD_DIR/SymbolTables/";
+		};
 		DD48091E081A66F100A174AA = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
@@ -3030,6 +3046,21 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		DD8F75CB088D159D001AFCCA = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				$TARGET_BUILD_DIR/BOINCManager.app/Contents/MacOS/BOINCManager,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				$TARGET_BUILD_DIR/SymbolTables/BOINCManager,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir $TARGET_BUILD_DIR/SymbolTables\ncp -Rf $TARGET_BUILD_DIR/BOINCManager.app/Contents/MacOS/BOINCManager $TARGET_BUILD_DIR/SymbolTables/\n";
+		};
 		DD96AFF50811075000A06F22 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -3449,6 +3480,7 @@
 			buildPhases = (
 				DDD74D8407CF482E0065AC9D,
 				DDD74D8507CF482E0065AC9D,
+				DD46A43A088D1BEE00052C57,
 			);
 			buildRules = (
 				DD6826DF08641B1E0070CDB8,

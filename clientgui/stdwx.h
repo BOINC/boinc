@@ -52,6 +52,10 @@
 
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #include <wx/wx.h>
 #include <wx/config.h>          // configuration support
 #include <wx/debug.h>           // diagnostics support

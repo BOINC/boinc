@@ -32,8 +32,6 @@
 
 #include "stdwx.h"
 
-#include <Carbon/Carbon.h>
-
 #include "config.h"
 
 #endif
