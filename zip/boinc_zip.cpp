@@ -195,7 +195,6 @@ bool boinc_filelist(const std::string directory,
 	std::string strFile;
         // at most three |'s may be passed in pattern match
 	int iPos[3], iFnd, iCtr, i, lastPos;  
-	struct stat statF;
 	std::string strFullPath;
 	char strPart[3][32];
 	std::string spattern = pattern;
@@ -227,9 +226,9 @@ bool boinc_filelist(const std::string directory,
 
 	// transform strDir to either all \\ or all /
 	int j;
-	for (j=0; j<directory.size(); j++)  {
+	for (j=0; j<(int)directory.size(); j++)  {
 		// take off final / or backslash
-		if (j == (directory.size()-1) 
+		if (j == ((int)directory.size()-1) 
 	         && (strDir[j] == '/' || strDir[j]=='\\'))
 			strDir.resize(directory.size()-1);
 		else {
@@ -299,7 +298,7 @@ bool boinc_filelist(const std::string directory,
 			strFullPath = strUserDir + strFile;
 			// only add if the file really exists (i.e. not a directory)
             if (is_file(strFullPath.c_str())) {
-				ZipFileEntry zfe(strFullPath, statF, ucSort);
+				ZipFileEntry zfe(strFullPath, ucSort);
 				pList->push_back(zfe);
 			}
 		}

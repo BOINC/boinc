@@ -9265,3 +9265,9 @@ Charlie 19 July 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  19 2005
+	- bug fix in zip code (from Carl C.)
+
+	zip/
+		boinc_zip.cpp
