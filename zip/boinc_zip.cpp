@@ -11,7 +11,9 @@ int unzip_main(int argc, char** argv);
 int zip_main(int argc, char** argv);
 }
 
-#ifndef _WIN32  // only need for Linux & Mac
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include "config.h"
 #include <string>
 #include <string.h>
