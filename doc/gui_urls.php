@@ -17,7 +17,7 @@ with the following form:
     <gui_url>
         <name>Your account</name>
         <description>View your account information and credit totals</description>
-        <url>http://foo.project.com/blah.php?userid=<userid></url>
+        <url>http://foo.project.com/show_user.php?userid=<userid/></url>
     </gui_url>
     <gui_url>
         <name>Help</name>
@@ -28,7 +28,7 @@ with the following form:
         <gui_url>
             <name>Team</name>
             <description>Info about <team_name/></description>
-            <url>http://foo.project.com/team.php?teamid=<teamid/></url>
+            <url>http://foo.project.com/team_display.php?teamid=<teamid/></url>
         </gui_url>
     </ifteam>
     ...

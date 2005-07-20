@@ -9298,3 +9298,10 @@ David  20 July 2005
         parse.C
     zip/
         boinc_zip.cpp
+
+David  20 July 2005
+    - hosts_user.php: userid arg is present AND have cookie for user,
+        treat as if logged in
+
+    html/user/
+        hosts_user.php

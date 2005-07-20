@@ -140,6 +140,7 @@ Miscellaneous
 </b></font>
 <ul>
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>
+<li> <a href=gui_urls.php>Add project-specific buttons to the client GUI</a>
 </ul>
 ";
 page_tail();

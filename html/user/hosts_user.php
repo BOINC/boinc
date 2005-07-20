@@ -9,6 +9,10 @@
 
     db_init();
     $userid = get_int("userid", true);
+    $user = get_logged_in_user(false);
+    if ($user && $user->id == $userid) {
+        $userid = 0;
+    }
     if ($userid) {
         $user = lookup_user_id($userid);
         if (!$user) {
@@ -21,14 +25,15 @@
             page_head("Computers belonging to $user->name");
             user_host_table_start(false);
         } else {
-            echo "Hidden\n";
+            page_head("Computers hidden");
+            echo "This user has chosen not to show information about their computers.\n";
+            page_tail();
             end_cache(USER_PAGE_TTL, $cache_args);
             exit();
         }
         $private = false;
     } else {
         $caching=false;
-        $user = get_logged_in_user();
         $userid = $user->id;
         page_head("Your computers");
         user_host_table_start(true);
