@@ -9286,3 +9286,10 @@ David  20 July 2005
 
     sched/
         db_dump.C
+
+David  20 July 2005
+    - commented out some test code from upper_case.C
+        This seemed to break test_uc.py
+
+    apps/
+        upper_case.C

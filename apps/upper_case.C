@@ -101,7 +101,7 @@ static void use_some_cpu() {
     boinc_sleep(5.0);
 }
 
-#define TEST_INT_UPLOAD    1
+//#define TEST_INT_UPLOAD
 
 #ifdef TEST_INT_UPLOAD
 #define UPLOAD_FILE_NAME "int_upload"
