@@ -131,7 +131,7 @@ void parse_attr(const char* buf, const char* name, char* dest, int len) {
     char* p, *q;
 
     strcpy(dest, "");
-    p = strstr((char*)buf, name);
+    p = strstr(buf, name);
     if (!p) return;
     p = strchr(p, '"');
     if (!p) return;

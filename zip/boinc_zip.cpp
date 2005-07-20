@@ -220,7 +220,7 @@ bool boinc_filelist(const std::string directory,
 		// / is safe on all OS's for CPDN at least
 		// but if they already used \ use that
 		// well they didn't use a backslash so just use a slash
-		if (strUserDir.find("\\") == -1)
+		if (strUserDir.find("\\") == string::npos)
 			strUserDir += "/";
 		else
 			strUserDir += "\\";

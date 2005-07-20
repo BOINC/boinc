@@ -9290,6 +9290,11 @@ David  20 July 2005
 David  20 July 2005
     - commented out some test code from upper_case.C
         This seemed to break test_uc.py
+    - compile fix in zip
 
     apps/
         upper_case.C
+    lib/
+        parse.C
+    zip/
+        boinc_zip.cpp
