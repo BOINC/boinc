@@ -92,7 +92,6 @@ bool CDlgSelectComputer::Create( wxWindow* parent, wxWindowID id, const wxString
 void CDlgSelectComputer::CreateControls()
 {    
 ////@begin CDlgSelectComputer content construction
-
     CDlgSelectComputer* itemDialog1 = this;
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
@@ -109,7 +108,7 @@ void CDlgSelectComputer::CreateControls()
 
     wxStaticText* itemStaticText6 = new wxStaticText;
     itemStaticText6->Create( itemDialog1, wxID_STATIC, _("Host name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxString* m_ComputerNameCtrlStrings = NULL;
     m_ComputerNameCtrl = new wxComboBox;
@@ -118,7 +117,7 @@ void CDlgSelectComputer::CreateControls()
 
     wxStaticText* itemStaticText8 = new wxStaticText;
     itemStaticText8->Create( itemDialog1, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ComputerPasswordCtrl = new wxTextCtrl;
     m_ComputerPasswordCtrl->Create( itemDialog1, ID_SELECTCOMPUTERPASSWORD, _T(""), wxDefaultPosition, wxSize(250, -1), wxTE_PASSWORD );

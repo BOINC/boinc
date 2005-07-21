@@ -94,7 +94,6 @@ bool CDlgAttachProject::Create( wxWindow* parent, wxWindowID id, const wxString&
 void CDlgAttachProject::CreateControls()
 {    
 ////@begin CDlgAttachProject content construction
-
     CDlgAttachProject* itemDialog1 = this;
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
@@ -111,7 +110,7 @@ void CDlgAttachProject::CreateControls()
 
     wxStaticText* itemStaticText6 = new wxStaticText;
     itemStaticText6->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProjectAddressCtrl = new wxTextCtrl;
     m_ProjectAddressCtrl->Create( itemDialog1, ID_PROJECTADDRESS, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
@@ -119,7 +118,7 @@ void CDlgAttachProject::CreateControls()
 
     wxStaticText* itemStaticText8 = new wxStaticText;
     itemStaticText8->Create( itemDialog1, wxID_STATIC, _("Account Key:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProjectAccountKeyCtrl = new wxTextCtrl;
     m_ProjectAccountKeyCtrl->Create( itemDialog1, ID_PROJECTACCOUNTKEY, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
@@ -127,7 +126,7 @@ void CDlgAttachProject::CreateControls()
 
     wxStaticText* itemStaticText10 = new wxStaticText;
     itemStaticText10->Create( itemDialog1, wxID_STATIC, _("These are emailed to you when you create an account.\nGo to project web sites to create accounts.\nVisit http://boinc.berkeley.edu for a list of projects."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer4->Add(itemStaticText10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer4->Add(itemStaticText10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer3->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);

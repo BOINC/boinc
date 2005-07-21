@@ -9387,3 +9387,21 @@ David  21 July 2005
 
     lib/
         shmem.C
+
+Rom    21 July 2005
+    - Update the templates for the dialogs that DialogBlocks uses to maintain
+        the various dialogs with by removing the resizing flag and close box 
+        flag.  Making changes directly on the source files without updating the
+        templates just causes the loss of the change next time DialogBlocks
+        is loaded.
+
+    clientgui/
+        BOINCGUI.cst (Added)
+        BOINCGUI.pjd
+        DlgAbout.cpp, .h
+        DlgAccountManagerSignup.cpp, .h
+        DlgAccountManagerStatus.cpp, .h
+        DlgAttachProject.cpp, .h
+        DlgDialupCredentials.cpp, .h
+        DlgOptions.cpp, .h
+        DlgSelectComputer.cpp, .h
