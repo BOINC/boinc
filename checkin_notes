@@ -9351,3 +9351,19 @@ Rom    21 July 2005
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Charlie 21 July 2005
+    - Remove wxRESIZE_BORDER and wxCLOSE_BOX from several dialog styles so 
+    modal dialogs are not resizeable and do not have a close box.
+    NOTE: the Options Dialog is too narrow on the Mac, so I can not yet 
+    finalize this change for this dialog until Rom fixes it.
+    - Mac: Fix problems with new "Run Script Phase" (see my 19 July changes.)
+    
+    clientgui/
+        DlgAccountManagerStatus.h
+        DlgAccountManagerSignup.h
+        DlgOptions.h
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+    

@@ -362,6 +362,7 @@
 				PRODUCT_NAME = BOINCManager;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = NO;
+				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
@@ -1969,7 +1970,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir $TARGET_BUILD_DIR/SymbolTables\ncp -Rf $TARGET_BUILD_DIR/$PRODUCT_NAME $TARGET_BUILD_DIR/SymbolTables/";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir $TARGET_BUILD_DIR/SymbolTables\n  cp -Rf $TARGET_BUILD_DIR/$PRODUCT_NAME $TARGET_BUILD_DIR/SymbolTables/\n  /usr/bin/strip $TARGET_BUILD_DIR/$PRODUCT_NAME\nfi";
 		};
 		DD48091E081A66F100A174AA = {
 			isa = PBXFileReference;
@@ -3047,7 +3048,7 @@
 			sourceTree = SOURCE_ROOT;
 		};
 		DD8F75CB088D159D001AFCCA = {
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -3059,7 +3060,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir $TARGET_BUILD_DIR/SymbolTables\ncp -Rf $TARGET_BUILD_DIR/BOINCManager.app/Contents/MacOS/BOINCManager $TARGET_BUILD_DIR/SymbolTables/\n";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir $TARGET_BUILD_DIR/SymbolTables\n  cp -Rf $TARGET_BUILD_DIR/BOINCManager.app/Contents/MacOS/BOINCManager $TARGET_BUILD_DIR/SymbolTables/\n  /usr/bin/strip $TARGET_BUILD_DIR/BOINCManager.app/Contents/MacOS/BOINCManager\nfi";
 		};
 		DD96AFF50811075000A06F22 = {
 			buildActionMask = 2147483647;
@@ -3500,6 +3501,7 @@
 				PRODUCT_NAME = boinc;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
+				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				ZERO_LINK = NO;
 			};
