@@ -148,6 +148,7 @@ function user_host_table_start($private) {
         <th>Total credit</th>
         <th>CPU type</th>
         <th>Operating system</th>
+        <th>Last contact</th>
         </tr>
     ";
 }
@@ -207,6 +208,18 @@ function show_host_row($host, $i, $private, $show_owner) {
             }
         }
     }
+    if (!$show_owner)
+    printf("
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s <br> %s</td>
+        <td>%s <br> %s</td>
+        <td>%s</td>",
+           format_credit($host->expavg_credit), format_credit($host->total_credit),
+           $host->p_vendor, $host->p_model,
+           $host->os_name, $host->os_version, time_str($host->rpc_time)
+    );
+    else
     printf("
         <td>%s</td>
         <td>%s</td>
@@ -216,6 +229,7 @@ function show_host_row($host, $i, $private, $show_owner) {
            $host->p_vendor, $host->p_model,
            $host->os_name, $host->os_version
     );
+
 
     //$nresults = host_nresults($host);
     //echo "<td><a href=results.php?hostid=$host->id>$nresults</a></td>";

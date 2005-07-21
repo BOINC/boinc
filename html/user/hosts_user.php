@@ -40,7 +40,7 @@
         $private = true;
     }
     $i = 1;
-    $result = mysql_query("select * from host where userid=$userid order by expavg_credit desc");
+    $result = mysql_query("select * from host where userid=$userid order by rpc_time desc");
     while ($host = mysql_fetch_object($result)) {
         show_host_row($host, $i, $private, false);
         $i++;

@@ -9305,3 +9305,14 @@ David  20 July 2005
 
     html/user/
         hosts_user.php
+
+Bruce 21 July 2005
+    - Sort users list of hosts by last rpc time received and add a
+      corresponding table column.  David's going
+      to clean this up to sort by any column.
+    html/
+        inc/
+            host.inc
+        user/
+            hosts_user.php
+
