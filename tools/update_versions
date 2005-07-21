@@ -3,13 +3,12 @@
 # $Id$
 
 """
-Scans apps dir for current core client and application versions
+Scans apps dir for application versions
 and updates the database as appropriate.
 
 config.xml must contain an <app_dir> which specifies the directory to search.
 
 apps/APPLICATION_NAME/ contains application versions for each application.
-apps/boinc/ contains core client versions (not used for most projects).
 
 Filenames must be of the form NAME_VERSION_PLATFORM[.ext].
 The prefix name and extensions .gz, .exe, .sit are ignored.
@@ -64,7 +63,7 @@ def add_files(
     signature_files={},
     file_ref_infos = {}
     ):
-    ''' add files to app/core.
+    ''' add files to app.
     '''
     assert(match)
     assert(exec_files[0])
@@ -106,23 +105,6 @@ def add_files(
             platform = platform,
             version_num = version_num,
             xml_doc = xml_doc)
-    else:
-        assert(not non_exec_files)      # this wouldn't make sense for core clients
-        existing_versions = database.CoreVersions.find(platform=platform, version_num=version_num)
-        if existing_versions:
-            if verbose:
-                print "  Skipping existing core version %s: %s" %(version_num, file_base)
-            return
-
-        print "  Found core version %3d for %s: %s" %(version_num, platform, file_base)
-
-        xml_doc = tools.process_app_file(exec_files[0])
-
-        object = database.CoreVersion(
-            create_time = create_time,
-            platform = platform,
-            version_num = version_num,
-            xml_doc = xml_doc)
 
     objects_to_commit.append(object)
 
@@ -133,10 +115,7 @@ def re_match_exec_filename(filepath):
     return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
 
 def find_versions(app, dir):
-    """Find application versions/core client versions in DIR.
-
-    if app==None, then dir contains core clients; else contains application
-    versions.
+    """Find application versions in DIR.
 
     If directory contains sub-directories, those are scanned (non-recursively)
     for files.  If an executable is found, the first one found
@@ -189,7 +168,7 @@ def find_versions__process_single_file(app, match, filepath):
 # possibly with signature files included.
  
 def find_versions__process_bundle(app, match, dir):
-    '''add executable + bundle as app/core version'''
+    '''add executable + bundle as app version'''
     exec_files = []
     non_exec_files = []
     signature_files = {}
@@ -244,11 +223,6 @@ def find_versions__process_bundle(app, match, dir):
 for appdir in xlistdir(config.app_dir):
     if not os.path.isdir(appdir): continue
     dirname = os.path.basename(appdir)
-    if dirname == 'boinc':
-        if verbose:
-            print "Looking for core versions in", appdir
-        find_versions(None, appdir)
-        continue
     appname = os.path.basename(appdir)
     apps = database.Apps.find(name=appname)
     if apps:

@@ -75,6 +75,7 @@ GUI_URLS gui_urls;
 key_t sema_key;
 int g_pid;
 static bool db_opened=false;
+bool project_stopped = false;
 
 void send_message(const char* msg, int delay, bool send_header) {
     if (send_header) {
@@ -184,15 +185,52 @@ void set_core_dump_size_limit() {
 }
 #endif
 
+SCHED_SHMEM* attach_to_feeder_shmem() {
+    char path[256];
+    get_project_dir(path, sizeof(path));
+    get_key(path, 'a', sema_key);
+    SCHED_SHMEM* ssp = 0;
+    int i, retval;
+    void* p;
+
+    retval = attach_shmem(config.shmem_key, &p);
+    if (retval || p==0) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "Can't attach shmem (feeder not running?)\n"
+        );
+        project_stopped = true;
+    } else {
+        ssp = (SCHED_SHMEM*)p;
+        retval = ssp->verify();
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "shmem has wrong struct sizes - recompile\n"
+            );
+            send_message("Server has software problem", 3600, true);
+            exit(0);
+        }
+
+        for (i=0; i<10; i++) {
+            if (ssp->ready) break;
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "waiting for ready flag\n");
+            sleep(1);
+        }
+        if (!ssp->ready) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "feeder doesn't seem to be running\n");
+            send_message("Server has software problem", 3600, true);
+            exit(0);
+        }
+    }
+    return ssp;
+}
+
 int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval;
     char req_path[256], reply_path[256], path[256];
     SCHED_SHMEM* ssp=0;
-    void* p;
     unsigned int counter=0;
     char* code_sign_key;
-    bool project_stopped = false;
     int length=-1;
     log_messages.pid = getpid();
     bool batch = false;
@@ -263,36 +301,8 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    get_project_dir(path, sizeof(path));
-    get_key(path, 'a', sema_key);
-
-    retval = attach_shmem(config.shmem_key, &p);
-    if (retval || p==0) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-            "Can't attach shmem (feeder not running?)\n"
-        );
-        project_stopped = true;
-    } else {
-        ssp = (SCHED_SHMEM*)p;
-        retval = ssp->verify();
-        if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "shmem has wrong struct sizes - recompile\n"
-            );
-            send_message("Server has software problem", 3600, true);
-            exit(0);
-        }
-
-        for (i=0; i<10; i++) {
-            if (ssp->ready) break;
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "waiting for ready flag\n");
-            sleep(1);
-        }
-        if (!ssp->ready) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "feeder doesn't seem to be running\n");
-            send_message("Server has software problem", 3600, true);
-            exit(0);
-        }
+    if (!config.locality_scheduling) {
+        ssp = attach_to_feeder_shmem();
     }
 
     g_pid = getpid();

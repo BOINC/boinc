@@ -163,9 +163,9 @@ means:
      Clients will download this and run it.  If you want, you can gzip it
      and leave the .gz extension on.
 
-Now cd to PROJDIR/bin and run
+Now cd to PROJDIR and run
 
-  ./update_versions
+  bin/update_versions
 
 This scans the app dir and creates AppVersions (info about which Apps
 have really-existing versions for which platforms), and puts them in

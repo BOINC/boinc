@@ -9316,3 +9316,10 @@ Bruce 21 July 2005
         user/
             hosts_user.php
 
+David  21 July 2005
+    - Scheduler: if using locality scheduling,
+        don't attach to shared memory
+        (hence don't need to run feeder)
+
+    sched/
+        main.C
