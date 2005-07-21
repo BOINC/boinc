@@ -9358,11 +9358,16 @@ Charlie 21 July 2005
     NOTE: the Options Dialog is too narrow on the Mac, so I can not yet 
     finalize this change for this dialog until Rom fixes it.
     - Mac: Fix problems with new "Run Script Phase" (see my 19 July changes.)
+    Fix bug in menubar icon menu wich appeared only in deployment builds 4.70 
+    and 4.71; modify code so it is less dependent on exact implementation of 
+    wxTaskBarIcon's wxDockEventHandler().
     
     clientgui/
         DlgAccountManagerStatus.h
         DlgAccountManagerSignup.h
         DlgOptions.h
+        mac/
+            MacSysMenu.cpp, .h
     mac_build/
         boinc.pbproj/
             project.pbxproj

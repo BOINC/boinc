@@ -50,7 +50,6 @@ public:
     void                        SetOpeningAboutDlg(bool b) { m_OpeningAboutDlg = b; }
 private:
     
-    EventHandlerRef             m_pSysMenuEventHandlerRef;
     bool                        m_OpeningAboutDlg;
 
 };
