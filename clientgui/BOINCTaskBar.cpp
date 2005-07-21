@@ -392,9 +392,9 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     menu->AppendRadioItem(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString);
     menu->AppendRadioItem(ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString);
     menu->AppendSeparator();
-    menu->AppendRadioItem(ID_NETWORKRUNALWAYS, _("&Network activity always available"), wxEmptyString);
-    menu->AppendRadioItem(ID_NETWORKRUNBASEDONPREPERENCES, _("Network activity based on &preferences"), wxEmptyString);
-    menu->AppendRadioItem(ID_NETWORKSUSPEND, _("&Network activity suspended"), wxEmptyString);
+    menu->AppendRadioItem(ID_TB_NETWORKRUNALWAYS, _("&Network activity always available"), wxEmptyString);
+    menu->AppendRadioItem(ID_TB_NETWORKRUNBASEDONPREPERENCES, _("Network activity based on &preferences"), wxEmptyString);
+    menu->AppendRadioItem(ID_TB_NETWORKSUSPEND, _("&Network activity suspended"), wxEmptyString);
     menu->AppendSeparator();
     menu->Append(wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString);
 

@@ -9371,4 +9371,10 @@ Charlie 21 July 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
-    
+ 
+Rom    21 July 2005
+    - Bug Fix: correct the control id's for the taskbar context menu which was
+        using the control ids used by the main application instead of it's own.
+
+    clientgui/
+        BOINCTaskBar.cpp
