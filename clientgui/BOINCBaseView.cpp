@@ -36,7 +36,7 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 CBOINCBaseView::CBOINCBaseView() {}
 
-CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
+CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxString strName) :
     wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
 {
     wxASSERT(pNotebook);
@@ -50,12 +50,14 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_pTaskPane = NULL;
     m_pListPane = NULL;
 
+    SetName(strName);
+
     SetAutoLayout(TRUE);
 }
 
 
 CBOINCBaseView::CBOINCBaseView(
-    wxNotebook* pNotebook, wxWindowID iTaskWindowID, int iTaskWindowFlags,
+    wxNotebook* pNotebook, wxString strName, wxWindowID iTaskWindowID, int iTaskWindowFlags,
     wxWindowID iListWindowID, int iListWindowFlags
 ) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
 
@@ -69,6 +71,8 @@ CBOINCBaseView::CBOINCBaseView(
     //
     m_pTaskPane = NULL;
     m_pListPane = NULL;
+
+    SetName(strName);
 
     SetAutoLayout(TRUE);
 
@@ -100,7 +104,7 @@ CBOINCBaseView::~CBOINCBaseView() {}
 //   If it has not been defined by the view "Undefined" is returned.
 //
 wxString CBOINCBaseView::GetViewName() {
-    return wxString(_T("Undefined"));
+    return wxString(wxT("Undefined"));
 }
 
 

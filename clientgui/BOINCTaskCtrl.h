@@ -29,7 +29,7 @@ class CTaskItem;
 class CTaskItemGroup;
 class CBOINCBaseView;
 
-class CBOINCTaskCtrl : public wxPanel {
+class CBOINCTaskCtrl : public wxScrolledWindow {
     DECLARE_DYNAMIC_CLASS( CBOINCTaskCtrl )
 
 public:

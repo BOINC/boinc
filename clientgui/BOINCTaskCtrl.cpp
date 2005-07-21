@@ -33,10 +33,12 @@ CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
-    wxPanel(pView, iTaskWindowID, wxDefaultPosition, wxSize(200, -1), iTaskWindowFlags)
+    wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(200, -1), iTaskWindowFlags)
 {
     m_pParent = pView;
     m_pBoxSizer = NULL;
+
+    EnableScrolling(true, false);
 }
 
 
@@ -128,6 +130,7 @@ wxInt32 CBOINCTaskCtrl::UpdateTask( CTaskItem* pItem, wxString strName, wxString
         pItem->m_strDescription = strDescription;
 
         pItem->m_pButton->SetLabel( strName );
+        pItem->m_pButton->SetHelpText( strDescription );
 #if wxUSE_TOOLTIPS
         pItem->m_pButton->SetToolTip( strDescription );
 #endif
@@ -170,6 +173,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
             if (!pItem->m_pButton) {
                 pItem->m_pButton = new wxButton;
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strName, wxDefaultPosition, wxDefaultSize, 0);
+                pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strDescription);
 #endif

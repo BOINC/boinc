@@ -76,7 +76,7 @@ CViewTransfers::CViewTransfers() {}
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_TRANSFERSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, GetViewName(), ID_TASK_TRANSFERSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
 {
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;

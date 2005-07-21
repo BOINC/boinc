@@ -284,7 +284,7 @@ CViewStatistics::CViewStatistics() {}
 
 
 CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook) 
+    CBOINCBaseView(pNotebook, GetViewName()) 
 {
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;

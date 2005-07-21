@@ -52,7 +52,7 @@ CViewMessages::CViewMessages() {}
 
 
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_MESSAGESVIEW, DEFAULT_TASK_FLAGS, ID_LIST_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, GetViewName(), ID_TASK_MESSAGESVIEW, DEFAULT_TASK_FLAGS, ID_LIST_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
 {
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;

@@ -75,9 +75,13 @@ class CBOINCBaseView : public wxPanel {
 public:
 
     CBOINCBaseView();
-    CBOINCBaseView(wxNotebook* pNotebook);
     CBOINCBaseView(
         wxNotebook* pNotebook,
+        wxString strName
+    );
+    CBOINCBaseView(
+        wxNotebook* pNotebook,
+        wxString strName,
         wxWindowID iTaskWindowID,
         int iTaskWindowFlags,
         wxWindowID iListWindowID,

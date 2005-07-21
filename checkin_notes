@@ -9330,3 +9330,24 @@ David  21 July 2005
 
     sched/
         main.C
+
+Rom    21 July 2005
+    - After a false start here is an update that should allow screen readers
+        to read something useful.  The wxWidget documentation and sample are
+        kinda stale and lead you believe that you have to define proxies for
+        the various controls, but in fact you can enable the context help
+        system in combination with the normal window name/title scheme and
+        skip the proxy creation.  What started out being several hundred lines
+        of code shrunk down to 20 or so lines of code.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCGUIApp.cpp
+        BOINCTaskCtrl.cpp, .h
+        stdwx.h
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

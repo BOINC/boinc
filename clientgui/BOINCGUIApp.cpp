@@ -152,6 +152,10 @@ bool CBOINCGUIApp::OnInit() {
 
     InitSupportedLanguages();
 
+    // Note: JAWS for Windows will only speak the context-sensitive
+    // help if you use this help provider:
+    wxHelpProvider::Set(new wxHelpControllerHelpProvider());
+
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {
         return false;

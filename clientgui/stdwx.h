@@ -89,6 +89,7 @@
 #include <wx/process.h>
 #include <wx/dynlib.h>
 #include <wx/dialup.h>
+#include <wx/cshelp.h>
 
 #ifndef NOTASKBAR
 #include <wx/taskbar.h>         // taskbar support
@@ -99,7 +100,21 @@
 
 // Windows Headers
 //
+#include <windows.h>
 #include <crtdbg.h>
+#include <ole2.h>
+#include <oleauto.h>
+
+#if wxUSE_ACCESSIBILITY
+    #include <oleacc.h>
+#endif // wxUSE_ACCESSIBILITY
+
+#include "wx/msw/ole/oleutils.h"
+#include "wx/msw/winundef.h"
+
+#ifndef OBJID_CLIENT
+    #define OBJID_CLIENT 0xFFFFFFFC
+#endif
 
 #endif
 
