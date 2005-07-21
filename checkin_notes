@@ -9378,3 +9378,12 @@ Rom    21 July 2005
 
     clientgui/
         BOINCTaskBar.cpp
+
+David  21 July 2005
+    - use SHM_R|SHM_W instead of 0666 in shmget().
+        Apparently this is needed for HPUX.
+        We did this before (Mar 31 2005) and immediately
+        backed it out, so it's likely to break some other platform.
+
+    lib/
+        shmem.C

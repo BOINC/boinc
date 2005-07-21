@@ -7,8 +7,7 @@ array("July 11-12, 2005",
     was held at CERN,
     bringing together people from ClimatePrediction.net,
     Einstein@home, CERN, and BOINC.
-    Slides and video of CPDN and E@h talks are available at
-    http://cseminar.home.cern.ch/cseminar/ -> Past events."
+    "
 ),
 array("June 25, 2005",
     "BOINC <a href=stats_sites.php>statistics</a> sites continue to evolve.

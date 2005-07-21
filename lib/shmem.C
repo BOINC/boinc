@@ -96,7 +96,7 @@ int detach_shmem(HANDLE hMap, void* p) {
 int create_shmem(key_t key, int size, void** pp) {
     int id;
     assert(pp!=NULL);
-    id = shmget(key, size, IPC_CREAT|0666);
+    id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     if (id < 0) {
         return ERR_SHMGET;
     }
