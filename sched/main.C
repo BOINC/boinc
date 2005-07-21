@@ -301,9 +301,7 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    if (!config.locality_scheduling) {
-        ssp = attach_to_feeder_shmem();
-    }
+    ssp = attach_to_feeder_shmem();
 
     g_pid = getpid();
 #ifdef _USING_FCGI_

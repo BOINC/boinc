@@ -9323,3 +9323,10 @@ David  21 July 2005
 
     sched/
         main.C
+
+David  21 July 2005
+    - Doh!! shared memory is needed anyway,
+        e.g. for app and platform tables
+
+    sched/
+        main.C
