@@ -157,6 +157,9 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     GetSizer()->SetSizeHints(this);
     Centre();
 ////@end CDlgOptions creation
+
+    Layout();
+
     return TRUE;
 }
 
@@ -384,7 +387,7 @@ void CDlgOptions::CreateControls()
 
     itemNotebook3->AddPage(itemPanel43, _("SOCKS Proxy"));
 
-    itemBoxSizer2->Add(itemNotebook3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer2->Add(itemNotebook3, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer59, 0, wxALIGN_RIGHT|wxALL, 5);

@@ -9394,6 +9394,9 @@ Rom    21 July 2005
         flag.  Making changes directly on the source files without updating the
         templates just causes the loss of the change next time DialogBlocks
         is loaded.
+    - Instead of specifically defining which flags are used, use
+        wxDEFAULT_DIALOG_STYLE which is supposed to contain the defaults on a
+        per platform basis.
 
     clientgui/
         BOINCGUI.cst (Added)
