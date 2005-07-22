@@ -142,6 +142,8 @@ protected:
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
+    bool                    m_bForceUpdateSelection;
+
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
 };

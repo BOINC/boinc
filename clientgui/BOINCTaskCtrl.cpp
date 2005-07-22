@@ -26,7 +26,7 @@
 #include "BOINCTaskCtrl.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxPanel)
+IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl() {}
@@ -36,9 +36,11 @@ CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, 
     wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(200, -1), iTaskWindowFlags)
 {
     m_pParent = pView;
-    m_pBoxSizer = NULL;
+    m_pSizer = NULL;
 
-    EnableScrolling(true, false);
+    EnableScrolling(true, true);
+    SetVirtualSize( 200, 1000 );
+    SetScrollRate( 10, 10 );
 }
 
 
@@ -54,7 +56,7 @@ wxInt32 CBOINCTaskCtrl::DeleteTaskGroupAndTasks( CTaskItemGroup* pGroup ) {
         DeleteTask(pGroup, pItem);
     }
     if (pGroup->m_pStaticBoxSizer) {
-        m_pBoxSizer->Detach(pGroup->m_pStaticBoxSizer);
+        m_pSizer->Detach(pGroup->m_pStaticBoxSizer);
         pGroup->m_pStaticBoxSizer->Detach(pGroup->m_pStaticBox);
 
         delete pGroup->m_pStaticBox;
@@ -150,8 +152,8 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     bCreateMainSizer = !GetSizer();
     if (bCreateMainSizer) {
         SetAutoLayout(TRUE);
-        m_pBoxSizer = new wxBoxSizer(wxVERTICAL);
-        m_pBoxSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+        m_pSizer = new wxBoxSizer( wxVERTICAL  );
+        m_pSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     }
 
 
@@ -161,7 +163,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         if (!pGroup->m_pStaticBoxSizer) {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
-            m_pBoxSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
+            m_pSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
         }
     }
 
@@ -182,12 +184,13 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         }
     }
 
-
     if (bCreateMainSizer) {
-        SetSizer(m_pBoxSizer);
+        SetSizer(m_pSizer);
     }
 
-    Layout();
+    // Force update layout and scrollbars, since nothing we do here
+    // necessarily generates a size event which would do it for us.
+    FitInside();
 
     return 0;
 }

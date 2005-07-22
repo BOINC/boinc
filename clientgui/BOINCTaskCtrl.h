@@ -54,9 +54,9 @@ public:
 
 private:
 
-    CBOINCBaseView* m_pParent;
+    CBOINCBaseView*  m_pParent;
 
-    wxBoxSizer*     m_pBoxSizer;
+    wxBoxSizer*      m_pSizer;
 };
 
 

@@ -44,6 +44,8 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxString strName) :
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
 
+    m_bForceUpdateSelection = true;
+
     //
     // Setup View
     //
@@ -253,6 +255,7 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     event.Skip();
 
@@ -263,6 +266,7 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     event.Skip();
 

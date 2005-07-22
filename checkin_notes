@@ -9442,3 +9442,13 @@ Charlie 22 July 2005
         HowToBuildBOINC_XCode.rtf
         boinc.pbproj/
             project.pbxproj
+
+Rom    22 July 2005
+    - Enable scrollbars on the task pane
+    - Only redraw the website buttons when a selection change event has
+      occurred with the list pane.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        ViewProjects.cpp
