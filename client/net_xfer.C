@@ -99,6 +99,8 @@ int NET_XFER::open_server() {
         gstate.want_network_flag = true;
         msg_printf(0, MSG_ERROR, "%s\n", msg);
         return retval;
+    } else {
+        gstate.want_network_flag = false;
     }
 
     retval = boinc_socket(fd);
