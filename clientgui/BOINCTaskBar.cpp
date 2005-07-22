@@ -429,10 +429,10 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     case RUN_MODE_ALWAYS:
         menu->Check(ID_TB_NETWORKRUNALWAYS, true);
         break;
-    case RUN_MODE_NEVER:
+    case RUN_MODE_AUTO:
         menu->Check(ID_TB_NETWORKRUNBASEDONPREPERENCES, true);
         break;
-    case RUN_MODE_AUTO:
+    case RUN_MODE_NEVER:
         menu->Check(ID_TB_NETWORKSUSPEND, true);
         break;
     }
