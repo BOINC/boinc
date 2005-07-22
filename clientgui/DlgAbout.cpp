@@ -143,7 +143,7 @@ void CDlgAbout::CreateControls() {
     itemBoxSizer2->Add(itemStaticText13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxHyperLink* itemHyperLink14 = new wxHyperLink;
-    itemHyperLink14->Create( itemDialog1, ID_BOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    itemHyperLink14->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
     itemBoxSizer2->Add(itemHyperLink14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticLine* itemStaticLine15 = new wxStaticLine;

@@ -40,6 +40,7 @@
 #include "DlgAccountManagerStatus.h"
 #include "DlgDialupCredentials.h"
 #include "DlgSelectComputer.h"
+#include "WizAttachProject.h"
 
 #include "res/BOINCGUIApp.xpm"
 #include "res/connect.xpm"
@@ -146,14 +147,15 @@ DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
-    EVT_MENU(ID_HIDE, CMainFrame::OnHide)
-    EVT_MENU_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
-    EVT_MENU_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnNetworkSelection)
-    EVT_MENU(ID_RUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
-    EVT_MENU(ID_SELECTCOMPUTER, CMainFrame::OnSelectComputer)
+    EVT_MENU(ID_FILEHIDE, CMainFrame::OnHide)
+    EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
+    EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CMainFrame::OnNetworkSelection)
+    EVT_MENU(ID_FILERUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
+    EVT_MENU(ID_FILESELECTCOMPUTER, CMainFrame::OnSelectComputer)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSMANAGEACCOUNTS, CMainFrame::OnToolsManageAccounts)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
+    EVT_MENU(ID_DEBUGATTACHPROJECT, CMainFrame::OnDebugAttachProject)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
@@ -323,24 +325,24 @@ bool CMainFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
 
     menuFile->Append(
-        ID_HIDE, 
+        ID_FILEHIDE, 
         _("&Hide"),
         _("Hides the main BOINC Manager window")
     );
     menuFile->AppendSeparator();
 
     menuFile->AppendRadioItem(
-        ID_ACTIVITYRUNALWAYS,
+        ID_FILEACTIVITYRUNALWAYS,
         _("&Run always"),
         _("Does work regardless of preferences")
     );
     menuFile->AppendRadioItem(
-        ID_ACTIVITYRUNBASEDONPREPERENCES,
+        ID_FILEACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
         _("Does work according to your preferences")
     );
     menuFile->AppendRadioItem(
-        ID_ACTIVITYSUSPEND,
+        ID_FILEACTIVITYSUSPEND,
         _("&Suspend"),
         _("Stops work regardless of preferences")
     );
@@ -348,17 +350,17 @@ bool CMainFrame::CreateMenu() {
     menuFile->AppendSeparator();
 
     menuFile->AppendRadioItem(
-        ID_NETWORKRUNALWAYS,
+        ID_FILENETWORKRUNALWAYS,
         _("&Network activity always available"),
         _("Does network activity regardless of preferences")
     );
     menuFile->AppendRadioItem(
-        ID_NETWORKRUNBASEDONPREPERENCES,
+        ID_FILENETWORKRUNBASEDONPREPERENCES,
         _("Network activity based on &preferences"),
         _("Does network activity according to your preferences")
     );
     menuFile->AppendRadioItem(
-        ID_NETWORKSUSPEND,
+        ID_FILENETWORKSUSPEND,
         _("&Network activity suspended"),
         _("Stops BOINC network activity")
     );
@@ -366,7 +368,7 @@ bool CMainFrame::CreateMenu() {
     menuFile->AppendSeparator();
 
     menuFile->Append(
-        ID_RUNBENCHMARKS, 
+        ID_FILERUNBENCHMARKS, 
         _("Run &Benchmarks"),
         _("Runs BOINC CPU benchmarks")
     );
@@ -374,7 +376,7 @@ bool CMainFrame::CreateMenu() {
     menuFile->AppendSeparator();
 
     menuFile->Append(
-        ID_SELECTCOMPUTER, 
+        ID_FILESELECTCOMPUTER, 
         _("Select Computer..."),
         _("Connect to another computer running BOINC")
     );
@@ -402,6 +404,16 @@ bool CMainFrame::CreateMenu() {
         _("&Options"),
         _("Configure GUI options and proxy settings")
     );
+
+    // Debug menu
+#ifdef __WXDEBUG__
+    wxMenu *menuDebug = new wxMenu;
+    menuDebug->Append(
+        ID_DEBUGATTACHPROJECT, 
+        _("&Attach to Project Wizard"),
+        wxEmptyString
+    );
+#endif
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
@@ -435,6 +447,12 @@ bool CMainFrame::CreateMenu() {
         menuTools,
         _("&Tools")
     );
+#ifdef __WXDEBUG__
+    m_pMenubar->Append(
+        menuDebug,
+        _("&Debug")
+    );
+#endif
     m_pMenubar->Append(
         menuHelp,
         _("&Help")
@@ -828,13 +846,13 @@ void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
-    case ID_ACTIVITYRUNALWAYS:
+    case ID_FILEACTIVITYRUNALWAYS:
         pDoc->SetActivityRunMode(RUN_MODE_ALWAYS);
         break;
-    case ID_ACTIVITYSUSPEND:
+    case ID_FILEACTIVITYSUSPEND:
         pDoc->SetActivityRunMode(RUN_MODE_NEVER);
         break;
-    case ID_ACTIVITYRUNBASEDONPREPERENCES:
+    case ID_FILEACTIVITYRUNBASEDONPREPERENCES:
         pDoc->SetActivityRunMode(RUN_MODE_AUTO);
         break;
     }
@@ -852,13 +870,13 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(event.GetId()) {
-    case ID_NETWORKRUNALWAYS:
+    case ID_FILENETWORKRUNALWAYS:
         pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
         break;
-    case ID_NETWORKSUSPEND:
+    case ID_FILENETWORKSUSPEND:
         pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
         break;
-    case ID_NETWORKRUNBASEDONPREPERENCES:
+    case ID_FILENETWORKRUNBASEDONPREPERENCES:
         pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
         break;
     }
@@ -1132,6 +1150,20 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
         pDlg->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsOptions - Function End"));
+}
+
+
+void CMainFrame::OnDebugAttachProject(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function Begin"));
+
+    CWizAttachProject* pWizard = new CWizAttachProject(this);
+
+    pWizard->Run();
+
+    if (pWizard)
+        pWizard->Destroy();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function End"));
 }
 
 
@@ -1618,28 +1650,28 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 wxASSERT(pMenuBar);
                 wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-                pMenuBar->Check(ID_ACTIVITYRUNALWAYS, false);
-                pMenuBar->Check(ID_ACTIVITYSUSPEND, false);
-                pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, false);
+                pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, false);
+                pMenuBar->Check(ID_FILEACTIVITYSUSPEND, false);
+                pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, false);
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
                     if (iActivityMode == RUN_MODE_ALWAYS)
-                        pMenuBar->Check(ID_ACTIVITYRUNALWAYS, true);
+                        pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, true);
                     if (iActivityMode == RUN_MODE_NEVER)
-                        pMenuBar->Check(ID_ACTIVITYSUSPEND, true);
+                        pMenuBar->Check(ID_FILEACTIVITYSUSPEND, true);
                     if (iActivityMode == RUN_MODE_AUTO)
-                        pMenuBar->Check(ID_ACTIVITYRUNBASEDONPREPERENCES, true);
+                        pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, true);
                 }
 
-                pMenuBar->Check(ID_NETWORKRUNALWAYS, false);
-                pMenuBar->Check(ID_NETWORKSUSPEND, false);
-                pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, false);
+                pMenuBar->Check(ID_FILENETWORKRUNALWAYS, false);
+                pMenuBar->Check(ID_FILENETWORKSUSPEND, false);
+                pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, false);
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode))) {
                     if (RUN_MODE_ALWAYS == iNetworkMode)
-                        pMenuBar->Check(ID_NETWORKRUNALWAYS, true);
+                        pMenuBar->Check(ID_FILENETWORKRUNALWAYS, true);
                     if (RUN_MODE_NEVER == iNetworkMode)
-                        pMenuBar->Check(ID_NETWORKSUSPEND, true);
+                        pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
                     if (RUN_MODE_AUTO == iNetworkMode)
-                        pMenuBar->Check(ID_NETWORKRUNBASEDONPREPERENCES, true);
+                        pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
                 }
 
                 // Update the statusbar

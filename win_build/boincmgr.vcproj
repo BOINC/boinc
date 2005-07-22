@@ -353,6 +353,9 @@
 			<File
 				RelativePath="..\clientgui\ViewWork.cpp">
 			</File>
+			<File
+				RelativePath="..\clientgui\WizAttachProject.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -493,11 +496,17 @@
 			<File
 				RelativePath="..\clientgui\ViewWork.h">
 			</File>
+			<File
+				RelativePath="..\clientgui\WizAttachProject.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;xrc"
 			UniqueIdentifier="{08DB1F42-8D4B-491a-870C-2A991D5ED0DB}">
+			<File
+				RelativePath="..\clientgui\res\attachprojectwizard.xpm">
+			</File>
 			<File
 				RelativePath="..\clientgui\res\boinc.xpm">
 			</File>

@@ -52,7 +52,7 @@
 #define SYMBOL_CDLGABOUT_IDNAME ID_DIALOG
 #define SYMBOL_CDLGABOUT_SIZE wxSize(400, 300)
 #define SYMBOL_CDLGABOUT_POSITION wxDefaultPosition
-#define ID_BOINCLINK 10031
+#define ID_ABOUTBOINCLINK 10031
 ////@end control identifiers
 
 /*!

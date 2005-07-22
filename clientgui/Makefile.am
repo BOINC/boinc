@@ -31,6 +31,7 @@ boinc_gui_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
+    WizAttachProject.cpp \
     ../lib/gui_rpc_client.C \
     hyperlink.cpp
 

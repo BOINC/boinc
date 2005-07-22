@@ -9408,3 +9408,21 @@ Rom    21 July 2005
         DlgDialupCredentials.cpp, .h
         DlgOptions.cpp, .h
         DlgSelectComputer.cpp, .h
+
+Rom    21 July 2005
+    - Start prototyping the new attach to project wizard.
+      NOTE: It'll only be visible on debug builds for the time being.
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgAbout.cpp, .h
+        Events.h
+        MainFrame.cpp, .h
+        Makefile.am
+        WizAttachProject.cpp, .h
+    clientgui/res/
+        attachprojectwizard.xpm
+    clientgui/res/templates/
+        wizard.png
+    win_build/
+        boincmgr.vcproj
