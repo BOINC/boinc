@@ -9426,3 +9426,16 @@ Rom    21 July 2005
         wizard.png
     win_build/
         boincmgr.vcproj
+
+Charlie 22 July 2005
+    - Mac Update XCode project for use with Wxmac-2.6.1 (added IOKit 
+    Framework to BOINC Manager target.)
+    - Update Build instructions for wxMac-2.6.1, more detailed info 
+    for building libraries and sceince projects.
+
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj

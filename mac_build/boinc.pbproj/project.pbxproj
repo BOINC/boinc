@@ -326,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD40D05107F03A030096C645,
+				DD9B6AAF0890DD71003A8E83,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3169,6 +3170,12 @@
 			path = "ScreenSaver-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DD9B6AAF0890DD71003A8E83 = {
+			fileRef = DDE2552B07C62F3E008E7D6E;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DDA45739086447BC00DE260C = {
 			fileEncoding = 30;

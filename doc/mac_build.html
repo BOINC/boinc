@@ -20,12 +20,16 @@
   </style>
 </head>
 <body>
-<p class="p1"><b>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</b></p>
+<p class="p1"><b>Building BOINC Clients on Macintosh OSX</b></p>
 <p class="p2"><br></p>
 <p class="p3">Written by Charlie Fenton</p>
-<p class="p3">Last updated 7/1/05</p>
+<p class="p3">Last updated 7/22/05</p>
 <p class="p2"><br></p>
-<p class="p4">NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.<span class="Apple-converted-space">  </span>Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".</p>
+<p class="p4">This document has instructions for building BOINC for Macintosh OSX, plus information for building science projects to run under BOINC Macintosh OSX.</p>
+<p class="p2"><br></p>
+<p class="p1"><b>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</b></p>
+<p class="p2"><br></p>
+<p class="p4">NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.<span class="Apple-converted-space">  </span>Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.1".</p>
 <p class="p2"><br></p>
 <p class="p4">These directions are for building under OS X version 10.4.x (Tiger) using XCode Developer Tools version 2.0, or OS X version 10.3.9 (Panther) using XCode 1.5. <span class="Apple-converted-space"> </span></p>
 <p class="p2"><br></p>
@@ -43,16 +47,19 @@
 <p class="p2"><br></p>
 <p class="p4">If you are building under OS 10.3.9, the default compiler is GCC 3.3, so these steps are not necessary (but they won't do any harm).</p>
 <p class="p2"><br></p>
+<p class="p4">If you are building a science project to run under BOINC Macintosh OSX, be sure to read the last section of this document, titled "Building the BOINC SETI client application."</p>
 <p class="p2"><br></p>
 <p class="p3"><b>One-Time Setup for BOINC Manager and embedded Core Client</b></p>
 <p class="p2"><br></p>
-<p class="p4"><i>XCode 1.5 installs autoconf version 2.57 and automake 1.63.<span class="Apple-converted-space">  </span>XCode 2.0 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building wxMac-2.6.0 requires autoconf 2.59 and automake 1.93 or later.<span class="Apple-converted-space">  </span>Building the BOINC SETI application also requires these.</i></p>
+<p class="p4">This section describes building the wxWidgets library for the Macintosh, wxMac-2.6.1.<span class="Apple-converted-space">  </span>This library is needed only by the BOINC Manager.<span class="Apple-converted-space">  </span>If you are not building the BOINC Manager, you can skip ahead to step (5) below.</p>
+<p class="p2"><br></p>
+<p class="p4"><i>XCode 1.5 installs autoconf version 2.57 and automake 1.63.<span class="Apple-converted-space">  </span>XCode 2.0 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building wxMac-2.6.1 requires autoconf 2.59 and automake 1.93 or later.<span class="Apple-converted-space">  </span>Building the BOINC SETI application also requires these.</i></p>
 <p class="p2"><i></i><br></p>
 <p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org.<span class="Apple-converted-space">  </span>XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.<span class="Apple-converted-space">  </span>If you install there, you must also set your PATH environment variable to include that location before proceeding with any of the steps below; type the following at the start of your terminal session:</i></p>
 <p class="p2"><i></i><br></p>
 <p class="p6">export PATH=/usr/local/bin:$PATH</p>
 <p class="p2"><br></p>
-<p class="p4">(1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:</p>
+<p class="p4">(1) First download wxMac-2.6.1 from www.wxwidgets.org and build it:</p>
 <p class="p4">You will need to set the environment variables CPPFLAGS and LDFLAGS as described below.<span class="Apple-converted-space">  </span>These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.<span class="Apple-converted-space">  </span>Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.</p>
 <p class="p7"><br></p>
 <p class="p4">First set the CPPFlags environment variable. If you are building under OS 10.4:</p>
@@ -63,7 +70,7 @@
 <p class="p2"><br></p>
 <p class="p6">export CPPFLAGS="-DMAC_OS_X_VERSION_MAX_ALLOWED=1030"</p>
 <p class="p2"><br></p>
-<p class="p4">Then continue building wxMac-2.6.0:</p>
+<p class="p4">Then continue building wxMac-2.6.1:</p>
 <p class="p2"><br></p>
 <p class="p6">cd [wxpath]</p>
 <p class="p7"><br></p>
@@ -85,18 +92,19 @@
 <p class="p4">(3) Create a<span class="Apple-converted-space">  </span>symbolic link [boincpath]/wx_lib pointing to<span class="Apple-converted-space"> </span></p>
 <p class="p4">[wxpath]/osx-build/lib/</p>
 <p class="p2"><br></p>
+<p class="p4">For example, if the boinc, wxMac-2.6.1 directory is at [wxpath] then the command would be:</p>
+<p class="p6">ln -s [wxpath]/osx-build/lib wx_lib</p>
+<p class="p2"><br></p>
 <p class="p4">(4) Create a<span class="Apple-converted-space">  </span>symbolic link<span class="Apple-converted-space">  </span>[boincpath]/wxinclude pointing to<span class="Apple-converted-space"> </span></p>
 <p class="p4">[wxpath]/include</p>
+<p class="p8"><br></p>
+<p class="p4">If the boinc, wxMac-2.6.1 directory is at [wxpath]:</p>
+<p class="p6">ln -s [wxpath]/include wxinclude</p>
 <p class="p2"><br></p>
 <p class="p4">(5) Create a<span class="Apple-converted-space">  </span>symbolic link<span class="Apple-converted-space">  </span>[boincpath]/jpeglib pointing to<span class="Apple-converted-space"> </span></p>
 <p class="p4">your jpeg-6b directory (or whatever directory contains the jpeglib source files).<span class="Apple-converted-space"> </span></p>
 <p class="p2"><br></p>
-<p class="p4">For example, if the boinc, wxMac-2.6.0 directory is at [wxpath] and the jpeg-6b directory is at [jpegpath] then the commands would be:</p>
-<p class="p2"><br></p>
-<p class="p6">ln -s [wxpath]/osx-build/lib wx_lib</p>
-<p class="p8"><br></p>
-<p class="p6">ln -s [wxpath]/include wxinclude</p>
-<p class="p8"><br></p>
+<p class="p4">If the jpeg-6b directory is at [jpegpath]:</p>
 <p class="p6">ln -s [jpegpath] jpeglib</p>
 <p class="p2"><br></p>
 <p class="p3"><b>Building the BOINC Manager with embedded Core Client, plus<span class="Apple-converted-space"> </span></b></p>
@@ -110,6 +118,8 @@
 <p class="p4"><span class="Apple-converted-space"> </span>- In the "General" tab, set the popup menu "Cross-Develop Using Target SDK." <span class="Apple-converted-space">  </span>For OS 10.4, select "MacOSX10.3.9.sdk"; for OS 10.3 select "current Mac OS".</p>
 <p class="p2"><br></p>
 <p class="p4">(3) In the Active Target popup, select mgr_boinc or Build_All.<span class="Apple-converted-space">  </span>Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.<span class="Apple-converted-space">  </span>These libraries are not needed by the BOINC Manager or Core Client.<span class="Apple-converted-space">  </span>In addition, Build_All builds the screensaver BOINCSaver.saver and the installer helper application Postinstall.app.</p>
+<p class="p2"><br></p>
+<p class="p4">If you wish to build only the libraries, then just build the 3 targets libboinc, gfxlibboinc and api_libboinc.</p>
 <p class="p2"><br></p>
 <p class="p4">(4) In the Active Build Style popup, choose Development (for debugging) or Deployment (for release builds.)</p>
 <p class="p2"><br></p>

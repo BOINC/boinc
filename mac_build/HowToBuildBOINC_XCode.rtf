@@ -6,16 +6,24 @@
 \margl1440\margr1440\vieww9000\viewh9000\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b\fs28 \cf0 Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a\
+\f0\b\fs28 \cf0 Building BOINC Clients on Macintosh OSX\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 7/1/05\
+Last updated 7/22/05\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.  Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.0".\
+This document has instructions for building BOINC for Macintosh OSX, plus information for building science projects to run under BOINC Macintosh OSX.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\f0\b\fs28 \cf0 Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\b0\fs24 \cf0 \
+NOTE: Substitute the appropriate path for [wxpath] and [boincpath] throughout this document.  Typically, [boincpath] will end in "/boinc" or /boinc_public", and [wxpath] will end in "/wxMac-2.6.1".\
 \
 These directions are for building under OS X version 10.4.x (Tiger) using XCode Developer Tools version 2.0, or OS X version 10.3.9 (Panther) using XCode 1.5.  \
 \
@@ -40,18 +48,22 @@ In the XCode project, select your target under the Groups & Files column.  Press
 \
 If you are building under OS 10.3.9, the default compiler is GCC 3.3, so these steps are not necessary (but they won't do any harm).\
 \
-\
+If you are building a science project to run under BOINC Macintosh OSX, be sure to read the last section of this document, titled "Building the BOINC SETI client application."\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b \cf0 One-Time Setup for BOINC Manager and embedded Core Client
 \f1\b0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
+This section describes building the wxWidgets library for the Macintosh, wxMac-2.6.1.  This library is needed only by the BOINC Manager.  If you are not building the BOINC Manager, you can skip ahead to step (5) below.\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f3\i \cf0 XCode 1.5 installs autoconf version 2.57 and automake 1.63.  XCode 2.0 installs autoconf 2.59 and automake 1.63.
 \f1\i0   
-\f3\i To determine the version number, type "autoconf --version" or "automake --version" .  Building wxMac-2.6.0 requires autoconf 2.59 and automake 1.93 or later.  Building the BOINC SETI application also requires these.\
+\f3\i To determine the version number, type "autoconf --version" or "automake --version" .  Building wxMac-2.6.1 requires autoconf 2.59 and automake 1.93 or later.  Building the BOINC SETI application also requires these.\
 \
 Upgrades for autoconf and automake are available from www.gnu.org.  XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.  If you install there, you must also set your PATH environment variable to include that location before proceeding with any of the steps below; type the following at the start of your terminal session:\
 \
@@ -61,7 +73,7 @@ Upgrades for autoconf and automake are available from www.gnu.org.  XCode instal
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
-(1) First download wxMac-2.6.0 from www.wxwidgets.org and build it:\
+(1) First download wxMac-2.6.1 from www.wxwidgets.org and build it:\
 You will need to set the environment variables CPPFLAGS and LDFLAGS as described below.  These commands are for the bash shell; use the equivalent commands if you are running a different UNIX shell.  Some of these environment variables allow the application to be built using the OS 10.3.9 compatibility SDK.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -84,7 +96,7 @@ If you are building under OS 10.3:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
-Then continue building wxMac-2.6.0:\
+Then continue building wxMac-2.6.1:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -126,24 +138,35 @@ make\
 \f1 \cf0 (3) Create a  symbolic link [boincpath]/wx_lib pointing to \
 [wxpath]/osx-build/lib/\
 \
-(4) Create a  symbolic link  [boincpath]/wxinclude pointing to \
-[wxpath]/include\
-\
-(5) Create a  symbolic link  [boincpath]/jpeglib pointing to \
-your jpeg-6b directory (or whatever directory contains the jpeglib source files). \
-\
-For example, if the boinc, wxMac-2.6.0 directory is at [wxpath] and the jpeg-6b directory is at [jpegpath] then the commands would be:\
-\
+For example, if the boinc, wxMac-2.6.1 directory is at [wxpath] then the command would be:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f2 \cf0 ln -s [wxpath]/osx-build/lib wx_lib\
-\
-ln -s [wxpath]/include wxinclude\
-\
-ln -s [jpegpath] jpeglib\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1 \cf0 \
+(4) Create a  symbolic link  [boincpath]/wxinclude pointing to \
+[wxpath]/include\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 If the boinc, wxMac-2.6.1 directory is at [wxpath]:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 ln -s [wxpath]/include wxinclude\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 \
+(5) Create a  symbolic link  [boincpath]/jpeglib pointing to \
+your jpeg-6b directory (or whatever directory contains the jpeglib source files). \
+\
+If the jpeg-6b directory is at [jpegpath]:
+\f2 \
+ln -s [jpegpath] jpeglib\
+
+\f1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b \cf0 Building the BOINC Manager with embedded Core Client, plus \
@@ -159,6 +182,8 @@ BOINC libraries, screensaver and helper applications
  - In the "General" tab, set the popup menu "Cross-Develop Using Target SDK."   For OS 10.4, select "MacOSX10.3.9.sdk"; for OS 10.3 select "current Mac OS".\
 \
 (3) In the Active Target popup, select mgr_boinc or Build_All.  Build_All also builds the three libraries libboinc_api.a, libboinc_graphics_api.a and libboinc.a, which are used to build science applications such as SETI@home.  These libraries are not needed by the BOINC Manager or Core Client.  In addition, Build_All builds the screensaver BOINCSaver.saver and the installer helper application Postinstall.app.\
+\
+If you wish to build only the libraries, then just build the 3 targets libboinc, gfxlibboinc and api_libboinc.\
 \
 (4) In the Active Build Style popup, choose Development (for debugging) or Deployment (for release builds.)\
 \
