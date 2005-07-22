@@ -2530,7 +2530,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libwx_mac_core-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_core-2.6.a";
+			path = "../../wxMac-2.6.1/osx-build/lib/libwx_mac_core-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2538,7 +2538,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libwx_base_carbon_net-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon_net-2.6.a";
+			path = "../../wxMac-2.6.1/osx-build/lib/libwx_base_carbon_net-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2546,7 +2546,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libwx_base_carbon-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_base_carbon-2.6.a";
+			path = "../../wxMac-2.6.1/osx-build/lib/libwx_base_carbon-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -2554,7 +2554,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.ar;
 			name = "libwx_mac_adv-2.6.a";
-			path = "../../wxMac-2.6.0/osx-build/lib/libwx_mac_adv-2.6.a";
+			path = "../../wxMac-2.6.1/osx-build/lib/libwx_mac_adv-2.6.a";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
