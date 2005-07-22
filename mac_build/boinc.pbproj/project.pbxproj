@@ -318,6 +318,7 @@
 				DDA4573F086447BC00DE260C,
 				DD0A06F20869A288007CD86E,
 				DD5EEB6C0873DD4400963F44,
+				DD9B6B1B0890EDCA003A8E83,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2653,6 +2654,8 @@
 				DD81C47107C5D2BF0098A04D,
 				DD81C42107C5D1D70098A04D,
 				DD81C47007C5D2BF0098A04D,
+				DD9B6B190890EDCA003A8E83,
+				DD9B6B180890EDCA003A8E83,
 				DD81C43C07C5D2240098A04D,
 			);
 			isa = PBXGroup;
@@ -3173,6 +3176,28 @@
 		};
 		DD9B6AAF0890DD71003A8E83 = {
 			fileRef = DDE2552B07C62F3E008E7D6E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD9B6B180890EDCA003A8E83 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = WizAttachProject.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD9B6B190890EDCA003A8E83 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = WizAttachProject.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD9B6B1B0890EDCA003A8E83 = {
+			fileRef = DD9B6B190890EDCA003A8E83;
 			isa = PBXBuildFile;
 			settings = {
 			};
