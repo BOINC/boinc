@@ -94,17 +94,9 @@ int NET_XFER::open_server() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
-#ifdef _WIN32
-    if (get_connected_state() == CONNECTED_STATE_NOT_CONNECTED) {
-        gstate.want_network_flag = true;
-        return ERR_NO_NETWORK_CONNECTION;
-    } else {
-        gstate.want_network_flag = false;
-    }
-#endif
-
     retval = resolve_hostname(hostname, ipaddr, msg);
     if (retval) {
+        gstate.want_network_flag = true;
         msg_printf(0, MSG_ERROR, "%s\n", msg);
         return retval;
     }

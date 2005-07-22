@@ -9452,3 +9452,15 @@ Rom    22 July 2005
         BOINCBaseView.cpp, .h
         BOINCTaskCtrl.cpp, .h
         ViewProjects.cpp
+
+Rom    22 July 2005
+    - Fix the statistics buttons so that they show up again after the
+        wxScrollWindow conversion.
+    - Fix for wireless USB adapters so that connection request events
+        happen even when InternetGetConnectedState returns a value
+        indicating that the machine is not connected.
+
+    client/
+        net_xfer.C
+    clientgui/
+        ViewStatistics.cpp
