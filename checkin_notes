@@ -9464,3 +9464,7 @@ Rom    22 July 2005
         net_xfer.C
     clientgui/
         ViewStatistics.cpp
+
+Rom    22 July 2005 (boinc_public)
+    - Tag for 4.72 release, all platforms
+      boinc_core_release_4_72
