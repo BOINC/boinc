@@ -102,7 +102,7 @@ int resolve_hostname(char* hostname, int &ip_addr, char* msg) {
 }
 
 int boinc_socket(int& fd) {
-    fd = socket(AF_INET, SOCK_STREAM, 0);
+    fd = (int)socket(AF_INET, SOCK_STREAM, 0);
     if (fd < 0) {
         perror("socket");
         return ERR_SOCKET;

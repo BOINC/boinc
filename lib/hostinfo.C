@@ -218,7 +218,7 @@ void HOST_INFO::generate_host_cpid() {
     char buf[1024];
 
     sprintf(buf, "%f%s%s%f", dtime(), domain_name, ip_addr, d_free);
-    md5_block((const unsigned char*) buf, strlen(buf), host_cpid);
+    md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
 }
 
 const char *BOINC_RCSID_edf7e5c147 = "$Id$";

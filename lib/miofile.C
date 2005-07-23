@@ -95,7 +95,7 @@ int copy_element_contents(MIOFILE& in, const char* end_tag, char* p, int len) {
         if (strstr(buf, end_tag)) {
             return 0;
         }
-        n = strlen(buf);
+        n = (int)strlen(buf);
         if (n >= len-1) return ERR_XML_PARSE;
         strcat(p, buf);
         len -= n;

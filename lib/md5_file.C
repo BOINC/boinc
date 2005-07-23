@@ -49,7 +49,7 @@ int md5_file(const char* path, char* output, double& nbytes) {
     }
     md5_init(&state);
     while (1) {
-        n = fread(buf, 1, 4096, f);
+        n = (int)fread(buf, 1, 4096, f);
         if (n<=0) break;
         nbytes += n;
         md5_append(&state, buf, n);

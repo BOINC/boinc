@@ -9468,3 +9468,12 @@ Rom    22 July 2005
 Rom    22 July 2005 (boinc_public)
     - Tag for 4.72 release, all platforms
       boinc_core_release_4_72
+
+David  23 July 2005
+	- fix compile warnings on Win
+
+	lib/
+		hostinfo.C
+		md5_file.C,h
+		miofile.C
+		network.C

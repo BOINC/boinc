@@ -32,7 +32,7 @@ std::string md5_string(const unsigned char* data, int nbytes);
 
 inline std::string md5_string(std::string const& data)
 {
-    return md5_string((const unsigned char*) data.c_str(), data.size());
+    return md5_string((const unsigned char*) data.c_str(), (int)data.size());
 }
 
 #endif
