@@ -118,6 +118,7 @@ CLIENT_STATE::CLIENT_STATE() {
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
     want_network_flag = false;
+    no_gui_rpc = false;
 }
 
 #if 0
@@ -357,8 +358,10 @@ int CLIENT_STATE::init() {
     //
     set_client_state_dirty("init");
 
-    retval = gui_rpcs.init();
-    if (retval) return retval;
+    if (!no_gui_rpc) {
+        retval = gui_rpcs.init();
+        if (retval) return retval;
+    }
 
     acct_mgr_info.init();
 

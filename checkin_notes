@@ -9477,3 +9477,28 @@ David  23 July 2005
 		md5_file.C,h
 		miofile.C
 		network.C
+
+David  23 July 2005
+	- API: change heartbeat mechanism so that instead of using time(0),
+		it uses its own counter (incremented on interrupt).
+		This avoid specious heartbeat timeout
+		when user resets system clock.
+		It should also fix problem where BOINC restarts
+		after hibernation, app runs before core client,
+		and it gets heartbeat timeout.
+	- Core client: add "-no_gui_rpc" cmdline option.
+		If present, don't create listening socket for GUI RPC.
+		(Useful if bind() doesn't work).
+	- shared memory: in shmget() mode, first try 0666;
+		if that fails, try SHM_R|SHM_W
+		This is just paranoia, in case 21/July checkin
+		breaks some platform.
+
+	api/
+		boinc_api.C
+	client/
+		client_state.C,h
+		cs_cmdline.C
+		gui_rpc_server.C,h
+	lib/
+		shmem.C

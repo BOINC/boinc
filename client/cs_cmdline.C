@@ -47,7 +47,9 @@ static void print_options(char* prog) {
         "    -check_all_logins              for idle detection, check remote logins\n too"
         "    -allow_remote_gui_rpc          allow remote GUI RPC connections\n"
         "    -redirectio                    redirect stdout and stderr to log files\n"
-        "    -dir <path>                    use given dir as BOINC home\n",
+        "    -dir <path>                    use given dir as BOINC home\n"
+        "    -no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
+        ,
         prog
     );
 }
@@ -167,6 +169,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (chdir(argv[++i])) {
                 perror("chdir");
             }
+        } else if (ARG(no_gui_rpc)) {
+            no_gui_rpc = true;
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;

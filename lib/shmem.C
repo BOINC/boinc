@@ -50,7 +50,6 @@
 #ifdef _WIN32
 
 HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview) {
-
     SECURITY_ATTRIBUTES security;
     HANDLE hMap;
     DWORD  dwError = 0;
@@ -95,8 +94,10 @@ int detach_shmem(HANDLE hMap, void* p) {
 
 int create_shmem(key_t key, int size, void** pp) {
     int id;
-    assert(pp!=NULL);
-    id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
+    id = shmget(key, size, IPC_CREAT|0666);
+    if (id < 0) {
+        id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
+    }
     if (id < 0) {
         return ERR_SHMGET;
     }
@@ -122,7 +123,7 @@ int destroy_shmem(key_t key){
 int attach_shmem(key_t key, void** pp){
     void* p;
     int id;
-    assert(pp!=NULL);
+
     id = shmget(key, 0, 0);
     if (id < 0) {
         return ERR_SHMGET;
@@ -137,7 +138,6 @@ int attach_shmem(key_t key, void** pp){
 
 int detach_shmem(void* p) {
     int retval;
-    assert(p!=NULL);
     retval = shmdt((char *)p);
     return retval;
 }

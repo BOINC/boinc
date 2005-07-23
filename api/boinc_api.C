@@ -90,21 +90,27 @@ static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
     // on first call, scan slot dir for msgs
 static volatile int heartbeat_giveup_time;
+    // interrupt count value at which to give up on core client
 static volatile bool heartbeat_active;
     // if false, suppress heartbeat mechanism
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
 #endif
+static volatile int interrupt_count = 0;
+    // number of timer interrupts
+    // used to measure elapsed time in a way that's
+    // not affected by user changing system clock,
+    // and that doesn't have big jumps around hibernation
 static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
 
 #define TIMER_PERIOD 1
-    // period of worker-thread timer
+    // period of worker-thread timer interrupts.
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
     // It doesn't influence graphics, so 1 sec is enough.
-#define HEARTBEAT_GIVEUP_PERIOD 30
-    // quit if no heartbeat from core in this #secs
+#define HEARTBEAT_GIVEUP_PERIOD (30/TIMER_PERIOD)
+    // quit if no heartbeat from core in this #interrupts
 #define HEARTBEAT_TIMEOUT_PERIOD 35
     // quit if we cannot aquire slot resource in this #secs
 
@@ -275,7 +281,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     last_wu_cpu_time = aid.wu_cpu_time;
 
     heartbeat_active = !standalone;
-    heartbeat_giveup_time = time(0) + HEARTBEAT_GIVEUP_PERIOD;
+    heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
 
     return 0;
 }
@@ -450,7 +456,7 @@ static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
-            heartbeat_giveup_time = time(0) + HEARTBEAT_GIVEUP_PERIOD;
+            heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
         }
         if (match_tag(buf, "<enable_heartbeat/>")) {
             heartbeat_active = true;
@@ -533,7 +539,7 @@ static void handle_process_control_msg() {
                     }
                     boinc_sleep(1.0);
                 }
-                heartbeat_giveup_time = time(0) + HEARTBEAT_GIVEUP_PERIOD;
+                heartbeat_giveup_time = interrupt_time + HEARTBEAT_GIVEUP_PERIOD;
 #endif
             }
         }
@@ -566,6 +572,7 @@ static void CALLBACK worker_timer(
 #else
 static void worker_timer(int /*a*/) {
 #endif
+    interrupt_count++;
     if (!ready_to_checkpoint) {
         time_until_checkpoint -= TIMER_PERIOD;
         if (time_until_checkpoint <= 0) {
@@ -591,11 +598,10 @@ static void worker_timer(int /*a*/) {
     // (unless we're checkpointing)
     //
     if (!checkpointing && options.check_heartbeat && heartbeat_active) {
-        int now = time(0);
-        if (heartbeat_giveup_time < now) {
+        if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
                 "No heartbeat from core client for %d sec - exiting\n",
-                now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
+                interrupt_count - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
             );
             if (options.direct_process_action) {
                 boinc_exit(0);

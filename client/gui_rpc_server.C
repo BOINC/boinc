@@ -656,6 +656,10 @@ int GUI_RPC_CONN::handle_rpc() {
     return 0;
 }
 
+GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
+    lsock = -1;
+}
+
 int GUI_RPC_CONN_SET::get_password() {
     strcpy(password, "");
     if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {

@@ -191,6 +191,7 @@ public:
     bool want_network_flag;
     bool want_network();
     void network_available();
+    bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);

@@ -45,6 +45,7 @@ class GUI_RPC_CONN_SET {
     int get_password();
     int insert(GUI_RPC_CONN*);
 public:
+    GUI_RPC_CONN_SET();
     char password[256];
     bool poll();
     int init();
