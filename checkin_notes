@@ -9502,3 +9502,12 @@ David  23 July 2005
 		gui_rpc_server.C,h
 	lib/
 		shmem.C
+
+Janus 23 July 2005
+    - API: Compile error in the previous checkin due to undefined
+        variable interrupt_time. I assume it should be interrupt_count.
+	Please change if this isn't right...
+
+    /api/
+       boinc_api.C
+

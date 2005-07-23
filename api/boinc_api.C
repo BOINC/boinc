@@ -539,7 +539,7 @@ static void handle_process_control_msg() {
                     }
                     boinc_sleep(1.0);
                 }
-                heartbeat_giveup_time = interrupt_time + HEARTBEAT_GIVEUP_PERIOD;
+                heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
 #endif
             }
         }
