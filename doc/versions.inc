@@ -110,11 +110,11 @@ $w445= array(
     "
 );
 
-$w471= array(
-    "num"=>"4.71",
+$w472= array(
+    "num"=>"4.72",
     "status"=>"Development version",
-    "file"=>"boinc_4.71_windows_intelx86.exe",
-    "date"=>"14 July 2005",
+    "file"=>"boinc_4.72_windows_intelx86.exe",
+    "date"=>"22 July 2005",
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
@@ -123,6 +123,8 @@ $w471= array(
     Account Management has been enhanced and support has been enabled in the stock install of BOINC.
     <li>
     Alerts have been enabled to provide instant feedback when certain types of errors occur.
+    <li>
+    BOINC Manager now supports the Microsoft Active Accessibility standard. 
     </ul>
     ",
     "bugs"=>"<ul>
@@ -250,11 +252,11 @@ $l443 = array(
     "
 );
 
-$l471 = array(
-    "num"=>"4.71",
+$l472 = array(
+    "num"=>"4.72",
     "status"=>"Development version",
-    "file"=>"boinc_4.71_i686-pc-linux-gnu.sh",
-    "date"=>"14 July 2005",
+    "file"=>"boinc_4.72_i686-pc-linux-gnu.sh",
+    "date"=>"22 July 2005",
     "type"=>sea()
 );
 
@@ -286,7 +288,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w471,
+        $w472,
         $w419
     )
 );
@@ -305,7 +307,7 @@ $linux = array(
     "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
-        $l471,
+        $l472,
         $l419
     )
 );
