@@ -9522,3 +9522,14 @@ Rom    24 July 2005
         ViewResources.cpp
         ViewStatistics.cpp
         ViewTransfers.cpp
+
+David  24 July 2005
+    - If benchmarks fail (e.g. because an app doesn't exit)
+        set a flag in state file and rerun on next startup
+        (from John McLeod)
+
+    client/
+        app_start.C
+        client_state.h
+        cs_benchmark.C
+        cs_statefile.C

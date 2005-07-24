@@ -2,6 +2,11 @@
 
 $project_news = array(
 
+array("July 24, 2005",
+    "<a href=http://www.fatbat.dk/thesis/>A paper by Jakob Pedersen & Christian S&oslash;ttrup</a>
+    discusses the interoperation of the Grid and BOINC."
+),
+
 array("July 11-12, 2005",
     "The <a href=cern_workshop.php>First Pangalactic BOINC Workshop</a>
     was held at CERN,

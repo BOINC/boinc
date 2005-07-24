@@ -408,7 +408,7 @@ int ACTIVE_TASK::start(bool first_time) {
         if (retval) {
             msg_printf(
                 wup->project, MSG_ERROR,
-                "Can't create shared memory: %d", boincerror(retval)
+                "Can't create shared memory: %s", boincerror(retval)
             );
             return retval;
         }

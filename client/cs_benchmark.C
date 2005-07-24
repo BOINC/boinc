@@ -181,6 +181,8 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         return;
     }
 
+    cpu_benchmarks_pending = false;
+
     bm_state = BM_FP_INIT;
     remove_benchmark_file(BM_TYPE_FP);
     remove_benchmark_file(BM_TYPE_INT);
@@ -297,6 +299,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         abort_cpu_benchmarks();
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
+        cpu_benchmarks_pending = true;
         return false;
     }
 

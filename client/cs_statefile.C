@@ -268,6 +268,12 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
+        } else if (match_tag(buf, "<cpu_benchmarks_pending/>")) {
+            run_cpu_benchmarks = true;
+        } else if (match_tag(buf, "<work_fetch_no_new_work/>")) {
+            work_fetch_no_new_work = true;
+        } else if (match_tag(buf, "cpu_earliest_deadline_first/>")) {
+            cpu_earliest_deadline_first = true;
         } else if (match_tag(buf, "<proxy_info>")) {
             retval = proxy_info.parse(mf);
             if (retval) {
@@ -354,12 +360,14 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<user_run_request>%d</user_run_request>\n"
-        "<user_network_request>%d</user_network_request>\n",
+        "<user_network_request>%d</user_network_request>\n"
+        "%s",
         platform_name,
         core_client_major_version,
         core_client_minor_version,
         user_run_request,
-        user_network_request
+        user_network_request,
+        cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":""
     );
 
     proxy_info.write(f);
@@ -499,18 +507,15 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         }
     }
     f.printf(
-        "<work_fetch_no_new_work>%d</work_fetch_no_new_work>\n"
-        "<cpu_earliest_deadline_first>%d</cpu_earliest_deadline_first>\n",
-        work_fetch_no_new_work?1:0,
-        cpu_earliest_deadline_first?1:0
-    );
-    f.printf(
         "<platform_name>%s</platform_name>\n"
         "<core_client_major_version>%d</core_client_major_version>\n"
-        "<core_client_minor_version>%d</core_client_minor_version>\n",
+        "<core_client_minor_version>%d</core_client_minor_version>\n"
+        "%s%s",
         platform_name,
         core_client_major_version,
-        core_client_minor_version
+        core_client_minor_version,
+        work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":"",
+        cpu_earliest_deadline_first?"<cpu_earliest_deadline_first/>\n":""
     );
 
     global_prefs.write(f);

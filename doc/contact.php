@@ -91,7 +91,7 @@ show_name("Thomas Richard");
 show_name("Nikolay Saharov");
 show_name("Jens Seidler");
 show_name("Peter Smithson");
-show_name("Christian Soettrup");
+show_name("Christian S&oslash'ttrup");
 show_name("Michela Taufer");
 show_name("Mathias Walter");
 show_name("Rom Walton");

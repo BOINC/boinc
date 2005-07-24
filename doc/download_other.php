@@ -23,6 +23,11 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "<a href=http://interreality.org/~reed/sw/boinc/>http://interreality.org/~reed/sw/boinc/</a>",
+    "Debian Linux",
+    "BOINC client and manager"
+));
+list_item_array(array(
     "SETI@BOINC (<a href=http://www.marisan.nl/seti/>English</a>,
     <a href=http://www.marisan.nl/seti/index_nl.htm>Dutch</a>)",
     "Windows",
@@ -40,8 +45,8 @@ list_item_array(array(
     "BOINC core client and manager"
 ));
 list_item_array(array(
-    "<a href=http://www.guntec.de/Crunch3r>Mattias Pilch</a>",
-    "Linux on DEC",
+    "<a href=http://www.guntec.de/Crunch3r>Matthias Pilch</a>",
+    "Linux on DEC, IA64",
     "BOINC, SETI@home"
 ));
 list_item_array(array(

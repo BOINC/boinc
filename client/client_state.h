@@ -146,6 +146,10 @@ private:
         // if set, use hardwired numbers rather than running benchmarks
     bool run_cpu_benchmarks;
         // if set, run benchmarks on client startup
+    bool cpu_benchmarks_pending;
+        // set if a benchmark fails to start because of a process that doesn't stop.
+        // Persists so that the next start of BOINC runs the benchmarks.
+
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app
     double app_started;

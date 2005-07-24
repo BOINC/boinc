@@ -6,7 +6,7 @@ echo"
 BOINC is a software platform for distributed computing
 using volunteered computer resources.
 <p>
-<h2>Papers about BOINC</h2>
+<h2>Papers related to BOINC</h2>
 <p>
 <a href=boinc2.pdf>Public Computing: Reconnecting People to Science<a>
 <br>David P. Anderson.
@@ -14,7 +14,7 @@ using volunteered computer resources.
 <br>Residencia de Estudiantes, Madrid, Spain, Nov. 17-19 2003.
 
 <p>
-This paper is about BOINC's design goals.
+A paper about BOINC's goals.
 Also available in
 <a href=madrid.html>HTML</a> |
 <a href=http://boinc.de/madrid_de.htm>HTML/German</a> |
@@ -27,6 +27,11 @@ Also available in
 <p>
 A more technical paper.
 
+<p>
+Developing Distributed Computing Solutions Combining Grid Computing and
+Public Computing.
+M.Sc. Thesis by Jakob Gregor Pedersen & Christian Ulrik Søttrup.
+http://www.fatbat.dk/thesis/
 
 <h2>Features of BOINC</h2>
 <p>
