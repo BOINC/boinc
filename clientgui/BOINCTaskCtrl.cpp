@@ -38,9 +38,9 @@ CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, 
     m_pParent = pView;
     m_pSizer = NULL;
 
-    EnableScrolling(true, true);
     SetVirtualSize( 200, 1000 );
-    SetScrollRate( 10, 10 );
+    EnableScrolling(false, true);
+    SetScrollRate( 0, 10 );
 }
 
 

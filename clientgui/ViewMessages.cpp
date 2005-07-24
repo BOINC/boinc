@@ -277,6 +277,7 @@ bool CViewMessages::EnsureLastItemVisible() {
 
 
 void CViewMessages::UpdateSelection() {
+    CBOINCBaseView::UpdateSelection();
 }
 
 

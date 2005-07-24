@@ -391,8 +391,11 @@ void CBOINCBaseView::EmptyTasks() {
 }
 
     
-void CBOINCBaseView::UpdateSelection()
-{}
+void CBOINCBaseView::UpdateSelection(){
+    wxASSERT(m_pTaskPane);
+    m_pTaskPane->UpdateControls();
+    Layout();
+}
 
 
 bool CBOINCBaseView::_EnsureLastItemVisible() {

@@ -614,7 +614,7 @@ void CViewProjects::UpdateSelection() {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(m_pTaskPane);
 
     // Update the tasks static box buttons
     //
@@ -705,7 +705,7 @@ void CViewProjects::UpdateSelection() {
         m_bForceUpdateSelection = false;
     }
 
-    m_pTaskPane->UpdateControls();
+    CBOINCBaseView::UpdateSelection();
 }
 
 

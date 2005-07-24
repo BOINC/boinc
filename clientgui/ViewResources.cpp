@@ -188,6 +188,7 @@ wxInt32 CViewResources::UpdateCache(long item, long column, wxString& strNewData
 
 
 void CViewResources::UpdateSelection() {
+    CBOINCBaseView::UpdateSelection();
 }
 
 

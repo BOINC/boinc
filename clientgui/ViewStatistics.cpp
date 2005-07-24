@@ -479,6 +479,7 @@ void CViewStatistics::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
 
 void CViewStatistics::UpdateSelection() {
+    CBOINCBaseView::UpdateSelection();
 }
 
 

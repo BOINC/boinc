@@ -9511,3 +9511,14 @@ Janus 23 July 2005
     /api/
        boinc_api.C
 
+Rom    24 July 2005
+    - Fix the control positioning on platforms other than Windows.
+
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCTaskCtrl.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp

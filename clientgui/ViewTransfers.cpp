@@ -349,6 +349,8 @@ void CViewTransfers::UpdateSelection() {
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
+
+    CBOINCBaseView::UpdateSelection();
 }
 
 
