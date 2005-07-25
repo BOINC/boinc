@@ -146,7 +146,7 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     sigset_t mask;
     sigemptyset(&mask);
     sigaddset(&mask, SIGALRM);
-    sigprocmask(SIG_BLOCK, &mask, NULL);
+    pthread_sigmask(SIG_BLOCK, &mask, NULL);
 #endif
     return 0;
 }

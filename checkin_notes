@@ -9533,3 +9533,13 @@ David  24 July 2005
         client_state.h
         cs_benchmark.C
         cs_statefile.C
+
+David  25 July 2005
+    - API: in start_worker_thread(), use pthread_sigmask()
+        instead of sigprocmask() to block SIGALRM in the graphics thread.
+        On Mac OS X, sigprocmask() blocks SIGALRM in all threads,
+        which is not the intent.
+        (From Bruce Allen)
+
+    api/
+        graphics_impl.C

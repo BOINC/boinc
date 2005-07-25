@@ -17,12 +17,17 @@ Your bug may have already been fixed.
 <a href=http://bbugs.axpr.net/>external bug database</a>
 (which is readable and writeable).
 
+";
+if (0) {
+    echo "
 <li> Read BOINC's
-<a href=http://setiathome.berkeley.edu/taskbase>internal bug database</a>.
+<a href=https://setiathome.berkeley.edu/taskbase>internal bug database</a>.
 This is used by BOINC developers,
 and is readable by the rest of the world.
-
 </ul>
+";
+}
+echo "
 <p>
 
 ";
