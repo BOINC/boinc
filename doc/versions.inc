@@ -198,11 +198,11 @@ $m437s = array(
     "
 );
 
-$m471 = array(
-    "num"=>"4.71",
+$m472 = array(
+    "num"=>"4.72",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_4.71_macOSX.zip",
-    "date"=>"7 July 2005",
+    "file"=>"boinc_4.72_macOSX.zip",
+    "date"=>"25 July 2005",
     "type"=>mac_advanced(),
      "features"=>"<ul>
      <li>
@@ -219,11 +219,11 @@ $m471 = array(
     "
 );
 
-$m470c = array(
-    "num"=>"4.70",
+$m472c = array(
+    "num"=>"4.72",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_4.70_powerpc-apple-darwin.zip",
-    "date"=>"7 July 2005",
+    "file"=>"boinc_4.72_powerpc-apple-darwin.zip",
+    "date"=>"25 July 2005",
     "type"=>bare_core(),
     "features"=>"<ul>
     <li>
@@ -299,8 +299,8 @@ $mac = array(
         $m437s,
         $m443c,
         $m419,
-        $m471,
-        $m470c
+        $m472,
+        $m472c
     )
 );
 $linux = array(
