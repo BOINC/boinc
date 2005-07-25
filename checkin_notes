@@ -9543,3 +9543,10 @@ David  25 July 2005
 
     api/
         graphics_impl.C
+
+
+David  25 July 2005
+	- core client: rewrite account file if GUI URLs change
+
+	client/
+		cs_scheduler.C

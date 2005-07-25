@@ -676,6 +676,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     unsigned int i;
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[256], filename[256];
+    std::string old_gui_urls = project->gui_urls;
 
     nresults = 0;
     contacted_sched_server = true;
@@ -784,12 +785,16 @@ int CLIENT_STATE::handle_scheduler_reply(
             update_project_prefs = true;
         }
     }
-    if (update_project_prefs) {
+
+    if (project->gui_urls != old_gui_urls || update_project_prefs) {
         retval = project->write_account_file();
         if (retval) {
             msg_printf(project, MSG_ERROR, "Can't write account file: %d", retval);
             return retval;
         }
+    }
+
+    if (update_project_prefs) {
         project->parse_account_file();
         project->parse_preferences_for_user_files();
         active_tasks.request_reread_prefs(project);
