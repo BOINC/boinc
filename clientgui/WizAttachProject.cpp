@@ -934,18 +934,12 @@ wxIcon CAccountCreationPage::GetIconResource( const wxString& name )
 
 void CAccountCreationPage::OnPageChanged( wxWizardEvent& event )
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnPageChanged - Function Begin"));
-
-    if (event.GetDirection() == false) {
-        return;
-    }
+    if (event.GetDirection() == false) return;
 
     m_iCurrentState = 0;
 
     CAccountCreationPageEvent TransitionEvent(wxEVT_ACCOUNTCREATION_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnPageChanged - Function End"));
 }
 
 /*!
@@ -954,8 +948,6 @@ void CAccountCreationPage::OnPageChanged( wxWizardEvent& event )
 
 void CAccountCreationPage::OnStateChange( CAccountCreationPageEvent& event )
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnStateChange - Function Begin"));
-
     bool bPostNewEvent = true;
 
     wxFont fontOriginal = m_FinalAccountCreationStatusCtrl->GetFont();
@@ -1056,8 +1048,6 @@ void CAccountCreationPage::OnStateChange( CAccountCreationPageEvent& event )
         CAccountCreationPageEvent TransitionEvent(wxEVT_ACCOUNTCREATION_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnStateChange - Function End"));
 }
 
 /*!
