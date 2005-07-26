@@ -31,6 +31,9 @@
 
 ////@begin XPM images
 #include "res/attachprojectwizard.xpm"
+#include "res/wizquestion.xpm"
+#include "res/wizsuccess.xpm"
+#include "res/wizfailure.xpm"
 ////@end XPM images
 
 /*!
@@ -46,6 +49,8 @@ IMPLEMENT_DYNAMIC_CLASS( CWizAttachProject, wxWizard )
 BEGIN_EVENT_TABLE( CWizAttachProject, wxWizard )
 
 ////@begin CWizAttachProject event table entries
+    EVT_WIZARD_CANCEL( ID_ATTACHPROJECTWIZARD, CWizAttachProject::OnWizardCancel )
+
 ////@end CWizAttachProject event table entries
 
 END_EVENT_TABLE()
@@ -73,6 +78,11 @@ bool CWizAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoint& 
     m_WelcomePage = NULL;
     m_ProjectInfoPage = NULL;
     m_AccountInfoPage = NULL;
+    m_AccountCreationPage = NULL;
+    m_CompletionPage = NULL;
+    m_ErrProjectUnavailablePage = NULL;
+    m_ErrNoInternetConnectionPage = NULL;
+    m_ErrAccountAlreadyExistsPage = NULL;
 ////@end CWizAttachProject member initialisation
 
 ////@begin CWizAttachProject creation
@@ -93,18 +103,38 @@ void CWizAttachProject::CreateControls()
 ////@begin CWizAttachProject content construction
     wxWizard* itemWizard1 = this;
 
-    m_WelcomePage = new WelcomePage;
+    m_WelcomePage = new CWelcomePage;
     m_WelcomePage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_WelcomePage);
-    m_ProjectInfoPage = new ProjectInfoPage;
+    m_ProjectInfoPage = new CProjectInfoPage;
     m_ProjectInfoPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ProjectInfoPage);
-    m_AccountInfoPage = new AccountInfoPage;
+    m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_AccountInfoPage);
+    m_AccountCreationPage = new CAccountCreationPage;
+    m_AccountCreationPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_AccountCreationPage);
+    m_CompletionPage = new CCompletionPage;
+    m_CompletionPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_CompletionPage);
+    m_ErrProjectUnavailablePage = new CErrProjectUnavailablePage;
+    m_ErrProjectUnavailablePage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_ErrProjectUnavailablePage);
+    m_ErrNoInternetConnectionPage = new CErrNoInternetConnectionPage;
+    m_ErrNoInternetConnectionPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_ErrNoInternetConnectionPage);
+    m_ErrAccountAlreadyExistsPage = new CErrAccountAlreadyExistsPage;
+    m_ErrAccountAlreadyExistsPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_ErrAccountAlreadyExistsPage);
     wxWizardPageSimple* lastPage = NULL;
 ////@end CWizAttachProject content construction
 }
@@ -164,32 +194,44 @@ wxIcon CWizAttachProject::GetIconResource( const wxString& name )
 ////@end CWizAttachProject icon retrieval
 }
 
+void CWizAttachProject::OnWizardCancel( wxWizardEvent& event )
+{
+    if ( wxMessageBox( _("Do you really want to cancel?"), _("Question"),
+         wxICON_QUESTION | wxYES_NO, this ) != wxYES
+       )
+    {
+        // not confirmed
+        event.Veto();
+    }
+}
+
+
 /*!
- * WelcomePage type definition
+ * CWelcomePage type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( WelcomePage, wxWizardPage )
+IMPLEMENT_DYNAMIC_CLASS( CWelcomePage, wxWizardPage )
 
 /*!
- * WelcomePage event table definition
+ * CWelcomePage event table definition
  */
 
-BEGIN_EVENT_TABLE( WelcomePage, wxWizardPage )
+BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPage )
 
-////@begin WelcomePage event table entries
-////@end WelcomePage event table entries
+////@begin CWelcomePage event table entries
+////@end CWelcomePage event table entries
 
 END_EVENT_TABLE()
 
 /*!
- * WelcomePage constructors
+ * CWelcomePage constructors
  */
 
-WelcomePage::WelcomePage( )
+CWelcomePage::CWelcomePage( )
 {
 }
 
-WelcomePage::WelcomePage( wxWizard* parent )
+CWelcomePage::CWelcomePage( wxWizard* parent )
 {
     Create( parent );
 }
@@ -198,18 +240,18 @@ WelcomePage::WelcomePage( wxWizard* parent )
  * WizardPage creator
  */
 
-bool WelcomePage::Create( wxWizard* parent )
+bool CWelcomePage::Create( wxWizard* parent )
 {
-////@begin WelcomePage member initialisation
-////@end WelcomePage member initialisation
+////@begin CWelcomePage member initialisation
+////@end CWelcomePage member initialisation
 
-////@begin WelcomePage creation
+////@begin CWelcomePage creation
     wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     wxWizardPage::Create( parent, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end WelcomePage creation
+////@end CWelcomePage creation
     return TRUE;
 }
 
@@ -217,10 +259,10 @@ bool WelcomePage::Create( wxWizard* parent )
  * Control creation for WizardPage
  */
 
-void WelcomePage::CreateControls()
+void CWelcomePage::CreateControls()
 {    
-////@begin WelcomePage content construction
-    WelcomePage* itemWizardPage2 = this;
+////@begin CWelcomePage content construction
+    CWelcomePage* itemWizardPage2 = this;
 
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage2->SetSizer(itemBoxSizer3);
@@ -246,14 +288,14 @@ void WelcomePage::CreateControls()
     itemStaticText9->Create( itemWizardPage2, wxID_STATIC, _("To continue, click Next."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALL, 5);
 
-////@end WelcomePage content construction
+////@end CWelcomePage content construction
 }
 
 /*!
  * Gets the previous page.
  */
 
-wxWizardPage* WelcomePage::GetPrev() const
+wxWizardPage* CWelcomePage::GetPrev() const
 {
     // TODO: return the previous page
     return NULL;
@@ -263,7 +305,7 @@ wxWizardPage* WelcomePage::GetPrev() const
  * Gets the next page.
  */
 
-wxWizardPage* WelcomePage::GetNext() const
+wxWizardPage* CWelcomePage::GetNext() const
 {
     // TODO: return the next page
     return ((CWizAttachProject*)GetParent())->m_ProjectInfoPage;
@@ -273,7 +315,7 @@ wxWizardPage* WelcomePage::GetNext() const
  * Should we show tooltips?
  */
 
-bool WelcomePage::ShowToolTips()
+bool CWelcomePage::ShowToolTips()
 {
     return TRUE;
 }
@@ -282,57 +324,57 @@ bool WelcomePage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap WelcomePage::GetBitmapResource( const wxString& name )
+wxBitmap CWelcomePage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin WelcomePage bitmap retrieval
+////@begin CWelcomePage bitmap retrieval
     if (name == wxT("res/attachprojectwizard.xpm"))
     {
         wxBitmap bitmap(attachprojectwizard_xpm);
         return bitmap;
     }
     return wxNullBitmap;
-////@end WelcomePage bitmap retrieval
+////@end CWelcomePage bitmap retrieval
 }
 
 /*!
  * Get icon resources
  */
 
-wxIcon WelcomePage::GetIconResource( const wxString& name )
+wxIcon CWelcomePage::GetIconResource( const wxString& name )
 {
     // Icon retrieval
-////@begin WelcomePage icon retrieval
+////@begin CWelcomePage icon retrieval
     return wxNullIcon;
-////@end WelcomePage icon retrieval
+////@end CWelcomePage icon retrieval
 }
 
 /*!
- * ProjectInfoPage type definition
+ * CProjectInfoPage type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( ProjectInfoPage, wxWizardPage )
+IMPLEMENT_DYNAMIC_CLASS( CProjectInfoPage, wxWizardPage )
 
 /*!
- * ProjectInfoPage event table definition
+ * CProjectInfoPage event table definition
  */
 
-BEGIN_EVENT_TABLE( ProjectInfoPage, wxWizardPage )
+BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPage )
 
-////@begin ProjectInfoPage event table entries
-////@end ProjectInfoPage event table entries
+////@begin CProjectInfoPage event table entries
+////@end CProjectInfoPage event table entries
 
 END_EVENT_TABLE()
 
 /*!
- * ProjectInfoPage constructors
+ * CProjectInfoPage constructors
  */
 
-ProjectInfoPage::ProjectInfoPage( )
+CProjectInfoPage::CProjectInfoPage( )
 {
 }
 
-ProjectInfoPage::ProjectInfoPage( wxWizard* parent )
+CProjectInfoPage::CProjectInfoPage( wxWizard* parent )
 {
     Create( parent );
 }
@@ -341,18 +383,20 @@ ProjectInfoPage::ProjectInfoPage( wxWizard* parent )
  * WizardPage creator
  */
 
-bool ProjectInfoPage::Create( wxWizard* parent )
+bool CProjectInfoPage::Create( wxWizard* parent )
 {
-////@begin ProjectInfoPage member initialisation
-////@end ProjectInfoPage member initialisation
+////@begin CProjectInfoPage member initialisation
+    m_ProjectUrlStaticCtrl = NULL;
+    m_ProjectUrlCtrl = NULL;
+////@end CProjectInfoPage member initialisation
 
-////@begin ProjectInfoPage creation
+////@begin CProjectInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end ProjectInfoPage creation
+////@end CProjectInfoPage creation
     return TRUE;
 }
 
@@ -360,10 +404,10 @@ bool ProjectInfoPage::Create( wxWizard* parent )
  * Control creation for WizardPage
  */
 
-void ProjectInfoPage::CreateControls()
+void CProjectInfoPage::CreateControls()
 {    
-////@begin ProjectInfoPage content construction
-    ProjectInfoPage* itemWizardPage10 = this;
+////@begin CProjectInfoPage content construction
+    CProjectInfoPage* itemWizardPage10 = this;
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage10->SetSizer(itemBoxSizer11);
@@ -387,13 +431,13 @@ void ProjectInfoPage::CreateControls()
     itemFlexGridSizer16->AddGrowableCol(1);
     itemBoxSizer11->Add(itemFlexGridSizer16, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText17 = new wxStaticText;
-    itemStaticText17->Create( itemWizardPage10, wxID_STATIC, _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer16->Add(itemStaticText17, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectUrlStaticCtrl = new wxStaticText;
+    m_ProjectUrlStaticCtrl->Create( itemWizardPage10, ID_PROJECTURLSTATICCTRL, _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer16->Add(m_ProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl18 = new wxTextCtrl;
-    itemTextCtrl18->Create( itemWizardPage10, ID_PROJECTURLCTRL, _T(""), wxDefaultPosition, wxSize(250, -1), 0 );
-    itemFlexGridSizer16->Add(itemTextCtrl18, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectUrlCtrl = new wxTextCtrl;
+    m_ProjectUrlCtrl->Create( itemWizardPage10, ID_PROJECTURLCTRL, _T(""), wxDefaultPosition, wxSize(250, -1), 0 );
+    itemFlexGridSizer16->Add(m_ProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemBoxSizer11->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -405,14 +449,16 @@ void ProjectInfoPage::CreateControls()
     itemHyperLink21->Create( itemWizardPage10, ID_PROJECRINFOBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
     itemBoxSizer11->Add(itemHyperLink21, 0, wxALIGN_LEFT|wxALL, 5);
 
-////@end ProjectInfoPage content construction
+    // Set validators
+    m_ProjectUrlCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProjectURL) );
+////@end CProjectInfoPage content construction
 }
 
 /*!
  * Gets the previous page.
  */
 
-wxWizardPage* ProjectInfoPage::GetPrev() const
+wxWizardPage* CProjectInfoPage::GetPrev() const
 {
     // TODO: return the previous page
     return ((CWizAttachProject*)GetParent())->m_WelcomePage;
@@ -422,7 +468,7 @@ wxWizardPage* ProjectInfoPage::GetPrev() const
  * Gets the next page.
  */
 
-wxWizardPage* ProjectInfoPage::GetNext() const
+wxWizardPage* CProjectInfoPage::GetNext() const
 {
     // TODO: return the next page
     return ((CWizAttachProject*)GetParent())->m_AccountInfoPage;
@@ -432,7 +478,7 @@ wxWizardPage* ProjectInfoPage::GetNext() const
  * Should we show tooltips?
  */
 
-bool ProjectInfoPage::ShowToolTips()
+bool CProjectInfoPage::ShowToolTips()
 {
     return TRUE;
 }
@@ -441,52 +487,56 @@ bool ProjectInfoPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap ProjectInfoPage::GetBitmapResource( const wxString& name )
+wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin ProjectInfoPage bitmap retrieval
+////@begin CProjectInfoPage bitmap retrieval
     return wxNullBitmap;
-////@end ProjectInfoPage bitmap retrieval
+////@end CProjectInfoPage bitmap retrieval
 }
 
 /*!
  * Get icon resources
  */
 
-wxIcon ProjectInfoPage::GetIconResource( const wxString& name )
+wxIcon CProjectInfoPage::GetIconResource( const wxString& name )
 {
     // Icon retrieval
-////@begin ProjectInfoPage icon retrieval
+////@begin CProjectInfoPage icon retrieval
     return wxNullIcon;
-////@end ProjectInfoPage icon retrieval
+////@end CProjectInfoPage icon retrieval
 }
 
 /*!
- * AccountInfoPage type definition
+ * CAccountInfoPage type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( AccountInfoPage, wxWizardPage )
+IMPLEMENT_DYNAMIC_CLASS( CAccountInfoPage, wxWizardPage )
 
 /*!
- * AccountInfoPage event table definition
+ * CAccountInfoPage event table definition
  */
 
-BEGIN_EVENT_TABLE( AccountInfoPage, wxWizardPage )
+BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPage )
 
-////@begin AccountInfoPage event table entries
-////@end AccountInfoPage event table entries
+////@begin CAccountInfoPage event table entries
+    EVT_RADIOBUTTON( ID_ACCOUNTCREATECTRL, CAccountInfoPage::OnAccountCreateCtrlSelected )
+
+    EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
+
+////@end CAccountInfoPage event table entries
 
 END_EVENT_TABLE()
 
 /*!
- * AccountInfoPage constructors
+ * CAccountInfoPage constructors
  */
 
-AccountInfoPage::AccountInfoPage( )
+CAccountInfoPage::CAccountInfoPage( )
 {
 }
 
-AccountInfoPage::AccountInfoPage( wxWizard* parent )
+CAccountInfoPage::CAccountInfoPage( wxWizard* parent )
 {
     Create( parent );
 }
@@ -495,20 +545,26 @@ AccountInfoPage::AccountInfoPage( wxWizard* parent )
  * AccountInfoPage creator
  */
 
-bool AccountInfoPage::Create( wxWizard* parent )
+bool CAccountInfoPage::Create( wxWizard* parent )
 {
-////@begin AccountInfoPage member initialisation
-    m_AccountCreate = NULL;
-    m_AccountUseExisting = NULL;
-////@end AccountInfoPage member initialisation
+////@begin CAccountInfoPage member initialisation
+    m_AccountCreateCtrl = NULL;
+    m_AccountUseExistingCtrl = NULL;
+    m_AccountEmailAddressStaticCtrl = NULL;
+    m_AccountEmailAddressCtrl = NULL;
+    m_AccountPasswordStaticCtrl = NULL;
+    m_AccountPasswordCtrl = NULL;
+    m_AccountConfirmPasswordStaticCtrl = NULL;
+    m_AccountConfirmPasswordCtrl = NULL;
+////@end CAccountInfoPage member initialisation
 
-////@begin AccountInfoPage creation
+////@begin CAccountInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end AccountInfoPage creation
+////@end CAccountInfoPage creation
     return TRUE;
 }
 
@@ -516,10 +572,10 @@ bool AccountInfoPage::Create( wxWizard* parent )
  * Control creation for AccountInfoPage
  */
 
-void AccountInfoPage::CreateControls()
+void CAccountInfoPage::CreateControls()
 {    
-////@begin AccountInfoPage content construction
-    AccountInfoPage* itemWizardPage22 = this;
+////@begin CAccountInfoPage content construction
+    CAccountInfoPage* itemWizardPage22 = this;
 
     wxBoxSizer* itemBoxSizer23 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage22->SetSizer(itemBoxSizer23);
@@ -527,70 +583,72 @@ void AccountInfoPage::CreateControls()
     wxStaticText* itemStaticText24 = new wxStaticText;
     itemStaticText24->Create( itemWizardPage22, wxID_STATIC, _("Account Information"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText24->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer23->Add(itemStaticText24, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer23->Add(itemStaticText24, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText25 = new wxStaticText;
     itemStaticText25->Create( itemWizardPage22, wxID_STATIC, _("Do you wish to use an existing account or create a new one?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer23->Add(itemStaticText25, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer23->Add(itemStaticText25, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer23->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText27 = new wxStaticText;
     itemStaticText27->Create( itemWizardPage22, wxID_STATIC, _("If this is the first time you have attempted to attach to this project then\nyou should create a new account.  If you already have an account you\nshould use your existing email address and password to attach to the\nproject."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer23->Add(itemStaticText27, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer23->Add(itemStaticText27, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer28 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer28->AddGrowableCol(1);
     itemBoxSizer23->Add(itemFlexGridSizer28, 0, wxGROW|wxALL, 5);
 
-    m_AccountCreate = new wxRadioButton;
-    m_AccountCreate->Create( itemWizardPage22, ID_ACCOUNTCREATEBUTTON, _("Create new account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-    m_AccountCreate->SetValue(FALSE);
-    itemFlexGridSizer28->Add(m_AccountCreate, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountCreateCtrl = new wxRadioButton;
+    m_AccountCreateCtrl->Create( itemWizardPage22, ID_ACCOUNTCREATECTRL, _("Create new account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+    m_AccountCreateCtrl->SetValue(FALSE);
+    itemFlexGridSizer28->Add(m_AccountCreateCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_AccountUseExisting = new wxRadioButton;
-    m_AccountUseExisting->Create( itemWizardPage22, ID_ACCOUNTUSEXISTINGBUTTON, _("Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_AccountUseExisting->SetValue(FALSE);
-    itemFlexGridSizer28->Add(m_AccountUseExisting, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountUseExistingCtrl = new wxRadioButton;
+    m_AccountUseExistingCtrl->Create( itemWizardPage22, ID_ACCOUNTUSEEXISTINGCTRL, _("Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_AccountUseExistingCtrl->SetValue(FALSE);
+    itemFlexGridSizer28->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemBoxSizer23->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer31 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer31->AddGrowableCol(1);
+    itemBoxSizer23->Add(itemFlexGridSizer31, 0, wxGROW|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer32->AddGrowableCol(1);
-    itemBoxSizer23->Add(itemFlexGridSizer32, 0, wxGROW|wxALL, 5);
+    m_AccountEmailAddressStaticCtrl = new wxStaticText;
+    m_AccountEmailAddressStaticCtrl->Create( itemWizardPage22, ID_ACCOUNTEMAILADDRESSSTATICCTRL, _("Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer31->Add(m_AccountEmailAddressStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText33 = new wxStaticText;
-    itemStaticText33->Create( itemWizardPage22, wxID_STATIC, _("Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer32->Add(itemStaticText33, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountEmailAddressCtrl = new wxTextCtrl;
+    m_AccountEmailAddressCtrl->Create( itemWizardPage22, ID_ACCOUNTEMAILADDRESSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer31->Add(m_AccountEmailAddressCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl34 = new wxTextCtrl;
-    itemTextCtrl34->Create( itemWizardPage22, ID_TEXTCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer32->Add(itemTextCtrl34, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountPasswordStaticCtrl = new wxStaticText;
+    m_AccountPasswordStaticCtrl->Create( itemWizardPage22, ID_ACCOUNTPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer31->Add(m_AccountPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText35 = new wxStaticText;
-    itemStaticText35->Create( itemWizardPage22, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer32->Add(itemStaticText35, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountPasswordCtrl = new wxTextCtrl;
+    m_AccountPasswordCtrl->Create( itemWizardPage22, ID_ACCOUNTPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer31->Add(m_AccountPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl36 = new wxTextCtrl;
-    itemTextCtrl36->Create( itemWizardPage22, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer32->Add(itemTextCtrl36, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountConfirmPasswordStaticCtrl = new wxStaticText;
+    m_AccountConfirmPasswordStaticCtrl->Create( itemWizardPage22, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, _("Confirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer31->Add(m_AccountConfirmPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText37 = new wxStaticText;
-    itemStaticText37->Create( itemWizardPage22, wxID_STATIC, _("Confirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer32->Add(itemStaticText37, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountConfirmPasswordCtrl = new wxTextCtrl;
+    m_AccountConfirmPasswordCtrl->Create( itemWizardPage22, ID_ACCOUNTCONFIRMPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer31->Add(m_AccountConfirmPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl38 = new wxTextCtrl;
-    itemTextCtrl38->Create( itemWizardPage22, ID_TEXTCTRL2, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer32->Add(itemTextCtrl38, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-////@end AccountInfoPage content construction
+    // Set validators
+    m_AccountEmailAddressCtrl->SetValidator( wxGenericValidator(& m_strAccountEmailAddress) );
+    m_AccountPasswordCtrl->SetValidator( wxGenericValidator(& m_strAccountPassword) );
+    m_AccountConfirmPasswordCtrl->SetValidator( wxGenericValidator(& m_strAccountConfirmPassword) );
+////@end CAccountInfoPage content construction
 }
 
 /*!
  * Gets the previous page.
  */
 
-wxWizardPage* AccountInfoPage::GetPrev() const
+wxWizardPage* CAccountInfoPage::GetPrev() const
 {
     // TODO: return the previous page
     return ((CWizAttachProject*)GetParent())->m_ProjectInfoPage;
@@ -600,7 +658,223 @@ wxWizardPage* AccountInfoPage::GetPrev() const
  * Gets the next page.
  */
 
-wxWizardPage* AccountInfoPage::GetNext() const
+wxWizardPage* CAccountInfoPage::GetNext() const
+{
+    // TODO: return the next page
+    return ((CWizAttachProject*)GetParent())->m_AccountCreationPage;
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CAccountInfoPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CAccountInfoPage bitmap retrieval
+    return wxNullBitmap;
+////@end CAccountInfoPage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CAccountInfoPage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CAccountInfoPage icon retrieval
+    return wxNullIcon;
+////@end CAccountInfoPage icon retrieval
+}
+/*!
+ * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTUSEXISTINGBUTTON
+ */
+
+void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
+{
+    m_AccountConfirmPasswordStaticCtrl->Hide();
+    m_AccountConfirmPasswordCtrl->Hide();
+}
+
+
+/*!
+ * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATEBUTTON
+ */
+
+void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event )
+{
+    m_AccountConfirmPasswordStaticCtrl->Show();
+    m_AccountConfirmPasswordCtrl->Show();
+}
+
+
+/*!
+ * CAccountCreatePage custom event definition
+ */
+DEFINE_EVENT_TYPE(wxEVT_ACCOUNTCREATION_STATECHANGE)
+
+
+/*!
+ * CAccountCreationPage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CAccountCreationPage, wxWizardPage )
+
+/*!
+ * CAccountCreationPage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CAccountCreationPage, wxWizardPage )
+
+    EVT_ACCOUNTCREATION_STATECHANGE( CAccountCreationPage::OnStateChange )
+
+////@begin CAccountCreationPage event table entries
+    EVT_WIZARD_PAGE_CHANGED( -1, CAccountCreationPage::OnPageChanged )
+
+////@end CAccountCreationPage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CAccountCreationPage constructors
+ */
+
+CAccountCreationPage::CAccountCreationPage( )
+{
+}
+
+CAccountCreationPage::CAccountCreationPage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * WizardPage creator
+ */
+
+bool CAccountCreationPage::Create( wxWizard* parent )
+{
+////@begin CAccountCreationPage member initialisation
+    m_CommBOINCProjectImageCtrl = NULL;
+    m_CommBOINCProjectCtrl = NULL;
+    m_CommYahooImageCtrl = NULL;
+    m_CommYahooCtrl = NULL;
+    m_CommGoogleImageCtrl = NULL;
+    m_CommGoogleCtrl = NULL;
+    m_DetermineConnectionStatusImageCtrl = NULL;
+    m_DetermineConnectionStatusCtrl = NULL;
+    m_FinalAccountCreationStatusCtrl = NULL;
+////@end CAccountCreationPage member initialisation
+    m_iCurrentState = 0;
+
+////@begin CAccountCreationPage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+    GetSizer()->Fit(this);
+////@end CAccountCreationPage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for WizardPage
+ */
+
+void CAccountCreationPage::CreateControls()
+{    
+////@begin CAccountCreationPage content construction
+    CAccountCreationPage* itemWizardPage38 = this;
+
+    wxBoxSizer* itemBoxSizer39 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage38->SetSizer(itemBoxSizer39);
+
+    wxStaticText* itemStaticText40 = new wxStaticText;
+    itemStaticText40->Create( itemWizardPage38, wxID_STATIC, _("Account Creation"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText40->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer39->Add(itemStaticText40, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText41 = new wxStaticText;
+    itemStaticText41->Create( itemWizardPage38, wxID_STATIC, _("This wizard is now attempting to create a new account or validate your\nexisting account."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer39->Add(itemStaticText41, 0, wxALIGN_LEFT|wxALL, 5);
+
+    itemBoxSizer39->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText43 = new wxStaticText;
+    itemStaticText43->Create( itemWizardPage38, wxID_STATIC, _("If this wizard cannot reach the project server, it'll attempt to contact a\ncouple known good websites in an effort to help diagnose the problem."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer39->Add(itemStaticText43, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer44 = new wxFlexGridSizer(0, 2, 0, 0);
+    itemBoxSizer39->Add(itemFlexGridSizer44, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxBitmap m_CommBOINCProjectImageCtrlBitmap(itemWizardPage38->GetBitmapResource(wxT("res/wizquestion.xpm")));
+    m_CommBOINCProjectImageCtrl = new wxStaticBitmap;
+    m_CommBOINCProjectImageCtrl->Create( itemWizardPage38, ID_COMMBOINCPROJECTIMAGECTRL, m_CommBOINCProjectImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer44->Add(m_CommBOINCProjectImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_CommBOINCProjectCtrl = new wxStaticText;
+    m_CommBOINCProjectCtrl->Create( itemWizardPage38, ID_COMMBOINCPROJECTCTRL, _("Communicating with BOINC project"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer44->Add(m_CommBOINCProjectCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxBitmap m_CommYahooImageCtrlBitmap(itemWizardPage38->GetBitmapResource(wxT("res/wizsuccess.xpm")));
+    m_CommYahooImageCtrl = new wxStaticBitmap;
+    m_CommYahooImageCtrl->Create( itemWizardPage38, ID_COMMYAHOOIMAGECTRL, m_CommYahooImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer44->Add(m_CommYahooImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_CommYahooCtrl = new wxStaticText;
+    m_CommYahooCtrl->Create( itemWizardPage38, ID_COMMYAHOOCTRL, _("Communicating with Yahoo"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer44->Add(m_CommYahooCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxBitmap m_CommGoogleImageCtrlBitmap(itemWizardPage38->GetBitmapResource(wxT("res/wizfailure.xpm")));
+    m_CommGoogleImageCtrl = new wxStaticBitmap;
+    m_CommGoogleImageCtrl->Create( itemWizardPage38, ID_COMMGOOGLEIMAGECTRL, m_CommGoogleImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer44->Add(m_CommGoogleImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_CommGoogleCtrl = new wxStaticText;
+    m_CommGoogleCtrl->Create( itemWizardPage38, ID_COMMGOOGLECTRL, _("Communicating with Google"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer44->Add(m_CommGoogleCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxBitmap m_DetermineConnectionStatusImageCtrlBitmap(itemWizardPage38->GetBitmapResource(wxT("res/wizquestion.xpm")));
+    m_DetermineConnectionStatusImageCtrl = new wxStaticBitmap;
+    m_DetermineConnectionStatusImageCtrl->Create( itemWizardPage38, ID_DETERMINECONNECTIONSTATUSIMAGECTRL, m_DetermineConnectionStatusImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer44->Add(m_DetermineConnectionStatusImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_DetermineConnectionStatusCtrl = new wxStaticText;
+    m_DetermineConnectionStatusCtrl->Create( itemWizardPage38, ID_DETERMINECONNECTIONSTATUSCTRL, _("Determining connection status"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer44->Add(m_DetermineConnectionStatusCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_FinalAccountCreationStatusCtrl = new wxStaticText;
+    m_FinalAccountCreationStatusCtrl->Create( itemWizardPage38, ID_FINALACCOUNTCREATIONSTATUSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer39->Add(m_FinalAccountCreationStatusCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+////@end CAccountCreationPage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CAccountCreationPage::GetPrev() const
+{
+    // TODO: return the previous page
+    return ((CWizAttachProject*)GetParent())->m_AccountInfoPage;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CAccountCreationPage::GetNext() const
 {
     // TODO: return the next page
     return NULL;
@@ -610,7 +884,7 @@ wxWizardPage* AccountInfoPage::GetNext() const
  * Should we show tooltips?
  */
 
-bool AccountInfoPage::ShowToolTips()
+bool CAccountCreationPage::ShowToolTips()
 {
     return TRUE;
 }
@@ -619,22 +893,622 @@ bool AccountInfoPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap AccountInfoPage::GetBitmapResource( const wxString& name )
+wxBitmap CAccountCreationPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin AccountInfoPage bitmap retrieval
+////@begin CAccountCreationPage bitmap retrieval
+    if (name == wxT("res/wizquestion.xpm"))
+    {
+        wxBitmap bitmap(wizquestion_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizsuccess.xpm"))
+    {
+        wxBitmap bitmap(wizsuccess_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizfailure.xpm"))
+    {
+        wxBitmap bitmap(wizfailure_xpm);
+        return bitmap;
+    }
     return wxNullBitmap;
-////@end AccountInfoPage bitmap retrieval
+////@end CAccountCreationPage bitmap retrieval
 }
 
 /*!
  * Get icon resources
  */
 
-wxIcon AccountInfoPage::GetIconResource( const wxString& name )
+wxIcon CAccountCreationPage::GetIconResource( const wxString& name )
 {
     // Icon retrieval
-////@begin AccountInfoPage icon retrieval
+////@begin CAccountCreationPage icon retrieval
     return wxNullIcon;
-////@end AccountInfoPage icon retrieval
+////@end CAccountCreationPage icon retrieval
 }
+
+/*!
+ * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTCREATIONPAGE
+ */
+
+void CAccountCreationPage::OnPageChanged( wxWizardEvent& event )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnPageChanged - Function Begin"));
+
+    if (event.GetDirection() == false) {
+        return;
+    }
+
+    m_iCurrentState = 0;
+
+    CAccountCreationPageEvent TransitionEvent(wxEVT_ACCOUNTCREATION_STATECHANGE, this);
+    AddPendingEvent(TransitionEvent);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnPageChanged - Function End"));
+}
+
+/*!
+ * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
+ */
+
+void CAccountCreationPage::OnStateChange( CAccountCreationPageEvent& event )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnStateChange - Function Begin"));
+
+    bool bPostNewEvent = true;
+
+    wxFont fontOriginal = m_FinalAccountCreationStatusCtrl->GetFont();
+    wxFont fontBold = m_FinalAccountCreationStatusCtrl->GetFont();
+    fontBold.SetWeight(wxBOLD);
+
+    switch(m_iCurrentState) {
+        case 0:
+            // Set initial bitmaps to question marks since we don't yet know how
+            //   things will turn out.
+            m_CommBOINCProjectImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizquestion.xpm")));
+            m_CommYahooImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizquestion.xpm")));
+            m_CommGoogleImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizquestion.xpm")));
+            m_DetermineConnectionStatusImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizquestion.xpm")));
+
+            // Hide the additional diagnostics stuff until we really need it.
+            m_CommYahooImageCtrl->Hide();
+            m_CommYahooCtrl->Hide();
+            m_CommGoogleImageCtrl->Hide();
+            m_CommGoogleCtrl->Hide();
+            m_DetermineConnectionStatusImageCtrl->Hide();
+            m_DetermineConnectionStatusCtrl->Hide();
+
+            // Clear out any text that might exist in the final status field
+            m_FinalAccountCreationStatusCtrl->SetLabel(wxT(""));
+
+            // Highlight the current activity by making it bold
+            m_CommBOINCProjectCtrl->SetFont(fontBold);
+            break;
+        case 1:
+            // Attempt to create an account on the project server or validate an existing account
+            wxSleep(5);
+
+            // demo purpose, fail it.
+            m_CommBOINCProjectImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizfailure.xpm")));
+            m_CommBOINCProjectCtrl->SetFont(fontOriginal);
+
+            // Show the additional diagnostics stuff.
+            m_CommYahooImageCtrl->Show();
+            m_CommYahooCtrl->Show();
+            m_CommGoogleImageCtrl->Show();
+            m_CommGoogleCtrl->Show();
+            m_DetermineConnectionStatusImageCtrl->Show();
+            m_DetermineConnectionStatusCtrl->Show();
+
+            break;
+        case 2:
+
+            // Highlight the current activity by making it bold
+            m_CommYahooCtrl->SetFont(fontBold);
+            break;
+        case 3:
+            // Attempt to successfully download the Yahoo homepage
+            wxSleep(5);
+
+            // demo purpose, fail it.
+            m_CommYahooImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizfailure.xpm")));
+            m_CommYahooCtrl->SetFont(fontOriginal);
+            break;
+        case 4:
+            // Highlight the current activity by making it bold
+            m_CommGoogleCtrl->SetFont(fontBold);
+
+            break;
+        case 5:
+            // Attempt to successfully download the Google homepage
+            wxSleep(5);
+
+            // demo purpose, fail it.
+            m_CommGoogleImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizfailure.xpm")));
+            m_CommGoogleCtrl->SetFont(fontOriginal);
+            break;
+        case 6:
+            // Highlight the current activity by making it bold
+            m_DetermineConnectionStatusCtrl->SetFont(fontBold);
+
+            break;
+        case 7:
+            // Attempt to determine if we are even connected to a network
+            wxSleep(5);
+
+            // demo purpose, success.
+            m_DetermineConnectionStatusImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizsuccess.xpm")));
+            m_DetermineConnectionStatusCtrl->SetFont(fontOriginal);
+
+            // Say something useful to go with this condition
+            m_FinalAccountCreationStatusCtrl->SetLabel(_("One or more problems detected, click Next to troubleshoot the\nproblem."));
+            break;
+        default:
+            bPostNewEvent = false;
+            break;
+    }
+    m_iCurrentState++;
+
+    Update();
+
+    if (bPostNewEvent) {
+        CAccountCreationPageEvent TransitionEvent(wxEVT_ACCOUNTCREATION_STATECHANGE, this);
+        AddPendingEvent(TransitionEvent);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAccountCreationPage::OnStateChange - Function End"));
+}
+
+/*!
+ * CCompletionPage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CCompletionPage, wxWizardPage )
+
+/*!
+ * CCompletionPage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CCompletionPage, wxWizardPage )
+
+////@begin CCompletionPage event table entries
+////@end CCompletionPage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CCompletionPage constructors
+ */
+
+CCompletionPage::CCompletionPage( )
+{
+}
+
+CCompletionPage::CCompletionPage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * CAccountResultPage creator
+ */
+
+bool CCompletionPage::Create( wxWizard* parent )
+{
+////@begin CCompletionPage member initialisation
+////@end CCompletionPage member initialisation
+
+////@begin CCompletionPage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+////@end CCompletionPage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for CAccountResultPage
+ */
+
+void CCompletionPage::CreateControls()
+{    
+////@begin CCompletionPage content construction
+    CCompletionPage* itemWizardPage54 = this;
+
+////@end CCompletionPage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CCompletionPage::GetPrev() const
+{
+    // TODO: return the previous page
+    return NULL;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CCompletionPage::GetNext() const
+{
+    // TODO: return the next page
+    return NULL;
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CCompletionPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CCompletionPage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CCompletionPage bitmap retrieval
+    return wxNullBitmap;
+////@end CCompletionPage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CCompletionPage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CCompletionPage icon retrieval
+    return wxNullIcon;
+////@end CCompletionPage icon retrieval
+}
+
+/*!
+ * CErrProjectUnavailablePage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CErrProjectUnavailablePage, wxWizardPage )
+
+/*!
+ * CErrProjectUnavailablePage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CErrProjectUnavailablePage, wxWizardPage )
+
+////@begin CErrProjectUnavailablePage event table entries
+////@end CErrProjectUnavailablePage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CErrProjectUnavailablePage constructors
+ */
+
+CErrProjectUnavailablePage::CErrProjectUnavailablePage( )
+{
+}
+
+CErrProjectUnavailablePage::CErrProjectUnavailablePage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * CErrProjectUnavailable creator
+ */
+
+bool CErrProjectUnavailablePage::Create( wxWizard* parent )
+{
+////@begin CErrProjectUnavailablePage member initialisation
+////@end CErrProjectUnavailablePage member initialisation
+
+////@begin CErrProjectUnavailablePage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+////@end CErrProjectUnavailablePage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for CErrProjectUnavailable
+ */
+
+void CErrProjectUnavailablePage::CreateControls()
+{    
+////@begin CErrProjectUnavailablePage content construction
+    CErrProjectUnavailablePage* itemWizardPage55 = this;
+
+////@end CErrProjectUnavailablePage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CErrProjectUnavailablePage::GetPrev() const
+{
+    // TODO: return the previous page
+    return NULL;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CErrProjectUnavailablePage::GetNext() const
+{
+    // TODO: return the next page
+    return NULL;
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CErrProjectUnavailablePage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CErrProjectUnavailablePage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CErrProjectUnavailablePage bitmap retrieval
+    return wxNullBitmap;
+////@end CErrProjectUnavailablePage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CErrProjectUnavailablePage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CErrProjectUnavailablePage icon retrieval
+    return wxNullIcon;
+////@end CErrProjectUnavailablePage icon retrieval
+}
+
+/*!
+ * CErrNoInternetConnectionPage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CErrNoInternetConnectionPage, wxWizardPage )
+
+/*!
+ * CErrNoInternetConnectionPage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CErrNoInternetConnectionPage, wxWizardPage )
+
+////@begin CErrNoInternetConnectionPage event table entries
+////@end CErrNoInternetConnectionPage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CErrNoInternetConnectionPage constructors
+ */
+
+CErrNoInternetConnectionPage::CErrNoInternetConnectionPage( )
+{
+}
+
+CErrNoInternetConnectionPage::CErrNoInternetConnectionPage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * CErrNoInternetConnection creator
+ */
+
+bool CErrNoInternetConnectionPage::Create( wxWizard* parent )
+{
+////@begin CErrNoInternetConnectionPage member initialisation
+////@end CErrNoInternetConnectionPage member initialisation
+
+////@begin CErrNoInternetConnectionPage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+////@end CErrNoInternetConnectionPage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for CErrNoInternetConnection
+ */
+
+void CErrNoInternetConnectionPage::CreateControls()
+{    
+////@begin CErrNoInternetConnectionPage content construction
+    CErrNoInternetConnectionPage* itemWizardPage56 = this;
+
+////@end CErrNoInternetConnectionPage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CErrNoInternetConnectionPage::GetPrev() const
+{
+    // TODO: return the previous page
+    return NULL;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CErrNoInternetConnectionPage::GetNext() const
+{
+    // TODO: return the next page
+    return NULL;
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CErrNoInternetConnectionPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CErrNoInternetConnectionPage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CErrNoInternetConnectionPage bitmap retrieval
+    return wxNullBitmap;
+////@end CErrNoInternetConnectionPage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CErrNoInternetConnectionPage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CErrNoInternetConnectionPage icon retrieval
+    return wxNullIcon;
+////@end CErrNoInternetConnectionPage icon retrieval
+}
+
+/*!
+ * CErrAccountAlreadyExistsPage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CErrAccountAlreadyExistsPage, wxWizardPage )
+
+/*!
+ * CErrAccountAlreadyExistsPage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CErrAccountAlreadyExistsPage, wxWizardPage )
+
+////@begin CErrAccountAlreadyExistsPage event table entries
+////@end CErrAccountAlreadyExistsPage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CErrAccountAlreadyExistsPage constructors
+ */
+
+CErrAccountAlreadyExistsPage::CErrAccountAlreadyExistsPage( )
+{
+}
+
+CErrAccountAlreadyExistsPage::CErrAccountAlreadyExistsPage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * CErrAccountAlreadyExists creator
+ */
+
+bool CErrAccountAlreadyExistsPage::Create( wxWizard* parent )
+{
+////@begin CErrAccountAlreadyExistsPage member initialisation
+////@end CErrAccountAlreadyExistsPage member initialisation
+
+////@begin CErrAccountAlreadyExistsPage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+////@end CErrAccountAlreadyExistsPage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for CErrAccountAlreadyExists
+ */
+
+void CErrAccountAlreadyExistsPage::CreateControls()
+{    
+////@begin CErrAccountAlreadyExistsPage content construction
+    CErrAccountAlreadyExistsPage* itemWizardPage57 = this;
+
+////@end CErrAccountAlreadyExistsPage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CErrAccountAlreadyExistsPage::GetPrev() const
+{
+    // TODO: return the previous page
+    return NULL;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CErrAccountAlreadyExistsPage::GetNext() const
+{
+    // TODO: return the next page
+    return NULL;
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CErrAccountAlreadyExistsPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CErrAccountAlreadyExistsPage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CErrAccountAlreadyExistsPage bitmap retrieval
+    return wxNullBitmap;
+////@end CErrAccountAlreadyExistsPage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CErrAccountAlreadyExistsPage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CErrAccountAlreadyExistsPage icon retrieval
+    return wxNullIcon;
+////@end CErrAccountAlreadyExistsPage icon retrieval
+}
+

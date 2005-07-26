@@ -535,6 +535,15 @@
 				RelativePath="..\clientgui\res\usage.xpm">
 			</File>
 			<File
+				RelativePath="..\clientgui\res\wizfailure.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizquestion.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizsuccess.xpm">
+			</File>
+			<File
 				RelativePath="..\clientgui\res\xfer.xpm">
 			</File>
 		</Filter>

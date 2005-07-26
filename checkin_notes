@@ -9557,3 +9557,22 @@ Charlie 25 July 2005
     
     mac_installer/
         PostInstall.cpp
+
+Rom    25 July 2005
+    - Define the wizard page that'll actually handle the communication
+        with the project server, or help diagnose a problem if it occurs.
+
+      NOTE: It is currently setup to simulate a proxy configuration error.
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp
+        WizAttachProject.h
+    clientgui/res/
+        wizfailure.xpm (Added)
+        wizquestion.xpm (Added)
+        wizsuccess.xpm (Added)
+    clientgui/res/templates/
+        wizfailure.gif (Added)
+        wizquestion.bmp (Added)
+        wizsuccess.gif (Added)
