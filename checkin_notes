@@ -9550,3 +9550,10 @@ David  25 July 2005
 
 	client/
 		cs_scheduler.C
+
+Charlie 25 July 2005
+    - Mac installer: specifically quit core client if running in addition 
+    to quitting BOINC Manager, since cc may be running without manager.
+    
+    mac_installer/
+        PostInstall.cpp

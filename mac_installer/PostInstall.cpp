@@ -34,7 +34,7 @@
 void Initialize(void);	/* function prototypes */
 void SetUIDBackToUser (void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
-pid_t FindProcessPID(pid_t thePID);
+pid_t FindProcessPID(char* name, pid_t thePID);
 static OSErr QuitBOINCManager(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     group *grp;
     char s[256];
     int NumberOfLoginItems, Counter, i;
-    pid_t installerPID = 0;
+    pid_t installerPID = 0, coreClientPID = 0;
     FSRef fileRef;
     OSStatus err;
 
@@ -60,8 +60,13 @@ int main(int argc, char *argv[])
 
     ::GetCurrentProcess (&ourProcess);
 
-    QuitBOINCManager('BNC!'); // Quit any old instance of BOINC
-    
+    QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
+    sleep(2);
+    // Core Client may still be running if it was started without Manager
+    coreClientPID = FindProcessPID("boinc", 0);
+    if (coreClientPID)
+        kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
+
     err = FindProcess ('APPL', 'xins', &installerPSN);
     if (err == noErr)
         err = GetProcessPID(&installerPSN , &installerPID);
@@ -160,7 +165,7 @@ int main(int argc, char *argv[])
 
     for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
         sleep (1);
-        if (FindProcessPID(installerPID) == 0)
+        if (FindProcessPID(NULL, installerPID) == 0)
             break;
     }
 
@@ -228,21 +233,35 @@ OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberP
 }
 
 
-pid_t FindProcessPID(pid_t thePID)
+pid_t FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
     char buf[1024];
+    size_t n = 0;
     pid_t aPID;
-
+    
+    if (name != NULL)     // Search ny name
+        n = strlen(name);
+    
     f = popen("ps -a -x -c -o command,pid", "r");
     if (f == NULL)
         return 0;
     
-    while (fgets(buf, sizeof(buf), f)) {
-        aPID = atol(buf+16);
-        if (aPID == thePID) {
-            pclose(f);
-            return aPID;
+    while (fgets(buf, sizeof(buf), f))
+    {
+        if (name != NULL) {     // Search ny name
+            if (strncmp(buf, name, n) == 0)
+            {
+                aPID = atol(buf+16);
+                pclose(f);
+                return aPID;
+            }
+        } else {      // Search by PID
+            aPID = atol(buf+16);
+            if (aPID == thePID) {
+                pclose(f);
+                return aPID;
+            }
         }
     }
     pclose(f);
