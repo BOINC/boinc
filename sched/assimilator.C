@@ -46,6 +46,7 @@ SCHED_CONFIG config;
 bool update_db = true;
 bool noinsert = false;
 
+int wu_id_modulus=0, wu_id_remainder=0;
 
 #define SLEEP_INTERVAL 10
 
@@ -59,14 +60,23 @@ bool do_pass(APP& app) {
     DB_RESULT canonical_result, result;
     bool did_something = false;
     char buf[256];
+    char mod_clause[256];
     int retval;
     int num_assimilated=0;
 
     check_stop_daemons();
 
+    if (wu_id_modulus) {
+    	sprintf(mod_clause, " and workunit.id %% %d = %d ",
+                wu_id_modulus, wu_id_remainder
+        );
+    } else {
+        strcpy(mod_clause, "");
+    }
+
     sprintf(buf,
-        "where appid=%d and assimilate_state=%d limit %d",
-        app.id, ASSIMILATE_READY,
+        "where appid=%d and assimilate_state=%d %s limit %d",
+        app.id, ASSIMILATE_READY, mod_clause,
         one_pass_N_WU ? one_pass_N_WU : 1000
     );
     while (!wu.enumerate(buf)) {
@@ -79,7 +89,7 @@ bool do_pass(APP& app) {
         }
 
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "[%s] assimilating; state=%d\n", wu.name, wu.assimilate_state
+            "[%s] assimilating boinc WU %d; state=%d\n", wu.name, wu.id, wu.assimilate_state
         );
 
         sprintf(buf, "where workunitid=%d", wu.id);
@@ -161,9 +171,17 @@ int main(int argc, char** argv) {
             // prevent the inserting of results into the *backend*
             // (as opposed to the boinc) DB.
             noinsert = true;
+        } else if (!strcmp(argv[i], "-mod")) {
+            wu_id_modulus   = atoi(argv[++i]);
+            wu_id_remainder = atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
+    }
+
+    if (wu_id_modulus) {
+	log_messages.printf(SCHED_MSG_LOG::DEBUG, "Using mod'ed WU enumeration.  modulus = %d  remainder = %d\n",
+			    wu_id_modulus, wu_id_remainder);
     }
 
     retval = config.parse_file("..");

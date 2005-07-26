@@ -9591,3 +9591,12 @@ David  26 July 2005
 		client_types.C
 		cs_scheduler.C
 		cs_statefile.C
+
+Jeff  26 July 2005
+	- Allow multiple assimilators and file_deleters to run via
+	  modulus on WU id for the assimilator and WU and result
+	  id for the file_deleter.
+
+	sched/
+		assimilator.C
+		file_deleter.C

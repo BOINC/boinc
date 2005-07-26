@@ -43,6 +43,8 @@
 
 SCHED_CONFIG config;
 
+int id_modulus=0, id_remainder=0;
+
 // Given a filename, find its full path in the upload directory hierarchy
 // Return an error if file isn't there.
 //
@@ -183,14 +185,23 @@ bool do_pass(bool retry_error) {
     DB_RESULT result;
     bool did_something = false;
     char buf[256];
+    char mod_clause[256];
     int retval;
 
     check_stop_daemons();
 
-    if (retry_error) {
-    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR);
+    if (id_modulus) {
+        sprintf(mod_clause, " and id %% %d = %d ",
+                id_modulus, id_remainder
+        );
     } else {
-    	sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
+        strcpy(mod_clause, "");
+    }
+
+    if (retry_error) {
+    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
+    } else {
+    	sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
     }
     while (!wu.enumerate(buf)) {
         did_something = true;
@@ -210,9 +221,9 @@ bool do_pass(bool retry_error) {
     }
 
     if ( retry_error ) {
-    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR);
+    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
     } else {
-    	sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
+    	sprintf(buf, "where file_delete_state=%d limit %s 1000", FILE_DELETE_READY, mod_clause);
     }
     while (!result.enumerate(buf)) {
         did_something = true;
@@ -265,9 +276,17 @@ int main(int argc, char** argv) {
             preserve_result_files = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
+        } else if (!strcmp(argv[i], "-mod")) {
+            id_modulus   = atoi(argv[++i]);
+            id_remainder = atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
+    }
+
+    if (id_modulus) {
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "Using mod'ed WU/result enumeration.  modulus = %d  remainder = %d\n",
+                            id_modulus, id_remainder);
     }
 
     retval = config.parse_file("..");
