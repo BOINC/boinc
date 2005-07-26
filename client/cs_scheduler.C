@@ -786,6 +786,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
+    // the account file has GUI URLs and project prefs.
+    // rewrite if either of these has changed
+    //
     if (project->gui_urls != old_gui_urls || update_project_prefs) {
         retval = project->write_account_file();
         if (retval) {

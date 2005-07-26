@@ -171,6 +171,7 @@ public:
 // --------------- client_state.C:
 public:
     CLIENT_STATE();
+    void show_host_info();
     int init();
     bool do_something();
         // Initiates and completes actions (file transfers, process executions)

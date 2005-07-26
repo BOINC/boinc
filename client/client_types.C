@@ -747,21 +747,28 @@ int FILE_INFO::delete_file() {
     return retval;
 }
 
-// If a file has multiple replicas, we want to choose
-// a random one to try first, and then cycle through others
-// if transfers fail.
-// Call this to get the initial url,
-//
 // Files may have URLs for both upload and download.
+// Call this to get the initial url,
 // The is_upload arg says which kind you want.
 // NULL return means there is no URL of the requested type
 //
 const char* FILE_INFO::get_init_url(bool is_upload) {
+
+// if a project supplies multiple URLs, try them in order
+// (e.g. in Einstein@home they're ordered by proximity to client).
+// The commented-out code tries them starting from random place.
+// This is appropriate if replication is for load-balancing.
+// TODO: add a flag saying which mode to use.
+//
+#if 1
+    current_url = 0;
+#else
     double temp;
     temp = rand();
     temp *= urls.size();
     temp /= RAND_MAX;
     current_url = (int)temp;
+#endif
     start_url = current_url;
     while(1) {
         if (!is_correct_url_type(is_upload, urls[current_url])) {

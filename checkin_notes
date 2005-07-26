@@ -9576,3 +9576,18 @@ Rom    25 July 2005
         wizfailure.gif (Added)
         wizquestion.bmp (Added)
         wizsuccess.gif (Added)
+
+David  26 July 2005
+	- Core client: try DL/UL of replicated files
+		in URL order listed by project, not random order.
+		Einstein@home orders URLs by proximity to client.
+		Left in randomization code but commented it out.
+	- Shorten host info messages, and move to separate function
+		(don't lengthen functions that are too large already)
+	- fix small memory leak when using anon platform
+
+	client/
+		client_state.C,h
+		client_types.C
+		cs_scheduler.C
+		cs_statefile.C

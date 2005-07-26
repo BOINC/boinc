@@ -102,7 +102,10 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
             retval = app->parse(mf);
-            if (project && project->anonymous_platform) continue;
+            if (project && project->anonymous_platform) {
+                delete app;
+                continue;
+            }
             if (retval) {
                 msg_printf(NULL, MSG_ERROR, "Can't parse app in state file");
                 delete app;
@@ -176,7 +179,10 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
             retval = avp->parse(mf);
-            if (project && project->anonymous_platform) continue;
+            if (project && project->anonymous_platform) {
+                delete avp;
+                continue;
+            }
             if (retval) {
                 msg_printf(NULL, MSG_ERROR, "Can't parse app version in state file");
                 delete avp;

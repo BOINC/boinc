@@ -185,11 +185,32 @@ void CLIENT_STATE::free_mem() {
 }
 #endif
 
+void CLIENT_STATE::show_host_info() {
+    char buf[256], buf2[256];
+    msg_printf(NULL, MSG_INFO, 
+        "Processor: %d %s %s",
+        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
+    );
+
+    nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
+    nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
+    msg_printf(NULL, MSG_INFO, 
+        "Memory: %s physical, %s virtual",
+        buf, buf2
+    );
+
+    nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
+    nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
+    msg_printf(NULL, MSG_INFO, 
+        "Disk: %s total, %s free",
+        buf, buf2
+    );
+}
+
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
     char buf[256];
-    char buf2[256];
 
     srand((unsigned int)time(0));
     now = dtime();
@@ -243,26 +264,7 @@ int CLIENT_STATE::init() {
 
     set_ncpus();
 
-    // Display useful diagnostic information in case the user is confused
-    //   about their own system.
-    msg_printf(NULL, MSG_INFO, 
-        "Processor Inventory: %d %s %s Processor(s)",
-        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
-    );
-
-    nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
-    nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO, 
-        "Memory Inventory: Memory total - %s, Swap total - %s",
-        buf, buf2
-    );
-
-    nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
-    nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO, 
-        "Disk Inventory: Disk total - %s, Disk available - %s",
-        buf, buf2
-    );
+    show_host_info();
 
     // Parse various files
     parse_account_files();
