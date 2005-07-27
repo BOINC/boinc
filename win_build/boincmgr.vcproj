@@ -228,6 +228,9 @@
 				RelativePath="..\clientgui\hyperlink.cpp">
 			</File>
 			<File
+				RelativePath="..\clientgui\Localization.cpp">
+			</File>
+			<File
 				RelativePath="..\clientgui\LogBOINC.cpp">
 			</File>
 			<File
@@ -423,6 +426,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\hyperlink.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\Localization.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\LogBOINC.h">

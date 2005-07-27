@@ -693,8 +693,8 @@ void CViewProjects::UpdateSelection() {
             // Project defined urls
             for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
                 pItem = new CTaskItem(
-                    project->gui_urls[i].name.c_str(),
-                    project->gui_urls[i].description.c_str(),
+                    _(project->gui_urls[i].name.c_str()),
+                    _(project->gui_urls[i].description.c_str()),
                     project->gui_urls[i].url.c_str(),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
                 );

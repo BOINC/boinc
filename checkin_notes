@@ -9600,3 +9600,14 @@ Jeff  26 July 2005
 	sched/
 		assimilator.C
 		file_deleter.C
+
+Rom    26 July 2005
+    - Provide a mechinism for the localization team to be able to
+        localize the project defined buttons.
+
+    clientgui/
+        ViewProjects.cpp
+        Localization.cpp, .h (Added)
+    locale/en_US/
+        BOINC Manager.po, .mo
+
