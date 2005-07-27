@@ -48,9 +48,9 @@ function mac_simple() {
 function mac_advanced() {
     global $xml;
     if ($xml) {
-        return "Advanced GUI";
+        return "Standard GUI";
     } else {
-        return "<a href=mac_advanced.php>Advanced GUI</a>";
+        return "<a href=mac_advanced.php>Standard GUI</a>";
     }
 }
 

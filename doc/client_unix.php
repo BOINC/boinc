@@ -70,7 +70,7 @@ list_item("-dir abs_path",
     "Use the given directory as BOINC home"
 );
 list_item("-no_gui_rpc",
-    "Don't allow GUI RPCs; don't try to create socket;")"
+    "Don't allow GUI RPCs; don't try to create socket."
 );
 list_end();
 echo "

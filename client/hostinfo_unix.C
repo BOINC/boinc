@@ -440,6 +440,17 @@ int HOST_INFO::get_host_info() {
     for (i=0; i<n; i++) {
         m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
+#elif defined(HAVE_SYS_SWAP_H) && defined(SWAP_NSWAP)
+    // NetBSD (the above line should probably be more comprehensive
+    struct swapent * s;
+    int i, n;
+    n = swapctl(SWAP_NSWAP, NULL, 0);
+    s = (struct swapent*)malloc(n * sizeof(struct swapent));
+    swapctl(SWAP_STATS, s, n);
+    for (i = 0; i < n; i ++) {
+      if (s[i].se_flags & SWF_ENABLE)
+        m_swap += 512. * (double)s[i].se_nblks;
+    }
 #elif defined(HAVE__PROC_MEMINFO)
     // Linux
     FILE *fp;

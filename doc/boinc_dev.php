@@ -4,22 +4,52 @@ page_head("Development and debugging");
 
 echo "
 <p>
-If you are an experienced C++ system programmer you may be able
+If you do C++ system programming you may be able
 to help us maintain and enhance BOINC.
 In any case, you are welcome to browse the source code and
 give us feedback.
-<p>
 You should understand how BOINC works
 (for both <a href=participate.php>participants</a>
 and <a href=create_project.php>projects</a>)
 before getting into the source code.
 
+<p>
+For starters, look through the
+<a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>
+and try fixing a bug or two.
+Sign up for the
+<a href=http://boinc.berkeley.edu/community.php#email_lists>boinc_dev</a>
+email list to communicate with other BOINC developers.
+Also, read:
 <ul>
 <li> <a href=compile.php>Get and compile BOINC software</a>
-<li> <a href=http://bbugs.axpr.net/index.php>Report bugs</a>
 <li> <a href=coding.php>BOINC coding style</a>
 </ul>
-<p>
+
+The following medium-to-large development projects are available:
+<ul>
+<li> Core client: use the 
+<a href=http://curl.haxx.se/libcurl/>libcurl</a> library
+or some other open-source HTTP library,
+replacing the HTTP_OP and PROXY classes.
+This would let the core client use HTTPS.
+<li> BOINC Manager:
+Change the Statistics tab to use a single graph
+with different colors for different projects.
+<li> BOINC Manager:
+add progress bars for file transfers and in-progress results.
+<li> BOINC Manager:
+add pie charts for disk usage
+<li> Disk space management: prevent disk space usage from
+exceeding user preferences,
+    and enforce resource shares,
+    with file deletion according to project policy,
+<li> Core client:  use select() instead of polling
+for I/O (RPCs, file transfers, GUI RPCs).
+</ul>
+Please check with davea at ssl.berkeley.edu
+before undertaking any of these.
+<hr>
 Various implementation notes:
 <h2>Core client</h2>
 <ul>

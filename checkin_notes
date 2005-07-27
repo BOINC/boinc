@@ -9611,3 +9611,9 @@ Rom    26 July 2005
     locale/en_US/
         BOINC Manager.po, .mo
 
+David  27 July 2005
+    - Add code to get swap space size on NetBSD
+        (from Nikos Ntarmos)
+
+    client/
+        hostinfo_unix.C

@@ -23,6 +23,11 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "<a href=http://rcswww.urz.tu-dresden.de/~s3240790>Erik Trauschke</a>",
+    "Irix",
+    "BOINC core client and SETI@home app"
+));
+list_item_array(array(
     "<a href=http://interreality.org/~reed/sw/boinc/>http://interreality.org/~reed/sw/boinc/</a>",
     "Debian Linux",
     "BOINC client and manager"
@@ -59,7 +64,8 @@ list_item_array(array(
     "Solaris 10 AMD64 (Opteron) and x86
     <br> GNU/Linux AMD64 (Opteron)
     <br> GNU/Linux PowerPC,
-    <br> HPUX,
+    <br> Linux Itanium
+    <br> HPUX (PA RISC and Itanium/IA64),
     <br> Mac OS X 10.3 on PowerPC 7450 and later",
     "BOINC core client, SETI@home"
 ));

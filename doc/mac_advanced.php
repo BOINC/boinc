@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Advanced Mac installation");
+page_head("Standard Mac GUI installation");
 echo "
 <ul>
 <li> If your browser has not already done so, expand the zip archive by double-licking on it in the Finder.
