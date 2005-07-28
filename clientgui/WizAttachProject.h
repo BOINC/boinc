@@ -42,12 +42,17 @@
 ////@begin forward declarations
 class CWelcomePage;
 class CProjectInfoPage;
+class CProjectPropertiesPage;
 class CAccountInfoPage;
 class CAccountCreationPage;
 class CCompletionPage;
 class CErrProjectUnavailablePage;
 class CErrNoInternetConnectionPage;
 class CErrAccountAlreadyExistsPage;
+class CErrProxyInfoPage;
+class CErrProxyHTTPPage;
+class CErrProxySOCKSPage;
+class CErrProxyComplationPage;
 ////@end forward declarations
 
 /*!
@@ -58,10 +63,27 @@ class CErrAccountAlreadyExistsPage;
 #define ID_ATTACHPROJECTWIZARD 10032
 #define SYMBOL_CWIZATTACHPROJECT_IDNAME ID_ATTACHPROJECTWIZARD
 #define ID_WELCOMEPAGE 10033
+#define ID_ERRPROJECTPROPERTIES 10047
+#define ID_ERRPROJECTCOMM 10052
+#define ID_ERRGOOGLECOMM 10053
+#define ID_ERRPROJECTUNAVAILABLE 10054
+#define ID_ERRYAHOOCOMM 10055
+#define ID_ERRACCOUNTALREADYEXISTS 10056
+#define ID_ERRNETDETECTION 10057
 #define ID_PROJECTINFOPAGE 10034
 #define ID_PROJECTURLSTATICCTRL 10046
 #define ID_PROJECTURLCTRL 10035
 #define ID_PROJECRINFOBOINCLINK 10036
+#define ID_PROJECTPROPERTIESPAGE 10017
+#define ID_RETRPROJECTPROPERTIESIMAGECTRL 10018
+#define ID_RETRPROJECTPROPERTIESCTRL 10019
+#define ID_COMMYAHOOIMAGECTRL 10010
+#define ID_COMMYAHOOCTRL 10011
+#define ID_COMMGOOGLEIMAGECTRL 10012
+#define ID_COMMGOOGLECTRL 10013
+#define ID_DETERMINECONNECTIONSTATUSIMAGECTRL 10014
+#define ID_DETERMINECONNECTIONSTATUSCTRL 10015
+#define ID_STATICTEXT4 10026
 #define ID_ACCOUNTINFOPAGE 10037
 #define ID_ACCOUNTCREATECTRL 10038
 #define ID_ACCOUNTUSEEXISTINGCTRL 10039
@@ -71,20 +93,28 @@ class CErrAccountAlreadyExistsPage;
 #define ID_ACCOUNTPASSWORDCTRL 10041
 #define ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL 10043
 #define ID_ACCOUNTCONFIRMPASSWORDCTRL 10042
-#define ID_ACCOUNTCREATIONPAGE 10047
-#define ID_COMMBOINCPROJECTIMAGECTRL 10052
-#define ID_COMMBOINCPROJECTCTRL 10053
-#define ID_COMMYAHOOIMAGECTRL 10054
-#define ID_COMMYAHOOCTRL 10053
-#define ID_COMMGOOGLEIMAGECTRL 10055
-#define ID_COMMGOOGLECTRL 10056
-#define ID_DETERMINECONNECTIONSTATUSIMAGECTRL 10057
-#define ID_DETERMINECONNECTIONSTATUSCTRL 10058
-#define ID_FINALACCOUNTCREATIONSTATUSCTRL 10059
+#define ID_ACCOUNTCREATIONPAGE 10017
+#define ID_COMMBOINCPROJECTIMAGECTRL 10008
+#define ID_COMMBOINCPROJECTCTRL 10009
+#define ID_FINALACCOUNTCREATIONSTATUSCTRL 10016
 #define ID_COMPLETIONPAGE 10048
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
 #define ID_ERRACCOUNTALREADYEXISTSPAGE 10051
+#define ID_ERRPROXYINFOPAGE 10060
+#define ID_ERRPROXYHTTPPAGE 10061
+#define ID_HTTPAUTODETECT 10064
+#define ID_TEXTCTRL 10000
+#define ID_TEXTCTRL1 10001
+#define ID_TEXTCTRL2 10066
+#define ID_TEXTCTRL3 10067
+#define ID_ERRPROXYSOCKSPAGE 10062
+#define ID_SOCKSAUTODETECT 10006
+#define ID_TEXTCTRL4 10002
+#define ID_TEXTCTRL5 10003
+#define ID_TEXTCTRL6 10004
+#define ID_TEXTCTRL7 10005
+#define ID_ERRPROXYCOMPLETIONPAGE 10063
 ////@end control identifiers
 
 /*!
@@ -97,6 +127,20 @@ class CErrAccountAlreadyExistsPage;
 #ifndef wxFIXED_MINSIZE
 #define wxFIXED_MINSIZE 0
 #endif
+
+
+/*!
+ * CWizAttachProject debug flags
+ */
+
+#define WIZDEBUG_ERRPROJECTPROPERTIES      0x00000001
+#define WIZDEBUG_ERRYAHOOCOMM              0x00000002
+#define WIZDEBUG_ERRGOOGLECOMM             0x00000004
+#define WIZDEBUG_ERRNETDETECTION           0x00000008
+#define WIZDEBUG_ERRPROJECTCOMM            0x00000010
+#define WIZDEBUG_ERRPROJECTUNAVAILABLE     0x00000020
+#define WIZDEBUG_ERRACCOUNTALREADYEXISTS   0x00000040
+
 
 /*!
  * CWizAttachProject class declaration
@@ -137,19 +181,34 @@ public:
     wxIcon GetIconResource( const wxString& name );
 ////@end CWizAttachProject member function declarations
 
+    /// Overrides
+    virtual bool HasNextPage( wxWizardPage* page );
+    virtual bool HasPrevPage( wxWizardPage* page );
+
+    /// Diagnostics functions
+    void SetDiagFlags( unsigned long ulFlags );
+    bool IsDiagFlagsSet( unsigned long ulFlags );
+
     /// Should we show tooltips?
     static bool ShowToolTips();
 
 ////@begin CWizAttachProject member variables
     CWelcomePage* m_WelcomePage;
     CProjectInfoPage* m_ProjectInfoPage;
+    CProjectPropertiesPage* m_ProjectPropertiesPage;
     CAccountInfoPage* m_AccountInfoPage;
     CAccountCreationPage* m_AccountCreationPage;
     CCompletionPage* m_CompletionPage;
     CErrProjectUnavailablePage* m_ErrProjectUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrAccountAlreadyExistsPage* m_ErrAccountAlreadyExistsPage;
+    CErrProxyInfoPage* m_ErrProxyInfoPage;
+    CErrProxyHTTPPage* m_ErrProxyHTTPPage;
+    CErrProxySOCKSPage* m_ErrProxySOCKSPage;
+    CErrProxyComplationPage* m_ErrProxyCompletionPage;
 ////@end CWizAttachProject member variables
+
+    unsigned long m_ulDiagFlags;
 };
 
 /*!
@@ -175,6 +234,9 @@ public:
 
 ////@begin CWelcomePage event handler declarations
 
+    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE
+    void OnPageChanging( wxWizardEvent& event );
+
 ////@end CWelcomePage event handler declarations
 
 ////@begin CWelcomePage member function declarations
@@ -196,6 +258,13 @@ public:
     static bool ShowToolTips();
 
 ////@begin CWelcomePage member variables
+    wxCheckBox* m_ErrProjectPropertiesCtrl;
+    wxCheckBox* m_ErrProjectCommCtrl;
+    wxCheckBox* m_ErrGoogleCommCtrl;
+    wxCheckBox* m_ErrProjectUnavailableCtrl;
+    wxCheckBox* m_ErrYahooCommCtrl;
+    wxCheckBox* m_ErrAccountAlreadyExistsCtrl;
+    wxCheckBox* m_ErrNetDetectionCtrl;
 ////@end CWelcomePage member variables
 };
 
@@ -250,6 +319,127 @@ public:
     wxTextCtrl* m_ProjectUrlCtrl;
     wxString m_strProjectURL;
 ////@end CProjectInfoPage member variables
+};
+
+/*!
+ * CProjectPropertiesPage custom events
+ */
+
+class CProjectPropertiesPageEvent : public wxEvent
+{
+public:
+    CProjectPropertiesPageEvent(wxEventType evtType, wxWizardPage *parent)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(parent);
+        }
+
+    virtual wxEvent *Clone() const { return new CProjectPropertiesPageEvent(*this); }
+};
+
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_PROJECTPROPERTIES_STATECHANGE, 11000 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_PROJECTPROPERTIES_STATECHANGE(fn) \
+    DECLARE_EVENT_TABLE_ENTRY(wxEVT_PROJECTPROPERTIES_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+/*!
+ * CProjectPropertiesPage states
+ */
+
+#define PROJPROP_INIT                                   0
+#define PROJPROP_RETRPROJECTPROPERTIES_BEGIN            1
+#define PROJPROP_RETRPROJECTPROPERTIES_EXECUTE          2
+#define PROJPROP_COMMUNICATEYAHOO_BEGIN                 3
+#define PROJPROP_COMMUNICATEYAHOO_EXECUTE               4
+#define PROJPROP_COMMUNICATEGOOGLE_BEGIN                5
+#define PROJPROP_COMMUNICATEGOOGLE_EXECUTE              6
+#define PROJPROP_DETERMINENETWORKSTATUS_BEGIN           7
+#define PROJPROP_DETERMINENETWORKSTATUS_EXECUTE         8
+#define PROJPROP_END                                    9
+
+/*!
+ * CProjectPropertiesPage class declaration
+ */
+
+class CProjectPropertiesPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CProjectPropertiesPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CProjectPropertiesPage( );
+
+    CProjectPropertiesPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CProjectPropertiesPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+////@end CProjectPropertiesPage event handler declarations
+
+    void OnStateChange( CProjectPropertiesPageEvent& event );
+
+////@begin CProjectPropertiesPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CProjectPropertiesPage member function declarations
+
+    bool GetProjectPropertiesSucceeded() const { return m_bProjectPropertiesSucceeded ; }
+    void SetProjectPropertiesSucceeded(bool value) { m_bProjectPropertiesSucceeded = value ; }
+
+    bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
+    void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
+
+    bool GetCommunicateGoogleSucceeded() const { return m_bCommunicateGoogleSucceeded ; }
+    void SetCommunicateGoogleSucceeded(bool value) { m_bCommunicateGoogleSucceeded = value ; }
+
+    bool GetDeterminingConnectionStatusSucceeded() const { return m_bDeterminingConnectionStatusSucceeded ; }
+    void SetDeterminingConnectionStatusSucceeded(bool value) { m_bDeterminingConnectionStatusSucceeded = value ; }
+
+    wxInt32 GetCurrentState() const { return m_iCurrentState ; }
+    void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CProjectPropertiesPage member variables
+    wxStaticBitmap* m_RetrProjectPropertiesImageCtrl;
+    wxStaticText* m_RetrProjectPropertiesCtrl;
+    wxStaticBitmap* m_CommYahooImageCtrl;
+    wxStaticText* m_CommYahooCtrl;
+    wxStaticBitmap* m_CommGoogleImageCtrl;
+    wxStaticText* m_CommGoogleCtrl;
+    wxStaticBitmap* m_DetermineConnectionStatusImageCtrl;
+    wxStaticText* m_DetermineConnectionStatusCtrl;
+    wxStaticText* m_FinalAccountCreationStatusCtrl;
+////@end CProjectPropertiesPage member variables
+
+    bool m_bProjectPropertiesSucceeded;
+    bool m_bCommunicateYahooSucceeded;
+    bool m_bCommunicateGoogleSucceeded;
+    bool m_bDeterminingConnectionStatusSucceeded;
+    wxInt32 m_iCurrentState;
 };
 
 /*!
@@ -333,92 +523,6 @@ public:
 ////@end CAccountInfoPage member variables
 };
 
-
-/*!
- * CAccountCreatePage custom events
- */
-
-class CAccountCreationPageEvent : public wxEvent
-{
-public:
-    CAccountCreationPageEvent(wxEventType evtType, wxWizardPage *parent)
-        : wxEvent(-1, evtType)
-        {
-            SetEventObject(parent);
-        }
-
-    virtual wxEvent *Clone() const { return new CAccountCreationPageEvent(*this); }
-};
-
-
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_ACCOUNTCREATION_STATECHANGE, 10000 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_ACCOUNTCREATION_STATECHANGE(fn) \
-    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACCOUNTCREATION_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
-/*!
- * CAccountCreationPage class declaration
- */
-
-class CAccountCreationPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CAccountCreationPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CAccountCreationPage( );
-
-    CAccountCreationPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CAccountCreationPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTCREATIONPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-////@end CAccountCreationPage event handler declarations
-
-    void OnStateChange( CAccountCreationPageEvent& event );
-
-////@begin CAccountCreationPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAccountCreationPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CAccountCreationPage member variables
-    wxStaticBitmap* m_CommBOINCProjectImageCtrl;
-    wxStaticText* m_CommBOINCProjectCtrl;
-    wxStaticBitmap* m_CommYahooImageCtrl;
-    wxStaticText* m_CommYahooCtrl;
-    wxStaticBitmap* m_CommGoogleImageCtrl;
-    wxStaticText* m_CommGoogleCtrl;
-    wxStaticBitmap* m_DetermineConnectionStatusImageCtrl;
-    wxStaticText* m_DetermineConnectionStatusCtrl;
-    wxStaticText* m_FinalAccountCreationStatusCtrl;
-////@end CAccountCreationPage member variables
-    wxInt32       m_iCurrentState;
-};
 
 /*!
  * CCompletionPage class declaration
@@ -606,6 +710,253 @@ public:
 
 ////@begin CErrAccountAlreadyExistsPage member variables
 ////@end CErrAccountAlreadyExistsPage member variables
+};
+
+/*!
+ * CErrProxySOCKSPage class declaration
+ */
+
+class CErrProxySOCKSPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProxySOCKSPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProxySOCKSPage( );
+
+    CErrProxySOCKSPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProxySOCKSPage event handler declarations
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
+    void OnAutodetectClick( wxCommandEvent& event );
+
+////@end CErrProxySOCKSPage event handler declarations
+
+////@begin CErrProxySOCKSPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProxySOCKSPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProxySOCKSPage member variables
+////@end CErrProxySOCKSPage member variables
+};
+
+/*!
+ * CErrProxyInfoPage class declaration
+ */
+
+class CErrProxyInfoPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProxyInfoPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProxyInfoPage( );
+
+    CErrProxyInfoPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProxyInfoPage event handler declarations
+
+////@end CErrProxyInfoPage event handler declarations
+
+////@begin CErrProxyInfoPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProxyInfoPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProxyInfoPage member variables
+////@end CErrProxyInfoPage member variables
+};
+
+/*!
+ * CErrProxyHTTPPage class declaration
+ */
+
+class CErrProxyHTTPPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProxyHTTPPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProxyHTTPPage( );
+
+    CErrProxyHTTPPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProxyHTTPPage event handler declarations
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT
+    void OnAutodetectClick( wxCommandEvent& event );
+
+////@end CErrProxyHTTPPage event handler declarations
+
+////@begin CErrProxyHTTPPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProxyHTTPPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProxyHTTPPage member variables
+////@end CErrProxyHTTPPage member variables
+};
+
+/*!
+ * CErrProxyComplationPage class declaration
+ */
+
+class CErrProxyComplationPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProxyComplationPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProxyComplationPage( );
+
+    CErrProxyComplationPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProxyComplationPage event handler declarations
+
+////@end CErrProxyComplationPage event handler declarations
+
+////@begin CErrProxyComplationPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProxyComplationPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProxyComplationPage member variables
+////@end CErrProxyComplationPage member variables
+};
+
+/*!
+ * CAccountCreationPage class declaration
+ */
+
+class CAccountCreationPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CAccountCreationPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CAccountCreationPage( );
+
+    CAccountCreationPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CAccountCreationPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTCREATIONPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+////@end CAccountCreationPage event handler declarations
+
+////@begin CAccountCreationPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CAccountCreationPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CAccountCreationPage member variables
+    wxStaticBitmap* m_CommBOINCProjectImageCtrl;
+    wxStaticText* m_CommBOINCProjectCtrl;
+    wxStaticText* m_FinalAccountCreationStatusCtrl;
+////@end CAccountCreationPage member variables
 };
 
 #endif

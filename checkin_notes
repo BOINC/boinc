@@ -9632,3 +9632,15 @@ David  27 July 2005
         boinc_db.C
     sched/
         handle_request.C
+
+Rom    28 July 2005
+    - Add a few of the wizard error pages
+    - Enable the ability to direct error conditions from the welcome page.
+      NOTE: For trsting only, it'll be removed before we release to alpha.
+    - Determine which page to show after the project properties page has
+      done it's thing based on error conditions.
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp
+        WizAttachProject.h
