@@ -1063,6 +1063,16 @@ void process_request(
         }
     }
 
+    // look at other results.  for now just print
+    //
+    for (unsigned int i=0; i<sreq.other_results.size(); i++) {
+        OTHER_RESULT& orp=sreq.other_results[i];
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "Result already on [HOST#%d]: %s\n",
+            reply.host.id, orp.name.c_str()
+        );
+    }
+
     last_rpc_time = reply.host.rpc_time;
     rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
     last_rpc_dayofyear = rpc_time_tm->tm_yday;

@@ -59,6 +59,35 @@ int FILE_INFO::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
+int OTHER_RESULT::parse(FILE* f) {
+    char buf[256];
+
+    name = "";
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</other_result>")) {
+            if (name=="") return ERR_XML_PARSE;
+            return 0;
+        }
+        if (parse_str(buf, "<name>", name)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+int IP_RESULT::parse(FILE* f) {
+    char buf[256];
+
+    report_deadline = 0;
+    cpu_time_remaining = 0;
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</ip_result>")) {
+            return 0;
+        }
+        if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_double(buf, "<cpu_time_remaining>", cpu_time_remaining)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 }
 
@@ -170,10 +199,28 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         } else if (match_tag(buf, "<host_venue>")) {
             continue;
         } else if (match_tag(buf, "<other_results>")) {
-            skip_unrecognized(buf, fin);
+            while (fgets(buf, 256, fin)) {
+                if (match_tag(buf, "</other_results>")) break;
+                if (match_tag(buf, "<other_result>")) {
+                    OTHER_RESULT o_r;
+                    retval = o_r.parse(fin);
+                    if (!retval) {
+                        other_results.push_back(o_r);
+                    }
+                }
+            }
             continue;
         } else if (match_tag(buf, "<in_progress_results>")) {
-            skip_unrecognized(buf, fin);
+            while (fgets(buf, 256, fin)) {
+                if (match_tag(buf, "</in_progress_results>")) break;
+                if (match_tag(buf, "<ip_result>")) {
+                    IP_RESULT ir;
+                    retval = ir.parse(fin);
+                    if (!retval) {
+                        ip_results.push_back(ir);
+                    }
+                }
+            }
             continue;
         } else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);

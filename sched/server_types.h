@@ -91,6 +91,19 @@ struct GUI_URLS {
     void get_gui_urls(USER& user, HOST& host, TEAM& team, char*);
 };
 
+struct IP_RESULT {
+    double report_deadline;
+    double cpu_time_remaining;
+
+    int parse(FILE*);
+};
+
+struct OTHER_RESULT {
+    std::string name;
+
+    int parse(FILE*);
+};
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];
@@ -132,6 +145,8 @@ struct SCHEDULER_REQUEST {
     std::vector<RESULT> results;
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
     std::vector<FILE_INFO> file_infos;   // sticky files reported by host
+    std::vector<OTHER_RESULT> other_results;
+    std::vector<IP_RESULT> ip_results;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
