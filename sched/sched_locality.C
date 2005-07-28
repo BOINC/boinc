@@ -241,36 +241,6 @@ int decrement_disk_space_locality(
     return -1;
 }
 
-// Find the app and app_version for the client's platform.
-//
-static int get_app_version(
-    WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
-) {
-    bool found;
-    if (anonymous(platform)) {
-        app = ss.lookup_app(wu.appid);
-        found = sreq.has_version(*app);
-        if (!found) {
-            return ERR_NO_APP_VERSION;
-        }
-        avp = NULL;
-    } else {
-        found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
-        if (!found) {
-            return ERR_NO_APP_VERSION;
-        }
-
-        // see if the core client is too old.
-        //
-        if (!app_core_compatible(reply.wreq, *avp)) {
-            return ERR_NO_APP_VERSION;
-        }
-    }
-    return 0;
-}
-
 // Try to send the client this result
 // This can fail because:
 // - result needs more disk/mem/speed than host has

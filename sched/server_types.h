@@ -147,6 +147,8 @@ struct SCHEDULER_REQUEST {
     std::vector<FILE_INFO> file_infos;   // sticky files reported by host
     std::vector<OTHER_RESULT> other_results;
     std::vector<IP_RESULT> ip_results;
+    bool have_other_results_list;
+    bool have_ip_results_list;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();

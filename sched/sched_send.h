@@ -17,6 +17,12 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+extern int get_app_version(
+    WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHED_SHMEM& ss
+);
+
 extern int send_work(
     SCHEDULER_REQUEST&, SCHEDULER_REPLY&, PLATFORM&, SCHED_SHMEM&
 );
@@ -45,4 +51,6 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 extern int wu_is_infeasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern double max_allowable_disk(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
-extern bool resend_lost_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern bool resend_lost_work(
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, PLATFORM&, SCHED_SHMEM&
+);

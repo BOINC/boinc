@@ -71,6 +71,36 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
     return false;
 }
 
+// Find the app and app_version for the client's platform.
+//
+int get_app_version(
+    WORKUNIT& wu, APP* &app, APP_VERSION* &avp,
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHED_SHMEM& ss
+) {
+    bool found;
+    if (anonymous(platform)) {
+        app = ss.lookup_app(wu.appid);
+        found = sreq.has_version(*app);
+        if (!found) {
+            return ERR_NO_APP_VERSION;
+        }
+        avp = NULL;
+    } else {
+        found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
+        if (!found) {
+            return ERR_NO_APP_VERSION;
+        }
+
+        // see if the core client is too old.
+        //
+        if (!app_core_compatible(reply.wreq, *avp)) {
+            return ERR_NO_APP_VERSION;
+        }
+    }
+    return 0;
+}
+
 // compute the max additional disk usage we can impose on the host
 //
 double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
@@ -1012,20 +1042,26 @@ int send_work(
     return 0;
 }
 
-bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+bool resend_lost_work(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHED_SHMEM& ss
+) {
     DB_RESULT result;
     std::vector<DB_RESULT>results;
     unsigned int i;
     char buf[256];
     bool did_any = false;
     int num_to_resend=0;
+    APP* app;
+    APP_VERSION* avp;
+    int retval;
 
-    // look at other results.  for now just print
+    // print list of results on host
     //
     for (i=0; i<sreq.other_results.size(); i++) {
         OTHER_RESULT& orp=sreq.other_results[i];
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "Result already on [HOST#%d]: %s\n",
+            "Result is on [HOST#%d]: %s\n",
             reply.host.id, orp.name.c_str()
         );
     }
@@ -1048,6 +1084,36 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] Would resend lost [RESULT#%d]: %s\n",
                 reply.host.id, result.id, result.name
             );
+            DB_WORKUNIT wu;
+            retval = wu.lookup_id(result.workunitid);
+            if (retval) {
+                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] WU not found for [RESULT#%d]\n",
+                    reply.host.id, result.id
+                );
+                continue;
+            }
+            retval = get_app_version(
+                wu, app, avp, sreq, reply, platform, ss
+            );
+            if (retval) {
+                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] no app version [RESULT#%d]\n",
+                    reply.host.id, result.id
+                );
+                continue;
+            }
+            retval = add_result_to_reply(
+                result, wu, sreq, reply, platform, app, avp
+            );
+            if (retval) {
+                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] failed to send [RESULT#%d]\n",
+                    reply.host.id, result.id
+                );
+                continue;
+
+            }
             did_any = true;
         }
     }
@@ -1057,8 +1123,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
     }
 
-    return false;
-    //return did_any;
+    return did_any;
 }
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

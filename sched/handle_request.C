@@ -1108,8 +1108,8 @@ void process_request(
 
     handle_results(sreq, reply);
 
-    if (config.resend_lost_results) {
-        if (resend_lost_work(sreq, reply)) {
+    if (config.resend_lost_results && sreq.have_other_results_list) {
+        if (resend_lost_work(sreq, reply, *platform, ss)) {
             ok_to_send_work = false;
         }
     }

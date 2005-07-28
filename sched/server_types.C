@@ -114,6 +114,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     anonymous_platform = false;
     memset(&global_prefs, 0, sizeof(global_prefs));
     memset(&host, 0, sizeof(host));
+    have_other_results_list = false;
+    have_ip_results_list = false;
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
@@ -199,6 +201,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         } else if (match_tag(buf, "<host_venue>")) {
             continue;
         } else if (match_tag(buf, "<other_results>")) {
+            have_other_results_list = true;
             while (fgets(buf, 256, fin)) {
                 if (match_tag(buf, "</other_results>")) break;
                 if (match_tag(buf, "<other_result>")) {
@@ -211,6 +214,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         } else if (match_tag(buf, "<in_progress_results>")) {
+            have_ip_results_list = true;
             while (fgets(buf, 256, fin)) {
                 if (match_tag(buf, "</in_progress_results>")) break;
                 if (match_tag(buf, "<ip_result>")) {

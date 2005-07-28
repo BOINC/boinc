@@ -9644,3 +9644,15 @@ Rom    28 July 2005
         BOINCGUI.pjd
         WizAttachProject.cpp
         WizAttachProject.h
+
+David  28 July 2005
+    - scheduler: if the <other_results> list is present in request,
+        resend any in-progress results not on the list.
+        Enabled by <send_lost_results>1</send_lost_results> in config.xml
+        (with Bruce Allen)
+
+    sched/
+        handle_request.C
+        sched_locality.C
+        sched_send.C,h
+        server_types.C,h
