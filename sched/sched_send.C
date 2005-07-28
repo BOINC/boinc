@@ -83,18 +83,21 @@ int get_app_version(
         app = ss.lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Didn't find anonymous app\n");
             return ERR_NO_APP_VERSION;
         }
         avp = NULL;
     } else {
         found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
         if (!found) {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Didn't find app version\n");
             return ERR_NO_APP_VERSION;
         }
 
         // see if the core client is too old.
         //
         if (!app_core_compatible(reply.wreq, *avp)) {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Didn't find app version: core client too old\n");
             return ERR_NO_APP_VERSION;
         }
     }
@@ -1052,6 +1055,7 @@ bool resend_lost_work(
     char buf[256];
     bool did_any = false;
     int num_to_resend=0;
+    int num_resent=0;
     APP* app;
     APP_VERSION* avp;
     int retval;
@@ -1093,6 +1097,10 @@ bool resend_lost_work(
                 );
                 continue;
             }
+
+           reply.wreq.core_client_version =
+               sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+
             retval = get_app_version(
                 wu, app, avp, sreq, reply, platform, ss
             );
@@ -1114,12 +1122,17 @@ bool resend_lost_work(
                 continue;
 
             }
+            char warning_msg[256];
+            sprintf(warning_msg, "Resent lost result %s", result.name);
+            USER_MESSAGE um(warning_msg, "high");
+            reply.insert_message(um);
+            num_resent++;
             did_any = true;
         }
     }
     if (num_to_resend) {
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] Would resend %d lost results\n", reply.host.id, num_to_resend 
+            "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_to_resend, num_resent 
         );
     }
 
