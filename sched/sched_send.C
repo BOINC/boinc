@@ -1018,6 +1018,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     char buf[256];
     bool did_any = false;
+    int num_to_resend=0;
 
     // look at other results.  for now just print
     //
@@ -1041,14 +1042,21 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             }
         }
         if (!found) {
+            num_to_resend++;
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
-                "[HOST#%d] Would resend lost result: %s\n",
-                reply.host.id, result.name
+                "[HOST#%d] Would resend lost [RESULT#%d]: %s\n",
+                reply.host.id, result.id, result.name
             );
             did_any = true;
         }
     }
+    if (num_to_resend) {
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "[HOST#%d] Would resend %d lost results\n", reply.host.id, num_to_resend 
+        );
+    }
+
     return false;
     //return did_any;
 }
