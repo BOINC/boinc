@@ -6,7 +6,7 @@ array("July 25, 2005",
     "A group of students from Cornell have written
     <a href=distributing_science_final.pdf>Distributing Science<a>,
     a very nice article about BOINC
-    and some of the projects using it</a>."
+    and some of the projects using it."
 ),
 array("July 24, 2005",
     "<a href=http://www.fatbat.dk/thesis/>A paper by Jakob Pedersen & Christian S&oslash;ttrup</a>

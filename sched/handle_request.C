@@ -484,7 +484,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     
     if (sreq.results.size() == 0) return 0;
     
-    // copy names of reported results to a separate vector
+    // copy reported results to a separate vector, "result_handler",
+    // initially with only the "name" field present
     //
     for (i=0; i<sreq.results.size(); i++) {
         result_handler.add_result(sreq.results[i].name);
@@ -521,6 +522,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
                 reply.host.id, rp->name
             );
+
             reply.result_acks.push_back(std::string(rp->name));
             continue;
         }

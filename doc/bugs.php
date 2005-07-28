@@ -18,7 +18,7 @@ Your bug may have already been fixed.
 (which is readable and writeable).
 
 ";
-if (0) {
+if (1) {
     echo "
 <li> Read BOINC's
 <a href=https://setiathome.berkeley.edu/taskbase>internal bug database</a>.
@@ -27,8 +27,4 @@ and is readable by the rest of the world.
 </ul>
 ";
 }
-echo "
-<p>
-
-";
 ?>

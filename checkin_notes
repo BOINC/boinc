@@ -9617,3 +9617,18 @@ David  27 July 2005
 
     client/
         hostinfo_unix.C
+
+David  27 July 2005
+    - fix fairly minor scheduler bug,
+        in the case where a reported result was not found in the DB,
+        which caused scheduler reply messages to contain some garbage
+
+        In DB_SCHED_RESULT_ITEM_SET::add_result(),
+        zero the id of the item added.
+        That way, if it wasn't found in the database,
+        it won't be updated or acknowledged
+
+    db/
+        boinc_db.C
+    sched/
+        handle_request.C
