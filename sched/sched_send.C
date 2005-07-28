@@ -647,11 +647,22 @@ int add_result_to_reply(
 
     // update the result in DB
     //
-    result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
+    // If the result has already been sent and is being re-sent
+    // don't update the sent time and deadline
+    //
     result.hostid = reply.host.id;
     result.userid = reply.user.id;
-    result.sent_time = time(0);
-    result.report_deadline = result.sent_time + wu.delay_bound;
+    if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
+        result.sent_time = time(0);
+        result.report_deadline = result.sent_time + wu.delay_bound;
+        result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
+    } else {
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[RESULT#%d] [HOST#%d] NO update to sent_time/report_deadline (resend lost work)\n",
+            result.id, reply.host.id
+        );
+    }
     retval = result.update_subset();
     if (retval) {
         log_messages.printf(
