@@ -1012,4 +1012,35 @@ int send_work(
     return 0;
 }
 
+bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    DB_RESULT result;
+    std::vector<DB_RESULT>results;
+    unsigned int i;
+    char buf[256];
+    bool did_any = false;
+
+    sprintf(buf, " where hostid=%d and server_state=%d ",
+        reply.host.id, RESULT_SERVER_STATE_IN_PROGRESS
+    );
+    while (!result.enumerate(buf)) {
+        bool found = false;
+        for (i=0; i<sreq.other_results.size(); i++) {
+            OTHER_RESULT& orp = sreq.other_results[i];
+            if (!strcmp(orp.name.c_str(), result.name)) {
+                found = true;
+            }
+        }
+        if (!found) {
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "[HOST#%d] Would resend lost result: %s\n",
+                reply.host.id, result.name
+            );
+            did_any = true;
+        }
+    }
+    return false;
+    //return did_any;
+}
+
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

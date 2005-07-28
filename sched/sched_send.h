@@ -45,3 +45,4 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 extern int wu_is_infeasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern double max_allowable_disk(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern bool resend_lost_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);

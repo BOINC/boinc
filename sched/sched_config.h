@@ -65,6 +65,7 @@ public:
     bool choose_download_url_by_timezone;
     bool cache_md5_info;
     bool nowork_skip;
+    bool resend_lost_results;
 
     int parse(char*);
     int parse_file(const char* dir=".");
