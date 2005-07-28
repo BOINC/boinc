@@ -1108,16 +1108,6 @@ void process_request(
 
     handle_results(sreq, reply);
 
-    // look at other results.  for now just print
-    //
-    for (unsigned int i=0; i<sreq.other_results.size(); i++) {
-        OTHER_RESULT& orp=sreq.other_results[i];
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "Result already on [HOST#%d]: %s\n",
-            reply.host.id, orp.name.c_str()
-        );
-    }
-
     if (config.resend_lost_results) {
         if (resend_lost_work(sreq, reply)) {
             ok_to_send_work = false;

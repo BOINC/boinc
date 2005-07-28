@@ -1019,6 +1019,16 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     char buf[256];
     bool did_any = false;
 
+    // look at other results.  for now just print
+    //
+    for (i=0; i<sreq.other_results.size(); i++) {
+        OTHER_RESULT& orp=sreq.other_results[i];
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "Result already on [HOST#%d]: %s\n",
+            reply.host.id, orp.name.c_str()
+        );
+    }
+
     sprintf(buf, " where hostid=%d and server_state=%d ",
         reply.host.id, RESULT_SERVER_STATE_IN_PROGRESS
     );
