@@ -9689,3 +9689,16 @@ Bruce 29 July 2005
     sched/
         sched_send.C
         transitioner.C
+
+Bruce 29 July 2005
+    - scheduler: don't resend a result to a host if any of the following is true:
+      [1] WU error flag set
+      [2] WU already has canonical result
+      [3] (report_deadline - current_time) < 25% of WU delay bound
+      If any of these conditions is true, set the report deadline to the
+      current time and set the WU transition time to the current time.
+      The transitioner will then 'do the right thing'.
+
+    sched/
+        sched_send.C
+

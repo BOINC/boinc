@@ -659,7 +659,7 @@ int add_result_to_reply(
     } else {
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
-            "[RESULT#%d] [HOST#%d] NO update to sent_time/report_deadline (resend lost work)\n",
+            "[RESULT#%d] [HOST#%d] NO update to report_deadline (resend lost work)\n",
             result.id, reply.host.id
         );
     }
@@ -1096,7 +1096,7 @@ bool resend_lost_work(
             num_to_resend++;
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
-                "[HOST#%d] Would resend lost [RESULT#%d]: %s\n",
+                "[HOST#%d] found lost [RESULT#%d]: %s\n",
                 reply.host.id, result.id, result.name
             );
             DB_WORKUNIT wu;
@@ -1109,8 +1109,49 @@ bool resend_lost_work(
                 continue;
             }
 
-           reply.wreq.core_client_version =
-               sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+            // If time is too close to the deadline, or we already have a
+            // canonical result, or WU error flag is set,
+            // then don't bother to resend this result.
+            // Instead make it time out right away so that the transitioner.
+            // does 'the right thing'.
+            //
+            char warning_msg[256];
+            int rightnow = time(0);
+            if (
+                wu.error_mask ||
+                wu.canonical_resultid ||
+                result.report_deadline - rightnow < 0.25*wu.delay_bound
+               ) {
+                result.report_deadline = rightnow;
+                retval = result.update_subset();
+                if (retval) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::CRITICAL,
+                        "resend_lost_result: can't update result deadline: %d\n", retval
+                    );
+                    continue;
+                }
+                retval = update_wu_transition_time(wu, rightnow);
+                if (retval) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::CRITICAL,
+                        "resend_lost_result: can't update WU transition time: %d\n", retval
+                    );
+                    continue;
+                }
+                log_messages.printf(
+                    SCHED_MSG_LOG::DEBUG,
+                    "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
+                    reply.host.id, result.id
+                );
+                sprintf(warning_msg, "Didn't resend lost result %s (expired)", result.name);
+                USER_MESSAGE um(warning_msg, "high");
+                reply.insert_message(um);
+                continue;
+            }
+
+            reply.wreq.core_client_version =
+                sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
             retval = get_app_version(
                 wu, app, avp, sreq, reply, platform, ss
@@ -1133,7 +1174,6 @@ bool resend_lost_work(
                 continue;
 
             }
-            char warning_msg[256];
             sprintf(warning_msg, "Resent lost result %s", result.name);
             USER_MESSAGE um(warning_msg, "high");
             reply.insert_message(um);
