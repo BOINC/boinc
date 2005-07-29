@@ -9702,3 +9702,10 @@ Bruce 29 July 2005
     sched/
         sched_send.C
 
+Charlie 29 July 2005
+    Mac: #define __WXDEBUG__ only in our code (not in wxWidgets headers) 
+    in Development version only to allow testing of wizard.  See comments
+    in MacGUI.pch for details.
+    
+        mac/
+            MacGUI.pch
