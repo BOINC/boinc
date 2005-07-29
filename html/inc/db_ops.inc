@@ -1113,6 +1113,7 @@ function show_result($result) {
 
     row("Created", time_str($result->create_time));
     row("Sent", time_str($result->sent_time));
+    row("Report deadline", time_str($result->report_deadline));
     row("Received", time_str($result->received_time));
     row("Last time modified",mysqltime_str($result->mod_time));
     row("Name", $result->name);
@@ -1123,7 +1124,6 @@ function show_result($result) {
     row("Exit status", exit_status_string($result));
     row("Host ID", "<a href=\"db_action.php?table=host&id=$result->hostid\">" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
     row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
-    row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
     row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
     row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
