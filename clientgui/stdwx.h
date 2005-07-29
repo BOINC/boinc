@@ -147,6 +147,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <stack>
 #include <list>
 
 

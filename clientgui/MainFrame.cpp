@@ -1334,8 +1334,6 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
 
 
 void CMainFrame::OnRefreshView(CMainFrameEvent&) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshView - Function Begin"));
-
     static bool bAlreadyRunningLoop = false;
 
     if (!bAlreadyRunningLoop) {
@@ -1359,14 +1357,10 @@ void CMainFrame::OnRefreshView(CMainFrameEvent&) {
 
         bAlreadyRunningLoop = false;
     }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshView - Function End"));
 }
 
 
 void CMainFrame::OnRefreshState(wxTimerEvent &event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshState - Function Begin"));
-
     static bool bAlreadyRunningLoop = false;
 
     if (!bAlreadyRunningLoop) {
@@ -1383,14 +1377,10 @@ void CMainFrame::OnRefreshState(wxTimerEvent &event) {
     }
 
     event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnRefreshState - Function End"));
 }
 
 
 void CMainFrame::OnFrameRender(wxTimerEvent &event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
-
     static bool       bAlreadyRunningLoop = false;
     static bool       bAlreadyRunOnce = false;
     static wxString   strCachedStatusText = wxEmptyString;
@@ -1730,14 +1720,10 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
     }
 
     event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function End"));
 }
 
 
 void CMainFrame::OnListPanelRender(wxTimerEvent&) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function Begin"));
-
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -1745,8 +1731,6 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
 
     FireRefreshView();
     pDoc->CachedMessageUpdate();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function End"));
 }
 
 

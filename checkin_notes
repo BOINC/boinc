@@ -9656,3 +9656,13 @@ David  28 July 2005
         sched_locality.C
         sched_send.C,h
         server_types.C,h
+
+Rom    29 July 2005
+    - Use a virtual stack to monitor page transitions.  Next and Back buttons
+      should be fully operational.
+
+    clientgui/
+        BOINCGUI.pjd
+        MainFrame.cpp
+        WizAttachProject.cpp, .h
+        stdwx.h
