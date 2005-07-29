@@ -9666,3 +9666,26 @@ Rom    29 July 2005
         MainFrame.cpp
         WizAttachProject.cpp, .h
         stdwx.h
+
+Bruce 29 July 2005
+    - scheduler: fixed to checkins on 28 July
+      (1) Put core client version number into wreq BEFORE searching for
+          an app version. Problem is that reply.wreq.core_client_version was only being set in
+          send_work(), which was too late for the resend_lost_work() part
+          of the code.  You might want to move all the initialization of reply.wreq
+          out of send_work().   The core client version is needed to see if the
+          app is compatible with it when calling get_app_version().
+      (2) In retransmitting lost work, do NOT set the deadline to new
+          values.  Else the result will never time out!  But DO reset
+          the sent_time, to indicate that result was resent.
+    - transitioner:
+          In the transitioner, make the next WU transition time be the min
+          of deadlines of the in progress results, NOT the min of the
+          sent_time+delay bound.  Unless a project wants to do dynamic
+          adjustment of delay bounds for in progress results this should be OK.
+          CPDN people: I don't think this does any harm for trickles but
+          you might want to give it a quick look to be 100% sure.
+
+    sched/
+        sched_send.C
+        transitioner.C

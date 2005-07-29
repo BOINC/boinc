@@ -652,8 +652,8 @@ int add_result_to_reply(
     //
     result.hostid = reply.host.id;
     result.userid = reply.user.id;
+    result.sent_time = time(0);
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
-        result.sent_time = time(0);
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
     } else {

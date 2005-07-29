@@ -479,7 +479,14 @@ int handle_wu(
         TRANSITIONER_ITEM& res_item = items[i];
         if (res_item.res_id) {
             if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
-                x = res_item.res_sent_time + wu_item.delay_bound;
+                // In cases where a result has been RESENT to a host, the
+                // report deadline time may be EARLIER than
+                // sent_time + delay_bound
+                // because the sent_time has been updated with the later
+                // "resend" time.
+                // 
+                // x = res_item.res_sent_time + wu_item.delay_bound;
+                x = res_item.res_report_deadline;
                 if (x < wu_item.transition_time) {
                     wu_item.transition_time = x;
                 }
