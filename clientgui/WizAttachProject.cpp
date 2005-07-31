@@ -36,6 +36,19 @@
 #include "res/wizfailure.xpm"
 ////@end XPM images
 
+
+/*!
+ * CWizAttachProject global helper macros
+ */
+#define PAGE_TRANSITION_NEXT(id) \
+    ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, id)
+
+#define PAGE_TRANSITION_BACK \
+    ((CWizAttachProject*)GetParent())->PopPageTransition()
+
+#define CHECK_DEBUG_FLAG \
+    ((CWizAttachProject*)GetParent())->IsDiagFlagsSet(id)
+
 /*!
  * CWizAttachProject type definition
  */
@@ -78,12 +91,14 @@ bool CWizAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoint& 
     m_WelcomePage = NULL;
     m_ProjectInfoPage = NULL;
     m_ProjectPropertiesPage = NULL;
+    m_AccountKeyPage = NULL;
     m_AccountInfoPage = NULL;
     m_AccountCreationPage = NULL;
     m_CompletionPage = NULL;
     m_ErrProjectUnavailablePage = NULL;
     m_ErrNoInternetConnectionPage = NULL;
     m_ErrAccountAlreadyExistsPage = NULL;
+    m_ErrAccountCreationDisabledPage = NULL;
     m_ErrProxyInfoPage = NULL;
     m_ErrProxyHTTPPage = NULL;
     m_ErrProxySOCKSPage = NULL;
@@ -124,6 +139,10 @@ void CWizAttachProject::CreateControls()
     m_ProjectPropertiesPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ProjectPropertiesPage);
+    m_AccountKeyPage = new CAccountKeyPage;
+    m_AccountKeyPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_AccountKeyPage);
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
 
@@ -148,6 +167,10 @@ void CWizAttachProject::CreateControls()
     m_ErrAccountAlreadyExistsPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ErrAccountAlreadyExistsPage);
+    m_ErrAccountCreationDisabledPage = new CErrAccountCreationDisabledPage;
+    m_ErrAccountCreationDisabledPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_ErrAccountCreationDisabledPage);
     m_ErrProxyInfoPage = new CErrProxyInfoPage;
     m_ErrProxyInfoPage->Create( itemWizard1 );
 
@@ -168,19 +191,21 @@ void CWizAttachProject::CreateControls()
 ////@end CWizAttachProject content construction
 
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls - Begin Page Map"));
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_WelcomePage = '%p'"), m_WelcomePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ProjectInfoPage = '%p'"), m_ProjectInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ProjectPropertiesPage = '%p'"), m_ProjectPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_AccountInfoPage = '%p'"), m_AccountInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_AccountCreationPage = '%p'"), m_AccountCreationPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_CompletionPage = '%p'"), m_CompletionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProjectUnavailablePage = '%p'"), m_ErrProjectUnavailablePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = '%p'"), m_ErrNoInternetConnectionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrAccountAlreadyExistsPage = '%p'"), m_ErrAccountAlreadyExistsPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyInfoPage = '%p'"), m_ErrProxyInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyHTTPPage = '%p'"), m_ErrProxyHTTPPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxySOCKSPage = '%p'"), m_ErrProxySOCKSPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyCompletionPage = '%p'"), m_ErrProxyCompletionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), ID_PROJECTINFOPAGE, m_ProjectInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), ID_PROJECTPROPERTIESPAGE, m_AccountKeyPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_AccountKeyPage = id: '%d', location: '%p'"), ID_ACCOUNTKEYPAGE, m_AccountKeyPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_AccountCreationPage = id: '%d', location: '%p'"), ID_ACCOUNTCREATIONPAGE, m_AccountCreationPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), ID_COMPLETIONPAGE, m_CompletionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProjectUnavailablePage = id: '%d', location: '%p'"), ID_ERRPROJECTUNAVAILABLEPAGE, m_ErrProjectUnavailablePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), ID_ERRNOINTERNETCONNECTIONPAGE, m_ErrNoInternetConnectionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrAccountAlreadyExistsPage = id: '%d', location: '%p'"), ID_ERRACCOUNTALREADYEXISTSPAGE, m_ErrAccountAlreadyExistsPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrAccountCreationDisabledPage = id: '%d', location: '%p'"), ID_ERRACCOUNTCREATIONDISABLEDPAGE, m_ErrAccountCreationDisabledPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), ID_ERRPROXYINFOPAGE, m_ErrProxyInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyHTTPPage = id: '%d', location: '%p'"), ID_ERRPROXYHTTPPAGE, m_ErrProxyHTTPPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxySOCKSPage = id: '%d', location: '%p'"), ID_ERRPROXYSOCKSPAGE, m_ErrProxySOCKSPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyCompletionPage = id: '%d', location: '%p'"), ID_ERRPROXYCOMPLETIONPAGE, m_ErrProxyCompletionPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls - End Page Map"));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CWizAttachProject::CreateControls - Function End"));
@@ -287,12 +312,9 @@ wxWizardPage* CWizAttachProject::PopPageTransition()
         if (m_PageTransition.size() > 0) {
             wxWizardPage* pPage = m_PageTransition.top();
             m_PageTransition.pop();
-            wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::PopPageTransition - Returning page '%p'."), pPage);
             wxASSERT(pPage);
             return pPage;
         }
-    } else {
-        wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::PopPageTransition - Wizard is NOT executing."));
     }
     return NULL;
 }
@@ -317,6 +339,9 @@ wxWizardPage* CWizAttachProject::PushPageTransition( wxWizardPage* pCurrentPage,
         if (ID_ACCOUNTINFOPAGE == ulPageID)
             pPage = m_AccountInfoPage;
 
+        if (ID_ACCOUNTKEYPAGE == ulPageID)
+            pPage = m_AccountKeyPage;
+
         if (ID_ACCOUNTCREATIONPAGE == ulPageID)
             pPage = m_AccountCreationPage;
 
@@ -332,6 +357,9 @@ wxWizardPage* CWizAttachProject::PushPageTransition( wxWizardPage* pCurrentPage,
         if (ID_ERRACCOUNTALREADYEXISTSPAGE == ulPageID)
             pPage = m_ErrAccountAlreadyExistsPage;
 
+        if (ID_ERRACCOUNTCREATIONDISABLEDPAGE == ulPageID)
+            pPage = m_ErrAccountCreationDisabledPage;
+
         if (ID_ERRPROXYINFOPAGE == ulPageID)
             pPage = m_ErrProxyInfoPage;
 
@@ -346,17 +374,13 @@ wxWizardPage* CWizAttachProject::PushPageTransition( wxWizardPage* pCurrentPage,
 
         if (pPage) {
             if ((pCurrentPage == m_WelcomePage) && (m_PageTransition.size() == 0)) {
-                wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::PushPageTransition - Start Page Detected..."));
                 m_PageTransition.push(NULL);
             }
             if (m_PageTransition.top() != pCurrentPage) {
-                wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::PushPageTransition - Current page '%p'."), pCurrentPage);
                 m_PageTransition.push(pCurrentPage);
             }
             return pPage;
         }
-    } else {
-        wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::PushPageTransition - Wizard is NOT executing."));
     }
     return NULL;
 }
@@ -414,10 +438,11 @@ bool CWelcomePage::Create( wxWizard* parent )
 ////@begin CWelcomePage member initialisation
     m_ErrProjectPropertiesCtrl = NULL;
     m_ErrProjectCommCtrl = NULL;
-    m_ErrGoogleCommCtrl = NULL;
-    m_ErrProjectUnavailableCtrl = NULL;
-    m_ErrYahooCommCtrl = NULL;
+    m_ErrProjectPropertiesURLCtrl = NULL;
+    m_ErrAccountCreationDisabledCtrl = NULL;
     m_ErrAccountAlreadyExistsCtrl = NULL;
+    m_ErrGoogleCommCtrl = NULL;
+    m_ErrYahooCommCtrl = NULL;
     m_ErrNetDetectionCtrl = NULL;
 ////@end CWelcomePage member initialisation
 
@@ -470,41 +495,46 @@ void CWelcomePage::CreateControls()
     m_ErrProjectPropertiesCtrl = new wxCheckBox;
     m_ErrProjectPropertiesCtrl->Create( itemWizardPage2, ID_ERRPROJECTPROPERTIES, _("Project Properties Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_ErrProjectPropertiesCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrProjectPropertiesCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer9->Add(m_ErrProjectPropertiesCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_ErrProjectCommCtrl = new wxCheckBox;
     m_ErrProjectCommCtrl->Create( itemWizardPage2, ID_ERRPROJECTCOMM, _("Project Comm Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_ErrProjectCommCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrProjectCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer9->Add(m_ErrProjectCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-    m_ErrGoogleCommCtrl = new wxCheckBox;
-    m_ErrGoogleCommCtrl->Create( itemWizardPage2, ID_ERRGOOGLECOMM, _("Google Comm Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_ErrGoogleCommCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrGoogleCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ErrProjectPropertiesURLCtrl = new wxCheckBox;
+    m_ErrProjectPropertiesURLCtrl->Create( itemWizardPage2, ID_ERRPROJECTPROPERTIESURL, _("Project Properties URL Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_ErrProjectPropertiesURLCtrl->SetValue(FALSE);
+    itemFlexGridSizer9->Add(m_ErrProjectPropertiesURLCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-    m_ErrProjectUnavailableCtrl = new wxCheckBox;
-    m_ErrProjectUnavailableCtrl->Create( itemWizardPage2, ID_ERRPROJECTUNAVAILABLE, _("Project Unavailable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_ErrProjectUnavailableCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrProjectUnavailableCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ErrYahooCommCtrl = new wxCheckBox;
-    m_ErrYahooCommCtrl->Create( itemWizardPage2, ID_ERRYAHOOCOMM, _("Yahoo Comm Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_ErrYahooCommCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrYahooCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ErrAccountCreationDisabledCtrl = new wxCheckBox;
+    m_ErrAccountCreationDisabledCtrl->Create( itemWizardPage2, ID_ERRACCOUNTCREATIONDISABLED, _("Account Creation Disabled"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_ErrAccountCreationDisabledCtrl->SetValue(FALSE);
+    itemFlexGridSizer9->Add(m_ErrAccountCreationDisabledCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_ErrAccountAlreadyExistsCtrl = new wxCheckBox;
     m_ErrAccountAlreadyExistsCtrl->Create( itemWizardPage2, ID_ERRACCOUNTALREADYEXISTS, _("Account Already Exists"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_ErrAccountAlreadyExistsCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrAccountAlreadyExistsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer9->Add(m_ErrAccountAlreadyExistsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+    m_ErrGoogleCommCtrl = new wxCheckBox;
+    m_ErrGoogleCommCtrl->Create( itemWizardPage2, ID_ERRGOOGLECOMM, _("Google Comm Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_ErrGoogleCommCtrl->SetValue(FALSE);
+    itemFlexGridSizer9->Add(m_ErrGoogleCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+    m_ErrYahooCommCtrl = new wxCheckBox;
+    m_ErrYahooCommCtrl->Create( itemWizardPage2, ID_ERRYAHOOCOMM, _("Yahoo Comm Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_ErrYahooCommCtrl->SetValue(FALSE);
+    itemFlexGridSizer9->Add(m_ErrYahooCommCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_ErrNetDetectionCtrl = new wxCheckBox;
     m_ErrNetDetectionCtrl->Create( itemWizardPage2, ID_ERRNETDETECTION, _("Net Detection Failure"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_ErrNetDetectionCtrl->SetValue(FALSE);
-    itemFlexGridSizer9->Add(m_ErrNetDetectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer9->Add(m_ErrNetDetectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-    wxStaticText* itemStaticText17 = new wxStaticText;
-    itemStaticText17->Create( itemWizardPage2, wxID_STATIC, _("To continue, click Next."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(itemStaticText17, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText18 = new wxStaticText;
+    itemStaticText18->Create( itemWizardPage2, wxID_STATIC, _("To continue, click Next."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(itemStaticText18, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CWelcomePage content construction
 }
@@ -524,7 +554,7 @@ wxWizardPage* CWelcomePage::GetPrev() const
 
 wxWizardPage* CWelcomePage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_PROJECTINFOPAGE);
+    return PAGE_TRANSITION_NEXT(ID_PROJECTINFOPAGE);
 }
 
 /*!
@@ -579,20 +609,23 @@ void CWelcomePage::OnPageChanging( wxWizardEvent& event )
     if (m_ErrProjectPropertiesCtrl->GetValue()) 
         ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIES;
 
+    if (m_ErrProjectPropertiesURLCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIESURL;
+
     if (m_ErrProjectCommCtrl->GetValue()) 
         ulFlags |= WIZDEBUG_ERRPROJECTCOMM;
 
     if (m_ErrGoogleCommCtrl->GetValue()) 
         ulFlags |= WIZDEBUG_ERRGOOGLECOMM;
 
-    if (m_ErrProjectUnavailableCtrl->GetValue()) 
-        ulFlags |= WIZDEBUG_ERRPROJECTUNAVAILABLE;
-
     if (m_ErrYahooCommCtrl->GetValue()) 
         ulFlags |= WIZDEBUG_ERRYAHOOCOMM;
 
     if (m_ErrAccountAlreadyExistsCtrl->GetValue()) 
         ulFlags |= WIZDEBUG_ERRACCOUNTALREADYEXISTS;
+
+    if (m_ErrAccountCreationDisabledCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRACCOUNTCREATIONDISABLED;
 
     if (m_ErrNetDetectionCtrl->GetValue()) 
         ulFlags |= WIZDEBUG_ERRNETDETECTION;
@@ -659,47 +692,47 @@ bool CProjectInfoPage::Create( wxWizard* parent )
 void CProjectInfoPage::CreateControls()
 {    
 ////@begin CProjectInfoPage content construction
-    CProjectInfoPage* itemWizardPage18 = this;
+    CProjectInfoPage* itemWizardPage19 = this;
 
-    wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage18->SetSizer(itemBoxSizer19);
-
-    wxStaticText* itemStaticText20 = new wxStaticText;
-    itemStaticText20->Create( itemWizardPage18, wxID_STATIC, _("Project Information"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText20->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer19->Add(itemStaticText20, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBoxSizer* itemBoxSizer20 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage19->SetSizer(itemBoxSizer20);
 
     wxStaticText* itemStaticText21 = new wxStaticText;
-    itemStaticText21->Create( itemWizardPage18, wxID_STATIC, _("Which project do you wish to attach to?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer19->Add(itemStaticText21, 0, wxALIGN_LEFT|wxALL, 5);
+    itemStaticText21->Create( itemWizardPage19, wxID_STATIC, _("Project Information"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText21->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer20->Add(itemStaticText21, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer19->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText22 = new wxStaticText;
+    itemStaticText22->Create( itemWizardPage19, wxID_STATIC, _("Which project do you wish to attach to?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer20->Add(itemStaticText22, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText23 = new wxStaticText;
-    itemStaticText23->Create( itemWizardPage18, wxID_STATIC, _("The project URL is generally the project's homepage.  It is in the form of\na web address and can be found in your browsers address bar."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer19->Add(itemStaticText23, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer20->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer24 = new wxFlexGridSizer(1, 2, 0, 0);
-    itemFlexGridSizer24->AddGrowableCol(1);
-    itemBoxSizer19->Add(itemFlexGridSizer24, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText24 = new wxStaticText;
+    itemStaticText24->Create( itemWizardPage19, wxID_STATIC, _("The project URL is generally the project's homepage.  It is in the form of\na web address and can be found in your browsers address bar."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer20->Add(itemStaticText24, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer25 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer25->AddGrowableCol(1);
+    itemBoxSizer20->Add(itemFlexGridSizer25, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_ProjectUrlStaticCtrl = new wxStaticText;
-    m_ProjectUrlStaticCtrl->Create( itemWizardPage18, ID_PROJECTURLSTATICCTRL, _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer24->Add(m_ProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectUrlStaticCtrl->Create( itemWizardPage19, ID_PROJECTURLSTATICCTRL, _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer25->Add(m_ProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProjectUrlCtrl = new wxTextCtrl;
-    m_ProjectUrlCtrl->Create( itemWizardPage18, ID_PROJECTURLCTRL, _T(""), wxDefaultPosition, wxSize(250, -1), 0 );
-    itemFlexGridSizer24->Add(m_ProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectUrlCtrl->Create( itemWizardPage19, ID_PROJECTURLCTRL, _T(""), wxDefaultPosition, wxSize(250, -1), 0 );
+    itemFlexGridSizer25->Add(m_ProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemBoxSizer19->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer20->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText28 = new wxStaticText;
-    itemStaticText28->Create( itemWizardPage18, wxID_STATIC, _("For more information, and to see a list of some BOINC-based projects,\ngo to:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer19->Add(itemStaticText28, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText29 = new wxStaticText;
+    itemStaticText29->Create( itemWizardPage19, wxID_STATIC, _("For more information, and to see a list of some BOINC-based projects,\ngo to:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer20->Add(itemStaticText29, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxHyperLink* itemHyperLink29 = new wxHyperLink;
-    itemHyperLink29->Create( itemWizardPage18, ID_PROJECRINFOBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemBoxSizer19->Add(itemHyperLink29, 0, wxALIGN_LEFT|wxALL, 5);
+    wxHyperLink* itemHyperLink30 = new wxHyperLink;
+    itemHyperLink30->Create( itemWizardPage19, ID_PROJECRINFOBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    itemBoxSizer20->Add(itemHyperLink30, 0, wxALIGN_LEFT|wxALL, 5);
 
     // Set validators
     m_ProjectUrlCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProjectURL) );
@@ -712,7 +745,7 @@ void CProjectInfoPage::CreateControls()
 
 wxWizardPage* CProjectInfoPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -721,7 +754,7 @@ wxWizardPage* CProjectInfoPage::GetPrev() const
 
 wxWizardPage* CProjectInfoPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_PROJECTPROPERTIESPAGE);
+    return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
 }
 
 /*!
@@ -816,6 +849,8 @@ bool CProjectPropertiesPage::Create( wxWizard* parent )
     m_FinalProjectPropertiesStatusCtrl = NULL;
 ////@end CProjectPropertiesPage member initialisation
     m_bProjectPropertiesSucceeded = false;
+    m_bProjectPropertiesURLFailure = false;
+    m_bProjectAccountCreationDisabled = false;
     m_bCommunicateYahooSucceeded = false;
     m_bCommunicateGoogleSucceeded = false;
     m_bDeterminingConnectionStatusSucceeded = false;
@@ -838,68 +873,68 @@ bool CProjectPropertiesPage::Create( wxWizard* parent )
 void CProjectPropertiesPage::CreateControls()
 {    
 ////@begin CProjectPropertiesPage content construction
-    CProjectPropertiesPage* itemWizardPage30 = this;
+    CProjectPropertiesPage* itemWizardPage31 = this;
 
-    wxBoxSizer* itemBoxSizer31 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage30->SetSizer(itemBoxSizer31);
-
-    wxStaticText* itemStaticText32 = new wxStaticText;
-    itemStaticText32->Create( itemWizardPage30, wxID_STATIC, _("Project Properties"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText32->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer31->Add(itemStaticText32, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBoxSizer* itemBoxSizer32 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage31->SetSizer(itemBoxSizer32);
 
     wxStaticText* itemStaticText33 = new wxStaticText;
-    itemStaticText33->Create( itemWizardPage30, wxID_STATIC, _("This wizard is now attempting to retrieve the project’s account\ncreation policies."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer31->Add(itemStaticText33, 0, wxALIGN_LEFT|wxALL, 5);
+    itemStaticText33->Create( itemWizardPage31, wxID_STATIC, _("Project Properties"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText33->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer32->Add(itemStaticText33, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer31->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText34 = new wxStaticText;
+    itemStaticText34->Create( itemWizardPage31, wxID_STATIC, _("This wizard is now attempting to retrieve the project’s account\ncreation policies."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer32->Add(itemStaticText34, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText35 = new wxStaticText;
-    itemStaticText35->Create( itemWizardPage30, wxID_STATIC, _("If this wizard cannot reach the project server, it'll attempt to contact a\ncouple known good websites in an effort to help diagnose the problem."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer31->Add(itemStaticText35, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer32->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer36 = new wxFlexGridSizer(0, 2, 0, 0);
-    itemBoxSizer31->Add(itemFlexGridSizer36, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText36 = new wxStaticText;
+    itemStaticText36->Create( itemWizardPage31, wxID_STATIC, _("If this wizard cannot reach the project server, it'll attempt to contact a\ncouple known good websites in an effort to help diagnose the problem."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer32->Add(itemStaticText36, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap m_RetrProjectPropertiesImageCtrlBitmap(itemWizardPage30->GetBitmapResource(wxT("res/wizquestion.xpm")));
+    wxFlexGridSizer* itemFlexGridSizer37 = new wxFlexGridSizer(0, 2, 0, 0);
+    itemBoxSizer32->Add(itemFlexGridSizer37, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxBitmap m_RetrProjectPropertiesImageCtrlBitmap(itemWizardPage31->GetBitmapResource(wxT("res/wizquestion.xpm")));
     m_RetrProjectPropertiesImageCtrl = new wxStaticBitmap;
-    m_RetrProjectPropertiesImageCtrl->Create( itemWizardPage30, ID_RETRPROJECTPROPERTIESIMAGECTRL, m_RetrProjectPropertiesImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
-    itemFlexGridSizer36->Add(m_RetrProjectPropertiesImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_RetrProjectPropertiesImageCtrl->Create( itemWizardPage31, ID_RETRPROJECTPROPERTIESIMAGECTRL, m_RetrProjectPropertiesImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer37->Add(m_RetrProjectPropertiesImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_RetrProjectPropertiesCtrl = new wxStaticText;
-    m_RetrProjectPropertiesCtrl->Create( itemWizardPage30, ID_RETRPROJECTPROPERTIESCTRL, _("Retrieving project account creation policy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer36->Add(m_RetrProjectPropertiesCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_RetrProjectPropertiesCtrl->Create( itemWizardPage31, ID_RETRPROJECTPROPERTIESCTRL, _("Retrieving project account creation policy"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer37->Add(m_RetrProjectPropertiesCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmap m_CommYahooImageCtrlBitmap(itemWizardPage30->GetBitmapResource(wxT("res/wizsuccess.xpm")));
+    wxBitmap m_CommYahooImageCtrlBitmap(itemWizardPage31->GetBitmapResource(wxT("res/wizsuccess.xpm")));
     m_CommYahooImageCtrl = new wxStaticBitmap;
-    m_CommYahooImageCtrl->Create( itemWizardPage30, ID_COMMYAHOOIMAGECTRL, m_CommYahooImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
-    itemFlexGridSizer36->Add(m_CommYahooImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_CommYahooImageCtrl->Create( itemWizardPage31, ID_COMMYAHOOIMAGECTRL, m_CommYahooImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer37->Add(m_CommYahooImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_CommYahooCtrl = new wxStaticText;
-    m_CommYahooCtrl->Create( itemWizardPage30, ID_COMMYAHOOCTRL, _("Communicating with Yahoo"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer36->Add(m_CommYahooCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_CommYahooCtrl->Create( itemWizardPage31, ID_COMMYAHOOCTRL, _("Communicating with Yahoo"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer37->Add(m_CommYahooCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmap m_CommGoogleImageCtrlBitmap(itemWizardPage30->GetBitmapResource(wxT("res/wizfailure.xpm")));
+    wxBitmap m_CommGoogleImageCtrlBitmap(itemWizardPage31->GetBitmapResource(wxT("res/wizfailure.xpm")));
     m_CommGoogleImageCtrl = new wxStaticBitmap;
-    m_CommGoogleImageCtrl->Create( itemWizardPage30, ID_COMMGOOGLEIMAGECTRL, m_CommGoogleImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
-    itemFlexGridSizer36->Add(m_CommGoogleImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_CommGoogleImageCtrl->Create( itemWizardPage31, ID_COMMGOOGLEIMAGECTRL, m_CommGoogleImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer37->Add(m_CommGoogleImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_CommGoogleCtrl = new wxStaticText;
-    m_CommGoogleCtrl->Create( itemWizardPage30, ID_COMMGOOGLECTRL, _("Communicating with Google"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer36->Add(m_CommGoogleCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_CommGoogleCtrl->Create( itemWizardPage31, ID_COMMGOOGLECTRL, _("Communicating with Google"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer37->Add(m_CommGoogleCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmap m_DetermineConnectionStatusImageCtrlBitmap(itemWizardPage30->GetBitmapResource(wxT("res/wizquestion.xpm")));
+    wxBitmap m_DetermineConnectionStatusImageCtrlBitmap(itemWizardPage31->GetBitmapResource(wxT("res/wizquestion.xpm")));
     m_DetermineConnectionStatusImageCtrl = new wxStaticBitmap;
-    m_DetermineConnectionStatusImageCtrl->Create( itemWizardPage30, ID_DETERMINECONNECTIONSTATUSIMAGECTRL, m_DetermineConnectionStatusImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
-    itemFlexGridSizer36->Add(m_DetermineConnectionStatusImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_DetermineConnectionStatusImageCtrl->Create( itemWizardPage31, ID_DETERMINECONNECTIONSTATUSIMAGECTRL, m_DetermineConnectionStatusImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer37->Add(m_DetermineConnectionStatusImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_DetermineConnectionStatusCtrl = new wxStaticText;
-    m_DetermineConnectionStatusCtrl->Create( itemWizardPage30, ID_DETERMINECONNECTIONSTATUSCTRL, _("Determining connection status"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer36->Add(m_DetermineConnectionStatusCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_DetermineConnectionStatusCtrl->Create( itemWizardPage31, ID_DETERMINECONNECTIONSTATUSCTRL, _("Determining connection status"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer37->Add(m_DetermineConnectionStatusCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_FinalProjectPropertiesStatusCtrl = new wxStaticText;
-    m_FinalProjectPropertiesStatusCtrl->Create( itemWizardPage30, ID_FINALPROJECTPROPERTIESTATUSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer31->Add(m_FinalProjectPropertiesStatusCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    m_FinalProjectPropertiesStatusCtrl->Create( itemWizardPage31, ID_FINALPROJECTPROPERTIESTATUSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer32->Add(m_FinalProjectPropertiesStatusCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CProjectPropertiesPage content construction
 }
@@ -910,7 +945,7 @@ void CProjectPropertiesPage::CreateControls()
 
 wxWizardPage* CProjectPropertiesPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -919,18 +954,24 @@ wxWizardPage* CProjectPropertiesPage::GetPrev() const
 
 wxWizardPage* CProjectPropertiesPage::GetNext() const
 {
-    if (GetProjectPropertiesSucceeded()) {
+    if (GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
+        // Legacy Authentication Scheme
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTKEYPAGE);
+    } else if (GetProjectPropertiesSucceeded() && GetProjectAccountCreationDisabled()) {
+        // Account Creation Disabled
+        return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTCREATIONDISABLEDPAGE);
+    } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ACCOUNTINFOPAGE);
-    } else if ((GetCommunicateYahooSucceeded() || GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
-        // The project much be down for maintenance
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRPROJECTUNAVAILABLEPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
         // Possible proxy problem
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRPROXYINFOPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && !GetDeterminingConnectionStatusSucceeded()) {
         // No Internet Connection
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRNOINTERNETCONNECTIONPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);
+    } else {
+        // The project much be down for maintenance
+        return PAGE_TRANSITION_NEXT(ID_ERRPROJECTUNAVAILABLEPAGE);
     }
     return NULL;
 }
@@ -987,11 +1028,11 @@ wxIcon CProjectPropertiesPage::GetIconResource( const wxString& name )
 
 void CProjectPropertiesPage::OnPageChanged( wxWizardEvent& event )
 {
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectPropertiesPage::OnPageChanged - Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectPropertiesPage::OnPageChanged - Function End"));
     if (event.GetDirection() == false) return;
 
     SetProjectPropertiesSucceeded(false);
+    SetProjectPropertiesURLFailure(false);
+    SetProjectAccountCreationDisabled(false);
     SetCommunicateYahooSucceeded(false);
     SetCommunicateGoogleSucceeded(false);
     SetDeterminingConnectionStatusSucceeded(false);
@@ -1045,10 +1086,22 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             // Attempt to retrieve the project’s account creation policies
             wxSleep(2);
 
-            // Replace the 'false' with the function call that really does the work.
-            if (!false && !((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRPROJECTPROPERTIES)) {
+            // Replace with the function call that really does the work.
+            if (!((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRPROJECTPROPERTIES)) {
                 m_RetrProjectPropertiesImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizsuccess.xpm")));
                 SetProjectPropertiesSucceeded(true);
+
+                if (((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                    SetProjectPropertiesURLFailure(true);
+                } else {
+                    SetProjectPropertiesURLFailure(false);
+                }
+
+                if (((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRACCOUNTCREATIONDISABLED)) {
+                    SetProjectAccountCreationDisabled(true);
+                } else {
+                    SetProjectAccountCreationDisabled(false);
+                }
 
                 // Say something useful to go with this condition
                 m_FinalProjectPropertiesStatusCtrl->SetLabel(_("To continue, click Next."));
@@ -1079,8 +1132,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             // Attempt to successfully download the Yahoo homepage
             wxSleep(2);
 
-            // Replace the 'false' with the function call that really does the work.
-            if (!false && !((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRYAHOOCOMM)) {
+            // Replace with the function call that really does the work.
+            if (!((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRYAHOOCOMM)) {
                 m_CommYahooImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizsuccess.xpm")));
                 SetCommunicateYahooSucceeded(true);
             } else {
@@ -1099,8 +1152,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             // Attempt to successfully download the Google homepage
             wxSleep(2);
 
-            // Replace the 'false' with the function call that really does the work.
-            if (!false && !((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRGOOGLECOMM)) {
+            // Replace with the function call that really does the work.
+            if (!((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRGOOGLECOMM)) {
                 m_CommGoogleImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizsuccess.xpm")));
                 SetCommunicateGoogleSucceeded(true);
             } else {
@@ -1119,8 +1172,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             // Attempt to determine if we are even connected to a network
             wxSleep(2);
 
-            // Replace the 'false' with the function call that really does the work.
-            if (!false && !((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRNETDETECTION)) {
+            // Replace with the function call that really does the work.
+            if (!((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRNETDETECTION)) {
                 m_DetermineConnectionStatusImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizsuccess.xpm")));
                 SetDeterminingConnectionStatusSucceeded(true);
             } else {
@@ -1146,6 +1199,167 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
         AddPendingEvent(TransitionEvent);
     }
 }
+
+
+/*!
+ * CAccountKeyPage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CAccountKeyPage, wxWizardPage )
+
+/*!
+ * CAccountKeyPage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CAccountKeyPage, wxWizardPage )
+
+////@begin CAccountKeyPage event table entries
+////@end CAccountKeyPage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CAccountKeyPage constructors
+ */
+
+CAccountKeyPage::CAccountKeyPage( )
+{
+}
+
+CAccountKeyPage::CAccountKeyPage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * CAuthenticatorPage creator
+ */
+
+bool CAccountKeyPage::Create( wxWizard* parent )
+{
+////@begin CAccountKeyPage member initialisation
+    m_AccountKeyStaticCtrl = NULL;
+    m_AccountKeyCtrl = NULL;
+////@end CAccountKeyPage member initialisation
+
+////@begin CAccountKeyPage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+    GetSizer()->Fit(this);
+////@end CAccountKeyPage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for CAuthenticatorPage
+ */
+
+void CAccountKeyPage::CreateControls()
+{    
+////@begin CAccountKeyPage content construction
+    CAccountKeyPage* itemWizardPage47 = this;
+
+    wxBoxSizer* itemBoxSizer48 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage47->SetSizer(itemBoxSizer48);
+
+    wxStaticText* itemStaticText49 = new wxStaticText;
+    itemStaticText49->Create( itemWizardPage47, wxID_STATIC, _("Account Key"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText49->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer48->Add(itemStaticText49, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText50 = new wxStaticText;
+    itemStaticText50->Create( itemWizardPage47, wxID_STATIC, _("Do you have your project account key handy?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer48->Add(itemStaticText50, 0, wxALIGN_LEFT|wxALL, 5);
+
+    itemBoxSizer48->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText52 = new wxStaticText;
+    itemStaticText52->Create( itemWizardPage47, wxID_STATIC, _("This project does not support account management through this\nwizard and uses BOINC's account key authentication."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer48->Add(itemStaticText52, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText53 = new wxStaticText;
+    itemStaticText53->Create( itemWizardPage47, wxID_STATIC, _("An account key is a string of 32 random letters and numbers that\nare assigned during the account creation process and is treated\nlike a username and password on other web based systems.  It will\nhave been sent to you via email as part of the confirmation email\nmessage. Please copy and paste it into the text box below."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer48->Add(itemStaticText53, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText54 = new wxStaticText;
+    itemStaticText54->Create( itemWizardPage47, wxID_STATIC, _("An account key typically looks like:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer48->Add(itemStaticText54, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText55 = new wxStaticText;
+    itemStaticText55->Create( itemWizardPage47, wxID_STATIC, _("82412313ac88e9a3638f66ea82186948"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText55->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, FALSE, _T("Courier New")));
+    itemBoxSizer48->Add(itemStaticText55, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+
+    wxFlexGridSizer* itemFlexGridSizer56 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer56->AddGrowableCol(1);
+    itemBoxSizer48->Add(itemFlexGridSizer56, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    m_AccountKeyStaticCtrl = new wxStaticText;
+    m_AccountKeyStaticCtrl->Create( itemWizardPage47, ID_ACCOUNTKEYSTATICCTRL, _("Account key:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer56->Add(m_AccountKeyStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_AccountKeyCtrl = new wxTextCtrl;
+    m_AccountKeyCtrl->Create( itemWizardPage47, ID_ACCOUNTKEYCTRL, _T(""), wxDefaultPosition, wxSize(225, -1), 0 );
+    itemFlexGridSizer56->Add(m_AccountKeyCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    // Set validators
+    m_AccountKeyCtrl->SetValidator( wxTextValidator(wxFILTER_ALPHANUMERIC, & m_strAccountKey) );
+////@end CAccountKeyPage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CAccountKeyPage::GetPrev() const
+{
+    return PAGE_TRANSITION_BACK;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CAccountKeyPage::GetNext() const
+{
+    return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CAccountKeyPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CAccountKeyPage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CAccountKeyPage bitmap retrieval
+    return wxNullBitmap;
+////@end CAccountKeyPage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CAccountKeyPage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CAccountKeyPage icon retrieval
+    return wxNullIcon;
+////@end CAccountKeyPage icon retrieval
+}
+
 
 /*!
  * CAccountInfoPage type definition
@@ -1215,67 +1429,67 @@ bool CAccountInfoPage::Create( wxWizard* parent )
 void CAccountInfoPage::CreateControls()
 {    
 ////@begin CAccountInfoPage content construction
-    CAccountInfoPage* itemWizardPage46 = this;
+    CAccountInfoPage* itemWizardPage59 = this;
 
-    wxBoxSizer* itemBoxSizer47 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage46->SetSizer(itemBoxSizer47);
+    wxBoxSizer* itemBoxSizer60 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage59->SetSizer(itemBoxSizer60);
 
-    wxStaticText* itemStaticText48 = new wxStaticText;
-    itemStaticText48->Create( itemWizardPage46, wxID_STATIC, _("Account Information"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText48->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer47->Add(itemStaticText48, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText61 = new wxStaticText;
+    itemStaticText61->Create( itemWizardPage59, wxID_STATIC, _("Account Information"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText61->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer60->Add(itemStaticText61, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText49 = new wxStaticText;
-    itemStaticText49->Create( itemWizardPage46, wxID_STATIC, _("Do you wish to use an existing account or create a new one?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer47->Add(itemStaticText49, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText62 = new wxStaticText;
+    itemStaticText62->Create( itemWizardPage59, wxID_STATIC, _("Do you wish to use an existing account or create a new one?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer60->Add(itemStaticText62, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer47->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer60->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText51 = new wxStaticText;
-    itemStaticText51->Create( itemWizardPage46, wxID_STATIC, _("If this is the first time you have attempted to attach to this project then\nyou should create a new account.  If you already have an account you\nshould use your existing email address and password to attach to the\nproject."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer47->Add(itemStaticText51, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText64 = new wxStaticText;
+    itemStaticText64->Create( itemWizardPage59, wxID_STATIC, _("If this is the first time you have attempted to attach to this project then\nyou should create a new account.  If you already have an account you\nshould use your existing email address and password to attach to the\nproject."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer60->Add(itemStaticText64, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer52 = new wxFlexGridSizer(1, 2, 0, 0);
-    itemFlexGridSizer52->AddGrowableCol(1);
-    itemBoxSizer47->Add(itemFlexGridSizer52, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer65 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer65->AddGrowableCol(1);
+    itemBoxSizer60->Add(itemFlexGridSizer65, 0, wxGROW|wxALL, 5);
 
     m_AccountCreateCtrl = new wxRadioButton;
-    m_AccountCreateCtrl->Create( itemWizardPage46, ID_ACCOUNTCREATECTRL, _("Create new account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+    m_AccountCreateCtrl->Create( itemWizardPage59, ID_ACCOUNTCREATECTRL, _("Create new account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
     m_AccountCreateCtrl->SetValue(FALSE);
-    itemFlexGridSizer52->Add(m_AccountCreateCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer65->Add(m_AccountCreateCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountUseExistingCtrl = new wxRadioButton;
-    m_AccountUseExistingCtrl->Create( itemWizardPage46, ID_ACCOUNTUSEEXISTINGCTRL, _("Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_AccountUseExistingCtrl->Create( itemWizardPage59, ID_ACCOUNTUSEEXISTINGCTRL, _("Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
     m_AccountUseExistingCtrl->SetValue(FALSE);
-    itemFlexGridSizer52->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer65->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer55 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer55->AddGrowableCol(1);
-    itemBoxSizer47->Add(itemFlexGridSizer55, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer68 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer68->AddGrowableCol(1);
+    itemBoxSizer60->Add(itemFlexGridSizer68, 0, wxGROW|wxALL, 5);
 
     m_AccountEmailAddressStaticCtrl = new wxStaticText;
-    m_AccountEmailAddressStaticCtrl->Create( itemWizardPage46, ID_ACCOUNTEMAILADDRESSSTATICCTRL, _("Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer55->Add(m_AccountEmailAddressStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountEmailAddressStaticCtrl->Create( itemWizardPage59, ID_ACCOUNTEMAILADDRESSSTATICCTRL, _("Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer68->Add(m_AccountEmailAddressStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountEmailAddressCtrl = new wxTextCtrl;
-    m_AccountEmailAddressCtrl->Create( itemWizardPage46, ID_ACCOUNTEMAILADDRESSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer55->Add(m_AccountEmailAddressCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountEmailAddressCtrl->Create( itemWizardPage59, ID_ACCOUNTEMAILADDRESSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer68->Add(m_AccountEmailAddressCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountPasswordStaticCtrl = new wxStaticText;
-    m_AccountPasswordStaticCtrl->Create( itemWizardPage46, ID_ACCOUNTPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer55->Add(m_AccountPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountPasswordStaticCtrl->Create( itemWizardPage59, ID_ACCOUNTPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer68->Add(m_AccountPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountPasswordCtrl = new wxTextCtrl;
-    m_AccountPasswordCtrl->Create( itemWizardPage46, ID_ACCOUNTPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer55->Add(m_AccountPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountPasswordCtrl->Create( itemWizardPage59, ID_ACCOUNTPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer68->Add(m_AccountPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountConfirmPasswordStaticCtrl = new wxStaticText;
-    m_AccountConfirmPasswordStaticCtrl->Create( itemWizardPage46, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, _("Confirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer55->Add(m_AccountConfirmPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountConfirmPasswordStaticCtrl->Create( itemWizardPage59, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, _("Confirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer68->Add(m_AccountConfirmPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountConfirmPasswordCtrl = new wxTextCtrl;
-    m_AccountConfirmPasswordCtrl->Create( itemWizardPage46, ID_ACCOUNTCONFIRMPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer55->Add(m_AccountConfirmPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_AccountConfirmPasswordCtrl->Create( itemWizardPage59, ID_ACCOUNTCONFIRMPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer68->Add(m_AccountConfirmPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     m_AccountEmailAddressCtrl->SetValidator( wxGenericValidator(& m_strAccountEmailAddress) );
@@ -1290,7 +1504,7 @@ void CAccountInfoPage::CreateControls()
 
 wxWizardPage* CAccountInfoPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1299,7 +1513,7 @@ wxWizardPage* CAccountInfoPage::GetPrev() const
 
 wxWizardPage* CAccountInfoPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ACCOUNTCREATIONPAGE);
+    return PAGE_TRANSITION_NEXT(ID_ACCOUNTCREATIONPAGE);
 }
 
 /*!
@@ -1431,41 +1645,41 @@ bool CAccountCreationPage::Create( wxWizard* parent )
 void CAccountCreationPage::CreateControls()
 {    
 ////@begin CAccountCreationPage content construction
-    CAccountCreationPage* itemWizardPage62 = this;
+    CAccountCreationPage* itemWizardPage75 = this;
 
-    wxBoxSizer* itemBoxSizer63 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage62->SetSizer(itemBoxSizer63);
+    wxBoxSizer* itemBoxSizer76 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage75->SetSizer(itemBoxSizer76);
 
-    wxStaticText* itemStaticText64 = new wxStaticText;
-    itemStaticText64->Create( itemWizardPage62, wxID_STATIC, _("Account Creation"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText64->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer63->Add(itemStaticText64, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText77 = new wxStaticText;
+    itemStaticText77->Create( itemWizardPage75, wxID_STATIC, _("Account Creation"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText77->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer76->Add(itemStaticText77, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText65 = new wxStaticText;
-    itemStaticText65->Create( itemWizardPage62, wxID_STATIC, _("This wizard is now attempting to create a new account or validate your\nexisting account."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer63->Add(itemStaticText65, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText78 = new wxStaticText;
+    itemStaticText78->Create( itemWizardPage75, wxID_STATIC, _("This wizard is now attempting to create a new account or validate your\nexisting account."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer76->Add(itemStaticText78, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer63->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer76->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText67 = new wxStaticText;
-    itemStaticText67->Create( itemWizardPage62, wxID_STATIC, _("If this wizard cannot reach the project server, it'll attempt to contact a\ncouple known good websites in an effort to help diagnose the problem."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer63->Add(itemStaticText67, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText80 = new wxStaticText;
+    itemStaticText80->Create( itemWizardPage75, wxID_STATIC, _("If this wizard cannot reach the project server, it'll attempt to contact a\ncouple known good websites in an effort to help diagnose the problem."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer76->Add(itemStaticText80, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer68 = new wxFlexGridSizer(0, 2, 0, 0);
-    itemBoxSizer63->Add(itemFlexGridSizer68, 0, wxALIGN_LEFT|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer81 = new wxFlexGridSizer(0, 2, 0, 0);
+    itemBoxSizer76->Add(itemFlexGridSizer81, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap m_ProjectCommunitcationsImageCtrlBitmap(itemWizardPage62->GetBitmapResource(wxT("res/wizquestion.xpm")));
+    wxBitmap m_ProjectCommunitcationsImageCtrlBitmap(itemWizardPage75->GetBitmapResource(wxT("res/wizquestion.xpm")));
     m_ProjectCommunitcationsImageCtrl = new wxStaticBitmap;
-    m_ProjectCommunitcationsImageCtrl->Create( itemWizardPage62, ID_PROJECTCOMMUNICATIONSIMAGECTRL, m_ProjectCommunitcationsImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
-    itemFlexGridSizer68->Add(m_ProjectCommunitcationsImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectCommunitcationsImageCtrl->Create( itemWizardPage75, ID_PROJECTCOMMUNICATIONSIMAGECTRL, m_ProjectCommunitcationsImageCtrlBitmap, wxDefaultPosition, wxSize(16, 16), 0 );
+    itemFlexGridSizer81->Add(m_ProjectCommunitcationsImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProjectCommunitcationsCtrl = new wxStaticText;
-    m_ProjectCommunitcationsCtrl->Create( itemWizardPage62, ID_PROJECTCOMMUNICATIONSCTRL, _("Communicating with BOINC project"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer68->Add(m_ProjectCommunitcationsCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectCommunitcationsCtrl->Create( itemWizardPage75, ID_PROJECTCOMMUNICATIONSCTRL, _("Communicating with BOINC project"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer81->Add(m_ProjectCommunitcationsCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_FinalAccountCreationStatusCtrl = new wxStaticText;
-    m_FinalAccountCreationStatusCtrl->Create( itemWizardPage62, ID_FINALACCOUNTCREATIONSTATUSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer63->Add(m_FinalAccountCreationStatusCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    m_FinalAccountCreationStatusCtrl->Create( itemWizardPage75, ID_FINALACCOUNTCREATIONSTATUSCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer76->Add(m_FinalAccountCreationStatusCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CAccountCreationPage content construction
 }
@@ -1476,7 +1690,7 @@ void CAccountCreationPage::CreateControls()
 
 wxWizardPage* CAccountCreationPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1485,15 +1699,15 @@ wxWizardPage* CAccountCreationPage::GetPrev() const
 
 wxWizardPage* CAccountCreationPage::GetNext() const
 {
-    if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountAlreadyExists()) {
+    if (GetProjectCommunitcationsSucceeded() && GetProjectAccountAlreadyExists()) {
         // The requested account already exists
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRACCOUNTALREADYEXISTSPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTALREADYEXISTSPAGE);
     } else if (GetProjectCommunitcationsSucceeded()) {
         // We were successful in creating or retrieving an account
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_COMPLETIONPAGE);
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
     } else {
         // The project much be down for maintenance
-        return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRPROJECTUNAVAILABLEPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRPROJECTUNAVAILABLEPAGE);
     } 
     return NULL;
 }
@@ -1598,23 +1812,17 @@ void CAccountCreationPage::OnStateChange( CAccountCreationPageEvent& event )
                 m_ProjectCommunitcationsImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizsuccess.xpm")));
                 SetProjectCommunitcationsSucceeded(true);
 
-                // Say something useful to go with this condition
-                m_FinalAccountCreationStatusCtrl->SetLabel(_("To continue, click Next."));
-            } else {
-                m_ProjectCommunitcationsImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizfailure.xpm")));
-                SetProjectCommunitcationsSucceeded(false);
-
-                if (((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRPROJECTUNAVAILABLE)) {
-                    SetProjectUnavailable(true);
-                } else {
-                    SetProjectUnavailable(false);
-                }
-
                 if (((CWizAttachProject*)GetParent())->IsDiagFlagsSet(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
                     SetProjectAccountAlreadyExists(true);
                 } else {
                     SetProjectAccountAlreadyExists(false);
                 }
+
+                // Say something useful to go with this condition
+                m_FinalAccountCreationStatusCtrl->SetLabel(_("To continue, click Next."));
+            } else {
+                m_ProjectCommunitcationsImageCtrl->SetBitmap(GetBitmapResource(wxT("res/wizfailure.xpm")));
+                SetProjectCommunitcationsSucceeded(false);
 
                 // Say something useful to go with this condition
                 m_FinalAccountCreationStatusCtrl->SetLabel(_("One or more problems detected, click Next to troubleshoot the\nproblem."));
@@ -1693,21 +1901,21 @@ bool CCompletionPage::Create( wxWizard* parent )
 void CCompletionPage::CreateControls()
 {    
 ////@begin CCompletionPage content construction
-    CCompletionPage* itemWizardPage72 = this;
+    CCompletionPage* itemWizardPage85 = this;
 
-    wxBoxSizer* itemBoxSizer73 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage72->SetSizer(itemBoxSizer73);
+    wxBoxSizer* itemBoxSizer86 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage85->SetSizer(itemBoxSizer86);
 
-    wxStaticText* itemStaticText74 = new wxStaticText;
-    itemStaticText74->Create( itemWizardPage72, wxID_STATIC, _("Wizard Completion"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText74->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer73->Add(itemStaticText74, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText87 = new wxStaticText;
+    itemStaticText87->Create( itemWizardPage85, wxID_STATIC, _("Wizard Completion"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText87->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer86->Add(itemStaticText87, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText75 = new wxStaticText;
-    itemStaticText75->Create( itemWizardPage72, wxID_STATIC, _("Congratulations"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer73->Add(itemStaticText75, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText88 = new wxStaticText;
+    itemStaticText88->Create( itemWizardPage85, wxID_STATIC, _("Congratulations"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer86->Add(itemStaticText88, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer73->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CCompletionPage content construction
 }
@@ -1718,7 +1926,7 @@ void CCompletionPage::CreateControls()
 
 wxWizardPage* CCompletionPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1820,21 +2028,21 @@ bool CErrProjectUnavailablePage::Create( wxWizard* parent )
 void CErrProjectUnavailablePage::CreateControls()
 {    
 ////@begin CErrProjectUnavailablePage content construction
-    CErrProjectUnavailablePage* itemWizardPage77 = this;
+    CErrProjectUnavailablePage* itemWizardPage90 = this;
 
-    wxBoxSizer* itemBoxSizer78 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage77->SetSizer(itemBoxSizer78);
+    wxBoxSizer* itemBoxSizer91 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage90->SetSizer(itemBoxSizer91);
 
-    wxStaticText* itemStaticText79 = new wxStaticText;
-    itemStaticText79->Create( itemWizardPage77, wxID_STATIC, _("Project Temporarily Unavailable"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText79->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer78->Add(itemStaticText79, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText92 = new wxStaticText;
+    itemStaticText92->Create( itemWizardPage90, wxID_STATIC, _("Project Temporarily Unavailable"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText92->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer91->Add(itemStaticText92, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText80 = new wxStaticText;
-    itemStaticText80->Create( itemWizardPage77, wxID_STATIC, _("The project may be down for maintenance."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer78->Add(itemStaticText80, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText93 = new wxStaticText;
+    itemStaticText93->Create( itemWizardPage90, wxID_STATIC, _("The project may be down for maintenance."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer91->Add(itemStaticText93, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer78->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer91->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProjectUnavailablePage content construction
 }
@@ -1845,7 +2053,7 @@ void CErrProjectUnavailablePage::CreateControls()
 
 wxWizardPage* CErrProjectUnavailablePage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1854,7 +2062,7 @@ wxWizardPage* CErrProjectUnavailablePage::GetPrev() const
 
 wxWizardPage* CErrProjectUnavailablePage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_COMPLETIONPAGE);
+    return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
 }
 
 /*!
@@ -1947,21 +2155,21 @@ bool CErrNoInternetConnectionPage::Create( wxWizard* parent )
 void CErrNoInternetConnectionPage::CreateControls()
 {    
 ////@begin CErrNoInternetConnectionPage content construction
-    CErrNoInternetConnectionPage* itemWizardPage82 = this;
+    CErrNoInternetConnectionPage* itemWizardPage95 = this;
 
-    wxBoxSizer* itemBoxSizer83 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage82->SetSizer(itemBoxSizer83);
+    wxBoxSizer* itemBoxSizer96 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage95->SetSizer(itemBoxSizer96);
 
-    wxStaticText* itemStaticText84 = new wxStaticText;
-    itemStaticText84->Create( itemWizardPage82, wxID_STATIC, _("No Internet Connection Detected"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText84->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer83->Add(itemStaticText84, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText97 = new wxStaticText;
+    itemStaticText97->Create( itemWizardPage95, wxID_STATIC, _("No Internet Connection Detected"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText97->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer96->Add(itemStaticText97, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText85 = new wxStaticText;
-    itemStaticText85->Create( itemWizardPage82, wxID_STATIC, _("Could not communicate with the desired project or any of the known\ncomputers on the Internet."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer83->Add(itemStaticText85, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText98 = new wxStaticText;
+    itemStaticText98->Create( itemWizardPage95, wxID_STATIC, _("Could not communicate with the desired project or any of the known\ncomputers on the Internet."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer96->Add(itemStaticText98, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer83->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer96->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrNoInternetConnectionPage content construction
 }
@@ -1972,7 +2180,7 @@ void CErrNoInternetConnectionPage::CreateControls()
 
 wxWizardPage* CErrNoInternetConnectionPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1981,7 +2189,7 @@ wxWizardPage* CErrNoInternetConnectionPage::GetPrev() const
 
 wxWizardPage* CErrNoInternetConnectionPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_PROJECTINFOPAGE);
+    return PAGE_TRANSITION_NEXT(ID_PROJECTINFOPAGE);
 }
 
 /*!
@@ -2073,21 +2281,21 @@ bool CErrAccountAlreadyExistsPage::Create( wxWizard* parent )
 void CErrAccountAlreadyExistsPage::CreateControls()
 {    
 ////@begin CErrAccountAlreadyExistsPage content construction
-    CErrAccountAlreadyExistsPage* itemWizardPage87 = this;
+    CErrAccountAlreadyExistsPage* itemWizardPage100 = this;
 
-    wxBoxSizer* itemBoxSizer88 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage87->SetSizer(itemBoxSizer88);
+    wxBoxSizer* itemBoxSizer101 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage100->SetSizer(itemBoxSizer101);
 
-    wxStaticText* itemStaticText89 = new wxStaticText;
-    itemStaticText89->Create( itemWizardPage87, wxID_STATIC, _("Account Already Exists"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText89->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer88->Add(itemStaticText89, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText102 = new wxStaticText;
+    itemStaticText102->Create( itemWizardPage100, wxID_STATIC, _("Account Already Exists"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText102->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer101->Add(itemStaticText102, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText90 = new wxStaticText;
-    itemStaticText90->Create( itemWizardPage87, wxID_STATIC, _("The requested account is already in use."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer88->Add(itemStaticText90, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText103 = new wxStaticText;
+    itemStaticText103->Create( itemWizardPage100, wxID_STATIC, _("The requested account is already in use."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer101->Add(itemStaticText103, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer88->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer101->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrAccountAlreadyExistsPage content construction
 }
@@ -2098,7 +2306,7 @@ void CErrAccountAlreadyExistsPage::CreateControls()
 
 wxWizardPage* CErrAccountAlreadyExistsPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -2107,7 +2315,7 @@ wxWizardPage* CErrAccountAlreadyExistsPage::GetPrev() const
 
 wxWizardPage* CErrAccountAlreadyExistsPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ACCOUNTINFOPAGE);
+    return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
 }
 
 /*!
@@ -2145,151 +2353,103 @@ wxIcon CErrAccountAlreadyExistsPage::GetIconResource( const wxString& name )
 
 
 /*!
- * CErrProxySOCKSPage type definition
+ * CErrAccountCreationDisabledPage type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CErrProxySOCKSPage, wxWizardPage )
+IMPLEMENT_DYNAMIC_CLASS( CErrAccountCreationDisabledPage, wxWizardPage )
 
 /*!
- * CErrProxySOCKSPage event table definition
+ * CErrAccountCreationDisabledPage event table definition
  */
 
-BEGIN_EVENT_TABLE( CErrProxySOCKSPage, wxWizardPage )
+BEGIN_EVENT_TABLE( CErrAccountCreationDisabledPage, wxWizardPage )
 
-////@begin CErrProxySOCKSPage event table entries
-    EVT_BUTTON( ID_SOCKSAUTODETECT, CErrProxySOCKSPage::OnAutodetectClick )
-
-////@end CErrProxySOCKSPage event table entries
+////@begin CErrAccountCreationDisabledPage event table entries
+////@end CErrAccountCreationDisabledPage event table entries
 
 END_EVENT_TABLE()
 
 /*!
- * CErrProxySOCKSPage constructors
+ * CErrAccountCreationDisabledPage constructors
  */
 
-CErrProxySOCKSPage::CErrProxySOCKSPage( )
+CErrAccountCreationDisabledPage::CErrAccountCreationDisabledPage( )
 {
 }
 
-CErrProxySOCKSPage::CErrProxySOCKSPage( wxWizard* parent )
+CErrAccountCreationDisabledPage::CErrAccountCreationDisabledPage( wxWizard* parent )
 {
     Create( parent );
 }
 
 /*!
- * CErrProxyInfoPage creator
+ * CErrAccountCreationDisabledPage creator
  */
 
-bool CErrProxySOCKSPage::Create( wxWizard* parent )
+bool CErrAccountCreationDisabledPage::Create( wxWizard* parent )
 {
-////@begin CErrProxySOCKSPage member initialisation
-////@end CErrProxySOCKSPage member initialisation
+////@begin CErrAccountCreationDisabledPage member initialisation
+////@end CErrAccountCreationDisabledPage member initialisation
 
-////@begin CErrProxySOCKSPage creation
+////@begin CErrAccountCreationDisabledPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CErrProxySOCKSPage creation
+////@end CErrAccountCreationDisabledPage creation
     return TRUE;
 }
 
 /*!
- * Control creation for CErrProxyInfoPage
+ * Control creation for CErrAccountCreationDisabledPage
  */
 
-void CErrProxySOCKSPage::CreateControls()
+void CErrAccountCreationDisabledPage::CreateControls()
 {    
-////@begin CErrProxySOCKSPage content construction
-    CErrProxySOCKSPage* itemWizardPage114 = this;
+////@begin CErrAccountCreationDisabledPage content construction
+    CErrAccountCreationDisabledPage* itemWizardPage105 = this;
 
-    wxBoxSizer* itemBoxSizer115 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage114->SetSizer(itemBoxSizer115);
+    wxBoxSizer* itemBoxSizer106 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage105->SetSizer(itemBoxSizer106);
 
-    wxStaticText* itemStaticText116 = new wxStaticText;
-    itemStaticText116->Create( itemWizardPage114, wxID_STATIC, _("Proxy Configuration - SOCKS Proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText116->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer115->Add(itemStaticText116, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText107 = new wxStaticText;
+    itemStaticText107->Create( itemWizardPage105, wxID_STATIC, _("Account Creation Disabled"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText107->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer106->Add(itemStaticText107, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText117 = new wxStaticText;
-    itemStaticText117->Create( itemWizardPage114, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer115->Add(itemStaticText117, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText108 = new wxStaticText;
+    itemStaticText108->Create( itemWizardPage105, wxID_STATIC, _("This project is not accepting any new clients at this time."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer106->Add(itemStaticText108, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer115->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer106->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer115->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxButton* itemButton120 = new wxButton;
-    itemButton120->Create( itemWizardPage114, ID_SOCKSAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer115->Add(itemButton120, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-    wxFlexGridSizer* itemFlexGridSizer121 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer121->AddGrowableCol(1);
-    itemBoxSizer115->Add(itemFlexGridSizer121, 0, wxGROW|wxALL, 5);
-
-    wxStaticText* itemStaticText122 = new wxStaticText;
-    itemStaticText122->Create( itemWizardPage114, wxID_STATIC, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer121->Add(itemStaticText122, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxFlexGridSizer* itemFlexGridSizer123 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer123->AddGrowableCol(0);
-    itemFlexGridSizer121->Add(itemFlexGridSizer123, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-    wxTextCtrl* itemTextCtrl124 = new wxTextCtrl;
-    itemTextCtrl124->Create( itemWizardPage114, ID_TEXTCTRL4, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer123->Add(itemTextCtrl124, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxStaticText* itemStaticText125 = new wxStaticText;
-    itemStaticText125->Create( itemWizardPage114, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer123->Add(itemStaticText125, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxTextCtrl* itemTextCtrl126 = new wxTextCtrl;
-    itemTextCtrl126->Create( itemWizardPage114, ID_TEXTCTRL5, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
-    itemFlexGridSizer123->Add(itemTextCtrl126, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxStaticText* itemStaticText127 = new wxStaticText;
-    itemStaticText127->Create( itemWizardPage114, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer121->Add(itemStaticText127, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxTextCtrl* itemTextCtrl128 = new wxTextCtrl;
-    itemTextCtrl128->Create( itemWizardPage114, ID_TEXTCTRL6, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer121->Add(itemTextCtrl128, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxStaticText* itemStaticText129 = new wxStaticText;
-    itemStaticText129->Create( itemWizardPage114, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer121->Add(itemStaticText129, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxTextCtrl* itemTextCtrl130 = new wxTextCtrl;
-    itemTextCtrl130->Create( itemWizardPage114, ID_TEXTCTRL7, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer121->Add(itemTextCtrl130, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-////@end CErrProxySOCKSPage content construction
+////@end CErrAccountCreationDisabledPage content construction
 }
 
 /*!
  * Gets the previous page.
  */
 
-wxWizardPage* CErrProxySOCKSPage::GetPrev() const
+wxWizardPage* CErrAccountCreationDisabledPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
  * Gets the next page.
  */
 
-wxWizardPage* CErrProxySOCKSPage::GetNext() const
+wxWizardPage* CErrAccountCreationDisabledPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRPROXYCOMPLETIONPAGE);
+    return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
 }
 
 /*!
  * Should we show tooltips?
  */
 
-bool CErrProxySOCKSPage::ShowToolTips()
+bool CErrAccountCreationDisabledPage::ShowToolTips()
 {
     return TRUE;
 }
@@ -2298,33 +2458,24 @@ bool CErrProxySOCKSPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CErrProxySOCKSPage::GetBitmapResource( const wxString& name )
+wxBitmap CErrAccountCreationDisabledPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin CErrProxySOCKSPage bitmap retrieval
+////@begin CErrAccountCreationDisabledPage bitmap retrieval
     return wxNullBitmap;
-////@end CErrProxySOCKSPage bitmap retrieval
+////@end CErrAccountCreationDisabledPage bitmap retrieval
 }
 
 /*!
  * Get icon resources
  */
 
-wxIcon CErrProxySOCKSPage::GetIconResource( const wxString& name )
+wxIcon CErrAccountCreationDisabledPage::GetIconResource( const wxString& name )
 {
     // Icon retrieval
-////@begin CErrProxySOCKSPage icon retrieval
+////@begin CErrAccountCreationDisabledPage icon retrieval
     return wxNullIcon;
-////@end CErrProxySOCKSPage icon retrieval
-}
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
- */
-
-void CErrProxySOCKSPage::OnAutodetectClick( wxCommandEvent& event )
-{
-    event.Skip();
+////@end CErrAccountCreationDisabledPage icon retrieval
 }
 
 
@@ -2384,21 +2535,21 @@ bool CErrProxyInfoPage::Create( wxWizard* parent )
 void CErrProxyInfoPage::CreateControls()
 {    
 ////@begin CErrProxyInfoPage content construction
-    CErrProxyInfoPage* itemWizardPage92 = this;
+    CErrProxyInfoPage* itemWizardPage110 = this;
 
-    wxBoxSizer* itemBoxSizer93 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage92->SetSizer(itemBoxSizer93);
+    wxBoxSizer* itemBoxSizer111 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage110->SetSizer(itemBoxSizer111);
 
-    wxStaticText* itemStaticText94 = new wxStaticText;
-    itemStaticText94->Create( itemWizardPage92, wxID_STATIC, _("Proxy Configuration"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText94->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer93->Add(itemStaticText94, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText112 = new wxStaticText;
+    itemStaticText112->Create( itemWizardPage110, wxID_STATIC, _("Proxy Configuration"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText112->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer111->Add(itemStaticText112, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText95 = new wxStaticText;
-    itemStaticText95->Create( itemWizardPage92, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer93->Add(itemStaticText95, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText113 = new wxStaticText;
+    itemStaticText113->Create( itemWizardPage110, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer111->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer93->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer111->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProxyInfoPage content construction
 }
@@ -2409,7 +2560,7 @@ void CErrProxyInfoPage::CreateControls()
 
 wxWizardPage* CErrProxyInfoPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -2418,7 +2569,7 @@ wxWizardPage* CErrProxyInfoPage::GetPrev() const
 
 wxWizardPage* CErrProxyInfoPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRPROXYHTTPPAGE);
+    return PAGE_TRANSITION_NEXT(ID_ERRPROXYHTTPPAGE);
 }
 
 /*!
@@ -2493,6 +2644,14 @@ CErrProxyHTTPPage::CErrProxyHTTPPage( wxWizard* parent )
 bool CErrProxyHTTPPage::Create( wxWizard* parent )
 {
 ////@begin CErrProxyHTTPPage member initialisation
+    m_ProxyHTTPServerStaticCtrl = NULL;
+    m_ProxyHTTPServerCtrl = NULL;
+    m_ProxyHTTPPortStaticCtrl = NULL;
+    m_ProxyHTTPPortCtrl = NULL;
+    m_ProxyHTTPUsernameStaticCtrl = NULL;
+    m_ProxyHTTPUsernameCtrl = NULL;
+    m_ProxyHTTPPasswordStaticCtrl = NULL;
+    m_ProxyHTTPPasswordCtrl = NULL;
 ////@end CErrProxyHTTPPage member initialisation
 
 ////@begin CErrProxyHTTPPage creation
@@ -2512,68 +2671,73 @@ bool CErrProxyHTTPPage::Create( wxWizard* parent )
 void CErrProxyHTTPPage::CreateControls()
 {    
 ////@begin CErrProxyHTTPPage content construction
-    CErrProxyHTTPPage* itemWizardPage97 = this;
+    CErrProxyHTTPPage* itemWizardPage115 = this;
 
-    wxBoxSizer* itemBoxSizer98 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage97->SetSizer(itemBoxSizer98);
+    wxBoxSizer* itemBoxSizer116 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage115->SetSizer(itemBoxSizer116);
 
-    wxStaticText* itemStaticText99 = new wxStaticText;
-    itemStaticText99->Create( itemWizardPage97, wxID_STATIC, _("Proxy Configuration - HTTP Proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText99->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer98->Add(itemStaticText99, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText117 = new wxStaticText;
+    itemStaticText117->Create( itemWizardPage115, wxID_STATIC, _("Proxy Configuration - HTTP Proxy"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText117->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer116->Add(itemStaticText117, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText100 = new wxStaticText;
-    itemStaticText100->Create( itemWizardPage97, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer98->Add(itemStaticText100, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText118 = new wxStaticText;
+    itemStaticText118->Create( itemWizardPage115, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer116->Add(itemStaticText118, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer98->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer116->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer98->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer116->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxButton* itemButton103 = new wxButton;
-    itemButton103->Create( itemWizardPage97, ID_HTTPAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer98->Add(itemButton103, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxButton* itemButton121 = new wxButton;
+    itemButton121->Create( itemWizardPage115, ID_HTTPAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer116->Add(itemButton121, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer104 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer104->AddGrowableCol(1);
-    itemBoxSizer98->Add(itemFlexGridSizer104, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer122 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer122->AddGrowableCol(1);
+    itemBoxSizer116->Add(itemFlexGridSizer122, 0, wxGROW|wxALL, 5);
 
-    wxStaticText* itemStaticText105 = new wxStaticText;
-    itemStaticText105->Create( itemWizardPage97, wxID_STATIC, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer104->Add(itemStaticText105, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPServerStaticCtrl = new wxStaticText;
+    m_ProxyHTTPServerStaticCtrl->Create( itemWizardPage115, ID_PROXYHTTPSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer122->Add(m_ProxyHTTPServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer106 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer106->AddGrowableCol(0);
-    itemFlexGridSizer104->Add(itemFlexGridSizer106, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    wxFlexGridSizer* itemFlexGridSizer124 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer124->AddGrowableCol(0);
+    itemFlexGridSizer122->Add(itemFlexGridSizer124, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-    wxTextCtrl* itemTextCtrl107 = new wxTextCtrl;
-    itemTextCtrl107->Create( itemWizardPage97, ID_TEXTCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer106->Add(itemTextCtrl107, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPServerCtrl = new wxTextCtrl;
+    m_ProxyHTTPServerCtrl->Create( itemWizardPage115, ID_PROXYHTTPSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer124->Add(m_ProxyHTTPServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText108 = new wxStaticText;
-    itemStaticText108->Create( itemWizardPage97, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer106->Add(itemStaticText108, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPortStaticCtrl = new wxStaticText;
+    m_ProxyHTTPPortStaticCtrl->Create( itemWizardPage115, ID_PROXYHTTPPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer124->Add(m_ProxyHTTPPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl109 = new wxTextCtrl;
-    itemTextCtrl109->Create( itemWizardPage97, ID_TEXTCTRL1, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
-    itemFlexGridSizer106->Add(itemTextCtrl109, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPortCtrl = new wxTextCtrl;
+    m_ProxyHTTPPortCtrl->Create( itemWizardPage115, ID_PROXYHTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    itemFlexGridSizer124->Add(m_ProxyHTTPPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText110 = new wxStaticText;
-    itemStaticText110->Create( itemWizardPage97, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer104->Add(itemStaticText110, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPUsernameStaticCtrl = new wxStaticText;
+    m_ProxyHTTPUsernameStaticCtrl->Create( itemWizardPage115, ID_PROXYHTTPUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer122->Add(m_ProxyHTTPUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl111 = new wxTextCtrl;
-    itemTextCtrl111->Create( itemWizardPage97, ID_TEXTCTRL2, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer104->Add(itemTextCtrl111, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPUsernameCtrl = new wxTextCtrl;
+    m_ProxyHTTPUsernameCtrl->Create( itemWizardPage115, ID_PROXYHTTPUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer122->Add(m_ProxyHTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText112 = new wxStaticText;
-    itemStaticText112->Create( itemWizardPage97, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer104->Add(itemStaticText112, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPasswordStaticCtrl = new wxStaticText;
+    m_ProxyHTTPPasswordStaticCtrl->Create( itemWizardPage115, ID_PROXYHTTPPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer122->Add(m_ProxyHTTPPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxTextCtrl* itemTextCtrl113 = new wxTextCtrl;
-    itemTextCtrl113->Create( itemWizardPage97, ID_TEXTCTRL3, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer104->Add(itemTextCtrl113, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPasswordCtrl = new wxTextCtrl;
+    m_ProxyHTTPPasswordCtrl->Create( itemWizardPage115, ID_PROXYHTTPPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer122->Add(m_ProxyHTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+    // Set validators
+    m_ProxyHTTPServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPServer) );
+    m_ProxyHTTPPortCtrl->SetValidator( wxTextValidator(wxFILTER_NUMERIC, & m_strProxyHTTPPort) );
+    m_ProxyHTTPUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPUsername) );
+    m_ProxyHTTPPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPPassword) );
 ////@end CErrProxyHTTPPage content construction
 }
 
@@ -2583,7 +2747,7 @@ void CErrProxyHTTPPage::CreateControls()
 
 wxWizardPage* CErrProxyHTTPPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -2592,7 +2756,7 @@ wxWizardPage* CErrProxyHTTPPage::GetPrev() const
 
 wxWizardPage* CErrProxyHTTPPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_ERRPROXYSOCKSPAGE);
+    return PAGE_TRANSITION_NEXT(ID_ERRPROXYSOCKSPAGE);
 }
 
 /*!
@@ -2633,6 +2797,203 @@ wxIcon CErrProxyHTTPPage::GetIconResource( const wxString& name )
  */
 
 void CErrProxyHTTPPage::OnAutodetectClick( wxCommandEvent& event )
+{
+    event.Skip();
+}
+
+
+/*!
+ * CErrProxySOCKSPage type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CErrProxySOCKSPage, wxWizardPage )
+
+/*!
+ * CErrProxySOCKSPage event table definition
+ */
+
+BEGIN_EVENT_TABLE( CErrProxySOCKSPage, wxWizardPage )
+
+////@begin CErrProxySOCKSPage event table entries
+    EVT_BUTTON( ID_SOCKSAUTODETECT, CErrProxySOCKSPage::OnAutodetectClick )
+
+////@end CErrProxySOCKSPage event table entries
+
+END_EVENT_TABLE()
+
+/*!
+ * CErrProxySOCKSPage constructors
+ */
+
+CErrProxySOCKSPage::CErrProxySOCKSPage( )
+{
+}
+
+CErrProxySOCKSPage::CErrProxySOCKSPage( wxWizard* parent )
+{
+    Create( parent );
+}
+
+/*!
+ * CErrProxyInfoPage creator
+ */
+
+bool CErrProxySOCKSPage::Create( wxWizard* parent )
+{
+////@begin CErrProxySOCKSPage member initialisation
+    m_ProxySOCKSServerStaticCtrl = NULL;
+    m_ProxySOCKSServerCtrl = NULL;
+    m_ProxySOCKSPortStaticCtrl = NULL;
+    m_ProxySOCKSPortCtrl = NULL;
+    m_ProxySOCKSUsernameStaticCtrl = NULL;
+    m_ProxySOCKSUsernameCtrl = NULL;
+    m_ProxySOCKSPasswordStaticCtrl = NULL;
+    m_ProxySOCKSPasswordCtrl = NULL;
+////@end CErrProxySOCKSPage member initialisation
+
+////@begin CErrProxySOCKSPage creation
+    wxBitmap wizardBitmap(wxNullBitmap);
+    wxWizardPage::Create( parent, wizardBitmap );
+
+    CreateControls();
+    GetSizer()->Fit(this);
+////@end CErrProxySOCKSPage creation
+    return TRUE;
+}
+
+/*!
+ * Control creation for CErrProxyInfoPage
+ */
+
+void CErrProxySOCKSPage::CreateControls()
+{    
+////@begin CErrProxySOCKSPage content construction
+    CErrProxySOCKSPage* itemWizardPage132 = this;
+
+    wxBoxSizer* itemBoxSizer133 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage132->SetSizer(itemBoxSizer133);
+
+    wxStaticText* itemStaticText134 = new wxStaticText;
+    itemStaticText134->Create( itemWizardPage132, wxID_STATIC, _("Proxy Configuration - SOCKS Proxy"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText134->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer133->Add(itemStaticText134, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText135 = new wxStaticText;
+    itemStaticText135->Create( itemWizardPage132, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer133->Add(itemStaticText135, 0, wxALIGN_LEFT|wxALL, 5);
+
+    itemBoxSizer133->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    itemBoxSizer133->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxButton* itemButton138 = new wxButton;
+    itemButton138->Create( itemWizardPage132, ID_SOCKSAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer133->Add(itemButton138, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer139 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer139->AddGrowableCol(1);
+    itemBoxSizer133->Add(itemFlexGridSizer139, 0, wxGROW|wxALL, 5);
+
+    m_ProxySOCKSServerStaticCtrl = new wxStaticText;
+    m_ProxySOCKSServerStaticCtrl->Create( itemWizardPage132, ID_PROXYSOCKSSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer139->Add(m_ProxySOCKSServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer141 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer141->AddGrowableCol(0);
+    itemFlexGridSizer139->Add(itemFlexGridSizer141, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+    m_ProxySOCKSServerCtrl = new wxTextCtrl;
+    m_ProxySOCKSServerCtrl->Create( itemWizardPage132, ID_PROXYSOCKSSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer141->Add(m_ProxySOCKSServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_ProxySOCKSPortStaticCtrl = new wxStaticText;
+    m_ProxySOCKSPortStaticCtrl->Create( itemWizardPage132, ID_PROXYSOCKSPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer141->Add(m_ProxySOCKSPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_ProxySOCKSPortCtrl = new wxTextCtrl;
+    m_ProxySOCKSPortCtrl->Create( itemWizardPage132, ID_PROXYSOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    itemFlexGridSizer141->Add(m_ProxySOCKSPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_ProxySOCKSUsernameStaticCtrl = new wxStaticText;
+    m_ProxySOCKSUsernameStaticCtrl->Create( itemWizardPage132, ID_PROXYSOCKSUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer139->Add(m_ProxySOCKSUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_ProxySOCKSUsernameCtrl = new wxTextCtrl;
+    m_ProxySOCKSUsernameCtrl->Create( itemWizardPage132, ID_PROXYSOCKSUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer139->Add(m_ProxySOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_ProxySOCKSPasswordStaticCtrl = new wxStaticText;
+    m_ProxySOCKSPasswordStaticCtrl->Create( itemWizardPage132, ID_PROXYSOCKSPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer139->Add(m_ProxySOCKSPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_ProxySOCKSPasswordCtrl = new wxTextCtrl;
+    m_ProxySOCKSPasswordCtrl->Create( itemWizardPage132, ID_PROXYSOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer139->Add(m_ProxySOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    // Set validators
+    m_ProxySOCKSServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSServer) );
+    m_ProxySOCKSPortCtrl->SetValidator( wxTextValidator(wxFILTER_NUMERIC, & m_strProxySOCKSPort) );
+    m_ProxySOCKSUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSUsername) );
+    m_ProxySOCKSPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSPassword) );
+////@end CErrProxySOCKSPage content construction
+}
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPage* CErrProxySOCKSPage::GetPrev() const
+{
+    return PAGE_TRANSITION_BACK;
+}
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPage* CErrProxySOCKSPage::GetNext() const
+{
+    return PAGE_TRANSITION_NEXT(ID_ERRPROXYCOMPLETIONPAGE);
+}
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CErrProxySOCKSPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CErrProxySOCKSPage::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CErrProxySOCKSPage bitmap retrieval
+    return wxNullBitmap;
+////@end CErrProxySOCKSPage bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CErrProxySOCKSPage::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CErrProxySOCKSPage icon retrieval
+    return wxNullIcon;
+////@end CErrProxySOCKSPage icon retrieval
+}
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
+ */
+
+void CErrProxySOCKSPage::OnAutodetectClick( wxCommandEvent& event )
 {
     event.Skip();
 }
@@ -2694,21 +3055,21 @@ bool CErrProxyComplationPage::Create( wxWizard* parent )
 void CErrProxyComplationPage::CreateControls()
 {    
 ////@begin CErrProxyComplationPage content construction
-    CErrProxyComplationPage* itemWizardPage131 = this;
+    CErrProxyComplationPage* itemWizardPage149 = this;
 
-    wxBoxSizer* itemBoxSizer132 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage131->SetSizer(itemBoxSizer132);
+    wxBoxSizer* itemBoxSizer150 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage149->SetSizer(itemBoxSizer150);
 
-    wxStaticText* itemStaticText133 = new wxStaticText;
-    itemStaticText133->Create( itemWizardPage131, wxID_STATIC, _("Proxy Configuration Completion"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText133->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer132->Add(itemStaticText133, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText151 = new wxStaticText;
+    itemStaticText151->Create( itemWizardPage149, wxID_STATIC, _("Proxy Configuration Completion"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText151->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer150->Add(itemStaticText151, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText134 = new wxStaticText;
-    itemStaticText134->Create( itemWizardPage131, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer132->Add(itemStaticText134, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText152 = new wxStaticText;
+    itemStaticText152->Create( itemWizardPage149, wxID_STATIC, _("Do you need to configure a proxy server?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer150->Add(itemStaticText152, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer132->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer150->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProxyComplationPage content construction
 }
@@ -2719,7 +3080,7 @@ void CErrProxyComplationPage::CreateControls()
 
 wxWizardPage* CErrProxyComplationPage::GetPrev() const
 {
-    return ((CWizAttachProject*)GetParent())->PopPageTransition();
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -2728,7 +3089,7 @@ wxWizardPage* CErrProxyComplationPage::GetPrev() const
 
 wxWizardPage* CErrProxyComplationPage::GetNext() const
 {
-    return ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, ID_PROJECTPROPERTIESPAGE);
+    return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
 }
 
 /*!

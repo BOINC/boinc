@@ -43,12 +43,14 @@
 class CWelcomePage;
 class CProjectInfoPage;
 class CProjectPropertiesPage;
+class CAccountKeyPage;
 class CAccountInfoPage;
 class CAccountCreationPage;
 class CCompletionPage;
 class CErrProjectUnavailablePage;
 class CErrNoInternetConnectionPage;
 class CErrAccountAlreadyExistsPage;
+class CErrAccountCreationDisabledPage;
 class CErrProxyInfoPage;
 class CErrProxyHTTPPage;
 class CErrProxySOCKSPage;
@@ -65,10 +67,11 @@ class CErrProxyComplationPage;
 #define ID_WELCOMEPAGE 10033
 #define ID_ERRPROJECTPROPERTIES 10047
 #define ID_ERRPROJECTCOMM 10052
+#define ID_ERRPROJECTPROPERTIESURL 10058
+#define ID_ERRACCOUNTCREATIONDISABLED 10059
+#define ID_ERRACCOUNTALREADYEXISTS 10020
 #define ID_ERRGOOGLECOMM 10053
-#define ID_ERRPROJECTUNAVAILABLE 10054
 #define ID_ERRYAHOOCOMM 10055
-#define ID_ERRACCOUNTALREADYEXISTS 10056
 #define ID_ERRNETDETECTION 10057
 #define ID_PROJECTINFOPAGE 10034
 #define ID_PROJECTURLSTATICCTRL 10046
@@ -84,6 +87,9 @@ class CErrProxyComplationPage;
 #define ID_DETERMINECONNECTIONSTATUSIMAGECTRL 10014
 #define ID_DETERMINECONNECTIONSTATUSCTRL 10015
 #define ID_FINALPROJECTPROPERTIESTATUSCTRL 10026
+#define ID_ACCOUNTKEYPAGE 10054
+#define ID_ACCOUNTKEYSTATICCTRL 10074
+#define ID_ACCOUNTKEYCTRL 10073
 #define ID_ACCOUNTINFOPAGE 10037
 #define ID_ACCOUNTCREATECTRL 10038
 #define ID_ACCOUNTUSEEXISTINGCTRL 10039
@@ -93,7 +99,7 @@ class CErrProxyComplationPage;
 #define ID_ACCOUNTPASSWORDCTRL 10041
 #define ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL 10043
 #define ID_ACCOUNTCONFIRMPASSWORDCTRL 10042
-#define ID_ACCOUNTCREATIONPAGE 10100
+#define ID_ACCOUNTCREATIONPAGE 10038
 #define ID_PROJECTCOMMUNICATIONSIMAGECTRL 10008
 #define ID_PROJECTCOMMUNICATIONSCTRL 10009
 #define ID_FINALACCOUNTCREATIONSTATUSCTRL 10016
@@ -101,19 +107,28 @@ class CErrProxyComplationPage;
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
 #define ID_ERRACCOUNTALREADYEXISTSPAGE 10051
+#define ID_ERRACCOUNTCREATIONDISABLEDPAGE 10056
 #define ID_ERRPROXYINFOPAGE 10060
 #define ID_ERRPROXYHTTPPAGE 10061
 #define ID_HTTPAUTODETECT 10064
-#define ID_TEXTCTRL 10000
-#define ID_TEXTCTRL1 10001
-#define ID_TEXTCTRL2 10066
-#define ID_TEXTCTRL3 10067
+#define ID_PROXYHTTPSERVERSTATICCTRL 10065
+#define ID_PROXYHTTPSERVERCTRL 10000
+#define ID_PROXYHTTPPORTSTATICCTRL 10070
+#define ID_PROXYHTTPPORTCTRL 10001
+#define ID_PROXYHTTPUSERNAMESTATICCTRL 10068
+#define ID_PROXYHTTPUSERNAMECTRL 10066
+#define ID_PROXYHTTPPASSWORDSTATICCTRL 10069
+#define ID_PROXYHTTPPASSWORDCTRL 10067
 #define ID_ERRPROXYSOCKSPAGE 10062
 #define ID_SOCKSAUTODETECT 10006
-#define ID_TEXTCTRL4 10002
-#define ID_TEXTCTRL5 10003
-#define ID_TEXTCTRL6 10004
-#define ID_TEXTCTRL7 10005
+#define ID_PROXYSOCKSSERVERSTATICCTRL 10071
+#define ID_PROXYSOCKSSERVERCTRL 10002
+#define ID_PROXYSOCKSPORTSTATICCTRL 10070
+#define ID_PROXYSOCKSPORTCTRL 10001
+#define ID_PROXYSOCKSUSERNAMESTATICCTRL 10072
+#define ID_PROXYSOCKSUSERNAMECTRL 10004
+#define ID_PROXYSOCKSPASSWORDSTATICCTRL 10069
+#define ID_PROXYSOCKSPASSWORDCTRL 10005
 #define ID_ERRPROXYCOMPLETIONPAGE 10063
 ////@end control identifiers
 
@@ -133,13 +148,14 @@ class CErrProxyComplationPage;
  * CWizAttachProject debug flags
  */
 
-#define WIZDEBUG_ERRPROJECTPROPERTIES      0x00000001
-#define WIZDEBUG_ERRYAHOOCOMM              0x00000002
-#define WIZDEBUG_ERRGOOGLECOMM             0x00000004
-#define WIZDEBUG_ERRNETDETECTION           0x00000008
-#define WIZDEBUG_ERRPROJECTCOMM            0x00000010
-#define WIZDEBUG_ERRPROJECTUNAVAILABLE     0x00000020
-#define WIZDEBUG_ERRACCOUNTALREADYEXISTS   0x00000040
+#define WIZDEBUG_ERRPROJECTPROPERTIES           0x00000001
+#define WIZDEBUG_ERRPROJECTPROPERTIESURL        0x00000002
+#define WIZDEBUG_ERRYAHOOCOMM                   0x00000004
+#define WIZDEBUG_ERRGOOGLECOMM                  0x00000008
+#define WIZDEBUG_ERRNETDETECTION                0x00000010
+#define WIZDEBUG_ERRPROJECTCOMM                 0x00000020
+#define WIZDEBUG_ERRACCOUNTALREADYEXISTS        0x00000040
+#define WIZDEBUG_ERRACCOUNTCREATIONDISABLED     0x00000080
 
 
 /*!
@@ -200,12 +216,14 @@ public:
     CWelcomePage* m_WelcomePage;
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
+    CAccountKeyPage* m_AccountKeyPage;
     CAccountInfoPage* m_AccountInfoPage;
     CAccountCreationPage* m_AccountCreationPage;
     CCompletionPage* m_CompletionPage;
     CErrProjectUnavailablePage* m_ErrProjectUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrAccountAlreadyExistsPage* m_ErrAccountAlreadyExistsPage;
+    CErrAccountCreationDisabledPage* m_ErrAccountCreationDisabledPage;
     CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyHTTPPage* m_ErrProxyHTTPPage;
     CErrProxySOCKSPage* m_ErrProxySOCKSPage;
@@ -265,10 +283,11 @@ public:
 ////@begin CWelcomePage member variables
     wxCheckBox* m_ErrProjectPropertiesCtrl;
     wxCheckBox* m_ErrProjectCommCtrl;
-    wxCheckBox* m_ErrGoogleCommCtrl;
-    wxCheckBox* m_ErrProjectUnavailableCtrl;
-    wxCheckBox* m_ErrYahooCommCtrl;
+    wxCheckBox* m_ErrProjectPropertiesURLCtrl;
+    wxCheckBox* m_ErrAccountCreationDisabledCtrl;
     wxCheckBox* m_ErrAccountAlreadyExistsCtrl;
+    wxCheckBox* m_ErrGoogleCommCtrl;
+    wxCheckBox* m_ErrYahooCommCtrl;
     wxCheckBox* m_ErrNetDetectionCtrl;
 ////@end CWelcomePage member variables
 };
@@ -413,6 +432,12 @@ public:
     bool GetProjectPropertiesSucceeded() const { return m_bProjectPropertiesSucceeded ; }
     void SetProjectPropertiesSucceeded(bool value) { m_bProjectPropertiesSucceeded = value ; }
 
+    bool GetProjectPropertiesURLFailure() const { return m_bProjectPropertiesURLFailure ; }
+    void SetProjectPropertiesURLFailure(bool value) { m_bProjectPropertiesURLFailure = value ; }
+
+    bool GetProjectAccountCreationDisabled() const { return m_bProjectAccountCreationDisabled ; }
+    void SetProjectAccountCreationDisabled(bool value) { m_bProjectAccountCreationDisabled = value ; }
+
     bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
     void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
 
@@ -441,10 +466,65 @@ public:
 ////@end CProjectPropertiesPage member variables
 
     bool m_bProjectPropertiesSucceeded;
+    bool m_bProjectPropertiesURLFailure;
+    bool m_bProjectAccountCreationDisabled;
     bool m_bCommunicateYahooSucceeded;
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
     wxInt32 m_iCurrentState;
+};
+
+/*!
+ * CAccountKeyPage class declaration
+ */
+
+class CAccountKeyPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CAccountKeyPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CAccountKeyPage( );
+
+    CAccountKeyPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CAccountKeyPage event handler declarations
+
+////@end CAccountKeyPage event handler declarations
+
+////@begin CAccountKeyPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    wxString GetAccountKey() const { return m_strAccountKey ; }
+    void SetAccountKey(wxString value) { m_strAccountKey = value ; }
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CAccountKeyPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CAccountKeyPage member variables
+    wxStaticText* m_AccountKeyStaticCtrl;
+    wxTextCtrl* m_AccountKeyCtrl;
+    wxString m_strAccountKey;
+////@end CAccountKeyPage member variables
 };
 
 /*!
@@ -824,19 +904,19 @@ public:
 };
 
 /*!
- * CErrProxySOCKSPage class declaration
+ * CErrAccountCreationDisabledPage class declaration
  */
 
-class CErrProxySOCKSPage: public wxWizardPage
+class CErrAccountCreationDisabledPage: public wxWizardPage
 {    
-    DECLARE_DYNAMIC_CLASS( CErrProxySOCKSPage )
+    DECLARE_DYNAMIC_CLASS( CErrAccountCreationDisabledPage )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CErrProxySOCKSPage( );
+    CErrAccountCreationDisabledPage( );
 
-    CErrProxySOCKSPage( wxWizard* parent );
+    CErrAccountCreationDisabledPage( wxWizard* parent );
 
     /// Creation
     bool Create( wxWizard* parent );
@@ -844,14 +924,11 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrProxySOCKSPage event handler declarations
+////@begin CErrAccountCreationDisabledPage event handler declarations
 
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
-    void OnAutodetectClick( wxCommandEvent& event );
+////@end CErrAccountCreationDisabledPage event handler declarations
 
-////@end CErrProxySOCKSPage event handler declarations
-
-////@begin CErrProxySOCKSPage member function declarations
+////@begin CErrAccountCreationDisabledPage member function declarations
 
     /// Gets the previous page.
     virtual wxWizardPage* GetPrev() const;
@@ -864,13 +941,13 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end CErrProxySOCKSPage member function declarations
+////@end CErrAccountCreationDisabledPage member function declarations
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CErrProxySOCKSPage member variables
-////@end CErrProxySOCKSPage member variables
+////@begin CErrAccountCreationDisabledPage member variables
+////@end CErrAccountCreationDisabledPage member variables
 };
 
 /*!
@@ -956,6 +1033,18 @@ public:
     /// Gets the next page.
     virtual wxWizardPage* GetNext() const;
 
+    wxString GetProxyHTTPServer() const { return m_strProxyHTTPServer ; }
+    void SetProxyHTTPServer(wxString value) { m_strProxyHTTPServer = value ; }
+
+    wxString GetProxyHTTPPort() const { return m_strProxyHTTPPort ; }
+    void SetProxyHTTPPort(wxString value) { m_strProxyHTTPPort = value ; }
+
+    wxString GetProxyHTTPUsername() const { return m_strProxyHTTPUsername ; }
+    void SetProxyHTTPUsername(wxString value) { m_strProxyHTTPUsername = value ; }
+
+    wxString GetProxyHTTPPassword() const { return m_strProxyHTTPPassword ; }
+    void SetProxyHTTPPassword(wxString value) { m_strProxyHTTPPassword = value ; }
+
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -967,7 +1056,93 @@ public:
     static bool ShowToolTips();
 
 ////@begin CErrProxyHTTPPage member variables
+    wxStaticText* m_ProxyHTTPServerStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPServerCtrl;
+    wxStaticText* m_ProxyHTTPPortStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPPortCtrl;
+    wxStaticText* m_ProxyHTTPUsernameStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPUsernameCtrl;
+    wxStaticText* m_ProxyHTTPPasswordStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPPasswordCtrl;
+    wxString m_strProxyHTTPServer;
+    wxString m_strProxyHTTPPort;
+    wxString m_strProxyHTTPUsername;
+    wxString m_strProxyHTTPPassword;
 ////@end CErrProxyHTTPPage member variables
+};
+
+/*!
+ * CErrProxySOCKSPage class declaration
+ */
+
+class CErrProxySOCKSPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProxySOCKSPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProxySOCKSPage( );
+
+    CErrProxySOCKSPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProxySOCKSPage event handler declarations
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
+    void OnAutodetectClick( wxCommandEvent& event );
+
+////@end CErrProxySOCKSPage event handler declarations
+
+////@begin CErrProxySOCKSPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    wxString GetProxySOCKSServer() const { return m_strProxySOCKSServer ; }
+    void SetProxySOCKSServer(wxString value) { m_strProxySOCKSServer = value ; }
+
+    wxString GetProxySOCKSPort() const { return m_strProxySOCKSPort ; }
+    void SetProxySOCKSPort(wxString value) { m_strProxySOCKSPort = value ; }
+
+    wxString GetProxySOCKSUsername() const { return m_strProxySOCKSUsername ; }
+    void SetProxySOCKSUsername(wxString value) { m_strProxySOCKSUsername = value ; }
+
+    wxString GetProxySOCKSPassword() const { return m_strProxySOCKSPassword ; }
+    void SetProxySOCKSPassword(wxString value) { m_strProxySOCKSPassword = value ; }
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProxySOCKSPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProxySOCKSPage member variables
+    wxStaticText* m_ProxySOCKSServerStaticCtrl;
+    wxTextCtrl* m_ProxySOCKSServerCtrl;
+    wxStaticText* m_ProxySOCKSPortStaticCtrl;
+    wxTextCtrl* m_ProxySOCKSPortCtrl;
+    wxStaticText* m_ProxySOCKSUsernameStaticCtrl;
+    wxTextCtrl* m_ProxySOCKSUsernameCtrl;
+    wxStaticText* m_ProxySOCKSPasswordStaticCtrl;
+    wxTextCtrl* m_ProxySOCKSPasswordCtrl;
+    wxString m_strProxySOCKSServer;
+    wxString m_strProxySOCKSPort;
+    wxString m_strProxySOCKSUsername;
+    wxString m_strProxySOCKSPassword;
+////@end CErrProxySOCKSPage member variables
 };
 
 /*!

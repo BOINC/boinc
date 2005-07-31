@@ -9709,3 +9709,13 @@ Charlie 29 July 2005
     
         mac/
             MacGUI.pch
+
+Rom    31 July 2005
+    - Add two new wizard pages, the Account Key page which will be used to help out
+        projects who have not yet upgraded to the new authentication scheme and the
+        Account Creation Disabled error page.  If the server properties php page
+        returns that account creation is disabled, then that page will be displayed.
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
