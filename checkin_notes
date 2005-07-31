@@ -9719,3 +9719,28 @@ Rom    31 July 2005
     clientgui/
         BOINCGUI.pjd
         WizAttachProject.cpp, .h
+
+David  31 July 2005
+	- Split the GUI RPC code into 3 parts:
+		1) the underlying stuff (sockets, buffers)
+		2) the RPC themselves (XML write/parse, handlers)
+		3) textual output (used only by boinc_cmd)
+
+	client/
+		Makefile.am
+		gui_rpc_server.C
+		gui_rpc_server_ops.C
+		scheduler_op.h
+	clientgui/
+		Makefile.am
+	lib/
+		Makefile.am
+		gui_rpc_client.C,h
+		gui_rpc_client_ops.C
+		gui_rpc_client_print.C
+	win_build/
+		boinc_cli.vcproj
+		boinc_ss.vcproj
+		boinccmd.vcproj
+		boincmgr.vcproj
+

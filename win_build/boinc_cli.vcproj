@@ -544,6 +544,9 @@
 				RelativePath="..\client\gui_rpc_server.C">
 			</File>
 			<File
+				RelativePath="..\client\gui_rpc_server_ops.C">
+			</File>
+			<File
 				RelativePath="..\client\hostinfo_network.C">
 			</File>
 			<File

@@ -415,6 +415,29 @@ struct ACCT_MGR_INFO {
     int parse(MIOFILE&);
 };
 
+struct PROJECT_CONFIG {
+    bool uses_email_id;
+    std::string name;
+    int min_passwd_length;
+
+    int parse(MIOFILE&);
+};
+
+struct ACCOUNT_IN {
+    std::string url;
+    std::string email_addr;
+    std::string user_name;
+    std::string passwd_hash;
+};
+
+struct ACCOUNT_OUT {
+    bool account_exists;
+    std::string error_msg;
+    std::string account_key;
+
+    int parse(MIOFILE&);
+};
+
 class RPC_CLIENT {
 public:
     int sock;
@@ -478,6 +501,18 @@ public:
     int get_statistics(PROJECTS&);
     int network_query(int&);
     int network_available();
+
+    // the following are asynch operations.
+    // Make the first call to start the op,
+    // call the second one periodically until it returns zero.
+    // TODO: do project update this way too
+    //
+    int get_project_config(std::string url);
+    int get_project_config_poll(PROJECT_CONFIG&);
+    int lookup_account(ACCOUNT_IN&);
+    int lookup_account_poll(ACCOUNT_OUT&);
+    int create_account(ACCOUNT_IN&);
+    int create_account_poll(ACCOUNT_OUT&);
 };
 
 struct RPC {

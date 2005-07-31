@@ -225,6 +225,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\gui_rpc_client_ops.C">
+			</File>
+			<File
 				RelativePath="..\clientgui\hyperlink.cpp">
 			</File>
 			<File

@@ -10,48 +10,54 @@ nslprogs=boinc_cmd
 bin_PROGRAMS = crypt_prog $(nslprogs)
 
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
-boinc_cmd_SOURCES = boinc_cmd.C gui_rpc_client.C gui_rpc_client.h
+boinc_cmd_SOURCES = \
+	boinc_cmd.C \
+	gui_rpc_client.h
+
 boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 
 lib_LIBRARIES = libboinc.a 
 
 EXTRA_DIST = *.h *.C
 
-libboinc_a_SOURCES =        \
-    app_ipc.C               \
-    base64.C                \
-    crypt.C                 \
-    diagnostics.C           \
-    exception.C             \
-    filesys.C               \
-    hostinfo.C              \
-    language.C              \
-    md5.c                   \
-    md5_file.C              \
-    mem_usage.C             \
-    mfile.C                 \
-    miofile.C               \
-    msg_log.C               \
+libboinc_a_SOURCES = \
+    app_ipc.C \
+    base64.C \
+    crypt.C \
+    diagnostics.C \
+    exception.C \
+    filesys.C \
+	gui_rpc_client.C \
+	gui_rpc_client_ops.C \
+	gui_rpc_client_print.C \
+    hostinfo.C \
+    language.C \
+    md5.c \
+    md5_file.C \
+    mem_usage.C \
+    mfile.C \
+    miofile.C \
+    msg_log.C \
     network.C \
-    parse.C                 \
-    prefs.C                 \
-    proxy_info.C            \
-    shmem.C                 \
+    parse.C \
+    prefs.C \
+    proxy_info.C \
+    shmem.C \
     util.C
 
-include_HEADERS =               \
-                app_ipc.h       \
-                boinc_win.h     \
-                diagnostics.h   \
-                exception.h     \
-                filesys.h       \
-                hostinfo.h      \
-                mfile.h         \
-                miofile.h   \
-                parse.h \
-                prefs.h         \
-                proxy_info.h    \
-                util.h      
+include_HEADERS = \
+	app_ipc.h \
+	boinc_win.h \
+	diagnostics.h \
+	exception.h \
+	filesys.h \
+	hostinfo.h \
+	mfile.h \
+	miofile.h \
+	parse.h \
+	prefs.h \
+	proxy_info.h \
+	util.h      
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

@@ -40,6 +40,7 @@ boinc_client_SOURCES = \
     file_names.C \
     file_xfer.C \
     gui_rpc_server.C \
+    gui_rpc_server_ops.C \
     hostinfo_network.C \
     hostinfo_unix.C \
     http.C \

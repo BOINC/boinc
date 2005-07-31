@@ -173,6 +173,12 @@
 			<File
 				RelativePath="..\lib\gui_rpc_client.C">
 			</File>
+			<File
+				RelativePath="..\lib\gui_rpc_client_ops.C">
+			</File>
+			<File
+				RelativePath="..\lib\gui_rpc_client_print.C">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -32,7 +32,6 @@ boinc_gui_SOURCES = \
     ViewTransfers.cpp \
     ViewWork.cpp \
     WizAttachProject.cpp \
-    ../lib/gui_rpc_client.C \
     hyperlink.cpp
 
 EXTRA_DIST = *.h \

@@ -26,10 +26,11 @@
 #include "http.h"
 #include "prefs.h"
 
-// SCHEDULER_OP encapsulates the mechanism
-// for fetching master files and communicating with scheduling servers.
-// Only one such operation can be in progress at once:
-//
+// SCHEDULER_OP encapsulates the mechanism for
+// 1) fetching master files
+// 2) communicating with scheduling servers
+// Only one such operation can be in progress at once.
+
 #define SCHEDULER_OP_STATE_IDLE         0
     // invariant: in this state, our HTTP_OP is not in the HTTP_OP_SET
 #define SCHEDULER_OP_STATE_GET_MASTER   1
@@ -59,7 +60,7 @@ typedef enum {
 #define MASTER_FETCH_INTERVAL (60*60*24*7*2)    // 2 weeks
     // This is the Max on the time to wait after we've contacted the Master URL MASTER_FETCH_RETRY_CAP times.
 
-//The next two constants are used to bound RPC exponential waiting.
+// constants used to bound RPC backoff
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
