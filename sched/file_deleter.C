@@ -223,7 +223,7 @@ bool do_pass(bool retry_error) {
     if ( retry_error ) {
     	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
     } else {
-    	sprintf(buf, "where file_delete_state=%d limit %s 1000", FILE_DELETE_READY, mod_clause);
+    	sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
     }
     while (!result.enumerate(buf)) {
         did_something = true;
