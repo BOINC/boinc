@@ -32,6 +32,7 @@
 
 #include "miofile.h"
 #include "prefs.h"
+#include "hostinfo.h"
 
 #define GUI_RPC_PORT                                1043
 #define GUI_RPC_PORT_ALT                            31416
@@ -268,7 +269,7 @@ public:
     void clear();
 };
 
-class PROXY_INFO {
+class GR_PROXY_INFO {
 public:
     bool use_http_proxy;
     bool use_socks_proxy;
@@ -283,14 +284,15 @@ public:
     std::string socks5_user_name;
     std::string socks5_user_passwd;
 
-    PROXY_INFO();
-    ~PROXY_INFO();
+    GR_PROXY_INFO();
+    ~GR_PROXY_INFO();
 
     int parse(MIOFILE&);
     void print();
     void clear();
 };
 
+#if 0
 struct HOST_INFO {
     int timezone;    // local STANDARD time - UTC time (in seconds) 
     char domain_name[256];
@@ -325,6 +327,7 @@ struct HOST_INFO {
     void print();
     void clear();
 };
+#endif
 
 class CC_STATE {
 public:
@@ -488,8 +491,8 @@ public:
         bool enabled, double blank_time, DISPLAY_INFO&
     );
     int run_benchmarks();
-    int set_proxy_settings(PROXY_INFO&);
-    int get_proxy_settings(PROXY_INFO&);
+    int set_proxy_settings(GR_PROXY_INFO&);
+    int get_proxy_settings(GR_PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&);
     int file_transfer_op(FILE_TRANSFER&, const char*);
     int result_op(RESULT&, const char*);

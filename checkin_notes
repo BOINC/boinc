@@ -9744,3 +9744,19 @@ David  31 July 2005
 		boinccmd.vcproj
 		boincmgr.vcproj
 
+David  1 Aug 2005
+    - support OpenSSL's crypto libary, preparatory to getting rid of RSAEuro.
+        For now, there's a #define in lib/crypt.h
+        that lets you select one or the other.
+        OpenSSL seems to be working, i.e. you can read keys
+        and verify file signatures produces with RSAEuro.
+
+    lib/
+        Makefile.am
+        boinc_cmd.C
+        crypt.C,h
+        crypt_prog.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C
+        hostinfo.C,h

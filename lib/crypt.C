@@ -25,9 +25,6 @@
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
-#if HAVE_MALLOC_H
-#include <malloc.h>
-#endif
 #endif
 
 #include "md5_file.h"
@@ -224,14 +221,33 @@ int encrypt_private(
     if (n >= modulus_len-11) {
         n = modulus_len-11;
     }
+#ifdef USE_RSAEURO
     retval = RSAPrivateEncrypt(out.data, &out.len, in.data, n, &key);
     if (retval ) return retval;
     nbytes_encrypted = retval;
+#endif
+#ifdef USE_OPENSSL
+    RSA* rp = RSA_new();
+    private_to_openssl(key, rp);
+    RSA_private_encrypt(n, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    out.len = RSA_size(rp);
+    RSA_free(rp);
+#endif
+
     return 0;
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
+#ifdef USE_RSAEURO
     return RSAPublicDecrypt(out.data, &out.len, in.data, in.len, &key);
+#endif
+#ifdef USE_OPENSSL
+    RSA* rp = RSA_new();
+    public_to_openssl(key, rp);
+    RSA_public_decrypt(in.len, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    out.len = RSA_size(rp);
+    return 0;
+#endif
 }
 
 int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
@@ -365,4 +381,50 @@ int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
     return 0;
 }
 
+#ifdef USE_OPENSSL
+
+static void bn_to_bin(BIGNUM* bn, unsigned char* bin, int n) {
+    memset(bin, 0, n);
+    int m = BN_num_bytes(bn);
+    BN_bn2bin(bn, bin+n-m);
+}
+
+void openssl_to_keys(
+    RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
+) {
+    unsigned char buf[256];
+
+    pub.bits = nbits;
+    bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
+    bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
+
+    memset(&priv, 0, sizeof(priv));
+    priv.bits = nbits;
+    bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
+    bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));
+    bn_to_bin(rp->d, priv.exponent, sizeof(priv.exponent));
+    bn_to_bin(rp->p, priv.prime[0], sizeof(priv.prime[0]));
+    bn_to_bin(rp->q, priv.prime[1], sizeof(priv.prime[1]));
+    bn_to_bin(rp->dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
+    bn_to_bin(rp->dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
+    bn_to_bin(rp->iqmp, priv.coefficient, sizeof(priv.coefficient));
+}
+
+void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp) {
+    rp->n = BN_bin2bn(priv.modulus, sizeof(priv.modulus), 0);
+    rp->e = BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), 0);
+    rp->d = BN_bin2bn(priv.exponent, sizeof(priv.exponent), 0);
+    rp->p = BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), 0);
+    rp->q = BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), 0);
+    rp->dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), 0);
+    rp->dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), 0);
+    rp->iqmp = BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), 0);
+}
+
+void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
+    rp->n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
+    rp->e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
+}
+
+#endif
 const char *BOINC_RCSID_4f0c2e42ea = "$Id$";

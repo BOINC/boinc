@@ -294,11 +294,11 @@ int main(int argc, char** argv) {
             fprintf(stderr, "Unknown op %s\n", op);
         }
     } else if (!strcmp(cmd, "--get_proxy_settings")) {
-        PROXY_INFO pi;
+        GR_PROXY_INFO pi;
         retval = rpc.get_proxy_settings(pi);
         if (!retval) pi.print();
     } else if (!strcmp(cmd, "--set_proxy_settings")) {
-        PROXY_INFO pi;
+        GR_PROXY_INFO pi;
         pi.http_server_name = next_arg(argc, argv, i);
         pi.http_server_port = atoi(next_arg(argc, argv, i));
         pi.http_user_name = next_arg(argc, argv, i);

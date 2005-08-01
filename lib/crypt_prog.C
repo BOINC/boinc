@@ -33,8 +33,7 @@
 
 #include <cstdio>
 #include <cstdlib>
-
-#include "rsaeuro.h"
+#include <cstring>
 
 #include "crypt.h"
 
@@ -43,6 +42,7 @@ void die(const char* p) {
     exit(1);
 }
 
+#ifdef USE_RSAEURO
 void better_random_create(R_RANDOM_STRUCT* r) {
 #ifdef __WINDOWS__
     // in case we ever need this on Win
@@ -77,12 +77,26 @@ void better_random_create(R_RANDOM_STRUCT* r) {
     r->bytesNeeded = 0;
     r->outputAvailable = 16;
 }
+#endif
+
+unsigned int random_int() {
+    unsigned int n;
+    FILE* f = fopen("/dev/random", "r");
+    if (!f) {
+        fprintf(stderr, "can't open /dev/random\n");
+        exit(1);
+    }
+    fread(&n, sizeof(n), 1, f);
+    return n;
+}
 
 int main(int argc, char** argv) {
-    R_RANDOM_STRUCT randomStruct;
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
+#ifdef USE_RSAEURO
+    R_RANDOM_STRUCT randomStruct;
     R_RSA_PROTO_KEY protoKey;
+#endif
     int n, retval;
     bool is_valid;
     DATA_BLOCK signature, in, out;
@@ -94,11 +108,14 @@ int main(int argc, char** argv) {
         exit(1);
     }
     if (!strcmp(argv[1], "-genkey")) {
+        if (argc < 5) {
+            fprintf(stderr, "missing cmdline args\n");
+            exit(1);
+        }
         printf("creating keys in %s and %s\n", argv[3], argv[4]);
         n = atoi(argv[2]);
 
-        //R_RandomCreate(&randomStruct);
-
+#ifdef USE_RSAEURO
         better_random_create(&randomStruct);
 
         protoKey.bits = n;
@@ -107,13 +124,19 @@ int main(int argc, char** argv) {
             &public_key, &private_key, &protoKey, &randomStruct
         );
         if (retval) die("R_GeneratePEMKeys\n");
-
+#endif
+#ifdef USE_OPENSSL
+        srand(random_int());
+        RSA* rp = RSA_generate_key(n,  65537, 0, 0);
+        openssl_to_keys(rp, n, private_key, public_key);
+#endif
         fpriv = fopen(argv[3], "w");
         if (!fpriv) die("fopen");
         fpub = fopen(argv[4], "w");
         if (!fpub) die("fopen");
         print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
         print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+
     } else if (!strcmp(argv[1], "-sign")) {
         fpriv = fopen(argv[3], "r");
         if (!fpriv) die("fopen");
@@ -153,6 +176,7 @@ int main(int argc, char** argv) {
         in = out;
         out.data = buf2;
         decrypt_public(public_key, in, out);
+        printf("out: %s\n", out.data);
     } else {
         printf("unrecognized command\n");
     }

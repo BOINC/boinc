@@ -145,7 +145,7 @@ void MESSAGE::print() {
     );
 }
 
-void PROXY_INFO::print() {      // anyone need this?
+void GR_PROXY_INFO::print() {      // anyone need this?
 }
 
 void HOST_INFO::print() {
@@ -231,3 +231,4 @@ void MESSAGES::print() {
         messages[i]->print();
     }
 }
+

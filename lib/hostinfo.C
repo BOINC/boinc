@@ -37,6 +37,10 @@
 
 #include "hostinfo.h"
 
+HOST_INFO::HOST_INFO() {
+    clear_host_info();
+}
+
 // Reset the host info struct to default values
 //
 void HOST_INFO::clear_host_info() {

@@ -440,15 +440,15 @@ void MESSAGE::clear() {
     body.clear();
 }
 
-PROXY_INFO::PROXY_INFO() {
+GR_PROXY_INFO::GR_PROXY_INFO() {
     clear();
 }
 
-PROXY_INFO::~PROXY_INFO() {
+GR_PROXY_INFO::~GR_PROXY_INFO() {
     clear();
 }
 
-int PROXY_INFO::parse(MIOFILE& in) {
+int GR_PROXY_INFO::parse(MIOFILE& in) {
     char buf[4096];
     use_http_proxy = false;
     use_socks_proxy = false;
@@ -480,7 +480,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-void PROXY_INFO::clear() {
+void GR_PROXY_INFO::clear() {
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
@@ -495,6 +495,7 @@ void PROXY_INFO::clear() {
     socks5_user_passwd.clear();
 }
 
+#if 0
 HOST_INFO::HOST_INFO() {
     clear();
 }
@@ -567,6 +568,8 @@ void HOST_INFO::clear() {
     d_total = 0.0;
     d_free = 0.0;
 }
+
+#endif
 
 CC_STATE::CC_STATE() {
     clear();
@@ -1216,7 +1219,7 @@ int RPC_CLIENT::run_benchmarks() {
     return rpc.do_rpc("<run_benchmarks/>\n");
 }
 
-int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
+int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
     char buf[1024];
     RPC rpc(this);
 
@@ -1250,7 +1253,7 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::get_proxy_settings(PROXY_INFO& p) {
+int RPC_CLIENT::get_proxy_settings(GR_PROXY_INFO& p) {
     RPC rpc(this);
     int retval;
 

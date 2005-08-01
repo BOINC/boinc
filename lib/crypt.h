@@ -19,14 +19,58 @@
 
 #ifndef H_CRYPT
 #define H_CRYPT
-// some interface functions for RSAEuro
+
+// We're set up to use either RSAEuro or the OpenSSL crypto library.
+// We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
+// to store keys in either case.
+
+//#define USE_OPENSSL 1
+#define USE_RSAEURO 1
 
 #include <cstdio>
 
+#ifdef USE_RSAEURO
 #include "rsaeuro.h"
 extern "C" {
 #include "rsa.h"
 }
+
+#endif
+
+#ifdef USE_OPENSSL
+#include <openssl/rsa.h>
+
+#define MAX_RSA_MODULUS_BITS 1024
+#define MAX_RSA_MODULUS_LEN ((MAX_RSA_MODULUS_BITS + 7) / 8)
+#define MAX_RSA_PRIME_BITS ((MAX_RSA_MODULUS_BITS + 1) / 2)
+#define MAX_RSA_PRIME_LEN ((MAX_RSA_PRIME_BITS + 7) / 8)
+
+typedef struct {
+  unsigned short int bits;                     /* length in bits of modulus */
+  unsigned char modulus[MAX_RSA_MODULUS_LEN];  /* modulus */
+  unsigned char exponent[MAX_RSA_MODULUS_LEN]; /* public exponent */
+} R_RSA_PUBLIC_KEY;
+
+typedef struct {
+  unsigned short int bits;                     /* length in bits of modulus */
+  unsigned char modulus[MAX_RSA_MODULUS_LEN];  /* modulus */
+  unsigned char publicExponent[MAX_RSA_MODULUS_LEN];     /* public exponent */
+  unsigned char exponent[MAX_RSA_MODULUS_LEN]; /* private exponent */
+  unsigned char prime[2][MAX_RSA_PRIME_LEN];   /* prime factors */
+  unsigned char primeExponent[2][MAX_RSA_PRIME_LEN];     /* exponents for CRT */
+  unsigned char coefficient[MAX_RSA_PRIME_LEN];          /* CRT coefficient */
+} R_RSA_PRIVATE_KEY;
+
+// functions to convert between OpenSSL's keys (using BIGNUMs)
+// and our binary format
+
+extern void openssl_to_keys(
+    RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
+);
+extern void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp);
+extern void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp);
+
+#endif
 
 struct KEY {
     unsigned short int bits;
@@ -53,6 +97,7 @@ int scan_hex_data(FILE* f, DATA_BLOCK&);
 int print_key_hex(FILE*, KEY* key, int len);
 int scan_key_hex(FILE*, KEY* key, int len);
 int sscan_key_hex(const char*, KEY* key, int len);
+
 int encrypt_private(
     R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out, int&
 );
@@ -71,7 +116,6 @@ int verify_string(
 int verify_string2(
     const char* text, const char* signature, const char* key, bool&
 );
-
 int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
 
 #endif
