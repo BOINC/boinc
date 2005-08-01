@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-07-26 16:55-0800\n"
+"PO-Revision-Date: 2005-08-01 12:18-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,9 @@ msgstr ""
 #: clientgui/DlgOptions.cpp:325
 #: clientgui/DlgOptions.cpp:381
 #: clientgui/DlgSelectComputer.cpp:119
-#: clientgui/WizAttachProject.cpp:625
+#: clientgui/WizAttachProject.cpp:1479
+#: clientgui/WizAttachProject.cpp:2729
+#: clientgui/WizAttachProject.cpp:2926
 msgid "Password:"
 msgstr ""
 
@@ -255,6 +257,8 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:360
+#: clientgui/WizAttachProject.cpp:2713
+#: clientgui/WizAttachProject.cpp:2910
 msgid "Port:"
 msgstr ""
 
@@ -265,6 +269,8 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:317
 #: clientgui/DlgOptions.cpp:373
+#: clientgui/WizAttachProject.cpp:2721
+#: clientgui/WizAttachProject.cpp:2918
 msgid "User Name:"
 msgstr ""
 
@@ -300,51 +306,51 @@ msgstr ""
 msgid "Correspond with other users on the SETI@home message boards"
 msgstr ""
 
-#: clientgui/Localization.cpp:36
+#: clientgui/Localization.cpp:35
 msgid "Help"
 msgstr ""
 
-#: clientgui/Localization.cpp:38
+#: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
 msgstr ""
 
-#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:39
 msgid "Your account"
 msgstr ""
 
-#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:41
 msgid "View your account information and credit totals"
 msgstr ""
 
-#: clientgui/Localization.cpp:46
+#: clientgui/Localization.cpp:43
 msgid "Your preferences"
 msgstr ""
 
-#: clientgui/Localization.cpp:48
+#: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr ""
 
-#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:47
 msgid "Your results"
 msgstr ""
 
-#: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:49
 msgid "View your last week (or more) of computational results and work"
 msgstr ""
 
-#: clientgui/Localization.cpp:56
+#: clientgui/Localization.cpp:51
 msgid "Your computers"
 msgstr ""
 
-#: clientgui/Localization.cpp:58
+#: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr ""
 
-#: clientgui/Localization.cpp:61
+#: clientgui/Localization.cpp:55
 msgid "Your team"
 msgstr ""
 
-#: clientgui/Localization.cpp:63
+#: clientgui/Localization.cpp:57
 msgid "View information about your team: BOINC Synergy"
 msgstr ""
 
@@ -506,63 +512,63 @@ msgstr ""
 msgid "Language Selection..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1501
-#: clientgui/MainFrame.cpp:1518
-#: clientgui/MainFrame.cpp:1524
-#: clientgui/MainFrame.cpp:1567
-#: clientgui/MainFrame.cpp:1595
-#: clientgui/MainFrame.cpp:1604
-#: clientgui/MainFrame.cpp:1618
-#: clientgui/MainFrame.cpp:1626
+#: clientgui/MainFrame.cpp:1491
+#: clientgui/MainFrame.cpp:1508
+#: clientgui/MainFrame.cpp:1514
+#: clientgui/MainFrame.cpp:1557
+#: clientgui/MainFrame.cpp:1585
+#: clientgui/MainFrame.cpp:1594
+#: clientgui/MainFrame.cpp:1608
+#: clientgui/MainFrame.cpp:1616
 msgid "BOINC Manager - Network Status"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1502
+#: clientgui/MainFrame.cpp:1492
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1517
+#: clientgui/MainFrame.cpp:1507
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1525
+#: clientgui/MainFrame.cpp:1515
 msgid "BOINC is connecting to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1568
+#: clientgui/MainFrame.cpp:1558
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1596
+#: clientgui/MainFrame.cpp:1586
 msgid "BOINC has successfully disconnected from the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1605
+#: clientgui/MainFrame.cpp:1595
 msgid "BOINC failed to disconnected from the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1619
+#: clientgui/MainFrame.cpp:1609
 msgid "BOINC has successfully connected to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1627
+#: clientgui/MainFrame.cpp:1617
 msgid "BOINC failed to connect to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1704
-#: clientgui/MainFrame.cpp:1707
+#: clientgui/MainFrame.cpp:1694
+#: clientgui/MainFrame.cpp:1697
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1705
+#: clientgui/MainFrame.cpp:1695
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1708
+#: clientgui/MainFrame.cpp:1698
 #, c-format
 msgid "Connected to %s"
 msgstr ""
@@ -1088,71 +1094,186 @@ msgstr ""
 msgid "Activities suspended by user"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:90
+#: clientgui/WizAttachProject.cpp:112
 msgid "Attach to Project Wizard"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:199
+#: clientgui/WizAttachProject.cpp:390
 msgid "Do you really want to cancel?"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:199
+#: clientgui/WizAttachProject.cpp:390
 msgid "Question"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:271
+#: clientgui/WizAttachProject.cpp:472
 msgid ""
 "Welcome to the Attach to Project\n"
 "Wizard"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:276
+#: clientgui/WizAttachProject.cpp:477
 msgid "This wizard will guide you through the process of attaching to a project."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:282
+#: clientgui/WizAttachProject.cpp:483
 msgid ""
 "This wizard will require access to the Internet in order to attach to\n"
 "a project using an existing account or creating a new one."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:288
+#: clientgui/WizAttachProject.cpp:486
+msgid "Debug Flags"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:496
+msgid "Project Properties Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:501
+msgid "Project Comm Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:506
+msgid "Project Properties URL Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:511
+#: clientgui/WizAttachProject.cpp:2417
+msgid "Account Creation Disabled"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:516
+#: clientgui/WizAttachProject.cpp:2290
+msgid "Account Already Exists"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:521
+msgid "Google Comm Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:526
+msgid "Yahoo Comm Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:531
+msgid "Net Detection Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:536
+#: clientgui/WizAttachProject.cpp:1107
+#: clientgui/WizAttachProject.cpp:1822
 msgid "To continue, click Next."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:416
+#: clientgui/WizAttachProject.cpp:701
 msgid "Project Information"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:421
+#: clientgui/WizAttachProject.cpp:706
 msgid "Which project do you wish to attach to?"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:427
+#: clientgui/WizAttachProject.cpp:712
 msgid ""
 "The project URL is generally the project's homepage.  It is in the form of\n"
 "a web address and can be found in your browsers address bar."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:435
+#: clientgui/WizAttachProject.cpp:720
 msgid "Project URL:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:445
+#: clientgui/WizAttachProject.cpp:730
 msgid ""
 "For more information, and to see a list of some BOINC-based projects,\n"
 "go to:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:584
+#: clientgui/WizAttachProject.cpp:882
+msgid "Project Properties"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:887
+msgid ""
+"This wizard is now attempting to retrieve the project’s account\n"
+"creation policies."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:893
+#: clientgui/WizAttachProject.cpp:1665
+msgid ""
+"If this wizard cannot reach the project server, it'll attempt to contact a\n"
+"couple known good websites in an effort to help diagnose the problem."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:905
+msgid "Retrieving project account creation policy"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:914
+msgid "Communicating with Yahoo"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:923
+msgid "Communicating with Google"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:932
+msgid "Determining connection status"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1186
+#: clientgui/WizAttachProject.cpp:1828
+msgid ""
+"One or more problems detected, click Next to troubleshoot the\n"
+"problem."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1268
+msgid "Account Key"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1273
+msgid "Do you have your project account key handy?"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1279
+msgid ""
+"This project does not support account management through this\n"
+"wizard and uses BOINC's account key authentication."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1283
+msgid ""
+"An account key is a string of 32 random letters and numbers that\n"
+"are assigned during the account creation process and is treated\n"
+"like a username and password on other web based systems.  It will\n"
+"have been sent to you via email as part of the confirmation email\n"
+"message. Please copy and paste it into the text box below."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1287
+msgid "An account key typically looks like:"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1291
+msgid "82412313ac88e9a3638f66ea82186948"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1300
+msgid "Account key:"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:1438
 msgid "Account Information"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:589
+#: clientgui/WizAttachProject.cpp:1443
 msgid "Do you wish to use an existing account or create a new one?"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:595
+#: clientgui/WizAttachProject.cpp:1449
 msgid ""
 "If this is the first time you have attempted to attach to this project then\n"
 "you should create a new account.  If you already have an account you\n"
@@ -1160,58 +1281,101 @@ msgid ""
 "project."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:603
+#: clientgui/WizAttachProject.cpp:1457
 msgid "Create new account"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:608
+#: clientgui/WizAttachProject.cpp:1462
 msgid "Use existing account"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:617
+#: clientgui/WizAttachProject.cpp:1471
 msgid "Email address:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:633
+#: clientgui/WizAttachProject.cpp:1487
 msgid "Confirm password:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:803
+#: clientgui/WizAttachProject.cpp:1654
 msgid "Account Creation"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:808
+#: clientgui/WizAttachProject.cpp:1659
 msgid ""
 "This wizard is now attempting to create a new account or validate your\n"
 "existing account."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:814
-msgid ""
-"If this wizard cannot reach the project server, it'll attempt to contact a\n"
-"couple known good websites in an effort to help diagnose the problem."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:826
+#: clientgui/WizAttachProject.cpp:1677
 msgid "Communicating with BOINC project"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:835
-msgid "Communicating with Yahoo"
+#: clientgui/WizAttachProject.cpp:1910
+msgid "Wizard Completion"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:844
-msgid "Communicating with Google"
+#: clientgui/WizAttachProject.cpp:1915
+msgid "Congratulations"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:853
-msgid "Determining connection status"
+#: clientgui/WizAttachProject.cpp:2037
+msgid "Project Temporarily Unavailable"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1037
+#: clientgui/WizAttachProject.cpp:2042
+msgid "The project may be down for maintenance."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2164
+msgid "No Internet Connection Detected"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2169
 msgid ""
-"One or more problems detected, click Next to troubleshoot the\n"
-"problem."
+"Could not communicate with the desired project or any of the known\n"
+"computers on the Internet."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2295
+msgid "The requested account is already in use."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2422
+msgid "This project is not accepting any new clients at this time."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2544
+msgid "Proxy Configuration"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2549
+#: clientgui/WizAttachProject.cpp:2685
+#: clientgui/WizAttachProject.cpp:2882
+#: clientgui/WizAttachProject.cpp:3069
+msgid "Do you need to configure a proxy server?"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2680
+msgid "Proxy Configuration - HTTP Proxy"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2693
+#: clientgui/WizAttachProject.cpp:2890
+msgid "Autodetect"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2701
+#: clientgui/WizAttachProject.cpp:2898
+msgid "Server:"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:2877
+msgid "Proxy Configuration - SOCKS Proxy"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:3064
+msgid "Proxy Configuration Completion"
 msgstr ""
 
 #: clientgui/DlgAbout.h:51

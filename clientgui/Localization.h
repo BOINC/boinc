@@ -32,26 +32,20 @@ class CLocalization : public wxObject
 public:
     CLocalization();
 
-    wxString m_strMessageBoardsName;
-    wxString m_strMessageBoardsDescription;
-
-    wxString m_strHelpName;
-    wxString m_strHelpDescription;
-
-    wxString m_strYourAccuontName;
-    wxString m_strYourAccuontDescription;
-
-    wxString m_strYourPreferencesName;
-    wxString m_strYourPreferencesDescription;
-
-    wxString m_strYourResultsName;
-    wxString m_strYourResultsDescription;
-
-    wxString m_strYourComputersName;
-    wxString m_strYourComputersDescription;
-
-    wxString m_strYourTeamName;
-    wxString m_strYourTeamDescription;
+    wxString m_strSAHMessageBoardsName;
+    wxString m_strSAHMessageBoardsDescription;
+    wxString m_strSAHHelpName;
+    wxString m_strSAHHelpDescription;
+    wxString m_strSAHYourAccuontName;
+    wxString m_strSAHYourAccuontDescription;
+    wxString m_strSAHYourPreferencesName;
+    wxString m_strSAHYourPreferencesDescription;
+    wxString m_strSAHYourResultsName;
+    wxString m_strSAHYourResultsDescription;
+    wxString m_strSAHYourComputersName;
+    wxString m_strSAHYourComputersDescription;
+    wxString m_strSAHYourTeamName;
+    wxString m_strSAHYourTeamDescription;
 };
 
 

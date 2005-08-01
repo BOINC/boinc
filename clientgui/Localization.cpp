@@ -27,39 +27,33 @@
 
 
 CLocalization::CLocalization() {
-    m_strMessageBoardsName =
+    m_strSAHMessageBoardsName =
         _("Message boards");
-    m_strMessageBoardsDescription =
+    m_strSAHMessageBoardsDescription =
         _("Correspond with other users on the SETI@home message boards");
-
-    m_strHelpName =
+    m_strSAHHelpName =
         _("Help");
-    m_strHelpDescription =
+    m_strSAHHelpDescription =
         _("Ask questions and report problems");
-
-    m_strYourAccuontName = 
+    m_strSAHYourAccuontName = 
         _("Your account");
-    m_strYourAccuontDescription =
+    m_strSAHYourAccuontDescription =
         _("View your account information and credit totals");
-
-    m_strYourPreferencesName =
+    m_strSAHYourPreferencesName =
         _("Your preferences");
-    m_strYourPreferencesDescription =
+    m_strSAHYourPreferencesDescription =
         _("View and modify your SETI@home account profile and preferences");
-
-    m_strYourResultsName =
+    m_strSAHYourResultsName =
         _("Your results");
-    m_strYourResultsDescription =
+    m_strSAHYourResultsDescription =
         _("View your last week (or more) of computational results and work");
-
-    m_strYourComputersName =
+    m_strSAHYourComputersName =
         _("Your computers");
-    m_strYourComputersDescription =
+    m_strSAHYourComputersDescription =
         _("View a listing of all the computers on which you are running SETI@Home");
-
-    m_strYourTeamName =
+    m_strSAHYourTeamName =
         _("Your team");
-    m_strYourTeamDescription =
+    m_strSAHYourTeamDescription =
         _("View information about your team: BOINC Synergy");
 }
 
