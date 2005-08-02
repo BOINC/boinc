@@ -116,13 +116,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib winmm.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile=".\Build\Debug/uppercase_2.06_windows_intelx86.exe"
+				OutputFile=".\Build\Debug/uppercase_4.04_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\boinc_dll\Debug"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Debug/uppercase_2.06_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\Debug/uppercase_4.04_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool

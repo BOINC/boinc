@@ -9837,3 +9837,16 @@ Rom    2 Aug 2005
         BOINCGUIApp.cpp, .h
         stdwx.h
         ViewMessages.cpp, .h
+
+David  2 Aug 2005
+	- Fix new API stuff that avoids using printf in signal handler.
+		(my scaling of double to put them in the range [.1,1)
+		failed to take into account zero... arrgh!)
+
+	api/
+		boinc_api.C
+	apps/
+		upper_case.C
+	win_build/
+		boinc_gui.vcproj
+		upper_case.vcproj

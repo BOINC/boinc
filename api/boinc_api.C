@@ -179,7 +179,7 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
 // Apparently sprintf() isn't safe to use in a signal handler.
 // So roll our own.
 //
-void itoa(int x, char* &p) {
+static void itoa(int x, char* &p) {
     if (x<0) {
         x = -x;
         *p++ = '-';
@@ -195,8 +195,13 @@ void itoa(int x, char* &p) {
 
 }
 
-void dtoa(double x, char* p) {
+static void dtoa(double x, char* p) {
     int exp = 0;
+    if (x == 0) {
+        *p++ = '0';
+        *p = 0;
+        return;
+    }
     if (x < 0) {
         x = -x;
         *p++ = '-';
@@ -219,14 +224,17 @@ void dtoa(double x, char* p) {
     }
 }
 
-void append(const char* from, char* &to) {
+static void append(const char* from, char* &to) {
     while (*from) {
         *to++ = *from++;
     }
 }
 
-void tag_double(const char* tag, double x, char* p) {
-#if 0
+FILE* fdbg = 0;
+static void tag_double(const char* tag, double x, char* p) {
+#if 1
+    fprintf(fdbg, "tag_double: %s %f\n", tag, x); fflush(fdbg);
+
     char buf[256];
     append("<", p);
     append(tag, p);
@@ -237,6 +245,7 @@ void tag_double(const char* tag, double x, char* p) {
     append(tag, p);
     append(">\n", p);
     *p = 0;
+    fprintf(fdbg, "tag_double end: %s %f\n", tag, x); fflush(fdbg);
 #else
     sprintf(p, "<%s>%f</%s>\n", tag, x, tag);
 #endif
@@ -252,9 +261,15 @@ static bool update_app_progress(
 
     if (standalone) return true;
 
+    if (!fdbg) fdbg = fopen("apidbg.txt", "w");
+    fprintf(fdbg, "starting %f %f\n",cpu_t, cp_cpu_t); fflush(fdbg);
+
     tag_double("current_cpu_time", cpu_t, buf);
+    fprintf(fdbg, "buf1: %s\n", buf); fflush(fdbg);
+
     strcpy(msg_buf, buf);
     tag_double("checkpoint_cpu_time", cp_cpu_t, buf);
+    fprintf(fdbg, "buf2: %s\n", buf); fflush(fdbg);
     strcat(msg_buf, buf);
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
@@ -278,6 +293,8 @@ static bool update_app_progress(
         tag_double("fpops_cumulative", fpops_cumulative, buf);
         strcat(msg_buf, buf);
     }
+    fprintf(fdbg, "msg: %s\n", msg_buf); fflush(fdbg);
+
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
 

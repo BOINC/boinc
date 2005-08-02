@@ -89,7 +89,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
 }
 
 static void use_some_cpu() {
-#if 0
+#if 1
     double j = 3.14159;
     int i, n = 0;
     for (i=0; i<20000000; i++) {
@@ -155,7 +155,7 @@ int main(int argc, char **argv) {
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
-        if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
+        if (!strcmp(argv[i], "-cpu_time")) cpu_time = true;
         if (!strcmp(argv[i], "-signal")) raise_signal = true;
         if (!strcmp(argv[i], "-exit")) random_exit = true;
     }

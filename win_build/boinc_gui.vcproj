@@ -98,7 +98,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../lib/;../api/;../RSAEuro/source/;../client/win/;../client"
+				AdditionalIncludeDirectories="../;../openssl/include/;../lib/;../api/;../RSAEuro/source/;../client/win/;../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -119,10 +119,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="libeay32.lib"
 				OutputFile=".\Build\Debug/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\boinc_dll\Debug"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib;..\boinc_dll\Debug"
 				IgnoreAllDefaultLibraries="FALSE"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="oleacc.dll"
@@ -579,6 +580,9 @@
 			</File>
 			<File
 				RelativePath="..\client\gui_rpc_server.C">
+			</File>
+			<File
+				RelativePath="..\client\gui_rpc_server_ops.C">
 			</File>
 			<File
 				RelativePath="..\client\gui_titles.C">
@@ -1305,10 +1309,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1328,10 +1332,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">
