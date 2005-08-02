@@ -11,6 +11,7 @@ boinc_gui_SOURCES = \
     BOINCBaseView.cpp \
     BOINCGUIApp.cpp \
     BOINCListCtrl.cpp \
+    BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
     DlgAbout.cpp \
     DlgAccountManagerSignup.cpp \
