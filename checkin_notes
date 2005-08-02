@@ -9808,4 +9808,11 @@ Eric	2 Aug 2005
 	configure.ac
 	m4/
 	    check_ssl.m4
-	    
+	   
+Eric	2 Aug 2005
+	- Modified crypt.h to that it will only define USE_RSAEURO or
+	  USE_OPENSSL if they haven't already been defined.
+
+        lib/
+	    crypt.h
+	   
