@@ -9850,3 +9850,9 @@ David  2 Aug 2005
 	win_build/
 		boinc_gui.vcproj
 		upper_case.vcproj
+
+David  2 Aug 2005
+	- Don't force-include boinc_win.h in apps
+
+	win_build/
+		upper_case.vcproj

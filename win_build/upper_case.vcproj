@@ -110,7 +110,7 @@
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"
-				ForcedIncludeFiles="boinc_win.h"/>
+				ForcedIncludeFiles=""/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
