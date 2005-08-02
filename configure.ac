@@ -495,10 +495,8 @@ AC_SUBST(CLIENTLIBS)
 
 ## --------------------
 ## some more tweaking to turn non-standard libs into statically linked ones
-CLIENTGUIFLAGS="-DNOTASKBAR"
-
 case ${target} in
-	*-solaris*)	CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNOCLIPBOARD"
+	*-solaris*)	CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNOTASKBAR -DNOCLIPBOARD"
 	;;
 esac
 
