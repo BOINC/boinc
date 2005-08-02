@@ -176,6 +176,64 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
     return 0;
 }
 
+// Apparently sprintf() isn't safe to use in a signal handler.
+// So roll our own.
+//
+void itoa(int x, char* &p) {
+    if (x<0) {
+        x = -x;
+        *p++ = '-';
+    }
+    int q = x/10;
+    int r = x-q*10;
+    if (q) {
+        itoa(q, p);
+    }
+    *p = '0'+r;
+    p++;
+    *p = 0;
+
+}
+
+// positive only
+//
+void dtoa(double x, char* p) {
+    int exp = 0;
+    while (x > 1) {
+        x /= 10;
+        exp++;
+    }
+    while (x<0.1) {
+        x *= 10;
+        exp--;
+    }
+    strcpy(p, "0.");
+    p += 2;
+    int n = (int)(x*1e8);
+    itoa(n, p);
+    if (exp) {
+        *p++ = 'e';
+        itoa(exp, p);
+    }
+}
+
+void append(const char* from, char* &to) {
+    while (*to++ = *from++) {
+    }
+}
+
+void tag_double(const char* tag, double x, char* p) {
+    char buf[256];
+    append("<", p);
+    append(tag, p);
+    append(">", p);
+    dtoa(x, buf);
+    append(buf, p);
+    append("</", p);
+    append(tag, p);
+    append(">\n", p);
+}
+
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
 //
@@ -186,31 +244,30 @@ static bool update_app_progress(
 
     if (standalone) return true;
 
-    sprintf(msg_buf,
-        "<current_cpu_time>%.15e</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
-        cpu_t, cp_cpu_t
-    );
+    tag_double("current_cpu_time", cpu_t, buf);
+    strcpy(msg_buf, buf);
+    tag_double("checkpoint_cpu_time", cp_cpu_t, buf);
+    strcat(msg_buf, buf);
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
-        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
+        tag_double("fraction_done", fdone, buf);
         strcat(msg_buf, buf);
     }
     if (rss) {
-        sprintf(buf, "<rss_bytes>%f</rss_bytes>\n", rss);
+        tag_double("rss_bytes", rss, buf);
         strcat(msg_buf, buf);
     }
     if (vm) {
-        sprintf(buf, "<vm_bytes>%f</vm_bytes>\n", vm);
+        tag_double("vm_bytes", vm, buf);
         strcat(msg_buf, buf);
     }
     if (fpops_per_cpu_sec) {
-        sprintf(buf, "<fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
+        tag_double("fpops_per_cpu_sec", fpops_per_cpu_sec, buf);
         strcat(msg_buf, buf);
     }
     if (fpops_cumulative) {
-        sprintf(buf, "<fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative);
+        tag_double("fpops_cumulative", fpops_cumulative, buf);
         strcat(msg_buf, buf);
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);

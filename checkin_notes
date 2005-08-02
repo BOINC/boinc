@@ -9782,3 +9782,9 @@ Rom    1 Aug 2005
         librsaeuro.vcproj (Removed)
     win_build/installerv2/
         boinc.ism
+
+David  1 Aug 2005
+    - avoid using sprintf() in signal handler
+
+    lib/
+        boinc_api.C
