@@ -1,5 +1,6 @@
 AC_DEFUN([CHECK_SSL],
 [AC_MSG_CHECKING(if ssl is wanted)
+SSLDIR=
 AC_ARG_WITH(ssl,
 [  --with-ssl enable ssl [will check /usr/local/ssl
                             /usr/lib/ssl /usr/ssl /usr/pkg /usr/local /usr ]
@@ -9,14 +10,16 @@ AC_ARG_WITH(ssl,
         ssldir="$dir"
         if test -f "$dir/include/openssl/ssl.h"; then
             found_ssl="yes";
-            CFLAGS="$CFLAGS -I$ssldir/include/openssl -DHAVE_SSL";
-            CXXFLAGS="$CXXFLAGS -I$ssldir/include/openssl -DHAVE_SSL";
+	    SSLDIR="${ssldir}"
+            CFLAGS="$CFLAGS -I$ssldir/include/openssl";
+            CXXFLAGS="$CXXFLAGS -I$ssldir/include/openssl";
             break;
         fi
         if test -f "$dir/include/ssl.h"; then
             found_ssl="yes";
-            CFLAGS="$CFLAGS -I$ssldir/include/ -DHAVE_SSL";
-            CXXFLAGS="$CXXFLAGS -I$ssldir/include/ -DHAVE_SSL";
+	    SSLDIR="${ssldir}"
+            CFLAGS="$CFLAGS -I$ssldir/include/";
+            CXXFLAGS="$CXXFLAGS -I$ssldir/include/";
             break
         fi
     done
@@ -26,11 +29,14 @@ AC_ARG_WITH(ssl,
         printf "OpenSSL found in $ssldir\n";
         LIBS="$LIBS -lssl -lcrypto";
         LDFLAGS="$LDFLAGS -L$ssldir/lib";
-        HAVE_SSL=yes
+	AC_DEFINE_UNQUOTED([USE_OPENSSL],[1],
+	  ["Define to 1 if you want to use the openssl crypto library"])
+	AC_SUBST(SSLDIR)
     fi
-    AC_SUBST(HAVE_SSL)
 ],
 [
+    AC_DEFINE_UNQUOTED([USE_RSAEURO],[1],
+      ["Define to 1 if you want to use the RSAEURO crypto library"])
     AC_MSG_RESULT(no)
 ])
 ])dnl
