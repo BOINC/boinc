@@ -149,6 +149,8 @@ AC_SUBST(OBJCFLAGS)
 AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
+AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
+
 SAH_OPTION_BITNESS
 
 dnl Some platform specific settings
@@ -235,7 +237,7 @@ dnl please add it to the lists below...
 case ${target} in
 	*-linux*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
 	;;
-	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X*"
+	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X* openssl"
 	;;
 esac
 
@@ -255,6 +257,9 @@ SAH_CHECK_LIB([z], [gzopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([crypto], [RSA_new], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+CHECK_SSL
+SAH_CHECK_LIB([openssl], [main],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} -L${SSLDIR} ${sah_lib_last}"])
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
@@ -292,8 +297,8 @@ NOTE: on MacOS X/Darwin you might consider running configure withe the option
        ])
 else
    have_glut=yes
-   echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS"
-   echo "DEBUG: GLUT_LIBS = $GLUT_LIBS"
+   echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
+   echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
    AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
 fi
@@ -462,29 +467,29 @@ fi
 SAH_CHECK_LIB([stdc++],[sscanf],[
     AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
     AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([gcc],[sscanf], [
     AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([pthread],[pthread_join],[
     AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([c],[atexit], [
     AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
-   echo CLIENTLIBS=${CLIENTLIBS}
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
 AC_SUBST(CLIENTLIBS)
 
