@@ -253,6 +253,8 @@ SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([crypto], [RSA_new], 
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread

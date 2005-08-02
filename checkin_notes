@@ -9788,3 +9788,9 @@ David  1 Aug 2005
 
     lib/
         boinc_api.C
+
+
+David  1 Aug 2005
+    - add -lcrypto on Unix
+
+    configure.ac
