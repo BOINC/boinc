@@ -66,7 +66,7 @@ protected:
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
 
-#ifndef NOCLIPBOARD
+#ifndef wxUSE_CLIPBOARD
     bool                    m_bClipboardOpen;
     wxString                m_strClipboardData;
     bool                    OpenClipboard();

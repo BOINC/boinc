@@ -495,10 +495,6 @@ AC_SUBST(CLIENTLIBS)
 
 ## --------------------
 ## some more tweaking to turn non-standard libs into statically linked ones
-case ${target} in
-	*-solaris*)	CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNOTASKBAR -DNOCLIPBOARD"
-	;;
-esac
 
 if test "${enable_debug}" = yes; then
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D_DEBUG -DDEBUG"

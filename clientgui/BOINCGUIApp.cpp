@@ -171,14 +171,12 @@ bool CBOINCGUIApp::OnInit() {
     m_pFrame = new CMainFrame(GetAppName());
     wxASSERT(m_pFrame);
 
-#ifndef NOTASKBAR
     // Initialize the task bar icon
     m_pTaskBarIcon = new CTaskBarIcon();
     wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu();
     wxASSERT(m_pMacSystemMenu);
-#endif
 #endif
 
     // Detect the display info and store for later use.
@@ -240,7 +238,6 @@ int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     ShutdownSystemIdleDetection();
 
-#ifndef NOTASKBAR
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
@@ -248,8 +245,6 @@ int CBOINCGUIApp::OnExit() {
     if (m_pMacSystemMenu) {
         delete m_pMacSystemMenu;
     }
-#endif
-
 #endif
 
     if (m_pDocument) {

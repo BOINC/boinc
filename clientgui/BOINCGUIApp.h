@@ -27,15 +27,12 @@
 #include "LogBOINC.h"
 #include "MainFrame.h"
 
-#ifndef NOTASKBAR
 #include "BOINCTaskBar.h"   // Must be included before MainDocument.h
 #ifdef __APPLE__
 #include "MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
-#endif
 
 #include "MainDocument.h"
-
 
 
 class CBOINCGUIApp : public wxApp {
@@ -67,11 +64,9 @@ protected:
 
     CMainFrame*     m_pFrame;
     CMainDocument*  m_pDocument;
-#ifndef NOTASKBAR
     CTaskBarIcon*   m_pTaskBarIcon;
 #ifdef __APPLE__
     CMacSystemMenu* m_pMacSystemMenu;
-#endif
 #endif
 
     bool            m_bBOINCStartedByManager;
@@ -100,11 +95,9 @@ public:
 
     CMainFrame*     GetFrame()                   { return m_pFrame; }
     CMainDocument*  GetDocument()                { return m_pDocument; }
-#ifndef NOTASKBAR
     CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; }
 #ifdef __APPLE__
     CMacSystemMenu* GetMacSystemMenu()           { return m_pMacSystemMenu; }
-#endif
 #endif
 
     wxArrayString&  GetSupportedLanguages()      { return m_astrLanguages; }

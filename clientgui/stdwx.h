@@ -78,6 +78,7 @@
 #include <wx/stattext.h>        // static text support
 #include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
+#include <wx/taskbar.h>         // taskbar support
 #include <wx/image.h>
 #include <wx/url.h>
 #include <wx/textdlg.h>
@@ -90,10 +91,6 @@
 #include <wx/dynlib.h>
 #include <wx/dialup.h>
 #include <wx/cshelp.h>
-
-#ifndef NOTASKBAR
-#include <wx/taskbar.h>         // taskbar support
-#endif
 
 
 #ifdef _WIN32
