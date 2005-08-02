@@ -240,7 +240,7 @@ public:
 private:
 
 public:
-	PROXY_INFO					proxy_info;
+	GR_PROXY_INFO   			proxy_info;
     int                         GetProxyConfiguration();
     int                         SetProxyConfiguration();
 

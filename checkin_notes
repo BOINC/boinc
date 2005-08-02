@@ -9760,3 +9760,25 @@ David  1 Aug 2005
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
         hostinfo.C,h
+
+Rom    1 Aug 2005
+    - Some wizard work.
+    - Fix build breaks.
+    - Add support for OpenSSL in the Win32 environment.
+
+    clientgui/
+        BOINCGUI.pjd
+        MainDocument.cpp, .h
+        WizAttachProject.cpp, .h
+    lib/
+        crypt.h
+    openssl/
+        <everything>
+    win_build/
+        boinc.sln
+        boinc_cli.vcproj
+        boincmgr.vcproj
+        libboinc.vcproj
+        librsaeuro.vcproj (Removed)
+    win_build/installerv2/
+        boinc.ism

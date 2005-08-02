@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;"
+				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DLL;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -38,7 +38,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libboincd.lib"/>
+				OutputFile="$(OutDir)/libboincd.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -66,7 +67,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;"
+				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DLL;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -81,7 +82,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libboinc.lib"/>
+				OutputFile="$(OutDir)/libboinc.lib"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -117,6 +119,9 @@
 						Name="VCCLCompilerTool"
 						CompileAs="2"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\crypt.C">
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.C">
@@ -236,6 +241,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\boinc_win.h">
+			</File>
+			<File
+				RelativePath="..\lib\crypt.h">
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.h">

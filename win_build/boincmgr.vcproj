@@ -226,6 +226,21 @@
 			</File>
 			<File
 				RelativePath="..\lib\gui_rpc_client_ops.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\hostinfo.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\clientgui\hyperlink.cpp">
@@ -426,6 +441,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\gui_rpc_client.h">
+			</File>
+			<File
+				RelativePath="..\lib\hostinfo.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\hyperlink.h">

@@ -22,7 +22,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client,.."
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../openssl/include"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -44,10 +44,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB libeay32.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
 				OutputFile=".\Build\Debug/boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
@@ -97,7 +98,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client,.."
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../openssl/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE"
 				StringPooling="FALSE"
 				RuntimeLibrary="2"
@@ -116,11 +117,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib MSVCRT.LIB MSVCPRT.LIB oldnames.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB libeay32.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\Release/boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"

@@ -352,7 +352,7 @@ int CMainDocument::OnRefreshState() {
 int CMainDocument::ResetState() {
     rpc.close();
     state.clear();
-    host.clear();
+    host.clear_host_info();
     project_status.clear();
     results.clear();
     messages.clear();
