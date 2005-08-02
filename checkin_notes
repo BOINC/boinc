@@ -9828,7 +9828,7 @@ Rom    2 Aug 2005
     - Get rid of the NOCLIPBOARD and NOTASKBAR defines.  Taskbar icons seem
         to be available on all platforms now and the clipboard functionality
         is guarded by the wx version of the define wxUSE_CLIPBOARD.  If we use
-        it, we don't have to maintain and configuration stuff about it in our
+        it, we don't have to maintain any configuration stuff about it in our
         build environment.
 
     /
