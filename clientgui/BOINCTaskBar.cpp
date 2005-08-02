@@ -52,10 +52,12 @@ END_EVENT_TABLE ()
 
 
 CTaskBarIcon::CTaskBarIcon() : 
-#ifdef __WXMAC__
+#if   defined(__WXMAC__)
     wxTaskBarIcon(DOCK)
-#else
+#elif defined(__WXMSW__)
     wxTaskBarIconEx(wxT("BOINCManagerSystray"))
+#else
+    wxTaskBarIcon()
 #endif
 {
     m_iconTaskBarIcon = wxIcon(boinc_xpm);

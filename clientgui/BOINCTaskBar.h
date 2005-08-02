@@ -73,7 +73,9 @@ public:
 
 #ifdef __APPLE__
     wxMenu *CreatePopupMenu();
+#endif
 
+#ifndef __WXMSW__
     inline bool CTaskBarIcon::IsBalloonsSupported() {
         return false;
     }
