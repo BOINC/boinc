@@ -29,5 +29,6 @@ AC_DEFUN([SAH_DLLEXT],[
       ;;
   esac
   AC_MSG_RESULT($DLLEXT)
+  AC_DEFINE_UNQUOTED(DLLEXT,".${DLLEXT}",[Define to the platform's shared library extension])
   AC_SUBST(DLLEXT)
 ])
