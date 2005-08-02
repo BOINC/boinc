@@ -24,8 +24,11 @@
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
 // to store keys in either case.
 
+// Only define these here if they haven't been defined elsewhere
+#if !(defined(USE_OPENSSL) || defined(USE_RSAEURO))
 #define USE_OPENSSL 1
 //#define USE_RSAEURO 1
+#endif
 
 #include <cstdio>
 

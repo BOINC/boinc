@@ -9799,7 +9799,10 @@ David  1 Aug 2005
 		boinc_api.C
 
 Eric	2 Aug 2005
-	- added autoconf macro to check for openssl and set up the USE_RSAEURO or USE_OPENSSL macros in config.h.
+        - added a check for whether hard and soft links function as expected.
+	  (People were having problems where soft links were faked.)
+	- added autoconf macro to check for openssl and set up the 
+	  USE_RSAEURO or USE_OPENSSL macros in config.h.
 	- modified configure.ac to run this check.
 	
 	configure.ac
