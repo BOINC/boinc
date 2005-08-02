@@ -137,7 +137,7 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-#ifndef wxUSE_CLIPBOARD
+#ifdef wxUSE_CLIPBOARD
 
     wxInt32 iIndex          = -1;
     wxInt32 iRowCount       = 0;
@@ -169,7 +169,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-#ifndef wxUSE_CLIPBOARD
+#ifdef wxUSE_CLIPBOARD
 
     wxInt32 iIndex = -1;
 
@@ -336,7 +336,7 @@ wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-#ifndef wxUSE_CLIPBOARD
+#ifdef wxUSE_CLIPBOARD
 bool CViewMessages::OpenClipboard() {
     bool bRetVal = false;
 
