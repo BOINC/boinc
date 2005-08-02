@@ -214,7 +214,7 @@ int encrypt_private(
     R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out,
     int& nbytes_encrypted
 ) {
-    int retval, n, modulus_len;
+    int n, modulus_len;
 
     modulus_len = (key.bits+7)/8;
     n = in.len;
@@ -222,7 +222,7 @@ int encrypt_private(
         n = modulus_len-11;
     }
 #ifdef USE_RSAEURO
-    retval = RSAPrivateEncrypt(out.data, &out.len, in.data, n, &key);
+    int retval = RSAPrivateEncrypt(out.data, &out.len, in.data, n, &key);
     if (retval ) return retval;
     nbytes_encrypted = retval;
 #endif
@@ -392,8 +392,6 @@ static void bn_to_bin(BIGNUM* bn, unsigned char* bin, int n) {
 void openssl_to_keys(
     RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
 ) {
-    unsigned char buf[256];
-
     pub.bits = nbits;
     bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
     bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));

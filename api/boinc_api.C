@@ -195,10 +195,12 @@ void itoa(int x, char* &p) {
 
 }
 
-// positive only
-//
 void dtoa(double x, char* p) {
     int exp = 0;
+    if (x < 0) {
+        x = -x;
+        *p++ = '-';
+    }
     while (x > 1) {
         x /= 10;
         exp++;
@@ -218,11 +220,13 @@ void dtoa(double x, char* p) {
 }
 
 void append(const char* from, char* &to) {
-    while (*to++ = *from++) {
+    while (*from) {
+        *to++ = *from++;
     }
 }
 
 void tag_double(const char* tag, double x, char* p) {
+#if 0
     char buf[256];
     append("<", p);
     append(tag, p);
@@ -232,6 +236,10 @@ void tag_double(const char* tag, double x, char* p) {
     append("</", p);
     append(tag, p);
     append(">\n", p);
+    *p = 0;
+#else
+    sprintf(p, "<%s>%f</%s>\n", tag, x, tag);
+#endif
 }
 
 // communicate to the core client (via shared mem)
