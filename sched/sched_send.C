@@ -624,6 +624,42 @@ void SCHEDULER_REPLY::got_bad_result() {
     }
 }
 
+// returns zero if result still feasible.  result may hve been
+// given a new report time.  Returns nonzero if result is no
+// longer feasible (not enough time to compute it on host). In
+// this case result is unchanged.
+int possibly_give_result_new_deadline(DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply) {
+    const double resend_frac = 0.5;  // range [0, 1)
+    int result_sent_time = time(0);
+    int result_report_deadline = result_sent_time + (int)(resend_frac*(result.report_deadline - result.sent_time));
+
+    if (result_report_deadline < result.report_deadline) result_report_deadline = result.report_deadline;
+    if (result_report_deadline > result_sent_time + wu.delay_bound) result_report_deadline = result_sent_time + wu.delay_bound;
+
+    // If infeasible, return without modifying result
+    //
+    if (estimate_cpu_duration(wu, reply) > result_report_deadline-result_sent_time) {
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
+            result.id, reply.host.id
+        );
+        return 1;
+    }
+    
+    // update result with new report time and sent time
+    //
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+	"[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
+        result.id, reply.host.id,
+	result_report_deadline==result.report_deadline?"NO update to":"Updated"
+    );
+    result.sent_time = result_sent_time;
+    result.report_deadline = result_report_deadline;
+    return 0;
+}
+
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
     SCHEDULER_REPLY& reply, PLATFORM& platform,
@@ -647,19 +683,31 @@ int add_result_to_reply(
 
     // update the result in DB
     //
-    // If the result has already been sent and is being re-sent
-    // don't update the sent time and deadline
-    //
     result.hostid = reply.host.id;
     result.userid = reply.user.id;
     result.sent_time = time(0);
+
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
+        // We are sending this result for the first time
+        //
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-    } else {
-        log_messages.printf(
+    }
+    else {
+        // Result was ALREADY sent to this host but never arrived. So
+        // we are resending it. result.report_deadline and time_sent
+        // have already been updated before this function was called.
+        //
+        if (result.report_deadline < result.sent_time) {
+	    result.report_deadline = result.sent_time + 10;
+	}
+        if (result.report_deadline > result.sent_time + wu.delay_bound) {
+	    result.report_deadline = result.sent_time + wu.delay_bound;
+	}
+
+	log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
-            "[RESULT#%d] [HOST#%d] NO update to report_deadline (resend lost work)\n",
+            "[RESULT#%d] [HOST#%d] (resend lost work)\n",
             result.id, reply.host.id
         );
     }
@@ -1099,6 +1147,7 @@ bool resend_lost_work(
                 "[HOST#%d] found lost [RESULT#%d]: %s\n",
                 reply.host.id, result.id, result.name
             );
+
             DB_WORKUNIT wu;
             retval = wu.lookup_id(result.workunitid);
             if (retval) {
@@ -1109,20 +1158,33 @@ bool resend_lost_work(
                 continue;
             }
 
-            // If time is too close to the deadline, or we already have a
-            // canonical result, or WU error flag is set,
-            // then don't bother to resend this result.
-            // Instead make it time out right away so that the transitioner.
-            // does 'the right thing'.
+            reply.wreq.core_client_version =
+                sreq.core_client_major_version*100 + sreq.core_client_minor_version;
+
+            retval = get_app_version(
+                wu, app, avp, sreq, reply, platform, ss
+            );
+            if (retval) {
+                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] no app version [RESULT#%d]\n",
+                    reply.host.id, result.id
+                );
+                continue;
+            }
+
+            // If time is too close to the deadline, or we already
+            // have a canonical result, or WU error flag is set, then
+            // don't bother to resend this result.  Instead make it
+            // time out right away so that the transitioner.  does
+            // 'the right thing'.
             //
             char warning_msg[256];
-            int rightnow = time(0);
             if (
                 wu.error_mask ||
                 wu.canonical_resultid ||
-                result.report_deadline - rightnow < 0.25*wu.delay_bound
+                possibly_give_result_new_deadline(result, wu, reply)
                ) {
-                result.report_deadline = rightnow;
+                result.report_deadline = time(0);
                 retval = result.update_subset();
                 if (retval) {
                     log_messages.printf(
@@ -1131,7 +1193,7 @@ bool resend_lost_work(
                     );
                     continue;
                 }
-                retval = update_wu_transition_time(wu, rightnow);
+                retval = update_wu_transition_time(wu, result.report_deadline);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
@@ -1150,19 +1212,6 @@ bool resend_lost_work(
                 continue;
             }
 
-            reply.wreq.core_client_version =
-                sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-
-            retval = get_app_version(
-                wu, app, avp, sreq, reply, platform, ss
-            );
-            if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] no app version [RESULT#%d]\n",
-                    reply.host.id, result.id
-                );
-                continue;
-            }
             retval = add_result_to_reply(
                 result, wu, sreq, reply, platform, app, avp
             );

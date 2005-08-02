@@ -9816,3 +9816,11 @@ Eric	2 Aug 2005
         lib/
 	    crypt.h
 	   
+Bruce   2 Aug 2005
+    - scheduler: update of the resend-lost-work algorithm.  Now try and
+      extend deadline somewhat, or cancel rather than resend work if
+      it's not feasible.
+
+    sched/
+        sched_send.C
+
