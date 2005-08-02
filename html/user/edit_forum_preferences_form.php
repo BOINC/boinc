@@ -99,7 +99,7 @@ row2("Filtering".
 $filtered_userlist=explode("|",$user->ignorelist);
 for ($i=1;$i<sizeof($filtered_userlist);$i++){
     $filtered_user = lookup_user_id($filtered_userlist[$i]);
-    $forum_filtered_userlist.="<input type =\"submit\" name=\"remove".$filtered_userlist[$i]."\" value=\"Remove\"> ".$filtered_userlist[$i]." - ".user_links($filtered_user,URL_BASE)."<br>";
+    $forum_filtered_userlist.="<input type =\"submit\" name=\"remove".trim($filtered_userlist[$i])."\" value=\"Remove\"> ".$filtered_userlist[$i]." - ".user_links($filtered_user,URL_BASE)."<br>";
 }
 row2("Filtered users".
     "<br><font size=-2>Ignore specific users<br>You can define a list of users to ignore.<br>These users will have to write posts with very high<br> rating in order to not be filtered.</font>",

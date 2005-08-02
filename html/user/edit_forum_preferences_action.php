@@ -74,7 +74,7 @@ $has_prefs=mysql_query("select * from forum_preferences where userid='".$user->i
 
 $ignorelist = $user->ignorelist;
 if ($add_user_to_filter){					//see if we should add any users to the ignorelist
-    $user_to_add = $HTTP_POST_VARS["forum_filter_user"];
+    $user_to_add = trim($HTTP_POST_VARS["forum_filter_user"]);
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
 	$ignorelist.="|".$user_to_add;
     }
@@ -86,7 +86,7 @@ natsort($ignored_users);					//sort the list by userid in natural order
 $ignored_users=array_values($ignored_users);			//reindex
 $real_ignorelist = "";
 for ($i=1;$i<sizeof($ignored_users);$i++){
-    if ($ignored_users[$i]!="" and $HTTP_POST_VARS["remove".$ignored_users[$i]]!=""){
+    if ($ignored_users[$i]!="" and $HTTP_POST_VARS["remove".trim($ignored_users[$i])]!=""){
 	//this user will be removed
     } else {
 	//the user should be in the new list
