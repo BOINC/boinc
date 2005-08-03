@@ -9856,3 +9856,10 @@ David  2 Aug 2005
 
 	win_build/
 		upper_case.vcproj
+
+Rom    2 Aug 2005
+    - Default stackwalker_win.cpp to include boinc_win.h if another of the
+        precompiled headers hasn't already been included.
+        
+    lib/
+        stackwalker_win.cpp

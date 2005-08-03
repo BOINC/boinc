@@ -40,6 +40,11 @@
  *
  *//////////////////////////////////////////////////////////////////////////////
 
+
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
 #include "stackwalker_win.h"
 
 // the form of the output file
