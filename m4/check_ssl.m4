@@ -11,8 +11,8 @@ AC_ARG_WITH(ssl,
         if test -f "$dir/include/openssl/ssl.h"; then
             found_ssl="yes";
 	    SSLDIR="${ssldir}"
-            CFLAGS="$CFLAGS -I$ssldir/include/openssl";
-            CXXFLAGS="$CXXFLAGS -I$ssldir/include/openssl";
+            CFLAGS="$CFLAGS -I$ssldir/include -I$ssldir/include/openssl";
+            CXXFLAGS="$CXXFLAGS -I$ssldir/include -I$ssldir/include/openssl";
             break;
         fi
         if test -f "$dir/include/ssl.h"; then
