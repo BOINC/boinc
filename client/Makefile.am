@@ -57,6 +57,7 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
+boinc_client_LDFLAGS = -static-libgcc
 boinc_client_LDADD = -L../lib -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
@@ -69,7 +70,8 @@ all-local: client-bin
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $@
-	ln $? $@
+	@LN@ $? $@
+	@STRIP@ $@
 
 ## these source files need to be specified because no rule uses them.
 
