@@ -26,7 +26,8 @@
 // TIME_STATS (on/connected/active fractions)
 // NET_STATS (average network bandwidths)
 
-struct HOST_INFO {
+class HOST_INFO {
+public:
     int timezone;    // local STANDARD time - UTC time (in seconds)
     char domain_name[256];
     char serialnum[256];
@@ -54,6 +55,7 @@ struct HOST_INFO {
     double d_total;      // Total amount of diskspace in bytes
     double d_free;       // Total amount of available diskspace in bytes
 
+    HOST_INFO();
     int parse(MIOFILE&);
     int write(MIOFILE&);
     int parse_cpu_benchmarks(FILE*);
