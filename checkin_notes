@@ -9873,3 +9873,12 @@ Charlie 2 Aug 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  2 Aug 2005
+    - process_result_template(): when inserting XML signature
+        into a <file_info> element, don't include leading
+        spaces before </file_info> in the signed text
+        (from Marco Gazzoni)
+
+    tools/
+        process_result_template.C

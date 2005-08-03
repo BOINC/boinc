@@ -77,6 +77,11 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
             fprintf(stderr, "add_signatures: malformed XML: %s\n", xml);
             return ERR_XML_PARSE;
         }
+
+        // signed text doesn't include leading white space before </file_info>
+        //
+        while(*(q2-1)==' ' || *(q2-1)=='\t') q2--;
+
         q1 += strlen("<file_info>\n");
         len = q2 - q1;
         memcpy(buf, q1, len);

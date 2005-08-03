@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>boinc and seti@home quick install guide</title>
+</head>
+<body>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<big>
+
+<big style="font-weight: bold;"><big>BOINC and SETI@home quick install
+guide for HPUX</big></big></big><br>
+<br>
+From Lars Bausch
+<br>
+<big><br>
+<big>0. Releases </big></big><br>
+<br>
+There are some different depots for specifiy (optimized) plattforms
+available :<br>
+<br>
+&nbsp;- seti-boinc_parisc_32.depot.gz :&nbsp; 32 Bit PARISC (PARISC 1.1
+CPUs, aka PARISC <br>
+
+&nbsp;&nbsp; 7x00 and 2.0 8x00 CPUs (aka PARISC 2.0). Runs on 64 Bit
+also, The seti app <br>
+&nbsp;&nbsp; is 20 % slower than the 64 bit optimized binary). Should
+also run on IA64 <br>
+&nbsp;&nbsp; (Itanium), but very slow. HPUX 11.x (11.0, 11.11 (11i
+Version 1) and 11.23 (<br>
+&nbsp;&nbsp; 11i Version 2)<br>
+<br>
+&nbsp;- seti-boinc_parisc_64.depot.gz : 64 bit for PARISC 8x00 (aka
+PARISC 2.0). <br>
+&nbsp;&nbsp; Should run slow on IA64. HPUX 11.x (11.0, 11.11 (11i
+Version 1) and 11.23 (<br>
+
+&nbsp;&nbsp; 11i Version 2)<br>
+<br>
+&nbsp;- seti-boinc_ia64_32.depot.gz : 32 bit for Itanium on HPUX 11.2x
+(11i Version <br>
+&nbsp;&nbsp; 1 and Version 2).<br>
+<br>
+>From more informations about the defintion from
+workstation/server/model to <br>
+architecure and cpu version look at /usr/bin/sched.models.<br>
+<br>
+<br>
+<br>
+<big><big>1. Install the package</big></big><br>
+
+<br>
+<big>1.1 Install with swinstall</big><br>
+<br>
+Unzip the depot package : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gunzip
+seti-boinc_32.depot.gz <br>
+<br>
+Swinstall the depot <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; swinstall -s
+$PATH_TO_BOINC_DEPOT/seti-boinc_32.depot \*&nbsp; <br>
+
+<br>
+Source your /etc/profile with the new entries required for boinc and
+seti : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; . /etc/profi<big>le<br>
+<br>
+<br>
+1.2 Install not via swinstall</big><br>
+<br>
+If you don't wan't to intstall the binaries with swinstall. i<br>
+
+<br>
+gunzip seti-boinc_parisc-64_1.4.depot.gz<br>
+<br>
+tar -xvf seti-boinc_parisc-64_1.4.depot<br>
+<br>
+cp -R seti-boinc_64/*/opt/boinc /opt/<br>
+<br>
+cp ./catalog/seti-boinc_64/SETI_BOINC-LIB/postinstall /opt/boinc<br>
+&nbsp;&nbsp;&nbsp; -&gt; now you can make a tar file for example, from
+the destination directory <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /opt/boinc to copy it to other
+sytems, or move wherever you want. <br>
+
+<br>
+Add this to /etc/profile, or the in the profile of the user&nbsp; : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SHLIB_PATH=$DESTINATION_DIR_FROM_BOINC/lib:$SHLIB_PATH<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; for example
+SHLIB_PATH=/home/seti/lib <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; export SHLIB-PATH<br>
+<br>
+Source your /etc/profile, with the new entries required for boinc and
+seti : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; . /etc/profile<br>
+
+<small><br>
+<br>
+</small><br>
+<big><big>2. add a group and a user</big> </big><br>
+<br>
+Don't run the boinc client and seti app as root !<br>
+<br>
+This steps require a root account :<br>
+<br>
+Add a group (groupadd -g $GROUPID $GROUPNAME ) : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; groupadd -g 200 seti<br>
+
+<br>
+Add a user (useradd -u $USERID -g $GROUPID&nbsp; -d $HOMEDIRECTORY
+$USERNAME) : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; useradd -u 200 -g 200&nbsp;
+-d /opt/boinc seti<br>
+<br>
+Change the password for you new user (passwd $USERNAME):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; passwd seti<br>
+
+<br>
+Change the owner and group for the boinc directory, where the client is
+located (<br>
+chown $USERNAME:$GROUPNAME $SETIDIRECTORY)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chown seti:seti /opt/boinc<br>
+<br>
+Feel free to change the directories, if you want... <br>
+<br>
+<br>
+<big><br>
+
+<big>3. Register your Account for seti@home</big></big><br>
+<br>
+You can use the standard registration mechanism within the client : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ./boinc_client
+-attach_project setiweb.berkeley.edu $ACCOUNT_KEY<br>
+<br>
+If this don't work, whis workaround helps :<br>
+<br>
+Change $ACCOUNT_KEY in the file
+/opt/boinc/account_setiathome.berkeley.edu.xml<br>
+in the key you get from email from the seti@home project. <br>
+Edit line 3, and do not set any blanks before or after the key. <br>
+
+<br>
+&lt;account&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;master_url&gt;http://setiathome.berkeley.edu/&lt;/master_url&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;authenticator&gt;$ACCOUNT_KEY&lt;/authenticator&gt;<br>
+
+&nbsp;&nbsp;&nbsp; &lt;project_name&gt;SETI@home&lt;/project_name&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;host_venue&gt;home&lt;/host_venue&gt;<br>
+&lt;project_preferences&gt;<br>
+
+&lt;/project_preferences&gt;<br>
+&lt;/account&gt;<br>
+<br>
+<br>
+<big><br>
+<big>4. Start client and seti app</big></big><br>
+<br>
+Login as your new user, and start the boinc_client : <br>
+<br>
+seti@windu:/opt/boinc # ./boinc_client<br>
+2005-06-08 08:53:22 [---] Starting BOINC client version 4.32 for
+hppa1.1-hp-hpux11.11<br>
+2005-06-08 08:53:22 [---] Data directory: /opt/boinc<br>
+2005-06-08 08:53:22 [SETI@home] Using your default project prefs<br>
+2005-06-08 08:53:22 [SETI@home] Found app_info.xml; using anonymous
+platform<br>
+2005-06-08 08:53:22 [SETI@home] Host ID not assigned yet<br>
+2005-06-08 08:53:22 [---] No general preferences found - using BOINC
+defaults<br>
+2005-06-08 08:53:22 [---] Running CPU benchmarks<br>
+2005-06-08 08:54:21 [---] Benchmark results:<br>
+2005-06-08 08:54:21 [---]&nbsp;&nbsp;&nbsp; Number of CPUs: 1<br>
+2005-06-08 08:54:21 [---]&nbsp;&nbsp;&nbsp; 407 double precision MIPS
+(Whetstone) per CPU<br>
+2005-06-08 08:54:21 [---]&nbsp;&nbsp;&nbsp; 823 integer MIPS
+(Dhrystone) per CPU<br>
+2005-06-08 08:54:21 [---] Finished CPU benchmarks<br>
+2005-06-08 08:54:21 [---] Resuming computation and network activity<br>
+2005-06-08 08:54:21 [---] Insufficient work; requesting more<br>
+2005-06-08 08:54:26 [---] Insufficient work; requesting more<br>
+2005-06-08 08:54:26 [SETI@home] Requesting 8640.00 seconds of work<br>
+2005-06-08 08:54:26 [SETI@home] Sending request to scheduler:
+http://setiboinc.ssl.berkeley.edu/sah_cgi/cgi<br>
+2005-06-08 08:54:36 [SETI@home] Scheduler RPC to
+http://setiboinc.ssl.berkeley.edu/sah_cgi/cgi succeeded<br>
+2005-06-08 08:54:36 [SETI@home] General preferences have been updated<br>
+2005-06-08 08:54:36 [---] General prefs: from SETI@home (last modified
+2005-04-29 22:36:58)<br>
+2005-06-08 08:54:36 [---] General prefs: using your defaults<br>
+2005-06-08 08:54:37 [---] May run out of work in 2.00 days; requesting
+more<br>
+2005-06-08 08:54:37 [SETI@home] Requesting 104104.99 seconds of work<br>
+2005-06-08 08:54:37 [SETI@home] Sending request to scheduler:
+http://setiboinc.ssl.berkeley.edu/sah_cgi/cgi<br>
+2005-06-08 08:54:37 [SETI@home] Started download of
+10ja05aa.4505.3922.473568.100<br>
+2005-06-08 08:54:40 [SETI@home] Finished download of
+10ja05aa.4505.3922.473568.10<br>
+2005-06-08 08:54:40 [SETI@home] Throughput 6378 bytes/sec<br>
+2005-06-08 08:54:41 [SETI@home] Resuming computation for result
+10ja05aa.4505.3922.473568.10 using setiathome version 4.07<br>
+
+<br>
+If you get some SIGSEGV from the boinc_client or setiathome app at <br>
+HPUX 11.11(11i V.1), it could be, that you will need some additional
+patches. <br>
+Look at 6.2.<br>
+<br>
+<br>
+<big><big><br>
+5. Installation finished. </big></big><br>
+<br>
+If you have some problems, try a look in the forum of the setiathome
+website (<br>
+setiweb.berkeley.edu) or Paul Bucks excelent documentations
+(www.boinc-doc.net)<br>
+If you have some problems with the hpux binary, feel free, to contact
+me. <br>
+<br>
+
+<br>
+<br>
+<big><big>6. Additional Configurations&nbsp;</big> </big><br>
+<br>
+<big>6.1 Multi processor systems </big><br>
+<br>
+For muli processor systems, you need to setup the preferences on your
+account <br>
+page. If this is not configured, your multi processor system will only
+use one <br>
+cpu.<br>
+<br>
+At the seti homepage (setiweb.berkeley.edu) login with your account.<br>
+Click to "View or edit general preferences". Then to "Edit preferences"<br>
+Add in the section "On multiprocessors, use at most XX processors" the
+number <br>
+of CPUs your system have, and click to "Update preferences".<br>
+
+<br>
+Now, you need to update your client with the new preferences you made
+on the <br>
+website :<br>
+seti@windu:/opt/boinc # ./boinc_client -update_prefs
+http://setiathome.berkeley.edu<br>
+<br>
+You client will download some new work...<br>
+<br>
+<br>
+<big>6.2 Patches + OS Revisions</big><br>
+<br>
+You can dowload this patches and patchbundles at the HP IT Resource
+Centre (<br>
+itrc) at itrc.hp.com. <br>
+The registration at the itrc is for free and don't depends on any
+support<br>
+agreements.<br>
+<br>
+
+<br>
+<big>6.2.1 HPUX 11.0 </big><br>
+<br>
+Minimum Patches : Quality Pack (QPK) September 2003 and General Relase
+Patches<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+November 1999<br>
+
+<br>
+Recommended Patches : Quality Pack (QPK) and HardwareEnablement (HWE)
+patches <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+from June 2004, Required Patches June 2003<br>
+
+<br>
+<br>
+<big>6.2.2 HPUX 11.11 (11i Version 1)</big><br>
+<br>
+Minimum Patches : Gold Pack (GPK) and HardwareEnablement (HWE) patches
+from <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dec.2003. Required Patch Bundle June 2003 <br>
+
+<br>
+Recommended Patches : Gold Pack (GPK) and HardwareEnablement (HWE)
+patches from<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dec. 2004, and Required Patch Bunlde Dec.2004<br>
+
+<br>
+If you have some problems, that you get a SIGSEGV with the minimum or
+recommened patches,<br>
+please install this additional patches :<br>
+- PHCO_31903 (libc cumulative patch)<br>
+- PHKL_32806 (Cumulative VM patch)<br>
+- PHKL_32647 (Extending Physical I/O Addressing) <br>
+- PHSS_30970 (ld(1) and linker tools cumulative patch) <br>
+- PHKL_32204 (VM core(4) related changes)<br>
+<br>
+<br>
+<big>6.2.3 HPUX 11.23 (11i Version 2 at PARISC)</big><br>
+<br>
+Minimum Patches : Required Patch Bundle September 2004<br>
+<br>
+<big><br>
+6.2.4 HPUX 11.2x (11i Version 1 and Version 2 at Itanium (IA64))</big><br>
+
+<br>
+Minimum Patches : Required Patch Bundle September 2004<br>
+<br>
+<big><br>
+6.2.5 HPUX 10.20 </big><br>
+<br>
+Not tested, but the binaries should run successfull.<br>
+<br>
+<br>
+<big>6.3 Kernel Parameters</big><br>
+<br>
+The binaries will run with the default HPUX Kernel parameters. But if
+you wan't<br>
+to use more than one Application or have some special things running on
+your<br>
+system, you should have a look at your kernelparameters.<br>
+
+<br>
+Changing some kernelparameters will increase the perfomance of the
+whole system.<br>
+Some kernelparameters which should changed to increase performance :<br>
+maxfiles&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024<br>
+maxuprc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 256 <br>
+maxdsiz_64bit&nbsp;&nbsp; 0X40000000<br>
+maxfiles&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024<br>
+maxssiz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0X4000000<br>
+maxssiz_64bit&nbsp;&nbsp; 0X4000000<br>
+maxtsiz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0X4000000<br>
+maxtsiz_64bit&nbsp;&nbsp; 0X40000000<br>
+shmmax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0X4000000<br>
+maxusers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 128 or higher for
+Servers (256..512). But a good start for a <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+workstation) <br>
+
+<br>
+<br>
+<big>6.4 Startup script </big><br>
+<br>
+In /sbin/init.d is a script for start boinc at boot and stop for
+shutdown. <br>
+It's linked to /sbino/rc3.d/S990boinc. <br>
+It will also redirect stdout and stderr from the boinc client, redirect
+the <br>
+output from the boinc script /opt/boinc/boinc.sh to
+/opt/boinc/boinc.log. The <br>
+script will keep on boinc running in a look, and could mail you, if
+boinc was<br>
+terminated abnormaly.<br>
+This script is configurable by /etc/rc.config.d/boinc. For details how
+to <br>
+configure, please look into /etc/rc.config.d/boinc. <br>
+<br>
+<br>
+<br>
+
+<big><big>7. Additional notes</big></big><br>
+<br>
+This quick install guide is available as "readme" in the swpackage, and
+if you <br>
+have installed it under /opt/boinc/doc/install.<br>
+In /opt/boinc/doc there are some further readmes about the boinc client
+and <br>
+seti app.<br>
+<br>
+<br>
+<br>
+<br>
+<small><small><small>V.1.6, 31.7.05, Lars Bausch</small></small></small><br>
+
+</body>
+</html>

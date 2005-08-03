@@ -55,7 +55,7 @@ startup of BOINC on various versions of Unix:
 <li>
 <a href=gentoo.txt>Gentoo Linux</a> (from Gabor Nagy)
 <li>
-<a href=hpux.txt>HPUX</a> (mostly relevant to UNIX in general)
+<a href=hpux.html>HPUX</a> (mostly relevant to UNIX in general)
 </ul>
 
 ";

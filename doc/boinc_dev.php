@@ -33,6 +33,7 @@ The following medium-to-large development projects are available:
 or some other open-source HTTP library,
 replacing the HTTP_OP and PROXY classes.
 This would let the core client use HTTPS.
+(Carl C. is working on this).
 <li> BOINC Manager:
 Change the Statistics tab to use a single graph
 with different colors for different projects.
