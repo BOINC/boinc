@@ -1056,7 +1056,10 @@ int TEXTURE_DESC::CreateTextureBMP(const char* strFileName) {
     ysize = image.get_height();
 	return 0;
 }
+#endif  // _WIN32
 
+
+#if (defined _WIN32) || (defined __APPLE__)
 int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
 	unsigned char* pixels;
     int width, height, retval;
@@ -1092,8 +1095,10 @@ int TEXTURE_DESC::CreateTextureRGB(const char* strFileName) {
 		free(pImage);
 	return 0;
 }
+#endif  // (defined _WIN32) || (defined __APPLE__)
 
 
+#ifdef _WIN32
 int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return -1;
@@ -1124,7 +1129,8 @@ int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
 	}
 	return 0;
 }
-#endif
+#endif  // _WIN32
+
 
 int TEXTURE_DESC::load_image_file(const char* filename) {
     int retval;

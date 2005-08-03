@@ -9882,3 +9882,14 @@ David  2 Aug 2005
 
     tools/
         process_result_template.C
+
+Charlie 3 Aug 2005
+    Mac: update XCode project to add api/texture.C to build of 
+    libboinc_graphics_api.a.  Add to Mac builds the functions 
+    TEXTURE_DESC::CreateTextureRGB () and TEXTURE_DESC::CreateTexturePPM().
+    
+    api/
+        gUtil.C
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

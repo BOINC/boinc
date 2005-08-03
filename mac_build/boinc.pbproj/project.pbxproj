@@ -1637,6 +1637,7 @@
 				DD40826307D3076400163EF5,
 				DD40826507D3076400163EF5,
 				DD6D82DE08131B72008F7200,
+				DD4EC61108A0A083009AA08F,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1988,6 +1989,30 @@
 		};
 		DD4DD0A207EAA648008A6468 = {
 			fileRef = DD81C40307C5D1020098A04D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD4EC60F08A0A083009AA08F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = texture.C;
+			path = ../api/texture.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD4EC61008A0A083009AA08F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = texture.h;
+			path = ../api/texture.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD4EC61108A0A083009AA08F = {
+			fileRef = DD4EC60F08A0A083009AA08F;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4873,6 +4898,8 @@
 				DD40825707D3076400163EF5,
 				DD40825807D3076400163EF5,
 				DD40825907D3076400163EF5,
+				DD4EC60F08A0A083009AA08F,
+				DD4EC61008A0A083009AA08F,
 				DD40825A07D3076400163EF5,
 				DD40825B07D3076400163EF5,
 			);
