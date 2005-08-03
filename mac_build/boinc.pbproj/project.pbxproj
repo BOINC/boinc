@@ -304,7 +304,6 @@
 				DD095F3B07D8830800362260,
 				DD095F4507D8838F00362260,
 				DD095F4807D8839200362260,
-				DD095F4A07D8839300362260,
 				DD095F4C07D883A800362260,
 				DD095F4E07D883A900362260,
 				DD095F5007D883AB00362260,
@@ -317,8 +316,13 @@
 				DDA4573D086447BC00DE260C,
 				DDA4573F086447BC00DE260C,
 				DD0A06F20869A288007CD86E,
-				DD5EEB6C0873DD4400963F44,
 				DD9B6B1B0890EDCA003A8E83,
+				DD73E36108A06E8200656EB1,
+				DD73E39E08A0757F00656EB1,
+				DD73E3A508A078AF00656EB1,
+				DD73E3B708A0809800656EB1,
+				DD73E3B808A0809800656EB1,
+				DD73E3BF08A0837800656EB1,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,12 +545,6 @@
 		};
 		DD095F4807D8839200362260 = {
 			fileRef = F5EAD475031AEFF8018E201A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD095F4A07D8839300362260 = {
-			fileRef = DD81C5CC07C5D7D90098A04D;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2010,12 +2008,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		DD5EEB6C0873DD4400963F44 = {
-			fileRef = DD5EEB6A0873DD4400963F44;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD5EF07007C5B329007CCE8D = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2558,6 +2550,105 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		DD73E34E08A0694000656EB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = gui_rpc_client_ops.C;
+			path = ../lib/gui_rpc_client_ops.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD73E34F08A0694100656EB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = gui_rpc_client_print.C;
+			path = ../lib/gui_rpc_client_print.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD73E36108A06E8200656EB1 = {
+			fileRef = DD81C5CC07C5D7D90098A04D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E36208A06ED400656EB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = gui_rpc_server_ops.C;
+			path = ../client/gui_rpc_server_ops.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD73E36E08A0720500656EB1 = {
+			fileRef = DD73E36208A06ED400656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E39E08A0757F00656EB1 = {
+			fileRef = DD5EEB6A0873DD4400963F44;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E3A308A078AF00656EB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Localization.cpp;
+			path = ../clientgui/Localization.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD73E3A408A078AF00656EB1 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Localization.h;
+			path = ../clientgui/Localization.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD73E3A508A078AF00656EB1 = {
+			fileRef = DD73E3A308A078AF00656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E3A708A07CA600656EB1 = {
+			fileRef = DD344BB607C5AEEE0043025C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E3B608A07FC600656EB1 = {
+			fileRef = DD73E34E08A0694000656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E3B708A0809800656EB1 = {
+			fileRef = DD73E34E08A0694000656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E3B808A0809800656EB1 = {
+			fileRef = DD73E34F08A0694100656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD73E3BF08A0837800656EB1 = {
+			fileRef = DD344BB607C5AEEE0043025C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD791FF00819063C00BE2906 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
 			isa = PBXContainerItemProxy;
@@ -2630,6 +2721,8 @@
 				DD5EEB6A0873DD4400963F44,
 				DD5EEB6B0873DD4400963F44,
 				DD81C41407C5D13E0098A04D,
+				DD73E3A308A078AF00656EB1,
+				DD73E3A408A078AF00656EB1,
 				DD81C45007C5D2470098A04D,
 				F5C5403402BFC5C701BEDAB8,
 				DD81C41607C5D13E0098A04D,
@@ -3091,6 +3184,8 @@
 				DDFD5F2D0818F372002B23D4,
 				DDFD5F2E0818F3A1002B23D4,
 				DD0A06F50869A2D2007CD86E,
+				DD73E3A708A07CA600656EB1,
+				DD73E3B608A07FC600656EB1,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3451,7 +3546,6 @@
 				DDD74D9E07CF48FC0065AC9D,
 				DDD74D9F07CF48FC0065AC9D,
 				DDD74DA007CF48FD0065AC9D,
-				DDD74DA107CF48FE0065AC9D,
 				DDD74DA207CF48FF0065AC9D,
 				DDD74DA307CF49000065AC9D,
 				DDD74DA407CF49010065AC9D,
@@ -3482,21 +3576,8 @@
 				DDD74DD207CF493C0065AC9D,
 				DDD74DD307CF493D0065AC9D,
 				DDD74DD407CF493E0065AC9D,
-				DDD74DD507CF495B0065AC9D,
-				DDD74DD607CF495C0065AC9D,
-				DDD74DD707CF495E0065AC9D,
-				DDD74DD807CF495F0065AC9D,
-				DDD74DD907CF49600065AC9D,
-				DDD74DDA07CF49610065AC9D,
-				DDD74DDB07CF49620065AC9D,
-				DDD74DDC07CF49630065AC9D,
-				DDD74DDD07CF49640065AC9D,
-				DDD74DDE07CF49680065AC9D,
-				DDD74DDF07CF49690065AC9D,
-				DDD74DE007CF496C0065AC9D,
-				DDD74DE107CF496D0065AC9D,
-				DDD74DE207CF496D0065AC9D,
 				DD6D0A8707E9A61E007F882B,
+				DD73E36E08A0720500656EB1,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3528,7 +3609,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../clientgui/mac/config.h";
-				OTHER_LDFLAGS = "-framework Carbon";
+				OTHER_LDFLAGS = "-framework Carbon -lcrypto";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
 				SECTORDER_FLAGS = "";
@@ -3693,12 +3774,6 @@
 		};
 		DDD74DA007CF48FD0065AC9D = {
 			fileRef = DD344BAD07C5AEB70043025C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DA107CF48FE0065AC9D = {
-			fileRef = AA763BF0040374F900A80164;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3883,90 +3958,6 @@
 			settings = {
 			};
 		};
-		DDD74DD507CF495B0065AC9D = {
-			fileRef = F51DA65302DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DD607CF495C0065AC9D = {
-			fileRef = F51DA65402DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DD707CF495E0065AC9D = {
-			fileRef = F51DA65602DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DD807CF495F0065AC9D = {
-			fileRef = F51DA65802DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DD907CF49600065AC9D = {
-			fileRef = F51DA65A02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DDA07CF49610065AC9D = {
-			fileRef = F51DA65B02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DDB07CF49620065AC9D = {
-			fileRef = F51DA65C02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DDC07CF49630065AC9D = {
-			fileRef = F51DA65F02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DDD07CF49640065AC9D = {
-			fileRef = F51DA66202DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DDE07CF49680065AC9D = {
-			fileRef = F51DA66402DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DDF07CF49690065AC9D = {
-			fileRef = F51DA66702DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DE007CF496C0065AC9D = {
-			fileRef = F51DA66802DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DE107CF496D0065AC9D = {
-			fileRef = F51DA66A02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DE207CF496D0065AC9D = {
-			fileRef = F51DA66B02DBA912010E292A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDD7EF4707F0526E00BA3B90 = {
 			fileRef = DD40CDFE07F038990096C645;
 			isa = PBXBuildFile;
@@ -4130,6 +4121,8 @@
 				F5EAD475031AEFF8018E201A,
 				F5EAD474031AEFF8018E201A,
 				DD81C5CC07C5D7D90098A04D,
+				DD73E34E08A0694000656EB1,
+				DD73E34F08A0694100656EB1,
 				DD81C60307C5D8630098A04D,
 				DD344BB607C5AEEE0043025C,
 				DD344BB707C5AEEE0043025C,
@@ -4593,6 +4586,7 @@
 				F54B8FCD02AC0A0C01FB7237,
 				F54B8FCE02AC0A0C01FB7237,
 				DD344BAD07C5AEB70043025C,
+				DD73E36208A06ED400656EB1,
 				DD344BAE07C5AEB70043025C,
 				AA763BF0040374F900A80164,
 				AA7639FE04002B2800A80164,

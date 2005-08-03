@@ -9863,3 +9863,13 @@ Rom    2 Aug 2005
         
     lib/
         stackwalker_win.cpp
+
+Charlie 2 Aug 2005
+    Mac: update XCode project for new source files and to link Core 
+    Client with libcrypto.dylib.  (Note: libcrypto.dylib comes with 
+    OS 10.3 and OS 10.4, but libcrypto.a does not.) Remove RSAEuro 
+    sources from Core Client build.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
