@@ -995,10 +995,10 @@ void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
         pDlgStatus->SetTitle(strTitle);
 
         iAnswer = pDlgStatus->ShowModal();
-    } else {
-        if (ami.login_name.empty()) {
-            iAnswer = ID_CHANGE;
-        }
+    }
+
+    if (ami.login_name.empty() && (ID_CHANGE != iAnswer)) {
+        iAnswer = ID_CHANGE;
     }
 
     if (ID_CHANGE == iAnswer) {

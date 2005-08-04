@@ -9923,3 +9923,11 @@ David  3 Aug 2005
         sched_hr.C,h (new)
         sched_resend.C,h (new)
         sched_send.C,h
+
+Rom    3 Aug 2005
+    - Fix a condition where the manager isn't prompting for a username
+        and password when a username and password were not already
+        stored on the system
+        
+    clientgui/
+        MainFrame.cpp
