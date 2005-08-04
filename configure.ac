@@ -535,8 +535,6 @@ AC_CONFIG_FILES([
                  py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  py/Boinc/version.py
                  py/Makefile
-                 RSAEuro/Makefile
-                 RSAEuro/source/Makefile
                  sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  sched/Makefile
                  sea/Makefile

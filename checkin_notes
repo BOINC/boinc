@@ -9947,6 +9947,7 @@ David  4 Aug 2005
     - Change Unix build to use libcrypto instead of RSAEuro
     - compile fix
 
+    configure.ac
     Makefile.am
     Makefile.incl
     lib/
