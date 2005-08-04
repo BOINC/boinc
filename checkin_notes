@@ -9893,3 +9893,19 @@ Charlie 3 Aug 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  3 Aug 2005
+    - replace wait3() and wait4() with waitpid().
+        wait3 and wait4 are obsolete and might not be
+        available on future systems.
+    - changed these obsoleted macros in configure.ac:
+        - AC_CANONICAL_SYSTEM   ->   AC_CANONICAL_TARGET
+        - AC_HELP_STRING               ->   AS_HELP_STRING
+        - AM_CONFIG_HEADER         ->   AC_CONFIG_HEADERS
+    (from Egon Larsson)
+
+    configure.ac
+    client/
+        app_control.C
+    sched/
+        sched_send.C

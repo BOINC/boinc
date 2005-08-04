@@ -624,17 +624,25 @@ void SCHEDULER_REPLY::got_bad_result() {
     }
 }
 
-// returns zero if result still feasible.  result may hve been
-// given a new report time.  Returns nonzero if result is no
-// longer feasible (not enough time to compute it on host). In
-// this case result is unchanged.
-int possibly_give_result_new_deadline(DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply) {
+// returns zero if result still feasible.
+// result may hve been given a new report time.
+// Returns nonzero if result is no longer feasible
+// (not enough time to compute it on host).
+// In this case result is unchanged.
+//
+int possibly_give_result_new_deadline(
+    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply
+) {
     const double resend_frac = 0.5;  // range [0, 1)
     int result_sent_time = time(0);
     int result_report_deadline = result_sent_time + (int)(resend_frac*(result.report_deadline - result.sent_time));
 
-    if (result_report_deadline < result.report_deadline) result_report_deadline = result.report_deadline;
-    if (result_report_deadline > result_sent_time + wu.delay_bound) result_report_deadline = result_sent_time + wu.delay_bound;
+    if (result_report_deadline < result.report_deadline) {
+        result_report_deadline = result.report_deadline;
+    }
+    if (result_report_deadline > result_sent_time + wu.delay_bound) {
+        result_report_deadline = result_sent_time + wu.delay_bound;
+    }
 
     // If infeasible, return without modifying result
     //
@@ -651,9 +659,9 @@ int possibly_give_result_new_deadline(DB_RESULT& result, WORKUNIT& wu, SCHEDULER
     //
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
-	"[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
+        "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
         result.id, reply.host.id,
-	result_report_deadline==result.report_deadline?"NO update to":"Updated"
+        result_report_deadline==result.report_deadline?"NO update to":"Updated"
     );
     result.sent_time = result_sent_time;
     result.report_deadline = result_report_deadline;
@@ -671,9 +679,9 @@ int add_result_to_reply(
     retval = add_wu_to_reply(wu, reply, platform, app, avp);
     if (retval) return retval;
 
-    // in the scheduling locality case, reduce the available space by
-    // LESS than the workunit rsc_disk_bound, IF the host already has
-    // the file OR the file was not already sent.
+    // in the scheduling locality case,
+    // reduce the available space by LESS than the workunit rsc_disk_bound,
+    // IF the host already has the file OR the file was not already sent.
     //
     if (!config.locality_scheduling ||
         decrement_disk_space_locality(wu, request, reply)
@@ -692,20 +700,20 @@ int add_result_to_reply(
         //
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-    }
-    else {
-        // Result was ALREADY sent to this host but never arrived. So
-        // we are resending it. result.report_deadline and time_sent
+    } else {
+        // Result was ALREADY sent to this host but never arrived.
+        // So we are resending it.
+        // result.report_deadline and time_sent
         // have already been updated before this function was called.
         //
         if (result.report_deadline < result.sent_time) {
-	    result.report_deadline = result.sent_time + 10;
-	}
+            result.report_deadline = result.sent_time + 10;
+        }
         if (result.report_deadline > result.sent_time + wu.delay_bound) {
-	    result.report_deadline = result.sent_time + wu.delay_bound;
-	}
+            result.report_deadline = result.sent_time + wu.delay_bound;
+        }
 
-	log_messages.printf(
+        log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
             "[RESULT#%d] [HOST#%d] (resend lost work)\n",
             result.id, reply.host.id
@@ -1172,18 +1180,19 @@ bool resend_lost_work(
                 continue;
             }
 
-            // If time is too close to the deadline, or we already
-            // have a canonical result, or WU error flag is set, then
-            // don't bother to resend this result.  Instead make it
-            // time out right away so that the transitioner.  does
-            // 'the right thing'.
+            // If time is too close to the deadline,
+            // or we already have a canonical result,
+            // or WU error flag is set,
+            // then don't bother to resend this result.
+            // Instead make it time out right away
+            // so that the transitioner does 'the right thing'.
             //
             char warning_msg[256];
             if (
                 wu.error_mask ||
                 wu.canonical_resultid ||
                 possibly_give_result_new_deadline(result, wu, reply)
-               ) {
+            ) {
                 result.report_deadline = time(0);
                 retval = result.update_subset();
                 if (retval) {
@@ -1221,7 +1230,6 @@ bool resend_lost_work(
                     reply.host.id, result.id
                 );
                 continue;
-
             }
             sprintf(warning_msg, "Resent lost result %s", result.name);
             USER_MESSAGE um(warning_msg, "high");

@@ -89,46 +89,6 @@ int ACTIVE_TASK::kill_task() {
     cleanup_task();
 }
 
-#if !defined(HAVE_WAIT4) && defined(HAVE_WAIT3)
-#include <map>
-struct proc_info_t {
-    int status;
-    rusage r;
-    proc_info_t() {};
-    proc_info_t(int s, const rusage &ru);
-};
-
-proc_info_t::proc_info_t(int s, const rusage &ru) : status(s), r(ru) {}
-
-pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
-    static std::map<pid_t,proc_info_t> proc_info;
-    pid_t tmp_pid=0;
-
-    if (!pid) {
-        return wait3(statusp,options,rusagep);
-    } else {
-        if (proc_info.find(pid) == proc_info.end()) {
-            do {
-                tmp_pid=wait3(statusp,options,rusagep);
-                if ((tmp_pid>0) && (tmp_pid != pid)) {
-                    proc_info[tmp_pid]=proc_info_t(*statusp,*rusagep);
-                    if (!(options && WNOHANG)) {
-                        tmp_pid=0;
-                    }
-                } else {
-                    return pid;
-                }
-            } while (!tmp_pid);
-        } else {
-            *statusp=proc_info[pid].status;
-            *rusagep=proc_info[pid].r;
-            proc_info.erase(pid);
-            return pid;
-        }
-    }
-}
-#endif
-
 // We have sent a quit request to the process; see if it's exited.
 // This is called when the core client exits,
 // or when a project is detached or reset
@@ -146,11 +106,8 @@ bool ACTIVE_TASK::has_task_exited() {
         }
     }
 #else
-    int my_pid, stat;
-    struct rusage rs;
-
-    my_pid = wait4(pid, &stat, WNOHANG, &rs);
-    if (my_pid == pid) {
+    // We don't use status
+    if (waitpid(pid, 0, WNOHANG) == pid) {
         exited = true;
     }
 #endif
@@ -411,11 +368,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         }
     }
 #else
-    int pid;
-    int stat;
-    struct rusage rs;
+    int pid, stat;
 
-    if ((pid = wait4(0, &stat, WNOHANG, &rs)) > 0) {
+    if ((pid = waitpid(0, &stat, WNOHANG)) > 0) {
         scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process %d is done\n", pid);
         atp = lookup_pid(pid);
         if (!atp) {

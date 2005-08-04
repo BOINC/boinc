@@ -9,7 +9,7 @@ array("July 25, 2005",
     and some of the projects using it."
 ),
 array("July 24, 2005",
-    "<a href=http://www.fatbat.dk/thesis/>A paper by Jakob Pedersen & Christian S&oslash;ttrup</a>
+    "<a href=http://www.fatbat.dk/thesis/>A paper by Jakob Pedersen and Christian S&oslash;ttrup</a>
     discusses the interoperation of the Grid and BOINC."
 ),
 

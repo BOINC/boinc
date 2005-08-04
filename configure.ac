@@ -12,19 +12,19 @@ dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.72)
 
 AC_ARG_ENABLE(debug, 
-    AC_HELP_STRING([--enable-debug],
+    AS_HELP_STRING([--enable-debug],
                    [enable tracing and debugging flags for all components]),
     [enable_debug=yes],
     [])
 
 AC_ARG_ENABLE(server, 
-    AC_HELP_STRING([--disable-server],
+    AS_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
     [],
     [enable_server=yes])
 
 AC_ARG_ENABLE(client, 
-    AC_HELP_STRING([--disable-client],
+    AS_HELP_STRING([--disable-client],
                    [disable building the client]),
     [],
     [enable_client=yes])
@@ -32,7 +32,7 @@ AC_ARG_ENABLE(client,
 dnl ======================================================================
 dnl some vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================
-AC_ARG_ENABLE([client-release], AC_HELP_STRING([--enable-client-release],
+AC_ARG_ENABLE([client-release], AS_HELP_STRING([--enable-client-release],
         [Try building a portable "release-candidate" (currently implemented for Linux and Solaris only): \
         this links libstd++ statically. You will probably need gcc-3.0 for
         this to produce a portable client-binary.
@@ -44,7 +44,7 @@ AC_ARG_ENABLE([client-release], AC_HELP_STRING([--enable-client-release],
         disable_static_client=yes])
 
 m4_divert_once([HELP_ENABLE],
-  AC_HELP_STRING([], [Default: --enable-server --enable-client: 
+  AS_HELP_STRING([], [Default: --enable-server --enable-client: 
                       builds both server and client]))
 
 if test "${enable_server}" = yes ; then
@@ -70,7 +70,7 @@ fi
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
 echo "--- Build Components: (${configured_to_build}) ---"
 
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 
 dnl generate .tar.gz, .tar.bz2, .zip
 dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
@@ -351,8 +351,7 @@ BOINC_GETSOCKOPT_TYPE
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_FUNC_WAIT3
-AC_CHECK_FUNCS(lockf flock setpriority wait4 strlcpy strlcat sigaction getutent setutent)
+AC_CHECK_FUNCS(lockf flock setpriority strlcpy strlcat sigaction getutent setutent)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -553,7 +552,7 @@ AC_CONFIG_FILES([
                  ])
 
 dnl AC_CONFIG_HEADER([config.h])
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
 
