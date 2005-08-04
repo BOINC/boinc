@@ -26,8 +26,6 @@ extern SCHED_CONFIG config;
 extern GUI_URLS gui_urls;
 extern key_t sema_key;
 extern int g_pid;
-extern void lock_sema();
-extern void unlock_sema();
 
 extern void send_message(const char*, int delay, bool send_header);
 extern int open_database();

@@ -57,3 +57,7 @@ extern bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply);
 extern double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply);
 
 extern int update_wu_transition_time(WORKUNIT wu, time_t x);
+
+extern void lock_sema();
+extern void unlock_sema();
+

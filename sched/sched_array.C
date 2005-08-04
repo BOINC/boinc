@@ -20,29 +20,16 @@
 // scheduler code related to sending work
 
 
-#include <vector>
-#include <string>
-#include <ctime>
-#include <cstdio>
-#include <stdlib.h>
-
-using namespace std;
-
-#include <unistd.h>
-
-#include "error_numbers.h"
-#include "parse.h"
-
+#include "main.h"
 #include "server_types.h"
 #include "sched_shmem.h"
 #include "sched_hr.h"
 #include "sched_config.h"
 #include "sched_util.h"
-#include "main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
-#include "sched_locality.h"
-#include "sched_timezone.h"
+
+#include "sched_array.h"
 
 
 #ifdef _USING_FCGI_
