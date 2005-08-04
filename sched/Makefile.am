@@ -67,6 +67,9 @@ EXTRA_DIST =    \
 cgi_SOURCES = \
     handle_request.C \
     main.C \
+    sched_array.C \
+    sched_hr.C \
+    sched_resend.C \
     sched_send.C \
     sched_locality.C \
     sched_timezone.C \

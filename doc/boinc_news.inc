@@ -2,6 +2,11 @@
 
 $project_news = array(
 
+array("August 3, 2005",
+    "Non-open-source code (RSAEuro and GLUT) has been removed from BOINC.
+    OpenSSL's crypto library is used for encryption."
+),
+
 array("July 25, 2005", 
     "A group of students from Cornell have written
     <a href=distributing_science_final.pdf>Distributing Science<a>,
@@ -9,7 +14,7 @@ array("July 25, 2005",
     and some of the projects using it."
 ),
 array("July 24, 2005",
-    "<a href=http://www.fatbat.dk/thesis/>A paper by Jakob Pedersen and Christian S&oslash;ttrup</a>
+    "<a href=http://www.fatbat.dk/thesis/>A paper by Jakob Pedersen and Christian S&#248;ttrup</a>
     discusses the interoperation of the Grid and BOINC."
 ),
 

@@ -38,6 +38,7 @@ using namespace std;
 #include "sched_config.h"
 #include "sched_util.h"
 #include "main.h"
+#include "sched_array.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_locality.h"
@@ -187,7 +188,7 @@ const double HOST_ACTIVE_FRAC_MIN = 0.1;
 // estimate the number of CPU seconds that a workunit requires
 // running on this host.
 //
-static double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
+double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
     double p_fpops = reply.host.p_fpops;
     if (p_fpops <= 0) p_fpops = 1e9;
     double rsc_fpops_est = wu.rsc_fpops_est;
@@ -456,7 +457,7 @@ int insert_deadline_tag(RESULT& result) {
     return 0;
 }
 
-static int update_wu_transition_time(WORKUNIT wu, time_t x) {
+int update_wu_transition_time(WORKUNIT wu, time_t x) {
     DB_WORKUNIT dbwu;
     char buf[256];
 
@@ -473,7 +474,7 @@ static int update_wu_transition_time(WORKUNIT wu, time_t x) {
 
 // return true iff a result for same WU is already being sent
 //
-static bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
+bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
     unsigned int i;
     for (i=0; i<reply.results.size(); i++) {
         if (wu.id == reply.results[i].workunitid) {
@@ -481,83 +482,6 @@ static bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
         }
     }
     return false;
-}
-
-// modified by Pietro Cicotti
-// Check that the two platform has the same architecture and operating system
-// Architectures: AMD, Intel, Macintosh
-// OS: Linux, Windows, Darwin, SunOS
-
-const int unspec = 0;
-const int nocpu = 1;
-const int Intel = 2;
-const int AMD = 3;
-const int Macintosh = 4;
-
-const int noos = 128;
-const int Linux = 256;
-const int Windows = 384;
-const int Darwin = 512;
-const int SunOS = 640;
-
-inline
-int OS(SCHEDULER_REQUEST& sreq){
-    if ( strstr(sreq.host.os_name, "Linux") != NULL ) return Linux;
-    else if( strstr(sreq.host.os_name, "Windows") != NULL ) return Windows;
-    else if( strstr(sreq.host.os_name, "Darwin") != NULL ) return Darwin;
-    else if( strstr(sreq.host.os_name, "SunOS") != NULL ) return SunOS;
-    else return noos;
-};
-
-inline
-int CPU(SCHEDULER_REQUEST& sreq){
-    if ( strstr(sreq.host.p_vendor, "Intel") != NULL ) return Intel;
-    else if( strstr(sreq.host.p_vendor, "AMD") != NULL ) return AMD;
-    else if( strstr(sreq.host.p_vendor, "Macintosh") != NULL ) return Macintosh;
-    else return nocpu;
-};
-
-#if 0
-// old version, just in case
-bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
-    return !strcmp(host.os_name, sreq.host.os_name)
-        && !strcmp(host.p_vendor, sreq.host.p_vendor);
-}
-#endif
-
-// return true if we've already sent a result of this WU to a different platform
-// (where "platform" is os_name + p_vendor;
-// may want to sharpen this for Unix)
-//
-static bool already_sent_to_different_platform(
-    SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
-) {
-    DB_WORKUNIT db_wu;
-    int retval, hr_class=0;
-    char buf[256];
-
-    // reread hr_class field from DB in case it's changed
-    //
-    db_wu.id = workunit.id;
-    retval = db_wu.get_field_int("hr_class", hr_class);
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "can't get hr_class for %d: %d\n",
-            db_wu.id, retval
-        );
-        return true;
-    }
-    wreq.homogeneous_redundancy_reject = false;
-    if (hr_class != unspec) {
-        if (OS(sreq) + CPU(sreq) != hr_class) {
-            wreq.homogeneous_redundancy_reject = true;
-        }
-    } else {
-        hr_class = OS(sreq) + CPU(sreq);
-        sprintf(buf, "hr_class=%d", hr_class);
-        db_wu.update_field(buf);
-    }
-    return wreq.homogeneous_redundancy_reject;
 }
 
 void lock_sema() {
@@ -622,50 +546,6 @@ void SCHEDULER_REPLY::got_bad_result() {
     if (host.max_results_day < 1) {
         host.max_results_day = 1;
     }
-}
-
-// returns zero if result still feasible.
-// result may hve been given a new report time.
-// Returns nonzero if result is no longer feasible
-// (not enough time to compute it on host).
-// In this case result is unchanged.
-//
-int possibly_give_result_new_deadline(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply
-) {
-    const double resend_frac = 0.5;  // range [0, 1)
-    int result_sent_time = time(0);
-    int result_report_deadline = result_sent_time + (int)(resend_frac*(result.report_deadline - result.sent_time));
-
-    if (result_report_deadline < result.report_deadline) {
-        result_report_deadline = result.report_deadline;
-    }
-    if (result_report_deadline > result_sent_time + wu.delay_bound) {
-        result_report_deadline = result_sent_time + wu.delay_bound;
-    }
-
-    // If infeasible, return without modifying result
-    //
-    if (estimate_cpu_duration(wu, reply) > result_report_deadline-result_sent_time) {
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
-            result.id, reply.host.id
-        );
-        return 1;
-    }
-    
-    // update result with new report time and sent time
-    //
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
-        "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
-        result.id, reply.host.id,
-        result_report_deadline==result.report_deadline?"NO update to":"Updated"
-    );
-    result.sent_time = result_sent_time;
-    result.report_deadline = result_report_deadline;
-    return 0;
 }
 
 int add_result_to_reply(
@@ -770,184 +650,6 @@ int add_result_to_reply(
     reply.wreq.nresults++;
     reply.host.nresults_today++;
     return 0;
-}
-
-// Make a pass through the wu/results array, sending work.
-// If "infeasible_only" is true, send only results that were
-// previously infeasible for some host
-//
-static void scan_work_array(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
-) {
-    int i, j, retval, n, rnd_off;
-    WORKUNIT wu;
-    DB_RESULT result;
-    char buf[256];
-    APP* app;
-    APP_VERSION* avp;
-    bool found;
-
-    lock_sema();
-    
-    rnd_off = rand() % ss.nwu_results;
-    for (j=0; j<ss.nwu_results; j++) {
-        i = (j+rnd_off) % ss.nwu_results;
-        if (!reply.work_needed()) break;
-
-        WU_RESULT& wu_result = ss.wu_results[i];
-
-        // do fast checks on this wu_result;
-        // i.e. ones that don't require DB access
-        // if any check fails, continue
-
-        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
-            continue;
-        }
-
-        if (reply.wreq.infeasible_only && (wu_result.infeasible_count==0)) {
-            continue;
-        }
-
-        // don't send if we're already sending a result for same WU
-        //
-        if (config.one_result_per_user_per_wu) {
-            if (wu_already_in_reply(wu_result.workunit, reply)) {
-                continue;
-            }
-        }
-
-        // don't send if host can't handle it
-        //
-        wu = wu_result.workunit;
-        if (wu_is_infeasible(wu, sreq, reply)) {
-            log_messages.printf(
-                SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
-                reply.host.id, wu.id, wu.name
-            );
-            wu_result.infeasible_count++;
-            continue;
-        }
-
-        // Find the app and app_version for the client's platform.
-        // If none, treat the WU as infeasible
-        //
-        if (anonymous(platform)) {
-            app = ss.lookup_app(wu.appid);
-            found = sreq.has_version(*app);
-            if (!found) {
-                continue;
-            }
-            avp = NULL;
-        } else {
-            found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
-            if (!found) {
-                wu_result.infeasible_count++;
-                continue;
-            }
-
-            // see if the core client is too old.
-            // don't bump the infeasible count because this
-            // isn't the result's fault
-            //
-            if (!app_core_compatible(reply.wreq, *avp)) {
-                continue;
-            }
-        }
-
-        // end of fast checks - mark wu_result as checked out and release sema.
-        // from here on in this loop, don't continue on failure;
-        // instead, goto dont_send (so that we reacquire semaphore)
-
-        wu_result.state = WR_STATE_CHECKED_OUT;
-        unlock_sema();
-
-        // Don't send if we've already sent a result of this WU to this user.
-        //
-        if (config.one_result_per_user_per_wu) {
-            sprintf(buf,
-                "where workunitid=%d and userid=%d",
-                wu_result.workunit.id, reply.user.id
-            );
-            retval = result.count(n, buf);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "send_work: can't get result count (%d)\n", retval
-                );
-                goto dont_send;
-            } else {
-                if (n>0) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::DEBUG,
-                        "send_work: user %d already has %d result(s) for WU %d\n",
-                        reply.user.id, n, wu_result.workunit.id
-                    );
-                    goto dont_send;
-                }
-            }
-        }
-
-        // if desired, make sure redundancy is homogeneous
-        //
-        if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
-            if (already_sent_to_different_platform(
-                sreq, wu_result.workunit, reply.wreq
-            )) {
-                goto dont_send;
-            }
-        }
-
-        result.id = wu_result.resultid;
-
-        // mark slot as empty AFTER we've copied out of it
-        // (since otherwise feeder might overwrite it)
-        //
-        wu_result.state = WR_STATE_EMPTY;
-
-        // reread result from DB, make sure it's still unsent
-        // TODO: from here to update() should be a transaction
-        //
-        retval = result.lookup_id(result.id);
-        if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "[RESULT#%d] result.lookup_id() failed %d\n",
-                result.id, retval
-            );
-            goto done;
-        }
-        if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "[RESULT#%d] expected to be unsent; instead, state is %d\n",
-                result.id, result.server_state
-            );
-            goto done;
-        }
-        if (result.workunitid != wu.id) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "[RESULT#%d] wrong WU ID: wanted %d, got %d\n",
-                result.id, wu.id, result.workunitid
-            );
-            goto done;
-        }
-
-        // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
-        //
-
-        retval = add_result_to_reply(
-            result, wu, sreq, reply, platform, app, avp
-        );
-        if (!retval) goto done;
-
-dont_send:
-        // here we couldn't send the result for some reason --
-        // set its state back to PRESENT
-        //
-        wu_result.state = WR_STATE_PRESENT;
-done:
-        lock_sema();
-    }
-    unlock_sema();
 }
 
 int send_work(
@@ -1110,141 +812,6 @@ int send_work(
         }
     }
     return 0;
-}
-
-bool resend_lost_work(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
-) {
-    DB_RESULT result;
-    std::vector<DB_RESULT>results;
-    unsigned int i;
-    char buf[256];
-    bool did_any = false;
-    int num_to_resend=0;
-    int num_resent=0;
-    APP* app;
-    APP_VERSION* avp;
-    int retval;
-
-    // print list of results on host
-    //
-    for (i=0; i<sreq.other_results.size(); i++) {
-        OTHER_RESULT& orp=sreq.other_results[i];
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "Result is on [HOST#%d]: %s\n",
-            reply.host.id, orp.name.c_str()
-        );
-    }
-
-    sprintf(buf, " where hostid=%d and server_state=%d ",
-        reply.host.id, RESULT_SERVER_STATE_IN_PROGRESS
-    );
-    while (!result.enumerate(buf)) {
-        bool found = false;
-        for (i=0; i<sreq.other_results.size(); i++) {
-            OTHER_RESULT& orp = sreq.other_results[i];
-            if (!strcmp(orp.name.c_str(), result.name)) {
-                found = true;
-            }
-        }
-        if (!found) {
-            num_to_resend++;
-            log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
-                "[HOST#%d] found lost [RESULT#%d]: %s\n",
-                reply.host.id, result.id, result.name
-            );
-
-            DB_WORKUNIT wu;
-            retval = wu.lookup_id(result.workunitid);
-            if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] WU not found for [RESULT#%d]\n",
-                    reply.host.id, result.id
-                );
-                continue;
-            }
-
-            reply.wreq.core_client_version =
-                sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-
-            retval = get_app_version(
-                wu, app, avp, sreq, reply, platform, ss
-            );
-            if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] no app version [RESULT#%d]\n",
-                    reply.host.id, result.id
-                );
-                continue;
-            }
-
-            // If time is too close to the deadline,
-            // or we already have a canonical result,
-            // or WU error flag is set,
-            // then don't bother to resend this result.
-            // Instead make it time out right away
-            // so that the transitioner does 'the right thing'.
-            //
-            char warning_msg[256];
-            if (
-                wu.error_mask ||
-                wu.canonical_resultid ||
-                possibly_give_result_new_deadline(result, wu, reply)
-            ) {
-                result.report_deadline = time(0);
-                retval = result.update_subset();
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
-                        "resend_lost_result: can't update result deadline: %d\n", retval
-                    );
-                    continue;
-                }
-                retval = update_wu_transition_time(wu, result.report_deadline);
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
-                        "resend_lost_result: can't update WU transition time: %d\n", retval
-                    );
-                    continue;
-                }
-                log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
-                    "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
-                    reply.host.id, result.id
-                );
-                sprintf(warning_msg, "Didn't resend lost result %s (expired)", result.name);
-                USER_MESSAGE um(warning_msg, "high");
-                reply.insert_message(um);
-                continue;
-            }
-
-            retval = add_result_to_reply(
-                result, wu, sreq, reply, platform, app, avp
-            );
-            if (retval) {
-                log_messages.printf( SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] failed to send [RESULT#%d]\n",
-                    reply.host.id, result.id
-                );
-                continue;
-            }
-            sprintf(warning_msg, "Resent lost result %s", result.name);
-            USER_MESSAGE um(warning_msg, "high");
-            reply.insert_message(um);
-            num_resent++;
-            did_any = true;
-        }
-    }
-    if (num_to_resend) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_to_resend, num_resent 
-        );
-    }
-
-    return did_any;
 }
 
 const char *BOINC_RCSID_32dcd335e7 = "$Id$";

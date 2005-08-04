@@ -45,6 +45,7 @@ using namespace std;
 #include "sched_util.h"
 #include "handle_request.h"
 #include "sched_msgs.h"
+#include "sched_resend.h"
 #include "sched_send.h"
 #include "sched_config.h"
 #include "sched_locality.h"

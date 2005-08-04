@@ -9909,3 +9909,17 @@ David  3 Aug 2005
         app_control.C
     sched/
         sched_send.C
+
+David  3 Aug 2005
+    - split up scheduler code into separate files for:
+        resending
+        sending from array
+        homogeneous redundancy (hr)
+
+    sched/
+        Makefile.am
+        handle_request.C
+        sched_array.C,h (new)
+        sched_hr.C,h (new)
+        sched_resend.C,h (new)
+        sched_send.C,h
