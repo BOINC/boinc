@@ -8,7 +8,7 @@ MYSQL_CFLAGS = @MYSQL_CFLAGS@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 
-RSA_LIBS = -L$(top_builddir)/RSAEuro/source -lrsaeuro
+RSA_LIBS = -lcrypto
 SCHED_LIB = -L$(top_builddir)/sched -lsched
 BOINC_LIB = -L$(top_builddir)/lib -lboinc
 
@@ -16,7 +16,6 @@ AM_CPPFLAGS =					\
         -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
         -I$(top_srcdir)/db			\
-        -I$(top_srcdir)/RSAEuro/source		\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
         -I$(top_srcdir)/sched			\
@@ -30,10 +29,6 @@ AM_LDFLAGS =
 
 # dependencies to make sure libs gets compiled before
 # programs linking to them:
-
-LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
-$(LIBRSA):
-	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
 LIBSCHED = $(top_builddir)/libsched.a
 $(LIBSCHED):

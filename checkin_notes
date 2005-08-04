@@ -9942,3 +9942,12 @@ Bruce  4 August 2005
         file_deleter.C
 
       an output file to delete for a result whose outcome was not 
+
+David  4 Aug 2005
+    - Change Unix build to use libcrypto instead of RSAEuro
+    - compile fix
+
+    Makefile.am
+    Makefile.incl
+    lib/
+        hostinfo.h

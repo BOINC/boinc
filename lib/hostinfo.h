@@ -60,6 +60,7 @@ public:
     int write(MIOFILE&);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
+    void print();
 
     bool host_is_running_on_batteries();
     bool users_idle(bool check_all_logins, double idle_time_to_run);
