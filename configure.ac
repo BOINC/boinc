@@ -125,6 +125,7 @@ AC_SUBST([BOINC_MINOR_VERSION])
 
 AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc])
+AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd])
 AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr])
 AC_SUBST([TOP_BUILD_DIR], [`pwd`])
 AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])

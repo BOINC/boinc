@@ -10,11 +10,22 @@ nslprogs=boinc_cmd
 bin_PROGRAMS = crypt_prog $(nslprogs)
 
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
+
+all-local: client-bin
+
+client-bin: @CLIENT_CMD_BIN_FILENAME@
+
 boinc_cmd_SOURCES = \
     boinc_cmd.C \
     gui_rpc_client.h
 
 boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
+
+# make a hard link to the client name.
+@CLIENT_CMD_BIN_FILENAME@: boinc_cmd
+	rm -f $@
+	@LN@ $? $@
+	@STRIP@ $@
 
 lib_LIBRARIES = libboinc.a 
 

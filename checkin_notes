@@ -9952,3 +9952,11 @@ David  4 Aug 2005
     Makefile.incl
     lib/
         hostinfo.h
+
+Rom    4 Aug 2005
+    - Strip boinc_cmd as well.
+    
+    /
+        configure.ac
+    lib/
+        Makefile.am
