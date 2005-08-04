@@ -143,9 +143,20 @@ int result_delete_files(RESULT& result) {
                     pathname
                 );
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                        "[RESULT#%d] get_file_path: %s: %d\n",
-                        result.id, filename, retval
+                    // the fact that no result files were found is a critical
+                    // error if this was a successful result, but is to be
+                    // expected if the result outcome was failure, since in
+                    // that case there may well be no output file produced.
+                    //
+                    int debug_or_crit;
+                    if (RESULT_OUTCOME_SUCCESS == result.outcome) {
+                        debug_or_crit=SCHED_MSG_LOG::CRITICAL;
+                    } else {
+                        debug_or_crit=SCHED_MSG_LOG::DEBUG;
+                    }
+                    log_messages.printf(debug_or_crit,
+                        "[RESULT#%d] outcome=%d client_state=%d No file %s to delete\n",
+                        result.id, result.outcome, result.client_state, filename
                     );
                 } else {
                     retval = unlink(pathname);

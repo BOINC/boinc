@@ -9931,3 +9931,14 @@ Rom    3 Aug 2005
         
     clientgui/
         MainFrame.cpp
+
+Bruce  4 August 2005
+    - File deleter: only log message at level CRIT if we fail to
+      file an output file for a SUCCESSFUL result.  Failure to
+      find an output file for an UNSUCCESSFUL result is OK, and
+      just logged at level DEBUG.
+
+    sched/
+        file_deleter.C
+
+      an output file to delete for a result whose outcome was not 
