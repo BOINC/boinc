@@ -9952,12 +9952,3 @@ David  4 Aug 2005
     Makefile.incl
     lib/
         hostinfo.h
-
-Rom    4 Aug 2005
-    - config.h has to be included if the data type defined for 
-      boinc_socklen_t by the build environment is to be resolved 
-      correctly by the compiler.
-   
-    lib/
-        network.C
-        
