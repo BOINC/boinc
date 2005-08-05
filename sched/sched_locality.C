@@ -92,7 +92,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     // This might in general be too soon, since host needs to complete any work
     // that depends upon this file, before it will be removed by core client.
     //
-    sprintf(buf, "Removing file %s to free up disk space", fi.name);
+    sprintf(buf, "BOINC will delete file %s when no longer needed", fi.name);
     USER_MESSAGE um(buf, "low");
     sreply.insert_message(um);
     sreply.set_delay(4*3600);
