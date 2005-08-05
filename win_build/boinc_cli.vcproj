@@ -543,6 +543,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\gui_http.C">
+			</File>
+			<File
 				RelativePath="..\client\gui_rpc_server.C">
 			</File>
 			<File
@@ -855,6 +858,9 @@
 			</File>
 			<File
 				RelativePath="..\client\file_xfer.h">
+			</File>
+			<File
+				RelativePath="..\client\gui_http.h">
 			</File>
 			<File
 				RelativePath="..\client\gui_rpc_server.h">

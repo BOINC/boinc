@@ -9960,3 +9960,19 @@ Rom    4 Aug 2005
         configure.ac
     lib/
         Makefile.am
+
+David  5 Aug 2005
+	- Add a new class GUI_HTTP for HTTP operations done
+		in response to GUI actions.
+		Currently the only one is account manager RPC,
+		but we'll be adding others for account setup.
+		GUI_HTTP manages polling, HTTP header creation etc.
+	- Modify ACCT_MGR to use GUI_HTTP
+
+	client/
+		acct_mgr.C,h
+		client_state.C,h
+		gui_http.C,h (new)
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj

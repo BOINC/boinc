@@ -27,6 +27,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "client_state.h"
+#include "gui_http.h"
 
 #include "acct_mgr.h"
 
@@ -35,10 +36,6 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
     int retval;
     char buf[256];
 
-    if (state != ACCT_MGR_STATE_IDLE) {
-        msg_printf(NULL, MSG_ALERT_ERROR, "An account manager update is already in progress");
-        return 0;
-    }
     strcpy(buf, url.c_str());
 
     if (!strlen(buf) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
@@ -60,10 +57,7 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
     strcpy(ami.password, password.c_str());
 
     sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
-    http_op.set_proxy(&gstate.proxy_info);
-    boinc_delete_file(ACCT_MGR_REPLY_FILENAME);
-    retval = http_op.init_get(buf, ACCT_MGR_REPLY_FILENAME, true);
-    if (!retval) retval = gstate.http_ops->insert(&http_op);
+    retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
     if (retval) {
         msg_printf(NULL, MSG_ALERT_ERROR,
             "Can't contact account manager at '%s'.\nPlease check the URL and try again",
@@ -72,43 +66,11 @@ int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
         return retval;
     }
     msg_printf(NULL, MSG_INFO, "Doing account manager RPC to %s", url.c_str());
-    state = ACCT_MGR_STATE_BUSY;
 
     return 0;
 }
 
-bool ACCT_MGR::poll() {
-    int retval;
-    if (state == ACCT_MGR_STATE_IDLE) return false;
-    static double last_time=0;
-    if (gstate.now-last_time < 1) return false;
-    last_time = gstate.now;
 
-    if (http_op.http_op_state == HTTP_STATE_DONE) {
-        gstate.http_ops->remove(&http_op);
-        if (http_op.http_op_retval == 0) {
-            FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
-            if (f) {
-                MIOFILE mf;
-                mf.init_file(f);
-                retval = parse(mf);
-                fclose(f);
-                if (!retval) {
-                    handle_reply();     // this generates messages
-                }
-            } else {
-                retval = ERR_FOPEN;
-            }
-        } else {
-            retval = http_op.http_op_retval;
-        }
-        if (retval) {
-            msg_printf(NULL, MSG_ALERT_ERROR, "Account manager update failed:\n%s", boincerror(retval));
-        }
-        state = ACCT_MGR_STATE_IDLE;
-    }
-    return true;
-}
 
 int ACCOUNT::parse(MIOFILE& in) {
     char buf[256];
@@ -121,16 +83,6 @@ int ACCOUNT::parse(MIOFILE& in) {
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
     return ERR_XML_PARSE;
-}
-
-ACCOUNT::ACCOUNT() {}
-ACCOUNT::~ACCOUNT() {}
-
-ACCT_MGR::ACCT_MGR() {
-    state = ACCT_MGR_STATE_IDLE;
-}
-
-ACCT_MGR::~ACCT_MGR() {
 }
 
 int ACCT_MGR::parse(MIOFILE& in) {
@@ -152,8 +104,29 @@ int ACCT_MGR::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-void ACCT_MGR::handle_reply() {
+void ACCT_MGR::handle_reply(int http_op_retval) {
     unsigned int i;
+    int retval;
+
+    if (http_op_retval == 0) {
+        FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
+        if (f) {
+            MIOFILE mf;
+            mf.init_file(f);
+            retval = parse(mf);
+            fclose(f);
+        } else {
+            retval = ERR_FOPEN;
+        }
+    } else {
+        retval = http_op_retval;
+    }
+    if (retval) {
+        msg_printf(NULL, MSG_ALERT_ERROR,
+            "Account manager update failed:\n%s", boincerror(retval)
+        );
+        return;
+    }
 
     msg_printf(NULL, MSG_INFO, "Handling account manager RPC reply");
     if (error_str.size()) {

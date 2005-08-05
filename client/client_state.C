@@ -490,7 +490,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
-        POLL_ACTION(acct_mgr                , acct_mgr.poll          );
+        POLL_ACTION(gui_http                , gui_http.poll          );
     } else if (network_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): network suspended\n");
         //POLL_ACTION(data_manager           , data_manager_poll      );
@@ -503,7 +503,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );        
-        POLL_ACTION(acct_mgr                , acct_mgr.poll          );
+        POLL_ACTION(gui_http                , gui_http.poll          );
     } else {
         net_stats.poll(*net_xfers);
         //
@@ -520,7 +520,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
-        POLL_ACTION(acct_mgr                , acct_mgr.poll          );
+        POLL_ACTION(gui_http                , gui_http.poll          );
     }
 
     retval = write_state_file_if_needed();

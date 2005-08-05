@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "miofile.h"
-#include "http.h"
+#include "gui_http.h"
 
 // represents info stored on files
 //
@@ -52,28 +52,22 @@ struct ACCOUNT {
     std::string authenticator;
 
     int parse(MIOFILE&);
-    ACCOUNT();
-    ~ACCOUNT();
+    ACCOUNT() {}
+    ~ACCOUNT() {}
 };
 
-#define ACCT_MGR_STATE_IDLE     0
-#define ACCT_MGR_STATE_BUSY     1
-
-struct ACCT_MGR {
-    int state;
+struct ACCT_MGR: public GUI_HTTP_OP {
     ACCT_MGR_INFO ami;
         // a temporary copy while doing RPC.
         // CLIENT_STATE::acct_mgr_info is authoratative
     std::string error_str;
-    HTTP_OP http_op;
     std::vector<ACCOUNT> accounts;
     int do_rpc(std::string url, std::string name, std::string password);
     int parse(MIOFILE&);
-    bool poll();
-    void handle_reply();
+    virtual void handle_reply(int http_op_retval);
 
-    ACCT_MGR();
-    ~ACCT_MGR();
+    ACCT_MGR(){}
+    ~ACCT_MGR(){}
 };
 
 #endif

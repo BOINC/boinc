@@ -30,6 +30,7 @@
 #include "client_types.h"
 #include "file_xfer.h"
 #include "gui_rpc_server.h"
+#include "gui_http.h"
 #include "hostinfo.h"
 #include "http.h"
 #include "language.h"
@@ -94,6 +95,7 @@ public:
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
     ACCT_MGR acct_mgr;
+    GUI_HTTP gui_http;
 
     int core_client_major_version;
     int core_client_minor_version;
