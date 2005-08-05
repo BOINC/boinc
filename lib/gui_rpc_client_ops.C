@@ -780,9 +780,11 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
 
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
+    error_num = -1;
+    authenticator = "";
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</account_out>")) return 0;
-        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (parse_int(buf, "<error_num>", error_num)) continue;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
     return ERR_XML_PARSE;

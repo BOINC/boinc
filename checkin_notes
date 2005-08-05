@@ -10013,3 +10013,11 @@ David  5 Aug 2005
 David  5 Aug 2005
     - temporary put the RSAEuro directory back into CVS,
         but with no files in it.
+
+David  5 Aug 2005
+	- change account create/lookup erro rreturn from string to int
+
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
+

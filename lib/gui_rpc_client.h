@@ -434,8 +434,7 @@ struct ACCOUNT_IN {
 };
 
 struct ACCOUNT_OUT {
-    int account_exists;
-    std::string error_msg;
+    int error_num;
     std::string authenticator;
 
     int parse(MIOFILE&);
