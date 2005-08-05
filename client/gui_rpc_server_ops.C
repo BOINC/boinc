@@ -301,7 +301,7 @@ static void handle_get_activity_state(char* , MIOFILE& fout) {
 // [ <seqno>n</seqno> ]
 //    return only msgs with seqno > n; if absent or zero, return all
 //
-void handle_get_messages(char* buf, MIOFILE& fout) {
+static void handle_get_messages(char* buf, MIOFILE& fout) {
     int seqno=0, i, j;
     unsigned int k;
     MESSAGE_DESC* mdp;
@@ -471,7 +471,7 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     if (bad_arg) {
         fout.printf("<error>bad arg</error>\n");
     } else {
-        gstate.acct_mgr.do_rpc(url, name, password);
+        gstate.acct_mgr_op.do_rpc(url, name, password);
         fout.printf("<success/>\n");
     }
 }
@@ -490,7 +490,7 @@ static void handle_acct_mgr_info(char*, MIOFILE& fout) {
     );
 }
 
-void handle_get_statistics(char*, MIOFILE& fout) {
+static void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("<statistics>\n");
     for (std::vector<PROJECT*>::iterator i=gstate.projects.begin();
         i!=gstate.projects.end();++i
@@ -500,15 +500,57 @@ void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
-void handle_network_query(char*, MIOFILE& fout) {
+static void handle_network_query(char*, MIOFILE& fout) {
     fout.printf(
         "<want_network>%d</want_network>\n",
         gstate.want_network()?1:0
     );
 }
 
-void handle_network_available(char*, MIOFILE&) {
+static void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
+}
+
+static void handle_get_project_config(char* buf, MIOFILE&) {
+    string url;
+    parse_str(buf, "<url>", url);
+    gstate.get_project_config_op.do_rpc(url);
+}
+
+static void handle_get_project_config_poll(char*, MIOFILE& fout) {
+    if (gstate.get_project_config_op.in_progress) {
+        fout.printf("<in_progress/>");
+    } else {
+        fout.printf("%s", gstate.get_project_config_op.reply);
+    }
+}
+
+static void handle_lookup_account(char* buf, MIOFILE&) {
+    ACCOUNT_IN ai;
+    ai.parse(buf);
+    gstate.lookup_account_op.do_rpc(ai);
+}
+
+static void handle_lookup_account_poll(char*, MIOFILE& fout) {
+    if (gstate.lookup_account_op.in_progress) {
+        fout.printf("<in_progress/>");
+    } else {
+        fout.printf("%s", gstate.lookup_account_op.reply);
+    }
+}
+
+static void handle_create_account(char* buf, MIOFILE&) {
+    ACCOUNT_IN ai;
+    ai.parse(buf);
+    gstate.create_account_op.do_rpc(ai);
+}
+
+static void handle_create_account_poll(char*, MIOFILE& fout) {
+    if (gstate.create_account_op.in_progress) {
+        fout.printf("<in_progress/>");
+    } else {
+        fout.printf("%s", gstate.create_account_op.reply);
+    }
 }
 
 int GUI_RPC_CONN::handle_rpc() {
@@ -634,6 +676,18 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_network_query(request_msg, mf);
     } else if (match_tag(request_msg, "<network_available")) {
         handle_network_available(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_project_config")) {
+        handle_get_project_config(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_project_config_poll")) {
+        handle_get_project_config_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_account")) {
+        handle_lookup_account(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_account_poll")) {
+        handle_lookup_account_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<create_account")) {
+        handle_create_account(request_msg, mf);
+    } else if (match_tag(request_msg, "<create_account_poll")) {
+        handle_create_account_poll(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

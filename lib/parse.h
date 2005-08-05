@@ -39,6 +39,7 @@ extern void strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
 extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len);
 extern int copy_element_contents(FILE* in, const char* end_tag, std::string&);
+extern void file_to_str(FILE* in, std::string& str);
 extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element_contents(
     char* buf, const char* start, const char* end, const char* replacement

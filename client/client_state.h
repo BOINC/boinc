@@ -26,6 +26,7 @@
 #endif
 
 #include "acct_mgr.h"
+#include "acct_setup.h"
 #include "app.h"
 #include "client_types.h"
 #include "file_xfer.h"
@@ -94,8 +95,11 @@ public:
     LANGUAGE language;
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
-    ACCT_MGR acct_mgr;
     GUI_HTTP gui_http;
+    ACCT_MGR_OP acct_mgr_op;
+    GET_PROJECT_CONFIG_OP get_project_config_op;
+    LOOKUP_ACCOUNT_OP lookup_account_op;
+    CREATE_ACCOUNT_OP create_account_op;
 
     int core_client_major_version;
     int core_client_minor_version;

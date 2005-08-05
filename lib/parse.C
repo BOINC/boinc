@@ -213,6 +213,14 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
     return ERR_XML_PARSE;
 }
 
+void file_to_str(FILE* in, string& str) {
+    char buf[256];
+
+    str = "";
+    while (fgets(buf, 256, in)) {
+        str += buf;
+    }
+}
 
 // read a file into a malloc'd string
 //

@@ -419,7 +419,7 @@ struct ACCT_MGR_INFO {
 };
 
 struct PROJECT_CONFIG {
-    bool uses_email_id;
+    int uses_email_id;
     std::string name;
     int min_passwd_length;
 
@@ -434,9 +434,9 @@ struct ACCOUNT_IN {
 };
 
 struct ACCOUNT_OUT {
-    bool account_exists;
+    int account_exists;
     std::string error_msg;
-    std::string account_key;
+    std::string authenticator;
 
     int parse(MIOFILE&);
 };
@@ -508,7 +508,7 @@ public:
     // the following are asynch operations.
     // Make the first call to start the op,
     // call the second one periodically until it returns zero.
-    // TODO: do project update this way too
+    // TODO: do project update and account manager RPC this way too
     //
     int get_project_config(std::string url);
     int get_project_config_poll(PROJECT_CONFIG&);

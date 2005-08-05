@@ -9984,3 +9984,28 @@ Rom    5 Aug 2005
       
     /
         configure.ac
+
+David  5 Aug 2005
+	- Initial checkin of client-side code for new setup scheme.
+		Implements 3 new GUI RPCs:
+			get_project_config()
+			lookup_account()
+			create_account()
+		Note: code is sketchy and almost certainly doesn't work.
+		It also lacks server-side support.
+		I'm checking it in to allow Rom to work on Manager.
+
+	client/
+		acct_mgr.C,h
+		acct_setup.C,h (new)
+		client_state.h
+		file_names.h
+		gui_rpc_server_ops.C
+	lib/
+		error_numbers.h
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
+		parse.C,h
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj

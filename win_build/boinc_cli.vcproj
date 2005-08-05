@@ -171,6 +171,9 @@
 				RelativePath="..\client\acct_mgr.C">
 			</File>
 			<File
+				RelativePath="..\client\acct_setup.C">
+			</File>
+			<File
 				RelativePath="..\Client\app.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -825,6 +828,9 @@
 			Filter="h;hpp;hxx;hm;inl">
 			<File
 				RelativePath="..\client\acct_mgr.h">
+			</File>
+			<File
+				RelativePath="..\client\acct_setup.h">
 			</File>
 			<File
 				RelativePath="..\client\app.h">

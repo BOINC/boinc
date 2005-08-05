@@ -638,7 +638,9 @@ APP_VERSION* CC_STATE::lookup_app_version(
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         if (app_versions[i]->project->master_url != project_url) continue;
-        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];
+        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) {
+            return app_versions[i];
+        }
     }
     return 0;
 }
@@ -649,7 +651,9 @@ APP_VERSION* CC_STATE::lookup_app_version(
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         if (app_versions[i]->project != project) continue;
-        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];
+        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) {
+            return app_versions[i];
+        }
     }
     return 0;
 }
@@ -770,6 +774,31 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
         if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
         if (parse_str(buf, "<login_name>", login_name)) continue;
         if (parse_str(buf, "<password>", password)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+int ACCOUNT_OUT::parse(MIOFILE& in) {
+    char buf[256];
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</account_out>")) return 0;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (parse_str(buf, "<authenticator>", authenticator)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+int PROJECT_CONFIG::parse(MIOFILE& in) {
+    char buf[256];
+    uses_email_id = 1;
+    name = "";
+    min_passwd_length = 6;
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</project_config>")) return 0;
+        if (match_tag(buf, "<in_progress")) return ERR_IN_PROGRESS;
+        if (parse_int(buf, "<uses_email_id", uses_email_id)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1393,14 +1422,12 @@ int RPC_CLIENT::get_project_config(std::string url) {
 }
 
 int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
-    //char buf[4096];
     RPC rpc(this);
     int retval;
 
     retval = rpc.do_rpc("<get_project_config_poll/>\n");
     if (retval) return retval;
-    //return pc.parse(rpc.fin);
-    return 0;
+    return pc.parse(rpc.fin);
 }
 
 int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
@@ -1409,19 +1436,48 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     sprintf(buf,
         "<lookup_account>\n"
         "   <url>%s</url>\n"
+        "   <email_addr>%s</email_addr>\n"
+        "   <passwd_hash>%s</passwd_hash>\n"
         "</lookup_account>\n",
-        ai.url.c_str()
+        ai.url.c_str(),
+        ai.email_addr.c_str(),
+        ai.passwd_hash.c_str()
     );
-    return rpc.do_rpc(buf);}
+    return rpc.do_rpc(buf);
+}
 
 int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
-    return 0;
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<lookup_account_poll/>\n");
+    if (retval) return retval;
+    return ao.parse(rpc.fin);
 }
 
 int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
-    return 0;
+    char buf[4096];
+    RPC rpc(this);
+    sprintf(buf,
+        "<create_account>\n"
+        "   <url>%s</url>\n"
+        "   <email_addr>%s</email_addr>\n"
+        "   <passwd_hash>%s</passwd_hash>\n"
+        "   <user_name>%s</user_name>"
+        "</create_account>\n",
+        ai.url.c_str(),
+        ai.email_addr.c_str(),
+        ai.passwd_hash.c_str(),
+        ai.user_name.c_str()
+    );
+    return rpc.do_rpc(buf);
 }
 
 int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
-    return 0;
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<create_account_poll/>\n");
+    if (retval) return retval;
+    return ao.parse(rpc.fin);
 }

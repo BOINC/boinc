@@ -32,7 +32,7 @@
 #include "acct_mgr.h"
 
 
-int ACCT_MGR::do_rpc(std::string url, std::string name, std::string password) {
+int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password) {
     int retval;
     char buf[256];
 
@@ -85,7 +85,7 @@ int ACCOUNT::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-int ACCT_MGR::parse(MIOFILE& in) {
+int ACCT_MGR_OP::parse(MIOFILE& in) {
     char buf[256];
     int retval;
 
@@ -104,7 +104,7 @@ int ACCT_MGR::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-void ACCT_MGR::handle_reply(int http_op_retval) {
+void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     unsigned int i;
     int retval;
 
