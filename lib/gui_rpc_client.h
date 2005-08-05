@@ -430,7 +430,7 @@ struct ACCOUNT_IN {
     std::string url;
     std::string email_addr;
     std::string user_name;
-    std::string passwd_hash;
+    std::string passwd;
 };
 
 struct ACCOUNT_OUT {

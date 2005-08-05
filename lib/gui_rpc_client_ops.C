@@ -1432,9 +1432,15 @@ int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
     return pc.parse(rpc.fin);
 }
 
+static string get_passwd_hash(string passwd, string email_addr) {
+    return md5_string(passwd+email_addr);
+
+}
 int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     char buf[4096];
     RPC rpc(this);
+    downcase_string(ai.email_addr);
+    string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
     sprintf(buf,
         "<lookup_account>\n"
         "   <url>%s</url>\n"
@@ -1443,7 +1449,7 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
-        ai.passwd_hash.c_str()
+        passwd_hash.c_str()
     );
     return rpc.do_rpc(buf);
 }
@@ -1460,6 +1466,8 @@ int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
 int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
     char buf[4096];
     RPC rpc(this);
+    downcase_string(ai.email_addr);
+    string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
     sprintf(buf,
         "<create_account>\n"
         "   <url>%s</url>\n"
@@ -1469,7 +1477,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         "</create_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
-        ai.passwd_hash.c_str(),
+        passwd_hash.c_str(),
         ai.user_name.c_str()
     );
     return rpc.do_rpc(buf);

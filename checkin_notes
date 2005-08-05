@@ -10021,3 +10021,10 @@ David  5 Aug 2005
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
 
+
+David  5 Aug 2005
+	- do password hashing in GUI RPC interface
+
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
