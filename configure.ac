@@ -242,6 +242,12 @@ case ${target} in
 	;;
 esac
 
+dnl m4/boinc_getsockopt.m4
+BOINC_GETSOCKOPT_TYPE
+
+dnl m4/check_ssl.m4
+CHECK_SSL
+
 dnl save the libs
 SAVELIBS_AAF="${LIBS}"
 SAH_CHECK_LIB([cygipc], [shmget],
@@ -256,7 +262,6 @@ SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-CHECK_SSL
 SAH_CHECK_LIB([crypto], [RSA_new], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} -L${SSLDIR}/lib ${sah_lib_last}"])
 SAH_CHECK_LIB([ssl], [main],
@@ -344,10 +349,6 @@ AH_TEMPLATE([HAVE_STD_LOCALE],[Define to 1 if locale is in namespace std::])
 AH_TEMPLATE([HAVE_STD_TRANSFORM],[Define to 1 if transform is in namespace std:: ])
 SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *) 0,(char *)0,(int(*)(int))malloc)'] ['locale("")']],std)
 AC_LANG_POP
-
-dnl Cleaning up configure.ac  Moved type checking for getsockopt to
-dnl m4/boinc_getsockopt.m4
-BOINC_GETSOCKOPT_TYPE
 
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
