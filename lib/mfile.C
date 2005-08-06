@@ -56,7 +56,7 @@ int MFILE::open(const char* path, const char* mode) {
 }
 
 int MFILE::vprintf(const char* format, va_list ap) {
-    char buf2[20000];
+    char buf2[65536];
     int n, k;
 
     k = vsprintf(buf2, format, ap);

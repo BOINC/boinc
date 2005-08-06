@@ -869,7 +869,7 @@ int LOOKUP_WEBSITE::parse(MIOFILE& in) {
 }
 
 void LOOKUP_WEBSITE::clear() {
-    error_num = -1;
+    error_num = 0;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////

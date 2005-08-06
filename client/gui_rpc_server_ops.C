@@ -565,13 +565,9 @@ static void handle_lookup_google(char*, MIOFILE&) {
 }
 
 static void handle_lookup_google_poll(char*, MIOFILE& fout) {
-    if (gstate.lookup_google_op.error_num) {
-        fout.printf("<lookup_website>\n");
-        fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_google_op.error_num);
-        fout.printf("</lookup_website>\n");
-    } else {
-        fout.printf("%s", gstate.lookup_google_op.reply.c_str());
-    }
+    fout.printf("<lookup_website>\n");
+    fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_google_op.error_num);
+    fout.printf("</lookup_website>\n");
 }
 
 static void handle_lookup_yahoo(char*, MIOFILE&) {
@@ -579,13 +575,9 @@ static void handle_lookup_yahoo(char*, MIOFILE&) {
 }
 
 static void handle_lookup_yahoo_poll(char*, MIOFILE& fout) {
-    if (gstate.lookup_yahoo_op.error_num) {
-        fout.printf("<lookup_website>\n");
-        fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_yahoo_op.error_num);
-        fout.printf("</lookup_website>\n");
-    } else {
-        fout.printf("%s", gstate.lookup_yahoo_op.reply.c_str());
-    }
+    fout.printf("<lookup_website>\n");
+    fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_yahoo_op.error_num);
+    fout.printf("</lookup_website>\n");
 }
 
 int GUI_RPC_CONN::handle_rpc() {
