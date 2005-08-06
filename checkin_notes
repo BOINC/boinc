@@ -10028,3 +10028,12 @@ David  5 Aug 2005
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+David  6 Aug 2005
+    - compile fixes for Unix
+
+    client/
+        Makefile.am
+        acct_setup.h
+        gui_http.h
+        gui_rpc_server_ops.C
