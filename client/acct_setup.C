@@ -40,23 +40,24 @@ int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
     string url = master_url + "/get_project_config.php";
     retval = gstate.gui_http.do_rpc(this, url, GET_PROJECT_CONFIG_FILENAME);
     if (retval) {
-        in_progress = false;
+        error_num = retval;
     } else {
-        in_progress = true;
+        error_num = ERR_IN_PROGRESS;
     }
     return retval;
 }
 
 void GET_PROJECT_CONFIG_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
+        error_num = http_op_retval;
     } else {
         FILE* f = fopen(GET_PROJECT_CONFIG_FILENAME, "r");
         if (f) {
             file_to_str(f, reply);
             fclose(f);
         }
+        error_num = BOINC_SUCCESS;
     }
-    in_progress = false;
 }
 
 int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
@@ -66,23 +67,24 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     url = ai.url + "/lookup_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash;
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_ACCOUNT_FILENAME);
     if (retval) {
-        in_progress = false;
+        error_num = retval;
     } else {
-        in_progress = true;
+        error_num = ERR_IN_PROGRESS;
     }
     return retval;
 }
 
 void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
+        error_num = http_op_retval;
     } else {
         FILE* f = fopen(LOOKUP_ACCOUNT_FILENAME, "r");
         if (f) {
             file_to_str(f, reply);
             fclose(f);
         }
+        error_num = BOINC_SUCCESS;
     }
-    in_progress = false;
 }
 
 int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
@@ -92,20 +94,77 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     url = ai.url + "/create_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash;
     retval = gstate.gui_http.do_rpc(this, url, CREATE_ACCOUNT_FILENAME);
     if (retval) {
-        in_progress = false;
+        error_num = retval;
     } else {
-        in_progress = true;
+        error_num = ERR_IN_PROGRESS;
     }
     return retval;
 }
 
 void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
+        error_num = http_op_retval;
     } else {
         FILE* f = fopen(CREATE_ACCOUNT_FILENAME, "r");
         if (f) {
             file_to_str(f, reply);
             fclose(f);
         }
+        error_num = BOINC_SUCCESS;
     }
-    in_progress = false;}
+}
+
+int LOOKUP_GOOGLE_OP::do_rpc() {
+    int retval;
+    string url;
+
+    url = "http://www.google.com/";
+    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_GOOGLE_FILENAME);
+    if (retval) {
+        error_num = retval;
+    } else {
+        error_num = ERR_IN_PROGRESS;
+    }
+    return retval;
+}
+
+void LOOKUP_GOOGLE_OP::handle_reply(int http_op_retval) {
+    if (http_op_retval) {
+        error_num = http_op_retval;
+    } else {
+        FILE* f = fopen(LOOKUP_GOOGLE_FILENAME, "r");
+        if (f) {
+            file_to_str(f, reply);
+            fclose(f);
+        }
+        error_num = BOINC_SUCCESS;
+    }
+}
+
+int LOOKUP_YAHOO_OP::do_rpc() {
+    int retval;
+    string url;
+
+    url = "http://www.yahoo.com/";
+    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_YAHOO_FILENAME);
+    if (retval) {
+        error_num = retval;
+    } else {
+        error_num = ERR_IN_PROGRESS;
+    }
+    return retval;
+}
+
+void LOOKUP_YAHOO_OP::handle_reply(int http_op_retval) {
+    if (http_op_retval) {
+        error_num = http_op_retval;
+    } else {
+        FILE* f = fopen(LOOKUP_YAHOO_FILENAME, "r");
+        if (f) {
+            file_to_str(f, reply);
+            fclose(f);
+        }
+        error_num = BOINC_SUCCESS;
+    }
+}
+

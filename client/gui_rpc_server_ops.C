@@ -482,7 +482,8 @@ static void handle_acct_mgr_info(char*, MIOFILE& fout) {
         "   <acct_mgr_url>%s</acct_mgr_url>\n"
         "   <acct_mgr_name>%s</acct_mgr_name>\n"
         "   <login_name>%s</login_name>\n"
-        "   <password>%s</password>\n",
+        "   <password>%s</password>\n"
+        "</acct_mgr_info>\n",
         gstate.acct_mgr_info.acct_mgr_url,
         gstate.acct_mgr_info.acct_mgr_name,
         gstate.acct_mgr_info.login_name,
@@ -518,8 +519,10 @@ static void handle_get_project_config(char* buf, MIOFILE&) {
 }
 
 static void handle_get_project_config_poll(char*, MIOFILE& fout) {
-    if (gstate.get_project_config_op.in_progress) {
-        fout.printf("<in_progress/>");
+    if (gstate.get_project_config_op.error_num) {
+        fout.printf("<project_config>\n");
+        fout.printf("    <error_num>%d</error_num>\n", gstate.get_project_config_op.error_num);
+        fout.printf("</project_config>\n");
     } else {
         fout.printf("%s", gstate.get_project_config_op.reply.c_str());
     }
@@ -532,8 +535,10 @@ static void handle_lookup_account(char* buf, MIOFILE&) {
 }
 
 static void handle_lookup_account_poll(char*, MIOFILE& fout) {
-    if (gstate.lookup_account_op.in_progress) {
-        fout.printf("<in_progress/>");
+    if (gstate.lookup_account_op.error_num) {
+        fout.printf("<account_out>\n");
+        fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_account_op.error_num);
+        fout.printf("</account_out>\n");
     } else {
         fout.printf("%s", gstate.lookup_account_op.reply.c_str());
     }
@@ -546,10 +551,40 @@ static void handle_create_account(char* buf, MIOFILE&) {
 }
 
 static void handle_create_account_poll(char*, MIOFILE& fout) {
-    if (gstate.create_account_op.in_progress) {
-        fout.printf("<in_progress/>");
+    if (gstate.create_account_op.error_num) {
+        fout.printf("<account_out>\n");
+        fout.printf("    <error_num>%d</error_num>\n", gstate.create_account_op.error_num);
+        fout.printf("</account_out>\n");
     } else {
         fout.printf("%s", gstate.create_account_op.reply.c_str());
+    }
+}
+
+static void handle_lookup_google(char*, MIOFILE&) {
+    gstate.lookup_google_op.do_rpc();
+}
+
+static void handle_lookup_google_poll(char*, MIOFILE& fout) {
+    if (gstate.lookup_google_op.error_num) {
+        fout.printf("<lookup_website>\n");
+        fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_google_op.error_num);
+        fout.printf("</lookup_website>\n");
+    } else {
+        fout.printf("%s", gstate.lookup_google_op.reply.c_str());
+    }
+}
+
+static void handle_lookup_yahoo(char*, MIOFILE&) {
+    gstate.lookup_yahoo_op.do_rpc();
+}
+
+static void handle_lookup_yahoo_poll(char*, MIOFILE& fout) {
+    if (gstate.lookup_yahoo_op.error_num) {
+        fout.printf("<lookup_website>\n");
+        fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_yahoo_op.error_num);
+        fout.printf("</lookup_website>\n");
+    } else {
+        fout.printf("%s", gstate.lookup_yahoo_op.reply.c_str());
     }
 }
 
@@ -676,18 +711,26 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_network_query(request_msg, mf);
     } else if (match_tag(request_msg, "<network_available")) {
         handle_network_available(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_project_config")) {
-        handle_get_project_config(request_msg, mf);
     } else if (match_tag(request_msg, "<get_project_config_poll")) {
         handle_get_project_config_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_account")) {
-        handle_lookup_account(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_project_config")) {
+        handle_get_project_config(request_msg, mf);
     } else if (match_tag(request_msg, "<lookup_account_poll")) {
         handle_lookup_account_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<create_account")) {
-        handle_create_account(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_account")) {
+        handle_lookup_account(request_msg, mf);
     } else if (match_tag(request_msg, "<create_account_poll")) {
         handle_create_account_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<create_account")) {
+        handle_create_account(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_google_poll")) {
+        handle_lookup_google_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_google")) {
+        handle_lookup_google(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_yahoo_poll")) {
+        handle_lookup_yahoo_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_yahoo")) {
+        handle_lookup_yahoo(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

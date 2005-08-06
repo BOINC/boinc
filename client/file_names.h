@@ -72,8 +72,10 @@ extern void get_master_filename(PROJECT&, char*);
 #define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
 #define ACCT_MGR_URL_FILENAME       "acct_mgr_url.xml"
 #define ACCT_MGR_LOGIN_FILENAME     "acct_mgr_login.xml"
-#define GET_PROJECT_CONFIG_FILENAME       "get_project_config.xml"
+#define GET_PROJECT_CONFIG_FILENAME "get_project_config.xml"
 #define LOOKUP_ACCOUNT_FILENAME     "lookup_account.xml"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
+#define LOOKUP_GOOGLE_FILENAME      "lookup_google.html"
+#define LOOKUP_YAHOO_FILENAME       "lookup_yahoo.html"
 
 #endif

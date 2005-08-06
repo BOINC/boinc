@@ -10037,3 +10037,28 @@ David  6 Aug 2005
         acct_setup.h
         gui_http.h
         gui_rpc_server_ops.C
+
+Rom    6 Aug 2005
+    - Implement error handling with the new GUI RPCs.
+    - Add lookup_google, lookup_google_poll, lookup_yahoo, 
+        and lookup_yahoo_poll GUI RPCs.
+    - Add account creation disabled flag to project policies
+        GUI RPC.
+    - Make sure the poll functions are checked for before the
+        actual rpc request when determining which GUI RPC was
+        sent otherwise the system will always act as though
+        a new request is being sent instead of a poll request.
+    - Hook up the completed GUI RPCs for account creation to
+        the wizard.
+        
+    client/
+        acct_setup.C, .h
+        client_state.h
+        file_names.h
+        gui_rpc_server_ops.C
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

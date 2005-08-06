@@ -20,45 +20,61 @@
 #ifndef _ACCT_SETUP_H_
 #define _ACCT_SETUP_H_
 
-using std::string;
-
 #include "gui_http.h"
-
-struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
-    int do_rpc(string url);
-    virtual void handle_reply(int http_op_retval);
-    string reply;
-    bool in_progress;
-
-    GET_PROJECT_CONFIG_OP(){in_progress = false;}
-    ~GET_PROJECT_CONFIG_OP(){}
-};
+#include "error_numbers.h"
 
 struct ACCOUNT_IN {
-    string url;
-    string email_addr;
-    string user_name;
-    string passwd_hash;
+    std::string url;
+    std::string email_addr;
+    std::string user_name;
+    std::string passwd_hash;
 
     void parse(char*);
 };
 
+struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
+    std::string reply;
+    int error_num;
+
+    int do_rpc(string url);
+    virtual void handle_reply(int http_op_retval);
+    GET_PROJECT_CONFIG_OP(){error_num = BOINC_SUCCESS;}
+};
+
 struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {
-    string reply;
-    bool in_progress;
+    std::string reply;
+    int error_num;
 
     int do_rpc(ACCOUNT_IN&);
     virtual void handle_reply(int http_op_retval);
-    LOOKUP_ACCOUNT_OP(){in_progress = false;}
+    LOOKUP_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
 struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
-    string reply;
-    bool in_progress;
+    std::string reply;
+    int error_num;
 
     int do_rpc(ACCOUNT_IN&);
     virtual void handle_reply(int http_op_retval);
-    CREATE_ACCOUNT_OP(){in_progress = false;}
+    CREATE_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
+};
+
+struct LOOKUP_GOOGLE_OP: public GUI_HTTP_OP {
+    std::string reply;
+    int error_num;
+
+    int do_rpc();
+    virtual void handle_reply(int http_op_retval);
+    LOOKUP_GOOGLE_OP(){error_num = BOINC_SUCCESS;}
+};
+
+struct LOOKUP_YAHOO_OP: public GUI_HTTP_OP {
+    std::string reply;
+    int error_num;
+
+    int do_rpc();
+    virtual void handle_reply(int http_op_retval);
+    LOOKUP_YAHOO_OP(){error_num = BOINC_SUCCESS;}
 };
 
 #endif

@@ -231,8 +231,15 @@ public:
     CErrProxyComplationPage* m_ErrProxyCompletionPage;
 ////@end CWizAttachProject member variables
 
+    // Wizard support
     unsigned long m_ulDiagFlags;
     std::stack<wxWizardPage*> m_PageTransition;
+
+    // Global wizard status
+    PROJECT_CONFIG      project_config;
+    GR_PROXY_INFO       proxy_info;
+    ACCOUNT_IN          account_in;
+    ACCOUNT_OUT         account_out;
 };
 
 /*!
@@ -326,8 +333,8 @@ public:
     /// Gets the next page.
     virtual wxWizardPage* GetNext() const;
 
-    wxString GetStrProjectURL() const { return m_strProjectURL ; }
-    void SetStrProjectURL(wxString value) { m_strProjectURL = value ; }
+    wxString GetProjectURL() const { return m_strProjectURL ; }
+    void SetProjectURL(wxString value) { m_strProjectURL = value ; }
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );

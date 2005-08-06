@@ -63,15 +63,27 @@
 #define SS_STATUS_QUIT                              8
 #define SS_STATUS_NOPROJECTSDETECTED                9
 
-// These MUST match the constants in client/client_msgs.h
+// official HTTP status codes
+//
+#define HTTP_STATUS_OK              200
+#define HTTP_STATUS_PARTIAL_CONTENT 206
+#define HTTP_STATUS_RANGE_REQUEST_ERROR    416
+#define HTTP_STATUS_MOVED_PERM      301
+#define HTTP_STATUS_MOVED_TEMP      302
+#define HTTP_STATUS_NOT_FOUND       404
+#define HTTP_STATUS_PROXY_AUTH_REQ  407
+#define HTTP_STATUS_INTERNAL_SERVER_ERROR  500
+#define HTTP_STATUS_SERVICE_UNAVAILABLE    503
 
+// These MUST match the constants in client/client_msgs.h
+//
 #define MSG_PRIORITY_INFO               1
     // show message in black
 #define MSG_PRIORITY_ERROR              2
     // show message in red
-#define MSG_PRIORITY_ALERT_INFO              4
+#define MSG_PRIORITY_ALERT_INFO         4
     // show message in a modal dialog
-#define MSG_PRIORITY_ALERT_ERROR              5
+#define MSG_PRIORITY_ALERT_ERROR        5
     // show error message in a modal dialog
 
 struct GUI_URL {
@@ -419,11 +431,17 @@ struct ACCT_MGR_INFO {
 };
 
 struct PROJECT_CONFIG {
-    int uses_email_id;
+    int error_num;
     std::string name;
     int min_passwd_length;
+    bool uses_username_id;
+    bool account_creation_disabled;
+
+    PROJECT_CONFIG();
+    ~PROJECT_CONFIG();
 
     int parse(MIOFILE&);
+    void clear();
 };
 
 struct ACCOUNT_IN {
@@ -431,13 +449,32 @@ struct ACCOUNT_IN {
     std::string email_addr;
     std::string user_name;
     std::string passwd;
+
+    ACCOUNT_IN();
+    ~ACCOUNT_IN();
+
+    void clear();
 };
 
 struct ACCOUNT_OUT {
     int error_num;
     std::string authenticator;
 
+    ACCOUNT_OUT();
+    ~ACCOUNT_OUT();
+
     int parse(MIOFILE&);
+    void clear();
+};
+
+struct LOOKUP_WEBSITE {
+    int error_num;
+
+    LOOKUP_WEBSITE();
+    ~LOOKUP_WEBSITE();
+
+    int parse(MIOFILE&);
+    void clear();
 };
 
 class RPC_CLIENT {
@@ -515,6 +552,10 @@ public:
     int lookup_account_poll(ACCOUNT_OUT&);
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
+    int lookup_google();
+    int lookup_google_poll();
+    int lookup_yahoo();
+    int lookup_yahoo_poll();
 };
 
 struct RPC {
