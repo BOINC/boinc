@@ -17,6 +17,7 @@ EXTRA_PROGRAMS = cpu_benchmark
 
 boinc_client_SOURCES = \
     acct_mgr.C \
+    acct_setup.C \
     app.C \
     app_control.C \
     app_graphics.C \
@@ -39,6 +40,7 @@ boinc_client_SOURCES = \
     dhrystone2.C \
     file_names.C \
     file_xfer.C \
+    gui_http.C \
     gui_rpc_server.C \
     gui_rpc_server_ops.C \
     hostinfo_network.C \

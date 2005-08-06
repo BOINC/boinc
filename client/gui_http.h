@@ -32,6 +32,8 @@ using std::string;
 //
 struct GUI_HTTP_OP {
     virtual void handle_reply(int http_op_retval) {}
+    GUI_HTTP_OP(){}
+    ~GUI_HTTP_OP(){}
 };
 
 #define GUI_HTTP_STATE_IDLE     0

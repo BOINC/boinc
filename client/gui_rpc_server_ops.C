@@ -521,7 +521,7 @@ static void handle_get_project_config_poll(char*, MIOFILE& fout) {
     if (gstate.get_project_config_op.in_progress) {
         fout.printf("<in_progress/>");
     } else {
-        fout.printf("%s", gstate.get_project_config_op.reply);
+        fout.printf("%s", gstate.get_project_config_op.reply.c_str());
     }
 }
 
@@ -535,7 +535,7 @@ static void handle_lookup_account_poll(char*, MIOFILE& fout) {
     if (gstate.lookup_account_op.in_progress) {
         fout.printf("<in_progress/>");
     } else {
-        fout.printf("%s", gstate.lookup_account_op.reply);
+        fout.printf("%s", gstate.lookup_account_op.reply.c_str());
     }
 }
 
@@ -549,7 +549,7 @@ static void handle_create_account_poll(char*, MIOFILE& fout) {
     if (gstate.create_account_op.in_progress) {
         fout.printf("<in_progress/>");
     } else {
-        fout.printf("%s", gstate.create_account_op.reply);
+        fout.printf("%s", gstate.create_account_op.reply.c_str());
     }
 }
 
