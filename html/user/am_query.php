@@ -47,7 +47,7 @@ if ($user) {
 $authenticator = random_string();
 $cross_project_id = random_string();
 $now = time();
-$query = "insert into user (create_time, email_addr, authenticator, cross_project_id) values($now, '$tuser->email_addr', '$authenticator', '$cross_project_id')";
+$query = "insert into user (create_time, email_addr, authenticator, cross_project_id, passwd_hash) values($now, '$tuser->email_addr', '$authenticator', '$cross_project_id', '$authenticator')";
 $result = mysql_query($query);
 $user = lookup_user_auth($authenticator);
 

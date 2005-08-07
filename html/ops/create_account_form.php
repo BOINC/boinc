@@ -2,6 +2,9 @@
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 // use this to create accounts while regular account creation is disabled
 
+echo "DEPRECATED\n";
+exit();
+
 require_once("../inc/util_ops.inc");
 
 admin_page_head("Create Account");

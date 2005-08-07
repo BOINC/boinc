@@ -839,11 +839,10 @@ ACCOUNT_OUT::~ACCOUNT_OUT() {
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</account_out>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) return error_num;
+        if (parse_int(buf, "<error_num>", error_num)) continue;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 void ACCOUNT_OUT::clear() {
@@ -851,6 +850,7 @@ void ACCOUNT_OUT::clear() {
     authenticator.clear();
 }
 
+#if 0
 LOOKUP_WEBSITE::LOOKUP_WEBSITE() {
     clear();
 }
@@ -862,15 +862,18 @@ LOOKUP_WEBSITE::~LOOKUP_WEBSITE() {
 int LOOKUP_WEBSITE::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</lookup_website>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) return error_num;
+        if (match_tag(buf, "<in_progress")) return ERR_IN_PROGRESS;
+        if (parse_int(buf, "<uses_email_id>", uses_email_id)) continue;
+        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
     }
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 void LOOKUP_WEBSITE::clear() {
     error_num = 0;
 }
+#endif
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
@@ -1540,7 +1543,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
-        "   <user_name>%s</user_name>"
+        "   <user_name>%s</user_name>\n"
         "</create_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
@@ -1559,6 +1562,7 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
     return ao.parse(rpc.fin);
 }
 
+#if 0
 int RPC_CLIENT::lookup_google() {
     RPC rpc(this);
     return rpc.do_rpc("<lookup_google/>\n");
@@ -1588,4 +1592,4 @@ int RPC_CLIENT::lookup_yahoo_poll() {
     if (retval) return retval;
     return lw.parse(rpc.fin);
 }
-
+#endif

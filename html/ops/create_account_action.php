@@ -17,6 +17,9 @@ function create_account($email_addr, $user_name, $munge) {
     return false;
 }
 
+echo "DEPRECATED\n";
+exit();
+
 require_once("../inc/util_ops.inc");
 require_once("../inc/email.inc");
 

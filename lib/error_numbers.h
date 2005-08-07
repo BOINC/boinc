@@ -152,6 +152,10 @@
 #define ERR_SHMEM_NAME      -202
 #define ERR_NO_NETWORK_CONNECTION -203
 #define ERR_IN_PROGRESS     -204
+#define ERR_BAD_EMAIL_ADDR  -205
+#define ERR_BAD_PASSWD      -206
+#define ERR_NONUNIQUE_EMAIL -207
+#define ERR_ACCT_CREATION_DISABLED  -208
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.

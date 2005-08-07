@@ -37,7 +37,8 @@ void ACCOUNT_IN::parse(char* buf) {
 
 int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
     int retval;
-    string url = master_url + "/get_project_config.php";
+    string url = master_url + "get_project_config.php";
+    printf("doing RPC to %s, file %s\n", url.c_str(), GET_PROJECT_CONFIG_FILENAME);
     retval = gstate.gui_http.do_rpc(this, url, GET_PROJECT_CONFIG_FILENAME);
     if (retval) {
         error_num = retval;
@@ -55,8 +56,10 @@ void GET_PROJECT_CONFIG_OP::handle_reply(int http_op_retval) {
         if (f) {
             file_to_str(f, reply);
             fclose(f);
+            error_num = 0;
+        } else {
+            error_num = ERR_FOPEN;
         }
-        error_num = BOINC_SUCCESS;
     }
 }
 
@@ -82,8 +85,10 @@ void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
         if (f) {
             file_to_str(f, reply);
             fclose(f);
+            error_num = 0;
+        } else {
+            error_num = ERR_FOPEN;
         }
-        error_num = BOINC_SUCCESS;
     }
 }
 
@@ -91,7 +96,7 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     int retval;
     string url;
 
-    url = ai.url + "/create_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash;
+    url = ai.url + "/create_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash+"&user_name="+ai.user_name;
     retval = gstate.gui_http.do_rpc(this, url, CREATE_ACCOUNT_FILENAME);
     if (retval) {
         error_num = retval;
@@ -109,11 +114,14 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
         if (f) {
             file_to_str(f, reply);
             fclose(f);
+            error_num = 0;
+        } else {
+            error_num = ERR_FOPEN;
         }
-        error_num = BOINC_SUCCESS;
     }
 }
 
+#if 0
 int LOOKUP_GOOGLE_OP::do_rpc() {
     int retval;
     string url;
@@ -167,4 +175,4 @@ void LOOKUP_YAHOO_OP::handle_reply(int http_op_retval) {
         error_num = BOINC_SUCCESS;
     }
 }
-
+#endif

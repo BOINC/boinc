@@ -10062,3 +10062,53 @@ Rom    6 Aug 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  6 Aug 2005
+    - added passwd_hash, email_validated fields to user table
+    - added web RPCs for get config, lookup account, create account
+    - web changes:
+        - can log in with email/password
+        - added page for changing password
+        - can change email address without validation
+    - added options to boinc_cmd:
+        --get_project_config
+        --lookup_account
+        --create_account
+    - debugged new GUI RPCs
+    - commented out google/yahoo stuff
+
+    NOTE: if you apply these changes, you will have to upgrade
+        your database using db_update.php
+
+    client/
+        acct_setup.C,h
+        client_state.h
+        gui_http.C
+        gui_rpc_server_ops.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        inc/
+            user.inc
+            util.inc
+        ops/
+            create_account_action.php
+            create_account_form.php
+            db_updatephp
+        user/
+            am_query.php
+            create_account_action.php
+            edit_email_action.php
+            login_action.php
+            create_account.php (new)
+            edit_passwd_action.php (new)
+            edit_passwd_form.php (new)
+            get_project_config.php (new)
+            lookup_account.php (new)
+    lib/
+        boinc_cmd.C
+        error_numbers.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C

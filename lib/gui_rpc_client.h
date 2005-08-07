@@ -441,7 +441,7 @@ struct PROJECT_CONFIG {
     ~PROJECT_CONFIG();
 
     int parse(MIOFILE&);
-    void clear();
+    void print();
 };
 
 struct ACCOUNT_IN {
@@ -464,9 +464,10 @@ struct ACCOUNT_OUT {
     ~ACCOUNT_OUT();
 
     int parse(MIOFILE&);
-    void clear();
+    void print();
 };
 
+#if 0
 struct LOOKUP_WEBSITE {
     int error_num;
 
@@ -476,6 +477,7 @@ struct LOOKUP_WEBSITE {
     int parse(MIOFILE&);
     void clear();
 };
+#endif
 
 class RPC_CLIENT {
 public:
@@ -552,10 +554,12 @@ public:
     int lookup_account_poll(ACCOUNT_OUT&);
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
+#if 0
     int lookup_google();
     int lookup_google_poll();
     int lookup_yahoo();
     int lookup_yahoo_poll();
+#endif
 };
 
 struct RPC {

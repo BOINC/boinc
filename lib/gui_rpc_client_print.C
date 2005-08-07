@@ -232,3 +232,22 @@ void MESSAGES::print() {
     }
 }
 
+void PROJECT_CONFIG::print() {
+    printf(
+        "uses_email_id: %d\n"
+        "name: %s\n"
+        "min_passwd_length: %d\n",
+        uses_email_id,
+        name.c_str(),
+        min_passwd_length
+    );
+}
+
+void ACCOUNT_OUT::print() {
+    printf(
+        "error_num: %d\n"
+        "authenticator: %s\n",
+        error_num,
+        authenticator.c_str()
+    );
+}

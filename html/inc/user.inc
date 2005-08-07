@@ -54,10 +54,7 @@ function show_user_info_private($user) {
     }
 
     row1("Account information");
-    row2("Email address<br>
-        <font size=-2><a href=edit_email_form.php>Edit</a></font>",
-        $email_text
-    );
+    row2("Email address<br>", $email_text);
     row2("Name", $user->name);
     if (strlen($user->url)) {
         $x = "http://$user->url";
@@ -67,7 +64,9 @@ function show_user_info_private($user) {
     row2("URL", $x);
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
-    row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
+    row2("", "<a href=edit_email_form.php>Change email address</a>");
+    row2("", "<a href=edit_passwd_form.php>Change password</a>");
+    row2("", "<a href=edit_user_info_form.php>Change other account info</a>");
 
     row1("Profile");
     $sql = "SELECT * FROM profile WHERE userid = ".$user->id;

@@ -275,6 +275,13 @@ function update_6_22_2005() {
     do_query("alter table host add cpu_efficiency double not null after active_frac, add duration_correction_factor double not null after cpu_efficiency");
 }
 
+function update_8_05_2005() {
+    do_query("alter table user add passwd_hash varchar(254) not null");
+    do_query("alter table user add email_validated smallint not null");
+    do_query("update user set passwd_hash=MD5(concat(authenticator, email_addr))");
+    do_query("update user set email_validated=1");
+}
+
 //update_10_25_2004();
 
 ?>

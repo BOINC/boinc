@@ -35,6 +35,7 @@
 
 #include <vector>
 using std::vector;
+using std::string;
 
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
@@ -79,6 +80,12 @@ Commands:\n\
  --run_benchmarks\n\
  --get_screensaver_mode\n\
  --set_screensaver_mode on|off blank_time {desktop window_station}\n\
+ --get_project_config url\n\
+ --get_project_config_poll\n\
+ --lookup_account url email passwd\n\
+ --lookup_account_poll\n\
+ --create_account url email passwd name\n\
+ --create_account_poll\n\
  --quit\n\
    ");
     exit(1);
@@ -347,6 +354,48 @@ int main(int argc, char** argv) {
         blank_time = atof(next_arg(argc, argv, i));
         parse_display_args(argv, i, di);
         retval = rpc.set_screensaver_mode(enabled, blank_time, di);
+    } else if (!strcmp(cmd, "--get_project_config")) {
+        char* gpc_url = next_arg(argc, argv,i);
+        retval = rpc.get_project_config(string(gpc_url));
+    } else if (!strcmp(cmd, "--get_project_config_poll")) {
+        PROJECT_CONFIG pc;
+        retval = rpc.get_project_config_poll(pc);
+        if (retval) {
+            printf("retval: %d\n", retval);
+        } else {
+            pc.print();
+        }
+    } else if (!strcmp(cmd, "--lookup_account")) {
+        ACCOUNT_IN lai;
+        lai.url = next_arg(argc, argv, i);
+        lai.email_addr = next_arg(argc, argv, i);
+        lai.passwd = next_arg(argc, argv, i);
+        retval = rpc.lookup_account(lai);
+        printf("retval: %d\n", retval);
+    } else if (!strcmp(cmd, "--lookup_account_poll")) {
+        ACCOUNT_OUT lao;
+        retval = rpc.lookup_account_poll(lao);
+        if (retval) {
+            printf("retval: %d\n", retval);
+        } else {
+            lao.print();
+        }
+    } else if (!strcmp(cmd, "--create_account")) {
+        ACCOUNT_IN cai;
+        cai.url = next_arg(argc, argv, i);
+        cai.email_addr = next_arg(argc, argv, i);
+        cai.passwd = next_arg(argc, argv, i);
+        cai.user_name = next_arg(argc, argv, i);
+        retval = rpc.create_account(cai);
+        printf("retval: %d\n", retval);
+    } else if (!strcmp(cmd, "--create_account_poll")) {
+        ACCOUNT_OUT cao;
+        retval = rpc.create_account_poll(cao);
+        if (retval) {
+            printf("retval: %d\n", retval);
+        } else {
+            cao.print();
+        }
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {

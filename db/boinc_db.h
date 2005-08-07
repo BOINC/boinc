@@ -149,6 +149,8 @@ struct USER {
     char signature[256];
     bool has_profile;
     char cross_project_id[256];
+    char passwd_hash[256];
+    bool email_validated;
     void clear();
 };
 
