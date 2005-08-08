@@ -50,9 +50,8 @@ if ($user) {
     error("account with that email already exists");
 }
 
-$result = mysql_query(
-    "insert into tentative_user (nonce, email_addr, confirmed) values ('$nonce', '$email_addr', 0)"
-);
+$query = "insert into tentative_user (nonce, email_addr, confirmed) values ('$nonce', '$email_addr', 0)";
+$result = mysql_query($query);
 
 if ($result) {
     $subject = "Confirm ".PROJECT." account";
@@ -70,7 +69,7 @@ If you didn't initiate this request, ignore this message.
     mail($email_addr, $subject, $body, $headers);
     success();
 } else {
-    error("database error");
+    error("database error: ".mysql_error());
 }
 
 ?>
