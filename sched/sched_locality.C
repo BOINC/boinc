@@ -47,15 +47,25 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     char buf[256];
 
     if (!nfiles) {
+
+        double maxdisk=max_allowable_disk(sreq, sreply);
+
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
         );
 
-        sprintf(buf,
-            "No disk space (you must free %.1f MB before BOINC gets space).  ",
-            fabs(max_allowable_disk(sreq, sreply))/1.e6
-        );
+        if (maxdisk > 0) {
+            sprintf(buf,
+                "Not enough disk space (only %.1f MB free for BOINC). ",
+                maxdisk/1.e6
+            );
+        } else {
+            sprintf(buf,
+                "No disk space (YOU must free %.1f MB before BOINC gets space). ",
+                -1*maxdisk/1.e6
+            );
+        }
 
         if (sreply.disk_limits.max_used != 0.0) {
             strcat(buf, "Review preferences for maximum disk space used.");
