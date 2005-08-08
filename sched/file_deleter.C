@@ -350,7 +350,7 @@ int delete_antique_files() {
             char timestamp[128];
             strcpy(timestamp, time_to_string(statbuf.st_mtime));
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "deleting antique file %s created %s \n",
+                "deleting antique file %s created %s\n",
                 fname_at_end, timestamp 
             );
             if (unlink(single_line)) {
