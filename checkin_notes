@@ -10112,3 +10112,24 @@ David  6 Aug 2005
         gui_rpc_client.h
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
+
+Bruce  August 8, 2005
+
+    - file_deleter: added a new argument -delete_antiques.
+      If this switch is enabled on the command line, then
+      periodically (once per hour) removes any files in the
+      upload/ directory that are older than the oldest WU in the
+      database.  These files are created when BOINC clients
+      return work really late after the deadline -- so late that
+      the corresponding WU has been deleted from the database.
+      About half the results in the E@H upload/ directory were
+      of this form.  The 'find' command is used to locate such
+      files.  This is potentially a dangerous operation since
+      if we find then delete the wrong file(s) all hell could
+      break lose on the server.  So a lot of 'paranoia and
+      sanity checking' is done before unlink(path) is called,
+      and we bail out at the first sign of something odd.
+
+    sched/
+        file_deleter.C
+
