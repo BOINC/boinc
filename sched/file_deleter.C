@@ -270,7 +270,12 @@ int delete_antique_files() {
     }
     check_stop_daemons();
 
-    // Find the oldest workunit
+    // Find the oldest workunit.  We could add
+    // "where file_delete_state!=FILE_DELETE_DONE"
+    // to the query, but this might create some
+    // race condition with the 'regular' file delete
+    // mechanism, so better to do it like this.
+    //
     sprintf(buf, "order by create_time limit 1");
     if (!wu.enumerate(buf)) {
         FILE *fp;
@@ -307,8 +312,8 @@ int delete_antique_files() {
             struct stat statbuf;
             char *err=NULL;
 
-            // We can interrupt this at any point. Needed
-            // pclose() done when process exits.
+            // We can interrupt this at any point.
+            // pclose() is called when process exits.
             check_stop_daemons();
 
             // Do serious sanity checking on the path before
