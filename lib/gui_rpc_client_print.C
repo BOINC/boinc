@@ -237,7 +237,7 @@ void PROJECT_CONFIG::print() {
         "uses_email_id: %d\n"
         "name: %s\n"
         "min_passwd_length: %d\n",
-        uses_email_id,
+        uses_username_id,
         name.c_str(),
         min_passwd_length
     );

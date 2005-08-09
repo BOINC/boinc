@@ -778,14 +778,6 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-PROJECT_CONFIG::PROJECT_CONFIG() {
-    clear();
-}
-
-PROJECT_CONFIG::~PROJECT_CONFIG() {
-    clear();
-}
-
 int PROJECT_CONFIG::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
@@ -813,14 +805,6 @@ void PROJECT_CONFIG::clear() {
     account_creation_disabled = false;
 }
 
-ACCOUNT_IN::ACCOUNT_IN() {
-    clear();
-}
-
-ACCOUNT_IN::~ACCOUNT_IN() {
-    clear();
-}
-
 void ACCOUNT_IN::clear() {
     url.clear();
     email_addr.clear();
@@ -828,16 +812,9 @@ void ACCOUNT_IN::clear() {
     passwd.clear();
 }
 
-ACCOUNT_OUT::ACCOUNT_OUT() {
-    clear();
-}
-
-ACCOUNT_OUT::~ACCOUNT_OUT() {
-    clear();
-}
-
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
+    clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</account_out>")) return 0;
         if (parse_int(buf, "<error_num>", error_num)) return error_num;

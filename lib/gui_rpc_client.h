@@ -442,10 +442,11 @@ struct PROJECT_CONFIG {
     bool uses_email_id;
     bool account_creation_disabled;
 
-    PROJECT_CONFIG();
-    ~PROJECT_CONFIG();
+    PROJECT_CONFIG(){}
+    ~PROJECT_CONFIG(){}
 
     int parse(MIOFILE&);
+    void clear();
     void print();
     void clear();
 };
@@ -456,8 +457,8 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
 
-    ACCOUNT_IN();
-    ~ACCOUNT_IN();
+    ACCOUNT_IN(){}
+    ~ACCOUNT_IN(){}
 
     void clear();
 };
@@ -466,10 +467,11 @@ struct ACCOUNT_OUT {
     int error_num;
     std::string authenticator;
 
-    ACCOUNT_OUT();
-    ~ACCOUNT_OUT();
+    ACCOUNT_OUT(){}
+    ~ACCOUNT_OUT(){}
 
     int parse(MIOFILE&);
+    void clear();
     void print();
     void clear();
 };

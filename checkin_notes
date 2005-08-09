@@ -10153,3 +10153,11 @@ Rom    8 Aug 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  9 Aug 2005
+	- compile fixes
+
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
+		gui_rpc_client_print.C
