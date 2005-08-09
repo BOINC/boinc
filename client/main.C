@@ -58,8 +58,10 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #include "client_msgs.h"
 #include "main.h"
 
-
-
+#ifdef _USE_CURL  // CMC do the curl initialization here in main
+extern int curl_init(void);
+extern int curl_cleanup(void);
+#endif
 
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
@@ -332,6 +334,10 @@ int main(int argc, char** argv) {
 
     init_core_client(argc, argv);
 
+#ifdef _USE_CURL
+	curl_init();
+#endif
+
 #ifdef _WIN32
     // Initialize WinSock
     if ( WinsockInitialize() != 0 ) {
@@ -424,6 +430,10 @@ int main(int argc, char** argv) {
         );
         return ERR_IO;
     }
+#endif
+
+#ifdef _USE_CURL
+	curl_cleanup();
 #endif
     return retval;
 }

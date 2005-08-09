@@ -10181,3 +10181,34 @@ Rom    9 Aug 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+        
+David  9 August 2005
+	- Initial checkin for Curl-based core client.
+		This will allow the client to use HTTPS for any purpose
+		(main page, scheduler URL, file upload/download),
+		and it will eventually eliminate the funky/complex
+		HTTP and proxy code in the core client.
+
+		For now, this should have no effect on standard compiles;
+		everything is #ifdef'd to use the old HTTP code.
+		(from Carl Christensen)
+		If you want to build a Curl-based version:
+		build the libcurl library
+		Unix: in client/ rename Makefile_curl.am and build.
+		Win: rename boinc*_curl.vcproj and build
+
+	client/
+		client_state.C,h
+		file_xfer.h
+		gui_http.h
+		main.C
+		net_stats.h
+		next_xfer_curl.C,h (new)
+		Makefile_curl.am (new)
+		scheduler_op.h
+	curl-7.14.0/* (new)
+	lib/
+		util.C
+	win_build/
+		boinc_cli_curl.vcproj (new)
+		boincmgr_curl.vcproj (new)

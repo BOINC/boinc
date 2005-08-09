@@ -23,7 +23,11 @@
 #include <vector>
 
 #include "client_types.h"
+#ifdef _USE_CURL
+#include "http_curl.h"
+#else
 #include "http.h"
+#endif
 #include "prefs.h"
 
 // SCHEDULER_OP encapsulates the mechanism for

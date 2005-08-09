@@ -33,16 +33,22 @@
 #include "gui_rpc_server.h"
 #include "gui_http.h"
 #include "hostinfo.h"
-#include "http.h"
 #include "language.h"
 #include "miofile.h"
 #include "net_stats.h"
-#include "net_xfer.h"
 #include "pers_file_xfer.h"
 #include "prefs.h"
 #include "scheduler_op.h"
 #include "ss_logic.h"
 #include "time_stats.h"
+
+#ifdef _USE_CURL
+#include "http_curl.h"
+#include "net_xfer_curl.h"
+#else
+#include "http.h"
+#include "net_xfer.h"
+#endif
 
 #define USER_RUN_REQUEST_ALWAYS     1
 #define USER_RUN_REQUEST_AUTO       2

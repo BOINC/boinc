@@ -447,6 +447,7 @@ void escape_url_readable(char *in, char* out) {
     out[y] = 0;
 }
 
+
 // Canonicalize a master url.
 //   - Convert the first part of a URL (before the "://") to http://,
 // or prepend it
@@ -456,10 +457,12 @@ void escape_url_readable(char *in, char* out) {
 void canonicalize_master_url(char* url) {
     char buf[1024];
     size_t n;
+	bool bSSL = false; // keep track if they sent in https://
 
     char *p = strstr(url, "://");
     if (p) {
-        strcpy(buf, p+3);
+		bSSL = (bool) (p == url + 5);
+		strcpy(buf, p+3);
     } else {
         strcpy(buf, url);
     }
@@ -472,7 +475,7 @@ void canonicalize_master_url(char* url) {
     if (buf[n-1] != '/') {
         strcat(buf, "/");
     }
-    sprintf(url, "http://%s", buf);
+	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf); // CMC Here -- add SSL if needed
 }
 
 // is the string a valid master URL, in canonical form?
@@ -480,10 +483,19 @@ void canonicalize_master_url(char* url) {
 bool valid_master_url(char* buf) {
     char* p, *q;
     size_t n;
+	bool bSSL = false;
 
     p = strstr(buf, "http://");
-    if (p != buf) return false;
-    q = p+strlen("http://");
+	if (p != buf) {
+		// allow https
+	    p = strstr(buf, "https://");
+		if (p == buf) {
+			bSSL = true;
+		} else {
+			return false; // no http or https, it's bad!
+	    }
+	}
+	q = p+strlen(bSSL ? "https://" : "http://");
     p = strstr(q, ".");
     if (!p) return false;
     if (p == q) return false;

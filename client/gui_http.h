@@ -26,7 +26,11 @@
 
 using std::string;
 
+#ifdef _USE_CURL
+#include "http_curl.h"
+#else
 #include "http.h"
+#endif
 
 // base class for various types of ops
 //
