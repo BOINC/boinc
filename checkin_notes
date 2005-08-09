@@ -10161,3 +10161,13 @@ David  9 Aug 2005
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
 		gui_rpc_client_print.C
+
+Bruce 9 August 2005
+    - Client fixes from Walt Gribben.  Do regular checks for drive free
+      space.  And retrieve host info after call that reads client_state.xml
+      has wiped it out.
+
+    client/
+        app_control.C
+        client_state.C
+

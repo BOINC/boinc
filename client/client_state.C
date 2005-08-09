@@ -281,6 +281,12 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
+    // parse_state_file wiped out the current host info, get it again
+    //
+    host_info.clear_host_info();
+    host_info.get_host_info();
+    set_ncpus();
+ 
     // Check to see if we can write the state file.
     //
     retval = write_state_file();
