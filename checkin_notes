@@ -10212,3 +10212,8 @@ David  9 August 2005
 	win_build/
 		boinc_cli_curl.vcproj (new)
 		boincmgr_curl.vcproj (new)
+
+David  9 Aug 2005
+    - removed curl-7.14.0/ from CVS repository.
+        No real need for it since libcurl.a is present on most Linux.
+        We'll put a Windows compiled version in win_build.

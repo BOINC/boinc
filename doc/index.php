@@ -99,8 +99,9 @@ computer resources
         <ul>
         <li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
         <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
+        <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
         </ul>
-    <li> <a href=links.php>Web sites</a> for BOINC participants
+    <li> Other <a href=links.php>web sites</a> for BOINC participants
     <li> <a href=community.php#email_lists>Email lists</a>
     <li> An <a href=intro.php>overview</a> of BOINC, and links to papers
     <li>
