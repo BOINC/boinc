@@ -47,6 +47,7 @@ class CAccountKeyPage;
 class CAccountInfoPage;
 class CAccountCreationPage;
 class CCompletionPage;
+class CErrProjectNotDetectedPage;
 class CErrProjectUnavailablePage;
 class CErrNoInternetConnectionPage;
 class CErrAccountAlreadyExistsPage;
@@ -99,6 +100,8 @@ class CErrRefCountPage;
 #define ID_PROJECTCOMMUNICATIONSCTRL 10009
 #define ID_FINALACCOUNTCREATIONSTATUSCTRL 10016
 #define ID_COMPLETIONPAGE 10048
+#define ID_ERRPROJECTNOTDETECTEDPAGE 10007
+#define ID_HYPERLINK 10010
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
 #define ID_PROJECTUNAVAILABLEBOINCLINK 10003
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
@@ -228,6 +231,7 @@ public:
     CAccountInfoPage* m_AccountInfoPage;
     CAccountCreationPage* m_AccountCreationPage;
     CCompletionPage* m_CompletionPage;
+    CErrProjectNotDetectedPage* m_ErrProjectNotDetectedPage;
     CErrProjectUnavailablePage* m_ErrProjectUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrAccountAlreadyExistsPage* m_ErrAccountAlreadyExistsPage;
@@ -608,12 +612,6 @@ public:
     wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
     void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
 
-    bool GetAccountCreateNew() const { return m_bAccountCreateNew ; }
-    void SetAccountCreateNew(bool value) { m_bAccountCreateNew = value ; }
-
-    bool GetAccountUseExisting() const { return m_bAccountUseExisting ; }
-    void SetAccountUseExisting(bool value) { m_bAccountUseExisting = value ; }
-
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -636,8 +634,6 @@ public:
     wxString m_strAccountEmailAddress;
     wxString m_strAccountPassword;
     wxString m_strAccountConfirmPassword;
-    bool m_bAccountCreateNew;
-    bool m_bAccountUseExisting;
 ////@end CAccountInfoPage member variables
 };
 
@@ -794,6 +790,53 @@ public:
 
 ////@begin CCompletionPage member variables
 ////@end CCompletionPage member variables
+};
+
+/*!
+ * CErrProjectNotDetectedPage class declaration
+ */
+
+class CErrProjectNotDetectedPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProjectNotDetectedPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProjectNotDetectedPage( );
+
+    CErrProjectNotDetectedPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProjectNotDetectedPage event handler declarations
+
+////@end CErrProjectNotDetectedPage event handler declarations
+
+////@begin CErrProjectNotDetectedPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProjectNotDetectedPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProjectNotDetectedPage member variables
+////@end CErrProjectNotDetectedPage member variables
 };
 
 /*!
@@ -1271,53 +1314,6 @@ public:
 
 ////@begin CErrRefCountPage member variables
 ////@end CErrRefCountPage member variables
-};
-
-/*!
- * CErrProjectNotDetectedPage class declaration
- */
-
-class CErrProjectNotDetectedPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CErrProjectNotDetectedPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CErrProjectNotDetectedPage( );
-
-    CErrProjectNotDetectedPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CErrProjectNotDetectedPage event handler declarations
-
-////@end CErrProjectNotDetectedPage event handler declarations
-
-////@begin CErrProjectNotDetectedPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProjectNotDetectedPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProjectNotDetectedPage member variables
-////@end CErrProjectNotDetectedPage member variables
 };
 
 #endif
