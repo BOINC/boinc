@@ -234,10 +234,10 @@ void MESSAGES::print() {
 
 void PROJECT_CONFIG::print() {
     printf(
-        "uses_email_id: %d\n"
+        "uses_username: %d\n"
         "name: %s\n"
         "min_passwd_length: %d\n",
-        uses_username_id,
+        uses_username,
         name.c_str(),
         min_passwd_length
     );

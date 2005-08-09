@@ -785,11 +785,10 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
-        else if (match_tag(buf, "<uses_email_id/>")) {
-            uses_email_id = true;
+        else if (match_tag(buf, "<uses_username/>")) {
+            uses_username = true;
             continue;
-        }
-        else if (match_tag(buf, "<account_creation_disabled/>")) {
+        } else if (match_tag(buf, "<account_creation_disabled/>")) {
             account_creation_disabled = true;
             continue;
         }
@@ -801,7 +800,7 @@ void PROJECT_CONFIG::clear() {
     error_num = -1;
     name.clear();
     min_passwd_length = 6;
-    uses_email_id = true;
+    uses_username = false;
     account_creation_disabled = false;
 }
 
@@ -828,16 +827,9 @@ void ACCOUNT_OUT::clear() {
     authenticator.clear();
 }
 
-LOOKUP_WEBSITE::LOOKUP_WEBSITE() {
-    clear();
-}
-
-LOOKUP_WEBSITE::~LOOKUP_WEBSITE() {
-    clear();
-}
-
 int LOOKUP_WEBSITE::parse(MIOFILE& in) {
     char buf[256];
+    clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</lookup_website>")) return 0;
         if (parse_int(buf, "<error_num>", error_num)) return error_num;

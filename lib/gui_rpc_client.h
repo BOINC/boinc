@@ -439,7 +439,7 @@ struct PROJECT_CONFIG {
     int error_num;
     std::string name;
     int min_passwd_length;
-    bool uses_email_id;
+    bool uses_username;
     bool account_creation_disabled;
 
     PROJECT_CONFIG(){}
@@ -448,7 +448,6 @@ struct PROJECT_CONFIG {
     int parse(MIOFILE&);
     void clear();
     void print();
-    void clear();
 };
 
 struct ACCOUNT_IN {
@@ -473,14 +472,13 @@ struct ACCOUNT_OUT {
     int parse(MIOFILE&);
     void clear();
     void print();
-    void clear();
 };
 
 struct LOOKUP_WEBSITE {
     int error_num;
 
-    LOOKUP_WEBSITE();
-    ~LOOKUP_WEBSITE();
+    LOOKUP_WEBSITE(){}
+    ~LOOKUP_WEBSITE(){}
 
     int parse(MIOFILE&);
     void clear();
