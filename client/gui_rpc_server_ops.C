@@ -560,27 +560,26 @@ static void handle_create_account_poll(char*, MIOFILE& fout) {
     }
 }
 
-#if 0
-static void handle_lookup_google(char*, MIOFILE&) {
-    gstate.lookup_google_op.do_rpc();
+static void handle_lookup_website(char* buf, MIOFILE& fout) {
+    std::string url;
+    if (match_tag(buf, "<yahoo")) {
+        url = "http://www.yahoo.com/";
+        gstate.lookup_website_op.do_rpc(url);
+    } else if (match_tag(buf, "<google")) {
+        url = "http://www.google.com/";
+        gstate.lookup_website_op.do_rpc(url);
+    } else {
+        fout.printf("<error>Invalid website</error>\n");
+        return;
+    }
+    fout.printf("<success/>\n");
 }
 
-static void handle_lookup_google_poll(char*, MIOFILE& fout) {
+static void handle_lookup_website_poll(char*, MIOFILE& fout) {
     fout.printf("<lookup_website>\n");
-    fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_google_op.error_num);
+    fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_website_op.error_num);
     fout.printf("</lookup_website>\n");
 }
-
-static void handle_lookup_yahoo(char*, MIOFILE&) {
-    gstate.lookup_yahoo_op.do_rpc();
-}
-
-static void handle_lookup_yahoo_poll(char*, MIOFILE& fout) {
-    fout.printf("<lookup_website>\n");
-    fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_yahoo_op.error_num);
-    fout.printf("</lookup_website>\n");
-}
-#endif
 
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
@@ -719,16 +718,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_create_account(request_msg, mf);
     } else if (match_tag(request_msg, "<create_account_poll")) {
         handle_create_account_poll(request_msg, mf);
-#if 0
-    } else if (match_tag(request_msg, "<lookup_google_poll")) {
-        handle_lookup_google_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_google")) {
-        handle_lookup_google(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_yahoo_poll")) {
-        handle_lookup_yahoo_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_yahoo")) {
-        handle_lookup_yahoo(request_msg, mf);
-#endif
+    } else if (match_tag(request_msg, "<lookup_website_poll")) {
+        handle_lookup_website_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_website")) {
+        handle_lookup_website(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

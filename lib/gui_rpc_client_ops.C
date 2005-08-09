@@ -793,8 +793,8 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
-        else if (match_tag(buf, "<uses_username_id/>")) {
-            uses_username_id = true;
+        else if (match_tag(buf, "<uses_email_id/>")) {
+            uses_email_id = true;
             continue;
         }
         else if (match_tag(buf, "<account_creation_disabled/>")) {
@@ -809,7 +809,7 @@ void PROJECT_CONFIG::clear() {
     error_num = -1;
     name.clear();
     min_passwd_length = 6;
-    uses_username_id = false;
+    uses_email_id = true;
     account_creation_disabled = false;
 }
 
@@ -839,7 +839,8 @@ ACCOUNT_OUT::~ACCOUNT_OUT() {
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (match_tag(buf, "</account_out>")) return 0;
+        if (parse_int(buf, "<error_num>", error_num)) return error_num;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
     return 0;
@@ -850,7 +851,6 @@ void ACCOUNT_OUT::clear() {
     authenticator.clear();
 }
 
-#if 0
 LOOKUP_WEBSITE::LOOKUP_WEBSITE() {
     clear();
 }
@@ -862,18 +862,15 @@ LOOKUP_WEBSITE::~LOOKUP_WEBSITE() {
 int LOOKUP_WEBSITE::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "<in_progress")) return ERR_IN_PROGRESS;
-        if (parse_int(buf, "<uses_email_id>", uses_email_id)) continue;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_int(buf, "<min_passwd_length>", min_passwd_length)) continue;
+        if (match_tag(buf, "</lookup_website>")) return 0;
+        if (parse_int(buf, "<error_num>", error_num)) return error_num;
     }
-    return 0;
+    return ERR_XML_PARSE;
 }
 
 void LOOKUP_WEBSITE::clear() {
     error_num = 0;
 }
-#endif
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
@@ -1562,34 +1559,27 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
     return ao.parse(rpc.fin);
 }
 
-#if 0
-int RPC_CLIENT::lookup_google() {
+int RPC_CLIENT::lookup_website(int website_id) {
+    char buf[4096];
     RPC rpc(this);
-    return rpc.do_rpc("<lookup_google/>\n");
+    if ((website_id < LOOKUP_GOOGLE) || (website_id > LOOKUP_YAHOO)) return ERR_INVALID_PARAM;
+    sprintf(buf,
+        "<lookup_website>\n"
+        "    %s%s\n"
+        "</lookup_website>\n",
+        (LOOKUP_GOOGLE == website_id)?"<google/>":"",
+        (LOOKUP_YAHOO == website_id)?"<yahoo/>":""
+    );
+    return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::lookup_google_poll() {
-    RPC rpc(this);
-    LOOKUP_WEBSITE lw;
-    int retval;
-
-    retval = rpc.do_rpc("<lookup_google_poll/>\n");
-    if (retval) return retval;
-    return lw.parse(rpc.fin);
-}
-
-int RPC_CLIENT::lookup_yahoo() {
-    RPC rpc(this);
-    return rpc.do_rpc("<lookup_yahoo/>\n");
-}
-
-int RPC_CLIENT::lookup_yahoo_poll() {
+int RPC_CLIENT::lookup_website_poll() {
     RPC rpc(this);
     LOOKUP_WEBSITE lw;
     int retval;
 
-    retval = rpc.do_rpc("<lookup_yahoo_poll/>\n");
+    retval = rpc.do_rpc("<lookup_website_poll/>\n");
     if (retval) return retval;
     return lw.parse(rpc.fin);
 }
-#endif
+

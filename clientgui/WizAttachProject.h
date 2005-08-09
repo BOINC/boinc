@@ -55,6 +55,7 @@ class CErrProxyInfoPage;
 class CErrProxyHTTPPage;
 class CErrProxySOCKSPage;
 class CErrProxyComplationPage;
+class CErrRefCountPage;
 ////@end forward declarations
 
 /*!
@@ -80,12 +81,6 @@ class CErrProxyComplationPage;
 #define ID_PROJECTPROPERTIESPAGE 10017
 #define ID_RETRPROJECTPROPERTIESIMAGECTRL 10018
 #define ID_RETRPROJECTPROPERTIESCTRL 10019
-#define ID_COMMYAHOOIMAGECTRL 10010
-#define ID_COMMYAHOOCTRL 10011
-#define ID_COMMGOOGLEIMAGECTRL 10012
-#define ID_COMMGOOGLECTRL 10013
-#define ID_DETERMINECONNECTIONSTATUSIMAGECTRL 10014
-#define ID_DETERMINECONNECTIONSTATUSCTRL 10015
 #define ID_FINALPROJECTPROPERTIESTATUSCTRL 10026
 #define ID_ACCOUNTKEYPAGE 10054
 #define ID_ACCOUNTKEYSTATICCTRL 10074
@@ -131,6 +126,7 @@ class CErrProxyComplationPage;
 #define ID_PROXYSOCKSPASSWORDSTATICCTRL 10069
 #define ID_PROXYSOCKSPASSWORDCTRL 10005
 #define ID_ERRPROXYCOMPLETIONPAGE 10063
+#define ID_ERRREFCOUNTPAGE 10075
 ////@end control identifiers
 
 /*!
@@ -186,6 +182,11 @@ public:
 
 ////@end CWizAttachProject event handler declarations
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_BACKWARD
+    void OnWizardBack( wxCommandEvent& event );
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_FORWARD
+    void OnWizardNext( wxCommandEvent& event );
+
 ////@begin CWizAttachProject member function declarations
 
     /// Runs the wizard.
@@ -201,6 +202,12 @@ public:
     /// Overrides
     virtual bool HasNextPage( wxWizardPage* page );
     virtual bool HasPrevPage( wxWizardPage* page );
+
+    wxButton* GetBackButton() const { return m_pbtnBack ; }
+    void SetBackButton(wxButton* value) { m_pbtnBack = value ; }
+
+    wxButton* GetNextButton() const { return m_pbtnNext ; }
+    void SetNextButton(wxButton* value) { m_pbtnNext = value ; }
 
     /// Diagnostics functions
     void SetDiagFlags( unsigned long ulFlags );
@@ -229,7 +236,14 @@ public:
     CErrProxyHTTPPage* m_ErrProxyHTTPPage;
     CErrProxySOCKSPage* m_ErrProxySOCKSPage;
     CErrProxyComplationPage* m_ErrProxyCompletionPage;
+    CErrRefCountPage* m_ErrRefCountPage;
 ////@end CWizAttachProject member variables
+
+    // Since the buttons are not publically exposed, we are going to cheat to get
+    //   the pointers to them by trapping the click event and caching the button
+    //   class pointers.
+    wxButton*    m_pbtnBack;     // the "<Back" button
+    wxButton*    m_pbtnNext;     // the "Next>" or "Finish" button
 
     // Wizard support
     unsigned long m_ulDiagFlags;
@@ -289,14 +303,30 @@ public:
     static bool ShowToolTips();
 
 ////@begin CWelcomePage member variables
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrProjectPropertiesCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrProjectCommCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrProjectPropertiesURLCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrAccountCreationDisabledCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrAccountAlreadyExistsCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrGoogleCommCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrYahooCommCtrl;
+#endif
+#if defined(__WXDEBUG__)
     wxCheckBox* m_ErrNetDetectionCtrl;
+#endif
 ////@end CWelcomePage member variables
 };
 
@@ -390,7 +420,8 @@ END_DECLARE_EVENT_TYPES()
 #define PROJPROP_COMMUNICATEGOOGLE_EXECUTE              6
 #define PROJPROP_DETERMINENETWORKSTATUS_BEGIN           7
 #define PROJPROP_DETERMINENETWORKSTATUS_EXECUTE         8
-#define PROJPROP_END                                    9
+#define PROJPROP_CLEANUP                                9
+#define PROJPROP_END                                    10
 
 /*!
  * CProjectPropertiesPage class declaration
@@ -464,12 +495,6 @@ public:
 ////@begin CProjectPropertiesPage member variables
     wxStaticBitmap* m_RetrProjectPropertiesImageCtrl;
     wxStaticText* m_RetrProjectPropertiesCtrl;
-    wxStaticBitmap* m_CommYahooImageCtrl;
-    wxStaticText* m_CommYahooCtrl;
-    wxStaticBitmap* m_CommGoogleImageCtrl;
-    wxStaticText* m_CommGoogleCtrl;
-    wxStaticBitmap* m_DetermineConnectionStatusImageCtrl;
-    wxStaticText* m_DetermineConnectionStatusCtrl;
     wxStaticText* m_FinalProjectPropertiesStatusCtrl;
 ////@end CProjectPropertiesPage member variables
 
@@ -1198,6 +1223,53 @@ public:
 
 ////@begin CErrProxyComplationPage member variables
 ////@end CErrProxyComplationPage member variables
+};
+
+/*!
+ * CErrRefCountPage class declaration
+ */
+
+class CErrRefCountPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrRefCountPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrRefCountPage( );
+
+    CErrRefCountPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrRefCountPage event handler declarations
+
+////@end CErrRefCountPage event handler declarations
+
+////@begin CErrRefCountPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrRefCountPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrRefCountPage member variables
+////@end CErrRefCountPage member variables
 };
 
 #endif

@@ -121,13 +121,10 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
     }
 }
 
-#if 0
-int LOOKUP_GOOGLE_OP::do_rpc() {
+int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
-    string url;
 
-    url = "http://www.google.com/";
-    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_GOOGLE_FILENAME);
+    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
     } else {
@@ -136,43 +133,6 @@ int LOOKUP_GOOGLE_OP::do_rpc() {
     return retval;
 }
 
-void LOOKUP_GOOGLE_OP::handle_reply(int http_op_retval) {
-    if (http_op_retval) {
-        error_num = http_op_retval;
-    } else {
-        FILE* f = fopen(LOOKUP_GOOGLE_FILENAME, "r");
-        if (f) {
-            file_to_str(f, reply);
-            fclose(f);
-        }
-        error_num = BOINC_SUCCESS;
-    }
+void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
+    error_num = http_op_retval;
 }
-
-int LOOKUP_YAHOO_OP::do_rpc() {
-    int retval;
-    string url;
-
-    url = "http://www.yahoo.com/";
-    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_YAHOO_FILENAME);
-    if (retval) {
-        error_num = retval;
-    } else {
-        error_num = ERR_IN_PROGRESS;
-    }
-    return retval;
-}
-
-void LOOKUP_YAHOO_OP::handle_reply(int http_op_retval) {
-    if (http_op_retval) {
-        error_num = http_op_retval;
-    } else {
-        FILE* f = fopen(LOOKUP_YAHOO_FILENAME, "r");
-        if (f) {
-            file_to_str(f, reply);
-            fclose(f);
-        }
-        error_num = BOINC_SUCCESS;
-    }
-}
-#endif

@@ -10133,3 +10133,23 @@ Bruce  August 8, 2005
     sched/
         file_deleter.C
 
+Rom    8 Aug 2005
+    - Fix build breaks and reenable the lookup website code with
+        a changed prototype.
+    - Figured out how to automatically advance from one wizard page
+        to the next.  Yes, I know it breaks convention.
+    - Remove extra text on the project properties page.
+    - Display the hourglass cursor while executing the project
+        properties page.
+
+    client/
+        acct_setup.C, .h
+        client_state.h
+        file_names.h
+        gui_rpc_server_ops.C
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

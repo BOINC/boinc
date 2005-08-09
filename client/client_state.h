@@ -100,10 +100,7 @@ public:
     GET_PROJECT_CONFIG_OP get_project_config_op;
     LOOKUP_ACCOUNT_OP lookup_account_op;
     CREATE_ACCOUNT_OP create_account_op;
-#if 0
-    LOOKUP_GOOGLE_OP lookup_google_op;
-    LOOKUP_YAHOO_OP lookup_yahoo_op;
-#endif
+    LOOKUP_WEBSITE_OP lookup_website_op;
 
     int core_client_major_version;
     int core_client_minor_version;

@@ -75,7 +75,6 @@ extern void get_master_filename(PROJECT&, char*);
 #define GET_PROJECT_CONFIG_FILENAME "get_project_config.xml"
 #define LOOKUP_ACCOUNT_FILENAME     "lookup_account.xml"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
-#define LOOKUP_GOOGLE_FILENAME      "lookup_google.html"
-#define LOOKUP_YAHOO_FILENAME       "lookup_yahoo.html"
+#define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 
 #endif

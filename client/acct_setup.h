@@ -59,24 +59,12 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
     CREATE_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
-#if 0
-struct LOOKUP_GOOGLE_OP: public GUI_HTTP_OP {
-    std::string reply;
+struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
     int error_num;
 
-    int do_rpc();
+    int do_rpc(std::string&);
     virtual void handle_reply(int http_op_retval);
-    LOOKUP_GOOGLE_OP(){error_num = BOINC_SUCCESS;}
+    LOOKUP_WEBSITE_OP(){error_num = BOINC_SUCCESS;}
 };
-
-struct LOOKUP_YAHOO_OP: public GUI_HTTP_OP {
-    std::string reply;
-    int error_num;
-
-    int do_rpc();
-    virtual void handle_reply(int http_op_retval);
-    LOOKUP_YAHOO_OP(){error_num = BOINC_SUCCESS;}
-};
-#endif
 
 #endif
