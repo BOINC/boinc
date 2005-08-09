@@ -441,6 +441,7 @@ struct PROJECT_CONFIG {
     int min_passwd_length;
     bool uses_username;
     bool account_creation_disabled;
+    bool wizard_account_creation_supported;
 
     PROJECT_CONFIG(){}
     ~PROJECT_CONFIG(){}

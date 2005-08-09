@@ -780,6 +780,7 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
 
 int PROJECT_CONFIG::parse(MIOFILE& in) {
     char buf[256];
+    clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_config>")) return 0;
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
@@ -790,6 +791,9 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<account_creation_disabled/>")) {
             account_creation_disabled = true;
+            continue;
+        } else if (match_tag(buf, "<wizard_account_creation_supported/>")) {
+            wizard_account_creation_supported = true;
             continue;
         }
     }
@@ -802,6 +806,7 @@ void PROJECT_CONFIG::clear() {
     min_passwd_length = 6;
     uses_username = false;
     account_creation_disabled = false;
+    wizard_account_creation_supported = false;
 }
 
 void ACCOUNT_IN::clear() {

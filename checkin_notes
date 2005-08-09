@@ -10171,3 +10171,13 @@ Bruce 9 August 2005
         app_control.C
         client_state.C
 
+Rom    9 Aug 2005
+    - Checkin initial support for account creation or using an existing
+        account.
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
