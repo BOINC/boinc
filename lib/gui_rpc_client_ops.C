@@ -789,11 +789,11 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         else if (match_tag(buf, "<uses_username/>")) {
             uses_username = true;
             continue;
-        } else if (match_tag(buf, "<account_creation_disabled/>")) {
+        } else if (match_tag(buf, "<account_creation_disabled")) {
             account_creation_disabled = true;
             continue;
-        } else if (match_tag(buf, "<wizard_account_creation_supported/>")) {
-            wizard_account_creation_supported = true;
+        } else if (match_tag(buf, "<client_account_creation_disabled")) {
+            client_account_creation_disabled = true;
             continue;
         }
     }
@@ -806,7 +806,7 @@ void PROJECT_CONFIG::clear() {
     min_passwd_length = 6;
     uses_username = false;
     account_creation_disabled = false;
-    wizard_account_creation_supported = false;
+    client_account_creation_disabled = false;
 }
 
 void ACCOUNT_IN::clear() {

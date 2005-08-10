@@ -10231,3 +10231,11 @@ David  9 Aug 2005
         client_state.C
     html/
         get_project_config.php
+
+David  9 Aug 2005
+	- rename wizard_account_creation_supported to
+		client_account_creation_disabled
+
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
