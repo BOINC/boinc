@@ -824,7 +824,7 @@ int ACCOUNT_OUT::parse(MIOFILE& in) {
         if (parse_int(buf, "<error_num>", error_num)) return error_num;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
-    return 0;
+    return ERR_XML_PARSE;
 }
 
 void ACCOUNT_OUT::clear() {

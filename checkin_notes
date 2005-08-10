@@ -10261,3 +10261,12 @@ Rom    10 Aug 2005
     html/user/
         create_account.php
         lookup_account.php
+
+Rom    10 Aug 2005
+    - Fix various parsing issues
+    
+    lib/
+        gui_rpc_client_ops.C
+    html/user/
+        create_account.php
+        lookup_account.php
