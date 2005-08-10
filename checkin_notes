@@ -10239,3 +10239,25 @@ David  9 Aug 2005
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+Rom    10 Aug 2005
+    - Add a new page that is used for when the wizard detects that the url
+        provided is not a BOINC based project.
+    - Add some checks for project policy validation.
+    - Automatically change the label on certain controls when the uses_username
+        flag is set as a project property.
+    - Only populate the username, url, and password hash fields when
+        uses_username is detected.
+    - After the wizard completes, inform the core client that it should attach
+        to the project.
+    - Show the account key page when the client_account_creation_disabled flag
+        is set.
+    - Fix the create_account.php and lookup_account.php pages so that they only
+        expose one root node which will keep XML validators from blowing up.
+        
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    html/user/
+        create_account.php
+        lookup_account.php

@@ -71,6 +71,7 @@ class CErrRefCountPage;
 #define ID_ERRPROJECTCOMM 10052
 #define ID_ERRPROJECTPROPERTIESURL 10058
 #define ID_ERRACCOUNTCREATIONDISABLED 10059
+#define ID_ERRCLIENTACCOUNTCREATIONDISABLED 10076
 #define ID_ERRACCOUNTALREADYEXISTS 10020
 #define ID_ERRGOOGLECOMM 10053
 #define ID_ERRYAHOOCOMM 10055
@@ -148,14 +149,15 @@ class CErrRefCountPage;
  * CWizAttachProject debug flags
  */
 
-#define WIZDEBUG_ERRPROJECTPROPERTIES           0x00000001
-#define WIZDEBUG_ERRPROJECTPROPERTIESURL        0x00000002
-#define WIZDEBUG_ERRYAHOOCOMM                   0x00000004
-#define WIZDEBUG_ERRGOOGLECOMM                  0x00000008
-#define WIZDEBUG_ERRNETDETECTION                0x00000010
-#define WIZDEBUG_ERRPROJECTCOMM                 0x00000020
-#define WIZDEBUG_ERRACCOUNTALREADYEXISTS        0x00000040
-#define WIZDEBUG_ERRACCOUNTCREATIONDISABLED     0x00000080
+#define WIZDEBUG_ERRPROJECTPROPERTIES                 0x00000001
+#define WIZDEBUG_ERRPROJECTPROPERTIESURL              0x00000002
+#define WIZDEBUG_ERRYAHOOCOMM                         0x00000004
+#define WIZDEBUG_ERRGOOGLECOMM                        0x00000008
+#define WIZDEBUG_ERRNETDETECTION                      0x00000010
+#define WIZDEBUG_ERRPROJECTCOMM                       0x00000020
+#define WIZDEBUG_ERRACCOUNTALREADYEXISTS              0x00000040
+#define WIZDEBUG_ERRACCOUNTCREATIONDISABLED           0x00000080
+#define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000100
 
 
 /*!
@@ -182,6 +184,9 @@ public:
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTWIZARD
     void OnWizardCancel( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD
+    void OnWizardFinished( wxWizardEvent& event );
 
 ////@end CWizAttachProject event handler declarations
 
@@ -318,6 +323,9 @@ public:
 #endif
 #if defined(__WXDEBUG__)
     wxCheckBox* m_ErrAccountCreationDisabledCtrl;
+#endif
+#if defined(__WXDEBUG__)
+    wxCheckBox* m_ErrClientAccountCreationDisabledCtrl;
 #endif
 #if defined(__WXDEBUG__)
     wxCheckBox* m_ErrAccountAlreadyExistsCtrl;
@@ -481,6 +489,9 @@ public:
     bool GetProjectAccountCreationDisabled() const { return m_bProjectAccountCreationDisabled ; }
     void SetProjectAccountCreationDisabled(bool value) { m_bProjectAccountCreationDisabled = value ; }
 
+    bool GetProjectClientAccountCreationDisabled() const { return m_bProjectClientAccountCreationDisabled ; }
+    void SetProjectClientAccountCreationDisabled(bool value) { m_bProjectClientAccountCreationDisabled = value ; }
+
     bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
     void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
 
@@ -505,6 +516,7 @@ public:
     bool m_bProjectPropertiesSucceeded;
     bool m_bProjectPropertiesURLFailure;
     bool m_bProjectAccountCreationDisabled;
+    bool m_bProjectClientAccountCreationDisabled;
     bool m_bCommunicateYahooSucceeded;
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
@@ -586,6 +598,12 @@ public:
     void CreateControls();
 
 ////@begin CAccountInfoPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTINFOPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE
+    void OnPageChanging( wxWizardEvent& event );
 
     /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATECTRL
     void OnAccountCreateCtrlSelected( wxCommandEvent& event );
