@@ -41,7 +41,7 @@ if (strlen($passwd_hash) != 32) {
 $authenticator = random_string();
 $cross_project_id = random_string();
 $now = time();
-$query = "insert into user (create_time, email_addr, name, authenticator, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$user_name', '$authenticator', 1, 1, '$cross_project_id', '$authenticator')";
+$query = "insert into user (create_time, email_addr, name, authenticator, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$user_name', '$authenticator', 1, 1, '$cross_project_id', '$passwd_hash')";
 $result = mysql_query($query);
 if (!$result) {
     echo "<account_out>";
