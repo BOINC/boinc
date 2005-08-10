@@ -491,7 +491,6 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         else if (atp->check_max_mem_exceeded()) return true;
         else if (gstate.now>last_disk_check_time + gstate.global_prefs.disk_interval) {
             last_disk_check_time = gstate.now;
-            get_filesystem_info(gstate.host_info.d_total, gstate.host_info.d_free);
             if (atp->check_max_disk_exceeded()) return true;
         }
     }

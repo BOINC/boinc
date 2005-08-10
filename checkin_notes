@@ -10217,3 +10217,17 @@ David  9 Aug 2005
     - removed curl-7.14.0/ from CVS repository.
         No real need for it since libcurl.a is present on most Linux.
         We'll put a Windows compiled version in win_build.
+
+David  9 Aug 2005
+    - get_filesystem_info() call not relevant in check_rsc_limits_exceeded()
+    - recent change to startup logic caused benchmarks to always
+        run at startup (because clear_host_info() zeros out p_calculated.
+        Fix this by doing clear_host_info(),
+        then parse state file,
+        then get_host_info().
+
+    client/
+        app_control.C
+        client_state.C
+    html/
+        get_project_config.php
