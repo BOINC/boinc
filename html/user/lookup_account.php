@@ -16,15 +16,15 @@ $passwd_hash = process_user_text(get_str("passwd_hash"));
 
 $user = lookup_user_email_addr($email_addr);
 if (!$user) {
-    echo "<account_out>";
+    echo "<account_out>\n";
     echo "<error_num>-161</error_num>\n";
-    echo "</account_out>";
+    echo "</account_out>\n";
     exit();
 }
 
-echo "<account_out>";
-echo "<authenticator>$user->authenticator</authenticator>";
-echo "</account_out>";
+echo "<account_out>\n";
+echo "<authenticator>$user->authenticator</authenticator>\n";
+echo "</account_out>\n";
 
 ?>
 
