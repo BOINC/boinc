@@ -10263,8 +10263,11 @@ Rom    10 Aug 2005
         lookup_account.php
 
 Rom    10 Aug 2005
-    - Fix various parsing issues
+    - Fix various parsing issues.
+    - Fix a transition error when a project is not detected.
     
+    clientgui/
+        WizAttachProject.cpp
     lib/
         gui_rpc_client_ops.C
     html/user/

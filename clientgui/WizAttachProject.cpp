@@ -1059,7 +1059,7 @@ wxWizardPage* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (!GetProjectPropertiesSucceeded() && !GetProjectPropertiesURLFailure()) {
+    } else if (!GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRPROJECTNOTDETECTEDPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
