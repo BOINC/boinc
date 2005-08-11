@@ -10353,3 +10353,22 @@ David  11 Aug 2005
     sched/
         file_deleter.C
         make_work.C
+
+David  11 Aug 2005
+    - The (hopefully) last chapter in the saga of the Unix BOINC API.
+        We had previously waffled between using a signal handler
+        and using a timer thread.
+        Each has a fatal flaw: you can't do sprintf() (or pretty
+        much anything else) from an asynch signal handler,
+        and suspend and CPU time reporting don't work if you use a thread.
+
+        The new design uses both a signal handler and a thread!
+        The signal handler does the bare minimum -
+        calling getrusage() and sleep() -
+        and the timer thread does the message sending and receiving
+        (using sprintf() etc.)
+
+        (from Bruce Allen)
+
+    api/
+        boinc_api.C

@@ -52,25 +52,27 @@ using namespace std;
 
 #include "boinc_api.h"
 
-// The BOINC API communicates CPU time and fraction done to the core client.
-// Remember that the processing of a result can be divided
+// The BOINC API has various functions:
+// - check heartbeat from core client, exit if none
+// - handle trickle up/down messages
+// - report CPU time and fraction done to the core client.
+
+// Implementation notes:
+// Unix: getting CPU time and suspend/resume have to be done
+// in the worker thread, so we use a SIGALRM signal handler.
+// However, many library functions and system calls
+// are not "asynch signal safe": see, e.g.
+// http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html#tag_02_04_03
+// (e.g. sprintf() in a signal handler hangs Mac OS X)
+// so we do as little as possible in the signal handler,
+// and do the rest in a separate "timer thread".
+
+// Terminology:
+// The processing of a result can be divided
 // into multiple "episodes" (executions of the app),
 // each of which resumes from the checkpointed state of the previous episode.
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
-
-// On some Unix systems the use of a timer signal causes problems
-// (e.g. floating-point errors in the application).
-// We tried to fix this by using a timer thread,
-// but this broke the suspend/resume mechanism
-// and/or broke CPU time reporting.
-// To use a timer thread, uncomment the following
-//#define USE_TIMER_THREAD
-
-#ifdef USE_TIMER_THREAD
-static pthread_t timer_thread_handle;
-static struct rusage worker_thread_ru;
-#endif
 
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
@@ -119,6 +121,9 @@ static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 static MMRESULT timer_id;
+#else
+static pthread_t timer_thread_handle;
+static struct rusage worker_thread_ru;
 #endif
 
 static BOINC_OPTIONS options;
@@ -157,98 +162,21 @@ static int setup_shared_mem() {
     return 0;
 }
 
-
+// Return CPU time of worker thread.
+// This may be called from other threads
+//
 static int boinc_worker_thread_cpu_time(double& cpu) {
 #ifdef _WIN32
     if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
-
-#ifdef USE_TIMER_THREAD
-    cpu = (double)worker_thread_ru.ru_utime.tv_sec + (((double)worker_thread_ru.ru_utime.tv_usec) / ((double)1000000.0));
-    cpu += (double)worker_thread_ru.ru_stime.tv_sec + (((double)worker_thread_ru.ru_stime.tv_usec) / ((double)1000000.0));
-#else
-    return boinc_calling_thread_cpu_time(cpu);
-#endif
-
+    cpu = (double)worker_thread_ru.ru_utime.tv_sec
+        + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
+    cpu += (double)worker_thread_ru.ru_stime.tv_sec
+        + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
 #endif
     return 0;
-}
-
-// Apparently sprintf() isn't safe to use in a signal handler.
-// So roll our own.
-//
-static void itoa(int x, char* &p) {
-    if (x<0) {
-        x = -x;
-        *p++ = '-';
-    }
-    int q = x/10;
-    int r = x-q*10;
-    if (q) {
-        itoa(q, p);
-    }
-    *p = '0'+r;
-    p++;
-    *p = 0;
-
-}
-
-static void dtoa(double x, char* p) {
-    int exp = 0;
-    if (x == 0) {
-        *p++ = '0';
-        *p = 0;
-        return;
-    }
-    if (x < 0) {
-        x = -x;
-        *p++ = '-';
-    }
-    while (x > 1) {
-        x /= 10;
-        exp++;
-    }
-    while (x<0.1) {
-        x *= 10;
-        exp--;
-    }
-    strcpy(p, "0.");
-    p += 2;
-    int n = (int)(x*1e8);
-    itoa(n, p);
-    if (exp) {
-        *p++ = 'e';
-        itoa(exp, p);
-    }
-}
-
-static void append(const char* from, char* &to) {
-    while (*from) {
-        *to++ = *from++;
-    }
-}
-
-FILE* fdbg = 0;
-static void tag_double(const char* tag, double x, char* p) {
-#if 1
-    fprintf(fdbg, "tag_double: %s %f\n", tag, x); fflush(fdbg);
-
-    char buf[256];
-    append("<", p);
-    append(tag, p);
-    append(">", p);
-    dtoa(x, buf);
-    append(buf, p);
-    append("</", p);
-    append(tag, p);
-    append(">\n", p);
-    *p = 0;
-    fprintf(fdbg, "tag_double end: %s %f\n", tag, x); fflush(fdbg);
-#else
-    sprintf(p, "<%s>%f</%s>\n", tag, x, tag);
-#endif
 }
 
 // communicate to the core client (via shared mem)
@@ -261,40 +189,33 @@ static bool update_app_progress(
 
     if (standalone) return true;
 
-    if (!fdbg) fdbg = fopen("apidbg.txt", "w");
-    fprintf(fdbg, "starting %f %f\n",cpu_t, cp_cpu_t); fflush(fdbg);
-
-    tag_double("current_cpu_time", cpu_t, buf);
-    fprintf(fdbg, "buf1: %s\n", buf); fflush(fdbg);
-
-    strcpy(msg_buf, buf);
-    tag_double("checkpoint_cpu_time", cp_cpu_t, buf);
-    fprintf(fdbg, "buf2: %s\n", buf); fflush(fdbg);
-    strcat(msg_buf, buf);
+    sprintf(msg_buf,
+        "<current_cpu_time>%.15e</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
+        cpu_t, cp_cpu_t
+    );
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
-        tag_double("fraction_done", fdone, buf);
+        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
         strcat(msg_buf, buf);
     }
     if (rss) {
-        tag_double("rss_bytes", rss, buf);
+        sprintf(buf, "<rss_bytes>%f</rss_bytes>\n", rss);
         strcat(msg_buf, buf);
     }
     if (vm) {
-        tag_double("vm_bytes", vm, buf);
+        sprintf(buf, "<vm_bytes>%f</vm_bytes>\n", vm);
         strcat(msg_buf, buf);
     }
     if (fpops_per_cpu_sec) {
-        tag_double("fpops_per_cpu_sec", fpops_per_cpu_sec, buf);
+        sprintf(buf, "<fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
         strcat(msg_buf, buf);
     }
     if (fpops_cumulative) {
-        tag_double("fpops_cumulative", fpops_cumulative, buf);
+        sprintf(buf, "<fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative);
         strcat(msg_buf, buf);
     }
-    fprintf(fdbg, "msg: %s\n", msg_buf); fflush(fdbg);
-
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
 
@@ -597,42 +518,23 @@ static void handle_process_control_msg() {
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
         if (match_tag(buf, "<suspend/>")) {
             boinc_status.suspended = true;
-            if (options.direct_process_action) {
 #ifdef _WIN32
-                // in Windows is called from a separate "timer thread",
+            if (options.direct_process_action) {
+                // in Windows this is called from a separate "timer thread",
                 // and Windows lets us suspend the worker thread
                 //
                 SuspendThread(worker_thread_handle);
-#else
-                // In pthreads there's no way to suspend/resume another thread.
-                // This function is executed by the work thread
-                // (from the timer signal handler)
-                // so we can simulate suspend by just spinning,
-                // waiting for a resume or quit message
-                //
-                while (1) {
-                    if (app_client_shm->shm->process_control_request.get_msg(buf)) {
-                        if (match_tag(buf, "<resume/>")) {
-                            break;
-                        }
-                        if (match_tag(buf, "<quit/>")) {
-                            boinc_exit(0);
-                        }
-                    }
-                    boinc_sleep(1.0);
-                }
-                heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
-#endif
             }
+#endif
         }
 
         if (match_tag(buf, "<resume/>")) {
             boinc_status.suspended = false;
-            if (options.direct_process_action) {
 #ifdef _WIN32
+            if (options.direct_process_action) {
                 ResumeThread(worker_thread_handle);
-#endif
             }
+#endif
         }
 
         if (match_tag(buf, "<quit/>")) {
@@ -715,17 +617,26 @@ static void worker_timer(int /*a*/) {
 #endif
 }
 
-#ifdef USE_TIMER_THREAD
+#ifndef _WIN32
 void* timer_thread(void*) {
     while(1) {
         boinc_sleep(TIMER_PERIOD);
         worker_timer(0);
-        getrusage(RUSAGE_SELF, &worker_thread_ru);
     }
 }
+
+void worker_signal_handler(int) {
+    getrusage(RUSAGE_SELF, &worker_thread_ru);
+    if (options.direct_process_action) {
+        while (boinc_status.suspended) {
+            sleep(1);   // don't use boinc_sleep() because it does FP math
+        }
+    }
+}
+
 #endif
 
-// set up a periodic timer interrupt for the worker thread.
+// set up timer actitivies.
 // This is called only and always by the worker thread
 //
 int set_worker_timer() {
@@ -757,15 +668,14 @@ int set_worker_timer() {
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
 #else
-#ifdef USE_TIMER_THREAD
     retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
     }
-#else
+
     struct sigaction sa;
     itimerval value;
-    sa.sa_handler = worker_timer;
+    sa.sa_handler = worker_signal_handler;
     sa.sa_flags = SA_RESTART;
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
@@ -779,8 +689,6 @@ int set_worker_timer() {
     if (retval) {
         perror("boinc set_worker_timer() setitimer");
     }
-#endif
-
 #endif
     return retval;
 }
