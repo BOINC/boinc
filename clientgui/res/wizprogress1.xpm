@@ -18,25 +18,28 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static const char *wizquestion_xpm[] = {
+static char *wizprogress1_xpm[] = {
+/* columns rows colors chars-per-pixel */
 "16 16 4 1",
-" 	c None",
-".	c #000000",
-"X	c #FFFF00",
-"o	c #808000",
-"                ",
+". c Black",
+"o c #FFFF00",
+"X c #808000",
+"  c None",
+/* pixels */
 "     ......     ",
-"    .XXXXXo.    ",
-"   .XXo..XXo.   ",
-"   .Xo.  .Xo.   ",
-"   .Xo. .XXo.   ",
-"    .. .XXo.    ",
-"      .XXo.     ",
-"      .Xo.      ",
-"      .Xo.      ",
-"      .Xo.      ",
-"       ..       ",
-"      .Xo.      ",
-"      .Xo.      ",
-"       ..       ",
-"                "};
+"   ..XooooX..   ",
+"  ...oooooo...  ",
+" .....oooo..... ",
+" .....XooX..... ",
+".......oo.......",
+".......oo.......",
+"................",
+".oooooo..oooooo.",
+".oooooX..Xooooo.",
+".Xoooo....ooooX.",
+" .ooo......ooo. ",
+" ..o........o.. ",
+"  ............  ",
+"   ..........   ",
+"     ......     "
+};

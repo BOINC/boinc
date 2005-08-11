@@ -47,6 +47,7 @@ class CAccountKeyPage;
 class CAccountInfoPage;
 class CAccountCreationPage;
 class CCompletionPage;
+class CCompletionErrorPage;
 class CErrProjectNotDetectedPage;
 class CErrProjectUnavailablePage;
 class CErrNoInternetConnectionPage;
@@ -101,6 +102,7 @@ class CErrRefCountPage;
 #define ID_PROJECTCOMMUNICATIONSCTRL 10009
 #define ID_FINALACCOUNTCREATIONSTATUSCTRL 10016
 #define ID_COMPLETIONPAGE 10048
+#define ID_COMPLETIONERRORPAGE 10011
 #define ID_ERRPROJECTNOTDETECTEDPAGE 10007
 #define ID_HYPERLINK 10010
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
@@ -182,12 +184,6 @@ public:
 
 ////@begin CWizAttachProject event handler declarations
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTWIZARD
-    void OnWizardCancel( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD
-    void OnWizardFinished( wxWizardEvent& event );
-
 ////@end CWizAttachProject event handler declarations
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_BACKWARD
@@ -211,6 +207,7 @@ public:
     virtual bool HasNextPage( wxWizardPage* page );
     virtual bool HasPrevPage( wxWizardPage* page );
 
+    // Accessors
     wxButton* GetBackButton() const { return m_pbtnBack ; }
     void SetBackButton(wxButton* value) { m_pbtnBack = value ; }
 
@@ -225,6 +222,14 @@ public:
     wxWizardPage* PopPageTransition();
     wxWizardPage* PushPageTransition( wxWizardPage* pCurrentPage, unsigned long ulPageID );
 
+    /// Cancel Event Infrastructure
+    bool IsCancelInProgress() const { return m_bCancelInProgress ; }
+    void ProcessCancelEvent( wxWizardEvent& event );
+
+    /// Button Simulation
+    void SimulateNextButton();
+    void SimulateBackButton();
+
     /// Should we show tooltips?
     static bool ShowToolTips();
 
@@ -236,6 +241,7 @@ public:
     CAccountInfoPage* m_AccountInfoPage;
     CAccountCreationPage* m_AccountCreationPage;
     CCompletionPage* m_CompletionPage;
+    CCompletionErrorPage* m_CompletionErrorPage;
     CErrProjectNotDetectedPage* m_ErrProjectNotDetectedPage;
     CErrProjectUnavailablePage* m_ErrProjectUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
@@ -258,9 +264,13 @@ public:
     unsigned long m_ulDiagFlags;
     std::stack<wxWizardPage*> m_PageTransition;
 
-    // Global wizard status
+    // Cancel Checking
+    bool m_bCancelInProgress;
+
+    // Global Wizard Status
     PROJECT_CONFIG      project_config;
-    GR_PROXY_INFO       proxy_info;
+    GR_PROXY_INFO       old_proxy_info;
+    GR_PROXY_INFO       new_proxy_info;
     ACCOUNT_IN          account_in;
     ACCOUNT_OUT         account_out;
 };
@@ -288,8 +298,14 @@ public:
 
 ////@begin CWelcomePage event handler declarations
 
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE
     void OnPageChanging( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CWelcomePage event handler declarations
 
@@ -364,6 +380,15 @@ public:
     void CreateControls();
 
 ////@begin CProjectInfoPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
+    void OnPageChanging( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CProjectInfoPage event handler declarations
 
@@ -461,6 +486,9 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE
     void OnPageChanged( wxWizardEvent& event );
 
+    /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE
+    void OnCancel( wxWizardEvent& event );
+
 ////@end CProjectPropertiesPage event handler declarations
 
     void OnStateChange( CProjectPropertiesPageEvent& event );
@@ -507,6 +535,10 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    /// Progress Image Support
+    void SetupProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
+    void IncrementProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
+
 ////@begin CProjectPropertiesPage member variables
     wxStaticBitmap* m_RetrProjectPropertiesImageCtrl;
     wxStaticText* m_RetrProjectPropertiesCtrl;
@@ -520,7 +552,8 @@ public:
     bool m_bCommunicateYahooSucceeded;
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
-    wxInt32 m_iCurrentState;
+    int m_iCurrentState;
+    int m_iProjectPropertiesProgressImage;
 };
 
 /*!
@@ -545,6 +578,12 @@ public:
     void CreateControls();
 
 ////@begin CAccountKeyPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTKEYPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTKEYPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CAccountKeyPage event handler declarations
 
@@ -604,6 +643,9 @@ public:
 
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE
     void OnPageChanging( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE
+    void OnCancel( wxWizardEvent& event );
 
     /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATECTRL
     void OnAccountCreateCtrlSelected( wxCommandEvent& event );
@@ -716,6 +758,9 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTCREATIONPAGE
     void OnPageChanged( wxWizardEvent& event );
 
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTCREATIONPAGE
+    void OnCancel( wxWizardEvent& event );
+
 ////@end CAccountCreationPage event handler declarations
 
     void OnStateChange( CAccountCreationPageEvent& event );
@@ -750,6 +795,10 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    /// Progress Image Support
+    void SetupProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
+    void IncrementProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
+
 ////@begin CAccountCreationPage member variables
     wxStaticBitmap* m_ProjectCommunitcationsImageCtrl;
     wxStaticText* m_ProjectCommunitcationsCtrl;
@@ -759,9 +808,9 @@ public:
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
     bool m_bProjectAccountAlreadyExists;
-    wxInt32 m_iCurrentState;
+    int m_iCurrentState;
+    int m_iProjectCommunitcationsProgressImage;
 };
-
 
 /*!
  * CCompletionPage class declaration
@@ -785,6 +834,15 @@ public:
     void CreateControls();
 
 ////@begin CCompletionPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONPAGE
+    void OnCancel( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_FINISHED event handler for ID_COMPLETIONPAGE
+    void OnFinished( wxWizardEvent& event );
 
 ////@end CCompletionPage event handler declarations
 
@@ -811,6 +869,59 @@ public:
 };
 
 /*!
+ * CCompletionErrorPage class declaration
+ */
+
+class CCompletionErrorPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CCompletionErrorPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CCompletionErrorPage( );
+
+    CCompletionErrorPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CCompletionErrorPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE
+    void OnCancel( wxWizardEvent& event );
+
+////@end CCompletionErrorPage event handler declarations
+
+////@begin CCompletionErrorPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CCompletionErrorPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CCompletionErrorPage member variables
+////@end CCompletionErrorPage member variables
+};
+
+/*!
  * CErrProjectNotDetectedPage class declaration
  */
 
@@ -832,6 +943,12 @@ public:
     void CreateControls();
 
 ////@begin CErrProjectNotDetectedPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CErrProjectNotDetectedPage event handler declarations
 
@@ -880,6 +997,12 @@ public:
 
 ////@begin CErrProjectUnavailablePage event handler declarations
 
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE
+    void OnCancel( wxWizardEvent& event );
+
 ////@end CErrProjectUnavailablePage event handler declarations
 
 ////@begin CErrProjectUnavailablePage member function declarations
@@ -926,6 +1049,12 @@ public:
     void CreateControls();
 
 ////@begin CErrNoInternetConnectionPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNOINTERNETCONNECTIONPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRNOINTERNETCONNECTIONPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CErrNoInternetConnectionPage event handler declarations
 
@@ -974,6 +1103,12 @@ public:
 
 ////@begin CErrAccountAlreadyExistsPage event handler declarations
 
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
+    void OnCancel( wxWizardEvent& event );
+
 ////@end CErrAccountAlreadyExistsPage event handler declarations
 
 ////@begin CErrAccountAlreadyExistsPage member function declarations
@@ -1020,6 +1155,12 @@ public:
     void CreateControls();
 
 ////@begin CErrAccountCreationDisabledPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTCREATIONDISABLEDPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTCREATIONDISABLEDPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CErrAccountCreationDisabledPage event handler declarations
 
@@ -1068,6 +1209,12 @@ public:
 
 ////@begin CErrProxyInfoPage event handler declarations
 
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
+    void OnCancel( wxWizardEvent& event );
+
 ////@end CErrProxyInfoPage event handler declarations
 
 ////@begin CErrProxyInfoPage member function declarations
@@ -1114,6 +1261,12 @@ public:
     void CreateControls();
 
 ////@begin CErrProxyHTTPPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE
+    void OnCancel( wxWizardEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT
     void OnAutodetectClick( wxCommandEvent& event );
@@ -1189,6 +1342,12 @@ public:
 
 ////@begin CErrProxySOCKSPage event handler declarations
 
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE
+    void OnCancel( wxWizardEvent& event );
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
     void OnAutodetectClick( wxCommandEvent& event );
 
@@ -1262,6 +1421,12 @@ public:
     void CreateControls();
 
 ////@begin CErrProxyComplationPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE
+    void OnCancel( wxWizardEvent& event );
 
 ////@end CErrProxyComplationPage event handler declarations
 

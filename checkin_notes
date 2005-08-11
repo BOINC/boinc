@@ -10319,3 +10319,24 @@ David  10 Aug 2005
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
 		util.C,h
+
+Rom    11 Aug 2005
+    - Replace the question mark bitmap with a rotating circular bitmap.
+      NOTE: It could probably use a color change.
+    - Cleanup some of the text.
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    clientgui/res/
+        wizprogress1.xpm (Added)
+        wizprogress2.xpm (Added)
+        wizprogress3.xpm (Added)
+        wizprogress4.xpm (Added)
+        wizquestion.xpm (Removed)
+    clientgui/res/templates/
+        wizprogress1.ico (Added)
+        wizprogress2.ico (Added)
+        wizprogress3.ico (Added)
+        wizprogress4.ico (Added)
+        wizquestion.bmp (Removed)

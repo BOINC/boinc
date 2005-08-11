@@ -479,7 +479,7 @@ void canonicalize_master_url(char* url) {
 }
 
 void canonicalize_master_url(string& url) {
-    char buf[256];
+    char buf[1024];
     strcpy(buf, url.c_str());
     canonicalize_master_url(buf);
     url = buf;
