@@ -515,6 +515,7 @@ static void handle_network_available(char*, MIOFILE&) {
 static void handle_get_project_config(char* buf, MIOFILE&) {
     string url;
     parse_str(buf, "<url>", url);
+    canonicalize_master_url(url);
     gstate.get_project_config_op.do_rpc(url);
 }
 

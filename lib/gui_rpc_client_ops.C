@@ -1543,7 +1543,13 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
 int RPC_CLIENT::lookup_website(int website_id) {
     char buf[4096];
     RPC rpc(this);
-    if ((website_id < LOOKUP_GOOGLE) || (website_id > LOOKUP_YAHOO)) return ERR_INVALID_PARAM;
+    switch (website_id) {
+    case LOOKUP_GOOGLE:
+    case LOOKUP_YAHOO:
+        break;
+    default:
+        return ERR_INVALID_PARAM;
+    }
     sprintf(buf,
         "<lookup_website>\n"
         "    %s%s\n"

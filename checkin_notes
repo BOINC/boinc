@@ -10308,3 +10308,14 @@ David  10 Aug 2005
 
     client/
         net_xfer.C
+
+David  10 Aug 2005
+	- canonicalize master URLs in GUI RPC client library
+
+	client/
+		acct_setup.C
+		gui_rpc_server_ops.C
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
+		util.C,h

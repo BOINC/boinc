@@ -20,6 +20,7 @@
 #include "client_state.h"
 #include "file_names.h"
 #include "parse.h"
+#include "util.h"
 
 #include "acct_setup.h"
 
@@ -33,6 +34,7 @@ void ACCOUNT_IN::parse(char* buf) {
     parse_str(buf, "<email_addr>", email_addr);
     parse_str(buf, "<passwd_hash>", passwd_hash);
     parse_str(buf, "<user_name>", user_name);
+    canonicalize_master_url(url);
 }
 
 int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {

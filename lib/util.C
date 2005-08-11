@@ -478,6 +478,13 @@ void canonicalize_master_url(char* url) {
 	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf); // CMC Here -- add SSL if needed
 }
 
+void canonicalize_master_url(string& url) {
+    char buf[256];
+    strcpy(buf, url.c_str());
+    canonicalize_master_url(buf);
+    url = buf;
+}
+
 // is the string a valid master URL, in canonical form?
 //
 bool valid_master_url(char* buf) {

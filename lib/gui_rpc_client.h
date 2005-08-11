@@ -86,7 +86,7 @@
 #define MSG_PRIORITY_ALERT_ERROR        5
     // show error message in a modal dialog
 
-// Which websites can we lookup?
+// Which websites can we look up?
 //
 #define LOOKUP_GOOGLE                   1
 #define LOOKUP_YAHOO                    2
