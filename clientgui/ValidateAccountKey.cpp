@@ -61,11 +61,13 @@ bool CValidateAccountKey::Validate(wxWindow *parent) {
     if (!control->IsEnabled())
         return TRUE;
 
+    bool ok = TRUE;
     wxString val(control->GetValue());
 
-    bool ok = TRUE;
-
-    if ((!wxIsAlphaNumeric(val))) {
+    if (val.Length() == 0) {
+        ok = FALSE;
+        m_errormsg = _("Please specify an account key to continue.");
+    } else if ((!wxIsAlphaNumeric(val))) {
         ok = FALSE;
         m_errormsg = _("Invalid Account Key; please enter a valid Account Key");
     }

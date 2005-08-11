@@ -59,11 +59,14 @@ bool CValidateURL::Validate(wxWindow *parent) {
     if (!control->IsEnabled())
         return TRUE;
 
-    wxURL val(control->GetValue());
-
     bool ok = TRUE;
+    wxURL val(control->GetValue());
+    wxString str(control->GetValue());
 
-    if (wxURL_NOERR != val.GetError()) {
+    if (str.Length() == 0) {
+        ok = FALSE;
+        m_errormsg = _("Please specify a URL to continue.\nAn example would be:\nhttp://boinc.berkeley.edu/");
+    } else if (wxURL_NOERR != val.GetError()) {
         ok = FALSE;
 
         if ((wxURL_NOPROTO == val.GetError()) || wxURL_SNTXERR == val.GetError()) {

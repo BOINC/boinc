@@ -30,10 +30,12 @@
 
 ////@begin includes
 #include "wx/wizard.h"
-#include "wx/valtext.h"
 #include "hyperlink.h"
 #include "wx/valgen.h"
+#include "wx/valtext.h"
 ////@end includes
+#include "ValidateURL.h"
+#include "ValidateAccountKey.h"
 
 /*!
  * Forward declarations

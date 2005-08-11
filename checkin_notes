@@ -10392,3 +10392,14 @@ David  11 Aug 2005
         gutil.C
     client/
         client_types.C
+
+Rom    11 Aug 2005
+    - Don't allow the wizard to get stuck in a validation loop during a cancel
+        operation.
+    - Hook up the URL and Account Key validators to the wizard.
+    
+    clientgui/
+        BOINCGUI.pjd
+        ValidateAccountKey.cpp
+        ValidateURL.cpp
+        WizAttachProject.cpp, .h
