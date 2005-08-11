@@ -118,6 +118,8 @@ extern void options_defaults(BOINC_OPTIONS&);
 extern APP_CLIENT_SHM *app_client_shm;
 #ifdef _WIN32
 extern HANDLE worker_thread_handle;
+#else
+extern void block_sigalrm();
 #endif
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int set_worker_timer(void);

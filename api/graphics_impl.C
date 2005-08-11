@@ -141,12 +141,7 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );
 
-    // block SIGLARM, so that the worker thread will be forced to handle it
-    //
-    sigset_t mask;
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGALRM);
-    pthread_sigmask(SIG_BLOCK, &mask, NULL);
+    block_sigalrm();
 #endif
     return 0;
 }

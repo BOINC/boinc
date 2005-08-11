@@ -619,6 +619,7 @@ static void worker_timer(int /*a*/) {
 
 #ifndef _WIN32
 void* timer_thread(void*) {
+    block_sigalrm();
     while(1) {
         boinc_sleep(TIMER_PERIOD);
         worker_timer(0);
@@ -788,5 +789,16 @@ void boinc_fpops_per_cpu_sec(double x) {
 void boinc_fpops_cumulative(double x) {
     fpops_cumulative = x;
 }
+
+#ifndef _WIN32
+// block SIGALRM, so that the worker thread will be forced to handle it
+//
+void block_sigalrm() {
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGALRM);
+    pthread_sigmask(SIG_BLOCK, &mask, NULL);
+}
+#endif
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

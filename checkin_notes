@@ -10403,3 +10403,12 @@ Rom    11 Aug 2005
         ValidateAccountKey.cpp
         ValidateURL.cpp
         WizAttachProject.cpp, .h
+
+David  11 Aug 2005
+    - API bug fix: block SIGALRM in timer thread
+        (make new function block_sigalrm();
+        call it from graphics, timer thread)
+
+    api/
+        boinc_api.C,h
+        graphics_impl.C
