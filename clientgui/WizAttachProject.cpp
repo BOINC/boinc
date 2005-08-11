@@ -325,7 +325,7 @@ bool CWizAttachProject::HasNextPage( wxWizardPage* page )
 
 bool CWizAttachProject::HasPrevPage( wxWizardPage* page )
 {
-    if (page == m_WelcomePage)
+    if ((page == m_WelcomePage) || (page == m_CompletionErrorPage))
         return false;
     return true;
 }
@@ -447,12 +447,17 @@ void CWizAttachProject::ProcessCancelEvent( wxWizardEvent& event ) {
         wxICON_QUESTION | wxYES_NO,
         this
     );
-    
-    if (iRetVal != wxYES) {
+ 
+    if (GetCurrentPage() != m_WelcomePage) {
         event.Veto();
+        if (wxYES == iRetVal) {
+            m_bCancelInProgress = true;
+            SimulateNextButton();
+        }
     } else {
-        m_bCancelInProgress = true;
-        SimulateNextButton();
+        if (wxYES != iRetVal) {
+            event.Veto();
+        }
     }
 }
 

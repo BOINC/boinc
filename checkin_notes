@@ -10372,3 +10372,12 @@ David  11 Aug 2005
 
     api/
         boinc_api.C
+
+Rom    11 Aug 2005
+    - Fix the remaining cancel bugs.
+      If cancel is selected from the welcome page make the wizard disappear.
+      If cencel is selected on any other page, advance to the completion error
+        page.
+    
+    clientgui/
+        WizAttachProject.cpp
