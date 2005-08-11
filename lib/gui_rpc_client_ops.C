@@ -1002,6 +1002,19 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
     return 0;
 }
 
+int DAILY_STATS::parse(MIOFILE& in) {
+    char buf[256];
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</daily_statistics>")) return 0;
+        else if (parse_double(buf, "<day>", day)) continue;
+        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 int RPC_CLIENT::get_statistics(PROJECTS& p) {
     char buf[256];
     RPC rpc(this);
@@ -1022,16 +1035,10 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
                 if (match_tag(buf, "</project_statistics>")) break;
                 else if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
                 else if (match_tag(buf, "<daily_statistics>")) {
-                    p.projects.back()->statistics.push_back(STATISTIC());
-
-                    while (rpc.fin.fgets(buf, 256)) {
-                        if (match_tag(buf, "</daily_statistics>")) break;
-                        else if (parse_double(buf, "<day>", p.projects.back()->statistics.back().day)) continue;
-                        else if (parse_double(buf, "<user_total_credit>", p.projects.back()->statistics.back().user_total_credit)) continue;
-                        else if (parse_double(buf, "<user_expavg_credit>", p.projects.back()->statistics.back().user_expavg_credit)) continue;
-                        else if (parse_double(buf, "<host_total_credit>", p.projects.back()->statistics.back().host_total_credit)) continue;
-                        else if (parse_double(buf, "<host_expavg_credit>", p.projects.back()->statistics.back().host_expavg_credit)) continue;
-                    }
+                    DAILY_STATS ds;
+                    retval = ds.parse(rpc.fin);
+                    if (retval) return retval;
+                    p.projects.back()->statistics.push_back(ds);
                 }
             }
         }

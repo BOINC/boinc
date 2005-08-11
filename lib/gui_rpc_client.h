@@ -102,12 +102,14 @@ struct GUI_URL {
 
 // statistics at a specific day
 //
-struct STATISTIC {
+struct DAILY_STATS {
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
     double day;
+
+    int parse(MIOFILE&);
 };
 
 
@@ -145,7 +147,7 @@ public:
     void get_name(std::string&);
 
     // statistic of the last x days
-    std::vector<STATISTIC> statistics;
+    std::vector<DAILY_STATS> statistics;
 };
 
 class APP {

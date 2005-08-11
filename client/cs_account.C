@@ -222,31 +222,40 @@ int CLIENT_STATE::parse_account_files() {
     return 0;
 }
 
+void DAILY_STATS::clear() {
+    memset(this, 0, sizeof(DAILY_STATS));
+}
+
+int DAILY_STATS::parse(FILE* in) {
+    char buf[256];
+    clear();
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</daily_statistics>")) return 0;
+        else if (parse_double(buf, "<day>", day)) continue;
+        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 // parse an statistics_*.xml file
 //
 int PROJECT::parse_statistics(FILE* in) {
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-
-    bool open_daily_statistics=false;
+    int retval;
     char buf[256];
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project_statistics>")) return 0;
         else if (match_tag(buf, "<project_statistics>")) continue;
         else if (match_tag(buf, "<daily_statistics>")) {
-            if (open_daily_statistics) break;
-            open_daily_statistics=true;
-            statistics.push_back(STATISTIC());
-            continue;
-        }
-        else if (parse_double(buf, "<day>", statistics.back().day)) continue;
-        else if (parse_double(buf, "<user_total_credit>", statistics.back().user_total_credit)) continue;
-        else if (parse_double(buf, "<user_expavg_credit>", statistics.back().user_expavg_credit)) continue;
-        else if (parse_double(buf, "<host_total_credit>", statistics.back().host_total_credit)) continue;
-        else if (parse_double(buf, "<host_expavg_credit>", statistics.back().host_expavg_credit)) continue;
-        else if (match_tag(buf, "</daily_statistics>")) {
-            if (!open_daily_statistics) break;
-            open_daily_statistics=false;
+            DAILY_STATS daily_stats;
+            retval = daily_stats.parse(in);
+            if (retval) return retval;
+            statistics.push_back(daily_stats);
             continue;
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
@@ -283,7 +292,7 @@ int CLIENT_STATE::parse_statistics_files() {
                         "Project for statistic file %s not found - ignoring", name.c_str()
                     );
                 } else {
-                    for (std::vector<STATISTIC>::const_iterator i=temp->statistics.begin();
+                    for (std::vector<DAILY_STATS>::const_iterator i=temp->statistics.begin();
                         i!=temp->statistics.end(); ++i
                     ) {
                         project->statistics.push_back(*i);
@@ -309,7 +318,7 @@ int PROJECT::write_statistics_file() {
         master_url
     );
 
-    for (std::vector<STATISTIC>::iterator i=statistics.begin();
+    for (std::vector<DAILY_STATS>::iterator i=statistics.begin();
         i!=statistics.end(); ++i
     ) {
         fprintf(f, 

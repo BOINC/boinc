@@ -331,7 +331,7 @@ int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
         master_url
     );
 
-    for (std::vector<STATISTIC>::iterator i=statistics.begin();
+    for (std::vector<DAILY_STATS>::iterator i=statistics.begin();
         i!=statistics.end(); ++i
     ) {
         out.printf(

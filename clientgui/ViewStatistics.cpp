@@ -156,7 +156,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 		//Find minimum/maximum value
 		double min_val=10e32, max_val=0;
-		for (std::vector<STATISTIC>::const_iterator j=(*i)->statistics.begin();
+		for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin();
 			j!=(*i)->statistics.end();++j)
 		{
             if (m_SelectedStatistic==0) {
@@ -207,7 +207,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 			//Draw day numbers and lines marking the days
 			wxCoord xpos=rectangle_x_start;
-			for (std::vector<STATISTIC>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
+			for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
 				double day=dday()-j->day;
 				day=day/(60*60*24);
 				dc.SetPen(wxPen(wxColour (0 , 0 , 0) , 1 , wxSOLID));
@@ -230,7 +230,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 			wxCoord last_x=rectangle_x_start, last_y=0, xpos=rectangle_x_start, ypos=0;
 
-			for (std::vector<STATISTIC>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
+			for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
 
 				ypos=rectangle_y_end - 1 - (yscale * (j->user_total_credit-min_val));
 				if (m_SelectedStatistic==0) {

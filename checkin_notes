@@ -10285,3 +10285,18 @@ David  10 Aug 2005
         bbcode.php
     sched/
         db_purge.C
+
+David  10 Aug 2005
+    - changed logic of some daily-stats-related code
+        in attempt to fix crash on VC 8
+    - rename STATISTIC to DAILY_STATS
+
+    client/
+        client_types.C,h
+        cs_account.C
+        scheduler_op.C
+    clientgui/
+        ViewStatistics.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

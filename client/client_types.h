@@ -132,12 +132,16 @@ struct FILE_REF {
 
 // statistics at a specific day
 //
-struct STATISTIC {
+struct DAILY_STATS {
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
     double day;
+
+    void clear();
+    DAILY_STATS() {clear();}
+    int parse(FILE*);
 };
 
 // reasons for attach failure
@@ -316,7 +320,7 @@ public:
     bool waiting_until_min_rpc_time();
 
     // statistic of the last x days
-    std::vector<STATISTIC> statistics;
+    std::vector<DAILY_STATS> statistics;
     int parse_statistics(MIOFILE&);
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);

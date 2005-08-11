@@ -573,19 +573,21 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 
             // check if vector is empty or we have a new day
             if (project->statistics.empty() || project->statistics.back().day!=dday()) {
+
                 // check if max. number of statistics already saved
                 while (project->statistics.size()>30) {
                     project->statistics.erase(project->statistics.begin());
                 }
 
-                project->statistics.push_back(STATISTIC());
+                DAILY_STATS nds;
+                project->statistics.push_back(nds);
             }
-
-            project->statistics.back().day=dday();
-            project->statistics.back().user_total_credit=project->user_total_credit;
-            project->statistics.back().user_expavg_credit=project->user_expavg_credit;
-            project->statistics.back().host_total_credit=project->host_total_credit;
-            project->statistics.back().host_expavg_credit=project->host_expavg_credit;
+            DAILY_STATS& ds = project->statistics.back();
+            ds.day=dday();
+            ds.user_total_credit=project->user_total_credit;
+            ds.user_expavg_credit=project->user_expavg_credit;
+            ds.host_total_credit=project->host_total_credit;
+            ds.host_expavg_credit=project->host_expavg_credit;
 
             project->write_statistics_file();
 
