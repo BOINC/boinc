@@ -292,11 +292,11 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "always")) {
-            retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
+            retval = rpc.set_network_mode(RUN_MODE_ALWAYS);
         } else if (!strcmp(op, "auto")) {
-            retval = rpc.set_run_mode(RUN_MODE_AUTO);
+            retval = rpc.set_network_mode(RUN_MODE_AUTO);
         } else if (!strcmp(op, "never")) {
-            retval = rpc.set_run_mode(RUN_MODE_NEVER);
+            retval = rpc.set_network_mode(RUN_MODE_NEVER);
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }

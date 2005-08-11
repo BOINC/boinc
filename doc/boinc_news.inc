@@ -9,7 +9,7 @@ array("August 3, 2005",
 
 array("July 25, 2005", 
     "A group of students from Cornell have written
-    <a href=distributing_science_final.pdf>Distributing Science<a>,
+    <a href=distributing_science_final.pdf>Distributing Science</a>,
     a very nice article about BOINC
     and some of the projects using it."
 ),

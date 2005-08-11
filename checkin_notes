@@ -10273,3 +10273,15 @@ Rom    10 Aug 2005
     html/user/
         create_account.php
         lookup_account.php
+
+David  10 Aug 2005
+    - Add "finish" page for new account creation
+        (asks for name/country/zip)
+    - put <archive> tags around db_purge XML
+
+    html/user/
+        account_finish.php (new)
+        account_finish_action.php (new)
+        bbcode.php
+    sched/
+        db_purge.C

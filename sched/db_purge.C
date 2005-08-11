@@ -124,7 +124,7 @@ bool time_to_quit() {
     return false;
 }
 
-// this opens the archive.  Only subtle thing is that if the user has
+// Open an archive.  Only subtle thing is that if the user has
 // asked for compression, then we popen(2) a pipe to gzip or zip.
 // This does 'in place' compression.
 //
@@ -189,7 +189,7 @@ void close_archive(const char *filename, FILE*& fp){
         pclose(fp);
     }
     
-    fp=NULL;
+    fp = NULL;
 
     // append appropriate file type
     sprintf(path, "../archives/%s_%d.xml", filename, time_int);
@@ -210,15 +210,18 @@ void open_all_archives() {
     int old_time=time_int;
     
     // make sure we get a NEW value of the file timestamp!
+    //
     while (old_time == (time_int = (int)time(0))) {
         sleep(1);
     }
     
     // open all the archives.
-    open_archive(WU_FILENAME_PREFIX,           wu_stream);
-    open_archive(RESULT_FILENAME_PREFIX,       re_stream);
+    open_archive(WU_FILENAME_PREFIX, wu_stream);
+    open_archive(RESULT_FILENAME_PREFIX, re_stream);
     open_archive(RESULT_INDEX_FILENAME_PREFIX, re_index_stream);
-    open_archive(WU_INDEX_FILENAME_PREFIX,     wu_index_stream);
+    open_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
+    fprintf(wu_stream, "<archive>\n");
+    fprintf(re_stream, "<archive>\n");
 
     return;
 }
@@ -227,10 +230,12 @@ void open_all_archives() {
 // pointers to indicate that files are not open.
 //
 void close_all_archives() {
-    close_archive(WU_FILENAME_PREFIX,           wu_stream);
-    close_archive(RESULT_FILENAME_PREFIX,       re_stream);
+    fprintf(wu_stream, "</archive>\n");
+    fprintf(re_stream, "</archive>\n");
+    close_archive(WU_FILENAME_PREFIX, wu_stream);
+    close_archive(RESULT_FILENAME_PREFIX, re_stream);
     close_archive(RESULT_INDEX_FILENAME_PREFIX, re_index_stream);
-    close_archive(WU_INDEX_FILENAME_PREFIX,     wu_index_stream);
+    close_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
     log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Closed archive files with %d workunits\n",
         wu_stored_in_file
@@ -242,6 +247,7 @@ void close_all_archives() {
 
 // The exit handler always calls this at the end to be sure that the
 // database is closed cleanly.
+//
 void close_db_exit_handler() {
     boinc_db.close();
     return; 

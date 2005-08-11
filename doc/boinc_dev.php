@@ -48,9 +48,10 @@ add pie charts for disk usage
 <li> Disk space management: prevent disk space usage from
 exceeding user preferences,
     and enforce resource shares,
-    with file deletion according to project policy,
+    with file deletion according to project policy.
 
 <li> Core client:  use select() instead of polling
+for I/O (RPCs, file transfers, GUI RPCs).
 
 <li> Use database IDs instead of names to identify
 results and WUs in the core client
@@ -59,7 +60,6 @@ since indices on integers are apparently more efficient
 than indices on text fields).
 This involves minor but pervasive changes.
 
-for I/O (RPCs, file transfers, GUI RPCs).
 </ul>
 Please check with davea at ssl.berkeley.edu
 before undertaking any of these.
