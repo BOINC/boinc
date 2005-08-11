@@ -10300,3 +10300,11 @@ David  10 Aug 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  10 Aug 2005
+    - add close_file(), close_socke() to NET_XFER_SET::remove().
+        May fix socket leak.
+        From Egon Larsson
+
+    client/
+        net_xfer.C

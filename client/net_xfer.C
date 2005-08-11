@@ -215,6 +215,9 @@ int NET_XFER_SET::insert(NET_XFER* nxp) {
 int NET_XFER_SET::remove(NET_XFER* nxp) {
     vector<NET_XFER*>::iterator iter;
 
+    nxp->close_file();
+    nxp->close_socket();
+
     iter = net_xfers.begin();
     while (iter != net_xfers.end()) {
         if (*iter == nxp) {
