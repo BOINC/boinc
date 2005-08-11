@@ -862,17 +862,28 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
     int transition_time, int nresult_limit,
+    int wu_id_modulus, int wu_id_remainder,
     std::vector<TRANSITIONER_ITEM>& items
 ) {
     int x;
     char query[MAX_QUERY_LEN];
-    char priority[256];
+    char priority[256], mod_clause[256];;
     MYSQL_ROW row;
     TRANSITIONER_ITEM new_item;
 
     if (!cursor.active) {
         strcpy(priority, "");
         if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
+
+	if (wu_id_modulus) {
+            sprintf(mod_clause,
+                " and wu.id %% %d = %d ",
+                wu_id_modulus, wu_id_remainder
+            );
+        } else {
+            strcpy(mod_clause, "");
+        }
+
 
         sprintf(query,
             "SELECT %s "
@@ -905,10 +916,10 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.transition_time < %d "
+            "   wu.transition_time < %d %s "
             "LIMIT "
             "   %d ",
-            priority, transition_time, nresult_limit);
+            priority, transition_time, mod_clause, nresult_limit);
 
         x = db->do_query(query);
         if (x) return mysql_errno(db->mysql);

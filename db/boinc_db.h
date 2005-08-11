@@ -587,6 +587,8 @@ public:
     int enumerate(
         int transition_time,
         int nresult_limit,
+        int wu_id_modulus,
+        int wu_id_remainder,
         std::vector<TRANSITIONER_ITEM>& items
     );
     int update_result(TRANSITIONER_ITEM&);

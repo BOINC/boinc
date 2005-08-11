@@ -10412,3 +10412,21 @@ David  11 Aug 2005
     api/
         boinc_api.C,h
         graphics_impl.C
+
+Jeff  11 Aug 2005
+   - the modulus applied to the transitioner enumeration is now done in the DB
+     rather than in C code.
+   - The file deleter now does N=4 passes through result deletion for every 1
+     pass through workunit deletion.
+   - the db_purge program now backs off for a period=5min if it's enumeration
+     does not return more than half the query limit.  Short enums were resulting
+     in rapid fire queries which robbed DB capacity from other functions.
+
+   db/
+	boinc_db.C 
+	boinc_db.h
+   sched/
+	transitioner.C
+	file_deleter.C 
+	db_purge.C 
+

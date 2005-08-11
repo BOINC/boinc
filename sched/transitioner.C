@@ -551,30 +551,22 @@ bool do_pass() {
 
     // loop over entries that are due to be checked
     //
-    while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, items)) {
+    while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, mod_n, mod_i, items)) {
         did_something = true;
 
         TRANSITIONER_ITEM& wu_item = items[0];
 
-        // if we are assigned a transitioner number,
-        // limit which records we should looked at.
-        // It'll be less expensive to do the check here than in the DB.
-        // ??? why ???
-        //
-        if ((mod_n == 0) || ((mod_n != 0) && (mod_i == (wu_item.id % mod_n)))) {
-
-            retval = handle_wu(transitioner, items);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "[WU#%d %s] handle_wu: %d; quitting\n",
-                    wu_item.id, wu_item.name, retval
-                );
-                exit(1);
-            }
-
-            if (!one_pass) check_stop_daemons();
+        retval = handle_wu(transitioner, items);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[WU#%d %s] handle_wu: %d; quitting\n",
+                wu_item.id, wu_item.name, retval
+            );
+            exit(1);
         }
+
+        if (!one_pass) check_stop_daemons();
     }
 
 #if 0

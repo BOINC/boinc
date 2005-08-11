@@ -117,6 +117,10 @@ int max_wu_per_file=0;
 // keep track of how many WU archived in file so far
 int wu_stored_in_file=0;
 
+// indicate if there are just a few WUs to pruge - will sleep longer
+// in this case.
+bool short_enum;
+
 bool time_to_quit() {
     if (max_number_workunits_to_purge) {
         if (purged_workunits >= max_number_workunits_to_purge) return true;
@@ -524,11 +528,18 @@ bool do_pass() {
 
     }
 
-    if (do_pass_purged_workunits) {
+    if (do_pass_purged_workunits > DB_QUERY_LIMIT/2) {
         log_messages.printf(SCHED_MSG_LOG::NORMAL,
             "Archived %d workunits and %d results\n",
             do_pass_purged_workunits,do_pass_purged_results
         );
+	short_enum = false;
+    } else {
+	log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            "Archived only %d workunits and %d results.  Will sleep after this pass.\n",
+            do_pass_purged_workunits,do_pass_purged_results
+        );
+	short_enum = true;
     }
 
     if (did_something && wu_stored_in_file>0) {
@@ -611,7 +622,11 @@ int main(int argc, char** argv) {
         }
         if (!do_pass()) {
             if (one_pass) break;
-            sleep(10);
+	    if (short_enum) {
+		sleep(600);
+	    } else {
+            	sleep(10);
+	    }
         }
     }
 
