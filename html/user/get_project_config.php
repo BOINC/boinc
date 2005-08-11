@@ -6,7 +6,7 @@ require_once("../inc/xml.inc");
 xml_header();
 
 $config = get_config();
-$name = parse_config($config, "long_name");
+$name = parse_config($config, "<long_name>");
 
 echo "<project_config>\n";
 echo "    <name>$name</name>\n";
