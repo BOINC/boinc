@@ -310,7 +310,7 @@ int delete_antique_files() {
             char *fname_at_end=NULL;
             int nchars=strlen(single_line);
             struct stat statbuf;
-            char *err=NULL;
+            const char *err=NULL;
 
             // We can interrupt this at any point.
             // pclose() is called when process exits.

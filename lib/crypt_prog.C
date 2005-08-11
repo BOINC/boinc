@@ -172,7 +172,7 @@ int main(int argc, char** argv) {
         in.data = buf2;
         in.len = strlen((char*)in.data);
         out.data = buf;
-        encrypt_private(private_key, in, out, n);
+        encrypt_private(private_key, in, out);
         in = out;
         out.data = buf2;
         decrypt_public(public_key, in, out);

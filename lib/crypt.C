@@ -210,10 +210,7 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
 // The output buffer must be at least MIN_OUT_BUFFER_SIZE.
 // The output block must be decrypted in its entirety.
 //
-int encrypt_private(
-    R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out,
-    int& nbytes_encrypted
-) {
+int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     int n, modulus_len;
 
     modulus_len = (key.bits+7)/8;
@@ -254,26 +251,26 @@ int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
     char md5_buf[MD5_LEN];
     double file_length;
     DATA_BLOCK in_block;
-    int retval, n;
+    int retval;
 
     retval = md5_file(path, md5_buf, file_length);
     if (retval) return retval;
     in_block.data = (unsigned char*)md5_buf;
     in_block.len = strlen(md5_buf);
-    retval = encrypt_private(key, in_block, signature, n);
+    retval = encrypt_private(key, in_block, signature);
     if (retval) return retval;
     return 0;
 }
 
 int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
     char md5_buf[MD5_LEN];
-    int retval, n;
+    int retval;
     DATA_BLOCK in_block;
 
     md5_block(data_block.data, data_block.len, md5_buf);
     in_block.data = (unsigned char*)md5_buf;
     in_block.len = strlen(md5_buf);
-    retval = encrypt_private(key, in_block, signature, n);
+    retval = encrypt_private(key, in_block, signature);
     if (retval) {
         printf("sign_block: encrypt_private returned %d\n", retval);
         return retval;

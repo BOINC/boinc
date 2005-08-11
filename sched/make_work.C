@@ -119,7 +119,7 @@ void make_new_wu(
     SCHED_CONFIG& config
 ) {
     char file_name[256], buf[LARGE_BLOB_SIZE], pathname[256];
-    char new_file_name[256], new_pathname[256], command[256];
+    char new_file_name[256], new_pathname[256];
     char new_buf[LARGE_BLOB_SIZE];
     char * p;
     int retval;
@@ -145,11 +145,6 @@ void make_new_wu(
                 new_pathname, true
             );
             retval = link(pathname, new_pathname);
-#if 0
-            sprintf(command,"ln %s %s", pathname, new_pathname);
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "executing command: %s\n", command);
-            retval = system(command);
-#endif
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL, "link() error %d\n", retval

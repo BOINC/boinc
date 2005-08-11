@@ -10340,3 +10340,16 @@ Rom    11 Aug 2005
         wizprogress3.ico (Added)
         wizprogress4.ico (Added)
         wizquestion.bmp (Removed)
+
+David  11 Aug 2005
+    - remove Unix compile warnings
+
+    client/
+        acct_setup.h
+        gui_http.h
+    lib/
+        crypt.C,h
+        crypt_prog.C
+    sched/
+        file_deleter.C
+        make_work.C

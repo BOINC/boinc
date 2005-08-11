@@ -101,9 +101,7 @@ int print_key_hex(FILE*, KEY* key, int len);
 int scan_key_hex(FILE*, KEY* key, int len);
 int sscan_key_hex(const char*, KEY* key, int len);
 
-int encrypt_private(
-    R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out, int&
-);
+int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out);
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out);
 int sign_file(const char* path, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
 int sign_block(DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
