@@ -432,7 +432,7 @@ bool PROJECT::potentially_runnable() {
 }
 
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
-    double factor = rp->final_cpu_time / rp->estimated_cpu_time();
+    double factor = rp->final_cpu_time / rp->estimated_cpu_time_uncorrected();
     if (factor > duration_correction_factor) {
         duration_correction_factor = factor;
     } else {

@@ -10381,3 +10381,14 @@ Rom    11 Aug 2005
     
     clientgui/
         WizAttachProject.cpp
+
+David  11 Aug 2005
+    - API: don't comment out CreateTextureRGB, CreateTexturePPM on Unix
+    - core client: PROJECT::update_duration_correction_factor():
+        compute factor correctly
+        (from John McLeod)
+
+    api/
+        gutil.C
+    client/
+        client_types.C
