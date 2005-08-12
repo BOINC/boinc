@@ -10491,3 +10491,11 @@ David  12 Aug 2005
 
     api/
         boinc_api.C,h
+
+Rom    12 Aug 2005
+    - More string cleanup in the wizard.
+    
+    clientgui/
+        BOINCGUI.pjd
+        ValidateURL.cpp, .h
+        WizAttachProject.cpp, .h

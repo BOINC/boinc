@@ -65,22 +65,32 @@ bool CValidateURL::Validate(wxWindow *parent) {
 
     if (str.Length() == 0) {
         ok = FALSE;
-        m_errormsg = _("Please specify a URL to continue.\nAn example would be:\nhttp://boinc.berkeley.edu/");
+        m_errortitle = _("Missing URL");
+        m_errormsg = _("Please specify a URL.\nFor example:\nhttp://www.example.com/");
     } else if (wxURL_NOERR != val.GetError()) {
         ok = FALSE;
 
         if ((wxURL_NOPROTO == val.GetError()) || wxURL_SNTXERR == val.GetError()) {
             // Special case: we want to allow the user to specify the URL without
             //   specifing the protocol.
-            ok = TRUE;
-        }
-        else if (wxURL_NOHOST == val.GetError())
+            wxURL valNoProtoSpecified(wxT("http://") + str);
+            if (wxURL_NOERR == valNoProtoSpecified.GetError()) {
+                ok = TRUE;
+            } else {
+                m_errortitle = _("Invalid URL");
+                m_errormsg = _("'%s' does not contain a valid host name.");
+            }
+        } else if (wxURL_NOHOST == val.GetError()) {
+            m_errortitle = _("Invalid URL");
             m_errormsg = _("'%s' does not contain a valid host name.");
-        else if (wxURL_NOPATH == val.GetError())
+        } else if (wxURL_NOPATH == val.GetError()) {
+            m_errortitle = _("Invalid URL");
             m_errormsg = _("'%s' does not contain a valid path.");
+        }
     }
 
     if (!ok) {
+        wxASSERT_MSG(!m_errortitle.empty(), _T("you forgot to set errortitle"));
         wxASSERT_MSG(!m_errormsg.empty(), _T("you forgot to set errormsg"));
 
         m_validatorWindow->SetFocus();
@@ -88,7 +98,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
         wxString buf;
         buf.Printf(m_errormsg, control->GetValue().c_str());
 
-        wxMessageBox(buf, _("Validation conflict"),
+        wxMessageBox(buf, m_errortitle,
             wxOK | wxICON_EXCLAMATION, parent
         );
     }

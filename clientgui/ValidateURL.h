@@ -45,6 +45,7 @@ public:
 
 protected:
     wxString*         m_stringValue;
+    wxString          m_errortitle;
     wxString          m_errormsg;
 
     virtual bool      CheckValidator() const;
