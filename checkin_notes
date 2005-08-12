@@ -10446,9 +10446,32 @@ David  12 Aug 2005
         http_curl.h
         net_xfer_curl.h
 
-Rom    11 Aug 2005
+Rom    12 Aug 2005
     - More string cleanup in the wizard.
     
     clientgui/
         BOINCGUI.pjd
         WizAttachProject.cpp, .h
+
+David  12 Aug 2005
+    - Change the way bools are parsed in log_flags.xml
+        To turn a flag on:
+            <foobar/> or <foobar>1</foobar>
+        To turn a flag off:
+            <foobar>0</foobar>
+
+        This lets you override the defaults
+        (where task, file_xfer and sched_ops are true)
+
+        Note: this is already the way things work in sched_config.xml.
+        I moved the relevant function (parse_bool()) into parse.C,
+        and called it from LOG_FLAGS::parse().
+        Should eventually use this for all bools
+
+    client/
+        client_msgs.h
+        log_flags.C
+    lib/
+        parse.C,h
+    sched/
+        sched_config.C

@@ -34,23 +34,6 @@
 
 const char* CONFIG_FILE = "config.xml";
 
-// look for a boolean; accepts either <foobar/> or <foobar>1</foobar>
-//
-static void parse_bool(char* buf, const char* tag, bool& result) {
-    char single_tag[256], start_tag[256];
-    int x;
-
-    sprintf(single_tag, "<%s/>", tag);
-    if (match_tag(buf, single_tag)) {
-        result = true;
-        return;
-    }
-    sprintf(start_tag, "<%s>", tag);
-    if (parse_int(buf, start_tag, x)) {
-        result = (x != 0);
-    }
-}
-
 int SCHED_CONFIG::parse(char* buf) {
     // fill in defaults
     //
@@ -72,7 +55,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_str(buf, "<sched_lockfile_dir>", sched_lockfile_dir, sizeof(sched_lockfile_dir));
     parse_bool(buf, "one_result_per_user_per_wu", one_result_per_user_per_wu);
     parse_bool(buf, "non_cpu_intensive", non_cpu_intensive);
-    parse_bool(buf,"homogeneous_redundancy", homogeneous_redundancy);
+    parse_bool(buf, "homogeneous_redundancy", homogeneous_redundancy);
     parse_bool(buf, "locality_scheduling", locality_scheduling);
     parse_bool(buf, "msg_to_host", msg_to_host);
     parse_bool(buf, "ignore_upload_certificates", ignore_upload_certificates);

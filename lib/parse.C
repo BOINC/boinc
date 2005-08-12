@@ -90,6 +90,27 @@ bool parse_double(const char* buf, const char* tag, double& x) {
     return false;
 }
 
+
+// Parse a boolean; tag is of form "foobar"
+// Accept either <foobar/> or <foobar>1</foobar>
+//
+bool parse_bool(const char* buf, const char* tag, bool& result) {
+    char single_tag[256], start_tag[256];
+    int x;
+
+    sprintf(single_tag, "<%s/>", tag);
+    if (match_tag(buf, single_tag)) {
+        result = true;
+        return true;
+    }
+    sprintf(start_tag, "<%s>", tag);
+    if (parse_int(buf, start_tag, x)) {
+        result = (x != 0);
+        return true;
+    }
+    return false;
+}
+
 // parse a string of the form ...<tag attrs>string</tag>...;
 // returns the "string" part.
 // Does XML unescaping (replace &lt; with <)

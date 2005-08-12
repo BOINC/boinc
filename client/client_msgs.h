@@ -29,6 +29,8 @@
 // - User messages
 //   Message intended for users, displayed in the Messages tab of the GUI
 //   Write these using the msg_printf() function
+//
+// Both types of messages are controlled by the flags in log_flags.xml
 
 #include <deque>
 #include <string>

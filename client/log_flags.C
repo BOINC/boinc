@@ -73,58 +73,23 @@ int LOG_FLAGS::parse(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (strlen(buf) < 2) continue;
         if (match_tag(buf, "</log_flags>")) return 0;
-        else if (match_tag(buf, "<task/>")) {
-            task = true;
-            continue;
-        } else if (match_tag(buf, "<file_xfer/>")) {
-            file_xfer = true;
-            continue;
-        } else if (match_tag(buf, "<sched_ops/>")) {
-            sched_ops = true;
-            continue;
-        } else if (match_tag(buf, "<state_debug/>")) {
-            state_debug = true;
-            continue;
-        } else if (match_tag(buf, "<task_debug/>")) {
-            task_debug = true;
-            continue;
-        } else if (match_tag(buf, "<file_xfer_debug/>")) {
-            file_xfer_debug = true;
-            continue;
-        } else if (match_tag(buf, "<sched_op_debug/>")) {
-            sched_op_debug = true;
-            continue;
-        } else if (match_tag(buf, "<http_debug/>")) {
-            http_debug = true;
-            continue;
-        } else if (match_tag(buf, "<proxy_debug/>")) {
-            proxy_debug = true;
-            continue;
-        } else if (match_tag(buf, "<time_debug/>")) {
-            time_debug = true;
-            continue;
-        } else if (match_tag(buf, "<net_xfer_debug/>")) {
-            net_xfer_debug = true;
-            continue;
-        } else if (match_tag(buf, "<measurement_debug/>")) {
-            measurement_debug = true;
-            continue;
-        } else if (match_tag(buf, "<poll_debug/>")) {
-            poll_debug = true;
-            continue;
-        } else if (match_tag(buf, "<guirpc_debug/>")) {
-            guirpc_debug = true;
-            continue;
-        } else if (match_tag(buf, "<sched_cpu_debug/>")) {
-            sched_cpu_debug = true;
-            continue;
-        } else if (match_tag(buf, "<scrsave_debug/>")) {
-            scrsave_debug = true;
-            continue;
-        } else if (match_tag(buf, "<dont_check_file_sizes/>")) {
-            dont_check_file_sizes = true;
-            continue;
-        }
+        else if (parse_bool(buf, "task", task)) continue;
+        else if (parse_bool(buf, "file_xfer", file_xfer)) continue;
+        else if (parse_bool(buf, "sched_ops", sched_ops)) continue;
+        else if (parse_bool(buf, "state_debug", state_debug)) continue;
+        else if (parse_bool(buf, "task_debug", task_debug)) continue;
+        else if (parse_bool(buf, "file_xfer_debug", file_xfer_debug)) continue;
+        else if (parse_bool(buf, "sched_op_debug", sched_op_debug)) continue;
+        else if (parse_bool(buf, "http_debug", http_debug)) continue;
+        else if (parse_bool(buf, "proxy_debug", proxy_debug)) continue;
+        else if (parse_bool(buf, "time_debug", time_debug)) continue;
+        else if (parse_bool(buf, "net_xfer_debug", net_xfer_debug)) continue;
+        else if (parse_bool(buf, "measurement_debug", measurement_debug)) continue;
+        else if (parse_bool(buf, "poll_debug", poll_debug)) continue;
+        else if (parse_bool(buf, "guirpc_debug", guirpc_debug)) continue;
+        else if (parse_bool(buf, "sched_cpu_debug", sched_cpu_debug)) continue;
+        else if (parse_bool(buf, "scrsave_debug", scrsave_debug)) continue;
+        else if (parse_bool(buf, "dont_check_file_sizes", dont_check_file_sizes)) continue;
         else msg_printf(NULL, MSG_ERROR, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;

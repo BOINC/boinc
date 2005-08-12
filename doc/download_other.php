@@ -23,6 +23,11 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "<a href=http://forums.macnn.com/showthread.php?t=266339>macnn.com</a>",
+    "Mac OS X",
+    "SETI@home app"
+));
+list_item_array(array(
     "<a href=http://rcswww.urz.tu-dresden.de/~s3240790>Erik Trauschke</a>",
     "Irix",
     "BOINC core client and SETI@home app"
