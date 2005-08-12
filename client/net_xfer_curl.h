@@ -28,6 +28,10 @@
 #include <vector>
 #endif
 
+#ifndef _MAX_PATH
+#define _MAX_PATH 256
+#endif 
+
 // now include the curl library: originally from http://curl.haxx.se/libcurl
 #include <curl/curl.h>
 

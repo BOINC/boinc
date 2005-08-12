@@ -10436,3 +10436,12 @@ David  11 Aug 2005
 
     client/
         app.C
+
+David  12 Aug 2005
+    - compile fixes for Curl.  Also, print "libcurl enabled" on startup
+        (from Carl C)
+
+    client/
+        client_state.C
+        http_curl.h
+        net_xfer_curl.h
