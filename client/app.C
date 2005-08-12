@@ -357,6 +357,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0, n;
     double x;
+    unsigned int i;
     PROJECT* project;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
@@ -406,6 +407,18 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                     "ACTIVE_TASK::parse(): app_version not found\n"
                 );
                 return ERR_NULL;
+            }
+
+            // make sure no two active tasks are in same slot
+            //
+            for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+                ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
+                if (atp->slot == slot) {
+                    msg_printf(project, MSG_ERROR,
+                        "ACTIVE_TASK::parse(): slot %d already taken\n", slot
+                    );
+                    return ERR_BAD_RESULT_STATE;
+                }
             }
             return 0;
         }

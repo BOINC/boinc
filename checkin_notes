@@ -10430,3 +10430,9 @@ Jeff  11 Aug 2005
 	file_deleter.C 
 	db_purge.C 
 
+David  11 Aug 2005
+    - when parsing state file, make sure no two ACTIVE_TASKs
+        have same value of slot.
+
+    client/
+        app.C
