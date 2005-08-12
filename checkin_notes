@@ -10475,3 +10475,9 @@ David  12 Aug 2005
         parse.C,h
     sched/
         sched_config.C
+
+Jeff  12 Aug 2005
+    - Fix small bug in short enum sleep logic.
+
+    sched/
+	db_purge.C
