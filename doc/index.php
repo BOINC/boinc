@@ -66,7 +66,7 @@ computer resources
     If you participate in several projects,
     your computer will be busy even when one project has no work.
     <p>
-    <a href=participate.php>... learn more</a>
+    <a href=participate.php>... more</a>
 
     <br><br>
   </td></tr>
@@ -80,7 +80,7 @@ computer resources
     to a cluster with tens of thousands of nodes.
     <p>
       <a href=create_project.php>
-      ... learn more
+      ... more
     </a>
     <br><br>
   </td></tr>

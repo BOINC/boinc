@@ -71,6 +71,7 @@ list_item_array(array(
     <br> GNU/Linux PowerPC,
     <br> Linux Itanium
     <br> HPUX (PA RISC and Itanium/IA64),
+    <br> Tru64@Alpha,
     <br> Mac OS X 10.3 on PowerPC 7450 and later",
     "BOINC core client, SETI@home"
 ));

@@ -10481,3 +10481,13 @@ Jeff  12 Aug 2005
 
     sched/
 	db_purge.C
+
+David  12 Aug 2005
+    - API: added boinc_begin_critical_section(),
+        boinc_end_critical_section().
+        Call these around anything you want to do atomically.
+        You won't get suspended or killed (at least by the core client)
+        while in a critical section.
+
+    api/
+        boinc_api.C,h

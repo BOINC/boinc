@@ -107,6 +107,15 @@ then call
 <code>boinc_time_to_checkpoint()</code> is fast,
 so it can be called frequently (hundreds or thousands of times a second).
 
+<h3>Critical sections</h3>
+<pre>
+void boinc_begin_critical_section();
+void boinc_end_critical_section();
+</pre>
+Call these around code segments during which you
+don't want to be suspended or killed by the core client.
+NOTE: this is done automatically while checkpointing.
+
 <h3>Atomic file update</h3>
 <p>
 To facilitate atomic checkpoint, an application can write to output and

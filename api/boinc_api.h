@@ -81,6 +81,8 @@ extern int boinc_suspend_other_activities(void);
 extern int boinc_resume_other_activities(void);
 extern int boinc_report_app_status(double, double, double);
 extern int boinc_time_to_checkpoint();
+extern void boinc_begin_critical_section();
+extern void boinc_end_critical_section();
 
 // we can use those in ANSI-C with a suitable define for 'bool'
 extern bool boinc_is_standalone(void);
