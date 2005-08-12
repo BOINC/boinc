@@ -84,9 +84,7 @@ class CErrRefCountPage;
 #define ID_PROJECTURLCTRL 10035
 #define ID_PROJECRINFOBOINCLINK 10036
 #define ID_PROJECTPROPERTIESPAGE 10017
-#define ID_RETRPROJECTPROPERTIESIMAGECTRL 10018
-#define ID_RETRPROJECTPROPERTIESCTRL 10019
-#define ID_FINALPROJECTPROPERTIESTATUSCTRL 10026
+#define ID_PROJECTPROPERTIESGAUGECTRL 10077
 #define ID_ACCOUNTKEYPAGE 10054
 #define ID_ACCOUNTKEYSTATICCTRL 10074
 #define ID_ACCOUNTKEYCTRL 10073
@@ -106,12 +104,15 @@ class CErrRefCountPage;
 #define ID_COMPLETIONPAGE 10048
 #define ID_COMPLETIONERRORPAGE 10011
 #define ID_ERRPROJECTNOTDETECTEDPAGE 10007
-#define ID_HYPERLINK 10010
+#define ID_PROJECTNOTDETECTEDBOINCLINK 10010
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
 #define ID_PROJECTUNAVAILABLEBOINCLINK 10003
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
+#define ID_NOINTERNETCONNECTIONBOINCLINK 10012
 #define ID_ERRACCOUNTALREADYEXISTSPAGE 10051
+#define ID_ACCOUNTALREADYEXISTSBOINCLINK 10013
 #define ID_ERRACCOUNTCREATIONDISABLEDPAGE 10056
+#define ID_ACCOUNTCREATIONDISABLEDBOINCLINK 10014
 #define ID_ERRPROXYINFOPAGE 10060
 #define ID_ERRPROXYHTTPPAGE 10061
 #define ID_HTTPAUTODETECT 10064
@@ -538,13 +539,12 @@ public:
     static bool ShowToolTips();
 
     /// Progress Image Support
-    void SetupProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
-    void IncrementProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
+    void StartProgress(wxGauge* pGauge);
+    void IncrementProgress(wxGauge* pGauge);
+    void FinishProgress(wxGauge* pGauge);
 
 ////@begin CProjectPropertiesPage member variables
-    wxStaticBitmap* m_RetrProjectPropertiesImageCtrl;
-    wxStaticText* m_RetrProjectPropertiesCtrl;
-    wxStaticText* m_FinalProjectPropertiesStatusCtrl;
+    wxGauge* m_ProjectPropertiesGaugeCtrl;
 ////@end CProjectPropertiesPage member variables
 
     bool m_bProjectPropertiesSucceeded;
@@ -555,7 +555,6 @@ public:
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
     int m_iCurrentState;
-    int m_iProjectPropertiesProgressImage;
 };
 
 /*!

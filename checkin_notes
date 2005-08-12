@@ -10445,3 +10445,10 @@ David  12 Aug 2005
         client_state.C
         http_curl.h
         net_xfer_curl.h
+
+Rom    11 Aug 2005
+    - More string cleanup in the wizard.
+    
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
