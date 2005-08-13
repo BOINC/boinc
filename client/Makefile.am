@@ -11,6 +11,10 @@ client-bin: @CLIENT_BIN_FILENAME@
 
 LIBS += @CLIENTLIBS@
 
+if OS_DARWIN
+   LIBS+=-framework corefoundation -framework iokit
+endif
+
 bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = cpu_benchmark

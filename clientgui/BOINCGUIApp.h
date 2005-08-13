@@ -29,7 +29,7 @@
 
 #include "BOINCTaskBar.h"   // Must be included before MainDocument.h
 #ifdef __APPLE__
-#include "MacSysMenu.h"     // Must be included before MainDocument.h
+#include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
 
 #include "MainDocument.h"

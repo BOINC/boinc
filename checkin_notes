@@ -10550,3 +10550,13 @@ David  13 Aug 2005
 
     clientgui
         ViewWork.cpp
+
+Bruce 13 Aug 2005
+    - compile fixes for Mac OSX.  The autoconf/automake framework
+      now works again to build client and clientgui.
+
+    client/
+        Makefile.am
+    clientgui/
+        Makefile.am
+        BOINCGUIApp.h

@@ -5,6 +5,10 @@ include $(top_srcdir)/Makefile.incl
 
 LIBS += @CLIENTLIBS@
 
+if OS_DARWIN
+   LIBS+=-framework foundation -framework iokit -framework screensaver
+endif
+
 bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
@@ -33,12 +37,17 @@ boinc_gui_SOURCES = \
     ViewTransfers.cpp \
     ViewWork.cpp \
     WizAttachProject.cpp \
-    hyperlink.cpp
+    hyperlink.cpp \
+    mac/SystemMenu.m \
+    mac/mac_saver_module.cpp \
+    mac/Mac_Saver_ModuleView.m \
+    mac/MacSysMenu.cpp 
 
 EXTRA_DIST = *.h \
     res \
     msw \
-    locale 
+    locale \
+    mac/*.h
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
