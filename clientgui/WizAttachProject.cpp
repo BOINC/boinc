@@ -2140,19 +2140,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardEvent& event )
             _("Username:")
 
         );
-
-        m_AccountInfoDescriptionStaticCtrl->SetLabel(
-
-            _("If this is the first time you have attempted to attach to this project then\n"
-
-              "you should create a new account.  If you already have an account you\n"
-
-              "should use your existing username and password to attach to the\n"
-
-              "project.")
-
-        );
-
     } else {
 
         m_AccountEmailAddressStaticCtrl->SetLabel(
@@ -2160,19 +2147,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardEvent& event )
             _("Email address:")
 
         );
-
-        m_AccountInfoDescriptionStaticCtrl->SetLabel(
-
-            _("If this is the first time you have attempted to attach to this project then\n"
-
-              "you should create a new account.  If you already have an account you\n"
-
-              "should use your existing email address and password to attach to the\n"
-
-              "project.")
-
-        );
-
     }
 
     Fit();
