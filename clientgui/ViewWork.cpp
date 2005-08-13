@@ -677,7 +677,11 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
             }
             break;
         case RESULT_COMPUTE_ERROR:
-            strBuffer = _("Computation error");
+            if (result->aborted_via_gui) {
+                strBuffer = _("Aborted by user");
+            } else {
+                strBuffer = _("Computation error");
+            }
             break;
         case RESULT_FILES_UPLOADING:
             if (result->ready_to_report) {

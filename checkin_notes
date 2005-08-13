@@ -10544,3 +10544,9 @@ Rom    13 Aug 2005
         BOINC.ism
     zlib/
         <A Bunch of files>
+
+David  13 Aug 2005
+    - manager: fix result status in certain case (from Bruce Allen)
+
+    clientgui
+        ViewWork.cpp
