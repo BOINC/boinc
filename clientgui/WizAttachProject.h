@@ -89,7 +89,6 @@ class CErrRefCountPage;
 #define ID_ACCOUNTKEYSTATICCTRL 10074
 #define ID_ACCOUNTKEYCTRL 10073
 #define ID_ACCOUNTINFOPAGE 10037
-#define ID_ACCOUTINFODESCRIPTIONSTATICCTRL 10078
 #define ID_ACCOUNTCREATECTRL 10038
 #define ID_ACCOUNTUSEEXISTINGCTRL 10039
 #define ID_ACCOUNTEMAILADDRESSSTATICCTRL 10045
@@ -680,7 +679,6 @@ public:
     static bool ShowToolTips();
 
 ////@begin CAccountInfoPage member variables
-    wxStaticText* m_AccountInfoDescriptionStaticCtrl;
     wxRadioButton* m_AccountCreateCtrl;
     wxRadioButton* m_AccountUseExistingCtrl;
     wxStaticText* m_AccountEmailAddressStaticCtrl;
