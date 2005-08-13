@@ -151,7 +151,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             }
         } else {
             msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
-            gstate.add_project(acct.url.c_str(), acct.authenticator.c_str(), false);
+            gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
         }
     }
     if (accounts.size() == 0) {

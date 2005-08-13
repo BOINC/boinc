@@ -10499,3 +10499,25 @@ Rom    12 Aug 2005
         BOINCGUI.pjd
         ValidateURL.cpp, .h
         WizAttachProject.cpp, .h
+
+David  12 Aug 2005
+    - Added project_attach_poll() GUI RPC.
+        - removed MSG_ALERT messages on attach succeed/fail
+        - added class PROJECT_ATTACH in core client.
+            Its error_num field stores result of last attach
+        - attach failure reasons now have ERR_* values
+
+    client/
+        acct_mgr.C
+        acct_setup.h
+        client_state.h
+        client_types.h
+        cs_account.C
+        cs_cmdline.C
+        gui_rpc_server_ops.C
+        scheduler_op.C
+    lib/
+        error_numbers.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        util.C

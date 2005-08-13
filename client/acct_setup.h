@@ -71,4 +71,8 @@ struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
     LOOKUP_WEBSITE_OP(){error_num = BOINC_SUCCESS;}
 };
 
+struct PROJECT_ATTACH {
+    int error_num;
+};
+
 #endif

@@ -564,6 +564,7 @@ public:
     int create_account_poll(ACCOUNT_OUT&);
     int lookup_website(int);
     int lookup_website_poll();
+    int project_attach_poll();
 };
 
 struct RPC {

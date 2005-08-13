@@ -156,6 +156,12 @@
 #define ERR_BAD_PASSWD      -206
 #define ERR_NONUNIQUE_EMAIL -207
 #define ERR_ACCT_CREATION_DISABLED  -208
+#define ERR_ATTACH_FAIL_INIT       -209
+#define ERR_ATTACH_FAIL_DOWNLOAD   -210
+#define ERR_ATTACH_FAIL_PARSE      -211
+#define ERR_ATTACH_FAIL_BAD_KEY    -212
+#define ERR_ATTACH_FAIL_FILE_WRITE -213
+
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.

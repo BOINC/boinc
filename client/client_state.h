@@ -107,6 +107,7 @@ public:
     LOOKUP_ACCOUNT_OP lookup_account_op;
     CREATE_ACCOUNT_OP create_account_op;
     LOOKUP_WEBSITE_OP lookup_website_op;
+    PROJECT_ATTACH project_attach;
 
     int core_client_major_version;
     int core_client_minor_version;
@@ -227,7 +228,7 @@ private:
 
 // --------------- cs_account.C:
 public:
-    int add_project(const char* master_url, const char* authenticator, bool show_alrts);
+    int add_project(const char* master_url, const char* authenticator);
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();

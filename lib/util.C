@@ -954,6 +954,11 @@ const char* boincerror(int which_error) {
         case ERR_USER_PERMISSION: return "user permission";
         case ERR_SHMEM_NAME: return "can't get shared mem segment name";
         case ERR_NO_NETWORK_CONNECTION: return "no available network connection";
+        case ERR_ATTACH_FAIL_INIT: return "Couldn't start master page download";
+        case ERR_ATTACH_FAIL_DOWNLOAD: return "Couldn't download master page";
+        case ERR_ATTACH_FAIL_PARSE: return "Couldn't parse master page";
+        case ERR_ATTACH_FAIL_BAD_KEY: return "Invalid account key";
+        case ERR_ATTACH_FAIL_FILE_WRITE: return "Couldn't write account file";
     }
     static char buf[64];
     sprintf(buf, "error %d", which_error);

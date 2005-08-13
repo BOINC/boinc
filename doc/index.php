@@ -60,11 +60,12 @@ computer resources
     <br>
     2) <a href=download.php>Download</a> and run BOINC software.
     <p>
-    You can participate in any or all projects -- the choice is up to you.
-    You control the percentage of your computing power
+    You can participate in any or all projects,
+    and you control the percentage of your computing power
     that goes to each project.
-    If you participate in several projects,
-    your computer will be busy even when one project has no work.
+    By participating in several projects,
+    you ensure that your computer will be kept busy
+    even when one project has no work.
     <p>
     <a href=participate.php>... more</a>
 

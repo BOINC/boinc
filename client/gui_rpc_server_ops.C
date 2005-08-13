@@ -200,7 +200,8 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing authenticator</error>\n");
         return;
     }
-    gstate.add_project(url.c_str(), authenticator.c_str(), true);
+    gstate.add_project(url.c_str(), authenticator.c_str());
+    gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
 }
 
@@ -577,9 +578,19 @@ static void handle_lookup_website(char* buf, MIOFILE& fout) {
 }
 
 static void handle_lookup_website_poll(char*, MIOFILE& fout) {
-    fout.printf("<lookup_website>\n");
-    fout.printf("    <error_num>%d</error_num>\n", gstate.lookup_website_op.error_num);
-    fout.printf("</lookup_website>\n");
+    fout.printf(
+        "<lookup_website>\n"
+        "    <error_num>%d</error_num>\n"
+        "</lookup_website>\n",
+        gstate.lookup_website_op.error_num
+    );
+}
+
+static void handle_project_attach_poll(char*, MIOFILE& fout) {
+    fout.printf(
+        "<error_num>%d</error_num>\n",
+        gstate.project_attach.error_num
+    );
 }
 
 int GUI_RPC_CONN::handle_rpc() {
@@ -719,10 +730,12 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_create_account(request_msg, mf);
     } else if (match_tag(request_msg, "<create_account_poll")) {
         handle_create_account_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_website_poll")) {
-        handle_lookup_website_poll(request_msg, mf);
     } else if (match_tag(request_msg, "<lookup_website")) {
         handle_lookup_website(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_website_poll")) {
+        handle_lookup_website_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_attach_poll")) {
+        handle_project_attach_poll(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

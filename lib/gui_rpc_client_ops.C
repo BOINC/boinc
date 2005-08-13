@@ -1570,3 +1570,16 @@ int RPC_CLIENT::lookup_website_poll() {
     return lw.parse(rpc.fin);
 }
 
+int RPC_CLIENT::project_attach_poll() {
+    RPC rpc(this);
+    char buf[256];
+    int retval;
+
+    retval = rpc.do_rpc("<project_attach_poll/>\n");
+    if (retval) return retval;
+    retval = ERR_XML_PARSE;
+    if (rpc.fin.fgets(buf, 256)) {
+        parse_int(buf, "<error_num>", retval);
+    }
+    return retval;
+}

@@ -63,7 +63,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             "Couldn't start master page download: %s", boincerror(retval)
         );
         if (p->tentative) {
-            p->attach_failed(ATTACH_FAIL_INIT);
+            p->attach_failed(ERR_ATTACH_FAIL_INIT);
         } else {
             p->master_fetch_failures++;
             backoff(p, "Master page fetch failed\n");
@@ -183,7 +183,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
     if (p->tentative) {
-        p->attach_failed(ATTACH_FAIL_INIT);
+        p->attach_failed(ERR_ATTACH_FAIL_INIT);
         return;
     }
         
@@ -388,7 +388,7 @@ bool SCHEDULER_OP::poll() {
                     if (cur_proj->tentative) {
                         PROJECT* project_temp = cur_proj;
                         cur_proj = 0;   // keep detach(0) from removing HTTP OP
-                        project_temp->attach_failed(ATTACH_FAIL_PARSE);
+                        project_temp->attach_failed(ERR_ATTACH_FAIL_PARSE);
                         err = true;
                     } else {
                         cur_proj->master_fetch_failures++;
@@ -414,7 +414,7 @@ bool SCHEDULER_OP::poll() {
                 if (cur_proj->tentative) {
                     PROJECT* project_temp = cur_proj;
                     cur_proj = 0;
-                    project_temp->attach_failed(ATTACH_FAIL_DOWNLOAD);
+                    project_temp->attach_failed(ERR_ATTACH_FAIL_DOWNLOAD);
                 } else {
                     cur_proj->master_fetch_failures++;
                     backoff(cur_proj, "Master file fetch failed\n");
@@ -469,15 +469,17 @@ bool SCHEDULER_OP::poll() {
                 //
                 if (cur_proj->tentative) {
                     if (retval || strlen(cur_proj->user_name)==0) {
-                        cur_proj->attach_failed(ATTACH_FAIL_BAD_KEY);
+                        cur_proj->attach_failed(ERR_ATTACH_FAIL_BAD_KEY);
                     } else {
                         cur_proj->tentative = false;
                         retval = cur_proj->write_account_file();
                         if (retval) {
-                            cur_proj->attach_failed(ATTACH_FAIL_FILE_WRITE);
-                        } else if (cur_proj->show_alerts) {
-                            msg_printf(cur_proj, MSG_ALERT_INFO,
-                                "Successfully attached to %s", cur_proj->get_project_name()
+                            cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
+                        } else {
+                            gstate.project_attach.error_num = 0;
+                            msg_printf(cur_proj, MSG_INFO,
+                                "Successfully attached to %s",
+                                cur_proj->get_project_name()
                             );
                         }
                     }

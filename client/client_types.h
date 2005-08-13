@@ -144,13 +144,6 @@ struct DAILY_STATS {
     int parse(FILE*);
 };
 
-// reasons for attach failure
-#define ATTACH_FAIL_INIT       1
-#define ATTACH_FAIL_DOWNLOAD   2
-#define ATTACH_FAIL_PARSE      3
-#define ATTACH_FAIL_BAD_KEY    4
-#define ATTACH_FAIL_FILE_WRITE 5
-
 class PROJECT {
 public:
     // the following items come from the account file
@@ -216,8 +209,6 @@ public:
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
-    bool show_alerts;           // show alerts on project attach fail
-                                // (used for attach via GUI)
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                             // use those apps rather then getting from server
     bool non_cpu_intensive;

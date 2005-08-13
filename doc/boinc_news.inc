@@ -2,6 +2,12 @@
 
 $project_news = array(
 
+array("August 9, 2005",
+    "BOINC is transitioning to use <a href=http://curl.haxx.se/>libcurl</a>
+    for HTTP operations.
+    This will allow BOINC to use HTTPS (secure HTTP)
+    for scheduler requests and file transfers."
+),
 array("August 3, 2005",
     "Non-open-source code (RSAEuro and GLUT) has been removed from BOINC.
     OpenSSL's crypto library is used for encryption."
