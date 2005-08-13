@@ -85,7 +85,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../wxWidgets-2.6.1/contrib/include;../../wxWidgets-2.6.1/lib/vc_lib/mswd;..\lib;..\api;..\clientgui;..\client\win;..\;../../wxWidgets-2.6.1/include"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
 				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
@@ -110,7 +110,7 @@
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26d_adv.lib wxbase26d.lib wxbase26d_net.lib wxmsw26d_core.lib wxmsw26d_html.lib wxregexd.lib"
 				OutputFile="$(OutDir)/boincmgr.exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="../../wxWidgets-2.6.1/lib/vc_lib;../../wxWidgets-2.6.1/contrib/lib"
+				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib;$(WXWIN)\contrib\lib"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/boincmgr.pdb"

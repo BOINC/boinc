@@ -137,6 +137,7 @@
 #define read                    _read
 #define stat                    _stat
 #define finite                  _finite
+#define chdir                   _chdir
 
 
 // On the Win32 platform include file and line number information for each

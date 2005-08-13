@@ -10521,3 +10521,26 @@ David  12 Aug 2005
         gui_rpc_client.h
         gui_rpc_client_ops.C
         util.C
+
+Rom    13 Aug 2005
+    - Make building with libcurl the default on Windows.
+    - Add the zlib library to the build environment since curl relies
+        on it.
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    curl/win32/x86/bin/
+        libcurl.dll
+    curl/win32/x86/lib/
+        libcurl.lib
+    lib/
+        boinc_win.h
+    win_build/
+        boinc.sln
+        boinc_cli_curl.vcproj
+        boinc_mgr_curl.vcproj
+    win_build/installerv2/
+        BOINC.ism
+    zlib/
+        <A Bunch of files>
