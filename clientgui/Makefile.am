@@ -7,7 +7,7 @@ LIBS += @CLIENTLIBS@
 
 
 if OS_DARWIN
-   LIBS += -framework foundation -framework iokit -framework screensaver
+   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa
    mac_sources = mac/SystemMenu.m \
                  mac/mac_saver_module.cpp \
                  mac/Mac_Saver_ModuleView.m \

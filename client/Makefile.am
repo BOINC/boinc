@@ -12,7 +12,7 @@ client-bin: @CLIENT_BIN_FILENAME@
 LIBS += @CLIENTLIBS@
 
 if OS_DARWIN
-   LIBS+=-framework corefoundation -framework iokit
+   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa
 endif
 
 bin_PROGRAMS = boinc_client
