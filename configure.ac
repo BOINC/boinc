@@ -123,7 +123,6 @@ AC_SUBST([BOINC_VERSION_STRING])
 AC_SUBST([BOINC_MAJOR_VERSION])
 AC_SUBST([BOINC_MINOR_VERSION])
 
-AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc])
 AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd])
 AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr])
@@ -155,6 +154,7 @@ AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
 SAH_OPTION_BITNESS
 
 dnl Some platform specific settings
+myhost=$host
 case $target in
    *linux* | *sun* )
         if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
@@ -164,6 +164,11 @@ The switch --enable-client-release is only useful for building the client and wi
 --------------------------------------------------])
         fi
         ;;
+
+powerpc-apple-darwin* )
+        myhost=powerpc-apple-darwin
+        ;;
+	
    *)   ## in the non-linux, non-solaris case, --enable-client-release is not allowed
         if test "${enable_client_release}" = yes; then
            AC_MSG_WARN([
@@ -174,6 +179,8 @@ for Linux and Solaris, and will have no effect.
         fi
         ;;
 esac
+
+AC_DEFINE_UNQUOTED([HOSTTYPE], "$myhost", [Host for this compilation])
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile

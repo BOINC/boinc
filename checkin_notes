@@ -10554,13 +10554,20 @@ David  13 Aug 2005
 Bruce 13 Aug 2005
     - compile fixes for Mac OSX.  The autoconf/automake framework
       now works again to build client and clientgui.
+    - one fix was to modify configure.ac so that HOSTTYPE now
+      gets set to apple-powerpc-darwin rather than (say)
+      apple-powerpc-darwin7.9.  Without this the core client
+      reports back a platform version that the server does not
+      understand.
     - fix client gui now gives 'aborted by user' error message in
       the work pane.
 
+    configure.ac
     client/
         Makefile.am
     clientgui/
         Makefile.am
         BOINCGUIApp.h
         ViewWork.cpp
+
 
