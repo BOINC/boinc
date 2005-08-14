@@ -51,6 +51,7 @@ boinc_gui_SOURCES = \
 EXTRA_DIST = *.h \
     res \
     msw \
+    ../lib/error_numbers.h \
     locale $(mac_headers)
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)

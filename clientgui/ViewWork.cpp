@@ -28,7 +28,7 @@
 #include "BOINCListCtrl.h"
 #include "ViewWork.h"
 #include "Events.h"
-
+#include "../lib/error_numbers.h"
 
 #include "res/result.xpm"
 
@@ -677,7 +677,10 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
             }
             break;
         case RESULT_COMPUTE_ERROR:
-            if (result->aborted_via_gui) {
+            // both tests below are needed, because the boolean flag is not changed
+            // right away
+            //
+            if (result->aborted_via_gui || result->exit_status == ERR_ABORTED_VIA_GUI) {
                 strBuffer = _("Aborted by user");
             } else {
                 strBuffer = _("Computation error");
