@@ -1156,12 +1156,22 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 void CMainFrame::OnDebugAttachProject(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function Begin"));
 
+    m_pRefreshStateTimer->Stop();
+    m_pFrameRenderTimer->Stop();
+    m_pFrameListPanelRenderTimer->Stop();
+    m_pDocumentPollTimer->Stop();
+
     CWizAttachProject* pWizard = new CWizAttachProject(this);
 
     pWizard->Run();
 
     if (pWizard)
         pWizard->Destroy();
+
+    m_pRefreshStateTimer->Start();
+    m_pFrameRenderTimer->Start();
+    m_pFrameListPanelRenderTimer->Start();
+    m_pDocumentPollTimer->Start();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function End"));
 }

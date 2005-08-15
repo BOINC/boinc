@@ -10614,3 +10614,16 @@ David  15 Aug 2005
 		boinc_zip.vcproj
 		ziptest.cpp
 		ziptest.vcproj
+
+Rom    15 Aug 2005
+    - Fix the model dialog input problem where network traffic was happening
+        in the background.
+        
+    clientgui/
+        BOINCGUI.pjd
+        MainFrame.cpp
+        WizAttachProject.cpp, .h
+    clientgui/res/
+        wizprogress??.xpm (Added)
+    clientgui/res/templates/
+        wizprogress??.bmp (Added)

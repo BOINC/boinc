@@ -568,13 +568,40 @@
 				RelativePath="..\clientgui\res\usage.xpm">
 			</File>
 			<File
-				RelativePath="..\clientgui\res\wizfailure.xpm">
+				RelativePath="..\clientgui\res\wizprogress01.xpm">
 			</File>
 			<File
-				RelativePath="..\clientgui\res\wizquestion.xpm">
+				RelativePath="..\clientgui\res\wizprogress02.xpm">
 			</File>
 			<File
-				RelativePath="..\clientgui\res\wizsuccess.xpm">
+				RelativePath="..\clientgui\res\wizprogress03.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress04.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress05.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress06.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress07.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress08.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress09.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress10.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress11.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\wizprogress12.xpm">
 			</File>
 			<File
 				RelativePath="..\clientgui\res\xfer.xpm">

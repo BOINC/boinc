@@ -84,7 +84,7 @@ class CErrRefCountPage;
 #define ID_PROJECTURLCTRL 10035
 #define ID_PROJECRINFOBOINCLINK 10036
 #define ID_PROJECTPROPERTIESPAGE 10017
-#define ID_PROJECTPROPERTIESGAUGECTRL 10077
+#define ID_PROJECTPROPERTIESPROGRESS 10077
 #define ID_ACCOUNTKEYPAGE 10054
 #define ID_ACCOUNTKEYSTATICCTRL 10074
 #define ID_ACCOUNTKEYCTRL 10073
@@ -534,12 +534,12 @@ public:
     static bool ShowToolTips();
 
     /// Progress Image Support
-    void StartProgress(wxGauge* pGauge);
-    void IncrementProgress(wxGauge* pGauge);
-    void FinishProgress(wxGauge* pGauge);
+    void StartProgress(wxStaticBitmap* pBitmap);
+    void IncrementProgress(wxStaticBitmap* pBitmap);
+    void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CProjectPropertiesPage member variables
-    wxGauge* m_ProjectPropertiesGaugeCtrl;
+    wxStaticBitmap* m_ProjectPropertiesProgress;
 ////@end CProjectPropertiesPage member variables
 
     bool m_bProjectPropertiesSucceeded;
@@ -549,6 +549,7 @@ public:
     bool m_bCommunicateYahooSucceeded;
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
+    int m_iBitmapIndex;
     int m_iCurrentState;
 };
 
