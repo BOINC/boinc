@@ -227,6 +227,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         case REASON_USER_REQ: why = "Requested by user"; break;
         case REASON_NEED_WORK: why = "To fetch work"; break;
         case REASON_RESULTS_DUE: why = "To report results"; break;
+        case REASON_TRICKLE_UP: why = "To send trickle-up message"; break;
         default: why = "Unknown";
         }
         msg_printf(p, MSG_INFO,  "Reason: %s", why);

@@ -208,6 +208,7 @@ public:
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences
+    bool trickle_up_pending;    // have trickle up to send
     bool tentative;             // master URL and account ID not confirmed
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                             // use those apps rather then getting from server
@@ -291,7 +292,7 @@ public:
 #endif
 
     PROJECT();
-    ~PROJECT();
+    ~PROJECT(){}
     void init();
     void copy_state_fields(PROJECT&);
     char *get_project_name();

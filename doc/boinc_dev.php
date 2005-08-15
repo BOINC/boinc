@@ -28,22 +28,15 @@ Also, read:
 
 The following medium-to-large development projects are available:
 <ul>
-<li> Core client: use the 
-<a href=http://curl.haxx.se/libcurl/>libcurl</a> library
-or some other open-source HTTP library,
-replacing the HTTP_OP and PROXY classes.
-This would let the core client use HTTPS.
-(Carl C. is working on this).
-
 <li> BOINC Manager:
 Change the Statistics tab to use a single graph
 with different colors for different projects.
 
 <li> BOINC Manager:
-add progress bars for file transfers and in-progress results.
+Use progress bars for file transfers and in-progress results.
 
 <li> BOINC Manager:
-add pie charts for disk usage
+Use pie charts for disk usage
 
 <li> Disk space management: prevent disk space usage from
 exceeding user preferences,
@@ -106,7 +99,7 @@ Various implementation notes:
 <li> <a href=trickle_impl.php>Trickle messages</a>
 <li> <a href=version_diff.txt>How to see what has changed
 between two versions of an executable</a>.
-<li> <a href=acct_mgt.php>Account management systems</a>
+<li> <a href=acct_mgt_new.php>Account management systems</a>
 <li> <a href=spec.txt>Spec info for RPMs</a>
 <li> <a href=stats_summary.php>Statistics summaries</a>
 </ul>

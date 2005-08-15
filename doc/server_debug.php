@@ -24,7 +24,15 @@ for command-line apps it's written to your terminal).
 This is verbose but extremely useful for tracking down
 database-level problems.
 
-<h2>Scheduler single-stepping</h2>
+<h2>Getting core dumps from the scheduler</h2>
+<p>
+In sched/main.C put:
+<pre>
+#define DUMP_CORE_ON_SEGV 1
+</pre>
+and recompile.
+
+<h2>Running the scheduler under a debugger</h2>
 The scheduler is a CGI program.
 It reads from stdin and writes to stdout,
 so you can also run it with a command-line debugger like gdb:

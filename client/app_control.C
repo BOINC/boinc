@@ -833,7 +833,7 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
         if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
             retval = move_trickle_file();
             if (!retval) {
-                wup->project->sched_rpc_pending = true;
+                wup->project->trickle_up_pending = true;
             }
         }
         if (match_tag(msg_buf, "<have_new_upload_file/>")) {

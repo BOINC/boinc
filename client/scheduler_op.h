@@ -45,7 +45,8 @@
 typedef enum {
     REASON_USER_REQ,
     REASON_RESULTS_DUE,
-    REASON_NEED_WORK
+    REASON_NEED_WORK,
+    REASON_TRICKLE_UP
 } SCHEDULER_OP_REASON ;
 
 // default constants related to scheduler RPC policy

@@ -10570,4 +10570,19 @@ Bruce 13 Aug 2005
         BOINCGUIApp.h
         ViewWork.cpp
 
+David  14 Aug 2005
+    - Don't do scheduler RPC to send trickle-up message
+        if network comm is suspended.
+        (previously we were setting sched_rpc_pending
+        when have trickle up, same as user "update" command,
+        which overrides comm suspended).
+        Add new flag PROJECT::trickle_up_pending
+        (suggested by Glenn Dill)
+
+    client/
+        app_control.C
+        client_state.h
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.h
 

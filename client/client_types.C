@@ -80,6 +80,7 @@ void PROJECT::init() {
     min_report_min_rpc_time = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
+    trickle_up_pending = false;
     tentative = false;
     anonymous_platform = false;
     non_cpu_intensive = false;
@@ -97,11 +98,6 @@ void PROJECT::init() {
     work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
 }
-
-PROJECT::~PROJECT() {
-}
-
-
 
 // parse project fields from client_state.xml
 //
@@ -163,6 +159,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
+        else if (match_tag(buf, "<trickle_up_pending/>")) trickle_up_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
         else if (match_tag(buf, "<non_cpu_intensive/>")) non_cpu_intensive = true;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
@@ -248,6 +245,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         duration_correction_factor,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
+        trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
@@ -307,7 +305,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     master_fetch_failures = p.master_fetch_failures;
     min_rpc_time = p.min_rpc_time;
     master_url_fetch_pending = p.master_url_fetch_pending;
-    sched_rpc_pending = p.sched_rpc_pending;
+    trickle_up_pending = p.trickle_up_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
     short_term_debt = p.short_term_debt;
     long_term_debt = p.long_term_debt;

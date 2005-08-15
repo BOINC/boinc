@@ -140,6 +140,21 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     return 0;
 }
 
+PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
+    unsigned int i;
+    PROJECT* p;
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->waiting_until_min_rpc_time()) continue;
+        if (p->suspended_via_gui) continue;
+        if (p->trickle_up_pending) {
+            return p;
+        }
+    }
+    return 0;
+}
+
 // Return the best project to fetch work from, NULL if none
 //
 // Basically, pick the one with largest long term debt - amount of current work
@@ -530,17 +545,22 @@ int CLIENT_STATE::compute_work_requests() {
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
         if (!p->contactable()) continue;
 
-        // if the projects have been running in round robin without resort to EDF, then
-        // all projects will have a LT debt greater than 
+        // if system has been running in round robin,
+        // then all projects will have a LT debt greater than 
         // -global_prefs.cpu_scheduling_period_minutes * 60
         // Therefore any project that has a LT debt greater than this 
         // is a candidate for more work.
         // Also if the global need is immediate, we need to get work from 
-        // someplace - anyplace that can be contacted, even if the LT debt
-        // is extremely negative.
-        if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes * 60) && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)) continue;
+        // any contactable project, even if its LT debt is extremely negative.
+        //
+        if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes*60)
+            && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)
+        ) {
+            continue;
+        }
 
         // if it is non cpu intensive and we have work, we don't need any more.
+        //
         if (p->non_cpu_intensive && p->runnable()) continue;
 
         int min_results = proj_min_results(p, prrs);
@@ -623,6 +643,12 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
         if (network_suspended || activities_suspended) break;
+        p = next_project_trickle_up_pending();
+        if (p) {
+            scheduler_op->init_op_project(p, REASON_TRICKLE_UP);
+            action = true;
+            break;
+        }
         
         // report overdue results
         //
@@ -967,6 +993,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->send_file_list = true;
     }
     project->sched_rpc_pending = false;
+    project->trickle_up_pending = false;
 
     // handle delay request
     //
@@ -991,7 +1018,9 @@ bool CLIENT_STATE::should_get_work() {
     for (unsigned int i = 0; i < results.size();++i) {
         tot_cpu_time_remaining += results[i]->estimated_cpu_time_remaining();
     }
-    if (tot_cpu_time_remaining < global_prefs.work_buf_min_days * SECONDS_PER_DAY) return true;
+    if (tot_cpu_time_remaining < global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
+        return true;
+    }
 
     // if the CPU started this time period overloaded,
     // let it process for a while to get out of the CPU overload state.
@@ -999,9 +1028,8 @@ bool CLIENT_STATE::should_get_work() {
     if (!work_fetch_no_new_work) {
         set_scheduler_modes();
     }
-    bool ret = !work_fetch_no_new_work;
 
-    return ret;
+    return !work_fetch_no_new_work;
 }
 
 void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {

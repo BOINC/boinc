@@ -2,6 +2,13 @@
 
 $project_news = array(
 
+array("August 14, 2005",
+    "We are <a href=new_setup.php>redesigning BOINC</a> to use
+    a user-supplied identifier and password
+    instead of a system-supplied random key
+    for identifying an account.
+    Comments on the design are welcome."
+),
 array("August 9, 2005",
     "BOINC is transitioning to use <a href=http://curl.haxx.se/>libcurl</a>
     for HTTP operations.
