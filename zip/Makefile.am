@@ -4,7 +4,7 @@
 
 SUBDIRS = zip  unzip
 
-AM_CPPFLAGS =  -I$(top_srcdir)/lib -I$(top_srcdir)/zip -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -DUNIX
+AM_CPPFLAGS =  -I$(top_srcdir)/zlib -I$(top_srcdir)/lib -I$(top_srcdir)/zip -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -DUNIX -DUSE_ZLIB
 
 ##noinst_PROGRAMS = test
 lib_LIBRARIES = libboinc_zip.a

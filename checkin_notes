@@ -10596,3 +10596,21 @@ Rom    15 Aug 2005
         WizAttachProject.cpp, .h
     lib/
         gui_rpc_client_ops.C
+
+David  15 Aug 2005
+	- Happily, I found a more elegant solution than renaming functions & variables
+	from boinc_zip to zlib.
+	The InfoZip has a define "USE_ZLIB" which will take into account
+	that you have zlib available.
+	Since that is the de-facto boinc
+	(i.e. we're all using zlib now)
+	then boinc_zip can reflect this;
+	and I have updated the necessary files. 
+	(from Carl Christensen)
+
+	zip/
+		Makefile.am
+		README.txt
+		boinc_zip.vcproj
+		ziptest.cpp
+		ziptest.vcproj

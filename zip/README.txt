@@ -87,3 +87,6 @@ There is a "ziptest" Project for Windows provided to experiment, which can
 also be run (the "ziptest.cpp") on Unix & Mac to experiment 
 with how boinc_zip work (just g++ with the boinc/lib/filesys.C & util.C as
 described above).
+
+NB -- this library can now "co-exist" with zlib (libz) as of 15/08/2005
+using the USE_ZLIB define in the VC project & Makefile.am
