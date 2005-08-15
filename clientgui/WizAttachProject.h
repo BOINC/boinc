@@ -47,7 +47,7 @@ class CProjectInfoPage;
 class CProjectPropertiesPage;
 class CAccountKeyPage;
 class CAccountInfoPage;
-class CAccountCreationPage;
+class CAttachProjectPage;
 class CCompletionPage;
 class CCompletionErrorPage;
 class CErrProjectNotDetectedPage;
@@ -97,10 +97,9 @@ class CErrRefCountPage;
 #define ID_ACCOUNTPASSWORDCTRL 10041
 #define ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL 10043
 #define ID_ACCOUNTCONFIRMPASSWORDCTRL 10042
-#define ID_ACCOUNTCREATIONPAGE 10038
+#define ID_ATTACHPROJECTPAGE 10038
 #define ID_PROJECTCOMMUNICATIONSIMAGECTRL 10008
 #define ID_PROJECTCOMMUNICATIONSCTRL 10009
-#define ID_FINALACCOUNTCREATIONSTATUSCTRL 10016
 #define ID_COMPLETIONPAGE 10048
 #define ID_COMPLETIONERRORPAGE 10011
 #define ID_ERRPROJECTNOTDETECTEDPAGE 10007
@@ -158,6 +157,7 @@ class CErrRefCountPage;
 #define WIZDEBUG_ERRACCOUNTALREADYEXISTS              0x00000040
 #define WIZDEBUG_ERRACCOUNTCREATIONDISABLED           0x00000080
 #define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000100
+#define WIZDEBUG_ERRPROJECTATTACH                     0x00000200
 
 
 /*!
@@ -237,7 +237,7 @@ public:
     CProjectPropertiesPage* m_ProjectPropertiesPage;
     CAccountKeyPage* m_AccountKeyPage;
     CAccountInfoPage* m_AccountInfoPage;
-    CAccountCreationPage* m_AccountCreationPage;
+    CAttachProjectPage* m_AttachProjectPage;
     CCompletionPage* m_CompletionPage;
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrProjectNotDetectedPage* m_ErrProjectNotDetectedPage;
@@ -695,53 +695,55 @@ public:
 
 
 /*!
- * CAccountCreationPage custom events
+ * CAttachProjectPage custom events
  */
 
-class CAccountCreationPageEvent : public wxEvent
+class CAttachProjectPageEvent : public wxEvent
 {
 public:
-    CAccountCreationPageEvent(wxEventType evtType, wxWizardPage *parent)
+    CAttachProjectPageEvent(wxEventType evtType, wxWizardPage *parent)
         : wxEvent(-1, evtType)
         {
             SetEventObject(parent);
         }
 
-    virtual wxEvent *Clone() const { return new CAccountCreationPageEvent(*this); }
+    virtual wxEvent *Clone() const { return new CAttachProjectPageEvent(*this); }
 };
 
 
 BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_ACCOUNTCREATION_STATECHANGE, 11100 )
+DECLARE_EVENT_TYPE( wxEVT_ATTACHPROJECT_STATECHANGE, 11100 )
 END_DECLARE_EVENT_TYPES()
 
-#define EVT_ACCOUNTCREATION_STATECHANGE(fn) \
-    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACCOUNTCREATION_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_ATTACHPROJECT_STATECHANGE(fn) \
+    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ATTACHPROJECT_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 /*!
- * CAccountCreationPage states
+ * CAttachProjectPage states
  */
 
-#define ACCOUNTCREATION_INIT                            0
-#define ACCOUNTCREATION_PROJECTCOMM_BEGIN               1
-#define ACCOUNTCREATION_PROJECTCOMM_EXECUTE             2
-#define ACCOUNTCREATION_CLEANUP                         3
-#define ACCOUNTCREATION_END                             4
+#define ATTACHPROJECT_INIT                              0
+#define ATTACHPROJECT_ACCOUNTQUERY_BEGIN                1
+#define ATTACHPROJECT_ACCOUNTQUERY_EXECUTE              2
+#define ATTACHPROJECT_ATTACHPROJECT_BEGIN               3
+#define ATTACHPROJECT_ATTACHPROJECT_EXECUTE             4
+#define ATTACHPROJECT_CLEANUP                           5
+#define ATTACHPROJECT_END                               6
 
 /*!
- * CAccountCreationPage class declaration
+ * CAttachProjectPage class declaration
  */
 
-class CAccountCreationPage: public wxWizardPage
+class CAttachProjectPage: public wxWizardPage
 {    
-    DECLARE_DYNAMIC_CLASS( CAccountCreationPage )
+    DECLARE_DYNAMIC_CLASS( CAttachProjectPage )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CAccountCreationPage( );
+    CAttachProjectPage( );
 
-    CAccountCreationPage( wxWizard* parent );
+    CAttachProjectPage( wxWizard* parent );
 
     /// Creation
     bool Create( wxWizard* parent );
@@ -749,19 +751,19 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CAccountCreationPage event handler declarations
+////@begin CAttachProjectPage event handler declarations
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTCREATIONPAGE
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHPROJECTPAGE
     void OnPageChanged( wxWizardEvent& event );
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTCREATIONPAGE
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTPAGE
     void OnCancel( wxWizardEvent& event );
 
-////@end CAccountCreationPage event handler declarations
+////@end CAttachProjectPage event handler declarations
 
-    void OnStateChange( CAccountCreationPageEvent& event );
+    void OnStateChange( CAttachProjectPageEvent& event );
 
-////@begin CAccountCreationPage member function declarations
+////@begin CAttachProjectPage member function declarations
 
     /// Gets the previous page.
     virtual wxWizardPage* GetPrev() const;
@@ -774,7 +776,7 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end CAccountCreationPage member function declarations
+////@end CAttachProjectPage member function declarations
 
     bool GetProjectCommunitcationsSucceeded() const { return m_bProjectCommunitcationsSucceeded ; }
     void SetProjectCommunitcationsSucceeded(bool value) { m_bProjectCommunitcationsSucceeded = value ; }
@@ -784,6 +786,9 @@ public:
 
     bool GetProjectAccountAlreadyExists() const { return m_bProjectAccountAlreadyExists ; }
     void SetProjectAccountAlreadyExists(bool value) { m_bProjectAccountAlreadyExists = value ; }
+
+    bool GetProjectAttachSucceeded() const { return m_bProjectAttachSucceeded ; }
+    void SetProjectAttachSucceeded(bool value) { m_bProjectAttachSucceeded = value ; }
 
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
@@ -795,15 +800,15 @@ public:
     void SetupProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
     void IncrementProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
 
-////@begin CAccountCreationPage member variables
+////@begin CAttachProjectPage member variables
     wxStaticBitmap* m_ProjectCommunitcationsImageCtrl;
     wxStaticText* m_ProjectCommunitcationsCtrl;
-    wxStaticText* m_FinalAccountCreationStatusCtrl;
-////@end CAccountCreationPage member variables
+////@end CAttachProjectPage member variables
 
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
     bool m_bProjectAccountAlreadyExists;
+    bool m_bProjectAttachSucceeded;
     int m_iCurrentState;
     int m_iProjectCommunitcationsProgressImage;
 };

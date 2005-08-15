@@ -1578,7 +1578,7 @@ int RPC_CLIENT::project_attach_poll() {
     retval = rpc.do_rpc("<project_attach_poll/>\n");
     if (retval) return retval;
     retval = ERR_XML_PARSE;
-    if (rpc.fin.fgets(buf, 256)) {
+    while (rpc.fin.fgets(buf, 256)) {
         parse_int(buf, "<error_num>", retval);
     }
     return retval;

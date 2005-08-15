@@ -10586,3 +10586,13 @@ David  14 Aug 2005
         cs_scheduler.C
         scheduler_op.h
 
+Rom    15 Aug 2005
+    - Hook-up the attach to project functionality in the wizard.
+
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    lib/
+        gui_rpc_client_ops.C

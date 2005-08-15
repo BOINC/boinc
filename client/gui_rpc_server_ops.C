@@ -190,6 +190,13 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     fout.printf("<success/>\n");
 }
 
+static void handle_project_attach_poll(char*, MIOFILE& fout) {
+    fout.printf(
+        "<error_num>%d</error_num>\n",
+        gstate.project_attach.error_num
+    );
+}
+
 static void handle_project_attach(char* buf, MIOFILE& fout) {
     string url, authenticator;
     if (!parse_str(buf, "<project_url>", url)) {
@@ -586,13 +593,6 @@ static void handle_lookup_website_poll(char*, MIOFILE& fout) {
     );
 }
 
-static void handle_project_attach_poll(char*, MIOFILE& fout) {
-    fout.printf(
-        "<error_num>%d</error_num>\n",
-        gstate.project_attach.error_num
-    );
-}
-
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -660,6 +660,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_show_graphics(request_msg, mf);
     } else if (match_tag(request_msg, "<project_reset")) {
         handle_project_op(request_msg, mf, "reset");
+    } else if (match_tag(request_msg, "<project_attach_poll")) {
+        handle_project_attach_poll(request_msg, mf);
     } else if (match_tag(request_msg, "<project_attach")) {
         handle_project_attach(request_msg, mf);
     } else if (match_tag(request_msg, "<project_detach")) {
@@ -724,18 +726,14 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_lookup_account(request_msg, mf);
     } else if (match_tag(request_msg, "<lookup_account_poll")) {
         handle_lookup_account_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_account_poll")) {
-        handle_lookup_account_poll(request_msg, mf);
     } else if (match_tag(request_msg, "<create_account>")) {
         handle_create_account(request_msg, mf);
     } else if (match_tag(request_msg, "<create_account_poll")) {
         handle_create_account_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_website")) {
-        handle_lookup_website(request_msg, mf);
     } else if (match_tag(request_msg, "<lookup_website_poll")) {
         handle_lookup_website_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_attach_poll")) {
-        handle_project_attach_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_website")) {
+        handle_lookup_website(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }
