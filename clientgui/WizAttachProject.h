@@ -98,8 +98,7 @@ class CErrRefCountPage;
 #define ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL 10043
 #define ID_ACCOUNTCONFIRMPASSWORDCTRL 10042
 #define ID_ATTACHPROJECTPAGE 10038
-#define ID_PROJECTCOMMUNICATIONSIMAGECTRL 10008
-#define ID_PROJECTCOMMUNICATIONSCTRL 10009
+#define ID_ATTACHPROJECTPROGRESS 10003
 #define ID_COMPLETIONPAGE 10048
 #define ID_COMPLETIONERRORPAGE 10011
 #define ID_ERRPROJECTNOTDETECTEDPAGE 10007
@@ -798,20 +797,20 @@ public:
     static bool ShowToolTips();
 
     /// Progress Image Support
-    void SetupProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
-    void IncrementProgressImage(wxStaticBitmap* pImage, int& iImageIndex);
+    void StartProgress(wxStaticBitmap* pBitmap);
+    void IncrementProgress(wxStaticBitmap* pBitmap);
+    void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CAttachProjectPage member variables
-    wxStaticBitmap* m_ProjectCommunitcationsImageCtrl;
-    wxStaticText* m_ProjectCommunitcationsCtrl;
+    wxStaticBitmap* m_AttachProjectProgress;
 ////@end CAttachProjectPage member variables
 
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
     bool m_bProjectAccountAlreadyExists;
     bool m_bProjectAttachSucceeded;
+    int m_iBitmapIndex;
     int m_iCurrentState;
-    int m_iProjectCommunitcationsProgressImage;
 };
 
 /*!
