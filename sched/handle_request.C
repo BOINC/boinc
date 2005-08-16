@@ -32,6 +32,7 @@ using namespace std;
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 #include "boinc_db.h"
 #include "backend_lib.h"
