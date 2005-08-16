@@ -10739,3 +10739,11 @@ David  16 Aug 2005
     client/
         client_types.C
         cs_scheduler.C
+
+David  16 Aug 2005
+	- Make boinc_gui work again
+
+	client/win/
+		wingui_mainwindow.cpp
+	win_build/
+		boinc_gui.vcproj

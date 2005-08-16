@@ -98,8 +98,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../openssl/include/;../lib/;../api/;../RSAEuro/source/;../client/win/;../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="../;../openssl/include/;../lib/;../api/;../RSAEuro/source/;../client/win/;../client;../curl/include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_CURL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="TRUE"
@@ -119,11 +119,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libeay32.lib"
+				AdditionalDependencies="libeay32.lib libcurl.lib"
 				OutputFile=".\Build\Debug/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="../openssl/win32/x86/lib;..\boinc_dll\Debug"
+				AdditionalLibraryDirectories="../openssl/win32/x86/lib;../curl/win32/x86/lib"
 				IgnoreAllDefaultLibraries="FALSE"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="oleacc.dll"
@@ -655,27 +655,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Client\http.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\client\http_curl.C">
 			</File>
 			<File
 				RelativePath="..\lib\language.C">
@@ -802,27 +782,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Client\net_xfer.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\client\net_xfer_curl.C">
 			</File>
 			<File
 				RelativePath="..\lib\network.C">
@@ -1224,7 +1184,7 @@
 				RelativePath="..\client\hostinfo_network.h">
 			</File>
 			<File
-				RelativePath="..\client\http.h">
+				RelativePath="..\client\http_curl.h">
 			</File>
 			<File
 				RelativePath="..\lib\language.h">
@@ -1251,7 +1211,7 @@
 				RelativePath="..\client\net_stats.h">
 			</File>
 			<File
-				RelativePath="..\client\net_xfer.h">
+				RelativePath="..\client\net_xfer_curl.h">
 			</File>
 			<File
 				RelativePath="..\lib\network.h">
@@ -1321,10 +1281,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1344,10 +1304,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

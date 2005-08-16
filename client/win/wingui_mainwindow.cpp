@@ -34,6 +34,7 @@ CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
 static bool winsock_inited = false;
 
+extern int curl_init();
 int check_unique_instance() {
     // on Windows, we set a mutex so that the screensaver
     // can find out that the core client is running
@@ -81,6 +82,7 @@ BOOL CMyApp::InitInstance()
         return FALSE;
     }
 
+    curl_init();
     // Initialize WinSock
     if ( WinsockInitialize() != 0 ) {
         MessageBox(NULL, "Failed to initialize the Windows Sockets Interface\nTerminating Application", "BOINC GUI Error", MB_OK);
@@ -1260,8 +1262,7 @@ void CMainWindow::OnCommandSettingsLogin()
     if(nResult == IDOK) {
         gstate.add_project(
             dlg.m_strUrl.GetBuffer(dlg.m_strUrl.GetLength()+10),
-            dlg.m_strAuth.GetBuffer(0),
-            false
+            dlg.m_strAuth.GetBuffer(0)
         );
         dlg.m_strUrl.ReleaseBuffer(); // might have been changed by canonicalize_url()
     }
@@ -2178,7 +2179,8 @@ void CMainWindow::OnTimer(UINT uEventID) {
         KillTimer(m_nGuiTimerID);
 
         // update state and gui
-        while(gstate.do_something());
+        while(gstate.poll_slow_events());
+         gstate.do_io_or_sleep(1.0);
 
         // check if network connection can be terminated
         //NetCheck(gstate.global_prefs.hangup_if_dialed);
@@ -2211,7 +2213,7 @@ LRESULT CMainWindow::OnShowWindow(WPARAM wParam, LPARAM lParam)
 // returns:     
 LRESULT CMainWindow::OnNetworkActivity(WPARAM wParam, LPARAM lParam)
 {
-    gstate.net_sleep(0);
+    gstate.do_io_or_sleep(1.0);
     return TRUE;
 }
 
