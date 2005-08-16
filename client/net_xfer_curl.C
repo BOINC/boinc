@@ -68,15 +68,13 @@ CURLM* g_curlMulti = NULL;  // global curl for this module, can handle http & ht
 fd_set read_fds, write_fds, error_fds;
 
 // call these once at the start of the program and once at the end (init & cleanup of course)
-extern int curl_init()
-{
+int curl_init() {
 	curl_global_init(CURL_GLOBAL_ALL);
 	g_curlMulti = curl_multi_init();
 	return (int)(g_curlMulti == NULL);
 }
 
-extern int curl_cleanup()
-{
+int curl_cleanup() {
 	if (g_curlMulti) {
 		curl_multi_cleanup(g_curlMulti);
 	}
@@ -126,14 +124,12 @@ void NET_XFER::close_socket() {
 		curl_slist_free_all(pcurlList);
 		pcurlList = NULL;
 	}
-	if (curlEasy && pcurlFormStart)
-	{
+	if (curlEasy && pcurlFormStart) {
 		curl_formfree(pcurlFormStart);
 		curl_formfree(pcurlFormEnd);
 		pcurlFormStart = pcurlFormEnd = NULL;
 	}
-	if (curlEasy && g_curlMulti)
-	{  // release this handle
+	if (curlEasy && g_curlMulti) {  // release this handle
 		curl_multi_remove_handle(g_curlMulti, curlEasy);
 		curl_easy_cleanup(curlEasy);
 		curlEasy = NULL;
@@ -222,62 +218,11 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
     return ERR_NOT_FOUND;
 }
 
-#if 0
-// Transfer data to/from active sockets.
-// Keep doing I/O until would block, or we hit rate limits,
-// or .5 second goes by
-//
-bool NET_XFER_SET::poll() {
-    double bytes_xferred =0.0f;
-    int retval;
-    bool action = false;
-	// CMC probably don't need this loop in libcurl, the regular polling interval should suffice?
-//    while (1) {
-        retval = do_select(bytes_xferred, 0.5);
-        if (retval) return false;
-        if (bytes_xferred ==0) return false;
-        return true;
-//        if (retval) break;
-//        if (bytes_xferred == 0) break;
-//        action = true;
-//        if ((dtime() - gstate.now) > 0.5) break;
-//    }
-	//bInHere = false;
-    return action;
-}
-
-static void double_to_timeval(double x, timeval& t) {
-    t.tv_sec = (int)x;
-    t.tv_usec = (int)(1000000*(x - (int)x));
-}
-
-
-// Wait at most x seconds for network I/O to become possible,
-// then do up to about .5 seconds of I/O.
-//
-int NET_XFER_SET::net_sleep(double x) {
-	// CMC -- this seems to be the culprit for the race condition
-	// as we're polling from client_state::do_something() as well
-	// as from main->client_state::net_sleep()
-	// need to ensure that the do_select isn't instantaneous --
-	// i.e. it will boinc_sleep if no network transactions
-
-    int retval;
-    double bytes_xferred;
-
-	retval = do_select(bytes_xferred, x);
-    if (retval) return retval;
-    if (bytes_xferred) {
-		return poll();
-    }
-    return 0;
-}
-#endif
 
 void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
 	CURLMcode curlMErr;
 	curlMErr = curl_multi_fdset(g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd);
-    printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
+    //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
 void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
@@ -318,8 +263,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     }
 
 	// read messages from curl that may have come in from the above loop
-	while ( (pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg)) )
-	{
+	while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
 		// if we have a msg, then somebody finished
 		// can check also with pcurlMsg->msg == CURLMSG_DONE
 		if ((nxf = lookup_curl(pcurlMsg->easy_handle)) ) { 
@@ -363,8 +307,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 				double dSize = 0.0f;
 				file_size(nxf->outfile, dSize);
 				nxf->fileOut = boinc_fopen(nxf->outfile, "rb");
-				if (!nxf->fileOut)
-				{ // ack, can't open back up!
+				if (!nxf->fileOut) { // ack, can't open back up!
 					nxf->response = 1; // flag as a bad response for a possible retry later
 				}
 				fseek(nxf->fileOut, 0, SEEK_SET);
@@ -378,15 +321,15 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 			nxf->close_socket();
 
 			// finally remove the tmpfile if not explicitly set
-			if (nxf->bTempOutfile)
+            if (nxf->bTempOutfile) {
 				boinc_delete_file(nxf->outfile);
+            }
 		}
 	}
 }
 
 // Return the NET_XFER object whose socket matches fd
-NET_XFER* NET_XFER_SET::lookup_curl(CURL* pcurl) 
-{
+NET_XFER* NET_XFER_SET::lookup_curl(CURL* pcurl)  {
     for (unsigned int i=0; i<net_xfers.size(); i++) {
         if (net_xfers[i]->curlEasy == pcurl) {
             return net_xfers[i];

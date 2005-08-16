@@ -405,7 +405,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
             &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
             &tv
         );
-        printf("select in %d out %d\n", all_fds.max_fd, n);
+        //printf("select in %d out %d\n", all_fds.max_fd, n);
         if (n==0) break;
         if (!activities_suspended && !network_suspended) {
             net_xfers->got_select(all_fds, x);

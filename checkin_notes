@@ -7754,47 +7754,47 @@ David  13 June 2005
         ViewWork.cpp
 
 David  13 June 2005
-	- get Manager to compile on Windows:
-		- can't do DynamicCast stuff for non-wx objects
-		- don't bother doing both ASSERT(p) and if(p).
-			Better yet, don't do either
+    - get Manager to compile on Windows:
+        - can't do DynamicCast stuff for non-wx objects
+        - don't bother doing both ASSERT(p) and if(p).
+            Better yet, don't do either
 
-	clientgui/
-		BOINCTaskBar.cpp
-		ViewMessages.cpp
-		ViewProjects.cpp
-		ViewResources.cpp
-		ViewStatistics.cpp
-		ViewTransfers.cpp
-		ViewWork.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
 
 David  13 June 2005
-	- core client: estimate CPU time to completion of an active result
-		as a weighted average of estimates based on
-		1) the workunit's flops count
-		2) the current reported CPU time and fraction done,
-		weighted by the fraction done.
-		This gives better estimates for apps that don't
-		estimate their fraction done well (e.g. SETI@home).
-		It should eliminate a behavior where the client gets 1 result,
-		starts running it, and immediately requests more work.
-	- core client: fix bug where we'd to a master file fetch
-		after every scheduler RPC
-	- core client: show messages when downloading master page,
-		and when it succeeds or fails
+    - core client: estimate CPU time to completion of an active result
+        as a weighted average of estimates based on
+        1) the workunit's flops count
+        2) the current reported CPU time and fraction done,
+        weighted by the fraction done.
+        This gives better estimates for apps that don't
+        estimate their fraction done well (e.g. SETI@home).
+        It should eliminate a behavior where the client gets 1 result,
+        starts running it, and immediately requests more work.
+    - core client: fix bug where we'd to a master file fetch
+        after every scheduler RPC
+    - core client: show messages when downloading master page,
+        and when it succeeds or fails
 
-	NOTE: I was seeing a bug where each file transfer would fail
-	immediately with a CONN_REFUSED error (10061 on Win),
-	but would succeed on retry.
-	This went away when I changed the settings on my
-	Symantec Personal Firewall to not check outgoing connections.
-	Seems like a bug in Symantec to me.
+    NOTE: I was seeing a bug where each file transfer would fail
+    immediately with a CONN_REFUSED error (10061 on Win),
+    but would succeed on retry.
+    This went away when I changed the settings on my
+    Symantec Personal Firewall to not check outgoing connections.
+    Seems like a bug in Symantec to me.
 
-	client/
-		app.C
-		cs_account.C
-		net_xfer.C
-		scheduler_op.C
+    client/
+        app.C
+        cs_account.C
+        net_xfer.C
+        scheduler_op.C
 
 David  13 June 2005
     - core client: don't reset projects on major version change
@@ -7951,12 +7951,12 @@ Rom    16 June 2005
         ViewTransfers.cpp
 
 David  16 June 2005
-	- validate account manager URL before trying to do RPC
-	- generate MSG_ALERT messages for account manager RPCs
-		(success or failure).
+    - validate account manager URL before trying to do RPC
+    - generate MSG_ALERT messages for account manager RPCs
+        (success or failure).
 
-	client/
-		acct_mgr.C
+    client/
+        acct_mgr.C
 
 David  17 June 2005
     - scheduler: handle_msgs_from_host():
@@ -7968,12 +7968,12 @@ David  17 June 2005
         handle_request.C
 
 David  17 June 2005
-	- BOINC manager: get rid of
-		CMainDocument::IsAccountManagerFound() etc.
+    - BOINC manager: get rid of
+        CMainDocument::IsAccountManagerFound() etc.
 
-	clientgui/
-		MainDocument.cpp,h
-		MainFrame.cpp
+    clientgui/
+        MainDocument.cpp,h
+        MainFrame.cpp
 
 David  17 June 2005
     - Run CPU on the same # of CPUs that BOINC will use,
@@ -8041,23 +8041,23 @@ David  18 June 2005
         cs_scheduler.C
 
 David  18 June 2005
-	- don't let cpu_efficiency become negative.
-		Somehow it was -1 on my machine and that hosed everything
+    - don't let cpu_efficiency become negative.
+        Somehow it was -1 on my machine and that hosed everything
 
-	client/
-		cs_scheduler.C
-		time_stats.C
+    client/
+        cs_scheduler.C
+        time_stats.C
 
 David  18 June 2005
-	- Refine the round-robin simulation added earlier today
-		to model multiple CPUs.
-	- Fix bug in update of duration_correction_factor
+    - Refine the round-robin simulation added earlier today
+        to model multiple CPUs.
+    - Fix bug in update of duration_correction_factor
 
-	(both from John McLeod)
+    (both from John McLeod)
 
-	client/
-		client_types.C
-		cs_scheduler.C
+    client/
+        client_types.C
+        cs_scheduler.C
 
 David  19 June 2005
     - bug fix in scheduler
@@ -8067,15 +8067,15 @@ David  19 June 2005
         cs_scheduler.C
 
 David  19 June 2005
-	- work-fetch policy:
-		if fetching work would cause deadlines to be missed
-		(based on round-robin simulation) then don't fetch work
-	- factor simulations of EDF and round-robin
-		into separate functions
+    - work-fetch policy:
+        if fetching work would cause deadlines to be missed
+        (based on round-robin simulation) then don't fetch work
+    - factor simulations of EDF and round-robin
+        into separate functions
 
-	client/
-		client_state.h
-		cs_scheduler.C
+    client/
+        client_state.h
+        cs_scheduler.C
 
 David  19 June 2005
     - change normalization of short-term debt so average (not min) is zero
@@ -8112,68 +8112,68 @@ David  20 June 2005
         cs_scheduler.C
 
 David  21 June 2005
-	- Account management: move responsibility for the
-		acct_mgr_url.xml and acct_mgr_login.xml files
-		from the manager to the core client.
-		Do this because only the core client knows when an
-		account manager RPC has succeeded;
-		unless this happens, these files should not be changed.
+    - Account management: move responsibility for the
+        acct_mgr_url.xml and acct_mgr_login.xml files
+        from the manager to the core client.
+        Do this because only the core client knows when an
+        account manager RPC has succeeded;
+        unless this happens, these files should not be changed.
 
-		Add new type ACCT_MGR_INFO to core client
-		(member of CLIENT_STATE).
-		Read files on startup.
-		When acct manager RPC succeeds, write files.
-	- Add new GUI RPC for getting acct manager info
-	- Manager: for "Manage Accounts", get account manager info via RPC,
-		then decide what dialogs to put up.
-	- Message types (replace MSG_ALERT):
-		MSG_ALERT_ERROR shows an error alert
-		MSG_ALERT_INFO shows an info alert
-	- Show on info alert when acct mgr RPC succeeds
-	- Manager: get rid of CMainDocument::UpdateAccountManagerAccounts()
-		(???)
+        Add new type ACCT_MGR_INFO to core client
+        (member of CLIENT_STATE).
+        Read files on startup.
+        When acct manager RPC succeeds, write files.
+    - Add new GUI RPC for getting acct manager info
+    - Manager: for "Manage Accounts", get account manager info via RPC,
+        then decide what dialogs to put up.
+    - Message types (replace MSG_ALERT):
+        MSG_ALERT_ERROR shows an error alert
+        MSG_ALERT_INFO shows an info alert
+    - Show on info alert when acct mgr RPC succeeds
+    - Manager: get rid of CMainDocument::UpdateAccountManagerAccounts()
+        (???)
 
-	client/
-		acct_mgr.C,h
-		client_msgs.h
-		client_state.C,h
-		cs_account.C
-		file_names.h
-		gui_rpc_server.C
-		main.C
-	clientgui/
-		MainDocument.cpp,h
-		MainFrame.cpp
-	lib/
-		acct_mgr_client.C,h (removed)
-		gui_rpc_client.C,h
-	win_build/
-		BOINCGUI.vcproj
+    client/
+        acct_mgr.C,h
+        client_msgs.h
+        client_state.C,h
+        cs_account.C
+        file_names.h
+        gui_rpc_server.C
+        main.C
+    clientgui/
+        MainDocument.cpp,h
+        MainFrame.cpp
+    lib/
+        acct_mgr_client.C,h (removed)
+        gui_rpc_client.C,h
+    win_build/
+        BOINCGUI.vcproj
 
 David  21 June 2005
-	- GUI principle for manager:
-		For any user action that can potentially fail
-		(project attach, acct mgr update)
-		ALWAYS show an alert when the action is finished.
-		E.g. show "Attach succeeded" if an attach succeeds.
-		Don't require users to look in Messages for outcome.
-	- Add a "show_alerts" argument to add_project().
-		Says whether to show alert when attach succeeds or fails.
-		True for attaches via GUI,
-		false for others (e.g. account manager attaches)
-	- SCHEDULER_OP::backoff(): if account is tentative,
-		call attach_failed().
+    - GUI principle for manager:
+        For any user action that can potentially fail
+        (project attach, acct mgr update)
+        ALWAYS show an alert when the action is finished.
+        E.g. show "Attach succeeded" if an attach succeeds.
+        Don't require users to look in Messages for outcome.
+    - Add a "show_alerts" argument to add_project().
+        Says whether to show alert when attach succeeds or fails.
+        True for attaches via GUI,
+        false for others (e.g. account manager attaches)
+    - SCHEDULER_OP::backoff(): if account is tentative,
+        call attach_failed().
 
-	client/
-		acct_mgr.C
-		client_state.h
-		client_types.h
-		cs_account.C
-		cs_cmdline.C
-		gui_rpc_server.C
-		scheduler_op.C
-	clientgui/
-		MainDocument.cpp
+    client/
+        acct_mgr.C
+        client_state.h
+        client_types.h
+        cs_account.C
+        cs_cmdline.C
+        gui_rpc_server.C
+        scheduler_op.C
+    clientgui/
+        MainDocument.cpp
 
 David  21 June 2005
     - Unix compile fixes
@@ -8226,14 +8226,14 @@ David  21 June 2005
         server_types.C,h
 
 David  21 June 2005
-	- add_project(): set sched_rpc_pending so we always do
-		a scheduler RPC even if not fetching work
-	- win compile fixes
+    - add_project(): set sched_rpc_pending so we always do
+        a scheduler RPC even if not fetching work
+    - win compile fixes
 
-	client/
-		cs_account.C
-	client/win/
-		wingui_mainwindow.cpp
+    client/
+        cs_account.C
+    client/win/
+        wingui_mainwindow.cpp
 
 Rom    22 June 2005
     - Remove code that causes the CC to block on network requests, the 
@@ -8358,7 +8358,7 @@ Charlie    23 June 2005
         res/
             boinc_mac.xpm (new)
 
-Janus	23 June 2005
+Janus    23 June 2005
    - Added translation functions for cached pages
      The data from SQL queries is saved in the cache directory on the server
      and is reused to display the information again and again - even in 
@@ -8468,14 +8468,14 @@ David  24 June 2005
         cs_scheduler.C
 
 David  24 June 2005
-	- Doh!  My checkin earlier today for the Red Hat 9 problem
-		was wrong, and screwed things up on all platforms.
-		Fixed now, and the Red Hat problem fixed a different way
+    - Doh!  My checkin earlier today for the Red Hat 9 problem
+        was wrong, and screwed things up on all platforms.
+        Fixed now, and the Red Hat problem fixed a different way
 
-	client/
-		app_start.C
-		win/
-			wingui_mainwindow.cpp
+    client/
+        app_start.C
+        win/
+            wingui_mainwindow.cpp
 
 David  24 June 2005
     - API library: potential bug:
@@ -8585,14 +8585,14 @@ Bruce  27 June 2005
         sched_locality.C
 
 David  27 June 2005
-	- fix bug in Manager message display
-		(can end up showing alerts over and over)
-	- acct mgr: remove HTTP_OP from set when op finishes
+    - fix bug in Manager message display
+        (can end up showing alerts over and over)
+    - acct mgr: remove HTTP_OP from set when op finishes
 
-	client/
-		acct_mgr.C
-	clientgui/
-		MainDocument.cpp
+    client/
+        acct_mgr.C
+    clientgui/
+        MainDocument.cpp
 
 David  27 June 2005
     - added new function escape_mysql_like_pattern(const char* in, char* out);
@@ -8650,10 +8650,10 @@ Rom    28 June 2005
         MainFrame.cpp, .h
 
 David  28 June 2005
-	- manager: fixed messages bug
+    - manager: fixed messages bug
 
-	cliengui/
-		MainDocument.cpp
+    cliengui/
+        MainDocument.cpp
 
 David  28 June 2005
     - core client: if no projects on startup,
@@ -8692,31 +8692,31 @@ Rom    28 June 2005
 
 
 David  28 June 2005
-	- Make it so that entering an empty string for the account manager URL
-		clears info about existing account manager (URL, login files)
+    - Make it so that entering an empty string for the account manager URL
+        clears info about existing account manager (URL, login files)
 
-		NOTE: in the course of debugging this I encountered
-		the following;
+        NOTE: in the course of debugging this I encountered
+        the following;
 
-		std::string foo;
-		...
-		foo = "";
+        std::string foo;
+        ...
+        foo = "";
 
-		and after single-stepping throught this (in VC++)
-		foo was nonempty (a lengthy GUI-related string of some sort)
+        and after single-stepping throught this (in VC++)
+        foo was nonempty (a lengthy GUI-related string of some sort)
 
-		I eventually threw up my hands and changed the vars in question
-		(struct ACCT_MGR_INFO) to char[256], and it works.
-		But why didn't std::string work???
-	- show both name and URL in acct mgr status dialog
+        I eventually threw up my hands and changed the vars in question
+        (struct ACCT_MGR_INFO) to char[256], and it works.
+        But why didn't std::string work???
+    - show both name and URL in acct mgr status dialog
 
-	client/
-		acct_mgr.C,h
-		gui_rpc_server.C
-	clientgui/
-		DlgAccountManagerSignup.cpp
-		DlgAccountManagerStatus.cpp,h
-		MainFrame.cpp
+    client/
+        acct_mgr.C,h
+        gui_rpc_server.C
+    clientgui/
+        DlgAccountManagerSignup.cpp
+        DlgAccountManagerStatus.cpp,h
+        MainFrame.cpp
 
 David  28 June 2005
     - self-extracting archive includes boinc_cmd,
@@ -8762,17 +8762,17 @@ Rom    28 June 2005
 
 
 David  28 June 2005
-	- add ERR_NO_NETWORK_CONNECTION error code.
-		Return this if can't connect to server because no network connection.
-	- show boincerror(retval) instead of retval in a couple of messages.
-		Should do this everywhere.
+    - add ERR_NO_NETWORK_CONNECTION error code.
+        Return this if can't connect to server because no network connection.
+    - show boincerror(retval) instead of retval in a couple of messages.
+        Should do this everywhere.
 
-	client/
-		net_xfer.C
-		scheduler_op.C
-	lib/
-		error_numbers.h
-		util.C
+    client/
+        net_xfer.C
+        scheduler_op.C
+    lib/
+        error_numbers.h
+        util.C
 
 Rom    29 June 2005
     - Bug Fix: Check for update all and hangup conditions every ten seconds instead of
@@ -8847,31 +8847,31 @@ Charlie 4 July 2005
         mac_advanced.php
 
 David  5 July 2005
-	- Always show the reason for a scheduler RPC: either
-		- requested by user
-		- results due for reporting
-		- fetching work
+    - Always show the reason for a scheduler RPC: either
+        - requested by user
+        - results due for reporting
+        - fetching work
 
-		Implementation: add "reason" argument to init_op_project().
-		Store in SCHEDULER_OP.
-		This eliminates the need for must_get_work.
-		Remove init_return_results().
-	- handle RPC init errors (by backing off) in init_op_project(),
-		NOT in the functions that call it (e.g. init_get_work()).
-		We were backing off twice for the same error.
-	- network_query GUI RPC: return false if network suspended by user
-	- Manager: remove wxASSERT(fBuffer)
-		from CViewReousrces::FormatDiskSpace().
-		This causes crash if a project has zero disk usage.
-		?? Why is the amount of disk called "fBuffer"?
-		?? why is a PROJECT* called "resource"?
+        Implementation: add "reason" argument to init_op_project().
+        Store in SCHEDULER_OP.
+        This eliminates the need for must_get_work.
+        Remove init_return_results().
+    - handle RPC init errors (by backing off) in init_op_project(),
+        NOT in the functions that call it (e.g. init_get_work()).
+        We were backing off twice for the same error.
+    - network_query GUI RPC: return false if network suspended by user
+    - Manager: remove wxASSERT(fBuffer)
+        from CViewReousrces::FormatDiskSpace().
+        This causes crash if a project has zero disk usage.
+        ?? Why is the amount of disk called "fBuffer"?
+        ?? why is a PROJECT* called "resource"?
 
-	client/
-		client_state.C
-		cs_scheduler.C
-		scheduler_op.C,h
-	clientgui/
-		ViewResources.cpp
+    client/
+        client_state.C
+        cs_scheduler.C
+        scheduler_op.C,h
+    clientgui/
+        ViewResources.cpp
 
 David  5 July 2005
     - prevent infinite loop in web (from Rob Ogilvie)
@@ -9267,18 +9267,18 @@ Charlie 19 July 2005
             project.pbxproj
 
 David  19 July 2005
-	- bug fix in zip code (from Carl C.)
+    - bug fix in zip code (from Carl C.)
 
-	zip/
-		boinc_zip.cpp
+    zip/
+        boinc_zip.cpp
 
 David  19 July 2005
-	- API: support for RGB files (from Tolu)
+    - API: support for RGB files (from Tolu)
 
-	api/
+    api/
         Makefile.am
-		gutil.C,h
-		texture.C,h (new)
+        gutil.C,h
+        texture.C,h (new)
 
 David  20 July 2005
     - db_dump: write nusers, nhosts, nteams, total credit
@@ -9470,43 +9470,43 @@ Rom    22 July 2005 (boinc_public)
       boinc_core_release_4_72
 
 David  23 July 2005
-	- fix compile warnings on Win
+    - fix compile warnings on Win
 
-	lib/
-		hostinfo.C
-		md5_file.C,h
-		miofile.C
-		network.C
+    lib/
+        hostinfo.C
+        md5_file.C,h
+        miofile.C
+        network.C
 
 David  23 July 2005
-	- API: change heartbeat mechanism so that instead of using time(0),
-		it uses its own counter (incremented on interrupt).
-		This avoid specious heartbeat timeout
-		when user resets system clock.
-		It should also fix problem where BOINC restarts
-		after hibernation, app runs before core client,
-		and it gets heartbeat timeout.
-	- Core client: add "-no_gui_rpc" cmdline option.
-		If present, don't create listening socket for GUI RPC.
-		(Useful if bind() doesn't work).
-	- shared memory: in shmget() mode, first try 0666;
-		if that fails, try SHM_R|SHM_W
-		This is just paranoia, in case 21/July checkin
-		breaks some platform.
+    - API: change heartbeat mechanism so that instead of using time(0),
+        it uses its own counter (incremented on interrupt).
+        This avoid specious heartbeat timeout
+        when user resets system clock.
+        It should also fix problem where BOINC restarts
+        after hibernation, app runs before core client,
+        and it gets heartbeat timeout.
+    - Core client: add "-no_gui_rpc" cmdline option.
+        If present, don't create listening socket for GUI RPC.
+        (Useful if bind() doesn't work).
+    - shared memory: in shmget() mode, first try 0666;
+        if that fails, try SHM_R|SHM_W
+        This is just paranoia, in case 21/July checkin
+        breaks some platform.
 
-	api/
-		boinc_api.C
-	client/
-		client_state.C,h
-		cs_cmdline.C
-		gui_rpc_server.C,h
-	lib/
-		shmem.C
+    api/
+        boinc_api.C
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        gui_rpc_server.C,h
+    lib/
+        shmem.C
 
 Janus 23 July 2005
     - API: Compile error in the previous checkin due to undefined
         variable interrupt_time. I assume it should be interrupt_count.
-	Please change if this isn't right...
+    Please change if this isn't right...
 
     /api/
        boinc_api.C
@@ -9546,10 +9546,10 @@ David  25 July 2005
 
 
 David  25 July 2005
-	- core client: rewrite account file if GUI URLs change
+    - core client: rewrite account file if GUI URLs change
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 Charlie 25 July 2005
     - Mac installer: specifically quit core client if running in addition 
@@ -9578,28 +9578,28 @@ Rom    25 July 2005
         wizsuccess.gif (Added)
 
 David  26 July 2005
-	- Core client: try DL/UL of replicated files
-		in URL order listed by project, not random order.
-		Einstein@home orders URLs by proximity to client.
-		Left in randomization code but commented it out.
-	- Shorten host info messages, and move to separate function
-		(don't lengthen functions that are too large already)
-	- fix small memory leak when using anon platform
+    - Core client: try DL/UL of replicated files
+        in URL order listed by project, not random order.
+        Einstein@home orders URLs by proximity to client.
+        Left in randomization code but commented it out.
+    - Shorten host info messages, and move to separate function
+        (don't lengthen functions that are too large already)
+    - fix small memory leak when using anon platform
 
-	client/
-		client_state.C,h
-		client_types.C
-		cs_scheduler.C
-		cs_statefile.C
+    client/
+        client_state.C,h
+        client_types.C
+        cs_scheduler.C
+        cs_statefile.C
 
 Jeff  26 July 2005
-	- Allow multiple assimilators and file_deleters to run via
-	  modulus on WU id for the assimilator and WU and result
-	  id for the file_deleter.
+    - Allow multiple assimilators and file_deleters to run via
+      modulus on WU id for the assimilator and WU and result
+      id for the file_deleter.
 
-	sched/
-		assimilator.C
-		file_deleter.C
+    sched/
+        assimilator.C
+        file_deleter.C
 
 Rom    26 July 2005
     - Provide a mechinism for the localization team to be able to
@@ -9721,28 +9721,28 @@ Rom    31 July 2005
         WizAttachProject.cpp, .h
 
 David  31 July 2005
-	- Split the GUI RPC code into 3 parts:
-		1) the underlying stuff (sockets, buffers)
-		2) the RPC themselves (XML write/parse, handlers)
-		3) textual output (used only by boinc_cmd)
+    - Split the GUI RPC code into 3 parts:
+        1) the underlying stuff (sockets, buffers)
+        2) the RPC themselves (XML write/parse, handlers)
+        3) textual output (used only by boinc_cmd)
 
-	client/
-		Makefile.am
-		gui_rpc_server.C
-		gui_rpc_server_ops.C
-		scheduler_op.h
-	clientgui/
-		Makefile.am
-	lib/
-		Makefile.am
-		gui_rpc_client.C,h
-		gui_rpc_client_ops.C
-		gui_rpc_client_print.C
-	win_build/
-		boinc_cli.vcproj
-		boinc_ss.vcproj
-		boinccmd.vcproj
-		boincmgr.vcproj
+    client/
+        Makefile.am
+        gui_rpc_server.C
+        gui_rpc_server_ops.C
+        scheduler_op.h
+    clientgui/
+        Makefile.am
+    lib/
+        Makefile.am
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C
+    win_build/
+        boinc_cli.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr.vcproj
 
 David  1 Aug 2005
     - support OpenSSL's crypto libary, preparatory to getting rid of RSAEuro.
@@ -9794,28 +9794,28 @@ David  1 Aug 2005
 
     configure.ac
 David  1 Aug 2005
-	- hasty bug fixes to the above. still not quite working
-	lib/
-		boinc_api.C
+    - hasty bug fixes to the above. still not quite working
+    lib/
+        boinc_api.C
 
-Eric	2 Aug 2005
+Eric    2 Aug 2005
         - added a check for whether hard and soft links function as expected.
-	  (People were having problems where soft links were faked.)
-	- added autoconf macro to check for openssl and set up the 
-	  USE_RSAEURO or USE_OPENSSL macros in config.h.
-	- modified configure.ac to run this check.
-	
-	configure.ac
-	m4/
-	    check_ssl.m4
-	   
-Eric	2 Aug 2005
-	- Modified crypt.h to that it will only define USE_RSAEURO or
-	  USE_OPENSSL if they haven't already been defined.
+      (People were having problems where soft links were faked.)
+    - added autoconf macro to check for openssl and set up the 
+      USE_RSAEURO or USE_OPENSSL macros in config.h.
+    - modified configure.ac to run this check.
+    
+    configure.ac
+    m4/
+        check_ssl.m4
+       
+Eric    2 Aug 2005
+    - Modified crypt.h to that it will only define USE_RSAEURO or
+      USE_OPENSSL if they haven't already been defined.
 
         lib/
-	    crypt.h
-	   
+        crypt.h
+       
 Bruce   2 Aug 2005
     - scheduler: update of the resend-lost-work algorithm.  Now try and
       extend deadline somewhat, or cancel rather than resend work if
@@ -9839,23 +9839,23 @@ Rom    2 Aug 2005
         ViewMessages.cpp, .h
 
 David  2 Aug 2005
-	- Fix new API stuff that avoids using printf in signal handler.
-		(my scaling of double to put them in the range [.1,1)
-		failed to take into account zero... arrgh!)
+    - Fix new API stuff that avoids using printf in signal handler.
+        (my scaling of double to put them in the range [.1,1)
+        failed to take into account zero... arrgh!)
 
-	api/
-		boinc_api.C
-	apps/
-		upper_case.C
-	win_build/
-		boinc_gui.vcproj
-		upper_case.vcproj
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    win_build/
+        boinc_gui.vcproj
+        upper_case.vcproj
 
 David  2 Aug 2005
-	- Don't force-include boinc_win.h in apps
+    - Don't force-include boinc_win.h in apps
 
-	win_build/
-		upper_case.vcproj
+    win_build/
+        upper_case.vcproj
 
 Rom    2 Aug 2005
     - Default stackwalker_win.cpp to include boinc_win.h if another of the
@@ -9962,20 +9962,20 @@ Rom    4 Aug 2005
         Makefile.am
 
 David  5 Aug 2005
-	- Add a new class GUI_HTTP for HTTP operations done
-		in response to GUI actions.
-		Currently the only one is account manager RPC,
-		but we'll be adding others for account setup.
-		GUI_HTTP manages polling, HTTP header creation etc.
-	- Modify ACCT_MGR to use GUI_HTTP
+    - Add a new class GUI_HTTP for HTTP operations done
+        in response to GUI actions.
+        Currently the only one is account manager RPC,
+        but we'll be adding others for account setup.
+        GUI_HTTP manages polling, HTTP header creation etc.
+    - Modify ACCT_MGR to use GUI_HTTP
 
-	client/
-		acct_mgr.C,h
-		client_state.C,h
-		gui_http.C,h (new)
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    client/
+        acct_mgr.C,h
+        client_state.C,h
+        gui_http.C,h (new)
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 Rom    5 Aug 2005
     - Move the check for the socket type above the check for SSL support.
@@ -9986,48 +9986,48 @@ Rom    5 Aug 2005
         configure.ac
 
 David  5 Aug 2005
-	- Initial checkin of client-side code for new setup scheme.
-		Implements 3 new GUI RPCs:
-			get_project_config()
-			lookup_account()
-			create_account()
-		Note: code is sketchy and almost certainly doesn't work.
-		It also lacks server-side support.
-		I'm checking it in to allow Rom to work on Manager.
+    - Initial checkin of client-side code for new setup scheme.
+        Implements 3 new GUI RPCs:
+            get_project_config()
+            lookup_account()
+            create_account()
+        Note: code is sketchy and almost certainly doesn't work.
+        It also lacks server-side support.
+        I'm checking it in to allow Rom to work on Manager.
 
-	client/
-		acct_mgr.C,h
-		acct_setup.C,h (new)
-		client_state.h
-		file_names.h
-		gui_rpc_server_ops.C
-	lib/
-		error_numbers.h
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
-		parse.C,h
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    client/
+        acct_mgr.C,h
+        acct_setup.C,h (new)
+        client_state.h
+        file_names.h
+        gui_rpc_server_ops.C
+    lib/
+        error_numbers.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        parse.C,h
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 David  5 Aug 2005
     - temporary put the RSAEuro directory back into CVS,
         but with no files in it.
 
 David  5 Aug 2005
-	- change account create/lookup erro rreturn from string to int
+    - change account create/lookup erro rreturn from string to int
 
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 
 David  5 Aug 2005
-	- do password hashing in GUI RPC interface
+    - do password hashing in GUI RPC interface
 
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 David  6 Aug 2005
     - compile fixes for Unix
@@ -10155,12 +10155,12 @@ Rom    8 Aug 2005
         gui_rpc_client_ops.C
 
 David  9 Aug 2005
-	- compile fixes
+    - compile fixes
 
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
-		gui_rpc_client_print.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C
 
 Bruce 9 August 2005
     - Client fixes from Walt Gribben.  Do regular checks for drive free
@@ -10183,35 +10183,35 @@ Rom    9 Aug 2005
         gui_rpc_client_ops.C
         
 David  9 August 2005
-	- Initial checkin for Curl-based core client.
-		This will allow the client to use HTTPS for any purpose
-		(main page, scheduler URL, file upload/download),
-		and it will eventually eliminate the funky/complex
-		HTTP and proxy code in the core client.
+    - Initial checkin for Curl-based core client.
+        This will allow the client to use HTTPS for any purpose
+        (main page, scheduler URL, file upload/download),
+        and it will eventually eliminate the funky/complex
+        HTTP and proxy code in the core client.
 
-		For now, this should have no effect on standard compiles;
-		everything is #ifdef'd to use the old HTTP code.
-		(from Carl Christensen)
-		If you want to build a Curl-based version:
-		build the libcurl library
-		Unix: in client/ rename Makefile_curl.am and build.
-		Win: rename boinc*_curl.vcproj and build
+        For now, this should have no effect on standard compiles;
+        everything is #ifdef'd to use the old HTTP code.
+        (from Carl Christensen)
+        If you want to build a Curl-based version:
+        build the libcurl library
+        Unix: in client/ rename Makefile_curl.am and build.
+        Win: rename boinc*_curl.vcproj and build
 
-	client/
-		client_state.C,h
-		file_xfer.h
-		gui_http.h
-		main.C
-		net_stats.h
-		next_xfer_curl.C,h (new)
-		Makefile_curl.am (new)
-		scheduler_op.h
-	curl-7.14.0/* (new)
-	lib/
-		util.C
-	win_build/
-		boinc_cli_curl.vcproj (new)
-		boincmgr_curl.vcproj (new)
+    client/
+        client_state.C,h
+        file_xfer.h
+        gui_http.h
+        main.C
+        net_stats.h
+        next_xfer_curl.C,h (new)
+        Makefile_curl.am (new)
+        scheduler_op.h
+    curl-7.14.0/* (new)
+    lib/
+        util.C
+    win_build/
+        boinc_cli_curl.vcproj (new)
+        boincmgr_curl.vcproj (new)
 
 David  9 Aug 2005
     - removed curl-7.14.0/ from CVS repository.
@@ -10233,12 +10233,12 @@ David  9 Aug 2005
         get_project_config.php
 
 David  9 Aug 2005
-	- rename wizard_account_creation_supported to
-		client_account_creation_disabled
+    - rename wizard_account_creation_supported to
+        client_account_creation_disabled
 
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 Rom    10 Aug 2005
     - Add a new page that is used for when the wizard detects that the url
@@ -10310,15 +10310,15 @@ David  10 Aug 2005
         net_xfer.C
 
 David  10 Aug 2005
-	- canonicalize master URLs in GUI RPC client library
+    - canonicalize master URLs in GUI RPC client library
 
-	client/
-		acct_setup.C
-		gui_rpc_server_ops.C
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
-		util.C,h
+    client/
+        acct_setup.C
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        util.C,h
 
 Rom    11 Aug 2005
     - Replace the question mark bitmap with a rotating circular bitmap.
@@ -10423,12 +10423,12 @@ Jeff  11 Aug 2005
      in rapid fire queries which robbed DB capacity from other functions.
 
    db/
-	boinc_db.C 
-	boinc_db.h
+    boinc_db.C 
+    boinc_db.h
    sched/
-	transitioner.C
-	file_deleter.C 
-	db_purge.C 
+    transitioner.C
+    file_deleter.C 
+    db_purge.C 
 
 David  11 Aug 2005
     - when parsing state file, make sure no two ACTIVE_TASKs
@@ -10480,7 +10480,7 @@ Jeff  12 Aug 2005
     - Fix small bug in short enum sleep logic.
 
     sched/
-	db_purge.C
+    db_purge.C
 
 David  12 Aug 2005
     - API: added boinc_begin_critical_section(),
@@ -10598,22 +10598,22 @@ Rom    15 Aug 2005
         gui_rpc_client_ops.C
 
 David  15 Aug 2005
-	- Happily, I found a more elegant solution than renaming functions & variables
-	from boinc_zip to zlib.
-	The InfoZip has a define "USE_ZLIB" which will take into account
-	that you have zlib available.
-	Since that is the de-facto boinc
-	(i.e. we're all using zlib now)
-	then boinc_zip can reflect this;
-	and I have updated the necessary files. 
-	(from Carl Christensen)
+    - Happily, I found a more elegant solution than renaming functions & variables
+    from boinc_zip to zlib.
+    The InfoZip has a define "USE_ZLIB" which will take into account
+    that you have zlib available.
+    Since that is the de-facto boinc
+    (i.e. we're all using zlib now)
+    then boinc_zip can reflect this;
+    and I have updated the necessary files. 
+    (from Carl Christensen)
 
-	zip/
-		Makefile.am
-		README.txt
-		boinc_zip.vcproj
-		ziptest.cpp
-		ziptest.vcproj
+    zip/
+        Makefile.am
+        README.txt
+        boinc_zip.vcproj
+        ziptest.cpp
+        ziptest.vcproj
 
 Rom    15 Aug 2005
     - Fix the model dialog input problem where network traffic was happening
@@ -10628,7 +10628,7 @@ Rom    15 Aug 2005
     clientgui/res/templates/
         wizprogress??.bmp (Added)
 
-Janus	16 Aug 2005
+Janus    16 Aug 2005
     - Fixed some serious typos in top user listings causing the cache to mostly
       be bypassed.
     - Removed the criteria that a user must have been active in the past 7
@@ -10642,7 +10642,7 @@ Janus	16 Aug 2005
       linking to sorting by total/expavg credit.
 
     /html
-	/user
+    /user
             top_teams.php
             top_users.php
         /inc
@@ -10652,18 +10652,18 @@ Janus	16 Aug 2005
                 en.po
 
 David  16 Aug 2005
-	- Fixed bug that caused partly downloaded files to be
-		treated as errors on retry.
-		PERS_FILE_XFER::start_xfer(): if verify_file() returns error,
-		set file status to FILE_NOT_PRESENT
-		(i.e. clear the error flag set by verify_file())
-	- Fixed some bugs in curl code that caused busy loop
-		(100% CPU) while transferring files
+    - Fixed bug that caused partly downloaded files to be
+        treated as errors on retry.
+        PERS_FILE_XFER::start_xfer(): if verify_file() returns error,
+        set file status to FILE_NOT_PRESENT
+        (i.e. clear the error flag set by verify_file())
+    - Fixed some bugs in curl code that caused busy loop
+        (100% CPU) while transferring files
 
-	client/
-		http_curl.C
-		net_xfer_curl.C
-		pers_file_xfer.C
+    client/
+        http_curl.C
+        net_xfer_curl.C
+        pers_file_xfer.C
 
 Rom    16 Aug 2005
     - Keep the wizard from attempting to attach to a project when the account
@@ -10718,3 +10718,11 @@ David  16 Aug 2005
         net_xfer_curl.C
     lib/
         network.h
+
+David  16 Aug 2005
+    - code cleanup
+
+    client/
+        client_state.C
+        http_curl.C,h
+        net_xfer_curl.C

@@ -134,16 +134,9 @@ void parse_url(const char* url, char* host, int &port, char* file) {
 }
 
 void get_user_agent_string() {
-/*
-	sprintf(g_user_agent_string, "User-Agent: BOINC client (%s %d.%02d)",
-        HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION
-    );
-	*/
-
     sprintf(g_user_agent_string, "BOINC client (%s %d.%02d)",
         HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION
     );
-
 }
 
 HTTP_OP::HTTP_OP() {
@@ -226,14 +219,13 @@ int HTTP_OP::libcurl_exec(const char* url, const char* in, const char* out,
 	if (g_user_agent_string[0] == 0x00) 
 		get_user_agent_string();
 
-	if (in)
+    if (in) {
 	    strcpy(infile, in);
+    }
 	if (out) {
 		bTempOutfile = false;
 	    strcpy(outfile, out);
-	}
-	else
-	{ //CMC -- I always want an outfile for the server response, delete when op done
+	} else { //CMC -- I always want an outfile for the server response, delete when op done
 		bTempOutfile = true;
 		memset(outfile, 0x00, _MAX_PATH);
 #ifdef _WIN32
@@ -260,8 +252,7 @@ int HTTP_OP::libcurl_exec(const char* url, const char* in, const char* out,
 	//   the polling will do the actual start of the HTTP/S transaction
 
 	curlEasy = curl_easy_init(); // get a curl_easy handle to use
-	if (!curlEasy)
-	{
+	if (!curlEasy) {
         msg_printf(0, MSG_ERROR, "%s\n", "Couldn't create curlEasy handle\n");
 		return 1; // returns 0 (CURLM_OK) on successful handle creation
 	}
@@ -349,8 +340,7 @@ The checking this option controls is of the identity that the server claims. The
 	pcurlList = curl_slist_append(pcurlList, g_content_type);
 
 	// we'll need to setup an output file for the reply
-	if (outfile && strlen(outfile)>0)
-	{  
+	if (outfile && strlen(outfile)>0) {  
 		fileOut = boinc_fopen(outfile, "wb");
 		if (!fileOut) {
 			msg_printf(NULL, MSG_ERROR, 
@@ -367,8 +357,7 @@ The checking this option controls is of the identity that the server claims. The
 		curlErr = curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
 	}
 
-	if (bPost)
-	{  // POST
+	if (bPost) {  // POST
 		want_upload = true;
 		want_download = false;
 		if (infile && strlen(infile)>0) {
@@ -435,9 +424,7 @@ The checking this option controls is of the identity that the server claims. The
 		curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
 
 		curlErr = curl_easy_setopt(curlEasy, CURLOPT_POST, 1L);
-	}
-	else
-	{  // GET
+	} else {  // GET
 		want_upload = false;
 		want_download = true;
 
@@ -452,8 +439,7 @@ The checking this option controls is of the identity that the server claims. The
 
 	// last but not least, add this to the curl_multi
 	curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
-	if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM)
-	{ // bad error, couldn't attach easy curl handle
+	if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
         msg_printf(0, MSG_ERROR, "%s\n", "Couldn't add curlEasy handle to curlMulti\n");
 		return curlMErr; // returns 0 (CURLM_OK) on successful handle creation
 	}
@@ -513,13 +499,6 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
     if (retval) return retval;
     http_ops.push_back(ho);
     return 0;
-}
-
-bool HTTP_OP_SET::poll() 
-{
-	// with libcurl you really just hand it up to the net_xfer_set level
-	//return net_xfers->poll();
-	return false;
 }
 
 // Remove an HTTP_OP from the set
