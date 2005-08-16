@@ -147,7 +147,7 @@ function require_founder_login($user, $team) {
     }
 }
 
-function team_table_start($sort_by) {
+function team_table_start($sort_by,$type_url) {
     echo "<tr>
         <th>Rank</th>
         <th>Name</th>
@@ -155,13 +155,13 @@ function team_table_start($sort_by) {
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_teams.php?sort_by=expavg_credit>Recent average credit</a></th>
+            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">Recent average credit</a></th>
             <th>Total credit</th>
         ";
     } else {
         echo "
             <th>Recent average credit</th>
-            <th><a href=top_teams.php?sort_by=total_credit>Total credit</a></th>
+            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">Total credit</a></th>
         ";
     }
     echo "
