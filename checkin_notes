@@ -10726,3 +10726,16 @@ David  16 Aug 2005
         client_state.C
         http_curl.C,h
         net_xfer_curl.C
+
+David  16 Aug 2005
+    - PROJECT::update_duration_correction_factor():
+        small tweak in algorithm
+    - CLIENT_STATE::scheduler_rpc_poll():
+        call compute_work_requests() in all cases
+        (to avoid asking for work when shouldn't);
+        increase polling period to 5 sec
+    (from John McLeod)
+
+    client/
+        client_types.C
+        cs_scheduler.C

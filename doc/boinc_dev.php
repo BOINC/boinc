@@ -43,9 +43,6 @@ exceeding user preferences,
     and enforce resource shares,
     with file deletion according to project policy.
 
-<li> Core client:  use select() instead of polling
-for I/O (RPCs, file transfers, GUI RPCs).
-
 <li> Use database IDs instead of names to identify
 results and WUs in the core client
 (to increase efficiency in the server,

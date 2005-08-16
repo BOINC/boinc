@@ -619,9 +619,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
     bool action=false;
     static double last_time=0;
-    static double work_need_inform_time = 0;
 
-    if (gstate.now - last_time < 1.0) return false;
+    if (gstate.now - last_time < 5.0) return false;
     last_time = gstate.now;
 
     switch(scheduler_op->state) {
@@ -631,9 +630,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
 
-        if (should_get_work()) {
-            compute_work_requests(); 
-        }
+        compute_work_requests(); 
+
         // contact project requested by user
         //
         p = next_project_sched_rpc_pending();
@@ -659,22 +657,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
         if (!(exit_when_idle && contacted_sched_server) && overall_work_fetch_urgency != WORK_FETCH_DONT_NEED) {
-
-#if 0
-            if (work_need_inform_time < gstate.now) {
-                if (overall_work_fetch_urgency == WORK_FETCH_NEED) {
-                    msg_printf(NULL, MSG_INFO,
-                        "May run out of work in %.2f days; requesting more",
-                        global_prefs.work_buf_min_days
-                    );
-                } else if (overall_work_fetch_urgency == WORK_FETCH_NEED_IMMEDIATELY) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Insufficient work; requesting more"
-                    );
-                }
-                work_need_inform_time = gstate.now + 3600;
-            }
-#endif
             scheduler_op->init_get_work();
             if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
                 break;
