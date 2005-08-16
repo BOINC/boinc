@@ -3,84 +3,92 @@
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+require_once("../inc/db.inc");
+require_once("../inc/translation.inc");
 
-$n = 20;
+define (ITEMS_PER_PAGE, 20);
+define (ITEM_LIMIT,10000);
+
+
+
+function get_top_teams($offset,$sort_by,$type=""){ //Possibly move this to db.inc at some point...
+    if ($type){
+	$type_sql = "where type=".(int)$type;
+    }
+    if ($sort_by == "total_credit") {
+	$sort_order = "total_credit desc";
+    } else {
+        $sort_order = "expavg_credit desc";
+    }
+    $res=mysql_query("select * from team $type_sql order by $sort_order limit $offset,".ITEMS_PER_PAGE);
+    while ($arr[]=mysql_fetch_object($res)){};
+    return $arr;
+}
+
+function teams_to_store($participants){ //These converter functions are here in case we later decide to use something 
+    return serialize($participants);	       //else than serializing to save temp data
+}
+function store_to_teams($data){
+    return unserialize($data);
+}
 
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];
 } else {
     $sort_by = "expavg_credit";
 }
-$offset = get_int("offset", true);
-if (!$offset) $offset=0;
+
 $type = get_int("type", true);
 if ($type < 1 || $type > 7) {
     $type = null;
 }
-$type_url="";
-$type_sql="";
-$type_name="";
-
+$type_url="";$type_sql="";$type_name="";
 if ($type) {
     $type_url = "&type=$type";
-    $type_sql = "where type=$type";
     $type_name = team_type_name($type);
 }
 
+
+$offset = get_int("offset", true);
+if (!$offset) $offset=0;
 if ($offset % $n) $offset = 0;
 
-if ($offset < 1000) {
-    $cache_args = "sort_by=$sort_by&offset=$offset".$type_url;
-    start_cache(TOP_PAGES_TTL, $cache_args);
+if ($offset < ITEM_LIMIT) {
+    $cache_args = "sort_by=$sort_by&offset=$offset&type=$type";
+    $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
+    if ($cacheddata){ //If we have got the data in cache
+	$data = store_to_teams($cacheddata); // use the cached data
+    } else { //if not do queries etc to generate new data
+	db_init();
+	$data = get_top_teams($offset,$sort_by,$type);
+	set_cache_data(teams_to_store($data),$cache_args); //save data in cache
+    };
 } else {
-    page_head("Limit exceeded");
-    echo "Sorry - first 1000 only.";
-    page_tail();
-    exit();
+    error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
 }
 
-require_once("../inc/db.inc");
-require_once("../inc/user.inc");
 
-db_init();
-
-page_head("Top $type_name teams");
-if ($sort_by == "total_credit") {
-    $sort_clause = "total_credit desc";
-} else {
-    $sort_clause = "expavg_credit desc";
-}
-$result = mysql_query("select * from team $type_sql order by $sort_clause limit $offset,$n");
+//Now display what we've got (either gotten from cache or from DB)
+page_head(sprintf(tr(TOP_TEAMS_TITLE),$type_name));
 start_table();
-row1("Teams", 6);
-team_table_start($sort_by);
-$i = $offset + 1;
-while ($team = mysql_fetch_object($result)) {
-    if ($sort_by == "total_credit") {
-        show_team_row($team, $i);
-        $i++;
-    } else {
-        if (!team_inactive_ndays($team, 7)) {
-            show_team_row($team, $i);
-            $i++;
-        }
-    }
+team_table_start($sort_by,$type_url);
+$i = 1 + $offset;
+$o = 0;
+while ($team = $data[$o]) {
+    show_team_row($team, $i);
+    $i++;
+    $o++;
 }
-mysql_free_result($result);
-echo "</table>\n<p>\n";
+echo "</table>\n<p>";
 if ($offset > 0) {
-    $new_offset = $offset - $n;
-    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Last $n</a> | ";
+    $new_offset = $offset - ITEMS_PER_PAGE;
+    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Previous ".ITEMS_PER_PAGE."</a> | ";
 
 }
-$new_offset = $offset + $n;
-echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next $n</a>";
+$new_offset = $offset + ITEMS_PER_PAGE;
+echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".ITEMS_PER_PAGE."</a>";
 
-if ($offset < 1000) {
-    page_tail(true);
-    end_cache(TOP_PAGES_TTL, $cache_args);
-} else {
-    page_tail();
-}
+page_tail();
+
 
 ?>

@@ -3,13 +3,15 @@
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
+require_once("../inc/db.inc");
 require_once("../inc/translation.inc");
 
 define (ITEMS_PER_PAGE, 20);
 define (ITEM_LIMIT,10000);
 
+
+
 function get_top_participants($offset,$sort_by){ //Possibly move this to db.inc at some point...
-    db_init();
     if ($sort_by == "total_credit") {
 	$sort_order = "total_credit desc";
     } else {
@@ -20,8 +22,8 @@ function get_top_participants($offset,$sort_by){ //Possibly move this to db.inc 
     return $arr;
 }
 
-function participants_to_store($participants){ //These converter functions are here in case we later decide to use something else than serializing to save temp data
-    return serialize($participants);
+function participants_to_store($participants){ //These converter functions are here in case we later decide to use something 
+    return serialize($participants);	       //else than serializing to save temp data
 }
 function store_to_participants($data){
     return unserialize($data);
@@ -39,12 +41,11 @@ if ($offset % $n) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
-    $cacheddata=get_cached_data(10,$cache_args);
+    $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
     if ($cacheddata){ //If we have got the data in cache
 	$data = store_to_participants($cacheddata); // use the cached data
     } else { //if not do queries etc to generate new data
-	require_once("../inc/db.inc");
-	require_once("../inc/user.inc");
+	db_init();
 	$data = get_top_participants($offset,$sort_by);
 	set_cache_data(participants_to_store($data),$cache_args); //save data in cache
     };
@@ -59,18 +60,11 @@ user_table_start($sort_by);
 $i = 1 + $offset;
 $o = 0;
 while ($user = $data[$o]) {
-    if ($sort_by == "total_credit") {
-        show_user_row($user, $i);
-        $i++;
-    } else {
-        if (!user_inactive_ndays($user, 7)) {
-            show_user_row($user, $i);
-            $i++;
-        }
-    }
+    show_user_row($user, $i);
+    $i++;
     $o++;
 }
-echo "</table>\n";
+echo "</table>\n<p>";
 if ($offset > 0) {
     $new_offset = $offset - ITEMS_PER_PAGE;
     echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Previous ".ITEMS_PER_PAGE."</a> | ";
