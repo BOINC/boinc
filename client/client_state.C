@@ -384,7 +384,7 @@ FDSET_GROUP all_fds;
 
 // Spend x seconds either doing I/O (if possible) or sleeping.
 //
-int CLIENT_STATE::do_io_or_sleep(double x) {
+void CLIENT_STATE::do_io_or_sleep(double x) {
     int n;
     struct timeval tv;
     now = dtime();
@@ -417,7 +417,7 @@ int CLIENT_STATE::do_io_or_sleep(double x) {
         if (now > end_time) break;
         x = end_time - now;
     }
-    // curl likes to be 
+    // curl likes to be called every few seconds, regardless of select()
     if (!did_something) {
         net_xfers->got_select(all_fds, x);
     }

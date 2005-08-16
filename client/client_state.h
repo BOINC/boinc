@@ -191,7 +191,7 @@ public:
         // Never blocks.
         // Returns true if it actually did something,
         // in which case it should be called again immediately.
-    int do_io_or_sleep(double dt);
+    void do_io_or_sleep(double dt);
     bool time_to_exit();
     PROJECT* lookup_project(const char*);
     APP* lookup_app(PROJECT*, const char*);

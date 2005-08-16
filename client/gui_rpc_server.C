@@ -210,8 +210,6 @@ void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg) {
 
 void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     int n = 0;
-    unsigned int i;
-    fd_set read_fds, error_fds;
     int sock, retval;
     vector<GUI_RPC_CONN*>::iterator iter;
     GUI_RPC_CONN* gr;
