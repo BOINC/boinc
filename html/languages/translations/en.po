@@ -351,3 +351,6 @@ msgstr "Country"
 
 msgid "USER_TABLE_PTIME"
 msgstr "Participant since"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Top %s teams"
