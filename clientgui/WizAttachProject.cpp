@@ -40,64 +40,66 @@
 #include "res/wizprogress05.xpm"
 #include "res/wizprogress06.xpm"
 #include "res/wizprogress07.xpm"
+#include "res/wizprogress08.xpm"
 #include "res/wizprogress09.xpm"
 #include "res/wizprogress10.xpm"
 #include "res/wizprogress11.xpm"
 #include "res/wizprogress12.xpm"
 ////@end XPM images
-
-
+  
 /*!
  * CWizAttachProject global helper macros
  */
+
 #define PAGE_TRANSITION_NEXT(id) \
     ((CWizAttachProject*)GetParent())->PushPageTransition((wxWizardPage*)this, id)
-
+ 
 #define PAGE_TRANSITION_BACK \
     ((CWizAttachProject*)GetParent())->PopPageTransition()
-
+ 
 #define CHECK_DEBUG_FLAG(id) \
     ((CWizAttachProject*)GetParent())->IsDiagFlagsSet(id)
-
-
+  
 /*!
  * CWizAttachProject type definition
  */
-
+ 
 IMPLEMENT_DYNAMIC_CLASS( CWizAttachProject, wxWizard )
-
+ 
 /*!
  * CWizAttachProject event table definition
  */
-
+ 
 BEGIN_EVENT_TABLE( CWizAttachProject, wxWizard )
-
+ 
     EVT_BUTTON(wxID_BACKWARD, CWizAttachProject::OnWizardBack)
     EVT_BUTTON(wxID_FORWARD, CWizAttachProject::OnWizardNext)
+
 ////@begin CWizAttachProject event table entries
 ////@end CWizAttachProject event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
  * CWizAttachProject constructors
  */
-
+ 
 CWizAttachProject::CWizAttachProject( )
 {
 }
-
+ 
 CWizAttachProject::CWizAttachProject( wxWindow* parent, wxWindowID id, const wxPoint& pos )
 {
     Create(parent, id, pos);
 }
-
+ 
 /*!
  * CWizAttachProject creator
  */
-
+ 
 bool CWizAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoint& pos )
 {
+
 ////@begin CWizAttachProject member initialisation
     m_WelcomePage = NULL;
     m_ProjectInfoPage = NULL;
@@ -118,34 +120,34 @@ bool CWizAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoint& 
     m_ErrProxyCompletionPage = NULL;
     m_ErrRefCountPage = NULL;
 ////@end CWizAttachProject member initialisation
-
-
+  
     // Button pointer cache
     m_pbtnBack = NULL;
     m_pbtnNext = NULL;
-
+ 
     // Wizard support
     m_ulDiagFlags = 0;
-    
+
     // Cancel Checking
     m_bCancelInProgress = false;
-
+ 
     // Global wizard status
     project_config.clear();
     old_proxy_info.clear();
     new_proxy_info.clear();
     account_in.clear();
     account_out.clear();
-
+ 
 ////@begin CWizAttachProject creation
     wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     wxWizard::Create( parent, id, _("Attach to Project"), wizardBitmap, pos );
 
     CreateControls();
 ////@end CWizAttachProject creation
+
     return TRUE;
 }
-
+ 
 /*!
  * Control creation for CWizAttachProject
  */
@@ -153,7 +155,7 @@ bool CWizAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoint& 
 void CWizAttachProject::CreateControls()
 {    
     wxLogTrace(wxT("Function Start/End"), wxT("CWizAttachProject::CreateControls - Function Begin"));
-
+ 
 ////@begin CWizAttachProject content construction
     wxWizard* itemWizard1 = this;
 
@@ -231,7 +233,7 @@ void CWizAttachProject::CreateControls()
     itemWizard1->FitToPage(m_ErrRefCountPage);
     wxWizardPageSimple* lastPage = NULL;
 ////@end CWizAttachProject content construction
-
+ 
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls - Begin Page Map"));
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), ID_PROJECTINFOPAGE, m_ProjectInfoPage);
@@ -251,43 +253,42 @@ void CWizAttachProject::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxySOCKSPage = id: '%d', location: '%p'"), ID_ERRPROXYSOCKSPAGE, m_ErrProxySOCKSPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls -     m_ErrProxyCompletionPage = id: '%d', location: '%p'"), ID_ERRPROXYCOMPLETIONPAGE, m_ErrProxyCompletionPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizAttachProject::CreateControls - End Page Map"));
-
     wxLogTrace(wxT("Function Start/End"), wxT("CWizAttachProject::CreateControls - Function End"));
 }
-
+ 
 void CWizAttachProject::OnWizardBack( wxCommandEvent& event ) {
     if (!GetBackButton()) SetBackButton((wxButton*)event.GetEventObject());
     event.Skip();
 }
-
+ 
 void CWizAttachProject::OnWizardNext( wxCommandEvent& event ) {
     if (!GetNextButton()) SetNextButton((wxButton*)event.GetEventObject());
     event.Skip();
 }
-
+ 
 /*!
  * Runs the wizard.
  */
-
+ 
 bool CWizAttachProject::Run()
 {
     if (m_WelcomePage) return RunWizard(m_WelcomePage);
     return FALSE;
 }
-
+ 
 /*!
  * Should we show tooltips?
  */
-
+ 
 bool CWizAttachProject::ShowToolTips()
 {
     return TRUE;
 }
-
+ 
 /*!
  * Get bitmap resources
  */
-
+ 
 wxBitmap CWizAttachProject::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
@@ -300,11 +301,11 @@ wxBitmap CWizAttachProject::GetBitmapResource( const wxString& name )
     return wxNullBitmap;
 ////@end CWizAttachProject bitmap retrieval
 }
-
+ 
 /*!
  * Get icon resources
  */
-
+ 
 wxIcon CWizAttachProject::GetIconResource( const wxString& name )
 {
     // Icon retrieval
@@ -312,7 +313,7 @@ wxIcon CWizAttachProject::GetIconResource( const wxString& name )
     return wxNullIcon;
 ////@end CWizAttachProject icon retrieval
 }
-
+ 
 /*!
  * Determine if the wizard page has a next page
  */
@@ -328,33 +329,32 @@ bool CWizAttachProject::HasNextPage( wxWizardPage* page )
     bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
     bNoNextPageDetected |= (page == m_ErrAccountAlreadyExistsPage);
     bNoNextPageDetected |= (page == m_ErrAccountCreationDisabledPage);
-
+ 
     if (bNoNextPageDetected)
         return false;
     return true;
 }
-
-
+  
 /*!
  * Determine if the wizard page has a previous page
  */
-
+ 
 bool CWizAttachProject::HasPrevPage( wxWizardPage* page )
 {
     if ((page == m_WelcomePage) || (page == m_CompletionErrorPage))
         return false;
     return true;
 }
-
+ 
 /*!
  * Set the diagnostics flags.
  */
-
+ 
 void CWizAttachProject::SetDiagFlags( unsigned long ulFlags )
 {
     m_ulDiagFlags = ulFlags;
 }
-
+ 
 /*!
  * Check the desired bitmask against our existing bitmask.
  */
@@ -366,11 +366,11 @@ bool CWizAttachProject::IsDiagFlagsSet( unsigned long ulFlags )
     }
     return false;
 }
-
+ 
 /*!
  * Remove the page transition to the stack.
  */
-
+ 
 wxWizardPage* CWizAttachProject::PopPageTransition() {
     wxWizardPage* pPage = NULL;
     if (GetCurrentPage()) {
@@ -389,7 +389,7 @@ wxWizardPage* CWizAttachProject::PopPageTransition() {
     }
     return NULL;
 }
-
+ 
 /*!
  * Add the page transition to the stack.
  */
@@ -400,55 +400,55 @@ wxWizardPage* CWizAttachProject::PushPageTransition( wxWizardPage* pCurrentPage,
 
         if (ID_WELCOMEPAGE == ulPageID)
             pPage = m_WelcomePage;
-
+ 
         if (ID_PROJECTINFOPAGE == ulPageID)
             pPage = m_ProjectInfoPage;
-
+ 
         if (ID_PROJECTPROPERTIESPAGE == ulPageID)
             pPage = m_ProjectPropertiesPage;
-
+ 
         if (ID_ACCOUNTINFOPAGE == ulPageID)
             pPage = m_AccountInfoPage;
-
+ 
         if (ID_ACCOUNTKEYPAGE == ulPageID)
             pPage = m_AccountKeyPage;
-
+ 
         if (ID_ATTACHPROJECTPAGE == ulPageID)
             pPage = m_AttachProjectPage;
-
+ 
         if (ID_COMPLETIONPAGE == ulPageID)
             pPage = m_CompletionPage;
-
+ 
         if (ID_COMPLETIONERRORPAGE == ulPageID)
             pPage = m_CompletionErrorPage;
-
+ 
         if (ID_ERRPROJECTNOTDETECTEDPAGE == ulPageID)
             pPage = m_ErrProjectNotDetectedPage;
-
+ 
         if (ID_ERRPROJECTUNAVAILABLEPAGE == ulPageID)
             pPage = m_ErrProjectUnavailablePage;
-
+ 
         if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
             pPage = m_ErrNoInternetConnectionPage;
-
+ 
         if (ID_ERRACCOUNTALREADYEXISTSPAGE == ulPageID)
             pPage = m_ErrAccountAlreadyExistsPage;
-
+ 
         if (ID_ERRACCOUNTCREATIONDISABLEDPAGE == ulPageID)
             pPage = m_ErrAccountCreationDisabledPage;
-
+ 
         if (ID_ERRPROXYINFOPAGE == ulPageID)
             pPage = m_ErrProxyInfoPage;
-
+ 
         if (ID_ERRPROXYHTTPPAGE == ulPageID)
             pPage = m_ErrProxyHTTPPage;
-
+ 
         if (ID_ERRPROXYSOCKSPAGE == ulPageID)
             pPage = m_ErrProxySOCKSPage;
-
+ 
         if (ID_ERRPROXYCOMPLETIONPAGE == ulPageID)
             pPage = m_ErrProxyCompletionPage;
-
+ 
         if (pPage) {
             if ((pCurrentPage == m_WelcomePage) && (m_PageTransition.size() == 0)) {
                 m_PageTransition.push(NULL);
@@ -461,108 +461,170 @@ wxWizardPage* CWizAttachProject::PushPageTransition( wxWizardPage* pCurrentPage,
     }
     return NULL;
 }
-
-
+  
 void CWizAttachProject::ProcessCancelEvent( wxWizardEvent& event ) {
+
     int iRetVal = ::wxMessageBox(
+
         _("Do you really want to cancel?"), 
+
         _("Question"),
+
         wxICON_QUESTION | wxYES_NO,
+
         this
+
     );
-
+ 
     // Page specific rules - Disable the validator(s)
+
     if (wxYES == iRetVal) {
+
         if (GetCurrentPage() == m_ProjectInfoPage) {
+
             m_ProjectInfoPage->m_ProjectUrlCtrl->SetValidator(wxDefaultValidator);
+
         } else if (GetCurrentPage() == m_AccountKeyPage) {
+
             m_AccountKeyPage->m_AccountKeyCtrl->SetValidator(wxDefaultValidator);
+
         } else if (GetCurrentPage() == m_AccountInfoPage) {
+
             m_AccountInfoPage->m_AccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
+
             m_AccountInfoPage->m_AccountPasswordCtrl->SetValidator(wxDefaultValidator);
+
             m_AccountInfoPage->m_AccountConfirmPasswordCtrl->SetValidator(wxDefaultValidator);
+
         } else if (GetCurrentPage() == m_ErrProxyHTTPPage) {
+
             m_ErrProxyHTTPPage->m_ProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
+
             m_ErrProxyHTTPPage->m_ProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
+
             m_ErrProxyHTTPPage->m_ProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
+
             m_ErrProxyHTTPPage->m_ProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
+
         } else if (GetCurrentPage() == m_ErrProxySOCKSPage) {
+
             m_ErrProxySOCKSPage->m_ProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
+
             m_ErrProxySOCKSPage->m_ProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
+
             m_ErrProxySOCKSPage->m_ProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
+
             m_ErrProxySOCKSPage->m_ProxySOCKSPasswordCtrl->SetValidator(wxDefaultValidator);
-        }
-    }
 
+        }
+
+    }
+ 
     // Generic rules
+
     if (GetCurrentPage() != m_WelcomePage) {
+
         event.Veto();
+
         if (wxYES == iRetVal) {
+
             m_bCancelInProgress = true;
+
             SimulateNextButton();
+
         }
+
     } else {
+
         if (wxYES != iRetVal) {
+
             event.Veto();
+
         }
+
     }
-}
 
+}
+ 
 void CWizAttachProject::SimulateNextButton() {
+
     if (!GetNextButton()) return;
+
     wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, GetNextButton()->GetId());
+
     event.SetEventObject(GetNextButton());
+
     AddPendingEvent(event);
+
 }
-
-
+  
 void CWizAttachProject::SimulateBackButton() {
+
     if (!GetBackButton()) return;
+
     wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, GetBackButton()->GetId());
+
     event.SetEventObject(GetNextButton());
+
     AddPendingEvent(event);
+
 }
-
+ 
 /*!
+
  * CWelcomePage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CWelcomePage, wxWizardPage )
-
+ 
 /*!
+
  * CWelcomePage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPage )
-
+ 
 ////@begin CWelcomePage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CWelcomePage::OnPageChanged )
     EVT_WIZARD_PAGE_CHANGING( -1, CWelcomePage::OnPageChanging )
     EVT_WIZARD_CANCEL( -1, CWelcomePage::OnCancel )
 
 ////@end CWelcomePage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CWelcomePage constructors
- */
 
+ */
+ 
 CWelcomePage::CWelcomePage( )
-{
-}
 
+{
+
+}
+ 
 CWelcomePage::CWelcomePage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * WizardPage creator
- */
 
+ * WizardPage creator
+
+ */
+ 
 bool CWelcomePage::Create( wxWizard* parent )
+
 {
+
 ////@begin CWelcomePage member initialisation
 #if defined(__WXDEBUG__)
     m_ErrProjectPropertiesCtrl = NULL;
@@ -592,7 +654,7 @@ bool CWelcomePage::Create( wxWizard* parent )
     m_ErrNetDetectionCtrl = NULL;
 #endif
 ////@end CWelcomePage member initialisation
-
+ 
 ////@begin CWelcomePage creation
     wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     wxWizardPage::Create( parent, wizardBitmap );
@@ -600,15 +662,21 @@ bool CWelcomePage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CWelcomePage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for WizardPage
- */
 
+ * Control creation for WizardPage
+
+ */
+ 
 void CWelcomePage::CreateControls()
+
 {    
+
 ////@begin CWelcomePage content construction
     CWelcomePage* itemWizardPage2 = this;
 
@@ -692,48 +760,75 @@ void CWelcomePage::CreateControls()
     itemBoxSizer3->Add(itemStaticText20, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CWelcomePage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CWelcomePage::GetPrev() const
-{
-    return NULL;
-}
 
+{
+
+    return NULL;
+
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CWelcomePage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_PROJECTINFOPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CWelcomePage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CWelcomePage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CWelcomePage bitmap retrieval
     if (name == wxT("res/attachprojectwizard.xpm"))
     {
@@ -742,134 +837,201 @@ wxBitmap CWelcomePage::GetBitmapResource( const wxString& name )
     }
     return wxNullBitmap;
 ////@end CWelcomePage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CWelcomePage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CWelcomePage icon retrieval
     return wxNullIcon;
 ////@end CWelcomePage icon retrieval
+
 }
-
-
-
+   
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE
- */
 
+ */
+ 
 void CWelcomePage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE
+
  */
+
 void CWelcomePage::OnPageChanging( wxWizardEvent& event )
+
 {
+
     if (event.GetDirection() == false) return;
-
+ 
     unsigned long ulFlags = 0;
-
+ 
 #if defined(__WXDEBUG__)
+
     if (m_ErrProjectPropertiesCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIES;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrProjectPropertiesURLCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIESURL;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrProjectCommCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRPROJECTCOMM;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrGoogleCommCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRGOOGLECOMM;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrYahooCommCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRYAHOOCOMM;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrAccountAlreadyExistsCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRACCOUNTALREADYEXISTS;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrAccountCreationDisabledCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRACCOUNTCREATIONDISABLED;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrClientAccountCreationDisabledCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED;
+
 #endif
+
 #if defined(__WXDEBUG__)
+
     if (m_ErrNetDetectionCtrl->GetValue()) 
+
         ulFlags |= WIZDEBUG_ERRNETDETECTION;
+
 #endif
-
+ 
     ((CWizAttachProject*)GetParent())->SetDiagFlags( ulFlags );
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
- */
 
+ */
+ 
 void CWelcomePage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CProjectInfoPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CProjectInfoPage, wxWizardPage )
-
+ 
 /*!
+
  * CProjectInfoPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPage )
-
+ 
 ////@begin CProjectInfoPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CProjectInfoPage::OnPageChanged )
     EVT_WIZARD_PAGE_CHANGING( -1, CProjectInfoPage::OnPageChanging )
     EVT_WIZARD_CANCEL( -1, CProjectInfoPage::OnCancel )
 
 ////@end CProjectInfoPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CProjectInfoPage constructors
- */
 
+ */
+ 
 CProjectInfoPage::CProjectInfoPage( )
-{
-}
 
+{
+
+}
+ 
 CProjectInfoPage::CProjectInfoPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * WizardPage creator
- */
 
+ * WizardPage creator
+
+ */
+ 
 bool CProjectInfoPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CProjectInfoPage member initialisation
     m_ProjectUrlStaticCtrl = NULL;
     m_ProjectUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
-
+ 
 ////@begin CProjectInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -877,15 +1039,21 @@ bool CProjectInfoPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CProjectInfoPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for WizardPage
- */
 
+ * Control creation for WizardPage
+
+ */
+ 
 void CProjectInfoPage::CreateControls()
+
 {    
+
 ////@begin CProjectInfoPage content construction
     CProjectInfoPage* itemWizardPage21 = this;
 
@@ -934,153 +1102,221 @@ void CProjectInfoPage::CreateControls()
     // Set validators
     m_ProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
 ////@end CProjectInfoPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CProjectInfoPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CProjectInfoPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CProjectInfoPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CProjectInfoPage bitmap retrieval
     return wxNullBitmap;
 ////@end CProjectInfoPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CProjectInfoPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CProjectInfoPage icon retrieval
     return wxNullIcon;
 ////@end CProjectInfoPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
- */
 
+ */
+ 
 void CProjectInfoPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
- */
 
+ */
+ 
 void CProjectInfoPage::OnPageChanging( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
+
  */
+
 void CProjectInfoPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CProjectPropertiesPage custom event definition
- */
 
+ */
+ 
 DEFINE_EVENT_TYPE(wxEVT_PROJECTPROPERTIES_STATECHANGE)
-
-
+  
 /*!
+
  * CProjectPropertiesPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CProjectPropertiesPage, wxWizardPage )
-
+ 
 /*!
+
  * CProjectPropertiesPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CProjectPropertiesPage, wxWizardPage )
-
+ 
     EVT_PROJECTPROPERTIES_STATECHANGE( CProjectPropertiesPage::OnStateChange )
-
+ 
 ////@begin CProjectPropertiesPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CProjectPropertiesPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CProjectPropertiesPage::OnCancel )
 
 ////@end CProjectPropertiesPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CProjectPropertiesPage constructors
- */
 
+ */
+ 
 CProjectPropertiesPage::CProjectPropertiesPage( )
-{
-}
 
+{
+
+}
+ 
 CProjectPropertiesPage::CProjectPropertiesPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * WizardPage creator
- */
 
+ * WizardPage creator
+
+ */
+ 
 bool CProjectPropertiesPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CProjectPropertiesPage member initialisation
     m_ProjectPropertiesProgress = NULL;
 ////@end CProjectPropertiesPage member initialisation
-
+ 
     m_bProjectPropertiesSucceeded = false;
-    m_bProjectPropertiesURLFailure = false;
-    m_bProjectAccountCreationDisabled = false;
-    m_bProjectClientAccountCreationDisabled = false;
-    m_bCommunicateYahooSucceeded = false;
-    m_bCommunicateGoogleSucceeded = false;
-    m_bDeterminingConnectionStatusSucceeded = false;
-    m_iBitmapIndex = 0;
-    m_iCurrentState = PROJPROP_INIT;
 
+    m_bProjectPropertiesURLFailure = false;
+
+    m_bProjectAccountCreationDisabled = false;
+
+    m_bProjectClientAccountCreationDisabled = false;
+
+    m_bCommunicateYahooSucceeded = false;
+
+    m_bCommunicateGoogleSucceeded = false;
+
+    m_bDeterminingConnectionStatusSucceeded = false;
+
+    m_iBitmapIndex = 0;
+
+    m_iCurrentState = PROJPROP_INIT;
+ 
 ////@begin CProjectPropertiesPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -1088,15 +1324,21 @@ bool CProjectPropertiesPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CProjectPropertiesPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for WizardPage
- */
 
+ * Control creation for WizardPage
+
+ */
+ 
 void CProjectPropertiesPage::CreateControls()
+
 {    
+
 ////@begin CProjectPropertiesPage content construction
     CProjectPropertiesPage* itemWizardPage34 = this;
 
@@ -1127,85 +1369,139 @@ void CProjectPropertiesPage::CreateControls()
     itemFlexGridSizer38->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 
 ////@end CProjectPropertiesPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CProjectPropertiesPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CProjectPropertiesPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     } else if (GetProjectPropertiesSucceeded() && GetProjectAccountCreationDisabled()) {
+
         // Account Creation Disabled
+
         return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTCREATIONDISABLEDPAGE);
+
     } else if (GetProjectPropertiesSucceeded() && GetProjectClientAccountCreationDisabled()) {
+
         // Client Account Creation Disabled - Use Legacy Authentication Scheme
+
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTKEYPAGE);
+
     } else if (GetProjectPropertiesSucceeded()) {
+
         // We were successful in retrieving the project properties
+
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
+
     } else if (!GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
+
         // Not a BOINC based project
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROJECTNOTDETECTEDPAGE);
+
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
+
         // Possible proxy problem
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
+
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && !GetDeterminingConnectionStatusSucceeded()) {
+
         // No Internet Connection
+
         return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);
+
     } else {
+
         // The project much be down for maintenance
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROJECTUNAVAILABLEPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CProjectPropertiesPage::ShowToolTips()
+
 {
+
     return TRUE;
-}
 
+}
+ 
 void CProjectPropertiesPage::StartProgress(wxStaticBitmap* pBitmap) {
+
     m_iBitmapIndex = 1;
+
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress01.xpm")));
-}
 
+}
+ 
 void CProjectPropertiesPage::IncrementProgress(wxStaticBitmap* pBitmap) {
+
     m_iBitmapIndex += 1;
+
     if (12 < m_iBitmapIndex) m_iBitmapIndex = 1;
-
+ 
     wxString str;
+
     str.Printf(wxT("res/wizprogress%02d.xpm"), m_iBitmapIndex);
-
+ 
     pBitmap->SetBitmap(GetBitmapResource(str));
+
     Update();
-}
 
+}
+ 
 void CProjectPropertiesPage::FinishProgress(wxStaticBitmap* pBitmap) {
+
     m_iBitmapIndex = 12;
+
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
@@ -1244,6 +1540,11 @@ wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(wizprogress07_xpm);
         return bitmap;
     }
+    else if (name == wxT("res/wizprogress08.xpm"))
+    {
+        wxBitmap bitmap(wizprogress08_xpm);
+        return bitmap;
+    }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
         wxBitmap bitmap(wizprogress09_xpm);
@@ -1266,257 +1567,410 @@ wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
     }
     return wxNullBitmap;
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CProjectPropertiesPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CProjectPropertiesPage icon retrieval
     return wxNullIcon;
 ////@end CProjectPropertiesPage icon retrieval
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE
- */
 
+ */
+ 
 void CProjectPropertiesPage::OnPageChanged( wxWizardEvent& event )
+
 {
+
     if (event.GetDirection() == false) return;
-
+ 
     SetProjectPropertiesSucceeded(false);
+
     SetProjectPropertiesURLFailure(false);
+
     SetProjectAccountCreationDisabled(false);
+
     SetProjectClientAccountCreationDisabled(false);
+
     SetCommunicateYahooSucceeded(false);
+
     SetCommunicateGoogleSucceeded(false);
+
     SetDeterminingConnectionStatusSucceeded(false);
+
     SetNextState(PROJPROP_INIT);
-
+ 
     CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
+
     AddPendingEvent(TransitionEvent);
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE
+
  */
+
 void CProjectPropertiesPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
-}
 
+}
+ 
 /*!
+
  * wxEVT_PROJECTPROPERTIES_STATECHANGE event handler for ID_PROJECTPROPERTIESPAGE
- */
 
+ */
+ 
 void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
+
 {
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+
     PROJECT_CONFIG* pc       = &((CWizAttachProject*)GetParent())->project_config;
+
     bool bPostNewEvent = true;
+
     int iReturnValue = 0;
+
     bool bSuccessfulCondition = false;
-
+ 
     wxASSERT(pDoc);
+
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
+ 
     switch(GetCurrentState()) {
+
         case PROJPROP_INIT:
+
             StartProgress(m_ProjectPropertiesProgress);
-
+ 
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_BEGIN);
+
             break;
+
         case PROJPROP_RETRPROJECTPROPERTIES_BEGIN:
+
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_EXECUTE);
+
             break;
+
         case PROJPROP_RETRPROJECTPROPERTIES_EXECUTE:
-            // Attempt to retrieve the project’s account creation policies
+
+            // Attempt to retrieve the project's account creation policies
+
             pDoc->rpc.get_project_config(
+
                 ((CWizAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str()
+
             );
-
+ 
             // Wait until we are done processing the request.
+
             iReturnValue = ERR_IN_PROGRESS;
+
             while (ERR_IN_PROGRESS == iReturnValue) {
+
                 iReturnValue = pDoc->rpc.get_project_config_poll(*pc);
-                IncrementProgress(m_ProjectPropertiesProgress);
-                
-                ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
-            }
 
+                IncrementProgress(m_ProjectPropertiesProgress);
+
+                
+
+                ::wxMilliSleep(500);
+
+                ::wxSafeYield(GetParent());
+
+            }
+ 
             // We either successfully retrieved the project's account creation 
+
             //   policies or we were able to talk to the web server and found out
+
             //   they do not support account creation through the wizard.  In either
+
             //   case we should claim success and set the correct flags to show the
+
             //   correct 'next' page.
+
             bSuccessfulCondition = (BOINC_SUCCESS == iReturnValue) || (ERR_ACCT_CREATION_DISABLED == iReturnValue);
+
             if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIES)) {
+
                 SetProjectPropertiesSucceeded(true);
-
+ 
                 bSuccessfulCondition = pc->account_creation_disabled;
+
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTCREATIONDISABLED)) {
+
                     SetProjectAccountCreationDisabled(true);
+
                 } else {
+
                     SetProjectAccountCreationDisabled(false);
-                }
 
+                }
+ 
                 bSuccessfulCondition = pc->client_account_creation_disabled;
+
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED)) {
+
                     SetProjectClientAccountCreationDisabled(true);
+
                 } else {
+
                     SetProjectClientAccountCreationDisabled(false);
-                }
 
+                }
+ 
                 SetNextState(PROJPROP_CLEANUP);
+
             } else {
+
                 SetProjectPropertiesSucceeded(false);
-
+ 
                 bSuccessfulCondition = (HTTP_STATUS_NOT_FOUND == iReturnValue) || (ERR_GETHOSTBYNAME == iReturnValue);
+
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+
                     SetProjectPropertiesURLFailure(true);
+
                 } else {
+
                     SetProjectPropertiesURLFailure(false);
+
                 }
-
+ 
                 SetNextState(PROJPROP_COMMUNICATEYAHOO_BEGIN);
+
             }
+
             break;
+
         case PROJPROP_COMMUNICATEYAHOO_BEGIN:
+
             SetNextState(PROJPROP_COMMUNICATEYAHOO_EXECUTE);
+
             break;
+
         case PROJPROP_COMMUNICATEYAHOO_EXECUTE:
+
             // Attempt to successfully download the Yahoo homepage
+
             pDoc->rpc.lookup_website(LOOKUP_YAHOO);
-
+ 
             // Wait until we are done processing the request.
-            iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue) {
-                iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_ProjectPropertiesProgress);
-                
-                ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
-            }
 
+            iReturnValue = ERR_IN_PROGRESS;
+
+            while (ERR_IN_PROGRESS == iReturnValue) {
+
+                iReturnValue = pDoc->rpc.lookup_website_poll();
+
+                IncrementProgress(m_ProjectPropertiesProgress);
+
+                
+
+                ::wxMilliSleep(500);
+
+                ::wxSafeYield(GetParent());
+
+            }
+ 
             if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRYAHOOCOMM)) {
+
                 SetCommunicateYahooSucceeded(true);
+
             } else {
+
                 SetCommunicateYahooSucceeded(false);
+
             }
+
             SetNextState(PROJPROP_COMMUNICATEGOOGLE_BEGIN);
+
             break;
+
         case PROJPROP_COMMUNICATEGOOGLE_BEGIN:
+
             SetNextState(PROJPROP_COMMUNICATEGOOGLE_EXECUTE);
+
             break;
+
         case PROJPROP_COMMUNICATEGOOGLE_EXECUTE:
+
             // Attempt to successfully download the Google homepage
+
             pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
-
+ 
             // Wait until we are done processing the request.
+
             iReturnValue = ERR_IN_PROGRESS;
+
             while (ERR_IN_PROGRESS == iReturnValue) {
+
                 iReturnValue = pDoc->rpc.lookup_website_poll();
+
                 IncrementProgress(m_ProjectPropertiesProgress);
+
                 
+
                 ::wxMilliSleep(500);
+
                 ::wxSafeYield(GetParent());
-            }
 
+            }
+ 
             if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRGOOGLECOMM)) {
+
                 SetCommunicateGoogleSucceeded(true);
+
             } else {
+
                 SetCommunicateGoogleSucceeded(false);
+
             }
+
             SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
+
             break;
+
         case PROJPROP_DETERMINENETWORKSTATUS_BEGIN:
+
             SetNextState(PROJPROP_DETERMINENETWORKSTATUS_EXECUTE);
+
             break;
+
         case PROJPROP_DETERMINENETWORKSTATUS_EXECUTE:
+
             // Attempt to determine if we are even connected to a network
+
             bSuccessfulCondition = CONNECTED_STATE_CONNECTED == get_connected_state();
+
             if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
+
                 SetDeterminingConnectionStatusSucceeded(true);
+
             } else {
+
                 SetDeterminingConnectionStatusSucceeded(false);
+
             }
-
+ 
             SetNextState(PROJPROP_CLEANUP);
+
             break;
+
         case PROJPROP_CLEANUP:
+
             FinishProgress(m_ProjectPropertiesProgress);
+
             SetNextState(PROJPROP_END);
+
             break;
+
         default:
+
             // Allow a glimps of what the result was before advancing to the next page.
+
             wxSleep(1);
+
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
-
+ 
             bPostNewEvent = false;
+
             break;
-    }
 
+    }
+ 
     Update();
-
+ 
     if (bPostNewEvent) {
+
         CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
+
         AddPendingEvent(TransitionEvent);
+
     }
+
 }
-
-
-
+   
 /*!
+
  * CAccountKeyPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CAccountKeyPage, wxWizardPage )
-
+ 
 /*!
+
  * CAccountKeyPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CAccountKeyPage, wxWizardPage )
-
+ 
 ////@begin CAccountKeyPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CAccountKeyPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CAccountKeyPage::OnCancel )
 
 ////@end CAccountKeyPage event table entries
-
+ 
 END_EVENT_TABLE()
-
-
+  
 /*!
+
  * CAccountKeyPage constructors
- */
 
+ */
+ 
 CAccountKeyPage::CAccountKeyPage( )
+
 {
+
 }
-
-
+  
 CAccountKeyPage::CAccountKeyPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
-
+  
 /*!
- * CAuthenticatorPage creator
- */
 
+ * CAuthenticatorPage creator
+
+ */
+ 
 bool CAccountKeyPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CAccountKeyPage member initialisation
     m_AccountKeyStaticCtrl = NULL;
     m_AccountKeyCtrl = NULL;
 ////@end CAccountKeyPage member initialisation
-
+ 
 ////@begin CAccountKeyPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -1524,17 +1978,21 @@ bool CAccountKeyPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CAccountKeyPage creation
+
     return TRUE;
+
 }
-
-
+  
 /*!
+
  * Control creation for CAuthenticatorPage
+
  */
-
+ 
 void CAccountKeyPage::CreateControls()
-{    
 
+{    
+ 
 ////@begin CAccountKeyPage content construction
     CAccountKeyPage* itemWizardPage42 = this;
 
@@ -1553,7 +2011,7 @@ void CAccountKeyPage::CreateControls()
     itemBoxSizer43->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText47 = new wxStaticText;
-    itemStaticText47->Create( itemWizardPage42, wxID_STATIC, _("Go to the project's web site to create an account.\nYour account key will be emailed to you."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText47->Create( itemWizardPage42, wxID_STATIC, _("Go to the project's web site to create an account.\n\nYour account key will be emailed to you."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer43->Add(itemStaticText47, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText48 = new wxStaticText;
@@ -1582,102 +2040,139 @@ void CAccountKeyPage::CreateControls()
     // Set validators
     m_AccountKeyCtrl->SetValidator( CValidateAccountKey( & m_strAccountKey) );
 ////@end CAccountKeyPage content construction
-
+ 
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CAccountKeyPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
+
 }
-
-
+  
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CAccountKeyPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_ATTACHPROJECTPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CAccountKeyPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
-
+  
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CAccountKeyPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CAccountKeyPage bitmap retrieval
     return wxNullBitmap;
 ////@end CAccountKeyPage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CAccountKeyPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CAccountKeyPage icon retrieval
     return wxNullIcon;
 ////@end CAccountKeyPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTKEYPAGE
- */
 
+ */
+ 
 void CAccountKeyPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTKEYPAGE
- */
 
+ */
+ 
 void CAccountKeyPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CAccountInfoPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CAccountInfoPage, wxWizardPage )
-
+ 
 /*!
+
  * CAccountInfoPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPage )
-
+ 
 ////@begin CAccountInfoPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CAccountInfoPage::OnPageChanged )
     EVT_WIZARD_PAGE_CHANGING( -1, CAccountInfoPage::OnPageChanging )
@@ -1688,28 +2183,39 @@ BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPage )
     EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
 
 ////@end CAccountInfoPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CAccountInfoPage constructors
- */
 
+ */
+ 
 CAccountInfoPage::CAccountInfoPage( )
-{
-}
 
+{
+
+}
+ 
 CAccountInfoPage::CAccountInfoPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * AccountInfoPage creator
- */
 
+ * AccountInfoPage creator
+
+ */
+ 
 bool CAccountInfoPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CAccountInfoPage member initialisation
     m_AccountCreateCtrl = NULL;
     m_AccountUseExistingCtrl = NULL;
@@ -1720,7 +2226,7 @@ bool CAccountInfoPage::Create( wxWizard* parent )
     m_AccountConfirmPasswordStaticCtrl = NULL;
     m_AccountConfirmPasswordCtrl = NULL;
 ////@end CAccountInfoPage member initialisation
-
+ 
 ////@begin CAccountInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -1728,15 +2234,21 @@ bool CAccountInfoPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CAccountInfoPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for AccountInfoPage
- */
 
+ * Control creation for AccountInfoPage
+
+ */
+ 
 void CAccountInfoPage::CreateControls()
+
 {    
+
 ////@begin CAccountInfoPage content construction
     CAccountInfoPage* itemWizardPage54 = this;
 
@@ -1801,226 +2313,329 @@ void CAccountInfoPage::CreateControls()
     m_AccountPasswordCtrl->SetValidator( wxGenericValidator(& m_strAccountPassword) );
     m_AccountConfirmPasswordCtrl->SetValidator( wxGenericValidator(& m_strAccountConfirmPassword) );
 ////@end CAccountInfoPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CAccountInfoPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CAccountInfoPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_ATTACHPROJECTPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CAccountInfoPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CAccountInfoPage bitmap retrieval
     return wxNullBitmap;
 ////@end CAccountInfoPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CAccountInfoPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CAccountInfoPage icon retrieval
     return wxNullIcon;
 ////@end CAccountInfoPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTINFOPAGE
- */
 
+ */
+ 
 void CAccountInfoPage::OnPageChanged( wxWizardEvent& event ) 
-{
-    if (event.GetDirection() == false) return;
 
+{
+
+    if (event.GetDirection() == false) return;
+ 
     if (((CWizAttachProject*)GetParent())->project_config.uses_username) {
+
         m_AccountEmailAddressStaticCtrl->SetLabel(
+
             _("Username:")
+
         );
+
     } else {
+
         m_AccountEmailAddressStaticCtrl->SetLabel(
+
             _("Email address:")
+
         );
-    }
 
+    }
+ 
     Fit();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE
- */
 
+ */
+ 
 void CAccountInfoPage::OnPageChanging( wxWizardEvent& event )
+
 {
+
     if (event.GetDirection() == false) return;
-
+ 
     if (!((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-
+ 
         wxString strTitle = _("Attach to Project Wizard");
+
         wxString strMessage = wxT("");
+
         bool     bDisplayError = false;
-
+ 
         // Validate a new account against the account creation policies
+
         if (m_AccountCreateCtrl->GetValue()) {
+
             // Verify minimum password length
+
             unsigned int iMinLength = ((CWizAttachProject*)GetParent())->project_config.min_passwd_length;
+
             wxString strPassword = m_AccountPasswordCtrl->GetValue();
-
+ 
             if (strPassword.Length() < iMinLength) {
+
                 strMessage.Printf(
+
                     _("The minimum password length for this project is %d. Please choose a different password."),
+
                     iMinLength
+
                 );
-                bDisplayError = true;
-            }
 
+                bDisplayError = true;
+
+            }
+ 
             // Verify that the password and confirmation password math.
+
             if (m_AccountPasswordCtrl->GetValue() != m_AccountConfirmPasswordCtrl->GetValue()) {
+
                 strMessage = _("The password and confirmation password do not match. Please type them again.");
+
                 bDisplayError = true;
+
             }
-        }
 
+        }
+ 
         if (bDisplayError) {
+
             ::wxMessageBox(
+
                 strMessage,
+
                 strTitle,
+
                 wxICON_ERROR | wxOK,
+
                 this
+
             );
-
+ 
             event.Veto();
+
         }
+
     }
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE
- */
 
+ */
+ 
 void CAccountInfoPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
-}
 
+}
+ 
 /*!
+
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTUSEXISTINGBUTTON
- */
 
+ */
+ 
 void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event ) {
+
     m_AccountConfirmPasswordStaticCtrl->Hide();
+
     m_AccountConfirmPasswordCtrl->Hide();
+
 }
-
-
+  
 /*!
+
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATEBUTTON
- */
 
+ */
+ 
 void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
+
     m_AccountConfirmPasswordStaticCtrl->Show();
+
     m_AccountConfirmPasswordCtrl->Show();
+
 }
-
+ 
 /*!
+
  * CProjectPropertiesPage custom event definition
+
  */
+
 DEFINE_EVENT_TYPE(wxEVT_ATTACHPROJECT_STATECHANGE)
-
-
+  
 /*!
+
  * CAttachProjectPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CAttachProjectPage, wxWizardPage )
-
-
+  
 /*!
+
  * CAttachProjectPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CAttachProjectPage, wxWizardPage )
-
+ 
     EVT_ATTACHPROJECT_STATECHANGE( CAttachProjectPage::OnStateChange )
-
+ 
 ////@begin CAttachProjectPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CAttachProjectPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CAttachProjectPage::OnCancel )
 
 ////@end CAttachProjectPage event table entries
-
+ 
 END_EVENT_TABLE()
-
-
+  
 /*!
+
  * CAttachProjectPage constructors
- */
 
+ */
+ 
 CAttachProjectPage::CAttachProjectPage( )
+
 {
+
 }
-
-
+  
 CAttachProjectPage::CAttachProjectPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
-
+  
 /*!
+
  * CProjectPropertiesPage creator
+
  */
-
+ 
 bool CAttachProjectPage::Create( wxWizard* parent )
-{
 
+{
+ 
 ////@begin CAttachProjectPage member initialisation
     m_AttachProjectProgress = NULL;
 ////@end CAttachProjectPage member initialisation
-
+ 
     m_bProjectCommunitcationsSucceeded = false;
-    m_bProjectUnavailable = false;
-    m_bProjectAccountAlreadyExists = false;
-    m_iBitmapIndex = 0;
-    m_iCurrentState = ATTACHPROJECT_INIT;
 
+    m_bProjectUnavailable = false;
+
+    m_bProjectAccountAlreadyExists = false;
+
+    m_iBitmapIndex = 0;
+
+    m_iCurrentState = ATTACHPROJECT_INIT;
+ 
 ////@begin CAttachProjectPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -2028,17 +2643,21 @@ bool CAttachProjectPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CAttachProjectPage creation
-
+ 
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Control creation for CProjectPropertiesPage
+
  */
-
+ 
 void CAttachProjectPage::CreateControls()
-{    
 
+{    
+ 
 ////@begin CAttachProjectPage content construction
     CAttachProjectPage* itemWizardPage69 = this;
 
@@ -2069,77 +2688,115 @@ void CAttachProjectPage::CreateControls()
     itemFlexGridSizer73->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 
 ////@end CAttachProjectPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CAttachProjectPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
+
 }
-
-
+  
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CAttachProjectPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     } else if (GetProjectAttachSucceeded()) {
+
         // We were successful in creating or retrieving an account
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
+
     } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountAlreadyExists()) {
+
         // The requested account already exists
+
         return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTALREADYEXISTSPAGE);
+
     } else {
+
         // The project much be down for maintenance
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROJECTUNAVAILABLEPAGE);
+
     } 
-
+ 
     return NULL;
+
 }
-
-
+  
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CAttachProjectPage::ShowToolTips()
+
 {
+
     return TRUE;
-}
 
+}
+ 
 void CAttachProjectPage::StartProgress(wxStaticBitmap* pBitmap) {
+
     m_iBitmapIndex = 1;
+
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress01.xpm")));
-}
 
+}
+ 
 void CAttachProjectPage::IncrementProgress(wxStaticBitmap* pBitmap) {
+
     m_iBitmapIndex += 1;
+
     if (12 < m_iBitmapIndex) m_iBitmapIndex = 1;
-
+ 
     wxString str;
+
     str.Printf(wxT("res/wizprogress%02d.xpm"), m_iBitmapIndex);
-
+ 
     pBitmap->SetBitmap(GetBitmapResource(str));
+
     Update();
-}
 
+}
+ 
 void CAttachProjectPage::FinishProgress(wxStaticBitmap* pBitmap) {
+
     m_iBitmapIndex = 12;
+
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CAttachProjectPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
@@ -2178,6 +2835,11 @@ wxBitmap CAttachProjectPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(wizprogress07_xpm);
         return bitmap;
     }
+    else if (name == wxT("res/wizprogress08.xpm"))
+    {
+        wxBitmap bitmap(wizprogress08_xpm);
+        return bitmap;
+    }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
         wxBitmap bitmap(wizprogress09_xpm);
@@ -2200,236 +2862,365 @@ wxBitmap CAttachProjectPage::GetBitmapResource( const wxString& name )
     }
     return wxNullBitmap;
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CAttachProjectPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CAttachProjectPage icon retrieval
     return wxNullIcon;
 ////@end CAttachProjectPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHPROJECTPAGE
- */
 
+ */
+ 
 void CAttachProjectPage::OnPageChanged( wxWizardEvent& event )
+
 {
+
     if (event.GetDirection() == false) return;
-
+ 
     SetProjectCommunitcationsSucceeded(false);
+
     SetProjectUnavailable(false);
+
     SetProjectAccountAlreadyExists(false);
+
     SetNextState(ATTACHPROJECT_INIT);
-
+ 
     CAttachProjectPageEvent TransitionEvent(wxEVT_ATTACHPROJECT_STATECHANGE, this);
+
     AddPendingEvent(TransitionEvent);
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTCREATIONPAGE
- */
 
+ */
+ 
 void CAttachProjectPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
-}
 
+}
+ 
 /*!
+
  * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
- */
 
+ */
+ 
 void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
+
 {
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+
     ACCOUNT_IN* ai           = &((CWizAttachProject*)GetParent())->account_in;
+
     ACCOUNT_OUT* ao          = &((CWizAttachProject*)GetParent())->account_out;
+
     bool bPostNewEvent = true;
+
     int iReturnValue = 0;
+
     bool bSuccessfulCondition = false;
-
+ 
     wxASSERT(pDoc);
+
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
+ 
     switch(GetCurrentState()) {
+
         case ATTACHPROJECT_INIT:
+
             // Set initial bitmap
+
             StartProgress(m_AttachProjectProgress);
-
+ 
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
+
             break;
+
         case ATTACHPROJECT_ACCOUNTQUERY_BEGIN:
+
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_EXECUTE);
+
             break;
+
         case ATTACHPROJECT_ACCOUNTQUERY_EXECUTE:
+
             // Attempt to create the account or reterieve the authenticator.
+
             ai->clear();
+
             ao->clear();
-
+ 
             ai->url = ((CWizAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str();
-
+ 
             if (!((CWizAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.IsEmpty()) {
+
                 ao->authenticator = ((CWizAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.c_str();
+
                 SetProjectCommunitcationsSucceeded(true);
+
             } else {
+
                 if (((CWizAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
+
                     if (!((CWizAttachProject*)GetParent())->project_config.uses_username) {
+
                         ai->email_addr = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+
                         ai->user_name = ::wxGetUserName().c_str();
+
                     } else {
+
                         ai->email_addr = wxT("");
+
                         ai->user_name = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+
                     }
+
                     ai->passwd = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
+
                     pDoc->rpc.create_account(*ai);
-
+ 
                     // Wait until we are done processing the request.
+
                     iReturnValue = ERR_IN_PROGRESS;
+
                     while (ERR_IN_PROGRESS == iReturnValue) {
+
                         iReturnValue = pDoc->rpc.create_account_poll(*ao);
-
+ 
                         IncrementProgress(m_AttachProjectProgress);
+
                         
+
                         ::wxMilliSleep(500);
+
                         ::wxSafeYield(GetParent());
+
                     }
+
                 } else {
+
                     if (!((CWizAttachProject*)GetParent())->project_config.uses_username) {
+
                         ai->email_addr = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+
                     } else {
+
                         ai->user_name= ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+
                     }
+
                     ai->passwd = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
+
                     pDoc->rpc.lookup_account(*ai);
-
+ 
                     // Wait until we are done processing the request.
+
                     iReturnValue = ERR_IN_PROGRESS;
+
                     while (ERR_IN_PROGRESS == iReturnValue) {
+
                         iReturnValue = pDoc->rpc.lookup_account_poll(*ao);
-
+ 
                         IncrementProgress(m_AttachProjectProgress);
+
                         
+
                         ::wxMilliSleep(500);
+
                         ::wxSafeYield(GetParent());
-                    }
-                }
 
+                    }
+
+                }
+ 
                 if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
+
                     SetProjectCommunitcationsSucceeded(true);
+
                 } else {
+
                     SetProjectCommunitcationsSucceeded(false);
-
+ 
                     if ((ERR_NONUNIQUE_EMAIL == iReturnValue) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
+
                         SetProjectAccountAlreadyExists(true);
+
                     } else {
+
                         SetProjectAccountAlreadyExists(false);
+
                     }
+
                 }
-            }
 
+            }
+ 
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
+
             break;
+
         case ATTACHPROJECT_ATTACHPROJECT_BEGIN:
+
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_EXECUTE);
+
             break;
+
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
+
             // Attempt to attach to the project.
+
             pDoc->rpc.project_attach(
+
                 ai->url.c_str(),
+
                 ao->authenticator.c_str()
+
             );
-
+ 
             // Wait until we are done processing the request.
+
             iReturnValue = ERR_IN_PROGRESS;
+
             while (ERR_IN_PROGRESS == iReturnValue) {
+
                 iReturnValue = pDoc->rpc.project_attach_poll();
-
+ 
                 IncrementProgress(m_AttachProjectProgress);
+
                         
+
                 ::wxMilliSleep(500);
+
                 ::wxSafeYield(GetParent());
-            }
 
+            }
+ 
             if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+
                 SetProjectAttachSucceeded(true);
+
             } else {
+
                 SetProjectAttachSucceeded(false);
+
             }
-
+ 
             SetNextState(ATTACHPROJECT_CLEANUP);
+
             break;
+
         case ATTACHPROJECT_CLEANUP:
+
             SetNextState(ATTACHPROJECT_END);
+
             break;
+
         default:
+
             // Allow a glimps of what the result was before advancing to the next page.
+
             wxSleep(1);
+
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
-
+ 
             bPostNewEvent = false;
+
             break;
-    }
 
+    }
+ 
     Update();
-
+ 
     if (bPostNewEvent) {
+
         CAttachProjectPageEvent TransitionEvent(wxEVT_ATTACHPROJECT_STATECHANGE, this);
+
         AddPendingEvent(TransitionEvent);
+
     }
+
 }
-
-
+  
 /*!
+
  * CCompletionPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CCompletionPage, wxWizardPage )
-
+ 
 /*!
+
  * CCompletionPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CCompletionPage, wxWizardPage )
-
+ 
 ////@begin CCompletionPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CCompletionPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CCompletionPage::OnCancel )
     EVT_WIZARD_FINISHED( ID_COMPLETIONPAGE, CCompletionPage::OnFinished )
 
 ////@end CCompletionPage event table entries
-
+ 
 END_EVENT_TABLE()
-
-
+  
 /*!
+
  * CCompletionPage constructors
- */
 
+ */
+ 
 CCompletionPage::CCompletionPage( )
-{
-}
 
+{
+
+}
+ 
 CCompletionPage::CCompletionPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CCompletionPage creator
- */
 
+ * CCompletionPage creator
+
+ */
+ 
 bool CCompletionPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CCompletionPage member initialisation
 ////@end CCompletionPage member initialisation
-
+ 
 ////@begin CCompletionPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -2437,18 +3228,21 @@ bool CCompletionPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CCompletionPage creation
-
+ 
     return TRUE;
+
 }
-
-
+  
 /*!
+
  * Control creation for CCompletionPage
+
  */
-
+ 
 void CCompletionPage::CreateControls()
-{    
 
+{    
+ 
 ////@begin CCompletionPage content construction
     CCompletionPage* itemWizardPage77 = this;
 
@@ -2467,183 +3261,270 @@ void CCompletionPage::CreateControls()
     itemBoxSizer78->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText82 = new wxStaticText;
-    itemStaticText82->Create( itemWizardPage77, wxID_STATIC, _("When you click Finish, your web browser will go to a page\nwhere you can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText82->Create( itemWizardPage77, wxID_STATIC, _("When you click Finish, your web browser will go to a page\n\nwhere you can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer78->Add(itemStaticText82, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CCompletionPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CCompletionPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CCompletionPage::GetNext() const
+
 {
+
     return NULL;
+
 }
-
-
+  
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CCompletionPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
-
+  
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CCompletionPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CCompletionPage bitmap retrieval
     return wxNullBitmap;
 ////@end CCompletionPage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CCompletionPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CCompletionPage icon retrieval
     return wxNullIcon;
 ////@end CCompletionPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONPAGE
- */
 
+ */
+ 
 void CCompletionPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONPAGE
- */
 
+ */
+ 
 void CCompletionPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_FINISHED event handler for ID_COMPLETIONPAGE
- */
 
+ */
+ 
 void CCompletionPage::OnFinished( wxWizardEvent& event ) {
+
 #if 0
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-
+ 
     wxASSERT(pDoc);
+
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
+ 
     // If the wizard was successful and everything is cool, tell the
+
     //   core client to attach to the project with the authenticator.
+
     if ( m_AccountCreationPage->GetProjectCommunitcationsSucceeded() &&
+
          account_out.authenticator.length() > 0 &&
+
          account_in.url.length() > 0
+
        )
+
     {
+
         pDoc->rpc.project_attach(
+
             account_in.url.c_str(),
+
             account_out.authenticator.c_str()
+
         );
+
     } else {
+
 #if defined(__WXDEBUG__)
+
         if (!m_AccountCreationPage->GetProjectCommunitcationsSucceeded()) {
+
             ::wxMessageBox(
+
                 wxT("m_AccountCreationPage->GetProjectCommunitcationsSucceeded() = false"),
+
                 wxT("Attach to Project Wizard"),
+
                 wxICON_ERROR | wxOK,
+
                 this
+
             );
+
         } else if (account_in.url.length() == 0) {
+
             ::wxMessageBox(
+
                 wxT("account_in.url.length() == 0"),
+
                 wxT("Attach to Project Wizard"),
+
                 wxICON_ERROR | wxOK,
+
                 this
+
             );
+
         } else if (account_out.authenticator.length() == 0) {
+
             ::wxMessageBox(
+
                 wxT("account_out.authenticator.length() == 0"),
+
                 wxT("Attach to Project Wizard"),
+
                 wxICON_ERROR | wxOK,
+
                 this
+
             );
+
         }
+
 #endif
+
     }
+
 #endif
-
+ 
     // Let the framework clean everything up.
+
     event.Skip();
+
 }
-
+ 
 /*!
+
  * CCompletionErrorPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CCompletionErrorPage, wxWizardPage )
-
+ 
 /*!
+
  * CCompletionErrorPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CCompletionErrorPage, wxWizardPage )
-
+ 
 ////@begin CCompletionErrorPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CCompletionErrorPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CCompletionErrorPage::OnCancel )
 
 ////@end CCompletionErrorPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CCompletionErrorPage constructors
- */
 
+ */
+ 
 CCompletionErrorPage::CCompletionErrorPage( )
-{
-}
 
+{
+
+}
+ 
 CCompletionErrorPage::CCompletionErrorPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CAccountResultPage creator
- */
 
+ * CAccountResultPage creator
+
+ */
+ 
 bool CCompletionErrorPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CCompletionErrorPage member initialisation
 ////@end CCompletionErrorPage member initialisation
-
+ 
 ////@begin CCompletionErrorPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -2651,15 +3532,21 @@ bool CCompletionErrorPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CCompletionErrorPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for CAccountResultPage
- */
 
+ * Control creation for CAccountResultPage
+
+ */
+ 
 void CCompletionErrorPage::CreateControls()
+
 {    
+
 ////@begin CCompletionErrorPage content construction
     CCompletionErrorPage* itemWizardPage83 = this;
 
@@ -2678,118 +3565,168 @@ void CCompletionErrorPage::CreateControls()
     itemBoxSizer84->Add(itemStaticText87, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CCompletionErrorPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CCompletionErrorPage::GetPrev() const
-{
-    return NULL;
-}
 
+{
+
+    return NULL;
+
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CCompletionErrorPage::GetNext() const
+
 {
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CCompletionErrorPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CCompletionErrorPage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CCompletionErrorPage bitmap retrieval
     return wxNullBitmap;
 ////@end CCompletionErrorPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CCompletionErrorPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CCompletionErrorPage icon retrieval
     return wxNullIcon;
 ////@end CCompletionErrorPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE
- */
 
+ */
+ 
 void CCompletionErrorPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE
- */
 
+ */
+ 
 void CCompletionErrorPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CErrProjectNotDetectedPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrProjectNotDetectedPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrProjectNotDetectedPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrProjectNotDetectedPage, wxWizardPage )
-
+ 
 ////@begin CErrProjectNotDetectedPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrProjectNotDetectedPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrProjectNotDetectedPage::OnCancel )
 
 ////@end CErrProjectNotDetectedPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrProjectNotDetectedPage constructors
- */
 
+ */
+ 
 CErrProjectNotDetectedPage::CErrProjectNotDetectedPage( )
-{
-}
 
+{
+
+}
+ 
 CErrProjectNotDetectedPage::CErrProjectNotDetectedPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrProjectUnavailable creator
- */
 
+ * CErrProjectUnavailable creator
+
+ */
+ 
 bool CErrProjectNotDetectedPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrProjectNotDetectedPage member initialisation
 ////@end CErrProjectNotDetectedPage member initialisation
-
+ 
 ////@begin CErrProjectNotDetectedPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -2797,15 +3734,21 @@ bool CErrProjectNotDetectedPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrProjectNotDetectedPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for CErrProjectUnavailable
- */
 
+ * Control creation for CErrProjectUnavailable
+
+ */
+ 
 void CErrProjectNotDetectedPage::CreateControls()
+
 {    
+
 ////@begin CErrProjectNotDetectedPage content construction
     CErrProjectNotDetectedPage* itemWizardPage88 = this;
 
@@ -2828,126 +3771,176 @@ void CErrProjectNotDetectedPage::CreateControls()
     itemBoxSizer89->Add(itemStaticText93, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProjectNotDetectedPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrProjectNotDetectedPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrProjectNotDetectedPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrProjectNotDetectedPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CErrProjectNotDetectedPage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CErrProjectNotDetectedPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrProjectNotDetectedPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CErrProjectNotDetectedPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CErrProjectNotDetectedPage icon retrieval
     return wxNullIcon;
 ////@end CErrProjectNotDetectedPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE
- */
 
+ */
+ 
 void CErrProjectNotDetectedPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE
- */
 
+ */
+ 
 void CErrProjectNotDetectedPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
-
+  
 /*!
+
  * CErrProjectUnavailablePage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrProjectUnavailablePage, wxWizardPage )
-
+ 
 /*!
+
  * CErrProjectUnavailablePage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrProjectUnavailablePage, wxWizardPage )
-
+ 
 ////@begin CErrProjectUnavailablePage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrProjectUnavailablePage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrProjectUnavailablePage::OnCancel )
 
 ////@end CErrProjectUnavailablePage event table entries
-
+ 
 END_EVENT_TABLE()
-
-
+  
 /*!
+
  * CErrProjectUnavailablePage constructors
- */
 
+ */
+ 
 CErrProjectUnavailablePage::CErrProjectUnavailablePage( )
+
 {
+
 }
-
-
+  
 CErrProjectUnavailablePage::CErrProjectUnavailablePage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrProjectUnavailablePage creator
- */
 
+ * CErrProjectUnavailablePage creator
+
+ */
+ 
 bool CErrProjectUnavailablePage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrProjectUnavailablePage member initialisation
 ////@end CErrProjectUnavailablePage member initialisation
-
+ 
 ////@begin CErrProjectUnavailablePage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -2955,17 +3948,21 @@ bool CErrProjectUnavailablePage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrProjectUnavailablePage creation
-
+ 
     return TRUE;
+
 }
-
-
+  
 /*!
- * Control creation for CErrProjectUnavailablePage
- */
 
+ * Control creation for CErrProjectUnavailablePage
+
+ */
+ 
 void CErrProjectUnavailablePage::CreateControls()
+
 {    
+
 ////@begin CErrProjectUnavailablePage content construction
     CErrProjectUnavailablePage* itemWizardPage94 = this;
 
@@ -2980,132 +3977,180 @@ void CErrProjectUnavailablePage::CreateControls()
     itemBoxSizer95->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText98 = new wxStaticText;
-    itemStaticText98->Create( itemWizardPage94, wxID_STATIC, _("The project is currently unavailable.\nPlease try again later."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText98->Create( itemWizardPage94, wxID_STATIC, _("The project is currently unavailable.\n\nPlease try again later."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer95->Add(itemStaticText98, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProjectUnavailablePage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrProjectUnavailablePage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrProjectUnavailablePage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrProjectUnavailablePage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
-
+  
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrProjectUnavailablePage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrProjectUnavailablePage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrProjectUnavailablePage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CErrProjectUnavailablePage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CErrProjectUnavailablePage icon retrieval
     return wxNullIcon;
 ////@end CErrProjectUnavailablePage icon retrieval
+
 }
-
-
-
+   
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE
- */
 
+ */
+ 
 void CErrProjectUnavailablePage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE
- */
 
+ */
+ 
 void CErrProjectUnavailablePage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CErrNoInternetConnectionPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrNoInternetConnectionPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrNoInternetConnectionPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrNoInternetConnectionPage, wxWizardPage )
-
+ 
 ////@begin CErrNoInternetConnectionPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrNoInternetConnectionPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrNoInternetConnectionPage::OnCancel )
 
 ////@end CErrNoInternetConnectionPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrNoInternetConnectionPage constructors
- */
 
+ */
+ 
 CErrNoInternetConnectionPage::CErrNoInternetConnectionPage( )
-{
-}
 
+{
+
+}
+ 
 CErrNoInternetConnectionPage::CErrNoInternetConnectionPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrNoInternetConnection creator
- */
 
+ * CErrNoInternetConnection creator
+
+ */
+ 
 bool CErrNoInternetConnectionPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrNoInternetConnectionPage member initialisation
 ////@end CErrNoInternetConnectionPage member initialisation
-
+ 
 ////@begin CErrNoInternetConnectionPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -3113,15 +4158,21 @@ bool CErrNoInternetConnectionPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrNoInternetConnectionPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for CErrNoInternetConnection
- */
 
+ * Control creation for CErrNoInternetConnection
+
+ */
+ 
 void CErrNoInternetConnectionPage::CreateControls()
+
 {    
+
 ////@begin CErrNoInternetConnectionPage content construction
     CErrNoInternetConnectionPage* itemWizardPage99 = this;
 
@@ -3140,123 +4191,176 @@ void CErrNoInternetConnectionPage::CreateControls()
     itemBoxSizer100->Add(itemStaticText103, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrNoInternetConnectionPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrNoInternetConnectionPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrNoInternetConnectionPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrNoInternetConnectionPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CErrNoInternetConnectionPage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CErrNoInternetConnectionPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrNoInternetConnectionPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CErrNoInternetConnectionPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CErrNoInternetConnectionPage icon retrieval
     return wxNullIcon;
 ////@end CErrNoInternetConnectionPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNOINTERNETCONNECTIONPAGE
- */
 
+ */
+ 
 void CErrNoInternetConnectionPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRNOINTERNETCONNECTIONPAGE
- */
 
+ */
+ 
 void CErrNoInternetConnectionPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CErrAccountAlreadyExistsPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrAccountAlreadyExistsPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrAccountAlreadyExistsPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrAccountAlreadyExistsPage, wxWizardPage )
-
+ 
 ////@begin CErrAccountAlreadyExistsPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrAccountAlreadyExistsPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrAccountAlreadyExistsPage::OnCancel )
 
 ////@end CErrAccountAlreadyExistsPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrAccountAlreadyExistsPage constructors
- */
 
+ */
+ 
 CErrAccountAlreadyExistsPage::CErrAccountAlreadyExistsPage( )
-{
-}
 
+{
+
+}
+ 
 CErrAccountAlreadyExistsPage::CErrAccountAlreadyExistsPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrAccountAlreadyExists creator
- */
 
+ * CErrAccountAlreadyExists creator
+
+ */
+ 
 bool CErrAccountAlreadyExistsPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrAccountAlreadyExistsPage member initialisation
 ////@end CErrAccountAlreadyExistsPage member initialisation
-
+ 
 ////@begin CErrAccountAlreadyExistsPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -3264,15 +4368,21 @@ bool CErrAccountAlreadyExistsPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrAccountAlreadyExistsPage creation
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for CErrAccountAlreadyExists
- */
 
+ * Control creation for CErrAccountAlreadyExists
+
+ */
+ 
 void CErrAccountAlreadyExistsPage::CreateControls()
+
 {    
+
 ////@begin CErrAccountAlreadyExistsPage content construction
     CErrAccountAlreadyExistsPage* itemWizardPage104 = this;
 
@@ -3287,130 +4397,180 @@ void CErrAccountAlreadyExistsPage::CreateControls()
     itemBoxSizer105->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText108 = new wxStaticText;
-    itemStaticText108->Create( itemWizardPage104, wxID_STATIC, _("An account with that email address already exists\nand has a different password than the one you entered.\nPlease visit the project's web site and follow\nthe instructions there."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText108->Create( itemWizardPage104, wxID_STATIC, _("An account with that email address already exists\n\nand has a different password than the one you entered.\n\nPlease visit the project's web site and follow\n\nthe instructions there."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer105->Add(itemStaticText108, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrAccountAlreadyExistsPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrAccountAlreadyExistsPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrAccountAlreadyExistsPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrAccountAlreadyExistsPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
- * Get bitmap resources
- */
 
+ * Get bitmap resources
+
+ */
+ 
 wxBitmap CErrAccountAlreadyExistsPage::GetBitmapResource( const wxString& name )
+
 {
+
     // Bitmap retrieval
+
 ////@begin CErrAccountAlreadyExistsPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrAccountAlreadyExistsPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CErrAccountAlreadyExistsPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CErrAccountAlreadyExistsPage icon retrieval
     return wxNullIcon;
 ////@end CErrAccountAlreadyExistsPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
- */
 
+ */
+ 
 void CErrAccountAlreadyExistsPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
- */
 
+ */
+ 
 void CErrAccountAlreadyExistsPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
-
+  
 /*!
+
  * CErrAccountCreationDisabledPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrAccountCreationDisabledPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrAccountCreationDisabledPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrAccountCreationDisabledPage, wxWizardPage )
-
+ 
 ////@begin CErrAccountCreationDisabledPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrAccountCreationDisabledPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrAccountCreationDisabledPage::OnCancel )
 
 ////@end CErrAccountCreationDisabledPage event table entries
-
+ 
 END_EVENT_TABLE()
-
-
+  
 /*!
+
  * CErrAccountCreationDisabledPage constructors
- */
 
+ */
+ 
 CErrAccountCreationDisabledPage::CErrAccountCreationDisabledPage( )
-{
-}
 
+{
+
+}
+ 
 CErrAccountCreationDisabledPage::CErrAccountCreationDisabledPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrAccountCreationDisabledPage creator
- */
 
+ * CErrAccountCreationDisabledPage creator
+
+ */
+ 
 bool CErrAccountCreationDisabledPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrAccountCreationDisabledPage member initialisation
 ////@end CErrAccountCreationDisabledPage member initialisation
-
-
+  
 ////@begin CErrAccountCreationDisabledPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -3418,18 +4578,21 @@ bool CErrAccountCreationDisabledPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrAccountCreationDisabledPage creation
-
+ 
     return TRUE;
+
 }
-
-
+  
 /*!
+
  * Control creation for CErrAccountCreationDisabledPage
+
  */
-
+ 
 void CErrAccountCreationDisabledPage::CreateControls()
-{    
 
+{    
+ 
 ////@begin CErrAccountCreationDisabledPage content construction
     CErrAccountCreationDisabledPage* itemWizardPage109 = this;
 
@@ -3448,132 +4611,176 @@ void CErrAccountCreationDisabledPage::CreateControls()
     itemBoxSizer110->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrAccountCreationDisabledPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrAccountCreationDisabledPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrAccountCreationDisabledPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+
     }
-
+ 
     return NULL;
+
 }
-
-
+  
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrAccountCreationDisabledPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrAccountCreationDisabledPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrAccountCreationDisabledPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrAccountCreationDisabledPage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CErrAccountCreationDisabledPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CErrAccountCreationDisabledPage icon retrieval
     return wxNullIcon;
 ////@end CErrAccountCreationDisabledPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTCREATIONDISABLEDPAGE
- */
 
+ */
+ 
 void CErrAccountCreationDisabledPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTCREATIONDISABLEDPAGE
- */
 
+ */
+ 
 void CErrAccountCreationDisabledPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
-
+  
 /*!
+
  * CErrProxyInfoPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrProxyInfoPage, wxWizardPage )
-
-
+  
 /*!
+
  * CErrProxyInfoPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrProxyInfoPage, wxWizardPage )
-
+ 
 ////@begin CErrProxyInfoPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrProxyInfoPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrProxyInfoPage::OnCancel )
 
 ////@end CErrProxyInfoPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrProxyInfoPage constructors
- */
 
+ */
+ 
 CErrProxyInfoPage::CErrProxyInfoPage( )
-{
-}
 
+{
+
+}
+ 
 CErrProxyInfoPage::CErrProxyInfoPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrProxyInfoPage creator
- */
 
+ * CErrProxyInfoPage creator
+
+ */
+ 
 bool CErrProxyInfoPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrProxyInfoPage member initialisation
 ////@end CErrProxyInfoPage member initialisation
-
-
+  
 ////@begin CErrProxyInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -3581,17 +4788,21 @@ bool CErrProxyInfoPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrProxyInfoPage creation
-
+ 
     return TRUE;
+
 }
-
-
+  
 /*!
- * Control creation for CErrProxyInfoPage
- */
 
+ * Control creation for CErrProxyInfoPage
+
+ */
+ 
 void CErrProxyInfoPage::CreateControls()
+
 {    
+
 ////@begin CErrProxyInfoPage content construction
     CErrProxyInfoPage* itemWizardPage114 = this;
 
@@ -3604,109 +4815,145 @@ void CErrProxyInfoPage::CreateControls()
     itemBoxSizer115->Add(itemStaticText116, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText117 = new wxStaticText;
-    itemStaticText117->Create( itemWizardPage114, wxID_STATIC, _("We were unable to communicate with the project\nor other web sites.\nOften this means that you are using a proxy server,\nand you need to tell us about it.\n\nClick Next to do proxy configuration."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText117->Create( itemWizardPage114, wxID_STATIC, _("We were unable to communicate with the project\n\nor other web sites.\n\nOften this means that you are using a proxy server,\n\nand you need to tell us about it.\n\n\n\nClick Next to do proxy configuration."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer115->Add(itemStaticText117, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer115->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProxyInfoPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxyInfoPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
+
 }
-
-
+  
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxyInfoPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-
+ 
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYHTTPPAGE);
+
     }
+
     return NULL;
+
 }
-
-
+  
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrProxyInfoPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrProxyInfoPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrProxyInfoPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrProxyInfoPage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CErrProxyInfoPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CErrProxyInfoPage icon retrieval
     return wxNullIcon;
 ////@end CErrProxyInfoPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
- */
 
+ */
+ 
 void CErrProxyInfoPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
- */
 
+ */
+ 
 void CErrProxyInfoPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
-
+  
 /*!
+
  * CErrProxyHTTPPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrProxyHTTPPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrProxyHTTPPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrProxyHTTPPage, wxWizardPage )
-
+ 
 ////@begin CErrProxyHTTPPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrProxyHTTPPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrProxyHTTPPage::OnCancel )
@@ -3714,30 +4961,39 @@ BEGIN_EVENT_TABLE( CErrProxyHTTPPage, wxWizardPage )
     EVT_BUTTON( ID_HTTPAUTODETECT, CErrProxyHTTPPage::OnAutodetectClick )
 
 ////@end CErrProxyHTTPPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrProxyHTTPPage constructors
- */
 
+ */
+ 
 CErrProxyHTTPPage::CErrProxyHTTPPage( )
-{
-}
 
+{
+
+}
+ 
 CErrProxyHTTPPage::CErrProxyHTTPPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
-
+  
 /*!
+
  * CErrProxyHTTPPage creator
+
  */
-
+ 
 bool CErrProxyHTTPPage::Create( wxWizard* parent )
-{
 
+{
+ 
 ////@begin CErrProxyHTTPPage member initialisation
     m_ProxyHTTPServerStaticCtrl = NULL;
     m_ProxyHTTPServerCtrl = NULL;
@@ -3748,8 +5004,7 @@ bool CErrProxyHTTPPage::Create( wxWizard* parent )
     m_ProxyHTTPPasswordStaticCtrl = NULL;
     m_ProxyHTTPPasswordCtrl = NULL;
 ////@end CErrProxyHTTPPage member initialisation
-
-
+  
 ////@begin CErrProxyHTTPPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -3757,17 +5012,21 @@ bool CErrProxyHTTPPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrProxyHTTPPage creation
-
+ 
     return TRUE;
+
 }
-
-
+  
 /*!
- * Control creation for CErrProxyHTTPPage
- */
 
+ * Control creation for CErrProxyHTTPPage
+
+ */
+ 
 void CErrProxyHTTPPage::CreateControls()
+
 {    
+
 ////@begin CErrProxyHTTPPage content construction
     CErrProxyHTTPPage* itemWizardPage119 = this;
 
@@ -3780,7 +5039,7 @@ void CErrProxyHTTPPage::CreateControls()
     itemBoxSizer120->Add(itemStaticText121, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText122 = new wxStaticText;
-    itemStaticText122->Create( itemWizardPage119, wxID_STATIC, _("If you're using an HTTP proxy, enter its info here.\nIf you're not sure, click Autodetect."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText122->Create( itemWizardPage119, wxID_STATIC, _("If you're using an HTTP proxy, enter its info here.\n\nIf you're not sure, click Autodetect."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer120->Add(itemStaticText122, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer120->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
@@ -3835,106 +5094,153 @@ void CErrProxyHTTPPage::CreateControls()
     m_ProxyHTTPUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPUsername) );
     m_ProxyHTTPPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPPassword) );
 ////@end CErrProxyHTTPPage content construction
-}
 
+}
+ 
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxyHTTPPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxyHTTPPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-
+ 
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYSOCKSPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrProxyHTTPPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrProxyHTTPPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrProxyHTTPPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrProxyHTTPPage bitmap retrieval
+
 }
-
+ 
 /*!
- * Get icon resources
- */
 
+ * Get icon resources
+
+ */
+ 
 wxIcon CErrProxyHTTPPage::GetIconResource( const wxString& name )
+
 {
+
     // Icon retrieval
+
 ////@begin CErrProxyHTTPPage icon retrieval
     return wxNullIcon;
 ////@end CErrProxyHTTPPage icon retrieval
-}
 
+}
+ 
 /*!
+
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT
- */
 
+ */
+ 
 void CErrProxyHTTPPage::OnAutodetectClick( wxCommandEvent& event )
+
 {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE
- */
 
+ */
+ 
 void CErrProxyHTTPPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
+
 }
-
-
+  
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE
- */
 
+ */
+ 
 void CErrProxyHTTPPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CErrProxySOCKSPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrProxySOCKSPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrProxySOCKSPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrProxySOCKSPage, wxWizardPage )
-
+ 
 ////@begin CErrProxySOCKSPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrProxySOCKSPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrProxySOCKSPage::OnCancel )
@@ -3942,28 +5248,39 @@ BEGIN_EVENT_TABLE( CErrProxySOCKSPage, wxWizardPage )
     EVT_BUTTON( ID_SOCKSAUTODETECT, CErrProxySOCKSPage::OnAutodetectClick )
 
 ////@end CErrProxySOCKSPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrProxySOCKSPage constructors
- */
 
+ */
+ 
 CErrProxySOCKSPage::CErrProxySOCKSPage( )
-{
-}
 
+{
+
+}
+ 
 CErrProxySOCKSPage::CErrProxySOCKSPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrProxyInfoPage creator
- */
 
+ * CErrProxyInfoPage creator
+
+ */
+ 
 bool CErrProxySOCKSPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrProxySOCKSPage member initialisation
     m_ProxySOCKSServerStaticCtrl = NULL;
     m_ProxySOCKSServerCtrl = NULL;
@@ -3974,8 +5291,7 @@ bool CErrProxySOCKSPage::Create( wxWizard* parent )
     m_ProxySOCKSPasswordStaticCtrl = NULL;
     m_ProxySOCKSPasswordCtrl = NULL;
 ////@end CErrProxySOCKSPage member initialisation
-
-
+  
 ////@begin CErrProxySOCKSPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -3983,16 +5299,21 @@ bool CErrProxySOCKSPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrProxySOCKSPage creation
-
+ 
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for CErrProxyInfoPage
- */
 
+ * Control creation for CErrProxyInfoPage
+
+ */
+ 
 void CErrProxySOCKSPage::CreateControls()
+
 {    
+
 ////@begin CErrProxySOCKSPage content construction
     CErrProxySOCKSPage* itemWizardPage135 = this;
 
@@ -4005,7 +5326,7 @@ void CErrProxySOCKSPage::CreateControls()
     itemBoxSizer136->Add(itemStaticText137, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText138 = new wxStaticText;
-    itemStaticText138->Create( itemWizardPage135, wxID_STATIC, _("If you're using a SOCKS proxy, enter its info here.\nIf you're not sure, click Autodetect.\n"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText138->Create( itemWizardPage135, wxID_STATIC, _("If you're using a SOCKS proxy, enter its info here.\n\nIf you're not sure, click Autodetect.\n\n"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer136->Add(itemStaticText138, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer136->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
@@ -4060,137 +5381,194 @@ void CErrProxySOCKSPage::CreateControls()
     m_ProxySOCKSUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSUsername) );
     m_ProxySOCKSPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSPassword) );
 ////@end CErrProxySOCKSPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxySOCKSPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-}
 
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxySOCKSPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-
+ 
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYCOMPLETIONPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrProxySOCKSPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrProxySOCKSPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrProxySOCKSPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrProxySOCKSPage bitmap retrieval
+
 }
-
+ 
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CErrProxySOCKSPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CErrProxySOCKSPage icon retrieval
     return wxNullIcon;
 ////@end CErrProxySOCKSPage icon retrieval
+
 }
-
-
+  
 /*!
+
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
- */
 
+ */
+ 
 void CErrProxySOCKSPage::OnAutodetectClick( wxCommandEvent& event )
+
 {
-    event.Skip();
-}
 
+    event.Skip();
+
+}
+ 
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE
- */
 
+ */
+ 
 void CErrProxySOCKSPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE
- */
 
+ */
+ 
 void CErrProxySOCKSPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CErrProxyComplationPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrProxyComplationPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrProxyComplationPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrProxyComplationPage, wxWizardPage )
-
+ 
 ////@begin CErrProxyComplationPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CErrProxyComplationPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CErrProxyComplationPage::OnCancel )
 
 ////@end CErrProxyComplationPage event table entries
-
+ 
 END_EVENT_TABLE()
-
+ 
 /*!
+
  * CErrProxyComplationPage constructors
- */
 
+ */
+ 
 CErrProxyComplationPage::CErrProxyComplationPage( )
-{
-}
 
+{
+
+}
+ 
 CErrProxyComplationPage::CErrProxyComplationPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrProxyComplationPage creator
- */
 
+ * CErrProxyComplationPage creator
+
+ */
+ 
 bool CErrProxyComplationPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrProxyComplationPage member initialisation
 ////@end CErrProxyComplationPage member initialisation
-
+ 
 ////@begin CErrProxyComplationPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -4198,16 +5576,21 @@ bool CErrProxyComplationPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrProxyComplationPage creation
-
+ 
     return TRUE;
+
 }
-
+ 
 /*!
- * Control creation for CErrProxyComplationPage
- */
 
+ * Control creation for CErrProxyComplationPage
+
+ */
+ 
 void CErrProxyComplationPage::CreateControls()
+
 {    
+
 ////@begin CErrProxyComplationPage content construction
     CErrProxyComplationPage* itemWizardPage151 = this;
 
@@ -4226,129 +5609,177 @@ void CErrProxyComplationPage::CreateControls()
     itemBoxSizer152->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProxyComplationPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxyComplationPage::GetPrev() const
+
 {
+
     return PAGE_TRANSITION_BACK;
-
+ 
 }
-
-
+  
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrProxyComplationPage::GetNext() const
+
 {
+
     if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
+
         // Cancel Event Detected
+
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-
+ 
     } else {
+
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
+
     }
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrProxyComplationPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrProxyComplationPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrProxyComplationPage bitmap retrieval
     return wxNullBitmap;
 ////@end CErrProxyComplationPage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CErrProxyComplationPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CErrProxyComplationPage icon retrieval
     return wxNullIcon;
 ////@end CErrProxyComplationPage icon retrieval
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE
- */
 
+ */
+ 
 void CErrProxyComplationPage::OnPageChanged( wxWizardEvent& event ) {
+
     event.Skip();
-}
 
+}
+ 
 /*!
+
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE
- */
 
+ */
+ 
 void CErrProxyComplationPage::OnCancel( wxWizardEvent& event ) {
+
     ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
+
 }
-
+ 
 /*!
+
  * CErrRefCountPage type definition
- */
 
+ */
+ 
 IMPLEMENT_DYNAMIC_CLASS( CErrRefCountPage, wxWizardPage )
-
+ 
 /*!
+
  * CErrRefCountPage event table definition
+
  */
-
+ 
 BEGIN_EVENT_TABLE( CErrRefCountPage, wxWizardPage )
-
+ 
 ////@begin CErrRefCountPage event table entries
 ////@end CErrRefCountPage event table entries
-
+ 
 END_EVENT_TABLE()
-
-
+  
 /*!
+
  * CErrRefCountPage constructors
- */
 
+ */
+ 
 CErrRefCountPage::CErrRefCountPage( )
-{
-}
 
+{
+
+}
+ 
 CErrRefCountPage::CErrRefCountPage( wxWizard* parent )
+
 {
+
     Create( parent );
+
 }
-
+ 
 /*!
- * CErrRefCountPage creator
- */
 
+ * CErrRefCountPage creator
+
+ */
+ 
 bool CErrRefCountPage::Create( wxWizard* parent )
+
 {
+
 ////@begin CErrRefCountPage member initialisation
 ////@end CErrRefCountPage member initialisation
-
-
+  
 ////@begin CErrRefCountPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -4356,17 +5787,21 @@ bool CErrRefCountPage::Create( wxWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CErrRefCountPage creation
-
+ 
     return TRUE;
+
 }
-
-
+  
 /*!
- * Control creation for CErrRefCountPage
- */
 
+ * Control creation for CErrRefCountPage
+
+ */
+ 
 void CErrRefCountPage::CreateControls()
+
 {    
+
 ////@begin CErrRefCountPage content construction
     CErrRefCountPage* itemWizardPage156 = this;
 
@@ -4385,7 +5820,7 @@ void CErrRefCountPage::CreateControls()
     itemBoxSizer157->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText161 = new wxStaticText;
-    itemStaticText161->Create( itemWizardPage156, wxID_STATIC, _("This page just increases the refcount of various bitmap resources\n\nso that DialogBlocks doesn't nuke the refences to them."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText161->Create( itemWizardPage156, wxID_STATIC, _("This page just increases the refcount of various bitmap resources\n\n\n\nso that DialogBlocks doesn't nuke the refences to them."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer157->Add(itemStaticText161, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer162 = new wxBoxSizer(wxVERTICAL);
@@ -4433,69 +5868,94 @@ void CErrRefCountPage::CreateControls()
     itemStaticBitmap169->Show(FALSE);
     itemBoxSizer162->Add(itemStaticBitmap169, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap170Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress09.xpm")));
+    wxBitmap itemStaticBitmap170Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress08.xpm")));
     wxStaticBitmap* itemStaticBitmap170 = new wxStaticBitmap;
     itemStaticBitmap170->Create( itemWizardPage156, wxID_STATIC, itemStaticBitmap170Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap170->Show(FALSE);
     itemBoxSizer162->Add(itemStaticBitmap170, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap171Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress10.xpm")));
+    wxBitmap itemStaticBitmap171Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress09.xpm")));
     wxStaticBitmap* itemStaticBitmap171 = new wxStaticBitmap;
     itemStaticBitmap171->Create( itemWizardPage156, wxID_STATIC, itemStaticBitmap171Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap171->Show(FALSE);
     itemBoxSizer162->Add(itemStaticBitmap171, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap172Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress11.xpm")));
+    wxBitmap itemStaticBitmap172Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress10.xpm")));
     wxStaticBitmap* itemStaticBitmap172 = new wxStaticBitmap;
     itemStaticBitmap172->Create( itemWizardPage156, wxID_STATIC, itemStaticBitmap172Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap172->Show(FALSE);
     itemBoxSizer162->Add(itemStaticBitmap172, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap173Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress12.xpm")));
+    wxBitmap itemStaticBitmap173Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress11.xpm")));
     wxStaticBitmap* itemStaticBitmap173 = new wxStaticBitmap;
     itemStaticBitmap173->Create( itemWizardPage156, wxID_STATIC, itemStaticBitmap173Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap173->Show(FALSE);
     itemBoxSizer162->Add(itemStaticBitmap173, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
+    wxBitmap itemStaticBitmap174Bitmap(itemWizardPage156->GetBitmapResource(wxT("res/wizprogress12.xpm")));
+    wxStaticBitmap* itemStaticBitmap174 = new wxStaticBitmap;
+    itemStaticBitmap174->Create( itemWizardPage156, wxID_STATIC, itemStaticBitmap174Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap174->Show(FALSE);
+    itemBoxSizer162->Add(itemStaticBitmap174, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
 ////@end CErrRefCountPage content construction
+
 }
-
-
+  
 /*!
+
  * Gets the previous page.
- */
 
+ */
+ 
 wxWizardPage* CErrRefCountPage::GetPrev() const
-{
-    return NULL;
-}
 
+{
+
+    return NULL;
+
+}
+ 
 /*!
+
  * Gets the next page.
- */
 
+ */
+ 
 wxWizardPage* CErrRefCountPage::GetNext() const
+
 {
+
     return NULL;
-}
 
+}
+ 
 /*!
+
  * Should we show tooltips?
- */
 
+ */
+ 
 bool CErrRefCountPage::ShowToolTips()
+
 {
+
     return TRUE;
+
 }
-
+ 
 /*!
+
  * Get bitmap resources
+
  */
-
+ 
 wxBitmap CErrRefCountPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
 
+{
+
+    // Bitmap retrieval
+ 
 ////@begin CErrRefCountPage bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
@@ -4532,6 +5992,11 @@ wxBitmap CErrRefCountPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(wizprogress07_xpm);
         return bitmap;
     }
+    else if (name == wxT("res/wizprogress08.xpm"))
+    {
+        wxBitmap bitmap(wizprogress08_xpm);
+        return bitmap;
+    }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
         wxBitmap bitmap(wizprogress09_xpm);
@@ -4554,18 +6019,23 @@ wxBitmap CErrRefCountPage::GetBitmapResource( const wxString& name )
     }
     return wxNullBitmap;
 ////@end CErrRefCountPage bitmap retrieval
+
 }
-
-
+  
 /*!
+
  * Get icon resources
+
  */
-
+ 
 wxIcon CErrRefCountPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
 
+{
+
+    // Icon retrieval
+ 
 ////@begin CErrRefCountPage icon retrieval
     return wxNullIcon;
 ////@end CErrRefCountPage icon retrieval
+
 }

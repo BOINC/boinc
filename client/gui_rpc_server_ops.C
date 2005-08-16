@@ -192,7 +192,9 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
 
 static void handle_project_attach_poll(char*, MIOFILE& fout) {
     fout.printf(
-        "<error_num>%d</error_num>\n",
+        "<attach_project_status>\n"
+        "    <error_num>%d</error_num>\n"
+        "</attach_project_status>\n",
         gstate.project_attach.error_num
     );
 }
@@ -529,7 +531,10 @@ static void handle_get_project_config(char* buf, MIOFILE&) {
 
 static void handle_get_project_config_poll(char*, MIOFILE& fout) {
     if (gstate.get_project_config_op.error_num) {
-        fout.printf("<error_num>%d</error_num>",
+        fout.printf(
+            "<project_config>\n"
+            "    <error_num>%d</error_num>\n"
+            "</project_config>\n",
             gstate.get_project_config_op.error_num
         );
     } else {
@@ -545,7 +550,10 @@ static void handle_lookup_account(char* buf, MIOFILE&) {
 
 static void handle_lookup_account_poll(char*, MIOFILE& fout) {
     if (gstate.lookup_account_op.error_num) {
-        fout.printf("<error_num>%d</error_num>",
+        fout.printf(
+            "<account_out>\n"
+            "    <error_num>%d</error_num>\n"
+            "</account_out>\n",
             gstate.lookup_account_op.error_num
         );
     } else {
@@ -561,7 +569,10 @@ static void handle_create_account(char* buf, MIOFILE&) {
 
 static void handle_create_account_poll(char*, MIOFILE& fout) {
     if (gstate.create_account_op.error_num) {
-        fout.printf("<error_num>%d</error_num>",
+        fout.printf(
+            "<account_out>\n"
+            "    <error_num>%d</error_num>\n"
+            "</account_out>\n",
             gstate.create_account_op.error_num
         );
     } else {
