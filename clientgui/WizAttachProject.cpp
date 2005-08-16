@@ -2920,247 +2920,147 @@ void CAttachProjectPage::OnCancel( wxWizardEvent& event ) {
 }
  
 /*!
-
  * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
-
  */
  
 void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
-
 {
-
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-
     ACCOUNT_IN* ai           = &((CWizAttachProject*)GetParent())->account_in;
-
     ACCOUNT_OUT* ao          = &((CWizAttachProject*)GetParent())->account_out;
-
     bool bPostNewEvent = true;
-
     int iReturnValue = 0;
-
     bool bSuccessfulCondition = false;
  
     wxASSERT(pDoc);
-
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
  
     switch(GetCurrentState()) {
-
         case ATTACHPROJECT_INIT:
-
             // Set initial bitmap
-
             StartProgress(m_AttachProjectProgress);
- 
+
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
-
             break;
-
         case ATTACHPROJECT_ACCOUNTQUERY_BEGIN:
-
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_EXECUTE);
-
             break;
-
         case ATTACHPROJECT_ACCOUNTQUERY_EXECUTE:
-
             // Attempt to create the account or reterieve the authenticator.
-
             ai->clear();
-
             ao->clear();
- 
+
             ai->url = ((CWizAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str();
- 
+
             if (!((CWizAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.IsEmpty()) {
-
                 ao->authenticator = ((CWizAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.c_str();
-
                 SetProjectCommunitcationsSucceeded(true);
-
             } else {
-
                 if (((CWizAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
-
                     if (!((CWizAttachProject*)GetParent())->project_config.uses_username) {
-
                         ai->email_addr = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-
                         ai->user_name = ::wxGetUserName().c_str();
-
                     } else {
-
                         ai->email_addr = wxT("");
-
                         ai->user_name = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-
                     }
-
                     ai->passwd = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
-
                     pDoc->rpc.create_account(*ai);
- 
+
                     // Wait until we are done processing the request.
-
                     iReturnValue = ERR_IN_PROGRESS;
-
                     while (ERR_IN_PROGRESS == iReturnValue) {
-
                         iReturnValue = pDoc->rpc.create_account_poll(*ao);
- 
+
                         IncrementProgress(m_AttachProjectProgress);
 
-                        
-
                         ::wxMilliSleep(500);
-
                         ::wxSafeYield(GetParent());
-
                     }
-
                 } else {
-
                     if (!((CWizAttachProject*)GetParent())->project_config.uses_username) {
-
                         ai->email_addr = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-
                     } else {
-
                         ai->user_name= ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-
                     }
-
                     ai->passwd = ((CWizAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
 
                     pDoc->rpc.lookup_account(*ai);
  
                     // Wait until we are done processing the request.
-
                     iReturnValue = ERR_IN_PROGRESS;
-
                     while (ERR_IN_PROGRESS == iReturnValue) {
-
                         iReturnValue = pDoc->rpc.lookup_account_poll(*ao);
- 
+
                         IncrementProgress(m_AttachProjectProgress);
 
-                        
-
                         ::wxMilliSleep(500);
-
                         ::wxSafeYield(GetParent());
-
                     }
-
                 }
  
                 if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
-
                     SetProjectCommunitcationsSucceeded(true);
-
                 } else {
-
                     SetProjectCommunitcationsSucceeded(false);
- 
                     if ((ERR_NONUNIQUE_EMAIL == iReturnValue) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
-
                         SetProjectAccountAlreadyExists(true);
-
                     } else {
-
                         SetProjectAccountAlreadyExists(false);
-
                     }
-
                 }
-
             }
- 
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
-
             break;
-
         case ATTACHPROJECT_ATTACHPROJECT_BEGIN:
-
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_EXECUTE);
-
             break;
-
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
+            if (GetProjectCommunitcationsSucceeded()) {
+                // Attempt to attach to the project.
+                pDoc->rpc.project_attach(
+                    ai->url.c_str(),
+                    ao->authenticator.c_str()
+                );
+     
+                // Wait until we are done processing the request.
+                iReturnValue = ERR_IN_PROGRESS;
+                while (ERR_IN_PROGRESS == iReturnValue) {
+                    iReturnValue = pDoc->rpc.project_attach_poll();
 
-            // Attempt to attach to the project.
+                    IncrementProgress(m_AttachProjectProgress);
 
-            pDoc->rpc.project_attach(
-
-                ai->url.c_str(),
-
-                ao->authenticator.c_str()
-
-            );
- 
-            // Wait until we are done processing the request.
-
-            iReturnValue = ERR_IN_PROGRESS;
-
-            while (ERR_IN_PROGRESS == iReturnValue) {
-
-                iReturnValue = pDoc->rpc.project_attach_poll();
- 
-                IncrementProgress(m_AttachProjectProgress);
-
-                        
-
-                ::wxMilliSleep(500);
-
-                ::wxSafeYield(GetParent());
-
-            }
- 
-            if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
-
-                SetProjectAttachSucceeded(true);
-
+                    ::wxMilliSleep(500);
+                    ::wxSafeYield(GetParent());
+                }
+     
+                if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+                    SetProjectAttachSucceeded(true);
+                } else {
+                    SetProjectAttachSucceeded(false);
+                }
             } else {
-
                 SetProjectAttachSucceeded(false);
-
             }
- 
             SetNextState(ATTACHPROJECT_CLEANUP);
-
             break;
-
         case ATTACHPROJECT_CLEANUP:
-
             SetNextState(ATTACHPROJECT_END);
-
             break;
-
         default:
-
             // Allow a glimps of what the result was before advancing to the next page.
-
             wxSleep(1);
-
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
- 
             bPostNewEvent = false;
-
             break;
-
     }
  
     Update();
  
     if (bPostNewEvent) {
-
         CAttachProjectPageEvent TransitionEvent(wxEVT_ATTACHPROJECT_STATECHANGE, this);
-
         AddPendingEvent(TransitionEvent);
-
     }
-
 }
   
 /*!

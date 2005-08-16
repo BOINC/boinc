@@ -10664,3 +10664,11 @@ David  16 Aug 2005
 		http_curl.C
 		net_xfer_curl.C
 		pers_file_xfer.C
+
+Rom    16 Aug 2005
+    - Keep the wizard from attempting to attach to a project when the account
+        create or lookup fails for some reason.
+
+    clientgui/
+        WizAttachProject.cpp, .h
+        
