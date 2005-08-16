@@ -519,7 +519,7 @@ bool HTTP_OP_SET::poll()
 {
 	// with libcurl you really just hand it up to the net_xfer_set level
 	//return net_xfers->poll();
-	return true;
+	return false;
 }
 
 // Remove an HTTP_OP from the set

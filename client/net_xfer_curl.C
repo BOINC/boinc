@@ -233,7 +233,9 @@ bool NET_XFER_SET::poll() {
 	// CMC probably don't need this loop in libcurl, the regular polling interval should suffice?
 //    while (1) {
         retval = do_select(bytes_xferred, 0.5);
-		action = (retval == 0);
+        if (retval) return false;
+        if (bytes_xferred ==0) return false;
+        return true;
 //        if (retval) break;
 //        if (bytes_xferred == 0) break;
 //        action = true;
@@ -276,7 +278,7 @@ int NET_XFER_SET::net_sleep(double x) {
 int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     int iNumMsg;
 	NET_XFER* nxf = NULL;
-    struct timeval tv;
+    //struct timeval tv;
     bool time_passed = false;
 	CURLMsg *pcurlMsg = NULL;
 
@@ -305,13 +307,20 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
 	int max_fd = 0, iRunning = 0;  // curl flags for max # of fds & # running queries
 	CURLMcode curlMErr;
 	CURLcode curlErr;
-    double_to_timeval(timeout, tv);
+    //double_to_timeval(timeout, tv);
 
 	// get the data waiting for transfer in or out
 	// note that I use timeout value so that we don't "hog" in this loop
-	while ( (curlMErr = curl_multi_perform(g_curlMulti, &iRunning)) ==
-		CURLM_CALL_MULTI_PERFORM
-			&& ((double) time(0) - (double) t) < timeout);
+    bool got_data = false;
+    while (1) {
+        curlMErr = curl_multi_perform(g_curlMulti, &iRunning);
+        if (curlMErr != CURLM_CALL_MULTI_PERFORM) break;
+        if (dtime() - gstate.now > timeout) break;
+        got_data = true;
+    }
+    if (!got_data) {
+        boinc_sleep(timeout);
+    }
 
 	// read messages from curl that may have come in from the above loop
 	while ( (pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg)) )

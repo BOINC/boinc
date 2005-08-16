@@ -10651,3 +10651,16 @@ Janus	16 Aug 2005
             /translations
                 en.po
 
+David  16 Aug 2005
+	- Fixed bug that caused partly downloaded files to be
+		treated as errors on retry.
+		PERS_FILE_XFER::start_xfer(): if verify_file() returns error,
+		set file status to FILE_NOT_PRESENT
+		(i.e. clear the error flag set by verify_file())
+	- Fixed some bugs in curl code that caused busy loop
+		(100% CPU) while transferring files
+
+	client/
+		http_curl.C
+		net_xfer_curl.C
+		pers_file_xfer.C

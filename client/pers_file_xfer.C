@@ -104,6 +104,8 @@ int PERS_FILE_XFER::start_xfer() {
             );
 
             return 0;
+        } else {
+            fip->status = FILE_NOT_PRESENT;
         }
     }
 
