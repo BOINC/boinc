@@ -10627,3 +10627,27 @@ Rom    15 Aug 2005
         wizprogress??.xpm (Added)
     clientgui/res/templates/
         wizprogress??.bmp (Added)
+
+Janus	16 Aug 2005
+    - Fixed some serious typos in top user listings causing the cache to mostly
+      be bypassed.
+    - Removed the criteria that a user must have been active in the past 7
+      days to be on the RAC lists. Some users only crunch one week per month 
+      but they may have large enough farms to actually get to the top list...
+      And it didnt work right with the caching mechanism because they may 
+      become inactive while still being in the cache.
+    - Added "translatability" to the top teams page and a title item to the
+      english language file.
+    - The start_team_table() function should also remember the team type when
+      linking to sorting by total/expavg credit.
+
+    /html
+	/user
+            top_teams.php
+            top_users.php
+        /inc
+            team.inc
+        /languages
+            /translations
+                en.po
+
