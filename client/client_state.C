@@ -397,8 +397,8 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         if (!activities_suspended && !network_suspended) {
             net_xfers->get_fdset(curl_fds);
         }
-        gui_rpcs.get_fdset(gui_rpc_fds);
-        all_fds.fdset_union(curl_fds, gui_rpc_fds);
+        all_fds = curl_fds;
+        gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(x, tv);
         n = select(
             all_fds.max_fd+1,

@@ -49,7 +49,7 @@ class GUI_RPC_CONN_SET {
 public:
     GUI_RPC_CONN_SET();
     char password[256];
-    void get_fdset(FDSET_GROUP&);
+    void get_fdset(FDSET_GROUP&, FDSET_GROUP&);
     void got_select(FDSET_GROUP&);
     int init();
 };

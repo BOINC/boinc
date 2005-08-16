@@ -195,21 +195,31 @@ static void show_connect_error(in_addr ia) {
     count = 0;
 }
 
-void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg) {
+void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg, FDSET_GROUP& all) {
     unsigned int i;
     GUI_RPC_CONN* gr;
 
     if (lsock < 0) return;
     for (i=0; i<gui_rpcs.size(); i++) {
         gr = gui_rpcs[i];
-        FD_SET(gr->sock, &fg.read_fds);
-        FD_SET(gr->sock, &fg.exc_fds);
+        int s = gr->sock;
+        FD_SET(s, &fg.read_fds);
+        FD_SET(s, &fg.exc_fds);
+        if (s > fg.max_fd) fg.max_fd = s;
+        if (s > fg.max_fd) fg.max_fd = s;
+
+        FD_SET(s, &all.read_fds);
+        FD_SET(s, &all.exc_fds);
+        if (s > all.max_fd) all.max_fd = s;
+        if (s > all.max_fd) all.max_fd = s;
     }
     FD_SET(lsock, &fg.read_fds);
+    if (lsock > fg.max_fd) fg.max_fd = lsock;
+    FD_SET(lsock, &all.read_fds);
+    if (lsock > all.max_fd) all.max_fd = lsock;
 }
 
 void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
-    int n = 0;
     int sock, retval;
     vector<GUI_RPC_CONN*>::iterator iter;
     GUI_RPC_CONN* gr;

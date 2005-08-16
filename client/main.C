@@ -284,7 +284,6 @@ static void init_core_client(int argc, char** argv) {
 
 int boinc_main_loop() {
     int retval;
-    double dt;
 
     retval = gstate.init();
     if (retval) {

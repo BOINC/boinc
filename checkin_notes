@@ -10705,3 +10705,16 @@ David  16 Aug 2005
         network.h
     sched/
         handle_request.C
+
+David  16 Aug 2005
+    - bug fixes to the above.
+        You can't easily take the union of two fd_sets on Windows,
+        so do it a different way.
+
+    client/
+        client_state.C
+        gui_rpc_server.C,h
+        main.C
+        net_xfer_curl.C
+    lib/
+        network.h

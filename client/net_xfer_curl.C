@@ -280,7 +280,7 @@ void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
     printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
-void NET_XFER_SET::got_select(FDSET_GROUP& fg, double timeout) {
+void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
 	NET_XFER* nxf = NULL;
     //struct timeval tv;
@@ -303,7 +303,6 @@ void NET_XFER_SET::got_select(FDSET_GROUP& fg, double timeout) {
         }
     }
 
-	int max_fd = 0;
     int iRunning = 0;  // curl flags for max # of fds & # running queries
 	CURLMcode curlMErr;
 	CURLcode curlErr;
@@ -412,11 +411,11 @@ void NET_XFER::update_speed() {
 }
 
 void NET_XFER::got_error() {
-    //
+    // TODO: which socket??
     error = ERR_IO;
     io_done = true;
     log_messages.printf(
-        CLIENT_MSG_LOG::DEBUG_NET_XFER, "IO error on socket %d\n", socket
+        CLIENT_MSG_LOG::DEBUG_NET_XFER, "IO error on socket\n"
     );
 }
 
