@@ -1305,6 +1305,7 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardEvent& event )
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE
  */
 void CProjectPropertiesPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachProject*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -1324,9 +1325,6 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
 
     switch(GetCurrentState()) {
         case PROJPROP_INIT:
-            // Change the cursor to an hourglass
-            ::wxBeginBusyCursor();
-
             StartProgress(m_ProjectPropertiesProgress);
 
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_BEGIN);
@@ -1345,7 +1343,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             while (ERR_IN_PROGRESS == iReturnValue) {
                 iReturnValue = pDoc->rpc.get_project_config_poll(*pc);
                 IncrementProgress(m_ProjectPropertiesProgress);
-                wxSleep(1);
+                
+                ::wxMilliSleep(250);
+                ::wxSafeYield(GetParent());
             }
 
             // We either successfully retrieved the project's account creation 
@@ -1397,7 +1397,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             while (ERR_IN_PROGRESS == iReturnValue) {
                 iReturnValue = pDoc->rpc.lookup_website_poll();
                 IncrementProgress(m_ProjectPropertiesProgress);
-                wxSleep(1);
+                
+                ::wxMilliSleep(250);
+                ::wxSafeYield(GetParent());
             }
 
             if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRYAHOOCOMM)) {
@@ -1419,7 +1421,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             while (ERR_IN_PROGRESS == iReturnValue) {
                 iReturnValue = pDoc->rpc.lookup_website_poll();
                 IncrementProgress(m_ProjectPropertiesProgress);
-                wxSleep(1);
+                
+                ::wxMilliSleep(250);
+                ::wxSafeYield(GetParent());
             }
 
             if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRGOOGLECOMM)) {
@@ -1451,9 +1455,6 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
-
-            // Change the cursor to a normal cursor
-            ::wxEndBusyCursor();
 
             bPostNewEvent = false;
             break;
@@ -2253,9 +2254,6 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
 
     switch(GetCurrentState()) {
         case ATTACHPROJECT_INIT:
-            // Change the cursor to an hourglass
-            ::wxBeginBusyCursor();
-
             // Set initial bitmap
             SetupProgressImage(m_ProjectCommunitcationsImageCtrl, m_iProjectCommunitcationsProgressImage);
 
@@ -2290,8 +2288,10 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
                     iReturnValue = ERR_IN_PROGRESS;
                     while (ERR_IN_PROGRESS == iReturnValue) {
                         iReturnValue = pDoc->rpc.create_account_poll(*ao);
-                        wxSleep(1);
-     
+
+                        ::wxMilliSleep(250);
+                        ::wxSafeYield(GetParent());
+
                         // Show a glimer of progress by incrementing the progress bitmap
                         IncrementProgressImage(m_ProjectCommunitcationsImageCtrl, m_iProjectCommunitcationsProgressImage);
                     }
@@ -2308,7 +2308,9 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
                     iReturnValue = ERR_IN_PROGRESS;
                     while (ERR_IN_PROGRESS == iReturnValue) {
                         iReturnValue = pDoc->rpc.lookup_account_poll(*ao);
-                        wxSleep(1);
+
+                        ::wxMilliSleep(250);
+                        ::wxSafeYield(GetParent());
 
                         // Show a glimer of progress by incrementing the progress bitmap
                         IncrementProgressImage(m_ProjectCommunitcationsImageCtrl, m_iProjectCommunitcationsProgressImage);
@@ -2345,7 +2347,9 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
             while (ERR_IN_PROGRESS == iReturnValue) {
                 iReturnValue = pDoc->rpc.project_attach_poll();
                 IncrementProgressImage(m_ProjectCommunitcationsImageCtrl, m_iProjectCommunitcationsProgressImage);
-                wxSleep(1);
+
+                ::wxMilliSleep(250);
+                ::wxSafeYield(GetParent());
             }
 
             if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
@@ -2363,9 +2367,6 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
-
-            // Change the cursor to a normal cursor
-            ::wxEndBusyCursor();
 
             bPostNewEvent = false;
             break;
