@@ -19,6 +19,30 @@
 #ifndef _BOINC_NETWORK_H_
 #define _BOINC_NETWORK_H_
 
+
+struct FDSET_GROUP {
+    fd_set read_fds;
+    fd_set write_fds;
+    fd_set exc_fds;
+    int max_fd;
+
+    void zero() {
+        FD_ZERO(&read_fds);
+        FD_ZERO(&write_fds);
+        FD_ZERO(&exc_fds);
+        max_fd = -1;
+    }
+    void fdset_union(FDSET_GROUP& g1, FDSET_GROUP& g2) {
+        max_fd = g1.max_fd>g2.max_fd?g1.max_fd:g2.max_fd;
+        zero();
+        for (int i=0; i<=max_fd; i++) {
+            if (FD_ISSET(i, &g1.read_fds)) FD_SET(i, &read_fds);
+            if (FD_ISSET(i, &g1.write_fds)) FD_SET(i, &write_fds);
+            if (FD_ISSET(i, &g1.exc_fds)) FD_SET(i, &exc_fds);
+        }
+    }
+};
+
 extern int resolve_hostname(char* hostname, int& ip_addr, char* msg);
 extern int boinc_socket(int& sock);
 extern int boinc_socket_asynch(int sock, bool asynch);

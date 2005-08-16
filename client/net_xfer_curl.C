@@ -222,6 +222,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
     return ERR_NOT_FOUND;
 }
 
+#if 0
 // Transfer data to/from active sockets.
 // Keep doing I/O until would block, or we hit rate limits,
 // or .5 second goes by
@@ -250,6 +251,7 @@ static void double_to_timeval(double x, timeval& t) {
     t.tv_usec = (int)(1000000*(x - (int)x));
 }
 
+
 // Wait at most x seconds for network I/O to become possible,
 // then do up to about .5 seconds of I/O.
 //
@@ -270,12 +272,15 @@ int NET_XFER_SET::net_sleep(double x) {
     }
     return 0;
 }
+#endif
 
-// do a select with the given timeout,
-// then do I/O on as many sockets as possible, subject to rate limits
-// Transfer at most one block per socket.
-//
-int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
+void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
+	CURLMcode curlMErr;
+	curlMErr = curl_multi_fdset(g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd);
+    printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
+}
+
+void NET_XFER_SET::got_select(FDSET_GROUP& fg, double timeout) {
     int iNumMsg;
 	NET_XFER* nxf = NULL;
     //struct timeval tv;
@@ -283,12 +288,6 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
 	CURLMsg *pcurlMsg = NULL;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-	bytes_transferred = 0;
-
-	if (!net_xfers.size()) {
-		boinc_sleep(timeout); // sleep a little, don't just return
-		return 1; // no pending or running net transactions
-	}
 
     // if a second has gone by, do rate-limit accounting
     //
@@ -304,10 +303,10 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
         }
     }
 
-	int max_fd = 0, iRunning = 0;  // curl flags for max # of fds & # running queries
+	int max_fd = 0;
+    int iRunning = 0;  // curl flags for max # of fds & # running queries
 	CURLMcode curlMErr;
 	CURLcode curlErr;
-    //double_to_timeval(timeout, tv);
 
 	// get the data waiting for transfer in or out
 	// note that I use timeout value so that we don't "hog" in this loop
@@ -317,9 +316,6 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
         if (curlMErr != CURLM_CALL_MULTI_PERFORM) break;
         if (dtime() - gstate.now > timeout) break;
         got_data = true;
-    }
-    if (!got_data) {
-        boinc_sleep(timeout);
     }
 
 	// read messages from curl that may have come in from the above loop
@@ -387,54 +383,6 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
 				boinc_delete_file(nxf->outfile);
 		}
 	}
-
-	// reset and get curl fds
-    FD_ZERO(&read_fds);
-    FD_ZERO(&write_fds);
-    FD_ZERO(&error_fds);
-
-	// "prime" the fdset for the next libcurl multi op 
-	curlMErr = curl_multi_fdset(g_curlMulti, &read_fds, &write_fds, &error_fds, &max_fd);
-
-	/* CMC - this is dumb, if data coming in, don't sleep on it!
-	// need to sleep any leftover time
-	double dSleepItOff = timeout - (double)(time(0) - t);
-	if (dSleepItOff > 0.0f)
-		boinc_sleep(dSleepItOff);
-		*/
-
-	return 0;
-
-	/* CMC obsolete
-	if (curlMErr != CURLM_OK) {
-		return ERR_SELECT; // something wrong
-	}
-	else if (max_fd == -1) { // no fd's, nothing to do!
-		up_active = down_active = false;
-		return retval;
-	}
-    // do a select on all libcurl handles
-	// http://curl.haxx.se/libcurl/c/curl_multi_fdset.html
-	timeval tv_curl;
-	tv_curl.tv_sec = 5;
-	tv_curl.tv_usec = 0;  // libcurl docs say use a small (single digit) # of seconds
-	n = select(max_fd+1, &read_fds, &write_fds, &error_fds, &tv_curl);
-	
-	switch (n) {
-		case -1:  // error on select
-			return ERR_SELECT; 
-			break;
-		case 0: 
-			return 1; 
-			break;
-		default:
-			break;
-	}
-
-	// at this point, libcurl should have done all the pending transfers
-	// now go interate net_xfers -- examine each one for status, errors, etc
-	return 1;
-	*/
 }
 
 // Return the NET_XFER object whose socket matches fd
@@ -447,96 +395,6 @@ NET_XFER* NET_XFER_SET::lookup_curl(CURL* pcurl)
     }
     return 0;
 }
-
-/*  CMC not needed for libcurl
-
-// transfer up to a block of data; return #bytes transferred
-//
-int NET_XFER::do_xfer(int& nbytes_transferred) {
-    // Leave these as signed ints so recv/send can return errors
-    int n, m, nleft;
-    bool would_block;
-    char buf[MAX_BLOCKSIZE];
-
-    nbytes_transferred = 0;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-
-    if (want_download) {
-#ifdef _WIN32
-        n = recv(socket, buf, blocksize, 0);
-#else
-        n = read(socket, buf, blocksize);
-#endif
-        scope_messages.printf("NET_XFER::do_xfer(): read %d bytes from socket %d\n", n, socket);
-        if (n == 0) {
-            io_done = true;
-            want_download = false;
-        } else if (n < 0) {
-            io_done = true;
-            error = ERR_READ;
-        } else {
-            nbytes_transferred += n;
-            bytes_xferred += n;
-            m = fwrite(buf, 1, n, file);
-            if (n != m) {
-                fprintf(stdout, "Error: incomplete disk write\n");
-                io_done = true;
-                error = ERR_FWRITE;
-            }
-        }
-    } else if (want_upload) {
-        // If we've sent the current contents of the buffer,
-        // read the next block
-        //
-        if (file_read_buf_len == file_read_buf_offset) {
-            m = fread(file_read_buf, 1, blocksize, file);
-            if (m == 0) {
-                want_upload = false;
-                io_done = true;
-                return 0;
-            } else if (m < 0) {
-                io_done = true;
-                error = ERR_FREAD;
-                return 0;
-            }
-            file_read_buf_len = m;
-            file_read_buf_offset = 0;
-        }
-        nleft = file_read_buf_len - file_read_buf_offset;
-        while (nleft) {
-#ifdef WIN32
-            n = send(socket, file_read_buf+file_read_buf_offset, nleft, 0);
-            would_block = (WSAGetLastError() == WSAEWOULDBLOCK);
-#else
-            n = write(socket, file_read_buf+file_read_buf_offset, nleft);
-            would_block = (errno == EAGAIN);
-#endif
-            if (would_block && n < 0) n = 0;
-            scope_messages.printf(
-                "NET_XFER::do_xfer(): wrote %d bytes to socket %d%s\n",
-                n, socket, (would_block?", would have blocked":"")
-            );
-            if (n < 0 && !would_block) {
-                error = ERR_WRITE;
-                io_done = true;
-                break;
-            }
-
-            file_read_buf_offset += n;
-            nbytes_transferred += n;
-            bytes_xferred += n;
-
-            if (n < nleft || would_block) {
-                break;
-            }
-
-            nleft -= n;
-        }
-    }
-    return 0;
-}
-*/
 
 // Update the transfer speed for this NET_XFER
 // called on every I/O

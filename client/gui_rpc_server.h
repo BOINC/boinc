@@ -17,6 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#include "network.h"
+
 class GUI_RPC_CONN {
 public:
     int sock;
@@ -47,7 +49,8 @@ class GUI_RPC_CONN_SET {
 public:
     GUI_RPC_CONN_SET();
     char password[256];
-    bool poll();
+    void get_fdset(FDSET_GROUP&);
+    void got_select(FDSET_GROUP&);
     int init();
 };
 

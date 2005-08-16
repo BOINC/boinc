@@ -513,6 +513,12 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     // loop over results reported by client
     //
+    // A note about acks: we send an ack for result received if either
+    // 1) there's some problem with it (wrong state, host, not in DB) or
+    // 2) we update it successfully.
+    // In other words, the only time we don't ack a result is when
+    // it looks OK but the update failed.
+    //
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
 

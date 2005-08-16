@@ -195,29 +195,31 @@ static void show_connect_error(in_addr ia) {
     count = 0;
 }
 
-bool GUI_RPC_CONN_SET::poll() {
+void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg) {
+    unsigned int i;
+    GUI_RPC_CONN* gr;
+
+    if (lsock < 0) return;
+    for (i=0; i<gui_rpcs.size(); i++) {
+        gr = gui_rpcs[i];
+        FD_SET(gr->sock, &fg.read_fds);
+        FD_SET(gr->sock, &fg.exc_fds);
+    }
+    FD_SET(lsock, &fg.read_fds);
+}
+
+void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     int n = 0;
     unsigned int i;
     fd_set read_fds, error_fds;
     int sock, retval;
     vector<GUI_RPC_CONN*>::iterator iter;
     GUI_RPC_CONN* gr;
-    struct timeval tv;
     bool is_local = false;
 
-    if (lsock < 0) return false;
-    FD_ZERO(&read_fds);
-    FD_ZERO(&error_fds);
-    FD_SET(lsock, &read_fds);
-    for (i=0; i<gui_rpcs.size(); i++) {
-        gr = gui_rpcs[i];
-        FD_SET(gr->sock, &read_fds);
-        FD_SET(gr->sock, &error_fds);
-    }
+    if (lsock < 0) return;
 
-    memset(&tv, 0, sizeof(tv));
-    n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
-    if (FD_ISSET(lsock, &read_fds)) {
+    if (FD_ISSET(lsock, &fg.read_fds)) {
         struct sockaddr_in addr;
 
         boinc_socklen_t addr_len = sizeof(addr);
@@ -263,7 +265,7 @@ bool GUI_RPC_CONN_SET::poll() {
     iter = gui_rpcs.begin();
     while (iter != gui_rpcs.end()) {
         gr = *iter;
-        if (FD_ISSET(gr->sock, &error_fds)) {
+        if (FD_ISSET(gr->sock, &fg.exc_fds)) {
             delete gr;
             gui_rpcs.erase(iter);
         } else {
@@ -273,7 +275,7 @@ bool GUI_RPC_CONN_SET::poll() {
     iter = gui_rpcs.begin();
     while (iter != gui_rpcs.end()) {
         gr = *iter;
-        if (FD_ISSET(gr->sock, &read_fds)) {
+        if (FD_ISSET(gr->sock, &fg.read_fds)) {
             retval = gr->handle_rpc();
             if (retval) {
                 delete gr;
@@ -283,7 +285,6 @@ bool GUI_RPC_CONN_SET::poll() {
         }
         iter++;
     }
-    return (n > 0);
 }
 
 const char *BOINC_RCSID_88dd75dd85 = "$Id$";

@@ -373,23 +373,53 @@ int CLIENT_STATE::init() {
     return 0;
 }
 
-// sleep up to x seconds,
-// but if network I/O becomes possible,
-// wake up and do as much as limits allow.
-// If suspended, just sleep x seconds.
-// This gets called from the Win GUI to allow high network throughput.
-// NOTE: when a socket is connecting, this gets called repeatedly,
-// because the NetActivity messages seems to get sent repeatedly.
-// This is inefficient but not a problem (I guess)
+static void double_to_timeval(double x, timeval& t) {
+    t.tv_sec = (int)x;
+    t.tv_usec = (int)(1000000*(x - (int)x));
+}
+
+FDSET_GROUP curl_fds;
+FDSET_GROUP gui_rpc_fds;
+FDSET_GROUP all_fds;
+
+// Spend x seconds either doing I/O (if possible) or sleeping.
 //
-int CLIENT_STATE::net_sleep(double x) {
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-    scope_messages.printf("CLIENT_STATE::net_sleep(%f)\n", x);
-    if (activities_suspended || network_suspended) {
-        boinc_sleep(x);
-        return 0;
-    } else {
-        return net_xfers->net_sleep(x);
+int CLIENT_STATE::do_io_or_sleep(double x) {
+    int n;
+    struct timeval tv;
+    now = dtime();
+    double end_time = now + x;
+    bool did_something = false;
+
+    while (1) {
+        curl_fds.zero();
+        gui_rpc_fds.zero();
+        if (!activities_suspended && !network_suspended) {
+            net_xfers->get_fdset(curl_fds);
+        }
+        gui_rpcs.get_fdset(gui_rpc_fds);
+        all_fds.fdset_union(curl_fds, gui_rpc_fds);
+        double_to_timeval(x, tv);
+        n = select(
+            all_fds.max_fd+1,
+            &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
+            &tv
+        );
+        printf("select in %d out %d\n", all_fds.max_fd, n);
+        if (n==0) break;
+        if (!activities_suspended && !network_suspended) {
+            net_xfers->got_select(all_fds, x);
+        }
+        gui_rpcs.got_select(all_fds);
+        did_something = true;
+
+        now = dtime();
+        if (now > end_time) break;
+        x = end_time - now;
+    }
+    // curl likes to be 
+    if (!did_something) {
+        net_xfers->got_select(all_fds, x);
     }
 }
 
@@ -399,12 +429,12 @@ int CLIENT_STATE::net_sleep(double x) {
             scope_messages.printf("CLIENT_STATE::do_something(): active task: " #name "\n"); \
         } } while(0)
 
-// do_something polls each of the client's finite-state machine layers,
+// Poll the client's finite-state machines
 // possibly triggering state transitions.
 // Returns true if something happened
 // (in which case should call this again immediately)
 //
-bool CLIENT_STATE::do_something() {
+bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, suspend_reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
     static bool tasks_restarted = false;
@@ -454,7 +484,6 @@ bool CLIENT_STATE::do_something() {
         if (active_tasks.is_task_executing()) {
             POLL_ACTION(active_tasks, active_tasks.poll);
         }
-        return gui_rpcs.poll();
     }
 
     check_suspend_network(suspend_reason);
@@ -483,8 +512,26 @@ bool CLIENT_STATE::do_something() {
     // and handle_finished_apps() must be done before schedule_cpus()
 
     ss_logic.poll();
+    POLL_ACTION(active_tasks           , active_tasks.poll      );
+    POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
+    POLL_ACTION(garbage_collect        , garbage_collect        );
+    POLL_ACTION(update_results         , update_results         );
+    POLL_ACTION(gui_http               , gui_http.poll          );
+    if (!activities_suspended && !network_suspended) {
+        net_stats.poll(*net_xfers);
+        POLL_ACTION(file_xfers             , file_xfers->poll       );
+        POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
+        POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
+    }
+    POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
+    if (!activities_suspended) {
+        POLL_ACTION(schedule_cpus          , schedule_cpus          );
+    }
+    if (!activities_suspended && !network_suspended) {
+        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
+    }
+#if 0
     if (activities_suspended) {
-        scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
         //POLL_ACTION(data_manager           , data_manager_poll      );
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
@@ -495,7 +542,6 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
         POLL_ACTION(gui_http                , gui_http.poll          );
     } else if (network_suspended) {
-        scope_messages.printf("CLIENT_STATE::do_something(): network suspended\n");
         //POLL_ACTION(data_manager           , data_manager_poll      );
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
@@ -525,7 +571,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
         POLL_ACTION(gui_http                , gui_http.poll          );
     }
-
+#endif
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_ERROR,

@@ -307,13 +307,10 @@ int boinc_main_loop() {
     }
 
     while (1) {
-        if (!gstate.do_something()) {
-            dt = dtime();
-            gstate.net_sleep(0.1);
-            dt = dtime() - dt;
-            log_messages.printf(CLIENT_MSG_LOG::DEBUG_TIME, "SLEPT %f SECONDS\n", dt);
-            fflush(stdout);
+        if (!gstate.poll_slow_events()) {
+            gstate.do_io_or_sleep(1.0);
         }
+        fflush(stdout);
 
         if (gstate.time_to_exit()) {
             msg_printf(NULL, MSG_INFO, "Time to exit");

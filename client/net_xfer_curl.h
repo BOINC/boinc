@@ -27,13 +27,14 @@
 #include <time.h>
 #include <vector>
 #endif
+#include <curl/curl.h>
+
+
+#include "network.h"
 
 #ifndef _MAX_PATH
 #define _MAX_PATH 256
 #endif 
-
-// now include the curl library: originally from http://curl.haxx.se/libcurl
-#include <curl/curl.h>
 
 extern CURLM* g_curlMulti; // the global libcurl multi handle 
 
@@ -139,9 +140,14 @@ public:
     int last_time;
     int insert(NET_XFER*);
     int remove(NET_XFER*);
+
+    void get_fdset(FDSET_GROUP&);
+    void got_select(FDSET_GROUP&, double);
+#if 0
     bool poll();
     int net_sleep(double);
     int do_select(double& bytes_transferred, double timeout);
+#endif
     NET_XFER* lookup_curl(CURL* pcurl);   // lookup by easycurl handle
     void check_active(bool&, bool&);
 };

@@ -10672,3 +10672,36 @@ Rom    16 Aug 2005
     clientgui/
         WizAttachProject.cpp, .h
         
+David  16 Aug 2005
+    - core client: use of libcurl is now default on Unix
+        NOTE: curl version 7.14.0 or higher is recommended.
+        7.10 does not work.
+        Install it in /usr, not /usr/local
+    - core client: change the polling structure for
+        lower latency for GUI RPCs and higher throughput for file xfers.
+        Polling for non-time-critical changes is done in
+        CLIENT_STATE::poll_slow_events(),
+        which is called once per second
+        (and repeatedly, if anything changes).
+        All I/O activites are done in CLIENT_STATE::do_io_or_sleep(x),
+        which returns after about x seconds,
+        doing as much I/O as it can in the process.
+        It does a select() across all descriptors (GUI RPC and HTTP)
+        and this is the only form of sleep that it does.
+
+        Change to the GUI_RPC and NET_XFER layers:
+        instead of a poll() function, they now export
+
+        get_fdset(): returns the set of descriptors in use
+        got_select(): does I/O based on a set of active descriptors
+
+    client/
+        Makefile.am
+        client_state.C,h
+        gui_rpc_server.C,h
+        main.C
+        net_xfer_curl.C,h
+    lib/
+        network.h
+    sched/
+        handle_request.C

@@ -187,14 +187,11 @@ public:
     CLIENT_STATE();
     void show_host_info();
     int init();
-    bool do_something();
-        // Initiates and completes actions (file transfers, process executions)
+    bool poll_slow_events();
         // Never blocks.
         // Returns true if it actually did something,
         // in which case it should be called again immediately.
-    int net_sleep(double dt);
-        // sleeps until either dt seconds have elapsed,
-        // or until there's network activity.
+    int do_io_or_sleep(double dt);
     bool time_to_exit();
     PROJECT* lookup_project(const char*);
     APP* lookup_app(PROJECT*, const char*);
