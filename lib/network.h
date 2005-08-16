@@ -17,11 +17,10 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <string.h>
-
 #ifndef _BOINC_NETWORK_H_
 #define _BOINC_NETWORK_H_
 
+#include <string.h>
 
 struct FDSET_GROUP {
     fd_set read_fds;
