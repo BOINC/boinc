@@ -16,6 +16,9 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+#include <string.h>
+
 #ifndef _BOINC_NETWORK_H_
 #define _BOINC_NETWORK_H_
 
