@@ -298,7 +298,11 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 			// (the calling program will have to check/parse that)
 			// but it at least means that the server operation
 			// went through fine
-			nxf->http_op_retval = nxf->response - 200;  
+            if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
+                nxf->http_op_retval = nxf->response;
+            } else {
+			    nxf->http_op_retval = nxf->response - 200;  
+            }
 
 			if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {
 				// for a successfully completed request on a "post2" --

@@ -10755,3 +10755,10 @@ Rom    16 Aug 2005
     clientgui/
         BOINCGUI.pjd
         WizAttachProject.cpp, .h
+
+Rom    17 Aug 2004
+    - Only subtract 200 from the HTTP status code when things are okay,
+        otherwise return the http status code from the project server.
+        
+    client/
+        net_xfer_curl.C
