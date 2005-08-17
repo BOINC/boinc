@@ -68,6 +68,15 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
+    <td><a href=http://curl.haxx.se/>libcurl</a> version 7.14.0 or higher
+    </td>
+    <td><br></td>
+    <td>X</td>
+    <td><br></td>
+    <td><br></td>
+    <td><br></td>
+</tr>
+<tr>
     <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.6
     </td>
     <td><br></td>

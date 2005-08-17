@@ -225,6 +225,7 @@ private:
 
 // --------------- cs_account.C:
 public:
+    bool have_tentative_project;
     int add_project(const char* master_url, const char* authenticator);
 private:
     int parse_account_files();

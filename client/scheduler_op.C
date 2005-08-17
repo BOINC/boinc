@@ -473,6 +473,7 @@ bool SCHEDULER_OP::poll() {
                         cur_proj->attach_failed(ERR_ATTACH_FAIL_BAD_KEY);
                     } else {
                         cur_proj->tentative = false;
+                        gstate.have_tentative_project = false;
                         retval = cur_proj->write_account_file();
                         if (retval) {
                             cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);

@@ -382,6 +382,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     strcpy(project->authenticator, auth);
 
     project->tentative = true;
+    gstate.have_tentative_project = true;
     retval = project->write_account_file();
     if (retval) return retval;
 
@@ -408,6 +409,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
 //
 void PROJECT::attach_failed(int error_num) {
     gstate.project_attach.error_num = error_num;
+    gstate.have_tentative_project = false;
     switch(error_num){
     case ERR_ATTACH_FAIL_INIT:
         msg_printf(this, MSG_ERROR,

@@ -10762,3 +10762,14 @@ Rom    17 Aug 2004
         
     client/
         net_xfer_curl.C
+
+David  17 Aug 2005
+    - skip 5-second polling period in CLIENT_STATE::schedule_rpc_poll()
+        if there's a tentative project.
+        This is to make project attach go as fast as possible.
+
+    client/
+        client_state.C,h
+        cs_account.C
+        cs_scheduler.C
+        scheduler_op.C

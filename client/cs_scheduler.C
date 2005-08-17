@@ -620,7 +620,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     bool action=false;
     static double last_time=0;
 
-    if (gstate.now - last_time < 5.0) return false;
+    if (!have_tentative_project && gstate.now - last_time < 5.0) return false;
     last_time = gstate.now;
 
     switch(scheduler_op->state) {

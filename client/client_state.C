@@ -123,6 +123,7 @@ CLIENT_STATE::CLIENT_STATE() {
     must_schedule_cpus = true;
     want_network_flag = false;
     no_gui_rpc = false;
+    have_tentative_project = false;
 }
 
 #if 0
