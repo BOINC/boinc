@@ -10747,3 +10747,11 @@ David  16 Aug 2005
 		wingui_mainwindow.cpp
 	win_build/
 		boinc_gui.vcproj
+
+Rom    16 Aug 2005
+    - CR/LF cleanup in wizard
+    - Add Account not found page.
+    
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h

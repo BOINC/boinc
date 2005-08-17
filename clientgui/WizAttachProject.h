@@ -53,6 +53,7 @@ class CCompletionErrorPage;
 class CErrProjectNotDetectedPage;
 class CErrProjectUnavailablePage;
 class CErrNoInternetConnectionPage;
+class CErrAccountNotFoundPage;
 class CErrAccountAlreadyExistsPage;
 class CErrAccountCreationDisabledPage;
 class CErrProxyInfoPage;
@@ -104,6 +105,7 @@ class CErrRefCountPage;
 #define ID_ERRPROJECTNOTDETECTEDPAGE 10007
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
+#define ID_ERRACCOUNTNOTFOUNDPAGE 10008
 #define ID_ERRACCOUNTALREADYEXISTSPAGE 10051
 #define ID_ERRACCOUNTCREATIONDISABLEDPAGE 10056
 #define ID_ERRPROXYINFOPAGE 10060
@@ -153,10 +155,11 @@ class CErrRefCountPage;
 #define WIZDEBUG_ERRGOOGLECOMM                        0x00000008
 #define WIZDEBUG_ERRNETDETECTION                      0x00000010
 #define WIZDEBUG_ERRPROJECTCOMM                       0x00000020
-#define WIZDEBUG_ERRACCOUNTALREADYEXISTS              0x00000040
-#define WIZDEBUG_ERRACCOUNTCREATIONDISABLED           0x00000080
-#define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000100
-#define WIZDEBUG_ERRPROJECTATTACH                     0x00000200
+#define WIZDEBUG_ERRACCOUNTNOTFOUND                   0x00000040
+#define WIZDEBUG_ERRACCOUNTALREADYEXISTS              0x00000080
+#define WIZDEBUG_ERRACCOUNTCREATIONDISABLED           0x00000100
+#define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000200
+#define WIZDEBUG_ERRPROJECTATTACH                     0x00000400
 
 
 /*!
@@ -242,6 +245,7 @@ public:
     CErrProjectNotDetectedPage* m_ErrProjectNotDetectedPage;
     CErrProjectUnavailablePage* m_ErrProjectUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
+    CErrAccountNotFoundPage* m_ErrAccountNotFoundPage;
     CErrAccountAlreadyExistsPage* m_ErrAccountAlreadyExistsPage;
     CErrAccountCreationDisabledPage* m_ErrAccountCreationDisabledPage;
     CErrProxyInfoPage* m_ErrProxyInfoPage;
@@ -787,6 +791,9 @@ public:
     bool GetProjectAccountAlreadyExists() const { return m_bProjectAccountAlreadyExists ; }
     void SetProjectAccountAlreadyExists(bool value) { m_bProjectAccountAlreadyExists = value ; }
 
+    bool GetProjectAccountNotFound() const { return m_bProjectAccountNotFound ; }
+    void SetProjectAccountNotFound(bool value) { m_bProjectAccountNotFound = value ; }
+
     bool GetProjectAttachSucceeded() const { return m_bProjectAttachSucceeded ; }
     void SetProjectAttachSucceeded(bool value) { m_bProjectAttachSucceeded = value ; }
 
@@ -807,6 +814,7 @@ public:
 
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
+    bool m_bProjectAccountNotFound;
     bool m_bProjectAccountAlreadyExists;
     bool m_bProjectAttachSucceeded;
     int m_iBitmapIndex;
@@ -1079,6 +1087,59 @@ public:
 
 ////@begin CErrNoInternetConnectionPage member variables
 ////@end CErrNoInternetConnectionPage member variables
+};
+
+/*!
+ * CErrAccountNotFoundPage class declaration
+ */
+
+class CErrAccountNotFoundPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrAccountNotFoundPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrAccountNotFoundPage( );
+
+    CErrAccountNotFoundPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrAccountNotFoundPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTNOTFOUNDPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTNOTFOUNDPAGE
+    void OnCancel( wxWizardEvent& event );
+
+////@end CErrAccountNotFoundPage event handler declarations
+
+////@begin CErrAccountNotFoundPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrAccountNotFoundPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrAccountNotFoundPage member variables
+////@end CErrAccountNotFoundPage member variables
 };
 
 /*!
