@@ -745,11 +745,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
             }
             continue;
-        } else if (match_tag(buf, "<non_cpu_intensive/>")) {
-            project->non_cpu_intensive = true;
-            continue;
-        } else if (parse_int(buf, "<non_cpu_intensive>", x)) {
-            project->non_cpu_intensive = (x != 0);
+        } else if (parse_bool(buf, "non_cpu_intensive", project->non_cpu_intensive)) {
             continue;
         } else if (match_tag(buf, "<request_file_list/>")) {
             send_file_list = true;

@@ -10773,3 +10773,30 @@ David  17 Aug 2005
         cs_account.C
         cs_scheduler.C
         scheduler_op.C
+
+David  17 Aug 2005
+    - Add new API calls:
+        boinc_not_using_cpu()
+        boinc_using_cpu()
+        for apps that temporarily stop using the CPU
+        (e.g. while doing network comm).
+        Allows other apps to use CPU; treats app as if it were
+        from a non-CPU-intensive project.
+
+        Implementation: add non_cpu_intensive flag to ACTIVE_TASK.
+        Copy from project initially.
+        Use this instead of project.non_cpu_intensive for scheduling.
+        Use app_state message channel to convey non_cpu_intensive
+        status from app to core client.
+
+        (for Folding@Home)
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C,h
+        app_control.C
+        cs_apps.C
+        scheduler_op.C
+    lib/
+        app_ipc.h

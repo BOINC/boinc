@@ -438,7 +438,7 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->result->project->non_cpu_intensive) continue;
+        if (atp->non_cpu_intensive) continue;
 
         atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
         total_wall_cpu_time_this_period += wall_cpu_time;
@@ -564,8 +564,13 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+        if (atp->non_cpu_intensive) {
+            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
+        } else {
+            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+        }
     }
+
     expected_pay_off = total_wall_cpu_time_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
         if (cpu_earliest_deadline_first) {
@@ -576,7 +581,7 @@ bool CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    // schedule non CPU intensive tasks
+    // schedule new non CPU intensive tasks
     //
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];

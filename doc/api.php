@@ -48,7 +48,7 @@ Applications that use named input or output files must call
 </pre>
 or
 ", html_text("
-    int boinc_resolve_filename(char *logical_name, string& physical_name);
+    int boinc_resolve_filename(char *logical_name, std::string& physical_name);
 "), "
 to convert logical file names to physical names.
 For example, instead of
@@ -226,6 +226,38 @@ An application may call
 (from the beginning of the work unit, not just since the last restart).
 This excludes CPU time used to render graphics.
 
+<h3>Non-CPU-intensive periods</h3>
+<p>
+Some applications may have periods when they don't use much CPU time
+(e.g. because they're doing network communication).
+Call the following functions at the start and end of these periods.
+",html_text("
+void boinc_not_using_cpu();
+void boinc_using_cpu();
+"), "
+This allows the BOINC client to schedule other applications
+during these periods.
+<h3>Requesting network connection</h3>
+<p>
+If it appears that there is no physical network connection
+(e.g. gethostbyname() fails for a valid name) then
+<ul>
+<li> Call <code>boinc_need_network()</code>.
+This will alert the user that a network connection is needed.
+<li> Periodically call <code>boinc_network_poll()</code>
+until it returns zero.
+<li> Do whatever communication is needed.
+<li> When done, call <code>boinc_network_done()</code>.
+This enables that hangup of a modem connection, if needed.
+</ul>
+",html_text("
+void boinc_need_network();
+int boinc_network_poll();
+void boinc_network_done();
+"), "
+
+Note: this should be enclosed in
+<code>boinc_not_using_cpu() ... boinc_using_cpu()</code.
 ";
 page_tail();
 ?>

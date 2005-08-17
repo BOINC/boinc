@@ -105,6 +105,7 @@ static volatile int interrupt_count = 0;
     // and that doesn't have big jumps around hibernation
 static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
+static int non_cpu_intensive = 0;
 
 #define TIMER_PERIOD 1
     // period of worker-thread timer interrupts.
@@ -191,8 +192,9 @@ static bool update_app_progress(
 
     sprintf(msg_buf,
         "<current_cpu_time>%.15e</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
-        cpu_t, cp_cpu_t
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
+        "<non_cpu_intensive>%d</non_cpu_intensive>\n",
+        cpu_t, cp_cpu_t, non_cpu_intensive
     );
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
@@ -424,6 +426,7 @@ int boinc_write_init_data_file() {
     return retval;
 }
 
+#if 0       // who uses this?
 int boinc_report_app_status(
     double cpu_time,
     double checkpoint_cpu_time,
@@ -441,6 +444,7 @@ int boinc_report_app_status(
     app_client_shm->shm->app_status.send_msg(msg_buf);
     return 0;
 }
+#endif
 
 int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     app_init_data = aid;
@@ -795,6 +799,14 @@ void boinc_fpops_per_cpu_sec(double x) {
 
 void boinc_fpops_cumulative(double x) {
     fpops_cumulative = x;
+}
+
+void boinc_not_using_cpu() {
+    non_cpu_intensive = 1;
+}
+
+void boinc_using_cpu() {
+    non_cpu_intensive = 0;
 }
 
 #ifndef _WIN32

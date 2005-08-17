@@ -102,6 +102,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     have_trickle_down = false;
     send_upload_file_status = false;
     pending_suspend_via_quit = false;
+    non_cpu_intensive = false;
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -172,6 +173,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
+    non_cpu_intensive = rp->project->non_cpu_intensive;
 
     strcpy(process_control_queue.name, rp->name);
     strcpy(graphics_request_queue.name, rp->name);
@@ -377,6 +379,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                 );
                 return ERR_NULL;
             }
+            non_cpu_intensive = project->non_cpu_intensive;
             result = gstate.lookup_result(project, result_name);
             if (!result) {
                 msg_printf(

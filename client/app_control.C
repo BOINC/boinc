@@ -701,7 +701,7 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->task_state != PROCESS_EXECUTING) continue;
-        if (atp->result->project->non_cpu_intensive) continue;
+        if (atp->non_cpu_intensive) continue;
         atp->preempt(!leave_apps_in_memory);
     }
 }
@@ -713,7 +713,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->result->project->non_cpu_intensive) continue;
+        if (atp->non_cpu_intensive) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->task_state == PROCESS_UNINITIALIZED) {
             if (atp->start(false)) {
@@ -817,6 +817,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<vm_bytes>", vm_bytes);
         parse_double(msg_buf, "<rss_bytes>", rss_bytes);
+        parse_int(msg_buf, "<non_cpu_intensive>", non_cpu_intensive);
     } else {
         return false;
     }
