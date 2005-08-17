@@ -10830,3 +10830,13 @@ David  17 Aug 2005
         app_control.C
         client_state.C
         scheduler_op.C
+
+Rom    16 Aug 2005
+    - Disable Next and Back buttons during network communication.
+    - Launch account_finish.php when account creation has happened and
+        we have successfully attached to a project.
+    
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+

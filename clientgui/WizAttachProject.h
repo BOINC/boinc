@@ -184,6 +184,9 @@ public:
 
 ////@begin CWizAttachProject event handler declarations
 
+    /// wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD
+    void OnFinished( wxWizardEvent& event );
+
 ////@end CWizAttachProject event handler declarations
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_BACKWARD
@@ -228,7 +231,24 @@ public:
 
     /// Button Simulation
     void SimulateNextButton();
+    void EnableNextButton();
+    void DisableNextButton();
     void SimulateBackButton();
+    void EnableBackButton();
+    void DisableBackButton();
+
+    /// Finish Button Environment
+    bool GetAccountCreatedSuccessfully() const { return account_created_successfully ; }
+    void SetAccountCreatedSuccessfully(bool value) { account_created_successfully = value ; }
+
+    bool GetAttachedToProjectSuccessfully() const { return attached_to_project_successfully ; }
+    void SetAttachedToProjectSuccessfully(bool value) { attached_to_project_successfully = value ; }
+
+    wxString GetProjectURL() const { return project_url ; }
+    void SetProjectURL(wxString value) { project_url = value ; }
+
+    wxString GetProjectAuthenticator() const { return project_authenticator ; }
+    void SetProjectAuthenticator(wxString value) { project_authenticator = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
@@ -270,10 +290,12 @@ public:
 
     // Global Wizard Status
     PROJECT_CONFIG      project_config;
-    GR_PROXY_INFO       old_proxy_info;
-    GR_PROXY_INFO       new_proxy_info;
     ACCOUNT_IN          account_in;
     ACCOUNT_OUT         account_out;
+    bool                account_created_successfully;
+    bool                attached_to_project_successfully;
+    wxString            project_url;
+    wxString            project_authenticator;
 };
 
 /*!

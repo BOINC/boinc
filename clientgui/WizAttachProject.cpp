@@ -76,6 +76,8 @@ BEGIN_EVENT_TABLE( CWizAttachProject, wxWizard )
     EVT_BUTTON(wxID_FORWARD, CWizAttachProject::OnWizardNext)
 
 ////@begin CWizAttachProject event table entries
+    EVT_WIZARD_FINISHED( ID_ATTACHPROJECTWIZARD, CWizAttachProject::OnFinished )
+
 ////@end CWizAttachProject event table entries
  
 END_EVENT_TABLE()
@@ -134,10 +136,12 @@ bool CWizAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoint& 
  
     // Global wizard status
     project_config.clear();
-    old_proxy_info.clear();
-    new_proxy_info.clear();
     account_in.clear();
     account_out.clear();
+    account_created_successfully = false;
+    attached_to_project_successfully = false;
+    project_url = wxEmptyString;
+    project_authenticator = wxEmptyString;
  
 ////@begin CWizAttachProject creation
     wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
@@ -522,7 +526,17 @@ void CWizAttachProject::SimulateNextButton() {
     event.SetEventObject(GetNextButton());
     AddPendingEvent(event);
 }
-  
+
+void CWizAttachProject::EnableNextButton() {
+    if (!GetNextButton()) return;
+    GetNextButton()->Enable();
+}
+
+void CWizAttachProject::DisableNextButton() {
+    if (!GetNextButton()) return;
+    GetNextButton()->Disable();
+}
+
 void CWizAttachProject::SimulateBackButton() {
     if (!GetBackButton()) return;
     wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, GetBackButton()->GetId());
@@ -530,6 +544,31 @@ void CWizAttachProject::SimulateBackButton() {
     AddPendingEvent(event);
 }
  
+void CWizAttachProject::EnableBackButton() {
+    if (!GetBackButton()) return;
+    GetBackButton()->Enable();
+}
+
+void CWizAttachProject::DisableBackButton() {
+    if (!GetBackButton()) return;
+    GetBackButton()->Disable();
+}
+
+/*!
+ * wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD
+ */
+
+void CWizAttachProject::OnFinished( wxWizardEvent& event ) {
+    CMainFrame* pFrame      = wxGetApp().GetFrame();
+
+    if (GetAccountCreatedSuccessfully() && GetAttachedToProjectSuccessfully()) {
+        pFrame->ExecuteBrowserLink(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());
+    }
+
+    // Let the framework clean things up.
+    event.Skip();
+}
+
 /*!
  * CWelcomePage type definition
  */
@@ -1335,6 +1374,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
  
     switch(GetCurrentState()) {
         case PROJPROP_INIT:
+            ((CWizAttachProject*)GetParent())->DisableNextButton();
+            ((CWizAttachProject*)GetParent())->DisableBackButton();
             StartProgress(m_ProjectPropertiesProgress);
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
@@ -1462,6 +1503,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
+            ((CWizAttachProject*)GetParent())->EnableNextButton();
+            ((CWizAttachProject*)GetParent())->EnableBackButton();
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
             bPostNewEvent = false;
             break;
@@ -2248,9 +2291,10 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
  
     switch(GetCurrentState()) {
         case ATTACHPROJECT_INIT:
-            // Set initial bitmap
-            StartProgress(m_AttachProjectProgress);
+            ((CWizAttachProject*)GetParent())->DisableNextButton();
+            ((CWizAttachProject*)GetParent())->DisableBackButton();
 
+            StartProgress(m_AttachProjectProgress);
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
             break;
         case ATTACHPROJECT_ACCOUNTQUERY_BEGIN:
@@ -2287,6 +2331,10 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
 
                         ::wxMilliSleep(500);
                         ::wxSafeYield(GetParent());
+                    }
+
+                    if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
+                        ((CWizAttachProject*)GetParent())->SetAccountCreatedSuccessfully(true);
                     }
                 } else {
                     if (!((CWizAttachProject*)GetParent())->project_config.uses_username) {
@@ -2352,6 +2400,9 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
      
                 if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                     SetProjectAttachSucceeded(true);
+                    ((CWizAttachProject*)GetParent())->SetAttachedToProjectSuccessfully(true);
+                    ((CWizAttachProject*)GetParent())->SetProjectURL(ai->url.c_str());
+                    ((CWizAttachProject*)GetParent())->SetProjectAuthenticator(ao->authenticator.c_str());
                 } else {
                     SetProjectAttachSucceeded(false);
                 }
@@ -2366,6 +2417,8 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
+            ((CWizAttachProject*)GetParent())->EnableNextButton();
+            ((CWizAttachProject*)GetParent())->EnableBackButton();
             ((CWizAttachProject*)GetParent())->SimulateNextButton();
             bPostNewEvent = false;
             break;
@@ -4616,4 +4669,5 @@ wxIcon CErrRefCountPage::GetIconResource( const wxString& name )
     return wxNullIcon;
 ////@end CErrRefCountPage icon retrieval
 }
+
 
