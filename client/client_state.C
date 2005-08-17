@@ -1404,6 +1404,7 @@ bool CLIENT_STATE::want_network() {
     if (http_ops->nops()) return true;
     if (network_suspended) return false;
     if (want_network_flag) return true;
+    if (active_tasks.want_network()) return true;
     return false;
 }
 
@@ -1418,6 +1419,7 @@ void CLIENT_STATE::network_available() {
         PROJECT* p = projects[i];
         p->min_rpc_time = 0;
     }
+    active_tasks.network_available();
 }
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

@@ -106,6 +106,8 @@ static volatile int interrupt_count = 0;
 static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
 static int non_cpu_intensive = 0;
+static int want_network = 0;
+static int have_network = 1;
 
 #define TIMER_PERIOD 1
     // period of worker-thread timer interrupts.
@@ -196,6 +198,9 @@ static bool update_app_progress(
         "<non_cpu_intensive>%d</non_cpu_intensive>\n",
         cpu_t, cp_cpu_t, non_cpu_intensive
     );
+    if (want_network) {
+        strcat(msg_buf, "<want_network>1</want_network>\n");
+    }
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
@@ -550,6 +555,9 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<reread_app_info/>")) {
             boinc_status.reread_init_data_file = true;
         }
+        if (match_tag(buf, "<network_available/>")) {
+            have_network = 1;
+        }
     }
 }
 
@@ -807,6 +815,19 @@ void boinc_not_using_cpu() {
 
 void boinc_using_cpu() {
     non_cpu_intensive = 0;
+}
+
+void boinc_need_network() {
+    want_network = 1;
+    have_network = 0;
+}
+
+int boinc_network_poll() {
+    return have_network?0:1;
+}
+
+void boinc_network_done() {
+    want_network = 0;
 }
 
 #ifndef _WIN32

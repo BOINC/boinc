@@ -125,6 +125,7 @@ public:
     bool send_upload_file_status;
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
     int non_cpu_intensive;
+    int want_network;
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;
@@ -167,6 +168,7 @@ public:
     bool has_task_exited();             // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
     int resume_or_start();
+    void send_network_available();
 #ifdef _WIN32
     bool handle_exited_app(unsigned long);
 #else
@@ -220,6 +222,8 @@ public:
     void report_overdue();
     void handle_upload_files();
     void upload_notify_app(FILE_INFO*);
+    bool want_network();
+    void network_available();
 
     // screensaver-related functions
     ACTIVE_TASK* get_ss_app();

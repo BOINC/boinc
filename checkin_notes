@@ -10800,3 +10800,33 @@ David  17 Aug 2005
         scheduler_op.C
     lib/
         app_ipc.h
+
+David  17 Aug 2005
+    - Add new API calls:
+        boinc_need_network()
+        boinc_network_poll()
+        boinc_network_done()
+        For apps that do network communication.
+        If there is no physical connection (e.g. modem not dialed)
+        this allows the app
+        1) to request (via the core client and the BOINC manager)
+        that the user establish a connection;
+        2) to learn when a connection has been established
+        3) to indicate that it is done with network comm
+            (e.g. so we can hang up the modem)
+
+        Implementation:
+        Add want_network, have_network flags in API lib.
+        Send want_network in app_status messages to core.
+        Core: on network_available(), send <network_available/> to
+        any app that wants network.
+
+        (for Folding@Home)
+
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+        app_control.C
+        client_state.C
+        scheduler_op.C

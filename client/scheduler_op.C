@@ -541,7 +541,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 //
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], msg_buf[1024], pri_buf[256];
-    int retval, x;
+    int retval;
     MIOFILE mf;
     std::string delete_file_name;
     mf.init_file(in);

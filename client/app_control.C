@@ -797,6 +797,15 @@ int ACTIVE_TASK::unsuspend() {
     return 0;
 }
 
+void ACTIVE_TASK::send_network_available() {
+    if (!app_client_shm.shm) return;
+    process_control_queue.msg_queue_send(
+        "<network_available/>",
+        app_client_shm.shm->process_control_request
+    );
+    return;
+}
+
 // See if the app has placed a new message in shared mem
 // (with CPU done, frac done etc.)
 // If so parse it and return true.

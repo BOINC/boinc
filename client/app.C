@@ -102,7 +102,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     have_trickle_down = false;
     send_upload_file_status = false;
     pending_suspend_via_quit = false;
-    non_cpu_intensive = false;
+    non_cpu_intensive = 0;
+    want_network = 0;
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -551,6 +552,23 @@ void ACTIVE_TASK_SET::handle_upload_files() {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         atp->handle_upload_files();
+    }
+}
+
+bool ACTIVE_TASK_SET::want_network() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->want_network) return true;
+    }
+    return false;
+}
+
+void ACTIVE_TASK_SET::network_available() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->want_network) {
+            atp->send_network_available();
+        }
     }
 }
 
