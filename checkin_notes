@@ -10831,7 +10831,7 @@ David  17 Aug 2005
         client_state.C
         scheduler_op.C
 
-Rom    16 Aug 2005
+Rom    17 Aug 2005
     - Disable Next and Back buttons during network communication.
     - Launch account_finish.php when account creation has happened and
         we have successfully attached to a project.
@@ -10840,3 +10840,11 @@ Rom    16 Aug 2005
         BOINCGUI.pjd
         WizAttachProject.cpp, .h
 
+Rom    18 Aug 2005
+    - Adjust the URL validator so that .asdf, asdf., and asdf are not
+        considered valid host names.
+    - Save the canonicalized url to the control before wxWidgets
+        transfers the data around
+        
+    clientgui/
+        ValidateURL.cpp

@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "ValidateURL.h"
+#include "util.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CValidateURL, wxValidator)
@@ -60,38 +61,60 @@ bool CValidateURL::Validate(wxWindow *parent) {
         return TRUE;
 
     bool ok = TRUE;
-    wxURL val(control->GetValue());
-    wxString str(control->GetValue());
+    std::string canonicalize_url;
 
-    if (str.Length() == 0) {
+    canonicalize_url = control->GetValue().c_str();
+    canonicalize_master_url(canonicalize_url);
+
+    wxURI uri(canonicalize_url.c_str());
+    wxURL url(canonicalize_url.c_str());
+    wxString strURL(canonicalize_url.c_str());
+    wxString strServer(uri.GetServer());
+    int iServerDotLocation = strServer.Find(wxT("."));
+    int iFirstPart = strServer.Mid(0, iServerDotLocation).Length();
+    int iSecondPart = strServer.Mid(iServerDotLocation + 1, wxSTRING_MAXLEN).Length();
+
+    if (strURL.Length() == 0) {
         ok = FALSE;
         m_errortitle = _("Missing URL");
         m_errormsg = _("Please specify a URL.\nFor example:\nhttp://www.example.com/");
-    } else if (wxURL_NOERR != val.GetError()) {
+    } else if (-1 == iServerDotLocation) {
+        ok = FALSE;
+        m_errortitle = _("Invalid URL");
+        m_errormsg = _("Please specify a valid host name.\nFor example:\nboincproject.example.com");
+    } else if (0 == iFirstPart) {
+        ok = FALSE;
+        m_errortitle = _("Invalid URL");
+        m_errormsg = _("Please specify a valid host name.\nFor example:\nboincproject.example.com");
+    } else if (0 == iSecondPart) {
+        ok = FALSE;
+        m_errortitle = _("Invalid URL");
+        m_errormsg = _("Please specify a valid host name.\nFor example:\nboincproject.example.com");
+    } else if (wxURL_NOERR != url.GetError()) {
         ok = FALSE;
 
-        if ((wxURL_NOPROTO == val.GetError()) || wxURL_SNTXERR == val.GetError()) {
+        if ((wxURL_NOPROTO == url.GetError()) || wxURL_SNTXERR == url.GetError()) {
             // Special case: we want to allow the user to specify the URL without
             //   specifing the protocol.
-            wxURL valNoProtoSpecified(wxT("http://") + str);
-            if (wxURL_NOERR == valNoProtoSpecified.GetError()) {
+            wxURL urlNoProtoSpecified(wxT("http://") + strURL);
+            if (wxURL_NOERR == urlNoProtoSpecified.GetError()) {
                 ok = TRUE;
             } else {
                 m_errortitle = _("Invalid URL");
                 m_errormsg = _("'%s' does not contain a valid host name.");
             }
-        } else if (wxURL_NOHOST == val.GetError()) {
+        } else if (wxURL_NOHOST == url.GetError()) {
             m_errortitle = _("Invalid URL");
             m_errormsg = _("'%s' does not contain a valid host name.");
-        } else if (wxURL_NOPATH == val.GetError()) {
+        } else if (wxURL_NOPATH == url.GetError()) {
             m_errortitle = _("Invalid URL");
             m_errormsg = _("'%s' does not contain a valid path.");
         }
     }
 
     if (!ok) {
-        wxASSERT_MSG(!m_errortitle.empty(), _T("you forgot to set errortitle"));
-        wxASSERT_MSG(!m_errormsg.empty(), _T("you forgot to set errormsg"));
+        wxASSERT_MSG(!m_errortitle.empty(), wxT("you forgot to set errortitle"));
+        wxASSERT_MSG(!m_errormsg.empty(), wxT("you forgot to set errormsg"));
 
         m_validatorWindow->SetFocus();
 
@@ -102,6 +125,8 @@ bool CValidateURL::Validate(wxWindow *parent) {
             wxOK | wxICON_EXCLAMATION, parent
         );
     }
+
+    control->SetValue(canonicalize_url.c_str());
 
     return ok;
 }
