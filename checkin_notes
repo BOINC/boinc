@@ -10848,3 +10848,11 @@ Rom    18 Aug 2005
         
     clientgui/
         ValidateURL.cpp
+
+Charlie 19 Aug 2005
+    Mac: update XCode project for new source files and to link Core 
+    Client with libcurl.dylib.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

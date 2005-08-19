@@ -101,6 +101,7 @@
 			children = (
 				DD40827D07D30AA800163EF5,
 				F54B8FBE02AC0A0C01FB7237,
+				DD33C72A08B5C70700768630,
 				DD81C3F707C5D03B0098A04D,
 				DD1277BC081F3E59007B5DE1,
 				DDF9385307E288F0004DC076,
@@ -933,6 +934,131 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = config.h;
 			path = ../clientgui/mac/config.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6F108B5BAF500768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = gui_http.C;
+			path = ../client/gui_http.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6F208B5BAF500768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = gui_http.h;
+			path = ../client/gui_http.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6F308B5BAF500768630 = {
+			fileRef = DD33C6F108B5BAF500768630;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD33C6F608B5BB4500768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = acct_setup.h;
+			path = ../client/acct_setup.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6F708B5BB4500768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = acct_setup.C;
+			path = ../client/acct_setup.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6F808B5BB4500768630 = {
+			fileRef = DD33C6F708B5BB4500768630;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD33C6FB08B5BC2600768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = net_xfer_curl.h;
+			path = ../client/net_xfer_curl.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6FC08B5BC2600768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = net_xfer_curl.C;
+			path = ../client/net_xfer_curl.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C6FD08B5BC2600768630 = {
+			fileRef = DD33C6FC08B5BC2600768630;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD33C70208B5BEDE00768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = http_curl.C;
+			path = ../client/http_curl.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C70308B5BEDE00768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = http_curl.h;
+			path = ../client/http_curl.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C70408B5BEDE00768630 = {
+			fileRef = DD33C70208B5BEDE00768630;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD33C72A08B5C70700768630 = {
+			children = (
+				DD33C74208B5C72F00768630,
+				DD33C74308B5C72F00768630,
+			);
+			isa = PBXGroup;
+			name = Curl;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD33C74208B5C72F00768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = curl.h;
+			path = ../curl/include/curl/curl.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD33C74308B5C72F00768630 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = curlver.h;
+			path = ../curl/include/curl/curlver.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3587,11 +3713,9 @@
 				DDD74DA007CF48FD0065AC9D,
 				DDD74DA207CF48FF0065AC9D,
 				DDD74DA307CF49000065AC9D,
-				DDD74DA407CF49010065AC9D,
 				DDD74DA507CF49020065AC9D,
 				DDD74DA607CF49030065AC9D,
 				DDD74DA707CF49040065AC9D,
-				DDD74DA807CF49050065AC9D,
 				DDD74DA907CF49090065AC9D,
 				DDD74DAA07CF490B0065AC9D,
 				DDD74DAB07CF490C0065AC9D,
@@ -3617,6 +3741,10 @@
 				DDD74DD407CF493E0065AC9D,
 				DD6D0A8707E9A61E007F882B,
 				DD73E36E08A0720500656EB1,
+				DD33C6F308B5BAF500768630,
+				DD33C6F808B5BB4500768630,
+				DD33C6FD08B5BC2600768630,
+				DD33C70408B5BEDE00768630,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3643,12 +3771,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = ../curl/include/;
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../clientgui/mac/config.h";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -include ../clientgui/mac/config.h";
-				OTHER_LDFLAGS = "-framework Carbon -lcrypto";
+				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -D_USE_CURL -include ../clientgui/mac/config.h";
+				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -D_USE_CURL -include ../clientgui/mac/config.h";
+				OTHER_LDFLAGS = "-framework Carbon -lcrypto -lcurl";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
 				SECTORDER_FLAGS = "";
@@ -3829,12 +3958,6 @@
 			settings = {
 			};
 		};
-		DDD74DA407CF49010065AC9D = {
-			fileRef = F54B8FD402AC0A0C01FB7237;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDD74DA507CF49020065AC9D = {
 			fileRef = F54B8FD602AC0A0C01FB7237;
 			isa = PBXBuildFile;
@@ -3849,12 +3972,6 @@
 		};
 		DDD74DA707CF49040065AC9D = {
 			fileRef = F54B8FDA02AC0A0C01FB7237;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDD74DA807CF49050065AC9D = {
-			fileRef = F54B8FDC02AC0A0C01FB7237;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4594,6 +4711,8 @@
 				DD1F0AC2082205B900AFC5FA,
 				DD344B3D07C5ABF40043025C,
 				DD344B3E07C5ABF40043025C,
+				DD33C6F608B5BB4500768630,
+				DD33C6F708B5BB4500768630,
 				F54B8FC102AC0A0C01FB7237,
 				F54B8FC202AC0A0C01FB7237,
 				DD344B4807C5AC4C0043025C,
@@ -4624,6 +4743,8 @@
 				F54B8FCC02AC0A0C01FB7237,
 				F54B8FCD02AC0A0C01FB7237,
 				F54B8FCE02AC0A0C01FB7237,
+				DD33C6F108B5BAF500768630,
+				DD33C6F208B5BAF500768630,
 				DD344BAD07C5AEB70043025C,
 				DD73E36208A06ED400656EB1,
 				DD344BAE07C5AEB70043025C,
@@ -4634,12 +4755,16 @@
 				F54B8FD302AC0A0C01FB7237,
 				F54B8FD402AC0A0C01FB7237,
 				F54B8FD502AC0A0C01FB7237,
+				DD33C70208B5BEDE00768630,
+				DD33C70308B5BEDE00768630,
 				F54B8FD602AC0A0C01FB7237,
 				F54B8FD702AC0A0C01FB7237,
 				DD344BCE07C5B0B80043025C,
 				DD344BCF07C5B0B80043025C,
 				F54B8FDA02AC0A0C01FB7237,
 				F54B8FDB02AC0A0C01FB7237,
+				DD33C6FB08B5BC2600768630,
+				DD33C6FC08B5BC2600768630,
 				F54B8FDC02AC0A0C01FB7237,
 				F54B8FDD02AC0A0C01FB7237,
 				F51CCF1F02EFD37D018DB99A,
