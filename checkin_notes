@@ -10851,7 +10851,8 @@ Rom    18 Aug 2005
 
 Charlie 19 Aug 2005
     Mac: update XCode project for new source files and to link Core 
-    Client with libcurl.dylib.
+    Client with libcurl.dylib.  Remove RSAEuro group and files.  Add 
+    files to build of libboinc.a to match those in makefile.
 
     mac_build/
         boinc.pbproj/

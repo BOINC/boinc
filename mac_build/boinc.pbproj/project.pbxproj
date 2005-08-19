@@ -107,7 +107,6 @@
 				DDF9385307E288F0004DC076,
 				F515955F029EB02001F5651B,
 				F54FF8B6029F2FFC012012A7,
-				F51DA65102DBA8F1010E292A,
 				20286C2CFDCF999611CA2CEA,
 				20286C32FDCF999611CA2CEA,
 				195DF8C9FE9D4F0611CA2CBB,
@@ -1522,6 +1521,10 @@
 				DD407A6D07D2FBD100163EF5,
 				DD407AB907D2FC7D00163EF5,
 				DD407ABB07D2FC7D00163EF5,
+				DD52C81108B5D44D008D9AA4,
+				DD52C81208B5D44E008D9AA4,
+				DD52C81308B5D44F008D9AA4,
+				DD52C81408B5D484008D9AA4,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2151,6 +2154,30 @@
 		};
 		DD4EC65B08A0A83F009AA08F = {
 			fileRef = DD73E34F08A0694100656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD52C81108B5D44D008D9AA4 = {
+			fileRef = DD81C5CC07C5D7D90098A04D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD52C81208B5D44E008D9AA4 = {
+			fileRef = DD73E34E08A0694000656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD52C81308B5D44F008D9AA4 = {
+			fileRef = DD73E34F08A0694100656EB1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD52C81408B5D484008D9AA4 = {
+			fileRef = DD6D0A8507E9A61B007F882B;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4425,275 +4452,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = crypt.h;
 			path = ../lib/crypt.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65102DBA8F1010E292A = {
-			children = (
-				F51DA65202DBA912010E292A,
-				F51DA65302DBA912010E292A,
-				F51DA65402DBA912010E292A,
-				F51DA65502DBA912010E292A,
-				F51DA65602DBA912010E292A,
-				F51DA65702DBA912010E292A,
-				F51DA65802DBA912010E292A,
-				F51DA65902DBA912010E292A,
-				F51DA65A02DBA912010E292A,
-				F51DA65B02DBA912010E292A,
-				F51DA65C02DBA912010E292A,
-				F51DA65D02DBA912010E292A,
-				F51DA65E02DBA912010E292A,
-				F51DA65F02DBA912010E292A,
-				F51DA66002DBA912010E292A,
-				F51DA66102DBA912010E292A,
-				F51DA66202DBA912010E292A,
-				F51DA66302DBA912010E292A,
-				F51DA66402DBA912010E292A,
-				F51DA66502DBA912010E292A,
-				F51DA66602DBA912010E292A,
-				F51DA66702DBA912010E292A,
-				F51DA66802DBA912010E292A,
-				F51DA66902DBA912010E292A,
-				F51DA66A02DBA912010E292A,
-				F51DA66B02DBA912010E292A,
-			);
-			isa = PBXGroup;
-			name = RSAEuro;
-			path = ../RSAEuro;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65202DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = rsaeuro.h;
-			path = ../RSAEuro/source/rsaeuro.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65302DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = r_stdlib.c;
-			path = ../RSAEuro/source/r_stdlib.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65402DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = r_keygen.c;
-			path = ../RSAEuro/source/r_keygen.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65502DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = shs.h;
-			path = ../RSAEuro/source/shs.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65602DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = md4c.c;
-			path = ../RSAEuro/source/md4c.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65702DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = rsaref.h;
-			path = ../RSAEuro/source/rsaref.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65802DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = desc.c;
-			path = ../RSAEuro/source/desc.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65902DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = rsa.h;
-			path = ../RSAEuro/source/rsa.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65A02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = md2c.c;
-			path = ../RSAEuro/source/md2c.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65B02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = r_random.c;
-			path = ../RSAEuro/source/r_random.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65C02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = r_enhanc.c;
-			path = ../RSAEuro/source/r_enhanc.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65D02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = md4.h;
-			path = ../RSAEuro/source/md4.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65E02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = global.h;
-			path = ../RSAEuro/source/global.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA65F02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = shsc.c;
-			path = ../RSAEuro/source/shsc.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66002DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = md2.h;
-			path = ../RSAEuro/source/md2.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66102DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = r_random.h;
-			path = ../RSAEuro/source/r_random.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66202DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = r_dh.c;
-			path = ../RSAEuro/source/r_dh.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66302DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = md5.h;
-			path = ../RSAEuro/source/md5.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66402DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = rsa.c;
-			path = ../RSAEuro/source/rsa.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66502DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = prime.h;
-			path = ../RSAEuro/source/prime.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66602DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = des.h;
-			path = ../RSAEuro/source/des.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66702DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = md5c.c;
-			path = ../RSAEuro/source/md5c.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66802DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = nn.c;
-			path = ../RSAEuro/source/nn.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66902DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = nn.h;
-			path = ../RSAEuro/source/nn.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66A02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = r_encode.c;
-			path = ../RSAEuro/source/r_encode.c;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		F51DA66B02DBA912010E292A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = prime.c;
-			path = ../RSAEuro/source/prime.c;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
