@@ -10857,3 +10857,11 @@ Charlie 19 Aug 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Bruce 19 Aug 2005
+    Mac: work around compiler bug under 10.3.9 autoconf/automake
+    build. Sigh.
+
+    client/
+        net_xfer_curl.C
+

@@ -225,6 +225,8 @@ void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
     //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
+#include "curl/curl.h"
+
 void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
 	NET_XFER* nxf = NULL;
@@ -267,12 +269,15 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 		// if we have a msg, then somebody finished
 		// can check also with pcurlMsg->msg == CURLMSG_DONE
 		if ((nxf = lookup_curl(pcurlMsg->easy_handle)) ) { 
+                        // CURLINFO ci=CURLINFO_OS_ERRNO;
 			 // we have a message from one of our http_ops
 			 // get the response code for this request
 			curlErr = curl_easy_getinfo(nxf->curlEasy, 
 				CURLINFO_RESPONSE_CODE, &nxf->response);
+                        // CURLINFO_LONG+25 is a workaround for a bug in the gcc version included
+                        // with Mac OS X 10.3.9
 			curlErr = curl_easy_getinfo(nxf->curlEasy, 
-				CURLINFO_OS_ERRNO, &nxf->error);
+				(CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error);
 
 			nxf->io_done = true;
 			nxf->io_ready = false;
