@@ -10865,3 +10865,19 @@ Bruce 19 Aug 2005
     client/
         net_xfer_curl.C
 
+Rom    19 Aug 2005
+    - Update the Windows build environment so that it'll copy the curl,
+        openssl, and zlib libraries to the output directory after
+        building.
+    - Make boincmgr depend on boinc for those who only incrementally
+        build the manager which didn't cause boinc to be rebuilt when
+        it's source files have changed.
+
+    curl/
+        <many files>        
+    openssl/
+        <many files>
+    win_build/
+        <many files>
+    zlib/
+        <many files>
