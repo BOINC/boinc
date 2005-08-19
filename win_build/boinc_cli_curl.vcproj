@@ -48,7 +48,7 @@
 				OutputFile=".\Build\Debug/boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="../openssl/win32/x86/lib;../curl/win32/x86/lib;../../;Build/Debug"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../curl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;../../;Build/Debug"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
@@ -65,7 +65,9 @@
 				TypeLibraryName=".\Build\Debug/boinc_cli.tlb"
 				HeaderFileName=""/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				Description="Checking boinc.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -122,7 +124,7 @@
 				OutputFile=".\Build\Release/boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="../openssl/win32/x86/lib;../curl/win32/x86/lib;../../;Build/Release"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../curl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;../../;Build/Release"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
@@ -139,7 +141,9 @@
 				TypeLibraryName=".\Build\Release/boinc_cli.tlb"
 				HeaderFileName=""/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				Description="Checking boinc.exe dependencies"
+				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
