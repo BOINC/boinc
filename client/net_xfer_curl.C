@@ -225,8 +225,6 @@ void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
     //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
-#include "curl/curl.h"
-
 void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
 	NET_XFER* nxf = NULL;
