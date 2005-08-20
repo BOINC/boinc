@@ -10881,3 +10881,17 @@ Rom    19 Aug 2005
         <many files>
     zlib/
         <many files>
+
+Bruce 20 Aug 2005
+    - File deleter changes/mods
+      Restored 'delete antiques' code overwritten by Jeff Cobb
+      Now delete files in increasing mtime order
+      Additional paranoia to avoid deleting 'the wrong' files if there
+         is a configuration or other user/admin error
+      Use C++ string type for storage efficiency in list
+      Only delete antique files when there is no OTHER file deletion to do
+
+    sched/
+        file_deleter.C
+
+
