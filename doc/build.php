@@ -124,7 +124,7 @@ some information is
 </ul>
 <h3>WxWidgets notes</h3>
 <p>
-Configure with the <code>--with-gtk --disable_shared</code> options
+Configure with the <code>--with-gtk --disable-shared</code> options
 (BOINC needs a static library).
 <p>
 If you have an older WxWidgets install,
