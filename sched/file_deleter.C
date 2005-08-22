@@ -29,6 +29,9 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
 
 #include "boinc_db.h"
 #include "parse.h"
