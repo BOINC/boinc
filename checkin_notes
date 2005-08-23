@@ -10908,3 +10908,9 @@ Charlie 22 Aug 2005
         boinc.pbproj/
             project.pbxproj
 
+Rom    23 Aug 2005
+    - Do not allow the checks for need network to happen while the manager
+        is attempting to connect to the CC.
+        
+    clientgui/
+        MainFrame.cpp
