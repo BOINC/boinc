@@ -10894,4 +10894,17 @@ Bruce 20 Aug 2005
     sched/
         file_deleter.C
 
+Charlie 22 Aug 2005
+    Mac: update XCode project for to static-link Core Client with libcurl.a.  
+    Change paths to eliminate use of symbolic links jpeglib, wx_lib and 
+    wxinclude; instead require these library trees to be in same parent 
+    folder as boinc tree.
+    Update build instructions for changes
+
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.pbproj/
+            project.pbxproj
 

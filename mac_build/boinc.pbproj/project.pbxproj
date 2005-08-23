@@ -332,6 +332,10 @@
 			files = (
 				DD40D05107F03A030096C645,
 				DD9B6AAF0890DD71003A8E83,
+				DDADA53908BACC8B00053BFB,
+				DDADA53A08BACC8B00053BFB,
+				DDADA53B08BACC8C00053BFB,
+				DDADA53C08BACC8D00053BFB,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,14 +360,14 @@
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = "../wx_lib/wx/include/mac-ansi-release-static-2.6 ../wxinclude";
+				HEADER_SEARCH_PATHS = "../../wxMac-2.6.1/osx-build/lib/wx/include/mac-ansi-release-static-2.6 ../../wxMac-2.6.1/include";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "../wx_lib ../lib /usr/lib/gcc/darwin/3.3";
+				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.1/osx-build/lib ../lib /usr/lib/gcc/darwin/3.3";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_LDFLAGS = "-D_THREAD_SAFE ../wx_lib/libwx_base_carbon_net-2.6.a ../wx_lib/libwx_base_carbon-2.6.a ../wx_lib/libwx_mac_adv-2.6.a ../wx_lib/libwx_mac_core-2.6.a -lz -lpthread -liconv -lz -lm";
+				OTHER_LDFLAGS = "-D_THREAD_SAFE -lz -lpthread -liconv -lz -lm";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINCManager;
 				SECTORDER_FLAGS = "";
@@ -1038,7 +1042,7 @@
 				DD33C74308B5C72F00768630,
 			);
 			isa = PBXGroup;
-			name = Curl;
+			name = curl;
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
@@ -1789,6 +1793,7 @@
 				DD6826E608641BAA0070CDB8,
 			);
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1963,7 +1968,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = jpeglib.h;
-			path = ../jpeglib/jpeglib.h;
+			path = "../../jpeg-6b/jpeglib.h";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3537,6 +3542,36 @@
 			settings = {
 			};
 		};
+		DDADA51508BAC96200053BFB = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDADA53908BACC8B00053BFB = {
+			fileRef = DD6F71B7081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDADA53A08BACC8B00053BFB = {
+			fileRef = DD6F71B9081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDADA53B08BACC8C00053BFB = {
+			fileRef = DD6F71BB081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDADA53C08BACC8D00053BFB = {
+			fileRef = DD6F71B2081E509200F5B280;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DDAEC9DE07FA583B00A7BC36 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -3780,6 +3815,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD130F320820C47C001A0291,
+				DDADA51508BAC96200053BFB,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3800,11 +3836,11 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = ../curl/include/;
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
+				LIBRARY_SEARCH_PATHS = "/usr/lib/gcc/darwin/3.3 /Volumes/Moon/BOINC_Mac/wxMac-2.6.1/osx-build/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -D_USE_CURL -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE  -D__WXMAC -D_USE_CURL -include ../clientgui/mac/config.h";
-				OTHER_LDFLAGS = "-framework Carbon -lcrypto -lcurl";
+				OTHER_LDFLAGS = "../../curl-7.14.0/lib/.libs/libcurl.a -framework\\ Carbon -lcrypto -lssl -lz";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
 				SECTORDER_FLAGS = "";
