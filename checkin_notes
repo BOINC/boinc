@@ -10929,4 +10929,11 @@ Rom    23 Aug 2005
     clientgui/
         BOINCGUI.pjd
         WizAttachProject.cpp, .h
+
+Rom    24 Aug 2005
+    - Apply a net_fer_curl.C, .h patch from Carl Christensen.
+    - Make http_op_retval return a ERR_GETHOSTBYNAME error when
+        the host does not exist.
         
+    client/
+        net_xfer_curl.C, .h

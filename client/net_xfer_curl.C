@@ -85,6 +85,8 @@ void NET_XFER::reset() {
     req1 = NULL;
     strcpy(infile, "");
     strcpy(outfile, "");
+	CurlResult = CURLE_OK;
+	strcpy(strCurlResult, "");
 	bTempOutfile = true;
     is_connected = false;
     want_download = false;
@@ -296,12 +298,26 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 			// the op is done if curl_multi_msg_read gave us a msg for this http_op
 			nxf->http_op_state = HTTP_STATE_DONE;
 
+			// added a more useful error string (just pass the curl string up for now)
+			nxf->CurlResult = pcurlMsg->data.result;
+			safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
+
+			// optional, example use, non-zero CurlResult has a useful error string:
+			//if (nxf->CurlResult) fprintf(stdout, "Error: %s\n", nxf->strCurlResult);
+
 			// 200 is a good HTTP response code
 			// It may not mean the data received is "good"
 			// (the calling program will have to check/parse that)
 			// but it at least means that the server operation
 			// went through fine
-            if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
+            //
+            // NOTE: http_op_retval is multipurposed, it can also contain any error
+            //       code that BOINC would return for IO errors and DNS errors.  We
+            //       need to translate between the curl error codes and the equiv.
+            //       BOINC error codes here.
+            if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
+                nxf->http_op_retval = ERR_GETHOSTBYNAME;
+            } else if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
                 nxf->http_op_retval = nxf->response;
             } else {
 			    nxf->http_op_retval = nxf->response - 200;  

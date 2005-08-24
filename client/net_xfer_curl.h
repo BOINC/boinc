@@ -50,6 +50,16 @@ extern int curl_cleanup();
 // represents a network connection, either being accessed directly
 // or being transferred to/from a file
 //
+
+/*
+net_xfer object status codes (using libcurl):
+
+nxf->response          maps to HTTP_STATUS_* (from http_curl.h)
+nxf->http_op_state     maps to HTTP_STATE_*  (from http_curl.h)
+nxf->CurlError is a curl specific code  (maps to the CURLE_* enums in curl/curl.h)
+nxf->strCurlError is a human-readable msg (i.e. "couldn't connect to server")
+*/
+
 class NET_XFER {
 public:
     FILE* fileIn;
@@ -65,6 +75,8 @@ public:
 	bool bTempOutfile; // CMC -- flag that outfile is really a tempfile we should delete
     char* req1;
 	bool bSentHeader;  // CMC -- a flag that I already sent the header
+	CURLcode CurlResult;   // CMC -- send up curl result code
+	char strCurlResult[_MAX_PATH];  // CMC -- 'human-readable' string with result info
 
     // int socket;  // CMC -- deprecated, net_xfer's via curlEasy handle above
     char hostname[256];     // The host we're connecting to (possibly a proxy)
