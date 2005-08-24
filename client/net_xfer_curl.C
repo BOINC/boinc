@@ -336,7 +336,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 nxf->http_op_retval = ERR_IO;
             } else if (nxf->CurlResult == CURLE_LOGIN_DENIED) {
                 msg_printf(0, MSG_ERROR, "Proxy authentication failed against proxy [%s]", nxf->hostname);
-                nxf->http_op_retval = HTTP_STATUS_PROXY_AUTH_REQ;
+                nxf->http_op_retval = ERR_AUTHENTICATOR;
             } else if (nxf->CurlResult == CURLE_OPERATION_TIMEOUTED) {
                 msg_printf(0, MSG_ERROR, "Attempting to communicate with [%s] timed out", nxf->hostname);
                 nxf->http_op_retval = ERR_TIMEOUT;
