@@ -326,7 +326,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 msg_printf(0, MSG_ERROR, "Couldn't connect to hostname [%s]", nxf->hostname);
                 nxf->http_op_retval = ERR_IO;
             } else if (nxf->CurlResult == CURLE_LOGIN_DENIED) {
-                msg_printf(0, MSG_ERROR, "Proxy Authentication Failed [%s]", nxf->hostname);
+                msg_printf(0, MSG_ERROR, "Proxy authentication failed against proxy [%s]", nxf->hostname);
                 nxf->http_op_retval = HTTP_STATUS_PROXY_AUTH_REQ;
             } else if (nxf->CurlResult == CURLE_READ_ERROR) {
                 nxf->http_op_retval = ERR_FOPEN;
