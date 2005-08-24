@@ -315,12 +315,26 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             //       code that BOINC would return for IO errors and DNS errors.  We
             //       need to translate between the curl error codes and the equiv.
             //       BOINC error codes here.
+            nxf->http_op_retval = HTTP_STATUS_INTERNAL_SERVER_ERROR;
             if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
+                msg_printf(0, MSG_ERROR, "Can't resolve hostname [%s] %s", nxf->hostname, nxf->strCurlResult);
                 nxf->http_op_retval = ERR_GETHOSTBYNAME;
-            } else if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
-                nxf->http_op_retval = nxf->response;
-            } else {
-			    nxf->http_op_retval = nxf->response - 200;  
+            } else if (nxf->CurlResult == CURLE_COULDNT_CONNECT) {
+                msg_printf(0, MSG_ERROR, "Couldn't connect to hostname [%s] %s", nxf->hostname, nxf->strCurlResult);
+                nxf->http_op_retval = ERR_IO;
+            } else if (nxf->CurlResult == CURLE_LOGIN_DENIED) {
+                msg_printf(0, MSG_ERROR, "Proxy Authentication Failed [%s] %s", nxf->hostname, nxf->strCurlResult);
+                nxf->http_op_retval = HTTP_STATUS_PROXY_AUTH_REQ;
+            } else if (nxf->CurlResult == CURLE_READ_ERROR) {
+                nxf->http_op_retval = ERR_FOPEN;
+            } else if (nxf->CurlResult == CURLE_WRITE_ERROR) {
+                nxf->http_op_retval = ERR_FOPEN;
+            } else if (nxf->CurlResult == CURLE_OK) {
+                if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
+                    nxf->http_op_retval = nxf->response;
+                } else {
+			        nxf->http_op_retval = nxf->response - 200;  
+                }
             }
 
 			if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {

@@ -10934,6 +10934,8 @@ Rom    24 Aug 2005
     - Apply a net_fer_curl.C, .h patch from Carl Christensen.
     - Make http_op_retval return a ERR_GETHOSTBYNAME error when
         the host does not exist.
+    - Checkin a few curl error code to BOINC error code
+        translations.
         
     client/
         net_xfer_curl.C, .h
