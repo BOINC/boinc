@@ -316,7 +316,10 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             //       need to translate between the curl error codes and the equiv.
             //       BOINC error codes here.
             nxf->http_op_retval = HTTP_STATUS_INTERNAL_SERVER_ERROR;
-            if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
+            if (nxf->CurlResult == CURLE_OUT_OF_MEMORY) {
+                msg_printf(0, MSG_ERROR, "An out of memory condition has been detected");
+                nxf->http_op_retval = ERR_MALLOC;
+            } else if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
                 msg_printf(0, MSG_ERROR, "Couldn't resolve hostname [%s]", nxf->hostname);
                 nxf->http_op_retval = ERR_GETHOSTBYNAME;
             } else if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_PROXY) {
@@ -328,10 +331,17 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             } else if (nxf->CurlResult == CURLE_LOGIN_DENIED) {
                 msg_printf(0, MSG_ERROR, "Proxy authentication failed against proxy [%s]", nxf->hostname);
                 nxf->http_op_retval = HTTP_STATUS_PROXY_AUTH_REQ;
+            } else if (nxf->CurlResult == CURLE_OPERATION_TIMEOUTED) {
+                msg_printf(0, MSG_ERROR, "Attempting to communicate with [%s] timed out", nxf->hostname);
+                nxf->http_op_retval = ERR_TIMEOUT;
             } else if (nxf->CurlResult == CURLE_READ_ERROR) {
-                nxf->http_op_retval = ERR_FOPEN;
+                nxf->http_op_retval = ERR_FREAD;
             } else if (nxf->CurlResult == CURLE_WRITE_ERROR) {
-                nxf->http_op_retval = ERR_FOPEN;
+                nxf->http_op_retval = ERR_FWRITE;
+            } else if (nxf->CurlResult == CURLE_RECV_ERROR) {
+                nxf->http_op_retval = ERR_READ;
+            } else if (nxf->CurlResult == CURLE_SEND_ERROR) {
+                nxf->http_op_retval = ERR_WRITE;
             } else if (nxf->CurlResult == CURLE_OK) {
                 if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
                     nxf->http_op_retval = nxf->response;
