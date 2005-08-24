@@ -1042,6 +1042,7 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& name )
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
  */
+
 void CProjectInfoPage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
 }

@@ -78,9 +78,7 @@ void* CNetworkConnection::Poll() {
             SetStateError();
         }
     } else if (IsConnectEventSignaled() || m_bReconnectOnError) {
-        if ((m_bForceReconnect) ||
-             (!IsConnected() && m_bReconnectOnError) 
-        ) {
+        if ((m_bForceReconnect) || (!IsConnected() && m_bReconnectOnError)) {
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Resetting Document State"));
             m_pDocument->ResetState();
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Setting connection state to reconnecting"));

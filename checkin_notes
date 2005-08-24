@@ -10921,3 +10921,10 @@ Rom    23 Aug 2005
     client/
         cs_scheduler.C
 
+Rom    23 Aug 2005
+    - Fix LF problem with Wizard files
+
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+        
