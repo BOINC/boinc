@@ -38,6 +38,7 @@
 #include "error_numbers.h"
 #include "util.h"
 #include "filesys.h"
+#include "strings.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
