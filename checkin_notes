@@ -10914,3 +10914,10 @@ Rom    23 Aug 2005
         
     clientgui/
         MainFrame.cpp
+
+Rom    23 Aug 2005
+    - Respect request_delay even when the project is down for maintenance.
+    
+    client/
+        cs_scheduler.C
+

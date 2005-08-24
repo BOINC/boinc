@@ -710,6 +710,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     // and don't do anything else
     //
     if (sr.project_is_down) {
+        if (sr.request_delay) {
+            double x = gstate.now + sr.request_delay;
+            if (x > project->min_rpc_time) project->min_rpc_time = x;
+        }
         return ERR_PROJECT_DOWN;
     }
 
