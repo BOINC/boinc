@@ -10923,6 +10923,8 @@ Rom    23 Aug 2005
 
 Rom    23 Aug 2005
     - Fix LF problem with Wizard files
+    - Remove finish page on error
+    - Enable next and back buttons on a cancel event
 
     clientgui/
         BOINCGUI.pjd

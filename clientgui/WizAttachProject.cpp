@@ -334,11 +334,6 @@ bool CWizAttachProject::HasNextPage( wxWizardPage* page )
 
     bNoNextPageDetected |= (page == m_CompletionPage);
     bNoNextPageDetected |= (page == m_CompletionErrorPage);
-    bNoNextPageDetected |= (page == m_ErrProjectNotDetectedPage);
-    bNoNextPageDetected |= (page == m_ErrProjectUnavailablePage);
-    bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
-    bNoNextPageDetected |= (page == m_ErrAccountAlreadyExistsPage);
-    bNoNextPageDetected |= (page == m_ErrAccountCreationDisabledPage);
  
     if (bNoNextPageDetected)
         return false;
@@ -482,7 +477,11 @@ void CWizAttachProject::ProcessCancelEvent( wxWizardEvent& event ) {
         wxICON_QUESTION | wxYES_NO,
         this
     );
- 
+
+    // Reenable the next and back buttons if they have been disabled
+    GetNextButton()->Enable();
+    GetBackButton()->Enable();
+
     // Page specific rules - Disable the validator(s)
     if (wxYES == iRetVal) {
         if (GetCurrentPage() == m_ProjectInfoPage) {
@@ -2841,10 +2840,6 @@ wxWizardPage* CErrProjectNotDetectedPage::GetPrev() const
  
 wxWizardPage* CErrProjectNotDetectedPage::GetNext() const
 {
-    if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    }
     return NULL;
 }
  
@@ -2997,10 +2992,6 @@ wxWizardPage* CErrProjectUnavailablePage::GetPrev() const
  
 wxWizardPage* CErrProjectUnavailablePage::GetNext() const
 {
-    if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    }
     return NULL;
 }
  
@@ -3148,10 +3139,6 @@ wxWizardPage* CErrNoInternetConnectionPage::GetPrev() const
 
 wxWizardPage* CErrNoInternetConnectionPage::GetNext() const
 {
-    if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    }
     return NULL;
 }
 
@@ -3298,10 +3285,6 @@ wxWizardPage* CErrAccountNotFoundPage::GetPrev() const
 
 wxWizardPage* CErrAccountNotFoundPage::GetNext() const
 {
-    if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    }
     return NULL;
 }
  
@@ -3448,10 +3431,6 @@ wxWizardPage* CErrAccountAlreadyExistsPage::GetPrev() const
  
 wxWizardPage* CErrAccountAlreadyExistsPage::GetNext() const
 {
-    if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    }
     return NULL;
 }
  
@@ -3599,10 +3578,6 @@ wxWizardPage* CErrAccountCreationDisabledPage::GetPrev() const
  
 wxWizardPage* CErrAccountCreationDisabledPage::GetNext() const
 {
-    if (((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    }
     return NULL;
 }
   
