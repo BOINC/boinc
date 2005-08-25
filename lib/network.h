@@ -21,8 +21,10 @@
 #define _BOINC_NETWORK_H_
 
 #include <string.h>
+#ifndef _WIN32
 #include <unistd.h>
 #include "config.h"
+#endif
 
 struct FDSET_GROUP {
     fd_set read_fds;
