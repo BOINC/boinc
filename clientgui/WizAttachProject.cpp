@@ -1455,7 +1455,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 SetNextState(PROJPROP_CLEANUP);
             } else {
                 SetProjectPropertiesSucceeded(false);
-                bSuccessfulCondition = (HTTP_STATUS_NOT_FOUND == iReturnValue) || (ERR_GETHOSTBYNAME == iReturnValue);
+                bSuccessfulCondition = (HTTP_STATUS_NOT_FOUND == iReturnValue) ||
+                                       (ERR_GETHOSTBYNAME == iReturnValue) ||
+                                       (ERR_XML_PARSE == iReturnValue);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
                 } else {
