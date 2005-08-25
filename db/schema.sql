@@ -100,6 +100,7 @@ create table user (
     cross_project_id    varchar(254) not null,
     passwd_hash         varchar(254) not null,
     email_validated     smallint    not null,
+    donated             smallint    not null,
     primary key (id)
 ) type=InnoDB;
 

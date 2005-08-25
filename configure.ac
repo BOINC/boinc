@@ -252,8 +252,42 @@ esac
 dnl m4/boinc_getsockopt.m4
 BOINC_GETSOCKOPT_TYPE
 
-dnl m4/check_ssl.m4
-CHECK_SSL
+dnl ---------- SSL (m4/check_ssl.m4)
+##CHECK_SSL
+
+dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
+
+if test "${enable_client}" = yes; then
+   LIBCURL_CHECK_CONFIG([yes], [7.13.2], [haveCurl=yes], [haveCurl=no])
+   
+   if test "${haveCurl}" != yes; then
+      AC_MSG_ERROR([
+================================================================================
+ERROR: could not find (recent enough) development-libs for libcurl.
+
+  This library is required to build the boinc-client.
+  (If you don't want to build the client, use --disable-client with configure.
+
+  If libcurl-dev is installed on your system, make sure that the script 
+  'curl-config' is found in your PATH, and that 
+  'curl-config --version' gives something recent enough (see above).
+
+  You can download libcurl from: http://curl.haxx.se/
+
+================================================================================
+	])
+   else
+      if test "${enable_debug}" = yes; then
+         echo "LIBCURL = ${LIBCURL}"
+	 echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
+      fi
+
+      ## add libcurl et al. to the list of statically linked libs
+      STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn crypto ssl"
+      CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
+   fi	
+
+fi
 
 dnl save the libs
 SAVELIBS_AAF="${LIBS}"
@@ -269,10 +303,14 @@ SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-SAH_CHECK_LIB([crypto], [RSA_new], 
-    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} -L${SSLDIR}/lib ${sah_lib_last}"])
-SAH_CHECK_LIB([ssl], [main],
-    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} -L${SSLDIR}/lib ${sah_lib_last}"])
+dnl the following are only checked for libcurl: don't save anything
+SAH_CHECK_LIB([crypto], [RSA_new], [])
+SAH_CHECK_LIB([ssl], [SSL_accept],[])
+SAH_CHECK_LIB([idn], [idn_free],[])
+dnl if curl is ok, we add the full LIBCURL to the boinc-libs
+SAH_CHECK_LIB([curl], [curl_easy_init],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"])
+
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
@@ -404,7 +442,6 @@ if test -e "/proc/meminfo"; then
     AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
 fi
 
-
 dnl ---------- wxWidgets --------------------------------------------------
 
 AM_OPTIONS_WXCONFIG
@@ -472,16 +509,20 @@ if ( test "${disable_static_client}" != yes ) && ( test "${enable_client}" = yes
    echo "NOTE: Building portable client binaries"
    echo "----------"
 fi
-SAH_CHECK_LIB([stdc++],[sscanf],[
-    AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
+SAH_CHECK_LIB([c],[atexit], [
+    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+SAH_CHECK_LIB([gcc],[sscanf], [
+    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
     AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([gcc],[sscanf], [
-    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
+SAH_CHECK_LIB([stdc++],[sscanf],[
+    AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([m],[sin], [
@@ -490,10 +531,6 @@ SAH_CHECK_LIB([m],[sin], [
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([pthread],[pthread_join],[
     AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([c],[atexit], [
-    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])

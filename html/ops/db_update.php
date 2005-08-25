@@ -282,6 +282,10 @@ function update_8_05_2005() {
     do_query("update user set email_validated=1");
 }
 
+function update_8_25_2005() {
+    do_query("alter table user add donated smallint not null");
+}
+
 //update_10_25_2004();
 
 ?>

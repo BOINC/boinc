@@ -50,7 +50,7 @@ using namespace std;
 #define PIDFILE  "file_deleter.pid"
 
 #define SLEEP_INTERVAL 5
-#define RESULTS_PER_WU 4		// an estimation of redundancy 
+#define RESULTS_PER_WU 4        // an estimate of redundancy 
 
 SCHED_CONFIG config;
 
@@ -65,7 +65,7 @@ int get_file_path(char *filename, char* upload_dir, int fanout, char* path) {
     if (boinc_file_exists(path)) {
         return 0;
     }
-            	
+ 
     // TODO: get rid of the old hash in about 3/2005
     //
     dir_hier_path(filename, upload_dir, fanout, false, path);
@@ -111,17 +111,17 @@ int wu_delete_files(WORKUNIT& wu) {
                     );
                     retval = unlink(pathname);
                     if (retval && strlen(config.download_dir_alt)) {
-                    	sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
-                    	retval = unlink(pathname);
+                        sprintf(pathname, "%s/%s", config.download_dir_alt, filename);
+                        retval = unlink(pathname);
                     }
                     if (retval) {
-                		log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                             "[WU#%d] unlink %s failed: %d\n",
                             wu.id, filename, retval
                         );
-                    	mthd_retval = ERR_UNLINK;
+                        mthd_retval = ERR_UNLINK;
                     } else {
-                		count_deleted++;
+                        count_deleted++;
                     }
                 }
             }
@@ -172,17 +172,17 @@ int result_delete_files(RESULT& result) {
                 } else {
                     retval = unlink(pathname);
                     if (retval) {
-                    	mthd_retval = ERR_UNLINK;
-                    	log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                        	"[RESULT#%d] unlink %s returned %d %s\n",
-                         	result.id, pathname, retval,
-                         	(retval && errno)?strerror(errno):""
+                        mthd_retval = ERR_UNLINK;
+                        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                            "[RESULT#%d] unlink %s returned %d %s\n",
+                            result.id, pathname, retval,
+                            (retval && errno)?strerror(errno):""
                         );
                     } else {
-                    	count_deleted++;
-                    	log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                        	"[RESULT#%d] unlinked %s\n", result.id, pathname
-                    	);
+                        count_deleted++;
+                        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                            "[RESULT#%d] unlinked %s\n", result.id, pathname
+                        );
                     }
                 }
             }
@@ -222,9 +222,9 @@ bool do_pass(bool retry_error) {
     }
 
     if (retry_error) {
-    	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
+        sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
     } else {
-    	sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
+        sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
     }
     while (!wu.enumerate(buf)) {
         did_something = true;
@@ -234,10 +234,10 @@ bool do_pass(bool retry_error) {
             retval = wu_delete_files(wu);
         }
         if (retval) {
-        	wu.file_delete_state = FILE_DELETE_ERROR;
+            wu.file_delete_state = FILE_DELETE_ERROR;
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[WU#%d] update failed: %d\n", wu.id, retval);
         } else {
-        	wu.file_delete_state = FILE_DELETE_DONE;
+            wu.file_delete_state = FILE_DELETE_DONE;
         }
         sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
         retval= wu.update_field(buf);
@@ -246,10 +246,10 @@ bool do_pass(bool retry_error) {
     for (result_loop_count=0; result_loop_count < RESULTS_PER_WU; result_loop_count++) {
 
         if ( retry_error ) {
-        	sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", 
-		        FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
+            sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", 
+                FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
         } else {
-        	sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
+            sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
         }
 
         while (!result.enumerate(buf)) {
@@ -259,13 +259,13 @@ bool do_pass(bool retry_error) {
                 retval = result_delete_files(result);
             }
             if (retval) {
-        	result.file_delete_state = FILE_DELETE_ERROR;
-	        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[RESULT#%d] update failed: %d\n", result.id, retval);
+                result.file_delete_state = FILE_DELETE_ERROR;
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[RESULT#%d] update failed: %d\n", result.id, retval);
             } else {
-        	result.file_delete_state = FILE_DELETE_DONE;
+                result.file_delete_state = FILE_DELETE_DONE;
             }
-	    sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
-	    retval= result.update_field(buf);
+            sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
+            retval= result.update_field(buf);
         }
     } 
 
@@ -320,10 +320,13 @@ int delete_antique_files(int max_to_delete) {
         char pathname[1024];
         int retval;
 
-      FILE_RECORD fr=files_to_delete.front();
-      check_stop_daemons();
+        FILE_RECORD fr = files_to_delete.front();
+        check_stop_daemons();
 
-        retval=get_file_path((char *)fr.name.c_str(), config.upload_dir, config.uldl_dir_fanout, pathname);
+        retval = get_file_path(
+            (char*)fr.name.c_str(), config.upload_dir,
+            config.uldl_dir_fanout, pathname
+        );
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "get_file_path(%s) failed: %d\n",
@@ -332,23 +335,22 @@ int delete_antique_files(int max_to_delete) {
             return -1;
         }
 
-      strcpy(timestamp, time_to_string(fr.date_modified));
+        strcpy(timestamp, time_to_string(fr.date_modified));
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "deleting [antique %s] %s\n",
           timestamp, pathname 
         );
         if (unlink(pathname)) {
-          int save_error=errno;
-          log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-              "unlink(%s) failed: %s\n",
-              pathname, strerror(save_error)
+            int save_error=errno;
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "unlink(%s) failed: %s\n",
+                pathname, strerror(save_error)
             );
-          return -1;
-      }
-      else {
+            return -1;
+        } else {
             nfiles++;
-          files_to_delete.pop_front();
-      }
+            files_to_delete.pop_front();
+        }
     } // while
     return nfiles;
 }
@@ -368,7 +370,7 @@ int add_antiques_to_list(int days) {
 
     if (!apache_info) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "no user named 'apache' found!\n");
-      return -1;
+        return -1;
     }
 
     sprintf(command,  "find %s -type f -mtime +%d", config.upload_dir, days);
@@ -385,50 +387,50 @@ int add_antiques_to_list(int days) {
 
     while (fgets(single_line, 1024, fp)) {
         char pathname[1024];
-      char *fname_at_end=NULL;
-      int nchars=strlen(single_line);
-      struct stat statbuf;
-      char *err=NULL;
+        char *fname_at_end=NULL;
+        int nchars=strlen(single_line);
+        struct stat statbuf;
+        const char *err=NULL;
         FILE_RECORD fr;        
 
-      // We can interrupt this at any point.
-      // pclose() is called when process exits.
+        // We can interrupt this at any point.
+        // pclose() is called when process exits.
         check_stop_daemons();
 
-      // Do serious sanity checking on the path before
-      // adding the file!!
-      //
-      if (!err && nchars > 1022) err="line too long";
-      if (!err && nchars < dirlen + 1) err="path shorter than upload directory name";
-      if (!err && single_line[nchars-1] != '\n') err="no newline terminator in line";
-      if (!err && strncmp(config.upload_dir, single_line, dirlen)) err="upload directory not in path";
-      if (!err && single_line[dirlen] != '/') err="no slash separator in path";
-      if (!err) single_line[nchars-1]='\0';
-      if (!err && stat(single_line, &statbuf)) err="stat failed";
-      if (!err && statbuf.st_mtime > del_time) err="file too recent";
-      if (!err && apache_info->pw_uid != statbuf.st_uid) err="file not owned by httpd user";
-      if (!err && !(fname_at_end=rindex(single_line+dirlen, '/'))) err="no trailing filename";
-      if (!err) fname_at_end++;
-      if (!err && !strlen(fname_at_end)) err="trailing filename too short";
-      if (!err && get_file_path(fname_at_end, config.upload_dir, config.uldl_dir_fanout, pathname)) err="get_file_path() failed";
-      if (!err && strcmp(pathname, single_line)) err="file in wrong hierarchical upload subdirectory";
+        // Do serious sanity checking on the path before
+        // adding the file!!
+        //
+        if (!err && nchars > 1022) err="line too long";
+        if (!err && nchars < dirlen + 1) err="path shorter than upload directory name";
+        if (!err && single_line[nchars-1] != '\n') err="no newline terminator in line";
+        if (!err && strncmp(config.upload_dir, single_line, dirlen)) err="upload directory not in path";
+        if (!err && single_line[dirlen] != '/') err="no slash separator in path";
+        if (!err) single_line[nchars-1]='\0';
+        if (!err && stat(single_line, &statbuf)) err="stat failed";
+        if (!err && statbuf.st_mtime > del_time) err="file too recent";
+        if (!err && apache_info->pw_uid != statbuf.st_uid) err="file not owned by httpd user";
+        if (!err && !(fname_at_end=rindex(single_line+dirlen, '/'))) err="no trailing filename";
+        if (!err) fname_at_end++;
+        if (!err && !strlen(fname_at_end)) err="trailing filename too short";
+        if (!err && get_file_path(fname_at_end, config.upload_dir, config.uldl_dir_fanout, pathname)) err="get_file_path() failed";
+        if (!err && strcmp(pathname, single_line)) err="file in wrong hierarchical upload subdirectory";
 
-      if (err) {
+        if (err) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-              "Can't list %s for deletion: %s\n",
-              single_line, err
+                "Can't list %s for deletion: %s\n",
+                single_line, err
             );
-          // This file deleting business is SERIOUS.  Give up at the
-          // first sign of ANYTHING amiss.
-          //
-          pclose(fp);
-          return -3;
-      }
+            // This file deleting business is SERIOUS.  Give up at the
+            // first sign of ANYTHING amiss.
+            //
+            pclose(fp);
+            return -3;
+        }
 
         // insert this file onto the list
-      fr.date_modified = statbuf.st_mtime;
-      fr.name = fname_at_end;
-      files_to_delete.push_back(fr);
+        fr.date_modified = statbuf.st_mtime;
+        fr.name = fname_at_end;
+        files_to_delete.push_back(fr);
         unsorted = true;
         nfiles++;
        
@@ -467,7 +469,7 @@ int find_antique_files() {
         int days = 1 + (time(0) - wu.create_time)/86400;
         if (days<31) days=31;
 
-      return add_antiques_to_list(days);
+        return add_antiques_to_list(days);
     }
     return 0;
 }

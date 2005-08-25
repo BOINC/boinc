@@ -41,14 +41,8 @@
 #include "scheduler_op.h"
 #include "ss_logic.h"
 #include "time_stats.h"
-
-#ifdef _USE_CURL
 #include "http_curl.h"
 #include "net_xfer_curl.h"
-#else
-#include "http.h"
-#include "net_xfer.h"
-#endif
 
 #define USER_RUN_REQUEST_ALWAYS     1
 #define USER_RUN_REQUEST_AUTO       2

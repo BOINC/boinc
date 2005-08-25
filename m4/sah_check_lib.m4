@@ -162,7 +162,7 @@ AC_CACHE_CHECK([$tmp_msg],
     SAH_FIND_STATIC_LIB(${libname})
     if test -n "${tmp_lib_name}"
     then
-      LIBS="${sah_save_libs} ${tmp_lib_name}"
+      LIBS="${tmp_lib_name} ${sah_save_libs}"
       AC_LINK_IFELSE([
         AC_LANG_PROGRAM([[
           #define CONFIG_TEST 1
@@ -195,7 +195,7 @@ sah_static_lib_last="`eval echo '${'$varname'}'`"
 #
 if test "${sah_static_lib_last}" != "no"
 then
-  LIBS="${LIBS} ${sah_static_lib_last}"
+  LIBS="${sah_static_lib_last} ${LIBS}"
   AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
     [Define to 1 if the $1 library has the function $2]
   )
@@ -240,7 +240,7 @@ AC_CACHE_CHECK([$tmp_msg],
   for libname in ${sah_dynamic_checklibs}
   do
     tmp_lib_name="${libname}"
-    LIBS="${sah_save_libs} ${ld_dynamic_option} ${tmp_lib_name}"
+    LIBS="${ld_dynamic_option} ${tmp_lib_name} ${sah_save_libs}"
     AC_LINK_IFELSE([
       AC_LANG_PROGRAM([[
         #define CONFIG_TEST 1
@@ -260,7 +260,7 @@ AC_CACHE_CHECK([$tmp_msg],
     if test "${tmp_res}" = "no"
     then
       tmp_lib_name="${libname}"
-      LIBS="${sah_save_libs} ${tmp_lib_name}"
+      LIBS="${tmp_lib_name} ${sah_save_libs}"
       AC_LINK_IFELSE([
         AC_LANG_PROGRAM([[
           #define CONFIG_TEST 1
@@ -289,7 +289,7 @@ sah_dynamic_lib_last="`eval echo '${'$varname'}'`"
 #
 if test "${sah_dynamic_lib_last}" != "no"
 then
-  LIBS="${LIBS} ${sah_dynamic_lib_last}"
+  LIBS="${sah_dynamic_lib_last} ${LIBS}"
   AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
     [Define to 1 if the $1 library has the function $2]
   )

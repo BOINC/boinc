@@ -17,8 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifdef _USE_CURL
-
 #ifndef _NET_XFER_
 #define _NET_XFER_
 
@@ -165,5 +163,3 @@ public:
 };
 
 #endif  // _H
-
-#endif // _USE_CURL

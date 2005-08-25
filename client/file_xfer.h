@@ -30,11 +30,7 @@
 // - upload authentication
 
 #include "client_types.h"
-#ifdef _USE_CURL
 #include "http_curl.h"
-#else
-#include "http.h"
-#endif
 
 class FILE_XFER : public HTTP_OP {
 public:

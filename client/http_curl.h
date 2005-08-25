@@ -24,12 +24,6 @@
 // CMC Note: This was redone to use libcurl ref: http://curl.haxx.se/libcurl
 //   to allow ease of use for SSL/HTTPS etc
 
-// -D_USE_CURL in your C flags will build a "curl" BOINC client
-//  note the ifdef _USE_CURL in the *_curl.C/.h files to bypass
-//  this code (similarly the ifndef _USE_CURL in http/net_xfer/proxy.C/.h)
-
-#ifdef _USE_CURL   // only adds this file if user wants to link against libcurl
-
 #ifndef _HTTP_
 #define _HTTP_
 
@@ -151,5 +145,3 @@ public:
 extern void parse_url(const char* url, char* host, int &port, char* file);
 
 #endif //__HTTP_H
-
-#endif // _USE_CURL

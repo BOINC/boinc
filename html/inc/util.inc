@@ -263,7 +263,7 @@ function print_login_form_aux($next_url, $user) {
     start_table();
     row1("Log in with email/password");
     row2("Email address:", "<input name=email_addr size=40>");
-    row2("Password:", "<input name=passwd size=40>");
+    row2("Password:", "<input type=password name=passwd size=40>");
     row1("Log in with account key");
     row2("Your account key:
         <br><font size=-2>

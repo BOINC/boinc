@@ -68,7 +68,18 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
+    <td><a href=http://www.openssl.org/>OpenSSL</a> version 0.9.8 or higher
+    (included with the BOINC source distribution for Windows)
+    </td>
+    <td>X</td>
+    <td>X</td>
+    <td><br></td>
+    <td><br></td>
+    <td><br></td>
+</tr>
+<tr>
     <td><a href=http://curl.haxx.se/>libcurl</a> version 7.14.0 or higher
+    (included with the BOINC source distribution for Windows)
     </td>
     <td><br></td>
     <td>X</td>
@@ -77,7 +88,7 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
-    <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.6
+    <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.6.1
     </td>
     <td><br></td>
     <td><br></td>

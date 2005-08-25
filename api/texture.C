@@ -309,7 +309,7 @@ unsigned char* getData (FILE *s, int sz, int iBits){
 }
 
 
-unsigned * read_tga_texture(char *name, int *width, int *height, int *components) {   
+unsigned * read_tga_texture(char *name, int *width, int *height, int*) {   
     unsigned char type[4];
     unsigned char info[7];    
     unsigned *base;

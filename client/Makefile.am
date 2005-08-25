@@ -61,10 +61,9 @@ boinc_client_SOURCES = \
     whetstone.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_CPPFLAGS = -D_USE_CURL -I $(srcdir)/win $(AM_CPPFLAGS) -O3
+boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
 boinc_client_LDFLAGS = -static-libgcc
-boinc_client_LDADD = -L/usr/local/ssl/lib -lssl -lcurl -L../lib -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
-#boinc_client_LDFLAGS = $(STATIC_FLAGS)
+boinc_client_LDADD = -L../lib -lboinc $(PTHREAD_LIBS)
 
 # the following don't do anything
 cpu_benchmark_SOURCES = whetstone.C dhrystone.C

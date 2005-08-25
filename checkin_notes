@@ -10964,3 +10964,36 @@ Rom    25 Aug 2005
         MainFrame.cpp, .h
         ViewProjects.cpp
         WizAttachProject.cpp
+
+David  25 Aug 2005
+    - Unix build fixes from Reinhard Prix.
+    - remove #ifdefs on _USE_CURL.  Pre-curl HTTP code is no longer supported.
+    - added "donated" field to user table.
+
+    NOTE: this update requires a database change.  See html/ops/db_update.php
+
+    configure.ac
+    api/
+        texture.C
+    client/
+        Makefile.am
+        client_state.C,h
+        file_xfer.h
+        http_curl.C,h
+        main.C
+        net_stats.h
+        net_xfer_curl.C,h
+        scheduler_op.h
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        inc/
+            util.inc
+        ops/
+            db_update.php
+    m4/
+        libcurl.m4
+        sah_check_lib.m4
+    sched/
+        file_deleter.C

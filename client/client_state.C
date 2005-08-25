@@ -56,11 +56,7 @@
 #include "hostinfo.h"
 #include "hostinfo_network.h"
 #include "network.h"
-#ifdef _USE_CURL
 #include "http_curl.h"
-#else
-#include "http.h"
-#endif
 #include "log_flags.h"
 #include "client_msgs.h"
 #include "client_state.h"
@@ -235,9 +231,7 @@ int CLIENT_STATE::init() {
     );
 #endif
 
-#ifdef _USE_CURL
     msg_printf(NULL, MSG_INFO, curl_version());
-#endif
 
     if (executing_as_daemon) {
         msg_printf(NULL, MSG_INFO, "Executing as a daemon");

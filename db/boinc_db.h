@@ -151,6 +151,7 @@ struct USER {
     char cross_project_id[256];
     char passwd_hash[256];
     bool email_validated;
+    int donated;
     void clear();
 };
 

@@ -30,7 +30,6 @@ boinc_gui_SOURCES = \
     DlgAccountManagerSignup.cpp \
     DlgAccountManagerStatus.cpp \
     DlgDialupCredentials.cpp \
-    DlgAttachProject.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
     LogBOINC.cpp \

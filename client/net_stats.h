@@ -28,11 +28,7 @@
 #include <cstdio>
 #endif
 
-#ifdef _USE_CURL
 #include "net_xfer_curl.h"
-#else
-#include "net_xfer.h"
-#endif
 #include "miofile.h"
 
 // there's one of these each for upload and download

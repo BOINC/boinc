@@ -17,7 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifdef _USE_CURL
 
 #include "cpp.h"
 
@@ -436,5 +435,3 @@ void NET_XFER_SET::check_active(bool& up, bool& down) {
 }
 
 const char *BOINC_RCSID_e0a7088e04 = "$Id$";
-
-#endif //_USE_CURL
