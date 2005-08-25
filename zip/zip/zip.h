@@ -506,7 +506,7 @@ ulg  crc32         OF((ulg, ZCONST uch *, extent));
 #endif /* !UTIL */
 
         /* in crctab.c */
-ZCONST ulg near *get_crc_table OF((void));
+ZCONST ulg near *get_crc_table_boinc OF((void));
 #ifdef DYNALLOC_CRCTAB
 void free_crc_table OF((void));
 #endif
@@ -517,7 +517,7 @@ void free_crc_table OF((void));
         /* in deflate.c */
 void lm_init OF((int, ush *));
 void lm_free OF((void));
-ulg  deflate OF((void));
+ulg  deflate_boinc OF((void));
 
         /* in trees.c */
 void     ct_init      OF((ush *, int *));

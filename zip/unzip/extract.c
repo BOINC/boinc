@@ -216,7 +216,9 @@ static ZCONST char Far ErrUnzipFile[] = "  error:  %s%s %s\n";
 static ZCONST char Far ErrUnzipNoFile[] = "\n  error:  %s%s\n";
 static ZCONST char Far NotEnoughMem[] = "not enough memory to ";
 static ZCONST char Far InvalidComprData[] = "invalid compressed data to ";
-static ZCONST char Far Inflate[] = "inflate";
+static ZCONST char Far Inflate[] = "inflate_boinc";
+
+extern int inflate_boinc(__G__ is_defl64);
 
 #ifndef SFX
    static ZCONST char Far Explode[] = "explode";
@@ -1568,7 +1570,7 @@ static int extract_or_test_member(__G)    /* return PK-type error code */
                   "" : (G.pInfo->textfile? txt : bin), uO.cflag? NEWLINE : ""));
             }
 #ifndef USE_ZLIB  /* zlib's function is called inflate(), too */
-#  define UZinflate inflate
+#  define UZinflate inflate_boinc
 #endif
             if ((r = UZinflate(__G__
                                (G.lrec.compression_method == ENHDEFLATED)))

@@ -46,7 +46,7 @@
  */
 #if defined(NO_UNDERLINE) || defined(__ELF__)
 #  define _crc32            crc32
-#  define _get_crc_table    get_crc_table
+#  define _get_crc_table    get_crc_table_boinc
 #endif
 /* Use 16-byte alignment if your assembler supports it. Warning: gas
  * uses a log(x) parameter (.align 4 means 16-byte alignment). On SVR4

@@ -59,7 +59,7 @@
  *      void lm_init (int pack_level, ush *flags)
  *          Initialize the "longest match" routines for a new file
  *
- *      ulg deflate (void)
+ *      ulg deflate_boinc (void)
  *          Processes a new input file and return its compressed length. Sets
  *          the compressed length, crc, deflate flags and internal file
  *          attributes.
@@ -258,7 +258,7 @@ local config configuration_table[10] = {
 local void fill_window   OF((void));
 local ulg deflate_fast   OF((void));
 
-      int  longest_match OF((IPos cur_match));
+      int  longest_match_batch OF((IPos cur_match));
 //#if defined(ASMV) && !defined(RISCOS)
 //      void match_init OF((void)); /* asm code initialization */
 //#endif
@@ -410,7 +410,7 @@ void lm_free()
  * match.S. The code is functionally equivalent, so you can use the C version
  * if desired.
  */
-int longest_match(cur_match)
+int longest_match_boinc(cur_match)
     IPos cur_match;                             /* current match */
 {
     unsigned chain_length = max_chain_length;   /* max hash chain length */
@@ -696,8 +696,8 @@ local ulg deflate_fast()
              */
             if ((unsigned)nice_match > lookahead) nice_match = (int)lookahead;
 #  endif
-            match_length = longest_match (hash_head);
-            /* longest_match() sets match_start */
+            match_length = longest_match_boinc (hash_head);
+            /* longest_match_boinc() sets match_start */
             if (match_length > lookahead) match_length = lookahead;
 #endif
         }
@@ -764,7 +764,7 @@ local ulg deflate_fast()
  * evaluation for matches: a match is finally adopted only if there is
  * no better match at the next window position.
  */
-ulg deflate()
+ulg deflate_boinc()
 {
     IPos hash_head = NIL;       /* head of hash chain */
     IPos prev_match;            /* previous match */
@@ -805,8 +805,8 @@ ulg deflate()
              */
             if ((unsigned)nice_match > lookahead) nice_match = (int)lookahead;
 #  endif
-            match_length = longest_match (hash_head);
-            /* longest_match() sets match_start */
+            match_length = longest_match_boinc (hash_head);
+            /* longest_match_boinc() sets match_start */
             if (match_length > lookahead) match_length = lookahead;
 #endif
 

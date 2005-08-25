@@ -219,12 +219,12 @@ __GDEF
 
 #if (!defined(USE_ZLIB) || defined(USE_OWN_CRCTAB))
 #ifdef USE_ZLIB
-ZCONST uLongf *get_crc_table()
+ZCONST uLongf *get_crc_table_boinc()
 {
   return (ZCONST uLongf *)crc_32_tab;
 }
 #else /* !USE_ZLIB */
-ZCONST ulg near *get_crc_table()
+ZCONST ulg near *get_crc_table_boinc()
 {
   return crc_32_tab;
 }
@@ -453,7 +453,7 @@ char **argv;
       }
 #if (defined(USE_ZLIB) && !defined(USE_OWN_CRCTAB))
       /* initialize crc_32_tab pointer for decryption */
-      CRC_32_TAB = (ZCONST ulg Far *)get_crc_table();
+      CRC_32_TAB = (ZCONST ulg Far *)get_crc_table_boinc();
 #endif
       init_keys(p);
       for (i = 0; i < RAND_HEAD_LEN; i++)

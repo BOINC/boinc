@@ -46,7 +46,7 @@ ulg crc32(crc, buf, len)
 
   if (buf == NULL) return 0L;
 
-  crc_table = get_crc_table();
+  crc_table = get_crc_table_boinc();
 
   crc = crc ^ 0xffffffffL;
 #ifndef NO_UNROLLED_LOOPS

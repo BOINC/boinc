@@ -48,20 +48,17 @@ int main(int argc, char* argv[])
 	boinc_filelist("/tmp/junk", "", &zflist, SORT_NAME | SORT_ASCENDING);
 #endif
         int jj; 
-		char strTmp[128];
+		char strTmp[128], strTmp2[128];
 		for (jj = 0; jj < zflist.size(); jj++) {
 			printf("%s  %d\n", zflist[jj].c_str(), zflist[jj].m_statFile.st_mtime);
 			// now gzip it, silly but see how it goes!
 			sprintf(strTmp, "%s.gz", zflist[jj].c_str());
+			sprintf(strTmp2, "%s.zip", strTmp);
+                     printf("infile=%s  outfile=%s\n", strTmp, strTmp2);
 			do_gzip(strTmp, zflist[jj].c_str());
+                    boinc_zip(ZIP_IT, strTmp2, strTmp);
 		}
-#ifdef _WIN32
-	boinc_filelist("c:\\temp", "", &zflist, SORT_NAME | SORT_ASCENDING);
-    boinc_zip(ZIP_IT, "c:\\temp\\newzip", &zflist);
-#else
-    boinc_filelist("/tmp/junk/", "", &zflist, SORT_NAME | SORT_ASCENDING);
-    boinc_zip(ZIP_IT, "./ziptest.zip", &zflist);
-#endif
+    boinc_zip(UNZIP_IT, "/tmp/boinc_zip.zip", "/tmp/junk/boinc_zip");
     return 0;
 }
 

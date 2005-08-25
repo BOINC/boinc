@@ -844,7 +844,7 @@ local int zl_deflate_init(pack_level)
     zstrm.zalloc = (alloc_func)Z_NULL;
     zstrm.zfree = (free_func)Z_NULL;
 
-    Trace((stderr, "initializing deflate()\n"));
+    Trace((stderr, "initializing deflate_boinc()\n"));
     err = deflateInit2(&zstrm, pack_level, Z_DEFLATED, -windowBits, 8, 0);
 
     if (err == Z_MEM_ERROR) {
@@ -1012,7 +1012,7 @@ local ulg filecompress(z_entry, zipfile, cmpr_method)
     zstrm.avail_out = OBUF_SZ;
 
     if (!maybe_stored) while (zstrm.avail_in != 0 && zstrm.avail_in != EOF) {
-        err = deflate(&zstrm, Z_NO_FLUSH);
+        err = deflate_boinc(&zstrm, Z_NO_FLUSH);
         if (err != Z_OK && err != Z_STREAM_END) {
             sprintf(errbuf, "unexpected zlib deflate error %d", err);
             ziperr(ZE_LOGIC, errbuf);
@@ -1045,7 +1045,7 @@ local ulg filecompress(z_entry, zipfile, cmpr_method)
     }
 
     do {
-        err = deflate(&zstrm, Z_FINISH);
+        err = deflate_boinc(&zstrm, Z_FINISH);
         if (maybe_stored) {
             if (err == Z_STREAM_END && zstrm.total_out >= zstrm.total_in &&
                 fseekable(zipfile)) {
@@ -1093,7 +1093,7 @@ local ulg filecompress(z_entry, zipfile, cmpr_method)
     bi_init(file_outbuf, sizeof(file_outbuf), TRUE);
     ct_init(&z_entry->att, cmpr_method);
     lm_init(level, &z_entry->flg);
-    return deflate();
+    return deflate_boinc();
 #endif /* ?USE_ZLIB */
 }
 
@@ -1138,7 +1138,7 @@ ulg memcompress(tgt, tgtsize, src, srcsize)
     zstrm.next_out = (Bytef *)(tgt + out_total);
     zstrm.avail_out = (uInt)tgtsize - (uInt)out_total;
 
-    err = deflate(&zstrm, Z_FINISH);
+    err = deflate_boinc(&zstrm, Z_FINISH);
     if (err != Z_STREAM_END)
         error("output buffer too small for in-memory compression");
     out_total += (unsigned)zstrm.total_out;
@@ -1156,7 +1156,7 @@ ulg memcompress(tgt, tgtsize, src, srcsize)
     bi_init(tgt + (2 + 4), (unsigned)(tgtsize - (2 + 4)), FALSE);
     ct_init(&att, NULL);
     lm_init((level != 0 ? level : 1), &flags);
-    out_total += (unsigned)deflate();
+    out_total += (unsigned)deflate_boinc();
     window_size = 0L; /* was updated by lm_init() */
 #endif /* ?USE_ZLIB */
 

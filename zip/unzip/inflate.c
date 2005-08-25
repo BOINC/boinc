@@ -87,7 +87,7 @@
    c14l   9 Apr 94  G. Roelofs      fixed split comments on preprocessor lines
                                     to avoid bug in Encore compiler.
    c14m   7 Jul 94  P. Kienitz      modified to allow assembler version of
-                                    inflate_codes() (define ASM_INFLATECODES)
+                                    inflate_codes_boinc() (define ASM_INFLATECODES)
    c14n  22 Jul 94  G. Roelofs      changed fprintf to macro for DLL versions
    c14o  23 Aug 94  C. Spieler      added a newline to a debug statement;
                     G. Roelofs      added another typecast to avoid MSC warning
@@ -96,7 +96,7 @@
    c14r   1 Nov 94  G. Roelofs      fixed possible redefinition of CHECK_EOF
    c14s   7 May 95  S. Maxwell      OS/2 DLL globals stuff incorporated;
                     P. Kienitz      "fixed" ASM_INFLATECODES macro/prototype
-   c14t  18 Aug 95  G. Roelofs      added UZinflate() to use zlib functions;
+   c14t  18 Aug 95  G. Roelofs      added UZinflate_boinc() to use zlib functions;
                                     changed voidp to zvoid; moved huft_build()
                                     and huft_free() to end of file
    c14u   1 Oct 95  G. Roelofs      moved G into definition of MESSAGE macro
@@ -322,7 +322,7 @@
 
 
 /*
-   GRR:  return values for both original inflate() and UZinflate()
+   GRR:  return values for both original inflate_boinc() and UZinflate_boinc()
            0  OK
            1  incomplete table(?)
            2  bad input
@@ -330,10 +330,10 @@
  */
 
 /**************************/
-/*  Function UZinflate()  */
+/*  Function UZinflate_boinc()  */
 /**************************/
 
-int UZinflate(__G__ is_defl64)
+int UZinflate_boinc(__G__ is_defl64)
     __GDEF
     int is_defl64;
 /* decompress an inflated entry using the zlib routines */
@@ -380,7 +380,7 @@ int UZinflate(__G__ is_defl64)
         G.dstrm.zalloc = (alloc_func)Z_NULL;
         G.dstrm.zfree = (free_func)Z_NULL;
 
-        Trace((stderr, "initializing inflate()\n"));
+        Trace((stderr, "initializing inflate_boinc()\n"));
         err = inflateInit2(&G.dstrm, -windowBits);
 
         if (err == Z_MEM_ERROR)
@@ -397,14 +397,14 @@ int UZinflate(__G__ is_defl64)
         Trace((stderr, "first loop:  G.csize = %ld\n", G.csize));
 #endif /* ?FUNZIP */
         while (G.dstrm.avail_out > 0) {
-            err = inflate(&G.dstrm, Z_PARTIAL_FLUSH);
+            err = inflate_boinc(&G.dstrm, Z_PARTIAL_FLUSH);
 
             if (err == Z_DATA_ERROR) {
                 retval = 2; goto uzinflate_cleanup_exit;
             } else if (err == Z_MEM_ERROR) {
                 retval = 3; goto uzinflate_cleanup_exit;
             } else if (err != Z_OK && err != Z_STREAM_END)
-                Trace((stderr, "oops!  (inflate(first loop) err = %d)\n", err));
+                Trace((stderr, "oops!  (inflate_boinc(first loop) err = %d)\n", err));
 
 #ifdef FUNZIP
             if (err == Z_STREAM_END)    /* "END-of-entry-condition" ? */
@@ -437,18 +437,18 @@ int UZinflate(__G__ is_defl64)
     /* no more input, so loop until we have all output */
     Trace((stderr, "beginning final loop:  err = %d\n", err));
     while (err != Z_STREAM_END) {
-        err = inflate(&G.dstrm, Z_PARTIAL_FLUSH);
+        err = inflate_boinc(&G.dstrm, Z_PARTIAL_FLUSH);
         if (err == Z_DATA_ERROR) {
             retval = 2; goto uzinflate_cleanup_exit;
         } else if (err == Z_MEM_ERROR) {
             retval = 3; goto uzinflate_cleanup_exit;
         } else if (err == Z_BUF_ERROR) {                /* DEBUG */
             Trace((stderr,
-                   "zlib inflate() did not detect stream end (%s, %s)\n",
+                   "zlib inflate_boinc() did not detect stream end (%s, %s)\n",
                    G.zipfn, G.filename));
             break;
         } else if (err != Z_OK && err != Z_STREAM_END) {
-            Trace((stderr, "oops!  (inflate(final loop) err = %d)\n", err));
+            Trace((stderr, "oops!  (inflate_boinc(final loop) err = %d)\n", err));
             DESTROYGLOBALS();
             EXIT(PK_MEM3);
         }
@@ -488,7 +488,7 @@ uzinflate_cleanup_exit:
 #    define OF(a) ()
 #  endif
 #endif /* !OF */
-int inflate_codes OF((__GPRO__ struct huft *tl, struct huft *td,
+int inflate_codes_boinc OF((__GPRO__ struct huft *tl, struct huft *td,
                       int bl, int bd));
 static int inflate_stored OF((__GPRO));
 static int inflate_fixed OF((__GPRO));
@@ -589,7 +589,7 @@ ZCONST ush near mask_bits[] = {
 #endif /* 0 */
 
 
-/* Macros for inflate() bit peeking and grabbing.
+/* Macros for inflate_boinc() bit peeking and grabbing.
    The usage is:
 
         NEEDBITS(j)
@@ -669,7 +669,7 @@ static ZCONST int dbits = 6;    /* bits in base distance lookup table */
 
 #ifndef ASM_INFLATECODES
 
-int inflate_codes(__G__ tl, td, bl, bd)
+int inflate_codes_boinc(__G__ tl, td, bl, bd)
      __GDEF
 struct huft *tl, *td;   /* literal/length and distance decoder tables */
 int bl, bd;             /* number of bits decoded by tl[] and td[] */
@@ -926,7 +926,7 @@ static int inflate_fixed(__G)
   }
 
   /* decompress until an end-of-block code */
-  return inflate_codes(__G__ G.fixed_tl, G.fixed_td,
+  return inflate_codes_boinc(__G__ G.fixed_tl, G.fixed_td,
                              G.fixed_bl, G.fixed_bd);
 }
 
@@ -1096,7 +1096,7 @@ static int inflate_dynamic(__G)
   }
 
   /* decompress until an end-of-block code */
-  retval = inflate_codes(__G__ tl, td, bl, bd);
+  retval = inflate_codes_boinc(__G__ tl, td, bl, bd);
 
 cleanup_and_exit:
   /* free the decoding tables, return */
@@ -1158,7 +1158,7 @@ cleanup_and_exit:
 
 
 
-int inflate(__G__ is_defl64)
+int inflate_boinc(__G__ is_defl64)
     __GDEF
     int is_defl64;
 /* decompress an inflated entry */
@@ -1205,7 +1205,7 @@ int inflate(__G__ is_defl64)
      * compiled with inconsistent option setting.  Handle this by
      * returning with "bad input" error code.
      */
-    Trace((stderr, "\nThis inflate() cannot handle Deflate64!\n"));
+    Trace((stderr, "\nThis inflate_boinc() cannot handle Deflate64!\n"));
     return 2;
   }
 #endif /* ?USE_DEFLATE64 */

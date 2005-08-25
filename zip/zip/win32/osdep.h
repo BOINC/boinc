@@ -204,7 +204,7 @@ int getch_win32(void);
 #  ifdef __386__
 #    ifdef ASMV
 #      pragma aux match_init    "_*" parm caller [] modify []
-#      pragma aux longest_match "_*" parm caller [] value [eax] \
+#      pragma aux longest_match_boinc "_*" parm caller [] value [eax] \
                                       modify [eax ecx edx]
 #    endif
 #    if defined(ASM_CRC) && !defined(USE_ZLIB)

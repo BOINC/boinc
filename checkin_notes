@@ -10939,3 +10939,9 @@ Rom    24 Aug 2005
         
     client/
         net_xfer_curl.C, .h
+
+David  25 Aug 2005
+	- zip fixes (from Carl C)
+
+	zip/
+		(various files)

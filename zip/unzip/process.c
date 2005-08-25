@@ -609,7 +609,7 @@ static int do_seekable(__G__ lastchance)        /* return PK-type error code */
 
     /* initialize the CRC table pointer (once) */
     if (CRC_32_TAB == NULL) {
-        if ((CRC_32_TAB = get_crc_table()) == NULL) {
+        if ((CRC_32_TAB = get_crc_table_boinc()) == NULL) {
             CLOSE_INFILE();
             return PK_MEM;
         }

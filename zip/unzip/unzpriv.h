@@ -1188,7 +1188,7 @@
 #  define explode_nolit8            XXnl8
 #  define explode_nolit4            XXnl4
 #  define cpdist8                   XXcpdist8
-#  define inflate_codes             XXic
+#  define inflate_codes_boinc       XXic
 #  define inflate_stored            XXis
 #  define inflate_fixed             XXif
 #  define inflate_dynamic           XXid
@@ -2027,7 +2027,7 @@ int      iswild          OF((ZCONST char *p));                    /* match.c */
    void     free_crc_table  OF((void));                          /* crctab.c */
 #endif
 #ifndef USE_ZLIB
-   ZCONST ulg near *get_crc_table  OF((void));         /* funzip.c, crctab.c */
+   ZCONST ulg near *get_crc_table_boinc  OF((void));         /* funzip.c, crctab.c */
    ulg      crc32           OF((ulg crc, ZCONST uch *buf, extent len));
 #endif /* !USE_ZLIB */                        /* assembler source or crc32.c */
 

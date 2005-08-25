@@ -225,7 +225,7 @@ int main(argc, argv)
 
     init_upper();               /* build case map table */
 
-    crc_32_tab = get_crc_table();
+    crc_32_tab = get_crc_table_boinc();
                                 /* initialize crc table for crypt */
 
     /* Go through args */

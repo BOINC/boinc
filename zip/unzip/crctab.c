@@ -197,9 +197,9 @@ local ZCONST ulg near crc_table[256] = {
 
 /* use "OF((void))" here to work around a Borland TC++ 1.0 problem */
 #ifdef USE_ZLIB
-ZCONST uLongf *get_crc_table OF((void))
+ZCONST uLongf *get_crc_table_boinc OF((void))
 #else
-ZCONST ulg near *get_crc_table OF((void))
+ZCONST ulg near *get_crc_table_boinc OF((void))
 #endif
 {
 #ifdef DYNAMIC_CRC_TABLE
