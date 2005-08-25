@@ -69,8 +69,6 @@ public:
     void OnToolsManageAccounts( wxCommandEvent& event );
     void OnToolsOptions( wxCommandEvent& event );
 
-    void OnDebugAttachProject( wxCommandEvent& event );
-
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINCManager( wxCommandEvent& event );
     void OnHelpBOINCWebsite( wxCommandEvent& event );
@@ -103,6 +101,11 @@ public:
     bool Show( bool show = true );
 #endif
 
+    wxTimer*        m_pRefreshStateTimer;
+    wxTimer*        m_pFrameRenderTimer;
+    wxTimer*        m_pFrameListPanelRenderTimer;
+    wxTimer*        m_pDocumentPollTimer;
+
 private:
 
     wxMenuBar*      m_pMenubar;
@@ -112,11 +115,6 @@ private:
     wxDynamicLibrary m_WININET;
     wxDialUpManager* m_pDialupManager;
 #endif
-    wxTimer*        m_pRefreshStateTimer;
-    wxTimer*        m_pFrameRenderTimer;
-    wxTimer*        m_pFrameListPanelRenderTimer;
-    wxTimer*        m_pDocumentPollTimer;
-
     wxString        m_strBaseTitle;
 
     int             m_iSelectedLanguage;

@@ -334,6 +334,11 @@ bool CWizAttachProject::HasNextPage( wxWizardPage* page )
 
     bNoNextPageDetected |= (page == m_CompletionPage);
     bNoNextPageDetected |= (page == m_CompletionErrorPage);
+    bNoNextPageDetected |= (page == m_ErrProjectNotDetectedPage);
+    bNoNextPageDetected |= (page == m_ErrProjectUnavailablePage);
+    bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
+    bNoNextPageDetected |= (page == m_ErrAccountAlreadyExistsPage);
+    bNoNextPageDetected |= (page == m_ErrAccountCreationDisabledPage);
  
     if (bNoNextPageDetected)
         return false;
@@ -471,6 +476,10 @@ wxWizardPage* CWizAttachProject::PushPageTransition( wxWizardPage* pCurrentPage,
 }
   
 void CWizAttachProject::ProcessCancelEvent( wxWizardEvent& event ) {
+
+    bool bCancelWithoutNextPage = false;
+    wxWizardPage* page = GetCurrentPage();
+
     int iRetVal = ::wxMessageBox(
         _("Do you really want to cancel?"), 
         _("Question"),
@@ -479,25 +488,29 @@ void CWizAttachProject::ProcessCancelEvent( wxWizardEvent& event ) {
     );
 
     // Reenable the next and back buttons if they have been disabled
-    GetNextButton()->Enable();
-    GetBackButton()->Enable();
+    if (GetNextButton()) {
+        GetNextButton()->Enable();
+    }
+    if (GetBackButton()) {
+        GetBackButton()->Enable();
+    }
 
     // Page specific rules - Disable the validator(s)
     if (wxYES == iRetVal) {
-        if (GetCurrentPage() == m_ProjectInfoPage) {
+        if (page == m_ProjectInfoPage) {
             m_ProjectInfoPage->m_ProjectUrlCtrl->SetValidator(wxDefaultValidator);
-        } else if (GetCurrentPage() == m_AccountKeyPage) {
+        } else if (page == m_AccountKeyPage) {
             m_AccountKeyPage->m_AccountKeyCtrl->SetValidator(wxDefaultValidator);
-        } else if (GetCurrentPage() == m_AccountInfoPage) {
+        } else if (page == m_AccountInfoPage) {
             m_AccountInfoPage->m_AccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
             m_AccountInfoPage->m_AccountPasswordCtrl->SetValidator(wxDefaultValidator);
             m_AccountInfoPage->m_AccountConfirmPasswordCtrl->SetValidator(wxDefaultValidator);
-        } else if (GetCurrentPage() == m_ErrProxyHTTPPage) {
+        } else if (page == m_ErrProxyHTTPPage) {
             m_ErrProxyHTTPPage->m_ProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
             m_ErrProxyHTTPPage->m_ProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
             m_ErrProxyHTTPPage->m_ProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
             m_ErrProxyHTTPPage->m_ProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
-        } else if (GetCurrentPage() == m_ErrProxySOCKSPage) {
+        } else if (page == m_ErrProxySOCKSPage) {
             m_ErrProxySOCKSPage->m_ProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
             m_ErrProxySOCKSPage->m_ProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
             m_ErrProxySOCKSPage->m_ProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
@@ -506,7 +519,13 @@ void CWizAttachProject::ProcessCancelEvent( wxWizardEvent& event ) {
     }
 
     // Generic rules
-    if (GetCurrentPage() != m_WelcomePage) {
+    bCancelWithoutNextPage |= (page == m_WelcomePage);
+    bCancelWithoutNextPage |= (page == m_ErrProjectNotDetectedPage);
+    bCancelWithoutNextPage |= (page == m_ErrProjectUnavailablePage);
+    bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
+    bCancelWithoutNextPage |= (page == m_ErrAccountAlreadyExistsPage);
+    bCancelWithoutNextPage |= (page == m_ErrAccountCreationDisabledPage);
+    if (!bCancelWithoutNextPage) {
         event.Veto();
         if (wxYES == iRetVal) {
             m_bCancelInProgress = true;
@@ -1365,9 +1384,12 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
 {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     PROJECT_CONFIG* pc       = &((CWizAttachProject*)GetParent())->project_config;
+    wxDateTime dtStartExecutionTime;
+    wxDateTime dtCurrentExecutionTime;
+    wxTimeSpan tsExecutionTime;
     bool bPostNewEvent = true;
-    int iReturnValue = 0;
     bool bSuccessfulCondition = false;
+    int  iReturnValue = 0;
  
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1389,8 +1411,17 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             );
  
             // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue) {
+            while (ERR_IN_PROGRESS == iReturnValue &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.get_project_config_poll(*pc);
                 IncrementProgress(m_ProjectPropertiesProgress);
 
@@ -1441,8 +1472,17 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             pDoc->rpc.lookup_website(LOOKUP_YAHOO);
  
             // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue) {
+            while (ERR_IN_PROGRESS == iReturnValue &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.lookup_website_poll();
                 IncrementProgress(m_ProjectPropertiesProgress);
 
@@ -1466,8 +1506,17 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
  
             // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue) {
+            while (ERR_IN_PROGRESS == iReturnValue &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.lookup_website_poll();
                 IncrementProgress(m_ProjectPropertiesProgress);
 
@@ -1512,7 +1561,10 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
  
     Update();
  
-    if (bPostNewEvent) {
+    if (bPostNewEvent &&
+        !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+       )
+    {
         CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
@@ -2282,9 +2334,12 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     ACCOUNT_IN* ai           = &((CWizAttachProject*)GetParent())->account_in;
     ACCOUNT_OUT* ao          = &((CWizAttachProject*)GetParent())->account_out;
+    wxDateTime dtStartExecutionTime;
+    wxDateTime dtCurrentExecutionTime;
+    wxTimeSpan tsExecutionTime;
     bool bPostNewEvent = true;
-    int iReturnValue = 0;
     bool bSuccessfulCondition = false;
+    int iReturnValue = 0;
  
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -2323,8 +2378,17 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
                     pDoc->rpc.create_account(*ai);
 
                     // Wait until we are done processing the request.
+                    dtStartExecutionTime = wxDateTime::Now();
+                    dtCurrentExecutionTime = wxDateTime::Now();
+                    tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                     iReturnValue = ERR_IN_PROGRESS;
-                    while (ERR_IN_PROGRESS == iReturnValue) {
+                    while (ERR_IN_PROGRESS == iReturnValue &&
+                        tsExecutionTime.GetSeconds() <= 60 &&
+                        !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+                        )
+                    {
+                        dtCurrentExecutionTime = wxDateTime::Now();
+                        tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                         iReturnValue = pDoc->rpc.create_account_poll(*ao);
 
                         IncrementProgress(m_AttachProjectProgress);
@@ -2347,8 +2411,17 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
                     pDoc->rpc.lookup_account(*ai);
  
                     // Wait until we are done processing the request.
+                    dtStartExecutionTime = wxDateTime::Now();
+                    dtCurrentExecutionTime = wxDateTime::Now();
+                    tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                     iReturnValue = ERR_IN_PROGRESS;
-                    while (ERR_IN_PROGRESS == iReturnValue) {
+                    while (ERR_IN_PROGRESS == iReturnValue &&
+                        tsExecutionTime.GetSeconds() <= 60 &&
+                        !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+                        )
+                    {
+                        dtCurrentExecutionTime = wxDateTime::Now();
+                        tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                         iReturnValue = pDoc->rpc.lookup_account_poll(*ao);
 
                         IncrementProgress(m_AttachProjectProgress);
@@ -2388,8 +2461,17 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
                 );
      
                 // Wait until we are done processing the request.
+                dtStartExecutionTime = wxDateTime::Now();
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = ERR_IN_PROGRESS;
-                while (ERR_IN_PROGRESS == iReturnValue) {
+                while (ERR_IN_PROGRESS == iReturnValue &&
+                    tsExecutionTime.GetSeconds() <= 60 &&
+                    !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+                    )
+                {
+                    dtCurrentExecutionTime = wxDateTime::Now();
+                    tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                     iReturnValue = pDoc->rpc.project_attach_poll();
 
                     IncrementProgress(m_AttachProjectProgress);
@@ -2426,7 +2508,10 @@ void CAttachProjectPage::OnStateChange( CAttachProjectPageEvent& event )
  
     Update();
  
-    if (bPostNewEvent) {
+    if (bPostNewEvent &&
+        !((CWizAttachProject*)GetParent())->IsCancelInProgress()
+       )
+    {
         CAttachProjectPageEvent TransitionEvent(wxEVT_ATTACHPROJECT_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }

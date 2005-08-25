@@ -236,7 +236,7 @@ int CLIENT_STATE::init() {
 #endif
 
 #ifdef _USE_CURL
-    msg_printf(NULL, MSG_INFO, "libcurl enabled");
+    msg_printf(NULL, MSG_INFO, curl_version());
 #endif
 
     if (executing_as_daemon) {

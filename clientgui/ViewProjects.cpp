@@ -27,7 +27,7 @@
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewProjects.h"
-#include "DlgAttachProject.h"
+#include "WizAttachProject.h"
 #include "Events.h"
 
 
@@ -418,20 +418,26 @@ void CViewProjects::OnProjectAttach( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Attaching to project..."));
 
-    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-    wxASSERT(pDlg);
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function Begin"));
 
-    iAnswer = pDlg->ShowModal();
+    pFrame->m_pRefreshStateTimer->Stop();
+    pFrame->m_pFrameRenderTimer->Stop();
+    pFrame->m_pFrameListPanelRenderTimer->Stop();
+    pFrame->m_pDocumentPollTimer->Stop();
 
-    if (wxID_OK == iAnswer) {
-        pDoc->ProjectAttach(
-            pDlg->GetProjectAddress(), 
-            pDlg->GetProjectAccountKey()
-        );
-    }
+    CWizAttachProject* pWizard = new CWizAttachProject(this);
 
-    if (pDlg)
-        pDlg->Destroy();
+    pWizard->Run();
+
+    if (pWizard)
+        pWizard->Destroy();
+
+    pFrame->m_pRefreshStateTimer->Start();
+    pFrame->m_pFrameRenderTimer->Start();
+    pFrame->m_pFrameListPanelRenderTimer->Start();
+    pFrame->m_pDocumentPollTimer->Start();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function End"));
 
     pFrame->UpdateStatusText(wxT(""));
 

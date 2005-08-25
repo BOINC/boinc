@@ -10945,3 +10945,22 @@ David  25 Aug 2005
 
 	zip/
 		(various files)
+
+Rom    25 Aug 2005
+    - Introduce a 60 second timeout for the various wizard polling loops
+    - If the wizard has been cancelled during a polling loop then exit
+        the polling loop
+    - Don't attempt to use the next and back button pointers if we either
+        haven't trapped them yet, or they have been freeed during a cancel
+        operation.
+    - Change the libcurl enabled message so that it contains version
+        information for curl, openssl, and zlib.
+    - Remove the debug menu and replace the attach to project dialog with
+        the attach to project wizard at all entry points.
+    
+    client/
+        client_state.C
+    clientgui/
+        MainFrame.cpp, .h
+        ViewProjects.cpp
+        WizAttachProject.cpp

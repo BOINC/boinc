@@ -35,7 +35,6 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
-#include "DlgAttachProject.h"
 #include "DlgAccountManagerSignup.h"
 #include "DlgAccountManagerStatus.h"
 #include "DlgDialupCredentials.h"
@@ -155,7 +154,6 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSMANAGEACCOUNTS, CMainFrame::OnToolsManageAccounts)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
-    EVT_MENU(ID_DEBUGATTACHPROJECT, CMainFrame::OnDebugAttachProject)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
@@ -405,16 +403,6 @@ bool CMainFrame::CreateMenu() {
         _("Configure GUI options and proxy settings")
     );
 
-    // Debug menu
-#ifdef __WXDEBUG__
-    wxMenu *menuDebug = new wxMenu;
-    menuDebug->Append(
-        ID_DEBUGATTACHPROJECT, 
-        _("&Attach to Project Wizard"),
-        wxEmptyString
-    );
-#endif
-
     // Help menu
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(
@@ -447,12 +435,6 @@ bool CMainFrame::CreateMenu() {
         menuTools,
         _("&Tools")
     );
-#ifdef __WXDEBUG__
-    m_pMenubar->Append(
-        menuDebug,
-        _("&Debug")
-    );
-#endif
     m_pMenubar->Append(
         menuHelp,
         _("&Help")
@@ -1153,30 +1135,6 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CMainFrame::OnDebugAttachProject(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function Begin"));
-
-    m_pRefreshStateTimer->Stop();
-    m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
-    m_pDocumentPollTimer->Stop();
-
-    CWizAttachProject* pWizard = new CWizAttachProject(this);
-
-    pWizard->Run();
-
-    if (pWizard)
-        pWizard->Destroy();
-
-    m_pRefreshStateTimer->Start();
-    m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
-    m_pDocumentPollTimer->Start();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function End"));
-}
-
-
 void CMainFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function Begin"));
 
@@ -1292,37 +1250,34 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
-    int            iAnswer = 0;
-    long               lProjectCount = 0;
+    CWizAttachProject* pWizard = new CWizAttachProject(this);
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pDlg);
 
 
     // Only present the attach to project dialog if no projects are currently
     //   detected.
-    lProjectCount = pDoc->GetProjectCount();
-    if (0 == lProjectCount) {
+    if (0 == pDoc->GetProjectCount()) {
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
 
-        iAnswer = pDlg->ShowModal();
-        if (wxID_OK == iAnswer) {
-            pDoc->ProjectAttach(
-                pDlg->GetProjectAddress(), 
-                pDlg->GetProjectAccountKey()
-            );
-        }
+        pWizard->Run();
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
 
         m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
     }
 
-
-    if (pDlg) {
-        pDlg->Destroy();
-    }
-   
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
 }
 
