@@ -389,9 +389,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     while (1) {
         curl_fds.zero();
         gui_rpc_fds.zero();
-        if (!activities_suspended && !network_suspended) {
-            net_xfers->get_fdset(curl_fds);
-        }
+        net_xfers->get_fdset(curl_fds);
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(x, tv);
@@ -402,9 +400,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         );
         //printf("select in %d out %d\n", all_fds.max_fd, n);
         if (n==0) break;
-        if (!activities_suspended && !network_suspended) {
-            net_xfers->got_select(all_fds, x);
-        }
+        net_xfers->got_select(all_fds, x);
         gui_rpcs.got_select(all_fds);
         did_something = true;
 
