@@ -369,7 +369,7 @@ int main(int argc, char** argv) {
         // unlink(req_path);
         // unlink(reply_path);
 #endif
-#ifndef _USING_FCGI
+#ifndef _USING_FCGI_
     } else if (batch) {
         while (!feof(stdin)) {
             handle_request(stdin, stdout, *ssp, code_sign_key);
