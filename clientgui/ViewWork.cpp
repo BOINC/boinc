@@ -468,7 +468,6 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     std::string project_name;
 
     wxASSERT(doc);
-    wxASSERT(result);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     if (result) {
@@ -491,7 +490,6 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
     RESULT* state_result = NULL;
 
     wxASSERT(doc);
-    wxASSERT(result);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     if (result) {
@@ -535,8 +533,6 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
     wxTimeSpan     ts;
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(result);
-
     if (result) {
         if (result->active_task) {
             fBuffer = result->current_cpu_time;
@@ -568,8 +564,6 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
     float          fBuffer = 0;
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(result);
-
     if (result) {
         if (result->active_task) {
             fBuffer = result->fraction_done * 100;
@@ -596,8 +590,6 @@ wxInt32 CViewWork::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer) con
     wxTimeSpan     ts;
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(result);
-
     if (result) {
         fBuffer = result->estimated_cpu_time_remaining;
     }
@@ -622,8 +614,6 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
     wxDateTime     dtTemp;
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
-    wxASSERT(result);
-
     if (result) {
         dtTemp.Set((time_t)result->report_deadline);
         strBuffer = dtTemp.Format();
@@ -642,68 +632,69 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
 
     wxASSERT(doc);
-    wxASSERT(result);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     doc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
     doc->GetActivityRunMode(iActivityMode);
 
-    switch(result->state) {
-        case RESULT_NEW:
-            strBuffer = _("New"); 
-            break;
-        case RESULT_FILES_DOWNLOADING:
-            if (result->ready_to_report) {
-                strBuffer = _("Download failed");
-            } else {
-                strBuffer = _("Downloading");
-            }
-            break;
-        case RESULT_FILES_DOWNLOADED:
-            if (result->aborted_via_gui) {
-                strBuffer = _("Aborted by user");
-            } else if (result->suspended_via_gui) {
-                strBuffer = _("Suspended by user");
-            } else if (bActivitiesSuspended) {
-                strBuffer = _("Activities suspended");
-            } else if (result->active_task) {
-                if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                     strBuffer = _("Running");
-                } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                    strBuffer = _("Preempted");
-                } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
+    if (result) {
+        switch(result->state) {
+            case RESULT_NEW:
+                strBuffer = _("New"); 
+                break;
+            case RESULT_FILES_DOWNLOADING:
+                if (result->ready_to_report) {
+                    strBuffer = _("Download failed");
+                } else {
+                    strBuffer = _("Downloading");
+                }
+                break;
+            case RESULT_FILES_DOWNLOADED:
+                if (result->aborted_via_gui) {
+                    strBuffer = _("Aborted by user");
+                } else if (result->suspended_via_gui) {
+                    strBuffer = _("Suspended by user");
+                } else if (bActivitiesSuspended) {
+                    strBuffer = _("Activities suspended");
+                } else if (result->active_task) {
+                    if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
+                        strBuffer = _("Running");
+                    } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
+                        strBuffer = _("Preempted");
+                    } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
+                        strBuffer = _("Ready to run");
+                    }
+                } else {
                     strBuffer = _("Ready to run");
                 }
-            } else {
-                strBuffer = _("Ready to run");
-            }
-            break;
-        case RESULT_COMPUTE_ERROR:
-            // both tests below are needed, because the boolean flag is not changed
-            // right away
-            //
-            if (result->aborted_via_gui || result->exit_status == ERR_ABORTED_VIA_GUI) {
-                strBuffer = _("Aborted by user");
-            } else {
-                strBuffer = _("Computation error");
-            }
-            break;
-        case RESULT_FILES_UPLOADING:
-            if (result->ready_to_report) {
-                strBuffer = _("Upload failed");
-            } else {
-                strBuffer = _("Uploading");
-            }
-            break;
-        default:
-            if (result->got_server_ack) {
-                strBuffer = _("Acknowledged");
-            } else if (result->ready_to_report) {
-                strBuffer = _("Ready to report");
-            } else {
-                strBuffer.Format(_("Error: invalid state '%d'"), result->state);
-            }
-            break;
+                break;
+            case RESULT_COMPUTE_ERROR:
+                // both tests below are needed, because the boolean flag is not changed
+                // right away
+                //
+                if (result->aborted_via_gui || result->exit_status == ERR_ABORTED_VIA_GUI) {
+                    strBuffer = _("Aborted by user");
+                } else {
+                    strBuffer = _("Computation error");
+                }
+                break;
+            case RESULT_FILES_UPLOADING:
+                if (result->ready_to_report) {
+                    strBuffer = _("Upload failed");
+                } else {
+                    strBuffer = _("Uploading");
+                }
+                break;
+            default:
+                if (result->got_server_ack) {
+                    strBuffer = _("Acknowledged");
+                } else if (result->ready_to_report) {
+                    strBuffer = _("Ready to report");
+                } else {
+                    strBuffer.Format(_("Error: invalid state '%d'"), result->state);
+                }
+                break;
+        }
     }
 
     if (!bActivitiesSuspended && iActivityMode == RUN_MODE_NEVER) {

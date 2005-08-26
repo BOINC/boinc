@@ -11022,3 +11022,10 @@ Charlie 26 Aug 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Rom    26 Aug 2005
+    - Fix a few more issues related to defreferencing pointers within the views.
+    
+    clientgui/
+        ViewTransfers.cpp
+        ViewWork.cpp

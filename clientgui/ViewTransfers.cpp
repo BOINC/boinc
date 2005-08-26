@@ -501,18 +501,20 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxDateTime dtNextRequest((time_t)transfer->next_request_time);
     wxDateTime dtNow(wxDateTime::Now());
 
-    if      (dtNextRequest > dtNow) {
-        wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
-        strBuffer = _("Retry in ") + tsNextRequest.Format();
-    } else if (ERR_GIVEUP_DOWNLOAD == transfer->status) {
-        strBuffer = _("Download failed");
-    } else if (ERR_GIVEUP_UPLOAD == transfer->status) {
-        strBuffer = _("Upload failed");
-    } else {
-        if (bNetworkSuspended) {
-            strBuffer = _("Suspended");
+    if (transfer) {
+        if      (dtNextRequest > dtNow) {
+            wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
+            strBuffer = _("Retry in ") + tsNextRequest.Format();
+        } else if (ERR_GIVEUP_DOWNLOAD == transfer->status) {
+            strBuffer = _("Download failed");
+        } else if (ERR_GIVEUP_UPLOAD == transfer->status) {
+            strBuffer = _("Upload failed");
         } else {
-            strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
+            if (bNetworkSuspended) {
+                strBuffer = _("Suspended");
+            } else {
+                strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
+            }
         }
     }
 
