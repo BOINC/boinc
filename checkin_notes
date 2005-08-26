@@ -10895,7 +10895,7 @@ Bruce 20 Aug 2005
         file_deleter.C
 
 Charlie 22 Aug 2005
-    Mac: update XCode project for to static-link Core Client with libcurl.a.  
+    Mac: update XCode project to static-link Core Client with libcurl.a.  
     Change paths to eliminate use of symbolic links jpeglib, wx_lib and 
     wxinclude; instead require these library trees to be in same parent 
     folder as boinc tree.
@@ -11014,3 +11014,11 @@ Rom    25 Aug 2005
     clientgui/
         ViewProjects.cpp
         ViewWork.cpp
+
+Charlie 26 Aug 2005
+    Mac: update XCode project to remove obsolete DlgAttachProject.cpp/h; 
+    eliminate define of _USE_CURL.
+    
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
