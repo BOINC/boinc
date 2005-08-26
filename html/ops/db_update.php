@@ -286,6 +286,10 @@ function update_8_25_2005() {
     do_query("alter table user add donated smallint not null");
 }
 
+function update_8_26_2005() {
+    do_query("drop table tentative_user");
+}
+
 //update_10_25_2004();
 
 ?>

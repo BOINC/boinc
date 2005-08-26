@@ -107,28 +107,6 @@ void unlock_sched(SCHEDULER_REPLY& reply) {
     close(reply.lockfile_fd);
 }
 
-// If user's email addr is munged (i.e. of the form @X_Y,
-// where X is email and Y is authenticator) then unmunge it.
-// This can fail if there's already an account with same email
-//
-int unmunge_email_addr(DB_USER& user) {
-    char* p, buf[256], email[256];
-    int retval;
-
-    if (user.email_addr[0] != '@') return 0;
-    p = strrchr(user.email_addr, '_');
-    if (!p) return ERR_NULL;
-    *p = 0;
-    strcpy(email, user.email_addr+1);
-    escape_string(email, sizeof(email));
-    sprintf(buf, "email_addr='%s'", email);
-    unescape_string(email, sizeof(email));
-    retval = user.update_field(buf);
-    if (retval) return retval;
-    strcpy(user.email_addr, email);
-    return 0;
-}
-
 // Based on the info in the request message,
 // look up the host and its user, and make sure the authenticator matches.
 // Some special cases:
@@ -202,25 +180,6 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
-                host.id, user.id, sreq.authenticator
-            );
-            return ERR_AUTHENTICATOR;
-        }
-
-        // if user email address is not already verified, do it
-        //
-        retval = unmunge_email_addr(user);
-        if (retval) {
-            USER_MESSAGE um("Email address conflict for account key.  "
-                "Visit this project's web site to get current account key.",
-                "high"
-            );
-            reply.insert_message(um);
-            reply.set_delay(3600);
-            reply.nucleus_only = true;
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "[HOST#%d] [USER#%d] authenticator email conflict '%s'\n",
                 host.id, user.id, sreq.authenticator
             );
             return ERR_AUTHENTICATOR;

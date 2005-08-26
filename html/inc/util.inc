@@ -263,7 +263,13 @@ function print_login_form_aux($next_url, $user) {
     start_table();
     row1("Log in with email/password");
     row2("Email address:", "<input name=email_addr size=40>");
-    row2("Password:", "<input type=password name=passwd size=40>");
+    row2("Password:<br><font size=-2><a href=edit_passwd_form.php>Change password</a>",
+        "<input type=password name=passwd size=40>"
+    );
+    row2("Stay logged in on this computer",
+        "<input type=checkbox name=send_cookie checked>"
+    );
+    row2("", "<input type=submit value='Log in'>");
     row1("Log in with account key");
     row2("Your account key:
         <br><font size=-2>
@@ -273,11 +279,9 @@ function print_login_form_aux($next_url, $user) {
         "<input name=authenticator size=40>"
     );
     row2("Stay logged in on this computer",
-        "<input type=checkbox name=send_cookie>"
+        "<input type=checkbox name=send_cookie checked>"
     );
-    row2("",
-        "<input type=submit value='Log in'>"
-    );
+    row2("", "<input type=submit value='Log in'>");
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",
@@ -297,6 +301,7 @@ function print_login_form() {
     page_head("Please log in");
     echo "
         This function requires that you log in.
+        <p>
     ";
     $next_url = $_SERVER['REQUEST_URI'];
     print_login_form_aux($next_url, null);

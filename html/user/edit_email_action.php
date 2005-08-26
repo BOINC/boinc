@@ -30,7 +30,7 @@ if (!is_valid_email_addr($email_addr)) {
     } else {
         $result = mysql_query("update user set email_addr='$email_addr', email_validated=0 where id=$user->id");
         if ($result) {
-            echo "Email changed to $email_addr");
+            echo "Email changed to $email_addr";
             send_verify_email($user, $email_addr, $x);
         } else {
             echo "

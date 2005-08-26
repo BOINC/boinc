@@ -13,11 +13,21 @@ $passwd = process_user_text(post_str("passwd", true));
 if ($email_addr) {
     $user = lookup_user_email_addr($email_addr);
     if (!$user) {
-        error_page("No account with email address $email_addr");
+        error_page("No account found with email address $email_addr");
     }
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
-        error_page("Bad password: $passwd_hash, $user->passwd_hash");
+        page_head("Wrong password");
+        echo "Wrong password for $email_addr.
+            <p>
+            If you've forgotten your password, you must
+            <ul>
+            <li> <a href=get_passwd.php>Have your account key emailed to you</a>.
+            <li> <a href=edit_passwd_form.php>Change your password</a>.
+            </ul>
+        ";
+        page_tail();
+        exit();
     }
     $authenticator = $user->authenticator;
     $_SESSION["authenticator"] = $authenticator;
@@ -29,7 +39,6 @@ if ($email_addr) {
     }
     exit();
 }
-
 // Now check for account key case.
 // see if key is in URL; if not then check for POST data
 //
@@ -52,24 +61,6 @@ if (!$user) {
     ";
     page_tail();
 } else {
-    // see if the account is unactivated (i.e. email address not verified).
-    // If so activate it.
-
-    if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
-        if (!validate_user($user, $email)) {
-            page_head("Account already exists");
-            echo "
-                We can't activate this account because
-                an account with the same email address already exists.
-                You should use this existing account.
-                To get the key of this account,
-                <a href=get_passwd.php>click here</a>.
-            ";
-            page_tail();
-            exit();
-        }
-
-    }
     $_SESSION["authenticator"] = $authenticator;
     $next_url = $_POST["next_url"];
     if (strlen($next_url) == 0) $next_url = "home.php";

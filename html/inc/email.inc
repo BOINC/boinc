@@ -10,11 +10,10 @@ require_once("../project/project.inc");
 //    In this case they're currently looking at the "validate account" page
 //    (account_created.php), although they might have strayed
 //    so we need to give them a link.
-// 2) the account was created administratively and is not validated.
-// 3) the account was created administratively and is validated.
-// 4) the user requested account key for existing account
+// 2) the account was created administratively
+// 3) the user requested account key for existing account
 //
-function send_auth_email($user, $is_new, $is_validated) {
+function send_auth_email($user, $is_new) {
     $body = "";
 
     if (defined('EMAIL_FROM')) {
@@ -34,11 +33,6 @@ This email confirms your account with ".PROJECT.":
     User name:           $user->name
     E-mail:              $user->email_addr
 ";
-        if (!$is_validated) {
-            $body .= "
-To configure your account, visit ".URL_BASE."account_created.php
-";
-        }
     } else {
         $subject = PROJECT." information for $user->name";
         $body = "Your ".PROJECT." account information is:
@@ -51,10 +45,6 @@ To configure your account, visit ".URL_BASE."account_created.php
     }
 
 $body .= "
-
-Save this email.
-You'll need the Project URL and Account Key when you run the client software
-and to log in to the ".PROJECT." web site.
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL."
 ";
@@ -93,72 +83,6 @@ function is_valid_email_addr($addr) {
     if (!$y) return false;
     if (strlen($y) == strlen($x)) return false;
     if (strlen($y) == 1) return false;
-    return true;
-}
-
-// A few functions relating to email-address munging
-// A "munged" email address is of the form @X_Y,
-// where X is a valid email address
-// and Y is a random string not containing _.
-// When an email address hasn't been validated yet, it's munged.
-// (Used during account creation and email address changes)
-
-function munge_email_addr($email, $string) {
-    return "@".$email."_".$string;
-}
-
-// if email_addr is of the form @X_auth, split out the X and return true.
-// (if auth is null, match anything)
-// otherwise return false
-//
-function split_munged_email_addr($addr, $auth, &$email) {
-    if (substr($addr, 0, 1) != "@") return false;
-    $x = strrchr($addr, "_");
-    if (!$x) return false;
-    $y = substr($x, 1);
-    if ($auth && $y != $auth) return false;
-    $email = substr($addr, 1, strlen($addr)-strlen($x)-1);
-    return true;
-}
-
-// Given email address X,
-// find a user record whose email_addr field is a munged version of X,
-// i.e. of the form @X_Y (Y is an authenticator, and contains no _s)
-// There may be more than one.  Return any.
-//
-function lookup_user_munged_email($email) {
-    $pattern = escape_pattern("@".$email."_");
-    $q = "select * from user where email_addr like '$pattern%'";
-    $result = mysql_query($q);
-    $found = false;
-    while ($user = mysql_fetch_object($result)) {
-
-        // make sure we don't return @X_a_Y
-        //
-        $x = strrchr($user->email_addr, "_");
-        $y = "@".$email.$x;
-        if ($y == $user->email_addr) {
-            $found = true;
-            break;
-        }
-    }
-    mysql_free_result($result);
-    if (!$found) {
-        return null;
-    }
-    return $user;
-}
-
-function validated($user) {
-    if (substr($user->email_addr, 0, 1) == "@") return false;
-    return true;
-}
-
-function validate_user($user, $email) {
-    $email = trim(strtolower($email));
-    mysql_query("update user set email_addr='$email' where id=$user->id");
-    $n = mysql_affected_rows();
-    if ($n <= 0) return false;
     return true;
 }
 

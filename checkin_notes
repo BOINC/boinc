@@ -11049,3 +11049,33 @@ Rom    26 Aug 2005
     lib/
         gui_rpc_client.C
         gui_rpc_client_ops.C
+
+David  26 Aug 2005
+    - Remove deprecated "tentative_user" table from DB.
+    - Remove code related to munged email addresses.
+    - Web changes to support user-selected passwords.
+
+    db/
+        schema.sql
+    html/
+        inc/
+            email.inc
+            util.inc
+        ops/
+            db_update.php
+        user/
+            am_confirm.php
+            am_create.php
+            am_query.php
+            confirm_email_change.php
+            create_account_action.php
+            edit_email_action.php
+            edit_passwd_action.php
+            edit_passwd_form.php
+            get_project_config.php
+            login_action.php
+            login_form.php
+            mail_passwd.php
+            team_email_list.php
+    sched/
+        handle_request.C

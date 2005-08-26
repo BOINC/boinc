@@ -6,7 +6,7 @@ echo "
 The BOINC project is based at the
 <a href=http://ssl.berkeley.edu>Space Sciences Laboratory</a>
 at the University of California, Berkeley.
-Project staff include:
+Project staff are:
 <dl>
 <dt> <b>Dr. David P. Anderson</b>
 <dd>
@@ -14,19 +14,69 @@ Director and architect.  Contact him at davea at ssl.berkeley.edu.
 
 <dt><b>Rom Walton</b>
 <dd>
-Developer (mostly Windows).
+Developer.
 Contact him at rwalton at ssl.berkeley.edu.
-
-<dt><b>Jeff Cobb</b>
-<dd>Developer and system administrator
-<dt><b>Matt Lebofsky</b>
-<dd>Developer and system administrator
-<dt><b>Court Cannick</b>
-<dd>System administrator
 </dl>
 
+<h2>Development organization</h2>
+BOINC development is done by BOINC staff,
+by the staff of various BOINC-based projects,
+and by volunteer programmers.
+Development is divided into several areas.
+Each area is managed by an 'owner'.
 <p>
-BOINC developers (many of them volunteers) include:
+<table cellpadding=6 border=1>
+<tr><th>Area</th><th>Owner</th><th>Key contributors</th></tr>
+<tr>
+    <td>API</td>
+    <td>Bruce Allen</td>
+    <td>Bernd Machenschalk</td>
+</tr>
+<tr>
+    <td>BOINC Manager</td>
+    <td>Rom Walton</td>
+    <td><br></td>
+</tr>
+<tr>
+    <td>Core client</td>
+    <td>David Anderson</td>
+    <td>John McLeod, Carl Christensen</td>
+</tr>
+<tr>
+    <td>Mac OS X</td>
+    <td>Charlie Fenton</td>
+    <td><br></td>
+</tr>
+<tr>
+    <td>Testing and release management</td>
+    <td>Rom Walton</td>
+    <td>Jens Seidler</td>
+</tr>
+<tr>
+    <td>Server</td>
+    <td>David Anderson</td>
+    <td>Bruce Allen</td>
+</tr>
+<tr>
+    <td>Unix build system</td>
+    <td>Reinhard Prix</td>
+    <td>Eric Korpela</td>
+</tr>
+<tr>
+    <td>Web features</td>
+    <td>Janus Kristensen</td>
+    <td>Rob Ogilvie</td>
+</tr>
+<tr>
+    <td>Windows installer and screensaver</td>
+    <td>Rom Walton</td>
+    <td><br></td>
+</tr>
+</table>
+
+<h2>Contributors</h2>
+The following people have contributed to
+the development of BOINC:
 <p>
 ";
 $i = 0;

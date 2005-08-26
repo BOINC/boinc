@@ -59,9 +59,6 @@ if (!is_valid_email_addr($new_email_addr)) {
     );
 }
 $user = lookup_user_email_addr($new_email_addr);
-if (!$user) {
-    $user = lookup_user_munged_email($new_email_addr);
-}
 if ($user) {
     show_error("There's already an account with that email address.");
 }
@@ -76,11 +73,10 @@ $postal_code = strip_tags(process_user_text($_POST["postal_code"]));
 
 $authenticator = random_string();
 $cross_project_id = random_string();
-$munged_email_addr = munge_email_addr($new_email_addr, $authenticator);
 $query = sprintf(
    "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid, venue, url, send_email, show_hosts, cross_project_id, passwd_hash) values(%d, '%s', '%s', '%s', '%s', '%s', 0, 0, 0, '$project_prefs', $teamid, 'home', '', 1, 1, '$cross_project_id', '$authenticator')",
     time(),
-    $munged_email_addr,
+    $email_addr,
     $new_name,
     $authenticator,
     boinc_real_escape_string($country),

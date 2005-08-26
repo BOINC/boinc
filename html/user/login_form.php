@@ -4,13 +4,10 @@
 
     $next_url = $_GET["next_url"];
     
-    $authenticator = init_session();
-    if ($authenticator) {
-        db_init();
-        $user = get_user_from_auth($authenticator);
-    }
+    db_init();
+    $user = get_logged_in_user(false);
 
-    page_head("Log in");
+    page_head("Log in/out");
     print_login_form_aux($next_url, $user);
 
     page_tail();
