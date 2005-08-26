@@ -11029,3 +11029,10 @@ Rom    26 Aug 2005
     clientgui/
         ViewTransfers.cpp
         ViewWork.cpp
+
+Rom    26 Aug 2005
+    - Fix a radio button problem on the Mac.
+    
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp

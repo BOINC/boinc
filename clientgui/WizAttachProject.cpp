@@ -1855,7 +1855,7 @@ void CAccountInfoPage::CreateControls()
 
     m_AccountCreateCtrl = new wxRadioButton;
     m_AccountCreateCtrl->Create( itemWizardPage54, ID_ACCOUNTCREATECTRL, _("Create new account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-    m_AccountCreateCtrl->SetValue(FALSE);
+    m_AccountCreateCtrl->SetValue(TRUE);
     itemFlexGridSizer59->Add(m_AccountCreateCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountUseExistingCtrl = new wxRadioButton;
@@ -1963,7 +1963,14 @@ wxIcon CAccountInfoPage::GetIconResource( const wxString& name )
 void CAccountInfoPage::OnPageChanged( wxWizardEvent& event ) 
 {
     if (event.GetDirection() == false) return;
- 
+
+    static bRunOnce = true;
+    if (bRunOnce) {
+        bRunOnce = false;
+        m_AccountCreateCtrl->SetValue(TRUE);
+        m_AccountUseExistingCtrl->SetValue(FALSE);
+    }
+
     if (((CWizAttachProject*)GetParent())->project_config.uses_username) {
         m_AccountEmailAddressStaticCtrl->SetLabel(
             _("Username:")
