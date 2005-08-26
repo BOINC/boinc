@@ -11004,3 +11004,13 @@ Rom    25 Aug 2005
     clientgui/
         BOINCGUI.pjd
         WizAttachProject.cpp
+
+Rom    25 Aug 2005
+    - An update of the project view and work view can cause an update request 
+        to the core client.  If you are detaching from a project, the reference
+        to the project by position can be NULL.  Check for the NULL before you
+        dereference the pointer.
+        
+    clientgui/
+        ViewProjects.cpp
+        ViewWork.cpp

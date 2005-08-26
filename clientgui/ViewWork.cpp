@@ -438,19 +438,21 @@ void CViewWork::UpdateSelection() {
     if (m_pListPane->GetSelectedItemCount()) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
-        if (result->suspended_via_gui) {
-            m_pTaskPane->UpdateTask(
-                pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this result.")
-            );
-        } else {
-            m_pTaskPane->UpdateTask(
-                pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this result.")
-            );
-        }
-        if (result->supports_graphics) {
-            m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
-        } else {
-            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+        if (result) {
+            if (result->suspended_via_gui) {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this result.")
+                );
+            } else {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this result.")
+                );
+            }
+            if (result->supports_graphics) {
+                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+            } else {
+                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+            }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
     } else {

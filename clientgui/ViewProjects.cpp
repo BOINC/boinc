@@ -630,24 +630,28 @@ void CViewProjects::UpdateSelection() {
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE_ALL]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
-        if (project->suspended_via_gui) {
-            m_pTaskPane->UpdateTask(
-                pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this project.")
-            );
-        } else {
-            m_pTaskPane->UpdateTask(
-                pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this project.")
-            );
+        if (project) {
+            if (project->suspended_via_gui) {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this project.")
+                );
+            } else {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this project.")
+                );
+            }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_NOWORK]);
-        if (project->dont_request_more_work) {
-            m_pTaskPane->UpdateTask(
-                pGroup->m_Tasks[BTN_NOWORK], _("Allow new work"), _("Allow fetching new work for this project.")
-            );
-        } else {
-            m_pTaskPane->UpdateTask(
-                pGroup->m_Tasks[BTN_NOWORK], _("No new work"), _("Don't fetch new work for this project.")
-            );
+        if (project) {
+            if (project->dont_request_more_work) {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_NOWORK], _("Allow new work"), _("Allow fetching new work for this project.")
+                );
+            } else {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_NOWORK], _("No new work"), _("Don't fetch new work for this project.")
+                );
+            }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
@@ -681,30 +685,31 @@ void CViewProjects::UpdateSelection() {
         // If something is selected create the tasks and controls
         if (m_pListPane->GetSelectedItemCount()) {
             project = pDoc->project(m_pListPane->GetFirstSelected());
+            if (project) {
+                // Create the web sites task group
+  	            pGroup = new CTaskItemGroup( _("Web sites") );
+	            m_TaskGroups.push_back( pGroup );
 
-            // Create the web sites task group
-  	        pGroup = new CTaskItemGroup( _("Web sites") );
-	        m_TaskGroups.push_back( pGroup );
-
-            // Default project url
-            pItem = new CTaskItem(
-                project->project_name.c_str(), 
-                wxT(""), 
-                project->master_url.c_str(),
-                ID_TASK_PROJECT_WEB_PROJDEF_MIN
-            );
-            pGroup->m_Tasks.push_back(pItem);
-
-
-            // Project defined urls
-            for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
+                // Default project url
                 pItem = new CTaskItem(
-                    _(project->gui_urls[i].name.c_str()),
-                    _(project->gui_urls[i].description.c_str()),
-                    project->gui_urls[i].url.c_str(),
-                    ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
+                    project->project_name.c_str(), 
+                    wxT(""), 
+                    project->master_url.c_str(),
+                    ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
                 pGroup->m_Tasks.push_back(pItem);
+
+
+                // Project defined urls
+                for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
+                    pItem = new CTaskItem(
+                        _(project->gui_urls[i].name.c_str()),
+                        _(project->gui_urls[i].description.c_str()),
+                        project->gui_urls[i].url.c_str(),
+                        ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
+                    );
+                    pGroup->m_Tasks.push_back(pItem);
+                }
             }
         }
 
