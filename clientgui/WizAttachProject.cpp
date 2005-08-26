@@ -1652,7 +1652,7 @@ void CAccountKeyPage::CreateControls()
     itemBoxSizer43->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText47 = new wxStaticText;
-    itemStaticText47->Create( itemWizardPage42, wxID_STATIC, _("Go to the project's web site to create an account.\n\nYour account key will be emailed to you."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText47->Create( itemWizardPage42, wxID_STATIC, _("Go to the project's web site to create an account. Your account\nkey will be emailed to you."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer43->Add(itemStaticText47, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText48 = new wxStaticText;
@@ -2597,7 +2597,7 @@ void CCompletionPage::CreateControls()
     itemBoxSizer78->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText82 = new wxStaticText;
-    itemStaticText82->Create( itemWizardPage77, wxID_STATIC, _("When you click Finish, your web browser will go to a page\n\nwhere you can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText82->Create( itemWizardPage77, wxID_STATIC, _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer78->Add(itemStaticText82, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CCompletionPage content construction
@@ -3497,7 +3497,7 @@ void CErrAccountAlreadyExistsPage::CreateControls()
     itemBoxSizer110->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText113 = new wxStaticText;
-    itemStaticText113->Create( itemWizardPage109, wxID_STATIC, _("An account with that email address already exists\n\nand has a different password than the one you entered.\n\nPlease visit the project's web site and follow\n\nthe instructions there."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText113->Create( itemWizardPage109, wxID_STATIC, _("An account with that email address already exists and has a\ndifferent password than the one you entered.\n\nPlease visit the project's web site and follow the instructions there."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer110->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrAccountAlreadyExistsPage content construction
@@ -3789,9 +3789,11 @@ void CErrProxyInfoPage::CreateControls()
     itemStaticText121->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer120->Add(itemStaticText121, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText122 = new wxStaticText;
-    itemStaticText122->Create( itemWizardPage119, wxID_STATIC, _("We were unable to communicate with the project\n\nor other web sites.\n\nOften this means that you are using a proxy server,\n\nand you need to tell us about it.\n\n\n\nClick Next to do proxy configuration."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer120->Add(itemStaticText122, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer120->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticText* itemStaticText123 = new wxStaticText;
+    itemStaticText123->Create( itemWizardPage119, wxID_STATIC, _("We were unable to communicate with the project or other web\nsites.\n\nOften this means that you are using a proxy server, and you need\nto tell us about it.\n\nClick Next to do proxy configuration."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer120->Add(itemStaticText123, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer120->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -3943,65 +3945,67 @@ void CErrProxyHTTPPage::CreateControls()
 {    
 
 ////@begin CErrProxyHTTPPage content construction
-    CErrProxyHTTPPage* itemWizardPage124 = this;
+    CErrProxyHTTPPage* itemWizardPage125 = this;
 
-    wxBoxSizer* itemBoxSizer125 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage124->SetSizer(itemBoxSizer125);
-
-    wxStaticText* itemStaticText126 = new wxStaticText;
-    itemStaticText126->Create( itemWizardPage124, wxID_STATIC, _("HTTP proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText126->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer125->Add(itemStaticText126, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBoxSizer* itemBoxSizer126 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage125->SetSizer(itemBoxSizer126);
 
     wxStaticText* itemStaticText127 = new wxStaticText;
-    itemStaticText127->Create( itemWizardPage124, wxID_STATIC, _("If you're using an HTTP proxy, enter its info here.\n\nIf you're not sure, click Autodetect."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer125->Add(itemStaticText127, 0, wxALIGN_LEFT|wxALL, 5);
+    itemStaticText127->Create( itemWizardPage125, wxID_STATIC, _("HTTP proxy"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText127->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer126->Add(itemStaticText127, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer125->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer126->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxButton* itemButton129 = new wxButton;
-    itemButton129->Create( itemWizardPage124, ID_HTTPAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer125->Add(itemButton129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxStaticText* itemStaticText129 = new wxStaticText;
+    itemStaticText129->Create( itemWizardPage125, wxID_STATIC, _("If you're using an HTTP proxy, enter its info here.\n\nIf you're not sure, click Autodetect."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer126->Add(itemStaticText129, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer130 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer130->AddGrowableCol(1);
-    itemBoxSizer125->Add(itemFlexGridSizer130, 0, wxGROW|wxALL, 5);
+    itemBoxSizer126->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxButton* itemButton131 = new wxButton;
+    itemButton131->Create( itemWizardPage125, ID_HTTPAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer126->Add(itemButton131, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer132 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer132->AddGrowableCol(1);
+    itemBoxSizer126->Add(itemFlexGridSizer132, 0, wxGROW|wxALL, 5);
 
     m_ProxyHTTPServerStaticCtrl = new wxStaticText;
-    m_ProxyHTTPServerStaticCtrl->Create( itemWizardPage124, ID_PROXYHTTPSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer130->Add(m_ProxyHTTPServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPServerStaticCtrl->Create( itemWizardPage125, ID_PROXYHTTPSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer132->Add(m_ProxyHTTPServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer132 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer132->AddGrowableCol(0);
-    itemFlexGridSizer130->Add(itemFlexGridSizer132, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    wxFlexGridSizer* itemFlexGridSizer134 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer134->AddGrowableCol(0);
+    itemFlexGridSizer132->Add(itemFlexGridSizer134, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_ProxyHTTPServerCtrl = new wxTextCtrl;
-    m_ProxyHTTPServerCtrl->Create( itemWizardPage124, ID_PROXYHTTPSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer132->Add(m_ProxyHTTPServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPServerCtrl->Create( itemWizardPage125, ID_PROXYHTTPSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer134->Add(m_ProxyHTTPServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxyHTTPPortStaticCtrl = new wxStaticText;
-    m_ProxyHTTPPortStaticCtrl->Create( itemWizardPage124, ID_PROXYHTTPPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer132->Add(m_ProxyHTTPPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPortStaticCtrl->Create( itemWizardPage125, ID_PROXYHTTPPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer134->Add(m_ProxyHTTPPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxyHTTPPortCtrl = new wxTextCtrl;
-    m_ProxyHTTPPortCtrl->Create( itemWizardPage124, ID_PROXYHTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
-    itemFlexGridSizer132->Add(m_ProxyHTTPPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPortCtrl->Create( itemWizardPage125, ID_PROXYHTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    itemFlexGridSizer134->Add(m_ProxyHTTPPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxyHTTPUsernameStaticCtrl = new wxStaticText;
-    m_ProxyHTTPUsernameStaticCtrl->Create( itemWizardPage124, ID_PROXYHTTPUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer130->Add(m_ProxyHTTPUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPUsernameStaticCtrl->Create( itemWizardPage125, ID_PROXYHTTPUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer132->Add(m_ProxyHTTPUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxyHTTPUsernameCtrl = new wxTextCtrl;
-    m_ProxyHTTPUsernameCtrl->Create( itemWizardPage124, ID_PROXYHTTPUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer130->Add(m_ProxyHTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPUsernameCtrl->Create( itemWizardPage125, ID_PROXYHTTPUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer132->Add(m_ProxyHTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxyHTTPPasswordStaticCtrl = new wxStaticText;
-    m_ProxyHTTPPasswordStaticCtrl->Create( itemWizardPage124, ID_PROXYHTTPPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer130->Add(m_ProxyHTTPPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPasswordStaticCtrl->Create( itemWizardPage125, ID_PROXYHTTPPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer132->Add(m_ProxyHTTPPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxyHTTPPasswordCtrl = new wxTextCtrl;
-    m_ProxyHTTPPasswordCtrl->Create( itemWizardPage124, ID_PROXYHTTPPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer130->Add(m_ProxyHTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxyHTTPPasswordCtrl->Create( itemWizardPage125, ID_PROXYHTTPPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer132->Add(m_ProxyHTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     m_ProxyHTTPServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPServer) );
@@ -4163,65 +4167,67 @@ bool CErrProxySOCKSPage::Create( wxWizard* parent )
 void CErrProxySOCKSPage::CreateControls()
 {    
 ////@begin CErrProxySOCKSPage content construction
-    CErrProxySOCKSPage* itemWizardPage140 = this;
+    CErrProxySOCKSPage* itemWizardPage142 = this;
 
-    wxBoxSizer* itemBoxSizer141 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage140->SetSizer(itemBoxSizer141);
+    wxBoxSizer* itemBoxSizer143 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage142->SetSizer(itemBoxSizer143);
 
-    wxStaticText* itemStaticText142 = new wxStaticText;
-    itemStaticText142->Create( itemWizardPage140, wxID_STATIC, _("SOCKS proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText142->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer141->Add(itemStaticText142, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText144 = new wxStaticText;
+    itemStaticText144->Create( itemWizardPage142, wxID_STATIC, _("SOCKS proxy"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText144->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer143->Add(itemStaticText144, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText143 = new wxStaticText;
-    itemStaticText143->Create( itemWizardPage140, wxID_STATIC, _("If you're using a SOCKS proxy, enter its info here.\n\nIf you're not sure, click Autodetect.\n\n"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer141->Add(itemStaticText143, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer143->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer141->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText146 = new wxStaticText;
+    itemStaticText146->Create( itemWizardPage142, wxID_STATIC, _("If you're using a SOCKS proxy, enter its info here.\n\nIf you're not sure, click Autodetect."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer143->Add(itemStaticText146, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxButton* itemButton145 = new wxButton;
-    itemButton145->Create( itemWizardPage140, ID_SOCKSAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer141->Add(itemButton145, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer143->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer146 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer146->AddGrowableCol(1);
-    itemBoxSizer141->Add(itemFlexGridSizer146, 0, wxGROW|wxALL, 5);
+    wxButton* itemButton148 = new wxButton;
+    itemButton148->Create( itemWizardPage142, ID_SOCKSAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer143->Add(itemButton148, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer149 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer149->AddGrowableCol(1);
+    itemBoxSizer143->Add(itemFlexGridSizer149, 0, wxGROW|wxALL, 5);
 
     m_ProxySOCKSServerStaticCtrl = new wxStaticText;
-    m_ProxySOCKSServerStaticCtrl->Create( itemWizardPage140, ID_PROXYSOCKSSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer146->Add(m_ProxySOCKSServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSServerStaticCtrl->Create( itemWizardPage142, ID_PROXYSOCKSSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer149->Add(m_ProxySOCKSServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer148 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer148->AddGrowableCol(0);
-    itemFlexGridSizer146->Add(itemFlexGridSizer148, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    wxFlexGridSizer* itemFlexGridSizer151 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer151->AddGrowableCol(0);
+    itemFlexGridSizer149->Add(itemFlexGridSizer151, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_ProxySOCKSServerCtrl = new wxTextCtrl;
-    m_ProxySOCKSServerCtrl->Create( itemWizardPage140, ID_PROXYSOCKSSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer148->Add(m_ProxySOCKSServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSServerCtrl->Create( itemWizardPage142, ID_PROXYSOCKSSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer151->Add(m_ProxySOCKSServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxySOCKSPortStaticCtrl = new wxStaticText;
-    m_ProxySOCKSPortStaticCtrl->Create( itemWizardPage140, ID_PROXYSOCKSPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer148->Add(m_ProxySOCKSPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPortStaticCtrl->Create( itemWizardPage142, ID_PROXYSOCKSPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer151->Add(m_ProxySOCKSPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxySOCKSPortCtrl = new wxTextCtrl;
-    m_ProxySOCKSPortCtrl->Create( itemWizardPage140, ID_PROXYSOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
-    itemFlexGridSizer148->Add(m_ProxySOCKSPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPortCtrl->Create( itemWizardPage142, ID_PROXYSOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    itemFlexGridSizer151->Add(m_ProxySOCKSPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxySOCKSUsernameStaticCtrl = new wxStaticText;
-    m_ProxySOCKSUsernameStaticCtrl->Create( itemWizardPage140, ID_PROXYSOCKSUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer146->Add(m_ProxySOCKSUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSUsernameStaticCtrl->Create( itemWizardPage142, ID_PROXYSOCKSUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer149->Add(m_ProxySOCKSUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxySOCKSUsernameCtrl = new wxTextCtrl;
-    m_ProxySOCKSUsernameCtrl->Create( itemWizardPage140, ID_PROXYSOCKSUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer146->Add(m_ProxySOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSUsernameCtrl->Create( itemWizardPage142, ID_PROXYSOCKSUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer149->Add(m_ProxySOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxySOCKSPasswordStaticCtrl = new wxStaticText;
-    m_ProxySOCKSPasswordStaticCtrl->Create( itemWizardPage140, ID_PROXYSOCKSPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer146->Add(m_ProxySOCKSPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPasswordStaticCtrl->Create( itemWizardPage142, ID_PROXYSOCKSPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer149->Add(m_ProxySOCKSPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProxySOCKSPasswordCtrl = new wxTextCtrl;
-    m_ProxySOCKSPasswordCtrl->Create( itemWizardPage140, ID_PROXYSOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer146->Add(m_ProxySOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPasswordCtrl->Create( itemWizardPage142, ID_PROXYSOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer149->Add(m_ProxySOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     m_ProxySOCKSServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSServer) );
@@ -4373,21 +4379,21 @@ bool CErrProxyComplationPage::Create( wxWizard* parent )
 void CErrProxyComplationPage::CreateControls()
 {    
 ////@begin CErrProxyComplationPage content construction
-    CErrProxyComplationPage* itemWizardPage156 = this;
+    CErrProxyComplationPage* itemWizardPage159 = this;
 
-    wxBoxSizer* itemBoxSizer157 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage156->SetSizer(itemBoxSizer157);
+    wxBoxSizer* itemBoxSizer160 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage159->SetSizer(itemBoxSizer160);
 
-    wxStaticText* itemStaticText158 = new wxStaticText;
-    itemStaticText158->Create( itemWizardPage156, wxID_STATIC, _("Proxy configuration complete"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText158->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer157->Add(itemStaticText158, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText161 = new wxStaticText;
+    itemStaticText161->Create( itemWizardPage159, wxID_STATIC, _("Proxy configuration complete"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText161->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer160->Add(itemStaticText161, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText159 = new wxStaticText;
-    itemStaticText159->Create( itemWizardPage156, wxID_STATIC, _("Click Next to continue."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer157->Add(itemStaticText159, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText162 = new wxStaticText;
+    itemStaticText162->Create( itemWizardPage159, wxID_STATIC, _("Click Next to continue."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer160->Add(itemStaticText162, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer157->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer160->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrProxyComplationPage content construction
 }
@@ -4523,100 +4529,100 @@ void CErrRefCountPage::CreateControls()
 {    
 
 ////@begin CErrRefCountPage content construction
-    CErrRefCountPage* itemWizardPage161 = this;
+    CErrRefCountPage* itemWizardPage164 = this;
 
-    wxBoxSizer* itemBoxSizer162 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage161->SetSizer(itemBoxSizer162);
-
-    wxStaticText* itemStaticText163 = new wxStaticText;
-    itemStaticText163->Create( itemWizardPage161, wxID_STATIC, _("Ref Count Page"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText163->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer162->Add(itemStaticText163, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxStaticText* itemStaticText164 = new wxStaticText;
-    itemStaticText164->Create( itemWizardPage161, wxID_STATIC, _("This page should never be used in the wizard itself."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer162->Add(itemStaticText164, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer162->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBoxSizer* itemBoxSizer165 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage164->SetSizer(itemBoxSizer165);
 
     wxStaticText* itemStaticText166 = new wxStaticText;
-    itemStaticText166->Create( itemWizardPage161, wxID_STATIC, _("This page just increases the refcount of various bitmap resources\n\n\n\nso that DialogBlocks doesn't nuke the refences to them."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer162->Add(itemStaticText166, 0, wxALIGN_LEFT|wxALL, 5);
+    itemStaticText166->Create( itemWizardPage164, wxID_STATIC, _("Ref Count Page"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText166->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer165->Add(itemStaticText166, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer167 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer162->Add(itemBoxSizer167, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText167 = new wxStaticText;
+    itemStaticText167->Create( itemWizardPage164, wxID_STATIC, _("This page should never be used in the wizard itself."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer165->Add(itemStaticText167, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap itemStaticBitmap168Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress01.xpm")));
-    wxStaticBitmap* itemStaticBitmap168 = new wxStaticBitmap;
-    itemStaticBitmap168->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap168Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap168->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap168, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer165->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap itemStaticBitmap169Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress02.xpm")));
-    wxStaticBitmap* itemStaticBitmap169 = new wxStaticBitmap;
-    itemStaticBitmap169->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap169Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap169->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap169, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxStaticText* itemStaticText169 = new wxStaticText;
+    itemStaticText169->Create( itemWizardPage164, wxID_STATIC, _("This page just increases the refcount of various bitmap resources\nso that DialogBlocks doesn't nuke the refences to them."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer165->Add(itemStaticText169, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap itemStaticBitmap170Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress03.xpm")));
-    wxStaticBitmap* itemStaticBitmap170 = new wxStaticBitmap;
-    itemStaticBitmap170->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap170Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap170->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap170, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBoxSizer* itemBoxSizer170 = new wxBoxSizer(wxVERTICAL);
+    itemBoxSizer165->Add(itemBoxSizer170, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap itemStaticBitmap171Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress04.xpm")));
+    wxBitmap itemStaticBitmap171Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress01.xpm")));
     wxStaticBitmap* itemStaticBitmap171 = new wxStaticBitmap;
-    itemStaticBitmap171->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap171Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap171->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap171Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap171->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap171, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap171, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap172Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress05.xpm")));
+    wxBitmap itemStaticBitmap172Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress02.xpm")));
     wxStaticBitmap* itemStaticBitmap172 = new wxStaticBitmap;
-    itemStaticBitmap172->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap172Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap172->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap172Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap172->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap172, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap172, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap173Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress06.xpm")));
+    wxBitmap itemStaticBitmap173Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress03.xpm")));
     wxStaticBitmap* itemStaticBitmap173 = new wxStaticBitmap;
-    itemStaticBitmap173->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap173Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap173->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap173Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap173->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap173, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap173, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap174Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress07.xpm")));
+    wxBitmap itemStaticBitmap174Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress04.xpm")));
     wxStaticBitmap* itemStaticBitmap174 = new wxStaticBitmap;
-    itemStaticBitmap174->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap174Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap174->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap174Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap174->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap174, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap174, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap175Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress08.xpm")));
+    wxBitmap itemStaticBitmap175Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress05.xpm")));
     wxStaticBitmap* itemStaticBitmap175 = new wxStaticBitmap;
-    itemStaticBitmap175->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap175Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap175->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap175Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap175->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap175, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap175, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap176Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress09.xpm")));
+    wxBitmap itemStaticBitmap176Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress06.xpm")));
     wxStaticBitmap* itemStaticBitmap176 = new wxStaticBitmap;
-    itemStaticBitmap176->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap176Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap176->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap176Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap176->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap176, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap176, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap177Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress10.xpm")));
+    wxBitmap itemStaticBitmap177Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress07.xpm")));
     wxStaticBitmap* itemStaticBitmap177 = new wxStaticBitmap;
-    itemStaticBitmap177->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap177Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap177->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap177Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap177->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap177, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap177, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap178Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress11.xpm")));
+    wxBitmap itemStaticBitmap178Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress08.xpm")));
     wxStaticBitmap* itemStaticBitmap178 = new wxStaticBitmap;
-    itemStaticBitmap178->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap178Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap178->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap178Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap178->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap178, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap178, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap179Bitmap(itemWizardPage161->GetBitmapResource(wxT("res/wizprogress12.xpm")));
+    wxBitmap itemStaticBitmap179Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress09.xpm")));
     wxStaticBitmap* itemStaticBitmap179 = new wxStaticBitmap;
-    itemStaticBitmap179->Create( itemWizardPage161, wxID_STATIC, itemStaticBitmap179Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap179->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap179Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
     itemStaticBitmap179->Show(FALSE);
-    itemBoxSizer167->Add(itemStaticBitmap179, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer170->Add(itemStaticBitmap179, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBitmap itemStaticBitmap180Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress10.xpm")));
+    wxStaticBitmap* itemStaticBitmap180 = new wxStaticBitmap;
+    itemStaticBitmap180->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap180Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap180->Show(FALSE);
+    itemBoxSizer170->Add(itemStaticBitmap180, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBitmap itemStaticBitmap181Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress11.xpm")));
+    wxStaticBitmap* itemStaticBitmap181 = new wxStaticBitmap;
+    itemStaticBitmap181->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap181Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap181->Show(FALSE);
+    itemBoxSizer170->Add(itemStaticBitmap181, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBitmap itemStaticBitmap182Bitmap(itemWizardPage164->GetBitmapResource(wxT("res/wizprogress12.xpm")));
+    wxStaticBitmap* itemStaticBitmap182 = new wxStaticBitmap;
+    itemStaticBitmap182->Create( itemWizardPage164, wxID_STATIC, itemStaticBitmap182Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap182->Show(FALSE);
+    itemBoxSizer170->Add(itemStaticBitmap182, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 ////@end CErrRefCountPage content construction
 }

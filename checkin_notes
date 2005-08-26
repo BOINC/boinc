@@ -10997,3 +10997,10 @@ David  25 Aug 2005
         sah_check_lib.m4
     sched/
         file_deleter.C
+
+Rom    25 Aug 2005
+    - Fixup a few more CRLF issues in the wizard.
+    
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp
