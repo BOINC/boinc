@@ -314,7 +314,10 @@ int RPC::parse_reply() {
     char buf[256];
     while (fin.fgets(buf, 256)) {
         if (strstr(buf, "unauthorized")) return ERR_AUTHENTICATOR;
-        if (strstr(buf, "success")) return 0;
+        if (strstr(buf, "Missing authenticator")) return ERR_AUTHENTICATOR;
+        if (strstr(buf, "Missing URL")) return ERR_INVALID_URL;
+        if (strstr(buf, "Already attached to project")) return ERR_ALREADY_ATTACHED;
+        if (strstr(buf, "success")) return BOINC_SUCCESS;
     }
     return ERR_NOT_FOUND;
 }

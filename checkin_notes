@@ -11036,3 +11036,16 @@ Rom    26 Aug 2005
     clientgui/
         BOINCGUI.pjd
         WizAttachProject.cpp
+
+Rom    26 Aug 2005
+    - The wizard should display a nice dialog when somebody trys to attach to a
+        project they are already attached too.
+        
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    lib/
+        gui_rpc_client.C
+        gui_rpc_client_ops.C

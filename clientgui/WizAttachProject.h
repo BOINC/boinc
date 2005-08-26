@@ -52,6 +52,7 @@ class CCompletionPage;
 class CCompletionErrorPage;
 class CErrProjectNotDetectedPage;
 class CErrProjectUnavailablePage;
+class CErrProjectAlreadyAttachedPage;
 class CErrNoInternetConnectionPage;
 class CErrAccountNotFoundPage;
 class CErrAccountAlreadyExistsPage;
@@ -77,6 +78,8 @@ class CErrRefCountPage;
 #define ID_ERRACCOUNTCREATIONDISABLED 10059
 #define ID_ERRCLIENTACCOUNTCREATIONDISABLED 10076
 #define ID_ERRACCOUNTALREADYEXISTS 10020
+#define ID_ERRPROJECTALREADYATTACHED 10078
+#define ID_ERRPROJECTATTACHFAILURE 10080
 #define ID_ERRGOOGLECOMM 10053
 #define ID_ERRYAHOOCOMM 10055
 #define ID_ERRNETDETECTION 10057
@@ -104,6 +107,7 @@ class CErrRefCountPage;
 #define ID_COMPLETIONERRORPAGE 10011
 #define ID_ERRPROJECTNOTDETECTEDPAGE 10007
 #define ID_ERRPROJECTUNAVAILABLEPAGE 10049
+#define ID_ERRPROJECTALREADYATTACHEDPAGE 10079
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
 #define ID_ERRACCOUNTNOTFOUNDPAGE 10008
 #define ID_ERRACCOUNTALREADYEXISTSPAGE 10051
@@ -160,6 +164,7 @@ class CErrRefCountPage;
 #define WIZDEBUG_ERRACCOUNTCREATIONDISABLED           0x00000100
 #define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000200
 #define WIZDEBUG_ERRPROJECTATTACH                     0x00000400
+#define WIZDEBUG_ERRPROJECTALREADYATTACHED            0x00000800
 
 
 /*!
@@ -264,6 +269,7 @@ public:
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrProjectNotDetectedPage* m_ErrProjectNotDetectedPage;
     CErrProjectUnavailablePage* m_ErrProjectUnavailablePage;
+    CErrProjectAlreadyAttachedPage* m_ErrProjectAlreadyAttachedPage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrAccountNotFoundPage* m_ErrAccountNotFoundPage;
     CErrAccountAlreadyExistsPage* m_ErrAccountAlreadyExistsPage;
@@ -368,6 +374,12 @@ public:
 #endif
 #if defined(__WXDEBUG__)
     wxCheckBox* m_ErrAccountAlreadyExistsCtrl;
+#endif
+#if defined(__WXDEBUG__)
+    wxCheckBox* m_ErrProjectAlreadyAttachedCtrl;
+#endif
+#if defined(__WXDEBUG__)
+    wxCheckBox* m_ErrProjectAttachFailureCtrl;
 #endif
 #if defined(__WXDEBUG__)
     wxCheckBox* m_ErrGoogleCommCtrl;
@@ -543,6 +555,9 @@ public:
     bool GetProjectClientAccountCreationDisabled() const { return m_bProjectClientAccountCreationDisabled ; }
     void SetProjectClientAccountCreationDisabled(bool value) { m_bProjectClientAccountCreationDisabled = value ; }
 
+    bool GetProjectAlreadyAttached() const { return m_bProjectAlreadyAttached ; }
+    void SetProjectAlreadyAttached(bool value) { m_bProjectAlreadyAttached = value ; }
+
     bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
     void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
 
@@ -571,6 +586,7 @@ public:
     bool m_bProjectPropertiesURLFailure;
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
+    bool m_bProjectAlreadyAttached;
     bool m_bCommunicateYahooSucceeded;
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
@@ -1056,6 +1072,59 @@ public:
 
 ////@begin CErrProjectUnavailablePage member variables
 ////@end CErrProjectUnavailablePage member variables
+};
+
+/*!
+ * CErrProjectAlreadyAttachedPage class declaration
+ */
+
+class CErrProjectAlreadyAttachedPage: public wxWizardPage
+{    
+    DECLARE_DYNAMIC_CLASS( CErrProjectAlreadyAttachedPage )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CErrProjectAlreadyAttachedPage( );
+
+    CErrProjectAlreadyAttachedPage( wxWizard* parent );
+
+    /// Creation
+    bool Create( wxWizard* parent );
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CErrProjectAlreadyAttachedPage event handler declarations
+
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTALREADYATTACHEDPAGE
+    void OnPageChanged( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTALREADYATTACHEDPAGE
+    void OnCancel( wxWizardEvent& event );
+
+////@end CErrProjectAlreadyAttachedPage event handler declarations
+
+////@begin CErrProjectAlreadyAttachedPage member function declarations
+
+    /// Gets the previous page.
+    virtual wxWizardPage* GetPrev() const;
+
+    /// Gets the next page.
+    virtual wxWizardPage* GetNext() const;
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CErrProjectAlreadyAttachedPage member function declarations
+
+    /// Should we show tooltips?
+    static bool ShowToolTips();
+
+////@begin CErrProjectAlreadyAttachedPage member variables
+////@end CErrProjectAlreadyAttachedPage member variables
 };
 
 /*!

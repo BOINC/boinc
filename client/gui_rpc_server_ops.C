@@ -201,14 +201,30 @@ static void handle_project_attach_poll(char*, MIOFILE& fout) {
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
     string url, authenticator;
+    PROJECT* p = NULL;
+    bool already_attached = false;
+    unsigned int i;
+
     if (!parse_str(buf, "<project_url>", url)) {
         fout.printf("<error>Missing URL</error>\n");
         return;
     }
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        if (url == p->master_url) already_attached = true;
+    }
+
+    if (already_attached) {
+        fout.printf("<error>Already attached to project</error>\n");
+        return;
+    }
+
     if (!parse_str(buf, "<authenticator>", authenticator)) {
         fout.printf("<error>Missing authenticator</error>\n");
         return;
     }
+
     gstate.add_project(url.c_str(), authenticator.c_str());
     gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
@@ -522,11 +538,14 @@ static void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
 }
 
-static void handle_get_project_config(char* buf, MIOFILE&) {
+static void handle_get_project_config(char* buf, MIOFILE& fout) {
     string url;
+
     parse_str(buf, "<url>", url);
+
     canonicalize_master_url(url);
     gstate.get_project_config_op.do_rpc(url);
+    fout.printf("<success/>\n");
 }
 
 static void handle_get_project_config_poll(char*, MIOFILE& fout) {
@@ -542,10 +561,13 @@ static void handle_get_project_config_poll(char*, MIOFILE& fout) {
     }
 }
 
-static void handle_lookup_account(char* buf, MIOFILE&) {
+static void handle_lookup_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
+
     ai.parse(buf);
+
     gstate.lookup_account_op.do_rpc(ai);
+    fout.printf("<success/>\n");
 }
 
 static void handle_lookup_account_poll(char*, MIOFILE& fout) {
@@ -561,10 +583,13 @@ static void handle_lookup_account_poll(char*, MIOFILE& fout) {
     }
 }
 
-static void handle_create_account(char* buf, MIOFILE&) {
+static void handle_create_account(char* buf, MIOFILE& fout) {
     ACCOUNT_IN ai;
+
     ai.parse(buf);
+
     gstate.create_account_op.do_rpc(ai);
+    fout.printf("<success/>\n");
 }
 
 static void handle_create_account_poll(char*, MIOFILE& fout) {

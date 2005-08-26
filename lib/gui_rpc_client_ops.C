@@ -1151,6 +1151,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
 
 int RPC_CLIENT::project_attach(const char* url, const char* auth) {
     char buf[256];
+    int retval;
     RPC rpc(this);
 
     sprintf(buf,
@@ -1160,7 +1161,10 @@ int RPC_CLIENT::project_attach(const char* url, const char* auth) {
         "</project_attach>\n",
         url, auth
     );
-    return rpc.do_rpc(buf);
+
+    retval =  rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 const char* RPC_CLIENT::mode_name(int mode) {
@@ -1461,14 +1465,19 @@ int RPC_CLIENT::acct_mgr_info(ACCT_MGR_INFO& ami) {
 
 int RPC_CLIENT::get_project_config(std::string url) {
     char buf[4096];
+    int retval;
     RPC rpc(this);
+
     sprintf(buf,
         "<get_project_config>\n"
         "   <url>%s</url>\n"
         "</get_project_config>\n",
         url.c_str()
     );
-    return rpc.do_rpc(buf);
+
+    retval =  rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
@@ -1486,7 +1495,9 @@ static string get_passwd_hash(string passwd, string email_addr) {
 }
 int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     char buf[4096];
+    int retval;
     RPC rpc(this);
+
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
     sprintf(buf,
@@ -1499,7 +1510,10 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         ai.email_addr.c_str(),
         passwd_hash.c_str()
     );
-    return rpc.do_rpc(buf);
+
+    retval =  rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
@@ -1513,7 +1527,9 @@ int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
 
 int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
     char buf[4096];
+    int retval;
     RPC rpc(this);
+
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
     sprintf(buf,
@@ -1528,7 +1544,10 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         passwd_hash.c_str(),
         ai.user_name.c_str()
     );
-    return rpc.do_rpc(buf);
+
+    retval =  rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
