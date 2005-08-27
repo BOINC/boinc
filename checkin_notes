@@ -11085,3 +11085,13 @@ Jeff  27 Aug 2005
 
 	sched/
 		Makefile.am
+
+David  27 Aug 2005
+    - When user changes email address, set email_validated=0
+        and send an email message to the new address,
+        with a "validate email" link.
+
+    html/user/
+        edit_email_action.php
+        edit_email_form.php
+        validate_email.php (new)
