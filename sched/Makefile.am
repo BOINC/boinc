@@ -153,6 +153,9 @@ fcgi_SOURCES =                                  \
     handle_request.C                            \
     main.C                                      \
     sched_send.C                                \
+    sched_resend.C 				\
+    sched_array.C 				\
+    sched_hr.C 					\
     server_types.C                              \
     ../lib/synch.C                              \
     sched_shmem.C                               \

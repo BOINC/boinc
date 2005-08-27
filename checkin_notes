@@ -11079,3 +11079,9 @@ David  26 Aug 2005
             team_email_list.php
     sched/
         handle_request.C
+
+Jeff  27 Aug 2005
+	- added items to fcgi_SOURCES
+
+	sched/
+		Makefile.am
