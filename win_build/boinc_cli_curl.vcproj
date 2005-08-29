@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="boinc"
+	ProjectGUID="{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
 	RootNamespace="boinc_cli"
 	SccProjectName=""
 	SccLocalPath="">

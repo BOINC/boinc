@@ -11126,3 +11126,24 @@ David  29 Aug 2005
     client/
         client_types.C
         http_curl.C
+
+Rom    29 Aug 2005
+    - Build cleanup on Windows (possibly fixes debugger issue)
+    - Remove unneeded conditional from CLIENT_STATE::do_io_or_sleep
+    - Don't tell the user we are going to open a browser window unless
+        we created an account on the target project through the
+        wizard
+    
+    client/
+        client_state.C
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachProject.cpp, .h
+    win_build/
+        BOINC.sln
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        upper_case.vcproj
+        boinc_cli.vcproj (Removed)
+        boincmgr.vcproj (Removed)

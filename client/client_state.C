@@ -384,7 +384,6 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     struct timeval tv;
     now = dtime();
     double end_time = now + x;
-    bool did_something = false;
 
     while (1) {
         curl_fds.zero();
@@ -402,15 +401,10 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         if (n==0) break;
         net_xfers->got_select(all_fds, x);
         gui_rpcs.got_select(all_fds);
-        did_something = true;
 
         now = dtime();
         if (now > end_time) break;
         x = end_time - now;
-    }
-    // curl likes to be called every few seconds, regardless of select()
-    if (!did_something) {
-        net_xfers->got_select(all_fds, x);
     }
 }
 

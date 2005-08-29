@@ -912,6 +912,7 @@ public:
     static bool ShowToolTips();
 
 ////@begin CCompletionPage member variables
+    wxStaticText* m_CompletionMessage;
 ////@end CCompletionPage member variables
 };
 

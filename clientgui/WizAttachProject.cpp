@@ -2615,6 +2615,7 @@ CCompletionPage::CCompletionPage( wxWizard* parent )
 bool CCompletionPage::Create( wxWizard* parent )
 {
 ////@begin CCompletionPage member initialisation
+    m_CompletionMessage = NULL;
 ////@end CCompletionPage member initialisation
  
 ////@begin CCompletionPage creation
@@ -2651,9 +2652,9 @@ void CCompletionPage::CreateControls()
 
     itemBoxSizer80->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText84 = new wxStaticText;
-    itemStaticText84->Create( itemWizardPage79, wxID_STATIC, _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer80->Add(itemStaticText84, 0, wxALIGN_LEFT|wxALL, 5);
+    m_CompletionMessage = new wxStaticText;
+    m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CCompletionPage content construction
 }
@@ -2715,7 +2716,13 @@ wxIcon CCompletionPage::GetIconResource( const wxString& name )
  */
  
 void CCompletionPage::OnPageChanged( wxWizardEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    if (((CWizAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
+        m_CompletionMessage->SetLabel(_("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."));
+    } else {
+        m_CompletionMessage->SetLabel(_("Click Finish to close."));
+    }
 }
   
 /*!

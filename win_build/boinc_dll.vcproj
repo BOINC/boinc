@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="boinc_dll"
+	ProjectGUID="{B06280CB-82A4-46DE-8956-602643078BDF}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
