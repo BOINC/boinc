@@ -2,6 +2,9 @@
 
 $project_news = array(
 
+array("August 29, 2005",
+    "<a href=http://www.acmqueue.com/modules.php?name=Content&pa=showpage&pid=313>A conversation with David Anderson</a> in ACM Queue Magazine."
+),
 array("August 14, 2005",
     "We are <a href=new_setup.php>redesigning BOINC</a> to use
     a user-supplied identifier and password

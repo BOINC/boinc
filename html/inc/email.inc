@@ -3,6 +3,34 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
+if ($USE_PHPMAILER) {
+    require_once("../inc/phpmailer/class.phpmailer.php");
+}
+
+function send_email($user, $subject, $body) {
+    global $USE_PHPMAILER;
+    global $PHPMAILER_HOST;
+    global $PHPMAILER_MAILER;
+
+    if ($USE_PHPMAILER) {
+        $mail = new PHPMailer();
+        $mail->AddAddress($user->email_addr, $user->name);
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        $mail->From = EMAIL_FROM;
+        $mail->FromName = EMAIL_FROM;
+        $mail->Host = $PHPMAILER_HOST;
+        $mail->Mailer = $PHPMAILER_MAILER;
+        return $mail->Send();
+    } else {
+        if (defined('EMAIL_FROM')) {
+            $headers = "From: ". EMAIL_FROM;
+        } else {
+            $headers ="";
+        }
+        return mail($user->email_addr, $subject, $body, $headers);
+    }
+}
 // Send an email describing an account to the user.
 // There are a few scenarios:
 //
@@ -15,12 +43,6 @@ require_once("../project/project.inc");
 //
 function send_auth_email($user, $is_new) {
     $body = "";
-
-    if (defined('EMAIL_FROM')) {
-        $headers = "From: ". EMAIL_FROM;
-    } else {
-        $headers ="";
-    }
 
     if ($is_new) {
         $subject = PROJECT." account confirmation for $user->name";
@@ -48,7 +70,7 @@ $body .= "
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL."
 ";
-    return mail($user->email_addr, $subject, $body, $headers);
+    return send_email($user, $subject, $body);
 }
 
 function email_sent_message($email_addr) {
@@ -91,11 +113,6 @@ function is_valid_email_addr($addr) {
 function send_moderation_email($user, $thread,  $post, $message) {
     $body = "";
 
-    if (defined('EMAIL_FROM')) {
-        $headers = "From: ". EMAIL_FROM;
-    } else {
-        $headers ="";
-    }
     $subject = PROJECT." forum moderation notice for $user->name";
     $body = PROJECT." notification:
 
@@ -111,18 +128,13 @@ This was the contents of your post:
 ".$post->content."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
-    return mail($user->email_addr, $subject, $body, $headers);
+    return send_email($user, $subject, $body);
 
 }
 
 function send_thread_moderation_email($user, $thread, $message) {
     $body = "";
 
-    if (defined('EMAIL_FROM')) {
-        $headers = "From: ". EMAIL_FROM;
-    } else {
-        $headers ="";
-    }
     $subject = PROJECT." forum moderation notice for $user->name";
     $body = PROJECT." notification:
 
@@ -135,7 +147,7 @@ The moderator gave this explanation to why your thread was moderated:
 $body .= "
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
-    return mail($user->email_addr, $subject, $body, $headers);
+    return send_email($user, $subject, $body);
 
 }
 
@@ -192,11 +204,6 @@ function send_problem_email($user, $host) {
     % of time user active: " . 100*$host->active_frac." %
     # of results today: " . $host->nresults_today;
     
-    if (defined('EMAIL_FROM')) {
-        $headers = "From: ". EMAIL_FROM;
-    } else {
-        $headers ="";
-    }
     $subject = PROJECT." notice for $user->name";
     $body = PROJECT." notification:
 
@@ -214,7 +221,7 @@ This is the content of our database:
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     echo nl2br($body) . "<br><br>"; 
-    return mail($user->email_addr, $subject, $body, $headers);
+    return send_email($user, $subject, $body);
 
 }
 

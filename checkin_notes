@@ -11147,3 +11147,11 @@ Rom    29 Aug 2005
         upper_case.vcproj
         boinc_cli.vcproj (Removed)
         boincmgr.vcproj (Removed)
+
+David  29 Aug 2005
+    - support PHPMailer
+        (need to define $USE_PHPMAILER, $PHPMAILER_HOST, $PHPMAILER_MAILER
+        in your project.inc file)
+
+    html/inc/
+        email.inc
