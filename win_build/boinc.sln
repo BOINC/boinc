@@ -11,7 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_dll", "boinc_dll.vcpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcproj", "{21E7357D-41D8-444C-A120-18064B497174}"
 	ProjectSection(ProjectDependencies) = postProject
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "upper_case", "upper_case.vcproj", "{48FB07D8-6E26-4BB1-98AB-22001C0FB0FF}"
