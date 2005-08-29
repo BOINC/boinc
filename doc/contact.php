@@ -58,6 +58,11 @@ Each area is managed by an 'owner'.
     <td>Bruce Allen</td>
 </tr>
 <tr>
+    <td>Translations of GUI and web text</td>
+    <td>Jens Seidler</td>
+    <td>Janus Kristensen</td>
+</tr>
+<tr>
     <td>Unix build system</td>
     <td>Reinhard Prix</td>
     <td>Eric Korpela</td>
@@ -145,7 +150,7 @@ show_name("Thomas Richard");
 show_name("Nikolay Saharov");
 show_name("Jens Seidler");
 show_name("Peter Smithson");
-show_name("Christian S&oslash'ttrup");
+show_name("Christian S&oslash;ttrup");
 show_name("Michela Taufer");
 show_name("Mathias Walter");
 show_name("Rom Walton");
@@ -172,7 +177,7 @@ show_name("Chris Sutton");
 echo "
 </table>
 <p>
-Many thanks to Komori Hitoshi for proof-reading this web site.
+Many thanks to Komori Hitoshi for repeatedly proof-reading this web site.
 ";
 page_tail();
 ?>

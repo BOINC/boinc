@@ -29,12 +29,12 @@ computer resources
 <td valign=top width=60%>
 <table width=100% border=0 cellspacing=0 cellpadding=8>
   <tr><td bgcolor=$light_blue>
-    <h2>&nbsp;Participate in scientific research</h2>
+    <h2>&nbsp;Donate computing power to science</h2>
   </td></tr>
   <tr><td>
     <p>
-    If you own a computer (Windows, Mac, Linux or Unix)
-    you can participate in scientific research in many areas:
+    If you have a computer (Windows, Mac, Linux or Unix)
+    you can participate in many areas of scientific research:
     <ul>
     <li>
     <a href=http://climateprediction.net>Climateprediction.net</a>:
@@ -87,24 +87,25 @@ computer resources
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Resources</h2></td></tr>
   <tr><td>
+    <ul>
+    <li>
     <form method=get action=http://www.google.com/search>
     <input type=hidden name=domains value=http://boinc.berkeley.edu>
     <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
     <nobr>
     <input class=small name=q size=30>
-    <input type=image name=search src=images/gn_search_btn.gif>
+    <input type=submit value='Site search'>
     </nobr>
     </form>
-    <ul>
+    <li> An <a href=intro.php>overview of BOINC</a>, and links to papers
     <li> Wikis (user-editable information and documentation):
         <ul>
         <li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
         <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
         <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
         </ul>
-    <li> Other <a href=links.php>web sites</a> for BOINC participants
-    <li> <a href=community.php#email_lists>Email lists</a>
-    <li> An <a href=intro.php>overview</a> of BOINC, and links to papers
+    <li> <a href=links.php>Web sites</a> for BOINC participants
+    <li> BOINC <a href=community.php#email_lists>email lists</a>
     <li>
         <a href=boinc_dev.php>Software development</a>
         <blockquote>

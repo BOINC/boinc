@@ -283,8 +283,10 @@ ERROR: could not find (recent enough) development-libs for libcurl.
       fi
 
       ## add libcurl et al. to the list of statically linked libs
-      STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn crypto ssl"
+      STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv"
       CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
+      CURL_LIB_PATHS=`echo $LIBCURL | sed 's/-l[[^ ]]*//g'`
+      LDFLAGS="$LDFLAGS $CURL_LIB_PATHS"
    fi	
 
 fi
@@ -303,13 +305,9 @@ SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-dnl the following are only checked for libcurl: don't save anything
-SAH_CHECK_LIB([crypto], [RSA_new], [])
-SAH_CHECK_LIB([ssl], [SSL_accept],[])
-SAH_CHECK_LIB([idn], [idn_free],[])
-dnl if curl is ok, we add the full LIBCURL to the boinc-libs
+
 SAH_CHECK_LIB([curl], [curl_easy_init],
-    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"])
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"],, [${LIBCURL}])
 
 LIBS=${SAVELIBS_AAF}
 

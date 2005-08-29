@@ -11095,3 +11095,10 @@ David  27 Aug 2005
         edit_email_action.php
         edit_email_form.php
         validate_email.php (new)
+
+David  28 Aug 2005
+    - Unix build fixes (from Reinhard Prix)
+
+    configure.ac
+    m4/
+        sah_check_lib.m4

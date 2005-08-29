@@ -11,7 +11,7 @@ AC_DEFUN([SAH_CHECK_LIB],[
          lib_is_static="yes" 
          sah_lib_last="${sah_static_lib_last}"
 	 $3
-       ],[$4])
+       ],[$4],[$5])
        break;
      fi
    done
@@ -19,7 +19,7 @@ AC_DEFUN([SAH_CHECK_LIB],[
      SAH_DYNAMIC_LIB_REQUIRED(${alib},[$2],[
          sah_lib_last="${sah_dynamic_lib_last}"
 	 $3
-     ],[$4])
+     ],[$4], [$5])
    fi
 ])
 
@@ -162,7 +162,7 @@ AC_CACHE_CHECK([$tmp_msg],
     SAH_FIND_STATIC_LIB(${libname})
     if test -n "${tmp_lib_name}"
     then
-      LIBS="${tmp_lib_name} ${sah_save_libs}"
+      LIBS="${tmp_lib_name} $5 ${sah_save_libs}"
       AC_LINK_IFELSE([
         AC_LANG_PROGRAM([[
           #define CONFIG_TEST 1
@@ -240,7 +240,7 @@ AC_CACHE_CHECK([$tmp_msg],
   for libname in ${sah_dynamic_checklibs}
   do
     tmp_lib_name="${libname}"
-    LIBS="${ld_dynamic_option} ${tmp_lib_name} ${sah_save_libs}"
+    LIBS="${ld_dynamic_option} ${tmp_lib_name} $5 ${sah_save_libs}"
     AC_LINK_IFELSE([
       AC_LANG_PROGRAM([[
         #define CONFIG_TEST 1
@@ -441,8 +441,11 @@ else
       tmp_dir_list=`cat /var/ld/ld.config`
     fi
   fi
- 
-  tmp_dir_list=`echo ${tmp_libpath}:/lib:/usr/lib:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | $AWK -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
+  
+  ## add library-paths from LDFLAGS to beginning of lib-path
+  ldflags_path=`echo $LDFLAGS | sed 's/-l[[^ ]]*//g' | sed 's/-L\([[^ ]]*\)/:\1/g' | sed 's/[[ ]]*//g'`
+
+  tmp_dir_list=`echo ${ldflags_path}:${tmp_libpath}:/lib:/usr/lib:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | $AWK -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
  
   tmp_lib_name=
   # now that we know where we are looking, find our library
