@@ -11102,3 +11102,11 @@ David  28 Aug 2005
     configure.ac
     m4/
         sah_check_lib.m4
+
+David  28 Aug 2005
+    - compile fixes
+
+    clientgui/
+        WizAttachProject.cpp
+    lib/
+        parse.C

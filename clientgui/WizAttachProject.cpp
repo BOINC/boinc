@@ -2012,7 +2012,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardEvent& event )
 {
     if (event.GetDirection() == false) return;
 
-    static bRunOnce = true;
+    static bool bRunOnce = true;
     if (bRunOnce) {
         bRunOnce = false;
         m_AccountCreateCtrl->SetValue(TRUE);

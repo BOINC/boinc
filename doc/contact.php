@@ -54,8 +54,8 @@ Each area is managed by an 'owner'.
 </tr>
 <tr>
     <td>Server</td>
-    <td>David Anderson</td>
     <td>Bruce Allen</td>
+    <td>David Anderson</td>
 </tr>
 <tr>
     <td>Translations of GUI and web text</td>
@@ -71,6 +71,11 @@ Each area is managed by an 'owner'.
     <td>Web features</td>
     <td>Janus Kristensen</td>
     <td>Rob Ogilvie</td>
+</tr>
+<tr>
+    <td>Wiki-based documentation</td>
+    <td>Paul Buck</td>
+    <td><br></td>
 </tr>
 <tr>
     <td>Windows installer and screensaver</td>

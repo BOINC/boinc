@@ -149,7 +149,8 @@ bool parse_str(const char* buf, const char* tag, char* dest, int len) {
 // returns string in dest
 //
 void parse_attr(const char* buf, const char* name, char* dest, int len) {
-    char* p, *q;
+    const char* p;
+    const char *q;
 
     strcpy(dest, "");
     p = strstr(buf, name);
