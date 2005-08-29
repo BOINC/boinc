@@ -7,24 +7,19 @@ echo "
 <p>
 To create an account with BOINC projects, a participant must:
 <ul>
-<li> locate BOINC project web sites,
-read them, and decide which to join;
+<li> Locate BOINC project web sites, e.g. using Google.
+<li> Read the web sites, and decide which to join;
 <li> Download and install the BOINC client software.
 </ul>
 and then for each selected project:
 <ul>
-<li> fill out a web registration form;
-<li> handle an email;
-<li> cut and paste a URL and account key into the BOINC client.
+<li> Go through the Attach to Project wizard.
 </ul>
 
 <p>
 If the participant chooses N projects,
-there are N forms to fill out,
-N emails to handle, and N dialog interactions with the BOINC client.
+there are N web sites to visit and N Wizards to complete.
 This is tedious if there are lots of projects.
-Furthermore, it involves cutting and pasting long random strings,
-which is intimidating to some participants.
 
 <p>
 This document describes BOINC's support for <b>account management systems</b>,
@@ -35,33 +30,23 @@ The participant experience is:
 <li> Visit the account manager site,
 set up a 'meta-account' (name, email, password),
 browse a list of projects, and click checkboxes to select projects.
-<li> Receive email from each selected project,
-and click on a link in the email.
 <li> Download and install the BOINC client software from the account manager.
 <li> Enter the meta-account name and password in a BOINC client dialog.
 </ul>
-This requires about 1/3 of the interactions of the manual approach,
-and avoids dealing with long random strings.
+This requires many fewer interactions than the manual approach.
 
 <h2>Implementation</h2>
 <p>
 An account management system works as follows:
 <br>
-<img src=acct_mgt.png>
+<img src=acct_mgt2.png>
 <br>
 
 <ol>
 <li> The participant sets up his meta-account and selects projects.
 <li> The account manager issues a <b>create account</b> RPC
 to each selected project.
-<li> The project creates an account (marked as 'unconfirmed')
-and sends an email to the participant.
-<li> The participant opens the email and clicks on a link in it,
-causing the account to be marked as 'confirmed'.
-<li> The account manager periodically polls each selected project
-with a <b>query account</b> RPC,
-waiting for all accounts to become confirmed.
-<li> When all accounts are confirmed,
+<li> 
 the participant downloads and installs the BOINC client software
 from the account manager.
 The install package includes a file
@@ -74,7 +59,7 @@ to the account manager, obtaining a list of accounts.
 It then attaches to these accounts and proceeds.
 </ol>
 
-The <b>create account</b> and <b>query account</b> RPCs
+The <b>create account</b> RPCs
 are described <a href=web_rpc.php>here</a>.
 
 <h2>Core client functionality</h2>

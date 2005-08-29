@@ -305,6 +305,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     master_fetch_failures = p.master_fetch_failures;
     min_rpc_time = p.min_rpc_time;
     master_url_fetch_pending = p.master_url_fetch_pending;
+    sched_rpc_pending = p.sched_rpc_pending;
     trickle_up_pending = p.trickle_up_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
     short_term_debt = p.short_term_debt;
@@ -427,20 +428,6 @@ bool PROJECT::potentially_runnable() {
     if (contactable()) return true;
     if (downloading()) return true;
     return false;
-}
-
-void PROJECT::update_duration_correction_factor(RESULT* rp) {
-    double factor = rp->final_cpu_time / rp->estimated_cpu_time_uncorrected();
-    if (factor > duration_correction_factor) {
-        duration_correction_factor = factor;
-    } else {
-        if (factor < 0.1) {
-            duration_correction_factor = 0.99 * duration_correction_factor + 0.01 * factor;
-        } else {
-            double x = 0.9*duration_correction_factor + 0.1*factor;
-            duration_correction_factor = std::max(factor, x);
-        }
-    }
 }
 
 int APP::parse(MIOFILE& in) {
@@ -1450,6 +1437,32 @@ double RESULT::estimated_cpu_time_remaining() {
         return atp->est_cpu_time_to_completion();
     }
     return estimated_cpu_time();
+}
+
+// The given result has just completed successfully.
+// Update the correction factor used to predict
+// completion time for this project's results
+//
+void PROJECT::update_duration_correction_factor(RESULT* rp) {
+    double ratio = rp->final_cpu_time / rp->estimated_cpu_time();
+
+    // it's OK to overestimate completion time,
+    // but bad to underestimate it.
+    // So make it easy for the factor to increase,
+    // but decrease it with caution
+    //
+    if (ratio > 1) {
+        duration_correction_factor *= ratio;
+    } else {
+        // in particular, don't give much weight to results
+        // that completed a lot earlier than expected
+        //
+        if (ratio < 0.1) {
+            duration_correction_factor *= 0.99;
+        } else {
+            duration_correction_factor *= (0.9 + 0.1*ratio);
+        }
+    }
 }
 
 bool RESULT::runnable() {

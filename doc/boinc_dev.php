@@ -18,7 +18,7 @@ For starters, look through the
 <a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>
 and try fixing a bug or two.
 Sign up for the
-<a href=http://boinc.berkeley.edu/community.php#email_lists>boinc_dev</a>
+<a href=email_lists.php>boinc_dev</a>
 email list to communicate with other BOINC developers.
 Also, read:
 <ul>
@@ -89,6 +89,19 @@ Various implementation notes:
 <li> <a href=upload.php>Data server protocol</a>
 <li> <a href=pers_file_xfer.php>Persistent file transfers</a>
 </ul>
+<h2>Client extensions</h2>
+<ul>
+<li> <a href=gui_rpc.php>GUI RPCs</a>
+    <br> Lets you control or show the status of BOINC clients,
+    local or remote.
+</ul>
+<h2>Web-based extensions (statistics and account management)</h2>
+<ul>
+<li> <a href=db_dump.php>Downloading statistics data</a>
+<li> <a href=cpid.php>Cross-project identification</a>
+<li> <a href=web_rpc.php>Web RPCs (possibly useful for statistics sites)</a>
+<li> <a href=acct_mgt.php>Account management systems</a>
+</ul>
 <h2>Miscellaneous</h2>
 <ul>
 <li> <a href=python.php>Python framework</a>
@@ -96,9 +109,7 @@ Various implementation notes:
 <li> <a href=trickle_impl.php>Trickle messages</a>
 <li> <a href=version_diff.txt>How to see what has changed
 between two versions of an executable</a>.
-<li> <a href=acct_mgt_new.php>Account management systems</a>
 <li> <a href=spec.txt>Spec info for RPMs</a>
-<li> <a href=stats_summary.php>Statistics summaries</a>
 </ul>
 
 ";

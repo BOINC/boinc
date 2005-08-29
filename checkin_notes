@@ -11116,3 +11116,13 @@ David  29 Aug 2005
 
     html/user/
         create_account_action.php
+
+David  29 Aug 2005
+    - fixed bug that caused scheduler RPC to all projects on startup
+    - revised update_duration_correction_factor()
+        (hopefully for the better)
+    - removed call to tmpname()
+
+    client/
+        client_types.C
+        http_curl.C

@@ -9,7 +9,7 @@ There are several mechanisms for feedback on BOINC
 <ul>
 
 <li> Post a message to the appropriate
-<a href=http://boinc.berkeley.edu/community.php#email_lists>email list</a>.
+<a href=email_lists.php>email list</a>.
 Do this first.
 Your bug may have already been fixed.
 

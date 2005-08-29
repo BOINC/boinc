@@ -237,10 +237,6 @@ int HTTP_OP::libcurl_exec(
         strcpy(outfile, "blcXXXXXX"); // a template for the mkstemp
         mkstemp(outfile);
 #endif
-        if (outfile[0] == 0x00) {
-            // oh well we're desparate, use tmpnam!
-            tmpnam(outfile);
-        }
     }
 
     // setup libcurl handle

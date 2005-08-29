@@ -34,7 +34,7 @@ computer resources
   <tr><td>
     <p>
     If you have a computer (Windows, Mac, Linux or Unix)
-    you can participate in many areas of scientific research:
+    you can participate in many scientific research projects:
     <ul>
     <li>
     <a href=http://climateprediction.net>Climateprediction.net</a>:
@@ -85,18 +85,12 @@ computer resources
     </a>
     <br><br>
   </td></tr>
-  <tr><td bgcolor=$light_blue><h2>Resources</h2></td></tr>
+  <tr><td bgcolor=$light_blue><h2>Other Info</h2></td></tr>
   <tr><td>
     <ul>
-    <li>
-    <form method=get action=http://www.google.com/search>
-    <input type=hidden name=domains value=http://boinc.berkeley.edu>
-    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
-    <nobr>
-    <input class=small name=q size=30>
-    <input type=submit value='Site search'>
-    </nobr>
-    </form>
+    <li> <a href=contact.php>Personnel and contact info</a>
+    <li> BOINC <a href=email_lists.php>email lists</a>
+    <li> BOINC <a href=dev/>message boards</a>
     <li> An <a href=intro.php>overview of BOINC</a>, and links to papers
     <li> Wikis (user-editable information and documentation):
         <ul>
@@ -105,7 +99,6 @@ computer resources
         <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
         </ul>
     <li> <a href=links.php>Web sites</a> for BOINC participants
-    <li> BOINC <a href=community.php#email_lists>email lists</a>
     <li>
         <a href=boinc_dev.php>Software development</a>
         <blockquote>
@@ -118,9 +111,7 @@ computer resources
       Non-English <a href=translation.php>translations</a>
       of project web sites and the BOINC manager.
     <li>
-    <a href=community.php>Other resources</a>
-    <li>
-    <a href=contact.php>Personnel and contact info</a>
+    <a href=logo.php>Logos and graphics</a>
     </ul>
     <br>
   </td></tr>
@@ -141,6 +132,14 @@ and do not necessarily reflect the views of the National Science Foundation.
 <td valign=top>
 <table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
 <center>
+    <form method=get action=http://www.google.com/search>
+    <input type=hidden name=domains value=http://boinc.berkeley.edu>
+    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
+    <nobr>
+    <input class=small name=q size=30>
+    <input type=submit value='Site search'>
+    </nobr>
+    </form>
 <h2>News</h2>
 </center>
 ";

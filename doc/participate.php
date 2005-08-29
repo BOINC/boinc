@@ -34,18 +34,11 @@ echo "
 <ul>
 <li> <a href=links.php>Web sites related to BOINC</a>
 <li> <a href=stats_sites.php>BOINC statistics sites</a>
-<li> <a href=db_dump.php>Downloading statistics data</a>
-<li> <a href=cpid.php>Cross-project identification</a>
-<li> <a href=web_rpc.php>Web RPCs (possibly useful for statistics sites)</a>
 </ul>
 <p>
 <h3>Add-on software</h3>
 <ul>
 <li> <a href=download_network.php>Add-on software</a>
-<li> <a href=gui_rpc.php>GUI RPCs</a>
-    <br> Lets you write programs
-    that control or display the status of BOINC clients,
-    even across a network.
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 ";

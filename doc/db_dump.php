@@ -12,6 +12,11 @@ for one or more BOINC projects.
 Examples of such sites are listed at
 <a href=http://setiathome.berkeley.edu/stats.php>
 http://setiathome.berkeley.edu/stats.php</a>.
+These sites may also offer web RPC interfaces to
+individual user or team statistics; see
+<a href=http://www.boinc.dk/index.php?page=download_stats_xml>
+http://www.boinc.dk/index.php?page=download_stats_xml</a>.
+
 
 <p>
 Statistics data is exported in XML-format files.

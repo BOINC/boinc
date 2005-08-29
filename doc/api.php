@@ -257,7 +257,7 @@ void boinc_network_done();
 "), "
 
 Note: this should be enclosed in
-<code>boinc_not_using_cpu() ... boinc_using_cpu()</code.
+<code>boinc_not_using_cpu() ... boinc_using_cpu()</code>.
 ";
 page_tail();
 ?>
