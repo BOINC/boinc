@@ -11110,3 +11110,9 @@ David  28 Aug 2005
         WizAttachProject.cpp
     lib/
         parse.C
+
+David  29 Aug 2005
+    - bug fix in account creation
+
+    html/user/
+        create_account_action.php
