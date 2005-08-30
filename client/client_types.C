@@ -1458,7 +1458,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
         // that completed a lot earlier than expected
         //
         if (ratio < 0.1) {
-            duration_correction_factor *= 0.99;
+            duration_correction_factor *= (0.99 + 0.01*ratio);
         } else {
             duration_correction_factor *= (0.9 + 0.1*ratio);
         }

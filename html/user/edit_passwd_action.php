@@ -9,8 +9,8 @@ db_init();
 $auth = process_user_text(post_str("auth", true));
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
 $old_passwd = process_user_text(post_str("old_passwd", true));
-$passwd = strtolower(process_user_text(post_str("passwd", true)));
-$passwd2 = strtolower(process_user_text(post_str("passwd2", true)));
+$passwd = process_user_text(post_str("passwd", true));
+$passwd2 = process_user_text(post_str("passwd2", true));
 
 
 

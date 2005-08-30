@@ -204,6 +204,15 @@ $PHPMAILER_MAILER = "smtp";
 </ul>
 </ul>
 
+<h3>Library notes</h3>
+<p>
+If you have old versions of libraries (curl, openssl etc.)
+in /usr/lib, and newer versions somewhere else (like /usr/local/lib)
+you must tell the linker where to find the newer versions:
+<pre>
+./configure LDFLAGS=-L/usr/local/lib
+</pre>
+
 <h3>X11 notes</h3>
 <p>
 To get the X11 support,

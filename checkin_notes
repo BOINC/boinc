@@ -11192,3 +11192,12 @@ David  30 Aug 2005
             cache.inc
         user/
             sample_rss_main.php
+
+David  30 Aug 2005
+    - passwords were being lower-cased.  Oops!!
+
+    client/
+        client_types.C
+    html/
+        user/
+            edit_passwd_action.php
