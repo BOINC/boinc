@@ -54,12 +54,14 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 $news = min( count($project_news), $news);
 for( $item=0; $item < $news; $item++ ) {
     if( count($project_news[$item]) == 2) {
-        echo "    <item>\n     <title>Project News "
-         .strip_tags($project_news[$item][0])."</title>
-         <link>http://boinc.berkeley.edu</link>
-         <description>"
-         .strip_tags($project_news[$item][1])."</description>
-         </item>
+        $d = strtotime($project_news[$item][0]);
+        $d = strftime("%a, %d %b %Y", $d);
+        echo "<item>
+            <title>Project News ".strip_tags($project_news[$item][0])."</title>
+            <link>".URL_BASE."</link>
+            <description>".strip_tags($project_news[$item][1])."</description>
+            <pubDate>$d</pubDate>
+            </item>
         ";
     }
 }

@@ -184,6 +184,24 @@ The file /etc/php.ini should contain
 <pre>
 magic_quotes_gpc = On
 </pre>
+<li>
+By default, BOINC uses PHP's <code>mail</code> function to send
+email to participants.
+This uses sendmail.
+If this doesn't work, you can use
+<a href=http://phpmailer.sourceforge.net/>PHPMailer</a> instead,
+which is a very flexible mail-sending mechanism.
+To do this:
+<ul>
+<li> Download PHPMailer and put it under PROJECT/html/inc/phpmailer.
+<li> Set the following variables in your
+PROJECT/html/project/project.inc file (substitute your own values):
+<pre>
+$USE_PHPMAILER = true;
+$PHPMAILER_HOST = "xxx.xxx.xxx";
+$PHPMAILER_MAILER = "smtp"; 
+</pre>
+</ul>
 </ul>
 
 <h3>X11 notes</h3>

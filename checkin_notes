@@ -11180,3 +11180,14 @@ Charlie 30 Aug 2005
     
     clientgui/
         MainFrame.cpp
+
+David  30 Aug 2005
+    - include pubDate in RSS feed
+    - change getallheaders() to apache_request_headers()
+        (the former apparently not defined in PHP5)
+
+    html/
+        inc/
+            cache.inc
+        user/
+            sample_rss_main.php

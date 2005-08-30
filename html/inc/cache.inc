@@ -88,7 +88,7 @@ function cache_check_diskspace(){
 
 function cache_need_to_regenerate($path, $max_age){
     $regenerate = false;
-        $request = getallheaders();
+        $request = apache_request_headers();
 
         clearstatcache();
         $lastmodified = @filemtime($path);
