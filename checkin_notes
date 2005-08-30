@@ -11171,3 +11171,12 @@ Janus  30 Aug 2005
         user/
             view_profile.php
 
+Charlie 30 Aug 2005
+    - Fix excessive CPU usage on Mac when Manager window was open.  
+      CMainFrame::OnFrameRender() was always calling SetTitle(), which 
+      forced a full redraw of the window once every second.  The full 
+      redraw is very CPU-intensive.  We now call GetTitle() and don't 
+      call SetTile() unless title text has changed.
+    
+    clientgui/
+        MainFrame.cpp

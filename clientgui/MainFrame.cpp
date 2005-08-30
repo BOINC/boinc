@@ -1665,9 +1665,11 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         strStatusText.Printf(_("Connected to %s"), strComputerName.c_str());
                     }
 
-                    SetTitle(strTitle);
-                    // The Mac takes a huge performance hit changing the text of a floating
+                    // The Mac takes a huge performance hit redrawing this window, 
                     //   window, so don't change the text unless we really have too.
+                    if (GetTitle() != strTitle)
+                        SetTitle(strTitle);
+                        
                     if (strStatusText != strCachedStatusText) {
                         strCachedStatusText = strStatusText;
                         m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
@@ -1678,7 +1680,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     m_pStatusbar->m_pbmpDisconnect->Show();
                     m_pStatusbar->m_ptxtDisconnect->Show();
 
-                    SetTitle(m_strBaseTitle);
+                    if (GetTitle() != m_strBaseTitle)
+                        SetTitle(m_strBaseTitle);
                 }
             }
         }
