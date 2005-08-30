@@ -11148,6 +11148,10 @@ Rom    29 Aug 2005
         boinc_cli.vcproj (Removed)
         boincmgr.vcproj (Removed)
 
+Rom    29 Aug 2005 (staging)
+    - Tag for 4.73 release, all platforms
+      boinc_core_release_4_73
+
 David  29 Aug 2005
     - support PHPMailer
         (need to define $USE_PHPMAILER, $PHPMAILER_HOST, $PHPMAILER_MAILER
