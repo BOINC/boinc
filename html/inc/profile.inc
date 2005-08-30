@@ -433,8 +433,7 @@ function show_profile($userid, $verify_mode = FALSE) {
     }
     $profile = get_profile($userid);
     if (!$profile) {
-        echo "No user profile exists for that user ID.";
-        exit();
+        profile_error_page("No user profile exists for that user ID.");
     }
     if (!$verify_mode) {
         $logged_in_user = get_logged_in_user(false);
@@ -467,10 +466,16 @@ function show_profile($userid, $verify_mode = FALSE) {
 
     show_user_summary_public($user);
 
+    //Setup text output options based on logged in user forum settings
+    $logged_in_user = get_logged_in_user(true);
+    $logged_in_user = getForumPreferences($logged_in_user);
+    $options = get_transform_settings_from_user($logged_in_user);
+    
     row1(show_profile_heading1());
-    row1($profile->response1, 2, "foobar");
+    row1(output_transform($profile->response1,$options), 2, "foobar");
     row1(show_profile_heading2());
-    row1($profile->response2, 2, "foobar");
+    row1(output_transform($profile->response2,$options), 2, "foobar");
+
     if (!$can_edit and !$verify_mode) {
         row1("Your feedback on this profile");
         row2(

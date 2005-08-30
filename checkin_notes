@@ -11159,3 +11159,15 @@ David  29 Aug 2005
 
     html/inc/
         email.inc
+
+Janus  30 Aug 2005
+    - When viewing profiles the output text is now based on the logged in
+      user's forum output preferences (ie. links in new window, images as
+      links etc).
+
+    html/
+        inc/
+            profile.inc
+        user/
+            view_profile.inc
+
