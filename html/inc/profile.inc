@@ -467,7 +467,7 @@ function show_profile($userid, $verify_mode = FALSE) {
     show_user_summary_public($user);
 
     //Setup text output options based on logged in user forum settings
-    $logged_in_user = get_logged_in_user(true);
+    $logged_in_user = get_logged_in_user(false);
     $logged_in_user = getForumPreferences($logged_in_user);
     $options = get_transform_settings_from_user($logged_in_user);
     
