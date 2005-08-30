@@ -11169,5 +11169,5 @@ Janus  30 Aug 2005
         inc/
             profile.inc
         user/
-            view_profile.inc
+            view_profile.php
 
