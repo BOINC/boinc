@@ -11185,6 +11185,7 @@ David  30 Aug 2005
     - include pubDate in RSS feed
     - change getallheaders() to apache_request_headers()
         (the former apparently not defined in PHP5)
+    - if apache_request_headers() is not defined, disable caching
 
     html/
         inc/
