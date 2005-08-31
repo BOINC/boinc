@@ -11244,3 +11244,15 @@ David  30 Aug 2005
         server_types.C,h
     sea/
         Makefile.am
+
+Charlie 30 Aug 2005
+    - Fix excessive CPU usage on Mac when Statistics pane selected. 
+      Added new routine CMainFrame::SetFrameListPanelRenderTimerRate() 
+      which sets the refresh rate to 60 seconds for the statistics panel 
+      and 5 seconds for all other panels.  Except it sets refresh rate 
+      to 5 seconds whenever the manager has been connected to core 
+      client for less than 10 seconds, to allow the Statistics panel to 
+      be drawn properly.
+    
+    clientgui/
+        MainFrame.cpp, h

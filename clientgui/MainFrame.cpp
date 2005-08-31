@@ -239,7 +239,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
     m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
 
-
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
     //         CPU time
@@ -721,7 +720,6 @@ bool CMainFrame::RestoreState() {
 
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
     m_pNotebook->SetSelection(iCurrentPage);
-
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
 #if defined(__WXMSW__) || defined(__WXMAC__)
@@ -1701,6 +1699,7 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
 
     FireRefreshView();
     pDoc->CachedMessageUpdate();
+    SetFrameListPanelRenderTimerRate();   // Set to refresh every 5 or 60 seconds
 }
 
 
@@ -1731,11 +1730,57 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         wxASSERT(pView);
 
         FireRefreshView();
+
+        SetFrameListPanelRenderTimerRate();
     }
 
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function End"));
+}
+
+
+void CMainFrame::SetFrameListPanelRenderTimerRate() {
+    static wxWindowID   previousPane = -1;
+    static int          connectedCount = 0;
+    wxWindowID          currentPane;
+
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(m_pNotebook);
+    wxASSERT(m_pFrameListPanelRenderTimer);
+    wxASSERT(pDoc);
+
+    // Keep timer at faster rate until we have been connected > 10 seconds
+    if (!pDoc->IsConnected())
+        connectedCount = 0;
+        
+    if (connectedCount < 3) {
+        connectedCount++;
+        previousPane = -1;  // Ensure an update when connectedCount reaches 3
+        
+        if (m_pFrameListPanelRenderTimer->IsRunning())
+            m_pFrameListPanelRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Start(5000);  // Refresh every 5 seconds
+        return;
+    }
+    
+    currentPane = m_pNotebook->GetSelection() + ID_TASK_BASE;
+    if (currentPane == previousPane) 
+        return;
+        
+    previousPane = currentPane;
+    if (m_pFrameListPanelRenderTimer->IsRunning())
+        m_pFrameListPanelRenderTimer->Stop();
+
+    switch (currentPane) {
+    case ID_TASK_STATISTICSVIEW: 
+        m_pFrameListPanelRenderTimer->Start(60000); // Refresh every 1 minute
+        break;
+    default:
+        m_pFrameListPanelRenderTimer->Start(5000);  // Refresh every 5 seconds
+        break;
+    }
 }
 
 

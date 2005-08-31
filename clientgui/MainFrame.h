@@ -88,6 +88,7 @@ public:
     void OnRefreshView( CMainFrameEvent& event );
     void OnConnect( CMainFrameEvent& event );
 
+    void SetFrameListPanelRenderTimerRate();
     void UpdateStatusText( const wxChar* szStatus );
 
     void FireInitialize();
