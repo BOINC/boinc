@@ -11281,3 +11281,14 @@ David  31 Aug 2005
     html/user/
         get_project_config.php (removed)
         sample_get_project_config.php (new)
+
+Rom    31 Aug 2005
+    - Save an unmodified version of the client and manager on Unix based
+        builds for debugging later.
+        
+    client/
+        Makefile.am
+    clientgui/
+        Makefile.am
+    lib/
+        Makefile.am

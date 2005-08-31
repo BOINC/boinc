@@ -74,6 +74,8 @@ all-local: client-bin
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $@
+	rm -f $@.unmodified
+	cp $? $@.unmodified
 	@LN@ $? $@
 	@STRIP@ $@
 

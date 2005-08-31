@@ -24,6 +24,8 @@ boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 # make a hard link to the client name.
 @CLIENT_CMD_BIN_FILENAME@: boinc_cmd
 	rm -f $@
+	rm -f $@.unmodified
+	cp $? $@.unmodified
 	@LN@ $? $@
 	@STRIP@ $@
 

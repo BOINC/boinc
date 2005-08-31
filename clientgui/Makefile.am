@@ -68,6 +68,8 @@ version: win_config.h
 # make a hard link to the client name.
 @CLIENT_GUI_BIN_FILENAME@: boinc_gui
 	rm -f $@
+	rm -f $@.unmodified
+	cp $? $@.unmodified
 	@LN@ $? $@
 	@STRIP@ $@
 
