@@ -110,11 +110,11 @@ $w445= array(
     "
 );
 
-$w472= array(
-    "num"=>"4.72",
+$w511= array(
+    "num"=>"5.1.1",
     "status"=>"Development version",
-    "file"=>"boinc_4.72_windows_intelx86.exe",
-    "date"=>"22 July 2005",
+    "file"=>"boinc_5.1.1_windows_intelx86.exe",
+    "date"=>"30 August 2005",
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
@@ -124,7 +124,14 @@ $w472= array(
     <li>
     Alerts have been enabled to provide instant feedback when certain types of errors occur.
     <li>
-    BOINC Manager now supports the Microsoft Active Accessibility standard. 
+    BOINC Manager now supports the Microsoft Active Accessibility standard.
+    <li>
+    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
+    <li>
+    BOINC can now use username and passwords for authentication instead of an authenticator.
+    <li>
+    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
+    process of attaching to a project as well as check for things like proxy configuration issues.
     </ul>
     ",
     "bugs"=>"<ul>
@@ -252,11 +259,11 @@ $l443 = array(
     "
 );
 
-$l472 = array(
-    "num"=>"4.72",
+$l511 = array(
+    "num"=>"5.1.1",
     "status"=>"Development version",
-    "file"=>"boinc_4.72_i686-pc-linux-gnu.sh",
-    "date"=>"22 July 2005",
+    "file"=>"boinc_5.1.1_i686-pc-linux-gnu.sh",
+    "date"=>"30 August 2005",
     "type"=>sea()
 );
 
@@ -288,7 +295,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w472,
+        $w511,
         $w419
     )
 );
@@ -307,7 +314,7 @@ $linux = array(
     "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
-        $l472,
+        $l511,
         $l419
     )
 );
