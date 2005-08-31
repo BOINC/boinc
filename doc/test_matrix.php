@@ -73,11 +73,20 @@ Verify that download resumes from the same point.
 <li> Test 'confirm before connect' preference.
 <li> Test 'Disconnect when done' preference.
 </ul>
-<h3>Tests for computers connected by proxy</h3>
+<h3>Tests for computers connected by HTTP proxy</h3>
 <ul>
 <li>Check HTTP proxy if you have one.
+</ul>
+<h3>Tests for computers connected by SOCKS proxy</h3>
+<ul>
 <li>Check SOCKS proxy if you have one.
-<li>Check HTTP Authentication if you use authentication.
+</ul>
+<h3>Tests for computers connected by HTTP proxy with authentication</h3>
+<ul>
+<li>Check HTTP Authentication if you use authentication. (basic, digest, NTLM, Negotiate, kerberos)
+</ul>
+<h3>Tests for computers connected by SOCKS proxy with authentication</h3>
+<ul>
 <li>Check SOCKS Authentication if you use authentication.
 </ul>
 <h3>Tests for laptops</h3>
@@ -89,6 +98,16 @@ Verify that download resumes from the same point.
 <li> Test normal case
 <li> Test change apps (set scheduling period to 1 min)
 <li> Test 'no graphics capable apps'
+<li> Test blank time
+<li> Test power save modes
+</ul>
+
+<h3>BOINC Manager wizard tests</h3>
+<ul>
+<li> Test normal case, invalid urls, valid urls, projects that are up, projects that are down.
+<li> Test good passwords, bad password, good usernames, bad usernames.
+<li> Test existing accounts, create new accounts.
+<li> Test against projects that don't support usernames and passwords.
 </ul>
 
 <hr>
