@@ -111,6 +111,7 @@ struct SCHEDULER_REQUEST {
     int hostid;                 // zero if first RPC
     int core_client_major_version;
     int core_client_minor_version;
+    int core_client_release;
     int rpc_seqno;
     double work_req_seconds;
 		// in "normalized CPU seconds" (see work_req.php)

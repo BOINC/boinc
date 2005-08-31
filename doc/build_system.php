@@ -179,9 +179,9 @@ AC_CONFIG_FILES directive in <code>configure.ac</code>.
 </ul>
 
 <h2>Version number</h2>
-To set the BOINC client version number:
+To set the BOINC client version:
 <pre>
-  set-version 7.17
+  set-version 7.17.56
 </pre>
 in the BOINC top-level source directory.  This updates
 the <code>AC_INIT</code> line in

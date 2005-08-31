@@ -17,30 +17,9 @@ in which version mismatches could cause problems:
 </ul>
 
 <p>
-Each BOINC software component has a version number
-of the form 100*X + Y,
-where X and Y are the major and minor versions.
-
-<p>
-In general, all the parts of a BOINC system must
-have the same major version.
-A core client can interact with servers,
-and can execute applications,
-only if they have the same major version.
-
-<p>
-Major-version changes to the BOINC software will require
-that all projects update their server software (and databases)
-and that all participants update their core client software on all hosts.
-This doesn't have to happen all at once,
-but in the midst of the crossover
-some clients won't be able to access some servers.
-
-<p>
-When a project makes a major-version change in its server software,
-it may need to create new versions of its applications.
-It must invalidate (by incrementing min_version)
-all app versions that are incompatible with the new server software.
+Each BOINC software component has a version
+consisting of three integers:
+major, minor, and release.
 
 <p>
 When a participant updates the core client,

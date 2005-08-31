@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 4.72)
+AC_INIT(BOINC, 5.0.1)
 
 AC_ARG_ENABLE(debug, 
     AS_HELP_STRING([--enable-debug],
@@ -106,6 +106,7 @@ AC_DEFUN([KC_STRIP_LEADING_ZEROS],[m4_bregexp([$*],[^0*\(..*\)],\1)])
 AC_DEFUN([BOINC_SET_VERSION],[dnl
 AC_SUBST([BOINC_MAJOR_VERSION],KC_STRIP_LEADING_ZEROS([$1]))
 AC_SUBST([BOINC_MINOR_VERSION],KC_STRIP_LEADING_ZEROS([$2]))
+AC_SUBST([BOINC_RELEASE],KC_STRIP_LEADING_ZEROS([$3]))
 AC_SUBST([BOINC_VERSION_STRING],AC_PACKAGE_VERSION)
 ])
 
@@ -115,6 +116,7 @@ dnl Version information moved to version.h so removed from config.h
 dnl AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String representation of BOINC version number])
 dnl AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
 dnl AC_DEFINE_UNQUOTED([BOINC_MINOR_VERSION], $BOINC_MINOR_VERSION, [Minor part of BOINC version number])
+dnl AC_DEFINE_UNQUOTED([BOINC_RELEASE], $BOINC_RELEASE, [Release part of BOINC version number])
 
 dnl Need to duplicate these AC_SUBST because some versions of autoconf wont 
 dnl find AC_SUBST in a macro unless subsequently used in a DEFINE or SUBST

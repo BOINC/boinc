@@ -419,11 +419,6 @@ int CMainDocument::FrameShutdownDetected() {
     return m_pNetworkConnection->FrameShutdownDetected();
 }
 
-int CMainDocument::GetCoreClientVersion() {
-    return rpc.client_version;
-}
-
-
 int CMainDocument::GetActivityRunMode(int& iMode) {
     int     iRetVal = 0;
 

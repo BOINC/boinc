@@ -106,7 +106,6 @@ public:
     int                         CachedStateUnlock();
 
     int                         FrameShutdownDetected();
-    int                         GetCoreClientVersion();
     int                         CoreClientQuit();
 
     int                         GetConnectedComputerName(wxString& strMachine);

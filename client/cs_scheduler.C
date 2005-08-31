@@ -237,6 +237,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <platform_name>%s</platform_name>\n"
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
+        "    <core_client_release>%d</core_client_release>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
         "    <estimated_delay>%f</estimated_delay>\n"
@@ -247,6 +248,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->anonymous_platform?"anonymous":platform_name,
         core_client_major_version,
         core_client_minor_version,
+        core_client_release,
         p->work_request,
         p->resource_share / prrs,
         time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),

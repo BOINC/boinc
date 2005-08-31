@@ -85,6 +85,7 @@ CLIENT_STATE::CLIENT_STATE() {
     network_suspended = false;
     core_client_major_version = BOINC_MAJOR_VERSION;
     core_client_minor_version = BOINC_MINOR_VERSION;
+    core_client_release = BOINC_RELEASE;
     platform_name = HOSTTYPE;
     exit_after_app_start_secs = 0;
     app_started = 0;
@@ -219,17 +220,15 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
+    const char* p="";
 #ifdef _DEBUG
-    msg_printf(
-        NULL, MSG_INFO, "Starting BOINC client version %d.%02d for %s (DEBUG)",
-        core_client_major_version, core_client_minor_version, platform_name
-    );
-#else
-    msg_printf(
-        NULL, MSG_INFO, "Starting BOINC client version %d.%02d for %s",
-        core_client_major_version, core_client_minor_version, platform_name
-    );
+    p = " (DEBUG)";
 #endif
+    msg_printf(
+        NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
+        core_client_major_version, core_client_minor_version,
+        core_client_release, platform_name, p
+    );
 
     msg_printf(NULL, MSG_INFO, curl_version());
 
@@ -1378,10 +1377,6 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     write_state_file();
 
     return 0;
-}
-
-int CLIENT_STATE::version() {
-    return core_client_major_version*100 + core_client_minor_version;
 }
 
 bool CLIENT_STATE::want_network() {

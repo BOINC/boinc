@@ -78,7 +78,15 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     string str1, str2;
-    fprintf(f, "<app_init_data>\n<core_version>%d</core_version>\n", ai.core_version);
+    fprintf(f,
+        "<app_init_data>\n"
+        "<major_version>%d</major_version>\n"
+        "<minor_version>%d</minor_version>\n"
+        "<release>%d</release>\n",
+        ai.major_version,
+        ai.minor_version,
+        ai.release
+    );
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
     }
@@ -172,7 +180,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             ai.host_info.parse(mf);
             continue;
         }
-        else if (parse_int(buf, "<core_version>", ai.core_version)) continue;
+        else if (parse_int(buf, "<major_version>", ai.major_version)) continue;
+        else if (parse_int(buf, "<minor_version>", ai.minor_version)) continue;
+        else if (parse_int(buf, "<release>", ai.release)) continue;
         else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;

@@ -142,7 +142,9 @@ int ACTIVE_TASK::write_app_init_file() {
 
     memset(&aid, 0, sizeof(aid));
 
-    aid.core_version = gstate.version();
+    aid.major_version = BOINC_MAJOR_VERSION;
+    aid.minor_version = BOINC_MINOR_VERSION;
+    aid.release = BOINC_RELEASE;
     safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);

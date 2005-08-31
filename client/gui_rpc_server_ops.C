@@ -635,7 +635,7 @@ int GUI_RPC_CONN::handle_rpc() {
     MIOFILE mf;
     MFILE m;
     char* p;
-    int client_version;
+    int major_version;
     mf.init_mfile(&m);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
@@ -656,12 +656,16 @@ int GUI_RPC_CONN::handle_rpc() {
 
     // get client version.  not used for now
     //
-    parse_int(request_msg, "<version>", client_version);
+    parse_int(request_msg, "<major_version>", major_version);
 
     mf.printf(
         "<boinc_gui_rpc_reply>\n"
-        "<client_version>%d</client_version>\n",
-        gstate.version()
+        "<major_version>%d</major_version>\n",
+        "<minor_version>%d</minor_version>\n"
+        "<release>%d</release>\n",
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        BOINC_RELEASE
     );
     if (match_tag(request_msg, "<auth1")) {
         handle_auth1(mf);

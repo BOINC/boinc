@@ -1292,9 +1292,10 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf("<stderr_out>\n");
         if (to_server) {
             out.printf(
-                "<core_client_version>%d.%.2d</core_client_version>\n",
+                "<core_client_version>%d.%d.%d</core_client_version>\n",
                 gstate.core_client_major_version,
-                gstate.core_client_minor_version
+                gstate.core_client_minor_version,
+                gstate.core_client_release
             );
         }
         out.printf(stderr_out.c_str());

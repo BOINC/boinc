@@ -105,6 +105,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     hostid = 0;
     core_client_major_version = 0;
     core_client_minor_version = 0;
+    core_client_release = 0;
     rpc_seqno = 0;
     work_req_seconds = 0;
     resource_share_fraction = 1.0;
@@ -139,6 +140,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         else if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
         else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
+        else if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
         else if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
@@ -246,6 +248,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         "  <hostid>%d</hostid>\n"
         "  <core_client_major_version>%d</core_client_major_version>\n"
         "  <core_client_minor_version>%d</core_client_minor_version>\n"
+        "  <core_client_release>%d</core_client_release>\n"
         "  <rpc_seqno>%d</rpc_seqno>\n"
         "  <work_req_seconds>%.15f</work_req_seconds>\n"
         "  <resource_share_fraction>%.15f</resource_share_fraction>\n"
@@ -260,6 +263,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         hostid,
         core_client_major_version,
         core_client_minor_version,
+        core_client_release,
         rpc_seqno,
         work_req_seconds,
         resource_share_fraction,

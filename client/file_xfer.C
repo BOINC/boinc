@@ -82,9 +82,10 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"
+            "    <core_client_release>%d</core_client_release>\n"
             "    <get_file_size>%s</get_file_size>\n"
             "</data_server_request>\n",
-            BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION,
+            BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE,
             file_info.name
         );
         file_size_query = true;

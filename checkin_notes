@@ -11201,3 +11201,46 @@ David  30 Aug 2005
     html/
         user/
             edit_passwd_action.php
+
+David  30 Aug 2005
+    Various changes for 3-part (major/minor/release) versions:
+    - app_init_data.xml file and APP_INIT_DATA struct
+        now have major/minor/release instead of core_version.
+        This shouldn't break anything because nothing used
+        core_version as far as I know.
+    - added <core_client_release> element to state file,
+        scheduler RPC requests, file upload handler requests.
+    - GUI RPC requests now have major/minor/release instead of <version>
+    - GUI RPC replies now have major/minor/release instead of encoded
+
+    NOTE: there are a few places where version numbers are
+    still being packed into integers using the major*100 + minor encoding:
+
+        1) server min_core_client_version_announced mechanism
+        2) server min_core_client_version mechanism
+        3) wreq.core_client_version
+
+    These are OK for now since they don't care about release,
+    and we're not going to have minor versions > 99 in the near future.
+    But at some point we should fix these.
+
+    configure.ac
+    version.h
+    version.h.in
+    client/
+        app_start.C
+        client_state.C,h
+        client_types.C
+        cs_scheduler.C
+        file_xfer.C
+        gui_rpc_server_ops.C
+    clientgui/
+        MainDocument.cpp,h
+    lib/
+        app_ipc.C,h
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+    sched/
+        server_types.C,h
+    sea/
+        Makefile.am

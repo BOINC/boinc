@@ -490,7 +490,9 @@ struct LOOKUP_WEBSITE {
 class RPC_CLIENT {
 public:
     int sock;
-    int client_version;
+    int client_major_version;
+    int client_minor_version;
+    int client_release;
     bool tried_alt_port;
     double start_time;
     double timeout;

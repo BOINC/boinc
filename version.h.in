@@ -9,6 +9,9 @@
 /* Minor part of BOINC version number */
 #define BOINC_MINOR_VERSION @BOINC_MINOR_VERSION@
 
+/* Release part of BOINC version number */
+#define BOINC_RELEASE @BOINC_RELEASE@
+
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "@BOINC_VERSION_STRING@"
 

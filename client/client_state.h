@@ -105,6 +105,7 @@ public:
 
     int core_client_major_version;
     int core_client_minor_version;
+    int core_client_release;
     int file_xfer_giveup_period;
     int user_run_request;
         // values above (USER_RUN_REQUEST_*)
@@ -197,7 +198,6 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
-    int version();
     bool want_network_flag;
     bool want_network();
     void network_available();

@@ -855,7 +855,9 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
     int retval;
 
     state.clear();
-    client_version = 0;
+    client_major_version = 0;
+    client_minor_version = 0;
+    client_release = 0;
 
     retval = rpc.do_rpc("<get_state/>\n");
     if (retval) return retval;
@@ -865,7 +867,9 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             return ERR_AUTHENTICATOR;
         }
         if (match_tag(buf, "</client_state>")) break;
-        else if (parse_int(buf, "<client_version>", client_version)) continue;
+        else if (parse_int(buf, "<client_major_version>", client_major_version)) continue;
+        else if (parse_int(buf, "<client_minor_version>", client_minor_version)) continue;
+        else if (parse_int(buf, "<client_release>", client_release)) continue;
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT();
             project->parse(rpc.fin);

@@ -156,7 +156,9 @@ public:
 // parsed version of main init file
 //
 struct APP_INIT_DATA {
-    int core_version;
+    int major_version;
+    int minor_version;
+    int release;
     char app_name[256];
     char* project_preferences;
     int userid;
