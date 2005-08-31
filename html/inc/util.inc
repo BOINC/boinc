@@ -423,6 +423,9 @@ function user_links($user) {
     if ($user->has_profile) {
         $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=head_20.png></a>";
     }
+    if ($user->donated == 1) { 
+        $x .= " <a href=donate.php><img border=0 src=star.gif></a>";
+        }
     return $x;
 }
 

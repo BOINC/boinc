@@ -17,6 +17,35 @@ function show_credit($user) {
     project_user_credit($user);
 }
 
+// show donation info (private)
+function show_user_donations_private($user) {
+    row1("Donations to SETI@home");
+    if ($user->donated == 0) {
+        row2("Would you like to make a tax-deductible donation to SETI@home?",
+            "<a href=donate.php>click here</a>");
+    }
+    else {
+        $result = mysql_query("select count(*) as total from donation where userid=$user->id");
+        $total = mysql_fetch_object($result);
+        if (!$total) return 0;
+        mysql_free_result($result);
+        row2("Number of donations",$total->total);
+        $result = mysql_query("select sum(amount) as sum from donation where userid=$user->id");
+        $sum = mysql_fetch_object($result);
+        if (!$sum) return 0;
+        mysql_free_result($result);
+        row2("Total amount",$sum->sum);
+        $result = mysql_query("select max(date) as date from donation where userid=$user->id");
+        $date = mysql_fetch_object($result);
+        if (!$date) return 0;
+        mysql_free_result($result);
+        row2("Last donation received",time_str($date->date));
+        $anon = "no";
+        if ($user->donated < 0) { $anon = "yes"; }
+        row2("Anonymous?",$anon);
+    }
+}
+
 // show dynamic user info (private)
 //
 function show_user_stats_private($user) {
@@ -131,6 +160,7 @@ function show_user_page_private($user) {
     start_table("width=100%");
     show_user_info_private($user);
     show_user_stats_private($user);
+    show_user_donations_private($user);
     row1("Other");
     row2("", "<a href=logout.php>Log out</a>");
     row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
