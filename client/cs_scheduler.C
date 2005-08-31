@@ -78,6 +78,7 @@ int CLIENT_STATE::proj_min_results(PROJECT* p, double subset_resource_share) {
     if (p->non_cpu_intensive) {
         return 1;
     }
+    if (!subset_resource_share) return 1;   // TODO - fix
     return (int)(ceil(ncpus*p->resource_share/subset_resource_share));
 }
 
@@ -226,6 +227,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 #endif
 
     double prrs = potentially_runnable_resource_share();
+    double resource_share_fraction;
+    if (prrs) {
+        resource_share_fraction = p->resource_share / prrs;
+    } else {
+        resource_share_fraction = 1;    // TODO - fix
+    }
 
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
@@ -250,7 +257,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         core_client_minor_version,
         core_client_release,
         p->work_request,
-        p->resource_share / prrs,
+        resource_share_fraction,
         time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
         p->duration_correction_factor
     );
@@ -423,19 +430,6 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     return 0;
 }
 
-#if 0
-// return true if we're allowed to do a scheduler RPC to at least one project
-//
-bool CLIENT_STATE::some_project_rpc_ok() {
-    unsigned int i;
-
-    for (i=0; i<projects.size(); i++) {
-        if (projects[i]->min_rpc_time < gstate.now) return true;
-    }
-    return false;
-}
-#endif
-
 // return the expected number of CPU seconds completed by the client
 // in a second of wall-clock time.
 // May be > 1 on a multiprocessor.
@@ -482,8 +476,12 @@ double CLIENT_STATE::time_until_work_done(
             est += rp->estimated_cpu_time_remaining();
         }
     }
-    double apr = avg_proc_rate()*p->resource_share/subset_resource_share;
-    return est/apr;
+    if (subset_resource_share) {
+        double apr = avg_proc_rate()*p->resource_share/subset_resource_share;
+        return est/apr;
+    } else {
+        return est/avg_proc_rate();     // TODO - fix
+    }
 }
 
 // Compute:
@@ -1023,7 +1021,12 @@ bool CLIENT_STATE::should_get_work() {
 void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
     int nactive = (int)active.size();
     if (nactive == 0) return;
-    double x = resource_share/rrs;
+    double x;
+    if (rrs) {
+        x = resource_share/rrs;
+    } else {
+        x = 1;      // TODO - fix
+    }
 
     // if this project has fewer active results than CPUs,
     // scale up its share to reflect this
@@ -1196,7 +1199,12 @@ bool CLIENT_STATE::round_robin_misses_deadline(
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (!p->runnable()) continue;
-        double project_proc_rate = per_cpu_proc_rate * (p->resource_share/rrs);
+        double project_proc_rate;
+        if (rrs) {
+            project_proc_rate = per_cpu_proc_rate * (p->resource_share/rrs);
+        } else {
+            project_proc_rate = per_cpu_proc_rate;      // TODO - fix
+        }
         for (j=0; j<results.size(); j++) {
             rp = results[j];
             if (rp->project != p) continue;

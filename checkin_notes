@@ -11264,3 +11264,20 @@ David  31 Aug 2005
     util/
         app_ipc.C
         util.C
+
+David  31 Aug 2005
+    - core client: avoid division by zero even when some
+        project resource shares are zero.
+        NOTE: these changes don't implement the correct semantics -
+        whatever they are - but it's a start.
+
+    client/
+        client_state.h
+        cs_scheduler.C
+
+David  31 Aug 2005
+    - rename get_project_config.php so don't overwrite custom files
+
+    html/user/
+        get_project_config.php (removed)
+        sample_get_project_config.php (new)

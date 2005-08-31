@@ -318,7 +318,6 @@ private:
     PROJECT* find_project_with_overdue_results();
     PROJECT* next_project_sched_rpc_pending();
     PROJECT* next_project_trickle_up_pending();
-    //bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
     double time_until_work_done(PROJECT*, int, double);
     double avg_proc_rate();
