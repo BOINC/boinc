@@ -277,6 +277,7 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
     FILE *fp;
     char buf[512];
 
+    if (!virtual_name) return ERR_NULL;
     safe_strncpy(physical_name, virtual_name, len);
 
     // Open the file and load the first line
@@ -301,7 +302,7 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
 // resolve XML soft link
 //
 int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
-
+    if (!virtual_name) return ERR_NULL;
     physical_name = virtual_name;
     // Open the file and load the first line
     FILE *fp = fopen(virtual_name, "r");

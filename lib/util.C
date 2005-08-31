@@ -515,6 +515,8 @@ bool valid_master_url(char* buf) {
     return true;
 }
 
+// "safe" means the output will be null-terminated.
+//
 void safe_strncpy(char* dst, const char* src, int len) {
     strncpy(dst, src, len);
     dst[len-1]=0;

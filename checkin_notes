@@ -11256,3 +11256,11 @@ Charlie 30 Aug 2005
     
     clientgui/
         MainFrame.cpp, h
+
+David  31 Aug 2005
+    - don't crash when boinc_resolve_filename() is passed NULL arg
+        (from Bernd)
+
+    util/
+        app_ipc.C
+        util.C
