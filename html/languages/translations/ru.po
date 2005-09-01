@@ -380,3 +380,6 @@ msgstr "Страна"
 
 msgid "USER_TABLE_PTIME"
 msgstr "Учавствует с"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Лучшие %s команды"

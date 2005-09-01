@@ -1,0 +1,350 @@
+*#########################################
+# Language: Polski
+# FileID  : $Id$
+# Author  : Dariusz Zukowski
+# Email   : zen.bcr@wp.pl
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "ISO-8859-2"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Polski"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Aplikacje"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT obecnie zawiera następujące aplikacje. "
+"Uczestnicząc w $PROJECT twój komputer otrzyma pracę "
+"od 1 lub więcej z tych aplikacji. "
+"Pobrana zostanie bieżąca wersja danej aplikacji. Stanie się to "
+"automatycznie, nie musisz się o nic martwić. "
+
+msgid "APPS_PLATFORM"
+msgstr "Platforma"
+
+msgid "APPS_VERSION"
+msgstr "Bieżąca wersja"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Zainstalowane"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Zasady"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Uruchamiaj $PROJECT wyłącznie na komputerach autoryzowanych. "
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Uruchamiaj $PROJECT tylko na komputerach, które są twoją "
+"własnością lub do użycia których masz zgodę właściciela. "
+"Niektóre firmy i szkoły mają zasady zabraniające wykorzystywania ich "
+"maszyn do projektów takich jak $PROJECT"
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Jak $PROJECT wykorzysta twój komputer"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Gdy uruchomisz $PROJECT na swoim komputerze, "
+"będzie on wykorzystywał część mocy jego CPU, przestrzeni dysku i przepustowości łącza. "
+"Możesz jednak regulować, ile zasobów przeznaczyć na $PROJECT"
+"i kiedy mają być one udostępniane. " 
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Praca wykonywana przez twój komputer służy celom "
+"$PROJECT, które opisane są na tej stronie. "
+"Aplikacje mogą zmieniać się od czasu do czasu."
+
+msgid "RULES_PRIVACY"
+msgstr "Polityka prywatności"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Twoje konto na $PROJECT jest identyfikowane nazwą, którą sam określasz. "
+"Może być ona wyświetlona na stronie WWW $PROJECT wraz z podsumowaniem pracy, "
+"którą dla projektu wykonał twój komputer. Jeśli jednak chcesz pozostać anonimowy, "
+"możesz wybrać nazwę, która nie zdradzi twej tożsamości."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Gdy bierzesz udział w $PROJECT, informacje o twym komputerze, "
+"jak rodzaj CPU, ilość pamięci itp., będą zapisane przez $PROJECT i posłużą określeniu, "
+"jakiego rodzaju zadania ci przydzielać. Dane te będą też wyświetlone na "
+"stronie $PROJECT "
+"Nie będzie zaś wyświetlone nic, co umożliwiłoby rozpoznanie lokacji twojego "
+"komputera (np. nazwa domeny czy adres sieciowy)."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "By uczestniczyć w $PROJECT, musisz podać adres, na który ma przyjść e-mail. "
+"Nie będzie on ujawniony na stronie $PROJECT ani użyczany jakimkolwiek organizacjom. "
+"$PROJECT może przysyłać ci okresowo listy z nowinami, możesz jednak z nich zrezygnować w każdej chwili."
+
+msgid "RULES_SAFE"
+msgstr "Czy uruchamianie $PROJECT jest bezpieczne?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Za każdym razem, gdy pobierasz z sieci program, ryzykujesz: "
+"może on zawierać niebezpieczne błędy, "
+"albo serwer, z którego pobierasz, może zostać zhakowany. "
+"W $PROJECT staramy się sprowadzić to ryzyko do minimum. "
+"Dokładnie przetestowaliśmy aplikacje. " 
+"Nasze serwery zabezpieczamy firewallami i konfigurujemy w standardzie wysokich zabezpieczeń. "
+"By zapewnić spójność ściąganych aplikacji, wszystkie pliki wykonywalne są cyfrowo "
+"podpisane na bezpiecznym, nie podłączonym do Internetu komputerze."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Aplikacje uruchamiane przez $PROJECT mogą powodować przegrzanie niektórych komputerów. "
+"W takim przypadku zatrzymaj $PROJECT lub użyj %s , co ogranicza wykorzystanie procesora."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "utility program"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT stworzył %s. BOINC napisano w University of "
+"California."
+
+msgid "RULES_LIABILITY"
+msgstr "Odpowiedzialność"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT oraz %s nie biorą odpowiedzialności za uszkodzenie twojego komputera, "
+"utratę danych czy inne wypadki, które mogą wystąpić jako skutek uczestnictwa "
+"w $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Inne projekty BOINC"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Inne projekty poza $PROJECT także używają BOINC. Rozważ uczestnictwo "
+"w projektach innych niż $PROJECT. W ten sposób twój komputer może "
+"wykonywać pożyteczną pracę nawet jeśli $PROJECT nie ma dla niego w danej chwili "
+"żadnych zadań."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Inne projekty nie mają związku z $PROJECT, nie możemy więc odpowiadać "
+"za ich jakość zabezpieczeń czy naturę prowadzonych badań. Uczestniczysz w nich "
+"na własne ryzyko."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Stwórz konto"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Przeczytaj %s zanim stworzysz konto."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Jeśli już otrzymałeś klucz do konta, nie wysyłaj tego formularza, "
+"tylko %s."
+
+msgid "CREATE_AC_NAME"
+msgstr "Nazwa"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Identyfikuje cię na stronie. Użyj swego imienia lub pseudonimu."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Adres e-mail"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Musi to być działający adres o postaci 'nazwa@domena'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Kraj"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Jeśli chcesz, wybierz kraj, który reprezentujesz."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Kod pocztowy."
+
+msgid "CREATE_AC_CREATE"
+msgstr "Stwórz konto"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Tworzenie konta wyłączone"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "W tej chwili możliwość stworzenia konta do $PROJECT jest zawieszona. "
+"Proszę spróbować później."
+
+msgid "CREATE_AC_TEAM"
+msgstr "To konto należeć będzie do zespołu %s i zyska ustawienia określone przez założyciela tego zespołu."
+
+#########################################
+# Account created page (account_created.php)
+#########################################
+msgid "AC_READY_TITLE"
+msgstr "Konto stworzone"
+
+msgid "AC_READY_WELCOME"
+msgstr "Gratulacje - stworzyłeś własne konto w $PROJECT"
+
+msgid "AC_READY_PASTE"
+msgstr "By przejść dalej, wklej tu klucz konta:"
+
+msgid "AC_READY_CLICK"
+msgstr "i kliknij"
+
+#########################################
+# Account setup page (account_setuo.php)
+#########################################
+#also used in account_setup_nonfirst.php:
+msgid "AC_SETUP_TITLE"
+msgstr "Ustawienia konta"
+
+msgid "AC_SETUP_USES_BOINC"
+msgstr "$PROJECT używa oprogramowania systemu BOINC."
+
+msgid "AC_SETUP_DIVISION"
+msgstr "BOINC umożliwia dzielenie czasu pracy komputera między kilka projektów obliczeniowych."
+
+msgid "AC_SETUP_ISFIRST"
+msgstr "Czy to twój pierwszy projekt BOINC?"
+
+msgid "AC_SETUP_FIRST"
+msgstr "Tak - to mój pierwszy projekt BOINC"
+
+msgid "AC_SETUP_NONFIRST"
+msgstr "Nie - uczestniczę w co najmniej jednym innym projekcie BOINC"
+
+#########################################
+# First Account setup page (account_setup_first.php)
+#########################################
+msgid "AC_FIRST_TITLE"
+msgstr "Ustawienia konta"
+
+msgid "AC_FIRST_CONTROL"
+msgstr "Możesz kontrolować, jak i kiedy $PROJECT używa twojego komputera"
+
+msgid "AC_FIRST_DEFAULT"
+msgstr "By użyć ustawień domyślnych, przewiń do dołu ekranu i kliknij OK."
+
+#########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "Ustawienia konta: skończone"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Ustawianie twojego konta zakończone."
+
+msgid "AC_DONE_BOINC"
+msgstr "Teraz musisz pobrać i zainstalować oprogramowanie BOINC i powiedzieć komputerowi(om), "
+"by używał(y) tego konta."
+
+msgid "AC_DONE_URL"
+msgstr "Przy pierwszym uruchomieniu BOINC zapyta cię o <b>URL projektu</b> oraz "
+"<b>klucz konta</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Skopiuj i wklej je stąd:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "Możesz teraz %s by zakończyć instalację $PROJECT."
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "pobieranie oprogramowania BOINC"
+
+msgid "AC_DONE_THANKS"
+msgstr "Dziękujemy za uczestnictwo w $PROJECT"
+
+
+#########################################
+# Non-first Account setup page (account_setup_nonfirst.php)
+#########################################
+msgid "AC_NONFIRST_TITLE"
+msgstr "Ustawianie konta: dzielenie zasobów"
+
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "Musisz teraz powiedzieć komputerowi(om), by używał(y) tego konta."
+
+msgid "AC_DONE_WIN"
+msgstr "Użytkownicy Windowsa:"
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Otwórz okno aplikacji BOINC, klikając 2x na ikonę BOINC na pasku. "
+"Wybierz 'Uczestnictwo w projekcie' w Ustawieniach. Program zapyta o URL projektu "
+"oraz klucz konta."
+
+msgid "AC_DONE_UNIX"
+msgstr "Użytkownicy Maca, Unixa i Linuxa:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Wyłącz klienta BOINC. Następnie uruchom go z opcją -attach_project."
+"Program spyta o URL projektu i klucz konta."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "Niezależnie od wszystkiego skopiuj i wklej następujące dane:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "To dopełnia instalacji $PROJECT."
+
+#########################################
+# Forum sample index page
+#########################################
+
+msgid "FORUM_TITLE"
+msgstr "Tablice ogłoszeń $PROJECT"
+
+
+#########################################
+# Different strange places:
+#########################################
+
+# account_created.php
+msgid "AC_CREATED_TITLE"
+msgstr "Skonfiguruj konto"
+
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Ewentualnie"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Najlepsi uczestnicy"
+
+msgid "USER_TABLE_RANK"
+msgstr "Ranga"
+
+msgid "USER_TABLE_NAME"
+msgstr "Nazwa"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "Kredyt ogółem"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "Ostatni średni kredyt"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Kraj"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Uczestniczy od"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Najlepsze %s zespołów"
