@@ -662,6 +662,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         while(1) {
             retval = host.enumerate(clause);
             if (retval) break;
+            if (!host.userid) continue;
             nhosts++;
             for (i=0; i<outputs.size(); i++) {
                 OUTPUT& out = outputs[i];

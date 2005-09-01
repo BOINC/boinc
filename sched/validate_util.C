@@ -48,9 +48,9 @@ int get_output_file_path(RESULT const& result, string& path_str) {
         return ERR_XML_PARSE;
     }
     dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, true, path);
-	if (!boinc_file_exists(path)) {
-		dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, false, path);
-	}
+    if (!boinc_file_exists(path)) {
+        dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, false, path);
+    }
     path_str = path;
     return 0;
 }
@@ -112,8 +112,9 @@ double median_mean_credit(vector<RESULT>& results) {
 }
 
 // Generic validation function that compares each result to each other one and
-// sees if there MIN_VALID results match.  The comparison function is similar
-// to check_pair but takes an additional data parameter.
+// sees if MIN_VALID results match.
+// The comparison function is similar to check_pair
+// but takes an additional data parameter.
 //
 // This function takes 3 call-back functions, each of which accept a void*
 // and should return !=0 on error:
@@ -122,8 +123,8 @@ double median_mean_credit(vector<RESULT>& results) {
 //       read_file_string and compute an MD5. Return a void*
 //    2. check_pair_with_data - same as check_pair but with extra data from
 //       init_result
-//    3. cleanup_result - deallocate anything created by init_result.  Should
-//       do nothing with NULL data
+//    3. cleanup_result - deallocate anything created by init_result.
+//       Should do nothing with NULL data
 //
 // see validate_test.C example usage.
 //
@@ -132,16 +133,17 @@ int generic_check_set(
     init_result_f init_result_f,
     check_pair_with_data_f check_pair_with_data_f,
     cleanup_result_f cleanup_result_f,
-    size_t min_valid)
-{
-    assert (!results.empty());
-
+    int min_valid
+) {
     vector<void*> data;
-    vector<RESULT>::size_type i, j, neq = 0, n = results.size();
+    int i, j, neq = 0, n;
+
+    n = results.size();
     data.resize(n);
 
     // 1. INITIALIZE DATA
-    for (i = 0; i != n; ++i) {
+
+    for (i=0; i!=n; i++) {
         if (init_result_f(results[i], data[i])) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -153,11 +155,12 @@ int generic_check_set(
     }
 
     // 2. COMPARE
-    for (i = 0; i != n; ++i) {
+
+    for (i=0; i!=n; i++) {
         vector<bool> matches;
         matches.resize(n);
         neq = 0;
-        for (j = 0; j != n; ++j) {
+        for (j=0; j!=n; j++) {
             bool match = false;
             if (i == j) {
                 ++neq;
@@ -174,8 +177,10 @@ int generic_check_set(
             }
         }
         if (neq >= min_valid) {
+
             // set validate state for each result
-            for (j = 0; j != n; ++j) {
+            //
+            for (j=0; j!=n; j++) {
                 results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
             }
             canonicalid = results[i].id;
@@ -185,26 +190,13 @@ int generic_check_set(
     }
 
 cleanup:
+
     // 3. CLEANUP
-    for (i = 0; i != n; ++i) {
+
+    for (i=0; i!=n; i++) {
         cleanup_result_f(results[i], data[i]);
     }
     return 0;
-}
-
-// similar to generic_check_set, but require a strict majority of results
-// (N_results / 2) to be valid
-int generic_check_set_majority(
-    vector<RESULT>& results, int& canonicalid, double& credit,
-    init_result_f init_result_f,
-    check_pair_with_data_f check_pair_with_data_f,
-    cleanup_result_f cleanup_result_f)
-{
-    return generic_check_set(
-        results, canonicalid, credit,
-        init_result_f, check_pair_with_data_f, cleanup_result_f,
-        results.size() / 2
-    );
 }
 
 int generic_check_pair(

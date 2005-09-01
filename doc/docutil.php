@@ -147,7 +147,10 @@ function stats_sites() {
         <a href=http://stats.kwsn.net/>The Knights Who Say 'Ni' stats</a>
 
         <li>
-    <a href=http://www.teamocuk.com/>Team OcUK stats</a>
+        <a href=http://www.teamocuk.com/>Team OcUK stats</a>
+        <li>
+        <a href=http://www.bigbee.be/comp/boinc/index.php>Boinc.be team stats</a>
+
     </ul>
     ";
 }

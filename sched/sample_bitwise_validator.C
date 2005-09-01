@@ -104,15 +104,16 @@ int cleanup_result_string(RESULT const& /*result*/, void* data) {
 // See if there's a strict majority under equality.
 //
 int check_set(
-    vector<RESULT>& results, WORKUNIT&, int& canonicalid, double& credit,
+    vector<RESULT>& results, WORKUNIT& wu, int& canonicalid, double& credit,
     bool& retry
 ) {
     retry = false;
-    return generic_check_set_majority(
+    return generic_check_set(
         results, canonicalid, credit,
         init_result_read_file,
         check_pair_initialized_identical,
-        cleanup_result_string
+        cleanup_result_string,
+        wu.min_quorum/2+1
     );
 }
 

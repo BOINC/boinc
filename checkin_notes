@@ -11292,3 +11292,20 @@ Rom    31 Aug 2005
         Makefile.am
     lib/
         Makefile.am
+
+David  1 Sept 2005
+    - Validator: removed generic_check_set_majority().
+        I think "quorum" is best defined as a set of
+        WU.min_quorum/2+1 agreeing results,
+        regardless of how many results the WU has.
+        The existing (#results/2) definition has two problems:
+        - it gets harder and harder to satisfy as nresults increases;
+        - adding one result at a time may be insufficient
+        (as noted by Kevin Reed)
+    - change db_dump so it doesn't write "zombie" (merged) hosts.
+
+    sched/
+        db_dump.C
+        sample_bitwise_validator.C
+        validate_util.C
+        validate_util.h

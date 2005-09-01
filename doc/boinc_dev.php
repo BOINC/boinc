@@ -14,14 +14,12 @@ and <a href=create_project.php>projects</a>)
 before getting into the source code.
 
 <p>
-For starters, look through the
-<a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>
-and try fixing a bug or two.
-Sign up for the
-<a href=email_lists.php>boinc_dev</a>
-email list to communicate with other BOINC developers.
-Also, read:
+Check out the following:
 <ul>
+<li> <a href=dev_flow.php>Development information flow</a>.
+<li> The <a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>.
+<li> <a href=email_lists.php>boinc_dev</a>,
+an email list for BOINC developers.
 <li> <a href=compile.php>Get and compile BOINC software</a>
 <li> <a href=coding.php>BOINC coding style</a>
 </ul>
@@ -30,13 +28,26 @@ The following medium-to-large development projects are available:
 <ul>
 <li> BOINC Manager:
 Change the Statistics tab to use a single graph
-with different colors for different projects.
+with lines of different colors or styles for different projects.
 
 <li> BOINC Manager:
-Use progress bars for file transfers and in-progress results.
+Show progress bars for file transfers and in-progress results.
 
 <li> BOINC Manager:
 Use pie charts for disk usage
+
+<li> Show when new versions of the core client and/or BOINC Manager
+are available.
+Could show in status line of Manager,
+as a balloon, or in Messages.
+
+<li> BOINC Manager: sortable columns in Work tab.
+
+<li> Support local editing of preferences
+(could be done in the Manager or a separate app).
+
+<li> Core client: write a log file of result start/ends.
+(for use by 3rd-party software like BoincView).
 
 <li> Disk space management: prevent disk space usage from
 exceeding user preferences,
