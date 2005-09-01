@@ -58,6 +58,7 @@ int CLIENT_STATE::parse_state_file() {
         //
         old_major_version = BOINC_MAJOR_VERSION;
         old_minor_version = BOINC_MINOR_VERSION;
+        old_release = BOINC_RELEASE;
         return ERR_FOPEN;
     }
 
@@ -274,6 +275,7 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
+        } else if (parse_int(buf, "<core_client_release>", old_release)) {
         } else if (match_tag(buf, "<cpu_benchmarks_pending/>")) {
             run_cpu_benchmarks = true;
         } else if (match_tag(buf, "<work_fetch_no_new_work/>")) {
@@ -365,12 +367,14 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<platform_name>%s</platform_name>\n"
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
+        "<core_client_release>%d</core_client_release>\n"
         "<user_run_request>%d</user_run_request>\n"
         "<user_network_request>%d</user_network_request>\n"
         "%s",
         platform_name,
         core_client_major_version,
         core_client_minor_version,
+        core_client_release,
         user_run_request,
         user_network_request,
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":""
@@ -516,10 +520,12 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<platform_name>%s</platform_name>\n"
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
+        "<core_client_release>%d</core_client_release>\n"
         "%s%s",
         platform_name,
         core_client_major_version,
         core_client_minor_version,
+        core_client_release,
         work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":"",
         cpu_earliest_deadline_first?"<cpu_earliest_deadline_first/>\n":""
     );

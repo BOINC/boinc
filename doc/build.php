@@ -175,6 +175,13 @@ You may need to install additional packages
 (often you can use something called 'mysql-dev' or 'mysql-devel')
 or fiddle with Makefiles.
 
+<li>
+MySQL can be the bottleneck in a BOINC server.
+You may want to learn about (or hire someone who knows about)
+MySQL performance.
+For example, read about the
+<a href=http://dev.mysql.com/tech-resources/articles/mysql-query-cache.html>MySQL query cache</a>.
+
 </ul>
 
 <h3>PHP notes</h3>

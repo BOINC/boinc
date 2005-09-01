@@ -660,7 +660,7 @@ int GUI_RPC_CONN::handle_rpc() {
 
     mf.printf(
         "<boinc_gui_rpc_reply>\n"
-        "<major_version>%d</major_version>\n",
+        "<major_version>%d</major_version>\n"
         "<minor_version>%d</minor_version>\n"
         "<release>%d</release>\n",
         BOINC_MAJOR_VERSION,

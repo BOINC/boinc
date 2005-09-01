@@ -150,6 +150,7 @@ private:
     bool client_state_dirty;
     int old_major_version;
     int old_minor_version;
+    int old_release;
     const char* platform_name;
     bool skip_cpu_benchmarks;
         // if set, use hardwired numbers rather than running benchmarks

@@ -11309,3 +11309,14 @@ David  1 Sept 2005
         sample_bitwise_validator.C
         validate_util.C
         validate_util.h
+
+David  1 Sept 2005
+    - Include release number in state file, GUI RPC replies
+    - rerun benchmarks if new release
+    - fix bug where GUI RPC reported wrong version#
+    (from Sebastian Masch>
+
+    client/
+        client_state.C,h
+        cs_statefile.C
+        gui_rpc_server_ops.C

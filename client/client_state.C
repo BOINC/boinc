@@ -296,10 +296,15 @@ int CLIENT_STATE::init() {
     print_summary();
     do_cmdline_actions();
 
-    if ((core_client_major_version != old_major_version) || (core_client_minor_version != old_minor_version)) {
+    if ((core_client_major_version != old_major_version)
+        || (core_client_minor_version != old_minor_version)
+        || (core_client_release != old_release)
+    ) {
         msg_printf(NULL, MSG_INFO,
-            "Version change detected (%d.%02d -> %d.%02d); running CPU benchmarks\n",
-            old_major_version, old_minor_version, core_client_major_version, core_client_minor_version
+            "Version change detected (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
+            old_major_version, old_minor_version, old_release,
+            core_client_major_version, core_client_minor_version,
+            core_client_release
         );
         run_cpu_benchmarks = true;
     }
