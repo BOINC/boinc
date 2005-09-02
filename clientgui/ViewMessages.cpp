@@ -48,7 +48,8 @@ BEGIN_EVENT_TABLE (CViewMessages, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewMessages::CViewMessages() {}
+CViewMessages::CViewMessages()
+{}
 
 
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :

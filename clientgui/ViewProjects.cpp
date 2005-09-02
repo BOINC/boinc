@@ -87,7 +87,8 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewProjects::CViewProjects() {}
+CViewProjects::CViewProjects()
+{}
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :

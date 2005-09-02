@@ -72,7 +72,8 @@ BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewTransfers::CViewTransfers() {}
+CViewTransfers::CViewTransfers()
+{}
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :

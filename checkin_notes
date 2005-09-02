@@ -11336,3 +11336,15 @@ Charlie 1 Sept 2005
     doc/
         mac_build.html
 
+Rom    2 Aug 2005
+    - Attempt at fixing a crash condition on Linux due to differences in
+        how the compiler handles constructors.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

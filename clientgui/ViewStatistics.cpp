@@ -280,7 +280,8 @@ BEGIN_EVENT_TABLE (CViewStatistics, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewStatistics::CViewStatistics() {}
+CViewStatistics::CViewStatistics()
+{}
 
 
 CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :

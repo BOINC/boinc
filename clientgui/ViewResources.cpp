@@ -55,7 +55,8 @@ BEGIN_EVENT_TABLE (CViewResources, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewResources::CViewResources() {}
+CViewResources::CViewResources()
+{}
 
 
 CViewResources::CViewResources(wxNotebook* pNotebook) :

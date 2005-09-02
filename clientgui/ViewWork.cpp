@@ -75,7 +75,8 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
 END_EVENT_TABLE ()
 
 
-CViewWork::CViewWork() {}
+CViewWork::CViewWork()
+{}
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
