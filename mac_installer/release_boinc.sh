@@ -55,6 +55,9 @@ sudo chmod -R 755 ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 sudo chown -R 501:wheel ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/*
 sudo chmod -R 755  ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/*
 
+sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
+sudo chmod -R 755 ../BOINC_Installer/Installer\ Resources/*
+
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin
@@ -71,7 +74,7 @@ sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc
 
 cp -fpR mac_build/build/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/SymbolTables/
 
-/Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/build/Pkg-Info.plist -ds 
+/Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
 zip -rq boinc_$1.$2.$3_macOSX.zip boinc_$1.$2.$3_macOSX

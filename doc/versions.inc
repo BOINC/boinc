@@ -205,11 +205,11 @@ $m437s = array(
     "
 );
 
-$m472 = array(
-    "num"=>"4.72",
+$m511 = array(
+    "num"=>"5.1.1",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_4.72_macOSX.zip",
-    "date"=>"25 July 2005",
+    "file"=>"boinc_5.1.1_macOSX.zip",
+    "date"=>"1 September 2005",
     "type"=>mac_advanced(),
      "features"=>"<ul>
      <li>
@@ -220,17 +220,24 @@ $m472 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
+    <li>
+    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
+    <li>
+    BOINC can now use username and passwords for authentication instead of an authenticator.
+    <li>
+    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
+    process of attaching to a project as well as check for things like proxy configuration issues.
      </ul>
     ",
     "bugs"=>"
     "
 );
 
-$m472c = array(
-    "num"=>"4.72",
+$m511c = array(
+    "num"=>"5.1.1",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_4.72_powerpc-apple-darwin.zip",
-    "date"=>"25 July 2005",
+    "file"=>"boinc_5.1.1_powerpc-apple-darwin.zip",
+    "date"=>"1 September 2005",
     "type"=>bare_core(),
     "features"=>"<ul>
     <li>
