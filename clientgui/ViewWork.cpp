@@ -142,7 +142,8 @@ CViewWork::~CViewWork() {
 
 
 wxString CViewWork::GetViewName() {
-    return wxString(_("Work"));
+    static wxString strViewName(_("Work"));
+    return strViewName;
 }
 
 
