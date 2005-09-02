@@ -3,27 +3,35 @@ require_once("docutil.php");
 page_head("Development and debugging");
 
 echo "
-<p>
-If you do C++ system programming you may be able
-to help us maintain and enhance BOINC.
-In any case, you are welcome to browse the source code and
-give us feedback.
-You should understand how BOINC works
-(for both <a href=participate.php>participants</a>
-and <a href=create_project.php>projects</a>)
-before getting into the source code.
 
 <p>
-Check out the following:
 <ul>
-<li> <a href=dev_flow.php>Development information flow</a>.
+<li> <a href=contact.php>Project personnel and structure</a>
+<li> <a href=dev_flow.php>BOINC Development information flow</a>.
 <li> The <a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>.
 <li> <a href=email_lists.php>boinc_dev</a>,
 an email list for BOINC developers.
 <li> <a href=compile.php>Get and compile BOINC software</a>
 <li> <a href=coding.php>BOINC coding style</a>
 </ul>
+<h2>Getting involved</h2>
+<p>
+BOINC is free software, distributed under the Lesser GNU Public License (LGPL).
+We are in constant need of volunteers to
+help with software testing and development.
+If you have one or more of the relevant technical skills
+(C++ system programming, PHP/MySQL web development,
+WxWidgets programming, autoconf/automake expertise, etc.)
+you may be able to help us maintain and enhance BOINC.
+In any case, you are welcome to browse the source code and give us feedback.
+You should understand how BOINC works
+(for both <a href=participate.php>participants</a>
+and <a href=create_project.php>projects</a>)
+before getting into the source code.
 
+<p>
+To get started, look at the BOINC bug database, fix a bug or two,
+and send your patches to the appropriate area owner.
 The following medium-to-large development projects are available:
 <ul>
 <li> BOINC Manager:

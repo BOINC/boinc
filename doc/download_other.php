@@ -23,6 +23,16 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "<a href=http://naparst.name/>Harold Naparst</a>",
+    "Linux/x86",
+    "SETI@home application"
+));
+list_item_array(array(
+    "<a href=http://www.godefroy.t.freesurf.fr/seti/>SETI@home and BOINC on Linux</a>",
+    "Mandrake Linux",
+    "BOINC and SETI@home (graphical versions)"
+));
+list_item_array(array(
     "<a href=http://forums.macnn.com/showthread.php?t=266339>macnn.com</a>",
     "Mac OS X",
     "SETI@home app"

@@ -17,8 +17,8 @@ echo "
 <center>
 <br>
 <h1>Berkeley Open Infrastructure for Network Computing</h1>
-A software platform for distributed computing using volunteered
-computer resources
+An open-source software platform for computing using volunteered
+resources
 <br>
 </center>
 
@@ -67,6 +67,16 @@ computer resources
     you ensure that your computer will be kept busy
     even when one project has no work.
     <p>
+    There are several Wikis
+    with user-editable information and documentation about BOINC:
+        <ul>
+        <li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
+        <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
+        <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
+        </ul>
+    <p>
+    ... and many other <a href=links.php>web sites for BOINC participants</a>.
+    <p>
     <a href=participate.php>... more</a>
 
     <br><br>
@@ -75,7 +85,6 @@ computer resources
   <tr><td>
     If you're a scientist with a computationally-intensive task,
     you may be able to use BOINC.
-    <p>
     A BOINC project requires just a single Linux server,
     and can provide computing power equivalent
     to a cluster with tens of thousands of nodes.
@@ -85,31 +94,18 @@ computer resources
     </a>
     <br><br>
   </td></tr>
-  <tr><td bgcolor=$light_blue><h2>Other Info</h2></td></tr>
+  <tr><td bgcolor=$light_blue><h2>Other info</h2></td></tr>
   <tr><td>
     <ul>
     <li> <a href=contact.php>Personnel and contact info</a>
     <li> BOINC <a href=email_lists.php>email lists</a>
     <li> BOINC <a href=dev/>message boards</a>
     <li> An <a href=intro.php>overview of BOINC</a>, and links to papers
-    <li> Wikis (user-editable information and documentation):
-        <ul>
-        <li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
-        <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
-        <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
-        </ul>
-    <li> <a href=links.php>Web sites</a> for BOINC participants
-    <li>
-        <a href=boinc_dev.php>Software development</a>
-        <blockquote>
-        BOINC is free software,
-        distributed under the Lesser GNU Public License (LGPL).
-        If you are fluent in C++, PHP, SQL, and/or Python,
-        you may be able to help debug and enhance BOINC.
-        </blockquote>
-    <li>
-      Non-English <a href=translation.php>translations</a>
-      of project web sites and the BOINC manager.
+    <li> How to get involved in
+      <ul>
+      <li> <a href=boinc_dev.php>Software development and testing</a>
+      <li> <a href=translation.php>Translation</a> of web and GUI text.
+      </ul>
     <li>
     <a href=logo.php>Logos and graphics</a>
     </ul>

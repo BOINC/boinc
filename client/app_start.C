@@ -517,11 +517,11 @@ int ACTIVE_TASK::resume_or_start() {
         return 0;
     }
     msg_printf(result->project, MSG_INFO,
-        "%s result %s using %s version %.2f",
+        "%s result %s using %s version %d",
         str,
         result->name,
         app_version->app->name,
-        app_version->version_num/100.
+        app_version->version_num
     );
     return 0;
 }
@@ -569,10 +569,10 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
         }
 
         msg_printf(atp->wup->project, MSG_INFO,
-            "Resuming computation for result %s using %s version %.2f",
+            "Resuming computation for result %s using %s version %d",
             atp->result->name,
             atp->app_version->app->name,
-            atp->app_version->version_num/100.
+            atp->app_version->version_num
         );
         retval = atp->start(false);
 

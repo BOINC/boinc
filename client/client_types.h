@@ -422,7 +422,6 @@ struct RESULT {
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     bool is_upload_done();    // files uploaded?
-    void get_app_version_string(std::string&);
     void reset_files();
     FILE_REF* lookup_file(FILE_INFO*);
     FILE_INFO* lookup_file_logical(const char*);

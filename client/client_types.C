@@ -1386,12 +1386,6 @@ bool RESULT::is_upload_done() {
     return true;
 }
 
-void RESULT::get_app_version_string(string& str) {
-    char buf[256];
-    sprintf(buf, " %.2f", wup->version_num/100.);
-    str = app->name + string(buf);
-}
-
 // resets all FILE_INFO's in result to uploaded = false 
 // if upload_when_present is true.
 // Also updates the last time the input files were used

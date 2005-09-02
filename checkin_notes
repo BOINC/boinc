@@ -11348,3 +11348,17 @@ Rom    2 Aug 2005
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  2 Aug 2005
+    - show app version numbers as single ints
+        (remove major*100 + minor assumption)
+    - remove commented-out code (lock_file stuff)
+
+    lib/
+        filesys.h
+    sched/
+        assimilator.C
+        file_deleter.C
+        make_work.C
+        transitioner.C
+        update_stats.C

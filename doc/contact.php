@@ -84,9 +84,9 @@ Each area is managed by an 'owner'.
 </tr>
 </table>
 
-<h2>Contributors</h2>
-The following people have contributed to
-the development of BOINC:
+<h2>Developers</h2>
+The following people have contributed to the development of
+the BOINC software:
 <p>
 ";
 $i = 0;
@@ -164,8 +164,9 @@ show_name("Oliver Wang");
 show_name("Frank Weiler");
 echo "
 </table>
+<h2>Testers</h2>
 <p>
-BOINC testers include:
+BOINC alpha testers include:
 <p>
 ";
 $i = 0;

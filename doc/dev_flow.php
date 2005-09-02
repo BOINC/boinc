@@ -26,7 +26,7 @@ BOINC message boards are <a href=dev/>here</a>.
 <li> Learn of new releases on the BOINC web site.
 <li> Note: we need ways of 'pushing' info to participants, e.g. via the Manager.
 </ul>
-<h3>Owners</h3>
+<h3>Area owners</h3>
 <ul>
 <li> Reads the relevant BOINC message board on a regular basis.
 Decides if new bugs are present.

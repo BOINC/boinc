@@ -175,12 +175,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    // // Call lock_file after fork(), because file locks are not always inherited
-    // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of update_stats is already running\n");
-    //     exit(1);
-    // }
-    // write_pid_file(PIDFILE);
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
 

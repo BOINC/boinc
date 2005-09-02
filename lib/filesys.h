@@ -67,7 +67,6 @@ extern "C" {
   extern int boinc_rename(const char* old, const char* newf);
   extern int boinc_mkdir(const char*);
   extern int boinc_rmdir(const char*);
-  extern int lock_file(const char*);
   extern void relative_to_absolute(const char* relname, char* path);
   extern int boinc_make_dirs(char*, char*);
   extern char boinc_failed_file[256];
