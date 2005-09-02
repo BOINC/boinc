@@ -11323,10 +11323,15 @@ David  1 Sept 2005
 
 Charlie 1 Sept 2005
     - Mac: create a UNIX shell script to automate creation of installers.
+      Update build instructions to reflect this.
     
     clientgui/
         mac/
             SetVersion.C
     mac_installer/
         release_boinc.sh (new)
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    doc/
+        mac_build.html
 

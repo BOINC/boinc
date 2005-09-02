@@ -1,7 +1,6 @@
 {\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf100
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fmodern\fcharset77 Courier;
-\f3\fswiss\fcharset77 Helvetica-Oblique;\f4\fnil\fcharset77 LucidaGrande;\f5\fmodern\fcharset77 Courier-Oblique;
-}
+\f3\fswiss\fcharset77 Helvetica-Oblique;\f4\fmodern\fcharset77 Courier-Oblique;}
 {\colortbl;\red255\green255\blue255;\red255\green0\blue0;\red0\green0\blue255;}
 \margl1440\margr1440\vieww9000\viewh9000\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -12,7 +11,7 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 8/22/05\
+Last updated 9/1/05\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document has instructions for building BOINC for Macintosh OSX, plus information for building science projects to run under BOINC Macintosh OSX.\
@@ -23,7 +22,7 @@ This document has instructions for building BOINC for Macintosh OSX, plus inform
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\b0\fs24 \cf0 \
-Substitute the appropriate path for [boincparent] throughout this document.  This is the parent directory containing the boinc/ or boinc_public/ tree.  If used, the following three directories must also be at the top level of [boincparent]/:\
+Substitute the appropriate path for [boincparent] throughout this document.  This is the parent directory containing the boinc/ tree.  If used, the following three directories must also be at the top level of [boincparent]/:\
 wxMac-2.6.1/, curl-7.14.0 and jpeg-6b.  If you wish to keep these directories elsewhere or to give them different names, you can create a UNIX symbolic link to the actual directory using the command, for example: \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -37,7 +36,7 @@ wxMac-2.6.1/, curl-7.14.0 and jpeg-6b.  If you wish to keep these directories el
 \f0\b not
 \f1\b0  recognize a Macintosh alias created by the Finder.)\
 \
-Throughout this document, [boincpath] is shorthand for either [boincparent]/boinc or [boincparent]/boinc_public, as appropriate.\
+Throughout this document, [boincpath] is shorthand for [boincparent]/boinc.\
 \
 These directions are for building under OS X version 10.4.x (Tiger) using XCode Developer Tools version 2.0, or OS X version 10.3.9 (Panther) using XCode 1.5.  \
 \
@@ -60,10 +59,10 @@ Beware of using the wrong compiler!  Apple's release notes for GCC 4.0 say:\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
 \f1\i0 \cf0 \
+Elsewhere on Apple's web site is the warning:\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
-\cf0 Elsewhere on Apple's web site is the warning:\
 
-\f3\i Do not link C++ modules compiled with one of these compilers against modules compiled with the other. Even if the modules appear to link correctly, C++ ABI differences may still cause problems that will not manifest themselves until run time.
+\f3\i \cf0 Do not link C++ modules compiled with one of these compilers against modules compiled with the other. Even if the modules appear to link correctly, C++ ABI differences may still cause problems that will not manifest themselves until run time.
 \f1\i0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
@@ -273,80 +272,33 @@ These arguments will be used only when running the BOINC Core Client from XCode 
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\b \cf0 Building the installer
+\f0\b \cf0 Building the installer and packaging it for disribution
 \f1\b0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 After creating the 
 \f0\b deployment
-\f1\b0  build of all targets using Build_All, use the Finder to do the following:\
-(1) In a convenient place on disk, create a directory "Installer_Resources".  Copy the following items into this directory:\
-	[boincpath]/mac_installer/License.rtf\
-	[boincpath]/mac_installer/ReadMe.rtf\
-	[boincpath]/mac_installer/postinstall\
-	[boincpath]/mac_installer/postupgrade\
-	[boincpath]/mac_build/build/Postinstall.app\
+\f1\b0  build of all targets using Build_All, do the following in Terminal.  Set the current directory to the root directory of the boinc tree:\
 \
-NOTE: the file extensions (such as .app and .saver) may be hidden by the Finder.  You can check an item's extension by selecting it in the Finder and using Get Info function from the Finder's File menu.\
-\
-(2) Create another directory "Pkg_Root", and inside that create two more directories "Applications" and"Library".  Create:\
- - a "Screen Savers" directory inside your new Library directory,\
- - an "Application Support" directory inside your new Library directory,\
- - a "BOINC Data" directory inside your new Application Support directory,\
- - a "locale" directory inside your new BOINC Data directory  \
-Correct spelling of these names is critical.\
-\
-(3) Copy [boincpath]/mac_build/build/BOINCManager.app into your \
-"Pkg_Root/Applications" directory.\
-\
-(4) Copy [boincpath]/mac_build/build/BOINCSaver.saver into your \
-"Pkg_Root/Library/Screen Savers" directory.  \
-\
-(5) Copy the 
-\f0\b contents
-\f1\b0  
-\f0\b of
-\f1\b0  boincpath]/locale/client/ into your \
-"Pkg_Root/Library/Application Support/BOINC Data/locale" directory.  (You may optionally exclude the CVS subdirectories to save space.)\
-\
-You will now have the following directory structure:\
-	Pkg_Root\
-	        Applications\
-	                BOINCManager.app\
-	        Library\
-	                Application Support\
-                                    BOINC Data\
-                                            locale\
-                                                    de\
-                                                    en_US\
-                                                    it\
-                                                    etc.....\
-	                Screen Savers\
-	                        BOINCSaver.saver\
-\
-(6) From the Finder, open [boincpath]/mac_installer/BOINC.pmproj (if running OS 10.3, use BOINC.pmsp).  it will open in the PackageMaker application.  In the Files tab, set the path to your Pkg_Root directory.  in the Resources tab, set the path to your Installer_Resources directory.   Update the  version number in multiple places in the Description and Version tabs.\
-\
-(7) Select "Create Package" from PackageMaker's File menu.  You can give any name you wish to the installer package when you create it, but do 
-\f0\b not
-\f1\b0  change the package name 
-\f0\b after
-\f1\b0  it is created.\
-\
-(8) Quit PackageMaker.\
-\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
-
-\f0\b \cf0 Package BOINC installer for distribution\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\b0 \cf0 \
-(1) Create a directory and name it appropriately, e.g. "boinc_4.37_macOSX".  Copy the installer package and the ReadMe file into the directory.\
+\f2 \cf0 cd [boincpath]\
 \
-(2)After selecting the directory you just created and populated, select \ul Create archive\ulnone  from the Finder's File menu.  This will zip the file.  (Note: if you want to stuff the file instead of zipping it, be sure to uncheck "stuff originals instead of aliases" in DropStuff's preferences.)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1 \cf0 Invoke the release_boinc.sh script with the three parts of version number as arguments.  For example, if the version is 3.2.1:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2 \cf0 \
+source mac_installer/release_boinc.sh 3 2 1
+\f1 \
 \
-(3) Rename the zip file as appropriate to show the version number; for example, boinc_4.37_macOSX
-\f4 .zip
-\f1  \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 (This will create a director "BOINC_Installer" in the parent directory of the current directory.  Inside that will be three directories and two zip files.  \
+\
+If the version is 3.2.1, the zip files will be boinc_3.2.1_macOSX.zip and boinc_3.2.1_powerpc-apple-darwin.zip, and the directories will have the same names as their zipped counterparts. \
+\
+An additional directory named SymbolTables contains the executables with full debugging symbols; these are useful when interpreting stack dumps in error reports.\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -368,7 +320,7 @@ You will now have the following directory structure:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f2\i0 \cf0 export PATH=/usr/local/bin:$PATH
-\f5\i \
+\f4\i \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\i0 \cf0 \
