@@ -130,7 +130,7 @@ CViewTransfers::~CViewTransfers() {
 }
 
 
-wxString CViewTransfers::GetViewName() {
+wxString& CViewTransfers::GetViewName() {
     static wxString strViewName(_("Transfers"));
     return strViewName;
 }

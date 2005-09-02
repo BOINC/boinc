@@ -55,7 +55,7 @@ public:
 
     ~CViewWork();
 
-    virtual wxString        GetViewName();
+    virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
 
     void                    OnWorkSuspend( wxCommandEvent& event );

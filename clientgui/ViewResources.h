@@ -49,7 +49,7 @@ public:
 
     ~CViewResources();
 
-    virtual wxString        GetViewName();
+    virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
 
 protected:

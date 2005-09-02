@@ -189,7 +189,7 @@ CViewProjects::~CViewProjects() {
 }
 
 
-wxString CViewProjects::GetViewName() {
+wxString& CViewProjects::GetViewName() {
     static wxString strViewName(_("Projects"));
     return strViewName;
 }

@@ -90,7 +90,7 @@ public:
 
     ~CBOINCBaseView();
 
-    virtual wxString        GetViewName();
+    virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
 
     bool                    FireOnSaveState( wxConfigBase* pConfig );

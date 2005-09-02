@@ -38,7 +38,7 @@ public:
 
     ~CViewMessages();
 
-    virtual wxString        GetViewName();
+    virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
 
     void                    OnMessagesCopyAll( wxCommandEvent& event );

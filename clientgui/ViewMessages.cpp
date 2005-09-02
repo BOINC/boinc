@@ -120,7 +120,7 @@ CViewMessages::~CViewMessages() {
 }
 
 
-wxString CViewMessages::GetViewName() {
+wxString& CViewMessages::GetViewName() {
     static wxString strViewName(_("Messages"));
     return strViewName;
 }

@@ -53,7 +53,7 @@ public:
 
     ~CViewStatistics();
 
-    virtual wxString        GetViewName();
+    virtual wxString&       GetViewName();
 
     void                    OnStatisticsUserTotal( wxCommandEvent& event );
     void                    OnStatisticsUserAverage( wxCommandEvent& event );

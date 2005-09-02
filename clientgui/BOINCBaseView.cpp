@@ -105,8 +105,9 @@ CBOINCBaseView::~CBOINCBaseView() {}
 // The user friendly name of the view.
 //   If it has not been defined by the view "Undefined" is returned.
 //
-wxString CBOINCBaseView::GetViewName() {
-    return wxString(wxT("Undefined"));
+wxString& CBOINCBaseView::GetViewName() {
+    static wxString strViewName(wxT("Undefined"));
+    return strViewName;
 }
 
 

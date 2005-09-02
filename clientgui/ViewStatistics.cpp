@@ -356,7 +356,7 @@ CViewStatistics::~CViewStatistics() {
 }
 
 
-wxString CViewStatistics::GetViewName() {
+wxString& CViewStatistics::GetViewName() {
     static wxString strViewName(_("Statistics"));
     return strViewName;
 }

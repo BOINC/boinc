@@ -54,7 +54,7 @@ public:
 
     ~CViewProjects();
 
-    virtual wxString        GetViewName();
+    virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
 
     void                    OnProjectUpdate( wxCommandEvent& event );
