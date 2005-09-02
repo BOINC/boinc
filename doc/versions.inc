@@ -313,8 +313,8 @@ $mac = array(
         $m437s,
         $m443c,
         $m419,
-        $m472,
-        $m472c
+        $m511,
+        $m511c
     )
 );
 $linux = array(
