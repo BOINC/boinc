@@ -11320,3 +11320,13 @@ David  1 Sept 2005
         client_state.C,h
         cs_statefile.C
         gui_rpc_server_ops.C
+
+Charlie 1 Sept 2005
+    - Mac: create a UNIX shell script to automate creation of installers.
+    
+    clientgui/
+        mac/
+            SetVersion.C
+    mac_installer/
+        release_boinc.sh (new)
+

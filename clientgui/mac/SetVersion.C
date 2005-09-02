@@ -22,6 +22,7 @@
 int IsFileCurrent(char* filePath);
 int FixInfoPlistFile(char* myPath);
 int FixInfoPlist_Strings(void);
+int MakeInstallerInfoPlistFile(void);
 
 int main(int argc, char** argv) {
     int retval = 0, err;
@@ -37,14 +38,15 @@ int main(int argc, char** argv) {
 
     err = FixInfoPlist_Strings();
     if (err) retval = err;
-    FixInfoPlistFile("./Info.plist");
+    err = FixInfoPlistFile("./Info.plist");
     if (err) retval = err;
-    FixInfoPlistFile("./Installer-Info.plist");
+    err = FixInfoPlistFile("./Installer-Info.plist");
     if (err) retval = err;
-    FixInfoPlistFile("./ScreenSaver-Info.plist");
+    err = FixInfoPlistFile("./ScreenSaver-Info.plist");
     if (err) retval = err;
-    FixInfoPlistFile("./SystemMenu-Info.plist");
+    err = FixInfoPlistFile("./SystemMenu-Info.plist");
     if (err) retval = err;
+    err = MakeInstallerInfoPlistFile();
     return retval;
 }
 
@@ -170,3 +172,50 @@ bail:
     printf("Error updating version number in file %s\n", myPath);
     return -1;
 }
+
+
+int MakeInstallerInfoPlistFile() {
+    int retval = 0;
+    FILE *f;
+    char *myPath = "./Pkg-Info.plist";
+    
+    if (IsFileCurrent(myPath))
+        return 0;
+
+    f = fopen(myPath, "w");
+    if (f)
+    {
+        fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+        fprintf(f, "<plist version=\"1.0\">\n<dict>\n");
+        fprintf(f, "\t<key>CFBundleGetInfoString</key>\n");
+        fprintf(f, "\t<string>BOINC Manager %s</string>\n", BOINC_VERSION_STRING);
+        fprintf(f, "\t<key>CFBundleIdentifier</key>\n\t<string>edu.berkeley.boinc</string>\n");
+        fprintf(f, "\t<key>CFBundleShortVersionString</key>\n");
+        fprintf(f, "\t<string>%s</string>\n", BOINC_VERSION_STRING);
+        fprintf(f, "\t<key>IFPkgFlagAllowBackRev</key>\n\t<integer>1</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagAuthorizationAction</key>\n\t<string>AdminAuthorization</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagDefaultLocation</key>\n\t<string>/</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagFollowLinks</key>\n\t<integer>0</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagInstallFat</key>\n\t<integer>0</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagInstalledSize</key>\n\t<integer>6680</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagIsRequired</key>\n\t<integer>0</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagOverwritePermissions</key>\n\t<integer>0</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagRelocatable</key>\n\t<integer>0</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagRestartAction</key>\n\t<string>NoRestart</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagRootVolumeOnly</key>\n\t<integer>1</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagUpdateInstalledLanguages</key>\n\t<integer>0</integer>\n");
+        fprintf(f, "\t<key>IFPkgFormatVersion</key>\n\t<real>0.10000000149011612</real>\n");
+        fprintf(f, "</dict>\n</plist>\n");
+
+        retval = fclose(f);
+    }
+    else {
+        puts("Error creating file Pkg-Info.plist\n");
+        retval = -1;
+    }
+        
+    return retval;
+}
+
+
