@@ -15,6 +15,15 @@ The format is described
 If you are interested in running your own site or
 participating in the development efforts,
 please contact the people listed above.
+
+<h2>Statistics signature images</h2>
+<p>
+The following sites offer dynamically-generated
+images showing your statistics in BOINC projects.
+Use these in your email or message-board signature.
+<ul>
+<li> http://www.bigbee.be/comp/boinc/signature.php?id=9
+</ul>
 ";
 
 page_tail();

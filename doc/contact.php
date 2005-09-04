@@ -70,7 +70,7 @@ Each area is managed by an 'owner'.
 <tr>
     <td>Web features</td>
     <td>Janus Kristensen</td>
-    <td>Rob Ogilvie</td>
+    <td><a href=http://rob.axpr.net/>Rob Ogilvie</a></td>
 </tr>
 <tr>
     <td>Wiki-based documentation</td>
@@ -150,6 +150,7 @@ show_name("J.R. Oldroyd");
 show_name("Jakob Pedersen");
 show_name("Stephen Pellicer");
 show_name("Reinhard Prix");
+show_name("Tetsuji Maverick Rai");
 show_name("Andy Read");
 show_name("Kevin Reed");
 show_name("Thomas Richard");

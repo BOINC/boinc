@@ -56,7 +56,7 @@ list_item_array(array(
 list_item_array(array(
     "<a href=http://www.pperry.f2s.com/downloads.htm>SETI-Linux</a>",
     "Linux i686, linux athlon xp, Linux AMD64,
-    Linux Pentium 2 and 3. Some Links to other Plattforms",
+    Linux Pentium 3. Some Links to other Plattforms",
     "BOINC, SETI@home"
 ));
 list_item_array(array(

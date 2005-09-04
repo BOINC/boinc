@@ -3,7 +3,8 @@ require_once("docutil.php");
 page_head("Standard Mac GUI installation");
 echo "
 <ul>
-<li> If your browser has not already done so, expand the zip archive by double-licking on it in the Finder.
+<li> If your browser has not already done so,
+expand the zip archive by double-clicking on it in the Finder.
 <li> Double-click on BOINC.pkg to run the installer.
 <li> The installer places two items onto your hard drive: BOINCManager.app in your /Applications folder and BOINCSaver.saver in your /Library/Screen Savers folder.  
 <li> It also sets BOINCManager as one of the items to automatically start whenever the user is logged in.  You can add or remove Startup Items by using the Accounts Pane in the System Preferences (accessible from the Apple menu).  

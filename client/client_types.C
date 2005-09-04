@@ -512,20 +512,20 @@ int FILE_INFO::set_permissions() {
     char pathname[256];
     get_pathname(this, pathname);
 
-    // give permissions for user, group and others
+    // give read/exec permissions for user, group and others
     // in case someone runs BOINC from different user
 
     if (executable) {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IWOTH|S_IXOTH
+            |S_IRGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
         );
     } else {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR
-            |S_IRGRP|S_IWGRP
-            |S_IROTH|S_IWOTH
+            |S_IRGRP
+            |S_IROTH
         );
     }
     return retval;

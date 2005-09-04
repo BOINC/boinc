@@ -11362,3 +11362,11 @@ David  2 Aug 2005
         make_work.C
         transitioner.C
         update_stats.C
+
+David  4 Aug 2005
+    - FILE_INFO::set_permissions():
+        Don't give write access to other or world.
+        (from Tetsuji Maverick Rai)
+
+    client/
+        client_types.C

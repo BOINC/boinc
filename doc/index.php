@@ -33,15 +33,14 @@ resources
   </td></tr>
   <tr><td>
     <p>
-    If you have a computer (Windows, Mac, Linux or Unix)
-    you can participate in many scientific research projects:
+    BOINC lets you donate computing power to many scientific research projects:
     <ul>
     <li>
     <a href=http://climateprediction.net>Climateprediction.net</a>:
     study climate change
     <li>
     <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
-    search for gravitational signals coming from pulsars
+    search for gravitational signals emitted by pulsars
     <li>
     <a href=http://athome.web.cern.ch/athome/>LHC@home</a>:
     improve the design of the CERN LHC particle accelerator
@@ -56,19 +55,18 @@ resources
     </ul>
     To participate in a project:
     <br>
-    1) Visit the project's web site and create an account.
+    1) Go to the project's web site and create an account.
     <br>
     2) <a href=download.php>Download</a> and run BOINC software.
     <p>
     You can participate in any or all projects,
-    and you control the percentage of your computing power
+    and you control the fraction of your computing power
     that goes to each project.
-    By participating in several projects,
-    you ensure that your computer will be kept busy
-    even when one project has no work.
+    If you participate in several projects,
+    your computer will be kept busy even when one project has no work.
     <p>
     There are several Wikis
-    with user-editable information and documentation about BOINC:
+    with information and documentation about BOINC:
         <ul>
         <li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
         <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
@@ -83,8 +81,8 @@ resources
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Create a BOINC project</h2></td></tr>
   <tr><td>
-    If you're a scientist with a computationally-intensive task,
-    you may be able to use BOINC.
+    Scientists with computationally-intensive tasks
+    may be able to use BOINC.
     A BOINC project requires just a single Linux server,
     and can provide computing power equivalent
     to a cluster with tens of thousands of nodes.
