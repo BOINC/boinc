@@ -11370,3 +11370,16 @@ David  4 Aug 2005
 
     client/
         client_types.C
+
+Janus  5 Aug 2005
+    - Fixed (Rob): Adding and deleting too many slashes in the db functions for 
+      the forum
+    - HTML code in forums is now disabled by default, people will have to use
+      BBcode from now on (Rob)
+
+    html/
+        inc/
+            forum.inc
+            db_forum.inc
+            text_transform.inc
+
