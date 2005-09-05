@@ -3,22 +3,24 @@ require_once('../inc/sanitize_html.inc');
 
 class output_options {
 	var $bb2html;			// BBCode as HTML? (on)
+	var $boincdoc;			// Transform [[Wikiwords]] in to BoincDoc links (on)
 	var $images_as_links;	// Images as hyperlinks? (off)
 	var $link_popup;		// Links in new windows? (off)
 	var $closeTags;			// Close extra HTML tags? (on)
 	var $nl2br;				// Convert newlines to <br>'s? (on)
-	var $htmlitems;			// Convert special chars to HTML entities? (off)
+	var $htmlitems;			// Convert special chars to HTML entities? (on)
 	var $htmlscrub;			// Scrub "bad" HTML tags? (off)
 	var $stripslashes;		// Strip slashes (depends)
 	
 	function output_options() {
 		// Set defaults - should we DEFINE these somewhere else?
 		$this->bb2html = 1;
+		$this->boincdoc = 1;
 		$this->images_as_links = 0;
 		$this->link_popup = 0;
 		$this->closeTags = 1;
 		$this->nl2br = 1;
-		$this->htmlitems = 0;
+		$this->htmlitems = 1;
 		$this->htmlscrub = 0;
 	    if (get_magic_quotes_gpc()) {
      	   $this->stripslashes = 1;
@@ -47,6 +49,9 @@ function output_transform($text, $options = NULL) {
 	}
 	if ($options->bb2html) {
 		$text = bb2html($text);
+	}
+	if ($options->boincdoc) {
+		$text = boincdoc($text);
 	}
 	if ($options->images_as_links) {
 		$text = image_as_link($text);
@@ -140,7 +145,30 @@ function bb2html($text) {
 	return $text;
 }
 
-function externalize_links($text){
+function boincdoc ($text) {
+	$wikimatch = "@\[\[(.[a-zA-Z\@\ \_\-]+)\]\]@ise";
+	$wikititlematch = "@\[\[(.[a-zA-Z\@\ \_\-]+)([|])([a-zA-Z\_\-\ ]+)\]\]@ise";
+	$wikichange = "boincdoc_linkcreate('\\1')";
+	$wikititlechange = "boincdoc_linkcreate('\\1', '\\3')";
+	$text = preg_replace($wikititlematch, $wikititlechange, $text);
+	$text = preg_replace($wikimatch, $wikichange, $text);
+	return $text;
+}
+
+function boincdoc_linkcreate ($wikitext,$title = '') {
+	/* This function is only called from boincdoc() */
+	$hyperlink = str_replace(' ', '_', $wikitext); // Spaces to underscores
+	$hyperlink = urlencode($hyperlink);
+	$hyperlink = "<a href=\"http://boinc-doc.net/boinc-wiki/index.php?title=$hyperlink\">";
+	if ($title != '') {
+		$hyperlink .= "$title</a>";
+	} else {
+		$hyperlink .= "$wikitext</a>";
+	}
+	return $hyperlink;
+}
+
+function externalize_links($text) {
 	// TODO:  Convert this to PCRE
     $i=0;$linkpos=true;
     while (true){                                //Find a link
