@@ -3,7 +3,8 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 function quickDBClean($unclean) {
     /* A quick function to save me a few keystrokes */
-    return mysql_real_escape_string(stripslashes($unclean));
+    //return mysql_real_escape_string(stripslashes($unclean)); -We're overstripping slashes
+    return mysql_real_escape_string($unclean);
 }
 
 function getCategories() {
@@ -351,7 +352,6 @@ function createThread($forumID, $ownerID, $title, $content, $add_signature=false
 	 * $add_signature - bool (not used here)
 	 */
     $content = substr($content,0,64000); // Shorten content to avoid cut-off html tags when inserting LARGE posts.
-    $content = addslashes(sanitize_html(stripslashes($content)));
 
 	if (! (is_numeric($forumID) && is_numeric($ownerID))) {
 		return NULL;
@@ -398,7 +398,6 @@ function replyToThread($threadID, $userID, $content, $parent_post=NULL, $add_sig
 		return NULL;	// The thread ID and forum ID should always be numeric
 	}					// ...if not, something is majorly wrong. (these came from the DB)
     $content = substr($content,0,64000); //Avoid cut-off html tags when posting LARGE texts
-    $content = addslashes(sanitize_html(stripslashes($content)));
 
     addPost($threadID, $userID, $parent_post, $content, $add_signature);
 
@@ -446,9 +445,8 @@ function updatePost($postID, $content) {
 	if (! is_numeric($postID)) {
 		return false; // That really needs to be numeric.
 	}
-    $content = substr($content,0,64000); //Avoid cut-off html tags when inserting LARGE texts
-    $x = addslashes(sanitize_html(stripslashes($content)));
-    $x = quickDBClean($x);
+    $content = substr($content,0,64000); //Avoid cut-off html tags when inserting LARGE text
+    $x = quickDBClean($content);
     $sql = "UPDATE post SET content = \"$x\", modified = UNIX_TIMESTAMP() WHERE id = " . $postID;
     $result = mysql_query($sql);
     if (!$result) return false;
