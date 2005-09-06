@@ -94,6 +94,7 @@ extern bool boinc_is_standalone(void);
 extern bool boinc_receive_trickle_down(char* buf, int len);
 
 #ifdef __APPLE__
+extern int setMacPList(void);
 extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #endif
 

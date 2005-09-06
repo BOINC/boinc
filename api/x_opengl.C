@@ -212,17 +212,31 @@ void KillWindow() {
 }
 
 void set_mode(int mode) {
-    if (mode == current_graphics_mode) return;
+    if (mode == current_graphics_mode) {
+#ifdef __APPLE__
+        // Bring graphics window to front whenever user presses "Show graphics"
+        if (mode == MODE_WINDOW)
+            BringAppToFront();
+#endif
+        return;
+    }
 
-    app_debug_msg("set_mode(%d): current_mode = %d. Calling KillWindow(): win = %d\n", mode, current_graphics_mode, win);
-    KillWindow();
-    app_debug_msg("...KillWindow() survived.\n");
-
+    app_debug_msg("set_mode(%d): current_mode = %d.\n", mode, current_graphics_mode);
+    if (glut_is_initialized) {
+        app_debug_msg("Calling KillWindow(): win = %d\n", win);
+        KillWindow();
+        app_debug_msg("...KillWindow() survived.\n");
+    }
+    
     if (mode != MODE_HIDE_GRAPHICS) {
         app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode);
         make_new_window(mode);
         app_debug_msg("...make_new_window() survived.\n");
     }
+#ifdef __APPLE__
+    else
+        HideThisApp();
+#endif
 
     current_graphics_mode = mode;
 
@@ -413,6 +427,9 @@ void xwin_graphics_event_loop() {
         }
     } else {
         if (!glut_is_initialized) {
+#ifdef __APPLE__
+                setMacPList();
+#endif
 	        set_mode(MODE_HIDE_GRAPHICS);
 	        while ( current_graphics_mode == MODE_HIDE_GRAPHICS ) {
 	            app_debug_msg ("Graphics-thread now waiting for client-message...\n");

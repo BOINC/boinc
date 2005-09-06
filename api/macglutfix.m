@@ -74,3 +74,8 @@ void MacGLUTFix(bool isScreenSaver) {
 void BringAppToFront() {
     [ NSApp activateIgnoringOtherApps:YES ];
 }
+
+void HideThisApp() {
+    [ NSApp hide:NSApp ];
+}
+

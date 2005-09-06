@@ -11410,3 +11410,27 @@ Bruce 6 Sept 2005
     clientgui/
         Makefile.am
 
+Charlie 6 Sept 2005
+    - Fix graphics when running anonymoous platform with BOINC Manager; needed
+      to create soft links in each slot with same name as the anonymous 
+      application and linked to it, even when resuming a work unit.
+    - Fix possible bug in set_mode() in x_opengl.C: don't call KillWindow() if 
+      (! glut_is_initialized).
+    - Mac: Graphics applications set their own 'plst' 0 resource so OS will run 
+      them as a NSUIElement; this suppresses Dock icon and menu bar for a 
+      cleaner look, especially after running screen saver.
+    - Mac: When closing graphics window, hide the graphics application so that 
+      it does not remain in front, which was confusing.
+    - Mac: Bring graphics application to front whenever user presses "Show 
+      Graphics" button, even if it was already open in background.  This provides 
+      a way to bring hidden graphics to front without an icon in the Dock.
+    - Mac: Set up project file to set correct working directory when running core 
+      client under the debugger.
+       
+      api/
+        boinc_api.h
+        macglutfix.m
+        x_opengl.C,h
+        mac_icon.C
+    client/
+        app_start.C

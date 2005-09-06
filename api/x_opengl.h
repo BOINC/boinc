@@ -10,6 +10,7 @@ extern int xwin_glut_is_initialized();
 #ifdef __APPLE__
 extern void MacGLUTFix(bool isScreenSaver);  
 extern void BringAppToFront(void);
+extern void HideThisApp(void);
 #endif
 
 #ifdef __cplusplus

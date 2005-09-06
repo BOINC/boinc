@@ -217,6 +217,10 @@ static int setup_file(
             return retval;
         }
     } else {
+        // If anonymous platform, create sot link only once
+        if (wup->project->anonymous_platform)
+            if (boinc_file_exists(link_path))
+                return 0;
         retval = boinc_link(buf, link_path);
         if (retval) {
             msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
@@ -298,7 +302,7 @@ int ACTIVE_TASK::start(bool first_time) {
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
         }
-        if (first_time) {
+        if (first_time || wup->project->anonymous_platform) {
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
