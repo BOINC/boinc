@@ -76,12 +76,10 @@ public:
 
     CBOINCBaseView();
     CBOINCBaseView(
-        wxNotebook* pNotebook,
-        wxString& strName
+        wxNotebook* pNotebook
     );
     CBOINCBaseView(
         wxNotebook* pNotebook,
-        wxString& strName,
         wxWindowID iTaskWindowID,
         int iTaskWindowFlags,
         wxWindowID iListWindowID,

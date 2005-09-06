@@ -11336,7 +11336,7 @@ Charlie 1 Sept 2005
     doc/
         mac_build.html
 
-Rom    2 Aug 2005
+Rom    2 Sept 2005
     - Attempt at fixing a crash condition on Linux due to differences in
         how the compiler handles constructors.
 
@@ -11349,7 +11349,7 @@ Rom    2 Aug 2005
         ViewTransfers.cpp
         ViewWork.cpp
 
-David  2 Aug 2005
+David  2 Sept 2005
     - show app version numbers as single ints
         (remove major*100 + minor assumption)
     - remove commented-out code (lock_file stuff)
@@ -11363,7 +11363,7 @@ David  2 Aug 2005
         transitioner.C
         update_stats.C
 
-David  4 Aug 2005
+David  4 Sept 2005
     - FILE_INFO::set_permissions():
         Don't give write access to other or world.
         (from Tetsuji Maverick Rai)
@@ -11371,7 +11371,7 @@ David  4 Aug 2005
     client/
         client_types.C
 
-Janus  5 Aug 2005
+Janus  5 Sept 2005
     - Fixed (Rob): Adding and deleting too many slashes in the db functions for 
       the forum
     - HTML code in forums is now disabled by default, people will have to use
@@ -11383,3 +11383,18 @@ Janus  5 Aug 2005
             db_forum.inc
             text_transform.inc
 
+Rom    2 Sept 2005
+    - Fix crashing bug on Linux startup.
+    - Fix crashing bug on Linux during shutdown.  When a feature may or may not
+        be available on a platform use the wxWidget define for that feature instead
+        of platform defines. Like taskbar icons and clipboard functionality.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

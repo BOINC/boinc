@@ -36,7 +36,7 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 CBOINCBaseView::CBOINCBaseView() {}
 
-CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxString& strName) :
+CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
 {
     wxASSERT(pNotebook);
@@ -52,17 +52,16 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxString& strName) :
     m_pTaskPane = NULL;
     m_pListPane = NULL;
 
-    SetName(strName);
+    SetName(GetViewName());
 
     SetAutoLayout(TRUE);
 }
 
 
 CBOINCBaseView::CBOINCBaseView(
-    wxNotebook* pNotebook, wxString& strName, wxWindowID iTaskWindowID, int iTaskWindowFlags,
-    wxWindowID iListWindowID, int iListWindowFlags
-) : wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL) {
-
+    wxNotebook* pNotebook, wxWindowID iTaskWindowID, int iTaskWindowFlags, wxWindowID iListWindowID, int iListWindowFlags) :
+    wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
+{
     wxASSERT(pNotebook);
 
     m_bProcessingTaskRenderEvent = false;
@@ -74,7 +73,7 @@ CBOINCBaseView::CBOINCBaseView(
     m_pTaskPane = NULL;
     m_pListPane = NULL;
 
-    SetName(strName);
+    SetName(GetViewName());
 
     SetAutoLayout(TRUE);
 
