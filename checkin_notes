@@ -11424,8 +11424,6 @@ Charlie 6 Sept 2005
     - Mac: Bring graphics application to front whenever user presses "Show 
       Graphics" button, even if it was already open in background.  This provides 
       a way to bring hidden graphics to front without an icon in the Dock.
-    - Mac: Set up project file to set correct working directory when running core 
-      client under the debugger.
        
       api/
         boinc_api.h
