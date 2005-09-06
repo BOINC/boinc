@@ -45,6 +45,7 @@ boinc_gui_SOURCES = \
     ViewTransfers.cpp \
     ViewWork.cpp \
     WizAttachProject.cpp \
+    WizAttachAccountManager.cpp \
     hyperlink.cpp $(mac_sources)
 
 EXTRA_DIST = *.h \

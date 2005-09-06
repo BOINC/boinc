@@ -11403,3 +11403,10 @@ Rom    6 Sept 2005
         ViewTransfers.cpp
         ViewWork.cpp
         WizAttachAccountManager.cpp, .h (Added)
+
+Bruce 6 Sept 2005
+    - Added WizAttachAccountManager.cpp to Makefile.am
+
+    clientgui/
+        Makefile.am
+
