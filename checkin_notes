@@ -11402,4 +11402,4 @@ Rom    6 Sept 2005
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
-        WizAttachAccountManager.cpp, .h
+        WizAttachAccountManager.cpp, .h (Added)
