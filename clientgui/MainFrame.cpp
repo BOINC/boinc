@@ -40,6 +40,7 @@
 #include "DlgDialupCredentials.h"
 #include "DlgSelectComputer.h"
 #include "WizAttachProject.h"
+#include "WizAttachAccountManager.h"
 
 #include "res/BOINCGUIApp.xpm"
 #include "res/connect.xpm"
@@ -146,14 +147,14 @@ DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
-    EVT_MENU(ID_FILEHIDE, CMainFrame::OnHide)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CMainFrame::OnNetworkSelection)
     EVT_MENU(ID_FILERUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CMainFrame::OnSelectComputer)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
-    EVT_MENU(ID_TOOLSMANAGEACCOUNTS, CMainFrame::OnToolsManageAccounts)
-    EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
+    EVT_MENU(ID_PROJECTSATTACHACCOUNTMANAGER, CMainFrame::OnProjectsAttachToAccountManager)
+    EVT_MENU(ID_PROJECTSATTACHPROJECT, CMainFrame::OnProjectsAttachToProject)
+    EVT_MENU(ID_OPTIONSOPTIONS, CMainFrame::OnOptionsOptions)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
@@ -322,63 +323,10 @@ bool CMainFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
 
     menuFile->Append(
-        ID_FILEHIDE, 
-        _("&Hide"),
-        _("Hides the main BOINC Manager window")
-    );
-    menuFile->AppendSeparator();
-
-    menuFile->AppendRadioItem(
-        ID_FILEACTIVITYRUNALWAYS,
-        _("&Run always"),
-        _("Does work regardless of preferences")
-    );
-    menuFile->AppendRadioItem(
-        ID_FILEACTIVITYRUNBASEDONPREPERENCES,
-        _("Run based on &preferences"),
-        _("Does work according to your preferences")
-    );
-    menuFile->AppendRadioItem(
-        ID_FILEACTIVITYSUSPEND,
-        _("&Suspend"),
-        _("Stops work regardless of preferences")
-    );
-
-    menuFile->AppendSeparator();
-
-    menuFile->AppendRadioItem(
-        ID_FILENETWORKRUNALWAYS,
-        _("&Network activity always available"),
-        _("Does network activity regardless of preferences")
-    );
-    menuFile->AppendRadioItem(
-        ID_FILENETWORKRUNBASEDONPREPERENCES,
-        _("Network activity based on &preferences"),
-        _("Does network activity according to your preferences")
-    );
-    menuFile->AppendRadioItem(
-        ID_FILENETWORKSUSPEND,
-        _("&Network activity suspended"),
-        _("Stops BOINC network activity")
-    );
-
-    menuFile->AppendSeparator();
-
-    menuFile->Append(
-        ID_FILERUNBENCHMARKS, 
-        _("Run &Benchmarks"),
-        _("Runs BOINC CPU benchmarks")
-    );
-
-    menuFile->AppendSeparator();
-
-    menuFile->Append(
         ID_FILESELECTCOMPUTER, 
         _("Select Computer..."),
         _("Connect to another computer running BOINC")
     );
-
-    menuFile->AppendSeparator();
 
     menuFile->Append(
         wxID_EXIT,
@@ -386,18 +334,68 @@ bool CMainFrame::CreateMenu() {
         _("Exit the BOINC Manager")
     );
 
-    // Tools menu
-    wxMenu *menuTools = new wxMenu;
-    menuTools->Append(
-        ID_TOOLSMANAGEACCOUNTS, 
-        _("&Manage Accounts"),
-        _("Connect to an account manager website and update all of your accounts")
+    // File menu
+    wxMenu *menuCommands = new wxMenu;
+
+    menuCommands->AppendRadioItem(
+        ID_FILEACTIVITYRUNALWAYS,
+        _("&Run always"),
+        _("Does work regardless of preferences")
+    );
+    menuCommands->AppendRadioItem(
+        ID_FILEACTIVITYRUNBASEDONPREPERENCES,
+        _("Run based on &preferences"),
+        _("Does work according to your preferences")
+    );
+    menuCommands->AppendRadioItem(
+        ID_FILEACTIVITYSUSPEND,
+        _("&Suspend"),
+        _("Stops work regardless of preferences")
     );
 
-    menuTools->AppendSeparator();
+    menuCommands->AppendSeparator();
 
-    menuTools->Append(
-        ID_TOOLSOPTIONS, 
+    menuCommands->AppendRadioItem(
+        ID_FILENETWORKRUNALWAYS,
+        _("&Network activity always available"),
+        _("Does network activity regardless of preferences")
+    );
+    menuCommands->AppendRadioItem(
+        ID_FILENETWORKRUNBASEDONPREPERENCES,
+        _("Network activity based on &preferences"),
+        _("Does network activity according to your preferences")
+    );
+    menuCommands->AppendRadioItem(
+        ID_FILENETWORKSUSPEND,
+        _("&Network activity suspended"),
+        _("Stops BOINC network activity")
+    );
+
+    menuCommands->AppendSeparator();
+
+    menuCommands->Append(
+        ID_FILERUNBENCHMARKS, 
+        _("Run &Benchmarks"),
+        _("Runs BOINC CPU benchmarks")
+    );
+
+    // Projects menu
+    wxMenu *menuProjects = new wxMenu;
+    menuProjects->Append(
+        ID_PROJECTSATTACHACCOUNTMANAGER, 
+        _("Manage &Account Manager"),
+        _("Attach to an account manager")
+    );
+    menuProjects->Append(
+        ID_PROJECTSATTACHPROJECT, 
+        _("&Attach to &Project"),
+        _("Attach to a project to begin processing work")
+    );
+
+    // Options menu
+    wxMenu *menuOptions = new wxMenu;
+    menuOptions->Append(
+        ID_OPTIONSOPTIONS, 
         _("&Options"),
         _("Configure GUI options and proxy settings")
     );
@@ -431,8 +429,16 @@ bool CMainFrame::CreateMenu() {
         _("&File")
     );
     m_pMenubar->Append(
-        menuTools,
-        _("&Tools")
+        menuCommands,
+        _("&Commands")
+    );
+    m_pMenubar->Append(
+        menuProjects,
+        _("&Projects")
+    );
+    m_pMenubar->Append(
+        menuOptions,
+        _("&Options")
     );
     m_pMenubar->Append(
         menuHelp,
@@ -808,15 +814,6 @@ bool CMainFrame::RestoreState() {
 }
 
 
-void CMainFrame::OnHide(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHide - Function Begin"));
-
-    Hide();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHide - Function End"));
-}
-
-
 void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnActivitySelection - Function Begin"));
 
@@ -950,25 +947,22 @@ void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsManageAccounts - Function Begin"));
+void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function Begin"));
 
     int                       iAnswer = 0;
     wxString                  strTitle = wxEmptyString;
     CMainDocument*            pDoc = wxGetApp().GetDocument();
-    CDlgAccountManagerSignup* pDlgSignup = new CDlgAccountManagerSignup(this);
     CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pDlgSignup);
     wxASSERT(pDlgStatus);
 
     ACCT_MGR_INFO ami;
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size()) {
-        strTitle = pDlgSignup->GetTitle();
+        strTitle = pDlgStatus->GetTitle();
         strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
         pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
         pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
@@ -982,43 +976,65 @@ void CMainFrame::OnToolsManageAccounts(wxCommandEvent& WXUNUSED(event))
     }
 
     if (ID_CHANGE == iAnswer) {
-        strTitle = pDlgSignup->GetTitle();
-        if (!ami.acct_mgr_name.empty()) {
-            strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
-        } else if (!ami.acct_mgr_url.empty()) {
-            strTitle += wxT(" - ") + wxString(ami.acct_mgr_url.c_str());
-        }
-        pDlgSignup->SetTitle(strTitle);
-        pDlgSignup->m_strAcctManagerURL = ami.acct_mgr_url.c_str();
-        pDlgSignup->m_strAcctManagerUsername = ami.login_name.c_str();
-        pDlgSignup->m_strAcctManagerPassword = ami.password.c_str();
-        iAnswer = pDlgSignup->ShowModal();
-        if (wxID_OK == iAnswer) {
-            ami.acct_mgr_url = pDlgSignup->m_strAcctManagerURL;
-            ami.login_name = pDlgSignup->m_strAcctManagerUsername.c_str();
-            ami.password = pDlgSignup->m_strAcctManagerPassword.c_str();
-        }
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
+
+        CWizAttachAccountManager* pWizard = new CWizAttachAccountManager(this);
+
+        pWizard->Run();
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+
+        FireRefreshView();
     }
 
-    if (wxID_CANCEL != iAnswer) {
-        pDoc->rpc.acct_mgr_rpc(
-            ami.acct_mgr_url.c_str(),
-            ami.login_name.c_str(),
-            ami.password.c_str()
-        );
-    }
-
-    if (pDlgSignup)
-        pDlgSignup->Destroy();
     if (pDlgStatus)
         pDlgStatus->Destroy();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsManageAccounts - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function End"));
 }
 
 
-void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsOptions - Function Begin"));
+void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function Begin"));
+
+    UpdateStatusText(_("Attaching to project..."));
+
+    m_pRefreshStateTimer->Stop();
+    m_pFrameRenderTimer->Stop();
+    m_pFrameListPanelRenderTimer->Stop();
+    m_pDocumentPollTimer->Stop();
+
+    CWizAttachProject* pWizard = new CWizAttachProject(this);
+
+    pWizard->Run();
+
+    if (pWizard)
+        pWizard->Destroy();
+
+    m_pRefreshStateTimer->Start();
+    m_pFrameRenderTimer->Start();
+    m_pFrameListPanelRenderTimer->Start();
+    m_pDocumentPollTimer->Start();
+
+    UpdateStatusText(wxT(""));
+
+    FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function End"));
+}
+
+
+void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnOptionsOptions - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CDlgOptions*   pDlg = new CDlgOptions(this);
@@ -1129,7 +1145,7 @@ void CMainFrame::OnToolsOptions(wxCommandEvent& WXUNUSED(event)) {
     if (pDlg)
         pDlg->Destroy();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsOptions - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnOptionsOptions - Function End"));
 }
 
 

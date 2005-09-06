@@ -372,6 +372,9 @@
 				RelativePath="..\clientgui\ViewWork.cpp">
 			</File>
 			<File
+				RelativePath="..\clientgui\WizAttachAccountManager.cpp">
+			</File>
+			<File
 				RelativePath="..\clientgui\WizAttachProject.cpp">
 			</File>
 		</Filter>
@@ -516,6 +519,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\ViewWork.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\WizAttachAccountManager.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\WizAttachProject.h">

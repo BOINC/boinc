@@ -59,15 +59,16 @@ public:
 
     ~CMainFrame(void);
 
-    void OnHide( wxCommandEvent& event );
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
     void OnRunBenchmarks( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
-    void OnToolsManageAccounts( wxCommandEvent& event );
-    void OnToolsOptions( wxCommandEvent& event );
+    void OnProjectsAttachToAccountManager( wxCommandEvent& event );
+    void OnProjectsAttachToProject( wxCommandEvent& event );
+
+    void OnOptionsOptions( wxCommandEvent& event );
 
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINCManager( wxCommandEvent& event );

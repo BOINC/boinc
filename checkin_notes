@@ -11383,18 +11383,23 @@ Janus  5 Sept 2005
             db_forum.inc
             text_transform.inc
 
-Rom    2 Sept 2005
+Rom    6 Sept 2005
     - Fix crashing bug on Linux startup.
     - Fix crashing bug on Linux during shutdown.  When a feature may or may not
         be available on a platform use the wxWidget define for that feature instead
         of platform defines. Like taskbar icons and clipboard functionality.
+    - As part of the Account Manager redesign, a new wizard is being added.
+    - Adjust menus and menu items.
 
     clientgui/
+        BOINCGUI.pjd
         BOINCBaseView.cpp, .h
-        MainFrame.cpp
+        Events.h
+        MainFrame.cpp, .h
         ViewMessages.cpp
-        ViewProjects.cpp
+        ViewProjects.cpp, .h
         ViewResources.cpp
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+        WizAttachAccountManager.cpp, .h

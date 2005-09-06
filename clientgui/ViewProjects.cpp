@@ -53,7 +53,6 @@
 #define BTN_NOWORK       3
 #define BTN_RESET        4
 #define BTN_DETACH       5
-#define BTN_ATTACH       6
 
 
 CProject::CProject() {
@@ -80,7 +79,6 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_NONEWWORK, CViewProjects::OnProjectNoNewWork)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
-    EVT_BUTTON(ID_TASK_PROJECT_ATTACH, CViewProjects::OnProjectAttach)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
@@ -156,16 +154,6 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
         ID_TASK_PROJECT_DETACH 
     );
     pGroup->m_Tasks.push_back( pItem );
-
-	pItem = new CTaskItem(
-        _("Attach to new project"),
-        _("Attach this computer to a BOINC project.  "
-          "You'll need a project URL and account key "
-          "(visit the project's web site to get these)."),
-        ID_TASK_PROJECT_ATTACH 
-    );
-    pGroup->m_Tasks.push_back( pItem );
-
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
@@ -404,52 +392,6 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
-void CViewProjects::OnProjectAttach( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function Begin"));
-
-    wxInt32  iAnswer        = 0; 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-    wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
-
-    pFrame->UpdateStatusText(_("Attaching to project..."));
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function Begin"));
-
-    pFrame->m_pRefreshStateTimer->Stop();
-    pFrame->m_pFrameRenderTimer->Stop();
-    pFrame->m_pFrameListPanelRenderTimer->Stop();
-    pFrame->m_pDocumentPollTimer->Stop();
-
-    CWizAttachProject* pWizard = new CWizAttachProject(this);
-
-    pWizard->Run();
-
-    if (pWizard)
-        pWizard->Destroy();
-
-    pFrame->m_pRefreshStateTimer->Start();
-    pFrame->m_pFrameRenderTimer->Start();
-    pFrame->m_pFrameListPanelRenderTimer->Start();
-    pFrame->m_pDocumentPollTimer->Start();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnDebugAttachProject - Function End"));
-
-    pFrame->UpdateStatusText(wxT(""));
-
-    UpdateSelection();
-    pFrame->FireRefreshView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectAttach - Function End"));
-}
-
-
 void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function Begin"));
 
@@ -657,11 +599,9 @@ void CViewProjects::UpdateSelection() {
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ATTACH]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE_ALL]);
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ATTACH]);
     }
 
     // Update the websites list

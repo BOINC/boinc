@@ -29,7 +29,6 @@
 #define ID_FRAMETASKRENDERTIMER                 6005
 #define ID_FRAMELISTRENDERTIMER                 6006
 #define ID_DOCUMENTPOLLTIMER                    6007
-#define ID_FILEHIDE                             6008
 #define ID_FILEACTIVITYRUNALWAYS                6009
 #define ID_FILEACTIVITYRUNBASEDONPREPERENCES    6010
 #define ID_FILEACTIVITYSUSPEND                  6011
@@ -38,9 +37,9 @@
 #define ID_FILENETWORKSUSPEND                   6014
 #define ID_FILERUNBENCHMARKS                    6015
 #define ID_FILESELECTCOMPUTER                   6016
-#define ID_TOOLSMANAGEACCOUNTS                  6017
-#define ID_TOOLSOPTIONS                         6018
-#define ID_DEBUGATTACHPROJECT                   6019
+#define ID_PROJECTSATTACHACCOUNTMANAGER         6017
+#define ID_PROJECTSATTACHPROJECT                6018
+#define ID_OPTIONSOPTIONS                       6019
 #define ID_HELPBOINC                            6020
 #define ID_HELPBOINCMANAGER                     6021
 #define ID_TB_ACTIVITYRUNALWAYS                 6022
@@ -71,7 +70,6 @@
 #define ID_TASK_PROJECT_ALLOWNEWWORK            9005
 #define ID_TASK_PROJECT_RESET                   9006
 #define ID_TASK_PROJECT_DETACH                  9007
-#define ID_TASK_PROJECT_ATTACH                  9008
 #define ID_TASK_PROJECT_WEB_PROJDEF_MIN         9100
 #define ID_TASK_PROJECT_WEB_PROJDEF_MAX         9150
 #define ID_TASK_WORK_SUSPEND                    9200

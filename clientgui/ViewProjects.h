@@ -63,7 +63,6 @@ public:
     void                    OnProjectNoNewWork( wxCommandEvent& event );
     void                    OnProjectReset( wxCommandEvent& event );
     void                    OnProjectDetach( wxCommandEvent& event );
-    void                    OnProjectAttach( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
 
