@@ -1,3 +1,14 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-09-06 06:37+0100\n"
+"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 ##########################################
 # Language: Polski
 # FileID  : $Id$
@@ -7,17 +18,17 @@
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
-
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
-msgstr "ISO-8859-2"
+msgstr "UTF-8"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Polski"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
-
+msgstr "Polish"
 
 #########################################
 # Apps page (apps.php)
@@ -26,11 +37,7 @@ msgid "APPS_TITLE"
 msgstr "Aplikacje"
 
 msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT obecnie zawiera nastêpuj¹ce aplikacje. "
-"Uczestnicz¹c w $PROJECT twój komputer otrzyma pracê "
-"od 1 lub wiêcej z tych aplikacji. "
-"Pobrana zostanie bie¿¹ca wersja danej aplikacji. Stanie siê to "
-"automatycznie, nie musisz siê o nic martwiæ. "
+msgstr "$PROJECT obecnie zawiera nastêpuj¹ce aplikacje. Uczestnicz¹c w $PROJECT twój komputer otrzyma pracê od 1 lub wiêcej z tych aplikacji. Pobrana zostanie bie¿¹ca wersja danej aplikacji. Stanie siê to automatycznie, nie musisz siê o nic martwiæ. "
 
 msgid "APPS_PLATFORM"
 msgstr "Platforma"
@@ -51,92 +58,58 @@ msgid "RULES_ONLY_AUTH"
 msgstr "Uruchamiaj $PROJECT wy³¹cznie na komputerach autoryzowanych. "
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Uruchamiaj $PROJECT tylko na komputerach, które s¹ twoj¹ "
-"w³asnoœci¹ lub do u¿ycia których masz zgodê w³aœciciela. "
-"Niektóre firmy i szko³y maj¹ zasady zabraniaj¹ce wykorzystywania ich "
-"maszyn do projektów takich jak $PROJECT"
+msgstr "Uruchamiaj $PROJECT tylko na komputerach, które s¹ twoj¹ w³asnoœci¹ lub do u¿ycia których masz zgodê w³aœciciela. Niektóre firmy i szko³y maj¹ zasady zabraniaj¹ce wykorzystywania ich maszyn do projektów takich jak $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
 msgstr "Jak $PROJECT wykorzysta twój komputer"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Gdy uruchomisz $PROJECT na swoim komputerze, "
-"bêdzie on wykorzystywa³ czêœæ mocy jego CPU, przestrzeni dysku i przepustowoœci ³¹cza. "
-"Mo¿esz jednak regulowaæ, ile zasobów przeznaczyæ na $PROJECT"
-"i kiedy maj¹ byæ one udostêpniane. " 
+msgstr "Gdy uruchomisz $PROJECT na swoim komputerze, bêdzie on wykorzystywa³ czêœæ mocy jego CPU, przestrzeni dysku i przepustowoœci ³¹cza. Mo¿esz jednak regulowaæ, ile zasobów przeznaczyæ na $PROJECT"
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Praca wykonywana przez twój komputer s³u¿y celom "
-"$PROJECT, które opisane s¹ na tej stronie. "
-"Aplikacje mog¹ zmieniaæ siê od czasu do czasu."
+msgstr "Praca wykonywana przez twój komputer s³u¿y celom $PROJECT, które opisane s¹ na tej stronie. Aplikacje mog¹ zmieniaæ siê od czasu do czasu."
 
 msgid "RULES_PRIVACY"
 msgstr "Polityka prywatnoœci"
 
 msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Twoje konto na $PROJECT jest identyfikowane nazw¹, któr¹ sam okreœlasz. "
-"Mo¿e byæ ona wyœwietlona na stronie WWW $PROJECT wraz z podsumowaniem pracy, "
-"któr¹ dla projektu wykona³ twój komputer. Jeœli jednak chcesz pozostaæ anonimowy, "
-"mo¿esz wybraæ nazwê, która nie zdradzi twej to¿samoœci."
+msgstr "Twoje konto na $PROJECT jest identyfikowane nazw¹, któr¹ sam okreœlasz. Mo¿e byæ ona wyœwietlona na stronie WWW $PROJECT wraz z podsumowaniem pracy, któr¹ dla projektu wykona³ twój komputer. Jeœli jednak chcesz pozostaæ anonimowy, mo¿esz wybraæ nazwê, która nie zdradzi twej to¿samoœci."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Gdy bierzesz udzia³ w $PROJECT, informacje o twym komputerze, "
-"jak rodzaj CPU, iloœæ pamiêci itp., bêd¹ zapisane przez $PROJECT i pos³u¿¹ okreœleniu, "
-"jakiego rodzaju zadania ci przydzielaæ. Dane te bêd¹ te¿ wyœwietlone na "
-"stronie $PROJECT "
-"Nie bêdzie zaœ wyœwietlone nic, co umo¿liwi³oby rozpoznanie lokacji twojego "
-"komputera (np. nazwa domeny czy adres sieciowy)."
+msgstr "Gdy bierzesz udzia³ w $PROJECT, informacje o twym komputerze, jak rodzaj CPU, iloœæ pamiêci itp., bêd¹ zapisane przez $PROJECT i pos³u¿¹ okreœleniu, jakiego rodzaju zadania ci przydzielaæ. Dane te bêd¹ te¿ wyœwietlone na stronie $PROJECT Nie bêdzie zaœ wyœwietlone nic, co umo¿liwi³oby rozpoznanie lokacji twojego komputera (np. nazwa domeny czy adres sieciowy)."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "By uczestniczyæ w $PROJECT, musisz podaæ adres, na który ma przyjœæ e-mail. "
-"Nie bêdzie on ujawniony na stronie $PROJECT ani u¿yczany jakimkolwiek organizacjom. "
-"$PROJECT mo¿e przysy³aæ ci okresowo listy z nowinami, mo¿esz jednak z nich zrezygnowaæ w ka¿dej chwili."
+msgstr "By uczestniczyæ w $PROJECT, musisz podaæ adres, na który ma przyjœæ e-mail. Nie bêdzie on ujawniony na stronie $PROJECT ani u¿yczany jakimkolwiek organizacjom. $PROJECT mo¿e przysy³aæ ci okresowo listy z nowinami, mo¿esz jednak z nich zrezygnowaæ w ka¿dej chwili."
 
 msgid "RULES_SAFE"
 msgstr "Czy uruchamianie $PROJECT jest bezpieczne?"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "Za ka¿dym razem, gdy pobierasz z sieci program, ryzykujesz: "
-"mo¿e on zawieraæ niebezpieczne b³êdy, "
-"albo serwer, z którego pobierasz, mo¿e zostaæ zhakowany. "
-"W $PROJECT staramy siê sprowadziæ to ryzyko do minimum. "
-"Dok³adnie przetestowaliœmy aplikacje. " 
-"Nasze serwery zabezpieczamy firewallami i konfigurujemy w standardzie wysokich zabezpieczeñ. "
-"By zapewniæ spójnoœæ œci¹ganych aplikacji, wszystkie pliki wykonywalne s¹ cyfrowo "
-"podpisane na bezpiecznym, nie pod³¹czonym do Internetu komputerze."
+msgstr "Za ka¿dym razem, gdy pobierasz z sieci program, ryzykujesz: mo¿e on zawieraæ niebezpieczne b³êdy, albo serwer, z którego pobierasz, mo¿e zostaæ zhakowany. W $PROJECT staramy siê sprowadziæ to ryzyko do minimum. "
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "Aplikacje uruchamiane przez $PROJECT mog¹ powodowaæ przegrzanie niektórych komputerów. "
-"W takim przypadku zatrzymaj $PROJECT lub u¿yj %s , co ogranicza wykorzystanie procesora."
+msgstr "Aplikacje uruchamiane przez $PROJECT mog¹ powodowaæ przegrzanie niektórych komputerów. W takim przypadku zatrzymaj $PROJECT lub u¿yj %s , co ogranicza wykorzystanie procesora."
 
 msgid "RULES_UTILITY_PROGRAM"
 msgstr "utility program"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT stworzy³ %s. BOINC napisano w University of "
-"California."
+msgstr "$PROJECT stworzy³ %s. BOINC napisano w University of California."
 
 msgid "RULES_LIABILITY"
 msgstr "Odpowiedzialnoœæ"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT oraz %s nie bior¹ odpowiedzialnoœci za uszkodzenie twojego komputera, "
-"utratê danych czy inne wypadki, które mog¹ wyst¹piæ jako skutek uczestnictwa "
-"w $PROJECT."
+msgstr "$PROJECT oraz %s nie bior¹ odpowiedzialnoœci za uszkodzenie twojego komputera, utratê danych czy inne wypadki, które mog¹ wyst¹piæ jako skutek uczestnictwa w $PROJECT."
 
 msgid "RULES_OTHER"
 msgstr "Inne projekty BOINC"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Inne projekty poza $PROJECT tak¿e u¿ywaj¹ BOINC. Rozwa¿ uczestnictwo "
-"w projektach innych ni¿ $PROJECT. W ten sposób twój komputer mo¿e "
-"wykonywaæ po¿yteczn¹ pracê nawet jeœli $PROJECT nie ma dla niego w danej chwili "
-"¿adnych zadañ."
+msgstr "Inne projekty poza $PROJECT tak¿e u¿ywaj¹ BOINC. Rozwa¿ uczestnictwo w projektach innych ni¿ $PROJECT. W ten sposób twój komputer mo¿e wykonywaæ po¿yteczn¹ pracê nawet jeœli $PROJECT nie ma dla niego w danej chwili ¿adnych zadañ."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "Inne projekty nie maj¹ zwi¹zku z $PROJECT, nie mo¿emy wiêc odpowiadaæ "
-"za ich jakoœæ zabezpieczeñ czy naturê prowadzonych badañ. Uczestniczysz w nich "
-"na w³asne ryzyko."
+msgstr "Inne projekty nie maj¹ zwi¹zku z $PROJECT, nie mo¿emy wiêc odpowiadaæ za ich jakoœæ zabezpieczeñ czy naturê prowadzonych badañ. Uczestniczysz w nich na w³asne ryzyko."
 
 #########################################
 # Create account form (create_account_form.php)
@@ -148,8 +121,7 @@ msgid "CREATE_AC_READ_RULES"
 msgstr "Przeczytaj %s zanim stworzysz konto."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Jeœli ju¿ otrzyma³eœ klucz do konta, nie wysy³aj tego formularza, "
-"tylko %s."
+msgstr "Jeœli ju¿ otrzyma³eœ klucz do konta, nie wysy³aj tego formularza, tylko %s."
 
 msgid "CREATE_AC_NAME"
 msgstr "Nazwa"
@@ -179,8 +151,7 @@ msgid "CREATE_AC_DISABLED"
 msgstr "Tworzenie konta wy³¹czone"
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "W tej chwili mo¿liwoœæ stworzenia konta do $PROJECT jest zawieszona. "
-"Proszê spróbowaæ póŸniej."
+msgstr "W tej chwili mo¿liwoœæ stworzenia konta do $PROJECT jest zawieszona. Proszê spróbowaæ póŸniej."
 
 msgid "CREATE_AC_TEAM"
 msgstr "To konto nale¿eæ bêdzie do zespo³u %s i zyska ustawienia okreœlone przez za³o¿yciela tego zespo³u."
@@ -245,12 +216,10 @@ msgid "AC_DONE_COMPLETE"
 msgstr "Ustawianie twojego konta zakoñczone."
 
 msgid "AC_DONE_BOINC"
-msgstr "Teraz musisz pobraæ i zainstalowaæ oprogramowanie BOINC i powiedzieæ komputerowi(om), "
-"by u¿ywa³(y) tego konta."
+msgstr "Teraz musisz pobraæ i zainstalowaæ oprogramowanie BOINC i powiedzieæ komputerowi(om), by u¿ywa³(y) tego konta."
 
 msgid "AC_DONE_URL"
-msgstr "Przy pierwszym uruchomieniu BOINC zapyta ciê o <b>URL projektu</b> oraz "
-"<b>klucz konta</b>."
+msgstr "Przy pierwszym uruchomieniu BOINC zapyta ciê o <b>URL projektu</b> oraz <b>klucz konta</b>."
 
 msgid "AC_DONE_COPYPASTE"
 msgstr "Skopiuj i wklej je st¹d:"
@@ -263,7 +232,6 @@ msgstr "pobieranie oprogramowania BOINC"
 
 msgid "AC_DONE_THANKS"
 msgstr "Dziêkujemy za uczestnictwo w $PROJECT"
-
 
 #########################################
 # Non-first Account setup page (account_setup_nonfirst.php)
@@ -281,16 +249,13 @@ msgid "AC_DONE_WIN"
 msgstr "U¿ytkownicy Windowsa:"
 
 msgid "AC_DONE_WIN_TEXT"
-msgstr "Otwórz okno aplikacji BOINC, klikaj¹c 2x na ikonê BOINC na pasku. "
-"Wybierz 'Uczestnictwo w projekcie' w Ustawieniach. Program zapyta o URL projektu "
-"oraz klucz konta."
+msgstr "Otwórz okno aplikacji BOINC, klikaj¹c 2x na ikonê BOINC na pasku. Wybierz 'Uczestnictwo w projekcie' w Ustawieniach. Program zapyta o URL projektu oraz klucz konta."
 
 msgid "AC_DONE_UNIX"
 msgstr "U¿ytkownicy Maca, Unixa i Linuxa:"
 
 msgid "AC_DONE_UNIX_TEXT"
-msgstr "Wy³¹cz klienta BOINC. Nastêpnie uruchom go z opcj¹ -attach_project."
-"Program spyta o URL projektu i klucz konta."
+msgstr "Wy³¹cz klienta BOINC. Nastêpnie uruchom go z opcj¹ -attach_project.Program spyta o URL projektu i klucz konta."
 
 msgid "AC_DONE_ANYCASE"
 msgstr "Niezale¿nie od wszystkiego skopiuj i wklej nastêpuj¹ce dane:"
@@ -301,19 +266,15 @@ msgstr "To dope³nia instalacji $PROJECT."
 #########################################
 # Forum sample index page
 #########################################
-
 msgid "FORUM_TITLE"
 msgstr "Tablice og³oszeñ $PROJECT"
-
 
 #########################################
 # Different strange places:
 #########################################
-
 # account_created.php
 msgid "AC_CREATED_TITLE"
 msgstr "Skonfiguruj konto"
-
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -324,7 +285,6 @@ msgstr "Ewentualnie"
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
-
 msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Najlepsi uczestnicy"
 
@@ -348,3 +308,4 @@ msgstr "Uczestniczy od"
 
 msgid "TOP_TEAMS_TITLE"
 msgstr "Najlepsze %s zespo³ów"
+
