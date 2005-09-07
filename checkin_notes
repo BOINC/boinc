@@ -11468,3 +11468,21 @@ Charlie 7 Sept 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Janus  7 Sept 2005
+    - Make the website language compiler more robust by writing to temporary
+      files and rename those files when done.
+    - Add translation ability for the top teams page
+    - Fix bug where "Next 20" would show on top team/user pages even though
+      there were no more entities to list.
+ 
+    html/
+        inc/
+            team.inc
+            translator.inc
+        user/
+            top_teams.php
+            top_users.php
+        languages/translations/
+            en.po
+
