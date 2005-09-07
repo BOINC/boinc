@@ -19,11 +19,16 @@
 \f3\b0  the new Attach to Prolect Wizard will not recognize BOINC projects until they have added a new file to their servers.  At the time of this release, only the SETI@home public and alpha servers and the CPlan test server have done this.  To work around this, use an older version of BOINC to attach to other projects, then quit BOINC and run this version.
 \f1\i0 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b \cf0 Troubleshooting tip:
+\f1\b0  The installer writes a file /Library/Receipts/BOINC.pkg.  If the installer refuses to let you install, trash this file and try again.\
+\
 BOINCManager requires Macintosh OS X version 10.3 or greater.\
 \
 Although this installer adds the BOINC screen saver to your system, it does not change your screen saver settings.  To select BOINC as your screen saver, use the Screen Saver or Screen Effects panel in the System Preferences (accessible from the Apple menu).  \
 \
-It may take a minute after the screen saver starts before the science application graphics appear.  At the time of this release, SETI@home is the only BOINC project which has implemented screen saver support for the Macintosh.  We expect other BOINC projects to do so soon.\
+It may take a minute after the screen saver starts before the science application graphics appear.  At the time of this release, SETI@home and Einstein@home are the only BOINC projects which have implemented screen saver support for the Macintosh.  We expect other BOINC projects to do so soon.\
 \
 Note: on some versions of the Mac OS, you may not be able to exit the BOINC screen saver by moving the mouse; you may need to press the mouse button or press any key on the keyboard to exit.  \
 \
@@ -38,10 +43,4 @@ All users who log in on the same Macintosh will share one set of BOINC data, ens
 You can move BOINCManager to any folder you wish.  If you do so, you will need to update the information in each user's Startup Items.  In most cases, the BOINC screen saver should still work properly.  If it does not, move BOINCManager back to the Applications folder.\
 \
 The installer sets the "setuid" permission flag for the BOINCManager, which allows it to write to the shared BOINC Data regardless of which user is logged in.  If you copy BOINCManager to your computer without using the installer, some users may not be able to run it properly.\
-\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-
-\f0\b \cf0 Troubleshooting tip:
-\f1\b0 \
-The installer writes a file /Library/Receipts/BOINC.pkg.  If the installer refuses to let you install, trash this file and try again.\
 }
