@@ -11437,3 +11437,10 @@ Charlie 6 Sept 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Bruce 7 Sept 2005
+    - Clarify wording of important message from client to user.
+
+    client/
+        scheduler_op.C
+

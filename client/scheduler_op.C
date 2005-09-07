@@ -231,11 +231,34 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         default: why = "Unknown";
         }
         msg_printf(p, MSG_INFO,  "Reason: %s", why);
-        msg_printf(
-            p, MSG_INFO,
-            "Requesting %.0f seconds of work, returning %d results\n",
-            p->work_request, p->nresults_returned
-        );
+        if (p->work_request != 0.0 && p->nresults_returned != 0) {
+            msg_printf(
+                p, MSG_INFO,
+                (p->work_request >= 1.0) ?
+                "Requesting %.0f seconds of new work, and reporting %d results\n":
+                "Requesting %g seconds of new work, and reporting %d results\n",
+                p->work_request, p->nresults_returned
+            );
+        } else if (p->work_request != 0) {
+            msg_printf(
+                p, MSG_INFO,
+                (p->work_request >= 1.0) ?
+                "Requesting %.0f seconds of new work\n":
+                "Requesting %g seconds of new work\n",
+                p->work_request
+            );
+        } else if (p->nresults_returned != 0) {
+            msg_printf(
+                p, MSG_INFO,
+                "Reporting %d results\n",
+                p->nresults_returned
+            );
+        } else {
+            msg_printf(
+                p, MSG_INFO,
+                "Note: not requesting new work or reporting results\n"
+            );
+        }
     }
 
     get_sched_request_filename(*p, request_file);
