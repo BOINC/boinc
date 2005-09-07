@@ -68,6 +68,15 @@ function parseLanguageInterface($file){
 function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     global $lang_project_default;
 
+    $actual_compdir = $compdir; // Store the actual compile dir, we want to use a temporary addition
+    $randomness = rand(10000,99999)."_"; //Concat some randomness to the temporary dir, we'll rename files later
+    $compdir .=$randomness; // This is to ensure that no problems arise even when the filesystem fails to
+			    //ensure mutual exclusion for compile timer tests. This way a new file will simply
+			    //overwrite the old one instead of garbling it if 2 processes of this compiler runs
+			    //concurrently.
+    //The reason why we are using filename prefixes here is that on some installations PHP isn't allowed
+    //to create and use new directories (due to wrong permissions or SELinux restrictions).
+
     //Touching compile timer
     $fh=fopen($langdir."last_compile_timer","w");
     fwrite($fh, time());
@@ -179,10 +188,22 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
         //debug("$info_dir not found or is not a directory");
     }
 
-
-    
-    
+    //Lastly we will rename the files to their real names (remove the random prefix):
+    if ($dh = opendir($langdir.$actual_compdir)) {                        //If dir exists
+            while (($file = readdir($dh)) !== false) {
+                //read contents
+                if ($file==".." or $file=="." or (substr($file,0,strlen($randomness))!=$randomness)){
+		    // Do nothing
+                } else if (substr($file,-4)==".inc"){
+                    //only files ending in .inc
+		    rename ($langdir.$actual_compdir.$file, $langdir.$actual_compdir.substr($file,strlen($randomness)));
+                }
+            }
+    } else {
+	echo "no compile dir?!";
+    }
 }
+
 
 /***************************
  * Have some of the files changed?
@@ -355,7 +376,7 @@ $PROJECT = PROJECT;
 if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc")){
     require_once($lang_language_dir.$lang_compiled_dir."language_interface.inc");
 
-    //Make a list of languages which the user prefers (by looking at cookies and broser settings)
+    //Make a list of languages which the user prefers (by looking at cookies and browser settings)
     //cookies have highest priority.
 
     if ($_COOKIE['lang']){
