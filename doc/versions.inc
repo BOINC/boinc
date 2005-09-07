@@ -266,11 +266,11 @@ $l443 = array(
     "
 );
 
-$l511 = array(
-    "num"=>"5.1.1",
+$l512 = array(
+    "num"=>"5.1.2",
     "status"=>"Development version",
-    "file"=>"boinc_5.1.1_i686-pc-linux-gnu.sh",
-    "date"=>"30 August 2005",
+    "file"=>"boinc_5.1.2_i686-pc-linux-gnu.sh",
+    "date"=>"7 September 2005",
     "type"=>sea()
 );
 
@@ -321,7 +321,7 @@ $linux = array(
     "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
-        $l511,
+        $l512,
         $l419
     )
 );
