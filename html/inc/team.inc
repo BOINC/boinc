@@ -149,23 +149,23 @@ function require_founder_login($user, $team) {
 
 function team_table_start($sort_by,$type_url) {
     echo "<tr>
-        <th>Rank</th>
-        <th>Name</th>
-        <th>Members</th>
+        <th>".tr(USER_TABLE_RANK)."</th>
+        <th>".tr(USER_TABLE_NAME)."</th>
+        <th>".tr(TEAM_TABLE_MEMBERS)."</th>
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">Recent average credit</a></th>
-            <th>Total credit</th>
+            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tr(USER_TABLE_EXPAVG)."</a></th>
+            <th>".tr(USER_TABLE_TOTAL_CREDIT)."</th>
         ";
     } else {
         echo "
-            <th>Recent average credit</th>
-            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">Total credit</a></th>
+            <th>".tr(USER_TABLE_EXPAVG)."</th>
+            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tr(USER_TABLE_TOTAL_CREDIT)."</a></th>
         ";
     }
     echo "
-        <th>Country</th>
+        <th>".tr(USER_TABLE_COUNTRY)."</th>
         </tr>
     ";
 }
