@@ -56,11 +56,7 @@ class CErrProjectAlreadyAttachedPage;
 class CErrNoInternetConnectionPage;
 class CErrAccountNotFoundPage;
 class CErrAccountAlreadyExistsPage;
-class CErrAccountCreationDisabledPage;
-class CErrProxyInfoPage;
-class CErrProxyHTTPPage;
-class CErrProxySOCKSPage;
-class CErrProxyComplationPage;
+class CErrProxyPage;
 class CErrRefCountPage;
 ////@end forward declarations
 
@@ -111,29 +107,24 @@ class CErrRefCountPage;
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
 #define ID_ERRACCOUNTNOTFOUNDPAGE 10008
 #define ID_ERRACCOUNTALREADYEXISTSPAGE 10051
-#define ID_ERRACCOUNTCREATIONDISABLEDPAGE 10056
-#define ID_ERRPROXYINFOPAGE 10060
-#define ID_ERRPROXYHTTPPAGE 10061
-#define ID_HTTPAUTODETECT 10064
-#define ID_PROXYHTTPSERVERSTATICCTRL 10065
+#define ID_ERRPROXYPAGE 10063
+#define ID_PROXYHTTPSERVERSTATICCTRL 10002
 #define ID_PROXYHTTPSERVERCTRL 10000
-#define ID_PROXYHTTPPORTSTATICCTRL 10070
+#define ID_PROXYHTTPPORTSTATICCTRL 10004
 #define ID_PROXYHTTPPORTCTRL 10001
-#define ID_PROXYHTTPUSERNAMESTATICCTRL 10068
-#define ID_PROXYHTTPUSERNAMECTRL 10066
-#define ID_PROXYHTTPPASSWORDSTATICCTRL 10069
-#define ID_PROXYHTTPPASSWORDCTRL 10067
-#define ID_ERRPROXYSOCKSPAGE 10062
-#define ID_SOCKSAUTODETECT 10006
-#define ID_PROXYSOCKSSERVERSTATICCTRL 10071
-#define ID_PROXYSOCKSSERVERCTRL 10002
-#define ID_PROXYSOCKSPORTSTATICCTRL 10070
-#define ID_PROXYSOCKSPORTCTRL 10001
-#define ID_PROXYSOCKSUSERNAMESTATICCTRL 10072
-#define ID_PROXYSOCKSUSERNAMECTRL 10004
-#define ID_PROXYSOCKSPASSWORDSTATICCTRL 10069
-#define ID_PROXYSOCKSPASSWORDCTRL 10005
-#define ID_ERRPROXYCOMPLETIONPAGE 10063
+#define ID_PROXYHTTPUSERNAMESTATICCTRL 10005
+#define ID_PROXYHTTPUSERNAMECTRL 10006
+#define ID_PROXYHTTPPASSWORDSTATICCTRL 10009
+#define ID_PROXYHTTPPASSWORDCTRL 10010
+#define ID_PROXYHTTPAUTODETECTCTRL 10081
+#define ID_PROXYSOCKSSERVERSTATICCTRL 10012
+#define ID_PROXYSOCKSSERVERCTRL 10013
+#define ID_PROXYSOCKSPORTSTATICCTRL 10014
+#define ID_PROXYSOCKSPORTCTRL 10015
+#define ID_PROXYSOCKSUSERNAMESTATICCTRL 10016
+#define ID_PROXYSOCKSUSERNAMECTRL 10018
+#define ID_PROXYSOCKSPASSWORDSTATICCTRL 10019
+#define ID_PROXYSOCKSPASSWORDCTRL 10021
 #define ID_ERRREFCOUNTPAGE 10075
 ////@end control identifiers
 
@@ -273,11 +264,7 @@ public:
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrAccountNotFoundPage* m_ErrAccountNotFoundPage;
     CErrAccountAlreadyExistsPage* m_ErrAccountAlreadyExistsPage;
-    CErrAccountCreationDisabledPage* m_ErrAccountCreationDisabledPage;
-    CErrProxyInfoPage* m_ErrProxyInfoPage;
-    CErrProxyHTTPPage* m_ErrProxyHTTPPage;
-    CErrProxySOCKSPage* m_ErrProxySOCKSPage;
-    CErrProxyComplationPage* m_ErrProxyCompletionPage;
+    CErrProxyPage* m_ErrProxyPage;
     CErrRefCountPage* m_ErrRefCountPage;
 ////@end CWizAttachProject member variables
 
@@ -1288,19 +1275,19 @@ public:
 };
 
 /*!
- * CErrAccountCreationDisabledPage class declaration
+ * CErrProxyPage class declaration
  */
 
-class CErrAccountCreationDisabledPage: public wxWizardPage
+class CErrProxyPage: public wxWizardPage
 {    
-    DECLARE_DYNAMIC_CLASS( CErrAccountCreationDisabledPage )
+    DECLARE_DYNAMIC_CLASS( CErrProxyPage )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CErrAccountCreationDisabledPage( );
+    CErrProxyPage( );
 
-    CErrAccountCreationDisabledPage( wxWizard* parent );
+    CErrProxyPage( wxWizard* parent );
 
     /// Creation
     bool Create( wxWizard* parent );
@@ -1308,126 +1295,20 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrAccountCreationDisabledPage event handler declarations
+////@begin CErrProxyPage event handler declarations
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTCREATIONDISABLEDPAGE
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE
     void OnPageChanged( wxWizardEvent& event );
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTCREATIONDISABLEDPAGE
+    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE
+    void OnPageChanging( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE
     void OnCancel( wxWizardEvent& event );
 
-////@end CErrAccountCreationDisabledPage event handler declarations
+////@end CErrProxyPage event handler declarations
 
-////@begin CErrAccountCreationDisabledPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrAccountCreationDisabledPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrAccountCreationDisabledPage member variables
-////@end CErrAccountCreationDisabledPage member variables
-};
-
-/*!
- * CErrProxyInfoPage class declaration
- */
-
-class CErrProxyInfoPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CErrProxyInfoPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CErrProxyInfoPage( );
-
-    CErrProxyInfoPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CErrProxyInfoPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
-    void OnCancel( wxWizardEvent& event );
-
-////@end CErrProxyInfoPage event handler declarations
-
-////@begin CErrProxyInfoPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProxyInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProxyInfoPage member variables
-////@end CErrProxyInfoPage member variables
-};
-
-/*!
- * CErrProxyHTTPPage class declaration
- */
-
-class CErrProxyHTTPPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CErrProxyHTTPPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CErrProxyHTTPPage( );
-
-    CErrProxyHTTPPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CErrProxyHTTPPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE
-    void OnCancel( wxWizardEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT
-    void OnAutodetectClick( wxCommandEvent& event );
-
-////@end CErrProxyHTTPPage event handler declarations
-
-////@begin CErrProxyHTTPPage member function declarations
+////@begin CErrProxyPage member function declarations
 
     /// Gets the previous page.
     virtual wxWizardPage* GetPrev() const;
@@ -1447,74 +1328,6 @@ public:
     wxString GetProxyHTTPPassword() const { return m_strProxyHTTPPassword ; }
     void SetProxyHTTPPassword(wxString value) { m_strProxyHTTPPassword = value ; }
 
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProxyHTTPPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProxyHTTPPage member variables
-    wxStaticText* m_ProxyHTTPServerStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPServerCtrl;
-    wxStaticText* m_ProxyHTTPPortStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPPortCtrl;
-    wxStaticText* m_ProxyHTTPUsernameStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPUsernameCtrl;
-    wxStaticText* m_ProxyHTTPPasswordStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPPasswordCtrl;
-    wxString m_strProxyHTTPServer;
-    wxString m_strProxyHTTPPort;
-    wxString m_strProxyHTTPUsername;
-    wxString m_strProxyHTTPPassword;
-////@end CErrProxyHTTPPage member variables
-};
-
-/*!
- * CErrProxySOCKSPage class declaration
- */
-
-class CErrProxySOCKSPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CErrProxySOCKSPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CErrProxySOCKSPage( );
-
-    CErrProxySOCKSPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CErrProxySOCKSPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE
-    void OnCancel( wxWizardEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SOCKSAUTODETECT
-    void OnAutodetectClick( wxCommandEvent& event );
-
-////@end CErrProxySOCKSPage event handler declarations
-
-////@begin CErrProxySOCKSPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
     wxString GetProxySOCKSServer() const { return m_strProxySOCKSServer ; }
     void SetProxySOCKSServer(wxString value) { m_strProxySOCKSServer = value ; }
 
@@ -1532,12 +1345,21 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end CErrProxySOCKSPage member function declarations
+////@end CErrProxyPage member function declarations
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CErrProxySOCKSPage member variables
+////@begin CErrProxyPage member variables
+    wxStaticText* m_ProxyHTTPServerStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPServerCtrl;
+    wxStaticText* m_ProxyHTTPPortStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPPortCtrl;
+    wxStaticText* m_ProxyHTTPUsernameStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPUsernameCtrl;
+    wxStaticText* m_ProxyHTTPPasswordStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPPasswordCtrl;
+    wxButton* m_ProxyHTTPAutodetectCtrl;
     wxStaticText* m_ProxySOCKSServerStaticCtrl;
     wxTextCtrl* m_ProxySOCKSServerCtrl;
     wxStaticText* m_ProxySOCKSPortStaticCtrl;
@@ -1546,64 +1368,15 @@ public:
     wxTextCtrl* m_ProxySOCKSUsernameCtrl;
     wxStaticText* m_ProxySOCKSPasswordStaticCtrl;
     wxTextCtrl* m_ProxySOCKSPasswordCtrl;
+    wxString m_strProxyHTTPServer;
+    wxString m_strProxyHTTPPort;
+    wxString m_strProxyHTTPUsername;
+    wxString m_strProxyHTTPPassword;
     wxString m_strProxySOCKSServer;
     wxString m_strProxySOCKSPort;
     wxString m_strProxySOCKSUsername;
     wxString m_strProxySOCKSPassword;
-////@end CErrProxySOCKSPage member variables
-};
-
-/*!
- * CErrProxyComplationPage class declaration
- */
-
-class CErrProxyComplationPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CErrProxyComplationPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CErrProxyComplationPage( );
-
-    CErrProxyComplationPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CErrProxyComplationPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE
-    void OnCancel( wxWizardEvent& event );
-
-////@end CErrProxyComplationPage event handler declarations
-
-////@begin CErrProxyComplationPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProxyComplationPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProxyComplationPage member variables
-////@end CErrProxyComplationPage member variables
+////@end CErrProxyPage member variables
 };
 
 /*!

@@ -1102,8 +1102,8 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         // General Tab
         if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
             ShowAlert(
-                _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
                 _("Language Selection..."),
+                _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
                 wxICON_INFORMATION
            );
         }

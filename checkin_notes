@@ -11444,3 +11444,17 @@ Bruce 7 Sept 2005
     client/
         scheduler_op.C
 
+Rom    7 Sept 2005
+    - Fix a bug in the language change notification dialog where the title and
+        message were reversed from the way they were supposed to be.
+    - Mofify the proxy page for the wizard by shrinking it down to one page.
+    - Fix the proxy page so that it correctly loads and save proxy information
+        when you go to the page.
+    - When account creation is turned off for a project go to the account info
+        page, but disable account creation.  This will allow attaching to a
+        project with an existing account.
+
+    clientgui/
+        BOINCGUI.pjd
+        MainFrame.cpp
+        WizAttachProject.cpp, .h
