@@ -11490,3 +11490,10 @@ Rom    7 Sept 2005 (staging)
     - Tag for 5.1.2 release, all platforms
       boinc_core_release_5.1.2
 
+Bruce 7 Sept 2005
+    - From Reinhard: make openssl and curl detection independent; useful for
+      building server backend components.
+    configure.ac
+    m4/
+        check_ssl.m4
+

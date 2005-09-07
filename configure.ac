@@ -255,7 +255,10 @@ dnl m4/boinc_getsockopt.m4
 BOINC_GETSOCKOPT_TYPE
 
 dnl ---------- SSL (m4/check_ssl.m4)
-##CHECK_SSL
+CHECK_SSL
+if test "${found_ssl}" = "yes"; then
+   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
+fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 
@@ -279,16 +282,19 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 ================================================================================
 	])
    else
-      if test "${enable_debug}" = yes; then
-         echo "LIBCURL = ${LIBCURL}"
-	 echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
-      fi
-
       ## add libcurl et al. to the list of statically linked libs
       STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv"
       CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
       CURL_LIB_PATHS=`echo $LIBCURL | sed 's/-l[[^ ]]*//g'`
-      LDFLAGS="$LDFLAGS $CURL_LIB_PATHS"
+      LDFLAGS="$CURL_LIB_PATHS $LDFLAGS"
+
+      if test "${enable_debug}" = yes; then
+         echo "LIBCURL = ${LIBCURL}"
+	 echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
+	 echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
+	 echo "LDFLAGS = ${LDFLAGS}"
+      fi
+
    fi	
 
 fi
