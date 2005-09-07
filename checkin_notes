@@ -11486,3 +11486,7 @@ Janus  7 Sept 2005
         languages/translations/
             en.po
 
+Rom    7 Sept 2005 (staging)
+    - Tag for 5.1.2 release, all platforms
+      boinc_core_release_5.1.2
+
