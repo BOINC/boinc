@@ -11458,3 +11458,13 @@ Rom    7 Sept 2005
         BOINCGUI.pjd
         MainFrame.cpp
         WizAttachProject.cpp, .h
+
+
+Charlie 7 Sept 2005
+    - Mac: Add step to XCode project which automatically unstuffs BOINCSaver.nib.sit 
+      if needed.
+    - Add new source files to XCode project.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

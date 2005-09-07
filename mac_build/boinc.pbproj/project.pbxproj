@@ -322,6 +322,7 @@
 				DD73E3B708A0809800656EB1,
 				DD73E3B808A0809800656EB1,
 				DD73E3BF08A0837800656EB1,
+				DDCDB2C708CEE14800E4F573,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2937,6 +2938,8 @@
 				DD81C47007C5D2BF0098A04D,
 				DD9B6B190890EDCA003A8E83,
 				DD9B6B180890EDCA003A8E83,
+				DDCDB2C508CEE14800E4F573,
+				DDCDB2C608CEE14800E4F573,
 				DD81C43C07C5D2240098A04D,
 			);
 			isa = PBXGroup;
@@ -3370,6 +3373,7 @@
 		};
 		DD96AFF80811075000A06F22 = {
 			buildPhases = (
+				DDCDB29708CEDCE400E4F573,
 				DD96AFF50811075000A06F22,
 				DD96AFF60811075000A06F22,
 				DD96AFF70811075000A06F22,
@@ -3718,6 +3722,51 @@
 			isa = PBXTargetDependency;
 			target = DD095EF007D87AE900362260;
 			targetProxy = DDBD681607FA830E0082C20D;
+		};
+		DDCDB29708CEDCE400E4F573 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -dfR \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"\nopen \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 2\ntouch \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"";
+		};
+		DDCDB2C508CEE14800E4F573 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = WizAttachAccountManager.cpp;
+			path = ../clientgui/WizAttachAccountManager.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDCDB2C608CEE14800E4F573 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WizAttachAccountManager.h;
+			path = ../clientgui/WizAttachAccountManager.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDCDB2C708CEE14800E4F573 = {
+			fileRef = DDCDB2C508CEE14800E4F573;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDCDB2C808CEE14800E4F573 = {
+			fileRef = DDCDB2C608CEE14800E4F573;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DDD74D8407CF482E0065AC9D = {
 			buildActionMask = 2147483647;
@@ -4168,6 +4217,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
+				DDCDB2C808CEE14800E4F573,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
