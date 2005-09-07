@@ -354,3 +354,7 @@ msgstr "Participant since"
 
 msgid "TOP_TEAMS_TITLE"
 msgstr "Top %s teams"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Members"
+
