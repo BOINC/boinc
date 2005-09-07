@@ -110,11 +110,11 @@ $w445= array(
     "
 );
 
-$w511= array(
-    "num"=>"5.1.1",
+$w512= array(
+    "num"=>"5.1.2",
     "status"=>"Development version",
-    "file"=>"boinc_5.1.1_windows_intelx86.exe",
-    "date"=>"30 August 2005",
+    "file"=>"boinc_5.1.2_windows_intelx86.exe",
+    "date"=>"7 September 2005",
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
@@ -302,7 +302,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w511,
+        $w512,
         $w419
     )
 );
