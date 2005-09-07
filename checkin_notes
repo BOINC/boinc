@@ -11424,7 +11424,9 @@ Charlie 6 Sept 2005
     - Mac: Bring graphics application to front whenever user presses "Show 
       Graphics" button, even if it was already open in background.  This provides 
       a way to bring hidden graphics to front without an icon in the Dock.
-       
+    - Mac: Fix bug in XCode project's scripts which caused errors if there was a 
+      space in the path to the project.
+      
       api/
         boinc_api.h
         macglutfix.m
@@ -11432,3 +11434,6 @@ Charlie 6 Sept 2005
         mac_icon.C
     client/
         app_start.C
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
