@@ -85,9 +85,10 @@ if ($offset > 0) {
     echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Previous ".ITEMS_PER_PAGE."</a> | ";
 
 }
-$new_offset = $offset + ITEMS_PER_PAGE;
-echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".ITEMS_PER_PAGE."</a>";
-
+if ($o==ITEMS_PER_PAGE){ //If we aren't on the last page
+    $new_offset = $offset + ITEMS_PER_PAGE;
+    echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".ITEMS_PER_PAGE."</a>";
+}
 page_tail();
 
 
