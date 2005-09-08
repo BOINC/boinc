@@ -11502,3 +11502,17 @@ David  7 Sept 2005
 
 	client/
 		gui_rpc_server_ops.C
+
+Charlie 8 Sept 2005
+    - Mac: Small fixes to build instructions and installer build script.
+      Release version 5.1.2
+    
+    mac_installer/
+        release_boinc.sh
+        ReadMe.rtf
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    doc/
+        mac_build.html
+        versions.inc
+    
