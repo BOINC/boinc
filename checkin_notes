@@ -11522,3 +11522,9 @@ David  8 Sept 2005
 
     html/user/
         edit_password_action.php
+
+Rom    8 Sept 2005
+    - Fix a file/rpc transfer issue (From Carl)
+    
+    client/
+        client_state.C

@@ -402,9 +402,9 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
             &tv
         );
         //printf("select in %d out %d\n", all_fds.max_fd, n);
-        if (n==0) break;
         net_xfers->got_select(all_fds, x);
         gui_rpcs.got_select(all_fds);
+        if (n==0) break;
 
         now = dtime();
         if (now > end_time) break;
