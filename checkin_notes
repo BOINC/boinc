@@ -11490,7 +11490,7 @@ Rom    7 Sept 2005 (staging)
     - Tag for 5.1.2 release, all platforms
       boinc_core_release_5.1.2
 
-Bruce 7 Sept 2005
+Bruce 7 Sept 2005 
     - From Reinhard: make openssl and curl detection independent; useful for
       building server backend components.
     configure.ac
@@ -11525,6 +11525,10 @@ David  8 Sept 2005
 
 Rom    8 Sept 2005
     - Fix a file/rpc transfer issue (From Carl)
+    - Fix for partial downloads (From Carl)
+    - Treat all 20* http status codes as a success
     
     client/
         client_state.C
+        http_curl.C
+        net_xfer_curl.C
