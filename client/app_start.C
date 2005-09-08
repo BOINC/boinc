@@ -217,7 +217,8 @@ static int setup_file(
             return retval;
         }
     } else {
-        // If anonymous platform, create sot link only once
+        // if anonymous platform, link may already be there
+        //
         if (wup->project->anonymous_platform && boinc_file_exists(link_path)) {
             return 0;
         }
@@ -302,6 +303,9 @@ int ACTIVE_TASK::start(bool first_time) {
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
         }
+        // anonymous platform may use different files than
+        // when the result was started
+        //
         if (first_time || wup->project->anonymous_platform) {
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
