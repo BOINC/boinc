@@ -33,7 +33,7 @@ resources
   </td></tr>
   <tr><td>
     <p>
-    BOINC lets you donate computing power to many scientific research projects:
+    BOINC lets you donate computing power to scientific research projects:
     <ul>
     <li>
     <a href=http://climateprediction.net>Climateprediction.net</a>:

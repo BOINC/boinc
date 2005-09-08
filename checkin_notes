@@ -11516,3 +11516,9 @@ Charlie 8 Sept 2005
         mac_build.html
         versions.inc
     
+David  8 Sept 2005
+    - User web: don't call process_user_text() on passwords;
+        it's not needed, and breaks passwords containing punctuation
+
+    html/user/
+        edit_password_action.php

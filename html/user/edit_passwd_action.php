@@ -8,11 +8,13 @@ db_init();
 
 $auth = process_user_text(post_str("auth", true));
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
-$old_passwd = process_user_text(post_str("old_passwd", true));
-$passwd = process_user_text(post_str("passwd", true));
-$passwd2 = process_user_text(post_str("passwd2", true));
 
+// Note: don't call process_user_text() on passwords.
+// This is not needed, and will break passwords containing punctuation
 
+$old_passwd = post_str("old_passwd", true);
+$passwd = post_str("passwd");
+$passwd2 = post_str("passwd2");
 
 if ($passwd != $passwd2) {
     error_page("New passwords are different");
