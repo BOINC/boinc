@@ -11497,3 +11497,8 @@ Bruce 7 Sept 2005
     m4/
         check_ssl.m4
 
+David  7 Sept 2005
+	- fix bug where "no new work" flag wasn't getting written in XML
+
+	client/
+		gui_rpc_server_ops.C
