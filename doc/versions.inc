@@ -110,11 +110,11 @@ $w445= array(
     "
 );
 
-$w512= array(
-    "num"=>"5.1.2",
+$w513= array(
+    "num"=>"5.1.3",
     "status"=>"Development version",
-    "file"=>"boinc_5.1.2_windows_intelx86.exe",
-    "date"=>"7 September 2005",
+    "file"=>"boinc_5.1.3_windows_intelx86.exe",
+    "date"=>"9 September 2005",
     "type"=>win_new(),
     "features"=>"<ul>
     <li>
@@ -266,11 +266,11 @@ $l443 = array(
     "
 );
 
-$l512 = array(
-    "num"=>"5.1.2",
+$l513 = array(
+    "num"=>"5.1.3",
     "status"=>"Development version",
-    "file"=>"boinc_5.1.2_i686-pc-linux-gnu.sh",
-    "date"=>"7 September 2005",
+    "file"=>"boinc_5.1.3_i686-pc-linux-gnu.sh",
+    "date"=>"9 September 2005",
     "type"=>sea()
 );
 
@@ -302,7 +302,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w512,
+        $w513,
         $w419
     )
 );
@@ -321,7 +321,7 @@ $linux = array(
     "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
     "versions"=>array(
         $l443,
-        $l512,
+        $l513,
         $l419
     )
 );
