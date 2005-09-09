@@ -11555,3 +11555,6 @@ Bruce 9 Sept 2005
     api/
         boinc_api.C
 
+Rom    9 Sept 2005 (staging)
+    - Tag for 5.1.3 release, all platforms
+      boinc_core_release_5_1_3
