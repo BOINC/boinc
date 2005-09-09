@@ -11538,9 +11538,12 @@ Rom    8 Sept 2005
     - Build a sea package that contains the debug version of the executables
         so they can be put into the download directory in case we need them
         for future issues.
+    - Add text to the sys tray balloon that states when BOINC is suspended
+        and when networking is suspended.
         
     clientgui/
         BOINCGUI.pjd
+        BOINCTaskBar.cpp
         WizAttachAccountManager.cpp, .h
     sea/
         Makefile.am

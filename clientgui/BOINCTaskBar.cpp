@@ -241,18 +241,20 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
         m_dtLastBalloonDisplayed = wxDateTime::Now();
 
-        wxString strTitle        = wxGetApp().GetAppName();
-        wxString strMachineName  = wxEmptyString;
-        wxString strMessage      = wxEmptyString;
-        wxString strBuffer       = wxEmptyString;
-        wxString strProjectName  = wxEmptyString;
-        float    fProgress       = 0;
-        bool     bIsActive       = false;
-        bool     bIsExecuting    = false;
-        bool     bIsDownloaded   = false;
-        wxInt32  iResultCount    = 0;
-        wxInt32  iIndex          = 0;
-        CMainDocument* pDoc      = wxGetApp().GetDocument();
+        wxString strTitle             = wxGetApp().GetAppName();
+        wxString strMachineName       = wxEmptyString;
+        wxString strMessage           = wxEmptyString;
+        wxString strBuffer            = wxEmptyString;
+        wxString strProjectName       = wxEmptyString;
+        float    fProgress            = 0;
+        bool     bIsActive            = false;
+        bool     bIsExecuting         = false;
+        bool     bIsDownloaded        = false;
+        wxInt32  iResultCount         = 0;
+        wxInt32  iIndex               = 0;
+        bool     bActivitiesSuspended = false;
+        bool     bNetworkSuspended    = false;
+        CMainDocument* pDoc           = wxGetApp().GetDocument();
 
         wxASSERT(pDoc);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -265,6 +267,18 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
         }
 
+        pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+        if (bActivitiesSuspended) {
+            strMessage += _("BOINC is currently suspended...\n");
+        }
+
+        if (bNetworkSuspended) {
+            strMessage += _("BOINC networking is currently suspended...\n");
+        }
+
+        if (strMessage.Length() > 0) {
+            strMessage += wxT("\n");
+        }
 
         iResultCount = pDoc->results.results.size();
         for (iIndex = 0; iIndex < iResultCount; iIndex++) {
