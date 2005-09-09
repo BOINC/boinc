@@ -11486,3 +11486,68 @@ Janus  7 Sept 2005
         languages/translations/
             en.po
 
+Rom    7 Sept 2005 (staging)
+    - Tag for 5_1_2 release, all platforms
+      boinc_core_release_5_1_2
+
+Bruce 7 Sept 2005 
+    - From Reinhard: make openssl and curl detection independent; useful for
+      building server backend components.
+    configure.ac
+    m4/
+        check_ssl.m4
+
+David  7 Sept 2005
+	- fix bug where "no new work" flag wasn't getting written in XML
+
+	client/
+		gui_rpc_server_ops.C
+
+Charlie 8 Sept 2005
+    - Mac: Small fixes to build instructions and installer build script.
+      Release version 5.1.2
+    
+    mac_installer/
+        release_boinc.sh
+        ReadMe.rtf
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    doc/
+        mac_build.html
+        versions.inc
+    
+David  8 Sept 2005
+    - User web: don't call process_user_text() on passwords;
+        it's not needed, and breaks passwords containing punctuation
+
+    html/user/
+        edit_password_action.php
+
+Rom    8 Sept 2005
+    - Fix a file/rpc transfer issue (From Carl)
+    - Fix for partial downloads (From Carl)
+    - Treat all 20* http status codes as a success
+    
+    client/
+        client_state.C
+        http_curl.C
+        net_xfer_curl.C
+
+Rom    8 Sept 2005
+    - Update to Account Manager wizard.
+    - Build a sea package that contains the debug version of the executables
+        so they can be put into the download directory in case we need them
+        for future issues.
+    - Add text to the sys tray balloon that states when BOINC is suspended
+        and when networking is suspended.
+        
+    clientgui/
+        BOINCGUI.pjd
+        BOINCTaskBar.cpp
+        WizAttachAccountManager.cpp, .h
+    sea/
+        Makefile.am
+
+Rom    7 Sept 2005 (staging)
+    - Tag for 5.1.3 release, all platforms
+      boinc_core_release_5_1_3

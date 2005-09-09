@@ -53,10 +53,7 @@ class CAMCompletionErrorPage;
 class CAMErrAccountManagerNotDetectedPage;
 class CAMErrAccountManagerUnavailablePage;
 class CAMErrNoInternetConnectionPage;
-class CAMErrProxyInfoPage;
-class CAMErrProxyHTTPPage;
-class CAMErrProxySOCKSPage;
-class CAMErrProxyComplationPage;
+class CAMErrProxyPage;
 class CAMErrRefCountPage;
 ////@end forward declarations
 
@@ -92,27 +89,24 @@ class CAMErrRefCountPage;
 #define ID_ERRACCOUNTMANAGERNOTDETECTEDPAGE 10007
 #define ID_ERRACCOUNTMANAGERUNAVAILABLEPAGE 10049
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10050
-#define ID_ERRPROXYINFOPAGE 10060
-#define ID_ERRPROXYHTTPPAGE 10061
-#define ID_HTTPAUTODETECT 10064
-#define ID_PROXYHTTPSERVERSTATICCTRL 10065
+#define ID_ERRPROXYPAGE 10063
+#define ID_PROXYHTTPSERVERSTATICCTRL 10002
 #define ID_PROXYHTTPSERVERCTRL 10000
-#define ID_PROXYHTTPPORTSTATICCTRL 10070
+#define ID_PROXYHTTPPORTSTATICCTRL 10004
 #define ID_PROXYHTTPPORTCTRL 10001
-#define ID_PROXYHTTPUSERNAMESTATICCTRL 10068
-#define ID_PROXYHTTPUSERNAMECTRL 10066
-#define ID_PROXYHTTPPASSWORDSTATICCTRL 10069
-#define ID_PROXYHTTPPASSWORDCTRL 10067
-#define ID_ERRPROXYSOCKSPAGE 10062
-#define ID_PROXYSOCKSSERVERSTATICCTRL 10071
-#define ID_PROXYSOCKSSERVERCTRL 10002
-#define ID_PROXYSOCKSPORTSTATICCTRL 10070
-#define ID_PROXYSOCKSPORTCTRL 10001
-#define ID_PROXYSOCKSUSERNAMESTATICCTRL 10072
-#define ID_PROXYSOCKSUSERNAMECTRL 10004
-#define ID_PROXYSOCKSPASSWORDSTATICCTRL 10069
-#define ID_PROXYSOCKSPASSWORDCTRL 10005
-#define ID_ERRPROXYCOMPLETIONPAGE 10063
+#define ID_PROXYHTTPUSERNAMESTATICCTRL 10005
+#define ID_PROXYHTTPUSERNAMECTRL 10006
+#define ID_PROXYHTTPPASSWORDSTATICCTRL 10009
+#define ID_PROXYHTTPPASSWORDCTRL 10010
+#define ID_PROXYHTTPAUTODETECTCTRL 10081
+#define ID_PROXYSOCKSSERVERSTATICCTRL 10012
+#define ID_PROXYSOCKSSERVERCTRL 10013
+#define ID_PROXYSOCKSPORTSTATICCTRL 10014
+#define ID_PROXYSOCKSPORTCTRL 10015
+#define ID_PROXYSOCKSUSERNAMESTATICCTRL 10016
+#define ID_PROXYSOCKSUSERNAMECTRL 10018
+#define ID_PROXYSOCKSPASSWORDSTATICCTRL 10019
+#define ID_PROXYSOCKSPASSWORDCTRL 10021
 #define ID_ERRREFCOUNTPAGE 10075
 ////@end control identifiers
 
@@ -180,10 +174,7 @@ public:
     CAMErrAccountManagerNotDetectedPage* m_ErrAccountManagerNotDetectedPage;
     CAMErrAccountManagerUnavailablePage* m_ErrAccountManagerUnavailablePage;
     CAMErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
-    CAMErrProxyInfoPage* m_ErrProxyInfoPage;
-    CAMErrProxyHTTPPage* m_ErrProxyHTTPPage;
-    CAMErrProxySOCKSPage* m_ErrProxySOCKSPage;
-    CAMErrProxyComplationPage* m_ErrProxyCompletionPage;
+    CAMErrProxyPage* m_ErrProxyPage;
     CAMErrRefCountPage* m_ErrRefCountPage;
 ////@end CWizAttachAccountManager member variables
 };
@@ -774,19 +765,19 @@ public:
 };
 
 /*!
- * CAMErrProxyInfoPage class declaration
+ * CAMErrProxyPage class declaration
  */
 
-class CAMErrProxyInfoPage: public wxWizardPage
+class CAMErrProxyPage: public wxWizardPage
 {    
-    DECLARE_DYNAMIC_CLASS( CAMErrProxyInfoPage )
+    DECLARE_DYNAMIC_CLASS( CAMErrProxyPage )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CAMErrProxyInfoPage( );
+    CAMErrProxyPage( );
 
-    CAMErrProxyInfoPage( wxWizard* parent );
+    CAMErrProxyPage( wxWizard* parent );
 
     /// Creation
     bool Create( wxWizard* parent );
@@ -794,73 +785,20 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CAMErrProxyInfoPage event handler declarations
+////@begin CAMErrProxyPage event handler declarations
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
+    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE
     void OnPageChanged( wxWizardEvent& event );
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
+    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE
+    void OnPageChanging( wxWizardEvent& event );
+
+    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE
     void OnCancel( wxWizardEvent& event );
 
-////@end CAMErrProxyInfoPage event handler declarations
+////@end CAMErrProxyPage event handler declarations
 
-////@begin CAMErrProxyInfoPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAMErrProxyInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CAMErrProxyInfoPage member variables
-////@end CAMErrProxyInfoPage member variables
-};
-
-/*!
- * CAMErrProxyHTTPPage class declaration
- */
-
-class CAMErrProxyHTTPPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CAMErrProxyHTTPPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CAMErrProxyHTTPPage( );
-
-    CAMErrProxyHTTPPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CAMErrProxyHTTPPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE
-    void OnCancel( wxWizardEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT
-    void OnAutodetectClick( wxCommandEvent& event );
-
-////@end CAMErrProxyHTTPPage event handler declarations
-
-////@begin CAMErrProxyHTTPPage member function declarations
+////@begin CAMErrProxyPage member function declarations
 
     /// Gets the previous page.
     virtual wxWizardPage* GetPrev() const;
@@ -880,71 +818,6 @@ public:
     wxString GetProxyHTTPPassword() const { return m_strProxyHTTPPassword ; }
     void SetProxyHTTPPassword(wxString value) { m_strProxyHTTPPassword = value ; }
 
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAMErrProxyHTTPPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CAMErrProxyHTTPPage member variables
-    wxStaticText* m_ProxyHTTPServerStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPServerCtrl;
-    wxStaticText* m_ProxyHTTPPortStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPPortCtrl;
-    wxStaticText* m_ProxyHTTPUsernameStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPUsernameCtrl;
-    wxStaticText* m_ProxyHTTPPasswordStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPPasswordCtrl;
-    wxString m_strProxyHTTPServer;
-    wxString m_strProxyHTTPPort;
-    wxString m_strProxyHTTPUsername;
-    wxString m_strProxyHTTPPassword;
-////@end CAMErrProxyHTTPPage member variables
-};
-
-/*!
- * CAMErrProxySOCKSPage class declaration
- */
-
-class CAMErrProxySOCKSPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CAMErrProxySOCKSPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CAMErrProxySOCKSPage( );
-
-    CAMErrProxySOCKSPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CAMErrProxySOCKSPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE
-    void OnCancel( wxWizardEvent& event );
-
-////@end CAMErrProxySOCKSPage event handler declarations
-
-////@begin CAMErrProxySOCKSPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
     wxString GetProxySOCKSServer() const { return m_strProxySOCKSServer ; }
     void SetProxySOCKSServer(wxString value) { m_strProxySOCKSServer = value ; }
 
@@ -962,12 +835,21 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end CAMErrProxySOCKSPage member function declarations
+////@end CAMErrProxyPage member function declarations
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CAMErrProxySOCKSPage member variables
+////@begin CAMErrProxyPage member variables
+    wxStaticText* m_ProxyHTTPServerStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPServerCtrl;
+    wxStaticText* m_ProxyHTTPPortStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPPortCtrl;
+    wxStaticText* m_ProxyHTTPUsernameStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPUsernameCtrl;
+    wxStaticText* m_ProxyHTTPPasswordStaticCtrl;
+    wxTextCtrl* m_ProxyHTTPPasswordCtrl;
+    wxButton* m_ProxyHTTPAutodetectCtrl;
     wxStaticText* m_ProxySOCKSServerStaticCtrl;
     wxTextCtrl* m_ProxySOCKSServerCtrl;
     wxStaticText* m_ProxySOCKSPortStaticCtrl;
@@ -976,64 +858,15 @@ public:
     wxTextCtrl* m_ProxySOCKSUsernameCtrl;
     wxStaticText* m_ProxySOCKSPasswordStaticCtrl;
     wxTextCtrl* m_ProxySOCKSPasswordCtrl;
+    wxString m_strProxyHTTPServer;
+    wxString m_strProxyHTTPPort;
+    wxString m_strProxyHTTPUsername;
+    wxString m_strProxyHTTPPassword;
     wxString m_strProxySOCKSServer;
     wxString m_strProxySOCKSPort;
     wxString m_strProxySOCKSUsername;
     wxString m_strProxySOCKSPassword;
-////@end CAMErrProxySOCKSPage member variables
-};
-
-/*!
- * CAMErrProxyComplationPage class declaration
- */
-
-class CAMErrProxyComplationPage: public wxWizardPage
-{    
-    DECLARE_DYNAMIC_CLASS( CAMErrProxyComplationPage )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CAMErrProxyComplationPage( );
-
-    CAMErrProxyComplationPage( wxWizard* parent );
-
-    /// Creation
-    bool Create( wxWizard* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CAMErrProxyComplationPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE
-    void OnPageChanged( wxWizardEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE
-    void OnCancel( wxWizardEvent& event );
-
-////@end CAMErrProxyComplationPage event handler declarations
-
-////@begin CAMErrProxyComplationPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPage* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPage* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAMErrProxyComplationPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CAMErrProxyComplationPage member variables
-////@end CAMErrProxyComplationPage member variables
+////@end CAMErrProxyPage member variables
 };
 
 /*!

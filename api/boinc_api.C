@@ -837,7 +837,17 @@ void block_sigalrm() {
     sigset_t mask;
     sigemptyset(&mask);
     sigaddset(&mask, SIGALRM);
+
+    // many current Linux machines don't have pthread_sigmask in their
+    // library.  On these machines, sigprocmask() is equivalent.  But
+    // in the long run (end of 2006??) one should eliminate sigprocmask
+    // and just use pthread_sigmask().
+    //
+#ifdef linux
+    sigprocmask(SIG_BLOCK, &mask, NULL);
+#else
     pthread_sigmask(SIG_BLOCK, &mask, NULL);
+#endif
 }
 #endif
 

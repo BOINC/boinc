@@ -193,7 +193,7 @@ int HTTP_OP::init_post(
         // we should pretty much always have an in file for _post, optional in _post2
         strcpy(infile, in);
         retval = file_size(infile, size);
-        if (retval) return retval;
+        if (retval) return retval;  // this will return 0 or ERR_NOT_FOUND
         content_length = (int)size;
     }
     //PROXY::init(url_hostname, port);
@@ -201,7 +201,7 @@ int HTTP_OP::init_post(
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
-    return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);
+    return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
 }
 
 // the following will do an HTTP GET or POST using libcurl, polling at the net_xfer level
@@ -248,7 +248,7 @@ int HTTP_OP::libcurl_exec(
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
     if (!curlEasy) {
         msg_printf(0, MSG_ERROR, "%s\n", "Couldn't create curlEasy handle\n");
-        return 1; // returns 0 (CURLM_OK) on successful handle creation
+        return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
     // OK, we have a handle, now open an asynchronous libcurl connection
@@ -331,16 +331,26 @@ The checking this option controls is of the identity that the server claims. The
     // set the content type in the header (defined at the top -- app/octect-stream)
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
+	// set the file offset for resumable uploads & downloads
+	if (offset>0.0f) {
+        file_offset = offset;
+        sprintf(strTmp, "Range: bytes=%.0f-", offset);
+        pcurlList = curl_slist_append(pcurlList, strTmp);
+    }
+
     // we'll need to setup an output file for the reply
     if (outfile && strlen(outfile)>0) {  
-        fileOut = boinc_fopen(outfile, "wb");
+		// if offset>0 don't truncate!
+		char szType[3] = "wb";
+		if (file_offset>0.0) szType[0] = 'a';
+        fileOut = boinc_fopen(outfile, szType);
         if (!fileOut) {
             msg_printf(NULL, MSG_ERROR, 
                 "HTTP_CURL:libcurl_exec(): Can't setup HTTP response output file %s\n", outfile);
             io_done = true;
             http_op_retval = ERR_FOPEN;
             http_op_state = HTTP_STATE_DONE;
-            return -3;
+            return ERR_FOPEN;
         }
         // CMC Note: we can make the libcurl_write "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
@@ -359,15 +369,9 @@ The checking this option controls is of the identity that the server claims. The
                 io_done = true;
                 http_op_retval = ERR_FOPEN;
                 http_op_state = HTTP_STATE_DONE;
-                return -1;
+                return ERR_FOPEN;
             }
         }        
-        // send offset range if needed
-        if (offset>0.0f) {
-            file_offset = offset;
-            sprintf(strTmp, "Range: bytes=%.0f-", offset);
-            pcurlList = curl_slist_append(pcurlList, strTmp);
-        }
         if (pcurlList) { // send custom headers if required
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }
@@ -433,7 +437,7 @@ The checking this option controls is of the identity that the server claims. The
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
         msg_printf(0, MSG_ERROR, "%s\n", "Couldn't add curlEasy handle to curlMulti\n");
-        return curlMErr; // returns 0 (CURLM_OK) on successful handle creation
+        return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
     // that should about do it, the net_xfer_set polling will actually start the transaction
@@ -463,7 +467,7 @@ int HTTP_OP::init_post2(
         retval = file_size(infile, size);
         if (retval) {
             printf("HTTP::init_post2: couldn't get file size\n");
-            return retval;
+            return retval; // this will be 0 or ERR_NOT_FOUND
         }
         content_length = (int)size - (int)offset;
     }
@@ -488,7 +492,7 @@ HTTP_OP_SET::HTTP_OP_SET(NET_XFER_SET* p) {
 int HTTP_OP_SET::insert(HTTP_OP* ho) {
     int retval;
     retval = net_xfers->insert(ho);
-    if (retval) return retval;
+    if (retval) return retval;  // this will return 0 or a BOINC ERR_* message
     http_ops.push_back(ho);
     return 0;
 }
@@ -513,7 +517,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
 }
 
 int HTTP_OP_SET::nops() {
-    return http_ops.size();
+    return http_ops.size();  
 }
 
 

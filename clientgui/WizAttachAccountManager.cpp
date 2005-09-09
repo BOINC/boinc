@@ -103,10 +103,7 @@ bool CWizAttachAccountManager::Create( wxWindow* parent, wxWindowID id, const wx
     m_ErrAccountManagerNotDetectedPage = NULL;
     m_ErrAccountManagerUnavailablePage = NULL;
     m_ErrNoInternetConnectionPage = NULL;
-    m_ErrProxyInfoPage = NULL;
-    m_ErrProxyHTTPPage = NULL;
-    m_ErrProxySOCKSPage = NULL;
-    m_ErrProxyCompletionPage = NULL;
+    m_ErrProxyPage = NULL;
     m_ErrRefCountPage = NULL;
 ////@end CWizAttachAccountManager member initialisation
 
@@ -168,22 +165,10 @@ void CWizAttachAccountManager::CreateControls()
     m_ErrNoInternetConnectionPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ErrNoInternetConnectionPage);
-    m_ErrProxyInfoPage = new CAMErrProxyInfoPage;
-    m_ErrProxyInfoPage->Create( itemWizard1 );
+    m_ErrProxyPage = new CAMErrProxyPage;
+    m_ErrProxyPage->Create( itemWizard1 );
 
-    itemWizard1->FitToPage(m_ErrProxyInfoPage);
-    m_ErrProxyHTTPPage = new CAMErrProxyHTTPPage;
-    m_ErrProxyHTTPPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_ErrProxyHTTPPage);
-    m_ErrProxySOCKSPage = new CAMErrProxySOCKSPage;
-    m_ErrProxySOCKSPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_ErrProxySOCKSPage);
-    m_ErrProxyCompletionPage = new CAMErrProxyComplationPage;
-    m_ErrProxyCompletionPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_ErrProxyCompletionPage);
+    itemWizard1->FitToPage(m_ErrProxyPage);
     m_ErrRefCountPage = new CAMErrRefCountPage;
     m_ErrRefCountPage->Create( itemWizard1 );
 
@@ -2041,204 +2026,46 @@ wxIcon CAMErrNoInternetConnectionPage::GetIconResource( const wxString& name )
 }
 
 /*!
- * CAMErrProxyInfoPage type definition
+ * CAMErrProxyPage type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CAMErrProxyInfoPage, wxWizardPage )
+IMPLEMENT_DYNAMIC_CLASS( CAMErrProxyPage, wxWizardPage )
 
 /*!
- * CAMErrProxyInfoPage event table definition
+ * CAMErrProxyPage event table definition
  */
 
-BEGIN_EVENT_TABLE( CAMErrProxyInfoPage, wxWizardPage )
+BEGIN_EVENT_TABLE( CAMErrProxyPage, wxWizardPage )
 
-////@begin CAMErrProxyInfoPage event table entries
-    EVT_WIZARD_PAGE_CHANGED( -1, CAMErrProxyInfoPage::OnPageChanged )
-    EVT_WIZARD_CANCEL( -1, CAMErrProxyInfoPage::OnCancel )
+////@begin CAMErrProxyPage event table entries
+    EVT_WIZARD_PAGE_CHANGED( -1, CAMErrProxyPage::OnPageChanged )
+    EVT_WIZARD_PAGE_CHANGING( -1, CAMErrProxyPage::OnPageChanging )
+    EVT_WIZARD_CANCEL( -1, CAMErrProxyPage::OnCancel )
 
-////@end CAMErrProxyInfoPage event table entries
+////@end CAMErrProxyPage event table entries
 
 END_EVENT_TABLE()
 
 /*!
- * CAMErrProxyInfoPage constructors
+ * CAMErrProxyPage constructors
  */
 
-CAMErrProxyInfoPage::CAMErrProxyInfoPage( )
+CAMErrProxyPage::CAMErrProxyPage( )
 {
 }
 
-CAMErrProxyInfoPage::CAMErrProxyInfoPage( wxWizard* parent )
+CAMErrProxyPage::CAMErrProxyPage( wxWizard* parent )
 {
     Create( parent );
 }
 
 /*!
- * CErrProxyInfoPage creator
+ * CErrProxyPage creator
  */
 
-bool CAMErrProxyInfoPage::Create( wxWizard* parent )
+bool CAMErrProxyPage::Create( wxWizard* parent )
 {
-////@begin CAMErrProxyInfoPage member initialisation
-////@end CAMErrProxyInfoPage member initialisation
-
-////@begin CAMErrProxyInfoPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPage::Create( parent, wizardBitmap );
-
-    CreateControls();
-    GetSizer()->Fit(this);
-////@end CAMErrProxyInfoPage creation
-    return TRUE;
-}
-
-/*!
- * Control creation for CErrProxyInfoPage
- */
-
-void CAMErrProxyInfoPage::CreateControls()
-{    
-////@begin CAMErrProxyInfoPage content construction
-    CAMErrProxyInfoPage* itemWizardPage86 = this;
-
-    wxBoxSizer* itemBoxSizer87 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage86->SetSizer(itemBoxSizer87);
-
-    wxStaticText* itemStaticText88 = new wxStaticText;
-    itemStaticText88->Create( itemWizardPage86, wxID_STATIC, _("Network communication failed"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText88->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer87->Add(itemStaticText88, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer87->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxStaticText* itemStaticText90 = new wxStaticText;
-    itemStaticText90->Create( itemWizardPage86, wxID_STATIC, _("We were unable to communicate with the account manager or\nother web sites.\n\nOften this means that you are using a proxy server, and you need\nto tell us about it.\n\nClick Next to do proxy configuration."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer87->Add(itemStaticText90, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer87->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-////@end CAMErrProxyInfoPage content construction
-}
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
- */
-
-void CAMErrProxyInfoPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE in CErrProxyInfoPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE in CErrProxyInfoPage. 
-}
-
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
- */
-
-void CAMErrProxyInfoPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE in CErrProxyInfoPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE in CErrProxyInfoPage. 
-}
-
-/*!
- * Gets the previous page.
- */
-
-wxWizardPage* CAMErrProxyInfoPage::GetPrev() const
-{
-    // TODO: return the previous page
-    return NULL;
-}
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPage* CAMErrProxyInfoPage::GetNext() const
-{
-    // TODO: return the next page
-    return NULL;
-}
-
-/*!
- * Should we show tooltips?
- */
-
-bool CAMErrProxyInfoPage::ShowToolTips()
-{
-    return TRUE;
-}
-
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CAMErrProxyInfoPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
-////@begin CAMErrProxyInfoPage bitmap retrieval
-    return wxNullBitmap;
-////@end CAMErrProxyInfoPage bitmap retrieval
-}
-
-/*!
- * Get icon resources
- */
-
-wxIcon CAMErrProxyInfoPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
-////@begin CAMErrProxyInfoPage icon retrieval
-    return wxNullIcon;
-////@end CAMErrProxyInfoPage icon retrieval
-}
-
-/*!
- * CAMErrProxyHTTPPage type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CAMErrProxyHTTPPage, wxWizardPage )
-
-/*!
- * CAMErrProxyHTTPPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CAMErrProxyHTTPPage, wxWizardPage )
-
-////@begin CAMErrProxyHTTPPage event table entries
-    EVT_WIZARD_PAGE_CHANGED( -1, CAMErrProxyHTTPPage::OnPageChanged )
-    EVT_WIZARD_CANCEL( -1, CAMErrProxyHTTPPage::OnCancel )
-
-    EVT_BUTTON( ID_HTTPAUTODETECT, CAMErrProxyHTTPPage::OnAutodetectClick )
-
-////@end CAMErrProxyHTTPPage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CAMErrProxyHTTPPage constructors
- */
-
-CAMErrProxyHTTPPage::CAMErrProxyHTTPPage( )
-{
-}
-
-CAMErrProxyHTTPPage::CAMErrProxyHTTPPage( wxWizard* parent )
-{
-    Create( parent );
-}
-
-/*!
- * CErrProxyHTTPPage creator
- */
-
-bool CAMErrProxyHTTPPage::Create( wxWizard* parent )
-{
-////@begin CAMErrProxyHTTPPage member initialisation
+////@begin CAMErrProxyPage member initialisation
     m_ProxyHTTPServerStaticCtrl = NULL;
     m_ProxyHTTPServerCtrl = NULL;
     m_ProxyHTTPPortStaticCtrl = NULL;
@@ -2247,224 +2074,7 @@ bool CAMErrProxyHTTPPage::Create( wxWizard* parent )
     m_ProxyHTTPUsernameCtrl = NULL;
     m_ProxyHTTPPasswordStaticCtrl = NULL;
     m_ProxyHTTPPasswordCtrl = NULL;
-////@end CAMErrProxyHTTPPage member initialisation
-
-////@begin CAMErrProxyHTTPPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPage::Create( parent, wizardBitmap );
-
-    CreateControls();
-    GetSizer()->Fit(this);
-////@end CAMErrProxyHTTPPage creation
-    return TRUE;
-}
-
-/*!
- * Control creation for CErrProxyHTTPPage
- */
-
-void CAMErrProxyHTTPPage::CreateControls()
-{    
-////@begin CAMErrProxyHTTPPage content construction
-    CAMErrProxyHTTPPage* itemWizardPage92 = this;
-
-    wxBoxSizer* itemBoxSizer93 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage92->SetSizer(itemBoxSizer93);
-
-    wxStaticText* itemStaticText94 = new wxStaticText;
-    itemStaticText94->Create( itemWizardPage92, wxID_STATIC, _("HTTP proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText94->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer93->Add(itemStaticText94, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer93->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxStaticText* itemStaticText96 = new wxStaticText;
-    itemStaticText96->Create( itemWizardPage92, wxID_STATIC, _("If you're using an HTTP proxy, enter its info here.\n\nIf you're not sure, click Autodetect."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer93->Add(itemStaticText96, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer93->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxButton* itemButton98 = new wxButton;
-    itemButton98->Create( itemWizardPage92, ID_HTTPAUTODETECT, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer93->Add(itemButton98, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-    wxFlexGridSizer* itemFlexGridSizer99 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer99->AddGrowableCol(1);
-    itemBoxSizer93->Add(itemFlexGridSizer99, 0, wxGROW|wxALL, 5);
-
-    m_ProxyHTTPServerStaticCtrl = new wxStaticText;
-    m_ProxyHTTPServerStaticCtrl->Create( itemWizardPage92, ID_PROXYHTTPSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer99->Add(m_ProxyHTTPServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxFlexGridSizer* itemFlexGridSizer101 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer101->AddGrowableCol(0);
-    itemFlexGridSizer99->Add(itemFlexGridSizer101, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-    m_ProxyHTTPServerCtrl = new wxTextCtrl;
-    m_ProxyHTTPServerCtrl->Create( itemWizardPage92, ID_PROXYHTTPSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer101->Add(m_ProxyHTTPServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ProxyHTTPPortStaticCtrl = new wxStaticText;
-    m_ProxyHTTPPortStaticCtrl->Create( itemWizardPage92, ID_PROXYHTTPPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer101->Add(m_ProxyHTTPPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ProxyHTTPPortCtrl = new wxTextCtrl;
-    m_ProxyHTTPPortCtrl->Create( itemWizardPage92, ID_PROXYHTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
-    itemFlexGridSizer101->Add(m_ProxyHTTPPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ProxyHTTPUsernameStaticCtrl = new wxStaticText;
-    m_ProxyHTTPUsernameStaticCtrl->Create( itemWizardPage92, ID_PROXYHTTPUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer99->Add(m_ProxyHTTPUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ProxyHTTPUsernameCtrl = new wxTextCtrl;
-    m_ProxyHTTPUsernameCtrl->Create( itemWizardPage92, ID_PROXYHTTPUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer99->Add(m_ProxyHTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ProxyHTTPPasswordStaticCtrl = new wxStaticText;
-    m_ProxyHTTPPasswordStaticCtrl->Create( itemWizardPage92, ID_PROXYHTTPPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer99->Add(m_ProxyHTTPPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    m_ProxyHTTPPasswordCtrl = new wxTextCtrl;
-    m_ProxyHTTPPasswordCtrl->Create( itemWizardPage92, ID_PROXYHTTPPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer99->Add(m_ProxyHTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    // Set validators
-    m_ProxyHTTPServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPServer) );
-    m_ProxyHTTPPortCtrl->SetValidator( wxTextValidator(wxFILTER_NUMERIC, & m_strProxyHTTPPort) );
-    m_ProxyHTTPUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPUsername) );
-    m_ProxyHTTPPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPPassword) );
-////@end CAMErrProxyHTTPPage content construction
-}
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE
- */
-
-void CAMErrProxyHTTPPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE in CErrProxyHTTPPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYHTTPPAGE in CErrProxyHTTPPage. 
-}
-
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE
- */
-
-void CAMErrProxyHTTPPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE in CErrProxyHTTPPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYHTTPPAGE in CErrProxyHTTPPage. 
-}
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT
- */
-
-void CAMErrProxyHTTPPage::OnAutodetectClick( wxCommandEvent& event )
-{
-////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT in CErrProxyHTTPPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_HTTPAUTODETECT in CErrProxyHTTPPage. 
-}
-
-/*!
- * Gets the previous page.
- */
-
-wxWizardPage* CAMErrProxyHTTPPage::GetPrev() const
-{
-    // TODO: return the previous page
-    return NULL;
-}
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPage* CAMErrProxyHTTPPage::GetNext() const
-{
-    // TODO: return the next page
-    return NULL;
-}
-
-/*!
- * Should we show tooltips?
- */
-
-bool CAMErrProxyHTTPPage::ShowToolTips()
-{
-    return TRUE;
-}
-
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CAMErrProxyHTTPPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
-////@begin CAMErrProxyHTTPPage bitmap retrieval
-    return wxNullBitmap;
-////@end CAMErrProxyHTTPPage bitmap retrieval
-}
-
-/*!
- * Get icon resources
- */
-
-wxIcon CAMErrProxyHTTPPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
-////@begin CAMErrProxyHTTPPage icon retrieval
-    return wxNullIcon;
-////@end CAMErrProxyHTTPPage icon retrieval
-}
-
-/*!
- * CAMErrProxySOCKSPage type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CAMErrProxySOCKSPage, wxWizardPage )
-
-/*!
- * CAMErrProxySOCKSPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CAMErrProxySOCKSPage, wxWizardPage )
-
-////@begin CAMErrProxySOCKSPage event table entries
-    EVT_WIZARD_PAGE_CHANGED( -1, CAMErrProxySOCKSPage::OnPageChanged )
-    EVT_WIZARD_CANCEL( -1, CAMErrProxySOCKSPage::OnCancel )
-
-////@end CAMErrProxySOCKSPage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CAMErrProxySOCKSPage constructors
- */
-
-CAMErrProxySOCKSPage::CAMErrProxySOCKSPage( )
-{
-}
-
-CAMErrProxySOCKSPage::CAMErrProxySOCKSPage( wxWizard* parent )
-{
-    Create( parent );
-}
-
-/*!
- * CErrProxySOCKSPage creator
- */
-
-bool CAMErrProxySOCKSPage::Create( wxWizard* parent )
-{
-////@begin CAMErrProxySOCKSPage member initialisation
+    m_ProxyHTTPAutodetectCtrl = NULL;
     m_ProxySOCKSServerStaticCtrl = NULL;
     m_ProxySOCKSServerCtrl = NULL;
     m_ProxySOCKSPortStaticCtrl = NULL;
@@ -2473,120 +2083,182 @@ bool CAMErrProxySOCKSPage::Create( wxWizard* parent )
     m_ProxySOCKSUsernameCtrl = NULL;
     m_ProxySOCKSPasswordStaticCtrl = NULL;
     m_ProxySOCKSPasswordCtrl = NULL;
-////@end CAMErrProxySOCKSPage member initialisation
+////@end CAMErrProxyPage member initialisation
 
-////@begin CAMErrProxySOCKSPage creation
+////@begin CAMErrProxyPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CAMErrProxySOCKSPage creation
+////@end CAMErrProxyPage creation
     return TRUE;
 }
 
 /*!
- * Control creation for CErrProxySOCKSPage
+ * Control creation for CErrProxyPage
  */
 
-void CAMErrProxySOCKSPage::CreateControls()
+void CAMErrProxyPage::CreateControls()
 {    
-////@begin CAMErrProxySOCKSPage content construction
-    CAMErrProxySOCKSPage* itemWizardPage109 = this;
+////@begin CAMErrProxyPage content construction
+    CAMErrProxyPage* itemWizardPage86 = this;
 
-    wxBoxSizer* itemBoxSizer110 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage109->SetSizer(itemBoxSizer110);
+    wxBoxSizer* itemBoxSizer87 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage86->SetSizer(itemBoxSizer87);
 
-    wxStaticText* itemStaticText111 = new wxStaticText;
-    itemStaticText111->Create( itemWizardPage109, wxID_STATIC, _("SOCKS proxy"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText111->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer110->Add(itemStaticText111, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText88 = new wxStaticText;
+    itemStaticText88->Create( itemWizardPage86, wxID_STATIC, _("Proxy configuration"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText88->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer87->Add(itemStaticText88, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer110->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer87->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText113 = new wxStaticText;
-    itemStaticText113->Create( itemWizardPage109, wxID_STATIC, _("If you're using a SOCKS proxy, enter its info here."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer110->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticBox* itemStaticBoxSizer90Static = new wxStaticBox(itemWizardPage86, wxID_ANY, _("HTTP proxy"));
+    wxStaticBoxSizer* itemStaticBoxSizer90 = new wxStaticBoxSizer(itemStaticBoxSizer90Static, wxVERTICAL);
+    itemBoxSizer87->Add(itemStaticBoxSizer90, 0, wxGROW|wxALL, 0);
 
-    itemBoxSizer110->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer91 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer91->AddGrowableCol(1);
+    itemStaticBoxSizer90->Add(itemFlexGridSizer91, 0, wxGROW|wxALL, 2);
 
-    wxFlexGridSizer* itemFlexGridSizer115 = new wxFlexGridSizer(3, 2, 0, 0);
-    itemFlexGridSizer115->AddGrowableCol(1);
-    itemBoxSizer110->Add(itemFlexGridSizer115, 0, wxGROW|wxALL, 5);
+    m_ProxyHTTPServerStaticCtrl = new wxStaticText;
+    m_ProxyHTTPServerStaticCtrl->Create( itemWizardPage86, ID_PROXYHTTPSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer91->Add(m_ProxyHTTPServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    wxFlexGridSizer* itemFlexGridSizer93 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer93->AddGrowableCol(0);
+    itemFlexGridSizer91->Add(itemFlexGridSizer93, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+
+    m_ProxyHTTPServerCtrl = new wxTextCtrl;
+    m_ProxyHTTPServerCtrl->Create( itemWizardPage86, ID_PROXYHTTPSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer93->Add(m_ProxyHTTPServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPPortStaticCtrl = new wxStaticText;
+    m_ProxyHTTPPortStaticCtrl->Create( itemWizardPage86, ID_PROXYHTTPPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer93->Add(m_ProxyHTTPPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPPortCtrl = new wxTextCtrl;
+    m_ProxyHTTPPortCtrl->Create( itemWizardPage86, ID_PROXYHTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    itemFlexGridSizer93->Add(m_ProxyHTTPPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPUsernameStaticCtrl = new wxStaticText;
+    m_ProxyHTTPUsernameStaticCtrl->Create( itemWizardPage86, ID_PROXYHTTPUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer91->Add(m_ProxyHTTPUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPUsernameCtrl = new wxTextCtrl;
+    m_ProxyHTTPUsernameCtrl->Create( itemWizardPage86, ID_PROXYHTTPUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer91->Add(m_ProxyHTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPPasswordStaticCtrl = new wxStaticText;
+    m_ProxyHTTPPasswordStaticCtrl->Create( itemWizardPage86, ID_PROXYHTTPPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer91->Add(m_ProxyHTTPPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPPasswordCtrl = new wxTextCtrl;
+    m_ProxyHTTPPasswordCtrl->Create( itemWizardPage86, ID_PROXYHTTPPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer91->Add(m_ProxyHTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 2);
+
+    m_ProxyHTTPAutodetectCtrl = new wxButton;
+    m_ProxyHTTPAutodetectCtrl->Create( itemWizardPage86, ID_PROXYHTTPAUTODETECTCTRL, _("Autodetect"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticBoxSizer90->Add(m_ProxyHTTPAutodetectCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 2);
+
+    wxStaticBox* itemStaticBoxSizer102Static = new wxStaticBox(itemWizardPage86, wxID_ANY, _("SOCKS proxy"));
+    wxStaticBoxSizer* itemStaticBoxSizer102 = new wxStaticBoxSizer(itemStaticBoxSizer102Static, wxVERTICAL);
+    itemBoxSizer87->Add(itemStaticBoxSizer102, 0, wxGROW|wxALL, 0);
+
+    wxFlexGridSizer* itemFlexGridSizer103 = new wxFlexGridSizer(3, 2, 0, 0);
+    itemFlexGridSizer103->AddGrowableCol(1);
+    itemStaticBoxSizer102->Add(itemFlexGridSizer103, 0, wxGROW|wxALL, 2);
 
     m_ProxySOCKSServerStaticCtrl = new wxStaticText;
-    m_ProxySOCKSServerStaticCtrl->Create( itemWizardPage109, ID_PROXYSOCKSSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer115->Add(m_ProxySOCKSServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSServerStaticCtrl->Create( itemWizardPage86, ID_PROXYSOCKSSERVERSTATICCTRL, _("Server:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer103->Add(m_ProxySOCKSServerStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
-    wxFlexGridSizer* itemFlexGridSizer117 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer117->AddGrowableCol(0);
-    itemFlexGridSizer115->Add(itemFlexGridSizer117, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    wxFlexGridSizer* itemFlexGridSizer105 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer105->AddGrowableCol(0);
+    itemFlexGridSizer103->Add(itemFlexGridSizer105, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_ProxySOCKSServerCtrl = new wxTextCtrl;
-    m_ProxySOCKSServerCtrl->Create( itemWizardPage109, ID_PROXYSOCKSSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer117->Add(m_ProxySOCKSServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSServerCtrl->Create( itemWizardPage86, ID_PROXYSOCKSSERVERCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer105->Add(m_ProxySOCKSServerCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     m_ProxySOCKSPortStaticCtrl = new wxStaticText;
-    m_ProxySOCKSPortStaticCtrl->Create( itemWizardPage109, ID_PROXYSOCKSPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer117->Add(m_ProxySOCKSPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPortStaticCtrl->Create( itemWizardPage86, ID_PROXYSOCKSPORTSTATICCTRL, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer105->Add(m_ProxySOCKSPortStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     m_ProxySOCKSPortCtrl = new wxTextCtrl;
-    m_ProxySOCKSPortCtrl->Create( itemWizardPage109, ID_PROXYSOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
-    itemFlexGridSizer117->Add(m_ProxySOCKSPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPortCtrl->Create( itemWizardPage86, ID_PROXYSOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    itemFlexGridSizer105->Add(m_ProxySOCKSPortCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     m_ProxySOCKSUsernameStaticCtrl = new wxStaticText;
-    m_ProxySOCKSUsernameStaticCtrl->Create( itemWizardPage109, ID_PROXYSOCKSUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer115->Add(m_ProxySOCKSUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSUsernameStaticCtrl->Create( itemWizardPage86, ID_PROXYSOCKSUSERNAMESTATICCTRL, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer103->Add(m_ProxySOCKSUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     m_ProxySOCKSUsernameCtrl = new wxTextCtrl;
-    m_ProxySOCKSUsernameCtrl->Create( itemWizardPage109, ID_PROXYSOCKSUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer115->Add(m_ProxySOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSUsernameCtrl->Create( itemWizardPage86, ID_PROXYSOCKSUSERNAMECTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer103->Add(m_ProxySOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     m_ProxySOCKSPasswordStaticCtrl = new wxStaticText;
-    m_ProxySOCKSPasswordStaticCtrl->Create( itemWizardPage109, ID_PROXYSOCKSPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer115->Add(m_ProxySOCKSPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPasswordStaticCtrl->Create( itemWizardPage86, ID_PROXYSOCKSPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer103->Add(m_ProxySOCKSPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     m_ProxySOCKSPasswordCtrl = new wxTextCtrl;
-    m_ProxySOCKSPasswordCtrl->Create( itemWizardPage109, ID_PROXYSOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer115->Add(m_ProxySOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProxySOCKSPasswordCtrl->Create( itemWizardPage86, ID_PROXYSOCKSPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    itemFlexGridSizer103->Add(m_ProxySOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     // Set validators
+    m_ProxyHTTPServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPServer) );
+    m_ProxyHTTPPortCtrl->SetValidator( wxTextValidator(wxFILTER_NUMERIC, & m_strProxyHTTPPort) );
+    m_ProxyHTTPUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPUsername) );
+    m_ProxyHTTPPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxyHTTPPassword) );
     m_ProxySOCKSServerCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSServer) );
     m_ProxySOCKSPortCtrl->SetValidator( wxTextValidator(wxFILTER_NUMERIC, & m_strProxySOCKSPort) );
     m_ProxySOCKSUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSUsername) );
     m_ProxySOCKSPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strProxySOCKSPassword) );
-////@end CAMErrProxySOCKSPage content construction
+////@end CAMErrProxyPage content construction
 }
 
 /*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE
+ * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE
  */
 
-void CAMErrProxySOCKSPage::OnPageChanged( wxWizardEvent& event )
+void CAMErrProxyPage::OnPageChanged( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE in CErrProxySOCKSPage.
+////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE in CErrProxyPage.
     // Before editing this code, remove the block markers.
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYSOCKSPAGE in CErrProxySOCKSPage. 
+////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE in CErrProxyPage. 
 }
 
 /*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE
+ * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE
  */
 
-void CAMErrProxySOCKSPage::OnCancel( wxWizardEvent& event )
+void CAMErrProxyPage::OnPageChanging( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE in CErrProxySOCKSPage.
+////@begin wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE in CErrProxyPage.
     // Before editing this code, remove the block markers.
     event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYSOCKSPAGE in CErrProxySOCKSPage. 
+////@end wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE in CErrProxyPage. 
+}
+
+/*!
+ * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE
+ */
+
+void CAMErrProxyPage::OnCancel( wxWizardEvent& event )
+{
+////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE in CErrProxyPage.
+    // Before editing this code, remove the block markers.
+    event.Skip();
+////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE in CErrProxyPage. 
 }
 
 /*!
  * Gets the previous page.
  */
 
-wxWizardPage* CAMErrProxySOCKSPage::GetPrev() const
+wxWizardPage* CAMErrProxyPage::GetPrev() const
 {
     // TODO: return the previous page
     return NULL;
@@ -2596,7 +2268,7 @@ wxWizardPage* CAMErrProxySOCKSPage::GetPrev() const
  * Gets the next page.
  */
 
-wxWizardPage* CAMErrProxySOCKSPage::GetNext() const
+wxWizardPage* CAMErrProxyPage::GetNext() const
 {
     // TODO: return the next page
     return NULL;
@@ -2606,7 +2278,7 @@ wxWizardPage* CAMErrProxySOCKSPage::GetNext() const
  * Should we show tooltips?
  */
 
-bool CAMErrProxySOCKSPage::ShowToolTips()
+bool CAMErrProxyPage::ShowToolTips()
 {
     return TRUE;
 }
@@ -2615,179 +2287,24 @@ bool CAMErrProxySOCKSPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CAMErrProxySOCKSPage::GetBitmapResource( const wxString& name )
+wxBitmap CAMErrProxyPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin CAMErrProxySOCKSPage bitmap retrieval
+////@begin CAMErrProxyPage bitmap retrieval
     return wxNullBitmap;
-////@end CAMErrProxySOCKSPage bitmap retrieval
+////@end CAMErrProxyPage bitmap retrieval
 }
 
 /*!
  * Get icon resources
  */
 
-wxIcon CAMErrProxySOCKSPage::GetIconResource( const wxString& name )
+wxIcon CAMErrProxyPage::GetIconResource( const wxString& name )
 {
     // Icon retrieval
-////@begin CAMErrProxySOCKSPage icon retrieval
+////@begin CAMErrProxyPage icon retrieval
     return wxNullIcon;
-////@end CAMErrProxySOCKSPage icon retrieval
-}
-
-/*!
- * CAMErrProxyComplationPage type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CAMErrProxyComplationPage, wxWizardPage )
-
-/*!
- * CAMErrProxyComplationPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CAMErrProxyComplationPage, wxWizardPage )
-
-////@begin CAMErrProxyComplationPage event table entries
-    EVT_WIZARD_PAGE_CHANGED( -1, CAMErrProxyComplationPage::OnPageChanged )
-    EVT_WIZARD_CANCEL( -1, CAMErrProxyComplationPage::OnCancel )
-
-////@end CAMErrProxyComplationPage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CAMErrProxyComplationPage constructors
- */
-
-CAMErrProxyComplationPage::CAMErrProxyComplationPage( )
-{
-}
-
-CAMErrProxyComplationPage::CAMErrProxyComplationPage( wxWizard* parent )
-{
-    Create( parent );
-}
-
-/*!
- * CErrProxyComplationPage creator
- */
-
-bool CAMErrProxyComplationPage::Create( wxWizard* parent )
-{
-////@begin CAMErrProxyComplationPage member initialisation
-////@end CAMErrProxyComplationPage member initialisation
-
-////@begin CAMErrProxyComplationPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPage::Create( parent, wizardBitmap );
-
-    CreateControls();
-    GetSizer()->Fit(this);
-////@end CAMErrProxyComplationPage creation
-    return TRUE;
-}
-
-/*!
- * Control creation for CErrProxyComplationPage
- */
-
-void CAMErrProxyComplationPage::CreateControls()
-{    
-////@begin CAMErrProxyComplationPage content construction
-    CAMErrProxyComplationPage* itemWizardPage125 = this;
-
-    wxBoxSizer* itemBoxSizer126 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage125->SetSizer(itemBoxSizer126);
-
-    wxStaticText* itemStaticText127 = new wxStaticText;
-    itemStaticText127->Create( itemWizardPage125, wxID_STATIC, _("Proxy configuration complete"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText127->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer126->Add(itemStaticText127, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxStaticText* itemStaticText128 = new wxStaticText;
-    itemStaticText128->Create( itemWizardPage125, wxID_STATIC, _("Click Next to continue."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer126->Add(itemStaticText128, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer126->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-////@end CAMErrProxyComplationPage content construction
-}
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE
- */
-
-void CAMErrProxyComplationPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE in CErrProxyComplationPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE in CErrProxyComplationPage. 
-}
-
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE
- */
-
-void CAMErrProxyComplationPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE in CErrProxyComplationPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYCOMPLETIONPAGE in CErrProxyComplationPage. 
-}
-
-/*!
- * Gets the previous page.
- */
-
-wxWizardPage* CAMErrProxyComplationPage::GetPrev() const
-{
-    // TODO: return the previous page
-    return NULL;
-}
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPage* CAMErrProxyComplationPage::GetNext() const
-{
-    // TODO: return the next page
-    return NULL;
-}
-
-/*!
- * Should we show tooltips?
- */
-
-bool CAMErrProxyComplationPage::ShowToolTips()
-{
-    return TRUE;
-}
-
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CAMErrProxyComplationPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
-////@begin CAMErrProxyComplationPage bitmap retrieval
-    return wxNullBitmap;
-////@end CAMErrProxyComplationPage bitmap retrieval
-}
-
-/*!
- * Get icon resources
- */
-
-wxIcon CAMErrProxyComplationPage::GetIconResource( const wxString& name )
-{
-    // Icon retrieval
-////@begin CAMErrProxyComplationPage icon retrieval
-    return wxNullIcon;
-////@end CAMErrProxyComplationPage icon retrieval
+////@end CAMErrProxyPage icon retrieval
 }
 
 /*!
@@ -2846,100 +2363,100 @@ bool CAMErrRefCountPage::Create( wxWizard* parent )
 void CAMErrRefCountPage::CreateControls()
 {    
 ////@begin CAMErrRefCountPage content construction
-    CAMErrRefCountPage* itemWizardPage130 = this;
+    CAMErrRefCountPage* itemWizardPage113 = this;
 
-    wxBoxSizer* itemBoxSizer131 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage130->SetSizer(itemBoxSizer131);
+    wxBoxSizer* itemBoxSizer114 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage113->SetSizer(itemBoxSizer114);
 
-    wxStaticText* itemStaticText132 = new wxStaticText;
-    itemStaticText132->Create( itemWizardPage130, wxID_STATIC, _("Ref Count Page"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText132->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer131->Add(itemStaticText132, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText115 = new wxStaticText;
+    itemStaticText115->Create( itemWizardPage113, wxID_STATIC, _("Ref Count Page"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText115->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer114->Add(itemStaticText115, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText133 = new wxStaticText;
-    itemStaticText133->Create( itemWizardPage130, wxID_STATIC, _("This page should never be used in the wizard itself."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer131->Add(itemStaticText133, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText116 = new wxStaticText;
+    itemStaticText116->Create( itemWizardPage113, wxID_STATIC, _("This page should never be used in the wizard itself."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer114->Add(itemStaticText116, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer131->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer114->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText135 = new wxStaticText;
-    itemStaticText135->Create( itemWizardPage130, wxID_STATIC, _("This page just increases the refcount of various bitmap resources\nso that DialogBlocks doesn't nuke the refences to them."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer131->Add(itemStaticText135, 0, wxALIGN_LEFT|wxALL, 5);
+    wxStaticText* itemStaticText118 = new wxStaticText;
+    itemStaticText118->Create( itemWizardPage113, wxID_STATIC, _("This page just increases the refcount of various bitmap resources\nso that DialogBlocks doesn't nuke the refences to them."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer114->Add(itemStaticText118, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer136 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer131->Add(itemBoxSizer136, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBoxSizer* itemBoxSizer119 = new wxBoxSizer(wxVERTICAL);
+    itemBoxSizer114->Add(itemBoxSizer119, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxBitmap itemStaticBitmap137Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress01.xpm")));
-    wxStaticBitmap* itemStaticBitmap137 = new wxStaticBitmap;
-    itemStaticBitmap137->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap137Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap137->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap137, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap120Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress01.xpm")));
+    wxStaticBitmap* itemStaticBitmap120 = new wxStaticBitmap;
+    itemStaticBitmap120->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap120Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap120->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap120, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap138Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress02.xpm")));
-    wxStaticBitmap* itemStaticBitmap138 = new wxStaticBitmap;
-    itemStaticBitmap138->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap138Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap138->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap138, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap121Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress02.xpm")));
+    wxStaticBitmap* itemStaticBitmap121 = new wxStaticBitmap;
+    itemStaticBitmap121->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap121Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap121->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap121, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap139Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress03.xpm")));
-    wxStaticBitmap* itemStaticBitmap139 = new wxStaticBitmap;
-    itemStaticBitmap139->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap139Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap139->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap139, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap122Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress03.xpm")));
+    wxStaticBitmap* itemStaticBitmap122 = new wxStaticBitmap;
+    itemStaticBitmap122->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap122Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap122->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap122, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap140Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress04.xpm")));
-    wxStaticBitmap* itemStaticBitmap140 = new wxStaticBitmap;
-    itemStaticBitmap140->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap140Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap140->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap140, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap123Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress04.xpm")));
+    wxStaticBitmap* itemStaticBitmap123 = new wxStaticBitmap;
+    itemStaticBitmap123->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap123Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap123->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap123, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap141Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress05.xpm")));
-    wxStaticBitmap* itemStaticBitmap141 = new wxStaticBitmap;
-    itemStaticBitmap141->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap141Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap141->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap141, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap124Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress05.xpm")));
+    wxStaticBitmap* itemStaticBitmap124 = new wxStaticBitmap;
+    itemStaticBitmap124->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap124Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap124->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap124, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap142Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress06.xpm")));
-    wxStaticBitmap* itemStaticBitmap142 = new wxStaticBitmap;
-    itemStaticBitmap142->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap142Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap142->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap142, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap125Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress06.xpm")));
+    wxStaticBitmap* itemStaticBitmap125 = new wxStaticBitmap;
+    itemStaticBitmap125->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap125Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap125->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap125, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap143Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress07.xpm")));
-    wxStaticBitmap* itemStaticBitmap143 = new wxStaticBitmap;
-    itemStaticBitmap143->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap143Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap143->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap143, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap126Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress07.xpm")));
+    wxStaticBitmap* itemStaticBitmap126 = new wxStaticBitmap;
+    itemStaticBitmap126->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap126Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap126->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap126, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap144Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress08.xpm")));
-    wxStaticBitmap* itemStaticBitmap144 = new wxStaticBitmap;
-    itemStaticBitmap144->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap144Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap144->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap144, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap127Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress08.xpm")));
+    wxStaticBitmap* itemStaticBitmap127 = new wxStaticBitmap;
+    itemStaticBitmap127->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap127Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap127->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap127, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap145Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress09.xpm")));
-    wxStaticBitmap* itemStaticBitmap145 = new wxStaticBitmap;
-    itemStaticBitmap145->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap145Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap145->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap145, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap128Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress09.xpm")));
+    wxStaticBitmap* itemStaticBitmap128 = new wxStaticBitmap;
+    itemStaticBitmap128->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap128Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap128->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap128, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap146Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress10.xpm")));
-    wxStaticBitmap* itemStaticBitmap146 = new wxStaticBitmap;
-    itemStaticBitmap146->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap146Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap146->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap146, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap129Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress10.xpm")));
+    wxStaticBitmap* itemStaticBitmap129 = new wxStaticBitmap;
+    itemStaticBitmap129->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap129Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap129->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap129, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap147Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress11.xpm")));
-    wxStaticBitmap* itemStaticBitmap147 = new wxStaticBitmap;
-    itemStaticBitmap147->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap147Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap147->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap147, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap130Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress11.xpm")));
+    wxStaticBitmap* itemStaticBitmap130 = new wxStaticBitmap;
+    itemStaticBitmap130->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap130Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap130->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap130, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap148Bitmap(itemWizardPage130->GetBitmapResource(wxT("res/wizprogress12.xpm")));
-    wxStaticBitmap* itemStaticBitmap148 = new wxStaticBitmap;
-    itemStaticBitmap148->Create( itemWizardPage130, wxID_STATIC, itemStaticBitmap148Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemStaticBitmap148->Show(FALSE);
-    itemBoxSizer136->Add(itemStaticBitmap148, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBitmap itemStaticBitmap131Bitmap(itemWizardPage113->GetBitmapResource(wxT("res/wizprogress12.xpm")));
+    wxStaticBitmap* itemStaticBitmap131 = new wxStaticBitmap;
+    itemStaticBitmap131->Create( itemWizardPage113, wxID_STATIC, itemStaticBitmap131Bitmap, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemStaticBitmap131->Show(FALSE);
+    itemBoxSizer119->Add(itemStaticBitmap131, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 ////@end CAMErrRefCountPage content construction
 }

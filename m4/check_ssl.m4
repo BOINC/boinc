@@ -36,7 +36,7 @@ if test x_$found_ssl != x_yes; then
 ])
 else
         printf "OpenSSL found in $ssldir\n";
-        LIBS="$LIBS -lssl -lcrypto";
+	SSL_LIBS="-lssl -lcrypto";
         LDFLAGS="$LDFLAGS -L$ssldir/lib";
 	AC_DEFINE_UNQUOTED([USE_OPENSSL],[1],
 	  ["Define to 1 if you want to use the openssl crypto library"])

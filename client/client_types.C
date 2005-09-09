@@ -217,7 +217,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
-        "%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s",
         master_url,
         project_name,
 #if 0

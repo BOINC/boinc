@@ -316,10 +316,10 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             //       BOINC error codes here.
             nxf->http_op_retval = HTTP_STATUS_INTERNAL_SERVER_ERROR;
             if (nxf->CurlResult == CURLE_OK) {
-                if ((nxf->response/100)*100 != HTTP_STATUS_OK) {
-                    nxf->http_op_retval = nxf->response;
+                if ((nxf->response/100)*100 == HTTP_STATUS_OK) {
+			        nxf->http_op_retval = 0;  
                 } else {
-			        nxf->http_op_retval = nxf->response - 200;  
+                    nxf->http_op_retval = nxf->response;
                 }
             } else if (nxf->CurlResult == CURLE_OUT_OF_MEMORY) {
                 msg_printf(0, MSG_ERROR, "An out of memory condition has been detected");

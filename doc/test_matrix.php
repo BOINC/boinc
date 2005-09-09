@@ -122,6 +122,11 @@ Remove BOINC directory.
 Install new BOINC.
 Verify that manager starts, asks for project info.
 
+<li> Try to connect to core client
+with bad password, from host not on list, etc.
+<li> (Unix) Try to overwrite executable file logged in
+as different user.
+
 <li> Test 'do work between hours' preference.
 <li> Test venue mechanism
 </ul>
