@@ -402,8 +402,15 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
             &tv
         );
         //printf("select in %d out %d\n", all_fds.max_fd, n);
+
+        // Note: curl apparently likes to have curl_multi_perform()
+        // (called from net_xfers->got_select())
+        // called pretty often, even if no descriptors are enabled.
+        // So do the "if (n==0) break" AFTER the got_selects().
+
         net_xfers->got_select(all_fds, x);
         gui_rpcs.got_select(all_fds);
+
         if (n==0) break;
 
         now = dtime();

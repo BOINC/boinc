@@ -30,7 +30,7 @@ if (!is_valid_country($country)) {
     show_error( "bad country");
 }
 
-$postal_code = strip_tags(process_user_text(post_str("postal_code")));
+$postal_code = strip_tags(process_user_text(post_str("postal_code", true)));
 
 $query = "update user set name='$name', country='$country', postal_code='$postal_code' where authenticator='$auth'";
 $retval = mysql_query($query);

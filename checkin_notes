@@ -11558,3 +11558,14 @@ Bruce 9 Sept 2005
 Rom    9 Sept 2005 (staging)
     - Tag for 5.1.3 release, all platforms
       boinc_core_release_5_1_3
+
+David  9 Sept 2005
+    - fix web bug, make zip code optional
+    - add some comments
+
+    client/
+        client_state.C
+    html/user/
+        account_finish_action.php
+    lib/
+        util.C

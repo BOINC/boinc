@@ -792,18 +792,6 @@ int boinc_calling_thread_cpu_time(double &cpu_t) {
 // NOTE: if you change this, also change update_average in
 // html/inc/credit.inc
 //
-
-// David, the quick fix I have done is minimalist.  Consider the limit
-// as diff->0, using the first-order Taylor expansion of
-// exp(x)=1+x+O(x^2).
-// So to the lowest order in diff:
-// weight = 1 - diff ln(2) / half_life
-// so one has
-// avg += (1-weight)*(work/diff_days)
-// avg += [diff*ln(2)/half_life] * (work*SECONDS_PER_DAY/diff)
-// notice that diff cancels out, leaving
-// avg += [ln(2)/half_life] * work*SECONDS_PER_DAY
-
 void update_average(
     double work_start_time,       // when new work was started
                                     // (or zero if no new work)
@@ -815,6 +803,24 @@ void update_average(
     double now = dtime();
 
     if (avg_time) {
+        // If an average R already exists, imagine that the new work was done
+        // entirely between avg_time and now.
+        // That gives a rate R'.
+        // Replace R with a weighted average of R and R',
+        // weighted so that we get the right half-life if R' == 0.
+        //
+        // But this blows up if avg_time == now; you get 0*(1/0)
+        // So consider the limit as diff->0,
+        // using the first-order Taylor expansion of
+        // exp(x)=1+x+O(x^2).
+        // So to the lowest order in diff:
+        // weight = 1 - diff ln(2) / half_life
+        // so one has
+        // avg += (1-weight)*(work/diff_days)
+        // avg += [diff*ln(2)/half_life] * (work*SECONDS_PER_DAY/diff)
+        // notice that diff cancels out, leaving
+        // avg += [ln(2)/half_life] * work*SECONDS_PER_DAY
+
         double diff, diff_days, weight;
 
         diff = now - avg_time;
@@ -826,12 +832,13 @@ void update_average(
         avg *= weight;
 
         if ((1.0-weight) > 1.e-6) {
-	    avg += (1-weight)*(work/diff_days);
-        }
-        else {
+            avg += (1-weight)*(work/diff_days);
+        } else {
             avg += M_LN2*work*SECONDS_PER_DAY/half_life;
-	}
+        }
     } else if (work) {
+        // If first time, average is just work/duration
+        //
         double dd = (now - work_start_time)/SECONDS_PER_DAY;
         avg = work/dd;
     }
