@@ -3736,7 +3736,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -dfR \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"\nopen \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 2\ntouch \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"";
+			shellScript = "rm -dfR \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"\nopen \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"";
 		};
 		DDCDB2C508CEE14800E4F573 = {
 			fileEncoding = 30;
