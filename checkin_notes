@@ -11532,3 +11532,15 @@ Rom    8 Sept 2005
         client_state.C
         http_curl.C
         net_xfer_curl.C
+
+Rom    8 Sept 2005
+    - Update to Account Manager wizard.
+    - Build a sea package that contains the debug version of the executables
+        so they can be put into the download directory in case we need them
+        for future issues.
+        
+    clientgui/
+        BOINCGUI.pjd
+        WizAttachAccountManager.cpp, .h
+    sea/
+        Makefile.am
