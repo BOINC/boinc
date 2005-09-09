@@ -11547,3 +11547,11 @@ Rom    8 Sept 2005
         WizAttachAccountManager.cpp, .h
     sea/
         Makefile.am
+
+Bruce 9 Sept 2005
+    - On many current linux machines pthread_sigmask() is not in glibc.
+      So use sigprocmask instead.
+
+    api/
+        boinc_api.C
+
