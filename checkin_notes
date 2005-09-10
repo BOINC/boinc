@@ -11578,3 +11578,11 @@ David  9 Sept 2005
         graphics_impl_lib.C
     clientgui/
         ViewProjects.cpp
+
+Bruce 10 Sept 2005
+    - backed out change from Sept 9 (not needed, didn't work).
+      Change had also propagated to graphics_impl_lib.C.
+
+    api/
+        boinc_api.C
+        graphics_impl_lib.C
