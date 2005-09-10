@@ -11594,3 +11594,13 @@ David  9 Sept 2005
 
     sched/
         validator.C
+
+Bruce 10 Sept 2005
+    - user profiles: do NOT display pictures in Gallery where admin has
+      rejected profile.  Janus, I don't know if this is complete enough
+      to prevent rejected pictures from EVER being shown.  Do you?
+
+    html/
+        inc/
+            gallery.inc
+

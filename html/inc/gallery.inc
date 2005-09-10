@@ -59,7 +59,7 @@ function build_picture_pages($width, $height) {
 
     // TODO: Standardize "Last modified" string to a function call (util.inc).
 
-    $query = "SELECT userid FROM profile WHERE has_picture = 1";
+    $query = "SELECT userid FROM profile WHERE has_picture = 1 AND verification=1";
     $result = mysql_query($query);
     $numIds = mysql_num_rows($result);
 
