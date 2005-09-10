@@ -25,7 +25,7 @@ Use these in your email or message-board signature.
 <li>
 <li>
 <a href=http://www.boinc.dk/index.php?page=signatures>http://www.boinc.dk/index.php?page=signatures</a>
-<a href=http://www.bigbee.be/comp/boinc/signature.php?id=9>http://www.bigbee.be/comp/boinc/signature.php?id=9</a> (for members of boinc.de)
+<a href=http://www.bigbee.be/comp/boinc/signature.php?id=9>http://www.bigbee.be/comp/boinc/signature.php</a>
 </ul>
 ";
 

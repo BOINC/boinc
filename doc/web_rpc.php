@@ -175,7 +175,7 @@ or
 ")
 );
 list_item("action",
-    "Returns into about an account.
+    "Returns info about an account.
     If called with the account key,
     returns a list of hosts associated with the account."
 );

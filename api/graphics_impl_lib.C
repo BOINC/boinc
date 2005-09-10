@@ -31,4 +31,30 @@ bool boinc_is_standalone() {
     return g_bmsp->boinc_is_standalone_hook();
 }
 
+// The following is a duplicate of function in boinc_api.C
+
+#include <sys/types.h>
+#include <signal.h>
+#include <pthread.h>
+#ifndef _WIN32
+// block SIGALRM, so that the worker thread will be forced to handle it
+//
+void block_sigalrm() {
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGALRM);
+
+    // many current Linux machines don't have pthread_sigmask in their
+    // library.  On these machines, sigprocmask() is equivalent.  But
+    // in the long run (end of 2006??) one should eliminate sigprocmask
+    // and just use pthread_sigmask().
+    //
+#ifdef linux
+    sigprocmask(SIG_BLOCK, &mask, NULL);
+#else
+    pthread_sigmask(SIG_BLOCK, &mask, NULL);
+#endif
+}
+#endif
+
 const char *BOINC_RCSID_9886dee259 = "$Id$";

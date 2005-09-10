@@ -114,8 +114,8 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Update All"),
-        _("Report all upload items, completed work, get latest credit, "
+        _("Update all"),
+        _("Report completed work, get latest credit, "
           "get latest preferences, and possibly get more work."),
         ID_TASK_PROJECT_UPDATE_ALL
     );
@@ -130,7 +130,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("No new work"),
-        _("Don't fetch new work for this project."),
+        _("Don't get new work for this project."),
         ID_TASK_PROJECT_NONEWWORK 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -147,10 +147,9 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Detach"),
-        _("Detach this computer from this project.  "
-          "Work in progress will be lost. "
-          "You can update the project first to report "
-          "any completed work."),
+        _("Detach computer from this project.  "
+          "Work in progress will be lost "
+          "(use 'Update' first to report any completed work)."),
         ID_TASK_PROJECT_DETACH 
     );
     pGroup->m_Tasks.push_back( pItem );

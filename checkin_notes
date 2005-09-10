@@ -11569,3 +11569,12 @@ David  9 Sept 2005
         account_finish_action.php
     lib/
         util.C
+
+David  9 Sept 2005
+    - add block_sigalrm() to graphics_impl_lib.C
+    - fix some text in Manager
+
+    api/
+        graphics_impl_lib.C
+    clientgui/
+        ViewProjects.cpp
