@@ -11586,3 +11586,11 @@ Bruce 10 Sept 2005
     api/
         boinc_api.C
         graphics_impl_lib.C
+
+David  9 Sept 2005
+    - validator: when find a canonical result, trigger the assimilator
+        but do NOT trigger the transitioner; doing so creates a race condition.
+        (from Bruce Allen)
+
+    sched/
+        validator.C

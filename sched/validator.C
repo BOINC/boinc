@@ -48,6 +48,13 @@ using namespace std;
 #define SELECT_LIMIT    1000
 #define SLEEP_PERIOD    5
 
+typedef enum {
+    NEVER,
+    DELAYED,
+    IMMEDIATE,
+    NO_CHANGE
+} TRANSITION_TIME;
+
 extern int check_set(
     vector<RESULT>&, WORKUNIT& wu, int& canonical, double& credit,
     bool& retry
@@ -163,10 +170,10 @@ int grant_credit(RESULT& result, double credit) {
 void handle_wu(
     DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
 ) { 
-    int  canonical_result_index = -1;
+    int canonical_result_index = -1;
     bool update_result, retry;
-    bool need_immediate_transition = false, need_delayed_transition = false;
-    int retval = 0, canonicalid = 0;
+    TRANSITION_TIME transition_time = NO_CHANGE;
+    int retval = 0, canonicalid = 0, x;
     double credit = 0;
     unsigned int i;
 
@@ -230,7 +237,7 @@ void handle_wu(
                 );
                 exit(retval);
             }
-            if (retry) need_delayed_transition = true;
+            if (retry) transition_time = DELAYED;
             update_result = false;
 
             if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
@@ -240,7 +247,7 @@ void handle_wu(
             // this might be last result, so let validator
             // trigger file delete etc. if needed
             //
-            need_immediate_transition = true;
+            transition_time = IMMEDIATE;
 
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
@@ -332,7 +339,7 @@ void handle_wu(
                 );
                 exit(retval);
             }
-            if (retry) need_delayed_transition = true;
+            if (retry) transition_time = DELAYED;
 
             // scan results.
             // update as needed, and count the # of results
@@ -344,7 +351,7 @@ void handle_wu(
                 update_result = false;
                 RESULT& result = results[i];
                 if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
-                    need_immediate_transition = true;
+                    transition_time = IMMEDIATE;
                     update_result = true;
                 } else {
                     nsuccess_results++;
@@ -392,7 +399,11 @@ void handle_wu(
             }
 
             if (canonicalid) {
-                need_immediate_transition = true;
+                // if we found a canonical result,
+                // trigger the assimilator, but do NOT trigger
+                // the transitioner - doing so creates a race condition
+                //
+                transition_time = NEVER;
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
@@ -429,7 +440,7 @@ void handle_wu(
                 //
                 if (nsuccess_results > wu.max_success_results) {
                     wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
-                    need_immediate_transition = true;
+                    transition_time = IMMEDIATE;
                 }
 
                 // if #success results == than target_nresults,
@@ -439,7 +450,7 @@ void handle_wu(
                 //
                 if (nsuccess_results >= wu.target_nresults) {
                     wu.target_nresults = nsuccess_results+1;
-                    need_immediate_transition = true;
+                    transition_time = IMMEDIATE;
                 }
             }
         }
@@ -447,11 +458,16 @@ void handle_wu(
 
     --log_messages;
 
-    if (need_immediate_transition) {
+    switch (transition_time) {
+    case IMMEDIATE:
         wu.transition_time = time(0);
-    } else if (need_delayed_transition) {
-        int x = time(0) + 6*3600;
+        break;
+    case DELAYED:
+        x = time(0) + 6*3600;
         if (x < wu.transition_time) wu.transition_time = x;
+        break;
+    case NEVER:
+        wu.transition_time = INT_MAX;
     }
 
     wu.need_validate = 0;
