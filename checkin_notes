@@ -11655,4 +11655,14 @@ Bruce 10 Sept 2005
     sched/
         transitioner.C
 
+Janus 11 Sept 2005
+    - (Rob) Cleanup of forum search action file + moderated posts no longer
+      show up in the result listings.
+    - Added translation tokens for this page
+
+    html/
+        user/
+            forum_text_search_action.php
+        languages/translations/
+            en.po
 
