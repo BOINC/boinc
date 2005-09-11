@@ -117,7 +117,6 @@ int SCHED_SHMEM::scan_tables() {
 
     n = 0;
     while (!app_version.enumerate()) {
-        if (app_version.version_num/100 != BOINC_MAJOR_VERSION) continue;
         if (app_version.deprecated) continue;
         if (!have_app(app_version.appid)) continue;
         app_versions[n++] = app_version;

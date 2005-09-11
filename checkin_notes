@@ -11604,3 +11604,9 @@ Bruce 10 Sept 2005
         inc/
             gallery.inc
 
+David  10 Sept 2005
+    - Server: don't require that app versions have same major version
+        as scheduler code
+
+    sched/
+        sched_shmem.C
