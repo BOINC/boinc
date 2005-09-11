@@ -11649,3 +11649,10 @@ Bruce 10 Sept 2005
         ops/
             profile_screen_form.php
 
+Bruce 10 Sept 2005
+    - transitioner was doing incorrect log accounting for OVER results.
+
+    sched/
+        transitioner.C
+
+

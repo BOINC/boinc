@@ -191,6 +191,7 @@ int handle_wu(
                 }
                 penalize_host(res_item.res_hostid, (double)wu_item.delay_bound);
                 nover++;
+                nno_reply++;
             } else {
                 ninprogress++;
             }
