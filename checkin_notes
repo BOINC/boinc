@@ -11659,10 +11659,19 @@ Janus 11 Sept 2005
     - (Rob) Cleanup of forum search action file + moderated posts no longer
       show up in the result listings.
     - Added translation tokens for this page
+    - Changed page_head() to include a meta tag for CHARSET (if defined) for
+      buggy IE 5.5 browsers that autodetect the charset to UTF7 (not 8)
+      adding an extra +AF8- whereever underscore is used in links.
+      Will keep an eye on this bug.
+    - The teampage shouldn't use the HTML version of the teamname as page
+      title and most certainly shouldn't use an extra parameter in page_head()
+      to do it...
 
     html/
         user/
             forum_text_search_action.php
         languages/translations/
             en.po
-
+        inc/
+            util.inc
+            team.inc
