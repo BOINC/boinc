@@ -358,3 +358,18 @@ msgstr "Top %s teams"
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "Members"
 
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Titles containing '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Posts containing '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "No titles containing '%s' could be found."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "No posts containing '%s' could be found."
