@@ -11635,11 +11635,17 @@ Bruce 10 Sept 2005
       If admins have rejected it, user will see a message saying that they
       must replace their picture or no one but themselves can see it.
     - The only known side effect of this is that selection of UOTD is now
-      includes users with no credit.  I will try to fix this.
+      done slightly differently by the uotd.inc functions.  Previously the only
+      profiles with verification=1 were those with credit, so UOTD was
+      selected from those.  Now there are profiles of users with zero credit
+      that have verification=1.  So script that selects UOTD now does
+      a table join to restrict profile searches to those of users with
+      credit only.
 
     html/
         inc/
             profile.inc
+            uotd.inc
         ops/
             profile_screen_form.php
 

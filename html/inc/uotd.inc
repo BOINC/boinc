@@ -50,8 +50,7 @@ function build_uotd_page() {
             exit();
         }
     }
-    // TODO: Verify that adding RAND() didn't screw this up.
-    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL ORDER BY RAND()");
+    $result = mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND total_credit>0 AND verification=1 AND uotd_time IS NULL ORDER BY RAND()");
 
     // If the number of approved profiles dips below a threshold,
     // email the sys admin every time we pick a new one.
@@ -70,7 +69,7 @@ function build_uotd_page() {
         // If all verified profiles have been selected as UOTD,
         // reshow the one that was shown least recently.
         //
-        $result = mysql_query("SELECT * FROM profile WHERE verification = 1 ORDER BY uotd_time ASC LIMIT 1");
+        $result = mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND total_credit>0 AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
     }
 
     if (!$result || mysql_num_rows($result) == 0) {
