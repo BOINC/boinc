@@ -16,7 +16,7 @@ function buttons($i) {
 
 admin_page_head("screen profiles");
 
-$result = mysql_query("select * from profile, user where profile.userid=user.id and (uotd_time is null) and (has_picture>0) and (verification=0) and (user.total_credit>0) order by recommend desc limit 20");
+$result = mysql_query("select * from profile, user where profile.userid=user.id and (has_picture>0) and (verification=0) order by recommend desc limit 20");
 
 $n = 0;
 echo "<form method=\"get\" action=\"profile_screen_action.php\">\n";

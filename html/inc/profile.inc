@@ -112,6 +112,27 @@ function show_textarea($name, $text) {
     rowify("<textarea name=\"$name\" cols=80 rows=20>" . $text . "</textarea>");
 }
 
+// When passed profile->verification, this function is used to tell the
+// user the verification status of their profile.
+//
+function offensive_profile_warning($verify_flag) {
+    if ($verify_flag == 0) {
+        return "
+            <font size='+2' color='33cc33'>
+            Your profile will be made visible to other people<br>
+            as soon as it has been approved by the project.<br>
+            This may take up to a few days.<br>
+            </font>";
+    } else if ($verify_flag == -1) {
+        return "
+            <font size='+2' color='ff3333'>
+            Your profile has been marked as unacceptable.<br>
+            It is not visible to other people. Please change it.<br>
+            </font>";
+    }
+    return "";
+}
+
 function show_picture_option($profile) {
 
     row1("Picture");
@@ -123,7 +144,7 @@ function show_picture_option($profile) {
 <tr>
 <td valign=top><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a>
 </td>
-<td valign=top> Your profile picture is shown at left.
+<td valign=top>" . offensive_profile_warning($profile->verification) . "Your profile picture is shown at left.
 <p>
 To replace it,
 click the \"Browse\" button and select a JPEG or PNG file (50KB or less).
@@ -203,12 +224,14 @@ function process_create_results($user, $profile) {
     if ($delete_pic == "on") {
         delete_user_pictures($profile->userid);
         $profile->has_picture = false;
+        $profile->verification = 0;
     }
 
     $profile ? $hasPicture = $profile->has_picture: $hasPicture = false;
 
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
         $hasPicture = true;
+        $profile->verification = 0;
 
         // echo "<br>Name: " . $_FILES['picture']['name'];
         // echo "<br>Type: " . $_FILES['picture']['type'];
@@ -230,6 +253,7 @@ function process_create_results($user, $profile) {
             ." response2 = '$response2',"
             ." language = '$language',"
             ." has_picture = '$hasPicture'"
+            ." verification = '$profile->verification'"
             ." WHERE userid = '$user->id'";
         $result = mysql_query($query);
         if (!$result) {
@@ -379,7 +403,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
                 echo "<td class=bordered width=7% height=64><center>";
 
                 // Only link an image if the user has uploaded one.;
-                if ($profile->has_picture) {
+                if ($profile->has_picture && $profile->verification==1) {
                     echo "<a href=\"", URL_BASE, "view_profile.php?userid={$members[$count]}\"><img src=\"", URL_BASE, IMAGE_URL, "{$members[$count]}_sm.jpg\"></a>";
 
                 } else {
@@ -456,12 +480,25 @@ function show_profile($userid, $verify_mode = FALSE) {
     }
     
 
-    if ($profile->has_picture) {
+    // Show picture only if there is a picture AND
+    // - sysadmin is verifying it
+    // - user is viewing/editing it
+    // - profile has been approved by sysadmin
+    //
+    if ($profile->has_picture && ($verify_mode || $can_edit || $profile->verification==1)) {
         echo "
             <tr><td colspan=2 align=center>
             <img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">
             </td></tr>
         ";
+    }
+
+    // If the user is viewing their own picture, display it's status if it's not
+    // yet verified.  This will tell them if other users can't view it yet, or
+    // if there is a problem with it and they need to replace it.
+    //
+    if ($can_edit && $profile->verification!=1) {
+        row1(offensive_profile_warning($profile->verification));
     }
 
     show_user_summary_public($user);

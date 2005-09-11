@@ -11592,6 +11592,21 @@ David  9 Sept 2005
         but do NOT trigger the transitioner; doing so creates a race condition.
         (from Bruce Allen)
 
+        Example race condition (time ordered):
+        transitioner [reads wu.assimilate_state==READY]                                                                     
+                     ...(swapped out by process scheduler)
+        assimilator  [reads wu.assimilate_state==READY]
+                     does assimilation
+                     [write wu.transition_time=NOW]
+                     [write wu.assimilate_state=DONE]
+        transitioner ...(swapped back in by process scheduler)
+                     [writes wu.transition_time=MAX_INT]
+        Final effect is wu.assimilate_state==DONE
+                        wu.file_delete_state==INIT
+                        wu.transition_time=MAX_INT
+        This is wrong: one should have wu.transition_time=NOW
+        else the WU will never change to file_delete_state=READY.
+                                                                          
     sched/
         validator.C
 
@@ -11610,3 +11625,21 @@ David  10 Sept 2005
 
     sched/
         sched_shmem.C
+
+Bruce 10 Sept 2005
+    - Web pages.  To control the posting of offsensive pictures, do not
+      display any user profile pictures until they have been verified by
+      project admin.  When user enters or modifies picture, only they can
+      see if.  If not yet verified, they will see a message saying that
+      other users can't see it until it has been verified by the project.
+      If admins have rejected it, user will see a message saying that they
+      must replace their picture or no one but themselves can see it.
+    - The only known side effect of this is that selection of UOTD is now
+      includes users with no credit.  I will try to fix this.
+
+    html/
+        inc/
+            profile.inc
+        ops/
+            profile_screen_form.php
+
