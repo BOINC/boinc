@@ -87,7 +87,7 @@ function show_login($user) {
     }
 }
 
-function page_head($title, $java_onload="", $title_plain="") {
+function page_head($title, $java_onload="") {
     $styleSheet = URL_BASE . STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE . "rss_main.php";
@@ -96,17 +96,15 @@ function page_head($title, $java_onload="", $title_plain="") {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
 
-	if (!$title_plain) {
-	    echo "<html><head><title>".strip_tags($title)."</title>
-	        <link rel=stylesheet type=text/css href=\"$styleSheet\">
-	        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
-	        </head>";
-	} else {
-		echo "<html><head><title>".strip_tags($title_plain)."</title>
-        <link rel=stylesheet type=text/css href=\"$styleSheet\">
-        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
-        </head>";
-	}
+    echo "<html><head><title>".strip_tags($title)."</title>
+    <link rel=stylesheet type=text/css href=\"$styleSheet\">
+    <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />";
+
+    if (defined("CHARSET")) {
+	echo "<meta http-equiv=\"charset\" content=\"".tr(CHARSET)."\">";
+    }
+    
+    echo "</head>";
     if ($java_onload!=""){echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";}
     display_cvs_versions();
     project_banner($title);
