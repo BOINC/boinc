@@ -555,6 +555,7 @@ int add_result_to_reply(
 ) {
     int retval;
     double wu_seconds_filled;
+    bool resent_result = false;
 
     retval = add_wu_to_reply(wu, reply, platform, app, avp);
     if (retval) return retval;
@@ -586,6 +587,8 @@ int add_result_to_reply(
         // result.report_deadline and time_sent
         // have already been updated before this function was called.
         //
+        resent_result = true;
+ 
         if (result.report_deadline < result.sent_time) {
             result.report_deadline = result.sent_time + 10;
         }
@@ -648,7 +651,7 @@ int add_result_to_reply(
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
     request.estimated_delay += wu_seconds_filled/reply.host.p_ncpus;
     reply.wreq.nresults++;
-    reply.host.nresults_today++;
+    if (!resent_result) reply.host.nresults_today++;
     return 0;
 }
 

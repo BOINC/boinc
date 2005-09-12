@@ -11675,3 +11675,11 @@ Janus 11 Sept 2005
         inc/
             util.inc
             team.inc
+
+Bruce 13 Sept 2005
+    - Scheduler: when resending 'lost' or 'ghost' WU, don't count this against
+      the daily result quota for the host.
+
+    sched/
+        sched_send.C
+
