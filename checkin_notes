@@ -11627,7 +11627,7 @@ David  10 Sept 2005
         sched_shmem.C
 
 Bruce 10 Sept 2005
-    - Web pages.  To control the posting of offsensive pictures, do not
+    - Web pages.  To control the posting of offensive pictures, do not
       display any user profile pictures until they have been verified by
       project admin.  When user enters or modifies picture, only they can
       see if.  If not yet verified, they will see a message saying that
