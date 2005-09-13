@@ -138,3 +138,4 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
 void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     error_num = http_op_retval;
 }
+const char *BOINC_RCSID_84df3fc17e="$Id$";

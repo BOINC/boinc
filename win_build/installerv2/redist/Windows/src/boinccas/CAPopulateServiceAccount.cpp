@@ -189,3 +189,4 @@ UINT __stdcall PopulateServiceAccount(MSIHANDLE hInstall)
     return uiReturnValue;
 }
 
+const char *BOINC_RCSID_c01e4ca76f="$Id$";

@@ -187,3 +187,4 @@ wxIcon CDlgAccountManagerSignup::GetIconResource( const wxString& WXUNUSED(name)
     return wxNullIcon;
 ////@end CDlgAccountManagerSignup icon retrieval
 }
+const char *BOINC_RCSID_329344e8f2="$Id$";

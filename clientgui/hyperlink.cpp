@@ -210,3 +210,4 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
     }
 }
 
+const char *BOINC_RCSID_d587835b7e="$Id$";

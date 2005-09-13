@@ -115,3 +115,4 @@ bool already_sent_to_different_platform(
     return wreq.homogeneous_redundancy_reject;
 }
 
+const char *BOINC_RCSID_4196d9a5b4="$Id$";

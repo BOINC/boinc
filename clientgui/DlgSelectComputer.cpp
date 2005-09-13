@@ -172,3 +172,4 @@ wxIcon CDlgSelectComputer::GetIconResource( const wxString& /*name*/ )
     return wxNullIcon;
 ////@end CDlgSelectComputer icon retrieval
 }
+const char *BOINC_RCSID_28d78701f5="$Id$";

@@ -57,3 +57,4 @@ CLocalization::CLocalization() {
         _("View information about your team: BOINC Synergy");
 }
 
+const char *BOINC_RCSID_4632804e37="$Id$";

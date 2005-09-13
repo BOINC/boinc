@@ -123,3 +123,4 @@ UINT __stdcall VerifyServicePassword(MSIHANDLE hInstall)
     return uiReturnValue;
 }
 
+const char *BOINC_RCSID_8fa10257fc="$Id$";

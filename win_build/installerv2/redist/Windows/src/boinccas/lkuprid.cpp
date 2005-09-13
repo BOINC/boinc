@@ -271,3 +271,4 @@ LookupUserGroupFromRid(
     return bSuccess;
 }
 
+const char *BOINC_RCSID_c563201b83="$Id$";

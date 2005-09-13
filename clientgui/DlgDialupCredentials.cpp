@@ -183,3 +183,4 @@ wxIcon CDlgDialupCredentials::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CDlgDialupCredentials icon retrieval
 }
+const char *BOINC_RCSID_764c617139="$Id$";

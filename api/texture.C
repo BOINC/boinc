@@ -383,3 +383,4 @@ unsigned * read_rgb_texture(const char *name, int *width, int *height, int *comp
     return (unsigned *) base;
 }
 
+const char *BOINC_RCSID_97d4f29d84="$Id$";

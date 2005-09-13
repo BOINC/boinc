@@ -210,3 +210,4 @@ void CDlgAccountManagerStatus::OnChangeClick( wxCommandEvent& WXUNUSED(event) )
 }
 
 
+const char *BOINC_RCSID_3c7bab9af5="$Id$";

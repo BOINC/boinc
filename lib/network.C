@@ -216,3 +216,4 @@ int get_connected_state() {
 }
 
 #endif
+const char *BOINC_RCSID_557bf0741f="$Id$";

@@ -115,3 +115,4 @@ UINT __stdcall GetAdministratorsGroupName(MSIHANDLE hInstall)
     return uiReturnValue;
 }
 
+const char *BOINC_RCSID_1a1bfeb1f8="$Id$";

@@ -168,3 +168,4 @@ int setMacIcon(char *filename, char *iconData, long iconSize) {
     boinc_resolve_filename(filename, path, sizeof(path));
     return(setMacRsrcForFile(path, iconData, iconSize, 'icns', RESIDICON, rsrcName));
 }
+const char *BOINC_RCSID_112a101526="$Id$";

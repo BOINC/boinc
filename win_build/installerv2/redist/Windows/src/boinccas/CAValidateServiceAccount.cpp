@@ -179,3 +179,4 @@ UINT __stdcall ValidateServiceAccount(MSIHANDLE hInstall)
 
 
 
+const char *BOINC_RCSID_ff78cf6825="$Id$";

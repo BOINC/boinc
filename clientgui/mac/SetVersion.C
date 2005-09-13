@@ -219,3 +219,4 @@ int MakeInstallerInfoPlistFile() {
 }
 
 
+const char *BOINC_RCSID_9263a2dc22="$Id$";

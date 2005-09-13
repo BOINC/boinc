@@ -128,3 +128,4 @@ UINT __stdcall DetectOldInstaller(MSIHANDLE hInstall)
     return uiReturnValue;
 }
 
+const char *BOINC_RCSID_9bbe764317="$Id$";

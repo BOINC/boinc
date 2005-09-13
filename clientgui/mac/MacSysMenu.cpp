@@ -281,3 +281,4 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
     
     return eventNotHandledErr;
 }
+const char *BOINC_RCSID_533878e385="$Id$";

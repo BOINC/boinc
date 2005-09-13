@@ -4337,3 +4337,4 @@ wxIcon CErrRefCountPage::GetIconResource( const wxString& name )
 ////@end CErrRefCountPage icon retrieval
 }
 
+const char *BOINC_RCSID_03902eb5fb="$Id$";

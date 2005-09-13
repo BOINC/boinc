@@ -218,3 +218,4 @@ bool resend_lost_work(
     return did_any;
 }
 
+const char *BOINC_RCSID_3be23838b4="$Id$";

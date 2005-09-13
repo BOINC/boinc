@@ -134,3 +134,4 @@ UINT __stdcall ValidateSetupType(MSIHANDLE hInstall)
 
 
 
+const char *BOINC_RCSID_d533f80c53="$Id$";

@@ -2573,3 +2573,4 @@ wxIcon CAMErrRefCountPage::GetIconResource( const wxString& name )
     return wxNullIcon;
 ////@end CAMErrRefCountPage icon retrieval
 }
+const char *BOINC_RCSID_b0f884ae03="$Id$";

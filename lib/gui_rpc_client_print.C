@@ -251,3 +251,4 @@ void ACCOUNT_OUT::print() {
         authenticator.c_str()
     );
 }
+const char *BOINC_RCSID_2bed1889d8="$Id$";

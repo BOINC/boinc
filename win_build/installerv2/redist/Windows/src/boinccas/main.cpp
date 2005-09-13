@@ -44,3 +44,4 @@ BOOL APIENTRY DllMain( HINSTANCE hInstance,
     return TRUE;
 
 }
+const char *BOINC_RCSID_c03f6a25f3="$Id$";

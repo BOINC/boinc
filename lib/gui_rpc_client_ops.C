@@ -1606,3 +1606,4 @@ int RPC_CLIENT::project_attach_poll() {
     }
     return retval;
 }
+const char *BOINC_RCSID_90e8b8d168="$Id$";

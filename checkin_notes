@@ -11683,3 +11683,68 @@ Bruce 13 Sept 2005
     sched/
         sched_send.C
 
+Bruce 13 Sept 2005
+    - Add BOINC_RCSID_ tags to those .C, .c and .cpp files that don't yet have
+      them.
+
+    api/
+	mac_icon.C
+	make_app_icon_h.C
+	texture.C
+    client/
+	gui_rpc_server_ops.C
+	acct_setup.C
+	gui_http.C
+	DlgAbout.cpp
+    clientgui/
+	DlgOptions.cpp
+	WizAttachProject.cpp
+	WizAttachAccountManager.cpp
+	DlgDialupCredentials.cpp
+	DlgAccountManagerSignup.cpp
+	DlgSelectComputer.cpp
+	DlgAccountManagerStatus.cpp
+	hyperlink.cpp
+	Localization.cpp
+	mac/
+	    MacSysMenu.cpp
+	    SetVersion.C
+	    mac_saver_module.cpp
+    lib/
+	gui_rpc_client_ops.C
+	gui_rpc_client_print.C
+	network.C
+    mac_installer/
+	LoginItemAPI.c
+	PostInstall.cpp
+    openssl/
+	include/
+	    openssl/
+		applink.c
+    sched/
+	sched_hr.C
+	sched_array.C
+	sched_resend.C
+    win_build/
+	installerv2/
+	    redist/
+		Windows/
+		    src/
+			boinccas/
+			    CADetectOldInstaller.cpp
+			    CAGetAdministratorsGroupName.cpp
+			    CAGetUsersGroupName.cpp
+			    CAGrantServiceExecutionRight.cpp
+			    CAPopulateServiceAccount.cpp
+			    CAShutdownBOINCManager.cpp
+			    CAValidateServiceAccount.cpp
+			    CAValidateSetupType.cpp
+			    CAVerifyServiceExecutionRight.cpp
+			    CAVerifyServicePassword.cpp
+			    boinccas.cpp
+			    lkuprid.cpp
+			    main.cpp
+			    stdafx.cpp
+
+
+

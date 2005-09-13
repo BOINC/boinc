@@ -591,3 +591,4 @@ UINT BOINCCABase::LogMessage(
     return uiReturnValue;
 }
 
+const char *BOINC_RCSID_08ed2ba826="$Id$";

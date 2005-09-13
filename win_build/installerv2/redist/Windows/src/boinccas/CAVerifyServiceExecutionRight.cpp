@@ -130,3 +130,4 @@ UINT __stdcall VerifyServiceExecutionRight(MSIHANDLE hInstall)
     return uiReturnValue;
 }
 
+const char *BOINC_RCSID_9a54239d77="$Id$";
