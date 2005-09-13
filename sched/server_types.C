@@ -403,9 +403,11 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     // if the scheduler has requested a delay OR the sysadmin has configured
     // the scheduler with a minimum time between RPCs, send a delay request.
     // Make it 1% larger than the min required to take care of time skew.
+    // If this is less than one second bigger, bump up by one sec.
     //
     if (request_delay || config.min_sendwork_interval) {
         double min_delay_needed=1.01*config.min_sendwork_interval;
+        if (min_delay_needed<config.min_sendwork_interval+1) min_delay_needed=config.min_sendwork_interval+1;
         if (request_delay<min_delay_needed) request_delay=min_delay_needed; 
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %f\n", request_delay);
