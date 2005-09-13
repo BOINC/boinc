@@ -530,6 +530,26 @@ char* time_to_string(double t) {
     return buf;
 }
 
+char* precision_time_to_string(double t) {
+    static char buf[100];
+    char finer[16];
+    int hundreds_of_microseconds=(int)(10000*(t-(int)t));
+    if (hundreds_of_microseconds == 10000) {
+        // paranoia -- this should never happen!
+        //
+        hundreds_of_microseconds=0;
+        t+=1.0;
+    }
+    time_t x = (time_t)t;
+    struct tm* tm = localtime(&x);
+
+    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
+    sprintf(finer, ".%04d", hundreds_of_microseconds);
+    strcat(buf, finer);
+    return buf;
+}
+
+
 // set by command line
 bool debug_fake_exponential_backoff = false;
 double debug_total_exponential_backoff = 0;

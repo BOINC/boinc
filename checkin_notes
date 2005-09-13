@@ -11753,8 +11753,19 @@ Bruce 13 Sept 2005
       if the hardwired standard delay in the client is smaller than
       min_sendwork_interval, the client will keep getting connections
       refused at the server side.  David, please give this a glance.
+    - Logging: to help resolve future race conditions etc, I have modified
+      the logging functions to print fractional seconds down to hundred
+      microsecond precision.  I think the only place that these logging
+      functions are used is in the server back-end code and in error logging
+      on the client side, where this should be OK. Rom, David, Charlie, if
+      you are unhappy with client side effects, I'm sure there is a way
+      to do this that only affects server side logging.
 
     sched/
         server_types.C
+    lib/
+        util.C
+        util.h
+        msg_log.C
 
 

@@ -56,6 +56,7 @@ extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);
+extern char* precision_time_to_string(double);
 extern std::string timediff_format(double);
 extern int read_file_string(const char* pathname, std::string& result);
 
