@@ -11747,4 +11747,14 @@ Bruce 13 Sept 2005
 			    stdafx.cpp
 
 
+Bruce 13 Sept 2005
+    - Scheduler: if admin has set min_sendwork_interval in config file, then
+      include a delay request at least this big in EVERY sched reply.  Else
+      if the hardwired standard delay in the client is smaller than
+      min_sendwork_interval, the client will keep getting connections
+      refused at the server side.  David, please give this a glance.
+
+    sched/
+        server_types.C
+
 
