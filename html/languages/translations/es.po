@@ -1,23 +1,23 @@
 ##########################################
 # Language: Spanish - Spain
 # FileID  : $Id$
-# Author  : Janus Kristensen (Translator: Alejandro Martín Covarrubias)
+# Author  : Janus Kristensen (Translator: Alejandro Martí­n Covarrubias)
 # Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
 ##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
-
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "iso-8859-1"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Español"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
-
 
 #########################################
 # Apps page (apps.php)
@@ -28,9 +28,9 @@ msgstr "Aplicaciones"
 msgid "APPS_DESCRIPTION"
 msgstr "$PROJECT tiene actualmente las siguientes aplicaciones. "
 "Cuando usted participa en $PROJECT, se asignará trabajo para una o más "
-"de esas aplicaciones en su ordenador. La versión más actualizada "
-"de ésa aplicación será descargada a su ordenador. "
-"Ésto ocurre automáticamente; usted no tiene que hacer nada."
+"de esas aplicaciones en su ordenador. "
+"La versión más actualizada de ésa aplicación será descargada "
+"a su ordenador. Ésto ocurre automáticamente; usted no tiene que hacer nada."
 
 msgid "APPS_PLATFORM"
 msgstr "Plataforma"
@@ -51,16 +51,19 @@ msgid "RULES_ONLY_AUTH"
 msgstr "Ejecutar $PROJECT sólo en ordenadores autorizados"
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Ejecute $PROJECT sólo en ordenadores que le pertenezcan, o de los que haya obtenido permiso del propietario. Algunas compañías y escuelas tienen normas que prohiben usar sus ordenadores en proyectos como $PROJECT"
+msgstr "Ejecute $PROJECT sólo en ordenadores que le pertenezcan, "
+"o de los que haya obtenido permiso del propietario. "
+"Algunas compañí­as y escuelas tienen normas que prohiben usar sus ordenadores "
+"para proyectos como $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
 msgstr "Cómo $PROJECT usará su ordenador"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
 msgstr "Cuando ejecute $PROJECT en su ordenador, "
-"utilizará parte de la potencia de su CPU, espacio en disco, "
-"y ancho de banda de red. Puede controlar cuantos recursos "
-"son usados por $PROJECT, y cuándo los utiliza."
+"utilizará parte de la potencia de su CPU, espacio en disco, y ancho de banda de red. "
+"Puede controlar cuantos recursos son usados por $PROJECT, "
+"y cuándo los utiliza."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
 msgstr "El trabajo hecho por su ordenador contribuye a los "
@@ -72,33 +75,36 @@ msgstr "Política de privacidad"
 
 msgid "RULES_PRIVACY_TEXT_A"
 msgstr "Su cuenta en $PROJECT se identifica por un nombre que usted elige. "
-"Éste nombre puede ser mostrado en la página web de $PROJECT, "
-"junto con un sumario del trabajo que su ordenador ha hecho para $PROJECT. "
+"Éste nombre puede ser mostrado en la página web de $PROJECT, junto a un sumario del "
+"trabajo que su ordenador ha hecho para $PROJECT. "
 "Si quiere mantener su anonimato, elija un nombre que no revele su identidad."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Si usted participa en $PROJECT, éste guardará información sobre su ordenador "
-"(como el tipo de procesador, cantidad de memoria, etc.) y será usada para decidir "
-"qué tipo de trabajo asignar a su ordenador. Ésta información se mostrará también "
-"en la página web de $PROJECT. No se mostrará nada que permita conocer "
-"la situación de su ordenador (ej. su nombre de dominio o red local)."
+msgstr "Si usted participa en $PROJECT, información sobre su ordenador "
+"(como el tipo de procesador, cantidad de memoria, etc.) "
+"será guardada por $PROJECT y usada para decidir quá tipo de trabajo "
+"asignar a su ordenador. Ésta información se mostrará también en "
+"la página web de $PROJECT. "
+"Nada que permita conocer la situación de su ordenador (ej. su nombre de dominio o "
+"dirección de red local) será revelado."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Para participar en $PROJECT, usted debe indicar una dirección "
-"donde recibir correos. Ésta dirección no se mostrará en la página web de $PROJECT "
-"ni será compartida con otras organizaciones. $PROJECT podrá mandarle boletines periódicamente; "
-"de todas formas son optativos y también puede desactivarlos en cualquier momento."
+msgstr "Para participar en $PROJECT, usted debe indicar una dirección donde recibir correos. "
+"Ésta dirección no se mostrará en la página web de $PROJECT ni será compartida con otras organizaciones. "
+"$PROJECT podrá mandarle boletines periódicamente; de todas formas son optativos y puede desactivarlos en cualquier momento."
 
 msgid "RULES_SAFE"
-msgstr "¿Es seguro utilizar $PROJECT ?"
+msgstr "¿Es seguro ejecutar $PROJECT ?"
 
 msgid "RULES_SAFE_TEXT_A"
 msgstr "Cada vez que descarga un programa de Internet está haciendo una elección: "
-"el programa puede tener fallos peligrosos, o el servidor de descarga puede haber sido pirateado. "
-"$PROJECT ha hecho esfuerzos para minimizar ésos riesgos. Hemos testeado nuestras "
-"aplicaciones cuidadosamente. Nuestros servidores están detras de cortafuegos y "
-"están configurados para una seguridad máxima. Para asegurar la integridad en la descarga de programas, "
-"todos los ficheros ejecutables están firmados digitalmente en un ordenador seguro no conectado a Internet."
+"el programa puede tener fallos peligrosos, "
+"o el servidor de descarga puede haber sido pirateado. "
+"$PROJECT ha hecho esfuerzos para minimizar ésos riesgos. "
+"Hemos testeado nuestras aplicaciones cuidadosamente. "
+"Nuestros servidores están detras de cortafuegos y están configurados para una seguridad máxima. "
+"Para asegurar la integridad en la descarga de programas, todos los ficheros ejecutables están firmados "
+"digitalmente en un ordenador seguro no conectado a Internet."
 
 msgid "RULES_SAFE_TEXT_B"
 msgstr "Las aplicaciones ejecutadas por $PROJECT pueden causar que algunos ordenadores se sobrecalienten. "
@@ -108,27 +114,30 @@ msgid "RULES_UTILITY_PROGRAM"
 msgstr "utilidad"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT ha sido desarrollado por %s. BOINC fué desarrollado por la Universidad de California."
+msgstr "$PROJECT ha sido desarrollado por %s. BOINC fué desarrollado por la Universidad de "
+"California."
 
 msgid "RULES_LIABILITY"
 msgstr "Responsabilidades"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT y %s no asumen ninguna responsabilidad por daño en su ordenador, pérdida de datos, "
-"o cualquier otro evento o condición que pueda ocurrir como resultado de participar en $PROJECT."
+msgstr "$PROJECT y %s no asumen ninguna responsabilidad por daño en su ordenador, "
+"pérdida de datos, o cualquier otro evento o condición que pueda ocurrir como resultado de "
+"participar en $PROJECT."
 
 msgid "RULES_OTHER"
 msgstr "Otros proyectos BOINC"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Hay otros proyectos que utilizan la misma plataforma, BOINC, como $PROJECT. Usted puede considerar "
-"el participar en uno o más de esos proyectos. Haciéndolo su ordenador hará un trabajo útil incluso "
-"cuando $PROJECT no tenga trabajo disponible por hacer."
+msgstr "Hay otros proyectos que utilizan la misma plataforma, BOINC, como $PROJECT. Usted puede querer "
+"considerar el participar en uno o más de esos proyectos. "
+"Haciéndolo su ordenador hará un trabajo útil incluso cuando $PROJECT no tenga trabajo "
+"disponible por hacer."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "Esos otros proyectos no están asociados con $PROJECT, "
-"y no podemos garantizar sus niveles de seguridad o la naturaleza de su trabajo. "
-"Si se une a ellos lo hace por su cuenta y riesgo."
+msgstr "Esos otros proyectos no están asociados con $PROJECT, y no podemos "
+"garantizar sus niveles de seguridad o la naturaleza de su trabajo. Únase a ellos "
+"por su cuenta y riesgo."
 
 #########################################
 # Create account form (create_account_form.php)
@@ -140,7 +149,7 @@ msgid "CREATE_AC_READ_RULES"
 msgstr "Lea las %s antes de crear una cuenta."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Si usted recibió una clave de cuenta, no mande éste formulario. "
+msgstr "Si usted recibiá una clave de cuenta, no mande éste formulario. "
 "Hágalo con éste otro %s."
 
 msgid "CREATE_AC_NAME"
@@ -168,7 +177,7 @@ msgid "CREATE_AC_CREATE"
 msgstr "Crear Cuenta"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "Creación de Cuentas Desactivada."
+msgstr "La Creación de Cuentas está Desactivada."
 
 msgid "CREATE_AC_DISABLED_TEXT"
 msgstr "La creación de cuentas está desactivada para $PROJECT por ahora. "
@@ -209,7 +218,7 @@ msgid "AC_SETUP_ISFIRST"
 msgstr "¿Es éste su primer proyecto BOINC?"
 
 msgid "AC_SETUP_FIRST"
-msgstr "Sí - éste es mi primer proyecto BOINC"
+msgstr "Sí­ - éste es mi primer proyecto BOINC"
 
 msgid "AC_SETUP_NONFIRST"
 msgstr "No - actualmente estoy participando en al menos otro proyecto BOINC"
@@ -237,12 +246,12 @@ msgid "AC_DONE_COMPLETE"
 msgstr "Su creación de cuenta está completada."
 
 msgid "AC_DONE_BOINC"
-msgstr "Ahora usted debe descargar e instalar el software BOINC "
-"e indicar a su(s) ordenador(es) que utilice(n) ésta cuenta."
+msgstr "Ahora usted debe descargar e instalar el software BOINC e indicar a su(s) ordenador(es) "
+"que utilice(n) ésta cuenta."
 
 msgid "AC_DONE_URL"
-msgstr "Cuando el software BOINC se ejecute por vez primera, "
-"le pedirá una <b>URL del proyecto</b> y una <b>Clave de cuenta</b>."
+msgstr "Cuando el software BOINC se ejecute por vez primera, le pedirá una <b>URL del proyecto</b> y "
+"una <b>Clave de cuenta</b>."
 
 msgid "AC_DONE_COPYPASTE"
 msgstr "Cópielas y péguelas desde aquí:"
@@ -269,12 +278,12 @@ msgid "AC_DONE_MUST_USE"
 msgstr "Ahora deberá indicar a su(s) ordenador(es) que utilice(n) ésta cuenta."
 
 msgid "AC_DONE_WIN"
-msgstr "Usuarios Windows:"
+msgstr "Usuarios de Windows:"
 
 msgid "AC_DONE_WIN_TEXT"
 msgstr "Abra la ventana de aplicación BOINC haciendo doble click en el icono de la bandeja del sistema. "
-"Seleccione 'Unirse a un proyecto nuevo' en el menu de Proyectos. Se le pedirá la URL del proyecto y "
-"la clave de su cuenta."
+"Seleccione 'Unirse a un proyecto nuevo' en el menu de Proyectos. Se le pedirá la URL del proyecto "
+"y la clave de su cuenta."
 
 msgid "AC_DONE_UNIX"
 msgstr "Usuarios Mac, Unix and Linux:"
@@ -290,6 +299,12 @@ msgid "AC_DONE_INSTALLED"
 msgstr "Ésto completa la instalación de $PROJECT."
 
 #########################################
+# Forum sample index page
+#########################################
+msgid "FORUM_TITLE"
+msgstr "Foros de $PROJECT"
+
+#########################################
 # Different strange places:
 #########################################
 # account_created.php
@@ -301,4 +316,49 @@ msgstr "Configurar su cuenta"
 #########################################
 msgid "OPTIONAL"
 msgstr "Opcional"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Mejores participantes"
+
+msgid "USER_TABLE_RANK"
+msgstr "Posición"
+
+msgid "USER_TABLE_NAME"
+msgstr "Nombre"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "Crédito Total"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "Promedio de Crédito Reciente"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "País"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Participante desde"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Mejores %s equipos"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Miembros"
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Encabezados que contienen '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Mensajes que contienen '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "No se ha podido encontrar ningún encabezado que contenga '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "No se ha podido encontrar ningún mensaje que contenga '%s'."
 

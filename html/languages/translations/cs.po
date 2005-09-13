@@ -1,18 +1,4 @@
-﻿msgid ""
-msgstr ""
-"Project-Id-Version: BOINC web Czech Translation\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-08-17 12:00+0100\n"
-"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
-"Language-Team: Czech National Team\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
-"X-Poedit-SourceCharset: utf-8\n"
-
-##########################################
+﻿##########################################
 # Language: Czech
 # FileID  : $Id$
 # Author  : Martin Suchan
@@ -40,9 +26,9 @@ msgstr "Aplikace"
 
 msgid "APPS_DESCRIPTION"
 msgstr "$PROJECT nyní používá tyto aplikace. Pokud se podílíte na "
-"$PROJECT, vašemu počítači bude přidělena práce pro jednu, nebo "
-"více, těchto aplikací. Nejnovější verze aplikace se automaticky stáhne do "
-"vašeho počítače. Nemusíte pro to nic dělat. "
+"$PROJECT, bude Vašemu počítači přidělena práce pro jednu, nebo "
+"více, těchto aplikací. Nejnovější verze aplikace se vždy automaticky "
+"stáhne do Vašeho počítače."
 
 msgid "APPS_PLATFORM"
 msgstr "Platforma"
@@ -69,39 +55,38 @@ msgstr "Používejte $PROJECT pouze na počítačích které vlastníte, "
 "projekty jako je $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
-msgstr "Jak bude $PROJECT využívat váš počítač"
+msgstr "Jak bude $PROJECT využívat Váš počítač"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Pokud používáte $PROJECT, tak tento projekt bude využívat část"
-"výpočetního výkonu, místa na disku a připojení vašeho počítače. "
-"Můžete též olivnit, kolik prostředků bude $PROJECT využívat a "
-"také kdy je bude využívat."
+msgstr "Při používání bude $PROJECT využívat část výpočetního výkonu, "
+"místa na disku a připojení Vašeho počítače. Můžete též ovlivnit, "
+"kolik prostředků bude $PROJECT využívat a také kdy je bude využívat."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Práce vykonaná vaším počítačem přispěje k dosažení cíle "
+msgstr "Práce vykonaná Vaším počítačem přispěje k dosažení cíle "
 "$PROJECT tak, jak je psáno na stránkách projektu. Cíle projektu "
 "se mohou čas od času měnit."
 
 msgid "RULES_PRIVACY"
-msgstr "Ochranna soukromí"
+msgstr "Ochrana soukromí"
 
 msgid "RULES_PRIVACY_TEXT_A"
 msgstr "Váš účet na $PROJECT je identifikován podle jména, které "
 "si sami zvolíte. Toto jméno bude zobrazováno na stránkách $PROJECT, "
-"spolu s údaji o tom, kolik práce již váš počítač v $PROJECT vykonal. "
+"spolu s údaji o tom, kolik práce již Váš počítač v $PROJECT vykonal. "
 "Pokud si přejete zůstat v anonymitě, zvolte si takové jméno, které "
-"skryje vaší pravou identitu."
+"skryje Vaší pravou identitu."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Pokud se účastníte $PROJECT, informace o vašem počítači "
+msgstr "Pokud se účastníte $PROJECT, informace o Vašem počítači "
 "(typ procesoru, velikost paměti atd.) bude zaznamenána v databázi "
-"$PROJECT a použita pro určení, jaký typ práce bude vašemu počítači "
+"$PROJECT a použita pro určení, jaký typ práce bude Vašemu počítači "
 "přidělen. Tyto informace budou také viditelné na stránkách "
-"$PROJECT. Nebude zobrazeno nic co by odhalovalo umístění vašeho "
-"počítače, jako např. jméno domény, IP adresa."
+"$PROJECT. Nebude zobrazeno nic, co by odhalovalo umístění Vašeho "
+"počítače, jako např. jméno domény či IP adresa."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Abyste se mohli podílet v $PROJECT, musíte zadat vaší emailovou "
+msgstr "Abyste se mohli podílet v $PROJECT, musíte zadat Vaší emailovou "
 "adresu, kterou používáte. Tato adresa nebude zobrazena na stránkách "
 "$PROJECT ani sdělována jiným organizacím. $PROJECT vám bude zasílat "
 "emailové novinky, které ovšem můžete kdykoliv zrušit. "
@@ -111,7 +96,7 @@ msgstr "Je bezpečné používat $PROJECT ?"
 
 msgid "RULES_SAFE_TEXT_A"
 msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se "
-"riziku, že program obsahuje nebezpečné chyby a nebo že server, ze "
+"riziku, že program obsahuje nebezpečné chyby, nebo že server, ze "
 "kterého stahujete, byl napaden útočníkem. $PROJECT vynakládá veškeré úsilí "
 "k minimalizaci těchto rizik. Pro zajištění integrity byly všechny naše "
 "programy důkladně testovány a také digitálně podepsány na zabezpečeném "
@@ -127,7 +112,7 @@ msgid "RULES_UTILITY_PROGRAM"
 msgstr "pomocné programy"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT byl vyvinut %s. BOINC byl vyvinut v Kalifornské universitě v Berkeley."
+msgstr "$PROJECT byl vyvinut v %s. BOINC byl vyvinut v Kalifornské universitě v Berkeley."
 
 msgid "RULES_LIABILITY"
 msgstr "Zodpovědnost"
@@ -141,15 +126,15 @@ msgid "RULES_OTHER"
 msgstr "Jiné BOINC projekty"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Existují i další projekty, které využívají stejné prostředí, BOINC, jako "
-"$PROJECT. Můžete zvážit vaše přispění i do těchto projektů. "
-"Pokud tak učiníte, váš počítač bude pracovat užitečně i v době, "
+msgstr "Prostředí BOINC využívají i další projekty, tak jako "
+"$PROJECT. Můžete zvážit Vaše přispění i do těchto projektů a "
+"pokud tak učiníte, Váš počítač bude pracovat užitečně i v době, "
 "kdy $PROJECT nebude mít nic na práci."
 
 msgid "RULES_OTHER_TEXT_B"
 msgstr "Tyto další projekty nejsou nijak spojené s $PROJECT a tudíž "
 "se Vám nemůžeme nijak zaručit za jejich bezpečnost či "
-"předmět výzkumu. Připojte se k nim na vaše vlastní riziko."
+"předmět výzkumu. Připojte se k nim dle Vašeho uvážení."
 
 #########################################
 # Create account form (create_account_form.php)
@@ -168,8 +153,7 @@ msgid "CREATE_AC_NAME"
 msgstr "Jméno"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "Vaše identifikace na těchto stránkách. Použijte "
-"skutečné jméno, nebo přezdívku."
+msgstr "Vaše identifikace na stránkách. Použijte skutečné jméno, nebo přezdívku."
 
 msgid "CREATE_AC_EMAIL"
 msgstr "Emailová adresa"
@@ -207,10 +191,10 @@ msgid "AC_READY_TITLE"
 msgstr "Účet vytvořen"
 
 msgid "AC_READY_WELCOME"
-msgstr "Blahopřejeme - váš účet v $PROJECT byl právě vytvořen."
+msgstr "Blahopřejeme - Váš účet v $PROJECT byl právě vytvořen."
 
 msgid "AC_READY_PASTE"
-msgstr "Pro pokračování vložte váš klíč k účtu sem:"
+msgstr "Pro pokračování vložte Váš klíč k účtu sem:"
 
 msgid "AC_READY_CLICK"
 msgstr "a klikněte"
@@ -226,11 +210,11 @@ msgid "AC_SETUP_USES_BOINC"
 msgstr "$PROJECT používá systém BOINC."
 
 msgid "AC_SETUP_DIVISION"
-msgstr "BOINC vám umožňuje rozdělit váš počítačový čas "
+msgstr "BOINC vám umožňuje rozdělit Váš počítačový čas "
 "mezi různé výpočetní projekty."
 
 msgid "AC_SETUP_ISFIRST"
-msgstr "Je toto váš první BOINC projekt?"
+msgstr "Je toto Váš první BOINC projekt?"
 
 msgid "AC_SETUP_FIRST"
 msgstr "Ano - toto je můj první BOINC projekt"
@@ -245,7 +229,7 @@ msgid "AC_FIRST_TITLE"
 msgstr "Předvolby účtu"
 
 msgid "AC_FIRST_CONTROL"
-msgstr "Můžete kontrolovat kdy a jak bude váš počítač používán pro $PROJECT."
+msgstr "Můžete kontrolovat kdy a jak bude Váš počítač používán pro $PROJECT."
 
 msgid "AC_FIRST_DEFAULT"
 msgstr "Pro použití výchozího nastavení, skrolujte dolů a klikněte na OK."
@@ -258,7 +242,7 @@ msgid "AC_DONE_TITLE"
 msgstr "Nastavení účtu: hotové"
 
 msgid "AC_DONE_COMPLETE"
-msgstr "Nastavení vašeho účtu je hotové."
+msgstr "Nastavení Vašeho účtu je hotové."
 
 msgid "AC_DONE_BOINC"
 msgstr "Dále si stáhněte a nainstalujte program BOINC a "
@@ -340,7 +324,7 @@ msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Nejlepší účastníci"
 
 msgid "USER_TABLE_RANK"
-msgstr "Umístění"
+msgstr "Pořadí"
 
 msgid "USER_TABLE_NAME"
 msgstr "Jméno"
@@ -359,3 +343,22 @@ msgstr "Účastníkem od"
 
 msgid "TOP_TEAMS_TITLE"
 msgstr "Nejlepší %s týmy"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Členů"
+
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Nadpisy obsahující '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Příspěvky obsahující '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Nebyl nalezen žádný nadpis obsahující '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Nebyl nalezen žádný příspěvek obsahující '%s'."
