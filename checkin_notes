@@ -11768,4 +11768,8 @@ Bruce 13 Sept 2005
         util.h
         msg_log.C
 
-
+Charlie 13 Sept 2005
+    - Mac: Change macintosh libe endings to UNIX line endings.
+    
+    mac-installer/
+        LoginItemAPI.C, h
