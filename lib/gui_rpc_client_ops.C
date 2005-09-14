@@ -789,7 +789,7 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         else if (match_tag(buf, "<account_manager/>")) {
             account_manager = true;
             continue;
-        else if (match_tag(buf, "<uses_username/>")) {
+        } else if (match_tag(buf, "<uses_username/>")) {
             uses_username = true;
             continue;
         } else if (match_tag(buf, "<account_creation_disabled")) {
