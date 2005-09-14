@@ -441,6 +441,7 @@ struct PROJECT_CONFIG {
     int error_num;
     std::string name;
     int min_passwd_length;
+    bool account_manager;
     bool uses_username;
     bool account_creation_disabled;
     bool client_account_creation_disabled;

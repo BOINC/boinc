@@ -122,6 +122,24 @@ class CAMErrRefCountPage;
 #endif
 
 /*!
+ * CWizAttachAccountManager debug flags
+ */
+
+#define WIZDEBUG_ERRPROJECTPROPERTIES                 0x00000001
+#define WIZDEBUG_ERRPROJECTPROPERTIESURL              0x00000002
+#define WIZDEBUG_ERRYAHOOCOMM                         0x00000004
+#define WIZDEBUG_ERRGOOGLECOMM                        0x00000008
+#define WIZDEBUG_ERRNETDETECTION                      0x00000010
+#define WIZDEBUG_ERRPROJECTCOMM                       0x00000020
+#define WIZDEBUG_ERRACCOUNTNOTFOUND                   0x00000040
+#define WIZDEBUG_ERRACCOUNTALREADYEXISTS              0x00000080
+#define WIZDEBUG_ERRACCOUNTCREATIONDISABLED           0x00000100
+#define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000200
+#define WIZDEBUG_ERRPROJECTATTACH                     0x00000400
+#define WIZDEBUG_ERRPROJECTALREADYATTACHED            0x00000800
+
+
+/*!
  * CWizAttachAccountManager class declaration
  */
 
@@ -148,6 +166,11 @@ public:
 
 ////@end CWizAttachAccountManager event handler declarations
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_BACKWARD
+    void OnWizardBack( wxCommandEvent& event );
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_FORWARD
+    void OnWizardNext( wxCommandEvent& event );
+
 ////@begin CWizAttachAccountManager member function declarations
 
     /// Runs the wizard.
@@ -159,6 +182,50 @@ public:
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
 ////@end CWizAttachAccountManager member function declarations
+
+    /// Overrides
+    virtual bool HasNextPage( wxWizardPage* page );
+    virtual bool HasPrevPage( wxWizardPage* page );
+
+    // Accessors
+    wxButton* GetBackButton() const { return m_pbtnBack ; }
+    void SetBackButton(wxButton* value) { m_pbtnBack = value ; }
+
+    wxButton* GetNextButton() const { return m_pbtnNext ; }
+    void SetNextButton(wxButton* value) { m_pbtnNext = value ; }
+
+    /// Diagnostics functions
+    void SetDiagFlags( unsigned long ulFlags );
+    bool IsDiagFlagsSet( unsigned long ulFlags );
+
+    /// Track page transitions
+    wxWizardPage* PopPageTransition();
+    wxWizardPage* PushPageTransition( wxWizardPage* pCurrentPage, unsigned long ulPageID );
+
+    /// Cancel Event Infrastructure
+    bool IsCancelInProgress() const { return m_bCancelInProgress ; }
+    void ProcessCancelEvent( wxWizardEvent& event );
+
+    /// Button Simulation
+    void SimulateNextButton();
+    void EnableNextButton();
+    void DisableNextButton();
+    void SimulateBackButton();
+    void EnableBackButton();
+    void DisableBackButton();
+
+    /// Finish Button Environment
+    bool GetAccountCreatedSuccessfully() const { return account_created_successfully ; }
+    void SetAccountCreatedSuccessfully(bool value) { account_created_successfully = value ; }
+
+    bool GetAttachedToProjectSuccessfully() const { return attached_to_project_successfully ; }
+    void SetAttachedToProjectSuccessfully(bool value) { attached_to_project_successfully = value ; }
+
+    wxString GetProjectURL() const { return project_url ; }
+    void SetProjectURL(wxString value) { project_url = value ; }
+
+    wxString GetProjectAuthenticator() const { return project_authenticator ; }
+    void SetProjectAuthenticator(wxString value) { project_authenticator = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
@@ -177,6 +244,28 @@ public:
     CAMErrProxyPage* m_ErrProxyPage;
     CAMErrRefCountPage* m_ErrRefCountPage;
 ////@end CWizAttachAccountManager member variables
+
+    // Since the buttons are not publically exposed, we are going to cheat to get
+    //   the pointers to them by trapping the click event and caching the button
+    //   class pointers.
+    wxButton*    m_pbtnBack;     // the "<Back" button
+    wxButton*    m_pbtnNext;     // the "Next>" or "Finish" button
+
+    // Wizard support
+    unsigned long m_ulDiagFlags;
+    std::stack<wxWizardPage*> m_PageTransition;
+
+    // Cancel Checking
+    bool m_bCancelInProgress;
+
+    // Global Wizard Status
+    PROJECT_CONFIG      project_config;
+    ACCOUNT_IN          account_in;
+    ACCOUNT_OUT         account_out;
+    bool                account_created_successfully;
+    bool                attached_to_project_successfully;
+    wxString            project_url;
+    wxString            project_authenticator;
 };
 
 /*!
@@ -316,6 +405,46 @@ public:
 };
 
 /*!
+ * CAMAccountManagerPropertiesPage custom events
+ */
+
+class CAMAccountManagerPropertiesPageEvent : public wxEvent
+{
+public:
+    CAMAccountManagerPropertiesPageEvent(wxEventType evtType, wxWizardPage *parent)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(parent);
+        }
+
+    virtual wxEvent *Clone() const { return new CAMAccountManagerPropertiesPageEvent(*this); }
+};
+
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, 11000 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE(fn) \
+    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+/*!
+ * CAMAccountManagerPropertiesPage states
+ */
+
+#define ACCTMGRPROP_INIT                                   0
+#define ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN            1
+#define ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE          2
+#define ACCTMGRPROP_COMMUNICATEYAHOO_BEGIN                 3
+#define ACCTMGRPROP_COMMUNICATEYAHOO_EXECUTE               4
+#define ACCTMGRPROP_COMMUNICATEGOOGLE_BEGIN                5
+#define ACCTMGRPROP_COMMUNICATEGOOGLE_EXECUTE              6
+#define ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN           7
+#define ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE         8
+#define ACCTMGRPROP_CLEANUP                                9
+#define ACCTMGRPROP_END                                    10
+
+/*!
  * CAMAccountManagerPropertiesPage class declaration
  */
 
@@ -346,6 +475,8 @@ public:
 
 ////@end CAMAccountManagerPropertiesPage event handler declarations
 
+    void OnStateChange( CAMAccountManagerPropertiesPageEvent& event );
+
 ////@begin CAMAccountManagerPropertiesPage member function declarations
 
     /// Gets the previous page.
@@ -361,12 +492,55 @@ public:
     wxIcon GetIconResource( const wxString& name );
 ////@end CAMAccountManagerPropertiesPage member function declarations
 
+    bool GetProjectPropertiesSucceeded() const { return m_bProjectPropertiesSucceeded ; }
+    void SetProjectPropertiesSucceeded(bool value) { m_bProjectPropertiesSucceeded = value ; }
+
+    bool GetProjectPropertiesURLFailure() const { return m_bProjectPropertiesURLFailure ; }
+    void SetProjectPropertiesURLFailure(bool value) { m_bProjectPropertiesURLFailure = value ; }
+
+    bool GetProjectAccountCreationDisabled() const { return m_bProjectAccountCreationDisabled ; }
+    void SetProjectAccountCreationDisabled(bool value) { m_bProjectAccountCreationDisabled = value ; }
+
+    bool GetProjectClientAccountCreationDisabled() const { return m_bProjectClientAccountCreationDisabled ; }
+    void SetProjectClientAccountCreationDisabled(bool value) { m_bProjectClientAccountCreationDisabled = value ; }
+
+    bool GetProjectAlreadyAttached() const { return m_bProjectAlreadyAttached ; }
+    void SetProjectAlreadyAttached(bool value) { m_bProjectAlreadyAttached = value ; }
+
+    bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
+    void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
+
+    bool GetCommunicateGoogleSucceeded() const { return m_bCommunicateGoogleSucceeded ; }
+    void SetCommunicateGoogleSucceeded(bool value) { m_bCommunicateGoogleSucceeded = value ; }
+
+    bool GetDeterminingConnectionStatusSucceeded() const { return m_bDeterminingConnectionStatusSucceeded ; }
+    void SetDeterminingConnectionStatusSucceeded(bool value) { m_bDeterminingConnectionStatusSucceeded = value ; }
+
+    wxInt32 GetCurrentState() const { return m_iCurrentState ; }
+    void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
+
     /// Should we show tooltips?
     static bool ShowToolTips();
+
+    /// Progress Image Support
+    void StartProgress(wxStaticBitmap* pBitmap);
+    void IncrementProgress(wxStaticBitmap* pBitmap);
+    void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CAMAccountManagerPropertiesPage member variables
     wxStaticBitmap* m_ProjectPropertiesProgress;
 ////@end CAMAccountManagerPropertiesPage member variables
+
+    bool m_bProjectPropertiesSucceeded;
+    bool m_bProjectPropertiesURLFailure;
+    bool m_bProjectAccountCreationDisabled;
+    bool m_bProjectClientAccountCreationDisabled;
+    bool m_bProjectAlreadyAttached;
+    bool m_bCommunicateYahooSucceeded;
+    bool m_bCommunicateGoogleSucceeded;
+    bool m_bDeterminingConnectionStatusSucceeded;
+    int m_iBitmapIndex;
+    int m_iCurrentState;
 };
 
 /*!
@@ -442,6 +616,40 @@ public:
 };
 
 /*!
+ * CAMAttachAccountManagerPage custom events
+ */
+
+class CAMAttachAccountManagerPageEvent : public wxEvent
+{
+public:
+    CAMAttachAccountManagerPageEvent(wxEventType evtType, wxWizardPage *parent)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(parent);
+        }
+
+    virtual wxEvent *Clone() const { return new CAMAttachAccountManagerPageEvent(*this); }
+};
+
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_ATTACHACCOUNTMANAGER_STATECHANGE, 11100 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_ATTACHACCOUNTMANAGER_STATECHANGE(fn) \
+    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ATTACHACCOUNTMANAGER_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+/*!
+ * CAMAttachAccountManagerPage states
+ */
+
+#define ATTACHACCTMGR_INIT                              0
+#define ATTACHACCTMGR_ATTACHACCTMGR_BEGIN               1
+#define ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE             2
+#define ATTACHACCTMGR_CLEANUP                           3
+#define ATTACHACCTMGR_END                               4
+
+/*!
  * CAMAttachAccountManagerPage class declaration
  */
 
@@ -472,6 +680,8 @@ public:
 
 ////@end CAMAttachAccountManagerPage event handler declarations
 
+    void OnStateChange( CAMAttachAccountManagerPageEvent& event );
+
 ////@begin CAMAttachAccountManagerPage member function declarations
 
     /// Gets the previous page.
@@ -487,12 +697,43 @@ public:
     wxIcon GetIconResource( const wxString& name );
 ////@end CAMAttachAccountManagerPage member function declarations
 
+    bool GetProjectCommunitcationsSucceeded() const { return m_bProjectCommunitcationsSucceeded ; }
+    void SetProjectCommunitcationsSucceeded(bool value) { m_bProjectCommunitcationsSucceeded = value ; }
+
+    bool GetProjectUnavailable() const { return m_bProjectUnavailable ; }
+    void SetProjectUnavailable(bool value) { m_bProjectUnavailable = value ; }
+
+    bool GetProjectAccountAlreadyExists() const { return m_bProjectAccountAlreadyExists ; }
+    void SetProjectAccountAlreadyExists(bool value) { m_bProjectAccountAlreadyExists = value ; }
+
+    bool GetProjectAccountNotFound() const { return m_bProjectAccountNotFound ; }
+    void SetProjectAccountNotFound(bool value) { m_bProjectAccountNotFound = value ; }
+
+    bool GetProjectAttachSucceeded() const { return m_bProjectAttachSucceeded ; }
+    void SetProjectAttachSucceeded(bool value) { m_bProjectAttachSucceeded = value ; }
+
+    wxInt32 GetCurrentState() const { return m_iCurrentState ; }
+    void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
+
     /// Should we show tooltips?
     static bool ShowToolTips();
+
+    /// Progress Image Support
+    void StartProgress(wxStaticBitmap* pBitmap);
+    void IncrementProgress(wxStaticBitmap* pBitmap);
+    void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CAMAttachAccountManagerPage member variables
     wxStaticBitmap* m_AttachProjectProgress;
 ////@end CAMAttachAccountManagerPage member variables
+
+    bool m_bProjectCommunitcationsSucceeded;
+    bool m_bProjectUnavailable;
+    bool m_bProjectAccountNotFound;
+    bool m_bProjectAccountAlreadyExists;
+    bool m_bProjectAttachSucceeded;
+    int m_iBitmapIndex;
+    int m_iCurrentState;
 };
 
 /*!

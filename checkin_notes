@@ -11773,3 +11773,13 @@ Charlie 13 Sept 2005
     
     mac-installer/
         LoginItemAPI.C, h
+
+Rom    14 Sept 2005
+    - Update to account management.
+    
+    clientgui/
+        WizAttachAccountManager.cpp, .h
+        WizAttachProject.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

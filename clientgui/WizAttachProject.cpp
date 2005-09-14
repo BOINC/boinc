@@ -1227,7 +1227,6 @@ wxWizardPage* CProjectPropertiesPage::GetNext() const
         // The project much be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRPROJECTUNAVAILABLEPAGE);
     }
-
     return NULL;
 }
  
@@ -2008,7 +2007,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardEvent& event )
     if (event.GetDirection() == false) return;
  
     if (!((CWizAttachProject*)GetParent())->IsCancelInProgress()) {
-        wxString strTitle = _("Attach to Project Wizard");
+        wxString strTitle = _("Attach to Project");
         wxString strMessage = wxT("");
         bool     bDisplayError = false;
  

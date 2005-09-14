@@ -22,16 +22,10 @@
 #pragma implementation "WizAttachAccountManager.h"
 #endif
 
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
+#include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "error_numbers.h"
+#include "network.h"
 
 ////@begin includes
 ////@end includes
@@ -53,7 +47,20 @@
 #include "res/wizprogress11.xpm"
 #include "res/wizprogress12.xpm"
 ////@end XPM images
+  
+/*!
+ * CWizAttachAccountManager global helper macros
+ */
 
+#define PAGE_TRANSITION_NEXT(id) \
+    ((CWizAttachAccountManager*)GetParent())->PushPageTransition((wxWizardPage*)this, id)
+ 
+#define PAGE_TRANSITION_BACK \
+    ((CWizAttachAccountManager*)GetParent())->PopPageTransition()
+ 
+#define CHECK_DEBUG_FLAG(id) \
+    ((CWizAttachAccountManager*)GetParent())->IsDiagFlagsSet(id)
+  
 /*!
  * CWizAttachAccountManager type definition
  */
@@ -106,7 +113,26 @@ bool CWizAttachAccountManager::Create( wxWindow* parent, wxWindowID id, const wx
     m_ErrProxyPage = NULL;
     m_ErrRefCountPage = NULL;
 ////@end CWizAttachAccountManager member initialisation
+  
+    // Button pointer cache
+    m_pbtnBack = NULL;
+    m_pbtnNext = NULL;
+ 
+    // Wizard support
+    m_ulDiagFlags = 0;
 
+    // Cancel Checking
+    m_bCancelInProgress = false;
+ 
+    // Global wizard status
+    project_config.clear();
+    account_in.clear();
+    account_out.clear();
+    account_created_successfully = false;
+    attached_to_project_successfully = false;
+    project_url = wxEmptyString;
+    project_authenticator = wxEmptyString;
+ 
 ////@begin CWizAttachAccountManager creation
     wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     wxWizard::Create( parent, id, _("Attach to Account Manager"), wizardBitmap, pos );
@@ -122,6 +148,8 @@ bool CWizAttachAccountManager::Create( wxWindow* parent, wxWindowID id, const wx
 
 void CWizAttachAccountManager::CreateControls()
 {    
+    wxLogTrace(wxT("Function Start/End"), wxT("CWizAttachAccountManager::CreateControls - Function Begin"));
+
 ////@begin CWizAttachAccountManager content construction
     wxWizard* itemWizard1 = this;
 
@@ -175,34 +203,40 @@ void CWizAttachAccountManager::CreateControls()
     itemWizard1->FitToPage(m_ErrRefCountPage);
     wxWizardPageSimple* lastPage = NULL;
 ////@end CWizAttachAccountManager content construction
+ 
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls - Begin Page Map"));
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERINFOPAGE, m_AccountManagerInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROPERTIESPAGE, m_AccountManagerPropertiesPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_AttachAccountManagerPage = id: '%d', location: '%p'"), ID_ATTACHACCOUNTMANAGERPAGE, m_AttachAccountManagerPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), ID_COMPLETIONPAGE, m_CompletionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), ID_COMPLETIONERRORPAGE, m_CompletionErrorPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_ErrAccountManagerNotDetectedPage = id: '%d', location: '%p'"), ID_ERRACCOUNTMANAGERNOTDETECTEDPAGE, m_ErrAccountManagerNotDetectedPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_ErrAccountManagerUnavailablePage = id: '%d', location: '%p'"), ID_ERRACCOUNTMANAGERUNAVAILABLEPAGE, m_ErrAccountManagerUnavailablePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), ID_ERRNOINTERNETCONNECTIONPAGE, m_ErrNoInternetConnectionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), ID_ERRPROXYPAGE, m_ErrProxyPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizAttachAccountManager::CreateControls - End Page Map"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CWizAttachAccountManager::CreateControls - Function End"));
 }
 
-/*!
- * wxEVT_WIZARD_FINISHED event handler for ID_ATTACHACCOUNTMANAGERWIZARD
- */
-
-void CWizAttachAccountManager::OnFinished( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_FINISHED event handler for ID_ATTACHACCOUNTMANAGERWIZARD in CWizAttachAccountManager.
-    // Before editing this code, remove the block markers.
+void CWizAttachAccountManager::OnWizardBack( wxCommandEvent& event ) {
+    if (!GetBackButton()) SetBackButton((wxButton*)event.GetEventObject());
     event.Skip();
-////@end wxEVT_WIZARD_FINISHED event handler for ID_ATTACHACCOUNTMANAGERWIZARD in CWizAttachAccountManager. 
 }
-
+ 
+void CWizAttachAccountManager::OnWizardNext( wxCommandEvent& event ) {
+    if (!GetNextButton()) SetNextButton((wxButton*)event.GetEventObject());
+    event.Skip();
+}
+ 
 /*!
  * Runs the wizard.
  */
 
 bool CWizAttachAccountManager::Run()
 {
-    wxWizardPage* startPage = NULL;
-    wxWindowListNode* node = GetChildren().GetFirst();
-    while (node)
-    {
-        wxWizardPage* startPage = wxDynamicCast(node->GetData(), wxWizardPage);
-        if (startPage) return RunWizard(startPage);
-        node = node->GetNext();
-    }
+    if (m_WelcomePage) return RunWizard(m_WelcomePage);
     return FALSE;
 }
 
@@ -242,6 +276,234 @@ wxIcon CWizAttachAccountManager::GetIconResource( const wxString& name )
 ////@begin CWizAttachAccountManager icon retrieval
     return wxNullIcon;
 ////@end CWizAttachAccountManager icon retrieval
+}
+
+/*!
+ * Determine if the wizard page has a next page
+ */
+
+bool CWizAttachAccountManager::HasNextPage( wxWizardPage* page )
+{
+    bool bNoNextPageDetected = false;
+
+    bNoNextPageDetected |= (page == m_CompletionPage);
+    bNoNextPageDetected |= (page == m_CompletionErrorPage);
+    bNoNextPageDetected |= (page == m_ErrAccountManagerNotDetectedPage);
+    bNoNextPageDetected |= (page == m_ErrAccountManagerUnavailablePage);
+    bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
+ 
+    if (bNoNextPageDetected)
+        return false;
+    return true;
+}
+  
+/*!
+ * Determine if the wizard page has a previous page
+ */
+ 
+bool CWizAttachAccountManager::HasPrevPage( wxWizardPage* page )
+{
+    if ((page == m_WelcomePage) || (page == m_CompletionErrorPage))
+        return false;
+    return true;
+}
+ 
+/*!
+ * Set the diagnostics flags.
+ */
+ 
+void CWizAttachAccountManager::SetDiagFlags( unsigned long ulFlags )
+{
+    m_ulDiagFlags = ulFlags;
+}
+ 
+/*!
+ * Check the desired bitmask against our existing bitmask.
+ */
+
+bool CWizAttachAccountManager::IsDiagFlagsSet( unsigned long ulFlags )
+{
+    if (ulFlags & m_ulDiagFlags) {
+        return true;
+    }
+    return false;
+}
+ 
+/*!
+ * Remove the page transition to the stack.
+ */
+ 
+wxWizardPage* CWizAttachAccountManager::PopPageTransition() {
+    wxWizardPage* pPage = NULL;
+    if (GetCurrentPage()) {
+        if (m_PageTransition.size() > 0) {
+            pPage = m_PageTransition.top();
+            m_PageTransition.pop();
+            if ((pPage == m_AccountManagerPropertiesPage) || (pPage == m_AttachAccountManagerPage)) {
+                // We want to go back to the page before we attempted to communicate
+                //   with any server.
+                pPage = m_PageTransition.top();
+                m_PageTransition.pop();
+            }
+            wxASSERT(pPage);
+            return pPage;
+        }
+    }
+    return NULL;
+}
+ 
+/*!
+ * Add the page transition to the stack.
+ */
+
+wxWizardPage* CWizAttachAccountManager::PushPageTransition( wxWizardPage* pCurrentPage, unsigned long ulPageID ) {
+    if (GetCurrentPage()) {
+        wxWizardPage* pPage = NULL;
+
+        if (ID_WELCOMEPAGE == ulPageID)
+            pPage = m_WelcomePage;
+ 
+        if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
+            pPage = m_AccountManagerInfoPage;
+ 
+        if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
+            pPage = m_AccountManagerPropertiesPage;
+ 
+        if (ID_ACCOUNTINFOPAGE == ulPageID)
+            pPage = m_AccountInfoPage;
+ 
+        if (ID_ATTACHACCOUNTMANAGERPAGE == ulPageID)
+            pPage = m_AttachAccountManagerPage;
+ 
+        if (ID_COMPLETIONPAGE == ulPageID)
+            pPage = m_CompletionPage;
+ 
+        if (ID_COMPLETIONERRORPAGE == ulPageID)
+            pPage = m_CompletionErrorPage;
+ 
+        if (ID_ERRACCOUNTMANAGERNOTDETECTEDPAGE == ulPageID)
+            pPage = m_ErrAccountManagerNotDetectedPage;
+ 
+        if (ID_ERRACCOUNTMANAGERUNAVAILABLEPAGE == ulPageID)
+            pPage = m_ErrAccountManagerUnavailablePage;
+ 
+        if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
+            pPage = m_ErrNoInternetConnectionPage;
+ 
+        if (pPage) {
+            if ((pCurrentPage == m_WelcomePage) && (m_PageTransition.size() == 0)) {
+                m_PageTransition.push(NULL);
+            }
+            if (m_PageTransition.top() != pCurrentPage) {
+                m_PageTransition.push(pCurrentPage);
+            }
+            return pPage;
+        }
+    }
+    return NULL;
+}
+  
+void CWizAttachAccountManager::ProcessCancelEvent( wxWizardEvent& event ) {
+
+    bool bCancelWithoutNextPage = false;
+    wxWizardPage* page = GetCurrentPage();
+
+    int iRetVal = ::wxMessageBox(
+        _("Do you really want to cancel?"), 
+        _("Question"),
+        wxICON_QUESTION | wxYES_NO,
+        this
+    );
+
+    // Reenable the next and back buttons if they have been disabled
+    if (GetNextButton()) {
+        GetNextButton()->Enable();
+    }
+    if (GetBackButton()) {
+        GetBackButton()->Enable();
+    }
+
+    // Page specific rules - Disable the validator(s)
+    if (wxYES == iRetVal) {
+        if (page == m_AccountManagerInfoPage) {
+            m_AccountManagerInfoPage->m_AccountManagerUrlCtrl->SetValidator(wxDefaultValidator);
+        } else if (page == m_AccountInfoPage) {
+            m_AccountInfoPage->m_AccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
+            m_AccountInfoPage->m_AccountPasswordCtrl->SetValidator(wxDefaultValidator);
+        } else if (page == m_ErrProxyPage) {
+            m_ErrProxyPage->m_ProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_ProxySOCKSPasswordCtrl->SetValidator(wxDefaultValidator);
+        }
+    }
+
+    // Generic rules
+    bCancelWithoutNextPage |= (page == m_WelcomePage);
+    bCancelWithoutNextPage |= (page == m_ErrAccountManagerNotDetectedPage);
+    bCancelWithoutNextPage |= (page == m_ErrAccountManagerUnavailablePage);
+    bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
+    if (!bCancelWithoutNextPage) {
+        event.Veto();
+        if (wxYES == iRetVal) {
+            m_bCancelInProgress = true;
+            SimulateNextButton();
+        }
+    } else {
+        if (wxYES != iRetVal) {
+            event.Veto();
+        }
+    }
+}
+ 
+void CWizAttachAccountManager::SimulateNextButton() {
+    if (!GetNextButton()) return;
+    wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, GetNextButton()->GetId());
+    event.SetEventObject(GetNextButton());
+    AddPendingEvent(event);
+}
+
+void CWizAttachAccountManager::EnableNextButton() {
+    if (!GetNextButton()) return;
+    GetNextButton()->Enable();
+}
+
+void CWizAttachAccountManager::DisableNextButton() {
+    if (!GetNextButton()) return;
+    GetNextButton()->Disable();
+}
+
+void CWizAttachAccountManager::SimulateBackButton() {
+    if (!GetBackButton()) return;
+    wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, GetBackButton()->GetId());
+    event.SetEventObject(GetNextButton());
+    AddPendingEvent(event);
+}
+ 
+void CWizAttachAccountManager::EnableBackButton() {
+    if (!GetBackButton()) return;
+    GetBackButton()->Enable();
+}
+
+void CWizAttachAccountManager::DisableBackButton() {
+    if (!GetBackButton()) return;
+    GetBackButton()->Disable();
+}
+
+/*!
+ * wxEVT_WIZARD_FINISHED event handler for ID_ATTACHACCOUNTMANAGERWIZARD
+ */
+
+void CWizAttachAccountManager::OnFinished( wxWizardEvent& event )
+{
+////@begin wxEVT_WIZARD_FINISHED event handler for ID_ATTACHACCOUNTMANAGERWIZARD in CWizAttachAccountManager.
+    // Before editing this code, remove the block markers.
+    event.Skip();
+////@end wxEVT_WIZARD_FINISHED event handler for ID_ATTACHACCOUNTMANAGERWIZARD in CWizAttachAccountManager. 
 }
 
 /*!
@@ -401,12 +663,8 @@ void CAMWelcomePage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE
  */
 
-void CAMWelcomePage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE in CWelcomePage.
-    // Before editing this code, remove the block markers.
+void CAMWelcomePage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE in CWelcomePage. 
 }
 
 /*!
@@ -415,22 +673,44 @@ void CAMWelcomePage::OnPageChanged( wxWizardEvent& event )
 
 void CAMWelcomePage::OnPageChanging( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE in CWelcomePage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE in CWelcomePage. 
+    if (event.GetDirection() == false) return;
+ 
+    unsigned long ulFlags = 0;
+ 
+#if defined(__WXDEBUG__)
+    if (m_ErrProjectPropertiesCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIES;
+#endif
+#if defined(__WXDEBUG__)
+    if (m_ErrProjectPropertiesURLCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIESURL;
+#endif
+#if defined(__WXDEBUG__)
+    if (m_ErrGoogleCommCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRGOOGLECOMM;
+#endif
+#if defined(__WXDEBUG__)
+    if (m_ErrYahooCommCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRYAHOOCOMM;
+#endif
+#if defined(__WXDEBUG__)
+    if (m_ErrProjectAttachFailureCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRPROJECTATTACH;
+#endif
+#if defined(__WXDEBUG__)
+    if (m_ErrNetDetectionCtrl->GetValue()) 
+        ulFlags |= WIZDEBUG_ERRNETDETECTION;
+#endif
+ 
+    ((CWizAttachAccountManager*)GetParent())->SetDiagFlags( ulFlags );
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
  */
 
-void CAMWelcomePage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE in CWelcomePage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE in CWelcomePage. 
+void CAMWelcomePage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -439,7 +719,6 @@ void CAMWelcomePage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMWelcomePage::GetPrev() const
 {
-    // TODO: return the previous page
     return NULL;
 }
 
@@ -449,7 +728,12 @@ wxWizardPage* CAMWelcomePage::GetPrev() const
 
 wxWizardPage* CAMWelcomePage::GetNext() const
 {
-    // TODO: return the next page
+    if (((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else {
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERINFOPAGE);
+    }
     return NULL;
 }
 
@@ -606,36 +890,24 @@ void CAMAccountManagerInfoPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
  */
 
-void CAMAccountManagerInfoPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE in CProjectInfoPage.
-    // Before editing this code, remove the block markers.
+void CAMAccountManagerInfoPage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE in CProjectInfoPage. 
 }
 
 /*!
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
  */
 
-void CAMAccountManagerInfoPage::OnPageChanging( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE in CProjectInfoPage.
-    // Before editing this code, remove the block markers.
+void CAMAccountManagerInfoPage::OnPageChanging( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE in CProjectInfoPage. 
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
  */
 
-void CAMAccountManagerInfoPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE in CProjectInfoPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE in CProjectInfoPage. 
+void CAMAccountManagerInfoPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -644,8 +916,7 @@ void CAMAccountManagerInfoPage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMAccountManagerInfoPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -654,7 +925,12 @@ wxWizardPage* CAMAccountManagerInfoPage::GetPrev() const
 
 wxWizardPage* CAMAccountManagerInfoPage::GetNext() const
 {
-    // TODO: return the next page
+    if (((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else {
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
+    }
     return NULL;
 }
 
@@ -692,6 +968,12 @@ wxIcon CAMAccountManagerInfoPage::GetIconResource( const wxString& name )
 }
 
 /*!
+ * CAMAccountManagerPropertiesPage custom event definition
+ */
+ 
+DEFINE_EVENT_TYPE(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE)
+  
+/*!
  * CAMAccountManagerPropertiesPage type definition
  */
 
@@ -702,7 +984,9 @@ IMPLEMENT_DYNAMIC_CLASS( CAMAccountManagerPropertiesPage, wxWizardPage )
  */
 
 BEGIN_EVENT_TABLE( CAMAccountManagerPropertiesPage, wxWizardPage )
-
+ 
+    EVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE( CAMAccountManagerPropertiesPage::OnStateChange )
+ 
 ////@begin CAMAccountManagerPropertiesPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CAMAccountManagerPropertiesPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CAMAccountManagerPropertiesPage::OnCancel )
@@ -733,7 +1017,17 @@ bool CAMAccountManagerPropertiesPage::Create( wxWizard* parent )
 ////@begin CAMAccountManagerPropertiesPage member initialisation
     m_ProjectPropertiesProgress = NULL;
 ////@end CAMAccountManagerPropertiesPage member initialisation
-
+ 
+    m_bProjectPropertiesSucceeded = false;
+    m_bProjectPropertiesURLFailure = false;
+    m_bProjectAccountCreationDisabled = false;
+    m_bProjectClientAccountCreationDisabled = false;
+    m_bCommunicateYahooSucceeded = false;
+    m_bCommunicateGoogleSucceeded = false;
+    m_bDeterminingConnectionStatusSucceeded = false;
+    m_iBitmapIndex = 0;
+    m_iCurrentState = ATTACHACCTMGR_INIT;
+ 
 ////@begin CAMAccountManagerPropertiesPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -788,32 +1082,242 @@ void CAMAccountManagerPropertiesPage::CreateControls()
 
 void CAMAccountManagerPropertiesPage::OnPageChanged( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE in CProjectPropertiesPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE in CProjectPropertiesPage. 
+    if (event.GetDirection() == false) return;
+ 
+    SetProjectPropertiesSucceeded(false);
+    SetProjectPropertiesURLFailure(false);
+    SetProjectAccountCreationDisabled(false);
+    SetProjectClientAccountCreationDisabled(false);
+    SetCommunicateYahooSucceeded(false);
+    SetCommunicateGoogleSucceeded(false);
+    SetDeterminingConnectionStatusSucceeded(false);
+    SetNextState(ACCTMGRPROP_INIT);
+
+    CAMAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
+    AddPendingEvent(TransitionEvent);
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE
  */
 
-void CAMAccountManagerPropertiesPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE in CProjectPropertiesPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE in CProjectPropertiesPage. 
+void CAMAccountManagerPropertiesPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
+/*!
+ * wxEVT_PROJECTPROPERTIES_STATECHANGE event handler for ID_PROJECTPROPERTIESPAGE
+ */
+ 
+void CAMAccountManagerPropertiesPage::OnStateChange( CAMAccountManagerPropertiesPageEvent& event )
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    PROJECT_CONFIG* pc       = &((CWizAttachAccountManager*)GetParent())->project_config;
+    wxDateTime dtStartExecutionTime;
+    wxDateTime dtCurrentExecutionTime;
+    wxTimeSpan tsExecutionTime;
+    bool bPostNewEvent = true;
+    bool bSuccessfulCondition = false;
+    int  iReturnValue = 0;
+ 
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+ 
+    switch(GetCurrentState()) {
+        case ACCTMGRPROP_INIT:
+            ((CWizAttachAccountManager*)GetParent())->DisableNextButton();
+            ((CWizAttachAccountManager*)GetParent())->DisableBackButton();
+            StartProgress(m_ProjectPropertiesProgress);
+            SetNextState(ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN);
+            break;
+        case ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN:
+            SetNextState(ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE);
+            break;
+        case ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE:
+            // Attempt to retrieve the project's account creation policies
+            pDoc->rpc.get_project_config(
+                ((CWizAttachAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL().c_str()
+            );
+ 
+            // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+            iReturnValue = ERR_IN_PROGRESS;
+            while (ERR_IN_PROGRESS == iReturnValue &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+                iReturnValue = pDoc->rpc.get_project_config_poll(*pc);
+                IncrementProgress(m_ProjectPropertiesProgress);
+
+                ::wxMilliSleep(500);
+                ::wxSafeYield(GetParent());
+            }
+ 
+            // We either successfully retrieved the project's account creation 
+            //   policies or we were able to talk to the web server and found out
+            //   they do not support account creation through the wizard.  In either
+            //   case we should claim success and set the correct flags to show the
+            //   correct 'next' page.
+            bSuccessfulCondition = (BOINC_SUCCESS == iReturnValue) || (ERR_ACCT_CREATION_DISABLED == iReturnValue);
+            if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIES)) {
+                SetProjectPropertiesSucceeded(true);
+
+                bSuccessfulCondition = pc->account_creation_disabled;
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTCREATIONDISABLED)) {
+                    SetProjectAccountCreationDisabled(true);
+                } else {
+                    SetProjectAccountCreationDisabled(false);
+                }
+
+                bSuccessfulCondition = (ERR_ALREADY_ATTACHED == pDoc->rpc.project_attach(
+                    ((CWizAttachAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL().c_str(),
+                    ""
+                ));
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTALREADYATTACHED)) {
+                    SetProjectAlreadyAttached(true);
+                } else {
+                    SetProjectAlreadyAttached(false);
+                }
+
+                bSuccessfulCondition = pc->client_account_creation_disabled;
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED)) {
+                    SetProjectClientAccountCreationDisabled(true);
+                } else {
+                    SetProjectClientAccountCreationDisabled(false);
+                }
+ 
+                SetNextState(ACCTMGRPROP_CLEANUP);
+            } else {
+                SetProjectPropertiesSucceeded(false);
+                bSuccessfulCondition = (HTTP_STATUS_NOT_FOUND == iReturnValue) ||
+                                       (ERR_GETHOSTBYNAME == iReturnValue) ||
+                                       (ERR_XML_PARSE == iReturnValue);
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                    SetProjectPropertiesURLFailure(true);
+                } else {
+                    SetProjectPropertiesURLFailure(false);
+                }
+                SetNextState(ACCTMGRPROP_COMMUNICATEYAHOO_BEGIN);
+            }
+            break;
+        case ACCTMGRPROP_COMMUNICATEYAHOO_BEGIN:
+            SetNextState(ACCTMGRPROP_COMMUNICATEYAHOO_EXECUTE);
+            break;
+        case ACCTMGRPROP_COMMUNICATEYAHOO_EXECUTE:
+            // Attempt to successfully download the Yahoo homepage
+            pDoc->rpc.lookup_website(LOOKUP_YAHOO);
+ 
+            // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+            iReturnValue = ERR_IN_PROGRESS;
+            while (ERR_IN_PROGRESS == iReturnValue &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+                iReturnValue = pDoc->rpc.lookup_website_poll();
+                IncrementProgress(m_ProjectPropertiesProgress);
+
+                ::wxMilliSleep(500);
+                ::wxSafeYield(GetParent());
+            }
+ 
+            if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRYAHOOCOMM)) {
+                SetCommunicateYahooSucceeded(true);
+            } else {
+                SetCommunicateYahooSucceeded(false);
+            }
+
+            SetNextState(ACCTMGRPROP_COMMUNICATEGOOGLE_BEGIN);
+            break;
+        case ACCTMGRPROP_COMMUNICATEGOOGLE_BEGIN:
+            SetNextState(ACCTMGRPROP_COMMUNICATEGOOGLE_EXECUTE);
+            break;
+        case ACCTMGRPROP_COMMUNICATEGOOGLE_EXECUTE:
+            // Attempt to successfully download the Google homepage
+            pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
+ 
+            // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+            iReturnValue = ERR_IN_PROGRESS;
+            while (ERR_IN_PROGRESS == iReturnValue &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+                iReturnValue = pDoc->rpc.lookup_website_poll();
+                IncrementProgress(m_ProjectPropertiesProgress);
+
+                ::wxMilliSleep(500);
+                ::wxSafeYield(GetParent());
+            }
+ 
+            if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRGOOGLECOMM)) {
+                SetCommunicateGoogleSucceeded(true);
+            } else {
+                SetCommunicateGoogleSucceeded(false);
+            }
+
+            SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN);
+            break;
+        case ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN:
+            SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE);
+            break;
+        case ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE:
+            // Attempt to determine if we are even connected to a network
+            bSuccessfulCondition = CONNECTED_STATE_CONNECTED == get_connected_state();
+            if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
+                SetDeterminingConnectionStatusSucceeded(true);
+            } else {
+                SetDeterminingConnectionStatusSucceeded(false);
+            }
+            SetNextState(ACCTMGRPROP_CLEANUP);
+            break;
+        case ACCTMGRPROP_CLEANUP:
+            FinishProgress(m_ProjectPropertiesProgress);
+            SetNextState(ACCTMGRPROP_END);
+            break;
+        default:
+            // Allow a glimps of what the result was before advancing to the next page.
+            wxSleep(1);
+            ((CWizAttachAccountManager*)GetParent())->EnableNextButton();
+            ((CWizAttachAccountManager*)GetParent())->EnableBackButton();
+            ((CWizAttachAccountManager*)GetParent())->SimulateNextButton();
+            bPostNewEvent = false;
+            break;
+    }
+ 
+    Update();
+ 
+    if (bPostNewEvent &&
+        !((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()
+       )
+    {
+        CAMAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
+        AddPendingEvent(TransitionEvent);
+    }
+}
+   
 /*!
  * Gets the previous page.
  */
 
 wxWizardPage* CAMAccountManagerPropertiesPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -822,7 +1326,25 @@ wxWizardPage* CAMAccountManagerPropertiesPage::GetPrev() const
 
 wxWizardPage* CAMAccountManagerPropertiesPage::GetNext() const
 {
-    // TODO: return the next page
+    if (((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else if (GetProjectPropertiesSucceeded()) {
+        // We were successful in retrieving the project properties
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
+    } else if (!GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
+        // Not a BOINC based project
+        return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTMANAGERNOTDETECTEDPAGE);
+    } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
+        // Possible proxy problem
+        return PAGE_TRANSITION_NEXT(ID_ERRPROXYPAGE);
+    } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && !GetDeterminingConnectionStatusSucceeded()) {
+        // No Internet Connection
+        return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);
+    } else {
+        // The project much be down for maintenance
+        return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTMANAGERUNAVAILABLEPAGE);
+    }
     return NULL;
 }
 
@@ -835,6 +1357,28 @@ bool CAMAccountManagerPropertiesPage::ShowToolTips()
     return TRUE;
 }
 
+ 
+void CAMAccountManagerPropertiesPage::StartProgress(wxStaticBitmap* pBitmap) {
+    m_iBitmapIndex = 1;
+    pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress01.xpm")));
+}
+ 
+void CAMAccountManagerPropertiesPage::IncrementProgress(wxStaticBitmap* pBitmap) {
+    m_iBitmapIndex += 1;
+    if (12 < m_iBitmapIndex) m_iBitmapIndex = 1;
+ 
+    wxString str;
+    str.Printf(wxT("res/wizprogress%02d.xpm"), m_iBitmapIndex);
+ 
+    pBitmap->SetBitmap(GetBitmapResource(str));
+    Update();
+}
+ 
+void CAMAccountManagerPropertiesPage::FinishProgress(wxStaticBitmap* pBitmap) {
+    m_iBitmapIndex = 12;
+    pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
+}
+ 
 /*!
  * Get bitmap resources
  */
@@ -842,14 +1386,67 @@ bool CAMAccountManagerPropertiesPage::ShowToolTips()
 wxBitmap CAMAccountManagerPropertiesPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin CAMAccountManagerPropertiesPage bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
         wxBitmap bitmap(wizprogress01_xpm);
         return bitmap;
     }
+    else if (name == wxT("res/wizprogress02.xpm"))
+    {
+        wxBitmap bitmap(wizprogress02_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress03.xpm"))
+    {
+        wxBitmap bitmap(wizprogress03_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress04.xpm"))
+    {
+        wxBitmap bitmap(wizprogress04_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress05.xpm"))
+    {
+        wxBitmap bitmap(wizprogress05_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress06.xpm"))
+    {
+        wxBitmap bitmap(wizprogress06_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress07.xpm"))
+    {
+        wxBitmap bitmap(wizprogress07_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress08.xpm"))
+    {
+        wxBitmap bitmap(wizprogress08_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress09.xpm"))
+    {
+        wxBitmap bitmap(wizprogress09_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress10.xpm"))
+    {
+        wxBitmap bitmap(wizprogress10_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress11.xpm"))
+    {
+        wxBitmap bitmap(wizprogress11_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress12.xpm"))
+    {
+        wxBitmap bitmap(wizprogress12_xpm);
+        return bitmap;
+    }
     return wxNullBitmap;
-////@end CAMAccountManagerPropertiesPage bitmap retrieval
 }
 
 /*!
@@ -972,10 +1569,19 @@ void CAMAccountInfoPage::CreateControls()
 
 void CAMAccountInfoPage::OnPageChanged( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTINFOPAGE in CAccountInfoPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTINFOPAGE in CAccountInfoPage. 
+    if (event.GetDirection() == false) return;
+
+    if (((CWizAttachAccountManager*)GetParent())->project_config.uses_username) {
+        m_AccountEmailAddressStaticCtrl->SetLabel(
+            _("Username:")
+        );
+    } else {
+        m_AccountEmailAddressStaticCtrl->SetLabel(
+            _("Email address:")
+        );
+    }
+ 
+    Fit();
 }
 
 /*!
@@ -984,22 +1590,31 @@ void CAMAccountInfoPage::OnPageChanged( wxWizardEvent& event )
 
 void CAMAccountInfoPage::OnPageChanging( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE in CAccountInfoPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE in CAccountInfoPage. 
+    if (event.GetDirection() == false) return;
+ 
+    if (!((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        wxString strTitle = _("Attach to Account Manager");
+        wxString strMessage = wxT("");
+        bool     bDisplayError = false;
+ 
+        if (bDisplayError) {
+            ::wxMessageBox(
+                strMessage,
+                strTitle,
+                wxICON_ERROR | wxOK,
+                this
+            );
+            event.Veto();
+        }
+    }
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE
  */
 
-void CAMAccountInfoPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE in CAccountInfoPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE in CAccountInfoPage. 
+void CAMAccountInfoPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -1008,8 +1623,7 @@ void CAMAccountInfoPage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMAccountInfoPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1018,8 +1632,12 @@ wxWizardPage* CAMAccountInfoPage::GetPrev() const
 
 wxWizardPage* CAMAccountInfoPage::GetNext() const
 {
-    // TODO: return the next page
-    return NULL;
+    if (((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else {
+        return PAGE_TRANSITION_NEXT(ID_ATTACHACCOUNTMANAGERPAGE);
+    }
 }
 
 /*!
@@ -1056,6 +1674,12 @@ wxIcon CAMAccountInfoPage::GetIconResource( const wxString& name )
 }
 
 /*!
+ * CAMAttachAccountManagerPage custom event definition
+ */
+
+DEFINE_EVENT_TYPE(wxEVT_ATTACHACCOUNTMANAGER_STATECHANGE)
+  
+/*!
  * CAMAttachAccountManagerPage type definition
  */
 
@@ -1066,7 +1690,9 @@ IMPLEMENT_DYNAMIC_CLASS( CAMAttachAccountManagerPage, wxWizardPage )
  */
 
 BEGIN_EVENT_TABLE( CAMAttachAccountManagerPage, wxWizardPage )
-
+ 
+    EVT_ATTACHACCOUNTMANAGER_STATECHANGE( CAMAttachAccountManagerPage::OnStateChange )
+ 
 ////@begin CAMAttachAccountManagerPage event table entries
     EVT_WIZARD_PAGE_CHANGED( -1, CAMAttachAccountManagerPage::OnPageChanged )
     EVT_WIZARD_CANCEL( -1, CAMAttachAccountManagerPage::OnCancel )
@@ -1097,7 +1723,13 @@ bool CAMAttachAccountManagerPage::Create( wxWizard* parent )
 ////@begin CAMAttachAccountManagerPage member initialisation
     m_AttachProjectProgress = NULL;
 ////@end CAMAttachAccountManagerPage member initialisation
-
+ 
+    m_bProjectCommunitcationsSucceeded = false;
+    m_bProjectUnavailable = false;
+    m_bProjectAccountAlreadyExists = false;
+    m_iBitmapIndex = 0;
+    m_iCurrentState = ATTACHACCTMGR_INIT;
+ 
 ////@begin CAMAttachAccountManagerPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPage::Create( parent, wizardBitmap );
@@ -1152,32 +1784,127 @@ void CAMAttachAccountManagerPage::CreateControls()
 
 void CAMAttachAccountManagerPage::OnPageChanged( wxWizardEvent& event )
 {
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHPROJECTPAGE in CAttachProjectPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHPROJECTPAGE in CAttachProjectPage. 
+    if (event.GetDirection() == false) return;
+
+    SetProjectCommunitcationsSucceeded(false);
+    SetProjectUnavailable(false);
+    SetProjectAccountAlreadyExists(false);
+    SetNextState(ATTACHACCTMGR_INIT);
+ 
+    CAMAttachAccountManagerPageEvent TransitionEvent(wxEVT_ATTACHACCOUNTMANAGER_STATECHANGE, this);
+    AddPendingEvent(TransitionEvent);
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTPAGE
  */
 
-void CAMAttachAccountManagerPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTPAGE in CAttachProjectPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTPAGE in CAttachProjectPage. 
+void CAMAttachAccountManagerPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
+/*!
+ * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
+ */
+ 
+void CAMAttachAccountManagerPage::OnStateChange( CAMAttachAccountManagerPageEvent& event )
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    ACCOUNT_IN* ai           = &((CWizAttachAccountManager*)GetParent())->account_in;
+    ACCOUNT_OUT* ao          = &((CWizAttachAccountManager*)GetParent())->account_out;
+    wxDateTime dtStartExecutionTime;
+    wxDateTime dtCurrentExecutionTime;
+    wxTimeSpan tsExecutionTime;
+    bool bPostNewEvent = true;
+    bool bSuccessfulCondition = false;
+    int iReturnValue = 0;
+ 
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+ 
+    switch(GetCurrentState()) {
+        case ATTACHACCTMGR_INIT:
+            ((CWizAttachAccountManager*)GetParent())->DisableNextButton();
+            ((CWizAttachAccountManager*)GetParent())->DisableBackButton();
+
+            StartProgress(m_AttachProjectProgress);
+            SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_BEGIN);
+            break;
+        case ATTACHACCTMGR_ATTACHACCTMGR_BEGIN:
+            SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE);
+            break;
+        case ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE:
+            if (GetProjectCommunitcationsSucceeded()) {
+                // Attempt to attach to the project.
+                pDoc->rpc.project_attach(
+                    ai->url.c_str(),
+                    ao->authenticator.c_str()
+                );
+     
+                // Wait until we are done processing the request.
+                dtStartExecutionTime = wxDateTime::Now();
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+                iReturnValue = ERR_IN_PROGRESS;
+                while (ERR_IN_PROGRESS == iReturnValue &&
+                    tsExecutionTime.GetSeconds() <= 60 &&
+                    !((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()
+                    )
+                {
+                    dtCurrentExecutionTime = wxDateTime::Now();
+                    tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+                    iReturnValue = pDoc->rpc.project_attach_poll();
+
+                    IncrementProgress(m_AttachProjectProgress);
+
+                    ::wxMilliSleep(500);
+                    ::wxSafeYield(GetParent());
+                }
+     
+                if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+                    SetProjectAttachSucceeded(true);
+                    ((CWizAttachAccountManager*)GetParent())->SetAttachedToProjectSuccessfully(true);
+                    ((CWizAttachAccountManager*)GetParent())->SetProjectURL(ai->url.c_str());
+                    ((CWizAttachAccountManager*)GetParent())->SetProjectAuthenticator(ao->authenticator.c_str());
+                } else {
+                    SetProjectAttachSucceeded(false);
+                }
+            } else {
+                SetProjectAttachSucceeded(false);
+            }
+            SetNextState(ATTACHACCTMGR_CLEANUP);
+            break;
+        case ATTACHACCTMGR_CLEANUP:
+            SetNextState(ATTACHACCTMGR_END);
+            break;
+        default:
+            // Allow a glimps of what the result was before advancing to the next page.
+            wxSleep(1);
+            ((CWizAttachAccountManager*)GetParent())->EnableNextButton();
+            ((CWizAttachAccountManager*)GetParent())->EnableBackButton();
+            ((CWizAttachAccountManager*)GetParent())->SimulateNextButton();
+            bPostNewEvent = false;
+            break;
+    }
+ 
+    Update();
+ 
+    if (bPostNewEvent &&
+        !((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()
+       )
+    {
+        CAMAttachAccountManagerPageEvent TransitionEvent(wxEVT_ATTACHACCOUNTMANAGER_STATECHANGE, this);
+        AddPendingEvent(TransitionEvent);
+    }
+}
+  
 /*!
  * Gets the previous page.
  */
 
 wxWizardPage* CAMAttachAccountManagerPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1186,7 +1913,19 @@ wxWizardPage* CAMAttachAccountManagerPage::GetPrev() const
 
 wxWizardPage* CAMAttachAccountManagerPage::GetNext() const
 {
-    // TODO: return the next page
+    if (((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else if (GetProjectAttachSucceeded()) {
+        // We were successful in creating or retrieving an account
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
+    } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountNotFound()) {
+        // The requested account does not exist or the password is bad
+        //return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTNOTFOUNDPAGE);
+    } else {
+        // The project much be down for maintenance
+        return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTMANAGERUNAVAILABLEPAGE);
+    } 
     return NULL;
 }
 
@@ -1199,6 +1938,27 @@ bool CAMAttachAccountManagerPage::ShowToolTips()
     return TRUE;
 }
 
+void CAMAttachAccountManagerPage::StartProgress(wxStaticBitmap* pBitmap) {
+    m_iBitmapIndex = 1;
+    pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress01.xpm")));
+}
+ 
+void CAMAttachAccountManagerPage::IncrementProgress(wxStaticBitmap* pBitmap) {
+    m_iBitmapIndex += 1;
+    if (12 < m_iBitmapIndex) m_iBitmapIndex = 1;
+ 
+    wxString str;
+    str.Printf(wxT("res/wizprogress%02d.xpm"), m_iBitmapIndex);
+ 
+    pBitmap->SetBitmap(GetBitmapResource(str));
+    Update();
+}
+ 
+void CAMAttachAccountManagerPage::FinishProgress(wxStaticBitmap* pBitmap) {
+    m_iBitmapIndex = 12;
+    pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
+}
+
 /*!
  * Get bitmap resources
  */
@@ -1206,14 +1966,67 @@ bool CAMAttachAccountManagerPage::ShowToolTips()
 wxBitmap CAMAttachAccountManagerPage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
-////@begin CAMAttachAccountManagerPage bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
         wxBitmap bitmap(wizprogress01_xpm);
         return bitmap;
     }
+    else if (name == wxT("res/wizprogress02.xpm"))
+    {
+        wxBitmap bitmap(wizprogress02_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress03.xpm"))
+    {
+        wxBitmap bitmap(wizprogress03_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress04.xpm"))
+    {
+        wxBitmap bitmap(wizprogress04_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress05.xpm"))
+    {
+        wxBitmap bitmap(wizprogress05_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress06.xpm"))
+    {
+        wxBitmap bitmap(wizprogress06_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress07.xpm"))
+    {
+        wxBitmap bitmap(wizprogress07_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress08.xpm"))
+    {
+        wxBitmap bitmap(wizprogress08_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress09.xpm"))
+    {
+        wxBitmap bitmap(wizprogress09_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress10.xpm"))
+    {
+        wxBitmap bitmap(wizprogress10_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress11.xpm"))
+    {
+        wxBitmap bitmap(wizprogress11_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("res/wizprogress12.xpm"))
+    {
+        wxBitmap bitmap(wizprogress12_xpm);
+        return bitmap;
+    }
     return wxNullBitmap;
-////@end CAMAttachAccountManagerPage bitmap retrieval
 }
 
 /*!
@@ -1316,36 +2129,24 @@ void CAMCompletionPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONPAGE
  */
 
-void CAMCompletionPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONPAGE in CCompletionPage.
-    // Before editing this code, remove the block markers.
+void CAMCompletionPage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONPAGE in CCompletionPage. 
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONPAGE
  */
 
-void CAMCompletionPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONPAGE in CCompletionPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONPAGE in CCompletionPage. 
+void CAMCompletionPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
  * wxEVT_WIZARD_FINISHED event handler for ID_COMPLETIONPAGE
  */
 
-void CAMCompletionPage::OnFinished( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_FINISHED event handler for ID_COMPLETIONPAGE in CCompletionPage.
-    // Before editing this code, remove the block markers.
+void CAMCompletionPage::OnFinished( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_FINISHED event handler for ID_COMPLETIONPAGE in CCompletionPage. 
 }
 
 /*!
@@ -1354,8 +2155,7 @@ void CAMCompletionPage::OnFinished( wxWizardEvent& event )
 
 wxWizardPage* CAMCompletionPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1483,24 +2283,16 @@ void CAMCompletionErrorPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE
  */
 
-void CAMCompletionErrorPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE in CCompletionErrorPage.
-    // Before editing this code, remove the block markers.
+void CAMCompletionErrorPage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE in CCompletionErrorPage. 
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE
  */
 
-void CAMCompletionErrorPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE in CCompletionErrorPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE in CCompletionErrorPage. 
+void CAMCompletionErrorPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -1509,7 +2301,6 @@ void CAMCompletionErrorPage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMCompletionErrorPage::GetPrev() const
 {
-    // TODO: return the previous page
     return NULL;
 }
 
@@ -1519,7 +2310,6 @@ wxWizardPage* CAMCompletionErrorPage::GetPrev() const
 
 wxWizardPage* CAMCompletionErrorPage::GetNext() const
 {
-    // TODO: return the next page
     return NULL;
 }
 
@@ -1642,24 +2432,16 @@ void CAMErrAccountManagerNotDetectedPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE
  */
 
-void CAMErrAccountManagerNotDetectedPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE in CErrProjectNotDetectedPage.
-    // Before editing this code, remove the block markers.
+void CAMErrAccountManagerNotDetectedPage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE in CErrProjectNotDetectedPage. 
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE
  */
 
-void CAMErrAccountManagerNotDetectedPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE in CErrProjectNotDetectedPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE in CErrProjectNotDetectedPage. 
+void CAMErrAccountManagerNotDetectedPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -1668,8 +2450,7 @@ void CAMErrAccountManagerNotDetectedPage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMErrAccountManagerNotDetectedPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1678,7 +2459,6 @@ wxWizardPage* CAMErrAccountManagerNotDetectedPage::GetPrev() const
 
 wxWizardPage* CAMErrAccountManagerNotDetectedPage::GetNext() const
 {
-    // TODO: return the next page
     return NULL;
 }
 
@@ -1797,24 +2577,16 @@ void CAMErrAccountManagerUnavailablePage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE
  */
 
-void CAMErrAccountManagerUnavailablePage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE in CErrProjectUnavailablePage.
-    // Before editing this code, remove the block markers.
+void CAMErrAccountManagerUnavailablePage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE in CErrProjectUnavailablePage. 
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE
  */
 
-void CAMErrAccountManagerUnavailablePage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE in CErrProjectUnavailablePage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE in CErrProjectUnavailablePage. 
+void CAMErrAccountManagerUnavailablePage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -1823,8 +2595,7 @@ void CAMErrAccountManagerUnavailablePage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMErrAccountManagerUnavailablePage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1833,7 +2604,6 @@ wxWizardPage* CAMErrAccountManagerUnavailablePage::GetPrev() const
 
 wxWizardPage* CAMErrAccountManagerUnavailablePage::GetNext() const
 {
-    // TODO: return the next page
     return NULL;
 }
 
@@ -1952,24 +2722,16 @@ void CAMErrNoInternetConnectionPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNOINTERNETCONNECTIONPAGE
  */
 
-void CAMErrNoInternetConnectionPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNOINTERNETCONNECTIONPAGE in CErrNoInternetConnectionPage.
-    // Before editing this code, remove the block markers.
+void CAMErrNoInternetConnectionPage::OnPageChanged( wxWizardEvent& event ) {
     event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNOINTERNETCONNECTIONPAGE in CErrNoInternetConnectionPage. 
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRNOINTERNETCONNECTIONPAGE
  */
 
-void CAMErrNoInternetConnectionPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRNOINTERNETCONNECTIONPAGE in CErrNoInternetConnectionPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRNOINTERNETCONNECTIONPAGE in CErrNoInternetConnectionPage. 
+void CAMErrNoInternetConnectionPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -1978,8 +2740,7 @@ void CAMErrNoInternetConnectionPage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMErrNoInternetConnectionPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -1988,7 +2749,6 @@ wxWizardPage* CAMErrNoInternetConnectionPage::GetPrev() const
 
 wxWizardPage* CAMErrNoInternetConnectionPage::GetNext() const
 {
-    // TODO: return the next page
     return NULL;
 }
 
@@ -2222,36 +2982,74 @@ void CAMErrProxyPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE
  */
 
-void CAMErrProxyPage::OnPageChanged( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE in CErrProxyPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE in CErrProxyPage. 
+void CAMErrProxyPage::OnPageChanged( wxWizardEvent& event ) {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxString       strBuffer = wxEmptyString;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (event.GetDirection() == true) {
+        // Moving from the previous page, get state
+        pDoc->GetProxyConfiguration();
+        m_ProxyHTTPServerCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
+        m_ProxyHTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
+        m_ProxyHTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
+
+        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
+        m_ProxyHTTPPortCtrl->SetValue(strBuffer);
+
+        m_ProxySOCKSServerCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
+        m_ProxySOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
+        m_ProxySOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
+
+        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
+        m_ProxySOCKSPortCtrl->SetValue(strBuffer);
+    }
 }
 
 /*!
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE
  */
 
-void CAMErrProxyPage::OnPageChanging( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE in CErrProxyPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE in CErrProxyPage. 
+void CAMErrProxyPage::OnPageChanging( wxWizardEvent& event ) {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxString       strBuffer = wxEmptyString;
+    int            iBuffer = 0;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (event.GetDirection() == true) {
+        // Moving to the next page, save state
+        pDoc->proxy_info.use_http_proxy = (m_ProxyHTTPServerCtrl->GetValue().Length() > 0);
+        pDoc->proxy_info.http_server_name = m_ProxyHTTPServerCtrl->GetValue().c_str();
+        pDoc->proxy_info.http_user_name = m_ProxyHTTPUsernameCtrl->GetValue().c_str();
+        pDoc->proxy_info.http_user_passwd = m_ProxyHTTPPasswordCtrl->GetValue().c_str();
+
+        strBuffer = m_ProxyHTTPPortCtrl->GetValue();
+        strBuffer.ToLong((long*)&iBuffer);
+        pDoc->proxy_info.http_server_port = iBuffer;
+
+        pDoc->proxy_info.use_socks_proxy = (m_ProxySOCKSServerCtrl->GetValue().Length() > 0);
+        pDoc->proxy_info.socks_server_name = m_ProxySOCKSServerCtrl->GetValue().c_str();
+        pDoc->proxy_info.socks5_user_name = m_ProxySOCKSUsernameCtrl->GetValue().c_str();
+        pDoc->proxy_info.socks5_user_passwd = m_ProxySOCKSPasswordCtrl->GetValue().c_str();
+
+        strBuffer = m_ProxySOCKSPortCtrl->GetValue();
+        strBuffer.ToLong((long*)&iBuffer);
+        pDoc->proxy_info.socks_server_port = iBuffer;
+
+        pDoc->SetProxyConfiguration();
+    }
 }
 
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE
  */
 
-void CAMErrProxyPage::OnCancel( wxWizardEvent& event )
-{
-////@begin wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE in CErrProxyPage.
-    // Before editing this code, remove the block markers.
-    event.Skip();
-////@end wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE in CErrProxyPage. 
+void CAMErrProxyPage::OnCancel( wxWizardEvent& event ) {
+    ((CWizAttachAccountManager*)GetParent())->ProcessCancelEvent(event);
 }
 
 /*!
@@ -2260,8 +3058,7 @@ void CAMErrProxyPage::OnCancel( wxWizardEvent& event )
 
 wxWizardPage* CAMErrProxyPage::GetPrev() const
 {
-    // TODO: return the previous page
-    return NULL;
+    return PAGE_TRANSITION_BACK;
 }
 
 /*!
@@ -2270,7 +3067,12 @@ wxWizardPage* CAMErrProxyPage::GetPrev() const
 
 wxWizardPage* CAMErrProxyPage::GetNext() const
 {
-    // TODO: return the next page
+    if (((CWizAttachAccountManager*)GetParent())->IsCancelInProgress()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else {
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
+    }
     return NULL;
 }
 
@@ -2573,4 +3375,5 @@ wxIcon CAMErrRefCountPage::GetIconResource( const wxString& name )
     return wxNullIcon;
 ////@end CAMErrRefCountPage icon retrieval
 }
+
 const char *BOINC_RCSID_b0f884ae03="$Id$";
