@@ -11776,7 +11776,11 @@ Charlie 13 Sept 2005
 
 Rom    14 Sept 2005
     - Update to account management.
+    - Override system defaults and specify timeouts for network transfers,
+        network connections, and network speed.  
     
+    client/
+        http_curl.C
     clientgui/
         WizAttachAccountManager.cpp, .h
         WizAttachProject.cpp
