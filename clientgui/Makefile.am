@@ -27,7 +27,6 @@ boinc_gui_SOURCES = \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
     DlgAbout.cpp \
-    DlgAccountManagerSignup.cpp \
     DlgAccountManagerStatus.cpp \
     DlgDialupCredentials.cpp \
     DlgOptions.cpp \

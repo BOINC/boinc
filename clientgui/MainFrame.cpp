@@ -35,7 +35,6 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
-#include "DlgAccountManagerSignup.h"
 #include "DlgAccountManagerStatus.h"
 #include "DlgDialupCredentials.h"
 #include "DlgSelectComputer.h"

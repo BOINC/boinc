@@ -11782,6 +11782,7 @@ Rom    14 Sept 2005
     client/
         http_curl.C
     clientgui/
+        DlgAccountManagerSignup.cpp, .h (Removed)
         WizAttachAccountManager.cpp, .h
         WizAttachProject.cpp
     lib/
