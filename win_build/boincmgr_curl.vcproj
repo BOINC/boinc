@@ -175,9 +175,6 @@
 				RelativePath="..\clientgui\DlgAbout.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\DlgAccountManagerSignup.cpp">
-			</File>
-			<File
 				RelativePath="..\clientgui\DlgAccountManagerStatus.cpp">
 			</File>
 			<File
@@ -411,9 +408,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAbout.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgAccountManagerSignup.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAccountManagerStatus.h">
