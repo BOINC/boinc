@@ -19,9 +19,9 @@ function show_credit($user) {
 
 // show donation info (private)
 function show_user_donations_private($user) {
-    row1("Donations to SETI@home");
+    row1("Donations to " . PROJECT);
     if ($user->donated == 0) {
-        row2("Would you like to make a tax-deductible donation to SETI@home?",
+        row2("Would you like to make a tax-deductible donation to " . PROJECT,
             "<a href=donate.php>click here</a>");
     }
     else {
@@ -42,7 +42,7 @@ function show_user_donations_private($user) {
         row2("Last donation received",time_str($date->date));
         $anon = "no";
         if ($user->donated < 0) { $anon = "yes"; }
-        row2("Anonymous?",$anon);
+        row2("Are all your donations anonymous?",$anon . " (<a href=user_donation.php>click here to change</a>)");
     }
 }
 
@@ -69,7 +69,9 @@ function show_user_stats_private($user) {
     row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
     if ($user->posts) {
         row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts messages</a>");
-
+    }
+    if ($user->donated == 1) {
+        row2(PROJECT . " donor","<a href=donate.php><img border=0 src=star.gif></a>");
     }
 }
 
@@ -144,6 +146,9 @@ function show_user_summary_public($user) {
     if ($user->posts) {
         row2("Message board posts", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$user->posts</a>");
     }
+    if ($user->donated == 1) {
+        row2(PROJECT . " donor","<a href=donate.php><img border=0 src=star.gif></a>");
+    }
 }
 
 function show_profile_link($user) {
@@ -160,7 +165,10 @@ function show_user_page_private($user) {
     start_table("width=100%");
     show_user_info_private($user);
     show_user_stats_private($user);
-    show_user_donations_private($user);
+    if (file_exists("donate.php")) { # assume if donate.php exists, then this project accepts
+                                     # donations, so show information in account page:
+      show_user_donations_private($user);
+      }
     row1("Other");
     row2("", "<a href=logout.php>Log out</a>");
     row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
