@@ -2,6 +2,7 @@
 
 require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
+require_once("../inc/util.inc");
 
 function pending_credit($user) {
     $result = mysql_query("select sum(claimed_credit) as total from result where userid=$user->id and (validate_state=0 or validate_state=4)");
@@ -162,13 +163,13 @@ function show_profile_link($user) {
 // it has info that other users aren't supposed to see
 
 function show_user_page_private($user) {
+	$config = get_config();
     start_table("width=100%");
     show_user_info_private($user);
     show_user_stats_private($user);
-    if (file_exists("donate.php")) { # assume if donate.php exists, then this project accepts
-                                     # donations, so show information in account page:
+	if (parse_bool($config, "donations_accepted")) {
       show_user_donations_private($user);
-      }
+    }
     row1("Other");
     row2("", "<a href=logout.php>Log out</a>");
     row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
