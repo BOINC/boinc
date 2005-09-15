@@ -33,6 +33,7 @@ using namespace std;
 
 #include "sched_msgs.h"
 #include "sched_util.h"
+#include "../lib/util.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -223,15 +224,15 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
     host.avg_turnaround = new_avg;
 }
 
-int elapsed_time() {
-    static time_t execution_time=0;
+double elapsed_wallclock_time() {
+    static double wallclock_execution_time=0;
 
-    if (!execution_time) {
-        execution_time=time(0);
-        return 0;
+    if (!wallclock_execution_time) {
+        wallclock_execution_time=dtime();
+        return 0.0;
     }
 
-    return (int)(time(0)-execution_time);
+    return dtime()-wallclock_execution_time;
 }
 
 // Request lock on the given file with given fd.  Returns:

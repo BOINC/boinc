@@ -114,8 +114,8 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
 //
 void sigterm_handler(int signo) {
    log_messages.printf(SCHED_MSG_LOG::CRITICAL, 
-       "Caught signal %d [scheduler ran %d seconds].  Exit(1)ing\n",
-       signo, elapsed_time()
+       "Caught signal %d [scheduler ran %f seconds].  Exit(1)ing\n",
+       signo, elapsed_wallclock_time()
     );
     fflush(NULL);
     exit(1);
@@ -130,6 +130,7 @@ void log_request_info(int& length) {
     char *ha=getenv("HTTP_ACCEPT");
     char *hu=getenv("HTTP_USER_AGENT");
 
+    log_messages.printf(SCHED_MSG_LOG::DEBUG, "\n");
     log_messages.printf(SCHED_MSG_LOG::DEBUG,
         "REQUEST_METHOD=%s "
         "CONTENT_TYPE=%s "
@@ -242,7 +243,7 @@ int main(int argc, char** argv) {
     }
 
     // initialized timer
-    elapsed_time();
+    elapsed_wallclock_time();
 
     // install a signal handler that catches SIGTERMS sent by Apache if the cgi
     // times out.

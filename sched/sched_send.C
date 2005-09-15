@@ -715,8 +715,8 @@ int send_work(
     }
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results [scheduler ran %d seconds]\n",
-        reply.host.id, reply.wreq.nresults, elapsed_time() 
+        SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results [scheduler ran %f seconds]\n",
+        reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
     );
 
     if (reply.wreq.nresults == 0) {

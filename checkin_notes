@@ -11806,3 +11806,17 @@ David  14 Sept 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Bruce 14 Sept 2005
+    - Backend: To prevent possible namespace confusion in the future, changed the
+      name of elapsed_time() to elapsed_wallclock_time().
+    - Backend logging statements on exit() which echo elapsed run time to logs now
+      do this with much higher printed precision.
+    - Backend logging, separate scheduler requests with an almost blank line
+
+    sched/
+        file_upload_handler.C
+        main.C
+        sched_send.C
+        sched_util.h
+        sched_util.C
