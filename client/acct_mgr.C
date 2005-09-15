@@ -38,17 +38,20 @@ int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password)
 
     strcpy(buf, url.c_str());
 
+    error_num = ERR_IN_PROGRESS;
+
     if (!strlen(buf) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
-        msg_printf(NULL, MSG_ALERT_INFO, "Removing account manager info");
+        msg_printf(NULL, MSG_INFO, "Removing account manager info");
         gstate.acct_mgr_info.clear();
         boinc_delete_file(ACCT_MGR_URL_FILENAME);
         boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
+        error_num = 0;
         return 0;
     }
 
     canonicalize_master_url(buf);
     if (!valid_master_url(buf)) {
-        msg_printf(NULL, MSG_ALERT_ERROR, "Can't contact account manager:\n'%s' is not a valid URL", url.c_str());
+        error_num = ERR_INVALID_URL;
         return 0;
     }
     strcpy(ami.acct_mgr_url, url.c_str());
@@ -59,10 +62,7 @@ int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password)
     sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
     retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
     if (retval) {
-        msg_printf(NULL, MSG_ALERT_ERROR,
-            "Can't contact account manager at '%s'.\nPlease check the URL and try again",
-            url.c_str()
-        );
+        error_num = retval;
         return retval;
     }
     msg_printf(NULL, MSG_INFO, "Doing account manager RPC to %s", url.c_str());
@@ -118,22 +118,13 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         } else {
             retval = ERR_FOPEN;
         }
+    } else if (error_str.size()) {
+        retval = ERR_XML_PARSE;     // ?? what should we use here ??
     } else {
         retval = http_op_retval;
     }
-    if (retval) {
-        msg_printf(NULL, MSG_ALERT_ERROR,
-            "Account manager update failed:\n%s", boincerror(retval)
-        );
-        return;
-    }
-
-    msg_printf(NULL, MSG_INFO, "Handling account manager RPC reply");
-    if (error_str.size()) {
-        msg_printf(NULL, MSG_ALERT_ERROR, "Account manager update failed:\n%s", error_str.c_str());
-        return;
-    }
-    msg_printf(NULL, MSG_ALERT_INFO, "Account manager update succeeded.\nSee Messages for more info.");
+    error_num = retval;
+    if (retval) return;
 
     gstate.acct_mgr_info = ami;
     gstate.acct_mgr_info.write_info();

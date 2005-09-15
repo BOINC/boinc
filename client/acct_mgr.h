@@ -57,6 +57,7 @@ struct ACCOUNT {
 };
 
 struct ACCT_MGR_OP: public GUI_HTTP_OP {
+    int error_num;
     ACCT_MGR_INFO ami;
         // a temporary copy while doing RPC.
         // CLIENT_STATE::acct_mgr_info is authoratative
@@ -67,7 +68,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     virtual void handle_reply(int http_op_retval);
 
     ACCT_MGR_OP(){}
-    ~ACCT_MGR_OP(){}
+    virtual ~ACCT_MGR_OP(){}
 };
 
 #endif

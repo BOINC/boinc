@@ -11787,3 +11787,21 @@ Rom    14 Sept 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  14 Sept 2005
+    - The acct_mgr_rpc() GUI RPC now has a corresponding
+        acct_mgr_rpc_poll() GUI RPC.
+        The BOINC manager should use this
+        to find out when the RPC has finished,
+        and whether it succeeded.
+
+    NOTE: this eliminates the use of MSG_ALERT_ERROR and
+    MSG_ALERT_INFO message types.
+    We can take this code out of the Manager now.
+
+    client/
+        acct_mgr.C,h
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

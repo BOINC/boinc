@@ -778,6 +778,16 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
+int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
+    char buf[256];
+    error_num = ERR_XML_PARSE;
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</project_config>")) return 0;
+        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
+    }
+    return ERR_XML_PARSE;
+}
+
 int PROJECT_CONFIG::parse(MIOFILE& in) {
     char buf[256];
     clear();
@@ -1461,6 +1471,15 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
         url, name, password
     );
     return rpc.do_rpc(buf);
+}
+
+int RPC_CLIENT::acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& r) {
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<acct_mgr_rpc_poll/>\n");
+    if (retval) return retval;
+    return r.parse(rpc.fin);
 }
 
 int RPC_CLIENT::acct_mgr_info(ACCT_MGR_INFO& ami) {

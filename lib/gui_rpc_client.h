@@ -437,6 +437,12 @@ struct ACCT_MGR_INFO {
     int parse(MIOFILE&);
 };
 
+struct ACCT_MGR_RPC_REPLY {
+    int error_num;
+
+    int parse(MIOFILE&);
+};
+
 struct PROJECT_CONFIG {
     int error_num;
     std::string name;
@@ -548,6 +554,7 @@ public:
     int get_host_info(HOST_INFO&);
     int quit();
     int acct_mgr_rpc(const char* url, const char* name, const char* passwd);
+    int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);

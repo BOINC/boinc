@@ -538,6 +538,31 @@ static void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
 }
 
+static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
+    if (gstate.acct_mgr_op.error_num) {
+        fout.printf(
+            "<acct_mgr_rpc_reply>\n"
+            "    <error_num>%d</error_num>\n",
+            gstate.acct_mgr_op.error_num
+        );
+        if (gstate.acct_mgr_op.error_str.size()) {
+            fout.printf(
+                "    <error_msg>%s</error_msg>\n",
+                gstate.acct_mgr_op.error_str.c_str()
+            );
+        }
+        fout.printf(
+            "</acct_mgr_rpc_reply>\n"
+        );
+    } else {
+        fout.printf(
+            "<acct_mgr_rpc_reply>\n"
+            "    <error_num>0</error_num>\n"
+            "</acct_mgr_rpc_reply>\n"
+        );
+    }
+}
+
 static void handle_get_project_config(char* buf, MIOFILE& fout) {
     string url;
 

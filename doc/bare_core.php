@@ -56,7 +56,7 @@ startup of BOINC on various versions of Unix:
 <a href=gentoo.txt>Gentoo Linux</a> (from Gabor Nagy)
 <li>
 <a href=hpux.html>HPUX</a> (mostly relevant to UNIX in general)
-<li> <a href=http://rigo.altervista.org/tools/boinc-suse-1.1.tar.gz>An init script for running BOINC under SuSE Linux 9.2</a>
+<li> <a href=http://rigo.altervista.org/tools/>An init script for running BOINC under SuSE Linux (9.2 and 9.3)</a>
 </ul>
 
 ";
