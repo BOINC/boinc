@@ -225,9 +225,9 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
 }
 
 double elapsed_wallclock_time() {
-    static double wallclock_execution_time=0;
+    static double wallclock_execution_time=0.0;
 
-    if (!wallclock_execution_time) {
+    if (wallclock_execution_time == 0.0) {
         wallclock_execution_time=dtime();
         return 0.0;
     }
