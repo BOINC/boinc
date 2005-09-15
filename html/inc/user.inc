@@ -18,35 +18,6 @@ function show_credit($user) {
     project_user_credit($user);
 }
 
-// show donation info (private)
-function show_user_donations_private($user) {
-    row1("Donations to " . PROJECT);
-    if ($user->donated == 0) {
-        row2("Would you like to make a tax-deductible donation to " . PROJECT,
-            "<a href=donate.php>click here</a>");
-    }
-    else {
-        $result = mysql_query("select count(*) as total from donation where userid=$user->id");
-        $total = mysql_fetch_object($result);
-        if (!$total) return 0;
-        mysql_free_result($result);
-        row2("Number of donations",$total->total);
-        $result = mysql_query("select sum(amount) as sum from donation where userid=$user->id");
-        $sum = mysql_fetch_object($result);
-        if (!$sum) return 0;
-        mysql_free_result($result);
-        row2("Total amount",$sum->sum);
-        $result = mysql_query("select max(date) as date from donation where userid=$user->id");
-        $date = mysql_fetch_object($result);
-        if (!$date) return 0;
-        mysql_free_result($result);
-        row2("Last donation received",time_str($date->date));
-        $anon = "no";
-        if ($user->donated < 0) { $anon = "yes"; }
-        row2("Are all your donations anonymous?",$anon . " (<a href=user_donation.php>click here to change</a>)");
-    }
-}
-
 // show dynamic user info (private)
 //
 function show_user_stats_private($user) {
@@ -70,9 +41,6 @@ function show_user_stats_private($user) {
     row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
     if ($user->posts) {
         row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts messages</a>");
-    }
-    if ($user->donated == 1) {
-        row2(PROJECT . " donor","<a href=donate.php><img border=0 src=star.gif></a>");
     }
 }
 
@@ -147,9 +115,6 @@ function show_user_summary_public($user) {
     if ($user->posts) {
         row2("Message board posts", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$user->posts</a>");
     }
-    if ($user->donated == 1) {
-        row2(PROJECT . " donor","<a href=donate.php><img border=0 src=star.gif></a>");
-    }
 }
 
 function show_profile_link($user) {
@@ -167,7 +132,10 @@ function show_user_page_private($user) {
     start_table("width=100%");
     show_user_info_private($user);
     show_user_stats_private($user);
+    # Does this project accept donations? Then put in a project specific
+    # function to show user donation information in ../project/donations.inc
 	if (parse_bool($config, "donations_accepted")) {
+      require_once("../project/donations.inc");
       show_user_donations_private($user);
     }
     row1("Other");
