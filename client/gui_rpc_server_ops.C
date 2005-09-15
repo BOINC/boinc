@@ -502,6 +502,31 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     }
 }
 
+static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
+    if (gstate.acct_mgr_op.error_num) {
+        fout.printf(
+            "<acct_mgr_rpc_reply>\n"
+            "    <error_num>%d</error_num>\n",
+            gstate.acct_mgr_op.error_num
+        );
+        if (gstate.acct_mgr_op.error_str.size()) {
+            fout.printf(
+                "    <error_msg>%s</error_msg>\n",
+                gstate.acct_mgr_op.error_str.c_str()
+            );
+        }
+        fout.printf(
+            "</acct_mgr_rpc_reply>\n"
+        );
+    } else {
+        fout.printf(
+            "<acct_mgr_rpc_reply>\n"
+            "    <error_num>0</error_num>\n"
+            "</acct_mgr_rpc_reply>\n"
+        );
+    }
+}
+
 static void handle_acct_mgr_info(char*, MIOFILE& fout) {
     fout.printf(
         "<acct_mgr_info>\n"
@@ -536,31 +561,6 @@ static void handle_network_query(char*, MIOFILE& fout) {
 
 static void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
-}
-
-static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
-    if (gstate.acct_mgr_op.error_num) {
-        fout.printf(
-            "<acct_mgr_rpc_reply>\n"
-            "    <error_num>%d</error_num>\n",
-            gstate.acct_mgr_op.error_num
-        );
-        if (gstate.acct_mgr_op.error_str.size()) {
-            fout.printf(
-                "    <error_msg>%s</error_msg>\n",
-                gstate.acct_mgr_op.error_str.c_str()
-            );
-        }
-        fout.printf(
-            "</acct_mgr_rpc_reply>\n"
-        );
-    } else {
-        fout.printf(
-            "<acct_mgr_rpc_reply>\n"
-            "    <error_num>0</error_num>\n"
-            "</acct_mgr_rpc_reply>\n"
-        );
-    }
 }
 
 static void handle_get_project_config(char* buf, MIOFILE& fout) {
@@ -725,10 +725,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_show_graphics(request_msg, mf);
     } else if (match_tag(request_msg, "<project_reset")) {
         handle_project_op(request_msg, mf, "reset");
+    } else if (match_tag(request_msg, "<project_attach>")) {
+        handle_project_attach(request_msg, mf);
     } else if (match_tag(request_msg, "<project_attach_poll")) {
         handle_project_attach_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_attach")) {
-        handle_project_attach(request_msg, mf);
     } else if (match_tag(request_msg, "<project_detach")) {
         handle_project_op(request_msg, mf, "detach");
     } else if (match_tag(request_msg, "<project_update")) {
@@ -773,8 +773,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<quit")) {
         handle_quit(request_msg, mf);
-    } else if (match_tag(request_msg, "<acct_mgr_rpc")) {
+    } else if (match_tag(request_msg, "<acct_mgr_rpc>")) {
         handle_acct_mgr_rpc(request_msg, mf);
+    } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
+        handle_acct_mgr_rpc_poll(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_info")) {
         handle_acct_mgr_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
@@ -795,10 +797,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_create_account(request_msg, mf);
     } else if (match_tag(request_msg, "<create_account_poll")) {
         handle_create_account_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<lookup_website>")) {
+        handle_lookup_website(request_msg, mf);
     } else if (match_tag(request_msg, "<lookup_website_poll")) {
         handle_lookup_website_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_website")) {
-        handle_lookup_website(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }
