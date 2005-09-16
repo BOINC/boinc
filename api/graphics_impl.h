@@ -31,10 +31,17 @@ struct BOINC_MAIN_STATE {
     int (*boinc_get_init_data_hook)(APP_INIT_DATA&);
     int (*set_worker_timer_hook)();
     APP_CLIENT_SHM** app_client_shmp;
+#ifdef _WIN32
+    UINT_PTR gfx_timer_id;
+#endif
 };
 
 extern int boinc_init_graphics_impl(
     WORKER_FUNC_PTR worker, BOINC_MAIN_STATE*
+);
+
+extern int boinc_shutdown_graphics_impl(
+    BOINC_MAIN_STATE*
 );
 
 // This extern C is needed to make this code work correctly,
@@ -48,6 +55,9 @@ extern "C" {
     extern int boinc_init_options_graphics_impl(
         BOINC_OPTIONS& opt,
         WORKER_FUNC_PTR _worker_main,
+        BOINC_MAIN_STATE*
+    );
+    extern int boinc_shutdown_options_graphics_impl(
         BOINC_MAIN_STATE*
     );
 }

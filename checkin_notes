@@ -11822,3 +11822,20 @@ Bruce 14 Sept 2005
         sched_send.C
         sched_util.h
         sched_util.C
+
+Rom    16 Sept 2005
+    - Letting the OS cleanup instead of shutting things down ourselves is a bad idea,
+        begin the process of cleaning up when shuting down so that things don't
+        disappear in random places.
+        
+      Basically the OS would free the heap before the graphics thread had shutdown
+        when the machine was under load, this causes C0000005 errors since the
+        pointers no longer point to memory that we own.
+        
+    api/
+        boinc_api.C
+        graphics_api.C, .h
+        graphics_impl.C, .h
+        windows_opengl.C
+    win_build/
+        libboincapi.vcproj

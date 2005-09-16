@@ -44,6 +44,7 @@ static HDESK hInteractiveDesktop = NULL;
 
 static bool visible = true;
 static bool window_ready=false;
+static UINT_PTR gfx_timer_id = 0;
 
 #define GLUT_CTRL_KEY 17
 static bool ctrl_key_pressed = false;   // remember if Ctrl key is pressed
@@ -495,7 +496,7 @@ void win_graphics_event_loop() {
     // Register window class and graphics mode message
     reg_win_class();
 
-    SetTimer(NULL, 1, 30, &timer_handler);
+    gfx_timer_id = SetTimer(NULL, 1, 30, &timer_handler);
 
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
@@ -516,5 +517,24 @@ void win_graphics_event_loop() {
     SetEvent(hQuitEvent);        // Signal the worker thread that we're quitting
 }
 
+void win_graphics_shutdown_event_loop() {
+    // Shutdown the timer and stop processing messages
+    //
+    if (gfx_timer_id) {
+        KillTimer(NULL, gfx_timer_id);
+        gfx_timer_id = NULL;
+    }
+
+    // Process any outstanding messages and stuff before moving
+    //   on.
+    //
+    Sleep(0);
+
+    // Close down any open window and cleanup
+    //
+    if (!boinc_is_standalone()) {
+        set_mode(MODE_HIDE_GRAPHICS);
+    }
+}
 
 const char *BOINC_RCSID_462f482d81 = "$Id$";

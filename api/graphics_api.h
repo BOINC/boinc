@@ -37,6 +37,7 @@ extern "C" {
 typedef void (*WORKER_FUNC_PTR)();
 
 extern int boinc_init_graphics(WORKER_FUNC_PTR);
+extern int boinc_shutdown_graphics();
 
 // Functions that must be supplied by the app
 //

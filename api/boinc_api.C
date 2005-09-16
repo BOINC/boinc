@@ -52,6 +52,16 @@ using namespace std;
 
 #include "boinc_api.h"
 
+#ifdef BOINC_APP_GRAPHICS
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern int boinc_shutdown_graphics();
+#ifdef __cplusplus
+}
+#endif
+#endif
+
 // The BOINC API has various functions:
 // - check heartbeat from core client, exit if none
 // - handle trickle up/down messages
@@ -367,7 +377,15 @@ int boinc_finish(int status) {
 
 // unlock the lockfile and call the appropriate exit function
 //
-void boinc_exit (int status) {
+void boinc_exit(int status) {
+#ifdef BOINC_APP_GRAPHICS
+    // Shutdown graphics if it is running
+    //
+    boinc_shutdown_graphics();
+#endif
+
+    // Unlock the lock file
+    //
     file_lock.unlock(LOCKFILE);
 
     // on Mac, calling exit() can lead to infinite exit-atexit loops,
@@ -379,7 +397,6 @@ void boinc_exit (int status) {
 #else
     exit(status);
 #endif
-
 }
 
 bool boinc_is_standalone() {
@@ -541,6 +558,9 @@ static void handle_process_control_msg() {
             boinc_status.suspended = false;
 #ifdef _WIN32
             if (options.direct_process_action) {
+                // in Windows this is called from a separate "timer thread",
+                // and Windows lets us resume the worker thread
+                //
                 ResumeThread(worker_thread_handle);
             }
 #endif

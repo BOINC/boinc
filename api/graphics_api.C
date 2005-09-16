@@ -29,11 +29,18 @@ static void init_main_state() {
     boinc_main_state.boinc_get_init_data_hook = boinc_get_init_data;
     boinc_main_state.set_worker_timer_hook = set_worker_timer;
     boinc_main_state.app_client_shmp = &app_client_shm;
+#ifdef _WIN32
+    boinc_main_state.gfx_timer_id = NULL;
+#endif
 }
 
 int boinc_init_graphics(void (*worker)()) {
     init_main_state();
     return boinc_init_graphics_impl(worker, &boinc_main_state);
+}
+
+int boinc_shutdown_graphics() {
+    return boinc_shutdown_graphics_impl(&boinc_main_state);
 }
 
 int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*worker)()) {
