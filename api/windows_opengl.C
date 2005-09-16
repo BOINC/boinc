@@ -162,6 +162,11 @@ static void make_new_window() {
         return;
     }
 
+    // use client area for resize when not fullscreen
+    if (current_graphics_mode != MODE_FULLSCREEN) {
+        GetClientRect(hWnd, &WindowRect);
+	}
+
     width = WindowRect.right-WindowRect.left;
     height = WindowRect.bottom-WindowRect.top;
 

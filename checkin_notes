@@ -11839,3 +11839,10 @@ Rom    16 Sept 2005 (from Walt Gribben)
         windows_opengl.C
     win_build/
         libboincapi.vcproj
+
+Rom    16 Sept 2005 (from Walt Gribben)
+    - Use the client area of the window instead of the window size when drawing
+        graphics on Windows.
+        
+    api/
+        windows_opengl.C
