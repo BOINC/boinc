@@ -11823,7 +11823,7 @@ Bruce 14 Sept 2005
         sched_util.h
         sched_util.C
 
-Rom    16 Sept 2005
+Rom    16 Sept 2005 (from Walt Gribben)
     - Letting the OS cleanup instead of shutting things down ourselves is a bad idea,
         begin the process of cleaning up when shuting down so that things don't
         disappear in random places.
