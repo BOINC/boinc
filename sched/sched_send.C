@@ -258,6 +258,13 @@ int wu_is_infeasible(
         );
         reply.wreq.insufficient_mem = true;
         reason |= INFEASIBLE_MEM;
+        char explanation[256];
+        sprintf(explanation, "Your computer has only %.0f bytes of memory; workunit requires %.0f more bytes",
+            m_nbytes, wu.rsc_memory_bound-m_nbytes
+        );
+        USER_MESSAGE um(explanation, "high");
+        reply.set_delay(24*3600);
+        reply.insert_message(um);
     }
 
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {

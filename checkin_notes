@@ -11813,6 +11813,8 @@ Bruce 14 Sept 2005
     - Backend logging statements on exit() which echo elapsed run time to logs now
       do this with much higher printed precision.
     - Backend logging, separate scheduler requests with an almost blank line
+    - Scheduler: when host does not have enough memory, message to this effect
+      now contains information about how many more bytes of memory are needed.
 
     sched/
         file_upload_handler.C
