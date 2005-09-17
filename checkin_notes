@@ -11846,3 +11846,9 @@ Rom    16 Sept 2005 (from Walt Gribben)
         
     api/
         windows_opengl.C
+
+David  17 Sept 2005
+    - include math.h and not ieeefp.h in parse.C
+
+    lib/
+        parse.C

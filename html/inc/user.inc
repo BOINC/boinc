@@ -132,8 +132,9 @@ function show_user_page_private($user) {
     start_table("width=100%");
     show_user_info_private($user);
     show_user_stats_private($user);
-    # Does this project accept donations? Then put in a project specific
-    # function to show user donation information in ../project/donations.inc
+
+    // Does this project accept donations? Then put in a project specific
+    // function to show user donation information in ../project/donations.inc
 	if (parse_bool($config, "donations_accepted")) {
       require_once("../project/donations.inc");
       show_user_donations_private($user);
