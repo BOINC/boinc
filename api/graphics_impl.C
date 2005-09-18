@@ -210,7 +210,7 @@ bool throttled_app_render(int x, int y, double t) {
 
     // ignore interval if negative or more than 1 second
     //
-    if ((diff<0) || (diff>1000.)) {
+    if ((diff<0) || (diff>1.0)) {
         diff = 0;
     }
 
