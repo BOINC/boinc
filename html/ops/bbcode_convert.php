@@ -87,14 +87,15 @@ function fix_posts() {
             $text = fix_text($thispost->content);
             if ($text != $thispost->content) {
                 $query = "update low_priority post set content = '".mysql_escape_string($text)."' where id=".$thispost->id;
-                echo $query;
-                exit();
-                //mysql_query($query);
-                //echo mysql_error();
+                //echo $query;
+                //exit();
+                mysql_query($query);
+                echo mysql_error();
             }
         }
     }
 }
 
+fix_posts();
 
 ?>
