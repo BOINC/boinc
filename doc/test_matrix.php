@@ -72,6 +72,7 @@ Verify that download resumes from the same point.
 <ul>
 <li> Test 'confirm before connect' preference.
 <li> Test 'Disconnect when done' preference.
+<li> Test processing only when idle.
 </ul>
 <h3>Tests for computers connected by HTTP proxy</h3>
 <ul>
