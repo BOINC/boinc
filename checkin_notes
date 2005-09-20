@@ -11846,3 +11846,71 @@ Rom    16 Sept 2005 (from Walt Gribben)
         
     api/
         windows_opengl.C
+
+David  17 Sept 2005
+    - include math.h and not ieeefp.h in parse.C
+
+    lib/
+        parse.C
+
+
+Charlie 19 Sept 2005
+    - Mac: Add backtrace to stderr after crashes.
+    - Update XCode project for added and deleted souce files.
+    - Make pipes more reliable by handling EINTR error from fgets.
+    
+    api/
+        mac_icon.C
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            mac_saver_module.cpp
+    lib/
+        diagnostics.C
+        mac_backtrace.C, .h (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+    mac-installer/
+        PostInstall.cpp
+
+David  19 Sept 2005
+    - restore include of ieeefp.h (for Solaris)
+
+    lib/
+        parse.C
+
+David  19 Sept 2005
+    - added script (from Janus Kristensen)
+        to convert HTML to BBCode.
+        Currently just does forums.
+        Should to profiles etc. too
+
+    html/ops/
+        bbcode_convert.php
+
+Charlie 19 Sept 2005
+    - Mac: Trim garbage off end of symbols in backtrace.
+    - Fixed backtracing through signal handler.  This required 
+      determining the correct offset within sigtramp's stack 
+      frame of the pointer to the next stack frame; this varies
+      among major versions of the macintosh OS.  I'm confident 
+      I have the correct value for OS 10.3, but three different 
+      offsets all contained the correct value in my tests on 
+      OS 10.4, so I'm less confident there.
+
+    lib/
+        mac_backtrace.C, .h
+
+David  20 Sept 2005
+    - code cleanup
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            bbcode_convert.php
+
+Rom    20 Sept 2005 (staging)
+    - Tag for 5.1.4 release, all platforms
+      boinc_core_release_5.1.4

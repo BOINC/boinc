@@ -124,10 +124,13 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
         $controls = NO_CONTROLS;
     }
 
-    if (isSpecialUser($logged_in_user,0)){		// If logged in user is moderator
-	$show_hidden_posts = true;			// let him see all posts - including hidden ones
+    // If logged in user is moderator,
+    // let him see all posts - including hidden ones
+    //
+    if (isSpecialUser($logged_in_user,0)){
+        $show_hidden_posts = true;
     } else {
-	$show_hidden_posts = false;
+        $show_hidden_posts = false;
     }
 
     $posts = getPosts($thread->id, -1, -1, $sort_style, $show_hidden_posts);
@@ -180,7 +183,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         $rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
     }
 
-	
+
     $can_edit = ($logged_in_user && $user->id == $logged_in_user->id); //Only the creator can edit the post
     //$can_edit = ((isSpecialUser($logged_in_user,0)) || ($logged_in_user && $user->id == $logged_in_user->id));// Everybody assumes we can edit posts, why not make it so?
     echo "
@@ -193,14 +196,17 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     echo "<br>";
     global $special_user_bitfield; 
     $fstatus="";
-    if ($user->special_user) {                                                                        //If this user is somehow special
-	$keys = array_keys($special_user_bitfield);
-	for ($i=0; $i<sizeof($special_user_bitfield);$i++){
-	    if (isSpecialUser($user,$keys[$i])) $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
-	}
+    if ($user->special_user) {
+        $keys = array_keys($special_user_bitfield);
+        for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
+            if (isSpecialUser($user,$keys[$i])) {
+                $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
+            }
+        }
     } else {
-        if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW."<br>";
-        /*...*/
+        if ($user->create_time>time()-ST_NEW_TIME) {
+            $fstatus=ST_NEW."<br>";
+        }
     }
     if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
 
@@ -282,14 +288,18 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     //If either filtering is turned off of this post is not below the threshold
     if (!$filter || !$rated_below_threshold){
-    	$posttext = $post->content;
-    	if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
-            $posttext.="\n____________\n".$user->signature;                                //wants it to be shown for this post AND the logged in
-        }                                                                                        //user has signatures enabled: show it
+        $posttext = $post->content;
 
-		$options = get_transform_settings_from_user($logged_in_user);
-    	
-		$posttext = output_transform($posttext,$options);
+        // If the creator of this post has a signature and
+        // wants it to be shown for this post AND the logged in
+        // user has signatures enabled: show it
+        //
+        if ($post->signature && !$logged_in_user->hide_signatures){
+            $posttext.="\n____________\n".$user->signature;
+        }
+
+        $options = get_transform_settings_from_user($logged_in_user);
+        $posttext = output_transform($posttext,$options);
         
         echo "<p>", $posttext, "</p>";
         echo "<table width=\"100%\" cellspacing=0 cellpadding=0>
@@ -331,13 +341,13 @@ function start_forum_table($headings, $extra="width=100%") {
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {
-	if (is_array($headings[$i])){
-	    $title = $headings[$i][0];
-	    $class = $headings[$i][1];
-	} else {
-	    $title = $headings[$i];
-	    $class = "heading";
-	}
+        if (is_array($headings[$i])){
+            $title = $headings[$i][0];
+            $class = $headings[$i][1];
+        } else {
+            $title = $headings[$i];
+            $class = "heading";
+        }
         echo "<th class=$class>$title</th>";
     }
     echo "</tr>\n";
@@ -434,8 +444,8 @@ function show_thread($thread, $n) {
 
 // show a post with its context (e.g. for search results)
 //
-function show_post2($post, $n) {	// This is such a lovely function I think I will
-    $thread = getThread($post->thread);	// do away with it sometime soon.
+function show_post2($post, $n) {
+    $thread = getThread($post->thread);
     $forum = getForum($thread->forum);
     $category = getCategory($forum->category);
     $where = $category->is_helpdesk?"Questions and answers":"Message boards";
@@ -446,13 +456,14 @@ function show_post2($post, $n) {	// This is such a lovely function I think I wil
     $title = cleanup_title($thread->title);
     $m = $n%2;
     if($post->hidden) {
-        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial spam" ); 	//Todo: factor this array out, it is also used elsewhere
+        //Todo: factor this array out, it is also used elsewhere
+        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial spam" );
         $deleted = "<br><font color=red>[Deleted " .
                    "by a moderator as " . $deleted_text[$post->hidden-1] .
                    "] </font>";
     } else {
         $deleted = "";
-    };    
+    }
     echo "
         <tr class=row$m>
         <td>

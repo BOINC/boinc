@@ -600,6 +600,25 @@ void drawBanner(GrafPtr aPort) {
 }
 
 
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
 pid_t FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
@@ -614,7 +633,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     if (f == NULL)
         return 0;
     
-    while (fgets(buf, sizeof(buf), f))
+    while (PersistentFGets(buf, sizeof(buf), f))
     {
         if (name != NULL) {     // Search ny name
             if (strncmp(buf, name, n) == 0)

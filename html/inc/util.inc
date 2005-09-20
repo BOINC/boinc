@@ -423,8 +423,10 @@ function user_links($user) {
     if ($user->has_profile) {
         $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=head_20.png></a>";
     }
-    # Does this project accept donations?
-    # If so, do you want to have a link next to user name as it appears on the web site?
+    // Does this project accept donations?
+    // If so, do you want to have a link next to user
+    // name as it appears on the web site?
+    //
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;

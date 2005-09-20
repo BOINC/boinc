@@ -35,6 +35,10 @@
 #include "stackwalker_win.h"
 #endif
 
+#ifdef __APPLE__
+#include "mac_backtrace.h"
+#endif
+
 #ifdef __GLIBC__
 #include <execinfo.h>
 #endif
@@ -649,6 +653,10 @@ void boinc_catch_signal(int signal) {
     size = backtrace (array, 64);
     fprintf(stderr, "Stack trace (%d frames):\n", size);
     backtrace_symbols_fd(array, size, fileno(stderr));
+#endif
+
+#ifdef __APPLE__
+    PrintBacktrace();
 #endif
 
     fprintf(stderr, "\nExiting...\n");

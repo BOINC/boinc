@@ -312,7 +312,6 @@
 				DD2D25CD07FAB41700151141,
 				DDEF38900802B73500E87552,
 				DD7E49CD080F9B09002716F9,
-				DDA4573D086447BC00DE260C,
 				DDA4573F086447BC00DE260C,
 				DD0A06F20869A288007CD86E,
 				DD9B6B1B0890EDCA003A8E83,
@@ -323,6 +322,7 @@
 				DD73E3B808A0809800656EB1,
 				DD73E3BF08A0837800656EB1,
 				DDCDB2C708CEE14800E4F573,
+				DDF166C808DF8D0F00C8C4A5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1523,6 +1523,7 @@
 				DD52C81208B5D44E008D9AA4,
 				DD52C81308B5D44F008D9AA4,
 				DD52C81408B5D484008D9AA4,
+				DDF166AB08DF898A00C8C4A5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2898,8 +2899,6 @@
 				DD81C43807C5D2240098A04D,
 				DD81C40207C5D1020098A04D,
 				DD81C43707C5D2240098A04D,
-				DDA45739086447BC00DE260C,
-				DDA4573A086447BC00DE260C,
 				DDA4573B086447BC00DE260C,
 				DDA4573C086447BC00DE260C,
 				DD81C3FF07C5D1020098A04D,
@@ -3471,24 +3470,6 @@
 			settings = {
 			};
 		};
-		DDA45739086447BC00DE260C = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = DlgAccountManagerSignup.cpp;
-			path = ../clientgui/DlgAccountManagerSignup.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDA4573A086447BC00DE260C = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = DlgAccountManagerSignup.h;
-			path = ../clientgui/DlgAccountManagerSignup.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		DDA4573B086447BC00DE260C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3506,12 +3487,6 @@
 			path = ../clientgui/DlgAccountManagerStatus.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DDA4573D086447BC00DE260C = {
-			fileRef = DDA45739086447BC00DE260C;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDA4573F086447BC00DE260C = {
 			fileRef = DDA4573B086447BC00DE260C;
@@ -3762,12 +3737,6 @@
 			settings = {
 			};
 		};
-		DDCDB2C808CEE14800E4F573 = {
-			fileRef = DDCDB2C608CEE14800E4F573;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDD74D8407CF482E0065AC9D = {
 			buildActionMask = 2147483647;
 			files = (
@@ -3829,6 +3798,7 @@
 				DD33C6F808B5BB4500768630,
 				DD33C6FD08B5BC2600768630,
 				DD33C70408B5BEDE00768630,
+				DDF166C308DF8AEE00C8C4A5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4217,7 +4187,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
-				DDCDB2C808CEE14800E4F573,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4250,6 +4219,42 @@
 		};
 		DDEF38900802B73500E87552 = {
 			fileRef = DDEF388E0802B73500E87552;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF166A908DF898A00C8C4A5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = mac_backtrace.C;
+			path = ../lib/mac_backtrace.C;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDF166AA08DF898A00C8C4A5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = mac_backtrace.h;
+			path = ../lib/mac_backtrace.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDF166AB08DF898A00C8C4A5 = {
+			fileRef = DDF166A908DF898A00C8C4A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF166C308DF8AEE00C8C4A5 = {
+			fileRef = DDF166A908DF898A00C8C4A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF166C808DF8D0F00C8C4A5 = {
+			fileRef = DDF166A908DF898A00C8C4A5;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4370,6 +4375,8 @@
 				DD344BB707C5AEEE0043025C,
 				AA8FCBF40486CFD000A80164,
 				AA8FCBF50486CFD000A80164,
+				DDF166A908DF898A00C8C4A5,
+				DDF166AA08DF898A00C8C4A5,
 				F5159562029EB02001F5651B,
 				F5159563029EB02001F5651B,
 				F5159564029EB02001F5651B,
