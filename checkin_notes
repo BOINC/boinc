@@ -11879,3 +11879,12 @@ David  19 Sept 2005
 
     lib/
         parse.C
+
+David  19 Sept 2005
+    - added script (from Janus Kristensen)
+        to convert HTML to BBCode.
+        Currently just does forums.
+        Should to profiles etc. too
+
+    html/ops/
+        bbcode_convert.php
