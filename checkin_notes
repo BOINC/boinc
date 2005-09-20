@@ -11901,3 +11901,12 @@ Charlie 19 Sept 2005
 
     lib/
         mac_backtrace.C, .h
+
+David  20 Sept 2005
+    - code cleanup
+
+    html/
+        inc/
+            forum.inc
+        ops/
+            bbcode_convert.php

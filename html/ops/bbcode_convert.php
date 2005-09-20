@@ -2,32 +2,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once('../inc/sanitize_html.inc');
-$start_id = 0; //Set this to something else if you like
 db_init();
-
-$posts = mysql_query("select * from post order by id");
-echo mysql_error();
-$i=0;
-while ($thispost = mysql_fetch_object($posts)){
-    $i++; 
-    if ($i%100 == 0){ //For every 100 posts
-        echo $thispost->id.". "; flush(); // print out where we are
-        usleep(200000); // Wait a short amount of time (1/5 sec) to give other DB queries a chance
-    }
-    
-    if ($thispost->id > $start_id){
-        $text = $thispost->content;
-        $text = sanitize_html($text);    
-        $text = image_as_bb($text);
-        $text = link_as_bb($text);
-        $text = formatting_as_bb($text);
-        $query = "update low_priority post set content = '".mysql_escape_string($text)."' where id=".$thispost->id;
-        mysql_query($query);
-        echo mysql_error();
-        
-    }
-}
-
 
 
 function image_as_bb($text){
@@ -86,6 +61,39 @@ function formatting_as_bb($text){
     $in[]="<br>";$out[]="\n";
 
     return str_replace($in, $out, $text);
+}
+
+function fix_text($text) {
+    $text = sanitize_html($text);    
+    $text = image_as_bb($text);
+    $text = link_as_bb($text);
+    $text = formatting_as_bb($text);
+    return $text;
+}
+
+function fix_posts() {
+    $start_id = 0; //Set this to something else if you like
+    $posts = mysql_query("select * from post where id>$start_id order by id");
+    echo mysql_error();
+    $i=0;
+    while ($thispost = mysql_fetch_object($posts)){
+        $i++; 
+        if ($i%100 == 0) {                      //For every 100 posts
+            echo $thispost->id.". "; flush();   // print out where we are
+            usleep(200000); // Wait a short amount of time (1/5 sec) to give other DB queries a chance
+        }
+        
+        if ($thispost->id > $start_id){
+            $text = fix_text($thispost->content);
+            if ($text != $thispost->content) {
+                $query = "update low_priority post set content = '".mysql_escape_string($text)."' where id=".$thispost->id;
+                echo $query;
+                exit();
+                //mysql_query($query);
+                //echo mysql_error();
+            }
+        }
+    }
 }
 
 
