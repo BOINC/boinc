@@ -507,6 +507,24 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 
 #elif defined(__WXMAC__)
 
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
 bool CBOINCGUIApp::ProcessExists(pid_t thePID)
 {
     FILE *f;
@@ -517,7 +535,7 @@ bool CBOINCGUIApp::ProcessExists(pid_t thePID)
     if (f == NULL)
         return false;
     
-    while (fgets(buf, sizeof(buf), f)) {
+    while (PersistentFGets(buf, sizeof(buf), f)) {
         aPID = atol(buf);
         if (aPID == thePID) {
             if (strchr(buf, 'Z'))   // A 'zombie', stopped but waiting

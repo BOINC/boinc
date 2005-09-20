@@ -11852,3 +11852,24 @@ David  17 Sept 2005
 
     lib/
         parse.C
+
+
+Charlie 19 Sept 2005
+    - Mac: Add backtrace to stderr after crashes.
+    - Update XCode project for added and deleted souce files.
+    - Make pipes more reliable by handling EINTR error from fgets.
+    
+    api/
+        mac_icon.C
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            mac_saver_module.cpp
+    lib/
+        diagnostics.C
+        mac_backtrace.C, .h (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+    mac-installer/
+        PostInstall.cpp

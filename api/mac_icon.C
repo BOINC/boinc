@@ -110,6 +110,25 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
 }
 
 
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
 void getPathToThisApp(char* pathBuf, size_t bufSize) {
     FILE *f;
     char buf[64], *c;
@@ -122,8 +141,8 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     f = popen(buf,  "r");
     if (!f)
         return;
-    fgets(pathBuf, bufSize, f);  // Skip over line of column headings
-    fgets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
+    PersistentFGets(pathBuf, bufSize, f);  // Skip over line of column headings
+    PersistentFGets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
     fclose(f);
 
     c = strstr(pathBuf, " -"); 
