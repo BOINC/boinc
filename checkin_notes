@@ -11873,3 +11873,9 @@ Charlie 19 Sept 2005
             project.pbxproj
     mac-installer/
         PostInstall.cpp
+
+David  19 Sept 2005
+    - restore include of ieeefp.h (for Solaris)
+
+    lib/
+        parse.C

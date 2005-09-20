@@ -29,7 +29,7 @@ resources
 <td valign=top width=60%>
 <table width=100% border=0 cellspacing=0 cellpadding=8>
   <tr><td bgcolor=$light_blue>
-    <h2>&nbsp;Donate computing power to science</h2>
+    <h2>&nbsp;Donate computing power</h2>
   </td></tr>
   <tr><td>
     <p>
@@ -79,7 +79,7 @@ resources
 
     <br><br>
   </td></tr>
-  <tr><td bgcolor=$light_blue><h2>Create a BOINC project</h2></td></tr>
+  <tr><td bgcolor=$light_blue><h2>Create a volunteer computing project</h2></td></tr>
   <tr><td>
     Scientists with computationally-intensive tasks
     may be able to use BOINC.
@@ -113,7 +113,7 @@ resources
 <img align=left src=nsf.gif>
 BOINC is supported by the
 <a href=http://nsf.gov>National Science Foundation</a>
-through award SCI/0221529.
+through awards SCI/0221529, SCI/0438443 and SCI/0506411.
 <font size=-2>
 Any opinions, findings, and conclusions or recommendations expressed in
 this material are those of the author(s)
