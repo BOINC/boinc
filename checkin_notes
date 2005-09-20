@@ -11902,6 +11902,22 @@ Charlie 19 Sept 2005
     lib/
         mac_backtrace.C, .h
 
+Matt 20 Sept 2005
+    - added new file server_status.php to html/user which is a generic server
+      status page, which can be run as a regular php page or as a standalone
+      program (which can output static .html as well as .xml). Instructions
+      for use are in the comments at the top.
+    - fixed the function parse_element so that it returns *all* the text
+      between open/close tags, not just the text between the opening tag
+      and the next "<" sign.
+    - made a new function parse_next_element which gives the user a cursor so
+      that they can iterate through multiple similar tags (like <daemon>).
+
+    html/user/
+        server_status.php 
+    html/inc/
+        util.inc
+
 David  20 Sept 2005
     - code cleanup
 

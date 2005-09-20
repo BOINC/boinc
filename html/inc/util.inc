@@ -313,14 +313,32 @@ function print_login_form() {
 //
 function parse_element($xml, $tag) {
     $element = null;
+    $closetag = "</" . substr($tag,1);
     $x = strstr($xml, $tag);
     if ($x) {
         if (strstr($tag, "/>")) return $tag;
         $y = substr($x, strlen($tag));
-        $n = strpos($y, "<");
+        $n = strpos($y, $closetag);
         if ($n) {
             $element = substr($y, 0, $n);
         }
+    }
+    return $element;
+}
+
+function parse_next_element($xml, $tag, $cursor) {
+    $element = null;
+    $closetag = "</" . substr($tag,1);
+    $pos = substr($xml,$cursor);
+    $x = strstr($pos, $tag);
+    if ($x) {
+        if (strstr($tag, "/>")) return $tag;
+        $y = substr($x, strlen($tag));
+        $n = strpos($y, $closetag);
+        if ($n) {
+            $element = substr($y, 0, $n);
+        }
+        $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
     }
     return $element;
 }
@@ -423,10 +441,8 @@ function user_links($user) {
     if ($user->has_profile) {
         $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=head_20.png></a>";
     }
-    // Does this project accept donations?
-    // If so, do you want to have a link next to user
-    // name as it appears on the web site?
-    //
+    # Does this project accept donations?
+    # If so, do you want to have a link next to user name as it appears on the web site?
     if ($user->donated == 1) { 
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
