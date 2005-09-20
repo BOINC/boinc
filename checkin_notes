@@ -11910,3 +11910,7 @@ David  20 Sept 2005
             forum.inc
         ops/
             bbcode_convert.php
+
+Rom    20 Sept 2005 (staging)
+    - Tag for 5.1.4 release, all platforms
+      boinc_core_release_5.1.4
