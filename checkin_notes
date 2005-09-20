@@ -11888,3 +11888,16 @@ David  19 Sept 2005
 
     html/ops/
         bbcode_convert.php
+
+Charlie 19 Sept 2005
+    - Mac: Trim garbage off end of symbols in backtrace.
+    - Fixed backtracing through signal handler.  This required 
+      determining the correct offset within sigtramp's stack 
+      frame of the pointer to the next stack frame; this varies
+      among major versions of the macintosh OS.  I'm confident 
+      I have the correct value for OS 10.3, but three different 
+      offsets all contained the correct value in my tests on 
+      OS 10.4, so I'm less confident there.
+
+    lib/
+        mac_backtrace.C, .h
