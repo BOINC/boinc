@@ -113,7 +113,6 @@
 				DD40CDFA07F0386B0096C645,
 				DD96AFFA0811075100A06F22,
 				DD1277B5081F3D67007B5DE1,
-				DD6381F80870DD83007A2F8E,
 			);
 			isa = PBXGroup;
 			name = "¬´PROJECTNAME¬ª";
@@ -2291,10 +2290,9 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			name = make_app_icon_h.C;
-			path = ../api/make_app_icon_h.C;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = make_app_icon_h.C;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		DD6381F90870DD83007A2F8E = {
 			fileRef = DD6381F80870DD83007A2F8E;
@@ -4858,6 +4856,7 @@
 				DD40825607D3076400163EF5,
 				DD6D82DA08131AB1008F7200,
 				DD6381450870DB78007A2F8E,
+				DD6381F80870DD83007A2F8E,
 				DD40825707D3076400163EF5,
 				DD40825807D3076400163EF5,
 				DD40825907D3076400163EF5,

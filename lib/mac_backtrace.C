@@ -138,7 +138,11 @@ static void PrintNameOfThisApp() {
     }
     
     if (nameBuf[0])
-        fprintf(stderr, "\nExecutable name: %s\n", nameBuf);
+        fprintf(stderr, "\nCrashed executable name: %s\n", nameBuf);
+    
+#ifdef BOINC_VERSION_STRING
+    fprintf(stderr, "built using BOINC library version %s\n", BOINC_VERSION_STRING);
+#endif
 }
 
 
