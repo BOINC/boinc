@@ -188,11 +188,7 @@ int CLIENT_STATE::suspend_activities(int reason) {
         s_reason += " - out of disk space - change global prefs";
     }
     msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
-    if (reason & SUSPEND_REASON_BENCHMARKS) {
-        active_tasks.suspend_all(false);
-    } else {
-        active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
-    }
+    active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
     pers_file_xfers->suspend();
     return 0;
 }

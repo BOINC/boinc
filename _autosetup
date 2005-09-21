@@ -2,17 +2,9 @@
 
 ## $Id$
 
-# for solaris machines that don't have autoconf 2.57 or automake 1.7 installed:
-
 # this file is only for bootstrapping the "Makefile.in" files and "Makefile"
 # files; you probably don't need to run this if the Makefile.in files were
 # correctly checked into the repository.
-
-## need autoconf, automake, m4, ... from quarl's bin directory:
-if [ `uname` = SunOS ]; then
-	PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:$PATH
-	export PATH
-fi
 
 if [ -d autom4te.cache ]; then
   /bin/rm -rf autom4te.cache

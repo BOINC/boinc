@@ -3,6 +3,7 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
+require_once('../project/project.inc');
 
 db_init();
 
@@ -15,10 +16,22 @@ echo "<p>
     <a href=forum_help_desk.php>Questions/problems</a>
     area instead of the Message boards.</p>
     <p>
-    Do a <a href=forum_text_search_form.php>keyword search</a>
-    of messages.
-    <p>
 ";
+if (true) {
+    echo "
+        <form action=http://www.google.com/search>
+        <input type=hidden name=domains value=".URL_BASE.">
+        <input type=hidden name=sitesearch value=".URL_BASE."/forum_thread.php>
+        <input class=small name=q size=20>
+        <input type=submit value=Search>
+        </form>
+    ";
+} else {
+    echo "
+        Do a <a href=forum_text_search_form.php>keyword search</a> of messages.
+        <p>
+    ";
+}
 
 function show_category($category) {
     echo "

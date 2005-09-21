@@ -92,6 +92,7 @@ language("Hungarian", array(
     site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
 ));
 language("Italian", array(
+    site("http://gaming.ngi.it/forum/forumdisplay.php?f=73", "NGI forum"),
     site("http://it.groups.yahoo.com/group/BOINC-ITALIA/", "BOINC-ITALIA")
 ));
 language("Japanese", array(

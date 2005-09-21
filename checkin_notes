@@ -11943,3 +11943,16 @@ Charlie 21 Sept 2005
     
     lib/
         mac_backtrace.C
+
+David  21 Sept 2005
+    - when benchmarking, suspend running applications the normal way
+        (leave in memory or not, depending on general prefs)
+        rather than always removing from memory.
+        Note: there may already be suspended apps in memory,
+        so killing running apps is pointless.
+    - remove site-specific lines from _autosetup
+
+    _autosetup
+    client/
+        cs_prefs.C
+

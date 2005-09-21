@@ -74,7 +74,7 @@ Please check with davea at ssl.berkeley.edu
 before undertaking any of these.
 <hr>
 Various implementation notes:
-<h2>Core client</h2>
+<h2>Client</h2>
 <ul>
 <li> <a href=client_files.php>File structure</a>
 <li> <a href=client_fsm.php>FSM structure</a>
@@ -87,6 +87,7 @@ Various implementation notes:
 <li> <a href=host_id.php>Host identification</a>
 <li> <a href=client_app.php>Core client/application interaction (basic)</a>
 <li> <a href=client_app_graphic.php>Core client/application interaction (graphics)</a>
+<li> <a href=client_startup.php>Client configuration files</a>
 <!--
 <li> <a href=disk_management.php>Disk space management</a>
 -->

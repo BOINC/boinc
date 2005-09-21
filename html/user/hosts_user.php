@@ -40,7 +40,13 @@
         $private = true;
     }
     $i = 1;
-    $result = mysql_query("select * from host where userid=$userid order by rpc_time desc");
+
+    $sort_clause = "rpc_time desc";
+    $sort = get_str("sort", true);
+    if ($sort == "total_credit") $sort_clause = "total_credit desc";
+    if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
+
+    $result = mysql_query("select * from host where userid=$userid order by $sort_clause");
     while ($host = mysql_fetch_object($result)) {
         show_host_row($host, $i, $private, false);
         $i++;
