@@ -8,11 +8,22 @@ db_init();
 
 page_head("Questions and answers");
 
-echo "
-    <p>
-    Do a <a href=forum_text_search_form.php>keyword search</a> of messages.
-    <p>
-";
+if (true) {
+    echo "
+        <form action=http://www.google.com/search>
+        <input type=hidden name=domains value=".URL_BASE.">
+        <input type=hidden name=sitesearch value=".URL_BASE."/forum_thread.php>
+        <input class=small name=q size=20>
+        <input type=submit value=Search>
+        </form>
+    ";
+} else {
+    echo "
+        <p>
+        Do a <a href=forum_text_search_form.php>keyword search</a> of messages.
+        <p>
+    ";
+}
 
 start_forum_table(array("Topic", "# Questions", "Last post"));
 
