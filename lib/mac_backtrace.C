@@ -68,6 +68,8 @@ enum {
         kFrameCount = 200
 };
 
+#define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
+
 static void PrintNameOfThisApp(void);
 static void PrintOSVersion(char *minorVersion);
 static int OutputFrames(const MacBTPPCFrame *frameArray, unsigned long frameCount, unsigned char lookupSymbolNames);
@@ -384,10 +386,10 @@ static int OutputFrames(const MacBTPPCFrame *frameArray, unsigned long frameCoun
         fputs("Stack Frame backtrace:\n #  Flags Frame Addr  Caller PC   Symbol\n"
                         "===  ===  ==========  ==========  ==========\n", stderr);
         
-        for (frameIndex = 0; frameIndex < frameCount; frameIndex++) {
+        for (frameIndex = SKIPFRAME; frameIndex < frameCount; frameIndex++) {
                 
                 fprintf(stderr, "%3ld  %c%c%c  0x%08lx  0x%08lx  ", 
-                                 frameIndex,
+                                 frameIndex - (SKIPFRAME - 1),
                                  (frameArray[frameIndex].flags & kMacBTFrameBadMask)      ? 'F' : '-',
                                  (frameArray[frameIndex].flags & kMacBTPCBadMask)         ? 'P' : '-',
                                  (frameArray[frameIndex].flags & kMacBTSignalHandlerMask) ? 'S' : '-',

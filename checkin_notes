@@ -11936,3 +11936,10 @@ Charlie 20 Sept 2005
     
     lib/
         mac_backtrace.C
+
+Charlie 21 Sept 2005
+    - Mac: Don't show stack frames of signal handler and of backtrace 
+      in backtrace.
+    
+    lib/
+        mac_backtrace.C
