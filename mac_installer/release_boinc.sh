@@ -61,7 +61,7 @@ sudo chmod -R 755 ../BOINC_Installer/Installer\ Resources/*
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/SymbolTables
+mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables
 
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX
 sudo chown -R 501:wheel ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/ReadMe.rtf
@@ -72,11 +72,12 @@ cp -fpR mac_build/build/boinc_cmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/*
 sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/*
 
-cp -fpR mac_build/build/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/SymbolTables/
+cp -fpR mac_build/build/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
 zip -rq boinc_$1.$2.$3_macOSX.zip boinc_$1.$2.$3_macOSX
 zip -rq boinc_$1.$2.$3_powerpc-apple-darwin.zip boinc_$1.$2.$3_powerpc-apple-darwin
+zip -rq boinc_$1.$2.$3_macOSX_SymbolTables.zip boinc_$1.$2.$3_macOSX_SymbolTables
 
