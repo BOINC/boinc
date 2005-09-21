@@ -420,9 +420,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                 m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
 
             // application
-            re->get_app_version_string(appname);
-            if (strcmp(m_ResultListCtrl.GetItemText(i, 1), appname.c_str())) {
-                m_ResultListCtrl.SetItemText(i, 1, appname.c_str());
+            char buf[256];
+            sprintf(buf, "%s %.2f", re->app->name, re->wup->version_num/100.);
+            if (strcmp(m_ResultListCtrl.GetItemText(i, 1), buf)) {
+                m_ResultListCtrl.SetItemText(i, 1, buf);
             }
 
             // name
