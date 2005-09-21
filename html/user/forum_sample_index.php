@@ -9,8 +9,6 @@ db_init();
 
 page_head('Message boards');
 
-//show_forum_title(NULL, NULL, false);
-
 echo "<p>
     If you have a question or problem, please use the
     <a href=forum_help_desk.php>Questions/problems</a>
