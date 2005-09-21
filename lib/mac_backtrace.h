@@ -25,7 +25,11 @@
 *
 * It is adapted from Apple Developer Technical Support Sample Code 
 *   MoreisBetter / MoreDebugging / MoreBacktraceTest
-*  The symbols it displays are not always clean.
+*  The symbols it displays are not always clean.  
+*
+* This code handles Mac OS X 10.3.x through 10.4.2.  It may require some 
+* adjustment for future OS versions; see the discussion of _sigtramp and 
+* PowerPC Signal Stack Frames below.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
 *  http://developer.apple.com/technotes/tn2004/tn2123.html#SECNOSYMBOLS

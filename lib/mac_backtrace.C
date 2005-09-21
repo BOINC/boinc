@@ -25,9 +25,9 @@
 *
 * It is adapted from Apple Developer Technical Support Sample Code 
 *   MoreisBetter / MoreDebugging / MoreBacktraceTest
-*  The symbols it displays are not always clean.  This code assumes 
+*  The symbols it displays are not always clean.  
 *
-* This code handles Mac OS X 10.2.x through 10.4.2.  It may require some 
+* This code handles Mac OS X 10.3.x through 10.4.2.  It may require some 
 * adjustment for future OS versions; see the discussion of _sigtramp and 
 * PowerPC Signal Stack Frames below.
 *
