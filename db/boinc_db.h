@@ -271,7 +271,7 @@ struct HOST {
     // set to this value only when we believe all files are uploaded
 #define FILE_DELETE_DONE        2
     // means the files were successfully deleted
-#define FILE_DELETE_ERROR		3
+#define FILE_DELETE_ERROR       3
     // Any error was returned while attempting to delete the file
 
 // values for assimilate_state
@@ -408,7 +408,7 @@ struct RESULT {
     char xml_doc_out[LARGE_BLOB_SIZE];    // MD5s of output files
     char stderr_out[LARGE_BLOB_SIZE];     // stderr output, if any
     int batch;
-    int file_delete_state;	    // see above; values for file_delete_state
+    int file_delete_state;          // see above; values for file_delete_state
     int validate_state;
     double claimed_credit;          // CPU time times host credit/sec
     double granted_credit;          // == canonical credit of WU
@@ -628,9 +628,9 @@ public:
     DB_WORK_ITEM(DB_CONN* p=0);
     // CURSOR cursor;
     int enumerate(
-    	int limit, const char* select_clause, const char* order_clause,
-		bool all_apps
-	);
+        int limit, const char* select_clause, const char* order_clause,
+        bool all_apps
+    );
         // used by feeder
     int read_result();
         // used by scheduler to read result server state

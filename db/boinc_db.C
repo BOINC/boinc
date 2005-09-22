@@ -878,7 +878,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
         strcpy(priority, "");
         if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
 
-	if (wu_id_modulus) {
+    if (wu_id_modulus) {
             sprintf(mod_clause,
                 " and wu.id %% %d = %d ",
                 wu_id_modulus, wu_id_remainder
@@ -1242,91 +1242,90 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
 
 int DB_WORK_ITEM::enumerate(
     int limit, const char* select_clause, const char* order_clause,
-	bool all_apps
+    bool all_apps
 ) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
     if (!cursor.active) {
         if (all_apps) {
-			// get vector of app id's
-			std::vector<int> vAppID;
-			int cntApp = 0, iApp = 0;
-			sprintf(query, "select id from app");
-			retval = db->do_query(query);
-			if (retval) return mysql_errno(db->mysql);
+            // get vector of app id's
+            std::vector<int> vAppID;
+            int cntApp = 0, iApp = 0;
+            sprintf(query, "select id from app");
+            retval = db->do_query(query);
+            if (retval) return mysql_errno(db->mysql);
             cursor.rp = mysql_store_result(db->mysql);
-			while ((row = mysql_fetch_row(cursor.rp)) != NULL) {
-				vAppID.push_back(atoi(row[0]));
-				cntApp++;
-			}
-			mysql_free_result(cursor.rp);
-			switch(cntApp)
-			{
-			case 0:  // that's bad, no apps, return error
-				cursor.active = false;
-				return 1;
-			case 1:  // that's lame, just one app, just do the query below
-				sprintf(query,
-					"select high_priority result.id, workunit.* from result left join workunit "
-					"on workunit.id = result.workunitid "
-					"where result.server_state=%d "
-					" %s "
-					" %s "
-					"limit %d",
-					RESULT_SERVER_STATE_UNSENT,
-					select_clause,
-					order_clause,
-					limit
-				);
-			default: // more than 1 app, so split feeder slots equally amongst them
-				char strTmp[8192]; // tmp buffer to strcat later
-				limit /= cntApp; // I guess if not evenly divisible may be a slot extra never used?
-				memset(strTmp, 0x00, 8192);  // init it just to be nice
-				memset(query, 0x00, MAX_QUERY_LEN);  // init it just to be nice
-				// now do a bunch of unions, hope we don't run out of MAX_QUERY_LEN!
-				// actually it's define'd as 250K so should be fine
-				for (int i = 0; i < cntApp; i++)  {
-					// note the query is within parentheses, this is so
-					// mysql will apply the limit to the subquery and not
-					// the entire query!
-					sprintf(strTmp,
-						"(select result.id, workunit.* "
-						"from result "
-						"left join workunit "
-						" on workunit.id = result.workunitid "
-						"left join app "
-						" on app.id = result.appid "
-						"where result.server_state=%d "
-						"and app.id=%d " 
-						" %s "
-						" %s "
-						"limit %d) %s ",
-						RESULT_SERVER_STATE_UNSENT,
-						vAppID.at(i),
-						select_clause,
-						order_clause,
-						limit,
-						(i<cntApp-1 ? "UNION" : "")
-					);
-					strcat(query, strTmp);
-				}
-			}
-
-        }
-        else  {
-			sprintf(query,
-				"select high_priority result.id, workunit.* from result left join workunit "
-				"on workunit.id = result.workunitid "
-				"where result.server_state=%d "
-				" %s "
-				" %s "
-				"limit %d",
-				RESULT_SERVER_STATE_UNSENT,
-				select_clause,
-				order_clause,
-				limit
-			);
+            while ((row = mysql_fetch_row(cursor.rp)) != NULL) {
+                vAppID.push_back(atoi(row[0]));
+                cntApp++;
+            }
+            mysql_free_result(cursor.rp);
+            switch(cntApp)
+            {
+            case 0:  // that's bad, no apps, return error
+                cursor.active = false;
+                return 1;
+            case 1:  // that's lame, just one app, just do the query below
+                sprintf(query,
+                    "select high_priority result.id, workunit.* from result left join workunit "
+                    "on workunit.id = result.workunitid "
+                    "where result.server_state=%d "
+                    " %s "
+                    " %s "
+                    "limit %d",
+                    RESULT_SERVER_STATE_UNSENT,
+                    select_clause,
+                    order_clause,
+                    limit
+                );
+                break;
+            default:
+                // more than 1 app, so split feeder slots equally amongst them
+                char strTmp[8192]; // tmp buffer to strcat later
+                limit /= cntApp;
+                strcpy(strTmp, "");
+                strcpy(query, "");
+                for (int i = 0; i < cntApp; i++)  {
+                    // note the query is within parentheses, this is so
+                    // mysql will apply the limit to the subquery and not
+                    // the entire query!
+                    sprintf(strTmp,
+                        "(select result.id, workunit.* "
+                        "from result "
+                        "left join workunit "
+                        " on workunit.id = result.workunitid "
+                        "left join app "
+                        " on app.id = result.appid "
+                        "where result.server_state=%d "
+                        "and app.id=%d " 
+                        " %s "
+                        " %s "
+                        "limit %d) %s ",
+                        RESULT_SERVER_STATE_UNSENT,
+                        vAppID.at(i),
+                        select_clause,
+                        order_clause,
+                        limit,
+                        (i<cntApp-1 ? "UNION" : "")
+                    );
+                    strcat(query, strTmp);
+                }
+                break;
+            }
+        } else  {
+            sprintf(query,
+                "select high_priority result.id, workunit.* from result left join workunit "
+                "on workunit.id = result.workunitid "
+                "where result.server_state=%d "
+                " %s "
+                " %s "
+                "limit %d",
+                RESULT_SERVER_STATE_UNSENT,
+                select_clause,
+                order_clause,
+                limit
+            );
         }
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
