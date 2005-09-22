@@ -12000,3 +12000,9 @@ Rom    21 Sept 2005
         gui_rpc_client.h
         gui_rpc_client_ops.C
     
+David  22 Sept 2005
+	- bug fix: the GUI RPCs for network mode were missing
+		the AUTO case
+
+	client/
+		gui_rpc_server_ops.C

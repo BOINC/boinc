@@ -228,6 +228,8 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
         gstate.user_network_request = USER_RUN_REQUEST_ALWAYS;
     } else if (match_tag(buf, "<never")) {
         gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+    } else if (match_tag(buf, "<auto")) {
+        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;
@@ -244,6 +246,9 @@ static void handle_get_network_mode(char* , MIOFILE& fout) {
         break;
     case USER_RUN_REQUEST_NEVER:
         fout.printf("<never/>\n");
+        break;
+    case USER_RUN_REQUEST_AUTO:
+        fout.printf("<auto/>\n");
         break;
     default:
         fout.printf("<error>Unknown network mode</error>\n");
