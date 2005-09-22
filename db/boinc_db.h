@@ -37,7 +37,6 @@ extern DB_CONN boinc_db;
 // Sizes of text buffers in memory, corresponding to database BLOBs.
 // Large is for fields with user-supplied text, and preferences
 
-//#define MEDIUM_BLOB_SIZE   4096
 #define LARGE_BLOB_SIZE   65536
 
 // Dummy name for file xfers
@@ -628,7 +627,10 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     // CURSOR cursor;
-    int enumerate(int limit, const char* select_clause, const char* order_clause);
+    int enumerate(
+    	int limit, const char* select_clause, const char* order_clause,
+		bool all_apps
+	);
         // used by feeder
     int read_result();
         // used by scheduler to read result server state

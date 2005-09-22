@@ -11956,3 +11956,22 @@ David  21 Sept 2005
     client/
         cs_prefs.C
 
+David  21 Sept 2005
+	- feeder: add an -allapps option.
+		This causes the feeder to get equal numbers of
+		results from all applications.
+		(The default behavior is that it gets results in
+		whatever order the DB returns them in,
+		which could give you lots of results for 1 app
+		before getting around to another one).
+		(from Carl Christensen)
+
+	NOTE: this enumerates the application table every
+	time the work enumeration restarts - redundant.
+	It would be better to pass in the application info
+	from the feeder (which knows it already, it's in shared mem)
+
+	db/
+		boinc_db.C,h
+	sched/
+		feeder.C

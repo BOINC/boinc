@@ -26,6 +26,7 @@
 //  [ -priority_order ]   order by "priority" field of result
 //  [ -mod n i ]          handle only results with (id mod n) == i
 //  [ -sleep_interval x ]   sleep x seconds if nothing to do
+//  [ -allapps ]  gets workunits for all apps in the app table
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
@@ -132,6 +133,7 @@ key_t sema_key;
 const char* order_clause="";
 char select_clause[256];
 double sleep_interval = DEFAULT_SLEEP_INTERVAL;
+bool all_apps = false;
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -223,7 +225,7 @@ static void scan_work_array(
             break;
 #endif
         case WR_STATE_EMPTY:
-            retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause);
+            retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause, all_apps);
             if (retval) {
 
                 // if we already restarted the enum on this array scan,
@@ -239,7 +241,7 @@ static void scan_work_array(
                 // restart the enumeration
                 //
                 restarted_enum = true;
-                retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause);
+                retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause, all_apps);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG,
                     "restarting enumeration\n"
                 );
@@ -390,6 +392,8 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-random_order")) {
             order_clause = "order by random ";
+        } else if (!strcmp(argv[i], "-allapps")) {
+            all_apps = true;
         } else if (!strcmp(argv[i], "-priority_order")) {
             order_clause = "order by priority desc ";
         } else if (!strcmp(argv[i], "-mod")) {
