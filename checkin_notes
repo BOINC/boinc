@@ -10741,12 +10741,12 @@ David  16 Aug 2005
         cs_scheduler.C
 
 David  16 Aug 2005
-	- Make boinc_gui work again
+    - Make boinc_gui work again
 
-	client/win/
-		wingui_mainwindow.cpp
-	win_build/
-		boinc_gui.vcproj
+    client/win/
+        wingui_mainwindow.cpp
+    win_build/
+        boinc_gui.vcproj
 
 Rom    16 Aug 2005
     - CR/LF cleanup in wizard
@@ -10941,10 +10941,10 @@ Rom    24 Aug 2005
         net_xfer_curl.C, .h
 
 David  25 Aug 2005
-	- zip fixes (from Carl C)
+    - zip fixes (from Carl C)
 
-	zip/
-		(various files)
+    zip/
+        (various files)
 
 Rom    25 Aug 2005
     - Introduce a 60 second timeout for the various wizard polling loops
@@ -11081,10 +11081,10 @@ David  26 Aug 2005
         handle_request.C
 
 Jeff  27 Aug 2005
-	- added items to fcgi_SOURCES
+    - added items to fcgi_SOURCES
 
-	sched/
-		Makefile.am
+    sched/
+        Makefile.am
 
 David  27 Aug 2005
     - When user changes email address, set email_validated=0
@@ -11498,10 +11498,10 @@ Bruce 7 Sept 2005
         check_ssl.m4
 
 David  7 Sept 2005
-	- fix bug where "no new work" flag wasn't getting written in XML
+    - fix bug where "no new work" flag wasn't getting written in XML
 
-	client/
-		gui_rpc_server_ops.C
+    client/
+        gui_rpc_server_ops.C
 
 Charlie 8 Sept 2005
     - Mac: Small fixes to build instructions and installer build script.
@@ -11688,63 +11688,63 @@ Bruce 13 Sept 2005
       them.
 
     api/
-	mac_icon.C
-	make_app_icon_h.C
-	texture.C
+    mac_icon.C
+    make_app_icon_h.C
+    texture.C
     client/
-	gui_rpc_server_ops.C
-	acct_setup.C
-	gui_http.C
-	DlgAbout.cpp
+    gui_rpc_server_ops.C
+    acct_setup.C
+    gui_http.C
+    DlgAbout.cpp
     clientgui/
-	DlgOptions.cpp
-	WizAttachProject.cpp
-	WizAttachAccountManager.cpp
-	DlgDialupCredentials.cpp
-	DlgAccountManagerSignup.cpp
-	DlgSelectComputer.cpp
-	DlgAccountManagerStatus.cpp
-	hyperlink.cpp
-	Localization.cpp
-	mac/
-	    MacSysMenu.cpp
-	    SetVersion.C
-	    mac_saver_module.cpp
+    DlgOptions.cpp
+    WizAttachProject.cpp
+    WizAttachAccountManager.cpp
+    DlgDialupCredentials.cpp
+    DlgAccountManagerSignup.cpp
+    DlgSelectComputer.cpp
+    DlgAccountManagerStatus.cpp
+    hyperlink.cpp
+    Localization.cpp
+    mac/
+        MacSysMenu.cpp
+        SetVersion.C
+        mac_saver_module.cpp
     lib/
-	gui_rpc_client_ops.C
-	gui_rpc_client_print.C
-	network.C
+    gui_rpc_client_ops.C
+    gui_rpc_client_print.C
+    network.C
     mac_installer/
-	LoginItemAPI.c
-	PostInstall.cpp
+    LoginItemAPI.c
+    PostInstall.cpp
     openssl/
-	include/
-	    openssl/
-		applink.c
+    include/
+        openssl/
+        applink.c
     sched/
-	sched_hr.C
-	sched_array.C
-	sched_resend.C
+    sched_hr.C
+    sched_array.C
+    sched_resend.C
     win_build/
-	installerv2/
-	    redist/
-		Windows/
-		    src/
-			boinccas/
-			    CADetectOldInstaller.cpp
-			    CAGetAdministratorsGroupName.cpp
-			    CAGetUsersGroupName.cpp
-			    CAGrantServiceExecutionRight.cpp
-			    CAPopulateServiceAccount.cpp
-			    CAShutdownBOINCManager.cpp
-			    CAValidateServiceAccount.cpp
-			    CAValidateSetupType.cpp
-			    CAVerifyServiceExecutionRight.cpp
-			    CAVerifyServicePassword.cpp
-			    boinccas.cpp
-			    lkuprid.cpp
-			    main.cpp
-			    stdafx.cpp
+    installerv2/
+        redist/
+        Windows/
+            src/
+            boinccas/
+                CADetectOldInstaller.cpp
+                CAGetAdministratorsGroupName.cpp
+                CAGetUsersGroupName.cpp
+                CAGrantServiceExecutionRight.cpp
+                CAPopulateServiceAccount.cpp
+                CAShutdownBOINCManager.cpp
+                CAValidateServiceAccount.cpp
+                CAValidateSetupType.cpp
+                CAVerifyServiceExecutionRight.cpp
+                CAVerifyServicePassword.cpp
+                boinccas.cpp
+                lkuprid.cpp
+                main.cpp
+                stdafx.cpp
 
 
 Bruce 13 Sept 2005
@@ -11957,24 +11957,24 @@ David  21 Sept 2005
         cs_prefs.C
 
 David  21 Sept 2005
-	- feeder: add an -allapps option.
-		This causes the feeder to get equal numbers of
-		results from all applications.
-		(The default behavior is that it gets results in
-		whatever order the DB returns them in,
-		which could give you lots of results for 1 app
-		before getting around to another one).
-		(from Carl Christensen)
+    - feeder: add an -allapps option.
+        This causes the feeder to get equal numbers of
+        results from all applications.
+        (The default behavior is that it gets results in
+        whatever order the DB returns them in,
+        which could give you lots of results for 1 app
+        before getting around to another one).
+        (from Carl Christensen)
 
-	NOTE: this enumerates the application table every
-	time the work enumeration restarts - redundant.
-	It would be better to pass in the application info
-	from the feeder (which knows it already, it's in shared mem)
+    NOTE: this enumerates the application table every
+    time the work enumeration restarts - redundant.
+    It would be better to pass in the application info
+    from the feeder (which knows it already, it's in shared mem)
 
-	db/
-		boinc_db.C,h
-	sched/
-		feeder.C
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
 
 Rom    21 Sept 2005
     - check-in core client support for project_init.xml
@@ -12001,11 +12001,11 @@ Rom    21 Sept 2005
         gui_rpc_client_ops.C
     
 David  22 Sept 2005
-	- bug fix: the GUI RPCs for network mode were missing
-		the AUTO case
+    - bug fix: the GUI RPCs for network mode were missing
+        the AUTO case
 
-	client/
-		gui_rpc_server_ops.C
+    client/
+        gui_rpc_server_ops.C
 
 David  22 Sept 2005
 	- we were assuming that if a scheduler RPC reply didn't
@@ -12014,3 +12014,16 @@ David  22 Sept 2005
 
 	client/
 		scheduler_op.C
+
+David  22 Sept 2005
+    - Change "Macedonia, The Former Yugoslav Republic of" to "Macedonia"
+        (that's how it's listed on the CIA site).
+
+    NOTE: projects should do the corresponding DB update
+    html/ops/db_update.php
+
+    html/
+        inc/
+            countries.inc
+        ops/
+            db_update.php

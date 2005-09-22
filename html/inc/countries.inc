@@ -130,7 +130,7 @@ $countries = array(
     "Lithuania",
     "Luxembourg",
     "Macau",
-    "Macedonia, The Former Yugoslav Republic of",
+    "Macedonia",
     "Madagascar",
     "Malawi",
     "Malaysia",

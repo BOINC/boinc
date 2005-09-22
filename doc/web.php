@@ -13,13 +13,13 @@ To enable the feature simply run a query on the forum_preferences table.
 You can currently use the following list of titles:
 
 <pre>
-$special_user_bitfield[0]="Forum moderator";
-$special_user_bitfield[1]="Project administrator";
-$special_user_bitfield[2]="Project developer";
-$special_user_bitfield[3]="Project tester";
-$special_user_bitfield[4]="Volunteer developer";
-$special_user_bitfield[5]="Volunteer tester";
-$special_user_bitfield[6]="Project scientist";
+\$special_user_bitfield[0]=\"Forum moderator\";
+\$special_user_bitfield[1]=\"Project administrator\";
+\$special_user_bitfield[2]=\"Project developer\";
+\$special_user_bitfield[3]=\"Project tester\";
+\$special_user_bitfield[4]=\"Volunteer developer\";
+\$special_user_bitfield[5]=\"Volunteer tester\";
+\$special_user_bitfield[6]=\"Project scientist\";
 </pre>
 
 So if the project administrator has the user number 42

@@ -290,6 +290,9 @@ function update_8_26_2005() {
     do_query("drop table tentative_user");
 }
 
+function update_9_22_2005() {
+    do_query("update user set country='Macedonia' where country='Macedonia, The Former Yugoslav Republic of'");
+}
 //update_10_25_2004();
 
 ?>
