@@ -178,6 +178,10 @@ private:
 public:
     ACCT_MGR_INFO acct_mgr_info;
 
+// --------------- acct_setup.C:
+public:
+    PROJECT_INIT project_init;
+
 // --------------- client_state.C:
 public:
     CLIENT_STATE();

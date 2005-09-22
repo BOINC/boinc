@@ -70,6 +70,7 @@ extern void get_master_filename(PROJECT&, char*);
 #define FILE_LIST_NAME              "file_list.xml"
 #define ACCT_MGR_REPLY_FILENAME     "acct_mgr_reply.xml"
 #define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
+#define PROJECT_INIT_FILENAME       "project_init.xml"
 #define ACCT_MGR_URL_FILENAME       "acct_mgr_url.xml"
 #define ACCT_MGR_LOGIN_FILENAME     "acct_mgr_login.xml"
 #define GET_PROJECT_CONFIG_FILENAME "get_project_config.xml"

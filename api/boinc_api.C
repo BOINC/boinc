@@ -56,7 +56,7 @@ using namespace std;
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern int boinc_shutdown_graphics();
+//extern int boinc_shutdown_graphics();
 #ifdef __cplusplus
 }
 #endif
@@ -381,7 +381,7 @@ void boinc_exit(int status) {
 #ifdef BOINC_APP_GRAPHICS
     // Shutdown graphics if it is running
     //
-    boinc_shutdown_graphics();
+    //boinc_shutdown_graphics();
 #endif
 
     // Unlock the lock file

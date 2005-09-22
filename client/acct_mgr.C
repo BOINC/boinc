@@ -228,4 +228,5 @@ int ACCT_MGR_INFO::init() {
     }
     return 0;
 }
+
 const char *BOINC_RCSID_8fd9e873bf="$Id$";

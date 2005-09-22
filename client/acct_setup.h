@@ -23,6 +23,22 @@
 #include "gui_http.h"
 #include "error_numbers.h"
 
+// represents info stored on files
+//
+struct PROJECT_INIT {
+    char url[256];
+    char name[256];
+    char account_key[256];
+    bool has_project_init;
+    bool has_url;
+    bool has_account_key;
+
+    PROJECT_INIT();
+    int init();
+    int remove();
+    void clear();
+};
+
 struct ACCOUNT_IN {
     std::string url;
     std::string email_addr;

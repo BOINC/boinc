@@ -770,10 +770,10 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
     password = "";
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_info>")) return 0;
-        if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
-        if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
-        if (parse_str(buf, "<login_name>", login_name)) continue;
-        if (parse_str(buf, "<password>", password)) continue;
+        else if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
+        else if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
+        else if (parse_str(buf, "<login_name>", login_name)) continue;
+        else if (parse_str(buf, "<password>", password)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -835,8 +835,8 @@ int ACCOUNT_OUT::parse(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</account_out>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) return error_num;
-        if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
+        else if (parse_str(buf, "<authenticator>", authenticator)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -851,7 +851,7 @@ int LOOKUP_WEBSITE::parse(MIOFILE& in) {
     clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</lookup_website>")) return 0;
-        if (parse_int(buf, "<error_num>", error_num)) return error_num;
+        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
     }
     return ERR_XML_PARSE;
 }
@@ -1167,22 +1167,44 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth) {
+int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_cached_credentials) {
     char buf[256];
     int retval;
     RPC rpc(this);
 
-    sprintf(buf,
-        "<project_attach>\n"
-        "  <project_url>%s</project_url>\n"
-        "  <authenticator>%s</authenticator>\n"
-        "</project_attach>\n",
-        url, auth
-    );
+    if (use_cached_credentials) {
+        sprintf(buf,
+            "<project_attach>\n"
+            "  <use_cached_credentials/>\n"
+            "</project_attach>\n"
+        );
+    } else {
+        sprintf(buf,
+            "<project_attach>\n"
+            "  <project_url>%s</project_url>\n"
+            "  <authenticator>%s</authenticator>\n"
+            "</project_attach>\n",
+            url, auth
+        );
+    }
 
     retval =  rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
+}
+
+int RPC_CLIENT::project_attach_poll() {
+    RPC rpc(this);
+    char buf[256];
+    int retval;
+
+    retval = rpc.do_rpc("<project_attach_poll/>\n");
+    if (retval) return retval;
+    retval = ERR_XML_PARSE;
+    while (rpc.fin.fgets(buf, 256)) {
+        parse_int(buf, "<error_num>", retval);
+    }
+    return retval;
 }
 
 const char* RPC_CLIENT::mode_name(int mode) {
@@ -1214,9 +1236,9 @@ int RPC_CLIENT::get_run_mode(int& mode) {
     mode = -1;
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</run_mode>")) break;
-        if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
-        if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
-        if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
+        else if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
+        else if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
+        else if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
     }
     return 0;
 }
@@ -1459,17 +1481,25 @@ int RPC_CLIENT::quit() {
     return rpc.do_rpc("<quit/>\n");
 }
 
-int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password) {
+int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_cached_credentials) {
     char buf[4096];
     RPC rpc(this);
-    sprintf(buf,
-        "<acct_mgr_rpc>\n"
-        "  <url>%s</url>\n"
-        "  <name>%s</name>\n"
-        "  <password>%s</password>\n"
-        "</acct_mgr_rpc>\n",
-        url, name, password
-    );
+    if (use_cached_credentials) {
+        sprintf(buf,
+            "<acct_mgr_rpc>\n"
+            "  <use_cached_credentials/>\n"
+            "</acct_mgr_rpc>\n"
+        );
+    }else {
+        sprintf(buf,
+            "<acct_mgr_rpc>\n"
+            "  <url>%s</url>\n"
+            "  <name>%s</name>\n"
+            "  <password>%s</password>\n"
+            "</acct_mgr_rpc>\n",
+            url, name, password
+        );
+    }
     return rpc.do_rpc(buf);
 }
 
@@ -1616,17 +1646,4 @@ int RPC_CLIENT::lookup_website_poll() {
     return lw.parse(rpc.fin);
 }
 
-int RPC_CLIENT::project_attach_poll() {
-    RPC rpc(this);
-    char buf[256];
-    int retval;
-
-    retval = rpc.do_rpc("<project_attach_poll/>\n");
-    if (retval) return retval;
-    retval = ERR_XML_PARSE;
-    while (rpc.fin.fgets(buf, 256)) {
-        parse_int(buf, "<error_num>", retval);
-    }
-    return retval;
-}
 const char *BOINC_RCSID_90e8b8d168="$Id$";

@@ -323,7 +323,7 @@ bool CMainFrame::CreateMenu() {
 
     menuFile->Append(
         ID_FILESELECTCOMPUTER, 
-        _("Select Computer..."),
+        _("Select computer..."),
         _("Connect to another computer running BOINC")
     );
 
@@ -374,21 +374,21 @@ bool CMainFrame::CreateMenu() {
 
     menuCommands->Append(
         ID_FILERUNBENCHMARKS, 
-        _("Run &Benchmarks"),
+        _("Run &benchmarks"),
         _("Runs BOINC CPU benchmarks")
     );
 
     // Projects menu
     wxMenu *menuProjects = new wxMenu;
     menuProjects->Append(
-        ID_PROJECTSATTACHACCOUNTMANAGER, 
-        _("Manage &Account Manager"),
-        _("Attach to an account manager")
+        ID_PROJECTSATTACHPROJECT, 
+        _("&Attach to &project"),
+        _("Attach to a project to begin processing work")
     );
     menuProjects->Append(
-        ID_PROJECTSATTACHPROJECT, 
-        _("&Attach to &Project"),
-        _("Attach to a project to begin processing work")
+        ID_PROJECTSATTACHACCOUNTMANAGER, 
+        _("&Account manager"),
+        _("Attach to an account manager")
     );
 
     // Options menu
@@ -409,7 +409,7 @@ bool CMainFrame::CreateMenu() {
 
     menuHelp->Append(
         ID_HELPBOINC,
-        _("BOINC &Website"), 
+        _("BOINC &website"), 
         _("Show information about BOINC and BOINC Manager")
     );
 

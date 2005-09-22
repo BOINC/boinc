@@ -535,7 +535,6 @@ public:
         DISPLAY_INFO&
     );
     int project_op(PROJECT&, const char* op);
-    int project_attach(const char* url, const char* auth);
     int set_run_mode(int mode);
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
@@ -553,18 +552,17 @@ public:
     int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
     int quit();
-    int acct_mgr_rpc(const char* url, const char* name, const char* passwd);
-    int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
     int network_query(int&);
     int network_available();
+    int get_project_init_status(bool& has_project_init, bool& has_url, bool& has_account_key);
 
     // the following are asynch operations.
     // Make the first call to start the op,
     // call the second one periodically until it returns zero.
-    // TODO: do project update and account manager RPC this way too
+    // TODO: do project update
     //
     int get_project_config(std::string url);
     int get_project_config_poll(PROJECT_CONFIG&);
@@ -574,7 +572,10 @@ public:
     int create_account_poll(ACCOUNT_OUT&);
     int lookup_website(int);
     int lookup_website_poll();
+    int project_attach(const char* url, const char* auth, bool use_cached_credentials = false);
     int project_attach_poll();
+    int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_cached_credentials = false);
+    int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
 };
 
 struct RPC {

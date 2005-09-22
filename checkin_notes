@@ -11975,3 +11975,28 @@ David  21 Sept 2005
 		boinc_db.C,h
 	sched/
 		feeder.C
+
+Rom    21 Sept 2005
+    - check-in core client support for project_init.xml
+    - delete project_init.xml if we detach from that project
+    - add the notion of cached credentials to acct_mgr_rpc and
+        project_attach so that way we don't put any username
+        and password stuff over the wire for remote core clients
+    - disable boinc_shutdown_graphics() until the design can be
+        finalized
+    - adjust the boinc manager menus a bit
+        
+    api/
+        boinc_api.C
+    client/
+        acct_mgr.C
+        acct_setup.C, .h
+        client_state.C, .h
+        file_names.h
+        gui_rpc_server_ops.C
+    clientgui/
+        MainFrame.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    

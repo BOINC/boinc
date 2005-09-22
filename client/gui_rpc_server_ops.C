@@ -190,46 +190,6 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     fout.printf("<success/>\n");
 }
 
-static void handle_project_attach_poll(char*, MIOFILE& fout) {
-    fout.printf(
-        "<attach_project_status>\n"
-        "    <error_num>%d</error_num>\n"
-        "</attach_project_status>\n",
-        gstate.project_attach.error_num
-    );
-}
-
-static void handle_project_attach(char* buf, MIOFILE& fout) {
-    string url, authenticator;
-    PROJECT* p = NULL;
-    bool already_attached = false;
-    unsigned int i;
-
-    if (!parse_str(buf, "<project_url>", url)) {
-        fout.printf("<error>Missing URL</error>\n");
-        return;
-    }
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (url == p->master_url) already_attached = true;
-    }
-
-    if (already_attached) {
-        fout.printf("<error>Already attached to project</error>\n");
-        return;
-    }
-
-    if (!parse_str(buf, "<authenticator>", authenticator)) {
-        fout.printf("<error>Missing authenticator</error>\n");
-        return;
-    }
-
-    gstate.add_project(url.c_str(), authenticator.c_str());
-    gstate.project_attach.error_num = ERR_IN_PROGRESS;
-    fout.printf("<success/>\n");
-}
-
 static void handle_set_run_mode(char* buf, MIOFILE& fout) {
     if (match_tag(buf, "<always")) {
         gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
@@ -488,45 +448,6 @@ static void handle_quit(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
-static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
-    std::string url, name, password;
-    bool bad_arg = false;
-    if (!parse_str(buf, "<url>", url)) bad_arg = true;
-    if (!parse_str(buf, "<name>", name)) bad_arg = true;
-    if (!parse_str(buf, "<password>", password)) bad_arg = true;
-    if (bad_arg) {
-        fout.printf("<error>bad arg</error>\n");
-    } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password);
-        fout.printf("<success/>\n");
-    }
-}
-
-static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
-    if (gstate.acct_mgr_op.error_num) {
-        fout.printf(
-            "<acct_mgr_rpc_reply>\n"
-            "    <error_num>%d</error_num>\n",
-            gstate.acct_mgr_op.error_num
-        );
-        if (gstate.acct_mgr_op.error_str.size()) {
-            fout.printf(
-                "    <error_msg>%s</error_msg>\n",
-                gstate.acct_mgr_op.error_str.c_str()
-            );
-        }
-        fout.printf(
-            "</acct_mgr_rpc_reply>\n"
-        );
-    } else {
-        fout.printf(
-            "<acct_mgr_rpc_reply>\n"
-            "    <error_num>0</error_num>\n"
-            "</acct_mgr_rpc_reply>\n"
-        );
-    }
-}
-
 static void handle_acct_mgr_info(char*, MIOFILE& fout) {
     fout.printf(
         "<acct_mgr_info>\n"
@@ -561,6 +482,19 @@ static void handle_network_query(char*, MIOFILE& fout) {
 
 static void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
+}
+
+static void handle_get_project_init_status(char*, MIOFILE& fout) {
+    fout.printf(
+        "<get_project_init_status>\n"
+        "    <has_project_init>%d</has_project_init>\n"
+        "    <has_url>%d</has_url>\n"
+        "    <has_account_key>%d</has_account_key>\n"
+        "</get_project_init_status>\n",
+        gstate.project_init.has_project_init?1:0,
+        gstate.project_init.has_url?1:0,
+        gstate.project_init.has_account_key?1:0
+    );
 }
 
 static void handle_get_project_config(char* buf, MIOFILE& fout) {
@@ -654,6 +588,112 @@ static void handle_lookup_website_poll(char*, MIOFILE& fout) {
     );
 }
 
+static void handle_project_attach(char* buf, MIOFILE& fout) {
+    string url, authenticator;
+    PROJECT* p = NULL;
+    bool use_cached_credentials = false;
+    bool already_attached = false;
+    unsigned int i;
+
+    if (!parse_bool(buf, "use_cached_credentials", use_cached_credentials)) {
+        if (!parse_str(buf, "<project_url>", url)) {
+            fout.printf("<error>Missing URL</error>\n");
+            return;
+        }
+
+        for (i=0; i<gstate.projects.size(); i++) {
+            p = gstate.projects[i];
+            if (url == p->master_url) already_attached = true;
+        }
+
+        if (already_attached) {
+            fout.printf("<error>Already attached to project</error>\n");
+            return;
+        }
+
+        if (!parse_str(buf, "<authenticator>", authenticator)) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
+    } else {
+        if (!gstate.project_init.has_url) {
+            fout.printf("<error>Missing URL</error>\n");
+            return;
+        }
+
+        if (!gstate.project_init.has_account_key) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
+
+        url = gstate.project_init.url;
+        authenticator = gstate.project_init.account_key;
+    }
+
+    gstate.add_project(url.c_str(), authenticator.c_str());
+    gstate.project_attach.error_num = ERR_IN_PROGRESS;
+    fout.printf("<success/>\n");
+}
+
+static void handle_project_attach_poll(char*, MIOFILE& fout) {
+    fout.printf(
+        "<attach_project_status>\n"
+        "    <error_num>%d</error_num>\n"
+        "</attach_project_status>\n",
+        gstate.project_attach.error_num
+    );
+}
+
+static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
+    std::string url, name, password;
+    bool use_cached_credentials = false;
+    bool bad_arg = false;
+    if (!parse_bool(buf, "use_cached_credentials", use_cached_credentials)) {
+        if (!parse_str(buf, "<url>", url)) bad_arg = true;
+        if (!parse_str(buf, "<name>", name)) bad_arg = true;
+        if (!parse_str(buf, "<password>", password)) bad_arg = true;
+    } else {
+        if (!strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url)) {
+            bad_arg = true;
+        } else {
+            url = gstate.acct_mgr_info.acct_mgr_url;
+            name = gstate.acct_mgr_info.acct_mgr_name;
+            password = gstate.acct_mgr_info.password;
+        }
+    }
+    if (bad_arg) {
+        fout.printf("<error>bad arg</error>\n");
+    } else {
+        gstate.acct_mgr_op.do_rpc(url, name, password);
+        fout.printf("<success/>\n");
+    }
+}
+
+static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
+    if (gstate.acct_mgr_op.error_num) {
+        fout.printf(
+            "<acct_mgr_rpc_reply>\n"
+            "    <error_num>%d</error_num>\n",
+            gstate.acct_mgr_op.error_num
+        );
+        if (gstate.acct_mgr_op.error_str.size()) {
+            fout.printf(
+                "    <error_msg>%s</error_msg>\n",
+                gstate.acct_mgr_op.error_str.c_str()
+            );
+        }
+        fout.printf(
+            "</acct_mgr_rpc_reply>\n"
+        );
+    } else {
+        fout.printf(
+            "<acct_mgr_rpc_reply>\n"
+            "    <error_num>0</error_num>\n"
+            "</acct_mgr_rpc_reply>\n"
+        );
+    }
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -725,10 +765,6 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_result_show_graphics(request_msg, mf);
     } else if (match_tag(request_msg, "<project_reset")) {
         handle_project_op(request_msg, mf, "reset");
-    } else if (match_tag(request_msg, "<project_attach>")) {
-        handle_project_attach(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_attach_poll")) {
-        handle_project_attach_poll(request_msg, mf);
     } else if (match_tag(request_msg, "<project_detach")) {
         handle_project_op(request_msg, mf, "detach");
     } else if (match_tag(request_msg, "<project_update")) {
@@ -773,10 +809,6 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<quit")) {
         handle_quit(request_msg, mf);
-    } else if (match_tag(request_msg, "<acct_mgr_rpc>")) {
-        handle_acct_mgr_rpc(request_msg, mf);
-    } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
-        handle_acct_mgr_rpc_poll(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_info")) {
         handle_acct_mgr_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
@@ -785,6 +817,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_network_query(request_msg, mf);
     } else if (match_tag(request_msg, "<network_available")) {
         handle_network_available(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_project_init_status")) {
+        handle_get_project_init_status(request_msg, mf);
     } else if (match_tag(request_msg, "<get_project_config>")) {
         handle_get_project_config(request_msg, mf);
     } else if (match_tag(request_msg, "<get_project_config_poll")) {
@@ -801,6 +835,14 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_lookup_website(request_msg, mf);
     } else if (match_tag(request_msg, "<lookup_website_poll")) {
         handle_lookup_website_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_attach>")) {
+        handle_project_attach(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_attach_poll")) {
+        handle_project_attach_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<acct_mgr_rpc>")) {
+        handle_acct_mgr_rpc(request_msg, mf);
+    } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
+        handle_acct_mgr_rpc_poll(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

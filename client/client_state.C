@@ -362,12 +362,16 @@ int CLIENT_STATE::init() {
     //
     set_client_state_dirty("init");
 
+    // initialize GUI RPC data structures before we start accepting
+    // GUI RPC's.
+    //
+    acct_mgr_info.init();
+    project_init.init();
+
     if (!no_gui_rpc) {
         retval = gui_rpcs.init();
         if (retval) return retval;
     }
-
-    acct_mgr_info.init();
 
     return 0;
 }
@@ -1377,6 +1381,22 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         );
     }
 
+    // if the project init file contains this projects master url
+    //   then delete the project init file otherwise we'll just
+    //   reattach the next time the core client starts
+    //
+    if (project_init.has_project_init && project_init.has_url) {
+        canonicalize_master_url(project_init.url);
+        if (strcmp(project->master_url, project_init.url) == 0) {
+            retval = project_init.remove();
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't delete project init file: %s\n", boincerror(retval)
+                );
+            }
+        }
+    }
+
     // remove project directory and its contents
     //
     retval = remove_project_dir(*project);
@@ -1385,6 +1405,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
             "Can't delete project directory: %s\n", boincerror(retval)
         );
     }
+
     delete project;
     write_state_file();
 

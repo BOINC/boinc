@@ -20,9 +20,53 @@
 #include "client_state.h"
 #include "file_names.h"
 #include "parse.h"
+#include "filesys.h"
 #include "util.h"
 
 #include "acct_setup.h"
+
+void PROJECT_INIT::clear() {
+    strcpy(url, "");
+    strcpy(name, "");
+    strcpy(account_key, "");
+    has_project_init = false;
+    has_url = false;
+    has_account_key = false;
+}
+
+PROJECT_INIT::PROJECT_INIT() {
+    clear();
+}
+
+int PROJECT_INIT::init() {
+    char    buf[256];
+    MIOFILE mf;
+    FILE*   p;
+
+    clear();
+    p = fopen(PROJECT_INIT_FILENAME, "r");
+    if (p) {
+        has_project_init = true;
+        mf.init_file(p);
+        while(mf.fgets(buf, sizeof(buf))) {
+            if (match_tag(buf, "</project_init>")) break;
+            else if (parse_str(buf, "<name>", name, 256)) continue;
+            else if (parse_str(buf, "<url>", url, 256)) {
+                has_url = true;
+                continue;
+            } else if (parse_str(buf, "<account_key>", account_key, 256)) {
+                has_account_key = true;
+                continue;
+            }
+        }
+        fclose(p);
+    }
+    return 0;
+}
+
+int PROJECT_INIT::remove() {
+    return boinc_delete_file(PROJECT_INIT_FILENAME);
+}
 
 void ACCOUNT_IN::parse(char* buf) {
     url = "";
