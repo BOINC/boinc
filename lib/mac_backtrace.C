@@ -377,19 +377,22 @@ static int OutputFrames(const MacBTPPCFrame *frameArray, unsigned long frameCoun
         // we look up the symbol names of the PCs of each of the frames.
 
         int                     err;
-        unsigned long		frameIndex;
+        unsigned long		frameIndex, skipframe = 0;
         MacAToSSymInfo          symbol;
         MacAToSAddr             address;
 
         err = 0;
         
+        if ((frameCount >= SKIPFRAME) && frameArray[SKIPFRAME-1].flags & kMacBTSignalHandlerMask)
+            skipframe = SKIPFRAME;
+        
         fputs("Stack Frame backtrace:\n #  Flags Frame Addr  Caller PC   Symbol\n"
                         "===  ===  ==========  ==========  ==========\n", stderr);
         
-        for (frameIndex = SKIPFRAME; frameIndex < frameCount; frameIndex++) {
+        for (frameIndex = skipframe; frameIndex < frameCount; frameIndex++) {
                 
                 fprintf(stderr, "%3ld  %c%c%c  0x%08lx  0x%08lx  ", 
-                                 frameIndex - (SKIPFRAME - 1),
+                                 frameIndex - skipframe + 1,
                                  (frameArray[frameIndex].flags & kMacBTFrameBadMask)      ? 'F' : '-',
                                  (frameArray[frameIndex].flags & kMacBTPCBadMask)         ? 'P' : '-',
                                  (frameArray[frameIndex].flags & kMacBTSignalHandlerMask) ? 'S' : '-',
