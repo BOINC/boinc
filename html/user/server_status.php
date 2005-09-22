@@ -33,16 +33,22 @@
 // <ssh_exe>     path to ssh (default: /usr/bin/ssh)
 // <ps_exe>      path to ps (which supports "w" flag) (default: /bin/ps)
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
+require_once("../inc/xml.inc");
+require_once("../inc/cache.inc");
 
-$xmlout = "";
-if ($argv[1] == "-f") { $xmlout = $argv[2]; }
-$xmloutfile = fopen($xmlout,"w+");
+$xml = get_int("xml", true);
+
+$cache_args = "";
+if ($xml) $cache_args = "xml=1";
+$cache_period = 600;
+start_cache($cache_period, $cache_args);
 
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
+//
 function daemon_status($host, $pidname, $progname, $disabled) {
     global $ssh_exe, $ps_exe, $project_host;
     $path = "../../pid_$host/$pidname.pid";
@@ -51,39 +57,54 @@ function daemon_status($host, $pidname, $progname, $disabled) {
         $pid = file_get_contents($path);
         if ($pid) {
             $command = "$ps_exe w $pid";
-            if ($host != $project_host) { $command = "$ssh_exe $host " . $command; }
+            if ($host != $project_host) {
+                $command = "$ssh_exe $host " . $command;
+            }
             $foo = exec($command);
             if ($foo) {
-                if (strstr($foo, $progname)) { $running = 1; }
+                if (strstr($foo, $progname)) $running = 1;
             }
         }
     }
-    if ($disabled == 1 ) { $running = -1; }
+    if ($disabled == 1) $running = -1;
     return $running;
 }
 
 function show_status($host, $function, $running) {
-    global $xmlout, $xmloutfile;
-    if ($xmlout) { 
-        fwrite($xmloutfile,"    <daemon>\n");
-        fwrite($xmloutfile,"      <host>$host</host>\n");
-        fwrite($xmloutfile,"      <command>$function</command>\n");
-    } 
-    echo "<tr><td>$function</td><td>$host</td>";
-    if ($running == 1) {
-        echo "<td bgcolor=00ff00>Running</td>\n";
-        if ($xmlout) { fwrite($xmloutfile,"      <status>running</status>\n"); }
-    } elseif ($running == 0) {
-        echo "<td bgcolor=ff0000>Not Running</td>\n";
-        if ($xmlout) { fwrite($xmloutfile,"      <status>not running</status>\n"); }
-    } else {
-        echo "<td bgcolor=ff8800>Disabled</td>\n";
-        if ($xmlout) { fwrite($xmloutfile,"      <status>disabled</status>\n"); }
+    global $xml;
+    if ($xml) { 
+        echo "
+            <daemon>
+              <host>$host</host>
+              <command>$function</command>
+        ";
+    }  else {
+        echo "<tr><td>$function</td><td>$host</td>";
     }
-    echo "</tr>";
-    if ($xmlout) {
-        fwrite($xmloutfile,"    </daemon>\n");
-    } 
+    if ($running == 1) {
+        if ($xml) {
+            echo "      <status>running</status>\n";
+        } else {
+            echo "<td bgcolor=00ff00>Running</td>\n";
+        }
+    } elseif ($running == 0) {
+        if ($xml) {
+            echo "      <status>not running</status>\n";
+        } else {
+            echo "<td bgcolor=ff0000>Not Running</td>\n";
+        }
+    } else {
+        if ($xml) {
+            echo "      <status>disabled</status>\n";
+        } else {
+            echo "<td bgcolor=ff8800>Disabled</td>\n";
+        }
+    }
+    if ($xml) {
+        echo "    </daemon>\n";
+    } else {
+        echo "</tr>";
+    }
 }
 
 function show_daemon_status($host, $pidname, $progname, $disabled) {
@@ -92,11 +113,12 @@ function show_daemon_status($host, $pidname, $progname, $disabled) {
 }
 
 function show_counts($key, $xmlkey, $value) {
-    global $xmlout, $xmloutfile;
+    global $xml;
     $formattedvalue = number_format($value);
-    echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
-    if ($xmlout) {
-        fwrite($xmloutfile,"    <$xmlkey>$value</$xmlkey>\n");
+    if ($xml) {
+        echo "    <$xmlkey>$value</$xmlkey>\n";
+    } else {
+        echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
     }
 }
 
@@ -125,88 +147,93 @@ if ($ssh_exe == "") { $ssh_exe = "/usr/bin/ssh"; }
 $ps_exe = parse_element($config_vars,"<ps_exe>");
 if ($ps_exe == "") { $ps_exe = "/bin/ps"; }
 
-page_head("Server status page");
 
-echo "<p>";
-
-echo "
-    [As of ", time_str(time()), "]
-    <table width=100%>
-    <tr>
-    <td width=40% valign=top>
-    <h2>Server status</h2>
-    <table border=0 cellpadding=4>
-    <tr><th>Program</th><th>Host</th><th>Status</th></tr>
-";
-
-if ($xmlout) {
-    fwrite($xmloutfile,"<server_status>\n");
-    fwrite($xmloutfile,"  <update_time>" . time() . "</update_time>\n");
-    fwrite($xmloutfile,"  <daemon_status>\n");
+if ($xml) {
+    xml_header();
+    echo "<server_status>\n";
+    echo "  <update_time>" . time() . "</update_time>\n";
+    echo "  <daemon_status>\n";
+} else {
+    page_head("Server status page");
+    echo "<p>
+        [As of ", time_str(time()), "]
+        <table width=100%>
+        <tr>
+        <td width=40% valign=top>
+        <h2>Server status</h2>
+        <table border=0 cellpadding=4>
+        <tr><th>Program</th><th>Host</th><th>Status</th></tr>
+    ";
 }
 
 // Are the data-driven web sites running? Check for existence
 // of stop_web. If it is there, set $web_running to -1 for
 // "disabled," otherwise it will be already set to 1 for "enabled."
 // Set $www_host to the name of server hosting WWW site.
+//
 $web_running = !file_exists("../../stop_web");
-if ($web_running == 0) { $web_running = -1; }
+if ($web_running == 0) $web_running = -1;
 show_status($www_host, "data-driven web pages", $web_running);
 
 // Check for httpd.pid file of upload/download server.
+//
 $uldl_running = file_exists($uldl_pid);
-if ($uldl_running == 0) { $uldl_running = -1; }
+if ($uldl_running == 0) $uldl_running = -1;
 show_status($uldl_host, "upload/download server", $uldl_running);
 
 // $sched_running = !file_exists("../../stop_sched");
+//
 $sched_running = file_exists($sched_pid);
-if ($sched_running == 0) { $sched_running = -1; }
+if ($sched_running == 0) $sched_running = -1;
 show_status($sched_host, "scheduler", $sched_running);
 
 // parse through config.xml to get all daemons running
+//
 $cursor = 0;
 while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
-  $thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor));
-  $host = parse_element($thisxml,"<host>");
-  if ($host == "") { $host = $project_host; }
-  $cmd = parse_element($thisxml,"<cmd>");
-  list($ncmd) = explode(" ",$cmd);
-  $log = parse_element($thisxml,"<output>");
-  if (!$log) { $log = $ncmd . ".log"; }
-  list($nlog) = explode(".log",$log);
-  $pid = parse_element($thisxml,"<pid_file>");
-  if (!$pid) { $pid = $ncmd . ".pid"; }
-  $disabled = parse_element($thisxml,"<disabled>");
-  show_daemon_status($host,$nlog,$ncmd,$disabled);
+    $thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor));
+    $host = parse_element($thisxml,"<host>");
+    if ($host == "") { $host = $project_host; }
+    $cmd = parse_element($thisxml,"<cmd>");
+    list($ncmd) = explode(" ",$cmd);
+    $log = parse_element($thisxml,"<output>");
+    if (!$log) { $log = $ncmd . ".log"; }
+    list($nlog) = explode(".log",$log);
+    $pid = parse_element($thisxml,"<pid_file>");
+    if (!$pid) { $pid = $ncmd . ".pid"; }
+    $disabled = parse_element($thisxml,"<disabled>");
+    show_daemon_status($host,$nlog,$ncmd,$disabled);
 }
 
-if ($xmlout) {
-    fwrite($xmloutfile,"  </daemon_status>\n  <database_file_states>\n");
+if ($xml) {
+    echo "  </daemon_status>\n  <database_file_states>\n";
+} else {
+    echo "
+        <tr><td align=right><b>Running:</b></td>
+        <td colspan=2>Program is operating normally</td></tr>
+        <tr><td align=right><b>Not Running:</b></td>
+        <td colspan=2>Program failed or ran out of work<br>
+           (or the project is down)</td></tr>
+        <tr><td align=right><b>Disabled:</b></td>
+        <td colspan=2>Program has been disabled by staff<br>
+           (for debugging/maintenance)</td></tr>
+        </table>
+        </td>
+        <td width=40% valign=top>
+        <h2>Database/file status</h2>
+    ";
 }
-
-echo "
-    <tr><td align=right><b>Running:</b></td>
-    <td colspan=2>Program is operating normally</td></tr>
-    <tr><td align=right><b>Not Running:</b></td>
-    <td colspan=2>Program failed or ran out of work<br>
-       (or the project is down)</td></tr>
-    <tr><td align=right><b>Disabled:</b></td>
-    <td colspan=2>Program has been disabled by staff<br>
-       (for debugging/maintenance)</td></tr>
-    </table>
-    </td>
-    <td width=40% valign=top>
-    <h2>Database/file status</h2>
-";
 
 $retval = db_init_aux();
 if ($retval) {
     echo "The database server is not accessible";
 } else {
-    echo "
-        <table border=0 cellpadding=4>
-        <tr><th>State</th><th>#</th></tr>
-    ";
+    if (!$xml) {
+        echo "
+            <table border=0 cellpadding=4>
+            <tr><th>State</th><th>#</th></tr>
+        ";
+    }
 
     show_counts("Results ready to send","results_ready_to_send",get_mysql_count("result where server_state = 2"));
     show_counts("Results in progress","results_in_progress",get_mysql_count("result where server_state = 4"));
@@ -221,21 +248,23 @@ if ($retval) {
     $gap = (time() - $min->min)/3600;
     if ($gap < 0) { $gap = 0; }
     show_counts("Transitioner backlog (hours)","transitioner_backlog_hours",$gap);
-    echo "</table>";
+    if (!$xml) {
+        echo "</table>";
+    }
 }
 
-if ($xmlout) {
-    fwrite($xmloutfile,"  </database_file_states>\n");
-    fwrite($xmloutfile,"</server_status>\n");
+if ($xml) {
+    echo "  </database_file_states>\n";
+    echo "</server_status>\n";
+} else {
+    echo "
+    </td>
+    <td>&nbsp;</td>
+    </tr>
+    </table>
+    ";
+    page_tail();
 }
 
-echo "
-</td>
-<td>&nbsp;</td>
-</tr>
-</table>
-";
-
-page_tail();
-
+end_cache($cache_period, $cache_args);
 ?>

@@ -12027,3 +12027,11 @@ David  22 Sept 2005
             countries.inc
         ops/
             db_update.php
+
+David  22 Sept 2005
+    - Change the server status page to generate XML if
+        there's an "&xml=1" in the URL.
+        Also make it cache with 10-min update.
+
+    html/user/
+        server_status.php
