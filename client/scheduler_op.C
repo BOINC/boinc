@@ -63,7 +63,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             "Couldn't start master page download: %s", boincerror(retval)
         );
         if (p->tentative) {
-            p->attach_failed(ERR_ATTACH_FAIL_INIT);
+            p->attach_failed(0);
         } else {
             p->master_fetch_failures++;
             backoff(p, "Master page fetch failed\n");
@@ -487,13 +487,9 @@ bool SCHEDULER_OP::poll() {
                     );
                 }
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
-
-                // if this was a tentative project and we didn't get user name,
-                // the account ID must be bad.  Tell the user.
-                //
                 if (cur_proj->tentative) {
                     if (retval || strlen(cur_proj->user_name)==0) {
-                        cur_proj->attach_failed(ERR_ATTACH_FAIL_BAD_KEY);
+                        cur_proj->attach_failed(0);
                     } else {
                         cur_proj->tentative = false;
                         gstate.have_tentative_project = false;

@@ -12006,3 +12006,11 @@ David  22 Sept 2005
 
 	client/
 		gui_rpc_server_ops.C
+
+David  22 Sept 2005
+	- we were assuming that if a scheduler RPC reply didn't
+		have a user ID, it must be because of a bad account key.
+		Not so - could also be major version mismatch with old schedulers
+
+	client/
+		scheduler_op.C
