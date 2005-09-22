@@ -1,49 +1,39 @@
 <?php
 
-# server_status.php [-f xml_output_filename]
-#
-# outputs general information about BOINC server status gathered from
-# config.xml or mysql database queries.
-#
-# Daemons in config.xml are checked to see if they are running by ssh'ing
-# into the respective hosts and searching for active pids. Passwordless
-# logins must # be in effect.
-#
-# The database queries are rather slow. You might consider running these
-# queries elsewhere via cronjob, outputing numbers into a readable file,
-# and then getting the # latest values with a `/bin/tail -1 data_file`
-#
-# If running as a standalone program there is an optional -f flag where
-# you can generate xml server status output to the filename you provide.
-#
-# It is highly recommended that you run this program every 10 minutes and
-# send its stdout to an .html file every 10 minutes, rather than having
-# the values get regenerated every time the page is accessed.
-#
-# You should edit the following variables below to suit your needs:
+// server_status.php [-f xml_output_filename]
+//
+// outputs general information about BOINC server status gathered from
+// config.xml or mysql database queries.
+//
+// Daemons in config.xml are checked to see if they are running by ssh'ing
+// into the respective hosts and searching for active pids. Passwordless
+// logins must be in effect.
+//
+// The database queries are rather slow. You might consider running these
+// queries elsewhere via cronjob, outputing numbers into a readable file,
+// and then getting the # latest values with a `/bin/tail -1 data_file`
+//
+// If running as a standalone program there is an optional -f flag where
+// you can generate xml server status output to the filename you provide.
+//
+// It is highly recommended that you run this program every 10 minutes and
+// send its stdout to an .html file every 10 minutes, rather than having
+// the values get regenerated every time the page is accessed. Or use the
+// available web page cache utilities.
+//
+// You should edit the following variables in config.xml to suit your needs:
+//
+// <www_host>    hostname of web server (default: same as <host>)
+// <sched_host>  hostname of scheduling server (default: same as <host>)
+// <sched_pid>   pid file of scheduling server httpd.conf
+//               (default: /etc/httpd/run/httpd.pid)
+// <uldl_host>   hostname of upload/download server (default: same as <host>)
+// <uldl_pid>    pid file of upload/download server httpd.conf
+//               (default: /etc/httpd/run/httpd.pid)
+// <ssh_exe>     path to ssh (default: /usr/bin/ssh)
+// <ps_exe>      path to ps (which supports "w" flag) (default: /bin/ps)
 
-# What is the server hosting the WWW site?
-$web_host = "WWW host name";
-
-# The machine acting as upload/download server?
-$uldl_host = "UL/DL host name";
-
-# Where is the ul/dl apache server pid file?
-$uldl_pid = "/apache/var/log/httpd.pid";
-
-# The machine acting as scheduling server?
-$sched_host = "Scheduler host name";
-
-# Where is the scheduling apache server pid file?
-$sched_pid = "/apache/var/log/httpd.pid";
-
-# Where is ssh?
-$ssh_exe = "/usr/local/bin/ssh";
-
-# where is ps (a version that supports the "w" flag)
-$ps_exe = "/usr/ucb/ps";
-
-###########################################################
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
@@ -52,14 +42,17 @@ $xmlout = "";
 if ($argv[1] == "-f") { $xmlout = $argv[2]; }
 $xmloutfile = fopen($xmlout,"w+");
 
-# daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
+// daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
 function daemon_status($host, $pidname, $progname, $disabled) {
+    global $ssh_exe, $ps_exe, $project_host;
     $path = "../../pid_$host/$pidname.pid";
     $running = 0;
     if (is_file($path)) {
         $pid = file_get_contents($path);
         if ($pid) {
-            $foo = exec("$ssh_exe $host ps w $pid");
+            $command = "$ps_exe w $pid";
+            if ($host != $project_host) { $command = "$ssh_exe $host " . $command; }
+            $foo = exec($command);
             if ($foo) {
                 if (strstr($foo, $progname)) { $running = 1; }
             }
@@ -114,6 +107,24 @@ function get_mysql_count ($query) {
     return $count->count;
 }
 
+$config_xml = get_config();
+$config_vars = parse_element($config_xml,"<config>");
+$project_host = parse_element($config_vars,"<host>");
+$www_host = parse_element($config_vars,"<www_host>");
+if ($www_host == "") { $www_host = $project_host; }
+$sched_pid = parse_element($config_vars,"<sched_apache_pid>");
+if ($sched_pid == "") { $sched_pid = "/etc/httpd/run/httpd.pid"; }
+$sched_host = parse_element($config_vars,"<sched_host>");
+if ($sched_host == "") { $sched_host = $project_host; }
+$uldl_pid = parse_element($config_vars,"<uldl_apache_pid>");
+if ($uldl_pid == "") { $uldl_pid = "/etc/httpd/run/httpd.pid"; }
+$uldl_host = parse_element($config_vars,"<uldl_host>");
+if ($uldl_host == "") { $uldl_host = $project_host; }
+$ssh_exe = parse_element($config_vars,"<ssh_exe>");
+if ($ssh_exe == "") { $ssh_exe = "/usr/bin/ssh"; } 
+$ps_exe = parse_element($config_vars,"<ps_exe>");
+if ($ps_exe == "") { $ps_exe = "/bin/ps"; }
+
 page_head("Server status page");
 
 echo "<p>";
@@ -134,30 +145,30 @@ if ($xmlout) {
     fwrite($xmloutfile,"  <daemon_status>\n");
 }
 
-# Are the data-driven web sites running? Check for existence
-# of stop_web. If it is there, set $web_running to -1 for
-# "disabled," otherwise it will be already set to 1 for "enabled."
-# Set $web_host to the name of server hosting WWW site.
+// Are the data-driven web sites running? Check for existence
+// of stop_web. If it is there, set $web_running to -1 for
+// "disabled," otherwise it will be already set to 1 for "enabled."
+// Set $www_host to the name of server hosting WWW site.
 $web_running = !file_exists("../../stop_web");
 if ($web_running == 0) { $web_running = -1; }
-show_status($web_host, "data-driven web pages", $web_running);
+show_status($www_host, "data-driven web pages", $web_running);
 
-# Check for httpd.pid file of upload/download server.
+// Check for httpd.pid file of upload/download server.
 $uldl_running = file_exists($uldl_pid);
 if ($uldl_running == 0) { $uldl_running = -1; }
 show_status($uldl_host, "upload/download server", $uldl_running);
 
-# $sched_running = !file_exists("../../stop_sched");
+// $sched_running = !file_exists("../../stop_sched");
 $sched_running = file_exists($sched_pid);
 if ($sched_running == 0) { $sched_running = -1; }
 show_status($sched_host, "scheduler", $sched_running);
 
-# parse through config.xml to get all daemons running
-$config_xml = get_config();
+// parse through config.xml to get all daemons running
 $cursor = 0;
-# while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
-$thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor));
+while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
+  $thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor));
   $host = parse_element($thisxml,"<host>");
+  if ($host == "") { $host = $project_host; }
   $cmd = parse_element($thisxml,"<cmd>");
   list($ncmd) = explode(" ",$cmd);
   $log = parse_element($thisxml,"<output>");
@@ -167,7 +178,7 @@ $thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor));
   if (!$pid) { $pid = $ncmd . ".pid"; }
   $disabled = parse_element($thisxml,"<disabled>");
   show_daemon_status($host,$nlog,$ncmd,$disabled);
-# }
+}
 
 if ($xmlout) {
     fwrite($xmloutfile,"  </daemon_status>\n  <database_file_states>\n");
