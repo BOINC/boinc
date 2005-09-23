@@ -185,8 +185,7 @@ static int process_wu_template(
                     }
                     dir_hier_path(
                         infiles[file_number], config.download_dir,
-                        config.uldl_dir_fanout, true,
-						path, true
+                        config.uldl_dir_fanout, path, true
                     );
 
                     // if file isn't found in hierarchy,
@@ -214,8 +213,7 @@ static int process_wu_template(
 
                     dir_hier_url(
                         infiles[file_number], config.download_url,
-                        config.uldl_dir_fanout, true,
-						url
+                        config.uldl_dir_fanout, url
                     );
                     sprintf(buf,
                         "    <name>%s</name>\n"
@@ -418,7 +416,7 @@ int check_files(char** infiles, int ninfiles, SCHED_CONFIG& config) {
 
     for (i=0; i<ninfiles; i++) {
         dir_hier_path(
-            infiles[i], config.download_dir, config.uldl_dir_fanout, true, path
+            infiles[i], config.download_dir, config.uldl_dir_fanout, path
         );
 		if (!boinc_file_exists(path)) {
 			return 1;

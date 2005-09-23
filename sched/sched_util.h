@@ -41,14 +41,14 @@ extern void get_log_path(char*, const char*);
 // convert filename to path in a hierarchical directory system
 //
 extern int dir_hier_path(
-    const char* filename, const char* root, int fanout, bool new_hash,
+    const char* filename, const char* root, int fanout,
 	char* result, bool create=false
 );
 
 // convert filename to URL in a hierarchical directory system
 //
 extern int dir_hier_url(
-    const char* filename, const char* root, int fanout, bool new_hash,
+    const char* filename, const char* root, int fanout,
 	char* result
 );
 

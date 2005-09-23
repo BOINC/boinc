@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 
     DirScanner scanner(src_dir);
     while (scanner.scan(filename)) {
-        retval = dir_hier_path(filename.c_str(), dst_dir, fanout, true, dst_path, true);
+        retval = dir_hier_path(filename.c_str(), dst_dir, fanout, dst_path, true);
         if (retval) {
             fprintf(stderr, "dir_hier_path: %d\n", retval);
             exit(1);

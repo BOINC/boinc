@@ -47,10 +47,7 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     if (!parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf))) {
         return ERR_XML_PARSE;
     }
-    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, true, path);
-    if (!boinc_file_exists(path)) {
-        dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, false, path);
-    }
+    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, path);
     path_str = path;
     return 0;
 }

@@ -221,7 +221,7 @@ int decrement_disk_space_locality(
 
     // Get path to file, and determine its size
     dir_hier_path(
-        filename, config.download_dir, config.uldl_dir_fanout, true, path, false
+        filename, config.download_dir, config.uldl_dir_fanout, path, false
     );
     if (stat(path, &buf)) {
         log_messages.printf(

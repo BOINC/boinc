@@ -39,7 +39,7 @@ int main(int /*argc*/, char** argv) {
         exit(1);
     }
 
-    dir_hier_path(argv[1], "", config.uldl_dir_fanout, true, path);
+    dir_hier_path(argv[1], "", config.uldl_dir_fanout, path);
     printf("%s%s\n", config.download_dir, path);
 }
 

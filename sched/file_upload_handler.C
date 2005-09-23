@@ -304,7 +304,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             }
 
             retval = dir_hier_path(
-                file_info.name, config.upload_dir, config.uldl_dir_fanout, true,
+                file_info.name, config.upload_dir, config.uldl_dir_fanout,
                 path, true
             );
             log_messages.printf(
@@ -351,7 +351,7 @@ int handle_get_file_size(char* file_name) {
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
     //
-    dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, true, path);
+    dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, path);
     fd=open(path, O_WRONLY|O_APPEND);
 
     if (fd<0 && ENOENT==errno) {

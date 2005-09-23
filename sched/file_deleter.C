@@ -61,14 +61,7 @@ int id_modulus=0, id_remainder=0;
 //
 int get_file_path(char *filename, char* upload_dir, int fanout, char* path) {
 
-    dir_hier_path(filename, upload_dir, fanout, true, path);
-    if (boinc_file_exists(path)) {
-        return 0;
-    }
- 
-    // TODO: get rid of the old hash in about 3/2005
-    //
-    dir_hier_path(filename, upload_dir, fanout, false, path);
+    dir_hier_path(filename, upload_dir, fanout, path);
     if (boinc_file_exists(path)) {
         return 0;
     }

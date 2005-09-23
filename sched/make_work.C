@@ -137,11 +137,11 @@ void make_new_wu(
                 new_file_name, "%s__%d_%d", file_name, start_time, seqno++
             );
             dir_hier_path(
-                file_name, config.download_dir, config.uldl_dir_fanout, true,
+                file_name, config.download_dir, config.uldl_dir_fanout,
                 pathname
             );
             dir_hier_path(
-                new_file_name, config.download_dir, config.uldl_dir_fanout, true,
+                new_file_name, config.download_dir, config.uldl_dir_fanout,
                 new_pathname, true
             );
             retval = link(pathname, new_pathname);

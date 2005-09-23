@@ -127,15 +127,6 @@ void get_log_path(char* p, const char* filename) {
     mkdir(dir, 0777);
 }
 
-static void filename_hash_old(const char* filename, int fanout, char* dir) {
-    int sum=0;
-    const char* p = filename;
-
-    while (*p) sum += *p++;
-    sum %= fanout;
-	sprintf(dir, "%x", sum);
-}
-
 static void filename_hash(const char* filename, int fanout, char* dir) {
 	std::string s = md5_string((const unsigned char*)filename, strlen(filename));
 	int x = strtol(s.substr(1, 7).c_str(), 0, 16);
@@ -144,14 +135,9 @@ static void filename_hash(const char* filename, int fanout, char* dir) {
 
 // given a filename, compute its path in a directory hierarchy
 // If create is true, create the directory if needed
-// NOTE: this first time around I used a bad hash function.
-// During the period of transition to the good hash function,
-// programs to look for files (validator, assimilator, file deleter)
-// will have to try both the old and new variants.
-// We can phase this out after everyone is caught up.
 //
 int dir_hier_path(
-    const char* filename, const char* root, int fanout, bool new_hash,
+    const char* filename, const char* root, int fanout,
 	char* path, bool create
 ) {
     char dir[256], dirpath[256];
@@ -162,11 +148,7 @@ int dir_hier_path(
         return 0;
     }
 
-	if (new_hash) {
-	    filename_hash(filename, fanout, dir);
-	} else {
-	    filename_hash_old(filename, fanout, dir);
-	}
+    filename_hash(filename, fanout, dir);
 
     sprintf(dirpath, "%s/%s", root, dir);
     if (create) {
@@ -180,7 +162,7 @@ int dir_hier_path(
 }
 
 int dir_hier_url(
-    const char* filename, const char* root, int fanout, bool new_hash,
+    const char* filename, const char* root, int fanout,
 	char* result
 ) {
     char dir[256];
@@ -190,11 +172,7 @@ int dir_hier_url(
         return 0;
     }
 
-	if (new_hash) {
-		filename_hash(filename, fanout, dir);
-	} else {
-		filename_hash_old(filename, fanout, dir);
-	}
+    filename_hash(filename, fanout, dir);
     sprintf(result, "%s/%s/%s", root, dir, filename);
     return 0;
 }
