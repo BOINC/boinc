@@ -52,15 +52,6 @@ using namespace std;
 
 #include "boinc_api.h"
 
-#ifdef BOINC_APP_GRAPHICS
-#ifdef __cplusplus
-extern "C" {
-#endif
-#ifdef __cplusplus
-}
-#endif
-#endif
-
 // The BOINC API has various functions:
 // - check heartbeat from core client, exit if none
 // - handle trickle up/down messages
