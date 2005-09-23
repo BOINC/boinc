@@ -269,7 +269,7 @@ function print_login_form_aux($next_url, $user) {
     row2("Stay logged in on this computer",
         "<input type=checkbox name=send_cookie checked>"
     );
-    row2("", "<input type=submit value='Log in'>");
+    row2("", "<input type=submit name=mode value='Log in with email/password'>");
     row1("Log in with account key");
     row2("Your account key:
         <br><font size=-2>
@@ -281,7 +281,7 @@ function print_login_form_aux($next_url, $user) {
     row2("Stay logged in on this computer",
         "<input type=checkbox name=send_cookie checked>"
     );
-    row2("", "<input type=submit value='Log in'>");
+    row2("", "<input type=submit name=mode value='Log in with account key'>");
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",

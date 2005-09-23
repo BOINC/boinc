@@ -12030,8 +12030,21 @@ David  22 Sept 2005
 
 David  22 Sept 2005
     - Change the server status page to generate XML if
-        there's an "&xml=1" in the URL.
+        there's an "?xml=1" in the URL.
         Also make it cache with 10-min update.
 
     html/user/
         server_status.php
+
+David  22 Sept 2005
+    - Call stripslashes() on passwords in PHP code;
+        otherwise passwords with " and other chars don't work
+    - Use name attribute on submits in login form,
+        so the handler can tell the difference
+
+    html/
+        inc/
+            util.inc
+        user/
+            edit_passwd_action.php
+            login_action.php

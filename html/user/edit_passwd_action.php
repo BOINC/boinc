@@ -12,9 +12,9 @@ $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
 // Note: don't call process_user_text() on passwords.
 // This is not needed, and will break passwords containing punctuation
 
-$old_passwd = post_str("old_passwd", true);
-$passwd = post_str("passwd");
-$passwd2 = post_str("passwd2");
+$old_passwd = stripslashes(post_str("old_passwd", true));
+$passwd = stripslashes(post_str("passwd"));
+$passwd2 = stripslashes(post_str("passwd2"));
 
 if ($passwd != $passwd2) {
     error_page("New passwords are different");

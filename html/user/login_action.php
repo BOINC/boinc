@@ -7,10 +7,12 @@ require_once("../inc/user.inc");
 init_session();
 db_init();
 
+$mode = post_str("mode");
+
 // First check for email/password case
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
-$passwd = process_user_text(post_str("passwd", true));
-if ($email_addr) {
+$passwd = stripslashes(post_str("passwd", true));
+if ($mode == "Log in with email/password") {
     $user = lookup_user_email_addr($email_addr);
     if (!$user) {
         error_page("No account found with email address $email_addr");
@@ -44,7 +46,10 @@ if ($email_addr) {
 //
 $authenticator = process_user_text(get_str("key", true));
 if (!$authenticator) {
-   $authenticator = process_user_text(post_str("authenticator"));
+   $authenticator = process_user_text(post_str("authenticator", true));
+}
+if (!$authenticator) {
+    error_page("You must supply an account key");
 }
 
 $query = "select * from user where authenticator='$authenticator'";
