@@ -12048,3 +12048,22 @@ David  22 Sept 2005
         user/
             edit_passwd_action.php
             login_action.php
+
+David  23 Sept 2005
+    - Redo the "clean up graphics thread before exit" logic.
+        boinc_api.C now has a function pointer that gets set
+        (in the Windows graphics case) to point to a cleanup function.
+        This gets called in boinc_exit().
+
+        Got rid of boinc_shutdown_graphics_impl(),
+        boinc_shutdown_options_graphics_impl(), boinc_shutdown_graphics().
+        Let's try to keep it simple.
+
+    TODO: it's not clear to me that the graphics cleanup function
+    will actually work.  Rom's going to redo it.
+
+    api/
+        boinc_api.C,h
+        graphics_api.C,h
+        graphics_impl.C,h
+        windows_opengl.C

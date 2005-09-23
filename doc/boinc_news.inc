@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("September 23, 2005",
+    "<a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>, a paper about BOINC server performance,
+    will appear in the e-Science 2005 conference in December."
+),
 array("September 6, 2005",
     "<a href=http://www.theinstitute.ieee.org/portal/site/tionline/menuitem.130a3558587d56e8fb2275875bac26c8/index.jsp?&pName=institute_level1_article&TheCat=2201&article=tionline/legacy/inst2005/sep05/9w.fgravity.xml&>Searching for Gravity @ Home</a>, an article about Einstein@home and BOINC,
     appears in the September 2005 issue of IEEE's <i>The Institute</i>."

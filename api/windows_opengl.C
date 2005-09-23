@@ -488,8 +488,33 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     }
 }
 
+// This is called from the worker or multimedia timer thread,
+// when it's preparing to exit.
+// Shut down the graphics thread to avoid crash on exit.
+//
+static void stop_graphics_thread() {
+    // Shutdown the timer and stop processing messages
+    //
+    if (gfx_timer_id) {
+        KillTimer(NULL, gfx_timer_id);
+        gfx_timer_id = NULL;
+    }
+
+    // Process any outstanding messages
+    //
+    Sleep(0);
+
+    // Close down any open window and clean up
+    //
+    if (!boinc_is_standalone()) {
+        set_mode(MODE_HIDE_GRAPHICS);
+    }
+}
+
 void win_graphics_event_loop() {
     MSG                    msg;        // Windows Message Structure
+
+    stop_graphics_thread_ptr = stop_graphics_thread;
 
     // Detect platform information
     OSVERSIONINFO osvi; 
@@ -520,26 +545,6 @@ void win_graphics_event_loop() {
     unreg_win_class();
 
     SetEvent(hQuitEvent);        // Signal the worker thread that we're quitting
-}
-
-void win_graphics_shutdown_event_loop() {
-    // Shutdown the timer and stop processing messages
-    //
-    if (gfx_timer_id) {
-        KillTimer(NULL, gfx_timer_id);
-        gfx_timer_id = NULL;
-    }
-
-    // Process any outstanding messages and stuff before moving
-    //   on.
-    //
-    Sleep(0);
-
-    // Close down any open window and cleanup
-    //
-    if (!boinc_is_standalone()) {
-        set_mode(MODE_HIDE_GRAPHICS);
-    }
 }
 
 const char *BOINC_RCSID_462f482d81 = "$Id$";

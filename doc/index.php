@@ -98,7 +98,8 @@ resources
     <li> <a href=contact.php>Personnel and contact info</a>
     <li> BOINC <a href=email_lists.php>email lists</a>
     <li> BOINC <a href=dev/>message boards</a>
-    <li> An <a href=intro.php>overview of BOINC</a>, and links to papers
+    <li> An <a href=intro.php>overview of BOINC</a>
+    <li> <a href=papers.php>Papers about BOINC</a>
     <li> How to get involved in
       <ul>
       <li> <a href=boinc_dev.php>Software development and testing</a>

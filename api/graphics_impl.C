@@ -31,7 +31,6 @@
 
 #ifdef _WIN32
 extern void win_graphics_event_loop();
-extern void win_graphics_shutdown_event_loop();
 #else
 #include <cstring>
 #include <cstdarg>
@@ -82,11 +81,6 @@ int boinc_init_graphics_impl(WORKER_FUNC_PTR worker, BOINC_MAIN_STATE* bmsp) {
     BOINC_OPTIONS opt;
     boinc_options_defaults(opt);
     return boinc_init_options_graphics_impl(opt, worker, bmsp);
-}
-
-// the following function can be in a shared library,
-int boinc_shutdown_graphics_impl(BOINC_MAIN_STATE* bmsp) {
-    return boinc_shutdown_options_graphics_impl(bmsp);
 }
 
 int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
@@ -176,15 +170,6 @@ int boinc_init_options_graphics_impl(
 #endif
 
     // normally we never get here
-    return 0;
-}
-
-int boinc_shutdown_options_graphics_impl(
-    BOINC_MAIN_STATE* bmsp
-) {
-#ifdef _WIN32
-    win_graphics_shutdown_event_loop();
-#endif
     return 0;
 }
 

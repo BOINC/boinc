@@ -56,7 +56,6 @@ using namespace std;
 #ifdef __cplusplus
 extern "C" {
 #endif
-//extern int boinc_shutdown_graphics();
 #ifdef __cplusplus
 }
 #endif
@@ -84,6 +83,7 @@ extern "C" {
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
+void (*stop_graphics_thread_ptr)() = 0;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -376,13 +376,14 @@ int boinc_finish(int status) {
 
 
 // unlock the lockfile and call the appropriate exit function
+// This is called from the worker thread or the timer thread.
 //
 void boinc_exit(int status) {
-#ifdef BOINC_APP_GRAPHICS
-    // Shutdown graphics if it is running
+    // Shutdown graphics thread if it is running
     //
-    //boinc_shutdown_graphics();
-#endif
+    if (stop_graphics_thread_ptr) {
+        (*stop_graphics_thread_ptr)();
+    }
 
     // Unlock the lock file
     //

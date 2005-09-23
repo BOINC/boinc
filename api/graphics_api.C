@@ -39,10 +39,6 @@ int boinc_init_graphics(void (*worker)()) {
     return boinc_init_graphics_impl(worker, &boinc_main_state);
 }
 
-int boinc_shutdown_graphics() {
-    return boinc_shutdown_graphics_impl(&boinc_main_state);
-}
-
 int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*worker)()) {
     init_main_state();
     return boinc_init_options_graphics_impl(opt, worker, &boinc_main_state);
