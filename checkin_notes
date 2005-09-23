@@ -12074,3 +12074,25 @@ David  23 Sept 2005
     api/
         boinc_api.C
         texture.C
+
+Jeff  23 Sept 2005
+     - Removed the filename_hash_old() and the boolean "new_hash" from
+       interface to dir_hier_path() and dir_hier_url().  A subsequesnt
+       change will be to remove any now unneccessary calls to boinc_file_exists().
+       Note that any project side code that calls dir_hier_path() and dir_hier_url()
+       will have to have these calls modified.  For seti@home thses programs
+       are the splitter, validator, and assimlator.
+
+     sched/
+        file_upload_handler.C
+        file_deleter.C
+        make_work.C
+        sched_locality.C
+        wu_check.C
+        validate_util.C
+        sched_util.{C,h}
+     tools/
+        backend_lib.C
+        dir_hier_move.C
+        dir_hier_path.C
+
