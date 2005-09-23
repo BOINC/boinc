@@ -111,19 +111,11 @@ static ImageRec *ImageOpen(const char *fileName){
     image = (ImageRec *)malloc(sizeof(ImageRec));
     if (image == NULL) {
 		fprintf(stderr, "Out of memory!\n");
-#ifdef BOINC_APP_GRAPHICS
 		return NULL;
-#else
-		exit(1);
-#endif
     }
     if ((image->file = fopen(fileName, "rb")) == NULL) {
 		perror(fileName);
-#ifdef BOINC_APP_GRAPHICS
 		return NULL;
-#else
-		exit(1);
-#endif
     }
     fread(image, 1, 12, image->file);
     if (swapFlag) {
@@ -136,11 +128,7 @@ static ImageRec *ImageOpen(const char *fileName){
     image->tmpB = (unsigned char *)malloc(image->xsize*256);
     if (image->tmp == NULL || image->tmpR == NULL || image->tmpG == NULL ||image->tmpB == NULL) {
 		fprintf(stderr, "Out of memory!\n");
-#ifdef BOINC_APP_GRAPHICS
 		return NULL;
-#else
-		exit(1);
-#endif
     }
 
     if ((image->type & 0xFF00) == 0x0100) {
@@ -149,11 +137,7 @@ static ImageRec *ImageOpen(const char *fileName){
 		image->rowSize = (int *)malloc(x);
 		if (image->rowStart == NULL || image->rowSize == NULL) {
 			fprintf(stderr, "Out of memory!\n");
-#ifdef BOINC_APP_GRAPHICS
 			return NULL;
-#else
-			exit(1);
-#endif
 		}
 		image->rleEnd = 512 + (2 * x);
 		fseek(image->file, 512, SEEK_SET);

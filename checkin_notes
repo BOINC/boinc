@@ -12067,3 +12067,10 @@ David  23 Sept 2005
         graphics_api.C,h
         graphics_impl.C,h
         windows_opengl.C
+
+David  23 Sept 2005
+    - removed #ifdefs involving BOINC_APP_GRAPHICS
+
+    api/
+        boinc_api.C
+        texture.C
