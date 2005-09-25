@@ -11931,6 +11931,13 @@ Rom    20 Sept 2005 (staging)
     - Tag for 5.1.4 release, all platforms
       boinc_core_release_5.1.4
 
+David  20 Sept 2005
+    - various fixes to bbcode_convert.php.
+        Ran it on SETI@Home message boards; seems to work OK
+
+    html/ops/
+        bbcode_convert.php
+
 Charlie 20 Sept 2005
     - Mac: Add BOINC library version number to backtrace.
     
@@ -12096,3 +12103,12 @@ Jeff  23 Sept 2005
         dir_hier_move.C
         dir_hier_path.C
 
+David  24 Sept 2005
+    - comment out profile picture verification stuff
+
+    html/
+        inc/
+            profile.inc
+            util.inc
+        ops/
+            bbconvert.php

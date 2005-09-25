@@ -19,6 +19,14 @@ define('MAX_DESC_LENGTH', 90);
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
 
+function profile_error_page($str) {
+    page_head("Profile error");
+    echo "$str<br>\n";
+    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
+    page_tail();
+    exit();
+}
+
 // output a select form item with the given name,
 // from a list of newline-delineated items from the text file.
 // If $selection is provided, and if it matches one of the entries in the file,
@@ -116,6 +124,7 @@ function show_textarea($name, $text) {
 // user the verification status of their profile.
 //
 function offensive_profile_warning($verify_flag) {
+    return;
     if ($verify_flag == 0) {
         return "
             <font size='+2' color='33cc33'>
@@ -258,7 +267,6 @@ function process_create_results($user, $profile) {
         $result = mysql_query($query);
         if (!$result) {
             profile_error_page("Couldn't update profile: database error");
-            exit();
         }
     } else {
         $query = 'INSERT INTO profile SET '
@@ -271,7 +279,6 @@ function process_create_results($user, $profile) {
         $result = mysql_query($query);
         if (!$result) {
             profile_error_page("Couldn't create profile: database error");
-            exit();
         }
         mysql_query("update user set has_profile=1 where id=$user->id");
     }
@@ -299,7 +306,6 @@ function getImages($fileName) {
             break;
         default:
             profile_error_page("The format of your uploaded image is not supported by our system.");
-            exit();
     }
 
     $width = $size[0];
@@ -403,7 +409,8 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
                 echo "<td class=bordered width=7% height=64><center>";
 
                 // Only link an image if the user has uploaded one.;
-                if ($profile->has_picture && $profile->verification==1) {
+                //if ($profile->has_picture && $profile->verification==1) {
+                if ($profile->has_picture) {
                     echo "<a href=\"", URL_BASE, "view_profile.php?userid={$members[$count]}\"><img src=\"", URL_BASE, IMAGE_URL, "{$members[$count]}_sm.jpg\"></a>";
 
                 } else {
@@ -453,7 +460,6 @@ function show_profile($userid, $verify_mode = FALSE) {
 
     if (!$user) {
         profile_error_page("No user exists for that ID, or there was a database error.<p>");
-        exit();
     }
     $profile = get_profile($userid);
     if (!$profile) {
@@ -485,7 +491,8 @@ function show_profile($userid, $verify_mode = FALSE) {
     // - user is viewing/editing it
     // - profile has been approved by sysadmin
     //
-    if ($profile->has_picture && ($verify_mode || $can_edit || $profile->verification==1)) {
+    //if ($profile->has_picture && ($verify_mode || $can_edit || $profile->verification==1)) {
+    if ($profile->has_picture) {
         echo "
             <tr><td colspan=2 align=center>
             <img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">
@@ -497,9 +504,9 @@ function show_profile($userid, $verify_mode = FALSE) {
     // yet verified.  This will tell them if other users can't view it yet, or
     // if there is a problem with it and they need to replace it.
     //
-    if ($can_edit && $profile->verification!=1) {
-        row1(offensive_profile_warning($profile->verification));
-    }
+    //if ($can_edit && $profile->verification!=1) {
+    //    row1(offensive_profile_warning($profile->verification));
+    //}
 
     show_user_summary_public($user);
 

@@ -142,13 +142,6 @@ function db_error_page() {
     page_tail();
 }
 
-function profile_error_page($str) {
-    page_head("Profile error");
-    echo "$str<br>\n";
-    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
-    page_tail();
-}
-
 function error_page($msg) {
     page_head("Unable to handle request");
     echo $msg;
