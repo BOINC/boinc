@@ -12112,3 +12112,10 @@ David  24 Sept 2005
             util.inc
         ops/
             bbconvert.php
+
+Matt 25 Sept 2005
+    - fixed missing comma in profile.inc
+
+    html/
+        inc/
+            profile.inc
