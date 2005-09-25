@@ -261,7 +261,7 @@ function process_create_results($user, $profile) {
             ." response1 = '$response1',"
             ." response2 = '$response2',"
             ." language = '$language',"
-            ." has_picture = '$hasPicture'"
+            ." has_picture = '$hasPicture',"
             ." verification = '$profile->verification'"
             ." WHERE userid = '$user->id'";
         $result = mysql_query($query);
