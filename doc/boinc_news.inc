@@ -2,6 +2,15 @@
 
 $project_news = array(
 
+array("September 25, 2005",
+    "<a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>,
+    a BOINC-based project at the University of Washington,
+    has launched and is seeking participants.
+    Its goal is \"... to develop methods that accurately
+    predict and design protein structures
+    and complexes, an endeavor that may ultimately help researchers
+    develop cures for human diseases.\""
+),
 array("September 23, 2005",
     "<a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>, a paper about BOINC server performance,
     will appear in the e-Science 2005 conference in December."

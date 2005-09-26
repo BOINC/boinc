@@ -12155,3 +12155,10 @@ Matt 26 Sept 2005
     html/
         inc/
             cache.inc
+
+David  26 Sept 2005
+    - Restored the profile screening code, enabled by a
+        <profile_screening/> flag in config.xml
+
+    html/inc
+        profile.inc

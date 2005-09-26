@@ -7,7 +7,6 @@ require_once("../inc/sanitize_html.inc");
 require_once("../inc/cache.inc");
 require_once("../inc/user.inc");
 
-// TODO: Determine if we can always assume these will be the same number.
 define('SMALL_IMG_WIDTH', 64);
 define('SMALL_IMG_HEIGHT', 64);
 
@@ -18,6 +17,11 @@ define('MAX_DESC_LENGTH', 90);
 
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
+
+function profile_screening() {
+    $config = get_config();
+    return parse_bool($config, "profile_screening");
+}
 
 function profile_error_page($str) {
     page_head("Profile error");
@@ -124,20 +128,21 @@ function show_textarea($name, $text) {
 // user the verification status of their profile.
 //
 function offensive_profile_warning($verify_flag) {
-    return;
     if ($verify_flag == 0) {
         return "
             <font size='+2' color='33cc33'>
             Your profile will be made visible to other people<br>
             as soon as it has been approved by the project.<br>
             This may take up to a few days.<br>
-            </font>";
+            </font>
+        ";
     } else if ($verify_flag == -1) {
         return "
             <font size='+2' color='ff3333'>
             Your profile has been marked as unacceptable.<br>
             It is not visible to other people. Please change it.<br>
-            </font>";
+            </font>
+        ";
     }
     return "";
 }
@@ -146,6 +151,11 @@ function show_picture_option($profile) {
 
     row1("Picture");
 
+    $warning = "";
+    if (profile_screening()) {
+        $warning = offensive_profile_warning($profile->verification);
+    }
+
     if ($profile->has_picture) {
         echo "
 <tr><td colspan=2>
@@ -153,7 +163,7 @@ function show_picture_option($profile) {
 <tr>
 <td valign=top><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a>
 </td>
-<td valign=top>" . offensive_profile_warning($profile->verification) . "Your profile picture is shown at left.
+<td valign=top> $warning Your profile picture is shown at left.
 <p>
 To replace it,
 click the \"Browse\" button and select a JPEG or PNG file (50KB or less).
@@ -167,8 +177,7 @@ check this box:
         rowify("<br>");
         end_table();
         echo "</td></tr>";
-    }
-    else {
+    } else {
         rowify("
 If you would like include a picture with your profile,
 click the \"Browse\" button and select a JPEG or PNG file.
@@ -332,9 +341,13 @@ function getImages($fileName) {
     return array($image, $smallImage);
 }
 
-function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeight) {
+function scale_image(
+    $image, $origWidth, $origHeight, $targetWidth, $targetHeight
+) {
 
-    // If the image is already smaller than the target dimensions, just return it.
+    // If the image is already smaller than the target dimensions,
+    // just return it.
+    //
     if ($origWidth <= $targetWidth && $origHeight <= $targetHeight) {
         return $image;
     }
@@ -349,17 +362,25 @@ function scale_image($image, $origWidth, $origHeight, $targetWidth, $targetHeigh
         $destHeight = $origHeight;
     }
 
-$gd_info = gd_info();
-$newGD = (strstr($gd_info["GD Version"], "2.0")!="");
-if ($newGD) {
-    // If you are using a modern PHP/GD installation that does 'truecolor' images, this is what's needed.
-    $newImage = ImageCreateTrueColor($destWidth, $destHeight);
-    ImageCopyResampled($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
-} else {
-    // If not, use this block.  The image quality is lower but it works using older PHP/GD versions.
-    $newImage = ImageCreate($destWidth, $destHeight);
-    ImageCopyResized($newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight, $origWidth, $origHeight);
-}
+    $gd_info = gd_info();
+    $newGD = (strstr($gd_info["GD Version"], "2.0")!="");
+    if ($newGD) {
+        // If you are using a modern PHP/GD installation that does
+        // 'truecolor' images, this is what's needed.
+        $newImage = ImageCreateTrueColor($destWidth, $destHeight);
+        ImageCopyResampled(
+            $newImage, $image, 0, 0, 0, 0, $destWidth,
+            $destHeight, $origWidth, $origHeight
+        );
+    } else {
+        // If not, use this block.
+        // The image quality is lower but it works using older PHP/GD versions.
+        $newImage = ImageCreate($destWidth, $destHeight);
+        ImageCopyResized(
+            $newImage, $image, 0, 0, 0, 0, $destWidth, $destHeight,
+            $origWidth, $origHeight
+        );
+    }
 
     return $newImage;
 }
@@ -408,9 +429,11 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
 
                 echo "<td class=bordered width=7% height=64><center>";
 
-                // Only link an image if the user has uploaded one.;
-                //if ($profile->has_picture && $profile->verification==1) {
-                if ($profile->has_picture) {
+                $show_picture = $profile->has_picture;
+                if (profile_screening() && $profile->verification != 1) {
+                    $show_picture = false;
+                }
+                if ($show_picture) {
                     echo "<a href=\"", URL_BASE, "view_profile.php?userid={$members[$count]}\"><img src=\"", URL_BASE, IMAGE_URL, "{$members[$count]}_sm.jpg\"></a>";
 
                 } else {
@@ -430,8 +453,10 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
 }
 
 // Generates a string containing:
-//   1) the name of the user with ID == $userid, with a link to a view of their profile
-//   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
+//   1) the name of the user with ID == $userid,
+//      with a link to a view of their profile
+//   2) the first MAX_DESC_LENGTH characters from the response1 field
+//      of said user's profile.
 
 function get_profile_summary($profile) {
     $user = get_user_from_id($profile->userid);
@@ -486,13 +511,15 @@ function show_profile($userid, $verify_mode = FALSE) {
     }
     
 
-    // Show picture only if there is a picture AND
-    // - sysadmin is verifying it
-    // - user is viewing/editing it
-    // - profile has been approved by sysadmin
+    // If doing screening, only show picture in certain situations
     //
-    //if ($profile->has_picture && ($verify_mode || $can_edit || $profile->verification==1)) {
-    if ($profile->has_picture) {
+    $show_picture = $profile->has_picture;
+    if (profile_screening()) {
+        if (!$verify_mode && !$can_edit && $profile->verification!=1) {
+            $show_picture = false;
+        }
+    }
+    if ($show_picture) {
         echo "
             <tr><td colspan=2 align=center>
             <img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">
@@ -500,13 +527,13 @@ function show_profile($userid, $verify_mode = FALSE) {
         ";
     }
 
-    // If the user is viewing their own picture, display it's status if it's not
+    // If the user is viewing their own picture, display its status if it's not
     // yet verified.  This will tell them if other users can't view it yet, or
     // if there is a problem with it and they need to replace it.
     //
-    //if ($can_edit && $profile->verification!=1) {
-    //    row1(offensive_profile_warning($profile->verification));
-    //}
+    if (profile_screening() && $can_edit && $profile->verification!=1) {
+        row1(offensive_profile_warning($profile->verification));
+    }
 
     show_user_summary_public($user);
 

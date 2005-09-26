@@ -76,7 +76,11 @@ list_item_func(
     "
 );
 list_item_func(
-    "project_attach(char* url, char* account_id, bool use_cached_credentials)",
+    "project_attach(
+    char* url,
+    char* account_id,
+    bool use_cached_credentials
+)",
 	"Attach to the given project. Cached credentials are defined in the 
 	<a href=client_startup.php>project_init.xml</a> file."
 );
@@ -130,7 +134,12 @@ list_item_func(
     "
 );
 list_item_func(
-    "acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_cached_credentials)",
+    "acct_mgr_rpc(
+    const char* url,
+    const char* name,
+    const char* passwd,
+    bool use_cached_credentials
+)",
     "Do an <a href=acct_mgt.php>Account Manager RPC</a>
     to the given URL, passing the given name/password.
     If use_cached_credentials is true, then the existing url, username, 

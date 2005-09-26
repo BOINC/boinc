@@ -35,6 +35,7 @@ htmlspecialchars("
     <log_dir>               /path/to/directory    </log_dir>
 
     [ <disable_account_creation/>                                                ]
+    [ <profile_screening/>                                                       ]
     [ <show_results/>                                                            ]
     [ <one_result_per_user_per_wu/>                                              ]
     [ <max_wus_to_send>                  N    </max_wus_to_send>                 ]
@@ -129,6 +130,10 @@ list_item("sched_lockfile_dir",
     directory where scheduler lockfiles are stored.
     Must be writeable to the Apache user.
 ");
+list_item("profile_screening",
+    "If present, don't show profile pictures until they've been
+    screened and approved by project admins."
+);
 list_end();
 
 echo "
