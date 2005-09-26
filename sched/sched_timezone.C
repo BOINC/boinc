@@ -112,7 +112,7 @@ URLTYPE* read_download_list() {
     
     if (!(fp=fopen("../download_servers", "r"))) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "File ../download_servers not found or unreadable!\n"
         );
         return NULL;
@@ -141,7 +141,7 @@ URLTYPE* read_download_list() {
     
     if (!count) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "File ../download_servers contained no valid entries!\n"
             "Format of this file is one or more lines containing:\n"
             "TIMEZONE_OFFSET_IN_SEC   http://some.url.path\n"
@@ -155,12 +155,14 @@ URLTYPE* read_download_list() {
     qsort(cached, count, sizeof(URLTYPE), compare);
     
     log_messages.printf(
-        SCHED_MSG_LOG::DEBUG, "Sorted list of URLs follows [host timezone: UTC%+d]\n",
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "Sorted list of URLs follows [host timezone: UTC%+d]\n",
         tzone
     );
     for (i=0; i<count; i++) {
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "zone=%+06d url=%s\n", cached[i].zone, cached[i].name
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "zone=%+06d url=%s\n", cached[i].zone, cached[i].name
         );
     }
     return cached;
@@ -263,7 +265,7 @@ void process_av_timezone(
     retval = add_download_servers(avp->xml_doc, av2.xml_doc, reply.host.timezone);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "add_download_servers(to APP version) failed\n"
         );
         // restore original WU!
@@ -285,7 +287,7 @@ void process_wu_timezone(
     retval = add_download_servers(wu2.xml_doc, wu3.xml_doc, reply.host.timezone);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "add_download_servers(to WU) failed\n"
         );
         // restore original WU!

@@ -84,7 +84,7 @@ int grant_credit(RESULT& result, double credit) {
     retval = host.lookup_id(result.hostid);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d] lookup of host %d failed %d\n",
             result.id, result.hostid, retval
         );
@@ -93,7 +93,7 @@ int grant_credit(RESULT& result, double credit) {
     retval = user.lookup_id(host.userid);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d] lookup of user %d failed %d\n",
             result.id, host.userid, retval
         );
@@ -110,7 +110,7 @@ int grant_credit(RESULT& result, double credit) {
     retval = user.update_field(buf);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d] update of user %d failed %d\n",
             result.id, host.userid, retval
         );
@@ -131,7 +131,7 @@ int grant_credit(RESULT& result, double credit) {
     retval = host.update_field(buf);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d] update of host %d failed %d\n",
             result.id, result.hostid, retval
         );
@@ -141,7 +141,7 @@ int grant_credit(RESULT& result, double credit) {
         retval = team.lookup_id(user.teamid);
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[RESULT#%d] lookup of team %d failed %d\n",
                 result.id, user.teamid, retval
             );
@@ -157,7 +157,7 @@ int grant_credit(RESULT& result, double credit) {
         retval = team.update_field(buf);
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[RESULT#%d] update of team %d failed %d\n",
                 result.id, team.id, retval
             );
@@ -181,7 +181,7 @@ void handle_wu(
 
     if (wu.canonical_resultid) {
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "[WU#%d %s] handle_wu(): Already has canonical result %d\n",
             wu.id, wu.name, wu.canonical_resultid
         );
@@ -194,7 +194,7 @@ void handle_wu(
             RESULT& result = items[i].res;
 
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                  "[WU#%d %s] handle_wu(): Analyzing result %d\n",
                  wu.id, wu.name, result.id
              );
@@ -204,7 +204,7 @@ void handle_wu(
         }
         if (canonical_result_index == -1) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[WU#%d %s] Can't find canonical result %d\n",
                 wu.id, wu.name, wu.canonical_resultid
             );
@@ -231,7 +231,7 @@ void handle_wu(
             retval = check_pair(result, canonical_result, retry);
             if (retval) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
+                    SCHED_MSG_LOG::MSG_DEBUG,
                     "[RESULT#%d %s]: pair_check() failed for result: %d\n",
                     result.id, result.name, retval
                 );
@@ -254,14 +254,14 @@ void handle_wu(
                 update_result = true;
                 result.granted_credit = wu.canonical_credit;
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
                 retval = grant_credit(result, result.granted_credit);
                 if (retval) {
                     log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
+                        SCHED_MSG_LOG::MSG_NORMAL,
                         "[RESULT#%d %s] Can't grant credit: %d\n",
                         result.id, result.name, retval
                     );
@@ -270,14 +270,14 @@ void handle_wu(
             case VALIDATE_STATE_INVALID:
                 update_result = true;
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                     result.id, result.name
                 );
             }
             if (update_result) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "[RESULT#%d %s] granted_credit %f\n", 
                     result.id, result.name, result.granted_credit
                 );
@@ -285,7 +285,7 @@ void handle_wu(
                 retval = validator.update_result(result);
                 if (retval) {
                     log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
+                        SCHED_MSG_LOG::MSG_CRITICAL,
                         "[RESULT#%d %s] Can't update result: %d\n",
                         result.id, result.name, retval
                     );
@@ -300,7 +300,7 @@ void handle_wu(
         // Try to get one
 
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "[WU#%d %s] handle_wu(): No canonical result yet\n",
             wu.id, wu.name
         );
@@ -320,12 +320,12 @@ void handle_wu(
         }
 
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "[WU#%d %s] Found %d successful results\n",
+            SCHED_MSG_LOG::MSG_DEBUG, "[WU#%d %s] Found %d successful results\n",
             wu.id, wu.name, (int)results.size()
         );
         if (results.size() >= (unsigned int)wu.min_quorum) {
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
+                SCHED_MSG_LOG::MSG_DEBUG,
                 "[WU#%d %s] Enough for quorum, checking set.\n",
                 wu.id, wu.name
             );
@@ -333,7 +333,7 @@ void handle_wu(
             retval = check_set(results, wu, canonicalid, credit, retry);
             if (retval) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
+                    SCHED_MSG_LOG::MSG_CRITICAL,
                     "[WU#%d %s] check_set returned %d, exiting\n",
                     wu.id, wu.name, retval
                 );
@@ -365,14 +365,14 @@ void handle_wu(
                     retval = grant_credit(result, credit);
                     if (retval) {
                         log_messages.printf(
-                            SCHED_MSG_LOG::DEBUG,
+                            SCHED_MSG_LOG::MSG_DEBUG,
                             "[RESULT#%d %s] grant_credit() failed: %d\n",
                             result.id, result.name, retval
                         );
                     }
                     result.granted_credit = credit;
                     log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
+                        SCHED_MSG_LOG::MSG_NORMAL,
                         "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
                         result.id, result.name, result.granted_credit, result.hostid
                     );
@@ -390,7 +390,7 @@ void handle_wu(
                     retval = validator.update_result(result);
                     if (retval) {
                         log_messages.printf(
-                            SCHED_MSG_LOG::CRITICAL,
+                            SCHED_MSG_LOG::MSG_CRITICAL,
                             "[RESULT#%d %s] result.update() failed: %d\n",
                             result.id, result.name, retval
                         );
@@ -405,7 +405,7 @@ void handle_wu(
                 //
                 transition_time = NEVER;
                 log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
+                    SCHED_MSG_LOG::MSG_DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
                     wu.id, wu.name, canonicalid
                 );
@@ -427,7 +427,7 @@ void handle_wu(
                     retval = validator.update_result(result);
                     if (retval) {
                         log_messages.printf(
-                            SCHED_MSG_LOG::CRITICAL,
+                            SCHED_MSG_LOG::MSG_CRITICAL,
                             "[RESULT#%d %s] result.update() failed: %d\n",
                             result.id, result.name, retval
                         );
@@ -475,7 +475,7 @@ void handle_wu(
     retval = validator.update_workunit(wu);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[WU#%d %s] update_workunit() failed: %d; exiting\n",
             wu.id, wu.name, retval
         );
@@ -515,14 +515,14 @@ int main_loop() {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "boinc_db.open failed: %d\n", retval);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find app %s\n", app_name);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't find app %s\n", app_name);
         exit(1);
     }
 
@@ -572,14 +572,14 @@ int main(int argc, char** argv) {
             wu_id_modulus = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
             exit(1);
         }
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Can't parse config file: %d\n", retval
         );
         exit(1);
@@ -591,9 +591,9 @@ int main(int argc, char** argv) {
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting validator\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting validator\n");
     if (wu_id_modulus) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "Modulus %d, remainder %d\n", wu_id_modulus, wu_id_remainder
         );
     }

@@ -229,7 +229,9 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             continue;
         } else {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf
+            );
             retval = skip_unrecognized(buf, fin);
             if (retval) return retval;
         }
@@ -410,7 +412,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         if (min_delay_needed<config.min_sendwork_interval+1) min_delay_needed=config.min_sendwork_interval+1;
         if (request_delay<min_delay_needed) request_delay=min_delay_needed; 
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %f\n", request_delay);
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "sending delay request %f\n", request_delay
+        );
     }
     if (wreq.core_client_version <= 419) {
         std::string msg;
@@ -707,7 +711,7 @@ int RESULT::parse_from_client(FILE* fin) {
             continue;
         } else {
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "RESULT::parse_from_client(): unrecognized: %s\n",
                 buf
             );
@@ -754,7 +758,7 @@ int HOST::parse(FILE* fin) {
         else if (parse_int(buf, "<p_membw_err>", trash_int)) continue; 	 
         else if (parse_double(buf, "<p_calculated>", trash_double)) continue;
         else {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse(): unrecognized: %s\n", buf
             );
         }
@@ -774,7 +778,7 @@ int HOST::parse_time_stats(FILE* fin) {
         else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
         else {
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse_time_stats(): unrecognized: %s\n",
                 buf
             );
@@ -792,7 +796,7 @@ int HOST::parse_net_stats(FILE* fin) {
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
         else {
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse_net_stats(): unrecognized: %s\n",
                 buf
             );

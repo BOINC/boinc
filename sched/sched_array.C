@@ -88,7 +88,7 @@ void scan_work_array(
         wu = wu_result.workunit;
         if (wu_is_infeasible(wu, sreq, reply)) {
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
+                SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name
             );
             wu_result.infeasible_count++;
@@ -138,14 +138,14 @@ void scan_work_array(
             retval = result.count(n, buf);
             if (retval) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
+                    SCHED_MSG_LOG::MSG_CRITICAL,
                     "send_work: can't get result count (%d)\n", retval
                 );
                 goto dont_send;
             } else {
                 if (n>0) {
                     log_messages.printf(
-                        SCHED_MSG_LOG::DEBUG,
+                        SCHED_MSG_LOG::MSG_DEBUG,
                         "send_work: user %d already has %d result(s) for WU %d\n",
                         reply.user.id, n, wu_result.workunit.id
                     );
@@ -176,21 +176,21 @@ void scan_work_array(
         //
         retval = result.lookup_id(result.id);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "[RESULT#%d] result.lookup_id() failed %d\n",
                 result.id, retval
             );
             goto done;
         }
         if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "[RESULT#%d] expected to be unsent; instead, state is %d\n",
                 result.id, result.server_state
             );
             goto done;
         }
         if (result.workunitid != wu.id) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "[RESULT#%d] wrong WU ID: wanted %d, got %d\n",
                 result.id, wu.id, result.workunitid
             );

@@ -97,7 +97,7 @@ bool already_sent_to_different_platform(
     retval = db_wu.get_field_int("hr_class", hr_class);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "can't get hr_class for %d: %d\n",
+            SCHED_MSG_LOG::MSG_CRITICAL, "can't get hr_class for %d: %d\n",
             db_wu.id, retval
         );
         return true;

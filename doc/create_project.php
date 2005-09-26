@@ -135,6 +135,7 @@ Communicating with participants via the web
 <li> <a href=web.php>Managing the project web site</a>
 <li> <a href=gui_urls.php>Add project-specific links to the client GUI</a>
 <li> <a href=translation.php>Web site translation</a>
+<li> <a href=sstatus.php>Server status page</a>
 </ul>
 <font size=+1><b>
 Miscellaneous

@@ -166,7 +166,7 @@ static int remove_infeasible(int i) {
     wu = wu_result.workunit;
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "[%s] declaring result as unsendable; infeasible count %d\n",
         result.name, wu_result.infeasible_count
     );
@@ -180,7 +180,7 @@ static int remove_infeasible(int i) {
     retval = result.update_field(buf);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[%s]: can't update: %d\n",
             result.name, retval
         );
@@ -191,7 +191,7 @@ static int remove_infeasible(int i) {
     retval = wu.update_field(buf);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[%s]: can't update: %d\n",
             wu.name, retval
         );
@@ -232,7 +232,7 @@ static void scan_work_array(
                 // there's no point in doing it again.
                 //
                 if (restarted_enum) {
-                    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                         "already restarted enum on this array scan\n"
                     );
                     return;
@@ -242,11 +242,11 @@ static void scan_work_array(
                 //
                 restarted_enum = true;
                 retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause, all_apps);
-                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "restarting enumeration\n"
                 );
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                         "enumeration restart returned nothing\n"
                     );
                     no_wus = true;
@@ -258,7 +258,7 @@ static void scan_work_array(
 
             if (!ssp->have_app(wi.wu.appid)) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
+                    SCHED_MSG_LOG::MSG_CRITICAL,
                     "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
                     wi.res_id, wi.wu.appid
                 );
@@ -276,7 +276,7 @@ static void scan_work_array(
             }
             if (!collision) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "adding result [RESULT#%d] in slot %d\n",
                     wi.res_id, i
                 );
@@ -297,7 +297,7 @@ static void scan_work_array(
             if (stat(buf, &s)) {
                 wu_result.state = WR_STATE_PRESENT;
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "Result reserved by non-existent process PID %d; resetting\n",
                     pid
                 );
@@ -352,17 +352,17 @@ void feeder_loop() {
         }
 #endif
         if (nadditions == 0) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results added; sleeping %.2f sec\n", sleep_interval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "No results added; sleeping %.2f sec\n", sleep_interval);
             boinc_sleep(sleep_interval);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Added %d results to array\n", nadditions);
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Added %d results to array\n", nadditions);
         }
         if (no_wus) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "No results available; sleeping %.2f sec\n", sleep_interval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "No results available; sleeping %.2f sec\n", sleep_interval);
             boinc_sleep(sleep_interval);
         }
         if (ncollisions) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Some results already in array - sleeping %.2f sec\n", sleep_interval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Some results already in array - sleeping %.2f sec\n", sleep_interval);
             boinc_sleep(sleep_interval);
         }
         fflush(stdout);
@@ -381,7 +381,7 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't parse config file\n");
         exit(1);
     }
 
@@ -403,7 +403,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "bad cmdline arg: %s\n", argv[i]
             );
             exit(1);
@@ -416,7 +416,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
 
     get_project_dir(path, sizeof(path));
     get_key(path, 'a', sema_key);
@@ -425,12 +425,12 @@ int main(int argc, char** argv) {
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't destroy shmem\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't destroy shmem\n");
         exit(1);
     }
     retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), &p);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't create shmem\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't create shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
@@ -441,13 +441,13 @@ int main(int argc, char** argv) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "boinc_db.open: %d; %s\n", retval, boinc_db.error_string());
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "boinc_db.open: %d; %s\n", retval, boinc_db.error_string());
         exit(1);
     }
     ssp->scan_tables();
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "feeder: read "
         "%d platforms, "
         "%d apps, "

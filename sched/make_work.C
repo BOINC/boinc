@@ -97,7 +97,7 @@ int count_results(char* query) {
     DB_RESULT result;
     int retval = result.count(n, query);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't count results\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't count results\n");
         exit(1);
     }
     return n;
@@ -108,7 +108,7 @@ int count_workunits(const char* query="") {
     DB_WORKUNIT workunit;
     int retval = workunit.count(n, const_cast<char*>(query));
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't count workunits\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't count workunits\n");
         exit(1);
     }
     return n;
@@ -147,7 +147,7 @@ void make_new_wu(
             retval = link(pathname, new_pathname);
             if (retval) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL, "link() error %d\n", retval
+                    SCHED_MSG_LOG::MSG_CRITICAL, "link() error %d\n", retval
                 );
                 fprintf(stderr, "link: %d %d\n", errno, retval);
                 perror("link");
@@ -176,13 +176,13 @@ void make_new_wu(
     wu.assimilate_state = ASSIMILATE_INIT;
     retval = wu.insert();
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "Failed to created WU, error %d; exiting\n", retval
         );
         exit(retval);
     }
     wu.id = boinc_db.insert_id();
-    log_messages.printf(SCHED_MSG_LOG::DEBUG, "[%s] Created new WU\n", wu.name);
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "[%s] Created new WU\n", wu.name);
 }
 
 void make_work() {
@@ -197,20 +197,20 @@ void make_work() {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open db\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't open db\n");
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", wu_name);
     retval = wu.lookup(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find wu %s\n", wu_name);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't find wu %s\n", wu_name);
         exit(1);
     }
 
@@ -219,7 +219,7 @@ void make_work() {
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read key\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read key\n");
         exit(1);
     }
 
@@ -233,11 +233,11 @@ void make_work() {
         int unsent_results = count_results(buf);
         int total_wus = count_workunits();
         if (max_wus && total_wus >= max_wus) {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL, "Reached max_wus = %d\n", max_wus);
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Reached max_wus = %d\n", max_wus);
             exit(0);
         }
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "unsent: %d cushion: %d\n",
+            SCHED_MSG_LOG::MSG_DEBUG, "unsent: %d cushion: %d\n",
             unsent_results, cushion
         );
         if (unsent_results > cushion) {
@@ -284,7 +284,7 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL, "unknown argument: %s\n", argv[i]
+                SCHED_MSG_LOG::MSG_CRITICAL, "unknown argument: %s\n", argv[i]
             );
         }
     }
@@ -303,7 +303,7 @@ int main(int argc, char** argv) {
     }
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "Starting: cushion %d, max_wus %d\n",
         cushion, max_wus
     );

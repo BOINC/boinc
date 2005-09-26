@@ -61,7 +61,7 @@ int init_result_read_file(RESULT const & result, void*& data)
     retval = get_output_file_path(result, path);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d %s] check_set: can't get output filename\n",
             result.id, result.name
         );
@@ -72,7 +72,7 @@ int init_result_read_file(RESULT const & result, void*& data)
     retval = read_file_string(path.c_str(), filedata);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d %s] Couldn't open %s\n",
             result.id, result.name, path.c_str()
         );

@@ -94,12 +94,12 @@ int wu_delete_files(WORKUNIT& wu) {
                     pathname
                 );
                 if (retval) {
-                    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                         "[WU#%d] get_file_path: %s: %d\n",
                         wu.id, filename, retval
                     );
                 } else {
-                    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                         "[WU#%d] deleting %s\n", wu.id, filename
                     );
                     retval = unlink(pathname);
@@ -108,7 +108,7 @@ int wu_delete_files(WORKUNIT& wu) {
                         retval = unlink(pathname);
                     }
                     if (retval) {
-                        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                             "[WU#%d] unlink %s failed: %d\n",
                             wu.id, filename, retval
                         );
@@ -121,7 +121,9 @@ int wu_delete_files(WORKUNIT& wu) {
         }
         p = strtok(0, "\n");
     }
-    log_messages.printf(SCHED_MSG_LOG::DEBUG, "[WU#%d] deleted %d file(s)\n", wu.id, count_deleted);
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+        "[WU#%d] deleted %d file(s)\n", wu.id, count_deleted
+    );
     return mthd_retval;
 }
 
@@ -154,9 +156,9 @@ int result_delete_files(RESULT& result) {
                     //
                     int debug_or_crit;
                     if (RESULT_OUTCOME_SUCCESS == result.outcome) {
-                        debug_or_crit=SCHED_MSG_LOG::CRITICAL;
+                        debug_or_crit=SCHED_MSG_LOG::MSG_CRITICAL;
                     } else {
-                        debug_or_crit=SCHED_MSG_LOG::DEBUG;
+                        debug_or_crit=SCHED_MSG_LOG::MSG_DEBUG;
                     }
                     log_messages.printf(debug_or_crit,
                         "[RESULT#%d] outcome=%d client_state=%d No file %s to delete\n",
@@ -166,14 +168,14 @@ int result_delete_files(RESULT& result) {
                     retval = unlink(pathname);
                     if (retval) {
                         mthd_retval = ERR_UNLINK;
-                        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                             "[RESULT#%d] unlink %s returned %d %s\n",
                             result.id, pathname, retval,
                             (retval && errno)?strerror(errno):""
                         );
                     } else {
                         count_deleted++;
-                        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                             "[RESULT#%d] unlinked %s\n", result.id, pathname
                         );
                     }
@@ -183,7 +185,7 @@ int result_delete_files(RESULT& result) {
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
         "[RESULT#%d] deleted %d file(s)\n", result.id, count_deleted
     );
     return mthd_retval;
@@ -228,7 +230,9 @@ bool do_pass(bool retry_error) {
         }
         if (retval) {
             wu.file_delete_state = FILE_DELETE_ERROR;
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[WU#%d] update failed: %d\n", wu.id, retval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "[WU#%d] update failed: %d\n", wu.id, retval
+            );
         } else {
             wu.file_delete_state = FILE_DELETE_DONE;
         }
@@ -253,7 +257,9 @@ bool do_pass(bool retry_error) {
             }
             if (retval) {
                 result.file_delete_state = FILE_DELETE_ERROR;
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[RESULT#%d] update failed: %d\n", result.id, retval);
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    "[RESULT#%d] update failed: %d\n", result.id, retval
+                );
             } else {
                 result.file_delete_state = FILE_DELETE_DONE;
             }
@@ -321,7 +327,7 @@ int delete_antique_files(int max_to_delete) {
             config.uldl_dir_fanout, pathname
         );
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "get_file_path(%s) failed: %d\n",
                 fr.name.c_str(), retval
             );
@@ -329,13 +335,13 @@ int delete_antique_files(int max_to_delete) {
         }
 
         strcpy(timestamp, time_to_string(fr.date_modified));
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "deleting [antique %s] %s\n",
           timestamp, pathname 
         );
         if (unlink(pathname)) {
             int save_error=errno;
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "unlink(%s) failed: %s\n",
                 pathname, strerror(save_error)
             );
@@ -362,7 +368,9 @@ int add_antiques_to_list(int days) {
     int nfiles=0;
 
     if (!apache_info) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "no user named 'apache' found!\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "no user named 'apache' found!\n"
+        );
         return -1;
     }
 
@@ -374,7 +382,9 @@ int add_antiques_to_list(int days) {
     // this way is better.
     //
     if (!(fp=popen(command, "r"))) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "command %s failed\n", command);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "command %s failed\n", command
+        );
         return -2;
     }
 
@@ -409,7 +419,7 @@ int add_antiques_to_list(int days) {
         if (!err && strcmp(pathname, single_line)) err="file in wrong hierarchical upload subdirectory";
 
         if (err) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "Can't list %s for deletion: %s\n",
                 single_line, err
             );
@@ -429,7 +439,7 @@ int add_antiques_to_list(int days) {
        
     } // while (fgets(single_line, 1024, fp)) {  
     pclose(fp);
-    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
         "Found %d antique files to delete\n",
         nfiles 
     );
@@ -534,18 +544,18 @@ int main(int argc, char** argv) {
           // directory unless you have this option enabled.
           delete_antiques = true;
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     if (id_modulus) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "Using mod'ed WU/result enumeration.  modulus = %d  remainder = %d\n",
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Using mod'ed WU/result enumeration.  modulus = %d  remainder = %d\n",
                             id_modulus, id_remainder);
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -555,11 +565,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't open DB\n");
         exit(1);
     }
     install_stop_signal_handler();

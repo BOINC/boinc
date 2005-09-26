@@ -84,21 +84,23 @@ int get_app_version(
         app = ss.lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Didn't find anonymous app\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "Didn't find anonymous app\n"
+            );
             return ERR_NO_APP_VERSION;
         }
         avp = NULL;
     } else {
         found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
         if (!found) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Didn't find app version\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Didn't find app version\n");
             return ERR_NO_APP_VERSION;
         }
 
         // see if the core client is too old.
         //
         if (!app_core_compatible(reply.wreq, *avp)) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "Didn't find app version: core client too old\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Didn't find app version: core client too old\n");
             return ERR_NO_APP_VERSION;
         }
     }
@@ -144,18 +146,18 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
 
     if (x < 0) {
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
             prefs.disk_max_used_gb, prefs.disk_max_used_pct,
             prefs.disk_min_free_gb
         );
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "req.total_disk_usage %f host.d_total %f host.d_free %f\n",
             req.total_disk_usage, host.d_total, host.d_free
         );
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "x1 %f x2 %f x3 %f x %f\n",
             x1, x2, x3, x
         );
@@ -172,7 +174,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
 
     if (x1 < 0) {
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "req.project_disk_free_gb %f\n",
             x1
         );
@@ -225,7 +227,8 @@ static double estimate_wallclock_duration(
     }
 #ifdef EINSTEIN_AT_HOME
     log_messages.printf(
-        SCHED_MSG_LOG::DEBUG, "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
+        SCHED_MSG_LOG::MSG_DEBUG,
+        "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
         ecd, running_frac, request.resource_share_fraction, ewd
     );
 #endif
@@ -253,7 +256,8 @@ int wu_is_infeasible(
 
     if (wu.rsc_memory_bound > m_nbytes) {
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
             wu.id, wu.name, wu.rsc_memory_bound, reply.host.id, m_nbytes
         );
         reply.wreq.insufficient_mem = true;
@@ -279,7 +283,7 @@ int wu_is_infeasible(
         double ewd = estimate_wallclock_duration(wu, request, reply);
         if (request.estimated_delay + ewd > wu.delay_bound) {
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
+                SCHED_MSG_LOG::MSG_DEBUG,
                 "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (request.estimated_delay is %f)\n",
                 wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound, request.estimated_delay
             );
@@ -290,7 +294,7 @@ int wu_is_infeasible(
 #if 0
         if (wu.delay_bound < request.global_prefs.work_buf_min_days*SECONDS_IN_DAY) {
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
+                SCHED_MSG_LOG::MSG_DEBUG,
                 "[WU#%d %s] can't send to [HOST#%d]; delay_bound is %d, work buf min is %f)\n",
                 wu.id, wu.name, reply.host.id, wu.delay_bound,
                 request.global_prefs.work_buf_min_days*SECONDS_IN_DAY
@@ -311,12 +315,16 @@ int insert_after(char* buffer, const char* after, const char* text) {
     char temp[LARGE_BLOB_SIZE];
 
     if (strlen(buffer) + strlen(text) > LARGE_BLOB_SIZE-1) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "insert_after: overflow\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            "insert_after: overflow\n"
+        );
         return ERR_BUFFER_OVERFLOW;
     }
     p = strstr(buffer, after);
     if (!p) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "insert_after: %s not found in %s\n", after, buffer);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "insert_after: %s not found in %s\n", after, buffer
+        );
         return ERR_NULL;
     }
     p += strlen(after);
@@ -359,14 +367,14 @@ bool find_app_version(
     app = ss.lookup_app(wu.appid);
     if (!app) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "Can't find APP#%d\n", wu.appid
+            SCHED_MSG_LOG::MSG_CRITICAL, "Can't find APP#%d\n", wu.appid
         );
         return false;
     }
     avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!avp) {
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "no app version available: APP#%d PLATFORM#%d min_version %d\n",
             app->id, platform.id, app->min_version
         );
@@ -382,7 +390,7 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
     if (wreq.core_client_version < av.min_core_version) {
 #if 0
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "Outdated core version: wanted %d, got %d\n",
             av.min_core_version, wreq.core_client_version
         );
@@ -417,7 +425,7 @@ int add_wu_to_reply(
         reply.insert_app_unique(*app);
         reply.insert_app_version_unique(*avp2);
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] Sending app_version %s %s %d\n",
             reply.host.id, app->name, platform.name, avp2->version_num
         );
@@ -428,7 +436,7 @@ int add_wu_to_reply(
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "insert_wu_tags failed\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "insert_wu_tags failed\n");
         return retval;
     }
     wu3=wu2;
@@ -604,7 +612,7 @@ int add_result_to_reply(
         }
 
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "[RESULT#%d] [HOST#%d] (resend lost work)\n",
             result.id, reply.host.id
         );
@@ -612,7 +620,7 @@ int add_result_to_reply(
     retval = result.update_subset();
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "add_result_to_reply: can't update result: %d\n", retval
         );
         return retval;
@@ -620,7 +628,7 @@ int add_result_to_reply(
 
     wu_seconds_filled = estimate_wallclock_duration(wu, request, reply);
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
         reply.host.id, result.id, result.name, wu_seconds_filled
     );
@@ -628,7 +636,7 @@ int add_result_to_reply(
     retval = update_wu_transition_time(wu, result.report_deadline);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "add_result_to_reply: can't update WU transition time: %d\n",
             retval
         );
@@ -641,7 +649,8 @@ int add_result_to_reply(
     retval = insert_name_tags(result, wu);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "send_work: can't insert name tags: %d\n",
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "send_work: can't insert name tags: %d\n",
             retval
         );
         return retval;
@@ -649,7 +658,7 @@ int add_result_to_reply(
     retval = insert_deadline_tag(result);
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "send_work: can't insert deadline tag: %d\n", retval
         );
         return retval;
@@ -683,7 +692,7 @@ int send_work(
     reply.wreq.nresults = 0;
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
         reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
     );
@@ -722,7 +731,8 @@ int send_work(
     }
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results [scheduler ran %f seconds]\n",
+        SCHED_MSG_LOG::MSG_NORMAL,
+        "[HOST#%d] Sent %d results [scheduler ran %f seconds]\n",
         reply.host.id, reply.wreq.nresults, elapsed_wallclock_time() 
     );
 
@@ -784,7 +794,7 @@ int send_work(
             reply.insert_message(um);
             reply.set_delay(3600*24);
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "Not sending work because core client is outdated\n"
             );
         }
@@ -804,7 +814,7 @@ int send_work(
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "Daily result quota exceeded for host %d\n",
                 reply.host.id
             );

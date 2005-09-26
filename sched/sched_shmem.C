@@ -70,7 +70,7 @@ int SCHED_SHMEM::verify() {
 
 static void overflow(const char* table, const char* param_name) {
     log_messages.printf(
-        SCHED_MSG_LOG::CRITICAL,
+        SCHED_MSG_LOG::MSG_CRITICAL,
         "The SCHED_SHMEM structure is too small for the %s table.\n"
         "Either increase the %s parameter in sched_shmem.h and recompile,\n"
         "or prune old rows from the table.\n"

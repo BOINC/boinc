@@ -12162,3 +12162,18 @@ David  26 Sept 2005
 
     html/inc
         profile.inc
+
+David  26 Sept 2005
+    - moved server_stats.php from html/user/ to html/ops/
+
+David  26 Sept 2005
+    - SCHED_MSG_LOG has an enum in which one element was DEBUG.
+        This is defined as a preprocessor symbol if you configure
+        with --enable-debug.
+        So I changed it to MSG_DEBUG.
+        For uniformity changed to MSG_NORMAL and MSG_CRITICAL also.
+        (from Don Bashford)
+
+    sched/
+        sched_msgs.h
+        *.C

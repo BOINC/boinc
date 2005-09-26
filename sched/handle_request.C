@@ -138,7 +138,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             if (!retval) {
                 reply.hostid = host.id;
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "[HOST#%d] forwarding to new host ID %d\n",
                     sreq.hostid, host.id
                 );
@@ -148,7 +148,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             USER_MESSAGE um("Can't find host record", "low");
             reply.insert_message(um);
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "[HOST#%d?] can't find host\n",
                 sreq.hostid
             );
@@ -158,7 +158,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         reply.host = host;
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "Request [HOST#%d] Database [HOST#%d] Request [RPC#%d] Database [RPC#%d]\n",
             sreq.hostid, host.id, sreq.rpc_seqno, host.rpc_seqno
         );
@@ -178,7 +178,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.set_delay(3600);
             reply.nucleus_only = true;
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
                 host.id, user.id, sreq.authenticator
             );
@@ -192,7 +192,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             // create a new host record.
             //
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "[HOST#%d] [USER#%d] inconsistent host ID; creating new host\n",
                 host.id, user.id
             );
@@ -207,7 +207,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (sreq.rpc_seqno < reply.host.rpc_seqno) {
             sreq.hostid = 0;
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "[HOST#%d] [USER#%d] RPC seqno %d less than expected %d; creating new host\n",
                 reply.host.id, user.id, sreq.rpc_seqno, reply.host.rpc_seqno
             );
@@ -233,7 +233,7 @@ lookup_user_and_make_new_host:
             reply.insert_message(um);
             reply.set_delay(3600);
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#<none>] Bad authenticator '%s'\n",
                 sreq.authenticator
             );
@@ -255,7 +255,7 @@ make_new_host:
             USER_MESSAGE um("Couldn't create host record in database", "low");
             reply.insert_message(um);
             boinc_db.print_error("host.insert()");
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.insert() failed\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "host.insert() failed\n");
             return retval;
         }
         host.id = boinc_db.insert_id();
@@ -369,7 +369,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     }
     retval = host.update_diff(initial_host);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.update() failed: %d\n", retval);
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "host.update() failed: %d\n", retval);
     }
     return 0;
 }
@@ -415,7 +415,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             unescape_string(sreq.global_prefs_xml, sizeof(sreq.global_prefs_xml));
             int retval = user.update_field(buf);
             if (retval) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                     "user.update_field() failed: %d\n", retval
                 );
             }
@@ -465,7 +465,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     retval = result_handler.enumerate();
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[HOST#%d] Batch query failed\n",
             reply.host.id
         );
@@ -485,7 +485,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
                 reply.host.id, rp->name
             );
@@ -495,7 +495,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
+            SCHED_MSG_LOG::MSG_NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
             reply.host.id, srip->id, srip->name
         );
 
@@ -505,7 +505,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         //
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
                 reply.host.id, srip->id, srip->name, srip->server_state
             );
@@ -516,7 +516,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if (srip->received_time) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result twice\n",
                 reply.host.id, srip->id, srip->name
             );
@@ -527,7 +527,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if (srip->hostid != reply.host.id) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
                 reply.host.id, srip->id, srip->name, srip->hostid
             );
@@ -536,7 +536,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
             if (retval) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
+                    SCHED_MSG_LOG::MSG_CRITICAL,
                     "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
                     srip->id, srip->name, srip->hostid
                 );
@@ -545,7 +545,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 continue;
             } else if (result_host.userid != reply.host.userid) {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
+                    SCHED_MSG_LOG::MSG_CRITICAL,
                     "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
                     reply.host.userid, reply.host.id, srip->id, srip->name, result_host.userid
                 );
@@ -554,7 +554,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 continue;
             } else {
                 log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
+                    SCHED_MSG_LOG::MSG_CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
                     reply.host.id, srip->id, srip->name, reply.host.userid
                 );
@@ -575,12 +575,12 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         //
         double elapsed_time = srip->received_time - srip->sent_time;
         if (elapsed_time < 0) {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "[RESULT#%d] inconsistent sent/received times\n", srip->id
             );
         } else {
             if (srip->cpu_time > elapsed_time) {
-                log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                     "[RESULT#%d] excessive CPU time reported: %f\n",
                     srip->id, srip->cpu_time
                 );
@@ -598,7 +598,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             srip->claimed_credit = srip->cpu_time * reply.host.credit_per_cpu_sec;
         }
 #ifdef EINSTEIN_AT_HOME
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.credit_per_cpu_sec, srip->claimed_credit
         );
 #endif
@@ -615,13 +615,13 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "[RESULT#%d %s]: setting outcome SUCCESS\n",
                 srip->id, srip->name
             );
             reply.got_good_result();
         } else {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
                 srip->id, srip->name, srip->client_state, srip->exit_status
             );
@@ -636,7 +636,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (config.use_transactions) {
         retval = boinc_db.start_transaction();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] result_handler.start_transaction() == %d\n",
                 reply.host.id, retval
             );
@@ -653,7 +653,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         retval = result_handler.update_result(sri);
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
                 reply.host.id, sri.id, sri.name, boinc_db.error_string()
             );
@@ -667,7 +667,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     retval = result_handler.update_workunits();
     if (retval) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[HOST#%d] can't update WUs: %d\n",
             reply.host.id, retval
         );
@@ -678,7 +678,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         retval = boinc_db.commit_transaction();
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] result_handler.commit_transaction() == %d\n",
                 reply.host.id, retval
             );
@@ -702,7 +702,7 @@ void send_code_sign_key(
 
     if (strlen(sreq.code_sign_key)) {
         if (strcmp(sreq.code_sign_key, code_sign_key)) {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL, "received old code sign key\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "received old code sign key\n");
 
             // look for a signature file
             //
@@ -793,7 +793,7 @@ void warn_user_if_core_client_upgrade_scheduled(
                 reply.insert_message(um);
             }
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
+                SCHED_MSG_LOG::MSG_DEBUG,
                 "Sending warning: upgrade client %d.%02d within %d days %d hours\n",
                 sreq.core_client_major_version,
                 sreq.core_client_minor_version,
@@ -809,7 +809,7 @@ bool unacceptable_os(
         SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "OS version %s %s\n",
         sreq.host.os_name, sreq.host.os_version
     );
@@ -820,7 +820,7 @@ bool unacceptable_os(
            ) 
         ) {
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "Unacceptable OS %s %s\n",
             sreq.host.os_name, sreq.host.os_version
         );
@@ -857,7 +857,7 @@ bool wrong_core_client_version(
                 sreq.core_client_major_version, sreq.core_client_minor_version
             );
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
+                SCHED_MSG_LOG::MSG_NORMAL,
                 "[HOST#%d] [auth %s] Wrong minor version from user: wanted %d, got %d\n",
                 sreq.hostid, sreq.authenticator,
                 minor, sreq.core_client_minor_version
@@ -893,13 +893,13 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         mfh.handled = false;
         safe_strcpy(mfh.xml, md.msg_text.c_str());
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "got msg from host; variety %s text %s\n",
             mfh.variety, mfh.xml
         );
         retval = mfh.insert();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] message insert failed: %d\n",
                 reply.host.id, retval
             );
@@ -976,7 +976,7 @@ void process_request(
         reply.set_delay(3600);
         if (!config.msg_to_host) {
             log_messages.printf(
-                SCHED_MSG_LOG::NORMAL, "No work - skipping DB access\n"
+                SCHED_MSG_LOG::MSG_NORMAL, "No work - skipping DB access\n"
             );
             return;
         }
@@ -996,13 +996,13 @@ void process_request(
     retval = authenticate_user(sreq, reply);
     if (retval) goto leave;
     if (reply.user.id == 0) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "No user ID!\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "No user ID!\n");
     }
     initial_host = reply.host;
     reply.host.rpc_seqno = sreq.rpc_seqno;
 
     log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
+        SCHED_MSG_LOG::MSG_NORMAL,
         "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
         reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno,
         sreq.core_client_major_version, sreq.core_client_minor_version
@@ -1012,12 +1012,12 @@ void process_request(
     if (strlen(config.sched_lockfile_dir)) {
         int pid_with_lock = lock_sched(reply);
         if (pid_with_lock > 0) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "Another scheduler instance [PID=%d] is running for this host\n",
                 pid_with_lock
             );
         } else if (pid_with_lock) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "Error acquiring lock for [HOST#%d]\n", reply.host.id
             );
         }
@@ -1041,12 +1041,17 @@ void process_request(
     if (config.daily_result_quota) {
         if (reply.host.max_results_day <= 0 || reply.host.max_results_day > config.daily_result_quota) {
             reply.host.max_results_day = config.daily_result_quota;
-            log_messages.printf(SCHED_MSG_LOG::DEBUG, "[HOST#%d] Initializing max_results_day to %d\n", reply.host.id, config.daily_result_quota);
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] Initializing max_results_day to %d\n",
+                reply.host.id, config.daily_result_quota
+            );
         }
     }
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "[HOST#%d] Resetting nresults_today\n", reply.host.id);
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "[HOST#%d] Resetting nresults_today\n", reply.host.id
+        );
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
@@ -1059,7 +1064,7 @@ void process_request(
         USER_MESSAGE um(buf, "low");
         reply.insert_message(um);
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL, "[HOST#%d] platform '%s' not found\n",
+            SCHED_MSG_LOG::MSG_CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
         );
         reply.set_delay(3600*24);
@@ -1089,7 +1094,7 @@ void process_request(
             if (diff < config.min_sendwork_interval) {
                 ok_to_send_work = false;
                 log_messages.printf(
-                    SCHED_MSG_LOG::NORMAL,
+                    SCHED_MSG_LOG::MSG_NORMAL,
                     "Not sending work - last RPC too recent: %f\n", diff
                 );
                 sprintf(buf,
@@ -1142,14 +1147,14 @@ void debug_sched(
     
     if (!fp) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "Found %s, but can't open %s\n", trigger, tmpfilename
         );
         return;
     }
     
     log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
+        SCHED_MSG_LOG::MSG_DEBUG,
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
     
@@ -1161,14 +1166,14 @@ void debug_sched(
 
     if (!fp) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "Found %s, but can't open %s\n", trigger, tmpfilename
         );
         return;
     }
 
     log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
+        SCHED_MSG_LOG::MSG_DEBUG,
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
 
@@ -1188,7 +1193,7 @@ void handle_request(
 
     if (sreq.parse(fin) == 0){
         log_messages.printf(
-             SCHED_MSG_LOG::NORMAL,
+             SCHED_MSG_LOG::MSG_NORMAL,
              "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%02d\n",
              get_remote_addr(), sreq.authenticator, sreq.hostid, sreq.platform_name,
              sreq.core_client_major_version, sreq.core_client_minor_version
@@ -1204,7 +1209,7 @@ void handle_request(
         }
         
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
+            SCHED_MSG_LOG::MSG_NORMAL,
             "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%02d\n",
             sreply.probable_user_browser?"(probably a browser) ":"",
             get_remote_addr(), sreq.authenticator, sreq.platform_name,
@@ -1242,7 +1247,7 @@ void handle_request(
     // write all messages to log file
     for (unsigned int i=0; i<sreply.messages.size(); i++) {
         USER_MESSAGE um = sreply.messages[i];
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
         );
     }

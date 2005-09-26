@@ -88,7 +88,7 @@ bool do_pass(APP& app) {
             did_something = true;
         }
 
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "[%s] assimilating boinc WU %d; state=%d\n", wu.name, wu.id, wu.assimilate_state
         );
 
@@ -102,7 +102,7 @@ bool do_pass(APP& app) {
 
         retval = assimilate_handler(wu, results, canonical_result);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "[%s] handler returned error %d; exiting\n", wu.name, retval
             );
             exit(retval);
@@ -115,7 +115,7 @@ bool do_pass(APP& app) {
             );
             retval = wu.update_field(buf);
             if (retval) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                     "[%s] update failed: %d\n", wu.name, retval
                 );
                 exit(1);
@@ -131,7 +131,7 @@ bool do_pass(APP& app) {
     }
 
     if (num_assimilated)  {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             "Assimilated %d workunits.\n", num_assimilated
         );
     }
@@ -175,18 +175,18 @@ int main(int argc, char** argv) {
             wu_id_modulus   = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     if (wu_id_modulus) {
-	log_messages.printf(SCHED_MSG_LOG::DEBUG, "Using mod'ed WU enumeration.  modulus = %d  remainder = %d\n",
+	log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Using mod'ed WU enumeration.  modulus = %d  remainder = %d\n",
 			    wu_id_modulus, wu_id_remainder);
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -196,17 +196,17 @@ int main(int argc, char** argv) {
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't find app\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't find app\n");
         exit(1);
     }
     install_stop_signal_handler();

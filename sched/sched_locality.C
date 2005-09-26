@@ -51,7 +51,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         double maxdisk=max_allowable_disk(sreq, sreply);
 
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
         );
 
@@ -94,7 +94,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     FILE_INFO& fi = sreq.file_infos[j];
     sreply.file_deletes.push_back(fi);
     log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
+        SCHED_MSG_LOG::MSG_DEBUG,
         "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
     );
 
@@ -134,7 +134,7 @@ bool host_has_file(
 
     if (has_file) {
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] Already has file %s\n", reply.host.id, filename
         );
         return true;
@@ -165,7 +165,7 @@ bool host_has_file(
 
     if (has_file) {
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] file %s already in scheduler reply(%d)\n", reply.host.id, filename, i
         );
         return true;
@@ -199,7 +199,7 @@ int decrement_disk_space_locality(
     //
     if (extract_filename(wu.name, filename)) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "No filename found in WU#%d (%s)\n",
             wu.id, wu.name
         );
@@ -225,7 +225,7 @@ int decrement_disk_space_locality(
     );
     if (stat(path, &buf)) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "Unable to find file %s at path %s\n", filename, path
         );
         return -1;
@@ -236,7 +236,7 @@ int decrement_disk_space_locality(
     if (filesize<wu.rsc_disk_bound) {
         reply.wreq.disk_available -= (wu.rsc_disk_bound-filesize);
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "[HOST#%d] reducing disk needed for WU by %d bytes (length of %s)\n",
             reply.host.id, filesize, filename
         );
@@ -244,7 +244,7 @@ int decrement_disk_space_locality(
     }
                   
     log_messages.printf(
-        SCHED_MSG_LOG::CRITICAL,
+        SCHED_MSG_LOG::MSG_CRITICAL,
         "File %s size %d bytes > wu.rsc_disk_bound for WU#%d (%s)\n",
         path, filesize, wu.id, wu.name
     );
@@ -316,7 +316,7 @@ int make_more_work_for_file(char* filename) {
         // since we found this file, it means that no work remains for this WU.
         // So give up trying to interact with the WU generator.
         log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
+            SCHED_MSG_LOG::MSG_DEBUG,
             "work generator says no work remaining for file %s\n", filename
         );
         return -1;
@@ -329,14 +329,14 @@ int make_more_work_for_file(char* filename) {
     sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
     if (boinc_touch_file(fullpath)) {
         log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
+            SCHED_MSG_LOG::MSG_CRITICAL,
             "unable to touch %s\n", fullpath
         );
         return -1;
     }
 
     log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
+        SCHED_MSG_LOG::MSG_DEBUG,
         "touched %s: need work for file %s\n", fullpath, filename
     );
     return 0;
@@ -375,14 +375,14 @@ static int get_working_set_filename(char *filename) {
     strcpy(filename, last_slash);
     globfree(&globbuf);
     
-    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
         "get_working_set_filename(): returning %s\n", filename
     );
 
     return 0;
 
 error_exit:
-    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
         "get_working_set_filename(): pattern %s not found\n", pattern
     );
 
@@ -448,7 +448,7 @@ static int send_results_for_file(
 
         if (!reply.work_needed(true)) break;
 
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "in_send_results_for_file(%s, %d) prev_result.id=%d\n", filename, i, prev_result.id
         );
 
@@ -501,7 +501,7 @@ static int send_results_for_file(
             // or if an attempt to make more work fails.
             //
             make_work_retval=make_more_work_for_file(filename);
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "make_more_work_for_file(%s, %d)=%d\n", filename, i, make_work_retval
             );
           
@@ -535,7 +535,7 @@ static int send_results_for_file(
                 // arrive here if and only if there exist no further
                 // unsent results for this file.
                 flag_for_possible_removal(filename);
-                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "No remaining work for file %s (%d), flagging for removal\n", filename, i
                 );
                 break;
@@ -586,12 +586,12 @@ static int send_results_for_file(
                 nsent++;
                 sleep_made_no_work=0;
             } else if (!config.one_result_per_user_per_wu) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                     "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n",
                     i, result.id, retval_send
                 );
             } else {
-                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "possibly_send_result [RESULT#%d]: %s\n",
                     result.id, boincerror(retval_send)
                 );
@@ -628,7 +628,7 @@ static int send_new_file_work_deterministic_seeded(
     char filename[256], min_resultname[256], query[1024];
     int retval;
 
-    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
         "send_new_file_work_deterministic_seeded() start=%s end=%s\n", start_f, end_f?end_f:"+Inf");
 
     strcpy(min_resultname, start_f);
@@ -657,7 +657,7 @@ static int send_new_file_work_deterministic_seeded(
         retval = extract_filename(result.name, filename);
         if (retval) return retval; // not locality scheduled, now what???
 
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "send_new_file_work_deterministic will try filename %s\n", filename
         );
 
@@ -723,7 +723,7 @@ static int send_new_file_work_working_set(
     retval = get_working_set_filename(filename);
     if (retval) return retval;
 
-    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
         "send_new_file_working_set will try filename %s\n", filename
     );
 
@@ -759,7 +759,7 @@ static int send_new_file_work(
         // timeout/2 ago.  We might consider enclosing this in a while
         // loop and trying several times.
         //
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "send_new_file_work(): try to send old work\n"
         );
 
@@ -769,7 +769,7 @@ static int send_new_file_work(
 
     
         while (reply.work_needed(true) && retry<10) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_new_file_work(%d): try to send from working set\n", retry
             );
             retry++;
@@ -779,7 +779,7 @@ static int send_new_file_work(
         }    
 
         if (reply.work_needed(true)) {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_new_file_work(): try deterministic method\n"
             );
             if (send_new_file_work_deterministic(sreq, reply, platform, ss)) {
@@ -834,7 +834,7 @@ static int send_old_work(
         boinc_db.commit_transaction();
         if (!retval) {
             double age=(now-result.create_time)/3600.0;
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_old_work(%s) sent result created %.1f hours ago [RESULT#%d]\n", result.name, age, result.id
             );
             extract_retval=extract_filename(result.name, filename);
@@ -846,7 +846,7 @@ static int send_old_work(
                 // David, is this right?  Is this the only place in
                 // the locality scheduler that non-locality work //
                 // gets done?
-                log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "Note: sent NON-LOCALITY result %s\n", result.name
                 );
             }
@@ -863,13 +863,13 @@ static int send_old_work(
         double older=(now-t_max)/3600.0;
         if (t_min != INT_MIN) {
             double young=(now-t_min)/3600.0;
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_old_work() no feasible result younger than %.1f hours and older than %.1f hours\n",
                 young, older
             );
         }
         else {
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_old_work() no feasible result older than %.1f hours\n",
                 older
             );
@@ -895,7 +895,7 @@ void send_work_locality(
     nfiles = (int) sreq.file_infos.size();
     for (i=0; i<nfiles; i++)
         log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
+                SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d]: has file %s\n", reply.host.id, sreq.file_infos[i].name
         );
 
@@ -936,7 +936,7 @@ void send_work_locality(
         if (nsent == 0 && reply.work_needed(true)) {
             reply.file_deletes.push_back(fi);
             log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
+                SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi.name
             ); 
         } // nsent==0

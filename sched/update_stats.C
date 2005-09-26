@@ -60,7 +60,7 @@ int update_users() {
         );
         retval = user.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't update user %d\n", user.id);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't update user %d\n", user.id);
             return retval;
         }
     }
@@ -82,7 +82,7 @@ int update_hosts() {
         );
         retval = host.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't update host %d\n", host.id);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't update host %d\n", host.id);
             return retval;
         }
     }
@@ -120,7 +120,7 @@ int update_teams() {
         retval = get_team_totals(team);
         if (retval) {
             log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
+                SCHED_MSG_LOG::MSG_CRITICAL,
                 "update_teams: get_team_credit([TEAM#%d]) failed: %d\n",
                 team.id,
                 retval
@@ -136,7 +136,7 @@ int update_teams() {
         );
         retval = team.update_field(buf);
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't update team %d\n", team.id);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't update team %d\n", team.id);
             return retval;
         }
     }
@@ -165,7 +165,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
@@ -175,24 +175,24 @@ int main(int argc, char** argv) {
         }
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
 
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
     }
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
 
     if (do_update_users) {
         retval = update_users();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "update_users failed: %d\n", retval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "update_users failed: %d\n", retval);
             exit(1);
         }
     }
@@ -200,7 +200,7 @@ int main(int argc, char** argv) {
     if (do_update_hosts) {
         retval = update_hosts();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "update_hosts failed: %d\n", retval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "update_hosts failed: %d\n", retval);
             exit(1);
         }
     }
@@ -208,7 +208,7 @@ int main(int argc, char** argv) {
     if (do_update_teams) {
         retval = update_teams();
         if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "update_teams failed: %d\n", retval);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "update_teams failed: %d\n", retval);
             exit(1);
         }
     }

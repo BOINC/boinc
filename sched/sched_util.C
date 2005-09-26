@@ -49,7 +49,7 @@ const int STOP_SIGNAL = SIGHUP;
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
     if (!fpid) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Couldn't write pid\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Couldn't write pid\n");
         return;
     }
     fprintf(fpid, "%d\n", (int)getpid());
@@ -71,11 +71,11 @@ void install_stop_signal_handler() {
 
 void check_stop_daemons() {
     if (caught_stop_signal) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Quitting due to SIGHUP\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Quitting due to SIGHUP\n");
         exit(0);
     }
     if (boinc_file_exists(STOP_DAEMONS_FILENAME)) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Quitting because trigger file '%s' is present\n", STOP_DAEMONS_FILENAME);
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Quitting because trigger file '%s' is present\n", STOP_DAEMONS_FILENAME);
         exit(0);
     }
 }
@@ -195,7 +195,7 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
     } else {
         new_avg = .7*host.avg_turnaround + .3*turnaround;
     }
-    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
         "turnaround %f; old %f; new %f\n",
         turnaround, host.avg_turnaround, new_avg
     );
