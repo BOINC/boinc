@@ -43,8 +43,28 @@ boinc_gui_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    WizAttachProject.cpp \
-    WizAttachAccountManager.cpp \
+    wizards/AccountInfoPage.cpp \
+    wizards/AccountKeyPage.cpp \
+    wizards/AccountManagerInfoPage.cpp \
+    wizards/AccountManagerProcessingPage.cpp \
+    wizards/AccountManagerPropertiesPage.cpp \
+    wizards/AlreadyAttachedPage.cpp \
+    wizards/AlreadyExistsPage.cpp \
+    wizards/BOINCBaseWizard.cpp \
+    wizards/CompletionErrorPage.cpp \
+    wizards/CompletionPage.cpp \
+    wizards/NoInternetConnectionPage.cpp \
+    wizards/NotDetectedPage.cpp \
+    wizards/NotFoundPage.cpp \
+    wizards/ProjectInfoPage.cpp \
+    wizards/ProjectProcessingPage.cpp \
+    wizards/ProjectPropertiesPage.cpp \
+    wizards/ProxyPage.cpp \
+    wizards/UnavailablePage.cpp \
+    wizards/WelcomePage.cpp \
+    wizards/WizardAccountManager.cpp \
+    wizards/WizardAttachProject.cpp \
+    wizards/wizardex.cpp \
     hyperlink.cpp $(mac_sources)
 
 EXTRA_DIST = *.h \
@@ -53,8 +73,8 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale $(mac_headers)
 
-boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
+boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS) -I../wizards
+boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS) -I../wizards
 boinc_gui_LDADD = -L../lib -lboinc $(CLIENTGUILIBS)
 
 all-local: client_gui-bin
