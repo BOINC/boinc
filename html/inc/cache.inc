@@ -2,11 +2,12 @@
 
 require_once("../project/cache_parameters.inc");
 
-#ifdef apache_request_headers
+if (function_exists("apache_request_headers")) {
     $no_cache = false;
-#else
+    }
+else {
     $no_cache = true;
-#endif
+    }
 
 // mechanism for caching commonly-accessed pages
 
@@ -145,6 +146,7 @@ function get_cached_data($max_age,$params=""){
 }
 
 function start_cache($max_age, $params=""){
+    global $no_cache;
     if ($no_cache) return;
 
     $path = get_path($params);
@@ -187,6 +189,7 @@ function start_cache($max_age, $params=""){
 // write output buffer both to client and to cache
 //
 function end_cache($max_age,$params=""){
+    global $no_cache;
     if ($no_cache) return;
 
     // for the benefit of hackers
