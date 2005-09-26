@@ -31,7 +31,6 @@
 class CBOINCBaseWizard: public wxWizardEx
 {    
     DECLARE_DYNAMIC_CLASS( CBOINCBaseWizard )
-    DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors

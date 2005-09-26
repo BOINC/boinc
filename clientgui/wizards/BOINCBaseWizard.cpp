@@ -36,13 +36,6 @@
 IMPLEMENT_DYNAMIC_CLASS( CBOINCBaseWizard, wxWizardEx )
  
 /*!
- * CBOINCBaseWizard event table definition
- */
- 
-BEGIN_EVENT_TABLE( CBOINCBaseWizard, wxWizardEx )
-END_EVENT_TABLE()
- 
-/*!
  * CBOINCBaseWizard constructors
  */
  
