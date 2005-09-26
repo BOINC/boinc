@@ -72,11 +72,13 @@ END_EVENT_TABLE()
  * CWizardAttachProject constructors
  */
  
-CWizardAttachProject::CWizardAttachProject( )
+CWizardAttachProject::CWizardAttachProject() :
+    CBOINCBaseWizard()
 {
 }
  
-CWizardAttachProject::CWizardAttachProject( wxWindow* parent, wxWindowID id, const wxPoint& pos )
+CWizardAttachProject::CWizardAttachProject( wxWindow* parent, wxWindowID id, const wxPoint& pos ) :
+    CBOINCBaseWizard(parent, id, wxEmptyString, wxNullBitmap, pos, wxDEFAULT_DIALOG_STYLE)
 {
     Create(parent, id, pos);
 }
