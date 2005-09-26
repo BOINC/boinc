@@ -1,25 +1,36 @@
 <?php
 
 // server_status.php [-f xml_output_filename]
+//   (or server_status.php?xml=1)
 //
 // outputs general information about BOINC server status gathered from
-// config.xml or mysql database queries.
+// config.xml or mysql database queries. If you are running all your
+// services on one machine, and the database isn't so large, this should
+// work right out of the box. Otherwise see configureables below.
 //
 // Daemons in config.xml are checked to see if they are running by ssh'ing
 // into the respective hosts and searching for active pids. Passwordless
-// logins must be in effect.
+// logins must be in effect if there are multiple hosts involved.
 //
-// The database queries are rather slow. You might consider running these
+// The database queries may be very slow. You might consider running these
 // queries elsewhere via cronjob, outputing numbers into a readable file,
-// and then getting the # latest values with a `/bin/tail -1 data_file`
+// and then getting the latest values with a `/bin/tail -1 data_file`.
+// See commented example in the code.
+//
+// You can get an xml version of the stats via the web when the url has the
+// optional "?xml=1" tag at the end, i.e 
+//   http://yourboincproject.edu/server_status.php?xml=1
 //
 // If running as a standalone program there is an optional -f flag where
-// you can generate xml server status output to the filename you provide.
+// you can generate xml server status output to the filename you provide
+// (this will output both html to stdout and xml to the filename given).
+// Some may prefer to do this if takes so long to dredge up the stats for
+// the html, you won't have to do it again to generate the xml.
 //
 // It is highly recommended that you run this program every 10 minutes and
-// send its stdout to an .html file every 10 minutes, rather than having
-// the values get regenerated every time the page is accessed. Or use the
-// available web page cache utilities.
+// send its stdout to an .html file, rather than having the values get
+// regenerated every time the page is accessed. Or use the available
+// web page cache utilities.
 //
 // You should edit the following variables in config.xml to suit your needs:
 //
@@ -47,6 +58,14 @@ if ($xml) $cache_args = "xml=1";
 $cache_period = 600;
 start_cache($cache_period, $cache_args);
 
+$xmlout = "";
+if ($argv[1] == "-f") { $xmlout = $argv[2];
+    $xmloutfile = fopen($xmlout,"w+");
+    if (!$xmloutfile) {
+        die( "failed to open file: $xmlout");
+    }
+}
+
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
 //
 function daemon_status($host, $pidname, $progname, $disabled) {
@@ -71,40 +90,27 @@ function daemon_status($host, $pidname, $progname, $disabled) {
 }
 
 function show_status($host, $function, $running) {
-    global $xml;
-    if ($xml) { 
-        echo "
-            <daemon>
-              <host>$host</host>
-              <command>$function</command>
-        ";
-    }  else {
-        echo "<tr><td>$function</td><td>$host</td>";
-    }
+    global $xml,$xmlout,$xmloutfile;
+    $xmlstring = "    <daemon>\n      <host>$host</host>\n      <command>$function</command>\n";
+    $htmlstring = "<tr><td>$function</td><td>$host</td>";
     if ($running == 1) {
-        if ($xml) {
-            echo "      <status>running</status>\n";
-        } else {
-            echo "<td bgcolor=00ff00>Running</td>\n";
+        $xmlstring .= "      <status>running</status>\n";
+        $htmlstring .= "<td bgcolor=00ff00>Running</td>\n";
         }
-    } elseif ($running == 0) {
-        if ($xml) {
-            echo "      <status>not running</status>\n";
-        } else {
-            echo "<td bgcolor=ff0000>Not Running</td>\n";
+    elseif ($running == 0) {
+        $xmlstring .= "      <status>not running</status>\n";
+        $htmlstring .= "<td bgcolor=ff0000>Not Running</td>\n";
         }
-    } else {
-        if ($xml) {
-            echo "      <status>disabled</status>\n";
-        } else {
-            echo "<td bgcolor=ff8800>Disabled</td>\n";
+    else {
+        $xmlstring .= "      <status>disabled</status>\n";
+        $htmlstring .= "<td bgcolor=ff8800>Disabled</td>\n";
         }
-    }
-    if ($xml) {
-        echo "    </daemon>\n";
-    } else {
-        echo "</tr>";
-    }
+    $xmlstring .= "    </daemon>\n";
+    $htmlstring .= "</tr>\n";
+    if ($xml) { echo $xmlstring; return 0; }
+    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+    echo $htmlstring;
+    return 0;
 }
 
 function show_daemon_status($host, $pidname, $progname, $disabled) {
@@ -113,13 +119,13 @@ function show_daemon_status($host, $pidname, $progname, $disabled) {
 }
 
 function show_counts($key, $xmlkey, $value) {
-    global $xml;
+    global $xml,$xmlout,$xmloutfile;
     $formattedvalue = number_format($value);
-    if ($xml) {
-        echo "    <$xmlkey>$value</$xmlkey>\n";
-    } else {
-        echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
-    }
+    $xmlstring = "    <$xmlkey>$value</$xmlkey>\n";
+    if ($xml) { echo $xmlstring; return 0; }
+    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+    echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
+    return 0;
 }
 
 function get_mysql_count ($query) {
@@ -148,12 +154,14 @@ $ps_exe = parse_element($config_vars,"<ps_exe>");
 if ($ps_exe == "") { $ps_exe = "/bin/ps"; }
 
 
+$xmlstring = "<server_status>\n  <update_time>" . time() . "</update_time>\n  <daemon_status>\n";
 if ($xml) {
     xml_header();
-    echo "<server_status>\n";
-    echo "  <update_time>" . time() . "</update_time>\n";
-    echo "  <daemon_status>\n";
+    echo $xmlstring;
 } else {
+    if ($xmlout) {
+        fwrite($xmloutfile,$xmlstring);
+    }
     page_head("Server status page");
     echo "<p>
         [As of ", time_str(time()), "]
@@ -205,9 +213,10 @@ while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
     show_daemon_status($host,$nlog,$ncmd,$disabled);
 }
 
-if ($xml) {
-    echo "  </daemon_status>\n  <database_file_states>\n";
-} else {
+$xmlstring = "  </daemon_status>\n  <database_file_states>\n";
+if ($xml) { echo $xmlstring; }
+else {
+    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
     echo "
         <tr><td align=right><b>Running:</b></td>
         <td colspan=2>Program is operating normally</td></tr>
@@ -235,6 +244,13 @@ if ($retval) {
         ";
     }
 
+    // If you are reading these values from a file rather than
+    // making live queries to the database, do something like this:
+    //
+    // $sendfile = "/home/boincadm/server_status_data/count_results_unsent.out";
+    // $n = `/bin/tail -1 $sendfile`;
+    // show_counts("Results ready to send","results_ready_to_send",$n);
+
     show_counts("Results ready to send","results_ready_to_send",get_mysql_count("result where server_state = 2"));
     show_counts("Results in progress","results_in_progress",get_mysql_count("result where server_state = 4"));
     show_counts("Workunits waiting for validation","workunits_waiting_for_validation",get_mysql_count("workunit where need_validate=1"));
@@ -253,10 +269,10 @@ if ($retval) {
     }
 }
 
-if ($xml) {
-    echo "  </database_file_states>\n";
-    echo "</server_status>\n";
-} else {
+$xmlstring = "  </database_file_states>\n</server_status>\n";
+if ($xml) { echo $xmlstring; }
+else {
+    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
     echo "
     </td>
     <td>&nbsp;</td>
