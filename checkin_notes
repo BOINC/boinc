@@ -12119,3 +12119,25 @@ Matt 25 Sept 2005
     html/
         inc/
             profile.inc
+
+Rom    26 Sept 2005
+    - Send the graphics window a WM_DESTROY message instead of using set_mode()
+    - Merge the attach to project and account manager wizards
+
+      TODO: the acct_mgr_info gui rpc should not be returning actual username
+        and password data anymore, only a flag that describes that the CC has the
+        data.  It should also return whether it detected the acct_mgr_url.xml and
+        acct_mgr_login.xml files.
+        
+    api/
+        windows_opengl.C
+    clientgui/
+        MainFrame.cpp
+        stdwx.h
+    clientgui/wizards/
+        <Added numerous files>
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    win_build/
+        boincmgr_curl.vcproj

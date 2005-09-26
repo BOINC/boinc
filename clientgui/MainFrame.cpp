@@ -38,8 +38,11 @@
 #include "DlgAccountManagerStatus.h"
 #include "DlgDialupCredentials.h"
 #include "DlgSelectComputer.h"
-#include "WizAttachProject.h"
-#include "WizAttachAccountManager.h"
+#include "wizards/wizardex.h"
+#include "wizards/BOINCWizards.h"
+#include "wizards/BOINCBaseWizard.h"
+#include "wizards/WizardAttachProject.h"
+#include "wizards/WizardAccountManager.h"
 
 #include "res/BOINCGUIApp.xpm"
 #include "res/connect.xpm"
@@ -974,15 +977,23 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
         iAnswer = ID_CHANGE;
     }
 
-    if (ID_CHANGE == iAnswer) {
+    if ((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) {
         m_pRefreshStateTimer->Stop();
         m_pFrameRenderTimer->Stop();
         m_pFrameListPanelRenderTimer->Stop();
         m_pDocumentPollTimer->Stop();
 
-        CWizAttachAccountManager* pWizard = new CWizAttachAccountManager(this);
+        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
-        pWizard->Run();
+        wxString strURL = wxEmptyString;
+        bool bCredentialsCached = false;
+        if (ID_UPDATE == iAnswer) {
+            strURL = ami.acct_mgr_url.c_str();
+            bCredentialsCached = ami.login_name.length() && ami.password.length();
+            pWizard->Run( strURL, bCredentialsCached );
+        } else {
+            pWizard->Run( strURL, bCredentialsCached );
+        }
 
         if (pWizard)
             pWizard->Destroy();
@@ -1012,7 +1023,7 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
     m_pFrameListPanelRenderTimer->Stop();
     m_pDocumentPollTimer->Stop();
 
-    CWizAttachProject* pWizard = new CWizAttachProject(this);
+    CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
     pWizard->Run();
 
@@ -1264,16 +1275,17 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CWizAttachProject* pWizard = new CWizAttachProject(this);
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
-    // Only present the attach to project dialog if no projects are currently
+    // Only present the attach to project wizard if no projects are currently
     //   detected.
     if (0 == pDoc->GetProjectCount()) {
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+
         m_pRefreshStateTimer->Stop();
         m_pFrameRenderTimer->Stop();
         m_pFrameListPanelRenderTimer->Stop();

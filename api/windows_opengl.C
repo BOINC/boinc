@@ -500,14 +500,10 @@ static void stop_graphics_thread() {
         gfx_timer_id = NULL;
     }
 
-    // Process any outstanding messages
-    //
-    Sleep(0);
-
-    // Close down any open window and clean up
+    // Close down open window and clean up
     //
     if (!boinc_is_standalone()) {
-        set_mode(MODE_HIDE_GRAPHICS);
+        SendMessage(hWnd, WM_DESTROY, NULL, NULL);
     }
 }
 

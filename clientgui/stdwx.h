@@ -91,6 +91,8 @@
 #include <wx/dynlib.h>
 #include <wx/dialup.h>
 #include <wx/cshelp.h>
+#include <wx/sizer.h>
+#include <wx/wizard.h>
 
 
 #ifdef _WIN32

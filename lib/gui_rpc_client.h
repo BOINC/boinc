@@ -575,7 +575,7 @@ public:
     int project_attach(const char* url, const char* auth, bool use_cached_credentials = false);
     int project_attach_poll();
     int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_cached_credentials = false);
-    int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
+    int acct_mgr_rpc_poll();
 };
 
 struct RPC {
