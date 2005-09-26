@@ -12141,3 +12141,17 @@ Rom    26 Sept 2005
         gui_rpc_client_ops.C
     win_build/
         boincmgr_curl.vcproj
+
+Matt 26 Sept 2005
+    - cleaned up xml output code for server_status.php
+
+    html/
+        user/
+             server_status.php
+
+    - fixed bugs in cache.inc to properly check to see if
+      function apache_request_headers exists and act accordingly
+
+    html/
+        inc/
+            cache.inc
