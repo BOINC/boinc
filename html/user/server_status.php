@@ -199,7 +199,6 @@ show_status($sched_host, "scheduler", $sched_running);
 //
 $cursor = 0;
 while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
-    $thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor));
     $host = parse_element($thisxml,"<host>");
     if ($host == "") { $host = $project_host; }
     $cmd = parse_element($thisxml,"<cmd>");
