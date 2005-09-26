@@ -140,11 +140,11 @@ $config_vars = parse_element($config_xml,"<config>");
 $project_host = parse_element($config_vars,"<host>");
 $www_host = parse_element($config_vars,"<www_host>");
 if ($www_host == "") { $www_host = $project_host; }
-$sched_pid = parse_element($config_vars,"<sched_apache_pid>");
+$sched_pid = parse_element($config_vars,"<sched_pid>");
 if ($sched_pid == "") { $sched_pid = "/etc/httpd/run/httpd.pid"; }
 $sched_host = parse_element($config_vars,"<sched_host>");
 if ($sched_host == "") { $sched_host = $project_host; }
-$uldl_pid = parse_element($config_vars,"<uldl_apache_pid>");
+$uldl_pid = parse_element($config_vars,"<uldl_pid>");
 if ($uldl_pid == "") { $uldl_pid = "/etc/httpd/run/httpd.pid"; }
 $uldl_host = parse_element($config_vars,"<uldl_host>");
 if ($uldl_host == "") { $uldl_host = $project_host; }
