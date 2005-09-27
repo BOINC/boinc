@@ -12209,3 +12209,24 @@ Janus   27 Sept 2005
         languages/translations
             en.po
 
+David   27 Sept 2005
+	- code cleanup:
+		- remove bool has_* from PROJECT_INIT
+			(just use string length)
+		- in PROJECT_INIT, always keep URL in canonical form
+		- PROJECT_INIT: clear it if delete file
+		- in acct_mgr_info GUI RPC reply, use
+			<have_credentials/> instead of <cached_credentials/>.
+		- in project_attach and acct_mgr_rpc GUI RPC requests, use
+			<use_config_file/> instead of <use_cached_credentials/>
+		- in ACCT_MGR_INFO, rename cached_credentials to have_credentials
+
+	client/
+		acct_setup.C,h
+		client_state.C
+		gui_rpc_server_ops.C
+	clientgui/
+		MainFrame.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C

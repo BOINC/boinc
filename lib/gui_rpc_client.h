@@ -311,43 +311,6 @@ public:
     void clear();
 };
 
-#if 0
-struct HOST_INFO {
-    int timezone;    // local STANDARD time - UTC time (in seconds) 
-    char domain_name[256];
-    char serialnum[256];
-    char ip_addr[256];
-
-    int p_ncpus;
-    char p_vendor[256];
-    char p_model[256];
-    double p_fpops;
-    double p_iops;
-    double p_membw;
-    int p_fpop_err;
-    int p_iop_err;
-    int p_membw_err;
-    double p_calculated; //needs to be initialized to zero
-
-    char os_name[256];
-    char os_version[256];
-
-    double m_nbytes;
-    double m_cache;
-    double m_swap;
-
-    double d_total;
-    double d_free;
-
-    HOST_INFO();
-    ~HOST_INFO();
-
-    int parse(MIOFILE&);
-    void print();
-    void clear();
-};
-#endif
-
 class CC_STATE {
 public:
     std::vector<PROJECT*> projects;
@@ -431,7 +394,9 @@ struct DISPLAY_INFO {
 struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
-    bool cached_credentials;
+    bool have_credentials;
+    
+    // the following are not filled in by acct_mgr_info RPC
     std::string login_name;
     std::string password;
 
@@ -593,9 +558,9 @@ public:
     int create_account_poll(ACCOUNT_OUT&);
     int lookup_website(int);
     int lookup_website_poll();
-    int project_attach(const char* url, const char* auth, bool use_cached_credentials = false);
+    int project_attach(const char* url, const char* auth, bool use_config_file = false);
     int project_attach_poll();
-    int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_cached_credentials = false);
+    int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_config_file = false);
     int acct_mgr_rpc_poll();
 };
 

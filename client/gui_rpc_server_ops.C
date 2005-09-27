@@ -462,7 +462,7 @@ static void handle_acct_mgr_info(char*, MIOFILE& fout) {
         "</acct_mgr_info>\n",
         gstate.acct_mgr_info.acct_mgr_url,
         gstate.acct_mgr_info.acct_mgr_name,
-        strlen(gstate.acct_mgr_info.login_name)?"<cached_credentials/>":""
+        strlen(gstate.acct_mgr_info.login_name)?"<have_credentials/>":""
     );
 }
 
@@ -496,7 +496,7 @@ static void handle_get_project_init_status(char*, MIOFILE& fout) {
         "</get_project_init_status>\n",
         gstate.project_init.url,
         gstate.project_init.name,
-        gstate.project_init.has_account_key?"<has_account_key/>":""
+        strlen(gstate.project_init.account_key)?"<has_account_key/>":""
     );
 }
 
@@ -594,11 +594,11 @@ static void handle_lookup_website_poll(char*, MIOFILE& fout) {
 static void handle_project_attach(char* buf, MIOFILE& fout) {
     string url, authenticator;
     PROJECT* p = NULL;
-    bool use_cached_credentials = false;
+    bool use_config_file = false;
     bool already_attached = false;
     unsigned int i;
 
-    if (!parse_bool(buf, "use_cached_credentials", use_cached_credentials)) {
+    if (!parse_bool(buf, "use_config_file", use_config_file)) {
         if (!parse_str(buf, "<project_url>", url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
@@ -619,12 +619,12 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
             return;
         }
     } else {
-        if (!gstate.project_init.has_url) {
+        if (!strlen(gstate.project_init.url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
         }
 
-        if (!gstate.project_init.has_account_key) {
+        if (!strlen(gstate.project_init.account_key)) {
             fout.printf("<error>Missing authenticator</error>\n");
             return;
         }
@@ -649,9 +649,9 @@ static void handle_project_attach_poll(char*, MIOFILE& fout) {
 
 static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     std::string url, name, password;
-    bool use_cached_credentials = false;
+    bool use_config_file = false;
     bool bad_arg = false;
-    if (!parse_bool(buf, "use_cached_credentials", use_cached_credentials)) {
+    if (!parse_bool(buf, "use_config_file", use_config_file)) {
         if (!parse_str(buf, "<url>", url)) bad_arg = true;
         if (!parse_str(buf, "<name>", name)) bad_arg = true;
         if (!parse_str(buf, "<password>", password)) bad_arg = true;

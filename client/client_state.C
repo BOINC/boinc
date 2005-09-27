@@ -1381,19 +1381,16 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         );
     }
 
-    // if the project init file contains this projects master url
-    //   then delete the project init file otherwise we'll just
-    //   reattach the next time the core client starts
+    // if project_init.xml refers to this project,
+    // delete the file, otherwise we'll just
+    // reattach the next time the core client starts
     //
-    if (project_init.has_project_init && project_init.has_url) {
-        canonicalize_master_url(project_init.url);
-        if (strcmp(project->master_url, project_init.url) == 0) {
-            retval = project_init.remove();
-            if (retval) {
-                msg_printf(project, MSG_ERROR,
-                    "Can't delete project init file: %s\n", boincerror(retval)
-                );
-            }
+    if (!strcmp(project->master_url, project_init.url)) {
+        retval = project_init.remove();
+        if (retval) {
+            msg_printf(project, MSG_ERROR,
+                "Can't delete project init file: %s\n", boincerror(retval)
+            );
         }
     }
 

@@ -1299,7 +1299,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         pDoc->rpc.acct_mgr_info(ami);
         if (ami.acct_mgr_url.size()) {
             strURL = ami.acct_mgr_url.c_str();
-            if (ami.cached_credentials) {
+            if (ami.have_credentials) {
                 pAMWizard->Run(strURL, true);
             } else {
                 pAMWizard->Run(strURL, false);

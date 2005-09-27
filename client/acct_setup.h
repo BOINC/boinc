@@ -23,15 +23,12 @@
 #include "gui_http.h"
 #include "error_numbers.h"
 
-// represents info stored on files
+// represents the contents of project_info.xml
 //
 struct PROJECT_INIT {
     char url[256];
     char name[256];
     char account_key[256];
-    bool has_project_init;
-    bool has_url;
-    bool has_account_key;
 
     PROJECT_INIT();
     int init();

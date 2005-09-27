@@ -776,8 +776,8 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
         if (match_tag(buf, "</acct_mgr_info>")) return 0;
         else if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
         else if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
-        else if (match_tag(buf, "<cached_credentials/>")) {
-            cached_credentials = true;
+        else if (match_tag(buf, "<have_credentials/>")) {
+            have_credentials = true;
             continue;
         }
     }
@@ -789,7 +789,7 @@ void ACCT_MGR_INFO::clear() {
     acct_mgr_url = "";
     login_name = "";
     password = "";
-    cached_credentials = false;
+    have_credentials = false;
 }
 
 ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
@@ -1249,15 +1249,15 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_cached_credentials) {
+int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_config_file) {
     char buf[256];
     int retval;
     RPC rpc(this);
 
-    if (use_cached_credentials) {
+    if (use_config_file) {
         sprintf(buf,
             "<project_attach>\n"
-            "  <use_cached_credentials/>\n"
+            "  <use_config_file/>\n"
             "</project_attach>\n"
         );
     } else {
@@ -1563,13 +1563,13 @@ int RPC_CLIENT::quit() {
     return rpc.do_rpc("<quit/>\n");
 }
 
-int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_cached_credentials) {
+int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_config_file) {
     char buf[4096];
     RPC rpc(this);
-    if (use_cached_credentials) {
+    if (use_config_file) {
         sprintf(buf,
             "<acct_mgr_rpc>\n"
-            "  <use_cached_credentials/>\n"
+            "  <use_config_file/>\n"
             "</acct_mgr_rpc>\n"
         );
     }else {
