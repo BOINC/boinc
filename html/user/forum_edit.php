@@ -2,6 +2,7 @@
 
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
+require_once('../inc/translation.inc');
 
 db_init();
 
@@ -59,7 +60,7 @@ if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
 
 if ($logged_in_user->id != $post->user) {
     //if (!(isSpecialUser($logged_in_user,0)) && ($logged_in_user->id != $post->user)) {
-    // Can't edit other's posts unless you're a moderator
+    // Can't edit other's posts 
     echo "You are not authorized to edit this post.";
     exit();
 }
@@ -73,13 +74,13 @@ row1("Edit your post");
 if ($post->parent_post==0 and $thread->owner==$logged_in_user->id) {
 	//If this is the first post enable the user to change title
     row2(
-	    "Thread title",
+	    tr(FORUM_SUBMIT_NEW_TITLE).html_info(),
 	    "<input type=text name=title value=\"".stripslashes($thread->title)."\">"
     );
 };
 
 row2(
-    "Message content",
+    tr(FORUM_MESSAGE).html_info().post_warning(),
     "<textarea name=\"content\" rows=12 cols=80>".cleanTextBox(stripslashes($post->content))."</textarea>"
 );
 row2(

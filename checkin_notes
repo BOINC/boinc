@@ -12197,12 +12197,15 @@ Rom    27 Sept 2005
 
 Janus   27 Sept 2005
     - Made forum_post.php translatable
+    - Added BBCode info link to the post edit page as well as warning against
+      using obscene language etc.
 
     html/
         inc/
             util.inc
         user/
             forum_post.php
+	    forum_edit.php
         languages/translations
             en.po
 
