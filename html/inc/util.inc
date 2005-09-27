@@ -316,7 +316,7 @@ function parse_element($xml, $tag) {
             $element = substr($y, 0, $n);
         }
     }
-    return $element;
+    return trim($element);
 }
 
 function parse_next_element($xml, $tag, $cursor) {
@@ -333,7 +333,7 @@ function parse_next_element($xml, $tag, $cursor) {
         }
         $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
     }
-    return $element;
+    return trim($element);
 }
 
 if (!function_exists("file_get_contents")) {
@@ -361,7 +361,7 @@ function get_config() {
 //
 function parse_config($config, $tag) {
     $element = parse_element($config, $tag);
-    return trim($element);
+    return $element;
 }
 
 // return true if XML contains either <tag/> or <tag>1</tag>
