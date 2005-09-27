@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "AlreadyExistsPage.h"
+#pragma implementation "BOINCBaseWizard.h"
 #endif
 
 #include "stdwx.h"
@@ -103,6 +103,11 @@ wxWizardPageEx* CBOINCBaseWizard::_PushPageTransition( wxWizardPageEx* pCurrentP
 /*!
  * Process Cancel Event
  */
+bool CBOINCBaseWizard::IsCancelInProgress() const
+{ 
+    return m_bCancelInProgress;
+}
+
 void CBOINCBaseWizard::ProcessCancelEvent( wxWizardExEvent& event )
 {
     _ProcessCancelEvent( event );
@@ -116,6 +121,10 @@ void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardExEvent& event )
  * Button Controls
  */
 
+wxButton* CBOINCBaseWizard::GetNextButton() const { 
+    return m_btnNext;
+}
+
 void CBOINCBaseWizard::SimulateNextButton() {
     wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, m_btnNext->GetId());
     event.SetEventObject(GetNextButton());
@@ -128,6 +137,10 @@ void CBOINCBaseWizard::EnableNextButton() {
 
 void CBOINCBaseWizard::DisableNextButton() {
     m_btnNext->Disable();
+}
+
+wxButton* CBOINCBaseWizard::GetBackButton() const {
+    return m_btnPrev;
 }
 
 void CBOINCBaseWizard::SimulateBackButton() {

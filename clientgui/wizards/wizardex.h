@@ -47,7 +47,7 @@ public:
                  const wxBitmap& bitmap = wxNullBitmap,
                  const wxChar* resource = NULL);
 
-    bool Create(wxWizardEx *parent,
+    virtual bool Create(wxWizardEx *parent,
                 const wxBitmap& bitmap = wxNullBitmap,
                 const wxChar* resource = NULL);
 
@@ -176,6 +176,7 @@ public:
         Init();
         Create(parent, id, title, bitmap, pos, style);
     }
+
     bool Create(wxWindow *parent,
              int id = wxID_ANY,
              const wxString& title = wxEmptyString,

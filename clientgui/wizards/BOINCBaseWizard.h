@@ -55,17 +55,17 @@ public:
     std::stack<wxWizardPageEx*> m_PageTransition;
 
     /// Cancel Event Infrastructure
-    bool IsCancelInProgress() const { return m_bCancelInProgress ; }
+    bool IsCancelInProgress() const;
     void ProcessCancelEvent( wxWizardExEvent& event );
     virtual void _ProcessCancelEvent( wxWizardExEvent& event );
     bool m_bCancelInProgress;
 
     /// Button State Infrastructure
-    wxButton* GetNextButton() const { return m_btnNext ; }
+    wxButton* GetNextButton() const;
     void SimulateNextButton();
     void EnableNextButton();
     void DisableNextButton();
-    wxButton* GetBackButton() const { return m_btnPrev ; }
+    wxButton* GetBackButton() const;
     void SimulateBackButton();
     void EnableBackButton();
     void DisableBackButton();
