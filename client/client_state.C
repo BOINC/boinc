@@ -478,12 +478,14 @@ bool CLIENT_STATE::poll_slow_events() {
     // if we're doing CPU benchmarks, don't do much else
     //
     if (suspend_reason & SUSPEND_REASON_BENCHMARKS) {
-        // wait for applications to become suspended
-        //
         cpu_benchmarks_poll();
+
+        // besides waiting for applications to become suspended
+        //
         if (active_tasks.is_task_executing()) {
             POLL_ACTION(active_tasks, active_tasks.poll);
         }
+        return false;
     }
 
     check_suspend_network(suspend_reason);
@@ -498,7 +500,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     network_suspended = (suspend_reason != 0);
 
-    scope_messages.printf("CLIENT_STATE::do_something(): Begin poll:\n");
+    scope_messages.printf("CLIENT_STATE::poll_slow_events(): Begin poll:\n");
     ++scope_messages;
 
     // NOTE:
@@ -530,48 +532,6 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!activities_suspended && !network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
-#if 0
-    if (activities_suspended) {
-        //POLL_ACTION(data_manager           , data_manager_poll      );
-        POLL_ACTION(net_xfers              , net_xfers->poll        );
-        POLL_ACTION(http_ops               , http_ops->poll         );
-        POLL_ACTION(active_tasks           , active_tasks.poll      );
-        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
-        POLL_ACTION(garbage_collect        , garbage_collect        );
-        POLL_ACTION(update_results         , update_results         );
-        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
-        POLL_ACTION(gui_http                , gui_http.poll          );
-    } else if (network_suspended) {
-        //POLL_ACTION(data_manager           , data_manager_poll      );
-        POLL_ACTION(net_xfers              , net_xfers->poll        );
-        POLL_ACTION(http_ops               , http_ops->poll         );
-        POLL_ACTION(active_tasks           , active_tasks.poll      );
-        POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
-        POLL_ACTION(schedule_cpus          , schedule_cpus          );
-        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
-        POLL_ACTION(garbage_collect        , garbage_collect        );
-        POLL_ACTION(update_results         , update_results         );
-        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );        
-        POLL_ACTION(gui_http                , gui_http.poll          );
-    } else {
-        net_stats.poll(*net_xfers);
-        //
-        //POLL_ACTION(data_manager           , data_manager_poll      );
-        POLL_ACTION(net_xfers              , net_xfers->poll        );
-        POLL_ACTION(http_ops               , http_ops->poll         );
-        POLL_ACTION(file_xfers             , file_xfers->poll       );
-        POLL_ACTION(active_tasks           , active_tasks.poll      );
-        POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
-        POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
-        POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
-        POLL_ACTION(schedule_cpus          , schedule_cpus          );
-        POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
-        POLL_ACTION(garbage_collect        , garbage_collect        );
-        POLL_ACTION(update_results         , update_results         );
-        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
-        POLL_ACTION(gui_http                , gui_http.poll          );
-    }
-#endif
     retval = write_state_file_if_needed();
     if (retval) {
         msg_printf(NULL, MSG_ERROR,

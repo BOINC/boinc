@@ -12230,3 +12230,9 @@ David   27 Sept 2005
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+David   27 Sept 2005
+    - if doing CPU benchmarks, don't call most poll functions
+
+	client/
+		client_state.C
