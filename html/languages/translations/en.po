@@ -360,6 +360,67 @@ msgstr "Members"
 
 
 #########################################
+# Forum
+#########################################
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "No such forum"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "In order to create a new thread in %s you must have a certain amount of credit."
+"This is to prevent and protect against abuse of the system."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "You cannot create any more threads right now. Please wait a while before trying again."
+"This delay has been enforced to protect against abuse of the system."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "The %s area lets you get help from other users. If you have a question or problem:"
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Read the existing list of questions. If your question is already there, "
+"click on the %s button. If answers to the question have been submitted, read them. "
+"If one of them answers your question, click the %s button."
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "If your question has not already been asked, fill out and submit this form."
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "This will prevent questions from being asked repeatedly."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Submit a new question/problem"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Create a new thread"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Title"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Describe your question in a few words. "
+"A brief, clear summary will help others with the same "
+"question (or an answer) to find it."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "If you are having software problems, "
+"mention the version number of the software, "
+"your computer type and operating system."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Add my signature to this post"
+
+msgid "FORUM_MESSAGE"
+msgstr "Message"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "I also got this problem"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "This answered my question"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Use BBCode tags to format your text"
+
+
+
+#########################################
 # Forum search features
 #########################################
 msgid "FORUM_SEARCH_TITLES"
@@ -373,3 +434,29 @@ msgstr "No titles containing '%s' could be found."
 
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "No posts containing '%s' could be found."
+
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Questions and Answers"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+

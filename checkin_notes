@@ -12194,3 +12194,15 @@ Rom    27 Sept 2005
     clientgui/wizards/
         WizardAccountManager.cpp
         WizardAttachProject.cpp, .h
+
+Janus   27 Sept 2005
+    - Made forum_post.php translatable
+
+    html/
+        inc/
+            util.inc
+        user/
+            forum_post.php
+        languages/translations
+            en.po
+
