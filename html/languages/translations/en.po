@@ -442,21 +442,3 @@ msgstr "No posts containing '%s' could be found."
 msgid "LINKS_QA"
 msgstr "Questions and Answers"
 
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
