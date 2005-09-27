@@ -458,13 +458,11 @@ static void handle_acct_mgr_info(char*, MIOFILE& fout) {
         "<acct_mgr_info>\n"
         "   <acct_mgr_url>%s</acct_mgr_url>\n"
         "   <acct_mgr_name>%s</acct_mgr_name>\n"
-        "   <login_name>%s</login_name>\n"
-        "   <password>%s</password>\n"
+        "   %s\n"
         "</acct_mgr_info>\n",
         gstate.acct_mgr_info.acct_mgr_url,
         gstate.acct_mgr_info.acct_mgr_name,
-        gstate.acct_mgr_info.login_name,
-        gstate.acct_mgr_info.password
+        strlen(gstate.acct_mgr_info.login_name)?"<cached_credentials/>":""
     );
 }
 
@@ -492,13 +490,13 @@ static void handle_network_available(char*, MIOFILE&) {
 static void handle_get_project_init_status(char*, MIOFILE& fout) {
     fout.printf(
         "<get_project_init_status>\n"
-        "    <has_project_init>%d</has_project_init>\n"
-        "    <has_url>%d</has_url>\n"
-        "    <has_account_key>%d</has_account_key>\n"
+        "    <url>%s</url>\n"
+        "    <name>%s</name>\n"
+        "    %s\n"
         "</get_project_init_status>\n",
-        gstate.project_init.has_project_init?1:0,
-        gstate.project_init.has_url?1:0,
-        gstate.project_init.has_account_key?1:0
+        gstate.project_init.url,
+        gstate.project_init.name,
+        gstate.project_init.has_account_key?"<has_account_key/>":""
     );
 }
 

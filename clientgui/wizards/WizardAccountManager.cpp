@@ -67,13 +67,11 @@ END_EVENT_TABLE()
  * CWizardAccountManager constructors
  */
 
-CWizardAccountManager::CWizardAccountManager() :
-    CBOINCBaseWizard()
+CWizardAccountManager::CWizardAccountManager()
 {
 }
 
-CWizardAccountManager::CWizardAccountManager( wxWindow* parent, wxWindowID id, const wxPoint& pos ) :
-    CBOINCBaseWizard(parent, id, wxEmptyString, wxNullBitmap, pos, wxDEFAULT_DIALOG_STYLE)
+CWizardAccountManager::CWizardAccountManager( wxWindow* parent, wxWindowID id, const wxPoint& pos )
 {
     Create(parent, id, pos);
 }

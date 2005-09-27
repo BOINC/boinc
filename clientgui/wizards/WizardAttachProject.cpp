@@ -72,13 +72,11 @@ END_EVENT_TABLE()
  * CWizardAttachProject constructors
  */
  
-CWizardAttachProject::CWizardAttachProject() :
-    CBOINCBaseWizard()
+CWizardAttachProject::CWizardAttachProject()
 {
 }
  
-CWizardAttachProject::CWizardAttachProject( wxWindow* parent, wxWindowID id, const wxPoint& pos ) :
-    CBOINCBaseWizard(parent, id, wxEmptyString, wxNullBitmap, pos, wxDEFAULT_DIALOG_STYLE)
+CWizardAttachProject::CWizardAttachProject( wxWindow* parent, wxWindowID id, const wxPoint& pos )
 {
     Create(parent, id, pos);
 }
@@ -235,9 +233,21 @@ void CWizardAttachProject::CreateControls()
  * Runs the wizard.
  */
  
-bool CWizardAttachProject::Run()
+bool CWizardAttachProject::Run( wxString& strURL, bool bCredentialsCached )
 {
-    if (m_WelcomePage) return RunWizard(m_WelcomePage);
+    if (strURL.Length()) {
+        m_ProjectInfoPage->m_ProjectUrlCtrl->SetLabel( strURL );
+        m_bCredentialsCached = bCredentialsCached;
+    }
+
+    if ( strURL.Length() && bCredentialsCached && m_ProjectProcessingPage) {
+        return RunWizard(m_ProjectProcessingPage);
+    } else if (strURL.Length() && !bCredentialsCached && m_AccountInfoPage) {
+        return RunWizard(m_AccountInfoPage);
+    } else if (m_WelcomePage) {
+        return RunWizard(m_WelcomePage);
+    }
+
     return FALSE;
 }
  

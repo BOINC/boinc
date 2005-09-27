@@ -59,7 +59,7 @@ int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password)
     strcpy(ami.login_name, name.c_str());
     strcpy(ami.password, password.c_str());
 
-    sprintf(buf, "%s?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
+    sprintf(buf, "%srpc.php?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
     retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
     if (retval) {
         error_num = retval;

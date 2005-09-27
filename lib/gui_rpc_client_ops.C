@@ -762,25 +762,46 @@ void MESSAGES::clear() {
     messages.clear();
 }
 
+ACCT_MGR_INFO::ACCT_MGR_INFO() {
+    clear();
+}
+
+ACCT_MGR_INFO::~ACCT_MGR_INFO() {
+    clear();
+}
+
 int ACCT_MGR_INFO::parse(MIOFILE& in) {
     char buf[256];
-    acct_mgr_name = "";
-    acct_mgr_url = "";
-    login_name = "";
-    password = "";
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_info>")) return 0;
         else if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
         else if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
-        else if (parse_str(buf, "<login_name>", login_name)) continue;
-        else if (parse_str(buf, "<password>", password)) continue;
+        else if (match_tag(buf, "<cached_credentials/>")) {
+            cached_credentials = true;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
 
+void ACCT_MGR_INFO::clear() {
+    acct_mgr_name = "";
+    acct_mgr_url = "";
+    login_name = "";
+    password = "";
+    cached_credentials = false;
+}
+
+ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
+    clear();
+}
+
+ACCT_MGR_RPC_REPLY::~ACCT_MGR_RPC_REPLY() {
+    clear();
+}
+
 int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
     char buf[256];
-    error_num = ERR_XML_PARSE;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_rpc_reply>")) return 0;
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
@@ -788,9 +809,48 @@ int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
+void ACCT_MGR_RPC_REPLY::clear() {
+    error_num = ERR_XML_PARSE;
+}
+
+PROJECT_INIT_STATUS::PROJECT_INIT_STATUS() {
+    clear();
+}
+
+PROJECT_INIT_STATUS::~PROJECT_INIT_STATUS() {
+    clear();
+}
+
+int PROJECT_INIT_STATUS::parse(MIOFILE& in) {
+    char buf[256];
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</get_project_init_status>")) return 0;
+        else if (parse_str(buf, "<url>", url)) continue;
+        else if (parse_str(buf, "<name>", name)) continue;
+        else if (match_tag(buf, "<has_account_key/>")) {
+            has_account_key = true;
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+void PROJECT_INIT_STATUS::clear() {
+    url.clear();
+    name.clear();
+    has_account_key = false;
+}
+
+PROJECT_CONFIG::PROJECT_CONFIG() {
+    clear();
+}
+
+PROJECT_CONFIG::~PROJECT_CONFIG() {
+    clear();
+}
+
 int PROJECT_CONFIG::parse(MIOFILE& in) {
     char buf[256];
-    clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_config>")) return 0;
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
@@ -823,6 +883,14 @@ void PROJECT_CONFIG::clear() {
     client_account_creation_disabled = false;
 }
 
+ACCOUNT_IN::ACCOUNT_IN() {
+    clear();
+}
+
+ACCOUNT_IN::~ACCOUNT_IN() {
+    clear();
+}
+
 void ACCOUNT_IN::clear() {
     url.clear();
     email_addr.clear();
@@ -830,9 +898,16 @@ void ACCOUNT_IN::clear() {
     passwd.clear();
 }
 
+ACCOUNT_OUT::ACCOUNT_OUT() {
+    clear();
+}
+
+ACCOUNT_OUT::~ACCOUNT_OUT() {
+    clear();
+}
+
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
-    clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</account_out>")) return 0;
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
@@ -846,9 +921,16 @@ void ACCOUNT_OUT::clear() {
     authenticator.clear();
 }
 
+LOOKUP_WEBSITE::LOOKUP_WEBSITE() {
+    clear();
+}
+
+LOOKUP_WEBSITE::~LOOKUP_WEBSITE() {
+    clear();
+}
+
 int LOOKUP_WEBSITE::parse(MIOFILE& in) {
     char buf[256];
-    clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</lookup_website>")) return 0;
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
@@ -1520,6 +1602,16 @@ int RPC_CLIENT::acct_mgr_info(ACCT_MGR_INFO& ami) {
     if (retval) return retval;
     return ami.parse(rpc.fin);
 }
+
+int RPC_CLIENT::get_project_init_status(PROJECT_INIT_STATUS& pis) {
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<get_project_init_status/>\n");
+    if (retval) return retval;
+    return pis.parse(rpc.fin);
+}
+
 
 int RPC_CLIENT::get_project_config(std::string url) {
     char buf[4096];

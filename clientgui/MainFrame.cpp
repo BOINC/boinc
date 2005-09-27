@@ -1025,7 +1025,8 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
 
     CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
-    pWizard->Run();
+    wxString strURL = wxEmptyString;
+    pWizard->Run( strURL, false );
 
     if (pWizard)
         pWizard->Destroy();
@@ -1281,20 +1282,44 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
-    // Only present the attach to project wizard if no projects are currently
+    // Only present one of the wizards if no projects are currently
     //   detected.
     if (0 == pDoc->GetProjectCount()) {
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
-
         m_pRefreshStateTimer->Stop();
         m_pFrameRenderTimer->Stop();
         m_pFrameListPanelRenderTimer->Stop();
         m_pDocumentPollTimer->Stop();
 
-        pWizard->Run();
+        CWizardAttachProject* pAPWizard = new CWizardAttachProject(this);
+        CWizardAccountManager* pAMWizard = new CWizardAccountManager(this);
+        wxString strURL = wxEmptyString;
+        ACCT_MGR_INFO ami;
+        PROJECT_INIT_STATUS pis;
 
-        if (pWizard)
-            pWizard->Destroy();
+        pDoc->rpc.acct_mgr_info(ami);
+        if (ami.acct_mgr_url.size()) {
+            strURL = ami.acct_mgr_url.c_str();
+            if (ami.cached_credentials) {
+                pAMWizard->Run(strURL, true);
+            } else {
+                pAMWizard->Run(strURL, false);
+            }
+        } else {
+            pDoc->rpc.get_project_init_status(pis);
+            strURL = pis.url.c_str();
+            if (pis.url.length()) {
+                if (pis.has_account_key) {
+                    pAPWizard->Run(strURL, true);
+                } else {
+                    pAPWizard->Run(strURL, false);
+                }
+            }
+        }
+
+        if (pAMWizard)
+            pAMWizard->Destroy();
+        if (pAPWizard)
+            pAPWizard->Destroy();
 
         m_pRefreshStateTimer->Start();
         m_pFrameRenderTimer->Start();

@@ -12177,3 +12177,20 @@ David  26 Sept 2005
     sched/
         sched_msgs.h
         *.C
+
+Rom    27 Sept 2005
+    - Some cleanup work related to the wizards.
+    - Account manager projects now only need to specify the account
+        manager root url in the acct_mgr_url.xml file as the core client
+        will now add the rpc.php to the end of the url.
+    - Fix a crashing condition I introduced earlier today tracking
+        down a linux compile issue.
+        
+    client/
+        acct_mgr.C
+        gui_rpc_server_ops.C
+    clientgui/
+        MainFrame.cpp
+    clientgui/wizards/
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp, .h

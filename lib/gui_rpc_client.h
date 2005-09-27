@@ -431,16 +431,37 @@ struct DISPLAY_INFO {
 struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
+    bool cached_credentials;
     std::string login_name;
     std::string password;
 
+    ACCT_MGR_INFO();
+    ~ACCT_MGR_INFO();
+
     int parse(MIOFILE&);
+    void clear();
 };
 
 struct ACCT_MGR_RPC_REPLY {
     int error_num;
 
+    ACCT_MGR_RPC_REPLY();
+    ~ACCT_MGR_RPC_REPLY();
+
     int parse(MIOFILE&);
+    void clear();
+};
+
+struct PROJECT_INIT_STATUS {
+    std::string url;
+    std::string name;
+    bool has_account_key;
+
+    PROJECT_INIT_STATUS();
+    ~PROJECT_INIT_STATUS();
+
+    int parse(MIOFILE&);
+    void clear();
 };
 
 struct PROJECT_CONFIG {
@@ -452,8 +473,8 @@ struct PROJECT_CONFIG {
     bool account_creation_disabled;
     bool client_account_creation_disabled;
 
-    PROJECT_CONFIG(){}
-    ~PROJECT_CONFIG(){}
+    PROJECT_CONFIG();
+    ~PROJECT_CONFIG();
 
     int parse(MIOFILE&);
     void clear();
@@ -466,8 +487,8 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
 
-    ACCOUNT_IN(){}
-    ~ACCOUNT_IN(){}
+    ACCOUNT_IN();
+    ~ACCOUNT_IN();
 
     void clear();
 };
@@ -476,8 +497,8 @@ struct ACCOUNT_OUT {
     int error_num;
     std::string authenticator;
 
-    ACCOUNT_OUT(){}
-    ~ACCOUNT_OUT(){}
+    ACCOUNT_OUT();
+    ~ACCOUNT_OUT();
 
     int parse(MIOFILE&);
     void clear();
@@ -487,8 +508,8 @@ struct ACCOUNT_OUT {
 struct LOOKUP_WEBSITE {
     int error_num;
 
-    LOOKUP_WEBSITE(){}
-    ~LOOKUP_WEBSITE(){}
+    LOOKUP_WEBSITE();
+    ~LOOKUP_WEBSITE();
 
     int parse(MIOFILE&);
     void clear();
@@ -557,7 +578,7 @@ public:
     int get_statistics(PROJECTS&);
     int network_query(int&);
     int network_available();
-    int get_project_init_status(bool& has_project_init, bool& has_url, bool& has_account_key);
+    int get_project_init_status(PROJECT_INIT_STATUS& pis);
 
     // the following are asynch operations.
     // Make the first call to start the op,
