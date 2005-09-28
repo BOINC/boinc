@@ -955,15 +955,20 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     int                       iAnswer = 0;
     wxString                  strTitle = wxEmptyString;
     CMainDocument*            pDoc = wxGetApp().GetDocument();
-    CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pDlgStatus);
+
+    m_pRefreshStateTimer->Stop();
+    m_pFrameRenderTimer->Stop();
+    m_pFrameListPanelRenderTimer->Stop();
+    m_pDocumentPollTimer->Stop();
 
     ACCT_MGR_INFO ami;
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size()) {
+        CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
+
         strTitle = pDlgStatus->GetTitle();
         strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
         pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
@@ -971,43 +976,32 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
         pDlgStatus->SetTitle(strTitle);
 
         iAnswer = pDlgStatus->ShowModal();
-    }
 
-    if (ami.login_name.empty() && (ID_CHANGE != iAnswer)) {
-        iAnswer = ID_CHANGE;
+        if (pDlgStatus)
+            pDlgStatus->Destroy();
     }
 
     if ((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) {
-        m_pRefreshStateTimer->Stop();
-        m_pFrameRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Stop();
-        m_pDocumentPollTimer->Stop();
-
         CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
         wxString strURL = wxEmptyString;
         bool bCredentialsCached = false;
         if (ID_UPDATE == iAnswer) {
             strURL = ami.acct_mgr_url.c_str();
-            bCredentialsCached = ami.login_name.length() && ami.password.length();
-            pWizard->Run( strURL, bCredentialsCached );
-        } else {
-            pWizard->Run( strURL, bCredentialsCached );
+            bCredentialsCached = ami.have_credentials;
         }
+        pWizard->Run( strURL, bCredentialsCached );
 
         if (pWizard)
             pWizard->Destroy();
 
-        m_pRefreshStateTimer->Start();
-        m_pFrameRenderTimer->Start();
-        m_pFrameListPanelRenderTimer->Start();
-        m_pDocumentPollTimer->Start();
-
         FireRefreshView();
     }
 
-    if (pDlgStatus)
-        pDlgStatus->Destroy();
+    m_pRefreshStateTimer->Start();
+    m_pFrameRenderTimer->Start();
+    m_pFrameListPanelRenderTimer->Start();
+    m_pDocumentPollTimer->Start();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function End"));
 }

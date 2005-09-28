@@ -787,8 +787,6 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
 void ACCT_MGR_INFO::clear() {
     acct_mgr_name = "";
     acct_mgr_url = "";
-    login_name = "";
-    password = "";
     have_credentials = false;
 }
 

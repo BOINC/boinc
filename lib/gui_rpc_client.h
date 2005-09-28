@@ -396,10 +396,6 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_url;
     bool have_credentials;
     
-    // the following are not filled in by acct_mgr_info RPC
-    std::string login_name;
-    std::string password;
-
     ACCT_MGR_INFO();
     ~ACCT_MGR_INFO();
 

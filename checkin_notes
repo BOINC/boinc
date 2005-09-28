@@ -12236,3 +12236,15 @@ David   27 Sept 2005
 
 	client/
 		client_state.C
+
+Rom    27 Sept 2005
+    - Some more cleanup.
+    - Remove old dialog templated from the DialogBlocks datafile.
+    
+    clientgui/
+        BOINCGUI.cst
+        BOINCGUI.pjd
+        MainFrame.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
