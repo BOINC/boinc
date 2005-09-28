@@ -70,6 +70,8 @@ CCompletionErrorPage::CCompletionErrorPage( CBOINCBaseWizard* parent )
 bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionErrorPage member initialisation
+    m_ServerMessagesStaticBoxSizer = NULL;
+    m_ServerMessages = NULL;
 ////@end CCompletionErrorPage member initialisation
  
 ////@begin CCompletionErrorPage creation
@@ -119,6 +121,15 @@ void CCompletionErrorPage::CreateControls()
         itemBoxSizer86->Add(itemStaticText89, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
+    itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxStaticBox* itemStaticBoxSizer3Static = new wxStaticBox(itemWizardPage85, wxID_ANY, _("Messages from server:"));
+    m_ServerMessagesStaticBoxSizer = new wxStaticBoxSizer(itemStaticBoxSizer3Static, wxVERTICAL);
+    itemBoxSizer86->Add(m_ServerMessagesStaticBoxSizer, 0, wxGROW|wxALL, 5);
+
+    m_ServerMessages = new wxStaticText;
+    m_ServerMessages->Create( itemWizardPage85, wxID_STATIC, _(""), wxDefaultPosition, wxDefaultSize, 0 );
+    m_ServerMessagesStaticBoxSizer->Add(m_ServerMessages, 0, wxGROW|wxALL, 5);
 ////@end CCompletionErrorPage content construction
 }
  
@@ -180,7 +191,15 @@ wxIcon CCompletionErrorPage::GetIconResource( const wxString& name )
  */
  
 void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    if (CHECK_CLOSINGINPROGRESS()) {
+        m_ServerMessagesStaticBoxSizer->GetStaticBox()->Hide();
+        m_ServerMessages->Hide();
+    } else {
+        m_ServerMessagesStaticBoxSizer->GetStaticBox()->Show();
+        m_ServerMessages->Show();
+    }
 }
  
 /*!

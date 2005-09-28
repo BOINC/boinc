@@ -407,9 +407,11 @@ struct PROJECT_ATTACH_REPLY {
     int error_num;
     std::vector<std::string>messages;
 
-    PROJECT_ATTACH_REPLY(){}
+    PROJECT_ATTACH_REPLY();
     ~PROJECT_ATTACH_REPLY(){}
+
     int parse(MIOFILE&);
+    void clear();
 };
 
 struct ACCT_MGR_RPC_REPLY {

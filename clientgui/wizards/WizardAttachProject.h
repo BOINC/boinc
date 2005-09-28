@@ -70,7 +70,7 @@ public:
 ////@begin CWizardAttachProject member function declarations
 
     /// Runs the wizard.
-    bool Run( wxString& strURL, bool bCredentialsCached = true );
+    bool Run( wxString& strName, wxString& strURL, bool bCredentialsCached = true );
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );

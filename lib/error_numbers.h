@@ -161,6 +161,7 @@
 #define ERR_ATTACH_FAIL_PARSE      -211
 #define ERR_ATTACH_FAIL_BAD_KEY    -212
 #define ERR_ATTACH_FAIL_FILE_WRITE -213
+#define ERR_ATTACH_FAIL_SERVER_ERROR -214
 
 
 // PLEASE: add a text description of your error to 

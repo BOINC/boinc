@@ -198,10 +198,17 @@ void CWizardAccountManager::CreateControls()
  * Runs the wizard.
  */
 
-bool CWizardAccountManager::Run( wxString& strURL, bool bCredentialsCached )
+bool CWizardAccountManager::Run( wxString& strName, wxString& strURL, bool bCredentialsCached )
 {
     if (strURL.Length()) {
-        m_AccountManagerInfoPage->m_AccountManagerUrlCtrl->SetLabel( strURL );
+        if (strName.Length()) {
+            wxString strTitle;
+            strTitle = GetTitle();
+            strTitle += wxT(" - ") + strName;
+            SetTitle(strTitle);
+        }
+
+        m_AccountManagerInfoPage->SetProjectURL( strURL );
         m_bCredentialsCached = bCredentialsCached;
     }
 
@@ -346,7 +353,7 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
             pPage = m_ErrNoInternetConnectionPage;
  
         if (pPage) {
-            if ((pCurrentPage == m_WelcomePage) && (m_PageTransition.size() == 0)) {
+            if (m_PageTransition.size() == 0) {
                 m_PageTransition.push(NULL);
             }
             if (m_PageTransition.top() != pCurrentPage) {

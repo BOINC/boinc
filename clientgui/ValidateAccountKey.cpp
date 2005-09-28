@@ -62,7 +62,7 @@ bool CValidateAccountKey::Validate(wxWindow *parent) {
         return TRUE;
 
     bool ok = TRUE;
-    wxString val(control->GetValue());
+    wxString val(control->GetValue().Trim().Trim(false));  // trim spaces before and after
 
     if (val.Length() == 0) {
         ok = FALSE;

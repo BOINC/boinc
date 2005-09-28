@@ -795,7 +795,7 @@ int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
     std::string msg;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_rpc_reply>")) return 0;
-        else if (parse_int(buf, "<error_num>", error_num)) continue;
+        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
         else if (parse_str(buf, "<message>", msg)) messages.push_back(msg);
     }
     return ERR_XML_PARSE;
@@ -806,14 +806,25 @@ void ACCT_MGR_RPC_REPLY::clear() {
     error_num = ERR_XML_PARSE;
 }
 
+PROJECT_ATTACH_REPLY::PROJECT_ATTACH_REPLY() {
+    clear();
+}
+
 int PROJECT_ATTACH_REPLY::parse(MIOFILE& in) {
     char buf[256];
     std::string msg;
     while (in.fgets(buf, 256)) {
-        if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (match_tag(buf, "</project_attach_reply>")) return 0;
+        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
         else if (parse_str(buf, "<message>", msg)) messages.push_back(msg);
     }
-    return 0;}
+    return ERR_XML_PARSE;
+}
+
+void PROJECT_ATTACH_REPLY::clear() {
+    messages.clear();
+    error_num = ERR_XML_PARSE;
+}
 
 PROJECT_INIT_STATUS::PROJECT_INIT_STATUS() {
     clear();

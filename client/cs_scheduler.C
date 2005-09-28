@@ -702,8 +702,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     // on the off chance that this is the initial RPC for a project
     // being attached, copy messages to a safe place
     //
-    gstate.project_attach.messages.clear();
-
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());

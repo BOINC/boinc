@@ -12267,3 +12267,37 @@ David   27 Sept 2005
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+Rom    27 Sept 2005
+    - Add server message support to the attach to project wizard.
+    - Add the project name to the attach to project wizard title
+        when it is known.
+    - Fix a control id problem in the attach to project wizard.
+    - Fixup the page transition code for the wizards when they
+        skip the welcome screen and go straight to processing
+        a request.
+    - Calling PROJECT::attach_fail(0) is a bad thing.  It
+        introduces false positives within the manager.
+    - Dump out the server messages before dumping the value of
+        error_num.
+    - Trim the spaces before and after the url and account key
+        text before attempting to validate.
+    
+    client/
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_op.C
+    clientgui/
+        MainFrame.cpp
+        ValidateAccountKey.cpp
+        ValidateURL.cpp
+    clientgui/wizards/
+        BOINCWizards.h
+        CompletionErrorPage.cpp, .h
+        ProjectProcessingPage.cpp
+        WizardAccountManager.cpp, .h
+        WizardAttachProject.cpp, .h
+    lib/
+        error_numbers.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

@@ -32,6 +32,7 @@
 #include "ProjectInfoPage.h"
 #include "AccountKeyPage.h"
 #include "AccountInfoPage.h"
+#include "CompletionErrorPage.h"
 
 
 ////@begin XPM images
@@ -184,8 +185,8 @@ wxWizardPageEx* CProjectProcessingPage::GetNext() const
         // The requested account does not exist or the password is bad
         return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
     } else {
-        // The project much be down for maintenance
-        return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
+        // Ann error must have occurred
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
     return NULL;
 }
@@ -363,8 +364,12 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
 
             ai->url = ((CWizardAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str();
 
-            if (!((CWizardAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.IsEmpty()) {
-                ao->authenticator = ((CWizardAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.c_str();
+            if (!((CWizardAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.IsEmpty() ||
+                ((CWizardAttachProject*)GetParent())->m_bCredentialsCached
+            ) {
+                if (!((CWizardAttachProject*)GetParent())->m_bCredentialsCached) {
+                    ao->authenticator = ((CWizardAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.c_str();
+                }
                 SetProjectCommunitcationsSucceeded(true);
             } else {
                 if (((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
@@ -405,7 +410,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     if (!((CWizardAttachProject*)GetParent())->project_config.uses_username) {
                         ai->email_addr = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
                     } else {
-                        ai->user_name= ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+                        ai->user_name = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
                     }
                     ai->passwd = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
 
@@ -455,11 +460,22 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
             break;
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
             if (GetProjectCommunitcationsSucceeded()) {
+                unsigned int i;
+                PROJECT_ATTACH_REPLY reply;
+
                 // Attempt to attach to the project.
-                pDoc->rpc.project_attach(
-                    ai->url.c_str(),
-                    ao->authenticator.c_str()
-                );
+                if (((CWizardAttachProject*)GetParent())->m_bCredentialsCached) {
+                    pDoc->rpc.project_attach(
+                        ai->url.c_str(),
+                        ao->authenticator.c_str(),
+                        true
+                    );
+                } else {
+                    pDoc->rpc.project_attach(
+                        ai->url.c_str(),
+                        ao->authenticator.c_str()
+                    );
+                }
      
                 // Wait until we are done processing the request.
                 dtStartExecutionTime = wxDateTime::Now();
@@ -473,7 +489,6 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                 {
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    PROJECT_ATTACH_REPLY reply;
                     iReturnValue = pDoc->rpc.project_attach_poll(reply);
 
                     IncrementProgress(m_ProgressIndicator);
@@ -482,13 +497,19 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     ::wxSafeYield(GetParent());
                 }
      
-                if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+                if (!iReturnValue && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                     SetProjectAttachSucceeded(true);
                     ((CWizardAttachProject*)GetParent())->SetAttachedToProjectSuccessfully(true);
                     ((CWizardAttachProject*)GetParent())->SetProjectURL(ai->url.c_str());
                     ((CWizardAttachProject*)GetParent())->SetProjectAuthenticator(ao->authenticator.c_str());
                 } else {
                     SetProjectAttachSucceeded(false);
+                    wxString strBuffer = wxEmptyString;
+                    for (i=0; i<reply.messages.size(); i++) {
+                        strBuffer.Append(reply.messages[i].c_str());
+                        strBuffer.Append(wxT("\n"));
+                    }
+                    ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
                 }
             } else {
                 SetProjectAttachSucceeded(false);

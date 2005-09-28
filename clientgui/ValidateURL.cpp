@@ -63,7 +63,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
     bool ok = TRUE;
     std::string canonicalize_url;
 
-    canonicalize_url = control->GetValue().c_str();
+    canonicalize_url = control->GetValue().Trim().Trim(false).c_str();  // trim spaces before and after
     canonicalize_master_url(canonicalize_url);
 
     wxURI uri(canonicalize_url.c_str());

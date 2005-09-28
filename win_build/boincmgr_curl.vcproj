@@ -239,9 +239,6 @@
 				RelativePath="..\clientgui\BOINCBaseView.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCBaseViewAccessible.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\BOINCGUIApp.h">
 			</File>
 			<File
@@ -252,9 +249,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\BOINCTaskCtrl.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCTaskCtrlAccessible.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\Events.h">

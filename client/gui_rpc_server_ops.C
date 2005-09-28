@@ -633,6 +633,10 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
         authenticator = gstate.project_init.account_key;
     }
 
+    // clear out any previous messages from any previous attach
+    //   to project.
+    //
+    gstate.project_attach.messages.clear();
     gstate.add_project(url.c_str(), authenticator.c_str());
     gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
@@ -641,9 +645,7 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
 static void handle_project_attach_poll(char*, MIOFILE& fout) {
     unsigned int i;
     fout.printf(
-        "<attach_project_status>\n"
-        "    <error_num>%d</error_num>\n",
-        gstate.project_attach.error_num
+        "<project_attach_reply>\n"
     );
     for (i=0; i<gstate.project_attach.messages.size(); i++) {
         fout.printf(
@@ -652,7 +654,11 @@ static void handle_project_attach_poll(char*, MIOFILE& fout) {
         );
     }
     fout.printf(
-        "</attach_project_status>\n"
+        "    <error_num>%d</error_num>\n",
+        gstate.project_attach.error_num
+    );
+    fout.printf(
+        "</project_attach_reply>\n"
     );
 }
 
@@ -684,8 +690,6 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
 static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
     fout.printf(
         "<acct_mgr_rpc_reply>\n"
-        "    <error_num>%d</error_num>\n",
-        gstate.acct_mgr_op.error_num
     );
     if (gstate.acct_mgr_op.error_str.size()) {
         fout.printf(
@@ -693,6 +697,10 @@ static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
             gstate.acct_mgr_op.error_str.c_str()
         );
     }
+    fout.printf(
+        "    <error_num>%d</error_num>\n",
+        gstate.acct_mgr_op.error_num
+    );
     fout.printf(
         "</acct_mgr_rpc_reply>\n"
     );

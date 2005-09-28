@@ -984,13 +984,15 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     if ((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) {
         CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
+        wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
         bool bCredentialsCached = false;
         if (ID_UPDATE == iAnswer) {
+            strName = ami.acct_mgr_name.c_str();
             strURL = ami.acct_mgr_url.c_str();
             bCredentialsCached = ami.have_credentials;
         }
-        pWizard->Run( strURL, bCredentialsCached );
+        pWizard->Run( strName, strURL, bCredentialsCached );
 
         if (pWizard)
             pWizard->Destroy();
@@ -1019,8 +1021,9 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
 
     CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
+    wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
-    pWizard->Run( strURL, false );
+    pWizard->Run( strName, strURL, false );
 
     if (pWizard)
         pWizard->Destroy();
@@ -1278,34 +1281,39 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
 
     // Only present one of the wizards if no projects are currently
     //   detected.
-    if (0 == pDoc->GetProjectCount()) {
+    if (0 >= pDoc->GetProjectCount()) {
         m_pRefreshStateTimer->Stop();
         m_pFrameRenderTimer->Stop();
         m_pFrameListPanelRenderTimer->Stop();
         m_pDocumentPollTimer->Stop();
 
-        CWizardAttachProject* pAPWizard = new CWizardAttachProject(this);
-        CWizardAccountManager* pAMWizard = new CWizardAccountManager(this);
+        CWizardAttachProject* pAPWizard = NULL;
+        CWizardAccountManager* pAMWizard = NULL;
+        wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
         ACCT_MGR_INFO ami;
         PROJECT_INIT_STATUS pis;
 
         pDoc->rpc.acct_mgr_info(ami);
         if (ami.acct_mgr_url.size()) {
+            pAMWizard = new CWizardAccountManager(this);
+            strName = ami.acct_mgr_name.c_str();
             strURL = ami.acct_mgr_url.c_str();
             if (ami.have_credentials) {
-                pAMWizard->Run(strURL, true);
+                pAMWizard->Run(strName, strURL, true);
             } else {
-                pAMWizard->Run(strURL, false);
+                pAMWizard->Run(strName, strURL, false);
             }
         } else {
+            pAPWizard = new CWizardAttachProject(this);
             pDoc->rpc.get_project_init_status(pis);
+            strName = pis.name.c_str();
             strURL = pis.url.c_str();
             if (pis.url.length()) {
                 if (pis.has_account_key) {
-                    pAPWizard->Run(strURL, true);
+                    pAPWizard->Run(strName, strURL, true);
                 } else {
-                    pAPWizard->Run(strURL, false);
+                    pAPWizard->Run(strName, strURL, false);
                 }
             }
         }

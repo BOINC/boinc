@@ -233,10 +233,17 @@ void CWizardAttachProject::CreateControls()
  * Runs the wizard.
  */
  
-bool CWizardAttachProject::Run( wxString& strURL, bool bCredentialsCached )
+bool CWizardAttachProject::Run( wxString& strName, wxString& strURL, bool bCredentialsCached )
 {
     if (strURL.Length()) {
-        m_ProjectInfoPage->m_ProjectUrlCtrl->SetLabel( strURL );
+        if (strName.Length()) {
+            wxString strTitle;
+            strTitle = GetTitle();
+            strTitle += wxT(" - ") + strName;
+            SetTitle(strTitle);
+        }
+
+        m_ProjectInfoPage->SetProjectURL( strURL );
         m_bCredentialsCached = bCredentialsCached;
     }
 
@@ -396,7 +403,7 @@ wxWizardPageEx* CWizardAttachProject::_PushPageTransition( wxWizardPageEx* pCurr
             pPage = m_ErrProxyPage;
  
         if (pPage) {
-            if ((pCurrentPage == m_WelcomePage) && (m_PageTransition.size() == 0)) {
+            if (m_PageTransition.size() == 0) {
                 m_PageTransition.push(NULL);
             }
             if (m_PageTransition.top() != pCurrentPage) {

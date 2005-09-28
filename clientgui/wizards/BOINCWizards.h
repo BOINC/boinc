@@ -47,7 +47,7 @@
 // Attach to Project Wizard Pages
 #define ID_PROJECTINFOPAGE 10200
 #define ID_PROJECTPROPERTIESPAGE 10201
-#define ID_PROJECTPROCESSINGPAGE 10201
+#define ID_PROJECTPROCESSINGPAGE 10202
 
 // Account Manager Wizard Pages
 #define ID_ACCOUNTMANAGERINFOPAGE 10300
@@ -63,6 +63,9 @@
 
 // BOINC Hyperlink Control
 #define ID_BOINCHYPERLINK 11001
+
+// Completion Error Page Multiline Text Control
+#define ID_TEXTCTRL 11002
 
 // Debug Flag Controls
 #define ID_ERRPROJECTPROPERTIES 11100
