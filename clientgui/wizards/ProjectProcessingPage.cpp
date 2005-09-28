@@ -473,7 +473,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                 {
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = pDoc->rpc.project_attach_poll();
+                    PROJECT_ATTACH_REPLY reply;
+                    iReturnValue = pDoc->rpc.project_attach_poll(reply);
 
                     IncrementProgress(m_ProgressIndicator);
 

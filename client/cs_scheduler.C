@@ -699,11 +699,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     fclose(f);
     if (retval) return retval;
 
+    // on the off chance that this is the initial RPC for a project
+    // being attached, copy messages to a safe place
+    //
+    gstate.project_attach.messages.clear();
+
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
         int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_ERROR:MSG_INFO;
         show_message(project, buf, prio);
+        gstate.project_attach.messages.push_back(um.message);
     }
 
     // if project is down, return error (so that we back off)

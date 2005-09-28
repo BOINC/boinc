@@ -397,17 +397,27 @@ struct ACCT_MGR_INFO {
     bool have_credentials;
     
     ACCT_MGR_INFO();
-    ~ACCT_MGR_INFO();
+    ~ACCT_MGR_INFO(){}
 
     int parse(MIOFILE&);
     void clear();
 };
 
+struct PROJECT_ATTACH_REPLY {
+    int error_num;
+    std::vector<std::string>messages;
+
+    PROJECT_ATTACH_REPLY(){}
+    ~PROJECT_ATTACH_REPLY(){}
+    int parse(MIOFILE&);
+};
+
 struct ACCT_MGR_RPC_REPLY {
     int error_num;
+    std::vector<std::string>messages;
 
     ACCT_MGR_RPC_REPLY();
-    ~ACCT_MGR_RPC_REPLY();
+    ~ACCT_MGR_RPC_REPLY(){}
 
     int parse(MIOFILE&);
     void clear();
@@ -419,7 +429,7 @@ struct PROJECT_INIT_STATUS {
     bool has_account_key;
 
     PROJECT_INIT_STATUS();
-    ~PROJECT_INIT_STATUS();
+    ~PROJECT_INIT_STATUS(){}
 
     int parse(MIOFILE&);
     void clear();
@@ -433,6 +443,7 @@ struct PROJECT_CONFIG {
     bool uses_username;
     bool account_creation_disabled;
     bool client_account_creation_disabled;
+    std::vector<std::string> messages;
 
     PROJECT_CONFIG();
     ~PROJECT_CONFIG();
@@ -554,10 +565,10 @@ public:
     int create_account_poll(ACCOUNT_OUT&);
     int lookup_website(int);
     int lookup_website_poll();
-    int project_attach(const char* url, const char* auth, bool use_config_file = false);
-    int project_attach_poll();
-    int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_config_file = false);
-    int acct_mgr_rpc_poll();
+    int project_attach(const char* url, const char* auth, bool use_config_file=false);
+    int project_attach_poll(PROJECT_ATTACH_REPLY&);
+    int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_config_file=false);
+    int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
 };
 
 struct RPC {

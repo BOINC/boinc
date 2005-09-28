@@ -766,10 +766,6 @@ ACCT_MGR_INFO::ACCT_MGR_INFO() {
     clear();
 }
 
-ACCT_MGR_INFO::~ACCT_MGR_INFO() {
-    clear();
-}
-
 int ACCT_MGR_INFO::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
@@ -794,28 +790,32 @@ ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
     clear();
 }
 
-ACCT_MGR_RPC_REPLY::~ACCT_MGR_RPC_REPLY() {
-    clear();
-}
-
 int ACCT_MGR_RPC_REPLY::parse(MIOFILE& in) {
     char buf[256];
+    std::string msg;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</acct_mgr_rpc_reply>")) return 0;
-        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
+        else if (parse_int(buf, "<error_num>", error_num)) continue;
+        else if (parse_str(buf, "<message>", msg)) messages.push_back(msg);
     }
     return ERR_XML_PARSE;
 }
 
 void ACCT_MGR_RPC_REPLY::clear() {
+    messages.clear();
     error_num = ERR_XML_PARSE;
 }
 
-PROJECT_INIT_STATUS::PROJECT_INIT_STATUS() {
-    clear();
-}
+int PROJECT_ATTACH_REPLY::parse(MIOFILE& in) {
+    char buf[256];
+    std::string msg;
+    while (in.fgets(buf, 256)) {
+        if (parse_int(buf, "<error_num>", error_num)) continue;
+        else if (parse_str(buf, "<message>", msg)) messages.push_back(msg);
+    }
+    return 0;}
 
-PROJECT_INIT_STATUS::~PROJECT_INIT_STATUS() {
+PROJECT_INIT_STATUS::PROJECT_INIT_STATUS() {
     clear();
 }
 
@@ -849,6 +849,8 @@ PROJECT_CONFIG::~PROJECT_CONFIG() {
 
 int PROJECT_CONFIG::parse(MIOFILE& in) {
     char buf[256];
+    std::string msg;
+
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_config>")) return 0;
         else if (parse_int(buf, "<error_num>", error_num)) return error_num;
@@ -866,6 +868,8 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         } else if (match_tag(buf, "<client_account_creation_disabled")) {
             client_account_creation_disabled = true;
             continue;
+        } else if (parse_str(buf, "<message>", msg)) {
+            messages.push_back(msg);
         }
     }
     return ERR_XML_PARSE;
@@ -874,6 +878,7 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
 void PROJECT_CONFIG::clear() {
     error_num = -1;
     name.clear();
+    messages.clear();
     min_passwd_length = 6;
     account_manager = false;
     uses_username = false;
@@ -1273,18 +1278,14 @@ int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_confi
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::project_attach_poll() {
+int RPC_CLIENT::project_attach_poll(PROJECT_ATTACH_REPLY& reply) {
     RPC rpc(this);
-    char buf[256];
     int retval;
+    std::string msg;
 
     retval = rpc.do_rpc("<project_attach_poll/>\n");
     if (retval) return retval;
-    retval = ERR_XML_PARSE;
-    while (rpc.fin.fgets(buf, 256)) {
-        parse_int(buf, "<error_num>", retval);
-    }
-    return retval;
+    return reply.parse(rpc.fin);
 }
 
 const char* RPC_CLIENT::mode_name(int mode) {
@@ -1583,8 +1584,7 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::acct_mgr_rpc_poll() {
-    ACCT_MGR_RPC_REPLY r;
+int RPC_CLIENT::acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& r) {
     RPC rpc(this);
     int retval;
 

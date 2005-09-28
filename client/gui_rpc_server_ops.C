@@ -639,11 +639,20 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
 }
 
 static void handle_project_attach_poll(char*, MIOFILE& fout) {
+    unsigned int i;
     fout.printf(
         "<attach_project_status>\n"
-        "    <error_num>%d</error_num>\n"
-        "</attach_project_status>\n",
+        "    <error_num>%d</error_num>\n",
         gstate.project_attach.error_num
+    );
+    for (i=0; i<gstate.project_attach.messages.size(); i++) {
+        fout.printf(
+            "    <message>%s</message>\n",
+            gstate.project_attach.messages[i].c_str()
+        );
+    }
+    fout.printf(
+        "</attach_project_status>\n"
     );
 }
 
@@ -673,28 +682,20 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
 }
 
 static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
-    if (gstate.acct_mgr_op.error_num) {
+    fout.printf(
+        "<acct_mgr_rpc_reply>\n"
+        "    <error_num>%d</error_num>\n",
+        gstate.acct_mgr_op.error_num
+    );
+    if (gstate.acct_mgr_op.error_str.size()) {
         fout.printf(
-            "<acct_mgr_rpc_reply>\n"
-            "    <error_num>%d</error_num>\n",
-            gstate.acct_mgr_op.error_num
-        );
-        if (gstate.acct_mgr_op.error_str.size()) {
-            fout.printf(
-                "    <error_msg>%s</error_msg>\n",
-                gstate.acct_mgr_op.error_str.c_str()
-            );
-        }
-        fout.printf(
-            "</acct_mgr_rpc_reply>\n"
-        );
-    } else {
-        fout.printf(
-            "<acct_mgr_rpc_reply>\n"
-            "    <error_num>0</error_num>\n"
-            "</acct_mgr_rpc_reply>\n"
+            "    <message>%s</message>\n",
+            gstate.acct_mgr_op.error_str.c_str()
         );
     }
+    fout.printf(
+        "</acct_mgr_rpc_reply>\n"
+    );
 }
 
 int GUI_RPC_CONN::handle_rpc() {

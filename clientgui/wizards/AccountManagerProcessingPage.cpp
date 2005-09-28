@@ -231,7 +231,8 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 {
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = pDoc->rpc.acct_mgr_rpc_poll();
+                    ACCT_MGR_RPC_REPLY reply;
+                    iReturnValue = pDoc->rpc.acct_mgr_rpc_poll(reply);
 
                     IncrementProgress(m_ProgressIndicator);
 
@@ -239,7 +240,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                     ::wxSafeYield(GetParent());
                 }
      
-                if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+                if (!iReturnValue && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                     SetProjectAttachSucceeded(true);
                 } else {
                     SetProjectAttachSucceeded(false);

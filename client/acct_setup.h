@@ -86,6 +86,7 @@ struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
 
 struct PROJECT_ATTACH {
     int error_num;
+    std::vector<std::string> messages;
 };
 
 #endif

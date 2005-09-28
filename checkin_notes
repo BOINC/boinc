@@ -12248,3 +12248,22 @@ Rom    27 Sept 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David   27 Sept 2005
+	- finish the code to pass messages back to the Manager from
+		1) project attach
+		2) acct mgr RPC
+		3) get project config
+
+	Rom: please add code to show these messages in Manager.
+
+	client/
+		acct_setup.h
+		cs_scheduler.C
+		gui_rpc_server_ops.C
+	clientgui/wizards/
+		AccountManagerProcessingPage.cpp
+		ProjectProcessingPage.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
