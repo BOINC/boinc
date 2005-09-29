@@ -12353,6 +12353,11 @@ Reinhard 	29 Sept 2005
 Rom    29 Sept 2005
     - If somebody clicks the account manager menu item, they should get the
         account manager wizard.
+    - Add a server message to the wizard that points out when the wizard
+        receives a 404 from the server for lookup_account.php and
+        create_account.php.
         
     clientgui/
         MainFrame.cpp
+    clientgui/wizards/
+        ProjectProcessingPage.cpp

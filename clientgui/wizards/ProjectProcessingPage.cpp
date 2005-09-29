@@ -452,6 +452,11 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     } else {
                         SetProjectAccountNotFound(false);
                     }
+                    if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                    }
                 }
             }
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
@@ -506,10 +511,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     ((CWizardAttachProject*)GetParent())->SetProjectAuthenticator(ao->authenticator.c_str());
                 } else {
                     SetProjectAttachSucceeded(false);
-                    wxString strBuffer = wxEmptyString;
+                    wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
                     for (i=0; i<reply.messages.size(); i++) {
-                        strBuffer.Append(reply.messages[i].c_str());
-                        strBuffer.Append(wxT("\n"));
+                        strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
                     }
                     ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
                 }
