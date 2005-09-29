@@ -29,20 +29,6 @@ AC_ARG_ENABLE(client,
     [],
     [enable_client=yes])
 
-dnl ======================================================================
-dnl some vodoo required for building portable client-binary (client, clientgui)
-dnl ======================================================================
-AC_ARG_ENABLE([client-release], AS_HELP_STRING([--enable-client-release],
-        [Try building a portable "release-candidate" (currently implemented for Linux and Solaris only): \
-        this links libstd++ statically. You will probably need gcc-3.0 for
-        this to produce a portable client-binary.
-        It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
-        (Default = no)]),
-        [enable_client_release=yes
-        disable_static_client=no],
-        [enable_client_release=no
-        disable_static_client=yes])
-
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([], [Default: --enable-server --enable-client: 
                       builds both server and client]))
@@ -60,6 +46,21 @@ else
         configured_to_build='libraries only'
     fi
 fi
+
+
+dnl ======================================================================
+dnl some vodoo required for building portable client-binary (client, clientgui)
+dnl ======================================================================
+AC_ARG_ENABLE([client-release], 
+   AS_HELP_STRING([--enable-client-release],
+        [Build a portable "release-candidate" (currently implemented for Linux and Solaris only):
+        this links libstd++ statically. You will probably need gcc-3.0 for
+        this to produce a portable client-binary.
+        It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
+	(Default = no)]),
+    [enable_client_release=yes;disable_static_linkage=no],
+    [enable_client_release=no;disable_static_linkage=yes])
+
 
 if test "${enable_debug}" = yes ; then
     build_state='Debug'
@@ -510,11 +511,7 @@ dnl some more vodoo required for building portable client-binary (client, client
 dnl ======================================================================
 
 CLIENTLIBS=
-if ( test "${disable_static_client}" != yes ) && ( test "${enable_client}" = yes ); then
-   echo "----------"
-   echo "NOTE: Building portable client binaries"
-   echo "----------"
-fi
+
 SAH_CHECK_LIB([c],[atexit], [
     AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
@@ -539,8 +536,16 @@ SAH_CHECK_LIB([pthread],[pthread_join],[
     AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+
+if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client}" = yes ); then
+   echo "----------"
+   echo "NOTE: Building portable client binaries"
+   echo "----------"
+
 SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+fi
+
 
 AC_SUBST(CLIENTLIBS)
 

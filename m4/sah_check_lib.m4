@@ -49,17 +49,6 @@ AC_DEFUN([SAH_CHECK_LDFLAG],[
 ])
 
 AC_DEFUN([SAH_LINKAGE_FLAGS],[
-  AC_ARG_ENABLE(static_client,
-    AC_HELP_STRING([--disable-static-linkage],
-                   [disable static linking of certain libraries]),
-    [
-     disable_static_linkage=yes
-     enable_client_release=no
-    ],
-    [
-     disable_static_linkage=no
-     enable_client_release=yes
-    ])
   if test "${disable_static_linkage}" = "yes"
   then
     ld_static_option=""  
