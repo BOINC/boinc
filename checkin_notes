@@ -12334,7 +12334,19 @@ Rom    28 Sept 2005 (staging)
 Reinhard 	29 Sept 2005
 	- Install header-files necessary for building workunit-generator externally linked to BOINC.
 
-	db/Makefile.am
-	db/db_base.h
-	lib/Makefile.am
-	sched/Makefile.am
+	db/
+	   Makefile.am
+	   db_base.h
+	lib/
+	   Makefile.am
+	sched/
+	   Makefile.am
+
+Reinhard 	29 Sept 2005
+	- make getsockopt-len check insensitive to user's CPPFLAG-settings, 
+	in order to avoid this test failing because of higher warning-levels set in
+	CPPFLAGS (as the test is using -Werror).
+
+	m4/
+	   boinc_getsockopt.m4
+
