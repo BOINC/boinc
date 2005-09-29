@@ -295,10 +295,10 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
     if (!CHECK_CLOSINGINPROGRESS()) {
         wxString strTitle = wxT("");
         if (IS_ATTACHTOPROJECTWIZARD()) {
-            wxString strTitle = _("Attach to project");
+            strTitle = _("Attach to project");
         }
         if (IS_ACCOUNTMANAGERWIZARD()) {
-            wxString strTitle = _("Attach to account manager");
+            strTitle = _("Attach to account manager");
         }
         wxString strMessage = wxT("");
         bool     bDisplayError = false;
