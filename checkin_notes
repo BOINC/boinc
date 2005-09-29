@@ -12326,3 +12326,7 @@ Rom    28 Sept 2005
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Rom    28 Sept 2005 (staging)
+    - Tag for 5.1.5 release, all platforms
+      boinc_core_release_5_1_5
