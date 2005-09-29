@@ -58,19 +58,21 @@ libboinc_a_SOURCES = \
     shmem.C \
     util.C
 
-include_HEADERS = \
-    app_ipc.h \
-    boinc_win.h \
-    diagnostics.h \
-    exception.h \
-    filesys.h \
-    hostinfo.h \
-    mfile.h \
-    miofile.h \
-    parse.h \
-    prefs.h \
-    proxy_info.h \
-    util.h      
+include_HEADERS = 	\
+    app_ipc.h 		\
+    boinc_win.h 	\
+    diagnostics.h 	\
+    exception.h 	\
+    filesys.h 		\
+    hostinfo.h		\
+    mfile.h 		\
+    miofile.h 		\
+    parse.h 		\
+    prefs.h 		\
+    proxy_info.h 	\
+    util.h 			\
+	msg_log.h 		\
+	crypt.h
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

@@ -12330,3 +12330,11 @@ Rom    28 Sept 2005
 Rom    28 Sept 2005 (staging)
     - Tag for 5.1.5 release, all platforms
       boinc_core_release_5_1_5
+
+Reinhard 	29 Sept 2005
+	- Install header-files necessary for building workunit-generator externally linked to BOINC.
+
+	db/Makefile.am
+	db/db_base.h
+	lib/Makefile.am
+	sched/Makefile.am

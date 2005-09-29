@@ -53,12 +53,9 @@ EXTRA_DIST =    \
     fcgi_stdio.h                                \
     handle_request.h                            \
     main.h                                      \
-    sched_config.h                              \
     sched_locality.h                            \
-    sched_msgs.h                                \
     sched_send.h                                \
     sched_shmem.h                               \
-    sched_util.h                                \
     server_types.h                              \
     start                                       \
     validate_util.h
@@ -75,6 +72,18 @@ cgi_SOURCES = \
     sched_timezone.C \
     server_types.C \
     ../lib/synch.C
+
+
+## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
+includedir = ${prefix}/include/BOINC/
+
+## install only headers that are meant for exporting the API !!
+include_HEADERS = 	\
+	sched_config.h	\
+	sched_msgs.h	\
+	sched_util.h	\
+	../tools/backend_lib.h
+
 
 cgi_DEPENDENCIES = $(LIB_SCHED)
 
