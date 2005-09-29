@@ -16,8 +16,9 @@ if OS_DARWIN
 endif
 
 bin_PROGRAMS = boinc_client
+lib_LIBRARIES = libbenchmark.a 
 
-EXTRA_PROGRAMS = cpu_benchmark
+LIBS += libbenchmark.a 
 
 boinc_client_SOURCES = \
     acct_mgr.C \
@@ -40,8 +41,6 @@ boinc_client_SOURCES = \
     cs_scheduler.C \
     cs_statefile.C \
     cs_trickle.C \
-    dhrystone.C \
-    dhrystone2.C \
     file_names.C \
     file_xfer.C \
     gui_http.C \
@@ -57,17 +56,17 @@ boinc_client_SOURCES = \
     pers_file_xfer.C \
     scheduler_op.C \
     ss_logic.C \
-    time_stats.C \
-    whetstone.C
+    time_stats.C 
+
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
+boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 boinc_client_LDFLAGS = -static-libgcc
 boinc_client_LDADD = -L../lib -lboinc $(PTHREAD_LIBS)
 
 # the following don't do anything
-cpu_benchmark_SOURCES = whetstone.C dhrystone.C
-cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
+libbenchmark_a_SOURCES = whetstone.C dhrystone.C dhrystone2.C dhrystone.h
+libbenchmark_a_CPPFLAGS = -O3
 
 all-local: client-bin
 
