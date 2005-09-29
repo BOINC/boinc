@@ -1251,7 +1251,7 @@ int DB_WORK_ITEM::enumerate(
         if (all_apps) {
             // get vector of app id's
             std::vector<int> vAppID;
-            int cntApp = 0, iApp = 0;
+            int cntApp = 0;
             sprintf(query, "select id from app");
             retval = db->do_query(query);
             if (retval) return mysql_errno(db->mysql);
