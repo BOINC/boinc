@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-08-31 15:11-0800\n"
+"PO-Revision-Date: 2005-09-29 13:41-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -35,48 +35,56 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:363
-#: clientgui/MainFrame.cpp:385
+#: clientgui/BOINCTaskBar.cpp:272
+msgid "BOINC is currently suspended...\n"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:276
+msgid "BOINC networking is currently suspended...\n"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:377
+#: clientgui/MainFrame.cpp:335
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:382
-#: clientgui/BOINCTaskBar.cpp:389
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
 msgid "&Open BOINC Manager..."
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:393
-#: clientgui/MainFrame.cpp:333
+#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/MainFrame.cpp:344
 msgid "&Run always"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:394
-#: clientgui/MainFrame.cpp:338
+#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/MainFrame.cpp:349
 msgid "Run based on &preferences"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:395
-#: clientgui/MainFrame.cpp:343
+#: clientgui/BOINCTaskBar.cpp:409
+#: clientgui/MainFrame.cpp:354
 msgid "&Suspend"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:397
-#: clientgui/MainFrame.cpp:351
+#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/MainFrame.cpp:362
 msgid "&Network activity always available"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:398
-#: clientgui/MainFrame.cpp:356
+#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/MainFrame.cpp:367
 msgid "Network activity based on &preferences"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:399
-#: clientgui/MainFrame.cpp:361
+#: clientgui/BOINCTaskBar.cpp:413
+#: clientgui/MainFrame.cpp:372
 msgid "&Network activity suspended"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:401
+#: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:423
 msgid "&About BOINC Manager..."
 msgstr ""
@@ -104,44 +112,10 @@ msgid "A software platform for distributed computing using volunteered computer 
 msgstr ""
 
 #: clientgui/DlgAbout.cpp:154
-#: clientgui/DlgAccountManagerSignup.cpp:143
 #: clientgui/DlgDialupCredentials.cpp:136
 #: clientgui/DlgOptions.cpp:396
 #: clientgui/DlgSelectComputer.cpp:130
 msgid "&OK"
-msgstr ""
-
-#: clientgui/DlgAccountManagerSignup.cpp:105
-msgid ""
-"Account managers make it easy to find and join BOINC projects.\n"
-"For more information, click on the link below."
-msgstr ""
-
-#: clientgui/DlgAccountManagerSignup.cpp:116
-msgid "Account Manager URL:"
-msgstr ""
-
-#: clientgui/DlgAccountManagerSignup.cpp:124
-msgid "Login:"
-msgstr ""
-
-#: clientgui/DlgAccountManagerSignup.cpp:132
-#: clientgui/DlgDialupCredentials.cpp:122
-#: clientgui/DlgOptions.cpp:325
-#: clientgui/DlgOptions.cpp:381
-#: clientgui/DlgSelectComputer.cpp:119
-#: clientgui/WizAttachProject.cpp:1927
-#: clientgui/WizAttachProject.cpp:4210
-#: clientgui/WizAttachProject.cpp:4432
-msgid "Password:"
-msgstr ""
-
-#: clientgui/DlgAccountManagerSignup.cpp:148
-#: clientgui/DlgAccountManagerStatus.cpp:145
-#: clientgui/DlgDialupCredentials.cpp:141
-#: clientgui/DlgOptions.cpp:401
-#: clientgui/DlgSelectComputer.cpp:135
-msgid "&Cancel"
 msgstr ""
 
 #: clientgui/DlgAccountManagerStatus.cpp:110
@@ -168,9 +142,35 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
+#: clientgui/DlgAccountManagerStatus.cpp:145
+#: clientgui/DlgDialupCredentials.cpp:141
+#: clientgui/DlgOptions.cpp:401
+#: clientgui/DlgSelectComputer.cpp:135
+#: clientgui/wizards/wizardex.cpp:363
+msgid "&Cancel"
+msgstr ""
+
 #: clientgui/DlgDialupCredentials.cpp:111
-#: clientgui/WizAttachProject.cpp:2024
+#: clientgui/WizAttachAccountManager.cpp:1576
+#: clientgui/WizAttachProject.cpp:1990
+#: clientgui/wizards/AccountInfoPage.cpp:276
 msgid "Username:"
+msgstr ""
+
+#: clientgui/DlgDialupCredentials.cpp:122
+#: clientgui/DlgOptions.cpp:325
+#: clientgui/DlgOptions.cpp:381
+#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/WizAttachAccountManager.cpp:1553
+#: clientgui/WizAttachAccountManager.cpp:2914
+#: clientgui/WizAttachAccountManager.cpp:2962
+#: clientgui/WizAttachProject.cpp:1884
+#: clientgui/WizAttachProject.cpp:3873
+#: clientgui/WizAttachProject.cpp:3921
+#: clientgui/wizards/AccountInfoPage.cpp:160
+#: clientgui/wizards/ProxyPage.cpp:160
+#: clientgui/wizards/ProxyPage.cpp:210
+msgid "Password:"
 msgstr ""
 
 #: clientgui/DlgOptions.cpp:189
@@ -244,8 +244,12 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:360
-#: clientgui/WizAttachProject.cpp:4194
-#: clientgui/WizAttachProject.cpp:4416
+#: clientgui/WizAttachAccountManager.cpp:2898
+#: clientgui/WizAttachAccountManager.cpp:2946
+#: clientgui/WizAttachProject.cpp:3857
+#: clientgui/WizAttachProject.cpp:3905
+#: clientgui/wizards/ProxyPage.cpp:144
+#: clientgui/wizards/ProxyPage.cpp:194
 msgid "Port:"
 msgstr ""
 
@@ -256,8 +260,12 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:317
 #: clientgui/DlgOptions.cpp:373
-#: clientgui/WizAttachProject.cpp:4202
-#: clientgui/WizAttachProject.cpp:4424
+#: clientgui/WizAttachAccountManager.cpp:2906
+#: clientgui/WizAttachAccountManager.cpp:2954
+#: clientgui/WizAttachProject.cpp:3865
+#: clientgui/WizAttachProject.cpp:3913
+#: clientgui/wizards/ProxyPage.cpp:152
+#: clientgui/wizards/ProxyPage.cpp:202
 msgid "User Name:"
 msgstr ""
 
@@ -354,8 +362,8 @@ msgid "BOINC Manager - Connection failed"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:179
+#: clientgui/MainFrame.cpp:915
 #: clientgui/MainFrame.cpp:916
-#: clientgui/MainFrame.cpp:917
 msgid "Connection failed."
 msgstr ""
 
@@ -375,75 +383,76 @@ msgstr ""
 msgid "BOINC info"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:80
+#: clientgui/MainFrame.cpp:83
 msgid "Connected"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:88
+#: clientgui/MainFrame.cpp:91
 msgid "Disconnected"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:326
-msgid "&Hide"
+#: clientgui/MainFrame.cpp:329
+msgid "Select computer..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:327
-msgid "Hides the main BOINC Manager window"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:334
-msgid "Does work regardless of preferences"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:339
-msgid "Does work according to your preferences"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:344
-msgid "Stops work regardless of preferences"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:352
-msgid "Does network activity regardless of preferences"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:357
-msgid "Does network activity according to your preferences"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:362
-msgid "Stops BOINC network activity"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:369
-msgid "Run &Benchmarks"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:370
-msgid "Runs BOINC CPU benchmarks"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:377
-msgid "Select Computer..."
-msgstr ""
-
-#: clientgui/MainFrame.cpp:378
+#: clientgui/MainFrame.cpp:330
 msgid "Connect to another computer running BOINC"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:386
+#: clientgui/MainFrame.cpp:336
 msgid "Exit the BOINC Manager"
 msgstr ""
 
+#: clientgui/MainFrame.cpp:345
+msgid "Does work regardless of preferences"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:350
+msgid "Does work according to your preferences"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:355
+msgid "Stops work regardless of preferences"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:363
+msgid "Does network activity regardless of preferences"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:368
+msgid "Does network activity according to your preferences"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:373
+msgid "Stops BOINC network activity"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:380
+msgid "Run &benchmarks"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:381
+msgid "Runs BOINC CPU benchmarks"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:388
+msgid "&Attach to &project"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:389
+msgid "Attach to a project to begin processing work"
+msgstr ""
+
 #: clientgui/MainFrame.cpp:393
-msgid "&Manage Accounts"
+msgid "&Account manager"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:394
-msgid "Connect to an account manager website and update all of your accounts"
+msgid "Attach to an account manager"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:401
+#: clientgui/MainFrame.cpp:443
 msgid "&Options"
 msgstr ""
 
@@ -460,7 +469,7 @@ msgid "Show information about the BOINC Manager"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:415
-msgid "BOINC &Website"
+msgid "BOINC &website"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:416
@@ -476,78 +485,88 @@ msgid "&File"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:435
-msgid "&Tools"
+msgid "&Commands"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:439
+msgid "&Projects"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:447
+#: clientgui/wizards/wizardex.cpp:359
+#: clientgui/wizards/wizardex.cpp:366
 msgid "&Help"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1089
-msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+#: clientgui/MainFrame.cpp:1015
+msgid "Attaching to project..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1090
+#: clientgui/MainFrame.cpp:1113
 msgid "Language Selection..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1455
-#: clientgui/MainFrame.cpp:1472
-#: clientgui/MainFrame.cpp:1478
-#: clientgui/MainFrame.cpp:1521
-#: clientgui/MainFrame.cpp:1549
-#: clientgui/MainFrame.cpp:1558
-#: clientgui/MainFrame.cpp:1572
-#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1114
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr ""
+
+#: clientgui/MainFrame.cpp:1508
+#: clientgui/MainFrame.cpp:1525
+#: clientgui/MainFrame.cpp:1531
+#: clientgui/MainFrame.cpp:1574
+#: clientgui/MainFrame.cpp:1602
+#: clientgui/MainFrame.cpp:1611
+#: clientgui/MainFrame.cpp:1625
+#: clientgui/MainFrame.cpp:1633
 msgid "BOINC Manager - Network Status"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1456
+#: clientgui/MainFrame.cpp:1509
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1471
+#: clientgui/MainFrame.cpp:1524
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1479
+#: clientgui/MainFrame.cpp:1532
 msgid "BOINC is connecting to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1522
+#: clientgui/MainFrame.cpp:1575
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1550
+#: clientgui/MainFrame.cpp:1603
 msgid "BOINC has successfully disconnected from the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1559
+#: clientgui/MainFrame.cpp:1612
 msgid "BOINC failed to disconnected from the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1573
+#: clientgui/MainFrame.cpp:1626
 msgid "BOINC has successfully connected to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1581
+#: clientgui/MainFrame.cpp:1634
 msgid "BOINC failed to connect to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1659
-#: clientgui/MainFrame.cpp:1662
+#: clientgui/MainFrame.cpp:1712
+#: clientgui/MainFrame.cpp:1715
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1660
+#: clientgui/MainFrame.cpp:1713
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1663
+#: clientgui/MainFrame.cpp:1716
 #, c-format
 msgid "Connected to %s"
 msgstr ""
@@ -604,746 +623,963 @@ msgstr ""
 msgid "'%s' does not contain a valid path."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:73
-#: clientgui/ViewProjects.cpp:106
-#: clientgui/ViewStatistics.cpp:315
-#: clientgui/ViewTransfers.cpp:91
-#: clientgui/ViewWork.cpp:94
+#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewStatistics.cpp:316
+#: clientgui/ViewTransfers.cpp:92
+#: clientgui/ViewWork.cpp:95
 msgid "Tasks"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:77
+#: clientgui/ViewMessages.cpp:78
 msgid "Copy all messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:78
+#: clientgui/ViewMessages.cpp:79
 msgid "Copy all the messages to the clipboard."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewMessages.cpp:85
 msgid "Copy selected messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessages.cpp:86
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:97
-#: clientgui/ViewProjects.cpp:173
-#: clientgui/ViewResources.cpp:75
-#: clientgui/ViewTransfers.cpp:114
-#: clientgui/ViewWork.cpp:124
+#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewProjects.cpp:161
+#: clientgui/ViewResources.cpp:76
+#: clientgui/ViewTransfers.cpp:115
+#: clientgui/ViewWork.cpp:125
 msgid "Project"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewMessages.cpp:99
 msgid "Time"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:99
+#: clientgui/ViewMessages.cpp:100
 msgid "Message"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:123
+#: clientgui/ViewMessages.cpp:124
 msgid "Messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:144
+#: clientgui/ViewMessages.cpp:146
 msgid "Copying all messages to the clipboard..."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:176
-#: clientgui/ViewTransfers.cpp:182
+#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewTransfers.cpp:184
 msgid "Aborting transfer..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:110
+#: clientgui/ViewProjects.cpp:109
 msgid "Update"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:111
+#: clientgui/ViewProjects.cpp:110
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr ""
 
+#: clientgui/ViewProjects.cpp:117
+msgid "Update all"
+msgstr ""
+
 #: clientgui/ViewProjects.cpp:118
-msgid "Update All"
+msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:119
-msgid "Report all upload items, completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr ""
-
-#: clientgui/ViewProjects.cpp:126
-#: clientgui/ViewProjects.cpp:640
-#: clientgui/ViewWork.cpp:98
-#: clientgui/ViewWork.cpp:448
+#: clientgui/ViewProjects.cpp:125
+#: clientgui/ViewProjects.cpp:583
+#: clientgui/ViewWork.cpp:99
+#: clientgui/ViewWork.cpp:450
 msgid "Suspend"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:127
-#: clientgui/ViewProjects.cpp:640
+#: clientgui/ViewProjects.cpp:126
+#: clientgui/ViewProjects.cpp:583
 msgid "Suspend work for this project."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:133
-#: clientgui/ViewProjects.cpp:652
+#: clientgui/ViewProjects.cpp:132
+#: clientgui/ViewProjects.cpp:595
 msgid "No new work"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:134
-#: clientgui/ViewProjects.cpp:652
-msgid "Don't fetch new work for this project."
+#: clientgui/ViewProjects.cpp:133
+msgid "Don't get new work for this project."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:140
+#: clientgui/ViewProjects.cpp:139
 msgid "Reset project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:141
+#: clientgui/ViewProjects.cpp:140
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:150
+#: clientgui/ViewProjects.cpp:149
 msgid "Detach"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:151
-msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
+#: clientgui/ViewProjects.cpp:150
+msgid "Detach computer from this project.  Work in progress will be lost (use 'Update' first to report any completed work)."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:160
-msgid "Attach to new project"
-msgstr ""
-
-#: clientgui/ViewProjects.cpp:161
-msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr ""
-
-#: clientgui/ViewProjects.cpp:174
+#: clientgui/ViewProjects.cpp:162
 msgid "Account"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:175
+#: clientgui/ViewProjects.cpp:163
 msgid "Team"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:176
+#: clientgui/ViewProjects.cpp:164
 msgid "Total credit"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:177
+#: clientgui/ViewProjects.cpp:165
 msgid "Avg. credit"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:178
+#: clientgui/ViewProjects.cpp:166
 msgid "Resource share"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:179
-#: clientgui/ViewTransfers.cpp:120
-#: clientgui/ViewWork.cpp:131
+#: clientgui/ViewProjects.cpp:167
+#: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewWork.cpp:132
 msgid "Status"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:192
+#: clientgui/ViewProjects.cpp:180
 msgid "Projects"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:214
+#: clientgui/ViewProjects.cpp:203
 msgid "Updating project..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:238
+#: clientgui/ViewProjects.cpp:227
 msgid "Updating all project(s)..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:264
+#: clientgui/ViewProjects.cpp:253
 msgid "Resuming project..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:268
+#: clientgui/ViewProjects.cpp:257
 msgid "Suspending project..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:295
+#: clientgui/ViewProjects.cpp:284
 msgid "Telling project to allow additional work downloads..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:299
+#: clientgui/ViewProjects.cpp:288
 msgid "Telling project to not fetch additional work..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:329
+#: clientgui/ViewProjects.cpp:318
 msgid "Resetting project..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:335
+#: clientgui/ViewProjects.cpp:324
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:341
+#: clientgui/ViewProjects.cpp:330
 msgid "Reset Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:375
+#: clientgui/ViewProjects.cpp:364
 msgid "Detaching from project..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:381
+#: clientgui/ViewProjects.cpp:370
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:387
+#: clientgui/ViewProjects.cpp:376
 msgid "Detach from Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:419
-msgid "Attaching to project..."
-msgstr ""
-
-#: clientgui/ViewProjects.cpp:461
+#: clientgui/ViewProjects.cpp:404
 msgid "Launching browser..."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:636
-#: clientgui/ViewWork.cpp:444
+#: clientgui/ViewProjects.cpp:579
+#: clientgui/ViewWork.cpp:446
 msgid "Resume"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:636
+#: clientgui/ViewProjects.cpp:579
 msgid "Resume work for this project."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:648
+#: clientgui/ViewProjects.cpp:591
 msgid "Allow new work"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:648
+#: clientgui/ViewProjects.cpp:591
 msgid "Allow fetching new work for this project."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:690
+#: clientgui/ViewProjects.cpp:595
+msgid "Don't fetch new work for this project."
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:631
 msgid "Web sites"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:804
-#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewProjects.cpp:745
+#: clientgui/ViewWork.cpp:658
 msgid "Suspended by user"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:807
+#: clientgui/ViewProjects.cpp:748
 msgid "Won't get new work"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:810
+#: clientgui/ViewProjects.cpp:751
 msgid "Scheduler request pending"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:816
+#: clientgui/ViewProjects.cpp:757
 msgid "Communication deferred "
 msgstr ""
 
-#: clientgui/ViewResources.cpp:76
+#: clientgui/ViewResources.cpp:77
 msgid "Disk Space"
 msgstr ""
 
-#: clientgui/ViewResources.cpp:89
+#: clientgui/ViewResources.cpp:90
 msgid "Disk"
 msgstr ""
 
 #: clientgui/ViewStatistics.cpp:40
 #: clientgui/ViewStatistics.cpp:46
-#: clientgui/ViewStatistics.cpp:372
+#: clientgui/ViewStatistics.cpp:374
 msgid "User Total"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:319
+#: clientgui/ViewStatistics.cpp:320
 msgid "Show user total"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:326
+#: clientgui/ViewStatistics.cpp:327
 msgid "Show user average"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:333
+#: clientgui/ViewStatistics.cpp:334
 msgid "Show host total"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:340
+#: clientgui/ViewStatistics.cpp:341
 msgid "Show host average"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:359
+#: clientgui/ViewStatistics.cpp:360
 msgid "Statistics"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:371
-#: clientgui/ViewStatistics.cpp:391
-#: clientgui/ViewStatistics.cpp:411
-#: clientgui/ViewStatistics.cpp:431
+#: clientgui/ViewStatistics.cpp:373
+#: clientgui/ViewStatistics.cpp:393
+#: clientgui/ViewStatistics.cpp:413
+#: clientgui/ViewStatistics.cpp:433
 msgid "Updating charts..."
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:392
+#: clientgui/ViewStatistics.cpp:394
 msgid "User Average"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:412
+#: clientgui/ViewStatistics.cpp:414
 msgid "Host Total"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:432
+#: clientgui/ViewStatistics.cpp:434
 msgid "Host Average"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:95
+#: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:96
+#: clientgui/ViewTransfers.cpp:97
 msgid "Click 'Retry now' to transfer the file now"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:102
+#: clientgui/ViewTransfers.cpp:103
 msgid "Abort Transfer"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:103
+#: clientgui/ViewTransfers.cpp:104
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:115
+#: clientgui/ViewTransfers.cpp:116
 msgid "File"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:116
-#: clientgui/ViewWork.cpp:128
+#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewWork.cpp:129
 msgid "Progress"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewTransfers.cpp:118
 msgid "Size"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:118
+#: clientgui/ViewTransfers.cpp:119
 msgid "Elapsed Time"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:119
+#: clientgui/ViewTransfers.cpp:120
 msgid "Speed"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:133
+#: clientgui/ViewTransfers.cpp:134
 msgid "Transfers"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:155
+#: clientgui/ViewTransfers.cpp:157
 msgid "Retrying transfer now..."
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:185
+#: clientgui/ViewTransfers.cpp:187
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:190
+#: clientgui/ViewTransfers.cpp:192
 msgid "Abort File Transfer"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:507
+#: clientgui/ViewTransfers.cpp:509
 msgid "Retry in "
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:509
-#: clientgui/ViewWork.cpp:647
+#: clientgui/ViewTransfers.cpp:511
+#: clientgui/ViewWork.cpp:649
 msgid "Download failed"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:511
-#: clientgui/ViewWork.cpp:683
+#: clientgui/ViewTransfers.cpp:513
+#: clientgui/ViewWork.cpp:685
 msgid "Upload failed"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:514
-#: clientgui/ViewTransfers.cpp:523
+#: clientgui/ViewTransfers.cpp:516
+#: clientgui/ViewTransfers.cpp:525
 msgid "Suspended"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:516
-#: clientgui/ViewWork.cpp:685
+#: clientgui/ViewTransfers.cpp:518
+#: clientgui/ViewWork.cpp:687
 msgid "Uploading"
 msgstr ""
 
-#: clientgui/ViewTransfers.cpp:516
-#: clientgui/ViewWork.cpp:649
+#: clientgui/ViewTransfers.cpp:518
+#: clientgui/ViewWork.cpp:651
 msgid "Downloading"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:448
+#: clientgui/ViewWork.cpp:100
+#: clientgui/ViewWork.cpp:450
 msgid "Suspend work for this result."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:105
-#: clientgui/ViewWork.cpp:208
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:210
 msgid "Show graphics"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:107
 msgid "Show application graphics in a window."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:112
+#: clientgui/ViewWork.cpp:113
 msgid "Abort"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:114
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:125
+#: clientgui/ViewWork.cpp:126
 msgid "Application"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:126
+#: clientgui/ViewWork.cpp:127
 msgid "Name"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:127
+#: clientgui/ViewWork.cpp:128
 msgid "CPU time"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:129
+#: clientgui/ViewWork.cpp:130
 msgid "To completion"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:130
+#: clientgui/ViewWork.cpp:131
 msgid "Report deadline"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:144
+#: clientgui/ViewWork.cpp:145
 msgid "Work"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:168
+#: clientgui/ViewWork.cpp:170
 msgid "Resuming result..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:172
+#: clientgui/ViewWork.cpp:174
 msgid "Suspending result..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:198
+#: clientgui/ViewWork.cpp:200
 msgid "Showing graphics for result..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:207
+#: clientgui/ViewWork.cpp:209
 msgid "Are you sure you wish to display graphics on a remote machine?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:256
+#: clientgui/ViewWork.cpp:258
 msgid "Aborting result..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:259
+#: clientgui/ViewWork.cpp:261
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:265
+#: clientgui/ViewWork.cpp:267
 msgid "Abort result"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:444
+#: clientgui/ViewWork.cpp:446
 msgid "Resume work for this result."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:643
+#: clientgui/ViewWork.cpp:645
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:654
-#: clientgui/ViewWork.cpp:676
+#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewWork.cpp:678
 msgid "Aborted by user"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:658
+#: clientgui/ViewWork.cpp:660
 msgid "Activities suspended"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:661
+#: clientgui/ViewWork.cpp:663
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:663
+#: clientgui/ViewWork.cpp:665
 msgid "Preempted"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:665
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:667
+#: clientgui/ViewWork.cpp:670
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:680
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:690
+#: clientgui/ViewWork.cpp:692
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:692
+#: clientgui/ViewWork.cpp:694
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:694
+#: clientgui/ViewWork.cpp:696
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:702
+#: clientgui/ViewWork.cpp:704
 msgid "Activities suspended by user"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:149
-msgid "Attach to Project"
+#: clientgui/WizAttachAccountManager.cpp:138
+#: clientgui/WizAttachAccountManager.cpp:1596
+#: clientgui/wizards/WizardAccountManager.cpp:116
+msgid "Attach to Account Manager"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:494
+#: clientgui/WizAttachAccountManager.cpp:412
+#: clientgui/WizAttachProject.cpp:457
+#: clientgui/wizards/WizardAccountManager.cpp:374
+#: clientgui/wizards/WizardAttachProject.cpp:425
 msgid "Do you really want to cancel?"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:495
+#: clientgui/WizAttachAccountManager.cpp:413
+#: clientgui/WizAttachProject.cpp:458
+#: clientgui/wizards/WizardAccountManager.cpp:375
+#: clientgui/wizards/WizardAttachProject.cpp:426
 msgid "Question"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:702
-msgid "Attach to project"
+#: clientgui/WizAttachAccountManager.cpp:593
+#: clientgui/wizards/AccountInfoPage.cpp:301
+#: clientgui/wizards/WelcomePage.cpp:149
+msgid "Attach to account manager"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:707
-msgid "We'll now guide you through the process of attaching to a project."
+#: clientgui/WizAttachAccountManager.cpp:598
+#: clientgui/wizards/WelcomePage.cpp:153
+msgid ""
+"We'll now guide you through the process of attaching to an\n"
+"account manager."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:713
+#: clientgui/WizAttachAccountManager.cpp:604
+#: clientgui/WizAttachProject.cpp:674
+#: clientgui/wizards/WelcomePage.cpp:160
 msgid "Debug Flags"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:723
+#: clientgui/WizAttachAccountManager.cpp:614
+#: clientgui/WizAttachProject.cpp:684
+#: clientgui/wizards/WelcomePage.cpp:170
 msgid "Project Properties Failure"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:728
-msgid "Project Comm Failure"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:733
+#: clientgui/WizAttachAccountManager.cpp:621
+#: clientgui/WizAttachProject.cpp:694
+#: clientgui/wizards/WelcomePage.cpp:180
 msgid "Project Properties URL Failure"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:738
-msgid "Account Creation Disabled"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:743
-msgid "Client Account Creation Disabled"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:748
-msgid "Account Already Exists"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:753
-msgid "Project Already Attached"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:758
+#: clientgui/WizAttachAccountManager.cpp:628
+#: clientgui/WizAttachProject.cpp:719
+#: clientgui/wizards/WelcomePage.cpp:205
 msgid "Project Attach Failure"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:763
+#: clientgui/WizAttachAccountManager.cpp:635
+#: clientgui/WizAttachProject.cpp:724
+#: clientgui/wizards/WelcomePage.cpp:210
 msgid "Google Comm Failure"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:770
+#: clientgui/WizAttachAccountManager.cpp:642
+#: clientgui/WizAttachProject.cpp:731
+#: clientgui/wizards/WelcomePage.cpp:217
 msgid "Yahoo Comm Failure"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:777
+#: clientgui/WizAttachAccountManager.cpp:649
+#: clientgui/WizAttachProject.cpp:738
+#: clientgui/wizards/WelcomePage.cpp:224
 msgid "Net Detection Failure"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:784
+#: clientgui/WizAttachAccountManager.cpp:656
+#: clientgui/WizAttachProject.cpp:745
+#: clientgui/wizards/WelcomePage.cpp:231
 msgid "To continue, click Next."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:996
-msgid "Project URL"
+#: clientgui/WizAttachAccountManager.cpp:846
+#: clientgui/wizards/AccountManagerInfoPage.cpp:103
+msgid "Account Manager URL"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1001
-msgid "Enter the URL of the project's web site."
+#: clientgui/WizAttachAccountManager.cpp:851
+#: clientgui/wizards/AccountManagerInfoPage.cpp:108
+msgid "Enter the URL of the account manager's web site."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1007
+#: clientgui/WizAttachAccountManager.cpp:857
+#: clientgui/WizAttachProject.cpp:968
+#: clientgui/wizards/AccountManagerInfoPage.cpp:114
+#: clientgui/wizards/ProjectInfoPage.cpp:115
 msgid "You can copy and paste the URL from your browser’s address bar."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1017
+#: clientgui/WizAttachAccountManager.cpp:867
+#: clientgui/wizards/AccountManagerInfoPage.cpp:124
+msgid "Account Manager URL:"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:877
+#: clientgui/wizards/AccountManagerInfoPage.cpp:134
+msgid "For a list of BOINC-based account managers go to:"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:1054
+#: clientgui/wizards/AccountManagerPropertiesPage.cpp:135
+msgid ""
+"Communicating with account manager \n"
+"Please wait..."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:1534
+#: clientgui/WizAttachProject.cpp:1847
+#: clientgui/wizards/AccountInfoPage.cpp:114
+msgid "Account information"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:1545
+#: clientgui/WizAttachAccountManager.cpp:1580
+#: clientgui/WizAttachProject.cpp:1876
+#: clientgui/WizAttachProject.cpp:1994
+#: clientgui/wizards/AccountInfoPage.cpp:152
+#: clientgui/wizards/AccountInfoPage.cpp:280
+msgid "Email address:"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:1756
+#: clientgui/wizards/AccountManagerProcessingPage.cpp:132
+msgid ""
+"Communicating with account manager\n"
+"Please wait..."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2111
+#: clientgui/wizards/CompletionPage.cpp:121
+msgid "Attached to account manager"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2116
+#: clientgui/wizards/CompletionPage.cpp:125
+msgid "You are now successfully attached to this account manager."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2122
+#: clientgui/WizAttachAccountManager.cpp:2276
+#: clientgui/WizAttachProject.cpp:2689
+#: clientgui/WizAttachProject.cpp:2782
+#: clientgui/wizards/CompletionErrorPage.cpp:109
+#: clientgui/wizards/CompletionErrorPage.cpp:120
+#: clientgui/wizards/CompletionPage.cpp:199
+msgid "Click Finish to close."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2269
+#: clientgui/wizards/CompletionErrorPage.cpp:114
+msgid "Failed to attach to account manager"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2414
+#: clientgui/wizards/NotDetectedPage.cpp:116
+msgid "Account manager not found"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2421
+#: clientgui/wizards/NotDetectedPage.cpp:122
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2425
+#: clientgui/WizAttachProject.cpp:2936
+#: clientgui/wizards/NotDetectedPage.cpp:111
+#: clientgui/wizards/NotDetectedPage.cpp:125
+msgid "Please check the URL and try again."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2563
+#: clientgui/wizards/UnavailablePage.cpp:112
+msgid "Account manager temporarily unavailable"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2570
+msgid ""
+"The account manager is currently unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2708
+#: clientgui/WizAttachProject.cpp:3373
+#: clientgui/wizards/NoInternetConnectionPage.cpp:98
+msgid "No Internet connection"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2715
+#: clientgui/WizAttachProject.cpp:3380
+#: clientgui/wizards/NoInternetConnectionPage.cpp:105
+msgid "Please connect to the Internet and try again."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2871
+#: clientgui/WizAttachProject.cpp:3830
+#: clientgui/wizards/ProxyPage.cpp:117
+msgid "Proxy configuration"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2877
+#: clientgui/WizAttachProject.cpp:3836
+#: clientgui/wizards/ProxyPage.cpp:123
+msgid "HTTP proxy"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2886
+#: clientgui/WizAttachAccountManager.cpp:2934
+#: clientgui/WizAttachProject.cpp:3845
+#: clientgui/WizAttachProject.cpp:3893
+#: clientgui/wizards/ProxyPage.cpp:132
+#: clientgui/wizards/ProxyPage.cpp:182
+msgid "Server:"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2922
+#: clientgui/WizAttachProject.cpp:3881
+#: clientgui/wizards/ProxyPage.cpp:169
+msgid "Autodetect"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:2925
+#: clientgui/WizAttachProject.cpp:3884
+#: clientgui/wizards/ProxyPage.cpp:173
+msgid "SOCKS proxy"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:3174
+#: clientgui/WizAttachProject.cpp:4135
+msgid "Ref Count Page"
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:3179
+#: clientgui/WizAttachProject.cpp:4140
+msgid "This page should never be used in the wizard itself."
+msgstr ""
+
+#: clientgui/WizAttachAccountManager.cpp:3185
+#: clientgui/WizAttachProject.cpp:4146
+msgid ""
+"This page just increases the refcount of various bitmap resources\n"
+"so that DialogBlocks doesn't nuke the refences to them."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:145
+#: clientgui/WizAttachProject.cpp:2010
+#: clientgui/wizards/WizardAttachProject.cpp:131
+msgid "Attach to Project"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:663
+#: clientgui/wizards/AccountInfoPage.cpp:298
+#: clientgui/wizards/WelcomePage.cpp:140
+msgid "Attach to project"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:668
+#: clientgui/wizards/WelcomePage.cpp:144
+msgid "We'll now guide you through the process of attaching to a project."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:689
+#: clientgui/wizards/WelcomePage.cpp:175
+msgid "Project Comm Failure"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:699
+#: clientgui/wizards/WelcomePage.cpp:185
+msgid "Account Creation Disabled"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:704
+#: clientgui/wizards/WelcomePage.cpp:190
+msgid "Client Account Creation Disabled"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:709
+#: clientgui/wizards/WelcomePage.cpp:195
+msgid "Account Already Exists"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:714
+#: clientgui/wizards/WelcomePage.cpp:200
+msgid "Project Already Attached"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:957
+#: clientgui/wizards/ProjectInfoPage.cpp:104
+msgid "Project URL"
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:962
+#: clientgui/wizards/ProjectInfoPage.cpp:109
+msgid "Enter the URL of the project's web site."
+msgstr ""
+
+#: clientgui/WizAttachProject.cpp:978
+#: clientgui/wizards/ProjectInfoPage.cpp:125
 msgid "Project URL:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1027
+#: clientgui/WizAttachProject.cpp:988
+#: clientgui/wizards/ProjectInfoPage.cpp:135
 msgid "For a list of BOINC-based projects go to:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1204
-#: clientgui/WizAttachProject.cpp:2189
-msgid "Communicating with project - please wait"
+#: clientgui/WizAttachProject.cpp:1165
+#: clientgui/WizAttachProject.cpp:2155
+#: clientgui/wizards/ProjectProcessingPage.cpp:136
+#: clientgui/wizards/ProjectPropertiesPage.cpp:136
+msgid ""
+"Communicating with project \n"
+"Please wait..."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1692
+#: clientgui/WizAttachProject.cpp:1649
+#: clientgui/wizards/AccountKeyPage.cpp:103
 msgid "Enter account key"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1699
+#: clientgui/WizAttachProject.cpp:1656
+#: clientgui/wizards/AccountKeyPage.cpp:110
 msgid "This project uses an \"account key\" to identify you."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1703
+#: clientgui/WizAttachProject.cpp:1660
+#: clientgui/wizards/AccountKeyPage.cpp:114
 msgid ""
 "Go to the project's web site to create an account. Your account\n"
 "key will be emailed to you."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1707
+#: clientgui/WizAttachProject.cpp:1664
+#: clientgui/wizards/AccountKeyPage.cpp:118
 msgid "An account key looks like:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1711
+#: clientgui/WizAttachProject.cpp:1668
+#: clientgui/wizards/AccountKeyPage.cpp:122
 msgid "82412313ac88e9a3638f66ea82186948"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1722
+#: clientgui/WizAttachProject.cpp:1679
+#: clientgui/wizards/AccountKeyPage.cpp:133
 msgid "Account key:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1890
-msgid "Account information"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:1895
+#: clientgui/WizAttachProject.cpp:1852
+#: clientgui/wizards/AccountInfoPage.cpp:120
 msgid "Do you wish to use an existing account or create a new one?"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1905
+#: clientgui/WizAttachProject.cpp:1862
+#: clientgui/wizards/AccountInfoPage.cpp:136
 msgid "Create new account"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1910
+#: clientgui/WizAttachProject.cpp:1867
+#: clientgui/wizards/AccountInfoPage.cpp:141
 msgid "Use existing account"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:1919
-#: clientgui/WizAttachProject.cpp:2028
-msgid "Email address:"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:1935
+#: clientgui/WizAttachProject.cpp:1892
+#: clientgui/wizards/AccountInfoPage.cpp:169
 msgid "Confirm password:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2044
-msgid "Attach to Project Wizard"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:2055
+#: clientgui/WizAttachProject.cpp:2021
+#: clientgui/wizards/AccountInfoPage.cpp:313
 #, c-format
 msgid "The minimum password length for this project is %d. Please choose a different password."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2064
+#: clientgui/WizAttachProject.cpp:2030
+#: clientgui/wizards/AccountInfoPage.cpp:322
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2645
+#: clientgui/WizAttachProject.cpp:2610
+#: clientgui/wizards/CompletionPage.cpp:107
 msgid "Attached to project"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2650
+#: clientgui/WizAttachProject.cpp:2615
+#: clientgui/wizards/CompletionPage.cpp:111
 msgid "You are now successfully attached to this project."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2656
-#: clientgui/WizAttachProject.cpp:2722
+#: clientgui/WizAttachProject.cpp:2621
+#: clientgui/WizAttachProject.cpp:2687
+#: clientgui/wizards/CompletionPage.cpp:116
+#: clientgui/wizards/CompletionPage.cpp:130
+#: clientgui/wizards/CompletionPage.cpp:197
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2724
-#: clientgui/WizAttachProject.cpp:2817
-msgid "Click Finish to close."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:2810
+#: clientgui/WizAttachProject.cpp:2775
+#: clientgui/wizards/CompletionErrorPage.cpp:103
 msgid "Failed to attach to project"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2960
+#: clientgui/WizAttachProject.cpp:2925
+#: clientgui/wizards/NotDetectedPage.cpp:102
 msgid "Project not found"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2967
+#: clientgui/WizAttachProject.cpp:2932
+#: clientgui/wizards/NotDetectedPage.cpp:108
 msgid "The URL you supplied is not that of a BOINC-based project."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:2971
-msgid "Please check the URL and try again."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:3116
+#: clientgui/WizAttachProject.cpp:3081
+#: clientgui/wizards/UnavailablePage.cpp:101
 msgid "Project temporarily unavailable"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3123
+#: clientgui/WizAttachProject.cpp:3088
 msgid ""
 "The project is currently unavailable.\n"
 "\n"
 "Please try again later."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3263
+#: clientgui/WizAttachProject.cpp:3228
+#: clientgui/wizards/AlreadyAttachedPage.cpp:98
 msgid "Already attached to project"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3270
+#: clientgui/WizAttachProject.cpp:3235
+#: clientgui/wizards/AlreadyAttachedPage.cpp:105
 msgid "You are already attached to this project."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3408
-msgid "No Internet connection"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:3415
-msgid "Please connect to the Internet and try again."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:3554
+#: clientgui/WizAttachProject.cpp:3519
+#: clientgui/wizards/NotFoundPage.cpp:99
 msgid "Account not found"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3561
+#: clientgui/WizAttachProject.cpp:3526
+#: clientgui/wizards/NotFoundPage.cpp:106
 msgid "Verify your account name and password are correct and try again."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3700
+#: clientgui/WizAttachProject.cpp:3665
+#: clientgui/wizards/AlreadyExistsPage.cpp:99
 msgid "Email address already in use"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3707
+#: clientgui/WizAttachProject.cpp:3672
+#: clientgui/wizards/AlreadyExistsPage.cpp:106
 msgid ""
 "An account with that email address already exists and has a\n"
 "different password than the one you entered.\n"
@@ -1351,88 +1587,47 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:3847
-msgid "Account creation disabled"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:3854
-msgid "This project is not accepting new accounts at this time."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:3995
-msgid "Network communication failed"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:4002
+#: clientgui/wizards/AccountInfoPage.cpp:126
 msgid ""
-"We were unable to communicate with the project or other web\n"
-"sites.\n"
-"\n"
-"Often this means that you are using a proxy server, and you need\n"
-"to tell us about it.\n"
-"\n"
-"Click Next to do proxy configuration."
+"Transition Note: Account keys are used as passwords for accounts created\n"
+"before BOINC migrated to a username and password authentication scheme."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:4161
-msgid "HTTP proxy"
+#: clientgui/wizards/CompletionErrorPage.cpp:126
+msgid "Messages from server:"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:4168
+#: clientgui/wizards/UnavailablePage.cpp:107
 msgid ""
-"If you're using an HTTP proxy, enter its info here.\n"
+"The project is temporarily unavailable.\n"
 "\n"
-"If you're not sure, click Autodetect."
+"Please try again later."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:4174
-#: clientgui/WizAttachProject.cpp:4396
-msgid "Autodetect"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:4182
-#: clientgui/WizAttachProject.cpp:4404
-msgid "Server:"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:4383
-msgid "SOCKS proxy"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:4390
+#: clientgui/wizards/UnavailablePage.cpp:118
 msgid ""
-"If you're using a SOCKS proxy, enter its info here.\n"
+"The account manager is temporarily unavailable.\n"
 "\n"
-"If you're not sure, click Autodetect."
+"Please try again later."
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:4595
-msgid "Proxy configuration complete"
+#: clientgui/wizards/wizardex.cpp:362
+#: clientgui/wizards/wizardex.cpp:553
+msgid "&Next >"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:4600
-msgid "Click Next to continue."
+#: clientgui/wizards/wizardex.cpp:368
+msgid "< &Back"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:4745
-msgid "Ref Count Page"
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:4750
-msgid "This page should never be used in the wizard itself."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:4756
-msgid ""
-"This page just increases the refcount of various bitmap resources\n"
-"so that DialogBlocks doesn't nuke the refences to them."
+#: clientgui/wizards/wizardex.cpp:551
+msgid "&Finish"
 msgstr ""
 
 #: clientgui/DlgAbout.h:51
 msgid "About BOINC Manager"
 msgstr ""
 
-#: clientgui/DlgAccountManagerSignup.h:50
 #: clientgui/DlgAccountManagerStatus.h:50
 msgid "Account Manager"
 msgstr ""

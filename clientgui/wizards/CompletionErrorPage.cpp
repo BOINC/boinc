@@ -128,7 +128,7 @@ void CCompletionErrorPage::CreateControls()
     itemBoxSizer86->Add(m_ServerMessagesStaticBoxSizer, 0, wxGROW|wxALL, 5);
 
     m_ServerMessages = new wxStaticText;
-    m_ServerMessages->Create( itemWizardPage85, wxID_STATIC, _(""), wxDefaultPosition, wxDefaultSize, 0 );
+    m_ServerMessages->Create( itemWizardPage85, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     m_ServerMessagesStaticBoxSizer->Add(m_ServerMessages, 0, wxGROW|wxALL, 5);
 ////@end CCompletionErrorPage content construction
 }

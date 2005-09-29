@@ -12356,8 +12356,12 @@ Rom    29 Sept 2005
     - Add a server message to the wizard that points out when the wizard
         receives a 404 from the server for lookup_account.php and
         create_account.php.
+    - Add some text to the account info page that states that the default
+        password for accounts created before the new authentication scheme
+        is the account key.
         
     clientgui/
         MainFrame.cpp
     clientgui/wizards/
+        AccountInfoPage.cpp
         ProjectProcessingPage.cpp

@@ -122,6 +122,12 @@ void CAccountInfoPage::CreateControls()
 
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
+        wxStaticText* itemStaticText60 = new wxStaticText;
+        itemStaticText60->Create( itemWizardPage56, wxID_STATIC, _("Transition Note: Account keys are used as passwords for accounts created\nbefore BOINC migrated to a username and password authentication scheme."), wxDefaultPosition, wxDefaultSize, 0 );
+        itemBoxSizer57->Add(itemStaticText60, 0, wxALIGN_LEFT|wxALL, 5);
+
+        itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
         wxFlexGridSizer* itemFlexGridSizer61 = new wxFlexGridSizer(1, 2, 0, 0);
         itemFlexGridSizer61->AddGrowableCol(1);
         itemBoxSizer57->Add(itemFlexGridSizer61, 0, wxGROW|wxALL, 5);
