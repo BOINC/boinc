@@ -12372,3 +12372,9 @@ Reinhard 	29 Sept 2005
     lib/
        Makefile.am
 
+David  29 Sept 2005
+    - added Python version of get_output_file_path()
+        (from Alex A. dos Santos)
+
+    py/Boinc/
+        tools.py

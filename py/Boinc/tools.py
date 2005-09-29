@@ -220,3 +220,13 @@ def query_noyes(str):
     '''Query user; default No'''
     print str, "[y/N] ",
     return raw_input().strip().lower().startswith('y')
+
+def get_output_file_path(filename):
+    """ Return the filename's path in the upload directory
+        Use this if you're developing a validator/assimilator in Python
+    """
+    config = configxml.default_config()
+    fanout = long(config.config.uldl_dir_fanout)
+    s = md5.new(filename).hexdigest()[1:8]
+    x = long(s, 16)
+    return "%s/%x/%s" % (config.config.upload_dir, x % fanout, filename) 

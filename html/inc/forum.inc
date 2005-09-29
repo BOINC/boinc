@@ -498,9 +498,9 @@ function show_forum_summary($forum) {
 
 function post_warning() {
     return "<br><br><font size=-2>
-        Do not use obscene language
-        or threaten other participants;
-        we may delete such messages.</font>
+        Don't use obscene language or images,
+        and don't threaten other participants;
+        otherwise we may delete your messages.</font>
     ";
 }
 

@@ -81,6 +81,9 @@ Its format is:
 </acct_mgr>
 ")."
 
+<p>
+Note: the URL is that of the account manager's web site.
+
 <dt>
 <b>acct_mgr_login.xml</b>
 <dd>
@@ -105,7 +108,8 @@ and for changing the name/password.
 ";
 
 list_start();
-list_item("URL", "Given in the file <b>acct_manager_url.xml</b>");
+list_item("URL", "<b>BASE_URL/rpc.php</b>, where BASE_URL is the URL
+        of the account manager web site.");
 list_item("input", "name
     <br>password"
 );
