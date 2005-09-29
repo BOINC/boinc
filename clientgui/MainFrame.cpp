@@ -952,7 +952,7 @@ void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function Begin"));
 
-    int                       iAnswer = 0;
+    int                       iAnswer = ID_CHANGE;
     wxString                  strTitle = wxEmptyString;
     CMainDocument*            pDoc = wxGetApp().GetDocument();
 
@@ -981,7 +981,7 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
             pDlgStatus->Destroy();
     }
 
-    if ((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) {
+    if (((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) && (wxID_CANCEL != iAnswer)) {
         CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
         wxString strName = wxEmptyString;
