@@ -1,0 +1,335 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-09-26 18:34-0500\n"
+"Last-Translator: Mathe Stefan <mstefan@cs.toronto.edu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: ROMANIA\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+
+##########################################
+# Language: English (International)
+# FileID  : $Id$
+# Author  : Janus Kristensen
+# Email   : jbk@visualgroup.dk
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Română"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Romanian"
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Aplicaţii"
+
+# When you participate in $PROJECT, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything. 
+msgid "APPS_DESCRIPTION"
+msgstr "In momentul de faţă există următoarele aplicaţii ale $PROJECT. Când luaţi parte la $PROJECT, unităţi de lucru pentru una sau mai multe dintre aceste aplicaţii vor fi distribuite computerului dumneavoastră. Versiunea curentă a aplicaţiei va fi downloadată pe computerul dumneavoastră, în mod automat; nu trebuie să faceţo nimic pentru asta."
+
+msgid "APPS_PLATFORM"
+msgstr "Platforma"
+
+msgid "APPS_VERSION"
+msgstr "Versiunea curentă"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Instalat"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Reguli si politici"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Rulaţi $PROJECT numai pe computere autorizate."
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Rulaţi $PROJECT numai pe computerele pe care le deţineţii, sau pentru care aţi obţinut permisiunea proprietarului. Unele companii si şcoli au regulamente care interzic utilizarea computerelor de care dispun pentru proiecte de tipul $PROJECT."
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Cum va folosi $PROJECT computerul dumneavoastră"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Când rulaţi $PROJECT pe computerul dumneavoastră, acesta va utiliza o parte din puterea de calcul a CPU, din spaţiul pe disc şi lungimea de bandă a reţelei.  Puteţii controla cât din resurse să fie folosite de către $PROJECT şi când să fie ele utilizate."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Sarcinile efectuate de computerul dumneavoastră contribuie la atingerea scopurilor $PROJECT, după cum este descris pe websiteul proiectului. Programele de aplicaţii se pot schimba din cand in cand."
+
+msgid "RULES_PRIVACY"
+msgstr "Regulament de confidenţialitate."
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Contul dumneavoastră la $PROIECT este identificat de un nume ales de dumneavoastră. Acest nume poate aparea pe website-ul $PROJECT, impreuna cu un sumar al lucrului pe care computerul tau l-a facut pentru $PROJECT. Daca doresti sa fii anonim, alege un nume care sa nu-ti divulge identitatea."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Dacă participaţi la $PROJECT, informaţii referitoare la computerul dumneavoastră (de exemplu tipul procesorului, dimensiunea memoriei, etc.) vor fi înregistrate de către $PROJECT pentru a decide ce fel de unităţi de lucru să atribuie computerului dumneavoastră. Aceste informaţii vor fi afişate si pe website-ul $PROJECT. Nu vor fi afişate informaţii care ar putea indica locaţia computerului (de exemplu numele domeniului sau adresa de reţea)."
+
+# To participate in $PROJECT, you must give an address where you receive email. This address will not be shown on the $PROJECT web site or shared with organizations. $PROJECT may send you periodic newsletters; however, you can opt out at any time.
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "Pentru a participa la $PROJECT, trebuie sa specificaţi o adresă de mail. Această adresă nu va fi afişată pe website-ul $PROJECT sau făcută publică spre alte organizaţii. $PROJECT vă poate trimite periodic unele noutăţi; totuşi, puteţi renunţa oricând."
+
+msgid "RULES_SAFE"
+msgstr "Sunteţi sigur că doriţi sa rulaţi $PROJECT ?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "De fiecare dată când luaţi un program de pe Internet, vă asumaţi un risc: programul poate avea erori periculoase, sau serverul de download poate să fi fost atacat de hackeri. $PROJECT a facut eforturi să minimizeze aceste riscuri. Aplicaţiile noastre au fost testate riguros. Serverele noastre sunt protejate de firewall-uri si sunt configurate cu cele mai inalte setări de siguranţă. Pentru a asigura integritatea transferului de programe, toate fişierele executabile sunt marcate digital pe un computer securizat care nu este conectat la Internet."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Aplicaţiile rulate de $PROJECT pot cauza unele computere să se supraîncălzească. Dacă se intamplă aşa ceva, opriţi rularea $PROJECT sau folosiţi o %s care limitează utilizarea procesorului."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "program utilitar"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT a fost dezvoltat de %s. BOINC a fost dezvoltat la Universitatea din California."
+
+msgid "RULES_LIABILITY"
+msgstr "Responsabilitate"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT si %s nu işi asumă nici o obligaţie pentru defecţiuni ale computerului, pierderea de date, sau orice alt eveniment sau situaţie care poate apărea în urma participării la $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Alte proiecte BOINC."
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Alte proiecte utilizează aceeaşi platformă, BOINC, ca şi $PROJECT. Puteţi lua in considerare ideea de a participa la mai multe dintre aceste proiecte. În acest fel, computerul dumneavoastră va fi util chiar şi atunci când $PROJECT nu are unităţi de lucru pregătite pentru el."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Aceste alte proiecte nu sunt asociate cu $PROJECT şi nu putem garanta pentru metodele lor de securitate sau natura subiectului lor de cercetare. Înscrierea se face pe răspunderea dumneavoastră."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Creează un cont"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Citeşte %s înainte de a crea un cont."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Dacă ai primit deja o cheie de cont, nu trimite acest formular. În loc, %s."
+
+msgid "CREATE_AC_NAME"
+msgstr "Nume"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Te identifică pe pagina noastră web. Foloseşte numele tău real, sau un nickname."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Adresa de e-mail"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Trebuie să fie o adresă validă, de forma 'nume@domeniu'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Ţara"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Selectează ţara pe care doreşti să o reprezinţi, dacă e cazul."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Codul poştal sau ZIP"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Creează Cont"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Creare Cont Dezactivată"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "Crearea de conturi pentru $PROJECT este dezactivată în acest moment. Vă rugăm sa încercaţi mai tarziu."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Acest cont va aparţine echipei %s şi va avea preferinţele de proiect ale fondatorului."
+
+#########################################
+# Account created page (account_created.php)
+#########################################
+msgid "AC_READY_TITLE"
+msgstr "Cont creat"
+
+msgid "AC_READY_WELCOME"
+msgstr "Felicitări - contul dumneavoastră la $PROJECT a fost creat!"
+
+msgid "AC_READY_PASTE"
+msgstr "Pentru a continua, copiază cheia de cont aici:"
+
+msgid "AC_READY_CLICK"
+msgstr "şi apasă"
+
+#########################################
+# Account setup page (account_setuo.php)
+#########################################
+#also used in account_setup_nonfirst.php:
+msgid "AC_SETUP_TITLE"
+msgstr "Setare cont"
+
+msgid "AC_SETUP_USES_BOINC"
+msgstr "$PROJECT utilizează sistemul software BOINC."
+
+msgid "AC_SETUP_DIVISION"
+msgstr "BOINC îţi permite să împarţi timpul de lucru al computerului tău între mai multe proiecte de calcul distribuite."
+
+msgid "AC_SETUP_ISFIRST"
+msgstr "Este acesta primul proiect BOINC la care participaţi?"
+
+msgid "AC_SETUP_FIRST"
+msgstr "Da - acesta este primul meu proiect BOINC"
+
+msgid "AC_SETUP_NONFIRST"
+msgstr "Nu - în acest moment particip la cel puţin un alt proiect BOINC"
+
+#########################################
+# First Account setup page (account_setup_first.php)
+#########################################
+msgid "AC_FIRST_TITLE"
+msgstr "Preferinţe cont"
+
+msgid "AC_FIRST_CONTROL"
+msgstr "Puteţi controla când şi cum este folosit computerul dumneavoastră de către $PROJECT"
+
+msgid "AC_FIRST_DEFAULT"
+msgstr "Pentru a utiliza setările implicite, navighează la sfarşitul paginii si apasă OK."
+
+#########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "Setare cont: incheiată"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Setarea contului tău s-a încheiat."
+
+msgid "AC_DONE_BOINC"
+msgstr "În continuare trebuie să descărcaţi şi să instalaţi software-ul BOINC şi să indicaţi computerului dumneavoastră să utilizeze acest cont."
+
+msgid "AC_DONE_URL"
+msgstr "Când software-ul BOINC rulează pentru prima dată, va solicita un <b>URL Proiect</b> şi o <b>Cheie de Cont</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Copiaţi-le de aici:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "Acum poţi %s pentru a incheia instalarea $PROJECT."
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "downloadează software-ul BOINC"
+
+msgid "AC_DONE_THANKS"
+msgstr "Mulţumim pentru participarea la $PROJECT"
+
+#########################################
+# Non-first Account setup page (account_setup_nonfirst.php)
+#########################################
+msgid "AC_NONFIRST_TITLE"
+msgstr "Setare cont: partajarea de resurse"
+
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "In continuare trebuie sa indicaţi computerului dumneavoastră să utilizeze acest cont."
+
+msgid "AC_DONE_WIN"
+msgstr "Utilizatori Windows:"
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Deschideţi fereastra de aplicaţie BOINC prin dublu click pe icon-ul BOINC din system tray. Selectaţi 'Attach to Project' din meniul Settings. Va solicita un URL al proiectului şi o cheie de cont."
+
+msgid "AC_DONE_UNIX"
+msgstr "Utilizatorii Mac, Unix si Linux:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Inchideţi clientul BOINC. Apoi rulaţi clientul BOINC cu opţiunea -attach_project. Va solicita un URL al proiectului si o cheie de cont."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "In fiecare din cazuri, copiaţi următoarele:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "Aceasta încheie instalarea $PROJECT."
+
+#########################################
+# Forum sample index page
+#########################################
+msgid "FORUM_TITLE"
+msgstr "Listele de mesaje $PROJECT"
+
+#########################################
+# Different strange places:
+#########################################
+# account_created.php
+msgid "AC_CREATED_TITLE"
+msgstr "Configurează-ţi contul"
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Opţional"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Topul participanţilor"
+
+msgid "USER_TABLE_RANK"
+msgstr "Rang"
+
+msgid "USER_TABLE_NAME"
+msgstr "Nume"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "Credit Total"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "Ultimul credit mediu"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Ţara"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Participant din"
+
+# I have no idea if this is what they meant... No context :(
+msgid "TOP_TEAMS_TITLE"
+msgstr "Primele %s echipe din top"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Membri"
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Titluri ce conţin '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Mesaje postate ce conţin '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Nu a fost găsit nici un titlu care să conţină '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Nu au fost găsite mesaje postate care să conţină '%s'."
+

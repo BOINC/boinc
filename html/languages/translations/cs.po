@@ -22,13 +22,13 @@ msgstr "Czech"
 # Apps page (apps.php)
 #########################################
 msgid "APPS_TITLE"
-msgstr "Aplikace"
+msgstr "Aplikační programy"
 
 msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT nyní používá tyto aplikace. Pokud se podílíte na "
-"$PROJECT, bude Vašemu počítači přidělena práce pro jednu, nebo "
-"více, těchto aplikací. Nejnovější verze aplikace se vždy automaticky "
-"stáhne do Vašeho počítače."
+msgstr "$PROJECT nyní používá tyto aplikační programy. Pokud jste zapojen v "
+"$PROJECT, bude Vašemu počítači přidělena práce pro jeden, nebo "
+"více, z těchto aplikačních programů. Aktuální verze aplikačního programu "
+"se vždy automaticky stáhne do Vašeho počítače."
 
 msgid "APPS_PLATFORM"
 msgstr "Platforma"
@@ -43,7 +43,7 @@ msgstr "Nainstalovaná"
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Podmínky a pravidla"
+msgstr "Pravidla a zásady"
 
 msgid "RULES_ONLY_AUTH"
 msgstr "Používejte $PROJECT jen na autorizovaných počítačích"
@@ -52,7 +52,7 @@ msgid "RULES_ONLY_AUTH_TEXT"
 msgstr "Používejte $PROJECT pouze na počítačích které vlastníte, "
 "nebo na kterých Vám to jejich vlastník povolil. Některé školy nebo "
 "firmy se řídí předpisy, které zakazují používat jejich počítače pro "
-"projekty jako je $PROJECT"
+"projekty jako je $PROJECT ."
 
 msgid "RULES_COMPUTER_USE"
 msgstr "Jak bude $PROJECT využívat Váš počítač"
@@ -72,13 +72,13 @@ msgstr "Ochrana soukromí"
 
 msgid "RULES_PRIVACY_TEXT_A"
 msgstr "Váš účet na $PROJECT je identifikován podle jména, které "
-"si sami zvolíte. Toto jméno bude zobrazováno na stránkách $PROJECT, "
+"si sami zvolíte. Toto jméno může být zobrazeno na stránkách $PROJECT, "
 "spolu s údaji o tom, kolik práce již Váš počítač v $PROJECT vykonal. "
 "Pokud si přejete zůstat v anonymitě, zvolte si takové jméno, které "
 "skryje Vaší pravou identitu."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Pokud se účastníte $PROJECT, informace o Vašem počítači "
+msgstr "Pokud jste zapojen v $PROJECT, informace o Vašem počítači "
 "(typ procesoru, velikost paměti atd.) bude zaznamenána v databázi "
 "$PROJECT a použita pro určení, jaký typ práce bude Vašemu počítači "
 "přidělen. Tyto informace budou také viditelné na stránkách "
@@ -86,13 +86,13 @@ msgstr "Pokud se účastníte $PROJECT, informace o Vašem počítači "
 "počítače, jako např. jméno domény či IP adresa."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Abyste se mohli podílet v $PROJECT, musíte zadat Vaší emailovou "
+msgstr "Abyste se mohli zapojit do $PROJECT, musíte zadat Vaší emailovou "
 "adresu, kterou používáte. Tato adresa nebude zobrazena na stránkách "
 "$PROJECT ani sdělována jiným organizacím. $PROJECT vám bude zasílat "
 "emailové novinky, které ovšem můžete kdykoliv zrušit. "
 
 msgid "RULES_SAFE"
-msgstr "Je bezpečné používat $PROJECT ?"
+msgstr "Je bezpečné být zapojen v $PROJECT ?"
 
 msgid "RULES_SAFE_TEXT_A"
 msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se "
@@ -104,9 +104,9 @@ msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se "
 "za firewallem a nastaveny na vysokou úroveň zabezpečení."
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "Při používání aplikací $PROJECT se mohou některé počítače přehřívat. "
-"Pokud se tak stane, přestaňte používat $PROJECT nebo používejte %s "
-"které omezí využití počítače."
+msgstr "Při používání aplikačních programů $PROJECT může docházet "
+"u některých počítačů k přehřívání. Pokud se tak stane, zastavte $PROJECT "
+"nebo používejte %s které omezí využití počítače."
 
 msgid "RULES_UTILITY_PROGRAM"
 msgstr "pomocné programy"
@@ -126,7 +126,7 @@ msgid "RULES_OTHER"
 msgstr "Jiné BOINC projekty"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Prostředí BOINC využívají i další projekty, tak jako "
+msgstr "Prostředí BOINC využívají i další projekty, podobně jako "
 "$PROJECT. Můžete zvážit Vaše přispění i do těchto projektů a "
 "pokud tak učiníte, Váš počítač bude pracovat užitečně i v době, "
 "kdy $PROJECT nebude mít nic na práci."
@@ -210,8 +210,8 @@ msgid "AC_SETUP_USES_BOINC"
 msgstr "$PROJECT používá systém BOINC."
 
 msgid "AC_SETUP_DIVISION"
-msgstr "BOINC vám umožňuje rozdělit Váš počítačový čas "
-"mezi různé výpočetní projekty."
+msgstr "BOINC vám umožňuje rozdělit Váš výpočetní čas "
+"mezi různé distribuované výpočetní projekty."
 
 msgid "AC_SETUP_ISFIRST"
 msgstr "Je toto Váš první BOINC projekt?"
@@ -220,7 +220,7 @@ msgid "AC_SETUP_FIRST"
 msgstr "Ano - toto je můj první BOINC projekt"
 
 msgid "AC_SETUP_NONFIRST"
-msgstr "Ne - již se podílím i na jiném BOINC projektu"
+msgstr "Ne - již jsem zapojen i v jiném BOINC projektu"
 
 #########################################
 # First Account setup page (account_setup_first.php)
@@ -246,20 +246,20 @@ msgstr "Nastavení Vašeho účtu je hotové."
 
 msgid "AC_DONE_BOINC"
 msgstr "Dále si stáhněte a nainstalujte program BOINC a "
-"řekněte svému počítači, aby používal tento účet."
+"řekněte Vašemu počítači (počítačům), aby používal tento účet."
 
 msgid "AC_DONE_URL"
 msgstr "Při prvním spuštění se vás BOINC zeptá na  "
-"<b>URL projektu</b> a <b>klíč k účtu</b>."
+"<b>URL projektu</b> a <b>klíč k účtu (Account key)</b>."
 
 msgid "AC_DONE_COPYPASTE"
-msgstr "Zkopírujte a vložte jej odtud:"
+msgstr "Zkopírujte a vložte je odtud:"
 
 msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Nyní můžete %s k dokončení instalace $PROJECT."
+msgstr "Nyní si můžete %s k dokončení instalace $PROJECT."
 
 msgid "AC_DONE_DL_BOINC"
-msgstr "stáhnout si program BOINC"
+msgstr "stáhnout program BOINC"
 
 msgid "AC_DONE_THANKS"
 msgstr "Děkujeme vám za účast v projektu $PROJECT"
@@ -277,7 +277,7 @@ msgid "AC_DONE_MUST_USE"
 msgstr "Svému počítači nyní řekněte, aby používal tento účet."
 
 msgid "AC_DONE_WIN"
-msgstr "Uživatelé používající Windows:"
+msgstr "Uživatelé Windows:"
 
 msgid "AC_DONE_WIN_TEXT"
 msgstr "Otevřete okno aplikace BOINC dvojklikem na její ikonku v "
@@ -285,7 +285,7 @@ msgstr "Otevřete okno aplikace BOINC dvojklikem na její ikonku v "
 "v nabídce Nastavení. Budete optáni na klíč k účtu a URL projektu."
 
 msgid "AC_DONE_UNIX"
-msgstr "Uživatelé používající Mac, Unix nebo Linux:"
+msgstr "Uživatelé Mac, Unix nebo Linux:"
 
 msgid "AC_DONE_UNIX_TEXT"
 msgstr "Ukončete klienta BOINC. Poté spusťte klienta BOINC s "
@@ -333,7 +333,7 @@ msgid "USER_TABLE_TOTAL_CREDIT"
 msgstr "Celkový kredit"
 
 msgid "USER_TABLE_EXPAVG"
-msgstr "Průměrný kredit"
+msgstr "Průměrný nový kredit"
 
 msgid "USER_TABLE_COUNTRY"
 msgstr "Země"
@@ -347,6 +347,62 @@ msgstr "Nejlepší %s týmy"
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "Členů"
 
+#########################################
+# Forum
+#########################################
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Nenalezeno takové fórum"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Pro vytvoření nového vlákna v %s musíte mít určité množství kreditu."
+"Toto omezení slouží jako ochrana proti zneužití systému."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to znovu."
+"Tato prodleva byla zavedena proti zneužití systému."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "Prostor %s Vám umožňuje získat nápovědu od ostatních uživatelů. Pokud máte dotaz či problém:"
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Přečtěte si již existující seznam dotazů. Pokud naleznete váš dotaz, "
+"klikněte na tlačítko %s. Pokud již byly vloženy odpovědi na tento dotaz, přečtěte si je a "
+"pokud některá z nich odpověděla na Váš dotaz, klikněte na tlačítko %s."
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Pokud Váš dotaz ještě nebyl nikým položen, vložte Váš dotaz pomocí tohoto formuláře."
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Tím se předejde pokládání duplicitních dotazů."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Vložit nový dotaz/problém"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Vytvořit nové vlákno"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Název"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Popište Váš dotaz v několika slovech. "
+"Stručné a jasné shrnutí pomůže ostatním se stejným dotazem (nebo odpovědí) jej najít."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Pokud máte problém s programem, "
+"uveďte také jeho verzi, typ Vašeho počítače a operačního systému."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Přidat můj podpis k tomuto příspěvku"
+
+msgid "FORUM_MESSAGE"
+msgstr "Zpráva"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Mám také tento problém"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Toto odpovědělo na mojí otázku"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
 
 #########################################
 # Forum search features
@@ -362,3 +418,9 @@ msgstr "Nebyl nalezen žádný nadpis obsahující '%s'."
 
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "Nebyl nalezen žádný příspěvek obsahující '%s'."
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Otázky a Odpovědi"

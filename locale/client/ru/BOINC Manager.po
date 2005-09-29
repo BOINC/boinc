@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.4x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-09-22 06:59+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2005-09-22 23:59+0500\n"
+"Last-Translator: mifistor <mifistor_x@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
@@ -122,13 +122,13 @@ msgid ""
 "Account managers make it easy to find and join BOINC projects.\n"
 "For more information, click on the link below."
 msgstr ""
-"Менеджер \"Учётных записей\" помогает в поиске\n"
+"Менеджер учётных записей помогает в поиске\n"
 "и подключении к новым проектам на базе BOINC.\n"
 "Ниже приведена ссылка на страницу с более подробной информацией."
 
 #: clientgui/DlgAccountManagerSignup.cpp:116
 msgid "Account Manager URL:"
-msgstr "Адрес менеджера \"Учетных записей\" (URL):"
+msgstr "Адрес менеджера учётных записей (URL):"
 
 #: clientgui/DlgAccountManagerSignup.cpp:124
 msgid "Login:"
@@ -156,7 +156,7 @@ msgstr "Отмена"
 # ???
 #: clientgui/DlgAccountManagerStatus.cpp:110
 msgid "Your current account manager is:"
-msgstr "Текущий менеджер \"Учетных записей\":"
+msgstr "Текущий менеджер учётных записей:"
 
 # ?
 #: clientgui/DlgAccountManagerStatus.cpp:117
@@ -318,11 +318,11 @@ msgstr "Форум, где можно задать вопросы и сообщить об ошибках"
 
 #: clientgui/Localization.cpp:39
 msgid "Your account"
-msgstr "Ваша учетная запись"
+msgstr "Ваша учётная запись"
 
 #: clientgui/Localization.cpp:41
 msgid "View your account information and credit totals"
-msgstr "Просмотр информации о вашей \"Учетной записи\" и набранных очках"
+msgstr "Просмотр информации о вашей \"Учётной записи\" и набранных очках"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
@@ -330,7 +330,7 @@ msgstr "Ваши настройки"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Просмотр и изменение настроек вашей \"Учетной записи\" и вашего профиля"
+msgstr "Просмотр и изменение настроек вашей \"Учётной записи\" и вашего профиля"
 
 #: clientgui/Localization.cpp:47
 msgid "Your results"
@@ -354,7 +354,7 @@ msgstr "Команда"
 
 #: clientgui/Localization.cpp:57
 msgid "View information about your team: BOINC Synergy"
-msgstr "Просмотр информации о команде, к которой вы присоединились"
+msgstr "Просмотр информации о команде, к которой вы присоединились: BOINC Synergy"
 
 #: clientgui/MainDocument.cpp:159
 msgid "BOINC Manager - Connection Error"
@@ -452,11 +452,11 @@ msgstr "Завершить работу программы BOINC менеджер"
 
 #: clientgui/MainFrame.cpp:393
 msgid "&Manage Accounts"
-msgstr "Управление \"Учетными записями\""
+msgstr "Управление \"Учётными записями\""
 
 #: clientgui/MainFrame.cpp:394
 msgid "Connect to an account manager website and update all of your accounts"
-msgstr "Соединиться с вебстраницей менеджера \"Учетных записей\" и обновить информацию обо всех \"Учетных записях\""
+msgstr "Соединиться с вебстраницей менеджера учётных записей и обновить информацию обо всех \"Учётных записях\""
 
 #: clientgui/MainFrame.cpp:401
 msgid "&Options"
@@ -690,7 +690,7 @@ msgstr "Обновить"
 
 #: clientgui/ViewProjects.cpp:111
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Получить информацию с сервера проекта: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках Учетной записи и (возможно) закачке новых заданий."
+msgstr "Получить информацию с сервера проекта: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках \"Учётной записи\" и (возможно) закачке новых заданий."
 
 #: clientgui/ViewProjects.cpp:118
 msgid "Update All"
@@ -698,7 +698,7 @@ msgstr "Обновить все проекты"
 
 #: clientgui/ViewProjects.cpp:119
 msgid "Report all upload items, completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Получить информацию с серверов всех проектов: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках Учетной записи и (возможно) закачке новых заданий."
+msgstr "Получить информацию с серверов всех проектов: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках \"Учётной записи\" и (возможно) закачке новых заданий."
 
 #: clientgui/ViewProjects.cpp:126
 #: clientgui/ViewProjects.cpp:640
@@ -752,7 +752,7 @@ msgstr "Подключиться к еще одному проекту. Потребуется ввести адрес проекта (URL
 
 #: clientgui/ViewProjects.cpp:174
 msgid "Account"
-msgstr "Учетная запись"
+msgstr "Учётная запись"
 
 #: clientgui/ViewProjects.cpp:175
 msgid "Team"
@@ -919,7 +919,7 @@ msgstr "Обновляется график..."
 
 #: clientgui/ViewStatistics.cpp:392
 msgid "User Average"
-msgstr "Среднее количество очков набранных участником за 1 день"
+msgstr "Среднее количество очков набираемых участником за день"
 
 #: clientgui/ViewStatistics.cpp:412
 msgid "Host Total"
@@ -927,7 +927,7 @@ msgstr "Общее количество очков набранных на данном хосте"
 
 #: clientgui/ViewStatistics.cpp:432
 msgid "Host Average"
-msgstr "Среднее количество очков набранных данным хостом за 1 день"
+msgstr "Среднее количество очков набираемых данным хостом за день"
 
 #: clientgui/ViewTransfers.cpp:95
 msgid "Retry Now"
@@ -1260,7 +1260,7 @@ msgid ""
 "Go to the project's web site to create an account. Your account\n"
 "key will be emailed to you."
 msgstr ""
-"Посетите домашнюю страницу проекта для создания \"Учетной записи\" (account) участника.\n"
+"Посетите домашнюю страницу проекта для создания \"Учётной записи\" (account) участника.\n"
 "После этого \"Код доступа\" пришлют на ваш почтовый ящик(email)."
 
 #: clientgui/WizAttachProject.cpp:1707
@@ -1277,19 +1277,19 @@ msgstr "Код доступа (Account Key):"
 
 #: clientgui/WizAttachProject.cpp:1890
 msgid "Account information"
-msgstr "Информация об \"Учетной записи\""
+msgstr "Информация об \"Учётной записи\""
 
 #: clientgui/WizAttachProject.cpp:1895
 msgid "Do you wish to use an existing account or create a new one?"
-msgstr "Использовать существующую \"Учётную запись\"(account) или создать новую?"
+msgstr "Использовать существующую \"Учётную запись\" (account) или создать новую?"
 
 #: clientgui/WizAttachProject.cpp:1905
 msgid "Create new account"
-msgstr "Создать новую \"Учетную запись\""
+msgstr "Создать новую \"Учётную запись\""
 
 #: clientgui/WizAttachProject.cpp:1910
 msgid "Use existing account"
-msgstr "Использовать существующую \"Учетную запись\""
+msgstr "Использовать существующую \"Учётную запись\""
 
 #: clientgui/WizAttachProject.cpp:1919
 #: clientgui/WizAttachProject.cpp:2028
@@ -1329,13 +1329,13 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"После нажатия кнопки \"Завершение\", автоматически откроется\n"
+"После нажатия кнопки \"Готово\", автоматически откроется\n"
 "страница настроек вашей \"Учётной записи\" на сайте проекта."
 
 #: clientgui/WizAttachProject.cpp:2724
 #: clientgui/WizAttachProject.cpp:2817
 msgid "Click Finish to close."
-msgstr "Нажмите кнопку \"Завершение\" для выхода из мастера подключения."
+msgstr "Нажмите кнопку \"Готово\" для выхода из мастера подключения."
 
 #: clientgui/WizAttachProject.cpp:2810
 msgid "Failed to attach to project"
@@ -1351,7 +1351,7 @@ msgstr "Указанный адрес (URL) не является адресом проекта на базе BOINC."
 
 #: clientgui/WizAttachProject.cpp:2971
 msgid "Please check the URL and try again."
-msgstr "Уточните адрес (URL) проекта и попробуйте подключиться снова."
+msgstr "Уточните адрес (URL) и попробуйте подключиться снова."
 
 #: clientgui/WizAttachProject.cpp:3116
 msgid "Project temporarily unavailable"
@@ -1516,7 +1516,7 @@ msgstr "О программе BOINC менеджер..."
 #: clientgui/DlgAccountManagerSignup.h:50
 #: clientgui/DlgAccountManagerStatus.h:50
 msgid "Account Manager"
-msgstr "Менеджер \"Учетных записей\""
+msgstr "Менеджер учётных записей"
 
 #: clientgui/DlgDialupCredentials.h:49
 msgid "Dialup Logon"
@@ -1540,23 +1540,23 @@ msgstr "< Назад"
 
 # My
 msgid "&Finish"
-msgstr "Завершение"
+msgstr "Готово"
 
 # My
 msgid "&Commands"
-msgstr "Команды"
+msgstr "Управление"
 
 # My
 msgid "&Projects"
 msgstr "Проекты"
 
-# My ???
-msgid "Attach to& Project"
+# My
+msgid "&Attach to &Project"
 msgstr "Добавить проект"
 
 # My 
 msgid "Manage &Account Manager"
-msgstr "Управление \"Менеджером учётных записей\""
+msgstr "Менеджер учётных записей"
 
 # My
 msgid "Attach to an account manager"
@@ -1574,8 +1574,122 @@ msgstr "Соединение с менеджером учётных записей"
 msgid "Attach to Account Manager"
 msgstr "Соединение с менеджером учётных записей"
 
-# My 
-msgid " View information about your team: %s "
+# My
+msgid ""
+"We'll now guide you through the process of attaching to an\n"
+"account manager."
+msgstr "Данный мастер поможет вам подключиться к менеджеру учётных записей."
+
+# My
+msgid "Account Manager URL"
+msgstr "Адрес менеджера учётных записей (URL)"
+
+# My
+msgid "Enter the URL of the account manager's web site."
+msgstr "Введите адрес (URL) выбранного менеджера учётных записей."
+
+# My
+msgid "For a list of BOINC-based account managers go to:"
+msgstr ""
+"Для просмотра списка доступных менеджеров учётных записей\n"
+"проектов BOINC посетите страницу:"
+
+# My
+msgid "Failed to attach to account manager"
+msgstr "Не удалось соединится с менеджером учётных записей"
+
+# My
+msgid "Update all"
+msgstr "Обновить все проекты"
+
+# My
+msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Получить информацию с серверов всех проектов: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках Учётной записи и (возможно) закачке новых заданий."
+
+# My
+msgid "Detach computer from this project.  Work in progress will be lost (use 'Update' first to report any completed work)."
+msgstr ""
+"Отсоединить данный компьютер от выделенного проекта. Обрабатываемые в данный момент задания будут потеряны.\n"
+"ВНИМАНИЕ: не забудьте перед данной операцией отправить все завершенные задания для данного проекта :-)"
+
+# My
+msgid ""
+"Communicating with project \n"
+"Please wait..."
+msgstr ""
+"Устанавливается связь с сервером проекта\n"
+"Пожалуйста подождите..."
+
+# My
+msgid ""
+"Communicating with account manager\n"
+"Please wait..."
+msgstr ""
+"Устанавливается связь с менеджером учётных записей\n"
+"Пожалуйста подождите..."
+
+# My
+msgid ""
+"Communicating with account manager \n"
+"Please wait..."
+msgstr ""
+"Устанавливается связь с менеджером учётных записей\n"
+"Пожалуйста подождите..."
+
+# My
+msgid "Account manager not found"
+msgstr "Указанный менеджер учётных записей не найден"
+
+# My
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager."
+msgstr ""
+"Указанный адрес (URL) не является адресом менеджера учётных записей\n"
+"проектов на базе BOINC."
+
+# My
+msgid "BOINC is currently suspended...\n"
+msgstr "Обработка приостановлена...\n"
+
+# My
+msgid "BOINC networking is currently suspended...\n"
+msgstr "Автономная работа...\n"
+
+# My ?
+msgid "Attached to account manager"
+msgstr "Соединение с менеджером учётных записей установлено"
+
+# My ?
+msgid "You are now successfully attached to this account manager."
+msgstr ""
+"Соединение с указанным менеджером учётных записей\n"
+"успешно установлено."
+
+# My ?
+msgid "Account manager temporarily unavailable"
+msgstr "Менеджер учётных записей временно недоступен"
+
+# My ?
+msgid ""
+"The account manager is currently unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Менеджер учётных записей в данный момент недоступен.\n"
+"\n"
+"Попробуйте подключиться позже."
+
+# My ?
+msgid "Don't get new work for this project."
+msgstr "Не запрашивать новые задания с сервера проекта"
+
+# My ?
+msgid "Proxy configuration"
+msgstr "Параметры прокси сервера"
+
+# My ???
+msgid "View information about your team: %s"
 msgstr "Показать командную статистику: %s"
 
 # --------------------------old version begin-----------------------------
@@ -1674,7 +1788,7 @@ msgid ""
 "This wizard is now attempting to create a new account or validate your\n"
 "existing account."
 msgstr ""
-"Вам предлагается создать новую учетную запись или\n"
+"Вам предлагается создать новую учётную запись или\n"
 "подтвердить уже существующую."
 
 # old version 1.13
@@ -1695,7 +1809,7 @@ msgstr ""
 # old version 1.13
 #: clientgui/WizAttachProject.cpp:1438
 msgid "Account Information"
-msgstr "Информация об \"Учетной записи\""
+msgstr "Информация об \"Учётной записи\""
 
 # old version 1.13
 # ?
@@ -1872,7 +1986,7 @@ msgid ""
 "Visit http://boinc.berkeley.edu for a list of projects."
 msgstr ""
 "Данная информация берется из письма, полученного после регистрации на сайте проекта.\n"
-"Посетите домашнюю страницу проекта для создания \"Учетной записи\" участника.\n"
+"Посетите домашнюю страницу проекта для создания \"Учётной записи\" участника.\n"
 "Список доступных проектов приведен на домашней странице BOINC: http://boinc.berkeley.edu"
 
 # old version 1.11
@@ -1905,7 +2019,7 @@ msgstr "Смена менеджера"
 # ??? old version 1.11
 #: clientgui/DlgAccountManagerStatus.cpp:135
 msgid "&Update accounts"
-msgstr "Обновить информацию об Учетных записях"
+msgstr "Обновить информацию об \"Учётных записях\""
 
 # old version 1.11
 #: clientgui/DlgAccountManagerStatus.cpp:124
@@ -1916,7 +2030,7 @@ msgstr "http://a/b/c/"
 # ??? old version 1.11
 #: clientgui/DlgAccountManagerStatus.cpp:120
 msgid "Your current account manager:"
-msgstr "Текущий менеджер \"Учетных записей\":"
+msgstr "Текущий менеджер учётных записей:"
 
 # old version 1.11
 #: clientgui/DlgAbout.cpp:146
@@ -1936,12 +2050,12 @@ msgstr "Работать автономно"
 # ??? old version 1.10
 #: clientgui/MainFrame.cpp:367
 msgid "&Update Accounts"
-msgstr "Обновить информацию об Учетных записях"
+msgstr "Обновить информацию об \"Учётных записях\""
 
 # ??? old version 1.10
 #: clientgui/MainFrame.cpp:368
 msgid "Connect to your account manager website and update all of your accounts"
-msgstr "Соединиться с вебстраницей менеджера Учетных записей и обновить информацию обо всех Учетных записях"
+msgstr "Соединиться с вебстраницей менеджера \"Учётных записей\" и обновить информацию обо всех \"Учётных записях\""
 
 # old version 1.10
 #: clientgui/MainFrame.cpp:1145
@@ -1951,7 +2065,7 @@ msgstr "BOINC менеджер - Нет связи"
 # ??? old version 1.10
 #: clientgui/DlgAccountManager.h:49
 msgid "Account Manager Credentials"
-msgstr "Менеджер \"Учетных записей\""
+msgstr "Менеджер учётных записей"
 
 # ??? old version 1.10
 #: clientgui/DlgConnection.h:48
