@@ -12378,3 +12378,10 @@ David  29 Sept 2005
 
     py/Boinc/
         tools.py
+
+Reinhard 	29 Sept 2005
+    - removed redundant configure-switch 'disable-static-linkage'
+    - made '--enable-client-release' work as advertised [default=OFF!!]
+    - make sure that only benchmark-sources have hardcoded -O3 applied to them.
+
+
