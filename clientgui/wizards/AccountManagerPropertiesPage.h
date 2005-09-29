@@ -124,9 +124,6 @@ public:
     bool GetProjectClientAccountCreationDisabled() const { return m_bProjectClientAccountCreationDisabled ; }
     void SetProjectClientAccountCreationDisabled(bool value) { m_bProjectClientAccountCreationDisabled = value ; }
 
-    bool GetProjectAlreadyAttached() const { return m_bProjectAlreadyAttached ; }
-    void SetProjectAlreadyAttached(bool value) { m_bProjectAlreadyAttached = value ; }
-
     bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
     void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
 
@@ -155,7 +152,6 @@ public:
     bool m_bProjectPropertiesURLFailure;
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
-    bool m_bProjectAlreadyAttached;
     bool m_bCommunicateYahooSucceeded;
     bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;

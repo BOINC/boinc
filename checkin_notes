@@ -12301,3 +12301,28 @@ Rom    27 Sept 2005
         error_numbers.h
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Rom    28 Sept 2005
+    - Backout the bugfix that keeps network i/o from happening during
+        benchmarks.  It keeps the project_attach and acct_mgr_rpc calls
+        from happening until after the benchmarks are completed.
+    - Bug Fixes for the account manager wizard
+    - Additional bgu fixes for the attach to project wizard.
+    
+    client/
+        client_state.C
+        gui_rpc_server_ops.C
+    clientgui/
+        MainFrame.cpp
+    clientgui/wizards/
+        AccountInfoPage.cpp
+        AccountManagerProcessingPage.cpp, .h
+        AccountManagerPropertiesPage.cpp, .h
+        CompletionPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

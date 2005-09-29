@@ -124,6 +124,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     attached_to_project_successfully = false;
     project_url = wxEmptyString;
     project_authenticator = wxEmptyString;
+    m_bCredentialsCached = false;
  
 ////@begin CWizardAttachProject creation
     wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
@@ -249,8 +250,8 @@ bool CWizardAttachProject::Run( wxString& strName, wxString& strURL, bool bCrede
 
     if ( strURL.Length() && bCredentialsCached && m_ProjectProcessingPage) {
         return RunWizard(m_ProjectProcessingPage);
-    } else if (strURL.Length() && !bCredentialsCached && m_AccountInfoPage) {
-        return RunWizard(m_AccountInfoPage);
+    } else if (strURL.Length() && !bCredentialsCached && m_ProjectPropertiesPage) {
+        return RunWizard(m_ProjectPropertiesPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
     }

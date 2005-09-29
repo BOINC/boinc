@@ -214,8 +214,8 @@ bool CWizardAccountManager::Run( wxString& strName, wxString& strURL, bool bCred
 
     if ( strURL.Length() && bCredentialsCached && m_AccountManagerProcessingPage) {
         return RunWizard(m_AccountManagerProcessingPage);
-    } else if (strURL.Length() && !bCredentialsCached && m_AccountInfoPage) {
-        return RunWizard(m_AccountInfoPage);
+    } else if (strURL.Length() && !bCredentialsCached && m_AccountManagerPropertiesPage) {
+        return RunWizard(m_AccountManagerPropertiesPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
     }

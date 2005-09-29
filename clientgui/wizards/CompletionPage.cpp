@@ -193,7 +193,7 @@ wxIcon CCompletionPage::GetIconResource( const wxString& name )
 void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    if (((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
+    if (IS_ATTACHTOPROJECTWIZARD() && ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
         m_CompletionMessage->SetLabel(_("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."));
     } else {
         m_CompletionMessage->SetLabel(_("Click Finish to close."));

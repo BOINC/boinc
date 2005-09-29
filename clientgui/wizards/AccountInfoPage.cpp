@@ -248,8 +248,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
     static bool bRunOnce = true;
     if (bRunOnce) {
         bRunOnce = false;
-        m_AccountCreateCtrl->SetValue(TRUE);
-        m_AccountUseExistingCtrl->SetValue(FALSE);
+        if (!IS_ACCOUNTMANAGERWIZARD()) {
+            m_AccountCreateCtrl->SetValue(TRUE);
+            m_AccountUseExistingCtrl->SetValue(FALSE);
+        }
     }
 
     if (((CBOINCBaseWizard*)GetParent())->project_config.client_account_creation_disabled) {

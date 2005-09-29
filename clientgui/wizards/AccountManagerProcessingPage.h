@@ -115,9 +115,6 @@ public:
     bool GetProjectAccountAlreadyExists() const { return m_bProjectAccountAlreadyExists ; }
     void SetProjectAccountAlreadyExists(bool value) { m_bProjectAccountAlreadyExists = value ; }
 
-    bool GetProjectAccountNotFound() const { return m_bProjectAccountNotFound ; }
-    void SetProjectAccountNotFound(bool value) { m_bProjectAccountNotFound = value ; }
-
     bool GetProjectAttachSucceeded() const { return m_bProjectAttachSucceeded ; }
     void SetProjectAttachSucceeded(bool value) { m_bProjectAttachSucceeded = value ; }
 
@@ -138,7 +135,6 @@ public:
 
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
-    bool m_bProjectAccountNotFound;
     bool m_bProjectAccountAlreadyExists;
     bool m_bProjectAttachSucceeded;
     int m_iBitmapIndex;

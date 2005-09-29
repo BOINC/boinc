@@ -104,6 +104,7 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
  
     m_bProjectCommunitcationsSucceeded = false;
     m_bProjectUnavailable = false;
+    m_bProjectAccountNotFound = false;
     m_bProjectAccountAlreadyExists = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ATTACHPROJECT_INIT;
@@ -403,7 +404,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         ::wxSafeYield(GetParent());
                     }
 
-                    if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
+                    if ((!iReturnValue) && !ao->error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
                         ((CWizardAttachProject*)GetParent())->SetAccountCreatedSuccessfully(true);
                     }
                 } else {
@@ -437,16 +438,16 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     }
                 }
  
-                if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
+                if ((!iReturnValue) && !ao->error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
                     SetProjectCommunitcationsSucceeded(true);
                 } else {
                     SetProjectCommunitcationsSucceeded(false);
-                    if ((ERR_NONUNIQUE_EMAIL == iReturnValue) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
+                    if ((ERR_NONUNIQUE_EMAIL == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
                         SetProjectAccountAlreadyExists(true);
                     } else {
                         SetProjectAccountAlreadyExists(false);
                     }
-                    if ((ERR_NOT_FOUND == iReturnValue) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
+                    if ((ERR_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
                         SetProjectAccountNotFound(true);
                     } else {
                         SetProjectAccountNotFound(false);
@@ -481,8 +482,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                 dtStartExecutionTime = wxDateTime::Now();
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                iReturnValue = ERR_IN_PROGRESS;
-                while (ERR_IN_PROGRESS == iReturnValue &&
+                iReturnValue = 0;
+                reply.error_num = ERR_IN_PROGRESS;
+                while ((!iReturnValue && (ERR_IN_PROGRESS == reply.error_num)) &&
                     tsExecutionTime.GetSeconds() <= 60 &&
                     !CHECK_CLOSINGINPROGRESS()
                     )
@@ -497,7 +499,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     ::wxSafeYield(GetParent());
                 }
      
-                if (!iReturnValue && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+                if (!iReturnValue && !reply.error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                     SetProjectAttachSucceeded(true);
                     ((CWizardAttachProject*)GetParent())->SetAttachedToProjectSuccessfully(true);
                     ((CWizardAttachProject*)GetParent())->SetProjectURL(ai->url.c_str());

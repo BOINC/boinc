@@ -1309,12 +1309,10 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
             pDoc->rpc.get_project_init_status(pis);
             strName = pis.name.c_str();
             strURL = pis.url.c_str();
-            if (pis.url.length()) {
-                if (pis.has_account_key) {
-                    pAPWizard->Run(strName, strURL, true);
-                } else {
-                    pAPWizard->Run(strName, strURL, false);
-                }
+            if (pis.url.length() && pis.has_account_key) {
+                pAPWizard->Run(strName, strURL, true);
+            } else {
+                pAPWizard->Run(strName, strURL, false);
             }
         }
 

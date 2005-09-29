@@ -224,8 +224,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             dtStartExecutionTime = wxDateTime::Now();
             dtCurrentExecutionTime = wxDateTime::Now();
             tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-            iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue &&
+            iReturnValue = 0;
+            pc->error_num = ERR_IN_PROGRESS;
+            while ((!iReturnValue && (ERR_IN_PROGRESS == pc->error_num)) &&
                    tsExecutionTime.GetSeconds() <= 60 &&
                    !CHECK_CLOSINGINPROGRESS()
                   )
@@ -244,7 +245,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             //   they do not support account creation through the wizard.  In either
             //   case we should claim success and set the correct flags to show the
             //   correct 'next' page.
-            bSuccessfulCondition = (BOINC_SUCCESS == iReturnValue) || (ERR_ACCT_CREATION_DISABLED == iReturnValue);
+            bSuccessfulCondition = 
+                (!iReturnValue) && (!pc->error_num) ||
+                (!iReturnValue) && (ERR_ACCT_CREATION_DISABLED == pc->error_num);
             if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIES)) {
                 SetProjectPropertiesSucceeded(true);
 
@@ -253,16 +256,6 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                     SetProjectAccountCreationDisabled(true);
                 } else {
                     SetProjectAccountCreationDisabled(false);
-                }
-
-                bSuccessfulCondition = (ERR_ALREADY_ATTACHED == pDoc->rpc.project_attach(
-                    ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL().c_str(),
-                    ""
-                ));
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTALREADYATTACHED)) {
-                    SetProjectAlreadyAttached(true);
-                } else {
-                    SetProjectAlreadyAttached(false);
                 }
 
                 bSuccessfulCondition = pc->client_account_creation_disabled;
@@ -275,9 +268,10 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetNextState(ACCTMGRPROP_CLEANUP);
             } else {
                 SetProjectPropertiesSucceeded(false);
-                bSuccessfulCondition = (HTTP_STATUS_NOT_FOUND == iReturnValue) ||
-                                       (ERR_GETHOSTBYNAME == iReturnValue) ||
-                                       (ERR_XML_PARSE == iReturnValue);
+                bSuccessfulCondition = 
+                    (!iReturnValue) && (HTTP_STATUS_NOT_FOUND == pc->error_num) ||
+                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
+                    (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
                 } else {

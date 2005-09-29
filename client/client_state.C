@@ -485,7 +485,6 @@ bool CLIENT_STATE::poll_slow_events() {
         if (active_tasks.is_task_executing()) {
             POLL_ACTION(active_tasks, active_tasks.poll);
         }
-        return false;
     }
 
     check_suspend_network(suspend_reason);

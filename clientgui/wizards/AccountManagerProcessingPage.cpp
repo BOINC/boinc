@@ -31,6 +31,7 @@
 #include "AccountManagerProcessingPage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
+#include "CompletionErrorPage.h"
 
 
 ////@begin XPM images
@@ -188,9 +189,14 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
+    ACCT_MGR_RPC_REPLY reply;
+    std::string url = "";
+    std::string username = "";
+    std::string password = "";
     bool bPostNewEvent = true;
     bool bSuccessfulCondition = false;
     int iReturnValue = 0;
+    unsigned int i;
  
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -207,46 +213,48 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE);
             break;
         case ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE:
-            if (GetProjectCommunitcationsSucceeded()) {
-                // Attempt to attach to the accout manager.
-                std::string url = ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->m_AccountManagerUrlCtrl->GetLabel().c_str();
-                std::string username = ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->m_AccountEmailAddressCtrl->GetLabel().c_str();
-                std::string password = ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->m_AccountPasswordCtrl->GetLabel().c_str();
-                pDoc->rpc.acct_mgr_rpc(
-                    url.c_str(),
-                    username.c_str(),
-                    password.c_str(),
-                    ((CWizardAccountManager*)GetParent())->m_bCredentialsCached
-                );
-     
-                // Wait until we are done processing the request.
-                dtStartExecutionTime = wxDateTime::Now();
+            // Attempt to attach to the accout manager.
+            url = ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL().c_str();
+            username = ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+            password = ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
+            pDoc->rpc.acct_mgr_rpc(
+                url.c_str(),
+                username.c_str(),
+                password.c_str(),
+                ((CWizardAccountManager*)GetParent())->m_bCredentialsCached
+            );
+    
+            // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+            iReturnValue = 0;
+            reply.error_num = ERR_IN_PROGRESS;
+            while ((!iReturnValue && (ERR_IN_PROGRESS == reply.error_num)) &&
+                tsExecutionTime.GetSeconds() <= 60 &&
+                !CHECK_CLOSINGINPROGRESS()
+                )
+            {
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                iReturnValue = ERR_IN_PROGRESS;
-                while (ERR_IN_PROGRESS == iReturnValue &&
-                    tsExecutionTime.GetSeconds() <= 60 &&
-                    !CHECK_CLOSINGINPROGRESS()
-                    )
-                {
-                    dtCurrentExecutionTime = wxDateTime::Now();
-                    tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    ACCT_MGR_RPC_REPLY reply;
-                    iReturnValue = pDoc->rpc.acct_mgr_rpc_poll(reply);
+                iReturnValue = pDoc->rpc.acct_mgr_rpc_poll(reply);
 
-                    IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_ProgressIndicator);
 
-                    ::wxMilliSleep(500);
-                    ::wxSafeYield(GetParent());
-                }
-     
-                if (!iReturnValue && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
-                    SetProjectAttachSucceeded(true);
-                } else {
-                    SetProjectAttachSucceeded(false);
-                }
+                ::wxMilliSleep(500);
+                ::wxSafeYield(GetParent());
+            }
+    
+            if (!iReturnValue && !reply.error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
+                SetProjectAttachSucceeded(true);
             } else {
                 SetProjectAttachSucceeded(false);
+                wxString strBuffer = wxEmptyString;
+                for (i=0; i<reply.messages.size(); i++) {
+                    strBuffer.Append(reply.messages[i].c_str());
+                    strBuffer.Append(wxT("\n"));
+                }
+                ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
@@ -293,12 +301,9 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
-    } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountNotFound()) {
-        // The requested account does not exist or the password is bad
-        //return PAGE_TRANSITION_NEXT(ID_ERRACCOUNTNOTFOUNDPAGE);
     } else {
         // The project much be down for maintenance
-        return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
     return NULL;
 }

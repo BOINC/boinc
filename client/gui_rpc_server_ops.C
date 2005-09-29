@@ -675,7 +675,7 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
             bad_arg = true;
         } else {
             url = gstate.acct_mgr_info.acct_mgr_url;
-            name = gstate.acct_mgr_info.acct_mgr_name;
+            name = gstate.acct_mgr_info.login_name;
             password = gstate.acct_mgr_info.password;
         }
     }
