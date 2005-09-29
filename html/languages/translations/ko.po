@@ -1,0 +1,389 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-09-29 22:26+0100\n"
+"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+##########################################
+# Language: English (International)
+# FileID  : $Id$
+# Author  : Janus Kristensen
+# Email   : jbk@visualgroup.dk
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Korean"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Korean"
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Applications"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT currently has the following applications. When you participate in $PROJECT, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything. "
+
+msgid "APPS_PLATFORM"
+msgstr "Platform"
+
+msgid "APPS_VERSION"
+msgstr "Current version"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Installed"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Rules and Policies"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Run $PROJECT only on authorized computers"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Run $PROJECT only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as $PROJECT"
+
+msgid "RULES_COMPUTER_USE"
+msgstr "How $PROJECT will use your computer"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "When you run $PROJECT on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by $PROJECT, and when it uses them."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "The work done by your computer contributes to the goals of $PROJECT, as described on its web site. The application programs may change from time to time."
+
+msgid "RULES_PRIVACY"
+msgstr "Privacy policy"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Your account on $PROJECT is identified by a name that you choose. This name may be shown on the $PROJECT web site, along with a summary of the work your computer has done for $PROJECT. If you want to be anonymous, choose a name that doesn't reveal your identity."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "If you participate in $PROJECT, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by $PROJECT and used to decide what type of work to assign to your computer. This information will also be shown on $PROJECT's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "To participate in $PROJECT, you must give an address where you receive email. This address will not be shown on the $PROJECT web site or shared with organizations. $PROJECT may send you periodic newsletters; however, you can opt out at any time."
+
+msgid "RULES_SAFE"
+msgstr "Is it safe to run $PROJECT ?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. $PROJECT has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "The applications run by $PROJECT may cause some computers to overheat. If this happens, stop running $PROJECT or use a %s that limits CPU usage."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "utility program"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT was developed by %s. BOINC was developed at the University of California."
+
+msgid "RULES_LIABILITY"
+msgstr "Liability"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT and %s assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Other BOINC projects"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Other projects use the same platform, BOINC, as $PROJECT. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when $PROJECT has no work available for it."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "These other projects are not associated with $PROJECT, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Create an account"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Read the %s before creating an account."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "If you already received an account key, do not submit this form. %s instead."
+
+msgid "CREATE_AC_NAME"
+msgstr "Name"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Identifies you on our web site. Use your real name or a nickname."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Email Address"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Must be a valid address of the form 'name@domain'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Country"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Select the country you want to represent, if any."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Postal or ZIP Code"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Create Account"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Account Creation is Disabled"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "Account creation is disabled for $PROJECT at the moment. Please try again later."
+
+msgid "CREATE_AC_TEAM"
+msgstr "This account will belong to the team %s and will have the project preferences of its founder."
+
+#########################################
+# Account created page (account_created.php)
+#########################################
+msgid "AC_READY_TITLE"
+msgstr "Account created"
+
+msgid "AC_READY_WELCOME"
+msgstr "Congratulations - your $PROJECT account has been created"
+
+msgid "AC_READY_PASTE"
+msgstr "To continue, paste the account key here:"
+
+msgid "AC_READY_CLICK"
+msgstr "and click"
+
+#########################################
+# Account setup page (account_setuo.php)
+#########################################
+#also used in account_setup_nonfirst.php:
+msgid "AC_SETUP_TITLE"
+msgstr "Account setup"
+
+msgid "AC_SETUP_USES_BOINC"
+msgstr "$PROJECT uses the BOINC software system."
+
+msgid "AC_SETUP_DIVISION"
+msgstr "BOINC lets you divide your computer time between several distributed computing projects."
+
+msgid "AC_SETUP_ISFIRST"
+msgstr "Is this your first BOINC project?"
+
+msgid "AC_SETUP_FIRST"
+msgstr "Yes - this is my first BOINC project"
+
+msgid "AC_SETUP_NONFIRST"
+msgstr "No - I'm currently participating in at least one other BOINC project"
+
+#########################################
+# First Account setup page (account_setup_first.php)
+#########################################
+msgid "AC_FIRST_TITLE"
+msgstr "Account preferences"
+
+msgid "AC_FIRST_CONTROL"
+msgstr "You can control when and how your computer is used by $PROJECT"
+
+msgid "AC_FIRST_DEFAULT"
+msgstr "To use the defaults settings, scroll to the bottom and click OK."
+
+#########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "Account setup: done"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Your account setup is complete."
+
+msgid "AC_DONE_BOINC"
+msgstr "Next you must download and install the BOINC software and tell your computer(s) to use this account."
+
+msgid "AC_DONE_URL"
+msgstr "When the BOINC software first runs, it will ask you for a <b>Project URL</b> and a <b>Account key</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Copy and paste them from here:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "You can now %s to complete the $PROJECT installation."
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "download the BOINC software"
+
+msgid "AC_DONE_THANKS"
+msgstr "Thanks for participating in $PROJECT"
+
+#########################################
+# Non-first Account setup page (account_setup_nonfirst.php)
+#########################################
+msgid "AC_NONFIRST_TITLE"
+msgstr "Account setup: resource share"
+
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "Next you must tell your computer(s) to use this account."
+
+msgid "AC_DONE_WIN"
+msgstr "Windows users:"
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Open the BOINC application window by double-clicking the BOINC system tray icon. Choose the 'Attach to Project' item in the Settings menu. It will ask you for a project URL and an account key."
+
+msgid "AC_DONE_UNIX"
+msgstr "Mac, Unix and Linux users:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Quit the BOINC client. Then run the BOINC client with the -attach_project option. It will ask you for a project URL and an account key."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "In each case copy and paste the following:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "This completes the $PROJECT installation."
+
+#########################################
+# Forum sample index page
+#########################################
+msgid "FORUM_TITLE"
+msgstr "$PROJECT Message boards"
+
+#########################################
+# Different strange places:
+#########################################
+# account_created.php
+msgid "AC_CREATED_TITLE"
+msgstr "Configure your account"
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Optional"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Top participants"
+
+msgid "USER_TABLE_RANK"
+msgstr "Rank"
+
+msgid "USER_TABLE_NAME"
+msgstr "Name"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "Total Credit"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "Recent average credit"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Country"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Participant since"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Top %s teams"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Members"
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "No such forum"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "In order to create a new thread in %s you must have a certain amount of credit.This is to prevent and protect against abuse of the system."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "You cannot create any more threads right now. Please wait a while before trying again.This delay has been enforced to protect against abuse of the system."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "The %s area lets you get help from other users. If you have a question or problem:"
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Read the existing list of questions. If your question is already there, click on the %s button. If answers to the question have been submitted, read them. If one of them answers your question, click the %s button."
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "If your question has not already been asked, fill out and submit this form."
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "This will prevent questions from being asked repeatedly."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Submit a new question/problem"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Create a new thread"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Title"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Describe your question in a few words. A brief, clear summary will help others with the same question (or an answer) to find it."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "If you are having software problems, mention the version number of the software, your computer type and operating system."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Add my signature to this post"
+
+msgid "FORUM_MESSAGE"
+msgstr "Message"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "I also got this problem"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "This answered my question"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Use BBCode tags to format your text"
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Titles containing '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Posts containing '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "No titles containing '%s' could be found."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "No posts containing '%s' could be found."
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Questions and Answers"
+
