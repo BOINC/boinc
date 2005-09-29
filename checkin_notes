@@ -12365,3 +12365,10 @@ Rom    29 Sept 2005
     clientgui/wizards/
         AccountInfoPage.cpp
         ProjectProcessingPage.cpp
+
+Reinhard 	29 Sept 2005
+    - added forgotten Mac-sources 'mac_backtrace.[Ch]' to build
+
+    lib/
+       Makefile.am
+

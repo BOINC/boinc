@@ -33,6 +33,14 @@ lib_LIBRARIES = libboinc.a
 
 EXTRA_DIST = *.h *.C
 
+if OS_DARWIN
+mac_sources = 			\
+	mac_backtrace.C 	\
+	mac_backtrace.h 
+else
+mac_sources = 
+endif
+
 libboinc_a_SOURCES = \
     app_ipc.C \
     base64.C \
@@ -56,7 +64,10 @@ libboinc_a_SOURCES = \
     prefs.C \
     proxy_info.C \
     shmem.C \
-    util.C
+    util.C	\
+	$(mac_sources)
+
+
 
 include_HEADERS = 	\
     app_ipc.h 		\
