@@ -308,6 +308,7 @@ bool CWizardAttachProject::HasNextPage( wxWizardPageEx* page )
     bNoNextPageDetected |= (page == m_CompletionPage);
     bNoNextPageDetected |= (page == m_CompletionErrorPage);
     bNoNextPageDetected |= (page == m_ErrNotDetectedPage);
+    bNoNextPageDetected |= (page == m_ErrNotFoundPage);
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
     bNoNextPageDetected |= (page == m_ErrAlreadyAttachedPage);
     bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);

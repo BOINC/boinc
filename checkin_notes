@@ -12384,4 +12384,9 @@ Reinhard 	29 Sept 2005
     - made '--enable-client-release' work as advertised [default=OFF!!]
     - make sure that only benchmark-sources have hardcoded -O3 applied to them.
 
-
+Rom    29 Sept 2005
+    - Account not found page should show a finish button instead of a next
+        button.
+        
+    clientgui/wizards/
+        WizardAttachProject.cpp
