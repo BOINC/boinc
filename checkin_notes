@@ -12401,3 +12401,10 @@ Rom    29 Sept 2005
     clientgui/wizards/
         WizardAttachProject.cpp
 
+Charlie 29 Sept 2005
+    - Mac: Add new files clientgui/wizards/*.cpp and 
+      clientgui/wizards/*.h to XCode project.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
