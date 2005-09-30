@@ -12441,6 +12441,8 @@ Rom    30 Sept 2005
         project.
     - Add keyboard accelerators for input fields.
         TODO: Add accelerators for the proxy page.
+    - Use account creation policies against the 'use existing account' 
+        password.
         
     clientgui/
         BOINCBaseView.cpp
@@ -12451,6 +12453,7 @@ Rom    30 Sept 2005
         AccountInfoPage.cpp
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp
+
 
 Reinhard  30 Sept 2005
     - more error-checking in 

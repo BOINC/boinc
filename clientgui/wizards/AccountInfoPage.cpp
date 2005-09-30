@@ -303,20 +303,19 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         wxString strMessage = wxT("");
         bool     bDisplayError = false;
  
-        // Validate a new account against the account creation policies
-        if (!IS_ACCOUNTMANAGERWIZARD() && m_AccountCreateCtrl->GetValue()) {
-            // Verify minimum password length
-            unsigned int iMinLength = ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length;
-            wxString strPassword = m_AccountPasswordCtrl->GetValue();
-            if (strPassword.Length() < iMinLength) {
-                strMessage.Printf(
-                    _("The minimum password length for this project is %d. Please choose a different password."),
-                    iMinLength
-                );
+        // Verify minimum password length
+        unsigned int iMinLength = ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length;
+        wxString strPassword = m_AccountPasswordCtrl->GetValue();
+        if (strPassword.Length() < iMinLength) {
+            strMessage.Printf(
+                _("The minimum password length for this project is %d. Please choose a different password."),
+                iMinLength
+            );
 
-                bDisplayError = true;
-            }
- 
+            bDisplayError = true;
+        }
+
+        if (!IS_ACCOUNTMANAGERWIZARD() && m_AccountCreateCtrl->GetValue()) {
             // Verify that the password and confirmation password math.
             if (m_AccountPasswordCtrl->GetValue() != m_AccountConfirmPasswordCtrl->GetValue()) {
                 strMessage = _("The password and confirmation password do not match. Please type them again.");
