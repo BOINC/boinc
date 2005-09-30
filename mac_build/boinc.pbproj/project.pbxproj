@@ -313,14 +313,12 @@
 				DD7E49CD080F9B09002716F9,
 				DDA4573F086447BC00DE260C,
 				DD0A06F20869A288007CD86E,
-				DD9B6B1B0890EDCA003A8E83,
 				DD73E36108A06E8200656EB1,
 				DD73E39E08A0757F00656EB1,
 				DD73E3A508A078AF00656EB1,
 				DD73E3B708A0809800656EB1,
 				DD73E3B808A0809800656EB1,
 				DD73E3BF08A0837800656EB1,
-				DDCDB2C708CEE14800E4F573,
 				DDF166C808DF8D0F00C8C4A5,
 				DD472D0B08ECF0810007B397,
 				DD472D0C08ECF0820007B397,
@@ -3546,10 +3544,6 @@
 				DD81C42107C5D1D70098A04D,
 				DD81C47007C5D2BF0098A04D,
 				DD472CD008ECEFD80007B397,
-				DD9B6B190890EDCA003A8E83,
-				DD9B6B180890EDCA003A8E83,
-				DDCDB2C508CEE14800E4F573,
-				DDCDB2C608CEE14800E4F573,
 				DD81C43C07C5D2240098A04D,
 			);
 			isa = PBXGroup;
@@ -4059,28 +4053,6 @@
 			settings = {
 			};
 		};
-		DD9B6B180890EDCA003A8E83 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = WizAttachProject.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		DD9B6B190890EDCA003A8E83 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			path = WizAttachProject.cpp;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		DD9B6B1B0890EDCA003A8E83 = {
-			fileRef = DD9B6B190890EDCA003A8E83;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDA4573B086447BC00DE260C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4323,30 +4295,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -dfR \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"\nopen \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"";
-		};
-		DDCDB2C508CEE14800E4F573 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = WizAttachAccountManager.cpp;
-			path = ../clientgui/WizAttachAccountManager.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDCDB2C608CEE14800E4F573 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = WizAttachAccountManager.h;
-			path = ../clientgui/WizAttachAccountManager.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDCDB2C708CEE14800E4F573 = {
-			fileRef = DDCDB2C508CEE14800E4F573;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDD74D8407CF482E0065AC9D = {
 			buildActionMask = 2147483647;

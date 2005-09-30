@@ -12414,3 +12414,15 @@ David  29 Sept 2005
 
     html/inc/
         email.inc
+
+Charlie 30 Sept 2005
+    - Mac: remove obsolete files WizAttachProject.* and 
+      WizAccountManager.* from XCode project.
+      
+      NOTE: Please be sure to explicitly list by name _all_ source 
+      files added or removed from this project in these checkin_notes, 
+      with the notation (new), (added) or (removed).  Thank you.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
