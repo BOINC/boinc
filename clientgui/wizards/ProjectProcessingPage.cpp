@@ -337,6 +337,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     ACCOUNT_IN* ai           = &((CWizardAttachProject*)GetParent())->account_in;
     ACCOUNT_OUT* ao          = &((CWizardAttachProject*)GetParent())->account_out;
+    unsigned int i;
+    PROJECT_ATTACH_REPLY reply;
+    wxString strBuffer = wxEmptyString;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -457,6 +460,11 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
                         ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
                     }
+                    if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        strBuffer += _T("An internal server error has occurred.\n");
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                    }
                 }
             }
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
@@ -466,9 +474,6 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
             break;
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
             if (GetProjectCommunitcationsSucceeded()) {
-                unsigned int i;
-                PROJECT_ATTACH_REPLY reply;
-
                 // Attempt to attach to the project.
                 if (((CWizardAttachProject*)GetParent())->m_bCredentialsCached) {
                     pDoc->rpc.project_attach(
@@ -511,11 +516,17 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     ((CWizardAttachProject*)GetParent())->SetProjectAuthenticator(ao->authenticator.c_str());
                 } else {
                     SetProjectAttachSucceeded(false);
-                    wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
-                    for (i=0; i<reply.messages.size(); i++) {
-                        strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                    if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        strBuffer += _T("An internal server error has occurred.\n");
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                    } else {
+                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        for (i=0; i<reply.messages.size(); i++) {
+                            strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                        }
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
                     }
-                    ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
                 }
             } else {
                 SetProjectAttachSucceeded(false);

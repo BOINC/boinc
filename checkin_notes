@@ -12459,3 +12459,11 @@ Reinhard  30 Sept 2005
     - more error-checking in 
     sched/
         file_upload_handler.C
+
+Rom    30 Sept 2005
+    - If an internal server error happens on the web server durring the
+        wizard process, call it out so it can be tracked down.
+        
+    clientgui/wizards/
+        AccountManagerProcessingPage.cpp
+        ProjectProcessingPage.cpp

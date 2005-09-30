@@ -190,6 +190,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
     ACCT_MGR_RPC_REPLY reply;
+    wxString strBuffer = wxEmptyString;
     std::string url = "";
     std::string username = "";
     std::string password = "";
@@ -249,12 +250,17 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 SetProjectAttachSucceeded(true);
             } else {
                 SetProjectAttachSucceeded(false);
-                wxString strBuffer = wxEmptyString;
-                for (i=0; i<reply.messages.size(); i++) {
-                    strBuffer.Append(reply.messages[i].c_str());
-                    strBuffer.Append(wxT("\n"));
+                if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                    strBuffer += _T("An internal server error has occurred.\n");
+                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                } else {
+                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                    for (i=0; i<reply.messages.size(); i++) {
+                        strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                    }
+                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
                 }
-                ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
