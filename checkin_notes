@@ -12331,24 +12331,24 @@ Rom    28 Sept 2005 (staging)
     - Tag for 5.1.5 release, all platforms
       boinc_core_release_5_1_5
 
-Reinhard 	29 Sept 2005
-	- Install header-files necessary for building workunit-generator externally linked to BOINC.
+Reinhard        29 Sept 2005
+        - Install header-files necessary for building workunit-generator externally linked to BOINC.
 
-	db/
-	   Makefile.am
-	   db_base.h
-	lib/
-	   Makefile.am
-	sched/
-	   Makefile.am
+        db/
+           Makefile.am
+           db_base.h
+        lib/
+           Makefile.am
+        sched/
+           Makefile.am
 
-Reinhard 	29 Sept 2005
-	- make getsockopt-len check insensitive to user's CPPFLAG-settings, 
-	in order to avoid this test failing because of higher warning-levels set in
-	CPPFLAGS (as the test is using -Werror).
+Reinhard        29 Sept 2005
+        - make getsockopt-len check insensitive to user's CPPFLAG-settings, 
+        in order to avoid this test failing because of higher warning-levels set in
+        CPPFLAGS (as the test is using -Werror).
 
-	m4/
-	   boinc_getsockopt.m4
+        m4/
+           boinc_getsockopt.m4
 
 Rom    29 Sept 2005
     - If somebody clicks the account manager menu item, they should get the
@@ -12366,7 +12366,7 @@ Rom    29 Sept 2005
         AccountInfoPage.cpp
         ProjectProcessingPage.cpp
 
-Reinhard 	29 Sept 2005
+Reinhard        29 Sept 2005
     - added forgotten Mac-sources 'mac_backtrace.[Ch]' to build
 
     lib/
@@ -12379,10 +12379,20 @@ David  29 Sept 2005
     py/Boinc/
         tools.py
 
-Reinhard 	29 Sept 2005
+Reinhard        29 Sept 2005
     - removed redundant configure-switch 'disable-static-linkage'
     - made '--enable-client-release' work as advertised [default=OFF!!]
     - make sure that only benchmark-sources have hardcoded -O3 applied to them.
+    - removed spurious dependencies in tool to avoid pointless re-linking
+
+    configure.ac
+    Makefile.am
+    client/ 
+        Makefile.am
+    m4/ 
+	sah_check_lib.m4
+    tools/
+	Makefile.am
 
 Rom    29 Sept 2005
     - Account not found page should show a finish button instead of a next
@@ -12390,3 +12400,4 @@ Rom    29 Sept 2005
         
     clientgui/wizards/
         WizardAttachProject.cpp
+

@@ -9,7 +9,7 @@ ACLOCAL_AMFLAGS = -I m4
 API_SUBDIRS = api lib zip
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db tools test py sched apps
+   SERVER_SUBDIRS = db test py sched apps tools
 endif
 
 if ENABLE_CLIENT
@@ -37,7 +37,3 @@ EXTRA_DIST =                                    \
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
 #	cd $(distdir) && ./_autosetup
-
-# convenience target
-client-bin:
-	cd client && make client-bin client-bin-gz
