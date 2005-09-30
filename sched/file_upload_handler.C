@@ -311,7 +311,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 	      log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
 				  "Failed to find/create directory-hierarchy for file '%s' in '%s'\n",
 				  file_info.name, config.upload_dir );
-	      return retval;
+	      return return_error(ERR_TRANSIENT, "can't open file");
 	    }
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
