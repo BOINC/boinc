@@ -167,14 +167,16 @@ bool PERS_FILE_XFER::poll() {
         // Either initial or resume after failure.
         // See if it's time to try again.
         //
-        if (gstate.now >= next_request_time) {
-            last_time = gstate.now;
-            fip->upload_offset = -1;
-            retval = start_xfer();
-            return (retval == 0);
-        } else {
+        if (gstate.now < next_request_time) {
             return false;
         }
+        if (gstate.now < fip->project->next_file_xfer_time(is_upload)) {
+            return false;
+        }
+        last_time = gstate.now;
+        fip->upload_offset = -1;
+        retval = start_xfer();
+        return (retval == 0);
     }
 
     // don't count suspended periods in total time
@@ -192,6 +194,7 @@ bool PERS_FILE_XFER::poll() {
         );
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
+            fip->project->file_xfer_succeeded(is_upload);
             if (log_flags.file_xfer) {
                 msg_printf(
                     fip->project, MSG_INFO, "Finished %s of %s",
@@ -319,7 +322,6 @@ void PERS_FILE_XFER::handle_xfer_failure() {
 // backoff and try again later
 //
 void PERS_FILE_XFER::retry_or_backoff() {
-    double backoff = 0;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
@@ -329,24 +331,33 @@ void PERS_FILE_XFER::retry_or_backoff() {
     //
 
     if (fip->get_next_url(is_upload) == NULL) {
-        nretry++;
-
-        // Do an exponential backoff of e^nretry seconds,
-        // keeping within the bounds of pers_retry_delay_min and
-        // pers_retry_delay_max
-        //
-        backoff = calculate_exponential_backoff(
-            "pers_file_xfer",
-            nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max
-        );
-        next_request_time = gstate.now + backoff;
-        msg_printf(fip->project, MSG_INFO,
-            "Backing off %s on %s of file %s",
-            timediff_format(backoff).c_str(),
-            is_upload?"upload":"download",
-            fip->name
-        );
+        fip->project->file_xfer_failed(is_upload);
+        do_backoff();
     }
+}
+
+// per-file backoff policy: sets next_request_time
+//
+void PERS_FILE_XFER::do_backoff() {
+    double backoff = 0;
+
+    nretry++;
+
+    // Do an exponential backoff of e^nretry seconds,
+    // keeping within the bounds of pers_retry_delay_min and
+    // pers_retry_delay_max
+    //
+    backoff = calculate_exponential_backoff(
+        "pers_file_xfer",
+        nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max
+    );
+    next_request_time = gstate.now + backoff;
+    msg_printf(fip->project, MSG_INFO,
+        "Backing off %s on %s of file %s",
+        timediff_format(backoff).c_str(),
+        is_upload?"upload":"download",
+        fip->name
+    );
 }
 
 void PERS_FILE_XFER::abort() {

@@ -291,6 +291,27 @@ public:
     bool checked;
 #endif
 
+
+    // vars related to file-transfer backoff
+    // file_xfer_failures_up: count of consecutive upload failures
+    // next_file_xfer_up: when to start trying uploads again
+    //
+    // if file_xfer_failures_up exceeds FILE_XFER_FAILURE_LIMIT,
+    // we switch from a per-file to a project-wide backoff policy
+    // (separately for the up/down directions)
+    //
+#define FILE_XFER_FAILURE_LIMIT 3
+private:
+    int file_xfer_failures_up;
+    int file_xfer_failures_down;
+    double next_file_xfer_up;
+    double next_file_xfer_down;
+
+public:
+    double next_file_xfer_time(const bool);
+    void file_xfer_failed(const bool);
+    void file_xfer_succeeded(const bool);
+
     PROJECT();
     ~PROJECT(){}
     void init();

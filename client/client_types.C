@@ -430,6 +430,48 @@ bool PROJECT::potentially_runnable() {
     return false;
 }
 
+double PROJECT::next_file_xfer_time(const bool is_upload) {
+    return (is_upload ? next_file_xfer_up : next_file_xfer_down);
+}
+
+void PROJECT::file_xfer_failed(const bool is_upload) {
+    if (is_upload) {
+        file_xfer_failures_up++;
+        if (file_xfer_failures_up < FILE_XFER_FAILURE_LIMIT) {
+            next_file_xfer_up = 0;
+        } else {
+            next_file_xfer_up = gstate.now + calculate_exponential_backoff(
+                "project incr_retry up",
+                file_xfer_failures_up,
+                gstate.pers_retry_delay_min,
+                gstate.pers_retry_delay_max
+            );
+        }
+    } else {
+        file_xfer_failures_down++;
+        if (file_xfer_failures_down < FILE_XFER_FAILURE_LIMIT) {
+            next_file_xfer_down = 0;
+        } else {
+            next_file_xfer_down = gstate.now + calculate_exponential_backoff(
+                "project incr_retry down",
+                file_xfer_failures_down,
+                gstate.pers_retry_delay_min,
+                gstate.pers_retry_delay_max
+            );
+        }
+    }
+}
+
+void PROJECT::file_xfer_succeeded(const bool is_upload) {
+    if (is_upload) {
+        file_xfer_failures_up = 0;
+        next_file_xfer_up  = 0;
+    } else {
+        file_xfer_failures_down = 0;
+        next_file_xfer_down = 0;
+    }
+}
+
 int APP::parse(MIOFILE& in) {
     char buf[256];
 

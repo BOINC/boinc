@@ -12461,9 +12461,34 @@ Reinhard  30 Sept 2005
         file_upload_handler.C
 
 Rom    30 Sept 2005
-    - If an internal server error happens on the web server durring the
+    - If an internal server error happens on the web server during the
         wizard process, call it out so it can be tracked down.
         
     clientgui/wizards/
         AccountManagerProcessingPage.cpp
         ProjectProcessingPage.cpp
+
+David  30 Sept 2005
+    - Improve the client's file transfer backoff logic.
+        Old: separate backoff for each file.
+            Suppose a client has 10 results from a project,
+            each with 5 input files, and server is down.
+            It will try all 50 downloads, they all back off a minute,
+            it tries all 50 again, etc.
+            This is bad, especially if the download server
+            is up but overloaded.
+        New: maintain per-project backoff parameters as well
+            (separate for upload/download directions).
+            If a project gets 3 consecutive UL or DL failures,
+            it goes into a random-exponential-length period
+            of "project backoff" during which no transfers are started.
+            During this period, individual file backoffs continue to accumulate,
+            so that retries will be widely spread out when the client
+            emerges from project backoff
+            (this is a kludge, and hard to understand,
+            but I can't think of a simpler way off the top of my head)
+        From John F. Hall
+
+    client/
+        client_types.C,h
+        pers_file_xfer.C,h
