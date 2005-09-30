@@ -307,6 +307,12 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.name, config.upload_dir, config.uldl_dir_fanout,
                 path, true
             );
+	    if ( retval ) {
+	      log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
+				  "Failed to find/create directory-hierarchy for file '%s' in '%s'\n",
+				  file_info.name, config.upload_dir );
+	      return retval;
+	    }
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
                 "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
@@ -351,7 +357,14 @@ int handle_get_file_size(char* file_name) {
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
     //
-    dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, path);
+    retval = dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, path);
+    if ( retval ) {
+      log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
+			  "Failed to find/create directory-hierarchy for file '%s' in '%s'.\n",
+			  file_name, config.upload_dir );
+      return return_error(ERR_TRANSIENT, "can't open file");
+    }
+
     fd=open(path, O_WRONLY|O_APPEND);
 
     if (fd<0 && ENOENT==errno) {
@@ -367,7 +380,7 @@ int handle_get_file_size(char* file_name) {
         // can't get file descriptor: try again later
         //
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "handle_get_file_size(): can't open [%s] %s\n",
+            "handle_get_file_size(): cannot open [%s] %s\n",
             file_name, strerror(errno)
         );
         return return_error(ERR_TRANSIENT, "can't open file");
