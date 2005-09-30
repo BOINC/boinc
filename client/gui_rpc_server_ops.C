@@ -358,13 +358,17 @@ static void handle_file_transfer_op(char* buf, MIOFILE& fout, const char* op) {
         return;
     }
     
-    if (!f->pers_file_xfer) {
+    PERS_FILE_XFER* pfx = f->pers_file_xfer;
+    if (!pfx) {
         fout.printf("<error>No such transfer waiting</error>\n");
         return;
     }
 
     if (!strcmp(op, "retry")) {
-        f->pers_file_xfer->next_request_time = 0;
+        pfx->next_request_time = 0;
+            // leave file-level backoff mode
+        f->project->file_xfer_succeeded(pfx->is_upload);
+            // and leave project-level backoff mode
     } else if (!strcmp(op, "abort")) {
         f->pers_file_xfer->abort();
     } else {

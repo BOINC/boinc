@@ -12492,3 +12492,11 @@ David  30 Sept 2005
     client/
         client_types.C,h
         pers_file_xfer.C,h
+
+David  30 Sept 2005
+    - A refinement of the above: if the user manually retries
+        a file transfer, exit project-level backoff mode
+        (suggested by John F. Hall)
+
+    client/
+        gui_rpc_server_ops.C

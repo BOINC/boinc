@@ -123,6 +123,7 @@ show_name("Michael Gary");
 show_name("Marco Gazzoni");
 show_name("Gary Gibson");
 show_name("Walt Gribben");
+show_name("John F. Hall");
 show_name("Jim Harris");
 show_name("Volker Hatzenberger");
 show_name("Ian Hay");
