@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-09-01 23:53+0200\n"
+"PO-Revision-Date: 2005-09-30 22:07+0200\n"
 "Last-Translator: Son Goku 3SSJ <timeros@gmail.com>\n"
-"Language-Team: AMD Powered @ Home Team\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-5\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,48 +35,56 @@ msgstr "(Дефиниран от потребителя)"
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCTaskBar.cpp:363
-#: clientgui/MainFrame.cpp:385
+#: clientgui/BOINCTaskBar.cpp:272
+msgid "BOINC is currently suspended...\n"
+msgstr "BOINC е временно спрян...\n"
+
+#: clientgui/BOINCTaskBar.cpp:276
+msgid "BOINC networking is currently suspended...\n"
+msgstr "Връзката на BOINC към мрежата е временно спряна...\n"
+
+#: clientgui/BOINCTaskBar.cpp:377
+#: clientgui/MainFrame.cpp:335
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "&Изход"
 
-#: clientgui/BOINCTaskBar.cpp:382
-#: clientgui/BOINCTaskBar.cpp:389
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
 msgid "&Open BOINC Manager..."
 msgstr "&Отвори  BOINC Manager-а..."
 
-#: clientgui/BOINCTaskBar.cpp:393
-#: clientgui/MainFrame.cpp:333
+#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/MainFrame.cpp:344
 msgid "&Run always"
 msgstr "Работи &винаги"
 
-#: clientgui/BOINCTaskBar.cpp:394
-#: clientgui/MainFrame.cpp:338
+#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/MainFrame.cpp:349
 msgid "Run based on &preferences"
 msgstr "Работи на база на &предпочитанията"
 
-#: clientgui/BOINCTaskBar.cpp:395
-#: clientgui/MainFrame.cpp:343
+#: clientgui/BOINCTaskBar.cpp:409
+#: clientgui/MainFrame.cpp:354
 msgid "&Suspend"
 msgstr "&Временно прекратяване"
 
-#: clientgui/BOINCTaskBar.cpp:397
-#: clientgui/MainFrame.cpp:351
+#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/MainFrame.cpp:362
 msgid "&Network activity always available"
 msgstr "&Мрежова активност винаги възможна"
 
-#: clientgui/BOINCTaskBar.cpp:398
-#: clientgui/MainFrame.cpp:356
+#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/MainFrame.cpp:367
 msgid "Network activity based on &preferences"
 msgstr "Мрежовата активност на база на &предпочитанията"
 
-#: clientgui/BOINCTaskBar.cpp:399
-#: clientgui/MainFrame.cpp:361
+#: clientgui/BOINCTaskBar.cpp:413
+#: clientgui/MainFrame.cpp:372
 msgid "&Network activity suspended"
 msgstr "&Мрежовата дейност временно прекратена"
 
-#: clientgui/BOINCTaskBar.cpp:401
+#: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:423
 msgid "&About BOINC Manager..."
 msgstr "&Относно BOINC Manager-а..."
@@ -106,47 +114,11 @@ msgid "A software platform for distributed computing using volunteered computer 
 msgstr "Софтурна платформа за разпределено изчисление,  използвайки компютърните ресурси на доброволци. "
 
 #: clientgui/DlgAbout.cpp:154
-#: clientgui/DlgAccountManagerSignup.cpp:143
 #: clientgui/DlgDialupCredentials.cpp:136
 #: clientgui/DlgOptions.cpp:396
 #: clientgui/DlgSelectComputer.cpp:130
 msgid "&OK"
 msgstr "&OK"
-
-#: clientgui/DlgAccountManagerSignup.cpp:105
-msgid ""
-"Account managers make it easy to find and join BOINC projects.\n"
-"For more information, click on the link below."
-msgstr ""
-"Акаунт мениджърите ви улесняват да намерите и да се присъедините към BOINC проекти.\n"
-"За повече информация, кликнете на линка по-долу. "
-
-#: clientgui/DlgAccountManagerSignup.cpp:116
-msgid "Account Manager URL:"
-msgstr "URL на акаунт менажера:"
-
-#: clientgui/DlgAccountManagerSignup.cpp:124
-msgid "Login:"
-msgstr "Login:"
-
-#: clientgui/DlgAccountManagerSignup.cpp:132
-#: clientgui/DlgDialupCredentials.cpp:122
-#: clientgui/DlgOptions.cpp:325
-#: clientgui/DlgOptions.cpp:381
-#: clientgui/DlgSelectComputer.cpp:119
-#: clientgui/WizAttachProject.cpp:1927
-#: clientgui/WizAttachProject.cpp:4210
-#: clientgui/WizAttachProject.cpp:4432
-msgid "Password:"
-msgstr "Парола:"
-
-#: clientgui/DlgAccountManagerSignup.cpp:148
-#: clientgui/DlgAccountManagerStatus.cpp:145
-#: clientgui/DlgDialupCredentials.cpp:141
-#: clientgui/DlgOptions.cpp:401
-#: clientgui/DlgSelectComputer.cpp:135
-msgid "&Cancel"
-msgstr "&Отказ"
 
 #: clientgui/DlgAccountManagerStatus.cpp:110
 msgid "Your current account manager is:"
@@ -172,10 +144,36 @@ msgstr "Обнови проекта"
 msgid "Change"
 msgstr "Промени"
 
+#: clientgui/DlgAccountManagerStatus.cpp:145
+#: clientgui/DlgDialupCredentials.cpp:141
+#: clientgui/DlgOptions.cpp:401
+#: clientgui/DlgSelectComputer.cpp:135
+#: clientgui/wizards/wizardex.cpp:363
+msgid "&Cancel"
+msgstr "&Отказ"
+
 #: clientgui/DlgDialupCredentials.cpp:111
-#: clientgui/WizAttachProject.cpp:2024
+#: clientgui/WizAttachAccountManager.cpp:1576
+#: clientgui/WizAttachProject.cpp:1990
+#: clientgui/wizards/AccountInfoPage.cpp:276
 msgid "Username:"
 msgstr "Потребит. име:"
+
+#: clientgui/DlgDialupCredentials.cpp:122
+#: clientgui/DlgOptions.cpp:325
+#: clientgui/DlgOptions.cpp:381
+#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/WizAttachAccountManager.cpp:1553
+#: clientgui/WizAttachAccountManager.cpp:2914
+#: clientgui/WizAttachAccountManager.cpp:2962
+#: clientgui/WizAttachProject.cpp:1884
+#: clientgui/WizAttachProject.cpp:3873
+#: clientgui/WizAttachProject.cpp:3921
+#: clientgui/wizards/AccountInfoPage.cpp:160
+#: clientgui/wizards/ProxyPage.cpp:160
+#: clientgui/wizards/ProxyPage.cpp:210
+msgid "Password:"
+msgstr "Парола:"
 
 #: clientgui/DlgOptions.cpp:189
 msgid "Language Selection:"
@@ -248,8 +246,12 @@ msgstr "Адрес:"
 
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:360
-#: clientgui/WizAttachProject.cpp:4194
-#: clientgui/WizAttachProject.cpp:4416
+#: clientgui/WizAttachAccountManager.cpp:2898
+#: clientgui/WizAttachAccountManager.cpp:2946
+#: clientgui/WizAttachProject.cpp:3857
+#: clientgui/WizAttachProject.cpp:3905
+#: clientgui/wizards/ProxyPage.cpp:144
+#: clientgui/wizards/ProxyPage.cpp:194
 msgid "Port:"
 msgstr "Порт:"
 
@@ -260,8 +262,12 @@ msgstr "Остави тези полета празни ако не са нужни"
 
 #: clientgui/DlgOptions.cpp:317
 #: clientgui/DlgOptions.cpp:373
-#: clientgui/WizAttachProject.cpp:4202
-#: clientgui/WizAttachProject.cpp:4424
+#: clientgui/WizAttachAccountManager.cpp:2906
+#: clientgui/WizAttachAccountManager.cpp:2954
+#: clientgui/WizAttachProject.cpp:3865
+#: clientgui/WizAttachProject.cpp:3913
+#: clientgui/wizards/ProxyPage.cpp:152
+#: clientgui/wizards/ProxyPage.cpp:202
 msgid "User Name:"
 msgstr "Потребит. име"
 
@@ -358,8 +364,8 @@ msgid "BOINC Manager - Connection failed"
 msgstr "BOINC Manager - Връзката провалена"
 
 #: clientgui/MainDocument.cpp:179
+#: clientgui/MainFrame.cpp:915
 #: clientgui/MainFrame.cpp:916
-#: clientgui/MainFrame.cpp:917
 msgid "Connection failed."
 msgstr "Връзката провалена."
 
@@ -379,75 +385,76 @@ msgstr "BOINC грешка"
 msgid "BOINC info"
 msgstr "BOINC инфо"
 
-#: clientgui/MainFrame.cpp:80
+#: clientgui/MainFrame.cpp:83
 msgid "Connected"
 msgstr "Свързан"
 
-#: clientgui/MainFrame.cpp:88
+#: clientgui/MainFrame.cpp:91
 msgid "Disconnected"
 msgstr "Прекъснат"
 
-#: clientgui/MainFrame.cpp:326
-msgid "&Hide"
-msgstr "&Скрий"
-
-#: clientgui/MainFrame.cpp:327
-msgid "Hides the main BOINC Manager window"
-msgstr "Скрива главният прозорец на BOINC Manager"
-
-#: clientgui/MainFrame.cpp:334
-msgid "Does work regardless of preferences"
-msgstr "Работи независимо от предпочитнаията"
-
-#: clientgui/MainFrame.cpp:339
-msgid "Does work according to your preferences"
-msgstr "Работи на база на предпочитанията ти"
-
-#: clientgui/MainFrame.cpp:344
-msgid "Stops work regardless of preferences"
-msgstr "Спира работата независимо от предпочитанията"
-
-#: clientgui/MainFrame.cpp:352
-msgid "Does network activity regardless of preferences"
-msgstr "Провежда мрежова активност независимо от преференциите"
-
-#: clientgui/MainFrame.cpp:357
-msgid "Does network activity according to your preferences"
-msgstr "Провежда мрежова активност на база на преференциите"
-
-#: clientgui/MainFrame.cpp:362
-msgid "Stops BOINC network activity"
-msgstr "Спира/Пуска мрежовата активност на BOINC"
-
-#: clientgui/MainFrame.cpp:369
-msgid "Run &Benchmarks"
-msgstr "Пусни &диагностика на системата"
-
-#: clientgui/MainFrame.cpp:370
-msgid "Runs BOINC CPU benchmarks"
-msgstr "Стартира  BOINC CPU диагностика"
-
-#: clientgui/MainFrame.cpp:377
-msgid "Select Computer..."
+#: clientgui/MainFrame.cpp:329
+msgid "Select computer..."
 msgstr "Избери компютър..."
 
-#: clientgui/MainFrame.cpp:378
+#: clientgui/MainFrame.cpp:330
 msgid "Connect to another computer running BOINC"
 msgstr "Свързва се към друг компютър със стартиран BOINC"
 
-#: clientgui/MainFrame.cpp:386
+#: clientgui/MainFrame.cpp:336
 msgid "Exit the BOINC Manager"
 msgstr "Излиза от BOINC Manager-а"
 
+#: clientgui/MainFrame.cpp:345
+msgid "Does work regardless of preferences"
+msgstr "Работи независимо от предпочитнаията"
+
+#: clientgui/MainFrame.cpp:350
+msgid "Does work according to your preferences"
+msgstr "Работи на база на предпочитанията ти"
+
+#: clientgui/MainFrame.cpp:355
+msgid "Stops work regardless of preferences"
+msgstr "Спира работата независимо от предпочитанията"
+
+#: clientgui/MainFrame.cpp:363
+msgid "Does network activity regardless of preferences"
+msgstr "Провежда мрежова активност независимо от преференциите"
+
+#: clientgui/MainFrame.cpp:368
+msgid "Does network activity according to your preferences"
+msgstr "Провежда мрежова активност на база на преференциите"
+
+#: clientgui/MainFrame.cpp:373
+msgid "Stops BOINC network activity"
+msgstr "Спира/Пуска мрежовата активност на BOINC"
+
+#: clientgui/MainFrame.cpp:380
+msgid "Run &benchmarks"
+msgstr "Пусни &диагностика на системата"
+
+#: clientgui/MainFrame.cpp:381
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Стартира  BOINC CPU диагностика"
+
+#: clientgui/MainFrame.cpp:388
+msgid "&Attach to &project"
+msgstr "Влез в проект"
+
+#: clientgui/MainFrame.cpp:389
+msgid "Attach to a project to begin processing work"
+msgstr "Влез в проект, за да започнеш да обработваш работа"
+
 #: clientgui/MainFrame.cpp:393
-msgid "&Manage Accounts"
-msgstr "&Управлявай акаунтите"
+msgid "&Account manager"
+msgstr "Акаунт менажер"
 
 #: clientgui/MainFrame.cpp:394
-msgid "Connect to an account manager website and update all of your accounts"
-msgstr "Свържете се с вашия сайт за управление на акаунтите и обновете всички ваши акаунти"
+msgid "Attach to an account manager"
+msgstr "Прикрепи Акаунт Менажер"
 
 #: clientgui/MainFrame.cpp:401
+#: clientgui/MainFrame.cpp:443
 msgid "&Options"
 msgstr "&Опции"
 
@@ -464,7 +471,7 @@ msgid "Show information about the BOINC Manager"
 msgstr "Показва информация BOINC Manager-а"
 
 #: clientgui/MainFrame.cpp:415
-msgid "BOINC &Website"
+msgid "BOINC &website"
 msgstr "BOINC &Website"
 
 #: clientgui/MainFrame.cpp:416
@@ -480,37 +487,47 @@ msgid "&File"
 msgstr "&Файл"
 
 #: clientgui/MainFrame.cpp:435
-msgid "&Tools"
-msgstr "&Настройки"
+msgid "&Commands"
+msgstr "&Команди"
 
 #: clientgui/MainFrame.cpp:439
+msgid "&Projects"
+msgstr "Проекти"
+
+#: clientgui/MainFrame.cpp:447
+#: clientgui/wizards/wizardex.cpp:359
+#: clientgui/wizards/wizardex.cpp:366
 msgid "&Help"
 msgstr "&Помощ"
 
-#: clientgui/MainFrame.cpp:1089
-msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
-msgstr "Езикът на  BOINC Manager-а е променен, за да може промяната да има ефект трябва да рестартирате мениджъра."
+#: clientgui/MainFrame.cpp:1015
+msgid "Attaching to project..."
+msgstr "Влизане в проект..."
 
-#: clientgui/MainFrame.cpp:1090
+#: clientgui/MainFrame.cpp:1113
 msgid "Language Selection..."
 msgstr "Избор на език..."
 
-#: clientgui/MainFrame.cpp:1455
-#: clientgui/MainFrame.cpp:1472
-#: clientgui/MainFrame.cpp:1478
-#: clientgui/MainFrame.cpp:1521
-#: clientgui/MainFrame.cpp:1549
-#: clientgui/MainFrame.cpp:1558
-#: clientgui/MainFrame.cpp:1572
-#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1114
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr "Езикът на  BOINC Manager-а е променен, за да може промяната да има ефект трябва да рестартирате мениджъра."
+
+#: clientgui/MainFrame.cpp:1508
+#: clientgui/MainFrame.cpp:1525
+#: clientgui/MainFrame.cpp:1531
+#: clientgui/MainFrame.cpp:1574
+#: clientgui/MainFrame.cpp:1602
+#: clientgui/MainFrame.cpp:1611
+#: clientgui/MainFrame.cpp:1625
+#: clientgui/MainFrame.cpp:1633
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC Manager - статус на Мрежата"
 
-#: clientgui/MainFrame.cpp:1456
+#: clientgui/MainFrame.cpp:1509
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC се нуждае от връзка към Интернет за да извърши подръжка на проектите, отвори BOINC Manager за да се свърже и да свърши неоходимата работа"
 
-#: clientgui/MainFrame.cpp:1471
+#: clientgui/MainFrame.cpp:1524
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -518,42 +535,42 @@ msgstr ""
 "BOINC трябва да се свърже към мрежата.\n"
 "Може ли да го направи?"
 
-#: clientgui/MainFrame.cpp:1479
+#: clientgui/MainFrame.cpp:1532
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC се свързва към Интернет."
 
-#: clientgui/MainFrame.cpp:1522
+#: clientgui/MainFrame.cpp:1575
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC откри че е свързан към Интернет, обновяване на всички проекти и възстановяване на всички трансфери."
 
-#: clientgui/MainFrame.cpp:1550
+#: clientgui/MainFrame.cpp:1603
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC успя да се дискънектне  успешно от Интернет."
 
-#: clientgui/MainFrame.cpp:1559
+#: clientgui/MainFrame.cpp:1612
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC не успя да се дискънектне от Интернет."
 
-#: clientgui/MainFrame.cpp:1573
+#: clientgui/MainFrame.cpp:1626
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC успешно се свърза с Интернет. "
 
-#: clientgui/MainFrame.cpp:1581
+#: clientgui/MainFrame.cpp:1634
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC не можа да се свърже към Интернет. "
 
-#: clientgui/MainFrame.cpp:1659
-#: clientgui/MainFrame.cpp:1662
+#: clientgui/MainFrame.cpp:1712
+#: clientgui/MainFrame.cpp:1715
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1660
+#: clientgui/MainFrame.cpp:1713
 #, c-format
 msgid "Connecting to %s"
 msgstr "Свързване към %s"
 
-#: clientgui/MainFrame.cpp:1663
+#: clientgui/MainFrame.cpp:1716
 #, c-format
 msgid "Connected to %s"
 msgstr "Свързан към %s"
@@ -616,615 +633,853 @@ msgstr "'%s' не съдържа валидно име на хоста. "
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' не съдържа валиден път. "
 
-#: clientgui/ViewMessages.cpp:73
-#: clientgui/ViewProjects.cpp:106
-#: clientgui/ViewStatistics.cpp:315
-#: clientgui/ViewTransfers.cpp:91
-#: clientgui/ViewWork.cpp:94
+#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewStatistics.cpp:316
+#: clientgui/ViewTransfers.cpp:92
+#: clientgui/ViewWork.cpp:95
 msgid "Tasks"
 msgstr "Опции"
 
-#: clientgui/ViewMessages.cpp:77
+#: clientgui/ViewMessages.cpp:78
 msgid "Copy all messages"
 msgstr "Копирай всички съобщения"
 
-#: clientgui/ViewMessages.cpp:78
+#: clientgui/ViewMessages.cpp:79
 msgid "Copy all the messages to the clipboard."
 msgstr "Копира всички съобщения в clipboard."
 
-#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewMessages.cpp:85
 msgid "Copy selected messages"
 msgstr "Копирай избраните съобщения"
 
-#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessages.cpp:86
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr "Копира избраните съобщения в clipboard. Може да изберете някоко съобщения като задържите клавиша Shift  или Ctrl, докато кликате на съобщенията."
 
-#: clientgui/ViewMessages.cpp:97
-#: clientgui/ViewProjects.cpp:173
-#: clientgui/ViewResources.cpp:75
-#: clientgui/ViewTransfers.cpp:114
-#: clientgui/ViewWork.cpp:124
+#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewProjects.cpp:161
+#: clientgui/ViewResources.cpp:76
+#: clientgui/ViewTransfers.cpp:115
+#: clientgui/ViewWork.cpp:125
 msgid "Project"
 msgstr "Проект"
 
-#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewMessages.cpp:99
 msgid "Time"
 msgstr "Време"
 
-#: clientgui/ViewMessages.cpp:99
+#: clientgui/ViewMessages.cpp:100
 msgid "Message"
 msgstr "Съобщение"
 
-#: clientgui/ViewMessages.cpp:123
+#: clientgui/ViewMessages.cpp:124
 msgid "Messages"
 msgstr "Съобщения"
 
-#: clientgui/ViewMessages.cpp:144
+#: clientgui/ViewMessages.cpp:146
 msgid "Copying all messages to the clipboard..."
 msgstr "Копиране на всички съобщения в clipboard..."
 
-#: clientgui/ViewMessages.cpp:176
-#: clientgui/ViewTransfers.cpp:182
+#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewTransfers.cpp:184
 msgid "Aborting transfer..."
 msgstr "Преустановяване на трансфера..."
 
-#: clientgui/ViewProjects.cpp:110
+#: clientgui/ViewProjects.cpp:109
 msgid "Update"
 msgstr "Обнови проекта"
 
-#: clientgui/ViewProjects.cpp:111
+#: clientgui/ViewProjects.cpp:110
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr "Докладва всичката свършена работа, взима последните кредити, взима последните предпочитрания, и по възмойност сваля нова работа. "
 
-#: clientgui/ViewProjects.cpp:118
-msgid "Update All"
+#: clientgui/ViewProjects.cpp:117
+msgid "Update all"
 msgstr "Обнови всички"
 
-#: clientgui/ViewProjects.cpp:119
-msgid "Report all upload items, completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Докладва всички качени и завършени работи, взима новите кредити, взима последните предпочитания, и по възможност взима нова работа. "
+#: clientgui/ViewProjects.cpp:118
+msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Докладва всичката свършена работа, взима последните кредити, взима последните предпочитрания, и по възмойност сваля нова работа. "
 
-#: clientgui/ViewProjects.cpp:126
-#: clientgui/ViewProjects.cpp:640
-#: clientgui/ViewWork.cpp:98
-#: clientgui/ViewWork.cpp:448
+#: clientgui/ViewProjects.cpp:125
+#: clientgui/ViewProjects.cpp:583
+#: clientgui/ViewWork.cpp:99
+#: clientgui/ViewWork.cpp:450
 msgid "Suspend"
 msgstr "Временно прекратяване"
 
-#: clientgui/ViewProjects.cpp:127
-#: clientgui/ViewProjects.cpp:640
+#: clientgui/ViewProjects.cpp:126
+#: clientgui/ViewProjects.cpp:583
 msgid "Suspend work for this project."
 msgstr "Временно преустановява работата по този проект"
 
-#: clientgui/ViewProjects.cpp:133
-#: clientgui/ViewProjects.cpp:652
+#: clientgui/ViewProjects.cpp:132
+#: clientgui/ViewProjects.cpp:595
 msgid "No new work"
 msgstr "Не взимай нова работа"
 
-#: clientgui/ViewProjects.cpp:134
-#: clientgui/ViewProjects.cpp:652
-msgid "Don't fetch new work for this project."
-msgstr "Не взима нова работа за този проект. "
+#: clientgui/ViewProjects.cpp:133
+msgid "Don't get new work for this project."
+msgstr "Не взимай работа за този проект. "
 
-#: clientgui/ViewProjects.cpp:140
+#: clientgui/ViewProjects.cpp:139
 msgid "Reset project"
 msgstr "Рестартирай проекта"
 
-#: clientgui/ViewProjects.cpp:141
+#: clientgui/ViewProjects.cpp:140
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr "Изтрива всички файлове и работа свързана с този проект и взима нова работа. Можете първо да обновите проекта, за да докладвате за свършената работа."
 
-#: clientgui/ViewProjects.cpp:150
+#: clientgui/ViewProjects.cpp:149
 msgid "Detach"
 msgstr "Излез от проекта"
 
-#: clientgui/ViewProjects.cpp:151
-msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
-msgstr "Изважда компютъра от този проект. Текущата работа ще бъде загубена. Можете първо да обновите проекта, за да докладвате за свършената работа."
+#: clientgui/ViewProjects.cpp:150
+msgid "Detach computer from this project.  Work in progress will be lost (use 'Update' first to report any completed work)."
+msgstr "Излез от този проект. Работата, която е в прогрес ще бъде изгубена (първо използвай \"Обнови\", за да докладваш свършената работа)"
 
-#: clientgui/ViewProjects.cpp:160
-msgid "Attach to new project"
-msgstr "Влез в нов проект"
-
-#: clientgui/ViewProjects.cpp:161
-msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "Влиза в  нов BOINC проект. Ще се нуждаете от URL на проекта и ключ на акаунта (посетете сайта на проекта, за да ги получите."
-
-#: clientgui/ViewProjects.cpp:174
+#: clientgui/ViewProjects.cpp:162
 msgid "Account"
 msgstr "Акаунт"
 
-#: clientgui/ViewProjects.cpp:175
+#: clientgui/ViewProjects.cpp:163
 msgid "Team"
 msgstr "Отбор"
 
-#: clientgui/ViewProjects.cpp:176
+#: clientgui/ViewProjects.cpp:164
 msgid "Total credit"
 msgstr "Общ кредит"
 
-#: clientgui/ViewProjects.cpp:177
+#: clientgui/ViewProjects.cpp:165
 msgid "Avg. credit"
 msgstr "Среден кредит"
 
-#: clientgui/ViewProjects.cpp:178
+#: clientgui/ViewProjects.cpp:166
 msgid "Resource share"
 msgstr "Дял ресурси"
 
-#: clientgui/ViewProjects.cpp:179
-#: clientgui/ViewTransfers.cpp:120
-#: clientgui/ViewWork.cpp:131
+#: clientgui/ViewProjects.cpp:167
+#: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewWork.cpp:132
 msgid "Status"
 msgstr "Стаус"
 
-#: clientgui/ViewProjects.cpp:192
+#: clientgui/ViewProjects.cpp:180
 msgid "Projects"
 msgstr "Проекти"
 
-#: clientgui/ViewProjects.cpp:214
+#: clientgui/ViewProjects.cpp:203
 msgid "Updating project..."
 msgstr "Обновяване на проекта..."
 
-#: clientgui/ViewProjects.cpp:238
+#: clientgui/ViewProjects.cpp:227
 msgid "Updating all project(s)..."
 msgstr "Обновяване на всички проект(и)..."
 
-#: clientgui/ViewProjects.cpp:264
+#: clientgui/ViewProjects.cpp:253
 msgid "Resuming project..."
 msgstr "Подновяване на проекта..."
 
-#: clientgui/ViewProjects.cpp:268
+#: clientgui/ViewProjects.cpp:257
 msgid "Suspending project..."
 msgstr "Временно прекратяване на проекта..."
 
-#: clientgui/ViewProjects.cpp:295
+#: clientgui/ViewProjects.cpp:284
 msgid "Telling project to allow additional work downloads..."
 msgstr "Казвам на проект да взима допълнителна работа..."
 
-#: clientgui/ViewProjects.cpp:299
+#: clientgui/ViewProjects.cpp:288
 msgid "Telling project to not fetch additional work..."
 msgstr "Казвам на проект да не взима допълнителна работа..."
 
-#: clientgui/ViewProjects.cpp:329
+#: clientgui/ViewProjects.cpp:318
 msgid "Resetting project..."
 msgstr "Рестатртиране на проекта..."
 
-#: clientgui/ViewProjects.cpp:335
+#: clientgui/ViewProjects.cpp:324
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Сигурни ли сте, че искате да рестартирате проекта '%s'?"
 
-#: clientgui/ViewProjects.cpp:341
+#: clientgui/ViewProjects.cpp:330
 msgid "Reset Project"
 msgstr "Рестартирай проекта"
 
-#: clientgui/ViewProjects.cpp:375
+#: clientgui/ViewProjects.cpp:364
 msgid "Detaching from project..."
 msgstr "Излизане от проекта..."
 
-#: clientgui/ViewProjects.cpp:381
+#: clientgui/ViewProjects.cpp:370
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Сигурни ли сте, че искате да излезете от проекта '%s'?"
 
-#: clientgui/ViewProjects.cpp:387
+#: clientgui/ViewProjects.cpp:376
 msgid "Detach from Project"
 msgstr "Излез от проекта"
 
-#: clientgui/ViewProjects.cpp:419
-msgid "Attaching to project..."
-msgstr "Влизане в проект..."
-
-#: clientgui/ViewProjects.cpp:461
+#: clientgui/ViewProjects.cpp:404
 msgid "Launching browser..."
 msgstr "Стартиране на браузъра..."
 
-#: clientgui/ViewProjects.cpp:636
-#: clientgui/ViewWork.cpp:444
+#: clientgui/ViewProjects.cpp:579
+#: clientgui/ViewWork.cpp:446
 msgid "Resume"
 msgstr "Подновяване"
 
-#: clientgui/ViewProjects.cpp:636
+#: clientgui/ViewProjects.cpp:579
 msgid "Resume work for this project."
 msgstr "Продължава работата за този проект."
 
-#: clientgui/ViewProjects.cpp:648
+#: clientgui/ViewProjects.cpp:591
 msgid "Allow new work"
 msgstr "Позволи нова работа"
 
-#: clientgui/ViewProjects.cpp:648
+#: clientgui/ViewProjects.cpp:591
 msgid "Allow fetching new work for this project."
 msgstr "Позволява взимането на нова работа за този проект"
 
-#: clientgui/ViewProjects.cpp:690
+#: clientgui/ViewProjects.cpp:595
+msgid "Don't fetch new work for this project."
+msgstr "Не взима нова работа за този проект. "
+
+#: clientgui/ViewProjects.cpp:631
 msgid "Web sites"
 msgstr "Web сайтове"
 
-#: clientgui/ViewProjects.cpp:804
-#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewProjects.cpp:745
+#: clientgui/ViewWork.cpp:658
 msgid "Suspended by user"
 msgstr "Преустановено от потрбителя"
 
-#: clientgui/ViewProjects.cpp:807
+#: clientgui/ViewProjects.cpp:748
 msgid "Won't get new work"
 msgstr "Няма да взима нова работа"
 
-#: clientgui/ViewProjects.cpp:810
+#: clientgui/ViewProjects.cpp:751
 msgid "Scheduler request pending"
 msgstr "Заявка към scheduler-а се очаква"
 
-#: clientgui/ViewProjects.cpp:816
+#: clientgui/ViewProjects.cpp:757
 msgid "Communication deferred "
 msgstr "Връзката отложена"
 
-#: clientgui/ViewResources.cpp:76
+#: clientgui/ViewResources.cpp:77
 msgid "Disk Space"
 msgstr "Дисково пространство"
 
-#: clientgui/ViewResources.cpp:89
+#: clientgui/ViewResources.cpp:90
 msgid "Disk"
 msgstr "Диск"
 
 #: clientgui/ViewStatistics.cpp:40
 #: clientgui/ViewStatistics.cpp:46
-#: clientgui/ViewStatistics.cpp:372
+#: clientgui/ViewStatistics.cpp:374
 msgid "User Total"
 msgstr "Общ кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:319
+#: clientgui/ViewStatistics.cpp:320
 msgid "Show user total"
 msgstr "Покажи общия кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:326
+#: clientgui/ViewStatistics.cpp:327
 msgid "Show user average"
 msgstr "Покажи средния кредит на потрбителя"
 
-#: clientgui/ViewStatistics.cpp:333
+#: clientgui/ViewStatistics.cpp:334
 msgid "Show host total"
 msgstr "Покажи общия кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:340
+#: clientgui/ViewStatistics.cpp:341
 msgid "Show host average"
 msgstr "Покажи средния кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:359
+#: clientgui/ViewStatistics.cpp:360
 msgid "Statistics"
 msgstr "Статистики"
 
-#: clientgui/ViewStatistics.cpp:371
-#: clientgui/ViewStatistics.cpp:391
-#: clientgui/ViewStatistics.cpp:411
-#: clientgui/ViewStatistics.cpp:431
+#: clientgui/ViewStatistics.cpp:373
+#: clientgui/ViewStatistics.cpp:393
+#: clientgui/ViewStatistics.cpp:413
+#: clientgui/ViewStatistics.cpp:433
 msgid "Updating charts..."
 msgstr "Обновяване на графиките..."
 
-#: clientgui/ViewStatistics.cpp:392
+#: clientgui/ViewStatistics.cpp:394
 msgid "User Average"
 msgstr "Среден кредит на потребителя"
 
-#: clientgui/ViewStatistics.cpp:412
+#: clientgui/ViewStatistics.cpp:414
 msgid "Host Total"
 msgstr "Общ кредит на хоста"
 
-#: clientgui/ViewStatistics.cpp:432
+#: clientgui/ViewStatistics.cpp:434
 msgid "Host Average"
 msgstr "Среден кредит на хоста"
 
-#: clientgui/ViewTransfers.cpp:95
+#: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
 msgstr "Опитай отново сега"
 
-#: clientgui/ViewTransfers.cpp:96
+#: clientgui/ViewTransfers.cpp:97
 msgid "Click 'Retry now' to transfer the file now"
 msgstr "Натиснете \"Опитай отново сега\", за да трансферирате файла сега. "
 
-#: clientgui/ViewTransfers.cpp:102
+#: clientgui/ViewTransfers.cpp:103
 msgid "Abort Transfer"
 msgstr "Преустанови трансфера"
 
-#: clientgui/ViewTransfers.cpp:103
+#: clientgui/ViewTransfers.cpp:104
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr "Натиснете \"Преустанови трансфера\", за да изтриете файла от списъка за сваляне. По този начин няма да получите кредити за този резултат."
 
-#: clientgui/ViewTransfers.cpp:115
+#: clientgui/ViewTransfers.cpp:116
 msgid "File"
 msgstr "Файл"
 
-#: clientgui/ViewTransfers.cpp:116
-#: clientgui/ViewWork.cpp:128
+#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewWork.cpp:129
 msgid "Progress"
 msgstr "Прогрес"
 
-#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewTransfers.cpp:118
 msgid "Size"
 msgstr "Размер"
 
-#: clientgui/ViewTransfers.cpp:118
+#: clientgui/ViewTransfers.cpp:119
 msgid "Elapsed Time"
 msgstr "Изминало време"
 
-#: clientgui/ViewTransfers.cpp:119
+#: clientgui/ViewTransfers.cpp:120
 msgid "Speed"
 msgstr "Скорост"
 
-#: clientgui/ViewTransfers.cpp:133
+#: clientgui/ViewTransfers.cpp:134
 msgid "Transfers"
 msgstr "Трансфери"
 
-#: clientgui/ViewTransfers.cpp:155
+#: clientgui/ViewTransfers.cpp:157
 msgid "Retrying transfer now..."
 msgstr "Опитвам отново сега..."
 
-#: clientgui/ViewTransfers.cpp:185
+#: clientgui/ViewTransfers.cpp:187
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
 msgstr "Сигурни ли сте, че искате да преустановите трансфера на този файл '%s'?"
 
-#: clientgui/ViewTransfers.cpp:190
+#: clientgui/ViewTransfers.cpp:192
 msgid "Abort File Transfer"
 msgstr "Преустановява трансфера на файла"
 
-#: clientgui/ViewTransfers.cpp:507
+#: clientgui/ViewTransfers.cpp:509
 msgid "Retry in "
 msgstr "Нов опит след "
 
-#: clientgui/ViewTransfers.cpp:509
-#: clientgui/ViewWork.cpp:647
+#: clientgui/ViewTransfers.cpp:511
+#: clientgui/ViewWork.cpp:649
 msgid "Download failed"
 msgstr "Свалянето неуспешно"
 
-#: clientgui/ViewTransfers.cpp:511
-#: clientgui/ViewWork.cpp:683
+#: clientgui/ViewTransfers.cpp:513
+#: clientgui/ViewWork.cpp:685
 msgid "Upload failed"
 msgstr "Изпращането неуспешно"
 
-#: clientgui/ViewTransfers.cpp:514
-#: clientgui/ViewTransfers.cpp:523
+#: clientgui/ViewTransfers.cpp:516
+#: clientgui/ViewTransfers.cpp:525
 msgid "Suspended"
 msgstr "Временно прекратено"
 
-#: clientgui/ViewTransfers.cpp:516
-#: clientgui/ViewWork.cpp:685
+#: clientgui/ViewTransfers.cpp:518
+#: clientgui/ViewWork.cpp:687
 msgid "Uploading"
 msgstr "Изпращане"
 
-#: clientgui/ViewTransfers.cpp:516
-#: clientgui/ViewWork.cpp:649
+#: clientgui/ViewTransfers.cpp:518
+#: clientgui/ViewWork.cpp:651
 msgid "Downloading"
 msgstr "Сваляне"
 
-#: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:448
+#: clientgui/ViewWork.cpp:100
+#: clientgui/ViewWork.cpp:450
 msgid "Suspend work for this result."
 msgstr "Временно преустановява работата по този резултат."
 
-#: clientgui/ViewWork.cpp:105
-#: clientgui/ViewWork.cpp:208
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:210
 msgid "Show graphics"
 msgstr "Покажи графики"
 
-#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:107
 msgid "Show application graphics in a window."
 msgstr "Показва графиките в прозорец. "
 
-#: clientgui/ViewWork.cpp:112
+#: clientgui/ViewWork.cpp:113
 msgid "Abort"
 msgstr "Преустанови"
 
-#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:114
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Изоставя работата по резултата. Няма да получите кредит за него."
 
-#: clientgui/ViewWork.cpp:125
+#: clientgui/ViewWork.cpp:126
 msgid "Application"
 msgstr "Приложение"
 
-#: clientgui/ViewWork.cpp:126
+#: clientgui/ViewWork.cpp:127
 msgid "Name"
 msgstr "Име"
 
-#: clientgui/ViewWork.cpp:127
+#: clientgui/ViewWork.cpp:128
 msgid "CPU time"
 msgstr "CPU време"
 
-#: clientgui/ViewWork.cpp:129
+#: clientgui/ViewWork.cpp:130
 msgid "To completion"
 msgstr "Остават"
 
-#: clientgui/ViewWork.cpp:130
+#: clientgui/ViewWork.cpp:131
 msgid "Report deadline"
 msgstr "Срок за Докладване "
 
-#: clientgui/ViewWork.cpp:144
+#: clientgui/ViewWork.cpp:145
 msgid "Work"
 msgstr "Работа"
 
-#: clientgui/ViewWork.cpp:168
+#: clientgui/ViewWork.cpp:170
 msgid "Resuming result..."
 msgstr "Продължаване на резултата..."
 
-#: clientgui/ViewWork.cpp:172
+#: clientgui/ViewWork.cpp:174
 msgid "Suspending result..."
 msgstr "Временно прекратяване на резултата..."
 
-#: clientgui/ViewWork.cpp:198
+#: clientgui/ViewWork.cpp:200
 msgid "Showing graphics for result..."
 msgstr "Показване на грфиките за резултат..."
 
-#: clientgui/ViewWork.cpp:207
+#: clientgui/ViewWork.cpp:209
 msgid "Are you sure you wish to display graphics on a remote machine?"
 msgstr "Сигурни ли сте, че искате да показвате графики на друг компютър?"
 
-#: clientgui/ViewWork.cpp:256
+#: clientgui/ViewWork.cpp:258
 msgid "Aborting result..."
 msgstr "Преустановяване на резултата..."
 
-#: clientgui/ViewWork.cpp:259
+#: clientgui/ViewWork.cpp:261
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "Сигурни ли сте, че искате да преустановите този резултат '%s'?"
 
-#: clientgui/ViewWork.cpp:265
+#: clientgui/ViewWork.cpp:267
 msgid "Abort result"
 msgstr "Преустанови резултата"
 
-#: clientgui/ViewWork.cpp:444
+#: clientgui/ViewWork.cpp:446
 msgid "Resume work for this result."
 msgstr "Продължaава работата по този резултат."
 
-#: clientgui/ViewWork.cpp:643
+#: clientgui/ViewWork.cpp:645
 msgid "New"
 msgstr "Ново"
 
-#: clientgui/ViewWork.cpp:654
-#: clientgui/ViewWork.cpp:676
+#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewWork.cpp:678
 msgid "Aborted by user"
 msgstr "Преустановено от потребителя"
 
-#: clientgui/ViewWork.cpp:658
+#: clientgui/ViewWork.cpp:660
 msgid "Activities suspended"
 msgstr "Дейностите временно прекратени"
 
-#: clientgui/ViewWork.cpp:661
+#: clientgui/ViewWork.cpp:663
 msgid "Running"
 msgstr "Работи"
 
-#: clientgui/ViewWork.cpp:663
+#: clientgui/ViewWork.cpp:665
 msgid "Preempted"
 msgstr "Изчисленията отложени"
 
-#: clientgui/ViewWork.cpp:665
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:667
+#: clientgui/ViewWork.cpp:670
 msgid "Ready to run"
 msgstr "Готово за работа"
 
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:680
 msgid "Computation error"
 msgstr "Грешка при изчисленията"
 
-#: clientgui/ViewWork.cpp:690
+#: clientgui/ViewWork.cpp:692
 msgid "Acknowledged"
 msgstr "Потвърдено"
 
-#: clientgui/ViewWork.cpp:692
+#: clientgui/ViewWork.cpp:694
 msgid "Ready to report"
 msgstr "Готово за докладване"
 
-#: clientgui/ViewWork.cpp:694
+#: clientgui/ViewWork.cpp:696
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Грешка: Невалидно състояние '%d'"
 
-#: clientgui/ViewWork.cpp:702
+#: clientgui/ViewWork.cpp:704
 msgid "Activities suspended by user"
 msgstr "Дейностите временно прекратени от потребителя"
 
-#: clientgui/WizAttachProject.cpp:149
-msgid "Attach to Project"
-msgstr "Влез в проект"
+#: clientgui/WizAttachAccountManager.cpp:138
+#: clientgui/WizAttachAccountManager.cpp:1596
+#: clientgui/wizards/WizardAccountManager.cpp:116
+msgid "Attach to Account Manager"
+msgstr "Прикрепи Акаунт Менажера"
 
-#: clientgui/WizAttachProject.cpp:494
+#: clientgui/WizAttachAccountManager.cpp:412
+#: clientgui/WizAttachProject.cpp:457
+#: clientgui/wizards/WizardAccountManager.cpp:374
+#: clientgui/wizards/WizardAttachProject.cpp:425
 msgid "Do you really want to cancel?"
 msgstr "Съгурни ли сте че искате да се откажете?"
 
-#: clientgui/WizAttachProject.cpp:495
+#: clientgui/WizAttachAccountManager.cpp:413
+#: clientgui/WizAttachProject.cpp:458
+#: clientgui/wizards/WizardAccountManager.cpp:375
+#: clientgui/wizards/WizardAttachProject.cpp:426
 msgid "Question"
 msgstr "Въпрос"
 
-#: clientgui/WizAttachProject.cpp:702
-msgid "Attach to project"
-msgstr "Влез в проект"
+#: clientgui/WizAttachAccountManager.cpp:593
+#: clientgui/wizards/AccountInfoPage.cpp:301
+#: clientgui/wizards/WelcomePage.cpp:149
+msgid "Attach to account manager"
+msgstr "Прикрепи Акаунт Менажера"
 
-#: clientgui/WizAttachProject.cpp:707
-msgid "We'll now guide you through the process of attaching to a project."
-msgstr "Сега ще те преведем през процеса на добавяне на нов проект. "
+#: clientgui/WizAttachAccountManager.cpp:598
+#: clientgui/wizards/WelcomePage.cpp:153
+msgid ""
+"We'll now guide you through the process of attaching to an\n"
+"account manager."
+msgstr ""
+"Сега ще те преведем през процеса на прикрепяне към \n"
+"акаунт менажер."
 
-#: clientgui/WizAttachProject.cpp:713
+#: clientgui/WizAttachAccountManager.cpp:604
+#: clientgui/WizAttachProject.cpp:674
+#: clientgui/wizards/WelcomePage.cpp:160
 msgid "Debug Flags"
 msgstr "Debug Flags"
 
-#: clientgui/WizAttachProject.cpp:723
+#: clientgui/WizAttachAccountManager.cpp:614
+#: clientgui/WizAttachProject.cpp:684
+#: clientgui/wizards/WelcomePage.cpp:170
 msgid "Project Properties Failure"
 msgstr "Грешка при Настройките на Проекта"
 
-#: clientgui/WizAttachProject.cpp:728
-msgid "Project Comm Failure"
-msgstr "Грешка при свързването с Проекта"
-
-#: clientgui/WizAttachProject.cpp:733
+#: clientgui/WizAttachAccountManager.cpp:621
+#: clientgui/WizAttachProject.cpp:694
+#: clientgui/wizards/WelcomePage.cpp:180
 msgid "Project Properties URL Failure"
 msgstr "Грешка на URL-то за Настройки на Проекта"
 
-#: clientgui/WizAttachProject.cpp:738
-msgid "Account Creation Disabled"
-msgstr "Създаването на акаунти временно преустановено"
-
-#: clientgui/WizAttachProject.cpp:743
-msgid "Client Account Creation Disabled"
-msgstr "Създаването на акаунти е преустановено. "
-
-#: clientgui/WizAttachProject.cpp:748
-msgid "Account Already Exists"
-msgstr "Акаунта вече съществува"
-
-#: clientgui/WizAttachProject.cpp:753
-msgid "Project Already Attached"
-msgstr "Проекта вече е добавен. "
-
-#: clientgui/WizAttachProject.cpp:758
+#: clientgui/WizAttachAccountManager.cpp:628
+#: clientgui/WizAttachProject.cpp:719
+#: clientgui/wizards/WelcomePage.cpp:205
 msgid "Project Attach Failure"
 msgstr "Грешка при добавянето на проекта"
 
-#: clientgui/WizAttachProject.cpp:763
+#: clientgui/WizAttachAccountManager.cpp:635
+#: clientgui/WizAttachProject.cpp:724
+#: clientgui/wizards/WelcomePage.cpp:210
 msgid "Google Comm Failure"
 msgstr "Грешка при свързването с Google "
 
-#: clientgui/WizAttachProject.cpp:770
+#: clientgui/WizAttachAccountManager.cpp:642
+#: clientgui/WizAttachProject.cpp:731
+#: clientgui/wizards/WelcomePage.cpp:217
 msgid "Yahoo Comm Failure"
 msgstr "Грешка при свързването с Yahoo "
 
-#: clientgui/WizAttachProject.cpp:777
+#: clientgui/WizAttachAccountManager.cpp:649
+#: clientgui/WizAttachProject.cpp:738
+#: clientgui/wizards/WelcomePage.cpp:224
 msgid "Net Detection Failure"
 msgstr "Грешка при установяването на връзка към Интернет"
 
-#: clientgui/WizAttachProject.cpp:784
+#: clientgui/WizAttachAccountManager.cpp:656
+#: clientgui/WizAttachProject.cpp:745
+#: clientgui/wizards/WelcomePage.cpp:231
 msgid "To continue, click Next."
 msgstr "За да продължите, натиснете Натаък. "
 
-#: clientgui/WizAttachProject.cpp:996
-msgid "Project URL"
-msgstr "URL на Проекта:"
+#: clientgui/WizAttachAccountManager.cpp:846
+#: clientgui/wizards/AccountManagerInfoPage.cpp:103
+msgid "Account Manager URL"
+msgstr "URL на акаунт менажера:"
 
-#: clientgui/WizAttachProject.cpp:1001
-msgid "Enter the URL of the project's web site."
-msgstr "Напишете URL-то на ъеб сайта на проекта. "
+#: clientgui/WizAttachAccountManager.cpp:851
+#: clientgui/wizards/AccountManagerInfoPage.cpp:108
+msgid "Enter the URL of the account manager's web site."
+msgstr "Въведете URL-то на уеб сайта на акаунт менажера"
 
-#: clientgui/WizAttachProject.cpp:1007
+#: clientgui/WizAttachAccountManager.cpp:857
+#: clientgui/WizAttachProject.cpp:968
+#: clientgui/wizards/AccountManagerInfoPage.cpp:114
+#: clientgui/wizards/ProjectInfoPage.cpp:115
 msgid "You can copy and paste the URL from your browsers address bar."
 msgstr "Може да копираш и пастнеш URL-то от твоя браузър. "
 
-#: clientgui/WizAttachProject.cpp:1017
+#: clientgui/WizAttachAccountManager.cpp:867
+#: clientgui/wizards/AccountManagerInfoPage.cpp:124
+msgid "Account Manager URL:"
+msgstr "URL на акаунт менажера:"
+
+#: clientgui/WizAttachAccountManager.cpp:877
+#: clientgui/wizards/AccountManagerInfoPage.cpp:134
+msgid "For a list of BOINC-based account managers go to:"
+msgstr "За списък с BOINC-базирани акаунт менажери отидете на: "
+
+#: clientgui/WizAttachAccountManager.cpp:1054
+#: clientgui/wizards/AccountManagerPropertiesPage.cpp:135
+msgid ""
+"Communicating with account manager \n"
+"Please wait..."
+msgstr ""
+"Свързване към акаунт менажера \n"
+"Моля изчакайте..."
+
+#: clientgui/WizAttachAccountManager.cpp:1534
+#: clientgui/WizAttachProject.cpp:1847
+#: clientgui/wizards/AccountInfoPage.cpp:114
+msgid "Account information"
+msgstr "Информация за Акаунта"
+
+#: clientgui/WizAttachAccountManager.cpp:1545
+#: clientgui/WizAttachAccountManager.cpp:1580
+#: clientgui/WizAttachProject.cpp:1876
+#: clientgui/WizAttachProject.cpp:1994
+#: clientgui/wizards/AccountInfoPage.cpp:152
+#: clientgui/wizards/AccountInfoPage.cpp:280
+msgid "Email address:"
+msgstr "Email адрес:"
+
+#: clientgui/WizAttachAccountManager.cpp:1756
+#: clientgui/wizards/AccountManagerProcessingPage.cpp:132
+msgid ""
+"Communicating with account manager\n"
+"Please wait..."
+msgstr ""
+"Свързване към акаунт менажера\n"
+"Моля изчакайте..."
+
+#: clientgui/WizAttachAccountManager.cpp:2111
+#: clientgui/wizards/CompletionPage.cpp:121
+msgid "Attached to account manager"
+msgstr "Прокрепен към акаунт менажер"
+
+#: clientgui/WizAttachAccountManager.cpp:2116
+#: clientgui/wizards/CompletionPage.cpp:125
+msgid "You are now successfully attached to this account manager."
+msgstr "Успешно успяхте да се прикрепите към този акаунт менажер. "
+
+#: clientgui/WizAttachAccountManager.cpp:2122
+#: clientgui/WizAttachAccountManager.cpp:2276
+#: clientgui/WizAttachProject.cpp:2689
+#: clientgui/WizAttachProject.cpp:2782
+#: clientgui/wizards/CompletionErrorPage.cpp:109
+#: clientgui/wizards/CompletionErrorPage.cpp:120
+#: clientgui/wizards/CompletionPage.cpp:199
+msgid "Click Finish to close."
+msgstr "Натисни Приключи, за да затвориш прозореца. "
+
+#: clientgui/WizAttachAccountManager.cpp:2269
+#: clientgui/wizards/CompletionErrorPage.cpp:114
+msgid "Failed to attach to account manager"
+msgstr "Неуспех при прикрепянето към акаунт менажера. "
+
+#: clientgui/WizAttachAccountManager.cpp:2414
+#: clientgui/wizards/NotDetectedPage.cpp:116
+msgid "Account manager not found"
+msgstr "Акаунт менажера не е намерен. "
+
+#: clientgui/WizAttachAccountManager.cpp:2421
+#: clientgui/wizards/NotDetectedPage.cpp:122
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager."
+msgstr ""
+"URL-то, което предоставихте не е на BOINC-базиран \n"
+"акаунт менажер."
+
+#: clientgui/WizAttachAccountManager.cpp:2425
+#: clientgui/WizAttachProject.cpp:2936
+#: clientgui/wizards/NotDetectedPage.cpp:111
+#: clientgui/wizards/NotDetectedPage.cpp:125
+msgid "Please check the URL and try again."
+msgstr "Моля провери URLто и опитай отново. "
+
+#: clientgui/WizAttachAccountManager.cpp:2563
+#: clientgui/wizards/UnavailablePage.cpp:112
+msgid "Account manager temporarily unavailable"
+msgstr "Акаунт менажера е временно недостъпен."
+
+#: clientgui/WizAttachAccountManager.cpp:2570
+msgid ""
+"The account manager is currently unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Акаунт менажера в момента е недостъпен. \n"
+"\n"
+"Моля опитай отново. "
+
+#: clientgui/WizAttachAccountManager.cpp:2708
+#: clientgui/WizAttachProject.cpp:3373
+#: clientgui/wizards/NoInternetConnectionPage.cpp:98
+msgid "No Internet connection"
+msgstr "Няма връзка към Интернет. "
+
+#: clientgui/WizAttachAccountManager.cpp:2715
+#: clientgui/WizAttachProject.cpp:3380
+#: clientgui/wizards/NoInternetConnectionPage.cpp:105
+msgid "Please connect to the Internet and try again."
+msgstr "Моля свържи се към Интернет и опитай отново. "
+
+#: clientgui/WizAttachAccountManager.cpp:2871
+#: clientgui/WizAttachProject.cpp:3830
+#: clientgui/wizards/ProxyPage.cpp:117
+msgid "Proxy configuration"
+msgstr "Прокси Настройки"
+
+#: clientgui/WizAttachAccountManager.cpp:2877
+#: clientgui/WizAttachProject.cpp:3836
+#: clientgui/wizards/ProxyPage.cpp:123
+msgid "HTTP proxy"
+msgstr "HTTP прокси"
+
+#: clientgui/WizAttachAccountManager.cpp:2886
+#: clientgui/WizAttachAccountManager.cpp:2934
+#: clientgui/WizAttachProject.cpp:3845
+#: clientgui/WizAttachProject.cpp:3893
+#: clientgui/wizards/ProxyPage.cpp:132
+#: clientgui/wizards/ProxyPage.cpp:182
+msgid "Server:"
+msgstr "Сървър: "
+
+#: clientgui/WizAttachAccountManager.cpp:2922
+#: clientgui/WizAttachProject.cpp:3881
+#: clientgui/wizards/ProxyPage.cpp:169
+msgid "Autodetect"
+msgstr "Автоматично засичане"
+
+#: clientgui/WizAttachAccountManager.cpp:2925
+#: clientgui/WizAttachProject.cpp:3884
+#: clientgui/wizards/ProxyPage.cpp:173
+msgid "SOCKS proxy"
+msgstr "SOCKS прокси"
+
+#: clientgui/WizAttachAccountManager.cpp:3174
+#: clientgui/WizAttachProject.cpp:4135
+msgid "Ref Count Page"
+msgstr "Ref Count страница"
+
+#: clientgui/WizAttachAccountManager.cpp:3179
+#: clientgui/WizAttachProject.cpp:4140
+msgid "This page should never be used in the wizard itself."
+msgstr "Тази страница никога не трябва да се показва в wizardа. "
+
+#: clientgui/WizAttachAccountManager.cpp:3185
+#: clientgui/WizAttachProject.cpp:4146
+msgid ""
+"This page just increases the refcount of various bitmap resources\n"
+"so that DialogBlocks doesn't nuke the refences to them."
+msgstr ""
+"Тази страница просто увеличава refcount на различни bitmap ресурси,\n"
+"за да може DialogBlocks да не нюква връзката към тях."
+
+#: clientgui/WizAttachProject.cpp:145
+#: clientgui/WizAttachProject.cpp:2010
+#: clientgui/wizards/WizardAttachProject.cpp:131
+msgid "Attach to Project"
+msgstr "Влез в проект"
+
+#: clientgui/WizAttachProject.cpp:663
+#: clientgui/wizards/AccountInfoPage.cpp:298
+#: clientgui/wizards/WelcomePage.cpp:140
+msgid "Attach to project"
+msgstr "Влез в проект"
+
+#: clientgui/WizAttachProject.cpp:668
+#: clientgui/wizards/WelcomePage.cpp:144
+msgid "We'll now guide you through the process of attaching to a project."
+msgstr "Сега ще те преведем през процеса на добавяне на нов проект. "
+
+#: clientgui/WizAttachProject.cpp:689
+#: clientgui/wizards/WelcomePage.cpp:175
+msgid "Project Comm Failure"
+msgstr "Грешка при свързването с Проекта"
+
+#: clientgui/WizAttachProject.cpp:699
+#: clientgui/wizards/WelcomePage.cpp:185
+msgid "Account Creation Disabled"
+msgstr "Създаването на акаунти временно преустановено"
+
+#: clientgui/WizAttachProject.cpp:704
+#: clientgui/wizards/WelcomePage.cpp:190
+msgid "Client Account Creation Disabled"
+msgstr "Създаването на акаунти е преустановено. "
+
+#: clientgui/WizAttachProject.cpp:709
+#: clientgui/wizards/WelcomePage.cpp:195
+msgid "Account Already Exists"
+msgstr "Акаунта вече съществува"
+
+#: clientgui/WizAttachProject.cpp:714
+#: clientgui/wizards/WelcomePage.cpp:200
+msgid "Project Already Attached"
+msgstr "Проекта вече е добавен. "
+
+#: clientgui/WizAttachProject.cpp:957
+#: clientgui/wizards/ProjectInfoPage.cpp:104
+msgid "Project URL"
+msgstr "URL на Проекта:"
+
+#: clientgui/WizAttachProject.cpp:962
+#: clientgui/wizards/ProjectInfoPage.cpp:109
+msgid "Enter the URL of the project's web site."
+msgstr "Напишете URL-то на ъеб сайта на проекта. "
+
+#: clientgui/WizAttachProject.cpp:978
+#: clientgui/wizards/ProjectInfoPage.cpp:125
 msgid "Project URL:"
 msgstr "URL на Проекта:"
 
-#: clientgui/WizAttachProject.cpp:1027
+#: clientgui/WizAttachProject.cpp:988
+#: clientgui/wizards/ProjectInfoPage.cpp:135
 msgid "For a list of BOINC-based projects go to:"
 msgstr "За списък на BOINC-базирани проекти отидете на:"
 
-#: clientgui/WizAttachProject.cpp:1204
-#: clientgui/WizAttachProject.cpp:2189
-msgid "Communicating with project - please wait"
-msgstr "Комуникирам с проекта - моля изчакайте..."
+#: clientgui/WizAttachProject.cpp:1165
+#: clientgui/WizAttachProject.cpp:2155
+#: clientgui/wizards/ProjectProcessingPage.cpp:136
+#: clientgui/wizards/ProjectPropertiesPage.cpp:136
+msgid ""
+"Communicating with project \n"
+"Please wait..."
+msgstr ""
+"Свързвам се към проекта \n"
+"Моля изчакай..."
 
-#: clientgui/WizAttachProject.cpp:1692
+#: clientgui/WizAttachProject.cpp:1649
+#: clientgui/wizards/AccountKeyPage.cpp:103
 msgid "Enter account key"
 msgstr "Въведете ключ на акаунта"
 
-#: clientgui/WizAttachProject.cpp:1699
+#: clientgui/WizAttachProject.cpp:1656
+#: clientgui/wizards/AccountKeyPage.cpp:110
 msgid "This project uses an \"account key\" to identify you."
 msgstr "Този проект използва \"ключ на акаунта\" за да те идентифицира. "
 
-#: clientgui/WizAttachProject.cpp:1703
+#: clientgui/WizAttachProject.cpp:1660
+#: clientgui/wizards/AccountKeyPage.cpp:114
 msgid ""
 "Go to the project's web site to create an account. Your account\n"
 "key will be emailed to you."
@@ -1232,66 +1487,67 @@ msgstr ""
 "Отидете на уеб сайта на проекта, за да създадете акаунт. Твоят ключ\n"
 "на акаунта ще ти бъде пратен по email "
 
-#: clientgui/WizAttachProject.cpp:1707
+#: clientgui/WizAttachProject.cpp:1664
+#: clientgui/wizards/AccountKeyPage.cpp:118
 msgid "An account key looks like:"
 msgstr "Един ключ на акаунта изглежда така:"
 
-#: clientgui/WizAttachProject.cpp:1711
+#: clientgui/WizAttachProject.cpp:1668
+#: clientgui/wizards/AccountKeyPage.cpp:122
 msgid "82412313ac88e9a3638f66ea82186948"
 msgstr "82412313ac88e9a3638f66ea82186948"
 
-#: clientgui/WizAttachProject.cpp:1722
+#: clientgui/WizAttachProject.cpp:1679
+#: clientgui/wizards/AccountKeyPage.cpp:133
 msgid "Account key:"
 msgstr "Ключ на акаунта:"
 
-#: clientgui/WizAttachProject.cpp:1890
-msgid "Account information"
-msgstr "Информация за Акаунта"
-
-#: clientgui/WizAttachProject.cpp:1895
+#: clientgui/WizAttachProject.cpp:1852
+#: clientgui/wizards/AccountInfoPage.cpp:120
 msgid "Do you wish to use an existing account or create a new one?"
 msgstr "Искате ли да използвате съществуващия акаунт или да създадете нов такъв?"
 
-#: clientgui/WizAttachProject.cpp:1905
+#: clientgui/WizAttachProject.cpp:1862
+#: clientgui/wizards/AccountInfoPage.cpp:136
 msgid "Create new account"
 msgstr "Създай нов акаунт"
 
-#: clientgui/WizAttachProject.cpp:1910
+#: clientgui/WizAttachProject.cpp:1867
+#: clientgui/wizards/AccountInfoPage.cpp:141
 msgid "Use existing account"
 msgstr "Използвай съществуващия акаунт"
 
-#: clientgui/WizAttachProject.cpp:1919
-#: clientgui/WizAttachProject.cpp:2028
-msgid "Email address:"
-msgstr "Email адрес:"
-
-#: clientgui/WizAttachProject.cpp:1935
+#: clientgui/WizAttachProject.cpp:1892
+#: clientgui/wizards/AccountInfoPage.cpp:169
 msgid "Confirm password:"
 msgstr "Потвърдете паролата:"
 
-#: clientgui/WizAttachProject.cpp:2044
-msgid "Attach to Project Wizard"
-msgstr "Влез в Нов Проект Wizard"
-
-#: clientgui/WizAttachProject.cpp:2055
+#: clientgui/WizAttachProject.cpp:2021
+#: clientgui/wizards/AccountInfoPage.cpp:313
 #, c-format
 msgid "The minimum password length for this project is %d. Please choose a different password."
 msgstr "Минималната дължина на паролата за този проект е %d. Моля изберете друга парола."
 
-#: clientgui/WizAttachProject.cpp:2064
+#: clientgui/WizAttachProject.cpp:2030
+#: clientgui/wizards/AccountInfoPage.cpp:322
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr "Паролата и повторената парола не са еднакви. Моля напишете ги отново. "
 
-#: clientgui/WizAttachProject.cpp:2645
+#: clientgui/WizAttachProject.cpp:2610
+#: clientgui/wizards/CompletionPage.cpp:107
 msgid "Attached to project"
 msgstr "Влязъл в проекта"
 
-#: clientgui/WizAttachProject.cpp:2650
+#: clientgui/WizAttachProject.cpp:2615
+#: clientgui/wizards/CompletionPage.cpp:111
 msgid "You are now successfully attached to this project."
 msgstr "Успешно успя да се прикрепиш към този проект. "
 
-#: clientgui/WizAttachProject.cpp:2656
-#: clientgui/WizAttachProject.cpp:2722
+#: clientgui/WizAttachProject.cpp:2621
+#: clientgui/WizAttachProject.cpp:2687
+#: clientgui/wizards/CompletionPage.cpp:116
+#: clientgui/wizards/CompletionPage.cpp:130
+#: clientgui/wizards/CompletionPage.cpp:197
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
@@ -1299,32 +1555,27 @@ msgstr ""
 "Когато натиснеш Приключи, твоят уеб браузър ще отиде на страница,\n"
 "където можеш да настроиш твоя акаунт"
 
-#: clientgui/WizAttachProject.cpp:2724
-#: clientgui/WizAttachProject.cpp:2817
-msgid "Click Finish to close."
-msgstr "Натисни Приключи, за да затвориш прозореца. "
-
-#: clientgui/WizAttachProject.cpp:2810
+#: clientgui/WizAttachProject.cpp:2775
+#: clientgui/wizards/CompletionErrorPage.cpp:103
 msgid "Failed to attach to project"
 msgstr "Неуспешно влизане в проекта"
 
-#: clientgui/WizAttachProject.cpp:2960
+#: clientgui/WizAttachProject.cpp:2925
+#: clientgui/wizards/NotDetectedPage.cpp:102
 msgid "Project not found"
 msgstr "Проекта не е намерен"
 
-#: clientgui/WizAttachProject.cpp:2967
+#: clientgui/WizAttachProject.cpp:2932
+#: clientgui/wizards/NotDetectedPage.cpp:108
 msgid "The URL you supplied is not that of a BOINC-based project."
 msgstr "URL-то, което предоставихте не съответства на BOINC-базиран проект."
 
-#: clientgui/WizAttachProject.cpp:2971
-msgid "Please check the URL and try again."
-msgstr "Моля провери URLто и опитай отново. "
-
-#: clientgui/WizAttachProject.cpp:3116
+#: clientgui/WizAttachProject.cpp:3081
+#: clientgui/wizards/UnavailablePage.cpp:101
 msgid "Project temporarily unavailable"
 msgstr "Проекта временно недостъпен"
 
-#: clientgui/WizAttachProject.cpp:3123
+#: clientgui/WizAttachProject.cpp:3088
 msgid ""
 "The project is currently unavailable.\n"
 "\n"
@@ -1334,35 +1585,33 @@ msgstr ""
 "\n"
 "Моля опитай по-късно. "
 
-#: clientgui/WizAttachProject.cpp:3263
+#: clientgui/WizAttachProject.cpp:3228
+#: clientgui/wizards/AlreadyAttachedPage.cpp:98
 msgid "Already attached to project"
 msgstr "Вече си прикрепен към проекта"
 
-#: clientgui/WizAttachProject.cpp:3270
+#: clientgui/WizAttachProject.cpp:3235
+#: clientgui/wizards/AlreadyAttachedPage.cpp:105
 msgid "You are already attached to this project."
 msgstr "Ти вече си прикрепен към този проект. "
 
-#: clientgui/WizAttachProject.cpp:3408
-msgid "No Internet connection"
-msgstr "Няма връзка към Интернет. "
-
-#: clientgui/WizAttachProject.cpp:3415
-msgid "Please connect to the Internet and try again."
-msgstr "Моля свържи се към Интернет и опитай отново. "
-
-#: clientgui/WizAttachProject.cpp:3554
+#: clientgui/WizAttachProject.cpp:3519
+#: clientgui/wizards/NotFoundPage.cpp:99
 msgid "Account not found"
 msgstr "Акаунта не е намерен"
 
-#: clientgui/WizAttachProject.cpp:3561
+#: clientgui/WizAttachProject.cpp:3526
+#: clientgui/wizards/NotFoundPage.cpp:106
 msgid "Verify your account name and password are correct and try again."
 msgstr "Моля провери, че името на акаунта и паролата са верни и опитай отново. "
 
-#: clientgui/WizAttachProject.cpp:3700
+#: clientgui/WizAttachProject.cpp:3665
+#: clientgui/wizards/AlreadyExistsPage.cpp:99
 msgid "Email address already in use"
 msgstr "Email адреса вече е използван"
 
-#: clientgui/WizAttachProject.cpp:3707
+#: clientgui/WizAttachProject.cpp:3672
+#: clientgui/wizards/AlreadyExistsPage.cpp:106
 msgid ""
 "An account with that email address already exists and has a\n"
 "different password than the one you entered.\n"
@@ -1374,103 +1623,55 @@ msgstr ""
 "\n"
 "Моля посетете сайта на проекта и следвайте указаните инструкции. "
 
-#: clientgui/WizAttachProject.cpp:3847
-msgid "Account creation disabled"
-msgstr "Създаването на акаунти временно преустановено"
-
-#: clientgui/WizAttachProject.cpp:3854
-msgid "This project is not accepting new accounts at this time."
-msgstr "Проекта не приема за момента създаването на нови акаунти. "
-
-#: clientgui/WizAttachProject.cpp:3995
-msgid "Network communication failed"
-msgstr "Връзката към Мрежата е провалена"
-
-#: clientgui/WizAttachProject.cpp:4002
+#: clientgui/wizards/AccountInfoPage.cpp:126
 msgid ""
-"We were unable to communicate with the project or other web\n"
-"sites.\n"
-"\n"
-"Often this means that you are using a proxy server, and you need\n"
-"to tell us about it.\n"
-"\n"
-"Click Next to do proxy configuration."
+"Transition Note: Account keys are used as passwords for accounts created\n"
+"before BOINC migrated to a username and password authentication scheme."
 msgstr ""
-"Не ни беше възмобюжно да комуникираме с проекта или други\n"
-"уеб сайтове.\n"
-"\n"
-"Често това се дължи на факта, че използвате прокси, и трябва да ни\n"
-"кажете неговите настройки.\n"
-"\n"
-"Натиснете Нататъкt, за да покажете прокси настройките."
+"Забележка: Ключовете за акаунти са използвани като пароли за акаунтите създадени \n"
+"преди BOINC да мигрира към автентикация чрез потребителско име и парола"
 
-#: clientgui/WizAttachProject.cpp:4161
-msgid "HTTP proxy"
-msgstr "HTTP прокси"
+#: clientgui/wizards/CompletionErrorPage.cpp:126
+msgid "Messages from server:"
+msgstr "Съобщения от сървъра: "
 
-#: clientgui/WizAttachProject.cpp:4168
+#: clientgui/wizards/UnavailablePage.cpp:107
 msgid ""
-"If you're using an HTTP proxy, enter its info here.\n"
+"The project is temporarily unavailable.\n"
 "\n"
-"If you're not sure, click Autodetect."
+"Please try again later."
 msgstr ""
-"Ако използвате HTTP прокси, въведете неговите настройки тук.\n"
+"Проекта е временно недостъпен. \n"
 "\n"
-"Ако не си сигуртен, натисни Автоматично."
+"Моля опитай отново. "
 
-#: clientgui/WizAttachProject.cpp:4174
-#: clientgui/WizAttachProject.cpp:4396
-msgid "Autodetect"
-msgstr "Автоматично засичане"
-
-#: clientgui/WizAttachProject.cpp:4182
-#: clientgui/WizAttachProject.cpp:4404
-msgid "Server:"
-msgstr "Сървър: "
-
-#: clientgui/WizAttachProject.cpp:4383
-msgid "SOCKS proxy"
-msgstr "SOCKS прокси"
-
-#: clientgui/WizAttachProject.cpp:4390
+#: clientgui/wizards/UnavailablePage.cpp:118
 msgid ""
-"If you're using a SOCKS proxy, enter its info here.\n"
+"The account manager is temporarily unavailable.\n"
 "\n"
-"If you're not sure, click Autodetect."
+"Please try again later."
 msgstr ""
-"Ако използвате SOCKS прокси, въведете неговите настройки тук.\n"
+"Акаунт менажера е временно недостъпен. \n"
 "\n"
-"Ако не си сигуртен, натисни Автоматично."
+"Моля опитай отново. "
 
-#: clientgui/WizAttachProject.cpp:4595
-msgid "Proxy configuration complete"
-msgstr "Настройката на проксито приключи. "
+#: clientgui/wizards/wizardex.cpp:362
+#: clientgui/wizards/wizardex.cpp:553
+msgid "&Next >"
+msgstr "На&пред >"
 
-#: clientgui/WizAttachProject.cpp:4600
-msgid "Click Next to continue."
-msgstr "За да продължите, натиснете Натаък. "
+#: clientgui/wizards/wizardex.cpp:368
+msgid "< &Back"
+msgstr "< На&зад"
 
-#: clientgui/WizAttachProject.cpp:4745
-msgid "Ref Count Page"
-msgstr "Ref Count страница"
-
-#: clientgui/WizAttachProject.cpp:4750
-msgid "This page should never be used in the wizard itself."
-msgstr "Тази страница никога не трябва да се показва в визарда"
-
-#: clientgui/WizAttachProject.cpp:4756
-msgid ""
-"This page just increases the refcount of various bitmap resources\n"
-"so that DialogBlocks doesn't nuke the refences to them."
-msgstr ""
-"Рази страница просто увеличава refcount на различни bitmap ресурси,\n"
-"за да може DialogBlocks да не нюква връзката към тях."
+#: clientgui/wizards/wizardex.cpp:551
+msgid "&Finish"
+msgstr "&Край"
 
 #: clientgui/DlgAbout.h:51
 msgid "About BOINC Manager"
 msgstr "&Относно BOINC Manager-а..."
 
-#: clientgui/DlgAccountManagerSignup.h:50
 #: clientgui/DlgAccountManagerStatus.h:50
 msgid "Account Manager"
 msgstr "Акаунт менажер"
