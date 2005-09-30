@@ -133,12 +133,12 @@ void CAccountInfoPage::CreateControls()
         itemBoxSizer57->Add(itemFlexGridSizer61, 0, wxGROW|wxALL, 5);
 
         m_AccountCreateCtrl = new wxRadioButton;
-        m_AccountCreateCtrl->Create( itemWizardPage56, ID_ACCOUNTCREATECTRL, _("Create new account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+        m_AccountCreateCtrl->Create( itemWizardPage56, ID_ACCOUNTCREATECTRL, _("Create new &account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
         m_AccountCreateCtrl->SetValue(TRUE);
         itemFlexGridSizer61->Add(m_AccountCreateCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
         m_AccountUseExistingCtrl = new wxRadioButton;
-        m_AccountUseExistingCtrl->Create( itemWizardPage56, ID_ACCOUNTUSEEXISTINGCTRL, _("Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_AccountUseExistingCtrl->Create( itemWizardPage56, ID_ACCOUNTUSEEXISTINGCTRL, _("&Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
         m_AccountUseExistingCtrl->SetValue(FALSE);
         itemFlexGridSizer61->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
@@ -149,7 +149,7 @@ void CAccountInfoPage::CreateControls()
     itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxGROW|wxALL, 5);
 
     m_AccountEmailAddressStaticCtrl = new wxStaticText;
-    m_AccountEmailAddressStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSSTATICCTRL, _("Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_AccountEmailAddressStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSSTATICCTRL, _("&Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer64->Add(m_AccountEmailAddressStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountEmailAddressCtrl = new wxTextCtrl;
@@ -157,7 +157,7 @@ void CAccountInfoPage::CreateControls()
     itemFlexGridSizer64->Add(m_AccountEmailAddressCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountPasswordStaticCtrl = new wxStaticText;
-    m_AccountPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTPASSWORDSTATICCTRL, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_AccountPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTPASSWORDSTATICCTRL, _("&Password:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer64->Add(m_AccountPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountPasswordCtrl = new wxTextCtrl;
@@ -166,7 +166,7 @@ void CAccountInfoPage::CreateControls()
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {
         m_AccountConfirmPasswordStaticCtrl = new wxStaticText;
-        m_AccountConfirmPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, _("Confirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_AccountConfirmPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, _("C&onfirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
         itemFlexGridSizer64->Add(m_AccountConfirmPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
         m_AccountConfirmPasswordCtrl = new wxTextCtrl;
@@ -351,6 +351,7 @@ void CAccountInfoPage::OnCancel( wxWizardExEvent& event ) {
 void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event ) {
     m_AccountConfirmPasswordStaticCtrl->Hide();
     m_AccountConfirmPasswordCtrl->Hide();
+    Fit();
 }
   
 /*!
@@ -360,5 +361,6 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
 void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
     m_AccountConfirmPasswordStaticCtrl->Show();
     m_AccountConfirmPasswordCtrl->Show();
+    Fit();
 }
 

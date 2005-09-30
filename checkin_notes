@@ -12432,3 +12432,22 @@ Charlie 30 Sept 2005
         BuildMacBOINC.sh (new shell script, not part of project)
         boinc.pbproj/
             project.pbxproj
+
+Rom    30 Sept 2005
+    - Remove obsolete wizard files from the project.
+    - Fix a sizer problem when switching from use existing account
+        to create account when returning from an error page.
+    - Fix the website buttons in the project tab after a detach from
+        project.
+    - Add keyboard accelerators for input fields.
+        TODO: Add accelerators for the proxy page.
+        
+    clientgui/
+        BOINCBaseView.cpp
+        ViewProjects.cpp
+        WizAttachProject.cpp, .h (removed)
+        WizAttachAccountManager.cpp, .h (removed)
+    clientgui/wizards/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        ProjectInfoPage.cpp

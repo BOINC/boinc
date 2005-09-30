@@ -122,7 +122,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer30, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_ProjectUrlStaticCtrl = new wxStaticText;
-    m_ProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_ProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, _("Project &URL:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer30->Add(m_ProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ProjectUrlCtrl = new wxTextCtrl;

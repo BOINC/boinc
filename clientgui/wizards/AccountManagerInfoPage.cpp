@@ -121,7 +121,7 @@ void CAccountManagerInfoPage::CreateControls()
     itemBoxSizer22->Add(itemFlexGridSizer28, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_AccountManagerUrlStaticCtrl = new wxStaticText;
-    m_AccountManagerUrlStaticCtrl->Create( itemWizardPage21, ID_PROJECTURLSTATICCTRL, _("Account Manager URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_AccountManagerUrlStaticCtrl->Create( itemWizardPage21, ID_PROJECTURLSTATICCTRL, _("Account Manager &URL:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer28->Add(m_AccountManagerUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AccountManagerUrlCtrl = new wxTextCtrl;

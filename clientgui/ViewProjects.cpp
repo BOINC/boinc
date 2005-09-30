@@ -204,6 +204,7 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     pDoc->ProjectUpdate(m_pListPane->GetFirstSelected());
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -228,6 +229,7 @@ void CViewProjects::OnProjectUpdateAll( wxCommandEvent& WXUNUSED(event) ) {
     pDoc->rpc.network_available();
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -259,6 +261,7 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
         pFrame->UpdateStatusText(wxT(""));
     }
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -290,6 +293,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
         pFrame->UpdateStatusText(wxT(""));
     }
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -338,6 +342,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -384,6 +389,7 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 

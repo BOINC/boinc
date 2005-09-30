@@ -67,6 +67,8 @@ CBOINCBaseView::CBOINCBaseView(
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
 
+    m_bForceUpdateSelection = true;
+
     //
     // Setup View
     //
