@@ -12408,3 +12408,9 @@ Charlie 29 Sept 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  29 Sept 2005
+    - check if $USE_PHPMAILER exists before using it
+
+    html/inc/
+        email.inc

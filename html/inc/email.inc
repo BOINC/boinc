@@ -3,8 +3,12 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-if ($USE_PHPMAILER) {
-    require_once("../inc/phpmailer/class.phpmailer.php");
+if (defined($USE_PHPMAILER)) {
+    if ($USE_PHPMAILER) {
+        require_once("../inc/phpmailer/class.phpmailer.php");
+    }
+} else {
+    $USE_PHPMAILER = false;
 }
 
 function send_email($user, $subject, $body) {
