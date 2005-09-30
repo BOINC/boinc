@@ -4286,15 +4286,15 @@
 			files = (
 			);
 			inputPaths = (
-				$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit,
+				$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit,
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
-				$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib,
+				$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -dfR \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"\nopen \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$PROJECT_DIR/../clientgui/mac/BOINCSaver.nib\"";
+			shellScript = "rm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"";
 		};
 		DDD74D8407CF482E0065AC9D = {
 			buildActionMask = 2147483647;

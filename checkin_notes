@@ -12417,12 +12417,18 @@ David  29 Sept 2005
 
 Charlie 30 Sept 2005
     - Mac: remove obsolete files WizAttachProject.* and 
-      WizAccountManager.* from XCode project.
+      WizAccountManager.* from XCode project.  Fixed bug 
+      when compiling under OS 10.3.9 in script which unstuffs 
+      BOINCSaver.nib.sit.
+    - Created new shell script to build XCode project from 
+      the command line; works under either OS 10.3.9 or 
+      OS 10.4.x.  See comments in BuildMacBOINC.sh for usage.
       
       NOTE: Please be sure to explicitly list by name _all_ source 
       files added or removed from this project in these checkin_notes, 
       with the notation (new), (added) or (removed).  Thank you.
 
     mac_build/
+        BuildMacBOINC.sh (new shell script, not part of project)
         boinc.pbproj/
             project.pbxproj
