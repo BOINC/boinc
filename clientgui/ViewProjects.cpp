@@ -27,7 +27,6 @@
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewProjects.h"
-#include "WizAttachProject.h"
 #include "Events.h"
 
 
