@@ -307,10 +307,18 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         unsigned int iMinLength = ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length;
         wxString strPassword = m_AccountPasswordCtrl->GetValue();
         if (strPassword.Length() < iMinLength) {
-            strMessage.Printf(
-                _("The minimum password length for this project is %d. Please choose a different password."),
-                iMinLength
-            );
+            if (IS_ATTACHTOPROJECTWIZARD()) {
+                strMessage.Printf(
+                    _("The minimum password length for this project is %d. Please choose a different password."),
+                    iMinLength
+                );
+            }
+            if (IS_ACCOUNTMANAGERWIZARD()) {
+                strMessage.Printf(
+                    _("The minimum password length for this account manager is %d. Please choose a different password."),
+                    iMinLength
+                );
+            }
 
             bDisplayError = true;
         }
