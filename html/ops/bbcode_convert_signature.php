@@ -77,12 +77,12 @@ function fix_text($text) {
     return $text;
 }
 
-function fix_post($post) {
-    $text = fix_text($post->content);
-    if ($text != $post->content) {
-        $query = "update post set content = '".mysql_escape_string($text)."' where id=".$post->id;
-        //echo "$post->content\n\n";
-        //echo "$post->thread $query\n\n";
+function fix_forum_preferences($forum_preferences) {
+    $text = fix_text($forum_preferences->signature);
+    if ($text != $forum_preferences->signature) {
+        $query = "update forum_preferences set signature = '".mysql_escape_string($text)."' where userid=".$forum_preferences->userid;
+        //echo "$forum_preferences->signature\n\n";
+        //echo "$forum_preferences->thread $query\n\n";
         $retval = mysql_query($query);
         if (!$retval) {
             echo mysql_error();
@@ -91,32 +91,32 @@ function fix_post($post) {
     }
 }
 
-function fix_posts() {
+function fix_forum_preferencess() {
     $start_id = 0; //Set this to something else if you like
-    $posts = mysql_query("select * from post where id>$start_id order by id");
+    $forum_preferencess = mysql_query("select * from forum_preferences where userid>$start_id order by userid");
     echo mysql_error();
     $i=0;
-    while ($post = mysql_fetch_object($posts)){
+    while ($forum_preferences = mysql_fetch_object($forum_preferencess)){
         $i++; 
-        if ($i%100 == 0) {                      //For every 100 posts
-            echo $post->id.". "; flush();   // print out where we are
+        if ($i%100 == 0) {                      //For every 100 forum_preferencess
+            echo $forum_preferences->userid.". "; flush();   // print out where we are
             //usleep(200000);
         }
         
-        if ($post->id > $start_id){
-            fix_post($post);
+        if ($forum_preferences->userid > $start_id){
+            fix_forum_preferences($forum_preferences);
         }
     }
 }
 
 // use this to patch problem cases; hand-edit
 function fix_fix() {
-    $posts = mysql_query("select * from post where id=99");
-    $post = mysql_fetch_object($posts);
-    fix_post($post);
+    $forum_preferencess = mysql_query("select * from forum_preferences where id=99");
+    $forum_preferences = mysql_fetch_object($forum_preferencess);
+    fix_forum_preferences($forum_preferences);
 }
 
-fix_posts();
+fix_forum_preferencess();
 //fix_fix();
 
 ?>

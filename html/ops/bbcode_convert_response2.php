@@ -77,12 +77,12 @@ function fix_text($text) {
     return $text;
 }
 
-function fix_post($post) {
-    $text = fix_text($post->content);
-    if ($text != $post->content) {
-        $query = "update post set content = '".mysql_escape_string($text)."' where id=".$post->id;
-        //echo "$post->content\n\n";
-        //echo "$post->thread $query\n\n";
+function fix_profile($profile) {
+    $text = fix_text($profile->response2);
+    if ($text != $profile->response2) {
+        $query = "update profile set response2 = '".mysql_escape_string($text)."' where userid=".$profile->userid;
+        //echo "$profile->response2\n\n";
+        //echo "$profile->thread $query\n\n";
         $retval = mysql_query($query);
         if (!$retval) {
             echo mysql_error();
@@ -91,32 +91,32 @@ function fix_post($post) {
     }
 }
 
-function fix_posts() {
+function fix_profiles() {
     $start_id = 0; //Set this to something else if you like
-    $posts = mysql_query("select * from post where id>$start_id order by id");
+    $profiles = mysql_query("select * from profile where userid>$start_id order by userid");
     echo mysql_error();
     $i=0;
-    while ($post = mysql_fetch_object($posts)){
+    while ($profile = mysql_fetch_object($profiles)){
         $i++; 
-        if ($i%100 == 0) {                      //For every 100 posts
-            echo $post->id.". "; flush();   // print out where we are
+        if ($i%100 == 0) {                      //For every 100 profiles
+            echo $profile->userid.". "; flush();   // print out where we are
             //usleep(200000);
         }
         
-        if ($post->id > $start_id){
-            fix_post($post);
+        if ($profile->userid > $start_id){
+            fix_profile($profile);
         }
     }
 }
 
 // use this to patch problem cases; hand-edit
 function fix_fix() {
-    $posts = mysql_query("select * from post where id=99");
-    $post = mysql_fetch_object($posts);
-    fix_post($post);
+    $profiles = mysql_query("select * from profile where id=99");
+    $profile = mysql_fetch_object($profiles);
+    fix_profile($profile);
 }
 
-fix_posts();
+fix_profiles();
 //fix_fix();
 
 ?>
