@@ -12529,4 +12529,9 @@ Janus  01 Oct 2005
             forum_report_post.php
         ops/
             profile_screen_form.php
+Charlie 1 Oct 2005
+    - Mac: Small fixes to make installer build script more robust.
+    
+    mac_installer/
+        release_boinc.sh
 

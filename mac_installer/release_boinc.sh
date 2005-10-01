@@ -16,8 +16,8 @@
 ## the current directory
 
 
-rm -dfR ../BOINC_Installer/Installer\ Resources/
-rm -dfR ../BOINC_Installer/Pkg_Root
+sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
+sudo rm -dfR ../BOINC_Installer/Pkg_Root
 
 mkdir -p ../BOINC_Installer/Installer\ Resources/
 
@@ -41,7 +41,7 @@ cp -fpR mac_build/build/BOINCManager.app ../BOINC_Installer/Pkg_Root/Application
 cp -fpR mac_build/build/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
 
 cp -fpR locale/client/ ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
-rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
+sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
 
 sudo chown -R root:admin ../BOINC_Installer/Pkg_Root/*
 sudo chmod -R 775 ../BOINC_Installer/Pkg_Root/*
@@ -57,6 +57,8 @@ sudo chmod -R 755  ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/*
 
 sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
 sudo chmod -R 755 ../BOINC_Installer/Installer\ Resources/*
+
+sudo rm -dfR ../BOINC_Installer/New_Release_$1_$2_$3/
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX
