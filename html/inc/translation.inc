@@ -384,7 +384,9 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
     } else {
         $language_string = '';
     }
-    $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
+    if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
+        $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
+    }
 
     //Find out which language to use by iterating trough list
     //The list is commaseperated, so split it into an array of the following type:
