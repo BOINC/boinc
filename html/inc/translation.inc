@@ -94,7 +94,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     fwrite($fh, "<?php\n");
     for ($i=0;$i<sizeof($interface);$i++){
         //Translate to PHP
-        fwrite($fh, "define(".$interface[$i].",".$i.");\n");
+        fwrite($fh, "define(\"".$interface[$i]."\",".$i.");\n");
     }
     fwrite($fh, '?>');
     fclose($fh);
@@ -119,7 +119,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     fwrite($fh, "<?php\n");
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
-                        if ($language[$keys[$i]]!="") {
+                        if (isset($keys[$i]) && isset($language[$keys[$i]]) && $language[$keys[$i]]!="") {
                             //Translate to PHP
                             fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");
                         }
@@ -150,7 +150,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
         };
         fwrite($fh, "<?php\n");
         for ($i=0;$i<sizeof($interface);$i++){
-            fwrite($fh, "define(".$interface[$i].",".($i+$real_interface_size).");\n");
+            fwrite($fh, "define(\"".$interface[$i]."\",".($i+$real_interface_size).");\n");
         }
         fwrite($fh, '?>');
         fclose($fh);
@@ -303,7 +303,7 @@ function parseLanguage($file, $interface){
  **********************/
 function checkToken($current_token, $interface, $line){
     $id = array_search($current_token,$interface);
-    if ($id===false){
+    if ($id==false){
         language_log("Above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.",1);
         return false;
     } else {
