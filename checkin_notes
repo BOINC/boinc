@@ -12500,3 +12500,13 @@ David  30 Sept 2005
 
     client/
         gui_rpc_server_ops.C
+
+Rom    30 Sept 2005
+    - The system tray code wasn't closing down on some Linux distros which
+        was keeping the manager active without any way to shut it down. So
+        I'm disabling the system tray code for this release on Linux and
+        I'll look into fixing it in the next release cycle.
+        
+    clientgui/
+         BOINCGUIApp.cpp, .h
+         MainFrame.cpp

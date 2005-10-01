@@ -172,8 +172,10 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pFrame);
 
     // Initialize the task bar icon
+#if defined(__WXMSW__) || defined(__WXMAC__)
     m_pTaskBarIcon = new CTaskBarIcon();
     wxASSERT(m_pTaskBarIcon);
+#endif
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu();
     wxASSERT(m_pMacSystemMenu);
@@ -238,9 +240,11 @@ int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     ShutdownSystemIdleDetection();
 
+#if defined(__WXMSW__) || defined(__WXMAC__)
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
+#endif
 #ifdef __WXMAC__
     if (m_pMacSystemMenu) {
         delete m_pMacSystemMenu;

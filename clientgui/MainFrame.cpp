@@ -1212,7 +1212,7 @@ void CMainFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
 void CMainFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
 
-#ifdef wxHAS_TASK_BAR_ICON
+#if defined(__WXMSW__) || defined(__WXMAC__)
     if (!event.CanVeto()) {
         Destroy();
     } else {

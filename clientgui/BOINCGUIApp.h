@@ -28,7 +28,7 @@
 #include "MainFrame.h"
 
 #include "BOINCTaskBar.h"   // Must be included before MainDocument.h
-#ifdef __APPLE__
+#ifdef __WXMAC__
 #include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
 
@@ -51,7 +51,7 @@ protected:
     bool            IsBOINCCoreRunning();
     void            StartupBOINCCore();
     void            ShutdownBOINCCore();
-#ifdef __APPLE__
+#ifdef __WXMAC__
     bool            ProcessExists(pid_t thePID);
 #endif
 
@@ -64,8 +64,10 @@ protected:
 
     CMainFrame*     m_pFrame;
     CMainDocument*  m_pDocument;
+#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*   m_pTaskBarIcon;
-#ifdef __APPLE__
+#endif
+#ifdef __WXMAC__
     CMacSystemMenu* m_pMacSystemMenu;
 #endif
 
@@ -95,8 +97,10 @@ public:
 
     CMainFrame*     GetFrame()                   { return m_pFrame; }
     CMainDocument*  GetDocument()                { return m_pDocument; }
+#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; }
-#ifdef __APPLE__
+#endif
+#ifdef __WXMAC__
     CMacSystemMenu* GetMacSystemMenu()           { return m_pMacSystemMenu; }
 #endif
 
