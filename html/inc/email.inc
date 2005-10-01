@@ -3,7 +3,7 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-if (defined($USE_PHPMAILER)) {
+if (isset($USE_PHPMAILER)) {
     if ($USE_PHPMAILER) {
         require_once("../inc/phpmailer/class.phpmailer.php");
     }
