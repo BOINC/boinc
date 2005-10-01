@@ -4,6 +4,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
+require_once("../inc/translation.inc");
 
 function db_init() {
     if (project_is_stopped()) {
