@@ -153,7 +153,7 @@ function show_picture_option($profile) {
     row1("Picture");
 
     $warning = "";
-    if (profile_screening()) {
+    if (profile_screening() && $profile->has_picture) {
         $warning = offensive_profile_warning($profile->verification);
     }
 
@@ -532,7 +532,7 @@ function show_profile($userid, $verify_mode = FALSE) {
     // yet verified.  This will tell them if other users can't view it yet, or
     // if there is a problem with it and they need to replace it.
     //
-    if (profile_screening() && $can_edit && $profile->verification!=1) {
+    if (profile_screening() && $profile->has_picture && $can_edit && $profile->verification!=1) {
         row1(offensive_profile_warning($profile->verification));
     }
 
