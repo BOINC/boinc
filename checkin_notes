@@ -12510,3 +12510,20 @@ Rom    30 Sept 2005
     clientgui/
          BOINCGUIApp.cpp, .h
          MainFrame.cpp
+
+Janus  01 Oct 2005
+    - Added "Report this post" option to the forum. It will send an email to
+      the user/mailinglist specified in project.inc.
+      All projects that want to make use of this feature should define an 
+      email address there like this (in html/project/project.inc):
+      $forum_post_reporting_admin->email_addr="jbk@vgroup.dk";
+      If not defined the users will get a warning when trying to use the
+      feature.
+
+    html/
+        inc/
+            forum.inc
+            email.inc
+        user/
+            forum_report_post.php
+

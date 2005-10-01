@@ -229,4 +229,30 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
 
 }
 
+function send_report_post_email($user, $thread,  $post, $message) {
+    global $forum_post_reporting_admin;
+    
+    $body = "";
+
+    $subject = PROJECT." post in '".$thread->title."' reported as offensive";
+    $body = PROJECT." notification:
+
+This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
+    Thread:         ".$thread->title."
+    Post:           ".$post->id."
+    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->id."#".$post->id."
+    
+The reporting user gave this explanation to why the post was reported:
+".$message."
+
+This was the contents of the post:
+".$post->content."
+
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    //Security check, do we have an admin?
+    if (!$forum_post_reporting_admin) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
+    return send_email($forum_post_reporting_admin, $subject, $body);
+}
+
+
 ?>
