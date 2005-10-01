@@ -229,7 +229,11 @@ function process_create_results($user, $profile) {
     $response1 = $_POST['response1'];
     $response2 = $_POST['response2'];
     $language = $_POST['language'];
-    $delete_pic = $_POST['delete_pic'];
+    if (isset($_POST['delete_pic'])) {
+        $delete_pic = $_POST['delete_pic'];
+    } else {
+        $delete_pic = "off";
+    }
 
     if (strlen($response1)==0 &&
         strlen($response2)==0 &&
