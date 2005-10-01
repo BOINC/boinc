@@ -504,7 +504,7 @@ function show_profile($userid, $verify_mode = FALSE) {
         }
     }
 
-    $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
+    $can_edit = isset($logged_in_user) && $logged_in_user && $user->id == $logged_in_user->id;
     if (!$verify_mode) {
         page_head("Profile: ".$user->name);
     }
