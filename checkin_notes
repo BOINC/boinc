@@ -12519,6 +12519,7 @@ Janus  01 Oct 2005
       $forum_post_reporting_admin->email_addr="jbk@vgroup.dk";
       If not defined the users will get a warning when trying to use the
       feature.
+    - Fixed a few missing includes in the profile screening ops section
 
     html/
         inc/
@@ -12526,4 +12527,6 @@ Janus  01 Oct 2005
             email.inc
         user/
             forum_report_post.php
+        ops/
+            profile_screen_form.php
 
