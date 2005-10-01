@@ -1,6 +1,8 @@
 <?php
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
+require_once("../inc/forum.inc");
+require_once("../inc/text_transform.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/util_ops.inc");
 
