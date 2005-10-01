@@ -379,8 +379,10 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
     //Make a list of languages which the user prefers (by looking at cookies and browser settings)
     //cookies have highest priority.
 
-    if ($_COOKIE['lang']){
+    if (isset($_COOKIE['lang'])){
         $language_string = $_COOKIE['lang'].",";
+    } else {
+        $language_string = '';
     }
     $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
 
