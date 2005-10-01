@@ -73,7 +73,7 @@ function show_profile_creation_page($user) {
     // fill in the fields with their current values.
     //
     $profile = get_profile($user->id);
-    if ($_POST['submit']) {
+    if (isset($_POST['submit']) && $_POST['submit']) {
         process_create_results($user, $profile);
         exit();
     }
@@ -570,6 +570,6 @@ function show_profile($userid, $verify_mode = FALSE) {
     } else {
         echo "<hr>";
     }
-    if ($caching) end_cache(USER_PROFILE_TTL,$cache_args);
+    if (isset($caching) && $caching) end_cache(USER_PROFILE_TTL,$cache_args);
 }
 ?>
