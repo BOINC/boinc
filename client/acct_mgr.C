@@ -65,7 +65,7 @@ int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password)
         error_num = retval;
         return retval;
     }
-    msg_printf(NULL, MSG_INFO, "Doing account manager RPC to %s", url.c_str());
+    msg_printf(NULL, MSG_INFO, "Contacting account manager at %s", url.c_str());
 
     return 0;
 }
@@ -135,7 +135,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         if (pp) {
             if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
                 msg_printf(pp, MSG_ERROR,
-                    "You're attached to this project with a different account"
+                    "Already attached under another account"
                 );
             } else {
                 msg_printf(pp, MSG_INFO, "Already attached");

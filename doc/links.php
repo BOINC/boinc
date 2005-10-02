@@ -1,6 +1,8 @@
 <?php
 require_once("docutil.php");
 
+eval(file_get_contents("stats_sites.dat"));
+
 function show_link($language, $name, $url) {
     list_item($language, "<a href=$url>$name</a>");
 }
@@ -25,7 +27,7 @@ echo "
 shows whether the servers of various projects are up or down.
 <h2>Statistics</h2>
 ";
-stats_sites();
+site_list($stats_sites);
 echo "
 <h2>Informational sites</h2>
 ";
@@ -65,7 +67,7 @@ language("Estonian", array(
     site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee")
 ));
 language("Finnish", array(
-    site( "http://www.universe-examiners.org/boinc_faq.php",
+    site( "http://www.universe-examiners.org/",
         "Universe Examiners"),
     site(
     "http://news.universe-examiners.org/asennus/boinc.html",

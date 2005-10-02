@@ -424,7 +424,7 @@ array(
 
 array("May 18, 2004",
 "Source code is now available
-<a href=community.php>directly via CVS</a>.
+<a href=source_code.php>directly via CVS</a>.
 Improved Unix signal handling.
 Support app versions, workunits and results with lots of files
 (changed XML fields from 4KB to 64KB).
@@ -491,7 +491,7 @@ This may be useful for people maintaining web-site translations.
 "),
 
 array("November 26, 2003",
-"A <a href=http://boinc.berkeley.edu/talks/madrid_03/madrid.html>paper
+"A <a href=http://boinc.berkeley.edu/madrid.html>paper
 about the goals of BOINC</a> was presented at a recent conference.
 "),
 

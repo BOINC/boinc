@@ -47,6 +47,9 @@ resources
     <li>
     <a href=http://predictor.scripps.edu>Predictor@home</a>:
     investigate protein-related diseases
+    <li>
+    <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>:
+    help researchers develop cures for human diseases.
     <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
     Look for radio evidence of extraterrestrial life
     <li><a href=http://www.cellcomputing.net/>Cell Computing</a>

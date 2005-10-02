@@ -38,6 +38,7 @@ if (!$retval) {
     show_error("database error");
 }
 
+setcookie('auth', $auth, time()+3600*24*365);
 Header("Location: home.php");
 
 ?>

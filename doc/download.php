@@ -129,6 +129,10 @@ function show_version($pname, $i, $v) {
 
 function show_platform($short_name, $p, $dev) {
     $long_name = $p["name"];
+    if ($p["url"]) {
+        $url = $p["url"];
+        $long_name .= " <a href=$url><font size=-2>details</a>";
+    }
     list_bar($long_name);
     foreach ($p["versions"] as $i=>$v) {
         if ($dev || !is_dev($v)) {

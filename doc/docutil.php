@@ -118,40 +118,4 @@ function list_end() {
     echo "</table><p>\n";
 }
 
-function stats_sites() {
-    echo "
-        <ul>
-        <li>
-        <a href=http://www.setisynergy.com/stats/index.php>BOINC Statistics for the WORLD!</a>
-        developed by Zain Upton (email: zain.upton at setisynergy.com)
-        <li>
-        <a href=http://home.btconnect.com/Gabys_Bazar/hwupgrade.html>Every Earthly Hour</a> - developed by Hydnum Repandum.
-        <li>
-        <a href=http://www.boincstats.com/>www.boincstats.com</a>
-        by Willy de Zutter
-        <li>
-        <a href=http://www.seti.nl/boinc_team.php>
-        SETI@Netherlands stats page</a>
-        <li>
-        <a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>,
-        developed by Janus Kristensen (email: stats at boinc.dk).
-        <li>
-        <a href=http://www.saschapfalz.de/boincstats/boinc-stats.php>boincstats</a>,
-        developed by Sascha Pfalz.
-
-        <li>
-        <a href=http://stats.boincbzh.net/BZHwds/index.php>BOINC Alliance Francophone</a>,
-        developed by Vincent Mary (email: stats at hoincbzh.net).
-        Supports competition between 'mini-teams'.
-        <li>
-        <a href=http://stats.kwsn.net/>The Knights Who Say 'Ni' stats</a>
-
-        <li>
-        <a href=http://www.teamocuk.com/>Team OcUK stats</a>
-        <li>
-        <a href=http://www.bigbee.be/comp/boinc/index.php>Boinc.be team stats</a>
-
-    </ul>
-    ";
-}
 ?>

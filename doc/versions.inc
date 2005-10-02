@@ -318,7 +318,8 @@ $mac = array(
     )
 );
 $linux = array(
-    "name"=>"Linux/x86 <a href=linux.php><font size=-2>details</a>",
+    "name"=>"Linux/x86",
+    "url"=>"linux.php",
     "versions"=>array(
         $l443,
         $l516,
@@ -326,7 +327,8 @@ $linux = array(
     )
 );
 $solaris = array(
-    "name"=>"Solaris/SPARC <a href=solaris.php><font size=-2>details</a>",
+    "name"=>"Solaris/SPARC",
+    "url"=>"solaris.php",
     "versions"=>array(
         $s419,
         $s443

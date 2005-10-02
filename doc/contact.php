@@ -146,6 +146,7 @@ show_name("John McLeod VII");
 show_name("Kenichi Miyoshi");
 show_name("Tony Murray");
 show_name("Eric Myers");
+show_name("Harold Naparst");
 show_name("Kjell Nedrelid");
 show_name("Nikos Ntarmos");
 show_name("Rob Ogilvie");

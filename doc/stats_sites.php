@@ -2,12 +2,14 @@
 
 require_once("docutil.php");
 
+eval(file_get_contents("stats_sites.dat"));
+
 page_head("Web sites for BOINC statistics");
 echo "
 <p>
 The following web sites show statistics for one or more BOINC projects:
 ";
-stats_sites();
+site_list($stats_sites);
 echo "
 These sites use XML-format data exported by BOINC projects.
 The format is described
@@ -21,13 +23,8 @@ please contact the people listed above.
 The following sites offer dynamically-generated
 images showing your statistics in BOINC projects.
 Use these in your email or message-board signature.
-<ul>
-<li>
-<a href=http://www.boinc.dk/index.php?page=signatures>http://www.boinc.dk/index.php?page=signatures</a>
-<li>
-<a href=http://www.bigbee.be/comp/boinc/signature.php?id=9>http://www.bigbee.be/comp/boinc/signature.php</a>
-</ul>
 ";
+site_list($sig_sites);
 
 page_tail();
 

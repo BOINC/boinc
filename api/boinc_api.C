@@ -702,6 +702,7 @@ int set_worker_timer() {
     itimerval value;
     sa.sa_handler = worker_signal_handler;
     sa.sa_flags = SA_RESTART;
+    sigemptyset(&sa.sa_mask);
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
         perror("boinc set_worker_timer() sigaction");

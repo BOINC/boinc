@@ -6,31 +6,44 @@ echo "
 
 <h2>CVS branches</h2>
 <p>
-There are two different versions of the BOINC source code
-(maintained as separate CVS projects):
-<ul>
-<li> <b>boinc</b> is the development version.
-The client code may be unstable
-and may be incompatible with public BOINC projects.
-The server code is almost always stable - use this if you
-are setting up a server.
-<li> <b>boinc_public</b> is the stable version of the client,
-used for making bug-fix releases.
-</ul>
+The BOINC source code is maintained in CVS.
+The trunk is the development version,
+which may not compile or run.
+Other versions are tagged as follows:
+<dl>
+<dt>
+stable
+<dd>
+The latest publicly-released version,
+generally well-tested.
+<dt>
+staging
+<dd>
+The version currently being alpha-tested
+(so at least it compiles).
+<dt>
+boinc_core_release_x_y_z
+<dd>
+The source code for version x.y.z.
+</dl>
+
 <h2>Source code</h2>
-You can get the BOINC source code in several ways:
+You can get the BOINC source code in two ways:
 <ul>
 <li>
 Access the CVS repository directly, e.g. with a command like
 <pre>
 cvs -d :pserver:anonymous@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
 </pre>
+to get the development version, or
+<pre>
+cvs -d :pserver:anonymous@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout -r stable boinc
+</pre>
+to get the stable version.
+<p>
 <li>
 Browse the CVS repository via a
 <a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/>web-based interface</a>.
-<li>
-<a href=source/>Download</a> a tarball or .zip file
-(generated nightly).
 </ul>
 <p>
 Source code for a typical BOINC application,
