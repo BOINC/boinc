@@ -12569,3 +12569,11 @@ David  3 Oct 2005
     client_state.C,h
     cs_account.C
     cs_prefs.C
+
+David  3 Oct 2005
+    - fix login on complete account setup
+        (needed session_start())
+
+    html/user
+        account_finish_action.php
+        login_action.php

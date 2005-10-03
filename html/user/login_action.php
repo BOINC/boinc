@@ -7,7 +7,7 @@ require_once("../inc/user.inc");
 init_session();
 db_init();
 
-$mode = post_str("mode");
+$mode = post_str("mode", true);
 
 // First check for email/password case
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));

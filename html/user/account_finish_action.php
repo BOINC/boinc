@@ -38,7 +38,9 @@ if (!$retval) {
     show_error("database error");
 }
 
-setcookie('auth', $auth, time()+3600*24*365);
+session_start();
+$_SESSION["authenticator"] = $auth;
 Header("Location: home.php");
+setcookie('auth', $auth, time()+3600*24*365);
 
 ?>
