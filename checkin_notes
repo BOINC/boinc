@@ -12577,3 +12577,16 @@ David  3 Oct 2005
     html/user
         account_finish_action.php
         login_action.php
+
+David  3 Oct 2005
+    - API: on Mac, flush stderr before _exit()
+        (from Rick X)
+
+    api/
+        boinc_api.C
+
+David  3 Oct 2005
+    - make email change work even if password not set
+
+    html/user/
+        edit_email_action.php

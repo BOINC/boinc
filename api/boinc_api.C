@@ -385,6 +385,7 @@ void boinc_exit(int status) {
     // This is not pretty but unless someone finds a cleaner solution, 
     // we handle the Mac-case separately .
 #ifdef __APPLE_CC__
+    fflush(stderr);
     _exit(status);
 #else
     exit(status);

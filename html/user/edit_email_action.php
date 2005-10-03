@@ -21,7 +21,7 @@ db_init();
 $user = get_logged_in_user();
 
 $email_addr = strtolower(process_user_text(post_str("email_addr")));
-$passwd = process_user_text(post_str("passwd"));
+$passwd = process_user_text(post_str("passwd", true));
 
 page_head("Change email address of account");
 
@@ -35,6 +35,14 @@ if (!is_valid_email_addr($email_addr)) {
         echo "There's already an account with that email address";
     } else {
         $passwd_hash = md5($passwd.$user->email_addr);
+
+        // deal with the case where user hasn't set passwd
+        // (i.e. passwd is account key)
+        //
+        if ($passwd_hash != $user->passwd_hash) {
+            $passwd = $user->authenticator;
+            $passwd_hash = md5($passwd.$user->email_addr);
+        }
         if ($passwd_hash != $user->passwd_hash) {
             echo "Invalid password.";
         } else {
