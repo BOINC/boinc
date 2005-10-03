@@ -19,13 +19,17 @@ if ($mode == "Log in with email/password") {
     }
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
-        page_head("Wrong password");
-        echo "Wrong password for $email_addr.
+        page_head("Login failed");
+        echo "Login failed: Wrong password for $email_addr.
+            <br>Use your browser's Back button to try again.
             <p>
-            If you've forgotten your password, you must
+            If you've forgotten your password, you can either
             <ul>
+            <li> <a href=edit_passwd_form.php>Change your password</a>
+                (requires account key).
+                <p>
+                or
             <li> <a href=get_passwd.php>Have your account key emailed to you</a>.
-            <li> <a href=edit_passwd_form.php>Change your password</a>.
             </ul>
         ";
         page_tail();

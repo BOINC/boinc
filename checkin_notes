@@ -12546,3 +12546,12 @@ David  2 Oct 2005
         acct_mgr.C
     html/user/
         account_finish_action.php
+
+David  3 Oct 2005
+    - User web: on edit email form, give link to set/change password
+        (from Bruce Allen)
+
+    html/user/
+        edit_email_form.php
+        edit_passwd_form.php
+        login_action.php

@@ -31,7 +31,7 @@ if ($user) {
     row2("Current password", "<input type=password name=old_passwd size=40>");
     row2(
         "<b>OR</b>: Account key
-        <br><font size=-2><a href=get_passwd.php>Get account key</a>",
+        <br><font size=-2><a href=get_passwd.php>Get account key by email</a>",
         "<input name=auth size=40>"
     );
 }
