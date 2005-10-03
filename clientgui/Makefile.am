@@ -43,28 +43,28 @@ boinc_gui_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    wizards/AccountInfoPage.cpp \
-    wizards/AccountKeyPage.cpp \
-    wizards/AccountManagerInfoPage.cpp \
-    wizards/AccountManagerProcessingPage.cpp \
-    wizards/AccountManagerPropertiesPage.cpp \
-    wizards/AlreadyAttachedPage.cpp \
-    wizards/AlreadyExistsPage.cpp \
-    wizards/BOINCBaseWizard.cpp \
-    wizards/CompletionErrorPage.cpp \
-    wizards/CompletionPage.cpp \
-    wizards/NoInternetConnectionPage.cpp \
-    wizards/NotDetectedPage.cpp \
-    wizards/NotFoundPage.cpp \
-    wizards/ProjectInfoPage.cpp \
-    wizards/ProjectProcessingPage.cpp \
-    wizards/ProjectPropertiesPage.cpp \
-    wizards/ProxyPage.cpp \
-    wizards/UnavailablePage.cpp \
-    wizards/WelcomePage.cpp \
-    wizards/WizardAccountManager.cpp \
-    wizards/WizardAttachProject.cpp \
-    wizards/wizardex.cpp \
+    AccountInfoPage.cpp \
+    AccountKeyPage.cpp \
+    AccountManagerInfoPage.cpp \
+    AccountManagerProcessingPage.cpp \
+    AccountManagerPropertiesPage.cpp \
+    AlreadyAttachedPage.cpp \
+    AlreadyExistsPage.cpp \
+    BOINCBaseWizard.cpp \
+    CompletionErrorPage.cpp \
+    CompletionPage.cpp \
+    NoInternetConnectionPage.cpp \
+    NotDetectedPage.cpp \
+    NotFoundPage.cpp \
+    ProjectInfoPage.cpp \
+    ProjectProcessingPage.cpp \
+    ProjectPropertiesPage.cpp \
+    ProxyPage.cpp \
+    UnavailablePage.cpp \
+    WelcomePage.cpp \
+    WizardAccountManager.cpp \
+    WizardAttachProject.cpp \
+    wizardex.cpp \
     hyperlink.cpp $(mac_sources)
 
 EXTRA_DIST = *.h \

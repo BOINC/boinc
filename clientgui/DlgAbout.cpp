@@ -30,7 +30,7 @@
 #include "DlgAbout.h"
 
 #ifdef __WXMSW__
-#include "version.h"
+#include "../version.h"
 #else
 #include "config.h"
 #endif

@@ -205,7 +205,7 @@ wxIcon CAccountKeyPage::GetIconResource( const wxString& name )
  */
  
 void CAccountKeyPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (m_AccountKeyCtrl) m_AccountKeyCtrl->SetFocus();
 }
   
 /*!

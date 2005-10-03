@@ -205,7 +205,7 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& name )
  */
 
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (m_ProjectUrlCtrl) m_ProjectUrlCtrl->SetFocus();
 }
   
 /*!

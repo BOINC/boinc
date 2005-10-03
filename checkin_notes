@@ -12590,3 +12590,67 @@ David  3 Oct 2005
 
     html/user/
         edit_email_action.php
+
+Rom    3 Oct 2005
+    - Even though it is bad practice to change build tree structure during
+        a code freeze, we are going to move the wizard files into the
+        clientgui directory to get around some funky mac build environment
+        problem.
+    - Force Input focus on wizard pages that prompt for input on the text
+        controls instead of leaving it to the dialog management code to
+        figure out.
+        
+    clientgui/
+        AccountInfoPage.cpp, .h (Added)
+        AccountKeyPage.cpp, .h (Added)
+        AccountManagerInfoPage.cpp, .h (Added)
+        AccountManagerProcessingPage.cpp, .h (Added)
+        AccountManagerPropertiesPage.cpp, .h (Added)
+        AlreadyAttachedPage.cpp, .h (Added)
+        AlreadyExistsPage.cpp, .h (Added)
+        BOINCBaseWizard.cpp, .h (Added)
+        BOINCWizards.h (Added)
+        CompletionErrorPage.cpp, .h (Added)
+        CompletionPage.cpp, .h (Added)
+        DlgAbout.cpp
+        MainFrame.cpp
+        Makefile.am
+        NoInternetConnectionPage.cpp, .h (Added)
+        NotDetectedPage.cpp, .h (Added)
+        NotFoundPage.cpp, .h (Added)
+        ProjectInfoPage.cpp, .h (Added)
+        ProjectProcessingPage.cpp, .h (Added)
+        ProjectPropertiesPage.cpp, .h (Added)
+        ProxyPage.cpp, .h (Added)
+        UnavailablePage.cpp, .h (Added)
+        WelcomePage.cpp, .h (Added)
+        WizardAccountManager.cpp, .h (Added)
+        WizardAttachProject.cpp, .h (Added)
+        wizardex.cpp, .h (Added)
+    clientgui/wizards
+        AccountInfoPage.cpp, .h (Removed)
+        AccountKeyPage.cpp, .h (Removed)
+        AccountManagerInfoPage.cpp, .h (Removed)
+        AccountManagerProcessingPage.cpp, .h (Removed)
+        AccountManagerPropertiesPage.cpp, .h (Removed)
+        AlreadyAttachedPage.cpp, .h (Removed)
+        AlreadyExistsPage.cpp, .h (Removed)
+        BOINCBaseWizard.cpp, .h (Removed)
+        BOINCWizards.h (Removed)
+        CompletionErrorPage.cpp, .h (Removed)
+        CompletionPage.cpp, .h (Removed)
+        NoInternetConnectionPage.cpp, .h (Removed)
+        NotDetectedPage.cpp, .h (Removed)
+        NotFoundPage.cpp, .h (Removed)
+        ProjectInfoPage.cpp, .h (Removed)
+        ProjectProcessingPage.cpp, .h (Removed)
+        ProjectPropertiesPage.cpp, .h (Removed)
+        ProxyPage.cpp, .h (Removed)
+        UnavailablePage.cpp, .h (Removed)
+        WelcomePage.cpp, .h (Removed)
+        WizardAccountManager.cpp, .h (Removed)
+        WizardAttachProject.cpp, .h (Removed)
+        wizardex.cpp, .h (Removed)
+    lib/
+        gui_rpc_client.C
+        gui_rpc_client_ops.C

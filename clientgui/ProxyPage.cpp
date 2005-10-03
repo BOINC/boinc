@@ -312,6 +312,8 @@ void CErrProxyPage::OnPageChanged( wxWizardExEvent& event ) {
 
         strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
         m_ProxySOCKSPortCtrl->SetValue(strBuffer);
+
+        m_ProxyHTTPServerCtrl->SetFocus();
     }
 }
  

@@ -148,7 +148,7 @@ void CAccountManagerInfoPage::CreateControls()
  */
 
 void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (m_AccountManagerUrlCtrl) m_AccountManagerUrlCtrl->SetFocus();
 }
 
 /*!

@@ -23,7 +23,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				GlobalOptimizations="TRUE"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -85,7 +85,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
 				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
@@ -365,139 +365,139 @@
 			Name="Wizards"
 			Filter="">
 			<File
-				RelativePath="..\clientgui\wizards\AccountInfoPage.cpp">
+				RelativePath="..\clientgui\AccountInfoPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountInfoPage.h">
+				RelativePath="..\clientgui\AccountInfoPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountKeyPage.cpp">
+				RelativePath="..\clientgui\AccountKeyPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountKeyPage.h">
+				RelativePath="..\clientgui\AccountKeyPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountManagerInfoPage.cpp">
+				RelativePath="..\clientgui\AccountManagerInfoPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountManagerInfoPage.h">
+				RelativePath="..\clientgui\AccountManagerInfoPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountManagerProcessingPage.cpp">
+				RelativePath="..\clientgui\AccountManagerProcessingPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountManagerProcessingPage.h">
+				RelativePath="..\clientgui\AccountManagerProcessingPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountManagerPropertiesPage.cpp">
+				RelativePath="..\clientgui\AccountManagerPropertiesPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AccountManagerPropertiesPage.h">
+				RelativePath="..\clientgui\AccountManagerPropertiesPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AlreadyAttachedPage.cpp">
+				RelativePath="..\clientgui\AlreadyAttachedPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AlreadyAttachedPage.h">
+				RelativePath="..\clientgui\AlreadyAttachedPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AlreadyExistsPage.cpp">
+				RelativePath="..\clientgui\AlreadyExistsPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\AlreadyExistsPage.h">
+				RelativePath="..\clientgui\AlreadyExistsPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\BOINCBaseWizard.cpp">
+				RelativePath="..\clientgui\BOINCBaseWizard.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\BOINCBaseWizard.h">
+				RelativePath="..\clientgui\BOINCBaseWizard.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\BOINCWizards.h">
+				RelativePath="..\clientgui\BOINCWizards.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\CompletionErrorPage.cpp">
+				RelativePath="..\clientgui\CompletionErrorPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\CompletionErrorPage.h">
+				RelativePath="..\clientgui\CompletionErrorPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\CompletionPage.cpp">
+				RelativePath="..\clientgui\CompletionPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\CompletionPage.h">
+				RelativePath="..\clientgui\CompletionPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\NoInternetConnectionPage.cpp">
+				RelativePath="..\clientgui\NoInternetConnectionPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\NoInternetConnectionPage.h">
+				RelativePath="..\clientgui\NoInternetConnectionPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\NotDetectedPage.cpp">
+				RelativePath="..\clientgui\NotDetectedPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\NotDetectedPage.h">
+				RelativePath="..\clientgui\NotDetectedPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\NotFoundPage.cpp">
+				RelativePath="..\clientgui\NotFoundPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\NotFoundPage.h">
+				RelativePath="..\clientgui\NotFoundPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProjectInfoPage.cpp">
+				RelativePath="..\clientgui\ProjectInfoPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProjectInfoPage.h">
+				RelativePath="..\clientgui\ProjectInfoPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProjectProcessingPage.cpp">
+				RelativePath="..\clientgui\ProjectProcessingPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProjectProcessingPage.h">
+				RelativePath="..\clientgui\ProjectProcessingPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProjectPropertiesPage.cpp">
+				RelativePath="..\clientgui\ProjectPropertiesPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProjectPropertiesPage.h">
+				RelativePath="..\clientgui\ProjectPropertiesPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProxyPage.cpp">
+				RelativePath="..\clientgui\ProxyPage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\ProxyPage.h">
+				RelativePath="..\clientgui\ProxyPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\UnavailablePage.cpp">
+				RelativePath="..\clientgui\UnavailablePage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\UnavailablePage.h">
+				RelativePath="..\clientgui\UnavailablePage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\WelcomePage.cpp">
+				RelativePath="..\clientgui\WelcomePage.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\WelcomePage.h">
+				RelativePath="..\clientgui\WelcomePage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\WizardAccountManager.cpp">
+				RelativePath="..\clientgui\WizardAccountManager.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\WizardAccountManager.h">
+				RelativePath="..\clientgui\WizardAccountManager.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\WizardAttachProject.cpp">
+				RelativePath="..\clientgui\WizardAttachProject.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\WizardAttachProject.h">
+				RelativePath="..\clientgui\WizardAttachProject.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\wizardex.cpp">
+				RelativePath="..\clientgui\wizardex.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\wizards\wizardex.h">
+				RelativePath="..\clientgui\wizardex.h">
 			</File>
 		</Filter>
 		<Filter
