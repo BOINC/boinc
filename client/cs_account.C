@@ -89,7 +89,6 @@ int PROJECT::write_account_file() {
 //
 int PROJECT::parse_account(FILE* in) {
     char buf[256], venue[256];
-    char temp[MAX_BLOB_LEN];
     int retval;
     bool got_venue_prefs = false;
 
@@ -117,9 +116,8 @@ int PROJECT::parse_account(FILE* in) {
             if (!strcmp(venue, host_venue)) {
                 got_venue_prefs = true;
             } else {
-                retval = copy_element_contents(
-                    in, "</venue>", temp, sizeof(temp)
-                );
+                std::string devnull;
+                retval = copy_element_contents(in, "</venue>", devnull);
                 if (retval) return retval;
             }
             continue;

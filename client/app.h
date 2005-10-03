@@ -31,6 +31,11 @@
 class CLIENT_STATE;
 typedef int PROCESS_ID;
 
+#define MAX_STDERR_LEN  65536
+    // The stderr output of an application is truncated to this length
+    // before sending to server,
+    // to protect against apps that write unbounded amounts.
+
 // process states of an ACTIVE_TASK
 //
 #define PROCESS_UNINITIALIZED   0

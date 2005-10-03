@@ -12555,3 +12555,17 @@ David  3 Oct 2005
         edit_email_form.php
         edit_passwd_form.php
         login_action.php
+
+David  3 Oct 2005
+    - Client: got rid of MAX_BLOB_LEN constant
+        (which was deceptively defined as 4K; actual max blob is 64K)
+        Replaced with:
+        MAX_PROJ_PREFS_LEN (cs_prefs.C; 64K)
+        MAX_FILE_INFO_LEN/MAX_SIGNATURE_LEN/MAX_KEY_LEN
+            (client_types.h; 4K each)
+        MAX_STDERR_LEN (client_state.C; 64K)
+
+    app.h
+    client_state.C,h
+    cs_account.C
+    cs_prefs.C

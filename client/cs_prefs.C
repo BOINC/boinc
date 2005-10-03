@@ -45,6 +45,10 @@
 using std::min;
 using std::string;
 
+#define MAX_PROJ_PREFS_LEN  65536
+    // max length of project-specific prefs
+    // TODO: get rid of this
+
 void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
     net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
@@ -281,7 +285,7 @@ int PROJECT::parse_preferences_for_user_files() {
     string timestamp, open_name, url, filename;
     FILE_INFO* fip;
     FILE_REF fr;
-    char prefs_buf[MAX_BLOB_LEN];
+    char prefs_buf[MAX_PROJ_PREFS_LEN];
     strcpy(prefs_buf, project_specific_prefs.c_str());
     p = prefs_buf;
 

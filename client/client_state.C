@@ -1105,7 +1105,9 @@ bool CLIENT_STATE::time_to_exit() {
 // - Append a description of the error to result.stderr_out
 //
 int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
-    char buf[MAX_BLOB_LEN],  err_msg[MAX_BLOB_LEN];
+    char buf[4096],  err_msg[4096];
+        // The above store 1-line messages and short XML snippets.
+        // Shouldn't exceed a few hundred bytes.
     unsigned int i;
     int failnum;
 
@@ -1182,7 +1184,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
         break;
     }
 
-    res.stderr_out = res.stderr_out.substr(0,MAX_BLOB_LEN-1);
+    res.stderr_out = res.stderr_out.substr(0, MAX_STDERR_LEN);
     return 0;
 }
 

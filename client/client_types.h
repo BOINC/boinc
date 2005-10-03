@@ -37,10 +37,13 @@
 #include "miofile.h"
 #include "result_state.h"
 
-#define MAX_BLOB_LEN 4096
 #define P_LOW 1
 #define P_MEDIUM 3
 #define P_HIGH 5
+
+#define MAX_FILE_INFO_LEN   4096
+#define MAX_SIGNATURE_LEN   4096
+#define MAX_KEY_LEN         4096
 
 // If the status is neither of these two,
 // it will be an error code defined in error_numbers.h,
@@ -76,14 +79,14 @@ public:
     std::vector<std::string> urls;
     int start_url;
     int current_url;
-    char signed_xml[MAX_BLOB_LEN];
+    char signed_xml[MAX_FILE_INFO_LEN];
         // if the file_info is signed (for uploadable files)
         // this is the text that is signed
         // Otherwise it is the FILE_INFO's XML descriptor
         // (without enclosing <file_info> tags)
-    char xml_signature[MAX_BLOB_LEN];
+    char xml_signature[MAX_SIGNATURE_LEN];
         // ... and this is the signature
-    char file_signature[MAX_BLOB_LEN];
+    char file_signature[MAX_SIGNATURE_LEN];
         // if the file itself is signed (for executable files)
         // this is the signature
 #if 0
@@ -221,7 +224,7 @@ public:
         // set the project to only return work and not request more
         // for a clean exit to a project, or if a user wants to 
         // pause doing work for the project
-    char code_sign_key[MAX_BLOB_LEN];
+    char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
 
