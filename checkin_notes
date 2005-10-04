@@ -12735,7 +12735,10 @@ David  4 October 2005
 Charlie 4 Oct 2005
     - Mac: Update XCode project for new location of wizard files 
       in build tree structure.
+    - Update revision date in installer build script.
 
     mac_build/
         boinc.pbproj/
             project.pbxproj
+    mac_installer/
+        release_boinc.sh
