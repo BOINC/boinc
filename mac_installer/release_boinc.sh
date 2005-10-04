@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 9/1/05 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 10/4/05 by Charlie Fenton
 ##
 
 ## Usage:

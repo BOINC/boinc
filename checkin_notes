@@ -12731,3 +12731,11 @@ David  4 October 2005
     sched/
         sched_send.C
         server_types.C,h
+
+Charlie 4 Oct 2005
+    - Mac: Update XCode project for new location of wizard files 
+      in build tree structure.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

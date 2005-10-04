@@ -320,28 +320,29 @@
 				DD73E3B808A0809800656EB1,
 				DD73E3BF08A0837800656EB1,
 				DDF166C808DF8D0F00C8C4A5,
-				DD472D0B08ECF0810007B397,
-				DD472D0C08ECF0820007B397,
-				DD472D0D08ECF0840007B397,
-				DD472D0E08ECF0850007B397,
-				DD472D0F08ECF0860007B397,
-				DD472D1008ECF0870007B397,
-				DD472D1108ECF0880007B397,
-				DD472D1208ECF08D0007B397,
-				DD472D1408ECF0930007B397,
-				DD472D1508ECF0950007B397,
-				DD472D1608ECF0960007B397,
-				DD472D1708ECF0980007B397,
-				DD472D1808ECF0990007B397,
-				DD472D1908ECF09A0007B397,
-				DD472D1A08ECF09B0007B397,
-				DD472D1B08ECF0A00007B397,
-				DD472D1C08ECF0A30007B397,
-				DD472D1D08ECF0A40007B397,
-				DD472D1E08ECF0A50007B397,
-				DD472D1F08ECF0A70007B397,
-				DD472D2008ECF0A80007B397,
-				DD472D2108ECF0A90007B397,
+				DD58C42608F3343F00C1DF66,
+				DD58C42808F3343F00C1DF66,
+				DD58C42A08F3343F00C1DF66,
+				DD58C42C08F3343F00C1DF66,
+				DD58C42E08F3343F00C1DF66,
+				DD58C43008F3343F00C1DF66,
+				DD58C43208F3343F00C1DF66,
+				DD58C43D08F3347D00C1DF66,
+				DD58C44008F3347D00C1DF66,
+				DD58C44208F3347D00C1DF66,
+				DD58C44408F3347D00C1DF66,
+				DD58C45208F334B500C1DF66,
+				DD58C45408F334B500C1DF66,
+				DD58C45608F334B500C1DF66,
+				DD58C45808F334B500C1DF66,
+				DD58C45A08F334B500C1DF66,
+				DD58C45C08F334B500C1DF66,
+				DD58C46B08F334EA00C1DF66,
+				DD58C46E08F334EA00C1DF66,
+				DD58C47008F334EA00C1DF66,
+				DD58C47208F334EA00C1DF66,
+				DD58C47408F334EA00C1DF66,
+				DD58C47608F334EA00C1DF66,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2121,596 +2122,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"$TARGET_BUILD_DIR/SymbolTables\"\n  cp -Rf \"$TARGET_BUILD_DIR/$PRODUCT_NAME\" \"$TARGET_BUILD_DIR/SymbolTables/\"\n  /usr/bin/strip \"$TARGET_BUILD_DIR/$PRODUCT_NAME\"\nfi";
 		};
-		DD472CD008ECEFD80007B397 = {
-			children = (
-				DD472CDC08ECF02A0007B397,
-				DD472CDD08ECF02A0007B397,
-				DD472CDE08ECF02A0007B397,
-				DD472CDF08ECF02A0007B397,
-				DD472CE008ECF02A0007B397,
-				DD472CE108ECF02A0007B397,
-				DD472CE208ECF02A0007B397,
-				DD472CE308ECF02A0007B397,
-				DD472CE408ECF02A0007B397,
-				DD472CE508ECF02A0007B397,
-				DD472CE608ECF02A0007B397,
-				DD472CE708ECF02A0007B397,
-				DD472CE808ECF02A0007B397,
-				DD472CE908ECF02A0007B397,
-				DD472CEA08ECF02A0007B397,
-				DD472CEB08ECF02A0007B397,
-				DD472CEC08ECF02A0007B397,
-				DD472CED08ECF02A0007B397,
-				DD472CEE08ECF02A0007B397,
-				DD472CEF08ECF02A0007B397,
-				DD472CF008ECF02A0007B397,
-				DD472CF108ECF02A0007B397,
-				DD472CF208ECF02A0007B397,
-				DD472CF308ECF02A0007B397,
-				DD472CF408ECF02A0007B397,
-				DD472CF508ECF02A0007B397,
-				DD472CF608ECF02A0007B397,
-				DD472CF708ECF02A0007B397,
-				DD472CF808ECF02A0007B397,
-				DD472CF908ECF02A0007B397,
-				DD472CFA08ECF02A0007B397,
-				DD472CFB08ECF02A0007B397,
-				DD472CFC08ECF02A0007B397,
-				DD472CFD08ECF02A0007B397,
-				DD472CFE08ECF02A0007B397,
-				DD472CFF08ECF02A0007B397,
-				DD472D0008ECF02A0007B397,
-				DD472D0108ECF02A0007B397,
-				DD472D0208ECF02A0007B397,
-				DD472D0308ECF02A0007B397,
-				DD472D0408ECF02A0007B397,
-				DD472D0508ECF02A0007B397,
-				DD472D0608ECF02A0007B397,
-				DD472D0708ECF02A0007B397,
-				DD472D0808ECF02A0007B397,
-			);
-			isa = PBXGroup;
-			name = wizards;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		DD472CDC08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AccountInfoPage.cpp;
-			path = ../clientgui/wizards/AccountInfoPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CDD08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AccountInfoPage.h;
-			path = ../clientgui/wizards/AccountInfoPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CDE08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AccountKeyPage.cpp;
-			path = ../clientgui/wizards/AccountKeyPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CDF08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AccountKeyPage.h;
-			path = ../clientgui/wizards/AccountKeyPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE008ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AccountManagerInfoPage.cpp;
-			path = ../clientgui/wizards/AccountManagerInfoPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE108ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AccountManagerInfoPage.h;
-			path = ../clientgui/wizards/AccountManagerInfoPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE208ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AccountManagerProcessingPage.cpp;
-			path = ../clientgui/wizards/AccountManagerProcessingPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE308ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AccountManagerProcessingPage.h;
-			path = ../clientgui/wizards/AccountManagerProcessingPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE408ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AccountManagerPropertiesPage.cpp;
-			path = ../clientgui/wizards/AccountManagerPropertiesPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE508ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AccountManagerPropertiesPage.h;
-			path = ../clientgui/wizards/AccountManagerPropertiesPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE608ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AlreadyAttachedPage.cpp;
-			path = ../clientgui/wizards/AlreadyAttachedPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE708ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AlreadyAttachedPage.h;
-			path = ../clientgui/wizards/AlreadyAttachedPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE808ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = AlreadyExistsPage.cpp;
-			path = ../clientgui/wizards/AlreadyExistsPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CE908ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AlreadyExistsPage.h;
-			path = ../clientgui/wizards/AlreadyExistsPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CEA08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = BOINCBaseWizard.cpp;
-			path = ../clientgui/wizards/BOINCBaseWizard.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CEB08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = BOINCBaseWizard.h;
-			path = ../clientgui/wizards/BOINCBaseWizard.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CEC08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = BOINCWizards.h;
-			path = ../clientgui/wizards/BOINCWizards.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CED08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = CompletionErrorPage.cpp;
-			path = ../clientgui/wizards/CompletionErrorPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CEE08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = CompletionErrorPage.h;
-			path = ../clientgui/wizards/CompletionErrorPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CEF08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = CompletionPage.cpp;
-			path = ../clientgui/wizards/CompletionPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF008ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = CompletionPage.h;
-			path = ../clientgui/wizards/CompletionPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF108ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = NoInternetConnectionPage.cpp;
-			path = ../clientgui/wizards/NoInternetConnectionPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF208ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NoInternetConnectionPage.h;
-			path = ../clientgui/wizards/NoInternetConnectionPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF308ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = NotDetectedPage.cpp;
-			path = ../clientgui/wizards/NotDetectedPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF408ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NotDetectedPage.h;
-			path = ../clientgui/wizards/NotDetectedPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF508ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = NotFoundPage.cpp;
-			path = ../clientgui/wizards/NotFoundPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF608ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NotFoundPage.h;
-			path = ../clientgui/wizards/NotFoundPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF708ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = ProjectInfoPage.cpp;
-			path = ../clientgui/wizards/ProjectInfoPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF808ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = ProjectInfoPage.h;
-			path = ../clientgui/wizards/ProjectInfoPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CF908ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = ProjectProcessingPage.cpp;
-			path = ../clientgui/wizards/ProjectProcessingPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CFA08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = ProjectProcessingPage.h;
-			path = ../clientgui/wizards/ProjectProcessingPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CFB08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = ProjectPropertiesPage.cpp;
-			path = ../clientgui/wizards/ProjectPropertiesPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CFC08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = ProjectPropertiesPage.h;
-			path = ../clientgui/wizards/ProjectPropertiesPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CFD08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = ProxyPage.cpp;
-			path = ../clientgui/wizards/ProxyPage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CFE08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = ProxyPage.h;
-			path = ../clientgui/wizards/ProxyPage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472CFF08ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = UnavailablePage.cpp;
-			path = ../clientgui/wizards/UnavailablePage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0008ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = UnavailablePage.h;
-			path = ../clientgui/wizards/UnavailablePage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0108ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = WelcomePage.cpp;
-			path = ../clientgui/wizards/WelcomePage.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0208ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = WelcomePage.h;
-			path = ../clientgui/wizards/WelcomePage.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0308ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = WizardAccountManager.cpp;
-			path = ../clientgui/wizards/WizardAccountManager.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0408ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = WizardAccountManager.h;
-			path = ../clientgui/wizards/WizardAccountManager.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0508ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = WizardAttachProject.cpp;
-			path = ../clientgui/wizards/WizardAttachProject.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0608ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = WizardAttachProject.h;
-			path = ../clientgui/wizards/WizardAttachProject.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0708ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = wizardex.cpp;
-			path = ../clientgui/wizards/wizardex.cpp;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0808ECF02A0007B397 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = wizardex.h;
-			path = ../clientgui/wizards/wizardex.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD472D0B08ECF0810007B397 = {
-			fileRef = DD472CDC08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D0C08ECF0820007B397 = {
-			fileRef = DD472CDE08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D0D08ECF0840007B397 = {
-			fileRef = DD472CE008ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D0E08ECF0850007B397 = {
-			fileRef = DD472CE208ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D0F08ECF0860007B397 = {
-			fileRef = DD472CE408ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1008ECF0870007B397 = {
-			fileRef = DD472CE608ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1108ECF0880007B397 = {
-			fileRef = DD472CE808ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1208ECF08D0007B397 = {
-			fileRef = DD472CEA08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1408ECF0930007B397 = {
-			fileRef = DD472CED08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1508ECF0950007B397 = {
-			fileRef = DD472CEF08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1608ECF0960007B397 = {
-			fileRef = DD472CF108ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1708ECF0980007B397 = {
-			fileRef = DD472CF308ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1808ECF0990007B397 = {
-			fileRef = DD472CF508ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1908ECF09A0007B397 = {
-			fileRef = DD472CF708ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1A08ECF09B0007B397 = {
-			fileRef = DD472CF908ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1B08ECF0A00007B397 = {
-			fileRef = DD472CFB08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1C08ECF0A30007B397 = {
-			fileRef = DD472CFD08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1D08ECF0A40007B397 = {
-			fileRef = DD472CFF08ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1E08ECF0A50007B397 = {
-			fileRef = DD472D0108ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D1F08ECF0A70007B397 = {
-			fileRef = DD472D0308ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D2008ECF0A80007B397 = {
-			fileRef = DD472D0508ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD472D2108ECF0A90007B397 = {
-			fileRef = DD472D0708ECF02A0007B397;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD48091E081A66F100A174AA = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
@@ -2787,6 +2198,726 @@
 		};
 		DD52C81408B5D484008D9AA4 = {
 			fileRef = DD6D0A8507E9A61B007F882B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C41808F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AccountInfoPage.cpp;
+			path = ../clientgui/AccountInfoPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41908F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AccountInfoPage.h;
+			path = ../clientgui/AccountInfoPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41A08F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AccountKeyPage.cpp;
+			path = ../clientgui/AccountKeyPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41B08F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AccountKeyPage.h;
+			path = ../clientgui/AccountKeyPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41C08F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AccountManagerInfoPage.cpp;
+			path = ../clientgui/AccountManagerInfoPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41D08F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AccountManagerInfoPage.h;
+			path = ../clientgui/AccountManagerInfoPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41E08F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AccountManagerProcessingPage.cpp;
+			path = ../clientgui/AccountManagerProcessingPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C41F08F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AccountManagerProcessingPage.h;
+			path = ../clientgui/AccountManagerProcessingPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42008F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AccountManagerPropertiesPage.cpp;
+			path = ../clientgui/AccountManagerPropertiesPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42108F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AccountManagerPropertiesPage.h;
+			path = ../clientgui/AccountManagerPropertiesPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42208F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AlreadyAttachedPage.cpp;
+			path = ../clientgui/AlreadyAttachedPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42308F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AlreadyAttachedPage.h;
+			path = ../clientgui/AlreadyAttachedPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42408F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = AlreadyExistsPage.cpp;
+			path = ../clientgui/AlreadyExistsPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42508F3343F00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AlreadyExistsPage.h;
+			path = ../clientgui/AlreadyExistsPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C42608F3343F00C1DF66 = {
+			fileRef = DD58C41808F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42708F3343F00C1DF66 = {
+			fileRef = DD58C41908F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42808F3343F00C1DF66 = {
+			fileRef = DD58C41A08F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42908F3343F00C1DF66 = {
+			fileRef = DD58C41B08F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42A08F3343F00C1DF66 = {
+			fileRef = DD58C41C08F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42B08F3343F00C1DF66 = {
+			fileRef = DD58C41D08F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42C08F3343F00C1DF66 = {
+			fileRef = DD58C41E08F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42D08F3343F00C1DF66 = {
+			fileRef = DD58C41F08F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42E08F3343F00C1DF66 = {
+			fileRef = DD58C42008F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C42F08F3343F00C1DF66 = {
+			fileRef = DD58C42108F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43008F3343F00C1DF66 = {
+			fileRef = DD58C42208F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43108F3343F00C1DF66 = {
+			fileRef = DD58C42308F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43208F3343F00C1DF66 = {
+			fileRef = DD58C42408F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43308F3343F00C1DF66 = {
+			fileRef = DD58C42508F3343F00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43408F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = BOINCBaseWizard.cpp;
+			path = ../clientgui/BOINCBaseWizard.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43508F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = BOINCBaseWizard.h;
+			path = ../clientgui/BOINCBaseWizard.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43608F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = BOINCWizards.h;
+			path = ../clientgui/BOINCWizards.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43708F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = CompletionErrorPage.cpp;
+			path = ../clientgui/CompletionErrorPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43808F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CompletionErrorPage.h;
+			path = ../clientgui/CompletionErrorPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43908F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = CompletionPage.cpp;
+			path = ../clientgui/CompletionPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43A08F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CompletionPage.h;
+			path = ../clientgui/CompletionPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43B08F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = DlgDialupCredentials.cpp;
+			path = ../clientgui/DlgDialupCredentials.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43C08F3347D00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = DlgDialupCredentials.h;
+			path = ../clientgui/DlgDialupCredentials.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C43D08F3347D00C1DF66 = {
+			fileRef = DD58C43408F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43E08F3347D00C1DF66 = {
+			fileRef = DD58C43508F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C43F08F3347D00C1DF66 = {
+			fileRef = DD58C43608F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44008F3347D00C1DF66 = {
+			fileRef = DD58C43708F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44108F3347D00C1DF66 = {
+			fileRef = DD58C43808F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44208F3347D00C1DF66 = {
+			fileRef = DD58C43908F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44308F3347D00C1DF66 = {
+			fileRef = DD58C43A08F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44408F3347D00C1DF66 = {
+			fileRef = DD58C43B08F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44508F3347D00C1DF66 = {
+			fileRef = DD58C43C08F3347D00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C44608F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = NoInternetConnectionPage.cpp;
+			path = ../clientgui/NoInternetConnectionPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44708F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NoInternetConnectionPage.h;
+			path = ../clientgui/NoInternetConnectionPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44808F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = NotDetectedPage.cpp;
+			path = ../clientgui/NotDetectedPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44908F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NotDetectedPage.h;
+			path = ../clientgui/NotDetectedPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44A08F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = NotFoundPage.cpp;
+			path = ../clientgui/NotFoundPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44B08F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NotFoundPage.h;
+			path = ../clientgui/NotFoundPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44C08F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ProjectInfoPage.cpp;
+			path = ../clientgui/ProjectInfoPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44D08F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ProjectInfoPage.h;
+			path = ../clientgui/ProjectInfoPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44E08F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ProjectProcessingPage.cpp;
+			path = ../clientgui/ProjectProcessingPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C44F08F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ProjectProcessingPage.h;
+			path = ../clientgui/ProjectProcessingPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C45008F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ProjectPropertiesPage.cpp;
+			path = ../clientgui/ProjectPropertiesPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C45108F334B500C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ProjectPropertiesPage.h;
+			path = ../clientgui/ProjectPropertiesPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C45208F334B500C1DF66 = {
+			fileRef = DD58C44608F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45308F334B500C1DF66 = {
+			fileRef = DD58C44708F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45408F334B500C1DF66 = {
+			fileRef = DD58C44808F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45508F334B500C1DF66 = {
+			fileRef = DD58C44908F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45608F334B500C1DF66 = {
+			fileRef = DD58C44A08F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45708F334B500C1DF66 = {
+			fileRef = DD58C44B08F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45808F334B500C1DF66 = {
+			fileRef = DD58C44C08F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45908F334B500C1DF66 = {
+			fileRef = DD58C44D08F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45A08F334B500C1DF66 = {
+			fileRef = DD58C44E08F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45B08F334B500C1DF66 = {
+			fileRef = DD58C44F08F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45C08F334B500C1DF66 = {
+			fileRef = DD58C45008F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45D08F334B500C1DF66 = {
+			fileRef = DD58C45108F334B500C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C45E08F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ProxyPage.cpp;
+			path = ../clientgui/ProxyPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C45F08F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ProxyPage.h;
+			path = ../clientgui/ProxyPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46008F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = resource.h;
+			path = ../clientgui/resource.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46108F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = UnavailablePage.cpp;
+			path = ../clientgui/UnavailablePage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46208F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = UnavailablePage.h;
+			path = ../clientgui/UnavailablePage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46308F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = WelcomePage.cpp;
+			path = ../clientgui/WelcomePage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46408F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WelcomePage.h;
+			path = ../clientgui/WelcomePage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46508F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = WizardAccountManager.cpp;
+			path = ../clientgui/WizardAccountManager.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46608F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WizardAccountManager.h;
+			path = ../clientgui/WizardAccountManager.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46708F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = WizardAttachProject.cpp;
+			path = ../clientgui/WizardAttachProject.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46808F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WizardAttachProject.h;
+			path = ../clientgui/WizardAttachProject.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46908F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = wizardex.cpp;
+			path = ../clientgui/wizardex.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46A08F334EA00C1DF66 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = wizardex.h;
+			path = ../clientgui/wizardex.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD58C46B08F334EA00C1DF66 = {
+			fileRef = DD58C45E08F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C46C08F334EA00C1DF66 = {
+			fileRef = DD58C45F08F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C46D08F334EA00C1DF66 = {
+			fileRef = DD58C46008F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C46E08F334EA00C1DF66 = {
+			fileRef = DD58C46108F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C46F08F334EA00C1DF66 = {
+			fileRef = DD58C46208F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47008F334EA00C1DF66 = {
+			fileRef = DD58C46308F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47108F334EA00C1DF66 = {
+			fileRef = DD58C46408F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47208F334EA00C1DF66 = {
+			fileRef = DD58C46508F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47308F334EA00C1DF66 = {
+			fileRef = DD58C46608F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47408F334EA00C1DF66 = {
+			fileRef = DD58C46708F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47508F334EA00C1DF66 = {
+			fileRef = DD58C46808F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47608F334EA00C1DF66 = {
+			fileRef = DD58C46908F334EA00C1DF66;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD58C47708F334EA00C1DF66 = {
+			fileRef = DD58C46A08F334EA00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3495,8 +3626,24 @@
 		};
 		DD81C3F707C5D03B0098A04D = {
 			children = (
+				DD58C41808F3343F00C1DF66,
+				DD58C41908F3343F00C1DF66,
+				DD58C41A08F3343F00C1DF66,
+				DD58C41B08F3343F00C1DF66,
+				DD58C41C08F3343F00C1DF66,
+				DD58C41D08F3343F00C1DF66,
+				DD58C41E08F3343F00C1DF66,
+				DD58C41F08F3343F00C1DF66,
+				DD58C42008F3343F00C1DF66,
+				DD58C42108F3343F00C1DF66,
+				DD58C42208F3343F00C1DF66,
+				DD58C42308F3343F00C1DF66,
+				DD58C42408F3343F00C1DF66,
+				DD58C42508F3343F00C1DF66,
 				DD81C3FE07C5D1020098A04D,
 				DD81C43407C5D2240098A04D,
+				DD58C43408F3347D00C1DF66,
+				DD58C43508F3347D00C1DF66,
 				DD81C40507C5D1020098A04D,
 				DD81C43B07C5D2240098A04D,
 				DD81C40407C5D1020098A04D,
@@ -3505,10 +3652,17 @@
 				DD81C43D07C5D2240098A04D,
 				DD81C40607C5D1020098A04D,
 				DD81C43807C5D2240098A04D,
+				DD58C43608F3347D00C1DF66,
+				DD58C43708F3347D00C1DF66,
+				DD58C43808F3347D00C1DF66,
+				DD58C43908F3347D00C1DF66,
+				DD58C43A08F3347D00C1DF66,
 				DD81C40207C5D1020098A04D,
 				DD81C43707C5D2240098A04D,
 				DDA4573B086447BC00DE260C,
 				DDA4573C086447BC00DE260C,
+				DD58C43B08F3347D00C1DF66,
+				DD58C43C08F3347D00C1DF66,
 				DD81C3FF07C5D1020098A04D,
 				DD81C43907C5D2240098A04D,
 				DD2D25CB07FAB41700151141,
@@ -3525,8 +3679,25 @@
 				DD81C44F07C5D2470098A04D,
 				DD81C41507C5D13E0098A04D,
 				DD81C44E07C5D2470098A04D,
+				DD58C44608F334B500C1DF66,
+				DD58C44708F334B500C1DF66,
+				DD58C44808F334B500C1DF66,
+				DD58C44908F334B500C1DF66,
+				DD58C44A08F334B500C1DF66,
+				DD58C44B08F334B500C1DF66,
+				DD58C44C08F334B500C1DF66,
+				DD58C44D08F334B500C1DF66,
+				DD58C44E08F334B500C1DF66,
+				DD58C44F08F334B500C1DF66,
+				DD58C45008F334B500C1DF66,
+				DD58C45108F334B500C1DF66,
+				DD58C45E08F334EA00C1DF66,
+				DD58C45F08F334EA00C1DF66,
+				DD58C46008F334EA00C1DF66,
 				DD81C41707C5D13E0098A04D,
 				DD81C45B07C5D2880098A04D,
+				DD58C46108F334EA00C1DF66,
+				DD58C46208F334EA00C1DF66,
 				DD81C42707C5D1D70098A04D,
 				DD81C46607C5D29F0098A04D,
 				DD81C42607C5D1D70098A04D,
@@ -3543,7 +3714,14 @@
 				DD81C47107C5D2BF0098A04D,
 				DD81C42107C5D1D70098A04D,
 				DD81C47007C5D2BF0098A04D,
-				DD472CD008ECEFD80007B397,
+				DD58C46308F334EA00C1DF66,
+				DD58C46408F334EA00C1DF66,
+				DD58C46508F334EA00C1DF66,
+				DD58C46608F334EA00C1DF66,
+				DD58C46708F334EA00C1DF66,
+				DD58C46808F334EA00C1DF66,
+				DD58C46908F334EA00C1DF66,
+				DD58C46A08F334EA00C1DF66,
 				DD81C43C07C5D2240098A04D,
 			);
 			isa = PBXGroup;
@@ -4746,6 +4924,31 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
+				DD58C42708F3343F00C1DF66,
+				DD58C42908F3343F00C1DF66,
+				DD58C42B08F3343F00C1DF66,
+				DD58C42D08F3343F00C1DF66,
+				DD58C42F08F3343F00C1DF66,
+				DD58C43108F3343F00C1DF66,
+				DD58C43308F3343F00C1DF66,
+				DD58C43E08F3347D00C1DF66,
+				DD58C43F08F3347D00C1DF66,
+				DD58C44108F3347D00C1DF66,
+				DD58C44308F3347D00C1DF66,
+				DD58C44508F3347D00C1DF66,
+				DD58C45308F334B500C1DF66,
+				DD58C45508F334B500C1DF66,
+				DD58C45708F334B500C1DF66,
+				DD58C45908F334B500C1DF66,
+				DD58C45B08F334B500C1DF66,
+				DD58C45D08F334B500C1DF66,
+				DD58C46C08F334EA00C1DF66,
+				DD58C46D08F334EA00C1DF66,
+				DD58C46F08F334EA00C1DF66,
+				DD58C47108F334EA00C1DF66,
+				DD58C47308F334EA00C1DF66,
+				DD58C47508F334EA00C1DF66,
+				DD58C47708F334EA00C1DF66,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
