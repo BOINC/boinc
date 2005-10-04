@@ -210,28 +210,38 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     return p_prospect;
 }
 
-// Write a scheduler request to a disk file
-// (later sent to the scheduling server)
+// Write a scheduler request to a disk file,
+// to be sent to a scheduling server
 //
 int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     char buf[1024];
-
-    get_sched_request_filename(*p, buf);
-    FILE* f = boinc_fopen(buf, "wb");
     MIOFILE mf;
     unsigned int i;
     RESULT* rp;
     int retval;
-#if 0
-    double free, possible;
-#endif
+    double disk_total, disk_project;
 
+    get_sched_request_filename(*p, buf);
+    FILE* f = boinc_fopen(buf, "wb");
+
+    double trs = total_resource_share();
+    double rrs = runnable_resource_share();
     double prrs = potentially_runnable_resource_share();
-    double resource_share_fraction;
-    if (prrs) {
-        resource_share_fraction = p->resource_share / prrs;
+    double resource_share_fraction, rrs_fraction, prrs_fraction;
+    if (trs) {
+        resource_share_fraction = p->resource_share / trs;
     } else {
-        resource_share_fraction = 1;    // TODO - fix
+        resource_share_fraction = 1;
+    }
+    if (rrs) {
+        rrs_fraction = p->resource_share / rrs;
+    } else {
+        rrs_fraction = 1;
+    }
+    if (prrs) {
+        prrs_fraction = p->resource_share / prrs;
+    } else {
+        prrs_fraction = 1;
     }
 
     if (!f) return ERR_FOPEN;
@@ -247,6 +257,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <core_client_release>%d</core_client_release>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
+        "    <rrs_fraction>%f</rrs_fraction>\n"
+        "    <prrs_fraction>%f</prrs_fraction>\n"
         "    <estimated_delay>%f</estimated_delay>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n",
         p->authenticator,
@@ -258,6 +270,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         core_client_release,
         p->work_request,
         resource_share_fraction,
+        rrs_fraction,
+        prrs_fraction,
         time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
         p->duration_correction_factor
     );
@@ -270,14 +284,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         }
         fprintf(f, "    </app_versions>\n");
     }
-#if 0
-    anything_free(free);
-    fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
-    total_potential_offender(p, possible);
-    fprintf(f, "    <potentially_free_offender>%f</potentially_free_offender>\n", possible);
-    total_potential_self(p, possible);
-    fprintf(f, "    <potentially_free_self>%f</potentially_free_self>\n", possible);
-#endif
     if (strlen(p->code_sign_key)) {
         fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
@@ -325,8 +331,27 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     if (retval) return retval;
     retval = net_stats.write(mf);
     if (retval) return retval;
+
+    // update disk usage, and write host info
+    //
+    get_filesystem_info(host_info.d_total, host_info.d_free);
     retval = host_info.write(mf);
     if (retval) return retval;
+
+    // get and write disk usage
+    //
+    total_disk_usage(disk_total);
+    project_disk_usage(p, disk_project);
+    fprintf(f,
+        "    <disk_usage>\n"
+        "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
+        "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
+        "    </disk_usage>\n",
+        disk_total, disk_project
+    );
+
+    // report results
+    //
     p->nresults_returned = 0;
     for (i=0; i<results.size(); i++) {
         rp = results[i];

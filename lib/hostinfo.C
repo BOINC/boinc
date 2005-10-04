@@ -41,10 +41,8 @@ HOST_INFO::HOST_INFO() {
     clear_host_info();
 }
 
-// Reset the host info struct to default values
-//
 void HOST_INFO::clear_host_info() {
-    timezone = 0;        // local STANDARD time - UTC time (in seconds) 
+    timezone = 0;
     strcpy(domain_name, "");
     strcpy(serialnum, "");
     strcpy(ip_addr, "");
@@ -56,9 +54,6 @@ void HOST_INFO::clear_host_info() {
     p_fpops = 0;
     p_iops = 0;
     p_membw = 0;
-    p_fpop_err = 0;
-    p_iop_err = 0;
-    p_membw_err = 0;
     p_calculated = 0;
 
     strcpy(os_name, "");
@@ -72,8 +67,6 @@ void HOST_INFO::clear_host_info() {
     d_free = 0;
 }
 
-// Parse the host information, usually from the client state XML file
-//
 int HOST_INFO::parse(MIOFILE& in) {
     char buf[256];
 
@@ -101,9 +94,6 @@ int HOST_INFO::parse(MIOFILE& in) {
             if (p_membw < 0) p_membw = -p_membw;
             continue;
         }
-        else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
-        else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
-        else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
@@ -131,9 +121,6 @@ int HOST_INFO::write(MIOFILE& out) {
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
-        "    <p_fpop_err>%d</p_fpop_err>\n"
-        "    <p_iop_err>%d</p_iop_err>\n"
-        "    <p_membw_err>%d</p_membw_err>\n"
         "    <p_calculated>%f</p_calculated>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
@@ -153,9 +140,6 @@ int HOST_INFO::write(MIOFILE& out) {
         p_fpops,
         p_iops,
         p_membw,
-        p_fpop_err,
-        p_iop_err,
-        p_membw_err,
         p_calculated,
         os_name,
         os_version,
@@ -182,9 +166,6 @@ int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
-        else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
-        else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
-        else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
     }
@@ -197,18 +178,12 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
-        "    <p_fpop_err>%d</p_fpop_err>\n"
-        "    <p_iop_err>%d</p_iop_err>\n"
-        "    <p_membw_err>%d</p_membw_err>\n"
         "    <p_calculated>%f</p_calculated>\n"
         "    <m_cache>%f</m_cache>\n"
         "</cpu_benchmarks>\n",
         p_fpops,
         p_iops,
         p_membw,
-        p_fpop_err,
-        p_iop_err,
-        p_membw_err,
         p_calculated,
         m_cache
     );

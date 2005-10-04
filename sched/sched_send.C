@@ -107,10 +107,12 @@ int get_app_version(
     return 0;
 }
 
-// compute the max additional disk usage we can impose on the host
+// Compute the max additional disk usage we can impose on the host.
+// Depending on the client version, it can either send us
+// - d_total and d_free (pre 4 oct 2005)
+// - the above plus d_boinc_used_total and d_boinc_used_project
 //
 double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
-#if 1
     HOST host = req.host;
     GLOBAL_PREFS prefs = req.global_prefs;
     double x1, x2, x3, x;
@@ -121,29 +123,43 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
     if (prefs.disk_max_used_pct == 0) prefs.disk_max_used_pct = 10;
     // min_free_gb can be zero
 
-    // default values for BOINC disk usage (project and total) is zero
-    //
-
     // no defaults for total/free disk space (host.d_total, d_free)
-    // if they're zero, project will get no work.
+    // if they're zero, client will get no work.
     //
 
-    x1 = prefs.disk_max_used_gb*1e9 - req.total_disk_usage;
-    x2 = host.d_total*prefs.disk_max_used_pct/100.;
-    x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
+    if (host.d_boinc_used_total) {
+        // The post 4 oct 2005 case.
+        // Compute the max allowable additional disk usage based on prefs
+        //
+        x1 = prefs.disk_max_used_gb*1e9 - host.d_boinc_used_total;
+        x2 = host.d_total*prefs.disk_max_used_pct/100.
+            - host.d_boinc_used_total;
+        x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
+        x = min(x1, min(x2, x3));
 
-    x = min(x1, min(x2, x3));
-
-    // keep track of which bound is the most stringent
-    //
-    if (x==x1) {
-        reply.disk_limits.max_used = x;
-    } else if (x==x2) {
-        reply.disk_limits.max_frac = x;
+        // see which bound is the most stringent
+        //
+        if (x==x1) {
+            reply.disk_limits.max_used = x;
+        } else if (x==x2) {
+            reply.disk_limits.max_frac = x;
+        } else {
+            reply.disk_limits.min_free = x;
+        }
     } else {
+        // here we don't know how much space BOINC is using.
+        // so we're kinda screwed.
+        // All we can do is assume that BOINC is using zero space.
+        // We can't honor the max_used for max_used_pct preferences.
+        // We can only honor the min_free pref.
+        //
+        x = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
         reply.disk_limits.min_free = x;
+        x1 = x2 = x3 = 0;
     }
 
+
+    //if (true) {
     if (x < 0) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
@@ -153,8 +169,8 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
         );
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
-            "req.total_disk_usage %f host.d_total %f host.d_free %f\n",
-            req.total_disk_usage, host.d_total, host.d_free
+            "host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
+            host.d_total, host.d_free, host.d_boinc_used_total
         );
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
@@ -163,24 +179,6 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
         );
     }
     return x;
-#else
-    double x1, x2, x3;
-
-    HOST host = req.host;
-
-    x1 = req.project_disk_free;
-    x2 = req.potentially_free_offender;
-    x3 = req.potentially_free_self;
-
-    if (x1 < 0) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL,
-            "req.project_disk_free_gb %f\n",
-            x1
-        );
-    }
-    return max(max(x1,x2), x3);
-#endif
 }
 
 // if a host has active_frac < 0.1, assume 0.1 so we don't deprive it of work.

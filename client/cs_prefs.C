@@ -60,6 +60,7 @@ void CLIENT_STATE::install_global_prefs() {
     set_ncpus();
 }
 
+#if 0
 // Return the maximum allowed disk usage as determined by user preferences.
 // There are three different settings in the prefs;
 // return the least of the three.
@@ -75,6 +76,7 @@ int CLIENT_STATE::allowed_disk_usage(double& size) {
     if (size < 0) size = 0;
     return 0;
 }
+#endif
 
 int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
     char buf[256];
@@ -99,6 +101,7 @@ int CLIENT_STATE::total_disk_usage(double& size) {
     return dir_size(".", size);
 }
 
+#if 0
 int CLIENT_STATE::allowed_project_disk_usage(double& size) {
     double other_disk_used;
     double total_disk_available;
@@ -112,7 +115,7 @@ int CLIENT_STATE::allowed_project_disk_usage(double& size) {
     size = total_disk_available - other_disk_used;
     return 0;
 }
-
+#endif
 
 // returns true if start_hour == end_hour or start_hour <= now < end_hour
 //

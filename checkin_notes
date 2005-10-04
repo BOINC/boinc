@@ -12665,3 +12665,69 @@ Bruce 4 October 2005
     sched/
         file_upload_handler.C
 
+David  4 October 2005
+    - Fix problems with disk space management code, which can cause
+        - violation of user disk usage prefs
+        - server sends clients lots of results
+            even though client has zero free disk space,
+            and results will immediately error out.
+        OLD:
+            client: scheduler requests include disk space info
+                (d_total and d_free),
+                but they're the values at client startup,
+                which may be way out of date!
+                (e.g. free space may now be zero)
+            server:
+                Expected <total_disk_usage> in request message.
+                This was removed a long time ago.
+                The formula for computing max additional disk usage was wrong.
+        NEW:
+            client: scheduler requests includes
+                - up-to-date values for d_total and d_free
+                - up-to-date values for BOINC and project disk usage:
+                    <d_boinc_used_total>, <d_boinc_used_project>
+            server:
+                Parse new scheduler request fields.
+                If new fields are present,
+                calculate max additional disk usage based on them.
+    - Change to scheduler RPC requests:
+        OLD:
+            <resource_share_fraction> is sent, but it's actually
+            potentially runnable resource share fraction.
+            (Didn't matter; it's not currently used by server)
+        NEW:
+            <resource_share_fraction> (total resource share fraction)
+            <rrs_fraction> (runnable resource share fraction)
+            <prrs_fraction> (potentially runnable resource share fraction)
+            ... are all sent.
+            Future versions of the server may use them for
+            disk and/or CPU allocation>
+    - Commented out or deleted some unused code, e.g. all references to
+        p_fpop_err, p_iop_err, p_membw_err
+
+    NOTES:
+        1) If old client talks to new server,
+            only the "min free" preference will be enforced.
+        2) If old or new client talks to old server,
+            no preferences are reliably enforced
+        3) If new client talks to new server,
+            all preferences are enforced,
+            BUT project resource shares are not enforced.
+            E.g. one project might hog all the disk space
+            even though it's resource share is small and
+            other projects need space.
+            Need to figure out how to address this.
+
+    client/
+        client_state.h
+        cs_prefs.C
+        cs_scheduler.C
+        hostinfo_unix.C
+    db/
+        boinc_db.h
+    lib/
+        gui_rpc_client_ops.C
+        hostinfo.C,h
+    sched/
+        sched_send.C
+        server_types.C,h

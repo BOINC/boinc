@@ -400,17 +400,16 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a sysconf() define to obtain number of processors
 #endif
 
-/*    There can be a variety of methods to obtain amount of
- *        usable memory.  You will have to check your sysconf()
- *        defines, probably in unistd.h
- *        - 2002-11-03 hiram@users.sourceforge.net
- */
+// There can be a variety of methods to obtain amount of usable memory.
+// You will have to check your sysconf() defines, probably in unistd.h
+// - 2002-11-03 hiram@users.sourceforge.net
+//
 #if defined(_SC_USEABLE_MEMORY)
     m_nbytes = (double)sysconf(_SC_PAGESIZE)
-        * (double)sysconf(_SC_USEABLE_MEMORY);  /*      UnixWare        */
+        * (double)sysconf(_SC_USEABLE_MEMORY);  // UnixWare
 #elif defined(_SC_PHYS_PAGES)
-    m_nbytes = (double)sysconf(_SC_PAGESIZE)
-        * (double)sysconf(_SC_PHYS_PAGES);      /*      Linux   */
+    m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
+    // Linux
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;

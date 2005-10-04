@@ -218,9 +218,6 @@ private:
     bool garbage_collect();
     bool garbage_collect_always();
     bool update_results();
-    double total_resource_share();
-    double runnable_resource_share();
-    double potentially_runnable_resource_share();
 
 // --------------- cs_account.C:
 public:
@@ -236,6 +233,9 @@ private:
 private:
     void adjust_debts();
     bool must_schedule_cpus;
+    double total_resource_share();
+    double runnable_resource_share();
+    double potentially_runnable_resource_share();
 public:
     void request_schedule_cpus(const char*);
         // Reschedule CPUs ASAP.  Called when:

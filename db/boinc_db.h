@@ -229,18 +229,29 @@ struct HOST {
     double m_cache;         // Size of CPU cache in bytes (L1 or L2?)
     double m_swap;          // Size of swap space in bytes
 
-    double d_total;         // Total disk space on host
-                            // - may include all volumes,
-                            // even if BOINC can use only one of them
-                            // - may include network (shared) storage
-    double d_free;          // Of the total disk space, how much is free
+    double d_total;         // Total disk space on volume containing
+                            // the BOINC client directory.
+    double d_free;          // how much is free on that volume
+
+    // the following 2 items are reported in scheduler RPCs
+    // from clients w/ source Oct 4 2005 and later.
+    // NOTE: these items plus d_total and d_free are sufficient
+    // to avoid exceeding BOINC's limit on total disk space.
+    // But they are NOT sufficient to do resource-share-based
+    // disk space allocation.
+    // This needs to thought about.
+    //
     double d_boinc_used_total;
-                            // amount being used for all projects
+                            // disk space being used in BOINC client dir,
+                            // including all projects and BOINC itself
     double d_boinc_used_project;
                             // amount being used for this project
-    double d_boinc_max;     // max amount that BOINC is allowed to use
-                            // This reflects both user preferences
-                            // and the fact that BOINC can use only 1 volume
+
+    // The following item is not used.
+    // It's redundant (server can compute based on other params and prefs)
+    //
+    double d_boinc_max;     // max disk space that BOINC is allowed to use,
+                            // reflecting user preferences
     double n_bwup;          // Average upload bandwidth, bytes/sec
     double n_bwdown;        // Average download bandwidth, bytes/sec
                             // The above are derived from actual
@@ -261,6 +272,7 @@ struct HOST {
     int parse(FILE*);
     int parse_time_stats(FILE*);
     int parse_net_stats(FILE*);
+    int parse_disk_usage(FILE*);
     void fix_nans();
     void clear();
 };

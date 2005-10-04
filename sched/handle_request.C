@@ -341,6 +341,8 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.m_swap = sreq.host.m_swap;
     host.d_total = sreq.host.d_total;
     host.d_free = sreq.host.d_free;
+    host.d_boinc_used_total = sreq.host.d_boinc_used_total;
+    host.d_boinc_used_project = sreq.host.d_boinc_used_project;
     host.n_bwup = sreq.host.n_bwup;
     host.n_bwdown = sreq.host.n_bwdown;
     if (strlen(sreq.host.host_cpid)) {

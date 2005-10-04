@@ -109,6 +109,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     rpc_seqno = 0;
     work_req_seconds = 0;
     resource_share_fraction = 1.0;
+    rrs_fraction = 1.0;
+    prrs_fraction = 1.0;
     estimated_delay = 0;
     strcpy(global_prefs_xml, "");
     strcpy(code_sign_key, "");
@@ -143,21 +145,11 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
         else if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
+        else if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
+        else if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
         else if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
 
-// ROMW: Added these back in since we have 3.x clients who still want
-//       want to send us the older style for determining disk usage.
-// TODO: Remove the two lines below when the 4.x way of doing things
-//       is completely implemented.
-        else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
-        else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
-
-#if 0
-        else if (parse_double(buf, "<project_disk_free>", project_disk_free)) continue;
-        else if (parse_double(buf, "<potentially_free_offender>", potentially_free_offender)) continue;
-        else if (parse_double(buf, "<potentially_free_self>", potentially_free_self)) continue;
-#endif
         else if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
             while (fgets(buf, 256, fin)) {
@@ -177,6 +169,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         else if (match_tag(buf, "<net_stats>")) {
             host.parse_net_stats(fin);
+            continue;
+        }
+        else if (match_tag(buf, "<disk_usage>")) {
+            host.parse_disk_usage(fin);
             continue;
         }
         else if (match_tag(buf, "<result>")) {
@@ -254,10 +250,10 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         "  <rpc_seqno>%d</rpc_seqno>\n"
         "  <work_req_seconds>%.15f</work_req_seconds>\n"
         "  <resource_share_fraction>%.15f</resource_share_fraction>\n"
+        "  <rrs_fraction>%.15f</rrs_fraction>\n"
+        "  <prrs_fraction>%.15f</prrs_fraction>\n"
         "  <estimated_delay>%.15f</estimated_delay>\n"
         "  <code_sign_key>%s</code_sign_key>\n"
-        "  <total_disk_usage>%.15f</total_disk_usage>\n"
-        "  <project_disk_usage>%.15f</project_disk_usage>\n"
         "  <anonymous_platform>%s</anonymous_platform>\n",
         authenticator,
         platform_name,
@@ -269,10 +265,10 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         rpc_seqno,
         work_req_seconds,
         resource_share_fraction,
+        rrs_fraction,
+        prrs_fraction,
         estimated_delay,
         code_sign_key,
-        total_disk_usage,
-        project_disk_usage,
           anonymous_platform?"true":"false"
     );
 
@@ -720,8 +716,6 @@ int RESULT::parse_from_client(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-// TODO: put the benchmark errors into the DB
-//
 int HOST::parse(FILE* fin) {
     char buf[256];
 
@@ -751,12 +745,13 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
-        // following four lines can be eliminated with a later version of
-        // the core client.
-        else if (parse_int(buf, "<p_fpop_err>", trash_int)) continue; 	 
-        else if (parse_int(buf, "<p_iop_err>", trash_int)) continue; 	 
-        else if (parse_int(buf, "<p_membw_err>", trash_int)) continue; 	 
         else if (parse_double(buf, "<p_calculated>", trash_double)) continue;
+
+        // parse deprecated fields to avoid error messages
+        else if (match_tag(buf, "<p_fpop_err>")) continue;
+        else if (match_tag(buf, "<p_iop_err>")) continue;
+        else if (match_tag(buf, "<p_membw_err>")) continue;
+
         else {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse(): unrecognized: %s\n", buf
@@ -798,6 +793,24 @@ int HOST::parse_net_stats(FILE* fin) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse_net_stats(): unrecognized: %s\n",
+                buf
+            );
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int HOST::parse_disk_usage(FILE* fin) {
+    char buf[256];
+
+    while (fgets(buf, 256, fin)) {
+        if (match_tag(buf, "</disk_usage>")) return 0;
+        else if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
+        else if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;
+        else {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_NORMAL,
+                "HOST::parse_disk_usage(): unrecognized: %s\n",
                 buf
             );
         }

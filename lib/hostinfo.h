@@ -20,11 +20,17 @@
 #ifndef _HOSTINFO_
 #define _HOSTINFO_
 
-#include "miofile.h"
-
+// Description of a host's hardware and software.
+// This is used a few places:
+// - it's part of the client's state file, client_state.xml
+// - it's passed in the reply to the get_host_info GUI RPC
+// - it's included in scheduler RPC requests
+//
 // Other host-specific info is kept in
 // TIME_STATS (on/connected/active fractions)
 // NET_STATS (average network bandwidths)
+
+#include "miofile.h"
 
 class HOST_INFO {
 public:
@@ -40,10 +46,7 @@ public:
     double p_fpops;
     double p_iops;
     double p_membw;
-    int p_fpop_err;
-    int p_iop_err;
-    int p_membw_err;
-    double p_calculated; //needs to be initialized to zero
+    double p_calculated;    // when benchmarks were last run, or zero
 
     char os_name[256];
     char os_version[256];

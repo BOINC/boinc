@@ -116,25 +116,17 @@ struct SCHEDULER_REQUEST {
     double work_req_seconds;
 		// in "normalized CPU seconds" (see work_req.php)
     double resource_share_fraction;
+        // this project's fraction of total resource share
+    double rrs_fraction;
+        // ... of runnable resource share
+    double prrs_fraction;
+        // ... of potentially runnable resource share
     double estimated_delay;
         // how many wall-clock seconds will elapse before
         // host will begin any new work for this project
     double duration_correction_factor;
     char global_prefs_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
-
-// ROMW: Added these back in since we have 3.x clients who still want
-//       want to send us the older style for determining disk usage.
-// TODO: Remove the two lines below when the 4.x way of doing things
-//       is completely implemented.
-    double total_disk_usage;
-    double project_disk_usage;
-
-#if 0
-    double project_disk_free;
-    double potentially_free_offender;
-    double potentially_free_self;
-#endif
 
     bool anonymous_platform;
     std::vector<CLIENT_APP_VERSION> client_app_versions;
