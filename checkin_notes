@@ -12654,3 +12654,14 @@ Rom    3 Oct 2005
     lib/
         gui_rpc_client.C
         gui_rpc_client_ops.C
+
+Bruce 4 October 2005
+
+    - file_upload_handler: fix broken print statement format
+      and don't generate an error when parsing client version
+      release.  Karl, I think the broken print statement
+      was introduced between rev 1.41 and rev 1.42.
+
+    sched/
+        file_upload_handler.C
+

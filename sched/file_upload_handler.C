@@ -423,12 +423,12 @@ int handle_get_file_size(char* file_name) {
 int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
     char file_name[256];
-    int major, minor, retval=0;
+    int major, minor, release, retval=0;
     bool got_version = false;
     bool did_something = false;
 
     while (fgets(buf, 256, in)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, buf, "handle_request: ");
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "handle_request: %s", buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
 #if 0
     // for now, allow old versions
@@ -443,6 +443,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 #endif
             got_version = true;
         } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
+            continue;
+        } else if (parse_int(buf, "<core_client_release>", release)) {
             continue;
         } else if (match_tag(buf, "<file_upload>")) {
             if (!got_version) {
