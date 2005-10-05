@@ -12769,3 +12769,7 @@ David  5 Oct 2005
         client_state.C,h
         cs_scheduler.C
         net_xfer.C
+        
+Rom    5 Oct 2005 (staging)
+    - Tag for 5.1.7 release, all platforms
+      boinc_core_release_5_1_7
