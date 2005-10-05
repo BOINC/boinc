@@ -12773,3 +12773,15 @@ David  5 Oct 2005
 Rom    5 Oct 2005 (staging)
     - Tag for 5.1.7 release, all platforms
       boinc_core_release_5_1_7
+
+David  5 Oct 2005
+    - before any _exit() (API, app start, etc.) do a fflush(NULL)
+        (from Bruce Allen)
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+        cs_benchmark.C
+    clientgui/mac/
+        mac_saver_module.cpp
