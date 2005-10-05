@@ -119,6 +119,7 @@ CLIENT_STATE::CLIENT_STATE() {
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
     want_network_flag = false;
+    have_sporadic_connection = false;
     no_gui_rpc = false;
     have_tentative_project = false;
 }
@@ -1370,17 +1371,37 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     return 0;
 }
 
+// Return true if the core client wants a network connection.
+// Don't return false if we've actually been using the network
+// in the last 10 seconds (so that polling mechanisms
+// have a change to trigger)
+//
 bool CLIENT_STATE::want_network() {
-    if (http_ops->nops()) return true;
-    if (network_suspended) return false;
-    if (want_network_flag) return true;
-    if (active_tasks.want_network()) return true;
-    return false;
+    static double last_true_return=0;
+    double now = dtime();
+
+    if (http_ops->nops()) goto return_true;
+    if (network_suspended) goto return_false;
+    if (want_network_flag) goto return_true;
+    if (active_tasks.want_network()) goto return_true;
+return_false:
+    if ((now - last_true_return) > 10) {
+        have_sporadic_connection = false;
+        return false;
+    }
+    return true;
+return_true:
+    last_true_return = now;
+    return true;
 }
 
+// There's now a network connection, after some period of disconnection.
+// Do all communication that we can.
+//
 void CLIENT_STATE::network_available() {
     unsigned int i;
 
+    have_sporadic_connection = true;
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];
         pfx->next_request_time = 0;
@@ -1389,6 +1410,9 @@ void CLIENT_STATE::network_available() {
         PROJECT* p = projects[i];
         p->min_rpc_time = 0;
     }
+
+    // tell active tasks that network is available (for Folding@home)
+    //
     active_tasks.network_available();
 }
 

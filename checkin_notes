@@ -12752,3 +12752,20 @@ Rom     5 Oct 2005
         MainFrame.cpp, .h
         ViewProjects.cpp, .h
         
+David  5 Oct 2005
+    - In the confirm-before-connect modem case,
+        do as much communication as possible.
+        E.g. report all ready-to-report results.
+
+        Implementation:
+        Add new variable CLIENT_STATE::have_sporadic_connection.
+            Set to true on network_available RPC.
+            Set to false when want_network returns false.
+            Change CLIENT_STATE::want_network() so it waits 10 seconds
+            after core client stops using network before returning false.
+        If have_sporadic_connection is true, report results immediately.
+
+    client/
+        client_state.C,h
+        cs_scheduler.C
+        net_xfer.C

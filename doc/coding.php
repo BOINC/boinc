@@ -5,30 +5,30 @@ echo "
 <h2> All languages</h2>
 <h3> Code factoring</h3>
 <ul>
-    <li> if code is repeated, factor it out and make it into a function
-    <li> if a function becomes longer than 100 lines or so, split it up
+    <li> If code is repeated, factor it out and make it into a function
+    <li> If a function becomes longer than 100 lines or so, split it up
+    <li> If a file is becoming 'landfill', split it up.
     <li> C++ .h files often contain both interface and implementation.
         Clearly divide these.
 </ul>
 
-<h3> code documentation</h3>
+<h3> Code documentation</h3>
 <ul>
-    <li> every .C file has a comment at the top saying what's
+    <li> .C files have a comment at the top saying what's
         in the file (and perhaps what isn't).
-        If a file is becoming 'landfill', split it up.
-    <li> every function is preceded by a comment saying what it does
-    <li> every struct/class is preceded by a comment saying what it is
+    <li> Functions are preceded by a comment saying what they do.
+    <li> Structs and classes are preceded by a comment saying what they are.
 </ul>
 
 <h3> Naming</h3>
 <ul>
     <li> Names should be descriptive without being verbose
         (local variables names may be short)
-    <li> Class names, #defined symbols, and type names are all upper case,
+    <li> Class and type names, and #defined symbols, are all upper case,
         with underscores to separate words.
     <li> Variable and function names are all lower case,
         with underscores to separate words.
-    <li> no mixed case names
+    <li> No mixed case names
 </ul>
 
 <h3> Indentation</h3>
@@ -131,8 +131,10 @@ echo "
 <ul>
     <li> (almost) all functions should return an integer error code.
         Nonzero means error.
-    <li> All calls to functions that return an error code should
-        check the code.  Generally they should return on error, e.g.:
+        See lib/errornumbers.h for a list of error codes.
+    <li> Calls to functions that return an error code should
+        check the code.
+        Generally they should return on error, e.g.:
     <pre>
             retval = blah();
             if (retval) return retval;

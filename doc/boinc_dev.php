@@ -6,8 +6,8 @@ echo "
 
 <p>
 <ul>
-<li> <a href=contact.php>Project personnel and structure</a>
-<li> <a href=dev_flow.php>BOINC Development information flow</a>.
+<li> <a href=contact.php>Personnel and contributors</a>
+<li> <a href=dev_flow.php>Development information flow</a>
 <li> The <a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>.
 <li> <a href=email_lists.php>boinc_dev</a>,
 an email list for BOINC developers.

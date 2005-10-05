@@ -96,6 +96,10 @@ int NET_XFER::open_server() {
 
     retval = resolve_hostname(hostname, ipaddr, msg);
     if (retval) {
+        // If we can't resolve the hostname it generally means that
+        // there's no physical network connection.
+        // Make a note of this.
+        //
         gstate.want_network_flag = true;
         msg_printf(0, MSG_ERROR, "%s\n", msg);
         return retval;

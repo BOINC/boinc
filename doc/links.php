@@ -22,14 +22,29 @@ function site($url, $name) {
 page_head("Web sites for BOINC participants");
 
 echo "
-<h2>Project status</h2>
-<a href=http://boincprojectstatus.ath.cx/boinc/>BOINC project status</a>:
-shows whether the servers of various projects are up or down.
-<h2>Statistics</h2>
+<table cellpadding=8><tr><td valign=top>
+<h2>Wikis</h2>
+User-editable
+sites with information and documentation about BOINC.
+<ul>
+<li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
+<li> <a href=http://www.seti-argentina.com.ar/instrucciones-boinc-manager>BOINC Argentina</a> (in Spanish)
+<li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
+<li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
+</ul>
+
+<h2>Project status sites</h2>
+Show if the servers of various projects are up or down.
+<ul>
+<li> <a href=http://boincprojectstatus.ath.cx/boinc/index.html>BOINCProjectStatus.ath.cx/index.html</a>:
+</ul>
+</td><td valign=top>
+<h2>Credit statistics</h2>
 ";
 site_list($stats_sites);
 echo "
-<h2>Informational sites</h2>
+</td></tr></table>
+<h2>Information, message boards, and teams</h2>
 ";
 list_start();
 echo "

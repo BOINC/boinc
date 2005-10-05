@@ -7,7 +7,7 @@ echo "
 BOINC applications, and the BOINC core client, are native-mode programs, so
 different versions are required for each platform (a 'platform' is the
 combination of an operating system and a processor type: e.g.,
-Linux/IntelX86).
+Linux and Intel/x86).
 
 <p>
 BOINC-based projects compile program versions for common platforms

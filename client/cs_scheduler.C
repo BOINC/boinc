@@ -428,7 +428,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 //    - the result is ready_to_report (compute done; files uploaded)
 //    - we're either within a day of the report deadline,
 //      or at least work_buf_min_days time has elapsed since
-//      result was completed.
+//      result was completed,
+//      or we have a sporadic connection
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
@@ -444,6 +445,9 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (p->suspended_via_gui) continue;
 
         if (!r->ready_to_report) continue;
+        if (have_sporadic_connection) {
+            return p;
+        }
         if (gstate.now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
             return p;
         }

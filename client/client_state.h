@@ -204,6 +204,7 @@ public:
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
     bool want_network_flag;
+    bool have_sporadic_connection;
     bool want_network();
     void network_available();
     bool no_gui_rpc;

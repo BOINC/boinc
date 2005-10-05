@@ -18,7 +18,8 @@ echo "
 <br>
 <h1>Berkeley Open Infrastructure for Network Computing</h1>
 An open-source software platform for computing using volunteered
-resources
+resources.
+    <a href=intro.php>... more</a>
 <br>
 </center>
 
@@ -33,7 +34,8 @@ resources
   </td></tr>
   <tr><td>
     <p>
-    BOINC lets you donate computing power to scientific research projects:
+    BOINC lets you donate computing power
+    to scientific research projects such as:
     <ul>
     <li>
     <a href=http://climateprediction.net>Climateprediction.net</a>:
@@ -49,7 +51,7 @@ resources
     investigate protein-related diseases
     <li>
     <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>:
-    help researchers develop cures for human diseases.
+    help researchers develop cures for human diseases
     <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
     Look for radio evidence of extraterrestrial life
     <li><a href=http://www.cellcomputing.net/>Cell Computing</a>
@@ -62,21 +64,13 @@ resources
     <br>
     2) <a href=download.php>Download</a> and run BOINC software.
     <p>
-    You can participate in any or all projects,
+    You can participate in more than one project,
     and you control the fraction of your computing power
     that goes to each project.
     If you participate in several projects,
     your computer will be kept busy even when one project has no work.
     <p>
-    There are several Wikis
-    with information and documentation about BOINC:
-        <ul>
-        <li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
-        <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
-        <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
-        </ul>
-    <p>
-    ... and many other <a href=links.php>web sites for BOINC participants</a>.
+    <a href=links.php>Web sites for BOINC participants</a>.
     <p>
     <a href=participate.php>... more</a>
 
@@ -88,28 +82,34 @@ resources
     may be able to use BOINC.
     A BOINC project requires just a single Linux server,
     and can provide computing power equivalent
-    to a cluster with tens of thousands of nodes.
-    <p>
-      <a href=create_project.php>
-      ... more
-    </a>
+    to a cluster with tens of thousands of CPUs.
+      <a href=create_project.php>... more</a>
     <br><br>
+  </td></tr>
+  <tr><td bgcolor=$light_blue><h2>Software</h2></td></tr>
+  <tr><td>
+      <ul>
+      <li> <a href=source_code.php>Getting source code</>
+      <li> <a href=boinc_dev.php>Software development and testing</a>
+      <li> <a href=translation.php>Translation</a> of web and GUI text
+      <li> Write <a href=download_network.php>'add-on' software</a>:
+        <ul>
+          <li> <a href=gui_rpc.php>Client GUIs</a>
+          <li> <a href=db_dump.php>Credit statistics web sites</a>
+          <li> <a href=acct_mgt.php>Account managers</a>
+          <li> <a href=server_status.php>Server status web sites</a>
+          <li> <a href=web_rpc.php>Web RPCs</a> for info about users and hosts
+        </ul>
+      </ul>
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Other info</h2></td></tr>
   <tr><td>
     <ul>
-    <li> <a href=contact.php>Personnel and contact info</a>
+    <li> <a href=contact.php>Personnel and contributors</a>
     <li> BOINC <a href=email_lists.php>email lists</a>
     <li> BOINC <a href=dev/>message boards</a>
-    <li> An <a href=intro.php>overview of BOINC</a>
     <li> <a href=papers.php>Papers about BOINC</a>
-    <li> How to get involved in
-      <ul>
-      <li> <a href=boinc_dev.php>Software development and testing</a>
-      <li> <a href=translation.php>Translation</a> of web and GUI text.
-      </ul>
-    <li>
-    <a href=logo.php>Logos and graphics</a>
+    <li> <a href=logo.php>Logos and graphics</a>
     </ul>
     <br>
   </td></tr>
