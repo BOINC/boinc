@@ -12785,3 +12785,15 @@ David  5 Oct 2005
         cs_benchmark.C
     clientgui/mac/
         mac_saver_module.cpp
+
+Rom    5 Oct 2005
+    - Bug Fix: The manager should honor the account creation disabled flag
+        correctly.  I don't understand why I changed it.
+    - Bug Fix: Network preferences were dorked because we were setting the
+        wrong variable.
+    
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountInfoPage.cpp
+        MainFrame.cpp
