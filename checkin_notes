@@ -12742,3 +12742,13 @@ Charlie 4 Oct 2005
             project.pbxproj
     mac_installer/
         release_boinc.sh
+
+Rom     5 Oct 2005
+    - Remove the 'update all' button from the projects tab and add the
+        'retry communications' menu item off the commands menu.
+        
+    clientgui/
+        Events.h
+        MainFrame.cpp, .h
+        ViewProjects.cpp, .h
+        

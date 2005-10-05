@@ -65,6 +65,8 @@ public:
     void OnSelectComputer( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
+    void OnCommandsRetryCommunications( wxCommandEvent& event );
+
     void OnProjectsAttachToAccountManager( wxCommandEvent& event );
     void OnProjectsAttachToProject( wxCommandEvent& event );
 

@@ -149,13 +149,14 @@ DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
-    EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
-    EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CMainFrame::OnNetworkSelection)
     EVT_MENU(ID_FILERUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CMainFrame::OnSelectComputer)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
+    EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
+    EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CMainFrame::OnNetworkSelection)
     EVT_MENU(ID_PROJECTSATTACHACCOUNTMANAGER, CMainFrame::OnProjectsAttachToAccountManager)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CMainFrame::OnProjectsAttachToProject)
+    EVT_MENU(ID_COMMADSRETRYCOMMUNICATIONS, CMainFrame::OnCommandsRetryCommunications)
     EVT_MENU(ID_OPTIONSOPTIONS, CMainFrame::OnOptionsOptions)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
@@ -375,6 +376,12 @@ bool CMainFrame::CreateMenu() {
 
     menuCommands->AppendSeparator();
 
+    menuCommands->Append(
+        ID_COMMADSRETRYCOMMUNICATIONS, 
+        _("Retry &Communications"),
+        _("Report completed work, get latest credit, "
+          "get latest preferences, and possibly get more work.")
+    );
     menuCommands->Append(
         ID_FILERUNBENCHMARKS, 
         _("Run &benchmarks"),
@@ -1038,6 +1045,23 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
     FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function End"));
+}
+
+
+void CMainFrame::OnCommandsRetryCommunications( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnCommandsRetryCommunications - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    UpdateStatusText(_("Retrying communications for project(s)..."));
+    pDoc->rpc.network_available();
+    UpdateStatusText(wxT(""));
+
+    FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnCommandsRetryCommunications - Function End"));
 }
 
 
