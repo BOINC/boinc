@@ -75,7 +75,7 @@ function daemon_status($host, $pidname, $progname, $disabled) {
     if (is_file($path)) {
         $pid = file_get_contents($path);
         if ($pid) {
-            $command = "$ps_exe w $pid";
+            $command = "$ps_exe ww $pid";
             if ($host != $project_host) {
                 $command = "$ssh_exe $host " . $command;
             }
