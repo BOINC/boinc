@@ -262,7 +262,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
 
     if (m_AccountEmailAddressCtrl) m_AccountEmailAddressCtrl->SetFocus();
 
-    if (((CBOINCBaseWizard*)GetParent())->project_config.client_account_creation_disabled) {
+    if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
         if (!IS_ACCOUNTMANAGERWIZARD()) {
             m_AccountCreateCtrl->SetValue(false);
             m_AccountUseExistingCtrl->SetValue(true);

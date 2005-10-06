@@ -408,7 +408,7 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
     //Always include the project default as fallback
     for ($i=sizeof($client_languages);$i>=0;$i--){
         //Now for each language that the client requests
-        if (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-"){
+        if ((strlen($client_languages[$i])>2) && (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-")){
             //If this is defined as primary-secondary
             $language = substr(
                 $client_languages[$i],0,2)."_".strtoupper(substr($client_languages[$i],3,2)

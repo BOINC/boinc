@@ -442,6 +442,7 @@ int ACTIVE_TASK::start(bool first_time) {
         retval = chdir(slot_dir);
         if (retval) {
             perror("chdir");
+            fflush(NULL);
             _exit(retval);
         }
 
@@ -460,6 +461,7 @@ int ACTIVE_TASK::start(bool first_time) {
             "execv(%s) failed: %s\n", buf, boincerror(retval)
         );
         perror("execv");
+        fflush(NULL);
         _exit(errno);
     }
 

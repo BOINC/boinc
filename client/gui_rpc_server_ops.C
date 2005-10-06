@@ -229,7 +229,7 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
     } else if (match_tag(buf, "<never")) {
         gstate.user_network_request = USER_RUN_REQUEST_NEVER;
     } else if (match_tag(buf, "<auto")) {
-        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+        gstate.user_network_request = USER_RUN_REQUEST_AUTO;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;

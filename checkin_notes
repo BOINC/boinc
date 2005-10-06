@@ -12769,3 +12769,31 @@ David  5 Oct 2005
         client_state.C,h
         cs_scheduler.C
         net_xfer.C
+        
+Rom    5 Oct 2005 (staging)
+    - Tag for 5.1.7 release, all platforms
+      boinc_core_release_5_1_7
+
+David  5 Oct 2005
+    - before any _exit() (API, app start, etc.) do a fflush(NULL)
+        (from Bruce Allen)
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+        cs_benchmark.C
+    clientgui/mac/
+        mac_saver_module.cpp
+
+Rom    5 Oct 2005
+    - Bug Fix: The manager should honor the account creation disabled flag
+        correctly.  I don't understand why I changed it.
+    - Bug Fix: Network preferences were dorked because we were setting the
+        wrong variable.
+    
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountInfoPage.cpp
+        MainFrame.cpp

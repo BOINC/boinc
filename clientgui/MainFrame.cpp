@@ -378,7 +378,7 @@ bool CMainFrame::CreateMenu() {
 
     menuCommands->Append(
         ID_COMMADSRETRYCOMMUNICATIONS, 
-        _("Retry &Communications"),
+        _("Retry &communications"),
         _("Report completed work, get latest credit, "
           "get latest preferences, and possibly get more work.")
     );

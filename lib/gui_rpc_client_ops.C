@@ -1241,7 +1241,12 @@ int RPC_CLIENT::set_run_mode(int mode) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf, "<set_run_mode>\n%s\n</set_run_mode>\n", mode_name(mode));
+    sprintf(buf, 
+        "<set_run_mode>\n"
+        "%s\n"
+        "</set_run_mode>\n",
+        mode_name(mode)
+    );
     return rpc.do_rpc(buf);
 }
 
@@ -1269,7 +1274,7 @@ int RPC_CLIENT::set_network_mode(int mode) {
 
     sprintf(buf,
         "<set_network_mode>\n"
-        "%s"
+        "%s\n"
         "</set_network_mode>\n",
         mode_name(mode)
     );

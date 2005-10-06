@@ -208,10 +208,12 @@ OSStatus initBOINCApp() {
         status = chdir(buf);
         if (status) {
             perror("chdir");
+            fflush(NULL);
             _exit(status);
         }
 
         status = execl(boincPath, "boinc", "-redirectio", (char *) 0);
+        fflush(NULL);
         _exit(127);         // execl error (execl should never return)
     } else {
         CoreClientPID = myPid;		// make this available globally
