@@ -12797,3 +12797,7 @@ Rom    5 Oct 2005
     clientgui/
         AccountInfoPage.cpp
         MainFrame.cpp
+
+Rom    5 Oct 2005 (staging)
+    - Tag for 5.1.8 release, all platforms
+      boinc_core_release_5_1_8
