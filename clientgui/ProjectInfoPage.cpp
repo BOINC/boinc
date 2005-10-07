@@ -112,7 +112,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText28 = new wxStaticText;
-    itemStaticText28->Create( itemWizardPage23, wxID_STATIC, _("You can copy and paste the URL from your browser’s address bar."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText28->Create( itemWizardPage23, wxID_STATIC, _("You can copy and paste the URL from your browser's address bar."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(itemStaticText28, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);

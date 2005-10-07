@@ -111,7 +111,7 @@ void CAccountManagerInfoPage::CreateControls()
     itemBoxSizer22->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText26 = new wxStaticText;
-    itemStaticText26->Create( itemWizardPage21, wxID_STATIC, _("You can copy and paste the URL from your browser’s address bar."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText26->Create( itemWizardPage21, wxID_STATIC, _("You can copy and paste the URL from your browser's address bar."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer22->Add(itemStaticText26, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer22->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
