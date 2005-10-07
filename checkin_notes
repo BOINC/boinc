@@ -12838,3 +12838,10 @@ David  7 Oct 2005
     Makefile.incl
     m4/
         sah_check_lib.m4
+
+David  7 Oct 2005
+    - get_project_config.php now gets all its info from config.xml,
+        so there's no reason to have project-specific variants.
+
+    html/user/
+        rename sample_get_project_config.php to get_project_config.php
