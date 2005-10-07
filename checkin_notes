@@ -12829,3 +12829,12 @@ David  7 Oct 2005
     html/user/
         edit_passwd_action.php
         sample_get_project_config.php
+
+David  7 Oct 2005
+    - A couple of build-system changes,
+        which I believe are from Eric Korpela but I'm not sure.
+        Reinhard, please make sure these are OK
+
+    Makefile.incl
+    m4/
+        sah_check_lib.m4

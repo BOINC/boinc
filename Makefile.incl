@@ -13,6 +13,7 @@ SCHED_LIB = -L$(top_builddir)/sched -lsched
 BOINC_LIB = -L$(top_builddir)/lib -lboinc
 
 AM_CPPFLAGS =					\
+        @PICFLAGS@				\
         -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
         -I$(top_srcdir)/db			\

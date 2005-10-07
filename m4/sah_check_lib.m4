@@ -325,8 +325,10 @@ AC_DEFUN([SAH_DYNAMIC_LIB],[
 #in order to find a static version of the library being loaded.  
 AC_DEFUN([SAH_FIND_STATIC_LIB],[
 # libtool sets up the variable shlibpath_var which holds the name of the 
-# LIB_PATH variable
-tmp_libpath=`eval echo '${'$shlibpath_var'}'`
+# LIB_PATH variable.  We also want to strip the sparcv9 and 64s from the
+# path, because we'll add them again later
+strip_pattern="s/sparcv9//g; s/lib64/lib/g; s/lib\/64/lib/g"
+tmp_libpath=`eval echo '${'$shlibpath_var'}' | sed "${strip_pattern}"`
 
 # in cygwin, the DLLs are in the path, but the static libraries are elsewhere.
 # Here's an educated guess.
@@ -335,6 +337,8 @@ then
   tmp_libpath=`echo ${PATH} | sed 's/\/bin/\/lib/g'`
   tmp_libpath="${tmp_libpath}:${PATH}"
 fi  
+
+
 
 gcc_version=`${CC} -v 2>&1 | grep "gcc version" | $AWK '{print $[]3}'`
 
@@ -357,6 +361,11 @@ do
     break
   fi
 done
+
+# now lets add any directories in LIBS or LDFLAGS
+tmp_more_dirs=`echo $LIBS $LDFLAGS | $AWK '{for (i=1;i<(NF+1);i++) { printf("x%s\n",$[]i); }}' | grep x-L | sed 's/x-L//' | $AWK '{printf("%s:",$[]1);}'`
+tmp_libpath="${tmp_more_dirs}${tmp_libpath}"
+
 
 # Put machine/arch specific tweaks to the libpath here.
 if test -z "${COMPILER_MODEL_BITS}"
@@ -404,7 +413,7 @@ case $target in
 	  do
 	    abcd_r="${abcd_r}:${tmp_dir}/${tmp_arch}"
 	  done
-	  tmp_libpath="${abcd_r}:${abcd_q}:${tmp_libpath}"
+	  tmp_libpath="${abcd_r}:${abcd_q}:${tmp_libpath}" 
         fi
 	;;
   *)
