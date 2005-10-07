@@ -12812,3 +12812,20 @@ Bruce 7 Oct 2005
         user/
             edit_passwd_action.php
 
+David  7 Oct 2005
+    - Add optional <min_passwd_length> element to config.xml.
+        The change-password web pages get min passwd length from here.
+        The get_project_config.php RPC gets it from here also.
+        Default in both cases is 6.
+    - Add optional <client_account_creation_disabled/> element to config.xml.
+        This is to be used by projects that have not
+        updated to version 5 server software yet
+        (i.e. that don't have create_account.php,
+        and the database updates that go along with it).
+        As soon as all projects have upgraded we can get rid of this.
+
+    client/
+        pers_file_xfer.C
+    html/user/
+        edit_passwd_action.php
+        sample_get_project_config.php

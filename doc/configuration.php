@@ -16,7 +16,6 @@ A config.xml file looks like this:
 <pre>",
 htmlspecialchars("
 <boinc>
-
   <config>
     <host>                  project.hostname.ip   </host>
     <db_name>               databasename          </db_name>
@@ -34,26 +33,28 @@ htmlspecialchars("
     <stripchart_cgi_url>    http://A/URL          </stripchart_cgi_url>
     <log_dir>               /path/to/directory    </log_dir>
 
-    [ <disable_account_creation/>                                                ]
-    [ <profile_screening/>                                                       ]
-    [ <show_results/>                                                            ]
-    [ <one_result_per_user_per_wu/>                                              ]
-    [ <max_wus_to_send>                  N    </max_wus_to_send>                 ]
-    [ <min_sendwork_interval>            N    </min_sendwork_interval>           ]
-    [ <daily_result_quota>               N    </daily_result_quota>              ]
-    [ <ignore_delay_bound/>                                                      ]
-    [ <dont_generate_upload_certificates/>                                       ]
-    [ <locality_scheduling/>                                                     ]
-    [ <locality_scheduling_wait_period>  N    </locality_scheduling_wait_period> ]
-    [ <min_core_client_version>          N    </min_core_client_version          ]
-    [ <choose_download_url_by_timezone/>                                         ]
-    [ <cache_md5_info/>                                                          ]
+    [ <disable_account_creation/> ]
+    [ <profile_screening/> ]
+    [ <show_results/> ]
+    [ <one_result_per_user_per_wu/> ]
+    [ <max_wus_to_send> N </max_wus_to_send> ]
+    [ <min_sendwork_interval> N </min_sendwork_interval> ]
+    [ <daily_result_quota> N </daily_result_quota> ]
+    [ <ignore_delay_bound/> ]
+    [ <dont_generate_upload_certificates/> ]
+    [ <locality_scheduling/> ]
+    [ <locality_scheduling_wait_period> N </locality_scheduling_wait_period> ]
+    [ <min_core_client_version> N </min_core_client_version ]
+    [ <choose_download_url_by_timezone/> ]
+    [ <cache_md5_info/> ]
     [ <min_core_client_version_announced> N </min_core_client_version_announced> ]
-    [ <min_core_client_upgrade_deadline>  N </min_core_client_upgrade_deadline>  ]
-    [ <choose_download_url_by_timezone>  N </choose_download_url_by_timezone>  ]
-    [ <cache_md5_info>  N </cache_md5_info>  ]
-    [ <nowork_skip>  N </nowork_skip>  ]
-    [ <sched_lockfile_dir>  path </sched_lockfile_dir>  ]
+    [ <min_core_client_upgrade_deadline> N </min_core_client_upgrade_deadline> ]
+    [ <choose_download_url_by_timezone> N </choose_download_url_by_timezone> ]
+    [ <cache_md5_info> N </cache_md5_info> ]
+    [ <nowork_skip> N </nowork_skip> ]
+    [ <sched_lockfile_dir> path </sched_lockfile_dir> ]
+    [ <min_passwd_length> N </min_passwd_length> ]
+    [ <client_account_creation_disabled/> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -99,7 +100,10 @@ htmlspecialchars("
 
 echo "<b>The general project configuration elements are:</b>";
 list_start();
-list_item("host", "name of project's main host, as given by Python's socket.hostname().  Daemons and tasks run on this host by default.");
+list_item("host",
+    "name of project's main host, as given by Python's socket.hostname().
+    Daemons and tasks run on this host by default."
+);
 list_item("db_name", "Database name");
 list_item("db_host", "Database host machine");
 list_item("db_user", "Database user name");
@@ -264,6 +268,17 @@ list_item("nowork_skip",
     preferences when users click on Update.
     Use it if your server DB is overloaded."
 );
+list_item("min_passwd_length",
+    "Minimum length of user passwords.  Default is 6."
+);
+list_item("client_account_creation_disabled",
+    "If set, this project doesn't support the web RPCs for
+    looking up and creating accounts.
+    This is a temporary kludge as we transition from
+    version 4 to version 5 software.
+    It should be removed by 12/2005 or so."
+);
+
 list_end();
 
 // THE INFORMATION BELOW NEEDS TO BE ORGANIZED AND PUT INTO TABLES OR SOME OTHER LESS CRAMPED FORM

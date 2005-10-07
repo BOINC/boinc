@@ -258,8 +258,6 @@ bool PERS_FILE_XFER::poll() {
 //
 void PERS_FILE_XFER::check_giveup(const char* why) {
     if (fip->get_next_url(fip->upload_when_present) == NULL) {
-        // the file has no appropriate download location
-        // remove the file from the directory and delete the file xfer object
         gstate.file_xfers->remove(fxp);
         delete fxp;
         fxp = NULL;
@@ -299,13 +297,15 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 
     if (fxp->file_xfer_retval == HTTP_STATUS_NOT_FOUND) {
-        // If it is uploading and receives a HTTP_STATUS_NOT_FOUND then
-        //   the file upload handler could not be found.
-        if (!fxp->is_upload) {
-            check_giveup("file was not found on server");
+        if (fxp->is_upload) {
+            // If it is uploading and receives a HTTP_STATUS_NOT_FOUND then
+            // the file upload handler could not be found.
+            // This is hopefully transient.
+            //
+            retry_or_backoff();
             return;
         } else {
-            retry_or_backoff();
+            check_giveup("file was not found on server");
             return;
         }
     }
