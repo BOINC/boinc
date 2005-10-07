@@ -60,13 +60,13 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     retval = init_master_fetch(p);
     if (retval) {
         msg_printf(p, MSG_ERROR,
-            "Couldn't start master page download: %s", boincerror(retval)
+            "Couldn't start master file download: %s", boincerror(retval)
         );
         if (p->tentative) {
             p->attach_failed(ERR_ATTACH_FAIL_PARSE);
         } else {
             p->master_fetch_failures++;
-            backoff(p, "Master page fetch failed\n");
+            backoff(p, "Master file fetch failed\n");
         }
         return false;
     }
@@ -421,7 +421,7 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // parse succeeded
                     //
-                    msg_printf(cur_proj, MSG_INFO, "Master page download succeeded");
+                    msg_printf(cur_proj, MSG_INFO, "Master file download succeeded");
                     cur_proj->master_fetch_failures = 0;
                     changed = update_urls(cur_proj, urls);
                     

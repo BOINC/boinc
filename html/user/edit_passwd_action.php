@@ -24,6 +24,10 @@ $config = get_config();
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
 if (!$min_passwd_length) $min_passwd_length = 6;
 
+if (mb_detect_encoding($passwd) != 'ASCII') {
+    error_page("Passwords may only include ASCII characters.");
+}
+
 if (strlen($passwd)<$min_passwd_length) {
     error_page(
         "New password is too short:

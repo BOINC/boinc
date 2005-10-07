@@ -11,7 +11,7 @@ if (!$wu) {
     error_page("can't find workunit");
 }
 
-page_head("Work unit");
+page_head("Workunit");
 $app = lookup_app($wu->appid);
 
 start_table();
@@ -22,6 +22,11 @@ if ($wu->canonical_resultid) {
     row2("canonical result", "<a href=result.php?resultid=$wu->canonical_resultid>$wu->canonical_resultid</a>");
     row2("granted credit", format_credit($wu->canonical_credit));
 }
+row2("minimum quorum", $wu->min_quorum);
+row2("initial replication", $wu->target_nresults);
+row2("max # of error/total/success results",
+    "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
+);
 if ($wu->error_mask) {
     row2("errors", wu_error_mask_str($wu->error_mask));
 }

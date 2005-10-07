@@ -12852,3 +12852,16 @@ Rom    7 Oct 2005
         
     clientgui/
         AccountInfoPage.cpp
+
+David  7 Oct 2005
+    - don't allow non-ASCII passwords in PHP code
+    - add some WU fields (target_nresults, max_*_results, etc.)
+        to web page display
+    - change "master page" to "master file" in client messages
+        (from Paul Buck)
+
+    client/
+        scheduler_op.C
+    html/user/
+        edit_password_action.php
+        workunit.php

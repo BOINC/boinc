@@ -59,7 +59,7 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
-    <td>Apache with mod_ssl and PHP 4.0+
+    <td>Apache with mod_ssl and PHP 4.0.6+
     </td>
     <td>X</td>
     <td><br></td>
