@@ -12845,3 +12845,10 @@ David  7 Oct 2005
 
     html/user/
         rename sample_get_project_config.php to get_project_config.php
+
+Rom    7 Oct 2005
+    - Limit which types of characters can be used for passwords.
+        Standard ASCII is all we care about for now.
+        
+    clientgui/
+        AccountInfoPage.cpp
