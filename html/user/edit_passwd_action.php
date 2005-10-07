@@ -19,6 +19,9 @@ $passwd2 = stripslashes(post_str("passwd2"));
 if ($passwd != $passwd2) {
     error_page("New passwords are different");
 }
+if (strlen($passwd)<6) {
+    error_page("New password is too short: minimum password length is 6 characters");
+}
 if ($auth) {
     $user = lookup_user_auth($auth);
     if (!$user) {

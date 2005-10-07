@@ -12801,3 +12801,14 @@ Rom    5 Oct 2005
 Rom    5 Oct 2005 (staging)
     - Tag for 5.1.8 release, all platforms
       boinc_core_release_5_1_8
+
+Bruce 7 Oct 2005
+    - Emergency fix: prevent users from creating password<6 chars long
+      using web-page interface.  David, Janus, the min password length
+      needs to be parsed from a single place, eg config.xml, and used
+      consistently in both PHP and client-side ops.
+
+    html/
+        user/
+            edit_passwd_action.php
+
