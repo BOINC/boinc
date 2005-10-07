@@ -213,7 +213,8 @@ int CLIENT_STATE::resume_activities() {
 void CLIENT_STATE::check_suspend_network(int& reason) {
     reason = 0;
 
-    //if (user_network_request == USER_RUN_REQUEST_ALWAYS) return;
+    if (user_network_request == USER_RUN_REQUEST_ALWAYS) return;
+
     if (user_network_request == USER_RUN_REQUEST_NEVER) {
         reason |= SUSPEND_REASON_USER_REQ;
         return;
