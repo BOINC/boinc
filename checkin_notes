@@ -12872,3 +12872,11 @@ Rom    7 Oct 2005
         
     client/
         cs_prefs.C
+
+David  8 Oct 2005
+    - password change used mb_detect_encoding(),
+        which apparently isn't included by default,
+        to check for non-ASCII.  Use hand_written check instead.
+
+    html/user/
+        edit_passwd_action.php
