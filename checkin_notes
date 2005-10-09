@@ -12910,3 +12910,11 @@ Rom    8 Oct 2005
         
     client/
         main.C
+
+Rom    8 Oct 2005
+    - Bug Fix: Don't display web site buttons on GTK or Motif environments
+        since they don't have an easy way to get the default browser
+        information for now.
+        
+    clientgui/
+        ViewProjects.cpp

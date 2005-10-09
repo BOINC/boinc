@@ -571,6 +571,7 @@ void CViewProjects::UpdateSelection() {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
 
+#if !defined(__WXGTK__) && !defined(__WXMOTIF__)
     // Update the websites list
     //
     if (m_bForceUpdateSelection) {
@@ -621,6 +622,7 @@ void CViewProjects::UpdateSelection() {
                 }
             }
         }
+#endif
 
         m_bForceUpdateSelection = false;
     }
