@@ -171,7 +171,7 @@ int get_socket_error(int fd) {
 
 #ifdef _WIN32
 
-typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
+typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD lpdwFlags, IN DWORD dwReserved);
 
 int get_connected_state( ) {
     int online = 0;
