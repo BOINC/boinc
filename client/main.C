@@ -268,13 +268,19 @@ static void init_core_client(int argc, char** argv) {
 
 // Windows: install console controls
 #ifdef _WIN32
-    if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
-        fprintf(stderr, "Failed to register the console control handler\n");
-        exit(1);
-    } else {
-        printf(
-            "\nTo pause/resume tasks hit CTRL-C, to exit hit CTRL-BREAK\n"
-        );
+    // Figure out if we're on Win9x
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx(&osvi);
+    if (!(osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)) {
+        if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
+            fprintf(stderr, "Failed to register the console control handler\n");
+            exit(1);
+        } else {
+            printf(
+                "\nTo pause/resume tasks hit CTRL-C, to exit hit CTRL-BREAK\n"
+            );
+        }
     }
 #endif
 

@@ -12901,3 +12901,12 @@ Rom    8 Oct 2005
         
     client/win
         win_screensaver.cpp, .h
+
+Rom    8 Oct 2005
+    - Bug Fix: Win9x doesn't send console events correctly during shutdown
+        and so BOINC used to keep the system from being able to shutdown.
+        So if we detect we are executing on a Win9x machine, we'll skip
+        registering the console event handler.
+        
+    client/
+        main.C
