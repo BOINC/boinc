@@ -102,6 +102,7 @@ CScreensaver::CScreensaver() {
 
     m_bCheckingSaverPassword = FALSE;
     m_bIs9x = FALSE;
+    m_bIs95 = FALSE;
     m_dwSaverMouseMoveCount = 0;
     m_hWnd = NULL;
     m_hWndParent = NULL;
@@ -149,6 +150,8 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
+    m_bIs95 = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) &&
+              ((osvi.dwMajorVersion == 4) && (osvi.dwMinorVersion == 0));
 
     // Enumerate Monitors
     EnumMonitors();
@@ -902,17 +905,24 @@ BOOL CScreensaver::DestoryDataManagementThread() {
 }
 
 
-// This function forwards to DataManagementProc, which has access to the
-//       "this" pointer.
+// Do what needs to be done to update the text that is displayed
+//   to the user
 //
+
+// Define dynamically linked to function
+typedef long (STDAPICALLTYPE* MYBROADCASTSYSTEMMESSAGE)(DWORD dwFlags, LPDWORD lpdwRecipients, UINT uiMessage, WPARAM wParam, LPARAM lParam);
+
 DWORD WINAPI CScreensaver::DataManagementProc() {
     BOOL    bErrorMode;
+    BOOL    bRetVal;
     HRESULT hrError;
     HWND    hwndBOINCGraphicsWindow = NULL;
     HWND    hwndForegroundWindow = NULL;
     int     iReturnValue = 0;
     time_t  tThreadCreateTime = 0;
     bool    bScreenSaverStarting = false;
+    HMODULE	hUser32;
+	MYBROADCASTSYSTEMMESSAGE pfnMyBroadcastSystemMessage = NULL;
 
 
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
@@ -975,15 +985,34 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 hwndForegroundWindow = GetForegroundWindow();
                                 if (hwndForegroundWindow != hwndBOINCGraphicsWindow) {
                                     BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
+
+	                                // Lets set the default value to FALSE
+	                                bRetVal = FALSE;
+
+	                                // Attempt to link to dynamic function if it exists
+                                    hUser32 = LoadLibrary(_T("USER32.DLL"));
+                                    if (NULL != hUser32) {
+                                        if (m_bIs95) {
+		                                    pfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(hUser32, _T("BroadcastSystemMessage"));
+                                        } else {
+		                                    pfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(hUser32, _T("BroadcastSystemMessageA"));
+                                        }
+                                    }
+
                                     // This may be needed on Windows 2000 or better machines
-                                    DWORD dwComponents = BSM_APPLICATIONS;
-                                    BroadcastSystemMessage(
-                                        BSF_ALLOWSFW, 
-                                        &dwComponents,
-                                        WM_BOINCSFW,
-                                        NULL,
-                                        NULL
-                                   );
+                                    if (NULL != pfnMyBroadcastSystemMessage) {
+                                        DWORD dwComponents = BSM_APPLICATIONS;
+                                        (pfnMyBroadcastSystemMessage)(
+                                            BSF_ALLOWSFW, 
+                                            &dwComponents,
+                                            WM_BOINCSFW,
+                                            NULL,
+                                            NULL
+                                        );
+                                    }
+
+	                                // Free the dynamically linked to library
+	                                FreeLibrary(hUser32);
                                 }
                             }
                         }

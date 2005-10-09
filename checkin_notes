@@ -12892,3 +12892,12 @@ David  8 Oct 2005
         app_control.C
     sched/
         server_types.C
+
+Rom    8 Oct 2005
+    - Bug Fix: BroadcastSystemMessage on Win95 aparently doesn't follow
+        the ANSI vs. Wide Character naming rules.  So extract the function
+        pointer at runtime and call it instead of relying on the program
+        loader to do it.
+        
+    client/win
+        win_screensaver.cpp, .h
