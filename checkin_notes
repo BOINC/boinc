@@ -12918,3 +12918,16 @@ Rom    8 Oct 2005
         
     clientgui/
         ViewProjects.cpp
+
+David  9 Oct 2005
+    - Core client: on app start, if can't clear out slot directory,
+        then rename it to slots/DELETE_ME_slot_time and make a new one.
+        This should deal with situations where a virus-check program
+        locks a link file (typically .exe) and we can't delete it.
+        Thanks to Pete Benac for reporting this.
+
+    client/
+        app_start.C
+        file_names.C,h
+    lib/
+        filesys.h

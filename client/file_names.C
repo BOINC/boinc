@@ -33,6 +33,7 @@
 #include "filesys.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
+#include "client_state.h"
 #include "util.h"
 
 #include "file_names.h"
@@ -132,6 +133,19 @@ int make_slot_dir(int slot) {
     boinc_mkdir(SLOTS_DIR);
     get_slot_dir(slot, buf);
     return boinc_mkdir(buf);
+}
+
+// A slot dir can't be cleaned out
+// (e.g. a virus-checker has a file locked).
+// Rename it to DELETE_ME_x
+//
+int rename_slot_dir(int slot) {
+    char oldname[256], newname[256];
+    sprintf(oldname, "%s/%d", SLOTS_DIR, slot);
+    sprintf(newname, "%s/DELETE_ME_%d_%d", SLOTS_DIR, slot, (int)gstate.now);
+    int retval = rename(oldname, newname);
+    if (retval) return ERR_RENAME;
+    return 0;
 }
 
 void get_account_filename(char* master_url, char* path) {

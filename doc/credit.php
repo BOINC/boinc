@@ -133,20 +133,19 @@ BOINC updates 'recent average credit' (RAC) only when new credit is granted.
 Interfaces that export RAC also export that time at which it was last updated.
 To obtain the current value of RAC,
 you must 'decay' it based on the time that has elapsed
-since it was updated: <pre>", htmlspecialchars("
-function decay_average(\$avg, \$avg_time, \$now = 0) {
-   \$M_LN2 = 0.693147180559945309417;
-   \$credit_half_life = 86400 * 7;
-   if (\$now == 0) {
-       \$now = time();
+since it was updated: <pre>", htmlspecialchars('
+function decay_average($avg, $avg_time, $now = 0) {
+   $M_LN2 = 0.693147180559945309417;
+   $credit_half_life = 86400 * 7;
+   if ($now == 0) {
+       $now = time();
    }
-   \$diff = \$now - \$avg_time;
-   \$diff_days = \$diff/86400;
-   \$weight = exp(-\$diff * \$M_LN2/\$credit_half_life);
-   \$avg *= \$weight;
-   return \$avg;
+   $diff = $now - $avg_time;
+   $weight = exp(-$diff * $M_LN2/$credit_half_life);
+   $avg *= $weight;
+   return $avg;
 }
-"), "</pre>
+'), "</pre>
 <p>
 If you don't apply this decay,
 inactive entities will have incorrectly high RAC.
