@@ -12931,3 +12931,10 @@ David  9 Oct 2005
         file_names.C,h
     lib/
         filesys.h
+
+Rom    8 Oct 2005
+    - Backout previous bug fix with the web site buttons.  Apparently some
+        distro's don't install a mailcap file by default.
+        
+    clientgui/
+        ViewProjects.cpp
