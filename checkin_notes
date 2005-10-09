@@ -12938,3 +12938,12 @@ Rom    8 Oct 2005
         
     clientgui/
         ViewProjects.cpp
+
+Rom    8 Oct 2005
+    - Display an informational dialog on Linux when the text/html mime type
+        doesn't point to a browser.  Inform the user that they may need to
+        install the 'mailcap' package or the 'mime' package so the manager
+        knows which browser to launch.
+        
+    clientgui/
+        hyperlink.cpp

@@ -205,9 +205,19 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 #endif
             ::wxExecute(cmd);
         }
-
         delete ft;
     }
+#if defined(__WXGTK__) || defined(__WXMOTIF__)
+    else {
+        ::wxMessageBox(
+            _("BOINC could not determine what your default browser is.\n"
+              "Please verify that you have either the 'mailcap' package installed or\n"
+              "'mime' package installed"),
+            _("BOINC Manager"),
+            wxOK | wxICON_INFORMATION
+        );
+    }
+#endif
 }
 
 const char *BOINC_RCSID_d587835b7e="$Id$";
