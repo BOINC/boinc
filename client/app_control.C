@@ -374,7 +374,15 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process %d is done\n", pid);
         atp = lookup_pid(pid);
         if (!atp) {
-            msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
+            // if we're running benchmarks, exited process
+            // is probably a benchmark process
+            //
+            if (!gstate.are_cpu_benchmarks_running()) {
+                msg_printf(NULL, MSG_ERROR,
+                    "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n",
+                    pid
+                );
+            }
             return false;
         }
         atp->handle_exited_app(stat);

@@ -516,12 +516,11 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             "<team_name>%s</team_name>\n",
             t2.c_str()
         );
+    } else {
+        fprintf(fout,
+            "<team_name></team_name>\n"
+        );
     }
-
-#if 0
-    if (deletion_policy_priority) fprintf(fout, "<deletion_policy_priority/>\n");
-    if (deletion_policy_expire) fprintf(fout, "<deletion_policy_expire/>\n");
-#endif
 
     // acknowledge results
     //

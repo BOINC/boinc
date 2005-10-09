@@ -12880,3 +12880,15 @@ David  8 Oct 2005
 
     html/user/
         edit_passwd_action.php
+
+David  8 Oct 2005
+    - If user doesn't belong to team, send <team_name></team_name>
+        in scheduler reply
+        (otherwise client doesn't know when user has quit team)
+    - Don't print "process PID x not found" if we're benchmarking;
+        the process is a benchmark process, not an app
+
+    client/
+        app_control.C
+    sched/
+        server_types.C
