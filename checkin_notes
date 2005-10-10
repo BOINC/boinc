@@ -12976,3 +12976,16 @@ Charlie 10 Oct 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Rom    10 Oct 2005
+    - Notifications do not need to be confirmed with an OK dialog box.
+        Win98 doesn't have balloons and we were still waiting on user
+        input even when the user had specified automatic dialing and
+        hang-up operations.
+        
+    clientgui/
+        MainFrame.cpp
+
+Rom    10 Oct 2005 (staging)
+    - Tag for 5.1.10 release, all platforms
+      boinc_core_release_5_1_10
