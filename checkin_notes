@@ -12968,3 +12968,11 @@ David  9 Oct 2005
         proxy_info.C
     sched/
         sched_send.C
+
+Charlie 10 Oct 2005
+    - Mac: Update XCode project to remove unwanted copy of header files 
+      into built BOINCManager.app bundle.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
