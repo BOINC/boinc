@@ -1253,13 +1253,14 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
 
-
 #ifdef __WXMSW__
     CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
     wxASSERT(pTaskbar);
 
     if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
-        ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+        if (!event.m_notification_only) {
+            ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+        }
     } else {
         // If the main window is hidden or minimzed use the system tray ballon
         //   to notify the user instead.  This keeps dialogs from interfering
