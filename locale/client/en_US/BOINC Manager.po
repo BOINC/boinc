@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-09 13:46-0800\n"
+"PO-Revision-Date: 2005-10-09 18:38-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -178,6 +178,7 @@ msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
+#: clientgui/hyperlink.cpp:216
 msgid "BOINC Manager"
 msgstr ""
 
@@ -457,6 +458,13 @@ msgstr ""
 
 #: clientgui/hyperlink.cpp:78
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
+msgstr ""
+
+#: clientgui/hyperlink.cpp:213
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed"
 msgstr ""
 
 #: clientgui/Localization.cpp:31
@@ -1105,24 +1113,24 @@ msgstr ""
 msgid "Don't fetch new work for this project."
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:600
+#: clientgui/ViewProjects.cpp:599
 msgid "Web sites"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:715
+#: clientgui/ViewProjects.cpp:713
 #: clientgui/ViewWork.cpp:658
 msgid "Suspended by user"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:718
+#: clientgui/ViewProjects.cpp:716
 msgid "Won't get new work"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:721
+#: clientgui/ViewProjects.cpp:719
 msgid "Scheduler request pending"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:727
+#: clientgui/ViewProjects.cpp:725
 msgid "Communication deferred "
 msgstr ""
 
