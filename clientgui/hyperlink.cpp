@@ -203,18 +203,20 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 #else
             cmd.Replace(wxT("file://"), wxEmptyString);
 #endif
-            if (cmd.IsEmpty()) {
-                ::wxMessageBox(
-                    _("BOINC could not determine what your default browser is.\n"
-                    "Please verify that you have either the 'mailcap' package installed or\n"
-                    "'mime' package installed, and that the 'text/html' mime type is\n"
-                    "configured for your favorite browser."),
-                    _("BOINC Manager"),
-                    wxOK | wxICON_INFORMATION
-                );
-            }
             ::wxExecute(cmd);
         }
+#if defined(__WXGTK__) || defined(__WXMOTIF__)
+        else {
+            ::wxMessageBox(
+                _("BOINC could not determine what your default browser is.\n"
+                "Please verify that you have either the 'mailcap' package installed or\n"
+                "'mime' package installed, and that the 'text/html' mime type is\n"
+                "configured for your favorite browser."),
+                _("BOINC Manager"),
+                wxOK | wxICON_INFORMATION
+            );
+        }
+#endif
         delete ft;
     }
 #if defined(__WXGTK__) || defined(__WXMOTIF__)
