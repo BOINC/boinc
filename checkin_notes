@@ -12947,3 +12947,7 @@ Rom    8 Oct 2005
         
     clientgui/
         hyperlink.cpp
+
+Rom    9 Oct 2005 (staging)
+    - Tag for 5.1.9 release, all platforms
+      boinc_core_release_5_1_9
