@@ -1503,6 +1503,10 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         wxT("CMainFrame::OnFrameRender - -- reset_timers = '%d', already_notified_update_all_projects = '%d', connected_successfully = '%d'"),
                         reset_timers, already_notified_update_all_projects, connected_successfully
                     );
+                    wxLogTrace(wxT("Function Status"),
+                        wxT("CMainFrame::OnFrameRender - -- confirm_before_connecting = '%d', hangup_if_dialed = '%d'"),
+                        pDoc->state.global_prefs.confirm_before_connecting, pDoc->state.global_prefs.hangup_if_dialed
+                    );
 
                     // If we have received any connection event, then we should reset the
                     //   dtLastDialupAlertSent and dtLastDialupRequest variables
