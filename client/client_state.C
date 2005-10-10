@@ -353,6 +353,7 @@ int CLIENT_STATE::init() {
 
     // set up the project and slot directories
     //
+    delete_old_slot_dirs();
     retval = make_project_dirs();
     if (retval) return retval;
 

@@ -12951,3 +12951,20 @@ Rom    8 Oct 2005
 Rom    9 Oct 2005 (staging)
     - Tag for 5.1.9 release, all platforms
       boinc_core_release_5_1_9
+
+David  9 Oct 2005
+    - Core client: try to delete slots/DELETE_ME_* directories on startup
+    - Scheduler: return at most one "Your computer has only X memory, needs Y"
+        message in scheduler RPC reply
+    - return error if no end element in a couple of XML parse functions
+        (from Chris Sutton)
+
+    client/
+        app.C
+        client_state.C
+        file_names.C,h
+    lib/
+        hostinfo.C
+        proxy_info.C
+    sched/
+        sched_send.C

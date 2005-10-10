@@ -258,15 +258,20 @@ int wu_is_infeasible(
             "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
             wu.id, wu.name, wu.rsc_memory_bound, reply.host.id, m_nbytes
         );
+        char explanation[256];
+        if (!reply.wreq.insufficient_mem) {
+            // only add message once
+            //
+            sprintf(explanation,
+                "Your computer has only %.0f bytes of memory; workunit requires %.0f more bytes",
+                m_nbytes, wu.rsc_memory_bound-m_nbytes
+            );
+            USER_MESSAGE um(explanation, "high");
+            reply.insert_message(um);
+        }
         reply.wreq.insufficient_mem = true;
         reason |= INFEASIBLE_MEM;
-        char explanation[256];
-        sprintf(explanation, "Your computer has only %.0f bytes of memory; workunit requires %.0f more bytes",
-            m_nbytes, wu.rsc_memory_bound-m_nbytes
-        );
-        USER_MESSAGE um(explanation, "high");
         reply.set_delay(24*3600);
-        reply.insert_message(um);
     }
 
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {
@@ -289,18 +294,6 @@ int wu_is_infeasible(
             reply.wreq.insufficient_speed = true;
             reason |= INFEASIBLE_CPU;
         }
-#if 0
-        if (wu.delay_bound < request.global_prefs.work_buf_min_days*SECONDS_IN_DAY) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_DEBUG,
-                "[WU#%d %s] can't send to [HOST#%d]; delay_bound is %d, work buf min is %f)\n",
-                wu.id, wu.name, reply.host.id, wu.delay_bound,
-                request.global_prefs.work_buf_min_days*SECONDS_IN_DAY
-            );
-            reply.wreq.excessive_work_buf = true;
-            reason |= INFEASIBLE_WORK_BUF;
-        }
-#endif
     }
 
     return reason;

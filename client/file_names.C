@@ -148,6 +148,26 @@ int rename_slot_dir(int slot) {
     return 0;
 }
 
+// delete directories created by the above
+//
+void delete_old_slot_dirs() {
+    char filename[256], path[256];
+    DIRREF dirp;
+    int retval;
+
+    dirp = dir_open(SLOTS_DIR);
+    while (1) {
+        strcpy(filename, "");
+        retval = dir_scan(filename, dirp, sizeof(filename));
+        if (retval) break;
+        if (strstr(filename, "DELETE_ME")) {
+            sprintf(path, "%s/%s", SLOTS_DIR, filename);
+            clean_out_dir(path);
+            boinc_rmdir(path);
+        }
+    }
+}
+
 void get_account_filename(char* master_url, char* path) {
     char buf[256];
     escape_project_url(master_url, buf);

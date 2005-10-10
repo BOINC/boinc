@@ -477,7 +477,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
             else delete atp;
         } else scope_messages.printf("ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);
     }
-    return 0;
+    return ERR_XML_PARSE;
 }
 
 void MSG_QUEUE::msg_queue_send(const char* msg, MSG_CHANNEL& channel) {

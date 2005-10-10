@@ -25,6 +25,7 @@
 using std::string;
 
 #include "parse.h"
+#include "error_numbers.h"
 #include "proxy_info.h"
 
 int PROXY_INFO::parse(MIOFILE& in) {
@@ -63,7 +64,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
             continue;
         }
     }
-    return 0;
+    return ERR_XML_PARSE;
 }
 
 int PROXY_INFO::write(MIOFILE& out) {

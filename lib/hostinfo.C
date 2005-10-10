@@ -103,7 +103,7 @@ int HOST_INFO::parse(MIOFILE& in) {
         else if (parse_double(buf, "<d_total>", d_total)) continue;
         else if (parse_double(buf, "<d_free>", d_free)) continue;
     }
-    return 0;
+    return ERR_XML_PARSE;
 }
 
 // Write the host information, usually to the client state XML file
