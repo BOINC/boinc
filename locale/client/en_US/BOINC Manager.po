@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-09 18:38-0800\n"
+"PO-Revision-Date: 2005-10-10 17:00-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,8 @@ msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:216
+#: clientgui/hyperlink.cpp:215
+#: clientgui/hyperlink.cpp:229
 msgid "BOINC Manager"
 msgstr ""
 
@@ -460,11 +461,13 @@ msgstr ""
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr ""
 
-#: clientgui/hyperlink.cpp:213
+#: clientgui/hyperlink.cpp:211
+#: clientgui/hyperlink.cpp:225
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
-"'mime' package installed"
+"'mime' package installed, and that the 'text/html' mime type is\n"
+"configured for your favorite browser."
 msgstr ""
 
 #: clientgui/Localization.cpp:31
@@ -696,63 +699,63 @@ msgstr ""
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1532
-#: clientgui/MainFrame.cpp:1549
-#: clientgui/MainFrame.cpp:1555
-#: clientgui/MainFrame.cpp:1598
-#: clientgui/MainFrame.cpp:1626
-#: clientgui/MainFrame.cpp:1635
-#: clientgui/MainFrame.cpp:1649
-#: clientgui/MainFrame.cpp:1657
+#: clientgui/MainFrame.cpp:1537
+#: clientgui/MainFrame.cpp:1554
+#: clientgui/MainFrame.cpp:1560
+#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1631
+#: clientgui/MainFrame.cpp:1640
+#: clientgui/MainFrame.cpp:1654
+#: clientgui/MainFrame.cpp:1662
 msgid "BOINC Manager - Network Status"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1533
+#: clientgui/MainFrame.cpp:1538
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1548
+#: clientgui/MainFrame.cpp:1553
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1556
+#: clientgui/MainFrame.cpp:1561
 msgid "BOINC is connecting to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1599
+#: clientgui/MainFrame.cpp:1604
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1627
+#: clientgui/MainFrame.cpp:1632
 msgid "BOINC has successfully disconnected from the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1636
+#: clientgui/MainFrame.cpp:1641
 msgid "BOINC failed to disconnected from the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1650
+#: clientgui/MainFrame.cpp:1655
 msgid "BOINC has successfully connected to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1658
+#: clientgui/MainFrame.cpp:1663
 msgid "BOINC failed to connect to the internet."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1736
-#: clientgui/MainFrame.cpp:1739
+#: clientgui/MainFrame.cpp:1741
+#: clientgui/MainFrame.cpp:1744
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1737
+#: clientgui/MainFrame.cpp:1742
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1740
+#: clientgui/MainFrame.cpp:1745
 #, c-format
 msgid "Connected to %s"
 msgstr ""
