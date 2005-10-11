@@ -12990,7 +12990,7 @@ Rom    10 Oct 2005 (staging)
     - Tag for 5.1.10 release, all platforms
       boinc_core_release_5_1_10
 
-Rom    10 Oct 2005 (staging)
+Rom    10 Oct 2005 (stable)
     - Tag for 5.2.0 release, all platforms
       boinc_core_release_5_2_0
 
@@ -13001,3 +13001,8 @@ David  10 Oct 2005
 
     client/
         file_names.C
+
+Rom    10 Oct 2005 (stable)
+    - Tag for 5.2.1 release, all platforms
+      boinc_core_release_5_2_1
+
