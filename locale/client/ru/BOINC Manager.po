@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-09-30 20:01+0500\n"
+"PO-Revision-Date: 2005-10-10 15:44+0500\n"
 "Last-Translator: mifistor <mifistor_x@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -10,28 +10,195 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: F:\\boinc_public\n"
+"X-Poedit-Bookmarks: -1,132,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:266
+#: clientgui/AccountInfoPage.cpp:115
+msgid "Account information"
+msgstr "Информация об учётной записи"
+
+#: clientgui/AccountInfoPage.cpp:121
+msgid "Do you wish to use an existing account or create a new one?"
+msgstr "Использовать существующую учётную запись или создать новую?"
+
+# не понял, что за 'username', вроде email д.б.?.?
+#: clientgui/AccountInfoPage.cpp:127
+msgid ""
+"Transition Note: Account keys are used as passwords for accounts created\n"
+"before BOINC migrated to a username and password authentication scheme."
+msgstr ""
+"Замечание: до перехода на использование имени пользователя и пароля\n"
+"для идентификации учётных записей использовался код доступа (account key) ."
+
+#: clientgui/AccountInfoPage.cpp:137
+msgid "Create new &account"
+msgstr "Создать новую учётную запись"
+
+#: clientgui/AccountInfoPage.cpp:142
+msgid "&Use existing account"
+msgstr "Использовать существующую учётную запись"
+
+#: clientgui/AccountInfoPage.cpp:153
+msgid "&Email address:"
+msgstr "Адрес электронной почты:"
+
+#: clientgui/AccountInfoPage.cpp:161
+msgid "&Password:"
+msgstr "Пароль:"
+
+#: clientgui/AccountInfoPage.cpp:170
+msgid "C&onfirm password:"
+msgstr "Подтверждение пароля:"
+
+#: clientgui/AccountInfoPage.cpp:279
+#: clientgui/DlgDialupCredentials.cpp:111
+msgid "Username:"
+msgstr "Пользователь:"
+
+#: clientgui/AccountInfoPage.cpp:283
+msgid "Email address:"
+msgstr "Адрес электронной почты:"
+
+#: clientgui/AccountInfoPage.cpp:301
+#: clientgui/WelcomePage.cpp:140
+msgid "Attach to project"
+msgstr "Подключение к проекту"
+
+#: clientgui/AccountInfoPage.cpp:304
+#: clientgui/WelcomePage.cpp:149
+msgid "Attach to account manager"
+msgstr "Соединение с менеджером учётных записей"
+
+#: clientgui/AccountInfoPage.cpp:315
+#, c-format
+msgid "The minimum password length for this project is %d. Please choose a different password."
+msgstr ""
+"Минимальная длина пароля для данного проекта %d символов.\n"
+"Измените пароль в соответсвие с данным критерием."
+
+#: clientgui/AccountInfoPage.cpp:321
+#, c-format
+msgid "The minimum password length for this account manager is %d. Please choose a different password."
+msgstr ""
+"Минимальная длина пароля для данного менеджера учётных записей %d символов.\n"
+"Измените пароль в соответсвие с данным критерием."
+
+#: clientgui/AccountInfoPage.cpp:332
+msgid "The password and confirmation password do not match. Please type them again."
+msgstr "\"Пароль\" и \"Подтверждение пароля\" не совпадают. Повторите ввод пароля."
+
+#: clientgui/AccountKeyPage.cpp:103
+msgid "Enter account key"
+msgstr "Введите код доступа"
+
+#: clientgui/AccountKeyPage.cpp:110
+msgid "This project uses an \"account key\" to identify you."
+msgstr "Данный проект использует код доступа для идентификации участников."
+
+#: clientgui/AccountKeyPage.cpp:114
+msgid ""
+"Go to the project's web site to create an account. Your account\n"
+"key will be emailed to you."
+msgstr ""
+"Посетите домашнюю страницу проекта для создания учётной записи участника.\n"
+"После этого вам пришлют код доступа по электронной почте."
+
+#: clientgui/AccountKeyPage.cpp:118
+msgid "An account key looks like:"
+msgstr "Пример кода доступа:"
+
+#: clientgui/AccountKeyPage.cpp:122
+msgid "82412313ac88e9a3638f66ea82186948"
+msgstr "82412313ac88e9a3638f66ea82186948"
+
+#: clientgui/AccountKeyPage.cpp:133
+msgid "Account key:"
+msgstr "Код доступа (account key):"
+
+#: clientgui/AccountManagerInfoPage.cpp:103
+msgid "Account Manager URL"
+msgstr "Адрес менеджера учётных записей"
+
+#: clientgui/AccountManagerInfoPage.cpp:108
+msgid "Enter the URL of the account manager's web site."
+msgstr "Введите адрес выбранного менеджера учётных записей."
+
+#: clientgui/AccountManagerInfoPage.cpp:114
+#: clientgui/ProjectInfoPage.cpp:115
+msgid "You can copy and paste the URL from your browser's address bar."
+msgstr "Можно скопировать данный адрес из адресной строки вашего браузера."
+
+#: clientgui/AccountManagerInfoPage.cpp:124
+msgid "Account Manager &URL:"
+msgstr "Адрес менеджера учётных записей (URL):"
+
+#: clientgui/AccountManagerInfoPage.cpp:134
+msgid "For a list of BOINC-based account managers go to:"
+msgstr ""
+"Для просмотра списка доступных менеджеров учётных записей\n"
+"проектов BOINC посетите страницу:"
+
+#: clientgui/AccountManagerProcessingPage.cpp:132
+msgid ""
+"Communicating with account manager\n"
+"Please wait..."
+msgstr ""
+"Устанавливается связь с менеджером учётных записей\n"
+"Пожалуйста подождите..."
+
+#: clientgui/AccountManagerPropertiesPage.cpp:135
+msgid ""
+"Communicating with account manager \n"
+"Please wait..."
+msgstr ""
+"Устанавливается связь с менеджером учётных записей\n"
+"Пожалуйста подождите..."
+
+#: clientgui/AlreadyAttachedPage.cpp:98
+msgid "Already attached to project"
+msgstr "Проект уже присутствует на данном компьютере"
+
+#: clientgui/AlreadyAttachedPage.cpp:105
+msgid "You are already attached to this project."
+msgstr "Запущенный BOINC клиент уже подключен к данному проекту"
+
+#: clientgui/AlreadyExistsPage.cpp:99
+msgid "Email address already in use"
+msgstr "Данный адрес электронной почты уже используется"
+
+#: clientgui/AlreadyExistsPage.cpp:106
+msgid ""
+"An account with that email address already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Учётная запись с таким адресом электронной почты уже существует\n"
+"и её пароль отличается от введённого вами.\n"
+"\n"
+"Посетите домашнюю страницу проекта и следуйте предложенным там инструкциям."
+
+#: clientgui/BOINCGUIApp.cpp:270
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Сворачивать BOINC менеджер в значок на панели задач при запуске"
 
-#: clientgui/BOINCGUIApp.cpp:326
+#: clientgui/BOINCGUIApp.cpp:330
 msgid "(Automatic Detection)"
 msgstr "(Автоопределение)"
 
-#: clientgui/BOINCGUIApp.cpp:327
+#: clientgui/BOINCGUIApp.cpp:331
 msgid "(Unknown)"
 msgstr "(Неизвестный)"
 
-#: clientgui/BOINCGUIApp.cpp:328
+#: clientgui/BOINCGUIApp.cpp:332
 msgid "(User Defined)"
 msgstr "(Пользовательский)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
+#: clientgui/hyperlink.cpp:216
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
@@ -44,7 +211,7 @@ msgid "BOINC networking is currently suspended...\n"
 msgstr "Автономная работа...\n"
 
 #: clientgui/BOINCTaskBar.cpp:377
-#: clientgui/MainFrame.cpp:335
+#: clientgui/MainFrame.cpp:336
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "Выход"
@@ -55,39 +222,87 @@ msgid "&Open BOINC Manager..."
 msgstr "Открыть окно BOINC менеджера"
 
 #: clientgui/BOINCTaskBar.cpp:407
-#: clientgui/MainFrame.cpp:344
+#: clientgui/MainFrame.cpp:345
 msgid "&Run always"
 msgstr "Постоянная обработка"
 
 #: clientgui/BOINCTaskBar.cpp:408
-#: clientgui/MainFrame.cpp:349
+#: clientgui/MainFrame.cpp:350
 msgid "Run based on &preferences"
 msgstr "График работы определяется настройками"
 
 #: clientgui/BOINCTaskBar.cpp:409
-#: clientgui/MainFrame.cpp:354
+#: clientgui/MainFrame.cpp:355
 msgid "&Suspend"
 msgstr "Приостановить обработку"
 
 #: clientgui/BOINCTaskBar.cpp:411
-#: clientgui/MainFrame.cpp:362
+#: clientgui/MainFrame.cpp:363
 msgid "&Network activity always available"
 msgstr "Подключен к интернету"
 
 #: clientgui/BOINCTaskBar.cpp:412
-#: clientgui/MainFrame.cpp:367
+#: clientgui/MainFrame.cpp:368
 msgid "Network activity based on &preferences"
 msgstr "Доступ в интернет в определяется настройками"
 
 #: clientgui/BOINCTaskBar.cpp:413
-#: clientgui/MainFrame.cpp:372
+#: clientgui/MainFrame.cpp:373
 msgid "&Network activity suspended"
 msgstr "Работать автономно"
 
 #: clientgui/BOINCTaskBar.cpp:415
-#: clientgui/MainFrame.cpp:423
+#: clientgui/MainFrame.cpp:430
 msgid "&About BOINC Manager..."
 msgstr "О программе BOINC менеджер..."
+
+#: clientgui/CompletionErrorPage.cpp:103
+msgid "Failed to attach to project"
+msgstr "Не удалось добавить проект"
+
+#: clientgui/CompletionErrorPage.cpp:109
+#: clientgui/CompletionErrorPage.cpp:120
+#: clientgui/CompletionPage.cpp:199
+msgid "Click Finish to close."
+msgstr "Нажмите кнопку \"Готово\" для выхода из мастера."
+
+#: clientgui/CompletionErrorPage.cpp:114
+msgid "Failed to attach to account manager"
+msgstr "Не удалось соединиться с менеджером учётных записей"
+
+#: clientgui/CompletionErrorPage.cpp:126
+msgid "Messages from server:"
+msgstr "Сообщения от сервера:"
+
+#: clientgui/CompletionPage.cpp:107
+msgid "Attached to project"
+msgstr "Проект добавлен"
+
+#: clientgui/CompletionPage.cpp:111
+msgid "You are now successfully attached to this project."
+msgstr "Подключение к проекту прошло успешно."
+
+#: clientgui/CompletionPage.cpp:116
+#: clientgui/CompletionPage.cpp:130
+#: clientgui/CompletionPage.cpp:197
+msgid ""
+"When you click Finish, your web browser will go to a page where\n"
+"you can set your account name and preferences."
+msgstr ""
+"После нажатия кнопки \"Готово\", автоматически откроется\n"
+"страница настроек вашей учётной записи на сайте проекта."
+
+# ?
+#: clientgui/CompletionPage.cpp:121
+msgid "Attached to account manager"
+msgstr "Соединение с менеджером учётных записей установлено"
+
+# ?
+#: clientgui/CompletionPage.cpp:125
+msgid "You are now successfully attached to this account manager."
+msgstr ""
+"Соединение с указанным менеджером учётных записей\n"
+"успешно установлено."
 
 #: clientgui/DlgAbout.cpp:122
 msgid "Version:"
@@ -157,36 +372,22 @@ msgstr "Изменить"
 #: clientgui/DlgDialupCredentials.cpp:141
 #: clientgui/DlgOptions.cpp:401
 #: clientgui/DlgSelectComputer.cpp:135
-#: clientgui/wizards/wizardex.cpp:363
+#: clientgui/wizardex.cpp:363
 msgid "&Cancel"
 msgstr "Отмена"
-
-#: clientgui/DlgDialupCredentials.cpp:111
-#: clientgui/WizAttachAccountManager.cpp:1576
-#: clientgui/WizAttachProject.cpp:1990
-#: clientgui/wizards/AccountInfoPage.cpp:276
-msgid "Username:"
-msgstr "Пользователь:"
 
 #: clientgui/DlgDialupCredentials.cpp:122
 #: clientgui/DlgOptions.cpp:325
 #: clientgui/DlgOptions.cpp:381
 #: clientgui/DlgSelectComputer.cpp:119
-#: clientgui/WizAttachAccountManager.cpp:1553
-#: clientgui/WizAttachAccountManager.cpp:2914
-#: clientgui/WizAttachAccountManager.cpp:2962
-#: clientgui/WizAttachProject.cpp:1884
-#: clientgui/WizAttachProject.cpp:3873
-#: clientgui/WizAttachProject.cpp:3921
-#: clientgui/wizards/AccountInfoPage.cpp:160
-#: clientgui/wizards/ProxyPage.cpp:160
-#: clientgui/wizards/ProxyPage.cpp:210
+#: clientgui/ProxyPage.cpp:160
+#: clientgui/ProxyPage.cpp:210
 msgid "Password:"
 msgstr "Пароль:"
 
 #: clientgui/DlgOptions.cpp:189
 msgid "Language Selection:"
-msgstr "Язык (Language):"
+msgstr "Язык (language):"
 
 #: clientgui/DlgOptions.cpp:196
 msgid "What language should the manager display by default."
@@ -255,12 +456,8 @@ msgstr "Адрес:"
 
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:360
-#: clientgui/WizAttachAccountManager.cpp:2898
-#: clientgui/WizAttachAccountManager.cpp:2946
-#: clientgui/WizAttachProject.cpp:3857
-#: clientgui/WizAttachProject.cpp:3905
-#: clientgui/wizards/ProxyPage.cpp:144
-#: clientgui/wizards/ProxyPage.cpp:194
+#: clientgui/ProxyPage.cpp:144
+#: clientgui/ProxyPage.cpp:194
 msgid "Port:"
 msgstr "Порт:"
 
@@ -271,12 +468,8 @@ msgstr "Оставить поля пустыми если не используются"
 
 #: clientgui/DlgOptions.cpp:317
 #: clientgui/DlgOptions.cpp:373
-#: clientgui/WizAttachAccountManager.cpp:2906
-#: clientgui/WizAttachAccountManager.cpp:2954
-#: clientgui/WizAttachProject.cpp:3865
-#: clientgui/WizAttachProject.cpp:3913
-#: clientgui/wizards/ProxyPage.cpp:152
-#: clientgui/wizards/ProxyPage.cpp:202
+#: clientgui/ProxyPage.cpp:152
+#: clientgui/ProxyPage.cpp:202
 msgid "User Name:"
 msgstr "Имя пользователя:"
 
@@ -304,6 +497,16 @@ msgstr "Имя компьютера в сети или IP:"
 #: clientgui/hyperlink.cpp:78
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr "Неудача при создании wxStaticText, необходим wxHyperLink!"
+
+# 'mailcap' или 'mime' - пора обновить свои знания об интернете
+#: clientgui/hyperlink.cpp:213
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed"
+msgstr ""
+"BOINC не смог найти установленный у вас браузер.\n"
+"Убедитесь что у вас установлены 'mailcap' или 'mime'."
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -374,8 +577,8 @@ msgid "BOINC Manager - Connection failed"
 msgstr "BOINC менеджер - Нет связи"
 
 #: clientgui/MainDocument.cpp:179
-#: clientgui/MainFrame.cpp:915
-#: clientgui/MainFrame.cpp:916
+#: clientgui/MainFrame.cpp:922
+#: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr "Не удалось соединиться с указанным компьютером"
 
@@ -403,141 +606,153 @@ msgstr "Cоединение установлено"
 msgid "Disconnected"
 msgstr "Отсутствует соединение"
 
-#: clientgui/MainFrame.cpp:329
+#: clientgui/MainFrame.cpp:330
 msgid "Select computer..."
 msgstr "Сменить компьютер..."
 
-#: clientgui/MainFrame.cpp:330
+#: clientgui/MainFrame.cpp:331
 msgid "Connect to another computer running BOINC"
 msgstr "Подключить к BOINC менеджеру другой компьютер с запущенным BOINC клиентом"
 
-#: clientgui/MainFrame.cpp:336
+#: clientgui/MainFrame.cpp:337
 msgid "Exit the BOINC Manager"
 msgstr "Завершить работу программы BOINC менеджер"
 
-#: clientgui/MainFrame.cpp:345
+#: clientgui/MainFrame.cpp:346
 msgid "Does work regardless of preferences"
 msgstr "Обработка заданий запущена всегда"
 
-#: clientgui/MainFrame.cpp:350
+#: clientgui/MainFrame.cpp:351
 msgid "Does work according to your preferences"
 msgstr "Обработка происходит в моменты времени в соответствие с настройками"
 
-#: clientgui/MainFrame.cpp:355
+#: clientgui/MainFrame.cpp:356
 msgid "Stops work regardless of preferences"
 msgstr "Приостаналивается обработка всех заданий во всех проектах"
 
-#: clientgui/MainFrame.cpp:363
+#: clientgui/MainFrame.cpp:364
 msgid "Does network activity regardless of preferences"
 msgstr "Разрешается обмен данными через интернет в любой момент времени, независимо от настроек."
 
-#: clientgui/MainFrame.cpp:368
+#: clientgui/MainFrame.cpp:369
 msgid "Does network activity according to your preferences"
 msgstr "Обмен данными через интернет осуществляется в соответствие с настройками."
 
-#: clientgui/MainFrame.cpp:373
+#: clientgui/MainFrame.cpp:374
 msgid "Stops BOINC network activity"
 msgstr "Запрещается обмен данными через интернет между BOINC и серверами проектов"
 
-#: clientgui/MainFrame.cpp:380
+#: clientgui/MainFrame.cpp:381
+msgid "Retry &communications"
+msgstr "Повторить обмен данными с серверами проектов"
+
+#: clientgui/MainFrame.cpp:382
+msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Подтверждение завершенных заданий и запрос новых, получение информации о настройках и количестве очков."
+
+#: clientgui/MainFrame.cpp:387
 msgid "Run &benchmarks"
 msgstr "Запустить тест производительности"
 
-#: clientgui/MainFrame.cpp:381
+#: clientgui/MainFrame.cpp:388
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Запустить тест прозводительности процессора"
 
-#: clientgui/MainFrame.cpp:388
+#: clientgui/MainFrame.cpp:395
 msgid "&Attach to &project"
 msgstr "Добавить проект"
 
-#: clientgui/MainFrame.cpp:389
+#: clientgui/MainFrame.cpp:396
 msgid "Attach to a project to begin processing work"
 msgstr "Подключиться к еще одному проекту распределённых вычислений"
 
-#: clientgui/MainFrame.cpp:393
+#: clientgui/MainFrame.cpp:400
 msgid "&Account manager"
 msgstr "Менеджер учётных записей"
 
-#: clientgui/MainFrame.cpp:394
+#: clientgui/MainFrame.cpp:401
 msgid "Attach to an account manager"
 msgstr "Соединиться с менеджером учётных записей"
 
-#: clientgui/MainFrame.cpp:401
-#: clientgui/MainFrame.cpp:443
+#: clientgui/MainFrame.cpp:408
+#: clientgui/MainFrame.cpp:450
 msgid "&Options"
 msgstr "Настройки"
 
-#: clientgui/MainFrame.cpp:402
+#: clientgui/MainFrame.cpp:409
 msgid "Configure GUI options and proxy settings"
 msgstr "Настройки графического интерфейса программы и прокси серверов"
 
-#: clientgui/MainFrame.cpp:409
+#: clientgui/MainFrame.cpp:416
 msgid "&BOINC Manager\tF1"
 msgstr "Справка по BOINC менеджеру\tF1"
 
-#: clientgui/MainFrame.cpp:410
+#: clientgui/MainFrame.cpp:417
 msgid "Show information about the BOINC Manager"
 msgstr "Показать справку по программе BOINC менеджер"
 
-#: clientgui/MainFrame.cpp:415
+#: clientgui/MainFrame.cpp:422
 msgid "BOINC &website"
 msgstr "Домашняя страница BOINC"
 
-#: clientgui/MainFrame.cpp:416
+#: clientgui/MainFrame.cpp:423
 msgid "Show information about BOINC and BOINC Manager"
 msgstr "Посетить домашнюю страницу BOINC"
 
-#: clientgui/MainFrame.cpp:424
+#: clientgui/MainFrame.cpp:431
 msgid "Licensing and copyright information."
 msgstr "Показать сведения о версии программы и авторских правах  "
 
-#: clientgui/MainFrame.cpp:431
+#: clientgui/MainFrame.cpp:438
 msgid "&File"
 msgstr "Файл"
 
-#: clientgui/MainFrame.cpp:435
+#: clientgui/MainFrame.cpp:442
 msgid "&Commands"
 msgstr "Управление"
 
-#: clientgui/MainFrame.cpp:439
+#: clientgui/MainFrame.cpp:446
 msgid "&Projects"
 msgstr "Проекты"
 
-#: clientgui/MainFrame.cpp:447
-#: clientgui/wizards/wizardex.cpp:359
-#: clientgui/wizards/wizardex.cpp:366
+#: clientgui/MainFrame.cpp:454
+#: clientgui/wizardex.cpp:359
+#: clientgui/wizardex.cpp:366
 msgid "&Help"
 msgstr "Справка"
 
-#: clientgui/MainFrame.cpp:1015
+#: clientgui/MainFrame.cpp:1022
 msgid "Attaching to project..."
 msgstr "Подключение к проекту..."
 
-#: clientgui/MainFrame.cpp:1113
+#: clientgui/MainFrame.cpp:1058
+msgid "Retrying communications for project(s)..."
+msgstr "Повторный обмен данными для всех подключенных проектов..."
+
+#: clientgui/MainFrame.cpp:1137
 msgid "Language Selection..."
 msgstr "Изменение языка интерфейса программы..."
 
-#: clientgui/MainFrame.cpp:1114
+#: clientgui/MainFrame.cpp:1138
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Язык интерфейса программы BOINC менеджер был изменен, для вступления в силу изменений требуется перезапустить программу."
 
-#: clientgui/MainFrame.cpp:1508
-#: clientgui/MainFrame.cpp:1525
-#: clientgui/MainFrame.cpp:1531
-#: clientgui/MainFrame.cpp:1574
-#: clientgui/MainFrame.cpp:1602
-#: clientgui/MainFrame.cpp:1611
-#: clientgui/MainFrame.cpp:1625
-#: clientgui/MainFrame.cpp:1633
+#: clientgui/MainFrame.cpp:1532
+#: clientgui/MainFrame.cpp:1549
+#: clientgui/MainFrame.cpp:1555
+#: clientgui/MainFrame.cpp:1598
+#: clientgui/MainFrame.cpp:1626
+#: clientgui/MainFrame.cpp:1635
+#: clientgui/MainFrame.cpp:1649
+#: clientgui/MainFrame.cpp:1657
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC менеджер - состояние подключения"
 
-#: clientgui/MainFrame.cpp:1509
+#: clientgui/MainFrame.cpp:1533
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "Программе BOINC необходимо подключиться к интернету. Откройте окно BOINC менеджера для начала соединения."
 
-#: clientgui/MainFrame.cpp:1524
+#: clientgui/MainFrame.cpp:1548
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -545,53 +760,174 @@ msgstr ""
 "Программе BOINC необходимо подключиться к интернету\n"
 "Произвести соединение сейчас?"
 
-#: clientgui/MainFrame.cpp:1532
+#: clientgui/MainFrame.cpp:1556
 msgid "BOINC is connecting to the internet."
 msgstr "Идёт подключение BOINC к интернету."
 
-#: clientgui/MainFrame.cpp:1575
+#: clientgui/MainFrame.cpp:1599
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC обнаружил установленное подключение к интернету. Идёт обмен файлами данных и обновление информации о проектах."
 
-#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1627
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC менеджер разорвал подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1612
+#: clientgui/MainFrame.cpp:1636
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC менеджеру не удалось разорвать подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1626
+#: clientgui/MainFrame.cpp:1650
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC менеджер установил подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1634
+#: clientgui/MainFrame.cpp:1658
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC менеджеру не удалось подключиться к интернету."
 
-#: clientgui/MainFrame.cpp:1712
-#: clientgui/MainFrame.cpp:1715
+#: clientgui/MainFrame.cpp:1736
+#: clientgui/MainFrame.cpp:1739
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1713
+#: clientgui/MainFrame.cpp:1737
 #, c-format
 msgid "Connecting to %s"
 msgstr "Идёт подключение к %s"
 
-#: clientgui/MainFrame.cpp:1716
+#: clientgui/MainFrame.cpp:1740
 #, c-format
 msgid "Connected to %s"
 msgstr "Подключен к %s"
 
+# ?
+#: clientgui/NoInternetConnectionPage.cpp:98
+msgid "No Internet connection"
+msgstr "Отсутствует связь с интернетом."
+
+# ?
+#: clientgui/NoInternetConnectionPage.cpp:105
+msgid "Please connect to the Internet and try again."
+msgstr "Произведите подключение к интернету и повторите."
+
+#: clientgui/NotDetectedPage.cpp:102
+msgid "Project not found"
+msgstr "Проект не найден"
+
+#: clientgui/NotDetectedPage.cpp:108
+msgid "The URL you supplied is not that of a BOINC-based project."
+msgstr "Указанный адрес (URL) не является адресом проекта на базе BOINC."
+
+#: clientgui/NotDetectedPage.cpp:111
+#: clientgui/NotDetectedPage.cpp:125
+msgid "Please check the URL and try again."
+msgstr "Уточните адрес (URL) и попробуйте подключиться снова."
+
+#: clientgui/NotDetectedPage.cpp:116
+msgid "Account manager not found"
+msgstr "Менеджер учётных записей не найден"
+
+#: clientgui/NotDetectedPage.cpp:122
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager."
+msgstr ""
+"Указанный адрес (URL) не является адресом менеджера учётных записей\n"
+"проектов на базе BOINC."
+
+# ?
+#: clientgui/NotFoundPage.cpp:99
+msgid "Account not found"
+msgstr "Указанная учётная запись не существует"
+
+# ?.? 'account name' - это кто
+#: clientgui/NotFoundPage.cpp:106
+msgid "Verify your account name and password are correct and try again."
+msgstr "Проверьте правильность написания имени вашей учётной записи и пароля и повторите ввод."
+
+#: clientgui/ProjectInfoPage.cpp:104
+msgid "Project URL"
+msgstr "Адрес проекта"
+
+#: clientgui/ProjectInfoPage.cpp:109
+msgid "Enter the URL of the project's web site."
+msgstr "Введите адрес сайта выбранного проекта."
+
+#: clientgui/ProjectInfoPage.cpp:125
+msgid "Project &URL:"
+msgstr "Адрес проекта (URL):"
+
+#: clientgui/ProjectInfoPage.cpp:135
+msgid "For a list of BOINC-based projects go to:"
+msgstr "Для просмотра списка доступных BOINC проектов посетите страницу:"
+
+#: clientgui/ProjectProcessingPage.cpp:136
+#: clientgui/ProjectPropertiesPage.cpp:136
+msgid ""
+"Communicating with project \n"
+"Please wait..."
+msgstr ""
+"Устанавливается связь с сервером проекта\n"
+"Пожалуйста подождите..."
+
+# ?
+#: clientgui/ProxyPage.cpp:117
+msgid "Proxy configuration"
+msgstr "Параметры прокси сервера"
+
+#: clientgui/ProxyPage.cpp:123
+msgid "HTTP proxy"
+msgstr "HTTP прокси"
+
+#: clientgui/ProxyPage.cpp:132
+#: clientgui/ProxyPage.cpp:182
+msgid "Server:"
+msgstr "Сервер:"
+
+#: clientgui/ProxyPage.cpp:169
+msgid "Autodetect"
+msgstr "Автоопределение"
+
+#: clientgui/ProxyPage.cpp:173
+msgid "SOCKS proxy"
+msgstr "SOCKS прокси"
+
+#: clientgui/UnavailablePage.cpp:101
+msgid "Project temporarily unavailable"
+msgstr "Проект временно недоступен"
+
+#: clientgui/UnavailablePage.cpp:107
+msgid ""
+"The project is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Проект в данный момент недоступен.\n"
+"\n"
+"Попробуйте подключиться позже."
+
+# ?
+#: clientgui/UnavailablePage.cpp:112
+msgid "Account manager temporarily unavailable"
+msgstr "Менеджер учётных записей временно недоступен"
+
+#: clientgui/UnavailablePage.cpp:118
+msgid ""
+"The account manager is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Менеджер учётных записей в данный момент недоступен.\n"
+"\n"
+"Попробуйте подключиться позже."
+
 #: clientgui/ValidateAccountKey.cpp:69
 msgid "Please specify an account key to continue."
-msgstr "Введите код доступа (account key) для продолжения."
+msgstr "Введите код доступа для продолжения."
 
 #: clientgui/ValidateAccountKey.cpp:72
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Введен не правильный код доступа (account key), повторите ввод кода доступа"
+msgstr "Введен не правильный код доступа, повторите ввод кода доступа"
 
 #: clientgui/ValidateAccountKey.cpp:83
 msgid "Validation conflict"
@@ -648,7 +984,7 @@ msgid "'%s' does not contain a valid path."
 msgstr "Указанный путь: \"%s\" не существует."
 
 #: clientgui/ViewMessages.cpp:74
-#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewProjects.cpp:102
 #: clientgui/ViewStatistics.cpp:316
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
@@ -672,7 +1008,7 @@ msgid "Copy the selected messages to the clipboard. You can select multiple mess
 msgstr "Копировать выделенные сообщения в буфер обмена. Можно использовать SHIFT и CTRL для выделения нескольких сообщений."
 
 #: clientgui/ViewMessages.cpp:98
-#: clientgui/ViewProjects.cpp:161
+#: clientgui/ViewProjects.cpp:150
 #: clientgui/ViewResources.cpp:76
 #: clientgui/ViewTransfers.cpp:115
 #: clientgui/ViewWork.cpp:125
@@ -700,187 +1036,175 @@ msgstr "Копируются все сообщения в буфер обмена..."
 msgid "Aborting transfer..."
 msgstr "Прерывание передачи данных с последующим удалением передаваемого файла..."
 
-#: clientgui/ViewProjects.cpp:109
+#: clientgui/ViewProjects.cpp:106
 msgid "Update"
 msgstr "Обновить"
 
-#: clientgui/ViewProjects.cpp:110
+#: clientgui/ViewProjects.cpp:107
 msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr "Получить информацию с сервера проекта: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках учётной записи и (возможно) закачке новых заданий."
 
-#: clientgui/ViewProjects.cpp:117
-msgid "Update all"
-msgstr "Обновить все проекты"
-
-#: clientgui/ViewProjects.cpp:118
-msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Получить информацию с серверов всех проектов: о подтверждении передачи завершенных заданий, о количестве набранных очков, о настройках Учётной записи и (возможно) закачке новых заданий."
-
-#: clientgui/ViewProjects.cpp:125
-#: clientgui/ViewProjects.cpp:583
+#: clientgui/ViewProjects.cpp:114
+#: clientgui/ViewProjects.cpp:552
 #: clientgui/ViewWork.cpp:99
 #: clientgui/ViewWork.cpp:450
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: clientgui/ViewProjects.cpp:126
-#: clientgui/ViewProjects.cpp:583
+#: clientgui/ViewProjects.cpp:115
+#: clientgui/ViewProjects.cpp:552
 msgid "Suspend work for this project."
 msgstr "Приостановить обработку выделенного проекта"
 
-#: clientgui/ViewProjects.cpp:132
-#: clientgui/ViewProjects.cpp:595
+#: clientgui/ViewProjects.cpp:121
+#: clientgui/ViewProjects.cpp:564
 msgid "No new work"
 msgstr "Не запрашивать задания"
 
 # ?
-#: clientgui/ViewProjects.cpp:133
+#: clientgui/ViewProjects.cpp:122
 msgid "Don't get new work for this project."
 msgstr "Не запрашивать новые задания с сервера проекта."
 
-#: clientgui/ViewProjects.cpp:139
+#: clientgui/ViewProjects.cpp:128
 msgid "Reset project"
 msgstr "Перезапустить проект"
 
-#: clientgui/ViewProjects.cpp:140
+#: clientgui/ViewProjects.cpp:129
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr ""
 "Удалить ВСЕ файлы и задания выделенного проекта и закачать новые.\n"
 "ВНИМАНИЕ: не забудьте перед данной операцией отправить все завершенные задания для данного проекта :-)"
 
-#: clientgui/ViewProjects.cpp:149
+#: clientgui/ViewProjects.cpp:138
 msgid "Detach"
 msgstr "Удалить проект"
 
-#: clientgui/ViewProjects.cpp:150
+#: clientgui/ViewProjects.cpp:139
 msgid "Detach computer from this project.  Work in progress will be lost (use 'Update' first to report any completed work)."
 msgstr ""
 "Отсоединить данный компьютер от выделенного проекта. Обрабатываемые в данный момент задания будут потеряны.\n"
 "ВНИМАНИЕ: не забудьте перед данной операцией отправить все завершенные задания для данного проекта :-)"
 
-#: clientgui/ViewProjects.cpp:162
+#: clientgui/ViewProjects.cpp:151
 msgid "Account"
 msgstr "Учётная запись"
 
-#: clientgui/ViewProjects.cpp:163
+#: clientgui/ViewProjects.cpp:152
 msgid "Team"
 msgstr "Команда"
 
-#: clientgui/ViewProjects.cpp:164
+#: clientgui/ViewProjects.cpp:153
 msgid "Total credit"
 msgstr "Всего очков"
 
-#: clientgui/ViewProjects.cpp:165
+#: clientgui/ViewProjects.cpp:154
 msgid "Avg. credit"
 msgstr "В среднем за день"
 
-#: clientgui/ViewProjects.cpp:166
+#: clientgui/ViewProjects.cpp:155
 msgid "Resource share"
 msgstr "Выделено ресурсов"
 
-#: clientgui/ViewProjects.cpp:167
+#: clientgui/ViewProjects.cpp:156
 #: clientgui/ViewTransfers.cpp:121
 #: clientgui/ViewWork.cpp:132
 msgid "Status"
 msgstr "Состояние"
 
-#: clientgui/ViewProjects.cpp:180
+#: clientgui/ViewProjects.cpp:169
 msgid "Projects"
 msgstr "Проекты"
 
-#: clientgui/ViewProjects.cpp:203
+#: clientgui/ViewProjects.cpp:192
 msgid "Updating project..."
 msgstr "Обновляется информация о проекте..."
 
-#: clientgui/ViewProjects.cpp:227
-msgid "Updating all project(s)..."
-msgstr "Обновляется информация о всех подключенных проектах..."
-
-#: clientgui/ViewProjects.cpp:253
+#: clientgui/ViewProjects.cpp:219
 msgid "Resuming project..."
 msgstr "Проект запускается..."
 
-#: clientgui/ViewProjects.cpp:257
+#: clientgui/ViewProjects.cpp:223
 msgid "Suspending project..."
 msgstr "Приостанавливается выполнение проекта..."
 
-#: clientgui/ViewProjects.cpp:284
+#: clientgui/ViewProjects.cpp:251
 msgid "Telling project to allow additional work downloads..."
 msgstr "Передается запрос на разрешение получения новых заданий для обработки..."
 
-#: clientgui/ViewProjects.cpp:288
+#: clientgui/ViewProjects.cpp:255
 msgid "Telling project to not fetch additional work..."
 msgstr "Передается запрос на запрет получения новых заданий для обработки..."
 
-#: clientgui/ViewProjects.cpp:318
+#: clientgui/ViewProjects.cpp:286
 msgid "Resetting project..."
 msgstr "Проект перезапускается..."
 
-#: clientgui/ViewProjects.cpp:324
+#: clientgui/ViewProjects.cpp:292
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Вы действительно хотите перезапустить проект \"%s\"?"
 
-#: clientgui/ViewProjects.cpp:330
+#: clientgui/ViewProjects.cpp:298
 msgid "Reset Project"
 msgstr "Перезапуск проекта"
 
-#: clientgui/ViewProjects.cpp:364
+#: clientgui/ViewProjects.cpp:333
 msgid "Detaching from project..."
 msgstr "Отсоединение от проекта..."
 
-#: clientgui/ViewProjects.cpp:370
+#: clientgui/ViewProjects.cpp:339
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Вы действительно хотите отсоединиться от проекта \"%s\"?"
 
-#: clientgui/ViewProjects.cpp:376
+#: clientgui/ViewProjects.cpp:345
 msgid "Detach from Project"
 msgstr "Отсоединение от проекта"
 
-#: clientgui/ViewProjects.cpp:404
+#: clientgui/ViewProjects.cpp:374
 msgid "Launching browser..."
 msgstr "Загружается браузер..."
 
-#: clientgui/ViewProjects.cpp:579
+#: clientgui/ViewProjects.cpp:548
 #: clientgui/ViewWork.cpp:446
 msgid "Resume"
 msgstr "Запустить"
 
-#: clientgui/ViewProjects.cpp:579
+#: clientgui/ViewProjects.cpp:548
 msgid "Resume work for this project."
 msgstr "Продолжить обработку выделенного проекта"
 
-#: clientgui/ViewProjects.cpp:591
+#: clientgui/ViewProjects.cpp:560
 msgid "Allow new work"
 msgstr "Получать новые задания"
 
-#: clientgui/ViewProjects.cpp:591
+#: clientgui/ViewProjects.cpp:560
 msgid "Allow fetching new work for this project."
 msgstr "Запрашивать новые задания с сервера проекта"
 
-#: clientgui/ViewProjects.cpp:595
+#: clientgui/ViewProjects.cpp:564
 msgid "Don't fetch new work for this project."
 msgstr "Не запрашивать новые задания с сервера проекта"
 
-#: clientgui/ViewProjects.cpp:631
+#: clientgui/ViewProjects.cpp:599
 msgid "Web sites"
-msgstr "Веб-страницы проекта"
+msgstr "Ссылки"
 
-#: clientgui/ViewProjects.cpp:745
+#: clientgui/ViewProjects.cpp:713
 #: clientgui/ViewWork.cpp:658
 msgid "Suspended by user"
 msgstr "Приостановлено пользователем"
 
-#: clientgui/ViewProjects.cpp:748
+#: clientgui/ViewProjects.cpp:716
 msgid "Won't get new work"
 msgstr "Не запрашивать новые задания"
 
-#: clientgui/ViewProjects.cpp:751
+#: clientgui/ViewProjects.cpp:719
 msgid "Scheduler request pending"
 msgstr "Запрос информации у планировщика"
 
-#: clientgui/ViewProjects.cpp:757
+#: clientgui/ViewProjects.cpp:725
 msgid "Communication deferred "
 msgstr "Повтор через "
 
@@ -1146,570 +1470,108 @@ msgstr "Ошибка: invalid state \"%d\""
 msgid "Activities suspended by user"
 msgstr "Приостановлено пользователем"
 
-#: clientgui/WizAttachAccountManager.cpp:138
-#: clientgui/WizAttachAccountManager.cpp:1596
-#: clientgui/wizards/WizardAccountManager.cpp:116
-msgid "Attach to Account Manager"
-msgstr "Соединение с менеджером учётных записей"
+#: clientgui/WelcomePage.cpp:144
+msgid "We'll now guide you through the process of attaching to a project."
+msgstr "Данный мастер поможет вам подключиться к проекту распределённых вычислений."
 
-#: clientgui/WizAttachAccountManager.cpp:412
-#: clientgui/WizAttachProject.cpp:457
-#: clientgui/wizards/WizardAccountManager.cpp:374
-#: clientgui/wizards/WizardAttachProject.cpp:425
-msgid "Do you really want to cancel?"
-msgstr "Прервать процесс подключения ?"
-
-#: clientgui/WizAttachAccountManager.cpp:413
-#: clientgui/WizAttachProject.cpp:458
-#: clientgui/wizards/WizardAccountManager.cpp:375
-#: clientgui/wizards/WizardAttachProject.cpp:426
-msgid "Question"
-msgstr "Вопрос"
-
-#: clientgui/WizAttachAccountManager.cpp:593
-#: clientgui/wizards/AccountInfoPage.cpp:301
-#: clientgui/wizards/WelcomePage.cpp:149
-msgid "Attach to account manager"
-msgstr "Соединение с менеджером учётных записей"
-
-#: clientgui/WizAttachAccountManager.cpp:598
-#: clientgui/wizards/WelcomePage.cpp:153
+#: clientgui/WelcomePage.cpp:153
 msgid ""
 "We'll now guide you through the process of attaching to an\n"
 "account manager."
 msgstr "Данный мастер поможет вам подключиться к менеджеру учётных записей."
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:604
-#: clientgui/WizAttachProject.cpp:674
-#: clientgui/wizards/WelcomePage.cpp:160
+#: clientgui/WelcomePage.cpp:160
 msgid "Debug Flags"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:614
-#: clientgui/WizAttachProject.cpp:684
-#: clientgui/wizards/WelcomePage.cpp:170
+#: clientgui/WelcomePage.cpp:170
 msgid "Project Properties Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:621
-#: clientgui/WizAttachProject.cpp:694
-#: clientgui/wizards/WelcomePage.cpp:180
-msgid "Project Properties URL Failure"
-msgstr ""
-
-# if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:628
-#: clientgui/WizAttachProject.cpp:719
-#: clientgui/wizards/WelcomePage.cpp:205
-msgid "Project Attach Failure"
-msgstr ""
-
-# if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:635
-#: clientgui/WizAttachProject.cpp:724
-#: clientgui/wizards/WelcomePage.cpp:210
-msgid "Google Comm Failure"
-msgstr ""
-
-# if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:642
-#: clientgui/WizAttachProject.cpp:731
-#: clientgui/wizards/WelcomePage.cpp:217
-msgid "Yahoo Comm Failure"
-msgstr ""
-
-# if defined(__WXDEBUG__)
-#: clientgui/WizAttachAccountManager.cpp:649
-#: clientgui/WizAttachProject.cpp:738
-#: clientgui/wizards/WelcomePage.cpp:224
-msgid "Net Detection Failure"
-msgstr ""
-
-#: clientgui/WizAttachAccountManager.cpp:656
-#: clientgui/WizAttachProject.cpp:745
-#: clientgui/wizards/WelcomePage.cpp:231
-msgid "To continue, click Next."
-msgstr "Для продолжения нажмите кнопку \"Далее\"."
-
-#: clientgui/WizAttachAccountManager.cpp:846
-#: clientgui/wizards/AccountManagerInfoPage.cpp:103
-msgid "Account Manager URL"
-msgstr "Адрес менеджера учётных записей (URL)"
-
-#: clientgui/WizAttachAccountManager.cpp:851
-#: clientgui/wizards/AccountManagerInfoPage.cpp:108
-msgid "Enter the URL of the account manager's web site."
-msgstr "Введите адрес (URL) выбранного менеджера учётных записей."
-
-#: clientgui/WizAttachAccountManager.cpp:857
-#: clientgui/WizAttachProject.cpp:968
-#: clientgui/wizards/AccountManagerInfoPage.cpp:114
-#: clientgui/wizards/ProjectInfoPage.cpp:115
-msgid "You can copy and paste the URL from your browser▓s address bar."
-msgstr "Можно скопировать данный адрес из адресной строки вашего браузера."
-
-#: clientgui/WizAttachAccountManager.cpp:867
-#: clientgui/wizards/AccountManagerInfoPage.cpp:124
-msgid "Account Manager URL:"
-msgstr "Адрес менеджера учётных записей (URL):"
-
-#: clientgui/WizAttachAccountManager.cpp:877
-#: clientgui/wizards/AccountManagerInfoPage.cpp:134
-msgid "For a list of BOINC-based account managers go to:"
-msgstr ""
-"Для просмотра списка доступных менеджеров учётных записей\n"
-"проектов BOINC посетите страницу:"
-
-#: clientgui/WizAttachAccountManager.cpp:1054
-#: clientgui/wizards/AccountManagerPropertiesPage.cpp:135
-msgid ""
-"Communicating with account manager \n"
-"Please wait..."
-msgstr ""
-"Устанавливается связь с менеджером учётных записей\n"
-"Пожалуйста подождите..."
-
-#: clientgui/WizAttachAccountManager.cpp:1534
-#: clientgui/WizAttachProject.cpp:1847
-#: clientgui/wizards/AccountInfoPage.cpp:114
-msgid "Account information"
-msgstr "Информация об \"Учётной записи\""
-
-#: clientgui/WizAttachAccountManager.cpp:1545
-#: clientgui/WizAttachAccountManager.cpp:1580
-#: clientgui/WizAttachProject.cpp:1876
-#: clientgui/WizAttachProject.cpp:1994
-#: clientgui/wizards/AccountInfoPage.cpp:152
-#: clientgui/wizards/AccountInfoPage.cpp:280
-msgid "Email address:"
-msgstr "Адрес электронной почты:"
-
-#: clientgui/WizAttachAccountManager.cpp:1756
-#: clientgui/wizards/AccountManagerProcessingPage.cpp:132
-msgid ""
-"Communicating with account manager\n"
-"Please wait..."
-msgstr ""
-"Устанавливается связь с менеджером учётных записей\n"
-"Пожалуйста подождите..."
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2111
-#: clientgui/wizards/CompletionPage.cpp:121
-msgid "Attached to account manager"
-msgstr "Соединение с менеджером учётных записей установлено"
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2116
-#: clientgui/wizards/CompletionPage.cpp:125
-msgid "You are now successfully attached to this account manager."
-msgstr ""
-"Соединение с указанным менеджером учётных записей\n"
-"успешно установлено."
-
-#: clientgui/WizAttachAccountManager.cpp:2122
-#: clientgui/WizAttachAccountManager.cpp:2276
-#: clientgui/WizAttachProject.cpp:2689
-#: clientgui/WizAttachProject.cpp:2782
-#: clientgui/wizards/CompletionErrorPage.cpp:109
-#: clientgui/wizards/CompletionErrorPage.cpp:120
-#: clientgui/wizards/CompletionPage.cpp:199
-msgid "Click Finish to close."
-msgstr "Нажмите кнопку \"Готово\" для выхода из мастера."
-
-#: clientgui/WizAttachAccountManager.cpp:2269
-#: clientgui/wizards/CompletionErrorPage.cpp:114
-msgid "Failed to attach to account manager"
-msgstr "Не удалось соединиться с менеджером учётных записей"
-
-#: clientgui/WizAttachAccountManager.cpp:2414
-#: clientgui/wizards/NotDetectedPage.cpp:116
-msgid "Account manager not found"
-msgstr "Указанный менеджер учётных записей не найден"
-
-#: clientgui/WizAttachAccountManager.cpp:2421
-#: clientgui/wizards/NotDetectedPage.cpp:122
-msgid ""
-"The URL you supplied is not that of a BOINC-based account\n"
-"manager."
-msgstr ""
-"Указанный адрес (URL) не является адресом менеджера учётных записей\n"
-"проектов на базе BOINC."
-
-#: clientgui/WizAttachAccountManager.cpp:2425
-#: clientgui/WizAttachProject.cpp:2936
-#: clientgui/wizards/NotDetectedPage.cpp:111
-#: clientgui/wizards/NotDetectedPage.cpp:125
-msgid "Please check the URL and try again."
-msgstr "Уточните адрес (URL) и попробуйте подключиться снова."
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2563
-#: clientgui/wizards/UnavailablePage.cpp:112
-msgid "Account manager temporarily unavailable"
-msgstr "Менеджер учётных записей временно недоступен"
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2570
-msgid ""
-"The account manager is currently unavailable.\n"
-"\n"
-"Please try again later."
-msgstr ""
-"Менеджер учётных записей в данный момент недоступен.\n"
-"\n"
-"Попробуйте подключиться позже."
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2708
-#: clientgui/WizAttachProject.cpp:3373
-#: clientgui/wizards/NoInternetConnectionPage.cpp:98
-msgid "No Internet connection"
-msgstr "Отсутствует связь с интернетом."
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2715
-#: clientgui/WizAttachProject.cpp:3380
-#: clientgui/wizards/NoInternetConnectionPage.cpp:105
-msgid "Please connect to the Internet and try again."
-msgstr "Произведите подключение к интернету и повторите."
-
-# ?
-#: clientgui/WizAttachAccountManager.cpp:2871
-#: clientgui/WizAttachProject.cpp:3830
-#: clientgui/wizards/ProxyPage.cpp:117
-msgid "Proxy configuration"
-msgstr "Параметры прокси сервера"
-
-#: clientgui/WizAttachAccountManager.cpp:2877
-#: clientgui/WizAttachProject.cpp:3836
-#: clientgui/wizards/ProxyPage.cpp:123
-msgid "HTTP proxy"
-msgstr "HTTP прокси"
-
-#: clientgui/WizAttachAccountManager.cpp:2886
-#: clientgui/WizAttachAccountManager.cpp:2934
-#: clientgui/WizAttachProject.cpp:3845
-#: clientgui/WizAttachProject.cpp:3893
-#: clientgui/wizards/ProxyPage.cpp:132
-#: clientgui/wizards/ProxyPage.cpp:182
-msgid "Server:"
-msgstr "Сервер:"
-
-#: clientgui/WizAttachAccountManager.cpp:2922
-#: clientgui/WizAttachProject.cpp:3881
-#: clientgui/wizards/ProxyPage.cpp:169
-msgid "Autodetect"
-msgstr "Автоопределение"
-
-#: clientgui/WizAttachAccountManager.cpp:2925
-#: clientgui/WizAttachProject.cpp:3884
-#: clientgui/wizards/ProxyPage.cpp:173
-msgid "SOCKS proxy"
-msgstr "SOCKS прокси"
-
-#: clientgui/WizAttachAccountManager.cpp:3174
-#: clientgui/WizAttachProject.cpp:4135
-msgid "Ref Count Page"
-msgstr ""
-
-#: clientgui/WizAttachAccountManager.cpp:3179
-#: clientgui/WizAttachProject.cpp:4140
-msgid "This page should never be used in the wizard itself."
-msgstr ""
-
-#: clientgui/WizAttachAccountManager.cpp:3185
-#: clientgui/WizAttachProject.cpp:4146
-msgid ""
-"This page just increases the refcount of various bitmap resources\n"
-"so that DialogBlocks doesn't nuke the refences to them."
-msgstr ""
-
-#: clientgui/WizAttachProject.cpp:145
-#: clientgui/WizAttachProject.cpp:2010
-#: clientgui/wizards/WizardAttachProject.cpp:131
-msgid "Attach to Project"
-msgstr "Подключение к проекту"
-
-#: clientgui/WizAttachProject.cpp:663
-#: clientgui/wizards/AccountInfoPage.cpp:298
-#: clientgui/wizards/WelcomePage.cpp:140
-msgid "Attach to project"
-msgstr "Подключение к проекту"
-
-#: clientgui/WizAttachProject.cpp:668
-#: clientgui/wizards/WelcomePage.cpp:144
-msgid "We'll now guide you through the process of attaching to a project."
-msgstr "Данный мастер поможет вам подключиться к проекту распределённых вычислений."
-
-# if defined(__WXDEBUG__)
-#: clientgui/WizAttachProject.cpp:689
-#: clientgui/wizards/WelcomePage.cpp:175
+#: clientgui/WelcomePage.cpp:175
 msgid "Project Comm Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachProject.cpp:699
-#: clientgui/wizards/WelcomePage.cpp:185
+#: clientgui/WelcomePage.cpp:180
+msgid "Project Properties URL Failure"
+msgstr ""
+
+# if defined(__WXDEBUG__)
+#: clientgui/WelcomePage.cpp:185
 msgid "Account Creation Disabled"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachProject.cpp:704
-#: clientgui/wizards/WelcomePage.cpp:190
+#: clientgui/WelcomePage.cpp:190
 msgid "Client Account Creation Disabled"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachProject.cpp:709
-#: clientgui/wizards/WelcomePage.cpp:195
+#: clientgui/WelcomePage.cpp:195
 msgid "Account Already Exists"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WizAttachProject.cpp:714
-#: clientgui/wizards/WelcomePage.cpp:200
+#: clientgui/WelcomePage.cpp:200
 msgid "Project Already Attached"
 msgstr ""
 
-#: clientgui/WizAttachProject.cpp:957
-#: clientgui/wizards/ProjectInfoPage.cpp:104
-msgid "Project URL"
-msgstr "Адрес проекта (URL)"
-
-#: clientgui/WizAttachProject.cpp:962
-#: clientgui/wizards/ProjectInfoPage.cpp:109
-msgid "Enter the URL of the project's web site."
-msgstr "Введите адрес сайта (URL) выбранного проекта."
-
-#: clientgui/WizAttachProject.cpp:978
-#: clientgui/wizards/ProjectInfoPage.cpp:125
-msgid "Project URL:"
-msgstr "Адрес проекта (URL):"
-
-#: clientgui/WizAttachProject.cpp:988
-#: clientgui/wizards/ProjectInfoPage.cpp:135
-msgid "For a list of BOINC-based projects go to:"
-msgstr "Для просмотра списка доступных BOINC проектов посетите страницу:"
-
-#: clientgui/WizAttachProject.cpp:1165
-#: clientgui/WizAttachProject.cpp:2155
-#: clientgui/wizards/ProjectProcessingPage.cpp:136
-#: clientgui/wizards/ProjectPropertiesPage.cpp:136
-msgid ""
-"Communicating with project \n"
-"Please wait..."
+# if defined(__WXDEBUG__)
+#: clientgui/WelcomePage.cpp:205
+msgid "Project Attach Failure"
 msgstr ""
-"Устанавливается связь с сервером проекта\n"
-"Пожалуйста подождите..."
 
-#: clientgui/WizAttachProject.cpp:1649
-#: clientgui/wizards/AccountKeyPage.cpp:103
-msgid "Enter account key"
-msgstr "Введите \"Код доступа\""
-
-#: clientgui/WizAttachProject.cpp:1656
-#: clientgui/wizards/AccountKeyPage.cpp:110
-msgid "This project uses an \"account key\" to identify you."
-msgstr "Данный проект использует код доступа (account key) для идентификации участников."
-
-#: clientgui/WizAttachProject.cpp:1660
-#: clientgui/wizards/AccountKeyPage.cpp:114
-msgid ""
-"Go to the project's web site to create an account. Your account\n"
-"key will be emailed to you."
+# if defined(__WXDEBUG__)
+#: clientgui/WelcomePage.cpp:210
+msgid "Google Comm Failure"
 msgstr ""
-"Посетите домашнюю страницу проекта для создания учётной записи (account) участника.\n"
-"После этого вам пришлют код доступа по электронной почте (email)."
 
-#: clientgui/WizAttachProject.cpp:1664
-#: clientgui/wizards/AccountKeyPage.cpp:118
-msgid "An account key looks like:"
-msgstr "Пример кода доступа:"
-
-#: clientgui/WizAttachProject.cpp:1668
-#: clientgui/wizards/AccountKeyPage.cpp:122
-msgid "82412313ac88e9a3638f66ea82186948"
-msgstr "82412313ac88e9a3638f66ea82186948"
-
-#: clientgui/WizAttachProject.cpp:1679
-#: clientgui/wizards/AccountKeyPage.cpp:133
-msgid "Account key:"
-msgstr "Код доступа (account key):"
-
-#: clientgui/WizAttachProject.cpp:1852
-#: clientgui/wizards/AccountInfoPage.cpp:120
-msgid "Do you wish to use an existing account or create a new one?"
-msgstr "Использовать существующую учётную запись (account) или создать новую?"
-
-#: clientgui/WizAttachProject.cpp:1862
-#: clientgui/wizards/AccountInfoPage.cpp:136
-msgid "Create new account"
-msgstr "Создать новую учётную запись"
-
-#: clientgui/WizAttachProject.cpp:1867
-#: clientgui/wizards/AccountInfoPage.cpp:141
-msgid "Use existing account"
-msgstr "Использовать существующую учётную запись"
-
-#: clientgui/WizAttachProject.cpp:1892
-#: clientgui/wizards/AccountInfoPage.cpp:169
-msgid "Confirm password:"
-msgstr "Подтверждение пароля:"
-
-#: clientgui/WizAttachProject.cpp:2021
-#: clientgui/wizards/AccountInfoPage.cpp:313
-#, c-format
-msgid "The minimum password length for this project is %d. Please choose a different password."
+# if defined(__WXDEBUG__)
+#: clientgui/WelcomePage.cpp:217
+msgid "Yahoo Comm Failure"
 msgstr ""
-"Минимальная длина пароля для данного проекта %d символов.\n"
-"Измените пароль в соответсвие с данным критерием."
 
-#: clientgui/WizAttachProject.cpp:2030
-#: clientgui/wizards/AccountInfoPage.cpp:322
-msgid "The password and confirmation password do not match. Please type them again."
-msgstr "\"Пароль\" и \"Подтверждение пароля\" не совпадают. Повторите ввод пароля."
-
-#: clientgui/WizAttachProject.cpp:2610
-#: clientgui/wizards/CompletionPage.cpp:107
-msgid "Attached to project"
-msgstr "Проект добавлен"
-
-#: clientgui/WizAttachProject.cpp:2615
-#: clientgui/wizards/CompletionPage.cpp:111
-msgid "You are now successfully attached to this project."
-msgstr "Подключение к проекту прошло успешно."
-
-#: clientgui/WizAttachProject.cpp:2621
-#: clientgui/WizAttachProject.cpp:2687
-#: clientgui/wizards/CompletionPage.cpp:116
-#: clientgui/wizards/CompletionPage.cpp:130
-#: clientgui/wizards/CompletionPage.cpp:197
-msgid ""
-"When you click Finish, your web browser will go to a page where\n"
-"you can set your account name and preferences."
+# if defined(__WXDEBUG__)
+#: clientgui/WelcomePage.cpp:224
+msgid "Net Detection Failure"
 msgstr ""
-"После нажатия кнопки \"Готово\", автоматически откроется\n"
-"страница настроек вашей учётной записи на сайте проекта."
 
-#: clientgui/WizAttachProject.cpp:2775
-#: clientgui/wizards/CompletionErrorPage.cpp:103
-msgid "Failed to attach to project"
-msgstr "Не удалось добавить проект"
+#: clientgui/WelcomePage.cpp:231
+msgid "To continue, click Next."
+msgstr "Для продолжения нажмите кнопку \"Далее\"."
 
-#: clientgui/WizAttachProject.cpp:2925
-#: clientgui/wizards/NotDetectedPage.cpp:102
-msgid "Project not found"
-msgstr "Проект не найден"
+#: clientgui/WizardAccountManager.cpp:116
+msgid "Attach to Account Manager"
+msgstr "Соединение с менеджером учётных записей"
 
-#: clientgui/WizAttachProject.cpp:2932
-#: clientgui/wizards/NotDetectedPage.cpp:108
-msgid "The URL you supplied is not that of a BOINC-based project."
-msgstr "Указанный адрес (URL) не является адресом проекта на базе BOINC."
+#: clientgui/WizardAccountManager.cpp:374
+#: clientgui/WizardAttachProject.cpp:426
+msgid "Do you really want to cancel?"
+msgstr "Прервать процесс подключения ?"
 
-#: clientgui/WizAttachProject.cpp:3081
-#: clientgui/wizards/UnavailablePage.cpp:101
-msgid "Project temporarily unavailable"
-msgstr "Проект временно недоступен"
+#: clientgui/WizardAccountManager.cpp:375
+#: clientgui/WizardAttachProject.cpp:427
+msgid "Question"
+msgstr "Вопрос"
 
-#: clientgui/WizAttachProject.cpp:3088
-msgid ""
-"The project is currently unavailable.\n"
-"\n"
-"Please try again later."
-msgstr ""
-"Проект в данный момент недоступен.\n"
-"\n"
-"Попробуйте подключиться позже."
+#: clientgui/WizardAttachProject.cpp:131
+msgid "Attach to Project"
+msgstr "Подключение к проекту"
 
-#: clientgui/WizAttachProject.cpp:3228
-#: clientgui/wizards/AlreadyAttachedPage.cpp:98
-msgid "Already attached to project"
-msgstr "Проект уже присутствует на данном компьютере"
-
-#: clientgui/WizAttachProject.cpp:3235
-#: clientgui/wizards/AlreadyAttachedPage.cpp:105
-msgid "You are already attached to this project."
-msgstr "Запущенный BOINC клиент уже подключен к данному проекту"
-
-# ?
-#: clientgui/WizAttachProject.cpp:3519
-#: clientgui/wizards/NotFoundPage.cpp:99
-msgid "Account not found"
-msgstr "Данная \"Учётная запись\" не существует"
-
-# ?
-#: clientgui/WizAttachProject.cpp:3526
-#: clientgui/wizards/NotFoundPage.cpp:106
-msgid "Verify your account name and password are correct and try again."
-msgstr "Проверьте правильность написания вашей \"учётной записи\" и \"пароля\" и повторите ввод."
-
-# ?
-#: clientgui/WizAttachProject.cpp:3665
-#: clientgui/wizards/AlreadyExistsPage.cpp:99
-msgid "Email address already in use"
-msgstr "Данный адрес электронной почты уже используется"
-
-# ?
-#: clientgui/WizAttachProject.cpp:3672
-#: clientgui/wizards/AlreadyExistsPage.cpp:106
-msgid ""
-"An account with that email address already exists and has a\n"
-"different password than the one you entered.\n"
-"\n"
-"Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Учётная запись с таким адресом электронной почты уже существует\n"
-"и её пароль отличается от введённого вами\n"
-"\n"
-"Посетите домашнюю страницу проекта и следуйте предложенным там инструкциям."
-
-# не понял, что за 'username'
-#: clientgui/wizards/AccountInfoPage.cpp:126
-msgid ""
-"Transition Note: Account keys are used as passwords for accounts created\n"
-"before BOINC migrated to a username and password authentication scheme."
-msgstr ""
-"Замечание: код доступа (account key) использовался как пароль при создании\n"
-"учётных записей до перехода на использование имени пользователя и пароля."
-
-#: clientgui/wizards/CompletionErrorPage.cpp:126
-msgid "Messages from server:"
-msgstr "Сообщения от сервера:"
-
-#: clientgui/wizards/UnavailablePage.cpp:107
-msgid ""
-"The project is temporarily unavailable.\n"
-"\n"
-"Please try again later."
-msgstr ""
-"Проект в данный момент недоступен.\n"
-"\n"
-"Попробуйте подключиться позже."
-
-#: clientgui/wizards/UnavailablePage.cpp:118
-msgid ""
-"The account manager is temporarily unavailable.\n"
-"\n"
-"Please try again later."
-msgstr ""
-"Менеджер учётных записей в данный момент недоступен.\n"
-"\n"
-"Попробуйте подключиться позже."
-
-#: clientgui/wizards/wizardex.cpp:362
-#: clientgui/wizards/wizardex.cpp:553
+#: clientgui/wizardex.cpp:362
+#: clientgui/wizardex.cpp:553
 msgid "&Next >"
 msgstr "Далее >"
 
-#: clientgui/wizards/wizardex.cpp:368
+#: clientgui/wizardex.cpp:368
 msgid "< &Back"
 msgstr "< Назад"
 
-#: clientgui/wizards/wizardex.cpp:551
+#: clientgui/wizardex.cpp:551
 msgid "&Finish"
 msgstr "Готово"
 
@@ -1734,13 +1596,104 @@ msgid "Select Computer"
 msgstr "Подключение к компьютеру"
 
 # --------------------------old version begin-----------------------------
-# old version 5.1.4
+# old version 1.15
+#: clientgui/WizAttachProject.cpp:3088
+msgid ""
+"The project is currently unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Проект в данный момент недоступен.\n"
+"\n"
+"Попробуйте подключиться позже."
+
+# old version 1.15
+#: clientgui/WizAttachProject.cpp:1892
+#: clientgui/wizards/AccountInfoPage.cpp:169
+msgid "Confirm password:"
+msgstr "Подтверждение пароля:"
+
+# old version 1.15
+#: clientgui/WizAttachProject.cpp:1867
+#: clientgui/wizards/AccountInfoPage.cpp:141
+msgid "Use existing account"
+msgstr "Использовать существующую учётную запись"
+
+# old version 1.15
+#: clientgui/WizAttachProject.cpp:1862
+#: clientgui/wizards/AccountInfoPage.cpp:136
+msgid "Create new account"
+msgstr "Создать новую учётную запись"
+
+# old version 1.15
+#: clientgui/WizAttachProject.cpp:978
+#: clientgui/wizards/ProjectInfoPage.cpp:125
+msgid "Project URL:"
+msgstr "Адрес проекта (URL):"
+
+# old version 1.15
+#: clientgui/WizAttachAccountManager.cpp:3185
+#: clientgui/WizAttachProject.cpp:4146
+msgid ""
+"This page just increases the refcount of various bitmap resources\n"
+"so that DialogBlocks doesn't nuke the refences to them."
+msgstr ""
+
+# old version 1.15
+#: clientgui/WizAttachAccountManager.cpp:3179
+#: clientgui/WizAttachProject.cpp:4140
+msgid "This page should never be used in the wizard itself."
+msgstr ""
+
+# old version 1.15
+#: clientgui/WizAttachAccountManager.cpp:3174
+#: clientgui/WizAttachProject.cpp:4135
+msgid "Ref Count Page"
+msgstr ""
+
+# old version 1.15
+# ?
+#: clientgui/WizAttachAccountManager.cpp:2570
+msgid ""
+"The account manager is currently unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Менеджер учётных записей в данный момент недоступен.\n"
+"\n"
+"Попробуйте подключиться позже."
+
+# old version 1.15
+#: clientgui/WizAttachAccountManager.cpp:867
+#: clientgui/wizards/AccountManagerInfoPage.cpp:124
+msgid "Account Manager URL:"
+msgstr "Адрес менеджера учётных записей (URL):"
+
+# old version 1.15
+#: clientgui/WizAttachAccountManager.cpp:857
+#: clientgui/WizAttachProject.cpp:968
+#: clientgui/wizards/AccountManagerInfoPage.cpp:114
+#: clientgui/wizards/ProjectInfoPage.cpp:115
+msgid "You can copy and paste the URL from your browser▓s address bar."
+msgstr "Можно скопировать данный адрес из адресной строки вашего браузера."
+
+# old version 1.15
+#: clientgui/ViewProjects.cpp:227
+msgid "Updating all project(s)..."
+msgstr "Обновляется информация о всех подключенных проектах..."
+
+# old version 1.15
+#: clientgui/ViewProjects.cpp:117
+msgid "Update all"
+msgstr "Обновить все проекты"
+
+# old version boinc5.1.4
 # My
 msgid "&Attach to &Project"
 msgstr "Добавить проект"
 
-# old version 5.1.4
-# My 
+# old version boinc5.1.4
+# My
 msgid "Manage &Account Manager"
 msgstr "Менеджер учётных записей"
 
@@ -1831,7 +1784,7 @@ msgstr "Добавить проект"
 # old version 1.14
 #: clientgui/ViewProjects.cpp:161
 msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "Подключиться к еще одному проекту. Потребуется ввести адрес проекта (URL) и код доступа (account key)"
+msgstr "Подключиться к еще одному проекту. Потребуется ввести адрес проекта (URL) и код доступа (account key)."
 
 # old version 1.14
 #: clientgui/ViewProjects.cpp:151
@@ -1894,7 +1847,7 @@ msgstr "Закрыть окно"
 # old version 1.14
 #: clientgui/DlgAccountManagerSignup.cpp:124
 msgid "Login:"
-msgstr "Имя (Login):"
+msgstr "Имя (login):"
 
 # old version 1.14
 #: clientgui/DlgAccountManagerSignup.cpp:105
@@ -1949,7 +1902,7 @@ msgstr "Подключение новых BOINC клиентов (хостов) для участия в данном проекте в
 # ?
 #: clientgui/WizAttachProject.cpp:2295
 msgid "The requested account is already in use."
-msgstr "Запрошенная учётная запись (account) уже кем-то используется."
+msgstr "Запрошенная учётная запись уже кем-то используется."
 
 # old version 1.13
 #: clientgui/WizAttachProject.cpp:2169
@@ -2008,7 +1961,7 @@ msgstr ""
 # ?
 #: clientgui/WizAttachProject.cpp:1654
 msgid "Account Creation"
-msgstr "Создание новой \"Учётной записи\""
+msgstr "Создание новой учётной записи"
 
 # old version 1.13
 #: clientgui/WizAttachProject.cpp:1449
@@ -2026,13 +1979,13 @@ msgstr ""
 # old version 1.13
 #: clientgui/WizAttachProject.cpp:1438
 msgid "Account Information"
-msgstr "Информация об \"Учётной записи\""
+msgstr "Информация об учётной записи"
 
 # old version 1.13
 # ?
 #: clientgui/WizAttachProject.cpp:1287
 msgid "An account key typically looks like:"
-msgstr "Пример кода доступа (account key):"
+msgstr "Пример кода доступа:"
 
 # old version 1.13
 # ?
