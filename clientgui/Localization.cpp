@@ -54,7 +54,7 @@ CLocalization::CLocalization() {
     m_strSAHYourTeamName =
         _("Your team");
     m_strSAHYourTeamDescription =
-        _("View information about your team: BOINC Synergy");
+        _("View information about your team");
 }
 
 const char *BOINC_RCSID_4632804e37="$Id$";
