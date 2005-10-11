@@ -156,6 +156,7 @@ void delete_old_slot_dirs() {
     int retval;
 
     dirp = dir_open(SLOTS_DIR);
+    if (!dirp) return;
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
