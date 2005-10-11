@@ -29,7 +29,7 @@ function cancel_wu($wuid1, $wuid2) {
     // trigger the transitioner (it will set file_delete_state)
 
     $now = time();
-    $query = ="update workunit set transition_time=$now where $wuid1<=id and id<=$wuid2";
+    $query="update workunit set transition_time=$now where $wuid1<=id and id<=$wuid2";
     mysql_query($query);
 
     return 0;

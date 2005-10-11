@@ -13015,4 +13015,12 @@ Rom    11 Oct 2005 (HEAD, staging, stable, boinc_core_release)
         hyperlink.cpp
     locale/client/en_US/
         BOINC Manager.po, .mo
+
+Bruce 11 Oct 2005
+    - Fix bug in cancel WU script
+
+    html/
+        ops/
+            cancel_wu_action.php
+
  
