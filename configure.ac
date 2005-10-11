@@ -537,7 +537,7 @@ SAH_CHECK_LIB([pthread],[pthread_join],[
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
-if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client}" = yes ); then
+if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
    echo "----------"
    echo "NOTE: Building portable client binaries"
    echo "----------"
