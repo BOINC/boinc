@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-10 17:00-0800\n"
+"PO-Revision-Date: 2005-10-11 10:30-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -178,8 +178,7 @@ msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:215
-#: clientgui/hyperlink.cpp:229
+#: clientgui/hyperlink.cpp:224
 msgid "BOINC Manager"
 msgstr ""
 
@@ -461,13 +460,14 @@ msgstr ""
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr ""
 
-#: clientgui/hyperlink.cpp:211
-#: clientgui/hyperlink.cpp:225
+#: clientgui/hyperlink.cpp:218
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
-"configured for your favorite browser."
+"configured for your favorite browser. Another method is to set the\n"
+"BROWSER enviroment variable to point to whatever your favorite\n"
+"web browser is."
 msgstr ""
 
 #: clientgui/Localization.cpp:31

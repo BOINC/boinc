@@ -13006,3 +13006,13 @@ Rom    10 Oct 2005 (stable)
     - Tag for 5.2.1 release, all platforms
       boinc_core_release_5_2_1
 
+Rom    11 Oct 2005 (HEAD, staging, stable, boinc_core_release)
+    - When all other methods for determining which browser to use
+        for website links fail, use the BROWSER environment variable.
+        (from Jens Seidler)
+        
+    clientgui/
+        hyperlink.cpp
+    locale/client/en_US/
+        BOINC Manager.po, .mo
+ 
