@@ -12994,3 +12994,10 @@ Rom    10 Oct 2005 (staging)
     - Tag for 5.2.0 release, all platforms
       boinc_core_release_5_2_0
 
+David  10 Oct 2005
+    - core client: fix bug introduced yesterday:
+        check if slots directory doesn't exist yet
+        before cleaning out DELETE_ME subdirs
+
+    client/
+        file_names.C

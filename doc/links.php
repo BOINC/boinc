@@ -72,6 +72,7 @@ language("Dutch", array(
     )
 ));
 language("English", array(
+    site("http://www.setiusa.net/", "SETI.USA"),
     site("http://www.boinc-doc.net", "boinc-doc.net"),
     site("http://www.boincsynergy.com/", "BOINC Synergy"),
     site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),
