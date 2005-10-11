@@ -205,11 +205,11 @@ $m437s = array(
     "
 );
 
-$m518 = array(
-    "num"=>"5.1.8",
+$m521 = array(
+    "num"=>"5.2.1",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.1.8_macOSX.zip",
-    "date"=>"6 October 2005",
+    "file"=>"boinc_5.2.1_macOSX.zip",
+    "date"=>"11 October 2005",
     "type"=>mac_advanced(),
      "features"=>"<ul>
      <li>
@@ -233,11 +233,11 @@ $m518 = array(
     "
 );
 
-$m518c = array(
-    "num"=>"5.1.8",
+$m521c = array(
+    "num"=>"5.2.1",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.1.8_powerpc-apple-darwin.zip",
-    "date"=>"6 October 2005",
+    "file"=>"boinc_5.2.1_powerpc-apple-darwin.zip",
+    "date"=>"11 October 2005",
     "type"=>bare_core(),
     "features"=>"<ul>
     <li>
@@ -313,8 +313,8 @@ $mac = array(
         $m437s,
         $m443c,
         $m419,
-        $m518,
-        $m518c
+        $m521,
+        $m521c
     )
 );
 $linux = array(
