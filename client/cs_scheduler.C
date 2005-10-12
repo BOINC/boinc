@@ -97,7 +97,7 @@ bool PROJECT::waiting_until_min_rpc_time() {
         if (gstate.now >= min_report_min_rpc_time) {
             min_report_min_rpc_time = gstate.now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
             msg_printf(
-                this, MSG_ERROR,
+                this, MSG_INFO,
                "Deferring communication with project for %s\n",
                timediff_format(min_rpc_time - gstate.now).c_str()
             );
