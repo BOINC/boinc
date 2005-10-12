@@ -13018,9 +13018,15 @@ Rom    11 Oct 2005 (HEAD, staging, stable, boinc_core_release)
 
 Bruce 11 Oct 2005
     - Fix bug in cancel WU script
+    - Add WU name to graphics window title.
+      TODO: add app_version_num to window title.
+      David or Rom, could you add app_version_num to struct APP_INIT_DATA?
 
     html/
         ops/
             cancel_wu_action.php
 
+    api/
+        x_opengl.C
+        windows_opengl.C
  

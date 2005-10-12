@@ -136,6 +136,14 @@ static void make_new_window() {
     APP_INIT_DATA aid;
     boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
+    char window_title[256];
+    // keep following consistent with similar code in x_opengl.C
+    // TODO: add app_version_num to window title.  David or Rom, could
+    // you add app_version_num to struct APP_INIT_DATA?
+    //
+    snprintf(window_title, 256,
+        "%s [workunit: %s]", aid.app_name, aid.wu_name
+    );
     hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, aid.app_name,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
         WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
