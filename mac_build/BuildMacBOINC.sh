@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/sh
 
 ##
 # Script for building Macintosh BOINC Manager, Core Client and libraries
@@ -23,7 +23,7 @@
 ##
 
 
-if [[ ($1 == "-dev") || ($2 == "-dev") ]]; then
+if [ "$1" = "-dev" ] || [ "$2" = "-dev" ]; then
 echo "Development (debug) build"
 style="Development"
 else
@@ -31,17 +31,17 @@ echo "Deployment (release) build"
 style="Deployment"
 fi
 
-if [[ ($1 == "-noclean") || ($2 == "-noclean") ]]; then
+if [ "$1" = "-noclean" ] || [ "$2" = "-noclean" ]; then
 doclean=""
 else
 echo "Clean all"
 doclean="clean "
 fi
 
-if [[ -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]]; then
+if [ -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
 echo "Building BOINC under System 10.4"
 sdkname="/Developer/SDKs/MacOSX10.3.9.sdk"
-elif [[ -d /Developer/SDKs/MacOSX10.3.0.sdk/ ]]; then
+elif [ -d /Developer/SDKs/MacOSX10.3.0.sdk/ ]; then
 echo "Building BOINC under System 10.3"
 sdkname="/Developer/SDKs/MacOSX10.3.0.sdk"
 else
