@@ -13064,3 +13064,34 @@ David  12 Oct 2005
         app_start.C
     lib/
         app_ipc.C,h
+
+David  12 Oct 2005
+    - Cleaned up account-creation code.
+        Got rid of a bunch of old stuff.
+        There are now two ways to create an account
+        1) via client
+            - Enter email and password in BOINC manager
+            - BOINC manager eventually brings up account_finish.php,
+                which asks you for name/country/zip.
+        2) via web
+            - Enter email/password/name/country/zip in one form
+
+        Both paths leave you at the "Your account" page,
+        with some extra text at the beginning,
+        telling you to set your preferences,
+        and (in case 2) to make sure you've downloaded the client software.
+
+    html/
+        inc/
+            util.inc
+        user/
+            account_created.php (removed)
+            account_finish_action.php
+            account_setup.php (removed)
+            account_setup_first.php (removed)
+            account_setup_first_action.php (removed)
+            account_setup_first_done.php (removed)
+            account_setup_first_download.php (removed)
+            account_setup_nonfirst.php (removed)
+            account_setup_nonfirst_action.php (removed)
+            account_setup_nonfirst_done.php (removed)

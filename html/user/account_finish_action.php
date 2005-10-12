@@ -40,7 +40,7 @@ if (!$retval) {
 
 session_start();
 $_SESSION["authenticator"] = $auth;
-Header("Location: home.php");
+Header("Location: home.php?new_acct=1");
 setcookie('auth', $auth, time()+3600*24*365);
 
 ?>

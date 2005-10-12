@@ -521,4 +521,14 @@ function post_str($name, $optional=false) {
     return $x;
 }
 
+function is_ascii($str) {
+    // the mb_* functions are not included by default
+    // return (mb_detect_encoding($passwd) -= 'ASCII');
+
+    for ($i=0; $i<strlen($str); $i++) {
+        $c = ord(substr($str, $i));
+        if ($c < 32 || $c > 127) return false;
+    }
+    return true;
+}
 ?>
