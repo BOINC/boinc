@@ -13030,3 +13030,9 @@ Bruce 11 Oct 2005
         x_opengl.C
         windows_opengl.C
  
+Charlie 12 Oct 2005
+    - Mac: remove warning from installer ReadMe about projects incompatible 
+      with Wizard (in preparation for version 5.2.2)
+    
+    mac_installer/
+        ReadMe.rtf
