@@ -219,7 +219,7 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
                 "Please verify that you have either the 'mailcap' package installed or\n"
                 "'mime' package installed, and that the 'text/html' mime type is\n"
                 "configured for your favorite browser. Another method is to set the\n"
-                "BROWSER enviroment variable to point to whatever your favorite\n"
+                "BROWSER environment variable to point to whatever your favorite\n"
                 "web browser is."),
                 _("BOINC Manager"),
                 wxOK | wxICON_INFORMATION
