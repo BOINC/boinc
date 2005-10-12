@@ -347,7 +347,7 @@ of the BOINC application API library.
 
 ==> only building non-graphical parts of the BOINC API Library for now.
 
-NOTE: on MacOS X/Darwin you might consider running configure withe the option
+HINT: on MacOS X/Darwin you might consider running configure with the option
       './configure --with-apple-opengl-framework'
       in order to use the Mac-native openGL framework
 
@@ -359,6 +359,25 @@ else
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
    AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
+
+   AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
+   AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
+
+   if test "$have_jpeg" != 1 ; then
+	AC_MSG_WARN([
+================================================================================
+WARNING: libjpeg.a/jpeglib.h not found.
+
+BOINC's openGL graphics-API needs libjpeg ! 
+see http://www.ijg.org/
+
+==> I will continue building the non-graphical parts of the BOINC API library.
+
+HINT: on MacOSX/Darwin these libs/includes are sometimes found in '/sw/' (if using fink)
+      or '/opt/local' (if using port).
+================================================================================
+	]);
+   fi
 fi
 
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
