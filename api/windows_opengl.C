@@ -144,7 +144,7 @@ static void make_new_window() {
     snprintf(window_title, 256,
         "%s [workunit: %s]", aid.app_name, aid.wu_name
     );
-    hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, aid.app_name,
+    hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
         WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
         NULL, NULL, hInstance, NULL
