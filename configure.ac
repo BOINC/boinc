@@ -475,6 +475,7 @@ AM_OPTIONS_WXCONFIG
 dnl check for wxWidgets
 
 if test "${enable_client_release}" = yes ; then
+   echo 'Portable client-build: checking for  *static* wx-libs ...'
     if test "${enable_debug}" = yes ; then
         AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
     else
@@ -492,7 +493,9 @@ fi
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
    AC_MSG_WARN([
 ================================================================================
-WARNING: wxWidgets could not be found ==> building client without clientgui.
+WARNING: A suitable installation of wxWidgets could not be found 
+	 ==> building client without clientgui.
+
   If you add wxWidgets to your system, then this configure script will also
   configure your system to build the BOINC graphical client (clientgui).  
 
@@ -502,6 +505,9 @@ WARNING: wxWidgets could not be found ==> building client without clientgui.
   and that wxWidgets version is 2.6.0 or above. Currently wxWidgets version
   2.6.0 (gtk based) is known to work with boinc_gui under Linux. You can
   use wx-config --version to find what version you have currently installed.
+
+  NOTE: if building a portable client-release, you need the *static* version
+  of the wx-libs installed!   
 
   You can get wxWidgets by following the DOWNLOAD link at:
   http://www.wxwindows.org/
