@@ -145,6 +145,7 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
+    aid.app_version = app_version->version_num;
     safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);

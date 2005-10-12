@@ -13036,3 +13036,31 @@ Charlie 12 Oct 2005
     
     mac_installer/
         ReadMe.rtf
+
+David  12 Oct 2005
+    - scripts: disable "add", add comments to "xadd"
+    - Client: make "Communication deferred" message INFO rather than ERROR
+
+    client/
+        cs_scheduler.C
+    sched/
+        server_types.C
+    tools/
+        add
+        xadd
+
+David  12 Oct 2005
+    - Add app version # to window title:
+        - add app_version to APP_INIT_DATA structure
+        - initialize it in ACTIVE_TASK::write_app_init_data_file()
+        - make new function get_window_title() so we don't have
+            to worry about consistency of X/WIn code
+
+    api/
+        graphics_impl.C,h
+        windows_opengl.C
+        x_opengl.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h

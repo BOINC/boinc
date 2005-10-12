@@ -154,13 +154,7 @@ static void make_new_window(int mode) {
 
     app_debug_msg("make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
     char window_title[256];
-    // keep following consistent with similar code in windows_opengl.C
-    // TODO: add app_version_num to window title.  David or Rom, could
-    // you add app_version_num to struct APP_INIT_DATA?
-    //
-    snprintf(window_title, 256,
-        "%s version [workunit: %s]", aid.app_name, aid.wu_name
-    );
+    get_window_title(aid, window_title, 256);
     win = glutCreateWindow(window_title); 
     app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
 
