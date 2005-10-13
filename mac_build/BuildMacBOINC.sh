@@ -21,7 +21,6 @@
 ##              default is to clean all first.
 ##
 
-
 if [ "$1" = "-dev" ] || [ "$2" = "-dev" ]; then
 echo "Development (debug) build"
 style="Development"
