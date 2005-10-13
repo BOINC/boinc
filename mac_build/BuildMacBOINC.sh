@@ -11,6 +11,9 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
+##      source BuildMacBOINC.sh [-dev] [-noclean]
+## or
+##      chmod +x BuildMacBOINC.sh
 ##      ./BuildMacBOINC.sh [-dev] [-noclean]
 ##
 ## optional arguments
