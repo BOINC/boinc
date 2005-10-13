@@ -13104,3 +13104,14 @@ Charlie 12 Oct 2005
 
     mac_build/
         BuildMacBOINC.sh
+
+Janus  13 Oct 2005
+    - The HTML version of the teamname wasn't displayed correctly on the
+      teampages.
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_edit_form.php
+
