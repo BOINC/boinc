@@ -13095,3 +13095,12 @@ David  12 Oct 2005
             account_setup_nonfirst.php (removed)
             account_setup_nonfirst_action.php (removed)
             account_setup_nonfirst_done.php (removed)
+
+Charlie 12 Oct 2005
+    - Mac: update BOINC build shell script to:
+      - not require cmpatibility SDK if building under OS 10.3.x
+      - work without "source" command; i.e ./BuildMacBOINC.sh now
+        works.  Thanks to Reinhard for his assistance.
+
+    mac_build/
+        BuildMacBOINC.sh
