@@ -13128,3 +13128,11 @@ David  13 Oct 2005
             profile.inc
         user/
             view_profile.php
+
+David  13 Oct 2005
+    - disable change of 30 Sept 2005
+        We've had reports of file transfer not starting, without explanation.
+        I'm not sure why, but it seems like this is a possible cause.
+
+    client/
+        pers_file_xfer.C

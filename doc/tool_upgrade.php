@@ -52,7 +52,7 @@ to see that current format of your database, e.g.,
 to see the fields in the 'user' table, type
 <pre>
 mysql project_name
-> explain user;
+&gt; explain user;
 </pre>
 To do a particular update,
 edit db_update.php so that (at the bottom) it calls that function.
@@ -66,7 +66,7 @@ Repeat this for the necessary updates, in increasing chronological order.
 Start the project, and check log files to make sure everything is OK.
 Run the BOINC client and test basic functions
 (attaching to project, getting work).
-</ul>
+</ol>
 
 ";
 page_tail();
