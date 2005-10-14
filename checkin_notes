@@ -13115,3 +13115,16 @@ Janus  13 Oct 2005
         user/
             team_edit_form.php
 
+David  13 Oct 2005
+    - include text_transform.inc and db_forum.inc in profile.inc
+        (fixed bug in UOTD-review page)
+    - remove includes of forum.inc and text_transform.inc from view_profile.php
+
+    NOTE: a PHP file (like other languages) should include ONLY
+        the .inc files for the functions that it itself uses
+
+    html/
+        inc/
+            profile.inc
+        user/
+            view_profile.php
