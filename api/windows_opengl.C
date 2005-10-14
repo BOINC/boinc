@@ -20,6 +20,8 @@
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
+#include "graphics_impl.h"
+
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
