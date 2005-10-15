@@ -26,6 +26,7 @@
 #include "MainDocument.h"
 #include "error_numbers.h"
 
+using std::string;
 
 CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     wxObject() {
@@ -47,6 +48,21 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
 CNetworkConnection::~CNetworkConnection() {
 }
 
+void get_password_from_file(wxString& passwd) {
+    FILE* f = fopen("gui_rpc_auth.cfg", "r");
+    if (!f) return;
+    char buf[256];
+    fgets(buf, 256, f);
+    fclose(f);
+    int n = strlen(buf);
+    if (n) {
+        n--;
+        if (buf[n]=='\n') {
+            buf[n] = 0;
+        }
+    }
+    passwd = buf;
+}
 
 // TODO: get rid of "reconnecting" stuff
 
@@ -60,6 +76,11 @@ void* CNetworkConnection::Poll() {
         retval = m_pDocument->rpc.init_poll();
         if (!retval) {
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing..."));
+            if (m_strNewComputerName.empty() && m_strNewComputerPassword.empty()) {
+                // if connecting to local computer,
+                // look for password in file
+                get_password_from_file(m_strNewComputerPassword);
+            }
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.c_str());
             if (!retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));

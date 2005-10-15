@@ -13142,3 +13142,29 @@ David  13 Oct 2005
 
     lib/
         hostinfo.C,h
+
+David  13 Oct 2005
+    - Fix a moderate security loophole in GUI RPC.
+		Old: by default, core client doesn't create a password file
+			(gui_rpc_auth.cfg).
+			Therefore any process on the local host can connect to it;
+			even processes belonging to other users.
+			So if user X is running BOINC, evil user Y can use GUI
+			RPCs to attach BOINC to a rogue project,
+			causing bad code to run as user X.
+		New: on startup, if the core client doesn't find a password file,
+			it creates one, writes a long random string to it,
+			and (on Unix) makes it user-read/write only.
+			The BOINC Manager, when connecting to the local host,
+			looks for a password file in the current directory.
+
+		Bottom line: a user running BOINC is now protected against
+		other users on the same host.
+
+		NOTE: this could cause some angst for Mac users,
+		if they expect things to work the same for all users.
+
+	client/
+		gui_rpc_server.C
+	clientgui/
+		MainDocument.cpp
