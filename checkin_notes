@@ -13136,3 +13136,9 @@ David  13 Oct 2005
 
     client/
         pers_file_xfer.C
+
+David  13 Oct 2005
+    - generalize random-string generator
+
+    lib/
+        hostinfo.C,h
