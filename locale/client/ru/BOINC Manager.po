@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-10 15:44+0500\n"
+"PO-Revision-Date: 2005-10-12 23:10+0500\n"
 "Last-Translator: mifistor <mifistor_x@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,6 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: F:\\boinc_public\n"
-"X-Poedit-Bookmarks: -1,132,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:115
@@ -55,7 +54,7 @@ msgstr "Подтверждение пароля:"
 #: clientgui/AccountInfoPage.cpp:279
 #: clientgui/DlgDialupCredentials.cpp:111
 msgid "Username:"
-msgstr "Пользователь:"
+msgstr "Имя пользователя:"
 
 #: clientgui/AccountInfoPage.cpp:283
 msgid "Email address:"
@@ -198,7 +197,7 @@ msgstr "(Пользовательский)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:216
+#: clientgui/hyperlink.cpp:224
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
@@ -282,6 +281,7 @@ msgstr "Проект добавлен"
 msgid "You are now successfully attached to this project."
 msgstr "Подключение к проекту прошло успешно."
 
+# ...
 #: clientgui/CompletionPage.cpp:116
 #: clientgui/CompletionPage.cpp:130
 #: clientgui/CompletionPage.cpp:197
@@ -289,8 +289,9 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"После нажатия кнопки \"Готово\", автоматически откроется\n"
-"страница настроек вашей учётной записи на сайте проекта."
+"После нажатия кнопки \"Готово\", в вашем браузере\n"
+"автоматически откроется страница, где вы сможете указать\n"
+"имя вашей учётной записи и изменить её настройки."
 
 # ?
 #: clientgui/CompletionPage.cpp:121
@@ -354,9 +355,11 @@ msgstr "Имя:"
 msgid "foo"
 msgstr "нечто"
 
+# ????????????????
+# Ранее было: Адрес проекта (URL)
 #: clientgui/DlgAccountManagerStatus.cpp:125
 msgid "URL:"
-msgstr "Адрес проекта (URL):"
+msgstr "Адрес (URL):"
 
 # ?
 #: clientgui/DlgAccountManagerStatus.cpp:136
@@ -498,15 +501,22 @@ msgstr "Имя компьютера в сети или IP:"
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr "Неудача при создании wxStaticText, необходим wxHyperLink!"
 
-# 'mailcap' или 'mime' - пора обновить свои знания об интернете
-#: clientgui/hyperlink.cpp:213
+# 'mailcap' или 'mime' - пора обновить свои знания об интернете.
+# Перевод с английского на китайский.
+#: clientgui/hyperlink.cpp:218
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
-"'mime' package installed"
+"'mime' package installed, and that the 'text/html' mime type is\n"
+"configured for your favorite browser. Another method is to set the\n"
+"BROWSER environment variable to point to whatever your favorite\n"
+"web browser is."
 msgstr ""
 "BOINC не смог найти установленный у вас браузер.\n"
-"Убедитесь что у вас установлены 'mailcap' или 'mime'."
+"Убедитесь что у вас установлены 'mailcap' или 'mime'\n"
+"и ваш браузер настроен на открытие mime типа 'text/html'.\n"
+"Или просто настройте хотя бы один из браузеров\n"
+"как браузер по умолчанию."
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -561,8 +571,8 @@ msgid "Your team"
 msgstr "Команда"
 
 #: clientgui/Localization.cpp:57
-msgid "View information about your team: BOINC Synergy"
-msgstr "Просмотр информации о команде, к которой вы присоединились: BOINC Synergy"
+msgid "View information about your team"
+msgstr "Просмотр информации о команде, к которой вы присоединились"
 
 #: clientgui/MainDocument.cpp:159
 msgid "BOINC Manager - Connection Error"
@@ -737,22 +747,22 @@ msgstr "Изменение языка интерфейса программы..."
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Язык интерфейса программы BOINC менеджер был изменен, для вступления в силу изменений требуется перезапустить программу."
 
-#: clientgui/MainFrame.cpp:1532
-#: clientgui/MainFrame.cpp:1549
-#: clientgui/MainFrame.cpp:1555
-#: clientgui/MainFrame.cpp:1598
-#: clientgui/MainFrame.cpp:1626
-#: clientgui/MainFrame.cpp:1635
-#: clientgui/MainFrame.cpp:1649
-#: clientgui/MainFrame.cpp:1657
+#: clientgui/MainFrame.cpp:1537
+#: clientgui/MainFrame.cpp:1554
+#: clientgui/MainFrame.cpp:1560
+#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1631
+#: clientgui/MainFrame.cpp:1640
+#: clientgui/MainFrame.cpp:1654
+#: clientgui/MainFrame.cpp:1662
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC менеджер - состояние подключения"
 
-#: clientgui/MainFrame.cpp:1533
+#: clientgui/MainFrame.cpp:1538
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "Программе BOINC необходимо подключиться к интернету. Откройте окно BOINC менеджера для начала соединения."
 
-#: clientgui/MainFrame.cpp:1548
+#: clientgui/MainFrame.cpp:1553
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -760,42 +770,42 @@ msgstr ""
 "Программе BOINC необходимо подключиться к интернету\n"
 "Произвести соединение сейчас?"
 
-#: clientgui/MainFrame.cpp:1556
+#: clientgui/MainFrame.cpp:1561
 msgid "BOINC is connecting to the internet."
 msgstr "Идёт подключение BOINC к интернету."
 
-#: clientgui/MainFrame.cpp:1599
+#: clientgui/MainFrame.cpp:1604
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC обнаружил установленное подключение к интернету. Идёт обмен файлами данных и обновление информации о проектах."
 
-#: clientgui/MainFrame.cpp:1627
+#: clientgui/MainFrame.cpp:1632
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC менеджер разорвал подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1636
+#: clientgui/MainFrame.cpp:1641
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC менеджеру не удалось разорвать подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1650
+#: clientgui/MainFrame.cpp:1655
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC менеджер установил подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1658
+#: clientgui/MainFrame.cpp:1663
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC менеджеру не удалось подключиться к интернету."
 
-#: clientgui/MainFrame.cpp:1736
-#: clientgui/MainFrame.cpp:1739
+#: clientgui/MainFrame.cpp:1741
+#: clientgui/MainFrame.cpp:1744
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1737
+#: clientgui/MainFrame.cpp:1742
 #, c-format
 msgid "Connecting to %s"
 msgstr "Идёт подключение к %s"
 
-#: clientgui/MainFrame.cpp:1740
+#: clientgui/MainFrame.cpp:1745
 #, c-format
 msgid "Connected to %s"
 msgstr "Подключен к %s"
@@ -835,7 +845,6 @@ msgstr ""
 "Указанный адрес (URL) не является адресом менеджера учётных записей\n"
 "проектов на базе BOINC."
 
-# ?
 #: clientgui/NotFoundPage.cpp:99
 msgid "Account not found"
 msgstr "Указанная учётная запись не существует"
@@ -1062,6 +1071,7 @@ msgid "No new work"
 msgstr "Не запрашивать задания"
 
 # ?
+# дубль
 #: clientgui/ViewProjects.cpp:122
 msgid "Don't get new work for this project."
 msgstr "Не запрашивать новые задания с сервера проекта."
@@ -1596,6 +1606,50 @@ msgid "Select Computer"
 msgstr "Подключение к компьютеру"
 
 # --------------------------old version begin-----------------------------
+# old version 1.19
+# 'mailcap' или 'mime' - пора обновить свои знания об интернете.
+# Перевод с английского на китайский.
+#: clientgui/hyperlink.cpp:218
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed, and that the 'text/html' mime type is\n"
+"configured for your favorite browser. Another method is to set the\n"
+"BROWSER enviroment variable to point to whatever your favorite\n"
+"web browser is."
+msgstr ""
+"BOINC не смог найти установленный у вас браузер.\n"
+"Убедитесь что у вас установлены 'mailcap' или 'mime'\n"
+"и ваш браузер настроен на открытие mime типа 'text/html'.\n"
+"Или просто настройте хотя бы один из браузеров\n"
+"как браузер по умолчанию."
+
+# old version 1.18
+# 'mailcap' или 'mime' - пора обновить свои знания об интернете.
+# Перевод с английского на китайский.
+#: clientgui/hyperlink.cpp:211
+#: clientgui/hyperlink.cpp:225
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed, and that the 'text/html' mime type is\n"
+"configured for your favorite browser."
+msgstr ""
+"BOINC не смог найти установленный у вас браузер.\n"
+"Убедитесь что у вас установлены 'mailcap' или 'mime'\n"
+"и ваш браузер настроен на открытие mime типа 'text/html'."
+
+# old version 1.17
+# 'mailcap' или 'mime' - пора обновить свои знания об интернете
+#: clientgui/hyperlink.cpp:213
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed"
+msgstr ""
+"BOINC не смог найти установленный у вас браузер.\n"
+"Убедитесь что у вас установлены 'mailcap' или 'mime'."
+
 # old version 1.15
 #: clientgui/WizAttachProject.cpp:3088
 msgid ""
