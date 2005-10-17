@@ -153,7 +153,9 @@ static void make_new_window(int mode) {
     }
 
     app_debug_msg("make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
-    win = glutCreateWindow(aid.app_name); 
+    char window_title[256];
+    get_window_title(aid, window_title, 256);
+    win = glutCreateWindow(window_title); 
     app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
 
     // installing callbacks for the current window

@@ -303,7 +303,7 @@ function parseLanguage($file, $interface){
  **********************/
 function checkToken($current_token, $interface, $line){
     $id = array_search($current_token,$interface);
-    if ($id==false){
+    if ($id===false){
         language_log("Above line ".$line.": Language file $file has a token (".$current_token.") that is not defined in the interface.",1);
         return false;
     } else {

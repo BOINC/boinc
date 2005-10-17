@@ -59,7 +59,11 @@ function build_picture_pages($width, $height) {
 
     // TODO: Standardize "Last modified" string to a function call (util.inc).
 
-    $query = "SELECT userid FROM profile WHERE has_picture = 1 AND verification=1";
+    if (profile_screening()) {
+        $query = "SELECT userid FROM profile WHERE has_picture = 1 AND verification=1";
+    } else {
+        $query = "SELECT userid FROM profile WHERE has_picture = 1";
+    }
     $result = mysql_query($query);
     $numIds = mysql_num_rows($result);
 
@@ -94,7 +98,7 @@ function build_picture_pages($width, $height) {
         $filename = PROFILE_PATH . "user_gallery_" . $page . ".html";
         open_output_buffer();
 
-        page_head("Profile gallery: page $page of $numPages");
+        page_head("Profile gallery: page $page of $numPages", null, null, "../");
 
         echo "Last updated ", pretty_time_str(time()),
             "\n<p>Browse the user profiles by picture.
@@ -128,7 +132,7 @@ function build_picture_pages($width, $height) {
 
         write_page_links("user_gallery", $page, $numPages);
 
-        page_tail(false);
+        page_tail(false, "../");
 
         close_output_buffer($filename);
     }
@@ -256,7 +260,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
         open_output_buffer();
 
         $head = $pageHead . ": Page $page of $numPages";
-        page_head($pageTitle);
+        page_head($pageTitle, null, null, "../");
 
         echo "Last updated ", pretty_time_str(time()), "<p>\n";
 
@@ -266,7 +270,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
 
         write_page_links($baseFileName, $page, $numPages);
 
-        page_tail(false);
+        page_tail(false, "../");
 
         close_output_buffer($filename);
     }
@@ -279,7 +283,7 @@ function build_country_summary_page($countryMembers) {
     $filename = PROFILE_PATH . "profile_country.html";
     open_output_buffer();
 
-    page_head("User Profiles by Country");
+    page_head("User Profiles by Country", null, null, "../");
     echo "Last updated " . pretty_time_str(time()) . "<p>";
 
     echo "<table border=0>\n";
@@ -294,7 +298,7 @@ function build_country_summary_page($countryMembers) {
     }
 
     echo "</table>";
-    page_tail(false);
+    page_tail(false, "../");
 
     close_output_buffer($filename);
 }

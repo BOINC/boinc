@@ -110,10 +110,10 @@ $w445= array(
     "
 );
 
-$w5110= array(
-    "num"=>"5.1.10",
+$w521= array(
+    "num"=>"5.2.1",
     "status"=>"Development version",
-    "file"=>"boinc_5.1.10_windows_intelx86.exe",
+    "file"=>"boinc_5.2.1_windows_intelx86.exe",
     "date"=>"10 October 2005",
     "type"=>win_new(),
     "features"=>"<ul>
@@ -205,11 +205,11 @@ $m437s = array(
     "
 );
 
-$m518 = array(
-    "num"=>"5.1.8",
+$m521 = array(
+    "num"=>"5.2.1",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.1.8_macOSX.zip",
-    "date"=>"6 October 2005",
+    "file"=>"boinc_5.2.1_macOSX.zip",
+    "date"=>"11 October 2005",
     "type"=>mac_advanced(),
      "features"=>"<ul>
      <li>
@@ -233,11 +233,11 @@ $m518 = array(
     "
 );
 
-$m518c = array(
-    "num"=>"5.1.8",
+$m521c = array(
+    "num"=>"5.2.1",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.1.8_powerpc-apple-darwin.zip",
-    "date"=>"6 October 2005",
+    "file"=>"boinc_5.2.1_powerpc-apple-darwin.zip",
+    "date"=>"11 October 2005",
     "type"=>bare_core(),
     "features"=>"<ul>
     <li>
@@ -266,10 +266,10 @@ $l443 = array(
     "
 );
 
-$l5110 = array(
-    "num"=>"5.1.10",
+$l521 = array(
+    "num"=>"5.2.1",
     "status"=>"Development version",
-    "file"=>"boinc_5.1.10_i686-pc-linux-gnu.sh",
+    "file"=>"boinc_5.2.1_i686-pc-linux-gnu.sh",
     "date"=>"10 October 2005",
     "type"=>sea()
 );
@@ -302,7 +302,7 @@ $windows = array(
     "name"=>"Windows",
     "versions"=>array(
         $w445,
-        $w5110,
+        $w521,
         $w419
     )
 );
@@ -313,8 +313,8 @@ $mac = array(
         $m437s,
         $m443c,
         $m419,
-        $m518,
-        $m518c
+        $m521,
+        $m521c
     )
 );
 $linux = array(
@@ -322,7 +322,7 @@ $linux = array(
     "url"=>"linux.php",
     "versions"=>array(
         $l443,
-        $l5110,
+        $l521,
         $l419
     )
 );

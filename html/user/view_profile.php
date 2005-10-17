@@ -1,8 +1,6 @@
 <?php
  
-require_once("../inc/forum.inc");
 require_once("../inc/profile.inc");
-require_once("../inc/text_transform.inc");
 
 db_init();
 

@@ -182,25 +182,27 @@ Each reply message ends with the character '\\003.
 <p>
 Since GUI RPCs can control the BOINC client
 (e.g. attaching/detaching projects)
-it is important to protect your BOINC client
-from unauthorized control.
+it is important to protect your BOINC client from unauthorized control.
 There are two levels of protection:
 <ul>
-<li> You can associate a password with the client;
+<li> You can associate a password with the client.
+If a password is used,
 GUI RPCs must be authenticated with this password.
 <li> You can restrict RPCs to a limited set of hosts.
 </ul>
+A GUI RPC is handled only if it passes both levels of protection.
 
 <h2>Password protection</h2>
 <p>
 If you place a password in a file <b>gui_rpc_auth.cfg</b>
 in your BOINC directory,
 GUI RPCs must be authenticated using the password.
+<p>
+If this file is not present, there is no password protection.
 
 <h2>Remote host restriction</h2>
 <p>
-By default the core client accepts GUI RPCs
-only from the same host.
+By default the core client accepts GUI RPCs only from the same host.
 
 <p>
 You can allow remote hosts to control a core client in two ways:

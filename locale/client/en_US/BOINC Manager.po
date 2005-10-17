@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-12 08:58-0800\n"
+"PO-Revision-Date: 2005-10-17 12:18-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr ""
 
@@ -460,14 +460,17 @@ msgstr ""
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr ""
 
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
 "BROWSER environment variable to point to whatever your favorite\n"
-"web browser is."
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
 
 #: clientgui/Localization.cpp:31
@@ -526,37 +529,37 @@ msgstr ""
 msgid "View information about your team"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:159
+#: clientgui/MainDocument.cpp:180
 msgid "BOINC Manager - Connection Error"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:160
+#: clientgui/MainDocument.cpp:181
 msgid "The password you have provided is incorrect, please try again."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:199
 msgid "BOINC Manager - Connection failed"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:179
+#: clientgui/MainDocument.cpp:200
 #: clientgui/MainFrame.cpp:922
 #: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:285
+#: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:294
+#: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:848
+#: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:858
+#: clientgui/MainDocument.cpp:879
 msgid "BOINC info"
 msgstr ""
 

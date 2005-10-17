@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+print "add is deprecated.  Use xadd instead.\n"
+raise SystemExit
+
 # $Id$
 
 

@@ -2,7 +2,7 @@
 
 require_once("docutil.php");
 
-eval(file_get_contents("stats_sites.dat"));
+include("stats_sites.dat");
 
 page_head("Web sites for BOINC statistics");
 echo "

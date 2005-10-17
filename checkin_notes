@@ -13015,4 +13015,185 @@ Rom    11 Oct 2005 (HEAD, staging, stable, boinc_core_release)
         hyperlink.cpp
     locale/client/en_US/
         BOINC Manager.po, .mo
+
+Bruce 11 Oct 2005
+    - Fix bug in cancel WU script
+    - Add WU name to graphics window title.
+      TODO: add app_version_num to window title.
+      David or Rom, could you add app_version_num to struct APP_INIT_DATA?
+
+    html/
+        ops/
+            cancel_wu_action.php
+
+    api/
+        x_opengl.C
+        windows_opengl.C
  
+Charlie 12 Oct 2005
+    - Mac: remove warning from installer ReadMe about projects incompatible 
+      with Wizard (in preparation for version 5.2.2)
+    
+    mac_installer/
+        ReadMe.rtf
+
+David  12 Oct 2005
+    - scripts: disable "add", add comments to "xadd"
+    - Client: make "Communication deferred" message INFO rather than ERROR
+
+    client/
+        cs_scheduler.C
+    sched/
+        server_types.C
+    tools/
+        add
+        xadd
+
+David  12 Oct 2005
+    - Add app version # to window title:
+        - add app_version to APP_INIT_DATA structure
+        - initialize it in ACTIVE_TASK::write_app_init_data_file()
+        - make new function get_window_title() so we don't have
+            to worry about consistency of X/WIn code
+
+    api/
+        graphics_impl.C,h
+        windows_opengl.C
+        x_opengl.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h
+
+David  12 Oct 2005
+    - Cleaned up account-creation code.
+        Got rid of a bunch of old stuff.
+        There are now two ways to create an account
+        1) via client
+            - Enter email and password in BOINC manager
+            - BOINC manager eventually brings up account_finish.php,
+                which asks you for name/country/zip.
+        2) via web
+            - Enter email/password/name/country/zip in one form
+
+        Both paths leave you at the "Your account" page,
+        with some extra text at the beginning,
+        telling you to set your preferences,
+        and (in case 2) to make sure you've downloaded the client software.
+
+    html/
+        inc/
+            util.inc
+        user/
+            account_created.php (removed)
+            account_finish_action.php
+            account_setup.php (removed)
+            account_setup_first.php (removed)
+            account_setup_first_action.php (removed)
+            account_setup_first_done.php (removed)
+            account_setup_first_download.php (removed)
+            account_setup_nonfirst.php (removed)
+            account_setup_nonfirst_action.php (removed)
+            account_setup_nonfirst_done.php (removed)
+
+Charlie 12 Oct 2005
+    - Mac: update BOINC build shell script to:
+      - not require cmpatibility SDK if building under OS 10.3.x
+      - work without "source" command; i.e ./BuildMacBOINC.sh now
+        works.  Thanks to Reinhard for his assistance.
+
+    mac_build/
+        BuildMacBOINC.sh
+
+Janus  13 Oct 2005
+    - The HTML version of the teamname wasn't displayed correctly on the
+      teampages.
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_edit_form.php
+
+David  13 Oct 2005
+    - include text_transform.inc and db_forum.inc in profile.inc
+        (fixed bug in UOTD-review page)
+    - remove includes of forum.inc and text_transform.inc from view_profile.php
+
+    NOTE: a PHP file (like other languages) should include ONLY
+        the .inc files for the functions that it itself uses
+
+    html/
+        inc/
+            profile.inc
+        user/
+            view_profile.php
+
+David  13 Oct 2005
+    - disable change of 30 Sept 2005
+        We've had reports of file transfer not starting, without explanation.
+        I'm not sure why, but it seems like this is a possible cause.
+
+    client/
+        pers_file_xfer.C
+
+David  13 Oct 2005
+    - generalize random-string generator
+
+    lib/
+        hostinfo.C,h
+
+David  13 Oct 2005
+    - Fix a moderate security loophole in GUI RPC.
+		Old: by default, core client doesn't create a password file
+			(gui_rpc_auth.cfg).
+			Therefore any process on the local host can connect to it;
+			even processes belonging to other users.
+			So if user X is running BOINC, evil user Y can use GUI
+			RPCs to attach BOINC to a rogue project,
+			causing bad code to run as user X.
+		New: on startup, if the core client doesn't find a password file,
+			it creates one, writes a long random string to it,
+			and (on Unix) makes it user-read/write only.
+			The BOINC Manager, when connecting to the local host,
+			looks for a password file in the current directory.
+
+		Bottom line: a user running BOINC is now protected against
+		other users on the same host.
+
+		NOTE: this could cause some angst for Mac users,
+		if they expect things to work the same for all users.
+
+	client/
+		gui_rpc_server.C
+	clientgui/
+		MainDocument.cpp
+
+David  16 Oct 2005
+    - User web: fix bug that caused very few profiles to
+        appear in user profile "Photo Gallery"
+    - User web: fix bug that caused nav-bar links in profile
+        pages to be broken links
+
+    Note: this required adding an optional 2nd "prefix" argument to
+    the project-supplied "project_banner()" and "project_footer()" functions.
+    This is a string that must be prepended to any relative links
+    generated by those functions.
+
+    html/
+        inc/
+            gallery.inc
+            util.inc
+        ops/
+            update_profile_pages.php
+
+Rom    17 Oct 2005 (HEAD, staging, stable, boinc_core_release)
+    - Include the URL that a web browser needs to open up in the message
+        box if the default browser cannot be determined.
+        
+    clientgui/
+        hyperlink.cpp
+
+Rom    17 Oct 2005 (stable)
+    - Tag for 5.2.2 release, all platforms
+      boinc_core_release_5_2_2

@@ -56,3 +56,4 @@ extern "C" {
 }
 
 extern BOINC_MAIN_STATE* g_bmsp;
+extern void get_window_title(APP_INIT_DATA& aid, char* buf, int len);

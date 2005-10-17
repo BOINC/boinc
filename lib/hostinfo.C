@@ -190,14 +190,19 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
+void HOST_INFO::make_random_string(char* salt, char* out) {
+    char buf[1024];
+
+    sprintf(buf, "%f%s%s%f%s", dtime(), domain_name, ip_addr, d_free, salt);
+    md5_block((const unsigned char*) buf, (int)strlen(buf), out);
+}
+
 // make a host cross-project ID.
 // Should be unique across hosts with very high probability
 //
 void HOST_INFO::generate_host_cpid() {
-    char buf[1024];
-
-    sprintf(buf, "%f%s%s%f", dtime(), domain_name, ip_addr, d_free);
-    md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
+    make_random_string("", host_cpid);
 }
+
 
 const char *BOINC_RCSID_edf7e5c147 = "$Id$";

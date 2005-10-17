@@ -1030,7 +1030,8 @@ int CLIENT_STATE::handle_scheduler_reply(
 }
 
 bool CLIENT_STATE::should_get_work() {
-    // if there are fewer wus available then CPUS, then we need more work.
+    // if there are fewer runnable results then CPUS, we need more work.
+    //
     if (no_work_for_a_cpu()) return true;
 
     double tot_cpu_time_remaining = 0;

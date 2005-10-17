@@ -347,7 +347,7 @@ of the BOINC application API library.
 
 ==> only building non-graphical parts of the BOINC API Library for now.
 
-NOTE: on MacOS X/Darwin you might consider running configure withe the option
+HINT: on MacOS X/Darwin you might consider running configure with the option
       './configure --with-apple-opengl-framework'
       in order to use the Mac-native openGL framework
 
@@ -359,6 +359,25 @@ else
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
    AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
+
+   AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
+   AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
+
+   if test "$have_jpeg" != 1 ; then
+	AC_MSG_WARN([
+================================================================================
+WARNING: libjpeg.a/jpeglib.h not found.
+
+BOINC's openGL graphics-API needs libjpeg ! 
+see http://www.ijg.org/
+
+==> I will continue building the non-graphical parts of the BOINC API library.
+
+HINT: on MacOSX/Darwin these libs/includes are sometimes found in '/sw/' (if using fink)
+      or '/opt/local' (if using port).
+================================================================================
+	]);
+   fi
 fi
 
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
@@ -456,6 +475,7 @@ AM_OPTIONS_WXCONFIG
 dnl check for wxWidgets
 
 if test "${enable_client_release}" = yes ; then
+   echo 'Portable client-build: checking for  *static* wx-libs ...'
     if test "${enable_debug}" = yes ; then
         AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
     else
@@ -473,7 +493,9 @@ fi
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
    AC_MSG_WARN([
 ================================================================================
-WARNING: wxWidgets could not be found ==> building client without clientgui.
+WARNING: A suitable installation of wxWidgets could not be found 
+	 ==> building client without clientgui.
+
   If you add wxWidgets to your system, then this configure script will also
   configure your system to build the BOINC graphical client (clientgui).  
 
@@ -483,6 +505,9 @@ WARNING: wxWidgets could not be found ==> building client without clientgui.
   and that wxWidgets version is 2.6.0 or above. Currently wxWidgets version
   2.6.0 (gtk based) is known to work with boinc_gui under Linux. You can
   use wx-config --version to find what version you have currently installed.
+
+  NOTE: if building a portable client-release, you need the *static* version
+  of the wx-libs installed!   
 
   You can get wxWidgets by following the DOWNLOAD link at:
   http://www.wxwindows.org/
@@ -537,7 +562,7 @@ SAH_CHECK_LIB([pthread],[pthread_join],[
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
-if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client}" = yes ); then
+if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
    echo "----------"
    echo "NOTE: Building portable client binaries"
    echo "----------"

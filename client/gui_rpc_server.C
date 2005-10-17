@@ -63,13 +63,30 @@ GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
 }
 
 int GUI_RPC_CONN_SET::get_password() {
+    FILE* f;
     strcpy(password, "");
     if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
-        FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
+        f = fopen(GUI_RPC_PASSWD_FILE, "r");
         if (f) {
             fgets(password, 256, f);
             strip_whitespace(password);
             fclose(f);
+        }
+    } else {
+        // if no password file, make a random password
+        //
+        gstate.host_info.make_random_string("guirpc", password);
+        f = fopen(GUI_RPC_PASSWD_FILE, "w");
+        if (f) {
+            fputs(password, f);
+            fclose(f);
+#ifndef _WIN32
+            // if someone can read the password,
+            // they can cause code to execute as this user.
+            // So better protect it.
+            //
+            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+#endif
         }
     }
     return 0;

@@ -6,17 +6,6 @@ require_once("../inc/user.inc");
 
 db_init();
 
-function is_ascii($str) {
-    // the mb_* functions are not included by default
-    // return (mb_detect_encoding($passwd) -= 'ASCII');
-    
-    for ($i=0; $i<strlen($str); $i++) {
-        $c = ord(substr($str, $i));
-        if ($c < 32 || $c > 127) return false;
-    }
-    return true;
-}
-
 $auth = process_user_text(post_str("auth", true));
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
 
