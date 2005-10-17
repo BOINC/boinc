@@ -88,7 +88,7 @@ function show_login($user) {
     }
 }
 
-function page_head($title, $java_onload="", $title_plain="") {
+function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $styleSheet = URL_BASE . STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE . "rss_main.php";
@@ -108,12 +108,14 @@ function page_head($title, $java_onload="", $title_plain="") {
         <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
         </head>";
 	}
-    if ($java_onload!=""){echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";}
+    if ($java_onload){
+        echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";
+    }
     display_cvs_versions();
-    project_banner($title);
+    project_banner($title, $prefix);
 }
 
-function page_tail_aux($show_return, $show_date) {
+function page_tail_aux($show_return, $show_date, $prefix) {
     project_footer($show_return, $show_date);
     echo "</body>\n</html>";
 }
@@ -121,8 +123,8 @@ function page_tail_main($show_date=false) {
     page_tail_aux(false, $show_date);
 }
 
-function page_tail($show_date=false) {
-    page_tail_aux(true, $show_date);
+function page_tail($show_date=false, $prefix="") {
+    page_tail_aux(true, $show_date, $prefix);
 }
 
 function display_cvs_versions(){
