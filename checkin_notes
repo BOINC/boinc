@@ -13186,3 +13186,14 @@ David  16 Oct 2005
             util.inc
         ops/
             update_profile_pages.php
+
+Rom    17 Oct 2005 (HEAD, staging, stable, boinc_core_release)
+    - Include the URL that a web browser needs to open up in the message
+        box if the default browser cannot be determined.
+        
+    clientgui/
+        hyperlink.cpp
+
+Rom    17 Oct 2005 (stable)
+    - Tag for 5.2.2 release, all platforms
+      boinc_core_release_5_2_2
