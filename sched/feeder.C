@@ -123,9 +123,7 @@
 //
 //#define REMOVE_INFEASIBLE_ENTRIES
 
-#define REREAD_DB_FILENAME      "reread_db"
-#define LOCKFILE                "feeder.out"
-#define PIDFILE                 "feeder.pid"
+#define REREAD_DB_FILENAME      "../reread_db"
 
 SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
@@ -145,11 +143,19 @@ int check_reread_trigger() {
     f = fopen(REREAD_DB_FILENAME, "r");
     if (f) {
         fclose(f);
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_NORMAL,
+            "Found trigger file %s; re-scanning database tables.\n",
+            REREAD_DB_FILENAME
+        );
         ssp->init();
         ssp->scan_tables();
         unlink(REREAD_DB_FILENAME);
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_NORMAL,
+            "Done re-scanningu: trigger file removed.\n"
+        );
     }
-
     return 0;
 }
 
