@@ -13207,9 +13207,12 @@ Rom    17 Oct 2005
         graphics_api.C
 
 Bruce 17 Oct 2005
-    - Feeder: removed historical defines for PID file and lockfile.
+    - Feeder: removed obsolete #defines for PID file and lockfile.
       Trigger file to re-read database is now reread_db in the project
       root direcory, consistent with other BOINC trigger files, rather
       than in the tmp_project_name subdirectory.
     - Log detection/removal of trigger file.
+
+    sched/
+        feeder.C
 
