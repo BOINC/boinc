@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-12 23:10+0500\n"
+"PO-Revision-Date: 2005-10-18 21:19+0500\n"
 "Last-Translator: mifistor <mifistor_x@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "(Пользовательский)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
@@ -503,20 +503,26 @@ msgstr "Неудача при создании wxStaticText, необходим wxHyperLink!"
 
 # 'mailcap' или 'mime' - пора обновить свои знания об интернете.
 # Перевод с английского на китайский.
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
 "BROWSER environment variable to point to whatever your favorite\n"
-"web browser is."
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
 "BOINC не смог найти установленный у вас браузер.\n"
 "Убедитесь что у вас установлены 'mailcap' или 'mime'\n"
 "и ваш браузер настроен на открытие mime типа 'text/html'.\n"
 "Или просто настройте хотя бы один из браузеров\n"
-"как браузер по умолчанию."
+"как браузер по умолчанию. А пока откройте вручную в вашем\n"
+"браузере веб-страницу с адресом (URL):\n"
+"\n"
+"%s"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -574,37 +580,37 @@ msgstr "Команда"
 msgid "View information about your team"
 msgstr "Просмотр информации о команде, к которой вы присоединились"
 
-#: clientgui/MainDocument.cpp:159
+#: clientgui/MainDocument.cpp:180
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC менеджер - Ошибка соединения"
 
-#: clientgui/MainDocument.cpp:160
+#: clientgui/MainDocument.cpp:181
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Введен не правильный пароль, попробуйте подключиться еще раз"
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:199
 msgid "BOINC Manager - Connection failed"
 msgstr "BOINC менеджер - Нет связи"
 
-#: clientgui/MainDocument.cpp:179
+#: clientgui/MainDocument.cpp:200
 #: clientgui/MainFrame.cpp:922
 #: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr "Не удалось соединиться с указанным компьютером"
 
-#: clientgui/MainDocument.cpp:285
+#: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
 msgstr "Обновляется информация о состояние системы; пожалуйста подождите..."
 
-#: clientgui/MainDocument.cpp:294
+#: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
 msgstr "Обновляется информация о хосте; пожалуйста подождите..."
 
-#: clientgui/MainDocument.cpp:848
+#: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
 msgstr "BOINC ошибка"
 
-#: clientgui/MainDocument.cpp:858
+#: clientgui/MainDocument.cpp:879
 msgid "BOINC info"
 msgstr "BOINC информация"
 
@@ -1606,6 +1612,24 @@ msgid "Select Computer"
 msgstr "Подключение к компьютеру"
 
 # --------------------------old version begin-----------------------------
+# old version 1.20
+# 'mailcap' или 'mime' - пора обновить свои знания об интернете.
+# Перевод с английского на китайский.
+#: clientgui/hyperlink.cpp:218
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed, and that the 'text/html' mime type is\n"
+"configured for your favorite browser. Another method is to set the\n"
+"BROWSER environment variable to point to whatever your favorite\n"
+"web browser is."
+msgstr ""
+"BOINC не смог найти установленный у вас браузер.\n"
+"Убедитесь что у вас установлены 'mailcap' или 'mime'\n"
+"и ваш браузер настроен на открытие mime типа 'text/html'.\n"
+"Или просто настройте хотя бы один из браузеров\n"
+"как браузер по умолчанию."
+
 # old version 1.19
 # 'mailcap' или 'mime' - пора обновить свои знания об интернете.
 # Перевод с английского на китайский.
