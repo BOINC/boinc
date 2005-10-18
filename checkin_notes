@@ -13197,3 +13197,11 @@ Rom    17 Oct 2005 (HEAD, staging, stable, boinc_core_release)
 Rom    17 Oct 2005 (stable)
     - Tag for 5.2.2 release, all platforms
       boinc_core_release_5_2_2
+
+Rom    17 Oct 2005
+    - Bug Fix: graphics_api.C needed to include boinc_win.h before the other
+        header files so that data types like HANDLE and HINSTANCE can be
+        resolved correctly.
+        
+    api/
+        graphics_api.C
