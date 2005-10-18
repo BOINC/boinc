@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-04-10 18:38+0800\n"
+"PO-Revision-Date: 2005-10-19 04:27+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -280,4 +280,127 @@ msgstr "組態你的帳號"
 # ########################################
 msgid "OPTIONAL"
 msgstr "非必要"
+
+# ########################################
+# Various top table pages (top users, computers, teams)
+# ########################################
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "參與者排名"
+
+msgid "USER_TABLE_RANK"
+msgstr "排名"
+
+msgid "USER_TABLE_NAME"
+msgstr "姓名"
+
+msgid "USER_TABLE_TOTAL_CREDIT"
+msgstr "總積分"
+
+msgid "USER_TABLE_EXPAVG"
+msgstr "最近平均積分"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "國家"
+
+msgid "USER_TABLE_PTIME"
+msgstr "參與日期"
+
+# ########################################
+# Apps page (apps.php)
+# ########################################
+msgid "TOP_TEAMS_TITLE"
+msgstr "%s 團隊排名"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "成員"
+
+# ########################################
+# Forum
+# ########################################
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "無此討論區"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "你必須要有一定的積分才能於 %s 建立新討論串。這是為了避免有人濫用此系統。"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_ERR_INTERVAL"
+msgstr "你現在無法建立任何新主題。請稍後再試一次。這是為了防止系統被濫用所作的保護措施。"
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "%s 能讓你獲得來自其他使用者的幫助。 如果你有問題的話："
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "請先閱讀已存在的問題清單。如果你的問題已經出現在清單中，請按一下「%s」按鈕。如果你的問題已經有人提供解答可直接閱讀。假如此解答確實解決的你的問題，請按「%s」按鈕。"
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "如果你的問題還沒被問過，請在下面的表單中填入相關資訊。"
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "這是為了避免問題一直被重複詢問所作的限制。"
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "送出新的問題"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_SUBMIT_NEW"
+msgstr "建立新討論串"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "標題"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "請簡單描述你的問題。一個簡潔、清楚的問題敘述能讓其他有相同問題的人能更容易找到。"
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "如果你遇到軟體上的問題，請留下你所使用的軟體版本、電腦的配備和所使用的作業系統。"
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "於文章中加入我的簽名"
+
+msgid "FORUM_MESSAGE"
+msgstr "留言"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "我也有此問題"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "此文章解答了我的問題"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_HTML_INFO"
+msgstr "使用 BBCode 標籤為文字加上格式"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "文章包含「%s」"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "文章包含「%s」"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "找不到包含「%s」的標題。"
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "找不到包含「%s」的文章。"
+
+# ########################################
+# Links from the main page
+# ########################################
+msgid "LINKS_QA"
+msgstr "常見問題集 (Q&A)"
 
