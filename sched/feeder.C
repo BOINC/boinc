@@ -153,7 +153,7 @@ int check_reread_trigger() {
         unlink(REREAD_DB_FILENAME);
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
-            "Done re-scanningu: trigger file removed.\n"
+            "Done re-scanning: trigger file removed.\n"
         );
     }
     return 0;
