@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-14 19:30+0100\n"
+"PO-Revision-Date: 2005-10-18 19:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,7 @@ msgstr "(Défini par l'utilisateur)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "Manager BOINC"
 
@@ -476,20 +476,26 @@ msgstr "Nom d'hôte:"
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr "Erreur lors de la création du wxStaticText nécessaire au wxHyperLink"
 
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
 "BROWSER environment variable to point to whatever your favorite\n"
-"web browser is."
+"web browser is. Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
 "BOINC n'a pas pu déterminer quel est votre navigateur par défaut.\n"
 "Vérifiez que le paquet 'mailcap' ou le paquet 'mime' est installé,\n"
 "et que le type mime 'text/html' est configuré pour votre navigateur préféré.\n"
 "Une autre méthode consiste à régler la variable d'environnement BROWSER\n"
-"pour qu'elle pointe vers votre navigateur web préféré."
+"pour qu'elle pointe vers votre navigateur web préféré.\n"
+"Veuillez ouvrir votre navigateur pour visiter l'URL suivante, svp:\n"
+"\n"
+"%s"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -547,37 +553,37 @@ msgstr "Votre équipe"
 msgid "View information about your team"
 msgstr "Voir les infos de votre équipe"
 
-#: clientgui/MainDocument.cpp:159
+#: clientgui/MainDocument.cpp:180
 msgid "BOINC Manager - Connection Error"
 msgstr "Manager BOINC - Erreur de connexion"
 
-#: clientgui/MainDocument.cpp:160
+#: clientgui/MainDocument.cpp:181
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Le mot de passe que vous avez fourni est incorrect. Essayez à nouveau, svp."
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:199
 msgid "BOINC Manager - Connection failed"
 msgstr "Manager BOINC - La connexion a échoué."
 
-#: clientgui/MainDocument.cpp:179
+#: clientgui/MainDocument.cpp:200
 #: clientgui/MainFrame.cpp:922
 #: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr "La connexion a échoué."
 
-#: clientgui/MainDocument.cpp:285
+#: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
 msgstr "Recherche de l'état du système; veuillez patienter..."
 
-#: clientgui/MainDocument.cpp:294
+#: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
 msgstr "Recherche des informations de l'hôte; veuillez patienter..."
 
-#: clientgui/MainDocument.cpp:848
+#: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
 msgstr "Erreur BOINC"
 
-#: clientgui/MainDocument.cpp:858
+#: clientgui/MainDocument.cpp:879
 msgid "BOINC info"
 msgstr "Infos BOINC"
 
