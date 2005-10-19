@@ -73,10 +73,6 @@ public:
     void generate_host_cpid();
 };
 
-#ifdef _WIN32
-    extern HINSTANCE g_hIdleDetectionDll;       // handle to DLL for user idle
-#endif
-
 #ifdef __APPLE__
 #ifdef __cplusplus
 extern "C" {

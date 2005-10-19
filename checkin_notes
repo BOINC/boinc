@@ -13222,3 +13222,10 @@ Reinhard 19 Oct 2005
      [taken from E@H-buildscript 'eah_build.sh']
 
     ./_autosetup
+
+David  20 Oct 2005
+	- removed declaration of g_hIdleDetectionDll from lib/hostinfo.h
+		(what the heck was it doing there??)
+
+	lib/
+		hostinfo.h
