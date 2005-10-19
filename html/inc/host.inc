@@ -110,7 +110,9 @@ function show_host($host, $private, $ipprivate) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
         row2("Last time contacted server", time_str($host->rpc_time));
         row2("% of time BOINC client is running", 100*$host->on_frac." %");
-        row2("While BOINC running, % of time host has an Internet connection", 100*$host->connected_frac." %");
+        if ($host->connect_frac > 0) {
+            row2("While BOINC running, % of time host has an Internet connection", 100*$host->connected_frac." %");
+        }
         row2("While BOINC running, % of time work is allowed", 100*$host->active_frac." %");
         if ($host->cpu_efficiency) {
             row2("Average CPU efficiency", $host->cpu_efficiency);

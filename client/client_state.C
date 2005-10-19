@@ -1324,7 +1324,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         }
     }
 
-    //delete statistics file
+    // delete statistics file
     //
     get_statistics_filename(project->master_url, path);
     retval = boinc_delete_file(path);
@@ -1342,19 +1342,6 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         msg_printf(project, MSG_ERROR,
             "Can't delete account file: %s\n", boincerror(retval)
         );
-    }
-
-    // if project_init.xml refers to this project,
-    // delete the file, otherwise we'll just
-    // reattach the next time the core client starts
-    //
-    if (!strcmp(project->master_url, project_init.url)) {
-        retval = project_init.remove();
-        if (retval) {
-            msg_printf(project, MSG_ERROR,
-                "Can't delete project init file: %s\n", boincerror(retval)
-            );
-        }
     }
 
     // remove project directory and its contents

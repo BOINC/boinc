@@ -160,6 +160,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
 
 static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
+    int retval;
     PROJECT* p = get_project(buf, fout);
     if (!p) {
         fout.printf("<error>no such project</error>\n");
@@ -177,6 +178,19 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         p->suspended_via_gui = false;
     } else if (!strcmp(op, "detach")) {
         gstate.detach_project(p);
+
+        // if project_init.xml refers to this project,
+        // delete the file, otherwise we'll just
+        // reattach the next time the core client starts
+        //
+        if (!strcmp(p->master_url, gstate.project_init.url)) {
+            retval = gstate.project_init.remove();
+            if (retval) {
+                msg_printf(p, MSG_ERROR,
+                    "Can't delete project init file: %s\n", boincerror(retval)
+                );
+            }
+        }
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;

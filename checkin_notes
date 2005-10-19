@@ -13229,3 +13229,13 @@ David  20 Oct 2005
 
 	lib/
 		hostinfo.h
+
+David  20 Oct 2005
+    - core client: delete project_init.xml only on detach via GUI RPC
+        (not on detach due to initial master file fetch failure)
+
+    client/
+        client_state.C
+        gui_rpc_server_ops.C
+    html/inc/
+        host.inc
