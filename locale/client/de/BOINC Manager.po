@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-16 09:43+0100\n"
+"PO-Revision-Date: 2005-10-19 22:10+0100\n"
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "MIME-Version: 1.0\n"
@@ -192,7 +192,7 @@ msgstr "(Benutzerauswahl)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
@@ -382,7 +382,7 @@ msgstr "Erinnerungshäufigkeit:"
 
 #: clientgui/DlgOptions.cpp:206
 msgid "How often, in minutes, should the manager remind you of possible connection events."
-msgstr "Wie oft in der Minute soll der Manager Sie an mögliche Verbindungsereignisse erinnern?"
+msgstr "In welchen Abständen (in Minuten) soll der Manager Sie an mögliche Verbindungsereignisse erinnern?"
 
 #: clientgui/DlgOptions.cpp:209
 msgid "General"
@@ -480,20 +480,25 @@ msgstr "Rechnername:"
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr "Failed to create wxStaticText, needed by wxHyperLink!"
 
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
 "BROWSER environment variable to point to whatever your favorite\n"
-"web browser is."
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
 "BOINC konnte den Defaul-Browser nicht ermitteln, Bitte überprüfen Sie\n"
 "dass entweder das \"mailcap\" oder das  \"mime\" Paket installiert ist\n"
 "und dass der Mimetype \"text/html\" für den Default-Browser konfiguriert\n"
 "ist. Alternativ kann über die Umgebungsvariable \"BROWSER\" der zu\n"
-"verwendende Internet-Browser für BOINC festgelegt werden."
+"verwendende Internet-Browser für BOINC festgelegt werden. Bitte öffnen Sie ein Browserfenster zu folgender URL:\n"
+"\n"
+"%s"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-13 19:37+0100\n"
+"PO-Revision-Date: 2005-10-18 19:38+0100\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "&Email adres:"
 
 #: clientgui/AccountInfoPage.cpp:161
 msgid "&Password:"
-msgstr "Wachtwoord:"
+msgstr "&Wachtwoord:"
 
 #: clientgui/AccountInfoPage.cpp:170
 msgid "C&onfirm password:"
@@ -122,7 +122,7 @@ msgstr "Vul het URL in van de account manager website."
 #: clientgui/AccountManagerInfoPage.cpp:114
 #: clientgui/ProjectInfoPage.cpp:115
 msgid "You can copy and paste the URL from your browser's address bar."
-msgstr "Je kan het URL uit je browser's adresbalk kopieren en plakken."
+msgstr "( Het is mogelijk dit URL te kopiëren uit de adresbalk van je browser )"
 
 #: clientgui/AccountManagerInfoPage.cpp:124
 msgid "Account Manager &URL:"
@@ -190,7 +190,7 @@ msgstr "(Gedefineerd door gebruiker)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
@@ -443,7 +443,7 @@ msgstr "Poort:"
 #: clientgui/DlgOptions.cpp:311
 #: clientgui/DlgOptions.cpp:367
 msgid "Leave these blank if not needed"
-msgstr "Laat dit gedeelte leeg indien niet nodig"
+msgstr "Laat dit gedeelte leeg indien niet vereist"
 
 #: clientgui/DlgOptions.cpp:317
 #: clientgui/DlgOptions.cpp:373
@@ -476,21 +476,26 @@ msgstr "Host naam:"
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr "Maken van wxStaticText niet gelukt, deze is voor wxHyperLink vereist!"
 
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
 "BROWSER environment variable to point to whatever your favorite\n"
-"web browser is."
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
-"BOINC kon niet bepalen wat uw standaardbrowser is.\n"
+"BOINC kan niet bepalen wat uw standaardbrowser is.\n"
 "Controleer of het 'mailcap' pakket of het 'mime' pakket\n"
-"geïnstalleerd is, en het 'tekst/HTML' mime type voor uw\n"
-"favoriete browser is ingesteld. Een andere methode is om\n"
-"aan te geven, via de BROWSER omgeving, welke\n"
-"web browser u standaard wilt gebruiken."
+"geïnstalleerd is en het 'tekst/HTML' mime type voor uw\n"
+"favoriete browser is ingesteld. Een andere methode is om aan\n"
+"te geven welke web browser u standaard wilt gebruiken.\n"
+"Open a.u.b. een webbrowser en ga naar het volgende URL:\n"
+"\n"
+"%s"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -548,37 +553,37 @@ msgstr "Mijn Team"
 msgid "View information about your team"
 msgstr "Bekijk informatie over je eigen team"
 
-#: clientgui/MainDocument.cpp:159
+#: clientgui/MainDocument.cpp:180
 msgid "BOINC Manager - Connection Error"
 msgstr "Boinc Manager - Verbindings fout"
 
-#: clientgui/MainDocument.cpp:160
+#: clientgui/MainDocument.cpp:181
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Het opgegeven wachtwoord is niet correct, probeer a.u.b. opnieuw."
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:199
 msgid "BOINC Manager - Connection failed"
 msgstr "Boinc Manager - Verbinding mislukt"
 
-#: clientgui/MainDocument.cpp:179
+#: clientgui/MainDocument.cpp:200
 #: clientgui/MainFrame.cpp:922
 #: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr "Verbinding mislukt."
 
-#: clientgui/MainDocument.cpp:285
+#: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
 msgstr "Systeem gegevens aan het opvragen; even geduld a.u.b..."
 
-#: clientgui/MainDocument.cpp:294
+#: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
 msgstr "Host gegevens aan het opvragen; even geduld a.u.b..."
 
-#: clientgui/MainDocument.cpp:848
+#: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
 msgstr "Interne BOINC fout"
 
-#: clientgui/MainDocument.cpp:858
+#: clientgui/MainDocument.cpp:879
 msgid "BOINC info"
 msgstr "BOINC info"
 
@@ -803,7 +808,7 @@ msgstr "Het gegeven URL is niet van een bestaand BOINC project."
 #: clientgui/NotDetectedPage.cpp:111
 #: clientgui/NotDetectedPage.cpp:125
 msgid "Please check the URL and try again."
-msgstr "Controleer a.u.b. het URL en probeer opnieuw. "
+msgstr "Controleer a.u.b. het URL en probeer opnieuw."
 
 #: clientgui/NotDetectedPage.cpp:116
 msgid "Account manager not found"
@@ -1087,7 +1092,7 @@ msgstr "Projecten"
 
 #: clientgui/ViewProjects.cpp:192
 msgid "Updating project..."
-msgstr "Bezig met bijwerken van het project..."
+msgstr "Bezig met bijwerken..."
 
 #: clientgui/ViewProjects.cpp:219
 msgid "Resuming project..."
@@ -1282,7 +1287,7 @@ msgstr "Weet je zeker dat je de overdracht van '%s' wilt annuleren?"
 
 #: clientgui/ViewTransfers.cpp:192
 msgid "Abort File Transfer"
-msgstr "Annuleer bestands overdracht"
+msgstr "Annuleer Bestands Overdracht"
 
 #: clientgui/ViewTransfers.cpp:509
 msgid "Retry in "
@@ -1505,7 +1510,7 @@ msgstr "Klik op Volgende om verder te gaan."
 
 #: clientgui/WizardAccountManager.cpp:116
 msgid "Attach to Account Manager"
-msgstr "Account manager toevoegen"
+msgstr "Account Manager Toevoegen"
 
 #: clientgui/WizardAccountManager.cpp:374
 #: clientgui/WizardAttachProject.cpp:426
@@ -1519,7 +1524,7 @@ msgstr "Vraag"
 
 #: clientgui/WizardAttachProject.cpp:131
 msgid "Attach to Project"
-msgstr "Project toevoegen"
+msgstr "Project Toevoegen"
 
 #: clientgui/wizardex.cpp:362
 #: clientgui/wizardex.cpp:553
