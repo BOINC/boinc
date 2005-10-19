@@ -223,7 +223,7 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
                 "BROWSER environment variable to point to whatever your favorite\n"
                 "web browser is.  Please open a browser window to the following URL:\n\n"
                 "%s"),
-                strBuffer.c_str()
+                strLink.c_str()
             );
             ::wxMessageBox(
                 strBuffer,
@@ -239,4 +239,3 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 }
 
 const char *BOINC_RCSID_d587835b7e="$Id$";
-

@@ -13205,3 +13205,11 @@ Rom    17 Oct 2005
         
     api/
         graphics_api.C
+
+Rom    19 Oct 2005
+    - Bug Fix: use strLink instead of strBuffer when describing the URL to
+        go to on Linux when a browser cannot be detected.
+        
+    clientgui/
+        hyperlink.cpp
+    
