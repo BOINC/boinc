@@ -179,14 +179,12 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 // Back off contacting this project's schedulers,
 // and output an error msg if needed
 //
+// Master-file fetch errors for tentative (new) projects
+// are handled elsewhere; no need to detach from projects here.
+//
 void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
-    if (p->tentative) {
-        p->attach_failed(ERR_ATTACH_FAIL_INIT);
-        return;
-    }
-        
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         msg_printf(p, MSG_ERROR, "Too many backoffs - fetching master file");
         p->master_url_fetch_pending = true;

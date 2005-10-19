@@ -13239,3 +13239,12 @@ David  20 Oct 2005
         gui_rpc_server_ops.C
     html/inc/
         host.inc
+
+David  20 Oct 2005
+    - core client: fix bug where core client would detach
+        from a tentative project when its master page
+        had been downloaded and parsed successfully,
+        but its schedulers weren't up.
+
+    client/
+        scheduler_op.C
