@@ -13216,3 +13216,9 @@ Bruce 17 Oct 2005
     sched/
         feeder.C
 
+Reinhard 19 Oct 2005
+    - put explicit version-checks into _autosetup so the user knows right-away if
+      he needs to install newer versions of autoconf&automake&Cie.
+     [taken from E@H-buildscript 'eah_build.sh']
+
+    ./_autosetup
