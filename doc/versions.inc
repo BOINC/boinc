@@ -76,6 +76,11 @@ $w522= array(
     <li>
     BOINC now employs a wizard during an attach to project operation to guide people thruogh the
     process of attaching to a project as well as check for things like proxy configuration issues.
+    <li>
+    BOINC now automatically generates a password that is used for network communication.  If you
+    use programs like BOINCView or any other third party tool you may need to look up or change
+    the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
+    from projects over the network on remote machines.
     </ul>
     ",
     "bugs"=>"<ul>
@@ -257,7 +262,23 @@ $l524 = array(
     "type"=>sea(),
     "features"=>"<ul>
     <li>
+    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
+    <li>
+    Alerts have been enabled to provide instant feedback when certain types of errors occur.
+    <li>
+    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
+    <li>
+    BOINC can now use username and passwords for authentication instead of an authenticator.
+    <li>
+    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
+    process of attaching to a project as well as check for things like proxy configuration issues.
+    <li>
     The installer now contains the various BOINC localization files.
+    <li>
+    BOINC now automatically generates a password that is used for network communication.  If you
+    use programs like BOINCView or any other third party tool you may need to look up or change
+    the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
+    from projects over the network on remote machines.
     </ul>
     "
 );
