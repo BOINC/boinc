@@ -13206,58 +13206,14 @@ Rom    17 Oct 2005
     api/
         graphics_api.C
 
-Bruce 17 Oct 2005
-    - Feeder: removed obsolete #defines for PID file and lockfile.
-      Trigger file to re-read database is now reread_db in the project
-      root direcory, consistent with other BOINC trigger files, rather
-      than in the tmp_project_name subdirectory.
-    - Log detection/removal of trigger file.
-
-    sched/
-        feeder.C
-
-Reinhard 19 Oct 2005
-    - put explicit version-checks into _autosetup so the user knows right-away if
-      he needs to install newer versions of autoconf&automake&Cie.
-     [taken from E@H-buildscript 'eah_build.sh']
-
-    ./_autosetup
-
-David  20 Oct 2005
-	- removed declaration of g_hIdleDetectionDll from lib/hostinfo.h
-		(what the heck was it doing there??)
-
-	lib/
-		hostinfo.h
-
-David  20 Oct 2005
-    - core client: delete project_init.xml only on detach via GUI RPC
-        (not on detach due to initial master file fetch failure)
-
-    client/
-        client_state.C
-        gui_rpc_server_ops.C
-    html/inc/
-        host.inc
-
-David  20 Oct 2005
-    - core client: fix bug where core client would detach
-        from a tentative project when its master page
-        had been downloaded and parsed successfully,
-        but its schedulers weren't up.
-
-    client/
-        scheduler_op.C
-
-Rom    20 Oct 2005
+Rom    19 Oct 2005
     - Bug Fix: use strLink instead of strBuffer when describing the URL to
         go to on Linux when a browser cannot be detected.
-    - Bug Fix: Change missing browser message box text.
         
     clientgui/
         hyperlink.cpp
 
-Rom    20 Oct 2005
+Rom    19 Oct 2005
     - Include localization files in the Linux sea.
     
     sea/
@@ -13265,7 +13221,11 @@ Rom    20 Oct 2005
         make-tar.sh
         make-tar_debug.sh
 
-Rom    20 Oct 2005 (stable)
+Rom    19 Oct 2005 (stable)
     - Tag for 5.2.3 release, all platforms
       boinc_core_release_5_2_3
+
+Rom    19 Oct 2005 (stable)
+    - Tag for 5.2.4 release, all platforms
+      boinc_core_release_5_2_4
 
