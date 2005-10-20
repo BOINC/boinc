@@ -13212,4 +13212,11 @@ Rom    19 Oct 2005
         
     clientgui/
         hyperlink.cpp
+
+Rom    19 Oct 2005
+    - Include localization files in the Linux sea.
     
+    sea/
+        Makefile.am
+        make-tar.sh
+        make-tar_debug.sh
