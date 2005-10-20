@@ -13220,3 +13220,8 @@ Rom    19 Oct 2005
         Makefile.am
         make-tar.sh
         make-tar_debug.sh
+
+Rom    19 Oct 2005 (stable)
+    - Tag for 5.2.3 release, all platforms
+      boinc_core_release_5_2_3
+
