@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: BOINC Manager 5.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-11 20:59+0200\n"
+"PO-Revision-Date: 2005-10-20 21:18+0200\n"
 "Last-Translator: Son Goku 3SSJ <timeros@gmail.com>\n"
-"Language-Team: AMD Powered @ Home Team\n"
+"Language-Team: BOINC Development Team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-5\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -67,7 +67,7 @@ msgstr "Влез в проект"
 #: clientgui/AccountInfoPage.cpp:304
 #: clientgui/WelcomePage.cpp:149
 msgid "Attach to account manager"
-msgstr "Прикрепи Акаунт Менажера"
+msgstr "Прикрепи Акаунт Менажер"
 
 #: clientgui/AccountInfoPage.cpp:315
 #, c-format
@@ -190,7 +190,7 @@ msgstr "(Дефиниран от потребителя)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
@@ -476,20 +476,25 @@ msgstr "Име на хоста:"
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr "Неуспех при създаването на wxStaticText, изискван от wxHyperLink!"
 
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
-"BROWSER enviroment variable to point to whatever your favorite\n"
-"web browser is."
+"BROWSER environment variable to point to whatever your favorite\n"
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
 "BOINC не можа да определи кой е браузърът по подразбиране.\n"
 "Моля провери че имаш инсталиран или 'mailcap' пакета или \n"
 "'mime' пакета и че 'text/html' mime типа е настроен за твоят любим \n"
-"браузър. Дръг начин е да настроиш BROWSER enviroment variable \n"
-"да сочи любимия  ти браузър"
+"браузър. Друг начин е да настроиш BROWSER enviroment variable \n"
+"да сочи любимия  ти браузър. Моля те отвори нов прозорец на браузъра и въведи следния URL адрес:\n"
+"\n"
+"%s"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -544,40 +549,40 @@ msgid "Your team"
 msgstr "Вашият отбор"
 
 #: clientgui/Localization.cpp:57
-msgid "View information about your team: BOINC Synergy"
-msgstr "Виж информация за твоя отбор: BOINC Synergy"
+msgid "View information about your team"
+msgstr "Виж информация за твоя отбор"
 
-#: clientgui/MainDocument.cpp:159
+#: clientgui/MainDocument.cpp:180
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC Manager - Грешка при установяване на връзката"
 
-#: clientgui/MainDocument.cpp:160
+#: clientgui/MainDocument.cpp:181
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Паролата, която въведохте е грешна, моля опитайте отново. "
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:199
 msgid "BOINC Manager - Connection failed"
 msgstr "BOINC Manager - Връзката провалена"
 
-#: clientgui/MainDocument.cpp:179
+#: clientgui/MainDocument.cpp:200
 #: clientgui/MainFrame.cpp:922
 #: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr "Връзката провалена."
 
-#: clientgui/MainDocument.cpp:285
+#: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
 msgstr "Обработвам състоянието на системата; моля изчакайте..."
 
-#: clientgui/MainDocument.cpp:294
+#: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
 msgstr "Обработвам информацията за хоста; моля изчакайте..."
 
-#: clientgui/MainDocument.cpp:848
+#: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
 msgstr "BOINC грешка"
 
-#: clientgui/MainDocument.cpp:858
+#: clientgui/MainDocument.cpp:879
 msgid "BOINC info"
 msgstr "BOINC инфо"
 
@@ -1504,7 +1509,7 @@ msgstr "За да продължите, натиснете Натаък. "
 
 #: clientgui/WizardAccountManager.cpp:116
 msgid "Attach to Account Manager"
-msgstr "Прикрепи Акаунт Менажера"
+msgstr "Прикрепи Акаунт Менажер"
 
 #: clientgui/WizardAccountManager.cpp:374
 #: clientgui/WizardAttachProject.cpp:426
