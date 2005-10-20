@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 10/4/05 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 10/20/05 by Charlie Fenton
 ##
 
 ## Usage:
@@ -40,8 +40,13 @@ cp -fpR mac_build/build/BOINCManager.app ../BOINC_Installer/Pkg_Root/Application
 
 cp -fpR mac_build/build/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
 
-cp -fpR locale/client/ ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
-sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
+## Copy the localization files to the installer tree
+## Old way copied everything, including CVS files and *.po files which were not needed and wasted space
+## cp -fpR locale/client/ ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
+## sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
+## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh)
+find locale/client -name '*.mo' | cut -d '/' -f 4 | awk '{print "../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/"$0}' | xargs mkdir
+find locale/client -name '*.mo' | cut -d '/' -f 4,5 | awk '{print "cp \"../locale/client/"$0"\" \"../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/"$0"\""}' | bash
 
 sudo chown -R root:admin ../BOINC_Installer/Pkg_Root/*
 sudo chmod -R 775 ../BOINC_Installer/Pkg_Root/*

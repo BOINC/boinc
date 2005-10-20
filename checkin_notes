@@ -13272,3 +13272,10 @@ Rom    19 Oct 2005 (stable)
     - Tag for 5.2.4 release, all platforms
       boinc_core_release_5_2_4
 
+Charlie 20 Oct 2005
+    - Mac: update BOINC build shell script to copy only *.mo localization files 
+      to avoid wasting space on CVS and *.po files which are not needed; adapted 
+      from Rom's make-tar.sh script.
+
+    mac_installer/
+        release_boinc.sh
