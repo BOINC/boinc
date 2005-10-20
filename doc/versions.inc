@@ -249,10 +249,10 @@ $m521c = array(
     "
 );
 
-$l523 = array(
-    "num"=>"5.2.3",
+$l524 = array(
+    "num"=>"5.2.4",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.3_i686-pc-linux-gnu.sh",
+    "file"=>"boinc_5.2.4_i686-pc-linux-gnu.sh",
     "date"=>"19 October 2005",
     "type"=>sea(),
     "features"=>"<ul>
@@ -327,7 +327,7 @@ $linux = array(
     "name"=>"Linux/x86",
     "url"=>"linux.php",
     "versions"=>array(
-        $l523,
+        $l524,
         $l443,
         $l419
     )
