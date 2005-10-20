@@ -44,7 +44,7 @@ cp -fpR mac_build/build/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Scr
 ## Old way copies CVS and *.po files which are not needed
 ## cp -fpR locale/client/ ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 ## sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
-## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh
+## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh)
 find locale/client -name '*.mo' | cut -d '/' -f 3 | awk '{print "-p \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | xargs mkdir
 find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk '{print "cp \"locale/client/"$0"\" \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | bash
 
