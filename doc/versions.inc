@@ -54,9 +54,46 @@ function mac_advanced() {
     }
 }
 
+$w522= array(
+    "num"=>"5.2.2",
+    "status"=>"Recommended version",
+    "file"=>"boinc_5.2.2_windows_intelx86.exe",
+    "date"=>"17 October 2005",
+    "type"=>win_new(),
+    "features"=>"<ul>
+    <li>
+    Dial-up support has now been enhanced to support service installs, and shared user installs.
+    <li>
+    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
+    <li>
+    Alerts have been enabled to provide instant feedback when certain types of errors occur.
+    <li>
+    BOINC Manager now supports the Microsoft Active Accessibility standard.
+    <li>
+    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
+    <li>
+    BOINC can now use username and passwords for authentication instead of an authenticator.
+    <li>
+    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
+    process of attaching to a project as well as check for things like proxy configuration issues.
+    </ul>
+    ",
+    "bugs"=>"<ul>
+    <li>
+    Applications that were built before October 2004 do not
+    display screensaver graphics with the Service or Shared install type,
+    or the Single-user install type with the password protect screensaver
+    option on NT based machines.
+    <li>
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
+    the system becomes sluggish and unresponsive.
+    </ul>
+    "
+);
+
 $w445= array(
     "num"=>"4.45",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_4.45_windows_intelx86.exe",
     "date"=>"6 June 2005",
     "type"=>win_new(),
@@ -106,43 +143,6 @@ $w445= array(
     Graphics sometimes do not work with ATI Graphics card.
     This bug has been fixed, but it requires new applications to be built.  Please check 
     with the various projects to find out when they'll release a new applicaton with the fix.
-    </ul>
-    "
-);
-
-$w522= array(
-    "num"=>"5.2.2",
-    "status"=>"Development version",
-    "file"=>"boinc_5.2.2_windows_intelx86.exe",
-    "date"=>"17 October 2005",
-    "type"=>win_new(),
-    "features"=>"<ul>
-    <li>
-    Dial-up support has now been enhanced to support service installs, and shared user installs.
-    <li>
-    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
-    <li>
-    Alerts have been enabled to provide instant feedback when certain types of errors occur.
-    <li>
-    BOINC Manager now supports the Microsoft Active Accessibility standard.
-    <li>
-    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
-    <li>
-    BOINC can now use username and passwords for authentication instead of an authenticator.
-    <li>
-    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
-    process of attaching to a project as well as check for things like proxy configuration issues.
-    </ul>
-    ",
-    "bugs"=>"<ul>
-    <li>
-    Applications that were built before October 2004 do not
-    display screensaver graphics with the Service or Shared install type,
-    or the Single-user install type with the password protect screensaver
-    option on NT based machines.
-    <li>
-    If BOINC runs at the same time as Windows XP 3-D screensavers,
-    the system becomes sluggish and unresponsive.
     </ul>
     "
 );
@@ -249,10 +249,22 @@ $m521c = array(
     "
 );
 
+$l523 = array(
+    "num"=>"5.2.3",
+    "status"=>"Recommended version",
+    "file"=>"boinc_5.2.3_i686-pc-linux-gnu.sh",
+    "date"=>"19 October 2005",
+    "type"=>sea(),
+    "features"=>"<ul>
+    <li>
+    The installer now contains the various BOINC localization files.
+    </ul>
+    "
+);
 
 $l443 = array(
     "num"=>"4.43",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_4.43_i686-pc-linux-gnu.sh",
     "date"=>"23 May 2005",
     "type"=>sea(),
@@ -262,16 +274,10 @@ $l443 = array(
      boincmgr you might see this error message:<br>
          boincmgr: /lib/libpthread.so.0: version `GLIBC_2.3.2' not found (required by boincmgr)<br><br>
      We are investigating this issue.
+     <li>
+     Cutting and pasting does not appear to work.
      </ul>
     "
-);
-
-$l522 = array(
-    "num"=>"5.2.2",
-    "status"=>"Development version",
-    "file"=>"boinc_5.2.2_i686-pc-linux-gnu.sh",
-    "date"=>"17 October 2005",
-    "type"=>sea()
 );
 
 $l419 = array(
@@ -301,8 +307,8 @@ $s443 = array(
 $windows = array(
     "name"=>"Windows",
     "versions"=>array(
-        $w445,
         $w522,
+        $w445,
         $w419
     )
 );
@@ -321,8 +327,8 @@ $linux = array(
     "name"=>"Linux/x86",
     "url"=>"linux.php",
     "versions"=>array(
+        $l523,
         $l443,
-        $l522,
         $l419
     )
 );
