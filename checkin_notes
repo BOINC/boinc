@@ -13248,3 +13248,24 @@ David  20 Oct 2005
 
     client/
         scheduler_op.C
+
+Rom    20 Oct 2005
+    - Bug Fix: use strLink instead of strBuffer when describing the URL to
+        go to on Linux when a browser cannot be detected.
+    - Bug Fix: Change missing browser message box text.
+        
+    clientgui/
+        hyperlink.cpp
+
+Rom    20 Oct 2005
+    - Include localization files in the Linux sea.
+    
+    sea/
+        Makefile.am
+        make-tar.sh
+        make-tar_debug.sh
+
+Rom    20 Oct 2005 (stable)
+    - Tag for 5.2.3 release, all platforms
+      boinc_core_release_5_2_3
+

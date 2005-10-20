@@ -23,10 +23,10 @@ $(sea_debug): sea_debug.tar make-sea.sh Makefile
 	./make-sea.sh sea_debug.tar $(sea_debug) BOINC_debug/binstall.sh
 
 sea.tar: $(tarfiles)
-	tar cf sea.tar $(tarfiles)
+	./make-tar.sh
 
 sea_debug.tar: $(tarfiles_debug)
-	tar cf sea_debug.tar $(tarfiles_debug)
+	./make-tar_debug.sh
 
 BOINC/boinc: ../client/boinc BOINC
 	cp ../client/boinc BOINC/boinc

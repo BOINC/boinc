@@ -216,18 +216,17 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
         if(cmd.IsEmpty()) {
             wxString strBuffer = wxEmptyString;
             strBuffer.Printf(
-                _("BOINC could not determine what your default browser is.\n"
-                "Please verify that you have either the 'mailcap' package installed or\n"
-                "'mime' package installed, and that the 'text/html' mime type is\n"
-                "configured for your favorite browser. Another method is to set the\n"
-                "BROWSER environment variable to point to whatever your favorite\n"
-                "web browser is.  Please open a browser window to the following URL:\n\n"
-                "%s"),
-                strBuffer.c_str()
+                _("BOINC tried to display the web page\n"
+                "\t%s\n"
+                "but couldn't find a web browser.\n"
+                "To fix this, set the environment variable\n"
+                "BROWSER to the path of your web browser,\n"
+                "then restart BOINC."),
+                strLink.c_str()
             );
             ::wxMessageBox(
                 strBuffer,
-                _("BOINC Manager"),
+                _("BOINC Manager - Can't find web browser"),
                 wxOK | wxICON_INFORMATION
             );
         } else {
