@@ -222,8 +222,12 @@ CMainFrame::CMainFrame(wxString strTitle) :
     // Prefetch and Load Wininet.dll so that any calls to
     //   wxDialUpManager->IsAlwaysOnline happen quicker.
     m_WININET.Load(wxT("WININET"));
-    m_pDialupManager = wxDialUpManager::Create();
-    wxASSERT(m_pDialupManager->IsOk());
+    if (m_RASAPI32.Load(wxT("RASAPI32"))) {
+        m_pDialupManager = wxDialUpManager::Create();
+        wxASSERT(m_pDialupManager->IsOk());
+    } else {
+        m_pDialupManager = NULL;
+    }
 #endif
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
@@ -269,9 +273,6 @@ CMainFrame::~CMainFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
-#ifdef __WXMSW__
-    wxASSERT(m_pDialupManager);
-#endif
 
     SaveState();
 
@@ -308,7 +309,6 @@ CMainFrame::~CMainFrame() {
     if (m_pDialupManager)
         delete m_pDialupManager;
 #endif
-
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function End"));
 }
@@ -1080,10 +1080,6 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pDlg);
 
-#ifdef __WXMSW__
-    wxASSERT(m_pDialupManager);
-#endif
-
 
     // General Tab
     pDlg->m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
@@ -1093,12 +1089,27 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
 #ifdef __WXMSW__
     // Connection Tab
-    m_pDialupManager->GetISPNames(astrDialupConnections);
+    if (m_pDialupManager) {
+        m_pDialupManager->GetISPNames(astrDialupConnections);
 
-    pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
-    pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
-    pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
-    pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
+        pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
+        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
+        pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
+    } else {
+        pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
+        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
+        pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
+
+        pDlg->m_NetworkAutomaticDetectionCtrl->Disable();
+        pDlg->m_NetworkUseLANCtrl->Disable();
+        pDlg->m_NetworkUseDialupCtrl->Disable();
+        pDlg->m_DialupConnectionsCtrl->Disable();
+        pDlg->m_DialupSetDefaultCtrl->Disable();
+        pDlg->m_DialupClearDefaultCtrl->Disable();
+        pDlg->m_DialupPromptCredentials->Disable();
+    }
 #endif
 
     // Proxy Tabs
@@ -1465,7 +1476,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             wxTimeSpan          tsLastDialupRequest;
             wxTimeSpan          tsFirstDialupDisconnectEvent;
 
-            wxASSERT(m_pDialupManager->IsOk());
             if (m_pDialupManager && pDoc) {
                 // Update the always online flag every 60 seconds.  This call is expensive
                 //   on slow machines.

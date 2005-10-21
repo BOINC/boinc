@@ -13279,3 +13279,13 @@ Charlie 20 Oct 2005
 
     mac_installer/
         release_boinc.sh
+
+Rom    20 Oct 2005
+    Bug Fix: Some versions of Windows do not support RAS by default and so
+        wxWidgets complains when it can't find it.  What is worse is we end up
+        dereferencing a null pointer when somebody tries to bring up the
+        options dialog.  If we detect the null pointer disable all the
+        controls on the networking/communications tab.
+        
+    clientgui/
+        MainFrame.cpp, .h
