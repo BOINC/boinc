@@ -210,11 +210,11 @@ $m437s = array(
     "
 );
 
-$m521 = array(
-    "num"=>"5.2.1",
+$m524 = array(
+    "num"=>"5.2.4",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.2.1_macOSX.zip",
-    "date"=>"11 October 2005",
+    "file"=>"boinc_5.2.4_macOSX.zip",
+    "date"=>"20 October 2005",
     "type"=>mac_advanced(),
      "features"=>"<ul>
      <li>
@@ -226,23 +226,32 @@ $m521 = array(
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
     <li>
+    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
+    <li>
+    Alerts have been enabled to provide instant feedback when certain types of errors occur.
+    <li>
     BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
     <li>
     BOINC can now use username and passwords for authentication instead of an authenticator.
     <li>
     BOINC now employs a wizard during an attach to project operation to guide people thruogh the
     process of attaching to a project as well as check for things like proxy configuration issues.
+    <li>
+    BOINC now automatically generates a password that is used for network communication.  If you
+    use programs like BOINCView or any other third party tool you may need to look up or change
+    the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
+    from projects over the network on remote machines.
      </ul>
     ",
     "bugs"=>"
     "
 );
 
-$m521c = array(
-    "num"=>"5.2.1",
+$m524c = array(
+    "num"=>"5.2.4",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.2.1_powerpc-apple-darwin.zip",
-    "date"=>"11 October 2005",
+    "file"=>"boinc_5.2.4_powerpc-apple-darwin.zip",
+    "date"=>"20 October 2005",
     "type"=>bare_core(),
     "features"=>"<ul>
     <li>
@@ -340,8 +349,8 @@ $mac = array(
         $m437s,
         $m443c,
         $m419,
-        $m521,
-        $m521c
+        $m524,
+        $m524c
     )
 );
 $linux = array(
