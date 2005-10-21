@@ -13289,3 +13289,11 @@ Rom    20 Oct 2005
         
     clientgui/
         MainFrame.cpp, .h
+
+Charlie 21 Oct 2005
+    - Mac: Update XCode project to make sure plist files are updated _before_ 
+      they are copied into build products.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
