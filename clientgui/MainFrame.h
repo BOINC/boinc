@@ -117,6 +117,7 @@ private:
     CStatusBar*     m_pStatusbar;
 #ifdef __WXMSW__
     wxDynamicLibrary m_WININET;
+    wxDynamicLibrary m_RASAPI32;
     wxDialUpManager* m_pDialupManager;
 #endif
     wxString        m_strBaseTitle;
