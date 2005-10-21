@@ -707,6 +707,7 @@
 		};
 		DD1277B2081F3D67007B5DE1 = {
 			buildPhases = (
+				DDAD19D609090899004E7DD0,
 				DD1277AF081F3D67007B5DE1,
 				DD1277B0081F3D67007B5DE1,
 				DD1277B1081F3D67007B5DE1,
@@ -732,6 +733,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
+				DDAD19DF09090914004E7DD0,
 			);
 			isa = PBXNativeTarget;
 			name = Installer;
@@ -2012,6 +2014,7 @@
 		};
 		DD40CDF807F0386A0096C645 = {
 			buildPhases = (
+				DDAD19BB09090731004E7DD0,
 				DD40CDF507F0386A0096C645,
 				DD40CDF607F0386A0096C645,
 				DD40CDF707F0386A0096C645,
@@ -2037,6 +2040,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
+				DDAD19CD09090824004E7DD0,
 			);
 			isa = PBXNativeTarget;
 			name = SystemMenu;
@@ -4006,6 +4010,7 @@
 		DD96AFF80811075000A06F22 = {
 			buildPhases = (
 				DDCDB29708CEDCE400E4F573,
+				DDAD19C3090907A7004E7DD0,
 				DD96AFF50811075000A06F22,
 				DD96AFF60811075000A06F22,
 				DD96AFF70811075000A06F22,
@@ -4032,6 +4037,7 @@
 				WRAPPER_EXTENSION = saver;
 			};
 			dependencies = (
+				DDAD19CF09090833004E7DD0,
 			);
 			isa = PBXNativeTarget;
 			name = ScreenSaver;
@@ -4104,6 +4110,87 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		DDAD19BB09090731004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../SystemMenu-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ./build/SetVersion;
+		};
+		DDAD19C3090907A7004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../ScreenSaver-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ./build/SetVersion;
+		};
+		DDAD19CC09090824004E7DD0 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAD19CD09090824004E7DD0 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAD19CC09090824004E7DD0;
+		};
+		DDAD19CE09090833004E7DD0 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAD19CF09090833004E7DD0 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAD19CE09090833004E7DD0;
+		};
+		DDAD19D609090899004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../Installer-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ./build/SetVersion;
+		};
+		DDAD19DE09090914004E7DD0 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAD19DF09090914004E7DD0 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAD19DE09090914004E7DD0;
 		};
 		DDADA51508BAC96200053BFB = {
 			fileRef = 20286C33FDCF999611CA2CEA;
