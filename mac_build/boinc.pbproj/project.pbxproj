@@ -4118,7 +4118,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDAD19C3090907A7004E7DD0 = {
 			buildActionMask = 2147483647;
@@ -4133,7 +4133,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDAD19CC09090824004E7DD0 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
@@ -4172,7 +4172,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDAD19DE09090914004E7DD0 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
@@ -4199,7 +4199,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDADA51508BAC96200053BFB = {
 			fileRef = 20286C33FDCF999611CA2CEA;
@@ -4322,7 +4322,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDB8D5A5081FC8C700A5A1E8 = {
 			fileEncoding = 30;
