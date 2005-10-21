@@ -81,6 +81,9 @@ $w522= array(
     use programs like BOINCView or any other third party tool you may need to look up or change
     the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
     from projects over the network on remote machines.
+    <li>
+    If you need to revert from 5.2.x to an earlier version, you must delete the file
+    gui_rpc_auth.cfg from your BOINC directory.
     </ul>
     ",
     "bugs"=>"<ul>
@@ -241,6 +244,9 @@ $m524 = array(
     use programs like BOINCView or any other third party tool you may need to look up or change
     the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
     from projects over the network on remote machines.
+    <li>
+    If you need to revert from 5.2.x to an earlier version, you must delete the file
+    gui_rpc_auth.cfg from your BOINC directory.
      </ul>
     ",
     "bugs"=>"
@@ -288,6 +294,9 @@ $l524 = array(
     use programs like BOINCView or any other third party tool you may need to look up or change
     the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
     from projects over the network on remote machines.
+    <li>
+    If you need to revert from 5.2.x to an earlier version, you must delete the file
+    gui_rpc_auth.cfg from your BOINC directory.
     </ul>
     "
 );
@@ -345,12 +354,12 @@ $windows = array(
 $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "versions"=>array(
+        $m524,
+        $m524c,
         $m443,
         $m437s,
         $m443c,
-        $m419,
-        $m524,
-        $m524c
+        $m419
     )
 );
 $linux = array(
