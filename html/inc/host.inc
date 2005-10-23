@@ -272,8 +272,8 @@ function hosts_compatible($host1, $host2) {
 
 	// one host must strictly precede the other
 	//
-	if ($host1.rpc_time < $host2.create_time) return true;
-	if ($host2.rpc_time < $host1.create_time) return true;
+	if ($host1->rpc_time < $host2->create_time) return true;
+	if ($host2->rpc_time < $host1->create_time) return true;
     return false;
 }
 

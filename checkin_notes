@@ -13327,3 +13327,17 @@ David  23 Oct 2005
         file_deleter.C
         server_types.C
         validator.C
+
+David  23 Oct 2005
+    - fix bugs in checkin-before-last.
+        When merge hosts X into Y with X < Y,
+        don't change Y's create time.
+        If you do, and there are hosts Z with X < Z < Y,
+        the user won't be able to merge Z into Y.
+        Also fix typos in SQL queries.
+
+    html/
+        inc/
+            host.inc
+        user/
+            host_edit_action.php
