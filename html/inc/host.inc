@@ -248,6 +248,9 @@ function ghz($x) {
     }
 }
 
+// return true if it's possible that the two host records
+// correspond to the same host
+//
 function hosts_compatible($host1, $host2) {
     // we screwed around with Intel processor names,
     // so count them as compatible if both contain "Intel" and "Pentium",
@@ -266,7 +269,12 @@ function hosts_compatible($host1, $host2) {
         if ($host2->p_model != $host1->p_model) return false;
     }
     if ($host2->os_name != $host1->os_name) return false;
-    return true;
+
+	// one host must strictly precede the other
+	//
+	if ($host1.rpc_time < $host2.create_time) return true;
+	if ($host2.rpc_time < $host1.create_time) return true;
+    return false;
 }
 
 // recompute host's average credit by scanning results.

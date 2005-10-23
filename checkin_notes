@@ -13297,3 +13297,21 @@ Charlie 21 Oct 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  22 Oct 2005
+	- Prevent the "merge host" feature from being used
+		to merge distinct hosts
+		(and create host records with exaggerated credit totals).
+		Hosts X and Y are considered "compatible" (for merging)
+			only if X.rpc_time < Y.create_time or vice-versa.
+	- When merging hosts X and Y,
+		a) decay their expavg_credit prior to adding and updating
+		b) set create_time to the min of the two
+		c) if the target is older, update its rpc_time and rpc_seqno
+
+	html/
+		inc/
+			host.inc
+		user/
+			host_edit_action.php
+			host_edit_form.php

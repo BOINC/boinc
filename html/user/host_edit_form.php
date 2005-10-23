@@ -33,7 +33,6 @@ start_table();
 row_heading_array(array("", "name", "created", "computer ID"));
 while ($host2 = mysql_fetch_object($result)) {
     if ($host->id == $host2->id) continue;
-    //if ($host2->create_time > $host->create_time) continue;
     if (!hosts_compatible($host, $host2)) continue;
     $t = time_str($host2->create_time);
     $x = $host2->domain_name;
