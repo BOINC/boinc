@@ -59,8 +59,9 @@ int id_modulus=0, id_remainder=0;
 // Given a filename, find its full path in the upload directory hierarchy
 // Return an error if file isn't there.
 //
-int get_file_path(char *filename, char* upload_dir, int fanout, char* path) {
-
+int get_file_path(
+    const char *filename, char* upload_dir, int fanout, char* path
+) {
     dir_hier_path(filename, upload_dir, fanout, path);
     if (boinc_file_exists(path)) {
         return 0;
@@ -323,7 +324,7 @@ int delete_antique_files(int max_to_delete) {
         check_stop_daemons();
 
         retval = get_file_path(
-            (char*)fr.name.c_str(), config.upload_dir,
+            fr.name.c_str(), config.upload_dir,
             config.uldl_dir_fanout, pathname
         );
         if (retval) {

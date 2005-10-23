@@ -1,9 +1,23 @@
 <?php
 
+// show information about downloadable BOINC client software
+//
+// URL options:
+// xml=1            Show results as XML (other options are ignored)
+// dev=1            Show "development" versions
+// min_version=x    show no versions earlier than x
+// max_version=x    show no versions later than x
+// version=x        show version x
+// platform=x       show only versions for platform x (win/mac/linux/solaris)
+
 require_once("docutil.php");
 
 $xml = $_GET["xml"];
 $dev = $_GET["dev"];
+$pname = $_GET["platform"];
+$min_version = $_GET["min_version"];
+$max_version = $_GET["max_version"];
+$version = $_GET["version"];
 
 require_once("versions.inc");
 
@@ -44,21 +58,6 @@ function show_detail($v) {
     list_end();
 }
 
-// show details on a version if URL indicates
-//
-$pname = $_GET["platform"];
-if ($pname) {
-    $i = $_GET["i"];
-    $p = $platforms[$pname];
-    $long_name = $p["name"];
-    $va = $p["versions"];
-    $v = $va[$i];
-    $num = $v["num"];
-    page_head("BOINC version $num for $long_name");
-    show_detail($v);
-    page_tail();
-    exit();
-}
 
 function show_version_xml($v, $long_name) {
     $num = $v["num"];
@@ -121,13 +120,15 @@ function show_version($pname, $i, $v) {
         Instructions: $type
         </td>
         <td width=1%>
-        <a href=download.php?platform=$pname&i=$i><nobr>version details</nobr></a>
+        <a href=download.php?platform=$pname&version=$num><nobr>version details</nobr></a>
         </td>
         </tr>
     ";
 }
 
 function show_platform($short_name, $p, $dev) {
+    global $min_version;
+    global $max_version;
     $long_name = $p["name"];
     if ($p["url"]) {
         $url = $p["url"];
@@ -135,9 +136,10 @@ function show_platform($short_name, $p, $dev) {
     }
     list_bar($long_name);
     foreach ($p["versions"] as $i=>$v) {
-        if ($dev || !is_dev($v)) {
-            show_version($short_name, $i, $v);
-        }
+        if ($min_version && strcmp($v['num'], $min_version)<0) continue;
+        if ($max_version && strcmp($v['num'], $max_version)>0) continue;
+        if (!$dev && is_dev($v)) continue;
+        show_version($short_name, $i, $v);
     }
 }
 
@@ -146,6 +148,26 @@ function show_platform_xml($short_name, $p) {
     foreach ($p["versions"] as $i=>$v) {
         show_version_xml($v, $long_name);
     }
+}
+
+// show details on a version if URL indicates
+//
+if ($pname && $version) {
+    $p = $platforms[$pname];
+    if (!$p) {
+        error_page("platform not found");
+    }
+    $long_name = $p["name"];
+    $va = $p["versions"];
+    foreach ($va as $v) {
+        if ($v['num'] == $version) {
+            page_head("BOINC version $version for $long_name");
+            show_detail($v);
+            page_tail();
+            exit();
+        }
+    }
+    error_page( "version not found\n");
 }
 
 if ($xml) {
@@ -158,27 +180,36 @@ if ($xml) {
     }
     echo "</versions>\n";
 } else {
-    page_head("Download BOINC client software");
-    echo "<table border=2 cellpadding=4 width=100%>";
-    foreach($platforms as $short_name=>$p) {
-        show_platform($short_name, $p, $dev);
+    if ($pname) {
+        $p = $platforms[$pname];
+        $name = $p['name'];
+        page_head("Download BOINC client software for $name");
+        echo "<table border=2 cellpadding=4 width=100%>";
+        show_platform($pname, $p, $dev);
+        list_end();
+    } else {
+        page_head("Download BOINC client software");
+        echo "<table border=2 cellpadding=4 width=100%>";
+        foreach($platforms as $short_name=>$p) {
+            show_platform($short_name, $p, $dev);
+        }
+        list_end();
+        echo "
+            <p>
+            If your computer is not of one of these types, you can
+            <ul>
+            <li> <a href=anonymous_platform.php>make your own client software</a> or
+            <li> <a href=download_other.php>download executables from a third-party site</a>
+                (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
+            </ul>
+        ";
     }
-    list_end();
     echo "
         <p>
-        If your computer is not of one of these types, you can
-        <ul>
-        <li> <a href=anonymous_platform.php>make your own client software</a> or
-        <li> <a href=download_other.php>download executables from a third-party site</a>
-            (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
-        </ul>
-        <p>
-        Download information is also available in
-        <a href=download.php?xml=1>XML format</a>.
-        <p>
-        Versions 4.27 and earlier may contain an erroneous
-        End-User License Agreement.
-        The correct text is <a href=eula.txt>here</a>.
+        Download information can be restricted by
+        platform and/or version number, 
+        and can be down in XML format.
+        <a href=download_info.php>Details</a>.
     ";
     page_tail();
 }

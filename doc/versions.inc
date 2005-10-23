@@ -54,6 +54,22 @@ function mac_advanced() {
     }
 }
 
+$features_5 = "
+    <li> You attach to projects using your own email address and password.
+        Long, random 'account keys' are no longer used.
+    <li> BOINC checks for proxy configuration problems
+        when you first attach to a project.
+    <li>
+    The file gui_rpc_auth.cfg contains a password that
+    protects the BOINC client from control by other users on the same host.
+    BOINC automatically generates a password if none is found.
+    If you use tools like BOINCView you may need to look it up or change it.
+    If you need to revert from 5.2.x to an earlier version,
+    you must delete gui_rpc_auth.cfg from your BOINC directory.
+    <li> Alert boxes now provide feedback when certain errors occur.
+    <li> BOINC supports 'Account Management Systems' (to be announced).
+";
+
 $w522= array(
     "num"=>"5.2.2",
     "status"=>"Recommended version",
@@ -61,29 +77,9 @@ $w522= array(
     "date"=>"17 October 2005",
     "type"=>win_new(),
     "features"=>"<ul>
-    <li>
-    Dial-up support has now been enhanced to support service installs, and shared user installs.
-    <li>
-    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
-    <li>
-    Alerts have been enabled to provide instant feedback when certain types of errors occur.
-    <li>
-    BOINC Manager now supports the Microsoft Active Accessibility standard.
-    <li>
-    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
-    <li>
-    BOINC can now use username and passwords for authentication instead of an authenticator.
-    <li>
-    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
-    process of attaching to a project as well as check for things like proxy configuration issues.
-    <li>
-    BOINC now automatically generates a password that is used for network communication.  If you
-    use programs like BOINCView or any other third party tool you may need to look up or change
-    the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
-    from projects over the network on remote machines.
-    <li>
-    If you need to revert from 5.2.x to an earlier version, you must delete the file
-    gui_rpc_auth.cfg from your BOINC directory.
+    <li> Dial-up features now work with all installation types.
+    <li> The BOINC Manager can now be controlled using only the keyboard.
+".$features_5."
     </ul>
     ",
     "bugs"=>"<ul>
@@ -228,25 +224,7 @@ $m524 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
-    <li>
-    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
-    <li>
-    Alerts have been enabled to provide instant feedback when certain types of errors occur.
-    <li>
-    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
-    <li>
-    BOINC can now use username and passwords for authentication instead of an authenticator.
-    <li>
-    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
-    process of attaching to a project as well as check for things like proxy configuration issues.
-    <li>
-    BOINC now automatically generates a password that is used for network communication.  If you
-    use programs like BOINCView or any other third party tool you may need to look up or change
-    the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
-    from projects over the network on remote machines.
-    <li>
-    If you need to revert from 5.2.x to an earlier version, you must delete the file
-    gui_rpc_auth.cfg from your BOINC directory.
+".$features_5."
      </ul>
     ",
     "bugs"=>"
@@ -276,27 +254,7 @@ $l524 = array(
     "date"=>"19 October 2005",
     "type"=>sea(),
     "features"=>"<ul>
-    <li>
-    Account Management has been enhanced and support has been enabled in the stock install of BOINC.
-    <li>
-    Alerts have been enabled to provide instant feedback when certain types of errors occur.
-    <li>
-    BOINC is now capable of using HTTPS and has better proxy support through the use of curl.
-    <li>
-    BOINC can now use username and passwords for authentication instead of an authenticator.
-    <li>
-    BOINC now employs a wizard during an attach to project operation to guide people thruogh the
-    process of attaching to a project as well as check for things like proxy configuration issues.
-    <li>
-    The installer now contains the various BOINC localization files.
-    <li>
-    BOINC now automatically generates a password that is used for network communication.  If you
-    use programs like BOINCView or any other third party tool you may need to look up or change
-    the password specified in gui_rpc_auth.cfg.  This change keeps people from randomly detaching
-    from projects over the network on remote machines.
-    <li>
-    If you need to revert from 5.2.x to an earlier version, you must delete the file
-    gui_rpc_auth.cfg from your BOINC directory.
+".$features_5."
     </ul>
     "
 );

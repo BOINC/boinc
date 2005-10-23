@@ -724,9 +724,6 @@ int HOST::parse(FILE* fin) {
 
     p_ncpus = 1;
     while (fgets(buf, 256, fin)) {
-        int trash_int;
-        double trash_double;
-
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
@@ -748,9 +745,10 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
-        else if (parse_double(buf, "<p_calculated>", trash_double)) continue;
 
         // parse deprecated fields to avoid error messages
+        //
+        else if (match_tag(buf, "<p_calculated>")) continue;
         else if (match_tag(buf, "<p_fpop_err>")) continue;
         else if (match_tag(buf, "<p_iop_err>")) continue;
         else if (match_tag(buf, "<p_membw_err>")) continue;

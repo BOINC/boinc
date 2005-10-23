@@ -2,6 +2,11 @@
 
 $project_news = array(
 
+array("October 20, 2005",
+    "Version 5.2.2 of the BOINC client software has been release.
+    It includes a simpler registration procedure,
+    security enhancements, and numerous other improvements."
+),
 array("September 25, 2005",
     "<a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>,
     a BOINC-based project at the University of Washington,

@@ -69,7 +69,7 @@ public:
     bool users_idle(bool check_all_logins, double idle_time_to_run);
     int get_host_info();
     void clear_host_info();
-    void make_random_string(char* salt, char* out);
+    void make_random_string(const char* salt, char* out);
     void generate_host_cpid();
 };
 

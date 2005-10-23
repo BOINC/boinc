@@ -214,6 +214,7 @@ int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
     char buf[256];
+    PROJECT* p;
 
     srand((unsigned int)time(0));
     now = dtime();
@@ -221,14 +222,14 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
-    const char* p="";
+    const char* debug_str="";
 #ifdef _DEBUG
-    p = " (DEBUG)";
+    debug_str = " (DEBUG)";
 #endif
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
         core_client_major_version, core_client_minor_version,
-        core_client_release, platform_name, p
+        core_client_release, platform_name, debug_str
     );
 
     msg_printf(NULL, MSG_INFO, curl_version());
@@ -311,7 +312,7 @@ int CLIENT_STATE::init() {
     }
 
     for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+        p = projects[i];
         if (p->hostid) {
             sprintf(buf, "%d", p->hostid);
         } else {
@@ -335,7 +336,7 @@ int CLIENT_STATE::init() {
             "No general preferences found - using BOINC defaults"
         );
     } else {
-        PROJECT* p = global_prefs_source_project();
+        p = global_prefs_source_project();
         if (p) {
             strcpy(main_host_venue, p->host_venue);
             retval = global_prefs.parse_file(
@@ -1366,7 +1367,6 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 //
 bool CLIENT_STATE::want_network() {
     static double last_true_return=0;
-    double now = dtime();
 
     if (http_ops->nops()) goto return_true;
     if (network_suspended) goto return_false;

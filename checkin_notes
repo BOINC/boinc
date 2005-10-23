@@ -13315,3 +13315,15 @@ David  22 Oct 2005
 		user/
 			host_edit_action.php
 			host_edit_form.php
+
+David  23 Oct 2005
+    - fix compile warnings
+
+    client/
+        client_state.C
+    lib/
+        host_info.C,h
+    sched/
+        file_deleter.C
+        server_types.C
+        validator.C

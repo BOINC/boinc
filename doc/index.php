@@ -13,7 +13,7 @@ echo "
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
 <body bgcolor=#ffffff text=#000088 link=#000088 vlink=#000088>
-<img hspace=30 vspace=10 align=left src=boinc.gif>
+<img hspace=30 vspace=10 align=left src=logo/logo_small.png>
 <center>
 <br>
 <h1>Berkeley Open Infrastructure for Network Computing</h1>

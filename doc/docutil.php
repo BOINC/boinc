@@ -19,7 +19,7 @@ function page_head($title) {
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><a href=\".\"><img src=\"boinc.gif\"></a>
+        <td align=right><a href=index.php><img src=logo/logo_small.png></a>
             <br>
             <nobr><font size='2'>Last modified $d</font></nobr>
         </td>
@@ -116,6 +116,13 @@ function list_bar($x) {
 
 function list_end() {
     echo "</table><p>\n";
+}
+
+function error_page($x) {
+    page_head("Error");
+    echo $x;
+    page_tail();
+    exit();
 }
 
 ?>

@@ -468,6 +468,9 @@ void handle_wu(
         break;
     case NEVER:
         wu.transition_time = INT_MAX;
+        break;
+    case NO_CHANGE:
+        break;
     }
 
     wu.need_validate = 0;
