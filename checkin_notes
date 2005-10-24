@@ -13341,3 +13341,16 @@ David  23 Oct 2005
             host.inc
         user/
             host_edit_action.php
+
+Rom    24 Oct 2005
+    - Bug Fix: Win9x should not lock-up during a shutdown/logoff
+        operation.  I had to introduce a hack since MS never decided
+        to fix that console signal bug.  This change only effects
+        Win95/Win98/WinME.
+    - Trace Messages on Debug builds should be displayed even when
+        libboinc is compiled as a release build.
+
+    clientgui/
+        main.C
+    lib/
+        diagnostics.C

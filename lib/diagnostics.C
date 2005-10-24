@@ -448,7 +448,7 @@ void boinc_trace(const char *pszFormat, ...) {
         va_list ptr;
         va_start(ptr, pszFormat);
 
-        BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+        _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
         va_end(ptr);
 
@@ -468,7 +468,7 @@ void boinc_info_debug(const char *pszFormat, ...){
     va_list ptr;
     va_start(ptr, pszFormat);
 
-    BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+    _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
     va_end(ptr);
 
@@ -523,7 +523,7 @@ void boinc_trace(const char *pszFormat, ...) {
         va_list ptr;
         va_start(ptr, pszFormat);
 
-        BOINCASSERT( -1 != vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+        vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
         va_end(ptr);
 
@@ -551,7 +551,7 @@ void boinc_info_debug(const char *pszFormat, ...){
     va_list ptr;
     va_start(ptr, pszFormat);
 
-    BOINCASSERT( -1 != vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+    vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
     va_end(ptr);
 
