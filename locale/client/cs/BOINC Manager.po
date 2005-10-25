@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-14 20:58+0100\n"
+"PO-Revision-Date: 2005-10-20 05:24+0100\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: _Lang-cs\n"
 
 #############################################
-# FileID	: BOINC Manager.po, ver1.20, 2005/10/13 19:46:58 
+# FileID	: BOINC Manager.po, ver1.21, 2005/10/20 05:23:35
 # Author	: Rom Walton
 # Language	: Czech
 # Translated by	: Spok, Dejvidek
@@ -203,7 +203,7 @@ msgstr "(Definováno uživatelem)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:224
+#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "Správce BOINC"
 
@@ -490,22 +490,28 @@ msgstr "Jméno počítače:"
 
 #: clientgui/hyperlink.cpp:78
 msgid "Failed to create wxStaticText, needed by wxHyperLink!"
-msgstr "Chyba při vytváření wxStaticText, vyžadovaného wxHyperLink!"
+msgstr "Chyba při vytváření wxStaticText, vyžadovaného wxHyperLinkem!"
 
-#: clientgui/hyperlink.cpp:218
+#: clientgui/hyperlink.cpp:219
+#, c-format
 msgid ""
 "BOINC could not determine what your default browser is.\n"
 "Please verify that you have either the 'mailcap' package installed or\n"
 "'mime' package installed, and that the 'text/html' mime type is\n"
 "configured for your favorite browser. Another method is to set the\n"
 "BROWSER environment variable to point to whatever your favorite\n"
-"web browser is."
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
 msgstr ""
 "BOINC nemůže rozeznat Váš hlavní internetový prohlížeč. \n"
 "Prosím zkontrolujte zda máte nainstalován balíček 'mailcap' nebo 'mime' \n"
-"a zda máte mime typ 'text/html' nastaven na svůj oblíbený internetový \n"
+"a zda máte mime typ 'text/html' nastaven na Váš oblíbený internetový \n"
 "prohlížeč. Jiná možnost je nastavit proměnnou BROWSER (prohlížeč) \n"
-"na složku, kde je umístěn Váš oblíbený prohlížeč."
+"na složku, kde je umístěn Váš oblíbený prohlížeč. \n"
+"Spusťte prosím Váš internetový prohlížeč a zadejte do něj následující adresu: \n"
+"\n"
+"%s"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -561,39 +567,39 @@ msgstr "Váš tým"
 
 #: clientgui/Localization.cpp:57
 msgid "View information about your team"
-msgstr "Zobrazit informace o Vašem týmu."
+msgstr "Zobrazit informace o Vašem týmu "
 
-#: clientgui/MainDocument.cpp:159
+#: clientgui/MainDocument.cpp:180
 msgid "BOINC Manager - Connection Error"
 msgstr "Správce BOINC - Chyba připojení"
 
-#: clientgui/MainDocument.cpp:160
+#: clientgui/MainDocument.cpp:181
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Zadané heslo je chybné. Prosím, zkuste znovu."
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:199
 msgid "BOINC Manager - Connection failed"
 msgstr "Správce BOINC - Připojení selhalo"
 
-#: clientgui/MainDocument.cpp:179
+#: clientgui/MainDocument.cpp:200
 #: clientgui/MainFrame.cpp:922
 #: clientgui/MainFrame.cpp:923
 msgid "Connection failed."
 msgstr "Připojení selhalo"
 
-#: clientgui/MainDocument.cpp:285
+#: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
 msgstr "Zjišťuji stav systému. Prosím čekej..."
 
-#: clientgui/MainDocument.cpp:294
+#: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
 msgstr "Zjišťuji stav hostitele. Prosím čekej..."
 
-#: clientgui/MainDocument.cpp:848
+#: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
 msgstr "Chyba BOINC"
 
-#: clientgui/MainDocument.cpp:858
+#: clientgui/MainDocument.cpp:879
 msgid "BOINC info"
 msgstr "BOINC - informace"
 
