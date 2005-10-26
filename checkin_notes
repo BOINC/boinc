@@ -13363,3 +13363,10 @@ Charlie 25 Oct 2005
       client/
         gui_rpc_server.C
         
+David  25 Oct 2005
+	- "boinc_cmd" looks for a password in gui_rpc_auth.cfg
+
+	client/
+		acct_setup.C
+	lib/
+		boinc_cmd.C

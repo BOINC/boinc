@@ -22,6 +22,7 @@
 #include "parse.h"
 #include "filesys.h"
 #include "util.h"
+#include "client_msgs.h"
 
 #include "acct_setup.h"
 
@@ -80,7 +81,9 @@ void ACCOUNT_IN::parse(char* buf) {
 int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
     int retval;
     string url = master_url + "get_project_config.php";
-    printf("doing RPC to %s, file %s\n", url.c_str(), GET_PROJECT_CONFIG_FILENAME);
+    msg_printf(NULL, MSG_INFO,
+        "Fetching config info from %s", url.c_str()
+    );
     retval = gstate.gui_http.do_rpc(this, url, GET_PROJECT_CONFIG_FILENAME);
     if (retval) {
         error_num = retval;
