@@ -69,7 +69,8 @@ language("Danish", array(
 language("Dutch", array(
     site("http://www.seti.nl/content.php?c=boincmain",
         "SETI@Netherlands"
-    )
+    ),
+    site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
     site("http://www.setiusa.net/", "SETI.USA"),

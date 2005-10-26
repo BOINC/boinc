@@ -18,6 +18,7 @@ $pname = $_GET["platform"];
 $min_version = $_GET["min_version"];
 $max_version = $_GET["max_version"];
 $version = $_GET["version"];
+$type_name = $_GET["type"];
 
 require_once("versions.inc");
 
@@ -39,7 +40,7 @@ function show_detail($v) {
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
-    $type = $v["type"];
+    $type = type_text($v["type"]);
     $features = $v["features"];
     $bugs = $v["bugs"];
 
@@ -69,7 +70,7 @@ function show_version_xml($v, $long_name) {
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
-    $type = $v["type"];
+    $type = type_text($v["type"]);
     $features = $v["features"];
     $bugs = $v["bugs"];
     $bugs = htmlspecialchars($bugs);
@@ -109,6 +110,7 @@ function show_version($pname, $i, $v) {
     $path = "dl/$file";
     $s = number_format(filesize($path)/1000000, 2);
     $type = $v["type"];
+    $type_text = type_text($type);
     echo "<tr><td width=3%><nobr>
         $num</td><td> $status
         </nobr>
@@ -117,10 +119,10 @@ function show_version($pname, $i, $v) {
         <a href=dl/$file><b>Download</b></a> ($s MB)
         </td>
         <td>
-        Instructions: $type
+        Instructions: $type_text
         </td>
         <td width=1%>
-        <a href=download.php?platform=$pname&version=$num><nobr>version details</nobr></a>
+        <a href=download.php?platform=$pname&version=$num&type=$type><nobr>version details</nobr></a>
         </td>
         </tr>
     ";
@@ -160,7 +162,7 @@ if ($pname && $version) {
     $long_name = $p["name"];
     $va = $p["versions"];
     foreach ($va as $v) {
-        if ($v['num'] == $version) {
+        if ($v['num'] == $version && $type_name==$v['type']) {
             page_head("BOINC version $version for $long_name");
             show_detail($v);
             page_tail();

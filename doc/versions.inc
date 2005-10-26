@@ -1,56 +1,37 @@
 <?php
 
-function win_old() {
+function type_text($type) {
     global $xml;
     if ($xml) {
-        return "Single-mode Windows installer";
+        switch($type) {
+        case "win_old":
+            return "Single-mode Windows installer";
+        case "win_new":
+            return "Windows installer";
+        case "bare_core":
+            return "Core client only (command-line)";
+        case "sea":
+            return "Self-extracting archive";
+        case "mac_simple":
+            return "Menubar (simple GUI)";
+        case "mac_advanced":
+            return "Standard GUI";
+        }
     } else {
-        return "<a href=client_windows.php>Single-mode Windows installer</a>";
-    }
-}
-
-function win_new() {
-    global $xml;
-    if ($xml) {
-        return "Windows installer";
-    } else {
-        return "<a href=win_install.php>Windows installer</a>";
-    }
-}
-
-function bare_core() {
-    global $xml;
-    if ($xml) {
-        return "Core client only (command-line)";
-    } else {
-        return "<a href=bare_core.php>Core client only (command-line)</a>";
-    }
-}
-
-function sea() {
-    global $xml;
-    if ($xml) {
-        return "Self-extracting archive";
-    } else {
-        return "<a href=sea.php>Self-extracting archive</a>";
-    }
-}
-
-function mac_simple() {
-    global $xml;
-    if ($xml) {
-        return "Menubar (simple GUI)";
-    } else {
-        return "<a href=menubar.php>Menubar (simple GUI)</a>";
-    }
-}
-
-function mac_advanced() {
-    global $xml;
-    if ($xml) {
-        return "Standard GUI";
-    } else {
-        return "<a href=mac_advanced.php>Standard GUI</a>";
+        switch($type) {
+        case "win_old":
+            return "<a href=client_windows.php>Single-mode Windows installer</a>";
+        case "win_new":
+            return "<a href=win_install.php>Windows installer</a>";
+        case "bare_core":
+            return "<a href=bare_core.php>Core client only (command-line)</a>";
+        case "sea":
+            return "<a href=sea.php>Self-extracting archive</a>";
+        case "mac_simple":
+            return "<a href=menubar.php>Menubar (simple GUI)</a>";
+        case "mac_advanced":
+            return "<a href=mac_advanced.php>Standard GUI</a>";
+        }
     }
 }
 
@@ -75,7 +56,7 @@ $w522= array(
     "status"=>"Recommended version",
     "file"=>"boinc_5.2.2_windows_intelx86.exe",
     "date"=>"17 October 2005",
-    "type"=>win_new(),
+    "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
     <li> The BOINC Manager can now be controlled using only the keyboard.
@@ -100,7 +81,7 @@ $w445= array(
     "status"=>"Older version",
     "file"=>"boinc_4.45_windows_intelx86.exe",
     "date"=>"6 June 2005",
-    "type"=>win_new(),
+    "type"=>"win_new",
     "features"=>"<ul>
     <li>
     We are now including a tool with command line interface to control boinc within the 
@@ -156,7 +137,7 @@ $w419 = array(
     "status"=>"Older version",
     "file"=>"boinc_4.19_windows_intelx86.exe",
     "date"=>"25 Jan 2005",
-    "type"=>win_old(),
+    "type"=>"win_old",
     null,
     "bugs"=>"<ul>
     <li> Doesn't work with some HTTP proxies (fixed in later versions).
@@ -172,7 +153,7 @@ $m443 = array(
     "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_4.43_macOSX.zip",
     "date"=>"21 May 2005",
-    "type"=>mac_advanced(),
+    "type"=>"mac_advanced",
     "bugs"=>"<ul>
      <li>
      BOINC no longer works on Mac OS 10.2 and requires 10.3.9 or higher.
@@ -185,7 +166,7 @@ $m443c = array(
     "status"=>"Unix command-line version",
     "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
     "date"=>"21 May 2005",
-    "type"=>bare_core(),
+    "type"=>"bare_core",
     "bugs"=>"
     "
 );
@@ -195,7 +176,7 @@ $m419 = array(
     "status"=>"Older version",
     "file"=>"boinc_4.19_powerpc-apple-darwin.gz",
     "date"=>"25 Jan 2005",
-    "type"=>bare_core()
+    "type"=>"bare_core",
 );
 
 $m437s = array(
@@ -203,7 +184,7 @@ $m437s = array(
     "status"=>"Recommended version (simple GUI)",
     "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
     "date"=>"23 May 2005",
-    "type"=>mac_simple(),
+    "type"=>"mac_simple",
     "features"=>"<ul><li>Includes improved BOINC client
      </ul>
     "
@@ -214,7 +195,7 @@ $m524 = array(
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_5.2.4_macOSX.zip",
     "date"=>"20 October 2005",
-    "type"=>mac_advanced(),
+    "type"=>"mac_advanced",
      "features"=>"<ul>
      <li>
      BOINC now works with OS 10.3.0 or higher.
@@ -236,7 +217,7 @@ $m524c = array(
     "status"=>"Development version (Unix command-line version)",
     "file"=>"boinc_5.2.4_powerpc-apple-darwin.zip",
     "date"=>"20 October 2005",
-    "type"=>bare_core(),
+    "type"=>"bare_core",
     "features"=>"<ul>
     <li>
     We are now including a tool with command line interface to control boinc within the 
@@ -252,7 +233,7 @@ $l524 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_5.2.4_i686-pc-linux-gnu.sh",
     "date"=>"19 October 2005",
-    "type"=>sea(),
+    "type"=>"sea",
     "features"=>"<ul>
 ".$features_5."
     </ul>
@@ -264,7 +245,7 @@ $l443 = array(
     "status"=>"Older version",
     "file"=>"boinc_4.43_i686-pc-linux-gnu.sh",
     "date"=>"23 May 2005",
-    "type"=>sea(),
+    "type"=>"sea",
     "bugs"=>"<ul>
      <li>
      boincmgr currently requires a later version of glibc than what we want.  When running
@@ -282,7 +263,7 @@ $l419 = array(
     "status"=>"Older version",
     "file"=>"boinc_4.19_i686-pc-linux-gnu.gz",
     "date"=>"25 Jan 2005",
-    "type"=>bare_core()
+    "type"=>"bare_core",
 );
 
 $s419 = array(
@@ -290,7 +271,7 @@ $s419 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_4.19_sparc-sun-solaris2.7.gz",
     "date"=>"25 Jan 2005",
-    "type"=>bare_core()
+    "type"=>"bare_core",
 );
 
 $s443 = array(
@@ -298,7 +279,7 @@ $s443 = array(
     "status"=>"Development version",
     "file"=>"boinc_4.43_sparc-sun-solaris2.7.sh",
     "date"=>"26 May 2005",
-    "type"=>sea()
+    "type"=>"sea",
 );
 
 $windows = array(
