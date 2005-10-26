@@ -13370,3 +13370,9 @@ David  25 Oct 2005
 		acct_setup.C
 	lib/
 		boinc_cmd.C
+
+David  25 Oct 2005
+    - avoid SQL injection attack
+
+    sched/
+        server_types.C

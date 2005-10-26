@@ -93,11 +93,16 @@ The command-line interface program has the following interface:
 <pre>
 boinc_cmd [--host hostname] [--passwd passwd] command
 </pre>
-The commands are as follows:
+The options and commands are as follows:
 ";
 list_start();
 list_item("--help, -h", "help (show commands)");
 list_item("--version, -V", "show version");
+list_item("--host", "The host to connect to (default: localhost)");
+list_item("--password", "The password for RPC authentication
+    (default: boinc_cmd will look for a file 'gui_rpc_auth.cfg'
+     and use the password it contains)"
+);
 list_item("--get_state", "show client state");
 list_item("--get_results", "show results");
 list_item("--get_file_transfers", "show file transfers");

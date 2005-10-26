@@ -34,6 +34,20 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
+// remove (by truncating) any quotes from the given string.
+// This is for things (e.g. authenticator) that will be used in
+// a SQL query, to prevent SQL injection attacks
+//
+void remove_quotes(char* p) {
+    int i, n=strlen(p);
+    for (i=0; i<n; i++) {
+        if (p[i]=='\'' || p[i]=='"') {
+            p[i] = 0;
+            return;
+        }
+    }
+}
+
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
 
@@ -124,7 +138,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;
-        else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
+        else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
+            remove_quotes(authenticator);
+            continue;
+        }
         else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
