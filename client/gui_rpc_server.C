@@ -248,6 +248,17 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     if (FD_ISSET(lsock, &fg.read_fds)) {
         struct sockaddr_in addr;
 
+#ifdef __APPLE__
+    // For unknown reasons, the FD_ISSET() above succeeds on the 
+    // Macintosh after a SIGTERM, SIGHUP, SIGINT or SIGQUIT is 
+    // received, even if there is no data available on the socket.
+    // This causes the accept() call to block, preventing the main 
+    // loop from processing the exit request.  This is a workaround
+    // for that problem.
+    if (gstate.requested_exit)
+        return;
+#endif
+
         boinc_socklen_t addr_len = sizeof(addr);
         sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 

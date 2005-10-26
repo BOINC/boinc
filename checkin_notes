@@ -13254,3 +13254,11 @@ Charlie 21 Oct 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Charlie 25 Oct 2005
+    - Mac: Work around a bug which caused the core client to block 
+      after receipt of SIGTERM, SIGHUP, SIGINT or SIGQUIT, preventing 
+      the main loop from processing the exit request.
+      
+      client/
+        gui_rpc_server.C
