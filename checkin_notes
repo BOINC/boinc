@@ -13354,3 +13354,12 @@ Rom    24 Oct 2005
         main.C
     lib/
         diagnostics.C
+
+Charlie 25 Oct 2005
+    - Mac: Work around a bug which caused the core client to block 
+      after receipt of SIGTERM, SIGHUP, SIGINT or SIGQUIT, preventing 
+      the main loop from processing the exit request.
+      
+      client/
+        gui_rpc_server.C
+        
