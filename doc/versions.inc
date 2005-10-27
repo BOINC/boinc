@@ -51,11 +51,11 @@ $features_5 = "
     <li> BOINC supports 'Account Management Systems' (to be announced).
 ";
 
-$w522= array(
-    "num"=>"5.2.2",
+$w525= array(
+    "num"=>"5.2.5",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.2_windows_intelx86.exe",
-    "date"=>"17 October 2005",
+    "file"=>"boinc_5.2.5_windows_intelx86.exe",
+    "date"=>"27 October 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
@@ -228,11 +228,11 @@ $m524c = array(
     "
 );
 
-$l524 = array(
-    "num"=>"5.2.4",
+$l525 = array(
+    "num"=>"5.2.5",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.4_i686-pc-linux-gnu.sh",
-    "date"=>"19 October 2005",
+    "file"=>"boinc_5.2.5_i686-pc-linux-gnu.sh",
+    "date"=>"27 October 2005",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_5."
@@ -285,7 +285,7 @@ $s443 = array(
 $windows = array(
     "name"=>"Windows",
     "versions"=>array(
-        $w522,
+        $w525,
         $w445,
         $w419
     )
@@ -305,7 +305,7 @@ $linux = array(
     "name"=>"Linux/x86",
     "url"=>"linux.php",
     "versions"=>array(
-        $l524,
+        $l525,
         $l443,
         $l419
     )
