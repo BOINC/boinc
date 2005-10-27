@@ -13383,6 +13383,10 @@ David  27 Oct 2005
     client/
         gui_rpc_server.C
 
+Rom    27 Oct 2005 (stable)
+    - Tag for 5.2.5 release, all platforms
+      boinc_core_release_5_2_5
+
 David  27 Oct 2005
     - make GUI RPC passwords more randomly.
         e.g. on Unix use /dev/random
