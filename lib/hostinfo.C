@@ -190,6 +190,10 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
+// make a random string using host info.
+// Not recommended for password generation;
+// use as a last resort if more secure methods fail
+//
 void HOST_INFO::make_random_string(const char* salt, char* out) {
     char buf[1024];
 

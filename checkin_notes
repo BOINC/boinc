@@ -13382,3 +13382,20 @@ David  27 Oct 2005
 
     client/
         gui_rpc_server.C
+
+David  27 Oct 2005
+    - make GUI RPC passwords more randomly.
+        e.g. on Unix use /dev/random
+    - move calculate_exponential_backoff()
+        from lib/util.C to client/client_state.C
+    - remove commented-out RSAEURO references
+
+    client/
+        client_state.C,h
+        gui_rpc_server.C
+    lib/
+        crypt.C
+        crypt_prog.C
+        hostinfo.C
+        md5_file.C,h
+        util.C,h

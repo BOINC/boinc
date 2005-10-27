@@ -92,24 +92,6 @@ static inline double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
 
-// return a random double in the range [rmin,rmax)
-static inline double rand_range(double rmin, double rmax) {
-    if (rmin < rmax) {
-        return drand() * (rmax-rmin) + rmin;
-    } else {
-        return rmin;
-    }
-}
-
-// return a random double in the range [MIN,min(e^n,MAX))
-//
-extern double calculate_exponential_backoff(
-    const char* debug_descr, int n, double MIN, double MAX,
-    double factor=1.0
-);
-extern bool debug_fake_exponential_backoff;
-
-
 #ifdef _WIN32
 
 #include <windows.h>

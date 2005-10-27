@@ -1404,4 +1404,60 @@ void CLIENT_STATE::network_available() {
     active_tasks.network_available();
 }
 
+// TODO: move the following somewhere else
+// set by command line
+//
+bool debug_fake_exponential_backoff = false;
+static double debug_total_exponential_backoff = 0;
+static int count_debug_fake_exponential_backoff = 0;
+static const int max_debug_fake_exponential_backoff = 1000; // safety limit
+
+// return a random double in the range [rmin,rmax)
+static inline double rand_range(double rmin, double rmax) {
+    if (rmin < rmax) {
+        return drand() * (rmax-rmin) + rmin;
+    } else {
+        return rmin;
+    }
+}
+
+// return a random double in the range [MIN,min(e^n,MAX))
+//
+double calculate_exponential_backoff(
+    const char* debug_descr, int n, double MIN, double MAX,
+    double factor /* = 1.0 */
+) {
+    double rmax = std::min(MAX, factor*exp((double)n));
+
+    if (debug_fake_exponential_backoff) {
+        // For debugging/testing purposes, fake exponential back-off by
+        // returning 0 seconds; report arguments so we can tell what we would
+        // have done (this doesn't test the rand_range() functions but is
+        // very useful for testing backoff/retry policies).
+        //
+        double expected_backoff = (MIN > rmax) ? MIN : (rmax-MIN)/2.0;
+
+        debug_total_exponential_backoff += expected_backoff;
+        ++count_debug_fake_exponential_backoff;
+        fprintf(
+            stderr,
+            "## calculate_exponential_backoff(): #%5d descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
+            count_debug_fake_exponential_backoff,
+            debug_descr, n, MIN, MAX, factor,
+            MIN, rmax, debug_total_exponential_backoff
+        );
+        if (count_debug_fake_exponential_backoff >= max_debug_fake_exponential_backoff) {
+            fprintf(
+                stderr,
+                "## calculate_exponential_backoff(): reached max_debug_fake_exponential_backoff\n"
+            );
+            exit(1);
+        }
+        return 0;
+    }
+
+    return rand_range(MIN, rmax);
+}
+
+
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

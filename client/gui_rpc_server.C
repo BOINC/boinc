@@ -42,6 +42,7 @@
 #include "parse.h"
 #include "network.h"
 #include "filesys.h"
+#include "md5_file.h"
 
 #include "file_names.h"
 #include "client_msgs.h"
@@ -65,6 +66,8 @@ GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
 
 int GUI_RPC_CONN_SET::get_password() {
     FILE* f;
+    int retval;
+
     strcpy(password, "");
     if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
         f = fopen(GUI_RPC_PASSWD_FILE, "r");
@@ -76,7 +79,10 @@ int GUI_RPC_CONN_SET::get_password() {
     } else {
         // if no password file, make a random password
         //
-        gstate.host_info.make_random_string("guirpc", password);
+        retval = make_random_string(password);
+        if (retval) {
+            gstate.host_info.make_random_string("guirpc", password);
+        }
         f = fopen(GUI_RPC_PASSWD_FILE, "w");
         if (f) {
             fputs(password, f);

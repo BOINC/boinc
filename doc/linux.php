@@ -12,6 +12,8 @@ The BOINC client software should work on:
 <li> Any Intel x86-compatible processor.
 </ul>
 
+<p>
+Specifically, it should work on Redhat 7.3 or later.
 <hr>
 If BOINC produces as error message of the form
 <pre>
