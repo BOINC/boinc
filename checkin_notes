@@ -13376,3 +13376,9 @@ David  25 Oct 2005
 
     sched/
         server_types.C
+
+David  27 Oct 2005
+    - Charlie's fix of 25/10/05 works for all Unix, as far as I can tell.
+
+    client/
+        gui_rpc_server.C

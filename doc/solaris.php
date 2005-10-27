@@ -49,7 +49,7 @@ set semsys:seminfo_semume=64
 set semsys:seminfo_semmap=512
 set semsys:seminfo_semmsl=128 
 </pre>
-
+These settings should work on machines with up to 20 CPUs.
 ";
 
 page_tail();
