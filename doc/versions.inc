@@ -206,7 +206,7 @@ $m443c = array(
     "
 );
 
-$m437s = array(
+$m443s = array(
     "num"=>"4.43 (4)",
     "status"=>"Recommended version (simple GUI)",
     "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
@@ -286,7 +286,7 @@ $mac = array(
         $m525c,
         $m443,
         $m443c,
-        $m437s
+        $m443s
     )
 );
 $linux = array(
