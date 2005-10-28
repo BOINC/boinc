@@ -218,7 +218,7 @@ void copy_socket_to_null(FILE* in) {
 // ALWAYS generates an HTML reply
 //
 int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
-    char buf[256], path[256];
+    char buf[256], path[512];
     FILE_INFO file_info;
     int retval;
     double nbytes=-1, offset=0;
@@ -351,7 +351,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 //
 int handle_get_file_size(char* file_name) {
     struct stat sbuf;
-    char path[256], buf[256];
+    char path[512], buf[256];
     int retval, pid, fd;
 
     // TODO: check to ensure path doesn't point somewhere bad
@@ -455,6 +455,9 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             did_something = true;
             break;
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
+            if (strstr(file_name, "..") {
+            	return return_error(ERR_PERMANENT, "Bad filename");
+        	}
             if (!got_version) {
                 retval = return_error(ERR_PERMANENT, "Missing version");
             } else {

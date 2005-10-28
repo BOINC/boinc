@@ -13403,3 +13403,17 @@ David  27 Oct 2005
         hostinfo.C
         md5_file.C,h
         util.C,h
+
+David  27 Oct 2005
+	- core client: parse fpops_per_cpu_sec, fpops_cumulative from app
+		(This way of assigning credit didn't work because of this)
+
+	client/
+		app_control.C
+
+David  27 Oct 2005
+	- file upload handler: in file size query, reject names with ".."
+	- fix possible buffer overruns in file upload handler
+
+	sched/
+		file_upload_handler.C
