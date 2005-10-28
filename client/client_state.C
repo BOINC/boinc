@@ -214,6 +214,7 @@ int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
     char buf[256];
+    PROJECT* p;
 
     srand((unsigned int)time(0));
     now = dtime();
@@ -221,14 +222,14 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
-    const char* p="";
+    const char* debug_str="";
 #ifdef _DEBUG
-    p = " (DEBUG)";
+    debug_str = " (DEBUG)";
 #endif
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
         core_client_major_version, core_client_minor_version,
-        core_client_release, platform_name, p
+        core_client_release, platform_name, debug_str
     );
 
     msg_printf(NULL, MSG_INFO, curl_version());
@@ -311,7 +312,7 @@ int CLIENT_STATE::init() {
     }
 
     for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+        p = projects[i];
         if (p->hostid) {
             sprintf(buf, "%d", p->hostid);
         } else {
@@ -335,7 +336,7 @@ int CLIENT_STATE::init() {
             "No general preferences found - using BOINC defaults"
         );
     } else {
-        PROJECT* p = global_prefs_source_project();
+        p = global_prefs_source_project();
         if (p) {
             strcpy(main_host_venue, p->host_venue);
             retval = global_prefs.parse_file(
@@ -1324,7 +1325,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         }
     }
 
-    //delete statistics file
+    // delete statistics file
     //
     get_statistics_filename(project->master_url, path);
     retval = boinc_delete_file(path);
@@ -1342,19 +1343,6 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         msg_printf(project, MSG_ERROR,
             "Can't delete account file: %s\n", boincerror(retval)
         );
-    }
-
-    // if project_init.xml refers to this project,
-    // delete the file, otherwise we'll just
-    // reattach the next time the core client starts
-    //
-    if (!strcmp(project->master_url, project_init.url)) {
-        retval = project_init.remove();
-        if (retval) {
-            msg_printf(project, MSG_ERROR,
-                "Can't delete project init file: %s\n", boincerror(retval)
-            );
-        }
     }
 
     // remove project directory and its contents
@@ -1379,7 +1367,6 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 //
 bool CLIENT_STATE::want_network() {
     static double last_true_return=0;
-    double now = dtime();
 
     if (http_ops->nops()) goto return_true;
     if (network_suspended) goto return_false;
@@ -1416,5 +1403,61 @@ void CLIENT_STATE::network_available() {
     //
     active_tasks.network_available();
 }
+
+// TODO: move the following somewhere else
+// set by command line
+//
+bool debug_fake_exponential_backoff = false;
+static double debug_total_exponential_backoff = 0;
+static int count_debug_fake_exponential_backoff = 0;
+static const int max_debug_fake_exponential_backoff = 1000; // safety limit
+
+// return a random double in the range [rmin,rmax)
+static inline double rand_range(double rmin, double rmax) {
+    if (rmin < rmax) {
+        return drand() * (rmax-rmin) + rmin;
+    } else {
+        return rmin;
+    }
+}
+
+// return a random double in the range [MIN,min(e^n,MAX))
+//
+double calculate_exponential_backoff(
+    const char* debug_descr, int n, double MIN, double MAX,
+    double factor /* = 1.0 */
+) {
+    double rmax = std::min(MAX, factor*exp((double)n));
+
+    if (debug_fake_exponential_backoff) {
+        // For debugging/testing purposes, fake exponential back-off by
+        // returning 0 seconds; report arguments so we can tell what we would
+        // have done (this doesn't test the rand_range() functions but is
+        // very useful for testing backoff/retry policies).
+        //
+        double expected_backoff = (MIN > rmax) ? MIN : (rmax-MIN)/2.0;
+
+        debug_total_exponential_backoff += expected_backoff;
+        ++count_debug_fake_exponential_backoff;
+        fprintf(
+            stderr,
+            "## calculate_exponential_backoff(): #%5d descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
+            count_debug_fake_exponential_backoff,
+            debug_descr, n, MIN, MAX, factor,
+            MIN, rmax, debug_total_exponential_backoff
+        );
+        if (count_debug_fake_exponential_backoff >= max_debug_fake_exponential_backoff) {
+            fprintf(
+                stderr,
+                "## calculate_exponential_backoff(): reached max_debug_fake_exponential_backoff\n"
+            );
+            exit(1);
+        }
+        return 0;
+    }
+
+    return rand_range(MIN, rmax);
+}
+
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

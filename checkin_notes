@@ -13294,3 +13294,26 @@ Rom    27 Oct 2005 (stable)
     - Tag for 5.2.5 release, all platforms
       boinc_core_release_5_2_5
 
+David  27 Oct 2005
+    - make GUI RPC passwords more randomly.
+        e.g. on Unix use /dev/random
+    - move calculate_exponential_backoff()
+        from lib/util.C to client/client_state.C
+    - remove commented-out RSAEURO references
+
+    client/
+        client_state.C,h
+        gui_rpc_server.C
+    lib/
+        crypt.C
+        crypt_prog.C
+        hostinfo.C
+        md5_file.C,h
+        util.C,h
+
+David  27 Oct 2005
+	- core client: parse fpops_per_cpu_sec, fpops_cumulative from app
+		(This way of assigning credit didn't work because of this)
+
+	client/
+		app_control.C

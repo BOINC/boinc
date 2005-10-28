@@ -218,33 +218,20 @@ int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     if (n >= modulus_len-11) {
         n = modulus_len-11;
     }
-#ifdef USE_RSAEURO
-    int retval = RSAPrivateEncrypt(out.data, &out.len, in.data, n, &key);
-    if (retval ) return retval;
-    nbytes_encrypted = retval;
-#endif
-#ifdef USE_OPENSSL
     RSA* rp = RSA_new();
     private_to_openssl(key, rp);
     RSA_private_encrypt(n, in.data, out.data, rp, RSA_PKCS1_PADDING);
     out.len = RSA_size(rp);
     RSA_free(rp);
-#endif
-
     return 0;
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-#ifdef USE_RSAEURO
-    return RSAPublicDecrypt(out.data, &out.len, in.data, in.len, &key);
-#endif
-#ifdef USE_OPENSSL
     RSA* rp = RSA_new();
     public_to_openssl(key, rp);
     RSA_public_decrypt(in.len, in.data, out.data, rp, RSA_PKCS1_PADDING);
     out.len = RSA_size(rp);
     return 0;
-#endif
 }
 
 int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {

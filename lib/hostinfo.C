@@ -190,7 +190,11 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
-void HOST_INFO::make_random_string(char* salt, char* out) {
+// make a random string using host info.
+// Not recommended for password generation;
+// use as a last resort if more secure methods fail
+//
+void HOST_INFO::make_random_string(const char* salt, char* out) {
     char buf[1024];
 
     sprintf(buf, "%f%s%s%f%s", dtime(), domain_name, ip_addr, d_free, salt);
