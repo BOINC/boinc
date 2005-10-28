@@ -25,7 +25,7 @@ if (parse_bool($config, "disable_account_creation")) {
     exit();
 }
 echo "<p>
-    <b>.tr(CREATE_AC_USE_CLIENT)."</b>
+    <b>".tr(CREATE_AC_USE_CLIENT)."</b>
 ";
 echo "
     <p>
