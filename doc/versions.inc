@@ -148,53 +148,11 @@ $w419 = array(
     "
 );
 
-$m443 = array(
-    "num"=>"4.43",
+$m525 = array(
+    "num"=>"5.2.5",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_4.43_macOSX.zip",
-    "date"=>"21 May 2005",
-    "type"=>"mac_advanced",
-    "bugs"=>"<ul>
-     <li>
-     BOINC no longer works on Mac OS 10.2 and requires 10.3.9 or higher.
-     </ul>
-    "
-);
-
-$m443c = array(
-    "num"=>"4.43",
-    "status"=>"Unix command-line version",
-    "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
-    "date"=>"21 May 2005",
-    "type"=>"bare_core",
-    "bugs"=>"
-    "
-);
-
-$m419 = array(
-    "num"=>"4.19",
-    "status"=>"Older version",
-    "file"=>"boinc_4.19_powerpc-apple-darwin.gz",
-    "date"=>"25 Jan 2005",
-    "type"=>"bare_core",
-);
-
-$m437s = array(
-    "num"=>"4.43 (4)",
-    "status"=>"Recommended version (simple GUI)",
-    "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
-    "date"=>"23 May 2005",
-    "type"=>"mac_simple",
-    "features"=>"<ul><li>Includes improved BOINC client
-     </ul>
-    "
-);
-
-$m524 = array(
-    "num"=>"5.2.4",
-    "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.2.4_macOSX.zip",
-    "date"=>"20 October 2005",
+    "file"=>"boinc_5.2.5_macOSX.zip",
+    "date"=>"27 October 2005",
     "type"=>"mac_advanced",
      "features"=>"<ul>
      <li>
@@ -212,19 +170,50 @@ $m524 = array(
     "
 );
 
-$m524c = array(
-    "num"=>"5.2.4",
-    "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.2.4_powerpc-apple-darwin.zip",
-    "date"=>"20 October 2005",
+$m525c = array(
+    "num"=>"5.2.5",
+    "status"=>"Unix command-line version",
+    "file"=>"boinc_5.2.5_powerpc-apple-darwin.zip",
+    "date"=>"27 October 2005",
     "type"=>"bare_core",
     "features"=>"<ul>
+     <li>
+     BOINC now works with OS 10.3.0 or higher.
     <li>
     We are now including a tool with command line interface to control boinc within the 
     default distribution
     </ul>
     ",
     "bugs"=>"
+    "
+);
+
+$m443 = array(
+    "num"=>"4.43",
+    "status"=>"Older version (standard GUI)",
+    "file"=>"boinc_4.43_macOSX.zip",
+    "date"=>"21 May 2005",
+    "type"=>"mac_advanced",
+);
+
+$m443c = array(
+    "num"=>"4.43",
+    "status"=>"Older version (Unix command-line version)",
+    "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
+    "date"=>"21 May 2005",
+    "type"=>"bare_core",
+    "bugs"=>"
+    "
+);
+
+$m437s = array(
+    "num"=>"4.43 (4)",
+    "status"=>"Recommended version (simple GUI)",
+    "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
+    "date"=>"23 May 2005",
+    "type"=>"mac_simple",
+    "features"=>"<ul><li>Includes improved BOINC client
+     </ul>
     "
 );
 
@@ -293,12 +282,11 @@ $windows = array(
 $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "versions"=>array(
-        $m524,
-        $m524c,
+        $m525,
+        $m525c,
         $m443,
-        $m437s,
         $m443c,
-        $m419
+        $m437s
     )
 );
 $linux = array(
