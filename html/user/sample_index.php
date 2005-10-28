@@ -17,7 +17,6 @@ function show_nav() {
         <ul>
         <li><a href=info.php>Rules and policies <b>[read this first]</b></a>
         <li><a href=http://boinc.berkeley.edu/intro_user.php>Getting started</a>
-        <li><a href=create_account_form.php>Create account</a>
         <li><a href=apps.php>Applications</a>
         </ul>
 

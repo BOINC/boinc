@@ -186,6 +186,12 @@ msgstr "Account creation is disabled for $PROJECT at the moment. "
 msgid "CREATE_AC_TEAM"
 msgstr "This account will belong to the team %s and will have the project preferences of its founder."
 
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "NOTE: starting with BOINC version 5.2, "
+"you don't need to use this form. "
+"You can create an account directly from BOINC. "
+"Just run BOINC, select Attach Project, "
+"and enter an email address and password. "
 
 #########################################
 # Account created page (account_created.php)

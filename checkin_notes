@@ -13417,3 +13417,14 @@ David  27 Oct 2005
 
 	sched/
 		file_upload_handler.C
+
+David  28 Oct 2005
+    - user web: updates to reflect client version 5.x
+        (don't need "create account" anymore)
+
+    html/
+        languages/translations/
+            en.po
+        user/
+            create_account_form.php
+            sample_index.php

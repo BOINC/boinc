@@ -24,10 +24,11 @@ if (parse_bool($config, "disable_account_creation")) {
     page_tail();
     exit();
 }
-echo "<p><b>";
-printf(tr(CREATE_AC_READ_RULES), "<a href=info.php>".tr(RULES_TITLE)."</a>");
+echo "<p>
+    <b>.tr(CREATE_AC_USE_CLIENT)."</b>
+";
 echo "
-    </b><p>
+    <p>
     <form action=create_account_action.php method=post>
 ";
 $teamid = get_int("teamid", true);
