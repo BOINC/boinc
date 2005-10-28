@@ -455,7 +455,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             did_something = true;
             break;
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
-            if (strstr(file_name, "..") {
+            if (strstr(file_name, "..")) {
             	return return_error(ERR_PERMANENT, "Bad filename");
         	}
             if (!got_version) {
