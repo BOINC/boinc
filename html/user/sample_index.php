@@ -15,9 +15,10 @@ function show_nav() {
         <h3>Join ".PROJECT." </h3>
         <p>
         <ul>
-        <li><a href=info.php>Rules and policies <b>[read this first]</b></a>
+        <li><a href=info.php>".tr(RULES_TITLE)."</a>
         <li><a href=http://boinc.berkeley.edu/intro_user.php>Getting started</a>
-        <li><a href=apps.php>Applications</a>
+        <li><a href=create_account_form.php>".tr(CREATE_AC_CREATE)."</a>
+        <li><a href=apps.php>".tr(APPLICATIONS)."</a>
         </ul>
 
         <h3>Returning participants</h3>

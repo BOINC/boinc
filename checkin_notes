@@ -13434,3 +13434,13 @@ David  28 Oct 2005
 
     html/inc/
         translation.inc
+
+David  28 Oct 2005
+    - add a little translation stuff to sample_index_index.php
+
+    html/
+        inc/
+            translation.inc
+            util.inc
+        user/
+            sample_index.php

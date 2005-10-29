@@ -67,29 +67,37 @@ function parseLanguageInterface($file){
 function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     global $lang_project_default;
 
-    $actual_compdir = $compdir; // Store the actual compile dir, we want to use a temporary addition
-    $randomness = rand(10000,99999)."_"; //Concat some randomness to the temporary dir, we'll rename files later
-    $compdir .=$randomness; // This is to ensure that no problems arise even when the filesystem fails to
-			    //ensure mutual exclusion for compile timer tests. This way a new file will simply
-			    //overwrite the old one instead of garbling it if 2 processes of this compiler runs
-			    //concurrently.
-    //The reason why we are using filename prefixes here is that on some installations PHP isn't allowed
-    //to create and use new directories (due to wrong permissions or SELinux restrictions).
+    $actual_compdir = $compdir;
+        // Store the actual compile dir, we want to use a temporary addition
+    $randomness = rand(10000,99999)."_";
+        //Concat some randomness to the temporary dir, we'll rename files later
+    $compdir .=$randomness;
+        // This is to ensure that no problems arise even when
+        // the filesystem fails to ensure mutual exclusion for
+        // compile timer tests. This way a new file will simply
+        // overwrite the old one instead of garbling it if 2 processes
+        // of this compiler runs concurrently.
 
-    //Touching compile timer
+        // The reason why we are using filename prefixes here
+        // is that on some installations PHP isn't allowed
+        // to create and use new directories
+        // (due to wrong permissions or SELinux restrictions).
+
+    // Touch compile timer
+    //
     $fh=fopen($langdir."last_compile_timer","w");
     fwrite($fh, time());
     fclose($fh);
 
-    //First build the list of defines for the tokens
-    //and place it in an include file in the directory
+    // First build the list of defines for the tokens
+    // and place it in an include file in the directory
     //
 
     $interface = parseLanguageInterface($langdir.$transdir.$lang_project_default.".po");
     if (!$fh = fopen($langdir.$compdir."language_interface.inc","w")) {
         language_log("Could not access $langdir $compdir - please check permissions",2);
         exit;
-    };
+    }
     fwrite($fh, "<?php\n");
     for ($i=0;$i<sizeof($interface);$i++){
         //Translate to PHP
@@ -99,7 +107,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     fclose($fh);
     $real_interface_size = sizeof($interface);
     
-    //Now run trough each language and recompile their lookup arrays.
+    // Now run through each language and recompile their lookup arrays.
     //
     if (is_dir($langdir.$transdir)) {
         if ($dh = opendir($langdir.$transdir)) {
@@ -114,7 +122,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                     if (!$fh = fopen($langdir.$compdir.$file.".inc","w")) {
                         language_log("ERROR: could not access $langdir $compdir - please check permissions",2);
                         exit;
-                    };
+                    }
                     fwrite($fh, "<?php\n");
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
@@ -146,7 +154,7 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
         if (!$fh = fopen($langdir.$compdir."language_interface.inc","a")) {
             language_log("ERROR: could not access $langdir $compdir - please check permissions",2);
             exit;
-        };
+        }
         fwrite($fh, "<?php\n");
         for ($i=0;$i<sizeof($interface);$i++){
             fwrite($fh, "define(\"".$interface[$i]."\",".($i+$real_interface_size).");\n");
@@ -157,15 +165,15 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
             //If dir exists
             while (($file = readdir($dh)) !== false) {
                 //read contents
-                if ($file==".." or $file=="."){
-                } else if (substr($file,-3)==".po"){
+                if ($file==".." or $file==".") continue;
+                if (substr($file,-3)==".po"){
                     //only files ending in .po
                     language_log("----------------Compiling project specific $file---------------",0);
                     $language = parseLanguage($langdir.$prjtransdir.$file, $interface);
                     if (!$fh = fopen($langdir.$compdir.$file.".inc","a")) {
                         language_log("ERROR: could not access $langdir $compdir - please check permissions",2);
                         exit;
-                    };
+                    }
                     fwrite($fh, "<?php\n");
                     $keys = array_keys($language);
                     for ($i=0;$i<sizeof($interface);$i++){
@@ -188,18 +196,16 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     }
 
     //Lastly we will rename the files to their real names (remove the random prefix):
-    if ($dh = opendir($langdir.$actual_compdir)) {                        //If dir exists
-            while (($file = readdir($dh)) !== false) {
-                //read contents
-                if ($file==".." or $file=="." or (substr($file,0,strlen($randomness))!=$randomness)){
-		    // Do nothing
-                } else if (substr($file,-4)==".inc"){
-                    //only files ending in .inc
-		    rename ($langdir.$actual_compdir.$file, $langdir.$actual_compdir.substr($file,strlen($randomness)));
-                }
+    if ($dh = opendir($langdir.$actual_compdir)) {
+        while (($file = readdir($dh)) !== false) {
+            if ($file==".." or $file=="." or (substr($file,0,strlen($randomness))!=$randomness)) continue;
+            if (substr($file,-4)==".inc") {
+                //only files ending in .inc
+                rename ($langdir.$actual_compdir.$file, $langdir.$actual_compdir.substr($file,strlen($randomness)));
             }
+        }
     } else {
-	echo "no compile dir?!";
+        echo "no compile dir?!";
     }
 }
 
@@ -223,11 +229,9 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
 
     if (is_dir($langdir.$transdir)) {
         if ($dh = opendir($langdir.$transdir)) {
-            //If dir exists
             while (($file = readdir($dh)) !== false) {
-                //read contents
-                if ($file==".." or $file=="."){
-                } else if (substr($file,-3)==".po"){
+                if ($file==".." or $file==".") continue;
+                if (substr($file,-3)==".po"){
                     //only files ending in .po
                     if (filemtime($langdir.$transdir.$file)>$last_compile) return true;
                 }
@@ -237,11 +241,9 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
     }
     if (is_dir($langdir.$prjtransdir)) {
         if ($dh = opendir($langdir.$prjtransdir)) {
-            //If dir exists
             while (($file = readdir($dh)) !== false) {
-                //read contents
-                if ($file==".." or $file=="."){
-                } else if (substr($file,-3)==".po"){
+                if ($file==".." or $file==".") continue;
+                if (substr($file,-3)==".po"){
                     //only files ending in .po
                     if (filemtime($langdir.$prjtransdir.$file)>$last_compile) return true;
                 }
@@ -361,9 +363,6 @@ function language_log($message, $loglevel=0){
     }
 }
 
-
-
-
 if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || get_str("compile_languages",true)){
     buildLanguages($lang_language_dir,$lang_translations_dir,$lang_prj_translations_dir, $lang_compiled_dir);
 }
@@ -375,8 +374,9 @@ $PROJECT = PROJECT;
 if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc")){
     require_once($lang_language_dir.$lang_compiled_dir."language_interface.inc");
 
-    //Make a list of languages which the user prefers (by looking at cookies and browser settings)
-    //cookies have highest priority.
+    // Make a list of languages which the user prefers
+    // (by looking at cookies and browser settings)
+    // cookies have highest priority.
 
     if (isset($_COOKIE['lang'])){
         $language_string = $_COOKIE['lang'].",";
@@ -387,8 +387,8 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
         $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
     }
 
-    //Find out which language to use by iterating trough list
-    //The list is commaseperated, so split it into an array of the following type:
+    // Find out which language to use by iterating trough list
+    // The list is commaseperated, so split it into an array of the following type:
     //        Array ( 
     //    [0] => da 
     //    [1] => en-us;q=0.7 
@@ -429,6 +429,6 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
     echo "ERROR: Could not load language interface. This is a fatal error, exitting.";
     flush;
     exit;
-};
+}
 
 ?>

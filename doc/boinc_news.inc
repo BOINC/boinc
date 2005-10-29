@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("October 28, 2005",
+    "David Anderson talks about BOINC and volunteer computing
+    in a <a href=http://www.enterpriseleadership.org/listen/podcast-anderson>podcast at www.enterpriseleadership.org</a>."
+),
 array("October 20, 2005",
     "Version 5.2.2 of the BOINC client software has been release.
     It includes a simpler registration procedure,

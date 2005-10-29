@@ -19,12 +19,12 @@ function db_init() {
     $retval = db_init_aux();
     if ($retval == 1) {
         echo "Unable to connect to database - please try again later\n";
-		echo "Error: ", mysql_errno(), mysql_error();
+        echo "Error: ", mysql_errno(), mysql_error();
         exit();
     }
     if ($retval == 2) {
         echo "Unable to select database - please try again later";
-		echo mysql_error();
+        echo mysql_error();
         exit();
     }
 }
@@ -97,17 +97,17 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
 
-	if (!$title_plain) {
-	    echo "<html><head><title>".strip_tags($title)."</title>
-	        <link rel=stylesheet type=text/css href=\"$styleSheet\">
-	        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
-	        </head>";
-	} else {
-		echo "<html><head><title>".strip_tags($title_plain)."</title>
+    if (!$title_plain) {
+        echo "<html><head><title>".strip_tags($title)."</title>
+            <link rel=stylesheet type=text/css href=\"$styleSheet\">
+            <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
+            </head>";
+    } else {
+        echo "<html><head><title>".strip_tags($title_plain)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
         <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
         </head>";
-	}
+    }
     if ($java_onload){
         echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";
     }
@@ -115,8 +115,8 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     project_banner($title, $prefix);
 }
 
-function page_tail_aux($show_return, $show_date, $prefix) {
-    project_footer($show_return, $show_date);
+function page_tail_aux($show_return, $show_date, $prefix="") {
+    project_footer($show_return, $show_date, $prefix);
     echo "</body>\n</html>";
 }
 function page_tail_main($show_date=false) {
@@ -130,8 +130,8 @@ function page_tail($show_date=false, $prefix="") {
 function display_cvs_versions(){
     global $cvs_version_tracker;
     echo "\n<!-- CVS VERSIONS -->\n";
-    for ($i=0;$i<sizeof($cvs_version_tracker);$i++){
-	echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
+    for ($i=0;$i<sizeof($cvs_version_tracker);$i++) {
+        echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
     }
 }
 
@@ -156,22 +156,26 @@ function error_page($msg) {
 // in the form D days + h Hours + m Min + s sec.
 
 function time_diff($x) {
-	$days    = (int)($x/86400);
-	$hours   = (int)(($x-$days*86400)/3600);
-	$minutes = (int)(($x-$days*86400-$hours*3600)/60);
-	$seconds = (int)($x % 60);
-	
-        $datestring = "";
-	if ($days)
-		$datestring .= "$days days ";
-	if ($hours || strlen($datestring))
-		$datestring .= "$hours hours ";
-	if ($minutes || strlen($datestring))
-		$datestring .= "$minutes min ";
-	if ($seconds)
-		$datestring .= "$seconds sec";
+    $days    = (int)($x/86400);
+    $hours   = (int)(($x-$days*86400)/3600);
+    $minutes = (int)(($x-$days*86400-$hours*3600)/60);
+    $seconds = (int)($x % 60);
 
-	return $datestring;
+    $datestring = "";
+    if ($days) {
+        $datestring .= "$days days ";
+    }
+    if ($hours || strlen($datestring)) {
+        $datestring .= "$hours hours ";
+    }
+    if ($minutes || strlen($datestring)) {
+        $datestring .= "$minutes min ";
+    }
+    if ($seconds) {
+        $datestring .= "$seconds sec";
+    }
+
+    return $datestring;
 }
 
 
