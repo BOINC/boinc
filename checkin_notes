@@ -13444,3 +13444,11 @@ David  28 Oct 2005
             util.inc
         user/
             sample_index.php
+
+David  29 Oct 2005
+    - added an optional command_line argument to create_work().
+        Lets you create workunits with different command lines
+        without having to use different workunit template files
+
+    tools/
+        backend_lib.C,h

@@ -55,7 +55,8 @@ extern int create_work(
     const char* result_template_filepath,
     const char** infiles,
     int ninfiles,
-    SCHED_CONFIG&
+    SCHED_CONFIG&,
+    const char* command_line = NULL
 );
 
 #endif

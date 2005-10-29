@@ -195,36 +195,84 @@ int create_work(
     DB_WORKUNIT&,
     const char* wu_template,                  // contents, not path
     const char* result_template_filename,     // relative to project root
-    const char* result_template_filepath,    // absolute,
-        // or relative to current dir
-    const char* infile_dir,                   // where input files are
+    const char* result_template_filepath,     // absolute or relative to current dir
     const char** infiles,                     // array of input file names
     int ninfiles
-    R_RSA_PRIVATE_KEY& key,             // upload authentication key
-    SCHED_CONFIG&
+    SCHED_CONFIG&,
+    const char* command_line = NULL
 );
 </pre>
 <p>
-<b>read_key_file()</b> reads a private key from a file.
-Use this to read the file upload authentication key.
-<p>
-<b>create_work()</b>
-creates a workunit and one or more results.
+<b>create_work()</b> creates a workunit.
 The arguments are similar to those of the utility program;
-some of the information is passed in the WORKUNIT structure,
+some of the information is passed in the DB_WORKUNIT structure,
 namely the following fields:
 <pre>
 name
 appid
-batch
-rsc_fpops
-rsc_iops
-rsc_memory
-rsc_disk
-delay_bound
 </pre>
-All other fields should be zeroed.
+The following may be passed either in the DB_WORKUNIT structure
+or in the workunit template file:
+<pre>
+rsc_fpops_est
+rsc_fpops_bound
+rsc_memory_bound
+rsc_disk_bound
+batch
+delay_bound
+min_quorum
+target_nresults
+max_error_results
+max_total_results
+max_success_results
+</pre>
 
+<p>
+Here's an example of a program that generates one workunit
+(error-checking omitted for clarity):
+<pre>
+#include \"backend_lib.h\"
+
+main() {
+    DB_APP app;
+    DB_WORKUNIT wu;
+    char wu_template[LARGE_BLOB_SIZE];
+    char* infiles[] = {\"infile\"};
+
+    SCHED_CONFIG config;
+    config.parse_file();
+
+    boinc_db.open(config.db_name, config.db_host, config.db_passwd);
+    app.lookup(\"where name='myappname'\");
+
+    wu.clear();     // zeroes all fields
+    wu.appid = app.id;
+    wu.min_quorum = 2;
+    wu.target_nresults = 2;
+    wu.max_error_results = 5;
+    wu.max_total_results = 5;
+    wu.max_success_results = 5;
+    wu.rsc_fpops_est = 1e10;
+    wu.rsc_fpops_bound = 1e11;
+    wu.rsc_memory_bound = 1e8;
+    wu.rsc_disk_bound = 1e8;
+    wu.delay_bound = 7*86400;
+    read_filename(\"templates/wu_template.xml\", wu_template, sizeof(wu_template));
+    create_work(
+        wu,
+        wu_template,
+        \"templates/results_template.xml\",
+        \"templates/results_template.xml\",
+        infiles,
+        1,
+        key
+        config
+    );
+}
+
+</pre>
+This program must be run in the project directory
+since it expects to find the config.xml file in the current directory.
 ";
     
 page_tail();

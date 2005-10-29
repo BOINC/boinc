@@ -122,26 +122,35 @@ static void write_md5_info(
     double nbytes
 ) {
     // Write file FILENAME.md5 containing md5sum and length
+    //
     FILE *fp;
     char md5name[512];
     struct stat statbuf;
     int retval;
     
     // if file already exists with this name, don't touch it.
+    //
     sprintf(md5name, "%s.md5", path);
-    if (!stat(md5name, &statbuf))
+    if (!stat(md5name, &statbuf)) {
         return;
+    }
  
+    fp=fopen(md5name, "w");
+
     // if can't open the file, give up
-    if (!(fp=fopen(md5name, "w")))
+    //
+    if (!fp) {
         return;
+    }
   
-    retval=fprintf(fp,"%s %.15e\n", md5, nbytes);
+    retval = fprintf(fp,"%s %.15e\n", md5, nbytes);
     fclose(fp);
 
     // if we didn't write properly to the file, delete it.
-    if (retval<0)
+    //
+    if (retval<0) {
         unlink(md5name);
+    }
   
     return;
 }
@@ -154,7 +163,8 @@ static int process_wu_template(
     char* tmplate,
     const char** infiles,
     int ninfiles,
-    SCHED_CONFIG& config
+    SCHED_CONFIG& config,
+    const char* command_line
 ) {
     char* p;
     char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
@@ -236,6 +246,11 @@ static int process_wu_template(
         } else if (match_tag(p, "<workunit>")) {
             found = true;
             out += "<workunit>\n";
+            if (command_line) {
+                out += "<command_line>\n";
+                out += command_line;
+                out += "\n</command_line>\n";
+            }
         } else if (match_tag(p, "</workunit>")) {
             out += "</workunit>\n";
         } else if (match_tag(p, "<file_ref>")) {
@@ -433,7 +448,8 @@ int create_work(
     const char* result_template_filepath,
     const char** infiles,
     int ninfiles,
-    SCHED_CONFIG& config
+    SCHED_CONFIG& config,
+    const char* command_line
 ) {
     int retval;
     char _result_template[LARGE_BLOB_SIZE];
@@ -450,7 +466,7 @@ int create_work(
     strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_wu_template(
-        wu, wu_template, infiles, ninfiles, config
+        wu, wu_template, infiles, ninfiles, config, command_line
     );
     if (retval) {
         fprintf(stderr, "process_wu_template: %d\n", retval);
