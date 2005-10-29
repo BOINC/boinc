@@ -13428,3 +13428,9 @@ David  28 Oct 2005
         user/
             create_account_form.php
             sample_index.php
+
+David  28 Oct 2005
+    - don't show languages like 50845_en in language_select page
+
+    html/inc/
+        translation.inc

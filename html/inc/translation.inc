@@ -17,11 +17,10 @@ function getSupportedLanguages(){
         if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {                        //If dir exists
             while (($file = readdir($dh)) !== false) {
                 //read contents
-                if ($file==".." or $file=="."){
-                } else if (substr($file,-7)==".po.inc"){
-                    //only files ending in .po.inc
-                    $list[] = substr($file,0,-7);
-                }
+                if (substr($file,-7)!=".po.inc") continue;
+                if (is_numeric(substr($file, 0, 5))) continue;
+
+                $list[] = substr($file,0,-7);
             }
         }
     } else {echo "uh";}
