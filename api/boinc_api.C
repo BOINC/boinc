@@ -441,7 +441,6 @@ int boinc_write_init_data_file() {
     return retval;
 }
 
-#if 0       // who uses this?
 int boinc_report_app_status(
     double cpu_time,
     double checkpoint_cpu_time,
@@ -459,7 +458,6 @@ int boinc_report_app_status(
     app_client_shm->shm->app_status.send_msg(msg_buf);
     return 0;
 }
-#endif
 
 int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     app_init_data = aid;

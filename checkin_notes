@@ -13452,3 +13452,9 @@ David  29 Oct 2005
 
     tools/
         backend_lib.C,h
+
+David  30 Oct 2005
+    - restore report_app_status() to API
+
+    api/
+        boinc_api.C
