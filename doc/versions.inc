@@ -188,6 +188,17 @@ $m525c = array(
     "
 );
 
+$m525s = array(
+    "num"=>"5.2.5.4",
+    "status"=>"Recommended version (simple GUI)",
+    "file"=>"boinc_menubar_v5.2.5_(4)_mac.zip",
+    "date"=>"31 October 2005",
+    "type"=>"mac_simple",
+    "features"=>"<ul><li>Includes improved BOINC client
+     </ul>
+    "
+);
+
 $m443 = array(
     "num"=>"4.43",
     "status"=>"Older version (standard GUI)",
@@ -208,7 +219,7 @@ $m443c = array(
 
 $m443s = array(
     "num"=>"4.43.4",
-    "status"=>"Recommended version (simple GUI)",
+    "status"=>"Older version (simple GUI)",
     "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
     "date"=>"23 May 2005",
     "type"=>"mac_simple",
@@ -284,6 +295,7 @@ $mac = array(
     "versions"=>array(
         $m525,
         $m525c,
+        $m525s,
         $m443,
         $m443c,
         $m443s
