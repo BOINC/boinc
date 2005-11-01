@@ -206,7 +206,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #ifdef _WIN32
         if (!strMachineName.empty()) {
             iAnswer = ::wxMessageBox(
-                _("Are you sure you wish to display graphics on a remote machine?"),
+                _("Are you sure you want to display graphics on a remote machine?"),
                 _("Show graphics"),
                 wxYES_NO | wxICON_QUESTION,
                 this

@@ -118,13 +118,13 @@ void CAccountInfoPage::CreateControls()
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {
         wxStaticText* itemStaticText59 = new wxStaticText;
-        itemStaticText59->Create( itemWizardPage56, wxID_STATIC, _("Do you wish to use an existing account or create a new one?"), wxDefaultPosition, wxDefaultSize, 0 );
+        itemStaticText59->Create( itemWizardPage56, wxID_STATIC, _("Do you want to use an existing account or create a new one?"), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer57->Add(itemStaticText59, 0, wxALIGN_LEFT|wxALL, 5);
 
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
         wxStaticText* itemStaticText60 = new wxStaticText;
-        itemStaticText60->Create( itemWizardPage56, wxID_STATIC, _("Transition Note: Account keys are used as passwords for accounts created\nbefore BOINC migrated to a username and password authentication scheme."), wxDefaultPosition, wxDefaultSize, 0 );
+        itemStaticText60->Create( itemWizardPage56, wxID_STATIC, _("If you haven't set a password, copy and paste your account key into the Password box."), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer57->Add(itemStaticText60, 0, wxALIGN_LEFT|wxALL, 5);
 
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);

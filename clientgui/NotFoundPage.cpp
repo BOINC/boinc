@@ -103,7 +103,7 @@ void CErrNotFoundPage::CreateControls()
     itemBoxSizer112->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticText* itemStaticText115 = new wxStaticText;
-    itemStaticText115->Create( itemWizardPage111, wxID_STATIC, _("Verify your account name and password are correct and try again."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText115->Create( itemWizardPage111, wxID_STATIC, _("Check the email address and password, and try again."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer112->Add(itemStaticText115, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrNotFoundPage content construction

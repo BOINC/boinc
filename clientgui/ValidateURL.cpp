@@ -81,15 +81,15 @@ bool CValidateURL::Validate(wxWindow *parent) {
     } else if (-1 == iServerDotLocation) {
         ok = FALSE;
         m_errortitle = _("Invalid URL");
-        m_errormsg = _("Please specify a valid host name.\nFor example:\nboincproject.example.com");
+        m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
     } else if (0 == iFirstPart) {
         ok = FALSE;
         m_errortitle = _("Invalid URL");
-        m_errormsg = _("Please specify a valid host name.\nFor example:\nboincproject.example.com");
+        m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
     } else if (0 == iSecondPart) {
         ok = FALSE;
         m_errortitle = _("Invalid URL");
-        m_errormsg = _("Please specify a valid host name.\nFor example:\nboincproject.example.com");
+        m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
     } else if (wxURL_NOERR != url.GetError()) {
         ok = FALSE;
 
