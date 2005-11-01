@@ -13478,3 +13478,24 @@ David  31 Oct 2005
     sched/
         handle_request.C
         sched_config.C,h
+
+David  1 Nov 2005
+    - Addendum to yesterday's checkin.
+        It turns out that, on average, the int benchmark
+        is twice the FP benchmark.
+        So if a project were to set its fp_benchmark_weight to 1,
+        the average credit per CPU second would decrease by 1/3.
+        Similarly it would increase if fp_benchmark_weight were 0.
+
+        To fix this, I added a scaling factor that maintains a
+        constant average credit per CPU second
+        (the same average as the current 50/50 weighting)
+        regardless of fp_benchmark_weight.
+
+    - relax Curl timeout parameters; apparently some users going through
+        proxies were geting consistent timeout.
+
+    client/
+        http_curl.C
+    sched/
+        handle_request.C

@@ -321,9 +321,9 @@ The checking this option controls is of the identity that the server claims. The
 
     // setup timeouts
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, 50L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, 30L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 60L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, 10L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, 300L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
     
     // force curl to use HTTP/1.0 (which the old BOINC http libraries did)
     //curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
