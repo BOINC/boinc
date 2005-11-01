@@ -184,6 +184,12 @@ msgid "CREATE_AC_TEAM"
 msgstr "Tento účet bude náležet týmu %s a bude mít nastavení "
 "projektu po jeho zakladateli."
 
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "POZNÁMKA: od BOINCu verze 5.2 již nemusíte používat "
+"tento formulář. Účet si můžete vytvořit přímo v BOINCu. "
+"Jednoduše spusťte BOINC, zvolte Připojit projekt "
+"(Attach Project), a vložte emailovou adresu a heslo. "
+
 #########################################
 # Account created page (account_created.php)
 #########################################
@@ -194,7 +200,7 @@ msgid "AC_READY_WELCOME"
 msgstr "Blahopřejeme - Váš účet v $PROJECT byl právě vytvořen."
 
 msgid "AC_READY_PASTE"
-msgstr "Pro pokračování vložte Váš klíč k účtu sem:"
+msgstr "Pro pokračování vložte Váš klíč k účtu zde:"
 
 msgid "AC_READY_CLICK"
 msgstr "a klikněte"

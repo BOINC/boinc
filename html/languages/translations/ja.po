@@ -2,19 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-24 16:16+0900\n"
+"PO-Revision-Date: 2005-10-31 23:55+0900\n"
 "Last-Translator: Komori Hitoshi <ucepod@070.jp>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# ########################################
+#########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.4, based on en.po v1.16(cvs).   2005/10/24 14:30 JST je2bwm 
+# FileID  : ja.po,v 1.5, based on en.po v1.17(cvs).   2005/10/31 23:47 JST je2bwm 
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi, Reviewer: Takeda Nobuhiko )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
-# ########################################
+#########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 #  (http://boinc.oocp.org/web_translation.html)
@@ -281,6 +281,15 @@ msgstr "現在のところ、$PROJECT プロジェクトのためのアカウン
 # msgstr "This account will belong to the team %s and will have the project preferences of its founder."
 msgid "CREATE_AC_TEAM"
 msgstr "作成するアカウントは、チーム %s に加わります。 さらに、そのアカウントの持つプロジェクト・プレファレンス（好みの設定）は、そのチームの創設者のものと同じになります。 "
+
+# msgid "CREATE_AC_USE_CLIENT"
+# msgstr "NOTE: starting with BOINC version 5.2, "
+# "you don't need to use this form. "
+# "You can create an account directly from BOINC. "
+# "Just run BOINC, select Attach Project, "
+# "and enter an email address and password. "
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "ご注意： BOINC の 5.2版で開始する方は、この入力画面を使う必要はありません。 BOINC クライアントから直接に、アカウントを作ることができます。 BOINC クライアントを走らせて、Attache Project(「プロジェクトに参加」）を選び、E−メイルアドレスとパスワードを入力するだけで済んでしまいます。 "
 
 #########################################
 # Account created page (account_created.php)
