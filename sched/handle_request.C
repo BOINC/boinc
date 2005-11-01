@@ -301,9 +301,18 @@ make_new_host:
 // Could also include terms for RAM size, network speed etc.
 //
 static void compute_credit_rating(HOST& host) {
+    double fpw, intw;
+    if (config.use_benchmark_weights) {
+        fpw = config.fp_benchmark_weight;
+        intw = 1. - config.fp_benchmark_weight;
+    } else {
+        fpw = .5;
+        intw = .5;
+
+    }
     host.credit_per_cpu_sec =
-        (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9)
-        * COBBLESTONE_FACTOR / (2 * SECONDS_PER_DAY);
+        fpw*(fabs(host.p_fpops)/1e9 + intw*fabs(host.p_iops)/1e9)
+        * COBBLESTONE_FACTOR / (SECONDS_PER_DAY);
 }
 
 static double fpops_to_credit(double fpops) {

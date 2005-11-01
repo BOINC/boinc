@@ -23,6 +23,7 @@ echo html_text("
                 <url>http://setiathome.berkeley.edu</url>
                 <total_credit>2698.813543</total_credit>
                 <expavg_credit>17348.653646</expavg_credit>
+                <id>123</id>
             </project>
             ... other projects
         </user>
@@ -68,6 +69,7 @@ echo html_text("
                 <url>http://setiathome.berkeley.edu</url>
                 <total_credit>2698.813543</total_credit>
                 <expavg_credit>17348.653646</expavg_credit>
+                <id>123</id>
             </project>
             ... other projects
         </host>

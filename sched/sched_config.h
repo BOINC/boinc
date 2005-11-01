@@ -66,6 +66,8 @@ public:
     bool cache_md5_info;
     bool nowork_skip;
     bool resend_lost_results;
+    bool use_benchmark_weights;
+    double fp_benchmark_weight;
 
     int parse(char*);
     int parse_file(const char* dir=".");

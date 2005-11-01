@@ -13458,3 +13458,23 @@ David  30 Oct 2005
 
     api/
         boinc_api.C
+
+David  31 Oct 2005
+    - Add a sched config entry <fp_benchmark_weight> (0..1)
+        that specifies the weight given to the
+        floating-point (Whetstone) benchmark in credit calculations.
+
+        Projects should set this to the fraction of their
+        arithmetic operations that are floating-point.
+
+        I also checked in a script, credit_study.php,
+        that samples various values for fp_benchmark_weight
+        and computes the variance in claimed credit that each one produces
+        (based on results currently in the DB).
+        Use the lowest one.
+
+    html/ops/
+        credit_study.php
+    sched/
+        handle_request.C
+        sched_config.C,h

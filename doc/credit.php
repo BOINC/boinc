@@ -7,9 +7,9 @@ echo "
 A BOINC project gives you <b>credit</b> for the computations your
 computers perform for it.
 BOINC's unit of credit, the <b>Cobblestone</b> <sup>1</sup>,
-is 1/100 day of CPU time on a reference computer that does
+is 1/100 day of CPU time on a reference computer that does both
 <ul>
-<li> 1,000 double-precision MIPS based on the Whetstone benchmark.
+<li> 1,000 double-precision MIPS based on the Whetstone benchmark, and
 <li> 1,000 VAX MIPS based on the Dhrystone benchmark.
 </ul>
 These benchmarks are <a href=benchmark.php>imperfect predictors</a>

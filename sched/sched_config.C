@@ -80,6 +80,9 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_bool(buf, "cache_md5_info", cache_md5_info);
     parse_bool(buf, "nowork_skip", nowork_skip);
     parse_bool(buf, "resend_lost_results", resend_lost_results);
+    if (parse_double(buf, "<fp_benchmark_weight>", fp_benchmark_weight)) {
+        use_benchmark_weights = true;
+    }
 
     if (match_tag(buf, "</config>")) {
         char hostname[256];
