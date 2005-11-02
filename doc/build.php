@@ -233,7 +233,8 @@ Notes for <a href=debian_linux_install.txt>Debian Linux</a>.
 
 <h3>Apache notes</h3>
 <p>
-Make sure httpd.conf sets the default MIME type as follows:
+In httpd.conf, set the default MIME type as follows
+(otherwise you'll get file upload signature verification errors):
 <pre>
 DefaultType application/octet-stream
 </pre>

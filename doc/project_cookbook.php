@@ -4,8 +4,10 @@ page_head("Project creation cookbook");
 echo "
 <h2>Make skeletal project</h2>
 <ul>
-<li> Compile the BOINC software, say into HOME/boinc.
+<li> Install and configure all <a href=build.php>prerequisite software</a>
+(follow the directions carefully).
 Make sure MySQL is configured and running.
+<li> Compile the BOINC software, say into HOME/boinc.
 <li> Run HOME/boinc/tools/<a href=make_project.php>make_project</a>
 <li> Append the contents of projects/PROJECT/PROJECT.httpd.conf
 to httpd.conf and restart Apache.
@@ -16,7 +18,7 @@ periodic tasks, e.g.
     to set PATH and PYTHONPATH)
 
 <li> Copy project.xml from HOME/boinc/tools to HOME/projects/PROJECT,
-edit it to taste,
+edit it to reflect your applications and platforms,
 and run <a href=tool_xadd.php>bin/xadd</a>.
 <li> Edit html/project/project.inc, changing the
 master URL and copyright holder.

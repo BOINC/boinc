@@ -87,12 +87,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
 
     fraction_done = 0;
-#if 0
-    frac_rate_of_change = 0;
-    last_frac_done = 0;
-    recent_change = 0;
-    last_frac_update = 0;
-#endif
     episode_start_cpu_time = 0;
     cpu_time_at_last_sched = 0;
     checkpoint_cpu_time = 0;
@@ -276,7 +270,8 @@ double ACTIVE_TASK::est_cpu_time_to_completion() {
     double wu_est = result->estimated_cpu_time();
     if (fraction_done <= 0) return wu_est;
     double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
-    return fraction_done*frac_est + (1-fraction_done)*wu_est;
+    double fraction_left = 1-fraction_done;
+    return fraction_done*frac_est + fraction_left*fraction_left*wu_est;
 }
 
 // size of output files and files in slot dir

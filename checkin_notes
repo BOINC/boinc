@@ -13531,3 +13531,9 @@ Rom    2 Nov 2005
         ViewResources.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  2 Nov 2005
+	- core client: fix bad formula for computing CPU time remaining
+
+	client/
+		app.C,h

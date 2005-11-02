@@ -101,13 +101,6 @@ public:
         // App's estimate of how much of the work unit is done.
         // Passed from the application via an API call;
         // will be zero if the app doesn't use this call
-#if 0
-    double frac_rate_of_change;
-        // How much the percent done changes per second,
-        // based on a recent exponential weighted average
-    double last_frac_done, recent_change;
-    double last_frac_update;
-#endif
     double cpu_time_at_last_sched;
         // CPU time when CPU scheduler last ran
     double episode_start_cpu_time;
