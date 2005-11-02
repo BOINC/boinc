@@ -13537,3 +13537,19 @@ David  2 Nov 2005
 
 	client/
 		app.C,h
+
+David  2 Nov 2005
+    - user web: the line
+    
+        $profile->verification = 0;
+
+        in profile.inc prevented anyone from creating a new profile
+        with a picture.
+        This is because the $profile argument  process_create_result()
+        is null iff it's a new profile.
+        The above assignment makes $profile not null,
+        which screws up the logic.
+        (from David Kim)
+
+    html/inc/
+        profile.inc

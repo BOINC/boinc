@@ -20,6 +20,12 @@ Here are some submissions:
 <p>
 <table cellpadding=8 border=1>
 <tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
+<tr><td><a href=http://www.boincproject.org/>Invisible Design</a></td>
+<td>
+<img src=logos/logo.boinc.240x80-01.jpg>
+... and <a href=logos/>many variants</a> in different sizes and colors,
+and for specific countries.
+</td></tr>
 <tr> <td>Eduardo Ascarrunz</td>
 <td>
 <a href=images/BOINC_01.png><img height=90 src=images/BOINC_01.png></a>

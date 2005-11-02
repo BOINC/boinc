@@ -2,6 +2,10 @@
 
 $project_news = array(
 
+array("November 1, 2005",
+    "IBM's <a href=http://www.worldcommunitygrid.org/>World Community Grid</a>
+    has launched a BOINC-based project (currenly Linux only)."
+),
 array("October 28, 2005",
     "David Anderson talks about BOINC and volunteer computing
     in a <a href=http://www.enterpriseleadership.org/listen/podcast-anderson>podcast at www.enterpriseleadership.org</a>."

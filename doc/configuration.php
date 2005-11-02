@@ -55,6 +55,7 @@ htmlspecialchars("
     [ <sched_lockfile_dir> path </sched_lockfile_dir> ]
     [ <min_passwd_length> N </min_passwd_length> ]
     [ <client_account_creation_disabled/> ]
+    [ <fp_benchmark_weight> X <fp_benchmark_weight> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -277,6 +278,18 @@ list_item("client_account_creation_disabled",
     This is a temporary kludge as we transition from
     version 4 to version 5 software.
     It should be removed by 12/2005 or so."
+);
+list_item("fp_benchmark_weight",
+    "The weighting given to the Whetstone benchmark
+    in the calculation of claimed credit.
+    Must be in [0 .. 1].
+    Projects whose applications are floating-point intensive should use 1;
+    pure integer applications, 0.
+    Choosing an appropriate value will reduce the disparity
+    in claimed credit between hosts.
+    The script html/ops/credit_study.php,
+    run against the database of a running project,
+    will suggest what value to use."
 );
 
 list_end();

@@ -227,6 +227,9 @@ function delete_user_pictures($userid) {
     }
 }
 
+// $profile is null if user doesn't already have a profile.
+// Don't assign to $profile->x if this is the case.
+//
 function process_create_results($user, $profile) {
     $response1 = $_POST['response1'];
     $response2 = $_POST['response2'];
@@ -256,7 +259,7 @@ function process_create_results($user, $profile) {
 
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
         $hasPicture = true;
-        $profile->verification = 0;
+        if ($profile) $profile->verification = 0;
 
         // echo "<br>Name: " . $_FILES['picture']['name'];
         // echo "<br>Type: " . $_FILES['picture']['type'];

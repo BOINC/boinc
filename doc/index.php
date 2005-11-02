@@ -52,17 +52,17 @@ resources.
     <li>
     <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>:
     help researchers develop cures for human diseases
-    <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
+    <li><a href=http://setiathome.berkeley.edu/>SETI@home</a>:
     Look for radio evidence of extraterrestrial life
     <li><a href=http://www.cellcomputing.net/>Cell Computing</a>
         biomedical research
         (Japanese; requires nonstandard client software)
+    <li> <a href=http://www.worldcommunitygrid.org/>World Community Grid</a>:
+        advance our knowledge of human disease.
     </ul>
-    To participate in a project:
-    <br>
-    1) Go to the project's web site and create an account.
-    <br>
-    2) <a href=download.php>Download</a> and run BOINC software.
+    To participate in a project,
+    <a href=download.php>download</a> and run BOINC software,
+    then enter the project's URL.
     <p>
     You can participate in more than one project,
     and you control the fraction of your computing power

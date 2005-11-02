@@ -132,6 +132,7 @@ show_name("Thomas Horsten");
 show_name("Daniel Hsu");
 show_name("Takafumi Kawana");
 show_name("John Keck");
+show_name("David Kim");
 show_name("John Kirby");
 show_name("Eric Korpela");
 show_name("Janus Kristensen");

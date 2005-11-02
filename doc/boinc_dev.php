@@ -34,6 +34,7 @@ To get started, look at the BOINC bug database, fix a bug or two,
 and send your patches to the appropriate area owner.
 The following medium-to-large development projects are available:
 <ul>
+<li> Replace db_base.py with <a href=http://sqlobject.org/>SQLObject</a>.
 <li> BOINC Manager:
 Change the Statistics tab to use a single graph
 with lines of different colors or styles for different projects.
@@ -61,13 +62,6 @@ as a balloon, or in Messages.
 exceeding user preferences,
     and enforce resource shares,
     with file deletion according to project policy.
-
-<li> Use database IDs instead of names to identify
-results and WUs in the core client
-(to increase efficiency in the server,
-since indices on integers are apparently more efficient
-than indices on text fields).
-This involves minor but pervasive changes.
 
 </ul>
 Please check with davea at ssl.berkeley.edu
