@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-19 18:28+0100\n"
+"PO-Revision-Date: 2005-10-22 12:02+0100\n"
 "Last-Translator: Preben Lodal <elprebsi70@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "Indtast URL'en på konto mangerens web side."
 #: clientgui/AccountManagerInfoPage.cpp:114
 #: clientgui/ProjectInfoPage.cpp:115
 msgid "You can copy and paste the URL from your browser's address bar."
-msgstr "Du kan kopiere og indsætte URL'en fra din browser’s adresse linie."
+msgstr "Du kan kopiere og indsætte URL'en fra din browser's adresse linie."
 
 #: clientgui/AccountManagerInfoPage.cpp:124
 msgid "Account Manager &URL:"
@@ -231,17 +231,17 @@ msgstr "Sus&pender"
 #: clientgui/BOINCTaskBar.cpp:411
 #: clientgui/MainFrame.cpp:363
 msgid "&Network activity always available"
-msgstr "Netværks aktivitet er &altid tilgængelig"
+msgstr "Netværksadgang er &altid tilgængelig"
 
 #: clientgui/BOINCTaskBar.cpp:412
 #: clientgui/MainFrame.cpp:368
 msgid "Network activity based on &preferences"
-msgstr "Netværks aktivitet efter &indstillinger"
+msgstr "Netværksadgang efter &indstillinger"
 
 #: clientgui/BOINCTaskBar.cpp:413
 #: clientgui/MainFrame.cpp:373
 msgid "&Network activity suspended"
-msgstr "Netværks aktivitet er &suspenderet"
+msgstr "Netværksadgang er &suspenderet"
 
 #: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:430
@@ -666,7 +666,7 @@ msgstr "Tilmeld en Konto Manager"
 #: clientgui/MainFrame.cpp:408
 #: clientgui/MainFrame.cpp:450
 msgid "&Options"
-msgstr "&Funktioner"
+msgstr "&Indstillinger"
 
 #: clientgui/MainFrame.cpp:409
 msgid "Configure GUI options and proxy settings"
@@ -1028,7 +1028,7 @@ msgstr "Rapporter alt færdigt arbejde, og opfrisker dine kreditter og indstillin
 #: clientgui/ViewWork.cpp:99
 #: clientgui/ViewWork.cpp:450
 msgid "Suspend"
-msgstr "Suspender"
+msgstr "Suspender kørsel"
 
 #: clientgui/ViewProjects.cpp:115
 #: clientgui/ViewProjects.cpp:552
@@ -1180,7 +1180,7 @@ msgstr "Scheduler forespørgsel udestående"
 
 #: clientgui/ViewProjects.cpp:725
 msgid "Communication deferred "
-msgstr "Kommunikation udsat"
+msgstr "Kommunikation udsat "
 
 #: clientgui/ViewResources.cpp:77
 msgid "Disk Space"
