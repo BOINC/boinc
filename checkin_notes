@@ -13499,3 +13499,16 @@ David  1 Nov 2005
         http_curl.C
     sched/
         handle_request.C
+
+Charlie 1 Nov 2005
+    - Mac: Augment David's security change of 13 Oct for BOINC Manager.
+      Because Manager has set-uid bit, it always runs with owner as 
+      effective user, so any logged-in user could attach to a rogue
+      project using BOINC Manager.  If logged-in user is not owner, we 
+      now invokes Mac OS's authorization dialog to requires administrator 
+      password to attach to projects.  The Mac OS automatically localizes 
+      this dialog for us.
+      
+    clientgui/
+        MainFrame.cpp
+        Mac-GUI.cpp (new)

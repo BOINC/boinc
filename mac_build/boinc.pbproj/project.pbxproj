@@ -139,6 +139,7 @@
 				DDE2552B07C62F3E008E7D6E,
 				20286C33FDCF999611CA2CEA,
 				DD7C5E7508110AE3002FCE1E,
+				DD1929D80918A2F100C31BCF,
 				DD6F71B7081E509200F5B280,
 				DD6F71B9081E509200F5B280,
 				DD6F71BB081E509200F5B280,
@@ -343,6 +344,7 @@
 				DD58C47208F334EA00C1DF66,
 				DD58C47408F334EA00C1DF66,
 				DD58C47608F334EA00C1DF66,
+				DDA9D3BC09189A8C0060E7A7,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,6 +358,7 @@
 				DDADA53A08BACC8B00053BFB,
 				DDADA53B08BACC8C00053BFB,
 				DDADA53C08BACC8D00053BFB,
+				DD1929D90918A2F100C31BCF,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -871,6 +874,20 @@
 		};
 		DD130F340820C4C4001A0291 = {
 			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD1929D80918A2F100C31BCF = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Security.framework;
+			path = /System/Library/Frameworks/Security.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD1929D90918A2F100C31BCF = {
+			fileRef = DD1929D80918A2F100C31BCF;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4105,6 +4122,21 @@
 			settings = {
 			};
 		};
+		DDA9D3BB09189A8C0060E7A7 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Mac_GUI.cpp;
+			path = /Volumes/Moon/BOINC_Mac/_boinc_head/clientgui/mac/Mac_GUI.cpp;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DDA9D3BC09189A8C0060E7A7 = {
+			fileRef = DDA9D3BB09189A8C0060E7A7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DDAD19BB09090731004E7DD0 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -5603,6 +5635,7 @@
 			children = (
 				DD30446A0864332D00D73756,
 				DD2F32F707F2A88B00645DDC,
+				DDA9D3BB09189A8C0060E7A7,
 				DD1F0ACD0822069E00AFC5FA,
 				DD2F32EF07F2A83E00645DDC,
 				DD40CDFE07F038990096C645,
