@@ -13512,3 +13512,6 @@ Charlie 1 Nov 2005
     clientgui/
         MainFrame.cpp
         Mac-GUI.cpp (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
