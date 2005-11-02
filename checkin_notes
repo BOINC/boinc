@@ -13515,3 +13515,19 @@ Charlie 1 Nov 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Rom    2 Nov 2005
+    - Catch exceptions thrown by the STL library when vectors may not contain
+        the requested data.  For some reason the list views are trying to
+        populate themselves with data during a connection cycle which means
+        the various tabs cache's are empty.  We now just return an empty string
+        in this condition.  This should clean up a few crash conditions on
+        platforms other than Windows.
+        
+    clientgui/
+        BOINCBaseView.cpp
+        MainFrame.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

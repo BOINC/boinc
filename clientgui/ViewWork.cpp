@@ -293,34 +293,42 @@ wxInt32 CViewWork::GetDocCount() {
 
 
 wxString CViewWork::OnListGetItemText(long item, long column) const {
-    CWork*    work      = m_WorkCache.at(item);
+    CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
 
-    switch(column) {
-        case COLUMN_PROJECT:
-            strBuffer = work->m_strProjectName;
-            break;
-        case COLUMN_APPLICATION:
-            strBuffer = work->m_strApplicationName;
-            break;
-        case COLUMN_NAME:
-            strBuffer = work->m_strName;
-            break;
-        case COLUMN_CPUTIME:
-            strBuffer = work->m_strCPUTime;
-            break;
-        case COLUMN_PROGRESS:
-            strBuffer = work->m_strProgress;
-            break;
-        case COLUMN_TOCOMPLETION:
-            strBuffer = work->m_strTimeToCompletion;
-            break;
-        case COLUMN_REPORTDEADLINE:
-            strBuffer = work->m_strReportDeadline;
-            break;
-        case COLUMN_STATUS:
-            strBuffer = work->m_strStatus;
-            break;
+    try {
+        work = m_WorkCache.at(item);
+    } catch ( std::out_of_range ) {
+        work = NULL;
+    }
+
+    if (work) {
+        switch(column) {
+            case COLUMN_PROJECT:
+                strBuffer = work->m_strProjectName;
+                break;
+            case COLUMN_APPLICATION:
+                strBuffer = work->m_strApplicationName;
+                break;
+            case COLUMN_NAME:
+                strBuffer = work->m_strName;
+                break;
+            case COLUMN_CPUTIME:
+                strBuffer = work->m_strCPUTime;
+                break;
+            case COLUMN_PROGRESS:
+                strBuffer = work->m_strProgress;
+                break;
+            case COLUMN_TOCOMPLETION:
+                strBuffer = work->m_strTimeToCompletion;
+                break;
+            case COLUMN_REPORTDEADLINE:
+                strBuffer = work->m_strReportDeadline;
+                break;
+            case COLUMN_STATUS:
+                strBuffer = work->m_strStatus;
+                break;
+        }
     }
 
     return strBuffer;

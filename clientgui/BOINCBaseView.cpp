@@ -338,9 +338,9 @@ int CBOINCBaseView::SyncronizeCache() {
     int         iRowTotal        = 0;
     int         iColumnIndex     = 0;
     int         iColumnTotal     = 0;
-    wxString        strDocumentText  = wxEmptyString;
-    wxString        strListPaneText  = wxEmptyString;
-    bool            bNeedRefreshData = false;
+    wxString    strDocumentText  = wxEmptyString;
+    wxString    strListPaneText  = wxEmptyString;
+    bool        bNeedRefreshData = false;
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
