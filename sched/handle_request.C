@@ -325,8 +325,10 @@ static void compute_credit_rating(HOST& host) {
     host.credit_per_cpu_sec  = x;
 }
 
-static double fpops_to_credit(double fpops) {
-    return (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+static double fpops_to_credit(double fpops, double intops) {
+    double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+    double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+    return std::max(fpc, intc);
 }
 
 // modify host struct based on request.
@@ -611,10 +613,13 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
-        if (rp->fpops_cumulative) {
-            srip->claimed_credit = fpops_to_credit(rp->fpops_cumulative);
-        } else if (rp->fpops_per_cpu_sec) {
-            srip->claimed_credit = fpops_to_credit(rp->fpops_per_cpu_sec*srip->cpu_time);
+        if (rp->fpops_cumulative || rp->intops_cumulative) {
+            srip->claimed_credit = fpops_to_credit(rp->fpops_cumulative, rp->intops_cumulative);
+        } else if (rp->fpops_per_cpu_sec || rp->intops_per_cpu_sec) {
+            srip->claimed_credit = fpops_to_credit(
+                rp->fpops_per_cpu_sec*srip->cpu_time,
+                rp->intops_per_cpu_sec*srip->cpu_time
+            );
         } else {
             srip->claimed_credit = srip->cpu_time * reply.host.credit_per_cpu_sec;
         }

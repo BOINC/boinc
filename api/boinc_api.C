@@ -106,6 +106,8 @@ static volatile int interrupt_count = 0;
     // and that doesn't have big jumps around hibernation
 static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
+static double intops_per_cpu_sec = 0;
+static double intops_cumulative = 0;
 static int non_cpu_intensive = 0;
 static int want_network = 0;
 static int have_network = 1;
@@ -222,6 +224,14 @@ static bool update_app_progress(
     }
     if (fpops_cumulative) {
         sprintf(buf, "<fpops_cumulative>%f</fpops_cumulative>\n", fpops_cumulative);
+        strcat(msg_buf, buf);
+    }
+    if (intops_per_cpu_sec) {
+        sprintf(buf, "<intops_per_cpu_sec>%f</intops_per_cpu_sec>\n", intops_per_cpu_sec);
+        strcat(msg_buf, buf);
+    }
+    if (intops_cumulative) {
+        sprintf(buf, "<intops_cumulative>%f</intops_cumulative>\n", intops_cumulative);
         strcat(msg_buf, buf);
     }
     return app_client_shm->shm->app_status.send_msg(msg_buf);
@@ -813,12 +823,14 @@ int boinc_upload_status(std::string& name) {
     return ERR_NOT_FOUND;
 }
 
-void boinc_fpops_per_cpu_sec(double x) {
-    fpops_per_cpu_sec = x;
+void boinc_ops_per_cpu_sec(double fp, double i) {
+    fpops_per_cpu_sec = fp;
+    intops_per_cpu_sec = i;
 }
 
-void boinc_fpops_cumulative(double x) {
-    fpops_cumulative = x;
+void boinc_ops_cumulative(double fp, double i) {
+    fpops_cumulative = fp;
+    intops_cumulative = i;
 }
 
 void boinc_not_using_cpu() {

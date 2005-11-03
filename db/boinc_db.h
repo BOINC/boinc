@@ -437,6 +437,8 @@ struct RESULT {
     char wu_name[256];
     double fpops_per_cpu_sec;
     double fpops_cumulative;
+    double intops_per_cpu_sec;
+    double intops_cumulative;
     int parse_from_client(FILE*);
     void clear();
 };

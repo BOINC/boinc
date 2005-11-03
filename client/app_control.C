@@ -837,6 +837,8 @@ bool ACTIVE_TASK::get_app_status_msg() {
         parse_int(msg_buf, "<non_cpu_intensive>", non_cpu_intensive);
         parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
         parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
+        parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
+        parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     } else {
         return false;
     }

@@ -407,6 +407,8 @@ struct RESULT {
     double final_cpu_time;
     double fpops_per_cpu_sec;   // nonzero if reported by app
     double fpops_cumulative;    // nonzero if reported by app
+    double intops_per_cpu_sec;   // nonzero if reported by app
+    double intops_cumulative;    // nonzero if reported by app
     int state;                  // state of this result: see lib/result_state.h
     int exit_status;            // return value from the application
     std::string stderr_out;

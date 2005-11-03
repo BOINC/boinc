@@ -13559,3 +13559,21 @@ David  2 Nov 2005
 
     clientgui/
         ViewTransfers.cpp
+
+David  2 Nov 2005
+    - API: replace boinc_fpops_per_cpu_sec(double fp) with
+        boinc_ops_per_cpu_sec(double fp, double integer),
+        and similarly for boinc_fpops_cumulative().
+        Some apps (like PrimeGrid) do mostly integer.
+    - corresponding changes to core client and scheduler
+
+    api/
+        boinc_api.C,h
+    client/
+        app_control.C
+        client_types.C,h
+    db/
+        boinc_db.h
+    sched/
+        handle_request.C
+        server_types.C

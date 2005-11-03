@@ -149,14 +149,14 @@ is compiled with different compiler settings,
 or uses a GPU or other non-CPU computing resource.
 To handle such cases, the following functions can be used.
 <pre>
-void boinc_fpops_per_cpu_second(double);
+void boinc_ops_per_cpu_second(double floating_point_ops, double integer_ops);
 </pre>
 This reports the results of an application-specific benchmark,
-expressed as number of floating-point operations per CPU second.
+expressed as number of floating-point and integer operations per CPU second.
 <pre>
-void boinc_fpops_cumulative(double);
+void boinc_ops_cumulative(double floating_point_ops, double integer_ops);
 </pre>
-This reports the total number of floating-point operations
+This reports the total number of floating-point and integer operations
 since the start of the result.
 It must be called just before boinc_finish(),
 and optionally at intermediate points.
