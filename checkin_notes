@@ -13553,3 +13553,9 @@ David  2 Nov 2005
 
     html/inc/
         profile.inc
+
+David  2 Nov 2005
+    - Manager: don't show upload progress > 100%
+
+    clientgui/
+        ViewTransfers.cpp

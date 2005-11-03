@@ -390,12 +390,20 @@ wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const 
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        if (transfer->xfer_active)
+        if (transfer->xfer_active) {
             fBytesSent = transfer->bytes_xferred;
-        else
+        } else {
             fBytesSent = transfer->nbytes;
+        }
 
         fFileSize = transfer->nbytes;
+    }
+
+    // Curl apparently counts the HTTP header in byte count.
+    // Prevent this from causing > 100% display
+    //
+    if (fBytesSent > fFileSize) {
+        fBytesSent = fFileSize;
     }
 
     wxASSERT(fFileSize);
