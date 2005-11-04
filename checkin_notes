@@ -13594,3 +13594,10 @@ Charlie 3 Nov 2005
         WizardAttachProject.cpp
         mac/
             MacSysMenu.cpp
+
+David  4 Nov 2005
+    - core client: close the descriptor returned by mkstemp().
+        This prevented the file from being deleted later.
+
+    client/
+        http_curl.C

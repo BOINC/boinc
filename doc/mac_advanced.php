@@ -12,7 +12,6 @@ expand the zip archive by double-clicking on it in the Finder.
 \"/Library/Applications Support\" folder if one does not already exist.  If you have previously been running BOINC in a different folder, copy your data into this folder.  
 <li> The BOINC application bundle includes the BOINC client embedded inside it.
 <li> Close the installer when it is finished.  This will automatically launch the BOINC Manager.
-<li> If you are installing BOINC for the first time, select the Projects tab and click \"Attach Project\". 
 </ul>
 ";
 page_tail();

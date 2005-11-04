@@ -14,7 +14,6 @@ echo "
 <li> <a href=manager.php>The BOINC manager</a>
 <li> <a href=win_install.php>The Windows installer</a>
 <li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
-<li> <a href=client_mac.php>Installing BOINC on Mac OS/X</a>
 <li> <a href=sea.php>Self-extracting archive (Unix/Linux)</a>
 <li> <a href=screensaver.php>The BOINC screensaver</a>
 </ul>
@@ -25,7 +24,7 @@ echo "
 <li> <a href=cpu_sched.php>CPU scheduling</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=anonymous_platform.php>Make your own client software</a>
-    <br>Run BOINC on unusual platforms,
+    <br>Run BOINC on uncommon platforms,
         or inspect the source code before you run it.
 <li> <a href=acct_mgrs.php>Account managers</a>
 </ul>

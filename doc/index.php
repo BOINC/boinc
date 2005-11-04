@@ -27,7 +27,7 @@ resources.
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>
-<td valign=top width=60%>
+<td valign=top>
 <table width=100% border=0 cellspacing=0 cellpadding=8>
   <tr><td bgcolor=$light_blue>
     <h2>&nbsp;Donate computing power</h2>
@@ -44,7 +44,7 @@ resources.
     <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
     search for gravitational signals emitted by pulsars
     <li>
-    <a href=http://athome.web.cern.ch/athome/>LHC@home</a>:
+    <a href=http://lhcathome.cern.ch/>LHC@home</a>:
     improve the design of the CERN LHC particle accelerator
     <li>
     <a href=http://predictor.scripps.edu>Predictor@home</a>:
@@ -127,8 +127,7 @@ and do not necessarily reflect the views of the National Science Foundation.
 </table>
 
 </td>
-<td valign=top>
-<table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
+<td valign=top width=390>
 <center>
     <form method=get action=http://www.google.com/search>
     <input type=hidden name=domains value=http://boinc.berkeley.edu>
@@ -138,6 +137,19 @@ and do not necessarily reflect the views of the National Science Foundation.
     <input type=submit value='Site search'>
     </nobr>
     </form>
+</center>
+";
+$i = rand(0, 99);
+$j = $i+1;
+echo "<table border=2 cellpadding=4><tr><td>\n
+Featured participant:
+";
+include("piecharts/$i.html");
+echo "
+<br>
+<a href=chart_list.php><b>Top 100 multi-project participants</a>
+</td></tr></table>
+<table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
 <h2>News</h2>
 </center>
 ";

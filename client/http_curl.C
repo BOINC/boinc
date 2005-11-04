@@ -204,7 +204,9 @@ int HTTP_OP::init_post(
     return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
 }
 
-// the following will do an HTTP GET or POST using libcurl, polling at the net_xfer level
+// the following will do an HTTP GET or POST using libcurl,
+// polling at the net_xfer level
+//
 int HTTP_OP::libcurl_exec(
     const char* , const char* in, const char* out, double offset, bool bPost
 ) {
@@ -214,8 +216,9 @@ int HTTP_OP::libcurl_exec(
     char strTmp[128];
 
     // get user agent string
-    if (g_user_agent_string[0] == 0x00) 
+    if (g_user_agent_string[0] == 0x00) {
         get_user_agent_string();
+    }
 
     if (in) {
         strcpy(infile, in);
@@ -223,7 +226,8 @@ int HTTP_OP::libcurl_exec(
     if (out) {
         bTempOutfile = false;
         strcpy(outfile, out);
-    } else { //CMC -- I always want an outfile for the server response, delete when op done
+    } else {
+        //CMC -- I always want an outfile for the server response, delete when op done
         bTempOutfile = true;
         memset(outfile, 0x00, _MAX_PATH);
 #ifdef _WIN32
@@ -235,7 +239,7 @@ int HTTP_OP::libcurl_exec(
         }
 #else  // use mkstemp on Mac & Linux due to security issues
         strcpy(outfile, "blcXXXXXX"); // a template for the mkstemp
-        mkstemp(outfile);
+        close(mkstemp(outfile));
 #endif
     }
 

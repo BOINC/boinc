@@ -22,12 +22,15 @@ You'll need to install the following software before building BOINC:
     <th>Applications<br>(graphical)</th>
 </tr>
 <tr>
-    <td>GNU tools:
+    <td>GNU tools (find them <a href=http://directory.fsf.org/GNU/>here</a>):
+        <br>
+        <br>make 3.79+
+        <br>m4 1.4+
+        <br>libtool 1.4+
+        <br>pkg-config 0.15+
+        <br>autoconf 2.58+</a>
+        <br>automake 1.8+</a>
         <br>GCC 3.0.4+
-        <br> <a href=http://www.gnu.org/software/autoconf/>
-        autoconf 2.59+</a>
-        <br> <a href=http://www.gnu.org/software/automake/automake.html>
-        automake 1.9.3+</a>
     </td>
     <td>X</td>
     <td>X</td>
@@ -68,7 +71,7 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
-    <td><a href=http://www.openssl.org/>OpenSSL</a> version 0.9.8 or higher
+    <td><a href=http://www.openssl.org/>OpenSSL</a> version 0.9.8+
     (included with the BOINC source distribution for Windows)
     </td>
     <td>X</td>
@@ -78,7 +81,7 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
-    <td><a href=http://curl.haxx.se/>libcurl</a> version 7.14.0 or higher
+    <td><a href=http://curl.haxx.se/>libcurl</a> version 7.14.0+
     (included with the BOINC source distribution for Windows)
     </td>
     <td><br></td>
