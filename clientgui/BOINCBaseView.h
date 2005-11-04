@@ -36,11 +36,11 @@ class CTaskItem : wxObject {
 public:
 	CTaskItem();
 	CTaskItem( wxString strName, wxString strDescription, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_strWebSiteLink(wxT("")), 
-        m_iEventID(iEventID), m_pButton(NULL) {};
+		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
+        m_pButton(NULL), m_strWebSiteLink(wxT("")) {};
 	CTaskItem( wxString strName, wxString strDescription, wxString strWebSiteLink, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_strWebSiteLink(strWebSiteLink), 
-        m_iEventID(iEventID), m_pButton(NULL) {};
+		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),  
+        m_pButton(NULL), m_strWebSiteLink(strWebSiteLink) {};
     ~CTaskItem() {};
 
     wxString                m_strName;
