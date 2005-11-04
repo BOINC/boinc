@@ -230,11 +230,9 @@ void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg, FDSET_GROUP& all) {
         FD_SET(s, &fg.read_fds);
         FD_SET(s, &fg.exc_fds);
         if (s > fg.max_fd) fg.max_fd = s;
-        if (s > fg.max_fd) fg.max_fd = s;
 
         FD_SET(s, &all.read_fds);
         FD_SET(s, &all.exc_fds);
-        if (s > all.max_fd) all.max_fd = s;
         if (s > all.max_fd) all.max_fd = s;
     }
     FD_SET(lsock, &fg.read_fds);

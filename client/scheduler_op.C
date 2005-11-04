@@ -336,7 +336,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
             strip_whitespace(str);
             urls.push_back(str);
             q = strstr(q, "</scheduler>");
-            if (q) q += strlen("</schedule>");
+            if (q) q += strlen("</scheduler>");
         }
     }
     fclose(f);
