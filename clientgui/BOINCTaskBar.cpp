@@ -160,7 +160,6 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
     ResetTaskBar();
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-    wxInt32        iCurrentNetworkMode = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));

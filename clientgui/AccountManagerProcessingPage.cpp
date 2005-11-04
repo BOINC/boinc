@@ -195,7 +195,6 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
     std::string username = "";
     std::string password = "";
     bool bPostNewEvent = true;
-    bool bSuccessfulCondition = false;
     int iReturnValue = 0;
     unsigned int i;
  

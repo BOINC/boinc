@@ -344,7 +344,6 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
     bool bPostNewEvent = true;
-    bool bSuccessfulCondition = false;
     int iReturnValue = 0;
  
     wxASSERT(pDoc);

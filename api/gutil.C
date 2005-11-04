@@ -1065,7 +1065,7 @@ int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
     retval = read_ppm_file(strFileName, width, height, &pixels);
     if (retval) return retval;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-    glGenTextures(1, &id);
+    glGenTextures(1, (GLuint*)&id);
     glBindTexture(GL_TEXTURE_2D, id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);

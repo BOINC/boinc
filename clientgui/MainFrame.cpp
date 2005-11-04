@@ -317,11 +317,6 @@ CMainFrame::~CMainFrame() {
 bool CMainFrame::CreateMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
 
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     // File menu
     wxMenu *menuFile = new wxMenu;
 

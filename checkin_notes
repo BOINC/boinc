@@ -13511,7 +13511,8 @@ Charlie 1 Nov 2005
       
     clientgui/
         MainFrame.cpp
-        Mac-GUI.cpp (new)
+        Mac_GUI.cpp (new)
+        MacGUI.pch
     mac_build/
         boinc.pbproj/
             project.pbxproj
@@ -13577,3 +13578,19 @@ David  2 Nov 2005
     sched/
         handle_request.C
         server_types.C
+
+Charlie 3 Nov 2005
+    - Fix numerous compiler warnings.
+    
+    api/
+        gutil.C
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        BOINCTaskBar.cpp
+        MainFrame.cpp
+        ProjectProcessingPage.cpp
+        ViewStatistics.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+        mac/
+            MacSysMenu.cpp

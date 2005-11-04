@@ -86,7 +86,7 @@ CMacSystemMenu::CMacSystemMenu() : CTaskBarIcon() {
 
         InstallApplicationEventHandler(NewEventHandlerUPP(SysMenuEventHandler), 
                                 sizeof(myEvents) / sizeof(EventTypeSpec), myEvents, 
-                                                        this, &m_pEventHandlerRef); 
+                                                        this, (EventHandlerRef*)&m_pEventHandlerRef); 
     }
 }
 

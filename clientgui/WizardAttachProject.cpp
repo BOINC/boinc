@@ -205,9 +205,6 @@ void CWizardAttachProject::CreateControls()
     itemWizard1->FitToPage(m_ErrAlreadyExistsPage);
     m_ErrProxyPage = new CErrProxyPage;
     m_ErrProxyPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_ErrProxyPage);
-    wxWizardPageSimple* lastPage = NULL;
 ////@end CWizardAttachProject content construction
  
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - Begin Page Map"));

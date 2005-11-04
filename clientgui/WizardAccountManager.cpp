@@ -175,7 +175,6 @@ void CWizardAccountManager::CreateControls()
     m_ErrProxyPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ErrProxyPage);
-    wxWizardPageSimple* lastPage = NULL;
 ////@end CWizardAccountManager content construction
  
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls - Begin Page Map"));
