@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Installing the command-line core client");
+page_head("Installing the command-line client");
 echo "
 This type of installation requires that you be familiar with the
 UNIX command-line interface.

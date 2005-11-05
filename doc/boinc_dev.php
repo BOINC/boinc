@@ -76,7 +76,6 @@ Various implementation notes:
 <li> <a href=client_logic.php>Main loop logic</a>
 <li> <a href=sched.php>Client scheduling policies (new)</a>
 <li> <a href=client_sched.php>Client scheduling policies (old)</a>
-<li> <a href=client_debug.php>Debugging</a>
 <li> <a href=host_measure.php>Host measurements</a>
 <li> <a href=host_id.php>Host identification</a>
 <li> <a href=client_app.php>Core client/application interaction (basic)</a>

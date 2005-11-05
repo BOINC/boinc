@@ -1,24 +1,22 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC command-line client");
+page_head("The BOINC core client as a command-line program");
 echo "
-<h2>Components</h2>
 <p>
-The BOINC client software can be run in a command-line
+The BOINC core client can be run in a command-line
 (non-graphical) environment.
-This involves two programs:
-<ul>
-<li> The <b>core client</b> (boinc_client),
-a non-interactive program intended to be run as a background or daemon process.
-<li> A <b>command tool</b> (boinc_cmd) that provides
-an interactive command-line interface to a running core client.
-</ul>
+Command-line options provide minimal control
+(e.g. the ability attach and detach projects).
+More detailed control, and the ability to interact
+with a running client,
+is provided by a separate command
+<a href=boinc_cmd.php>command tool</a>.
+<p>
 Instructions for installing these programs,
 and for automatic startup of the core client, are
 <a href=bare_core.php>here</a>.
-<h2>The core client (boinc_client)</h2>
 <p>
-<h3>command-line options</h3>
+<h3>Command-line options</h3>
 ";
 list_start();
 list_item("-help",
@@ -74,8 +72,7 @@ list_item("-no_gui_rpc",
 );
 list_end();
 echo "
-<p>
-The core client has the following optional environment variables:
+<h2>Environment variables</h2>
 ";
 list_start();
 list_item("HTTP_PROXY", "URL of HTTP proxy");
@@ -87,116 +84,28 @@ list_item("SOCKS5_USER", "User name for SOCKS authentication");
 list_item("SOCKS5_PASSWD", "Password for SOCKS authentication");
 list_end();
 echo "
-<h2>The command tool (boinc_cmd)</h2>
-<p>
-The command-line interface program has the following interface:
-<pre>
-boinc_cmd [--host hostname] [--passwd passwd] command
-</pre>
-The options and commands are as follows:
+<h2>Command-line options for debugging</h2>
 ";
 list_start();
-list_item("--help, -h", "help (show commands)");
-list_item("--version, -V", "show version");
-list_item("--host", "The host to connect to (default: localhost)");
-list_item("--password", "The password for RPC authentication
-    (default: boinc_cmd will look for a file 'gui_rpc_auth.cfg'
-     and use the password it contains)"
+list_item(" -exit_when_idle ",
+    " Exit when we're not working on anything and a scheduling server
+gives a 'no work' return."
 );
-list_item("--get_state", "show client state");
-list_item("--get_results", "show results");
-list_item("--get_file_transfers", "show file transfers");
-list_item("--get_project_status", "show status of all projects");
-list_item("--get_disk_usage", "Show disk usage by project");
-list_item("--result URL result_name
-     <br>{suspend | resume | abort | graphics_window | graphics_fullscreen}
-     <br>{--window_station ws} {--desktop dt} {--display dp}
-     ",
-     "Do operation on a result, identified by the project master URL
-     and the result name.
-     <ul>
-     <li> suspend: temporarily stop work on result
-     <li> resume: allow work on result
-     <li> abort: permanently stop work on result
-     <li> graphics_window: open graphics in a window.
-     The optional desktop/window_station (Windows) or display (X11)
-     arguments specify the display.
-     <li> graphics_fullscreen: open graphics fullscreen
-     </ul>
-     "
+list_item(" -no_time_test",
+    " Don't run performance benchmarks; used fixed numbers instead."
 );
-list_item("--project URL
-    <br>{reset | detach | update | suspend | resume | nomorework | allowmorework}
-    ",
-    "Do operation on a project, identified by its master URL.
-    <ul>
-    <li>reset: delete current work and get more;
-    <li>detach: delete current work and don't get more;
-    <li>update: contact scheduling server;
-    <li>suspend: stop work for project;
-    <li>result: resume work for projrect;
-    <li>nomorework: finish current work but don't get more;
-    <li>allowmorework: undo nomorework
-    </ul>
-    "
+list_item(" -exit_after N",
+    " Exit after about N seconds"
 );
-list_item("--project_attach URL auth","Attach to an account");
-list_item("--file_transfer URL filename
-        {retry | abort}
-        ",
-    "Do operation on a file transfer"
+list_item(" -giveup_after N",
+    " Give up on file transfers after N seconds (default is 2 weeks)"
 );
-list_item("--get_run_mode","Get current run mode");
-list_item("--set_run_mode {always | auto | never}",
-    "Set run mode.
-    <br>always: do work (network + CPU) always
-    <br>auto: do work only when allowed by preferences
-    <br>never: don't do work (same as suspending all projects)
-    "
+list_item(" -limit_transfer_rate N",
+    " Limit total network traffic to N bytes/sec."
 );
-list_item("--get_network_mode","Get current network mode");
-list_item("--set_network_mode {always | auto | never}",
-    "Set network mode
-    <br> Like set_run_mode but applies only to network transfers
-    "
+list_item(" -min",
+    " Put client in the background after starting up"
 );
-list_item("--get_proxy_settings", "Get proxy settings");
-list_item(
-    "--set_proxy_settings
-    http_server_name
-    http_server_port
-    http_user_name
-    http_user_passwd
-    socks_server_name
-    socks_server_port
-    socks_version
-    socks5_user_name
-    socks5_user_passwd
-    ",
-    "Set proxy settings (all fields are mandatory)"
-);
-list_item("--get_messages seqno",
-    "show messages with sequence numbers beyond the given seqno"
-);
-list_item("--get_host_info", "Show host info");
-list_item("--acct_mgr_rpc URL name password",
-    "Instruct core client to contact an account manager server."
-);
-list_item("--run_benchmarks", "Run CPU benchmarks");
-list_item("--get_screensaver_mode", "");
-list_item(
-    "--set_screensaver_mode on|off blank_time
-    <br>{--desktop desktop}
-    <br>{--window_station window_station}
-    <br>{--display display}
-    ",
-    "Tell the core client to start or stop doing fullscreen graphics,
-    and going to black after blank_time seconds.
-    The optional arguments specify which desktop/windows_station (Windows)
-    or display (X11) to use.
-    "
-);
-list_item("--quit", "");
 list_end();
 page_tail();
 ?>

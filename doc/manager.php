@@ -150,7 +150,7 @@ computer it is connected too.
 <h2>Messages</h2>
 <p>Shows status and error messages.
     Messages can be sorted by project or time.
-    You can <a href=client_debug.php>control what messages are shown</a>.
+    You can <a href=client_msgs.php>control what messages are shown</a>.
     Messages are also written to a file 'stdoutdae.txt'.</p>
 <img src=mgrmessages.png>
 
