@@ -112,6 +112,14 @@ resources.
     <li> <a href=logo.php>Logos and graphics</a>
     </ul>
     <br>
+    <form method=get action=http://www.google.com/search>
+    <input type=hidden name=domains value=http://boinc.berkeley.edu>
+    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
+    <nobr>
+    <input class=small name=q size=30>
+    <input type=submit value='Site search'>
+    </nobr>
+    </form>
   </td></tr>
 <tr><td>
 <img align=left src=nsf.gif>
@@ -127,22 +135,19 @@ and do not necessarily reflect the views of the National Science Foundation.
 </table>
 
 </td>
-<td valign=top width=390>
-<center>
-    <form method=get action=http://www.google.com/search>
-    <input type=hidden name=domains value=http://boinc.berkeley.edu>
-    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
-    <nobr>
-    <input class=small name=q size=30>
-    <input type=submit value='Site search'>
-    </nobr>
-    </form>
-</center>
 ";
 $i = rand(0, 99);
 $j = $i+1;
-echo "<table border=2 cellpadding=4><tr><td>\n
-Featured participant:
+echo " <td valign=top width=390><table border=0 cellpadding=8 cellspacing=0>
+<tr><td bgcolor=$light_blue>
+<h2>Featured participant</h2>
+</td></tr>
+<tr><td>
+<br>
+One of over 300,000 people around the world participating in
+BOINC-based projects.
+<p>
+Name:
 ";
 include("piecharts/$i.html");
 echo "
