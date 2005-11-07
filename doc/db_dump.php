@@ -34,12 +34,6 @@ http://www.boinc.dk/index.php?page=download_stats_xml</a> and
 
 <p>
 Statistics data is exported in XML-format files.
-XML schemas for these files are
-<a href=BOINCSchemas/>here</a>,
-and a graphical representation is
-<a href=BOINCSchemas/documentation/>here</a>.
-NOTE: these are both somewhat out of date.
-Just look at the actual files - they're pretty self-explanatory.
 <p>
 Most projects regenerate the files every 24 hours.
 <p>

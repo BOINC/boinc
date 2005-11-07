@@ -60,8 +60,8 @@ list_item_array(array(
     "BOINC, SETI@home"
 ));
 list_item_array(array(
-    "<a href=http://pkg-boinc.alioth.debian.org/binary/>Debian.org</a>",
-    "Debian Linux on x86",
+    "<a href=http://wiki.debian.org/BOINC#Installation>Debian.org</a>",
+    "Debian Linux on AMD64 and x86",
     "BOINC core client and manager"
 ));
 list_item_array(array(

@@ -1,26 +1,16 @@
 <?php
 require_once("docutil.php");
-page_head("BOINC Menubar v4.43 (4)");
+page_head("BOINC Menubar");
 
 echo "
 
 <h1>Introduction</h1>
 <p>
-BOINC Menubar is a graphical front end for BOINC,
-a software platform developed at Berkeley which allows volunteers
-such as yourself to contribute unused processor cycles to help
-solve problems in physics, medicine, climatology, astronomy, and more.
-Combining tens of thousands of computers,
-BOINC users form what is effectively the most powerful supercomputer
-on the planet.
-
-<p>
-BOINC Menubar provides a simple interface for BOINC,
-eliminating the need for any command-line typing.
+BOINC Menubar is a graphical interface for BOINC.
 It does not have a main window, application menu, or dock icon.
 Instead, everything is controlled from a small icon which
 appears in the upper right hand corner of your screen.
-Clicking on this icon produces a menu which provides you
+Clicking on this icon produces a menu which provides
 access to all the features of BOINC Menubar.
 
 <p> <img src=screenshots/menu.jpg width=299 height=474><br>
@@ -44,8 +34,8 @@ section for information on how to set up BOINC Menubar to run these projects.
 <h3>Returning BOINC Participants</h3>
 <p>
 If you already have a BOINC account and have run the 'boinc'
-command-line on this computer, you will need to move existing files
-to a new location.
+command-line program on this computer,
+you will need to move files to a new location.
 Locate the folder which served as the launch path when you ran the 'boinc'
 command.
 It should contain such files and folders as 'client_state.xml',
@@ -58,7 +48,7 @@ into '~/Library/Application Support/BOINC Data/'
 <p>
 Now when you run BOINC Menubar and select 'Manage Projects...' from the
 status menu,
-you should find a list of the projects you are currently participating in.
+you should find a list of the projects in which you are currently participating.
 
 <h1>Managing Projects</h1>
 <h3>Adding Projects</h3>
@@ -266,36 +256,6 @@ However, you are using BOINC Menubar at your own risk.
 Any harm caused as a result of this software is not the fault of
 GreenKeeper Software or the BOINC developers.
 
-<h1> History </h1>
-<p>
-<strong>Version 4.25 (1) </strong>
-<ul>
-<li>First Release (Based on GreenKeeper Software's Deep Thought v1.1)</li>
-</ul>
-<p>
-<p><strong>Version 4.25 (2)</strong></p>
-<ul>
-  <li>Adds support for HTTP and SOCKS proxies</li>
-  <li>Adds support for  dual processor machines </li>
-  <li>Fixes a bug which caused the menubar to disappear while leaving BOINC running in the background </li>
-  <li>Fixes a bug which caused the application to freeze when choosing &quot;Stop&quot; or &quot;Quit BOINC Menubar&quot;</li>
-  <li>Various other fixes and improvements</li>
-</ul>
-<p>
-<p><strong>Version 4.37 (3)</strong></p>
-<ul>
-  <li>Includes improved BOINC client</li>
-  <li>Fixes a problem which prevented some users from using proxies</li>
-  <li>Now displays the current status in the menubar by changing the icon and indicating the amount of work completed</li>
-  <li>Fixes a bug on dual processor machines where the status of both processes was not always being displayed </li>
-  <li>Adds a preference to share data between users </li><li>Improves security by hiding and encrypting proxy password</li>
-  <li>Adds ability to manually run benchmarks</li>
-  <li>Improved efficiency</li>
-  </ul>
-
-<p><strong>Version 4.43 (4)</strong></p>
-<ul>
-  <li>Includes improved BOINC client</li></ul>
 
 ";
 

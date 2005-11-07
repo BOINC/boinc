@@ -156,7 +156,6 @@ echo "
 </td></tr></table>
 <table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
 <h2>News</h2>
-</center>
 ";
 $nnews_items = 8;
 show_news($project_news, $nnews_items);

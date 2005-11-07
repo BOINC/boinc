@@ -268,7 +268,7 @@ $l419 = array(
 
 $s419 = array(
     "num"=>"4.19",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_4.19_sparc-sun-solaris2.7.gz",
     "date"=>"25 Jan 2005",
     "type"=>"bare_core",
@@ -276,7 +276,7 @@ $s419 = array(
 
 $s443 = array(
     "num"=>"4.43",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_4.43_sparc-sun-solaris2.7.sh",
     "date"=>"26 May 2005",
     "type"=>"sea",
@@ -287,15 +287,14 @@ $windows = array(
     "versions"=>array(
         $w526,
         $w445,
-        $w419
     )
 );
 $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "versions"=>array(
         $m525,
-        $m525c,
         $m525s,
+        $m525c,
         $m443,
         $m443c,
         $m443s
@@ -307,15 +306,14 @@ $linux = array(
     "versions"=>array(
         $l526,
         $l443,
-        $l419
     )
 );
 $solaris = array(
     "name"=>"Solaris/SPARC",
     "url"=>"solaris.php",
     "versions"=>array(
+        $s443,
         $s419,
-        $s443
     )
 );
 

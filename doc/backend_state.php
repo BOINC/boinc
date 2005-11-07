@@ -176,6 +176,7 @@ list_item("file_delete_state",
     <li> Set by transitioner to READY if wu.assimilate_state=DONE
         and result.outcome=CLIENT_ERROR
         or result.validate_state!=INIT
+    </ul>
     "
 );
 
@@ -191,6 +192,7 @@ list_item("validate_state",
         or an output file had a syntax error.
     <li> Set by validator to INCONCLUSIVE if check_set()
         didn't find a consensus in a set of results containing this one.
+    </ul>
     "
 );
 list_end();

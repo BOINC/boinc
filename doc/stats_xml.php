@@ -1,9 +1,28 @@
 <?php
 require_once("docutil.php");
-page_head("Statistics XML formats");
+page_head("Aggregate statistics data");
 echo "
 The following are proposed formats for project statistics data
 to be distributed by aggregators.
+Much of this has been implemented by James Drews;
+the export files are at
+<p>
+<a href=http://boinc.netsoft-online.com/stats/>http://boinc.netsoft-online.com/stats/</a>
+<p>
+and the web RPCs for hosts are at
+<p>
+<a href=http://boinc.netsoft-online.com/get_host.php?cpid=????>http://boinc.netsoft-online.com/get_host.php?cpid=????</a>
+<p>
+(based on the host with the highest expavg_credit) and
+<p>
+http://boinc.netsoft-online.com/get_host_tot.php?cpid=????
+<p>
+(based on the host with the highest total_credit).
+<p>
+http://boinc.netsoft-online.com/get_user.php?cpid=????
+<p>
+(returns info on the user with given CPID).
+
 <h2>Files</h2>
 <h3>user_total_credit.xml</h3>
 A list of top users, ordered by decreasing cross-project total credit.
@@ -13,17 +32,27 @@ echo html_text("
     <users>
         <nusers>100</nusers>
         <time>1129844599</time>   (when this file was generated)
+        <total_credit>4983146120.8639</total_credit> (summed over all users)
+        <expavg_credit>17827453.354517</expavg_credit>
         <user>
             <name>John Keck</name>
             <total_credit>42698.813543</total_credit>
             <expavg_credit>117348.653646</expavg_credit>
-            <cpid>283472938743489759837498347</cpid>
+            <user_cpid>283472938743489759837498347</user_cpid>
+            <world_rank>1</world_rank>
             <project>
                 <name>SETI@home</name>
                 <url>http://setiathome.berkeley.edu</url>
                 <total_credit>2698.813543</total_credit>
                 <expavg_credit>17348.653646</expavg_credit>
                 <id>123</id>
+                <country>United States</country>
+                <user_name>John Keck</user_name>
+                <create_time>1104210399</create_time>
+                <team_name>My Team</team_name>
+                <team_id>44</team_id>
+                <user_url>foobar.example.com</user_url>
+                <computer_count>44</computer_count>
             </project>
             ... other projects
         </user>
