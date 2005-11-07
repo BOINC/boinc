@@ -387,7 +387,7 @@ bool CMainFrame::CreateMenu() {
     wxMenu *menuProjects = new wxMenu;
     menuProjects->Append(
         ID_PROJECTSATTACHPROJECT, 
-        _("&Attach to &project"),
+        _("Attach to &project"),
         _("Attach to a project to begin processing work")
     );
     menuProjects->Append(

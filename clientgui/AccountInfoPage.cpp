@@ -123,12 +123,6 @@ void CAccountInfoPage::CreateControls()
 
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-        wxStaticText* itemStaticText60 = new wxStaticText;
-        itemStaticText60->Create( itemWizardPage56, wxID_STATIC, _("If you haven't set a password, copy and paste your account key into the Password box."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer57->Add(itemStaticText60, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
         wxFlexGridSizer* itemFlexGridSizer61 = new wxFlexGridSizer(1, 2, 0, 0);
         itemFlexGridSizer61->AddGrowableCol(1);
         itemBoxSizer57->Add(itemFlexGridSizer61, 0, wxGROW|wxALL, 5);
@@ -142,7 +136,6 @@ void CAccountInfoPage::CreateControls()
         m_AccountUseExistingCtrl->Create( itemWizardPage56, ID_ACCOUNTUSEEXISTINGCTRL, _("&Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
         m_AccountUseExistingCtrl->SetValue(FALSE);
         itemFlexGridSizer61->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
     }
 
     wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(3, 2, 0, 0);
@@ -173,6 +166,12 @@ void CAccountInfoPage::CreateControls()
         m_AccountConfirmPasswordCtrl = new wxTextCtrl;
         m_AccountConfirmPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
         itemFlexGridSizer64->Add(m_AccountConfirmPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+        itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+        m_AccountTransitionWarning = new wxStaticText;
+        m_AccountTransitionWarning->Create( itemWizardPage56, wxID_STATIC, _("If you haven't set a password, copy and paste your account key into the Password box."), wxDefaultPosition, wxDefaultSize, 0 );
+        itemBoxSizer57->Add(m_AccountTransitionWarning, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
     // Set validators
@@ -258,6 +257,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
         if (!IS_ACCOUNTMANAGERWIZARD()) {
             m_AccountCreateCtrl->SetValue(TRUE);
             m_AccountUseExistingCtrl->SetValue(FALSE);
+            m_AccountTransitionWarning->Hide();
         }
     }
 
@@ -361,6 +361,7 @@ void CAccountInfoPage::OnCancel( wxWizardExEvent& event ) {
 void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event ) {
     m_AccountConfirmPasswordStaticCtrl->Hide();
     m_AccountConfirmPasswordCtrl->Hide();
+    m_AccountTransitionWarning->Show();
     Fit();
 }
   
@@ -371,6 +372,7 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
 void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
     m_AccountConfirmPasswordStaticCtrl->Show();
     m_AccountConfirmPasswordCtrl->Show();
+    m_AccountTransitionWarning->Hide();
     Fit();
 }
 

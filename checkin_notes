@@ -13601,3 +13601,15 @@ David  4 Nov 2005
 
     client/
         http_curl.C
+
+Rom    7 Nov 2005
+    - Another round of sting cleanup.
+    
+    clientgui/
+        AccountInfo.cpp, .h
+        AccountManagerPropertiesPage.cpp
+        MainFrame.cpp
+        NotFoundPage.cpp, .h
+    locale/client/en_US/
+        BOINC Manager.po
+        BOINC Manager.mo

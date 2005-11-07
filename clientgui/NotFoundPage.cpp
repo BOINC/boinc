@@ -102,9 +102,9 @@ void CErrNotFoundPage::CreateControls()
 
     itemBoxSizer112->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText115 = new wxStaticText;
-    itemStaticText115->Create( itemWizardPage111, wxID_STATIC, _("Check the email address and password, and try again."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer112->Add(itemStaticText115, 0, wxALIGN_LEFT|wxALL, 5);
+    m_NotFoundDescriptionStaticCtrl = new wxStaticText;
+    m_NotFoundDescriptionStaticCtrl->Create( itemWizardPage111, wxID_STATIC, _("Check the email address and password, and try again."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer112->Add(m_NotFoundDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
 ////@end CErrNotFoundPage content construction
 }
@@ -165,7 +165,19 @@ wxIcon CErrNotFoundPage::GetIconResource( const wxString& name )
  */
 
 void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
+        m_NotFoundDescriptionStaticCtrl->SetLabel(
+            _("Check the username and password, and try again.")
+        );
+    } else {
+        m_NotFoundDescriptionStaticCtrl->SetLabel(
+            _("Check the email address and password, and try again.")
+        );
+    }
+ 
+    Fit();
 }
 
 /*!
