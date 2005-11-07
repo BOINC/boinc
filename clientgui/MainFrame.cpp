@@ -317,11 +317,6 @@ CMainFrame::~CMainFrame() {
 bool CMainFrame::CreateMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
 
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     // File menu
     wxMenu *menuFile = new wxMenu;
 
@@ -392,7 +387,7 @@ bool CMainFrame::CreateMenu() {
     wxMenu *menuProjects = new wxMenu;
     menuProjects->Append(
         ID_PROJECTSATTACHPROJECT, 
-        _("&Attach to &project"),
+        _("Attach to &project"),
         _("Attach to a project to begin processing work")
     );
     menuProjects->Append(
@@ -1362,7 +1357,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         m_pFrameListPanelRenderTimer->Start();
         m_pDocumentPollTimer->Start();
 
-        m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+        m_pNotebook->SetSelection(ID_TASK_MESSAGESVIEW - ID_TASK_BASE);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));

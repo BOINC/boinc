@@ -28,6 +28,22 @@
 
 HINSTANCE g_hIdleDetectionDll;
 
+// Memory Status Structure for Win2K and WinXP based systems.
+typedef struct _MYMEMORYSTATUSEX {  
+    DWORD dwLength;
+    DWORD dwMemoryLoad;
+    DWORDLONG ullTotalPhys;
+    DWORDLONG ullAvailPhys;
+    DWORDLONG ullTotalPageFile;
+    DWORDLONG ullAvailPageFile;
+    DWORDLONG ullTotalVirtual;
+    DWORDLONG ullAvailVirtual;
+    DWORDLONG ullAvailExtendedVirtual;
+} MYMEMORYSTATUSEX, *LPMYMEMORYSTATUSEX;
+
+typedef BOOL (WINAPI *MYGLOBALMEMORYSTATUSEX)(LPMYMEMORYSTATUSEX lpBuffer);
+
+
 // Returns the number of seconds difference from UTC
 //
 int get_timezone(void) {
@@ -296,12 +312,34 @@ int HOST_INFO::get_host_info() {
 
 	timezone = get_timezone();
 
-	MEMORYSTATUS mStatus;
-	ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
-	mStatus.dwLength = sizeof(MEMORYSTATUS);
-	GlobalMemoryStatus(&mStatus);
-	m_nbytes = (double)mStatus.dwTotalPhys;
-	m_swap = (double)mStatus.dwTotalPageFile;
+    // Detect the amount of memory the system has with the new API, if it doesn't
+    //   exist, then use the older API.
+    HMODULE hKernel32;
+    MYGLOBALMEMORYSTATUSEX myGlobalMemoryStatusEx;
+    hKernel32 = LoadLibrary("kernel32.dll");
+    if (hKernel32) {
+        myGlobalMemoryStatusEx = (MYGLOBALMEMORYSTATUSEX) GetProcAddress(hKernel32, "GlobalMemoryStatusEx");
+    }
+
+    if (hKernel32 && myGlobalMemoryStatusEx) {
+	    MYMEMORYSTATUSEX mStatusEx;
+	    ZeroMemory(&mStatusEx, sizeof(MYMEMORYSTATUSEX));
+	    mStatusEx.dwLength = sizeof(MYMEMORYSTATUSEX);
+	    (*myGlobalMemoryStatusEx)(&mStatusEx);
+        m_nbytes = (double)mStatusEx.ullTotalPhys;
+        m_swap = (double)mStatusEx.ullTotalPageFile;
+    } else {
+	    MEMORYSTATUS mStatus;
+	    ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
+	    mStatus.dwLength = sizeof(MEMORYSTATUS);
+	    GlobalMemoryStatus(&mStatus);
+	    m_nbytes = (double)mStatus.dwTotalPhys;
+	    m_swap = (double)mStatus.dwTotalPageFile;
+    }
+
+    if (hKernel32) {
+        FreeLibrary(hKernel32);
+    }
 	
 	// gets processor vendor name and model name from registry, works for intel
 	char vendorName[256], processorName[256], identifierName[256];

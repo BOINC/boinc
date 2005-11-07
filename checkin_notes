@@ -13318,6 +13318,34 @@ David  27 Oct 2005
 	client/
 		app_control.C
 
+Rom    27 Oct 2005 (stable)
+    - Tag for 5.2.6 release, all platforms
+      boinc_core_release_5_2_6
+
+David  1 Nov 2005
+    - relax Curl timeout parameters; apparently some users going through
+        proxies were geting consistent timeout.
+
+    client/
+        http_curl.C
+
+Charlie 1 Nov 2005
+    - Mac: Augment David's security change of 13 Oct for BOINC Manager.
+      Because Manager has set-uid bit, it always runs with owner as 
+      effective user, so any logged-in user could attach to a rogue
+      project using BOINC Manager.  If logged-in user is not owner, we 
+      now invokes Mac OS's authorization dialog to requires administrator 
+      password to attach to projects.  The Mac OS automatically localizes 
+      this dialog for us.
+      
+    clientgui/
+        MainFrame.cpp
+        MacGUI.pch
+        Mac_GUI.cpp (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+
 Rom    2 Nov 2005
     - Catch exceptions thrown by the STL library when vectors may not contain
         the requested data.  For some reason the list views are trying to
@@ -13331,3 +13359,41 @@ Rom    2 Nov 2005
         ViewResources.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  2 Nov 2005
+	- core client: fix bad formula for computing CPU time remaining
+
+	client/
+		app.C,h
+
+David  2 Nov 2005
+    - Manager: don't show upload progress > 100%
+
+    clientgui/
+        ViewTransfers.cpp
+
+David  4 Nov 2005
+    - core client: close the descriptor returned by mkstemp().
+        This prevented the file from being deleted later.
+
+    client/
+        http_curl.C
+
+Rom    7 Nov 2005
+    - Another round of sting cleanup.
+    
+    clientgui/
+        AccountInfo.cpp, .h
+        AccountManagerPropertiesPage.cpp
+        MainFrame.cpp
+        NotFoundPage.cpp, .h
+    locale/client/en_US/
+        BOINC Manager.po
+        BOINC Manager.mo
+
+Rom    7 Nov 2005
+    - Use GlobalMemoryStatusEx instead of GlobalMemoryStatus so that
+        we can detect memory sizes larger than 4GB in size.
+        
+    client/win/
+        hostinfo_win.cpp
