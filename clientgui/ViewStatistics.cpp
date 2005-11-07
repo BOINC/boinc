@@ -106,7 +106,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 		nb_proj_row=nb_proj;
 	} else {
 		nb_proj_col=2;
-		nb_proj_row=(wxInt32)ceil((wxCoord)(nb_proj/static_cast<double>(nb_proj_col)));
+		nb_proj_row=(wxInt32)ceil(static_cast<double>(nb_proj/static_cast<double>(nb_proj_col)));
 	}
 
 	wxInt32 col=1, row=1; //Used to identify the actual row/col
