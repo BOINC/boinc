@@ -1,7 +1,7 @@
 ##########################################
-# Language: Spanish - Spain
+# Language: Spanish (Spain)
 # FileID  : $Id$
-# Author  : Janus Kristensen (Translator: Alejandro Martí­n Covarrubias)
+# Author  : Janus Kristensen (Translator: Alejandro Martín Covarrubias)
 # Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
 ##########################################
 # For more information please see:
@@ -27,8 +27,8 @@ msgstr "Aplicaciones"
 
 msgid "APPS_DESCRIPTION"
 msgstr "$PROJECT tiene actualmente las siguientes aplicaciones. "
-"Cuando usted participa en $PROJECT, se asignará trabajo para una o más "
-"de esas aplicaciones en su ordenador. "
+"Cuando usted participa en $PROJECT, el trabajo para una o más "
+"de esas aplicaciones será asignado a su ordenador. "
 "La versión más actualizada de ésa aplicación será descargada "
 "a su ordenador. Ésto ocurre automáticamente; usted no tiene que hacer nada."
 
@@ -53,7 +53,7 @@ msgstr "Ejecutar $PROJECT sólo en ordenadores autorizados"
 msgid "RULES_ONLY_AUTH_TEXT"
 msgstr "Ejecute $PROJECT sólo en ordenadores que le pertenezcan, "
 "o de los que haya obtenido permiso del propietario. "
-"Algunas compañí­as y escuelas tienen normas que prohiben usar sus ordenadores "
+"Algunas compañías y escuelas tienen normas que prohiben usar sus ordenadores "
 "para proyectos como $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
@@ -62,8 +62,8 @@ msgstr "Cómo $PROJECT usará su ordenador"
 msgid "RULES_COMPUTER_USE_TEXT_A"
 msgstr "Cuando ejecute $PROJECT en su ordenador, "
 "utilizará parte de la potencia de su CPU, espacio en disco, y ancho de banda de red. "
-"Puede controlar cuantos recursos son usados por $PROJECT, "
-"y cuándo los utiliza."
+"Puede controlar la cantidad de recursos usados por $PROJECT, "
+"y cuándo son utilizados."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
 msgstr "El trabajo hecho por su ordenador contribuye a los "
@@ -82,11 +82,11 @@ msgstr "Su cuenta en $PROJECT se identifica por un nombre que usted elige. "
 msgid "RULES_PRIVACY_TEXT_B"
 msgstr "Si usted participa en $PROJECT, información sobre su ordenador "
 "(como el tipo de procesador, cantidad de memoria, etc.) "
-"será guardada por $PROJECT y usada para decidir quá tipo de trabajo "
-"asignar a su ordenador. Ésta información se mostrará también en "
+"será guardada por $PROJECT y usada para decidir qué tipo de trabajo "
+"se asigna a su ordenador. Ésta información se mostrará también en "
 "la página web de $PROJECT. "
 "Nada que permita conocer la situación de su ordenador (ej. su nombre de dominio o "
-"dirección de red local) será revelado."
+"dirección de red local) será mostrado."
 
 msgid "RULES_PRIVACY_TEXT_C"
 msgstr "Para participar en $PROJECT, usted debe indicar una dirección donde recibir correos. "
@@ -143,13 +143,13 @@ msgstr "Esos otros proyectos no están asociados con $PROJECT, y no podemos "
 # Create account form (create_account_form.php)
 #########################################
 msgid "CREATE_AC_TITLE"
-msgstr "Crear una cuenta"
+msgstr "Creación de cuenta"
 
 msgid "CREATE_AC_READ_RULES"
 msgstr "Lea las %s antes de crear una cuenta."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Si usted recibiá una clave de cuenta, no mande éste formulario. "
+msgstr "Si usted recibió una clave de cuenta, no mande éste formulario. "
 "Hágalo con éste otro %s."
 
 msgid "CREATE_AC_NAME"
@@ -186,6 +186,13 @@ msgstr "La creación de cuentas está desactivada para $PROJECT por ahora. "
 msgid "CREATE_AC_TEAM"
 msgstr "Ésta cuenta pertenecerá al grupo %s y tendrá las preferencias del fundador del proyecto."
 
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "NOTA: a partir de la versión de BOINC 5.2, "
+"usted no necesita utilizar éste formulario. "
+"Puede crear una cuenta directamente desde el programa BOINC. "
+"Simplemente ejecute BOINC, seleccione Unirse a un Proyecto, "
+"e introduzca una dirección de correo y una contraseña. "
+
 #########################################
 # Account created page (account_created.php)
 #########################################
@@ -218,7 +225,7 @@ msgid "AC_SETUP_ISFIRST"
 msgstr "¿Es éste su primer proyecto BOINC?"
 
 msgid "AC_SETUP_FIRST"
-msgstr "Sí­ - éste es mi primer proyecto BOINC"
+msgstr "Sí ­ éste es mi primer proyecto BOINC"
 
 msgid "AC_SETUP_NONFIRST"
 msgstr "No - actualmente estoy participando en al menos otro proyecto BOINC"
@@ -282,7 +289,7 @@ msgstr "Usuarios de Windows:"
 
 msgid "AC_DONE_WIN_TEXT"
 msgstr "Abra la ventana de aplicación BOINC haciendo doble click en el icono de la bandeja del sistema. "
-"Seleccione 'Unirse a un proyecto nuevo' en el menu de Proyectos. Se le pedirá la URL del proyecto "
+"Seleccione 'Unirse a un proyecto' en el menu de Proyectos. Se le pedirá la URL del proyecto "
 "y la clave de su cuenta."
 
 msgid "AC_DONE_UNIX"
@@ -347,6 +354,68 @@ msgstr "Mejores %s equipos"
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "Miembros"
 
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Foro inexistente"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Para crear un nuevo hilo en %s usted deberá tener una cierta cantidad de créditos."
+"Ésto es así para la prevención y protección de abusos del sistema."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Usted no puede crear más hilos por ahora. Por favor espere un momento antes de intentarlo de nuevo."
+"Éste retraso ha sido implementado como protección ante abusos del sistema."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "El área %s le permite obtener ayuda de otros usuarios. Si tiene una pregunta o problema:"
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Lea la lista existente de preguntas. Si su pregunta ya existe allí, "
+"haga click en el botón %s. Si se han enviado respuestas a la pregunta, léalas. "
+"Si una de ellas responde su pregunta, haga click en el botón %s."
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Si su pregunta todavía no ha sido formulada, rellene y envíe éste formulario."
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Ésto impedirá que haya preguntas que sean repetidas contínuamente."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Envíe una nueva pregunta/problema"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Crear un nuevo hilo"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Título"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Describa su pregunta en unas pocas palabras. "
+"Un breve y claro resumen ayudará a otros con la misma "
+"pregunta (o con una respuesta) a encontrarlo."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Si está teniendo problemas de software, "
+"indique el número de versión del mismo, "
+"su tipo de ordenador y sistema operativo."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Añadir mi firma a éste mensaje"
+
+msgid "FORUM_MESSAGE"
+msgstr "Mensaje"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Yo también tengo éste problema"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Ésto ha respondido a mi pregunta"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Use códigos BBCode para formatear su texto"
+
+
+
 #########################################
 # Forum search features
 #########################################
@@ -362,3 +431,9 @@ msgstr "No se ha podido encontrar ningún encabezado que contenga '%s'."
 msgid "FORUM_SEARCH_BODIES_NO"
 msgstr "No se ha podido encontrar ningún mensaje que contenga '%s'."
 
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Preguntas y Respuestas"

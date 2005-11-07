@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.2.2\n"
+"Project-Id-Version: BOINC Manager 5.2.6\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-25 11:40+0900\n"
+"PO-Revision-Date: 2005-11-03 21:28+0900\n"
 "Last-Translator: Komori Hitoshi <ucepod@070.jp>\n"
 "Language-Team: Japanese Translators\n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,8 @@ msgstr ""
 # Language  : Japanese
 # Translator: Copyright (c) 2005 Spiegel <spiegel@alles.or.jp> and Komori Hitoshi <je2bwm@070.jp>
 # Email     : je2bwm@070.jp
-
-#: clientgui/AccountInfoPage.cpp:115
 # msgstr "アカウント情報"
+#: clientgui/AccountInfoPage.cpp:115
 msgid "Account information"
 msgstr ""
 
@@ -65,15 +64,15 @@ msgstr "参加者の名前:"
 msgid "Email address:"
 msgstr "E-メイルアドレス:"
 
+# msgstr "プロジェクトに参加"
 #: clientgui/AccountInfoPage.cpp:301
 #: clientgui/WelcomePage.cpp:140
-# msgstr "プロジェクトに参加"
 msgid "Attach to project"
 msgstr ""
 
+# msgstr "アカウント・マネージャに接続"
 #: clientgui/AccountInfoPage.cpp:304
 #: clientgui/WelcomePage.cpp:149
-# msgstr "アカウント・マネージャに接続"
 msgid "Attach to account manager"
 msgstr ""
 
@@ -91,8 +90,8 @@ msgstr "このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパ
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr "確認のために2つ入力していただいたパスワードの値が同じでありません。もう一度、入力してください。"
 
-#: clientgui/AccountKeyPage.cpp:103
 # msgstr "アカウント・キーを入力して下さい"
+#: clientgui/AccountKeyPage.cpp:103
 msgid "Enter account key"
 msgstr ""
 
@@ -120,8 +119,8 @@ msgstr ""
 msgid "Account key:"
 msgstr "アカウント・キー："
 
-#: clientgui/AccountManagerInfoPage.cpp:103
 # msgstr "アカウント・マネージャの URL"
+#: clientgui/AccountManagerInfoPage.cpp:103
 msgid "Account Manager URL"
 msgstr ""
 
@@ -142,26 +141,26 @@ msgstr "アカウント・マネージャの URL(&U):"
 msgid "For a list of BOINC-based account managers go to:"
 msgstr "BOINC ベースのアカウント・マネージャの一覧表を見るには下記のリンクへ："
 
-#: clientgui/AccountManagerProcessingPage.cpp:132
 # msgstr ""
 # "アカウント・マネージャと通信しています。\n"
 # "しばらくお待ちください..."
+#: clientgui/AccountManagerProcessingPage.cpp:132
 msgid ""
 "Communicating with account manager\n"
 "Please wait..."
 msgstr ""
 
-#: clientgui/AccountManagerPropertiesPage.cpp:135
 # msgstr ""
 # "アカウント・マネージャと通信しています。\n"
 # "しばらくお待ちください..."
+#: clientgui/AccountManagerPropertiesPage.cpp:135
 msgid ""
 "Communicating with account manager \n"
 "Please wait..."
 msgstr ""
 
-#: clientgui/AlreadyAttachedPage.cpp:98
 # msgstr "プロジェクトに参加済み"
+#: clientgui/AlreadyAttachedPage.cpp:98
 msgid "Already attached to project"
 msgstr ""
 
@@ -169,8 +168,8 @@ msgstr ""
 msgid "You are already attached to this project."
 msgstr "あなたはすでにこのプロジェクトに参加済みです。"
 
-#: clientgui/AlreadyExistsPage.cpp:99
 # msgstr "E-メイルアドレスが既に使われています"
+#: clientgui/AlreadyExistsPage.cpp:99
 msgid "Email address already in use"
 msgstr ""
 
@@ -202,11 +201,12 @@ msgstr "(言語不明)"
 msgid "(User Defined)"
 msgstr "(ユーザ定義の言語)"
 
+# msgstr "BOINC マネージャ"
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
 #: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
-msgstr "BOINC マネージャ"
+msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:272
 msgid "BOINC is currently suspended...\n"
@@ -262,8 +262,8 @@ msgstr "ネットワークの使用を一時停止(&N)"
 msgid "&About BOINC Manager..."
 msgstr "BOINC マネージャについて(&A)"
 
-#: clientgui/CompletionErrorPage.cpp:103
 # msgstr "プロジェクトへ接続失敗"
+#: clientgui/CompletionErrorPage.cpp:103
 msgid "Failed to attach to project"
 msgstr ""
 
@@ -273,8 +273,8 @@ msgstr ""
 msgid "Click Finish to close."
 msgstr "「終了」を押して閉じて下さい"
 
-#: clientgui/CompletionErrorPage.cpp:114
 # msgstr "アカウント・マネージャへ接続失敗"
+#: clientgui/CompletionErrorPage.cpp:114
 msgid "Failed to attach to account manager"
 msgstr ""
 
@@ -282,8 +282,8 @@ msgstr ""
 msgid "Messages from server:"
 msgstr "サーバからのメッセージ:"
 
-#: clientgui/CompletionPage.cpp:107
 # msgstr "プロジェクトに参加しました"
+#: clientgui/CompletionPage.cpp:107
 msgid "Attached to project"
 msgstr ""
 
@@ -301,8 +301,8 @@ msgstr ""
 "「終了」を押すと、アカウント名とプレファレンス(好みの設定)を\n"
 "指定するためのページをウェブ・ブラウザで開きます。"
 
-#: clientgui/CompletionPage.cpp:121
 # msgstr "アカウント・マネージャに接続しました"
+#: clientgui/CompletionPage.cpp:121
 msgid "Attached to account manager"
 msgstr ""
 
@@ -813,8 +813,8 @@ msgstr "%s に接続しようとしています。 "
 msgid "Connected to %s"
 msgstr "%s に接続できました。 "
 
-#: clientgui/NoInternetConnectionPage.cpp:98
 # msgstr "インターネット接続が見つかりません"
+#: clientgui/NoInternetConnectionPage.cpp:98
 msgid "No Internet connection"
 msgstr ""
 
@@ -822,8 +822,8 @@ msgstr ""
 msgid "Please connect to the Internet and try again."
 msgstr "インターネットへ接続してから、もう一度試して下さい。"
 
-#: clientgui/NotDetectedPage.cpp:102
 # msgstr "プロジェクトが見つかりません"
+#: clientgui/NotDetectedPage.cpp:102
 msgid "Project not found"
 msgstr ""
 
@@ -836,8 +836,8 @@ msgstr "指定した URL は BOINC ベースのプロジェクトのものではありません。"
 msgid "Please check the URL and try again."
 msgstr "URL の値を確認のうえ、もう一度試して下さい。"
 
-#: clientgui/NotDetectedPage.cpp:116
 # msgstr "アカウント・マネージャが見つかりません"
+#: clientgui/NotDetectedPage.cpp:116
 msgid "Account manager not found"
 msgstr ""
 
@@ -849,8 +849,8 @@ msgstr ""
 "指定した URL は BOINC ベースのアカウント・マネージャの\n"
 "ものではありません。"
 
-#: clientgui/NotFoundPage.cpp:99
 # msgstr "アカウントが見つかりません"
+#: clientgui/NotFoundPage.cpp:99
 msgid "Account not found"
 msgstr ""
 
@@ -858,8 +858,8 @@ msgstr ""
 msgid "Verify your account name and password are correct and try again."
 msgstr "アカウント名とパスワードをご確認の上、もう一度試みて下さい。"
 
-#: clientgui/ProjectInfoPage.cpp:104
 # msgstr "プロジェクトの URL"
+#: clientgui/ProjectInfoPage.cpp:104
 msgid "Project URL"
 msgstr ""
 
@@ -875,23 +875,23 @@ msgstr "プロジェクトの URL(&U)"
 msgid "For a list of BOINC-based projects go to:"
 msgstr "BOINC ベースのプロジェクト群の一覧表を見るには右記へどうぞ："
 
-#: clientgui/ProjectProcessingPage.cpp:136
-#: clientgui/ProjectPropertiesPage.cpp:136
 # msgstr ""
 # "プロジェクトと通信をしています。\n"
 # "少々お待ちください..."
+#: clientgui/ProjectProcessingPage.cpp:136
+#: clientgui/ProjectPropertiesPage.cpp:136
 msgid ""
 "Communicating with project \n"
 "Please wait..."
 msgstr ""
 
-#: clientgui/ProxyPage.cpp:117
 # msgstr "プロキシの設定"
+#: clientgui/ProxyPage.cpp:117
 msgid "Proxy configuration"
 msgstr ""
 
-#: clientgui/ProxyPage.cpp:123
 # msgstr "HTTP プロキシ"
+#: clientgui/ProxyPage.cpp:123
 msgid "HTTP proxy"
 msgstr ""
 
@@ -908,8 +908,8 @@ msgstr "自動検出"
 msgid "SOCKS proxy"
 msgstr "SOCKS プロキシ"
 
-#: clientgui/UnavailablePage.cpp:101
 # msgstr "プロジェクトはは一時的に利用不可"
+#: clientgui/UnavailablePage.cpp:101
 msgid "Project temporarily unavailable"
 msgstr ""
 
@@ -923,8 +923,8 @@ msgstr ""
 "\n"
 "少し待ってから再び試して下さい。"
 
-#: clientgui/UnavailablePage.cpp:112
 # msgstr "アカウント・マネージャは一時的に利用不可"
+#: clientgui/UnavailablePage.cpp:112
 msgid "Account manager temporarily unavailable"
 msgstr ""
 
@@ -1050,7 +1050,7 @@ msgstr "全メッセージをクリップボードにコピーしています..."
 #: clientgui/ViewMessages.cpp:178
 #: clientgui/ViewTransfers.cpp:184
 msgid "Aborting transfer..."
-msgstr "ファイル転送を中断しています..."
+msgstr "ファイル転送の中止処理をしています..."
 
 #: clientgui/ViewProjects.cpp:106
 msgid "Update"
@@ -1294,13 +1294,13 @@ msgstr "対象ファイルを転送するには、「今すぐ再試行」をクリックします"
 
 #: clientgui/ViewTransfers.cpp:103
 msgid "Abort Transfer"
-msgstr ""
+msgstr "ファイル転送を中止"
 
 # msgid "Click 'Abort transfer' to delete the file from the transfer queue. "
 # "This will prevent you from being granted credit for this result."
 #: clientgui/ViewTransfers.cpp:104
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送の中断」をクリックします。 この場合、対応するリザルトについての功績(credit)は付与されなくなります。 "
+msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績(credit)は付与されなくなります。 "
 
 #: clientgui/ViewTransfers.cpp:116
 msgid "File"
@@ -1334,11 +1334,11 @@ msgstr "現在、転送を再試行しています..."
 #: clientgui/ViewTransfers.cpp:187
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
-msgstr "このファイル転送 '%s' を中断してよいですか?"
+msgstr "このファイル転送 '%s' を中止してよいですか?"
 
 #: clientgui/ViewTransfers.cpp:192
 msgid "Abort File Transfer"
-msgstr "ファイル転送を中断"
+msgstr "ファイル転送を中止"
 
 #: clientgui/ViewTransfers.cpp:509
 msgid "Retry in "
@@ -1385,7 +1385,7 @@ msgstr "ウィンドーを開いてアプリケーションのグラフィクスを表示"
 
 #: clientgui/ViewWork.cpp:113
 msgid "Abort"
-msgstr "中断"
+msgstr "中止"
 
 #: clientgui/ViewWork.cpp:114
 msgid "Abandon work on the result. You will get no credit for it."
@@ -1433,16 +1433,16 @@ msgstr "グラフィクスを別の計算機に表示してよろしいですか?"
 
 #: clientgui/ViewWork.cpp:258
 msgid "Aborting result..."
-msgstr "リザルトの中断処理をしています..."
+msgstr "リザルトの中止処理をしています..."
 
 #: clientgui/ViewWork.cpp:261
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
-msgstr "このリザルト '%s' を中断してよろしいですか?"
+msgstr "このリザルト '%s' を中止してよろしいですか?"
 
 #: clientgui/ViewWork.cpp:267
 msgid "Abort result"
-msgstr "リザルトを中断"
+msgstr "リザルトを中止"
 
 #: clientgui/ViewWork.cpp:446
 msgid "Resume work for this result."
@@ -1455,7 +1455,7 @@ msgstr "新規"
 #: clientgui/ViewWork.cpp:656
 #: clientgui/ViewWork.cpp:678
 msgid "Aborted by user"
-msgstr "参加者によって中断されました"
+msgstr "参加者によって中止されました"
 
 #: clientgui/ViewWork.cpp:660
 msgid "Activities suspended"
