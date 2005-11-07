@@ -13613,3 +13613,12 @@ Rom    7 Nov 2005
     locale/client/en_US/
         BOINC Manager.po
         BOINC Manager.mo
+
+Rom    7 Nov 2005
+    - Use GlobalMemoryStatusEx instead of GlobalMemoryStatus so that
+        we can detect memory sizes larger than 4GB in size.
+        
+    client/win/
+        hostinfo_win.cpp
+
+        
