@@ -240,7 +240,7 @@ $m443s = array(
     "
 );
 
-$l526 = array(
+$l527 = array(
     "num"=>"5.2.7",
     "status"=>"Recommended version",
     "file"=>"boinc_5.2.7_i686-pc-linux-gnu.sh",
