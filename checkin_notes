@@ -13621,4 +13621,14 @@ Rom    7 Nov 2005
     client/win/
         hostinfo_win.cpp
 
+Charlie 7 nov 2005
+    - Mac: update scripts to be compatible with XCode 2.1 as well as 1.x.
+         
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+
+
         

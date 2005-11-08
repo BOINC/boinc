@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 10/20/05 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 11/7/05 by Charlie Fenton
 ##
 
 ## Usage:
@@ -15,6 +15,19 @@
 ## This will create a director "BOINC_Installer" in the parent directory of 
 ## the current directory
 
+if [ $# -lt 3 ]; then
+echo "Usage:"
+echo "   cd [path]/boinc"
+echo "   source [path_to_this_script] major_version minor_version revision_number"
+exit 0
+fi
+
+## XCode 2.x has separate directories for Development and Deployment build products
+if [ -d mac_build/build/Deployment/ ]; then
+BUILDPATH="mac_build/build/Deployment"
+else
+BUILDPATH="mac_build/build"
+fi
 
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
 sudo rm -dfR ../BOINC_Installer/Pkg_Root
@@ -26,7 +39,7 @@ cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 
-cp -fpR mac_build/build/Postinstall.app ../BOINC_Installer/Installer\ Resources/
+cp -fpR $BUILDPATH/Postinstall.app ../BOINC_Installer/Installer\ Resources/
 
 mkdir -p ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Pkg_Root/Applications
@@ -36,9 +49,9 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 
-cp -fpR mac_build/build/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
+cp -fpR $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
-cp -fpR mac_build/build/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
+cp -fpR $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
@@ -74,12 +87,12 @@ cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 sudo chown -R 501:wheel ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/ReadMe.rtf
 sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/ReadMe.rtf
 
-cp -fpR mac_build/build/boinc ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/
-cp -fpR mac_build/build/boinc_cmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/
+cp -fpR $BUILDPATH/boinc ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/
+cp -fpR $BUILDPATH/boinc_cmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/*
 sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_powerpc-apple-darwin/*
 
-cp -fpR mac_build/build/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
+cp -fpR $BUILDPATH/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
 

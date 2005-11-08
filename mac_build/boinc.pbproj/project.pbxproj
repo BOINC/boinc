@@ -365,7 +365,6 @@
 		};
 		DD095EF007D87AE900362260 = {
 			buildPhases = (
-				DDAECA2B07FA5F2400A7BC36,
 				DD095EED07D87AE900362260,
 				DD095EEE07D87AE900362260,
 				DD095EEF07D87AE900362260,
@@ -710,7 +709,6 @@
 		};
 		DD1277B2081F3D67007B5DE1 = {
 			buildPhases = (
-				DDAD19D609090899004E7DD0,
 				DD1277AF081F3D67007B5DE1,
 				DD1277B0081F3D67007B5DE1,
 				DD1277B1081F3D67007B5DE1,
@@ -2025,7 +2023,6 @@
 		};
 		DD40CDF807F0386A0096C645 = {
 			buildPhases = (
-				DDAD19BB09090731004E7DD0,
 				DD40CDF507F0386A0096C645,
 				DD40CDF607F0386A0096C645,
 				DD40CDF707F0386A0096C645,
@@ -4021,7 +4018,6 @@
 		DD96AFF80811075000A06F22 = {
 			buildPhases = (
 				DDCDB29708CEDCE400E4F573,
-				DDAD19C3090907A7004E7DD0,
 				DD96AFF50811075000A06F22,
 				DD96AFF60811075000A06F22,
 				DD96AFF70811075000A06F22,
@@ -4137,36 +4133,6 @@
 			settings = {
 			};
 		};
-		DDAD19BB09090731004E7DD0 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(TARGET_BUILD_DIR)/../../client/version.h",
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/../SystemMenu-Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
-		};
-		DDAD19C3090907A7004E7DD0 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(TARGET_BUILD_DIR)/../../client/version.h",
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/../ScreenSaver-Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
-		};
 		DDAD19CC09090824004E7DD0 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
 			isa = PBXContainerItemProxy;
@@ -4190,21 +4156,6 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36;
 			targetProxy = DDAD19CE09090833004E7DD0;
-		};
-		DDAD19D609090899004E7DD0 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(TARGET_BUILD_DIR)/../../client/version.h",
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/../Installer-Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDAD19DE09090914004E7DD0 = {
 			containerPortal = 20286C28FDCF999611CA2CEA;
@@ -4231,7 +4182,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+			shellScript = "$BUILT_PRODUCTS_DIR/SetVersion\nmkdir -p \"$TEMP_FILES_DIR/../mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$TEMP_FILES_DIR/../mgr_boinc.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$TEMP_FILES_DIR/../Installer.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$TEMP_FILES_DIR/../ScreenSaver.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$TEMP_FILES_DIR/../SystemMenu.build/Info.plist\"\n";
 		};
 		DDADA51508BAC96200053BFB = {
 			fileRef = 20286C33FDCF999611CA2CEA;
@@ -4340,21 +4291,6 @@
 			isa = PBXTargetDependency;
 			target = DDAEC9E007FA583B00A7BC36;
 			targetProxy = DDAECA2707FA5EE500A7BC36;
-		};
-		DDAECA2B07FA5F2400A7BC36 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(TARGET_BUILD_DIR)/../../client/version.h",
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/../English.lproj/InfoPlist.strings",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDB8D5A5081FC8C700A5A1E8 = {
 			fileEncoding = 30;
