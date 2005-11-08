@@ -1,42 +1,11 @@
 <?php
 require_once("docutil.php");
-page_head("Downloadable statistics data");
+page_head("File-based project statistics data");
 echo "
 
 <p>
-BOINC projects can export <b>statistics data</b>
-describing teams, users and hosts.
-This data can be used for various purposes:
-<ul>
-<li> To produce
-web sites that show statistics and leaderboards
-for one or more BOINC projects.
-Examples are listed at <a href=stats_sites.php>here</a>.
-
-<li> To produce dynamically-generated images
-(typically used as message-board signatures)
-that show user and/or team credit, possible across projects.
-Examples are listed at <a href=stats_sites.php>here</a>.
-
-<li> To produce downloadable XML files that
-summarize cross-project statistics.
-We're trying to <a href=stats_xml.php> standardize the XML format</a>.
-
-<li> To produce web RPC interfaces to XML summaries of
-individual user or team statistics.
-We're trying to <a href=stats_xml.php> standardize the XML format</a>.
-Examples are here:
-<a href=http://www.boinc.dk/index.php?page=download_stats_xml>
-http://www.boinc.dk/index.php?page=download_stats_xml</a> and
-<a href=http://www.boincstats.com/xml/xml_user_example.php>http://www.boincstats.com/xml/xml_user_example.php</a>.
-
-</ul>
-
-<p>
-Statistics data is exported in XML-format files.
-<p>
+Projects export statistics data in XML-format files.
 Most projects regenerate the files every 24 hours.
-<p>
 These files are contained in a download directory,
 linked to from the project's web site
 (generally X/stats/, where X is the project URL).
