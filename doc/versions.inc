@@ -51,16 +51,28 @@ $features_5 = "
     <li> BOINC supports 'Account Management Systems' (to be announced).
 ";
 
-$w526= array(
-    "num"=>"5.2.6",
+$changes_5 = "
+    <li>Changes since 5.2.6
+      <ul>
+        <li>Localization updates.
+        <li>Usability enhancements.
+        <li>Fix a crash condition when connecting to a remote machine.
+        <li>Fix for file handle usage on Linux which caused BOINC to run out of
+            file handles.
+      </ul>
+";
+
+$w527= array(
+    "num"=>"5.2.7",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.6_windows_intelx86.exe",
-    "date"=>"31 October 2005",
+    "file"=>"boinc_5.2.7_windows_intelx86.exe",
+    "date"=>"8 Nov 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
     <li> The BOINC Manager can now be controlled using only the keyboard.
 ".$features_5."
+".$changes_5."
     </ul>
     ",
     "bugs"=>"<ul>
@@ -229,13 +241,14 @@ $m443s = array(
 );
 
 $l526 = array(
-    "num"=>"5.2.6",
+    "num"=>"5.2.7",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.6_i686-pc-linux-gnu.sh",
-    "date"=>"31 October 2005",
+    "file"=>"boinc_5.2.7_i686-pc-linux-gnu.sh",
+    "date"=>"8 Nov 2005",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_5."
+".$changes_5."
     </ul>
     "
 );
@@ -285,7 +298,7 @@ $s443 = array(
 $windows = array(
     "name"=>"Windows",
     "versions"=>array(
-        $w526,
+        $w527,
         $w445,
     )
 );
@@ -304,7 +317,7 @@ $linux = array(
     "name"=>"Linux/x86",
     "url"=>"linux.php",
     "versions"=>array(
-        $l526,
+        $l527,
         $l443,
     )
 );
