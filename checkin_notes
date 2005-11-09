@@ -13410,3 +13410,11 @@ Charlie 7 Nov 2005
 Rom    7 Nov 2005 (stable)
     - Tag for 5.2.7 release, all platforms
       boinc_core_release_5_2_7
+
+Rom    8 Nov 2005
+    - Set the result state to RESULT_COMPUTE_ERROR for an aborted result
+        otherwise the CPU scheduler will just attempt to reassign it
+        to a free CPU.
+        
+    client/
+        app_start.C
