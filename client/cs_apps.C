@@ -184,7 +184,7 @@ bool CLIENT_STATE::handle_finished_apps() {
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;
-            set_client_state_dirty("handle_running_apps");
+            set_client_state_dirty("handle_finished_apps");
             action = true;
         }
     }
@@ -480,7 +480,7 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = 0;
         }
         scope_messages.printf(
-            "CLIENT_STATE::schedule_cpus(): project %s: short-term debt %f\n",
+            "CLIENT_STATE::adjust_debts(): project %s: short-term debt %f\n",
             p->project_name, p->short_term_debt
         );
     }
@@ -534,12 +534,12 @@ bool CLIENT_STATE::schedule_cpus() {
     elapsed_time = gstate.now - cpu_sched_last_time;
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
-//        msg_printf(0, MSG_INFO, "schedule_cpus: must schedule");
+        scope_messages.printf("CLIENT_STATE::schedule_cpus(): must schedule\n");
     } else {
         if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
-//        msg_printf(0, MSG_INFO, "schedule_cpus: time %f", elapsed_time);
+        scope_messages.printf("CLIENT_STATE::schedule_cpus(): time %f\n", elapsed_time);
     }
 
     // mark file xfer results as completed;
@@ -595,7 +595,8 @@ bool CLIENT_STATE::schedule_cpus() {
     vm_limit = (global_prefs.vm_max_used_pct/100.)*host_info.m_swap;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        //msg_printf(p, MSG_INFO, "result %s state %d", atp->result->name, atp->scheduler_state);
+        scope_messages.printf("CLIENT_STATE::schedule_cpus(): project %s result %s state %d\n", 
+            atp->result->project->project_name, atp->result->name, atp->scheduler_state);
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
@@ -612,8 +613,6 @@ bool CLIENT_STATE::schedule_cpus() {
                     *(atp->result), "Couldn't start or resume: %d", retval
                 );
 
-                // if we couldn't run something, reschedule
-                //
                 request_schedule_cpus("start failed");
                 continue;
             }

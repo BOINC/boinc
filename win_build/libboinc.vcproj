@@ -288,6 +288,9 @@
 				RelativePath="..\lib\proxy_info.h">
 			</File>
 			<File
+				RelativePath="..\lib\result_state.h">
+			</File>
+			<File
 				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File

@@ -13630,5 +13630,13 @@ Charlie 7 nov 2005
     mac_installer/
         release_boinc.sh
 
-
+Rom    8 Nov 2005
+    - Set the result state to RESULT_COMPUTE_ERROR for an aborted result
+        otherwise the CPU scheduler will just attempt to reassign it
+        to a free CPU.
+    - Convert some commented out trace statements into scoped messages
         
+    client/
+        app_control.C
+        app_start.C
+        cs_apps.C

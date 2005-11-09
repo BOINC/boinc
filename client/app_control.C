@@ -361,10 +361,16 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         if (!atp->process_exists()) continue;
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
-                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);
                 found = true;
                 atp->handle_exited_app(exit_code);
             }
+        } else {
+            char errmsg[1024];
+            scope_messages.printf(
+                "ACTIVE_TASK_SET::check_app_exited(): task %s GetExitCodeProcess Failed - GLE %d (0x%x)",
+                windows_format_error_string(GetLastError(), errmsg, sizeof(errmsg)),
+                GetLastError(), GetLastError()
+            );
         }
     }
 #else

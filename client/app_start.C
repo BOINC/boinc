@@ -252,9 +252,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     if (result->aborted_via_gui) {
         task_state = PROCESS_ABORTED;
+        result->state = RESULT_COMPUTE_ERROR;
         result->exit_status = ERR_ABORTED_VIA_GUI;
         gstate.report_result_error(*result, "Aborted via GUI");
-        return 0;
+        return ERR_ABORTED_VIA_GUI;
     }
 
     if (first_time) {
