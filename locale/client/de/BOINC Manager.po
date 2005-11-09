@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-09 07:35+0100\n"
+"PO-Revision-Date: 2005-11-09 22:29+0100\n"
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "MIME-Version: 1.0\n"
@@ -185,7 +185,7 @@ msgstr "BOINC Manager"
 
 #: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC is currently suspended...\n"
-msgstr "BOINC ist abgehalten  ...\n"
+msgstr "BOINC ist angehalten  ...\n"
 
 #: clientgui/BOINCTaskBar.cpp:275
 msgid "BOINC networking is currently suspended...\n"
