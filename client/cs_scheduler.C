@@ -754,10 +754,12 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // The project returns a hostid only if it has created a new host record.
     // In that case we should reset RPC seqno
+    // and generate a new host CPID
     //
     if (sr.hostid) {
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;
+        host_info.generate_host_cpid();
     }
 
     // see if we have a new venue from this project

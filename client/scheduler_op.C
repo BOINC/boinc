@@ -134,6 +134,11 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
             p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
         backoff(p, err_msg);
+    } else {
+        // RPC started OK, so we must have network connectivity.
+        // Now's a good time to check for new BOINC versions
+        //
+        gstate.new_version_check();
     }
     return retval;
 }

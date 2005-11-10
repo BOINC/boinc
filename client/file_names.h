@@ -79,5 +79,6 @@ extern void get_master_filename(PROJECT&, char*);
 #define LOOKUP_ACCOUNT_FILENAME     "lookup_account.xml"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
+#define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
 
 #endif

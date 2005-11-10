@@ -168,7 +168,7 @@ DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
 #endif
 
 void CLIENT_STATE::start_cpu_benchmarks() {
-    int i, retval;
+    int i;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_MEASUREMENT);
 
@@ -208,7 +208,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
         PROCESS_ID pid = fork();
         if (pid == 0) {
-            retval = cpu_benchmarks(benchmark_descs+i);
+            int retval = cpu_benchmarks(benchmark_descs+i);
             fflush(NULL);
             _exit(retval);
         } else {

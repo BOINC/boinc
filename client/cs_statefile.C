@@ -289,6 +289,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
+        } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
         } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
     }
 done:
@@ -370,14 +371,16 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<core_client_release>%d</core_client_release>\n"
         "<user_run_request>%d</user_run_request>\n"
         "<user_network_request>%d</user_network_request>\n"
-        "%s",
+        "%s"
+        "<new_version_check_time>%f</new_version_check_time>\n",
         platform_name,
         core_client_major_version,
         core_client_minor_version,
         core_client_release,
         user_run_request,
         user_network_request,
-        cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":""
+        cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
+        new_version_check_time
     );
 
     proxy_info.write(f);

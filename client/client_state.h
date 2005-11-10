@@ -96,12 +96,6 @@ public:
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
     GUI_HTTP gui_http;
-    ACCT_MGR_OP acct_mgr_op;
-    GET_PROJECT_CONFIG_OP get_project_config_op;
-    LOOKUP_ACCOUNT_OP lookup_account_op;
-    CREATE_ACCOUNT_OP create_account_op;
-    LOOKUP_WEBSITE_OP lookup_website_op;
-    PROJECT_ATTACH project_attach;
 
     int core_client_major_version;
     int core_client_minor_version;
@@ -145,13 +139,13 @@ public:
     bool redirect_io;
         // redirect stdout, stderr to log files
     double now;
+    const char* platform_name;
 
 private:
     bool client_state_dirty;
     int old_major_version;
     int old_minor_version;
     int old_release;
-    const char* platform_name;
     bool skip_cpu_benchmarks;
         // if set, use hardwired numbers rather than running benchmarks
     bool run_cpu_benchmarks;
@@ -176,11 +170,20 @@ private:
 
 // --------------- acct_mgr.C:
 public:
+    ACCT_MGR_OP acct_mgr_op;
     ACCT_MGR_INFO acct_mgr_info;
 
 // --------------- acct_setup.C:
 public:
     PROJECT_INIT project_init;
+    GET_PROJECT_CONFIG_OP get_project_config_op;
+    LOOKUP_ACCOUNT_OP lookup_account_op;
+    CREATE_ACCOUNT_OP create_account_op;
+    LOOKUP_WEBSITE_OP lookup_website_op;
+    PROJECT_ATTACH project_attach;
+    GET_CURRENT_VERSION_OP get_current_version_op;
+    void new_version_check();
+    double new_version_check_time;
 
 // --------------- client_state.C:
 public:

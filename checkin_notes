@@ -13640,3 +13640,22 @@ Rom    8 Nov 2005
         app_control.C
         app_start.C
         cs_apps.C
+
+David  9 Nov 2005
+	- Core client: every 2 weeks, contact the BOINC web site,
+		see if there's a newer version, and print a message if so.
+		Only do this while a scheduler RPC is happening
+		(to avoid unnecessary dialups, e.g.)
+	- Core client: if a scheduler returns a new host ID
+		(indicating that our statefile was copied from another host)
+		generate a new host CPID
+		(suggested by Rob Oglivie)
+
+	client/
+		acct_setup.C,h
+		client_state.C,h
+		cs_benchmark.C
+		cs_scheduler.C
+		cs_statefile.C
+		file_names.h
+		scheduler_op.C

@@ -122,6 +122,7 @@ CLIENT_STATE::CLIENT_STATE() {
     have_sporadic_connection = false;
     no_gui_rpc = false;
     have_tentative_project = false;
+    new_version_check_time = 0;
 }
 
 #if 0

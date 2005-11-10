@@ -181,4 +181,90 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
 void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     error_num = http_op_retval;
 }
+
+int GET_CURRENT_VERSION_OP::do_rpc() {
+    int retval;
+    char buf[256];
+
+    sprintf(buf, "http://boinc.berkeley.edu/download.php?xml=1");
+    retval = gstate.gui_http.do_rpc(
+        this, string(buf), GET_CURRENT_VERSION_FILENAME
+    );
+    if (retval) {
+        error_num = retval;
+    } else {
+        error_num = ERR_IN_PROGRESS;
+    }
+    return retval;
+}
+
+static bool is_version_newer(char* p) {
+    int maj=0, min=0, rel=0;
+
+    sscanf(p, "%d.%d.%d", &maj, &min, &rel);
+    if (maj > gstate.core_client_major_version) return true;
+    if (maj < gstate.core_client_major_version) return false;
+    if (min > gstate.core_client_minor_version) return true;
+    if (min < gstate.core_client_minor_version) return false;
+    if (rel > gstate.core_client_release) return true;
+    return false;
+}
+
+static bool parse_version(FILE* f, char* new_version) {
+    char buf[256], buf2[256];
+    bool same_platform = false, newer_version = false, ok_version=false;
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</version>")) {
+            return (same_platform && newer_version);
+        }
+        if (parse_str(buf, "<dbplatform>", buf2, sizeof(buf2))) {
+            same_platform = (strcmp(buf2, gstate.platform_name)==0);
+        }
+        if (parse_str(buf, "<version_num>", buf2, sizeof(buf2))) {
+            newer_version = is_version_newer(buf2);
+            strcpy(new_version, buf2);
+        }
+    }
+    return false;
+}
+
+void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
+    char buf[256], new_version[256];
+    if (http_op_retval) {
+        error_num = http_op_retval;
+        return;
+    }
+    gstate.new_version_check_time = gstate.now;
+    FILE* f = boinc_fopen(GET_CURRENT_VERSION_FILENAME, "r");
+    if (f) {
+        while (fgets(buf, 256, f)) {
+            if (match_tag(buf, "<version>")) {
+                if (parse_version(f, new_version)) {
+                    msg_printf(0, MSG_INFO,
+                        "A new version of BOINC (%s) is available for your computer",
+                        new_version
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "Visit http://boinc.berkeley.edu/download.php to get it."
+                    );
+                    break;
+                }
+            }
+        }
+        fclose(f);
+    }
+}
+
+#define NEW_VERSION_CHECK_PERIOD (14*86400)
+
+void CLIENT_STATE::new_version_check() {
+    if (new_version_check_time) {
+        if (now - new_version_check_time > NEW_VERSION_CHECK_PERIOD) {
+            get_current_version_op.do_rpc();
+        }
+    } else {
+        new_version_check_time = now;
+    }
+}
+
 const char *BOINC_RCSID_84df3fc17e="$Id$";
