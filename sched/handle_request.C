@@ -381,6 +381,10 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     char buf[1024];
 
     host = xhost;
+
+    // hash the CPID reported by the host with the user's email address.
+    // This prevents one user from spoofing another one's host.
+    //
     if (strlen(host.host_cpid)) {
         sprintf(buf, "%s%s", host.host_cpid, user.email_addr);
         md5_block((const unsigned char*)buf, strlen(buf), host.host_cpid);

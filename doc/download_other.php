@@ -80,7 +80,8 @@ list_item_array(array(
     <br> GNU/Linux: AMD64 (Opteron), PowerPC, Itanium, s390
     <br> HP-UX (PA RISC and Itanium/IA64)
     <br> Tru64: Alpha
-    <br> AIX: Power4 and later (BOINC client only)
+    <br> AIX: Power4 and later
+    <br> OpenBSD: x86
     <br> NetBSD: x86
     ",
     "BOINC core client, SETI@home"

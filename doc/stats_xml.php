@@ -110,6 +110,8 @@ echo "
 <p>
 Same, ordered by decreasing recent average credit.
 
+<a name=rpc>
+
 <h2>Web RPCs</h2>
 <h3>get_user.php?cpid=xxxxx</h3>
 <p>

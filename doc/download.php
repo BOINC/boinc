@@ -60,7 +60,9 @@ function show_detail($v) {
 }
 
 
-function show_version_xml($v, $long_name) {
+function show_version_xml($v, $p) {
+    $name = $p["name"];
+    $dbname = $p["dbname"];
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
@@ -77,7 +79,8 @@ function show_version_xml($v, $long_name) {
     $features = htmlspecialchars($features);
     echo "
 <version>
-    <platform>$long_name</platform>
+    <platform>$name</platform>
+    <dbplatform>$dbname</dbplatform>
     <description>$status</description>
     <date>$date</date>
     <version_num>$num</version_num>
@@ -146,9 +149,8 @@ function show_platform($short_name, $p, $dev) {
 }
 
 function show_platform_xml($short_name, $p) {
-    $long_name = $p["name"];
     foreach ($p["versions"] as $i=>$v) {
-        show_version_xml($v, $long_name);
+        show_version_xml($v, $p);
     }
 }
 

@@ -95,7 +95,7 @@ resources.
       <li> Write <a href=download_network.php>'add-on' software</a>:
         <ul>
           <li> <a href=gui_rpc.php>Client GUIs</a>
-          <li> <a href=db_dump.php>Credit statistics web sites</a>
+          <li> <a href=stats.php>Credit statistics web sites</a>
           <li> <a href=acct_mgt.php>Account managers</a>
           <li> <a href=server_status.php>Server status web sites</a>
           <li> <a href=web_rpc.php>Web RPCs</a> for info about users and hosts

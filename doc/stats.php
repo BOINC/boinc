@@ -8,31 +8,31 @@ echo "
 <a href=credit.php>Cobblestones</a> (credit units)
 granted to hosts, participants and teams by the
 various BOINC projects.
-This data can be used for various purposes, such as:
+This can be used for various purposes, such as:
 <ul>
-<li> Producing
-web sites that show statistics and leaderboards
+<li> 
+Web sites that show statistics and leaderboards
 for one or more BOINC projects.
 Examples are listed at <a href=stats_sites.php>here</a>.
 
-<li> Producing dynamically-generated images
+<li>  Dynamically-generated images
 (typically used as message-board signatures)
 that show user and/or team credit, possible across projects.
 Examples are listed at <a href=stats_sites.php>here</a>.
 
-<li> Producing displays of current credit on
-cell phones and PDAs.
-</ul>
+<li> Displays of current credit on cell phones and PDAs.  </ul>
 
 <p>
 BOINC provides a flexible architecture for distributing
-statistics data, with the intent of enabling new uses of this data.
-<p>
+statistics data, with the goal of enabling new display applications.
+<hr>
+<center>
 <img src=stats.png>
-<p>
-<center><b>The BOINC statistics data architecture</b></center>
+<br
+<b>The BOINC statistics data architecture</b></center>
+<hr>
 
-<h2>Project data</h2>
+<h2>Project-specific data</h2>
 <p>
 Each BOINC project provides data in two forms:
 <ul>
@@ -42,7 +42,7 @@ Each BOINC project provides data in two forms:
 that contain the project's complete current statistics.
 These files are typically updated once every 24 hours.
 <li> As
-<a href=rpc.php>a set of Web RPCs</a>
+<a href=web_rpc.php>a set of Web RPCs</a>
 that return an XML-format description of a given
 participant's credit,
 based on that participant's database ID.
@@ -68,17 +68,18 @@ This aggregate data is then exported in two ways:
 <li> As
 <a href=stats_xml.php>a set of downloadable files</a>
 (in a compressed XML format).
+An example is at  http://boinc.netsoft-online.com/stats/.
 <li> As
 <a href=stats_xml.php#rpc>a set of Web RPCs</a>
 that return an XML-format description of a given participant
 or host's credit,
 based on the cross-project ID.
+Example:
+http://boinc.netsoft-online.com/get_host.php?cpid=????
+and
+http://boinc.netsoft-online.com/get_host_tot.php?cpid=????
 </ul>
 <p>
-Examples are here:
-<a href=http://www.boinc.dk/index.php?page=download_stats_xml>
-http://www.boinc.dk/index.php?page=download_stats_xml</a> and
-<a href=http://www.boincstats.com/xml/xml_user_example.php>http://www.boincstats.com/xml/xml_user_example.php</a>.
 
 <p>
 Application developers are encouraged to concentrate

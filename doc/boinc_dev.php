@@ -110,7 +110,7 @@ Various implementation notes:
 </ul>
 <h2>Web-based extensions (statistics and account management)</h2>
 <ul>
-<li> <a href=db_dump.php>Downloading statistics data</a>
+<li> <a href=stats.php>Credit statistics data</a>
 <li> <a href=cpid.php>Cross-project identification</a>
 <li> <a href=web_rpc.php>Web RPCs (possibly useful for statistics sites)</a>
 <li> <a href=acct_mgt.php>Account management systems</a>

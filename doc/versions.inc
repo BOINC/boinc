@@ -297,6 +297,7 @@ $s443 = array(
 
 $windows = array(
     "name"=>"Windows",
+    "dbname" => "windows_intelx86",
     "versions"=>array(
         $w527,
         $w445,
@@ -304,6 +305,7 @@ $windows = array(
 );
 $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
+    "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m525,
         $m525s,
@@ -315,6 +317,7 @@ $mac = array(
 );
 $linux = array(
     "name"=>"Linux/x86",
+    "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
         $l527,
@@ -323,6 +326,7 @@ $linux = array(
 );
 $solaris = array(
     "name"=>"Solaris/SPARC",
+    "dbname" => "sparc-sun-solaris2.7",
     "url"=>"solaris.php",
     "versions"=>array(
         $s443,

@@ -418,7 +418,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
     if (!strcmp(op, "abort")) {
         atp = gstate.lookup_active_task_by_result(rp);
         if (atp) {
-            atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted via GUI RPC");
+            atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted by user");
         } else {
             rp->aborted_via_gui = true;
         }
