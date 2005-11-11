@@ -252,13 +252,13 @@ plus the following parameters:
 <h3>Command line deployment</h3>
 
 <p>An example for the single-user install would be:<br>
-msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Single' ALLUSERS=0 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUCHPROGRAM=0</p>
+msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Single' ALLUSERS=0 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUNCHPROGRAM=0</p>
 
 <p>An example for the shared install would be:<br>
-msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Shared' ALLUSERS=1 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUCHPROGRAM=0</p>
+msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Shared' ALLUSERS=1 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUNCHPROGRAM=0</p>
 
 <p>An example for the service install would be:<br>
-msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Service' ALLUSERS=0 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUCHPROGRAM=0 SERVICE_DOMAINUSERNAME='%ComputerName%\\%UserName%' SERVICE_PASSWORD='%Password%' SERVICE_GRANTEXECUTIONRIGHT=1</p>
+msiexec /i boinc.msi /qn /l c:\boincsetup.log SETUPTYPE='Service' ALLUSERS=0 ENABLESCREENSAVER=0 ENABLELAUNCHATLOGON=0 LAUNCHPROGRAM=0 SERVICE_DOMAINUSERNAME='%ComputerName%\\%UserName%' SERVICE_PASSWORD='%Password%' SERVICE_GRANTEXECUTIONRIGHT=1</p>
 
 <hr>
 <h2>Technical details</h2>
