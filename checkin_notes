@@ -13659,3 +13659,16 @@ David  9 Nov 2005
 		cs_statefile.C
 		file_names.h
 		scheduler_op.C
+
+Charlie 11 nov 2005
+    - Update BOINC Manager web page
+    
+    doc/
+        manager.php
+        mgrtransfers.png
+        mgrdisk.png
+        mgrmessages.png
+        mgrstatistics.png
+        mgrprojects.png
+        mgrwork.png
+        mgrsystraymenu.png
