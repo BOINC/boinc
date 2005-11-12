@@ -46,7 +46,8 @@ BOINC prompting to connect or disconnect for a time.
 <li> <b>About BOINC Manager</b>:  displays useful information about the
 BOINC Manager.
 <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
-No further work will take place until you run the BOINC manager again.
+No further work will take place until you run the BOINC manager again. 
+<br>(On Mac OS X, this menu item is called <b>Quit</b>.)
 </ul>
 </p>
 <img src=mgrsystrayballoon.png>
@@ -213,6 +214,9 @@ The BOINC manager has the following menus:
     <li><b>Select Computer</b>: Allows you to control BOINC on a different 
         computer
 <!--  ** ROM ** is this correct?  Please add more details as appropriate -->
+    <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
+        No further work will take place until you run the BOINC manager again. 
+        <br>(On Mac OS X, this is under the BOINC menu as <b>Quit BOINC</b>.)
     </ul>
         
 <li> <b>Commands</b>
