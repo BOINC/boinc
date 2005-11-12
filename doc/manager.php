@@ -250,7 +250,7 @@ The BOINC manager has the following menus:
         account manager web site.  See <a href=/acct_mgrs.php>Account managers</a>
     </ul>
 
-<li> <b>Ooptions</b>
+<li> <b>Options</b>
     <ul>
     <li> <b>Options</b>: opens a dialog allowing you to select your preferred 
         language, how often you wish to be reminded of the need to connect to 
