@@ -184,6 +184,7 @@ public:
     GET_CURRENT_VERSION_OP get_current_version_op;
     void new_version_check();
     double new_version_check_time;
+    std::string newer_version;
 
 // --------------- client_state.C:
 public:

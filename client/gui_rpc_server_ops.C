@@ -724,6 +724,12 @@ static void handle_acct_mgr_rpc_poll(char*, MIOFILE& fout) {
     );
 }
 
+static void handle_get_newer_version(MIOFILE& fout) {
+    fout.printf("<newer_version>%s</newer_version>\n",
+        gstate.newer_version.c_str()
+    );
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -873,6 +879,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_acct_mgr_rpc(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
         handle_acct_mgr_rpc_poll(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_newer_version>")) {
+        handle_get_newer_version(mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

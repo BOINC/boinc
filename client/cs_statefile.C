@@ -290,6 +290,7 @@ int CLIENT_STATE::parse_state_file() {
         // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
         } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
+        } else if (parse_str(buf, "<newer_version>", newer_version)) {
         } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
     }
 done:
@@ -382,6 +383,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time
     );
+    if (newer_version.size()) {
+        f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str);
+    }
 
     proxy_info.write(f);
     if (strlen(main_host_venue)) {

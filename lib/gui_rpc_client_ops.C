@@ -1515,7 +1515,7 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             "  <use_config_file/>\n"
             "</acct_mgr_rpc>\n"
         );
-    }else {
+    } else {
         sprintf(buf,
             "<acct_mgr_rpc>\n"
             "  <url>%s</url>\n"
@@ -1679,6 +1679,20 @@ int RPC_CLIENT::lookup_website_poll() {
     retval = rpc.do_rpc("<lookup_website_poll/>\n");
     if (retval) return retval;
     return lw.parse(rpc.fin);
+}
+
+int RPC_CLIENT::get_newer_version(std::string& version) {
+    RPC rpc(this);
+    int retval;
+    char buf[256];
+
+    version = "";
+    retval = rpc.do_rpc("<get_newer_version/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        parse_str(buf, "<newer_version>", version);
+    }
+    return 0;
 }
 
 const char *BOINC_RCSID_90e8b8d168="$Id$";

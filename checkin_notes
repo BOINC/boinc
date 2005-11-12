@@ -13672,3 +13672,17 @@ Charlie 11 nov 2005
         mgrprojects.png
         mgrwork.png
         mgrsystraymenu.png
+
+David  11 Nov 05
+	- Core client: when do a "get newer version" RPC,
+		save the results in the client state file.
+	- Add GUI RPC for getting the newer version number.
+
+	client/
+		acct_setup.C
+		client_state.h
+		cs_statefile.C
+		gui_rpc_server_ops.C
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
