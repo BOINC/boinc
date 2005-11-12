@@ -3,24 +3,43 @@ require_once("docutil.php");
 page_head("The BOINC manager");
 echo "
 <p>
-The <b>BOINC manager</b> program controls
-the use of your computer's disk, network, and processor resources.
-It is normally started at boot time.
-It is represented by a icon in the system tray.
+The <b>BOINC manager</b> program is available for Windows, Mac OS X
+and Linux.  It controls the use of your computer's disk, network, and 
+processor resources, and is normally started at boot time.
+<br>On Windows, the BOINC Manager is represented by an icon in the system tray.
+<br>On Mac OS X, it is represented by icons in both the menubar and the Dock.
+</p>
+<!-- ** ROM ** is there an equivalent on Linux to the system tray icon? -->
 </p>
 
 <img src=mgrsystraymenu.png>
 
 <p>
-Double-click on the icon to open the BOINC manager window.
-Right-click on the icon to:
+On Windows:
+    <ul>
+    <li>Double-click on the icon to open the BOINC manager window.
+    <li>Right-click on the icon to access its menu.
+    </ul>
+On Mac OS X:
+    <ul>
+    <li>Click on the icon in the menubar or Dock and hold the 
+    button down until the menu appears.
+    </ul>
+</p>
+<p>
+The icon menu choices are:
 <ul>
 <li> <b>Open BOINC Manager</b>: opens the current BOINC Manager.
 <li> <b>Run always</b>: do work, regardless of preferences.
 <li> <b>Run based on preferences</b>: do work
     when your <a href=prefs.php>preferences</a> allow it.
 <li> <b>Suspend</b>: stop work (computation and file transfer).
-<li> <b>Disable BOINC network access</b>:  setting this keeps BOINC
+<li> <b>Network activity always available</b>: always allow BOINC to 
+contact the project servers when it needs to.
+<li> <b>Network activity based on preferences</b>: allow BOINC to contact 
+the project servers only when your <a href=prefs.php>preferences</a> 
+allow it.
+<li> <b>Network activity suspended</b>: setting this keeps BOINC
 from attempting to contact any of the project servers.  It is useful
 for those on dial-up connections who do not want to be bothered with
 BOINC prompting to connect or disconnect for a time.
@@ -34,7 +53,7 @@ No further work will take place until you run the BOINC manager again.
 <p>
 Hovering over the BOINC icon will display a status balloon which contains
 the project it is currently working on, how far along it is, and which
-computer it is connected too.
+computer it is connected to (Windows only).
 </p>
 <h1>BOINC Manager Tabs</h1>
 <h2>Projects</h2>
@@ -56,9 +75,6 @@ computer it is connected too.
 <ul>
 <li> <b>Allow new work</b>:
     Allow the project to download additional work, if needed.
-<li> <b>Attach to new project</b>:
-    Attach to a new project with the account key and URL sent to you
-    by the project administrator.
 <li> <b>Detach</b>:
     Your computer will stop working for the project.
 <li> <b>No new work</b>:
@@ -83,10 +99,11 @@ computer it is connected too.
 
 <h2>Work</h2>
 <p>Shows the work units currently on your computer.
-    Each work unit is either</p>
+</p>
 <img src=mgrwork.png>
 
-<ul>
+<p>Each work unit is either:
+    <ul>
 <li>Aborted: 
     Result has been aborted and will be reported to the project server
     as a computational error.
@@ -106,6 +123,7 @@ computer it is connected too.
 <li>Uploading: 
     Output files are being uploaded.
 </ul>
+</p>
 
 <p>Click on a result name to enable the following additional buttons:</p>
 <ul>
@@ -188,34 +206,68 @@ computer it is connected too.
 
 <h1>BOINC Manager Menus</h1>
 
-The BOINC manager's menu items are as follows:
+The BOINC manager has the following menus:
 <ul>
 <li> <b>File</b>
     <ul>
-    <li><b>Run always</b>, <b>Run based on preferences</b>,
-        <b>Suspend</b>: see above
+    <li><b>Select Computer</b>: Allows you to control BOINC on a different 
+        computer
+<!--  ** ROM ** is this correct?  Please add more details as appropriate -->
+    </ul>
+        
+<li> <b>Commands</b>
+    <ul>
+    <li> <b>Run always</b>: do work, regardless of preferences.
+    <li> <b>Run based on preferences</b>: do work
+        when your <a href=prefs.php>preferences</a> allow it.
+    <li> <b>Suspend</b>: stop work (computation and file transfer).
+    <li> <b>Network activity always available</b>: always allow BOINC to 
+        contact the project servers when it needs to.
+    <li> <b>Network activity based on preferences</b>: allow BOINC to contact 
+        the project servers only when your <a href=prefs.php>preferences</a> 
+        allow it.
+    <li> <b>Network activity suspended</b>: setting this keeps BOINC
+        from attempting to contact any of the project servers.  It is useful
+        for those on dial-up connections who do not want to be bothered with
+        BOINC prompting to connect or disconnect for a time.
+    <li><b>Retry Communications</b>: retry any deferred communications.
     <li><b>Run Benchmarks</b>:
         run benchmark functions, which measure the speed of your processor.
         BOINC does this automatically,
         but you can repeat it whenever you want.
         The results are shown in the Messages tab.
-    <li> <b>Hide</b>: close the BOINC manager window.
-        This does not exit the BOINC manager.
-        To do this, use the Exit command on the system tray icon menu.
     </ul>
-<li> <b>Settings</b>
+    
+<li> <b>Projects</b>
     <ul>
-    <li> <b>Attach to Project</b>:
-        Enroll this computer in a project.
+    <li> <b>Attach to new project</b>:
+        enroll this computer in a project.
         You must have already created an account with the project.
-        You will be asked to enter the project's URL and your account key.
-    <li> <b>Proxy Server</b>
-        If you connect to the web through an HTTP or SOCKS proxy,
+        You will be asked to enter the project's URL and either your account key
+        or your email address and password, depending on the project.
+<!-- ** ROM ** Please add a link to a page with details on using the Wizard. -->
+    <li> <b>Account Manager</b>: attach to one or more new projects using an 
+        account manager web site.  See <a href=/acct_mgrs.php>Account managers</a>
+    </ul>
+
+<li> <b>Ooptions</b>
+    <ul>
+    <li> <b>Options</b>: opens a dialog allowing you to select your preferred 
+        language, how often you wish to be reminded of the need to connect to 
+        the project servers (for dial-up users), etc.
+        <br>If you connect to the web through an HTTP or SOCKS proxy,
         use this dialog to enter its address and port.
+        <br>Windows only: use this dialog to tell BOINC your method of connecting 
+        to the Internet.
+<!--  ** ROM ** Please add a link to a page with details on using this dialog. -->
     </ul>
 <li> <b>Help</b>
     <ul>
-    <li> <b>About</b>: show BOINC manage version number.
+    <li> <b>BOINC Manager</b>: open a web page with instructions for using the 
+        BOINC manager.  The F1 function key also does this.
+    <li> <b>BOINC Manager</b>: open the main BOINC web page.
+    <li> <b>About</b>: show BOINC manager version number (on Mac OS X, 
+        this command is under the BOINC menu.)
     </ul>
 </ul>
 
@@ -223,11 +275,16 @@ The BOINC manager's menu items are as follows:
 Menu names and other text in the BOINC manager can be displayed in
 <a href=language.php>languages other than English</a>.
 <p>
-On Windows, the <b>BOINC screensaver</b>
-can be selected using the Display Properties dialog.
+To select the <b>BOINC screensaver</b>:
+    <ul>
+    <li> <b>Windows</b>: use the Display Properties dialog.
+    <li> <b>Mac OS X</b>: select System Preferences under the Apple menu and 
+        click on \"Screen Saver\".
+    </ul>
 The BOINC screensaver draws graphics from a running application,
 if any is available.
-Otherwise it draws the BOINC logo bouncing around the screen.
+Otherwise it draws the BOINC logo bouncing around the screen (Windows) or 
+displays a scrolling message (Mac OS X).
 ";
 page_tail();
 ?>
