@@ -13686,3 +13686,9 @@ David  11 Nov 05
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+David  12 Nov 2005
+    - typo fix
+
+    client/
+        cs_statefile.C

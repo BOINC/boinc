@@ -12,10 +12,8 @@ Click to subscribe or post to a list.
 list_start();
 list_item(
     "<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_projects>boinc_projects</a>",
-    "For people operating BOINC projects.
-    Use it to ask questions, report bugs, or request enhancements to
-    the BOINC server software.
-    Announcements of modifications and upgrades to BOINC will posted here.
+    "An email list for people operating BOINC projects.  Questions and problems involving BOINC server software.  Announcements of upgrades and changes.
+    Do NOT post questions about BOINC client software here.
 ");
 list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a>",
     "For people developing, debugging or porting the BOINC software.

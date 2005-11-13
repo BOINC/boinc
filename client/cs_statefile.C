@@ -384,7 +384,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         new_version_check_time
     );
     if (newer_version.size()) {
-        f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str);
+        f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
 
     proxy_info.write(f);

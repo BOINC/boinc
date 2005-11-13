@@ -285,10 +285,6 @@ To select the <b>BOINC screensaver</b>:
     <li> <b>Mac OS X</b>: select System Preferences under the Apple menu and 
         click on \"Screen Saver\".
     </ul>
-The BOINC screensaver draws graphics from a running application,
-if any is available.
-Otherwise it draws the BOINC logo bouncing around the screen (Windows) or 
-displays a scrolling message (Mac OS X).
 ";
 page_tail();
 ?>
