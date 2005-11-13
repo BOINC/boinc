@@ -13692,3 +13692,10 @@ David  12 Nov 2005
 
     client/
         cs_statefile.C
+
+David  12 Nov 2005
+    - add "venue" to acct mgr RPCs
+
+    html/user/
+        am_get_info.php
+        am_set_info.php

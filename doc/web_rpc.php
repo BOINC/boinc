@@ -80,6 +80,7 @@ list_item("output",
     <send_email>SEND_EMAIL</send_email>
     <show_hosts>SHOW_HOSTS</show_hosts>
     <teamid>N</teamid>
+    <venue>X</venue>
 </am_get_info_reply>
 
 or
@@ -107,6 +108,7 @@ list_item("input",
     <br>[ send_email ]
     <br>[ show_hosts ]
     <br>[ teamid ]  <i>zero means quit current team, if any</i>
+    <br>[ venue ]
     "
 );
 list_item("output",

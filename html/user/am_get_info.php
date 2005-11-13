@@ -50,6 +50,7 @@ $user->project_prefs
 <send_email>$user->send_email</send_email>
 <show_hosts>$user->show_hosts</show_hosts>
 <teamid>$user->teamid</teamid>
+<venue>$user->venue</venue>
 ");
 
 ?>

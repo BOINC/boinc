@@ -42,6 +42,7 @@ $url = process_user_text($_GET["url"]);
 $send_email = process_user_text($_GET["send_email"]);
 $show_hosts = process_user_text($_GET["show_hosts"]);
 $teamid = get_int("teamid", true);
+$venue = process_user_text($_GET["venue"]);
 
 $query = "";
 if ($name) {
@@ -74,6 +75,10 @@ if ($teamid) {
     if ($team) {
         user_join_team($team, $user);
     }
+}
+
+if ($venue) {
+    $query .= " venue='$venue', ";
 }
 
 $result = mysql_query("update user set $query seti_id=seti_id where id=$user->id");
