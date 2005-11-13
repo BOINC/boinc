@@ -13699,3 +13699,10 @@ David  12 Nov 2005
     html/user/
         am_get_info.php
         am_set_info.php
+
+David  13 Nov 2005
+    - fix compile warnings
+
+    lib/
+        crypt.C
+    - add "venue" to acct mgr RPCs

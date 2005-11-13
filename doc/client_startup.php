@@ -56,7 +56,8 @@ if the core client is not attached to any projects
             if new projects
                 show projects attached
             else
-                show 'go to site and pick projects' dialog
+                show dialog that prompts user to
+                visit project manager web site and select projects
         else
             jump into acct mgr wizard at get_project_config stage
     else if project_init.xml exists

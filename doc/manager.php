@@ -4,13 +4,11 @@ page_head("The BOINC manager");
 echo "
 <p>
 The <b>BOINC manager</b> program is available for Windows, Mac OS X
-and Linux.  It controls the use of your computer's disk, network, and 
+and Linux.  It controls the use of your computer's disk, network, and
 processor resources, and is normally started at boot time.
 <br>On Windows, the BOINC Manager is represented by an icon in the system tray.
 <br>On Mac OS X, it is represented by icons in both the menubar and the Dock.
-</p>
 <!-- ** ROM ** is there an equivalent on Linux to the system tray icon? -->
-</p>
 
 <img src=mgrsystraymenu.png>
 
@@ -22,10 +20,9 @@ On Windows:
     </ul>
 On Mac OS X:
     <ul>
-    <li>Click on the icon in the menubar or Dock and hold the 
+    <li>Click on the icon in the menubar or Dock and hold the
     button down until the menu appears.
     </ul>
-</p>
 <p>
 The icon menu choices are:
 <ul>
@@ -34,10 +31,10 @@ The icon menu choices are:
 <li> <b>Run based on preferences</b>: do work
     when your <a href=prefs.php>preferences</a> allow it.
 <li> <b>Suspend</b>: stop work (computation and file transfer).
-<li> <b>Network activity always available</b>: always allow BOINC to 
+<li> <b>Network activity always available</b>: always allow BOINC to
 contact the project servers when it needs to.
-<li> <b>Network activity based on preferences</b>: allow BOINC to contact 
-the project servers only when your <a href=prefs.php>preferences</a> 
+<li> <b>Network activity based on preferences</b>: allow BOINC to contact
+the project servers only when your <a href=prefs.php>preferences</a>
 allow it.
 <li> <b>Network activity suspended</b>: setting this keeps BOINC
 from attempting to contact any of the project servers.  It is useful
@@ -46,33 +43,31 @@ BOINC prompting to connect or disconnect for a time.
 <li> <b>About BOINC Manager</b>:  displays useful information about the
 BOINC Manager.
 <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
-No further work will take place until you run the BOINC manager again. 
+No further work will take place until you run the BOINC manager again.
 <br>(On Mac OS X, this menu item is called <b>Quit</b>.)
 </ul>
-</p>
 <img src=mgrsystrayballoon.png>
 <p>
 Hovering over the BOINC icon will display a status balloon which contains
 the project it is currently working on, how far along it is, and which
 computer it is connected to (Windows only).
-</p>
 <h1>BOINC Manager Tabs</h1>
 <h2>Projects</h2>
-<p>Shows the projects in which this computer is participating.</p>
+<p>Shows the projects in which this computer is participating.
 <img src=mgrprojects.png>
 
 <ul>
-<li>Suspended: 
+<li>Suspended by user:
     The project is currently suspended.
 <li>Retry in ...:
     The client will wait the specified amount of time before attempting
     to contact the project server again.
 <li>Won't get new work:
-    The project will not fill the cache for this project 
+    The project will not fill the cache for this project
     when it runs out of work.
 </ul>
 
-<p>Click on a project name to enable the following additional buttons:</p>
+<p>Click on a project name to enable the following additional buttons:
 <ul>
 <li> <b>Allow new work</b>:
     Allow the project to download additional work, if needed.
@@ -95,45 +90,42 @@ computer it is connected to (Windows only).
     and get your latest <a href=prefs.php>preferences</a>.
 </ul>
 
-<p>Project administrators can add <a href=gui_urls.php>buttons</a> 
-   to the manager to quickly navigate the project website.</p>
+<p>Project administrators can add <a href=gui_urls.php>buttons</a>
+   to the manager to quickly navigate the project website.
 
 <h2>Work</h2>
 <p>Shows the work units currently on your computer.
-</p>
 <img src=mgrwork.png>
 
 <p>Each work unit is either:
     <ul>
-<li>Aborted: 
-    Result has been aborted and will be reported to the project server
-    as a computational error.
-<li>Downloading: 
+<li>Aborted by user:
+    Result has been aborted.
+<li>Downloading:
     Input files are being downloaded.
-<li>Paused: 
+<li>Preempted:
     Result has been suspended by the client-side scheduler and will be
     resumed the next time the project comes up in the processing rotation.
-<li>Ready to report: 
+<li>Ready to report:
     Waiting to notify the scheduling server.
 <li>Ready to run:
     An estimate of the total CPU time is shown.
 <li>Running:
     Elapsed CPU time and estimated percent done is shown.
-<li>Suspended: 
+<li>Suspended by user:
     Result has been suspended.
-<li>Uploading: 
+<li>Uploading:
     Output files are being uploaded.
 </ul>
-</p>
 
-<p>Click on a result name to enable the following additional buttons:</p>
+<p>Click on a result name to enable the following additional buttons:
 <ul>
-<li> <b>Abort</b>: 
+<li> <b>Abort</b>:
     Abort processing for a result. NOTE: This will prevent you from receiving
     credit for any work already completed.
 <li> <b>Resume</b>:
     Resumes processing of a previous suspended result.
-<li> <b>Show graphics</b>: 
+<li> <b>Show graphics</b>:
     Open a window showing application graphics.
 <li> <b>Suspend</b>:
     Suspends any further processing of this result.
@@ -141,25 +133,25 @@ computer it is connected to (Windows only).
 
 <h2>Transfers</h2>
 <p>Shows file transfers (uploads and downloads).
-    These may be ready to start, in progress, and completed.</p>
+    These may be ready to start, in progress, and completed.
 <img src=mgrtransfers.png>
 
 <ul>
-<li>Aborted: 
+<li>Aborted by user:
     Result has been aborted and will be reported to the project server
     as a computational error.
-<li>Downloading: 
+<li>Downloading:
     Input files are being downloaded.
 <li>Retry in ...:
     The client will wait the specified amount of time before attempting
     to contact the project server again.
-<li>Uploading: 
+<li>Uploading:
     Output files are being uploaded.
 </ul>
 
-<p>Click on a file name to enable the following additional buttons:</p>
+<p>Click on a file name to enable the following additional buttons:
 <ul>
-<li> <b>Retry Now</b>: 
+<li> <b>Retry Now</b>:
     Retry the file transfer now.
 <li> <b>Abort Transfer</b>:
     Abort the file transfer. NOTE: This will prevent you from receiving credit
@@ -170,12 +162,12 @@ computer it is connected to (Windows only).
 <p>Shows status and error messages.
     Messages can be sorted by project or time.
     You can <a href=client_msgs.php>control what messages are shown</a>.
-    Messages are also written to a file 'stdoutdae.txt'.</p>
+    Messages are also written to a file 'stdoutdae.txt'.
 <img src=mgrmessages.png>
 
-<p>Click on one or more messages to enable the following additional buttons:</p>
+<p>Click on one or more messages to enable the following additional buttons:
 <ul>
-<li> <b>Copy all messages</b>: 
+<li> <b>Copy all messages</b>:
     Copies all the messages to the clipboard.
 <li> <b>Copy selected messages</b>:
     Copies the highlighted messages to the clipboard. NOTE: To highlight a message
@@ -185,24 +177,24 @@ computer it is connected to (Windows only).
 </ul>
 
 <h2>Statistics</h2>
-<p>Shows some simple charts and graphs about the user and host progress</p>
+<p>Shows some simple charts and graphs about the user and host progress
 <img src=mgrstatistics.png>
 <p>NOTE: This feature requires three connections to each project scheduler on three
-   different days before it starts to work properly.</p>
-<p>Click on any of the buttons to change to a different chart:</p>
+   different days before it starts to work properly.
+<p>Click on any of the buttons to change to a different chart:
 <ul>
-<li> <b>Show user total</b>: 
+<li> <b>Show user total</b>:
     Shows the user's credit totals for each project.
 <li> <b>Show user average</b>:
     Shows the users's credit averages for each project.
-<li> <b>Show host total</b>: 
+<li> <b>Show host total</b>:
     Shows the host's credit totals for each project.
 <li> <b>Show host average</b>:
     Shows the host's credit averages for each project.
 </ul>
 
 <h2>Disk</h2>
-<p>This shows how much disk space is currently being used by each project.</p>
+<p>This shows how much disk space is currently being used by each project.
 <img src=mgrdisk.png>
 
 <h1>BOINC Manager Menus</h1>
@@ -211,24 +203,24 @@ The BOINC manager has the following menus:
 <ul>
 <li> <b>File</b>
     <ul>
-    <li><b>Select Computer</b>: Allows you to control BOINC on a different 
+    <li><b>Select Computer</b>: Allows you to control BOINC on a different
         computer
 <!--  ** ROM ** is this correct?  Please add more details as appropriate -->
     <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
-        No further work will take place until you run the BOINC manager again. 
+        No further work will take place until you run the BOINC manager again.
         <br>(On Mac OS X, this is under the BOINC menu as <b>Quit BOINC</b>.)
     </ul>
-        
+
 <li> <b>Commands</b>
     <ul>
     <li> <b>Run always</b>: do work, regardless of preferences.
     <li> <b>Run based on preferences</b>: do work
         when your <a href=prefs.php>preferences</a> allow it.
     <li> <b>Suspend</b>: stop work (computation and file transfer).
-    <li> <b>Network activity always available</b>: always allow BOINC to 
+    <li> <b>Network activity always available</b>: always allow BOINC to
         contact the project servers when it needs to.
-    <li> <b>Network activity based on preferences</b>: allow BOINC to contact 
-        the project servers only when your <a href=prefs.php>preferences</a> 
+    <li> <b>Network activity based on preferences</b>: allow BOINC to contact
+        the project servers only when your <a href=prefs.php>preferences</a>
         allow it.
     <li> <b>Network activity suspended</b>: setting this keeps BOINC
         from attempting to contact any of the project servers.  It is useful
@@ -241,7 +233,7 @@ The BOINC manager has the following menus:
         but you can repeat it whenever you want.
         The results are shown in the Messages tab.
     </ul>
-    
+ 
 <li> <b>Projects</b>
     <ul>
     <li> <b>Attach to new project</b>:
@@ -250,27 +242,27 @@ The BOINC manager has the following menus:
         You will be asked to enter the project's URL and either your account key
         or your email address and password, depending on the project.
 <!-- ** ROM ** Please add a link to a page with details on using the Wizard. -->
-    <li> <b>Account Manager</b>: attach to one or more new projects using an 
+    <li> <b>Account Manager</b>: attach to one or more new projects using an
         account manager web site.  See <a href=/acct_mgrs.php>Account managers</a>
     </ul>
 
 <li> <b>Options</b>
     <ul>
-    <li> <b>Options</b>: opens a dialog allowing you to select your preferred 
-        language, how often you wish to be reminded of the need to connect to 
+    <li> <b>Options</b>: opens a dialog allowing you to select your preferred
+        language, how often you wish to be reminded of the need to connect to
         the project servers (for dial-up users), etc.
         <br>If you connect to the web through an HTTP or SOCKS proxy,
         use this dialog to enter its address and port.
-        <br>Windows only: use this dialog to tell BOINC your method of connecting 
+        <br>Windows only: use this dialog to tell BOINC your method of connecting
         to the Internet.
 <!--  ** ROM ** Please add a link to a page with details on using this dialog. -->
     </ul>
 <li> <b>Help</b>
     <ul>
-    <li> <b>BOINC Manager</b>: open a web page with instructions for using the 
+    <li> <b>BOINC Manager</b>: open a web page with instructions for using the
         BOINC manager.  The F1 function key also does this.
-    <li> <b>BOINC Manager</b>: open the main BOINC web page.
-    <li> <b>About</b>: show BOINC manager version number (on Mac OS X, 
+    <li> <b>BOINC website</b>: open the main BOINC web page.
+    <li> <b>About BOINC Manager</b>: show BOINC manager version number (on Mac OS X,
         this command is under the BOINC menu.)
     </ul>
 </ul>
@@ -282,7 +274,7 @@ Menu names and other text in the BOINC manager can be displayed in
 To select the <b>BOINC screensaver</b>:
     <ul>
     <li> <b>Windows</b>: use the Display Properties dialog.
-    <li> <b>Mac OS X</b>: select System Preferences under the Apple menu and 
+    <li> <b>Mac OS X</b>: select System Preferences under the Apple menu and
         click on \"Screen Saver\".
     </ul>
 ";

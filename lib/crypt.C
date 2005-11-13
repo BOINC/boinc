@@ -243,7 +243,7 @@ int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
     retval = md5_file(path, md5_buf, file_length);
     if (retval) return retval;
     in_block.data = (unsigned char*)md5_buf;
-    in_block.len = strlen(md5_buf);
+    in_block.len = (unsigned int)strlen(md5_buf);
     retval = encrypt_private(key, in_block, signature);
     if (retval) return retval;
     return 0;
@@ -256,7 +256,7 @@ int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signa
 
     md5_block(data_block.data, data_block.len, md5_buf);
     in_block.data = (unsigned char*)md5_buf;
-    in_block.len = strlen(md5_buf);
+    in_block.len = (unsigned int)strlen(md5_buf);
     retval = encrypt_private(key, in_block, signature);
     if (retval) {
         printf("sign_block: encrypt_private returned %d\n", retval);
@@ -278,7 +278,7 @@ int verify_file(
         fprintf(stderr, "error: verify_file: md5_file error %d\n", retval);
         return retval;
     }
-    n = strlen(md5_buf);
+    n = (int)strlen(md5_buf);
     clear_signature.data = (unsigned char*)clear_buf;
     clear_signature.len = MD5_LEN;
     retval = decrypt_public(key, signature, clear_signature);
@@ -321,9 +321,9 @@ int verify_string(
     int retval, n;
     DATA_BLOCK signature, clear_signature;
 
-    retval = md5_block((const unsigned char*)text, strlen(text), md5_buf);
+    retval = md5_block((const unsigned char*)text, (int)strlen(text), md5_buf);
     if (retval) return retval;
-    n = strlen(md5_buf);
+    n = (int)strlen(md5_buf);
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
     retval = sscan_hex_data(signature_text, signature);

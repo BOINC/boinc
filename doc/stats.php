@@ -61,7 +61,7 @@ should made at most once per hour.
 A <b>data aggregator</b> is a service that collects XML files
 from several projects,
 and computes the totals for participants and hosts
-(based on <a href=foo>cross-project IDs</a>)
+(based on <a href=cpid.php>cross-project IDs</a>)
 across these projects.
 This aggregate data is then exported in two ways:
 <ul>
