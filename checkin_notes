@@ -13621,6 +13621,10 @@ Rom    7 Nov 2005
     client/win/
         hostinfo_win.cpp
 
+Rom    7 Nov 2005 (stable)
+    - Tag for 5.2.7 release, all platforms
+      boinc_core_release_5_2_7
+
 Charlie 7 nov 2005
     - Mac: update scripts to be compatible with XCode 2.1 as well as 1.x.
          
