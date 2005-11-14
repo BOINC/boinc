@@ -1383,7 +1383,9 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (!pDoc->IsConnected()) {
-        pDoc->Connect(wxEmptyString, wxEmptyString, TRUE);
+        wxString strPassword = wxEmptyString;
+        pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
+        pDoc->Connect(wxT("localhost"), strPassword, TRUE);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));

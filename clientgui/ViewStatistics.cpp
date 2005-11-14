@@ -33,6 +33,7 @@
 
 BEGIN_EVENT_TABLE (CPaintStatistics, wxPanel)
     EVT_PAINT(CPaintStatistics::OnPaint)
+    EVT_SIZE(CPaintStatistics::OnSize)
 END_EVENT_TABLE ()
 
 CPaintStatistics::CPaintStatistics() {
@@ -266,6 +267,11 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	}
 	
 	dc.EndDrawing();
+}
+
+void CPaintStatistics::OnSize(wxSizeEvent& event) {
+    Refresh(TRUE, NULL);
+    event.Skip();
 }
 
 IMPLEMENT_DYNAMIC_CLASS(CViewStatistics, CBOINCBaseView)

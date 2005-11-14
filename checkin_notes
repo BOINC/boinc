@@ -13705,7 +13705,6 @@ David  13 Nov 2005
 
     lib/
         crypt.C
-    - add "venue" to acct mgr RPCs
 
 David  13 Nov 2005
     - Manager: initialize buffer when read password from file
@@ -13724,3 +13723,15 @@ David  14 Nov 2005
             xml.inc
         user/
             am_set_host_info.php (new)
+
+Rom    14 Nov 2005
+    - Bug Fix: Force a refresh of the statistics window on a resize event.
+    - Bug Fix: Prepopulate the password box on the Select Computer dialog
+        when the participant types in localhost for the computer name.
+        
+    clientgui/
+        BOINCGUI.pjd
+        DlgSelectComputer.cpp, .h
+        MainDocument.cpp, .h
+        MainFrame.cpp
+        ViewStatistics.cpp, .h

@@ -87,6 +87,9 @@ public:
 
 ////@begin CDlgSelectComputer event handler declarations
 
+    /// wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SELECTCOMPUTERNAME
+    void OnComputerNameUpdated( wxCommandEvent& event );
+
 ////@end CDlgSelectComputer event handler declarations
 
 ////@begin CDlgSelectComputer member function declarations
@@ -94,8 +97,8 @@ public:
     wxString GetComputerName() const { return m_strComputerName ; }
     void SetComputerName(wxString value) { m_strComputerName = value ; }
 
-    wxString GetStrComputerPassword() const { return m_strComputerPassword ; }
-    void SetStrComputerPassword(wxString value) { m_strComputerPassword = value ; }
+    wxString GetComputerPassword() const { return m_strComputerPassword ; }
+    void SetComputerPassword(wxString value) { m_strComputerPassword = value ; }
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
