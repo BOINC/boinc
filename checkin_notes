@@ -13706,3 +13706,9 @@ David  13 Nov 2005
     lib/
         crypt.C
     - add "venue" to acct mgr RPCs
+
+David  13 Nov 2005
+    - Manager: initialize buffer when read password from file
+
+    clientgui/
+        MainDocument.cpp

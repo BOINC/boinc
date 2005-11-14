@@ -52,6 +52,7 @@ void get_password_from_file(wxString& passwd) {
     FILE* f = fopen("gui_rpc_auth.cfg", "r");
     if (!f) return;
     char buf[256];
+    strcpy(buf, "");
     fgets(buf, 256, f);
     fclose(f);
     int n = strlen(buf);
