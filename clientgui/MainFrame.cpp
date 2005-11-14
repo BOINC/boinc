@@ -907,6 +907,15 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
     lAnswer = pDlg->ShowModal();
     if (wxID_OK == lAnswer) {
+
+        // Make a null hostname be the same thing as localhost
+        wxString strPassword = wxEmptyString;
+        if (wxEmptyString == pDlg->m_ComputerNameCtrl->GetValue()) {
+            pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
+            pDlg->m_ComputerPasswordCtrl->SetValue(strPassword);
+        }
+
+        // Connect up to the remote machine
         lRetVal = pDoc->Connect(
             pDlg->m_ComputerNameCtrl->GetValue(), 
             pDlg->m_ComputerPasswordCtrl->GetValue(),
@@ -922,7 +931,9 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
         // Insert a copy of the current combo box value to the head of the
         //   computer names string array
-        aComputerNames.Insert(pDlg->m_ComputerNameCtrl->GetValue(), 0);
+        if (wxEmptyString != pDlg->m_ComputerNameCtrl->GetValue()) {
+            aComputerNames.Insert(pDlg->m_ComputerNameCtrl->GetValue(), 0);
+        }
 
         // Loops through the computer names and remove any duplicates that
         //   might exist with the new head value
