@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-20 05:24+0100\n"
+"PO-Revision-Date: 2005-11-12 12:55+0100\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: _Lang-cs\n"
 
 #############################################
-# FileID	: BOINC Manager.po, ver1.21, 2005/10/20 05:23:35
+# FileID	: BOINC Manager.po, ver1.22, 2005/11/12 11:53:12
 # Author	: Rom Walton
 # Language	: Czech
 # Translated by	: Spok, Dejvidek
@@ -29,37 +29,32 @@ msgid "Account information"
 msgstr "Informace o účtu "
 
 #: clientgui/AccountInfoPage.cpp:121
-msgid "Do you wish to use an existing account or create a new one?"
+msgid "Do you want to use an existing account or create a new one?"
 msgstr "Chcete použít existující účet nebo vytvořit nový?"
 
-#: clientgui/AccountInfoPage.cpp:127
-msgid ""
-"Transition Note: Account keys are used as passwords for accounts created\n"
-"before BOINC migrated to a username and password authentication scheme."
-msgstr ""
-"Poznámka: Klíče (Account keys) fungují jako heslo pro účty, \n"
-"které byly vytvořeny před tím, než BOINC začal používat přihlašování \n"
-"pomocí uživatelského jména (username) a hesla (password)."
-
-#: clientgui/AccountInfoPage.cpp:137
+#: clientgui/AccountInfoPage.cpp:131
 msgid "Create new &account"
 msgstr "Vytvořit &nový účet"
 
-#: clientgui/AccountInfoPage.cpp:142
+#: clientgui/AccountInfoPage.cpp:136
 msgid "&Use existing account"
 msgstr "&Použít existující účet "
 
-#: clientgui/AccountInfoPage.cpp:153
+#: clientgui/AccountInfoPage.cpp:146
 msgid "&Email address:"
 msgstr "&Emailová adresa:"
 
-#: clientgui/AccountInfoPage.cpp:161
+#: clientgui/AccountInfoPage.cpp:154
 msgid "&Password:"
 msgstr "&Heslo:"
 
-#: clientgui/AccountInfoPage.cpp:170
+#: clientgui/AccountInfoPage.cpp:163
 msgid "C&onfirm password:"
 msgstr "P&otvrzení hesla: "
+
+#: clientgui/AccountInfoPage.cpp:173
+msgid "If you haven't set a password, copy and paste your account key into the Password box."
+msgstr "Pokud nemáte heslo, zadejte do příslušné kolonky Váš klíč (Account Key)."
 
 #: clientgui/AccountInfoPage.cpp:279
 #: clientgui/DlgDialupCredentials.cpp:111
@@ -78,13 +73,13 @@ msgstr "Připojit k projektu"
 #: clientgui/AccountInfoPage.cpp:304
 #: clientgui/WelcomePage.cpp:149
 msgid "Attach to account manager"
-msgstr "Otevřít Správce účtu "
+msgstr "Připojení ke Správci účtu "
 
 #: clientgui/AccountInfoPage.cpp:315
 #, c-format
 msgid "The minimum password length for this project is %d. Please choose a different password."
 msgstr ""
-"Minimální délka hesla pro tento projekt je %d znaků. \n"
+"Minimální délka hesla je %d znaků. \n"
 "Zadejte prosím jiné heslo."
 
 #: clientgui/AccountInfoPage.cpp:321
@@ -126,7 +121,7 @@ msgstr "Klíč (Account Key): "
 
 #: clientgui/AccountManagerInfoPage.cpp:103
 msgid "Account Manager URL"
-msgstr "Adresa (URL) správce účtu "
+msgstr "Adresa Správce účtu "
 
 #: clientgui/AccountManagerInfoPage.cpp:108
 msgid "Enter the URL of the account manager's web site."
@@ -146,16 +141,9 @@ msgid "For a list of BOINC-based account managers go to:"
 msgstr "Seznam BOINC projektů naleznete na: "
 
 #: clientgui/AccountManagerProcessingPage.cpp:132
-msgid ""
-"Communicating with account manager\n"
-"Please wait..."
-msgstr ""
-"Komunikuji se Správcem účtu. \n"
-"Čekejte prosím... "
-
 #: clientgui/AccountManagerPropertiesPage.cpp:135
 msgid ""
-"Communicating with account manager \n"
+"Communicating with account manager\n"
 "Please wait..."
 msgstr ""
 "Komunikuji se Správcem účtu. \n"
@@ -187,7 +175,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:270
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "Spouštět BOINC minimalizovaný do ikony v trayi"
+msgstr "Spouštět BOINC minimalizovaný."
 
 #: clientgui/BOINCGUIApp.cpp:330
 msgid "(Automatic Detection)"
@@ -203,61 +191,60 @@ msgstr "(Definováno uživatelem)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "Správce BOINC"
 
-#: clientgui/BOINCTaskBar.cpp:272
+#: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC is currently suspended...\n"
 msgstr "BOINC je momentálně pozastaven... \n"
 
-#: clientgui/BOINCTaskBar.cpp:276
+#: clientgui/BOINCTaskBar.cpp:275
 msgid "BOINC networking is currently suspended...\n"
 msgstr "BOINC má momentálně pozastaven přístup k síti... \n"
 
-#: clientgui/BOINCTaskBar.cpp:377
-#: clientgui/MainFrame.cpp:336
+#: clientgui/BOINCTaskBar.cpp:376
+#: clientgui/MainFrame.cpp:331
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "&Konec"
 
-#: clientgui/BOINCTaskBar.cpp:396
-#: clientgui/BOINCTaskBar.cpp:403
+#: clientgui/BOINCTaskBar.cpp:395
+#: clientgui/BOINCTaskBar.cpp:402
 msgid "&Open BOINC Manager..."
 msgstr "&Otevřít Správce BOINC"
 
-#: clientgui/BOINCTaskBar.cpp:407
-#: clientgui/MainFrame.cpp:345
+#: clientgui/BOINCTaskBar.cpp:406
+#: clientgui/MainFrame.cpp:340
 msgid "&Run always"
 msgstr "&Počítat nepřetržitě"
 
-#: clientgui/BOINCTaskBar.cpp:408
-#: clientgui/MainFrame.cpp:350
+#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/MainFrame.cpp:345
 msgid "Run based on &preferences"
 msgstr "Počítat podle &Nastavení"
 
-#: clientgui/BOINCTaskBar.cpp:409
-#: clientgui/MainFrame.cpp:355
+#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/MainFrame.cpp:350
 msgid "&Suspend"
 msgstr "Po&zastavit"
 
-#: clientgui/BOINCTaskBar.cpp:411
-#: clientgui/MainFrame.cpp:363
+#: clientgui/BOINCTaskBar.cpp:410
+#: clientgui/MainFrame.cpp:358
 msgid "&Network activity always available"
 msgstr "Trvale po&volit přístup k síti"
 
-#: clientgui/BOINCTaskBar.cpp:412
-#: clientgui/MainFrame.cpp:368
+#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/MainFrame.cpp:363
 msgid "Network activity based on &preferences"
 msgstr "Připojovat k &síti podle nastavení"
 
-#: clientgui/BOINCTaskBar.cpp:413
-#: clientgui/MainFrame.cpp:373
+#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/MainFrame.cpp:368
 msgid "&Network activity suspended"
 msgstr "Z&akázat přístup k síti"
 
-#: clientgui/BOINCTaskBar.cpp:415
-#: clientgui/MainFrame.cpp:430
+#: clientgui/BOINCTaskBar.cpp:414
+#: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
 msgstr "&O Správci BOINC..."
 
@@ -299,7 +286,7 @@ msgstr ""
 
 #: clientgui/CompletionPage.cpp:121
 msgid "Attached to account manager"
-msgstr "Komunikace se Správcem účtu navázána. "
+msgstr "Spojení se Správcem účtu navázáno. "
 
 #: clientgui/CompletionPage.cpp:125
 msgid "You are now successfully attached to this account manager."
@@ -341,7 +328,7 @@ msgstr "&OK"
 
 #: clientgui/DlgAccountManagerStatus.cpp:110
 msgid "Your current account manager is:"
-msgstr "Váš současný Správce účtů:"
+msgstr "Váš současný Správce účtu:"
 
 #: clientgui/DlgAccountManagerStatus.cpp:117
 msgid "Name:"
@@ -495,23 +482,23 @@ msgstr "Chyba při vytváření wxStaticText, vyžadovaného wxHyperLinkem!"
 #: clientgui/hyperlink.cpp:219
 #, c-format
 msgid ""
-"BOINC could not determine what your default browser is.\n"
-"Please verify that you have either the 'mailcap' package installed or\n"
-"'mime' package installed, and that the 'text/html' mime type is\n"
-"configured for your favorite browser. Another method is to set the\n"
-"BROWSER environment variable to point to whatever your favorite\n"
-"web browser is.  Please open a browser window to the following URL:\n"
-"\n"
-"%s"
+"BOINC tried to display the web page\n"
+"\t%s\n"
+"but couldn't find a web browser.\n"
+"To fix this, set the environment variable\n"
+"BROWSER to the path of your web browser,\n"
+"then restart BOINC."
 msgstr ""
-"BOINC nemůže rozeznat Váš hlavní internetový prohlížeč. \n"
-"Prosím zkontrolujte zda máte nainstalován balíček 'mailcap' nebo 'mime' \n"
-"a zda máte mime typ 'text/html' nastaven na Váš oblíbený internetový \n"
-"prohlížeč. Jiná možnost je nastavit proměnnou BROWSER (prohlížeč) \n"
-"na složku, kde je umístěn Váš oblíbený prohlížeč. \n"
-"Spusťte prosím Váš internetový prohlížeč a zadejte do něj následující adresu: \n"
-"\n"
-"%s"
+"BOINC se pokusil zobrazit internetovou stránku\n"
+"\t%s\n"
+"ale nenalezl žádný internetový prohlížeč.\n"
+"Prosím nastavte systémovou proměnnou BROWSER\n"
+"na složku, ve které je Váš internetový prohlížeč,\n"
+"a restartujte BOINC."
+
+#: clientgui/hyperlink.cpp:229
+msgid "BOINC Manager - Can't find web browser"
+msgstr "Správce BOINC - Nemohu najít internetový prohlížeč"
 
 #: clientgui/Localization.cpp:31
 msgid "Message boards"
@@ -559,7 +546,9 @@ msgstr "Vaše počítače"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "Zobrazit seznam všech počítačů, na kterých provozujete SETI@home"
+msgstr ""
+"Zobrazit seznam všech počítačů, \n"
+"na kterých provozujete SETI@home"
 
 #: clientgui/Localization.cpp:55
 msgid "Your team"
@@ -582,18 +571,18 @@ msgid "BOINC Manager - Connection failed"
 msgstr "Správce BOINC - Připojení selhalo"
 
 #: clientgui/MainDocument.cpp:200
-#: clientgui/MainFrame.cpp:922
-#: clientgui/MainFrame.cpp:923
+#: clientgui/MainFrame.cpp:917
+#: clientgui/MainFrame.cpp:918
 msgid "Connection failed."
 msgstr "Připojení selhalo"
 
 #: clientgui/MainDocument.cpp:306
 msgid "Retrieving system state; please wait..."
-msgstr "Zjišťuji stav systému. Prosím čekej..."
+msgstr "Zjišťuji stav systému. Prosím čekejte..."
 
 #: clientgui/MainDocument.cpp:315
 msgid "Retrieving host information; please wait..."
-msgstr "Zjišťuji stav hostitele. Prosím čekej..."
+msgstr "Zjišťuji stav hostitele. Prosím čekejte..."
 
 #: clientgui/MainDocument.cpp:869
 msgid "BOINC error"
@@ -611,153 +600,153 @@ msgstr "Připojen"
 msgid "Disconnected"
 msgstr "Odpojen"
 
-#: clientgui/MainFrame.cpp:330
+#: clientgui/MainFrame.cpp:325
 msgid "Select computer..."
-msgstr "Zvolte &počítač... "
+msgstr "Zvolit &počítač... "
 
-#: clientgui/MainFrame.cpp:331
+#: clientgui/MainFrame.cpp:326
 msgid "Connect to another computer running BOINC"
 msgstr "Umožňuje připojení k jinému počítači se spuštěným BOINC"
 
-#: clientgui/MainFrame.cpp:337
+#: clientgui/MainFrame.cpp:332
 msgid "Exit the BOINC Manager"
 msgstr "Ukončuje Správce BOINC"
 
-#: clientgui/MainFrame.cpp:346
+#: clientgui/MainFrame.cpp:341
 msgid "Does work regardless of preferences"
 msgstr "Pracuje bez ohledu na nastavení"
 
-#: clientgui/MainFrame.cpp:351
+#: clientgui/MainFrame.cpp:346
 msgid "Does work according to your preferences"
 msgstr "Pracuje podle nastavení"
 
-#: clientgui/MainFrame.cpp:356
+#: clientgui/MainFrame.cpp:351
 msgid "Stops work regardless of preferences"
 msgstr "Pozastavuje práci bez ohledu na nastavení"
 
-#: clientgui/MainFrame.cpp:364
+#: clientgui/MainFrame.cpp:359
 msgid "Does network activity regardless of preferences"
 msgstr "Využívá síťového připojení bez ohledu na nastavení"
 
-#: clientgui/MainFrame.cpp:369
+#: clientgui/MainFrame.cpp:364
 msgid "Does network activity according to your preferences"
 msgstr "Využívá síťového připojení podle nastavení"
 
-#: clientgui/MainFrame.cpp:374
+#: clientgui/MainFrame.cpp:369
 msgid "Stops BOINC network activity"
 msgstr "Zakazuje Správci BOINC využívat síť"
 
-#: clientgui/MainFrame.cpp:381
+#: clientgui/MainFrame.cpp:376
 msgid "Retry &communications"
 msgstr "&Obnovit komunikaci"
 
-#: clientgui/MainFrame.cpp:382
+#: clientgui/MainFrame.cpp:377
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr "Oznámit veškerou dokončenou práci, získat nejnovější informace o kreditu a nastavení, přijmout další práci."
 
-#: clientgui/MainFrame.cpp:387
+#: clientgui/MainFrame.cpp:382
 msgid "Run &benchmarks"
-msgstr "Spusť &testy"
+msgstr "Spustit &testy"
 
-#: clientgui/MainFrame.cpp:388
+#: clientgui/MainFrame.cpp:383
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Spouští testy procesoru"
 
-#: clientgui/MainFrame.cpp:395
-msgid "&Attach to &project"
+#: clientgui/MainFrame.cpp:390
+msgid "Attach to &project"
 msgstr "&Připojit k projektu"
 
-#: clientgui/MainFrame.cpp:396
+#: clientgui/MainFrame.cpp:391
 msgid "Attach to a project to begin processing work"
 msgstr "Práci zahájíte připojením se k projektu."
 
-#: clientgui/MainFrame.cpp:400
+#: clientgui/MainFrame.cpp:395
 msgid "&Account manager"
 msgstr "&Správce účtu"
 
-#: clientgui/MainFrame.cpp:401
+#: clientgui/MainFrame.cpp:396
 msgid "Attach to an account manager"
 msgstr "Připojit ke Správci účtu"
 
-#: clientgui/MainFrame.cpp:408
-#: clientgui/MainFrame.cpp:450
+#: clientgui/MainFrame.cpp:403
+#: clientgui/MainFrame.cpp:445
 msgid "&Options"
 msgstr "&Možnosti"
 
-#: clientgui/MainFrame.cpp:409
+#: clientgui/MainFrame.cpp:404
 msgid "Configure GUI options and proxy settings"
 msgstr "Nastavení vzhledu a proxy serveru"
 
-#: clientgui/MainFrame.cpp:416
+#: clientgui/MainFrame.cpp:411
 msgid "&BOINC Manager\tF1"
 msgstr "&Správce BOINC\tF1"
 
-#: clientgui/MainFrame.cpp:417
+#: clientgui/MainFrame.cpp:412
 msgid "Show information about the BOINC Manager"
 msgstr "Zobrazí informace o Správci BOINC"
 
-#: clientgui/MainFrame.cpp:422
+#: clientgui/MainFrame.cpp:417
 msgid "BOINC &website"
 msgstr "&Webové stránky BOINC"
 
-#: clientgui/MainFrame.cpp:423
+#: clientgui/MainFrame.cpp:418
 msgid "Show information about BOINC and BOINC Manager"
 msgstr "Zobrazí informace o BOINC a o Správci BOINC"
 
-#: clientgui/MainFrame.cpp:431
+#: clientgui/MainFrame.cpp:426
 msgid "Licensing and copyright information."
 msgstr "Informace o licencích a autorských právech."
 
-#: clientgui/MainFrame.cpp:438
+#: clientgui/MainFrame.cpp:433
 msgid "&File"
 msgstr "&Soubor"
 
-#: clientgui/MainFrame.cpp:442
+#: clientgui/MainFrame.cpp:437
 msgid "&Commands"
 msgstr "&Příkazy"
 
-#: clientgui/MainFrame.cpp:446
+#: clientgui/MainFrame.cpp:441
 msgid "&Projects"
 msgstr "P&rojekty"
 
-#: clientgui/MainFrame.cpp:454
+#: clientgui/MainFrame.cpp:449
 #: clientgui/wizardex.cpp:359
 #: clientgui/wizardex.cpp:366
 msgid "&Help"
 msgstr "P&omoc"
 
-#: clientgui/MainFrame.cpp:1022
+#: clientgui/MainFrame.cpp:1027
 msgid "Attaching to project..."
 msgstr "Připojuji se k projektu..."
 
-#: clientgui/MainFrame.cpp:1058
+#: clientgui/MainFrame.cpp:1063
 msgid "Retrying communications for project(s)..."
 msgstr "Obnovuji komunikaci s projektem..."
 
-#: clientgui/MainFrame.cpp:1137
+#: clientgui/MainFrame.cpp:1153
 msgid "Language Selection..."
 msgstr "Volba jazyka..."
 
-#: clientgui/MainFrame.cpp:1138
+#: clientgui/MainFrame.cpp:1154
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Jazyk Správce BOINC byl změněn. Aby se změna projevila, je nutné Správce ukončit a znovu spustit."
 
-#: clientgui/MainFrame.cpp:1537
-#: clientgui/MainFrame.cpp:1554
-#: clientgui/MainFrame.cpp:1560
-#: clientgui/MainFrame.cpp:1603
-#: clientgui/MainFrame.cpp:1631
-#: clientgui/MainFrame.cpp:1640
-#: clientgui/MainFrame.cpp:1654
-#: clientgui/MainFrame.cpp:1662
+#: clientgui/MainFrame.cpp:1552
+#: clientgui/MainFrame.cpp:1569
+#: clientgui/MainFrame.cpp:1575
+#: clientgui/MainFrame.cpp:1618
+#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1655
+#: clientgui/MainFrame.cpp:1669
+#: clientgui/MainFrame.cpp:1677
 msgid "BOINC Manager - Network Status"
 msgstr "Správce BOINC - Stav sítě"
 
-#: clientgui/MainFrame.cpp:1538
-msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
-msgstr "BOINC potřebuje připojení k internetu kvůli servisním záležitostem. Prosím otevři a připoj Správce BOINC k internetu."
-
 #: clientgui/MainFrame.cpp:1553
+msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
+msgstr "BOINC potřebuje připojení k internetu kvůli servisním záležitostem. Prosím otevřete a připojte Správce BOINC k internetu."
+
+#: clientgui/MainFrame.cpp:1568
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -765,42 +754,42 @@ msgstr ""
 "BOINC vyžaduje připojení na internet. \n"
 "Připojit?"
 
-#: clientgui/MainFrame.cpp:1561
+#: clientgui/MainFrame.cpp:1576
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC se připojuje k internetu."
 
-#: clientgui/MainFrame.cpp:1604
+#: clientgui/MainFrame.cpp:1619
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC detekoval připojení k internetu. Bude znovu zahájen přenos a aktualizovány všechny projekty. "
 
-#: clientgui/MainFrame.cpp:1632
+#: clientgui/MainFrame.cpp:1647
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC byl úspěšně odpojen z internetu."
 
-#: clientgui/MainFrame.cpp:1641
+#: clientgui/MainFrame.cpp:1656
 msgid "BOINC failed to disconnected from the internet."
 msgstr "Selhalo odpojení BOINC z internetu."
 
-#: clientgui/MainFrame.cpp:1655
+#: clientgui/MainFrame.cpp:1670
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC byl úspěšně připojen z internetu."
 
-#: clientgui/MainFrame.cpp:1663
+#: clientgui/MainFrame.cpp:1678
 msgid "BOINC failed to connect to the internet."
 msgstr "Selhalo připojení BOINC na internet. "
 
-#: clientgui/MainFrame.cpp:1741
-#: clientgui/MainFrame.cpp:1744
+#: clientgui/MainFrame.cpp:1756
+#: clientgui/MainFrame.cpp:1759
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1742
+#: clientgui/MainFrame.cpp:1757
 #, c-format
 msgid "Connecting to %s"
 msgstr "Připojuji se k:  %s"
 
-#: clientgui/MainFrame.cpp:1745
+#: clientgui/MainFrame.cpp:1760
 #, c-format
 msgid "Connected to %s"
 msgstr "Připojeno k:  %s"
@@ -811,7 +800,7 @@ msgstr "Internet je nedostupný "
 
 #: clientgui/NoInternetConnectionPage.cpp:105
 msgid "Please connect to the Internet and try again."
-msgstr "Prosím obnov připojení k internetu a zkus znovu. "
+msgstr "Prosím obnovte připojení k internetu a zkuste znovu. "
 
 #: clientgui/NotDetectedPage.cpp:102
 msgid "Project not found"
@@ -824,7 +813,7 @@ msgstr "Toto není adresa (URL) BOINC projektu."
 #: clientgui/NotDetectedPage.cpp:111
 #: clientgui/NotDetectedPage.cpp:125
 msgid "Please check the URL and try again."
-msgstr "Zkontroluj adresu (URL) a zkus znovu. "
+msgstr "Zkontrolujte adresu (URL) a zkuste znovu. "
 
 #: clientgui/NotDetectedPage.cpp:116
 msgid "Account manager not found"
@@ -841,12 +830,17 @@ msgid "Account not found"
 msgstr "Účet nebyl nalezen"
 
 #: clientgui/NotFoundPage.cpp:106
-msgid "Verify your account name and password are correct and try again."
-msgstr "Zkontroluj, zda je správně zadán klíč (account key) a heslo, a zkus znovu."
+#: clientgui/NotFoundPage.cpp:176
+msgid "Check the email address and password, and try again."
+msgstr "Zkontrolujte emailovou adresu a zkuste znovu."
+
+#: clientgui/NotFoundPage.cpp:172
+msgid "Check the username and password, and try again."
+msgstr "Zkontrolujte uživatelské jméno (username) a heslo (password) a zkuste znovu."
 
 #: clientgui/ProjectInfoPage.cpp:104
 msgid "Project URL"
-msgstr "Adresa (URL) projektu "
+msgstr "Adresa projektu "
 
 #: clientgui/ProjectInfoPage.cpp:109
 msgid "Enter the URL of the project's web site."
@@ -914,7 +908,7 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
-"Správce účtu je momentálně nedostupný.\n"
+"Správce účtu je dočasně nedostupný.\n"
 "\n"
 "Zkuste znovu později. "
 
@@ -957,13 +951,13 @@ msgstr "Neplatná adresa (URL)"
 #: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
 msgid ""
-"Please specify a valid host name.\n"
+"Please specify a valid URL.\n"
 "For example:\n"
-"boincproject.example.com"
+"http://boincproject.example.com"
 msgstr ""
-"Zadejte platnou adresu.\n"
+"Zadejte platnou adresu (URL).\n"
 "Například:\n"
-"boincproject.example.com"
+"http://boincprojekt.priklad.com"
 
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
@@ -1040,19 +1034,19 @@ msgid "Report all completed work, get latest credit, get latest preferences, and
 msgstr "Oznámit veškerou dokončenou práci, získat nejnovější informace o kreditu a nastavení, přijmout další práci"
 
 #: clientgui/ViewProjects.cpp:114
-#: clientgui/ViewProjects.cpp:552
+#: clientgui/ViewProjects.cpp:560
 #: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:450
+#: clientgui/ViewWork.cpp:458
 msgid "Suspend"
 msgstr "Pozastavit"
 
 #: clientgui/ViewProjects.cpp:115
-#: clientgui/ViewProjects.cpp:552
+#: clientgui/ViewProjects.cpp:560
 msgid "Suspend work for this project."
 msgstr "Pozastavit práci na projektu"
 
 #: clientgui/ViewProjects.cpp:121
-#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewProjects.cpp:572
 msgid "No new work"
 msgstr "Žádnou další práci"
 
@@ -1067,9 +1061,12 @@ msgstr "Restartovat projekt"
 #: clientgui/ViewProjects.cpp:129
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
 msgstr ""
-"Smazat všechny soubory související s tímto projektem a stáhnout nové. \n"
-"Před restartováním doporučujeme projekt aktualizovat, čímž odešlete \n"
-" a ohlásíte všechny dokončené výsledky."
+"Smazat všechny soubory související\n"
+" s tímto projektem a stáhnout nové. \n"
+"Před restartováním doporučujeme\n"
+" projekt aktualizovat, čímž odešlete \n"
+"a ohlásíte všechny dokončené\n"
+" výsledky."
 
 #: clientgui/ViewProjects.cpp:138
 msgid "Detach"
@@ -1079,8 +1076,7 @@ msgstr "Opustit"
 msgid "Detach computer from this project.  Work in progress will be lost (use 'Update' first to report any completed work)."
 msgstr ""
 "Odpojit se z daného projektu. Započatá práce bude ztracena. \n"
-"Před opuštěním doporučujeme projekt aktualizovat, čímž odešlete \n"
-"a ohlásíte všechny dokončené výsledky. "
+"Před opuštěním doporučujeme projekt aktualizovat, čímž odešletea ohlásíte všechny dokončené výsledky. "
 
 #: clientgui/ViewProjects.cpp:151
 msgid "Account"
@@ -1139,7 +1135,7 @@ msgstr "Restartuji projekt..."
 #: clientgui/ViewProjects.cpp:292
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Opravdu chceš restartovat projekt '%s'?"
+msgstr "Opravdu chcete restartovat projekt '%s'?"
 
 #: clientgui/ViewProjects.cpp:298
 msgid "Reset Project"
@@ -1152,7 +1148,7 @@ msgstr "Opouštím projekt..."
 #: clientgui/ViewProjects.cpp:339
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr "Opravdu chceš opustit projekt '%s'?"
+msgstr "Opravdu chcete opustit projekt '%s'?"
 
 #: clientgui/ViewProjects.cpp:345
 msgid "Detach from Project"
@@ -1162,45 +1158,45 @@ msgstr "Opustit projekt"
 msgid "Launching browser..."
 msgstr "Spouštím internetový prohlížeč..."
 
-#: clientgui/ViewProjects.cpp:548
-#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewProjects.cpp:556
+#: clientgui/ViewWork.cpp:454
 msgid "Resume"
 msgstr "Obnovit"
 
-#: clientgui/ViewProjects.cpp:548
+#: clientgui/ViewProjects.cpp:556
 msgid "Resume work for this project."
 msgstr "Obnoví práci pro tento projekt"
 
-#: clientgui/ViewProjects.cpp:560
+#: clientgui/ViewProjects.cpp:568
 msgid "Allow new work"
-msgstr "Povol přijímat další práci"
+msgstr "Povolit přijímat další práci"
 
-#: clientgui/ViewProjects.cpp:560
+#: clientgui/ViewProjects.cpp:568
 msgid "Allow fetching new work for this project."
-msgstr "Povol projektu přijímat další práci"
+msgstr "Povolit projektu přijímat další práci"
 
-#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewProjects.cpp:572
 msgid "Don't fetch new work for this project."
 msgstr "Zakázat projektu přijímat další práci"
 
-#: clientgui/ViewProjects.cpp:599
+#: clientgui/ViewProjects.cpp:607
 msgid "Web sites"
 msgstr "Webové stránky"
 
-#: clientgui/ViewProjects.cpp:713
-#: clientgui/ViewWork.cpp:658
+#: clientgui/ViewProjects.cpp:721
+#: clientgui/ViewWork.cpp:666
 msgid "Suspended by user"
 msgstr "Pozastaveno uživatelem"
 
-#: clientgui/ViewProjects.cpp:716
+#: clientgui/ViewProjects.cpp:724
 msgid "Won't get new work"
 msgstr "Nelze získat další práci"
 
-#: clientgui/ViewProjects.cpp:719
+#: clientgui/ViewProjects.cpp:727
 msgid "Scheduler request pending"
 msgstr "Nevyřízený požadavek plánovače"
 
-#: clientgui/ViewProjects.cpp:725
+#: clientgui/ViewProjects.cpp:733
 msgid "Communication deferred "
 msgstr "Komunikace odložena "
 
@@ -1263,7 +1259,7 @@ msgstr "Obnovit přenos"
 
 #: clientgui/ViewTransfers.cpp:97
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Klikni na <Obnovit přenos> pro odeslání souboru"
+msgstr "Klikněte na <Obnovit přenos> pro odeslání souboru"
 
 #: clientgui/ViewTransfers.cpp:103
 msgid "Abort Transfer"
@@ -1272,7 +1268,7 @@ msgstr "Zrušit přenos"
 #: clientgui/ViewTransfers.cpp:104
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr ""
-"Klikni na <Zrušit přenos> pro odstranění souboru z frony. \n"
+"Klikněte na <Zrušit přenos> pro odstranění souboru z frony. \n"
 "Za odstraněný výsledek nebude přidělen žádný kredit."
 
 #: clientgui/ViewTransfers.cpp:116
@@ -1307,43 +1303,43 @@ msgstr "Pokouším se obnovit přenos..."
 #: clientgui/ViewTransfers.cpp:187
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
-msgstr "Opravdu chceš zrušit přenos souboru '%s'?"
+msgstr "Opravdu chcete zrušit přenos souboru '%s'?"
 
 #: clientgui/ViewTransfers.cpp:192
 msgid "Abort File Transfer"
 msgstr "Zrušit přenos souboru"
 
-#: clientgui/ViewTransfers.cpp:509
+#: clientgui/ViewTransfers.cpp:525
 msgid "Retry in "
 msgstr "Znovu zkusím za "
 
-#: clientgui/ViewTransfers.cpp:511
-#: clientgui/ViewWork.cpp:649
+#: clientgui/ViewTransfers.cpp:527
+#: clientgui/ViewWork.cpp:657
 msgid "Download failed"
 msgstr "Chyba při přijímání"
 
-#: clientgui/ViewTransfers.cpp:513
-#: clientgui/ViewWork.cpp:685
+#: clientgui/ViewTransfers.cpp:529
+#: clientgui/ViewWork.cpp:693
 msgid "Upload failed"
 msgstr "Chyba při odesílání"
 
-#: clientgui/ViewTransfers.cpp:516
-#: clientgui/ViewTransfers.cpp:525
+#: clientgui/ViewTransfers.cpp:532
+#: clientgui/ViewTransfers.cpp:541
 msgid "Suspended"
 msgstr "Pozastaveno"
 
-#: clientgui/ViewTransfers.cpp:518
-#: clientgui/ViewWork.cpp:687
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewWork.cpp:695
 msgid "Uploading"
 msgstr "Odesílám"
 
-#: clientgui/ViewTransfers.cpp:518
-#: clientgui/ViewWork.cpp:651
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewWork.cpp:659
 msgid "Downloading"
 msgstr "Stahuji"
 
 #: clientgui/ViewWork.cpp:100
-#: clientgui/ViewWork.cpp:450
+#: clientgui/ViewWork.cpp:458
 msgid "Suspend work for this result."
 msgstr "Pozastaví práci na tomto souboru"
 
@@ -1403,7 +1399,7 @@ msgid "Showing graphics for result..."
 msgstr "Zobrazuji grafické okno aplikace..."
 
 #: clientgui/ViewWork.cpp:209
-msgid "Are you sure you wish to display graphics on a remote machine?"
+msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Opravdu chcete zobrazit grafiku na vzdáleném počítači?"
 
 #: clientgui/ViewWork.cpp:258
@@ -1413,60 +1409,60 @@ msgstr "Odstraňuji soubor..."
 #: clientgui/ViewWork.cpp:261
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
-msgstr "Opravdu chceš odstranit soubor '%s'?"
+msgstr "Opravdu chcete odstranit soubor '%s'?"
 
 #: clientgui/ViewWork.cpp:267
 msgid "Abort result"
 msgstr "Odstranit soubor"
 
-#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewWork.cpp:454
 msgid "Resume work for this result."
 msgstr "Obnoví práci na tomto souboru"
 
-#: clientgui/ViewWork.cpp:645
+#: clientgui/ViewWork.cpp:653
 msgid "New"
 msgstr "Nový"
 
-#: clientgui/ViewWork.cpp:656
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:664
+#: clientgui/ViewWork.cpp:686
 msgid "Aborted by user"
 msgstr "Zrušeno uživatelem"
 
-#: clientgui/ViewWork.cpp:660
+#: clientgui/ViewWork.cpp:668
 msgid "Activities suspended"
 msgstr "Činnost pozastavena"
 
-#: clientgui/ViewWork.cpp:663
+#: clientgui/ViewWork.cpp:671
 msgid "Running"
 msgstr "Počítám"
 
-#: clientgui/ViewWork.cpp:665
+#: clientgui/ViewWork.cpp:673
 msgid "Preempted"
 msgstr "Dočasně odložen"
 
-#: clientgui/ViewWork.cpp:667
-#: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:675
+#: clientgui/ViewWork.cpp:678
 msgid "Ready to run"
 msgstr "Připraven"
 
-#: clientgui/ViewWork.cpp:680
+#: clientgui/ViewWork.cpp:688
 msgid "Computation error"
 msgstr "Chyba při výpočtu"
 
-#: clientgui/ViewWork.cpp:692
+#: clientgui/ViewWork.cpp:700
 msgid "Acknowledged"
 msgstr "Potvrzeno"
 
-#: clientgui/ViewWork.cpp:694
+#: clientgui/ViewWork.cpp:702
 msgid "Ready to report"
 msgstr "Výsledek odeslán"
 
-#: clientgui/ViewWork.cpp:696
+#: clientgui/ViewWork.cpp:704
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Chyba: Neplatný stav '%d'"
 
-#: clientgui/ViewWork.cpp:704
+#: clientgui/ViewWork.cpp:712
 msgid "Activities suspended by user"
 msgstr "Činnost pozastavena uživatelem"
 
@@ -1498,11 +1494,11 @@ msgstr "Chybná adresa (URL) nastavení projektu"
 
 #: clientgui/WelcomePage.cpp:185
 msgid "Account Creation Disabled"
-msgstr "Vytváření účtů zakázáno"
+msgstr "Není povoleno vytváření účtů"
 
 #: clientgui/WelcomePage.cpp:190
 msgid "Client Account Creation Disabled"
-msgstr "Vytváření účtů zakázáno "
+msgstr "Není povoleno vytváření účtů"
 
 #: clientgui/WelcomePage.cpp:195
 msgid "Account Already Exists"
@@ -1530,19 +1526,19 @@ msgstr "Selhala detekce sítě"
 
 #: clientgui/WelcomePage.cpp:231
 msgid "To continue, click Next."
-msgstr "Pro pokračování stiskni Další >"
+msgstr "Pro pokračování stiskněte Další >"
 
 #: clientgui/WizardAccountManager.cpp:116
 msgid "Attach to Account Manager"
 msgstr "Připojit ke Správci účtu"
 
-#: clientgui/WizardAccountManager.cpp:374
-#: clientgui/WizardAttachProject.cpp:426
+#: clientgui/WizardAccountManager.cpp:373
+#: clientgui/WizardAttachProject.cpp:423
 msgid "Do you really want to cancel?"
-msgstr "Opravdu chceš operaci zrušit?"
+msgstr "Opravdu chcete operaci zrušit?"
 
-#: clientgui/WizardAccountManager.cpp:375
-#: clientgui/WizardAttachProject.cpp:427
+#: clientgui/WizardAccountManager.cpp:374
+#: clientgui/WizardAttachProject.cpp:424
 msgid "Question"
 msgstr "Dotaz: "
 
