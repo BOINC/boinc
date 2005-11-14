@@ -33,12 +33,13 @@ class CPaintStatistics : public wxPanel
 public:
 	CPaintStatistics();
 	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel");
-	
-	wxInt32                 m_SelectedStatistic;
+
+    wxInt32                 m_SelectedStatistic;
 	wxString                heading;
 
 protected:
-	void OnPaint(wxPaintEvent& event);
+    void OnPaint(wxPaintEvent& event);
+    void OnSize(wxSizeEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };

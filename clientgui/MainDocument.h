@@ -39,6 +39,7 @@ public:
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
     int            GetConnectingComputerName(wxString& strMachine);
+    void           GetLocalPassword(wxString& strPassword);
     int            SetNewComputerName(const wxChar* szComputer);
     int            SetNewComputerPassword(const wxChar* szPassword);
     void           SetStateError();
@@ -77,8 +78,6 @@ public:
     //
 private:
 
-    CNetworkConnection*         m_pNetworkConnection;
-
     bool                        m_bCachedStateLocked;
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
@@ -92,6 +91,8 @@ private:
     int                         CachedStateUpdate();
 
 public:
+
+    CNetworkConnection*         m_pNetworkConnection;
 
     int                         OnInit();
     int                         OnExit();

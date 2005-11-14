@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "MainDocument.h"
 
 ////@begin includes
 ////@end includes
@@ -45,6 +46,8 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgSelectComputer, wxDialog )
 BEGIN_EVENT_TABLE( CDlgSelectComputer, wxDialog )
 
 ////@begin CDlgSelectComputer event table entries
+    EVT_TEXT( ID_SELECTCOMPUTERNAME, CDlgSelectComputer::OnComputerNameUpdated )
+
 ////@end CDlgSelectComputer event table entries
 
 END_EVENT_TABLE()
@@ -153,7 +156,7 @@ bool CDlgSelectComputer::ShowToolTips(){
  * Get bitmap resources
  */
 
-wxBitmap CDlgSelectComputer::GetBitmapResource( const wxString& /*name*/ )
+wxBitmap CDlgSelectComputer::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CDlgSelectComputer bitmap retrieval
@@ -165,11 +168,30 @@ wxBitmap CDlgSelectComputer::GetBitmapResource( const wxString& /*name*/ )
  * Get icon resources
  */
 
-wxIcon CDlgSelectComputer::GetIconResource( const wxString& /*name*/ )
+wxIcon CDlgSelectComputer::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CDlgSelectComputer icon retrieval
     return wxNullIcon;
 ////@end CDlgSelectComputer icon retrieval
 }
+
+/*!
+ * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SELECTCOMPUTERNAME
+ */
+
+void CDlgSelectComputer::OnComputerNameUpdated( wxCommandEvent& event )
+{
+    wxString       strPassword = wxEmptyString;
+    CMainDocument* pDoc        = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (m_ComputerNameCtrl->GetValue().Lower() == wxT("localhost")) {
+        pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
+        m_ComputerPasswordCtrl->SetValue(strPassword);
+    }
+}
+
 const char *BOINC_RCSID_28d78701f5="$Id$";
