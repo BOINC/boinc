@@ -26,14 +26,17 @@ function show_host_xml($host) {
         <p_iops>$host->p_iops</p_iops>
         <os_name>$host->os_name</os_name>
         <os_version>$host->os_version</os_version>
+        <venue>$host->venue</venue>
     </host>
 ";
 }
 
 function show_user_xml($user, $show_hosts) {
     xml_header();
+    $cpid = md5($user->cross_project_id.$user->email_addr);
     echo "<user>
     <id>$user->id</id>
+    <cpid>$cpid</cpid>
     <create_time>$user->create_time</create_time>
     <name>".htmlspecialchars($user->name)."</name>
     <country>$user->country</country>
@@ -46,6 +49,7 @@ function show_user_xml($user, $show_hosts) {
 ";
     $result = mysql_query("select * from host where userid=$user->id");
     if ($show_hosts) {
+        echo "   <venue>$user->venue</venue>\n";
         while ($host = mysql_fetch_object($result)) {
             show_host_xml($host);
         }

@@ -13712,3 +13712,15 @@ David  13 Nov 2005
 
     clientgui/
         MainDocument.cpp
+
+David  14 Nov 2005
+    - the show_user.php web RPC now returns
+        CPIDs, host CPIDs, default venue, and host venues
+    - added new rpc, am_set_host_info.php, for setting host venue
+        See http://boinc.berkeley.edu/web_rpc.php
+
+    html/
+        inc/
+            xml.inc
+        user/
+            am_set_host_info.php (new)

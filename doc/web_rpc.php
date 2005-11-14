@@ -118,11 +118,32 @@ list_item("output",
 </am_set_info_reply>")
 );
 list_item("action",
-    "updates one or more items of data associated with the given account"
+    "updates one or more attributes of the given account"
 );
 
 list_end();
 
+echo "
+<h3>Set host info</h3>
+";
+list_start();
+list_item("URL", "project_url/am_set_host_info.php");
+list_item("input",
+    "account_key
+    <br>hostid
+    <br>venue
+    "
+);
+list_item("output",
+    html_text("<am_set_host_info_reply>
+    [ <error>MSG</error> ]
+    [ <success/> ]
+</am_set_host_info_reply>")
+);
+list_item("action",
+    "Updates the host's venue"
+);
+list_end();
 echo "
 <h3>Get account/host credit information</h3>
 ";
@@ -136,6 +157,8 @@ list_item("input",
 );
 list_item("output",
 html_text("<user>
+    <id>123</id>
+    <cpid>fe0b2753a355b17864ec061eb1b9e8de</cpid>
     <create_time>918948493</create_time>
     <name>Joe Smith</name>
     <country>United States</country>
@@ -143,14 +166,15 @@ html_text("<user>
     <expavg_credit>200</expavg_credit>
     <expavg_time>1110833427.64028</expavg_time>
     <teamid>114322</teamid>
-    <url/>
+    <url>example.com</url>
     <has_profile>1</has_profile>
 </user>
 
 or
 
 <user>
-    <id>1</id>
+    <id>123</id>
+    <cpid>fe0b2753a355b17864ec061eb1b9e8de</cpid>
     <create_time>1101918807</create_time>
     <name>David</name>
     <country>United States</country>
@@ -158,9 +182,11 @@ or
     <expavg_credit>0.000883</expavg_credit>
     <expavg_time>1116963330.83107</expavg_time>
     <teamid>0</teamid>
-    <url/>
+    <url>example.com</url>
     <has_profile>1</has_profile>
     <host>
+        <id>123</id>
+        <host_cpid>fe0b2753a355b17864ec061eb1b9e8de</host_cpid>
         <total_credit>0</total_credit>
         <expavg_credit>0</expavg_credit>
         <expavg_time>0</expavg_time>
@@ -173,6 +199,7 @@ or
         <os_name>Microsoft Windows XP</os_name>
         <os_version>Professional Edition, Service Pack 2, (05.01.2600.00)</os_version>
     </host>
+    ...
 </user>
 ")
 );
