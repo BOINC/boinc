@@ -912,6 +912,7 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         wxString strPassword = wxEmptyString;
         if (wxEmptyString == pDlg->m_ComputerNameCtrl->GetValue()) {
             pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
+            pDlg->m_ComputerNameCtrl->SetValue(wxT("localhost")); 
             pDlg->m_ComputerPasswordCtrl->SetValue(strPassword);
         }
 
