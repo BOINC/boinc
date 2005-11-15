@@ -27,6 +27,8 @@
 
 
 CLocalization::CLocalization() {
+
+	// SETI@home
     m_strSAHMessageBoardsName =
         _("Message boards");
     m_strSAHMessageBoardsDescription =
@@ -55,6 +57,84 @@ CLocalization::CLocalization() {
         _("Your team");
     m_strSAHYourTeamDescription =
         _("View information about your team");
+
+	// Einstein@home
+    m_strEAHCommonQuestionsName =
+        _("Common questions");
+    m_strEAHCommonQuestionsDesc =
+        _("Read the Einstein@Home Frequently Asked Question list");
+    m_strEAHSceensaverInfoName =
+        _("Screensaver info");
+    m_strEAHSceensaverInfoDesc =
+        _("Read a detailed description of the Einstein@Home screensaver");
+    m_strEAHMessageBoardsName =
+        _("Message boards");
+    m_strEAHMessageBoardsDesc =
+        _("Correspond with admins and other users on the Einstein@Home message boards");
+	m_strEAHEinsteinStatusName =
+        _("Einstein status");
+    m_strEAHEinsteinStatusDesc =
+        _("Current status of the Einstein@Home server");
+    m_strEAHReportProblemsName =
+        _("Report problems");
+    m_strEAHReportProblemsDesc =
+        _("A link to the Einstein@Home problems and bug reports message board");
+    m_strEAHYourAccountName =
+        _("Your account");
+    m_strEAHYourAccountDesc =
+        _("View and modify your Einstein@Home account profile and preferences");
+	m_strEAHAccountSummaryName =
+        _("Account summary");
+    m_strEAHAccountSummaryDesc =
+        _("View your account information and credit totals");
+    m_strEAHYourResultsName =
+        _("Your results");
+    m_strEAHYourResultsDescription =
+        _("View your last week (or more) of computational results and work");
+	m_strEAHYourComputersName =
+        _("YourComputers");
+    m_strEAHYourComputersDesc =
+        _("View a listing of all the computers on which you are running Einstein@Home");
+    m_strEAHYourTeamName =
+        _("Your team");
+    m_strEAHYourTeamDescription =
+        _("View information about your team");
+	m_strEAHLIGOProjectName =
+        _("LIGO project");
+    m_strEAHLIGOProjectDesc =
+        _("The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project");
+    m_strEAHGEO600ProjectName =
+        _("GEO-600 project");
+    m_strEAHGEO600ProjectDesc =
+        _("The home page of the GEO-600 project");
+
+    // Predictor@home
+    m_strPAHYourAccountName =
+        _("Your account");
+    m_strPAHYourAccountDesc =
+        _("View your account information and credit totals");
+	m_strPAHTeamName =
+        _("Team");
+    m_strPAHTeamDesc =
+        _("Info about your Team");
+
+	// ClimatePrediciton.net
+	m_strCPDNHelpName =
+        _("Help");
+    m_strCPDNHelpDesc =
+        _("Get help for climateprediction.net");
+	m_strCPDNNewsName =
+        _("News");
+    m_strCPDNNewsDesc =
+        _("climateprediction.net News");
+	m_strCPDNYourAccountName =
+        _("Your account");
+    m_strCPDNYourAccountDesc =
+        _("View your account information, credits, and trickles");
+	m_strCPDNTeamName =
+        _("Team");
+    m_strCPDNTeamDesc =
+        _("Info about your team");
 }
 
 const char *BOINC_RCSID_4632804e37="$Id$";
