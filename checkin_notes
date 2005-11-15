@@ -13732,10 +13732,13 @@ Rom    14 Nov 2005
     - Bug Fix: Force a refresh of the statistics window on a resize event.
     - Bug Fix: Prepopulate the password box on the Select Computer dialog
         when the participant types in localhost for the computer name.
+    - Bug Fix: Try and make the options dialog automatically adjust it's size
+        by removing the specific sizes put in for wxWidgets 2.4.x
         
     clientgui/
         BOINCGUI.pjd
         DlgSelectComputer.cpp, .h
+        DlgOptions.cpp
         MainDocument.cpp, .h
         MainFrame.cpp
         ViewStatistics.cpp, .h
