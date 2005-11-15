@@ -157,9 +157,6 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     GetSizer()->SetSizeHints(this);
     Centre();
 ////@end CDlgOptions creation
-
-    Layout();
-
     return TRUE;
 }
 
@@ -179,7 +176,7 @@ void CDlgOptions::CreateControls()
     itemNotebook3->Create( itemDialog1, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxNB_TOP );
 
     wxPanel* itemPanel4 = new wxPanel;
-    itemPanel4->Create( itemNotebook3, ID_GENERAL, wxDefaultPosition, wxSize(99, 80), wxTAB_TRAVERSAL );
+    itemPanel4->Create( itemNotebook3, ID_GENERAL, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemPanel4->SetSizer(itemBoxSizer5);
 
@@ -276,7 +273,7 @@ void CDlgOptions::CreateControls()
 #endif
 
     wxPanel* itemPanel27 = new wxPanel;
-    itemPanel27->Create( itemNotebook3, ID_HTTPPROXY, wxDefaultPosition, wxSize(99, 150), wxTAB_TRAVERSAL );
+    itemPanel27->Create( itemNotebook3, ID_HTTPPROXY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* itemBoxSizer28 = new wxBoxSizer(wxVERTICAL);
     itemPanel27->SetSizer(itemBoxSizer28);
 
@@ -332,7 +329,7 @@ void CDlgOptions::CreateControls()
     itemNotebook3->AddPage(itemPanel27, _("HTTP Proxy"));
 
     wxPanel* itemPanel43 = new wxPanel;
-    itemPanel43->Create( itemNotebook3, ID_SOCKSPROXY, wxDefaultPosition, wxSize(99, 80), wxTAB_TRAVERSAL );
+    itemPanel43->Create( itemNotebook3, ID_SOCKSPROXY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxVERTICAL);
     itemPanel43->SetSizer(itemBoxSizer44);
 
@@ -715,7 +712,7 @@ bool CDlgOptions::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CDlgOptions::GetBitmapResource(const wxString&)
+wxBitmap CDlgOptions::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CDlgOptions bitmap retrieval
@@ -728,7 +725,7 @@ wxBitmap CDlgOptions::GetBitmapResource(const wxString&)
  * Get icon resources
  */
 
-wxIcon CDlgOptions::GetIconResource(const wxString&)
+wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CDlgOptions icon retrieval
