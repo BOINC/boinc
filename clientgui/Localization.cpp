@@ -92,7 +92,7 @@ CLocalization::CLocalization() {
     m_strEAHYourResultsDescription =
         _("View your last week (or more) of computational results and work");
 	m_strEAHYourComputersName =
-        _("YourComputers");
+        _("Your computers");
     m_strEAHYourComputersDesc =
         _("View a listing of all the computers on which you are running Einstein@Home");
     m_strEAHYourTeamName =
