@@ -17,91 +17,110 @@ esac
 ## return 0 if ok, 1 too old or not found  (-> shell conventions).
 ## ----------------------------------------------------------------------
 check_version()
-{
-    local foundit
+{  
+    dir=`pwd`
+    cd /tmp
+    foundit=
     ## get current version of $1
-    echo $ECHO_N "Checking version of '$1' >= $2.$3... $ECHO_C"
-    fullpath=`type -p $1`;
+    desired=$2
+    echo $ECHO_N "Checking version of '$1' >= $desired... $ECHO_C"
+    name=$1
+    fullpath=`type $name | awk '{ print $(NF) }'`;
     if [ -x "$fullpath" ]; then
 	foundit=yes;
     fi
 
     if [ "$foundit" != yes ]; then 
 	echo "Didn't find application";
-	ac_major=0; ac_minor=0; 
+	version=0
+	success=no
     else
-	cmdline="$fullpath --version 2> /dev/null";
+	cmdline="$fullpath --version 2>/dev/null";
 	version=`$cmdline`;
 	if [ -n "${version}" ]; then
-	    ## HACK: the pre-pended space "x " is important for the following regexp 
-	    ## to always work even if the version-number comes back without text prepended
-	    version="x ${version}"
+	    version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]"."j[2] ; if ((m*1)>0) { print m ; break; } } }'`
+	    success=`echo $version $desired | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
 	else
 	    version=0
+	    success=no
 	fi
-	ac_major=`echo $version | sed 's/.* v*\([0-9]*\)[.]\([0-9]*\).*/\1/g'`
-	ac_minor=`echo $version | sed 's/.* v*\([0-9]*\)[.]\([0-9]*\).*/\2/g'`
     fi
+    cd $dir
 
-    if [ ${ac_major} -ge $2 ] && [ ${ac_minor} -ge $3 ]; then
-	echo "ok. (${ac_major}.${ac_minor})"
-	return 0;
+    if [ $success = "yes" ] ; then
+      echo "succeeded. ($version)"
+      return 0;
     else
-	echo "failed. (${ac_major}.${ac_minor})"
-	return 1;
+      echo "failed. ($version)"
+      return 1;
     fi
-
 } ## check_version()
 
 
-## --------------------------------------------------------------------------------
-## 'MAIN' starts here 
-## --------------------------------------------------------------------------------
-echo "Bootstrapping configure script and makefiles:"
+  ## --------------------------------------------------------------------------------
+  ## 'MAIN' starts here 
+  ## --------------------------------------------------------------------------------
+  echo "Bootstrapping configure script and makefiles:"
 
-## ---------- first check santity of the installed versions of the build-system
+  ## ---------- first check santity of the installed versions of the build-system
 
-## some sorry systems don't have proper GNU-make... build one
-if ! check_version make 3 79; then
-    echo "Couldn't find a new-enough version of GNU 'make', please install one!";
-    exit 1;
-    # build_lsc_aux "make-3.80"
-fi
+  ## some sorry systems don't have proper GNU-make... build one
+  if check_version make 3.79; then
+      echo >/dev/null
+  else
+      if check_version gmake 3.79; then
+	echo >/dev/null
+      else
+	echo "Couldn't find a new-enough version of GNU 'make', please install one!";
+	exit 1;
+      # build_lsc_aux "make-3.80"
+      fi
+  fi
 
-## FreeBSD's m4 seems to be broken? Download a fresh one
-if ! check_version m4 1 4; then
-    echo "Couldn't find a new-enough version of 'm4', please install one!";
-    exit 1;
-    # build_lsc_aux "m4-1.4.1"
-fi
+  ## FreeBSD's m4 seems to be broken? Download a fresh one
+  if check_version m4 1.4; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'm4', please install one!";
+      exit 1;
+      # build_lsc_aux "m4-1.4.1"
+  fi
 
-if ! check_version libtool 1 4; then
-    echo "Couldn't find a new-enough version of 'libtool', please install one!";
-    exit 1;
-    # build_lsc_aux "libtool-1.5.6"
-fi
+  if check_version libtool 1.4; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'libtool', please install one!";
+      exit 1;
+      # build_lsc_aux "libtool-1.5.6"
+  fi
 
-if ! check_version pkg-config 0 15; then
-    echo "Couldn't find a new-enough version of 'pkg-config', please install one!";
-    exit 1;
-    # build_lsc_aux "pkgconfig-0.15.0"
-fi
+  if check_version pkg-config 0.15; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'pkg-config', please install one!";
+      exit 1;
+      # build_lsc_aux "pkgconfig-0.15.0"
+  fi
 
-if ! check_version autoconf 2 58; then
-    echo "Couldn't find a new-enough version of 'autoconf', please install one!";
-    echo "If you have a newer version, set the environment-variable 'AUTOCONF' to its path";
-    exit 1;
-    # build_lsc_aux "autoconf-2.59"
-fi
-if ! check_version automake 1 8; then
-    echo "Couldn't find a new-enough version of 'automake', please install one!";
-    echo "If you have a newer version, set the environment-variable 'AUTOMAKE' to its path";
-    exit 1;
-    # build_lsc_aux "automake-1.8.5"
-fi
+  if check_version autoconf 2.58; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'autoconf', please install one!";
+      echo "If you have a newer version, set the environment-variable 'AUTOCONF' to its path";
+      exit 1;
+      # build_lsc_aux "autoconf-2.59"
+  fi
+  if check_version automake 1.8; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'automake', please install one!";
+      echo "If you have a newer version, set the environment-variable 'AUTOMAKE' to its path";
+      exit 1;
+      # build_lsc_aux "automake-1.8.5"
+  fi
 
-## ---------- ok, now run aclocal, automake, autohead and autoconf
-cmdline="aclocal -I m4 && autoheader && automake && autoconf";
+  ## ---------- ok, now run aclocal, automake, autohead and autoconf
+  cmdline="aclocal -I m4 && autoheader && automake && autoconf";
 echo "$cmdline"
 if eval $cmdline; then
     echo "Done, now run ./configure"
