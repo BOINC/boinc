@@ -126,65 +126,22 @@ htmlspecialchars("
   <host_cpid>e129b5fa44ed8ba58e41c472822f2807</host_cpid>
 </host>
 "),"</pre>
-<hr>
-NOTE: YOU CAN IGNORE THE FOLLOWING;
-ALL PROJECTS EXPORT THE SAME INFO NOW.
+<a name=task>
+<h2>Exporting statistics data</h2>
 <p>
-A project can decide what data to export,
-and how it is divided into files.
-This is described by a file <b>db_dump.xml</b> of the following form:
+Projects: to export statistics data, include an entry like
+".html_text("
+    <tasks>
+        <task>
+            <cmd>db_dump -d 2 -dump_spec ../db_dump_spec.xml</cmd>
+            <output>db_dump.out</output>
+            <period>24 hours</period>
+        </task>
+    </tasks>
+")."
+in your config.xml file.
+Make sure the file db_dump_spec.xml is in your project's
+root directory.
 ";
-echo html_text("
-<boinc_db_dump_spec>
-  <enumeration>
-    <table>x</table>
-    <filename>x</filename>
-    <sort>x</sort>
-    <output>
-      <recs_per_file>n</recs_per_file>
-      <detail/>
-      <compression>x</compression>
-    </output>
-    ...
-  </enumeration>
-  ...
-</boinc_db_dump_spec>
-");
-echo "
-An 'enumeration' is a listing of particular table.
-The fields are:
-";
-list_start();
-list_item("table", "'user', 'host' or 'team'");
-list_item("filename", "The base filename.");
-list_item("sort", "The sorting criterion:
-    'total_credit', 'expavg_credit', or 'id'.
-    'id' is the default."
-);
-list_end();
-echo
-"An 'output' is a file or set of files containing an enumeration.
-The fields are:";
-list_start();
-list_item("recs_per_file",
-    "If present, the listing is divided into multiple files
-    with the given number of records per file.
-    The file names have the form xxx_N,
-    where xxx is the base filename.
-    For views that are ordered by ID,
-    each file contains a fixed-size segment of the ID range,
-    not a fixed number of records.
-    If the database ID allocation has gaps,
-    files will have fewer than this number of records.
-    <p>
-    If zero or absent,
-    the listing is written to a single file."
-);
-list_item("detail",
-    "If present, records are 'detailed':
-    user records include a list of hosts,
-    and team records include a list of users."
-);
-list_end();
 page_tail();
 ?>

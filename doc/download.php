@@ -212,7 +212,7 @@ if ($xml) {
         <p>
         Download information can be restricted by
         platform and/or version number, 
-        and can be down in XML format.
+        and can be obtained in XML format.
         <a href=download_info.php>Details</a>.
     ";
     page_tail();

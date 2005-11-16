@@ -5,6 +5,13 @@ page_head("Web Remote Procedure Calls (RPCs)");
 
 echo "
 <p>
+BOINC projects export a number of Web RPCs
+that can be used to create, query and update
+accounts and host records.
+These can be used for
+<a href=acct_mgt.php>account management systems</a> and
+credit statistics web sites.
+<p>
 BOINC's RPC mechanisms have the following conventions:
 <ul>
 <li> Each RPC is an HTTP GET transaction.
@@ -18,11 +25,6 @@ and val1 ... valn are the values.
 The output is XML.
 </ul>
 
-<h2>Account creation</h2>
-<p>
-The following RPCs are used to create accounts,
-typically as part of an
-<a href=acct_mgt.php>Account Management System</a>.
 <h3>Create account</h3>
 ";
 
@@ -56,7 +58,32 @@ list_item(
 list_end();
 
 echo "
-<h2>Query/modify existing account</h2>
+<h3>Look up account</h3>
+";
+list_start();
+list_item("URL", "project_url/lookup_account.php");
+list_item(
+    "input",
+        "email_addr: email address
+        <br>passwd_hash: the MD5 hash of the concatenation
+        of the user's password and the email address.
+");
+list_item(
+    "output",
+    html_text("<account_out>
+    [ <error_num>N</error_num> ]
+    [ <authenticator>XXX</authenticator> ]
+</account_out>
+    ")
+);
+list_item(
+    "action",
+    "If an account with the given email address and password hash exists,
+    return its account key."
+);
+
+list_end();
+echo "
 <h3>Get account info</h3>
 ";
 

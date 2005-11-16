@@ -142,6 +142,7 @@ Communicating with participants via the web
 Miscellaneous
 </b></font>
 <ul>
+<li> <a href=db_dump.php#task>Export credit data as XML</a>
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>
 <li> <a href=gui_urls.php>Add project-specific buttons to the client GUI</a>
 </ul>

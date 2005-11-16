@@ -2,6 +2,15 @@
 
 $project_news = array(
 
+array("November 15, 2005",
+    "<a href=stats.php>Aggregate credit data</a>
+    (user and host credit data summed over all BOINC projects)
+    is now available in XML format.
+    This data can be used for applications
+    (like the 'Featured participant' above)
+    that reflect overall contribution to BOINC project.
+    "
+),
 array("November 1, 2005",
     "IBM's <a href=http://www.worldcommunitygrid.org/>World Community Grid</a>
     has launched a BOINC-based project (currenly Linux only)."
@@ -11,7 +20,7 @@ array("October 28, 2005",
     in a <a href=http://www.enterpriseleadership.org/listen/podcast-anderson>podcast at www.enterpriseleadership.org</a>."
 ),
 array("October 20, 2005",
-    "Version 5.2.2 of the BOINC client software has been release.
+    "Version 5.2.2 of the BOINC client software has been released.
     It includes a simpler registration procedure,
     security enhancements, and numerous other improvements."
 ),
