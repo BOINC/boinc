@@ -13742,3 +13742,11 @@ Rom    14 Nov 2005
         MainDocument.cpp, .h
         MainFrame.cpp
         ViewStatistics.cpp, .h
+
+Janus  16 Nov 2005
+    - Team search is a substring search rather than prefix search now.
+
+    html/user/
+        team.php
+        team_lookup.php
+

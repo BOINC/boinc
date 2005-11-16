@@ -11,7 +11,7 @@
     $name_lc = strtolower($team_name);
     $name_lc = escape_pattern($name_lc);
      
-    $query = "select * from team where name like '$name_lc%'";
+    $query = "select * from team where name like '%$name_lc%'";
     $result_list = mysql_query($query);
     page_head("Search Results");
     if ($result_list) {
