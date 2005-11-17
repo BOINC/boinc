@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.2.6 and 5.2.7\n"
+"Project-Id-Version: BOINC Manager 5.2.6 and 5.2.7 and based on en.po(v1.23)\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-09 01:28+0900\n"
+"PO-Revision-Date: 2005-11-16 23:54+0900\n"
 "Last-Translator: Komori Hitoshi <ucepod@070.jp>\n"
 "Language-Team: Japanese Translators\n"
 "MIME-Version: 1.0\n"
@@ -322,8 +322,8 @@ msgstr "ボランティア計算資源を使う分散コンピューティングのためのソフトウェアプラ
 
 #: clientgui/DlgAbout.cpp:154
 #: clientgui/DlgDialupCredentials.cpp:136
-#: clientgui/DlgOptions.cpp:396
-#: clientgui/DlgSelectComputer.cpp:130
+#: clientgui/DlgOptions.cpp:393
+#: clientgui/DlgSelectComputer.cpp:133
 msgid "&OK"
 msgstr "OK(&O)"
 
@@ -353,34 +353,34 @@ msgstr "変更"
 
 #: clientgui/DlgAccountManagerStatus.cpp:145
 #: clientgui/DlgDialupCredentials.cpp:141
-#: clientgui/DlgOptions.cpp:401
-#: clientgui/DlgSelectComputer.cpp:135
+#: clientgui/DlgOptions.cpp:398
+#: clientgui/DlgSelectComputer.cpp:138
 #: clientgui/wizardex.cpp:363
 msgid "&Cancel"
 msgstr "キャンセル(&C)"
 
 #: clientgui/DlgDialupCredentials.cpp:122
-#: clientgui/DlgOptions.cpp:325
-#: clientgui/DlgOptions.cpp:381
-#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/DlgOptions.cpp:322
+#: clientgui/DlgOptions.cpp:378
+#: clientgui/DlgSelectComputer.cpp:122
 #: clientgui/ProxyPage.cpp:160
 #: clientgui/ProxyPage.cpp:210
 msgid "Password:"
 msgstr "パスワード:"
 
-#: clientgui/DlgOptions.cpp:189
+#: clientgui/DlgOptions.cpp:186
 msgid "Language Selection:"
 msgstr "言語の選択:"
 
-#: clientgui/DlgOptions.cpp:196
+#: clientgui/DlgOptions.cpp:193
 msgid "What language should the manager display by default."
 msgstr "特に指定しない場合に、 BOINC マネージャが表示に用いる言語。"
 
-#: clientgui/DlgOptions.cpp:200
+#: clientgui/DlgOptions.cpp:197
 msgid "Reminder Frequency:"
 msgstr "注意喚起の頻度:"
 
-#: clientgui/DlgOptions.cpp:206
+#: clientgui/DlgOptions.cpp:203
 msgid "How often, in minutes, should the manager remind you of possible connection events."
 msgstr "BOINC マネージャから、接続するタイミングをあなたに思い出させる間隔を、分単位で指定します。"
 
@@ -388,91 +388,91 @@ msgstr "BOINC マネージャから、接続するタイミングをあなたに思い出させる間隔を、分
 msgid "General"
 msgstr "一般"
 
-#: clientgui/DlgOptions.cpp:218
+#: clientgui/DlgOptions.cpp:215
 msgid "&Automatically detect network connection settings"
 msgstr "自動的(&A)にネットワーク接続の設定を検出する"
 
-#: clientgui/DlgOptions.cpp:223
+#: clientgui/DlgOptions.cpp:220
 msgid "Use my &Local Area Network(LAN) connection"
 msgstr "ローカルエリア・ネットワーク(&LAN)を接続に使う"
 
-#: clientgui/DlgOptions.cpp:228
+#: clientgui/DlgOptions.cpp:225
 msgid "Use my &Dial-up and Virtual Private Network connection"
 msgstr "ダイヤルアップ(&D)及び VPN (Virtual Private Network) を接続に使う"
 
-#: clientgui/DlgOptions.cpp:232
+#: clientgui/DlgOptions.cpp:229
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "ダイヤルアップおよび VPN (Virtual Private Network) の設定"
 
-#: clientgui/DlgOptions.cpp:246
+#: clientgui/DlgOptions.cpp:243
 msgid "&Set Default"
 msgstr "初期値に設定(&S)"
 
-#: clientgui/DlgOptions.cpp:251
+#: clientgui/DlgOptions.cpp:248
 msgid "&Clear Default"
 msgstr "初期値をクリア(&C)"
 
-#: clientgui/DlgOptions.cpp:258
+#: clientgui/DlgOptions.cpp:255
 msgid "Default Connection:"
 msgstr "指定なしの場合のダイアルアップ接続:"
 
-#: clientgui/DlgOptions.cpp:268
+#: clientgui/DlgOptions.cpp:265
 msgid "&Prompt for username and password"
 msgstr "名前とパスワードの入力を求めるプロンプト(&P)を出す"
 
-#: clientgui/DlgOptions.cpp:275
+#: clientgui/DlgOptions.cpp:272
 msgid "Connections"
 msgstr "ネットワーク接続"
 
-#: clientgui/DlgOptions.cpp:284
+#: clientgui/DlgOptions.cpp:281
 msgid "Connect via HTTP proxy server"
 msgstr "HTTP プロキシサーバ経由で接続する"
 
-#: clientgui/DlgOptions.cpp:288
+#: clientgui/DlgOptions.cpp:285
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP プロキシサーバの設定"
 
-#: clientgui/DlgOptions.cpp:296
-#: clientgui/DlgOptions.cpp:352
+#: clientgui/DlgOptions.cpp:293
+#: clientgui/DlgOptions.cpp:349
 msgid "Address:"
 msgstr "アドレス:"
 
-#: clientgui/DlgOptions.cpp:304
-#: clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:301
+#: clientgui/DlgOptions.cpp:357
 #: clientgui/ProxyPage.cpp:144
 #: clientgui/ProxyPage.cpp:194
 msgid "Port:"
 msgstr "ポート番号："
 
-#: clientgui/DlgOptions.cpp:311
-#: clientgui/DlgOptions.cpp:367
+#: clientgui/DlgOptions.cpp:308
+#: clientgui/DlgOptions.cpp:364
 msgid "Leave these blank if not needed"
 msgstr "プロキシを必要としない場合は空欄のままにしてください"
 
-#: clientgui/DlgOptions.cpp:317
-#: clientgui/DlgOptions.cpp:373
+#: clientgui/DlgOptions.cpp:314
+#: clientgui/DlgOptions.cpp:370
 #: clientgui/ProxyPage.cpp:152
 #: clientgui/ProxyPage.cpp:202
 msgid "User Name:"
 msgstr "プロキシのユーザ名："
 
-#: clientgui/DlgOptions.cpp:332
+#: clientgui/DlgOptions.cpp:329
 msgid "HTTP Proxy"
 msgstr "HTTP プロキシ"
 
-#: clientgui/DlgOptions.cpp:340
+#: clientgui/DlgOptions.cpp:337
 msgid "Connect via SOCKS proxy server"
 msgstr "SOCKS プロキシサーバ経由で接続する"
 
-#: clientgui/DlgOptions.cpp:344
+#: clientgui/DlgOptions.cpp:341
 msgid "SOCKS Proxy Server Configuration"
 msgstr "SOCKS プロキシサーバの設定"
 
-#: clientgui/DlgOptions.cpp:388
+#: clientgui/DlgOptions.cpp:385
 msgid "SOCKS Proxy"
 msgstr "SOCKS プロキシ"
 
-#: clientgui/DlgSelectComputer.cpp:110
+#: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
 msgstr "計算機名(ホスト名):"
 
@@ -500,93 +500,203 @@ msgstr ""
 msgid "BOINC Manager - Can't find web browser"
 msgstr "BOINC マネージャ - ウェブ・ブラウザが見つかりません"
 
-#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:71
 msgid "Message boards"
 msgstr "掲示板"
 
-#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:35
 msgid "Correspond with other users on the SETI@home message boards"
 msgstr "SETI@home のこれらの掲示版では、他の参加者と連絡をとることができます。"
 
-#: clientgui/Localization.cpp:35
+#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:123
 msgid "Help"
 msgstr "ヘルプ"
 
-#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:39
 msgid "Ask questions and report problems"
 msgstr "質問をしたり、問題の発生報告をします。"
 
-#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:83
+#: clientgui/Localization.cpp:113
+#: clientgui/Localization.cpp:131
 msgid "Your account"
 msgstr "自分のアカウント"
 
-#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:115
 msgid "View your account information and credit totals"
 msgstr "自分のアカウント情報と功績(credit)の総計を表示します。"
 
-#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:45
 msgid "Your preferences"
 msgstr "自分のプレファレンス(好みの設定)"
 
-#: clientgui/Localization.cpp:45
+#: clientgui/Localization.cpp:47
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "自分の SETI@home アカウントのプロファイルとプレファレンス(好みの設定)を表示・修正します。"
 
-#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "Your results"
 msgstr "自分のリザルト"
 
-#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "View your last week (or more) of computational results and work"
 msgstr "先週(およびそれ以前）の計算について、リザルトと仕事を表示します。"
 
-#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:53
 msgid "Your computers"
 msgstr "自分のコンピュータ"
 
-#: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:55
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "SETI@Home へ参加させているコンピュータ全ての一覧を表示します。"
 
-#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "Your team"
 msgstr "所属チーム"
 
-#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:59
+#: clientgui/Localization.cpp:101
 msgid "View information about your team"
 msgstr "あなたの所属するチームの情報を表示します。"
 
+#: clientgui/Localization.cpp:63
+msgid "Common questions"
+msgstr "一般的な質問"
+
+#: clientgui/Localization.cpp:65
+msgid "Read the Einstein@Home Frequently Asked Question list"
+msgstr "Einstein@Home についてしばしば聞かれる質問(FAQ)の一覧を読む"
+
+#: clientgui/Localization.cpp:67
+msgid "Screensaver info"
+msgstr "スクリーンセイバーについての情報"
+
+#: clientgui/Localization.cpp:69
+msgid "Read a detailed description of the Einstein@Home screensaver"
+msgstr "Einstein@Home スクリーンセイバーについての詳細な記述を読む"
+
+#: clientgui/Localization.cpp:73
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgstr "Einstein@Home 掲示板上で、管理者と参加者に連絡をする"
+
+#: clientgui/Localization.cpp:75
+msgid "Einstein status"
+msgstr "Einstein@Home の状態"
+
+#: clientgui/Localization.cpp:77
+msgid "Current status of the Einstein@Home server"
+msgstr "Einstein@Home サーバの現在状態"
+
+#: clientgui/Localization.cpp:79
+msgid "Report problems"
+msgstr "問題を報告する"
+
+#: clientgui/Localization.cpp:81
+msgid "A link to the Einstein@Home problems and bug reports message board"
+msgstr "Einstein@Home の 問題とバグ報告の掲示板へのリンク"
+
+#: clientgui/Localization.cpp:85
+msgid "View and modify your Einstein@Home account profile and preferences"
+msgstr "Einstein@Home の自分のアカウントとプレファレンスを表示・変更する"
+
+#: clientgui/Localization.cpp:87
+msgid "Account summary"
+msgstr "アカウントの要約"
+
+#: clientgui/Localization.cpp:95
+msgid "YourComputers"
+msgstr "自分のコンピュータ"
+
+#: clientgui/Localization.cpp:97
+msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgstr "Einstein@Home を自分が走らせている全てのコンピュータの一覧を見る"
+
+#: clientgui/Localization.cpp:103
+msgid "LIGO project"
+msgstr "LIGO プロジェクト"
+
+#: clientgui/Localization.cpp:105
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトの ホームページ"
+
+#: clientgui/Localization.cpp:107
+msgid "GEO-600 project"
+msgstr "GEO-600 プロジェクト"
+
+#: clientgui/Localization.cpp:109
+msgid "The home page of the GEO-600 project"
+msgstr "GEO-600 プロジェクトの ホームページ"
+
+#: clientgui/Localization.cpp:117
+#: clientgui/Localization.cpp:135
+#: clientgui/ViewProjects.cpp:152
+msgid "Team"
+msgstr "チーム"
+
+#: clientgui/Localization.cpp:119
+msgid "Info about your Team"
+msgstr "所属しているチームの情報"
+
+#: clientgui/Localization.cpp:125
+msgid "Get help for climateprediction.net"
+msgstr "climateprediction.net について助けを求める"
+
+#: clientgui/Localization.cpp:127
+msgid "News"
+msgstr "ニュース"
+
+#: clientgui/Localization.cpp:129
+msgid "climateprediction.net News"
+msgstr "climateprediction.net のニュース"
+
+#: clientgui/Localization.cpp:133
+msgid "View your account information, credits, and trickles"
+msgstr "あなたのアカウントの情報、功績(credit)、トリクルメッセージを表示する"
+
+#: clientgui/Localization.cpp:137
+msgid "Info about your team"
+msgstr "所属しているチームの情報"
+
 #: clientgui/MainDocument.cpp:180
+#: clientgui/MainDocument.cpp:177
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC マネージャ - 接続に異常が発生しました。"
 
-#: clientgui/MainDocument.cpp:181
+#: clientgui/MainDocument.cpp:178
 msgid "The password you have provided is incorrect, please try again."
 msgstr "入力したパスワードに誤りがあります。もう一度試してください。"
 
-#: clientgui/MainDocument.cpp:199
+#: clientgui/MainDocument.cpp:196
 msgid "BOINC Manager - Connection failed"
 msgstr "BOINC マネージャ - 接続に失敗しました。"
 
-#: clientgui/MainDocument.cpp:200
-#: clientgui/MainFrame.cpp:917
-#: clientgui/MainFrame.cpp:918
+#: clientgui/MainDocument.cpp:197
+#: clientgui/MainFrame.cpp:927
+#: clientgui/MainFrame.cpp:928
 msgid "Connection failed."
 msgstr "接続に失敗しました。"
 
-#: clientgui/MainDocument.cpp:306
+#: clientgui/MainDocument.cpp:303
 msgid "Retrieving system state; please wait..."
 msgstr "システムの状態を読み出しています。どうぞお待ちください..."
 
-#: clientgui/MainDocument.cpp:315
+#: clientgui/MainDocument.cpp:312
 msgid "Retrieving host information; please wait..."
 msgstr "計算機の情報を読み出しています。どうぞお待ちください..."
 
-#: clientgui/MainDocument.cpp:869
+#: clientgui/MainDocument.cpp:866
 msgid "BOINC error"
 msgstr "BOINC 異常"
 
-#: clientgui/MainDocument.cpp:879
+#: clientgui/MainDocument.cpp:876
 msgid "BOINC info"
 msgstr "BOINC 情報"
 
@@ -713,44 +823,44 @@ msgstr "プロジェクト(&P)"
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
-#: clientgui/MainFrame.cpp:1027
+#: clientgui/MainFrame.cpp:1039
 msgid "Attaching to project..."
 msgstr "プロジェクトに参加処理中..."
 
-#: clientgui/MainFrame.cpp:1063
+#: clientgui/MainFrame.cpp:1075
 msgid "Retrying communications for project(s)..."
 msgstr "プロジェクトとの通信処理を再試行しています..."
 
-#: clientgui/MainFrame.cpp:1153
+#: clientgui/MainFrame.cpp:1165
 msgid "Language Selection..."
 msgstr "言語の選択..."
 
 #msgid	"The BOINC Managers default language has been changed, in "
 #	"order for this change to take affect you must restart the "
 #	"manager."
-#: clientgui/MainFrame.cpp:1154
+#: clientgui/MainFrame.cpp:1166
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "BOINC マネージャの言語設定を切替えました。 切替えの効果を出すためには、この BOINC マネージャを再起動しなければなりません。"
 
-#: clientgui/MainFrame.cpp:1552
-#: clientgui/MainFrame.cpp:1569
-#: clientgui/MainFrame.cpp:1575
-#: clientgui/MainFrame.cpp:1618
-#: clientgui/MainFrame.cpp:1646
-#: clientgui/MainFrame.cpp:1655
+#: clientgui/MainFrame.cpp:1566
+#: clientgui/MainFrame.cpp:1583
+#: clientgui/MainFrame.cpp:1589
+#: clientgui/MainFrame.cpp:1632
+#: clientgui/MainFrame.cpp:1660
 #: clientgui/MainFrame.cpp:1669
-#: clientgui/MainFrame.cpp:1677
+#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1691
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC マネージャ - ネットワーク状態"
 
 #msgid	"BOINC needs a connection to the Internet to perform some "
 #	"maintenance, open the BOINC Manager to connect up and perform "
 #	"the needed work."
-#: clientgui/MainFrame.cpp:1553
+#: clientgui/MainFrame.cpp:1567
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC はインターネットに接続して、保守作業をする必要があります。BOINC マネージャを動かしてインターネットへ接続し、必要な作業を実施して下さい。"
 
-#: clientgui/MainFrame.cpp:1568
+#: clientgui/MainFrame.cpp:1582
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -758,42 +868,42 @@ msgstr ""
 "BOINC はネットワークに接続する必要があります。\n"
 "今すぐ接続してよいですか?"
 
-#: clientgui/MainFrame.cpp:1576
+#: clientgui/MainFrame.cpp:1590
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC はインターネットに接続しようとしています。"
 
-#: clientgui/MainFrame.cpp:1619
+#: clientgui/MainFrame.cpp:1633
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC はインターネットへの接続を完了しています。すべてのプロ"
 
-#: clientgui/MainFrame.cpp:1647
+#: clientgui/MainFrame.cpp:1661
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC はインターネットからの切断に成功しました。"
 
-#: clientgui/MainFrame.cpp:1656
+#: clientgui/MainFrame.cpp:1670
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC はインターネットからの切断に失敗しました。"
 
-#: clientgui/MainFrame.cpp:1670
+#: clientgui/MainFrame.cpp:1684
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC はインターネットへの接続に成功しました。"
 
-#: clientgui/MainFrame.cpp:1678
+#: clientgui/MainFrame.cpp:1692
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC はインターネットへの接続に失敗しました"
 
-#: clientgui/MainFrame.cpp:1756
-#: clientgui/MainFrame.cpp:1759
+#: clientgui/MainFrame.cpp:1770
+#: clientgui/MainFrame.cpp:1773
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1757
+#: clientgui/MainFrame.cpp:1771
 #, c-format
 msgid "Connecting to %s"
 msgstr "%s に接続しようとしています。 "
 
-#: clientgui/MainFrame.cpp:1760
+#: clientgui/MainFrame.cpp:1774
 #, c-format
 msgid "Connected to %s"
 msgstr "%s に接続できました。 "
@@ -988,7 +1098,7 @@ msgstr "'%s' に有効なパス名が含まれていません。 "
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:316
+#: clientgui/ViewStatistics.cpp:322
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1097,10 +1207,6 @@ msgstr "このコンピュータを対象のプロジェクトから離脱させます。報告されていない計
 #: clientgui/ViewProjects.cpp:151
 msgid "Account"
 msgstr "アカウント"
-
-#: clientgui/ViewProjects.cpp:152
-msgid "Team"
-msgstr "チーム"
 
 #: clientgui/ViewProjects.cpp:153
 msgid "Total credit"
@@ -1225,52 +1331,52 @@ msgid "Disk"
 msgstr "ディスク"
 
 # msgstr "参加者ごとの合計"
-#: clientgui/ViewStatistics.cpp:40
-#: clientgui/ViewStatistics.cpp:46
-#: clientgui/ViewStatistics.cpp:374
+#: clientgui/ViewStatistics.cpp:41
+#: clientgui/ViewStatistics.cpp:47
+#: clientgui/ViewStatistics.cpp:380
 msgid "User Total"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:320
+#: clientgui/ViewStatistics.cpp:326
 msgid "Show user total"
 msgstr "功績(credit)の合計を表示"
 
-#: clientgui/ViewStatistics.cpp:327
+#: clientgui/ViewStatistics.cpp:333
 msgid "Show user average"
 msgstr "平均功績/日を表示"
 
-#: clientgui/ViewStatistics.cpp:334
+#: clientgui/ViewStatistics.cpp:340
 msgid "Show host total"
 msgstr "この計算機の功績合計を表示"
 
-#: clientgui/ViewStatistics.cpp:341
+#: clientgui/ViewStatistics.cpp:347
 msgid "Show host average"
 msgstr "この計算機の平均功績/日を表示"
 
-#: clientgui/ViewStatistics.cpp:360
+#: clientgui/ViewStatistics.cpp:366
 msgid "Statistics"
 msgstr "統計情報"
 
 # msgstr "図を更新しています..."
-#: clientgui/ViewStatistics.cpp:373
-#: clientgui/ViewStatistics.cpp:393
-#: clientgui/ViewStatistics.cpp:413
-#: clientgui/ViewStatistics.cpp:433
+#: clientgui/ViewStatistics.cpp:379
+#: clientgui/ViewStatistics.cpp:399
+#: clientgui/ViewStatistics.cpp:419
+#: clientgui/ViewStatistics.cpp:439
 msgid "Updating charts..."
 msgstr ""
 
 # msgstr "参加者の一日毎の平均功績"
-#: clientgui/ViewStatistics.cpp:394
+#: clientgui/ViewStatistics.cpp:400
 msgid "User Average"
 msgstr ""
 
 # msgstr "計算機ごとの合計"
-#: clientgui/ViewStatistics.cpp:414
+#: clientgui/ViewStatistics.cpp:420
 msgid "Host Total"
 msgstr ""
 
 # msgstr "計算機ごとの一日の功績の平均"
-#: clientgui/ViewStatistics.cpp:434
+#: clientgui/ViewStatistics.cpp:440
 msgid "Host Average"
 msgstr ""
 
