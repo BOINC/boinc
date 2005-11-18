@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-11 22:32+0100\n"
+"PO-Revision-Date: 2005-11-16 15:37+0100\n"
 "Last-Translator: Alejandro Martín Covarrubias <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: clientgui/AlreadyAttachedPage.cpp:98
 msgid "Already attached to project"
-msgstr "Ya esta unido a un proyecto"
+msgstr "Ya está unido a un proyecto"
 
 #: clientgui/AlreadyAttachedPage.cpp:105
 msgid "You are already attached to this project."
@@ -306,8 +306,8 @@ msgstr "Una plataforma de software para la computación distribuida utilizando re
 
 #: clientgui/DlgAbout.cpp:154
 #: clientgui/DlgDialupCredentials.cpp:136
-#: clientgui/DlgOptions.cpp:396
-#: clientgui/DlgSelectComputer.cpp:130
+#: clientgui/DlgOptions.cpp:393
+#: clientgui/DlgSelectComputer.cpp:133
 msgid "&OK"
 msgstr "&OK"
 
@@ -337,128 +337,128 @@ msgstr "Cambiar"
 
 #: clientgui/DlgAccountManagerStatus.cpp:145
 #: clientgui/DlgDialupCredentials.cpp:141
-#: clientgui/DlgOptions.cpp:401
-#: clientgui/DlgSelectComputer.cpp:135
+#: clientgui/DlgOptions.cpp:398
+#: clientgui/DlgSelectComputer.cpp:138
 #: clientgui/wizardex.cpp:363
 msgid "&Cancel"
 msgstr "&Cancelar"
 
 #: clientgui/DlgDialupCredentials.cpp:122
-#: clientgui/DlgOptions.cpp:325
-#: clientgui/DlgOptions.cpp:381
-#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/DlgOptions.cpp:322
+#: clientgui/DlgOptions.cpp:378
+#: clientgui/DlgSelectComputer.cpp:122
 #: clientgui/ProxyPage.cpp:160
 #: clientgui/ProxyPage.cpp:210
 msgid "Password:"
 msgstr "Clave:"
 
-#: clientgui/DlgOptions.cpp:189
+#: clientgui/DlgOptions.cpp:186
 msgid "Language Selection:"
 msgstr "Selección de Idioma:"
 
-#: clientgui/DlgOptions.cpp:196
+#: clientgui/DlgOptions.cpp:193
 msgid "What language should the manager display by default."
 msgstr "Qué idioma debe el administrador mostrar por defecto."
 
-#: clientgui/DlgOptions.cpp:200
+#: clientgui/DlgOptions.cpp:197
 msgid "Reminder Frequency:"
 msgstr ""
 "Frecuencia de Recordatorio:\n"
-"(de eventos de conexión)"
+"(para eventos de conexión)"
 
-#: clientgui/DlgOptions.cpp:206
+#: clientgui/DlgOptions.cpp:203
 msgid "How often, in minutes, should the manager remind you of possible connection events."
 msgstr "Cuan a menudo, en minutos, debería recordarle el administrador de posibles eventos de conexión."
 
-#: clientgui/DlgOptions.cpp:209
+#: clientgui/DlgOptions.cpp:206
 msgid "General"
 msgstr "General"
 
-#: clientgui/DlgOptions.cpp:218
+#: clientgui/DlgOptions.cpp:215
 msgid "&Automatically detect network connection settings"
 msgstr "Detectar &automáticamente la configuración de la conexión"
 
-#: clientgui/DlgOptions.cpp:223
+#: clientgui/DlgOptions.cpp:220
 msgid "Use my &Local Area Network(LAN) connection"
 msgstr "Usar mi conexión de Red de Área &Local (LAN)"
 
-#: clientgui/DlgOptions.cpp:228
+#: clientgui/DlgOptions.cpp:225
 msgid "Use my &Dial-up and Virtual Private Network connection"
 msgstr "Usar mi Módem de Acceso Telefónico y Red Privada Virtual"
 
-#: clientgui/DlgOptions.cpp:232
+#: clientgui/DlgOptions.cpp:229
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "Configuración de Módem de Acceso Telefónico y Red Privada Virtual"
 
-#: clientgui/DlgOptions.cpp:246
+#: clientgui/DlgOptions.cpp:243
 msgid "&Set Default"
 msgstr "&Establecer como predeterminada"
 
-#: clientgui/DlgOptions.cpp:251
+#: clientgui/DlgOptions.cpp:248
 msgid "&Clear Default"
 msgstr "&Borrar como predeterminada"
 
-#: clientgui/DlgOptions.cpp:258
+#: clientgui/DlgOptions.cpp:255
 msgid "Default Connection:"
 msgstr "Conexión por defecto:"
 
-#: clientgui/DlgOptions.cpp:268
+#: clientgui/DlgOptions.cpp:265
 msgid "&Prompt for username and password"
 msgstr "&Indicar nombre de usuario y clave"
 
-#: clientgui/DlgOptions.cpp:275
+#: clientgui/DlgOptions.cpp:272
 msgid "Connections"
 msgstr "Conexiones"
 
-#: clientgui/DlgOptions.cpp:284
+#: clientgui/DlgOptions.cpp:281
 msgid "Connect via HTTP proxy server"
 msgstr "Conectar vía servidor proxy HTTP"
 
-#: clientgui/DlgOptions.cpp:288
+#: clientgui/DlgOptions.cpp:285
 msgid "HTTP Proxy Server Configuration"
 msgstr "Configuración Servidor Proxy HTTP"
 
-#: clientgui/DlgOptions.cpp:296
-#: clientgui/DlgOptions.cpp:352
+#: clientgui/DlgOptions.cpp:293
+#: clientgui/DlgOptions.cpp:349
 msgid "Address:"
 msgstr "Dirección:"
 
-#: clientgui/DlgOptions.cpp:304
-#: clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:301
+#: clientgui/DlgOptions.cpp:357
 #: clientgui/ProxyPage.cpp:144
 #: clientgui/ProxyPage.cpp:194
 msgid "Port:"
 msgstr "Puerto:"
 
-#: clientgui/DlgOptions.cpp:311
-#: clientgui/DlgOptions.cpp:367
+#: clientgui/DlgOptions.cpp:308
+#: clientgui/DlgOptions.cpp:364
 msgid "Leave these blank if not needed"
 msgstr "Dejar en blanco si no es necesario"
 
-#: clientgui/DlgOptions.cpp:317
-#: clientgui/DlgOptions.cpp:373
+#: clientgui/DlgOptions.cpp:314
+#: clientgui/DlgOptions.cpp:370
 #: clientgui/ProxyPage.cpp:152
 #: clientgui/ProxyPage.cpp:202
 msgid "User Name:"
 msgstr "Nombre Usuario:"
 
-#: clientgui/DlgOptions.cpp:332
+#: clientgui/DlgOptions.cpp:329
 msgid "HTTP Proxy"
 msgstr "Proxy HTTP"
 
-#: clientgui/DlgOptions.cpp:340
+#: clientgui/DlgOptions.cpp:337
 msgid "Connect via SOCKS proxy server"
 msgstr "Conectar vía servidor proxy SOCKS"
 
-#: clientgui/DlgOptions.cpp:344
+#: clientgui/DlgOptions.cpp:341
 msgid "SOCKS Proxy Server Configuration"
 msgstr "Configuración Servidor Proxy SOCKS"
 
-#: clientgui/DlgOptions.cpp:388
+#: clientgui/DlgOptions.cpp:385
 msgid "SOCKS Proxy"
 msgstr "Proxy SOCKS"
 
-#: clientgui/DlgSelectComputer.cpp:110
+#: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
 msgstr "Nombre del ordenador:"
 
@@ -487,93 +487,202 @@ msgstr ""
 msgid "BOINC Manager - Can't find web browser"
 msgstr "Administrador BOINC - No se puede encontrar un navegador web"
 
-#: clientgui/Localization.cpp:31
+#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:71
 msgid "Message boards"
 msgstr "Foros"
 
-#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:35
 msgid "Correspond with other users on the SETI@home message boards"
 msgstr "Escríbase con otros usuarios en los foros de SETI@home"
 
-#: clientgui/Localization.cpp:35
+#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:123
 msgid "Help"
 msgstr "Ayuda"
 
-#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:39
 msgid "Ask questions and report problems"
 msgstr "Haga preguntas e informe de problemas"
 
-#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:83
+#: clientgui/Localization.cpp:113
+#: clientgui/Localization.cpp:131
 msgid "Your account"
 msgstr "Su cuenta"
 
-#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:115
 msgid "View your account information and credit totals"
 msgstr "Vea información de su cuenta y sus créditos totales"
 
-#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:45
 msgid "Your preferences"
 msgstr "Sus preferencias"
 
-#: clientgui/Localization.cpp:45
+#: clientgui/Localization.cpp:47
 msgid "View and modify your SETI@home account profile and preferences"
 msgstr "Vea y modifique su perfil y preferencias de su cuenta SETI@home"
 
-#: clientgui/Localization.cpp:47
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "Your results"
 msgstr "Sus resultados"
 
-#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "View your last week (or more) of computational results and work"
 msgstr "Vea el trabajo y resultados de su última semana (o más)"
 
-#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:53
 msgid "Your computers"
 msgstr "Sus ordenadores"
 
-#: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:55
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "Vea una lista de todos los ordenadores en los que usted está ejecutando SETI@home"
 
-#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "Your team"
 msgstr "Su equipo"
 
-#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:59
+#: clientgui/Localization.cpp:101
 msgid "View information about your team"
 msgstr "Vea información acerca de su equipo"
 
-#: clientgui/MainDocument.cpp:180
+#: clientgui/Localization.cpp:63
+msgid "Common questions"
+msgstr "Preguntas más frecuentes"
+
+#: clientgui/Localization.cpp:65
+msgid "Read the Einstein@Home Frequently Asked Question list"
+msgstr "Lea la lista de Preguntas Más Frecuentes en Einstein@Home"
+
+#: clientgui/Localization.cpp:67
+msgid "Screensaver info"
+msgstr "Información del salvapantallas"
+
+#: clientgui/Localization.cpp:69
+msgid "Read a detailed description of the Einstein@Home screensaver"
+msgstr "Lea la descripción detallada del salvapantallas de Einstein@Home"
+
+#: clientgui/Localization.cpp:73
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgstr "Escríbase con lo administradores y otros usuarios en los foros de Einstein@Home"
+
+#: clientgui/Localization.cpp:75
+msgid "Einstein status"
+msgstr "Estado de Einstein"
+
+#: clientgui/Localization.cpp:77
+msgid "Current status of the Einstein@Home server"
+msgstr "Estado actual del servidor de Einstein@Home"
+
+#: clientgui/Localization.cpp:79
+msgid "Report problems"
+msgstr "Informe de problemas"
+
+#: clientgui/Localization.cpp:81
+msgid "A link to the Einstein@Home problems and bug reports message board"
+msgstr "Un enlace a los foros de fallos e informes de problemas en Einstein@Home"
+
+#: clientgui/Localization.cpp:85
+msgid "View and modify your Einstein@Home account profile and preferences"
+msgstr "Vea y modifique su perfil y preferencias de su cuenta Einstein@Home"
+
+#: clientgui/Localization.cpp:87
+msgid "Account summary"
+msgstr "Sumario de cuentas"
+
+#: clientgui/Localization.cpp:95
+msgid "YourComputers"
+msgstr "Sus Ordenadores"
+
+#: clientgui/Localization.cpp:97
+msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgstr "Vea una lista de todos los ordenadores en los que usted está ejecutando Einstein@Home"
+
+#: clientgui/Localization.cpp:103
+msgid "LIGO project"
+msgstr "Proyecto LIGO"
+
+#: clientgui/Localization.cpp:105
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgstr "La página de inicio del proyecto LIGO (Laser Interferometer Gravitational-wave Observatory)"
+
+#: clientgui/Localization.cpp:107
+msgid "GEO-600 project"
+msgstr "Proyecto GEO-600"
+
+#: clientgui/Localization.cpp:109
+msgid "The home page of the GEO-600 project"
+msgstr "La página de inicio del proyecto GEO-600"
+
+#: clientgui/Localization.cpp:117
+#: clientgui/Localization.cpp:135
+#: clientgui/ViewProjects.cpp:152
+msgid "Team"
+msgstr "Equipo"
+
+#: clientgui/Localization.cpp:119
+msgid "Info about your Team"
+msgstr "Información acerca de su Equipo"
+
+#: clientgui/Localization.cpp:125
+msgid "Get help for climateprediction.net"
+msgstr "Consiga ayuda para climateprediction.net"
+
+#: clientgui/Localization.cpp:127
+msgid "News"
+msgstr "Noticias"
+
+#: clientgui/Localization.cpp:129
+msgid "climateprediction.net News"
+msgstr "Noticias de climateprediction.net"
+
+#: clientgui/Localization.cpp:133
+msgid "View your account information, credits, and trickles"
+msgstr "Vea la información de su cuenta, créditos totales y progresos"
+
+#: clientgui/Localization.cpp:137
+msgid "Info about your team"
+msgstr "Información acerca de su equipo"
+
+#: clientgui/MainDocument.cpp:177
 msgid "BOINC Manager - Connection Error"
 msgstr "Administrador BOINC - Error de conexión"
 
-#: clientgui/MainDocument.cpp:181
+#: clientgui/MainDocument.cpp:178
 msgid "The password you have provided is incorrect, please try again."
 msgstr "La clave que ha introducido no es válida, por favor inténtelo de nuevo."
 
-#: clientgui/MainDocument.cpp:199
+#: clientgui/MainDocument.cpp:196
 msgid "BOINC Manager - Connection failed"
 msgstr "Administrador BOINC - Conexión fallida"
 
-#: clientgui/MainDocument.cpp:200
-#: clientgui/MainFrame.cpp:917
-#: clientgui/MainFrame.cpp:918
+#: clientgui/MainDocument.cpp:197
+#: clientgui/MainFrame.cpp:927
+#: clientgui/MainFrame.cpp:928
 msgid "Connection failed."
 msgstr "Conexión fallida."
 
-#: clientgui/MainDocument.cpp:306
+#: clientgui/MainDocument.cpp:303
 msgid "Retrieving system state; please wait..."
 msgstr "Recuperando estado del sistema; por favor espere..."
 
-#: clientgui/MainDocument.cpp:315
+#: clientgui/MainDocument.cpp:312
 msgid "Retrieving host information; please wait..."
 msgstr "Recuperando información del ordenador; por favor espere..."
 
-#: clientgui/MainDocument.cpp:869
+#: clientgui/MainDocument.cpp:866
 msgid "BOINC error"
 msgstr "Error de BOINC"
 
-#: clientgui/MainDocument.cpp:879
+#: clientgui/MainDocument.cpp:876
 msgid "BOINC info"
 msgstr "BOINC info"
 
@@ -700,38 +809,38 @@ msgstr "&Proyectos"
 msgid "&Help"
 msgstr "A&yuda"
 
-#: clientgui/MainFrame.cpp:1027
+#: clientgui/MainFrame.cpp:1039
 msgid "Attaching to project..."
 msgstr "Uniéndose a un proyecto..."
 
-#: clientgui/MainFrame.cpp:1063
+#: clientgui/MainFrame.cpp:1075
 msgid "Retrying communications for project(s)..."
 msgstr "Reintentando la comunicación con el(los) proyecto(s)..."
 
-#: clientgui/MainFrame.cpp:1153
+#: clientgui/MainFrame.cpp:1165
 msgid "Language Selection..."
 msgstr "Selección de Idioma..."
 
-#: clientgui/MainFrame.cpp:1154
+#: clientgui/MainFrame.cpp:1166
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Se ha cambiado el idioma por defecto, para que éste cambio tenga efecto debe reiniciar el Administrador BOINC."
 
-#: clientgui/MainFrame.cpp:1552
-#: clientgui/MainFrame.cpp:1569
-#: clientgui/MainFrame.cpp:1575
-#: clientgui/MainFrame.cpp:1618
-#: clientgui/MainFrame.cpp:1646
-#: clientgui/MainFrame.cpp:1655
+#: clientgui/MainFrame.cpp:1566
+#: clientgui/MainFrame.cpp:1583
+#: clientgui/MainFrame.cpp:1589
+#: clientgui/MainFrame.cpp:1632
+#: clientgui/MainFrame.cpp:1660
 #: clientgui/MainFrame.cpp:1669
-#: clientgui/MainFrame.cpp:1677
+#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1691
 msgid "BOINC Manager - Network Status"
 msgstr "Administrador BOINC - Estado de la Red"
 
-#: clientgui/MainFrame.cpp:1553
+#: clientgui/MainFrame.cpp:1567
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC necesita conectarse a Internet para efectuar tareas de mantenimiento, abra el Administrador BOINC para conectar y realizar el trabajo necesario."
 
-#: clientgui/MainFrame.cpp:1568
+#: clientgui/MainFrame.cpp:1582
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -739,42 +848,42 @@ msgstr ""
 "BOINC necesita conectar a la red.\n"
 "¿Puede hacerlo ahora?"
 
-#: clientgui/MainFrame.cpp:1576
+#: clientgui/MainFrame.cpp:1590
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC está conectando a Internet."
 
-#: clientgui/MainFrame.cpp:1619
+#: clientgui/MainFrame.cpp:1633
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC ha detectado que está conectado ahora a Internet. Actualizando todos los proyectos y reintentando todas las transferencias."
 
-#: clientgui/MainFrame.cpp:1647
+#: clientgui/MainFrame.cpp:1661
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC se ha desconectado de Internet con éxito."
 
-#: clientgui/MainFrame.cpp:1656
+#: clientgui/MainFrame.cpp:1670
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC falló al desconectarse de Internet."
 
-#: clientgui/MainFrame.cpp:1670
+#: clientgui/MainFrame.cpp:1684
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC se ha conectado a Internet con éxito."
 
-#: clientgui/MainFrame.cpp:1678
+#: clientgui/MainFrame.cpp:1692
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC falló al conectarse a Internet."
 
-#: clientgui/MainFrame.cpp:1756
-#: clientgui/MainFrame.cpp:1759
+#: clientgui/MainFrame.cpp:1770
+#: clientgui/MainFrame.cpp:1773
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1757
+#: clientgui/MainFrame.cpp:1771
 #, c-format
 msgid "Connecting to %s"
 msgstr "Conectando a %s"
 
-#: clientgui/MainFrame.cpp:1760
+#: clientgui/MainFrame.cpp:1774
 #, c-format
 msgid "Connected to %s"
 msgstr "Conectado a %s"
@@ -959,7 +1068,7 @@ msgstr "'%s' no contiene una ruta válida."
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:316
+#: clientgui/ViewStatistics.cpp:322
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1058,10 +1167,6 @@ msgstr "Separa el ordenador de éste proyecto. El trabajo en progreso se perderá 
 #: clientgui/ViewProjects.cpp:151
 msgid "Account"
 msgstr "Cuenta"
-
-#: clientgui/ViewProjects.cpp:152
-msgid "Team"
-msgstr "Equipo"
 
 #: clientgui/ViewProjects.cpp:153
 msgid "Total credit"
@@ -1185,48 +1290,48 @@ msgstr "Espacio en disco"
 msgid "Disk"
 msgstr "Disco"
 
-#: clientgui/ViewStatistics.cpp:40
-#: clientgui/ViewStatistics.cpp:46
-#: clientgui/ViewStatistics.cpp:374
+#: clientgui/ViewStatistics.cpp:41
+#: clientgui/ViewStatistics.cpp:47
+#: clientgui/ViewStatistics.cpp:380
 msgid "User Total"
 msgstr "Total Usuario"
 
-#: clientgui/ViewStatistics.cpp:320
+#: clientgui/ViewStatistics.cpp:326
 msgid "Show user total"
 msgstr "Mostrar totales del usuario"
 
-#: clientgui/ViewStatistics.cpp:327
+#: clientgui/ViewStatistics.cpp:333
 msgid "Show user average"
 msgstr "Mostrar promedios del usuario"
 
-#: clientgui/ViewStatistics.cpp:334
+#: clientgui/ViewStatistics.cpp:340
 msgid "Show host total"
 msgstr "Mostrar totales del ordenador"
 
-#: clientgui/ViewStatistics.cpp:341
+#: clientgui/ViewStatistics.cpp:347
 msgid "Show host average"
 msgstr "Mostrar promedios del ordenador"
 
-#: clientgui/ViewStatistics.cpp:360
+#: clientgui/ViewStatistics.cpp:366
 msgid "Statistics"
 msgstr "Estadísticas"
 
-#: clientgui/ViewStatistics.cpp:373
-#: clientgui/ViewStatistics.cpp:393
-#: clientgui/ViewStatistics.cpp:413
-#: clientgui/ViewStatistics.cpp:433
+#: clientgui/ViewStatistics.cpp:379
+#: clientgui/ViewStatistics.cpp:399
+#: clientgui/ViewStatistics.cpp:419
+#: clientgui/ViewStatistics.cpp:439
 msgid "Updating charts..."
 msgstr "Actualizando gráficas..."
 
-#: clientgui/ViewStatistics.cpp:394
+#: clientgui/ViewStatistics.cpp:400
 msgid "User Average"
 msgstr "Promedio Usuario"
 
-#: clientgui/ViewStatistics.cpp:414
+#: clientgui/ViewStatistics.cpp:420
 msgid "Host Total"
 msgstr "Total Ordenador"
 
-#: clientgui/ViewStatistics.cpp:434
+#: clientgui/ViewStatistics.cpp:440
 msgid "Host Average"
 msgstr "Promedio Ordenador"
 
@@ -1278,7 +1383,7 @@ msgstr "Reintentando transferencia ahora..."
 #: clientgui/ViewTransfers.cpp:187
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
-msgstr "¿Esta seguro de querer cancelar ésta transferencia '%s'?"
+msgstr "¿Está seguro de querer cancelar ésta transferencia '%s'?"
 
 #: clientgui/ViewTransfers.cpp:192
 msgid "Abort File Transfer"
