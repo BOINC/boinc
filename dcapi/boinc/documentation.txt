@@ -1,0 +1,3 @@
+A wu.C - dc_wu_setInput(...) fuggvenyet megvaltoztattam.
+-------------------------------------------------------
+A 
