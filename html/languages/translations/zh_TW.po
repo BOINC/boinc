@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-19 04:27+0800\n"
+"PO-Revision-Date: 2005-11-15 10:57+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -154,6 +154,9 @@ msgstr "目前 $PROJECT 的帳號建立已經停止。請稍後再試一遍。"
 
 msgid "CREATE_AC_TEAM"
 msgstr "這個帳號屬於 %s  團隊並且有團隊創立者自己的專案偏好設定。"
+
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "備註：從 BOINC 5.2 版開始，你不再需要填寫此表單，可以直接從 BOINC 程式裡建立新帳號。只要執行 BOINC，選擇「加入專案」後，輸入你的電子郵件地址和密碼即可。"
 
 # ########################################
 # Account created page (account_created.php)
