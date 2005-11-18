@@ -13439,3 +13439,10 @@ Rom    14 Nov 2005
         MainDocument.cpp, .h
         MainFrame.cpp
         ViewStatistics.cpp, .h
+
+Charlie 17 nov 2005
+- Mac: fix stutter in screen saver scrolling text.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp
