@@ -576,7 +576,7 @@ void drawBanner(GrafPtr aPort) {
     ForeColor(whiteColor);
     BackColor(blackColor);
     GetPortBounds(aPort, &wRect);
-    if ( (bannerPos + bannerWidth) <= wRect.left)
+    if ( (bannerPos + bannerWidth) <= (wRect.left + BANNERDELTA) )
         bannerPos = wRect.left;
     else
         bannerPos -= BANNERDELTA;
