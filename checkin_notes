@@ -13750,9 +13750,15 @@ Janus  16 Nov 2005
         team.php
         team_lookup.php
 
-Charlie 17 nov 2005
-- Mac: fix stutter in screen saver scrolling text.
+Charlie 17 Nov 2005
+    - Mac: fix stutter in screen saver scrolling text.
 
     clientgui/
         mac/
             mac_saver_module.cpp
+
+Charlie 18 Nov 2005
+    - Fix compiler warning (unused variable)
+    
+    client/
+        acct_setup.C

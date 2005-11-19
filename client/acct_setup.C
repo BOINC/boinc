@@ -212,7 +212,7 @@ static bool is_version_newer(char* p) {
 
 static bool parse_version(FILE* f, char* new_version) {
     char buf[256], buf2[256];
-    bool same_platform = false, newer_version = false, ok_version=false;
+    bool same_platform = false, newer_version = false;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</version>")) {
             return (same_platform && newer_version);
