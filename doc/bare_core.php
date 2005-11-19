@@ -75,7 +75,10 @@ If you wish to run the embedded core client without launching the Manager, a typ
     /Applications/BOINCManager.app/Contents/resources/boinc -redirectio -dir /Library/Application\\ Support/BOINC\\ Data/
     </pre>
 Normally, quitting the BOINC Manager also quits the embedded core client.  But if you launch the core client (as in the above example) 
-before launching the BOINC Manager, then it will continue to run even after the user quits the Manager.
+before launching the BOINC Manager, then it will continue to run even after the user quits the Manager.  
+<p>
+On Mac OS X, the BOINC screen saver will also launch the Manager's embedded core client, and will kill it when the screen saver is dismissed, 
+but only if the core client was not already running.
 <p>
 If you must mix the stand-alone core client and the BOINC Manager on the same Mac OS X system, be careful of the following:
 <ul>

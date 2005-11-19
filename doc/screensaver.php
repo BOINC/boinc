@@ -8,13 +8,13 @@ which you can select as your screensaver.
 On Windows:
     <ul>
     <li>Right-click on the desktop.
-    <li>Click Properties, select Screen Saver, select BOINC.
+    <li>Click <b>Properties</b>, select <b>Screen Saver</b>, select <b>BOINC</b>.
     </ul>
 On Mac OS X:
     <ul>
-    <li>Under the Apple menu, select \"System Preferences\".
-    <li>Click on \"Desktop & Screen Saver\".
-    <li>Select BOINCSaver from the list of Screen Savers.
+    <li>Under the Apple menu, select <b>System Preferences</b>.
+    <li>Click on <b>Desktop & Screen Saver</b>.
+    <li>Select <b>BOINCSaver</b> from the list of Screen Savers.
     </ul>
 <p>
 NOTE: BOINC runs even if you don't use the screensaver.
