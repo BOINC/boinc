@@ -13785,3 +13785,11 @@ David  20 Nov 2005
 
     html/user/
         lookup_account.php
+
+Bruce 20 Nov 2005
+    - user ops page now shows passwd_hash and a bit of other info.
+
+    html/
+        inc/
+            db_ops.inc
+
