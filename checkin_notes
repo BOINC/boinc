@@ -13770,3 +13770,10 @@ Charlie 19 Nov 2005
         bare_core.php
         mac_advanced.php
         screensaver.php
+
+David  20 Nov 2005
+    - Scheduling server: change log printfs to write client
+        version numbers as maj.min.release
+
+    sched/
+        handle_request.C
