@@ -51,7 +51,7 @@ echo "
 <tr><th>Language</th><th>Site</th></tr>
 ";
 
-language("Belgium (Dutch & French)", array(
+language("Belgium (Dutch/French/English)", array(
     site("http://www.boinc.be", "www.boinc.be")
 ));
 language("Chinese", array(
@@ -98,6 +98,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.boinc-team.de/", BOINC@Heidelberg"),
     site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
     site("http://www.boinc-halle-saale.de", "BOINC@Halle/Saale"),

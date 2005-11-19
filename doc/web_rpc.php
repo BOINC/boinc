@@ -180,7 +180,7 @@ list_item("URL",
     project/show_user.php?auth=X&format=xml"
 );
 list_item("input",
-    "user ID or account key"
+    "id (user ID) or auth (account key)"
 );
 list_item("output",
 html_text("<user>

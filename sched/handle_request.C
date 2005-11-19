@@ -804,13 +804,14 @@ void warn_user_if_core_client_upgrade_scheduled(
       
             sprintf(msg,
                 "Starting in %d days and %d hours, project will require a minimum "
-                "BOINC core client version of %d.%02d.  You are currently using "
-                "version %d.%02d; please upgrade before this time.",
+                "BOINC core client version of %d.%d.0.  You are currently using "
+                "version %d.%d.%d; please upgrade before this time.",
                 days, hours,
                 config.min_core_client_version_announced / 100, 
                 config.min_core_client_version_announced % 100,
                 sreq.core_client_major_version,
-                sreq.core_client_minor_version
+                sreq.core_client_minor_version,
+                sreq.core_client_release
             );
             // make this low priority until three days are left.  Then
             // bump to high.
@@ -824,9 +825,10 @@ void warn_user_if_core_client_upgrade_scheduled(
             }
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
-                "Sending warning: upgrade client %d.%02d within %d days %d hours\n",
+                "Sending warning: upgrade client %d.%d.%d within %d days %d hours\n",
                 sreq.core_client_major_version,
                 sreq.core_client_minor_version,
+                sreq.core_client_release,
                 days, hours
             );
         }
@@ -882,7 +884,7 @@ bool wrong_core_client_version(
             ((sreq.core_client_major_version == major) && (sreq.core_client_minor_version < minor))) {
             wrong_version = true;
             sprintf(msg,
-                "Need version %d.%02d or higher of the BOINC core client. You have %d.%02d.",
+                "Need version %d.%d or higher of the BOINC core client. You have %d.%d.",
                 major, minor,
                 sreq.core_client_major_version, sreq.core_client_minor_version
             );
@@ -1033,9 +1035,10 @@ void process_request(
 
     log_messages.printf(
         SCHED_MSG_LOG::MSG_NORMAL,
-        "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
+        "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%d.%d\n",
         reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno,
-        sreq.core_client_major_version, sreq.core_client_minor_version
+        sreq.core_client_major_version, sreq.core_client_minor_version,
+        sreq.core_client_release
     );
     ++log_messages;
 
@@ -1224,9 +1227,10 @@ void handle_request(
     if (sreq.parse(fin) == 0){
         log_messages.printf(
              SCHED_MSG_LOG::MSG_NORMAL,
-             "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%02d\n",
+             "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%d.%d\n",
              get_remote_addr(), sreq.authenticator, sreq.hostid, sreq.platform_name,
-             sreq.core_client_major_version, sreq.core_client_minor_version
+             sreq.core_client_major_version, sreq.core_client_minor_version,
+             sreq.core_client_release
         );
         process_request(sreq, sreply, ss, code_sign_key);
     } else {
@@ -1240,10 +1244,11 @@ void handle_request(
         
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
-            "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%02d\n",
+            "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
             sreply.probable_user_browser?"(probably a browser) ":"",
             get_remote_addr(), sreq.authenticator, sreq.platform_name,
-            sreq.core_client_major_version, sreq.core_client_minor_version
+            sreq.core_client_major_version, sreq.core_client_minor_version,
+            sreq.core_client_release
         );
         
         USER_MESSAGE um("Incomplete request received.", "low");
