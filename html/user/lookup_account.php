@@ -18,7 +18,7 @@ $user = lookup_user_email_addr($email_addr);
 
 // if no password set, make it the account key
 //
-if (!strlen($user->passwd_hash)) {
+if ($user && !strlen($user->passwd_hash)) {
     $user->passwd_hash = md5($user->authenticator.$user->email_addr);
     mysql_query("update user set passwd_hash='$user->passwd_hash' where id=$user->id");
 }
