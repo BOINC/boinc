@@ -13777,3 +13777,11 @@ David  20 Nov 2005
 
     sched/
         handle_request.C
+
+David  20 Nov 2005
+    - lookup account web RPC:
+        If user's passwd_hash is empty, initialize it based on account key
+        (from Bruce Allen)
+
+    html/user/
+        lookup_account.php
