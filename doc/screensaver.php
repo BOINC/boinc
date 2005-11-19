@@ -3,9 +3,19 @@ require_once("docutil.php");
 page_head("The BOINC screensaver");
 echo "
 The BOINC client software on Windows and Mac OS X includes a screensaver program,
-which you can select as your screensaver
-(on Windows, right-click on the desktop,
-click Properties, select Screen Saver, select BOINC).
+which you can select as your screensaver.
+<p>
+On Windows:
+    <ul>
+    <li>Right-click on the desktop.
+    <li>Click Properties, select Screen Saver, select BOINC.
+    </ul>
+On Mac OS X:
+    <ul>
+    <li>Under the Apple menu, select \"System Preferences\".
+    <li>Click on \"Desktop & Screen Saver\".
+    <li>Select BOINCSaver from the list of Screen Savers.
+    </ul>
 <p>
 NOTE: BOINC runs even if you don't use the screensaver.
 <p>
@@ -20,7 +30,7 @@ the screensaver cycles between them every few minutes.
 
 <li> If applications are running but non are graphics-capable,
 the screensaver shows the names of the applications
-and their fraction done.
+and their fraction done for the current work unit.
 
 <li> If the core client is running but no applications are running,
 the screensaver shows that.
@@ -29,7 +39,7 @@ the screensaver shows that.
     the screensaver shows that.
 </ul>
 <p>
-Normally, if you press a key or mouse the mouse
+Normally, if you press a key or move the mouse
 while the screensaver is active,
 the screensaver will exit.
 Some BOINC applications handle keyboard/mouse input.

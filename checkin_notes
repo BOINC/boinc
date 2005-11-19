@@ -13762,3 +13762,11 @@ Charlie 18 Nov 2005
     
     client/
         acct_setup.C
+
+Charlie 19 Nov 2005
+    Updated information for Mac clients on web site.
+
+    doc/
+        bare_core.php
+        mac_advanced.php
+        screensaver.php
