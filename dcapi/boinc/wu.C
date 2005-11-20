@@ -177,7 +177,7 @@ int dc_wu_setInput(DC_Workunit wu, const char *url, const char* localfilename)
 //    snprintf(downloadpath, 256, "%s/download/%s", dc_projectRootDir, downloadfilename);
     snprintf(download_dir, 256, "%s/download", dc_projectRootDir);
     
-    dir_hier_path(downloadfilename, download_dir, 1024, true, downloadpath, true);
+    dir_hier_path(downloadfilename, download_dir, 1024, downloadpath, true);
 
     snprintf(syscmd, 1024, "cp %s %s", url, downloadpath);
     DC_log(LOG_DEBUG, "system command: '%s'", syscmd);
