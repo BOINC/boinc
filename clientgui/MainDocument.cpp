@@ -837,55 +837,20 @@ int CMainDocument::WorkAbort(int iIndex) {
 int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
-    int new_msg_seqno = m_iMessageSequenceNumber;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
-        CMainFrame* pFrame = wxGetApp().GetFrame();
-        MESSAGES new_msgs;
-
-        wxASSERT(pFrame);
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-
-        retval = rpc.get_messages(m_iMessageSequenceNumber, new_msgs);
+        retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (retval) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
-        std::vector<MESSAGE*>::iterator mi = new_msgs.messages.begin();
-        while (mi != new_msgs.messages.end()) {
-            MESSAGE* mp = *mi;
-            new_msg_seqno = mp->seqno;
-            switch(mp->priority) {
-            case MSG_PRIORITY_ALERT_ERROR:
-                if (m_iMessageSequenceNumber) {
-                    pFrame->ShowAlert(
-                        _("BOINC error"),
-                        mp->body.c_str(),
-                        wxICON_ERROR
-                    );
-                }
-                delete mp;
-                break;
-            case MSG_PRIORITY_ALERT_INFO:
-                if (m_iMessageSequenceNumber) {
-                    pFrame->ShowAlert(
-                        _("BOINC info"),
-                        mp->body.c_str(),
-                        wxICON_INFORMATION
-                    );
-                }
-                delete mp;
-                break;
-            default:
-                messages.messages.push_back(mp);
-            }
-            new_msgs.messages.erase(mi);
+        if (messages.messages.size() != 0) {
+            m_iMessageSequenceNumber = messages.messages.at(messages.messages.size()-1)->seqno;
         }
-        m_iMessageSequenceNumber = new_msg_seqno;
     }
 done:
     in_this_func = false;

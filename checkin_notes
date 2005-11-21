@@ -13793,3 +13793,9 @@ Bruce 20 Nov 2005
         inc/
             db_ops.inc
 
+Rom    21 Nov 2005
+    - Remove the alert block of code in MainDocument.cpp since it is
+        now dead code anyway.
+        
+    clientgui/
+        MainDocument.cpp
