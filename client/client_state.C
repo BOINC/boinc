@@ -519,7 +519,6 @@ bool CLIENT_STATE::poll_slow_events() {
 
     ss_logic.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
-    POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );

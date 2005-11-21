@@ -13799,3 +13799,10 @@ Rom    21 Nov 2005
         
     clientgui/
         MainDocument.cpp
+
+Rom    21 Nov 2005
+    - Remove duplicate call to scheduler_rpc_poll in 
+        CLIENT_STATE::poll_slow_events().
+        
+    client/
+        client_state.C
