@@ -26,6 +26,8 @@
 #ifdef _WIN32
 #include "winsock.h"
 #include "win_net.h"
+#else
+#include "config.h"
 #endif
 #include <cstdio>
 #if HAVE_UNISTD_H

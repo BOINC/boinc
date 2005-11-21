@@ -23,7 +23,7 @@
 // replace it with your own code and then 'make' in this Directory
 // will build it.
 
-
+#include "config.h"
 #include <cstdio>
 
 #include "boinc_db.h"

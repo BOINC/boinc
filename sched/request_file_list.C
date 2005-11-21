@@ -26,6 +26,7 @@
 // Create a msg_to_host_that requests the list of permanant files
 // associated with the project
 
+#include "config.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>

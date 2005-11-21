@@ -19,6 +19,7 @@
  * value sufficiently large that the main thread can complete its two
  * suspend/continue loops before any thread_routine threads terminate.
  */
+#include "config.h"
 #include <pthread.h>
 #include <sched.h>
 #include <signal.h>

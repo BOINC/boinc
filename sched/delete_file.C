@@ -27,6 +27,7 @@
 // Create a msg_to_host_that requests that the host delete the
 // given file from the client
 
+#include "config.h"
 #include <ctime>
 #if HAVE_UNISTD_H
 #include <unistd.h>

@@ -19,6 +19,7 @@
 
 // A sample assimilator that only writes a log message.
 
+#include "config.h"
 #include <cstdio>
 
 #include "boinc_db.h"

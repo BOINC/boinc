@@ -24,9 +24,11 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#include "config.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#include <csignal>
+#endif
 
 #if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
@@ -34,8 +36,12 @@
 #if HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
-#if HAVE_SYS_SIGNAL_H
+#ifdef HAVE_CSIGNAL
+#include <csignal>
+#elif defined(HAVE_SYS_SIGNAL_H)
 #include <sys/signal.h>
+#elif defined(HAVE_SIGNAL_H)
+#include <signal.h>
 #endif
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>

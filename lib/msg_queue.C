@@ -19,6 +19,7 @@
 
 // interfaces for accessing message queues
 
+#include "config.h"
 #include <cstdio>
 #include <cstring>
 

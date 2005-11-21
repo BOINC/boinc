@@ -29,7 +29,7 @@
 //   [ -mod n i ]           process only WUs with (id mod n) == i
 
 using namespace std;
-
+#include "config.h"
 #include <vector>
 #include <unistd.h>
 #include <climits>

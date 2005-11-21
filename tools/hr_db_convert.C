@@ -2,6 +2,7 @@
 // Converts old-style info (in result table)
 // to new style (using workseq_next field of workunit)
 
+#include "config.h"
 #include "boinc_db.h"
 
 const int unspec = 0;

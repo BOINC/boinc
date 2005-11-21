@@ -53,6 +53,8 @@
             // being closed.  In any case the files are compressed
             // when db_purge exits on a signal.
 
+
+#include "config.h"
 #include <cstdio>
 #include <unistd.h>
 #include <sys/stat.h>

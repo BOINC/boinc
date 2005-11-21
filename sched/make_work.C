@@ -28,6 +28,7 @@
 // Clones the WU of the given name.
 //
 
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

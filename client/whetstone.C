@@ -25,6 +25,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>

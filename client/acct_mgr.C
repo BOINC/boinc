@@ -20,6 +20,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
+#include "config.h"
 #include "parse.h"
 #include "error_numbers.h"
 #include "client_msgs.h"

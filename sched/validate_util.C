@@ -22,6 +22,7 @@
 // (see validate_trivial.C),
 // or that requires strict or fuzzy equality.
 
+#include "config.h"
 #include <cassert>
 
 #include "error_numbers.h"

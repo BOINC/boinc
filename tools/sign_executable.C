@@ -19,6 +19,7 @@
 
 // syntax: sign_executable <exectuable_path> <code_sign_file>
 
+#include "config.h"
 #include "crypt.h"
 #include "backend_lib.h"
 #include <cstdlib>

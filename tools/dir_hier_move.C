@@ -22,6 +22,7 @@
 // move files from src_dir (flat) into dst_dir (hierarchical)
 // with the given fanout
 
+#include "config.h"
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>

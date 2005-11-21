@@ -23,6 +23,7 @@
 // in order to make a complete program.
 //
 
+#include "config.h"
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>

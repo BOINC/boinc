@@ -30,7 +30,6 @@ boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 	@STRIP@ $@
 
 lib_LIBRARIES = libboinc.a 
-
 EXTRA_DIST = *.h *.C
 
 if OS_DARWIN

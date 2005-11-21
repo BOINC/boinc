@@ -24,6 +24,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#include "config.h"
 #if HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif

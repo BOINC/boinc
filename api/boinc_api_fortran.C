@@ -22,6 +22,7 @@
 // Define this symbol (here or in Makefile) if you want graphics functions
 //#define GRAPHICS
 
+#include "config.h"
 #include "util.h"
 #include "boinc_api.h"
 #ifdef GRAPHICS

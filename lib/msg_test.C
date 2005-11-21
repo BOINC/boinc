@@ -27,6 +27,7 @@
 
 #define KEY 0xb01fcafe
 
+#include "config.h"
 #include <cstring>
 #include <cstdio>
 

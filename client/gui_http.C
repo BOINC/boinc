@@ -16,7 +16,7 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+#include "config.h"
 #include "client_state.h"
 #include "filesys.h"
 #include "error_numbers.h"

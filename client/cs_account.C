@@ -22,6 +22,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cstdio>
 #include <cassert>
 #ifdef HAVE_SYS_STAT_H

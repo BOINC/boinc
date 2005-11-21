@@ -19,6 +19,7 @@
 
 using namespace std;
 
+#include "config.h"
 #include <cstdlib>
 #include <csignal>
 #include <cerrno>

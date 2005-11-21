@@ -20,6 +20,7 @@
 // Scheduler code for directing a client to one of several
 // download servers based on its time zone
 
+#include "config.h"
 #include <string>
 #include <stdio.h>
 

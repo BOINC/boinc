@@ -19,6 +19,7 @@
 
 // Handle a scheduling server RPC
 
+#include "config.h"
 #include <cassert>
 #include <cstdio>
 #include <vector>

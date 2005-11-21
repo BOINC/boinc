@@ -20,6 +20,7 @@
 // Code that is included in the shared-library part of a graphics app,
 // but NOT in libboinc_graphics_api.a (used by monolithic apps)
 
+#include "config.h"
 #include "app_ipc.h"
 #include "graphics_impl.h"
 

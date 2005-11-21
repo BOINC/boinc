@@ -657,6 +657,7 @@ void* timer_thread(void*) {
         boinc_sleep(TIMER_PERIOD);
         worker_timer(0);
     }
+    return 0;
 }
 
 void worker_signal_handler(int) {

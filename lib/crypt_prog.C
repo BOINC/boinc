@@ -31,6 +31,7 @@
 // -test_crypt private_keyfile public_keyfile
 //                  test encrypt/decrypt
 
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

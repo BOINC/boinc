@@ -24,6 +24,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #endif

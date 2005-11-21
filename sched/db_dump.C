@@ -40,6 +40,7 @@
 // ...
 // </boinc_db_dump_spec>
 
+#include "config.h"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>

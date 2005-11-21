@@ -19,6 +19,7 @@
 
 // Locality scheduling: see doc/sched_locality.php
 
+#include "config.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <strings.h>

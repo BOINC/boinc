@@ -32,7 +32,7 @@
 // return nonzero on error
 
 using namespace std;
-
+#include "config.h"
 #include <unistd.h>
 
 #include "boinc_db.h"

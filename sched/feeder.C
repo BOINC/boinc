@@ -81,6 +81,7 @@
 // configuration, or decrease the MAX_PLATFORMS, MAX_APPS
 // MAX_APP_VERSIONS, and MAX_WU_RESULTS in sched_shmem.h
 
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

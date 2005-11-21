@@ -22,6 +22,7 @@
 // Run this in a project's root directory.
 // Prints the absolute path of the file in the download hierarchy
 
+#include "config.h"
 #include <stdio.h>
 
 #include "util.h"

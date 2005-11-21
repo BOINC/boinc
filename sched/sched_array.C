@@ -20,6 +20,7 @@
 // scheduler code related to sending work
 
 
+#include "config.h"
 #include "main.h"
 #include "server_types.h"
 #include "sched_shmem.h"

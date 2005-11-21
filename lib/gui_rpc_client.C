@@ -80,7 +80,7 @@ int RPC_CLIENT::init(const char* host) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
     boinc_socket(sock);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
@@ -123,7 +123,7 @@ int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
 
     retval = boinc_socket(sock);

@@ -20,6 +20,7 @@
 // scheduler code related to sending work
 
 
+#include "config.h"
 #include <vector>
 #include <string>
 #include <ctime>

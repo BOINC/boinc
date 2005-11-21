@@ -19,6 +19,7 @@
 
 // burn up to one CPU second
 
+#include "config.h"
 #include <cstdio>
 #include <ctime>
 

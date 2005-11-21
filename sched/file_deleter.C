@@ -20,6 +20,7 @@
 
 // file_deleter: deletes files that are no longer needed
 
+#include "config.h"
 #include <list>
 #include <cstring>
 #include <cstdlib>

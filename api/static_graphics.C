@@ -25,6 +25,8 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#else
+#include "config.h"
 #endif
 
 #include "boinc_gl.h"

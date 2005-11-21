@@ -22,6 +22,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#include "config.h"
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>

@@ -29,6 +29,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cstring>
 #include <cstdlib>
 #include <locale>

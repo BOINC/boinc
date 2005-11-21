@@ -26,12 +26,12 @@
 // Create a result entries, initialized to sent, and corresponding
 // messages to the get the files.
 
-
+#include "config.h"
 #if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
-#endif
 
 #include <time.h>
 #include "boinc_db.h"

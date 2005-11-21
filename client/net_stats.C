@@ -31,6 +31,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cstring>
 #include <cmath>
 #endif

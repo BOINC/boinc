@@ -4,6 +4,7 @@
 //
 // Author: Christian Soettrup
 
+#include "config.h"
 #include "boinc_db.h"
 #include <iostream>
 #include <string>

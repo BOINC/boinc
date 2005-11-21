@@ -21,6 +21,7 @@
 // the feeder (which reads from the database)
 // and instances of the scheduling server
 
+#include "config.h"
 #include <cstdio>
 #include <cstring>
 #include <cassert>

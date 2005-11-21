@@ -20,6 +20,7 @@
 // scheduler code related to sending work
 
 
+#include "config.h"
 #include "error_numbers.h"
 
 #include "server_types.h"

@@ -32,6 +32,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cstdio>
 #include <unistd.h>
 #include <arpa/inet.h>

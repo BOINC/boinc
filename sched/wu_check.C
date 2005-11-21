@@ -21,6 +21,7 @@
 // look for results with missing input files
 // -repair      change them to server_state OVER, outcome COULDNT_SEND
 
+#include "config.h"
 #include <cstdio>
 
 #include "boinc_db.h"

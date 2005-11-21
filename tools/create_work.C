@@ -44,6 +44,7 @@
 //  infile1 infile2 ...
 //
 
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

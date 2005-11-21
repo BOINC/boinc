@@ -20,6 +20,7 @@
 
 // interfaces for accessing sempahores
 
+#include "config.h"
 #include <cstdio>
 #include <cstring>
 

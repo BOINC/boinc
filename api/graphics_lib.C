@@ -22,6 +22,7 @@
 // This lets you make applications that work whether or not
 // the host has X11 and OpenGL libraries.
 
+#include "config.h"
 #include <dlfcn.h>
 
 #include "boinc_api.h"  

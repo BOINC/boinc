@@ -20,7 +20,7 @@
 // concat [-run_slow] file1 ... filen outfile
 //
 // concatenate files, write to outfile
-
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

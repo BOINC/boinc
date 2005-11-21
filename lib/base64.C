@@ -21,6 +21,7 @@
 #include "boinc_win.h"
 #endif
 
+#include "config.h"
 #include "base64.h"
 
 #ifdef _USING_FCGI_

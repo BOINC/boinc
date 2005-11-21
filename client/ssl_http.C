@@ -26,6 +26,7 @@ using std::string;
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cstring>
 #include <sstream>
 #include <algorithm>

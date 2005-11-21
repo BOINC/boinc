@@ -21,6 +21,7 @@
 // Utility to convert *.icns file into app_icon.h file for use 
 // with api/setMacIcon() in science applications.
 
+#include "config.h"
 #include <stdio.h>
 
 int main(int argc, char** argv) {

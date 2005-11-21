@@ -21,6 +21,7 @@
 // -d       destroy semaphore
 // -l       lock semaphore, sleep 10 secs, unlock
 
+#include "config.h"
 #include <unistd.h>
 
 #include "synch.h"

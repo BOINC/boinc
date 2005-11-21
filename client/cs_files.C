@@ -28,6 +28,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <cassert>
 #include <sys/stat.h>
 #include <sys/types.h>

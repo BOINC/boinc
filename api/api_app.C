@@ -19,6 +19,8 @@
 
 // test program for MFILE class
 
+#include "config.h"
+
 #include <cstdlib>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>

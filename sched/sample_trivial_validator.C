@@ -20,6 +20,7 @@
 // A sample validator that grants credit to any result whose CPU time is above
 // a certain minimum
 
+#include "config.h"
 #include "validate_util.h"
 
 using std::vector;

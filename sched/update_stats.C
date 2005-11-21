@@ -27,7 +27,7 @@
 // Also updates the nusers field of teams
 //
 // usage: update_stats [-update_teams] [-update_users] [-update_hosts] [-asynch]
-
+#include "config.h"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>

@@ -25,6 +25,7 @@
 
 #define KEY 0xbeefcafe
 
+#include "config.h"
 #include <cstring>
 #include <cstdio>
 #include <sys/wait.h>

@@ -26,6 +26,7 @@
 // Note: use_files is a debugging option (see below).
 // But it's a compile setting, not a cmdline flag
 
+#include "config.h"
 #include <cassert>
 #include <cstdio>
 #include <vector>

@@ -21,6 +21,7 @@
 #include "boinc_win.h"
 #endif
 
+#include "config.h"
 #include <string>
 using std::string;
 
