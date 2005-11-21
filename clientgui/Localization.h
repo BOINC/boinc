@@ -32,6 +32,7 @@ class CLocalization : public wxObject
 public:
     CLocalization();
 
+	// SETI@home
     wxString m_strSAHMessageBoardsName;
     wxString m_strSAHMessageBoardsDescription;
     wxString m_strSAHHelpName;
@@ -46,6 +47,48 @@ public:
     wxString m_strSAHYourComputersDescription;
     wxString m_strSAHYourTeamName;
     wxString m_strSAHYourTeamDescription;
+
+	// Einstein@home
+    wxString m_strEAHCommonQuestionsName;
+    wxString m_strEAHCommonQuestionsDesc;
+    wxString m_strEAHSceensaverInfoName;
+    wxString m_strEAHSceensaverInfoDesc;
+    wxString m_strEAHMessageBoardsName;
+    wxString m_strEAHMessageBoardsDesc;
+    wxString m_strEAHEinsteinStatusName;
+    wxString m_strEAHEinsteinStatusDesc;
+    wxString m_strEAHReportProblemsName;
+    wxString m_strEAHReportProblemsDesc;
+    wxString m_strEAHAccountSummaryName;
+    wxString m_strEAHAccountSummaryDesc;
+    wxString m_strEAHYourAccountName;
+    wxString m_strEAHYourAccountDesc;
+    wxString m_strEAHYourResultsName;
+    wxString m_strEAHYourResultsDescription;
+    wxString m_strEAHYourComputersName;
+	wxString m_strEAHYourComputersDesc;
+    wxString m_strEAHYourTeamName;
+    wxString m_strEAHYourTeamDescription;
+    wxString m_strEAHLIGOProjectName;
+    wxString m_strEAHLIGOProjectDesc;
+    wxString m_strEAHGEO600ProjectName;
+    wxString m_strEAHGEO600ProjectDesc;
+
+	// Predictor@home
+	wxString m_strPAHYourAccountName;
+    wxString m_strPAHYourAccountDesc;
+	wxString m_strPAHTeamName;
+    wxString m_strPAHTeamDesc;
+
+	// climateprediction.net
+    wxString m_strCPDNHelpName;
+    wxString m_strCPDNHelpDesc;
+    wxString m_strCPDNNewsName;
+    wxString m_strCPDNNewsDesc;
+    wxString m_strCPDNYourAccountName;
+    wxString m_strCPDNYourAccountDesc;
+    wxString m_strCPDNTeamName;
+    wxString m_strCPDNTeamDesc;
 };
 
 
