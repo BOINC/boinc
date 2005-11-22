@@ -107,6 +107,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            ::OutputDebugString(event_message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004 
             //LogEventErrorMessage(event_message);
@@ -119,6 +120,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            ::OutputDebugString(event_message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004 
             //LogEventInfoMessage(event_message);

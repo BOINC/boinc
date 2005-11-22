@@ -13806,3 +13806,15 @@ Rom    21 Nov 2005
         
     client/
         client_state.C
+
+Rom    21 Nov 2005
+    - Dump all status messages in the core client out to the debugger output
+        window to help those debugging on Windows know what is going on
+        without having to open up the log files.
+    - Fix a couple of build breaks related to Eric's checkin this morning.
+        
+    client/
+        acct_mgr.C
+        acct_setup.C
+        gui_http.C
+        main.C

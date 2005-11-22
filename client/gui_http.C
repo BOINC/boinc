@@ -16,7 +16,15 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
+#ifndef _WIN32
 #include "config.h"
+#endif
+
 #include "client_state.h"
 #include "filesys.h"
 #include "error_numbers.h"
