@@ -14,7 +14,8 @@ if [ -d /disks/asimov ]; then
     export PATH
 fi
 
-CVSROOT=/usr/local/warez/cvsroot                                               \
+    CVS_RSH=/usr/bin/ssh \
+    CVSROOT=:ext:boincadm@milkyway.ssl.berkeley.edu:/usr/local/warez/cvsroot \
     CHECKOUT='cvs export -r HEAD boinc && (cd boinc && ./_autosetup)'          \
     DIR=boinc                                                                  \
     FILENAME_TGZ="boinc-cvs-TODAY.tar.gz"                                      \
@@ -22,7 +23,8 @@ CVSROOT=/usr/local/warez/cvsroot                                               \
     DESTINATION="/home/boincadm/boinc/doc/source/nightly/"   \
     ./export-tarball
 
-CVSROOT=/usr/local/warez/cvsroot                                               \
+    CVS_RSH=/usr/bin/ssh \
+    CVSROOT=:ext:boincadm@milkyway.ssl.berkeley.edu:/usr/local/warez/cvsroot \
     CHECKOUT='cvs export -r stable boinc && (cd boinc && ./_autosetup)' \
     DIR=boinc \
     FILENAME_TGZ="boinc_stable-cvs-TODAY.tar.gz"                               \
