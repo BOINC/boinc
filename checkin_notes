@@ -13824,3 +13824,12 @@ David  22 Nov 2005
 
     html/user/
         host_edit_action.php
+
+David  22 Nov 2005
+    - core client: fix bug where only 1 app would have its disk space
+        check against limit.
+        Also, do the check every 5 min instead of 1 min
+        (from Walt Gribben)
+
+    client/
+        app_control.C

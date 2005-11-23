@@ -503,19 +503,29 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     unsigned int j;
     ACTIVE_TASK *atp;
     static double last_disk_check_time = 0;
+    bool do_disk_check = false;
+    bool did_anything = false;
 
+    // disk_interval is typically 60 sec,
+    // and some slot dirs have lots of files.
+    // So only check every 5*disk_interval
+    //
+    if (gstate.now > last_disk_check_time + 5*gstate.global_prefs.disk_interval) {
+        do_disk_check = true;
+    }
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
         if (atp->task_state != PROCESS_EXECUTING) continue;
-        if (atp->check_max_cpu_exceeded()) return true;
-        else if (atp->check_max_mem_exceeded()) return true;
-        else if (gstate.now>last_disk_check_time + gstate.global_prefs.disk_interval) {
-            last_disk_check_time = gstate.now;
-            if (atp->check_max_disk_exceeded()) return true;
+        if (atp->check_max_cpu_exceeded()) did_anything = true;
+        else if (atp->check_max_mem_exceeded()) did_anything = true;
+        else if (do_disk_check && atp->check_max_disk_exceeded()) {
+            did_anything = true;
         }
     }
-
-    return false;
+    if (do_disk_check) {
+        last_disk_check_time = gstate.now;
+    }
+    return did_anything;
 }
 
 // If process is running, send it a kill signal
