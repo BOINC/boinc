@@ -13441,8 +13441,15 @@ Rom    14 Nov 2005
         ViewStatistics.cpp, .h
 
 Charlie 17 nov 2005
-- Mac: fix stutter in screen saver scrolling text.
+	- Mac: fix stutter in screen saver scrolling text.
 
     clientgui/
         mac/
             mac_saver_module.cpp
+
+Rom    21 Nov 2005
+    - Remove duplicate call to scheduler_rpc_poll in 
+        CLIENT_STATE::poll_slow_events().
+        
+    client/
+        client_state.C
