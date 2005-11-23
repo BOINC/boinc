@@ -52,21 +52,27 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.7
+      <ul>
+        <li>Localization updates.
+        <li>Resolve many connection issues regarding passwords.
+        <li>Mac: Fix a screensaver stutter while scrolling text.
+      </ul>
     <li>Changes since 5.2.6
       <ul>
         <li>Localization updates.
         <li>Usability enhancements.
         <li>Fix a crash condition when connecting to a remote machine.
-        <li>Fix for file handle usage on Linux which caused BOINC to run out of
+        <li>Fix for file handle usage on Linux/Mac which caused BOINC to run out of
             file handles.
       </ul>
 ";
 
-$w527= array(
-    "num"=>"5.2.7",
+$w528= array(
+    "num"=>"5.2.8",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.7_windows_intelx86.exe",
-    "date"=>"8 Nov 2005",
+    "file"=>"boinc_5.2.8_windows_intelx86.exe",
+    "date"=>"22 Nov 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
@@ -240,11 +246,11 @@ $m443s = array(
     "
 );
 
-$l527 = array(
-    "num"=>"5.2.7",
+$l528 = array(
+    "num"=>"5.2.8",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.7_i686-pc-linux-gnu.sh",
-    "date"=>"8 Nov 2005",
+    "file"=>"boinc_5.2.8_i686-pc-linux-gnu.sh",
+    "date"=>"22 Nov 2005",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_5."
@@ -299,7 +305,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w527,
+        $w528,
         $w445,
     )
 );
@@ -320,7 +326,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l527,
+        $l528,
         $l443,
     )
 );
