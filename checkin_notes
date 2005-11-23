@@ -13450,6 +13450,10 @@ Charlie 17 nov 2005
 Rom    21 Nov 2005
     - Remove duplicate call to scheduler_rpc_poll in 
         CLIENT_STATE::poll_slow_events().
-        
+
     client/
         client_state.C
+
+Rom    7 Nov 2005 (stable)
+    - Tag for 5.2.8 release, all platforms
+      boinc_core_release_5_2_8
