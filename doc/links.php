@@ -98,7 +98,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
-    site("http://www.boinc-team.de/", BOINC@Heidelberg"),
+    site("http://www.boinc-team.de/", "BOINC@Heidelberg"),
     site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
     site("http://www.boinc-halle-saale.de", "BOINC@Halle/Saale"),

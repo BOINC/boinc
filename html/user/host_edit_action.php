@@ -64,12 +64,13 @@ $user = get_logged_in_user();
 
 page_head("Merge computer records");
 
-$nhosts = $_GET["nhosts"];
-$hostid = $_GET["id_0"];
+$nhosts = get_int("nhosts");
+$hostid = get_int("id_0");
 $latest_host = get_host($hostid, $user);
 for ($i=1; $i<$nhosts; $i++) {
 	$var = "id_$i";
-	$hostid = get_int($var);
+	$hostid = get_int($var, true);
+    if (!$hostid) break;
 	$host = get_host($hostid, $user);
 	if ($host->create_time > $latest_host->create_time) {
 		merge_hosts($latest_host, $host);

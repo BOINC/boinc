@@ -186,6 +186,13 @@ For example, read about the
 <a href=http://dev.mysql.com/tech-resources/articles/mysql-query-cache.html>MySQL query cache</a>.
 
 </ul>
+<h3>MySQLclient notes</h3>
+<ul>
+<li>
+Configure mysql with the --enable-thread-safe-client switch.
+<li>
+Set your LD_LIBRARY_PATH to refer to the correct library.
+</ul>
 
 <h3>PHP notes</h3>
 <ul>

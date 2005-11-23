@@ -13818,3 +13818,9 @@ Rom    21 Nov 2005
         acct_setup.C
         gui_http.C
         main.C
+        
+David  22 Nov 2005
+    - user web: bug fix in host merge
+
+    html/user/
+        host_edit_action.php
