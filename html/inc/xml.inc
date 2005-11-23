@@ -14,6 +14,8 @@ function xml_error($msg) {
 function show_host_xml($host) {
     echo "    <host>
         <id>$host->id</id>
+        <create_time>$host->create_time</create_time>
+        <rpc_seqno>$host->rpc_seqno</rpc_seqno>
         <host_cpid>$host->host_cpid</host_cpid>
         <total_credit>$host->total_credit</total_credit>
         <expavg_credit>$host->expavg_credit</expavg_credit>

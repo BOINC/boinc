@@ -13833,3 +13833,10 @@ David  22 Nov 2005
 
     client/
         app_control.C
+
+David  22 Nov 2005
+    - Web RPC: add <create_time> and <rpc_seqno> to the host entries
+        returned by show_user.php XML version
+
+    html/inc/
+        xml.inc

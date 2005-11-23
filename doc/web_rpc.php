@@ -213,6 +213,8 @@ or
     <has_profile>1</has_profile>
     <host>
         <id>123</id>
+        <create_time>1287339128</create_time>
+        <rpc_seqno>123</rpc_seqno>
         <host_cpid>fe0b2753a355b17864ec061eb1b9e8de</host_cpid>
         <total_credit>0</total_credit>
         <expavg_credit>0</expavg_credit>
