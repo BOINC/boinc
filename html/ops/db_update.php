@@ -293,6 +293,12 @@ function update_8_26_2005() {
 function update_9_22_2005() {
     do_query("update user set country='Macedonia' where country='Macedonia, The Former Yugoslav Republic of'");
 }
-//update_10_25_2004();
+
+function update_11_24_2005(){
+    do_query("ALTER TABLE `forum_preferences` ADD `minimum_wrap_postcount` INT DEFAULT '100' NOT NULL AFTER `high_rating_threshold` ,
+ADD `display_wrap_postcount` INT DEFAULT '75' NOT NULL AFTER `minimum_wrap_postcount`");
+}
+
+//update_11_24_2005();
 
 ?>

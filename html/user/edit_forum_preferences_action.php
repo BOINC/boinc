@@ -56,6 +56,8 @@ $ignore_sticky_posts = ($HTTP_POST_VARS["forum_ignore_sticky_posts"]!="");
 $low_rating_threshold = intval($HTTP_POST_VARS["forum_low_rating_threshold"]);
 $high_rating_threshold = intval($HTTP_POST_VARS["forum_high_rating_threshold"]);
 $add_user_to_filter = ($HTTP_POST_VARS["add_user_to_filter"]!="");
+$minimum_wrap_postcount = intval($HTTP_POST_VARS["forum_minimum_wrap_postcount"]);
+$display_wrap_postcount = intval($HTTP_POST_VARS["forum_display_wrap_postcount"]);
 
 $no_signature_by_default=($HTTP_POST_VARS["signature_enable"]=="");
 $signature = sanitize_html(stripslashes($HTTP_POST_VARS["signature"]));
@@ -94,6 +96,10 @@ for ($i=1;$i<sizeof($ignored_users);$i++){
     }
 }
 
+if ($minimum_wrap_postcount<0) $minimum_wrap_postcount=0;
+if ($display_wrap_postcount>$minimum_wrap_postcount) $display_wrap_postcount=round($minimum_wrap_postcount/2);
+if ($display_wrap_postcount<5) $display_wrap_postcount=5;
+
 $result = mysql_query(
     "update forum_preferences set 
         avatar_type='".$avatar_type."', 
@@ -109,7 +115,9 @@ $result = mysql_query(
         hide_signatures='".$hide_signatures."',
         low_rating_threshold='".$low_rating_threshold."',
 	ignorelist='".$real_ignorelist."',
-        high_rating_threshold='".$high_rating_threshold."'
+        high_rating_threshold='".$high_rating_threshold."',
+	minimum_wrap_postcount='".$minimum_wrap_postcount."',
+	display_wrap_postcount='".$display_wrap_postcount."'
     where userid=$user->id"
 );
 if ($result) {

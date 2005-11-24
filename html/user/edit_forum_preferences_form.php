@@ -66,6 +66,9 @@ if ($user->images_as_links==1){$forum_image_as_link="checked=\"checked\"";} else
 if ($user->jump_to_unread==1){$forum_jump_to_unread="checked=\"checked\"";} else {$forum_jump_to_unread="";}
 if ($user->ignore_sticky_posts==1){$forum_ignore_sticky_posts="checked=\"checked\"";} else {$forum_ignore_sticky_posts="";}
 
+$forum_minimum_wrap_postcount = intval($user->minimum_wrap_postcount);
+$forum_display_wrap_postcount = intval($user->display_wrap_postcount);
+
 row2("Display and Behavior".
     "<br><font size=-2>How to treat links and images in the forum<br>and how to act on unread posts</font>",
     "<table><tr><td>
@@ -73,6 +76,10 @@ row2("Display and Behavior".
         <input type=\"checkbox\" name=\"forum_link_externally\" ".$forum_link_externally."> Open links in new window/tab<br>
         <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> Jump to first new post in thread automatically<br>
         <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">Do not reorder sticky posts<br>
+	<br />
+	<input type=\"text\" name=\"forum_minimum_wrap_postcount\" style=\"width: 30px;\" value=\"".$forum_minimum_wrap_postcount."\"> If a thread contains more than this number of posts<br />
+	<input type=\"text\" name=\"forum_display_wrap_postcount\" style=\"width: 30px;\" value=\"".$forum_display_wrap_postcount."\"> only display the first one and this many of the last ones<br />
+	
     </td></tr></table>"
 );
 
