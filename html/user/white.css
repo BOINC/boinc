@@ -160,3 +160,24 @@ blockquote {
 	border: 0;
 	margin-right: 100%;
 }
+td.postheader{
+        background-color: rgb(220,210,210);
+        border-bottom: 1px solid rgb(190,190,200);
+        height:1px;
+}
+td.postfooter{
+        background-color: rgb(220,210,210);
+        border-top: 1px solid rgb(190,190,200);
+        height:1px;
+}
+tr.helpdeskseperator{
+        height:15px;
+}
+tr.postseperator{
+        background-color: rgb(200,200,200);
+        height:4px;
+}
+tr.postseperator td{
+        border-top: 1px solid rgb(170,170,170);
+        border-bottom: 1px      solid rgb(170,170,170);
+}
