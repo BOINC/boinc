@@ -39,7 +39,8 @@ function output_transform($text, $options = NULL) {
 		$text = stripslashes($text);
 	}
 	if ($options->htmlitems) {
-		$text = htmlentities($text);
+		//$text = htmlentities($text);
+		$text = htmlspecialchars($text);
 	}
 	if ($options->htmlscrub) {
 		$text = sanitize_html($text);
@@ -118,11 +119,11 @@ function bb2html($text) {
 		"<a href=\"http://\\2\">http://\\2</a>",
 		"<a href=\"http://\\2\">\\3</a>",
 		"<a href=\"http://\\2\">http://\\2</a>",
-		"<blockquote>\\2</blockquote>",
-		"<blockquote>\\1</blockquote>",
+		"<blockquote>\\2</blockquote><p>",
+		"<blockquote>\\1</blockquote><p>",
 		"<font face=\\1>\\2</font>",
-		"<ul>\\1</ul>",
-		"<ol>\\1</ol>",
+		"<ul>\\1</ul><p>",
+		"<ol>\\1</ol><p>",
 		"<pre>\\1</pre>",
 		"<img src=\"http://\\2\">",
 		"<font color=\"\\1\">\\2</font>",

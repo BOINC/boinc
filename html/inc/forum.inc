@@ -136,6 +136,7 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     }
 
     $posts = getPosts($thread->id, -1, -1, $sort_style, $show_hidden_posts);
+    $postcount = mysql_num_rows($posts);
     $logged_in_user = getThreadLastVisited($logged_in_user,$thread);
     setThreadLastVisited($logged_in_user,$thread);
 
@@ -149,14 +150,45 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
             }
         }
     }
-
+    
+    $postnumber=0; $previous_post=0;
+    //$logged_in_user->minimum_wrap_postcount=13;
+    //$logged_in_user->display_wrap_postcount=12;
+    $no_wraparound = get_str("nowrap",true);
     while ($post = mysql_fetch_object($posts)) {
         if (!$is_helpdesk || ($is_helpdesk && $post->id != $firstPost->id)) {
-            show_post($post, $thread, $logged_in_user, $n, $controls, false, $filter);
-            if ($do_coloring) $n = ($n+1)%2;
-            if (($post->timestamp>$logged_in_user->thread_last_visited) && (($post->timestamp<$first_unread_post->timestamp) || $first_unread_post->timestamp==0)){
-                $first_unread_post=$post;
-            }
+	    $postnumber++;
+	    
+	    if (
+		(!$logged_in_user->minimum_wrap_postcount) //If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
+		|| ($postcount <= $logged_in_user->minimum_wrap_postcount) //If it is enabled and we havent yet hit the limit, simply display all
+		|| ($no_wraparound)  // If the user has asked to display all the posts just display them
+		||
+		(
+		    ($postcount > $logged_in_user->minimum_wrap_postcount) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
+		    &&
+		    (
+			($postnumber==1) // Let's display the post only if it is the first post 
+			|| ($postnumber > $postcount-$logged_in_user->display_wrap_postcount) //or it is one of the last wrap_display_postcount posts.
+			|| ($post->timestamp > $logged_in_user->thread_last_visited) //or if this post is unread
+		    )
+		)
+	    ){
+		if ($postnumber!=$previous_post+1){
+		    //A number of posts were hidden, display a way to unhide them:
+		    echo "<tr class=\"postseperator\"><td></td><td colspan=2>
+		    Only the first post and the last ".($logged_in_user->display_wrap_postcount)." posts 
+		    (of the ".($postcount)." posts in this thread) 
+		    are displayed. <br />
+		    <a href=\"?id=".$thread->id."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>";
+		}
+		$previous_post=$postnumber;
+		show_post($post, $thread, $logged_in_user, $n, $controls, false, $filter);
+        	if ($do_coloring) $n = ($n+1)%2;
+        	if (($post->timestamp>$logged_in_user->thread_last_visited) && (($post->timestamp<$first_unread_post->timestamp) || $first_unread_post->timestamp==0)){
+		    $first_unread_post=$post;
+        	}
+	    }
         }
     }
 
@@ -190,7 +222,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     //$can_edit = ((isSpecialUser($logged_in_user,0)) || ($logged_in_user && $user->id == $logged_in_user->id));// Everybody assumes we can edit posts, why not make it so?
     echo "
         <tr class=\"row$n\" valign=\"top\">
-        <td>\n\t\t<div class=\"authorcol\">
+        <td rowspan=\"3\">\n\t\t<div class=\"authorcol\">
         <a name=\"$post->id\"></a>
     ";
 
@@ -230,17 +262,17 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     // printf("RAC: %.1f<br>", $user->expavg_credit);
     echo "RAC: ".number_format($user->expavg_credit)."<br>";
 
-    echo "</font></div></td>\n\t\t<td>
+    echo "</font></div></td>\n\t\t
     ";
 
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
-
-    echo "
-        <table width=\"100%\" cellpadding=0 cellspacing=0 border=0>
-        <tr valign=top>
-        <td align=left style=\"border:0px\"><font size=-2>";
+    if ($controls == FORUM_CONTROLS){
+	echo "<td align=left colspan=2 class=\"postheader\" valign=\"top\"><font size=-2>";
+    } else {
+	echo "<td align=left class=\"postheader\" valign=\"top\"><font size=-2>";
+    }
 
     if ($post->timestamp>$logged_in_user->thread_last_visited){
         echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\">";
@@ -267,27 +299,28 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     if ($controls == FORUM_CONTROLS) {
         //no special controls in forum
+	//echo "<td class=\"postheader\"></td>";
     } else if ($controls == HELPDESK_CONTROLS && $separate) {
         echo "
-            <td align=right style=\"border:0px\">
+            <td align=right class=\"postheader\">
             <input type=submit name=submit value=\"", SUFFERER, "\">
             </td>
         ";
     } else if ($controls == HELPDESK_CONTROLS && !$separate) {
         echo "
-            <td align=right style=\"border:0px\">
+            <td align=right class=\"postheader\">
             <input type=submit name=submit value=\"", SOLUTION, "\">
             <input type=submit name=submit value=\"", OFF_TOPIC, "\">
             </td>
         ";
     }
 
-    echo "</tr>\n</table>\n";
+    echo "</tr>\n";
 
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
         echo "</form>";
     }
-
+    echo "<tr class=\"row$n\"><td class=\"postbody\" colspan=\"2\">";
     //If either filtering is turned off of this post is not below the threshold
     if (!$filter || !$rated_below_threshold){
         $posttext = $post->content;
@@ -304,42 +337,38 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         $posttext = output_transform($posttext,$options);
         
         echo "<p>", $posttext, "</p>";
-        echo "<table width=\"100%\" cellspacing=0 cellpadding=0>
-            <tr valign=\"bottom\">
-            <td style=\"border:0px;\"><font size=-2><i>ID: ", $post->id;
+        echo "</td></tr><tr><td class=\"postfooter\"><font size=-2><i>ID: ", $post->id;
         if ($controls == HELPDESK_CONTROLS && $separate) {
             echo "</i></font></td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
             echo " / Score: ", round(($post->score * $post->votes),0), "</i></font></td>";
         } else {
             $rating = floor($post->score*$post->votes + 0.01);
-            echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->id."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></font></td>";
+            echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->id."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE."\" border=0></a></font></td>";
         }
 
         if ($controls == FORUM_CONTROLS) {
-            echo "<td align=right style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input\">Reply to this post</a>]</td>";
+            echo "<td align=right class=\"postfooter\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input\">Reply to this post</a>]</td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-            echo "<td align=right style=\"border:0px\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
-        }
-        echo "</tr></table>";
+            echo "<td align=right class=\"postfooter\">[<a href=\"forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&helpdesk=1#input\">Reply to this answer</a>]</td>";
+        } else {
+	    echo "<td class=\"postfooter\"></td>";
+	}
+        echo "</tr>";
     }
     echo "</td></tr>";
+    echo "<tr class=\"postseperator\"><td colspan=3></td></tr>";
     if ($separate) {
-        echo "
-            </table>
-            <br><br>
-            <table border=0 cellpadding=5 cellspacing=0 width=100%>
-            <tr>
-            <th>Author</th>
-            <th>Answers</th>
-        ";
+        $headings = array(array("Author","authorcol"), "Message","");
+	echo "<tr class=\"helpdeskseperator\"><td></td></tr>";
+        start_forum_table($headings, "id=\"thread\" width=100%");
     }
 }
 
 // utility functions
 
 function start_forum_table($headings, $extra="width=100%") {
-    start_table($extra);
+    start_table($extra." cellspacing=0");
     echo "<tr>";
 
     for ($i=0; $i<count($headings); $i++) {
