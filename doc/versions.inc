@@ -314,8 +314,8 @@ $mac = array(
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m528,
-        $m528s,
-        $m525c,
+        $m525s,
+        $m528c,
         $m443,
         $m443c,
         $m443s
