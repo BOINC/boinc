@@ -140,6 +140,7 @@ img {
 
 blockquote {
 	border-left: 2px solid blue;
+	background: #DDDDDD;
 	padding-left: 5px;
 	padding-bottom: 0px;
 	margin-bottom: 0px;
