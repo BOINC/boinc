@@ -13840,3 +13840,33 @@ David  22 Nov 2005
 
     html/inc/
         xml.inc
+
+Janus 24 Nov 2005
+    - Moved some layout information out of the HTML forum files and into
+      the CSS file. This allows for far more flexibility when defining a
+      custom layout and colourscheme for the forums.
+      You should even be able to use nice background images for the bars etc.
+      Theoretically all or most layout information should be outside 
+      the HTML instead of hardcoded into it...
+    - Fixed an issue where sometimes the bottom options displayed for each
+      post would move up into the post (when not enough text was present).
+      The text is now centered instead and the bottom options stays where
+      they are.
+    - Fixed an issue with some foreign characters being turned into random
+      gibberish in the forums (htmlentities() turned into html_special_chars())
+    - Added support for only displaying the last Y posts when there are
+      more than X posts in a thread (for low-bandwidth users)
+    - Added a way to configure the above X and Y (through forum prefs)
+    - Added the needed DB update query to db_update in ops.
+
+    html/
+	ops/
+            db_update.php
+	inc/
+            forum.inc
+	    text_transform.inc
+        user/
+            forum_thread.php
+            white.css
+	    edit_forum_preferences_form.php
+            edit_forum_preferences_action.php
