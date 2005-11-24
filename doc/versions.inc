@@ -315,7 +315,7 @@ $mac = array(
     "versions"=>array(
         $m528,
         $m528s,
-        $m528c,
+        $m525c,
         $m443,
         $m443c,
         $m443s
