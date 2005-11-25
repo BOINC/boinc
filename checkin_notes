@@ -13870,3 +13870,9 @@ Janus 24 Nov 2005
             white.css
 	    edit_forum_preferences_form.php
             edit_forum_preferences_action.php
+            
+David  24 Nov 2005
+	- Manager: improvements to Statistics tab
+
+	clientgui/
+		ViewStatistics.cpp

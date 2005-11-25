@@ -37,104 +37,108 @@ BEGIN_EVENT_TABLE (CPaintStatistics, wxPanel)
 END_EVENT_TABLE ()
 
 CPaintStatistics::CPaintStatistics() {
-	m_SelectedStatistic=0;
-	heading=_("User Total");
+    m_SelectedStatistic=0;
+    heading=_("User Total");
 }
 
-CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
-				wxPanel(parent, id, pos, size, style, name) {
-	m_SelectedStatistic=0;
-	heading=_("User Total");
+CPaintStatistics::CPaintStatistics(
+    wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size,
+    long style, const wxString& name
+) : wxPanel(parent, id, pos, size, style, name
+) {
+    m_SelectedStatistic=0;
+    heading=_("User Total");
 }
 
 void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
-	//Init global
+    //Init global
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-	PROJECTS *proj=&(pDoc->statistics_status);
-	wxASSERT(proj);
+    PROJECTS *proj=&(pDoc->statistics_status);
+    wxASSERT(proj);
 
-	//Init drawing
+    //Init drawing
     wxPaintDC dc (this);
 
-    wxCoord width = 0, height = 0, heading_height=0, rectangle_x_start=0, rectangle_y_start=0,
-		rectangle_x_end=0, rectangle_y_end=0;
+    wxCoord width = 0, height = 0, heading_height=0;
+    wxCoord rectangle_x_start=0, rectangle_y_start=0;
+    wxCoord rectangle_x_end=0, rectangle_y_end=0;
 
     GetClientSize(&width, &height);
 
-	dc.SetBackground(*wxWHITE_BRUSH);
+    dc.SetBackground(*wxWHITE_BRUSH);
 
-	dc.SetTextForeground (GetForegroundColour ());
+    dc.SetTextForeground (GetForegroundColour ());
     dc.SetTextBackground (GetBackgroundColour ());
 
-	wxFont heading_font(*wxSWISS_FONT);
-	heading_font.SetWeight(wxBOLD);
+    wxFont heading_font(*wxSWISS_FONT);
+    heading_font.SetWeight(wxBOLD);
 
-	dc.SetFont(*wxSWISS_FONT);
-	
+    dc.SetFont(*wxSWISS_FONT);
+    
 
-	//Start drawing
-	dc.BeginDrawing();
+    //Start drawing
+    dc.BeginDrawing();
 
-	dc.Clear();
+    dc.Clear();
 
-	//Draw heading
-	{
-		dc.SetFont(heading_font);
-		wxCoord w_temp, h_temp, des_temp, lead_temp;
+    //Draw heading
+    {
+        dc.SetFont(heading_font);
+        wxCoord w_temp, h_temp, des_temp, lead_temp;
         dc.GetTextExtent(heading, &w_temp, &h_temp, &des_temp, &lead_temp);
-		heading_height=h_temp+lead_temp+5;
-		dc.DrawText (heading, ((width/2)-(w_temp/2)), lead_temp+5);
-		dc.SetFont(*wxSWISS_FONT);
-	}
+        heading_height=h_temp+lead_temp+5;
+        dc.DrawText (heading, ((width/2)-(w_temp/2)), lead_temp+5);
+        dc.SetFont(*wxSWISS_FONT);
+    }
 
-	//Number of Projects with statistics
-	wxInt32 nb_proj=0;
-	for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();
-		i!=proj->projects.end(); ++i) {
-			if ((*i)->statistics.size()>1) ++nb_proj;
-	}
-	if (nb_proj==0) return;
+    //Number of Projects with statistics
+    wxInt32 nb_proj=0;
+    for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();
+        i!=proj->projects.end(); ++i) {
+            if ((*i)->statistics.size()>1) ++nb_proj;
+    }
+    if (nb_proj==0) return;
 
-	//How many rows/colums?
-	wxInt32 nb_proj_row=0, nb_proj_col=0;
-	if (nb_proj<4) {
-		nb_proj_col=1;
-		nb_proj_row=nb_proj;
-	} else {
-		nb_proj_col=2;
-		nb_proj_row=(wxInt32)ceil(static_cast<double>(nb_proj/static_cast<double>(nb_proj_col)));
-	}
+    //How many rows/colums?
+    wxInt32 nb_proj_row=0, nb_proj_col=0;
+    if (nb_proj<4) {
+        nb_proj_col=1;
+        nb_proj_row=nb_proj;
+    } else {
+        nb_proj_col=2;
+        nb_proj_row=(wxInt32)ceil(static_cast<double>(nb_proj/static_cast<double>(nb_proj_col)));
+    }
 
-	wxInt32 col=1, row=1; //Used to identify the actual row/col
+    wxInt32 col=1, row=1; //Used to identify the actual row/col
 
-	const double x_fac=width/nb_proj_col;
-	const double y_fac=(height-heading_height)/nb_proj_row;
+    const double x_fac=width/nb_proj_col;
+    const double y_fac=(height-heading_height)/nb_proj_row;
 
-	wxInt32 count=-1;
-	
-	for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();
-		i!=proj->projects.end(); ++i
-   ) {
-		++count;
+    wxInt32 count=-1;
+    
+    for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();
+        i!=proj->projects.end(); ++i
+    ) {
+        ++count;
 
-		//No statistics
-		if ((*i)->statistics.size()<2) continue;
+        //No statistics
+        if ((*i)->statistics.size()<2) continue;
 
-		//Where do we draw in?
-		wxCoord x_start=0, y_start=0, x_end=0, y_end=0;
-		x_start=(wxCoord)(x_fac*(double)(col-1));
-		x_end=(wxCoord)(x_fac*((double)col));
-		y_start=(wxCoord)(y_fac*(double)(row-1)+heading_height);
-		y_end=(wxCoord)(y_fac*(double)row+heading_height);
+        //Where do we draw in?
+        wxCoord x_start=0, y_start=0, x_end=0, y_end=0;
+        x_start=(wxCoord)(x_fac*(double)(col-1));
+        x_end=(wxCoord)(x_fac*((double)col));
+        y_start=(wxCoord)(y_fac*(double)(row-1)+heading_height);
+        y_end=(wxCoord)(y_fac*(double)row+heading_height);
 
-		//Draw Project name
-		{
-			wxCoord w_temp, h_temp, des_temp, lead_temp, x, y;
+        //Draw Project name
+        {
+            wxCoord w_temp, h_temp, des_temp, lead_temp, x, y;
             PROJECT* statistic = wxGetApp().GetDocument()->statistic(count);
             PROJECT* state_project = NULL;
             wxString name;
@@ -150,123 +154,201 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
             dc.GetTextExtent(name, &w_temp, &h_temp, &des_temp, &lead_temp);
 
-			x=x_start+((x_end-x_start)/2)-(w_temp/2);
-			y=y_start+lead_temp+5;
-			dc.DrawText (name, x, y);
-		}
+            x=x_start+((x_end-x_start)/2)-(w_temp/2);
+            y=y_start+lead_temp+5;
+            dc.DrawText (name, x, y);
+        }
 
-		//Find minimum/maximum value
-		double min_val=10e32, max_val=0;
-		for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin();
-			j!=(*i)->statistics.end();++j)
-		{
+        //Find minimum/maximum value
+        double min_val=10e32, max_val=0;
+        double min_val_x=0, max_val_x=0;
+        for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin();
+            j!=(*i)->statistics.end();++j)
+        {
+            if (0==min_val_x) min_val_x=j->day;
+            max_val_x=j->day;
+            
             if (m_SelectedStatistic==0) {
-				if (j->user_total_credit>max_val) max_val=j->user_total_credit;
-				if (j->user_total_credit<min_val) min_val=j->user_total_credit;
-			}
+                if (j->user_total_credit>max_val) max_val=j->user_total_credit;
+                if (j->user_total_credit<min_val) min_val=j->user_total_credit;
+            }
             if (m_SelectedStatistic==1) {
-				if (j->user_expavg_credit>max_val) max_val=j->user_expavg_credit;
-				if (j->user_expavg_credit<min_val) min_val=j->user_expavg_credit;
-			}
+                if (j->user_expavg_credit>max_val) max_val=j->user_expavg_credit;
+                if (j->user_expavg_credit<min_val) min_val=j->user_expavg_credit;
+            }
             if (m_SelectedStatistic==2) {
-				if (j->host_total_credit>max_val) max_val=j->host_total_credit;
-				if (j->host_total_credit<min_val) min_val=j->host_total_credit;
-			}
+                if (j->host_total_credit>max_val) max_val=j->host_total_credit;
+                if (j->host_total_credit<min_val) min_val=j->host_total_credit;
+            }
             if (m_SelectedStatistic==3) {
-				if (j->host_expavg_credit>max_val) max_val=j->host_expavg_credit;
-				if (j->host_expavg_credit<min_val) min_val=j->host_expavg_credit;
-			}
-		}
-		min_val=min_val*0.999999-1;
-		max_val=max_val*1.000001+1;
-		if (min_val<0) min_val=0;
+                if (j->host_expavg_credit>max_val) max_val=j->host_expavg_credit;
+                if (j->host_expavg_credit<min_val) min_val=j->host_expavg_credit;
+            }
+        }
+        min_val=min_val*0.999999-1;
+        max_val=max_val*1.000001+1;
+        if (min_val<0) min_val=0;
+        if (max_val==min_val) max_val+=3;
 
-		//Draw scale
-		{
-			dc.SetBrush(*wxLIGHT_GREY_BRUSH);
-			dc.SetPen(wxPen(wxColour (0 , 0 , 0) , 1 , wxSOLID));
+        min_val_x=min_val_x*0.999999-1;
+        max_val_x=max_val_x*1.000001+1;
+        if (min_val_x<0) min_val_x=0;
+        if (max_val_x==min_val_x) max_val_x+=3;
 
-
-			wxCoord w_temp, h_temp, des_temp, lead_temp;
-			dc.GetTextExtent(wxString::Format("%.0f", max_val), &w_temp, &h_temp, &des_temp, &lead_temp);
-
-			rectangle_x_start=x_start+w_temp+2;
-			rectangle_y_start=y_start+heading_height+2;
-			rectangle_x_end=x_end-2;
-			rectangle_y_end=y_end-2-h_temp;
-
-			dc.GetTextExtent("days", &w_temp, &h_temp, &des_temp, &lead_temp);
-			rectangle_x_end-=w_temp;
-
-			dc.GetTextExtent(wxString::Format("%.0f", max_val), &w_temp, &h_temp, &des_temp, &lead_temp);
-			dc.DrawRectangle(rectangle_x_start,rectangle_y_start,rectangle_x_end-rectangle_x_start,rectangle_y_end-rectangle_y_start);	
-			dc.DrawText(wxString::Format("%.0f", max_val),x_start,rectangle_y_start-h_temp);
-
-			dc.GetTextExtent(wxString::Format("%.0f", min_val), &w_temp, &h_temp, &des_temp, &lead_temp);
-			dc.DrawText(wxString::Format("%.0f", min_val),rectangle_x_start-w_temp-2,rectangle_y_end-h_temp);
-			dc.DrawText("days", rectangle_x_end, rectangle_y_end);
-
-			//Draw day numbers and lines marking the days
-			wxCoord xpos=rectangle_x_start;
-			for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
-				double day=dday()-j->day;
-				day=day/(60*60*24);
-				dc.SetPen(wxPen(wxColour (0 , 0 , 0) , 1 , wxSOLID));
-				if (j!=(--(*i)->statistics.end())) dc.DrawText(wxString::Format("-%.0f", day),xpos,rectangle_y_end);
-				if (j!=(--(*i)->statistics.end()) && j!=(*i)->statistics.begin()) {
-					dc.SetPen(wxPen(wxColour (200 , 200 , 200) , 1 , wxSOLID));
-					dc.DrawLine(xpos,rectangle_y_start+1,xpos,rectangle_y_end-1);
-				}
-				xpos+=(rectangle_x_end-rectangle_x_start)/((*i)->statistics.size()-1);
-			}
-		}
-
-		//Draw graph
-		{
-			const double yscale=(rectangle_y_end-rectangle_y_start-1)/(max_val-min_val);
-			const double xscale=(rectangle_x_end-rectangle_x_start-1)/((*i)->statistics.size()-1);
+        //Draw scale
+        {
+            dc.SetBrush(*wxLIGHT_GREY_BRUSH);
+            dc.SetPen(wxPen(wxColour (0 , 0 , 0) , 1 , wxSOLID));
 
 
-			dc.SetPen(wxPen(wxColour (255, 255, 0) , 1 , wxSOLID));
+            wxCoord w_temp, h_temp, des_temp, lead_temp;
+            dc.GetTextExtent(
+                wxString::Format(" %.1f", max_val), &w_temp, &h_temp, &des_temp, &lead_temp
+            );
 
-			wxCoord last_x=rectangle_x_start, last_y=0, xpos=rectangle_x_start, ypos=0;
+            rectangle_x_start=x_start+w_temp+2;
+            rectangle_y_start=y_start+heading_height+2;
+            rectangle_x_end=x_end-2;
+            rectangle_y_end=y_end-2-h_temp;
 
-			for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
+            wxDateTime dtTemp1;
+            wxString strBuffer1;
+            dtTemp1.Set((time_t)max_val_x);
+            strBuffer1=dtTemp1.Format("  %d-%b-%y");
+            dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
+            rectangle_x_end-=w_temp/2;
+            if (rectangle_x_start<(x_start+(w_temp/2)+2)) rectangle_x_start=(x_start+(w_temp/2)+2);
 
-				ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_total_credit-min_val)));
-				if (m_SelectedStatistic==0) {
-					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_total_credit-min_val)));
-				}
-				if (m_SelectedStatistic==1) {
-					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_expavg_credit-min_val)));
-				}
-				if (m_SelectedStatistic==2) {
-					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->host_total_credit-min_val)));
-				}
-				if (m_SelectedStatistic==3) {
-					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->host_expavg_credit-min_val)));
-				}
-				
-				if (last_y!=0) {
-					dc.DrawLine(xpos,ypos,last_x,last_y);
-				}
+            //Draw val
+            dc.GetTextExtent(wxString::Format("%.1f", max_val), &w_temp, &h_temp, &des_temp, &lead_temp);
+            dc.DrawRectangle(
+				rectangle_x_start,
+				rectangle_y_start,
+				rectangle_x_end-rectangle_x_start,
+				rectangle_y_end-rectangle_y_start
+			);    
+            dc.DrawText(wxString::Format("%.1f", max_val),rectangle_x_start-w_temp-2,rectangle_y_start-h_temp);
 
-				last_x=xpos;
-				last_y=ypos;
-				xpos+=(wxCoord)xscale;
-			}
-		}
+            dc.GetTextExtent(wxString::Format("%.1f", min_val), &w_temp, &h_temp, &des_temp, &lead_temp);
+            dc.DrawText(wxString::Format("%.1f", min_val),rectangle_x_start-w_temp-2,rectangle_y_end-h_temp);
+            
+            int d_oy_count=1;
+            d_oy_count=(int)((rectangle_y_end-rectangle_y_start)/(1.2*h_temp));
+            if (d_oy_count>5) d_oy_count=5;
+            if (d_oy_count<1) d_oy_count=1;
+            
+            double d_oy=(rectangle_y_end-rectangle_y_start)/d_oy_count;
+            double d_oy_val=(max_val-min_val)/d_oy_count;
+            for (double ny=1; ny<d_oy_count;ny+=1){
+                dc.GetTextExtent(
+					wxString::Format("%.1f", min_val+ny*d_oy_val),
+					&w_temp,
+					&h_temp,
+					&des_temp,
+					&lead_temp
+				);
+                dc.DrawText(
+					wxString::Format("%.1f",
+					min_val+ny*d_oy_val),
+					rectangle_x_start-w_temp-2,
+					(wxCoord)(rectangle_y_end-ny*d_oy)-h_temp
+				);
+                dc.SetPen(wxPen(wxColour (200 , 200 , 200) , 1 , wxSOLID));
+                dc.DrawLine(
+					rectangle_x_start+1,
+					(wxCoord)(rectangle_y_end-ny*d_oy),
+					rectangle_x_end-1,
+					(wxCoord)(rectangle_y_end-ny*d_oy)
+				);
+            }
+            
+            //Draw day numbers and lines marking the days
+            dtTemp1.Set((time_t)max_val_x);
+            strBuffer1=dtTemp1.Format("%d-%b-%y");
+            dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
+            dc.DrawText(strBuffer1, rectangle_x_end-(w_temp/2), rectangle_y_end);
+            dtTemp1.Set((time_t)min_val_x);
+            strBuffer1=dtTemp1.Format("%d-%b-%y");
+            dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
+            dc.DrawText(strBuffer1, rectangle_x_start-(w_temp/2), rectangle_y_end);
 
-		//Change row/col
-		if (col==nb_proj_col) {
-			col=1;
-			++row;
-		} else {
-			++col;
-		}
-	}
-	
-	dc.EndDrawing();
+            int d_ox_count=1;
+            d_ox_count=(int)((rectangle_x_end-rectangle_x_start)/(1.2*w_temp));
+            if (d_ox_count>5) d_ox_count=5;
+            if (d_ox_count<1) d_ox_count=1;
+            
+            double d_ox=(rectangle_x_end-rectangle_x_start)/d_ox_count;
+            double d_ox_val=(max_val_x-min_val_x)/d_ox_count;
+            for (double nx=1; nx<d_ox_count;nx+=1){
+                dtTemp1.Set((time_t)(min_val_x+nx*d_ox_val));
+                strBuffer1=dtTemp1.Format("%d-%b-%y");
+                dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
+                dc.DrawText(strBuffer1, (wxCoord)(rectangle_x_start-(w_temp/2)+(nx*d_ox)), rectangle_y_end);
+                
+                dc.SetPen(wxPen(wxColour (200 , 200 , 200) , 1 , wxSOLID));
+                dc.DrawLine(
+					(wxCoord)(rectangle_x_start+(nx*d_ox)),
+					rectangle_y_start+1,
+					(wxCoord)(rectangle_x_start+(nx*d_ox)),
+					rectangle_y_end-1
+				);
+            }
+        }
+
+        //Draw graph
+        {
+            const double yscale=(rectangle_y_end-rectangle_y_start-2)/(max_val-min_val);
+            const double xscale=(rectangle_x_end-rectangle_x_start-2)/(max_val_x-min_val_x);
+
+
+            dc.SetPen(wxPen(wxColour (255, 255, 0) , 1 , wxSOLID));
+            if (m_SelectedStatistic==0) dc.SetPen(wxPen(wxColour (255, 0, 0) , 2 , wxSOLID));
+            if (m_SelectedStatistic==1) dc.SetPen(wxPen(wxColour (0, 0, 255) , 2 , wxSOLID));
+            if (m_SelectedStatistic==2) dc.SetPen(wxPen(wxColour (0, 150, 0) , 2 , wxSOLID));
+            if (m_SelectedStatistic==3) dc.SetPen(wxPen(wxColour (0, 0, 0) , 2 , wxSOLID));
+
+            wxCoord last_x=rectangle_x_start, last_y=0, xpos=rectangle_x_start, ypos=0;
+
+            for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin();
+				j!=(*i)->statistics.end();
+				++j
+			) {
+
+                ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_total_credit-min_val)));
+                xpos=(wxCoord)(rectangle_x_start + 1 + (xscale * (j->day-min_val_x)));
+
+                if (m_SelectedStatistic==0) {
+                    ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_total_credit-min_val)));
+                }
+                if (m_SelectedStatistic==1) {
+                    ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_expavg_credit-min_val)));
+                }
+                if (m_SelectedStatistic==2) {
+                    ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->host_total_credit-min_val)));
+                }
+                if (m_SelectedStatistic==3) {
+                    ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->host_expavg_credit-min_val)));
+                }
+                
+                if (last_y!=0) {
+                    dc.DrawLine(xpos,ypos,last_x,last_y);
+                }
+
+                last_x=xpos;
+                last_y=ypos;
+            }
+        }
+
+        //Change row/col
+        if (col==nb_proj_col) {
+            col=1;
+            ++row;
+        } else {
+            ++col;
+        }
+    }
+    
+    dc.EndDrawing();
 }
 
 void CPaintStatistics::OnSize(wxSizeEvent& event) {
@@ -293,8 +375,8 @@ CViewStatistics::CViewStatistics()
 CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook) 
 {
-	CTaskItemGroup* pGroup = NULL;
-	CTaskItem*      pItem = NULL;
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
 
     //
     // Setup View
@@ -308,8 +390,8 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_STATISTICSVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
-	m_PaintStatistics = new CPaintStatistics(this, ID_LIST_STATISTICSVIEW, wxDefaultPosition, wxSize(-1, -1), 0);
-	wxASSERT(m_PaintStatistics);
+    m_PaintStatistics = new CPaintStatistics(this, ID_LIST_STATISTICSVIEW, wxDefaultPosition, wxSize(-1, -1), 0);
+    wxASSERT(m_PaintStatistics);
 
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_PaintStatistics, 1, wxGROW|wxALL, 1);
@@ -319,31 +401,31 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     Layout();
 
 
-	pGroup = new CTaskItemGroup( _("Tasks") );
-	m_TaskGroups.push_back( pGroup );
+    pGroup = new CTaskItemGroup( _("Tasks") );
+    m_TaskGroups.push_back( pGroup );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Show user total"),
         wxT(""),
         ID_TASK_STATISTICS_USERTOTAL 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Show user average"),
         wxT(""),
         ID_TASK_STATISTICS_USERAVERAGE 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Show host total"),
         wxT(""),
         ID_TASK_STATISTICS_HOSTTOTAL 
     );
     pGroup->m_Tasks.push_back( pItem );
 
-	pItem = new CTaskItem(
+    pItem = new CTaskItem(
         _("Show host average"),
         wxT(""),
         ID_TASK_STATISTICS_HOSTAVERAGE 
@@ -377,8 +459,8 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->heading=_("User Total");
-	m_PaintStatistics->m_SelectedStatistic=0;
+    m_PaintStatistics->heading=_("User Total");
+    m_PaintStatistics->m_SelectedStatistic=0;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -397,8 +479,8 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->heading=_("User Average");
-	m_PaintStatistics->m_SelectedStatistic=1;
+    m_PaintStatistics->heading=_("User Average");
+    m_PaintStatistics->m_SelectedStatistic=1;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -417,8 +499,8 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->heading=_("Host Total");
-	m_PaintStatistics->m_SelectedStatistic=2;
+    m_PaintStatistics->heading=_("Host Total");
+    m_PaintStatistics->m_SelectedStatistic=2;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -437,8 +519,8 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
-	m_PaintStatistics->heading=_("Host Average");
-	m_PaintStatistics->m_SelectedStatistic=3;
+    m_PaintStatistics->heading=_("Host Average");
+    m_PaintStatistics->m_SelectedStatistic=3;
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -480,9 +562,9 @@ void CViewStatistics::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-	if (pDoc->GetStatisticsCount()) {
-		m_PaintStatistics->Refresh();
-	}
+    if (pDoc->GetStatisticsCount()) {
+        m_PaintStatistics->Refresh();
+    }
 }
 
 
