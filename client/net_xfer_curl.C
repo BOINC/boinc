@@ -282,17 +282,19 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 			nxf->io_done = true;
 			nxf->io_ready = false;
 
+            // update byte counts and transfer speed
+            //
 			if (nxf->want_download) {
 				bytes_down += nxf->bytes_xferred;
-				// get xfer speed (don't mess with bytes_xferred, that's in write function
 				curlErr = curl_easy_getinfo(nxf->curlEasy, 
-					CURLINFO_SPEED_DOWNLOAD, &nxf->xfer_speed);
+					CURLINFO_SPEED_DOWNLOAD, &nxf->xfer_speed
+                );
 			}
 			if (nxf->want_upload) {
 				bytes_up += nxf->bytes_xferred;
-				// get xfer speed (don't mess with bytes_xferred, that's in write function
 				curlErr = curl_easy_getinfo(nxf->curlEasy, 
-					CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed);
+					CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed
+                );
 			}
 
 			// the op is done if curl_multi_msg_read gave us a msg for this http_op
@@ -399,11 +401,6 @@ void NET_XFER::update_speed() {
     double delta_t = dtime() - start_time;
     if (delta_t > 0) {
         xfer_speed = bytes_xferred / delta_t;
-#if 0
-    // TODO: figure out what to do here
-    } else if (xfer_speed == 0) {
-        xfer_speed = 999999999;
-#endif
     }
 }
 
@@ -419,6 +416,7 @@ void NET_XFER::got_error() {
 // return true if an upload is currently in progress
 // or has been since the last call to this.
 // Similar for download.
+//
 void NET_XFER_SET::check_active(bool& up, bool& down) {
     unsigned int i;
     NET_XFER* nxp;
