@@ -53,11 +53,14 @@ public:
 class FILE_XFER_SET {
     HTTP_OP_SET* http_ops;
 public:
+    bool up_active, down_active;
+        // has there been transfer activity since last call to check_active()?
     std::vector<FILE_XFER*> file_xfers;
     FILE_XFER_SET(HTTP_OP_SET*);
     int insert(FILE_XFER*);
     int remove(FILE_XFER*);
     bool poll();
+    void check_active(bool&, bool&);
 };
 
 #endif

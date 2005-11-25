@@ -151,6 +151,8 @@ int FILE_XFER::parse_upload_response(double &nbytes) {
 //
 FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
     http_ops = p;
+    up_active = false;
+    down_active = false;
 }
 
 // start a FILE_XFER going (connect to server etc.)
@@ -254,6 +256,23 @@ bool FILE_XFER_SET::poll() {
         }
     }
     return action;
+}
+// return true if an upload is currently in progress
+// or has been since the last call to this.
+// Similar for download.
+//
+void FILE_XFER_SET::check_active(bool& up, bool& down) {
+    unsigned int i;
+    FILE_XFER* fxp;
+
+    up = up_active;
+    down = down_active;
+    for (i=0; i<file_xfers.size(); i++) {
+        fxp = file_xfers[i];
+        fxp->is_upload?up=true:down=true;
+    }
+    up_active = false;
+    down_active = false;
 }
 
 const char *BOINC_RCSID_31ba21bea3 = "$Id$";

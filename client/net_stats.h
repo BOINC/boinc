@@ -51,7 +51,7 @@ public:
     NET_INFO down;
 
     NET_STATS();
-    void poll(NET_XFER_SET&);
+    void poll(FILE_XFER_SET&, NET_XFER_SET&);
 
     int write(MIOFILE&);
     int parse(MIOFILE&);

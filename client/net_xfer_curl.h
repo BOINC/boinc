@@ -145,8 +145,6 @@ public:
         // bytes left to transfer in the current second
     double bytes_up, bytes_down;
         // total bytes transferred
-    bool up_active, down_active;
-        // has there been transfer activity since last call to check_active()?
     int last_time;
     int insert(NET_XFER*);
     int remove(NET_XFER*);
@@ -159,7 +157,6 @@ public:
     int do_select(double& bytes_transferred, double timeout);
 #endif
     NET_XFER* lookup_curl(CURL* pcurl);   // lookup by easycurl handle
-    void check_active(bool&, bool&);
 };
 
 #endif  // _H

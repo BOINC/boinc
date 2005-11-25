@@ -523,7 +523,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
     if (!activities_suspended && !network_suspended) {
-        net_stats.poll(*net_xfers);
+        net_stats.poll(*file_xfers, *net_xfers);
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );

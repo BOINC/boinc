@@ -46,7 +46,7 @@
 
 #include "net_stats.h"
 
-#define EXP_DECAY_RATE (1./SECONDS_PER_DAY)
+#define EXP_DECAY_RATE (1./3600)
 
 NET_STATS::NET_STATS() {
     last_time = 0;
@@ -55,6 +55,7 @@ NET_STATS::NET_STATS() {
 }
 
 void NET_INFO::update(double dt, double nb, bool active) {
+    //msg_printf(NULL, MSG_ERROR, "dt %f nb %f active %d", dt, nb, active);
     if (active) {
         delta_t += dt;
         delta_nbytes += nb-last_bytes;
@@ -63,22 +64,29 @@ void NET_INFO::update(double dt, double nb, bool active) {
 }
 
 double NET_INFO::throughput() {
-    double x, tp;
+    double x, tp, new_tp;
     if (starting_throughput > 0) {
         if (delta_t > 0) {
             x = exp(-delta_t*EXP_DECAY_RATE);
             tp = delta_nbytes/delta_t;
-            return x*starting_throughput + (1-x)*tp;
+            new_tp = x*starting_throughput + (1-x)*tp;
         } else {
-            return starting_throughput;
+            new_tp = starting_throughput;
         }
     } else if (delta_t > 0) {
-        return delta_nbytes/delta_t;
+        new_tp = delta_nbytes/delta_t;
     }
-    return 0;
+#if 0
+    msg_printf(NULL, MSG_ERROR, "start %f delta_t %f delta_nb %f new_tp %f",
+        starting_throughput, delta_t, delta_nbytes, new_tp
+    );
+#endif
+    starting_throughput = new_tp;
+    delta_nbytes = delta_t = 0;
+    return new_tp;
 }
 
-void NET_STATS::poll(NET_XFER_SET& nxs) {
+void NET_STATS::poll(FILE_XFER_SET& fxs, NET_XFER_SET& nxs) {
     double dt;
     bool upload_active, download_active;
 
@@ -89,7 +97,7 @@ void NET_STATS::poll(NET_XFER_SET& nxs) {
     }
     last_time = gstate.now;
 
-    nxs.check_active(upload_active, download_active);
+    fxs.check_active(upload_active, download_active);
     up.update(dt, nxs.bytes_up, upload_active);
     down.update(dt, nxs.bytes_down, download_active);
 }

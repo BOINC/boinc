@@ -13876,3 +13876,18 @@ David  24 Nov 2005
 
 	clientgui/
 		ViewStatistics.cpp
+
+David  25 Nov 2005
+	- Fixed measurements of network bandwidth:
+		- Do measurements only while file transfers are active,
+			not scheduler or other RPCs.
+			Move the up_active and down_active flags from
+			NET_XFER_SET to FILE_XFER_SET.
+		- use a decay of 1 hour instead of 24
+		- reset delta_t and delta_nbytes after using them
+
+	client/
+		client_state.C
+		file_xfer.C,h
+		net_stats.C,h
+		net_xfer_curl.C,h

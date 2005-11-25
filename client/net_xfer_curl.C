@@ -189,8 +189,6 @@ NET_XFER_SET::NET_XFER_SET() {
     bytes_left_down = 0;
     bytes_up = 0;
     bytes_down = 0;
-    up_active = false;
-    down_active = false;
 }
 
 // Connect to a server,
@@ -413,24 +411,5 @@ void NET_XFER::got_error() {
     );
 }
 
-// return true if an upload is currently in progress
-// or has been since the last call to this.
-// Similar for download.
-//
-void NET_XFER_SET::check_active(bool& up, bool& down) {
-    unsigned int i;
-    NET_XFER* nxp;
-
-    up = up_active;
-    down = down_active;
-    for (i=0; i<net_xfers.size(); i++) {
-        nxp = net_xfers[i];
-        if (nxp->is_connected && nxp->do_file_io) {
-            nxp->want_download?down=true:up=true;
-        }
-    }
-    up_active = false;
-    down_active = false;
-}
 
 const char *BOINC_RCSID_e0a7088e04 = "$Id$";
