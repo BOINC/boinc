@@ -172,6 +172,7 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
     if (retval) {
+        msg_printf(NULL, MSG_INFO, "Primary listening port already in use; using alternate listening port\n");
         addr.sin_port = htons(GUI_RPC_PORT_ALT);
         retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
         if (retval) {
