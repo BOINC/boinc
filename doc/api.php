@@ -48,7 +48,7 @@ Applications that use named input or output files must call
 </pre>
 or
 ", html_text("
-    int boinc_resolve_filename(char *logical_name, std::string& physical_name);
+    int boinc_resolve_filename_s(char *logical_name, std::string& physical_name);
 "), "
 to convert logical file names to physical names.
 For example, instead of

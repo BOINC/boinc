@@ -73,6 +73,8 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://forums.anandtech.com/categories.aspx?catid=39&entercat=y", "TeAm Anandtech"),
+    site("http://www.boinc-australia.net", "BOINC@Australia"),
     site("http://www.boinc-doc.net", "boinc-doc.net"),
     site("http://forum.setiuk.com/index.php", "SETIUK/Team Lookers"),
     site("http://www.kazlev.karoo.net/", "TeamACC (Arthur C. Clarke fans)"),

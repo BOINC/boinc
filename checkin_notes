@@ -13891,3 +13891,24 @@ David  25 Nov 2005
 		file_xfer.C,h
 		net_stats.C,h
 		net_xfer_curl.C,h
+
+David  25 Nov 2005
+    - Core client: if we're currently using an account manager
+        (i.e. if we have URL/name/passwd)
+        then automatically make another RPC periodically.
+        The RPC manager reply can specify the interval
+        until the next RPC; the default is 1 day
+        (see http://boinc.berkeley.edu/acct_mgt.php)
+    - Account Manager RPC:
+        - add "host_cpid" argument, so the manager knows
+            what host this request is from.
+        - add optional <run_mode> in account manager reply
+            (always/never/auto)
+        - add optional <suspend> element in <account>,
+            so users can suspend/resume projects via acct mgr
+        
+    client/
+        acct_mgr.C,h
+        client_state.C
+        client_types.h
+        gui_rpc_server_ops.C

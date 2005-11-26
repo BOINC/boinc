@@ -58,7 +58,7 @@ resources.
         biomedical research
         (Japanese; requires nonstandard client software)
     <li> <a href=http://www.worldcommunitygrid.org/>World Community Grid</a>:
-        advance our knowledge of human disease.
+        advance our knowledge of human disease. (Requires 5.2.1 or greater)
     </ul>
     To participate in a project,
     <a href=download.php>download</a> and run BOINC software,

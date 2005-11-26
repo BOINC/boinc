@@ -288,11 +288,8 @@ public:
         // # of results being returned in current scheduler op
     const char* get_scheduler_url(int index, double r);
         // get scheduler URL with random offset r
-
-#if 0
-    // used in disk-space management (temp)
     bool checked;
-#endif
+        // temporary used when scanning projects
 
 
     // vars related to file-transfer backoff

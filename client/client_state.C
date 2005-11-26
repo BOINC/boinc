@@ -431,7 +431,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 #define POLL_ACTION(name, func) \
     do { if (func()) { \
             ++actions; \
-            scope_messages.printf("CLIENT_STATE::do_something(): active task: " #name "\n"); \
+            scope_messages.printf("CLIENT_STATE::poll_slow_events(): " #name "\n"); \
         } } while(0)
 
 // Poll the client's finite-state machines
@@ -522,6 +522,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
+    POLL_ACTION(acct_mgr               , acct_mgr_info.poll          );
     if (!activities_suspended && !network_suspended) {
         net_stats.poll(*file_xfers, *net_xfers);
         POLL_ACTION(file_xfers             , file_xfers->poll       );

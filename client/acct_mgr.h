@@ -36,6 +36,7 @@ struct ACCT_MGR_INFO {
     char acct_mgr_url[256];
     char login_name[256];
     char password[256];
+    double next_rpc_time;
 
     ACCT_MGR_INFO();
     int parse_url(MIOFILE&);
@@ -43,17 +44,19 @@ struct ACCT_MGR_INFO {
     int write_info();
     int init();
     void clear();
+    bool poll();
 };
 
 // stuff after here related to RPCs to account managers
 
-struct ACCOUNT {
+struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
+    bool suspend;
 
     int parse(MIOFILE&);
-    ACCOUNT() {}
-    ~ACCOUNT() {}
+    AM_ACCOUNT() {}
+    ~AM_ACCOUNT() {}
 };
 
 struct ACCT_MGR_OP: public GUI_HTTP_OP {
@@ -62,7 +65,9 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         // a temporary copy while doing RPC.
         // CLIENT_STATE::acct_mgr_info is authoratative
     std::string error_str;
-    std::vector<ACCOUNT> accounts;
+    std::vector<AM_ACCOUNT> accounts;
+    int run_mode;
+    double repeat_sec;
     int do_rpc(std::string url, std::string name, std::string password);
     int parse(MIOFILE&);
     virtual void handle_reply(int http_op_retval);

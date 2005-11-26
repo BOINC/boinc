@@ -111,23 +111,35 @@ list_start();
 list_item("URL", "<b>BASE_URL/rpc.php</b>, where BASE_URL is the URL
         of the account manager web site.");
 list_item("input", "name
-    <br>password"
+    <br>password
+    <br> [ host_cpid ]
+    "
 );
 list_item("output",
     html_text("<acct_mgr_reply>
     <name>Account Manager Name</name>
     [ <error>MSG</error> ]
+    [ <run_mode>X</run_mode> always/auto/never]
+    [ <repeat_sec>xxx</repeat_sec> ]
     [ 
       <account>
          <url>URL</url>
          <authenticator>KEY</authenticator>
+         [ suspend ]
       </account>
         ...
     ]
 </acct_mgr_reply>")
 );
 list_item("action",
-    "returns a list of the accounts associated with this meta-account.
+    "Returns a list of the accounts associated with this meta-account.
+    The 'host_cpid' argment identifies the host.
+    To make it comparable with the host CPID in stats files,
+    do MD5(host_cpid+email_addr).
+    <p>
+    Optionally returns a command to set the run mode (always, auto, or never),
+    commands to suspend individual projects,
+    and a time interval after which another RPC should be done.
     <p>
     NOTE: the XML must be as above, with the &lt;url>
     and &lt;authenticator> elements on a single line,

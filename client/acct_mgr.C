@@ -37,7 +37,9 @@
 #include "acct_mgr.h"
 
 
-int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password) {
+int ACCT_MGR_OP::do_rpc(
+    std::string url, std::string name, std::string password
+) {
     int retval;
     char buf[256];
 
@@ -64,7 +66,7 @@ int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password)
     strcpy(ami.login_name, name.c_str());
     strcpy(ami.password, password.c_str());
 
-    sprintf(buf, "%srpc.php?name=%s&password=%s", url.c_str(), name.c_str(), password.c_str());
+    sprintf(buf, "%srpc.php?name=%s&password=%s&host_cpid=%s", url.c_str(), name.c_str(), password.c_str(), gstate.host_info.host_cpid);
     retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
     if (retval) {
         error_num = retval;
@@ -77,8 +79,9 @@ int ACCT_MGR_OP::do_rpc(std::string url, std::string name, std::string password)
 
 
 
-int ACCOUNT::parse(MIOFILE& in) {
+int AM_ACCOUNT::parse(MIOFILE& in) {
     char buf[256];
+    suspend = false;
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</account>")) {
             if (url.length() && authenticator.length()) return 0;
@@ -86,22 +89,32 @@ int ACCOUNT::parse(MIOFILE& in) {
         }
         if (parse_str(buf, "<url>", url)) continue;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        if (parse_bool(buf, "suspend", suspend)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int ACCT_MGR_OP::parse(MIOFILE& in) {
-    char buf[256];
+    char buf[256], buf2[256];
     int retval;
 
     accounts.clear();
     error_str = "";
+    run_mode = 0;
+    repeat_sec = 0;
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</acct_mgr_reply>")) return 0;
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
+        if (parse_str(buf, "<run_mode>", buf2, sizeof(buf2))) {
+            if (!strstr(buf2, "always")) run_mode = USER_RUN_REQUEST_ALWAYS;
+            if (!strstr(buf2, "auto")) run_mode = USER_RUN_REQUEST_AUTO;
+            if (!strstr(buf2, "never")) run_mode = USER_RUN_REQUEST_NEVER;
+            continue;
+        }
+        if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
         if (match_tag(buf, "<account>")) {
-            ACCOUNT account;
+            AM_ACCOUNT account;
             retval = account.parse(in);
             if (!retval) accounts.push_back(account);
         }
@@ -112,6 +125,7 @@ int ACCT_MGR_OP::parse(MIOFILE& in) {
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     unsigned int i;
     int retval;
+    PROJECT* pp;
 
     if (http_op_retval == 0) {
         FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
@@ -134,9 +148,16 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     gstate.acct_mgr_info = ami;
     gstate.acct_mgr_info.write_info();
 
+    for (i=0; i<gstate.projects.size(); i++) {
+        pp = gstate.projects[i];
+        pp->checked = false;
+    }
+
+    // attach to new projects
+    //
     for (i=0; i<accounts.size(); i++) {
-        ACCOUNT& acct = accounts[i];
-        PROJECT* pp = gstate.lookup_project(acct.url.c_str());
+        AM_ACCOUNT& acct = accounts[i];
+        pp = gstate.lookup_project(acct.url.c_str());
         if (pp) {
             if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
                 msg_printf(pp, MSG_ERROR,
@@ -145,13 +166,33 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             } else {
                 msg_printf(pp, MSG_INFO, "Already attached");
             }
+            pp->suspended_via_gui = acct.suspend;
+            pp->checked = true;
         } else {
             msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
             gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
         }
     }
-    if (accounts.size() == 0) {
-        msg_printf(NULL, MSG_ERROR, "No accounts reported by account manager");
+
+    // detach from any projects not listed in reply
+    //
+again:
+    for (i=0; i<gstate.projects.size(); i++) {
+        pp = gstate.projects[i];
+        if (!pp->checked) {
+            gstate.detach_project(pp);     // this changes vector
+            goto again;             // so start from beginning
+        }
+    }
+
+    if (run_mode) {
+        gstate.user_run_request = run_mode;
+    }
+
+    if (repeat_sec) {
+        gstate.acct_mgr_info.next_rpc_time = gstate.now + repeat_sec;
+    } else {
+        gstate.acct_mgr_info.next_rpc_time = gstate.now + 86400;
     }
 }
 
@@ -181,9 +222,11 @@ int ACCT_MGR_INFO::write_info() {
                 "<acct_mgr_login>\n"
                 "    <login>%s</login>\n"
                 "    <password>%s</password>\n"
+                "    <next_rpc_time>%f</next_rpc_time>\n"
                 "</acct_mgr_login>\n",
                 login_name,
-                password
+                password,
+                next_rpc_time
             );
             fclose(p);
         }
@@ -228,10 +271,20 @@ int ACCT_MGR_INFO::init() {
             if (match_tag(buf, "</acct_mgr_login>")) break;
             else if (parse_str(buf, "<login>", login_name, 256)) continue;
             else if (parse_str(buf, "<password>", password, 256)) continue;
+            else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
         }
         fclose(p);
     }
     return 0;
+}
+
+bool ACCT_MGR_INFO::poll() {
+    if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
+    if (gstate.now > next_rpc_time) {
+        gstate.acct_mgr_op.do_rpc(acct_mgr_url, login_name, password);
+        return true;
+    }
+    return false;
 }
 
 const char *BOINC_RCSID_8fd9e873bf="$Id$";

@@ -467,7 +467,7 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
-static void handle_quit(char* buf, MIOFILE& fout) {
+static void handle_quit(char*, MIOFILE& fout) {
     gstate.requested_exit = true;
     fout.printf("<success/>\n");
 }
