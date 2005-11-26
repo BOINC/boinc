@@ -52,6 +52,10 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.10
+      <ul>
+        <li>Wizards cannot be run without a connection to the core client.
+      </ul>
     <li>Changes since 5.2.9
       <ul>
         <li>Win: Fixes a BOINC Manager connection issue when the manager is
