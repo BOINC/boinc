@@ -66,6 +66,26 @@ something like
 gdb exec_filename PID
 </pre>
 to attach a debugger to it.
+
+<h3>Getting and deciphering stack traces</h3>
+<p>
+Once your application is working on your own computers,
+you're ready to test it with outside computers
+(alpha testers initially).
+It may crash on some computers, e.g. because their
+software or hardware is different from yours.
+You'll get some information back in the stderr_txt field
+of the results.
+If your application called boinc_init_diagnostics()
+with the BOINC_DIAG_DUMPCALLSTACKENABLED flag set,
+and you included symbols,
+hopefully you'll get symbolic stack traces.
+
+<p>
+Otherwise, you should at least get numeric (hex) stack traces.
+You can decipher these by running a symbolic debugger
+with an unstripped version and typing in the hex addresses.
+See http://developer.apple.com/technotes/tn2004/tn2123.html#SECNOSYMBOLS
 ";
 
 page_tail();

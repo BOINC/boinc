@@ -182,7 +182,9 @@ void wxHyperLink::SetURL (const wxString &url) {
 // private functions
 
 void wxHyperLink::ExecuteLink (const wxString &strLink) {
+    wxString cmd;
     wxString strMimeType = wxEmptyString;
+    bool mime_type_found = false;
 
     if      (strLink.StartsWith(wxT("http://")))
         strMimeType = wxT("text/html");
@@ -195,7 +197,6 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 
     wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(strMimeType);
     if (ft) {
-        wxString cmd;
         if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
 #ifdef __WXMAC__
             cmd.Replace(wxT("<"), wxEmptyString);
@@ -203,19 +204,36 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 #else
             cmd.Replace(wxT("file://"), wxEmptyString);
 #endif
+            mime_type_found = true;
             ::wxExecute(cmd);
         }
         delete ft;
     }
+
 #if defined(__WXGTK__) || defined(__WXMOTIF__)
-    else {
-        ::wxMessageBox(
-            _("BOINC could not determine what your default browser is.\n"
-              "Please verify that you have either the 'mailcap' package installed or\n"
-              "'mime' package installed"),
-            _("BOINC Manager"),
-            wxOK | wxICON_INFORMATION
-        );
+    if (!mime_type_found) {
+        cmd = ::wxGetenv(wxT("BROWSER"));
+        if(cmd.IsEmpty()) {
+            wxString strBuffer = wxEmptyString;
+            strBuffer.Printf(
+                _("BOINC could not determine what your default browser is.\n"
+                "Please verify that you have either the 'mailcap' package installed or\n"
+                "'mime' package installed, and that the 'text/html' mime type is\n"
+                "configured for your favorite browser. Another method is to set the\n"
+                "BROWSER environment variable to point to whatever your favorite\n"
+                "web browser is.  Please open a browser window to the following URL:\n\n"
+                "%s"),
+                strLink.c_str()
+            );
+            ::wxMessageBox(
+                strBuffer,
+                _("BOINC Manager"),
+                wxOK | wxICON_INFORMATION
+            );
+        } else {
+            cmd += wxT(" ") + strLink;
+			::wxExecute(cmd,wxEXEC_ASYNC);
+        }
     }
 #endif
 }

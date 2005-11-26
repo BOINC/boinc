@@ -71,7 +71,7 @@ list_item_array(array(
 ));
 list_item_array(array(
     "<a href=http://www.kulthea.net/boinc/>SETI@Kulthea.net</a>",
-    "Linux on Sparc",
+    "Linux on Sparc64",
     "BOINC, SETI@home"
 ));
 list_item_array(array(

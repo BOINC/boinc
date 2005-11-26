@@ -4,6 +4,13 @@ require_once('../inc/util.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 
+// Web-based interface for account creation.
+// This isn't needed for people who use the version 5 Manager's
+// "attach project wizard".
+// But (for the time being at least)
+// it's needed for pre-version 5 clients,
+// and clients that don't use the account manager
+
 db_init();
 page_head(tr(CREATE_AC_TITLE));
 
@@ -19,10 +26,8 @@ if (parse_bool($config, "disable_account_creation")) {
 }
 echo "<p><b>";
 printf(tr(CREATE_AC_READ_RULES), "<a href=info.php>".tr(RULES_TITLE)."</a>");
-echo "</b></p> <p>";
-printf(tr(CREATE_AC_ALREADY_GOT), "<a href=account_created.php>".tr(AC_CREATED_TITLE)."</a>");
 echo "
-    </p>
+    </b><p>
     <form action=create_account_action.php method=post>
 ";
 $teamid = get_int("teamid", true);
@@ -49,6 +54,16 @@ row2(
     tr(CREATE_AC_EMAIL)."<br><span class=description>".tr(CREATE_AC_EMAIL_DESC)."</span>",
     "<input name=new_email_addr size=50>"
 );
+$min_passwd_length = parse_element($config, "<min_passwd_length>");
+if (!$min_passwd_length) {
+    $min_passwd_length = 6;
+}
+
+row2("Password
+    <br><font size=-2>Must be at least $min_passwd_length characters</font>",
+    "<input type=password name=passwd>"
+);
+row2("Confirm password", "<input type=password name=passwd2>");
 row2_init(
     tr(CREATE_AC_COUNTRY)."<br><span class=description>".tr(CREATE_AC_COUNTRY_DESC)."</span>",
     "<select name=country>"

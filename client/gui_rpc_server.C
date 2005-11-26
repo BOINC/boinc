@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <sys/un.h>
 #include <vector>
 #include <string.h>
@@ -41,6 +42,7 @@
 #include "parse.h"
 #include "network.h"
 #include "filesys.h"
+#include "md5_file.h"
 
 #include "file_names.h"
 #include "client_msgs.h"
@@ -63,13 +65,35 @@ GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
 }
 
 int GUI_RPC_CONN_SET::get_password() {
+    FILE* f;
+    int retval;
+
     strcpy(password, "");
     if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
-        FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
+        f = fopen(GUI_RPC_PASSWD_FILE, "r");
         if (f) {
             fgets(password, 256, f);
             strip_whitespace(password);
             fclose(f);
+        }
+    } else {
+        // if no password file, make a random password
+        //
+        retval = make_random_string(password);
+        if (retval) {
+            gstate.host_info.make_random_string("guirpc", password);
+        }
+        f = fopen(GUI_RPC_PASSWD_FILE, "w");
+        if (f) {
+            fputs(password, f);
+            fclose(f);
+#ifndef _WIN32
+            // if someone can read the password,
+            // they can cause code to execute as this user.
+            // So better protect it.
+            //
+            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+#endif
         }
     }
     return 0;
@@ -108,6 +132,30 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     return 0;
 }
 
+bool GUI_RPC_CONN_SET::is_primary_port_available() {
+    int retval;
+    int sock;
+    sockaddr_in addr;
+
+	memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(GUI_RPC_PORT);
+
+    if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    } else {
+        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    }
+
+    boinc_socket(sock);
+    retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+    boinc_close_socket(sock);
+    if (retval) {
+        return true;
+    }
+    return false;
+}
+
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     gui_rpcs.push_back(p);
     return 0;
@@ -129,7 +177,18 @@ int GUI_RPC_CONN_SET::init() {
     }
 
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(GUI_RPC_PORT);
+
+    // On Windows our primary listening socket might be in use and Windows will
+    //   still allow us to open up a listening socket on it.  To avoid possible
+    //   connection errors with the manager we'll attempt to connect to the port
+    //   first to see if anybody is listening, if so we'll use the alternate port
+    //   instead.
+    if (is_primary_port_available()) {
+        addr.sin_port = htons(GUI_RPC_PORT);
+    } else {
+        addr.sin_port = htons(GUI_RPC_PORT_ALT);
+    }
+
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
@@ -156,6 +215,11 @@ int GUI_RPC_CONN_SET::init() {
             return ERR_BIND;
         }
     }
+
+    if (addr.sin_port == htons(GUI_RPC_PORT_ALT)) {
+        msg_printf(NULL, MSG_INFO, "Primary listening port was already in use; using alternate listening port\n");
+    }
+
     retval = listen(lsock, 999);
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d\n", retval);
@@ -206,11 +270,9 @@ void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg, FDSET_GROUP& all) {
         FD_SET(s, &fg.read_fds);
         FD_SET(s, &fg.exc_fds);
         if (s > fg.max_fd) fg.max_fd = s;
-        if (s > fg.max_fd) fg.max_fd = s;
 
         FD_SET(s, &all.read_fds);
         FD_SET(s, &all.exc_fds);
-        if (s > all.max_fd) all.max_fd = s;
         if (s > all.max_fd) all.max_fd = s;
     }
     FD_SET(lsock, &fg.read_fds);
@@ -229,6 +291,17 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 
     if (FD_ISSET(lsock, &fg.read_fds)) {
         struct sockaddr_in addr;
+
+        // For unknown reasons, the FD_ISSET() above succeeds
+        // after a SIGTERM, SIGHUP, SIGINT or SIGQUIT is received,
+        // even if there is no data available on the socket.
+        // This causes the accept() call to block, preventing the main 
+        // loop from processing the exit request.
+        // This is a workaround for that problem.
+        //
+        if (gstate.requested_exit) {
+            return;
+        }
 
         boinc_socklen_t addr_len = sizeof(addr);
         sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);

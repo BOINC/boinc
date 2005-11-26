@@ -108,17 +108,25 @@ wxInt32 CViewResources::GetDocCount() {
 
 
 wxString CViewResources::OnListGetItemText(long item, long column) const {
-    CResource* resource   = m_ResourceCache.at(item);
+    CResource* resource   = NULL;
     wxString   strBuffer  = wxEmptyString;
 
-    switch(column)
-    {
-        case COLUMN_PROJECT:
-            strBuffer = resource->m_strProjectName;
-            break;
-        case COLUMN_DISKSPACE:
-            strBuffer = resource->m_strDiskSpace;
-            break;
+    try {
+        resource = m_ResourceCache.at(item);
+    } catch ( std::out_of_range ) {
+        resource = NULL;
+    }
+
+    if (resource) {
+        switch(column)
+        {
+            case COLUMN_PROJECT:
+                strBuffer = resource->m_strProjectName;
+                break;
+            case COLUMN_DISKSPACE:
+                strBuffer = resource->m_strDiskSpace;
+                break;
+        }
     }
 
     return strBuffer;

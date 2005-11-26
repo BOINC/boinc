@@ -159,6 +159,7 @@ struct APP_INIT_DATA {
     int major_version;
     int minor_version;
     int release;
+    int app_version;
     char app_name[256];
     char* project_preferences;
     int userid;

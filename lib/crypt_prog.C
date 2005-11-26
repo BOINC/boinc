@@ -42,43 +42,6 @@ void die(const char* p) {
     exit(1);
 }
 
-#ifdef USE_RSAEURO
-void better_random_create(R_RANDOM_STRUCT* r) {
-#ifdef __WINDOWS__
-    // in case we ever need this on Win
-    try {
-        HCRYPTPROV hCryptProv;
-        
-        if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
-            throw except("cannot acquire crypt context");
-        }
-    
-        if(! CryptGenRandom(hCryptProv, (DWORD) size, (BYTE *) buf_ptr)) {
-            CryptReleaseContext(hCryptProv, 0);
-            
-            throw except("cannot generate random data");
-        }
-        
-        CryptReleaseContext(hCryptProv, 0);
-    }
-    
-    catch (except &e) {
-        throw except(e, "cannot get random data");
-    }
-#endif
-    FILE* f = fopen("/dev/random", "r");
-    if (!f) {
-        fprintf(stderr, "can't open /dev/random\n");
-        exit(1);
-    }
-    fread(r->state, 16, 1, f);
-    fread(r->output, 16, 1, f);
-    fclose(f);
-    r->bytesNeeded = 0;
-    r->outputAvailable = 16;
-}
-#endif
-
 unsigned int random_int() {
     unsigned int n;
     FILE* f = fopen("/dev/random", "r");
@@ -93,10 +56,6 @@ unsigned int random_int() {
 int main(int argc, char** argv) {
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
-#ifdef USE_RSAEURO
-    R_RANDOM_STRUCT randomStruct;
-    R_RSA_PROTO_KEY protoKey;
-#endif
     int n, retval;
     bool is_valid;
     DATA_BLOCK signature, in, out;
@@ -115,21 +74,9 @@ int main(int argc, char** argv) {
         printf("creating keys in %s and %s\n", argv[3], argv[4]);
         n = atoi(argv[2]);
 
-#ifdef USE_RSAEURO
-        better_random_create(&randomStruct);
-
-        protoKey.bits = n;
-        protoKey.useFermat4 = 1;
-        retval = R_GeneratePEMKeys(
-            &public_key, &private_key, &protoKey, &randomStruct
-        );
-        if (retval) die("R_GeneratePEMKeys\n");
-#endif
-#ifdef USE_OPENSSL
         srand(random_int());
         RSA* rp = RSA_generate_key(n,  65537, 0, 0);
         openssl_to_keys(rp, n, private_key, public_key);
-#endif
         fpriv = fopen(argv[3], "w");
         if (!fpriv) die("fopen");
         fpub = fopen(argv[4], "w");

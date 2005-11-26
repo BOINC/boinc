@@ -82,10 +82,12 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<app_init_data>\n"
         "<major_version>%d</major_version>\n"
         "<minor_version>%d</minor_version>\n"
-        "<release>%d</release>\n",
+        "<release>%d</release>\n"
+        "<app_version>%d</app_version>\n",
         ai.major_version,
         ai.minor_version,
-        ai.release
+        ai.release,
+        ai.app_version
     );
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
@@ -183,6 +185,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_int(buf, "<major_version>", ai.major_version)) continue;
         else if (parse_int(buf, "<minor_version>", ai.minor_version)) continue;
         else if (parse_int(buf, "<release>", ai.release)) continue;
+        else if (parse_int(buf, "<app_version>", ai.app_version)) continue;
         else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;

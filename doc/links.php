@@ -1,7 +1,7 @@
 <?php
 require_once("docutil.php");
 
-eval(file_get_contents("stats_sites.dat"));
+include("stats_sites.dat");
 
 function show_link($language, $name, $url) {
     list_item($language, "<a href=$url>$name</a>");
@@ -72,6 +72,7 @@ language("Dutch", array(
     )
 ));
 language("English", array(
+    site("http://www.setiusa.net/", "SETI.USA"),
     site("http://www.boinc-doc.net", "boinc-doc.net"),
     site("http://www.boincsynergy.com/", "BOINC Synergy"),
     site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),

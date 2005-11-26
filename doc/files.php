@@ -72,6 +72,8 @@ list_item("executable",
 list_item("upload_when_present",
     "If present, indicates that the file should be uploaded
      when the application finishes.
+     The file is uploaded even if the application doesn't
+     finish successfully.
 ");
 list_item("sticky",
     "If present, indicates that the file should be retained

@@ -7,6 +7,8 @@ require_once("../inc/sanitize_html.inc");
 require_once("../inc/cache.inc");
 require_once("../inc/user.inc");
 require_once("../inc/translation.inc");
+require_once("../inc/text_transform.inc");
+require_once("../inc/db_forum.inc");
 
 define('SMALL_IMG_WIDTH', 64);
 define('SMALL_IMG_HEIGHT', 64);

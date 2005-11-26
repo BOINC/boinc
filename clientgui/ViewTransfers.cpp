@@ -221,28 +221,36 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
     CTransfer* transfer   = m_TransferCache.at(item);
     wxString   strBuffer  = wxEmptyString;
 
-    switch(column) {
-        case COLUMN_PROJECT:
-            strBuffer = transfer->m_strProjectName;
-            break;
-        case COLUMN_FILE:
-            strBuffer = transfer->m_strFileName;
-            break;
-        case COLUMN_PROGRESS:
-            strBuffer = transfer->m_strProgress;
-            break;
-        case COLUMN_SIZE:
-            strBuffer = transfer->m_strSize;
-            break;
-        case COLUMN_TIME:
-            strBuffer = transfer->m_strTime;
-            break;
-        case COLUMN_SPEED:
-            strBuffer = transfer->m_strSpeed;
-            break;
-        case COLUMN_STATUS:
-            strBuffer = transfer->m_strStatus;
-            break;
+    try {
+        transfer = m_TransferCache.at(item);
+    } catch ( std::out_of_range ) {
+        transfer = NULL;
+    }
+
+    if (transfer) {
+        switch(column) {
+            case COLUMN_PROJECT:
+                strBuffer = transfer->m_strProjectName;
+                break;
+            case COLUMN_FILE:
+                strBuffer = transfer->m_strFileName;
+                break;
+            case COLUMN_PROGRESS:
+                strBuffer = transfer->m_strProgress;
+                break;
+            case COLUMN_SIZE:
+                strBuffer = transfer->m_strSize;
+                break;
+            case COLUMN_TIME:
+                strBuffer = transfer->m_strTime;
+                break;
+            case COLUMN_SPEED:
+                strBuffer = transfer->m_strSpeed;
+                break;
+            case COLUMN_STATUS:
+                strBuffer = transfer->m_strStatus;
+                break;
+        }
     }
 
     return strBuffer;
