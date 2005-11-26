@@ -13459,7 +13459,7 @@ Rom    7 Nov 2005 (stable)
       boinc_core_release_5_2_8
 
 Rom    25 Nov 2005
-    - Bug Fix:  Curses to Windows allowing more than one application
+    - Bug Fix: Curses to Windows allowing more than one application
         to open up a listening socket to a port.  Sometimes the
         manager was being directed to another application instead of
         BOINC.
@@ -13470,3 +13470,11 @@ Rom    25 Nov 2005
 Rom    25 Nov 2005 (boinc_core_release_5_2)
     - Tag for 5.2.9 release, all platforms
       boinc_core_release_5_2_9
+
+Rom    26 Nov 2005
+    - Bug Fix: Somewhere along the lines we broke the automatic swapping
+        of ports and waiting until the timeout period to stop so that
+        people had time to handle the firewall prompts.
+        
+    client/
+        MainDocument.cpp
