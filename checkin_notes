@@ -13498,3 +13498,7 @@ Rom    26 Nov 2005
     locale/en_US/
         BOINC Manager.po
         BOINC Manager.mo
+
+Rom    26 Nov 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.11 release, all platforms
+      boinc_core_release_5_2_11
