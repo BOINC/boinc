@@ -13912,3 +13912,12 @@ David  25 Nov 2005
         client_state.C
         client_types.h
         gui_rpc_server_ops.C
+
+Rom    25 Nov 2005
+    - Bug Fix:  Curses to Windows allowing more than one application
+        to open up a listening socket to a port.  Sometimes the
+        manager was being directed to another application instead of
+        BOINC.
+        
+    client/
+        gui_rpc_server.C, .h

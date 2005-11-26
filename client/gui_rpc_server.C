@@ -133,6 +133,30 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     return 0;
 }
 
+bool GUI_RPC_CONN_SET::is_primary_port_available() {
+    int retval;
+    int sock;
+    sockaddr_in addr;
+
+	memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(GUI_RPC_PORT);
+
+    if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    } else {
+        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    }
+
+    boinc_socket(sock);
+    retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
+    boinc_close_socket(sock);
+    if (retval) {
+        return true;
+    }
+    return false;
+}
+
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     gui_rpcs.push_back(p);
     return 0;
@@ -154,7 +178,18 @@ int GUI_RPC_CONN_SET::init() {
     }
 
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(GUI_RPC_PORT);
+
+    // On Windows our primary listening socket might be in use and Windows will
+    //   still allow us to open up a listening socket on it.  To avoid possible
+    //   connection errors with the manager we'll attempt to connect to the port
+    //   first to see if anybody is listening, if so we'll use the alternate port
+    //   instead.
+    if (is_primary_port_available()) {
+        addr.sin_port = htons(GUI_RPC_PORT);
+    } else {
+        addr.sin_port = htons(GUI_RPC_PORT_ALT);
+    }
+
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
@@ -172,7 +207,6 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
     if (retval) {
-        msg_printf(NULL, MSG_INFO, "Primary listening port already in use; using alternate listening port\n");
         addr.sin_port = htons(GUI_RPC_PORT_ALT);
         retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
         if (retval) {
@@ -182,6 +216,11 @@ int GUI_RPC_CONN_SET::init() {
             return ERR_BIND;
         }
     }
+
+    if (addr.sin_port == htons(GUI_RPC_PORT_ALT)) {
+        msg_printf(NULL, MSG_INFO, "Primary listening port was already in use; using alternate listening port\n");
+    }
+
     retval = listen(lsock, 999);
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d\n", retval);
