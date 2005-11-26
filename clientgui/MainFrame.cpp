@@ -973,51 +973,55 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_pRefreshStateTimer->Stop();
-    m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
-    m_pDocumentPollTimer->Stop();
+    if (pDoc->IsConnected()) {
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
 
-    ACCT_MGR_INFO ami;
-    pDoc->rpc.acct_mgr_info(ami);
-    if (ami.acct_mgr_url.size()) {
-        CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
+        ACCT_MGR_INFO ami;
+        pDoc->rpc.acct_mgr_info(ami);
+        if (ami.acct_mgr_url.size()) {
+            CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
 
-        strTitle = pDlgStatus->GetTitle();
-        strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
-        pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
-        pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
-        pDlgStatus->SetTitle(strTitle);
+            strTitle = pDlgStatus->GetTitle();
+            strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
+            pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
+            pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
+            pDlgStatus->SetTitle(strTitle);
 
-        iAnswer = pDlgStatus->ShowModal();
+            iAnswer = pDlgStatus->ShowModal();
 
-        if (pDlgStatus)
-            pDlgStatus->Destroy();
-    }
-
-    if (((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) && (wxID_CANCEL != iAnswer)) {
-        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
-
-        wxString strName = wxEmptyString;
-        wxString strURL = wxEmptyString;
-        bool bCredentialsCached = false;
-        if (ID_UPDATE == iAnswer) {
-            strName = ami.acct_mgr_name.c_str();
-            strURL = ami.acct_mgr_url.c_str();
-            bCredentialsCached = ami.have_credentials;
+            if (pDlgStatus)
+                pDlgStatus->Destroy();
         }
-        pWizard->Run( strName, strURL, bCredentialsCached );
 
-        if (pWizard)
-            pWizard->Destroy();
+        if (((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) && (wxID_CANCEL != iAnswer)) {
+            CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
-        FireRefreshView();
+            wxString strName = wxEmptyString;
+            wxString strURL = wxEmptyString;
+            bool bCredentialsCached = false;
+            if (ID_UPDATE == iAnswer) {
+                strName = ami.acct_mgr_name.c_str();
+                strURL = ami.acct_mgr_url.c_str();
+                bCredentialsCached = ami.have_credentials;
+            }
+            pWizard->Run( strName, strURL, bCredentialsCached );
+
+            if (pWizard)
+                pWizard->Destroy();
+
+            FireRefreshView();
+        }
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
     }
-
-    m_pRefreshStateTimer->Start();
-    m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
-    m_pDocumentPollTimer->Start();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function End"));
 }
@@ -1026,30 +1030,39 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
 void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function Begin"));
 
-    UpdateStatusText(_("Attaching to project..."));
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
 
-    m_pRefreshStateTimer->Stop();
-    m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
-    m_pDocumentPollTimer->Stop();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+    if (pDoc->IsConnected()) {
+        UpdateStatusText(_("Attaching to project..."));
 
-    wxString strName = wxEmptyString;
-    wxString strURL = wxEmptyString;
-    pWizard->Run( strName, strURL, false );
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
 
-    if (pWizard)
-        pWizard->Destroy();
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
-    m_pRefreshStateTimer->Start();
-    m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
-    m_pDocumentPollTimer->Start();
+        wxString strName = wxEmptyString;
+        wxString strURL = wxEmptyString;
+        pWizard->Run( strName, strURL, false );
 
-    UpdateStatusText(wxT(""));
+        if (pWizard)
+            pWizard->Destroy();
 
-    FireRefreshView();
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+
+        UpdateStatusText(wxT(""));
+
+        FireRefreshView();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function End"));
 }
@@ -1907,6 +1920,21 @@ void CMainFrame::FireRefreshView() {
 void CMainFrame::FireConnect() {
     CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
     AddPendingEvent(event);
+}
+
+
+void CMainFrame::ShowNotCurrentlyConnectedAlert() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
+
+    ShowAlert(
+        _("BOINC Manager - Connection Status"),
+        _("BOINC Manger is not currently connected to a BOINC client.\n"
+            "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
+            "To connect up to your local computer please use 'localhost' as the host name."),
+        wxICON_ERROR
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function End"));
 }
 
 

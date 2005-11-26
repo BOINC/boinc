@@ -13482,3 +13482,19 @@ Rom    26 Nov 2005
 Rom    26 Nov 2005 (boinc_core_release_5_2)
     - Tag for 5.2.10 release, all platforms
       boinc_core_release_5_2_10
+
+Rom    26 Nov 2005
+    - Bug Fix: We should not allow either wizard to be executed if the
+        manager is not even connected to the core client.  This is
+        probably what was causing the massive number of people
+        hitting the proxy configuration page when either of the other
+        two bugs that were fixed today were hit.
+    - Bug Fix: Adjust the way the transition note is displayed so that
+        the wizard will be able to fit on a 640x480 display.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        MainFrame.cpp, .h
+    locale/en_US/
+        BOINC Manager.po
+        BOINC Manager.mo

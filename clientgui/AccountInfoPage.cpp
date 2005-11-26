@@ -170,7 +170,7 @@ void CAccountInfoPage::CreateControls()
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
         m_AccountTransitionWarning = new wxStaticText;
-        m_AccountTransitionWarning->Create( itemWizardPage56, wxID_STATIC, _("If you haven't set a password, copy and paste your account key into the Password box."), wxDefaultPosition, wxDefaultSize, 0 );
+        m_AccountTransitionWarning->Create( itemWizardPage56, wxID_STATIC, _("If you haven't set a password, copy and paste your account\nkey into the Password box."), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer57->Add(m_AccountTransitionWarning, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
