@@ -13466,3 +13466,7 @@ Rom    25 Nov 2005
         
     client/
         gui_rpc_server.C, .h
+
+Rom    25 Nov 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.9 release, all platforms
+      boinc_core_release_5_2_9
