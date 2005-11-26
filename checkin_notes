@@ -13964,3 +13964,9 @@ Bruce 26 Nov 2005
     sched/
         sched_send.C
 
+David  26 Nov 2005
+    - Accound lookup web RPC: accept the account key as password
+        (regardless of value of passwd_hash in database)
+
+    html/user/
+        lookup_account.php
