@@ -52,6 +52,11 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.8
+      <ul>
+        <li>Win: Fixes the 'connection failed' message when another program
+            is using the BOINC communication port.
+      </ul>
     <li>Changes since 5.2.7
       <ul>
         <li>Localization updates.
@@ -68,11 +73,11 @@ $changes_5 = "
       </ul>
 ";
 
-$w528= array(
-    "num"=>"5.2.8",
+$w529= array(
+    "num"=>"5.2.9",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.8_windows_intelx86.exe",
-    "date"=>"22 Nov 2005",
+    "file"=>"boinc_5.2.9_windows_intelx86.exe",
+    "date"=>"25 Nov 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
@@ -305,7 +310,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w528,
+        $w529,
         $w445,
     )
 );
