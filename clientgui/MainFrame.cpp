@@ -1938,7 +1938,7 @@ void CMainFrame::ShowNotCurrentlyConnectedAlert() {
 
     ShowAlert(
         _("BOINC Manager - Connection Status"),
-        _("BOINC Manger is not currently connected to a BOINC client.\n"
+        _("BOINC Manager is not currently connected to a BOINC client.\n"
             "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
             "To connect up to your local computer please use 'localhost' as the host name."),
         wxICON_ERROR
