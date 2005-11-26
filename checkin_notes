@@ -13926,6 +13926,11 @@ Rom    25 Nov 2005
     - Bug Fix: Somewhere along the lines we broke the automatic swapping
         of ports and waiting until the timeout period to stop so that
         people had time to handle the firewall prompts.
+    - Fix the debug and trace macros so that they'll work even for the
+        .C files when included in wxWidget binaries.
         
     client/
         MainDocument.cpp
+    lib/
+        diagnostics.h
+        gui_rpc_client.C
