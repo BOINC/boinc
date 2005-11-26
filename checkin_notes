@@ -13457,3 +13457,12 @@ Rom    21 Nov 2005
 Rom    7 Nov 2005 (stable)
     - Tag for 5.2.8 release, all platforms
       boinc_core_release_5_2_8
+
+Rom    25 Nov 2005
+    - Bug Fix:  Curses to Windows allowing more than one application
+        to open up a listening socket to a port.  Sometimes the
+        manager was being directed to another application instead of
+        BOINC.
+        
+    client/
+        gui_rpc_server.C, .h
