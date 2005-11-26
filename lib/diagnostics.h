@@ -112,8 +112,8 @@ extern void boinc_info_release(const char *pszFormat, ...);
 // wxWidgets UI Framework
 //
 
-#define BOINCASSERT(expr)   __noop
-#define BOINCTRACE          __noop
+#define BOINCASSERT(expr)   wxASSERT(expr)
+#define BOINCTRACE          wxLogDebug
 #define BOINCINFO           boinc_info_release
 
 #elif defined(_CONSOLE)

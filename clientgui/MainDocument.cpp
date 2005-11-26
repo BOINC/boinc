@@ -115,7 +115,10 @@ void* CNetworkConnection::Poll() {
                 }
             }
 
-            if (strComputer.empty()) {
+            // a host value of NULL is special cased as binding to the localhost and
+            //   if we are connecting to the localhost we need to retry the connection
+            //   for awhile so that the users can respond to firewall prompts.
+            if (strComputer.empty() || (strComputer == _T("localhost"))) {
                 retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
             } else {
                 retval = m_pDocument->rpc.init_asynch(strComputer.c_str(), 60., false);

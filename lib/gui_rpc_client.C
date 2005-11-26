@@ -171,21 +171,21 @@ int RPC_CLIENT::init_poll() {
             BOINCTRACE("RPC_CLIENT::init_poll connected to port %d\n", ntohs(addr.sin_port));
             retval = boinc_socket_asynch(sock, false);
             if (retval) {
-                fprintf(stderr, "asynch error: %d\n", retval);
+                BOINCTRACE("asynch error: %d\n", retval);
                 return retval;
             }
             return 0;
         } else {
-            fprintf(stderr, "init_poll: get_socket_error(): %d\n", retval);
+            BOINCTRACE("init_poll: get_socket_error(): %d\n", retval);
         }
     }
     if (dtime() > start_time + timeout) {
-        fprintf(stderr, "RPC_CLIENT init timed out\n");
+        BOINCTRACE("RPC_CLIENT init timed out\n");
         return ERR_CONNECT;
     }
     if (retval) {
         if (!retry && tried_alt_port) {
-            fprintf(stderr, "already tried both ports, giving up\n");
+            BOINCTRACE("already tried both ports, giving up\n");
             return ERR_CONNECT;
         } else {
             boinc_close_socket(sock);

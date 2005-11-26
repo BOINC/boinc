@@ -13921,3 +13921,11 @@ Rom    25 Nov 2005
         
     client/
         gui_rpc_server.C, .h
+
+Rom    25 Nov 2005
+    - Bug Fix: Somewhere along the lines we broke the automatic swapping
+        of ports and waiting until the timeout period to stop so that
+        people had time to handle the firewall prompts.
+        
+    client/
+        MainDocument.cpp
