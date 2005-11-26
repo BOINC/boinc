@@ -52,6 +52,12 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.9
+      <ul>
+        <li>Win: Fixes a BOINC Manager connection issue when the manager is
+            waiting on a firewall for the all clear.  This generally happens
+            after a reboot.
+      </ul>
     <li>Changes since 5.2.8
       <ul>
         <li>Win: Fixes the 'connection failed' message when another program
@@ -73,11 +79,11 @@ $changes_5 = "
       </ul>
 ";
 
-$w529= array(
-    "num"=>"5.2.9",
+$w5210= array(
+    "num"=>"5.2.10",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.9_windows_intelx86.exe",
-    "date"=>"25 Nov 2005",
+    "file"=>"boinc_5.2.10_windows_intelx86.exe",
+    "date"=>"26 Nov 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
@@ -310,7 +316,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w529,
+        $w5210,
         $w445,
     )
 );
