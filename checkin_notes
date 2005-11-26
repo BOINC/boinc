@@ -12968,3 +12968,537 @@ David  9 Oct 2005
         proxy_info.C
     sched/
         sched_send.C
+
+Charlie 10 Oct 2005
+    - Mac: Update XCode project to remove unwanted copy of header files 
+      into built BOINCManager.app bundle.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+
+Rom    10 Oct 2005
+    - Notifications do not need to be confirmed with an OK dialog box.
+        Win98 doesn't have balloons and we were still waiting on user
+        input even when the user had specified automatic dialing and
+        hang-up operations.
+        
+    clientgui/
+        MainFrame.cpp
+
+Rom    10 Oct 2005 (staging)
+    - Tag for 5.1.10 release, all platforms
+      boinc_core_release_5_1_10
+
+Rom    10 Oct 2005 (stable)
+    - Tag for 5.2.0 release, all platforms
+      boinc_core_release_5_2_0
+
+David  10 Oct 2005
+    - core client: fix bug introduced yesterday:
+        check if slots directory doesn't exist yet
+        before cleaning out DELETE_ME subdirs
+
+    client/
+        file_names.C
+
+Rom    10 Oct 2005 (stable)
+    - Tag for 5.2.1 release, all platforms
+      boinc_core_release_5_2_1
+
+Rom    11 Oct 2005 (HEAD, staging, stable, boinc_core_release)
+    - When all other methods for determining which browser to use
+        for website links fail, use the BROWSER environment variable.
+        (from Jens Seidler)
+        
+    clientgui/
+        hyperlink.cpp
+    locale/client/en_US/
+        BOINC Manager.po, .mo
+
+Bruce 11 Oct 2005
+    - Fix bug in cancel WU script
+    - Add WU name to graphics window title.
+      TODO: add app_version_num to window title.
+      David or Rom, could you add app_version_num to struct APP_INIT_DATA?
+
+    html/
+        ops/
+            cancel_wu_action.php
+
+    api/
+        x_opengl.C
+        windows_opengl.C
+ 
+Charlie 12 Oct 2005
+    - Mac: remove warning from installer ReadMe about projects incompatible 
+      with Wizard (in preparation for version 5.2.2)
+    
+    mac_installer/
+        ReadMe.rtf
+
+David  12 Oct 2005
+    - scripts: disable "add", add comments to "xadd"
+    - Client: make "Communication deferred" message INFO rather than ERROR
+
+    client/
+        cs_scheduler.C
+    sched/
+        server_types.C
+    tools/
+        add
+        xadd
+
+David  12 Oct 2005
+    - Add app version # to window title:
+        - add app_version to APP_INIT_DATA structure
+        - initialize it in ACTIVE_TASK::write_app_init_data_file()
+        - make new function get_window_title() so we don't have
+            to worry about consistency of X/WIn code
+
+    api/
+        graphics_impl.C,h
+        windows_opengl.C
+        x_opengl.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h
+
+David  12 Oct 2005
+    - Cleaned up account-creation code.
+        Got rid of a bunch of old stuff.
+        There are now two ways to create an account
+        1) via client
+            - Enter email and password in BOINC manager
+            - BOINC manager eventually brings up account_finish.php,
+                which asks you for name/country/zip.
+        2) via web
+            - Enter email/password/name/country/zip in one form
+
+        Both paths leave you at the "Your account" page,
+        with some extra text at the beginning,
+        telling you to set your preferences,
+        and (in case 2) to make sure you've downloaded the client software.
+
+    html/
+        inc/
+            util.inc
+        user/
+            account_created.php (removed)
+            account_finish_action.php
+            account_setup.php (removed)
+            account_setup_first.php (removed)
+            account_setup_first_action.php (removed)
+            account_setup_first_done.php (removed)
+            account_setup_first_download.php (removed)
+            account_setup_nonfirst.php (removed)
+            account_setup_nonfirst_action.php (removed)
+            account_setup_nonfirst_done.php (removed)
+
+Charlie 12 Oct 2005
+    - Mac: update BOINC build shell script to:
+      - not require cmpatibility SDK if building under OS 10.3.x
+      - work without "source" command; i.e ./BuildMacBOINC.sh now
+        works.  Thanks to Reinhard for his assistance.
+
+    mac_build/
+        BuildMacBOINC.sh
+
+Janus  13 Oct 2005
+    - The HTML version of the teamname wasn't displayed correctly on the
+      teampages.
+
+    html/
+        inc/
+            team.inc
+        user/
+            team_edit_form.php
+
+David  13 Oct 2005
+    - include text_transform.inc and db_forum.inc in profile.inc
+        (fixed bug in UOTD-review page)
+    - remove includes of forum.inc and text_transform.inc from view_profile.php
+
+    NOTE: a PHP file (like other languages) should include ONLY
+        the .inc files for the functions that it itself uses
+
+    html/
+        inc/
+            profile.inc
+        user/
+            view_profile.php
+
+David  13 Oct 2005
+    - disable change of 30 Sept 2005
+        We've had reports of file transfer not starting, without explanation.
+        I'm not sure why, but it seems like this is a possible cause.
+
+    client/
+        pers_file_xfer.C
+
+David  13 Oct 2005
+    - generalize random-string generator
+
+    lib/
+        hostinfo.C,h
+
+David  13 Oct 2005
+    - Fix a moderate security loophole in GUI RPC.
+		Old: by default, core client doesn't create a password file
+			(gui_rpc_auth.cfg).
+			Therefore any process on the local host can connect to it;
+			even processes belonging to other users.
+			So if user X is running BOINC, evil user Y can use GUI
+			RPCs to attach BOINC to a rogue project,
+			causing bad code to run as user X.
+		New: on startup, if the core client doesn't find a password file,
+			it creates one, writes a long random string to it,
+			and (on Unix) makes it user-read/write only.
+			The BOINC Manager, when connecting to the local host,
+			looks for a password file in the current directory.
+
+		Bottom line: a user running BOINC is now protected against
+		other users on the same host.
+
+		NOTE: this could cause some angst for Mac users,
+		if they expect things to work the same for all users.
+
+	client/
+		gui_rpc_server.C
+	clientgui/
+		MainDocument.cpp
+
+David  16 Oct 2005
+    - User web: fix bug that caused very few profiles to
+        appear in user profile "Photo Gallery"
+    - User web: fix bug that caused nav-bar links in profile
+        pages to be broken links
+
+    Note: this required adding an optional 2nd "prefix" argument to
+    the project-supplied "project_banner()" and "project_footer()" functions.
+    This is a string that must be prepended to any relative links
+    generated by those functions.
+
+    html/
+        inc/
+            gallery.inc
+            util.inc
+        ops/
+            update_profile_pages.php
+
+Rom    17 Oct 2005 (HEAD, staging, stable, boinc_core_release)
+    - Include the URL that a web browser needs to open up in the message
+        box if the default browser cannot be determined.
+        
+    clientgui/
+        hyperlink.cpp
+
+Rom    17 Oct 2005 (stable)
+    - Tag for 5.2.2 release, all platforms
+      boinc_core_release_5_2_2
+
+Rom    17 Oct 2005
+    - Bug Fix: graphics_api.C needed to include boinc_win.h before the other
+        header files so that data types like HANDLE and HINSTANCE can be
+        resolved correctly.
+        
+    api/
+        graphics_api.C
+
+Rom    19 Oct 2005
+    - Bug Fix: use strLink instead of strBuffer when describing the URL to
+        go to on Linux when a browser cannot be detected.
+        
+    clientgui/
+        hyperlink.cpp
+
+Rom    19 Oct 2005
+    - Include localization files in the Linux sea.
+    
+    sea/
+        Makefile.am
+        make-tar.sh
+        make-tar_debug.sh
+
+Rom    19 Oct 2005 (stable)
+    - Tag for 5.2.3 release, all platforms
+      boinc_core_release_5_2_3
+
+Rom    19 Oct 2005 (stable)
+    - Tag for 5.2.4 release, all platforms
+      boinc_core_release_5_2_4
+
+Charlie 20 Oct 2005
+    - Mac: update BOINC build shell script to copy only *.mo localization files 
+      to avoid wasting space on CVS and *.po files which are not needed; adapted 
+      from Rom's make-tar.sh script.
+
+    mac_installer/
+        release_boinc.sh
+
+Rom    20 Oct 2005
+    Bug Fix: Some versions of Windows do not support RAS by default and so
+        wxWidgets complains when it can't find it.  What is worse is we end up
+        dereferencing a null pointer when somebody tries to bring up the
+        options dialog.  If we detect the null pointer disable all the
+        controls on the networking/communications tab.
+        
+    clientgui/
+        MainFrame.cpp, .h
+
+Charlie 21 Oct 2005
+    - Mac: Update XCode project to make sure plist files are updated _before_ 
+      they are copied into build products.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+
+Rom    24 Oct 2005
+    - Bug Fix: Win9x should not lock-up during a shutdown/logoff
+        operation.  I had to introduce a hack since MS never decided
+        to fix that console signal bug.  This change only effects
+        Win95/Win98/WinME.
+    - Trace Messages on Debug builds should be displayed even when
+        libboinc is compiled as a release build.
+
+    clientgui/
+        main.C
+    lib/
+        diagnostics.C
+
+Charlie 25 Oct 2005
+    - Mac: Work around a bug which caused the core client to block 
+      after receipt of SIGTERM, SIGHUP, SIGINT or SIGQUIT, preventing 
+      the main loop from processing the exit request.
+      
+      client/
+        gui_rpc_server.C
+
+David  25 Oct 2005
+	- "boinc_cmd" looks for a password in gui_rpc_auth.cfg
+
+	client/
+		acct_setup.C
+	lib/
+		boinc_cmd.C
+
+David  27 Oct 2005
+    - Charlie's fix of 25/10/05 works for all Unix, as far as I can tell.
+
+    client/
+        gui_rpc_server.C
+
+Rom    27 Oct 2005 (stable)
+    - Tag for 5.2.5 release, all platforms
+      boinc_core_release_5_2_5
+
+David  27 Oct 2005
+    - make GUI RPC passwords more randomly.
+        e.g. on Unix use /dev/random
+    - move calculate_exponential_backoff()
+        from lib/util.C to client/client_state.C
+    - remove commented-out RSAEURO references
+
+    client/
+        client_state.C,h
+        gui_rpc_server.C
+    lib/
+        crypt.C
+        crypt_prog.C
+        hostinfo.C
+        md5_file.C,h
+        util.C,h
+
+David  27 Oct 2005
+	- core client: parse fpops_per_cpu_sec, fpops_cumulative from app
+		(This way of assigning credit didn't work because of this)
+
+	client/
+		app_control.C
+
+Rom    27 Oct 2005 (stable)
+    - Tag for 5.2.6 release, all platforms
+      boinc_core_release_5_2_6
+
+David  1 Nov 2005
+    - relax Curl timeout parameters; apparently some users going through
+        proxies were geting consistent timeout.
+
+    client/
+        http_curl.C
+
+Charlie 1 Nov 2005
+    - Mac: Augment David's security change of 13 Oct for BOINC Manager.
+      Because Manager has set-uid bit, it always runs with owner as 
+      effective user, so any logged-in user could attach to a rogue
+      project using BOINC Manager.  If logged-in user is not owner, we 
+      now invokes Mac OS's authorization dialog to requires administrator 
+      password to attach to projects.  The Mac OS automatically localizes 
+      this dialog for us.
+      
+    clientgui/
+        MainFrame.cpp
+        MacGUI.pch
+        Mac_GUI.cpp (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+
+Rom    2 Nov 2005
+    - Catch exceptions thrown by the STL library when vectors may not contain
+        the requested data.  For some reason the list views are trying to
+        populate themselves with data during a connection cycle which means
+        the various tabs cache's are empty.  We now just return an empty string
+        in this condition.  This should clean up a few crash conditions on
+        platforms other than Windows.
+        
+    clientgui/
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+
+David  2 Nov 2005
+	- core client: fix bad formula for computing CPU time remaining
+
+	client/
+		app.C,h
+
+David  2 Nov 2005
+    - Manager: don't show upload progress > 100%
+
+    clientgui/
+        ViewTransfers.cpp
+
+David  4 Nov 2005
+    - core client: close the descriptor returned by mkstemp().
+        This prevented the file from being deleted later.
+
+    client/
+        http_curl.C
+
+Rom    7 Nov 2005
+    - Another round of sting cleanup.
+    
+    clientgui/
+        AccountInfo.cpp, .h
+        AccountManagerPropertiesPage.cpp
+        MainFrame.cpp
+        NotFoundPage.cpp, .h
+    locale/client/en_US/
+        BOINC Manager.po
+        BOINC Manager.mo
+
+Rom    7 Nov 2005
+    - Use GlobalMemoryStatusEx instead of GlobalMemoryStatus so that
+        we can detect memory sizes larger than 4GB in size.
+        
+    client/win/
+        hostinfo_win.cpp
+
+Charlie 7 Nov 2005
+    - Mac: update scripts to be compatible with XCode 2.1 as well as 1.x.
+         
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+
+Rom    7 Nov 2005 (stable)
+    - Tag for 5.2.7 release, all platforms
+      boinc_core_release_5_2_7
+
+Rom    8 Nov 2005
+    - Set the result state to RESULT_COMPUTE_ERROR for an aborted result
+        otherwise the CPU scheduler will just attempt to reassign it
+        to a free CPU.
+        
+    client/
+        app_start.C
+
+David  13 Nov 2005
+    - Manager: initialize buffer when read password from file
+
+    clientgui/
+        MainDocument.cpp
+
+Rom    14 Nov 2005
+    - Bug Fix: Force a refresh of the statistics window on a resize event.
+    - Bug Fix: Prepopulate the password box on the Select Computer dialog
+        when the participant types in localhost for the computer name.
+    - Bug Fix: Try and make the options dialog automatically adjust it's size
+        by removing the specific sizes put in for wxWidgets 2.4.x
+        
+    clientgui/
+        BOINCGUI.pjd
+        DlgSelectComputer.cpp, .h
+        DlgOptions.cpp
+        MainDocument.cpp, .h
+        MainFrame.cpp
+        ViewStatistics.cpp, .h
+
+Charlie 17 nov 2005
+	- Mac: fix stutter in screen saver scrolling text.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+
+Rom    21 Nov 2005
+    - Remove duplicate call to scheduler_rpc_poll in 
+        CLIENT_STATE::poll_slow_events().
+
+    client/
+        client_state.C
+
+Rom    7 Nov 2005 (stable)
+    - Tag for 5.2.8 release, all platforms
+      boinc_core_release_5_2_8
+
+Rom    25 Nov 2005
+    - Bug Fix: Curses to Windows allowing more than one application
+        to open up a listening socket to a port.  Sometimes the
+        manager was being directed to another application instead of
+        BOINC.
+        
+    client/
+        gui_rpc_server.C, .h
+
+Rom    25 Nov 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.9 release, all platforms
+      boinc_core_release_5_2_9
+
+Rom    26 Nov 2005
+    - Bug Fix: Somewhere along the lines we broke the automatic swapping
+        of ports and waiting until the timeout period to stop so that
+        people had time to handle the firewall prompts.
+        
+    client/
+        MainDocument.cpp
+
+Rom    26 Nov 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.10 release, all platforms
+      boinc_core_release_5_2_10
+
+Rom    26 Nov 2005
+    - Bug Fix: We should not allow either wizard to be executed if the
+        manager is not even connected to the core client.  This is
+        probably what was causing the massive number of people
+        hitting the proxy configuration page when either of the other
+        two bugs that were fixed today were hit.
+    - Bug Fix: Adjust the way the transition note is displayed so that
+        the wizard will be able to fit on a 640x480 display.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        MainFrame.cpp, .h
+    locale/en_US/
+        BOINC Manager.po
+        BOINC Manager.mo
+
+Rom    26 Nov 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.11 release, all platforms
+      boinc_core_release_5_2_11

@@ -26,6 +26,7 @@
 #include "MainDocument.h"
 #include "error_numbers.h"
 
+using std::string;
 
 CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     wxObject() {
@@ -47,6 +48,23 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
 CNetworkConnection::~CNetworkConnection() {
 }
 
+void CNetworkConnection::GetLocalPassword(wxString& strPassword){
+    char buf[256];
+
+    FILE* f = fopen("gui_rpc_auth.cfg", "r");
+    if (!f) return;
+    strcpy(buf, "");
+    fgets(buf, 256, f);
+    fclose(f);
+    int n = strlen(buf);
+    if (n) {
+        n--;
+        if (buf[n]=='\n') {
+            buf[n] = 0;
+        }
+    }
+    strPassword = buf;
+}
 
 // TODO: get rid of "reconnecting" stuff
 
@@ -97,7 +115,10 @@ void* CNetworkConnection::Poll() {
                 }
             }
 
-            if (strComputer.empty()) {
+            // a host value of NULL is special cased as binding to the localhost and
+            //   if we are connecting to the localhost we need to retry the connection
+            //   for awhile so that the users can respond to firewall prompts.
+            if (strComputer.empty() || (strComputer == _T("localhost"))) {
                 retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
             } else {
                 retval = m_pDocument->rpc.init_asynch(strComputer.c_str(), 60., false);

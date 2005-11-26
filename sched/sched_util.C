@@ -33,7 +33,7 @@ using namespace std;
 
 #include "sched_msgs.h"
 #include "sched_util.h"
-#include "../lib/util.h"
+#include "util.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"

@@ -24,8 +24,20 @@ The contents of <b>project.xml</b> should look like this:
     </app>
     ...
     <platform>
-      <name>windows_intel</name>
-      <user_friendly_name>Windows 95, 98, NT 2000, and XP</user_friendly_name>
+        <name>anonymous</name>
+        <user_friendly_name>anonymous</user_friendly_name>
+    </platform>
+    <platform>
+        <name>i686-pc-linux-gnu</name>
+        <user_friendly_name>Linux/x86</user_friendly_name>
+    </platform>
+    <platform>
+        <name>windows_intelx86</name>
+        <user_friendly_name>Windows/x86</user_friendly_name>
+    </platform>
+    <platform>
+        <name>powerpc-apple-darwin</name>
+        <user_friendly_name>Mac OS X</user_friendly_name>
     </platform>
     ...
   </boinc>

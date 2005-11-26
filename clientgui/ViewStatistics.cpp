@@ -33,6 +33,7 @@
 
 BEGIN_EVENT_TABLE (CPaintStatistics, wxPanel)
     EVT_PAINT(CPaintStatistics::OnPaint)
+    EVT_SIZE(CPaintStatistics::OnSize)
 END_EVENT_TABLE ()
 
 CPaintStatistics::CPaintStatistics() {
@@ -106,7 +107,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 		nb_proj_row=nb_proj;
 	} else {
 		nb_proj_col=2;
-		nb_proj_row=ceil((nb_proj/static_cast<double>(nb_proj_col)));
+		nb_proj_row=(wxInt32)ceil(static_cast<double>(nb_proj/static_cast<double>(nb_proj_col)));
 	}
 
 	wxInt32 col=1, row=1; //Used to identify the actual row/col
@@ -126,10 +127,10 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 		//Where do we draw in?
 		wxCoord x_start=0, y_start=0, x_end=0, y_end=0;
-		x_start=x_fac*(col-1);
-		x_end=x_fac*(col);
-		y_start=y_fac*(row-1)+heading_height;
-		y_end=y_fac*row+heading_height;
+		x_start=(wxCoord)(x_fac*(double)(col-1));
+		x_end=(wxCoord)(x_fac*((double)col));
+		y_start=(wxCoord)(y_fac*(double)(row-1)+heading_height);
+		y_end=(wxCoord)(y_fac*(double)row+heading_height);
 
 		//Draw Project name
 		{
@@ -232,18 +233,18 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 			for (std::vector<DAILY_STATS>::const_iterator j=(*i)->statistics.begin(); j!=(*i)->statistics.end(); ++j) {
 
-				ypos=rectangle_y_end - 1 - (yscale * (j->user_total_credit-min_val));
+				ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_total_credit-min_val)));
 				if (m_SelectedStatistic==0) {
-					ypos=rectangle_y_end - 1 - (yscale * (j->user_total_credit-min_val));
+					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_total_credit-min_val)));
 				}
 				if (m_SelectedStatistic==1) {
-					ypos=rectangle_y_end - 1 - (yscale * (j->user_expavg_credit-min_val));
+					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->user_expavg_credit-min_val)));
 				}
 				if (m_SelectedStatistic==2) {
-					ypos=rectangle_y_end - 1 - (yscale * (j->host_total_credit-min_val));
+					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->host_total_credit-min_val)));
 				}
 				if (m_SelectedStatistic==3) {
-					ypos=rectangle_y_end - 1 - (yscale * (j->host_expavg_credit-min_val));
+					ypos=(wxCoord)(rectangle_y_end - 1 - (yscale * (double)(j->host_expavg_credit-min_val)));
 				}
 				
 				if (last_y!=0) {
@@ -252,7 +253,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 				last_x=xpos;
 				last_y=ypos;
-				xpos+=xscale;
+				xpos+=(wxCoord)xscale;
 			}
 		}
 
@@ -266,6 +267,11 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	}
 	
 	dc.EndDrawing();
+}
+
+void CPaintStatistics::OnSize(wxSizeEvent& event) {
+    Refresh(TRUE, NULL);
+    event.Skip();
 }
 
 IMPLEMENT_DYNAMIC_CLASS(CViewStatistics, CBOINCBaseView)

@@ -98,7 +98,9 @@ public:
     void FireRefreshView();
     void FireConnect();
 
+    void ShowNotCurrentlyConnectedAlert();
     void ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only = false );
+
     void ExecuteBrowserLink( const wxString& strLink );
 
 #ifdef __WXMAC__
@@ -117,6 +119,7 @@ private:
     CStatusBar*     m_pStatusbar;
 #ifdef __WXMSW__
     wxDynamicLibrary m_WININET;
+    wxDynamicLibrary m_RASAPI32;
     wxDialUpManager* m_pDialupManager;
 #endif
     wxString        m_strBaseTitle;

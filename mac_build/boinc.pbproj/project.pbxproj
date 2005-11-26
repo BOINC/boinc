@@ -683,7 +683,7 @@
 		DD1277AF081F3D67007B5DE1 = {
 			buildActionMask = 2147483647;
 			files = (
-				DD1277E5081F4461007B5DE1,
+				DDDC35260909212D006076EC,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -707,6 +707,7 @@
 		};
 		DD1277B2081F3D67007B5DE1 = {
 			buildPhases = (
+				DDAD19D609090899004E7DD0,
 				DD1277AF081F3D67007B5DE1,
 				DD1277B0081F3D67007B5DE1,
 				DD1277B1081F3D67007B5DE1,
@@ -732,6 +733,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
+				DDAD19DF09090914004E7DD0,
 			);
 			isa = PBXNativeTarget;
 			name = Installer;
@@ -824,12 +826,6 @@
 		};
 		DD1277C4081F3E73007B5DE1 = {
 			fileRef = DD1277C0081F3E73007B5DE1;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD1277E5081F4461007B5DE1 = {
-			fileRef = DD1277B5081F3D67007B5DE1;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2012,6 +2008,7 @@
 		};
 		DD40CDF807F0386A0096C645 = {
 			buildPhases = (
+				DDAD19BB09090731004E7DD0,
 				DD40CDF507F0386A0096C645,
 				DD40CDF607F0386A0096C645,
 				DD40CDF707F0386A0096C645,
@@ -2037,6 +2034,7 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
+				DDAD19CD09090824004E7DD0,
 			);
 			isa = PBXNativeTarget;
 			name = SystemMenu;
@@ -2334,20 +2332,8 @@
 			settings = {
 			};
 		};
-		DD58C42708F3343F00C1DF66 = {
-			fileRef = DD58C41908F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C42808F3343F00C1DF66 = {
 			fileRef = DD58C41A08F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C42908F3343F00C1DF66 = {
-			fileRef = DD58C41B08F3343F00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2358,20 +2344,8 @@
 			settings = {
 			};
 		};
-		DD58C42B08F3343F00C1DF66 = {
-			fileRef = DD58C41D08F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C42C08F3343F00C1DF66 = {
 			fileRef = DD58C41E08F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C42D08F3343F00C1DF66 = {
-			fileRef = DD58C41F08F3343F00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2382,32 +2356,14 @@
 			settings = {
 			};
 		};
-		DD58C42F08F3343F00C1DF66 = {
-			fileRef = DD58C42108F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C43008F3343F00C1DF66 = {
 			fileRef = DD58C42208F3343F00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		DD58C43108F3343F00C1DF66 = {
-			fileRef = DD58C42308F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C43208F3343F00C1DF66 = {
 			fileRef = DD58C42408F3343F00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C43308F3343F00C1DF66 = {
-			fileRef = DD58C42508F3343F00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2499,26 +2455,8 @@
 			settings = {
 			};
 		};
-		DD58C43E08F3347D00C1DF66 = {
-			fileRef = DD58C43508F3347D00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C43F08F3347D00C1DF66 = {
-			fileRef = DD58C43608F3347D00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C44008F3347D00C1DF66 = {
 			fileRef = DD58C43708F3347D00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C44108F3347D00C1DF66 = {
-			fileRef = DD58C43808F3347D00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2529,20 +2467,8 @@
 			settings = {
 			};
 		};
-		DD58C44308F3347D00C1DF66 = {
-			fileRef = DD58C43A08F3347D00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C44408F3347D00C1DF66 = {
 			fileRef = DD58C43B08F3347D00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C44508F3347D00C1DF66 = {
-			fileRef = DD58C43C08F3347D00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2661,20 +2587,8 @@
 			settings = {
 			};
 		};
-		DD58C45308F334B500C1DF66 = {
-			fileRef = DD58C44708F334B500C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C45408F334B500C1DF66 = {
 			fileRef = DD58C44808F334B500C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C45508F334B500C1DF66 = {
-			fileRef = DD58C44908F334B500C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2685,20 +2599,8 @@
 			settings = {
 			};
 		};
-		DD58C45708F334B500C1DF66 = {
-			fileRef = DD58C44B08F334B500C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C45808F334B500C1DF66 = {
 			fileRef = DD58C44C08F334B500C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C45908F334B500C1DF66 = {
-			fileRef = DD58C44D08F334B500C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2709,20 +2611,8 @@
 			settings = {
 			};
 		};
-		DD58C45B08F334B500C1DF66 = {
-			fileRef = DD58C44F08F334B500C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C45C08F334B500C1DF66 = {
 			fileRef = DD58C45008F334B500C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C45D08F334B500C1DF66 = {
-			fileRef = DD58C45108F334B500C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2850,26 +2740,8 @@
 			settings = {
 			};
 		};
-		DD58C46C08F334EA00C1DF66 = {
-			fileRef = DD58C45F08F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C46D08F334EA00C1DF66 = {
-			fileRef = DD58C46008F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C46E08F334EA00C1DF66 = {
 			fileRef = DD58C46108F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C46F08F334EA00C1DF66 = {
-			fileRef = DD58C46208F334EA00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2880,20 +2752,8 @@
 			settings = {
 			};
 		};
-		DD58C47108F334EA00C1DF66 = {
-			fileRef = DD58C46408F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C47208F334EA00C1DF66 = {
 			fileRef = DD58C46508F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C47308F334EA00C1DF66 = {
-			fileRef = DD58C46608F334EA00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2904,20 +2764,8 @@
 			settings = {
 			};
 		};
-		DD58C47508F334EA00C1DF66 = {
-			fileRef = DD58C46808F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD58C47608F334EA00C1DF66 = {
 			fileRef = DD58C46908F334EA00C1DF66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DD58C47708F334EA00C1DF66 = {
-			fileRef = DD58C46A08F334EA00C1DF66;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4156,6 +4004,7 @@
 		DD96AFF80811075000A06F22 = {
 			buildPhases = (
 				DDCDB29708CEDCE400E4F573,
+				DDAD19C3090907A7004E7DD0,
 				DD96AFF50811075000A06F22,
 				DD96AFF60811075000A06F22,
 				DD96AFF70811075000A06F22,
@@ -4182,6 +4031,7 @@
 				WRAPPER_EXTENSION = saver;
 			};
 			dependencies = (
+				DDAD19CF09090833004E7DD0,
 			);
 			isa = PBXNativeTarget;
 			name = ScreenSaver;
@@ -4255,6 +4105,102 @@
 			settings = {
 			};
 		};
+		DDAD19BB09090731004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../SystemMenu-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+		};
+		DDAD19C3090907A7004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../ScreenSaver-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+		};
+		DDAD19CC09090824004E7DD0 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAD19CD09090824004E7DD0 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAD19CC09090824004E7DD0;
+		};
+		DDAD19CE09090833004E7DD0 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAD19CF09090833004E7DD0 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAD19CE09090833004E7DD0;
+		};
+		DDAD19D609090899004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../Installer-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+		};
+		DDAD19DE09090914004E7DD0 = {
+			containerPortal = 20286C28FDCF999611CA2CEA;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
+		DDAD19DF09090914004E7DD0 = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36;
+			targetProxy = DDAD19DE09090914004E7DD0;
+		};
+		DDAD1A380909139E004E7DD0 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/../../client/version.h",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/../English.lproj/InfoPlist.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
+		};
 		DDADA51508BAC96200053BFB = {
 			fileRef = 20286C33FDCF999611CA2CEA;
 			isa = PBXBuildFile;
@@ -4304,6 +4250,7 @@
 			buildPhases = (
 				DDAEC9DE07FA583B00A7BC36,
 				DDAEC9DF07FA583B00A7BC36,
+				DDAD1A380909139E004E7DD0,
 			);
 			buildRules = (
 				DD6826F408641C260070CDB8,
@@ -4375,7 +4322,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ./build/SetVersion;
+			shellScript = "./build/SetVersion\nmkdir -p \"$BUILD_DIR/boinc.build/mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$BUILD_DIR/boinc.build/mgr_boinc.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$BUILD_DIR/boinc.build/Installer.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$BUILD_DIR/boinc.build/ScreenSaver.build/Info.plist\"\nmkdir -p \"$BUILD_DIR/boinc.build/SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$BUILD_DIR/boinc.build/SystemMenu.build/Info.plist\"\n";
 		};
 		DDB8D5A5081FC8C700A5A1E8 = {
 			fileEncoding = 30;
@@ -4924,34 +4871,15 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
-				DD58C42708F3343F00C1DF66,
-				DD58C42908F3343F00C1DF66,
-				DD58C42B08F3343F00C1DF66,
-				DD58C42D08F3343F00C1DF66,
-				DD58C42F08F3343F00C1DF66,
-				DD58C43108F3343F00C1DF66,
-				DD58C43308F3343F00C1DF66,
-				DD58C43E08F3347D00C1DF66,
-				DD58C43F08F3347D00C1DF66,
-				DD58C44108F3347D00C1DF66,
-				DD58C44308F3347D00C1DF66,
-				DD58C44508F3347D00C1DF66,
-				DD58C45308F334B500C1DF66,
-				DD58C45508F334B500C1DF66,
-				DD58C45708F334B500C1DF66,
-				DD58C45908F334B500C1DF66,
-				DD58C45B08F334B500C1DF66,
-				DD58C45D08F334B500C1DF66,
-				DD58C46C08F334EA00C1DF66,
-				DD58C46D08F334EA00C1DF66,
-				DD58C46F08F334EA00C1DF66,
-				DD58C47108F334EA00C1DF66,
-				DD58C47308F334EA00C1DF66,
-				DD58C47508F334EA00C1DF66,
-				DD58C47708F334EA00C1DF66,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDDC35260909212D006076EC = {
+			fileRef = F51BDF4903086C46012012A7;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DDE2552B07C62F3E008E7D6E = {
 			isa = PBXFileReference;

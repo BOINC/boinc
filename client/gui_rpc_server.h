@@ -45,6 +45,7 @@ class GUI_RPC_CONN_SET {
 
     int get_allowed_hosts();
     int get_password();
+    bool is_primary_port_available();
     int insert(GUI_RPC_CONN*);
 public:
     GUI_RPC_CONN_SET();

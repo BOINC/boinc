@@ -43,7 +43,7 @@ using std::string;
 #include "version.h"
 
 void usage() {
-  fprintf(stderr, "\
+    fprintf(stderr, "\
 Usage:  boinc_cmd [--host hostname] [--passwd passwd] command\n\
 Give --help as a command for a list of commands\n\
 ");
@@ -51,13 +51,13 @@ Give --help as a command for a list of commands\n\
 }
 
 void version(){
-  printf("boinc_cmd,  built from %s \n", PACKAGE_STRING );
-  exit(0);
+    printf("boinc_cmd,  built from %s \n", PACKAGE_STRING );
+    exit(0);
 }
 
 void help() {
-  printf("\n\n\
-  usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
+    printf("\n\n\
+    usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
  --get_state                   show entire state\n\
  --get_results                 show results\n\
@@ -120,14 +120,33 @@ char* next_arg(int argc, char** argv, int& i) {
 }
 
 
+// If there's a password file, read it
+//
+void read_password_from_file(char* buf) {
+	FILE* f = fopen("gui_rpc_auth.cfg", "r");
+	if (!f) return;
+	fgets(buf, 256, f);
+	int n = strlen(buf);
+
+	// trim CR
+	//
+	if (n && buf[n-1]=='\n') {
+		buf[n-1] = 0;
+	}
+	fclose(f);
+}
 
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i;
+	char passwd_buf[256];
     MESSAGES messages;
     int retval;
     char* hostname = NULL;
-    char* passwd = NULL;
+    char* passwd = passwd_buf;
+
+	strcpy(passwd_buf, "");
+	read_password_from_file(passwd_buf);
 
 #ifdef _WIN32
     WSADATA wsdata;

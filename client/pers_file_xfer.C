@@ -170,9 +170,11 @@ bool PERS_FILE_XFER::poll() {
         if (gstate.now < next_request_time) {
             return false;
         }
+#if 0
         if (gstate.now < fip->project->next_file_xfer_time(is_upload)) {
             return false;
         }
+#endif
         last_time = gstate.now;
         fip->upload_offset = -1;
         retval = start_xfer();
