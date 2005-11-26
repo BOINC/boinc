@@ -13950,3 +13950,17 @@ Rom    26 Nov 2005
     locale/en_US/
         BOINC Manager.po
         BOINC Manager.mo
+
+Bruce 26 Nov 2005
+    - Sched fix from Walt Gribben: have scheduler defaults for disk
+      space prefs agree with web page.  Bruce's note: this may require
+      further fixes for two cases.  First, if the project prefs are
+      not the same as BOINC defaults.  Second, if the user doesn't want
+      BOINC to leave any disk space free and on their web preference page
+      sets 'leave X bytes free' to zero, then this patch will assume they
+      mean 100MB.  But I'm still applying the patch 'cause Walt says that
+      this is keeping lots of new users from getting work.
+
+    sched/
+        sched_send.C
+
