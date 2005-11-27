@@ -55,7 +55,7 @@ $changes_5 = "
     <li>Changes since 5.2.11
       <ul>
         <li>Prompt to retry the connection if a connection failed event occurs.
-        <li>Treat various forms of the local computer name as a localmachine instead
+        <li>Treat various forms of the local computer name as a local machine instead
             of a remote machine.
       </ul>
     <li>Changes since 5.2.10
