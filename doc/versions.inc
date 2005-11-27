@@ -52,6 +52,12 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.11
+      <ul>
+        <li>Prompt to retry the connection if a connection failed event occurs.
+        <li>Treat various forms of the local computer name as a localmachine instead
+            of a remote machine.
+      </ul>
     <li>Changes since 5.2.10
       <ul>
         <li>Wizards cannot be run without a connection to the core client.
@@ -83,10 +89,10 @@ $changes_5 = "
       </ul>
 ";
 
-$w5210= array(
-    "num"=>"5.2.10",
+$w5212= array(
+    "num"=>"5.2.12",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.10_windows_intelx86.exe",
+    "file"=>"boinc_5.2.12_windows_intelx86.exe",
     "date"=>"26 Nov 2005",
     "type"=>"win_new",
     "features"=>"<ul>
@@ -320,7 +326,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5210,
+        $w5212,
         $w445,
     )
 );
