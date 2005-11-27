@@ -199,36 +199,31 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Showing graphics for result..."));
 
-    pDoc->GetConnectedComputerName(strMachineName);
-
     // TODO: implement hide as well as show
-    if (1) {
 #ifdef _WIN32
-        if (!strMachineName.empty()) {
-            iAnswer = ::wxMessageBox(
-                _("Are you sure you want to display graphics on a remote machine?"),
-                _("Show graphics"),
-                wxYES_NO | wxICON_QUESTION,
-                this
-            );
-        } else {
-            iAnswer = wxYES;
-        }
-#else
+    pDoc->GetConnectedComputerName(strMachineName);
+    if (!pDoc->IsComputerNameLocal(strMachineName)) {
+        iAnswer = ::wxMessageBox(
+            _("Are you sure you want to display graphics on a remote machine?"),
+            _("Show graphics"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
+    } else {
         iAnswer = wxYES;
+    }
+#else
+    iAnswer = wxYES;
 #endif
 
-        if (wxYES == iAnswer) {
-            pDoc->WorkShowGraphics(
-                m_pListPane->GetFirstSelected(),
-                false,
-                wxGetApp().m_strDefaultWindowStation,
-                wxGetApp().m_strDefaultDesktop,
-                wxGetApp().m_strDefaultDisplay
-            );
-        }
-
-        pFrame->UpdateStatusText(wxT(""));
+    if (wxYES == iAnswer) {
+        pDoc->WorkShowGraphics(
+            m_pListPane->GetFirstSelected(),
+            false,
+            wxGetApp().m_strDefaultWindowStation,
+            wxGetApp().m_strDefaultDesktop,
+            wxGetApp().m_strDefaultDisplay
+        );
     }
 
     pFrame->UpdateStatusText(wxT(""));

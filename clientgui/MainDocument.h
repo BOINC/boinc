@@ -39,13 +39,14 @@ public:
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
     int            GetConnectingComputerName(wxString& strMachine);
+    bool           IsComputerNameLocal(wxString& strMachine);
     void           GetLocalPassword(wxString& strPassword);
     int            SetNewComputerName(const wxChar* szComputer);
     int            SetNewComputerPassword(const wxChar* szPassword);
     void           SetStateError();
     void           SetStateErrorAuthentication();
     void           SetStateReconnecting();
-    void           SetStateSuccess(std::string& strComputer, std::string& strComputerPassword);
+    void           SetStateSuccess(wxString& strComputer, wxString& strComputerPassword);
     void           SetStateDisconnected();
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
@@ -102,6 +103,7 @@ public:
     int                         ResetState();
 
     int                         Connect(const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = FALSE);
+    int                         Reconnect();
 
     int                         CachedStateLock();
     int                         CachedStateUnlock();
@@ -111,6 +113,7 @@ public:
 
     int                         GetConnectedComputerName(wxString& strMachine);
     int                         GetConnectingComputerName(wxString& strMachine);
+    bool                        IsComputerNameLocal(wxString& strMachine);
     bool                        IsConnected();
     bool                        IsReconnecting();
 

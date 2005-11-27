@@ -188,7 +188,7 @@ void CDlgSelectComputer::OnComputerNameUpdated( wxCommandEvent& event )
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (m_ComputerNameCtrl->GetValue().Lower() == wxT("localhost")) {
+    if (pDoc->IsComputerNameLocal(m_ComputerNameCtrl->GetValue())) {
         pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
         m_ComputerPasswordCtrl->SetValue(strPassword);
     }

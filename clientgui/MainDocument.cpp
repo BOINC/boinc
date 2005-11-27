@@ -70,8 +70,8 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
 
 void* CNetworkConnection::Poll() {
     int retval;
-    std::string strComputer;
-    std::string strComputerPassword;
+    wxString strComputer = wxEmptyString;
+    wxString strComputerPassword = wxEmptyString;
 
     if (IsReconnecting()) {
         wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Reconnection Detected"));
@@ -81,9 +81,7 @@ void* CNetworkConnection::Poll() {
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.c_str());
             if (!retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));
-                std::string host = m_strNewComputerName.c_str();
-                std::string pwd = m_strNewComputerPassword.c_str();
-                SetStateSuccess(host, pwd);
+                SetStateSuccess(m_strNewComputerName, m_strNewComputerPassword);
             } else if (ERR_AUTHENTICATOR == retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Authorization - ERR_AUTHENTICATOR"));
                 SetStateErrorAuthentication();
@@ -110,15 +108,15 @@ void* CNetworkConnection::Poll() {
                 strComputerPassword = m_strNewComputerPassword;
             } else {
                 if (!m_strConnectedComputerName.empty()) {
-                    strComputer = m_strConnectedComputerName.c_str();
-                    strComputerPassword = m_strConnectedComputerPassword.c_str();
+                    strComputer = m_strConnectedComputerName;
+                    strComputerPassword = m_strConnectedComputerPassword;
                 }
             }
 
             // a host value of NULL is special cased as binding to the localhost and
             //   if we are connecting to the localhost we need to retry the connection
             //   for awhile so that the users can respond to firewall prompts.
-            if (strComputer.empty() || (strComputer == _T("localhost"))) {
+            if (IsComputerNameLocal(strComputer)) {
                 retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
             } else {
                 retval = m_pDocument->rpc.init_asynch(strComputer.c_str(), 60., false);
@@ -151,6 +149,22 @@ int CNetworkConnection::GetConnectedComputerName(wxString& strMachine) {
 int CNetworkConnection::GetConnectingComputerName(wxString& strMachine) {
     strMachine = m_strNewComputerName;
     return 0;
+}
+
+
+bool CNetworkConnection::IsComputerNameLocal(wxString& strMachine) {
+    if (strMachine.empty()) {
+        return true;
+    } else if (wxT("localhost") == strMachine.Lower()) {
+        return true;
+    } else if (wxT("localhost.localdomain") == strMachine.Lower()) {
+        return true;
+    } else if (::wxGetHostName().Lower() == strMachine.Lower()) {
+        return true;
+    } else if (::wxGetFullHostName().Lower() == strMachine.Lower()) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -195,11 +209,7 @@ void CNetworkConnection::SetStateError() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowAlert(
-            _("BOINC Manager - Connection failed"),
-            _("Connection failed."),
-            wxICON_ERROR
-        );
+        pFrame->ShowConnectionFailedAlert();
     }
 }
 
@@ -216,15 +226,15 @@ void CNetworkConnection::SetStateReconnecting() {
 }
 
 
-void CNetworkConnection::SetStateSuccess(std::string& strComputer, std::string& strComputerPassword) {
+void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strComputerPassword) {
     CMainFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = true;
         m_bReconnecting = false;
         m_bReconnectOnError = true;
-        m_strConnectedComputerName = strComputer.c_str();
-        m_strConnectedComputerPassword = strComputerPassword.c_str();
+        m_strConnectedComputerName = strComputer;
+        m_strConnectedComputerPassword = strComputerPassword;
         m_strNewComputerName = wxEmptyString;
         m_strNewComputerPassword = wxEmptyString;
 
@@ -401,6 +411,13 @@ int CMainDocument::Connect(const wxChar* szComputer, const wxChar* szComputerPas
 }
 
 
+int CMainDocument::Reconnect() {
+    m_pNetworkConnection->ForceReconnect();
+    m_pNetworkConnection->FireReconnectEvent();
+    return 0;
+}
+
+
 int CMainDocument::GetConnectedComputerName(wxString& strMachine) {
     m_pNetworkConnection->GetConnectedComputerName(strMachine);
     return 0;
@@ -410,6 +427,11 @@ int CMainDocument::GetConnectedComputerName(wxString& strMachine) {
 int CMainDocument::GetConnectingComputerName(wxString& strMachine) {
     m_pNetworkConnection->GetConnectingComputerName(strMachine);
     return 0;
+}
+
+
+bool CMainDocument::IsComputerNameLocal(wxString& strMachine) {
+    return m_pNetworkConnection->IsComputerNameLocal(strMachine);
 }
 
 
@@ -840,55 +862,20 @@ int CMainDocument::WorkAbort(int iIndex) {
 int CMainDocument::CachedMessageUpdate() {
     int retval;
     static bool in_this_func = false;
-    int new_msg_seqno = m_iMessageSequenceNumber;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
-        CMainFrame* pFrame = wxGetApp().GetFrame();
-        MESSAGES new_msgs;
-
-        wxASSERT(pFrame);
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-
-        retval = rpc.get_messages(m_iMessageSequenceNumber, new_msgs);
+        retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (retval) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
-        std::vector<MESSAGE*>::iterator mi = new_msgs.messages.begin();
-        while (mi != new_msgs.messages.end()) {
-            MESSAGE* mp = *mi;
-            new_msg_seqno = mp->seqno;
-            switch(mp->priority) {
-            case MSG_PRIORITY_ALERT_ERROR:
-                if (m_iMessageSequenceNumber) {
-                    pFrame->ShowAlert(
-                        _("BOINC error"),
-                        mp->body.c_str(),
-                        wxICON_ERROR
-                    );
-                }
-                delete mp;
-                break;
-            case MSG_PRIORITY_ALERT_INFO:
-                if (m_iMessageSequenceNumber) {
-                    pFrame->ShowAlert(
-                        _("BOINC info"),
-                        mp->body.c_str(),
-                        wxICON_INFORMATION
-                    );
-                }
-                delete mp;
-                break;
-            default:
-                messages.messages.push_back(mp);
-            }
-            new_msgs.messages.erase(mi);
+        if (messages.messages.size() != 0) {
+            m_iMessageSequenceNumber = messages.messages.at(messages.messages.size()-1)->seqno;
         }
-        m_iMessageSequenceNumber = new_msg_seqno;
     }
 done:
     in_this_func = false;

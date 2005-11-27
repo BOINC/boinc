@@ -25,7 +25,6 @@
 #pragma interface "MainFrame.cpp"
 #endif
 
-
 class CStatusBar : public wxStatusBar
 {
     DECLARE_DYNAMIC_CLASS(CStatusBar)
@@ -46,8 +45,14 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+
 class CMainFrameEvent;
 class CMainFrameAlertEvent;
+
+enum MainFrameAlertEventType {
+    AlertNormal = 0,
+    AlertProcessResponse
+};
 
 class CMainFrame : public wxFrame
 {
@@ -98,8 +103,15 @@ public:
     void FireRefreshView();
     void FireConnect();
 
+    void ShowConnectionFailedAlert();
     void ShowNotCurrentlyConnectedAlert();
-    void ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only = false );
+    void ShowAlert( 
+        const wxString title,
+        const wxString message,
+        const int style,
+        const bool notification_only = false,
+        const MainFrameAlertEventType alert_event_type = AlertNormal
+    );
 
     void ExecuteBrowserLink( const wxString& strLink );
 
@@ -167,10 +179,17 @@ public:
 class CMainFrameAlertEvent : public wxEvent
 {
 public:
+    CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style, bool notification_only, MainFrameAlertEventType alert_event_type)
+        : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only), m_alert_event_type(alert_event_type)
+        {
+            SetEventObject(frame);
+        }
+
     CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style, bool notification_only)
         : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only)
         {
             SetEventObject(frame);
+            m_alert_event_type = AlertNormal;
         }
 
     CMainFrameAlertEvent(const CMainFrameAlertEvent& event)
@@ -180,14 +199,17 @@ public:
             m_message = event.m_message;
             m_style = event.m_style;
             m_notification_only = event.m_notification_only;
+            m_alert_event_type = event.m_alert_event_type;
         }
 
     virtual wxEvent *Clone() const { return new CMainFrameAlertEvent(*this); }
+    virtual void     ProcessResponse(const int response) const;
 
-    wxString m_title;
-    wxString m_message;
-    int      m_style;
-    bool     m_notification_only;
+    wxString                m_title;
+    wxString                m_message;
+    int                     m_style;
+    bool                    m_notification_only;
+    MainFrameAlertEventType m_alert_event_type;
 };
 
 
