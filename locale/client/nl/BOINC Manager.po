@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-16 21:53+0100\n"
+"PO-Revision-Date: 2005-11-27 19:09+0100\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -43,8 +43,12 @@ msgid "C&onfirm password:"
 msgstr "Bevestig wachtw&oord:"
 
 #: clientgui/AccountInfoPage.cpp:173
-msgid "If you haven't set a password, copy and paste your account key into the Password box."
-msgstr "Als je nog geen wachtwoord hebt ingesteld, kopieer en plak je de account key in het wachtwoord gedeelte."
+msgid ""
+"If you haven't set a password, copy and paste your account\n"
+"key into the Password box."
+msgstr ""
+"Als je nog geen wachtwoord hebt ingesteld, kopieer en plak je de\n"
+"account key in het wachtwoord gedeelte."
 
 #: clientgui/AccountInfoPage.cpp:279
 #: clientgui/DlgDialupCredentials.cpp:111
@@ -182,56 +186,64 @@ msgstr "(Gedefineerd door gebruiker)"
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCTaskBar.cpp:271
+#: clientgui/BOINCTaskBar.cpp:267
 msgid "BOINC is currently suspended...\n"
 msgstr "BOINC is momenteel opgeschort... \n"
 
-#: clientgui/BOINCTaskBar.cpp:275
+#: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC networking is currently suspended...\n"
 msgstr "Het BOINC netwerk is momenteel opgeschort... \n"
 
-#: clientgui/BOINCTaskBar.cpp:376
+#: clientgui/BOINCTaskBar.cpp:302
+msgid "BOINC Manager is currently reconnecting to a BOINC client...\n"
+msgstr "De BOINC manager maakt een nieuwe BOINC client verbinding...\n"
+
+#: clientgui/BOINCTaskBar.cpp:304
+msgid "BOINC Manager is not currently connected to a BOINC client...\n"
+msgstr "De BOINC manager heeft momenteel geen BOINC client verbinding...\n"
+
+#: clientgui/BOINCTaskBar.cpp:377
 #: clientgui/MainFrame.cpp:331
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "Afsluiten"
 
-#: clientgui/BOINCTaskBar.cpp:395
-#: clientgui/BOINCTaskBar.cpp:402
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
 msgid "&Open BOINC Manager..."
 msgstr "Open de B&OINC Manager..."
 
-#: clientgui/BOINCTaskBar.cpp:406
+#: clientgui/BOINCTaskBar.cpp:407
 #: clientgui/MainFrame.cpp:340
 msgid "&Run always"
 msgstr "Voe&r altijd uit"
 
-#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/BOINCTaskBar.cpp:408
 #: clientgui/MainFrame.cpp:345
 msgid "Run based on &preferences"
 msgstr "Voer uit o&p basis van voorkeuren"
 
-#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/BOINCTaskBar.cpp:409
 #: clientgui/MainFrame.cpp:350
 msgid "&Suspend"
 msgstr "Manager pauzeren"
 
-#: clientgui/BOINCTaskBar.cpp:410
+#: clientgui/BOINCTaskBar.cpp:411
 #: clientgui/MainFrame.cpp:358
 msgid "&Network activity always available"
 msgstr "&Netwerkverbinding altijd beschikbaar"
 
-#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/BOINCTaskBar.cpp:412
 #: clientgui/MainFrame.cpp:363
 msgid "Network activity based on &preferences"
 msgstr "Netwerkverbinding o&p basis van voorkeuren"
 
-#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/BOINCTaskBar.cpp:413
 #: clientgui/MainFrame.cpp:368
 msgid "&Network activity suspended"
 msgstr "Netwerkverbinding opgeschort"
 
-#: clientgui/BOINCTaskBar.cpp:414
+#: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
 msgstr "Inform&atie over de Boinc Manager..."
@@ -535,6 +547,7 @@ msgid "View your last week (or more) of computational results and work"
 msgstr "Bekijk de behaalde resultaten van de afgelopen periode"
 
 #: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:95
 msgid "Your computers"
 msgstr "Mijn computer(s)"
 
@@ -582,7 +595,7 @@ msgstr "Huidige Einstein@home server status"
 
 #: clientgui/Localization.cpp:79
 msgid "Report problems"
-msgstr "Raporteer problemen"
+msgstr "Rapporteer problemen"
 
 #: clientgui/Localization.cpp:81
 msgid "A link to the Einstein@Home problems and bug reports message board"
@@ -595,10 +608,6 @@ msgstr "Bekijk en verander je Einstein@home profiel en account voorkeuren"
 #: clientgui/Localization.cpp:87
 msgid "Account summary"
 msgstr "Account samenvatting"
-
-#: clientgui/Localization.cpp:95
-msgid "YourComputers"
-msgstr "Mijn computer(s)"
 
 #: clientgui/Localization.cpp:97
 msgid "View a listing of all the computers on which you are running Einstein@Home"
@@ -650,39 +659,21 @@ msgstr "Bekijk je account informatie en de behaalde resultaten van de afgelopen 
 msgid "Info about your team"
 msgstr "Bekijk informatie over je eigen team"
 
-#: clientgui/MainDocument.cpp:177
+#: clientgui/MainDocument.cpp:194
 msgid "BOINC Manager - Connection Error"
 msgstr "Boinc Manager - Verbindings fout"
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:195
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Het opgegeven wachtwoord is niet correct, probeer a.u.b. opnieuw."
 
-#: clientgui/MainDocument.cpp:196
-msgid "BOINC Manager - Connection failed"
-msgstr "Boinc Manager - Verbinding mislukt"
-
-#: clientgui/MainDocument.cpp:197
-#: clientgui/MainFrame.cpp:927
-#: clientgui/MainFrame.cpp:928
-msgid "Connection failed."
-msgstr "Verbinding mislukt."
-
-#: clientgui/MainDocument.cpp:303
+#: clientgui/MainDocument.cpp:316
 msgid "Retrieving system state; please wait..."
 msgstr "Systeem gegevens aan het opvragen; even geduld a.u.b..."
 
-#: clientgui/MainDocument.cpp:312
+#: clientgui/MainDocument.cpp:325
 msgid "Retrieving host information; please wait..."
 msgstr "Host gegevens aan het opvragen; even geduld a.u.b..."
-
-#: clientgui/MainDocument.cpp:866
-msgid "BOINC error"
-msgstr "Interne BOINC fout"
-
-#: clientgui/MainDocument.cpp:876
-msgid "BOINC info"
-msgstr "BOINC info"
 
 #: clientgui/MainFrame.cpp:83
 msgid "Connected"
@@ -807,38 +798,38 @@ msgstr "&Projecten"
 msgid "&Help"
 msgstr "&Help"
 
-#: clientgui/MainFrame.cpp:1039
+#: clientgui/MainFrame.cpp:1045
 msgid "Attaching to project..."
 msgstr "Project wordt toegevoegd..."
 
-#: clientgui/MainFrame.cpp:1075
+#: clientgui/MainFrame.cpp:1084
 msgid "Retrying communications for project(s)..."
 msgstr "Project(en) opnieuw aan het verbinden..."
 
-#: clientgui/MainFrame.cpp:1165
+#: clientgui/MainFrame.cpp:1174
 msgid "Language Selection..."
 msgstr "Taalselectie..."
 
-#: clientgui/MainFrame.cpp:1166
+#: clientgui/MainFrame.cpp:1175
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "De standaard taal van de BOINC Manager is gewijzigd, om dit te activeren dien je de manager te herstarten."
 
-#: clientgui/MainFrame.cpp:1566
-#: clientgui/MainFrame.cpp:1583
-#: clientgui/MainFrame.cpp:1589
-#: clientgui/MainFrame.cpp:1632
-#: clientgui/MainFrame.cpp:1660
-#: clientgui/MainFrame.cpp:1669
-#: clientgui/MainFrame.cpp:1683
-#: clientgui/MainFrame.cpp:1691
+#: clientgui/MainFrame.cpp:1579
+#: clientgui/MainFrame.cpp:1596
+#: clientgui/MainFrame.cpp:1602
+#: clientgui/MainFrame.cpp:1645
+#: clientgui/MainFrame.cpp:1673
+#: clientgui/MainFrame.cpp:1682
+#: clientgui/MainFrame.cpp:1696
+#: clientgui/MainFrame.cpp:1704
 msgid "BOINC Manager - Network Status"
 msgstr "Boinc Manager - Netwerk Status"
 
-#: clientgui/MainFrame.cpp:1567
+#: clientgui/MainFrame.cpp:1580
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC heeft een verbinding nodig met het internet voor onderhoud, open de BOINC manager om verbinding te maken en deze taken uit te voeren."
 
-#: clientgui/MainFrame.cpp:1582
+#: clientgui/MainFrame.cpp:1595
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -846,45 +837,72 @@ msgstr ""
 "BOINC wil een verbinding maken met het netwerk. \n"
 "Mag dit nu?"
 
-#: clientgui/MainFrame.cpp:1590
+#: clientgui/MainFrame.cpp:1603
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC is een verbinding aan het maken met het internet."
 
-#: clientgui/MainFrame.cpp:1633
+#: clientgui/MainFrame.cpp:1646
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC heeft de internet verbinding gedetecteerd en probeert alle projecten bij te werken en de overdracht van de bestanden te regelen."
 
-#: clientgui/MainFrame.cpp:1661
+#: clientgui/MainFrame.cpp:1674
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC heeft de internet verbinding verbroken."
 
-#: clientgui/MainFrame.cpp:1670
+#: clientgui/MainFrame.cpp:1683
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC kan de internet verbinding niet verbreken."
 
-#: clientgui/MainFrame.cpp:1684
+#: clientgui/MainFrame.cpp:1697
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC is verbonden met het internet."
 
-#: clientgui/MainFrame.cpp:1692
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC heeft geen verbinding kunnen maken met het internet."
 
-#: clientgui/MainFrame.cpp:1770
-#: clientgui/MainFrame.cpp:1773
+#: clientgui/MainFrame.cpp:1782
+#: clientgui/MainFrame.cpp:1785
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1771
+#: clientgui/MainFrame.cpp:1783
 #, c-format
 msgid "Connecting to %s"
 msgstr "Bezig te verbinden met %s"
 
-#: clientgui/MainFrame.cpp:1774
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "Connected to %s"
 msgstr "Verbonden met %s"
+
+#: clientgui/MainFrame.cpp:1940
+msgid "BOINC Manager - Connection Failed"
+msgstr "Boinc Manager - Verbinding mislukt"
+
+#: clientgui/MainFrame.cpp:1941
+msgid ""
+"BOINC Manager is not able to connect to a BOINC client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"De BOINC manager kan geen verbinding maken met een\n"
+"BOINC client. Wil je het opnieuw proberen?"
+
+#: clientgui/MainFrame.cpp:1956
+msgid "BOINC Manager - Connection Status"
+msgstr "BOINC Manager - Verbindings Status"
+
+#: clientgui/MainFrame.cpp:1957
+msgid ""
+"BOINC Manager is not currently connected to a BOINC client.\n"
+"Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
+"To connect up to your local computer please use 'localhost' as the host name."
+msgstr ""
+"De BOINC manager heeft momenteel geen BOINC client verbinding...\n"
+"Gebruik a.u.b de 'Bestand - Selecteer Computer...' menu optie om een\n"
+"verbinding met een BOINC client te maken.\n"
+"Om deze computer te verbinden moet je als host naam 'localhost' gebruiken."
 
 #: clientgui/NoInternetConnectionPage.cpp:98
 msgid "No Internet connection"
@@ -1051,7 +1069,7 @@ msgid ""
 msgstr ""
 "Vul a.u.b. een geldige host naam in.\n"
 "Bijvoorbeeld:\n"
-"boincproject.voorbeeld.com"
+"http://boincproject.voorbeeld.com"
 
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
@@ -1066,7 +1084,7 @@ msgstr "'%s' bezit geen geldige bestands lokatie."
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:322
+#: clientgui/ViewStatistics.cpp:404
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1078,7 +1096,7 @@ msgstr "Alle berichten kopiëren"
 
 #: clientgui/ViewMessages.cpp:79
 msgid "Copy all the messages to the clipboard."
-msgstr "Alle berichten kopiëren naar het klembord."
+msgstr "Alle berichten naar het klembord kopiëren."
 
 #: clientgui/ViewMessages.cpp:85
 msgid "Copy selected messages"
@@ -1128,7 +1146,7 @@ msgstr "Rapporteer het voltooide werk, werk de punten bij, werk de voorkeuren bi
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:560
 #: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend"
 msgstr "Onderbreken"
 
@@ -1152,7 +1170,7 @@ msgstr "Project resetten"
 
 #: clientgui/ViewProjects.cpp:129
 msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
-msgstr "Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw werk. Het is mogelijk het project eerst bij te werken om het voltooide werk te rapporteren."
+msgstr "Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw werk. Het is aan te raden het project eerst bij te werken om het voltooide werk te rapporteren."
 
 #: clientgui/ViewProjects.cpp:138
 msgid "Detach"
@@ -1239,7 +1257,7 @@ msgid "Launching browser..."
 msgstr "Browser aan het openen..."
 
 #: clientgui/ViewProjects.cpp:556
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume"
 msgstr "Hervatten"
 
@@ -1264,7 +1282,7 @@ msgid "Web sites"
 msgstr "Websites"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewWork.cpp:666
+#: clientgui/ViewWork.cpp:661
 msgid "Suspended by user"
 msgstr "Opgeschort door gebruiker"
 
@@ -1289,49 +1307,49 @@ msgid "Disk"
 msgstr "Schijfgebruik"
 
 #: clientgui/ViewStatistics.cpp:41
-#: clientgui/ViewStatistics.cpp:47
-#: clientgui/ViewStatistics.cpp:380
+#: clientgui/ViewStatistics.cpp:50
+#: clientgui/ViewStatistics.cpp:462
 msgid "User Total"
 msgstr "Gebruikers Totaal"
 
-#: clientgui/ViewStatistics.cpp:326
+#: clientgui/ViewStatistics.cpp:408
 msgid "Show user total"
 msgstr "Bekijk gebruikers totaal"
 
-#: clientgui/ViewStatistics.cpp:333
+#: clientgui/ViewStatistics.cpp:415
 msgid "Show user average"
 msgstr "Bekijk gebruikers gemiddelde"
 
-#: clientgui/ViewStatistics.cpp:340
+#: clientgui/ViewStatistics.cpp:422
 msgid "Show host total"
 msgstr "Bekijk computer totaal"
 
-#: clientgui/ViewStatistics.cpp:347
+#: clientgui/ViewStatistics.cpp:429
 msgid "Show host average"
 msgstr "Bekijk computer gemiddelde"
 
-#: clientgui/ViewStatistics.cpp:366
+#: clientgui/ViewStatistics.cpp:448
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: clientgui/ViewStatistics.cpp:379
-#: clientgui/ViewStatistics.cpp:399
-#: clientgui/ViewStatistics.cpp:419
-#: clientgui/ViewStatistics.cpp:439
+#: clientgui/ViewStatistics.cpp:461
+#: clientgui/ViewStatistics.cpp:481
+#: clientgui/ViewStatistics.cpp:501
+#: clientgui/ViewStatistics.cpp:521
 msgid "Updating charts..."
 msgstr "Grafieken aan het bijwerken..."
 
-#: clientgui/ViewStatistics.cpp:400
+#: clientgui/ViewStatistics.cpp:482
 msgid "User Average"
 msgstr "Gebruikers gemiddelde"
 
-#: clientgui/ViewStatistics.cpp:420
+#: clientgui/ViewStatistics.cpp:502
 msgid "Host Total"
-msgstr "Totaal van computer"
+msgstr "Computer totaal"
 
-#: clientgui/ViewStatistics.cpp:440
+#: clientgui/ViewStatistics.cpp:522
 msgid "Host Average"
-msgstr "Gemiddelde van computer"
+msgstr "Computer gemiddelde"
 
 #: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
@@ -1392,12 +1410,12 @@ msgid "Retry in "
 msgstr "Opnieuw proberen over "
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:657
+#: clientgui/ViewWork.cpp:652
 msgid "Download failed"
 msgstr "Downloaden mislukt"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:693
+#: clientgui/ViewWork.cpp:688
 msgid "Upload failed"
 msgstr "Uploaden mislukt"
 
@@ -1407,22 +1425,22 @@ msgid "Suspended"
 msgstr "Opgeschort"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:690
 msgid "Uploading"
 msgstr "Bezig met uploaden"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:654
 msgid "Downloading"
 msgstr "Bezig met downloaden"
 
 #: clientgui/ViewWork.cpp:100
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend work for this result."
 msgstr "Onderbreek het werk aan dit resultaat."
 
 #: clientgui/ViewWork.cpp:106
-#: clientgui/ViewWork.cpp:210
+#: clientgui/ViewWork.cpp:208
 msgid "Show graphics"
 msgstr "Bekijk grafische weergave"
 
@@ -1474,71 +1492,71 @@ msgstr "Bezig met opschorten..."
 msgid "Showing graphics for result..."
 msgstr "Bezig met het laten zien van grafische weergave..."
 
-#: clientgui/ViewWork.cpp:209
+#: clientgui/ViewWork.cpp:207
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Weet je zeker dat je de grafische weergave wilt laten zien op een andere computer?"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:253
 msgid "Aborting result..."
 msgstr "Resultaat word geannuleerd..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:256
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "Weet je zeker dat je het resultaat '%s' wilt annuleren?"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:262
 msgid "Abort result"
 msgstr "Annuleer resultaat"
 
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume work for this result."
 msgstr "Hervat werk voor dit resultaat."
 
-#: clientgui/ViewWork.cpp:653
+#: clientgui/ViewWork.cpp:648
 msgid "New"
 msgstr "Nieuw"
 
-#: clientgui/ViewWork.cpp:664
-#: clientgui/ViewWork.cpp:686
+#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:681
 msgid "Aborted by user"
 msgstr "Geannuleerd door gebruiker"
 
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:663
 msgid "Activities suspended"
 msgstr "Activiteiten opgeschort"
 
-#: clientgui/ViewWork.cpp:671
+#: clientgui/ViewWork.cpp:666
 msgid "Running"
 msgstr "Bezig met uitvoeren"
 
-#: clientgui/ViewWork.cpp:673
+#: clientgui/ViewWork.cpp:668
 msgid "Preempted"
 msgstr "Gepauzeerd"
 
-#: clientgui/ViewWork.cpp:675
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:673
 msgid "Ready to run"
 msgstr "Staat in de wacht"
 
-#: clientgui/ViewWork.cpp:688
+#: clientgui/ViewWork.cpp:683
 msgid "Computation error"
 msgstr "Berekenings fout"
 
-#: clientgui/ViewWork.cpp:700
+#: clientgui/ViewWork.cpp:695
 msgid "Acknowledged"
 msgstr "Bevestigd"
 
-#: clientgui/ViewWork.cpp:702
+#: clientgui/ViewWork.cpp:697
 msgid "Ready to report"
 msgstr "Staat klaar om te rapporteren"
 
-#: clientgui/ViewWork.cpp:704
+#: clientgui/ViewWork.cpp:699
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Fout: ongeldige status '%d'"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:707
 msgid "Activities suspended by user"
 msgstr "Activiteiten opgeschort door gebruiker"
 
