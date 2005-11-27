@@ -923,11 +923,7 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             TRUE
         );
         if (lRetVal) {
-            ShowAlert(
-                _("Connection failed."),
-                _("Connection failed."),
-                wxICON_ERROR
-           );
+            ShowConnectionFailedAlert();
         }
 
         // Insert a copy of the current combo box value to the head of the
@@ -1300,7 +1296,11 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
 
     if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
         if (!event.m_notification_only) {
-            ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+            int retval = 0;
+            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+            if (event.m_alert_event_type == AlertProcessResponse) {
+                event.ProcessResponse(retval);
+            }
         }
     } else {
         // If the main window is hidden or minimzed use the system tray ballon
@@ -1772,9 +1772,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     else
                         pDoc->GetConnectedComputerName(strComputerName);
 
-                    if (strComputerName.empty()) {
+                    if (pDoc->IsComputerNameLocal(strComputerName)) {
                         strTitle += wxT(" - (localhost)");
-                        strComputerName += wxT("localhost");
                     } else {
                         strStatusText += strComputerName;
                     }
@@ -1874,6 +1873,7 @@ void CMainFrame::SetFrameListPanelRenderTimerRate() {
     wxASSERT(m_pNotebook);
     wxASSERT(m_pFrameListPanelRenderTimer);
     wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     // Keep timer at faster rate until we have been connected > 10 seconds
     if (!pDoc->IsConnected())
@@ -1933,6 +1933,22 @@ void CMainFrame::FireConnect() {
 }
 
 
+void CMainFrame::ShowConnectionFailedAlert() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function Begin"));
+
+    ShowAlert(
+        _("BOINC Manager - Connection Failed"),
+        _("BOINC Manager is not able to connect to a BOINC client.\n"
+          "Would you like to try to connect again?"),
+        wxYES_NO | wxICON_QUESTION,
+        false,
+        AlertProcessResponse
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function End"));
+}
+
+
 void CMainFrame::ShowNotCurrentlyConnectedAlert() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
 
@@ -1948,8 +1964,8 @@ void CMainFrame::ShowNotCurrentlyConnectedAlert() {
 }
 
 
-void CMainFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only ) {
-    CMainFrameAlertEvent event(wxEVT_MAINFRAME_ALERT, this, title, message, style, notification_only);
+void CMainFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only, const MainFrameAlertEventType alert_event_type ) {
+    CMainFrameAlertEvent event(wxEVT_MAINFRAME_ALERT, this, title, message, style, notification_only, alert_event_type);
     AddPendingEvent(event);
 }
 
@@ -1957,6 +1973,7 @@ void CMainFrame::ShowAlert( const wxString title, const wxString message, const 
 void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
     wxHyperLink::ExecuteLink(strLink);
 }
+
 
 #ifdef __WXMAC__
 
@@ -1974,5 +1991,18 @@ bool CMainFrame::Show(bool show) {
 }
 
 #endif // __WXMAC__
+
+
+void CMainFrameAlertEvent::ProcessResponse(const int response) const {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if ((AlertProcessResponse == m_alert_event_type) && (wxYES == response)) {
+        pDoc->Reconnect();
+    }
+}
+
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

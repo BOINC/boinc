@@ -13970,3 +13970,18 @@ David  26 Nov 2005
 
     html/user/
         lookup_account.php
+
+Rom    26 Nov 2005
+    - Bug Fix: Don't treat various forms of the local computer name as a
+        remote machine.
+    - Bug Fix: When any form of the local computer name is used 
+        prepopulate the password field in the select computer dialog.
+    - Bug Fix: On connection failed messages provide an easy way to
+        retry the connection attempt.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        DlgSelectComputer.cpp
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+        ViewWork.cpp

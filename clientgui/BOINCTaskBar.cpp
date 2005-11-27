@@ -258,49 +258,50 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxASSERT(pDoc);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
-        pDoc->GetConnectedComputerName(strMachineName);
-        if (strMachineName.empty()) {
-            strTitle = strTitle + wxT(" - (localhost)");
-        } else {
+        if (pDoc->IsConnected()) {
+            pDoc->GetConnectedComputerName(strMachineName);
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
-        }
 
-        pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
-        if (bActivitiesSuspended) {
-            strMessage += _("BOINC is currently suspended...\n");
-        }
-
-        if (bNetworkSuspended) {
-            strMessage += _("BOINC networking is currently suspended...\n");
-        }
-
-        if (strMessage.Length() > 0) {
-            strMessage += wxT("\n");
-        }
-
-        iResultCount = pDoc->results.results.size();
-        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            RESULT* result = wxGetApp().GetDocument()->result(iIndex);
-            RESULT* state_result = NULL;
-            std::string project_name;
-
-            bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
-            bIsActive     = result->active_task;
-            bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
-            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
-
-            if (result) {
-                state_result = pDoc->state.lookup_result(result->project_url, result->name);
-                if (state_result) {
-                    state_result->project->get_name(project_name);
-                    strProjectName = wxString(project_name.c_str());
-                }
-                fProgress = result->fraction_done;
+            pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+            if (bActivitiesSuspended) {
+                strMessage += _("BOINC is currently suspended...\n");
             }
 
-            strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100);
-            strMessage += strBuffer;
+            if (bNetworkSuspended) {
+                strMessage += _("BOINC networking is currently suspended...\n");
+            }
+
+            if (strMessage.Length() > 0) {
+                strMessage += wxT("\n");
+            }
+
+            iResultCount = pDoc->results.results.size();
+            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                RESULT* result = wxGetApp().GetDocument()->result(iIndex);
+                RESULT* state_result = NULL;
+                std::string project_name;
+
+                bIsDownloaded = (result->state == RESULT_FILES_DOWNLOADED);
+                bIsActive     = result->active_task;
+                bIsExecuting  = (result->scheduler_state == CPU_SCHED_SCHEDULED);
+                if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
+
+                if (result) {
+                    state_result = pDoc->state.lookup_result(result->project_url, result->name);
+                    if (state_result) {
+                        state_result->project->get_name(project_name);
+                        strProjectName = wxString(project_name.c_str());
+                    }
+                    fProgress = result->fraction_done;
+                }
+
+                strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100);
+                strMessage += strBuffer;
+            }
+        } else if (pDoc->IsReconnecting()) {
+            strMessage += _("BOINC Manager is currently reconnecting to a BOINC client...\n");
+        } else {
+            strMessage += _("BOINC Manager is not currently connected to a BOINC client...\n");
         }
 
         SetBalloon(m_iconTaskBarIcon, strTitle, strMessage);
