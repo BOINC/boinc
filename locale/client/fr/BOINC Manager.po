@@ -4,9 +4,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-26 17:22+0100\n"
+"PO-Revision-Date: 2005-11-27 10:26+0100\n"
 "Last-Translator: Arnaud <arnaud_71fr@yahoo.fr>\n"
-"Language-Team:  <fr@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -189,56 +189,64 @@ msgstr "(Défini par l'utilisateur)"
 msgid "BOINC Manager"
 msgstr "Manager BOINC"
 
-#: clientgui/BOINCTaskBar.cpp:271
+#: clientgui/BOINCTaskBar.cpp:267
 msgid "BOINC is currently suspended...\n"
 msgstr "BOINC est actuellement suspendu...\n"
 
-#: clientgui/BOINCTaskBar.cpp:275
+#: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC networking is currently suspended...\n"
 msgstr "L'accès au réseau de BOINC est actuellement suspendu...\n"
 
-#: clientgui/BOINCTaskBar.cpp:376
+#: clientgui/BOINCTaskBar.cpp:302
+msgid "BOINC Manager is currently reconnecting to a BOINC client...\n"
+msgstr "Le Manager BOINC est en train de se reconnecter à un client BOINC...\n"
+
+#: clientgui/BOINCTaskBar.cpp:304
+msgid "BOINC Manager is not currently connected to a BOINC client...\n"
+msgstr "Le Manager BOINC n'est actuellement pas connecté à un client BOINC...\n"
+
+#: clientgui/BOINCTaskBar.cpp:377
 #: clientgui/MainFrame.cpp:331
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "&Quitter"
 
-#: clientgui/BOINCTaskBar.cpp:395
-#: clientgui/BOINCTaskBar.cpp:402
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
 msgid "&Open BOINC Manager..."
 msgstr "&Ouvrir le Manager BOINC..."
 
-#: clientgui/BOINCTaskBar.cpp:406
+#: clientgui/BOINCTaskBar.cpp:407
 #: clientgui/MainFrame.cpp:340
 msgid "&Run always"
 msgstr "&Toujours Calculer"
 
-#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/BOINCTaskBar.cpp:408
 #: clientgui/MainFrame.cpp:345
 msgid "Run based on &preferences"
 msgstr "Calculer selon les &préférences"
 
-#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/BOINCTaskBar.cpp:409
 #: clientgui/MainFrame.cpp:350
 msgid "&Suspend"
 msgstr "&Suspendre"
 
-#: clientgui/BOINCTaskBar.cpp:410
+#: clientgui/BOINCTaskBar.cpp:411
 #: clientgui/MainFrame.cpp:358
 msgid "&Network activity always available"
 msgstr "&Activité réseau toujours disponible"
 
-#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/BOINCTaskBar.cpp:412
 #: clientgui/MainFrame.cpp:363
 msgid "Network activity based on &preferences"
 msgstr "Activité réseau selon les &préférences"
 
-#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/BOINCTaskBar.cpp:413
 #: clientgui/MainFrame.cpp:368
 msgid "&Network activity suspended"
 msgstr "&Activité réseau suspendue"
 
-#: clientgui/BOINCTaskBar.cpp:414
+#: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
 msgstr "&A propos du manager BOINC..."
@@ -654,29 +662,19 @@ msgstr "Voir les infos de votre compte, vos crédits et vos trickles"
 msgid "Info about your team"
 msgstr "Infos de votre équipe"
 
-#: clientgui/MainDocument.cpp:180
+#: clientgui/MainDocument.cpp:194
 msgid "BOINC Manager - Connection Error"
 msgstr "Manager BOINC - Erreur de connexion"
 
-#: clientgui/MainDocument.cpp:181
+#: clientgui/MainDocument.cpp:195
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Le mot de passe que vous avez fourni est incorrect. Essayez à nouveau, svp."
 
-#: clientgui/MainDocument.cpp:199
-msgid "BOINC Manager - Connection failed"
-msgstr "Manager BOINC - La connexion a échoué."
-
-#: clientgui/MainDocument.cpp:200
-#: clientgui/MainFrame.cpp:927
-#: clientgui/MainFrame.cpp:928
-msgid "Connection failed."
-msgstr "La connexion a échoué."
-
-#: clientgui/MainDocument.cpp:306
+#: clientgui/MainDocument.cpp:316
 msgid "Retrieving system state; please wait..."
 msgstr "Recherche de l'état du système; veuillez patienter..."
 
-#: clientgui/MainDocument.cpp:315
+#: clientgui/MainDocument.cpp:325
 msgid "Retrieving host information; please wait..."
 msgstr "Recherche des informations de l'hôte; veuillez patienter..."
 
@@ -803,19 +801,19 @@ msgstr "&Projets"
 msgid "&Help"
 msgstr "&Aide"
 
-#: clientgui/MainFrame.cpp:1049
+#: clientgui/MainFrame.cpp:1045
 msgid "Attaching to project..."
 msgstr "Attachement au projet en cours..."
 
-#: clientgui/MainFrame.cpp:1088
+#: clientgui/MainFrame.cpp:1084
 msgid "Retrying communications for project(s)..."
 msgstr "Ré-essai des communications avec les projets en cours..."
 
-#: clientgui/MainFrame.cpp:1178
+#: clientgui/MainFrame.cpp:1174
 msgid "Language Selection..."
 msgstr "Choix de la langue..."
 
-#: clientgui/MainFrame.cpp:1179
+#: clientgui/MainFrame.cpp:1175
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "La langue par défaut du Manager Boinc a été modifiée. Pour que le changement prenne effet, vous devez redémarrer le manager."
 
@@ -866,27 +864,39 @@ msgstr "BOINC a réussi à se connecter à internet."
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC n'a pas réussi à se connecter à internet."
 
-#: clientgui/MainFrame.cpp:1783
-#: clientgui/MainFrame.cpp:1786
+#: clientgui/MainFrame.cpp:1782
+#: clientgui/MainFrame.cpp:1785
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1784
+#: clientgui/MainFrame.cpp:1783
 #, c-format
 msgid "Connecting to %s"
 msgstr "Connexion à %s en cours"
 
-#: clientgui/MainFrame.cpp:1787
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "Connected to %s"
 msgstr "Connecté à %s"
 
 #: clientgui/MainFrame.cpp:1940
+msgid "BOINC Manager - Connection Failed"
+msgstr "Manager BOINC - La connexion a échoué"
+
+#: clientgui/MainFrame.cpp:1941
+msgid ""
+"BOINC Manager is not able to connect to a BOINC client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"Le Manager BOINC n'a pas réussi a se connecter à un client BOINC.\n"
+"Voulez-vous retenter d'établir la connexion ?"
+
+#: clientgui/MainFrame.cpp:1956
 msgid "BOINC Manager - Connection Status"
 msgstr "Manager BOINC - État de la Connexion"
 
-#: clientgui/MainFrame.cpp:1941
+#: clientgui/MainFrame.cpp:1957
 msgid ""
 "BOINC Manager is not currently connected to a BOINC client.\n"
 "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
@@ -1138,7 +1148,7 @@ msgstr "Envoie le travail terminé, obtient les crédits les plus récents, met à j
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:560
 #: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend"
 msgstr "Suspendre"
 
@@ -1249,7 +1259,7 @@ msgid "Launching browser..."
 msgstr "Lancement du navigateur en cours..."
 
 #: clientgui/ViewProjects.cpp:556
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume"
 msgstr "Reprendre"
 
@@ -1274,7 +1284,7 @@ msgid "Web sites"
 msgstr "Sites Web"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewWork.cpp:666
+#: clientgui/ViewWork.cpp:661
 msgid "Suspended by user"
 msgstr "Suspendu par l'utilisateur"
 
@@ -1402,12 +1412,12 @@ msgid "Retry in "
 msgstr "Réessayer dans "
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:657
+#: clientgui/ViewWork.cpp:652
 msgid "Download failed"
 msgstr "Échec du téléchargement"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:693
+#: clientgui/ViewWork.cpp:688
 msgid "Upload failed"
 msgstr "Échec de l'envoi"
 
@@ -1417,22 +1427,22 @@ msgid "Suspended"
 msgstr "Suspendu"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:690
 msgid "Uploading"
 msgstr "Envoi en cours"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:654
 msgid "Downloading"
 msgstr "Téléchargement en cours"
 
 #: clientgui/ViewWork.cpp:100
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend work for this result."
 msgstr "Suspend le calcul de cette unité."
 
 #: clientgui/ViewWork.cpp:106
-#: clientgui/ViewWork.cpp:210
+#: clientgui/ViewWork.cpp:208
 msgid "Show graphics"
 msgstr "Montrer les graphiques"
 
@@ -1484,71 +1494,71 @@ msgstr "Suspension de l'unité en cours..."
 msgid "Showing graphics for result..."
 msgstr "Affichage des graphiques de cette unité en cours..."
 
-#: clientgui/ViewWork.cpp:209
+#: clientgui/ViewWork.cpp:207
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Êtes vous sûr de vouloir afficher les graphiques sur une machine distante ?"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:253
 msgid "Aborting result..."
 msgstr "Abandon de l'unité en cours..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:256
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "Êtes-vous sûr de vouloir abandonner cette unité '%s' ?"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:262
 msgid "Abort result"
 msgstr "Abandonner le calcul de cette unité"
 
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume work for this result."
 msgstr "Reprend le calcul de cette unité."
 
-#: clientgui/ViewWork.cpp:653
+#: clientgui/ViewWork.cpp:648
 msgid "New"
 msgstr "Nouveau"
 
-#: clientgui/ViewWork.cpp:664
-#: clientgui/ViewWork.cpp:686
+#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:681
 msgid "Aborted by user"
 msgstr "Abandonné par l'utilisateur"
 
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:663
 msgid "Activities suspended"
 msgstr "Activités suspendues"
 
-#: clientgui/ViewWork.cpp:671
+#: clientgui/ViewWork.cpp:666
 msgid "Running"
 msgstr "Calculs en cours"
 
-#: clientgui/ViewWork.cpp:673
+#: clientgui/ViewWork.cpp:668
 msgid "Preempted"
 msgstr "En pause"
 
-#: clientgui/ViewWork.cpp:675
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:673
 msgid "Ready to run"
 msgstr "Prêt à calculer"
 
-#: clientgui/ViewWork.cpp:688
+#: clientgui/ViewWork.cpp:683
 msgid "Computation error"
 msgstr "Erreur de calcul"
 
-#: clientgui/ViewWork.cpp:700
+#: clientgui/ViewWork.cpp:695
 msgid "Acknowledged"
 msgstr "Confirmé"
 
-#: clientgui/ViewWork.cpp:702
+#: clientgui/ViewWork.cpp:697
 msgid "Ready to report"
 msgstr "Prêt à envoyer"
 
-#: clientgui/ViewWork.cpp:704
+#: clientgui/ViewWork.cpp:699
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Erreur: État invalide '%d'"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:707
 msgid "Activities suspended by user"
 msgstr "Activités suspendues par l'utilisateur"
 
