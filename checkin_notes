@@ -13999,3 +13999,14 @@ David  27 Nov 2005
 
     client/
         acct_mgr.C
+
+David  27 Nov 2005
+	- Manager: more improvements to the Statistics tab
+		(from Mifistor)
+	- Account manager: don't try RPC every second
+
+	client/
+		acct_mgr.C
+	clientgui/
+		Events.h
+		ViewStatistics.cpp,h

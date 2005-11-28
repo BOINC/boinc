@@ -288,6 +288,7 @@ int ACCT_MGR_INFO::init() {
 bool ACCT_MGR_INFO::poll() {
     if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
     if (gstate.now > next_rpc_time) {
+        next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(acct_mgr_url, login_name, password);
         return true;
     }

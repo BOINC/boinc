@@ -36,6 +36,8 @@ public:
 
     wxInt32                 m_SelectedStatistic;
 	wxString                heading;
+    wxInt32                 m_ModeViewStatistic;
+    wxInt32                 m_NextProjectStatistic;
 
 protected:
     void OnPaint(wxPaintEvent& event);
@@ -60,6 +62,8 @@ public:
     void                    OnStatisticsUserAverage( wxCommandEvent& event );
     void                    OnStatisticsHostTotal( wxCommandEvent& event );
     void                    OnStatisticsHostAverage( wxCommandEvent& event );
+    void                    OnStatisticsModeView( wxCommandEvent& event );
+    void                    OnStatisticsNextProject( wxCommandEvent& event );
 
 protected:
 
