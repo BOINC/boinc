@@ -13985,3 +13985,12 @@ Rom    26 Nov 2005
         MainDocument.cpp, .h
         MainFrame.cpp, .h
         ViewWork.cpp
+
+Janus   28 Nov 2005
+    - Small fix to the Nov 24 checkin so that the user-specified ordering of
+      posts in a thread is taken into consideration when displaying the last
+      X posts.
+
+    /html/inc
+        forum.inc
+
