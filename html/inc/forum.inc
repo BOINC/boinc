@@ -142,16 +142,17 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 
     $firstPost = getFirstPost($thread->id);
 
+    $postnumber=0; $previous_post=0;
     if ($is_helpdesk) {
         if ($firstPost) {
             show_post($firstPost, $thread, $logged_in_user, $n, $controls, true,$filter);
+	    $postnumber=1; $previous_post=1;
             if ($firstPost->timestamp>$logged_in_user->thread_last_visited){
                 $first_unread_post=$firstPost;
             }
         }
     }
     
-    $postnumber=0; $previous_post=0;
     //$logged_in_user->minimum_wrap_postcount=13;
     //$logged_in_user->display_wrap_postcount=12;
     $no_wraparound = get_str("nowrap",true);
@@ -168,8 +169,16 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 		    ($postcount > $logged_in_user->minimum_wrap_postcount) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
 		    &&
 		    (
-			($postnumber==1) // Let's display the post only if it is the first post 
-			|| ($postnumber > $postcount-$logged_in_user->display_wrap_postcount) //or it is one of the last wrap_display_postcount posts.
+			($postnumber==1 || $postnumber==$postcount) // Let's display the post only if it is the first post 
+			|| 
+			(	
+			    (($postnumber > $postcount-$logged_in_user->display_wrap_postcount) //or it is one of the last wrap_display_postcount posts.
+			    && ($sort_style=="timestamp_asc"))
+			    ||
+			    (($postnumber <= $logged_in_user->display_wrap_postcount) //or it is one of the last wrap_display_postcount posts.
+			    && ($sort_style=="timestamp"))
+			    || (substr($sort_style,0,4)!="time")
+			)
 			|| ($post->timestamp > $logged_in_user->thread_last_visited) //or if this post is unread
 		    )
 		)
