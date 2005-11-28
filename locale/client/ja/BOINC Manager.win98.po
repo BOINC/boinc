@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.2.6 and 5.2.7 and based on en.po(v1.23)\n"
+"Project-Id-Version: BOINC Manager 5.2.7 to 5.2.12  and based on English po v1.26\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-16 23:54+0900\n"
+"PO-Revision-Date: 2005-11-27 21:31+0900\n"
 "Last-Translator: Komori Hitoshi <ucepod@070.jp>\n"
 "Language-Team: Japanese Translators\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,7 @@ msgstr ""
 # Language  : Japanese
 # Translator: Copyright (c) 2005 Spiegel <spiegel@alles.or.jp> and Komori Hitoshi <je2bwm@070.jp>
 # Email     : je2bwm@070.jp
+
 # msgstr "ƒAƒJƒEƒ“ƒgî•ñ"
 #: clientgui/AccountInfoPage.cpp:115
 msgid "Account information"
@@ -48,8 +49,10 @@ msgid "C&onfirm password:"
 msgstr "Šm”F‚Ì‚½‚ßƒpƒXƒ[ƒh‚ğ‚à‚¤ˆê“x(&O)"
 
 #: clientgui/AccountInfoPage.cpp:173
-msgid "If you haven't set a password, copy and paste your account key into the Password box."
-msgstr "‚Ü‚¾ƒpƒXƒ[ƒh‚ğİ’è‚µ‚Ä‚¢‚È‚¯‚ê‚ÎA‚ ‚È‚½‚ÌƒAƒJƒEƒ“ƒgEƒL[‚ğƒpƒXƒ[ƒh‚Ì“ü—Í—“‚ÉƒRƒs[•ƒyƒCƒXƒg‚µ‚Ä‚­‚¾‚³‚¢B "
+msgid ""
+"If you haven't set a password, copy and paste your account\n"
+"key into the Password box."
+msgstr "‚Ü‚¾ƒpƒXƒ[ƒh‚ğİ’è‚µ‚Ä‚¢‚È‚¯‚ê‚ÎA‚ ‚È‚½‚ÌƒAƒJƒEƒ“ƒgEƒL[‚ğƒpƒXƒ[ƒh‚Ì“ü—Í—“‚ÉƒRƒs[•ƒyƒCƒXƒg‚µ‚Ä‚­‚¾‚³‚¢B"
 
 #: clientgui/AccountInfoPage.cpp:279
 #: clientgui/DlgDialupCredentials.cpp:111
@@ -192,60 +195,67 @@ msgstr "(ƒ†[ƒU’è‹`‚ÌŒ¾Œê)"
 # msgstr "BOINC ƒ}ƒl[ƒWƒƒ"
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:271
+#: clientgui/BOINCTaskBar.cpp:267
 msgid "BOINC is currently suspended...\n"
 msgstr "BOINC ‚ÍŒ»İAˆê’â~’†...\n"
 
-#: clientgui/BOINCTaskBar.cpp:275
+#: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC networking is currently suspended...\n"
 msgstr "BOINC ‚Ìƒlƒbƒgƒ[ƒNg—p‚ÍŒ»İAˆê’â~’†...\n"
 
-#: clientgui/BOINCTaskBar.cpp:376
+#: clientgui/BOINCTaskBar.cpp:302
+msgid "BOINC Manager is currently reconnecting to a BOINC client...\n"
+msgstr "BOINC ƒ}ƒl[ƒWƒƒ‚ÍŒ»İ BOINC ƒNƒ‰ƒCƒAƒ“ƒg‚ÉÄÚ‘±‚ğ‚İ‚Ä‚¢‚Ü‚·...\n"
+
+#: clientgui/BOINCTaskBar.cpp:304
+msgid "BOINC Manager is not currently connected to a BOINC client...\n"
+msgstr "BOINC ƒ}ƒl[ƒWƒƒ‚ÍŒ»İ BOINC ƒNƒ‰ƒCƒAƒ“ƒg‚ÉÚ‘±‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ...\n"
+
+#: clientgui/BOINCTaskBar.cpp:377
 #: clientgui/MainFrame.cpp:331
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "I—¹(&X)"
 
-#: clientgui/BOINCTaskBar.cpp:395
-#: clientgui/BOINCTaskBar.cpp:402
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
 msgid "&Open BOINC Manager..."
 msgstr "BOINC ƒ}ƒl[ƒWƒƒ‚ğŠJ‚­(&O)..."
 
-#: clientgui/BOINCTaskBar.cpp:406
+#: clientgui/BOINCTaskBar.cpp:407
 #: clientgui/MainFrame.cpp:340
 msgid "&Run always"
 msgstr "í‰Ò“­(&R)"
 
-#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/BOINCTaskBar.cpp:408
 #: clientgui/MainFrame.cpp:345
 msgid "Run based on &preferences"
 msgstr "ƒvƒŒƒtƒ@ƒŒƒ“ƒX(D‚İ‚Ìİ’è)‚É]‚Á‚Ä‰Ò“­(&P)"
 
-#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/BOINCTaskBar.cpp:409
 #: clientgui/MainFrame.cpp:350
 msgid "&Suspend"
 msgstr "ˆê’â~(&S)"
 
-#: clientgui/BOINCTaskBar.cpp:410
+#: clientgui/BOINCTaskBar.cpp:411
 #: clientgui/MainFrame.cpp:358
 msgid "&Network activity always available"
 msgstr "ƒlƒbƒgƒ[ƒN‚ğ‚¢‚Â‚Å‚àg—p(&N)"
 
-#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/BOINCTaskBar.cpp:412
 #: clientgui/MainFrame.cpp:363
 msgid "Network activity based on &preferences"
 msgstr "ƒvƒŒƒtƒ@ƒŒƒ“ƒX‚É]‚Á‚Äƒlƒbƒgƒ[ƒN‚ğg—p(&P)"
 
-#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/BOINCTaskBar.cpp:413
 #: clientgui/MainFrame.cpp:368
 msgid "&Network activity suspended"
 msgstr "ƒlƒbƒgƒ[ƒN‚Ìg—p‚ğˆê’â~(&N)"
 
-#: clientgui/BOINCTaskBar.cpp:414
+#: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
 msgstr "BOINC ƒ}ƒl[ƒWƒƒ‚É‚Â‚¢‚Ä(&A)"
@@ -384,7 +394,7 @@ msgstr "’ˆÓŠ«‹N‚Ì•p“x:"
 msgid "How often, in minutes, should the manager remind you of possible connection events."
 msgstr "BOINC ƒ}ƒl[ƒWƒƒ‚©‚çAÚ‘±‚·‚éƒ^ƒCƒ~ƒ“ƒO‚ğ‚ ‚È‚½‚Év‚¢o‚³‚¹‚éŠÔŠu‚ğA•ª’PˆÊ‚Åw’è‚µ‚Ü‚·B"
 
-#: clientgui/DlgOptions.cpp:209
+#: clientgui/DlgOptions.cpp:206
 msgid "General"
 msgstr "ˆê”Ê"
 
@@ -550,6 +560,7 @@ msgid "View your last week (or more) of computational results and work"
 msgstr "æT(‚¨‚æ‚Ñ‚»‚êˆÈ‘Oj‚ÌŒvZ‚É‚Â‚¢‚ÄAƒŠƒUƒ‹ƒg‚Æd–‚ğ•\¦‚µ‚Ü‚·B"
 
 #: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:95
 msgid "Your computers"
 msgstr "©•ª‚ÌƒRƒ“ƒsƒ…[ƒ^"
 
@@ -611,10 +622,6 @@ msgstr "Einstein@Home ‚Ì©•ª‚ÌƒAƒJƒEƒ“ƒg‚ÆƒvƒŒƒtƒ@ƒŒƒ“ƒX‚ğ•\¦E•ÏX‚·‚é"
 msgid "Account summary"
 msgstr "ƒAƒJƒEƒ“ƒg‚Ì—v–ñ"
 
-#: clientgui/Localization.cpp:95
-msgid "YourComputers"
-msgstr "©•ª‚ÌƒRƒ“ƒsƒ…[ƒ^"
-
 #: clientgui/Localization.cpp:97
 msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr "Einstein@Home ‚ğ©•ª‚ª‘–‚ç‚¹‚Ä‚¢‚é‘S‚Ä‚ÌƒRƒ“ƒsƒ…[ƒ^‚Ìˆê——‚ğŒ©‚é"
@@ -665,40 +672,21 @@ msgstr "‚ ‚È‚½‚ÌƒAƒJƒEƒ“ƒg‚Ìî•ñAŒ÷Ñ(credit)AƒgƒŠƒNƒ‹ƒƒbƒZ[ƒW‚ğ•\¦‚·‚é"
 msgid "Info about your team"
 msgstr "Š‘®‚µ‚Ä‚¢‚éƒ`[ƒ€‚Ìî•ñ"
 
-#: clientgui/MainDocument.cpp:180
-#: clientgui/MainDocument.cpp:177
+#: clientgui/MainDocument.cpp:194
 msgid "BOINC Manager - Connection Error"
-msgstr "BOINC ƒ}ƒl[ƒWƒƒ - Ú‘±‚ÉˆÙí‚ª”­¶‚µ‚Ü‚µ‚½B"
+msgstr "BOINC ƒ}ƒl[ƒWƒƒ - Ú‘±‚ÉˆÙí”­¶"
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:195
 msgid "The password you have provided is incorrect, please try again."
 msgstr "“ü—Í‚µ‚½ƒpƒXƒ[ƒh‚ÉŒë‚è‚ª‚ ‚è‚Ü‚·B‚à‚¤ˆê“x‚µ‚Ä‚­‚¾‚³‚¢B"
 
-#: clientgui/MainDocument.cpp:196
-msgid "BOINC Manager - Connection failed"
-msgstr "BOINC ƒ}ƒl[ƒWƒƒ - Ú‘±‚É¸”s‚µ‚Ü‚µ‚½B"
-
-#: clientgui/MainDocument.cpp:197
-#: clientgui/MainFrame.cpp:927
-#: clientgui/MainFrame.cpp:928
-msgid "Connection failed."
-msgstr "Ú‘±‚É¸”s‚µ‚Ü‚µ‚½B"
-
-#: clientgui/MainDocument.cpp:303
+#: clientgui/MainDocument.cpp:316
 msgid "Retrieving system state; please wait..."
 msgstr "ƒVƒXƒeƒ€‚Ìó‘Ô‚ğ“Ç‚İo‚µ‚Ä‚¢‚Ü‚·B‚Ç‚¤‚¼‚¨‘Ò‚¿‚­‚¾‚³‚¢..."
 
-#: clientgui/MainDocument.cpp:312
+#: clientgui/MainDocument.cpp:325
 msgid "Retrieving host information; please wait..."
 msgstr "ŒvZ‹@‚Ìî•ñ‚ğ“Ç‚İo‚µ‚Ä‚¢‚Ü‚·B‚Ç‚¤‚¼‚¨‘Ò‚¿‚­‚¾‚³‚¢..."
-
-#: clientgui/MainDocument.cpp:866
-msgid "BOINC error"
-msgstr "BOINC ˆÙí"
-
-#: clientgui/MainDocument.cpp:876
-msgid "BOINC info"
-msgstr "BOINC î•ñ"
 
 #: clientgui/MainFrame.cpp:83
 msgid "Connected"
@@ -761,7 +749,7 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "BOINC ‚Ì CPU ƒxƒ“ƒ`ƒ}[ƒN‚ğ‘–‚ç‚¹‚Ü‚·"
 
 #: clientgui/MainFrame.cpp:390
-msgid "&Attach to &project"
+msgid "Attach to &project"
 msgstr "ƒvƒƒWƒFƒNƒg‚ÉQ‰Á‚·‚é"
 
 #: clientgui/MainFrame.cpp:391
@@ -823,44 +811,45 @@ msgstr "ƒvƒƒWƒFƒNƒg(&P)"
 msgid "&Help"
 msgstr "ƒwƒ‹ƒv(&H)"
 
-#: clientgui/MainFrame.cpp:1039
+#: clientgui/MainFrame.cpp:1045
 msgid "Attaching to project..."
 msgstr "ƒvƒƒWƒFƒNƒg‚ÉQ‰Áˆ—’†..."
 
-#: clientgui/MainFrame.cpp:1075
+#: clientgui/MainFrame.cpp:1084
 msgid "Retrying communications for project(s)..."
 msgstr "ƒvƒƒWƒFƒNƒg‚Æ‚Ì’ÊMˆ—‚ğÄs‚µ‚Ä‚¢‚Ü‚·..."
 
-#: clientgui/MainFrame.cpp:1165
+#: clientgui/MainFrame.cpp:1174
 msgid "Language Selection..."
 msgstr "Œ¾Œê‚Ì‘I‘ğ..."
 
 #msgid	"The BOINC Managers default language has been changed, in "
 #	"order for this change to take affect you must restart the "
 #	"manager."
-#: clientgui/MainFrame.cpp:1166
+#: clientgui/MainFrame.cpp:1175
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "BOINC ƒ}ƒl[ƒWƒƒ‚ÌŒ¾Œêİ’è‚ğØ‘Ö‚¦‚Ü‚µ‚½B Ø‘Ö‚¦‚ÌŒø‰Ê‚ğo‚·‚½‚ß‚É‚ÍA‚±‚Ì BOINC ƒ}ƒl[ƒWƒƒ‚ğÄ‹N“®‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB"
 
 #: clientgui/MainFrame.cpp:1566
-#: clientgui/MainFrame.cpp:1583
-#: clientgui/MainFrame.cpp:1589
-#: clientgui/MainFrame.cpp:1632
-#: clientgui/MainFrame.cpp:1660
-#: clientgui/MainFrame.cpp:1669
-#: clientgui/MainFrame.cpp:1683
-#: clientgui/MainFrame.cpp:1691
+#: clientgui/MainFrame.cpp:1579
+#: clientgui/MainFrame.cpp:1596
+#: clientgui/MainFrame.cpp:1602
+#: clientgui/MainFrame.cpp:1645
+#: clientgui/MainFrame.cpp:1673
+#: clientgui/MainFrame.cpp:1682
+#: clientgui/MainFrame.cpp:1696
+#: clientgui/MainFrame.cpp:1704
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC ƒ}ƒl[ƒWƒƒ - ƒlƒbƒgƒ[ƒNó‘Ô"
 
 #msgid	"BOINC needs a connection to the Internet to perform some "
 #	"maintenance, open the BOINC Manager to connect up and perform "
 #	"the needed work."
-#: clientgui/MainFrame.cpp:1567
+#: clientgui/MainFrame.cpp:1580
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚ÉÚ‘±‚µ‚ÄA•Ûçì‹Æ‚ğ‚·‚é•K—v‚ª‚ ‚è‚Ü‚·BBOINC ƒ}ƒl[ƒWƒƒ‚ğ“®‚©‚µ‚ÄƒCƒ“ƒ^[ƒlƒbƒg‚ÖÚ‘±‚µA•K—v‚Èì‹Æ‚ğÀ{‚µ‚Ä‰º‚³‚¢B"
 
-#: clientgui/MainFrame.cpp:1582
+#: clientgui/MainFrame.cpp:1595
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -868,45 +857,72 @@ msgstr ""
 "BOINC ‚Íƒlƒbƒgƒ[ƒN‚ÉÚ‘±‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B\n"
 "¡‚·‚®Ú‘±‚µ‚Ä‚æ‚¢‚Å‚·‚©?"
 
-#: clientgui/MainFrame.cpp:1590
+#: clientgui/MainFrame.cpp:1603
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚ÉÚ‘±‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B"
 
-#: clientgui/MainFrame.cpp:1633
+#: clientgui/MainFrame.cpp:1646
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠ®—¹‚µ‚Ä‚¢‚Ü‚·B‚·‚×‚Ä‚Ìƒvƒ"
 
-#: clientgui/MainFrame.cpp:1661
+#: clientgui/MainFrame.cpp:1674
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚©‚ç‚ÌØ’f‚É¬Œ÷‚µ‚Ü‚µ‚½B"
 
-#: clientgui/MainFrame.cpp:1670
+#: clientgui/MainFrame.cpp:1683
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚©‚ç‚ÌØ’f‚É¸”s‚µ‚Ü‚µ‚½B"
 
-#: clientgui/MainFrame.cpp:1684
+#: clientgui/MainFrame.cpp:1697
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚É¬Œ÷‚µ‚Ü‚µ‚½B"
 
-#: clientgui/MainFrame.cpp:1692
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC ‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚É¸”s‚µ‚Ü‚µ‚½"
 
-#: clientgui/MainFrame.cpp:1770
-#: clientgui/MainFrame.cpp:1773
+#: clientgui/MainFrame.cpp:1782
+#: clientgui/MainFrame.cpp:1785
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1771
+#: clientgui/MainFrame.cpp:1783
 #, c-format
 msgid "Connecting to %s"
 msgstr "%s ‚ÉÚ‘±‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B "
 
-#: clientgui/MainFrame.cpp:1774
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "Connected to %s"
 msgstr "%s ‚ÉÚ‘±‚Å‚«‚Ü‚µ‚½B "
+
+#: clientgui/MainFrame.cpp:1940
+msgid "BOINC Manager - Connection Failed"
+msgstr "BOINC ƒ}ƒl[ƒWƒƒ - Ú‘±¸”s"
+
+#: clientgui/MainFrame.cpp:1941
+msgid ""
+"BOINC Manager is not able to connect to a BOINC client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"BOINC ƒ}ƒl[ƒWƒƒ‚Í  BOINC ƒNƒ‰ƒCƒAƒ“ƒg‚ÉÚ‘±‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B\n"
+"‚à‚¤ˆê“xAÚ‘±‚ğ‚İ‚Ü‚·‚©? "
+
+#: clientgui/MainFrame.cpp:1956
+msgid "BOINC Manager - Connection Status"
+msgstr "BOINC ƒ}ƒl[ƒWƒƒ - Ú‘±ó‹µ"
+
+#: clientgui/MainFrame.cpp:1957
+msgid ""
+"BOINC Manager is not currently connected to a BOINC client.\n"
+"Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
+"To connect up to your local computer please use 'localhost' as the host name."
+msgstr ""
+"BOINC ƒ}ƒl[ƒWƒƒ‚ÍŒ»İ BOINC ƒNƒ‰ƒCƒAƒ“ƒg‚É‚Â‚È‚ª‚Á‚Ä‚¢‚Ü‚¹‚ñB\n"
+"ƒƒjƒ…[‚©‚çmƒtƒ@ƒCƒ‹(F)]->[ƒRƒ“ƒsƒ…[ƒ^‚Ì‘I‘ğ...] ‚Æ‚Æ‚½‚Ç‚Á‚ÄAÚ‘±‚·‚éƒNƒ‰ƒCƒAƒ“ƒg\n"
+"‚ÌƒRƒ“ƒsƒ…[ƒ^‚ğ‘I‚Ñ‚Ü‚·B BOINC ƒ}ƒl[ƒWƒƒ‚ğ“®‚©‚µ‚Ä‚¢‚éƒRƒ“ƒsƒ…[ƒ^‚Æ“¯‚¶ê‡‚É‚ÍA\n"
+"ŒvZ‹@–¼(ƒzƒXƒg–¼)‚Ì—“‚É localhost ‚Æ“ü—Í‚µ‚Ä‰º‚³‚¢B"
 
 # msgstr "ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
 #: clientgui/NoInternetConnectionPage.cpp:98
@@ -1098,7 +1114,7 @@ msgstr "'%s' ‚É—LŒø‚ÈƒpƒX–¼‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñB "
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:322
+#: clientgui/ViewStatistics.cpp:404
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1165,7 +1181,7 @@ msgstr "ŒvZ‚ÌÏ‚ñ‚¾d–‚ğ‚·‚×‚Ä•ñ‚µAÅV‚ÌŒ÷Ñ(credit)‚ÆƒvƒŒƒtƒ@ƒŒƒ“ƒX(D‚İ‚
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:560
 #: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend"
 msgstr "ˆê’â~"
 
@@ -1281,7 +1297,7 @@ msgid "Launching browser..."
 msgstr "ƒuƒ‰ƒEƒU‚ğ‹N“®’†..."
 
 #: clientgui/ViewProjects.cpp:556
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume"
 msgstr "ÄŠJ"
 
@@ -1306,7 +1322,7 @@ msgid "Web sites"
 msgstr "ƒEƒFƒuƒTƒCƒg"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewWork.cpp:666
+#: clientgui/ViewWork.cpp:661
 msgid "Suspended by user"
 msgstr "Q‰ÁÒ‚Ìw¦‚É‚æ‚èˆê’â~’†"
 
@@ -1332,51 +1348,51 @@ msgstr "ƒfƒBƒXƒN"
 
 # msgstr "Q‰ÁÒ‚²‚Æ‚Ì‡Œv"
 #: clientgui/ViewStatistics.cpp:41
-#: clientgui/ViewStatistics.cpp:47
-#: clientgui/ViewStatistics.cpp:380
+#: clientgui/ViewStatistics.cpp:50
+#: clientgui/ViewStatistics.cpp:462
 msgid "User Total"
 msgstr ""
 
-#: clientgui/ViewStatistics.cpp:326
+#: clientgui/ViewStatistics.cpp:408
 msgid "Show user total"
 msgstr "Œ÷Ñ(credit)‚Ì‡Œv‚ğ•\¦"
 
-#: clientgui/ViewStatistics.cpp:333
+#: clientgui/ViewStatistics.cpp:415
 msgid "Show user average"
 msgstr "•½‹ÏŒ÷Ñ/“ú‚ğ•\¦"
 
-#: clientgui/ViewStatistics.cpp:340
+#: clientgui/ViewStatistics.cpp:422
 msgid "Show host total"
 msgstr "‚±‚ÌŒvZ‹@‚ÌŒ÷Ñ‡Œv‚ğ•\¦"
 
-#: clientgui/ViewStatistics.cpp:347
+#: clientgui/ViewStatistics.cpp:429
 msgid "Show host average"
 msgstr "‚±‚ÌŒvZ‹@‚Ì•½‹ÏŒ÷Ñ/“ú‚ğ•\¦"
 
-#: clientgui/ViewStatistics.cpp:366
+#: clientgui/ViewStatistics.cpp:448
 msgid "Statistics"
 msgstr "“Œvî•ñ"
 
 # msgstr "}‚ğXV‚µ‚Ä‚¢‚Ü‚·..."
-#: clientgui/ViewStatistics.cpp:379
-#: clientgui/ViewStatistics.cpp:399
-#: clientgui/ViewStatistics.cpp:419
-#: clientgui/ViewStatistics.cpp:439
+#: clientgui/ViewStatistics.cpp:461
+#: clientgui/ViewStatistics.cpp:481
+#: clientgui/ViewStatistics.cpp:501
+#: clientgui/ViewStatistics.cpp:521
 msgid "Updating charts..."
 msgstr ""
 
 # msgstr "Q‰ÁÒ‚Ìˆê“ú–ˆ‚Ì•½‹ÏŒ÷Ñ"
-#: clientgui/ViewStatistics.cpp:400
+#: clientgui/ViewStatistics.cpp:482
 msgid "User Average"
 msgstr ""
 
 # msgstr "ŒvZ‹@‚²‚Æ‚Ì‡Œv"
-#: clientgui/ViewStatistics.cpp:420
+#: clientgui/ViewStatistics.cpp:502
 msgid "Host Total"
 msgstr ""
 
 # msgstr "ŒvZ‹@‚²‚Æ‚Ìˆê“ú‚ÌŒ÷Ñ‚Ì•½‹Ï"
-#: clientgui/ViewStatistics.cpp:440
+#: clientgui/ViewStatistics.cpp:522
 msgid "Host Average"
 msgstr ""
 
@@ -1441,12 +1457,12 @@ msgid "Retry in "
 msgstr "‰E‹L‚ÌŠÔ“à‚ÉÄsF"
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:657
+#: clientgui/ViewWork.cpp:652
 msgid "Download failed"
 msgstr "ƒ_ƒEƒ“ƒ[ƒh¸”s"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:693
+#: clientgui/ViewWork.cpp:688
 msgid "Upload failed"
 msgstr "ƒAƒbƒvƒ[ƒh¸”s"
 
@@ -1456,22 +1472,22 @@ msgid "Suspended"
 msgstr "ˆê’â~ó‘Ô"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:690
 msgid "Uploading"
 msgstr "ƒAƒbƒvƒ[ƒhˆ—’†"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:654
 msgid "Downloading"
 msgstr "ƒ_ƒEƒ“ƒ[ƒhˆ—’†"
 
 #: clientgui/ViewWork.cpp:100
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend work for this result."
 msgstr "‚±‚ÌƒŠƒUƒ‹ƒg‚Ìd–‚ğˆê’â~"
 
 #: clientgui/ViewWork.cpp:106
-#: clientgui/ViewWork.cpp:210
+#: clientgui/ViewWork.cpp:208
 msgid "Show graphics"
 msgstr "ƒOƒ‰ƒtƒBƒNƒX‚ğ•\¦"
 
@@ -1523,71 +1539,71 @@ msgstr "ƒŠƒUƒ‹ƒg‚ÌŒvZ‚ğˆê’â~‚µ‚Ä‚¢‚Ü‚·..."
 msgid "Showing graphics for result..."
 msgstr "ƒŠƒUƒ‹ƒg‚É‚Â‚¢‚Ä‚ÌƒOƒ‰ƒtƒBƒNƒX‚ğ•\¦‚µ‚Ä‚¢‚Ü‚·..."
 
-#: clientgui/ViewWork.cpp:209
+#: clientgui/ViewWork.cpp:207
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "ƒOƒ‰ƒtƒBƒNƒX‚ğ•Ê‚ÌŒvZ‹@‚É•\¦‚µ‚Ä‚æ‚ë‚µ‚¢‚Å‚·‚©?"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:253
 msgid "Aborting result..."
 msgstr "ƒŠƒUƒ‹ƒg‚Ì’†~ˆ—‚ğ‚µ‚Ä‚¢‚Ü‚·..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:256
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "‚±‚ÌƒŠƒUƒ‹ƒg '%s' ‚ğ’†~‚µ‚Ä‚æ‚ë‚µ‚¢‚Å‚·‚©?"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:262
 msgid "Abort result"
 msgstr "ƒŠƒUƒ‹ƒg‚ğ’†~"
 
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume work for this result."
 msgstr "‘ÎÛƒŠƒUƒ‹ƒg‚ÌŒvZ‚ğÄŠJ‚·‚é"
 
-#: clientgui/ViewWork.cpp:653
+#: clientgui/ViewWork.cpp:648
 msgid "New"
 msgstr "V‹K"
 
-#: clientgui/ViewWork.cpp:664
-#: clientgui/ViewWork.cpp:686
+#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:681
 msgid "Aborted by user"
 msgstr "Q‰ÁÒ‚É‚æ‚Á‚Ä’†~‚³‚ê‚Ü‚µ‚½"
 
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:663
 msgid "Activities suspended"
 msgstr "Šˆ“®‚ğˆê’â~’†"
 
-#: clientgui/ViewWork.cpp:671
+#: clientgui/ViewWork.cpp:666
 msgid "Running"
 msgstr "Às’†"
 
-#: clientgui/ViewWork.cpp:673
+#: clientgui/ViewWork.cpp:668
 msgid "Preempted"
 msgstr "’†’f’†"
 
-#: clientgui/ViewWork.cpp:675
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:673
 msgid "Ready to run"
 msgstr "Às‘Ò‹@"
 
-#: clientgui/ViewWork.cpp:688
+#: clientgui/ViewWork.cpp:683
 msgid "Computation error"
 msgstr "ŒvZƒGƒ‰["
 
-#: clientgui/ViewWork.cpp:700
+#: clientgui/ViewWork.cpp:695
 msgid "Acknowledged"
 msgstr "ƒT[ƒoŠm”FÏ‚İ"
 
-#: clientgui/ViewWork.cpp:702
+#: clientgui/ViewWork.cpp:697
 msgid "Ready to report"
 msgstr "•ñ‘Ò‹@"
 
-#: clientgui/ViewWork.cpp:704
+#: clientgui/ViewWork.cpp:699
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "ƒGƒ‰[: –³Œøó‘Ô '%d'"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:707
 msgid "Activities suspended by user"
 msgstr "Q‰ÁÒ‚Ìw¦‚É‚æ‚èŠˆ“®‚ğˆê’â~"
 
@@ -1703,4 +1719,36 @@ msgstr "ƒIƒvƒVƒ‡ƒ“"
 #: clientgui/DlgSelectComputer.h:49
 msgid "Select Computer"
 msgstr "ƒRƒ“ƒsƒ…[ƒ^‚ğ‘I‘ğ"
+
+# -----   OLDER VERSION COMPATIBILITY   -----
+#  5.2.7  requires following translation items
+#: clientgui/Localization.cpp:95
+msgid "YourComputers"
+msgstr "©•ª‚ÌƒRƒ“ƒsƒ…[ƒ^"
+
+#  5.2.7 to 5.2.11
+#: clientgui/MainDocument.cpp:196
+msgid "BOINC Manager - Connection failed"
+msgstr "BOINC ƒ}ƒl[ƒWƒƒ - Ú‘±‚É¸”s‚µ‚Ü‚µ‚½B"
+
+#  5.2.7 to 5.2.11
+#: clientgui/MainDocument.cpp:197
+#: clientgui/MainFrame.cpp:927
+#: clientgui/MainFrame.cpp:928
+msgid "Connection failed."
+msgstr "Ú‘±‚É¸”s‚µ‚Ü‚µ‚½B"
+
+#  5.2.7  requires following translation items
+#: clientgui/MainDocument.cpp:866
+msgid "BOINC error"
+msgstr "BOINC ˆÙí"
+
+#  5.2.7  requires following translation items
+#: clientgui/MainDocument.cpp:876
+msgid "BOINC info"
+msgstr "BOINC î•ñ"
+
+#  5.2.7 to 5.2.10 
+msgid "If you haven't set a password, copy and paste your account key into the Password box."
+msgstr "‚Ü‚¾ƒpƒXƒ[ƒh‚ğİ’è‚µ‚Ä‚¢‚È‚¯‚ê‚ÎA‚ ‚È‚½‚ÌƒAƒJƒEƒ“ƒgEƒL[‚ğƒpƒXƒ[ƒh‚Ì“ü—Í—“‚ÉƒRƒs[•ƒyƒCƒXƒg‚µ‚Ä‚­‚¾‚³‚¢B "
 

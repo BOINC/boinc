@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-17 07:00+0800\n"
+"PO-Revision-Date: 2005-11-28 02:35+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,9 @@ msgid "C&onfirm password:"
 msgstr "密碼確認:(&O)"
 
 #: clientgui/AccountInfoPage.cpp:173
-msgid "If you haven't set a password, copy and paste your account key into the Password box."
+msgid ""
+"If you haven't set a password, copy and paste your account\n"
+"key into the Password box."
 msgstr "如果您尚未設定密碼，請複製您的帳號金鑰後貼到密碼欄位中。"
 
 #: clientgui/AccountInfoPage.cpp:279
@@ -182,56 +184,64 @@ msgstr "(使用者定義)"
 msgid "BOINC Manager"
 msgstr "BOINC 管理員"
 
-#: clientgui/BOINCTaskBar.cpp:271
+#: clientgui/BOINCTaskBar.cpp:267
 msgid "BOINC is currently suspended...\n"
 msgstr "BOINC 目前已暫止...\n"
 
-#: clientgui/BOINCTaskBar.cpp:275
+#: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC networking is currently suspended...\n"
 msgstr "BOINC 網路活動目前已暫止...\n"
 
-#: clientgui/BOINCTaskBar.cpp:376
+#: clientgui/BOINCTaskBar.cpp:302
+msgid "BOINC Manager is currently reconnecting to a BOINC client...\n"
+msgstr "BOINC 管理員正重新連線到 BOINC 用戶端...\n"
+
+#: clientgui/BOINCTaskBar.cpp:304
+msgid "BOINC Manager is not currently connected to a BOINC client...\n"
+msgstr "BOINC 管理員目前未連線到 BOINC 用戶端...\n"
+
+#: clientgui/BOINCTaskBar.cpp:377
 #: clientgui/MainFrame.cpp:331
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "離開(&X)"
 
-#: clientgui/BOINCTaskBar.cpp:395
-#: clientgui/BOINCTaskBar.cpp:402
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
 msgid "&Open BOINC Manager..."
 msgstr "開啟 BOINC 管理員(&O)..."
 
-#: clientgui/BOINCTaskBar.cpp:406
+#: clientgui/BOINCTaskBar.cpp:407
 #: clientgui/MainFrame.cpp:340
 msgid "&Run always"
 msgstr "持續執行(&R)"
 
-#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/BOINCTaskBar.cpp:408
 #: clientgui/MainFrame.cpp:345
 msgid "Run based on &preferences"
 msgstr "以偏好設定執行(&P)"
 
-#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/BOINCTaskBar.cpp:409
 #: clientgui/MainFrame.cpp:350
 msgid "&Suspend"
 msgstr "暫止(&S)"
 
-#: clientgui/BOINCTaskBar.cpp:410
+#: clientgui/BOINCTaskBar.cpp:411
 #: clientgui/MainFrame.cpp:358
 msgid "&Network activity always available"
 msgstr "持續進行網路活動(&N)"
 
-#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/BOINCTaskBar.cpp:412
 #: clientgui/MainFrame.cpp:363
 msgid "Network activity based on &preferences"
 msgstr "以偏好設定連線網路(&P)"
 
-#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/BOINCTaskBar.cpp:413
 #: clientgui/MainFrame.cpp:368
 msgid "&Network activity suspended"
 msgstr "暫止網路活動(&N)"
 
-#: clientgui/BOINCTaskBar.cpp:414
+#: clientgui/BOINCTaskBar.cpp:415
 #: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
 msgstr "關於 BOINC 管理員(&A)..."
@@ -534,6 +544,7 @@ msgid "View your last week (or more) of computational results and work"
 msgstr "檢視您上週或更久之前所完成的運算結果與工作"
 
 #: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:95
 msgid "Your computers"
 msgstr "您的電腦"
 
@@ -595,10 +606,6 @@ msgstr "檢視並修改您的 Einstein@Home 個人資訊與偏好設定"
 msgid "Account summary"
 msgstr "帳號摘要"
 
-#: clientgui/Localization.cpp:95
-msgid "YourComputers"
-msgstr "您的電腦"
-
 #: clientgui/Localization.cpp:97
 msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr "檢視您所有正在運行 Einstein@Home 的電腦清單"
@@ -649,39 +656,21 @@ msgstr "檢視您的帳號資訊、總積分等其他資訊"
 msgid "Info about your team"
 msgstr "關於您的團隊資訊"
 
-#: clientgui/MainDocument.cpp:177
+#: clientgui/MainDocument.cpp:194
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC 管理員 - 連線錯誤"
 
-#: clientgui/MainDocument.cpp:178
+#: clientgui/MainDocument.cpp:195
 msgid "The password you have provided is incorrect, please try again."
 msgstr "您提供的密碼不正確，請再試一遍。"
 
-#: clientgui/MainDocument.cpp:196
-msgid "BOINC Manager - Connection failed"
-msgstr "BOINC 管理員 - 連線失敗"
-
-#: clientgui/MainDocument.cpp:197
-#: clientgui/MainFrame.cpp:927
-#: clientgui/MainFrame.cpp:928
-msgid "Connection failed."
-msgstr "連線失敗。"
-
-#: clientgui/MainDocument.cpp:303
+#: clientgui/MainDocument.cpp:316
 msgid "Retrieving system state; please wait..."
 msgstr "取回系統狀態中；請稍候..."
 
-#: clientgui/MainDocument.cpp:312
+#: clientgui/MainDocument.cpp:325
 msgid "Retrieving host information; please wait..."
 msgstr "取回主機資訊中；請稍候..."
-
-#: clientgui/MainDocument.cpp:866
-msgid "BOINC error"
-msgstr "BOINC 錯誤"
-
-#: clientgui/MainDocument.cpp:876
-msgid "BOINC info"
-msgstr "BOINC 資訊"
 
 #: clientgui/MainFrame.cpp:83
 msgid "Connected"
@@ -806,82 +795,108 @@ msgstr "專案(&P)"
 msgid "&Help"
 msgstr "說明(&H)"
 
-#: clientgui/MainFrame.cpp:1039
+#: clientgui/MainFrame.cpp:1045
 msgid "Attaching to project..."
 msgstr "正在加入專案..."
 
-#: clientgui/MainFrame.cpp:1075
+#: clientgui/MainFrame.cpp:1084
 msgid "Retrying communications for project(s)..."
 msgstr "重試與專案的通訊中..."
 
-#: clientgui/MainFrame.cpp:1165
+#: clientgui/MainFrame.cpp:1174
 msgid "Language Selection..."
 msgstr "語言選擇..."
 
-#: clientgui/MainFrame.cpp:1166
+#: clientgui/MainFrame.cpp:1175
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "BOINC 管理員預設的語言已改變。為了使變更生效， 您必須重新啟動管理員。"
 
-#: clientgui/MainFrame.cpp:1566
-#: clientgui/MainFrame.cpp:1583
-#: clientgui/MainFrame.cpp:1589
-#: clientgui/MainFrame.cpp:1632
-#: clientgui/MainFrame.cpp:1660
-#: clientgui/MainFrame.cpp:1669
-#: clientgui/MainFrame.cpp:1683
-#: clientgui/MainFrame.cpp:1691
+#: clientgui/MainFrame.cpp:1579
+#: clientgui/MainFrame.cpp:1596
+#: clientgui/MainFrame.cpp:1602
+#: clientgui/MainFrame.cpp:1645
+#: clientgui/MainFrame.cpp:1673
+#: clientgui/MainFrame.cpp:1682
+#: clientgui/MainFrame.cpp:1696
+#: clientgui/MainFrame.cpp:1704
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC 管理員 - 網路狀態"
 
-#: clientgui/MainFrame.cpp:1567
+#: clientgui/MainFrame.cpp:1580
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC 需要網路連線才可以進行某些維護動作。開啟 BOINC 管理員連上網路後進行所需要的動作。"
 
-#: clientgui/MainFrame.cpp:1582
+#: clientgui/MainFrame.cpp:1595
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
 msgstr "BOINC 需要連線到網路。您要現在連線嗎？"
 
-#: clientgui/MainFrame.cpp:1590
+#: clientgui/MainFrame.cpp:1603
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC 正連線到網路。"
 
-#: clientgui/MainFrame.cpp:1633
+#: clientgui/MainFrame.cpp:1646
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC 偵測到現在處於連線狀態。正在更新所有專案並重試所有檔案傳送。"
 
-#: clientgui/MainFrame.cpp:1661
+#: clientgui/MainFrame.cpp:1674
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC 已成功與網路斷線。"
 
-#: clientgui/MainFrame.cpp:1670
+#: clientgui/MainFrame.cpp:1683
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC 與網路斷線失敗。"
 
-#: clientgui/MainFrame.cpp:1684
+#: clientgui/MainFrame.cpp:1697
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC 已成功與網路連線。"
 
-#: clientgui/MainFrame.cpp:1692
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC 連線到網路失敗。"
 
-#: clientgui/MainFrame.cpp:1770
-#: clientgui/MainFrame.cpp:1773
+#: clientgui/MainFrame.cpp:1782
+#: clientgui/MainFrame.cpp:1785
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1771
+#: clientgui/MainFrame.cpp:1783
 #, c-format
 msgid "Connecting to %s"
 msgstr "正在連線到 %s"
 
-#: clientgui/MainFrame.cpp:1774
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "Connected to %s"
 msgstr "已連線到 %s"
+
+#: clientgui/MainFrame.cpp:1940
+msgid "BOINC Manager - Connection Failed"
+msgstr "BOINC 管理員 - 連線失敗"
+
+#: clientgui/MainFrame.cpp:1941
+msgid ""
+"BOINC Manager is not able to connect to a BOINC client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"BOINC 管理員無法連線到 BOINC 用戶端。\n"
+"你要再試一次嗎？"
+
+#: clientgui/MainFrame.cpp:1956
+msgid "BOINC Manager - Connection Status"
+msgstr "BOINC 管理員 - 連線狀態"
+
+#: clientgui/MainFrame.cpp:1957
+msgid ""
+"BOINC Manager is not currently connected to a BOINC client.\n"
+"Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
+"To connect up to your local computer please use 'localhost' as the host name."
+msgstr ""
+"BOINC 管理目前未連線到 BOINC 用戶端。\n"
+"請選擇「檔案」->「選擇電腦...」來連到 BOINC 用戶端。\n"
+"要連線到本機電腦，請於主機名稱輸入「localhost」。"
 
 #: clientgui/NoInternetConnectionPage.cpp:98
 msgid "No Internet connection"
@@ -1061,7 +1076,7 @@ msgstr "「%s」不是有效的路徑。"
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:322
+#: clientgui/ViewStatistics.cpp:404
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1123,7 +1138,7 @@ msgstr "回報所有已完成的工作；取得最新的積分與偏好設定資
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:560
 #: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend"
 msgstr "暫止"
 
@@ -1234,7 +1249,7 @@ msgid "Launching browser..."
 msgstr "啟動瀏覽器..."
 
 #: clientgui/ViewProjects.cpp:556
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume"
 msgstr "繼續"
 
@@ -1259,7 +1274,7 @@ msgid "Web sites"
 msgstr "網站"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewWork.cpp:666
+#: clientgui/ViewWork.cpp:661
 msgid "Suspended by user"
 msgstr "被使用者暫止"
 
@@ -1284,47 +1299,47 @@ msgid "Disk"
 msgstr "磁碟"
 
 #: clientgui/ViewStatistics.cpp:41
-#: clientgui/ViewStatistics.cpp:47
-#: clientgui/ViewStatistics.cpp:380
+#: clientgui/ViewStatistics.cpp:50
+#: clientgui/ViewStatistics.cpp:462
 msgid "User Total"
 msgstr "使用者總計"
 
-#: clientgui/ViewStatistics.cpp:326
+#: clientgui/ViewStatistics.cpp:408
 msgid "Show user total"
 msgstr "顯示使用者總計"
 
-#: clientgui/ViewStatistics.cpp:333
+#: clientgui/ViewStatistics.cpp:415
 msgid "Show user average"
 msgstr "顯示使用者平均"
 
-#: clientgui/ViewStatistics.cpp:340
+#: clientgui/ViewStatistics.cpp:422
 msgid "Show host total"
 msgstr "顯示此主機總計"
 
-#: clientgui/ViewStatistics.cpp:347
+#: clientgui/ViewStatistics.cpp:429
 msgid "Show host average"
 msgstr "顯示此主機平均"
 
-#: clientgui/ViewStatistics.cpp:366
+#: clientgui/ViewStatistics.cpp:448
 msgid "Statistics"
 msgstr "統計"
 
-#: clientgui/ViewStatistics.cpp:379
-#: clientgui/ViewStatistics.cpp:399
-#: clientgui/ViewStatistics.cpp:419
-#: clientgui/ViewStatistics.cpp:439
+#: clientgui/ViewStatistics.cpp:461
+#: clientgui/ViewStatistics.cpp:481
+#: clientgui/ViewStatistics.cpp:501
+#: clientgui/ViewStatistics.cpp:521
 msgid "Updating charts..."
 msgstr "更新圖表中..."
 
-#: clientgui/ViewStatistics.cpp:400
+#: clientgui/ViewStatistics.cpp:482
 msgid "User Average"
 msgstr "使用者平均"
 
-#: clientgui/ViewStatistics.cpp:420
+#: clientgui/ViewStatistics.cpp:502
 msgid "Host Total"
 msgstr "此主機總計"
 
-#: clientgui/ViewStatistics.cpp:440
+#: clientgui/ViewStatistics.cpp:522
 msgid "Host Average"
 msgstr "此主機平均"
 
@@ -1387,12 +1402,12 @@ msgid "Retry in "
 msgstr "重試於 "
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:657
+#: clientgui/ViewWork.cpp:652
 msgid "Download failed"
 msgstr "下載失敗"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:693
+#: clientgui/ViewWork.cpp:688
 msgid "Upload failed"
 msgstr "上傳失敗"
 
@@ -1402,22 +1417,22 @@ msgid "Suspended"
 msgstr "已暫止"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:690
 msgid "Uploading"
 msgstr "上傳中"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:654
 msgid "Downloading"
 msgstr "下載中"
 
 #: clientgui/ViewWork.cpp:100
-#: clientgui/ViewWork.cpp:458
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend work for this result."
 msgstr "暫止這個結果的工作。"
 
 #: clientgui/ViewWork.cpp:106
-#: clientgui/ViewWork.cpp:210
+#: clientgui/ViewWork.cpp:208
 msgid "Show graphics"
 msgstr "顯示圖形"
 
@@ -1469,71 +1484,71 @@ msgstr "暫止結果中..."
 msgid "Showing graphics for result..."
 msgstr "顯示此結果圖形..."
 
-#: clientgui/ViewWork.cpp:209
+#: clientgui/ViewWork.cpp:207
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "您確定要顯示遠端電腦的圖形嗎？"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:253
 msgid "Aborting result..."
 msgstr "中止結果中..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:256
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "您確定要中止這個結果「%s」嗎？"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:262
 msgid "Abort result"
 msgstr "中止結果"
 
-#: clientgui/ViewWork.cpp:454
+#: clientgui/ViewWork.cpp:449
 msgid "Resume work for this result."
 msgstr "繼續這個結果的工作。"
 
-#: clientgui/ViewWork.cpp:653
+#: clientgui/ViewWork.cpp:648
 msgid "New"
 msgstr "新工作"
 
-#: clientgui/ViewWork.cpp:664
-#: clientgui/ViewWork.cpp:686
+#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:681
 msgid "Aborted by user"
 msgstr "被使用者中止"
 
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:663
 msgid "Activities suspended"
 msgstr "活動已暫止"
 
-#: clientgui/ViewWork.cpp:671
+#: clientgui/ViewWork.cpp:666
 msgid "Running"
 msgstr "運行中"
 
-#: clientgui/ViewWork.cpp:673
+#: clientgui/ViewWork.cpp:668
 msgid "Preempted"
 msgstr "被先佔"
 
-#: clientgui/ViewWork.cpp:675
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:673
 msgid "Ready to run"
 msgstr "準備執行"
 
-#: clientgui/ViewWork.cpp:688
+#: clientgui/ViewWork.cpp:683
 msgid "Computation error"
 msgstr "運算錯誤"
 
-#: clientgui/ViewWork.cpp:700
+#: clientgui/ViewWork.cpp:695
 msgid "Acknowledged"
 msgstr "已認可"
 
-#: clientgui/ViewWork.cpp:702
+#: clientgui/ViewWork.cpp:697
 msgid "Ready to report"
 msgstr "準備回報"
 
-#: clientgui/ViewWork.cpp:704
+#: clientgui/ViewWork.cpp:699
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "錯誤: 無效狀態「%d」"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:707
 msgid "Activities suspended by user"
 msgstr "被使用者暫止活動"
 
