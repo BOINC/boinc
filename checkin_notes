@@ -13994,3 +13994,8 @@ Janus   28 Nov 2005
     /html/inc
         forum.inc
 
+David  27 Nov 2005
+    - pass core client version number in account manager RPC
+
+    client/
+        acct_mgr.C

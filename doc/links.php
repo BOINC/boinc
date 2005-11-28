@@ -67,6 +67,9 @@ language("Danish", array(
     site("http://www.setihome.dk", "www.setihome.dk")
 ));
 language("Dutch", array(
+    site("http://www.dutchpowercows.org/", "Dutch Power Cows
+        </a>(also <a href=http://gathering.tweakers.net/forum/list_topics/5>forums</a>)"
+    ),
     site("http://www.seti.nl/content.php?c=boincmain",
         "SETI@Netherlands"
     ),

@@ -66,7 +66,14 @@ int ACCT_MGR_OP::do_rpc(
     strcpy(ami.login_name, name.c_str());
     strcpy(ami.password, password.c_str());
 
-    sprintf(buf, "%srpc.php?name=%s&password=%s&host_cpid=%s", url.c_str(), name.c_str(), password.c_str(), gstate.host_info.host_cpid);
+    sprintf(buf,
+        "%srpc.php?name=%s&password=%s&host_cpid=%s&maj=%d&min=%d&rel=%d",
+        url.c_str(), name.c_str(), password.c_str(),
+        gstate.host_info.host_cpid,
+        gstate.core_client_major_version,
+        gstate.core_client_minor_version,
+        gstate.core_client_release
+    );
     retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
     if (retval) {
         error_num = retval;

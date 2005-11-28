@@ -179,11 +179,11 @@ int GUI_RPC_CONN_SET::init() {
 
     addr.sin_family = AF_INET;
 
-    // On Windows our primary listening socket might be in use and Windows will
-    //   still allow us to open up a listening socket on it.  To avoid possible
-    //   connection errors with the manager we'll attempt to connect to the port
-    //   first to see if anybody is listening, if so we'll use the alternate port
-    //   instead.
+    // On Windows our primary port might be in use and Windows will
+    // still allow us to bind it to a listening socket (huh????)
+    // So to connect to the port first to see if anybody is listening,
+    // if so use the alternate port instead.
+    //
     if (is_primary_port_available()) {
         addr.sin_port = htons(GUI_RPC_PORT);
     } else {

@@ -228,35 +228,6 @@ and password (Figure 9).
 
 <p>Click &quot;OK&quot; to save
 
-<h1>Acknowledgements and Support</h1>
-<p>
-BOINC Menubar was developed by
-<a href=http://www.greenkeepersoftware.com>GreenKeeper Software</a>,
-which has made BOINC Menubar freely available for all BOINC participants.
-If you wish, you can make a
-<a href=http://www.greenkeepersoftware.com/donate.html>donation</a>
-to GreenKeeper Software to support further development of BOINC Menubar
-and future GreenKeeper Software products.
-<p>
-If you have questions about, problems with, or comments concerning
-BOINC Menubar, please contact GreenKeeper Software directly by
-email (<a href=mailto:developer@greenkeepersoftware.com>support@greenkeepersoftware.com</a>).
-If you are reporting a bug, please be as specific as possible.
-<p>
-Also, please be aware that some problems may be a result of BOINC or
-projects running on the BOINC platform and not BOINC Menubar itself.
-If you are unsure of the source of the problem,
-go ahead and contact GreenKeeper Software anyway and we will do
-our very best to help you or refer you to people who can.
-<p>
-<em><strong>Disclaimer:</strong></em> Every effort has been made on the part
-of GreenKeeper Software to fully test and debug BOINC Menubar.
-It should, therefore, not cause you to have any problems.
-However, you are using BOINC Menubar at your own risk.
-Any harm caused as a result of this software is not the fault of
-GreenKeeper Software or the BOINC developers.
-
-
 ";
 
 page_tail();

@@ -113,6 +113,9 @@ list_item("URL", "<b>BASE_URL/rpc.php</b>, where BASE_URL is the URL
 list_item("input", "name
     <br>password
     <br> [ host_cpid ]
+    <br> [ maj ]
+    <br> [ min ]
+    <br> [ rel ]
     "
 );
 list_item("output",
@@ -125,7 +128,7 @@ list_item("output",
       <account>
          <url>URL</url>
          <authenticator>KEY</authenticator>
-         [ suspend ]
+         [ <suspend/> ]
       </account>
         ...
     ]
@@ -133,13 +136,19 @@ list_item("output",
 );
 list_item("action",
     "Returns a list of the accounts associated with this meta-account.
-    The 'host_cpid' argment identifies the host.
+    The 'host_cpid' argument identifies the host.
     To make it comparable with the host CPID in stats files,
     do MD5(host_cpid+email_addr).
+    The maj, min and rel arguments identify the client's version.
     <p>
     Optionally returns a command to set the run mode (always, auto, or never),
-    commands to suspend individual projects,
-    and a time interval after which another RPC should be done.
+    These have the same function as the
+    'Run always', 'Run based on preferences',
+    and 'Suspend' commands in the BOINC manager.
+    <p>
+    Optionally returns commands to suspend individual projects.
+    <p>
+    Optionally returns a time interval after which another RPC should be done.
     <p>
     NOTE: the XML must be as above, with the &lt;url>
     and &lt;authenticator> elements on a single line,
