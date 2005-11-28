@@ -404,6 +404,10 @@ void CWizardAccountManager::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bCancelWithoutNextPage |= (page == m_ErrNotDetectedPage);
     bCancelWithoutNextPage |= (page == m_ErrUnavailablePage);
     bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
+    if (wxYES != iRetVal) {
+        event.Veto();
+    }
+/*
     if (!bCancelWithoutNextPage) {
         event.Veto();
         if (wxYES == iRetVal) {
@@ -415,6 +419,7 @@ void CWizardAccountManager::_ProcessCancelEvent( wxWizardExEvent& event ) {
             event.Veto();
         }
     }
+*/
 }
  
 /*!

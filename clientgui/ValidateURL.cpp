@@ -64,51 +64,53 @@ bool CValidateURL::Validate(wxWindow *parent) {
     std::string canonicalize_url;
 
     canonicalize_url = control->GetValue().Trim().Trim(false).c_str();  // trim spaces before and after
-    canonicalize_master_url(canonicalize_url);
 
-    wxURI uri(canonicalize_url.c_str());
-    wxURL url(canonicalize_url.c_str());
-    wxString strURL(canonicalize_url.c_str());
-    wxString strServer(uri.GetServer());
-    int iServerDotLocation = strServer.Find(wxT("."));
-    int iFirstPart = strServer.Mid(0, iServerDotLocation).Length();
-    int iSecondPart = strServer.Mid(iServerDotLocation + 1, wxSTRING_MAXLEN).Length();
-
-    if (strURL.Length() == 0) {
+    if (canonicalize_url.size() == 0) {
         ok = FALSE;
         m_errortitle = _("Missing URL");
         m_errormsg = _("Please specify a URL.\nFor example:\nhttp://www.example.com/");
-    } else if (-1 == iServerDotLocation) {
-        ok = FALSE;
-        m_errortitle = _("Invalid URL");
-        m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
-    } else if (0 == iFirstPart) {
-        ok = FALSE;
-        m_errortitle = _("Invalid URL");
-        m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
-    } else if (0 == iSecondPart) {
-        ok = FALSE;
-        m_errortitle = _("Invalid URL");
-        m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
-    } else if (wxURL_NOERR != url.GetError()) {
-        ok = FALSE;
+    } else {
+        canonicalize_master_url(canonicalize_url);
+        wxURI uri(canonicalize_url.c_str());
+        wxURL url(canonicalize_url.c_str());
+        wxString strURL(canonicalize_url.c_str());
+        wxString strServer(uri.GetServer());
+        int iServerDotLocation = strServer.Find(wxT("."));
+        int iFirstPart = strServer.Mid(0, iServerDotLocation).Length();
+        int iSecondPart = strServer.Mid(iServerDotLocation + 1, wxSTRING_MAXLEN).Length();
 
-        if ((wxURL_NOPROTO == url.GetError()) || wxURL_SNTXERR == url.GetError()) {
-            // Special case: we want to allow the user to specify the URL without
-            //   specifing the protocol.
-            wxURL urlNoProtoSpecified(wxT("http://") + strURL);
-            if (wxURL_NOERR == urlNoProtoSpecified.GetError()) {
-                ok = TRUE;
-            } else {
+        if (-1 == iServerDotLocation) {
+            ok = FALSE;
+            m_errortitle = _("Invalid URL");
+            m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
+        } else if (0 == iFirstPart) {
+            ok = FALSE;
+            m_errortitle = _("Invalid URL");
+            m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
+        } else if (0 == iSecondPart) {
+            ok = FALSE;
+            m_errortitle = _("Invalid URL");
+            m_errormsg = _("Please specify a valid URL.\nFor example:\nhttp://boincproject.example.com");
+        } else if (wxURL_NOERR != url.GetError()) {
+            ok = FALSE;
+
+            if ((wxURL_NOPROTO == url.GetError()) || wxURL_SNTXERR == url.GetError()) {
+                // Special case: we want to allow the user to specify the URL without
+                //   specifing the protocol.
+                wxURL urlNoProtoSpecified(wxT("http://") + strURL);
+                if (wxURL_NOERR == urlNoProtoSpecified.GetError()) {
+                    ok = TRUE;
+                } else {
+                    m_errortitle = _("Invalid URL");
+                    m_errormsg = _("'%s' does not contain a valid host name.");
+                }
+            } else if (wxURL_NOHOST == url.GetError()) {
                 m_errortitle = _("Invalid URL");
                 m_errormsg = _("'%s' does not contain a valid host name.");
+            } else if (wxURL_NOPATH == url.GetError()) {
+                m_errortitle = _("Invalid URL");
+                m_errormsg = _("'%s' does not contain a valid path.");
             }
-        } else if (wxURL_NOHOST == url.GetError()) {
-            m_errortitle = _("Invalid URL");
-            m_errormsg = _("'%s' does not contain a valid host name.");
-        } else if (wxURL_NOPATH == url.GetError()) {
-            m_errortitle = _("Invalid URL");
-            m_errormsg = _("'%s' does not contain a valid path.");
         }
     }
 
@@ -126,7 +128,9 @@ bool CValidateURL::Validate(wxWindow *parent) {
         );
     }
 
-    control->SetValue(canonicalize_url.c_str());
+    if (ok) {
+        control->SetValue(canonicalize_url.c_str());
+    }
 
     return ok;
 }

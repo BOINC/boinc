@@ -14010,3 +14010,23 @@ David  27 Nov 2005
 	clientgui/
 		Events.h
 		ViewStatistics.cpp,h
+
+Rom    28 Nov 2005
+    - Bug Fix: Fix the URL validator so that it won't modify the user 
+        specified text when there is an error
+    - Bug Fix: Validation does not occur when the back button is pressed
+        in the wizards
+    - Bug Fix: GUI RPC: Return an error if the authenticator is null
+    - Hitting the cancel button in the wizard only brings up a confirmation
+        dialog, if the user confirms the wizard is terminated instead of
+        forwarding them to the final wizard page.
+
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        MainFrame.cpp
+        ValidateURL.cpp
+        WelcomePage.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+        wizardex.cpp

@@ -637,6 +637,11 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
             fout.printf("<error>Missing authenticator</error>\n");
             return;
         }
+
+        if (authenticator.empty()) {
+            fout.printf("<error>Missing authenticator</error>\n");
+            return;
+        }
     } else {
         if (!strlen(gstate.project_init.url)) {
             fout.printf("<error>Missing URL</error>\n");

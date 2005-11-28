@@ -728,7 +728,7 @@ bool CMainFrame::RestoreState() {
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
     pConfig->Read(wxT("NetworkDialupPromptCredentials"), &m_bNetworkDialupPromptCredentials, false);
 
-    pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
+    pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
     m_pNotebook->SetSelection(iCurrentPage);
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);

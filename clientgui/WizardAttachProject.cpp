@@ -458,6 +458,10 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bCancelWithoutNextPage |= (page == m_ErrAlreadyAttachedPage);
     bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
     bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
+    if (wxYES != iRetVal) {
+        event.Veto();
+    }
+/*
     if (!bCancelWithoutNextPage) {
         event.Veto();
         if (wxYES == iRetVal) {
@@ -469,6 +473,7 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
             event.Veto();
         }
     }
+*/
 }
 
 /*!
