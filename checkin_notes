@@ -13567,3 +13567,11 @@ Rom    28 Nov 2005
 Rom    28 Nov 2005 (boinc_core_release_5_2)
     - Tag for 5.2.13 release, all platforms
       boinc_core_release_5_2_13
+
+Charlie 29 Nov 2005
+    - Mac: Add new files clientgui/ProxyInfoPage.cpp, 
+      clientgui/ProxyInfoPage.h to XCode project.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
