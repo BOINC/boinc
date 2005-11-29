@@ -13522,3 +13522,48 @@ Rom    26 Nov 2005 (boinc_core_release_5_2)
     - Tag for 5.2.12 release, all platforms
       boinc_core_release_5_2_12
 
+Rom    28 Nov 2005
+    - Bug Fix: Fix the URL validator so that it won't modify the user 
+        specified text when there is an error
+    - Bug Fix: Validation does not occur when the back button is pressed
+        in the wizards
+    - Bug Fix: GUI RPC: Return an error if the authenticator is null
+    - Hitting the cancel button in the wizard only brings up a confirmation
+        dialog, if the user confirms the wizard is terminated instead of
+        forwarding them to the final wizard page.
+
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        MainFrame.cpp
+        ValidateURL.cpp
+        WelcomePage.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+        wizardex.cpp
+
+Rom    28 Nov 2005
+    - Bug Fix:  The manager needs to wait until after the core client has
+        opened up the listening socket before attempting to read the
+        password file.
+        
+    clientgui/
+        MainDocument.cpp, .h
+        MainFrame.cpp
+
+Rom    28 Nov 2005
+    - Bug Fix: Like a Phoenix rise from the ashes, so to the return of
+        the proxy info page for both wizards.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        BOINCWizards.h
+        ProjectPropertiesPage.cpp
+        ProxyInfoPage.cpp, .h
+        WizardAccountManager.cpp, .h
+        WizardAttachProject.cpp, .h
+		ProxyInfoPage.cpp, .h
+
+Rom    28 Nov 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.13 release, all platforms
+      boinc_core_release_5_2_13

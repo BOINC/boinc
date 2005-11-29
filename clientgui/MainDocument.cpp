@@ -78,6 +78,14 @@ void* CNetworkConnection::Poll() {
         retval = m_pDocument->rpc.init_poll();
         if (!retval) {
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - init_poll() returned ERR_CONNECT, now authorizing..."));
+
+            // Wait until we can establish a connection to the core client before reading
+            //   the password so that the client has time to create one when it needs to.
+            if (m_bUseDefaultPassword) {
+                GetLocalPassword(m_strNewComputerPassword);
+                m_bUseDefaultPassword = FALSE;
+            }
+
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.c_str());
             if (!retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));
@@ -168,14 +176,14 @@ bool CNetworkConnection::IsComputerNameLocal(wxString& strMachine) {
 }
 
 
-int CNetworkConnection::SetNewComputerName(const wxChar* szComputer) {
+int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPassword,  const bool bUseDefaultPassword) {
+    m_strNewComputerName.Empty();
+    m_strNewComputerPassword.Empty();
+    m_bUseDefaultPassword = FALSE;
+
     m_strNewComputerName = szComputer;
-    return 0;
-}
-
-
-int CNetworkConnection::SetNewComputerPassword(const wxChar* szPassword) {
     m_strNewComputerPassword = szPassword;
+    m_bUseDefaultPassword = bUseDefaultPassword;
     return 0;
 }
 
@@ -397,15 +405,12 @@ int CMainDocument::ResetState() {
 }
 
 
-int CMainDocument::Connect(const wxChar* szComputer, const wxChar* szComputerPassword, bool bDisconnect) {
-
+int CMainDocument::Connect(const wxChar* szComputer, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
     if (bDisconnect) {
         m_pNetworkConnection->ForceReconnect();
     }
 
-    m_pNetworkConnection->SetNewComputerName(szComputer);
-    m_pNetworkConnection->SetNewComputerPassword(szComputerPassword);
-
+    m_pNetworkConnection->SetComputer(szComputer, szComputerPassword, bUseDefaultPassword);
     m_pNetworkConnection->FireReconnectEvent();
     return 0;
 }

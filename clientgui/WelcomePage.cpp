@@ -146,11 +146,11 @@ void CWelcomePage::CreateControls()
     }
 
     if (IS_ACCOUNTMANAGERWIZARD()) {
-        m_Title->Create( itemWizardPage2, wxID_STATIC, _("Attach to account manager"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_Title->Create( itemWizardPage2, wxID_STATIC, _("Account manager"), wxDefaultPosition, wxDefaultSize, 0 );
         m_Title->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
         itemBoxSizer3->Add(m_Title, 0, wxALIGN_LEFT|wxALL, 5);
 
-        m_Description->Create( itemWizardPage2, wxID_STATIC, _("We'll now guide you through the process of attaching to an\naccount manager."), wxDefaultPosition, wxDefaultSize, 0 );
+        m_Description->Create( itemWizardPage2, wxID_STATIC, _("We'll now guide you through the process of \nadding/updating/removing an account manager."), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer3->Add(m_Description, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
