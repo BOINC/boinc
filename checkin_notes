@@ -14039,3 +14039,11 @@ Rom    28 Nov 2005
     clientgui/
         MainDocument.cpp, .h
         MainFrame.cpp
+
+Bruce 29 Nov 2005
+    - Bug fix (from Walt Gribben).  Don't allow the min free space
+      preference to be less than 1MB.
+
+    sched/
+        sched_send.C
+

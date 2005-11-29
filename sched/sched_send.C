@@ -122,9 +122,8 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
     //
     if (prefs.disk_max_used_gb == 0) prefs.disk_max_used_gb = 100.0; // 100 GB
     if (prefs.disk_max_used_pct == 0) prefs.disk_max_used_pct = 50;  // 50%
-    // FIXME: if user wants to set min_free_gb to zero (this is allowed) then
-    // the web page interface needs to set it to a small value, eg 1.e-6.
-    if (prefs.disk_min_free_gb == 0) prefs.disk_min_free_gb = 0.1;   // 100 MB
+    // Always leave at least 1MB free!
+    if (prefs.disk_min_free_gb < 0.001) prefs.disk_min_free_gb = 0.001; // 1MB
 
     // no defaults for total/free disk space (host.d_total, d_free)
     // if they're zero, client will get no work.
