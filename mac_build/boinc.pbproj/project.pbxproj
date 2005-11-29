@@ -4102,12 +4102,6 @@
 			settings = {
 			};
 		};
-		DD9A2DA4093C5CCB0098977F = {
-			fileRef = DD9A2DA2093C5CCB0098977F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD9B6AAF0890DD71003A8E83 = {
 			fileRef = DDE2552B07C62F3E008E7D6E;
 			isa = PBXBuildFile;
@@ -4904,7 +4898,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90,
-				DD9A2DA4093C5CCB0098977F,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
