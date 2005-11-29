@@ -345,6 +345,7 @@
 				DD58C47408F334EA00C1DF66,
 				DD58C47608F334EA00C1DF66,
 				DDA9D3BC09189A8C0060E7A7,
+				DD9A2DEE093C609B0098977F,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3553,6 +3554,8 @@
 				DD58C44F08F334B500C1DF66,
 				DD58C45008F334B500C1DF66,
 				DD58C45108F334B500C1DF66,
+				DD9A2DEC093C609B0098977F,
+				DD9A2DED093C609B0098977F,
 				DD58C45E08F334EA00C1DF66,
 				DD58C45F08F334EA00C1DF66,
 				DD58C46008F334EA00C1DF66,
@@ -4087,6 +4090,30 @@
 			path = "ScreenSaver-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		DD9A2DEC093C609B0098977F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ProxyInfoPage.cpp;
+			path = ../clientgui/ProxyInfoPage.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD9A2DED093C609B0098977F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ProxyInfoPage.h;
+			path = ../clientgui/ProxyInfoPage.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD9A2DEE093C609B0098977F = {
+			fileRef = DD9A2DEC093C609B0098977F;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		DD9B6AAF0890DD71003A8E83 = {
 			fileRef = DDE2552B07C62F3E008E7D6E;

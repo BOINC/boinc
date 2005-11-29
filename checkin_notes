@@ -14058,3 +14058,11 @@ Rom    28 Nov 2005
         ProxyInfoPage.cpp, .h (Added)
         WizardAccountManager.cpp, .h
         WizardAttachProject.cpp, .h
+
+Charlie 29 Nov 2005
+    - Mac: Add new files clientgui/ProxyInfoPage.cpp, 
+      clientgui/ProxyInfoPage.h to XCode project.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
