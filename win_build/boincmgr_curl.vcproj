@@ -148,9 +148,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\clientgui\BOINCBaseView.cpp">
-			</File>
-			<File
 				RelativePath="..\clientgui\BOINCGUIApp.cpp">
 			</File>
 			<File
@@ -234,9 +231,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\clientgui\_wx_intellisense.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCBaseView.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\BOINCGUIApp.h">
@@ -464,6 +458,12 @@
 				RelativePath="..\clientgui\ProjectPropertiesPage.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\ProxyInfoPage.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\ProxyInfoPage.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\ProxyPage.cpp">
 			</File>
 			<File
@@ -519,6 +519,12 @@
 		<Filter
 			Name="Views"
 			Filter="">
+			<File
+				RelativePath="..\clientgui\BOINCBaseView.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCBaseView.h">
+			</File>
 			<File
 				RelativePath="..\clientgui\ViewMessages.cpp">
 			</File>
