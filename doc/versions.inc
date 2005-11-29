@@ -54,6 +54,7 @@ $features_5 = "
 $changes_5 = "
     <li>Changes since 5.2.12
       <ul>
+        <li>Localization updates.
         <li>Network communication failure page added which describes basic ways to
             resolve common networking issues.
         <li>Fixed a timing issue where the manager would look for the password file
