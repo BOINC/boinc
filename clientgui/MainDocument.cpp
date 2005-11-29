@@ -435,7 +435,7 @@ int CMainDocument::GetConnectingComputerName(wxString& strMachine) {
 }
 
 
-bool CMainDocument::IsComputerNameLocal(wxString& strMachine) {
+bool CMainDocument::IsComputerNameLocal(wxString strMachine) {
     return m_pNetworkConnection->IsComputerNameLocal(strMachine);
 }
 

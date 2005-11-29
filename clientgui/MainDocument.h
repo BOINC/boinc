@@ -118,7 +118,7 @@ public:
 
     int                         GetConnectedComputerName(wxString& strMachine);
     int                         GetConnectingComputerName(wxString& strMachine);
-    bool                        IsComputerNameLocal(wxString& strMachine);
+    bool                        IsComputerNameLocal(wxString strMachine);
     bool                        IsConnected();
     bool                        IsReconnecting();
 
