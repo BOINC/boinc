@@ -277,22 +277,23 @@ function process_create_results($user, $profile) {
     $response2 = sanitize_html($response2);
     if ($profile) {
         $query = 'UPDATE profile SET '
-            ." response1 = '$response1',"
-            ." response2 = '$response2',"
-            ." language = '$language',"
+            ." response1 = '".mysql_escape_string($response1)."',"
+            ." response2 = '".mysql_escape_string($response2)."',"
+            ." language = '".mysql_escape_string($language)."',"
             ." has_picture = '$hasPicture',"
             ." verification = '$profile->verification'"
             ." WHERE userid = '$user->id'";
         $result = mysql_query($query);
         if (!$result) {
+	    echo mysql_error();
             profile_error_page("Couldn't update profile: database error");
         }
     } else {
         $query = 'INSERT INTO profile SET '
             ." userid = '$user->id',"
-            ." language = '$language',"
-            ." response1 = '$response1',"
-            ." response2 = '$response2',"
+            ." language = '".mysql_escape_string($language)."',"
+            ." response1 = '".mysql_escape_string($response1)."',"
+            ." response2 = '".mysql_escape_string($response2)."',"
             ." has_picture = '$hasPicture',"
             ." verification=0";
         $result = mysql_query($query);
