@@ -14047,3 +14047,15 @@ Bruce 29 Nov 2005
     sched/
         sched_send.C
 
+Rom    28 Nov 2005
+    - Bug Fix: Like a Phoenix rise from the ashes, so to the return of
+        the proxy info page for both wizards.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        BOINCWizards.h
+        ProjectPropertiesPage.cpp
+        ProxyInfoPage.cpp, .h
+        WizardAccountManager.cpp, .h
+        WizardAttachProject.cpp, .h
+		ProxyInfoPage.cpp, .h

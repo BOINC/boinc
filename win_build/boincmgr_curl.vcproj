@@ -458,6 +458,12 @@
 				RelativePath="..\clientgui\ProjectPropertiesPage.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\ProxyInfoPage.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\ProxyInfoPage.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\ProxyPage.cpp">
 			</File>
 			<File

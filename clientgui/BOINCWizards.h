@@ -42,7 +42,8 @@
 #define ID_ERRNOINTERNETCONNECTIONPAGE 10108
 #define ID_ERRNOTFOUNDPAGE 10109
 #define ID_ERRALREADYEXISTSPAGE 10110
-#define ID_ERRPROXYPAGE 10111
+#define ID_ERRPROXYINFOPAGE 10111
+#define ID_ERRPROXYPAGE 10112
 
 // Attach to Project Wizard Pages
 #define ID_PROJECTINFOPAGE 10200
@@ -131,6 +132,7 @@ class CErrAlreadyAttachedPage;
 class CErrNoInternetConnectionPage;
 class CErrNotFoundPage;
 class CErrAlreadyExistsPage;
+class CErrProxyInfoPage;
 class CErrProxyPage;
 
 
