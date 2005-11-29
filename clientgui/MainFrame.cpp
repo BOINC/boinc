@@ -909,19 +909,22 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     if (wxID_OK == lAnswer) {
 
         // Make a null hostname be the same thing as localhost
-        wxString strPassword = wxEmptyString;
         if (wxEmptyString == pDlg->m_ComputerNameCtrl->GetValue()) {
-            pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
-            pDlg->m_ComputerNameCtrl->SetValue(wxT("localhost")); 
-            pDlg->m_ComputerPasswordCtrl->SetValue(strPassword);
+            lRetVal = pDoc->Connect(
+                wxT("localhost"),
+                wxEmptyString,
+                TRUE,
+                TRUE
+            );
+        } else {
+            // Connect up to the remote machine
+            lRetVal = pDoc->Connect(
+                pDlg->m_ComputerNameCtrl->GetValue(), 
+                pDlg->m_ComputerPasswordCtrl->GetValue(),
+                TRUE,
+                FALSE
+            );
         }
-
-        // Connect up to the remote machine
-        lRetVal = pDoc->Connect(
-            pDlg->m_ComputerNameCtrl->GetValue(), 
-            pDlg->m_ComputerPasswordCtrl->GetValue(),
-            TRUE
-        );
         if (lRetVal) {
             ShowConnectionFailedAlert();
         }
@@ -1408,9 +1411,7 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (!pDoc->IsConnected()) {
-        wxString strPassword = wxEmptyString;
-        pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
-        pDoc->Connect(wxT("localhost"), strPassword, TRUE);
+        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
