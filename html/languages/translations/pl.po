@@ -20,7 +20,7 @@ msgstr ""
 ##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
-msgstr "windows-1251"
+msgstr "windows-1250"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
