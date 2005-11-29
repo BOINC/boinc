@@ -59,6 +59,7 @@ boinc_gui_SOURCES = \
     ProjectInfoPage.cpp \
     ProjectProcessingPage.cpp \
     ProjectPropertiesPage.cpp \
+    ProxyInfoPage.cpp \
     ProxyPage.cpp \
     UnavailablePage.cpp \
     WelcomePage.cpp \
