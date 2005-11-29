@@ -14055,7 +14055,6 @@ Rom    28 Nov 2005
         AccountManagerPropertiesPage.cpp
         BOINCWizards.h
         ProjectPropertiesPage.cpp
-        ProxyInfoPage.cpp, .h
+        ProxyInfoPage.cpp, .h (Added)
         WizardAccountManager.cpp, .h
         WizardAttachProject.cpp, .h
-		ProxyInfoPage.cpp, .h
