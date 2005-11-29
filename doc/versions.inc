@@ -52,6 +52,13 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.12
+      <ul>
+        <li>Network communication failure page added which describes basic ways to
+            resolve common networking issues.
+        <li>Fixed a timing issue where the manager would look for the password file
+            before the client actually created one.
+      </ul>
     <li>Changes since 5.2.11
       <ul>
         <li>Prompt to retry the connection if a connection failed event occurs.
@@ -89,11 +96,11 @@ $changes_5 = "
       </ul>
 ";
 
-$w5212= array(
-    "num"=>"5.2.12",
+$w5213= array(
+    "num"=>"5.2.13",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.12_windows_intelx86.exe",
-    "date"=>"26 Nov 2005",
+    "file"=>"boinc_5.2.13_windows_intelx86.exe",
+    "date"=>"29 Nov 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
@@ -267,11 +274,11 @@ $m443s = array(
     "
 );
 
-$l528 = array(
-    "num"=>"5.2.8",
+$l5213 = array(
+    "num"=>"5.2.13",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.2.8_i686-pc-linux-gnu.sh",
-    "date"=>"22 Nov 2005",
+    "file"=>"boinc_5.2.13_i686-pc-linux-gnu.sh",
+    "date"=>"29 Nov 2005",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_5."
@@ -326,7 +333,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5212,
+        $w5213,
         $w445,
     )
 );
@@ -347,7 +354,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l528,
+        $l5213,
         $l443,
     )
 );
