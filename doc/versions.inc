@@ -195,11 +195,11 @@ $w419 = array(
     "
 );
 
-$m528 = array(
-    "num"=>"5.2.8",
+$m5213 = array(
+    "num"=>"5.2.13",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.2.8_macOSX.zip",
-    "date"=>"24 November 2005",
+    "file"=>"boinc_5.2.13_macOSX.zip",
+    "date"=>"29 November 2005",
     "type"=>"mac_advanced",
      "features"=>"<ul>
      <li>
@@ -217,11 +217,11 @@ $m528 = array(
     "
 );
 
-$m528c = array(
-    "num"=>"5.2.8",
+$m5213c = array(
+    "num"=>"5.2.13",
     "status"=>"Unix command-line version",
-    "file"=>"boinc_5.2.8_powerpc-apple-darwin.zip",
-    "date"=>"24 November 2005",
+    "file"=>"boinc_5.2.13_powerpc-apple-darwin.zip",
+    "date"=>"29 November 2005",
     "type"=>"bare_core",
     "features"=>"<ul>
      <li>
@@ -235,11 +235,11 @@ $m528c = array(
     "
 );
 
-$m525s = array(
-    "num"=>"5.2.5.4",
+$m5213s = array(
+    "num"=>"5.2.13",
     "status"=>"Recommended version (simple GUI)",
-    "file"=>"boinc_menubar_v5.2.5_(4)_mac.zip",
-    "date"=>"31 October 2005",
+    "file"=>"boinc_menubar_v5.2.13_mac.zip",
+    "date"=>"29 November 2005",
     "type"=>"mac_simple",
     "features"=>"<ul><li>Includes improved BOINC client
      </ul>
@@ -342,9 +342,9 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m528,
-        $m525s,
-        $m528c,
+        $m5213,
+        $m5213s,
+        $m5213c,
         $m443,
         $m443c,
         $m443s
