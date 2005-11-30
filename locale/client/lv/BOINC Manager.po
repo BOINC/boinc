@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-27 13:48+0200\n"
+"PO-Revision-Date: 2005-11-29 22:46+0200\n"
 "Last-Translator: Atis Kozulis <boinc_at_latvia at mac.com>\n"
 "Language-Team: BOINC@Latvia <boinc_at_latvia at mac.com>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,6 @@ msgid "Attach to project"
 msgstr "Pievienoties projektam"
 
 #: clientgui/AccountInfoPage.cpp:304
-#: clientgui/WelcomePage.cpp:149
 msgid "Attach to account manager"
 msgstr "Pievienoties konta menedžerim"
 
@@ -659,19 +658,19 @@ msgstr "Skatīt informāciju par jūsu kontu, kredītpunktiem un starprezultāti
 msgid "Info about your team"
 msgstr "Apskatīt informāciju par jūsu komandu"
 
-#: clientgui/MainDocument.cpp:194
+#: clientgui/MainDocument.cpp:202
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC menedžeris - pieslēgšanās kļūda"
 
-#: clientgui/MainDocument.cpp:195
+#: clientgui/MainDocument.cpp:203
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Jūsu norādītā parole ir nepareiza, lūdzu, mēģiniet vēlreiz."
 
-#: clientgui/MainDocument.cpp:316
+#: clientgui/MainDocument.cpp:324
 msgid "Retrieving system state; please wait..."
 msgstr "Atjauno sistēmas stāvokli, lūdzu, uzgaidiet..."
 
-#: clientgui/MainDocument.cpp:325
+#: clientgui/MainDocument.cpp:333
 msgid "Retrieving host information; please wait..."
 msgstr "Atjauno datora informāciju, lūdzu, uzgaidiet..."
 
@@ -798,38 +797,38 @@ msgstr "&Projekti"
 msgid "&Help"
 msgstr "P&alīdzība"
 
-#: clientgui/MainFrame.cpp:1045
+#: clientgui/MainFrame.cpp:1048
 msgid "Attaching to project..."
 msgstr "Pievienojas projektam..."
 
-#: clientgui/MainFrame.cpp:1084
+#: clientgui/MainFrame.cpp:1087
 msgid "Retrying communications for project(s)..."
 msgstr "Atkārtot komunikācijas ar projektu(-iem)..."
 
-#: clientgui/MainFrame.cpp:1174
+#: clientgui/MainFrame.cpp:1177
 msgid "Language Selection..."
 msgstr "Valodas izvēle..."
 
-#: clientgui/MainFrame.cpp:1175
+#: clientgui/MainFrame.cpp:1178
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "BOINC menedžera noklusētā valoda tika izmainīta. Lai tā stātos spēkā ir jāpārstartē menedžeris."
 
-#: clientgui/MainFrame.cpp:1579
-#: clientgui/MainFrame.cpp:1596
-#: clientgui/MainFrame.cpp:1602
-#: clientgui/MainFrame.cpp:1645
-#: clientgui/MainFrame.cpp:1673
-#: clientgui/MainFrame.cpp:1682
-#: clientgui/MainFrame.cpp:1696
-#: clientgui/MainFrame.cpp:1704
+#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1597
+#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC menedžeris - tīkla statuss"
 
-#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1581
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC ir nepieciešams pieslēgties pie Interneta, lai veiktu apkopes darbus. Atveriet BOINC menedžeri, lai pieslēgtos un izpildītu nepieciešamo darbu."
 
-#: clientgui/MainFrame.cpp:1595
+#: clientgui/MainFrame.cpp:1596
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -837,51 +836,51 @@ msgstr ""
 "BOINC nepieciešams pieslēgties pie tīkla.\n"
 "Vai drīkst to darīt tagad?"
 
-#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1604
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC pieslēdzas pie Interneta."
 
-#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1647
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC noteica, ka ir pieslēdzies pie Interneta. Tagad aktualizē visus projektus un atjauno datu pārsūtīšanu."
 
-#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1675
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC veiksmīgi atvienojās no Interneta."
 
-#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1684
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC neizdevās atvienoties no Interneta."
 
-#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1698
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC veiksmīgi pieslēdzās pie Interneta."
 
-#: clientgui/MainFrame.cpp:1705
+#: clientgui/MainFrame.cpp:1706
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC neizdevās pieslēgties pie Interneta."
 
-#: clientgui/MainFrame.cpp:1782
-#: clientgui/MainFrame.cpp:1785
+#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1784
 #, c-format
 msgid "Connecting to %s"
 msgstr "Pieslēdzas pie %s"
 
-#: clientgui/MainFrame.cpp:1786
+#: clientgui/MainFrame.cpp:1787
 #, c-format
 msgid "Connected to %s"
 msgstr "Pieslēdzās pie %s"
 
-#: clientgui/MainFrame.cpp:1940
+#: clientgui/MainFrame.cpp:1941
 msgid "BOINC Manager - Connection Failed"
 msgstr "BOINC menedžeris - pieslēgties neizdevās"
 
-#: clientgui/MainFrame.cpp:1941
+#: clientgui/MainFrame.cpp:1942
 msgid ""
 "BOINC Manager is not able to connect to a BOINC client.\n"
 "Would you like to try to connect again?"
@@ -889,11 +888,11 @@ msgstr ""
 "BOINC menedžeris nespēja pieslēgties pie BOINC klienta.\n"
 "Vai vēlētos mēģināt vēlreiz?"
 
-#: clientgui/MainFrame.cpp:1956
+#: clientgui/MainFrame.cpp:1957
 msgid "BOINC Manager - Connection Status"
 msgstr "BOINC menedžeris - pieslēguma statuss"
 
-#: clientgui/MainFrame.cpp:1957
+#: clientgui/MainFrame.cpp:1958
 msgid ""
 "BOINC Manager is not currently connected to a BOINC client.\n"
 "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
@@ -974,6 +973,36 @@ msgstr ""
 "Komunicējas ar projektu\n"
 "Lūdzu, uzgaidiet..."
 
+#: clientgui/ProxyInfoPage.cpp:100
+msgid "Network communication failure"
+msgstr "Tīkla komunikāciju kļūda"
+
+#: clientgui/ProxyInfoPage.cpp:107
+msgid ""
+"BOINC failed to communicate on the Internet. The most likely\n"
+"reasons are:\n"
+"\n"
+"1) Personal firewall software is blocking BOINC. You must\n"
+"configure your personal firewall to let BOINC communicate\n"
+"on port 80. Once this is fixed, click Back to try again.\n"
+"\n"
+"2) You are using a proxy server and BOINC needs to know\n"
+"about it.\n"
+"\n"
+"Click Next to configure BOINC's proxy settings.\n"
+msgstr ""
+"BOINC neizdevās komunicēties Internetā. Iespējams, ka tam\n"
+"par iemeslu ir:\n"
+"\n"
+"1) Jūsu ugunsmūra programmatūra bloķē BOINC. Jums vajag\n"
+"nokonfigurēt ugunsmūri, lai tas ļauj BOINC komunicēties caur\n"
+"80. portu. Tiklīdz tas ir darīts, noklikšķiniet Atpakaļ, lai mēģinātu\n"
+"vēlreiz.\n"
+"\n"
+"2) Jūs lietojat proxy serveri un BOINC ir nepieciešams par to zināt.\n"
+"\n"
+"Noklikšķiniet uz Nākamais, lai konfigurētu BOINC proxy parametrus.\n"
+
 #: clientgui/ProxyPage.cpp:117
 msgid "Proxy configuration"
 msgstr "Proxy konfigurācija"
@@ -1035,11 +1064,11 @@ msgstr "Nederīga konta atslēga. Lūdzu, ievadiet derīgu konta atslēgu"
 msgid "Validation conflict"
 msgstr "Validācijas konflikts"
 
-#: clientgui/ValidateURL.cpp:79
+#: clientgui/ValidateURL.cpp:70
 msgid "Missing URL"
 msgstr "Iztrūkst URL"
 
-#: clientgui/ValidateURL.cpp:80
+#: clientgui/ValidateURL.cpp:71
 msgid ""
 "Please specify a URL.\n"
 "For example:\n"
@@ -1049,18 +1078,18 @@ msgstr ""
 "Piemēram:\n"
 "http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
-msgid "Invalid URL"
-msgstr "Nederīgs URL"
-
 #: clientgui/ValidateURL.cpp:84
 #: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:111
+msgid "Invalid URL"
+msgstr "Nederīgs URL"
+
+#: clientgui/ValidateURL.cpp:85
+#: clientgui/ValidateURL.cpp:89
+#: clientgui/ValidateURL.cpp:93
 msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
@@ -1070,20 +1099,20 @@ msgstr ""
 "Piemēram:\n"
 "http://boincprojekts.example.com"
 
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:105
+#: clientgui/ValidateURL.cpp:109
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' nesatur derīgu datora vārdu."
 
-#: clientgui/ValidateURL.cpp:111
+#: clientgui/ValidateURL.cpp:112
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' nesatur derīgu ceļu."
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:404
+#: clientgui/ViewStatistics.cpp:634
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1289,7 +1318,7 @@ msgstr "Lietotāja atlikts"
 
 #: clientgui/ViewProjects.cpp:724
 msgid "Won't get new work"
-msgstr "Nesaņemt jaunus uzdevumus"
+msgstr "Nesaņems jaunus uzdevumus"
 
 #: clientgui/ViewProjects.cpp:727
 msgid "Scheduler request pending"
@@ -1308,49 +1337,63 @@ msgid "Disk"
 msgstr "Disks"
 
 #: clientgui/ViewStatistics.cpp:41
-#: clientgui/ViewStatistics.cpp:50
-#: clientgui/ViewStatistics.cpp:462
+#: clientgui/ViewStatistics.cpp:52
+#: clientgui/ViewStatistics.cpp:524
+#: clientgui/ViewStatistics.cpp:706
 msgid "User Total"
 msgstr "Lietotāja kopā iegūtie kredītpunkti"
 
-#: clientgui/ViewStatistics.cpp:408
-msgid "Show user total"
-msgstr "Rādīt lietotāja kopējo"
-
-#: clientgui/ViewStatistics.cpp:415
-msgid "Show user average"
-msgstr "Rādīt lietotāja vidējo"
-
-#: clientgui/ViewStatistics.cpp:422
-msgid "Show host total"
-msgstr "Rādīt datora kopējo"
-
-#: clientgui/ViewStatistics.cpp:429
-msgid "Show host average"
-msgstr "Rādīt datora vidējo"
-
-#: clientgui/ViewStatistics.cpp:448
-msgid "Statistics"
-msgstr "Statistika"
-
-#: clientgui/ViewStatistics.cpp:461
-#: clientgui/ViewStatistics.cpp:481
-#: clientgui/ViewStatistics.cpp:501
-#: clientgui/ViewStatistics.cpp:521
-msgid "Updating charts..."
-msgstr "Aktualizē diagrammas..."
-
-#: clientgui/ViewStatistics.cpp:482
+#: clientgui/ViewStatistics.cpp:531
+#: clientgui/ViewStatistics.cpp:726
 msgid "User Average"
 msgstr "Lietotāja vidēji iegūtie kredītpunkti"
 
-#: clientgui/ViewStatistics.cpp:502
+#: clientgui/ViewStatistics.cpp:538
+#: clientgui/ViewStatistics.cpp:746
 msgid "Host Total"
 msgstr "Datora kopējie kredītpunkti"
 
-#: clientgui/ViewStatistics.cpp:522
+#: clientgui/ViewStatistics.cpp:545
+#: clientgui/ViewStatistics.cpp:766
 msgid "Host Average"
 msgstr "Datora vidēji iegūtie kredītpunkti"
+
+#: clientgui/ViewStatistics.cpp:638
+msgid "Show user total"
+msgstr "Rādīt lietotāja kopējo"
+
+#: clientgui/ViewStatistics.cpp:645
+msgid "Show user average"
+msgstr "Rādīt lietotāja vidējo"
+
+#: clientgui/ViewStatistics.cpp:652
+msgid "Show host total"
+msgstr "Rādīt datora kopējo"
+
+#: clientgui/ViewStatistics.cpp:659
+msgid "Show host average"
+msgstr "Rādīt datora vidējo"
+
+#: clientgui/ViewStatistics.cpp:666
+msgid "Mode view"
+msgstr "Režīma skats"
+
+#: clientgui/ViewStatistics.cpp:673
+msgid "Next project"
+msgstr "Nākamais projekts"
+
+#: clientgui/ViewStatistics.cpp:692
+msgid "Statistics"
+msgstr "Statistika"
+
+#: clientgui/ViewStatistics.cpp:705
+#: clientgui/ViewStatistics.cpp:725
+#: clientgui/ViewStatistics.cpp:745
+#: clientgui/ViewStatistics.cpp:765
+#: clientgui/ViewStatistics.cpp:784
+#: clientgui/ViewStatistics.cpp:802
+msgid "Updating charts..."
+msgstr "Aktualizē diagrammas..."
 
 #: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
@@ -1565,11 +1608,17 @@ msgstr "Aktivitātes ir lietotāja atliktas"
 msgid "We'll now guide you through the process of attaching to a project."
 msgstr "Tagad jūs vadīs caur pievienošanās procesu projektam."
 
+#: clientgui/WelcomePage.cpp:149
+msgid "Account manager"
+msgstr "&Konta menedžeris"
+
 #: clientgui/WelcomePage.cpp:153
 msgid ""
-"We'll now guide you through the process of attaching to an\n"
-"account manager."
-msgstr "Tagad jūs vadīs caur pievienošanās procesu konta menedžerim."
+"We'll now guide you through the process of \n"
+"adding/updating/removing an account manager."
+msgstr ""
+"Tagad jūs vadīs caur konta menedžera \n"
+"pievienošanas/aktualizēšanas/noņemšanas procesu."
 
 #: clientgui/WelcomePage.cpp:160
 msgid "Debug Flags"
@@ -1623,21 +1672,21 @@ msgstr "Tīkla noteikšanas kļūda"
 msgid "To continue, click Next."
 msgstr "Lai turpinātu nospiediet Nākamais."
 
-#: clientgui/WizardAccountManager.cpp:116
+#: clientgui/WizardAccountManager.cpp:118
 msgid "Attach to Account Manager"
 msgstr "Pievienoties konta menedžerim"
 
-#: clientgui/WizardAccountManager.cpp:373
-#: clientgui/WizardAttachProject.cpp:423
+#: clientgui/WizardAccountManager.cpp:387
+#: clientgui/WizardAttachProject.cpp:436
 msgid "Do you really want to cancel?"
 msgstr "Vai tiešām vēlaties atcelt?"
 
-#: clientgui/WizardAccountManager.cpp:374
-#: clientgui/WizardAttachProject.cpp:424
+#: clientgui/WizardAccountManager.cpp:388
+#: clientgui/WizardAttachProject.cpp:437
 msgid "Question"
 msgstr "Jautājums"
 
-#: clientgui/WizardAttachProject.cpp:131
+#: clientgui/WizardAttachProject.cpp:133
 msgid "Attach to Project"
 msgstr "Pievienoties projektam"
 
