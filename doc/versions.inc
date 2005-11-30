@@ -211,6 +211,7 @@ $m5213 = array(
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
 ".$features_5."
+".$changes_5."
      </ul>
     ",
     "bugs"=>"
