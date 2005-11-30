@@ -14066,3 +14066,19 @@ Charlie 29 Nov 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  30 Nov 2005
+    - scheduler, homogeneous redundancy part:
+        if we get a request from a client that's not one of
+        the known CPU/OS combinations, don't sent it work.
+        This will prevent the shared-memory segment from
+        filling up with hard-to-send results
+        (for Predictor@home)
+    - core client: if an app's non_cpu_intensive flag changes value,
+        request a CPU rescheduling (for Folding@home)
+
+    sched/
+        sched_array.C
+        sched_hr.C,h
+        sched_send.C
+        server_types.h

@@ -45,6 +45,7 @@
 // OS: Linux, Windows, Darwin, SunOS
 
 const int unspec = 0;
+
 const int nocpu = 1;
 const int Intel = 2;
 const int AMD = 3;
@@ -73,17 +74,19 @@ int CPU(SCHEDULER_REQUEST& sreq){
     else return nocpu;
 };
 
-#if 0
-// old version, just in case
-bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
-    return !strcmp(host.os_name, sreq.host.os_name)
-        && !strcmp(host.p_vendor, sreq.host.p_vendor);
+bool hr_unknown_platform(SCHEDULER_REQUEST& sreq) {
+    if (OS(sreq) == noos) return true;
+    if (CPU(sreq) == nocpu) return true;
+    return false;
 }
-#endif
 
-// return true if we've already sent a result of this WU to a different platform
-// (where "platform" is os_name + p_vendor;
-// may want to sharpen this for Unix)
+// if we've already sent a result of this WU to a different platform
+//    return true
+// else if we haven't sent a result to ANY platform
+//    update WU with platform code
+// return false
+//
+// (where "platform" is os_name + p_vendor; may want to sharpen this for Unix)
 //
 bool already_sent_to_different_platform(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
@@ -103,17 +106,17 @@ bool already_sent_to_different_platform(
         );
         return true;
     }
-    wreq.homogeneous_redundancy_reject = false;
+    wreq.hr_reject_temp = false;
     if (hr_class != unspec) {
         if (OS(sreq) + CPU(sreq) != hr_class) {
-            wreq.homogeneous_redundancy_reject = true;
+            wreq.hr_reject_temp = true;
         }
     } else {
         hr_class = OS(sreq) + CPU(sreq);
         sprintf(buf, "hr_class=%d", hr_class);
         db_wu.update_field(buf);
     }
-    return wreq.homogeneous_redundancy_reject;
+    return wreq.hr_reject_temp;
 }
 
 const char *BOINC_RCSID_4196d9a5b4="$Id$";

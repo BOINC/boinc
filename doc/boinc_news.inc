@@ -1,7 +1,17 @@
 <?
 
 $project_news = array(
-
+array("November 29, 2005",
+    "We have created a new email list,
+    <a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_announce>boinc_announce@ssl.berkeley.edu</a>,
+    for announcements of new versions of BOINC client software."
+),
+array("November 27, 2005",
+     "Check out <a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciemat06.pdf>A BOINC seminar by Juan Antonio Lopez Perez of CERN</a>,
+     presented at CIEMAT in Madrid, November 2005.
+     Also available in a
+     <a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciematprint06.pdf>print version</a>."
+),
 array("November 15, 2005",
     "<a href=stats.php>Aggregate credit data</a>
     (user and host credit data summed over all BOINC projects)

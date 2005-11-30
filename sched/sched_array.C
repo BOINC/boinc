@@ -55,6 +55,13 @@ void scan_work_array(
     APP_VERSION* avp;
     bool found;
 
+    if (config.homogeneous_redundancy) {
+        if (hr_unknown_platform(sreq)) {
+            reply.wreq.hr_reject_perm = true;
+            return;
+        }
+    }
+
     lock_sema();
     
     rnd_off = rand() % ss.nwu_results;

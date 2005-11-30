@@ -842,6 +842,7 @@ void ACTIVE_TASK::send_network_available() {
 //
 bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
+    int new_non_cpu_intensive;
 
     if (!app_client_shm.shm) {
         msg_printf(result->project, MSG_INFO,
@@ -849,20 +850,23 @@ bool ACTIVE_TASK::get_app_status_msg() {
         );
         return false;
     }
-    if (app_client_shm.shm->app_status.get_msg(msg_buf)) {
-        fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
-        parse_double(msg_buf, "<fraction_done>", fraction_done);
-        parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
-        parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-        parse_double(msg_buf, "<vm_bytes>", vm_bytes);
-        parse_double(msg_buf, "<rss_bytes>", rss_bytes);
-        parse_int(msg_buf, "<non_cpu_intensive>", non_cpu_intensive);
-        parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
-        parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
-        parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
-        parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
-    } else {
+    if (!app_client_shm.shm->app_status.get_msg(msg_buf)) {
         return false;
+    }
+    fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
+    parse_double(msg_buf, "<fraction_done>", fraction_done);
+    parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
+    parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
+    parse_double(msg_buf, "<vm_bytes>", vm_bytes);
+    parse_double(msg_buf, "<rss_bytes>", rss_bytes);
+    parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
+    parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
+    parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
+    parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
+    parse_int(msg_buf, "<non_cpu_intensive>", new_non_cpu_intensive);
+    if (new_non_cpu_intensive != non_cpu_intensive) {
+        non_cpu_intensive = new_non_cpu_intensive;
+        gstate.request_schedule_cpus("Change in app CPU-intensive status");
     }
     return true;
 }

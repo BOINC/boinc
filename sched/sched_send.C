@@ -678,7 +678,8 @@ int send_work(
     reply.wreq.insufficient_speed = false;
     reply.wreq.excessive_work_buf = false;
     reply.wreq.no_app_version = false;
-    reply.wreq.homogeneous_redundancy_reject = false;
+    reply.wreq.hr_reject_temp = false;
+    reply.wreq.hr_reject_perm = false;
     reply.wreq.daily_result_quota_exceeded = false;
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
@@ -772,9 +773,16 @@ int send_work(
             USER_MESSAGE um(helpful, "high");
             reply.insert_message(um);
         }
-        if (reply.wreq.homogeneous_redundancy_reject) {
+        if (reply.wreq.hr_reject_temp) {
             USER_MESSAGE um(
                 "(there was work but it was committed to other platforms)",
+                "high"
+            );
+            reply.insert_message(um);
+        }
+        if (reply.wreq.hr_reject_perm) {
+            USER_MESSAGE um(
+                "(your platform is not supported by this project)",
                 "high"
             );
             reply.insert_message(um);

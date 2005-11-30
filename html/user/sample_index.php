@@ -6,6 +6,7 @@ require_once("../inc/news.inc");
 require_once("../inc/cache.inc");
 require_once("../inc/uotd.inc");
 require_once("../inc/sanitize_html.inc");
+require_once("../inc/translation.inc");
 require_once("../project/project.inc");
 require_once("../project/project_news.inc");
 
@@ -18,7 +19,7 @@ function show_nav() {
         <li><a href=info.php>".tr(RULES_TITLE)."</a>
         <li><a href=http://boinc.berkeley.edu/intro_user.php>Getting started</a>
         <li><a href=create_account_form.php>".tr(CREATE_AC_CREATE)."</a>
-        <li><a href=apps.php>".tr(APPLICATIONS)."</a>
+        <li><a href=apps.php>".tr(APPS_TITLE)."</a>
         </ul>
 
         <h3>Returning participants</h3>
