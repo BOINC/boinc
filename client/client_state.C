@@ -124,6 +124,7 @@ CLIENT_STATE::CLIENT_STATE() {
     no_gui_rpc = false;
     have_tentative_project = false;
     new_version_check_time = 0;
+    detach_console = false;
 }
 
 #if 0
@@ -192,21 +193,21 @@ void CLIENT_STATE::free_mem() {
 
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
-    msg_printf(NULL, MSG_INFO, 
+    msg_printf(NULL, MSG_INFO,
         "Processor: %d %s %s",
         host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO, 
+    msg_printf(NULL, MSG_INFO,
         "Memory: %s physical, %s virtual",
         buf, buf2
     );
 
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO, 
+    msg_printf(NULL, MSG_INFO,
         "Disk: %s total, %s free",
         buf, buf2
     );
@@ -250,7 +251,7 @@ int CLIENT_STATE::init() {
 #ifdef _WIN32
     DWORD  buf_size = sizeof(buf);
     LPTSTR pbuf = buf;
-    
+
     GetUserName(pbuf, &buf_size);
     if (executing_as_daemon && (0 != strcmp("SYSTEM", pbuf))) {
         msg_printf(NULL, MSG_INFO,
@@ -281,7 +282,7 @@ int CLIENT_STATE::init() {
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
- 
+
     // Check to see if we can write the state file.
     //
     retval = write_state_file();

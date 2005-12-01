@@ -109,7 +109,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             ::OutputDebugString(event_message);
             // TODO: Refactor messages so that we do not overload the event log
-            // RTW 08/24/2004 
+            // RTW 08/24/2004
             //LogEventErrorMessage(event_message);
 #endif
         }
@@ -122,7 +122,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
             _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             ::OutputDebugString(event_message);
             // TODO: Refactor messages so that we do not overload the event log
-            // RTW 08/24/2004 
+            // RTW 08/24/2004
             //LogEventInfoMessage(event_message);
 #endif
         }
@@ -171,9 +171,9 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID lpParam ) {
     MSG msg;
 
     wc.style         = CS_GLOBALCLASS;
-    wc.lpfnWndProc   = (WNDPROC)Win9xMonitorSystemWndProc; 
+    wc.lpfnWndProc   = (WNDPROC)Win9xMonitorSystemWndProc;
     wc.cbClsExtra    = 0;
-    wc.cbWndExtra    = 0; 
+    wc.cbWndExtra    = 0;
     wc.hInstance     = NULL;
     wc.hIcon         = NULL;
     wc.hCursor       = NULL;
@@ -181,7 +181,7 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID lpParam ) {
     wc.lpszMenuName  = NULL;
 	wc.lpszClassName = "BOINCWin9xMonitorSystem";
 
-    if (!RegisterClass(&wc)) 
+    if (!RegisterClass(&wc))
     {
         fprintf(stderr, "Failed to register the Win9xMonitorSystem window class.\n");
         return 1;
@@ -189,7 +189,7 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID lpParam ) {
 
     /* Create an invisible window */
     hwndMain = CreateWindow(
-        wc.lpszClassName, 
+        wc.lpszClassName,
 		"BOINC Monitor System",
         WS_OVERLAPPEDWINDOW & ~WS_VISIBLE,
         CW_USEDEFAULT,
@@ -206,8 +206,8 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID lpParam ) {
         fprintf(stderr, "Failed to create the Win9xMonitorSystem window.\n");
         return 0;
     }
-    
-    while (GetMessage(&msg, NULL, 0, 0)) 
+
+    while (GetMessage(&msg, NULL, 0, 0))
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
@@ -325,14 +325,14 @@ static void init_core_client(int argc, char** argv) {
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_HEAPCHECKEVERYALLOC |
         BOINC_DIAG_TRACETOSTDOUT;
 
-    if (gstate.redirect_io || gstate.executing_as_daemon) {
-        dwDiagnosticsFlags |= 
-            BOINC_DIAG_REDIRECTSTDERR | 
+    if (gstate.redirect_io || gstate.executing_as_daemon || gstate.detach_console) {
+        dwDiagnosticsFlags |=
+            BOINC_DIAG_REDIRECTSTDERR |
             BOINC_DIAG_REDIRECTSTDOUT;
     }
 
@@ -347,6 +347,13 @@ static void init_core_client(int argc, char** argv) {
         msg_printf(NULL, MSG_INFO, "Another instance of BOINC is running");
         exit(1);
     }
+
+	// Win32 - detach from console if requested
+#ifdef _WIN32
+	if (gstate.detach_console) {
+		FreeConsole();
+	}
+#endif
 
 // Unix: install signal handlers
 #ifndef _WIN32
@@ -419,6 +426,62 @@ int boinc_main_loop() {
 int main(int argc, char** argv) {
     int retval = 0;
 
+#ifdef _WIN32
+    // This bit of silliness is required to properly detach when run from within a command
+    // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return
+    // control to the user until the spawned program exits, detaching from the console is
+    // not enough.  So we need to do the following.  If the -detach flag is given, trap it
+    // prior to the main setup in init_core_client.  Reinvoke the program, changing the
+    // -detach into -detach_phase_two, and then exit.  At this point, cmd.exe thinks all is
+    // well, and returns control to the user.  Meanwhile the second invocation will grok the
+    // -detach_phase_two flag, and detach itself from the console, finally getting us to
+    // where we want to be.
+
+    int i;
+    int len;
+    char *commandLine;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    for (i = 1; i < argc; i++) {
+        // FIXME FIXME.  Duplicate instances of -detach may cause this to be
+        // executed unnecessarily.  At worst, I think it leads to a few extra
+        // processes being created and destroyed.
+        if (strcmp(argv[i], "-detach") == 0 || strcmp(argv[i], "--detach") == 0) {
+            argv[i] = "-detach_phase_two";
+
+            // start with space for two '"'s
+            len = 2;
+            for (i = 0; i < argc; i++) {
+                len += strlen(argv[i]) + 1;
+            }
+            if ((commandLine = (char *) malloc(len)) == NULL) {
+                // Drop back ten and punt.  Can't do the detach thing, so we just carry on.
+                // At least the program will start.
+                break;
+            }
+            commandLine[0] = '"';
+            // OK, we can safely use strcpy and strcat, since we know that we allocated enough
+            strcpy(&commandLine[1], argv[0]);
+            strcat(commandLine, "\"");
+            for (i = 1; i < argc; i++) {
+                strcat(commandLine, " ");
+                strcat(commandLine, argv[i]);
+            }
+
+            memset(&si, 0, sizeof(si));
+            si.cb = sizeof(si);
+
+            // If process creation succeeds, we exit, if it fails punt and continue
+            // as usual.  We won't detach properly, but the program will run.
+            if (CreateProcess(NULL, commandLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+                exit(0);
+            }
+            break;
+        }
+    }
+#endif
+
     boinc_cleanup_completed = false;
 
     init_core_client(argc, argv);
@@ -428,7 +491,7 @@ int main(int argc, char** argv) {
 #ifdef _WIN32
 
     // Figure out if we're on Win9x
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     g_bIsWin9x = osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;

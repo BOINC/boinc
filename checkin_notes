@@ -12015,12 +12015,12 @@ David  22 Sept 2005
         gui_rpc_server_ops.C
 
 David  22 Sept 2005
-	- we were assuming that if a scheduler RPC reply didn't
-		have a user ID, it must be because of a bad account key.
-		Not so - could also be major version mismatch with old schedulers
+    - we were assuming that if a scheduler RPC reply didn't
+        have a user ID, it must be because of a bad account key.
+        Not so - could also be major version mismatch with old schedulers
 
-	client/
-		scheduler_op.C
+    client/
+        scheduler_op.C
 
 David  22 Sept 2005
     - Change "Macedonia, The Former Yugoslav Republic of" to "Macedonia"
@@ -12205,37 +12205,37 @@ Janus   27 Sept 2005
             util.inc
         user/
             forum_post.php
-	    forum_edit.php
+        forum_edit.php
         languages/translations
             en.po
 
 David   27 Sept 2005
-	- code cleanup:
-		- remove bool has_* from PROJECT_INIT
-			(just use string length)
-		- in PROJECT_INIT, always keep URL in canonical form
-		- PROJECT_INIT: clear it if delete file
-		- in acct_mgr_info GUI RPC reply, use
-			<have_credentials/> instead of <cached_credentials/>.
-		- in project_attach and acct_mgr_rpc GUI RPC requests, use
-			<use_config_file/> instead of <use_cached_credentials/>
-		- in ACCT_MGR_INFO, rename cached_credentials to have_credentials
+    - code cleanup:
+        - remove bool has_* from PROJECT_INIT
+            (just use string length)
+        - in PROJECT_INIT, always keep URL in canonical form
+        - PROJECT_INIT: clear it if delete file
+        - in acct_mgr_info GUI RPC reply, use
+            <have_credentials/> instead of <cached_credentials/>.
+        - in project_attach and acct_mgr_rpc GUI RPC requests, use
+            <use_config_file/> instead of <use_cached_credentials/>
+        - in ACCT_MGR_INFO, rename cached_credentials to have_credentials
 
-	client/
-		acct_setup.C,h
-		client_state.C
-		gui_rpc_server_ops.C
-	clientgui/
-		MainFrame.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        acct_setup.C,h
+        client_state.C
+        gui_rpc_server_ops.C
+    clientgui/
+        MainFrame.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 David   27 Sept 2005
     - if doing CPU benchmarks, don't call most poll functions
 
-	client/
-		client_state.C
+    client/
+        client_state.C
 
 Rom    27 Sept 2005
     - Some more cleanup.
@@ -12250,23 +12250,23 @@ Rom    27 Sept 2005
         gui_rpc_client_ops.C
 
 David   27 Sept 2005
-	- finish the code to pass messages back to the Manager from
-		1) project attach
-		2) acct mgr RPC
-		3) get project config
+    - finish the code to pass messages back to the Manager from
+        1) project attach
+        2) acct mgr RPC
+        3) get project config
 
-	Rom: please add code to show these messages in Manager.
+    Rom: please add code to show these messages in Manager.
 
-	client/
-		acct_setup.h
-		cs_scheduler.C
-		gui_rpc_server_ops.C
-	clientgui/wizards/
-		AccountManagerProcessingPage.cpp
-		ProjectProcessingPage.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        acct_setup.h
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+    clientgui/wizards/
+        AccountManagerProcessingPage.cpp
+        ProjectProcessingPage.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 Rom    27 Sept 2005
     - Add server message support to the attach to project wizard.
@@ -12390,9 +12390,9 @@ Reinhard        29 Sept 2005
     client/ 
         Makefile.am
     m4/ 
-	sah_check_lib.m4
+    sah_check_lib.m4
     tools/
-	Makefile.am
+    Makefile.am
 
 Rom    29 Sept 2005
     - Account not found page should show a finish button instead of a next
@@ -13145,29 +13145,29 @@ David  13 Oct 2005
 
 David  13 Oct 2005
     - Fix a moderate security loophole in GUI RPC.
-		Old: by default, core client doesn't create a password file
-			(gui_rpc_auth.cfg).
-			Therefore any process on the local host can connect to it;
-			even processes belonging to other users.
-			So if user X is running BOINC, evil user Y can use GUI
-			RPCs to attach BOINC to a rogue project,
-			causing bad code to run as user X.
-		New: on startup, if the core client doesn't find a password file,
-			it creates one, writes a long random string to it,
-			and (on Unix) makes it user-read/write only.
-			The BOINC Manager, when connecting to the local host,
-			looks for a password file in the current directory.
+        Old: by default, core client doesn't create a password file
+            (gui_rpc_auth.cfg).
+            Therefore any process on the local host can connect to it;
+            even processes belonging to other users.
+            So if user X is running BOINC, evil user Y can use GUI
+            RPCs to attach BOINC to a rogue project,
+            causing bad code to run as user X.
+        New: on startup, if the core client doesn't find a password file,
+            it creates one, writes a long random string to it,
+            and (on Unix) makes it user-read/write only.
+            The BOINC Manager, when connecting to the local host,
+            looks for a password file in the current directory.
 
-		Bottom line: a user running BOINC is now protected against
-		other users on the same host.
+        Bottom line: a user running BOINC is now protected against
+        other users on the same host.
 
-		NOTE: this could cause some angst for Mac users,
-		if they expect things to work the same for all users.
+        NOTE: this could cause some angst for Mac users,
+        if they expect things to work the same for all users.
 
-	client/
-		gui_rpc_server.C
-	clientgui/
-		MainDocument.cpp
+    client/
+        gui_rpc_server.C
+    clientgui/
+        MainDocument.cpp
 
 David  16 Oct 2005
     - User web: fix bug that caused very few profiles to
@@ -13224,11 +13224,11 @@ Reinhard 19 Oct 2005
     ./_autosetup
 
 David  20 Oct 2005
-	- removed declaration of g_hIdleDetectionDll from lib/hostinfo.h
-		(what the heck was it doing there??)
+    - removed declaration of g_hIdleDetectionDll from lib/hostinfo.h
+        (what the heck was it doing there??)
 
-	lib/
-		hostinfo.h
+    lib/
+        hostinfo.h
 
 David  20 Oct 2005
     - core client: delete project_init.xml only on detach via GUI RPC
@@ -13299,22 +13299,22 @@ Charlie 21 Oct 2005
             project.pbxproj
 
 David  22 Oct 2005
-	- Prevent the "merge host" feature from being used
-		to merge distinct hosts
-		(and create host records with exaggerated credit totals).
-		Hosts X and Y are considered "compatible" (for merging)
-			only if X.rpc_time < Y.create_time or vice-versa.
-	- When merging hosts X and Y,
-		a) decay their expavg_credit prior to adding and updating
-		b) set create_time to the min of the two
-		c) if the target is older, update its rpc_time and rpc_seqno
+    - Prevent the "merge host" feature from being used
+        to merge distinct hosts
+        (and create host records with exaggerated credit totals).
+        Hosts X and Y are considered "compatible" (for merging)
+            only if X.rpc_time < Y.create_time or vice-versa.
+    - When merging hosts X and Y,
+        a) decay their expavg_credit prior to adding and updating
+        b) set create_time to the min of the two
+        c) if the target is older, update its rpc_time and rpc_seqno
 
-	html/
-		inc/
-			host.inc
-		user/
-			host_edit_action.php
-			host_edit_form.php
+    html/
+        inc/
+            host.inc
+        user/
+            host_edit_action.php
+            host_edit_form.php
 
 David  23 Oct 2005
     - fix compile warnings
@@ -13364,12 +13364,12 @@ Charlie 25 Oct 2005
         gui_rpc_server.C
         
 David  25 Oct 2005
-	- "boinc_cmd" looks for a password in gui_rpc_auth.cfg
+    - "boinc_cmd" looks for a password in gui_rpc_auth.cfg
 
-	client/
-		acct_setup.C
-	lib/
-		boinc_cmd.C
+    client/
+        acct_setup.C
+    lib/
+        boinc_cmd.C
 
 David  25 Oct 2005
     - avoid SQL injection attack
@@ -13405,18 +13405,18 @@ David  27 Oct 2005
         util.C,h
 
 David  27 Oct 2005
-	- core client: parse fpops_per_cpu_sec, fpops_cumulative from app
-		(This way of assigning credit didn't work because of this)
+    - core client: parse fpops_per_cpu_sec, fpops_cumulative from app
+        (This way of assigning credit didn't work because of this)
 
-	client/
-		app_control.C
+    client/
+        app_control.C
 
 David  27 Oct 2005
-	- file upload handler: in file size query, reject names with ".."
-	- fix possible buffer overruns in file upload handler
+    - file upload handler: in file size query, reject names with ".."
+    - fix possible buffer overruns in file upload handler
 
-	sched/
-		file_upload_handler.C
+    sched/
+        file_upload_handler.C
 
 David  28 Oct 2005
     - user web: updates to reflect client version 5.x
@@ -13534,10 +13534,10 @@ Rom    2 Nov 2005
         ViewWork.cpp
 
 David  2 Nov 2005
-	- core client: fix bad formula for computing CPU time remaining
+    - core client: fix bad formula for computing CPU time remaining
 
-	client/
-		app.C,h
+    client/
+        app.C,h
 
 David  2 Nov 2005
     - user web: the line
@@ -13646,23 +13646,23 @@ Rom    8 Nov 2005
         cs_apps.C
 
 David  9 Nov 2005
-	- Core client: every 2 weeks, contact the BOINC web site,
-		see if there's a newer version, and print a message if so.
-		Only do this while a scheduler RPC is happening
-		(to avoid unnecessary dialups, e.g.)
-	- Core client: if a scheduler returns a new host ID
-		(indicating that our statefile was copied from another host)
-		generate a new host CPID
-		(suggested by Rob Oglivie)
+    - Core client: every 2 weeks, contact the BOINC web site,
+        see if there's a newer version, and print a message if so.
+        Only do this while a scheduler RPC is happening
+        (to avoid unnecessary dialups, e.g.)
+    - Core client: if a scheduler returns a new host ID
+        (indicating that our statefile was copied from another host)
+        generate a new host CPID
+        (suggested by Rob Oglivie)
 
-	client/
-		acct_setup.C,h
-		client_state.C,h
-		cs_benchmark.C
-		cs_scheduler.C
-		cs_statefile.C
-		file_names.h
-		scheduler_op.C
+    client/
+        acct_setup.C,h
+        client_state.C,h
+        cs_benchmark.C
+        cs_scheduler.C
+        cs_statefile.C
+        file_names.h
+        scheduler_op.C
 
 Charlie 11 nov 2005
     - Update BOINC Manager web page
@@ -13678,18 +13678,18 @@ Charlie 11 nov 2005
         mgrsystraymenu.png
 
 David  11 Nov 05
-	- Core client: when do a "get newer version" RPC,
-		save the results in the client state file.
-	- Add GUI RPC for getting the newer version number.
+    - Core client: when do a "get newer version" RPC,
+        save the results in the client state file.
+    - Add GUI RPC for getting the newer version number.
 
-	client/
-		acct_setup.C
-		client_state.h
-		cs_statefile.C
-		gui_rpc_server_ops.C
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        acct_setup.C
+        client_state.h
+        cs_statefile.C
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 David  12 Nov 2005
     - typo fix
@@ -13860,37 +13860,37 @@ Janus 24 Nov 2005
     - Added the needed DB update query to db_update in ops.
 
     html/
-	ops/
+    ops/
             db_update.php
-	inc/
+    inc/
             forum.inc
-	    text_transform.inc
+        text_transform.inc
         user/
             forum_thread.php
             white.css
-	    edit_forum_preferences_form.php
+        edit_forum_preferences_form.php
             edit_forum_preferences_action.php
             
 David  24 Nov 2005
-	- Manager: improvements to Statistics tab
+    - Manager: improvements to Statistics tab
 
-	clientgui/
-		ViewStatistics.cpp
+    clientgui/
+        ViewStatistics.cpp
 
 David  25 Nov 2005
-	- Fixed measurements of network bandwidth:
-		- Do measurements only while file transfers are active,
-			not scheduler or other RPCs.
-			Move the up_active and down_active flags from
-			NET_XFER_SET to FILE_XFER_SET.
-		- use a decay of 1 hour instead of 24
-		- reset delta_t and delta_nbytes after using them
+    - Fixed measurements of network bandwidth:
+        - Do measurements only while file transfers are active,
+            not scheduler or other RPCs.
+            Move the up_active and down_active flags from
+            NET_XFER_SET to FILE_XFER_SET.
+        - use a decay of 1 hour instead of 24
+        - reset delta_t and delta_nbytes after using them
 
-	client/
-		client_state.C
-		file_xfer.C,h
-		net_stats.C,h
-		net_xfer_curl.C,h
+    client/
+        client_state.C
+        file_xfer.C,h
+        net_stats.C,h
+        net_xfer_curl.C,h
 
 David  25 Nov 2005
     - Core client: if we're currently using an account manager
@@ -14001,15 +14001,15 @@ David  27 Nov 2005
         acct_mgr.C
 
 David  27 Nov 2005
-	- Manager: more improvements to the Statistics tab
-		(from Mifistor)
-	- Account manager: don't try RPC every second
+    - Manager: more improvements to the Statistics tab
+        (from Mifistor)
+    - Account manager: don't try RPC every second
 
-	client/
-		acct_mgr.C
-	clientgui/
-		Events.h
-		ViewStatistics.cpp,h
+    client/
+        acct_mgr.C
+    clientgui/
+        Events.h
+        ViewStatistics.cpp,h
 
 Rom    28 Nov 2005
     - Bug Fix: Fix the URL validator so that it won't modify the user 
@@ -14088,11 +14088,23 @@ Eric K. 30 Nov 2005
     - minor mods to allow BOINC applications to compile under MINGW.
     lib/
         boinc_win.h
-	diagnostics.C
-	diagnostics.h
-	util.C
-	stackwalker_win.h
+    diagnostics.C
+    diagnostics.h
+    util.C
+    stackwalker_win.h
     api/
         boinc_gl.h
-	gutil.h
+    gutil.h
 
+
+David  30 Nov 2005
+    - core client: add -detach option (Windows).
+        Runs completely detached from the console.
+         This allows users who can't start it as a service
+         to be able to run boinc.exe "invisibly".  
+         (from David Goodenough)
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        main.C

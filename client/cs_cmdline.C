@@ -48,6 +48,7 @@ static void print_options(char* prog) {
         "    -check_all_logins              for idle detection, check remote logins\n too"
         "    -allow_remote_gui_rpc          allow remote GUI RPC connections\n"
         "    -redirectio                    redirect stdout and stderr to log files\n"
+        "    -detach                        detach from console (Windows)\n"
         "    -dir <path>                    use given dir as BOINC home\n"
         "    -no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
         ,
@@ -129,6 +130,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             else pers_giveup = atoi(argv[++i]);
         } else if (ARG(debug_fake_exponential_backoff)) {
             debug_fake_exponential_backoff = true;
+        } else if (ARG(detach_phase_two)) {
+            detach_console = true;
 
         // the above options are private (i.e. not shown by -help)
         // Public options follow.

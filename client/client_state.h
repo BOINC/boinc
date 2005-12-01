@@ -138,6 +138,7 @@ public:
     bool size_overflow;
     bool redirect_io;
         // redirect stdout, stderr to log files
+    bool detach_console;
     double now;
     const char* platform_name;
 
@@ -388,7 +389,7 @@ public:
 // ------------------ cs_data.C:
 // mechanisms for managing data saved on host
 //
-public:   
+public:
     bool get_more_disk_space(PROJECT*, double);
     int anything_free(double &);
     int calc_proj_size(PROJECT*);
@@ -406,7 +407,7 @@ private:
     int reset_checks();
     int delete_inactive_results(PROJECT*);
     int unstick_result_files(RESULT*);
-    double delete_next_file(PROJECT*, int); 
+    double delete_next_file(PROJECT*, int);
     double delete_expired(PROJECT*);
     double offender(PROJECT*);
     double proj_potentially_free(PROJECT*);
