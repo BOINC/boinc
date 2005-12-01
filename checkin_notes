@@ -14108,3 +14108,11 @@ David  30 Nov 2005
         client_state.C,h
         cs_cmdline.C
         main.C
+
+Charlie 1 Dec 2005
+    - Mac XCode project: fix absolute path to Mac_GUI.cpp; fix bug in 
+      shell script to run SetVersion when path contains a space.
+
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj

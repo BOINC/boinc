@@ -4150,9 +4150,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = Mac_GUI.cpp;
-			path = /Volumes/Moon/BOINC_Mac/_boinc_head/clientgui/mac/Mac_GUI.cpp;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../clientgui/mac/Mac_GUI.cpp;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DDA9D3BC09189A8C0060E7A7 = {
 			fileRef = DDA9D3BB09189A8C0060E7A7;
@@ -4209,7 +4209,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$BUILT_PRODUCTS_DIR/SetVersion\nmkdir -p \"$TEMP_FILES_DIR/../mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$TEMP_FILES_DIR/../mgr_boinc.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$TEMP_FILES_DIR/../Installer.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$TEMP_FILES_DIR/../ScreenSaver.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$TEMP_FILES_DIR/../SystemMenu.build/Info.plist\"\n";
+			shellScript = "\"$BUILT_PRODUCTS_DIR/SetVersion\"\nmkdir -p \"$TEMP_FILES_DIR/../mgr_boinc.build\"\ncp -fp \"$BUILD_DIR/../Info.plist\" \"$TEMP_FILES_DIR/../mgr_boinc.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../Installer.build\"\ncp -fp \"$BUILD_DIR/../Installer-Info.plist\" \"$TEMP_FILES_DIR/../Installer.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../ScreenSaver.build\"\ncp -fp \"$BUILD_DIR/../ScreenSaver-Info.plist\" \"$TEMP_FILES_DIR/../ScreenSaver.build/Info.plist\"\nmkdir -p \"$TEMP_FILES_DIR/../SystemMenu.build\"\ncp -fp \"$BUILD_DIR/../SystemMenu-Info.plist\" \"$TEMP_FILES_DIR/../SystemMenu.build/Info.plist\"\n";
 		};
 		DDADA51508BAC96200053BFB = {
 			fileRef = 20286C33FDCF999611CA2CEA;
