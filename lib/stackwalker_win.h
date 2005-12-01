@@ -22,6 +22,7 @@
 #ifndef __STACKWALKER_H__
 #define __STACKWALKER_H__
 
+#include "boinc_win.h"
 // Only valid in the following environment: Intel platform, MS VC++ 5/6/7
 #ifndef _X86_
 #error Only INTEL envirnoments are supported!

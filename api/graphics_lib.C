@@ -70,15 +70,9 @@ int boinc_init_options_graphics_lib(
     boinc_main_state.set_worker_timer_hook = set_worker_timer;
     boinc_main_state.app_client_shmp = &app_client_shm;
 
-    // figure out name of executable, and append .so
-    //
-    if ((ptr = strrchr(argv0, '/'))) {
-        ptr++;
-    } else {
-        ptr = argv0;
-    }
+    ptr = argv0;
     strcpy(graphics_lib, ptr);
-    strncat(graphics_lib, ".so", BOINC_STRLEN);
+    strncat(graphics_lib, DLLEXT, BOINC_STRLEN);
     graphics_lib[BOINC_STRLEN-1] = 0;
   
     // boinc-resolve library name: it could be a XML symlink
@@ -88,6 +82,7 @@ int boinc_init_options_graphics_lib(
             "Unable to boinc_resolve name of shared object file %s\n",
             graphics_lib
         );
+        fflush(stderr);
         goto no_graphics;
     }
   
@@ -102,6 +97,7 @@ int boinc_init_options_graphics_lib(
         fprintf(stderr,
             "dlopen() failed: %s\nNo graphics.\n", errormsg?errormsg:""
         );
+        fflush(stderr);
         goto no_graphics;
     }
     

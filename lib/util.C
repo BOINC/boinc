@@ -40,13 +40,16 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
 #include <sys/resource.h>
 #include <unistd.h>
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
 #endif
+
 
 #include "error_numbers.h"
 #include "filesys.h"

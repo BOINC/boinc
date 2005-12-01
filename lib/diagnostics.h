@@ -129,9 +129,15 @@ extern void boinc_info_release(const char *pszFormat, ...);
 
 #else  // _DEBUG
 
+#ifdef __MINGW32__
+#define BOINCASSERT(expr)   
+#define BOINCTRACE(...)
+#define BOINCINFO           boinc_info_release
+#else  // __MINGW32__
 #define BOINCASSERT(expr)   __noop
 #define BOINCTRACE          __noop
 #define BOINCINFO           boinc_info_release
+#endif // __MINGW32__
 
 #endif // _DEBUG
 

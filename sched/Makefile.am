@@ -194,7 +194,7 @@ fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 .PHONY: PHONY-start
 
 PHONY-start:
-	@test -f start || ln -s $(srcdir)/start start && test -f start
+	@test -f start || @LN_S@ $(srcdir)/start start && test -f start
 
 status stop: PHONY-start
-	@test -f $@ || ln -s start $@ && test -f $@
+	@test -f $@ || @LN_S@ start $@ && test -f $@

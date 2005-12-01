@@ -32,7 +32,7 @@
 #include "config.h"
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 #include "stackwalker_win.h"
 #endif
 
@@ -374,9 +374,11 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     }
     fflush( stderr );
 
+#ifndef __MINGW32__
     // Unwind the stack and spew it to stderr
     if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED )
         StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
+#endif
 
     fprintf( stderr, "Exiting...\n" );
     fflush( stderr );

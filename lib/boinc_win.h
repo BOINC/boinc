@@ -61,16 +61,25 @@
 #include <winsock.h>
 #include <wininet.h>
 #include <process.h>
+#ifdef __MINGW32__
+#include <pbt.h>
+#endif
+
 #include <commctrl.h>
 #include <raserror.h>
 #include <mmsystem.h>
 #include <direct.h>
 #include <io.h>
+#ifndef __MINGW32__
 #include <crtdbg.h>
+#endif
 #include <tchar.h>
+#ifndef __MINGW32__
 #include <crtdbg.h>
+#endif
+#ifndef __MINGW32__
 #include <delayimp.h>
-
+#endif
 // All projects should be using std::min and std::max instead of the Windows
 //   version of the symbols.
 #undef min
@@ -91,8 +100,8 @@
 #include <cmath>
 #include <csetjmp>
 #include <cstdarg>
-#include <cstdio>
 #include <cstdlib>
+#include <cstdio>
 #include <cstring>
 #include <ctime>
 #include <cfloat>

@@ -24,7 +24,11 @@
 #if defined(_WIN32)
 #  include <GL/gl.h>
 #  include <GL/glu.h>
+#ifndef __MINGW32__
 #  include <GL/glaux.h>
+#else
+#  include <GL/glext.h>
+#endif
 #  include <glut.h>
 
 #elif defined(__APPLE_CC__)
