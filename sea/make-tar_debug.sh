@@ -5,5 +5,5 @@ mkdir BOINC_debug
 mkdir BOINC_debug/locale
 find ../locale/client -name '*.mo' | cut -d '/' -f 4 | awk '{print "BOINC_debug/locale/"$0}' | xargs mkdir
 find ../locale/client -name '*.mo' | cut -d '/' -f 4,5 | awk '{print "cp \"../locale/client/"$0"\" \"BOINC_debug/locale/"$0"\""}' | sh
-tar cvvf sea_debug.tar BOINC_debug/
+tar cvf sea_debug.tar BOINC_debug
 
