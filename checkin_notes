@@ -14116,3 +14116,10 @@ Charlie 1 Dec 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+David  1 Dec 2005
+    - core client: skip aborted results in round-robin simulation
+        (from John McLeod)
+
+    client/
+        cs_scheduler.C

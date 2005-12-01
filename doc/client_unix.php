@@ -67,6 +67,9 @@ list_item("-allow_remote_gui_rpc",
 list_item("-dir abs_path",
     "Use the given directory as BOINC home"
 );
+list_item("-detach",
+    "Detach from console (Windows only)"
+);
 list_item("-no_gui_rpc",
     "Don't allow GUI RPCs; don't try to create socket."
 );

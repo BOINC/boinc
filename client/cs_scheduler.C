@@ -1097,7 +1097,8 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     return ncpus > count;
 }
 
-// more detailed variant
+// return true if round-robin scheduling will miss a deadline
+//
 bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
@@ -1120,6 +1121,7 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (!rp->runnable()) continue;
+        if (rp->aborted_via_gui) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
         p = rp->project;

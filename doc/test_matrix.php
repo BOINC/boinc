@@ -1,50 +1,80 @@
 <?php
+
+require_once("docutil.php");
+
+page_head("BOINC test cases");
 echo "
-<h2>Basic tests</h2>
 <p>
-For each releases, alpha testers should do
+For each release, please do
 <ol>
-<li> The platform-independent tests
+<li> The general tests
 <li> As many of the other test groups as possible.
 </ol>
 
-<h3>Platform-independent tests</h3>
-<p>Tests to do on all platforms.
+<h3>General tests</h3>
 
 <ul>
-<li> Upgrade install:
+<li>
 Note fraction done of existing results.
-Install BOINC on top of existing install.
+Install the new version on top of an older version.
+Make sure BOINC client and manager start up.
 Make sure results resume with same fraction done.
+<li>
 Make sure graphics work (for all apps that support graphics).
+<li>
 Make sure CPU time and fraction done are increasing for running apps.
 <li>Check all tabs in BOINC manager, make sure data is there.
 
-<li> Result completion:
-Let BOINC run long enough to complete a result.
+<li> Detach from a project (e.g., alpha test) and reattach.
+Make sure new work gets downloaded.
+
+<li> Let BOINC run long enough to complete a result.
 Verify that output file is uploaded,
 that the result is reported,
 and that new work is downloaded and started.
-<li> Suspend/resume features:
-suspend and resume results,
-file transfers, and projects.
 
-<li> Download restart:
-Exit BOINC in the middle of a long file download.
+<li> Exit BOINC in the middle of a long file download.
 Note the fraction done.
 Restart BOINC.
 Verify that download resumes from the same point.
 
+<li> Suspend/resume features:
+suspend and resume results,
+file transfers, and projects.
 <li> Test activity modes 'suspended', 'based on preferences', 'always'.
+
+<li> Shut down your computer and reboot it.
+Make sure client and manager start up OK.
+
+</ul>
+
+<h3>Clean install</h3>
+<ul>
+<li> Uninstall BOINC.
+<li> Remove BOINC directory.
+<li> Install new BOINC.
+<li> Verify that client and manager run,
+    and manager brings up the Attach Project wizard.
+<li> Attach to a project (e.g. alpha)
+    and make sure work is downloaded and started.
+</ul>
+
+<h3> Preferences tests</h3>
+<ul>
 <li> Test 'don't run when user active' preference.
 <li> Test 'leave applications in memory' preference.
 <li> Test scheduling period preference.
 <li> Test #processors preference.
 <li> Test 'use network between hours' preference.
+<li> Test 'do work between hours' preference.
+<li> Test venue mechanism
+</ul>
+
 </ul>
 <h3>Windows single-user</h3>
 <ul>
-<li>Check to make sure that only the administrative and installing account can
+<li>Check that only the administrative and installing account can
+    control the core client (via the BOINC manager)
     and view the BOINC directory.
 </ul>
 
@@ -65,30 +95,25 @@ Verify that download resumes from the same point.
     system.
 <li>Manager should be able to communicate with the core client without issue.
 </ul>
-<h3>Mac OS X</h3>
-<h3>Linux/x86 graphical</h3>
-<h3>Linux/x86 command-line</h3>
 <h3>Tests for modem-connected computers</h3>
 <ul>
+<li> Do General Tests from a modem-connected computer.
 <li> Test 'confirm before connect' preference.
 <li> Test 'Disconnect when done' preference.
-<li> Test processing only when idle.
 </ul>
+<h3>Tests for computers with personal firewalls</h3>
+<li> Do General tests on a computer that uses a personal firewall
+(ZoneAlarm, Symantec, Windows XP, etc.).
+In your test report Comments field, indicate the type of personal firewall.
 <h3>Tests for computers connected by HTTP proxy</h3>
 <ul>
-<li>Check HTTP proxy if you have one.
+<li> Do General Tests on a computer connected via an HTTP proxy.
+Use authentication if possible.
 </ul>
 <h3>Tests for computers connected by SOCKS proxy</h3>
 <ul>
-<li>Check SOCKS proxy if you have one.
-</ul>
-<h3>Tests for computers connected by HTTP proxy with authentication</h3>
-<ul>
-<li>Check HTTP Authentication if you use authentication. (basic, digest, NTLM, Negotiate, kerberos)
-</ul>
-<h3>Tests for computers connected by SOCKS proxy with authentication</h3>
-<ul>
-<li>Check SOCKS Authentication if you use authentication.
+<li> Do General Tests on a computer connected via a SOCKS proxy.
+Use authentication if possible.
 </ul>
 <h3>Tests for laptops</h3>
 <ul>
@@ -103,33 +128,20 @@ Verify that download resumes from the same point.
 <li> Test power save modes
 </ul>
 
-<h3>BOINC Manager wizard tests</h3>
+<h3>BOINC Manager Attach Project Wizard</h3>
 <ul>
-<li> Test normal case, invalid urls, valid urls, projects that are up, projects that are down.
-<li> Test good passwords, bad password, good usernames, bad usernames.
-<li> Test existing accounts, create new accounts.
-<li> Test against projects that don't support usernames and passwords.
+<li> Test normal case, invalid URL, valid but non-BOINC URL,
+    projects that are down.
+<li> Test bad password, bad username
 </ul>
 
-<hr>
-<h2>Advanced tests</h2>
-<p>
-Optional tests.
+<h3>GUI RPC authentication</h3>
 
 <ul>
-<li> Clean install:
-Uninstall BOINC.
-Remove BOINC directory.
-Install new BOINC.
-Verify that manager starts, asks for project info.
 
 <li> Try to connect to core client
 with bad password, from host not on list, etc.
-<li> (Unix) Try to overwrite executable file logged in
-as different user.
 
-<li> Test 'do work between hours' preference.
-<li> Test venue mechanism
 </ul>
 ";
 ?>
