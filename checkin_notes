@@ -14082,3 +14082,17 @@ David  30 Nov 2005
         sched_hr.C,h
         sched_send.C
         server_types.h
+
+Eric K. 30 Nov 2005
+
+    - minor mods to allow BOINC applications to compile under MINGW.
+    lib/
+        boinc_win.h
+	diagnostics.C
+	diagnostics.h
+	util.C
+	stackwalker_win.h
+    api/
+        boinc_gl.h
+	gutil.h
+
