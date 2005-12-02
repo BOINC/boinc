@@ -37,7 +37,9 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <pthread.h>
+#ifndef __EMX__
 #include <sched.h>
+#endif
 using namespace std;
 #endif
 

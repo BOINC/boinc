@@ -177,6 +177,7 @@ int GUI_RPC_CONN_SET::init() {
         return ERR_SOCKET;
     }
 
+    memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
 
     // On Windows our primary port might be in use and Windows will
@@ -306,6 +307,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 
         boinc_socklen_t addr_len = sizeof(addr);
         sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+        if (sock == -1) {
+            return;
+        }
 
         int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
 

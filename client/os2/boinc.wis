@@ -1,0 +1,94 @@
+#include "BOINC.ih"
+
+<WARPIN VERSION <$WARPIN_VERSION>>
+<HEAD>
+
+<PCK INDEX=1
+     PACKAGEID="Berkeley University\Boinc 5.x client code for OS/2\Boinc client code\<$BOINC\Ver>"
+     TARGET="$(WARPIN_DEFAULTAPPSPATH)\Boinc5" BASE
+     TITLE="Boinc Client Code"
+     CREATEOBJECT="WPFolder|BOINC <$BOINC.Ver>|<WP_DESKTOP>|OBJECTID=<BOINC<$BOINC.Major>_FOLDER>;TITLE=Boinc <$BOINC.Major>.x;ICONFILE=$(1)\boinc.ico;ICONNFILE=1,$(1)\boinc1.ico;"
+     CREATEOBJECT="WPProgram|Attach project|<BOINC<$BOINC.Major>_FOLDER>|EXENAME=$(1)\bin\boinc_attach.cmd;STARTUPDIR=$(1)\bin;ICONFILE=$(1)\boinc_client.ico;OBJECTID=<BOINC<$BOINC.Major>_ATTACH>;"
+     CREATEOBJECT="WPProgram|Boinc Client|<BOINC<$BOINC.Major>_FOLDER>|EXENAME=$(1)\bin\boinc_client.exe;PARAMETERS=-redirectio;STARTUPDIR=$(1)\bin;ICONFILE=$(1)\boinc_client.ico;OBJECTID=<BOINC<$BOINC.Major>_CLIENT>;"
+     CREATEOBJECT="WPProgram|Readme first|<BOINC<$BOINC.Major>_FOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\ReadMe.txt;OBJECTID=<BOINC<$BOINC.Major>_README>;"
+     CREATEOBJECT="WPUrl|Project home|<BOINC<$BOINC.Major>_FOLDER>|URL=http://boinc.berkeley.edu/;OBJECTID=<BOINC<$BOINC.Major>_URL>;"
+     SELECT
+     >Select to install the Boinc client code
+</PCK>
+
+<PCK INDEX=2
+     PACKAGEID="Berkeley University\Boinc 5.x client code for OS/2\Boinc developement kit\<$BOINC\Ver>"
+     TARGET="$(WARPIN_DEFAULTAPPSPATH)\Boinc5" BASE
+     TITLE="Boinc Developement Kit"
+     >Select to install BOINC for OS/2 sdk (headers and libraries for C/C++)
+</PCK>
+
+</HEAD>
+
+<!-- Here come the different pages. They are linked by
+     the <NEXTBUTTON> tags, which must have a target.
+     Each page must have a TYPE= attribute, which tells
+     WarpIn what will be visible on that page. -->
+
+<BODY>
+
+<!-- page1: introduction ->>
+<PAGE INDEX=1 TYPE=README>
+<TEXT>
+</TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<README FORMAT=HTML>
+
+<P>Welcome to the latest port of <B>BOINC for OS/2 and eComStation</B>.
+<BR>
+<P>You are about to install <B>BOINC <$BOINC.Ver></B>
+
+<BR>
+<BR>
+<P>Select "Next" to continue.
+
+<P>Select "Cancel" to abort installation.
+</README>
+</PAGE>
+
+<!-- show ReadMe.txt -->
+<PAGE INDEX=2 TYPE=README>
+<NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+<TEXT>
+</TEXT>
+<README FORMAT=PLAIN EXTRACTFROMPCK="1">ReadMe.txt</README>
+</PAGE>
+
+<!-- show GPL license -->
+<PAGE INDEX=3 TYPE=README>
+<NEXTBUTTON TARGET=4>~I agree</NEXTBUTTON>
+<TEXT>
+By pressing the "I agree" button, you agree to all terms and conditions to the below licence agreement.
+</TEXT>
+<README FORMAT=PLAIN EXTRACTFROMPCK="1">COPYING</README>
+</PAGE>
+
+
+<!-- The TYPE=CONTAINER will list the packages which can be installed. -->
+
+<PAGE INDEX=4 TYPE=CONTAINER>
+<NEXTBUTTON TARGET=5>~Next</NEXTBUTTON>
+<TEXT>
+Please select the packages which are to be installed. You may change the target paths for the packages.
+</TEXT>
+</PAGE>
+
+<!-- Here's another TYPE=TEXT page before we install.
+     The special target "0" indicates that after this page we
+     should start installation.
+     Note that the TYPE=INSTALL page (which we had in Alpha #3)
+     is no longer supported. -->
+
+<PAGE INDEX=5 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+Press "Install" to begin installing this archive.</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>

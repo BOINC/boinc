@@ -41,13 +41,13 @@ public:
 class GUI_RPC_CONN_SET {
     std::vector<GUI_RPC_CONN*> gui_rpcs;
     std::vector<int> allowed_remote_ip_addresses;
-    int lsock;
 
     int get_allowed_hosts();
     int get_password();
     bool is_primary_port_available();
     int insert(GUI_RPC_CONN*);
 public:
+    int lsock;
     GUI_RPC_CONN_SET();
     char password[256];
     void get_fdset(FDSET_GROUP&, FDSET_GROUP&);

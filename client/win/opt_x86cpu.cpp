@@ -60,6 +60,11 @@ extern _uint32 calcOurMhz(void) ;
 
 #define EXT_CMD 0x80000000
 
+#ifdef __EMX__
+#define __forceinline 
+#define __fastcall
+#endif
+
 static __forceinline bool __fastcall testBit(_uint32 flags, int bitShift) {
 	return ((flags & (1<<bitShift)) != 0);
 }
@@ -116,7 +121,9 @@ CPU_INFO_t::CPU_INFO_t	(void) {
 
 	cpuidLookup();	// Get official company names & CPU names
 	cpuidName();
+#ifndef __EMX__
 	cpuMhz = calcOurMhz();
+#endif
 
 
 		//7. Execute CPUID function 8000_0001h. This function returns the extended feature flags in EDX
@@ -246,9 +253,13 @@ void CPU_INFO_t::checkCpuidOpcode(void) {
 bool CPU_INFO_t::sseOSsupport(void) {
 	if(!has_sse)	return false;
 
+#ifdef __EMX__
+	return false;
+#else
 	try	{ testOrps(); }
 	catch(int err) {	return false; }
 	return true;
+#endif
 }
 
 /*
@@ -348,7 +359,9 @@ void CPU_INFO_t::cpuidName(void) {
 }
 
 #include <time.h>
+#ifndef __EMX__
 #include <winbase.h>
+#endif
 
 const unsigned int million = 1000000;
 double calcFreq(int num_tics);

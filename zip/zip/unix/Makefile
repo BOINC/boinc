@@ -45,7 +45,7 @@ VERSION = Version 2.3
 #   CFLAGS    flags for C compile
 #   LFLAGS1   flags after output file spec, before obj file list
 #   LFLAGS2   flags after obj file list (libraries, etc)
-CFLAGS = -O2 -I. -DUNIX $(LOCAL_ZIP)
+CFLAGS = -O2 -I. -DOS2 $(LOCAL_ZIP)
 LFLAGS1 =
 LFLAGS2 = -s
 

@@ -23,6 +23,13 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef __EMX__
+#define INCL_DOS
+#define INCL_DOSERRORS
+#include <os2.h>
+extern "C" int debug_printf(const char *fmt, ...);
+#endif
+
 #ifndef _WIN32
 #include "config.h"
 #include <cstdio>
@@ -88,6 +95,65 @@ int detach_shmem(HANDLE hMap, void* p) {
     if (p) UnmapViewOfFile(p);
     CloseHandle(hMap);
 
+    return 0;
+}
+
+#elif defined(__EMX__)
+
+int create_shmem(key_t key, int size, void** pp) {
+    APIRET rc;
+    char   buf[256];
+
+    sprintf(buf, "\\SHAREMEM\\BOINC\\%d", key);
+    //debug_printf( "create_shmem %s, %d, %p\n", buf, size, pp);
+    rc = DosAllocSharedMem(pp, (PSZ)buf, size, PAG_READ | PAG_WRITE | PAG_EXECUTE | PAG_COMMIT | OBJ_ANY);
+    if (rc == ERROR_ALREADY_EXISTS)
+       return attach_shmem( key, pp);
+    if (rc)
+       rc = DosAllocSharedMem(pp, (PSZ)buf, size, PAG_READ | PAG_WRITE | PAG_EXECUTE | PAG_COMMIT);
+
+    if (rc) {
+        //debug_printf( "DosAllocSharedMem %s failed, rc=%d\n", buf, rc);
+        return ERR_SHMGET;
+    }
+    //debug_printf( "create_shmem %p\n", *pp);
+    return 0;
+
+}
+
+int destroy_shmem(key_t key){
+    APIRET rc;
+    void*  pp;
+
+    //debug_printf( "destroy_shmem %d\n", key);
+    attach_shmem( key, &pp);
+    rc = DosFreeMem(pp);
+    if (rc) {
+        //debug_printf( "DosFreeMem %d failed, rc=%d\n", key, rc);
+        return ERR_SHMCTL;
+    }
+    //debug_printf( "destroy_shmem %d done\n", key);
+    return 0;
+}
+
+int attach_shmem(key_t key, void** pp){
+    APIRET rc;
+    char   buf[256];
+
+    sprintf(buf, "\\SHAREMEM\\BOINC\\%d", key);
+    //debug_printf( "attach_shmem %s, %p\n", buf, pp);
+    rc = DosGetNamedSharedMem(pp, (PSZ) buf, PAG_READ | PAG_WRITE);
+    if (rc) {
+        //debug_printf( "DosGetNamedSharedMem %s failed, rc=%d\n", buf, rc);
+        return ERR_SHMAT;
+    }
+    //debug_printf( "attach_shmem %p\n", *pp);
+    return 0;
+}
+
+int detach_shmem(void* p) {
+    /* dummy */
+    //debug_printf( "detach_shmem %p not supported\n", p);
     return 0;
 }
 

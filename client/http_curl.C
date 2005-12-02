@@ -238,6 +238,10 @@ int HTTP_OP::libcurl_exec(
             strcpy(outfile, ptrName);
             free(ptrName);
         }
+#elif defined( __EMX__)
+        strcpy(outfile, "blcXXXXXX"); // a template for the mktemp
+       // mktemp will not open the file
+        mktemp(outfile);
 #else  // use mkstemp on Mac & Linux due to security issues
         strcpy(outfile, "blcXXXXXX"); // a template for the mkstemp
         close(mkstemp(outfile));

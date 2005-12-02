@@ -14130,3 +14130,45 @@ David  1 Dec 2005
 
     client/
         app_control.C
+
+David  2 Dec 2005
+    - A bunch of changes to make the core client work on OS/2
+        Also a couple of small bug fixes.
+        (from Yuri Dario).
+
+        Note: this is done using #define __EMX__
+        (apparently that's a symbol defined in OS/2 compiles).
+        This goes against our convention of using configure,
+        but it looks like OS/2 is sufficiently different (like Windows)
+        so that this is the easiest way to do it.
+        Anyway, changes are fairly limited.
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+        gui_rpc_server.C,h
+        hostinfo_unix.C
+        http_curl.C
+        main.C
+        net_xfer_curl.C
+        win/
+            opt_x86cpu.cpp
+        os2/    (the following are new)
+            COPYING
+            ReadMe.txt
+            boinc.ico
+            boinc.ih
+            boinc.wis
+            boinc1.ico
+            boinc_attach.cmd
+            boinc_client.ico
+            configure.os2
+            setup.cmd
+    lib/
+        diagnostics.C
+        filesys.C
+        gui_rpc_client.C
+        shmem.C
+    zip/zip/unix/
+        Makefile

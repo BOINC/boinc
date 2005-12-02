@@ -28,6 +28,9 @@
 #include "../version.h"
 #else
 #include "config.h"
+#ifdef __EMX__
+#include <sys/time.h>
+#endif
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>

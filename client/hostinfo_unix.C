@@ -64,6 +64,12 @@
 #include <netinet/in.h>
 #endif
 
+#ifdef __EMX__
+#define INCL_DOSMISC
+#include <os2.h>
+#include "win/opt_x86.h"
+#endif
+
 #include "client_types.h"
 #include "filesys.h"
 #include "error_numbers.h"
@@ -365,6 +371,13 @@ int HOST_INFO::get_host_info() {
 
 #ifdef linux
     parse_cpuinfo(*this);
+#elif defined(__EMX__)
+    int mib[2];
+    unsigned int mem_size;
+    size_t len;
+    CPU_INFO_t	cpuInfo;
+    strcpy( p_vendor, cpuInfo.vendor.company);
+    strcpy( p_model, cpuInfo.name.fromID);
 #else
 #if HAVE_SYS_SYSCTL_H
     int mib[2];
@@ -385,8 +398,8 @@ int HOST_INFO::get_host_info() {
 #endif
 #endif
 
-
-#if defined(_SC_NPROCESSORS_ONLN)
+// sysconf not working on OS2
+#if defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
@@ -406,7 +419,17 @@ int HOST_INFO::get_host_info() {
 // You will have to check your sysconf() defines, probably in unistd.h
 // - 2002-11-03 hiram@users.sourceforge.net
 //
-#if defined(_SC_USEABLE_MEMORY)
+#ifdef __EMX__
+    {
+        ULONG ulMem;
+        CPU_INFO_t	cpuInfo;
+        DosQuerySysInfo( QSV_TOTPHYSMEM, QSV_TOTPHYSMEM, &ulMem, sizeof(ulMem));
+        m_nbytes = ulMem;
+        // YD this is not the swap free space, but should be enough
+        DosQuerySysInfo( QSV_TOTAVAILMEM, QSV_TOTAVAILMEM, &ulMem, sizeof(ulMem));
+        m_swap = ulMem;
+    }
+#elif defined(_SC_USEABLE_MEMORY)
     m_nbytes = (double)sysconf(_SC_PAGESIZE)
         * (double)sysconf(_SC_USEABLE_MEMORY);  // UnixWare
 #elif defined(_SC_PHYS_PAGES)
@@ -518,7 +541,11 @@ int HOST_INFO::get_host_info() {
     struct utsname u;
     uname(&u);
     safe_strcpy(os_name, u.sysname);
+#ifdef __EMX__ // OS2: version is in u.version
+    safe_strcpy(os_version, u.version);
+#else
     safe_strcpy(os_version, u.release);
+#endif
 #ifdef _HPUX_SOURCE
     safe_strcpy(p_model, u.machine);
     safe_strcpy(p_vendor, "Hewlett-Packard");

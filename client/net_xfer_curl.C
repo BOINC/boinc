@@ -69,49 +69,49 @@ fd_set read_fds, write_fds, error_fds;
 
 // call these once at the start of the program and once at the end (init & cleanup of course)
 int curl_init() {
-	curl_global_init(CURL_GLOBAL_ALL);
-	g_curlMulti = curl_multi_init();
-	return (int)(g_curlMulti == NULL);
+    curl_global_init(CURL_GLOBAL_ALL);
+    g_curlMulti = curl_multi_init();
+    return (int)(g_curlMulti == NULL);
 }
 
 int curl_cleanup() {
-	if (g_curlMulti) {
-		curl_multi_cleanup(g_curlMulti);
-	}
-	return 0;
+    if (g_curlMulti) {
+        curl_multi_cleanup(g_curlMulti);
+    }
+    return 0;
 }
 
 void NET_XFER::reset() {
     req1 = NULL;
     strcpy(infile, "");
     strcpy(outfile, "");
-	CurlResult = CURLE_OK;
-	strcpy(strCurlResult, "");
-	bTempOutfile = true;
+    CurlResult = CURLE_OK;
+    strcpy(strCurlResult, "");
+    bTempOutfile = true;
     is_connected = false;
     want_download = false;
     want_upload = false;
     do_file_io = true;  // CMC Note: should I default to true, i.e. this does all i/o?
     io_done = false;
     fileIn = NULL;
-	fileOut = NULL;
+    fileOut = NULL;
     io_ready = true;  // don't allow higher levels to do i/o?
     error = 0;
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
     bytes_xferred = 0;
     xfer_speed = 0;
-	bSentHeader = false;
-	close_socket();
+    bSentHeader = false;
+    close_socket();
 }
 
 NET_XFER::NET_XFER() {
-	pcurlList = NULL; // these have to be NULL, just in constructor
-	curlEasy = NULL;
-	pcurlFormStart = NULL;
-	pcurlFormEnd = NULL;
-	pByte = NULL;
-	lSeek = 0;
+    pcurlList = NULL; // these have to be NULL, just in constructor
+    curlEasy = NULL;
+    pcurlFormStart = NULL;
+    pcurlFormEnd = NULL;
+    pByte = NULL;
+    lSeek = 0;
     reset();
 }
 
@@ -121,21 +121,21 @@ NET_XFER::~NET_XFER() {
 }
 
 void NET_XFER::close_socket() {
-	// CMC: this just cleans up the curlEasy, and "spoofs" the old close_socket
-	if (pcurlList) {
-		curl_slist_free_all(pcurlList);
-		pcurlList = NULL;
-	}
-	if (curlEasy && pcurlFormStart) {
-		curl_formfree(pcurlFormStart);
-		curl_formfree(pcurlFormEnd);
-		pcurlFormStart = pcurlFormEnd = NULL;
-	}
-	if (curlEasy && g_curlMulti) {  // release this handle
-		curl_multi_remove_handle(g_curlMulti, curlEasy);
-		curl_easy_cleanup(curlEasy);
-		curlEasy = NULL;
-	}
+    // CMC: this just cleans up the curlEasy, and "spoofs" the old close_socket
+    if (pcurlList) {
+        curl_slist_free_all(pcurlList);
+        pcurlList = NULL;
+    }
+    if (curlEasy && pcurlFormStart) {
+        curl_formfree(pcurlFormStart);
+        curl_formfree(pcurlFormEnd);
+        pcurlFormStart = pcurlFormEnd = NULL;
+    }
+    if (curlEasy && g_curlMulti) {  // release this handle
+        curl_multi_remove_handle(g_curlMulti, curlEasy);
+        curl_easy_cleanup(curlEasy);
+        curlEasy = NULL;
+    }
 }
 
 void NET_XFER::close_file() {
@@ -147,10 +147,10 @@ void NET_XFER::close_file() {
         fclose(fileOut);
         fileOut = NULL;
     }
-	if (pByte) { //free any read memory used
-		delete [] pByte;
-		pByte = NULL;
-	}
+    if (pByte) { //free any read memory used
+        delete [] pByte;
+        pByte = NULL;
+    }
 }
 
 void NET_XFER::init(char* host, int p, int b) {
@@ -220,17 +220,17 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 
 
 void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
-	CURLMcode curlMErr;
-	curlMErr = curl_multi_fdset(g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd);
+    CURLMcode curlMErr;
+    curlMErr = curl_multi_fdset(g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd);
     //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
 void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
-	NET_XFER* nxf = NULL;
+    NET_XFER* nxf = NULL;
     //struct timeval tv;
     bool time_passed = false;
-	CURLMsg *pcurlMsg = NULL;
+    CURLMsg *pcurlMsg = NULL;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
@@ -249,11 +249,11 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     }
 
     int iRunning = 0;  // curl flags for max # of fds & # running queries
-	CURLMcode curlMErr;
-	CURLcode curlErr;
+    CURLMcode curlMErr;
+    CURLcode curlErr;
 
-	// get the data waiting for transfer in or out
-	// note that I use timeout value so that we don't "hog" in this loop
+    // get the data waiting for transfer in or out
+    // note that I use timeout value so that we don't "hog" in this loop
     bool got_data = false;
     while (1) {
         curlMErr = curl_multi_perform(g_curlMulti, &iRunning);
@@ -262,54 +262,54 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
         got_data = true;
     }
 
-	// read messages from curl that may have come in from the above loop
-	while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
-		// if we have a msg, then somebody finished
-		// can check also with pcurlMsg->msg == CURLMSG_DONE
-		if ((nxf = lookup_curl(pcurlMsg->easy_handle)) ) { 
+    // read messages from curl that may have come in from the above loop
+    while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
+        // if we have a msg, then somebody finished
+        // can check also with pcurlMsg->msg == CURLMSG_DONE
+        if ((nxf = lookup_curl(pcurlMsg->easy_handle)) ) { 
                         // CURLINFO ci=CURLINFO_OS_ERRNO;
-			 // we have a message from one of our http_ops
-			 // get the response code for this request
-			curlErr = curl_easy_getinfo(nxf->curlEasy, 
-				CURLINFO_RESPONSE_CODE, &nxf->response);
+             // we have a message from one of our http_ops
+             // get the response code for this request
+            curlErr = curl_easy_getinfo(nxf->curlEasy, 
+                CURLINFO_RESPONSE_CODE, &nxf->response);
                         // CURLINFO_LONG+25 is a workaround for a bug in the gcc version included
                         // with Mac OS X 10.3.9
-			curlErr = curl_easy_getinfo(nxf->curlEasy, 
-				(CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error);
+            curlErr = curl_easy_getinfo(nxf->curlEasy, 
+                (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error);
 
-			nxf->io_done = true;
-			nxf->io_ready = false;
+            nxf->io_done = true;
+            nxf->io_ready = false;
 
             // update byte counts and transfer speed
             //
-			if (nxf->want_download) {
-				bytes_down += nxf->bytes_xferred;
-				curlErr = curl_easy_getinfo(nxf->curlEasy, 
-					CURLINFO_SPEED_DOWNLOAD, &nxf->xfer_speed
+            if (nxf->want_download) {
+                bytes_down += nxf->bytes_xferred;
+                curlErr = curl_easy_getinfo(nxf->curlEasy, 
+                    CURLINFO_SPEED_DOWNLOAD, &nxf->xfer_speed
                 );
-			}
-			if (nxf->want_upload) {
-				bytes_up += nxf->bytes_xferred;
-				curlErr = curl_easy_getinfo(nxf->curlEasy, 
-					CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed
+            }
+            if (nxf->want_upload) {
+                bytes_up += nxf->bytes_xferred;
+                curlErr = curl_easy_getinfo(nxf->curlEasy, 
+                    CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed
                 );
-			}
+            }
 
-			// the op is done if curl_multi_msg_read gave us a msg for this http_op
-			nxf->http_op_state = HTTP_STATE_DONE;
+            // the op is done if curl_multi_msg_read gave us a msg for this http_op
+            nxf->http_op_state = HTTP_STATE_DONE;
 
-			// added a more useful error string (just pass the curl string up for now)
-			nxf->CurlResult = pcurlMsg->data.result;
-			safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
+            // added a more useful error string (just pass the curl string up for now)
+            nxf->CurlResult = pcurlMsg->data.result;
+            safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
 
-			// optional, example use, non-zero CurlResult has a useful error string:
-			//if (nxf->CurlResult) fprintf(stdout, "Error: %s\n", nxf->strCurlResult);
+            // optional, example use, non-zero CurlResult has a useful error string:
+            //if (nxf->CurlResult) fprintf(stdout, "Error: %s\n", nxf->strCurlResult);
 
-			// 200 is a good HTTP response code
-			// It may not mean the data received is "good"
-			// (the calling program will have to check/parse that)
-			// but it at least means that the server operation
-			// went through fine
+            // 200 is a good HTTP response code
+            // It may not mean the data received is "good"
+            // (the calling program will have to check/parse that)
+            // but it at least means that the server operation
+            // went through fine
             //
             // NOTE: http_op_retval is multipurposed, it can also contain any error
             //       code that BOINC would return for IO errors and DNS errors.  We
@@ -318,7 +318,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             nxf->http_op_retval = HTTP_STATUS_INTERNAL_SERVER_ERROR;
             if (nxf->CurlResult == CURLE_OK) {
                 if ((nxf->response/100)*100 == HTTP_STATUS_OK) {
-			        nxf->http_op_retval = 0;  
+                    nxf->http_op_retval = 0;  
                 } else {
                     nxf->http_op_retval = nxf->response;
                 }
@@ -354,32 +354,33 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 nxf->http_op_retval = ERR_WRITE;
             }
 
-			if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {
-				// for a successfully completed request on a "post2" --
-				// read in the temp file into req1 memory
-				fclose(nxf->fileOut);
-				double dSize = 0.0f;
-				file_size(nxf->outfile, dSize);
-				nxf->fileOut = boinc_fopen(nxf->outfile, "rb");
-				if (!nxf->fileOut) { // ack, can't open back up!
-					nxf->response = 1; // flag as a bad response for a possible retry later
-				}
-				fseek(nxf->fileOut, 0, SEEK_SET);
-				// CMC Note: req1 is a pointer to "header" which is 4096
-				memset(nxf->req1, 0x00, 4096);
-				fread(nxf->req1, 1, (size_t) dSize, nxf->fileOut); 
-			}
-
-			// close files and "sockets" (i.e. libcurl handles)
-			nxf->close_file();
-			nxf->close_socket();
-
-			// finally remove the tmpfile if not explicitly set
-            if (nxf->bTempOutfile) {
-				boinc_delete_file(nxf->outfile);
+            if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {
+                // for a successfully completed request on a "post2" --
+                // read in the temp file into req1 memory
+                fclose(nxf->fileOut);
+                double dSize = 0.0f;
+                file_size(nxf->outfile, dSize);
+                nxf->fileOut = boinc_fopen(nxf->outfile, "rb");
+                if (!nxf->fileOut) { // ack, can't open back up!
+                    nxf->response = 1; // flag as a bad response for a possible retry later
+                } else {
+                    fseek(nxf->fileOut, 0, SEEK_SET);
+                    // CMC Note: req1 is a pointer to "header" which is 4096
+                    memset(nxf->req1, 0x00, 4096);
+                    fread(nxf->req1, 1, (size_t) dSize, nxf->fileOut); 
+                }
             }
-		}
-	}
+
+            // close files and "sockets" (i.e. libcurl handles)
+            nxf->close_file();
+            nxf->close_socket();
+
+            // finally remove the tmpfile if not explicitly set
+            if (nxf->bTempOutfile) {
+                boinc_delete_file(nxf->outfile);
+            }
+        }
+    }
 }
 
 // Return the NET_XFER object whose socket matches fd

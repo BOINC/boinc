@@ -41,6 +41,10 @@
 #include <cerrno>
 #endif
 
+#ifdef __EMX__
+#include <process.h>
+#endif
+
 using std::vector;
 
 #include "filesys.h"
@@ -409,6 +413,69 @@ int ACTIVE_TASK::start(bool first_time) {
     pid = process_info.dwProcessId;
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
+	
+#elif defined(__EMX__)
+
+    char* 	argv[100];
+	char	current_dir[_MAX_PATH];
+
+    // Set up core/app shared memory seg if needed
+    //
+    if (!app_client_shm.shm) {
+        retval = create_shmem(
+            shmem_seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
+        );
+        if (retval) {
+            msg_printf(
+                wup->project, MSG_ERROR,
+                "Can't create shared memory: %s", boincerror(retval)
+            );
+            return retval;
+        }
+    }
+    app_client_shm.reset_msgs();
+
+	// save current dir
+	getcwd( current_dir, sizeof(current_dir));
+
+	// chdir() into the slot directory
+	//
+	retval = chdir(slot_dir);
+	if (retval) {
+		msg_printf(wup->project, MSG_ERROR,
+			"chdir(%s) failed: %s\n", slot_dir, boincerror(retval)
+        );
+		return retval;
+	}
+
+	// hook up stderr to a specially-named file
+	//
+	//freopen(STDERR_FILE, "a", stderr);
+
+	argv[0] = exec_name;
+	char cmdline[8192];
+	strcpy(cmdline, wup->command_line.c_str());
+	parse_command_line(cmdline, argv+1);
+	debug_print_argv(argv);
+	sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
+	pid = spawnv(P_NOWAIT, buf, argv);
+	if (pid == -1) {
+		msg_printf(wup->project, MSG_ERROR,
+			"spawn(%s) failed: %s\n", buf, boincerror(retval)
+        );
+		chdir(current_dir);
+        return ERR_EXEC;
+	}
+
+	// restore current dir
+	chdir(current_dir);
+    scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
+
+    // set idle process priority
+    if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
+        perror("setpriority");
+    }
+
 #else
     char* argv[100];
 

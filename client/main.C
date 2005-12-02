@@ -50,6 +50,11 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #include <sys/stat.h>   // for umask()
 #endif
 
+#ifdef __EMX__
+#define INCL_DOS
+#include <os2.h>
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "util.h"
@@ -260,6 +265,10 @@ static void signal_handler(int signum) {
     case SIGQUIT:
     case SIGTERM:
         gstate.requested_exit = true;
+#ifdef __EMX__
+        // close socket
+        shutdown(gstate.gui_rpcs.lsock, 2);
+#endif
         break;
     case SIGTSTP:
         gstate.user_run_request = USER_RUN_REQUEST_NEVER;
@@ -417,6 +426,11 @@ int boinc_main_loop() {
             msg_printf(NULL, MSG_INFO, "Exit requested by user");
             break;
         }
+#ifdef __EMX__
+        // give timeslice also to other processes,
+        // otherwise we will get 100% cpu
+        DosSleep(0);
+#endif
     }
     gstate.quit_activities();
 

@@ -417,6 +417,10 @@ int boinc_copy(const char* orig, const char* newf) {
     } else {
         return GetLastError();
     }
+#elif defined(__EMX__)
+    char cmd[256];
+    sprintf(cmd, "copy %s %s", orig, newf);
+    return system(cmd);
 #else
     char cmd[256];
     sprintf(cmd, "cp %s %s", orig, newf);
