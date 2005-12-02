@@ -10,6 +10,9 @@ For each release, please do
 <li> The general tests
 <li> As many of the other test groups as possible.
 </ol>
+If you have experienced problems with BOINC that are not
+exercised by any of these tests,
+please post to the <a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_alpha>boinc_alpha@ssl.berkeley.edu</a> email list.
 
 <h3>General tests</h3>
 
@@ -33,10 +36,6 @@ Verify that output file is uploaded,
 that the result is reported,
 and that new work is downloaded and started.
 
-<li> Exit BOINC in the middle of a long file download.
-Note the fraction done.
-Restart BOINC.
-Verify that download resumes from the same point.
 
 <li> Suspend/resume features:
 suspend and resume results,
@@ -57,6 +56,15 @@ Make sure client and manager start up OK.
     and manager brings up the Attach Project wizard.
 <li> Attach to a project (e.g. alpha)
     and make sure work is downloaded and started.
+</ul>
+
+<h3>File transfer restart</h3>
+<ul>
+<li> Exit BOINC in the middle of a long file download.
+Note the fraction done.
+Restart BOINC.
+Verify that download resumes from the same point.
+<li> Same, upload.
 </ul>
 
 <h3> Preferences tests</h3>
@@ -97,9 +105,10 @@ Make sure client and manager start up OK.
 </ul>
 <h3>Tests for modem-connected computers</h3>
 <ul>
-<li> Do General Tests from a modem-connected computer.
+<li> Do General Tests from a modem or ISDN-connected computer.
 <li> Test 'confirm before connect' preference.
 <li> Test 'Disconnect when done' preference.
+<li> Do these tests with both single-user and Service-mode install (Windows).
 </ul>
 <h3>Tests for computers with personal firewalls</h3>
 <li> Do General tests on a computer that uses a personal firewall

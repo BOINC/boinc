@@ -14123,3 +14123,10 @@ David  1 Dec 2005
 
     client/
         cs_scheduler.C
+
+David  1 Dec 2005
+    - core client: don't make all tasks non-CPU-intensive
+        (from John McLeod)
+
+    client/
+        app_control.C

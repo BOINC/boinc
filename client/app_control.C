@@ -863,10 +863,11 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
-    parse_int(msg_buf, "<non_cpu_intensive>", new_non_cpu_intensive);
-    if (new_non_cpu_intensive != non_cpu_intensive) {
-        non_cpu_intensive = new_non_cpu_intensive;
-        gstate.request_schedule_cpus("Change in app CPU-intensive status");
+    if (parse_int(msg_buf, "<non_cpu_intensive>", new_non_cpu_intensive)) {
+        if (new_non_cpu_intensive != non_cpu_intensive) {
+            non_cpu_intensive = new_non_cpu_intensive;
+            gstate.request_schedule_cpus("Change in app CPU-intensive status");
+        }
     }
     return true;
 }
