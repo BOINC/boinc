@@ -14172,3 +14172,9 @@ David  2 Dec 2005
         shmem.C
     zip/zip/unix/
         Makefile
+
+David  2 Dec 2005
+    - compile fix
+
+    cliengui/
+        DlgSelectComputer.cpp
