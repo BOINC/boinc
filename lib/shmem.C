@@ -196,7 +196,7 @@ int attach_shmem(key_t key, void** pp){
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
-    if ((int)p == -1) {
+    if ((long)p == -1) {
         return ERR_SHMAT;
     }
     *pp = p;

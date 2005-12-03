@@ -14178,3 +14178,9 @@ David  2 Dec 2005
 
     cliengui/
         DlgSelectComputer.cpp
+
+David  2 Dec 2005
+    - compile fix for 64-bit machines
+
+    lib/
+        shmem.C
