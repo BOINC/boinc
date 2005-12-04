@@ -13585,3 +13585,8 @@ Rom    4 Dec 2005
     lib/
         gui_rpc_client.C, .h
         gui_rpc_client_ops.C
+
+Rom    5 Dec 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.14 release, all platforms
+      boinc_core_release_5_2_14
+
