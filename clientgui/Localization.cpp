@@ -118,8 +118,8 @@ CLocalization::CLocalization() {
     m_strPAHTeamDesc =
         _("Info about your Team");
 
-	// ClimatePrediciton.net
-	m_strCPDNHelpName =
+    // ClimatePrediciton.net
+    m_strCPDNHelpName =
         _("Help");
     m_strCPDNHelpDesc =
         _("Get help for climateprediction.net");
@@ -135,6 +135,29 @@ CLocalization::CLocalization() {
         _("Team");
     m_strCPDNTeamDesc =
         _("Info about your team");
+
+    // World Community Grid
+    m_strWCGHelpName =
+        _("Help");
+    m_strWCGHelpDesc =
+        _("Search for help in our help system");
+    m_strWCGGlobalStatsName =
+        _("Global Statistics");
+    m_strWCGGlobalStatsDesc =
+        _("Summary statistics for World Community Grid");
+    m_strWCGMyGridName =
+        _("My Grid");
+    m_strWCGMyGridDesc =
+        _("Your statistics and settings");
+    m_strWCGYourStatsName =
+        _("Device Profiles");
+    m_strWCGYourStatsDesc =
+        _("Update your device settings");
+    m_strWCGResearchName =
+        _("Research");
+    m_strWCGResearchDesc =
+        _("Learn about the projects hosted at World Community Grid");
+
 }
 
 const char *BOINC_RCSID_4632804e37="$Id$";

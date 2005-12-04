@@ -32,7 +32,7 @@ class CLocalization : public wxObject
 public:
     CLocalization();
 
-	// SETI@home
+    // SETI@home
     wxString m_strSAHMessageBoardsName;
     wxString m_strSAHMessageBoardsDescription;
     wxString m_strSAHHelpName;
@@ -48,7 +48,7 @@ public:
     wxString m_strSAHYourTeamName;
     wxString m_strSAHYourTeamDescription;
 
-	// Einstein@home
+    // Einstein@home
     wxString m_strEAHCommonQuestionsName;
     wxString m_strEAHCommonQuestionsDesc;
     wxString m_strEAHSceensaverInfoName;
@@ -66,7 +66,7 @@ public:
     wxString m_strEAHYourResultsName;
     wxString m_strEAHYourResultsDescription;
     wxString m_strEAHYourComputersName;
-	wxString m_strEAHYourComputersDesc;
+    wxString m_strEAHYourComputersDesc;
     wxString m_strEAHYourTeamName;
     wxString m_strEAHYourTeamDescription;
     wxString m_strEAHLIGOProjectName;
@@ -74,13 +74,13 @@ public:
     wxString m_strEAHGEO600ProjectName;
     wxString m_strEAHGEO600ProjectDesc;
 
-	// Predictor@home
-	wxString m_strPAHYourAccountName;
+    // Predictor@home
+    wxString m_strPAHYourAccountName;
     wxString m_strPAHYourAccountDesc;
-	wxString m_strPAHTeamName;
+    wxString m_strPAHTeamName;
     wxString m_strPAHTeamDesc;
 
-	// climateprediction.net
+    // climateprediction.net
     wxString m_strCPDNHelpName;
     wxString m_strCPDNHelpDesc;
     wxString m_strCPDNNewsName;
@@ -89,6 +89,18 @@ public:
     wxString m_strCPDNYourAccountDesc;
     wxString m_strCPDNTeamName;
     wxString m_strCPDNTeamDesc;
+
+    // World Community Grid
+    wxString m_strWCGHelpName;
+    wxString m_strWCGHelpDesc;
+    wxString m_strWCGGlobalStatsName;
+    wxString m_strWCGGlobalStatsDesc;
+    wxString m_strWCGMyGridName;
+    wxString m_strWCGMyGridDesc;
+    wxString m_strWCGYourStatsName;
+    wxString m_strWCGYourStatsDesc;
+    wxString m_strWCGResearchName;
+    wxString m_strWCGResearchDesc;
 };
 
 
