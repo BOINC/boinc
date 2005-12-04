@@ -4,9 +4,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-27 10:26+0100\n"
+"PO-Revision-Date: 2005-11-30 17:42+0100\n"
 "Last-Translator: Arnaud <arnaud_71fr@yahoo.fr>\n"
-"Language-Team: \n"
+"Language-Team:  <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,7 +68,6 @@ msgid "Attach to project"
 msgstr "Rejoindre un projet"
 
 #: clientgui/AccountInfoPage.cpp:304
-#: clientgui/WelcomePage.cpp:149
 msgid "Attach to account manager"
 msgstr "Rejoindre un gestionnaire de compte"
 
@@ -662,19 +661,19 @@ msgstr "Voir les infos de votre compte, vos crédits et vos trickles"
 msgid "Info about your team"
 msgstr "Infos de votre équipe"
 
-#: clientgui/MainDocument.cpp:194
+#: clientgui/MainDocument.cpp:202
 msgid "BOINC Manager - Connection Error"
 msgstr "Manager BOINC - Erreur de connexion"
 
-#: clientgui/MainDocument.cpp:195
+#: clientgui/MainDocument.cpp:203
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Le mot de passe que vous avez fourni est incorrect. Essayez à nouveau, svp."
 
-#: clientgui/MainDocument.cpp:316
+#: clientgui/MainDocument.cpp:324
 msgid "Retrieving system state; please wait..."
 msgstr "Recherche de l'état du système; veuillez patienter..."
 
-#: clientgui/MainDocument.cpp:325
+#: clientgui/MainDocument.cpp:333
 msgid "Retrieving host information; please wait..."
 msgstr "Recherche des informations de l'hôte; veuillez patienter..."
 
@@ -801,38 +800,38 @@ msgstr "&Projets"
 msgid "&Help"
 msgstr "&Aide"
 
-#: clientgui/MainFrame.cpp:1045
+#: clientgui/MainFrame.cpp:1048
 msgid "Attaching to project..."
 msgstr "Attachement au projet en cours..."
 
-#: clientgui/MainFrame.cpp:1084
+#: clientgui/MainFrame.cpp:1087
 msgid "Retrying communications for project(s)..."
 msgstr "Ré-essai des communications avec les projets en cours..."
 
-#: clientgui/MainFrame.cpp:1174
+#: clientgui/MainFrame.cpp:1177
 msgid "Language Selection..."
 msgstr "Choix de la langue..."
 
-#: clientgui/MainFrame.cpp:1175
+#: clientgui/MainFrame.cpp:1178
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "La langue par défaut du Manager Boinc a été modifiée. Pour que le changement prenne effet, vous devez redémarrer le manager."
 
-#: clientgui/MainFrame.cpp:1579
-#: clientgui/MainFrame.cpp:1596
-#: clientgui/MainFrame.cpp:1602
-#: clientgui/MainFrame.cpp:1645
-#: clientgui/MainFrame.cpp:1673
-#: clientgui/MainFrame.cpp:1682
-#: clientgui/MainFrame.cpp:1696
-#: clientgui/MainFrame.cpp:1704
+#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1597
+#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC Manager - Network Status"
 msgstr "Manager BOINC - État du réseau"
 
-#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1581
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC a besoin d'être connecté à Internet pour effectuer des tâches de maintenance. Ouvrez le Manager BOINC pour vous connecter et effectuer les taches requises."
 
-#: clientgui/MainFrame.cpp:1595
+#: clientgui/MainFrame.cpp:1596
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -840,51 +839,51 @@ msgstr ""
 "BOINC a besoin de se connecter au réseau.\n"
 "Peut-il le faire maintenant?"
 
-#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1604
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC est en train de se connecter à Internet."
 
-#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1647
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC a détecté qu'il est connecté à internet: Mise à jour de tous les projets et essais de transfert en cours."
 
-#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1675
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC a réussi à se déconnecter d'internet."
 
-#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1684
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC n'a pas réussi à se déconnecter d'Internet."
 
-#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1698
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC a réussi à se connecter à internet."
 
-#: clientgui/MainFrame.cpp:1705
+#: clientgui/MainFrame.cpp:1706
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC n'a pas réussi à se connecter à internet."
 
-#: clientgui/MainFrame.cpp:1782
-#: clientgui/MainFrame.cpp:1785
+#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1784
 #, c-format
 msgid "Connecting to %s"
 msgstr "Connexion à %s en cours"
 
-#: clientgui/MainFrame.cpp:1786
+#: clientgui/MainFrame.cpp:1787
 #, c-format
 msgid "Connected to %s"
 msgstr "Connecté à %s"
 
-#: clientgui/MainFrame.cpp:1940
+#: clientgui/MainFrame.cpp:1941
 msgid "BOINC Manager - Connection Failed"
 msgstr "Manager BOINC - La connexion a échoué"
 
-#: clientgui/MainFrame.cpp:1941
+#: clientgui/MainFrame.cpp:1942
 msgid ""
 "BOINC Manager is not able to connect to a BOINC client.\n"
 "Would you like to try to connect again?"
@@ -892,11 +891,11 @@ msgstr ""
 "Le Manager BOINC n'a pas réussi a se connecter à un client BOINC.\n"
 "Voulez-vous retenter d'établir la connexion ?"
 
-#: clientgui/MainFrame.cpp:1956
+#: clientgui/MainFrame.cpp:1957
 msgid "BOINC Manager - Connection Status"
 msgstr "Manager BOINC - État de la Connexion"
 
-#: clientgui/MainFrame.cpp:1957
+#: clientgui/MainFrame.cpp:1958
 msgid ""
 "BOINC Manager is not currently connected to a BOINC client.\n"
 "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
@@ -977,6 +976,37 @@ msgstr ""
 "Communication avec le projet en cours \n"
 "Veuillez patienter..."
 
+#: clientgui/ProxyInfoPage.cpp:100
+msgid "Network communication failure"
+msgstr "Échec de la communication réseau"
+
+#: clientgui/ProxyInfoPage.cpp:107
+msgid ""
+"BOINC failed to communicate on the Internet. The most likely\n"
+"reasons are:\n"
+"\n"
+"1) Personal firewall software is blocking BOINC. You must\n"
+"configure your personal firewall to let BOINC communicate\n"
+"on port 80. Once this is fixed, click Back to try again.\n"
+"\n"
+"2) You are using a proxy server and BOINC needs to know\n"
+"about it.\n"
+"\n"
+"Click Next to configure BOINC's proxy settings.\n"
+msgstr ""
+"BOINC n'a pas réussi à communiquer avec l'Internet.\n"
+"Les raisons les plus probables sont:\n"
+"\n"
+"1) Un pare-feu personnel bloque BOINC. Vous devez configurer\n"
+"votre pare-feu personnel afin de laisser BOINC communiquer\n"
+"par le port 80. Une fois cela réglé, cliquez sur Retour pour\n"
+"essayer à nouveau.\n"
+"\n"
+"2) Vous utilisez un serveur proxy et BOINC a besoin\n"
+"de connaître ses paramètres.\n"
+"\n"
+"Cliquez sur Suivant pour configurer les paramètres proxy de BOINC.\n"
+
 #: clientgui/ProxyPage.cpp:117
 msgid "Proxy configuration"
 msgstr "Configuration du Proxy"
@@ -1038,11 +1068,11 @@ msgstr "Clé d'identification non valide; entrez une clé d'identification valide,
 msgid "Validation conflict"
 msgstr "Conflit de validation"
 
-#: clientgui/ValidateURL.cpp:79
+#: clientgui/ValidateURL.cpp:70
 msgid "Missing URL"
 msgstr "URL manquante"
 
-#: clientgui/ValidateURL.cpp:80
+#: clientgui/ValidateURL.cpp:71
 msgid ""
 "Please specify a URL.\n"
 "For example:\n"
@@ -1052,18 +1082,18 @@ msgstr ""
 "Par exemple:\n"
 "http://www.exemple.com/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
-msgid "Invalid URL"
-msgstr "URL non valide"
-
 #: clientgui/ValidateURL.cpp:84
 #: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:111
+msgid "Invalid URL"
+msgstr "URL non valide"
+
+#: clientgui/ValidateURL.cpp:85
+#: clientgui/ValidateURL.cpp:89
+#: clientgui/ValidateURL.cpp:93
 msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
@@ -1073,20 +1103,20 @@ msgstr ""
 "Par exemple:\n"
 "http://boincproject.exemple.com"
 
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:105
+#: clientgui/ValidateURL.cpp:109
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' ne contient pas de nom d'hôte valide."
 
-#: clientgui/ValidateURL.cpp:111
+#: clientgui/ValidateURL.cpp:112
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' ne contient pas de chemin valide."
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:404
+#: clientgui/ViewStatistics.cpp:634
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1309,49 +1339,63 @@ msgid "Disk"
 msgstr "Disque"
 
 #: clientgui/ViewStatistics.cpp:41
-#: clientgui/ViewStatistics.cpp:50
-#: clientgui/ViewStatistics.cpp:462
+#: clientgui/ViewStatistics.cpp:52
+#: clientgui/ViewStatistics.cpp:524
+#: clientgui/ViewStatistics.cpp:706
 msgid "User Total"
 msgstr "Total de l'utilisateur"
 
-#: clientgui/ViewStatistics.cpp:408
-msgid "Show user total"
-msgstr "Total de l'utilisateur"
-
-#: clientgui/ViewStatistics.cpp:415
-msgid "Show user average"
-msgstr "Moyenne de l'utilisateur"
-
-#: clientgui/ViewStatistics.cpp:422
-msgid "Show host total"
-msgstr "Total de l'hôte"
-
-#: clientgui/ViewStatistics.cpp:429
-msgid "Show host average"
-msgstr "Moyenne de l'hôte"
-
-#: clientgui/ViewStatistics.cpp:448
-msgid "Statistics"
-msgstr "Statistiques"
-
-#: clientgui/ViewStatistics.cpp:461
-#: clientgui/ViewStatistics.cpp:481
-#: clientgui/ViewStatistics.cpp:501
-#: clientgui/ViewStatistics.cpp:521
-msgid "Updating charts..."
-msgstr "Mise à jour des diagrammes en cours..."
-
-#: clientgui/ViewStatistics.cpp:482
+#: clientgui/ViewStatistics.cpp:531
+#: clientgui/ViewStatistics.cpp:726
 msgid "User Average"
 msgstr "Moyenne de l'utilisateur"
 
-#: clientgui/ViewStatistics.cpp:502
+#: clientgui/ViewStatistics.cpp:538
+#: clientgui/ViewStatistics.cpp:746
 msgid "Host Total"
 msgstr "Total de l'hôte"
 
-#: clientgui/ViewStatistics.cpp:522
+#: clientgui/ViewStatistics.cpp:545
+#: clientgui/ViewStatistics.cpp:766
 msgid "Host Average"
 msgstr "Moyenne de l'hôte"
+
+#: clientgui/ViewStatistics.cpp:638
+msgid "Show user total"
+msgstr "Total de l'utilisateur"
+
+#: clientgui/ViewStatistics.cpp:645
+msgid "Show user average"
+msgstr "Moyenne de l'utilisateur"
+
+#: clientgui/ViewStatistics.cpp:652
+msgid "Show host total"
+msgstr "Total de l'hôte"
+
+#: clientgui/ViewStatistics.cpp:659
+msgid "Show host average"
+msgstr "Moyenne de l'hôte"
+
+#: clientgui/ViewStatistics.cpp:666
+msgid "Mode view"
+msgstr "Mode visuel"
+
+#: clientgui/ViewStatistics.cpp:673
+msgid "Next project"
+msgstr "Projet suivant"
+
+#: clientgui/ViewStatistics.cpp:692
+msgid "Statistics"
+msgstr "Statistiques"
+
+#: clientgui/ViewStatistics.cpp:705
+#: clientgui/ViewStatistics.cpp:725
+#: clientgui/ViewStatistics.cpp:745
+#: clientgui/ViewStatistics.cpp:765
+#: clientgui/ViewStatistics.cpp:784
+#: clientgui/ViewStatistics.cpp:802
+msgid "Updating charts..."
+msgstr "Mise à jour des diagrammes en cours..."
 
 #: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
@@ -1566,13 +1610,17 @@ msgstr "Activités suspendues par l'utilisateur"
 msgid "We'll now guide you through the process of attaching to a project."
 msgstr "Nous allons maintenant vous guider pour rejoindre un projet."
 
+#: clientgui/WelcomePage.cpp:149
+msgid "Account manager"
+msgstr "Gestionnaire de compte"
+
 #: clientgui/WelcomePage.cpp:153
 msgid ""
-"We'll now guide you through the process of attaching to an\n"
-"account manager."
+"We'll now guide you through the process of \n"
+"adding/updating/removing an account manager."
 msgstr ""
-"Nous allons maintenant vous guider pour rejoindre un\n"
-"gestionnaire de compte."
+"Nous allons maintenant vous guider pour\n"
+"ajouter/ mettre à jour/ supprimer un gestionnaire de compte."
 
 #: clientgui/WelcomePage.cpp:160
 msgid "Debug Flags"
@@ -1626,21 +1674,21 @@ msgstr "Échec de la détection réseau"
 msgid "To continue, click Next."
 msgstr "Pour continuer, cliquez sur Suivant."
 
-#: clientgui/WizardAccountManager.cpp:116
+#: clientgui/WizardAccountManager.cpp:118
 msgid "Attach to Account Manager"
 msgstr "Rejoindre un gestionnaire de compte"
 
-#: clientgui/WizardAccountManager.cpp:373
-#: clientgui/WizardAttachProject.cpp:423
+#: clientgui/WizardAccountManager.cpp:387
+#: clientgui/WizardAttachProject.cpp:436
 msgid "Do you really want to cancel?"
 msgstr "Voulez-vous vraiment annuler ?"
 
-#: clientgui/WizardAccountManager.cpp:374
-#: clientgui/WizardAttachProject.cpp:424
+#: clientgui/WizardAccountManager.cpp:388
+#: clientgui/WizardAttachProject.cpp:437
 msgid "Question"
 msgstr "Question"
 
-#: clientgui/WizardAttachProject.cpp:131
+#: clientgui/WizardAttachProject.cpp:133
 msgid "Attach to Project"
 msgstr "Rejoindre un projet"
 
