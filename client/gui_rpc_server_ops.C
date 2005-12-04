@@ -24,6 +24,7 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -71,6 +72,12 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     }
     fout.printf("<authorized/>\n");
     auth_needed = false;
+}
+
+static void handle_get_client_time(MIOFILE& fout) {
+    fout.printf("<client_time>\n");
+    fout.printf("<time>%f</time>\n", dtime());
+    fout.printf("</client_time>\n");
 }
 
 static void handle_get_project_status(MIOFILE& fout) {
@@ -160,6 +167,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
 
 static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
+    int retval;
     PROJECT* p = get_project(buf, fout);
     if (!p) {
         fout.printf("<error>no such project</error>\n");
@@ -177,6 +185,19 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         p->suspended_via_gui = false;
     } else if (!strcmp(op, "detach")) {
         gstate.detach_project(p);
+
+        // if project_init.xml refers to this project,
+        // delete the file, otherwise we'll just
+        // reattach the next time the core client starts
+        //
+        if (!strcmp(p->master_url, gstate.project_init.url)) {
+            retval = gstate.project_init.remove();
+            if (retval) {
+                msg_printf(p, MSG_ERROR,
+                    "Can't delete project init file: %s\n", boincerror(retval)
+                );
+            }
+        }
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
@@ -404,7 +425,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
     if (!strcmp(op, "abort")) {
         atp = gstate.lookup_active_task_by_result(rp);
         if (atp) {
-            atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted via GUI RPC");
+            atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted by user");
         } else {
             rp->aborted_via_gui = true;
         }
@@ -452,7 +473,7 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
-static void handle_quit(char* buf, MIOFILE& fout) {
+static void handle_quit(char*, MIOFILE& fout) {
     gstate.requested_exit = true;
     fout.printf("<success/>\n");
 }
@@ -722,6 +743,8 @@ int GUI_RPC_CONN::handle_rpc() {
     MFILE m;
     char* p;
     int major_version;
+    int minor_version;
+    int release;
     mf.init_mfile(&m);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
@@ -743,6 +766,8 @@ int GUI_RPC_CONN::handle_rpc() {
     // get client version.  not used for now
     //
     parse_int(request_msg, "<major_version>", major_version);
+    parse_int(request_msg, "<minor_version>", minor_version);
+    parse_int(request_msg, "<release>", release);
 
     mf.printf(
         "<boinc_gui_rpc_reply>\n"
@@ -763,6 +788,8 @@ int GUI_RPC_CONN::handle_rpc() {
 
     // operations that require authentication for non-local clients start here
 
+    } else if (match_tag(request_msg, "<get_client_time")) {
+        handle_get_client_time(mf);
     } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
