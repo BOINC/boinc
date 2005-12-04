@@ -52,6 +52,11 @@ $features_5 = "
 ";
 
 $changes_5 = "
+    <li>Changes since 5.2.13
+      <ul>
+        <li>The manager should now correctly detect if the core client is
+            currently running on the machine.
+      </ul>
     <li>Changes since 5.2.12
       <ul>
         <li>Localization updates.
@@ -96,6 +101,32 @@ $changes_5 = "
             file handles.
       </ul>
 ";
+
+$w5214= array(
+    "num"=>"5.2.14",
+    "status"=>"Development version",
+    "file"=>"boinc_5.2.14_windows_intelx86.exe",
+    "date"=>"4 Dec 2005",
+    "type"=>"win_new",
+    "features"=>"<ul>
+    <li> Dial-up features now work with all installation types.
+    <li> The BOINC Manager can now be controlled using only the keyboard.
+".$features_5."
+".$changes_5."
+    </ul>
+    ",
+    "bugs"=>"<ul>
+    <li>
+    Applications that were built before October 2004 do not
+    display screensaver graphics with the Service or Shared install type,
+    or the Single-user install type with the password protect screensaver
+    option on NT based machines.
+    <li>
+    If BOINC runs at the same time as Windows XP 3-D screensavers,
+    the system becomes sluggish and unresponsive.
+    </ul>
+    "
+);
 
 $w5213= array(
     "num"=>"5.2.13",
@@ -335,6 +366,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w5214,
         $w5213,
         $w445,
     )
