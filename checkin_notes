@@ -14184,3 +14184,13 @@ David  2 Dec 2005
 
     lib/
         shmem.C
+        
+Rom    4 Dec 2005
+    - Bug Fix: Verify we are actually talking with a BOINC core client
+        before declaring a connection successful.
+        
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.C, .h
+        gui_rpc_client_ops.C

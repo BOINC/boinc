@@ -52,9 +52,16 @@
 using std::string;
 using std::vector;
 
-RPC_CLIENT::RPC_CLIENT() {}
+RPC_CLIENT::RPC_CLIENT() {
+    client_major_version = 0;
+    client_minor_version = 0;
+    client_release = 0;
+}
 
 RPC_CLIENT::~RPC_CLIENT() {
+    client_major_version = 0;
+    client_minor_version = 0;
+    client_release = 0;
     close();
 }
 
@@ -70,6 +77,7 @@ void RPC_CLIENT::close() {
 }
 
 int RPC_CLIENT::init(const char* host) {
+    double client_time = 0.0;
     int retval;
 	memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -107,6 +115,15 @@ int RPC_CLIENT::init(const char* host) {
             return ERR_CONNECT;
         }
     }
+
+    // Are we really talking to a BOINC core client.
+    if (get_client_time(client_time)) {
+        return ERR_RETRY;
+    }
+    if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
+        return ERR_RETRY;
+    }
+
     return 0;
 }
 
@@ -151,6 +168,7 @@ int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
 int RPC_CLIENT::init_poll() {
     fd_set read_fds, write_fds, error_fds;
     struct timeval tv;
+    double client_time = 0.0;
     int retval;
 
     FD_ZERO(&read_fds);
@@ -176,6 +194,12 @@ int RPC_CLIENT::init_poll() {
             if (retval) {
                 BOINCTRACE("asynch error: %d\n", retval);
                 return retval;
+            }
+            if (get_client_time(client_time)) {
+                return ERR_RETRY;
+            }
+            if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
+                return ERR_RETRY;
             }
             return 0;
         } else {

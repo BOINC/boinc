@@ -74,6 +74,12 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     auth_needed = false;
 }
 
+static void handle_get_client_time(MIOFILE& fout) {
+    fout.printf("<client_time>\n");
+    fout.printf("<time>%f</time>\n", dtime());
+    fout.printf("</client_time>\n");
+}
+
 static void handle_get_project_status(MIOFILE& fout) {
     unsigned int i;
     fout.printf("<projects>\n");
@@ -743,6 +749,8 @@ int GUI_RPC_CONN::handle_rpc() {
     MFILE m;
     char* p;
     int major_version;
+    int minor_version;
+    int release;
     mf.init_mfile(&m);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
@@ -764,6 +772,8 @@ int GUI_RPC_CONN::handle_rpc() {
     // get client version.  not used for now
     //
     parse_int(request_msg, "<major_version>", major_version);
+    parse_int(request_msg, "<minor_version>", minor_version);
+    parse_int(request_msg, "<release>", release);
 
     mf.printf(
         "<boinc_gui_rpc_reply>\n"
@@ -784,6 +794,8 @@ int GUI_RPC_CONN::handle_rpc() {
 
     // operations that require authentication for non-local clients start here
 
+    } else if (match_tag(request_msg, "<get_client_time")) {
+        handle_get_client_time(mf);
     } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
