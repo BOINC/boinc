@@ -14194,3 +14194,15 @@ Rom    4 Dec 2005
     lib/
         gui_rpc_client.C, .h
         gui_rpc_client_ops.C
+
+David  4 Dec 2005
+    - web: Make some text on account-create form translatable
+    - web: when showing list of hosts, don't show hosts
+        idle for > 30 days (but provide a link for showing them)
+
+    html/
+        languages/translations/
+            en.po
+        user/
+            create_account_form.php
+            hosts_user.php

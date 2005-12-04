@@ -60,11 +60,14 @@ if (!$min_passwd_length) {
     $min_passwd_length = 6;
 }
 
-row2("Password
-    <br><font size=-2>Must be at least $min_passwd_length characters</font>",
+row2(
+    tr(CREATE_AC_PASSWORD)
+    ."<br><span class=description>"
+    .sprintf(tr(CREATE_AC_PASSWORD_DESC), $min_passwd_length)
+    ." </span>",
     "<input type=password name=passwd>"
 );
-row2("Confirm password", "<input type=password name=passwd2>");
+row2(tr(CREATE_AC_CONFIRM_PASSWORD), "<input type=password name=passwd2>");
 row2_init(
     tr(CREATE_AC_COUNTRY)."<br><span class=description>".tr(CREATE_AC_COUNTRY_DESC)."</span>",
     "<select name=country>"

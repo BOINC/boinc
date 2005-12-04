@@ -78,7 +78,6 @@ Verify that download resumes from the same point.
 <li> Test venue mechanism
 </ul>
 
-</ul>
 <h3>Windows single-user</h3>
 <ul>
 <li>Check that only the administrative and installing account can

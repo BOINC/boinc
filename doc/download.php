@@ -35,8 +35,7 @@ function show_detail($v) {
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    # $url = "http://boinc.berkeley.edu/$path";
-    $url = "http://setiboincdata.ssl.berkeley.edu/boinc/$path";
+    $url = "http://boinc.berkeley.edu/$path";
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -68,8 +67,7 @@ function show_version_xml($v, $p) {
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    # $url = "http://boinc.berkeley.edu/$path";
-    $url = "http://setiboincdata.ssl.berkeley.edu/boinc/$path";
+    $url = "http://boinc.berkeley.edu/$path";
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -121,7 +119,7 @@ function show_version($pname, $i, $v) {
         </nobr>
         </td>
         <td>
-        <a href=http://setiboincdata.ssl.berkeley.edu/boinc/dl/$file><b>Download</b></a> ($s MB)
+        <a href=dl/$file><b>Download</b></a> ($s MB)
         </td>
         <td>
         Instructions: $type_text
