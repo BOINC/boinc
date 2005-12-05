@@ -14206,3 +14206,13 @@ David  4 Dec 2005
         user/
             create_account_form.php
             hosts_user.php
+
+David  4 Dec 2005
+	- Manager: if a result's project is suspended,
+		show this in work tab
+	- core client: use full BOINC version # in HTTP request header
+
+	client/
+		http_curl.C
+	clientgui/
+		ViewWork.cpp
