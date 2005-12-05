@@ -197,7 +197,7 @@ msgid "CREATE_AC_PASSWORD"
 msgstr "Password"
 
 msgid "CREATE_AC_PASSWORD_DESC"
-mststr "Must be at least %s characters";
+msgstr "Must be at least %s characters";
 
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "Confirm password"
