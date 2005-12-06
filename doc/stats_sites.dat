@@ -13,6 +13,11 @@ $stats_sites = array(
         "www.boincstats.com",
         "by Willy de Zutter"
     ),
+    array("http://www.dc-vault.com",
+        "DC-Vault",
+        "Include non-BOINC projects"
+    ),
+    array("http://boincdenmark.dk/", "BOINC@Denmark", "(in Danish)"),
     array("http://www.seti.nl/boinc_team.php",
         "SETI@Netherlands stats page",
         ""

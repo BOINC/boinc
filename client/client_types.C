@@ -442,7 +442,6 @@ void PROJECT::file_xfer_failed(const bool is_upload) {
             next_file_xfer_up = 0;
         } else {
             next_file_xfer_up = gstate.now + calculate_exponential_backoff(
-                "project incr_retry up",
                 file_xfer_failures_up,
                 gstate.pers_retry_delay_min,
                 gstate.pers_retry_delay_max
@@ -454,7 +453,6 @@ void PROJECT::file_xfer_failed(const bool is_upload) {
             next_file_xfer_down = 0;
         } else {
             next_file_xfer_down = gstate.now + calculate_exponential_backoff(
-                "project incr_retry down",
                 file_xfer_failures_down,
                 gstate.pers_retry_delay_min,
                 gstate.pers_retry_delay_max

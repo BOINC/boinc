@@ -124,11 +124,27 @@ public:
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
-    // exponential backoff variables
-    int master_fetch_period, retry_base_period, retry_cap;
-    int master_fetch_retry_cap, master_fetch_interval;
-    int sched_retry_delay_min, sched_retry_delay_max;
-    int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
+
+    // backoff-related variables
+    //
+    int master_fetch_period;
+        // fetch project's master URL (and stop doing scheduler RPCs)
+        // if get this many successive RPC failures (default 10)
+    int retry_cap;
+        // cap project->nrpc_failures at this number
+    int master_fetch_retry_cap;
+        // after this many master-fetch failures,
+        // move into a state in which we retry master fetch
+        // at the frequency below
+    int master_fetch_interval;
+        // see above
+
+    int sched_retry_delay_min;
+    int sched_retry_delay_max;
+    int pers_retry_delay_min;
+    int pers_retry_delay_max;
+    int pers_giveup;
+
     bool activities_suspended;
     bool network_suspended;
 	bool executing_as_daemon;
@@ -421,8 +437,7 @@ extern CLIENT_STATE gstate;
 // return a random double in the range [MIN,min(e^n,MAX))
 //
 extern double calculate_exponential_backoff(
-    const char* debug_descr, int n, double MIN, double MAX, double factor=1.0
+    int n, double MIN, double MAX
 );
-extern bool debug_fake_exponential_backoff;
 
 #endif

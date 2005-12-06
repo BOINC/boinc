@@ -160,7 +160,7 @@ int CNetworkConnection::GetConnectingComputerName(wxString& strMachine) {
 }
 
 
-bool CNetworkConnection::IsComputerNameLocal(wxString& strMachine) {
+bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
     if (strMachine.empty()) {
         return true;
     } else if (wxT("localhost") == strMachine.Lower()) {
@@ -435,7 +435,7 @@ int CMainDocument::GetConnectingComputerName(wxString& strMachine) {
 }
 
 
-bool CMainDocument::IsComputerNameLocal(wxString strMachine) {
+bool CMainDocument::IsComputerNameLocal(const wxString strMachine) {
     return m_pNetworkConnection->IsComputerNameLocal(strMachine);
 }
 

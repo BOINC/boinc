@@ -351,7 +351,6 @@ void PERS_FILE_XFER::do_backoff() {
     // pers_retry_delay_max
     //
     backoff = calculate_exponential_backoff(
-        "pers_file_xfer",
         nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max
     );
     next_request_time = gstate.now + backoff;

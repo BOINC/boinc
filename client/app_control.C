@@ -135,8 +135,8 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     // (accommodate apps that never checkpoint)
     //
     if (quit_task && (checkpoint_cpu_time>0)) {
-        retval = request_exit();
         pending_suspend_via_quit = true;
+        retval = request_exit();
     } else {
         retval = suspend();
     }

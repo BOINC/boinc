@@ -39,7 +39,7 @@ public:
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
     int            GetConnectingComputerName(wxString& strMachine);
-    bool           IsComputerNameLocal(wxString& strMachine);
+    bool           IsComputerNameLocal(const wxString& strMachine);
     void           GetLocalPassword(wxString& strPassword);
     int            SetComputer(const wxChar* szComputer, const wxChar* szPassword, const bool bUseDefaultPassword);
     void           SetStateError();
@@ -118,7 +118,7 @@ public:
 
     int                         GetConnectedComputerName(wxString& strMachine);
     int                         GetConnectingComputerName(wxString& strMachine);
-    bool                        IsComputerNameLocal(wxString strMachine);
+    bool                        IsComputerNameLocal(const wxString strMachine);
     bool                        IsConnected();
     bool                        IsReconnecting();
 

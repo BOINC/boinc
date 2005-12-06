@@ -101,9 +101,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(master_fetch_period)) {
             if (i == argc-1) show_options = true;
             else master_fetch_period = atoi(argv[++i]);
-        } else if (ARG(retry_base_period)) {
-            if (i == argc-1) show_options = true;
-            else retry_base_period = atoi(argv[++i]);
         } else if (ARG(retry_cap)) {
             if (i == argc-1) show_options = true;
             else retry_cap = atoi(argv[++i]);
@@ -128,8 +125,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(pers_giveup)) {
             if (i == argc-1) show_options = true;
             else pers_giveup = atoi(argv[++i]);
-        } else if (ARG(debug_fake_exponential_backoff)) {
-            debug_fake_exponential_backoff = true;
         } else if (ARG(detach_phase_two)) {
             detach_console = true;
 

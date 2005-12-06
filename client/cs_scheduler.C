@@ -94,20 +94,7 @@ void PROJECT::set_min_rpc_time(double future_time) {
 // Print a message to the user if we haven't recently
 //
 bool PROJECT::waiting_until_min_rpc_time() {
-    if (min_rpc_time > gstate.now ) {
-#if 0  // why do this?  it's reported in projects tab
-        if (gstate.now >= min_report_min_rpc_time) {
-            min_report_min_rpc_time = gstate.now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
-            msg_printf(
-                this, MSG_INFO,
-               "Deferring communication with project for %s\n",
-               timediff_format(min_rpc_time - gstate.now).c_str()
-            );
-        }
-#endif
-        return true;
-    }
-    return false;
+    return (min_rpc_time > gstate.now);
 }
 
 // find a project that needs to have its master file fetched

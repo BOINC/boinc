@@ -144,37 +144,6 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
     return retval;
 }
 
-// Set a project's min RPC time to something in the future,
-// based on exponential backoff
-//
-int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
-    double exp_backoff;
-
-    int n = p->nrpc_failures;
-    if (n > gstate.retry_cap) n = gstate.retry_cap;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
-
-    // we've hit the limit on master_url fetches
-    //
-    if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
-        scope_messages.printf("SCHEDULER_OP::set_min_rpc_time(): we've hit the limit on master_url fetches\n");
-        exp_backoff = calculate_exponential_backoff("scheduler_op/master_url",
-            p->master_fetch_failures, gstate.sched_retry_delay_min,
-            gstate.master_fetch_interval
-        );
-    } else {
-        exp_backoff = calculate_exponential_backoff("scheduler_op",
-            n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max,
-            gstate.retry_base_period
-        );
-    }
-    p->set_min_rpc_time(gstate.now + exp_backoff);
-    // note: we don't need to print a message now, it will be printed the
-    // next time p->waiting_until_min_rpc_time() is called.
-    return 0;
-}
-
 // One of the following errors occurred:
 // - connection failure in fetching master file
 // - connection failure in scheduler RPC
@@ -194,20 +163,28 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         msg_printf(p, MSG_ERROR, "Too many backoffs - fetching master file");
         p->master_url_fetch_pending = true;
-    } else {
-        // if nrpc failures is a multiple of master_fetch_period,
-        // then set master_url_fetch_pending and initialize again
-        //
-        if (p->nrpc_failures == gstate.master_fetch_period) {
-            p->master_url_fetch_pending = true;
-            p->min_rpc_time = 0;
-            p->nrpc_failures = 0;
-            p->master_fetch_failures++;
-        }
-
-        p->nrpc_failures++;
+        p->set_min_rpc_time(gstate.now + gstate.master_fetch_interval);
+        return;
     }
-    set_min_rpc_time(p);
+
+    // if nrpc failures is master_fetch_period,
+    // then set master_url_fetch_pending and initialize again
+    //
+    if (p->nrpc_failures == gstate.master_fetch_period) {
+        p->master_url_fetch_pending = true;
+        p->min_rpc_time = 0;
+        p->nrpc_failures = 0;
+        p->master_fetch_failures++;
+    }
+
+    p->nrpc_failures++;
+
+    int n = p->nrpc_failures;
+    if (n > gstate.retry_cap) n = gstate.retry_cap;
+    double exp_backoff = calculate_exponential_backoff(
+        n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max
+    );
+    p->set_min_rpc_time(gstate.now + exp_backoff);
 }
 
 // low-level routine to initiate an RPC

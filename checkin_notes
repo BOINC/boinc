@@ -14224,3 +14224,24 @@ Charlie 5 Dec 2005
         mac_advanced.php
     mac_installer/
         ReadMe.rtf
+
+David  5 Dec 2005
+    - core client: started to clean up ugly undergrad code
+        related to retry of scheduler RPCs and master file fetches.
+        Didn't get very far.
+        This whole area needs to be redone.
+    - removed debugging code related to the above
+    - eliminate possible race condition:
+        flag task as preempted-by-quit BEFORE telling it to quit
+    - Manager: compile fixes
+
+    client/
+        app_control.C
+        client_state.C,h
+        client_types.C
+        cs_cmdline.C
+        sc_scheduler.C
+        pers_file_xfer.C
+        scheduler_op.C,h
+    clientgui/
+        MainDocument.cpp,h
