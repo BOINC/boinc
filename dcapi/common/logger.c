@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdarg.h>
 #include <sys/syslog.h>
-#include <errno.h>
+#include <strings.h>
 #include <stdlib.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <errno.h>
 #include <time.h>
-#include <string.h>
 
 #include "cfg.h"
 #include "dc.h"

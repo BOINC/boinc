@@ -14,9 +14,17 @@ extern "C" {
 #include <sys/syslog.h>
 #include <stdarg.h>
 
-#define DC_OK    0
-#define DC_ERROR 1
+enum {
+	DC_OK,
+	DC_ERROR
+};
 
+typedef enum {
+	DC_RESULT_ACCEPT,
+	DC_RESULT_INVALID,
+	DC_RESULT_FINAL,
+	DC_RESULT_SUB
+} DC_ResultStatus;
 
 /** The first function to be invoked by the main application before using DC 
  *  
@@ -51,6 +59,13 @@ typedef struct {
     char *outfiles_dir;  // directory of output files
     char *outfiles[MAX_OUTFILES];    // output files
     int  noutfiles;      // number of output files
+
+    /* clgr-specific fields */
+    char *std_out;
+    char *std_err;
+    char *sys_log;
+    int exitcode;
+    DC_ResultStatus status;
 } dc_result;
 
 /* Result.
@@ -138,9 +153,6 @@ int DC_checkForResult(int  timeout,
 		      void (*cb_assimilate_result)(DC_Result result)
 		      );
 
-
-#define DC_RESULT_ACCEPT   0
-#define DC_RESULT_INVALID  1
 
 /* Callback functions
    These functions should be provided by the application.

@@ -34,6 +34,11 @@
 #include <sched_msgs.h>
 #include <validate_util.h>
 
+// Compatibility with Boinc 4.x
+#if BOINC_VERSION == 4
+#define MSG_CRITICAL CRITICAL
+#endif
+
 using std::vector;
 using std::string;
 
@@ -47,10 +52,15 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     if (!parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf))) {
         return ERR_XML_PARSE;
     }
-    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, path, true);
-	if (!boinc_file_exists(path)) {
-		dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, false, path);
-	}
+
+#if BOINC_VERSION == 4
+    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, true, path);
+    if (!boinc_file_exists(path))
+	dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, false, path);
+#else
+    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, path);
+#endif
+
     path_str = path;
     return 0;
 }
