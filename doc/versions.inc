@@ -56,6 +56,8 @@ $changes_5 = "
       <ul>
         <li>The manager should now correctly detect if the core client is
             currently running on the machine.
+        <li>Mac: Only administrators can attach to a new project (for improved security).
+        <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
       </ul>
     <li>Changes since 5.2.12
       <ul>
@@ -226,6 +228,29 @@ $w419 = array(
     "
 );
 
+$m5214 = array(
+    "num"=>"5.2.14",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.2.14_macOSX.zip",
+    "date"=>"6 December 2005",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+     <li>
+     BOINC now works with OS 10.3.0 or higher.
+     <li>
+     Closing the BOINC Manager window now hides the application, and vice-versa.
+     <li>
+     The installer no longer always sets ownership to user 501. If the installing user 
+     has admin privileges, that user becomes the owner; otherwise the first non-root 
+     admin user becomes the owner.
+".$features_5."
+".$changes_5."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
 $m5213 = array(
     "num"=>"5.2.13",
     "status"=>"Recommended version (standard GUI)",
@@ -375,6 +400,7 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m5214,
         $m5213,
         $m5213s,
         $m5213c,
