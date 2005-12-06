@@ -6,8 +6,9 @@
 #ifndef __DCCLIENT_H_
 #define __DCCLIENT_H_
 
-#define DC_OK    0
-#define DC_ERROR 1
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /** Send a (partial) result back to the master.
  *  Parameters:
@@ -37,5 +38,9 @@ int DC_ContinueWork(void);
  *  It should be called as the last function and then exit.
  */
 void DC_Finish(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

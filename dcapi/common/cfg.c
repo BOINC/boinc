@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
 
 #include "cfg.h"
@@ -9,7 +9,7 @@
 /* Private functions */
 static char * dc_cfg_cutLeadingWhiteSpace(char *line);
 void          dc_cfg_cutTrailingWhiteSpace(char *line);
-static int tokenise( char *line, char *separators, char *tokens[], int max );
+static int tokenise(char *line, char *separators, char *tokens[], int max);
 
 typedef struct {
     char *name;
@@ -29,10 +29,8 @@ int dc_cfg_parse(const char *cfgfile)
     char *tokens[MAX_TOKEN];
     int tokenCount;
 
-    DC_log(LOG_DEBUG, "cfg: parse config file %s\n", cfgfile);
-
     if ((cfg = fopen(cfgfile, "r")) == NULL) {
-	DC_log(LOG_ERR, "Config file %s cannot be opened\nErrno=%d %s",
+	fprintf(stderr, "Config file %s cannot be opened\nErrno=%d %s",
 	       cfgfile, errno, strerror(errno));
 	return DC_CFG_FILENOTEXISTS;
     }
@@ -43,13 +41,13 @@ int dc_cfg_parse(const char *cfgfile)
 	if (str[0] == '\0' || str[0] == '\n') continue; /* empty */
 	if (str[0] == '#') continue; /* comment */
 
-	tokenCount = tokenise( line, "=\n", tokens, MAX_TOKEN );
+	tokenCount = tokenise(line, "=\n", tokens, MAX_TOKEN);
 	if (tokenCount == 2) {
 	    NameValuePair *tmp;
 
 	    tmp = realloc(pairs, (n_pairs + 1) * sizeof(*tmp));
 	    if (!tmp) {
-		DC_log(LOG_ERR, "Out of memory while parsing config file\n");
+		fprintf(stderr, "Out of memory while parsing config file\n");
 		return DC_CFG_OUTOFMEM;
 	    }
 	    pairs = tmp;
@@ -58,7 +56,7 @@ int dc_cfg_parse(const char *cfgfile)
 	    n_pairs++;
 	}
 	else {
-	    DC_log(LOG_WARNING, 
+	    fprintf(stderr, 
 		   "Cannot understand in config file %s the line %s",
 		   cfgfile, line);
 	}
@@ -66,7 +64,7 @@ int dc_cfg_parse(const char *cfgfile)
     return DC_CFG_OK;
 }
 
-char * dc_cfg_get(char *name) 
+char *dc_cfg_get(char *name) 
 {
   /* Return the value of the name=value pair */
     int i = 0;
@@ -83,7 +81,7 @@ char * dc_cfg_get(char *name)
     return NULL;
 }
 
-static char * dc_cfg_cutLeadingWhiteSpace(char *line)
+static char *dc_cfg_cutLeadingWhiteSpace(char *line)
 {
     /* go until white spaces are in front of the string */
     char *str = line;
@@ -107,7 +105,7 @@ void dc_cfg_cutTrailingWhiteSpace(char *line)
 }
 
 /* break string into tokens and save tokens in arrays */
-static int tokenise( char *line, char *separators, char *tokens[], int max )
+static int tokenise(char *line, char *separators, char *tokens[], int max)
 {
    int i = 0;
    char *pch;
