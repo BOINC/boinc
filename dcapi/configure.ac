@@ -70,7 +70,7 @@ if test "$no_boinc" != yes; then
 			[dc_cv_boinc_version=5])
 		])
 	CPPFLAGS="$save_CPPFLAGS"
-	AC_DEFINE([BOINC_VERSION], [$dc_cv_boinc_version])
+	AC_DEFINE_UNQUOTED([BOINC_VERSION], [$dc_cv_boinc_version])
 fi
 
 AC_ARG_WITH([clgr], AS_HELP_STRING([--with-clgr@<:@=DIR@:>@],

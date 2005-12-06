@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 /* Include BOINC Headers */
 //#include "rsaeuro.h"
 //#include "crypt.h"
