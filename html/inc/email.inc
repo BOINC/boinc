@@ -39,9 +39,6 @@ function send_email($user, $subject, $body) {
 // There are a few scenarios:
 //
 // 1) the account was created by user via web.
-//    In this case they're currently looking at the "validate account" page
-//    (account_created.php), although they might have strayed
-//    so we need to give them a link.
 // 2) the account was created administratively
 // 3) the user requested account key for existing account
 //

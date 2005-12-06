@@ -187,9 +187,8 @@ msgid "CREATE_AC_TEAM"
 msgstr "This account will belong to the team %s and will have the project preferences of its founder."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "NOTE: starting with BOINC version 5.2, "
-"you don't need to use this form. "
-"You can create an account directly from BOINC. "
+msgstr "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, "
+"don't use this form. "
 "Just run BOINC, select Attach Project, "
 "and enter an email address and password. "
 

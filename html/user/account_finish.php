@@ -1,4 +1,9 @@
 <?php
+
+// Users are taken here after creating an account via the Wizard.
+// They've already entered an email address and password.
+// Now get a name, country, and zip code
+
 require_once('../inc/db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');

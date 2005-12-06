@@ -1228,10 +1228,11 @@ void handle_request(
     if (sreq.parse(fin) == 0){
         log_messages.printf(
              SCHED_MSG_LOG::MSG_NORMAL,
-             "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%d.%d\n",
+             "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%d.%d, RSF %f\n",
              get_remote_addr(), sreq.authenticator, sreq.hostid, sreq.platform_name,
              sreq.core_client_major_version, sreq.core_client_minor_version,
-             sreq.core_client_release
+             sreq.core_client_release,
+             sreq.resource_share_fraction
         );
         process_request(sreq, sreply, ss, code_sign_key);
     } else {
