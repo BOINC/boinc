@@ -14216,3 +14216,11 @@ David  4 Dec 2005
 		http_curl.C
 	clientgui/
 		ViewWork.cpp
+
+Charlie 5 Dec 2005
+    Add Mac uninstall instructions to ReadMe and  web site.
+
+    doc/
+        mac_advanced.php
+    mac_installer/
+        ReadMe.rtf
