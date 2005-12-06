@@ -54,5 +54,7 @@
 #define __WXDEBUG__
 #endif
 
+// Prototypes for Mac_GUI.cpp
+Boolean Mac_Authorize(void);
 
 #endif

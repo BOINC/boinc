@@ -972,6 +972,11 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#ifdef __WXMAC__
+    if (!Mac_Authorize())
+        return;
+#endif
+
     if (pDoc->IsConnected()) {
         m_pRefreshStateTimer->Stop();
         m_pFrameRenderTimer->Stop();
@@ -1033,6 +1038,11 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+#ifdef __WXMAC__
+    if (!Mac_Authorize())
+        return;
+#endif
 
     if (pDoc->IsConnected()) {
         UpdateStatusText(_("Attaching to project..."));

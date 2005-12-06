@@ -13597,3 +13597,17 @@ Charlie 5 Dec 2005
         mac_advanced.php
     mac_installer/
         ReadMe.rtf
+
+Charlie 6 Dec 2005
+    - Mac: Fix crash bug launching core client when there is a space 
+      character in the path to the BOINC Manager.
+      Add my changes of 1 Nov 05 which were missing from this branch.
+      
+    clientgui/
+         BOINCGUIApp.cpp
+        MainFrame.cpp
+        MacGUI.pch
+        Mac_GUI.cpp (new)
+    mac_build/
+        boinc.pbproj/
+            project.pbxproj
