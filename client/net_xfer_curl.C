@@ -323,34 +323,34 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                     nxf->http_op_retval = nxf->response;
                 }
             } else if (nxf->CurlResult == CURLE_OUT_OF_MEMORY) {
-                msg_printf(0, MSG_ERROR, "An out of memory condition has been detected");
+                msg_printf(0, MSG_ERROR, "Out of memory");
                 nxf->http_op_retval = ERR_MALLOC;
             } else if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
-                msg_printf(0, MSG_ERROR, "Couldn't resolve hostname [%s]", nxf->hostname);
+                msg_printf(0, MSG_ERROR, "Can't resolve hostname [%s]", nxf->hostname);
                 nxf->http_op_retval = ERR_GETHOSTBYNAME;
             } else if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_PROXY) {
-                msg_printf(0, MSG_ERROR, "Couldn't resolve proxy [%s]", nxf->hostname);
+                msg_printf(0, MSG_ERROR, "Can't resolve proxy [%s]", nxf->hostname);
                 nxf->http_op_retval = ERR_GETHOSTBYNAME;
             } else if (nxf->CurlResult == CURLE_COULDNT_CONNECT) {
-                msg_printf(0, MSG_ERROR, "Couldn't connect to hostname [%s]", nxf->hostname);
+                msg_printf(0, MSG_ERROR, "Can't connect to host [%s]", nxf->hostname);
                 nxf->http_op_retval = ERR_IO;
             } else if (nxf->CurlResult == CURLE_LOGIN_DENIED) {
-                msg_printf(0, MSG_ERROR, "Proxy authentication failed against proxy [%s]", nxf->hostname);
+                msg_printf(0, MSG_ERROR, "Proxy authentication failed to [%s]", nxf->hostname);
                 nxf->http_op_retval = ERR_AUTHENTICATOR;
             } else if (nxf->CurlResult == CURLE_OPERATION_TIMEOUTED) {
                 msg_printf(0, MSG_ERROR, "Attempting to communicate with [%s] timed out", nxf->hostname);
                 nxf->http_op_retval = ERR_TIMEOUT;
             } else if (nxf->CurlResult == CURLE_READ_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to read a file failed [%s]", nxf->strCurlResult);
+                msg_printf(0, MSG_ERROR, "File read failed: [%s]", nxf->strCurlResult);
                 nxf->http_op_retval = ERR_FREAD;
             } else if (nxf->CurlResult == CURLE_WRITE_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to write to a file failed [%s]", nxf->strCurlResult);
+                msg_printf(0, MSG_ERROR, "File write failed: [%s]", nxf->strCurlResult);
                 nxf->http_op_retval = ERR_FWRITE;
             } else if (nxf->CurlResult == CURLE_RECV_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to receive data from [%s] failed [%s]", nxf->hostname, nxf->strCurlResult);
+                msg_printf(0, MSG_ERROR, "Failed to receive data from [%s]: [%s]", nxf->hostname, nxf->strCurlResult);
                 nxf->http_op_retval = ERR_READ;
             } else if (nxf->CurlResult == CURLE_SEND_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to send data to [%s] failed [%s]", nxf->hostname, nxf->strCurlResult);
+                msg_printf(0, MSG_ERROR, "Failed to send data to [%s]: [%s]", nxf->hostname, nxf->strCurlResult);
                 nxf->http_op_retval = ERR_WRITE;
             }
 

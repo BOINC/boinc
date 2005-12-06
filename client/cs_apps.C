@@ -712,7 +712,7 @@ void CLIENT_STATE::handle_file_xfer_apps() {
 
 void CLIENT_STATE::request_schedule_cpus(const char* where) {
     must_schedule_cpus = true;
-    msg_printf(0, MSG_INFO, "request_reschedule_cpus: %s", where);
+    msg_printf(0, MSG_INFO, "Rescheduling CPU: %s", where);
 }
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

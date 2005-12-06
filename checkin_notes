@@ -14245,3 +14245,13 @@ David  5 Dec 2005
         scheduler_op.C,h
     clientgui/
         MainDocument.cpp,h
+
+David  5 Dec 2005
+	- Improved messages
+		"Master file" -> "scheduler list"
+
+	client/
+		cs_apps.C
+		gui_rpc_server.C
+		net_xfer_curl.C
+		scheduler_op.C,h

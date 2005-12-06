@@ -199,7 +199,7 @@ int GUI_RPC_CONN_SET::init() {
         msg_printf(NULL, MSG_INFO, "Remote control allowed\n");
     } else {
         addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-        msg_printf(NULL, MSG_INFO, "Remote control not allowed; using loopback address\n");
+        msg_printf(NULL, MSG_INFO, "Remote control not allowed");
     }
 #endif
 

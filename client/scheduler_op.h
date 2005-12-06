@@ -56,8 +56,8 @@ typedef enum {
     // after this many master-fetch failures, 
     // move into a state in which we retry master fetch
     // at the frequency below
-#define MASTER_FETCH_INTERVAL (86400*14)    // 2 weeks
-    // This see above
+#define MASTER_FETCH_INTERVAL (86400*7)    // 1 week
+    // See above
 
 // constants used to bound RPC backoff
 #define SCHED_RETRY_DELAY_MIN    60                // 1 minute
@@ -71,7 +71,6 @@ private:
     HTTP_OP_SET* http_ops;
     PROJECT* cur_proj;               // project we're currently contacting
     char scheduler_url[256];
-    //bool must_get_work;             // true iff in get_work mode
     int url_index;                  // index within project's URL list
 public:
     int state;
@@ -83,7 +82,6 @@ public:
     bool poll();
     int init_get_work();
     int init_op_project(PROJECT*, SCHEDULER_OP_REASON);
-//    int init_return_results(PROJECT*);
     int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();
     void backoff(PROJECT* p, const char *error_msg);

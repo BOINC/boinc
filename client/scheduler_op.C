@@ -61,17 +61,17 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     retval = init_master_fetch(p);
     if (retval) {
         msg_printf(p, MSG_ERROR,
-            "Couldn't start master file download: %s", boincerror(retval)
+            "Couldn't start download of scheduler list: %s", boincerror(retval)
         );
         if (p->tentative) {
             p->attach_failed(ERR_ATTACH_FAIL_PARSE);
         } else {
             p->master_fetch_failures++;
-            backoff(p, "Master file fetch failed\n");
+            backoff(p, "Scheduler list fetch failed\n");
         }
         return false;
     }
-    msg_printf(p, MSG_ERROR, "Fetching master file");
+    msg_printf(p, MSG_INFO, "Fetching scheduler list");
     return true;
 }
 
@@ -117,7 +117,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
         retval = init_master_fetch(p);
         if (retval) {
             sprintf(err_msg,
-                "Master fetch initialization failed: %d\n", retval
+                "Scheduler list fetch initialization failed: %d\n", retval
             );
             backoff(p, err_msg);
         }
@@ -161,7 +161,10 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
-        msg_printf(p, MSG_ERROR, "Too many backoffs - fetching master file");
+        msg_printf(p, MSG_ERROR,
+            "%d consecutive failures fetching scheduler list - deferring %d seconds",
+            p->master_fetch_failures, gstate.master_fetch_interval
+        );
         p->master_url_fetch_pending = true;
         p->set_min_rpc_time(gstate.now + gstate.master_fetch_interval);
         return;
@@ -184,6 +187,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     double exp_backoff = calculate_exponential_backoff(
         n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max
     );
+    //msg_printf(p, MSG_INFO, "simulating backoff of %f", exp_backoff);
     p->set_min_rpc_time(gstate.now + exp_backoff);
 }
 
@@ -216,16 +220,16 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
             msg_printf(
                 p, MSG_INFO,
                 (p->work_request >= 1.0) ?
-                "Requesting %.0f seconds of new work, and reporting %d results\n":
-                "Requesting %g seconds of new work, and reporting %d results\n",
+                "Requesting %.0f seconds of new work, and reporting %d results":
+                "Requesting %g seconds of new work, and reporting %d results",
                 p->work_request, p->nresults_returned
             );
         } else if (p->work_request != 0) {
             msg_printf(
                 p, MSG_INFO,
                 (p->work_request >= 1.0) ?
-                "Requesting %.0f seconds of new work\n":
-                "Requesting %g seconds of new work\n",
+                "Requesting %.0f seconds of new work":
+                "Requesting %g seconds of new work",
                 p->work_request
             );
         } else if (p->nresults_returned != 0) {
@@ -237,7 +241,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         } else {
             msg_printf(
                 p, MSG_INFO,
-                "Note: not requesting new work or reporting results\n"
+                "(not requesting new work or reporting results)"
             );
         }
     }
@@ -305,7 +309,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     get_master_filename(*p, master_filename);
     f = boinc_fopen(master_filename, "r");
     if (!f) {
-        msg_printf(p, MSG_ERROR, "Can't open master file\n");
+        msg_printf(p, MSG_ERROR, "Can't open scheduler list file\n");
         return ERR_FOPEN;
     }
     p->scheduler_urls.clear();
@@ -397,7 +401,7 @@ bool SCHEDULER_OP::poll() {
                         err = true;
                     } else {
                         cur_proj->master_fetch_failures++;
-                        backoff(cur_proj, "Master file parse failed\n");
+                        backoff(cur_proj, "Couldn't parse scheduler list");
                     }
                 } else {
                     // parse succeeded
@@ -421,8 +425,12 @@ bool SCHEDULER_OP::poll() {
                     cur_proj = 0;
                     project_temp->attach_failed(ERR_ATTACH_FAIL_DOWNLOAD);
                 } else {
+                    char buf[256];
+                    sprintf(buf, "Scheduler list fetch failed: %s",
+                        boincerror(http_op.http_op_retval)
+                    );
                     cur_proj->master_fetch_failures++;
-                    backoff(cur_proj, "Master file fetch failed\n");
+                    backoff(cur_proj, buf);
                 }
             }
             cur_proj = NULL;
@@ -440,8 +448,9 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(cur_proj, MSG_ERROR,
-                        "Scheduler request to %s failed with a return value of %d\n",
-                        cur_proj->get_scheduler_url(url_index, url_random), http_op.http_op_retval
+                        "Scheduler request to %s failed: %s\n",
+                        cur_proj->get_scheduler_url(url_index, url_random),
+                        boincerror(http_op.http_op_retval)
                     );
                 }
 
