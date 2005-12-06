@@ -1,0 +1,3 @@
+debian/tmp/usr/include/*.h
+debian/tmp/usr/lib/*.a
+debian/tmp/usr/lib/*.la
