@@ -13590,3 +13590,10 @@ Rom    5 Dec 2005 (boinc_core_release_5_2)
     - Tag for 5.2.14 release, all platforms
       boinc_core_release_5_2_14
 
+Charlie 5 Dec 2005
+    Add Mac uninstall instructions to ReadMe and  web site.
+
+    doc/
+        mac_advanced.php
+    mac_installer/
+        ReadMe.rtf
