@@ -14255,3 +14255,10 @@ David  5 Dec 2005
 		gui_rpc_server.C
 		net_xfer_curl.C
 		scheduler_op.C,h
+
+Charlie 6 Dec 2005
+    - Mac: Fix crash bug launching core client when there is a space 
+      character in the path to the BOINC Manager.
+      
+    clientgui/
+         BOINCGUIApp.cpp
