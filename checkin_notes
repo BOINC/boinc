@@ -14262,3 +14262,19 @@ Charlie 6 Dec 2005
       
     clientgui/
          BOINCGUIApp.cpp
+
+Bruce 7 Dec 2005
+    - Added a script that maintains a set of sanatized scheduler logs
+      for users, helpers, and admins to view on the web.
+    - A second script removes these log files if more than one week
+      old.
+    - The logs are 'sanatized' by removing IP addresses and authenticators.
+    - These scripts should be controlled by using the standard start/stop
+      scripts.  To do this, make entries in config.xml.  The files both
+      contain comments at the top detailing how to do this.
+
+    tools/
+        makelog.sh
+        cleanlogs.sh
+        Makefile.am
+
