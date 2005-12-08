@@ -8,9 +8,9 @@
 #include "defines.h"
 #include "dc.h"
 
-char *extract_id(const char *wu_name);
+static char *extract_id(const char *wu_name);
 
-static char *locate_path()
+static char *locate_path(void)
 {
 	char buf[1024];
 
@@ -26,7 +26,7 @@ static int set_path_normal(const char *path)
         return DC_OK;
 }
 			        
-int exit_code(char *filename)
+static int exit_code(char *filename)
 {
         FILE *log;
         char line[512];
@@ -69,7 +69,7 @@ int exit_code(char *filename)
 }
 
 
-int get_out(const char *wu_name, const char *work_dir,
+static int get_out(const char *wu_name, const char *work_dir,
 	char *output_dir[1], char *result_name[1],
         char *std_out[1], char *std_err[1], char *sys_log[1], int *exitcode, int IsFinished)
 { 
@@ -197,7 +197,7 @@ int get_out(const char *wu_name, const char *work_dir,
     return 0;
 }
 
-char *extract_id(const char *wu_name)
+static char *extract_id(const char *wu_name)
 {
     int i;
     char* id;

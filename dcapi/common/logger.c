@@ -1,5 +1,5 @@
 #include <sys/syslog.h>
-#include <strings.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -35,9 +35,9 @@ static void init_log(void)
 			loglevel = atoi(val);
 		else
 		{
-			int i;
+			unsigned i;
 
-			for (i = 0; i < (int)sizeof(levels) / sizeof(levels[0]); i++)
+			for (i = 0; i < sizeof(levels) / sizeof(levels[0]); i++)
 			{
 				if (levels[i] && !strcasecmp(levels[i], val))
 				{
@@ -84,7 +84,7 @@ void DC_vlog(int level, const char *fmt, va_list ap)
 	if (level > loglevel)
 		return;
 
-	if (level >= 0 && level < sizeof(levels) / sizeof(levels[0]) && levels[level])
+	if (level >= 0 && level < (int)(sizeof(levels) / sizeof(levels[0])) && levels[level])
 		levstr = levels[level];
 	else
 		levstr = "Unknown";
