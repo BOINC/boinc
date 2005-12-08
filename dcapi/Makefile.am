@@ -1,3 +1,6 @@
+ACLOCAL_AMFLAGS = -I cf
+AUTOMAKE_OPTIONS = foreign 1.7
+
 SUBDIRS = include common
 
 if WITH_BOINC
