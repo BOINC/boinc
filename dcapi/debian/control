@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Gábor Gombás <gombasg@sztaki.hu>
 Standards-Version: 3.6.2.1
-Build-Depends: boinc-dev
+Build-Depends: boinc-dev, uuid-dev
 
 Package: libdcapi-dev
 Section: libdevel
