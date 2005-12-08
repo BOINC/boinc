@@ -28,7 +28,6 @@
 
 #include <cassert>
 
-#include <error_numbers.h>
 #include <parse.h>
 #include <util.h>
 #include <filesys.h>
@@ -36,7 +35,7 @@
 #include <sched_util.h>
 #include <sched_config.h>
 #include <sched_msgs.h>
-#include <validate_util.h>
+#include "validate_util.h"
 
 // Compatibility with Boinc 4.x
 #if BOINC_VERSION == 4
@@ -54,7 +53,7 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     char buf[256], path[256];
 
     if (!parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf))) {
-        return ERR_XML_PARSE;
+        return -1;
     }
 
 #if BOINC_VERSION == 4
