@@ -8,13 +8,12 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
-#include "dc.h"
-#include "cfg.h"
+#include <dc.h>
+#include <cfg.h>
 #include "wu.h"
 #include "assimilator.h"
 #include "result.h"
 
-static char *projectname;         /* project name under boinc */
 static char *appname;             /* name of the application, used here in assimilation */
 static char *workdir;             /* a working dir for this application */
 static char *boincprojectrootdir; /* where projects are stored, e.g. /usr/boinc/projects */
@@ -25,6 +24,10 @@ static char yesno[2][4] = {"no", "yes"};
 
 static char *sleepinterval;
 
+#ifndef __GNUC__
+#define __attribute__(x)
+#endif
+
 /* CONSTRAINTS
 
    1. One application client is supported (because of assimilation)
@@ -34,11 +37,11 @@ static char *sleepinterval;
    2. One workunit and one result templates are supported, given in the config file.
 
 */
-int DC_init(const char *project_name, const char *application_name, const char *configfile)
+int DC_init(const char *project_name __attribute__((unused)), const char *application_name,
+	const char *configfile)
 {
     char buf[512], syscmd[2048];
 
-    projectname = strdup(project_name);
     appname     = strdup(application_name);
 
     if (dc_cfg_parse(configfile) != DC_CFG_OK) return DC_ERROR;
