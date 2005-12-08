@@ -11,17 +11,17 @@
 #include "dc.h"
 
 static int create_work_dir(const char *work_dir_base, const char *workdir_id, const char *work_dir_num);
-static int create_jobdir_structure();
+static int create_jobdir_structure(void);
 static int create_submit_file(const char *job_name, const char *executable, const char *args);
 static int copy_executables(const char *executable_dir, const char *work_dir);
 static int copy_inputfiles(int num_of_infiles,const char *infiles[MAX_INFILES],
 		                    const char *localfilenames[MAX_INFILES], const char *work_dir);
 static char *job_submit(const char *work_dir);
 static char *retreive_id(const char *result);
-static char *locate_path();
+static char *locate_path(void);
 static int set_path_normal(const char *path);
 
-static char *locate_path()
+static char *locate_path(void)
 {
 	char buf[1024];
 
@@ -38,7 +38,7 @@ static int set_path_normal(const char *path)
 	return DC_OK;
 }
 
-char *submit(const char *work_dir_base, const char *work_dir_id, const char *work_dir_num,
+static char *submit(const char *work_dir_base, const char *work_dir_id, const char *work_dir_num,
 		const char *executable_dir, const char *executable, const char *job_name, 
 		const char *args, int num_of_infiles, 
 		const char *infiles[MAX_INFILES], const char *localfilenames[MAX_INFILES])
@@ -115,7 +115,7 @@ char *submit(const char *work_dir_base, const char *work_dir_id, const char *wor
 
 }
 
-int resubmit(char *workdir, char *wu_name[1])
+static int resubmit(char *workdir, char *wu_name[1])
 {
         char *pwd;
 	char *id;

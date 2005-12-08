@@ -7,7 +7,7 @@
 #include"dc.h"
 
 
-int ask_status(const char *wu_name, int *status, time_t *subresult_time, time_t *ckpt_time)
+static int ask_status(const char *wu_name, int *status, time_t *subresult_time, time_t *ckpt_time)
 {
     FILE *clgr_status;
     char command[512];

@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <time.h>
+#include <stdlib.h>
 
 #include "dc.h"
 #include "cfg.h"
@@ -81,11 +82,12 @@ int DC_cancelWU (DC_Workunit wu)
 int DC_destroyWU(DC_Workunit wu)
 {
     dc_rm_destroyWU(wu);
+    return 0;
 }
 
 int DC_checkForResult(int  timeout,
 		      /*int  cb_check_result(), */
-		      void cb_assimilate_result()
+		      void cb_assimilate_result(DC_Result result)
 		      ) 
 {
     dc_result result;

@@ -130,7 +130,7 @@ int dc_rm_setInput (DC_Workunit wu, char * URL, char * localFileName)
     return DC_OK;
 }
 
-char ** dc_rm_createArgList(char *arg)
+static char ** dc_rm_createArgList(char *arg)
 {
     char *x, *y, *token, **args;
     int narg, i;
@@ -228,6 +228,7 @@ int dc_rm_destroyWU(DC_Workunit wu)
     wutable[ndx].workdir = NULL;
     wutable[ndx].pid     = -1;
     wutable[ndx].state   = STATE_INVALID;
+    return DC_OK;
 }
 
 

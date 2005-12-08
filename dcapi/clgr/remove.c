@@ -6,7 +6,7 @@
 #include "dc.h"
 
 
-int remove_wu(char *wuname, char *workdir)
+static int remove_wu(char *wuname, char *workdir)
 {
 	FILE *f;
 	char syscmd[512], buf[512];
