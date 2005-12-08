@@ -14278,7 +14278,7 @@ Bruce 7 Dec 2005
         cleanlogs.sh
         Makefile.am
 
-David  7 Sept 2005
+David  7 Dec 2005
 	- Manager: improvements to Statistics tab
 	- Account manager RPC:
 		added optional <detach/> element to projects in reply.
@@ -14290,3 +14290,31 @@ David  7 Sept 2005
 		acct_mgr.C,h
 	clientgui/
 		ViewStatistics.cpp
+
+
+Eric  8 Dec 2005
+	- New autoconf macro "BOINC_PLATFORM" to determine the BOINC platform
+	  being targeted.  This overrides the use of the autoconf target as the
+	  BOINC platform.  I recommend that people developing BOINC 
+	  applications use this macro as well in their autoconf scripts.
+	  This macro can be overridden with the --with-boinc-platform=
+	  option to configure.
+
+	  Some of the platform modifications made in this script are...
+
+	  = *-redhat-* -> *-pc-*
+	  = *-*-*[0-9].[0-9] -> *-*-*  (trailing version numbers are dropped)
+	  = sparc-sun-solaris -> sparc64-sun-solaris when compiled as 64 bit
+	    binary
+	  = x86_64-*-linux-gnu -> i686-pc-linux-gnu when compiled as a 32 bit
+	    binary
+        - New autoconf macro "BOINC_CHECK_CYGWIN" to give people who need to
+	  modify their configure script to work with CYGWIN a place to do their
+	  work.  Right now the only thing done here is to check whether to use
+	  the Windows GUI or X11.  Graphical compiles under CYGWIN currently
+	  do not function due to both __unix__ and _WIN32 being defined.
+
+    m4/
+      boinc_platform.m4
+      boinc_check_cygwin.m4
+      configure.ac

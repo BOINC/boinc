@@ -126,9 +126,6 @@ AC_SUBST([BOINC_VERSION_STRING])
 AC_SUBST([BOINC_MAJOR_VERSION])
 AC_SUBST([BOINC_MINOR_VERSION])
 
-AC_SUBST([CLIENT_BIN_FILENAME],[boinc])
-AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd])
-AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr])
 AC_SUBST([TOP_BUILD_DIR], [`pwd`])
 AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 
@@ -142,6 +139,14 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 SAH_LINKS
 
+AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])
+AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd${EXEEXT}])
+AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr${EXEEXT}])
+
+dnl If we're running under cygwin, check whether we want to use X11 or WIN32
+dnl GUI
+BOINC_CHECK_CYGWIN
+
 dnl enable objective-C 
 _AM_DEPENDENCIES([OBJC])
 OBJC="$CC"
@@ -154,10 +159,13 @@ AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
 
+
 SAH_OPTION_BITNESS
 
+dnl Determine the BOINC platform given the target arch-platform-os.
+BOINC_PLATFORM
+
 dnl Some platform specific settings
-myhost=$host
 case $target in
    *linux* | *sun* )
         if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
@@ -168,10 +176,6 @@ The switch --enable-client-release is only useful for building the client and wi
         fi
         ;;
 
-powerpc-apple-darwin* )
-        myhost=powerpc-apple-darwin
-        ;;
-	
    *)   ## in the non-linux, non-solaris case, --enable-client-release is not allowed
         if test "${enable_client_release}" = yes; then
            AC_MSG_WARN([
@@ -182,8 +186,6 @@ for Linux and Solaris, and will have no effect.
         fi
         ;;
 esac
-
-AC_DEFINE_UNQUOTED([HOSTTYPE], "$myhost", [Host for this compilation])
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile
@@ -310,6 +312,10 @@ SAH_CHECK_LIB([dl], [dlopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([nsl], [gethostbyname], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+#SAH_CHECK_LIB([wsock32], [fopen], 
+#    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+#SAH_CHECK_LIB([wsock], [fopen], 
+#    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
@@ -408,7 +414,7 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h)
+AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h)
 
 AC_LANG_PUSH(C++)
 SAH_LARGEFILE_BREAKS_CXX
@@ -561,6 +567,11 @@ SAH_CHECK_LIB([pthread],[pthread_join],[
     AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+#SAH_CHECK_LIB([wsock32],[fopen],[
+#    AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+#    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+#   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+    
 
 if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
    echo "----------"
