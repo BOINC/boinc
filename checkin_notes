@@ -14278,3 +14278,15 @@ Bruce 7 Dec 2005
         cleanlogs.sh
         Makefile.am
 
+David  7 Sept 2005
+	- Manager: improvements to Statistics tab
+	- Account manager RPC:
+		added optional <detach/> element to projects in reply.
+		Lets the account manager tell client to detach from a project.
+		This replaces the previous semantics,
+		where the client detached from any project not in the reply.
+
+	client/
+		acct_mgr.C,h
+	clientgui/
+		ViewStatistics.cpp

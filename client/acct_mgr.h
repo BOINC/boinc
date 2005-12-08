@@ -53,6 +53,7 @@ struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
     bool suspend;
+    bool detach;
 
     int parse(MIOFILE&);
     AM_ACCOUNT() {}

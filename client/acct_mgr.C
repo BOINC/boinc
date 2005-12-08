@@ -36,6 +36,7 @@
 
 #include "acct_mgr.h"
 
+static char *run_mode_name[] = {"", "always", "auto", "never"};
 
 int ACCT_MGR_OP::do_rpc(
     std::string url, std::string name, std::string password
@@ -67,12 +68,13 @@ int ACCT_MGR_OP::do_rpc(
     strcpy(ami.password, password.c_str());
 
     sprintf(buf,
-        "%srpc.php?name=%s&password=%s&host_cpid=%s&maj=%d&min=%d&rel=%d",
+        "%srpc.php?name=%s&password=%s&host_cpid=%s&maj=%d&min=%d&rel=%d&run_mode=%s",
         url.c_str(), name.c_str(), password.c_str(),
         gstate.host_info.host_cpid,
         gstate.core_client_major_version,
         gstate.core_client_minor_version,
-        gstate.core_client_release
+        gstate.core_client_release,
+        run_mode_name[gstate.user_run_request]
     );
     retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
     if (retval) {
@@ -89,6 +91,7 @@ int ACCT_MGR_OP::do_rpc(
 int AM_ACCOUNT::parse(MIOFILE& in) {
     char buf[256];
     suspend = false;
+    detach = false;
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</account>")) {
             if (url.length() && authenticator.length()) return 0;
@@ -97,6 +100,7 @@ int AM_ACCOUNT::parse(MIOFILE& in) {
         if (parse_str(buf, "<url>", url)) continue;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
         if (parse_bool(buf, "suspend", suspend)) continue;
+        if (parse_bool(buf, "detach", detach)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -155,40 +159,29 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     gstate.acct_mgr_info = ami;
     gstate.acct_mgr_info.write_info();
 
-    for (i=0; i<gstate.projects.size(); i++) {
-        pp = gstate.projects[i];
-        pp->checked = false;
-    }
-
     // attach to new projects
     //
     for (i=0; i<accounts.size(); i++) {
         AM_ACCOUNT& acct = accounts[i];
         pp = gstate.lookup_project(acct.url.c_str());
         if (pp) {
-            if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-                msg_printf(pp, MSG_ERROR,
-                    "Already attached under another account"
-                );
+            if (acct.detach) {
+                gstate.detach_project(pp);
             } else {
-                msg_printf(pp, MSG_INFO, "Already attached");
+                if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
+                    msg_printf(pp, MSG_ERROR,
+                        "Already attached under another account"
+                    );
+                } else {
+                    msg_printf(pp, MSG_INFO, "Already attached");
+                }
+                pp->suspended_via_gui = acct.suspend;
             }
-            pp->suspended_via_gui = acct.suspend;
-            pp->checked = true;
         } else {
-            msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
-            gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
-        }
-    }
-
-    // detach from any projects not listed in reply
-    //
-again:
-    for (i=0; i<gstate.projects.size(); i++) {
-        pp = gstate.projects[i];
-        if (!pp->checked) {
-            gstate.detach_project(pp);     // this changes vector
-            goto again;             // so start from beginning
+            if (!acct.detach) {
+                msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
+                gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
+            }
         }
     }
 
