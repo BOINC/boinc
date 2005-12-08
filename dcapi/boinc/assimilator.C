@@ -6,7 +6,7 @@
 #include <vector>
 #include <strings.h>
 
-#include "dc.h"
+#include <dc.h>
 #include "result.h"
 #include "assimilator.h"
 
@@ -16,7 +16,7 @@
 #include <sched_config.h>
 #include <sched_util.h>
 #include <sched_msgs.h>
-#include <validate_util.h>
+#include "validate_util.h"
 
 using std::vector;
 using std::string;
