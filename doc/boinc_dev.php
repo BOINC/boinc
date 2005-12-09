@@ -117,6 +117,7 @@ Various implementation notes:
 </ul>
 <h2>Miscellaneous</h2>
 <ul>
+<li> <a href=loc_sim/>BOINC simulator</a> (simulate large-scale projects)
 <li> <a href=python.php>Python framework</a>
 <li> <a href=prefs_impl.php>Preferences</a>
 <li> <a href=trickle_impl.php>Trickle messages</a>

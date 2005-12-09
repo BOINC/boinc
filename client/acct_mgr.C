@@ -36,7 +36,7 @@
 
 #include "acct_mgr.h"
 
-static char *run_mode_name[] = {"", "always", "auto", "never"};
+static const char *run_mode_name[] = {"", "always", "auto", "never"};
 
 int ACCT_MGR_OP::do_rpc(
     std::string url, std::string name, std::string password

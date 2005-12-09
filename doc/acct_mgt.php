@@ -116,19 +116,21 @@ list_item("input", "name
     <br> [ maj ]
     <br> [ min ]
     <br> [ rel ]
+    <br> [ run_mode ] (always/auto/never)
     "
 );
 list_item("output",
     html_text("<acct_mgr_reply>
     <name>Account Manager Name</name>
     [ <error>MSG</error> ]
-    [ <run_mode>X</run_mode> always/auto/never]
+    [ <run_mode>X</run_mode> (X=always/auto/never)]
     [ <repeat_sec>xxx</repeat_sec> ]
     [ 
       <account>
          <url>URL</url>
          <authenticator>KEY</authenticator>
          [ <suspend/> ]
+         [ <detach/> ]
       </account>
         ...
     ]
@@ -138,7 +140,7 @@ list_item("action",
     "Returns a list of the accounts associated with this meta-account.
     The 'host_cpid' argument identifies the host.
     To make it comparable with the host CPID in stats files,
-    do MD5(host_cpid+email_addr).
+    the value MD5(host_cpid+email_addr) is passed.
     The maj, min and rel arguments identify the client's version.
     <p>
     Optionally returns a command to set the run mode (always, auto, or never),
@@ -147,6 +149,8 @@ list_item("action",
     and 'Suspend' commands in the BOINC manager.
     <p>
     Optionally returns commands to suspend individual projects.
+    <p>
+    Optionally returns commands to detach projects.
     <p>
     Optionally returns a time interval after which another RPC should be done.
     <p>

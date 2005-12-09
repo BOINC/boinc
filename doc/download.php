@@ -22,6 +22,16 @@ $type_name = $_GET["type"];
 
 require_once("versions.inc");
 
+// $url_base = "http://boinc.berkeley.edu/dl/";
+// $url_base = "http://boinc2.ssl.berkeley.edu/boinc/dl/";
+
+switch(rand(0,4)) {
+    case 0: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
+    case 1: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
+    case 2: $url_base = "http://einstein.astro.gla.ac.uk/download/boinc/dl/"; break;
+    case 3: $url_base = "http://einstein.aset.psu.edu/download/boinc/dl/"; break;
+    case 4: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
+}
 
 function dl_item($x, $y) {
     global $light_blue;
@@ -31,12 +41,12 @@ function dl_item($x, $y) {
 }
 
 function show_detail($v) {
+    global $url_base;
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    # $url = "http://boinc.berkeley.edu/$path";
-    $url = "http://boinc2.ssl.berkeley.edu/boinc/$path";
+    $url = $url_base.$file;
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -62,14 +72,14 @@ function show_detail($v) {
 
 
 function show_version_xml($v, $p) {
+    global $url_base;
     $name = $p["name"];
     $dbname = $p["dbname"];
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    # $url = "http://boinc.berkeley.edu/$path";
-    $url = "http://boinc2.ssl.berkeley.edu/boinc/$path";
+    $url = $url_base.$file;
     $dlink = "<a href=$url>$file</a>";
     //$md = md5_file($path);
     $s = number_format(filesize($path)/1000000, 2);
@@ -102,6 +112,7 @@ function is_dev($v) {
 }
 
 function show_version($pname, $i, $v) {
+    global $url_base;
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
@@ -121,7 +132,7 @@ function show_version($pname, $i, $v) {
         </nobr>
         </td>
         <td>
-        <a href=http://boinc2.ssl.berkeley.edu/boinc/dl/$file><b>Download</b></a> ($s MB)
+        <a href=".$url_base.$file."><b>Download</b></a> ($s MB)
         </td>
         <td>
         Instructions: $type_text
@@ -195,7 +206,18 @@ if ($xml) {
         list_end();
     } else {
         page_head("Download BOINC client software");
-        echo "<table border=2 cellpadding=4 width=100%>";
+        echo "
+            We are now using mirrored download servers at partner institutions.
+            Your download will come from a randomly-chosen server.
+            Thanks to these partners for their help.
+            <p>
+            <b>If you have trouble downloading a file,
+            please reload this page in your browser and try again.
+            This will link to a different download mirror and may
+            fix the problem.</b>
+            <p>
+            <table border=2 cellpadding=4 width=100%>
+        ";
         foreach($platforms as $short_name=>$p) {
             show_platform($short_name, $p, $dev);
         }

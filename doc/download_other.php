@@ -23,6 +23,12 @@ list_heading_array(array(
     "Site", "Platforms", "Programs available"
 ));
 list_item_array(array(
+    "<a href=http://boinc.truxoft.com/>boinc.truxoft.com</a>",
+    "Windows/Intel",
+    "BOINC client (optimized; benchmarks more closely
+    match optimized SETI@home clients)"
+));
+list_item_array(array(
     "<a href=http://naparst.name/>Harold Naparst</a>",
     "Linux/x86",
     "SETI@home application"

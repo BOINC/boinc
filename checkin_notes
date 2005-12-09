@@ -14318,3 +14318,12 @@ Eric  8 Dec 2005
       boinc_platform.m4
       boinc_check_cygwin.m4
       configure.ac
+
+David  8 Dec 2005
+    - use libcurl's error strings instead of our own.
+        Also, don't use a default error code of 500.
+        Makes it look like there are server crashes when there aren't.
+
+    client/
+        acct_mgr.C
+        net_xfer_curl.C
