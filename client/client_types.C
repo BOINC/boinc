@@ -90,6 +90,7 @@ void PROJECT::init() {
     send_file_list = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
+    attached_via_acct_mgr = false;
     strcpy(code_sign_key, "");
     user_files.clear();
     anticipated_debt = 0;
@@ -173,6 +174,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
+        else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -218,7 +220,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
-        "%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
 #if 0
@@ -250,7 +252,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         send_file_list?"    <send_file_list/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
-        dont_request_more_work?"    <dont_request_more_work/>\n":""
+        dont_request_more_work?"    <dont_request_more_work/>\n":"",
+        attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":""
     );
 #if 0
     out.printf(
@@ -315,6 +318,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     non_cpu_intensive = p.non_cpu_intensive;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
+    attached_via_acct_mgr = p.attached_via_acct_mgr;
 #if 0
     deletion_policy_priority = p.deletion_policy_priority;
     deletion_policy_expire = p.deletion_policy_expire;

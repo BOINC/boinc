@@ -52,7 +52,6 @@ struct ACCT_MGR_INFO {
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
-    bool suspend;
     bool detach;
 
     int parse(MIOFILE&);
@@ -67,7 +66,6 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         // CLIENT_STATE::acct_mgr_info is authoratative
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
-    int run_mode;
     double repeat_sec;
     int do_rpc(std::string url, std::string name, std::string password);
     int parse(MIOFILE&);

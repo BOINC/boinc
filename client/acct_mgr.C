@@ -42,6 +42,7 @@ int ACCT_MGR_OP::do_rpc(
     std::string url, std::string name, std::string password
 ) {
     int retval;
+    unsigned int i;
     char buf[256];
 
     strcpy(buf, url.c_str());
@@ -67,16 +68,43 @@ int ACCT_MGR_OP::do_rpc(
     strcpy(ami.login_name, name.c_str());
     strcpy(ami.password, password.c_str());
 
-    sprintf(buf,
-        "%srpc.php?name=%s&password=%s&host_cpid=%s&maj=%d&min=%d&rel=%d&run_mode=%s",
-        url.c_str(), name.c_str(), password.c_str(),
+    FILE* f = boinc_fopen(ACCT_MGR_REQUEST_FILENAME, "w");
+    if (!f) return ERR_FOPEN;
+    fprintf(f,
+        "<acct_mgr_request>\n"
+        "   <name>%s</name>\n"
+        "   <password>%s</password>\n"
+        "   <host_cpid>%s</host_cpid>\n"
+        "   <client_version>%d.%d.%d</client_version>\n"
+        "   <run_mode>%s</run_mode>\n",
+        name.c_str(), password.c_str(),
         gstate.host_info.host_cpid,
         gstate.core_client_major_version,
         gstate.core_client_minor_version,
         gstate.core_client_release,
         run_mode_name[gstate.user_run_request]
     );
-    retval = gstate.gui_http.do_rpc(this, buf, ACCT_MGR_REPLY_FILENAME);
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->attached_via_acct_mgr) {
+            fprintf(f,
+                "   <project>\n"
+                "      <url>%s</url>\n"
+                "      <project_name>%s</project_name>\n"
+                "      <suspended_via_gui>%d</suspended_via_gui>\n"
+                "   </project>\n",
+                p->master_url,
+                p->project_name,
+                p->suspended_via_gui
+            );
+        }
+    }
+    fprintf(f, "</acct_mgr_request>\n");
+    fclose(f);
+    sprintf(buf, "%srpc.php", url.c_str());
+    retval = gstate.gui_http.do_rpc_post(
+        this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME
+    );
     if (retval) {
         error_num = retval;
         return retval;
@@ -90,7 +118,6 @@ int ACCT_MGR_OP::do_rpc(
 
 int AM_ACCOUNT::parse(MIOFILE& in) {
     char buf[256];
-    suspend = false;
     detach = false;
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</account>")) {
@@ -99,30 +126,22 @@ int AM_ACCOUNT::parse(MIOFILE& in) {
         }
         if (parse_str(buf, "<url>", url)) continue;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
-        if (parse_bool(buf, "suspend", suspend)) continue;
         if (parse_bool(buf, "detach", detach)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int ACCT_MGR_OP::parse(MIOFILE& in) {
-    char buf[256], buf2[256];
+    char buf[256];
     int retval;
 
     accounts.clear();
     error_str = "";
-    run_mode = 0;
     repeat_sec = 0;
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</acct_mgr_reply>")) return 0;
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
-        if (parse_str(buf, "<run_mode>", buf2, sizeof(buf2))) {
-            if (!strstr(buf2, "always")) run_mode = USER_RUN_REQUEST_ALWAYS;
-            if (!strstr(buf2, "auto")) run_mode = USER_RUN_REQUEST_AUTO;
-            if (!strstr(buf2, "never")) run_mode = USER_RUN_REQUEST_NEVER;
-            continue;
-        }
         if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
         if (match_tag(buf, "<account>")) {
             AM_ACCOUNT account;
@@ -174,19 +193,15 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     );
                 } else {
                     msg_printf(pp, MSG_INFO, "Already attached");
+                    pp->attached_via_acct_mgr = true;
                 }
-                pp->suspended_via_gui = acct.suspend;
             }
         } else {
             if (!acct.detach) {
                 msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
-                gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
+                gstate.add_project(acct.url.c_str(), acct.authenticator.c_str(), true);
             }
         }
-    }
-
-    if (run_mode) {
-        gstate.user_run_request = run_mode;
     }
 
     if (repeat_sec) {
@@ -194,6 +209,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     } else {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + 86400;
     }
+    gstate.set_client_state_dirty("account manager RPC");
+    gstate.acct_mgr_info.write_info();
 }
 
 int ACCT_MGR_INFO::write_info() {
@@ -239,6 +256,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(acct_mgr_url, "");
     strcpy(login_name, "");
     strcpy(password, "");
+    next_rpc_time = 0;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {

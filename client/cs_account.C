@@ -346,7 +346,10 @@ int PROJECT::write_statistics_file() {
     return 0;
 }
 
-int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
+int CLIENT_STATE::add_project(
+    const char* master_url, const char* _auth,
+    bool attached_via_acct_mgr
+) {
     char path[256], canonical_master_url[256], auth[256];
     PROJECT* project;
     FILE* f;
@@ -379,6 +382,7 @@ int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     project = new PROJECT;
     strcpy(project->master_url, canonical_master_url);
     strcpy(project->authenticator, auth);
+    project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     project->tentative = true;
     gstate.have_tentative_project = true;

@@ -244,7 +244,10 @@ private:
 // --------------- cs_account.C:
 public:
     bool have_tentative_project;
-    int add_project(const char* master_url, const char* authenticator);
+    int add_project(
+        const char* master_url, const char* authenticator,
+        bool attached_via_acct_mgr=false
+    );
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();

@@ -184,6 +184,13 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
     } else if (!strcmp(op, "detach")) {
+        if (p->attached_via_acct_mgr) {
+            msg_printf(p, MSG_ERROR,
+                "This project must be detached using the account manager web site."
+            );
+            fout.printf("<error>must detach using account manager</error>");
+            return;
+        }
         gstate.detach_project(p);
 
         // if project_init.xml refers to this project,

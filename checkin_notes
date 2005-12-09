@@ -14337,3 +14337,37 @@ David  8 Dec 2005
         app.h
         app_control.C
         gui_rpc_server_ops.C
+
+David  9 Dec 2005
+	- Various changes to account manager handling in response
+		to conversation with GridRepublic.
+		Allowing operations (attach/detach/suspend/resume)
+		to be done from either web or GUI creates big
+		synchronization problems.
+		So we adopt the basic principle:
+		suspend/resume is done only from GUI;
+		attach/detach is done only from web.
+	- Account manager RPC is done by POST instead of GET;
+		arguments are now in XML,
+		and include a list of AM-attached projects
+		Note: you can access POST info from PHP as "php://input"
+	- remove suspend-related stuff from acct mgr reply
+	- debug the repeat_sec mechanism.
+	- Maintain project.attached_via_acct_mgr;
+		keeps track of whether this project was originally
+		attached in response to an account manager RPC,
+		or is identical to one such.
+		Don't allow such projects to be detached via GUI.
+
+	NOTE: if user tries to detach an acct-mgr-attached project,
+	the error message appears in the Messages tab.
+	It should appear as an error dialog.
+
+	client/
+		acct_mgr.C,h
+		client_state.h
+		client_types.C,h
+		cs_account.C
+		file_names.h
+		gui_http.C,h
+		gui_rpc_server_ops.C

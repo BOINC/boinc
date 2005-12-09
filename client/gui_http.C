@@ -49,6 +49,23 @@ int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, string url, string output_file) {
     return retval;
 }
 
+int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, string url, string input_file, string output_file) {
+    int retval;
+
+    if (state != GUI_HTTP_STATE_IDLE) {
+        return ERR_RETRY;
+    }
+
+    http_op.set_proxy(&gstate.proxy_info);
+    boinc_delete_file(output_file.c_str());
+    retval = http_op.init_post(url.c_str(), input_file.c_str(), output_file.c_str());
+    if (!retval) retval = gstate.http_ops->insert(&http_op);
+    if (!retval) {
+        gui_http_op = op;
+        state = GUI_HTTP_STATE_BUSY;
+    }
+    return retval;
+}
 bool GUI_HTTP::poll() {
     if (state == GUI_HTTP_STATE_IDLE) return false;
     static double last_time=0;

@@ -48,6 +48,7 @@ struct GUI_HTTP {
 
     GUI_HTTP(): state(GUI_HTTP_STATE_IDLE) {}
     int do_rpc(GUI_HTTP_OP*, string url, string output_file);
+    int do_rpc_post(GUI_HTTP_OP*, string url, string input_file, string output_file);
     bool poll();
 };
 

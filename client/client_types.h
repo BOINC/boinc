@@ -224,6 +224,7 @@ public:
         // set the project to only return work and not request more
         // for a clean exit to a project, or if a user wants to 
         // pause doing work for the project
+    bool attached_via_acct_mgr;
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
