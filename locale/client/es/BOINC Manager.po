@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-29 14:24+0100\n"
+"PO-Revision-Date: 2005-12-07 22:14+0100\n"
 "Last-Translator: Alejandro Martín Covarrubias <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -509,6 +509,7 @@ msgstr "Escríbase con otros usuarios en los foros de SETI@home"
 
 #: clientgui/Localization.cpp:37
 #: clientgui/Localization.cpp:123
+#: clientgui/Localization.cpp:141
 msgid "Help"
 msgstr "Ayuda"
 
@@ -659,6 +660,42 @@ msgstr "Vea la información de su cuenta, créditos totales y progresos"
 #: clientgui/Localization.cpp:137
 msgid "Info about your team"
 msgstr "Información acerca de su equipo"
+
+#: clientgui/Localization.cpp:143
+msgid "Search for help in our help system"
+msgstr "Buscar ayuda en nuestro sistema de ayuda"
+
+#: clientgui/Localization.cpp:145
+msgid "Global Statistics"
+msgstr "Estadísticas Globales"
+
+#: clientgui/Localization.cpp:147
+msgid "Summary statistics for World Community Grid"
+msgstr "Sumario de estadísticas en la Trama Mundial de la Comunidad"
+
+#: clientgui/Localization.cpp:149
+msgid "My Grid"
+msgstr "Mi Trama"
+
+#: clientgui/Localization.cpp:151
+msgid "Your statistics and settings"
+msgstr "Sus estadísticas y configuración"
+
+#: clientgui/Localization.cpp:153
+msgid "Device Profiles"
+msgstr "Perfiles de Dispositivo"
+
+#: clientgui/Localization.cpp:155
+msgid "Update your device settings"
+msgstr "Actualiza la configuración de su dispositivo"
+
+#: clientgui/Localization.cpp:157
+msgid "Research"
+msgstr "Investigación"
+
+#: clientgui/Localization.cpp:159
+msgid "Learn about the projects hosted at World Community Grid"
+msgstr "Aprenda acerca de los proyectos albergados en la Trama Mundial de la Comunidad"
 
 #: clientgui/MainDocument.cpp:202
 msgid "BOINC Manager - Connection Error"
@@ -1312,7 +1349,7 @@ msgid "Web sites"
 msgstr "Páginas web"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewWork.cpp:661
+#: clientgui/ViewWork.cpp:664
 msgid "Suspended by user"
 msgstr "Suspendido por el usuario"
 
@@ -1376,7 +1413,7 @@ msgstr "Mostrar promedios del ordenador"
 
 #: clientgui/ViewStatistics.cpp:666
 msgid "Mode view"
-msgstr "Cambio de vista"
+msgstr "Modo de presentación"
 
 #: clientgui/ViewStatistics.cpp:673
 msgid "Next project"
@@ -1459,7 +1496,7 @@ msgid "Download failed"
 msgstr "Descarga fallida"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:688
+#: clientgui/ViewWork.cpp:691
 msgid "Upload failed"
 msgstr "Envío fallido"
 
@@ -1469,7 +1506,7 @@ msgid "Suspended"
 msgstr "Suspendido"
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:690
+#: clientgui/ViewWork.cpp:693
 msgid "Uploading"
 msgstr "Enviando"
 
@@ -1561,46 +1598,50 @@ msgstr "Reanudar el trabajo con éste resultado."
 msgid "New"
 msgstr "Nuevo"
 
-#: clientgui/ViewWork.cpp:659
-#: clientgui/ViewWork.cpp:681
+#: clientgui/ViewWork.cpp:660
+#: clientgui/ViewWork.cpp:684
 msgid "Aborted by user"
 msgstr "Abortado por el usuario"
 
-#: clientgui/ViewWork.cpp:663
+#: clientgui/ViewWork.cpp:662
+msgid "Project suspended by user"
+msgstr "Proyecto suspendido por el usuario"
+
+#: clientgui/ViewWork.cpp:666
 msgid "Activities suspended"
 msgstr "Actividades suspendidas"
 
-#: clientgui/ViewWork.cpp:666
+#: clientgui/ViewWork.cpp:669
 msgid "Running"
 msgstr "Ejecutando"
 
-#: clientgui/ViewWork.cpp:668
+#: clientgui/ViewWork.cpp:671
 msgid "Preempted"
 msgstr "Preasignado"
 
-#: clientgui/ViewWork.cpp:670
 #: clientgui/ViewWork.cpp:673
+#: clientgui/ViewWork.cpp:676
 msgid "Ready to run"
 msgstr "Listo para ejecutar"
 
-#: clientgui/ViewWork.cpp:683
+#: clientgui/ViewWork.cpp:686
 msgid "Computation error"
 msgstr "Error de cálculo"
 
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:698
 msgid "Acknowledged"
 msgstr "Aceptado"
 
-#: clientgui/ViewWork.cpp:697
+#: clientgui/ViewWork.cpp:700
 msgid "Ready to report"
 msgstr "Listo para informar"
 
-#: clientgui/ViewWork.cpp:699
+#: clientgui/ViewWork.cpp:702
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Error: estado inválido '%d'"
 
-#: clientgui/ViewWork.cpp:707
+#: clientgui/ViewWork.cpp:710
 msgid "Activities suspended by user"
 msgstr "Actividades suspendidas por el usuario"
 

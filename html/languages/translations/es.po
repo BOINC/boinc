@@ -7,17 +7,17 @@
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
+
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "iso-8859-1"
-
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Español"
-
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
+
 
 #########################################
 # Apps page (apps.php)
@@ -187,136 +187,28 @@ msgid "CREATE_AC_TEAM"
 msgstr "Ésta cuenta pertenecerá al grupo %s y tendrá las preferencias del fundador del proyecto."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "NOTA: a partir de la versión de BOINC 5.2, "
-"usted no necesita utilizar éste formulario. "
-"Puede crear una cuenta directamente desde el programa BOINC. "
+msgstr "NOTA: Si usted usa la versión de BOINC 5.2+ con el Administrador de BOINC, "
+"no utilice éste formulario. "
 "Simplemente ejecute BOINC, seleccione Unirse a un Proyecto, "
 "e introduzca una dirección de correo y una contraseña. "
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Cuenta creada"
+msgid "CREATE_AC_PASSWORD"
+msgstr "Contraseña"
 
-msgid "AC_READY_WELCOME"
-msgstr "Felicidades - su cuenta $PROJECT ha sido creada"
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Debe ser al menos de %s caracteres";
 
-msgid "AC_READY_PASTE"
-msgstr "Para continuar, pegue su clave de cuenta aqui:"
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Confirme contraseña"
 
-msgid "AC_READY_CLICK"
-msgstr "y haga click en"
-
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Configuración de cuenta"
-
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT utiliza el software BOINC."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC le permite dividir el tiempo de su ordenador entre varios proyectos de computación distribuida."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "¿Es éste su primer proyecto BOINC?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "Sí ­ éste es mi primer proyecto BOINC"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "No - actualmente estoy participando en al menos otro proyecto BOINC"
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Preferencias de cuenta"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Usted puede controlar cuándo y cómo su ordenador será utilizado por $PROJECT"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "Para utilizar las opciones por defecto, baje hasta el final y haga click en OK."
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Creación de cuenta: terminada"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "Su creación de cuenta está completada."
-
-msgid "AC_DONE_BOINC"
-msgstr "Ahora usted debe descargar e instalar el software BOINC e indicar a su(s) ordenador(es) "
-"que utilice(n) ésta cuenta."
-
-msgid "AC_DONE_URL"
-msgstr "Cuando el software BOINC se ejecute por vez primera, le pedirá una <b>URL del proyecto</b> y "
-"una <b>Clave de cuenta</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "Cópielas y péguelas desde aquí:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Usted ahora puede %s para completar la instalación de $PROJECT."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "descargar el software BOINC"
-
-msgid "AC_DONE_THANKS"
-msgstr "Muchas gracias por participar en $PROJECT"
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Configuración de cuenta: compartición de recursos"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Ahora deberá indicar a su(s) ordenador(es) que utilice(n) ésta cuenta."
-
-msgid "AC_DONE_WIN"
-msgstr "Usuarios de Windows:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Abra la ventana de aplicación BOINC haciendo doble click en el icono de la bandeja del sistema. "
-"Seleccione 'Unirse a un proyecto' en el menu de Proyectos. Se le pedirá la URL del proyecto "
-"y la clave de su cuenta."
-
-msgid "AC_DONE_UNIX"
-msgstr "Usuarios Mac, Unix and Linux:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Salga del cliente BOINC. Ejecute el cliente BOINC con la opción -attach_proyect. "
-"Entonces se le pedirá la URL del proyecto y la clave de su cuenta."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "En cada caso copie y pegue lo siguiente:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "Ésto completa la instalación de $PROJECT."
 
 #########################################
 # Forum sample index page
 #########################################
+
 msgid "FORUM_TITLE"
 msgstr "Foros de $PROJECT"
 
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Configurar su cuenta"
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -327,6 +219,7 @@ msgstr "Opcional"
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
+
 msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Mejores participantes"
 
