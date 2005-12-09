@@ -164,7 +164,7 @@ static void limbo_message(ACTIVE_TASK& at) {
 // (including preemption)
 //
 #ifdef _WIN32
-bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
+void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
@@ -186,14 +186,14 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
                 pending_suspend_via_quit = false;
                 task_state = PROCESS_UNINITIALIZED;
                 close_process_handles();
-                return true;
+                return;
             }
             if (!finish_file_present()) {
                 scheduler_state = CPU_SCHED_PREEMPTED;
                 task_state = PROCESS_UNINITIALIZED;
                 close_process_handles();
                 limbo_message(*this);
-                return true;
+                goto done;
             }
         }
         result->exit_status = exit_code;
@@ -206,10 +206,11 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
 
     read_stderr_file();
     clean_out_dir(slot_dir);
-    return true;
+done:
+    gstate.request_schedule_cpus("application exited");
 }
 #else
-bool ACTIVE_TASK::handle_exited_app(int stat) {
+void ACTIVE_TASK::handle_exited_app(int stat) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
     get_app_status_msg();
@@ -240,7 +241,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                     // destroy shm, since restarting app will re-create it
                     //
                     cleanup_task();
-                    return true;
+                    return;
                 }
                 if (!finish_file_present()) {
                     // The process looks like it exited normally
@@ -252,7 +253,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                     task_state = PROCESS_UNINITIALIZED;
                     cleanup_task();
                     limbo_message(*this);
-                    return true;
+                    goto done;
                 }
             }
             scope_messages.printf(
@@ -274,7 +275,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                 scheduler_state = CPU_SCHED_PREEMPTED;
                 task_state = PROCESS_UNINITIALIZED;
                 limbo_message(*this);
-                return true;
+                goto done;
             }
             result->exit_status = stat;
             task_state = PROCESS_WAS_SIGNALED;
@@ -294,7 +295,8 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
 
     read_stderr_file();
     clean_out_dir(slot_dir);
-    return true;
+done:
+    gstate.request_schedule_cpus("application exited");
 }
 #endif
 
@@ -387,7 +389,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         atp = lookup_pid(pid);
         if (!atp) {
             // if we're running benchmarks, exited process
-            // is probably a benchmark process
+            // is probably a benchmark process; don't show error
             //
             if (!gstate.are_cpu_benchmarks_running()) {
                 msg_printf(NULL, MSG_ERROR,
@@ -402,9 +404,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     }
 #endif
 
-    if (found) {
-        gstate.request_schedule_cpus("process exited");
-    }
     return found;
 }
 

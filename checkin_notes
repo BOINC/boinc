@@ -14327,3 +14327,13 @@ David  8 Dec 2005
     client/
         acct_mgr.C
         net_xfer_curl.C
+
+David  8 Dec 2005
+    - Don't request CPU reschedule if a preempted process exits;
+        that's a redundant reschedule
+    - better messages on CPU reschedule
+
+    client/
+        app.h
+        app_control.C
+        gui_rpc_server_ops.C

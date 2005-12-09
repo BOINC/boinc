@@ -168,9 +168,9 @@ public:
     int resume_or_start();
     void send_network_available();
 #ifdef _WIN32
-    bool handle_exited_app(unsigned long);
+    void handle_exited_app(unsigned long);
 #else
-    bool handle_exited_app(int stat);
+    void handle_exited_app(int stat);
 #endif
 
     bool check_max_cpu_exceeded();
