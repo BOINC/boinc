@@ -14371,3 +14371,13 @@ David  9 Dec 2005
 		file_names.h
 		gui_http.C,h
 		gui_rpc_server_ops.C
+
+David  9 Dec 2005
+    - Web: "modem"->"modem, ISDN or VPN"
+    - fix bug in host merge
+
+    html/
+        inc/
+            prefs.inc
+        user/
+            host_edit_action.php

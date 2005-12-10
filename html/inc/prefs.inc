@@ -61,11 +61,11 @@ define("CPU_SCHEDULING_DESC", "Switch between applications every
     <br><font size=-2>(recommended: 60 minutes)</font>");
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     "Confirm before connecting to Internet?
-    <br><font size=-2>(matters only if you use a modem)</font>"
+    <br><font size=-2>(matters only if you have a modem, ISDN or VPN connection)</font>"
 );
 define("HANGUP_IF_DIALED_DESC",
     "Disconnect when done?
-    <br><font size=-2>(matters only if you use a modem)</font>"
+    <br><font size=-2>(matters only if you have a modem, ISDN or VPN connection)</font>"
 );
 define("WORK_BUF_DESC",
     "Connect to network about every

@@ -104,7 +104,7 @@ Verify that download resumes from the same point.
 </ul>
 <h3>Tests for modem-connected computers</h3>
 <ul>
-<li> Do General Tests from a modem or ISDN-connected computer.
+<li> Do General Tests from a modem ISDN, or VPN-connected computer.
 <li> Test 'confirm before connect' preference.
 <li> Test 'Disconnect when done' preference.
 <li> Do these tests with both single-user and Service-mode install (Windows).

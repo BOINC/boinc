@@ -7,9 +7,10 @@ requires that you be familiar with the
 UNIX command-line interface.
 
 <p>
-After downloading the file (say, into file X), type
+After downloading the file (say, into
+        <code>boinc_5.2.13_i686-pc-linux-gnu.sh</code>), type
 <pre>
-sh X
+sh boinc_5.2.13_i686-pc-linux-gnu.sh
 </pre>
 This will create a directory BOINC/
 with the following files:

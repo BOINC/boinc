@@ -70,7 +70,7 @@ $latest_host = get_host($hostid, $user);
 for ($i=1; $i<$nhosts; $i++) {
 	$var = "id_$i";
 	$hostid = get_int($var, true);
-    if (!$hostid) break;
+    if (!$hostid) continue;
 	$host = get_host($hostid, $user);
 	if ($host->create_time > $latest_host->create_time) {
 		merge_hosts($latest_host, $host);

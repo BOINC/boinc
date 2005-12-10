@@ -103,33 +103,40 @@ and makes an account manager RPC.
 The core client offers menu items for making an account manager RPC,
 and for changing the name/password.
 
-<h2>Account manager RPCs</h2>
+<h2>Account manager RPC</h2>
 
+The core client contacts the account manager
+using an HTTP POST request.
 ";
 
 list_start();
 list_item("URL", "<b>BASE_URL/rpc.php</b>, where BASE_URL is the URL
         of the account manager web site.");
-list_item("input", "name
-    <br>password
-    <br> [ host_cpid ]
-    <br> [ maj ]
-    <br> [ min ]
-    <br> [ rel ]
-    <br> [ run_mode ] (always/auto/never)
-    "
+list_item("input", html_text("
+<acct_mgr_request>
+    <name>John</name>
+    <password>xxx</password>
+    <host_cpid>b11ddc5f36c9a86ff093c96e6930646a</host_cpid>
+    <client_version>5.3.2</client_version>
+    <run_mode>auto</run_mode>
+    <project>
+       <url>http://setiathome.berkeley.edu/</url>
+       <project_name>SETI@home</project_name>
+       <suspended_via_gui>0</suspended_via_gui>
+    </project>
+    ...
+</acct_mgr_request>
+")
 );
 list_item("output",
     html_text("<acct_mgr_reply>
     <name>Account Manager Name</name>
     [ <error>MSG</error> ]
-    [ <run_mode>X</run_mode> (X=always/auto/never)]
     [ <repeat_sec>xxx</repeat_sec> ]
     [ 
       <account>
          <url>URL</url>
          <authenticator>KEY</authenticator>
-         [ <suspend/> ]
          [ <detach/> ]
       </account>
         ...
@@ -141,14 +148,6 @@ list_item("action",
     The 'host_cpid' argument identifies the host.
     To make it comparable with the host CPID in stats files,
     the value MD5(host_cpid+email_addr) is passed.
-    The maj, min and rel arguments identify the client's version.
-    <p>
-    Optionally returns a command to set the run mode (always, auto, or never),
-    These have the same function as the
-    'Run always', 'Run based on preferences',
-    and 'Suspend' commands in the BOINC manager.
-    <p>
-    Optionally returns commands to suspend individual projects.
     <p>
     Optionally returns commands to detach projects.
     <p>
