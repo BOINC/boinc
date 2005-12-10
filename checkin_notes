@@ -14381,3 +14381,13 @@ David  9 Dec 2005
             prefs.inc
         user/
             host_edit_action.php
+
+Bruce 10 Dec 2005
+    - API: when app version number is shown in the title bar of
+      a graphics window, print it in the same format at the
+      client GUI, for example 4.29 rather than existing 429.
+      This is for consistency with line 506 of clientgui/ViewWork.cpp.
+
+    api/
+        graphics_impl.C
+

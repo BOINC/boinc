@@ -241,8 +241,8 @@ bool throttled_app_render(int x, int y, double t) {
 void get_window_title(APP_INIT_DATA& aid, char* buf, int len) {
     if (aid.app_version) {
         snprintf(buf, len,
-            "%s version %d [workunit: %s]",
-            aid.app_name, aid.app_version, aid.wu_name
+            "%s version %.2f [workunit: %s]",
+            aid.app_name, aid.app_version/100.0, aid.wu_name
         );
     } else {
         snprintf(buf, len,
