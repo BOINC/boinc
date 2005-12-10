@@ -27,7 +27,7 @@ AC_DEFUN([SZDG_BOINC_COMMON], [
 				# Check if this is an installed or just a compiled-in-place
 				# version
 				if test -d "$with_boinc/sched"; then
-					BOINC_CPPFLAGS="-I$with_boinc/api -I$with_boinc/lib -I$with_boinc/sched -I$with_boinc/tools"
+					BOINC_CPPFLAGS="-I$with_boinc/api -I$with_boinc/lib -I$with_boinc/sched -I$with_boinc/tools -I$with_boinc/db"
 					if test -d "$with_boinc/RSAEuro/source"; then
 						BOINC_CPPFLAGS="$BOINC_CPPFLAGS -I$with_boinc/RSAEuro/source"
 					fi
