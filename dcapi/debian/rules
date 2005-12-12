@@ -64,9 +64,9 @@ clean:
 	# Add here commands to clean up after the build process.
 	-$(MAKE) distclean
 	-test -r /usr/share/misc/config.sub && \
-	  cp -pf /usr/share/misc/config.sub config.sub
+	  cp -pf /usr/share/misc/config.sub scripts/config.sub
 	-test -r /usr/share/misc/config.guess && \
-	  cp -pf /usr/share/misc/config.guess config.guess
+	  cp -pf /usr/share/misc/config.guess scripts/config.guess
 
 	-rm -rf autom4te.cache
 
