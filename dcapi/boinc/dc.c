@@ -98,6 +98,14 @@ int DC_init(const char *project_name __attribute__((unused)), const char *applic
     DC_log(LOG_DEBUG, "init: Upload private key file=%s", uploadkeyfile);
     DC_log(LOG_DEBUG, "init: Check Result sleeping interval=%s", sleepinterval);
  
+    /* Boinc daemons are run from the <projectroot>/bin directory. Change to
+     * the working directory so the master can find its input files */
+    if (chdir(workdir)) {
+	DC_log(LOG_ERR,
+		"Failed to switch to the working directory %s: %s",
+		workdir, strerror(errno));
+	return DC_ERROR;
+    }
 
     /* Check config.xml in project's directory */
     snprintf(buf, 512, "%s/config.xml", boincprojectrootdir);
