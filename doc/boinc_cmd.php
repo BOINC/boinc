@@ -2,10 +2,10 @@
 
 require_once("docutil.php");
 
-page_head("The command tool");
+page_head("The BOINC command tool");
 echo "
 <p>
-The command-line interface program (boinc_cmd)
+The BOINC command tool (boinc_cmd)
 provides a command-line interface to a running BOINC core client.
 boinc_cmd has the following interface:
 <pre>
@@ -16,7 +16,8 @@ The options and commands are as follows:
 list_start();
 list_item("--help, -h", "help (show commands)");
 list_item("--version, -V", "show version");
-list_item("--host", "The host to connect to (default: localhost)");
+list_item("--host hostname[:port]", "The host to connect to 
+    (default: localhost)");
 list_item("--password", "The password for RPC authentication
     (default: boinc_cmd will look for a file 'gui_rpc_auth.cfg'
      and use the password it contains)"

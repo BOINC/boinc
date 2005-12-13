@@ -22,11 +22,22 @@ with the following files:
 <dt>
 run_client
 <dd> A script that cd's into the BOINC directory and runs the core client.
+<dt>
+run_manager
+<dd> A script that cd's into the BOINC directory and runs the manager.
 </dl>
 
-You may want to run the executable each time your machine boots
-or you log on.
-Information on this is <a href=bare_core.php>here</a>.
+<p>
+The core client has a number of other
+<a href=client_unix.php>command-line options</a>.
+<p>
+You may want to
+<a href=auto_start.php>automatically start the core client</a>
+at boot time.
+<p>
+To control a running BOINC client, use the
+<a href=boinc_cmd.php>BOINC command tool</a>.
+
 
 ";
 page_tail();

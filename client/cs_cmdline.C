@@ -47,6 +47,7 @@ static void print_options(char* prog) {
         "    -run_cpu_benchmarks            run the CPU benchmarks\n"
         "    -check_all_logins              for idle detection, check remote logins\n too"
         "    -allow_remote_gui_rpc          allow remote GUI RPC connections\n"
+        "    -gui_rpc_port                  port for GUI RPCs\n"
         "    -redirectio                    redirect stdout and stderr to log files\n"
         "    -detach                        detach from console (Windows)\n"
         "    -dir <path>                    use given dir as BOINC home\n"
@@ -158,6 +159,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             exit(0);
         } else if (ARG(allow_remote_gui_rpc)) {
             allow_remote_gui_rpc = true;
+        } else if (ARG(gui_rpc_port)) {
+            cmdline_gui_rpc_port = atoi(argv[++i]);
         } else if (ARG(redirectio)) {
             redirect_io = true;
         } else if (ARG(help)) {

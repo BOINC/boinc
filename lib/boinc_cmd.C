@@ -139,12 +139,10 @@ void read_password_from_file(char* buf) {
 
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
-    int i;
-	char passwd_buf[256];
+    int i, retval, port=0;
     MESSAGES messages;
-    int retval;
-    char* hostname = NULL;
-    char* passwd = passwd_buf;
+	char passwd_buf[256], hostname_buf[256], *hostname=0;
+    char* passwd = passwd_buf, *p;
 
 	strcpy(passwd_buf, "");
 	read_password_from_file(passwd_buf);
@@ -166,7 +164,13 @@ int main(int argc, char** argv) {
 
     if (!strcmp(argv[i], "--host")) {
         if (++i == argc) usage();
-        hostname = argv[i];
+        strcpy(hostname_buf, argv[i]);
+        hostname = hostname_buf;
+        p = strchr(hostname, ':');
+        if (p) {
+            port = atoi(p+1);
+            *p=0;
+        }
         i++;
     }
     if ((i<argc)&& !strcmp(argv[i], "--passwd")) {
@@ -178,9 +182,9 @@ int main(int argc, char** argv) {
     // change the following to debug GUI RPC's asynchronous connection mechanism
     //
 #if 1
-    retval = rpc.init(hostname);
+    retval = rpc.init(hostname, port);
     if (retval) {
-        fprintf(stderr, "can't connect\n");
+        fprintf(stderr, "can't connect to %s\n", hostname?hostname:"local host");
         exit(1);
     }
 #else

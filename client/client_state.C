@@ -78,6 +78,7 @@ CLIENT_STATE::CLIENT_STATE() {
     exit_when_idle = false;
     check_all_logins = false;
     allow_remote_gui_rpc = false;
+    cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;
     skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;

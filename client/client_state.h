@@ -110,6 +110,7 @@ public:
     bool check_all_logins;
     bool return_results_immediately;
     bool allow_remote_gui_rpc;
+    int cmdline_gui_rpc_port;
     bool show_projects;
     bool requested_exit;
     char detach_project_url[256];

@@ -78,7 +78,17 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     get_pathname(fip, pathname);
 
     is_upload = true;
-    if (file_info.upload_offset < 0) { // NOTE: Should this be <=?
+
+    // if the file is less than a MB, don't bother getting its size;
+    // just resent from the beginning
+    //
+    if (file_info.upload_offset < 0) {
+        if (file_info.nbytes < 1e6) {
+            file_info.upload_offset = 0;
+        }
+    }
+
+    if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
         sprintf(header,
             "<data_server_request>\n"

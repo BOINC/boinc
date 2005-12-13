@@ -14391,3 +14391,23 @@ Bruce 10 Dec 2005
     api/
         graphics_impl.C
 
+David  12 Dec 2005
+    - core client: add "-gui_rpc_port" command-line option:
+        specify port number for GUI RPC listening socket.
+    - boinc_cmd: allow hostname specification as host:port
+    - core client: if file size is less than 1 MB,
+        don't bother getting current file size from server
+        (just send whole file from the beginning)
+    - file upload handler:
+        don't bother reading key if we're not going to use it
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        file_xfer.C
+        gui_rpc_server.C,h
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C,h
+    sched/
+        file_upload_handler.C

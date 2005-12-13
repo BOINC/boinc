@@ -1,20 +1,15 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC core client as a command-line program");
+page_head("Core client command-line options");
 echo "
 <p>
-The BOINC core client can be run in a command-line
-(non-graphical) environment.
-Command-line options provide minimal control
+The core client has
+command-line options that provide minimal control
 (e.g. the ability attach and detach projects).
-More detailed control, and the ability to interact
-with a running client,
-is provided by a separate command
-<a href=boinc_cmd.php>command tool</a>.
 <p>
-Instructions for installing these programs,
-and for automatic startup of the core client, are
-<a href=bare_core.php>here</a>.
+More detailed control, and the ability to interact
+with a running client, is provided by the
+<a href=boinc_cmd.php>BOINC command tool</a>.
 <p>
 <h3>Command-line options</h3>
 ";
@@ -61,6 +56,9 @@ list_item("-check_all_logins",
 list_item("-exit_when_idle",
     "Get, process and report work, then exit."
 );
+list_item("-gui_rpc_port N",
+    "Specify port for GUI RPCs"
+);
 list_item("-allow_remote_gui_rpc",
     "Allow GUI RPCs from remote hosts"
 );
@@ -71,7 +69,7 @@ list_item("-detach",
     "Detach from console (Windows only)"
 );
 list_item("-no_gui_rpc",
-    "Don't allow GUI RPCs; don't try to create socket."
+    "Don't allow GUI RPCs."
 );
 list_end();
 echo "

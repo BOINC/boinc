@@ -76,12 +76,17 @@ void RPC_CLIENT::close() {
 	}
 }
 
-int RPC_CLIENT::init(const char* host) {
+int RPC_CLIENT::init(const char* host, int port) {
     double client_time = 0.0;
     int retval;
 	memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(GUI_RPC_PORT_ALT);
+    if (port) {
+        addr.sin_port = htons(port);
+    } else {
+        addr.sin_port = htons(GUI_RPC_PORT_ALT);
+    }
+    //printf("trying port %d\n", htons(addr.sin_port));
 
     if (host) {
         hostent* hep = gethostbyname(host);
@@ -95,7 +100,7 @@ int RPC_CLIENT::init(const char* host) {
     }
     boinc_socket(sock);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-    if (retval) {
+    if (retval && !port) {
         BOINCTRACE("RPC_CLIENT::init connect 2 on %d returned %d\n", sock, retval);
         //perror("connect");
         boinc_close_socket(sock);
@@ -104,6 +109,7 @@ int RPC_CLIENT::init(const char* host) {
         BOINCTRACE("RPC_CLIENT::init connect 1: Winsock error '%d'\n", WSAGetLastError());
 #endif
         addr.sin_port = htons(GUI_RPC_PORT);
+        //printf("trying port %d\n", htons(addr.sin_port));
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
 #ifdef _WIN32
@@ -116,11 +122,12 @@ int RPC_CLIENT::init(const char* host) {
         }
     }
 
-    // Are we really talking to a BOINC core client.
+    // Are we really talking to a BOINC core client?
+    //
     if (get_client_time(client_time)) {
         return ERR_RETRY;
     }
-    if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
+    if ((client_time == 0.0) && ((client_major_version==0) && (client_minor_version==0) && (client_release==0))) {
         return ERR_RETRY;
     }
 

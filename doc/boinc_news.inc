@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("December 12, 2005",
+    "A new paper, <a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>,
+    explores the limits of BOINC-based projects."
+),
+array("December 9, 2005",
+    "BOINC has a job opening for an experienced programmer
+    (C++/Python/PHP/SQL/HTML).
+    For more information go to
+    <a href=http://jobs.berkeley.edu/> http://jobs.berkeley.edu/</a>.
+    The job is number 003496, and is listed under Information Technology."
+),
 array("November 29, 2005",
     "We have created a new email list,
     <a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_announce>boinc_announce@ssl.berkeley.edu</a>,

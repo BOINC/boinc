@@ -425,24 +425,13 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
     char file_name[256];
     int major, minor, release, retval=0;
-    bool got_version = false;
+    bool got_version = true;
     bool did_something = false;
 
     while (fgets(buf, 256, in)) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "handle_request: %s", buf);
         if (parse_int(buf, "<core_client_major_version>", major)) {
-#if 0
-    // for now, allow old versions
-            if (major != BOINC_MAJOR_VERSION) {
-                retval = return_error(ERR_PERMANENT,
-                    "Core client has major version %d; "
-                    "expected %d.",
-                    major, BOINC_MAJOR_VERSION
-                );
-                break;
-            }
-#endif
-            got_version = true;
+            continue;
         } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
             continue;
         } else if (parse_int(buf, "<core_client_release>", release)) {
@@ -548,10 +537,12 @@ int main() {
         exit(1);
     }
 
-    retval = get_key(key);
-    if (retval) {
-        return_error(ERR_TRANSIENT, "can't read key file");
-        exit(1);
+    if (!config.ignore_upload_certificates) {
+        retval = get_key(key);
+        if (retval) {
+            return_error(ERR_TRANSIENT, "can't read key file");
+            exit(1);
+        }
     }
 
     handle_request(stdin, key);

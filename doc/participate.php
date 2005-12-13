@@ -13,8 +13,8 @@ echo "
 <ul>
 <li> <a href=manager.php>The BOINC manager</a>
 <li> <a href=win_install.php>The Windows installer</a>
-<li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
 <li> <a href=sea.php>Self-extracting archive (Unix/Linux)</a>
+<li> <a href=bare_core.php>Command-line version (Unix, Mac OS/X)</a>
 <li> <a href=screensaver.php>The BOINC screensaver</a>
 </ul>
 <li> <a href=prefs.php>Preferences</a>
