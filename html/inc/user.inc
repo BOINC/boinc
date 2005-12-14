@@ -13,8 +13,8 @@ function pending_credit($user) {
 }
 
 function show_credit($user) {
-    row2("Total credit", format_credit($user->total_credit));
-    row2("Recent average credit", format_credit($user->expavg_credit));
+    row2(tr(TOTAL_CREDIT), format_credit($user->total_credit));
+    row2(tr(EXPAVG_CREDIT), format_credit($user->expavg_credit));
     project_user_credit($user);
 }
 
@@ -159,13 +159,13 @@ function user_table_start($sort_by) {
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>".tr(USER_TABLE_EXPAVG)."</a></th>
-            <th>".tr(USER_TABLE_TOTAL_CREDIT)."</th>
+            <th><a href=top_users.php?sort_by=expavg_credit>".tr(EXPAVG_CREDIT)."</a></th>
+            <th>".tr(TOTAL_CREDIT)."</th>
         ";
     } else {
         echo "
-            <th>".tr(USER_TABLE_EXPAVG)."</th>
-            <th><a href=top_users.php?sort_by=total_credit>".tr(USER_TABLE_TOTAL_CREDIT)."</a></th>
+            <th>".tr(EXPAVG_CREDIT)."</th>
+            <th><a href=top_users.php?sort_by=total_credit>".tr(TOTAL_CREDIT)."</a></th>
         ";
     }
     echo "

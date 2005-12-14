@@ -505,7 +505,7 @@ public:
     int get_reply(char*&);
     RPC_CLIENT();
     ~RPC_CLIENT();
-    int init(const char* host, int port);
+    int init(const char* host, int port=0);
     int init_asynch(const char* host, double timeout, bool retry);
         // timeout == how long to wait until give up
         //    If the caller (i.e. BOINC Manager) just launched the core client,

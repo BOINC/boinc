@@ -14411,3 +14411,16 @@ David  12 Dec 2005
         gui_rpc_client.C,h
     sched/
         file_upload_handler.C
+
+David  13 Dec 2005
+    - manager compile fix
+    - a bit of translation stuff
+
+    html/
+        inc/
+            team.inc
+            user.inc
+        languages/translations/
+            en.po
+    lib/
+        gui_rpc_client.h

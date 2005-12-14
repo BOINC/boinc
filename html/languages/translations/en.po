@@ -229,10 +229,10 @@ msgstr "Rank"
 msgid "USER_TABLE_NAME"
 msgstr "Name"
 
-msgid "USER_TABLE_TOTAL_CREDIT"
-msgstr "Total Credit"
+msgid "TOTAL_CREDIT"
+msgstr "Total credit"
 
-msgid "USER_TABLE_EXPAVG"
+msgid "EXPAVG_CREDIT"
 msgstr "Recent average credit"
 
 msgid "USER_TABLE_COUNTRY"
