@@ -21,6 +21,7 @@ AC_DEFUN([BOINC_PLATFORM],[
     esac
   fi
   AC_DEFINE_UNQUOTED([HOSTTYPE],"$boinc_platform",[Platform identification used to identify applications for this BOINC core client])
+  AC_SUBST([boinc_platform],$boinc_platform)
   AC_MSG_RESULT($boinc_platform)
 ])
     
