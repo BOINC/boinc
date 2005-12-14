@@ -14424,3 +14424,12 @@ David  13 Dec 2005
             en.po
     lib/
         gui_rpc_client.h
+
+David  13 Dec 2005
+    - Core client: the account manager password is now
+        stored and communicated in a hashed form
+        (hashed with the lower-cased account name)
+
+    client/
+        acct_mgr.C,h
+        gui_rpc_server_ops.C

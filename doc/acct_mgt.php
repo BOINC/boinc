@@ -92,10 +92,13 @@ Its format is:
 ".html_text("
 <acct_mgr_login>
    <login>name</login>
-   <password>xxx</password>
+   <password_hash>xxx</password_hash>
 </acct_mgr_login>
 ")."
 </dl>
+<p>
+The password is stored as MD5(password_lowercase(login)).
+<p>
 If the core client finds acct_mgr_url.xml but not acct_mgr_login.xml,
 it prompts for a name and password,
 stores them in acct_mgr_login.xml,
@@ -115,7 +118,7 @@ list_item("URL", "<b>BASE_URL/rpc.php</b>, where BASE_URL is the URL
 list_item("input", html_text("
 <acct_mgr_request>
     <name>John</name>
-    <password>xxx</password>
+    <password_hash>xxx</password_hash>
     <host_cpid>b11ddc5f36c9a86ff093c96e6930646a</host_cpid>
     <client_version>5.3.2</client_version>
     <run_mode>auto</run_mode>
@@ -145,6 +148,7 @@ list_item("output",
 );
 list_item("action",
     "Returns a list of the accounts associated with this meta-account.
+    The password is passed as MD5(password_lowercase(name)).
     The 'host_cpid' argument identifies the host.
     To make it comparable with the host CPID in stats files,
     the value MD5(host_cpid+email_addr) is passed.

@@ -701,25 +701,31 @@ static void handle_project_attach_poll(char*, MIOFILE& fout) {
 
 static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     std::string url, name, password;
+    std::string password_hash, name_lc;
     bool use_config_file = false;
     bool bad_arg = false;
     if (!parse_bool(buf, "use_config_file", use_config_file)) {
         if (!parse_str(buf, "<url>", url)) bad_arg = true;
         if (!parse_str(buf, "<name>", name)) bad_arg = true;
         if (!parse_str(buf, "<password>", password)) bad_arg = true;
+        if (!bad_arg) {
+            name_lc = name;
+            downcase_string(name_lc);
+            password_hash = md5_string(password+name_lc);
+        }
     } else {
         if (!strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url)) {
             bad_arg = true;
         } else {
             url = gstate.acct_mgr_info.acct_mgr_url;
             name = gstate.acct_mgr_info.login_name;
-            password = gstate.acct_mgr_info.password;
+            password_hash = gstate.acct_mgr_info.password_hash;
         }
     }
     if (bad_arg) {
         fout.printf("<error>bad arg</error>\n");
     } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password);
+        gstate.acct_mgr_op.do_rpc(url, name, password_hash);
         fout.printf("<success/>\n");
     }
 }

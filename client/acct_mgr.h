@@ -35,7 +35,8 @@ struct ACCT_MGR_INFO {
     char acct_mgr_name[256];
     char acct_mgr_url[256];
     char login_name[256];
-    char password[256];
+    char password_hash[256];
+        // md5 of password.lowercase(login_name)
     double next_rpc_time;
 
     ACCT_MGR_INFO();

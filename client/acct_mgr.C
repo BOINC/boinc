@@ -39,7 +39,7 @@
 static const char *run_mode_name[] = {"", "always", "auto", "never"};
 
 int ACCT_MGR_OP::do_rpc(
-    std::string url, std::string name, std::string password
+    std::string url, std::string name, std::string password_hash
 ) {
     int retval;
     unsigned int i;
@@ -66,18 +66,18 @@ int ACCT_MGR_OP::do_rpc(
     strcpy(ami.acct_mgr_url, url.c_str());
     strcpy(ami.acct_mgr_name, "");
     strcpy(ami.login_name, name.c_str());
-    strcpy(ami.password, password.c_str());
+    strcpy(ami.password_hash, password_hash.c_str());
 
     FILE* f = boinc_fopen(ACCT_MGR_REQUEST_FILENAME, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f,
         "<acct_mgr_request>\n"
         "   <name>%s</name>\n"
-        "   <password>%s</password>\n"
+        "   <password_hash>%s</password_hash>\n"
         "   <host_cpid>%s</host_cpid>\n"
         "   <client_version>%d.%d.%d</client_version>\n"
         "   <run_mode>%s</run_mode>\n",
-        name.c_str(), password.c_str(),
+        name.c_str(), password_hash.c_str(),
         gstate.host_info.host_cpid,
         gstate.core_client_major_version,
         gstate.core_client_minor_version,
@@ -92,10 +92,12 @@ int ACCT_MGR_OP::do_rpc(
                 "      <url>%s</url>\n"
                 "      <project_name>%s</project_name>\n"
                 "      <suspended_via_gui>%d</suspended_via_gui>\n"
+                "      <account_key>%s</account_key>\n"
                 "   </project>\n",
                 p->master_url,
                 p->project_name,
-                p->suspended_via_gui
+                p->suspended_via_gui,
+                p->authenticator
             );
         }
     }
@@ -238,11 +240,11 @@ int ACCT_MGR_INFO::write_info() {
                 p, 
                 "<acct_mgr_login>\n"
                 "    <login>%s</login>\n"
-                "    <password>%s</password>\n"
+                "    <password_hash>%s</password_hash>\n"
                 "    <next_rpc_time>%f</next_rpc_time>\n"
                 "</acct_mgr_login>\n",
                 login_name,
-                password,
+                password_hash,
                 next_rpc_time
             );
             fclose(p);
@@ -255,7 +257,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(acct_mgr_name, "");
     strcpy(acct_mgr_url, "");
     strcpy(login_name, "");
-    strcpy(password, "");
+    strcpy(password_hash, "");
     next_rpc_time = 0;
 }
 
@@ -288,7 +290,7 @@ int ACCT_MGR_INFO::init() {
         while(mf.fgets(buf, sizeof(buf))) {
             if (match_tag(buf, "</acct_mgr_login>")) break;
             else if (parse_str(buf, "<login>", login_name, 256)) continue;
-            else if (parse_str(buf, "<password>", password, 256)) continue;
+            else if (parse_str(buf, "<password_hash>", password_hash, 256)) continue;
             else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
         }
         fclose(p);
@@ -300,7 +302,7 @@ bool ACCT_MGR_INFO::poll() {
     if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
     if (gstate.now > next_rpc_time) {
         next_rpc_time = gstate.now + 86400;
-        gstate.acct_mgr_op.do_rpc(acct_mgr_url, login_name, password);
+        gstate.acct_mgr_op.do_rpc(acct_mgr_url, login_name, password_hash);
         return true;
     }
     return false;
