@@ -13,6 +13,6 @@
 # in your project's config.xml file
 
 cd ../html/user/sched_logs/ || exit 1
-find . -type d -name "20*" -mtime 7 | xargs rm -rf || exit 2
+find . -type d -name "20*" -mtime +7 | xargs rm -rf || exit 2
 echo "`date '+%Y-%m-%d %H:%M:'`" "cleaned scheduler logs"
 exit 0

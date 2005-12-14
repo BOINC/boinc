@@ -14440,3 +14440,11 @@ Jeff  14 Dec 2005
     sched/
 	file_upload_handler.C
 	Makefile.am
+
+Bruce  14 Dec 2005
+    - Fix to script that cleans 'user-visible' scheduler logs, to prevent
+      it from inadvertently leaving old files hanging around.
+
+    tools/
+        cleanlogs.sh
+
