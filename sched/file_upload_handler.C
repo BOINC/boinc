@@ -42,6 +42,10 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 SCHED_CONFIG config;
 
 #define ERR_TRANSIENT   true
@@ -101,7 +105,7 @@ int return_error(bool transient, const char* message, ...) {
     vsprintf(buf, message, va);
     va_end(va);
 
-    printf(
+    fprintf(stdout,
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
         "    <status>%d</status>\n"
@@ -120,15 +124,15 @@ int return_error(bool transient, const char* message, ...) {
 }
 
 int return_success(const char* text) {
-    printf(
+    fprintf(stdout,
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
         "    <status>0</status>\n"
     );
     if (text) {
-        printf("    %s\n", text);
+        fprintf(stdout, "    %s\n", text);
     }
-    printf("</data_server_reply>\n");
+    fprintf(stdout, "</data_server_reply>\n");
     return 0;
 }
 
@@ -321,7 +325,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 get_remote_addr(),
                 offset, nbytes
             );
+#ifndef _USING_FCGI_
             fflush(stderr);
+#endif
             if (offset >= nbytes) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
@@ -337,7 +343,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 get_remote_addr(),
                 retval
             );
+#ifndef _USING_FCGI_
             fflush(stderr);
+#endif
             return retval;
         } else {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
@@ -437,6 +445,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         } else if (parse_int(buf, "<core_client_release>", release)) {
             continue;
         } else if (match_tag(buf, "<file_upload>")) {
+
             if (!got_version) {
                 retval = return_error(ERR_PERMANENT, "Missing version");
             } else {
@@ -522,12 +531,14 @@ int main() {
 
     installer();
 
+#ifndef _USING_FCGI_
     get_log_path(log_path, "file_upload_handler.log");
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file\n");
         return_error(ERR_TRANSIENT, "can't open log file");
         exit(1);
     }
+#endif
 
     log_messages.pid = getpid();
     log_messages.set_debug_level(DEBUG_LEVEL);
@@ -545,7 +556,16 @@ int main() {
         }
     }
 
+#ifdef _USING_FCGI_
+  while(FCGI_Accept() >= 0) {
+#endif
     handle_request(stdin, key);
+#ifdef _USING_FCGI_
+  }
+  // when exiting, write headers back to apache so it won't complain
+  // about "incomplete headers"
+  fprintf(stdout,"Content-type: text/plain\n\n");
+#endif
     return 0;
 }
 

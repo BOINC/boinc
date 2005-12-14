@@ -14433,3 +14433,10 @@ David  13 Dec 2005
     client/
         acct_mgr.C,h
         gui_rpc_server_ops.C
+
+Jeff  14 Dec 2005
+    - Enabled the file_upload_handler to be built as a FastCGI program.
+
+    sched/
+	file_upload_handler.C
+	Makefile.am

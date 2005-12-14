@@ -27,7 +27,8 @@ noinst_PROGRAMS =                               \
 
 lib_LIBRARIES = libsched.a
 
-EXTRA_PROGRAMS = fcgi
+EXTRA_PROGRAMS = fcgi \
+		 fcgi_file_upload_handler
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
@@ -190,6 +191,14 @@ fcgi_SOURCES =                                  \
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
+
+fcgi_file_upload_handler_SOURCES = 		\
+    file_upload_handler.C			\
+    ../lib/parse.C				\
+    ../lib/crypt.C
+fcgi_file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+fcgi_file_upload_handler_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
+fcgi_file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi
 
 .PHONY: PHONY-start
 
