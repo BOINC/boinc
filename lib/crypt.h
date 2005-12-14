@@ -94,29 +94,39 @@ struct DATA_BLOCK {
 // size of text-encoded signature
 #define SIGNATURE_SIZE_TEXT (SIGNATURE_SIZE_BINARY*2+20)
 
-int print_hex_data(FILE* f, DATA_BLOCK&);
-int sprint_hex_data(char* p, DATA_BLOCK&);
-int scan_hex_data(FILE* f, DATA_BLOCK&);
-int print_key_hex(FILE*, KEY* key, int len);
-int scan_key_hex(FILE*, KEY* key, int len);
-int sscan_key_hex(const char*, KEY* key, int len);
-
-int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out);
-int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out);
-int sign_file(const char* path, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
-int sign_block(DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
-int verify_file(
+extern int print_hex_data(FILE* f, DATA_BLOCK&);
+extern int sprint_hex_data(char* p, DATA_BLOCK&);
+extern int scan_hex_data(FILE* f, DATA_BLOCK&);
+extern int print_key_hex(FILE*, KEY* key, int len);
+extern int scan_key_hex(FILE*, KEY* key, int len);
+extern int sscan_key_hex(const char*, KEY* key, int len);
+extern int encrypt_private(
+    R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
+);
+extern int decrypt_public(
+    R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
+);
+extern int sign_file(
+    const char* path, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature
+);
+extern int sign_block(
+    DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature
+);
+extern int verify_file(
     const char* path, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&
 );
-int verify_file2(
+extern int verify_file2(
     const char* path, const char* signature, const char* key, bool&
 );
-int verify_string(
+extern int verify_string(
     const char* text, const char* signature, R_RSA_PUBLIC_KEY&, bool&
 );
-int verify_string2(
+extern int verify_string2(
     const char* text, const char* signature, const char* key, bool&
 );
-int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
+extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
+extern int generate_signature(
+    char* text_to_sign, char* signature_hex, R_RSA_PRIVATE_KEY& key
+);
 
 #endif

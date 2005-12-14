@@ -26,6 +26,9 @@
 // -sign file private_keyfile
 //                  create a signature for a given file
 //                  write it in hex notation
+// -sign_string string private_keyfile
+//                  create a signature for a given string
+//                  write it in hex notation
 // -verify file signature_file public_keyfile
 //                  verify a signature
 // -test_crypt private_keyfile public_keyfile
@@ -62,6 +65,7 @@ int main(int argc, char** argv) {
     DATA_BLOCK signature, in, out;
     unsigned char signature_buf[256], buf[256], buf2[256];
     FILE *f, *fpriv, *fpub;
+    char cbuf[256];
 
     if (argc == 1) {
         printf("missing command\n");
@@ -94,6 +98,13 @@ int main(int argc, char** argv) {
         signature.len = 256;
         retval = sign_file(argv[2], private_key, signature);
         print_hex_data(stdout, signature);
+    } else if (!strcmp(argv[1], "-sign_string")) {
+        fpriv = fopen(argv[3], "r");
+        if (!fpriv) die("fopen");
+        retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+        if (retval) die("scan_key_hex\n");
+        generate_signature(argv[2], cbuf, private_key);
+        puts(cbuf);
     } else if (!strcmp(argv[1], "-verify")) {
         fpub = fopen(argv[4], "r");
         if (!fpub) die("fopen");

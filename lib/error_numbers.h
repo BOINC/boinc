@@ -162,6 +162,7 @@
 #define ERR_ATTACH_FAIL_BAD_KEY    -212
 #define ERR_ATTACH_FAIL_FILE_WRITE -213
 #define ERR_ATTACH_FAIL_SERVER_ERROR -214
+#define ERR_SIGNING_KEY             -215
 
 
 // PLEASE: add a text description of your error to 

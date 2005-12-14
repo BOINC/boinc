@@ -1,10 +1,17 @@
 <?php
 require_once("docutil.php");
-page_head("Creating encryption keys");
+page_head("The encryption utility");
 echo "
+<p>
+The program <b>lib/crypt_prog</b> performs various encryption tasks.
+
 <h2>Creating encryption keys</h2>
-
-
+<dl>
+<dt>crypt_prog -genkey n private_keyfile public_keyfile
+<dd>
+Create a key pair with n bits (always use 1024).
+Write the keys in encoded ASCII form to the indicated files. 
+</dl>
 The following commands generate the file upload and code signing key pairs.
 BOINC_KEY_DIR is the directory where the keys will be stored.
 The code signing private key should be stored only on
@@ -18,18 +25,17 @@ Or, in the test/ directory, run
 gen_keys.php
 </pre>
 
+<h2>Generating signatures</h2>
 <p>
-The program <b>lib/crypt_prog</b> can be used for several purposes: 
-<br>
 <dl>
-<dt>crypt_prog -genkey n private_keyfile public_keyfile
-<dd>
-Create a key pair with n bits (always use 1024).
-Write the keys in encoded ASCII form to the indicated files. 
 <dt>crypt_prog -sign file private_keyfile
 <dd>
-Create a digital signature for the given file. Write it in encoded
-ASCII to stdout. 
+Create a digital signature for the given file.
+Write it in encoded ASCII to stdout. 
+<dt>crypt_prog -sign_string string private_keyfile
+<dd>
+Create a digital signature for the given string.
+Write it in encoded ASCII to stdout. 
 <dt>crypt_prog -verify file signature_file public_keyfile
 <dd>
 Verify a signature for the given file. 

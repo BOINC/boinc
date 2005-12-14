@@ -33,6 +33,7 @@
 #include "filesys.h"
 #include "client_state.h"
 #include "gui_http.h"
+#include "crypt.h"
 
 #include "acct_mgr.h"
 
@@ -121,12 +122,17 @@ int ACCT_MGR_OP::do_rpc(
 int AM_ACCOUNT::parse(MIOFILE& in) {
     char buf[256];
     detach = false;
+    url = "";
+    url_signature = "";
+    authenticator = "";
+
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</account>")) {
             if (url.length() && authenticator.length()) return 0;
             return ERR_XML_PARSE;
         }
         if (parse_str(buf, "<url>", url)) continue;
+        if (parse_str(buf, "<url_signature>", url_signature)) continue;
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
         if (parse_bool(buf, "detach", detach)) continue;
     }
@@ -145,6 +151,7 @@ int ACCT_MGR_OP::parse(MIOFILE& in) {
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
         if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
+        if (parse_str(buf, "<signing_key>", ami.signing_key, sizeof(ami.signing_key))) continue;
         if (match_tag(buf, "<account>")) {
             AM_ACCOUNT account;
             retval = account.parse(in);
@@ -157,6 +164,7 @@ int ACCT_MGR_OP::parse(MIOFILE& in) {
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     unsigned int i;
     int retval;
+    bool verified;
     PROJECT* pp;
 
     if (http_op_retval == 0) {
@@ -177,6 +185,21 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     error_num = retval;
     if (retval) return;
 
+    // demand a signing key
+    //
+    if (!strlen(ami.signing_key)) {
+        msg_printf(NULL, MSG_ERROR, "No signing key from account manager");
+        return;
+    }
+
+    // don't accept new signing key if we already have one
+    //
+    if (strlen(gstate.acct_mgr_info.signing_key)
+        && strcmp(gstate.acct_mgr_info.signing_key, ami.signing_key)
+    ) {
+        msg_printf(NULL, MSG_ERROR, "Inconsistent signing key from account manager");
+        return;
+    }
     gstate.acct_mgr_info = ami;
     gstate.acct_mgr_info.write_info();
 
@@ -184,6 +207,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     //
     for (i=0; i<accounts.size(); i++) {
         AM_ACCOUNT& acct = accounts[i];
+        retval = verify_string2(acct.url.c_str(), acct.url_signature.c_str(), ami.signing_key, verified);
+        if (retval || !verified) {
+            msg_printf(NULL, MSG_ERROR, "Failed to verify URL %s", acct.url.c_str());
+            continue;
+        }
         pp = gstate.lookup_project(acct.url.c_str());
         if (pp) {
             if (acct.detach) {
@@ -220,14 +248,21 @@ int ACCT_MGR_INFO::write_info() {
     if (strlen(acct_mgr_url)) {
         p = fopen(ACCT_MGR_URL_FILENAME, "w");
         if (p) {
-            fprintf(
-                p, 
+            fprintf(p, 
                 "<acct_mgr>\n"
                 "    <name>%s</name>\n"
-                "    <url>%s</url>\n"
-                "</acct_mgr>\n",
+                "    <url>%s</url>\n",
                 acct_mgr_name,
                 acct_mgr_url
+            );
+            if (strlen(signing_key)) {
+                fprintf(p, 
+                    "    <signing_key>%s</signing_key>\n",
+                    signing_key
+                );
+            }
+            fprintf(p, 
+                "</acct_mgr>\n"
             );
             fclose(p);
         }
@@ -258,6 +293,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(acct_mgr_url, "");
     strcpy(login_name, "");
     strcpy(password_hash, "");
+    strcpy(signing_key, "");
     next_rpc_time = 0;
 }
 
@@ -269,20 +305,27 @@ int ACCT_MGR_INFO::init() {
     char    buf[256];
     MIOFILE mf;
     FILE*   p;
+    int retval;
 
     clear();
     p = fopen(ACCT_MGR_URL_FILENAME, "r");
-    if (p) {
-        mf.init_file(p);
-        while(mf.fgets(buf, sizeof(buf))) {
-            if (match_tag(buf, "</acct_mgr>")) break;
-            else if (parse_str(buf, "<name>", acct_mgr_name, 256)) continue;
-            else if (parse_str(buf, "<url>", acct_mgr_url, 256)) continue;
+    if (!p) return 0;
+    mf.init_file(p);
+    while(mf.fgets(buf, sizeof(buf))) {
+        if (match_tag(buf, "</acct_mgr>")) break;
+        else if (parse_str(buf, "<name>", acct_mgr_name, 256)) continue;
+        else if (parse_str(buf, "<url>", acct_mgr_url, 256)) continue;
+        else if (match_tag(buf, "<signing_key>")) {
+            retval = copy_element_contents(
+                p,
+                "</signing_key>",
+                signing_key,
+                sizeof(signing_key)
+            );
+            if (retval) return retval;
         }
-        fclose(p);
-    } else {
-        return 0;
     }
+    fclose(p);
 
     p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
     if (p) {

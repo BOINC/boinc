@@ -35,39 +35,13 @@
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 
-// compute an XML signature element for some text
-//
-int generate_signature(
-    char* signed_xml, char* signature_xml, R_RSA_PRIVATE_KEY& key
-)  {
-    DATA_BLOCK block, signature;
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    char buf[LARGE_BLOB_SIZE];
-    int retval;
-
-    block.data = (unsigned char*)signed_xml;
-    block.len = strlen(signed_xml);
-    signature.data = signature_buf;
-    signature.len = SIGNATURE_SIZE_BINARY;
-    retval = sign_block(block, key, signature);
-    if (retval) return retval;
-    sprint_hex_data(buf, signature);
-#if 0
-    printf("signing [\n%s]\n", signed_xml);
-    printf("signature: [\n%s]\n", buf);
-#endif
-    sprintf(signature_xml,
-        "<xml_signature>\n%s</xml_signature>\n", buf
-    );
-    return 0;
-}
-
 // At the end of every <file_info> element,
 // add a signature of its contents up to that point.
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
     char* p = xml, *q1, *q2, buf[LARGE_BLOB_SIZE], buf2[LARGE_BLOB_SIZE];;
-    char signature[LARGE_BLOB_SIZE];
+    char signature_hex[LARGE_BLOB_SIZE];
+    char signature_xml[LARGE_BLOB_SIZE];
     int retval, len;
 
     while (1) {
@@ -87,11 +61,14 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         len = q2 - q1;
         memcpy(buf, q1, len);
         buf[len] = 0;
-        retval = generate_signature(buf, signature, key);
+        retval = generate_signature(buf, signature_hex, key);
+        sprintf(signature_xml,
+            "<xml_signature>\n%s</xml_signature>\n", signature_hex
+        );
         if (retval) return retval;
         strcpy(buf2, q2);
         strcpy(q1, buf);
-        strcat(q1, signature);
+        strcat(q1, signature_xml);
         strcat(q1, buf2);
         p = q1;
     }

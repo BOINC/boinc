@@ -14448,3 +14448,33 @@ Bruce  14 Dec 2005
     tools/
         cleanlogs.sh
 
+David  15 Dec 2005
+    - Add a security mechanism that limits the damage if hackers
+        break into an account manager server or do a man-in-the-middle attack.
+
+        The attack: hackers break into an account manager and modify
+        it so that RPC replies include accounts on malicious projects.
+
+        The protection:
+        1) account manager replies now include a "signing key".
+        This is stored on the client in the account manager URL file.
+        
+        2) If the client has a signing key for an account manager and
+        receives a different one, it ignores it and prints an error message.
+
+        3) Each account in an account manager reply includes a "URL signature",
+        which is the URL signed with the signing key.
+        The client ignores any URLs with missing or bad signatures.
+
+        Note: users who sign up with the account manager after it's hacked
+        are not protected by this
+        (same as for BOINC project code download protection).
+
+    client/
+        acct_mgr.C,h
+    lib/
+        crypt.C,h
+        crypt_prog.C
+        error_numbers.h
+    tools/
+        process_result_template.C

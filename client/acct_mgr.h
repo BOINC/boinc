@@ -25,6 +25,7 @@
 
 #include "miofile.h"
 #include "gui_http.h"
+#include "client_types.h"
 
 // represents info stored on files
 //
@@ -37,6 +38,7 @@ struct ACCT_MGR_INFO {
     char login_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
+    char signing_key[MAX_KEY_LEN];
     double next_rpc_time;
 
     ACCT_MGR_INFO();
@@ -53,6 +55,7 @@ struct ACCT_MGR_INFO {
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
+    std::string url_signature;
     bool detach;
 
     int parse(MIOFILE&);

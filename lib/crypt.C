@@ -266,6 +266,25 @@ int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signa
     return 0;
 }
 
+// compute an XML signature element for some text
+//
+int generate_signature(
+    char* text_to_sign, char* signature_hex, R_RSA_PRIVATE_KEY& key
+)  {
+    DATA_BLOCK block, signature_data;
+    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
+    int retval;
+
+    block.data = (unsigned char*)text_to_sign;
+    block.len = strlen(text_to_sign);
+    signature_data.data = signature_buf;
+    signature_data.len = SIGNATURE_SIZE_BINARY;
+    retval = sign_block(block, key, signature_data);
+    if (retval) return retval;
+    sprint_hex_data(signature_hex, signature_data);
+    return 0;
+}
+
 int verify_file(
     const char* path, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
 ) {
