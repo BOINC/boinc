@@ -14489,8 +14489,16 @@ Bruce  15 Dec 2005
     - Made 'last scheduler contact' values a link to the posted server-side
       scheduler logs.  On projects that don't post logs, these links will
       simply give a 'not found' error if the user clicks on them.
+    - On David's request, added the E@H 'server_status.php' page.  Note that
+      this is not linked to from the sample project home page.  It also contains
+      at least some E@H-specific stuff, but David promised to clean this up (:-).
 
     html/
         inc/
             host.inc
+        user/
+            server_status.php [NEW FILE ADDED]
+
+
+
 
