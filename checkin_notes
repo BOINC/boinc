@@ -14478,3 +14478,9 @@ David  15 Dec 2005
         error_numbers.h
     tools/
         process_result_template.C
+
+David  15 Dec 2005
+	- bug fixes for the above
+
+	client/
+		acct_mgr.C,h

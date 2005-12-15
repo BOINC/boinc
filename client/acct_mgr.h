@@ -55,10 +55,10 @@ struct ACCT_MGR_INFO {
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
-    std::string url_signature;
+    char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
 
-    int parse(MIOFILE&);
+    int parse(FILE*);
     AM_ACCOUNT() {}
     ~AM_ACCOUNT() {}
 };
@@ -72,7 +72,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;
     int do_rpc(std::string url, std::string name, std::string password);
-    int parse(MIOFILE&);
+    int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 
     ACCT_MGR_OP(){}

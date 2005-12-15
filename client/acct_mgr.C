@@ -119,43 +119,64 @@ int ACCT_MGR_OP::do_rpc(
 
 
 
-int AM_ACCOUNT::parse(MIOFILE& in) {
+int AM_ACCOUNT::parse(FILE* f) {
     char buf[256];
+    int retval;
+
     detach = false;
     url = "";
-    url_signature = "";
+    strcpy(url_signature, "");
     authenticator = "";
 
-    while (in.fgets(buf, sizeof(buf))) {
+    while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</account>")) {
             if (url.length() && authenticator.length()) return 0;
             return ERR_XML_PARSE;
         }
         if (parse_str(buf, "<url>", url)) continue;
-        if (parse_str(buf, "<url_signature>", url_signature)) continue;
+        if (match_tag(buf, "<url_signature>")) {
+            retval = copy_element_contents(
+                f,
+                "</url_signature>",
+                url_signature,
+                sizeof(url_signature)
+            );
+            if (retval) return retval;
+            continue;
+        }
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
         if (parse_bool(buf, "detach", detach)) continue;
     }
     return ERR_XML_PARSE;
 }
 
-int ACCT_MGR_OP::parse(MIOFILE& in) {
+int ACCT_MGR_OP::parse(FILE* f) {
     char buf[256];
     int retval;
 
     accounts.clear();
     error_str = "";
     repeat_sec = 0;
-    while (in.fgets(buf, sizeof(buf))) {
+    while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</acct_mgr_reply>")) return 0;
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
         if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
-        if (parse_str(buf, "<signing_key>", ami.signing_key, sizeof(ami.signing_key))) continue;
+        if (match_tag(buf, "<signing_key>")) {
+            retval = copy_element_contents(
+                f,
+                "</signing_key>",
+                ami.signing_key,
+                sizeof(ami.signing_key)
+            );
+            if (retval) return retval;
+            continue;
+        }
         if (match_tag(buf, "<account>")) {
             AM_ACCOUNT account;
-            retval = account.parse(in);
+            retval = account.parse(f);
             if (!retval) accounts.push_back(account);
+            continue;
         }
     }
     return ERR_XML_PARSE;
@@ -166,13 +187,12 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     int retval;
     bool verified;
     PROJECT* pp;
+    bool sig_ok;
 
     if (http_op_retval == 0) {
         FILE* f = fopen(ACCT_MGR_REPLY_FILENAME, "r");
         if (f) {
-            MIOFILE mf;
-            mf.init_file(f);
-            retval = parse(mf);
+            retval = parse(f);
             fclose(f);
         } else {
             retval = ERR_FOPEN;
@@ -187,9 +207,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
     // demand a signing key
     //
+    sig_ok = true;
     if (!strlen(ami.signing_key)) {
         msg_printf(NULL, MSG_ERROR, "No signing key from account manager");
-        return;
+        sig_ok = false;
     }
 
     // don't accept new signing key if we already have one
@@ -198,38 +219,40 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         && strcmp(gstate.acct_mgr_info.signing_key, ami.signing_key)
     ) {
         msg_printf(NULL, MSG_ERROR, "Inconsistent signing key from account manager");
-        return;
+        sig_ok = false;
     }
-    gstate.acct_mgr_info = ami;
-    gstate.acct_mgr_info.write_info();
 
-    // attach to new projects
-    //
-    for (i=0; i<accounts.size(); i++) {
-        AM_ACCOUNT& acct = accounts[i];
-        retval = verify_string2(acct.url.c_str(), acct.url_signature.c_str(), ami.signing_key, verified);
-        if (retval || !verified) {
-            msg_printf(NULL, MSG_ERROR, "Failed to verify URL %s", acct.url.c_str());
-            continue;
-        }
-        pp = gstate.lookup_project(acct.url.c_str());
-        if (pp) {
-            if (acct.detach) {
-                gstate.detach_project(pp);
-            } else {
-                if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-                    msg_printf(pp, MSG_ERROR,
-                        "Already attached under another account"
-                    );
-                } else {
-                    msg_printf(pp, MSG_INFO, "Already attached");
-                    pp->attached_via_acct_mgr = true;
-                }
+    if (sig_ok) {
+        gstate.acct_mgr_info = ami;
+
+        // attach to new projects
+        //
+        for (i=0; i<accounts.size(); i++) {
+            AM_ACCOUNT& acct = accounts[i];
+            retval = verify_string2(acct.url.c_str(), acct.url_signature, ami.signing_key, verified);
+            if (retval || !verified) {
+                msg_printf(NULL, MSG_ERROR, "Failed to verify URL %s", acct.url.c_str());
+                continue;
             }
-        } else {
-            if (!acct.detach) {
-                msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
-                gstate.add_project(acct.url.c_str(), acct.authenticator.c_str(), true);
+            pp = gstate.lookup_project(acct.url.c_str());
+            if (pp) {
+                if (acct.detach) {
+                    gstate.detach_project(pp);
+                } else {
+                    if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
+                        msg_printf(pp, MSG_ERROR,
+                            "Already attached under another account"
+                        );
+                    } else {
+                        msg_printf(pp, MSG_INFO, "Already attached");
+                        pp->attached_via_acct_mgr = true;
+                    }
+                }
+            } else {
+                if (!acct.detach) {
+                    msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
+                    gstate.add_project(acct.url.c_str(), acct.authenticator.c_str(), true);
+                }
             }
         }
     }
@@ -239,8 +262,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     } else {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + 86400;
     }
-    gstate.set_client_state_dirty("account manager RPC");
     gstate.acct_mgr_info.write_info();
+    gstate.set_client_state_dirty("account manager RPC");
 }
 
 int ACCT_MGR_INFO::write_info() {
@@ -257,7 +280,7 @@ int ACCT_MGR_INFO::write_info() {
             );
             if (strlen(signing_key)) {
                 fprintf(p, 
-                    "    <signing_key>%s</signing_key>\n",
+                    "    <signing_key>\n%s</signing_key>\n",
                     signing_key
                 );
             }
