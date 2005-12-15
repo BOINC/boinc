@@ -14484,3 +14484,13 @@ David  15 Dec 2005
 
 	client/
 		acct_mgr.C,h
+
+Bruce  15 Dec 2005
+    - Made 'last scheduler contact' values a link to the posted server-side
+      scheduler logs.  On projects that don't post logs, these links will
+      simply give a 'not found' error if the user clicks on them.
+
+    html/
+        inc/
+            host.inc
+

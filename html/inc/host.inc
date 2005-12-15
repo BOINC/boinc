@@ -2,6 +2,15 @@
 
 require_once("../inc/credit.inc");
 
+function sched_log_name($x) {
+    if ($x == 0) return "NO_SUCH_LOG";
+    return gmdate('Y-m-d_H/Y-m-d_H:i', $x) . ".txt";
+}
+
+function sched_log_link($x) {
+    return "<a href=\"../sched_logs/" . sched_log_name($x) . "\">" . time_str($x) . "</a>";
+}
+
 function location_form($host) {
     $none = "selected";
     $h=$w=$s="";
@@ -108,7 +117,7 @@ function show_host($host, $private, $ipprivate) {
 
     if ($private) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
-        row2("Last time contacted server", time_str($host->rpc_time));
+        row2("Last time contacted server", sched_log_link($host->rpc_time));
         row2("% of time BOINC client is running", 100*$host->on_frac." %");
         if ($host->connect_frac > 0) {
             row2("While BOINC running, % of time host has an Internet connection", 100*$host->connected_frac." %");
@@ -219,7 +228,7 @@ function show_host_row($host, $i, $private, $show_owner) {
         <td>%s</td>",
            format_credit($host->expavg_credit), format_credit($host->total_credit),
            $host->p_vendor, $host->p_model,
-           $host->os_name, $host->os_version, time_str($host->rpc_time)
+           $host->os_name, $host->os_version, sched_log_link($host->rpc_time)
     );
     else
     printf("
