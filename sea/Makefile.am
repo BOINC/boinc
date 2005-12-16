@@ -1,6 +1,7 @@
 EXTRA_DIST = make-sea.sh
 
-vers = @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@.@BOINC_RELEASE@_@target@
+vers = \
+  @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@.@BOINC_RELEASE@_@boinc_platform@
 sea = boinc_$(vers).sh
 tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinc_cmd BOINC/binstall.sh\
 	BOINC/boincmgr.8x8.png BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png
