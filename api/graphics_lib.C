@@ -22,6 +22,10 @@
 // This lets you make applications that work whether or not
 // the host has X11 and OpenGL libraries.
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
 #include "config.h"
 #include <dlfcn.h>
 
