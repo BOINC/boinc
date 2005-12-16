@@ -14501,4 +14501,20 @@ Bruce  15 Dec 2005
 
 
 
+Eric K 15 Dec 2005
+    - Added autoconf macro AX_WINSOCK for identifying winsock libs and 
+      headers for support of command line compiles.  Adds new configure 
+      command line option --with-winsock to enable winsock if necessary w
+      here alternative socket libraries (sys/socket.h) exist.
+    - Modified BOINC_CHECK_CYGWIN to call AX_WINSOCK.
+    - Modified boinc_getsockopt.m4 to get correct type when winsock is used.
+    - Modified AX_CHECK_GLUT to find correct libraries when compiling under
+      windows from command line.
 
+    m4/
+      ax_check_glut.m4
+      boinc_check_cygwin.m4
+      boinc_getsockopt.m4
+      ax_winsock.m4 [NEW FILE ADDED]
+    configure.ac
+    
