@@ -231,7 +231,7 @@ int HTTP_OP::libcurl_exec(
         //CMC -- I always want an outfile for the server response, delete when op done
         bTempOutfile = true;
         memset(outfile, 0x00, _MAX_PATH);
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
         char* ptrName;
         ptrName = _tempnam("./", "blc");
         if (ptrName) {

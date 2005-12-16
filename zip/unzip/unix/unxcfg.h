@@ -13,6 +13,7 @@
 #ifndef __unxcfg_h
 #define __unxcfg_h
 
+#ifndef _WIN32
 #include <sys/types.h>          /* off_t, time_t, dev_t, ... */
 #include <sys/stat.h>
 
@@ -122,5 +123,6 @@
 /* rootlen, rootpath, buildpath and end are used by checkdir().        */
 /* wild_dir, dirname, wildname, matchname[], dirnamelen, have_dirname, */
 /*    and notfirstcall are used by do_wild().                          */
+#endif
 
 #endif /* !__unxcfg_h */

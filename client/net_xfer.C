@@ -34,10 +34,14 @@
 #ifndef _WIN32
 #include "config.h"
 #include <cstdio>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <arpa/inet.h>
 #include <sys/types.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
 #include <netinet/in.h>
 #include <cerrno>
 #include <cstdlib>

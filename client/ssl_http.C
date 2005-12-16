@@ -55,7 +55,7 @@ using std::string;
 
 #define HTTP_BLOCKSIZE  16384
 
-#include "..\lib\base64.h"
+#include "../lib/base64.h"
 
 using namespace INCSSL;
 

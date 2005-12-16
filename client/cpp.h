@@ -17,12 +17,12 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
 #define HOSTTYPE "windows_intelx86"
 #include "version.h"         // version numbers from autoconf
 #endif
 
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__CYGWIN32__)
 #include <iostream>
 #include <vector>
 #include <string>

@@ -25,7 +25,7 @@
 
   ---------------------------------------------------------------------------*/
 
-
+#ifndef _WIN32
 #define UNZIP_INTERNAL
 #include "unzip.h"
 
@@ -1524,5 +1524,7 @@ static void qlfix(__G__ ef_ptr, ef_len)
     }
 }
 #endif /* QLZIP */
+
+#endif
 
 const char *BOINC_RCSID_a72f75a0d4 = "$Id$";

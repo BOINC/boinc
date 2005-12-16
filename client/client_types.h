@@ -27,7 +27,7 @@
 
 #include "cpp.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__CYGWIN32__)
 #include <stdio.h>
 #include <sys/time.h>
 #endif

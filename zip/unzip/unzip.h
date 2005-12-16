@@ -460,8 +460,7 @@ typedef struct _UzpOpts {
     int V_flag;         /* -V: don't strip VMS version numbers */
 #if (defined(__BEOS__) || defined(TANDEM) || defined(THEOS) || defined(UNIX))
     int X_flag;         /* -X: restore owner/protection or UID/GID or ACLs */
-#endif
-#if (defined(OS2) || defined(VMS) || defined(WIN32))
+#elif (defined(OS2) || defined(VMS) || defined(WIN32))
     int X_flag;         /* -X: restore owner/protection or UID/GID or ACLs */
 #endif
     int zflag;          /* -z: display the zipfile comment (only, for unzip) */

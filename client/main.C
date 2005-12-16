@@ -23,6 +23,7 @@
 // and is not included in the source code for Mac or Win GUI clients
 
 #ifdef WIN32
+#define _CONSOLE 1
 #include "boinc_win.h"
 #include "win_service.h"
 #include "win_util.h"
@@ -34,6 +35,9 @@ static BOOL g_bIsWin9x = FALSE;
 
 typedef BOOL (CALLBACK* IdleTrackerInit)();
 typedef void (CALLBACK* IdleTrackerTerm)();
+#ifndef _T
+#define _T(X) X
+#endif
 
 #else
 #include "config.h"
@@ -111,7 +115,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         printf("%s [%s] %s\n", time_string, x, message);
         if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
-            _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             ::OutputDebugString(event_message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004
@@ -124,7 +128,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         printf("%s [%s] %s\n", time_string,  x, message);
         if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
-            _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+            stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             ::OutputDebugString(event_message);
             // TODO: Refactor messages so that we do not overload the event log
             // RTW 08/24/2004
@@ -530,6 +534,7 @@ int main(int argc, char** argv) {
     }
 
     // Initialize WinSock
+#ifdef USE_WINSOCK
     if ( WinsockInitialize() != 0 ) {
         printf(
             "BOINC Core Client Error Message\n"
@@ -538,6 +543,7 @@ int main(int argc, char** argv) {
         );
         return ERR_IO;
     }
+#endif
 
     g_hIdleDetectionDll = LoadLibrary("boinc.dll");
     if(!g_hIdleDetectionDll) {
@@ -569,7 +575,7 @@ int main(int argc, char** argv) {
     };
 
     if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
-        if ( _stricmp( "daemon", argv[1]+1 ) == 0 ) {
+        if ( stricmp( "daemon", argv[1]+1 ) == 0 ) {
 
             // allow the system to know it is running as a Windows service
             // and adjust it's diagnostics schemes accordingly.
@@ -613,6 +619,7 @@ int main(int argc, char** argv) {
         g_hIdleDetectionDll = NULL;
     }
 
+#ifdef USE_WINSOCK
     if ( WinsockCleanup() != 0 ) {
         printf(
             "BOINC Core Client Error Message\n"
@@ -620,6 +627,7 @@ int main(int argc, char** argv) {
         );
         return ERR_IO;
     }
+#endif
 
     if (g_bIsWin9x && g_Win9xMonitorSystemThreadID)
 	    PostThreadMessage(g_Win9xMonitorSystemThreadID, WM_QUIT, 0, 0);

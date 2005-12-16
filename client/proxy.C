@@ -24,9 +24,13 @@
 #else
 #include "config.h"
 #include <sys/stat.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
 #include <netinet/in.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #endif
 
 #include <cstring>

@@ -27,9 +27,13 @@
 #include <sstream>
 #include <algorithm>
 #include <sys/stat.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
 #include <cerrno>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #endif
 
 #include "error_numbers.h"

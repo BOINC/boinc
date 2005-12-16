@@ -19,9 +19,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
 
-#ifndef _WIN32
+#else 
+
 #include "config.h"
 #include <cstdio>
 #include <cstring>

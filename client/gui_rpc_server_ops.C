@@ -26,8 +26,12 @@
 #ifndef _WIN32
 #include "config.h"
 #include <stdio.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
 #include <sys/un.h>
 #include <vector>
 #include <string.h>

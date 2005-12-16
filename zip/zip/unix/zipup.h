@@ -6,6 +6,7 @@
   If, for some reason, both of these files are missing, the Info-ZIP license
   also may be found at:  ftp://ftp.cdrom.com/pub/infozip/license.html
 */
+#ifndef _WIN32
 #ifndef O_RDONLY
 #  define O_RDONLY 0
 #endif
@@ -17,3 +18,4 @@ typedef int ftype;
 #define zclose(f) close(f)
 #define zerr(f) (k == (extent)(-1L))
 #define zstdin 0
+#endif

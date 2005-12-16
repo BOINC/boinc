@@ -100,7 +100,9 @@
 // Windows Headers
 //
 #include <windows.h>
+#if !defined(__CYGWIN32__) && !defined(__MINGW32__)
 #include <crtdbg.h>
+#endif
 #include <ole2.h>
 #include <oleauto.h>
 
@@ -136,7 +138,7 @@
 
 
 // C++ headers
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
 #include <xdebug>
 #endif
 #include <algorithm>
