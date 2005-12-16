@@ -35,7 +35,7 @@ if ($sort_by == "total_credit") {
 } else {
     $sort_clause = "expavg_credit desc";
 }
-$result = mysql_query("select * from host order by $sort_clause limit $offset,$n");
+$result = mysql_query("select * from host where total_credit>300 order by $sort_clause limit $offset,$n");
 top_host_table_start($sort_by);
 $i = $offset+1;
 while ($host = mysql_fetch_object($result)) {

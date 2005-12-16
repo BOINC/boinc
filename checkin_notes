@@ -14518,3 +14518,12 @@ Eric K 15 Dec 2005
       ax_winsock.m4 [NEW FILE ADDED]
     configure.ac
     
+Bruce  15 Dec 2005
+    - Restrict list of top hosts to those with > 300 credits.  This prevents
+      hosts that have done only one or two WU and have anomalously high
+      RAC values from heading the list.
+
+    html/
+        user/
+            top_hosts.php
+
