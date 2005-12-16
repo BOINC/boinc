@@ -38,7 +38,7 @@ else
     LIBS="${ax_try_lib} ${GLUT_LIBS} ${ax_save_LIBS}"
     AC_LINK_IFELSE(
     [AC_LANG_PROGRAM([[
-# if HAVE_WINDOWS_H && defined(_WIN32)
+# if HAVE_WINDOWS_H && (defined(_WIN32) || defined(CYGWIN_USE_WIN32))
 #   include <windows.h>
 # endif
 # include <GL/glut.h>]],

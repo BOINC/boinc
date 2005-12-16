@@ -1,6 +1,12 @@
 
 AC_DEFUN([BOINC_GETSOCKOPT_TYPE],[
 AC_LANG_PUSH(C)
+AC_CHECK_HEADERS([windows.h])
+if test "${ac_cv_header_windows_h}" = "yes" ; then
+  ac_includes_default="${ac_includes_default}
+#include <windows.h>
+"
+fi
 AC_CHECK_HEADERS([sys/socket.h])
 if test "${ac_cv_header_sys_socket_h}" = "yes" ; then
   ac_includes_default="${ac_includes_default}
