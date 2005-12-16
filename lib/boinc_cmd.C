@@ -147,7 +147,7 @@ int main(int argc, char** argv) {
 	strcpy(passwd_buf, "");
 	read_password_from_file(passwd_buf);
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
     if (retval) {
@@ -429,7 +429,7 @@ int main(int argc, char** argv) {
         show_error(retval);
     }
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
     WSACleanup();
 #endif
     return 0;

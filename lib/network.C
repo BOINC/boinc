@@ -31,6 +31,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <fcntl.h>
+#include <errno.h>
 #endif
 
 #include "error_numbers.h"
@@ -38,7 +39,7 @@
 
 const char* socket_error_str() {
     static char buf[80];
-#ifdef _WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
     int e = WSAGetLastError();
     switch (e) {
     case WSANOTINITIALISED:
@@ -74,6 +75,11 @@ const char* socket_error_str() {
         return "a nonrecoverable error occurred";
     case TRY_AGAIN:
         return "host not found or server failure";
+#ifdef NETDB_INTERNAL
+    case NETDB_INTERNAL:
+		sprintf(buf,"network internal error %d",errno);
+		return buf;
+#endif
     }
     sprintf(buf, "error %d", h_errno);
     return buf;
@@ -113,7 +119,7 @@ int boinc_socket(int& fd) {
 
 int boinc_socket_asynch(int fd, bool asynch) {
     if (asynch) {
-#ifdef WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
         unsigned long one = 1;
         ioctlsocket(fd, FIONBIO, &one);
 #else
@@ -127,7 +133,7 @@ int boinc_socket_asynch(int fd, bool asynch) {
         }
 #endif
     } else {
-#ifdef WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
         unsigned long zero = 0;
         ioctlsocket(fd, FIONBIO, &zero);
 #else
@@ -145,7 +151,7 @@ int boinc_socket_asynch(int fd, bool asynch) {
 }
 
 void boinc_close_socket(int sock) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
     closesocket(sock);
 #else
     close(sock);
@@ -155,7 +161,7 @@ void boinc_close_socket(int sock) {
 int get_socket_error(int fd) {
     boinc_socklen_t intsize = sizeof(int);
     int n;
-#ifdef WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
 #elif defined(__APPLE__)
     getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
@@ -170,7 +176,7 @@ int get_socket_error(int fd) {
     return n;
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
 
 typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD lpdwFlags, IN DWORD dwReserved);
 

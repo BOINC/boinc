@@ -21,7 +21,7 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef _WIN32
+#ifndef M_LN2
 #define M_LN2      0.693147180559945309417
 #endif
 

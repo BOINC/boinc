@@ -24,6 +24,8 @@
 #ifndef _WIN32
 #include <unistd.h>
 #include "config.h"
+#else
+#include "boinc_win.h"
 #endif
 
 struct FDSET_GROUP {
@@ -47,7 +49,7 @@ extern void boinc_close_socket(int sock);
 extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 
-#if defined(_WIN32)
+#if defined(_WIN32) && defined(USE_WINSOCK)
 typedef int boinc_socklen_t;
 #define SHUT_WR SD_SEND
 #elif defined( __APPLE__)
@@ -62,7 +64,7 @@ typedef BOINC_SOCKLEN_T boinc_socklen_t;
 
 extern int get_connected_state();
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(USE_WINSOCK)
 extern int WinsockInitialize();
 extern int WinsockCleanup();
 #endif

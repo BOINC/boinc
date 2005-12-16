@@ -4,12 +4,12 @@
 include $(top_srcdir)/Makefile.incl
 
 #if HAVE_NSL
-nslprogs=boinc_cmd
+nslprogs=boinc_cmd$(EXEEXT)
 #endif
 
-bin_PROGRAMS = crypt_prog $(nslprogs)
+bin_PROGRAMS = crypt_prog$(EXEEXT) $(nslprogs)
 
-EXTRA_PROGRAMS = md5_test shmem_test msg_test
+EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
 
 all-local: client-bin
 
@@ -22,7 +22,7 @@ boinc_cmd_SOURCES = \
 boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 
 # make a hard link to the client name.
-@CLIENT_CMD_BIN_FILENAME@: boinc_cmd
+@CLIENT_CMD_BIN_FILENAME@: boinc_cmd$(EXEEXT)
 	rm -f $@
 	rm -f $@.unmodified
 	cp $? $@.unmodified

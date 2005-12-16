@@ -31,7 +31,7 @@
 #endif /* defined(_MSC_VER) && (_MSC_VER > 1020) */
 #endif /* (!defined __cplusplus) && (!defined bool) */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
 
 typedef struct _DIR_DESC {
     char path[256];
@@ -97,7 +97,7 @@ extern void dir_close(DIRREF);
 
 
 class DirScanner {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
     std::string dir;
     bool first;
     void* handle;
@@ -111,7 +111,7 @@ public:
 };
 
 struct FILE_LOCK {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
     HANDLE handle;
 #else
     int fd;

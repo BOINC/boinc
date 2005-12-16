@@ -21,7 +21,7 @@
 #include "boinc_win.h"
 #endif
 
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
 #include <cstdio>
 #include <fcntl.h>
@@ -100,8 +100,7 @@ DIRREF dir_open(const char* p) {
 #ifdef HAVE_DIRENT_H
     dirp = opendir(p);
     if (!dirp) return NULL;
-#endif
-#ifdef _WIN32
+#elif defined(_WIN32)
     if (!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
@@ -127,8 +126,7 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             return ERR_READDIR;
         }
     }
-#endif
-#ifdef _WIN32
+#elif defined(_WIN32)
     WIN32_FIND_DATA data;
     while (1) {
         if (dirp->first) {
@@ -167,8 +165,7 @@ void dir_close(DIRREF dirp) {
     if (dirp) {
         closedir(dirp);
     }
-#endif
-#ifdef _WIN32
+#elif defined(_WIN32)
     if (dirp->handle != INVALID_HANDLE_VALUE) {
         FindClose(dirp->handle);
         dirp->handle = INVALID_HANDLE_VALUE;
@@ -180,9 +177,7 @@ void dir_close(DIRREF dirp) {
 DirScanner::DirScanner(string const& path) {
 #ifdef HAVE_DIRENT_H
     dirp = opendir(path.c_str());
-#endif
-
-#ifdef _WIN32
+#elif defined(_WIN32)
     first = true;
     handle = INVALID_HANDLE_VALUE;
     if (!is_dir((char*)path.c_str())) {
@@ -208,8 +203,7 @@ bool DirScanner::scan(string& s) {
             return false;
         }
     }
-#endif
-#ifdef _WIN32
+#elif defined(_WIN32)
     WIN32_FIND_DATA data;
     while (1) {
         if (first) {
@@ -243,8 +237,7 @@ DirScanner::~DirScanner() {
     if (dirp) {
         closedir(dirp);
     }
-#endif
-#ifdef _WIN32
+#elif defined(_WIN32)
     if (handle != INVALID_HANDLE_VALUE) {
         FindClose(handle);
     }
@@ -488,7 +481,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 
 int FILE_LOCK::lock(const char* filename) {
     int retval=0;
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
     handle = CreateFile(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
@@ -513,7 +506,7 @@ int FILE_LOCK::lock(const char* filename) {
 }
 
 int FILE_LOCK::unlock(const char* filename) {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
     if (!CloseHandle(handle)) {
         perror("FILE_LOCK::unlock(): close failed.");
     }
@@ -529,7 +522,7 @@ int FILE_LOCK::unlock(const char* filename) {
 }
 
 void relative_to_absolute(const char* relname, char* path) {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__CYGWIN32__)
     _getcwd(path, 256);
 #else
     getcwd(path, 256);

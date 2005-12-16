@@ -24,6 +24,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#else
+#include "boinc_win.h"
 #endif
 
 extern bool parse(char* , char* );

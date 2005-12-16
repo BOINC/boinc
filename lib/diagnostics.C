@@ -36,7 +36,7 @@
 #include "config.h"
 #endif
 
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include "stackwalker_win.h"
 #endif
 
@@ -392,7 +392,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     }
     fflush( stderr );
 
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
     // Unwind the stack and spew it to stderr
     if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED )
         StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
@@ -469,7 +469,7 @@ void boinc_trace(const char *pszFormat, ...) {
         va_list ptr;
         va_start(ptr, pszFormat);
 
-        _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+        vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
         va_end(ptr);
 
@@ -489,7 +489,7 @@ void boinc_info_debug(const char *pszFormat, ...){
     va_list ptr;
     va_start(ptr, pszFormat);
 
-    _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+    vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
     va_end(ptr);
 
@@ -511,7 +511,7 @@ void boinc_info_release(const char *pszFormat, ...){
     va_list ptr;
     va_start(ptr, pszFormat);
 
-    _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+    vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
 
     va_end(ptr);
 

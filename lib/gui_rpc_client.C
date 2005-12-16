@@ -20,7 +20,7 @@
 // This file is the underlying mechanism of GUI RPC client
 // (not the actual RPCs)
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_) 
 #include "boinc_win.h"
 #endif
 
@@ -79,7 +79,7 @@ void RPC_CLIENT::close() {
 int RPC_CLIENT::init(const char* host, int port) {
     double client_time = 0.0;
     int retval;
-	memset(&addr, 0, sizeof(addr));
+    memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
     if (port) {
         addr.sin_port = htons(port);

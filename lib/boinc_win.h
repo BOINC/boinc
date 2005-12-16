@@ -24,6 +24,11 @@
 #ifndef _BOINC_WIN_
 #define _BOINC_WIN_
 
+// Under CYGWIN we need to include config.h first.
+#ifdef __CYGWIN32__
+#include "config.h"
+#endif
+
 // Windows System Libraries
 //
 
@@ -58,26 +63,52 @@
 #define WIN32_EXTRA_LEAN      // Trims even farther.
 
 #include <windows.h>
+
+#if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
+/* If we're not running under CYGWIN use windows networking */
+#undef USE_WINSOCK
+#define USE_WINSOCK 1
 #include <winsock.h>
 #include <wininet.h>
+
+#else 
+/* Under cygwin, curl was probably compiled to use <sys/socket.h> */
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#define _WINSOCK_H
+#define _WINSOCKAPI_
+#define _WINSOCK2_H
+#define _WININET_H
+#define _WININETAPI_
+#endif
+
 #include <process.h>
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__CYGWIN32__)
 #include <pbt.h>
 #endif
 
 #include <commctrl.h>
 #include <raserror.h>
 #include <mmsystem.h>
+#if !defined(__CYGWIN32__)
 #include <direct.h>
+#endif
 #include <io.h>
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <crtdbg.h>
 #endif
+#if !defined(__CYGWIN32__)
 #include <tchar.h>
-#ifndef __MINGW32__
+#endif
+#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <crtdbg.h>
 #endif
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <delayimp.h>
 #endif
 // All projects should be using std::min and std::max instead of the Windows
@@ -136,9 +167,11 @@
 #include <set>
 #endif
 
-
+#ifndef __CYGWIN32__
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
+#define stprintf                _stprintf
+#define stricmp                 _stricmp
 #define fdopen                  _fdopen
 #define dup                     _dup
 #define unlink                  _unlink
@@ -147,7 +180,7 @@
 #define stat                    _stat
 #define finite                  _finite
 #define chdir                   _chdir
-
+#endif
 
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
