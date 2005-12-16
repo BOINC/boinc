@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-28 01:25+0500\n"
+"PO-Revision-Date: 2005-11-29 21:54+0500\n"
 "Last-Translator: mifistor <mifistor_x@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,6 @@ msgid "Attach to project"
 msgstr "Подключение к проекту"
 
 #: clientgui/AccountInfoPage.cpp:304
-#: clientgui/WelcomePage.cpp:149
 msgid "Attach to account manager"
 msgstr "Соединение с менеджером учётных записей"
 
@@ -704,19 +703,19 @@ msgstr "Просмотр информации о вашей учётной записи и набранных очках"
 msgid "Info about your team"
 msgstr "Просмотр информации о команде, к которой вы присоединились"
 
-#: clientgui/MainDocument.cpp:194
+#: clientgui/MainDocument.cpp:202
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC менеджер - ошибка соединения"
 
-#: clientgui/MainDocument.cpp:195
+#: clientgui/MainDocument.cpp:203
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Введен не правильный пароль, попробуйте подключиться еще раз"
 
-#: clientgui/MainDocument.cpp:316
+#: clientgui/MainDocument.cpp:324
 msgid "Retrieving system state; please wait..."
 msgstr "Обновляется информация о состояние системы; пожалуйста подождите..."
 
-#: clientgui/MainDocument.cpp:325
+#: clientgui/MainDocument.cpp:333
 msgid "Retrieving host information; please wait..."
 msgstr "Обновляется информация о хосте; пожалуйста подождите..."
 
@@ -843,38 +842,38 @@ msgstr "Проекты"
 msgid "&Help"
 msgstr "Справка"
 
-#: clientgui/MainFrame.cpp:1045
+#: clientgui/MainFrame.cpp:1048
 msgid "Attaching to project..."
 msgstr "Подключение к проекту..."
 
-#: clientgui/MainFrame.cpp:1084
+#: clientgui/MainFrame.cpp:1087
 msgid "Retrying communications for project(s)..."
 msgstr "Повторный обмен данными для всех подключенных проектов..."
 
-#: clientgui/MainFrame.cpp:1174
+#: clientgui/MainFrame.cpp:1177
 msgid "Language Selection..."
 msgstr "Изменение языка интерфейса программы..."
 
-#: clientgui/MainFrame.cpp:1175
+#: clientgui/MainFrame.cpp:1178
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "Язык интерфейса программы BOINC менеджер был изменен, для вступления в силу изменений требуется перезапустить программу."
 
-#: clientgui/MainFrame.cpp:1579
-#: clientgui/MainFrame.cpp:1596
-#: clientgui/MainFrame.cpp:1602
-#: clientgui/MainFrame.cpp:1645
-#: clientgui/MainFrame.cpp:1673
-#: clientgui/MainFrame.cpp:1682
-#: clientgui/MainFrame.cpp:1696
-#: clientgui/MainFrame.cpp:1704
+#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1597
+#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC менеджер - состояние сетевого подключения"
 
-#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1581
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "Программе BOINC необходимо подключиться к интернету. Откройте окно BOINC менеджера для начала соединения."
 
-#: clientgui/MainFrame.cpp:1595
+#: clientgui/MainFrame.cpp:1596
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -882,51 +881,51 @@ msgstr ""
 "Программе BOINC необходимо подключиться к интернету\n"
 "Произвести соединение сейчас?"
 
-#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1604
 msgid "BOINC is connecting to the internet."
-msgstr "Идёт подключение BOINC к интернету."
+msgstr "BOINC производит подключение  к интернету."
 
-#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1647
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC обнаружил установленное подключение к интернету. Идёт обмен файлами данных и обновление информации о проектах."
 
-#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1675
 msgid "BOINC has successfully disconnected from the internet."
-msgstr "BOINC менеджер разорвал подключение к интернету."
+msgstr "BOINC разорвал подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1684
 msgid "BOINC failed to disconnected from the internet."
-msgstr "BOINC менеджеру не удалось разорвать подключение к интернету."
+msgstr "BOINC клиенту не удалось разорвать подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1698
 msgid "BOINC has successfully connected to the internet."
-msgstr "BOINC менеджер установил подключение к интернету."
+msgstr "BOINC установил подключение к интернету."
 
-#: clientgui/MainFrame.cpp:1705
+#: clientgui/MainFrame.cpp:1706
 msgid "BOINC failed to connect to the internet."
-msgstr "BOINC менеджеру не удалось подключиться к интернету."
+msgstr "BOINC не удалось подключиться к интернету."
 
-#: clientgui/MainFrame.cpp:1782
-#: clientgui/MainFrame.cpp:1785
+#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1784
 #, c-format
 msgid "Connecting to %s"
 msgstr "Идёт подключение к %s"
 
-#: clientgui/MainFrame.cpp:1786
+#: clientgui/MainFrame.cpp:1787
 #, c-format
 msgid "Connected to %s"
 msgstr "Подключен к %s"
 
-#: clientgui/MainFrame.cpp:1940
+#: clientgui/MainFrame.cpp:1941
 msgid "BOINC Manager - Connection Failed"
 msgstr "BOINC менеджер - ошибка подключения"
 
-#: clientgui/MainFrame.cpp:1941
+#: clientgui/MainFrame.cpp:1942
 msgid ""
 "BOINC Manager is not able to connect to a BOINC client.\n"
 "Would you like to try to connect again?"
@@ -934,11 +933,11 @@ msgstr ""
 "BOINC менеджер не может подключиться к BOINC клиенту.\n"
 "Попытаться повторить подключение?"
 
-#: clientgui/MainFrame.cpp:1956
+#: clientgui/MainFrame.cpp:1957
 msgid "BOINC Manager - Connection Status"
 msgstr "BOINC менеджер - состояние подключения"
 
-#: clientgui/MainFrame.cpp:1957
+#: clientgui/MainFrame.cpp:1958
 msgid ""
 "BOINC Manager is not currently connected to a BOINC client.\n"
 "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
@@ -1023,7 +1022,35 @@ msgstr ""
 "Устанавливается связь с сервером проекта\n"
 "Пожалуйста подождите..."
 
-# ?
+#: clientgui/ProxyInfoPage.cpp:100
+msgid "Network communication failure"
+msgstr "Неудача при попытке установить соединение"
+
+#: clientgui/ProxyInfoPage.cpp:107
+msgid ""
+"BOINC failed to communicate on the Internet. The most likely\n"
+"reasons are:\n"
+"\n"
+"1) Personal firewall software is blocking BOINC. You must\n"
+"configure your personal firewall to let BOINC communicate\n"
+"on port 80. Once this is fixed, click Back to try again.\n"
+"\n"
+"2) You are using a proxy server and BOINC needs to know\n"
+"about it.\n"
+"\n"
+"Click Next to configure BOINC's proxy settings.\n"
+msgstr ""
+"BOINC не может подключиться к интернету.\n"
+"Возможные причины этого:\n"
+"\n"
+"1) Ваш персональный брандмауэр блокирует выход BOINC в интернет.\n"
+"Для решения этой проблемы добавьте в настройках брандмауэра\n"
+"разрешение на доступ BOINC в интернет через порт 80.\n"
+"Если проблема решена, то нажмите \"< Назад\" и попытайтесь подключиться.\n"
+"\n"
+"2) Вы используете прокси сервер для выхода в интернет.\n"
+"Нажмите \"Далее >\" для настройки прокси сервера.\n"
+
 #: clientgui/ProxyPage.cpp:117
 msgid "Proxy configuration"
 msgstr "Параметры прокси сервера"
@@ -1087,12 +1114,12 @@ msgid "Validation conflict"
 msgstr "Проверка правильности ввода данных"
 
 # ?
-#: clientgui/ValidateURL.cpp:79
+#: clientgui/ValidateURL.cpp:70
 msgid "Missing URL"
 msgstr "Не указан адрес (URL)"
 
 # ?
-#: clientgui/ValidateURL.cpp:80
+#: clientgui/ValidateURL.cpp:71
 msgid ""
 "Please specify a URL.\n"
 "For example:\n"
@@ -1102,18 +1129,18 @@ msgstr ""
 "Пример:\n"
 "http://www.example.com/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
-msgid "Invalid URL"
-msgstr "Не корректный адрес (URL)"
-
 #: clientgui/ValidateURL.cpp:84
 #: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:111
+msgid "Invalid URL"
+msgstr "Не корректный адрес (URL)"
+
+#: clientgui/ValidateURL.cpp:85
+#: clientgui/ValidateURL.cpp:89
+#: clientgui/ValidateURL.cpp:93
 msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
@@ -1124,21 +1151,21 @@ msgstr ""
 "http://boincproject.example.com"
 
 # ?
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:105
+#: clientgui/ValidateURL.cpp:109
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "Компьютер (хост) с именем: \"%s\" не найден."
 
 # ?
-#: clientgui/ValidateURL.cpp:111
+#: clientgui/ValidateURL.cpp:112
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "Указанный путь: \"%s\" не существует."
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:404
+#: clientgui/ViewStatistics.cpp:634
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1368,52 +1395,66 @@ msgstr "Диск"
 
 # Общее количество очков набранных участником
 #: clientgui/ViewStatistics.cpp:41
-#: clientgui/ViewStatistics.cpp:50
-#: clientgui/ViewStatistics.cpp:462
+#: clientgui/ViewStatistics.cpp:52
+#: clientgui/ViewStatistics.cpp:524
+#: clientgui/ViewStatistics.cpp:706
 msgid "User Total"
 msgstr "Общее количество очков участника"
 
-#: clientgui/ViewStatistics.cpp:408
-msgid "Show user total"
-msgstr "Всего очков"
-
-#: clientgui/ViewStatistics.cpp:415
-msgid "Show user average"
-msgstr "В среднем за день"
-
-#: clientgui/ViewStatistics.cpp:422
-msgid "Show host total"
-msgstr "Всего очков для хоста"
-
-#: clientgui/ViewStatistics.cpp:429
-msgid "Show host average"
-msgstr "В среднем за день для хоста"
-
-#: clientgui/ViewStatistics.cpp:448
-msgid "Statistics"
-msgstr "Статистика"
-
-#: clientgui/ViewStatistics.cpp:461
-#: clientgui/ViewStatistics.cpp:481
-#: clientgui/ViewStatistics.cpp:501
-#: clientgui/ViewStatistics.cpp:521
-msgid "Updating charts..."
-msgstr "Обновляется график..."
-
 # Среднее количество очков набираемых участником за день
-#: clientgui/ViewStatistics.cpp:482
+#: clientgui/ViewStatistics.cpp:531
+#: clientgui/ViewStatistics.cpp:726
 msgid "User Average"
 msgstr "Среднее количество очков за день"
 
 # Общее количество очков набранных на данном хосте
-#: clientgui/ViewStatistics.cpp:502
+#: clientgui/ViewStatistics.cpp:538
+#: clientgui/ViewStatistics.cpp:746
 msgid "Host Total"
 msgstr "Общее количество очков для хоста"
 
 # Среднее количество очков набираемых данным хостом за день
-#: clientgui/ViewStatistics.cpp:522
+#: clientgui/ViewStatistics.cpp:545
+#: clientgui/ViewStatistics.cpp:766
 msgid "Host Average"
 msgstr "Среднее количество очков за день для хоста"
+
+#: clientgui/ViewStatistics.cpp:638
+msgid "Show user total"
+msgstr "Всего очков"
+
+#: clientgui/ViewStatistics.cpp:645
+msgid "Show user average"
+msgstr "В среднем за день"
+
+#: clientgui/ViewStatistics.cpp:652
+msgid "Show host total"
+msgstr "Всего очков для хоста"
+
+#: clientgui/ViewStatistics.cpp:659
+msgid "Show host average"
+msgstr "В среднем за день для хоста"
+
+#: clientgui/ViewStatistics.cpp:666
+msgid "Mode view"
+msgstr "Вид графиков"
+
+#: clientgui/ViewStatistics.cpp:673
+msgid "Next project"
+msgstr "Следующий проект"
+
+#: clientgui/ViewStatistics.cpp:692
+msgid "Statistics"
+msgstr "Статистика"
+
+#: clientgui/ViewStatistics.cpp:705
+#: clientgui/ViewStatistics.cpp:725
+#: clientgui/ViewStatistics.cpp:745
+#: clientgui/ViewStatistics.cpp:765
+#: clientgui/ViewStatistics.cpp:784
+#: clientgui/ViewStatistics.cpp:802
+msgid "Updating charts..."
+msgstr "Обновляется график..."
 
 #: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
@@ -1628,11 +1669,18 @@ msgstr "Приостановлено пользователем"
 msgid "We'll now guide you through the process of attaching to a project."
 msgstr "Данный мастер поможет вам подключиться к проекту распределённых вычислений."
 
+#: clientgui/WelcomePage.cpp:149
+msgid "Account manager"
+msgstr "Менеджер учётных записей"
+
+# ??? понять бы что это за зверь
 #: clientgui/WelcomePage.cpp:153
 msgid ""
-"We'll now guide you through the process of attaching to an\n"
-"account manager."
-msgstr "Данный мастер поможет вам подключиться к менеджеру учётных записей."
+"We'll now guide you through the process of \n"
+"adding/updating/removing an account manager."
+msgstr ""
+"Данный мастер поможет вам добавить/обновить/удалить\n"
+"менеджер учётных записей."
 
 # if defined(__WXDEBUG__)
 #: clientgui/WelcomePage.cpp:160
@@ -1698,21 +1746,21 @@ msgstr ""
 msgid "To continue, click Next."
 msgstr "Для продолжения нажмите кнопку \"Далее\"."
 
-#: clientgui/WizardAccountManager.cpp:116
+#: clientgui/WizardAccountManager.cpp:118
 msgid "Attach to Account Manager"
 msgstr "Соединение с менеджером учётных записей"
 
-#: clientgui/WizardAccountManager.cpp:373
-#: clientgui/WizardAttachProject.cpp:423
+#: clientgui/WizardAccountManager.cpp:387
+#: clientgui/WizardAttachProject.cpp:436
 msgid "Do you really want to cancel?"
 msgstr "Прервать процесс подключения ?"
 
-#: clientgui/WizardAccountManager.cpp:374
-#: clientgui/WizardAttachProject.cpp:424
+#: clientgui/WizardAccountManager.cpp:388
+#: clientgui/WizardAttachProject.cpp:437
 msgid "Question"
 msgstr "Вопрос"
 
-#: clientgui/WizardAttachProject.cpp:131
+#: clientgui/WizardAttachProject.cpp:133
 msgid "Attach to Project"
 msgstr "Подключение к проекту"
 
@@ -1779,6 +1827,25 @@ msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Подробные описания проектов запущенных в рамках WCG"
 
 # --------------------------old version begin-----------------------------
+# old version 1.26
+#: clientgui/WelcomePage.cpp:153
+msgid ""
+"We'll now guide you through the process of attaching to an\n"
+"account manager."
+msgstr "Данный мастер поможет вам подключиться к менеджеру учётных записей."
+
+# old version 1.25
+#: clientgui/MainDocument.cpp:199
+msgid "BOINC Manager - Connection failed"
+msgstr "BOINC менеджер - Нет связи"
+
+# old version 1.25
+#: clientgui/MainDocument.cpp:200
+#: clientgui/MainFrame.cpp:927
+#: clientgui/MainFrame.cpp:928
+msgid "Connection failed."
+msgstr "Не удалось соединиться с указанным компьютером"
+
 # old version 1.24
 #: clientgui/MainFrame.cpp:1941
 msgid ""

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-22 12:02+0100\n"
+"PO-Revision-Date: 2005-12-08 20:13+0100\n"
 "Last-Translator: Preben Lodal <elprebsi70@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -19,36 +19,36 @@ msgid "Account information"
 msgstr "Konto information"
 
 #: clientgui/AccountInfoPage.cpp:121
-msgid "Do you wish to use an existing account or create a new one?"
-msgstr "Ønsker du at bruge en eksisterende konto, eller oprette en ny?"
+msgid "Do you want to use an existing account or create a new one?"
+msgstr "Vil du at bruge en eksisterende konto, eller oprette en ny?"
 
-#: clientgui/AccountInfoPage.cpp:127
-msgid ""
-"Transition Note: Account keys are used as passwords for accounts created\n"
-"before BOINC migrated to a username and password authentication scheme."
-msgstr ""
-"Overgangs Note: Konto nøgler bruges som kodeord for konti der er oprettet\n"
-"før BOINC migrerede til brug af brugernavn og kodeord som godkendelse."
-
-#: clientgui/AccountInfoPage.cpp:137
+#: clientgui/AccountInfoPage.cpp:131
 msgid "Create new &account"
 msgstr "&Opret ny konto"
 
-#: clientgui/AccountInfoPage.cpp:142
+#: clientgui/AccountInfoPage.cpp:136
 msgid "&Use existing account"
 msgstr "Brug &eksisterende konto"
 
-#: clientgui/AccountInfoPage.cpp:153
+#: clientgui/AccountInfoPage.cpp:146
 msgid "&Email address:"
 msgstr "&Email adresse:"
 
-#: clientgui/AccountInfoPage.cpp:161
+#: clientgui/AccountInfoPage.cpp:154
 msgid "&Password:"
 msgstr "&Kodeord:"
 
-#: clientgui/AccountInfoPage.cpp:170
+#: clientgui/AccountInfoPage.cpp:163
 msgid "C&onfirm password:"
 msgstr "Bekræft kodeord:"
+
+#: clientgui/AccountInfoPage.cpp:173
+msgid ""
+"If you haven't set a password, copy and paste your account\n"
+"key into the Password box."
+msgstr ""
+"Hvis du ikke har lavet et kodeord, kopier og indsæt din konto\n"
+"nøgle i kodeords feltet."
 
 #: clientgui/AccountInfoPage.cpp:279
 #: clientgui/DlgDialupCredentials.cpp:111
@@ -65,7 +65,6 @@ msgid "Attach to project"
 msgstr "Tilmeld projekt"
 
 #: clientgui/AccountInfoPage.cpp:304
-#: clientgui/WelcomePage.cpp:149
 msgid "Attach to account manager"
 msgstr "Tilmeld konto manager"
 
@@ -133,19 +132,12 @@ msgid "For a list of BOINC-based account managers go to:"
 msgstr "For en liste over BOINC-baserede konto managere, gå til:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:132
+#: clientgui/AccountManagerPropertiesPage.cpp:135
 msgid ""
 "Communicating with account manager\n"
 "Please wait..."
 msgstr ""
 "Kommunikerer med konto manageren\n"
-"Vent venligst..."
-
-#: clientgui/AccountManagerPropertiesPage.cpp:135
-msgid ""
-"Communicating with account manager \n"
-"Please wait..."
-msgstr ""
-"Kommunikerer med konto manageren \n"
 "Vent venligst..."
 
 #: clientgui/AlreadyAttachedPage.cpp:98
@@ -190,20 +182,27 @@ msgstr "(Bruger defineret)"
 
 #: clientgui/BOINCTaskBar.cpp:68
 #: clientgui/DlgAbout.cpp:103
-#: clientgui/hyperlink.cpp:230
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCTaskBar.cpp:272
+#: clientgui/BOINCTaskBar.cpp:267
 msgid "BOINC is currently suspended...\n"
 msgstr "BOINC er suspenderet for nuværende....\n"
 
-#: clientgui/BOINCTaskBar.cpp:276
+#: clientgui/BOINCTaskBar.cpp:271
 msgid "BOINC networking is currently suspended...\n"
 msgstr "BOINC netværksadgang er suspenderet for nuværende....\n"
 
+#: clientgui/BOINCTaskBar.cpp:302
+msgid "BOINC Manager is currently reconnecting to a BOINC client...\n"
+msgstr "BOINC manageren er ved at genforbinde til en BOINC klient...\n"
+
+#: clientgui/BOINCTaskBar.cpp:304
+msgid "BOINC Manager is not currently connected to a BOINC client...\n"
+msgstr "BOINC manageren er ikke forbundet til en BOINC klient lige nu...\n"
+
 #: clientgui/BOINCTaskBar.cpp:377
-#: clientgui/MainFrame.cpp:336
+#: clientgui/MainFrame.cpp:331
 #: clientgui/mac/MacSysMenu.cpp:76
 msgid "E&xit"
 msgstr "&Luk"
@@ -214,39 +213,39 @@ msgid "&Open BOINC Manager..."
 msgstr "Åbn BOINC Manager.."
 
 #: clientgui/BOINCTaskBar.cpp:407
-#: clientgui/MainFrame.cpp:345
+#: clientgui/MainFrame.cpp:340
 msgid "&Run always"
 msgstr "Kør &altid"
 
 #: clientgui/BOINCTaskBar.cpp:408
-#: clientgui/MainFrame.cpp:350
+#: clientgui/MainFrame.cpp:345
 msgid "Run based on &preferences"
 msgstr "Kør efter &indstillinger"
 
 #: clientgui/BOINCTaskBar.cpp:409
-#: clientgui/MainFrame.cpp:355
+#: clientgui/MainFrame.cpp:350
 msgid "&Suspend"
 msgstr "Sus&pender"
 
 #: clientgui/BOINCTaskBar.cpp:411
-#: clientgui/MainFrame.cpp:363
+#: clientgui/MainFrame.cpp:358
 msgid "&Network activity always available"
-msgstr "Netværksadgang er &altid tilgængelig"
+msgstr "Netværksadgang er altid &tilgængelig"
 
 #: clientgui/BOINCTaskBar.cpp:412
-#: clientgui/MainFrame.cpp:368
+#: clientgui/MainFrame.cpp:363
 msgid "Network activity based on &preferences"
-msgstr "Netværksadgang efter &indstillinger"
+msgstr "Netværksadgang efter i&ndstillinger"
 
 #: clientgui/BOINCTaskBar.cpp:413
-#: clientgui/MainFrame.cpp:373
+#: clientgui/MainFrame.cpp:368
 msgid "&Network activity suspended"
 msgstr "Netværksadgang er &suspenderet"
 
 #: clientgui/BOINCTaskBar.cpp:415
-#: clientgui/MainFrame.cpp:430
+#: clientgui/MainFrame.cpp:425
 msgid "&About BOINC Manager..."
-msgstr "Om BOINC Manager..."
+msgstr "&Om BOINC Manager..."
 
 #: clientgui/CompletionErrorPage.cpp:103
 msgid "Failed to attach to project"
@@ -318,8 +317,8 @@ msgstr "En software platform for distributed computing der bruger frivillige com
 
 #: clientgui/DlgAbout.cpp:154
 #: clientgui/DlgDialupCredentials.cpp:136
-#: clientgui/DlgOptions.cpp:396
-#: clientgui/DlgSelectComputer.cpp:130
+#: clientgui/DlgOptions.cpp:393
+#: clientgui/DlgSelectComputer.cpp:133
 msgid "&OK"
 msgstr "&OK"
 
@@ -333,7 +332,7 @@ msgstr "Navn:"
 
 #: clientgui/DlgAccountManagerStatus.cpp:121
 msgid "foo"
-msgstr ""
+msgstr "foo"
 
 #: clientgui/DlgAccountManagerStatus.cpp:125
 msgid "URL:"
@@ -341,7 +340,7 @@ msgstr "Projekt URL:"
 
 #: clientgui/DlgAccountManagerStatus.cpp:136
 msgid "&Update"
-msgstr "Opdater"
+msgstr "&Opdater"
 
 #: clientgui/DlgAccountManagerStatus.cpp:141
 msgid "Change"
@@ -349,126 +348,126 @@ msgstr "Ændrer"
 
 #: clientgui/DlgAccountManagerStatus.cpp:145
 #: clientgui/DlgDialupCredentials.cpp:141
-#: clientgui/DlgOptions.cpp:401
-#: clientgui/DlgSelectComputer.cpp:135
+#: clientgui/DlgOptions.cpp:398
+#: clientgui/DlgSelectComputer.cpp:138
 #: clientgui/wizardex.cpp:363
 msgid "&Cancel"
 msgstr "&Fortryd"
 
 #: clientgui/DlgDialupCredentials.cpp:122
-#: clientgui/DlgOptions.cpp:325
-#: clientgui/DlgOptions.cpp:381
-#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/DlgOptions.cpp:322
+#: clientgui/DlgOptions.cpp:378
+#: clientgui/DlgSelectComputer.cpp:122
 #: clientgui/ProxyPage.cpp:160
 #: clientgui/ProxyPage.cpp:210
 msgid "Password:"
 msgstr "Kodeord:"
 
-#: clientgui/DlgOptions.cpp:189
+#: clientgui/DlgOptions.cpp:186
 msgid "Language Selection:"
 msgstr "Sprog Valg:"
 
-#: clientgui/DlgOptions.cpp:196
+#: clientgui/DlgOptions.cpp:193
 msgid "What language should the manager display by default."
 msgstr "Hvilket sprog skal manageren vise som standard?"
 
-#: clientgui/DlgOptions.cpp:200
+#: clientgui/DlgOptions.cpp:197
 msgid "Reminder Frequency:"
 msgstr "Påmindelses hyppighed:"
 
-#: clientgui/DlgOptions.cpp:206
+#: clientgui/DlgOptions.cpp:203
 msgid "How often, in minutes, should the manager remind you of possible connection events."
 msgstr "Hvor tit, i minutter, skal manageren minde dig om forbindelses eventer."
 
-#: clientgui/DlgOptions.cpp:209
+#: clientgui/DlgOptions.cpp:206
 msgid "General"
 msgstr "Generelt"
 
-#: clientgui/DlgOptions.cpp:218
+#: clientgui/DlgOptions.cpp:215
 msgid "&Automatically detect network connection settings"
 msgstr "Find netværksforbindelses indstillingerne &automatisk"
 
-#: clientgui/DlgOptions.cpp:223
+#: clientgui/DlgOptions.cpp:220
 msgid "Use my &Local Area Network(LAN) connection"
 msgstr "Brug min &Local Area Network (LAN) forbindelse"
 
-#: clientgui/DlgOptions.cpp:228
+#: clientgui/DlgOptions.cpp:225
 msgid "Use my &Dial-up and Virtual Private Network connection"
 msgstr "Brug &opkalds- og virtuelle private netværksforbindelse"
 
-#: clientgui/DlgOptions.cpp:232
+#: clientgui/DlgOptions.cpp:229
 msgid "Dial-up and Virtual Private Network settings"
 msgstr "Opkalds- og virtuelle private netværksforbindelses indstillinger"
 
-#: clientgui/DlgOptions.cpp:246
+#: clientgui/DlgOptions.cpp:243
 msgid "&Set Default"
 msgstr "S&æt standard"
 
-#: clientgui/DlgOptions.cpp:251
+#: clientgui/DlgOptions.cpp:248
 msgid "&Clear Default"
 msgstr "S&let standard"
 
-#: clientgui/DlgOptions.cpp:258
+#: clientgui/DlgOptions.cpp:255
 msgid "Default Connection:"
 msgstr "Standard forbindelse:"
 
-#: clientgui/DlgOptions.cpp:268
+#: clientgui/DlgOptions.cpp:265
 msgid "&Prompt for username and password"
 msgstr "&Prompt for brugernavn og kodeord."
 
-#: clientgui/DlgOptions.cpp:275
+#: clientgui/DlgOptions.cpp:272
 msgid "Connections"
 msgstr "Forbindelser"
 
-#: clientgui/DlgOptions.cpp:284
+#: clientgui/DlgOptions.cpp:281
 msgid "Connect via HTTP proxy server"
 msgstr "Forbind via HTTP proxy server"
 
-#: clientgui/DlgOptions.cpp:288
+#: clientgui/DlgOptions.cpp:285
 msgid "HTTP Proxy Server Configuration"
 msgstr "HTTP Proxy Server Konfiguration"
 
-#: clientgui/DlgOptions.cpp:296
-#: clientgui/DlgOptions.cpp:352
+#: clientgui/DlgOptions.cpp:293
+#: clientgui/DlgOptions.cpp:349
 msgid "Address:"
 msgstr "Adresse:"
 
-#: clientgui/DlgOptions.cpp:304
-#: clientgui/DlgOptions.cpp:360
+#: clientgui/DlgOptions.cpp:301
+#: clientgui/DlgOptions.cpp:357
 #: clientgui/ProxyPage.cpp:144
 #: clientgui/ProxyPage.cpp:194
 msgid "Port:"
 msgstr "Port:"
 
-#: clientgui/DlgOptions.cpp:311
-#: clientgui/DlgOptions.cpp:367
+#: clientgui/DlgOptions.cpp:308
+#: clientgui/DlgOptions.cpp:364
 msgid "Leave these blank if not needed"
 msgstr "Lad disse være tomme, hvis der ikke er brug for dem"
 
-#: clientgui/DlgOptions.cpp:317
-#: clientgui/DlgOptions.cpp:373
+#: clientgui/DlgOptions.cpp:314
+#: clientgui/DlgOptions.cpp:370
 #: clientgui/ProxyPage.cpp:152
 #: clientgui/ProxyPage.cpp:202
 msgid "User Name:"
 msgstr "Bruger Navn:"
 
-#: clientgui/DlgOptions.cpp:332
+#: clientgui/DlgOptions.cpp:329
 msgid "HTTP Proxy"
 msgstr "HTTP Proxy"
 
-#: clientgui/DlgOptions.cpp:340
+#: clientgui/DlgOptions.cpp:337
 msgid "Connect via SOCKS proxy server"
 msgstr "Forbind via SOCKS proxy server"
 
-#: clientgui/DlgOptions.cpp:344
+#: clientgui/DlgOptions.cpp:341
 msgid "SOCKS Proxy Server Configuration"
 msgstr "SOCKS Proxy Server Konfiguration"
 
-#: clientgui/DlgOptions.cpp:388
+#: clientgui/DlgOptions.cpp:385
 msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
-#: clientgui/DlgSelectComputer.cpp:110
+#: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
 msgstr "Værts navn:"
 
@@ -479,113 +478,201 @@ msgstr "Kunne ikke skabe wxStaticTex, der er nødvendig for wxHyperLink!"
 #: clientgui/hyperlink.cpp:219
 #, c-format
 msgid ""
-"BOINC could not determine what your default browser is.\n"
-"Please verify that you have either the 'mailcap' package installed or\n"
-"'mime' package installed, and that the 'text/html' mime type is\n"
-"configured for your favorite browser. Another method is to set the\n"
-"BROWSER environment variable to point to whatever your favorite\n"
-"web browser is.  Please open a browser window to the following URL:\n"
-"\n"
-"%s"
+"BOINC tried to display the web page\n"
+"\t%s\n"
+"but couldn't find a web browser.\n"
+"To fix this, set the environment variable\n"
+"BROWSER to the path of your web browser,\n"
+"then restart BOINC."
 msgstr ""
-"BOINC kunne ikke bestemme hvad der er din standard browser.\n"
-"Kontroler venligst at du har installeret enten 'mailcap' pakken eller\n"
-"'mime' pakken, og at 'text/html' mime typen er konfigureret til din\n"
-"foretrukne browser. En anden metode er at sætte Webbrowser\n"
-"Enviroment variable til at pege på din foretrukne browser.\n"
-"Venligst åbn et browser vindue med følgende URL:\n"
-"\n"
-"%s"
+"BOINC prøvede at vise websiden\n"
+"\t%s\n"
+"men kunne ikke finde en web browser.\n"
+"For at ordne dette, sæt omgivelses variablen\n"
+"BROWSER til din web browsers sti,\n"
+"og genstart BOINC."
 
-#: clientgui/Localization.cpp:31
+#: clientgui/hyperlink.cpp:229
+msgid "BOINC Manager - Can't find web browser"
+msgstr "BOINC Manager - Kan ikke finde web browser"
+
+#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:71
 msgid "Message boards"
 msgstr "Besked tavler"
 
-#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:35
 msgid "Correspond with other users on the SETI@home message boards"
 msgstr "Korresponder med andre brugere af SETI@home's message boards"
 
-#: clientgui/Localization.cpp:35
+#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:123
 msgid "Help"
 msgstr "Hjælp"
 
-#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:39
 msgid "Ask questions and report problems"
 msgstr "Stil spørgsmål og rapporter problemer"
 
-#: clientgui/Localization.cpp:39
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:83
+#: clientgui/Localization.cpp:113
+#: clientgui/Localization.cpp:131
 msgid "Your account"
 msgstr "Din konto"
 
-#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:115
 msgid "View your account information and credit totals"
 msgstr "Se dine konto informationer og totale kreditter"
 
-#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:45
 msgid "Your preferences"
 msgstr "Dine indstillinger"
 
-#: clientgui/Localization.cpp:45
-msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Se og modifiser dine SETI@home konto profil og indstillinger"
-
 #: clientgui/Localization.cpp:47
+msgid "View and modify your SETI@home account profile and preferences"
+msgstr "Se og ændre dine SETI@home konto profil og indstillinger"
+
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
 msgid "Your results"
 msgstr "Dine resultater"
 
-#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
 msgid "View your last week (or more) of computational results and work"
 msgstr "Se dine sidste uges (eller mere) resultater og arbejde"
 
-#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:95
 msgid "Your computers"
 msgstr "Dine computere"
 
-#: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:55
 msgid "View a listing of all the computers on which you are running SETI@Home"
 msgstr "Se en liste af alle de computere, hvor du kører SETI@home"
 
-#: clientgui/Localization.cpp:55
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
 msgid "Your team"
 msgstr "Dit hold"
 
-#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:59
+#: clientgui/Localization.cpp:101
 msgid "View information about your team"
 msgstr "Se information om dit hold"
 
-#: clientgui/MainDocument.cpp:180
+#: clientgui/Localization.cpp:63
+msgid "Common questions"
+msgstr "Almindelige spørgsmål"
+
+#: clientgui/Localization.cpp:65
+msgid "Read the Einstein@Home Frequently Asked Question list"
+msgstr "Læs Einstein@Home's Ofte stillede spørgsmål (FAQ) liste"
+
+#: clientgui/Localization.cpp:67
+msgid "Screensaver info"
+msgstr "Pauseskærms info"
+
+#: clientgui/Localization.cpp:69
+msgid "Read a detailed description of the Einstein@Home screensaver"
+msgstr "Læs en detaljeret beskrivelse af Einstein@Home pause skærmen"
+
+#: clientgui/Localization.cpp:73
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgstr "Korresponder med administrator og andre brugere på Einstein@Home's besked tavler"
+
+#: clientgui/Localization.cpp:75
+msgid "Einstein status"
+msgstr "Einstein status"
+
+#: clientgui/Localization.cpp:77
+msgid "Current status of the Einstein@Home server"
+msgstr "Nuværende status af Einstein@Home serveren"
+
+#: clientgui/Localization.cpp:79
+msgid "Report problems"
+msgstr "Rapporter problemer"
+
+#: clientgui/Localization.cpp:81
+msgid "A link to the Einstein@Home problems and bug reports message board"
+msgstr "Et link til Einstein@Home problemer og fejl rapporterings besked tavle"
+
+#: clientgui/Localization.cpp:85
+msgid "View and modify your Einstein@Home account profile and preferences"
+msgstr "Se og ændre din Einstein@Home konto profil og indstillinger"
+
+#: clientgui/Localization.cpp:87
+msgid "Account summary"
+msgstr "Konto oversigt"
+
+#: clientgui/Localization.cpp:97
+msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgstr "Se en list over alle de computere hvorpå du kører Einstein@Home"
+
+#: clientgui/Localization.cpp:103
+msgid "LIGO project"
+msgstr "LIGO project"
+
+#: clientgui/Localization.cpp:105
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgstr "Hjemmesiden med Laser Interferometer Gravitational-wave Observatory (LIGO) projektet"
+
+#: clientgui/Localization.cpp:107
+msgid "GEO-600 project"
+msgstr "GEO-600 project"
+
+#: clientgui/Localization.cpp:109
+msgid "The home page of the GEO-600 project"
+msgstr "Hjemmesiden med GEO-600 projektet"
+
+#: clientgui/Localization.cpp:117
+#: clientgui/Localization.cpp:135
+#: clientgui/ViewProjects.cpp:152
+msgid "Team"
+msgstr "Hold"
+
+#: clientgui/Localization.cpp:119
+msgid "Info about your Team"
+msgstr "Info om dit hold"
+
+#: clientgui/Localization.cpp:125
+msgid "Get help for climateprediction.net"
+msgstr "Få hjælp til climateprediction.net"
+
+#: clientgui/Localization.cpp:127
+msgid "News"
+msgstr "Nyheder"
+
+#: clientgui/Localization.cpp:129
+msgid "climateprediction.net News"
+msgstr "climateprediction.net nyheder"
+
+#: clientgui/Localization.cpp:133
+msgid "View your account information, credits, and trickles"
+msgstr "Se dine konto informationer, kreditter og trickles"
+
+#: clientgui/Localization.cpp:137
+msgid "Info about your team"
+msgstr "Info om dit hold"
+
+#: clientgui/MainDocument.cpp:202
 msgid "BOINC Manager - Connection Error"
 msgstr "BOINC Manager - Forbindelsesfejl"
 
-#: clientgui/MainDocument.cpp:181
+#: clientgui/MainDocument.cpp:203
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Kodeordet du har givet er ukorrekt, prøv venligst igen."
 
-#: clientgui/MainDocument.cpp:199
-msgid "BOINC Manager - Connection failed"
-msgstr "BOINC Manager - Forbindelsen fejlede"
-
-#: clientgui/MainDocument.cpp:200
-#: clientgui/MainFrame.cpp:922
-#: clientgui/MainFrame.cpp:923
-msgid "Connection failed."
-msgstr "Kunne ikke skabe forbindelse."
-
-#: clientgui/MainDocument.cpp:306
+#: clientgui/MainDocument.cpp:324
 msgid "Retrieving system state; please wait..."
 msgstr "Henter system tilstand, vent venligst..."
 
-#: clientgui/MainDocument.cpp:315
+#: clientgui/MainDocument.cpp:333
 msgid "Retrieving host information; please wait..."
 msgstr "Henter værts information, vent venligst..."
-
-#: clientgui/MainDocument.cpp:869
-msgid "BOINC error"
-msgstr "BOINC fejl"
-
-#: clientgui/MainDocument.cpp:879
-msgid "BOINC info"
-msgstr "BOINC info"
 
 #: clientgui/MainFrame.cpp:83
 msgid "Connected"
@@ -595,153 +682,153 @@ msgstr "Forbundet"
 msgid "Disconnected"
 msgstr "Afbrudt"
 
-#: clientgui/MainFrame.cpp:330
+#: clientgui/MainFrame.cpp:325
 msgid "Select computer..."
 msgstr "Vælg &computer..."
 
-#: clientgui/MainFrame.cpp:331
+#: clientgui/MainFrame.cpp:326
 msgid "Connect to another computer running BOINC"
 msgstr "Forbind til en anden computer der kører BOINC"
 
-#: clientgui/MainFrame.cpp:337
+#: clientgui/MainFrame.cpp:332
 msgid "Exit the BOINC Manager"
 msgstr "Luk BOINC manager"
 
-#: clientgui/MainFrame.cpp:346
+#: clientgui/MainFrame.cpp:341
 msgid "Does work regardless of preferences"
 msgstr "Kører uanset indstillinger"
 
-#: clientgui/MainFrame.cpp:351
+#: clientgui/MainFrame.cpp:346
 msgid "Does work according to your preferences"
 msgstr "Kører i henhold til indstillinger"
 
-#: clientgui/MainFrame.cpp:356
+#: clientgui/MainFrame.cpp:351
 msgid "Stops work regardless of preferences"
 msgstr "Suspenderer al kørsel uanset indstillinger"
 
-#: clientgui/MainFrame.cpp:364
+#: clientgui/MainFrame.cpp:359
 msgid "Does network activity regardless of preferences"
 msgstr "Kører netværks aktivitet uanset indstillinger"
 
-#: clientgui/MainFrame.cpp:369
+#: clientgui/MainFrame.cpp:364
 msgid "Does network activity according to your preferences"
 msgstr "Kører netværks aktivitet efter indstillinger"
 
-#: clientgui/MainFrame.cpp:374
+#: clientgui/MainFrame.cpp:369
 msgid "Stops BOINC network activity"
 msgstr "Suspenderer BOINC netværksaktivitet"
 
-#: clientgui/MainFrame.cpp:381
+#: clientgui/MainFrame.cpp:376
 msgid "Retry &communications"
-msgstr "Prøv kommunikation igen"
+msgstr "Prøv &kommunikation igen"
 
-#: clientgui/MainFrame.cpp:382
+#: clientgui/MainFrame.cpp:377
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr "Rapporter færdigt arbejde, hent seneste kreditter, hent seneste indstillinger, og muligvis mere arbejde."
 
-#: clientgui/MainFrame.cpp:387
+#: clientgui/MainFrame.cpp:382
 msgid "Run &benchmarks"
 msgstr "Kør &Hastighedstest"
 
-#: clientgui/MainFrame.cpp:388
+#: clientgui/MainFrame.cpp:383
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Kører BOINC CPU hastighedstest"
 
-#: clientgui/MainFrame.cpp:395
-msgid "&Attach to &project"
-msgstr "Tilmeld projekt"
+#: clientgui/MainFrame.cpp:390
+msgid "Attach to &project"
+msgstr "Tilmeld &projekt"
 
-#: clientgui/MainFrame.cpp:396
+#: clientgui/MainFrame.cpp:391
 msgid "Attach to a project to begin processing work"
 msgstr "Tilmeld et projekt for at begynde at arbejde"
 
-#: clientgui/MainFrame.cpp:400
+#: clientgui/MainFrame.cpp:395
 msgid "&Account manager"
 msgstr "&Konto manager"
 
-#: clientgui/MainFrame.cpp:401
+#: clientgui/MainFrame.cpp:396
 msgid "Attach to an account manager"
 msgstr "Tilmeld en Konto Manager"
 
-#: clientgui/MainFrame.cpp:408
-#: clientgui/MainFrame.cpp:450
+#: clientgui/MainFrame.cpp:403
+#: clientgui/MainFrame.cpp:445
 msgid "&Options"
 msgstr "&Indstillinger"
 
-#: clientgui/MainFrame.cpp:409
+#: clientgui/MainFrame.cpp:404
 msgid "Configure GUI options and proxy settings"
 msgstr "Konfigurer GUI og PROXY indstillinger"
 
-#: clientgui/MainFrame.cpp:416
+#: clientgui/MainFrame.cpp:411
 msgid "&BOINC Manager\tF1"
 msgstr "&BOINC Manager\tF1"
 
-#: clientgui/MainFrame.cpp:417
+#: clientgui/MainFrame.cpp:412
 msgid "Show information about the BOINC Manager"
 msgstr "Vis information om BOINC Manageren"
 
-#: clientgui/MainFrame.cpp:422
+#: clientgui/MainFrame.cpp:417
 msgid "BOINC &website"
 msgstr "BOINC &webside"
 
-#: clientgui/MainFrame.cpp:423
+#: clientgui/MainFrame.cpp:418
 msgid "Show information about BOINC and BOINC Manager"
 msgstr "Vis information om BOINC og BOINC Manager"
 
-#: clientgui/MainFrame.cpp:431
+#: clientgui/MainFrame.cpp:426
 msgid "Licensing and copyright information."
 msgstr "Licens og copyright information."
 
-#: clientgui/MainFrame.cpp:438
+#: clientgui/MainFrame.cpp:433
 msgid "&File"
 msgstr "&Filer"
 
-#: clientgui/MainFrame.cpp:442
+#: clientgui/MainFrame.cpp:437
 msgid "&Commands"
 msgstr "&Kommandoer"
 
-#: clientgui/MainFrame.cpp:446
+#: clientgui/MainFrame.cpp:441
 msgid "&Projects"
 msgstr "&Projekter"
 
-#: clientgui/MainFrame.cpp:454
+#: clientgui/MainFrame.cpp:449
 #: clientgui/wizardex.cpp:359
 #: clientgui/wizardex.cpp:366
 msgid "&Help"
 msgstr "&Hjælp"
 
-#: clientgui/MainFrame.cpp:1022
+#: clientgui/MainFrame.cpp:1048
 msgid "Attaching to project..."
 msgstr "Tilmelder projekt..."
 
-#: clientgui/MainFrame.cpp:1058
+#: clientgui/MainFrame.cpp:1087
 msgid "Retrying communications for project(s)..."
 msgstr "Prøver kommunikation med  projekt(er) igen..."
 
-#: clientgui/MainFrame.cpp:1137
+#: clientgui/MainFrame.cpp:1177
 msgid "Language Selection..."
 msgstr "Valg af sprog..."
 
-#: clientgui/MainFrame.cpp:1138
+#: clientgui/MainFrame.cpp:1178
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
 msgstr "BOINC Managerens sprog er ændret. For at dette kan træde i kraft skal du genstarte Manageren."
 
-#: clientgui/MainFrame.cpp:1537
-#: clientgui/MainFrame.cpp:1554
-#: clientgui/MainFrame.cpp:1560
+#: clientgui/MainFrame.cpp:1580
+#: clientgui/MainFrame.cpp:1597
 #: clientgui/MainFrame.cpp:1603
-#: clientgui/MainFrame.cpp:1631
-#: clientgui/MainFrame.cpp:1640
-#: clientgui/MainFrame.cpp:1654
-#: clientgui/MainFrame.cpp:1662
+#: clientgui/MainFrame.cpp:1646
+#: clientgui/MainFrame.cpp:1674
+#: clientgui/MainFrame.cpp:1683
+#: clientgui/MainFrame.cpp:1697
+#: clientgui/MainFrame.cpp:1705
 msgid "BOINC Manager - Network Status"
 msgstr "BOINC Manager - Netværks Status"
 
-#: clientgui/MainFrame.cpp:1538
+#: clientgui/MainFrame.cpp:1581
 msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 msgstr "BOINC har brug for en forbindelse til internettet for at lave noget vedligeholdelse, åbn BOINC manageren for at forbinde og lave det nødvendige arbejde."
 
-#: clientgui/MainFrame.cpp:1553
+#: clientgui/MainFrame.cpp:1596
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
@@ -749,45 +836,71 @@ msgstr ""
 "BOINC har behov for at forbinde til netværket.\n"
 "Må den det nu?"
 
-#: clientgui/MainFrame.cpp:1561
+#: clientgui/MainFrame.cpp:1604
 msgid "BOINC is connecting to the internet."
 msgstr "BOINC forbinder til internettet."
 
-#: clientgui/MainFrame.cpp:1604
+#: clientgui/MainFrame.cpp:1647
 msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
 msgstr "BOINC har detekteret der er forbindelse til internettet. Opdaterer alle projekter, og prøver alle overførsler igen."
 
-#: clientgui/MainFrame.cpp:1632
+#: clientgui/MainFrame.cpp:1675
 msgid "BOINC has successfully disconnected from the internet."
 msgstr "BOINC har afbrudt forbindelsen til internettet."
 
-#: clientgui/MainFrame.cpp:1641
+#: clientgui/MainFrame.cpp:1684
 msgid "BOINC failed to disconnected from the internet."
 msgstr "BOINC kunne ikke afbryde til internettet."
 
-#: clientgui/MainFrame.cpp:1655
+#: clientgui/MainFrame.cpp:1698
 msgid "BOINC has successfully connected to the internet."
 msgstr "BOINC har fået forbindelse til internettet."
 
-#: clientgui/MainFrame.cpp:1663
+#: clientgui/MainFrame.cpp:1706
 msgid "BOINC failed to connect to the internet."
 msgstr "BOINC kunne ikke forbinde til internettet."
 
-#: clientgui/MainFrame.cpp:1741
-#: clientgui/MainFrame.cpp:1744
+#: clientgui/MainFrame.cpp:1783
+#: clientgui/MainFrame.cpp:1786
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1742
+#: clientgui/MainFrame.cpp:1784
 #, c-format
 msgid "Connecting to %s"
 msgstr "Forbinder til %s"
 
-#: clientgui/MainFrame.cpp:1745
+#: clientgui/MainFrame.cpp:1787
 #, c-format
 msgid "Connected to %s"
 msgstr "Forbundet til %s"
+
+#: clientgui/MainFrame.cpp:1941
+msgid "BOINC Manager - Connection Failed"
+msgstr "BOINC Manager - Forbindelsen fejlede"
+
+#: clientgui/MainFrame.cpp:1942
+msgid ""
+"BOINC Manager is not able to connect to a BOINC client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"BOINC Manageren kan ikke forbinde til en BOINC klient.\n"
+"Vil du prøve at forbinde igen?"
+
+#: clientgui/MainFrame.cpp:1957
+msgid "BOINC Manager - Connection Status"
+msgstr "BOINC Manager - Forbindelses Status"
+
+#: clientgui/MainFrame.cpp:1958
+msgid ""
+"BOINC Manager is not currently connected to a BOINC client.\n"
+"Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
+"To connect up to your local computer please use 'localhost' as the host name."
+msgstr ""
+"BOINC manager er ikke forbundet til en BOINC klient lige nu.\n"
+"Brug 'Fil\\Vælg computer...' menu punktet, for at forbinde til en BOINC klient.\n"
+"For at forbinde til din lokale computer, brug 'localhost' som værts navn."
 
 #: clientgui/NoInternetConnectionPage.cpp:98
 msgid "No Internet connection"
@@ -827,8 +940,13 @@ msgid "Account not found"
 msgstr "Konto er ikke fundet"
 
 #: clientgui/NotFoundPage.cpp:106
-msgid "Verify your account name and password are correct and try again."
-msgstr "Kontroler dit konto navn og kodeord er korrekt og prøv igen."
+#: clientgui/NotFoundPage.cpp:176
+msgid "Check the email address and password, and try again."
+msgstr "Check emailadresse og kodeord, og prøv igen."
+
+#: clientgui/NotFoundPage.cpp:172
+msgid "Check the username and password, and try again."
+msgstr "Check dit brugernavn og kodeord, og prøv igen."
 
 #: clientgui/ProjectInfoPage.cpp:104
 msgid "Project URL"
@@ -855,9 +973,38 @@ msgstr ""
 "Kommunikerer med projekt \n"
 "Vent venligst..."
 
+#: clientgui/ProxyInfoPage.cpp:100
+msgid "Network communication failure"
+msgstr "Netværks kommunikations fejl"
+
+#: clientgui/ProxyInfoPage.cpp:107
+msgid ""
+"BOINC failed to communicate on the Internet. The most likely\n"
+"reasons are:\n"
+"\n"
+"1) Personal firewall software is blocking BOINC. You must\n"
+"configure your personal firewall to let BOINC communicate\n"
+"on port 80. Once this is fixed, click Back to try again.\n"
+"\n"
+"2) You are using a proxy server and BOINC needs to know\n"
+"about it.\n"
+"\n"
+"Click Next to configure BOINC's proxy settings.\n"
+msgstr ""
+"BOINC kunne ikke kommunikere over internettet. De mest\n"
+"almindelige grunde er:\n"
+"\n"
+"1) Den personlige firewall blokerer BOINC. Du skal\n"
+"konfigurere din personlige firewall til at lade BOINC kommunikere\n"
+"på port 80. Når dette er gjort, klik på Tilbage for at prøve igen.\n"
+"\n"
+"2) Du bruger Proxy server, og BOINC skal indstilles til den.\n"
+"\n"
+"Klik på Næste for at konfigurere BOINC's proxy indstillinger.\n"
+
 #: clientgui/ProxyPage.cpp:117
 msgid "Proxy configuration"
-msgstr "Proxi konfiguration"
+msgstr "Proxy konfiguration"
 
 #: clientgui/ProxyPage.cpp:123
 msgid "HTTP proxy"
@@ -916,11 +1063,11 @@ msgstr "Ugyldig konto nøgle; Indtast venligst en gyldig konto nøgle"
 msgid "Validation conflict"
 msgstr "Validerings konflikt"
 
-#: clientgui/ValidateURL.cpp:79
+#: clientgui/ValidateURL.cpp:70
 msgid "Missing URL"
 msgstr "Manglende URL"
 
-#: clientgui/ValidateURL.cpp:80
+#: clientgui/ValidateURL.cpp:71
 msgid ""
 "Please specify a URL.\n"
 "For example:\n"
@@ -930,41 +1077,41 @@ msgstr ""
 "For eksempel:\n"
 "http://www.eksempel.com/"
 
-#: clientgui/ValidateURL.cpp:83
-#: clientgui/ValidateURL.cpp:87
-#: clientgui/ValidateURL.cpp:91
-#: clientgui/ValidateURL.cpp:103
-#: clientgui/ValidateURL.cpp:107
-#: clientgui/ValidateURL.cpp:110
-msgid "Invalid URL"
-msgstr "Ugyldig URL"
-
 #: clientgui/ValidateURL.cpp:84
 #: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:111
+msgid "Invalid URL"
+msgstr "Ugyldig URL"
+
+#: clientgui/ValidateURL.cpp:85
+#: clientgui/ValidateURL.cpp:89
+#: clientgui/ValidateURL.cpp:93
 msgid ""
-"Please specify a valid host name.\n"
+"Please specify a valid URL.\n"
 "For example:\n"
-"boincproject.example.com"
+"http://boincproject.example.com"
 msgstr ""
 "Venligst specifiser et gyldigt værts navn.\n"
 "For eksempel:\n"
 "boincproject.eksempel.com"
 
-#: clientgui/ValidateURL.cpp:104
-#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:105
+#: clientgui/ValidateURL.cpp:109
 #, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' indeholder ikke et gyldigt værts navn."
 
-#: clientgui/ValidateURL.cpp:111
+#: clientgui/ValidateURL.cpp:112
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' indeholder ikke en gyldig sti."
 
 #: clientgui/ViewMessages.cpp:74
 #: clientgui/ViewProjects.cpp:102
-#: clientgui/ViewStatistics.cpp:316
+#: clientgui/ViewStatistics.cpp:634
 #: clientgui/ViewTransfers.cpp:92
 #: clientgui/ViewWork.cpp:95
 msgid "Tasks"
@@ -1024,19 +1171,19 @@ msgid "Report all completed work, get latest credit, get latest preferences, and
 msgstr "Rapporter alt færdigt arbejde, og opfrisker dine kreditter og indstillinger og, hvis muligt, henter mere arbejde for dette projekt."
 
 #: clientgui/ViewProjects.cpp:114
-#: clientgui/ViewProjects.cpp:552
+#: clientgui/ViewProjects.cpp:560
 #: clientgui/ViewWork.cpp:99
-#: clientgui/ViewWork.cpp:450
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend"
 msgstr "Suspender kørsel"
 
 #: clientgui/ViewProjects.cpp:115
-#: clientgui/ViewProjects.cpp:552
+#: clientgui/ViewProjects.cpp:560
 msgid "Suspend work for this project."
 msgstr "Suspender arbejde for dette projekt."
 
 #: clientgui/ViewProjects.cpp:121
-#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewProjects.cpp:572
 msgid "No new work"
 msgstr "Hent ikke arbejde"
 
@@ -1063,10 +1210,6 @@ msgstr "Afmelder denne computer fra projektet. Igangværende arbejde vil blive ta
 #: clientgui/ViewProjects.cpp:151
 msgid "Account"
 msgstr "Konto"
-
-#: clientgui/ViewProjects.cpp:152
-msgid "Team"
-msgstr "Hold"
 
 #: clientgui/ViewProjects.cpp:153
 msgid "Total credit"
@@ -1140,45 +1283,45 @@ msgstr "Afmeld Projekt"
 msgid "Launching browser..."
 msgstr "Starter browser..."
 
-#: clientgui/ViewProjects.cpp:548
-#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewProjects.cpp:556
+#: clientgui/ViewWork.cpp:449
 msgid "Resume"
 msgstr "Genoptag"
 
-#: clientgui/ViewProjects.cpp:548
+#: clientgui/ViewProjects.cpp:556
 msgid "Resume work for this project."
 msgstr "Genoptag arbejde for dette projekt."
 
-#: clientgui/ViewProjects.cpp:560
+#: clientgui/ViewProjects.cpp:568
 msgid "Allow new work"
 msgstr "Tillad nyt arbejde"
 
-#: clientgui/ViewProjects.cpp:560
+#: clientgui/ViewProjects.cpp:568
 msgid "Allow fetching new work for this project."
 msgstr "Tillader at hente nyt arbejde til dette projekt."
 
-#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewProjects.cpp:572
 msgid "Don't fetch new work for this project."
 msgstr "Hent ikke nyt arbejde til dette projekt."
 
-#: clientgui/ViewProjects.cpp:599
+#: clientgui/ViewProjects.cpp:607
 msgid "Web sites"
 msgstr "Web sider"
 
-#: clientgui/ViewProjects.cpp:713
-#: clientgui/ViewWork.cpp:658
+#: clientgui/ViewProjects.cpp:721
+#: clientgui/ViewWork.cpp:661
 msgid "Suspended by user"
 msgstr "Suspenderet af bruger"
 
-#: clientgui/ViewProjects.cpp:716
+#: clientgui/ViewProjects.cpp:724
 msgid "Won't get new work"
 msgstr "Henter ikke nyt arbejde"
 
-#: clientgui/ViewProjects.cpp:719
+#: clientgui/ViewProjects.cpp:727
 msgid "Scheduler request pending"
-msgstr "Scheduler forespørgsel udestående"
+msgstr "Scheduler forespørgsel venter"
 
-#: clientgui/ViewProjects.cpp:725
+#: clientgui/ViewProjects.cpp:733
 msgid "Communication deferred "
 msgstr "Kommunikation udsat "
 
@@ -1190,50 +1333,64 @@ msgstr "Disk plads"
 msgid "Disk"
 msgstr "Disk"
 
-#: clientgui/ViewStatistics.cpp:40
-#: clientgui/ViewStatistics.cpp:46
-#: clientgui/ViewStatistics.cpp:374
+#: clientgui/ViewStatistics.cpp:41
+#: clientgui/ViewStatistics.cpp:52
+#: clientgui/ViewStatistics.cpp:524
+#: clientgui/ViewStatistics.cpp:706
 msgid "User Total"
 msgstr "Bruger Total"
 
-#: clientgui/ViewStatistics.cpp:320
-msgid "Show user total"
-msgstr "Vis bruger total"
-
-#: clientgui/ViewStatistics.cpp:327
-msgid "Show user average"
-msgstr "Vis bruger gennemsnit"
-
-#: clientgui/ViewStatistics.cpp:334
-msgid "Show host total"
-msgstr "Vis værts total"
-
-#: clientgui/ViewStatistics.cpp:341
-msgid "Show host average"
-msgstr "Vis værts gennemsnit"
-
-#: clientgui/ViewStatistics.cpp:360
-msgid "Statistics"
-msgstr "Statistikker"
-
-#: clientgui/ViewStatistics.cpp:373
-#: clientgui/ViewStatistics.cpp:393
-#: clientgui/ViewStatistics.cpp:413
-#: clientgui/ViewStatistics.cpp:433
-msgid "Updating charts..."
-msgstr "Opdaterer grafer..."
-
-#: clientgui/ViewStatistics.cpp:394
+#: clientgui/ViewStatistics.cpp:531
+#: clientgui/ViewStatistics.cpp:726
 msgid "User Average"
 msgstr "Bruger Gennemsnit"
 
-#: clientgui/ViewStatistics.cpp:414
+#: clientgui/ViewStatistics.cpp:538
+#: clientgui/ViewStatistics.cpp:746
 msgid "Host Total"
 msgstr "Værts Total"
 
-#: clientgui/ViewStatistics.cpp:434
+#: clientgui/ViewStatistics.cpp:545
+#: clientgui/ViewStatistics.cpp:766
 msgid "Host Average"
 msgstr "Værts Gennemsnit"
+
+#: clientgui/ViewStatistics.cpp:638
+msgid "Show user total"
+msgstr "Vis bruger total"
+
+#: clientgui/ViewStatistics.cpp:645
+msgid "Show user average"
+msgstr "Vis bruger gennemsnit"
+
+#: clientgui/ViewStatistics.cpp:652
+msgid "Show host total"
+msgstr "Vis værts total"
+
+#: clientgui/ViewStatistics.cpp:659
+msgid "Show host average"
+msgstr "Vis værts gennemsnit"
+
+#: clientgui/ViewStatistics.cpp:666
+msgid "Mode view"
+msgstr "Tilstands udseende"
+
+#: clientgui/ViewStatistics.cpp:673
+msgid "Next project"
+msgstr "Næste Projekt"
+
+#: clientgui/ViewStatistics.cpp:692
+msgid "Statistics"
+msgstr "Statistikker"
+
+#: clientgui/ViewStatistics.cpp:705
+#: clientgui/ViewStatistics.cpp:725
+#: clientgui/ViewStatistics.cpp:745
+#: clientgui/ViewStatistics.cpp:765
+#: clientgui/ViewStatistics.cpp:784
+#: clientgui/ViewStatistics.cpp:802
+msgid "Updating charts..."
+msgstr "Opdaterer grafer..."
 
 #: clientgui/ViewTransfers.cpp:96
 msgid "Retry Now"
@@ -1289,42 +1446,42 @@ msgstr "Er du sikker på, du vil afbryde denne fil overførsel '%s'?"
 msgid "Abort File Transfer"
 msgstr "Afbryd fil overførsel"
 
-#: clientgui/ViewTransfers.cpp:509
+#: clientgui/ViewTransfers.cpp:525
 msgid "Retry in "
 msgstr "Prøver igen om "
 
-#: clientgui/ViewTransfers.cpp:511
-#: clientgui/ViewWork.cpp:649
+#: clientgui/ViewTransfers.cpp:527
+#: clientgui/ViewWork.cpp:652
 msgid "Download failed"
 msgstr "Hentning fejlede"
 
-#: clientgui/ViewTransfers.cpp:513
-#: clientgui/ViewWork.cpp:685
+#: clientgui/ViewTransfers.cpp:529
+#: clientgui/ViewWork.cpp:688
 msgid "Upload failed"
 msgstr "Sending fejlede"
 
-#: clientgui/ViewTransfers.cpp:516
-#: clientgui/ViewTransfers.cpp:525
+#: clientgui/ViewTransfers.cpp:532
+#: clientgui/ViewTransfers.cpp:541
 msgid "Suspended"
 msgstr "Suspenderet"
 
-#: clientgui/ViewTransfers.cpp:518
-#: clientgui/ViewWork.cpp:687
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewWork.cpp:690
 msgid "Uploading"
 msgstr "Sender"
 
-#: clientgui/ViewTransfers.cpp:518
-#: clientgui/ViewWork.cpp:651
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewWork.cpp:654
 msgid "Downloading"
 msgstr "Henter"
 
 #: clientgui/ViewWork.cpp:100
-#: clientgui/ViewWork.cpp:450
+#: clientgui/ViewWork.cpp:453
 msgid "Suspend work for this result."
 msgstr "Suspender arbejde for dette resultat."
 
 #: clientgui/ViewWork.cpp:106
-#: clientgui/ViewWork.cpp:210
+#: clientgui/ViewWork.cpp:208
 msgid "Show graphics"
 msgstr "Vis Grafik"
 
@@ -1376,71 +1533,71 @@ msgstr "Suspenderer resultat..."
 msgid "Showing graphics for result..."
 msgstr "Viser grafik for et reultat..."
 
-#: clientgui/ViewWork.cpp:209
-msgid "Are you sure you wish to display graphics on a remote machine?"
+#: clientgui/ViewWork.cpp:207
+msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Er du sikker på, du ønsker at vise grafik på en anden maskine?"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:253
 msgid "Aborting result..."
 msgstr "Afbryder resultat..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:256
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
 msgstr "Er du sikker på, du vil afbryde dette resultat '%s'?"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:262
 msgid "Abort result"
 msgstr "Afbryd resultat"
 
-#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewWork.cpp:449
 msgid "Resume work for this result."
 msgstr "Genoptag arbejde for dette resultat."
 
-#: clientgui/ViewWork.cpp:645
+#: clientgui/ViewWork.cpp:648
 msgid "New"
 msgstr "Ny"
 
-#: clientgui/ViewWork.cpp:656
-#: clientgui/ViewWork.cpp:678
+#: clientgui/ViewWork.cpp:659
+#: clientgui/ViewWork.cpp:681
 msgid "Aborted by user"
 msgstr "Afbrudt af bruger"
 
-#: clientgui/ViewWork.cpp:660
+#: clientgui/ViewWork.cpp:663
 msgid "Activities suspended"
 msgstr "Aktiviteter suspenderet"
 
-#: clientgui/ViewWork.cpp:663
+#: clientgui/ViewWork.cpp:666
 msgid "Running"
 msgstr "Kører"
 
-#: clientgui/ViewWork.cpp:665
+#: clientgui/ViewWork.cpp:668
 msgid "Preempted"
 msgstr "Pause"
 
-#: clientgui/ViewWork.cpp:667
 #: clientgui/ViewWork.cpp:670
+#: clientgui/ViewWork.cpp:673
 msgid "Ready to run"
 msgstr "Klar til kørsel"
 
-#: clientgui/ViewWork.cpp:680
+#: clientgui/ViewWork.cpp:683
 msgid "Computation error"
 msgstr "Beregningsfejl"
 
-#: clientgui/ViewWork.cpp:692
+#: clientgui/ViewWork.cpp:695
 msgid "Acknowledged"
 msgstr "Anerkendt"
 
-#: clientgui/ViewWork.cpp:694
+#: clientgui/ViewWork.cpp:697
 msgid "Ready to report"
 msgstr "Klar til rapportering"
 
-#: clientgui/ViewWork.cpp:696
+#: clientgui/ViewWork.cpp:699
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Fejl: Ugydig tilstand '%d'"
 
-#: clientgui/ViewWork.cpp:704
+#: clientgui/ViewWork.cpp:707
 msgid "Activities suspended by user"
 msgstr "Aktiviteter suspenderet af bruger"
 
@@ -1448,13 +1605,17 @@ msgstr "Aktiviteter suspenderet af bruger"
 msgid "We'll now guide you through the process of attaching to a project."
 msgstr "Vi vil  nu guide dig gennem processen med at tilmelde et projekt."
 
+#: clientgui/WelcomePage.cpp:149
+msgid "Account manager"
+msgstr "Konto manager"
+
 #: clientgui/WelcomePage.cpp:153
 msgid ""
-"We'll now guide you through the process of attaching to an\n"
-"account manager."
+"We'll now guide you through the process of \n"
+"adding/updating/removing an account manager."
 msgstr ""
-"Vi vil  nu guide dig gennem processen med at tilmelde en\n"
-"konto manager."
+"Vi vil  nu guide dig gennem processen med at\n"
+"tilmelde/opdatere/fjerne en konto manager."
 
 #: clientgui/WelcomePage.cpp:160
 msgid "Debug Flags"
@@ -1508,21 +1669,21 @@ msgstr "Net detektionsfejl"
 msgid "To continue, click Next."
 msgstr "Klik Næste for at fortsætte."
 
-#: clientgui/WizardAccountManager.cpp:116
+#: clientgui/WizardAccountManager.cpp:118
 msgid "Attach to Account Manager"
 msgstr "Tilmeld konto manager"
 
-#: clientgui/WizardAccountManager.cpp:374
-#: clientgui/WizardAttachProject.cpp:426
+#: clientgui/WizardAccountManager.cpp:387
+#: clientgui/WizardAttachProject.cpp:436
 msgid "Do you really want to cancel?"
 msgstr "Fortryder du virkelig?"
 
-#: clientgui/WizardAccountManager.cpp:375
-#: clientgui/WizardAttachProject.cpp:427
+#: clientgui/WizardAccountManager.cpp:388
+#: clientgui/WizardAttachProject.cpp:437
 msgid "Question"
 msgstr "Spørgsmål"
 
-#: clientgui/WizardAttachProject.cpp:131
+#: clientgui/WizardAttachProject.cpp:133
 msgid "Attach to Project"
 msgstr "Tilmeld projekt"
 
