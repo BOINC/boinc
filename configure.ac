@@ -567,10 +567,10 @@ SAH_CHECK_LIB([pthread],[pthread_join],[
     AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-#SAH_CHECK_LIB([wsock32],[fopen],[
-#    AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
-#    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-#   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+SAH_CHECK_LIB([wsock32],[fopen],[
+    AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
     
 
 if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
