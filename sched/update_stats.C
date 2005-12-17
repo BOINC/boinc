@@ -42,7 +42,11 @@
 #define LOCKFILE "update_stats.out"
 #define PIDFILE  "update_stats.pid"
 
+#ifdef EINSTEIN_AT_HOME
+#define UPDATE_INTERVAL 3600*24;
+#else
 #define UPDATE_INTERVAL 3600*24*4;
+#endif
 
 double update_time_cutoff;
 
