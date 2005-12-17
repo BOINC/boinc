@@ -14544,3 +14544,20 @@ Bruce 15 Dec 2005 [from Walt Gribben]
         sched_config.h
         sched_send.C
 
+Bruce 15 Dec 2005
+    - To address some concerns about security, strip USER # from the
+      online scheduler logs.  The only info that appears in these
+      online logs is then the HOSTID.  If the user has chosen to hide
+      their hosts, then there is no way to figure out which user a
+      given hostid belongs to.
+
+      Note that this is exactly the same as the current approach of
+      displaying the results by hostid, but hiding the identity of the
+      user who owns a given host.
+
+      Also, increase default time for retaining logs to two weeks.
+
+    tools/
+        makelog.sh
+        cleanlogs.sh
+
