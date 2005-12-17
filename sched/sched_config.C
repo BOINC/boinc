@@ -39,6 +39,9 @@ int SCHED_CONFIG::parse(char* buf) {
     //
     memset(this, 0, sizeof(SCHED_CONFIG));
     max_wus_to_send = 10;
+    default_disk_max_used_gb = 100.;
+    default_disk_max_used_pct = 50.;
+    default_disk_min_free_gb = .001;
 
     parse_str(buf, "<long_name>", long_name, sizeof(long_name));
     parse_str(buf, "<db_name>", db_name, sizeof(db_name));
@@ -83,6 +86,9 @@ int SCHED_CONFIG::parse(char* buf) {
     if (parse_double(buf, "<fp_benchmark_weight>", fp_benchmark_weight)) {
         use_benchmark_weights = true;
     }
+    parse_double(buf, "<default_disk_max_used_gb>", default_disk_max_used_gb);
+    parse_double(buf, "<default_disk_max_used_pct>", default_disk_max_used_pct);
+    parse_double(buf, "<default_disk_min_free_gb>", default_disk_min_free_gb);
 
     if (match_tag(buf, "</config>")) {
         char hostname[256];

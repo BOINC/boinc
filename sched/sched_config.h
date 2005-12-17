@@ -69,6 +69,9 @@ public:
     bool resend_lost_results;
     bool use_benchmark_weights;
     double fp_benchmark_weight;
+    double default_disk_max_used_gb;
+    double default_disk_max_used_pct;
+    double default_disk_min_free_gb;
 
     int parse(char*);
     int parse_file(const char* dir=".");

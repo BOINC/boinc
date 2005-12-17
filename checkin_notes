@@ -14527,3 +14527,20 @@ Bruce  15 Dec 2005
         user/
             top_hosts.php
 
+Bruce 15 Dec 2005 [from Walt Gribben]
+    - Cleanup of parameters that define disk free space requirements.
+      Previously these were spread around in different places.  Now
+      these are defined by some config.xml options that are used by
+      PHP pages and by the scheduler code.  See a description in
+      doc/configuration.php.
+
+    doc/
+        configuration.php
+    html/
+        inc/
+            prefs.inc
+    sched/
+        sched_config.C
+        sched_config.h
+        sched_send.C
+

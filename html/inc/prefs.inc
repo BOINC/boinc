@@ -78,6 +78,8 @@ define("DISK_INTERVAL_DESC", "Write to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
 define("DISK_MAX_USED_GB_DESC", "Use no more than");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
+define("DISK_SCHED_MIN_FREE_DESC1", "<br><font size=-2>(Values smaller than ");
+define("DISK_SCHED_MIN_FREE_DESC2", " are ignored)</font>");
 define("DISK_MAX_USED_PCT_DESC", "Use no more than");
 define("DISK_MAX_USED_PCT_DESC2", "% of total disk space");
 define("VM_MAX_USED_PCT_DESC", "Use no more than");
@@ -106,6 +108,44 @@ global $parse_result;
 global $top_parse_result;
 global $in_project_specific;
 global $venue_name;
+global $disk_prefs;
+
+
+// get default settings for disk space usage so the default user
+// preferences match the settings used by the scheduler.
+// Defaults are set if the tags are missing, they depend on
+// which scheduler is running:
+// - 'old' has the default hardcoded 
+// - 'new' uses config settings
+// if running the old scheduler, set <scheduler_disk_space_check_hardcoded>
+// in config.xml so the right default is set for minimum free disk space
+// 
+$disk_prefs = null;
+function get_disk_space_config() {
+    global  $disk_prefs;
+    global  $config;
+    if ($disk_prefs == null) {
+        $config = get_config();
+        $disk_prefs->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
+        $disk_prefs->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
+        $disk_prefs->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
+        // set some defaults if not found
+        if (!$disk_prefs->disk_max_used_gb) $disk_prefs->disk_max_used_gb = 100;  // 100 gb
+        if (!$disk_prefs->disk_max_used_pct) $disk_prefs->disk_max_used_pct = 50; // 50 percent
+        if (!$disk_prefs->disk_min_free_gb) $disk_prefs->disk_min_free_gb=.001;   // 1 megabyte
+	// set mininimum free space scheduler allows 
+	// - depends on which scheduler is running
+        $disk_prefs->new_sched_flag = 1;
+        $disk_prefs->sched_disk_min_free_gb = $disk_prefs->disk_min_free_gb;
+        if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
+	  $disk_prefs->new_sched_flag = 0;
+          $disk_prefs->sched_disl_min_free_gb = 0;
+        }    
+    }
+       
+    return $disk_prefs;
+}
+
 
 function check_venue($x) {
     if ($x == "home") return;
@@ -304,6 +344,7 @@ function char_handler($parser, $x) {
     $text = $text.$x;
 }
 
+
 // state of prefs for new users
 //
 function default_prefs_global() {
@@ -320,9 +361,10 @@ function default_prefs_global() {
     $p->work_buf_min_days = .1;
     $p->max_cpus = 2;
     $p->disk_interval = 60;
-    $p->disk_max_used_gb = 100;
-    $p->disk_max_used_pct = 50;
-    $p->disk_min_free_gb = 0.1;
+    $dp = get_disk_space_config();
+    $p->disk_max_used_gb = $dp->disk_max_used_gb;
+    $p->disk_max_used_pct = $dp->disk_max_used_pct;
+    $p->disk_min_free_gb = $dp->disk_min_free_gb;
     $p->vm_max_used_pct = 75;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
@@ -348,6 +390,7 @@ function initialize_prefs_before_parsing_global() {
     $p->leave_apps_in_memory = false;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = false;
+    
     return $p;
 }
 
@@ -420,7 +463,14 @@ function prefs_show_global($prefs) {
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
     row1(DISK_LIMIT_DESC);
     row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB disk space");
-    row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB disk space free");
+
+    $dp = get_disk_space_config();
+
+    $msg=null;
+    if ($dp->new_sched_flag) {
+      $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
+    }
+    row2(DISK_MIN_FREE_GB_DESC.$msg, "$prefs->disk_min_free_gb GB disk space free");
     row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row2(VM_MAX_USED_PCT_DESC, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
@@ -600,7 +650,14 @@ function prefs_form_global($user, $prefs) {
         "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes"
     );
 
-    row2(DISK_MIN_FREE_GB_DESC,
+    $dp = get_disk_space_config();
+
+    $msg=null;
+    if ($dp->new_sched_flag) {
+      $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
+    } 
+
+    row2(DISK_MIN_FREE_GB_DESC.$msg,
         "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free"
     );
 

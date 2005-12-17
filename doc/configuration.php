@@ -55,7 +55,11 @@ htmlspecialchars("
     [ <sched_lockfile_dir> path </sched_lockfile_dir> ]
     [ <min_passwd_length> N </min_passwd_length> ]
     [ <client_account_creation_disabled/> ]
-    [ <fp_benchmark_weight> X <fp_benchmark_weight> ]
+    [ <fp_benchmark_weight> X </fp_benchmark_weight> ]
+    [ <default_disk_max_used_gb> X </default_disk_max_used_gb> ]
+    [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
+    [ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
+    [ <sched_disk_space_check_hardcoded/> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -291,6 +295,43 @@ list_item("fp_benchmark_weight",
     run against the database of a running project,
     will suggest what value to use."
 );
+
+list_item("default_disk_max_used_gb", "Sets the default value for
+    the disk_max_used_gb preference so its consistent between the
+    scheduler and web pages.  The scheduler uses it when a request
+    for work doesn't include preferences, or the preference is set
+    to zero.  The web page scripts use it to set the initial value
+    when displaying or editing preferences the first time, or when
+    the user never saved them.  Default is 100.
+");
+
+list_item("default_disk_max_used_pct", "Sets the default value for
+    the disk_max_used_pct preference so its consistent between the
+    scheduler and web pages.  The scheduler uses it when a request
+    for work doesn't include preferences, or the preference is set
+    to zero.  The web page scripts use it to set the initial value
+    when displaying or editing preferences the first time, or when
+    the user never saved them. Default is 50.
+");
+
+list_item("default_disk_min_free_gb", "Sets the default value for
+    the disk_min_free_gb preference so its consistent between the
+    scheduler and web pages.  The scheduler uses it when a request
+    for work doesn't include preferences.  The web page scripts use
+    it to  set the initial value when displaying or editing 
+    preferences the  first time, or when the user never saved them.
+    Also, the scheduler uses this setting to override any smaller
+    preference from the host, it enforces a 'minumum free disk space'
+    to keep from filling up the drive.  Recommend setting this no
+    smaller than .001 (1MB or 1,000,000 bytes).  Default is .001.
+");
+
+list_item("sched_disk_space_check_hardcoded", "Controls how the
+    above three settings are interpreted by the web page php scripts.
+    This setting is for projects that updated the php scripts to
+    get the default disk space usage settings from config.xml, but
+    haven't updated their scheduler to do the same.    
+");
 
 list_end();
 
