@@ -53,10 +53,10 @@ dnl some vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================
 AC_ARG_ENABLE([client-release], 
    AS_HELP_STRING([--enable-client-release],
-        [Build a portable "release-candidate" (currently implemented for Linux and Solaris only):
-        this links libstd++ statically. You will probably need gcc-3.0 for
-        this to produce a portable client-binary.
-        It is therefore recommended to use CC=gcc-3.0 and CXX=g++-3.0 for this.
+        [Attempt to build a portable "release-candidate": this links libstd++ and
+	other addon-libraries statically. 
+	(On GNU/Linux you might need to use gcc-3.0 for this to produce a 
+	binary that works for glibc <= 2.2 systems. => use CC=gcc-3.0 and CXX=g++-3.0)
 	(Default = no)]),
     [enable_client_release=yes;disable_static_linkage=no],
     [enable_client_release=no;disable_static_linkage=yes])
@@ -165,27 +165,13 @@ SAH_OPTION_BITNESS
 dnl Determine the BOINC platform given the target arch-platform-os.
 BOINC_PLATFORM
 
-dnl Some platform specific settings
-case $target in
-   *linux* | *sun* )
-        if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
-           AC_MSG_WARN([--enable-client-release ignored.
+if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" != yes ); then
+   AC_MSG_WARN([--enable-client-release ignored.
 --------------------------------------------------
 The switch --enable-client-release is only useful for building the client and will be ignored
 --------------------------------------------------])
-        fi
-        ;;
-
-   *)   ## in the non-linux, non-solaris case, --enable-client-release is not allowed
-        if test "${enable_client_release}" = yes; then
-           AC_MSG_WARN([
-----------------------------------------------------------------------
-Sorry, the switch --enable-client-release is currently only implemented
-for Linux and Solaris, and will have no effect.
-----------------------------------------------------------------------])
-        fi
-        ;;
-esac
+fi
+   
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile
