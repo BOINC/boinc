@@ -3,14 +3,22 @@ require_once("docutil.php");
 page_head("Preferences");
 echo "
 <p>
-You can specify <b>preferences</b> that determine and limit
-how BOINC uses your computers.
+You can specify <b>preferences</b> that limit
+when and how BOINC uses your computers.
 Preferences are divided into two groups: General and Project.
 
 <h2>Editing preferences</h2>
 <p>
 You can view and edit your preferences via the project's web site.
-Click on 'Your account', then 'View or edit preferences'.
+Click on 'Your account', then 'View or edit general preferences'.
+<blockquote>
+<b>
+Note: these links may be different on some projects.
+For example, on Climateprediction.net you must click
+'My CPDN', then 'BOINC CPDN', then 'Your account',
+and 'View or edit general preferences'.
+</b>
+</blockquote>
 This shows you the preferences.
 If you want to change anything,
 click on 'Edit preferences'.

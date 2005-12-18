@@ -114,6 +114,9 @@ int boinc_socket(int& fd) {
         perror("socket");
         return ERR_SOCKET;
     }
+#ifndef _WIN32
+    fcntl(fd, F_SETFD, FD_CLOEXEC);
+#endif
     return 0;
 }
 

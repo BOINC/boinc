@@ -139,19 +139,33 @@ $config_xml = get_config();
 $config_vars = parse_element($config_xml,"<config>");
 $project_host = parse_element($config_vars,"<host>");
 $www_host = parse_element($config_vars,"<www_host>");
-if ($www_host == "") { $www_host = $project_host; }
+if ($www_host == "") {
+    $www_host = $project_host;
+}
 $sched_pid = parse_element($config_vars,"<sched_pid>");
-if ($sched_pid == "") { $sched_pid = "/etc/httpd/run/httpd.pid"; }
+if ($sched_pid == "") {
+    $sched_pid = "/etc/httpd/run/httpd.pid";
+}
 $sched_host = parse_element($config_vars,"<sched_host>");
-if ($sched_host == "") { $sched_host = $project_host; }
+if ($sched_host == "") {
+    $sched_host = $project_host;
+}
 $uldl_pid = parse_element($config_vars,"<uldl_pid>");
-if ($uldl_pid == "") { $uldl_pid = "/etc/httpd/run/httpd.pid"; }
+if ($uldl_pid == "") {
+    $uldl_pid = "/etc/httpd/run/httpd.pid";
+}
 $uldl_host = parse_element($config_vars,"<uldl_host>");
-if ($uldl_host == "") { $uldl_host = $project_host; }
+if ($uldl_host == "") {
+    $uldl_host = $project_host;
+}
 $ssh_exe = parse_element($config_vars,"<ssh_exe>");
-if ($ssh_exe == "") { $ssh_exe = "/usr/bin/ssh"; } 
+if ($ssh_exe == "") {
+    $ssh_exe = "/usr/bin/ssh";
+} 
 $ps_exe = parse_element($config_vars,"<ps_exe>");
-if ($ps_exe == "") { $ps_exe = "/bin/ps"; }
+if ($ps_exe == "") {
+    $ps_exe = "/bin/ps";
+}
 
 
 $xmlstring = "<server_status>\n  <update_time>" . time() . "</update_time>\n  <daemon_status>\n";
@@ -213,9 +227,12 @@ while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
 }
 
 $xmlstring = "  </daemon_status>\n  <database_file_states>\n";
-if ($xml) { echo $xmlstring; }
-else {
-    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+if ($xml) {
+    echo $xmlstring;
+} else {
+    if ($xmlout) {
+        fwrite($xmloutfile,$xmlstring);
+    }
     echo "
         <tr><td align=right><b>Running:</b></td>
         <td colspan=2>Program is operating normally</td></tr>
@@ -250,28 +267,61 @@ if ($retval) {
     // $n = `/bin/tail -1 $sendfile`;
     // show_counts("Results ready to send","results_ready_to_send",$n);
 
-    show_counts("Results ready to send","results_ready_to_send",get_mysql_count("result where server_state = 2"));
-    show_counts("Results in progress","results_in_progress",get_mysql_count("result where server_state = 4"));
-    show_counts("Workunits waiting for validation","workunits_waiting_for_validation",get_mysql_count("workunit where need_validate=1"));
-    show_counts("Workunits waiting for assimilation","workunits_waiting_for_assimilation",get_mysql_count("workunit where assimilate_state=1"));
-    show_counts("Workunits waiting for deletion","workunits_waiting_for_deletion",get_mysql_count("workunit where file_delete_state=1"));
-    show_counts("Results waiting for deletion","results_waiting_for_deletion",get_mysql_count("result where file_delete_state=1"));
+    show_counts(
+        "Results ready to send",
+        "results_ready_to_send",
+        get_mysql_count("result where server_state = 2")
+    );
+    show_counts(
+        "Results in progress",
+        "results_in_progress",
+        get_mysql_count("result where server_state = 4")
+    );
+    show_counts(
+        "Workunits waiting for validation",
+        "workunits_waiting_for_validation",
+        get_mysql_count("workunit where need_validate=1")
+    );
+    show_counts(
+        "Workunits waiting for assimilation",
+        "workunits_waiting_for_assimilation",
+        get_mysql_count("workunit where assimilate_state=1")
+    );
+    show_counts(
+        "Workunits waiting for deletion",
+        "workunits_waiting_for_deletion",
+        get_mysql_count("workunit where file_delete_state=1")
+    );
+    show_counts(
+        "Results waiting for deletion",
+        "results_waiting_for_deletion",
+        get_mysql_count("result where file_delete_state=1")
+    );
 
     $result = mysql_query("select MIN(transition_time) as min from workunit");
     $min = mysql_fetch_object($result);
     mysql_free_result($result);
     $gap = (time() - $min->min)/3600;
-    if ($gap < 0) { $gap = 0; }
-    show_counts("Transitioner backlog (hours)","transitioner_backlog_hours",$gap);
+    if ($gap < 0) {
+        $gap = 0;
+    }
+    show_counts(
+        "Transitioner backlog (hours)",
+        "transitioner_backlog_hours",
+        $gap
+    );
     if (!$xml) {
         echo "</table>";
     }
 }
 
 $xmlstring = "  </database_file_states>\n</server_status>\n";
-if ($xml) { echo $xmlstring; }
-else {
-    if ($xmlout) { fwrite($xmloutfile,$xmlstring); }
+if ($xml) {
+    echo $xmlstring;
+} else {
+    if ($xmlout) {
+        fwrite($xmloutfile,$xmlstring);
+    }
     echo "
     </td>
     <td>&nbsp;</td>

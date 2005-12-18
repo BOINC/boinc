@@ -463,8 +463,8 @@ class Project:
             self.dir('html/user/forum_index.php'))
         install(srcdir('html/user', 'sample_rss_main.php'),
             self.dir('html/user/rss_main.php'))
-        install(srcdir('html/user', 'sample_status.php'),
-            self.dir('html/user/status.php'))
+        install(srcdir('html/user', 'sample_server_status.php'),
+            self.dir('html/user/server_status.php'))
 
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))

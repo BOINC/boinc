@@ -31,16 +31,10 @@
 #include <ctime>
 #include <cstring>
 #include <cstdlib>
-
-#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
-#endif
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#ifdef HAVE_DIRENT_H
 #include <dirent.h>
-#endif
+
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
@@ -371,6 +365,9 @@ FILE* boinc_fopen(const char* path, const char* mode) {
             f = fopen(path, mode);
             if (f) break;
         }
+    }
+    if (f) {
+        fcntl(fileno(f), F_SETFD, FD_CLOEXEC);
     }
 #endif
     return f;

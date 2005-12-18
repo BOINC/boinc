@@ -1,5 +1,7 @@
 <?php
 
+require_once("docutil.php");
+
 page_head("Starting BOINC automatically");
 
 echo "
@@ -29,6 +31,9 @@ startup of BOINC on various versions of Unix:
 
 <h2> Automatic startup on Mac OS X</h2>
 <p>
+Note: the Mac Standard GUI installation arranges
+for BOINC to run on system startup.
+The following is relevant if you install the command-line client.
 <ul>
 <li>
 Instructions from Paul Buck's

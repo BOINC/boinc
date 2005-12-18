@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("December 15, 2005",
+    "A <a href=http://www.nature.com/news/2005/051212/full/051212-10.html>story
+    about SETI@home's transition to BOINC</a> appears in the Nature web site."
+),
 array("December 12, 2005",
     "A new paper, <a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>,
     explores the limits of BOINC-based projects."

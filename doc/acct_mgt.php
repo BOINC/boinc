@@ -184,9 +184,9 @@ list_item("action",
     <dd>
     A time interval after which another RPC should be done.
     <dt> signing_key
+    <dd>
     The public key used to sign URLs, in an encoded notation.
     Use the BOINC <a href=key_setup.php>crypt_prog</a> program to generate this.
-    <dd>
     </dl>
     For each account, the following items are returned:
     <dl>

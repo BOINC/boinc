@@ -14561,3 +14561,23 @@ Bruce 15 Dec 2005
         makelog.sh
         cleanlogs.sh
 
+David  17 Dec 2005
+    - core client: set close-on-exec flag of sockets and files so that they
+        don't get 'leaked' to applications
+    - moved server status page from ops/ to user/
+    - make_project: copy sample_project_status.php to project_status.php
+
+    html/
+        languages/translations/
+            en.po
+        ops/
+            server_status.php (moved to user/sample_server_status.php)
+        user/
+            eah_server_status.php (new; Einstein@home status page)
+            sample_server_status.php (new; see above)
+            sample_status.php (removed)
+    lib/
+        filesys.C
+        network.C
+    py/Boinc/
+        setup_project.py

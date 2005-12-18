@@ -75,7 +75,8 @@ This deals with platform-specific problems.
 On Windows, where security and indexing programs can briefly lock files,
 boinc_fopen() does several retries at 1-second intervals.
 On Unix, where signals can cause fopen() to fail with EINTR,
-boinc_fopen checks for this and does a few retries.
+boinc_fopen checks for this and does a few retries;
+it also sets the 'close-on-exec' flag.
 
 <h3>Checkpointing</h3>
 
