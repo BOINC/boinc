@@ -14621,3 +14621,7 @@ Rom    19 Dec 2005
         gui_rpc_client_ops.C
     win_build/
         boincmgr_curl.vcproj
+
+Rom    19 Dec 2005 (HEAD)
+    - Tag for 5.3.3 release, all platforms
+      boinc_core_release_5_3_3
