@@ -898,9 +898,9 @@ int RPC_CLIENT::get_client_time(double& client_time) {
 
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</client_time>")) break;
-        else if (parse_int(buf, "<client_major_version>", client_major_version)) continue;
-        else if (parse_int(buf, "<client_minor_version>", client_minor_version)) continue;
-        else if (parse_int(buf, "<client_release>", client_release)) continue;
+        else if (parse_int(buf, "<major_version>", client_major_version)) continue;
+        else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
+        else if (parse_int(buf, "<release>", client_release)) continue;
         else if (parse_double(buf, "<time>", client_time)) continue;
     }
     return 0;
@@ -922,9 +922,9 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             return ERR_AUTHENTICATOR;
         }
         if (match_tag(buf, "</client_state>")) break;
-        else if (parse_int(buf, "<client_major_version>", client_major_version)) continue;
-        else if (parse_int(buf, "<client_minor_version>", client_minor_version)) continue;
-        else if (parse_int(buf, "<client_release>", client_release)) continue;
+        else if (parse_int(buf, "<major_version>", client_major_version)) continue;
+        else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
+        else if (parse_int(buf, "<release>", client_release)) continue;
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT();
             project->parse(rpc.fin);

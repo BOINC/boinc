@@ -30,6 +30,7 @@
 
 ////@begin forward declarations
 class CAccountManagerInfoPage;
+class CAccountManagerStatusPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 ////@end forward declarations
@@ -65,7 +66,7 @@ public:
 ////@begin CWizardAccountManager member function declarations
 
     /// Runs the wizard.
-    bool Run( wxString& strName, wxString& strURL, bool bCredentialsCached = true );
+    bool Run();
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
@@ -104,6 +105,7 @@ public:
 ////@begin CWizardAccountManager member variables
     CWelcomePage* m_WelcomePage;
     CAccountManagerInfoPage* m_AccountManagerInfoPage;
+    CAccountManagerStatusPage* m_AccountManagerStatusPage;
     CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
     CAccountInfoPage* m_AccountInfoPage;
     CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
@@ -115,6 +117,7 @@ public:
     CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyPage* m_ErrProxyPage;
 ////@end CWizardAccountManager member variables
+    wxString m_strProjectName;
     bool m_bCredentialsCached;
 };
 

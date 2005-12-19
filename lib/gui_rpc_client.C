@@ -202,10 +202,13 @@ int RPC_CLIENT::init_poll() {
                 BOINCTRACE("asynch error: %d\n", retval);
                 return retval;
             }
-            if (get_client_time(client_time)) {
+            retval = get_client_time(client_time);
+            if (retval) {
+                BOINCTRACE("get_client_time failure: %d\n", retval);
                 return ERR_RETRY;
             }
             if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
+                BOINCTRACE("client time and version numbers are null\n");
                 return ERR_RETRY;
             }
             return 0;

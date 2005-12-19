@@ -27,7 +27,6 @@ boinc_gui_SOURCES = \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
     DlgAbout.cpp \
-    DlgAccountManagerStatus.cpp \
     DlgDialupCredentials.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
@@ -46,6 +45,7 @@ boinc_gui_SOURCES = \
     AccountInfoPage.cpp \
     AccountKeyPage.cpp \
     AccountManagerInfoPage.cpp \
+    AccountManagerStatusPage.cpp \
     AccountManagerProcessingPage.cpp \
     AccountManagerPropertiesPage.cpp \
     AlreadyAttachedPage.cpp \

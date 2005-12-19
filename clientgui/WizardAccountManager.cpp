@@ -27,9 +27,11 @@
 #include "BOINCGUIApp.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "hyperlink.h"
 #include "WizardAccountManager.h"
 #include "WelcomePage.h"
 #include "AccountManagerInfoPage.h"
+#include "AccountManagerStatusPage.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountInfoPage.h"
 #include "AccountManagerProcessingPage.h"
@@ -86,6 +88,7 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
 ////@begin CWizardAccountManager member initialisation
     m_WelcomePage = NULL;
     m_AccountManagerInfoPage = NULL;
+    m_AccountManagerStatusPage = NULL;
     m_AccountManagerPropertiesPage = NULL;
     m_AccountInfoPage = NULL;
     m_AccountManagerProcessingPage = NULL;
@@ -111,6 +114,7 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     // Global wizard status
     project_config.clear();
     attached_to_project_successfully = false;
+    m_strProjectName.Empty();
     m_bCredentialsCached = false;
  
 ////@begin CWizardAccountManager creation
@@ -141,6 +145,10 @@ void CWizardAccountManager::CreateControls()
     m_AccountManagerInfoPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_AccountManagerInfoPage);
+    m_AccountManagerStatusPage = new CAccountManagerStatusPage;
+    m_AccountManagerStatusPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_AccountManagerStatusPage);
     m_AccountManagerPropertiesPage = new CAccountManagerPropertiesPage;
     m_AccountManagerPropertiesPage->Create( itemWizard1 );
 
@@ -187,6 +195,7 @@ void CWizardAccountManager::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls - Begin Page Map"));
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERINFOPAGE, m_AccountManagerInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerStatusPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERSTATUSPAGE, m_AccountManagerStatusPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROPERTIESPAGE, m_AccountManagerPropertiesPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROCESSINGPAGE, m_AccountManagerProcessingPage);
@@ -205,24 +214,31 @@ void CWizardAccountManager::CreateControls()
  * Runs the wizard.
  */
 
-bool CWizardAccountManager::Run( wxString& strName, wxString& strURL, bool bCredentialsCached )
-{
-    if (strURL.Length()) {
-        if (strName.Length()) {
+bool CWizardAccountManager::Run() {
+    ACCT_MGR_INFO ami;
+    CMainDocument*            pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->rpc.acct_mgr_info(ami);
+
+    if (ami.acct_mgr_url.size()) {
+        if (ami.acct_mgr_name.size()) {
             wxString strTitle;
             strTitle = GetTitle();
-            strTitle += wxT(" - ") + strName;
+            strTitle += wxT(" - ");
+            strTitle += ami.acct_mgr_name.c_str();
             SetTitle(strTitle);
         }
 
-        m_AccountManagerInfoPage->SetProjectURL( strURL );
-        m_bCredentialsCached = bCredentialsCached;
+        m_AccountManagerInfoPage->SetProjectURL( ami.acct_mgr_url.c_str() );
+        m_strProjectName = ami.acct_mgr_name.c_str();
+        m_bCredentialsCached = ami.have_credentials;
     }
 
-    if ( strURL.Length() && bCredentialsCached && m_AccountManagerProcessingPage) {
-        return RunWizard(m_AccountManagerProcessingPage);
-    } else if (strURL.Length() && !bCredentialsCached && m_AccountManagerPropertiesPage) {
-        return RunWizard(m_AccountManagerPropertiesPage);
+    if ( ami.acct_mgr_url.size() && m_AccountManagerStatusPage) {
+        return RunWizard(m_AccountManagerStatusPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
     }
@@ -334,6 +350,9 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
  
         if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
             pPage = m_AccountManagerInfoPage;
+ 
+        if (ID_ACCOUNTMANAGERSTATUSPAGE == ulPageID)
+            pPage = m_AccountManagerStatusPage;
  
         if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
             pPage = m_AccountManagerPropertiesPage;

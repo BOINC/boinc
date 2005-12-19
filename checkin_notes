@@ -14600,3 +14600,24 @@ David  18 Dec 2005
         user/
             am_set_info.php
             edit_email_action.php
+
+Rom    19 Dec 2005
+    - Merge the account manager status dialog into the wizard and remove
+        the account manager status dialog.
+    - Bug Fix: Fix the extra connection validation code in the gui rpc
+        clients.  the get_state rpc contained references to the old
+        client_version xml tags which were changed awhile back.  The
+        manager used to display the CC version in the status bar.
+        
+    clientgui/
+        AccountManagerStatusPage.cpp, .h (Added)
+        BOINCGUI.pjd
+        BOINCWizards.h
+        MainFrame.cpp
+        WizardAccountManager.cpp, .h
+        DlgAccountManagerStatus.cpp, .h (Removed)
+    lib/
+        gui_rpc_client.C
+        gui_rpc_client_ops.C
+    win_build/
+        boincmgr_curl.vcproj

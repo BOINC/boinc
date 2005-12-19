@@ -389,6 +389,12 @@
 				RelativePath="..\clientgui\AccountManagerPropertiesPage.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\AccountManagerStatusPage.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\AccountManagerStatusPage.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\AlreadyAttachedPage.cpp">
 			</File>
 			<File
@@ -570,12 +576,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAbout.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgAccountManagerStatus.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgAccountManagerStatus.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgDialupCredentials.cpp">

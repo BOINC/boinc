@@ -35,7 +35,6 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
-#include "DlgAccountManagerStatus.h"
 #include "DlgDialupCredentials.h"
 #include "DlgSelectComputer.h"
 #include "wizardex.h"
@@ -965,8 +964,6 @@ void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function Begin"));
 
-    int                       iAnswer = ID_CHANGE;
-    wxString                  strTitle = wxEmptyString;
     CMainDocument*            pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -983,41 +980,14 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
         m_pFrameListPanelRenderTimer->Stop();
         m_pDocumentPollTimer->Stop();
 
-        ACCT_MGR_INFO ami;
-        pDoc->rpc.acct_mgr_info(ami);
-        if (ami.acct_mgr_url.size()) {
-            CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
+        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
-            strTitle = pDlgStatus->GetTitle();
-            strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
-            pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
-            pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
-            pDlgStatus->SetTitle(strTitle);
+        pWizard->Run();
 
-            iAnswer = pDlgStatus->ShowModal();
+        if (pWizard)
+            pWizard->Destroy();
 
-            if (pDlgStatus)
-                pDlgStatus->Destroy();
-        }
-
-        if (((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) && (wxID_CANCEL != iAnswer)) {
-            CWizardAccountManager* pWizard = new CWizardAccountManager(this);
-
-            wxString strName = wxEmptyString;
-            wxString strURL = wxEmptyString;
-            bool bCredentialsCached = false;
-            if (ID_UPDATE == iAnswer) {
-                strName = ami.acct_mgr_name.c_str();
-                strURL = ami.acct_mgr_url.c_str();
-                bCredentialsCached = ami.have_credentials;
-            }
-            pWizard->Run( strName, strURL, bCredentialsCached );
-
-            if (pWizard)
-                pWizard->Destroy();
-
-            FireRefreshView();
-        }
+        FireRefreshView();
 
         m_pRefreshStateTimer->Start();
         m_pFrameRenderTimer->Start();
@@ -1366,13 +1336,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         pDoc->rpc.acct_mgr_info(ami);
         if (ami.acct_mgr_url.size()) {
             pAMWizard = new CWizardAccountManager(this);
-            strName = ami.acct_mgr_name.c_str();
-            strURL = ami.acct_mgr_url.c_str();
-            if (ami.have_credentials) {
-                pAMWizard->Run(strName, strURL, true);
-            } else {
-                pAMWizard->Run(strName, strURL, false);
-            }
+            pAMWizard->Run();
         } else {
             pAPWizard = new CWizardAttachProject(this);
             pDoc->rpc.get_project_init_status(pis);
