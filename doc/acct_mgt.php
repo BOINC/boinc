@@ -59,7 +59,7 @@ to the account manager, obtaining a list of accounts.
 It then attaches to these accounts and proceeds.
 </ol>
 
-The <b>create account</b> RPCs
+RPCs to create, look up, and modify accounts
 are described <a href=web_rpc.php>here</a>.
 
 <h2>Core client functionality</h2>

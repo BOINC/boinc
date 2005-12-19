@@ -3,6 +3,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
+require_once("../inc/email.inc");
 
 function reply($x) {
     echo "<am_set_info_reply>
@@ -43,6 +44,8 @@ $send_email = process_user_text($_GET["send_email"]);
 $show_hosts = process_user_text($_GET["show_hosts"]);
 $teamid = get_int("teamid", true);
 $venue = process_user_text($_GET["venue"]);
+$email_addr = strtolower(process_user_text($_GET["email_addr"]));
+$password_hash = process_user_text($_GET["password_hash"]);
 
 $query = "";
 if ($name) {
@@ -80,9 +83,21 @@ if ($teamid) {
 if ($venue) {
     $query .= " venue='$venue', ";
 }
+if ($email_addr && $email_addr!=$user->email_addr) {
+    $old_email_addr = $user->email_addr;
+    $query .= " email_addr='$email_addr', ";
+}
+if ($password_hash) {
+    $password_hash .= " password_hash='$password_hash', ";
+}
 
+// the seti_id=seti_id is to make it legal if no fields updated
+//
 $result = mysql_query("update user set $query seti_id=seti_id where id=$user->id");
 if ($result) {
+    if ($old_email_addr) {
+        send_verify_email($old_email_addr, $email_addr, $user);
+    }
     success("");
 } else {
     error("database error");

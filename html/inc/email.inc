@@ -35,6 +35,19 @@ function send_email($user, $subject, $body) {
         return mail($user->email_addr, $subject, $body, $headers);
     }
 }
+
+function send_verify_email($old, $new, $user) {
+    $x = md5($new.$user->authenticator);
+    mail(
+        $new,
+        PROJECT." account email change",
+"The email address of your " . PROJECT . " account has been changed from $old to $new.
+To validate the new address, visit the URL:
+".URL_BASE."validate_email.php?u=$user->id&x=$x
+"
+    );
+}
+
 // Send an email describing an account to the user.
 // There are a few scenarios:
 //

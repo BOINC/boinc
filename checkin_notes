@@ -14582,10 +14582,21 @@ David  17 Dec 2005
     py/Boinc/
         setup_project.py
 
-David  17 Dec 2005
+David  18 Dec 2005
     - compile fix: include config.h where needed
 
     lib/
         boinc_cmd.C
         filesys.C
         shmem.C
+
+David  18 Dec 2005
+    - extend the am_set_info.php RPC to let you
+        change email address and password_hash.
+
+    html/
+        inc/
+            email.inc
+        user/
+            am_set_info.php
+            edit_email_action.php

@@ -5,18 +5,6 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
-function send_verify_email($old, $new, $user) {
-    $x = md5($new.$user->authenticator);
-    mail(
-        $new,
-        PROJECT." account email change",
-"The email address of your " . PROJECT . " account has been changed from $old to $new.
-To validate the new address, visit the URL:
-".URL_BASE."validate_email.php?u=$user->id&x=$x
-"
-    );
-}
-
 db_init();
 $user = get_logged_in_user();
 
