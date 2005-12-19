@@ -14581,3 +14581,11 @@ David  17 Dec 2005
         network.C
     py/Boinc/
         setup_project.py
+
+David  17 Dec 2005
+    - compile fix: include config.h where needed
+
+    lib/
+        boinc_cmd.C
+        filesys.C
+        shmem.C

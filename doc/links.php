@@ -36,7 +36,8 @@ sites with information and documentation about BOINC.
 <h2>Project status sites</h2>
 Show if the servers of various projects are up or down.
 <ul>
-<li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>:
+<li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
+<li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
 </ul>
 </td><td valign=top>
 <h2>Credit statistics</h2>
