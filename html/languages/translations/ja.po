@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-12-06 00:04+0900\n"
+"PO-Revision-Date: 2005-12-14 23:22+0900\n"
 "Last-Translator: Komori Hitoshi <ucepod@070.jp>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.6, based on en.po v1.18(cvs).   2005/12/05 23:05 JST je2bwm 
+# FileID  : ja.po,v 1.7, based on en.po v1.20(cvs).   2005/12/14 23:20 JST je2bwm 
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi, Reviewer: Takeda Nobuhiko )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 #########################################
@@ -283,13 +283,10 @@ msgid "CREATE_AC_TEAM"
 msgstr "作成するアカウントは、チーム %s に加わります。 さらに、そのアカウントの持つプロジェクト・プレファレンス（好みの設定）は、そのチームの創設者のものと同じになります。 "
 
 # msgid "CREATE_AC_USE_CLIENT"
-# msgstr "NOTE: starting with BOINC version 5.2, "
-# "you don't need to use this form. "
-# "You can create an account directly from BOINC. "
-# "Just run BOINC, select Attach Project, "
-# "and enter an email address and password. "
+# msgstr "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, "
+# "don't use this form. "
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "ご注意： BOINC の 5.2版で開始する方は、この入力画面を使う必要はありません。 BOINC マネージャから直接に、アカウントを作ることができます。 BOINC マネージャを走らせて、Attache Project(「プロジェクトに参加する」）を選び、E−メイルアドレスとパスワードを入力するだけで済んでしまいます。 "
+msgstr "ご注意： BOINC マネージャの 5.2版以降で開始する方は、この入力画面を使わないで下さい。 "
 
 # msgid "CREATE_AC_PASSWORD"
 # msgstr "Password"
@@ -297,7 +294,7 @@ msgid "CREATE_AC_PASSWORD"
 msgstr "パスワード"
 
 # msgid "CREATE_AC_PASSWORD_DESC"
-# msgstr "Must be at least %s characters"
+# msgstr "Must be at least %s characters";
 msgid "CREATE_AC_PASSWORD_DESC"
 msgstr "少なくとも %s 文字なければなりません。"
 
@@ -340,14 +337,14 @@ msgstr "順位"
 msgid "USER_TABLE_NAME"
 msgstr "参加者名"
 
-# msgid "USER_TABLE_TOTAL_CREDIT"
-# msgstr "Total Credit"
-msgid "USER_TABLE_TOTAL_CREDIT"
+# msgid "TOTAL_CREDIT"
+# msgstr "Total credit"
+msgid "TOTAL_CREDIT"
 msgstr "総功績"
 
-# msgid "USER_TABLE_EXPAVG"
+# msgid "EXPAVG_CREDIT"
 # msgstr "Recent average credit"
-msgid "USER_TABLE_EXPAVG"
+msgid "EXPAVG_CREDIT"
 msgstr "最近の平均功績(credits/day)"
 
 # msgid "USER_TABLE_COUNTRY"
@@ -496,183 +493,4 @@ msgstr "投稿の中に「%s」を含むものが見つかりませんでした�
 # msgstr "Questions and Answers"
 msgid "LINKS_QA"
 msgstr "質問と答え(Q&A)"
-
-#########################################
-# Account created page (account_created.php)
-#########################################
-# msgid "AC_READY_TITLE"
-# msgstr "Account created"
-msgid "AC_READY_TITLE"
-msgstr "アカウントが作成されました"
-
-# msgid "AC_READY_WELCOME"
-# msgstr "Congratulations - your $PROJECT account has been created"
-msgid "AC_READY_WELCOME"
-msgstr "うまくいきました。 あなたの $PROJECT 用のアカウントが作成されました。 "
-
-# msgid "AC_READY_PASTE"
-# msgstr "To continue, paste the account key here:"
-msgid "AC_READY_PASTE"
-msgstr "次に、右へアカウント・キーをコピー＆ペーストして下さい:"
-
-# msgid "AC_READY_CLICK"
-# msgstr "and click"
-msgid "AC_READY_CLICK"
-msgstr "そして、ここをクリックします"
-
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-# msgid "AC_SETUP_TITLE"
-# msgstr "Account setup"
-msgid "AC_SETUP_TITLE"
-msgstr "アカウントの設定"
-
-# msgid "AC_SETUP_USES_BOINC"
-# msgstr "$PROJECT uses the BOINC software system."
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT プロジェクトは BOINC ソフトウェアシステムを使っています。 "
-
-# msgid "AC_SETUP_DIVISION"
-# msgstr "BOINC lets you divide your computer time between several distributed computing projects."
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC は、複数の分散コンピューティングプロジェクトの間で、あなたの計算機時間をわかち合います。 "
-
-# msgid "AC_SETUP_ISFIRST"
-# msgstr "Is this your first BOINC project?"
-msgid "AC_SETUP_ISFIRST"
-msgstr "今回の参加があなたにとって初めての BOINC プロジェクト参加ですか?"
-
-# msgid "AC_SETUP_FIRST"
-# msgstr "Yes - this is my first BOINC project"
-msgid "AC_SETUP_FIRST"
-msgstr "私にとって、これが初めての BOINC プロジェクト参加です"
-
-# msgid "AC_SETUP_NONFIRST"
-# msgstr "No - I'm currently participating in at least one other BOINC project"
-msgid "AC_SETUP_NONFIRST"
-msgstr "現在、別の BOINC プロジェクトにも参加しています"
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-# msgid "AC_FIRST_TITLE"
-# msgstr "Account preferences"
-msgid "AC_FIRST_TITLE"
-msgstr "アカウントのプレファレンス(好みの設定)"
-
-# msgid "AC_FIRST_CONTROL"
-# msgstr "You can control when and how your computer is used by $PROJECT"
-msgid "AC_FIRST_CONTROL"
-msgstr "あなたのコンピュータをどれだけ、そして何時、 $PROJECT に使わせるかを、あなたが制御することができます。 "
-
-# msgid "AC_FIRST_DEFAULT"
-# msgstr "To use the defaults settings, scroll to the bottom and click OK."
-msgid "AC_FIRST_DEFAULT"
-msgstr "特別な指定をしない（デフォルトの設定に従う）ならば、一番下までスクロールして、OK をクリックします。 "
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-# msgid "AC_DONE_TITLE"
-# msgstr "Account setup: done"
-msgid "AC_DONE_TITLE"
-msgstr "アカウントの設定: 完了"
-
-# msgid "AC_DONE_COMPLETE"
-# msgstr "Your account setup is complete."
-msgid "AC_DONE_COMPLETE"
-msgstr "アカウントの設定が完了しました。 "
-
-# msgid "AC_DONE_BOINC"
-# msgstr "Next you must download and install the BOINC software and tell your computer(s) "
-# "to use this account."
-msgid "AC_DONE_BOINC"
-msgstr "次に、 BOINC ソフトウエアをダウンロードしてインストールしてください。 そして、このアカウントを使うよう、あなたのコンピュータに指示して下さい。 "
-
-# msgid "AC_DONE_URL"
-# msgstr "When the BOINC software first runs, it will ask you for a <b>Project URL</b> and "
-# "a <b>Account key</b>."
-msgid "AC_DONE_URL"
-msgstr "インストールした BOINC ソフトウエアを初めて走らせたときには、<b>プロジェクト URL (Project URL) </b>と <b>アカウント・キー(Account key)</b>の入力を求めてきます。 "
-
-# msgid "AC_DONE_COPYPASTE"
-# msgstr "Copy and paste them from here:"
-msgid "AC_DONE_COPYPASTE"
-msgstr "それらの値は以下に表示したとおりです。 これらをコピー＆ペイストして入力して下さい: "
-
-# msgid "AC_DONE_GETDOWNLOAD"
-# msgstr "You can now %s to complete the $PROJECT installation."
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "$PROJECT のインストールのため、ここから %s してください。 "
-
-# msgid "AC_DONE_DL_BOINC"
-# msgstr "download the BOINC software"
-msgid "AC_DONE_DL_BOINC"
-msgstr "BOINC ソフトウエアをダウンロード"
-
-# msgid "AC_DONE_THANKS"
-# msgstr "Thanks for participating in $PROJECT"
-msgid "AC_DONE_THANKS"
-msgstr "$PROJECT プロジェクトに参加していただき、ありがとうございます。 "
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-# msgid "AC_NONFIRST_TITLE"
-# msgstr "Account setup: resource share"
-msgid "AC_NONFIRST_TITLE"
-msgstr "アカウントの設定: 資源の配分"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-# msgid "AC_DONE_MUST_USE"
-# msgstr "Next you must tell your computer(s) to use this account."
-msgid "AC_DONE_MUST_USE"
-msgstr "そして、このアカウントを使うよう、あなたのコンピュータに指示して下さい。"
-
-# msgid "AC_DONE_WIN"
-# msgstr "Windows users:"
-msgid "AC_DONE_WIN"
-msgstr "Windows をお使いの方へ:"
-
-# msgid "AC_DONE_WIN_TEXT"
-# msgstr "Open the BOINC application window by double-clicking the BOINC system tray icon. "
-# "Choose the 'Attach to Project' item in the Settings menu. It will ask you for a project URL "
-# "and an account key."
-msgid "AC_DONE_WIN_TEXT"
-msgstr "システム・トレイにある BOINC アイコンをダブルクリックし、  BOINC アプリケーションのウィンドーを開いてください。 設定(Settings)のメニューから、プロジェクトに参加する(Attach to Project)を選ぶと、プロジェクト URL (Project URL) と アカウント・キー(Account key) の入力を求めてきます。 "
-
-# msgid "AC_DONE_UNIX"
-# msgstr "Mac, Unix and Linux users:"
-msgid "AC_DONE_UNIX"
-msgstr "Mac または Unix、Linux をお使いの方へ:"
-
-# msgid "AC_DONE_UNIX_TEXT"
-# msgstr "Quit the BOINC client. Then run the BOINC client with the -attach_project option. "
-# "It will ask you for a project URL and an account key."
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "BOINC クライアントを停止し、あらためて  -attach_project オプションをつけて、 BOINC クライアントを起動してください。 プロジェクト URL (Project URL) と アカウント・キー(Account key) の入力を求めてきます。 "
-
-# msgid "AC_DONE_ANYCASE"
-# msgstr "In each case copy and paste the following:"
-msgid "AC_DONE_ANYCASE"
-msgstr "上記のそれぞれの場合で必要になる値は以下のとおりです。 これらをコピー＆ペイストして入力して下さい。 "
-
-# msgid "AC_DONE_INSTALLED"
-# msgstr "This completes the $PROJECT installation."
-msgid "AC_DONE_INSTALLED"
-msgstr "これで $PROJECT のインストールはお終いです。 "
-
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-# msgid "AC_CREATED_TITLE"
-# msgstr "Configure your account"
-msgid "AC_CREATED_TITLE"
-msgstr "あなたのアカウントを設定して下さい"
 

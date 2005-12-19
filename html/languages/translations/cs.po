@@ -185,136 +185,25 @@ msgstr "Tento účet bude náležet týmu %s a bude mít nastavení "
 "projektu po jeho zakladateli."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "POZNÁMKA: od BOINCu verze 5.2 již nemusíte používat "
-"tento formulář. Účet si můžete vytvořit přímo v BOINCu. "
+msgstr "POZNÁMKA: Pokud používáte verzi BOINC Managera 5.2 a novější, "
+"nepoužívejte tento formulář. "
 "Jednoduše spusťte BOINC, zvolte Připojit projekt "
 "(Attach Project), a vložte emailovou adresu a heslo. "
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Účet vytvořen"
+msgid "CREATE_AC_PASSWORD"
+msgstr "Heslo"
 
-msgid "AC_READY_WELCOME"
-msgstr "Blahopřejeme - Váš účet v $PROJECT byl právě vytvořen."
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Musí mí délku aspoň %s znaků";
 
-msgid "AC_READY_PASTE"
-msgstr "Pro pokračování vložte Váš klíč k účtu zde:"
-
-msgid "AC_READY_CLICK"
-msgstr "a klikněte"
-
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Nastavení účtu"
-
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT používá systém BOINC."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC vám umožňuje rozdělit Váš výpočetní čas "
-"mezi různé distribuované výpočetní projekty."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "Je toto Váš první BOINC projekt?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "Ano - toto je můj první BOINC projekt"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "Ne - již jsem zapojen i v jiném BOINC projektu"
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Předvolby účtu"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Můžete kontrolovat kdy a jak bude Váš počítač používán pro $PROJECT."
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "Pro použití výchozího nastavení, skrolujte dolů a klikněte na OK."
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Nastavení účtu: hotové"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "Nastavení Vašeho účtu je hotové."
-
-msgid "AC_DONE_BOINC"
-msgstr "Dále si stáhněte a nainstalujte program BOINC a "
-"řekněte Vašemu počítači (počítačům), aby používal tento účet."
-
-msgid "AC_DONE_URL"
-msgstr "Při prvním spuštění se vás BOINC zeptá na  "
-"<b>URL projektu</b> a <b>klíč k účtu (Account key)</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "Zkopírujte a vložte je odtud:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Nyní si můžete %s k dokončení instalace $PROJECT."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "stáhnout program BOINC"
-
-msgid "AC_DONE_THANKS"
-msgstr "Děkujeme vám za účast v projektu $PROJECT"
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Nastavení účtu: rozdělení prostředků"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Svému počítači nyní řekněte, aby používal tento účet."
-
-msgid "AC_DONE_WIN"
-msgstr "Uživatelé Windows:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Otevřete okno aplikace BOINC dvojklikem na její ikonku v "
-"systémové liště. Zvolte 'Připojit se k novému projektu (Attach to Project)' "
-"v nabídce Nastavení. Budete optáni na klíč k účtu a URL projektu."
-
-msgid "AC_DONE_UNIX"
-msgstr "Uživatelé Mac, Unix nebo Linux:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Ukončete klienta BOINC. Poté spusťte klienta BOINC s "
-"parametrem -attach_project . Budete optáni na klíč k účtu a URL projektu."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "V každém případě zkopírujte a vložte následující:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "Tím dokončíte instalaci $PROJECT."
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Heslo pro kontrolu"
 
 #########################################
 # Forum sample index page
 #########################################
 msgid "FORUM_TITLE"
 msgstr "$PROJECT Diskuzní fórum"
-
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Nastavte si svůj účet"
 
 #########################################
 # General stuff (create_account_form.php and others)

@@ -1,5 +1,5 @@
-﻿##########################################
-# Language: Russian (Russian Federation)
+##########################################
+# Language: Russian (Russian Federation) (corresponds to en.po v1.20)
 # FileID  : #$Id$
 # Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
 # Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
@@ -205,147 +205,19 @@ msgid "CREATE_AC_TEAM"
 msgstr "Эта учетная запись будет относиться к команде '%s' и будет иметь настройки проекта как у ее создателя."
 
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "Внимание: начиная с версии 5.2 BOINC, "
-"Вам не нужно использовать эту форму. "
-"Вы можете создать учетную запись непосредственно из BOINC. "
-"Просто запустите BOINC, выберите 'Подключение к проекту', "
+msgstr "Внимание: Если Вы используете BOINC версии 5.2+ вместе с Менеджером BOINC, "
+"не используйте эту форму. "
+"Просто запустите BOINC, выберите 'Добавить проект', "
 "и введите адрес электронной почты и пароль. "
 
+msgid "CREATE_AC_PASSWORD"
+msgstr "Пароль"
 
-##########################################
-# Account created page
-# Страница 'Учетная запись создана'
-# account_created.php
-##########################################
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Должно быть по крайней мере %s символов"
 
-msgid "AC_READY_TITLE"
-msgstr "Учетная Запись Создана"
-
-msgid "AC_READY_WELCOME"
-msgstr "Поздравляем - Ваша учетная запись в $PROJECT создана"
-
-msgid "AC_READY_PASTE"
-msgstr "Чтобы продолжить, вставьте Ваш ключ к записи сюда:"
-
-msgid "AC_READY_CLICK"
-msgstr "и нажмите"
-
-
-##########################################
-# Account setup page
-# Страница настройки учетной записи
-# account_setuo.php
-# also used in account_setup_nonfirst.php
-##########################################
-
-msgid "AC_SETUP_TITLE"
-msgstr "Настройка Учетной Записи"
-
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT использует программную систему BOINC."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC позволяет Вам разделять процессорное время Вашего компьютера между несколькими проектами распределенных вычислений."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "Это первый BOINC-проект, в котором Вы принимаете участие?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "Да - это мой первый BOINC-проект"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "Нет - к данному моменту я учавствую как минимум в одном BOINC-проекте"
-
-
-##########################################
-# First Account setup page
-# Настройка первой учетной записи
-# account_setup_first.php
-##########################################
-
-msgid "AC_FIRST_TITLE"
-msgstr "Настройки Учетной Записи"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Вы можете управлять тем, когда и как Ваш компьютер будет использоваться проектом $PROJECT"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "Чтобы использовать настройки по умолчанию, перейдите в конец страницы и нажните OK."
-
-
-##########################################
-# First Account setup done page
-# Завершение настройки первой учетной записи (и не только первой)
-# account_setup_first_done.php
-# and account_setup_nonfirst_done.php
-##########################################
-
-msgid "AC_DONE_TITLE"
-msgstr "Настройки Учетной Записи: Завершено"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "Настройка Вашей учетной записи завершена."
-
-msgid "AC_DONE_BOINC"
-msgstr "Далее вы должны скачать и установить BOINC и настроить Ваш(и) компьютер(ы) "
-"для использования этой учетной записи."
-
-msgid "AC_DONE_URL"
-msgstr "Когда BOINC запускается первый раз, он запросит у Вас <b>Project URL</b> и "
-"<b>Account key</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "Скопируйте и вставьте их отсюда:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Сейчас Вы можете %s, чтобы завершить установку проекта $PROJECT."
-
-msgid "AC_DONE_DL_BOINC"	
-msgstr "загрузить BOINC"	
-
-msgid "AC_DONE_THANKS"	
-msgstr "Спасибо за участие в $PROJECT"
-
-
-##########################################
-# Non-first Account setup page
-# Настройка существующей учетной записи
-# account_setup_nonfirst.php
-##########################################
-
-msgid "AC_NONFIRST_TITLE"
-msgstr "Настройки Учетной Записи: Разделение Ресурсов"
-
-
-#########################################
-# Non-first Account setup done page
-# Завершение настройки существующей учетной записи
-# account_setup_nonfirst_done.php
-#########################################
-
-msgid "AC_DONE_MUST_USE"
-msgstr "Далее вы должны настроить Ваш(и) компьютер(ы) для использования этой учетной записи."
-
-msgid "AC_DONE_WIN"
-msgstr "Пользователи Windows:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Откройте окно приложения BOINC двойным щелчком мыши на иконке BOINC в панели задач. "
-"Выберите элемент 'Подключение к проекту' ('Attach to Project') в меню Настройки (Settings). "
-"BOINC попросит Вас ввести URL проекта (project URL) и ключ учетной записи (account key)."
-
-msgid "AC_DONE_UNIX"
-msgstr "Пользователи Mac, Unix и Linux:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Закройте клиент BOINC. Запустите BOINC с опцией -attach_project. "
-"BOINC попросит Вас ввести URL проекта (project URL) и ключ учетной записи (account key)."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "В обоих случаях скопируйте и вставьте следующее:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "Это завершит установку $PROJECT."
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Подтвердите пароль"
 
 
 ##########################################
@@ -355,16 +227,6 @@ msgstr "Это завершит установку $PROJECT."
 
 msgid "FORUM_TITLE"
 msgstr "Доска сообщений $PROJECT"
-
-
-##########################################
-# Different strange places:
-# Различные странные места
-# account_created.php
-##########################################
-
-msgid "AC_CREATED_TITLE"
-msgstr "Настройте Вашу учетную запись"
 
 
 ##########################################
