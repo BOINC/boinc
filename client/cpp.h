@@ -23,6 +23,7 @@
 #endif
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
+#include "config.h"
 #include <iostream>
 #include <vector>
 #include <string>
