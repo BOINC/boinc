@@ -317,6 +317,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\win\res\gridrepublic.bmp">
+			</File>
+			<File
 				RelativePath="..\client\win\res\Scricon3.ico">
 			</File>
 		</Filter>
