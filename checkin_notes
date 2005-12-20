@@ -13611,3 +13611,12 @@ Charlie 6 Dec 2005
     mac_build/
         boinc.pbproj/
             project.pbxproj
+
+Rom    19 Dec 2005
+    - Bug Fix: Fix the extra connection validation code in the gui rpc
+        clients.  the get_state rpc contained references to the old
+        client_version xml tags which were changed awhile back.  The
+        manager used to display the CC version in the status bar.
+        
+    lib/
+        gui_rpc_client_ops.C
