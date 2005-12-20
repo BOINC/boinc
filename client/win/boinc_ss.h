@@ -6,6 +6,7 @@
 #define IDS_DESCRIPTION                      1
 #define DLG_CONFIG                           104
 #define IDB_BOINCSPLAT                       108
+#define IDB_GRIDREPUBLICLOGO                 109
 #define IDC_BLANK                            1000
 #define IDC_BLANK_TIME                       1001
 #define IDS_ERR_GENERIC                      2100
@@ -18,6 +19,13 @@
 #define IDS_ERR_BOINCSCREENSAVERLOADING      2107
 #define IDS_ERR_OUTOFMEMORY                  2110
 #define IDS_ERR_NOPREVIEW                    2112
+#define IDS_ERR_GRIDREPUBLICNOTDETECTED             2113
+#define IDS_ERR_GRIDREPUBLICNOTDETECTEDSTARTUP      2114
+#define IDS_ERR_GRIDREPUBLICSUSPENDED               2115
+#define IDS_ERR_GRIDREPUBLICNOAPPSEXECUTING         2116
+#define IDS_ERR_GRIDREPUBLICNOAPPSEXECUTINGNOPROJECTSDETECTED 2117
+#define IDS_ERR_GRIDREPUBLICNOGRAPHICSAPPSEXECUTING 2118
+#define IDS_ERR_GRIDREPUBLICSCREENSAVERLOADING      2119
 
 // Next default values for new objects
 // 

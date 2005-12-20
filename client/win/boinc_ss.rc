@@ -131,6 +131,7 @@ IDI_MAIN_ICON           ICON                    "res\\Scricon3.ico"
 //
 
 IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
+IDB_GRIDREPUBLICLOGO    BITMAP                  "res\\gridrepublic.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -153,6 +154,19 @@ BEGIN
                             "BOINC system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "BOINC screensaver loading"
+    IDS_ERR_GRIDREPUBLICNOTDETECTED 
+                            "Grid Republic is not running.\n\nPlease launch Grid Republic to display graphics."
+    IDS_ERR_GRIDREPUBLICNOTDETECTEDSTARTUP 
+                            "Grid Republic is not running.\n(Automatic Startup not detected)\n\nWe recommend running Grid Republic at startup;\nplease reinstall Grid Republic and select this option."
+    IDS_ERR_GRIDREPUBLICSUSPENDED  "Grid Republic is currently suspended."
+    IDS_ERR_GRIDREPUBLICNOAPPSEXECUTING
+                            "Grid Republic is currently idle."
+    IDS_ERR_GRIDREPUBLICNOAPPSEXECUTINGNOPROJECTSDETECTED
+                            "Grid Republic is not attached to any projects.\nYou can attach to projects using\nthe Grid Republic website."
+    IDS_ERR_GRIDREPUBLICNOGRAPHICSAPPSEXECUTING
+                            "Grid Republic system status:\n\n"
+    IDS_ERR_GRIDREPUBLICSCREENSAVERLOADING
+                            "Grid Republic screensaver loading"
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 

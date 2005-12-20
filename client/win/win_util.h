@@ -33,4 +33,5 @@ int UtilInitOSVersion( void );
 
 #define REG_BLANK_NAME		"Blank"
 #define REG_BLANK_TIME      "Blank Time"
+#define REG_GRID_REPUBLIC   "Grid Republic"
 #define	REG_STARTUP_NAME	"BOINC"

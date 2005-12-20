@@ -14625,3 +14625,12 @@ Rom    19 Dec 2005
 Rom    19 Dec 2005 (HEAD)
     - Tag for 5.3.3 release, all platforms
       boinc_core_release_5_3_3
+
+Rom    19 Dec 2005
+    - Checkin changes for the Grid Republic screen saver.
+    
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+        win_util.h
