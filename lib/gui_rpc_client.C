@@ -77,14 +77,13 @@ void RPC_CLIENT::close() {
 }
 
 int RPC_CLIENT::init(const char* host, int port) {
-    double client_time = 0.0;
     int retval;
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
     if (port) {
         addr.sin_port = htons(port);
     } else {
-        addr.sin_port = htons(GUI_RPC_PORT_ALT);
+        addr.sin_port = htons(GUI_RPC_PORT);
     }
     //printf("trying port %d\n", htons(addr.sin_port));
 
@@ -100,35 +99,14 @@ int RPC_CLIENT::init(const char* host, int port) {
     }
     boinc_socket(sock);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-    if (retval && !port) {
-        BOINCTRACE("RPC_CLIENT::init connect 2 on %d returned %d\n", sock, retval);
-        //perror("connect");
-        boinc_close_socket(sock);
-        boinc_socket(sock);
+    if (retval) {
 #ifdef _WIN32
-        BOINCTRACE("RPC_CLIENT::init connect 1: Winsock error '%d'\n", WSAGetLastError());
+        BOINCTRACE("RPC_CLIENT::init connect 2: Winsock error '%d'\n", WSAGetLastError());
 #endif
-        addr.sin_port = htons(GUI_RPC_PORT);
-        //printf("trying port %d\n", htons(addr.sin_port));
-        retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-        if (retval) {
-#ifdef _WIN32
-            BOINCTRACE("RPC_CLIENT::init connect 2: Winsock error '%d'\n", WSAGetLastError());
-#endif
-            BOINCTRACE("RPC_CLIENT::init connect on %d returned %d\n", sock, retval);
-            perror("connect");
-            close();
-            return ERR_CONNECT;
-        }
-    }
-
-    // Are we really talking to a BOINC core client?
-    //
-    if (get_client_time(client_time)) {
-        return ERR_RETRY;
-    }
-    if ((client_time == 0.0) && ((client_major_version==0) && (client_minor_version==0) && (client_release==0))) {
-        return ERR_RETRY;
+        BOINCTRACE("RPC_CLIENT::init connect on %d returned %d\n", sock, retval);
+        perror("connect");
+        close();
+        return ERR_CONNECT;
     }
 
     return 0;
@@ -138,7 +116,7 @@ int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
     int retval;
 	memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(GUI_RPC_PORT_ALT);
+    addr.sin_port = htons(GUI_RPC_PORT);
     retry = _retry;
     timeout = _timeout;
 
@@ -157,7 +135,6 @@ int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
     BOINCTRACE("RPC_CLIENT::init boinc_socket returned %d\n", sock);
     if (retval) return retval;
 
-    tried_alt_port = false;
     retval = boinc_socket_asynch(sock, true);
     if (retval) {
         BOINCTRACE("RPC_CLIENT::init asynch error: %d\n", retval);
@@ -168,14 +145,13 @@ int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
         perror("connect");
         BOINCTRACE("RPC_CLIENT::init connect returned %d\n", retval);
     }
-    BOINCTRACE("RPC_CLIENT::init attempting connect to alt port\n");
+    BOINCTRACE("RPC_CLIENT::init attempting connect \n");
     return 0;
 }
 
 int RPC_CLIENT::init_poll() {
     fd_set read_fds, write_fds, error_fds;
     struct timeval tv;
-    double client_time = 0.0;
     int retval;
 
     FD_ZERO(&read_fds);
@@ -202,15 +178,6 @@ int RPC_CLIENT::init_poll() {
                 BOINCTRACE("asynch error: %d\n", retval);
                 return retval;
             }
-            retval = get_client_time(client_time);
-            if (retval) {
-                BOINCTRACE("get_client_time failure: %d\n", retval);
-                return ERR_RETRY;
-            }
-            if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
-                BOINCTRACE("client time and version numbers are null\n");
-                return ERR_RETRY;
-            }
             return 0;
         } else {
             BOINCTRACE("init_poll: get_socket_error(): %d\n", retval);
@@ -221,21 +188,15 @@ int RPC_CLIENT::init_poll() {
         return ERR_CONNECT;
     }
     if (retval) {
-        if (!retry && tried_alt_port) {
-            BOINCTRACE("already tried both ports, giving up\n");
-            return ERR_CONNECT;
-        } else {
+        if (retry) {
             boinc_close_socket(sock);
             retval = boinc_socket(sock);
             retval = boinc_socket_asynch(sock, true);
-            addr.sin_port = htons(tried_alt_port?GUI_RPC_PORT_ALT:GUI_RPC_PORT);
             retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-            BOINCTRACE(
-                "RPC_CLIENT::init_poll attempting connect to %s port\n",
-                tried_alt_port?"alternate":"main"
-            );
-            tried_alt_port = !tried_alt_port;
+            BOINCTRACE("RPC_CLIENT::init_poll attempting connect\n");
             return ERR_RETRY;
+        } else {
+            return ERR_CONNECT;
         }
     }
     return ERR_RETRY;

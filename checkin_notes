@@ -14645,3 +14645,15 @@ David  19 Dec 2005
     client/
         Makefile.am
         app_control.C
+
+David  19 Dec 2005
+    - End use of port 1043.  This is occupied by Microsoft.
+        Use port 31416 instead.
+    - Remove client_time GIU RPC, is_port_available().
+
+    client/
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C

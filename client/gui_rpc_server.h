@@ -44,7 +44,6 @@ class GUI_RPC_CONN_SET {
 
     int get_allowed_hosts();
     int get_password();
-    bool is_port_available(int);
     int insert(GUI_RPC_CONN*);
 public:
     int lsock;
@@ -55,11 +54,5 @@ public:
     int init();
 };
 
-// this port was assigned to BOINC by ICANN
 
-#define GUI_RPC_PORT 1043
-
-// However, some MS Windows apps use 1043, who knows why.
-// If this is the case, use the following instead
-//
-#define GUI_RPC_PORT_ALT 31416
+#define GUI_RPC_PORT 31416

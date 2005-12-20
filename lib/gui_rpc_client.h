@@ -34,8 +34,7 @@
 #include "prefs.h"
 #include "hostinfo.h"
 
-#define GUI_RPC_PORT                                1043
-#define GUI_RPC_PORT_ALT                            31416
+#define GUI_RPC_PORT                                31416
 
 // official HTTP status codes
 //
@@ -495,7 +494,6 @@ public:
     int client_major_version;
     int client_minor_version;
     int client_release;
-    bool tried_alt_port;
     double start_time;
     double timeout;
     bool retry;
@@ -514,13 +512,12 @@ public:
         //    If connecting to a remote client, it should be large enough
         //    for the user to deal with a "personal firewall" popup
         //    (e.g. 60 sec)
-        // retry: if true, keep retrying (alternating between ports)
+        // retry: if true, keep retrying
         //    until succeed or timeout.
         //    Use this if just launched the core client.
     int init_poll();
     void close();
     int authorize(const char* passwd);
-    int get_client_time(double& client_time);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);

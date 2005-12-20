@@ -137,30 +137,6 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     return 0;
 }
 
-bool GUI_RPC_CONN_SET::is_port_available(int port) {
-    int retval;
-    int sock;
-    sockaddr_in addr;
-
-	memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-
-    if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
-        addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    } else {
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    }
-
-    boinc_socket(sock);
-    retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-    boinc_close_socket(sock);
-    if (retval) {
-        return true;
-    }
-    return false;
-}
-
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     gui_rpcs.push_back(p);
     return 0;
@@ -184,19 +160,10 @@ int GUI_RPC_CONN_SET::init() {
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
 
-    // On Windows our primary port might be in use and Windows will
-    // still allow us to bind it to a listening socket (huh????)
-    // So connect to the port to see if anybody is listening,
-    // if so use the alternate port instead.
-    //
     if (gstate.cmdline_gui_rpc_port) {
         addr.sin_port = htons(gstate.cmdline_gui_rpc_port);
     } else {
-        if (is_port_available(GUI_RPC_PORT)) {
-            addr.sin_port = htons(GUI_RPC_PORT);
-        } else {
-            addr.sin_port = htons(GUI_RPC_PORT_ALT);
-        }
+        addr.sin_port = htons(GUI_RPC_PORT);
     }
 
 #ifdef __APPLE__
@@ -216,19 +183,10 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
     if (retval) {
-        if (addr.sin_port == htons(GUI_RPC_PORT)) {
-            addr.sin_port = htons(GUI_RPC_PORT_ALT);
-            retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
-        }
-        if (retval) {
-            msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
-            boinc_close_socket(lsock);
-            lsock = -1;
-            return ERR_BIND;
-        }
-        msg_printf(NULL, MSG_INFO,
-            "Primary port was already in use; using alternate port\n"
-        );
+        msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
+        boinc_close_socket(lsock);
+        lsock = -1;
+        return ERR_BIND;
     }
     msg_printf(NULL, MSG_INFO, "Listening on port %d", htons(addr.sin_port));
 
