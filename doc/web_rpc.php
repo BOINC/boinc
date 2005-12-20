@@ -136,6 +136,8 @@ list_item("input",
     <br>[ show_hosts ]
     <br>[ teamid ]  <i>zero means quit current team, if any</i>
     <br>[ venue ]
+    <br>[ email_addr ]
+    <br>[ password_hash ]
     "
 );
 list_item("output",
@@ -145,7 +147,10 @@ list_item("output",
 </am_set_info_reply>")
 );
 list_item("action",
-    "updates one or more attributes of the given account"
+    "Updates one or more attributes of the given account.
+    The password hash is MD5(password+lower_case(email_addr)).
+    If email address is changed,
+    you must also change the password hash."
 );
 
 list_end();

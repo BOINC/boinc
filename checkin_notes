@@ -14634,3 +14634,14 @@ Rom    19 Dec 2005
         boinc_ss.rc
         win_screensaver.cpp, .h
         win_util.h
+
+David  19 Dec 2005
+    - client/Makefile.am inexplicably had a -I ../win.
+        This cause the win version of config.h to get included,
+        which wreaks havoc with Unix compiles.
+        This cause the HTTP errors I reported yesterday.
+    - fix bug in handling of non_cpu_intensive messages from app
+
+    client/
+        Makefile.am
+        app_control.C

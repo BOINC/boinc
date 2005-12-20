@@ -60,7 +60,7 @@ boinc_client_SOURCES = \
 
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
+boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
 boinc_client_LDFLAGS = -static-libgcc
 boinc_client_LDADD = -L../lib -lboinc $(PTHREAD_LIBS)
 
