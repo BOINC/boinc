@@ -164,6 +164,13 @@ def find_versions__process_single_file(app, match, filepath):
         )
 
 
+# touch a file
+
+def touch_file(fname):
+    '''touch a file'''
+    file_ptr = open(fname, 'w')
+    file_ptr.close()
+
 # Process an app that is a bundle of files in a directory of the same name,
 # possibly with signature files included.
  
@@ -248,4 +255,6 @@ for object in objects_to_commit:
     object.commit()
     print "   ", object
 
+touch_file('../reread_db')
+print "Touched trigger file to make feeder re-read app_version table from database"
 print "Done"

@@ -14657,3 +14657,11 @@ David  19 Dec 2005
     lib/
         gui_rpc_client.C,h
         gui_rpc_client_ops.C
+
+Bruce 20 Dec 2005
+    - Make update_versions touch ../reread_db to force the
+      feeder to notice new app versions.
+
+    tools/
+        update_versions
+
