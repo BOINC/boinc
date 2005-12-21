@@ -153,13 +153,13 @@ function team_table_start($sort_by,$type_url) {
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tr(EXPAVG_CREDIT)."</a></th>
-            <th>".tr(TOTAL_CREDIT)."</th>
+            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tr(USER_TABLE_EXPAVG)."</a></th>
+            <th>".tr(USER_TABLE_TOTAL_CREDIT)."</th>
         ";
     } else {
         echo "
-            <th>".tr(EXPAVG_CREDIT)."</th>
-            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tr(TOTAL_CREDIT)."</a></th>
+            <th>".tr(USER_TABLE_EXPAVG)."</th>
+            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tr(USER_TABLE_TOTAL_CREDIT)."</a></th>
         ";
     }
     echo "
