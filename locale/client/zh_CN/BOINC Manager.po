@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-12-19 06:40+0100\n"
+"PO-Revision-Date: 2005-12-21 06:48+0100\n"
 "Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
-"Language-Team: SETI@China,Einstein@China,Rosetta@China\n"
+"Language-Team:  <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -302,7 +302,7 @@ msgstr "伯克利开放式网络计算平台（BOINC）"
 
 #: clientgui/DlgAbout.cpp:142
 msgid "A software platform for distributed computing using volunteered computer resources"
-msgstr "用于志愿计算的分布式计算软件平台"
+msgstr "利用用户自愿捐献的计算机资源进行分布式计算的软件平台"
 
 #: clientgui/DlgAbout.cpp:154
 #: clientgui/DlgDialupCredentials.cpp:136
@@ -1354,7 +1354,7 @@ msgstr "显示主机的近期平均积分"
 
 #: clientgui/ViewStatistics.cpp:666
 msgid "Mode view"
-msgstr ""
+msgstr "查看模式"
 
 #: clientgui/ViewStatistics.cpp:673
 msgid "Next project"
@@ -1537,7 +1537,7 @@ msgstr "继续计算该任务"
 
 #: clientgui/ViewWork.cpp:648
 msgid "New"
-msgstr ""
+msgstr "新任务"
 
 #: clientgui/ViewWork.cpp:659
 #: clientgui/ViewWork.cpp:681
