@@ -61,6 +61,7 @@ int main(int argc, const char** argv) {
     int retval;
     char wu_template[LARGE_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256], result_template_path[1024];
+    char* command_line=NULL;
     const char** infiles = NULL;
     int i, ninfiles;
     char download_dir[256], db_name[256], db_passwd[256],db_user[256],db_host[256];
@@ -125,6 +126,8 @@ int main(int argc, const char** argv) {
             wu.max_total_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-max_success_results")) {
             wu.max_success_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-command_line")) {
+            command_line= argv[++i];
         } else {
             if (!strncmp("-",argv[i],1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -188,7 +191,8 @@ int main(int argc, const char** argv) {
         result_template_path,
         const_cast<const char **>(infiles),
         ninfiles,
-        config
+        config,
+        command_line
     );
     if (retval) {
         fprintf(stderr, "create_work: %d\n", retval);

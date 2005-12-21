@@ -8,6 +8,19 @@ echo "
 
 The follow email lists are available.
 Click to subscribe or post to a list.
+
+<p>
+<b><font size=+1 color=#f00000>
+Note:
+
+These email lists do not provide tech support
+for SETI@home or other BOINC projects.
+Help for SETI@home is available on the
+<a href=http://setiathome.berkeley.edu/forum_help_desk.php>SETI@home message boards</a>
+and help for BOINC is available at the
+<a href=http://boinc-doc.net/boinc-wiki/>BOINC Wiki</a>.
+
+</font></b>
 ";
 list_start();
 list_item(

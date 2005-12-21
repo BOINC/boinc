@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Development and debugging");
+page_head("The BOINC software development process");
 
 echo "
 

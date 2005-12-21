@@ -4,6 +4,11 @@ require_once("docutil.php");
 page_head("Getting source code");
 echo "
 
+<p>
+You will need certain
+<a href=build.php>software prerequisites</a>
+before compiling BOINC.
+
 <h2>CVS branches</h2>
 <p>
 The BOINC source code is maintained in CVS.

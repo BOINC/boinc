@@ -16,7 +16,7 @@ a large number work of workunits.
 <li> Create the workunit's input file(s)
 and place them in the download directory.
 
-<li> Call a BOINC function that creates a
+<li> Invoke a BOINC function or script that creates a
 database record for the workunit.
 
 </ul>
@@ -69,7 +69,8 @@ The components are:
 ";
 list_start();
 list_item(htmlspecialchars("<file_info>, <file_ref>"),
-"Each pair describes an <a href=files.php>input file</a>");
+"Each pair describes an <a href=files.php>input file</a>
+and <a href=files.php#file_ref>the name by which it's referenced</a>.");
 list_item(htmlspecialchars("<command_line>"),
 "The command-line arguments to be passed to the main program.");
 list_item("Other elements",
@@ -77,7 +78,9 @@ list_item("Other elements",
 );
 list_end();
 echo"
-When a workunit is created, the template file is processed as follows:
+Workunit database records include a field, 'xml_doc',
+that is an XML-format description of the workunit's input files.
+This is derived from the workunit template as follows:
 <ul>
 <li>
 Within a &lt;file_info> element,
@@ -108,7 +111,9 @@ A result template file has the form
 </result>
 "), "</pre>
 <p>
-The result file template is macro-substituted as follows:
+Result database records include a field, 'xml_doc_in',
+that is an XML-format description of the result's output files.
+This is derived from the result template as follows:
 <ul>
 <li>
 &lt;OUTFILE_n> is replaced with a string of the form
@@ -121,7 +126,8 @@ the ordinal number of the result (0, 1, ...).
 
 <h2>Moving input files to the download directory</h2>
 
-If you're a flat download directory, just put input files in that directory.
+If you're using a flat download directory,
+just put input files in that directory.
 If you're using <a href=hier_dir.php>hierarchical upload/download directories</a>,
 you must put each input file in the appropriate directory;
 the directory is determined by the file's name.
@@ -163,13 +169,17 @@ create_work
     -appname name                       // application name
     -wu_name name                       // workunit name
     -wu_template filename               // WU template filename
-                                        // relative to project root
+        // relative to project root; usually in templates/
     -result_template filename           // result template filename
-                                        // relative to project root
+        // relative to project root; usually in templates/
     [ -batch n ]
     [ -priority n ]
 
-    // The following are normally supplied in the WU template:
+    // The following may be passed in the WU template,
+    // or as command-line arguments to create_work,
+    // or not passed at all (defaults will be used)
+
+    [ -command_line \"-flags foo\" ]
     [ -rsc_fpops_est x ]
     [ -rsc_fpops_bound x ]
     [ -rsc_memory_bound x ]
@@ -187,10 +197,8 @@ The workunit parameters are documented <a href=work.php>here</a>.
 The program must be run in the project root directory.
 
 <p>
-The C++ library (crypt.C, backend_lib.C,h) provides the functions:
+BOINC's library (backend_lib.C,h) provides the functions:
 <pre>
-int read_key_file(char* path, R_RSA_PRIVATE_KEY& key);
-
 int create_work(
     DB_WORKUNIT&,
     const char* wu_template,                  // contents, not path
@@ -227,9 +235,11 @@ max_total_results
 max_success_results
 </pre>
 
+<h2>Examples</h2>
+<h3>Making one workunit</h3>
 <p>
-Here's an example of a program that generates one workunit
-(error-checking omitted for clarity):
+Here's a program that generates one workunit
+(error-checking is omitted for clarity):
 <pre>
 #include \"backend_lib.h\"
 
@@ -265,7 +275,6 @@ main() {
         \"templates/results_template.xml\",
         infiles,
         1,
-        key
         config
     );
 }
@@ -273,6 +282,65 @@ main() {
 </pre>
 This program must be run in the project directory
 since it expects to find the config.xml file in the current directory.
+
+<h3>Making lots of workunits</h3>
+
+<p>
+If you're making lots of workunits
+(e.g. to do the various parts of a parallel computation)
+you'll want the workunits to differ either in
+their input files, their command-line arguments, or both.
+
+<p>
+For example, let's say you want to run a program
+one ten input files 'file0', 'file1', ..., 'file9'.
+You might modify the above program with the following code:
+<pre>
+    char filename[256];
+    char* infiles[1];
+    infiles[0] = filename;
+    ...
+    for (i=0; i<10; i++) {
+        sprintf(filename, \"file%d\", i);
+        create_work(
+            wu,
+            wu_template,
+            \"templates/results_template.xml\",
+            \"templates/results_template.xml\",
+            infiles,
+            1,
+            config
+        );
+    }
+</pre>
+Note that you only need one workunit template file
+and one result template file.
+
+<p>
+Now suppose you want to run a program against
+a single input file, but with ten command lines,
+'-flag 0', '-flag 1', ..., '-flag 9'.
+You might modify the above program with the following code:
+<pre>
+    char command_line[256];
+    ...
+    for (i=0; i<10; i++) {
+        sprintf(command_line, \"-flag %d\", i);
+        create_work(
+            wu,
+            wu_template,
+            \"templates/results_template.xml\",
+            \"templates/results_template.xml\",
+            infiles,
+            1,
+            config,
+            command_line
+        );
+    }
+</pre>
+
+Again, you only need one workunit template file
+and one result template file.
 ";
     
 page_tail();

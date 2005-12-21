@@ -52,8 +52,6 @@ extern const char* socket_error_str();
 #if defined(_WIN32) && defined(USE_WINSOCK)
 typedef int boinc_socklen_t;
 #define SHUT_WR SD_SEND
-#elif defined( __APPLE__)
-typedef int32_t boinc_socklen_t;
 #else
 typedef BOINC_SOCKLEN_T boinc_socklen_t;
 #endif

@@ -170,6 +170,7 @@ show_name("Mathias Walter");
 show_name("Rom Walton");
 show_name("Oliver Wang");
 show_name("Frank Weiler");
+show_name("Derek Wright");
 echo "
 </table>
 <h2>Testers</h2>

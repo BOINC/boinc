@@ -2,7 +2,11 @@
 
 require_once("docutil.php");
 page_head("Software prerequisites");
-?>
+
+echo "
+You need certain software packages to compile and/or run BOINC.
+The list depends on the system you're on,
+and the parts of BOINC that you need to use.
 
 <h2>Unix</h2>
 Solaris 2.6-2.9, Red Hat 8 and Enterprise Edition,
@@ -81,7 +85,7 @@ You'll need to install the following software before building BOINC:
     <td><br></td>
 </tr>
 <tr>
-    <td><a href=http://curl.haxx.se/>libcurl</a> version 7.14.0+
+    <td><a href=http://curl.haxx.se/>libcurl</a> version 7.13.2+
     (included with the BOINC source distribution for Windows)
     </td>
     <td><br></td>
@@ -215,8 +219,8 @@ To do this:
 PROJECT/html/project/project.inc file (substitute your own values):
 <pre>
 $USE_PHPMAILER = true;
-$PHPMAILER_HOST = "xxx.xxx.xxx";
-$PHPMAILER_MAILER = "smtp"; 
+$PHPMAILER_HOST = \"xxx.xxx.xxx\";
+$PHPMAILER_MAILER = \"smtp\"; 
 </pre>
 </ul>
 </ul>
@@ -298,7 +302,7 @@ apache, should be able to update/delete these files.
     <td>X</td>
 </tr>
 <tr>
-    <td>WxWidgets 2.4.2</td>
+    <td>WxWidgets 2.6.2</td>
     <td><br></td>
     <td>X</td>
     <td><br></td>
@@ -325,6 +329,6 @@ apache, should be able to update/delete these files.
     Then restart Visual Studio.
 </ul>
 
-<?
+";
 page_tail();
 ?>

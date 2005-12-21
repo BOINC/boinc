@@ -109,6 +109,7 @@ Once a file is created (on a data server or a participant host) it
 is <b>immutable</b>.
 This means that all replicas of that file are assumed to be identical.
 
+<a name=file_ref>
 <h3>File references</h3> 
 <p>
 Files may be associated with <a href=work.php>workunits</a>,
@@ -126,11 +127,23 @@ The elements are as follows:
 ";
 list_start();
 list_item("file_name", "Specifies a file.");
-list_item("open_name", "The name by
-which the application will refer to the file.");
-list_item("main_program", "Used for files
-associated with application versions.
-It indicates that this file is the application's main program.");
+list_item("open_name",
+    "The name by which the application will refer to the file.
+    Applications access files using
+    <a href=api.php>the following functions</a>:
+    <pre>
+        char physical_name[256];
+        boinc_resolve_filename(\"input\", physical_name, 256);
+        fopen(physical_name, \"r\")
+    </pre>
+    In this example, open_name is 'input'.
+    It is mapped, at runtime, to a path that includes
+    the filename ('foobar' in the example above).
+");
+list_item("main_program",
+    "Relevant only for files associated with application versions.
+    It indicates that this file is the application's main program.
+");
 list_end();
 
 echo "

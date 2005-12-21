@@ -14638,8 +14638,8 @@ Rom    19 Dec 2005
 David  19 Dec 2005
     - client/Makefile.am inexplicably had a -I ../win.
         This cause the win version of config.h to get included,
-        which wreaks havoc with Unix compiles.
-        This cause the HTTP errors I reported yesterday.
+        wreaking havoc with Unix compiles.
+        It caused the HTTP errors I reported yesterday.
     - fix bug in handling of non_cpu_intensive messages from app
 
     client/
@@ -14665,3 +14665,15 @@ Bruce 20 Dec 2005
     tools/
         update_versions
 
+David  20 Dec 2005
+    - compile fixes for Mac OS 10.4 (from Derek Wright)
+
+    lib/
+        network.C,h
+
+David  21 Dec 2005
+    - added -command_line argument to create_work program.
+        (achieves parity with the create_work() function)
+
+    tools/
+        create_work.C

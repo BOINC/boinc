@@ -89,8 +89,8 @@ resources.
   <tr><td bgcolor=$light_blue><h2>Software</h2></td></tr>
   <tr><td>
       <ul>
-      <li> <a href=source_code.php>Getting source code</>
-      <li> <a href=boinc_dev.php>Software development and testing</a>
+      <li> <a href=compile.php>Getting and building BOINC software</>
+      <li> <a href=boinc_dev.php>Software development process</a>
       <li> <a href=translation.php>Translation</a> of web and GUI text
       <li> Write <a href=download_network.php>'add-on' software</a>:
         <ul>
