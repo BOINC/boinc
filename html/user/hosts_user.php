@@ -36,6 +36,7 @@ if ($userid) {
     }
     $private = false;
 } else {
+    $user = get_logged_in_user();
     $caching=false;
     $userid = $user->id;
     page_head("Your computers");
