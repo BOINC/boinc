@@ -14704,3 +14704,20 @@ David  21 Dec 2005
         error_numbers.h
         mfile.C
         util.C
+
+Charlie 21 Dec 2005
+    -Mac: upgrade project for latest developer tools: XCode 2.2 and 
+      wxMac-2.6.2 will soon be needed for MacIntel support; also 
+      upgrade to use curl-7.15.1.  Added scripts for building fat 
+      (Universal Binary) libraries of wxMac-2.6.2, curl-7.15.1 and 
+      jpeg-6b, and a new XCode project bundle boinc.xcodeproj.  At this 
+      time, I have successfully built the powerpc implementation of 
+      BOINC using these tools, but more work needs to be done.
+
+    mac_build/
+        boinc.xcodeproj/  (new)
+            project.pbxproj (new)
+            setupForBOINC.sh (new)
+            buildjpeg.sh (new)
+            buildcurl.sh (new)
+            buildWxMac.sh (new)
