@@ -305,19 +305,22 @@ done:
 // Write the client_state.xml file
 //
 int CLIENT_STATE::write_state_file() {
-    FILE* f = boinc_fopen(STATE_FILE_NEXT, "w");
+    MFILE mf;
+    int retval, ret1, ret2;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
-    if (!f) {
-        msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_NEXT);
+    retval = mf.open(STATE_FILE_NEXT, "w");
+    if (retval) {
+        msg_printf(0, MSG_ERROR, "Can't open temp state file: %s %d\n", STATE_FILE_NEXT, retval);
         return ERR_FOPEN;
     }
-    MIOFILE mf;
-    mf.init_file(f);
-    int retval = write_state(mf);
-    fclose(f);
-    if (retval) return retval;
+    MIOFILE miof;
+    miof.init_mfile(&mf);
+    ret1 = write_state(miof);
+    ret2 = mf.close();
+    if (ret1) return ret1;
+    if (ret2) return ret2;
 
     // the following fails if no current file, so don't check
     //

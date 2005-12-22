@@ -32,6 +32,7 @@
 #if HAVE_MALLOC_H
 #include <malloc.h>
 #endif
+#include <unistd.h>
 
 using namespace std;
 #endif
@@ -121,16 +122,22 @@ int MFILE::puts(const char* p) {
 }
 
 int MFILE::close() {
-    fwrite(buf, 1, len, f);
+    int retval = flush();
+    fclose(f);
     free(buf);
     buf = 0;
-    return fclose(f);
+    return retval;
 }
 
 int MFILE::flush() {
-    fwrite(buf, 1, len, f);
+    int n, old_len = len;
+
+    n = fwrite(buf, 1, len, f);
     len = 0;
-    return fflush(f);
+    if (n != old_len) return ERR_FWRITE;
+    if (fflush(f)) return ERR_FFLUSH;
+    if (fsync(fileno(f)) < 0) return ERR_FSYNC;
+    return 0;
 }
 
 long MFILE::tell() const {

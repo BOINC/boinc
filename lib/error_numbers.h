@@ -163,6 +163,8 @@
 #define ERR_ATTACH_FAIL_FILE_WRITE -213
 #define ERR_ATTACH_FAIL_SERVER_ERROR -214
 #define ERR_SIGNING_KEY             -215
+#define ERR_FFLUSH          -216 
+#define ERR_FSYNC           -217
 
 
 // PLEASE: add a text description of your error to 

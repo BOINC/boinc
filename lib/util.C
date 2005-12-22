@@ -948,6 +948,8 @@ const char* boincerror(int which_error) {
         case ERR_ATTACH_FAIL_PARSE: return "Couldn't parse master page";
         case ERR_ATTACH_FAIL_BAD_KEY: return "Invalid account key";
         case ERR_ATTACH_FAIL_FILE_WRITE: return "Couldn't write account file";
+        case ERR_FFLUSH: return "Couldn't flush file";
+        case ERR_FSYNC: return "Couldn't sync file";
     }
     static char buf[64];
     sprintf(buf, "error %d", which_error);

@@ -14683,3 +14683,24 @@ David  21 Dec 2005
 
     html/user/
         hosts_user.php
+
+David  21 Dec 2005
+    - core client: attempt to increase the atomicity of state file write.
+        Old: write to a FILE.
+            Return values of printf() not checked -
+            if run out of disk space, not detected.
+            No flushing or synching at end -
+            if power failure or crash, indeterminate result.
+        New: write to a MFILE (memory-buffered file).
+            Changed MFILE::flush() to that it:
+            - checks return value of fwrite() (catch disk-full error)
+            - calls fflush(f) (to write user-level buffer to OS)
+            - calls fsync(fileno(f)) (to flush data from OS to disk)
+            And call MFILE::flush() from MFILE::close().
+
+    client/
+        cs_statefile.C
+    lib/
+        error_numbers.h
+        mfile.C
+        util.C
