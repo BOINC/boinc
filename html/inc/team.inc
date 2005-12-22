@@ -158,8 +158,8 @@ function team_table_start($sort_by,$type_url) {
         ";
     } else {
         echo "
-            <th>".tr(TABLE_EXPAVG_CREDIT)."</th>
-            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tr(CREDIT)."</a></th>
+            <th>".tr(EXPAVG_CREDIT)."</th>
+            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tr(TOTAL_CREDIT)."</a></th>
         ";
     }
     echo "

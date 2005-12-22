@@ -159,7 +159,7 @@ function user_table_start($sort_by) {
     ";
     if ($sort_by == "total_credit") {
         echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>".tr(USER_TABLE_EXPAVG)."</a></th>
+            <th><a href=top_users.php?sort_by=expavg_credit>".tr(EXPAVG_CREDIT)."</a></th>
             <th>".tr(TOTAL_CREDIT)."</th>
         ";
     } else {
