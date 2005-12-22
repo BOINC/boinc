@@ -14721,3 +14721,10 @@ Charlie 21 Dec 2005
             buildjpeg.sh (new)
             buildcurl.sh (new)
             buildWxMac.sh (new)
+
+David  22 Dec 2005
+    - user web: translation fixes
+
+    html/inc/
+        user.inc
+        team.inc
