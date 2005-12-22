@@ -57,7 +57,7 @@ if [  $? -ne 0 ]; then exit 1; fi
 fi
 
 
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_ppc.a ]; then
+if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_i386.a ]; then
     echo "libwx_mac_i386.a already built"
 else
 
