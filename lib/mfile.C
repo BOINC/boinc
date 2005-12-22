@@ -132,11 +132,13 @@ int MFILE::close() {
 int MFILE::flush() {
     int n, old_len = len;
 
-    n = fwrite(buf, 1, len, f);
+    n = (int)fwrite(buf, 1, len, f);
     len = 0;
     if (n != old_len) return ERR_FWRITE;
     if (fflush(f)) return ERR_FFLUSH;
+#ifndef _WIN32
     if (fsync(fileno(f)) < 0) return ERR_FSYNC;
+#endif
     return 0;
 }
 
