@@ -8,6 +8,10 @@
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
 #
+# Before running this script, you must first prepare the wxMac-2.6.2 
+# package.  Read and follow the directions for this in the script 
+# buildWxMac.sh; it is in the same folder as this script.
+#
 ## Change directory (cd) to boinc/mac_build/
 ## source ./setupForBoinc.sh [ -clean ]
 #
