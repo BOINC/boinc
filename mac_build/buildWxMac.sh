@@ -1,10 +1,24 @@
 # To build the wxMac-2.6.2 library for BOINC as a Universal Binary:
 #
-# Before running this script:
+# Before running this script, you must first prepare the XCode project:
 #
 # Open wxWindows.xcode to upgrade it for XCode 2.2, and name the new file 
 #    wxWindowsB.xcodeproj.
 # Do NOT use the wxWindows.xcodeproj supplied with the package.
+#
+# You will need to add a file to the project's list.  To do this:
+#
+# In the left hand column of the new project window, click on the 
+#   disclosure triangles next to each level until you see the hierarchy 
+#   wxWindowsB : src : mac/corefoundation.
+# Control-click on mac/corefoundation and select Add / Existing Files.
+# Select the file src/mac/corefoundation/utilsexc_base.cpp and press 
+#   the "Add" button.
+# Select Reference Type = "Relative to Project", Text Encoding = 
+#  "Mac OS Roman", "Recursively create groups..." and select (check) 
+#   all 4 wx* targets.
+# Click the "Add" button and close the project or quit XCode.
+# 
 #
 # In Terminal, CD to the wxMac-2.6.2 directory.
 #    cd [path]/wxMac-2.6.2/
