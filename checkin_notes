@@ -14728,3 +14728,18 @@ David  22 Dec 2005
     html/inc/
         user.inc
         team.inc
+
+Bruce 22 Dec 2005
+    - compile fix to create_work.C
+    - Einstein@Home-specific hack to the locality scheduler.  For new
+      WU, I need to separate two types of 'sticky/report on RPC' files.
+      One type is used for WU names of the form FILE__ and the others
+      are auxilliary.  David, after I've talked with you I'll either
+      generalize this notion or we can eliminate it.
+
+    tools/
+        create_work.C
+    sched/
+        server_types.h
+        sched_locality.C
+

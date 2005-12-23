@@ -138,7 +138,10 @@ struct SCHEDULER_REQUEST {
                     // does NOT contain the full host record.
     std::vector<RESULT> results;
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
-    std::vector<FILE_INFO> file_infos;   // sticky files reported by host
+    std::vector<FILE_INFO> file_infos;   // sticky files reported by host for locality scheduling
+#ifdef EINSTEIN_AT_HOME
+    std::vector<FILE_INFO> file_delete_candidates;   // sticky files reported by host, deletion candidates
+#endif
     std::vector<OTHER_RESULT> other_results;
     std::vector<IP_RESULT> ip_results;
     bool have_other_results_list;

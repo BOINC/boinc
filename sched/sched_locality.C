@@ -44,9 +44,19 @@
 // returns zero if there is a file we can delete.
 //
 int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
+
+#ifdef EINSTEIN_AT_HOME
+    // append the list of deletion candidates to the file list
+    int ndelete_candidates = (int)sreq.file_delete_candidates.size();
+    for (int j=0; j<ndelete_candidates; j++) {
+        FILE_INFO& fi = sreq.file_delete_candidates[j];
+        sreq.file_infos.push_back(fi);
+    }
+    sreq.file_delete_candidates.clear();
+#endif
+
     int nfiles = (int)sreq.file_infos.size();
     char buf[256];
-
     if (!nfiles) {
 
         double maxdisk=max_allowable_disk(sreq, sreply);
@@ -892,6 +902,23 @@ void send_work_locality(
     // seed the random number generator
     unsigned int seed=time(0)+getpid();
     srand(seed); 
+
+#ifdef EINSTEIN_AT_HOME
+    std::vector<FILE_INFO> eah_copy = sreq.file_infos;
+    sreq.file_infos.clear();
+    nfiles = (int) eah_copy.size();
+    for (i=0; i<nfiles; i++) {
+	if (strncmp("skygrid_", eah_copy[i].name, 8)) {
+            sreq.file_infos.push_back(eah_copy[i]);
+        } else {
+            sreq.file_delete_candidates.push_back(eah_copy[i]);
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d]: removing file %s from file_infos list\n", reply.host.id, eah_copy[i].name
+            );
+        }
+    }
+#endif
 
     nfiles = (int) sreq.file_infos.size();
     for (i=0; i<nfiles; i++)
