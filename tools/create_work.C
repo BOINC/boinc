@@ -127,7 +127,7 @@ int main(int argc, const char** argv) {
         } else if (!strcmp(argv[i], "-max_success_results")) {
             wu.max_success_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-command_line")) {
-            command_line= argv[++i];
+            command_line= (char *)argv[++i];
         } else {
             if (!strncmp("-",argv[i],1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
