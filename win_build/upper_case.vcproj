@@ -48,12 +48,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="winmm.lib opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib MSVCRT.LIB MSVCPRT.LIB"
-				OutputFile=".\Build\Release/uppercase_3.07_windows_intelx86.exe"
+				OutputFile=".\Build\Release/uppercase_4.04_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/uppercase_3.07_windows_intelx86.pdb"
+				ProgramDatabaseFile=".\Build\Release/uppercase_4.04_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
