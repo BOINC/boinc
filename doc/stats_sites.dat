@@ -5,6 +5,10 @@ $stats_sites = array(
         "BOINC Statistics for the WORLD!",
         "developed by Zain Upton (email: zain.upton at setisynergy.com)"
     ),
+    array("http://boinc.netsoft-online.com/",
+        "BOINC Combined Statistics",
+        "developed by James Drews"
+    ),
     array("http://home.btconnect.com/Gabys_Bazar/hwupgrade.html",
         "Every Earthly Hour",
         "developed by Hydnum Repandum."
@@ -17,7 +21,7 @@ $stats_sites = array(
         "DC-Vault",
         "Include non-BOINC projects"
     ),
-    array("http://boincdenmark.dk/", "BOINC@Denmark", "(in Danish)"),
+    array("http://boincdenmark.dk/", "BOINC@Denmark", "(in Danish and English)"),
     array("http://www.seti.nl/boinc_team.php",
         "SETI@Netherlands stats page",
         ""

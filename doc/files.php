@@ -74,6 +74,9 @@ list_item("upload_when_present",
      when the application finishes.
      The file is uploaded even if the application doesn't
      finish successfully.
+     API functions are available for
+     <a href=int_upload.php>uploading files prior to
+     finishing computation</a>.
 ");
 list_item("sticky",
     "If present, indicates that the file should be retained

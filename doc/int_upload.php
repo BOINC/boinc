@@ -2,7 +2,7 @@
 require_once("docutil.php");
 page_head("Intermediate upload");
 echo "
-Long-running applications can upload their output files
+Long-running applications can upload particular output files
 before the result as a whole is finished.
 To initiate the upload of an output file, call
 <pre>

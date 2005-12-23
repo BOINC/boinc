@@ -1,4 +1,8 @@
-<h3>Notes on server security</h3>
+<?php
+
+require_once("docutil.php");
+page_head("Notes on server security");
+echo "
 <p>
 BOINC scheduling servers, data servers, and web servers
 must be accessible via HTTP (port 80)
@@ -9,12 +13,12 @@ have vulnerabilities to such attacks.
 <h3>Scheduling server</h3>
 <p>
 All network input to the scheduling server is read by calls of the form
-<pre>fgets(buf, 256, stdin);</pre>
+<code>fgets(buf, 256, stdin);</code>
 where buf is a 256-byte buffer.
 There is no possibility of a buffer overrun from these calls.
 In some cases data is copied out of the buffer to a second buffer;
 this is done using functions
-(<pre>parse_str()</pre>, <pre>parse_attr()</pre> and <pre>strncpy()</pre>)
+(<code>parse_str()</code>, <code>parse_attr()</code> and <code>strncpy()</code>)
 that take a buffer-length argument,
 so again there can be no buffer overruns.
 <p>
@@ -41,16 +45,14 @@ The file upload handler reads and writes
 files with names of the form BOINC_UPLOAD_DIR/filename,
 where BOINC_UPLOAD_DIR is a compiled constant
 for the directory where data files are stored.
-"filename" is checked for ".." and such requests are ignored.
+'filename' is checked for '..' and such requests are ignored.
 Hence files outside the directory cannot be read or written.
 <p>
 The only place where files are created (in copy_socket_to_file())
-is a call "fopen(path, "wb");".
+is a call 'fopen(path, \"wb\");'.
 Hence no executable files or links are created.
 
 
-<h3>PHP files</h3>
-<p>
-The PHP files in the participant and administrative
-web directories (html_user and html_ops)
-make no calls that access local files or run programs.
+";
+page_tail();
+?>

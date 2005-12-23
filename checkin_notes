@@ -14766,3 +14766,9 @@ Rom    22 Dec 2005
         gr_boinccmd.vcproj
         gr_boincmgr_curl.vcproj
         GridRepublic.sln
+
+David  23 Dec 2005
+    - user web: single "stay logged in" checkbox on login form
+
+    html/inc/
+        util.inC

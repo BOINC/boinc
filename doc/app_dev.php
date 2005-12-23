@@ -1,7 +1,7 @@
 <?php
 require_once("docutil.php");
 
-page_head("Application development");
+page_head("Application development tips");
 echo "
 <h2>Cross-platform functions</h2>
 <p>

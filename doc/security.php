@@ -1,10 +1,9 @@
 <?php
 require_once("docutil.php");
-page_head("Security");
+page_head("Security issues in volunteer computing");
 echo "
 <p>
-Many types of attacks are possible in public-participation
-distributed computing.
+Many types of attacks are possible in volunteer computing.
 <ul>
 <li> <b>Result falsification</b>.
 Attackers return incorrect results.
@@ -130,9 +129,11 @@ they are entrusting the security of their systems to that project.
 <p>
 <b>Accidental abuse of participant hosts by projects</b>
 <p>
-BOINC does nothing to prevent this.
-The chances of it happening can
-be minimized by pre-released application testing.
+BOINC prevents some problems: for example, it detects when applications
+use too much disk space, memory, or CPU time, and aborts them.
+But applications are not 'sandboxed', so many
+types of accidental abuse are possible.
+Projects can minimize the likelihood by pre-released application testing.
 Projects should test
 their applications thoroughly on all platforms and with all input data
 scenarios before promoting them to production status.

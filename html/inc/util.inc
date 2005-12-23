@@ -266,9 +266,6 @@ function print_login_form_aux($next_url, $user) {
     row2("Password:<br><font size=-2><a href=edit_passwd_form.php>Change password</a>",
         "<input type=password name=passwd size=40>"
     );
-    row2("Stay logged in on this computer",
-        "<input type=checkbox name=send_cookie checked>"
-    );
     row2("", "<input type=submit name=mode value='Log in with email/password'>");
     row1("Log in with account key");
     row2("Your account key:
@@ -278,10 +275,11 @@ function print_login_form_aux($next_url, $user) {
         </font>",
         "<input name=authenticator size=40>"
     );
+    row2("", "<input type=submit name=mode value='Log in with account key'>");
+    row1("Stay logged in");
     row2("Stay logged in on this computer",
         "<input type=checkbox name=send_cookie checked>"
     );
-    row2("", "<input type=submit name=mode value='Log in with account key'>");
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",
