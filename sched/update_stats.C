@@ -39,9 +39,6 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-#define LOCKFILE "update_stats.out"
-#define PIDFILE  "update_stats.pid"
-
 #ifdef EINSTEIN_AT_HOME
 #define UPDATE_INTERVAL 3600*24;
 #else
