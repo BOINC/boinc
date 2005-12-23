@@ -14743,3 +14743,26 @@ Bruce 22 Dec 2005
         server_types.h
         sched_locality.C
 
+Rom    22 Dec 2005
+    - Fix up the File Properties for each application and dll that is
+        going to be included in the GridRepublic client.
+    - Create a GridRepublic solution file.
+    
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_dll.rc
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+    client/win/res/
+        boinc.bmp
+    clientgui/
+        BOINCGUIApp.rc
+    win_build/
+        gr_boinc_cli_curl.vcproj
+        gr_boinc_dll.vcproj
+        gr_boinc_ss.vcproj
+        gr_boinccmd.vcproj
+        gr_boincmgr_curl.vcproj
+        GridRepublic.sln

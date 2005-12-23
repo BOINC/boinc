@@ -191,7 +191,6 @@ protected:
     DWORD					m_dwSaverMouseMoveCount;
     BOOL					m_bIs9x;
     BOOL					m_bIs95;
-    DWORD					m_dwIsGridRepublic;
     HINSTANCE				m_hPasswordDLL;
     VERIFYPWDPROC			m_VerifySaverPassword;
     BOOL					m_bCheckingSaverPassword;

@@ -103,7 +103,6 @@ CScreensaver::CScreensaver() {
     m_bCheckingSaverPassword = FALSE;
     m_bIs9x = FALSE;
     m_bIs95 = FALSE;
-    m_dwIsGridRepublic = 0;
     m_dwSaverMouseMoveCount = 0;
     m_hWnd = NULL;
     m_hWndParent = NULL;
@@ -170,11 +169,6 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     BOINCTRACE("CScreensaver::Create - Get Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
 	if (bReturnValue != 0) m_dwBlankTime = 5;
 
-    // Should we run in Grid Republic mode?
-	bReturnValue = UtilGetRegKey(REG_GRID_REPUBLIC, m_dwIsGridRepublic);
-    BOINCTRACE("CScreensaver::Create - Get Reg Key REG_GRID_REPUBLIC return value '%d'\n", bReturnValue);
-	if (bReturnValue != 0) m_dwIsGridRepublic = 0;
-
     // Save the value back to the registry in case this is the first
     // execution and so we need the default value later.
 	bReturnValue = UtilSetRegKey(REG_BLANK_NAME, m_dwBlankScreen);
@@ -182,9 +176,6 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
 	bReturnValue = UtilSetRegKey(REG_BLANK_TIME, m_dwBlankTime);
     BOINCTRACE("CScreensaver::Create - Set Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
-
-	bReturnValue = UtilSetRegKey(REG_GRID_REPUBLIC, m_dwIsGridRepublic);
-    BOINCTRACE("CScreensaver::Create - Set Reg Key REG_GRID_REPUBLIC return value '%d'\n", bReturnValue);
 
     // Calculate the estimated blank time by adding the current time
     //   and and the user specified time which is in minutes
@@ -858,35 +849,12 @@ BOOL CScreensaver::GetTextForError(
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);
 
-    const DWORD dwGridRepublicErrorMap[][2] = {
-    //  HRESULT, stringID
-        E_FAIL, IDS_ERR_GENERIC,
-        E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
-		SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_GRIDREPUBLICNOTDETECTED,
-		SCRAPPERR_BOINCNOTDETECTEDSTARTUP, IDS_ERR_GRIDREPUBLICNOTDETECTEDSTARTUP,
-		SCRAPPERR_BOINCSUSPENDED, IDS_ERR_GRIDREPUBLICSUSPENDED,
-		SCRAPPERR_BOINCNOAPPSEXECUTING, IDS_ERR_GRIDREPUBLICNOAPPSEXECUTING,
-        SCRAPPERR_BOINCNOPROJECTSDETECTED, IDS_ERR_GRIDREPUBLICNOAPPSEXECUTINGNOPROJECTSDETECTED,
-		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_GRIDREPUBLICNOGRAPHICSAPPSEXECUTING,
-		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_GRIDREPUBLICSCREENSAVERLOADING,
-		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
-    };
-    const DWORD dwGridRepublicErrorMapSize = sizeof(dwGridRepublicErrorMap) / sizeof(DWORD[2]);
-
     DWORD iError;
     DWORD resid = 0;
 
-    if (m_dwIsGridRepublic) {
-        for(iError = 0; iError < dwGridRepublicErrorMapSize; iError++) {
-            if (hr == (HRESULT)dwGridRepublicErrorMap[iError][0]) {
-                resid = dwGridRepublicErrorMap[iError][1];
-            }
-        }
-    } else {
-        for(iError = 0; iError < dwErrorMapSize; iError++) {
-            if (hr == (HRESULT)dwErrorMap[iError][0]) {
-                resid = dwErrorMap[iError][1];
-            }
+    for(iError = 0; iError < dwErrorMapSize; iError++) {
+        if (hr == (HRESULT)dwErrorMap[iError][0]) {
+            resid = dwErrorMap[iError][1];
         }
     }
     if (resid == 0) {
@@ -1722,7 +1690,6 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
 	static HBRUSH	hbrushBlack = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	static HBRUSH	hbrushRed = (HBRUSH)CreateSolidBrush(RGB(255,0,0));
 	static HBITMAP  hbmp = LoadBitmap(m_hInstance, MAKEINTRESOURCE(IDB_BOINCSPLAT));
-	static HBITMAP  hbmpGridRepublic = LoadBitmap(m_hInstance, MAKEINTRESOURCE(IDB_GRIDREPUBLICLOGO));
 
 
     // Retrieve the latest piece of error information 
@@ -1763,11 +1730,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
     // it. the bitmap is centered in the rectangle by adding 2
 	// to the left and top coordinates of the bitmap rectangle,
 	// and subtracting 4 from the right and bottom coordinates.
-    if (m_dwIsGridRepublic) {
-	    DrawTransparentBitmap(hdc, hbmpGridRepublic, (rc.left + 2), (rc.top + 2), RGB(255, 0, 255));
-    } else {
-	    DrawTransparentBitmap(hdc, hbmp, (rc.left + 2), (rc.top + 2), RGB(129, 129, 129));
-    }
+    DrawTransparentBitmap(hdc, hbmp, (rc.left + 2), (rc.top + 2), RGB(255, 0, 255));
 	rc.left += 166;
 
 	// Draw text in the center of the frame
