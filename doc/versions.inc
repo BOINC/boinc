@@ -52,6 +52,19 @@ $features_5 = "
 ";
 
 $dev_changes= "
+    <li>Changes since 5.2.14
+    <li>Macintosh-only changes since 5.2.15
+      <ul>
+        <li>Fixed another problem which could prevent BOINC Manager from connecting 
+            to core client.
+        <li>Mac only: we are now building with newer tools and libraries: XCode 2.2, 
+            WxWidgets 2.6.2, libcurl 7.15.1.
+        <li>Mac only: in anticipation of Intel-based Macs, the Mac BOINC Manager package 
+            name now specifies the cpu architecture: boinc_5.2.15_macOSX_powerpc.zip.
+      </ul>
+";
+
+$changes_5 = "
     <li>Changes since 5.2.13
       <ul>
         <li>The manager should now correctly detect if the core client is
@@ -59,9 +72,6 @@ $dev_changes= "
         <li>Mac: Only administrators can attach to a new project (for improved security).
         <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
       </ul>
-";
-
-$changes_5 = "
     <li>Changes since 5.2.12
       <ul>
         <li>Localization updates.
@@ -229,6 +239,30 @@ $w419 = array(
     If BOINC runs at the same time as Windows XP 3-D screensavers,
     the system becomes sluggish.
     </ul>
+    "
+);
+
+$m5215 = array(
+    "num"=>"5.2.15",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.2.15_macOSX_powerpc.zip",
+    "date"=>"24 December 2005",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+     <li>
+     BOINC now works with OS 10.3.0 or higher.
+     <li>
+     Closing the BOINC Manager window now hides the application, and vice-versa.
+     <li>
+     The installer no longer always sets ownership to user 501. If the installing user 
+     has admin privileges, that user becomes the owner; otherwise the first non-root 
+     admin user becomes the owner.
+".$features_5."
+".$dev_changes."
+".$changes_5."
+     </ul>
+    ",
+    "bugs"=>"
     "
 );
 
@@ -405,6 +439,7 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m5215,
         $m5214,
         $m5213,
         $m5213s,
