@@ -13645,4 +13645,8 @@ Charlie 21 Dec 2005
             buildjpeg.sh (new)
             buildcurl.sh (new)
             buildWxMac.sh (new)
-      
+
+Rom   23 Dec 2005 (boinc_core_release_5_2)
+    - Tag for 5.2.15 release, all platforms
+      boinc_core_release_5_2_15
+
