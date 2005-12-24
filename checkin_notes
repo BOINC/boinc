@@ -13612,6 +13612,14 @@ Charlie 6 Dec 2005
         boinc.pbproj/
             project.pbxproj
 
+David  8 Dec 2005
+    - use libcurl's error strings instead of our own.
+        Also, don't use a default error code of 500.
+        Makes it look like there are server crashes when there aren't.
+
+    client/
+        net_xfer_curl.C
+
 Rom    19 Dec 2005
     - Bug Fix: Fix the extra connection validation code in the gui rpc
         clients.  the get_state rpc contained references to the old
