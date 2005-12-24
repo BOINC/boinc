@@ -42,6 +42,7 @@
 #include "NoInternetConnectionPage.h"
 #include "NotFoundPage.h"
 #include "AlreadyExistsPage.h"
+#include "ProxyInfoPage.h"
 #include "ProxyPage.h"
 
 ////@begin XPM images
@@ -103,6 +104,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     m_ErrNoInternetConnectionPage = NULL;
     m_ErrNotFoundPage = NULL;
     m_ErrAlreadyExistsPage = NULL;
+    m_ErrProxyInfoPage = NULL;
     m_ErrProxyPage = NULL;
 ////@end CWizardAttachProject member initialisation
   
@@ -203,11 +205,15 @@ void CWizardAttachProject::CreateControls()
     m_ErrAlreadyExistsPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ErrAlreadyExistsPage);
+    m_ErrProxyInfoPage = new CErrProxyInfoPage;
+    m_ErrProxyInfoPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_ErrProxyInfoPage);
     m_ErrProxyPage = new CErrProxyPage;
     m_ErrProxyPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ErrProxyPage);
-    wxWizardPageSimple* lastPage = NULL;
+
 ////@end CWizardAttachProject content construction
  
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - Begin Page Map"));
@@ -225,6 +231,7 @@ void CWizardAttachProject::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), ID_ERRNOINTERNETCONNECTIONPAGE, m_ErrNoInternetConnectionPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), ID_ERRNOTFOUNDPAGE, m_ErrNotFoundPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyExistsPage = id: '%d', location: '%p'"), ID_ERRALREADYEXISTSPAGE, m_ErrAlreadyExistsPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), ID_ERRPROXYINFOPAGE, m_ErrProxyInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), ID_ERRPROXYPAGE, m_ErrProxyPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - End Page Map"));
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttachProject::CreateControls - Function End"));
@@ -401,6 +408,9 @@ wxWizardPageEx* CWizardAttachProject::_PushPageTransition( wxWizardPageEx* pCurr
         if (ID_ERRALREADYEXISTSPAGE == ulPageID)
             pPage = m_ErrAlreadyExistsPage;
  
+        if (ID_ERRPROXYINFOPAGE == ulPageID)
+            pPage = m_ErrProxyInfoPage;
+ 
         if (ID_ERRPROXYPAGE == ulPageID)
             pPage = m_ErrProxyPage;
  
@@ -461,6 +471,10 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bCancelWithoutNextPage |= (page == m_ErrAlreadyAttachedPage);
     bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
     bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
+    if (wxYES != iRetVal) {
+        event.Veto();
+    }
+/*
     if (!bCancelWithoutNextPage) {
         event.Veto();
         if (wxYES == iRetVal) {
@@ -472,6 +486,7 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
             event.Veto();
         }
     }
+*/
 }
 
 /*!

@@ -413,4 +413,11 @@ private:
 
 extern CLIENT_STATE gstate;
 
+// return a random double in the range [MIN,min(e^n,MAX))
+//
+extern double calculate_exponential_backoff(
+    const char* debug_descr, int n, double MIN, double MAX, double factor=1.0
+);
+extern bool debug_fake_exponential_backoff;
+
 #endif

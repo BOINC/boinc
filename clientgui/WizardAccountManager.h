@@ -112,6 +112,7 @@ public:
     CErrNotDetectedPage* m_ErrNotDetectedPage;
     CErrUnavailablePage* m_ErrUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
+    CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyPage* m_ErrProxyPage;
 ////@end CWizardAccountManager member variables
     bool m_bCredentialsCached;

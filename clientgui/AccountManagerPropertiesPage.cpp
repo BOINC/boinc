@@ -132,7 +132,7 @@ void CAccountManagerPropertiesPage::CreateControls()
     itemWizardPage34->SetSizer(itemBoxSizer35);
 
     wxStaticText* itemStaticText36 = new wxStaticText;
-    itemStaticText36->Create( itemWizardPage34, wxID_STATIC, _("Communicating with account manager \nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText36->Create( itemWizardPage34, wxID_STATIC, _("Communicating with account manager\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText36->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer35->Add(itemStaticText36, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -409,7 +409,7 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
         // Possible proxy problem
-        return PAGE_TRANSITION_NEXT(ID_ERRPROXYPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && !GetDeterminingConnectionStatusSucceeded()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);

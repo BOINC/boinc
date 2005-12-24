@@ -121,6 +121,7 @@ public:
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrNotFoundPage* m_ErrNotFoundPage;
     CErrAlreadyExistsPage* m_ErrAlreadyExistsPage;
+    CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyPage* m_ErrProxyPage;
 ////@end CWizardAttachProject member variables
     bool m_bCredentialsCached;

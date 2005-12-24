@@ -222,8 +222,12 @@ CMainFrame::CMainFrame(wxString strTitle) :
     // Prefetch and Load Wininet.dll so that any calls to
     //   wxDialUpManager->IsAlwaysOnline happen quicker.
     m_WININET.Load(wxT("WININET"));
-    m_pDialupManager = wxDialUpManager::Create();
-    wxASSERT(m_pDialupManager->IsOk());
+    if (m_RASAPI32.Load(wxT("RASAPI32"))) {
+        m_pDialupManager = wxDialUpManager::Create();
+        wxASSERT(m_pDialupManager->IsOk());
+    } else {
+        m_pDialupManager = NULL;
+    }
 #endif
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
@@ -269,9 +273,6 @@ CMainFrame::~CMainFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
-#ifdef __WXMSW__
-    wxASSERT(m_pDialupManager);
-#endif
 
     SaveState();
 
@@ -309,18 +310,12 @@ CMainFrame::~CMainFrame() {
         delete m_pDialupManager;
 #endif
 
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function End"));
 }
 
 
 bool CMainFrame::CreateMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
-
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     // File menu
     wxMenu *menuFile = new wxMenu;
@@ -392,7 +387,7 @@ bool CMainFrame::CreateMenu() {
     wxMenu *menuProjects = new wxMenu;
     menuProjects->Append(
         ID_PROJECTSATTACHPROJECT, 
-        _("&Attach to &project"),
+        _("Attach to &project"),
         _("Attach to a project to begin processing work")
     );
     menuProjects->Append(
@@ -733,7 +728,7 @@ bool CMainFrame::RestoreState() {
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
     pConfig->Read(wxT("NetworkDialupPromptCredentials"), &m_bNetworkDialupPromptCredentials, false);
 
-    pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
+    pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
     m_pNotebook->SetSelection(iCurrentPage);
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
@@ -912,22 +907,33 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
     lAnswer = pDlg->ShowModal();
     if (wxID_OK == lAnswer) {
-        lRetVal = pDoc->Connect(
-            pDlg->m_ComputerNameCtrl->GetValue(), 
-            pDlg->m_ComputerPasswordCtrl->GetValue(),
-            TRUE
-        );
+
+        // Make a null hostname be the same thing as localhost
+        if (wxEmptyString == pDlg->m_ComputerNameCtrl->GetValue()) {
+            lRetVal = pDoc->Connect(
+                wxT("localhost"),
+                wxEmptyString,
+                TRUE,
+                TRUE
+            );
+        } else {
+            // Connect up to the remote machine
+            lRetVal = pDoc->Connect(
+                pDlg->m_ComputerNameCtrl->GetValue(), 
+                pDlg->m_ComputerPasswordCtrl->GetValue(),
+                TRUE,
+                FALSE
+            );
+        }
         if (lRetVal) {
-            ShowAlert(
-                _("Connection failed."),
-                _("Connection failed."),
-                wxICON_ERROR
-           );
+            ShowConnectionFailedAlert();
         }
 
         // Insert a copy of the current combo box value to the head of the
         //   computer names string array
-        aComputerNames.Insert(pDlg->m_ComputerNameCtrl->GetValue(), 0);
+        if (wxEmptyString != pDlg->m_ComputerNameCtrl->GetValue()) {
+            aComputerNames.Insert(pDlg->m_ComputerNameCtrl->GetValue(), 0);
+        }
 
         // Loops through the computer names and remove any duplicates that
         //   might exist with the new head value
@@ -966,51 +972,60 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_pRefreshStateTimer->Stop();
-    m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
-    m_pDocumentPollTimer->Stop();
+#ifdef __WXMAC__
+    if (!Mac_Authorize())
+        return;
+#endif
 
-    ACCT_MGR_INFO ami;
-    pDoc->rpc.acct_mgr_info(ami);
-    if (ami.acct_mgr_url.size()) {
-        CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
+    if (pDoc->IsConnected()) {
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
 
-        strTitle = pDlgStatus->GetTitle();
-        strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
-        pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
-        pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
-        pDlgStatus->SetTitle(strTitle);
+        ACCT_MGR_INFO ami;
+        pDoc->rpc.acct_mgr_info(ami);
+        if (ami.acct_mgr_url.size()) {
+            CDlgAccountManagerStatus* pDlgStatus = new CDlgAccountManagerStatus(this);
 
-        iAnswer = pDlgStatus->ShowModal();
+            strTitle = pDlgStatus->GetTitle();
+            strTitle += wxT(" - ") + wxString(ami.acct_mgr_name.c_str());
+            pDlgStatus->SetAcctManagerName(ami.acct_mgr_name.c_str());
+            pDlgStatus->SetAcctManagerURL(ami.acct_mgr_url.c_str());
+            pDlgStatus->SetTitle(strTitle);
 
-        if (pDlgStatus)
-            pDlgStatus->Destroy();
-    }
+            iAnswer = pDlgStatus->ShowModal();
 
-    if (((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) && (wxID_CANCEL != iAnswer)) {
-        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
-
-        wxString strName = wxEmptyString;
-        wxString strURL = wxEmptyString;
-        bool bCredentialsCached = false;
-        if (ID_UPDATE == iAnswer) {
-            strName = ami.acct_mgr_name.c_str();
-            strURL = ami.acct_mgr_url.c_str();
-            bCredentialsCached = ami.have_credentials;
+            if (pDlgStatus)
+                pDlgStatus->Destroy();
         }
-        pWizard->Run( strName, strURL, bCredentialsCached );
 
-        if (pWizard)
-            pWizard->Destroy();
+        if (((ID_UPDATE == iAnswer) || (ID_CHANGE == iAnswer)) && (wxID_CANCEL != iAnswer)) {
+            CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
-        FireRefreshView();
+            wxString strName = wxEmptyString;
+            wxString strURL = wxEmptyString;
+            bool bCredentialsCached = false;
+            if (ID_UPDATE == iAnswer) {
+                strName = ami.acct_mgr_name.c_str();
+                strURL = ami.acct_mgr_url.c_str();
+                bCredentialsCached = ami.have_credentials;
+            }
+            pWizard->Run( strName, strURL, bCredentialsCached );
+
+            if (pWizard)
+                pWizard->Destroy();
+
+            FireRefreshView();
+        }
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
     }
-
-    m_pRefreshStateTimer->Start();
-    m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
-    m_pDocumentPollTimer->Start();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function End"));
 }
@@ -1019,30 +1034,44 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
 void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function Begin"));
 
-    UpdateStatusText(_("Attaching to project..."));
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
 
-    m_pRefreshStateTimer->Stop();
-    m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
-    m_pDocumentPollTimer->Stop();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+#ifdef __WXMAC__
+    if (!Mac_Authorize())
+        return;
+#endif
 
-    wxString strName = wxEmptyString;
-    wxString strURL = wxEmptyString;
-    pWizard->Run( strName, strURL, false );
+    if (pDoc->IsConnected()) {
+        UpdateStatusText(_("Attaching to project..."));
 
-    if (pWizard)
-        pWizard->Destroy();
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
 
-    m_pRefreshStateTimer->Start();
-    m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
-    m_pDocumentPollTimer->Start();
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
-    UpdateStatusText(wxT(""));
+        wxString strName = wxEmptyString;
+        wxString strURL = wxEmptyString;
+        pWizard->Run( strName, strURL, false );
 
-    FireRefreshView();
+        if (pWizard)
+            pWizard->Destroy();
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+
+        UpdateStatusText(wxT(""));
+
+        FireRefreshView();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToProject - Function End"));
 }
@@ -1080,10 +1109,6 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pDlg);
 
-#ifdef __WXMSW__
-    wxASSERT(m_pDialupManager);
-#endif
-
 
     // General Tab
     pDlg->m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
@@ -1093,12 +1118,27 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
 #ifdef __WXMSW__
     // Connection Tab
-    m_pDialupManager->GetISPNames(astrDialupConnections);
+    if (m_pDialupManager) {
+        m_pDialupManager->GetISPNames(astrDialupConnections);
 
-    pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
-    pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
-    pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
-    pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
+        pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
+        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
+        pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
+    } else {
+        pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
+        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
+        pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
+
+        pDlg->m_NetworkAutomaticDetectionCtrl->Disable();
+        pDlg->m_NetworkUseLANCtrl->Disable();
+        pDlg->m_NetworkUseDialupCtrl->Disable();
+        pDlg->m_DialupConnectionsCtrl->Disable();
+        pDlg->m_DialupSetDefaultCtrl->Disable();
+        pDlg->m_DialupClearDefaultCtrl->Disable();
+        pDlg->m_DialupPromptCredentials->Disable();
+    }
 #endif
 
     // Proxy Tabs
@@ -1253,13 +1293,18 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
 
-
 #ifdef __WXMSW__
     CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
     wxASSERT(pTaskbar);
 
     if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
-        ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+        if (!event.m_notification_only) {
+            int retval = 0;
+            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+            if (event.m_alert_event_type == AlertProcessResponse) {
+                event.ProcessResponse(retval);
+            }
+        }
     } else {
         // If the main window is hidden or minimzed use the system tray ballon
         //   to notify the user instead.  This keeps dialogs from interfering
@@ -1350,7 +1395,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         m_pFrameListPanelRenderTimer->Start();
         m_pDocumentPollTimer->Start();
 
-        m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+        m_pNotebook->SetSelection(ID_TASK_MESSAGESVIEW - ID_TASK_BASE);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
@@ -1366,7 +1411,7 @@ void CMainFrame::OnInitialized(CMainFrameEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (!pDoc->IsConnected()) {
-        pDoc->Connect(wxEmptyString, wxEmptyString, TRUE);
+        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
@@ -1464,7 +1509,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             wxTimeSpan          tsLastDialupRequest;
             wxTimeSpan          tsFirstDialupDisconnectEvent;
 
-            wxASSERT(m_pDialupManager->IsOk());
             if (m_pDialupManager && pDoc) {
                 // Update the always online flag every 60 seconds.  This call is expensive
                 //   on slow machines.
@@ -1502,6 +1546,10 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     wxLogTrace(wxT("Function Status"),
                         wxT("CMainFrame::OnFrameRender - -- reset_timers = '%d', already_notified_update_all_projects = '%d', connected_successfully = '%d'"),
                         reset_timers, already_notified_update_all_projects, connected_successfully
+                    );
+                    wxLogTrace(wxT("Function Status"),
+                        wxT("CMainFrame::OnFrameRender - -- confirm_before_connecting = '%d', hangup_if_dialed = '%d'"),
+                        pDoc->state.global_prefs.confirm_before_connecting, pDoc->state.global_prefs.hangup_if_dialed
                     );
 
                     // If we have received any connection event, then we should reset the
@@ -1725,9 +1773,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     else
                         pDoc->GetConnectedComputerName(strComputerName);
 
-                    if (strComputerName.empty()) {
+                    if (pDoc->IsComputerNameLocal(strComputerName)) {
                         strTitle += wxT(" - (localhost)");
-                        strComputerName += wxT("localhost");
                     } else {
                         strStatusText += strComputerName;
                     }
@@ -1827,6 +1874,7 @@ void CMainFrame::SetFrameListPanelRenderTimerRate() {
     wxASSERT(m_pNotebook);
     wxASSERT(m_pFrameListPanelRenderTimer);
     wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     // Keep timer at faster rate until we have been connected > 10 seconds
     if (!pDoc->IsConnected())
@@ -1886,8 +1934,39 @@ void CMainFrame::FireConnect() {
 }
 
 
-void CMainFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only ) {
-    CMainFrameAlertEvent event(wxEVT_MAINFRAME_ALERT, this, title, message, style, notification_only);
+void CMainFrame::ShowConnectionFailedAlert() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function Begin"));
+
+    ShowAlert(
+        _("BOINC Manager - Connection Failed"),
+        _("BOINC Manager is not able to connect to a BOINC client.\n"
+          "Would you like to try to connect again?"),
+        wxYES_NO | wxICON_QUESTION,
+        false,
+        AlertProcessResponse
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function End"));
+}
+
+
+void CMainFrame::ShowNotCurrentlyConnectedAlert() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
+
+    ShowAlert(
+        _("BOINC Manager - Connection Status"),
+        _("BOINC Manager is not currently connected to a BOINC client.\n"
+            "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
+            "To connect up to your local computer please use 'localhost' as the host name."),
+        wxICON_ERROR
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function End"));
+}
+
+
+void CMainFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only, const MainFrameAlertEventType alert_event_type ) {
+    CMainFrameAlertEvent event(wxEVT_MAINFRAME_ALERT, this, title, message, style, notification_only, alert_event_type);
     AddPendingEvent(event);
 }
 
@@ -1895,6 +1974,7 @@ void CMainFrame::ShowAlert( const wxString title, const wxString message, const 
 void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
     wxHyperLink::ExecuteLink(strLink);
 }
+
 
 #ifdef __WXMAC__
 
@@ -1912,5 +1992,18 @@ bool CMainFrame::Show(bool show) {
 }
 
 #endif // __WXMAC__
+
+
+void CMainFrameAlertEvent::ProcessResponse(const int response) const {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if ((AlertProcessResponse == m_alert_event_type) && (wxYES == response)) {
+        pDoc->Reconnect();
+    }
+}
+
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

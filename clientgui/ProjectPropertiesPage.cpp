@@ -190,7 +190,7 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
         // Possible proxy problem
-        return PAGE_TRANSITION_NEXT(ID_ERRPROXYPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && !GetDeterminingConnectionStatusSucceeded()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);

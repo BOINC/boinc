@@ -398,31 +398,39 @@ wxInt32 CViewProjects::GetDocCount() {
 
 
 wxString CViewProjects::OnListGetItemText(long item, long column) const {
-    CProject* project     = m_ProjectCache.at(item);
+    CProject* project     = NULL;
     wxString  strBuffer   = wxEmptyString;
 
-    switch(column) {
-    case COLUMN_PROJECT:
-        strBuffer = project->m_strProjectName;
-        break;
-    case COLUMN_ACCOUNTNAME:
-        strBuffer = project->m_strAccountName;
-        break;
-    case COLUMN_TEAMNAME:
-        strBuffer = project->m_strTeamName;
-        break;
-    case COLUMN_TOTALCREDIT:
-        strBuffer = project->m_strTotalCredit;
-        break;
-    case COLUMN_AVGCREDIT:
-        strBuffer = project->m_strAVGCredit;
-        break;
-    case COLUMN_RESOURCESHARE:
-        strBuffer = project->m_strResourceShare;
-        break;
-    case COLUMN_STATUS:
-        strBuffer = project->m_strStatus;
-        break;
+    try {
+        project = m_ProjectCache.at(item);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
+
+    if (project) {
+        switch(column) {
+            case COLUMN_PROJECT:
+                strBuffer = project->m_strProjectName;
+                break;
+            case COLUMN_ACCOUNTNAME:
+                strBuffer = project->m_strAccountName;
+                break;
+            case COLUMN_TEAMNAME:
+                strBuffer = project->m_strTeamName;
+                break;
+            case COLUMN_TOTALCREDIT:
+                strBuffer = project->m_strTotalCredit;
+                break;
+            case COLUMN_AVGCREDIT:
+                strBuffer = project->m_strAVGCredit;
+                break;
+            case COLUMN_RESOURCESHARE:
+                strBuffer = project->m_strResourceShare;
+                break;
+            case COLUMN_STATUS:
+                strBuffer = project->m_strStatus;
+                break;
+        }
     }
 
     return strBuffer;

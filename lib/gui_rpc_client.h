@@ -520,6 +520,7 @@ public:
     int init_poll();
     void close();
     int authorize(const char* passwd);
+    int get_client_time(double& client_time);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);

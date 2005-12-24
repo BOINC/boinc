@@ -886,6 +886,26 @@ void LOOKUP_WEBSITE::clear() {
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
+int RPC_CLIENT::get_client_time(double& client_time) {
+    char buf[256];
+    RPC rpc(this);
+    int retval;
+
+    client_time = 0;
+
+    retval = rpc.do_rpc("<get_client_time/>\n");
+    if (retval) return retval;
+
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</client_time>")) break;
+        else if (parse_int(buf, "<major_version>", client_major_version)) continue;
+        else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
+        else if (parse_int(buf, "<release>", client_release)) continue;
+        else if (parse_double(buf, "<time>", client_time)) continue;
+    }
+    return 0;
+}
+
 int RPC_CLIENT::get_state(CC_STATE& state) {
     char buf[256];
     PROJECT* project = NULL;
@@ -893,9 +913,6 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
     int retval;
 
     state.clear();
-    client_major_version = 0;
-    client_minor_version = 0;
-    client_release = 0;
 
     retval = rpc.do_rpc("<get_state/>\n");
     if (retval) return retval;
@@ -905,9 +922,9 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             return ERR_AUTHENTICATOR;
         }
         if (match_tag(buf, "</client_state>")) break;
-        else if (parse_int(buf, "<client_major_version>", client_major_version)) continue;
-        else if (parse_int(buf, "<client_minor_version>", client_minor_version)) continue;
-        else if (parse_int(buf, "<client_release>", client_release)) continue;
+        else if (parse_int(buf, "<major_version>", client_major_version)) continue;
+        else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
+        else if (parse_int(buf, "<release>", client_release)) continue;
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT();
             project->parse(rpc.fin);
@@ -1515,7 +1532,7 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             "  <use_config_file/>\n"
             "</acct_mgr_rpc>\n"
         );
-    }else {
+    } else {
         sprintf(buf,
             "<acct_mgr_rpc>\n"
             "  <url>%s</url>\n"

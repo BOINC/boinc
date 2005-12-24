@@ -386,6 +386,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
         {
             wxChar buf[1024];
+            wxChar *argv[3];
             ProcessSerialNumber ourPSN;
             FSRef ourFSRef;
             OSErr err;
@@ -399,9 +400,18 @@ void CBOINCGUIApp::StartupBOINCCore() {
                 err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
             }
             if (err == noErr) {
+#if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
                 strExecute = wxT("\"");            
                 strExecute += wxT(buf);
                 strExecute += wxT("/Contents/Resources/boinc\" -redirectio");
+                m_lBOINCCoreProcessId = ::wxExecute(strExecute);
+#else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
+                strcat(buf, "/Contents/Resources/boinc");
+                argv[0] = buf;
+                argv[1] = "-redirectio";
+                argv[2] = NULL;
+                m_lBOINCCoreProcessId = ::wxExecute(argv);
+#endif
             } else {
                 buf[0] = '\0';
             }
@@ -462,10 +472,9 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute = wxT("./boinc -redirectio");
+        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
         
 #endif  // ! __WXMAC__
-
-        m_lBOINCCoreProcessId = ::wxExecute(strExecute);
 
 #endif  // ! __WXMSW__
 

@@ -835,6 +835,8 @@ bool ACTIVE_TASK::get_app_status_msg() {
         parse_double(msg_buf, "<vm_bytes>", vm_bytes);
         parse_double(msg_buf, "<rss_bytes>", rss_bytes);
         parse_int(msg_buf, "<non_cpu_intensive>", non_cpu_intensive);
+        parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
+        parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     } else {
         return false;
     }

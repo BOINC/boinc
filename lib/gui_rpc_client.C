@@ -49,9 +49,16 @@
 using std::string;
 using std::vector;
 
-RPC_CLIENT::RPC_CLIENT() {}
+RPC_CLIENT::RPC_CLIENT() {
+    client_major_version = 0;
+    client_minor_version = 0;
+    client_release = 0;
+}
 
 RPC_CLIENT::~RPC_CLIENT() {
+    client_major_version = 0;
+    client_minor_version = 0;
+    client_release = 0;
     close();
 }
 
@@ -67,6 +74,7 @@ void RPC_CLIENT::close() {
 }
 
 int RPC_CLIENT::init(const char* host) {
+    double client_time = 0.0;
     int retval;
 	memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -80,30 +88,39 @@ int RPC_CLIENT::init(const char* host) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
     boinc_socket(sock);
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        BOINCTRACE("RPC_CLIENT::init connect 2 on %d returned %d\n", sock, retval);
+        fprintf(stderr, "RPC_CLIENT::init connect 2 on %d returned %d\n", sock, retval);
         //perror("connect");
         boinc_close_socket(sock);
         boinc_socket(sock);
 #ifdef _WIN32
-        BOINCTRACE("RPC_CLIENT::init connect 1: Winsock error '%d'\n", WSAGetLastError());
+        fprintf(stderr, "RPC_CLIENT::init connect 1: Winsock error '%d'\n", WSAGetLastError());
 #endif
         addr.sin_port = htons(GUI_RPC_PORT);
         retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
         if (retval) {
 #ifdef _WIN32
-            BOINCTRACE("RPC_CLIENT::init connect 2: Winsock error '%d'\n", WSAGetLastError());
+            fprintf(stderr, "RPC_CLIENT::init connect 2: Winsock error '%d'\n", WSAGetLastError());
 #endif
-            BOINCTRACE("RPC_CLIENT::init connect on %d returned %d\n", sock, retval);
+            fprintf(stderr, "RPC_CLIENT::init connect on %d returned %d\n", sock, retval);
             perror("connect");
             close();
             return ERR_CONNECT;
         }
     }
+
+    // Are we really talking to a BOINC core client.
+    if (get_client_time(client_time)) {
+        return ERR_RETRY;
+    }
+    if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
+        return ERR_RETRY;
+    }
+
     return 0;
 }
 
@@ -123,31 +140,32 @@ int RPC_CLIENT::init_asynch(const char* host, double _timeout, bool _retry) {
         }
         addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
     } else {
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
 
     retval = boinc_socket(sock);
-    BOINCTRACE("RPC_CLIENT::init boinc_socket returned %d\n", sock);
+    fprintf(stderr, "RPC_CLIENT::init boinc_socket returned %d\n", sock);
     if (retval) return retval;
 
     tried_alt_port = false;
     retval = boinc_socket_asynch(sock, true);
     if (retval) {
-        BOINCTRACE("RPC_CLIENT::init asynch error: %d\n", retval);
+        fprintf(stderr, "RPC_CLIENT::init asynch error: %d\n", retval);
     }
     start_time = dtime();
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
         perror("connect");
-        BOINCTRACE("RPC_CLIENT::init connect returned %d\n", retval);
+        fprintf(stderr, "RPC_CLIENT::init connect returned %d\n", retval);
     }
-    BOINCTRACE("RPC_CLIENT::init attempting connect to alt port\n");
+    fprintf(stderr, "RPC_CLIENT::init attempting connect to alt port\n");
     return 0;
 }
 
 int RPC_CLIENT::init_poll() {
     fd_set read_fds, write_fds, error_fds;
     struct timeval tv;
+    double client_time = 0.0;
     int retval;
 
     FD_ZERO(&read_fds);
@@ -158,7 +176,7 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &write_fds);
     FD_SET(sock, &error_fds);
 
-    BOINCTRACE("RPC_CLIENT::init_poll sock = %d\n", sock);
+    fprintf(stderr, "RPC_CLIENT::init_poll sock = %d\n", sock);
 
     tv.tv_sec = tv.tv_usec = 0;
     select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
@@ -168,11 +186,17 @@ int RPC_CLIENT::init_poll() {
     } else if (FD_ISSET(sock, &write_fds)) {
         retval = get_socket_error(sock);
         if (!retval) {
-            BOINCTRACE("RPC_CLIENT::init_poll connected to port %d\n", ntohs(addr.sin_port));
+            fprintf(stderr, "RPC_CLIENT::init_poll connected to port %d\n", ntohs(addr.sin_port));
             retval = boinc_socket_asynch(sock, false);
             if (retval) {
                 fprintf(stderr, "asynch error: %d\n", retval);
                 return retval;
+            }
+            if (get_client_time(client_time)) {
+                return ERR_RETRY;
+            }
+            if ((client_time == 0.0) && ((0 == client_major_version) && (0 == client_minor_version) && (0 == client_release))) {
+                return ERR_RETRY;
             }
             return 0;
         } else {
@@ -193,7 +217,7 @@ int RPC_CLIENT::init_poll() {
             retval = boinc_socket_asynch(sock, true);
             addr.sin_port = htons(tried_alt_port?GUI_RPC_PORT_ALT:GUI_RPC_PORT);
             retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-            BOINCTRACE(
+            fprintf(stderr,
                 "RPC_CLIENT::init_poll attempting connect to %s port\n",
                 tried_alt_port?"alternate":"main"
             );

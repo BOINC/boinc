@@ -199,36 +199,31 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Showing graphics for result..."));
 
-    pDoc->GetConnectedComputerName(strMachineName);
-
     // TODO: implement hide as well as show
-    if (1) {
 #ifdef _WIN32
-        if (!strMachineName.empty()) {
-            iAnswer = ::wxMessageBox(
-                _("Are you sure you wish to display graphics on a remote machine?"),
-                _("Show graphics"),
-                wxYES_NO | wxICON_QUESTION,
-                this
-            );
-        } else {
-            iAnswer = wxYES;
-        }
-#else
+    pDoc->GetConnectedComputerName(strMachineName);
+    if (!pDoc->IsComputerNameLocal(strMachineName)) {
+        iAnswer = ::wxMessageBox(
+            _("Are you sure you want to display graphics on a remote machine?"),
+            _("Show graphics"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
+    } else {
         iAnswer = wxYES;
+    }
+#else
+    iAnswer = wxYES;
 #endif
 
-        if (wxYES == iAnswer) {
-            pDoc->WorkShowGraphics(
-                m_pListPane->GetFirstSelected(),
-                false,
-                wxGetApp().m_strDefaultWindowStation,
-                wxGetApp().m_strDefaultDesktop,
-                wxGetApp().m_strDefaultDisplay
-            );
-        }
-
-        pFrame->UpdateStatusText(wxT(""));
+    if (wxYES == iAnswer) {
+        pDoc->WorkShowGraphics(
+            m_pListPane->GetFirstSelected(),
+            false,
+            wxGetApp().m_strDefaultWindowStation,
+            wxGetApp().m_strDefaultDesktop,
+            wxGetApp().m_strDefaultDisplay
+        );
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -293,34 +288,42 @@ wxInt32 CViewWork::GetDocCount() {
 
 
 wxString CViewWork::OnListGetItemText(long item, long column) const {
-    CWork*    work      = m_WorkCache.at(item);
+    CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
 
-    switch(column) {
-        case COLUMN_PROJECT:
-            strBuffer = work->m_strProjectName;
-            break;
-        case COLUMN_APPLICATION:
-            strBuffer = work->m_strApplicationName;
-            break;
-        case COLUMN_NAME:
-            strBuffer = work->m_strName;
-            break;
-        case COLUMN_CPUTIME:
-            strBuffer = work->m_strCPUTime;
-            break;
-        case COLUMN_PROGRESS:
-            strBuffer = work->m_strProgress;
-            break;
-        case COLUMN_TOCOMPLETION:
-            strBuffer = work->m_strTimeToCompletion;
-            break;
-        case COLUMN_REPORTDEADLINE:
-            strBuffer = work->m_strReportDeadline;
-            break;
-        case COLUMN_STATUS:
-            strBuffer = work->m_strStatus;
-            break;
+    try {
+        work = m_WorkCache.at(item);
+    } catch ( std::out_of_range ) {
+        work = NULL;
+    }
+
+    if (work) {
+        switch(column) {
+            case COLUMN_PROJECT:
+                strBuffer = work->m_strProjectName;
+                break;
+            case COLUMN_APPLICATION:
+                strBuffer = work->m_strApplicationName;
+                break;
+            case COLUMN_NAME:
+                strBuffer = work->m_strName;
+                break;
+            case COLUMN_CPUTIME:
+                strBuffer = work->m_strCPUTime;
+                break;
+            case COLUMN_PROGRESS:
+                strBuffer = work->m_strProgress;
+                break;
+            case COLUMN_TOCOMPLETION:
+                strBuffer = work->m_strTimeToCompletion;
+                break;
+            case COLUMN_REPORTDEADLINE:
+                strBuffer = work->m_strReportDeadline;
+                break;
+            case COLUMN_STATUS:
+                strBuffer = work->m_strStatus;
+                break;
+        }
     }
 
     return strBuffer;

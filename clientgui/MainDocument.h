@@ -39,12 +39,13 @@ public:
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
     int            GetConnectingComputerName(wxString& strMachine);
-    int            SetNewComputerName(const wxChar* szComputer);
-    int            SetNewComputerPassword(const wxChar* szPassword);
+    bool           IsComputerNameLocal(wxString& strMachine);
+    void           GetLocalPassword(wxString& strPassword);
+    int            SetComputer(const wxChar* szComputer, const wxChar* szPassword, const bool bUseDefaultPassword);
     void           SetStateError();
     void           SetStateErrorAuthentication();
     void           SetStateReconnecting();
-    void           SetStateSuccess(std::string& strComputer, std::string& strComputerPassword);
+    void           SetStateSuccess(wxString& strComputer, wxString& strComputerPassword);
     void           SetStateDisconnected();
     bool           IsConnectEventSignaled() { return m_bConnectEvent; };
     bool           IsConnected() { return m_bConnected; };
@@ -58,6 +59,7 @@ private:
     bool           m_bReconnectOnError;
     bool           m_bConnected;
     bool           m_bReconnecting;
+    bool           m_bUseDefaultPassword;
     wxString       m_strNewComputerName;
     wxString       m_strNewComputerPassword;
     wxString       m_strConnectedComputerName;
@@ -77,8 +79,6 @@ public:
     //
 private:
 
-    CNetworkConnection*         m_pNetworkConnection;
-
     bool                        m_bCachedStateLocked;
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
@@ -93,6 +93,8 @@ private:
 
 public:
 
+    CNetworkConnection*         m_pNetworkConnection;
+
     int                         OnInit();
     int                         OnExit();
     int                         OnPoll();
@@ -100,7 +102,13 @@ public:
     int                         OnRefreshState();
     int                         ResetState();
 
-    int                         Connect(const wxChar* szComputer, const wxChar* szComputerPassword = wxEmptyString, bool bDisconnect = FALSE);
+    int                         Connect(
+                                    const wxChar* szComputer,
+                                    const wxChar* szComputerPassword = wxEmptyString,
+                                    const bool bDisconnect = FALSE,
+                                    const bool bUseDefaultPassword = FALSE
+                                );
+    int                         Reconnect();
 
     int                         CachedStateLock();
     int                         CachedStateUnlock();
@@ -110,6 +118,7 @@ public:
 
     int                         GetConnectedComputerName(wxString& strMachine);
     int                         GetConnectingComputerName(wxString& strMachine);
+    bool                        IsComputerNameLocal(wxString strMachine);
     bool                        IsConnected();
     bool                        IsReconnecting();
 

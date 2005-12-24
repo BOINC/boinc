@@ -84,5 +84,31 @@ std::string md5_string(const unsigned char* data, int nbytes) {
     return std::string(output);
 }
 
+int make_random_string(char* out) {
+    char buf[256];
+#ifdef __WINDOWS__
+    HCRYPTPROV hCryptProv;
+        
+    if(! CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)) {
+        return -1;
+    }
+    
+    if(! CryptGenRandom(hCryptProv, (DWORD) 32, (BYTE *) buf)) {
+        CryptReleaseContext(hCryptProv, 0);
+        return -1;
+    }
+        
+    CryptReleaseContext(hCryptProv, 0);
+#else
+    FILE* f = fopen("/dev/random", "r");
+    if (!f) {
+        return -1;
+    }
+    fread(buf, 32, 1, f);
+    fclose(f);
+#endif
+    md5_block((const unsigned char*)buf, 32, out);
+    return 0;
+}
 
 const char *BOINC_RCSID_5a0dc438fe = "$Id$";

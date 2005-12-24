@@ -232,6 +232,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     //struct timeval tv;
     bool time_passed = false;
 	CURLMsg *pcurlMsg = NULL;
+    char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
@@ -310,48 +311,25 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
 			// but it at least means that the server operation
 			// went through fine
             //
-            // NOTE: http_op_retval is multipurposed, it can also contain any error
-            //       code that BOINC would return for IO errors and DNS errors.  We
-            //       need to translate between the curl error codes and the equiv.
-            //       BOINC error codes here.
-            nxf->http_op_retval = HTTP_STATUS_INTERNAL_SERVER_ERROR;
+            //
+            // NOTE: http_op_retval is multipurposed,
+            // it can also contain any error code that BOINC would return
+            // for IO errors and DNS errors.
+            // We need to translate between the curl error codes and the equiv.
+            // BOINC error codes here.
+            //
             if (nxf->CurlResult == CURLE_OK) {
                 if ((nxf->response/100)*100 == HTTP_STATUS_OK) {
-			        nxf->http_op_retval = 0;  
+                    nxf->http_op_retval = 0;  
                 } else {
                     nxf->http_op_retval = nxf->response;
                 }
-            } else if (nxf->CurlResult == CURLE_OUT_OF_MEMORY) {
-                msg_printf(0, MSG_ERROR, "An out of memory condition has been detected");
-                nxf->http_op_retval = ERR_MALLOC;
-            } else if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
-                msg_printf(0, MSG_ERROR, "Couldn't resolve hostname [%s]", nxf->hostname);
-                nxf->http_op_retval = ERR_GETHOSTBYNAME;
-            } else if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_PROXY) {
-                msg_printf(0, MSG_ERROR, "Couldn't resolve proxy [%s]", nxf->hostname);
-                nxf->http_op_retval = ERR_GETHOSTBYNAME;
-            } else if (nxf->CurlResult == CURLE_COULDNT_CONNECT) {
-                msg_printf(0, MSG_ERROR, "Couldn't connect to hostname [%s]", nxf->hostname);
-                nxf->http_op_retval = ERR_IO;
-            } else if (nxf->CurlResult == CURLE_LOGIN_DENIED) {
-                msg_printf(0, MSG_ERROR, "Proxy authentication failed against proxy [%s]", nxf->hostname);
-                nxf->http_op_retval = ERR_AUTHENTICATOR;
-            } else if (nxf->CurlResult == CURLE_OPERATION_TIMEOUTED) {
-                msg_printf(0, MSG_ERROR, "Attempting to communicate with [%s] timed out", nxf->hostname);
-                nxf->http_op_retval = ERR_TIMEOUT;
-            } else if (nxf->CurlResult == CURLE_READ_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to read a file failed [%s]", nxf->strCurlResult);
-                nxf->http_op_retval = ERR_FREAD;
-            } else if (nxf->CurlResult == CURLE_WRITE_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to write to a file failed [%s]", nxf->strCurlResult);
-                nxf->http_op_retval = ERR_FWRITE;
-            } else if (nxf->CurlResult == CURLE_RECV_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to receive data from [%s] failed [%s]", nxf->hostname, nxf->strCurlResult);
-                nxf->http_op_retval = ERR_READ;
-            } else if (nxf->CurlResult == CURLE_SEND_ERROR) {
-                msg_printf(0, MSG_ERROR, "Attempting to send data to [%s] failed [%s]", nxf->hostname, nxf->strCurlResult);
-                nxf->http_op_retval = ERR_WRITE;
+            } else {
+                sprintf(buf, "Network error: %s", nxf->strCurlResult);
+                msg_printf(0, MSG_ERROR, buf);
+                nxf->http_op_retval = ERR_HTTP_ERROR;
             }
+
 
 			if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {
 				// for a successfully completed request on a "post2" --
