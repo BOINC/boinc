@@ -53,7 +53,6 @@ $features_5 = "
 
 $dev_changes= "
     <li>Changes since 5.2.14
-    <li>Macintosh-only changes since 5.2.15
       <ul>
         <li>Fixed another problem which could prevent BOINC Manager from connecting 
             to core client.
