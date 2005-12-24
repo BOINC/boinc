@@ -61,9 +61,6 @@ $dev_changes= "
         <li>Mac only: in anticipation of Intel-based Macs, the Mac BOINC Manager package 
             name now specifies the cpu architecture: boinc_5.2.15_macOSX_powerpc.zip.
       </ul>
-";
-
-$changes_5 = "
     <li>Changes since 5.2.13
       <ul>
         <li>The manager should now correctly detect if the core client is
@@ -71,6 +68,9 @@ $changes_5 = "
         <li>Mac: Only administrators can attach to a new project (for improved security).
         <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
       </ul>
+";
+
+$changes_5 = "
     <li>Changes since 5.2.12
       <ul>
         <li>Localization updates.
@@ -281,7 +281,13 @@ $m5214 = array(
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
 ".$features_5."
-".$dev_changes."
+    <li>Changes since 5.2.13
+      <ul>
+        <li>The manager should now correctly detect if the core client is
+            currently running on the machine.
+        <li>Mac: Only administrators can attach to a new project (for improved security).
+        <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
+      </ul>
 ".$changes_5."
      </ul>
     ",
