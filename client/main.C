@@ -230,7 +230,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
     switch( dwCtrlType ){
     case CTRL_C_EVENT:
         BOINCTRACE("Event: CTRL-C Event\n");
-        if(gstate.activities_suspended) {
+        if(gstate.tasks_suspended) {
             resume_client();
         } else {
             suspend_client();
