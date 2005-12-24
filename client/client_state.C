@@ -83,7 +83,7 @@ CLIENT_STATE::CLIENT_STATE() {
     skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
     contacted_sched_server = false;
-    activities_suspended = false;
+    tasks_suspended = false;
     network_suspended = false;
     core_client_major_version = BOINC_MAJOR_VERSION;
     core_client_minor_version = BOINC_MINOR_VERSION;
@@ -441,7 +441,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 // (in which case should call this again immediately)
 //
 bool CLIENT_STATE::poll_slow_events() {
-    int actions = 0, suspend_reason, retval;
+    int actions = 0, suspend_reason, network_suspend_reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
     static bool tasks_restarted = false;
 
@@ -470,16 +470,16 @@ bool CLIENT_STATE::poll_slow_events() {
     //
     if (tasks_restarted) {
         if (suspend_reason) {
-            if (!activities_suspended) {
-                suspend_activities(suspend_reason);
+            if (!tasks_suspended) {
+                suspend_tasks(suspend_reason);
             }
         } else {
-            if (activities_suspended) {
-                resume_activities();
+            if (tasks_suspended) {
+                resume_tasks();
             }
         }
     }
-    activities_suspended = (suspend_reason != 0);
+    tasks_suspended = (suspend_reason != 0);
 
     // if we're doing CPU benchmarks, don't do much else
     //
@@ -493,7 +493,15 @@ bool CLIENT_STATE::poll_slow_events() {
         }
     }
 
-    check_suspend_network(suspend_reason);
+    check_suspend_network(network_suspend_reason);
+    suspend_reason != network_suspend_reason;
+
+    // if we've had a GUI RPC in last few minutes, relax the normal rules
+    //
+    if (gui_rpcs.got_recent_rpc(300)) {
+        suspend_reason &= !SUSPEND_REASON_USER_ACTIVE;
+        suspend_reason &= !SUSPEND_REASON_BATTERIES;
+    }
     if (suspend_reason) {
         if (!network_suspended) {
             suspend_network(suspend_reason);
@@ -524,17 +532,17 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
     POLL_ACTION(acct_mgr               , acct_mgr_info.poll          );
-    if (!activities_suspended && !network_suspended) {
+    if (!network_suspended) {
         net_stats.poll(*file_xfers, *net_xfers);
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
-    if (!activities_suspended) {
+    if (!tasks_suspended) {
         POLL_ACTION(schedule_cpus          , schedule_cpus          );
     }
-    if (!activities_suspended && !network_suspended) {
+    if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }
     retval = write_state_file_if_needed();
@@ -562,7 +570,7 @@ bool CLIENT_STATE::poll_slow_events() {
     if (actions > 0) {
         return true;
     } else {
-        time_stats.update(!activities_suspended);
+        time_stats.update(!tasks_suspended);
         return false;
     }
 }

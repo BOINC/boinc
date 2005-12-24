@@ -659,7 +659,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             action = true;
             break;
         }
-        if (network_suspended || activities_suspended) break;
+        if (network_suspended) break;
         p = next_project_trickle_up_pending();
         if (p) {
             scheduler_op->init_op_project(p, REASON_TRICKLE_UP);

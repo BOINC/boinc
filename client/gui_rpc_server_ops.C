@@ -305,7 +305,7 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
 
 static void handle_get_activity_state(char* , MIOFILE& fout) {
     fout.printf("<activity_state>\n");
-    if ( gstate.activities_suspended ) {
+    if ( gstate.tasks_suspended ) {
         fout.printf("    <activities_suspended/>\n");
     }
     if ( gstate.network_suspended ) {

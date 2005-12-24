@@ -21,7 +21,8 @@ $stats_sites = array(
         "DC-Vault",
         "Include non-BOINC projects"
     ),
-    array("http://boincdenmark.dk/", "BOINC@Denmark", "(in Danish and English)"),
+    array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
+    array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.seti.nl/boinc_team.php",
         "SETI@Netherlands stats page",
         ""

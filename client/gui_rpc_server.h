@@ -41,6 +41,7 @@ public:
 class GUI_RPC_CONN_SET {
     std::vector<GUI_RPC_CONN*> gui_rpcs;
     std::vector<int> allowed_remote_ip_addresses;
+    double last_rpc_time;
 
     int get_allowed_hosts();
     int get_password();
@@ -52,6 +53,7 @@ public:
     void get_fdset(FDSET_GROUP&, FDSET_GROUP&);
     void got_select(FDSET_GROUP&);
     int init();
+    bool got_recent_rpc(double interval);
 };
 
 

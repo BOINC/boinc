@@ -146,13 +146,14 @@ public:
     int pers_retry_delay_max;
     int pers_giveup;
 
-    bool activities_suspended;
+    bool tasks_suspended;
+        // Don't do CPU.  See check_suspend_activities for logic
     bool network_suspended;
+        // Don't do network.  See check_suspend_network for logic
 	bool executing_as_daemon;
-        // set to true when --daemon is detected on the comandline
-        //   this is used to determine we are running as a daemon
-        //   on *nix systems, or as a service on Windows systems.
-    bool size_overflow;
+        // true if --daemon is on the commandline
+        // this means we are running as a daemon on unix,
+        // or as a service on Windows
     bool redirect_io;
         // redirect stdout, stderr to log files
     bool detach_console;
@@ -324,8 +325,8 @@ public:
     int allowed_project_disk_usage(double&);
 private:
     void check_suspend_activities(int&);
-    int suspend_activities(int reason);
-    int resume_activities();
+    int suspend_tasks(int reason);
+    int resume_tasks();
     void check_suspend_network(int&);
     int suspend_network(int reason);
     int resume_network();

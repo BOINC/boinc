@@ -119,7 +119,7 @@ void SS_LOGIC::poll() {
 
     if (!do_ss) return;
 
-    if (gstate.activities_suspended) {
+    if (gstate.tasks_suspended) {
         reset();
         ss_status = SS_STATUS_BOINCSUSPENDED;
         return;

@@ -56,7 +56,7 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     unsigned int i;
     int n;
 
-    if (activities_suspended || network_suspended) return false;
+    if (network_suspended) return false;
 
     // limit the number of file transfers per project
     //

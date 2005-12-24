@@ -174,9 +174,8 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
     }
 }
 
-int CLIENT_STATE::suspend_activities(int reason) {
+static string reason_string(int reason) {
     string s_reason;
-    s_reason = "Suspending computation and network activity";
     if (reason & SUSPEND_REASON_BATTERIES) {
         s_reason += " - on batteries";
     }
@@ -195,19 +194,21 @@ int CLIENT_STATE::suspend_activities(int reason) {
     if (reason & SUSPEND_REASON_DISK_SIZE) {
         s_reason += " - out of disk space - change global prefs";
     }
+    return s_reason;
+}
+
+int CLIENT_STATE::suspend_tasks(int reason) {
+    string s_reason;
+    s_reason = "Suspending computation" + reason_string(reason);
     msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
     active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
-    pers_file_xfers->suspend();
     return 0;
 }
 
-// persistent file xfers will resume of their own accord
-// since activities_suspended is now true
-//
-int CLIENT_STATE::resume_activities() {
-    msg_printf(NULL, MSG_INFO, "Resuming computation and network activity");
+int CLIENT_STATE::resume_tasks() {
+    msg_printf(NULL, MSG_INFO, "Resuming computation");
     active_tasks.unsuspend_all();
-    gstate.request_schedule_cpus("Resuming activities");
+    gstate.request_schedule_cpus("Resuming computation");
     return 0;
 }
 
@@ -228,13 +229,7 @@ void CLIENT_STATE::check_suspend_network(int& reason) {
 
 int CLIENT_STATE::suspend_network(int reason) {
     string s_reason;
-    s_reason = "Suspending network activity";
-    if (reason & SUSPEND_REASON_USER_REQ) {
-        s_reason += " - user request";
-    }
-    if (reason & SUSPEND_REASON_TIME_OF_DAY) {
-        s_reason += " - time of day";
-    }
+    s_reason = "Suspending network activity" + reason_string(reason);
     msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
     pers_file_xfers->suspend();
     return 0;

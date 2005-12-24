@@ -14772,3 +14772,32 @@ David  23 Dec 2005
 
     html/inc/
         util.inC
+
+David  23 Dec 2005
+    - Change the network suspend/resume logic so that the
+        "idle while user active" and "idle if on batteries"
+        preferences are ignored for 5 minutes GUI RPCs.
+        This means that if the user has one of these preferences,
+        and attaches to a project,
+        they'll generally get the initial result download
+        from the project before the network is suspended.
+
+        Implementing this required a moderate change;
+            bool activities_suspended
+            suspend_activities() 
+            resume_activities()
+        (which covered both CPU and network) are replaced by
+            bool tasks_suspended
+            suspend_tasks()
+            resume_tasks()
+        (which covers only CPU)
+
+    client/
+        client_state.C,h
+        cs_benchmark.C
+        cs_files.C
+        cs_prefs.C
+        cs_scheduler.C
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
+        ss_logic.C

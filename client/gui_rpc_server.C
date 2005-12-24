@@ -67,6 +67,13 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 
 GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
     lsock = -1;
+    last_rpc_time = 0;
+}
+
+bool GUI_RPC_CONN_SET::got_recent_rpc(double interval) {
+    if (!last_rpc_time) return false;
+    if (gstate.now < last_rpc_time + interval) return true;
+    return false;
 }
 
 int GUI_RPC_CONN_SET::get_password() {
@@ -330,6 +337,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     while (iter != gui_rpcs.end()) {
         gr = *iter;
         if (FD_ISSET(gr->sock, &fg.read_fds)) {
+            last_rpc_time = gstate.now;
             retval = gr->handle_rpc();
             if (retval) {
                 delete gr;
