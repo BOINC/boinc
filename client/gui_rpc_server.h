@@ -41,13 +41,16 @@ public:
 class GUI_RPC_CONN_SET {
     std::vector<GUI_RPC_CONN*> gui_rpcs;
     std::vector<int> allowed_remote_ip_addresses;
-    double last_rpc_time;
-
     int get_allowed_hosts();
     int get_password();
     int insert(GUI_RPC_CONN*);
 public:
     int lsock;
+    double last_rpc_time;
+        // actually, the last time of a project or result op
+        // (ones that are triggered by a user action,
+        // rather than by the Manager itself)
+
     GUI_RPC_CONN_SET();
     char password[256];
     void get_fdset(FDSET_GROUP&, FDSET_GROUP&);

@@ -14801,3 +14801,12 @@ David  23 Dec 2005
         gui_rpc_server.C,h
         gui_rpc_server_ops.C
         ss_logic.C
+
+David  24 Dec 2005
+    - amended yesterday's changes so that only user-initiated RPCs
+        (e.g. to attach/detach/suspend/resume a project or result) are counted.
+        Otherwise the preferences would never kick in.
+
+    client/
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C

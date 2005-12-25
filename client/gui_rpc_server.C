@@ -337,7 +337,6 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     while (iter != gui_rpcs.end()) {
         gr = *iter;
         if (FD_ISSET(gr->sock, &fg.read_fds)) {
-            last_rpc_time = gstate.now;
             retval = gr->handle_rpc();
             if (retval) {
                 delete gr;
