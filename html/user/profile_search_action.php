@@ -5,7 +5,7 @@ require_once("../inc/util.inc");
 
 function show_profile_link($profile, $n) {
     $user = lookup_user_id($profile->userid);
-    echo "<br>". user_links($user)."\n";
+    echo "<tr><td align=\"center\">".user_links($user)."</td><td align=\"center\">".date_str($user->create_time)."</td><td align=\"center\">".$user->country."</td><td align=\"center\">".(int)$user->total_credit."</td><td align=\"center\">".(int)$user->expavg_credit."</td></tr>\n";
 }
 
 db_init();
@@ -20,7 +20,7 @@ page_head("Profile search results");
 echo "<h2>Profiles containing '$search_string'</h2>\n";
 $q = "select * from profile where match(response1, response2) against ('$search_string') limit $offset,$count";
 $result = mysql_query($q);
-echo "<table>";
+echo "<table align=\"center\" cellpadding=\"1\" border=\"1\" width=\"90%\"><tr><th align=\"center\">User name</th><th align=\"center\">Joined project</th><th align=\"center\">Country</th><th  align=\"center\">Total credit</th><th  align=\"center\">Recent credit</th></tr>";
 $n = 0;
 while ($profile = mysql_fetch_object($result)) {
     show_profile_link($profile, $n+$offset+1);

@@ -14810,3 +14810,14 @@ David  24 Dec 2005
     client/
         gui_rpc_server.C,h
         gui_rpc_server_ops.C
+
+Bruce 26 Dec 2005
+    - Modified the pages to search users and profiles so that the results
+      display a bit more info about the users (date joined project, country,
+      total credit, RAC)..
+
+    html/
+        user/
+            user_search_action.php
+            profile_search_action.php
+
