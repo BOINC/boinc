@@ -14815,6 +14815,9 @@ Bruce 26 Dec 2005
     - Modified the pages to search users and profiles so that the results
       display a bit more info about the users (date joined project, country,
       total credit, RAC)..
+    - Added sort ability on user fields.  Limit database stress by requiring
+      at least three characters of search string.
+    - To-do: add similar functionality for profile search
 
     html/
         user/
