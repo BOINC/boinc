@@ -54,6 +54,8 @@ $features_5 = "
 $dev_changes= "
     <li>Changes since 5.2.14
       <ul>
+        <li>Use curl error messages for network errors. Maybe more useful information
+            will be displayed than what was previously displayed.
         <li>Fixed another problem which could prevent BOINC Manager from connecting 
             to core client.
         <li>Mac only: we are now building with newer tools and libraries: XCode 2.2, 
@@ -116,11 +118,11 @@ $changes_5 = "
       </ul>
 ";
 
-$w5214= array(
-    "num"=>"5.2.14",
+$w5215= array(
+    "num"=>"5.2.15",
     "status"=>"Development version",
-    "file"=>"boinc_5.2.14_windows_intelx86.exe",
-    "date"=>"4 Dec 2005",
+    "file"=>"boinc_5.2.15_windows_intelx86.exe",
+    "date"=>"28 Dec 2005",
     "type"=>"win_new",
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
@@ -376,6 +378,19 @@ $m443s = array(
     "
 );
 
+$l5215 = array(
+    "num"=>"5.2.15",
+    "status"=>"Development version",
+    "file"=>"boinc_5.2.15_i686-pc-linux-gnu.sh",
+    "date"=>"28 Dec 2005",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_5."
+".$changes_5."
+    </ul>
+    "
+);
+
 $l5213 = array(
     "num"=>"5.2.13",
     "status"=>"Recommended version",
@@ -435,7 +450,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5214,
+        $w5215,
         $w5213,
         $w445,
     )
@@ -459,6 +474,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
+        $l5215,
         $l5213,
         $l443,
     )
