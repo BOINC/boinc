@@ -189,6 +189,9 @@ MySQL performance.
 For example, read about the
 <a href=http://dev.mysql.com/tech-resources/articles/mysql-query-cache.html>MySQL query cache</a>.
 
+<li>
+<a href=mysql_cluster.txt>Notes on running MySQL on a cluster</a>.
+
 </ul>
 <h3>MySQLclient notes</h3>
 <ul>

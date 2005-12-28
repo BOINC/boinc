@@ -166,21 +166,28 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
 static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     int retval;
+    bool reschedule=false, write_state=false;
+
     PROJECT* p = get_project(buf, fout);
     if (!p) {
         fout.printf("<error>no such project</error>\n");
         return;
     }
     if (!strcmp(op, "reset")) {
-        gstate.reset_project(p);
+        gstate.request_schedule_cpus("project reset by user");
+        gstate.reset_project(p);    // writes state file
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
             msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive project");
         } else {
             p->suspended_via_gui = true;
+            gstate.request_schedule_cpus("project suspended by user");
+            gstate.set_client_state_dirty("Project suspended by user");
         }
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
+        gstate.request_schedule_cpus("project resumed by user");
+        gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
             msg_printf(p, MSG_ERROR,
@@ -189,7 +196,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             fout.printf("<error>must detach using account manager</error>");
             return;
         }
-        gstate.detach_project(p);
+        gstate.detach_project(p);       // writes state file
 
         // if project_init.xml refers to this project,
         // delete the file, otherwise we'll just
@@ -203,16 +210,18 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
                 );
             }
         }
+        gstate.request_schedule_cpus("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
+        gstate.set_client_state_dirty("Project updated by user");
     } else if (!strcmp(op, "nomorework")) {
-         p->dont_request_more_work = true;
-     } else if (!strcmp(op, "allowmorework")) {
-         p->dont_request_more_work = false;
-     }
-    gstate.request_schedule_cpus("project suspended, resumed or detached by user");
-    gstate.set_client_state_dirty("Project RPC");
+        p->dont_request_more_work = true;
+        gstate.set_client_state_dirty("Project modified by user");
+    } else if (!strcmp(op, "allowmorework")) {
+        p->dont_request_more_work = false;
+        gstate.set_client_state_dirty("Project modified by user");
+    }
     fout.printf("<success/>\n");
 }
 

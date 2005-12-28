@@ -14841,3 +14841,8 @@ Rom    28 Dec 2005 (HEAD)
     - Tag for 5.3.6 release, all platforms
       boinc_core_release_5_3_6
 
+David  28 Dec 2005
+    - core client: don't print erroneous messages on update project
+
+    client/
+        gui_rpc_server_ops.C
