@@ -14836,3 +14836,8 @@ Rom    28 Dec 2005
         MainDocument.cpp
         MainFrame.cpp, .h
         BOINCGUIApp.xpm (Removed)
+
+Rom    28 Dec 2005 (HEAD)
+    - Tag for 5.3.6 release, all platforms
+      boinc_core_release_5_3_6
+
