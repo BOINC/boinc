@@ -14824,3 +14824,15 @@ Bruce 26 Dec 2005
             user_search_action.php
             profile_search_action.php
 
+Rom    28 Dec 2005
+    - Brand the BOINC Manager for GridRepublic
+    
+    clientgui/
+        BOINCGUI.pjd
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        DlgAbout.cpp, .h
+        hyperlink.cpp
+        MainDocument.cpp
+        MainFrame.cpp, .h
+        BOINCGUIApp.xpm (Removed)

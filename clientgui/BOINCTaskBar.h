@@ -36,10 +36,8 @@
 
 
 class CTaskBarIcon : public wxTaskBarIconEx {
-    DECLARE_DYNAMIC_CLASS(CTaskBarIcon)
-
 public:
-    CTaskBarIcon();
+    CTaskBarIcon(wxString title, wxIcon* icon);
     ~CTaskBarIcon();
 
     void OnOpen(wxCommandEvent& event);

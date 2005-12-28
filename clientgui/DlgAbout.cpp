@@ -37,7 +37,6 @@
 
 
 ////@begin XPM images
-#include "res/boincsm.xpm"
 ////@end XPM images
 
 /*!
@@ -74,6 +73,10 @@ CDlgAbout::CDlgAbout(wxWindow* parent, wxWindowID id, const wxString& caption, c
 bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
 ////@begin CDlgAbout member initialisation
     m_strVersion = BOINC_VERSION_STRING;
+    m_AboutBOINCTitleCtrl = NULL;
+    m_AboutBOINCLogoCtrl = NULL;
+    m_AboutBOINCSloganCtrl = NULL;
+    m_AboutBOINCURLCtrl = NULL;
 ////@end CDlgAbout member initialisation
 
 ////@begin CDlgAbout creation
@@ -85,6 +88,33 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     GetSizer()->SetSizeHints(this);
     Centre();
 ////@end CDlgAbout creation
+
+    // Change the various dialog items for the branded manager
+    //
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        wxString buf = wxEmptyString;
+        buf.Printf(
+            _("About %s"),
+            wxGetApp().GetBrand()->GetApplicationName().c_str()
+        );
+        SetTitle(buf);
+
+        buf.Printf(
+            _("%s"),
+            wxGetApp().GetBrand()->GetApplicationName().c_str()
+        );
+        m_AboutBOINCTitleCtrl->SetLabel(buf);
+
+        m_AboutBOINCLogoCtrl->SetBitmap(
+            *(wxGetApp().GetBrand()->GetApplicationLogo())
+        );
+
+        m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
+
+        m_AboutBOINCURLCtrl->SetLabel(
+            wxGetApp().GetBrand()->GetCompanyWebsite().c_str()
+        );
+    }
     return TRUE;
 }
 
@@ -99,10 +129,10 @@ void CDlgAbout::CreateControls() {
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
 
-    wxStaticText* itemStaticText3 = new wxStaticText;
-    itemStaticText3->Create( itemDialog1, wxID_STATIC, _("BOINC Manager"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-    itemStaticText3->SetFont(wxFont(24, wxDEFAULT, wxNORMAL, wxBOLD, FALSE, _T("")));
-    itemBoxSizer2->Add(itemStaticText3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    m_AboutBOINCTitleCtrl = new wxStaticText;
+    m_AboutBOINCTitleCtrl->Create( itemDialog1, wxID_STATIC, _("BOINC Manager"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+    m_AboutBOINCTitleCtrl->SetFont(wxFont(24, wxDEFAULT, wxNORMAL, wxBOLD, false, _T("")));
+    itemBoxSizer2->Add(m_AboutBOINCTitleCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
@@ -110,10 +140,10 @@ void CDlgAbout::CreateControls() {
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer4->Add(itemBoxSizer5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmap itemStaticBitmap6Bitmap(itemDialog1->GetBitmapResource(wxT("res/boincsm.xpm")));
-    wxStaticBitmap* itemStaticBitmap6 = new wxStaticBitmap;
-    itemStaticBitmap6->Create( itemDialog1, wxID_STATIC, itemStaticBitmap6Bitmap, wxDefaultPosition, wxSize(50, 50), 0 );
-    itemBoxSizer5->Add(itemStaticBitmap6, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBitmap m_AboutBOINCLogoCtrlBitmap(wxNullBitmap);
+    m_AboutBOINCLogoCtrl = new wxStaticBitmap;
+    m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxSize(50, 50), 0 );
+    itemBoxSizer5->Add(m_AboutBOINCLogoCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);
     itemBoxSizer4->Add(itemFlexGridSizer7, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -134,17 +164,17 @@ void CDlgAbout::CreateControls() {
     itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2005 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
-    wxStaticText* itemStaticText12 = new wxStaticText;
-    itemStaticText12->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer2->Add(itemStaticText12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    m_AboutBOINCSloganCtrl = new wxStaticText;
+    m_AboutBOINCSloganCtrl->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer2->Add(m_AboutBOINCSloganCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticText* itemStaticText13 = new wxStaticText;
     itemStaticText13->Create( itemDialog1, wxID_STATIC, _("A software platform for distributed computing using volunteered computer resources"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer2->Add(itemStaticText13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxHyperLink* itemHyperLink14 = new wxHyperLink;
-    itemHyperLink14->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemBoxSizer2->Add(itemHyperLink14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    m_AboutBOINCURLCtrl = new wxHyperLink;
+    m_AboutBOINCURLCtrl->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    itemBoxSizer2->Add(m_AboutBOINCURLCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticLine* itemStaticLine15 = new wxStaticLine;
     itemStaticLine15->Create( itemDialog1, wxID_STATIC, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
@@ -175,11 +205,7 @@ bool CDlgAbout::ShowToolTips() {
 wxBitmap CDlgAbout::GetBitmapResource(const wxString& name) {
     // Bitmap retrieval
 ////@begin CDlgAbout bitmap retrieval
-    if (name == wxT("res/boincsm.xpm"))
-    {
-        wxBitmap bitmap(boincsm_xpm);
-        return bitmap;
-    }
+    wxUnusedVar(name);
     return wxNullBitmap;
 ////@end CDlgAbout bitmap retrieval
 }
@@ -188,10 +214,12 @@ wxBitmap CDlgAbout::GetBitmapResource(const wxString& name) {
  * Get icon resources
  */
 
-wxIcon CDlgAbout::GetIconResource(const wxString&) {
+wxIcon CDlgAbout::GetIconResource(const wxString& name) {
     // Icon retrieval
 ////@begin CDlgAbout icon retrieval
+    wxUnusedVar(name);
     return wxNullIcon;
 ////@end CDlgAbout icon retrieval
 }
+
 const char *BOINC_RCSID_b40c2996e6="$Id$";

@@ -43,7 +43,6 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 
-#include "res/BOINCGUIApp.xpm"
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
 
@@ -180,8 +179,8 @@ CMainFrame::CMainFrame() {
 }
 
 
-CMainFrame::CMainFrame(wxString strTitle) : 
-    wxFrame ((wxFrame *)NULL, ID_FRAME, strTitle, wxDefaultPosition, wxDefaultSize,
+CMainFrame::CMainFrame(wxString title, wxIcon* icon) : 
+    wxFrame ((wxFrame *)NULL, ID_FRAME, title, wxDefaultPosition, wxDefaultSize,
              wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function Begin"));
@@ -200,13 +199,13 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
 
     // Working Variables
-    m_strBaseTitle = strTitle;
+    m_strBaseTitle = title;
 
     m_aSelectedComputerMRU.Clear();
 
 
     // Initialize Application
-    SetIcon(wxICON(APP_ICON));
+    SetIcon(*icon);
 
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
@@ -314,24 +313,39 @@ CMainFrame::~CMainFrame() {
 
 
 bool CMainFrame::CreateMenu() {
+    wxString strMenuName;
+    wxString strMenuDescription;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
 
     // File menu
     wxMenu *menuFile = new wxMenu;
 
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuDescription.Printf(
+        _("Connect to another computer running %s"), 
+        wxGetApp().GetBrand()->GetProjectName().c_str()
+    );
     menuFile->Append(
         ID_FILESELECTCOMPUTER, 
         _("Select computer..."),
-        _("Connect to another computer running BOINC")
+        strMenuDescription
     );
 
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Exit the %s"), 
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
     menuFile->Append(
         wxID_EXIT,
         _("E&xit"),
-        _("Exit the BOINC Manager")
+        strMenuDescription
     );
 
-    // File menu
+    // Commands menu
     wxMenu *menuCommands = new wxMenu;
 
     menuCommands->AppendRadioItem(
@@ -405,23 +419,54 @@ bool CMainFrame::CreateMenu() {
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuName.Printf(
+        _("&%s\tF1"), 
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Show information about the %s"), 
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
-        _("&BOINC Manager\tF1"), 
-        _("Show information about the BOINC Manager")
+        strMenuName, 
+        strMenuDescription
     );
 
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuName.Printf(
+        _("%s &website"), 
+        wxGetApp().GetBrand()->GetProjectName()
+    );
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Show information about BOINC and %s"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
     menuHelp->Append(
         ID_HELPBOINC,
-        _("BOINC &website"), 
-        _("Show information about BOINC and BOINC Manager")
+        strMenuName, 
+        strMenuDescription
     );
 
     menuHelp->AppendSeparator();
 
+    // %s is the project name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuName.Printf(
+        _("&About %s..."), 
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
     menuHelp->Append(
         wxID_ABOUT,
-        _("&About BOINC Manager..."), 
+        strMenuName, 
         _("Licensing and copyright information.")
     );
 
@@ -1143,9 +1188,28 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     if (wxID_OK == iAnswer) {
         // General Tab
         if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
+            wxString strDialogTitle;
+            wxString strDialogMessage;
+
+            // %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            strDialogTitle.Printf(
+                _("%s - Language Selection"),
+                wxGetApp().GetBrand()->GetApplicationName().c_str()
+            );
+
+            // %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            strDialogMessage.Printf(
+                _("The %s's default language has been changed, in order for this "
+                  "change to take affect you must restart the %s."),
+                wxGetApp().GetBrand()->GetApplicationName().c_str(),
+                wxGetApp().GetBrand()->GetApplicationName().c_str()
+            );
+
             ShowAlert(
-                _("Language Selection..."),
-                _("The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."),
+                strDialogTitle,
+                strDialogMessage,
                 wxICON_INFORMATION
            );
         }
@@ -1196,7 +1260,9 @@ void CMainFrame::OnHelp(wxHelpEvent& event) {
 
     if (IsShown()) {
         if (ID_FRAME == event.GetId()) {
-            ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
+            wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
+            url += wxT("manager.php");
+            ExecuteBrowserLink(url);
         } else {
             event.Skip();
         }
@@ -1210,7 +1276,9 @@ void CMainFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-        ExecuteBrowserLink(wxT("http://boinc.berkeley.edu/manager.php"));
+        wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
+        url += wxT("manager.php");
+        ExecuteBrowserLink(url);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function End"));
@@ -1221,7 +1289,8 @@ void CMainFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCWebsite - Function Begin"));
 
     if (IsShown()) {
-        ExecuteBrowserLink(wxT("http://boinc.berkeley.edu"));
+        wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
+        ExecuteBrowserLink(url);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCWebsite - Function End"));
@@ -1472,6 +1541,19 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             wxTimeSpan          tsLastDialupAlertSent;
             wxTimeSpan          tsLastDialupRequest;
             wxTimeSpan          tsFirstDialupDisconnectEvent;
+            wxString            strDialogTitle = wxEmptyString;
+            wxString            strDialogMessage = wxEmptyString;
+
+
+            // Construct the default dialog title for dial-up messages
+            //
+            // %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            strDialogTitle.Printf(
+                _("%s - Network Status"),
+                wxGetApp().GetBrand()->GetApplicationName().c_str()
+            );
+
 
             if (m_pDialupManager && pDoc) {
                 // Update the always online flag every 60 seconds.  This call is expensive
@@ -1540,9 +1622,21 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
                                 dtLastDialupAlertSent = wxDateTime::Now();
 
+                                // 1st %s is the project name
+                                //    i.e. 'BOINC', 'GridRepublic'
+                                // 2st %s is the application name
+                                //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+                                strDialogMessage.Printf(
+                                    _("%s needs a connection to the Internet to perform some "
+                                      "maintenance, open the %s to connect up and "
+                                      "perform the needed work."),
+                                    wxGetApp().GetBrand()->GetProjectName().c_str(),
+                                    wxGetApp().GetBrand()->GetApplicationName().c_str()
+                                );
+
                                 ShowAlert(
-                                    _("BOINC Manager - Network Status"),
-                                    _("BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."),
+                                    strDialogTitle,
+                                    strDialogMessage,
                                     wxICON_INFORMATION,
                                     true
                                 );
@@ -1556,16 +1650,28 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                                 dtLastDialupRequest = wxDateTime::Now();
 
                                 if(pDoc->state.global_prefs.confirm_before_connecting) {
+                                    // %s is the project name
+                                    //    i.e. 'BOINC', 'GridRepublic'
+                                    strDialogMessage.Printf(
+                                        _("%s needs to connect to the network.\nMay it do so now?"),
+                                        wxGetApp().GetBrand()->GetProjectName().c_str()
+                                    );
                                     answer = ::wxMessageBox(
-                                        _("BOINC needs to connect to the network.\nMay it do so now?"),
-                                        _("BOINC Manager - Network Status"),
+                                        strDialogMessage,
+                                        strDialogTitle,
                                         wxYES_NO | wxICON_QUESTION,
                                         this
                                     );
                                 } else {
+                                    // %s is the project name
+                                    //    i.e. 'BOINC', 'GridRepublic'
+                                    strDialogMessage.Printf(
+                                        _("%s is connecting to the internet."),
+                                        wxGetApp().GetBrand()->GetProjectName().c_str()
+                                    );
                                     ShowAlert(
-                                        _("BOINC Manager - Network Status"),
-                                        _("BOINC is connecting to the internet."),
+                                        strDialogTitle,
+                                        strDialogMessage,
                                         wxICON_INFORMATION,
                                         true
                                     );
@@ -1606,9 +1712,18 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                             // We are already online but BOINC for some reason is in a state
                             //   where it belives it has some pending work to do, so give it
                             //   a nudge
+
+                            // %s is the project name
+                            //    i.e. 'BOINC', 'GridRepublic'
+                            strDialogMessage.Printf(
+                                _("%s has detected it is now connected to the internet. "
+                                  "Updating all projects and retrying all transfers."),
+                                wxGetApp().GetBrand()->GetProjectName().c_str()
+                            );
+
                             ShowAlert(
-                                _("BOINC Manager - Network Status"),
-                                _("BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."),
+                                strDialogTitle,
+                                strDialogMessage,
                                 wxICON_INFORMATION,
                                 true
                             );
@@ -1634,20 +1749,35 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                                 if (pDoc->state.global_prefs.hangup_if_dialed) {
                                     wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, Don't need the network, Hanging up."));
                                     if (m_pDialupManager->HangUp()) {
+
+                                        // %s is the project name
+                                        //    i.e. 'BOINC', 'GridRepublic'
+                                        strDialogMessage.Printf(
+                                            _("%s has successfully disconnected from the internet."),
+                                            wxGetApp().GetBrand()->GetProjectName().c_str()
+                                        );
                                         ShowAlert(
-                                            _("BOINC Manager - Network Status"),
-                                            _("BOINC has successfully disconnected from the internet."),
+                                            strDialogTitle,
+                                            strDialogMessage,
                                             wxICON_INFORMATION,
                                             true
                                         );
-
                                         connected_successfully = false;
+
                                     } else {
+
+                                        // %s is the project name
+                                        //    i.e. 'BOINC', 'GridRepublic'
+                                        strDialogMessage.Printf(
+                                            _("%s failed to disconnected from the internet."),
+                                            wxGetApp().GetBrand()->GetProjectName().c_str()
+                                        );
                                         ShowAlert(
-                                            _("BOINC Manager - Network Status"),
-                                            _("BOINC failed to disconnected from the internet."),
+                                            strDialogTitle,
+                                            strDialogMessage,
                                             wxICON_ERROR
                                         );
+
                                     }
                                 }
                             }
@@ -1657,21 +1787,37 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                         was_dialing = false;
                         reset_timers = true;
                         if (is_online) {
+
+                            // %s is the project name
+                            //    i.e. 'BOINC', 'GridRepublic'
+                            strDialogMessage.Printf(
+                                _("%s has successfully connected to the internet."),
+                                wxGetApp().GetBrand()->GetProjectName().c_str()
+                            );
                             ShowAlert(
-                                _("BOINC Manager - Network Status"),
-                                _("BOINC has successfully connected to the internet."),
+                                strDialogTitle,
+                                strDialogMessage,
                                 wxICON_INFORMATION,
                                 true
                             );
                             connected_successfully = true;
+
                         } else {
+
+                            // %s is the project name
+                            //    i.e. 'BOINC', 'GridRepublic'
+                            strDialogMessage.Printf(
+                                _("%s failed to connect to the internet."),
+                                wxGetApp().GetBrand()->GetProjectName().c_str()
+                            );
                             ShowAlert(
-                                _("BOINC Manager - Network Status"),
-                                _("BOINC failed to connect to the internet."),
+                                strDialogTitle,
+                                strDialogMessage,
                                 wxICON_ERROR,
                                 true
                             );
                             connected_successfully = false;
+
                         }
                     } else if (is_dialing && !was_dialing) {
                         wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - We are now dialing, where before we were not."));
@@ -1898,13 +2044,55 @@ void CMainFrame::FireConnect() {
 }
 
 
-void CMainFrame::ShowConnectionFailedAlert() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function Begin"));
+void CMainFrame::ShowConnectionBadPasswordAlert() {
+    wxString            strDialogTitle = wxEmptyString;
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionBadPasswordAlert - Function Begin"));
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("%s - Connection Error"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
 
     ShowAlert(
-        _("BOINC Manager - Connection Failed"),
-        _("BOINC Manager is not able to connect to a BOINC client.\n"
+        strDialogTitle,
+        _("The password you have provided is incorrect, please try again."),
+        wxICON_ERROR
+    );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionBadPasswordAlert - Function End"));
+}
+
+
+void CMainFrame::ShowConnectionFailedAlert() {
+    wxString            strDialogTitle = wxEmptyString;
+    wxString            strDialogMessage = wxEmptyString;
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function Begin"));
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("%s - Connection Failed"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2st %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strDialogMessage.Printf(
+        _("%s is not able to connect to a %s client.\n"
           "Would you like to try to connect again?"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str(),
+        wxGetApp().GetBrand()->GetProjectName().c_str()
+    );
+
+    ShowAlert(
+        strDialogTitle,
+        strDialogMessage,
         wxYES_NO | wxICON_QUESTION,
         false,
         AlertProcessResponse
@@ -1915,13 +2103,35 @@ void CMainFrame::ShowConnectionFailedAlert() {
 
 
 void CMainFrame::ShowNotCurrentlyConnectedAlert() {
+    wxString            strDialogTitle = wxEmptyString;
+    wxString            strDialogMessage = wxEmptyString;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
 
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("%s - Connection Status"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2nd %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    // 3nd %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strDialogMessage.Printf(
+        _("%s is not currently connected to a %s client.\n"
+          "Please use the 'File\\Select Computer...' menu option to connect up to a %s client.\n"
+          "To connect up to your local computer please use 'localhost' as the host name."),
+        wxGetApp().GetBrand()->GetApplicationName().c_str(),
+        wxGetApp().GetBrand()->GetProjectName().c_str(),
+        wxGetApp().GetBrand()->GetProjectName().c_str()
+    );
     ShowAlert(
-        _("BOINC Manager - Connection Status"),
-        _("BOINC Manager is not currently connected to a BOINC client.\n"
-            "Please use the 'File\\Select Computer...' menu option to connect up to a BOINC client.\n"
-            "To connect up to your local computer please use 'localhost' as the host name."),
+        strDialogTitle,
+        strDialogMessage,
         wxICON_ERROR
     );
 

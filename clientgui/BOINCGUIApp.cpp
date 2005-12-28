@@ -32,6 +32,13 @@
 #include "MainDocument.h"
 
 
+////@begin XPM images
+#include "res/boinc.xpm"
+#include "res/boincsm.xpm"
+#include "res/gridrepublic.xpm"
+////@end XPM images
+
+
 #ifdef __WXMSW__
 typedef BOOL (CALLBACK* IdleTrackerInit)();
 typedef void (CALLBACK* IdleTrackerTerm)();
@@ -40,6 +47,52 @@ typedef DWORD (CALLBACK* IdleTrackerGetIdleTickCount)();
 
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
+
+
+bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
+    wxString    strBaseConfigLocation = wxEmptyString;
+    wxInt32     iBrandId = 0;
+
+    wxASSERT(pConfig);
+
+    strBaseConfigLocation = pConfig->GetPath();
+    pConfig->SetPath(strBaseConfigLocation + wxT("Branding"));
+    pConfig->Read(wxT("BrandId"), &iBrandId, 0);
+    pConfig->SetPath(strBaseConfigLocation);
+
+    // If the BrandId is greater than 0 then we are running in
+    //   branded mode
+    if (iBrandId) {
+        m_bIsBranded = true;
+    } else {
+        m_bIsBranded = false;  // wxWidgets automatically sets bools to
+                               //   true by default.
+    }
+
+    // Now determine which resources are needed for each BrandId
+    switch (iBrandId) {
+        case 1:
+            // Running as a GridRepublic client.
+            m_strApplicationName = wxT("GridRepublic Manager");
+            m_iconApplicationIcon = wxIcon(gridrepublic_xpm);
+            m_bitmapApplicationLogo = wxBitmap(gridrepublic_xpm);
+            m_strCompanyName = wxT("GridRepublic");
+            m_strCompanyWebsite = wxT("http://www.gridrepublic.com/");
+            m_strProjectName = wxT("GridRepublic");
+            break;
+        default:
+            // Running in native mode without any branding
+            m_strApplicationName = wxT("BOINC Manager");
+            m_iconApplicationIcon = wxIcon(boinc_xpm);
+            m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
+            m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
+            m_strCompanyWebsite = wxT("http://boinc.berkeley.edu/");
+            m_strProjectName = wxT("BOINC");
+            break;
+    }
+
+    return true;
+}
 
 
 bool CBOINCGUIApp::OnInit() {
@@ -89,8 +142,9 @@ bool CBOINCGUIApp::OnInit() {
 #endif  // __WXMAC__
 
     // Setup application and company information
-    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
     SetAppName(wxT("BOINC Manager"));
+    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
+
 
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
@@ -148,7 +202,7 @@ bool CBOINCGUIApp::OnInit() {
     // Locale information is stored relative to the executable.
     m_pLocale->Init(iSelectedLanguage);
     m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
-    m_pLocale->AddCatalog(GetAppName());
+    m_pLocale->AddCatalog(wxT("BOINC Manager"));
 
     InitSupportedLanguages();
 
@@ -161,6 +215,13 @@ bool CBOINCGUIApp::OnInit() {
         return false;
     }
 
+    // Setup the branding scheme
+    m_pBranding = new CBrandingScheme;
+    wxASSERT(m_pLocale);
+
+    m_pBranding->OnInit(m_pConfig);
+
+
     // Initialize the main document
     m_pDocument = new CMainDocument();
     wxASSERT(m_pDocument);
@@ -168,12 +229,18 @@ bool CBOINCGUIApp::OnInit() {
     m_pDocument->OnInit();
 
     // Initialize the main gui window
-    m_pFrame = new CMainFrame(GetAppName());
+    m_pFrame = new CMainFrame(
+        m_pBranding->GetApplicationName(), 
+        m_pBranding->GetApplicationIcon()
+    );
     wxASSERT(m_pFrame);
 
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
-    m_pTaskBarIcon = new CTaskBarIcon();
+    m_pTaskBarIcon = new CTaskBarIcon(
+        m_pBranding->GetApplicationName(), 
+        m_pBranding->GetApplicationIcon()
+    );
     wxASSERT(m_pTaskBarIcon);
 #endif
 #ifdef __WXMAC__

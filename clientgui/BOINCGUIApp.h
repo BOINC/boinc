@@ -35,6 +35,29 @@
 #include "MainDocument.h"
 
 
+class CBrandingScheme : public wxObject {
+private:
+    bool        m_bIsBranded;
+    wxString    m_strApplicationName;
+    wxIcon      m_iconApplicationIcon;
+    wxBitmap    m_bitmapApplicationLogo;
+    wxString    m_strCompanyName;
+    wxString    m_strCompanyWebsite;
+    wxString    m_strProjectName;
+
+public:
+    bool        IsBranded() { return m_bIsBranded; }
+    wxString    GetApplicationName() { return m_strApplicationName; }
+    wxIcon*     GetApplicationIcon() { return &m_iconApplicationIcon; }
+    wxBitmap*   GetApplicationLogo() { return &m_bitmapApplicationLogo; }
+    wxString    GetCompanyName() { return m_strCompanyName; }
+    wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }
+    wxString    GetProjectName() { return m_strProjectName; }
+
+    bool        OnInit( wxConfigBase* pConfig );
+};
+
+
 class CBOINCGUIApp : public wxApp {
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
@@ -58,32 +81,33 @@ protected:
     int             StartupSystemIdleDetection();
     int             ShutdownSystemIdleDetection();
 
-    wxConfig*       m_pConfig;
-    wxLocale*       m_pLocale;
-    wxLogBOINC*     m_pLog;
+    wxConfig*        m_pConfig;
+    wxLocale*        m_pLocale;
+    wxLogBOINC*      m_pLog;
 
-    CMainFrame*     m_pFrame;
-    CMainDocument*  m_pDocument;
+    CBrandingScheme* m_pBranding;
+    CMainFrame*      m_pFrame;
+    CMainDocument*   m_pDocument;
 #if defined(__WXMSW__) || defined(__WXMAC__)
-    CTaskBarIcon*   m_pTaskBarIcon;
+    CTaskBarIcon*    m_pTaskBarIcon;
 #endif
 #ifdef __WXMAC__
-    CMacSystemMenu* m_pMacSystemMenu;
+    CMacSystemMenu*  m_pMacSystemMenu;
 #endif
 
-    bool            m_bBOINCStartedByManager;
-    bool            m_bFrameVisible;
+    bool             m_bBOINCStartedByManager;
+    bool             m_bFrameVisible;
 
-    int             m_lBOINCCoreProcessId;
+    int              m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
-    HANDLE          m_hBOINCCoreProcess;
-    HINSTANCE       m_hIdleDetectionDll;
+    HANDLE           m_hBOINCCoreProcess;
+    HINSTANCE        m_hIdleDetectionDll;
 #endif
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
-    wxArrayString  m_astrLanguages;
+    wxArrayString   m_astrLanguages;
 
 public:
 
@@ -93,8 +117,9 @@ public:
 
     bool            OnInit();
 
-    int         UpdateSystemIdleDetection();
+    int             UpdateSystemIdleDetection();
 
+    CBrandingScheme* GetBrand()                  { return m_pBranding; }
     CMainFrame*     GetFrame()                   { return m_pFrame; }
     CMainDocument*  GetDocument()                { return m_pDocument; }
 #if defined(__WXMSW__) || defined(__WXMAC__)

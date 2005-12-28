@@ -27,9 +27,6 @@
 #include "DlgAbout.h"
 #include "Events.h"
 
-#include "res/boinc.xpm"
-
-IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIconEx)
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_IDLE(CTaskBarIcon::OnIdle)
@@ -51,7 +48,7 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE ()
 
 
-CTaskBarIcon::CTaskBarIcon() : 
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon) : 
 #if   defined(__WXMAC__)
     wxTaskBarIcon(DOCK)
 #elif defined(__WXMSW__)
@@ -60,12 +57,12 @@ CTaskBarIcon::CTaskBarIcon() :
     wxTaskBarIcon()
 #endif
 {
-    m_iconTaskBarIcon = wxIcon(boinc_xpm);
+    m_iconTaskBarIcon = *icon;
     m_dtLastHoverDetected = wxDateTime((time_t)0);
     m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
 
 #ifndef __WXMAC__
-    SetIcon(m_iconTaskBarIcon, _("BOINC Manager"));
+    SetIcon(m_iconTaskBarIcon, title);
 #endif
 }
 
@@ -240,7 +237,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
         m_dtLastBalloonDisplayed = wxDateTime::Now();
 
-        wxString strTitle             = wxGetApp().GetAppName();
+        wxString strTitle             = wxGetApp().GetBrand()->GetApplicationName();
         wxString strMachineName       = wxEmptyString;
         wxString strMessage           = wxEmptyString;
         wxString strBuffer            = wxEmptyString;
@@ -264,11 +261,25 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
             pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
             if (bActivitiesSuspended) {
-                strMessage += _("BOINC is currently suspended...\n");
+                // 1st %s is the previous instance of the message
+                // 2nd %s is the project name
+                //    i.e. 'BOINC', 'GridRepublic'
+                strMessage.Printf(
+                    _("%s%s is currently suspended...\n"),
+                    strMessage.c_str(),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
             }
 
             if (bNetworkSuspended) {
-                strMessage += _("BOINC networking is currently suspended...\n");
+                // 1st %s is the previous instance of the message
+                // 2nd %s is the project name
+                //    i.e. 'BOINC', 'GridRepublic'
+                strMessage.Printf(
+                    _("%s%s networking is currently suspended...\n"),
+                    strMessage.c_str(),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
             }
 
             if (strMessage.Length() > 0) {
@@ -299,9 +310,29 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += strBuffer;
             }
         } else if (pDoc->IsReconnecting()) {
-            strMessage += _("BOINC Manager is currently reconnecting to a BOINC client...\n");
+            // 1st %s is the previous instance of the message
+            // 2nd %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            // 3rd %s is the project name
+            //    i.e. 'BOINC', 'GridRepublic'
+            strMessage.Printf(
+                _("%s%s is currently reconnecting to a %s client...\n"),
+                strMessage.c_str(),
+                wxGetApp().GetBrand()->GetApplicationName().c_str(),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
         } else {
-            strMessage += _("BOINC Manager is not currently connected to a BOINC client...\n");
+            // 1st %s is the previous instance of the message
+            // 2nd %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            // 3rd %s is the project name
+            //    i.e. 'BOINC', 'GridRepublic'
+            strMessage.Printf(
+                _("%s%s is not currently connected to a %s client...\n"),
+                strMessage.c_str(),
+                wxGetApp().GetBrand()->GetApplicationName().c_str(),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
         }
 
         SetBalloon(m_iconTaskBarIcon, strTitle, strMessage);
@@ -384,8 +415,14 @@ void CTaskBarIcon::CreateContextMenu() {
 
 wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxMenu*        menu          = new wxMenu;
+    wxString       menuName;
     wxASSERT(menu);
 
+
+    menuName.Printf(
+        _("&Open %s..."),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
 #ifdef __WXMSW__
 
     wxMenuItem*    menuItem      = NULL;
@@ -393,14 +430,14 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxFont font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     font.SetWeight(wxBOLD);
 
-    menuItem = new wxMenuItem(menu, wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString);
+    menuItem = new wxMenuItem(menu, wxID_OPEN, menuName, wxEmptyString);
     menuItem->SetFont(font);
 
     menu->Append(menuItem);
 
 #else
 
-    menu->Append(wxID_OPEN, _("&Open BOINC Manager..."), wxEmptyString);
+    menu->Append(wxID_OPEN, menuName, wxEmptyString);
 
 #endif
     menu->AppendSeparator();
@@ -412,7 +449,13 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     menu->AppendRadioItem(ID_TB_NETWORKRUNBASEDONPREPERENCES, _("Network activity based on &preferences"), wxEmptyString);
     menu->AppendRadioItem(ID_TB_NETWORKSUSPEND, _("&Network activity suspended"), wxEmptyString);
     menu->AppendSeparator();
-    menu->Append(wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString);
+
+    menuName.Printf(
+        _("&About %s..."),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
+
+    menu->Append(wxID_ABOUT, menuName, wxEmptyString);
 
     AdjustMenuItems(menu);
     

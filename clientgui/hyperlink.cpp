@@ -17,25 +17,9 @@
 // headers
 //----------------------------------------------------------------------------
 
-// For compilers that support precompilation, includes <wx/wx.h>.
-#include <wx/wxprec.h>
-
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
-
-// for all others, include the necessary headers (this file is usually all you
-// need because it includes almost all 'standard' wxWidgets headers)
-#ifndef WX_PRECOMP
-    #include <wx/wx.h>
-#endif
-
-// wxWidgets headers
-#include <wx/mimetype.h> // mimetype support
-
-// hyperlink headers
+#include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "hyperlink.h"   // wxHyperLink control
-
 
 //----------------------------------------------------------------------------
 // resources
@@ -214,19 +198,37 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
     if (!mime_type_found) {
         cmd = ::wxGetenv(wxT("BROWSER"));
         if(cmd.IsEmpty()) {
-            wxString strBuffer = wxEmptyString;
-            strBuffer.Printf(
-                _("BOINC tried to display the web page\n"
+            wxString strDialogTitle = wxEmptyString;
+            wxString strDialogMessage = wxEmptyString;
+
+            // %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            strDialogTitle.Printf(
+                _("%s - Can't find web browser"),
+                wxGetApp().GetBrand()->GetApplicationName().c_str()
+            );
+
+            // 1st %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            // 2nd %s is the URL that the browser is supposed to
+            //    open.
+            // 3rd %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            strDialogMessage.Printf(
+                _("%s tried to display the web page\n"
                 "\t%s\n"
                 "but couldn't find a web browser.\n"
                 "To fix this, set the environment variable\n"
                 "BROWSER to the path of your web browser,\n"
-                "then restart BOINC."),
-                strLink.c_str()
+                "then restart the %s."),
+                wxGetApp().GetBrand()->GetApplicationName().c_str(),
+                strLink.c_str(),
+                wxGetApp().GetBrand()->GetApplicationName().c_str()
             );
+
             ::wxMessageBox(
-                strBuffer,
-                _("BOINC Manager - Can't find web browser"),
+                strDialogMessage,
+                strDialogTitle,
                 wxOK | wxICON_INFORMATION
             );
         } else {

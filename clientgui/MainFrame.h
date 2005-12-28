@@ -60,7 +60,7 @@ class CMainFrame : public wxFrame
 
 public:
     CMainFrame();
-    CMainFrame(wxString strTitle);
+    CMainFrame(wxString title, wxIcon* icon);
 
     ~CMainFrame(void);
 
@@ -103,6 +103,7 @@ public:
     void FireRefreshView();
     void FireConnect();
 
+    void ShowConnectionBadPasswordAlert();
     void ShowConnectionFailedAlert();
     void ShowNotCurrentlyConnectedAlert();
     void ShowAlert( 

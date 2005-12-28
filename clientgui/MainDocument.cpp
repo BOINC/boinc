@@ -198,11 +198,7 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowAlert(
-            _("BOINC Manager - Connection Error"),
-            _("The password you have provided is incorrect, please try again."),
-            wxICON_ERROR
-        );
+        pFrame->ShowConnectionBadPasswordAlert();
     }
 }
 

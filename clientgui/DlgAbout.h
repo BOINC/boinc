@@ -39,6 +39,7 @@
  */
 
 ////@begin forward declarations
+class wxHyperLink;
 ////@end forward declarations
 
 /*!
@@ -106,6 +107,10 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgAbout member variables
+    wxStaticText* m_AboutBOINCTitleCtrl;
+    wxStaticBitmap* m_AboutBOINCLogoCtrl;
+    wxStaticText* m_AboutBOINCSloganCtrl;
+    wxHyperLink* m_AboutBOINCURLCtrl;
     wxString m_strVersion;
 ////@end CDlgAbout member variables
 };
