@@ -14846,3 +14846,10 @@ David  28 Dec 2005
 
     client/
         gui_rpc_server_ops.C
+
+David  28 Dec 2005
+    - core client: avoid divide by zero error if no projects
+        (from Steven Schweda)
+
+    client/
+        cs_apps.C

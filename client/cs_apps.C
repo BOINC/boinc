@@ -486,6 +486,8 @@ void CLIENT_STATE::adjust_debts() {
         );
     }
 
+    if (nprojects==0) return;
+
     // long-term debt:
     //  normalize so mean is zero,
     // short-term debt:
