@@ -14860,3 +14860,9 @@ David  28 Dec 2005
 
 	client/
 		hostinfo_unix.C
+
+David  28 Dec 2005
+	- core client: bug caused most GUI RPCs to fail
+
+	client/
+		gui_rpc_server_ops.C

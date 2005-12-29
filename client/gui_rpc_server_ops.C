@@ -863,69 +863,70 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_network_available(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
-    }
-
-    // RPCs that reflect user actions go after here
-    //
-
-    gstate.gui_rpcs.last_rpc_time = gstate.now;
-
-    if (match_tag(request_msg, "<retry_file_transfer")) {
-        handle_file_transfer_op(request_msg, mf, "retry");
-    } else if (match_tag(request_msg, "<abort_file_transfer")) {
-        handle_file_transfer_op(request_msg, mf, "abort");
-    } else if (match_tag(request_msg, "<project_reset")) {
-        handle_project_op(request_msg, mf, "reset");
-    } else if (match_tag(request_msg, "<project_detach")) {
-        handle_project_op(request_msg, mf, "detach");
-    } else if (match_tag(request_msg, "<project_update")) {
-        handle_project_op(request_msg, mf, "update");
-    } else if (match_tag(request_msg, "<abort_result")) {
-        handle_result_op(request_msg, mf, "abort");
-    } else if (match_tag(request_msg, "<suspend_result")) {
-        handle_result_op(request_msg, mf, "suspend");
-    } else if (match_tag(request_msg, "<resume_result")) {
-        handle_result_op(request_msg, mf, "resume");
-    } else if (match_tag(request_msg, "<result_show_graphics")) {
-        handle_result_show_graphics(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_suspend")) {
-        handle_project_op(request_msg, mf, "suspend");
-    } else if (match_tag(request_msg, "<project_resume")) {
-        handle_project_op(request_msg, mf, "resume");
-    } else if (match_tag(request_msg, "<set_run_mode")) {
-        handle_set_run_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<quit")) {
-        handle_quit(request_msg, mf);
-    } else if (match_tag(request_msg, "<acct_mgr_info")) {
-        handle_acct_mgr_info(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_project_init_status")) {
-        handle_get_project_init_status(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_project_config>")) {
-        handle_get_project_config(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_project_config_poll")) {
-        handle_get_project_config_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_account>")) {
-        handle_lookup_account(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_account_poll")) {
-        handle_lookup_account_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<create_account>")) {
-        handle_create_account(request_msg, mf);
-    } else if (match_tag(request_msg, "<create_account_poll")) {
-        handle_create_account_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_website>")) {
-        handle_lookup_website(request_msg, mf);
-    } else if (match_tag(request_msg, "<lookup_website_poll")) {
-        handle_lookup_website_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_attach>")) {
-        handle_project_attach(request_msg, mf);
-    } else if (match_tag(request_msg, "<project_attach_poll")) {
-        handle_project_attach_poll(request_msg, mf);
-    } else if (match_tag(request_msg, "<acct_mgr_rpc>")) {
-        handle_acct_mgr_rpc(request_msg, mf);
-    } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
-        handle_acct_mgr_rpc_poll(request_msg, mf);
     } else {
-        mf.printf("<error>unrecognized op</error>\n");
+
+        // RPCs that reflect user actions go after here
+        //
+
+        gstate.gui_rpcs.last_rpc_time = gstate.now;
+
+        if (match_tag(request_msg, "<retry_file_transfer")) {
+            handle_file_transfer_op(request_msg, mf, "retry");
+        } else if (match_tag(request_msg, "<abort_file_transfer")) {
+            handle_file_transfer_op(request_msg, mf, "abort");
+        } else if (match_tag(request_msg, "<project_reset")) {
+            handle_project_op(request_msg, mf, "reset");
+        } else if (match_tag(request_msg, "<project_detach")) {
+            handle_project_op(request_msg, mf, "detach");
+        } else if (match_tag(request_msg, "<project_update")) {
+            handle_project_op(request_msg, mf, "update");
+        } else if (match_tag(request_msg, "<abort_result")) {
+            handle_result_op(request_msg, mf, "abort");
+        } else if (match_tag(request_msg, "<suspend_result")) {
+            handle_result_op(request_msg, mf, "suspend");
+        } else if (match_tag(request_msg, "<resume_result")) {
+            handle_result_op(request_msg, mf, "resume");
+        } else if (match_tag(request_msg, "<result_show_graphics")) {
+            handle_result_show_graphics(request_msg, mf);
+        } else if (match_tag(request_msg, "<project_suspend")) {
+            handle_project_op(request_msg, mf, "suspend");
+        } else if (match_tag(request_msg, "<project_resume")) {
+            handle_project_op(request_msg, mf, "resume");
+        } else if (match_tag(request_msg, "<set_run_mode")) {
+            handle_set_run_mode(request_msg, mf);
+        } else if (match_tag(request_msg, "<quit")) {
+            handle_quit(request_msg, mf);
+        } else if (match_tag(request_msg, "<acct_mgr_info")) {
+            handle_acct_mgr_info(request_msg, mf);
+        } else if (match_tag(request_msg, "<get_project_init_status")) {
+            handle_get_project_init_status(request_msg, mf);
+        } else if (match_tag(request_msg, "<get_project_config>")) {
+            handle_get_project_config(request_msg, mf);
+        } else if (match_tag(request_msg, "<get_project_config_poll")) {
+            handle_get_project_config_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<lookup_account>")) {
+            handle_lookup_account(request_msg, mf);
+        } else if (match_tag(request_msg, "<lookup_account_poll")) {
+            handle_lookup_account_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<create_account>")) {
+            handle_create_account(request_msg, mf);
+        } else if (match_tag(request_msg, "<create_account_poll")) {
+            handle_create_account_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<lookup_website>")) {
+            handle_lookup_website(request_msg, mf);
+        } else if (match_tag(request_msg, "<lookup_website_poll")) {
+            handle_lookup_website_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<project_attach>")) {
+            handle_project_attach(request_msg, mf);
+        } else if (match_tag(request_msg, "<project_attach_poll")) {
+            handle_project_attach_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<acct_mgr_rpc>")) {
+            handle_acct_mgr_rpc(request_msg, mf);
+        } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
+            handle_acct_mgr_rpc_poll(request_msg, mf);
+        } else {
+            mf.printf("<error>unrecognized op</error>\n");
+        }
     }
 
     mf.printf("</boinc_gui_rpc_reply>\n\003");
