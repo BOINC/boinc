@@ -97,6 +97,14 @@ NXEventHandle gEventHandle;
 #include <sys/pstat.h>
 #endif
 
+// Tru64 UNIX.
+// 2005-12-26 SMS.
+#ifdef __osf__
+#include <sys/sysinfo.h>
+#include <machine/hal_sysinfo.h>
+#include <machine/cpuconf.h>
+#endif
+
 // functions to get name/addr of local host
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
@@ -395,6 +403,21 @@ int HOST_INFO::get_host_info() {
     mib[1] = HW_MODEL;
     len = sizeof(p_model);
     sysctl(mib, 2, &p_model, &len, NULL, 0);
+#else
+// Tru64 UNIX.
+// 2005-12-26 SMS.
+#ifdef __osf__
+    int mem_size;
+    long cpu_type;
+    char *cpu_type_name;
+
+    strcpy(p_vendor, "HP (DEC)");
+
+    getsysinfo( GSI_PROC_TYPE, (caddr_t) &cpu_type, sizeof( cpu_type));
+    CPU_TYPE_TO_TEXT( (cpu_type& 0xffffffff), cpu_type_name);
+    strncpy( p_model, "Alpha ", sizeof( p_model));
+    strncat( p_model, cpu_type_name, (sizeof( p_model)- strlen( p_model)- 1));
+#endif
 #endif
 #endif
 
@@ -445,6 +468,11 @@ int HOST_INFO::get_host_info() {
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
     m_nbytes = (double)pst.physical_memory * (double)pst.page_size;
+#elif defined(__osf__)
+    // Tru64 UNIX.
+    // 2005-12-26 SMS.
+    getsysinfo( GSI_PHYSMEM, (caddr_t) &mem_size, sizeof( mem_size));
+    m_nbytes = 1024.* (double)mem_size;
 #else
 #error Need to specify a sysconf() define to obtain memory size
 #endif
@@ -461,6 +489,7 @@ int HOST_INFO::get_host_info() {
     }
     s->swt_n = n;
     n = swapctl(SC_LIST, s);
+    m_swap = 0.0;
     for (i=0; i<n; i++) {
         m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
@@ -471,6 +500,7 @@ int HOST_INFO::get_host_info() {
     n = swapctl(SWAP_NSWAP, NULL, 0);
     s = (struct swapent*)malloc(n * sizeof(struct swapent));
     swapctl(SWAP_STATS, s, n);
+    m_swap = 0.0;
     for (i = 0; i < n; i ++) {
       if (s[i].se_flags & SWF_ENABLE)
         m_swap += 512. * (double)s[i].se_nblks;
@@ -687,4 +717,3 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 
 
 const char *BOINC_RCSID_2cf92d205b = "$Id$";
-

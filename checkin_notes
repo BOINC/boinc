@@ -14853,3 +14853,10 @@ David  28 Dec 2005
 
     client/
         cs_apps.C
+
+David  28 Dec 2005
+	- support alpha/TRU64 in hostinfo code
+		(from Steven Schweda)
+
+	client/
+		hostinfo_unix.C
