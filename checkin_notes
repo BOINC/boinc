@@ -14886,3 +14886,19 @@ David  29 Dec 2005
             news.inc
         user/
             sample_rss_main.php
+
+Bruce 30 Dec 2005
+    - Nasty bug fix to sched. escape_string() replaces \ by \\ and
+      ' by \'.  This makes the string longer.  To guarantee that the
+      resulting longer string does not overflow storage, escape_string()
+      uses safe_strncpy() to copy the longer string back.  But this
+      is too heavy-handed, since safe_strncpy() will blindly truncate
+      the string.  Thus it might clobber \\ into \ or \' into \ which
+      causes trouble.
+
+      David, Rom, please double-check my changes, since escape_string()
+      is used all over the place.
+
+    db/
+        db_base.C
+
