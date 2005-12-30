@@ -19,6 +19,7 @@ function show_news($items, $n) {
 
 function show_old_news($items, $n) {
     for ($i=$n; $i<count($items); $i++) {
+        echo "<a name=$i>\n";
         news_item($items[$i][0], $items[$i][1]);
     }
 }

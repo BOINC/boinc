@@ -14872,3 +14872,17 @@ David  28 Dec 2005
 
     client/
         client_state.C
+
+David  29 Dec 2005
+    - add <guid> elements to RSS items and make the <link>s unique.
+        Apparently this is needed by some RSS readers.
+        
+    NOTE: for this to take effect,
+        project will need to check out the following files,
+        then rename sample_rss_main.php to rss_main.php
+
+    html/
+        inc/
+            news.inc
+        user/
+            sample_rss_main.php

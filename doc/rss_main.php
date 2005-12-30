@@ -58,7 +58,8 @@ for( $item=0; $item < $news; $item++ ) {
         $d = strftime("%a, %d %b %Y", $d);
         echo "<item>
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
-            <link>http://boinc.berkeley.edu/</link>
+            <link>http://boinc.berkeley.edu/old_news.php#$item</link>
+            <guid>$item</guid>
             <description>".strip_tags($project_news[$item][1])."</description>
             <pubDate>$d</pubDate>
             </item>
