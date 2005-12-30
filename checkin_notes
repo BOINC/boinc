@@ -14866,3 +14866,9 @@ David  28 Dec 2005
 
 	client/
 		gui_rpc_server_ops.C
+
+David  28 Dec 2005
+    - fix logic typo
+
+    client/
+        client_state.C

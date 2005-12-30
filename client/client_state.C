@@ -494,7 +494,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 
     check_suspend_network(network_suspend_reason);
-    suspend_reason != network_suspend_reason;
+    suspend_reason |= network_suspend_reason;
 
     // if we've had a GUI RPC in last few minutes, relax the normal rules
     //
