@@ -908,7 +908,7 @@ void send_work_locality(
     sreq.file_infos.clear();
     nfiles = (int) eah_copy.size();
     for (i=0; i<nfiles; i++) {
-	if (strncmp("skygrid_", eah_copy[i].name, 8)) {
+	if (strncmp("skygrid_", eah_copy[i].name, 8) && strncmp("Config_", eah_copy[i].name, 7)) {
             sreq.file_infos.push_back(eah_copy[i]);
         } else {
             sreq.file_delete_candidates.push_back(eah_copy[i]);
