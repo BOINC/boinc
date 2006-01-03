@@ -1,17 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: v1.16\n"
+"Project-Id-Version: v1.22\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-02 07:47+0800\n"
-"Last-Translator: kyuu <kyuu@163.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2005-12-22 16:33+0800\n"
+"Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
+"Language-Team:  <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: 84,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 ##########################################
 # Language: English (International)
@@ -32,16 +30,16 @@ msgstr "简体中文"
 
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Simplefied Chinese"
+msgstr "Simplified Chinese"
 
 #########################################
 # Apps page (apps.php)
 #########################################
 msgid "APPS_TITLE"
-msgstr "应用程序"
+msgstr "计算程序"
 
 msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT 目前有如下几个软件。当您参与 $PROJECT 项目时， 一个或多个应用程序会与您的计算机绑定， 并会把最新版本的应用程序下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
+msgstr "$PROJECT 目前有如下几个计算程序。当您参与 $PROJECT 项目时， 适用于这些计算程序的任务包将会分发给您的计算机。 当前版本的计算程序也会下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
 
 msgid "APPS_PLATFORM"
 msgstr "平台"
@@ -50,222 +48,127 @@ msgid "APPS_VERSION"
 msgstr "当前版本"
 
 msgid "APPS_INSTALLTIME"
-msgstr "已安装"
+msgstr "发布日期"
 
 #########################################
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "政策与章程"
+msgstr "规定与政策"
 
 msgid "RULES_ONLY_AUTH"
-msgstr " $PROJECT 只会运行在已授权的计算机上"
+msgstr "仅在已授权的计算机上运行 $PROJECT"
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "$PROJECT 只会在您自己的或者是获得了别人的许可的计算机上运行。某些企业和学校有着这样的规定：禁止在他们的计算机上运行$PROJECT 之类的程序"
+msgstr "仅在您自己的或者已获得别人许可的计算机上运行 $PROJECT。某些企业和学校是禁止在他们的计算机上运行 $PROJECT 之类的程序的。"
 
 msgid "RULES_COMPUTER_USE"
-msgstr "$PROJECT 如何利用您的计算机"
+msgstr "$PROJECT 如何使用您的计算机"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "当您在计算机上运行 $PROJECT 时，他会占用您计算机上的CPU的部分资源，磁盘空间以及网络带宽。当然，您也可以控制 $PROJECT 的资源使用量。"
+msgstr "当您在计算机上运行 $PROJECT 时，他会使用您计算机上部分的处理器资源、磁盘空间以及网络带宽。您也可以控制 $PROJECT 的资源使用量。"
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "如 $PROJECT 的网站所述，当计算机完成他的任务时，他可以时时的切换到其他程序"
+msgstr "您的计算机所完成的任务仅用来帮助 $PROJECT 实现其网站上所说明的目标。有时计算程序的版本可能会改变。"
 
 msgid "RULES_PRIVACY"
-msgstr "保密政策"
+msgstr "隐私政策"
 
 msgid "RULES_PRIVACY_TEXT_A"
-msgstr "您在 $PROJECT 上的帐户名是由您自己选定的，当您完成 $PROJECT 一定的任务量之后，这个名字可能会被显示在 $PROJECT 的网站上，如果您想要匿名，请选择一个不会泄漏您身份的名称"
+msgstr "$PROJECT 通过您选择的名称来区分您的帐号。这个名称以及您已经为 $PROJECT 完成的任务摘要将显示在 $PROJECT的网站上。如果您想匿名，那请选择一个不会泄漏您身份的名称。"
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "如果您参与了 $PROJECT ,您计算机的信息(比如处理器的型号，内存的大小等等)会被 $PROJECT 记录下来，然后他会决定什么样的任务最适合您的计算机。 这些信息也会被显示在 $PROJECT 的网站上，但是请不要担心，我们绝对不会泄漏出您主机的位置或者是您的域名,IP等."
+msgstr "如果您参加了 $PROJECT ，您计算机的相关信息比如处理器的型号、内存的大小等会被 $PROJECT 记录下来，以用来决定什么样的任务最适合您的计算机。 这些信息也会被显示在 $PROJECT 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "您必须提供一个能够接收到邮件的地址来参加 $PROJECT . 这个地址不会被公布在 $PROJECT 的网站上. $PROJECT 会定期的向您发送项目新闻; 当然,您也可以随时退订 ."
+msgstr "为了参加 $PROJECT ，您必须提供一个能够接收到邮件的电子邮箱地址。这个地址不会被显示在 $PROJECT 的网站上。$PROJECT 会定期的向您发送项目新闻； 当然，您随时可以选择退订。"
 
 msgid "RULES_SAFE"
-msgstr "运行 $PROJECT 程序安全吗?"
+msgstr "运行 $PROJECT 安全吗？"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "您通过因特网所下载的程序都有可能会发生：程序会有严重的错误, 或下载服务器被黑客攻击. $PROJECT 会最大程度的降低这方面的风.我们经常会仔细检测我们的程序.服务器设置了防火墙,并且设置了最高安全级 . 为了保证程序的完整性,全部的可执行文件会被放置在一台没有连接网络的安全计算机中."
+msgstr "只要您从互联网下载程序就有可能碰到下载的程序有严重错误或者下载服务器被黑客攻击的情况。$PROJECT 已经尽力降低了这方面的风险。我们已经仔细测试了我们的程序。我们在服务器上安装了防火墙，并且设置了最高的安全级别。为了保证程序下载的完整性，全部的可执行文件会被放置在一台没有连接网络的安全的计算机中进行数字签名。"
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "运行 $PROJECT 的程序有可能会引起某些计算机温度过热.如果您发现了这种情形,请停止运行 $PROJECT 或使用 %s 来限制CPU的使用率."
+msgstr "$PROJECT 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 $PROJECT 或使用 %s 来限制计算程序对处理器的使用率。"
 
 msgid "RULES_UTILITY_PROGRAM"
-msgstr "程序用途"
+msgstr "辅助程序"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT 由 %s 所开发. BOINC 由加州大学(University of California)开发."
+msgstr "$PROJECT 由 %s 开发。BOINC 由加州大学开发。"
 
 msgid "RULES_LIABILITY"
-msgstr "免责"
+msgstr "免责申明"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT 与 %s 对于计算机的损坏,数据的丢失,或其他任意事件可能由于参与 $PROJECT 所造成的结果没有赔偿责任."
+msgstr "$PROJECT 和 %s 对于您的计算机损坏、数据丢失或其他任意可能由于参与 $PROJECT 所造成的事件没有赔偿责任。"
 
 msgid "RULES_OTHER"
-msgstr "其他 BOINC 项目"
+msgstr "其它BOINC项目"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "其他使用相同BOINC平台的项目,像 $PROJECT 之类的.您可以考虑参与一个或多个项目.这样的话,当 $PROJECT 没有可用的任务时,运行其他的项目能提高您计算机的使用效率."
+msgstr "除了 $PROJECT，还有其它项目同样使用BOINC平台。您可以考虑参与一个或多个项目，当您无法从 $PROJECT 获取新任务时，运行其他的项目能提高您的计算机的利用率。"
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "其他的项目同 $PROJECT 是没有关系的，所以我们也不能保证他们的安全性，请您决定是否参与其他项目."
+msgstr "其它项目同 $PROJECT 没有关系，所以我们也不能保证他们的安全性及研究内容的实质，请您自行决定是否参与其他项目。"
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
 msgid "CREATE_AC_TITLE"
-msgstr "创建帐户"
+msgstr "创建账号"
 
 msgid "CREATE_AC_READ_RULES"
-msgstr "在建立帐户前请自习阅读 %s ."
+msgstr "在创建帐号前请阅读 %s。"
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "如果您已经收到了帐户的密钥,请不要提交这个表单,用 %s 代替."
+msgstr "如果您已经收到了帐号密钥，请不要提交这个表单。您应该%s。"
 
 msgid "CREATE_AC_NAME"
 msgstr "用户名"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "您在我们网站上的标识,可以使用您的真实姓名或昵称."
+msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
 
 msgid "CREATE_AC_EMAIL"
-msgstr "邮箱地址"
+msgstr "电子邮箱地址"
 
 msgid "CREATE_AC_EMAIL_DESC"
-msgstr "请保证是有效的地址,形式如 'name@domain'."
+msgstr "必须是有效的地址，形式如 '用户名@域名'。"
 
 msgid "CREATE_AC_COUNTRY"
-msgstr "国家"
+msgstr "国家或地区"
 
 msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "选择您所在的国家."
+msgstr "选择您所在的国家或地区"
 
 msgid "CREATE_AC_ZIP"
 msgstr "邮编"
 
 msgid "CREATE_AC_CREATE"
-msgstr "创建帐户"
+msgstr "创建帐号"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "帐户创建失败"
+msgstr "新账号创建已被禁用"
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr " $PROJECT 帐户此刻不能创建.请稍后再试."
+msgstr "$PROJECT 当前已经暂停了新帐号的注册，请以后再试。"
 
 msgid "CREATE_AC_TEAM"
-msgstr "帐户从属于团队 %s 并且参数的默认值由团队创始人设置."
+msgstr "此帐户将属于 %s 团队并且项目参数的默认值是由团队创建人设置的。"
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "帐户已建立"
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "注意：如果您正在使用版本5.2之后的客户端，请不要使用这个表单。运行BOINC，选择其菜单的“加入项目”，然后输入电子邮箱地址及密码。"
 
-msgid "AC_READY_WELCOME"
-msgstr "恭喜您 - 您 $PROJECT 的帐户已经创建"
+msgid "CREATE_AC_PASSWORD"
+msgstr "密码"
 
-msgid "AC_READY_PASTE"
-msgstr "接下来,请在这里粘贴您的帐户密钥:"
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "必须至少包含%s个字符"
 
-msgid "AC_READY_CLICK"
-msgstr "点击这里"
-
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "帐户设定"
-
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT 使用 BOINC 软件系统."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC 可以让您把计算时间划分给若干分布式计算项目."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "这是您的第一个BOINC 项目吗?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "对 - 这是我的第一次 BOINC 工程"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "不 - 我目前正参与至少一个其他的 BOINC 项目"
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "帐户设置"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "您可以自我控制您的计算机应该如何被 $PROJECT 所使用"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "要使用默认设定参数, 请把页面拉到最底部,之后点击OK."
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "帐户设定: 已完成"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "您的帐户设定完毕."
-
-msgid "AC_DONE_BOINC"
-msgstr "接下来您必须下载安装 BOINC 软件并告知您的电脑使用这个帐户."
-
-msgid "AC_DONE_URL"
-msgstr "当 BOINC 软件第一次运行时, 他会向您索要<b>Project URL</b>与 <b>Account key</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "您可以从这里复制并粘贴:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "您现在可以 %s 来完成 $PROJECT 的安装."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "下载 BOINC 程序"
-
-msgid "AC_DONE_THANKS"
-msgstr "感谢您参与 $PROJECT"
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "帐户设定: 资源共享"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "接下来您必须告诉您的电脑来使用您的这个帐户."
-
-msgid "AC_DONE_WIN"
-msgstr "Windows 用户:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "双击BOINC系统托盘的图标打开BOINC程序窗口,选择'Attach to Project'. 在设定菜单中选择选项.之后他会向您索要project URL与account key."
-
-msgid "AC_DONE_UNIX"
-msgstr "Mac, Unix 与 Linux 用户:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "退出 BOINC 客户端. 用 -attach_project 参数重新运行客户端.之后他会向您索要project URL 与 account key."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "任一种情况您可能都需要复制如下的:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "这将会完成 $PROJECT 的安装."
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "密码确认"
 
 #########################################
 # Forum sample index page
@@ -274,44 +177,37 @@ msgid "FORUM_TITLE"
 msgstr "$PROJECT 留言板"
 
 #########################################
-# Different strange places:
-#########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "配置您的帐户"
-
-#########################################
 # General stuff (create_account_form.php and others)
 #########################################
 msgid "OPTIONAL"
-msgstr "可选"
+msgstr "可选的"
 
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
 msgid "TOP_PARTICIPANT_TITLE"
-msgstr "参与者排行"
+msgstr "用户排名"
 
 msgid "USER_TABLE_RANK"
-msgstr "排名"
+msgstr "名次"
 
 msgid "USER_TABLE_NAME"
 msgstr "用户名"
 
-msgid "USER_TABLE_TOTAL_CREDIT"
+msgid "TOTAL_CREDIT"
 msgstr "总积分"
 
-msgid "USER_TABLE_EXPAVG"
-msgstr "最近的平均积分"
+msgid "EXPAVG_CREDIT"
+msgstr "近期平均积分"
 
 msgid "USER_TABLE_COUNTRY"
-msgstr "国家"
+msgstr "国家或地区"
 
 msgid "USER_TABLE_PTIME"
-msgstr "开始时间"
+msgstr "参与时间"
 
 msgid "TOP_TEAMS_TITLE"
-msgstr "顶级 %s 团队"
+msgstr "%s 团队排名"
 
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "成员"
@@ -323,49 +219,49 @@ msgid "FORUM_ERR_NOT_FOUND"
 msgstr "无此论坛"
 
 msgid "FORUM_ERR_EXPAVG"
-msgstr "如果您想在 %s 中创建一个新的主题,您需要有一定程度的积分,这样是为了防止某些人恶意攻击系统."
+msgstr "您必须在已经获得了一定的积分后才能在 %s 发表一个新主题。这是为了防止对留言系统的滥用。"
 
 msgid "FORUM_ERR_INTERVAL"
-msgstr "你现在不能创建任何主题,请稍后再试,这是为了保护我们的系统而做出的延时."
+msgstr "你现在不能发表任何新主题，请稍后再试，这是为了防止对留言系统的滥用而使用的延时。"
 
 msgid "FORUM_QA_POST_MESSAGE"
-msgstr "如果您有任何问题, %s 区可以使您从其他使用者得到帮助:"
+msgstr "如果您有任何疑问，可以在 %s 向其它用户求助："
 
 msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "请阅读已经存在的问题列表.如果您的问题已存在,请点击 %s 按钮.如果有人回答了您的问题,请点击 %s 按钮."
+msgstr "请阅读现有的问题列表。如果您的问题已存在，请点击 %s 按钮。如果有人回答了您的问题，请仔细阅读。如果找不到您的问题，请点击 %s 按钮。"
 
 msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "如果您的问题没有被询问过,请填下面的表单并提交."
+msgstr "如果您的疑问从未被其他人询问过，请填写这个表单。"
 
 msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "这将会防止问题被反复提问."
+msgstr "这样可以防止同样的问题被反复的询问。"
 
 msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "提交新的疑问题难"
+msgstr "提交一个新的问题"
 
 msgid "FORUM_SUBMIT_NEW"
-msgstr "创建一个新主题"
+msgstr "发表一个新主题"
 
 msgid "FORUM_SUBMIT_NEW_TITLE"
 msgstr "标题"
 
 msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "请简短的叙述出您的问题,言简清晰的主题能够帮助同样存在此问题的人轻松找到该主题."
+msgstr "请用少量的话描述您的问题，简短而清楚的说明可以让其他有同样疑问的用户更容易找到它。"
 
 msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "如果您存在软件问题,请注明您软件的版本号,计算机的配置以及操作系统"
+msgstr "如果你碰到了软件上的问题，请注明您使用的软件版本号、您的计算机类型及操作系统种类。"
 
 msgid "FORUM_ADD_MY_SIG"
-msgstr "为这个帖子添加我的个性签名"
+msgstr "在帖子后加上我的个性签名"
 
 msgid "FORUM_MESSAGE"
 msgstr "消息"
 
 msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "我也有这样的问题"
+msgstr "我也有同样的问题"
 
 msgid "FORUM_QA_QUESTION_ANSWERED"
-msgstr "他回复了我的提问"
+msgstr "他解答了我的问题。"
 
 msgid "FORUM_HTML_INFO"
 msgstr "使用BBCode标记来格式化您的正文"
@@ -374,16 +270,16 @@ msgstr "使用BBCode标记来格式化您的正文"
 # Forum search features
 #########################################
 msgid "FORUM_SEARCH_TITLES"
-msgstr "题目包含 '%s'"
+msgstr "包含 '%s' 的标题"
 
 msgid "FORUM_SEARCH_BODIES"
-msgstr "帖子包含 '%s'"
+msgstr "包含 '%s' 的正文"
 
 msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "没有找到包含 '%s' 的题目."
+msgstr "没有找到标题中包含 '%s' 的帖子"
 
 msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "没有找到包含 '%s' 的帖子."
+msgstr "没有找到正文中包含 '%s' 的帖子"
 
 #########################################
 # Links from the main page

@@ -1,0 +1,290 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-12-31 16:20-0600\n"
+"Last-Translator: Evandro Menezes <evandro@yahoo.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+# ########################################
+# Language: Portuguese (Brazil)
+# FileID  : $Id$
+# Author  : Janus Kristensen (Translation by Evandro Menezes <evandro@yahoo.com>)
+# Email   : jbk@visualgroup.dk
+# ########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# ########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Brazilian Portuguese"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Português Brasileiro"
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Programas"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT tem atualmente os seguintes programas.  Quando se participa em $PROJECT, tarefas para um ou mais destes programas serão atribuídas a seu computador.  A versão atual do programa será carregada em seu computador.  Isto acontece automaticamente e não é preciso fazer nada."
+
+msgid "APPS_PLATFORM"
+msgstr "Plataforma"
+
+msgid "APPS_VERSION"
+msgstr "Versão Atual"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Instalação"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Regras e Políticas"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Execute $PROJECT apenas em computadores autorizados"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Execute $PROJECT apenas em computadores que lhe pertençam ou para os quais tenha obtido permissão de seu proprietário.  Algumas empresas e escolas têm políticas que proíbem o uso de seus computadores para programas como $PROJECT"
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Como $PROJECT usará seu computador"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Quando executar $PROJECT em seu computador, recursos como capacidade de processamento, espaço em disco e banda de rede serão utilizados.  Você pode controlar quanto dos recursos são usados por $PROJECT, bem como quando."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "As tarefas completadas por seu computador contribuem para os objetivos de $PROJECT, como descrito em seu web site.  Os programas podem mudar ocasionalmente."
+
+msgid "RULES_PRIVACY"
+msgstr "Política de privacidade"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Sua conta em $PROJECT é identificada por um nome que você escolher.  Este nome pode ser encontrado no web site de $PROJECT, assim como um resumo das tarefas que seus computadores completaram para $PROJECT.  Se preferir permanecer anônimo, escolha um nome que não revele sua identidade."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Se participar em $PROJECT, informações sobre seu computador, como o tipo do processador, memória instalada, etc, serão registradas por $PROJECT e usadas para decidir que tipos de tarefas lhe atribuir.  Estas informações também serão publicadas no web site de $PROJECT.  No entanto, nada que revele a localidade de seu computador, como o domínio ou endereço na Internet, será publicado."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "A fim de participar em $PROJECT, você deve fornecer um endereço aonde receba e-mail.  Este endereço não será publicado no web site de $PROJECT ou compartilhado com outras organizações.  $PROJECT pode lhe enviar informações periodicamente, mas você pode escolher não os receber."
+
+msgid "RULES_SAFE"
+msgstr "É seguro executar $PROJECT ?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Sempre que se carregar um programa através da Internet, se está correndo um risco: o programa pode ter problemas sérios ou pode ter sido corrompido.  $PROJECT se esforçou para minimizar tais riscos, cuidadosamente testou os programas e nossos servidores se encontram protegidos para garantir sua segurança.  A fim de garantir a integridade dos programas, todos arquivos executáveis são assinados digitalmente em um computador seguro não conectado à Internet."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Os programas executados por $PROJECT podem causar sobre-aquecimento de alguns computadores.  Se isto acontecer, pare de executar $PROJECT ou use uma %s que limite a utilização do processador."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "programa"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT foi desenvolvido por %s.  BOINC foi desenvolvido pela Universidade da Califórnia."
+
+msgid "RULES_LIABILITY"
+msgstr "Responsabilidade"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT e %s não assumem qualquer responsabilidade por danos a seu computador, perda de dados ou qualquer evento ou condição que venha a ocorrer como resultado de participar em $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Outros projetos BOINC"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Outros projetos usam a plataforma BOINC como $PROJECT.  Considere participar em um ou mais destes outros projetos.  Assim fazendo, seu computador fará algo útil mesmo que $PROJECT não tenha tarefas disponíveis para ele."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Estes outros projetos não são associados a $PROJECT e não podemos garantir a segurança de suas práticas ou a natureza de seus objetivos.  Participe deles a seu próprio risco."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Abra uma conta"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Leia as %s antes de abrir uma conta."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Se já recebeu um código para sua conta, não envie este formulário.  %s em seu lugar."
+
+msgid "CREATE_AC_NAME"
+msgstr "Nome"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Sua identificação em nosso web site.  Use seu nome ou um pseudônimo."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Endereço de e-mail"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Deve ser um endereço válido na forma 'nome@domínio'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "País"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Selecione o país que quiser representar, ou nenhum se preferir."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Código postal"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Abra a conta"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Abertura de contas está desativada."
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "No momento, a abertura de contas está desativada para $PROJECT.  Por favor, tente novamente mais tarde."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Esta conta irá pertencer ao time %s e terá as mesmas preferências definidas por seu fundador."
+
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "Observação: se usa BOINC versão 5.2 ou mais recente, não use este formulário.  Basta executar BOINC, escolher 'Adicionar Projeto' e informar seu endereço de e-mail e sua senha."
+
+msgid "CREATE_AC_PASSWORD"
+msgstr "Senha"
+
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Deve ter pelo menos %s caracteres."
+
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Confirme sua senha"
+
+#########################################
+# Forum sample index page
+#########################################
+msgid "FORUM_TITLE"
+msgstr "Fóruns $PROJECT"
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Opcional"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Membros"
+
+msgid "USER_TABLE_RANK"
+msgstr "Posição"
+
+msgid "USER_TABLE_NAME"
+msgstr "Nome"
+
+msgid "TOTAL_CREDIT"
+msgstr "Crédito total"
+
+msgid "EXPAVG_CREDIT"
+msgstr "Crédito médio recente"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "País"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Membro desde"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Times %s"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Membros"
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Fórum inexistente"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "A fim de criar um novo tópico em %s é preciso se ter certa quantia de créditos.  Assim se previnem abusos do sistema."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Não é possível criar novos tópicos no momento.  Por favor, aguarde antes de tentar novamente.  Este atraso foi definido para proteger contra abusos do sistema."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "A área %s permite que se obtenha ajuda de outros usuários.  Se tiver uma pergunta ou problema:"
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Lei a lista de perguntas atual.  Se sua pergunta já estiver nela, clique o botão %s.  Se a pergunta já tiver sido respondida, leia as respostas.  Se alguma delas responde sua pergunta, clique o botão %s."
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Se sua pergunta ainda não foi feita, preencha e envie este formulário."
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Assim se evita que se façam as mesmas perguntas repetidamente."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Envie nova pergunta ou novo problema"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Crie novo tópico"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Título"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Descreva seu problema em poucas palavras.  Um resumo breve e claro ajudará outros com o mesmo problema (ou resposta) a o encontrar."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Se tiver problemas com o programa, mencione sua versão, o tipo de seu computador e o sistema operacional."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Adicione minha assinatura a esta mensagem"
+
+msgid "FORUM_MESSAGE"
+msgstr "Mensagem"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Também tenho este problema"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Isto responde minha pergunta"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Use BBCode para formatar seu texto"
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Títulos contendo '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Mensagens contendo '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Não foi encontrada nenhuma mensagem com título contendo '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Não foi encontrada nenhuma mensagem contendo '%s'."
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Perguntas e Respostas"
+
