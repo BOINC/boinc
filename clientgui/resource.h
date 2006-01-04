@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by BOINCGUIApp.rc
 //
+#define APP_ICON                        100
 
 // Next default values for new objects
 // 

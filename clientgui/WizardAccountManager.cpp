@@ -44,7 +44,6 @@
 #include "ProxyPage.h"
 
 ////@begin XPM images
-#include "res/attachprojectwizard.xpm"
 ////@end XPM images
   
 /*!
@@ -116,9 +115,14 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     attached_to_project_successfully = false;
     m_strProjectName.Empty();
     m_bCredentialsCached = false;
- 
+
+    wxBitmap wizardBitmap;
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        wizardBitmap = *(wxGetApp().GetBrand()->GetAMWizardLogo());
+    } else {
+        wizardBitmap = GetBitmapResource(wxT("res/attachprojectwizard.xpm"));
+    }
 ////@begin CWizardAccountManager creation
-    wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     CBOINCBaseWizard::Create( parent, id, _("Attach to Account Manager"), wizardBitmap, pos );
 
     CreateControls();
@@ -224,7 +228,18 @@ bool CWizardAccountManager::Run() {
     pDoc->rpc.acct_mgr_info(ami);
 
     if (ami.acct_mgr_url.size()) {
-        if (ami.acct_mgr_name.size()) {
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            wxString strTitle;
+
+            // %s is the project name
+            //    i.e. 'GridRepublic'
+            strTitle.Printf(
+                _("Attach to %s"),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
+
+            SetTitle(strTitle);
+        } else if (ami.acct_mgr_name.size()) {
             wxString strTitle;
             strTitle = GetTitle();
             strTitle += wxT(" - ");
@@ -237,7 +252,11 @@ bool CWizardAccountManager::Run() {
         m_bCredentialsCached = ami.have_credentials;
     }
 
-    if ( ami.acct_mgr_url.size() && m_AccountManagerStatusPage) {
+    if ( ami.acct_mgr_url.size() && !ami.have_credentials && m_AccountManagerStatusPage) {
+        m_AccountManagerStatusPage->m_AcctManagerUpdateCtrl->SetValue(true);
+        m_AccountManagerStatusPage->m_AcctManagerRemoveCtrl->SetValue(false);
+        return RunWizard(m_AccountInfoPage);
+    } else if ( ami.acct_mgr_url.size() && m_AccountManagerStatusPage) {
         return RunWizard(m_AccountManagerStatusPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
@@ -263,11 +282,6 @@ wxBitmap CWizardAccountManager::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
 ////@begin CWizardAccountManager bitmap retrieval
-    if (name == wxT("res/attachprojectwizard.xpm"))
-    {
-        wxBitmap bitmap(attachprojectwizard_xpm);
-        return bitmap;
-    }
     return wxNullBitmap;
 ////@end CWizardAccountManager bitmap retrieval
 }

@@ -44,6 +44,8 @@ private:
     wxString    m_strCompanyName;
     wxString    m_strCompanyWebsite;
     wxString    m_strProjectName;
+    wxBitmap    m_bitmapAPWizardLogo;
+    wxBitmap    m_bitmapAMWizardLogo;
 
 public:
     bool        IsBranded() { return m_bIsBranded; }
@@ -53,6 +55,8 @@ public:
     wxString    GetCompanyName() { return m_strCompanyName; }
     wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }
     wxString    GetProjectName() { return m_strProjectName; }
+    wxBitmap*   GetAPWizardLogo() { return &m_bitmapAPWizardLogo; }
+    wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }
 
     bool        OnInit( wxConfigBase* pConfig );
 };

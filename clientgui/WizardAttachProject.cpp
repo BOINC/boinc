@@ -46,7 +46,6 @@
 #include "ProxyPage.h"
 
 ////@begin XPM images
-#include "res/attachprojectwizard.xpm"
 ////@end XPM images
 
 
@@ -128,8 +127,13 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     project_authenticator = wxEmptyString;
     m_bCredentialsCached = false;
  
+    wxBitmap wizardBitmap;
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        wizardBitmap = *(wxGetApp().GetBrand()->GetAPWizardLogo());
+    } else {
+        wizardBitmap = GetBitmapResource(wxT("res/attachprojectwizard.xpm"));
+    }
 ////@begin CWizardAttachProject creation
-    wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     CBOINCBaseWizard::Create( parent, id, _("Attach to Project"), wizardBitmap, pos );
 
     CreateControls();
@@ -283,11 +287,6 @@ wxBitmap CWizardAttachProject::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
 ////@begin CWizardAttachProject bitmap retrieval
-    if (name == wxT("res/attachprojectwizard.xpm"))
-    {
-        wxBitmap bitmap(attachprojectwizard_xpm);
-        return bitmap;
-    }
     return wxNullBitmap;
 ////@end CWizardAttachProject bitmap retrieval
 }

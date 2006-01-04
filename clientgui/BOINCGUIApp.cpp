@@ -35,7 +35,9 @@
 ////@begin XPM images
 #include "res/boinc.xpm"
 #include "res/boincsm.xpm"
+#include "res/attachprojectwizard.xpm"
 #include "res/gridrepublic.xpm"
+#include "res/gridrepublicamwizard.xpm"
 ////@end XPM images
 
 
@@ -79,6 +81,8 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strCompanyName = wxT("GridRepublic");
             m_strCompanyWebsite = wxT("http://www.gridrepublic.com/");
             m_strProjectName = wxT("GridRepublic");
+            m_bitmapAPWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
+            m_bitmapAMWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
             break;
         default:
             // Running in native mode without any branding
@@ -88,6 +92,8 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
             m_strCompanyWebsite = wxT("http://boinc.berkeley.edu/");
             m_strProjectName = wxT("BOINC");
+            m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
             break;
     }
 

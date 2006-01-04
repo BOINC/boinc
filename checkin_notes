@@ -14902,3 +14902,33 @@ Bruce 30 Dec 2005
     db/
         db_base.C
 
+Rom    4 Jan 2006
+    - Branding update for GridRepublic
+    
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_ss.rc
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCGUIApp.cpp, .h
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+        resource.h
+    clientgui/res/
+        gridrepublic.ico
+        gridrepublic.xpm
+        gridrepublicamwizard.xpm (Added)
+    clientgui/res/
+        gridrepublic.ico
+        gridrepublicamwizard.bmp (Added)
+    win_build/installerv2/
+        GridRepublic.ism
+    win_build/installerv2/redist/GridRepublic/
+        GridRepublic.ico
+        GridRepublic.url
+
+Rom    4 Jan 2006 (HEAD)
+    - Tag for 5.3.7 release, all platforms
+      boinc_core_release_5_3_7
+
