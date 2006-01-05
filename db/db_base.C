@@ -331,7 +331,6 @@ DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN* p) : db(p) {
 void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
-    int out_len=0;
 
     // Make sure that final result won't overflow field[].
     // Don't need to worry about overflowing buf[] since 
