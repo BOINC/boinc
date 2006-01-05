@@ -333,9 +333,11 @@ void escape_string(char* field, int len) {
     char* q = buf, *p = field;
     int out_len=0;
 
-    // make sure we don't overflow "buf"
+    // Make sure that final result won't overflow field[].
+    // Don't need to worry about overflowing buf[] since 
+    // in worst case string length only doubles.
     //
-    while (*p && q < buf+sizeof(buf)-2) {
+    while (*p && q < buf+len-2) {
         if (*p == '\'') {
             // this does ' to \' transformation 
             //

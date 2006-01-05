@@ -62,3 +62,9 @@ David  4 Jan 2006
 
     sched/
         sched_array.C
+
+Bruce 5 Jan 2006
+    - Fixed David's mistake in simplifying my fix to escape_string()!
+    db/
+        db_base.C
+
