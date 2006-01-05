@@ -417,8 +417,8 @@ int boinc_parse_init_data_file() {
     int retval;
 
     memset(&aid, 0, sizeof(aid));
-    safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
-    safe_strncpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
+    strlcpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
+    strlcpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
     aid.wu_cpu_time = 1000;
     aid.user_total_credit = 1000;
     aid.user_expavg_credit = 500;

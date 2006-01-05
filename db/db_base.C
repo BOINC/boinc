@@ -332,37 +332,29 @@ void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     int out_len=0;
-    // We monitor the length of the output string, to ensure
-    // that if the string must be truncated, we do NOT
-    // truncate it to a partially-escaped version.
+
+    // make sure we don't overflow "buf"
     //
-    // The (len-2) condition guarantees space to write two
-    // additional characters AND a terminating null byte
-    // without overflowing the 'field' array.
-    //
-    while (*p && out_len < (len-2)) {
+    while (*p && q < buf+sizeof(buf)-2) {
         if (*p == '\'') {
             // this does ' to \' transformation 
             //
             *q++ = '\\';
             *q++ = '\'';
-            out_len += 2;
         } else if (*p == '\\') {
             // this does \ to \\ transformation
             //
             *q++ = '\\';
             *q++ = '\\';
-            out_len += 2;
         } else {
             // this handles all other characters
             //
             *q++ = *p;
-            out_len += 1;
         }
         p++;
     }
     *q = 0;
-    safe_strncpy(field, buf, len);
+    strlcpy(field, buf, len);
 }
 
 // undo the above process

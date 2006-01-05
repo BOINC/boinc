@@ -52,8 +52,7 @@ extern void escape_url_readable(char* in, char* out);
 extern bool valid_master_url(char*);
 extern void canonicalize_master_url(char *url);
 extern void canonicalize_master_url(std::string&);
-extern void safe_strncpy(char*, const char*, int);
-#define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
+#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);

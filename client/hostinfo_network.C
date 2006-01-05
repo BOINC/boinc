@@ -65,9 +65,9 @@ int get_local_network_info(
         msg_printf(NULL, MSG_ERROR, "get_local_network_info(): gethostbyname failed\n");
         return ERR_GETHOSTBYNAME;
     }
-    safe_strncpy(domain_name, he->h_name, domlen);
+    strlcpy(domain_name, he->h_name, domlen);
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    safe_strncpy(ip_addr, inet_ntoa(addr), iplen);
+    strlcpy(ip_addr, inet_ntoa(addr), iplen);
     return 0;
 }
 

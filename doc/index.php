@@ -144,7 +144,7 @@ echo " <td valign=top width=390><table border=0 cellpadding=8 cellspacing=0>
 </td></tr>
 <tr><td>
 <br>
-One of over 300,000 people around the world participating in
+One of over 450,000 people around the world participating in
 BOINC-based projects.
 <p>
 Name:

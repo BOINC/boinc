@@ -62,6 +62,10 @@
 using std::min;
 using std::string;
 
+// Use this instead of strncpy().
+// Result will always be null-terminated, and it's faster.
+// see http://www.gratisoft.us/todd/papers/strlcpy.html
+//
 #if !defined(HAVE_STRLCPY)
 size_t strlcpy(char *dst, const char *src, size_t size) {
     size_t ret = strlen(src);
@@ -191,7 +195,7 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
         }
     }
 
-    safe_strncpy(str, buf, len);
+    strlcpy(str, buf, len);
 }
 
 #define EPOCHFILETIME_SEC (11644473600.)
@@ -517,13 +521,6 @@ bool valid_master_url(char* buf) {
     n = strlen(buf);
     if (buf[n-1] != '/') return false;
     return true;
-}
-
-// "safe" means the output will be null-terminated.
-//
-void safe_strncpy(char* dst, const char* src, int len) {
-    strncpy(dst, src, len);
-    dst[len-1]=0;
 }
 
 char* time_to_string(double t) {

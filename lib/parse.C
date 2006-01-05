@@ -143,7 +143,7 @@ bool parse_str(const char* buf, const char* tag, string& dest) {
 bool parse_str(const char* buf, const char* tag, char* dest, int len) {
     string str;
     if (!parse_str(buf, tag, str)) return false;
-    safe_strncpy(dest, str.c_str(), len);
+    strlcpy(dest, str.c_str(), len);
     return true;
 }
 
@@ -162,7 +162,7 @@ void parse_attr(const char* buf, const char* name, char* dest, int len) {
     q = strchr(p+1, '"');
     if (!q) return;
     if (len > q-p) len = (int)(q-p);
-    safe_strncpy(dest, p+1, len);
+    strlcpy(dest, p+1, len);
 }
 
 void copy_stream(FILE* in, FILE* out) {
@@ -273,7 +273,7 @@ void replace_element_contents(
     p = strstr(buf, start);
     p += strlen(start);
     q = strstr(p, end);
-    safe_strncpy(temp, q, sizeof(temp));
+    strlcpy(temp, q, sizeof(temp));
     strcpy(p, replacement);
     strcat(p, temp);
 }
@@ -342,7 +342,7 @@ char* sgets(char* buf, int len, char*& in) {
     p = strstr(in, "\n");
     if (!p) return NULL;
     *p = 0;
-    safe_strncpy(buf, in, len);
+    strlcpy(buf, in, len);
     *p = '\n';
     in = p+1;
     return buf;

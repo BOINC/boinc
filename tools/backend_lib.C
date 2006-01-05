@@ -392,7 +392,7 @@ int create_result(
         );
         return ERR_BUFFER_OVERFLOW;
     }
-    safe_strncpy(result.xml_doc_in, result_template, sizeof(result.xml_doc_in));
+    strlcpy(result.xml_doc_in, result_template, sizeof(result.xml_doc_in));
 
     result.random = lrand48();
 
@@ -488,7 +488,7 @@ int create_work(
         );
         return ERR_BUFFER_OVERFLOW;
     }
-    safe_strncpy(wu.result_template_file, result_template_filename, sizeof(wu.result_template_file));
+    strlcpy(wu.result_template_file, result_template_filename, sizeof(wu.result_template_file));
 
     wu.transition_time = time(0);
     retval = wu.insert();

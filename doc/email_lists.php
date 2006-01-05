@@ -29,11 +29,13 @@ list_item(
 );
 list_item(
     "<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_projects>boinc_projects</a>",
-    "An email list for people operating BOINC projects.  Questions and problems involving BOINC server software.  Announcements of upgrades and changes.
-    Do NOT post questions about BOINC client software here.
+    "An email list for people operating BOINC projects.
+    Questions and problems involving BOINC server software.
+    Announcements of upgrades and changes.
 ");
 list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_dev>boinc_dev</a>",
-    "For people developing, debugging or porting the BOINC software.
+    "For people developing, debugging or porting the BOINC software
+    (client, server, and Web).
 ");
 list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc</a>",
     "For people doing non-English translations

@@ -19,6 +19,8 @@ startup of BOINC on various versions of Unix:
 <a href=http://www.spy-hill.net/~myers/help/boinc/unix.html>Red Hat Linux</a>.
 (includes general instructions for installing on Unix systems).
 <li>
+<a href=http://alioth.debian.org/projects/pkg-boinc/>BOINC on Debian Linux</a>.
+<li>
 <a href=autostart_unix.txt>Linux with KDE</a>.
 <li>
 <a href=autostart_dennett.txt>Red Hat 9, should also work on Solaris</a>

@@ -60,20 +60,23 @@ int LANGUAGE::get_translation(char *section_name, char *entry_name,
     char buf[256], *sec_ptr, buf2[256];
 
     // If we never opened the language file, return the default value
+    //
     if (!language_file_contents) goto return_default;
 
     // Find the specified section
+    //
     sprintf(buf, "[%s]", section_name);
     sec_ptr = strstr(language_file_contents,buf);
     if (!sec_ptr) goto return_default;
 
     // Find the translation in the section
     // skip the header line
+    //
     sec_ptr += strlen(buf);
     sprintf(buf, "%s=", entry_name);
     while (sgets(buf2, 256, sec_ptr)) {
         if (!strncmp(buf, buf2, strlen(buf))) {
-            safe_strncpy(translation,buf2+strlen(buf),trans_size);
+            strlcpy(translation, buf2+strlen(buf), trans_size);
             return trans_size;
         } else if (!strncmp("[", buf2, 1)) {
             goto return_default;
@@ -81,7 +84,7 @@ int LANGUAGE::get_translation(char *section_name, char *entry_name,
     }
 
 return_default:
-    safe_strncpy(translation,entry_name,trans_size);
+    strlcpy(translation, entry_name, trans_size);
     return trans_size;
 }
 

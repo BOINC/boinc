@@ -114,7 +114,7 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
         if (dp) {
             if (!strcmp(dp->d_name, ".")) continue;
             if (!strcmp(dp->d_name, "..")) continue;
-            if (p) safe_strncpy(p, dp->d_name, p_len);
+            if (p) strlcpy(p, dp->d_name, p_len);
             return 0;
         } else {
             return ERR_READDIR;
@@ -133,14 +133,14 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
                 //
                 if (!strcmp(data.cFileName, ".")) continue;
                 if (!strcmp(data.cFileName, "..")) continue;
-                if (p) safe_strncpy(p, data.cFileName, p_len);
+                if (p) strlcpy(p, data.cFileName, p_len);
                 return 0;
             }
         } else {
             if (FindNextFile(dirp->handle, &data)) {
                 if (!strcmp(data.cFileName, ".")) continue;
                 if (!strcmp(data.cFileName, "..")) continue;
-                if (p) safe_strncpy(p, data.cFileName, p_len);
+                if (p) strlcpy(p, data.cFileName, p_len);
                 return 0;
             } else {
                 FindClose(dirp->handle);

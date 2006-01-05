@@ -635,8 +635,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 #endif
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
-        safe_strncpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
-        safe_strncpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
+        strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
+        strlcpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
 
         // look for exit status and app version in stderr_out
         // (historical - can be deleted at some point)

@@ -301,7 +301,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
     switch ( exceptionCode ) {
         case EXCEPTION_ACCESS_VIOLATION:
-            safe_strncpy( status, "Access Violation", sizeof(status) );
+            strcpy( status, "Access Violation");
             if ( pExPtrs->ExceptionRecord->NumberParameters == 2 ) {
                 switch( pExPtrs->ExceptionRecord->ExceptionInformation[0] ) {
                 case 0: // read attempt
@@ -314,73 +314,73 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
             }
             break;
         case EXCEPTION_DATATYPE_MISALIGNMENT:
-            safe_strncpy( status, "Data Type Misalignment", sizeof(status) );
+            strcpy( status, "Data Type Misalignment");
             break;
         case EXCEPTION_BREAKPOINT:
-            safe_strncpy( status, "Breakpoint Encountered", sizeof(status) );
+            strcpy( status, "Breakpoint Encountered");
             break;
         case EXCEPTION_SINGLE_STEP:
-            safe_strncpy( status, "Single Instruction Executed", sizeof(status) );
+            strcpy( status, "Single Instruction Executed");
             break;
         case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-            safe_strncpy( status, "Array Bounds Exceeded", sizeof(status) );
+            strcpy( status, "Array Bounds Exceeded");
             break;
         case EXCEPTION_FLT_DENORMAL_OPERAND:
-            safe_strncpy( status, "Float Denormal Operand", sizeof(status) );
+            strcpy( status, "Float Denormal Operand");
             break;
         case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-            safe_strncpy( status, "Divide by Zero", sizeof(status) );
+            strcpy( status, "Divide by Zero");
             break;
         case EXCEPTION_FLT_INEXACT_RESULT:
-            safe_strncpy( status, "Float Inexact Result", sizeof(status) );
+            strcpy( status, "Float Inexact Result");
             break;
         case EXCEPTION_FLT_INVALID_OPERATION:
-            safe_strncpy( status, "Float Invalid Operation", sizeof(status) );
+            strcpy( status, "Float Invalid Operation");
             break;
         case EXCEPTION_FLT_OVERFLOW:
-            safe_strncpy( status, "Float Overflow", sizeof(status) );
+            strcpy( status, "Float Overflow");
             break;
         case EXCEPTION_FLT_STACK_CHECK:
-            safe_strncpy( status, "Float Stack Check", sizeof(status) );
+            strcpy( status, "Float Stack Check");
             break;
         case EXCEPTION_FLT_UNDERFLOW:
-            safe_strncpy( status, "Float Underflow", sizeof(status) );
+            strcpy( status, "Float Underflow");
             break;
         case EXCEPTION_INT_DIVIDE_BY_ZERO:
-            safe_strncpy( status, "Integer Divide by Zero", sizeof(status) );
+            strcpy( status, "Integer Divide by Zero");
             break;
         case EXCEPTION_INT_OVERFLOW:
-            safe_strncpy( status, "Integer Overflow", sizeof(status) );
+            strcpy( status, "Integer Overflow");
             break;
         case EXCEPTION_PRIV_INSTRUCTION:
-            safe_strncpy( status, "Privileged Instruction", sizeof(status) );
+            strcpy( status, "Privileged Instruction");
             break;
         case EXCEPTION_IN_PAGE_ERROR:
-            safe_strncpy( status, "In Page Error", sizeof(status) );
+            strcpy( status, "In Page Error");
             break;
         case EXCEPTION_ILLEGAL_INSTRUCTION:
-            safe_strncpy( status, "Illegal Instruction", sizeof(status) );
+            strcpy( status, "Illegal Instruction");
             break;
         case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-            safe_strncpy( status, "Noncontinuable Exception", sizeof(status) );
+            strcpy( status, "Noncontinuable Exception");
             break;
         case EXCEPTION_STACK_OVERFLOW:
-            safe_strncpy( status, "Stack Overflow", sizeof(status) );
+            strcpy( status, "Stack Overflow");
             break;
         case EXCEPTION_INVALID_DISPOSITION:
-            safe_strncpy( status, "Invalid Disposition", sizeof(status) );
+            strcpy( status, "Invalid Disposition");
             break;
         case EXCEPTION_GUARD_PAGE:
-            safe_strncpy( status, "Guard Page Violation", sizeof(status) );
+            strcpy( status, "Guard Page Violation");
             break;
         case EXCEPTION_INVALID_HANDLE:
-            safe_strncpy( status, "Invalid Handle", sizeof(status) );
+            strcpy( status, "Invalid Handle");
             break;
         case CONTROL_C_EXIT:
-            safe_strncpy( status, "Ctrl+C Exit", sizeof(status) );
+            strcpy( status, "Ctrl+C Exit");
             break;
         default:
-            safe_strncpy( status, "Unknown exception", sizeof(status) );
+            strcpy( status, "Unknown exception");
             break;
     }
 

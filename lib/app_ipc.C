@@ -219,7 +219,7 @@ APP_CLIENT_SHM::APP_CLIENT_SHM() {
 }
 bool MSG_CHANNEL::get_msg(char *msg) {
     if (!buf[0]) return false;
-    safe_strncpy(msg, buf+1, MSG_CHANNEL_SIZE-1);
+    strlcpy(msg, buf+1, MSG_CHANNEL_SIZE-1);
     buf[0] = 0;
     return true;
 }
@@ -231,13 +231,13 @@ bool MSG_CHANNEL::has_msg() {
 
 bool MSG_CHANNEL::send_msg(const char *msg) {
     if (buf[0]) return false;
-    safe_strncpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
+    strlcpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
     return true;
 }
 
 void MSG_CHANNEL::send_msg_overwrite(const char* msg) {
-    safe_strncpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
+    strlcpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
 }
 
@@ -282,7 +282,7 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
     char buf[512];
 
     if (!virtual_name) return ERR_NULL;
-    safe_strncpy(physical_name, virtual_name, len);
+    strlcpy(physical_name, virtual_name, len);
 
     // Open the file and load the first line
     //
