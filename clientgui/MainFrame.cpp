@@ -442,7 +442,7 @@ bool CMainFrame::CreateMenu() {
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
         _("%s &website"), 
-        wxGetApp().GetBrand()->GetProjectName()
+        wxGetApp().GetBrand()->GetProjectName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
