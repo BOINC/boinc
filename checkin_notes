@@ -33,9 +33,11 @@ David  4 Jan 2006
         Same semantics, but the former is less efficient.
     - simplified Bruce's recent fix to escape_string()
     
-    checkin_notes_2005 (new - woo hoo!)
+    checkin_notes_2005 (new - Woo Hoo!)
     api/
         boinc_api.C
+	client/win/
+		hostinfo_win.cpp
     db/
         db_base.C
     lib/

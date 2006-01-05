@@ -381,21 +381,21 @@ int HOST_INFO::get_host_info() {
 		if (retval == ERROR_SUCCESS) gotMHz = true;
 	}
 
-    if (gotVendIdent) safe_strncpy( p_vendor, vendorName, sizeof(p_vendor) );
-    else safe_strncpy( p_vendor, "Unknown", sizeof(p_vendor) );
+    if (gotVendIdent) strlcpy( p_vendor, vendorName, sizeof(p_vendor) );
+    else strlcpy( p_vendor, "Unknown", sizeof(p_vendor) );
 
     if (gotProcName) {
-        safe_strncpy( p_model, processorName, sizeof(p_model) );
+        strlcpy( p_model, processorName, sizeof(p_model) );
     } else if (gotIdent && gotMHz) {
         sprintf( p_model, "%s %dMHz", identifierName, procSpeed );
     } else if (gotVendIdent && gotMHz) {
         sprintf( p_model, "%s %dMHz", vendorName, procSpeed );
     } else if (gotIdent) {
-        safe_strncpy( p_model, identifierName, sizeof(p_model) );
+        strlcpy( p_model, identifierName, sizeof(p_model) );
     } else if (gotVendIdent) {
-        safe_strncpy( p_model, vendorName, sizeof(p_model) );
+        strlcpy( p_model, vendorName, sizeof(p_model) );
     } else {
-        safe_strncpy( p_model, "Unknown", sizeof(p_model) );
+        strlcpy( p_model, "Unknown", sizeof(p_model) );
     }
 
 	RegCloseKey(hKey);
