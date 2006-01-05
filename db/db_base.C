@@ -366,10 +366,11 @@ void unescape_string(char* p, int /*len*/) {
     while (*p) {
         if (*p == '\\') {
             p++;
+            if (!*p) break; // SHOULD NEVER HAPPEN!
         }
-        if (!*p) break;
         *q++ = *p++;
     }
+    *q='\0';
 }
 
 // replace _ with \\_, % with \\%

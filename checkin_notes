@@ -73,3 +73,10 @@ David  4 Jan 2006
 
     db/
         db_base.C
+
+Bruce 5 Jan 2006
+    - Fixed new unescape_string(): didn't null terminate string.
+
+    db/
+        db_base.C
+
