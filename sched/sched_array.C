@@ -180,7 +180,8 @@ void scan_work_array(
         wu_result.state = WR_STATE_EMPTY;
 
         // reread result from DB, make sure it's still unsent
-        // TODO: from here to update() should be a transaction
+        // TODO: from here to add_result_to_reply()
+        // (which updates the DB record) should be a transaction
         //
         retval = result.lookup_id(result.id);
         if (retval) {
@@ -205,13 +206,18 @@ void scan_work_array(
             goto done;
         }
 
-        // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
-        //
-
         retval = add_result_to_reply(
             result, wu, sreq, reply, platform, app, avp
         );
-        if (!retval) goto done;
+
+        // add_result_to_reply() fails only in fairly pathological cases -
+        // e.g. we couldn't update the DB record or modify XML fields.
+        // If this happens, don't replace the record in the array
+        // (we can't anyway, since we marked the entry as "empty").
+        // The feeder will eventually pick it up again,
+        // and hopefully the problem won't happen twice.
+        //
+        goto done;
 
 dont_send:
         // here we couldn't send the result for some reason --

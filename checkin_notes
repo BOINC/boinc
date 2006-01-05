@@ -51,3 +51,14 @@ David  4 Jan 2006
         handle_request.C
     tools/
         backend_lib.C
+
+David  4 Jan 2006
+    - scheduler: scan_work_array(): if add_result_to_reply() fails, do NOT
+        reinsert the entry in the array by resetting the "present" flag.
+        We previously cleared this flag,
+        so the array entry may have been refilled by the feeder,
+        and it might be in the CHECKED_OUT state.
+        (from Paul Buck)
+
+    sched/
+        sched_array.C

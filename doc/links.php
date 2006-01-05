@@ -77,6 +77,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://theclangers.net/", "The Clangers"),
     site("http://www.free-dc.org/", "Free-DC"),
     site("http://forums.anandtech.com/categories.aspx?catid=39&entercat=y", "TeAm Anandtech"),
     site("http://www.boinc-australia.net", "BOINC@Australia"),
