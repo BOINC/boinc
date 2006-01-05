@@ -362,11 +362,13 @@ void escape_string(char* field, int len) {
 // (len not used because this doesn't expand the string)
 //
 void unescape_string(char* p, int /*len*/) {
+    char* q = p;
     while (*p) {
         if (*p == '\\') {
-            strcpy(p, p+1);
+            p++;
         }
-        p++;
+        if (!*p) break;
+        *q++ = *p++;
     }
 }
 

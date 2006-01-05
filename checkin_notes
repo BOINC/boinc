@@ -68,3 +68,8 @@ Bruce 5 Jan 2006
     db/
         db_base.C
 
+David  4 Jan 2006
+    - fixed inefficient unescape_string()
+
+    db/
+        db_base.C
