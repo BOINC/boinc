@@ -80,3 +80,20 @@ Bruce 5 Jan 2006
     db/
         db_base.C
 
+Bruce 6 Jan 2006
+    - Nasty bug in API lib.  See checkin_nodes_2004 December 22. 
+      Functions meant to be used from within C shoud never be
+      declared bool!
+
+      Fix: change boinc_is_standalone() to return int not bool.
+
+      Note: some API functions still return bools, but since E@H
+      doesn't use them and I am afraid of doing damage, I have
+      left them alone.
+
+    api/
+        boinc_api.C
+        boinc_api.h
+        graphics_impl.h
+        graphics_impl_lib.C
+

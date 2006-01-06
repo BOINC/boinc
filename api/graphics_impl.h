@@ -27,7 +27,7 @@ typedef int (*BIOG_FUNC_PTR)(BOINC_OPTIONS&);
 //
 struct BOINC_MAIN_STATE {
     BIOG_FUNC_PTR boinc_init_options_general_hook;
-    bool (*boinc_is_standalone_hook)();
+    int (*boinc_is_standalone_hook)();
     int (*boinc_get_init_data_hook)(APP_INIT_DATA&);
     int (*set_worker_timer_hook)();
     APP_CLIENT_SHM** app_client_shmp;

@@ -90,7 +90,8 @@ extern int boinc_network_poll();
 extern void boinc_network_done();
 
 // we can use those in ANSI-C with a suitable define for 'bool'
-extern bool boinc_is_standalone(void);
+// THIS IS DANGEROUS, but since E@H doesn't use this I'll leave
+// it as is -- Bruce
 extern bool boinc_receive_trickle_down(char* buf, int len);
 
 #ifdef __APPLE__
@@ -107,7 +108,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #include <string>
 
 #include "app_ipc.h"
-
+extern int boinc_is_standalone(void);
 extern int boinc_init_options(BOINC_OPTIONS&);
 extern int boinc_get_status(BOINC_STATUS&);
 extern int boinc_resolve_filename_s(const char*, std::string&);

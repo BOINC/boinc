@@ -404,8 +404,9 @@ void boinc_exit(int status) {
 #endif
 }
 
-bool boinc_is_standalone() {
-    return standalone;
+int boinc_is_standalone() {
+    if (standalone) return 1;
+    return 0;
 }
 
 
