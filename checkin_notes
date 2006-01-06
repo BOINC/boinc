@@ -135,3 +135,16 @@ David  6 Jan 2006
 
     sched/
         feeder.C
+
+David  6 Jan 2006
+    - Tweak the account manager system to support "farm managers"
+        that use GUI RPC to control clients.
+        The farm manager needs the GUI RPC port and password of each client.
+        Add an optional <send_gui_rpc_info/> element to the
+        acct_mgr_url.xml file,
+        which causes the GUI RPC port and password to be included
+        in account manager RPC requests.
+        (From James Drews)
+
+    client/
+        acct_mgr.C,h

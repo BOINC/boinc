@@ -40,6 +40,9 @@ struct ACCT_MGR_INFO {
         // md5 of password.lowercase(login_name)
     char signing_key[MAX_KEY_LEN];
     double next_rpc_time;
+    bool send_gui_rpc_info;
+        // whether to include GUI RPC port and password hash
+        // in AM RPCs (used for "farm management")
 
     ACCT_MGR_INFO();
     int parse_url(MIOFILE&);

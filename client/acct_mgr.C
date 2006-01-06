@@ -44,7 +44,8 @@ int ACCT_MGR_OP::do_rpc(
 ) {
     int retval;
     unsigned int i;
-    char buf[256];
+    char buf[256], password[256];
+    FILE *pwdf;
 
     strcpy(buf, url.c_str());
 
@@ -85,6 +86,29 @@ int ACCT_MGR_OP::do_rpc(
         gstate.core_client_release,
         run_mode_name[gstate.user_run_request]
     );
+    if (gstate.acct_mgr_info.send_gui_rpc_info) {
+        // send GUI RPC port and password hash.
+        // User must enable this by hand
+        // this is for the "farm" account manager so it
+        // can know where to send gui rpc requests to
+        // without having to configure each host
+        //
+        if (gstate.cmdline_gui_rpc_port) {
+            fprintf(f,"   <gui_rpc_port>%d</gui_rpc_port>\n", gstate.cmdline_gui_rpc_port);
+        } else {
+            fprintf(f,"   <gui_rpc_port>%d</gui_rpc_port>\n", GUI_RPC_PORT);
+        }
+        if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
+            strcpy(password, "");
+            pwdf = fopen(GUI_RPC_PASSWD_FILE, "r");
+            if (pwdf) {
+                fgets(password, 256, pwdf);
+                strip_whitespace(password);
+                fclose(pwdf);
+            }
+            fprintf(f,"   <gui_rpc_password>%s</gui_rpc_password>\n", password);
+        }
+    }
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->attached_via_acct_mgr) {
@@ -278,6 +302,7 @@ int ACCT_MGR_INFO::write_info() {
                 acct_mgr_name,
                 acct_mgr_url
             );
+            if (send_gui_rpc_info) fprintf(p,"   <send_gui_rpc_info/>\n");
             if (strlen(signing_key)) {
                 fprintf(p, 
                     "    <signing_key>\n%s</signing_key>\n",
@@ -318,6 +343,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(password_hash, "");
     strcpy(signing_key, "");
     next_rpc_time = 0;
+    send_gui_rpc_info = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -338,6 +364,9 @@ int ACCT_MGR_INFO::init() {
         if (match_tag(buf, "</acct_mgr>")) break;
         else if (parse_str(buf, "<name>", acct_mgr_name, 256)) continue;
         else if (parse_str(buf, "<url>", acct_mgr_url, 256)) continue;
+        else if (match_tag(buf, "<send_gui_rpc_info/>")) {
+            send_gui_rpc_info = true;
+        }
         else if (match_tag(buf, "<signing_key>")) {
             retval = copy_element_contents(
                 p,
