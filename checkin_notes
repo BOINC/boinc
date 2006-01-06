@@ -126,3 +126,12 @@ David  6 Jan 2006
 
     client/
         net_stats.C
+
+David  6 Jan 2006
+    - feeder: exit on database errors.
+        This is a workaround for a problem where the
+        feeder loses its DB connection after 10-20 hours of idleness.
+        With this change, the feeder will exit, and will be restarted by cron.
+
+    sched/
+        feeder.C

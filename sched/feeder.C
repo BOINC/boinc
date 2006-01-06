@@ -92,6 +92,7 @@
 
 #include "boinc_db.h"
 #include "shmem.h"
+#include "error_numbers.h"
 #include "synch.h"
 #include "util.h"
 #include "sched_config.h"
@@ -135,6 +136,7 @@ double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
 
 void cleanup_shmem() {
+    ssp->ready = false;
     detach_shmem((void*)ssp);
     destroy_shmem(config.shmem_key);
 }
@@ -234,6 +236,12 @@ static void scan_work_array(
         case WR_STATE_EMPTY:
             retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause, all_apps);
             if (retval) {
+                if (retval != ERR_DB_NOT_FOUND) {
+                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                        "Database error %d - exiting\n", retval
+                    );
+                    exit(retval);
+                }
 
                 // if we already restarted the enum on this array scan,
                 // there's no point in doing it again.
@@ -253,6 +261,12 @@ static void scan_work_array(
                     "restarting enumeration\n"
                 );
                 if (retval) {
+                    if (retval != ERR_DB_NOT_FOUND) {
+                        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                            "Database error %d - exiting\n", retval
+                        );
+                        exit(retval);
+                    }
                     log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                         "enumeration restart returned nothing\n"
                     );
@@ -446,9 +460,13 @@ int main(int argc, char** argv) {
     atexit(cleanup_shmem);
     install_stop_signal_handler();
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "boinc_db.open: %d; %s\n", retval, boinc_db.error_string());
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
+        );
         exit(1);
     }
     ssp->scan_tables();
