@@ -780,7 +780,7 @@ int boinc_fraction_done(double x) {
     return 0;
 }
 
-bool boinc_receive_trickle_down(char* buf, int len) {
+int boinc_receive_trickle_down(char* buf, int len) {
     std::string filename;
     char path[256];
 

@@ -148,3 +148,15 @@ David  6 Jan 2006
 
     client/
         acct_mgr.C,h
+
+David  6 Jan 2006
+    - Change "bool" to "int" in the BOINC API.
+        C and C++ compilers differ in their allocation for bool,
+        making it difficult for C applications
+        (which must be compiled with particular compilers)
+        to use the BOINC API.
+        No such problem for int.
+        (from Bruce Allen)
+
+    api/
+        boinc_api.C,h

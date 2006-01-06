@@ -27,13 +27,13 @@ Each flag must be set in either the main or worker programs, but not both.
 
 <pre>
 struct BOINC_OPTIONS {
-	bool main_program;
-	bool check_heartbeat;
-	bool handle_trickle_ups;
-	bool handle_trickle_downs;
-	bool handle_process_control;
-	bool handle send_status_msgs;
-	bool direct_process_action;
+	int main_program;
+	int check_heartbeat;
+	int handle_trickle_ups;
+	int handle_trickle_downs;
+	int handle_process_control;
+	int handle send_status_msgs;
+	int direct_process_action;
 };
 
 int boinc_init_options(BOINC_OPTIONS&);

@@ -20,17 +20,6 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
-// to allow prototypes using 'bool' in ANSI-C
-//
-#if (!defined __cplusplus) && (!defined bool)
-#if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
-#define bool char
-#else
-// WARNING: INCORRECT.  SEE checkin_notes_2004 Decemmber 22
-#define bool int
-#endif // defined(_MSC_VER) && (_MSC_VER > 1020)
-#endif // (!defined __cplusplus) && (!defined bool)
-
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #endif
@@ -41,21 +30,21 @@
 extern "C" {
 #endif
 struct BOINC_OPTIONS {
-    bool main_program;
+    int main_program;
         // this is the main program, so
         // - lock a lock file in the slot directory
         // - write finish file on successful boinc_finish()
-    bool check_heartbeat;
+    int check_heartbeat;
         // action is determined by direct_process_action (see below)
-    bool handle_trickle_ups;
+    int handle_trickle_ups;
         // this process is allowed to call boinc_send_trickle_up()
-    bool handle_trickle_downs;
+    int handle_trickle_downs;
         // this process is allowed to call boinc_receive_trickle_down()
-    bool handle_process_control;
+    int handle_process_control;
         // action is determined by direct_process_action (see below)
-    bool send_status_msgs;
+    int send_status_msgs;
         // send CPU time / fraction done msgs
-    bool direct_process_action;
+    int direct_process_action;
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
@@ -63,10 +52,10 @@ struct BOINC_OPTIONS {
 };
 
 struct BOINC_STATUS {
-    bool no_heartbeat;
-    bool suspended;
-    bool quit_request;
-    bool reread_init_data_file;
+    int no_heartbeat;
+    int suspended;
+    int quit_request;
+    int reread_init_data_file;
 };
 
 extern int boinc_init(void);
@@ -90,11 +79,9 @@ extern void boinc_need_network();
 extern int boinc_network_poll();
 extern void boinc_network_done();
 extern int boinc_is_standalone(void);
-
-// we can use those in ANSI-C with a suitable define for 'bool'
-// THIS IS DANGEROUS, but since E@H doesn't use this I'll leave
-// it as is -- Bruce
-extern bool boinc_receive_trickle_down(char* buf, int len);
+extern void boinc_ops_per_cpu_sec(double fp, double integer);
+extern void boinc_ops_cumulative(double fp, double integer);
+extern int boinc_receive_trickle_down(char* buf, int len);
 
 #ifdef __APPLE__
 extern int setMacPList(void);
@@ -117,8 +104,6 @@ extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
-extern void boinc_ops_per_cpu_sec(double fp, double integer);
-extern void boinc_ops_cumulative(double fp, double integer);
 
 /////////// API ENDS HERE
 

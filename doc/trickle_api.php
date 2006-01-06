@@ -11,10 +11,10 @@ sends a trickle message of the given variety.
 Returns zero if success.
 <p>
 <pre>
-<code>bool boinc_receive_trickle_down(char* buf, int len)</code>
+<code>int boinc_receive_trickle_down(char* buf, int len)</code>
 </pre>
 receives a trickle message.
-Returns true if there was a message.
+Returns true (nonzero) if there was a message.
 Messages are delivered in order.
 
 <h3>API (server)</h3>
