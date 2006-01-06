@@ -64,7 +64,7 @@ void NET_INFO::update(double dt, double nb, bool active) {
 }
 
 double NET_INFO::throughput() {
-    double x, tp, new_tp;
+    double x, tp, new_tp=0;
     if (starting_throughput > 0) {
         if (delta_t > 0) {
             x = exp(-delta_t*EXP_DECAY_RATE);
@@ -75,6 +75,7 @@ double NET_INFO::throughput() {
         }
     } else if (delta_t > 0) {
         new_tp = delta_nbytes/delta_t;
+    } else {
     }
 #if 0
     msg_printf(NULL, MSG_ERROR, "start %f delta_t %f delta_nb %f new_tp %f",

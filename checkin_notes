@@ -120,3 +120,9 @@ Rom    6 Jan 2006
 Rom    6 Jan 2006 (HEAD)
     - Tag for 5.3.8 release, all platforms
       boinc_core_release_5_3_8
+
+David  6 Jan 2006
+    - fix unitialized var
+
+    client/
+        net_stats.C
