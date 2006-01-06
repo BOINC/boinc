@@ -138,7 +138,7 @@ void CAccountInfoPage::CreateControls()
         itemFlexGridSizer61->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     } else {
         m_AccountManagerInformation = new wxStaticText;
-        m_AccountManagerInformation->Create( itemWizardPage56, wxID_STATIC, _("Please provide your email address and password you used on\nthe website so that your projects and preferences can be retrieved."), wxDefaultPosition, wxDefaultSize, 0 );
+        m_AccountManagerInformation->Create( itemWizardPage56, wxID_STATIC, _("Please provide the email address and password you used on\nthe website so that your projects and preferences can be retrieved."), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer57->Add(m_AccountManagerInformation, 0, wxALIGN_LEFT|wxALL, 5);
 
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
@@ -267,8 +267,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
         }
     }
 
-    if (m_AccountEmailAddressCtrl) m_AccountEmailAddressCtrl->SetFocus();
-
     if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
         if (!IS_ACCOUNTMANAGERWIZARD()) {
             m_AccountCreateCtrl->SetValue(false);
@@ -283,7 +281,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
         if (m_AccountManagerInformation) {
             m_AccountManagerInformation->SetLabel(
-                _("Please provide your username and password you used on\n"
+                _("Please provide the username and password you used on\n"
                 "the website so that your projects and preferences can be retrieved.")
             );
         }
@@ -293,7 +291,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
     } else {
         if (m_AccountManagerInformation) {
             m_AccountManagerInformation->SetLabel(
-                _("Please provide your email address and password you used on\n"
+                _("Please provide the email address and password you used on\n"
                 "the website so that your projects and preferences can be retrieved.")
             );
         }
@@ -303,6 +301,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
     }
  
     Fit();
+
+    if (m_AccountEmailAddressCtrl) m_AccountEmailAddressCtrl->SetFocus();
 }
   
 /*!

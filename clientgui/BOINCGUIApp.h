@@ -46,6 +46,7 @@ private:
     wxString    m_strProjectName;
     wxBitmap    m_bitmapAPWizardLogo;
     wxBitmap    m_bitmapAMWizardLogo;
+    wxString    m_strAMWizardAttachMessage;
 
 public:
     bool        IsBranded() { return m_bIsBranded; }
@@ -57,6 +58,7 @@ public:
     wxString    GetProjectName() { return m_strProjectName; }
     wxBitmap*   GetAPWizardLogo() { return &m_bitmapAPWizardLogo; }
     wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }
+    wxString    GetAMWizardSuccessMessage() { return m_strAMWizardAttachMessage; }
 
     bool        OnInit( wxConfigBase* pConfig );
 };

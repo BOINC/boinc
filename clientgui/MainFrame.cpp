@@ -1405,7 +1405,13 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         pDoc->rpc.acct_mgr_info(ami);
         if (ami.acct_mgr_url.size()) {
             pAMWizard = new CWizardAccountManager(this);
-            pAMWizard->Run();
+            if (pAMWizard->Run()) {
+                // If successful, hide the main window
+                Hide();
+            } else {
+                // If failure, display the messages tab
+                m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+            }
         } else {
             pAPWizard = new CWizardAttachProject(this);
             pDoc->rpc.get_project_init_status(pis);

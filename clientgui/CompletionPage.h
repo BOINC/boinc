@@ -77,6 +77,9 @@ public:
     static bool ShowToolTips();
 
 ////@begin CCompletionPage member variables
+    wxStaticText* m_CompletionTitle;
+    wxStaticText* m_CompletionWelcome;
+    wxStaticText* m_CompletionBrandedMessage;
     wxStaticText* m_CompletionMessage;
 ////@end CCompletionPage member variables
 };

@@ -129,7 +129,7 @@ void CAccountManagerProcessingPage::CreateControls()
     itemWizardPage51->SetSizer(itemBoxSizer52);
 
     wxStaticText* itemStaticText53 = new wxStaticText;
-    itemStaticText53->Create( itemWizardPage51, wxID_STATIC, _("Communicating with account manager\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText53->Create( itemWizardPage51, wxID_STATIC, _("Communicating with website\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText53->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer52->Add(itemStaticText53, 0, wxALIGN_LEFT|wxALL, 5);
 

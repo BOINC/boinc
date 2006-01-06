@@ -83,6 +83,9 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strProjectName = wxT("GridRepublic");
             m_bitmapAPWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
             m_bitmapAMWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
+            m_strAMWizardAttachMessage = 
+                wxT("Together we are building the most powerful computer in the world;\n"
+                    "Together anything is possible!");
             break;
         default:
             // Running in native mode without any branding
@@ -94,6 +97,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strProjectName = wxT("BOINC");
             m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
             m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_strAMWizardAttachMessage = wxEmptyString;
             break;
     }
 
@@ -223,7 +227,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Setup the branding scheme
     m_pBranding = new CBrandingScheme;
-    wxASSERT(m_pLocale);
+    wxASSERT(m_pBranding);
 
     m_pBranding->OnInit(m_pConfig);
 
@@ -327,6 +331,10 @@ int CBOINCGUIApp::OnExit() {
     if (m_pDocument) {
         m_pDocument->OnExit();
         delete m_pDocument;
+    }
+
+    if (m_pBranding) {
+        delete m_pBranding;
     }
 
     if (m_pLocale) {

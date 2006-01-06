@@ -74,6 +74,9 @@ CCompletionPage::CCompletionPage( CBOINCBaseWizard* parent )
 bool CCompletionPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionPage member initialisation
+    m_CompletionTitle = NULL;
+    m_CompletionWelcome = NULL;
+    m_CompletionBrandedMessage = NULL;
     m_CompletionMessage = NULL;
 ////@end CCompletionPage member initialisation
  
@@ -100,34 +103,76 @@ void CCompletionPage::CreateControls()
     wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage79->SetSizer(itemBoxSizer80);
 
-    wxStaticText* itemStaticText81 = new wxStaticText;
-    wxStaticText* itemStaticText82 = new wxStaticText;
-    m_CompletionMessage = new wxStaticText;
     if (IS_ATTACHTOPROJECTWIZARD()) {
-        itemStaticText81->Create( itemWizardPage79, wxID_STATIC, _("Attached to project"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText81->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer80->Add(itemStaticText81, 0, wxALIGN_LEFT|wxALL, 5);
+        m_CompletionTitle = new wxStaticText;
+        m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, _("Attached to project"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
+        itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
 
-        itemStaticText82->Create( itemWizardPage79, wxID_STATIC, _("You are now successfully attached to this project."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer80->Add(itemStaticText82, 0, wxALIGN_LEFT|wxALL, 5);
+        m_CompletionBrandedMessage = new wxStaticText;
+        m_CompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, _("You are now successfully attached to this project."), wxDefaultPosition, wxDefaultSize, 0 );
+        itemBoxSizer80->Add(m_CompletionBrandedMessage, 0, wxALIGN_LEFT|wxALL, 5);
 
         itemBoxSizer80->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
+        m_CompletionMessage = new wxStaticText;
         m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
     if (IS_ACCOUNTMANAGERWIZARD()) {
-        itemStaticText81->Create( itemWizardPage79, wxID_STATIC, _("Attached to account manager"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText81->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer80->Add(itemStaticText81, 0, wxALIGN_LEFT|wxALL, 5);
+        wxString strTitle;
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            // %s is the project name
+            //    i.e. 'GridRepublic'
+            strTitle.Printf(
+                _("Attached to %s"),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
+        } else {
+            strTitle = _("Attached to account manager");
+        }
 
-        itemStaticText82->Create( itemWizardPage79, wxID_STATIC, _("You are now successfully attached to this account manager."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer80->Add(itemStaticText82, 0, wxALIGN_LEFT|wxALL, 5);
+        m_CompletionTitle = new wxStaticText;
+        m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, strTitle, wxDefaultPosition, wxDefaultSize, 0 );
+        m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
+        itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
 
-        itemBoxSizer80->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            // %s is the project name
+            //    i.e. 'GridRepublic'
+            wxString strWelcome;
+            strWelcome.Printf(
+                _("Welcome to %s!"),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
+            m_CompletionWelcome = new wxStaticText;
+            m_CompletionWelcome->Create( itemWizardPage79, wxID_STATIC, strWelcome, wxDefaultPosition, wxDefaultSize, 0 );
+            m_CompletionWelcome->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
+            itemBoxSizer80->Add(m_CompletionWelcome, 0, wxALIGN_LEFT|wxALL, 5);
+        }
 
-        m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
+        wxString strBrandedMessage;
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            // 1st %s is the project name
+            //    i.e. 'GridRepublic'
+            // 2nd %s is the account manager success message
+            strBrandedMessage.Printf(
+                _("You are now successfully attached to the %s system.\n"
+                  "%s"),
+                wxGetApp().GetBrand()->GetProjectName().c_str(),
+                wxGetApp().GetBrand()->GetAMWizardSuccessMessage().c_str()
+            );
+        } else {
+            strBrandedMessage = _("You are now successfully attached to this account manager.");
+        }
+
+        m_CompletionBrandedMessage = new wxStaticText;
+        m_CompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, strBrandedMessage, wxDefaultPosition, wxDefaultSize, 0 );
+        itemBoxSizer80->Add(m_CompletionBrandedMessage, 0, wxALIGN_LEFT|wxALL, 5);
+
+        m_CompletionMessage = new wxStaticText;
+        m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("Click Finish to close."), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
     }
 

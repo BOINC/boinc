@@ -97,3 +97,22 @@ Bruce 6 Jan 2006
         graphics_impl.h
         graphics_impl_lib.C
 
+Rom    6 Jan 2006
+    - Branding update for GridRepublic
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCGUIApp.rc
+        CompletionPage.cpp, .h
+        MainFrame.cpp
+        resource.h
+    clientgui/res/
+        gridrepublic2.ico (Added)
+    win_build/installerv2/
+        GridRepublic.ism
+    win_build/installerv2/redist/GridRepublic/
+        acct_mgr_url.xml
+        GR_splash.bmp
