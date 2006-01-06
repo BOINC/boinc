@@ -26,6 +26,7 @@
 #if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
 #define bool char
 #else
+// WARNING: INCORRECT.  SEE checkin_notes_2004 Decemmber 22
 #define bool int
 #endif // defined(_MSC_VER) && (_MSC_VER > 1020)
 #endif // (!defined __cplusplus) && (!defined bool)
@@ -88,6 +89,7 @@ extern void boinc_using_cpu();
 extern void boinc_need_network();
 extern int boinc_network_poll();
 extern void boinc_network_done();
+extern int boinc_is_standalone(void);
 
 // we can use those in ANSI-C with a suitable define for 'bool'
 // THIS IS DANGEROUS, but since E@H doesn't use this I'll leave
@@ -108,7 +110,6 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #include <string>
 
 #include "app_ipc.h"
-extern int boinc_is_standalone(void);
 extern int boinc_init_options(BOINC_OPTIONS&);
 extern int boinc_get_status(BOINC_STATUS&);
 extern int boinc_resolve_filename_s(const char*, std::string&);
