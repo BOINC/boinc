@@ -82,7 +82,7 @@ Bruce 5 Jan 2006
 
 Bruce 6 Jan 2006
     - Nasty bug in API lib.  See checkin_nodes_2004 December 22. 
-      Functions meant to be used from within C shoud never be
+      Functions meant to be used from within C should never be
       declared bool!
 
       Fix: change boinc_is_standalone() to return int not bool.
