@@ -301,6 +301,15 @@ static int possibly_send_result(
     retval = get_app_version(
         wu, app, avp, sreq, reply, platform, ss
     );
+
+#ifdef EINSTEIN_AT_HOME
+    if (retval==ERR_NO_APP_VERSION && !strcmp("anonymous", platform.name)) {
+        USER_MESSAGE um("You must remove the app_info.xml file to get more work for Einstein@Home.", "high");
+        reply.insert_message(um);
+        reply.set_delay(4*3600);
+    }
+#endif
+
     if (retval) return ERR_NO_APP_VERSION;
 
     return add_result_to_reply(result, wu, sreq, reply, platform, app, avp);
@@ -1022,11 +1031,4 @@ void send_work_locality(
 
 // (8) If addtional results are needed, return to step 4 above.
 
-
-
-
-
-
-
 const char *BOINC_RCSID_238cc1aec4 = "$Id$";
-
