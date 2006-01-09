@@ -20,7 +20,7 @@
 // read "in", convert to UC, write to "out"
 // command line options:
 // -run_slow: sleep 1 second after each character, useful for debugging
-// -cpu_time: chew up some CPU cycles after each character,
+// -cpu_time N: use about N CPU seconds
 // -signal:   raise SIGHUP signal (for testing signal handler)
 // -exit:     exit with status -10 (for testing exit handler)
 //
@@ -67,7 +67,7 @@ double xDelta=0.03, yDelta=0.07;
 bool run_slow;
 bool raise_signal;
 bool random_exit;
-bool cpu_time;
+double cpu_time;
 APP_INIT_DATA uc_aid;
 
 int do_checkpoint(MFILE& mf, int nchars) {
@@ -91,7 +91,6 @@ int do_checkpoint(MFILE& mf, int nchars) {
 }
 
 static void use_some_cpu() {
-#if 1
     double j = 3.14159;
     int i, n = 0;
     for (i=0; i<20000000; i++) {
@@ -99,25 +98,7 @@ static void use_some_cpu() {
         j *= n+j-3.14159;
         j /= (float)n;
     }
-#endif
-    boinc_sleep(5.0);
 }
-
-//#define TEST_INT_UPLOAD
-
-#ifdef TEST_INT_UPLOAD
-#define UPLOAD_FILE_NAME "int_upload"
-
-int write_upload_file() {
-    std::string physname;
-    int retval = boinc_resolve_filename_s(UPLOAD_FILE_NAME, physname);
-    if (retval) return retval;
-    FILE* f = boinc_fopen(physname.c_str(), "w");
-    fprintf(f, "blah blah\nfoobar\n");
-    fclose(f);
-    return 0;
-}
-#endif
 
 #ifdef _WIN32
 
@@ -134,43 +115,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 }
 #endif
 
-int main(int argc, char **argv) {
+void worker() {
     int c, nchars = 0, retval, i;
     double fsize;
     char resolved_name[512];
     MFILE out;
     FILE* state, *in;
 
-    int flags =
-        BOINC_DIAG_DUMPCALLSTACKENABLED |
-        BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_REDIRECTSTDERR;
-
-    boinc_init_diagnostics(flags);
-
-    retval = boinc_init();
-    if (retval) exit(retval);
-
-    // NOTE: if you change output here, remember to change the output that
-    // test_uc.py pattern-matches against.
-
-    for (i=0; i<argc; i++) {
-        fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
-        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
-        if (!strcmp(argv[i], "-cpu_time")) cpu_time = true;
-        if (!strcmp(argv[i], "-signal")) raise_signal = true;
-        if (!strcmp(argv[i], "-exit")) random_exit = true;
-    }
-
-#ifdef BOINC_APP_GRAPHICS
-    strcpy(display_buf, "(none)\0");
-    retval = boinc_init_opengl();
-    if (retval) exit(retval);
-#endif
-
     boinc_get_init_data(uc_aid);
-
-    fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
 
     boinc_resolve_filename(INPUT_FILENAME, resolved_name, sizeof(resolved_name));
     in = boinc_fopen(resolved_name, "r");
@@ -189,7 +141,6 @@ int main(int argc, char **argv) {
     state = boinc_fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
-        printf("nchars %d\n", nchars);
         fseek(in, nchars, SEEK_SET);
         boinc_resolve_filename(OUTPUT_FILENAME, resolved_name, sizeof(resolved_name));
         retval = out.open(resolved_name, "a");
@@ -213,23 +164,6 @@ int main(int argc, char **argv) {
         c = toupper(c);
         out._putchar(c);
         nchars++;
-
-#ifdef TEST_INT_UPLOAD
-        if (nchars == fsize/2) {
-            string tmpname=UPLOAD_FILE_NAME;
-            retval = write_upload_file();
-            fprintf(stderr, "write_upload_file() %d\n", retval);
-            retval = boinc_upload_file(tmpname);
-            fprintf(stderr, "boinc_upload_file() %d\n", retval);
-        } else if (nchars >= fsize/2) {
-            string tmpname=UPLOAD_FILE_NAME;
-            retval = boinc_upload_status(tmpname);
-            fprintf(stderr, "upload status %d\n", retval);
-        }
-#endif
-        if (cpu_time) {
-            use_some_cpu();
-        }
 
         if (run_slow) {
             boinc_sleep(1.);
@@ -263,15 +197,52 @@ int main(int argc, char **argv) {
         fprintf(stderr, "APP: upper_case flush failed %d\n", retval);
         exit(1);
     }
+    if (cpu_time) {
+        double start = dtime();
+        while (dtime() < start + cpu_time) {
+            use_some_cpu();
+        }
+    }
+
     if (random_exit) exit(-10);
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", nchars);
 
-#ifdef BOINC_APP_GRAPHICS
-    boinc_finish_opengl();
-#endif
     boinc_finish(0);
+}
 
-    return 0;
+int main(int argc, char **argv) {
+    int i, retval;
+
+    boinc_init_diagnostics(
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_REDIRECTSTDERR
+    );
+
+    // NOTE: if you change output here, remember to change the output that
+    // test_uc.py pattern-matches against.
+
+    for (i=0; i<argc; i++) {
+        fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
+        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
+        if (!strcmp(argv[i], "-cpu_time")) {
+            cpu_time = atof(argv[++i]);
+        }
+        if (!strcmp(argv[i], "-signal")) raise_signal = true;
+        if (!strcmp(argv[i], "-exit")) random_exit = true;
+    }
+
+    fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
+
+#ifdef BOINC_APP_GRAPHICS
+    strcpy(display_buf, "(none)\0");
+    retval = boinc_init_graphics(worker);
+    if (retval) exit(retval);
+#else
+    retval = boinc_init();
+    if (retval) exit(retval);
+    worker();
+#endif
 }
 
 #ifdef BOINC_APP_GRAPHICS

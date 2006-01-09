@@ -52,7 +52,7 @@ Developing a BOINC application
 <ul>
 <li><a href=api.php>Basic API</a>
 <li><a href=diagnostics.php>Diagnostics API</a>
-<li><a href=graphics.php>Ggraphics API</a>
+<li><a href=graphics.php>Graphics API</a>
 <li><a href=trickle_api.php>Trickle messages API</a>
 <li><a href=int_upload.php>Intermediate upload API</a>
 </ul>

@@ -252,3 +252,9 @@ Bruce  9 Jan 2006
         boinc_zip.h
         boinc_zip.cpp
 
+David  9 Jan 2006
+    - changed upper_case so that the -cpu_time option
+        takes an arg: the # of CPU seconds to use.
+
+    apps/
+        upper_case.C
