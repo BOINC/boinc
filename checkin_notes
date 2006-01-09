@@ -186,7 +186,7 @@ Bruce 9 Jan 2006
     - fix bug on page that shows profile for a given user.  The total
       number of posts made by a given user is not shown correctly.
 
-      The PHP code assumes that this numberis given by user.posts.  However
+      The PHP code assumes that this number is given by user.posts.  However
       in html/inc/db_forum.inc, the value of user.posts is NOT
       incremented each time a user makes a new post (either starting
       a new thread or replying to an existing one).  For the moment, my
