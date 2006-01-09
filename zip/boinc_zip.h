@@ -32,21 +32,7 @@
 #ifdef __cplusplus
 using std::string;
 
-class ZipFileEntry  :public std::string
-{
-public:
-  ZipFileEntry(const std::string strIn, unsigned char ucSort = SORT_NAME | SORT_DESCENDING);
-  ZipFileEntry(const std::string strIn, const struct stat instat, unsigned char ucSort = SORT_NAME | SORT_DESCENDING);
-  ~ZipFileEntry();
-  bool operator< (const ZipFileEntry& other) const; // sorts by filetime 
-
-  struct stat m_statFile; // keep file stats in here
-
-private:
-  unsigned char m_ucSort;
-};
-
-typedef std::vector<ZipFileEntry> ZipFileList;
+typedef std::vector<std::string> ZipFileList;
 
 // forward declarations for boinc_zip functions
 // note it's basically like running zip/unzip, just comprise an argc/argv
@@ -67,8 +53,8 @@ typedef std::vector<ZipFileEntry> ZipFileList;
 bool boinc_filelist(const std::string directory,
                   const std::string pattern,
                   ZipFileList* pList, 
-				  const unsigned char ucSort = SORT_NAME | SORT_DESCENDING,
-				  const bool bClear = true);
+                                  const unsigned char ucSort = SORT_NAME | SORT_DESCENDING,
+                                  const bool bClear = true);
 int boinc_zip(int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn);
 int boinc_zip(int bZipType, const std::string szFileZip, const std::string szFileIn);
 extern "C"
@@ -76,7 +62,4 @@ extern "C"
 extern
 #endif
 int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn);
-
-
-
 

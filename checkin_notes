@@ -240,3 +240,15 @@ Rom    9 Jan 2006 (HEAD)
     - Tag for 5.3.9 release, all platforms
       boinc_core_release_5_3_9
 
+Bruce  9 Jan 2006
+    - Fixes to BOINC zip library from Carl Christensen. Carl says:
+      "I found a problem with boinc_zip; it seems some Linux STL's
+      aren't very nice about classes that are inherited from their
+      objects on multiple use; or huge file lists that we use on CPDN.
+      So I rewrite it to just use "straight" std::string's in a vector.
+      It's fully backwardly compatible and seems to work fine."
+
+    zip/
+        boinc_zip.h
+        boinc_zip.cpp
+
