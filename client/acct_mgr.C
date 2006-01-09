@@ -77,15 +77,23 @@ int ACCT_MGR_OP::do_rpc(
         "   <name>%s</name>\n"
         "   <password_hash>%s</password_hash>\n"
         "   <host_cpid>%s</host_cpid>\n"
+        "   <domain_name>%s</domain_name>\n"
         "   <client_version>%d.%d.%d</client_version>\n"
         "   <run_mode>%s</run_mode>\n",
         name.c_str(), password_hash.c_str(),
         gstate.host_info.host_cpid,
+        gstate.host_info.domain_name,
         gstate.core_client_major_version,
         gstate.core_client_minor_version,
         gstate.core_client_release,
         run_mode_name[gstate.user_run_request]
     );
+    if (strlen(ami.previous_host_cpid)) {
+        fprintf(f,
+            "   <previous_host_cpid>%s</previous_host_cpid>\n",
+            ami.previous_host_cpid
+        );
+    }
     if (gstate.acct_mgr_info.send_gui_rpc_info) {
         // send GUI RPC port and password hash.
         // User must enable this by hand
@@ -176,6 +184,7 @@ int AM_ACCOUNT::parse(FILE* f) {
 
 int ACCT_MGR_OP::parse(FILE* f) {
     char buf[256];
+    string message;
     int retval;
 
     accounts.clear();
@@ -186,6 +195,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
         if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
+        if (parse_str(buf, "<message>", message)) {
+            msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
+            continue;
+        }
         if (match_tag(buf, "<signing_key>")) {
             retval = copy_element_contents(
                 f,
@@ -222,12 +235,18 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             retval = ERR_FOPEN;
         }
     } else if (error_str.size()) {
+        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", error_str.c_str());
         retval = ERR_XML_PARSE;     // ?? what should we use here ??
     } else {
         retval = http_op_retval;
     }
     error_num = retval;
-    if (retval) return;
+    if (retval) {
+        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", boincerror(retval));
+        return;
+    } else {
+        msg_printf(NULL, MSG_INFO, "Account manager contact succeeded");
+    }
 
     // demand a signing key
     //
@@ -281,6 +300,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         }
     }
 
+    strcpy(ami.previous_host_cpid, gstate.host_info.host_cpid);
     if (repeat_sec) {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + repeat_sec;
     } else {
@@ -324,10 +344,12 @@ int ACCT_MGR_INFO::write_info() {
                 "<acct_mgr_login>\n"
                 "    <login>%s</login>\n"
                 "    <password_hash>%s</password_hash>\n"
+                "    <previous_host_cpid>%s</previous_host_cpid>\n"
                 "    <next_rpc_time>%f</next_rpc_time>\n"
                 "</acct_mgr_login>\n",
                 login_name,
                 password_hash,
+                previous_host_cpid,
                 next_rpc_time
             );
             fclose(p);
@@ -342,6 +364,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(login_name, "");
     strcpy(password_hash, "");
     strcpy(signing_key, "");
+    strcpy(previous_host_cpid, "");
     next_rpc_time = 0;
     send_gui_rpc_info = false;
 }
@@ -386,6 +409,7 @@ int ACCT_MGR_INFO::init() {
             if (match_tag(buf, "</acct_mgr_login>")) break;
             else if (parse_str(buf, "<login>", login_name, 256)) continue;
             else if (parse_str(buf, "<password_hash>", password_hash, 256)) continue;
+            else if (parse_str(buf, "<previous_host_cpid>", previous_host_cpid, sizeof(previous_host_cpid))) continue;
             else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
         }
         fclose(p);

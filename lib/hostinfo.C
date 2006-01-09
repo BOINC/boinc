@@ -107,7 +107,8 @@ int HOST_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-// Write the host information, usually to the client state XML file
+// Write the host information, to the client state XML file
+// or in a scheduler request message
 //
 int HOST_INFO::write(MIOFILE& out) {
     out.printf(

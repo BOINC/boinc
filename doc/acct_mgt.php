@@ -195,6 +195,8 @@ list_item("input", html_text("
     <name>John</name>
     <password_hash>xxx</password_hash>
     <host_cpid>b11ddc5f36c9a86ff093c96e6930646a</host_cpid>
+    <previous_host_cpid>b11ddc5f36c9a86ff093c96e6930646a</previous_host_cpid>
+    <domain_name>host.domain</domain_name>
     <client_version>5.3.2</client_version>
     <run_mode>auto</run_mode>
     <project>
@@ -223,6 +225,8 @@ c8b3217e6cdff938ec0454330c70553fbe3d1f0d0184d8c628db2e093121ee98
 0000000000000000000000000000000000000000000000000000000000010001
 .
     </signing_key>
+    [ <message>this is a message</message> ]
+    [ ... ]
     [ <error>MSG</error> ]
     [ <repeat_sec>xxx</repeat_sec> ]
     [ 
@@ -252,8 +256,13 @@ list_item("action",
     <dt>host_cpid
     <dd>
     Identifies the host.
-    To make it comparable with the host CPID in stats files,
-    the value MD5(host_cpid+email_addr) is passed.
+    <dt>previous_host_cpid
+    <dd>
+    The host identified passed in the previous RPC.
+    Host identifiers can change occasionally.
+    This lets the account manager maintain host identity.
+    <dt> domain_name
+    <dd> The host's domain name.
     <dt> run mode
     <dd> The current mode (always/auto/never).
     <dt> gui_rpc_port, gui_rpc_password
@@ -272,6 +281,8 @@ list_item("action",
     <dd>
     The public key used to sign URLs, in an encoded notation.
     Use the BOINC <a href=key_setup.php>crypt_prog</a> program to generate this.
+    <dt> message
+    <dd> A message to be displayed to the user.
     </dl>
     For each account, the following items are returned:
     <dl>

@@ -160,3 +160,18 @@ David  6 Jan 2006
 
     api/
         boinc_api.C,h
+
+David  8 Jan 2006
+    - Account manager additions (from Willy de Zutter)
+        - Include <previous_host_cpid> in AM request.
+            This is the host CPID sent in the previous AM request.
+            It lets the AM track hosts even when their CPIDs change.
+        - Include <domain_name> in AM request
+        - AM replies can include <message> elements.
+            The contents are printed in the Messages tab.
+        - Print message that AM request has succeeded (or failed)
+
+    client/
+        acct_mgr.C,h
+    lib/
+        hostinfo.C

@@ -27,7 +27,7 @@
 #include "gui_http.h"
 #include "client_types.h"
 
-// represents info stored on files
+// represents info stored in acct_mgr_url.xml and acct_mgr_login.xml
 //
 struct ACCT_MGR_INFO {
 	// the following used to be std::string but there
@@ -39,6 +39,8 @@ struct ACCT_MGR_INFO {
     char password_hash[256];
         // md5 of password.lowercase(login_name)
     char signing_key[MAX_KEY_LEN];
+    char previous_host_cpid[64];
+        // the host CPID sent in last RPC
     double next_rpc_time;
     bool send_gui_rpc_info;
         // whether to include GUI RPC port and password hash

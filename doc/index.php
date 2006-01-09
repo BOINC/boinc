@@ -152,7 +152,9 @@ Name:
 include("piecharts/$i.html");
 echo "
 <br>
-<a href=chart_list.php><b>Top 100 multi-project participants</a>
+<a href=chart_list.php><b>Top 100</a> |
+<a href=http://boinc.netsoft-online.com/rankings.php?list=r_p_1_e><b>Single-computer</a> |
+<a href=http://boinc.netsoft-online.com/rankings.php><b>Other lists</a>
 </td></tr></table>
 <table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
 <h2>News</h2>
