@@ -12,6 +12,14 @@ function pending_credit($user) {
     return $foobar->total;
 }
 
+function total_posts($user) {
+    $result = mysql_query("select count(id) as total from post where user=$user->id");
+    $foobar = mysql_fetch_object($result);
+    if (!$foobar) return 0;
+    mysql_free_result($result);
+    return $foobar->total;
+}
+
 function show_credit($user) {
     row2(tr(TOTAL_CREDIT), format_credit($user->total_credit));
     row2(tr(EXPAVG_CREDIT), format_credit($user->expavg_credit));
@@ -39,8 +47,9 @@ function show_user_stats_private($user) {
     row2("Computers on this account", "<a href=hosts_user.php>View computers</a>");
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");
     row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
-    if ($user->posts) {
-        row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$user->posts messages</a>");
+    $tot=total_posts($user);
+    if ($tot) {
+        row2("Message board posts", "<a href=forum_user_posts.php?userid=$user->id>$tot messages</a>");
     }
 }
 
@@ -112,8 +121,9 @@ function show_user_summary_public($user) {
     } else {
         row2("Computers", "hidden");
     }
-    if ($user->posts) {
-        row2("Message board posts", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$user->posts</a>");
+    $tot=total_posts($user);
+    if ($tot) {
+        row2("Message board posts", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot</a>");
     }
 }
 
