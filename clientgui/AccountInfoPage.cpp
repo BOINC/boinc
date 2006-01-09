@@ -76,6 +76,7 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 {
 
 ////@begin CAccountInfoPage member initialisation
+    m_AccountManagerInformation = NULL;
     m_AccountCreateCtrl = NULL;
     m_AccountUseExistingCtrl = NULL;
     m_AccountEmailAddressStaticCtrl = NULL;

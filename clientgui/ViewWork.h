@@ -62,6 +62,8 @@ public:
     void                    OnWorkShowGraphics( wxCommandEvent& event );
     void                    OnWorkAbort( wxCommandEvent& event );
 
+    void                    OnProjectWebsiteClicked( wxEvent& event );
+
 protected:
     std::vector<CWork*>     m_WorkCache;
 

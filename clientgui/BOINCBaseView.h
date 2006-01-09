@@ -31,6 +31,8 @@
 
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
+class PROJECT;
+
 
 class CTaskItem : wxObject {
 public:
@@ -130,7 +132,11 @@ protected:
 
     virtual void            EmptyTasks();
 
+    virtual void            PreUpdateSelection();
     virtual void            UpdateSelection();
+    virtual void            PostUpdateSelection();
+
+    virtual void            UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
 
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();

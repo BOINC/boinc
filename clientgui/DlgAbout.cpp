@@ -79,15 +79,10 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCURLCtrl = NULL;
 ////@end CDlgAbout member initialisation
 
-////@begin CDlgAbout creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
 
     CreateControls();
-    GetSizer()->Fit(this);
-    GetSizer()->SetSizeHints(this);
-    Centre();
-////@end CDlgAbout creation
 
     // Change the various dialog items for the branded manager
     //
@@ -115,6 +110,11 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
             wxGetApp().GetBrand()->GetCompanyWebsite().c_str()
         );
     }
+
+    GetSizer()->Fit(this);
+    GetSizer()->SetSizeHints(this);
+    Centre();
+
     return TRUE;
 }
 
@@ -161,7 +161,7 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2005 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2006 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     m_AboutBOINCSloganCtrl = new wxStaticText;

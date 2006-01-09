@@ -354,13 +354,16 @@ wxInt32 CViewTransfers::UpdateCache(long item, long column, wxString& strNewData
 
 void CViewTransfers::UpdateSelection() {
     CTaskItemGroup* pGroup = m_TaskGroups[0];
+
+    CBOINCBaseView::PreUpdateSelection();
+
     if (m_pListPane->GetSelectedItemCount()) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
 
-    CBOINCBaseView::UpdateSelection();
+    CBOINCBaseView::PostUpdateSelection();
 }
 
 

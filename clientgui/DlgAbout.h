@@ -51,7 +51,7 @@ class wxHyperLink;
 #define SYMBOL_CDLGABOUT_STYLE wxDEFAULT_DIALOG_STYLE
 #define SYMBOL_CDLGABOUT_TITLE _("About BOINC Manager")
 #define SYMBOL_CDLGABOUT_IDNAME ID_DIALOG
-#define SYMBOL_CDLGABOUT_SIZE wxSize(400, 300)
+#define SYMBOL_CDLGABOUT_SIZE wxSize(-1, -1)
 #define SYMBOL_CDLGABOUT_POSITION wxDefaultPosition
 #define ID_ABOUTBOINCLINK 10031
 ////@end control identifiers

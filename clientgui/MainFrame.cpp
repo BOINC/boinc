@@ -1399,6 +1399,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         CWizardAccountManager* pAMWizard = NULL;
         wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
+        bool bCachedCredentials = false;
         ACCT_MGR_INFO ami;
         PROJECT_INIT_STATUS pis;
 
@@ -1417,10 +1418,13 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
             pDoc->rpc.get_project_init_status(pis);
             strName = pis.name.c_str();
             strURL = pis.url.c_str();
-            if (pis.url.length() && pis.has_account_key) {
-                pAPWizard->Run(strName, strURL, true);
+            bCachedCredentials = pis.url.length() && pis.has_account_key;
+            if (pAPWizard->Run(strName, strURL, bCachedCredentials)) {
+                // If successful, display the work tab
+                m_pNotebook->SetSelection(ID_LIST_WORKVIEW - ID_LIST_BASE);
             } else {
-                pAPWizard->Run(strName, strURL, false);
+                // If failure, display the messages tab
+                m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
             }
         }
 

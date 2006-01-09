@@ -87,6 +87,18 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
                 wxT("Together we are building the most powerful computer in the world;\n"
                     "Together anything is possible!");
             break;
+        case 2:
+            // Running as a CPDNBBC client.
+            m_strApplicationName = wxT("Climate Change Experiment Manager");
+            m_iconApplicationIcon = wxIcon(boinc_xpm);
+            m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
+            m_strCompanyName = wxT("ClimatePrediction.net");
+            m_strCompanyWebsite = wxT("http://climateprediction.net/");
+            m_strProjectName = wxT("Climate Change Experiment");
+            m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_strAMWizardAttachMessage = wxEmptyString;
+            break;
         default:
             // Running in native mode without any branding
             m_strApplicationName = wxT("BOINC Manager");

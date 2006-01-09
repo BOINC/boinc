@@ -202,3 +202,41 @@ Bruce 9 Jan 2006
         inc/
             user.inc
 
+Rom    9 Jan 2006 (HEAD)
+    - Initial CPDN/BBC branded client
+    
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_dll.rc
+        boinc_ss.rc
+    clientgui/
+        AccountInfoPage.cpp
+        BOINCBaseView.cpp, .h
+        BOINCGUIApp.cpp
+        BOINCGUIApp.rc
+        DlgAbout.cpp, .h
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp, .h
+    win_build/
+        cpdnbbc.sln (added)
+        cpdnbbc_boinc_cli_curl.vcproj (added)
+        cpdnbbc_boinc_dll.vcproj (added)
+        cpdnbbc_boinc_ss.vcproj (added)
+        cpdnbbc_boinccmd.vcproj (added)
+        cpdnbbc_boincmgr_curl.vcproj (added)
+    win_build/installerv2/
+        CPDNBBC.ism (added)
+    win_build/installerv2/redist/CPDNBBC/
+        Climate Change Experiment.url (added)
+        project_init.xml
+
+Rom    9 Jan 2006 (HEAD)
+    - Tag for 5.3.9 release, all platforms
+      boinc_core_release_5_3_9
+

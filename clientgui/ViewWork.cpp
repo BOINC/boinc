@@ -42,10 +42,14 @@
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
 
+// groups that contain buttons
+#define GRP_TASKS    0
+#define GRP_WEBSITES 1
+
 // buttons in the "tasks" area
-#define BTN_SUSPEND     0
-#define BTN_GRAPHICS    1
-#define BTN_ABORT       2
+#define BTN_GRAPHICS                0
+#define BTN_SUSPEND                 1
+#define BTN_ABORT                   2
 
 
 CWork::CWork() {
@@ -70,6 +74,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
+    EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
 END_EVENT_TABLE ()
@@ -96,16 +101,16 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 	m_TaskGroups.push_back( pGroup );
 
 	pItem = new CTaskItem(
-        _("Suspend"),
-        _("Suspend work for this result."),
-        ID_TASK_WORK_SUSPEND 
+        _("Show graphics"),
+        _("Show application graphics in a window."),
+        ID_TASK_WORK_SHOWGRAPHICS 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("Show graphics"),
-        _("Show application graphics in a window."),
-        ID_TASK_WORK_SHOWGRAPHICS 
+        _("Suspend"),
+        _("Suspend work for this result."),
+        ID_TASK_WORK_SUSPEND 
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -277,6 +282,32 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnProjectWebsiteClicked - Function Begin"));
+
+    CMainFrame*         pFrame = wxGetApp().GetFrame();
+
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
+
+    pFrame->UpdateStatusText(_("Launching browser..."));
+
+    int website_task_index = event.GetId() - ID_TASK_PROJECT_WEB_PROJDEF_MIN;
+    pFrame->ExecuteBrowserLink(
+        m_TaskGroups[1]->m_Tasks[website_task_index]->m_strWebSiteLink
+    );
+
+    pFrame->UpdateStatusText(wxT(""));
+
+    UpdateSelection();
+    pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnProjectWebsiteClicked - Function End"));
+}
+
+
 wxInt32 CViewWork::GetDocCount() {
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
@@ -433,15 +464,21 @@ wxInt32 CViewWork::UpdateCache(long item, long column, wxString& strNewData) {
 
 void CViewWork::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
+    RESULT*             result = NULL;
+    PROJECT*            project = NULL;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
 
+
+    CBOINCBaseView::PreUpdateSelection();
+
+
     pGroup = m_TaskGroups[0];
     if (m_pListPane->GetSelectedItemCount()) {
-        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+        result = pDoc->result(m_pListPane->GetFirstSelected());
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (result) {
             if (result->suspended_via_gui) {
@@ -460,9 +497,15 @@ void CViewWork::UpdateSelection() {
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
+
+        project = pDoc->state.lookup_project(result->project_url);
+        CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, project);
+
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
+
+    CBOINCBaseView::PostUpdateSelection();
 }
 
 
