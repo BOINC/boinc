@@ -175,3 +175,9 @@ David  8 Jan 2006
         acct_mgr.C,h
     lib/
         hostinfo.C
+
+David  9 Jan 2006
+    - user web: show bbcode correctly for UOTD
+
+    html/user/
+        sample_index.php

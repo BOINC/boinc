@@ -7,6 +7,7 @@ require_once("../inc/cache.inc");
 require_once("../inc/uotd.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/translation.inc");
+require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 require_once("../project/project_news.inc");
 
@@ -92,7 +93,7 @@ if (!$stopped) {
         $user = lookup_user_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
         echo user_links($user)."<br>";
-        echo sub_sentence(strip_tags($profile->response1), ' ', 150, true);
+        echo sub_sentence(output_transform(strip_tags($profile->response1)), ' ', 150, true);
         echo "</td></tr>\n";
     }
 }
