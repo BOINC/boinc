@@ -30,10 +30,8 @@
 
 class CMacSystemMenu : public CTaskBarIcon
 {
-    DECLARE_DYNAMIC_CLASS(CMacSystemMenu)
-
 public:
-    CMacSystemMenu();
+    CMacSystemMenu(wxString title, wxIcon* icon);
     ~CMacSystemMenu();
 
     void SetIcon(const char **iconData);

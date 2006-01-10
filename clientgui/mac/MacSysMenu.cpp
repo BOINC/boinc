@@ -42,9 +42,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     { kEventClassApplication, kEventAppShown},
                                     {kEventClassMenu, kEventMenuOpening} };
 
-IMPLEMENT_DYNAMIC_CLASS(CMacSystemMenu, CTaskBarIcon)
-
-CMacSystemMenu::CMacSystemMenu() : CTaskBarIcon() {
+CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon) : CTaskBarIcon(title, icon) {
     CFBundleRef	SysMenuBundle	= NULL;
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;

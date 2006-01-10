@@ -266,7 +266,10 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pTaskBarIcon);
 #endif
 #ifdef __WXMAC__
-    m_pMacSystemMenu = new CMacSystemMenu();
+    m_pMacSystemMenu = new CMacSystemMenu(
+        m_pBranding->GetApplicationName(), 
+        m_pBranding->GetApplicationIcon()
+    );
     wxASSERT(m_pMacSystemMenu);
 #endif
 

@@ -864,7 +864,7 @@
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDB506F90958446900181B75 /* ProxyInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProxyInfoPage.h; path = ../clientgui/ProxyInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
-		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
@@ -2100,7 +2100,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\"=\"i386_Deployment\" ] || [ \"$BUILD_STYLE\"=\"ppc_Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  cp -Rf \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" \"$TARGET_BUILD_DIR/SymbolTables/\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  cp -Rf \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" \"$TARGET_BUILD_DIR/SymbolTables/\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\nfi";
 		};
 		DD8F75CB088D159D001AFCCA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2115,7 +2115,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\"=\"i386_Deployment\" ] || [ \"$BUILD_STYLE\"=\"ppc_Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  cp -Rf \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  cp -Rf \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" \"${BUILT_PRODUCTS_DIR}/SymbolTables/\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2130,7 +2130,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\necho \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\necho \"SRC ROOT = ${SRCROOT}\"\necho \"architecture = ${ARCHS}\"\necho \"native architecture = ${ARCHS}\"\n${BUILT_PRODUCTS_DIR}/SetVersion\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build\"\ncp -fp \"${SRCROOT}/Info.plist\" \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/Installer.build\"\ncp -fp \"${SRCROOT}/Installer-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/Installer.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build\"\ncp -fp \"${SRCROOT}/ScreenSaver-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build\"\ncp -fp \"${SRCROOT}/SystemMenu-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build/Info.plist\"\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n${BUILT_PRODUCTS_DIR}/SetVersion\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build\"\ncp -fp \"${SRCROOT}/Info.plist\" \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/Installer.build\"\ncp -fp \"${SRCROOT}/Installer-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/Installer.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build\"\ncp -fp \"${SRCROOT}/ScreenSaver-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build\"\ncp -fp \"${SRCROOT}/SystemMenu-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build/Info.plist\"\n";
 		};
 		DDCDB29708CEDCE400E4F573 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3693,6 +3693,7 @@
 		DD9E2382091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_VERSION_i386 = 4.0;
 				GCC_VERSION_ppc = 3.3;
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -3702,6 +3703,7 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
 		};

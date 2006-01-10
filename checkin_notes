@@ -258,3 +258,15 @@ David  9 Jan 2006
 
     apps/
         upper_case.C
+
+Charlie 10 Jan 2006
+    -Mac: Fix minor bugs in internal scripts in XCode 2.2 project.  Changes to 
+    BOINC Manager to accomodate Rom's changes for branding.
+      
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            MacSysMenu.cpp, .h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
