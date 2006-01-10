@@ -243,7 +243,46 @@ list_item("action",
     returns a list of hosts associated with the account."
 );
 list_end();
-
+echo "
+<h3>Look up teams</h3>
+";
+list_start();
+list_item("URL",
+    "project/team_lookup.php?team_name=string&format=xml"
+);
+list_item("input",
+    "Substring of team name"
+);
+list_item("output",
+    html_text("<teams>
+    <team>
+        <id>5</id>
+        <name>BOINC@AUSTRALIA</name>
+        <country>Australia</country>
+    </team>
+    <team>
+        <id>9</id>
+        <name>BOINC Synergy</name>
+        <country>International</country>
+    </team>
+    <team>
+        <id>16</id>
+        <name>BOINC.BE</name>
+        <country>Belgium</country>
+    </team>
+    <team>
+        <id>23</id>
+        <name>HispaSeti & BOINC</name>
+        <country>International</country>
+    </team>
+</teams
+")
+);
+list_item("action",
+    "Teams with names matching *string* will be returned.
+    A maximum of 100 teams will be returned."
+);
+list_end();
 
 page_tail();
 ?>

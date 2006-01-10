@@ -60,4 +60,13 @@ echo"</user>
 ";
 }
 
+function show_team_xml($team) {
+    echo "<team>
+    <id>$team->id</id>
+    <name>".htmlspecialchars($team->name)."</name>
+    <country>$team->country</country>
+</team>
+";
+}
+
 ?>

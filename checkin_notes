@@ -277,3 +277,12 @@ David  10 Jan 2006
 
     client/
         gui_rpc_server.C
+
+David  10 Jan 2006
+    - Add XML option for team lookup web interface
+
+    html/
+        inc/
+            xml.inc
+        user/
+            team_lookup.php
