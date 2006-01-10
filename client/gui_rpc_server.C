@@ -328,10 +328,10 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         gr = *iter;
         if (FD_ISSET(gr->sock, &fg.exc_fds)) {
             delete gr;
-            gui_rpcs.erase(iter);
-        } else {
-            iter++;
+            iter = gui_rpcs.erase(iter);
+            continue;
         }
+        iter++;
     }
     iter = gui_rpcs.begin();
     while (iter != gui_rpcs.end()) {
@@ -340,7 +340,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             retval = gr->handle_rpc();
             if (retval) {
                 delete gr;
-                gui_rpcs.erase(iter);
+                iter = gui_rpcs.erase(iter);
                 continue;
             }
         }

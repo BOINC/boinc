@@ -270,3 +270,10 @@ Charlie 10 Jan 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  10 Jan 2006
+    - core client: fix vector erase code in GUI RPC.
+        Thanks to Darrel Holz for finding this.
+
+    client/
+        gui_rpc_server.C

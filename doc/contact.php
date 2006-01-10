@@ -129,6 +129,7 @@ show_name("Jim Harris");
 show_name("Volker Hatzenberger");
 show_name("Ian Hay");
 show_name("Eric Heien");
+show_name("Darrell Holz");
 show_name("Thomas Horsten");
 show_name("Daniel Hsu");
 show_name("Takafumi Kawana");
