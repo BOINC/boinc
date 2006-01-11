@@ -315,3 +315,16 @@ David  11 Jan 2006
 
     sched/
         file_upload_handler.C
+
+David  11 Jan 2006
+    - Core client: add a flow control mechanism for the case where
+        output files are generated faster than they can be uploaded
+        (otherwise we'll fill up the disk).
+        The mechanism: don't start new results for a project
+        that has > 2 uploads in progress.
+        Note: this actually happens with Cunning Plan
+        (5 MB output files, 60 sec CPU) over a DSL line
+
+    client/
+        client_types.h
+        cs_apps.C

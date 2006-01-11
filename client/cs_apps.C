@@ -285,6 +285,10 @@ void CLIENT_STATE::assign_results_to_projects() {
         project = rp->project;
         if (project->next_runnable_result) continue;
 
+        // don't start results if > 2 uploads in progress
+        //
+        if (project->nactive_uploads > 2) continue;
+
         project->next_runnable_result = rp;
     }
 
@@ -554,9 +558,16 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     for (i=0; i<projects.size(); i++) {
         projects[i]->next_runnable_result = NULL;
+        projects[i]->nactive_uploads = 0;
     }
     for (i=0; i<results.size(); i++) {
         results[i]->already_selected = false;
+    }
+    for (i=0; i<file_xfers->file_xfers.size(); i++) {
+        FILE_XFER* fxp = file_xfers->file_xfers[i];
+        if (fxp->is_upload) {
+            fxp->fip->project->nactive_uploads++;
+        }
     }
 
     set_scheduler_modes();

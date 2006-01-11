@@ -274,6 +274,9 @@ public:
         // project in the current scheduling period (secs)
     struct RESULT *next_runnable_result;
         // the next result to run for this project
+    int nactive_uploads;
+        // number of file uploads in progress.
+        // Don't start new results if these exceeds 2.
 
     double work_request;
         // the unit is "normalized CPU seconds",
