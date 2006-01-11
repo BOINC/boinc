@@ -147,33 +147,49 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     struct stat sbuf;
     int pid;
 
-    // open file.  We use raw IO not buffered IO so that we can use reliable
-    // posix file locking. Advisory file locking is not guaranteed reliable when
+    // open file.  Use raw IO not buffered IO so that we can use reliable
+    // posix file locking.
+    // Advisory file locking is not guaranteed reliable when
     // used with stream buffered IO.
-    int fd=open(path, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+    //
+    int fd = open(path, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd<0) {
-        return return_error(ERR_TRANSIENT, "can't open file %s: %s\n", path, strerror(errno));
+        return return_error(ERR_TRANSIENT,
+            "can't open file %s: %s\n", path, strerror(errno)
+        );
     }
 
-    // Put an advisory lock on the file.  This will prevent OTHER instances of file_upload_handler
+    // Put an advisory lock on the file.
+    // This will prevent OTHER instances of file_upload_handler
     // from being able to write to the file.
+    //
     if ((pid=mylockf(fd))) {
         close(fd);
-        return return_error(ERR_TRANSIENT, "can't lock file %s: %s locked by PID=%d\n", path, strerror(errno), pid);
+        return return_error(ERR_TRANSIENT,
+            "can't lock file %s: %s locked by PID=%d\n",
+            path, strerror(errno), pid
+        );
     }
 
     // check that file length corresponds to offset
-   // TODO: use a 64-bit variant
+    // TODO: use a 64-bit variant
+    //
     if (stat(path, &sbuf)) {
         close(fd);
-        return return_error(ERR_TRANSIENT, "can't stat file %s: %s\n", path, strerror(errno));
+        return return_error(ERR_TRANSIENT,
+            "can't stat file %s: %s\n", path, strerror(errno)
+        );
     }
-    if (sbuf.st_size != offset) {
+    if (sbuf.st_size < offset) {
         close(fd);
-        return return_error(ERR_TRANSIENT, "length of file %s %d bytes != offset %.0f bytes", path, (int)sbuf.st_size, offset);
+        return return_error(ERR_TRANSIENT,
+            "length of file %s %d bytes < offset %.0f bytes",
+            path, (int)sbuf.st_size, offset
+        );
     }
 
     // caller guarantees that nbytes > offset
+    //
     bytes_left = nbytes - offset;
 
     while (bytes_left > 0) {
@@ -183,24 +199,32 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
 
         // try to get m bytes from socket (n>=0 is number actually returned)
+        //
         n = fread(buf, 1, m, in);
         errno_save=errno;
 
         // try to write n bytes to file
+        //
         to_write=n;
         while (to_write > 0) {
             ssize_t ret=write(fd, buf+n-to_write, to_write);
             if (ret < 0) { 
                 close(fd);
-                return return_error(ERR_TRANSIENT, "can't write file %s: %s\n", path, strerror(errno));
+                return return_error(ERR_TRANSIENT,
+                    "can't write file %s: %s\n", path, strerror(errno)
+                );
             }
             to_write -= ret;
         }
 
         // check that we got all bytes from socket that were requested
+        //
         if (n != m) {
             close(fd);
-            return return_error(ERR_TRANSIENT, "socket read incomplete: asked for %d, got %d: %s\n", m, n, strerror(errno_save));
+            return return_error(ERR_TRANSIENT,
+                "socket read incomplete: asked for %d, got %d: %s\n",
+                m, n, strerror(errno_save)
+            );
         }
 
         bytes_left -= n;
@@ -312,12 +336,13 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.name, config.upload_dir, config.uldl_dir_fanout,
                 path, true
             );
-	    if ( retval ) {
-	      log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
-				  "Failed to find/create directory-hierarchy for file '%s' in '%s'\n",
-				  file_info.name, config.upload_dir );
-	      return return_error(ERR_TRANSIENT, "can't open file");
-	    }
+            if (retval) {
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
+                    "Failed to find/create directory for file '%s' in '%s'\n",
+                    file_info.name, config.upload_dir
+                );
+                return return_error(ERR_TRANSIENT, "can't open file");
+            }
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
                 "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
@@ -366,15 +391,18 @@ int handle_get_file_size(char* file_name) {
     // TODO: check to ensure path doesn't point somewhere bad
     // Use 64-bit variant
     //
-    retval = dir_hier_path(file_name, config.upload_dir, config.uldl_dir_fanout, path);
-    if ( retval ) {
-      log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
-			  "Failed to find/create directory-hierarchy for file '%s' in '%s'.\n",
-			  file_name, config.upload_dir );
-      return return_error(ERR_TRANSIENT, "can't open file");
+    retval = dir_hier_path(
+        file_name, config.upload_dir, config.uldl_dir_fanout, path
+    );
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, 
+            "Failed to find/create directory for file '%s' in '%s'.\n",
+            file_name, config.upload_dir
+        );
+        return return_error(ERR_TRANSIENT, "can't open file");
     }
 
-    fd=open(path, O_WRONLY|O_APPEND);
+    fd = open(path, O_WRONLY|O_APPEND);
 
     if (fd<0 && ENOENT==errno) {
         // file does not exist: return zero length
@@ -402,7 +430,9 @@ int handle_get_file_size(char* file_name) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
             "handle_get_file_size(): [%s] returning error\n", file_name
         );
-        return return_error(ERR_TRANSIENT, "[%s] locked by file_upload_handler PID=%d", file_name, pid);
+        return return_error(ERR_TRANSIENT,
+            "[%s] locked by file_upload_handler PID=%d", file_name, pid
+        );
     } 
     // file exists, writable, not locked by anyone else, so return length.
     //
@@ -455,8 +485,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             break;
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
             if (strstr(file_name, "..")) {
-            	return return_error(ERR_PERMANENT, "Bad filename");
-        	}
+                return return_error(ERR_PERMANENT, "Bad filename");
+            }
             if (!got_version) {
                 retval = return_error(ERR_PERMANENT, "Missing version");
             } else {

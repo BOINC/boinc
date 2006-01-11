@@ -308,3 +308,10 @@ Bruce 11 Jan 2006
     doc/
         api.php
 
+David  11 Jan 2006
+    - file upload handler: allow upload if offset if < size
+        (this can now happen, since the client skips size check
+        for files < 1 MB)
+
+    sched/
+        file_upload_handler.C
