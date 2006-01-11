@@ -57,10 +57,35 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
 
     wxASSERT(pConfig);
 
+#ifdef __WXMAC__
+    wxChar buf[1024];
+    ProcessSerialNumber ourPSN;
+    FSRef ourFSRef;
+    OSErr err;
+
+    iBrandId = 0;   // Default value
+    // Get the full path to core client inside this application's bundle
+    err = GetCurrentProcess (&ourPSN);
+    if (err == noErr) {
+        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
+    }
+    if (err == noErr) {
+        err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
+    }
+    if (err == noErr) {
+        strcat(buf, "/Contents/Resources/Branding");
+        FILE *f = fopen(buf, "r");
+        if (f) {
+            fscanf(f, "BrandId=%d\n", &iBrandId);
+            fclose(f);
+        }
+    }
+#else
     strBaseConfigLocation = pConfig->GetPath();
     pConfig->SetPath(strBaseConfigLocation + wxT("Branding"));
     pConfig->Read(wxT("BrandId"), &iBrandId, 0);
     pConfig->SetPath(strBaseConfigLocation);
+#endif
 
     // If the BrandId is greater than 0 then we are running in
     //   branded mode

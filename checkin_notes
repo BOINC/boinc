@@ -297,3 +297,8 @@ Bruce 11 Jan 2006
     sched/
         handle_request.C
  
+Charlie 10 Jan 2006
+    -Mac: Get BrandID from file put inside application bundle by installer.
+      
+    clientgui/
+        BOINCGUIApp.cpp
