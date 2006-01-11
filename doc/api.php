@@ -41,6 +41,21 @@ When the application has completed it must call
 <code>status</code> is nonzero if an error was encountered.
 This call does not return.
 
+<h3>Is your application running under the control of the BOINC client?</h3>
+<p>
+BOINC applications can be run in \"standalone\" mode for testing, or under
+the control of the BOINC client.  You might want your application to behave differently
+in the two cases.  For example you might want to output debugging information if
+the application is running standalone.  To determine if the application is
+running in standalone mode or under the control of the BOINC client, call
+<pre>
+    int boinc_is_standalone(void);
+</pre>
+This returns non-zero (True) if the application is running standalone, and zero (False) if the application
+is running under the control of the BOINC client.
+
+
+
 <h3>Resolving file names</h3>
 Applications that use named input or output files must call
 <pre>
@@ -98,8 +113,8 @@ An application must call
     int boinc_time_to_checkpoint();
 </pre>
 whenever it reaches a point where it is able to checkpoint.
-If this returns nonzero,
-the application must checkpoint immediately
+If this returns nonzero (True) then
+the application should checkpoint immediately
 (i.e., write the state file and flush all output files),
 then call
 <pre>

@@ -302,3 +302,9 @@ Charlie 10 Jan 2006
       
     clientgui/
         BOINCGUIApp.cpp
+
+Bruce 11 Jan 2006
+    - Documentation: describe boinc_is_standalone() in documentation.
+    doc/
+        api.php
+
