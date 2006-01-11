@@ -49,6 +49,8 @@
 *
 */
 
+#ifdef __ppc__
+
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
@@ -915,3 +917,5 @@ int MacBacktracePPCMachSelf(MacBTPPCAddr stackBottom, MacBTPPCAddr stackTop,
         
         return MacBacktracePPCMach(mach_task_self(), myPC, mySP, stackBottom, stackTop, frameArray, frameArrayCount, frameCount, OSMinorVersion);
 }
+
+#endif

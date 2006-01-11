@@ -328,3 +328,15 @@ David  11 Jan 2006
     client/
         client_types.h
         cs_apps.C
+
+David  11 Jan 2006
+    - core client: on file upload, always get file size (even if small file).
+        Before the file upload handler checkin earlier today,
+        this was actually a bug:
+        if a client had uploaded part of a small file and then failed,
+        it would never be able to upload the rest.
+        But it was probably a bad idea in the first place,
+        since 1 MB is a large file from the viewpoint of a modem user.
+
+    client/
+        file_xfer.C
