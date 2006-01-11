@@ -470,6 +470,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     int retval;
     RESULT* rp;
+    bool changed_host=false;
     
     if (sreq.results.size() == 0) return 0;
     
@@ -586,6 +587,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
                     reply.host.id, srip->id, srip->name, reply.host.userid
                 );
+                changed_host=true;
             }
         } // hostids do not match
 
@@ -604,15 +606,15 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         double elapsed_time = srip->received_time - srip->sent_time;
         if (elapsed_time < 0) {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                "[RESULT#%d] inconsistent sent/received times\n", srip->id
+                "[HOST#%d] [RESULT#%d] inconsistent sent/received times\n", srip->hostid, srip->id
             );
         } else {
             if (srip->cpu_time > elapsed_time) {
                 log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                    "[RESULT#%d] excessive CPU time reported: %f\n",
-                    srip->id, srip->cpu_time
+                    "[HOST#%d] [RESULT#%d] excessive CPU time: reported %f > elapsed %f%s\n",
+                    srip->hostid, srip->id, srip->cpu_time, elapsed_time, changed_host?" [OK: HOST changed]":""
                 );
-                srip->cpu_time = elapsed_time;
+                if (!changed_host) srip->cpu_time = elapsed_time;
             }
         }
 

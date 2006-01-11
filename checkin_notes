@@ -286,3 +286,14 @@ David  10 Jan 2006
             xml.inc
         user/
             team_lookup.php
+
+Bruce 11 Jan 2006
+
+    - Skip test for excessive CPU time, IF hostid has changed
+      because host has been cloned.  If result is resent to
+      the 'new' host then this can make it appear that the
+      result was completed shortly after it was sent.
+
+    sched/
+        handle_request.C
+ 
