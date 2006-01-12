@@ -340,3 +340,14 @@ David  11 Jan 2006
 
     client/
         file_xfer.C
+
+Charlie 10 Jan 2006
+    -Mac: Mac System Menu uses menubar icon selected by 
+     CBrandingScheme::OnInit() .
+      
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            MacSysMenu.cpp
+        res/
+            gridrepublic_mac.xpm (new)

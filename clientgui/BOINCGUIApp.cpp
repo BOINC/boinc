@@ -33,10 +33,16 @@
 
 
 ////@begin XPM images
+#ifdef __APPLE__
+#include "res/boinc_mac.xpm"
+#include "res/gridrepublic_mac.xpm"
+#else
 #include "res/boinc.xpm"
+#include "res/gridrepublic.xpm"
+#endif
+
 #include "res/boincsm.xpm"
 #include "res/attachprojectwizard.xpm"
-#include "res/gridrepublic.xpm"
 #include "res/gridrepublicamwizard.xpm"
 ////@end XPM images
 
