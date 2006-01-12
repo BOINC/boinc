@@ -360,3 +360,12 @@ David  11 Jan 2006
 
     client/
         cs_prefs.C
+
+Bruce 12 Jan 2006
+    - file_upload_handler: log a message when the client is starting an upload
+      from the wrong offset.  This problem should gradually go away as users
+      update to more current clients.
+
+    sched/
+        file_upload_handler.C
+

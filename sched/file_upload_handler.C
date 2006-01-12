@@ -187,6 +187,12 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
             path, (int)sbuf.st_size, offset
         );
     }
+    if (sbuf.st_size > offset) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
+             this_filename, (int)sbuf.st_size, offset
+        );
+    }
 
     // caller guarantees that nbytes > offset
     //
@@ -524,9 +530,11 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
 }
 
 void boinc_catch_signal(int signal_num) {
+    char buffer[512]="";
+    if (this_filename[0]) sprintf(buffer, "FILE=%s (%.0f bytes left) ", this_filename, bytes_left);
     log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-        "FILE=%s (%.0f bytes left) IP=%s caught signal %d [%s] run time %f seconds\n",
-        this_filename, bytes_left, get_remote_addr(),
+        "%sIP=%s caught signal %d [%s] run time %f seconds\n",
+        buffer, get_remote_addr(),
         signal_num, strsignal(signal_num), elapsed_wallclock_time()
     );
 
