@@ -369,3 +369,10 @@ Bruce 12 Jan 2006
     sched/
         file_upload_handler.C
 
+David  12 Jan 2006
+    - Web RPC: fixed bug in am_set_info.php that caused password_hash
+        to not update.
+        (from Willy de Zutter)
+
+    html/user/
+        am_set_info.php

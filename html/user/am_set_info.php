@@ -88,19 +88,20 @@ if ($email_addr && $email_addr!=$user->email_addr) {
     $query .= " email_addr='$email_addr', ";
 }
 if ($password_hash) {
-    $password_hash .= " password_hash='$password_hash', ";
+    $query .= " passwd_hash='$password_hash', ";
 }
 
 // the seti_id=seti_id is to make it legal if no fields updated
 //
-$result = mysql_query("update user set $query seti_id=seti_id where id=$user->id");
+$query = "update user set $query seti_id=seti_id where id=$user->id";
+$result = mysql_query($query);
 if ($result) {
     if ($old_email_addr) {
         send_verify_email($old_email_addr, $email_addr, $user);
     }
     success("");
 } else {
-    error("database error");
+    error("database error: ".mysql_error());
 }
 
 ?>
