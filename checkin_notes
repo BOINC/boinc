@@ -351,3 +351,12 @@ Charlie 10 Jan 2006
             MacSysMenu.cpp
         res/
             gridrepublic_mac.xpm (new)
+
+David  11 Jan 2006
+    - Core client: remove "unknown project" from message
+        where general prefs don't come from a known project.
+        They might come from an account manager.
+        (from Willy de Zutter)
+
+    client/
+        cs_prefs.C

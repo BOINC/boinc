@@ -255,7 +255,7 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
         );
     } else {
         msg_printf(NULL, MSG_INFO,
-            "General prefs: from unknown project %s (last modified %s)\n",
+            "General prefs: from %s (last modified %s)\n",
             global_prefs.source_project,
             time_to_string(global_prefs.mod_time)
         );
