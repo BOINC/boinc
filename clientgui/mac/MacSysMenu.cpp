@@ -89,15 +89,20 @@ CMacSystemMenu::~CMacSystemMenu() {
 
 
 // Set the System Menu Icon from XPM data
-void CMacSystemMenu::SetIcon(const char **iconData) {
+// Warning - this code has not been tested
+bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
-    
-    wxBitmap theBits = wxBitmap(iconData);
+    wxBitmap theBits;
+
+    theBits.CopyFromIcon(icon);
     theBitsRefData = theBits.GetBitmapData();
     thePICT = theBitsRefData->GetPictHandle();
-    if ( (SetSystemMenuIcon != NULL ) && (thePICT != NULL) )
+    if ( (SetSystemMenuIcon != NULL ) && (thePICT != NULL) ) {
         SetSystemMenuIcon(thePICT);
+        return true;
+    }
+    return false;
 }
 
 
