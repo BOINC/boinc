@@ -388,3 +388,7 @@ David  12 Jan 2006
         team_create_action.php
     sched/
         handle_request.C
+
+Rom    13 Jan 2006 (HEAD)
+    - Tag for 5.3.10 release, all platforms
+      boinc_core_release_5_3_10
