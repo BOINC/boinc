@@ -116,7 +116,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 #endif
 
 void worker() {
-    int c, nchars = 0, retval, i;
+    int c, nchars = 0, retval;
     double fsize;
     char resolved_name[512];
     MFILE out;
