@@ -249,6 +249,7 @@ make_new_host:
         host.create_time = time(0);
         host.userid = reply.user.id;
         host.rpc_seqno = 0;
+        host.expavg_time = time(0);
         strcpy(host.venue, reply.user.venue);
         host.fix_nans();
         retval = host.insert();

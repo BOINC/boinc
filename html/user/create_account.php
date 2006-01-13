@@ -50,7 +50,7 @@ if ($user) {
     $authenticator = random_string();
     $cross_project_id = random_string();
     $now = time();
-    $query = "insert into user (create_time, email_addr, name, authenticator, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$user_name', '$authenticator', 1, 1, '$cross_project_id', '$passwd_hash')";
+    $query = "insert into user (create_time, email_addr, name, authenticator, expavg_time, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$user_name', '$authenticator', unix_timestamp(), 1, 1, '$cross_project_id', '$passwd_hash')";
     $result = mysql_query($query);
     if (!$result) {
         $bad = true;

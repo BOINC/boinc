@@ -97,7 +97,7 @@ $authenticator = random_string();
 $cross_project_id = random_string();
 $country = boinc_real_escape_string($country);
 $now = time();
-$query = "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid, venue, url, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$new_email_addr', '$new_name', '$authenticator', '$country', '$postal_code', 0, 0, 0, '$project_prefs', $teamid, 'home', '', 1, 1, '$cross_project_id', '$passwd_hash')";
+$query = "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid, venue, url, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$new_email_addr', '$new_name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 'home', '', 1, 1, '$cross_project_id', '$passwd_hash')";
 $result = mysql_query($query);
 if (!$result) {
     show_error("Couldn't create account");

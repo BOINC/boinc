@@ -376,3 +376,15 @@ David  12 Jan 2006
 
     html/user/
         am_set_info.php
+
+David  12 Jan 2006
+    - Initialize user/team/host.expavg_time with current time.
+        This avoids inaccurate initial values for RAC.
+        From Bruce Allen.
+
+    html/user
+        create_account.php
+        create_account_action.php
+        team_create_action.php
+    sched/
+        handle_request.C
