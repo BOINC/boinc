@@ -38,6 +38,8 @@
 #include "net_xfer_curl.h"
 
 // official HTTP status codes
+
+#define HTTP_STATUS_CONTINUE        100 
 #define HTTP_STATUS_OK              200
 #define HTTP_STATUS_PARTIAL_CONTENT 206
 #define HTTP_STATUS_RANGE_REQUEST_ERROR    416

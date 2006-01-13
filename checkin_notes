@@ -392,3 +392,13 @@ David  12 Jan 2006
 Rom    13 Jan 2006 (HEAD)
     - Tag for 5.3.10 release, all platforms
       boinc_core_release_5_3_10
+
+David  13 Jan 2006
+    - core client: handle HTTP "continue" status.
+        I don't understand what this is, but hopefully this fixes
+        some network problems.
+        (from Ian Hay).
+
+    client/
+        http_curl.h
+        net_xfer_curl.C

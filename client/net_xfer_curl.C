@@ -269,94 +269,104 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
         // if we have a msg, then somebody finished
         // can check also with pcurlMsg->msg == CURLMSG_DONE
-        if ((nxf = lookup_curl(pcurlMsg->easy_handle)) ) { 
-                        // CURLINFO ci=CURLINFO_OS_ERRNO;
-             // we have a message from one of our http_ops
-             // get the response code for this request
+        //
+        nxf = lookup_curl(pcurlMsg->easy_handle);
+        if (!nxf) continue;
+
+         // we have a message from one of our http_ops
+         // get the response code for this request
+        //
+        curlErr = curl_easy_getinfo(nxf->curlEasy, 
+            CURLINFO_RESPONSE_CODE, &nxf->response
+        );
+
+        // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
+        // included with Mac OS X 10.3.9
+        //
+        curlErr = curl_easy_getinfo(nxf->curlEasy, 
+            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error);
+
+        nxf->io_done = true;
+        nxf->io_ready = false;
+
+        // update byte counts and transfer speed
+        //
+        if (nxf->want_download) {
+            bytes_down += nxf->bytes_xferred;
             curlErr = curl_easy_getinfo(nxf->curlEasy, 
-                CURLINFO_RESPONSE_CODE, &nxf->response);
-                        // CURLINFO_LONG+25 is a workaround for a bug in the gcc version included
-                        // with Mac OS X 10.3.9
+                CURLINFO_SPEED_DOWNLOAD, &nxf->xfer_speed
+            );
+        }
+        if (nxf->want_upload) {
+            bytes_up += nxf->bytes_xferred;
             curlErr = curl_easy_getinfo(nxf->curlEasy, 
-                (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error);
+                CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed
+            );
+        }
 
-            nxf->io_done = true;
-            nxf->io_ready = false;
+        // the op is done if curl_multi_msg_read gave us a msg for this http_op
+        nxf->http_op_state = HTTP_STATE_DONE;
 
-            // update byte counts and transfer speed
-            //
-            if (nxf->want_download) {
-                bytes_down += nxf->bytes_xferred;
-                curlErr = curl_easy_getinfo(nxf->curlEasy, 
-                    CURLINFO_SPEED_DOWNLOAD, &nxf->xfer_speed
-                );
-            }
-            if (nxf->want_upload) {
-                bytes_up += nxf->bytes_xferred;
-                curlErr = curl_easy_getinfo(nxf->curlEasy, 
-                    CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed
-                );
-            }
+        // added a more useful error string (just pass the curl string up for now)
+        nxf->CurlResult = pcurlMsg->data.result;
+        safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
 
-            // the op is done if curl_multi_msg_read gave us a msg for this http_op
-            nxf->http_op_state = HTTP_STATE_DONE;
+        // optional, example use, non-zero CurlResult has a useful error string:
+        //if (nxf->CurlResult) fprintf(stdout, "Error: %s\n", nxf->strCurlResult);
 
-            // added a more useful error string (just pass the curl string up for now)
-            nxf->CurlResult = pcurlMsg->data.result;
-            safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
-
-            // optional, example use, non-zero CurlResult has a useful error string:
-            //if (nxf->CurlResult) fprintf(stdout, "Error: %s\n", nxf->strCurlResult);
-
-            // 200 is a good HTTP response code
-            // It may not mean the data received is "good"
-            // (the calling program will have to check/parse that)
-            // but it at least means that the server operation
-            // went through fine
-            //
-            // NOTE: http_op_retval is multipurposed,
-            // it can also contain any error code that BOINC would return
-            // for IO errors and DNS errors.
-            // We need to translate between the curl error codes and the equiv.
-            // BOINC error codes here.
-            //
-            if (nxf->CurlResult == CURLE_OK) {
-                if ((nxf->response/100)*100 == HTTP_STATUS_OK) {
-                    nxf->http_op_retval = 0;  
-                } else {
-                    nxf->http_op_retval = nxf->response;
-                }
+        // 200 is a good HTTP response code
+        // It may not mean the data received is "good"
+        // (the calling program will have to check/parse that)
+        // but it at least means that the server operation
+        // went through fine
+        //
+        // NOTE: http_op_retval is multipurposed,
+        // it can also contain any error code that BOINC would return
+        // for IO errors and DNS errors.
+        // We need to translate between the curl error codes and the equiv.
+        // BOINC error codes here.
+        //
+        if (nxf->CurlResult == CURLE_OK) {
+            if ((nxf->response/100)*100 == HTTP_STATUS_OK) {
+                nxf->http_op_retval = 0;  
+            } else if ((nxf->response/100)*100 == HTTP_STATUS_CONTINUE) {
+                continue;
             } else {
-                sprintf(buf, "Network error: %s", nxf->strCurlResult);
-                msg_printf(0, MSG_ERROR, buf);
-                nxf->http_op_retval = ERR_HTTP_ERROR;
+                nxf->http_op_retval = nxf->response;
             }
+        } else {
+            sprintf(buf, "Network error: %s", nxf->strCurlResult);
+            msg_printf(0, MSG_ERROR, buf);
+            nxf->http_op_retval = ERR_HTTP_ERROR;
+        }
 
-            if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {
-                // for a successfully completed request on a "post2" --
-                // read in the temp file into req1 memory
-                fclose(nxf->fileOut);
-                double dSize = 0.0f;
-                file_size(nxf->outfile, dSize);
-                nxf->fileOut = boinc_fopen(nxf->outfile, "rb");
-                if (!nxf->fileOut) { // ack, can't open back up!
-                    nxf->response = 1; // flag as a bad response for a possible retry later
-                } else {
-                    fseek(nxf->fileOut, 0, SEEK_SET);
-                    // CMC Note: req1 is a pointer to "header" which is 4096
-                    memset(nxf->req1, 0x00, 4096);
-                    fread(nxf->req1, 1, (size_t) dSize, nxf->fileOut); 
-                }
+        if (!nxf->http_op_retval && nxf->http_op_type == HTTP_OP_POST2) {
+            // for a successfully completed request on a "post2" --
+            // read in the temp file into req1 memory
+            //
+            fclose(nxf->fileOut);
+            double dSize = 0.0f;
+            file_size(nxf->outfile, dSize);
+            nxf->fileOut = boinc_fopen(nxf->outfile, "rb");
+            if (!nxf->fileOut) { // ack, can't open back up!
+                nxf->response = 1; // flag as a bad response for a possible retry later
+            } else {
+                fseek(nxf->fileOut, 0, SEEK_SET);
+                // CMC Note: req1 is a pointer to "header" which is 4096
+                memset(nxf->req1, 0x00, 4096);
+                fread(nxf->req1, 1, (size_t) dSize, nxf->fileOut); 
             }
+        }
 
-            // close files and "sockets" (i.e. libcurl handles)
-            nxf->close_file();
-            nxf->close_socket();
+        // close files and "sockets" (i.e. libcurl handles)
+        //
+        nxf->close_file();
+        nxf->close_socket();
 
-            // finally remove the tmpfile if not explicitly set
-            if (nxf->bTempOutfile) {
-                boinc_delete_file(nxf->outfile);
-            }
+        // finally remove the tmpfile if not explicitly set
+        //
+        if (nxf->bTempOutfile) {
+            boinc_delete_file(nxf->outfile);
         }
     }
 }
