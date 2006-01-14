@@ -3,10 +3,22 @@ require_once("docutil.php");
 page_head("Papers related to BOINC");
 echo"
 
+<a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>
+<br> David P. Anderson
+<br> Submitted for publication
+<hr>
+<a href=http://www.climateprediction.net/science/pubs/cpdn-computing.pdf>The Challenge of Volunteer Computing With Lengthy Climate Model Simulations</a>
+<br>
+Carl Christensen, Tolu Aina and David Stainforth.
+<br> First IEEE International Conference on e-Science and Grid Technologies
+<br>5-8 December 2005, Melbourne
+
+<hr>
+
 <a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>
 <br>
 David P. Anderson, Eric Korpela, Rom Walton
-<br> To appear in First IEEE International Conference on e-Science and Grid Technologies
+<br> First IEEE International Conference on e-Science and Grid Technologies
 <br>5-8 December 2005, Melbourne
 <hr>
 <a href=http://csdl2.computer.org/persagen/DLAbsToc.jsp?resourcePath=/dl/proceedings/ipdps/&toc=comp/proceedings/ipdps/2005/2312/02/2312toc.xml&DOI=10.1109/IPDPS.2005.247>Homogeneous Redundancy: a Technique to Ensure Integrity of Molecular Simulation Results Using Public Computing</a>

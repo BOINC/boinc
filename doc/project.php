@@ -2,7 +2,6 @@
 require_once("docutil.php");
 page_head("Projects and applications");
 echo "
-<body bgcolor=ffffff>
 <h2>Projects and applications</h2>
 A <b>project</b> is a group of one or
 more distributed applications, run by a single organization, that use BOINC.

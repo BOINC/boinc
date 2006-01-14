@@ -60,15 +60,17 @@ resources.
     <li> <a href=http://www.worldcommunitygrid.org/>World Community Grid</a>:
         advance our knowledge of human disease. (Requires 5.2.1 or greater)
     </ul>
-    To participate in a project,
-    <a href=download.php>download</a> and run BOINC software,
-    then enter the project's URL.
     <p>
     You can participate in more than one project,
     and you control the fraction of your computing power
     that goes to each project.
     If you participate in several projects,
     your computer will be kept busy even when one project has no work.
+    <p>
+    To participate:
+    <a href=projects.php>select projects</a>, then
+    <a href=download.php><b>download</b></a> and run BOINC software,
+    and enter the projects' URLs.
     <p>
     <a href=links.php>Web sites for BOINC participants</a>.
     <p>
@@ -108,7 +110,7 @@ resources.
     <li> <a href=contact.php>Personnel and contributors</a>
     <li> BOINC <a href=email_lists.php>email lists</a>
     <li> BOINC <a href=dev/>message boards</a>
-    <li> <a href=papers.php>Papers about BOINC</a>
+    <li> <a href=papers.php>Papers related to BOINC</a>
     <li> <a href=logo.php>Logos and graphics</a>
     </ul>
     <br>

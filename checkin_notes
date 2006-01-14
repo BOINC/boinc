@@ -402,3 +402,9 @@ David  13 Jan 2006
     client/
         http_curl.h
         net_xfer_curl.C
+
+David  14 Jan 2006
+    - user web: forum fix (from Rob Ogilvie)
+
+    html/inc/
+        forum.inc
