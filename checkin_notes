@@ -408,3 +408,12 @@ David  14 Jan 2006
 
     html/inc/
         forum.inc
+
+Janus 15 Jan 2006
+    - web: Fixed a special situation where the caching mechanism used on
+      (amongst others) the frontpage would always refresh from the serverside
+      cache regardless of whether the client had a fresh copy. (from Rob)
+
+    html/inc/
+        cache.inc
+
