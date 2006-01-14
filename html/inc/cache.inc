@@ -150,7 +150,7 @@ function start_cache($max_age, $params=""){
     if ($no_cache) return;
 
     $path = get_path($params);
-
+    $lastmodified = @filemtime($path);
     cache_check_diskspace(); //Check free disk space once in a while
 
     if ($max_age) {
