@@ -417,3 +417,10 @@ Janus 15 Jan 2006
     html/inc/
         cache.inc
 
+David  14 Jan 2006
+    - core client: If there's only one potentially runnable project,
+        ask it for work no matter how negative its debt
+        (from Glenn Dill)
+
+    client/
+        cs_scheduler.C

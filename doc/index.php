@@ -114,7 +114,7 @@ resources.
     <li> <a href=logo.php>Logos and graphics</a>
     </ul>
     <br>
-    <form method=get action=http://www.google.com/search>
+    <form method=get action=http://google.com/search>
     <input type=hidden name=domains value=http://boinc.berkeley.edu>
     <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
     <nobr>

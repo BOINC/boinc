@@ -571,9 +571,12 @@ int CLIENT_STATE::compute_work_requests() {
         // is a candidate for more work.
         // Also if the global need is immediate, we need to get work from 
         // any contactable project, even if its LT debt is extremely negative.
+        // Also, if there is only one potentially runnable project,
+        // we can get work from it no matter what.
         //
         if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes*60)
             && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)
+            && (prrs != p->resource_share)
         ) {
             continue;
         }
