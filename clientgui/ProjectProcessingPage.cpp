@@ -133,7 +133,7 @@ void CProjectProcessingPage::CreateControls()
     itemWizardPage71->SetSizer(itemBoxSizer72);
 
     wxStaticText* itemStaticText73 = new wxStaticText;
-    itemStaticText73->Create( itemWizardPage71, wxID_STATIC, _("Communicating with project \nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText73->Create( itemWizardPage71, wxID_STATIC, _("Communicating with project\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText73->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer72->Add(itemStaticText73, 0, wxALIGN_LEFT|wxALL, 5);
 

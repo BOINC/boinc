@@ -104,13 +104,30 @@ void CCompletionPage::CreateControls()
     itemWizardPage79->SetSizer(itemBoxSizer80);
 
     if (IS_ATTACHTOPROJECTWIZARD()) {
+
+        wxString strTitle;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardCompletionTitle().IsEmpty()) {
+            strTitle = wxGetApp().GetBrand()->GetAPWizardCompletionTitle();
+        } else {
+            strTitle = _("Attached to project");
+        }
+
         m_CompletionTitle = new wxStaticText;
-        m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, _("Attached to project"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, strTitle, wxDefaultPosition, wxDefaultSize, 0 );
         m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
         itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
 
+        wxString strBrandedMessage;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
+            strBrandedMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
+        } else {
+            strBrandedMessage = _("You are now successfully attached to this project.");
+        }
+
         m_CompletionBrandedMessage = new wxStaticText;
-        m_CompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, _("You are now successfully attached to this project."), wxDefaultPosition, wxDefaultSize, 0 );
+        m_CompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, strBrandedMessage, wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer80->Add(m_CompletionBrandedMessage, 0, wxALIGN_LEFT|wxALL, 5);
 
         itemBoxSizer80->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
@@ -185,7 +202,7 @@ void CCompletionPage::CreateControls()
  
 wxWizardPageEx* CCompletionPage::GetPrev() const
 {
-    return PAGE_TRANSITION_BACK;
+    return NULL;
 }
  
 /*!

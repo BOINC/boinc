@@ -250,8 +250,16 @@ bool CWizardAttachProject::Run( wxString& strName, wxString& strURL, bool bCrede
     if (strURL.Length()) {
         if (strName.Length()) {
             wxString strTitle;
-            strTitle = GetTitle();
+
+            if (wxGetApp().GetBrand()->IsBranded() && 
+                !wxGetApp().GetBrand()->GetAPWizardTitle().IsEmpty()) {
+                strTitle = wxGetApp().GetBrand()->GetAPWizardTitle();
+            } else {
+                strTitle = GetTitle();
+            }
+            project_name = strName;
             strTitle += wxT(" - ") + strName;
+
             SetTitle(strTitle);
         }
 
@@ -331,7 +339,7 @@ bool CWizardAttachProject::HasNextPage( wxWizardPageEx* page )
  
 bool CWizardAttachProject::HasPrevPage( wxWizardPageEx* page )
 {
-    if ((page == m_WelcomePage) || (page == m_CompletionErrorPage))
+    if ((page == m_WelcomePage) || (page == m_CompletionPage) || (page == m_CompletionErrorPage))
         return false;
     return true;
 }

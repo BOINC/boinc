@@ -424,3 +424,19 @@ David  14 Jan 2006
 
     client/
         cs_scheduler.C
+
+Rom    15 Jan 2006
+    - CPDB BBC update
+    
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCBaseWizard.h
+        BOINCGUIApp.cpp, .h
+        CompletionPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp
+        WizardAttachProject.cpp, .h
+
+Rom    15 Jan 2006 (HEAD)
+    - Tag for 5.3.11 release, all platforms
+      boinc_core_release_5_3_11

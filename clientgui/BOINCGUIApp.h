@@ -44,7 +44,12 @@ private:
     wxString    m_strCompanyName;
     wxString    m_strCompanyWebsite;
     wxString    m_strProjectName;
+    wxString    m_strAPWizardTitle;
     wxBitmap    m_bitmapAPWizardLogo;
+    wxString    m_strAPWizardAccountInfoText;
+    wxString    m_strAPWizardCompletionTitle;
+    wxString    m_strAPWizardCompletionMessage;
+    wxString    m_strAMWizardTitle;
     wxBitmap    m_bitmapAMWizardLogo;
     wxString    m_strAMWizardAttachMessage;
 
@@ -56,7 +61,12 @@ public:
     wxString    GetCompanyName() { return m_strCompanyName; }
     wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }
     wxString    GetProjectName() { return m_strProjectName; }
+    wxString    GetAPWizardTitle() { return m_strAPWizardTitle; }
     wxBitmap*   GetAPWizardLogo() { return &m_bitmapAPWizardLogo; }
+    wxString    GetAPWizardAccountInfoText() { return m_strAPWizardAccountInfoText; }
+    wxString    GetAPWizardCompletionTitle() { return m_strAPWizardCompletionTitle; }
+    wxString    GetAPWizardCompletionMessage() { return m_strAPWizardCompletionMessage; }
+    wxString    GetAMWizardTitle() { return m_strAMWizardTitle; }
     wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }
     wxString    GetAMWizardSuccessMessage() { return m_strAMWizardAttachMessage; }
 

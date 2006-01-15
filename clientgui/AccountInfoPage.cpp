@@ -76,6 +76,7 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 {
 
 ////@begin CAccountInfoPage member initialisation
+    m_AccountQuestion = NULL;
     m_AccountManagerInformation = NULL;
     m_AccountCreateCtrl = NULL;
     m_AccountUseExistingCtrl = NULL;
@@ -96,7 +97,6 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 ////@end CAccountInfoPage creation
 
     return TRUE;
-
 }
  
 /*!
@@ -113,30 +113,39 @@ void CAccountInfoPage::CreateControls()
     itemWizardPage56->SetSizer(itemBoxSizer57);
 
     wxStaticText* itemStaticText58 = new wxStaticText;
-    itemStaticText58->Create( itemWizardPage56, wxID_STATIC, _("Account information"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText58->Create( itemWizardPage56, wxID_STATIC, _("User information"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText58->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer57->Add(itemStaticText58, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer57->Add(itemStaticText58, 0, wxALIGN_LEFT|wxGROW|wxALL, 5);
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {
-        wxStaticText* itemStaticText59 = new wxStaticText;
-        itemStaticText59->Create( itemWizardPage56, wxID_STATIC, _("Do you want to use an existing account or create a new one?"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer57->Add(itemStaticText59, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+        m_AccountQuestion = new wxStaticText;
+        m_AccountQuestion->Create( itemWizardPage56, wxID_STATIC, _T("Are you already running this project?"), wxDefaultPosition, wxDefaultSize, 0 );
+        itemBoxSizer57->Add(m_AccountQuestion, 0, wxALIGN_LEFT|wxALL, 5);
 
         wxFlexGridSizer* itemFlexGridSizer61 = new wxFlexGridSizer(1, 2, 0, 0);
         itemFlexGridSizer61->AddGrowableCol(1);
         itemBoxSizer57->Add(itemFlexGridSizer61, 0, wxGROW|wxALL, 5);
 
         m_AccountCreateCtrl = new wxRadioButton;
-        m_AccountCreateCtrl->Create( itemWizardPage56, ID_ACCOUNTCREATECTRL, _("Create new &account"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+        m_AccountCreateCtrl->Create( itemWizardPage56, ID_ACCOUNTCREATECTRL, _("&No, new user"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
         m_AccountCreateCtrl->SetValue(TRUE);
         itemFlexGridSizer61->Add(m_AccountCreateCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
         m_AccountUseExistingCtrl = new wxRadioButton;
-        m_AccountUseExistingCtrl->Create( itemWizardPage56, ID_ACCOUNTUSEEXISTINGCTRL, _("&Use existing account"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_AccountUseExistingCtrl->Create( itemWizardPage56, ID_ACCOUNTUSEEXISTINGCTRL, _("&Yes, existing user"), wxDefaultPosition, wxDefaultSize, 0 );
         m_AccountUseExistingCtrl->SetValue(FALSE);
         itemFlexGridSizer61->Add(m_AccountUseExistingCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+        wxString strText;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardAccountInfoText().IsEmpty()) {
+            strText = wxGetApp().GetBrand()->GetAPWizardAccountInfoText();
+        }
+
+        wxStaticText* itemStaticText60 = new wxStaticText;
+        itemStaticText60->Create( itemWizardPage56, wxID_STATIC, strText, wxDefaultPosition, wxDefaultSize, 0 );
+        itemBoxSizer57->Add(itemStaticText60, 0, wxALIGN_LEFT|wxALL, 5);
+
     } else {
         m_AccountManagerInformation = new wxStaticText;
         m_AccountManagerInformation->Create( itemWizardPage56, wxID_STATIC, _("Please provide the email address and password you used on\nthe website so that your projects and preferences can be retrieved."), wxDefaultPosition, wxDefaultSize, 0 );
@@ -147,7 +156,7 @@ void CAccountInfoPage::CreateControls()
 
     wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(3, 2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
-    itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxGROW|wxALL, 5);
+    itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxGROW|wxALL, 0);
 
     m_AccountEmailAddressStaticCtrl = new wxStaticText;
     m_AccountEmailAddressStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSSTATICCTRL, _("&Email address:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -277,6 +286,15 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
 
             m_AccountCreateCtrl->Disable();
         }
+    }
+
+    if (!((CBOINCBaseWizard*)GetParent())->project_name.IsEmpty()) {
+        wxString strQuestion;
+        strQuestion.Printf(
+            _T("Are you already running %s?"),
+            ((CBOINCBaseWizard*)GetParent())->project_name.c_str()
+        );
+        m_AccountQuestion->SetLabel(strQuestion);
     }
 
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {

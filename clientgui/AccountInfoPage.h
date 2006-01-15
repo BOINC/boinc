@@ -92,6 +92,7 @@ public:
     static bool ShowToolTips();
 
 ////@begin CAccountInfoPage member variables
+    wxStaticText* m_AccountQuestion;
     wxStaticText* m_AccountManagerInformation;
     wxRadioButton* m_AccountCreateCtrl;
     wxRadioButton* m_AccountUseExistingCtrl;
