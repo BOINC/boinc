@@ -492,3 +492,11 @@ David  15 Jan 2006
         gui_rpc_server.C
     lib/
         network.C
+
+Bruce 16 Jan 2006
+    - ops page: add external IP to data shown for host
+
+    html/
+        inc/
+            db_ops.inc
+

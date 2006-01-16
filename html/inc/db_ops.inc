@@ -838,6 +838,7 @@ function show_host($host) {
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));
     row("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+    row("External IP address", "$host->external_ip_addr<br>");
     row("Domain name", $host->domain_name);
     $x = $host->timezone/3600;
     if ($x >= 0) $x="+$x";
