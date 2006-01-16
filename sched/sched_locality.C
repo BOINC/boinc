@@ -304,7 +304,7 @@ static int possibly_send_result(
 
 #ifdef EINSTEIN_AT_HOME
     if (retval==ERR_NO_APP_VERSION && !strcmp("anonymous", platform.name)) {
-        USER_MESSAGE um("You must remove the app_info.xml file to get more work for Einstein@Home.", "high");
+        USER_MESSAGE um("Remove the app_info.xml file, then restart BOINC to get more Einstein@Home work.", "high");
         reply.insert_message(um);
         reply.set_delay(4*3600);
     }
