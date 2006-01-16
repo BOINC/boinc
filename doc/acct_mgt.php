@@ -203,6 +203,8 @@ list_item("input", html_text("
        <url>http://setiathome.berkeley.edu/</url>
        <project_name>SETI@home</project_name>
        <suspended_via_gui>0</suspended_via_gui>
+       <account_key>397d250e02ec02be8141b8d109d5ec73e5</account_key>
+       <hostid>NNN</hostid>
     </project>
     [ <gui_rpc_port>N</gui_rpc_port> ]
     [ <gui_rpc_password>xxxx</gui_rpc_password> ]
@@ -303,5 +305,65 @@ list_item("action",
 );
 list_end();
 
+echo "
+<h2>Host identification</h2>
+<p>
+BOINC uses two ID spaces for hosts:
+<ul>
+<li> <b>Cross-project ID (CPID)</b>.
+This is used in the statistics data exported by projects.
+The 'authoritative' CPID is stored on the host itself.
+A host's CPID changes whenever it attaches to a new project.
+CPID is propagated to projects in scheduler RPCs.
+If a host is attached to several projects,
+its CPID (as reported by those projects) may be
+inconsistent for several days.
+Because of these properties, CPID is not useful as a primary host identifier.
+
+
+<li> <b>Project database ID (DBID)</b>.
+This is a project-specific integer identifier.
+On a given host, it changes only in the rare case where
+a user copies state files from one computer to another;
+in that case, one of the two computers is assigned a new ID
+after its next scheduler RPC.
+
+</ul>
+
+An account manager RPC request includes the host's CPID,
+and its DBID on all projects to which it's attached (see above).
+
+<p>
+A suggested method of maintaining a user's hosts is as follows:
+
+<ul>
+<li> Maintain a host table with columns
+    <ul>
+    <li> user ID
+    <li> project ID
+    <li> DBID
+    <li> CPID
+    </ul>
+<li> On each account manager RPC,
+    for each reported project,
+    look up (user ID, project ID, DBID) in
+    the host table
+    (where 'DBID' is the one passed in the RPC request).
+    If no record is found, create one.
+    In any case, update the record with the CPID from the RPC request.
+
+<li> To show the user a list of their hosts,
+    with current per-project credit:
+    do a <a href=web_rpc.php>show_user.php</a>
+    RPC to each project to get a list of hosts.
+    Update the corresponding records in the host table,
+    based on the DBIDs returned by show_user.php.
+    Delete any host table entries for this user/project that 
+    don't appear in the RPC reply.
+    Ignore the CPIDs returned by the show_user RPC
+    (they may not be consistent).
+    Then do a query on the host table, grouping by CPID.
+</ul>
+";
 page_tail();
 ?>

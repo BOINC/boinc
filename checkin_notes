@@ -519,3 +519,9 @@ David  16 Jan 2006
         before each scheduler RPC (from Bruce Allen)
     client/
         cs_scheduler.C
+
+David  16 Jan 2006
+    - add <hostid> element to account manager RPC request.
+
+    client/
+        acct_mgr.C

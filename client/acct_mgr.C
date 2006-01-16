@@ -126,11 +126,13 @@ int ACCT_MGR_OP::do_rpc(
                 "      <project_name>%s</project_name>\n"
                 "      <suspended_via_gui>%d</suspended_via_gui>\n"
                 "      <account_key>%s</account_key>\n"
+                "      <hostid>%d</hostid>\n"
                 "   </project>\n",
                 p->master_url,
                 p->project_name,
                 p->suspended_via_gui,
-                p->authenticator
+                p->authenticator,
+                p->hostid
             );
         }
     }
