@@ -461,3 +461,18 @@ David  15 Jan 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  15 Jan 2006
+    - user web: moved eah_server_status.php and sample_server_status.php
+        from user/ to ops/.
+        These pages have queries that are too slow for
+        big projects like SETI@home.
+
+    html/
+        ops/
+            eah_server_status.php (new)
+            sample_server_status.php (new)
+        user/
+            eah_server_status.php (removed)
+            sample_server_status.php (removed)
+            server_status.php (removed)

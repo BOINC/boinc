@@ -371,7 +371,8 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     }
 }
 
-// Return the NET_XFER object whose socket matches fd
+// Return the NET_XFER object with given Curl object
+//
 NET_XFER* NET_XFER_SET::lookup_curl(CURL* pcurl)  {
     for (unsigned int i=0; i<net_xfers.size(); i++) {
         if (net_xfers[i]->curlEasy == pcurl) {
