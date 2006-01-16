@@ -495,8 +495,11 @@ David  15 Jan 2006
 
 Bruce 16 Jan 2006
     - ops page: add external IP to data shown for host
+    - user host info page: when giving IP data, show both private
+      AND external IP (only for owner of host machine).
 
     html/
         inc/
             db_ops.inc
+            host.inc
 

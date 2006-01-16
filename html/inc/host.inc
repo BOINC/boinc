@@ -37,6 +37,7 @@ function show_host($host, $private, $ipprivate) {
     if ($private) {
         if ($ipprivate) {
             row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+            if (strcmp($host->last_ip_addr, $host->external_ip_addr)) row2("External IP address", $host->external_ip_addr);
         } else { 
             row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>Show IP address</a>");
         }
