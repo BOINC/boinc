@@ -293,7 +293,7 @@ their input files, their command-line arguments, or both.
 
 <p>
 For example, let's say you want to run a program
-one ten input files 'file0', 'file1', ..., 'file9'.
+on ten input files 'file0', 'file1', ..., 'file9'.
 You might modify the above program with the following code:
 <pre>
     char filename[256];

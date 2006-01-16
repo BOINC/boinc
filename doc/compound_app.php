@@ -36,7 +36,7 @@ struct BOINC_OPTIONS {
 	int direct_process_action;
 };
 
-int boinc_init_options(BOINC_OPTIONS&);
+int boinc_init_options(BOINC_OPTIONS&amp;);
 </pre>
 ";
 list_start();

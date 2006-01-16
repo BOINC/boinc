@@ -72,7 +72,7 @@ list_item("-no_gui_rpc",
     "Don't allow GUI RPCs."
 );
 list_item("-daemon",
-    "Run as daemon (detach from controlling terminal; Linux only)
+    "Run as daemon (detach from controlling terminal; Linux only)"
 );
 list_end();
 echo "

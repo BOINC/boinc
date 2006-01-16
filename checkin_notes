@@ -484,3 +484,11 @@ David  15 Jan 2006
     html/
         user/
             team_lookup.php
+
+David  15 Jan 2006
+    - compile fixes for gcc4.0
+
+    client/
+        gui_rpc_server.C
+    lib/
+        network.C

@@ -172,7 +172,7 @@ int get_socket_error(int fd) {
     socklen_t sinsz = sizeof(sin);
     n = getpeername(fd, (struct sockaddr *)&sin, &sinsz);
 #else
-    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (socklen_t*)&intsize);
 #endif
     return n;
 }

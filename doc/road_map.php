@@ -54,7 +54,7 @@ list_item("tools",
 );
 list_item("zip",
     "Compression functions; not used by BOINC,
-    buy may be useful for applications."
+    but may be useful for applications."
 );
 list_end();
 page_tail();
