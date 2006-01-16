@@ -52,6 +52,7 @@ static void print_options(char* prog) {
         "    -detach                        detach from console (Windows)\n"
         "    -dir <path>                    use given dir as BOINC home\n"
         "    -no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
+        "    -daemon                        run as daemon (Unix)\n"
         ,
         prog
     );

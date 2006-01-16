@@ -45,9 +45,9 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 #include <sys/types.h>
 #include <sys/socket.h>
 #endif
+#include <syslog.h>
 #include <unistd.h>
 #include <csignal>
-//#include "synch.h"
 #endif
 
 #ifdef __APPLE__
@@ -495,6 +495,19 @@ int main(int argc, char** argv) {
             if (CreateProcess(NULL, commandLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
                 exit(0);
             }
+            break;
+        }
+    }
+#elif defined linux
+    int i;
+    for (i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
+            syslog(LOG_DAEMON, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
+            // from <unistd.h>:
+            // Detach from the controlling terminal and run in the background as system daemon.
+            // Don't change working directory to root ("/"), but redirect
+            // standard input, standard output and standard error to /dev/null.
+            daemon(1, 0);
             break;
         }
     }

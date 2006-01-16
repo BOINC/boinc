@@ -440,3 +440,12 @@ Rom    15 Jan 2006
 Rom    15 Jan 2006 (HEAD)
     - Tag for 5.3.11 release, all platforms
       boinc_core_release_5_3_11
+
+David  15 Jan 2006
+    - core client: add "-daemon" option (uses daemon() system call
+        to detach from controlling terminal)
+        From Jan Gall
+
+    client/
+        cs_cmdline.C
+        main.C

@@ -71,6 +71,9 @@ list_item("-detach",
 list_item("-no_gui_rpc",
     "Don't allow GUI RPCs."
 );
+list_item("-daemon",
+    "Run as daemon (detach from controlling terminal; Linux only)
+);
 list_end();
 echo "
 <h2>Environment variables</h2>
