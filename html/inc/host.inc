@@ -2,6 +2,15 @@
 
 require_once("../inc/credit.inc");
 
+function link_to_results($host) {
+    if (!$host) return "No host";
+    $config = get_config();
+    if (!parse_bool($config, "show_results")) return "Unavailable";
+    $nresults = host_nresults($host);
+    if (!$nresults) return "0";
+    return "<a href=results.php?hostid=$host->id>$nresults</a>";
+}
+
 function sched_log_name($x) {
     if ($x == 0) return "NO_SUCH_LOG";
     return gmdate('Y-m-d_H/Y-m-d_H:i', $x) . ".txt";
@@ -160,9 +169,10 @@ function user_host_table_start($private) {
         <th>Total credit</th>
         <th>CPU type</th>
         <th>Operating system</th>
-        <th>Last contact</th>
-        </tr>
     ";
+    $config = get_config();
+    if (parse_bool($config, "show_results")) echo "<th>Results</th>";
+    echo "<th>Last contact</th></tr>";
 }
 
 // the following is used for list of top hosts
@@ -220,28 +230,39 @@ function show_host_row($host, $i, $private, $show_owner) {
             }
         }
     }
-    if (!$show_owner)
-    printf("
-        <td>%s</td>
-        <td>%s</td>
-        <td>%s <br> %s</td>
-        <td>%s <br> %s</td>
-        <td>%s</td>",
-           format_credit($host->expavg_credit), format_credit($host->total_credit),
-           $host->p_vendor, $host->p_model,
-           $host->os_name, $host->os_version, sched_log_link($host->rpc_time)
-    );
-    else
-    printf("
-        <td>%s</td>
-        <td>%s</td>
-        <td>%s <br> %s</td>
-        <td>%s <br> %s</td>",
-           format_credit($host->expavg_credit), format_credit($host->total_credit),
-           $host->p_vendor, $host->p_model,
-           $host->os_name, $host->os_version
-    );
-
+    if ($show_owner) {
+        // This is used in the TOP COMPUTERS display
+        //
+        printf("
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s <br> %s</td>
+            <td>%s <br> %s</td>",
+               format_credit($host->expavg_credit), format_credit($host->total_credit),
+               $host->p_vendor, $host->p_model,
+               $host->os_name, $host->os_version
+        );
+    } else {
+        // This is used in constructing list of COMPUTERS for a given user
+        //
+        $config = get_config();
+        if (parse_bool($config, "show_results")) {
+            $ltr="<td>".link_to_results($host)."</td>";
+        } else {
+            $ltr="";
+        }
+        printf("
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s <br> %s</td>
+            <td>%s <br> %s</td>
+            %s
+            <td>%s</td>",
+               format_credit($host->expavg_credit), format_credit($host->total_credit),
+               $host->p_vendor, $host->p_model,
+               $host->os_name, $host->os_version, $ltr, sched_log_link($host->rpc_time)
+        );
+    }
 
     //$nresults = host_nresults($host);
     //echo "<td><a href=results.php?hostid=$host->id>$nresults</a></td>";

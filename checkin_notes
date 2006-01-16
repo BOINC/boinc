@@ -499,11 +499,11 @@ Bruce 16 Jan 2006
       AND external IP (only for owner of host machine).
     - user web pages: if can't delete host because there are still
       results, give clearer error message and link to list of results.
+    - user web pages: in list of hosts, add link to show results
+      if project is configured to show results.
     html/
         inc/
             db_ops.inc
             host.inc
         user/
             host_delete.php
-
-
