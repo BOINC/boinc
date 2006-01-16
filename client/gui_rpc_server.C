@@ -281,7 +281,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         }
 
         boinc_socklen_t addr_len = sizeof(addr);
-        sock = accept(lsock, (struct sockaddr*)&addr, (socklen_t*)&addr_len);
+        sock = accept(lsock, (struct sockaddr*)&addr, (boinc_socklen_t*)&addr_len);
         if (sock == -1) {
             return;
         }
