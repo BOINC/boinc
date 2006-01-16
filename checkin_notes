@@ -476,3 +476,11 @@ David  15 Jan 2006
             eah_server_status.php (removed)
             sample_server_status.php (removed)
             server_status.php (removed)
+
+David  15 Jan 2006
+    - user web: add optional team_id argument to team_lookup.php
+        (returns XML description of a particular team)
+
+    html/
+        user/
+            team_lookup.php

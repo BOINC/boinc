@@ -11,7 +11,20 @@ $team_name = $_GET["team_name"];
 $name_lc = strtolower($team_name);
 $name_lc = escape_pattern($name_lc);
 $format = get_str("format", true);
+$team_id = get_int("team_id", true);
  
+if ($team_id) {
+    $team = lookup_team($team_id);
+    require_once ('../inc/xml.inc');
+    xml_header();
+    if ($team) {
+        show_team_xml($team);
+    } else {
+        echo "<error>\nno such team\n</error>\n";
+    }
+    exit();
+}
+
 $query = "select * from team where name like '%$name_lc%'";
 $result_list = mysql_query($query);
 
