@@ -342,8 +342,8 @@ public:
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     int compute_work_requests();
-private:
     SCHEDULER_OP* scheduler_op;
+private:
     bool contacted_sched_server;
     int overall_work_fetch_urgency;
 

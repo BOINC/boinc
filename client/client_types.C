@@ -180,7 +180,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-// Write project information to client state file
+// Write project information to client state file or GUI RPC reply
 //
 int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     unsigned int i;
@@ -197,10 +197,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
-#if 0
-        "    <share_size>%f</share_size>\n"
-        "    <size>%f</size>\n"
-#endif
         "    <user_name>%s</user_name>\n"
         "    <team_name>%s</team_name>\n"
         "    <email_hash>%s</email_hash>\n"
@@ -220,13 +216,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
-        "%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
-#if 0
-        share_size,
-        size,
-#endif
         u2.c_str(),
         t2.c_str(),
         email_hash,
@@ -253,15 +245,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
-        attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":""
+        attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
+        (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
-#if 0
-    out.printf(
-        "%s%s",
-        deletion_policy_priority?"    <deletion_policy_priority/>\n":"",
-        deletion_policy_expire?"    <deletion_policy_expire/>\n":""
-    );
-#endif
     if (gui_rpc) {
         out.printf("%s", gui_urls.c_str());
     } else {

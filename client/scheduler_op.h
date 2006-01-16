@@ -69,10 +69,10 @@ private:
     int scheduler_op_retval;
     HTTP_OP http_op;
     HTTP_OP_SET* http_ops;
-    PROJECT* cur_proj;               // project we're currently contacting
     char scheduler_url[256];
     int url_index;                  // index within project's URL list
 public:
+    PROJECT* cur_proj;               // project we're currently contacting
     int state;
     SCHEDULER_OP_REASON reason;
     double url_random;              // used to randomize order

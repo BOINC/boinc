@@ -136,6 +136,7 @@ public:
     bool non_cpu_intensive;
     bool suspended_via_gui;
     bool dont_request_more_work;
+    bool scheduler_rpc_in_progress;
 
     PROJECT();
     ~PROJECT();

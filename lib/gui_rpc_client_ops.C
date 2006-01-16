@@ -124,6 +124,10 @@ int PROJECT::parse(MIOFILE& in) {
             tentative = true;
             continue;
         }
+        else if (match_tag(buf, "<scheduler_rpc_in_progress/>")) {
+            scheduler_rpc_in_progress = true;
+            continue;
+        }
         else if (match_tag(buf, "<gui_urls>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</gui_urls>")) break;
@@ -161,6 +165,7 @@ void PROJECT::clear() {
     non_cpu_intensive = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
+    scheduler_rpc_in_progress = false;
     gui_urls.clear();
     statistics.clear();
 }

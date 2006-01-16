@@ -449,3 +449,15 @@ David  15 Jan 2006
     client/
         cs_cmdline.C
         main.C
+
+David  15 Jan 2006
+    - GUI RPC: added optional <scheduler_rpc_in_progress/> element
+        to <project> elements in GUI RPC replies
+
+    client/
+        client_state.h
+        client_types.C
+        scheduler_op.h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
