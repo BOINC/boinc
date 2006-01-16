@@ -322,9 +322,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     retval = net_stats.write(mf);
     if (retval) return retval;
 
-    // update disk usage, and write host info
+    // update hardware info, and write host info
     //
-    get_filesystem_info(host_info.d_total, host_info.d_free);
+    host_info.get_host_info();
     retval = host_info.write(mf);
     if (retval) return retval;
 

@@ -508,8 +508,14 @@ Bruce 16 Jan 2006
         user/
             host_delete.php
 
-David  15 Jan 2006
+David  16 Jan 2006
 	- compile fix for Win
 
 	client/
 		gui_rpc_server.C
+
+David  16 Jan 2006
+    - Call get_host_info() (not just get_filesystem_info())
+        before each scheduler RPC (from Bruce Allen)
+    client/
+        cs_scheduler.C
