@@ -497,9 +497,13 @@ Bruce 16 Jan 2006
     - ops page: add external IP to data shown for host
     - user host info page: when giving IP data, show both private
       AND external IP (only for owner of host machine).
-
+    - user web pages: if can't delete host because there are still
+      results, give clearer error message and link to list of results.
     html/
         inc/
             db_ops.inc
             host.inc
+        user/
+            host_delete.php
+
 
