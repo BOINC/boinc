@@ -143,7 +143,7 @@ int PERS_FILE_XFER::start_xfer() {
     }
     if (log_flags.file_xfer) {
         msg_printf(
-            fip->project, MSG_INFO, "Started %s of %s",
+            fip->project, MSG_INFO, "Started %s of file %s",
             (is_upload ? "upload" : "download"), fip->name
         );
     }
@@ -200,7 +200,7 @@ bool PERS_FILE_XFER::poll() {
             fip->project->file_xfer_succeeded(is_upload);
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Finished %s of %s",
+                    fip->project, MSG_INFO, "Finished %s of file %s",
                     is_upload?"upload":"download", fip->name
                 );
                 if (fxp->xfer_speed < 0) {

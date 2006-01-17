@@ -392,7 +392,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         msg_printf(NULL, MSG_INFO, "Benchmark results:");
         msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", ncpus);
         msg_printf(
-            NULL, MSG_INFO, "   %.0f double precision MIPS (Whetstone) per CPU",
+            NULL, MSG_INFO, "   %.0f floating point MIPS (Whetstone) per CPU",
             host_info.p_fpops/1e6
         );
         msg_printf(
