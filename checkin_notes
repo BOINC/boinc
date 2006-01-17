@@ -525,3 +525,15 @@ David  16 Jan 2006
 
     client/
         acct_mgr.C
+
+David  16 Jan 2006
+    - core client: enhancements to duration correction factor (DCF):
+        - on project reset, set DCF to one.
+        - when do CPU benchmarks, scale all DCFs by new/old benchmark
+
+        (from Josef Segur)
+
+    client/
+        client_state.C,h
+        cs_benchmark.C
+        cs_scheduler.C

@@ -1283,6 +1283,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         garbage_collect_always();
     }
 
+    project->duration_correction_factor = 1;
     write_state_file();
     return 0;
 }

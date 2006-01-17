@@ -1415,4 +1415,11 @@ double CLIENT_STATE::work_needed_secs() {
     return x;
 }
 
+void CLIENT_STATE::scale_duration_correction_factors(double factor) {
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->duration_correction_factor *= factor;
+    }
+}
+
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";

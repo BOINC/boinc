@@ -364,6 +364,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         }
     }
     if (ndone == ncpus) {
+        double old_p_fpops = host_info.p_fpops;
         if (had_error) {
             msg_printf(NULL, MSG_ERROR, "CPU benchmarks error");
             host_info.p_fpops = DEFAULT_FPOPS;
@@ -403,6 +404,11 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         );
 #endif
 
+        // scale duration correction factor according to change in benchmarks.
+        //
+        if (old_p_fpops) {
+            scale_duration_correction_factors(host_info.p_fpops/old_p_fpops);
+        }
         host_info.p_calculated = now;
         benchmarks_running = false;
         msg_printf(NULL, MSG_INFO, "Finished CPU benchmarks");

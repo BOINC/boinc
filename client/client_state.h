@@ -343,6 +343,7 @@ public:
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     int compute_work_requests();
     SCHEDULER_OP* scheduler_op;
+    void scale_duration_correction_factors(double);
 private:
     bool contacted_sched_server;
     int overall_work_fetch_urgency;
