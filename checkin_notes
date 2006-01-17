@@ -538,6 +538,12 @@ David  16 Jan 2006
         cs_benchmark.C
         cs_scheduler.C
 
-Rom    15 Jan 2006 (HEAD)
+Rom    17 Jan 2006 (HEAD)
     - Tag for 5.3.12 release, all platforms
       boinc_core_release_5_3_12
+
+David  17 Jan 2006
+    - user web: add Mauritius to country list
+
+    html/inc/
+        countries.inc

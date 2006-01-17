@@ -140,6 +140,7 @@ $countries = array(
     "Marshall Islands",
     "Martinique",
     "Mauritania",
+    "Mauritius",
     "Mexico",
     "Micronesia",
     "Moldova",
