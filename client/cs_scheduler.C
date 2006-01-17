@@ -832,7 +832,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (project->gui_urls != old_gui_urls || update_project_prefs) {
         retval = project->write_account_file();
         if (retval) {
-            msg_printf(project, MSG_ERROR, "Can't write account file: %d", retval);
+            msg_printf(project, MSG_ERROR,
+                "Can't write account file: %s", boincerror(retval)
+            );
             return retval;
         }
     }
@@ -860,10 +862,14 @@ int CLIENT_STATE::handle_scheduler_reply(
                 if (!retval && signature_valid) {
                     safe_strcpy(project->code_sign_key, sr.code_sign_key);
                 } else {
-                    msg_printf(project, MSG_ERROR, "New code signing key doesn't validate");
+                    msg_printf(project, MSG_ERROR,
+                        "New code signing key doesn't validate"
+                    );
                 }
             } else {
-                msg_printf(project, MSG_ERROR, "Missing code sign key signature");
+                msg_printf(project, MSG_ERROR,
+                    "Missing code sign key signature"
+                );
             }
         }
     }
@@ -878,7 +884,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             retval = link_app(project, app);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't link app %s in sched reply", app->name
+                    "Can't handle application %s in scheduler reply", app->name
                 );
                 delete app;
             } else {
@@ -897,7 +903,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             retval = link_file_info(project, fip);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't link file_info %s in sched reply", fip->name
+                    "Can't handle file %s in scheduler reply", fip->name
                 );
                 delete fip;
             } else {
@@ -908,7 +914,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.file_deletes.size(); i++) {
         fip = lookup_file_info(project, sr.file_deletes[i].c_str());
         if (fip) {
-            msg_printf(project, MSG_INFO, "Got server request to delete file %s\n", fip->name);
+            msg_printf(project, MSG_INFO,
+                "Got server request to delete file %s", fip->name
+            );
             fip->marked_for_delete = true;
         }
     }
@@ -926,7 +934,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         retval = link_app_version(project, avp);
         if (retval) {
              msg_printf(project, MSG_ERROR,
-                 "Can't link app version %s %d in sched reply",
+                 "Can't handle application version %s %d in scheduler reply",
                  avp->app_name, avp->version_num
              );
              delete avp;
@@ -941,7 +949,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         int vnum = choose_version_num(wup->app_name, sr);
         if (vnum < 0) {
             msg_printf(project, MSG_ERROR,
-                "Can't find app version for WU %s", wup->name
+                "Can't find application version for task %s", wup->name
             );
             delete wup;
             continue;
@@ -951,7 +959,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         retval = link_workunit(project, wup);
         if (retval) {
             msg_printf(project, MSG_ERROR,
-                "Can't link workunit %s in sched reply", wup->name
+                "Can't handle task %s in scheduler reply", wup->name
             );
             delete wup;
             continue;
@@ -962,7 +970,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_ERROR,
-                "Already have result %s\n", sr.results[i].name
+                "Already have task %s\n", sr.results[i].name
             );
             continue;
         }
@@ -971,7 +979,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         retval = link_result(project, rp);
         if (retval) {
             msg_printf(project, MSG_ERROR,
-                "Can't link result %s in sched reply", rp->name
+                "Can't handle task %s in scheduler reply", rp->name
             );
             delete rp;
             continue;
@@ -993,7 +1001,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             rp->got_server_ack = true;
         } else {
             msg_printf(project, MSG_ERROR,
-                "Got ack for result %s, can't find", sr.result_acks[i].name
+                "Got ack for task %s, but can't find it", sr.result_acks[i].name
             );
         }
     }

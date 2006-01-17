@@ -287,9 +287,9 @@ int CLIENT_STATE::init() {
     //
     retval = write_state_file();
     if (retval) {
-        msg_printf(NULL, MSG_INFO,
-            "Couldn't modify the state file.  Make sure you have permissions configured for "
-            "BOINC to run on this system under this user account\n"
+        msg_printf(NULL, MSG_ERROR, "Couldn't write state file");
+        msg_printf(NULL, MSG_ERROR,
+            "Make sure you have permissions set correctly"
         );
         return retval;
     }
@@ -306,7 +306,7 @@ int CLIENT_STATE::init() {
         || (core_client_release != old_release)
     ) {
         msg_printf(NULL, MSG_INFO,
-            "Version change detected (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
+            "Version change (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
             old_major_version, old_minor_version, old_release,
             core_client_major_version, core_client_minor_version,
             core_client_release
@@ -321,7 +321,8 @@ int CLIENT_STATE::init() {
         } else {
             strcpy(buf, "not assigned yet");
         }
-        msg_printf(p, MSG_INFO, "Computer ID: %s; location: %s; project prefs: %s",
+        msg_printf(p, MSG_INFO,
+            "Computer ID: %s; location: %s; project prefs: %s",
             buf, p->host_venue,
             p->using_venue_specific_prefs?p->host_venue:"default"
         );
@@ -686,7 +687,10 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     avp->project = p;
     app = lookup_app(p, avp->app_name);
     if (!app) {
-        msg_printf(p, MSG_ERROR, "app_version refers to nonexistent app: %s\n", avp->app_name);
+        msg_printf(p, MSG_ERROR,
+            "State file error: bad application name %s",
+            avp->app_name
+        );
         return ERR_NOT_FOUND;
     }
     avp->app = app;
@@ -698,7 +702,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
             msg_printf(p, MSG_ERROR,
-                "app_version refers to nonexistent file: %s\n",
+                "State file error: missing application file %s",
                 file_ref.file_name
             );
             return ERR_NOT_FOUND;
@@ -717,7 +721,10 @@ int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
 
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
-        msg_printf(p, MSG_ERROR, "File ref refers to nonexistent file: %s\n", file_refp->file_name);
+        msg_printf(p, MSG_ERROR,
+            "State file error: missing file %s",
+            file_refp->file_name
+        );
         return ERR_NOT_FOUND;
     }
     file_refp->file_info = fip;
@@ -732,13 +739,16 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
 
     app = lookup_app(p, wup->app_name);
     if (!app) {
-        msg_printf(p, MSG_ERROR, "WU refers to nonexistent app: %s\n", wup->app_name);
+        msg_printf(p, MSG_ERROR,
+            "State file error: missing application %s",
+            wup->app_name
+        );
         return ERR_NOT_FOUND;
     }
     avp = lookup_app_version(app, wup->version_num);
     if (!avp) {
         msg_printf(p, MSG_ERROR,
-            "WU refers to nonexistent app_version: %s %d\n",
+            "State file error: no application version %s %d\n",
             wup->app_name, wup->version_num
         );
         return ERR_NOT_FOUND;
@@ -750,7 +760,7 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
         retval = link_file_ref(p, &wup->input_files[i]);
         if (retval) {
             msg_printf(p, MSG_ERROR,
-                "WU refers to nonexistent file: %s\n",
+                "State file error: missing input file %s\n",
                 wup->input_files[i].file_name
             );
             return retval;
@@ -766,7 +776,9 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
 
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
-        msg_printf(p, MSG_ERROR, "link_result: nonexistent WU %s\n", rp->wu_name);
+        msg_printf(p, MSG_ERROR,
+            "State file error: missing task %s\n", rp->wu_name
+        );
         return ERR_NOT_FOUND;
     }
     rp->project = p;
@@ -774,10 +786,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     rp->app = wup->app;
     for (i=0; i<rp->output_files.size(); i++) {
         retval = link_file_ref(p, &rp->output_files[i]);
-        if (retval) {
-            msg_printf(p, MSG_ERROR, "link_result: link_file_ref failed\n");
-            return retval;
-        }
+        if (retval) return retval;
     }
     return 0;
 }
@@ -1103,11 +1112,13 @@ bool CLIENT_STATE::time_to_exit() {
         && (app_started>0)
         && ((now - app_started) >= exit_after_app_start_secs)
     ) {
-        msg_printf(NULL, MSG_INFO, "exiting because time is up: %d\n", exit_after_app_start_secs);
+        msg_printf(NULL, MSG_INFO,
+            "Exiting because time is up: %d", exit_after_app_start_secs
+        );
         return true;
     }
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
-        msg_printf(NULL, MSG_INFO, "exiting because no more results\n");
+        msg_printf(NULL, MSG_INFO, "exiting because no more results");
         return true;
     }
     return false;
@@ -1194,7 +1205,9 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     case RESULT_COMPUTE_ERROR:
         break;
     case RESULT_FILES_UPLOADED:
-        msg_printf(res.project, MSG_ERROR, "report_result_error() called unexpectedly");
+        msg_printf(res.project, MSG_ERROR,
+            "Error reported for completed task %s", res.name
+        );
         break;
     }
 
@@ -1343,7 +1356,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     retval = boinc_delete_file(path);
     if (retval) {
         msg_printf(project, MSG_ERROR,
-            "Can't delete statistics file: %s\n", boincerror(retval)
+            "Can't delete statistics file: %s", boincerror(retval)
         );
     }
 
@@ -1353,7 +1366,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     retval = boinc_delete_file(path);
     if (retval) {
         msg_printf(project, MSG_ERROR,
-            "Can't delete account file: %s\n", boincerror(retval)
+            "Can't delete account file: %s", boincerror(retval)
         );
     }
 
@@ -1362,7 +1375,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     retval = remove_project_dir(*project);
     if (retval) {
         msg_printf(project, MSG_ERROR,
-            "Can't delete project directory: %s\n", boincerror(retval)
+            "Can't delete project directory: %s", boincerror(retval)
         );
     }
 

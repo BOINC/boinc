@@ -183,7 +183,9 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR, "FILE_XFER_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR,
+        "File transfer for %s not found", fxp->fip->name
+    );
     return ERR_NOT_FOUND;
 }
 

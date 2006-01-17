@@ -250,12 +250,12 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     PROJECT* pp = global_prefs_source_project();
     if (pp) {
         msg_printf(NULL, MSG_INFO,
-            "General prefs: from %s (last modified %s)\n",
+            "General prefs: from %s (last modified %s)",
             pp->get_project_name(), time_to_string(global_prefs.mod_time)
         );
     } else {
         msg_printf(NULL, MSG_INFO,
-            "General prefs: from %s (last modified %s)\n",
+            "General prefs: from %s (last modified %s)",
             global_prefs.source_project,
             time_to_string(global_prefs.mod_time)
         );
@@ -263,16 +263,16 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     if (strlen(main_host_venue)) {
         if (found_venue) {
             msg_printf(NULL, MSG_INFO,
-                "General prefs: using separate prefs for %s\n", main_host_venue
+                "General prefs: using separate prefs for %s", main_host_venue
             );
         } else {
             msg_printf(NULL, MSG_INFO,
-                "General prefs: no separate prefs for %s; using your defaults\n",
+                "General prefs: no separate prefs for %s; using your defaults",
                 main_host_venue
             );
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "General prefs: using your defaults\n");
+        msg_printf(NULL, MSG_INFO, "General prefs: using your defaults");
     }
 }
 

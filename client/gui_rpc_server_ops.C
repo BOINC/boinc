@@ -206,7 +206,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             retval = gstate.project_init.remove();
             if (retval) {
                 msg_printf(p, MSG_ERROR,
-                    "Can't delete project init file: %s\n", boincerror(retval)
+                    "Can't delete project init file: %s", boincerror(retval)
                 );
             }
         }

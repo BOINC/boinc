@@ -134,7 +134,9 @@ int NET_STATS::parse(MIOFILE& in) {
             down.starting_throughput = bwdown;
             continue;
         }
-        else msg_printf(NULL, MSG_ERROR, "NET_STATS::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR,
+            "Unrecognized network statistics line: %s", buf
+        );
     }
     return ERR_XML_PARSE;
 }

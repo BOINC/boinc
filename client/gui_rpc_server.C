@@ -159,7 +159,7 @@ int GUI_RPC_CONN_SET::init() {
     lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
         msg_printf(NULL, MSG_ERROR,
-            "GUI RPC failed to create socket: %d\n", lsock
+            "GUI RPC failed to create socket: %d", lsock
         );
         return ERR_SOCKET;
     }
@@ -178,10 +178,10 @@ int GUI_RPC_CONN_SET::init() {
 #else
     if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
-        msg_printf(NULL, MSG_INFO, "Remote control allowed\n");
+        msg_printf(NULL, MSG_INFO, "Remote control allowed");
     } else {
         addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-        msg_printf(NULL, MSG_INFO, "Remote control not allowed");
+        msg_printf(NULL, MSG_INFO, "Local control only allowed");
     }
 #endif
 
@@ -190,7 +190,7 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
+        msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d", retval);
         boinc_close_socket(lsock);
         lsock = -1;
         return ERR_BIND;
@@ -199,7 +199,7 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = listen(lsock, 999);
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d\n", retval);
+        msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d", retval);
         boinc_close_socket(lsock);
         lsock = -1;
         return ERR_LISTEN;
@@ -223,13 +223,13 @@ static void show_connect_error(in_addr ia) {
     }
     msg_printf(
         NULL, MSG_ERROR,
-        "GUI RPC request from non-allowed address %s\n",
+        "GUI RPC request from non-allowed address %s",
         inet_ntoa(ia)
     );
     if (count > 1) {
         msg_printf(
             NULL, MSG_ERROR,
-            "%d connections rejected in last 10 minutes\n",
+            "%d connections rejected in last 10 minutes",
             count
         );
     }

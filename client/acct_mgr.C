@@ -276,7 +276,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             AM_ACCOUNT& acct = accounts[i];
             retval = verify_string2(acct.url.c_str(), acct.url_signature, ami.signing_key, verified);
             if (retval || !verified) {
-                msg_printf(NULL, MSG_ERROR, "Failed to verify URL %s", acct.url.c_str());
+                msg_printf(NULL, MSG_ERROR, "Bad signature for URL %s", acct.url.c_str());
                 continue;
             }
             pp = gstate.lookup_project(acct.url.c_str());

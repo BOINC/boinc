@@ -117,7 +117,7 @@ int remove_project_dir(PROJECT& p) {
     get_project_dir(&p, buf);
     retval = clean_out_dir(buf);
     if (retval) {
-        msg_printf(&p, MSG_ERROR, "Can't delete file %s\n", boinc_failed_file);
+        msg_printf(&p, MSG_ERROR, "Can't delete file %s", boinc_failed_file);
         return retval;
     }
     return boinc_rmdir(buf);
@@ -128,7 +128,7 @@ int remove_project_dir(PROJECT& p) {
 int make_slot_dir(int slot) {
     char buf[256];
     if (slot<0) {
-        msg_printf(NULL, MSG_ERROR, "make_slot_dir(): negative slot\n");
+        msg_printf(NULL, MSG_ERROR, "Bad slot number %d", slot);
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);

@@ -234,7 +234,7 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "Task %s not found", atp->result->name);
     return ERR_NOT_FOUND;
 }
 
@@ -372,7 +372,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             if (!project) {
                 msg_printf(
                     NULL, MSG_ERROR,
-                    "ACTIVE_TASK::parse(): project not found: %s\n",
+                    "State file error: project %s not found\n",
                     project_master_url
                 );
                 return ERR_NULL;
@@ -381,7 +381,9 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             result = gstate.lookup_result(project, result_name);
             if (!result) {
                 msg_printf(
-                    project, MSG_ERROR, "ACTIVE_TASK::parse(): result not found\n"
+                    project, MSG_ERROR,
+                    "State file error: result %s not found\n",
+                    result_name
                 );
                 return ERR_NULL;
             }
@@ -393,7 +395,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                 || result->state != RESULT_FILES_DOWNLOADED
             ) {
                 msg_printf(project, MSG_ERROR,
-                    "ACTIVE_TASK::parse(): result is in wrong state\n"
+                    "State file error: result %s is in wrong state\n",
+                    result_name
                 );
                 return ERR_BAD_RESULT_STATE;
             }
@@ -405,7 +408,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             if (!app_version) {
                 msg_printf(
                     project, MSG_ERROR,
-                    "ACTIVE_TASK::parse(): app_version not found\n"
+                    "State file error: application %s version %d not found\n",
+                    result->app->name, app_version_num
                 );
                 return ERR_NULL;
             }
@@ -416,7 +420,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                 ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
                 if (atp->slot == slot) {
                     msg_printf(project, MSG_ERROR,
-                        "ACTIVE_TASK::parse(): slot %d already taken\n", slot
+                        "State file error: two tasks in slot %d\n", slot
                     );
                     return ERR_BAD_RESULT_STATE;
                 }
@@ -503,7 +507,7 @@ void ACTIVE_TASK_SET::report_overdue() {
         double diff = (gstate.now - atp->result->report_deadline)/86400;
         if (diff > 0) {
             msg_printf(atp->result->project, MSG_ERROR,
-                "Result %s is %.2f days overdue.", atp->result->name, diff
+                "Task %s is %.2f days overdue.", atp->result->name, diff
             );
             msg_printf(atp->result->project, MSG_ERROR,
                 "You may not get credit for it.  Consider aborting it."
@@ -536,7 +540,7 @@ int ACTIVE_TASK::handle_upload_files() {
                     fip->status = FILE_PRESENT;
                 }
             } else {
-                msg_printf(0, MSG_ERROR, "Can't find %s", p);
+                msg_printf(0, MSG_ERROR, "Can't find uploadable file %s", p);
             }
             sprintf(path, "%s/%s", slot_dir, buf);
             boinc_delete_file(path);

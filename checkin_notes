@@ -547,3 +547,17 @@ David  17 Jan 2006
 
     html/inc/
         countries.inc
+
+David  17 Jan 2006
+    - Core client error messages:
+        - "task" instead of "result"
+        - Don't include function names in messages
+        - Don't end with \n
+    - Removed files superceded by curl
+        
+    client/
+        *.C
+        http.C,h (removed)
+        net_xfer.C,h (removed)
+        ssl_http.C,h (removed)
+        ssl_net_xfer.C,h (removed)

@@ -62,12 +62,11 @@ int CLIENT_STATE::quit_activities() {
 
     retval = active_tasks.exit_tasks();
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.quit_activities: exit_tasks failed\n");
+        msg_printf(NULL, MSG_ERROR,
+            "Couldn't exit tasks: %s", boincerror(retval)
+        );
     }
-    retval = write_state_file();
-    if (retval) {
-        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.quit_activities: write_state_file failed\n");
-    }
+    write_state_file();
     abort_cpu_benchmarks();
     return 0;
 }
@@ -107,7 +106,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 //
                 msg_printf(
                     rp->project, MSG_INFO,
-                    "Output file %s for result %s exceeds size limit.",
+                    "Output file %s for task %s exceeds size limit.",
                     fip->name, rp->name
                 );
                 msg_printf(
@@ -176,7 +175,7 @@ bool CLIENT_STATE::handle_finished_apps() {
         case PROCESS_COULDNT_START:
         case PROCESS_ABORTED:
             msg_printf(atp->wup->project, MSG_INFO,
-                "Computation for result %s finished", atp->result->name
+                "Computation for task %s finished", atp->result->name
             );
             scope_messages.printf(
                 "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
@@ -705,7 +704,9 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
         best = avp->version_num;
     }
     if (best < 0) {
-        msg_printf(0, MSG_ERROR, "CLIENT_STATE::latest_version_num: no version\n");
+        msg_printf(0, MSG_ERROR,
+            "No version found for application %s", app_name
+        );
     }
     return best;
 }

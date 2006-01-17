@@ -343,7 +343,9 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     // check for timeout
     //
     if (now > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-        msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
+        msg_printf(NULL, MSG_ERROR,
+            "CPU benchmarks timed out, using default values"
+        );
         abort_cpu_benchmarks();
         host_info.p_fpops = DEFAULT_FPOPS;
         host_info.p_iops = DEFAULT_IOPS;

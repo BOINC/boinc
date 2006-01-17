@@ -256,7 +256,7 @@ int HTTP_OP::libcurl_exec(
 
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
     if (!curlEasy) {
-        msg_printf(0, MSG_ERROR, "%s\n", "Couldn't create curlEasy handle\n");
+        msg_printf(0, MSG_ERROR, "Couldn't create curlEasy handle");
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
@@ -361,7 +361,8 @@ The checking this option controls is of the identity that the server claims. The
         fileOut = boinc_fopen(outfile, szType);
         if (!fileOut) {
             msg_printf(NULL, MSG_ERROR, 
-                "HTTP_CURL:libcurl_exec(): Can't setup HTTP response output file %s\n", outfile);
+                "Can't create HTTP response output file %s", outfile
+            );
             io_done = true;
             http_op_retval = ERR_FOPEN;
             http_op_state = HTTP_STATE_DONE;
@@ -380,7 +381,7 @@ The checking this option controls is of the identity that the server claims. The
         if (infile && strlen(infile)>0) {
             fileIn = boinc_fopen(infile, "rb");
             if (!fileIn) {
-                msg_printf(NULL, MSG_ERROR, "HTTP_CURL:libcurl_exec(): no input file %s\n", infile);
+                msg_printf(NULL, MSG_ERROR, "No HTTP input file %s", infile);
                 io_done = true;
                 http_op_retval = ERR_FOPEN;
                 http_op_state = HTTP_STATE_DONE;
@@ -451,7 +452,7 @@ The checking this option controls is of the identity that the server claims. The
     // last but not least, add this to the curl_multi
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
-        msg_printf(0, MSG_ERROR, "%s\n", "Couldn't add curlEasy handle to curlMulti\n");
+        msg_printf(0, MSG_ERROR, "Couldn't add curlEasy handle to curlMulti");
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
@@ -527,7 +528,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "HTTP operation not found");
     return ERR_NOT_FOUND;
 }
 

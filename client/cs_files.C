@@ -36,9 +36,10 @@
 
 #include "md5_file.h"
 #include "crypt.h"
-
+#include "util.h"
 #include "filesys.h"
 #include "error_numbers.h"
+
 #include "file_names.h"
 #include "client_types.h"
 #include "client_state.h"
@@ -130,8 +131,12 @@ int FILE_INFO::verify_file(bool strict) {
 
     if (signature_required) {
         if (!strlen(file_signature)) {
-            msg_printf(project, MSG_ERROR, "Application file %s missing signature", name);
-            msg_printf(project, MSG_ERROR, "This BOINC client cannot accept unsigned application files");
+            msg_printf(project, MSG_ERROR,
+                "Application file %s missing signature", name
+            );
+            msg_printf(project, MSG_ERROR,
+                "BOINC cannot accept this file"
+            );
             error_msg = "missing signature";
             status = ERR_NO_SIGNATURE;
             return ERR_NO_SIGNATURE;
@@ -141,7 +146,7 @@ int FILE_INFO::verify_file(bool strict) {
         );
         if (retval) {
             msg_printf(project, MSG_ERROR,
-                "signature verification error for %s",
+                "Signature verification error for %s",
                 name
             );
             error_msg = "signature verification error";
@@ -150,7 +155,7 @@ int FILE_INFO::verify_file(bool strict) {
         }
         if (!verified) {
             msg_printf(project, MSG_ERROR,
-                "signature verification failed for %s",
+                "Signature verification failed for %s",
                name
             );
             error_msg = "signature verification failed";
@@ -161,8 +166,8 @@ int FILE_INFO::verify_file(bool strict) {
         retval = md5_file(pathname, cksum, nbytes);
         if (retval) {
             msg_printf(project, MSG_ERROR,
-                "MD5 computation error for %s: %d\n",
-                name, retval
+                "MD5 computation error for %s: %s\n",
+                name, boincerror(retval)
             );
             error_msg = "MD5 computation error";
             status = retval;

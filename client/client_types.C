@@ -520,7 +520,10 @@ FILE_INFO::FILE_INFO() {
 
 FILE_INFO::~FILE_INFO() {
     if (pers_file_xfer) {
-        msg_printf(NULL, MSG_ERROR, "%s: delete FILE_INFO when a pers_file_xfer still points to it\n", name);
+        msg_printf(NULL, MSG_ERROR,
+            "Deleting file %s while in use",
+            name
+        );
         pers_file_xfer->fip = NULL;
     }
 }
@@ -758,7 +761,7 @@ int FILE_INFO::delete_file() {
     get_pathname(this, path);
     int retval = boinc_delete_file(path);
     if (retval && status != FILE_NOT_PRESENT) {
-        msg_printf(project, MSG_ERROR, "Couldn't delete file %s\n", path);
+        msg_printf(project, MSG_ERROR, "Couldn't delete file %s", path);
     }
     status = FILE_NOT_PRESENT;
     return retval;
@@ -791,7 +794,8 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
         if (!is_correct_url_type(is_upload, urls[current_url])) {
             current_url = (current_url + 1)%urls.size();
             if (current_url == start_url) {
-                msg_printf(project, MSG_ERROR, "Couldn't find suitable URL for %s\n", name);
+                msg_printf(project, MSG_ERROR,
+                    "Couldn't find suitable URL for %s", name);
                 return NULL;
             }
         } else {
@@ -1072,8 +1076,9 @@ int WORKUNIT::parse(MIOFILE& in) {
                     command_line += buf;
                 }
                 if (!found) {
-                    msg_printf(
-                        NULL, MSG_ERROR, "%s: error in <command_line> element", name
+                    msg_printf(NULL, MSG_ERROR,
+                        "Task %s: bad command line",
+                        name
                     );
                     return ERR_XML_PARSE;
                 }

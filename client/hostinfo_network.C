@@ -62,7 +62,7 @@ int get_local_network_info(
     if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     struct hostent* he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
-        msg_printf(NULL, MSG_ERROR, "get_local_network_info(): gethostbyname failed\n");
+        msg_printf(NULL, MSG_ERROR, "gethostbyname failed");
         return ERR_GETHOSTBYNAME;
     }
     strlcpy(domain_name, he->h_name, domlen);

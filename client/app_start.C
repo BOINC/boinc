@@ -187,7 +187,7 @@ int ACTIVE_TASK::write_app_init_file() {
     f = boinc_fopen(init_data_path, "w");
     if (!f) {
         msg_printf(wup->project, MSG_ERROR,
-            "Failed to open core-to-app prefs file %s",
+            "Failed to open init file %s",
             init_data_path
         );
         return ERR_FOPEN;
@@ -219,7 +219,9 @@ static int setup_file(
     if (fref.copy_file) {
         retval = boinc_copy(file_path, link_path);
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR, "Can't copy %s to %s", file_path, link_path);
+            msg_printf(wup->project, MSG_ERROR,
+                "Can't copy %s to %s", file_path, link_path
+            );
             return retval;
         }
     } else {
@@ -230,7 +232,9 @@ static int setup_file(
         }
         retval = boinc_link(buf, link_path);
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
+            msg_printf(wup->project, MSG_ERROR,
+                "Can't link %s to %s", file_path, link_path
+            );
             return retval;
         }
     }
@@ -402,7 +406,9 @@ int ACTIVE_TASK::start(bool first_time) {
             break;
         }
         windows_error_string(error_msg, sizeof(error_msg));
-        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", error_msg);
+        msg_printf(wup->project, MSG_ERROR,
+            "Process creation failed: %s", error_msg
+        );
         boinc_sleep(drand());
     }
     if (!success) {
@@ -443,7 +449,7 @@ int ACTIVE_TASK::start(bool first_time) {
 	retval = chdir(slot_dir);
 	if (retval) {
 		msg_printf(wup->project, MSG_ERROR,
-			"chdir(%s) failed: %s\n", slot_dir, boincerror(retval)
+			"Can't change directory: %s", slot_dir, boincerror(retval)
         );
 		return retval;
 	}
@@ -461,7 +467,7 @@ int ACTIVE_TASK::start(bool first_time) {
 	pid = spawnv(P_NOWAIT, buf, argv);
 	if (pid == -1) {
 		msg_printf(wup->project, MSG_ERROR,
-			"spawn(%s) failed: %s\n", buf, boincerror(retval)
+			"Process creation failed: %s\n", buf, boincerror(retval)
         );
 		chdir(current_dir);
         return ERR_EXEC;
@@ -499,7 +505,9 @@ int ACTIVE_TASK::start(bool first_time) {
     if (pid == -1) {
         task_state = PROCESS_COULDNT_START;
         gstate.report_result_error(*result, "fork() failed: %s", strerror(errno));
-        msg_printf(wup->project, MSG_ERROR, "fork() failed: %s", strerror(errno));
+        msg_printf(wup->project, MSG_ERROR,
+            "Process creation failed: %s", strerror(errno)
+        );
         return ERR_FORK;
     }
     if (pid == 0) {
@@ -528,7 +536,7 @@ int ACTIVE_TASK::start(bool first_time) {
         sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
         msg_printf(wup->project, MSG_ERROR,
-            "execv(%s) failed: %s\n", buf, boincerror(retval)
+            "Process creation (%s) failed: %s\n", buf, boincerror(retval)
         );
         perror("execv");
         fflush(NULL);
@@ -581,10 +589,8 @@ int ACTIVE_TASK::resume_or_start() {
     case PROCESS_SUSPENDED:
         retval = unsuspend();
         if (retval) {
-            msg_printf(
-                wup->project,
-                MSG_ERROR,
-                "ACTIVE_TASK::resume_or_start(): could not unsuspend active_task"
+            msg_printf(wup->project, MSG_ERROR,
+                "Couldn't resume task %s", result->name
             );
             task_state = PROCESS_COULDNT_START;
             return retval;
@@ -596,12 +602,12 @@ int ACTIVE_TASK::resume_or_start() {
         break;
     default:
         msg_printf(result->project, MSG_ERROR,
-            "resume_or_start(): unexpected process state %d", task_state
+            "Unexpected state %d for task %s", task_state, result->name
         );
         return 0;
     }
     msg_printf(result->project, MSG_INFO,
-        "%s result %s using %s version %d",
+        "%s task %s using %s version %d",
         str,
         result->name,
         app_version->app->name,
@@ -629,7 +635,9 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
         atp->init(atp->result);
         get_slot_dir(atp->slot, atp->slot_dir);
         if (!gstate.input_files_available(result)) {
-            msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); missing files\n");
+            msg_printf(atp->wup->project, MSG_ERROR,
+                "Can't restart %s: missing files", atp->result->name
+            );
             gstate.report_result_error(
                 *(atp->result),
                 "One or more missing files"
@@ -643,7 +651,7 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
             || num_tasks_started >= max_tasks
         ) {
             msg_printf(atp->wup->project, MSG_INFO,
-                "Deferring computation for result %s",
+                "Deferring task %s",
                 atp->result->name
             );
 
@@ -653,7 +661,7 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
         }
 
         msg_printf(atp->wup->project, MSG_INFO,
-            "Resuming computation for result %s using %s version %d",
+            "Resuming task %s using %s version %d",
             atp->result->name,
             atp->app_version->app->name,
             atp->app_version->version_num
@@ -662,7 +670,8 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
 
         if (retval) {
             msg_printf(atp->wup->project, MSG_ERROR,
-                "Task restart failed: %s\n", boincerror(retval)
+                "Restart of task %s failed: %s\n",
+                atp->result->name, boincerror(retval)
             );
             gstate.report_result_error(
                 *(atp->result),

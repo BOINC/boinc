@@ -288,7 +288,8 @@ int CLIENT_STATE::parse_statistics_files() {
                 project=lookup_project(temp->master_url);
                 if (project==NULL) {
                     msg_printf(NULL, MSG_ERROR,
-                        "Project for statistic file %s not found - ignoring", name.c_str()
+                        "Project for statistics file %s not found - ignoring",
+                        name.c_str()
                     );
                 } else {
                     for (std::vector<DAILY_STATS>::const_iterator i=temp->statistics.begin();
@@ -416,7 +417,7 @@ void PROJECT::attach_failed(int error_num) {
     switch(error_num){
     case ERR_ATTACH_FAIL_INIT:
         msg_printf(this, MSG_ERROR,
-            "Couldn't connect to URL %s.\n"
+            "Couldn't connect to URL %s"
             "Please check URL.",
             master_url
         );
@@ -424,14 +425,13 @@ void PROJECT::attach_failed(int error_num) {
     case ERR_ATTACH_FAIL_DOWNLOAD:
         msg_printf(this, MSG_ERROR,
             "Couldn't access URL %s.\n"
-            "The project's servers may be down,\n"
-            "in which case please try again later.",
+            "The project's servers may be down; please try again later",
             master_url
         );
         break;
     case ERR_ATTACH_FAIL_PARSE:
         msg_printf(this, MSG_ERROR,
-            "The page at %s contains no BOINC information.\n"
+            "The web page at %s contains no BOINC information.\n"
             "It may not be the URL of a BOINC project.\n"
             "Please check the URL and try again.",
             master_url
@@ -439,8 +439,7 @@ void PROJECT::attach_failed(int error_num) {
         break;
     case ERR_ATTACH_FAIL_BAD_KEY:
         msg_printf(this, MSG_ERROR,
-            "The account key you provided for %s\n"
-            "was not recognized as a valid account key.\n"
+            "The account key you provided for %s was not valid.\n"
             "Please check the account key and try again.",
             master_url
         );
@@ -448,7 +447,7 @@ void PROJECT::attach_failed(int error_num) {
     case ERR_ATTACH_FAIL_FILE_WRITE:
         msg_printf(this, MSG_ERROR,
             "BOINC was unable to create an account file for %s on your disk.\n"
-            "Please check file system permissions and try again.\n",
+            "Please check file system permissions and try again.",
             master_url
         );
         break;

@@ -91,7 +91,11 @@ int LOG_FLAGS::parse(FILE* in) {
         else if (parse_bool(buf, "sched_cpu_debug", sched_cpu_debug)) continue;
         else if (parse_bool(buf, "scrsave_debug", scrsave_debug)) continue;
         else if (parse_bool(buf, "dont_check_file_sizes", dont_check_file_sizes)) continue;
-        else msg_printf(NULL, MSG_ERROR, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
+        else {
+            msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
+                LOG_FLAGS_FILE, buf
+            );
+        }
     }
     return ERR_XML_PARSE;
 }

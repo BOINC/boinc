@@ -391,7 +391,9 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
         }
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else {
-            msg_printf(fip->project, MSG_ERROR, "PERS_FILE_XFER::parse(): unrecognized: %s", buf);
+            msg_printf(fip->project, MSG_ERROR,
+                "Unparsed line in file transfer info: %s", buf
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -485,7 +487,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
     }
     msg_printf(
         pfx->fip->project, MSG_ERROR,
-        "PERS_FILE_XFER_SET::remove(): not found"
+        "Persistent file transfer object not found"
     );
     return ERR_NOT_FOUND;
 }

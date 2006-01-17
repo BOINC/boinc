@@ -144,7 +144,7 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     scheduler_state = CPU_SCHED_PREEMPTED;
 
     msg_printf(result->project, MSG_INFO,
-        "Pausing result %s (%s)",
+        "Pausing task %s (%s)",
         result->name, (quit_task ? "removed from memory" : "left in memory")
     );
     return 0;
@@ -152,7 +152,7 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 
 static void limbo_message(ACTIVE_TASK& at) {
     msg_printf(at.result->project, MSG_INFO,
-        "Result %s exited with zero status but no 'finished' file",
+        "Task %s exited with zero status but no 'finished' file",
         at.result->name
     );
     msg_printf(at.result->project, MSG_INFO,
@@ -393,7 +393,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             //
             if (!gstate.are_cpu_benchmarks_running()) {
                 msg_printf(NULL, MSG_ERROR,
-                    "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n",
+                    "Process %d not found\n",
                     pid
                 );
             }
@@ -412,7 +412,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 bool ACTIVE_TASK::check_max_cpu_exceeded() {
     if (current_cpu_time > max_cpu_time) {
         msg_printf(result->project, MSG_INFO,
-            "Aborting result %s: exceeded CPU time limit %f\n",
+            "Aborting task %s: exceeded CPU time limit %f\n",
             result->name, max_cpu_time
         );
         abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum CPU time exceeded");
@@ -431,12 +431,14 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     //
     retval = current_disk_usage(disk_usage);
     if (retval) {
-        msg_printf(0, MSG_ERROR, "Can't get application disk usage: %s", boincerror(retval));
+        msg_printf(0, MSG_ERROR,
+            "Can't get task disk usage: %s", boincerror(retval)
+        );
     } else {
         if (disk_usage > max_disk_usage) {
             msg_printf(
                 result->project, MSG_INFO,
-                "Aborting result %s: exceeded disk limit: %f > %f\n",
+                "Aborting task %s: exceeded disk limit: %f > %f\n",
                 result->name, disk_usage, max_disk_usage
             );
             abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum disk usage exceeded");
@@ -454,7 +456,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (working_set_size > max_mem_usage || working_set_size/1048576 > gstate.global_prefs.max_memory_mbytes) {
         msg_printf(
             result->project, MSG_INFO,
-            "Aborting result %s: exceeded memory limit %f\n",
+            "Aborting task %s: exceeded memory limit %f\n",
             result->name,
             min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
         );
@@ -469,7 +471,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (max_mem_usage != 0 && rss_bytes > max_mem_usage) {
         msg_printf(
             result->project, MSG_INFO,
-            "result %s: memory usage %f exceeds limit %f\n",
+            "Task %s: memory usage %f exceeds limit %f\n",
             result->name,
             rss_bytes,
             max_mem_usage
@@ -746,10 +748,8 @@ void ACTIVE_TASK_SET::unsuspend_all() {
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->task_state == PROCESS_UNINITIALIZED) {
             if (atp->start(false)) {
-                msg_printf(
-                    atp->wup->project,
-                    MSG_ERROR,
-                    "ACTIVE_TASK_SET::unsuspend_all(): could not restart active_task"
+                msg_printf(atp->wup->project, MSG_ERROR,
+                    "Couldn't restart task %s", atp->result->name
                 );
             }
         } else if (atp->task_state == PROCESS_SUSPENDED) {
@@ -845,7 +845,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
 
     if (!app_client_shm.shm) {
         msg_printf(result->project, MSG_INFO,
-            "%s: no shared memory segment", result->name
+            "Task %s: no shared memory segment", result->name
         );
         return false;
     }

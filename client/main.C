@@ -408,12 +408,12 @@ int boinc_main_loop() {
     gstate.parse_env_vars();
 
     if (gstate.projects.size() == 0) {
-        msg_printf(NULL, MSG_INFO, "This computer is not attached to any projects.");
-        msg_printf(NULL, MSG_INFO, "There are several ways to attach to a project:");
-        msg_printf(NULL, MSG_INFO, "1) Run the BOINC Manager and click Projects.");
-        msg_printf(NULL, MSG_INFO, "2) (Unix/Mac) Use boinc_cmd --project_attach");
-        msg_printf(NULL, MSG_INFO, "3) (Unix/Mac) Run this program with the -attach_project command-line option.");
-        msg_printf(NULL, MSG_INFO, "Visit http://boinc.berkeley.edu for more information");
+        msg_printf(NULL, MSG_INFO,
+            "This computer is not attached to any projects"
+        );
+        msg_printf(NULL, MSG_INFO,
+            "Visit http://boinc.berkeley.edu for instructions"
+        );
     }
 
     while (1) {

@@ -205,7 +205,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     if (log_flags.sched_ops) {
         msg_printf(
             p, MSG_INFO,
-            "Sending scheduler request to %s\n", scheduler_url
+            "Sending scheduler request to %s", scheduler_url
         );
         const char* why;
         switch (reason) {
@@ -220,8 +220,8 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
             msg_printf(
                 p, MSG_INFO,
                 (p->work_request >= 1.0) ?
-                "Requesting %.0f seconds of new work, and reporting %d results":
-                "Requesting %g seconds of new work, and reporting %d results",
+                "Requesting %.0f seconds of new work, and reporting %d completed tasks":
+                "Requesting %g seconds of new work, and reporting %d completed tasks",
                 p->work_request, p->nresults_returned
             );
         } else if (p->work_request != 0) {
@@ -235,13 +235,13 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         } else if (p->nresults_returned != 0) {
             msg_printf(
                 p, MSG_INFO,
-                "Reporting %d results\n",
+                "Reporting %d tasks\n",
                 p->nresults_returned
             );
         } else {
             msg_printf(
                 p, MSG_INFO,
-                "(not requesting new work or reporting results)"
+                "(not requesting new work or reporting completed tasks)"
             );
         }
     }
@@ -309,7 +309,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     get_master_filename(*p, master_filename);
     f = boinc_fopen(master_filename, "r");
     if (!f) {
-        msg_printf(p, MSG_ERROR, "Can't open scheduler list file\n");
+        msg_printf(p, MSG_ERROR, "Can't open scheduler list file");
         return ERR_FOPEN;
     }
     p->scheduler_urls.clear();
@@ -406,7 +406,7 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // parse succeeded
                     //
-                    msg_printf(cur_proj, MSG_INFO, "Master file download succeeded");
+                    msg_printf(cur_proj, MSG_INFO, "Scheduler list download succeeded");
                     cur_proj->master_fetch_failures = 0;
                     changed = update_urls(cur_proj, urls);
                     
@@ -448,7 +448,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(cur_proj, MSG_ERROR,
-                        "Scheduler request to %s failed: %s\n",
+                        "Scheduler request to %s failed: %s",
                         cur_proj->get_scheduler_url(url_index, url_random),
                         boincerror(http_op.http_op_retval)
                     );
@@ -472,7 +472,7 @@ bool SCHEDULER_OP::poll() {
                 if (log_flags.sched_ops) {
                     msg_printf(
                         cur_proj, MSG_INFO,
-                        "Scheduler request to %s succeeded\n",
+                        "Scheduler request to %s succeeded",
                         cur_proj->get_scheduler_url(url_index, url_random)
                     );
                 }
@@ -626,7 +626,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             );
             if (retval) return ERR_XML_PARSE;
             msg_printf(project, MSG_INFO,
-                "General preferences have been updated\n"
+                "General preferences have been updated"
             );
         } else if (match_tag(buf, "<project_preferences>")) {
             retval = dup_element_contents(
@@ -658,8 +658,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             );
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse code sign key in scheduler reply: %d",
-                    retval
+                    "Can't parse code sign key in scheduler reply: %s",
+                    boincerror(retval)
                 );
                 return ERR_XML_PARSE;
             }
@@ -675,7 +675,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = app.parse(mf);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse app in scheduler reply: %d", retval
+                    "Can't parse application in scheduler reply: %s",
+                    boincerror(retval)
                 );
             } else {
                 apps.push_back(app);
@@ -685,7 +686,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = file_info.parse(mf, true);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse file info in scheduler reply: %d", retval
+                    "Can't parse file info in scheduler reply: %s",
+                    boincerror(retval)
                 );
             } else {
                 file_infos.push_back(file_info);
@@ -695,7 +697,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = av.parse(mf);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse app version in scheduler reply: %d", retval
+                    "Can't parse application version in scheduler reply: %s",
+                    boincerror(retval)
                 );
             } else {
                 app_versions.push_back(av);
@@ -705,7 +708,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = wu.parse(mf);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse work unit in scheduler reply: %d", retval
+                    "Can't parse workunit in scheduler reply: %s",
+                    boincerror(retval)
                 );
             } else {
                 workunits.push_back(wu);
@@ -716,7 +720,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = result.parse_server(mf);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse result in scheduler reply: %d", retval
+                    "Can't parse task in scheduler reply: %s",
+                    boincerror(retval)
                 );
             } else {
                 results.push_back(result);
@@ -726,7 +731,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = result.parse_ack(in);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "Can't parse result ack in scheduler reply: %d", retval
+                    "Can't parse ack in scheduler reply: %s",
+                    boincerror(retval)
                 );
             } else {
                 result_acks.push_back(result);
@@ -750,7 +756,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = gstate.handle_trickle_down(project, in);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
-                    "handle_trickle_down failed: %d\n", retval
+                    "handle_trickle_down failed: %s", boincerror(retval)
                 );
             }
             continue;
@@ -763,9 +769,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         }
     }
     if (found_start_tag) {
-        msg_printf(project, MSG_ERROR, "No close tag in scheduler reply\n");
+        msg_printf(project, MSG_ERROR, "No close tag in scheduler reply");
     } else {
-        msg_printf(project, MSG_ERROR, "No start tag in scheduler reply\n");
+        msg_printf(project, MSG_ERROR, "No start tag in scheduler reply");
     }
 
     return ERR_XML_PARSE;

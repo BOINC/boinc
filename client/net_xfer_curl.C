@@ -216,7 +216,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR, "NET_XFER_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "Network transfer object not found");
     return ERR_NOT_FOUND;
 }
 
@@ -335,8 +335,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 nxf->http_op_retval = nxf->response;
             }
         } else {
-            sprintf(buf, "Network error: %s", nxf->strCurlResult);
-            msg_printf(0, MSG_ERROR, buf);
+            msg_printf(0, MSG_ERROR, "Network error: %s", nxf->strCurlResult);
             nxf->http_op_retval = ERR_HTTP_ERROR;
         }
 
