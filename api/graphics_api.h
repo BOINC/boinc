@@ -20,16 +20,6 @@
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
-// PURE ANSI-C API follows here 
-// to allow prototypes using 'bool' in ANSI-C
-#if (!defined __cplusplus) && (!defined bool)
-#if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
-#define bool char
-#else
-#define bool int
-#endif // defined(_MSC_VER) && (_MSC_VER > 1020)
-#endif // (!defined __cplusplus) && (!defined bool)
-
 #ifdef __cplusplus
 extern "C" {
 #endif

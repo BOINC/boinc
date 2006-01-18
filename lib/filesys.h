@@ -20,17 +20,6 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
-/* to allow prototypes using 'bool' in ANSI-C.  Note that gcc defines
-   bool as an INT, and MS VC++ up to version 4.2 also does.  However
-   more recent versions of MS VC++ define bool as CHAR.  */
-#if (!defined __cplusplus) && (!defined bool)
-#if ((defined(_MSC_VER)) && (_MSC_VER > 1020))
-#define bool char
-#else
-#define bool int
-#endif /* defined(_MSC_VER) && (_MSC_VER > 1020) */
-#endif /* (!defined __cplusplus) && (!defined bool) */
-
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 
 typedef struct _DIR_DESC {
@@ -69,12 +58,10 @@ extern "C" {
   extern void relative_to_absolute(const char* relname, char* path);
   extern int boinc_make_dirs(char*, char*);
   extern char boinc_failed_file[256];
-  extern bool is_file(const char* path);
-  extern bool is_dir(const char* path);
+  extern int is_file(const char* path);
+  extern int is_dir(const char* path);
   extern int boinc_truncate(const char*, double);
-
-  /* we suitably defined 'bool' as 'int' in ANSI-C */
-  extern bool boinc_file_exists(const char* path);
+  extern int boinc_file_exists(const char* path);
 
 #ifdef __cplusplus
 }

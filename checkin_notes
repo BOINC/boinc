@@ -594,3 +594,16 @@ David  18 Jan 2006
 
 	lib/
 		filesys.C
+
+David  18 Jan 2006
+    - remove #define bool char stuff,
+        and change a couple of functions to return int instead of bool.
+        Rule: if any function is potentially callable
+        from an ANSI C application, don't use bool in its interface,
+        since there's inconsistency in the size of bool
+        between C and C++ compilers
+
+    api/
+        graphics_api.h
+    lib/
+        filesys.C,h
