@@ -165,6 +165,7 @@
 #define ERR_SIGNING_KEY             -215
 #define ERR_FFLUSH          -216 
 #define ERR_FSYNC           -217
+#define ERR_TRUNCATE        -218
 
 
 // PLEASE: add a text description of your error to 

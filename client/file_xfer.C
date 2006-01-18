@@ -205,59 +205,80 @@ bool FILE_XFER_SET::poll() {
 
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
-        if (fxp->http_op_done()) {
-            action = true;
-            fxp->file_xfer_done = true;
-            scope_messages.printf(
-                "FILE_XFER_SET::poll(): http op done; retval %d\n",
-                fxp->http_op_retval
-            );
-            fxp->file_xfer_retval = fxp->http_op_retval;
-            if (fxp->file_xfer_retval == 0) {
-                if (fxp->is_upload) {
-                    fxp->file_xfer_retval = fxp->parse_upload_response(
-                        fxp->fip->upload_offset
-                    );
-                }
+        if (!fxp->http_op_done()) continue;
 
-                // If this was a file size query, restart the transfer
-                // using the remote file size information
-                //
-                if (fxp->file_size_query) {
-                    if (fxp->file_xfer_retval) {
-                        fxp->fip->upload_offset = -1;
+        action = true;
+        fxp->file_xfer_done = true;
+        scope_messages.printf(
+            "FILE_XFER_SET::poll(): http op done; retval %d\n",
+            fxp->http_op_retval
+        );
+        fxp->file_xfer_retval = fxp->http_op_retval;
+        if (fxp->file_xfer_retval == 0) {
+            if (fxp->is_upload) {
+                fxp->file_xfer_retval = fxp->parse_upload_response(
+                    fxp->fip->upload_offset
+                );
+            }
+
+            // If this was a file size query, restart the transfer
+            // using the remote file size information
+            //
+            if (fxp->file_size_query) {
+                if (fxp->file_xfer_retval) {
+                    fxp->fip->upload_offset = -1;
+                } else {
+
+                    // if the server's file size is bigger than ours,
+                    // something bad has happened
+                    // (like a result got sent to multiple users).
+                    // Pretend the file was successfully uploaded
+                    //
+                    if (fxp->fip->upload_offset >= fxp->fip->nbytes) {
+                        fxp->file_xfer_done = true;
+                        fxp->file_xfer_retval = 0;
                     } else {
-
-                        // if the server's file size is bigger than ours,
-                        // something bad has happened
-                        // (like a result got sent to multiple users).
-                        // Pretend the file was successfully uploaded
+                        // Restart the upload, using the newly obtained
+                        // upload_offset
                         //
-                        if (fxp->fip->upload_offset >= fxp->fip->nbytes) {
-                            fxp->file_xfer_done = true;
-                            fxp->file_xfer_retval = 0;
-                        } else {
-                            // Restart the upload, using the newly obtained
-                            // upload_offset
-                            //
-                            fxp->close_socket();
-                            fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
+                        fxp->close_socket();
+                        fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
+                        if (!fxp->file_xfer_retval) {
+                            remove(fxp);
+                            i--;
+                            fxp->file_xfer_retval = insert(fxp);
                             if (!fxp->file_xfer_retval) {
-                                remove(fxp);
-                                i--;
-                                fxp->file_xfer_retval = insert(fxp);
-                                if (!fxp->file_xfer_retval) {
-                                    fxp->file_xfer_done = false;
-                                    fxp->file_xfer_retval = 0;
-                                    fxp->http_op_retval = 0;
-                                }
+                                fxp->file_xfer_done = false;
+                                fxp->file_xfer_retval = 0;
+                                fxp->http_op_retval = 0;
                             }
                         }
                     }
                 }
-            } else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
-                fxp->fip->error_msg = "Local copy is at least as large as server copy";
+            }
+        } else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
+            fxp->fip->error_msg = "Local copy is at least as large as server copy";
+        }
+
+        // for downloads, see if we read less than 5 KB and file is incomplete.
+        // If so truncate the amount read,
+        // since it may be a proxy error message
+        //
+        if (!fxp->is_upload && fxp->fip->nbytes) {
+            char pathname[256];
+            double size;
+
+            get_pathname(fxp->fip, pathname);
+            if (file_size(pathname, size)) continue;
+            if (size == fxp->fip->nbytes) continue;
+            double diff = size - fxp->starting_size;
+            if (diff < MIN_DOWNLOAD_INCREMENT) {
+                msg_printf(fxp->fip->project, MSG_INFO,
+                    "Incomplete read of less than 5KB for %s - truncating",
+                    fxp->fip->name
+                );
+                boinc_truncate(pathname, fxp->starting_size);
             }
         }
     }

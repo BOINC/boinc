@@ -947,6 +947,7 @@ const char* boincerror(int which_error) {
         case ERR_ATTACH_FAIL_FILE_WRITE: return "Couldn't write account file";
         case ERR_FFLUSH: return "Couldn't flush file";
         case ERR_FSYNC: return "Couldn't sync file";
+        case ERR_TRUNCATE: return "Couldn't truncate file";
     }
     static char buf[128];
     sprintf(buf, "unknown BOINC error %d. Have BOINC devs fix boincerror()!", which_error);

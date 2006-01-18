@@ -574,3 +574,17 @@ David  18 Jan 2006
         gui_rpc_client_ops.C
     sched/
         handle_request.C
+
+David  18 Jan 2006
+    - If a download isn't complete and gained less than 5 KB,
+        truncate back to the original starting size.
+        This addresses a bug where some proxies append
+        error messages on download failures
+        (reported by Rattledagger)
+
+    client/
+        file_xfer.C
+    lib/
+        error_numbers.h
+        filesys.C,h
+        util.C

@@ -71,6 +71,7 @@ extern "C" {
   extern char boinc_failed_file[256];
   extern bool is_file(const char* path);
   extern bool is_dir(const char* path);
+  extern int boinc_truncate(const char*, double);
 
   /* we suitably defined 'bool' as 'int' in ANSI-C */
   extern bool boinc_file_exists(const char* path);

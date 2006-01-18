@@ -275,6 +275,12 @@ int file_size(const char* path, double& size) {
     return 0;
 }
 
+int boinc_truncate(const char* path, double size) {
+    int retval = truncate(path, (off_t)size);
+    if (retval) return ERR_TRUNCATE;
+    return 0;
+}
+
 // removes all files from specified directory
 //
 int clean_out_dir(const char* dirpath) {
