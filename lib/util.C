@@ -948,8 +948,8 @@ const char* boincerror(int which_error) {
         case ERR_FFLUSH: return "Couldn't flush file";
         case ERR_FSYNC: return "Couldn't sync file";
     }
-    static char buf[64];
-    sprintf(buf, "error %d", which_error);
+    static char buf[128];
+    sprintf(buf, "unknown BOINC error %d. Have BOINC devs fix boincerror()!", which_error);
     return buf;
 }
  
