@@ -561,3 +561,16 @@ David  17 Jan 2006
         net_xfer.C,h (removed)
         ssl_http.C,h (removed)
         ssl_net_xfer.C,h (removed)
+
+David  18 Jan 2006
+    - GUI RPC client lib: add PROJECT::copy() function
+        (copies data, doesn't change vectors)
+
+    client/
+        file_xfer.C,h
+        pers_file_xfer.h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    sched/
+        handle_request.C

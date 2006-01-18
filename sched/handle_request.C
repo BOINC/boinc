@@ -588,7 +588,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
                     reply.host.id, srip->id, srip->name, reply.host.userid
                 );
-                changed_host=true;
+                changed_host = true;
             }
         } // hostids do not match
 

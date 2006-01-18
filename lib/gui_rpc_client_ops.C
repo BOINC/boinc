@@ -81,6 +81,25 @@ void PROJECT::get_name(std::string& s) {
     }
 }
 
+void PROJECT::copy(PROJECT& p) {
+    resource_share = p.resource_share;
+    user_total_credit = p.user_total_credit;
+    user_expavg_credit = p.user_expavg_credit;
+    host_total_credit = p.host_total_credit;
+    host_expavg_credit = p.host_expavg_credit;
+    disk_usage = p.disk_usage;
+    nrpc_failures = p.nrpc_failures;
+    master_fetch_failures = p.master_fetch_failures;
+    min_rpc_time = p.min_rpc_time;
+    master_url_fetch_pending = p.master_url_fetch_pending;
+    sched_rpc_pending = p.sched_rpc_pending;
+    tentative = p.tentative;
+    non_cpu_intensive = p.non_cpu_intensive;
+    suspended_via_gui = p.suspended_via_gui;
+    dont_request_more_work = p.dont_request_more_work;
+    scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
+}
+
 int PROJECT::parse(MIOFILE& in) {
     char buf[256];
     int retval;

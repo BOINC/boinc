@@ -20,17 +20,15 @@
 #ifndef _FILE_XFER_
 #define _FILE_XFER_
 
-// FILE_XFER objects encapsulate the transfer of a file to/from data servers.
-// In particular it manages:
-// - the choice of data servers
-//   TODO: try servers beyond the first one
-// - the retry and give-up policies
-//   TODO: retry and eventually give up
-// - restarting partial transfers
-// - upload authentication
+// A FILE_XFER object represents a file transfer "episode"
+// (see pers_file_xfer.h), i.e. an HTTP transaction with a
+// particular data server.
+// 
 
 #include "client_types.h"
 #include "http_curl.h"
+
+#define MIN_DOWNLOAD_INCREMENT  5000
 
 class FILE_XFER : public HTTP_OP {
 public:
@@ -39,6 +37,11 @@ public:
     char header[4096];
     bool file_size_query;
     bool is_upload;
+    double starting_size;
+        // File size at start of transfer.
+        // This is used to to implement a "minimum download increment"
+        // that rejects partial downloads of less than 5K,
+        // since these may be error messages from proxies.
 
     FILE_XFER();
     ~FILE_XFER();

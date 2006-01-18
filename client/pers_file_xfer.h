@@ -28,6 +28,10 @@
 // i.e. a long-term effort to upload or download a file.
 // This may consist of several "episodes",
 // which are HTTP operations to a particular server.
+// PERS_FILE_XFER manages
+// - the choice of data servers
+// - the retry and giveup policies
+// - restarting partial transfers
 //
 // The FILE_INFO has a list of URLs.
 // For download, the object attempts to download the file

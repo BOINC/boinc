@@ -138,6 +138,8 @@ public:
     bool dont_request_more_work;
     bool scheduler_rpc_in_progress;
 
+    // NOTE: if you add any data items, update copy() to include them
+
     PROJECT();
     ~PROJECT();
 
@@ -145,6 +147,7 @@ public:
     void print();
     void clear();
     void get_name(std::string&);
+    void copy(PROJECT&);        // copy to this object
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;

@@ -52,17 +52,17 @@ FILE_XFER::~FILE_XFER() {
 }
 
 int FILE_XFER::init_download(FILE_INFO& file_info) {
-    double f_size;
-
     is_upload = false;
     fip = &file_info;
     get_pathname(fip, pathname);
-    if (file_size(pathname, f_size)) {
-        f_size = 0;
+    if (file_size(pathname, starting_size)) {
+        starting_size = 0;
     }
-    bytes_xferred = f_size;
+    bytes_xferred = starting_size;
 
-    return HTTP_OP::init_get(fip->get_current_url(is_upload), pathname, false, (int)f_size);
+    return HTTP_OP::init_get(
+        fip->get_current_url(is_upload), pathname, false, (int)starting_size
+    );
 }
 
 // for uploads, we need to build a header with xml_signature etc.
@@ -208,7 +208,10 @@ bool FILE_XFER_SET::poll() {
         if (fxp->http_op_done()) {
             action = true;
             fxp->file_xfer_done = true;
-            scope_messages.printf("FILE_XFER_SET::poll(): http op done; retval %d\n", fxp->http_op_retval);
+            scope_messages.printf(
+                "FILE_XFER_SET::poll(): http op done; retval %d\n",
+                fxp->http_op_retval
+            );
             fxp->file_xfer_retval = fxp->http_op_retval;
             if (fxp->file_xfer_retval == 0) {
                 if (fxp->is_upload) {
@@ -222,13 +225,12 @@ bool FILE_XFER_SET::poll() {
                 //
                 if (fxp->file_size_query) {
                     if (fxp->file_xfer_retval) {
-                        printf("ERROR: file upload returned %d\n", fxp->file_xfer_retval);
                         fxp->fip->upload_offset = -1;
                     } else {
 
                         // if the server's file size is bigger than ours,
-                        // something bad has happened (like a result
-                        // got sent to multiple users).
+                        // something bad has happened
+                        // (like a result got sent to multiple users).
                         // Pretend the file was successfully uploaded
                         //
                         if (fxp->fip->upload_offset >= fxp->fip->nbytes) {
@@ -237,6 +239,7 @@ bool FILE_XFER_SET::poll() {
                         } else {
                             // Restart the upload, using the newly obtained
                             // upload_offset
+                            //
                             fxp->close_socket();
                             fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
