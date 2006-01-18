@@ -276,7 +276,20 @@ int file_size(const char* path, double& size) {
 }
 
 int boinc_truncate(const char* path, double size) {
-    int retval = truncate(path, (off_t)size);
+    int retval;
+#ifdef _WIN32
+    // the usual Windows nightmare.
+    // There's another function, SetEndOfFile(),
+    // that supposedly works with files over 2GB,
+    // but it uses HANDLES
+    //
+    int fd = _open(path, _O_RDWR, 0);
+    if (fd == -1) return ERR_TRUNCATE;
+    retval = _chsize(fd, (long)size);
+    _close(fd);
+#else
+    retval = truncate(path, (off_t)size);
+#endif
     if (retval) return ERR_TRUNCATE;
     return 0;
 }

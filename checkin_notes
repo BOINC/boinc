@@ -588,3 +588,9 @@ David  18 Jan 2006
         error_numbers.h
         filesys.C,h
         util.C
+
+David  18 Jan 2006
+	- implement boinc_truncate() for Windows
+
+	lib/
+		filesys.C
