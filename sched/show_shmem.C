@@ -35,12 +35,12 @@ int main() {
 
     retval = config.parse_file("..");
     if (retval) {
-        printf("can't parse config\n");
+        printf("can't parse config: %d\n", retval);
         exit(1);
     }
     retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
-        printf("can't attach shmem\n");
+        printf("can't attach shmem: key %x\n", config.shmem_key);
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
@@ -58,9 +58,6 @@ int main() {
             break;
         case WR_STATE_EMPTY:
             printf("%d: absent\n", i);
-            break;
-        case WR_STATE_CHECKED_OUT:
-            printf("%d: checked out: result %d\n", i, wu_result.resultid);
             break;
         default:
             printf("%d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);

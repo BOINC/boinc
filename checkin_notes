@@ -627,3 +627,23 @@ Rom    19 Jan 2006
         MainFrame.cpp
     win_build/installerv2/redist/CPDNBBC
         CPDNBBC_splash.bmp
+
+David  19 Jan 2006
+    - feeder/scheduler: try to fix bug where shmem array slots
+        get stuck in "CHECKED_OUT" state.
+        Get rid of this state.
+        Instead, use the PID of the scheduler process that
+        has it checked out (as we're already doing for "reserved" slots)
+        and let the feeder clean up slots checked out by dead processes.
+    - several of the DB enumerate() function were returning
+        1 or -1 (rather than ERR_DB_NOT_FOUND) when no results.
+        Bad!!!  Some programs, including the feeder,
+        treat values other than 0 and ERR_DB_NOT FOUND as fatal DB errors.
+
+    db/
+        boinc_db.C
+    sched/
+        feeder.C
+        sched_array.C
+        sched_shmem.C,h
+        show_shmem.C

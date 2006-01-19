@@ -133,7 +133,7 @@ void scan_work_array(
         // from here on in this loop, don't continue on failure;
         // instead, goto dont_send (so that we reacquire semaphore)
 
-        wu_result.state = WR_STATE_CHECKED_OUT;
+        wu_result.state = g_pid;
         unlock_sema();
 
         // Don't send if we've already sent a result of this WU to this user.

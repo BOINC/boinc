@@ -222,8 +222,6 @@ static void scan_work_array(
     for (i=0; i<ssp->nwu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch (wu_result.state) {
-        case WR_STATE_CHECKED_OUT:
-            break;
 #ifdef REMOVE_INFEASIBLE_ENTRIES
         case WR_STATE_PRESENT:
             if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {

@@ -173,6 +173,11 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
     return best_avp;
 }
 
+// see if there's any work.
+// If there is, reserve it for this process
+// (if we don't do this, there's a race condition where lots
+// of servers try to get a single work item)
+//
 bool SCHED_SHMEM::no_work(int pid) {
     int i;
 

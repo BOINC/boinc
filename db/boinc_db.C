@@ -31,6 +31,7 @@
 #endif
 
 #include "util.h"
+#include "error_numbers.h"
 #include "boinc_db.h"
 
 #ifdef _USING_FCGI_
@@ -869,7 +870,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     int wu_id_modulus, int wu_id_remainder,
     std::vector<TRANSITIONER_ITEM>& items
 ) {
-    int x;
+    int retval;
     char query[MAX_QUERY_LEN];
     char priority[256], mod_clause[256];;
     MYSQL_ROW row;
@@ -925,8 +926,8 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   %d ",
             priority, transition_time, mod_clause, nresult_limit);
 
-        x = db->do_query(query);
-        if (x) return mysql_errno(db->mysql);
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
 
         // the following stores the entire result set in memory
         //
@@ -938,7 +939,9 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
         if (!row) {
             mysql_free_result(cursor.rp);
             cursor.active = false;
-            return -1;
+            retval = mysql_errno(db->mysql);
+            if (retval) return retval;
+            return ERR_DB_NOT_FOUND;
         }
         last_item.parse(row);
         nitems_this_query = 1;
@@ -957,7 +960,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             if (nitems_this_query < nresult_limit) {
                 return 0;
             } else {
-                return -1;
+                return ERR_DB_NOT_FOUND;
             }
         }
         new_item.parse(row);
@@ -1066,7 +1069,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
     int wu_id_modulus, int wu_id_remainder,
     std::vector<VALIDATOR_ITEM>& items
 ) {
-    int x;
+    int retval;
     char query[MAX_QUERY_LEN], mod_clause[256];
     char priority[256];
     MYSQL_ROW row;
@@ -1125,8 +1128,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             priority, appid, mod_clause, nresult_limit
         );
 
-        x = db->do_query(query);
-        if (x) return mysql_errno(db->mysql);
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
 
         // the following stores the entire result set in memory
         cursor.rp = mysql_store_result(db->mysql);
@@ -1137,7 +1140,9 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
         if (!row) {
             mysql_free_result(cursor.rp);
             cursor.active = false;
-            return -1;
+            retval = mysql_errno(db->mysql);
+            if (retval) return retval;
+            return ERR_DB_NOT_FOUND;
         }
         last_item.parse(row);
         nitems_this_query = 1;
@@ -1156,7 +1161,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             if (nitems_this_query < nresult_limit) {
                 return 0;
             } else {
-                return -1;
+                return ERR_DB_NOT_FOUND;
             }
         }
         new_item.parse(row);
@@ -1338,7 +1343,9 @@ int DB_WORK_ITEM::enumerate(
     if (!row) {
         mysql_free_result(cursor.rp);
         cursor.active = false;
-        return 1;
+        retval = mysql_errno(db->mysql);
+        if (retval) return retval;
+        return ERR_DB_NOT_FOUND;
     } else {
         parse(row);
     }
