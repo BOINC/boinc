@@ -617,3 +617,13 @@ David  18 Jan 2006
         pers_file_xfer.C
     lib/
         util.C
+
+Rom    19 Jan 2006
+    - CPDNBBC Update
+    
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        CompletionPage.cpp
+        MainFrame.cpp
+    win_build/installerv2/redist/CPDNBBC
+        CPDNBBC_splash.bmp

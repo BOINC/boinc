@@ -772,8 +772,13 @@ bool CMainFrame::RestoreState() {
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
     pConfig->Read(wxT("NetworkDialupPromptCredentials"), &m_bNetworkDialupPromptCredentials, false);
 
-    pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
-    m_pNotebook->SetSelection(iCurrentPage);
+    if (wxGetApp().GetBrand()->IsBranded() && 
+        wxGetApp().GetBrand()->IsDefaultTabSpecified()) {
+        m_pNotebook->SetSelection(wxGetApp().GetBrand()->GetDefaultTab());
+    } else {
+        pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
+        m_pNotebook->SetSelection(iCurrentPage);
+    }
 
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
 #if defined(__WXMSW__) || defined(__WXMAC__)

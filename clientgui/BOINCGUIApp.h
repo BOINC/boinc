@@ -44,10 +44,13 @@ private:
     wxString    m_strCompanyName;
     wxString    m_strCompanyWebsite;
     wxString    m_strProjectName;
+    bool        m_bDefaultTabSpecified;
+    int         m_iDefaultTab;
     wxString    m_strAPWizardTitle;
     wxBitmap    m_bitmapAPWizardLogo;
     wxString    m_strAPWizardAccountInfoText;
     wxString    m_strAPWizardCompletionTitle;
+    wxString    m_strAPWizardCompletionBrandedMessage;
     wxString    m_strAPWizardCompletionMessage;
     wxString    m_strAMWizardTitle;
     wxBitmap    m_bitmapAMWizardLogo;
@@ -61,10 +64,13 @@ public:
     wxString    GetCompanyName() { return m_strCompanyName; }
     wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }
     wxString    GetProjectName() { return m_strProjectName; }
+    bool        IsDefaultTabSpecified() { return m_bDefaultTabSpecified; }
+    int         GetDefaultTab() { return m_iDefaultTab; }
     wxString    GetAPWizardTitle() { return m_strAPWizardTitle; }
     wxBitmap*   GetAPWizardLogo() { return &m_bitmapAPWizardLogo; }
     wxString    GetAPWizardAccountInfoText() { return m_strAPWizardAccountInfoText; }
     wxString    GetAPWizardCompletionTitle() { return m_strAPWizardCompletionTitle; }
+    wxString    GetAPWizardCompletionBrandedMessage() { return m_strAPWizardCompletionBrandedMessage; }
     wxString    GetAPWizardCompletionMessage() { return m_strAPWizardCompletionMessage; }
     wxString    GetAMWizardTitle() { return m_strAMWizardTitle; }
     wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }

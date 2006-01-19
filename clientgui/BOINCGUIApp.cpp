@@ -29,6 +29,7 @@
 #include "BOINCGUIApp.h"
 #include "diagnostics.h"
 #include "MainFrame.h"
+#include "Events.h"
 #include "MainDocument.h"
 
 
@@ -113,9 +114,12 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strCompanyWebsite = wxT("http://www.gridrepublic.com/");
             m_strProjectName = wxT("GridRepublic");
             m_strAPWizardTitle = wxEmptyString;
+            m_bDefaultTabSpecified = false;
+            m_iDefaultTab = 0;
             m_bitmapAPWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
             m_strAPWizardAccountInfoText = wxEmptyString;
             m_strAPWizardCompletionTitle = wxEmptyString;
+            m_strAPWizardCompletionBrandedMessage = wxEmptyString;
             m_strAPWizardCompletionMessage = wxEmptyString;
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
@@ -123,43 +127,32 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             break;
         case 2:
             // Running as a CPDNBBC client.
-            m_strApplicationName = wxT("BBC Climate Change Experiment Manager");
+            m_strApplicationName = wxT("The BOINC Manager for the BBC Climate Change Experiment");
             m_iconApplicationIcon = wxIcon(boinc_xpm);
             m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
             m_strCompanyName = wxT("ClimatePrediction.net");
             m_strCompanyWebsite = wxT("http://bbc.cpdn.org/beta/");
             m_strProjectName = wxT("BBC Climate Change Experiment");
-            m_strAPWizardTitle = _T("Start Project");
+            m_bDefaultTabSpecified = true;
+            m_iDefaultTab = ID_LIST_WORKVIEW - ID_LIST_BASE;
+            m_strAPWizardTitle = _("Start Project");
             m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
             m_strAPWizardAccountInfoText = 
-                _T("Please enter an e-mail address and password to participate in our\n"
-                   "interactive user forum and receive occasional project announcements.\n"
-                   "You can block all e-mails from the project on your \"preferences\"\n"
-                   "page whenever you like, and we will not pass on your e-mail address\n"
-                   "to any third party. You can still run the experiment if you enter a\n"
-                   "dummy address, but you will not be able to join in the user forum.");
+                _("Please enter an e-mail address and password to participate in our\n"
+                  "interactive user forum and receive occasional project announcements.\n"
+                  "You can block all e-mails from the project on your \"preferences\"\n"
+                  "page whenever you like, and we will not pass on your e-mail address\n"
+                  "to any third party. You can still run the experiment if you enter a\n"
+                  "dummy address, but you will not be able to join in the user forum.");
             m_strAPWizardCompletionTitle = 
-                _T("Project Started");
+                _("Project Started");
+            m_strAPWizardCompletionBrandedMessage =
+                _("Congratulations, you have now successfully started your Climate\n"
+                  "Change Experiment.\n");
             m_strAPWizardCompletionMessage =
-                _T("Congratulations, you have now successfully started your Climate\n"
-                   "Change Experiment.\n"
-                   "\n"
-                   "Your climate model will run whenever you are logged on to this\n"
-                   "computer. It should not affect normal tasks, but you can adjust\n"
-                   "your preferences so that it only runs at specified times. If you\n"
-                   "turn off the computer the model will restart automatically from\n"
-                   "where it left off.\n"
-                   "\n"
-                   "You can see how your experiment is progressing at any time by\n"
-                   "clicking on the BOINC icon (B) in the system tray in the bottom\n"
-                   "right corner of your screen. Your results will be returned\n"
-                   "automatically to the project's servers at the end of every\n"
-                   "model-decade. Don't worry if you think you may not manage to\n"
-                   "complete a full simulation: run as many model-decades as you\n"
-                   "can.\n"
-                   "\n"
-                   "Thank you for your contribution to the world's largest climate\n"
-                   "modelling experiment.");
+                _("Click Finish to close. This will automatically launch a web browser\n"
+                  "that will tell more about your experiment and how to customize your\n"
+                  "settings.");
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
             m_strAMWizardAttachMessage = wxEmptyString;
@@ -172,9 +165,12 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
             m_strCompanyWebsite = wxT("http://boinc.berkeley.edu/");
             m_strProjectName = wxT("BOINC");
+            m_bDefaultTabSpecified = false;
+            m_iDefaultTab = 0;
             m_strAPWizardTitle = wxEmptyString;
             m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
             m_strAPWizardCompletionTitle = wxEmptyString;
+            m_strAPWizardCompletionBrandedMessage = wxEmptyString;
             m_strAPWizardCompletionMessage = wxEmptyString;
             m_strAMWizardTitle = wxEmptyString;
             m_strAPWizardAccountInfoText = wxEmptyString;

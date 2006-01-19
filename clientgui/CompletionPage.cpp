@@ -120,8 +120,8 @@ void CCompletionPage::CreateControls()
 
         wxString strBrandedMessage;
         if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
-            strBrandedMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
+            !wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage().IsEmpty()) {
+            strBrandedMessage = wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage();
         } else {
             strBrandedMessage = _("You are now successfully attached to this project.");
         }
@@ -132,8 +132,16 @@ void CCompletionPage::CreateControls()
 
         itemBoxSizer80->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
+        wxString strMessage;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
+            strMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
+        } else {
+            strMessage = _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences.");
+        }
+
         m_CompletionMessage = new wxStaticText;
-        m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."), wxDefaultPosition, wxDefaultSize, 0 );
+        m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, strMessage, wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
