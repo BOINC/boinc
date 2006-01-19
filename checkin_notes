@@ -607,3 +607,13 @@ David  18 Jan 2006
         graphics_api.h
     lib/
         filesys.C,h
+
+David  18 Jan 2006
+    - added HTTP error codes to boincerror(),
+        since these are sometimes used as return values.
+
+    client/
+        http_curl.h
+        pers_file_xfer.C
+    lib/
+        util.C

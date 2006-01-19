@@ -321,6 +321,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
         retry_or_backoff();
     }
 }
+
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
