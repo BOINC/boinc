@@ -699,3 +699,13 @@ Charlie 20 Jan 2006
     mac_installer/
         release_boinc.sh
         Postinstall.cpp
+
+David  20 Jan 2006
+    - core client: if we change host CPID and we're using an account manager,
+        do scheduler RPCs to all projects,
+        so that the account manager gets a consistent view when
+        it gets host data from the project servers
+
+    client/
+        client_state.h
+        cs_scheduler.C
