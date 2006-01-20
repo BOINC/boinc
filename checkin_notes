@@ -659,3 +659,10 @@ David  19 Jan 2006
         user/
             all_news.php (new)
             sample_rss_main.php
+
+David  20 Jan 2006
+    - tweak to partial download fix:
+        only truncate file if got >0 new bytes
+
+    client/
+        file_xfer.C

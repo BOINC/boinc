@@ -273,7 +273,7 @@ bool FILE_XFER_SET::poll() {
             if (file_size(pathname, size)) continue;
             if (size == fxp->fip->nbytes) continue;
             double diff = size - fxp->starting_size;
-            if (diff < MIN_DOWNLOAD_INCREMENT) {
+            if (diff>0 && diff<MIN_DOWNLOAD_INCREMENT) {
                 msg_printf(fxp->fip->project, MSG_INFO,
                     "Incomplete read of less than 5KB for %s - truncating",
                     fxp->fip->name
