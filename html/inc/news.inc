@@ -18,8 +18,10 @@ function show_news($items, $n) {
 }
 
 function show_old_news($items, $n) {
+    $tot = count($items);
     for ($i=$n; $i<count($items); $i++) {
-        echo "<a name=$i>\n";
+        $j = $tot-$i;
+        echo "<a name=$j>\n";
         news_item($items[$i][0], $items[$i][1]);
     }
 }

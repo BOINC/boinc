@@ -48,16 +48,18 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     </image>
 ";
 
-// - Create news items
+// write news items
 //
-$news = min( count($project_news), $news);
+$tot = count($project_news);
+$news = min( $tot, $news);
 for( $item=0; $item < $news; $item++ ) {
+    $j = $tot - $item;
     if( count($project_news[$item]) == 2) {
         $d = strtotime($project_news[$item][0]);
         $d = strftime("%a, %d %b %Y", $d);
         echo "<item>
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
-            <link>".URL_BASE."old_news.php#$item</link>
+            <link>".URL_BASE."all_news.php#$j</link>
             <guid>$item</guid>
             <description>".strip_tags($project_news[$item][1])."</description>
             <pubDate>$d</pubDate>

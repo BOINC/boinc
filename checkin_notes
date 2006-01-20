@@ -647,3 +647,15 @@ David  19 Jan 2006
         sched_array.C
         sched_shmem.C,h
         show_shmem.C
+
+David  19 Jan 2006
+    - RSS items should refer to a page that has all news items,
+        not just old ones
+    - Make news item indices permanent
+
+    html/
+        inc/
+            news.inc
+        user/
+            all_news.php (new)
+            sample_rss_main.php
