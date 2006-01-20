@@ -33,11 +33,28 @@ class CPaintStatistics : public wxPanel
 public:
 	CPaintStatistics();
 	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel");
-
+	
+	void DrawMainHead(wxPaintDC &dc, const wxString head_name, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	
+	void DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, wxInt32 SelProj, bool bColour, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	
+	void DrawAxis(wxPaintDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	
+	void DrawGraph(wxPaintDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxCoord x_start, const wxCoord x_end, const wxCoord y_start, const wxCoord y_end, const wxColour grafColour, const wxInt32 typePoint, const wxInt32 m_SelectedStatistic, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x);
+    
+    wxString                heading;
+    
     wxInt32                 m_SelectedStatistic;
-	wxString                heading;
     wxInt32                 m_ModeViewStatistic;
     wxInt32                 m_NextProjectStatistic;
+    
+    wxInt32                 m_GraphLineWidth;
+    wxInt32                 m_GraphPointWidth;
+    wxColour                m_brushAxisColour;
+    wxColour                m_ligthbrushAxisColour;
+    wxColour                m_penAxisColour;
+    wxFont                  m_font_stdandart;
+    wxFont                  m_font_bold;
 
 protected:
     void OnPaint(wxPaintEvent& event);
@@ -62,8 +79,11 @@ public:
     void                    OnStatisticsUserAverage( wxCommandEvent& event );
     void                    OnStatisticsHostTotal( wxCommandEvent& event );
     void                    OnStatisticsHostAverage( wxCommandEvent& event );
-    void                    OnStatisticsModeView( wxCommandEvent& event );
     void                    OnStatisticsNextProject( wxCommandEvent& event );
+    void                    OnStatisticsPrevProject( wxCommandEvent& event );
+    void                    OnStatisticsModeView0( wxCommandEvent& event );
+    void                    OnStatisticsModeView1( wxCommandEvent& event );
+    void                    OnStatisticsModeView2( wxCommandEvent& event );
 
 protected:
 

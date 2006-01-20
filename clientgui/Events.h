@@ -84,11 +84,13 @@
 #define ID_TASK_STATISTICS_USERAVERAGE          9501
 #define ID_TASK_STATISTICS_HOSTTOTAL            9502
 #define ID_TASK_STATISTICS_HOSTAVERAGE          9503
-
-///----------\\//-----------mifistor 16-Nov-2005--------------\\//------------------    
-#define ID_TASK_STATISTICS_MODEVIEW             9604 
-#define ID_TASK_STATISTICS_NEXTPROJECT          9605 
-///----------//\\-----------mifistor 16-Nov-2005--------------//\\------------------    
+///----------\\//-----------mifistor--------------\\//------------------    
+#define ID_TASK_STATISTICS_NEXTPROJECT          9601 
+#define ID_TASK_STATISTICS_PREVPROJECT          9602 
+#define ID_TASK_STATISTICS_MODEVIEW0            9610 
+#define ID_TASK_STATISTICS_MODEVIEW1            9611 
+#define ID_TASK_STATISTICS_MODEVIEW2            9612 
+///----------//\\-----------mifistor--------------//\\------------------    
 
 #endif
 

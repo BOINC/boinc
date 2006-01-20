@@ -36,8 +36,8 @@ David  4 Jan 2006
     checkin_notes_2005 (new - Woo Hoo!)
     api/
         boinc_api.C
-	client/win/
-		hostinfo_win.cpp
+    client/win/
+        hostinfo_win.cpp
     db/
         db_base.C
     lib/
@@ -509,10 +509,10 @@ Bruce 16 Jan 2006
             host_delete.php
 
 David  16 Jan 2006
-	- compile fix for Win
+    - compile fix for Win
 
-	client/
-		gui_rpc_server.C
+    client/
+        gui_rpc_server.C
 
 David  16 Jan 2006
     - Call get_host_info() (not just get_filesystem_info())
@@ -590,10 +590,10 @@ David  18 Jan 2006
         util.C
 
 David  18 Jan 2006
-	- implement boinc_truncate() for Windows
+    - implement boinc_truncate() for Windows
 
-	lib/
-		filesys.C
+    lib/
+        filesys.C
 
 David  18 Jan 2006
     - remove #define bool char stuff,
@@ -709,3 +709,11 @@ David  20 Jan 2006
     client/
         client_state.h
         cs_scheduler.C
+
+David  20 Jan 2006
+    - Manager: improvements to Statistics tab
+       (from mifistor_x)
+
+    clientgui/
+        Events.h
+        ViewStatistics.C,h
