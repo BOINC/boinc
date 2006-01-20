@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>BOINCManager</string>
+	<string>GridRepublic</string>
 	<key>CFBundleIconFile</key>
-	<string>BOINCMgr.icns</string>
+	<string>GridRepublic.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.berkeley.boinc</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>BNC!</string>
 	<key>CFBundleVersion</key>
-	<string>5.3.13</string>
+	<string>5.3.9</string>
 	<key>NSUIElement</key>
 	<string>1</string>
 </dict>

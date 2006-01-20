@@ -674,3 +674,20 @@ David  20 Jan 2006
 
     client/
         http_curl.C
+
+Charlie 20 Jan 2006
+    -Mac: Changes for Grid Republic: remove BOINCManager from Dock; 
+    different plist file for GR; new application icon for GR; 
+    screensaver changes for GR. 
+    Remove obsolete files from XCode project (net_xfer.C,h, http.C,h, 
+    proxy.C,h)
+
+    mac_build/
+        Info.plist
+        GR_Info.plist (new)
+    client/
+        mac/
+            GR-icon_MAC.icns (new)
+    clientgui/
+        mac/
+            mac_saver_module.cpp

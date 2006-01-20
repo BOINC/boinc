@@ -201,7 +201,6 @@
 		DDD74DA607CF49030065AC9D /* main.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BCE07C5B0B80043025C /* main.C */; };
 		DDD74DA707CF49040065AC9D /* net_stats.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FDA02AC0A0C01FB7237 /* net_stats.C */; };
 		DDD74DA907CF49090065AC9D /* pers_file_xfer.C in Sources */ = {isa = PBXBuildFile; fileRef = F51CCF1F02EFD37D018DB99A /* pers_file_xfer.C */; };
-		DDD74DAA07CF490B0065AC9D /* proxy.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BFA07C5B1A80043025C /* proxy.C */; };
 		DDD74DAB07CF490C0065AC9D /* scheduler_op.C in Sources */ = {isa = PBXBuildFile; fileRef = F519F98D02C44A7501BDB3CA /* scheduler_op.C */; };
 		DDD74DAC07CF490D0065AC9D /* ss_logic.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B23046C366200A80164 /* ss_logic.C */; };
 		DDD74DAD07CF490E0065AC9D /* time_stats.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FE402AC0A0C01FB7237 /* time_stats.C */; };
@@ -226,6 +225,8 @@
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
 		DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40CDF907F0386A0096C645 /* SystemMenu.bundle */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
+		DDEB3AD50980CD180087E200 /* GR_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3AD40980CD180087E200 /* GR_Info.plist */; };
+		DDEB3AE60980CF890087E200 /* GR-icon_MAC.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3AE50980CF890087E200 /* GR-icon_MAC.icns */; };
 		DDEF38900802B73500E87552 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
 		DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
@@ -866,6 +867,8 @@
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		DDEB3AD40980CD180087E200 /* GR_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = GR_Info.plist; sourceTree = "<group>"; };
+		DDEB3AE50980CF890087E200 /* GR-icon_MAC.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "GR-icon_MAC.icns"; path = "../client/mac/GR-icon_MAC.icns"; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
 		DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
@@ -898,14 +901,10 @@
 		F54B8FCD02AC0A0C01FB7237 /* file_xfer.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = file_xfer.C; path = ../client/file_xfer.C; sourceTree = SOURCE_ROOT; };
 		F54B8FCE02AC0A0C01FB7237 /* file_xfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = file_xfer.h; path = ../client/file_xfer.h; sourceTree = SOURCE_ROOT; };
 		F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hostinfo_unix.C; path = ../client/hostinfo_unix.C; sourceTree = SOURCE_ROOT; };
-		F54B8FD402AC0A0C01FB7237 /* http.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = http.C; path = ../client/http.C; sourceTree = SOURCE_ROOT; };
-		F54B8FD502AC0A0C01FB7237 /* http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = http.h; path = ../client/http.h; sourceTree = SOURCE_ROOT; };
 		F54B8FD602AC0A0C01FB7237 /* log_flags.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = log_flags.C; path = ../client/log_flags.C; sourceTree = SOURCE_ROOT; };
 		F54B8FD702AC0A0C01FB7237 /* log_flags.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = log_flags.h; path = ../client/log_flags.h; sourceTree = SOURCE_ROOT; };
 		F54B8FDA02AC0A0C01FB7237 /* net_stats.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = net_stats.C; path = ../client/net_stats.C; sourceTree = SOURCE_ROOT; };
 		F54B8FDB02AC0A0C01FB7237 /* net_stats.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = net_stats.h; path = ../client/net_stats.h; sourceTree = SOURCE_ROOT; };
-		F54B8FDC02AC0A0C01FB7237 /* net_xfer.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = net_xfer.C; path = ../client/net_xfer.C; sourceTree = SOURCE_ROOT; };
-		F54B8FDD02AC0A0C01FB7237 /* net_xfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = net_xfer.h; path = ../client/net_xfer.h; sourceTree = SOURCE_ROOT; };
 		F54B8FE402AC0A0C01FB7237 /* time_stats.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = time_stats.C; path = ../client/time_stats.C; sourceTree = SOURCE_ROOT; };
 		F54B8FE502AC0A0C01FB7237 /* time_stats.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = time_stats.h; path = ../client/time_stats.h; sourceTree = SOURCE_ROOT; };
 		F54B901502AC0A2201FB7237 /* parse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = parse.h; path = ../lib/parse.h; sourceTree = SOURCE_ROOT; };
@@ -1055,6 +1054,8 @@
 				DD0C5A8A0816711400CEC5D7 /* boinc.tiff */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DD64E7D507D89DB800B176C8 /* Info.plist */,
+				DDEB3AD40980CD180087E200 /* GR_Info.plist */,
+				DDEB3AE50980CF890087E200 /* GR-icon_MAC.icns */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				F51BDF4903086C46012012A7 /* InfoPlist.strings */,
 			);
@@ -1318,8 +1319,6 @@
 				DD344BC007C5AF280043025C /* hostinfo_network.C */,
 				DD344BC107C5AF280043025C /* hostinfo_network.h */,
 				F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.C */,
-				F54B8FD402AC0A0C01FB7237 /* http.C */,
-				F54B8FD502AC0A0C01FB7237 /* http.h */,
 				DD33C70208B5BEDE00768630 /* http_curl.C */,
 				DD33C70308B5BEDE00768630 /* http_curl.h */,
 				F54B8FD602AC0A0C01FB7237 /* log_flags.C */,
@@ -1330,8 +1329,6 @@
 				F54B8FDB02AC0A0C01FB7237 /* net_stats.h */,
 				DD33C6FB08B5BC2600768630 /* net_xfer_curl.h */,
 				DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */,
-				F54B8FDC02AC0A0C01FB7237 /* net_xfer.C */,
-				F54B8FDD02AC0A0C01FB7237 /* net_xfer.h */,
 				F51CCF1F02EFD37D018DB99A /* pers_file_xfer.C */,
 				F51CCF1E02EFD37D018DB99A /* pers_file_xfer.h */,
 				DD344BFA07C5B1A80043025C /* proxy.C */,
@@ -2056,6 +2053,8 @@
 				DD095EF407D87B1600362260 /* boinc in Resources */,
 				DD095F5A07D883E500362260 /* BOINCMgr.icns in Resources */,
 				DD095F5B07D883E600362260 /* InfoPlist.strings in Resources */,
+				DDEB3AD50980CD180087E200 /* GR_Info.plist in Resources */,
+				DDEB3AE60980CF890087E200 /* GR-icon_MAC.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2138,14 +2137,14 @@
 			files = (
 			);
 			inputPaths = (
-				$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit,
+				"${BUILD_DIR}/../../clientgui/mac/BOINCSaver.nib.sit",
 			);
 			outputPaths = (
-				$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib,
+				"${BUILD_DIR}/../../clientgui/mac/BOINCSaver.nib",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"";
+			shellScript = "if [ ! \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\" -nt \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\" ]; then\nrm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2377,7 +2376,6 @@
 				DDD74DA607CF49030065AC9D /* main.C in Sources */,
 				DDD74DA707CF49040065AC9D /* net_stats.C in Sources */,
 				DDD74DA907CF49090065AC9D /* pers_file_xfer.C in Sources */,
-				DDD74DAA07CF490B0065AC9D /* proxy.C in Sources */,
 				DDD74DAB07CF490C0065AC9D /* scheduler_op.C in Sources */,
 				DDD74DAC07CF490D0065AC9D /* ss_logic.C in Sources */,
 				DDD74DAD07CF490E0065AC9D /* time_stats.C in Sources */,

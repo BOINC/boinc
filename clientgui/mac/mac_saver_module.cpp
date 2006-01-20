@@ -46,9 +46,10 @@ OSStatus initBOINCApp(void);
 int drawGraphics(GrafPtr aPort);
 void drawPreview(GrafPtr aPort);
 void closeBOINCSaver(void);
-void setBannerText(ConstStringPtr msg, GrafPtr aPort);
-void updateBannerText(ConstStringPtr msg, GrafPtr aPort);
+void setBannerText(const char *msg, GrafPtr aPort);
+void updateBannerText(char *msg, GrafPtr aPort);
 void drawBanner(GrafPtr aPort);
+int GetBrandID(void);
 void FlashIcon(void);
 OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
 pid_t FindProcessPID(char* name, pid_t thePID);
@@ -59,6 +60,18 @@ OSErr KillScreenSaver();
 #ifdef __cplusplus
 }	// extern "C"
 #endif
+
+// The science application can't display its graphics if, due to Fast User Switching, 
+// Switching, the active user is not the one who launched BOINC.  If we always display 
+// the progress information as scrolled text whenever a science application is running,
+// then the progress text would appear in this case.  The text would be covered up by 
+// the graphics if they are displayed. 
+// But displaying the scrolled progress info takes up too much CPU time.  We need to 
+// find a way to determine when Fast User Switching prevents graphics display and 
+// display scrolled progress text only in that case.
+// Of course, we also display scrolled progress text when the science application does 
+// not support graphics).
+#define ALWAYS_DISPLAY_PROGRESS_TEXT 0
 
 // Flags for testing & debugging
 #define SIMULATE_NO_GRAPHICS 0
@@ -98,7 +111,7 @@ extern int gBlankingTime;   // Delay in minutes before blanking the screen
 
 static Boolean wasAlreadyRunning = false;
 static pid_t CoreClientPID = nil;
-static unsigned char msgBuf[2048], bannerText[2048];
+static char msgBuf[2048], bannerText[2048];
 static int bannerWidth;
 static SaverState saverState = SaverState_Idle;
 static StringPtr CurrentBannerMessage = 0;
@@ -109,21 +122,29 @@ MPTaskID gRPC_thread_id;	// IDs of the thread we create
 int gClientSaverStatus = 0;     // status returned by get_screensaver_mode RPC
 Boolean gQuitRPCThread = false; // Flag to tell RPC thread to exit gracefully
 int gQuitCounter = 0;
+long gBrandId = 0;
+char * gBrandText = "BOINC";
+RGBColor gBrandColor = {0xFFFF, 0xFFFF, 0xFFFF};
+RGBColor gTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
+RGBColor gWhiteTextColor = {0xFFFF, 0xFFFF, 0xFFFF};
+RGBColor gOrangeTextColor = {0xFFFF, 0x6262, 0x0000};
+RGBColor gGrayTextColor = {0x9999, 0x9999, 0x9999};
+
 
 // Display first status update after 5 seconds
 static int statusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * BANNERFREQUENCY);
 Boolean gStatusMessageUpdated = false;
 
-const ConstStringPtr CantLaunchCCMsg = "\pUnable to launch BOINC application.";
-const ConstStringPtr LaunchingCCMsg = "\pLaunching BOINC application.";
-const ConstStringPtr ConnectingCCMsg = "\pConnecting to BOINC application.";
-const ConstStringPtr BOINCSuspendedMsg = "\pBOINC is currently suspended.";
-const ConstStringPtr BOINCNoAppsExecutingMsg = "\pBOINC is currently idle.";
-const ConstStringPtr BOINCNoProjectsDetectedMsg = "\pBOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
-const ConstStringPtr BOINCNoGraphicAppsExecutingMsg = "\pBOINC is currently not executing any applications with graphics";
-const ConstStringPtr BOINCUnrecoverableErrorMsg = "\pSorry, an unrecoverable error occurred";
-const ConstStringPtr BOINCTestmodeMg = "\pThis BOINC screensaver does not support Test mode";
-//const ConstStringPtr BOINCExitedSaverMode = "\pBOINC is no longer in screensaver mode.";
+const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
+const char *  LaunchingCCMsg = "Launching BOINC application.";
+const char *  ConnectingCCMsg = "Connecting to BOINC application.";
+const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
+const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
+const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
+const char *  BOINCNoGraphicAppsExecutingMsg = "BOINC  ";
+const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
+const char *  BOINCTestmodeMg = "This BOINC screensaver does not support Test mode";
+//const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
 
 // Returns desired Animation Frequency (per second) or 0 for no change
@@ -153,6 +174,20 @@ int initBOINCSaver(Boolean ispreview) {
     err = GetProcessInformation(&psn, &pInfo);
     if ( (err == noErr) && (pInfo.processSignature == 'sprf') ) {
         saverState = SaverState_ControlPanelTestMode;
+    }
+
+    gBrandId = GetBrandID();
+    switch(gBrandId) {
+    case 1:
+        gBrandText = "GridRepublic";
+        gBrandColor = gOrangeTextColor; // Orange
+        gTextColor = gGrayTextColor;  // Gray
+        break;
+    default:
+        gBrandText = "BOINC";
+        gBrandColor = gWhiteTextColor; // White
+        gTextColor = gWhiteTextColor; // White
+        break;
     }
 
     // If there are multiple displays, initBOINCSaver may get called 
@@ -289,12 +324,8 @@ int drawGraphics(GrafPtr aPort) {
         switch (gClientSaverStatus) {
         case 0:
             break;  // No status response yet from get_screensaver_mode RPC
-        case SS_STATUS_ENABLED:
-        default:
-            setBannerText(0, aPort);   // No text message
-            // Let the science app draw over our window
-            break;
         case SS_STATUS_BLANKED:
+        default:
             setBannerText(0, aPort);   // No text message
             break;
         case SS_STATUS_BOINCSUSPENDED:
@@ -306,9 +337,15 @@ int drawGraphics(GrafPtr aPort) {
         case SS_STATUS_NOPROJECTSDETECTED:
             setBannerText(BOINCNoProjectsDetectedMsg, aPort);
             break;
+        case SS_STATUS_ENABLED:
+#if ! ALWAYS_DISPLAY_PROGRESS_TEXT
+            setBannerText(0, aPort);   // No text message
+            // Let the science app draw over our window
+            break;
+#endif
         case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
             if (msgBuf[0] == 0) {
-                PLstrcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
+                strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
                 setBannerText(msgBuf, aPort);
             }
             if (gStatusMessageUpdated) {
@@ -359,7 +396,7 @@ int drawGraphics(GrafPtr aPort) {
 
 void drawPreview(GrafPtr aPort) {
     SetPort(aPort);
-    setBannerText("\p BOINC", aPort);
+    setBannerText(" BOINC", aPort);
     drawBanner(aPort);
 }
 
@@ -458,12 +495,17 @@ OSStatus RPCThread(void* param) {
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
         gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
 #endif
-        if (gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING) {
+        if ((gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING)
+#if ALWAYS_DISPLAY_PROGRESS_TEXT
+                || (gClientSaverStatus == SS_STATUS_ENABLED)
+#endif
+            )
+ {
             if (statusUpdateCounter >= (STATUSUPDATEINTERVAL * BANNERFREQUENCY) ) {
                 statusUpdateCounter = 0;
 
                 if (! gStatusMessageUpdated) {
-                    PLstrcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
+                    strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
         
                     MPYield();
                     val = rpc->get_state(state);
@@ -487,11 +529,7 @@ OSStatus RPCThread(void* param) {
                                     results.results.at(iIndex)->fraction_done * 100 
                                 );
 
-                                // Append C string to Pascal string
-                                if ((len + msgBuf[0] + 1) < sizeof(msgBuf)) {
-                                    BlockMove(statusBuf, msgBuf+msgBuf[0]+1, len);
-                                    msgBuf[0] += len;
-                                }
+                                strlcat(msgBuf, statusBuf, sizeof(msgBuf));
                             }       // end if (pProject != NULL)
                         }           // end for() loop
                         gStatusMessageUpdated = true;
@@ -514,19 +552,20 @@ OSStatus RPCThread(void* param) {
 }
 
 
-void setBannerText(ConstStringPtr msg, GrafPtr aPort) {
+void setBannerText(const char * msg, GrafPtr aPort) {
     if (msg == 0)
         bannerText[0] = 0;
     
-    if ((ConstStringPtr)CurrentBannerMessage != msg)
-        updateBannerText(msg, aPort);
+    if ((char *)CurrentBannerMessage != msg)
+        updateBannerText((char *)msg, aPort);
 }
 
 
-void updateBannerText(ConstStringPtr msg, GrafPtr aPort) {
+void updateBannerText(char *msg, GrafPtr aPort) {
     CGrafPtr savePort;
     RGBColor saveBackColor;
     Rect wRect;
+    char *p, *s;
     
     CurrentBannerMessage = (StringPtr)msg;
 
@@ -544,10 +583,22 @@ void updateBannerText(ConstStringPtr msg, GrafPtr aPort) {
     RGBBackColor(&saveBackColor);
    
    if (msg) {
-        BlockMove(msg, bannerText, msg[0]+1);
         TextSize(24);
         TextFace(bold);
-        bannerWidth = StringWidth(bannerText) + BANNER_GAP;
+        s = msg;
+        bannerText[0] = '\0';
+        do {
+            p = strstr(s, "BOINC");
+            if (p == NULL) {
+                strcat(bannerText, s);
+            } else {
+                strncat(bannerText, s, p - s);
+                strcat(bannerText, gBrandText);
+                s = p + 5;  // s = p + strlen("BOINC");
+            }
+        } while (p);
+        
+        bannerWidth = TextWidth(bannerText, 0, strlen(bannerText)) + BANNER_GAP;
         // Round up bannerWidth to an integral multiple of BANNERDELTA
         bannerWidth = ((bannerWidth + BANNERDELTA - 1) / BANNERDELTA) * BANNERDELTA;
     }
@@ -564,6 +615,7 @@ void drawBanner(GrafPtr aPort) {
     Rect wRect;
     FontInfo fInfo;
     static short bannerPos;
+    char *p, *s;
     
     if (aPort == NULL)
         return;
@@ -573,7 +625,7 @@ void drawBanner(GrafPtr aPort) {
     
     GetForeColor(&saveForeColor);
     GetBackColor(&saveBackColor);
-    ForeColor(whiteColor);
+    RGBForeColor(&gTextColor);
     BackColor(blackColor);
     GetPortBounds(aPort, &wRect);
     if ( (bannerPos + bannerWidth) <= (wRect.left + BANNERDELTA) )
@@ -591,7 +643,20 @@ void drawBanner(GrafPtr aPort) {
        
     do { 
         MoveTo(x, y);
-         DrawString(bannerText);
+        s = bannerText;
+        do {
+            p = strstr(s, gBrandText);
+            if (p == NULL) {
+                DrawText(s, 0, strlen(s));
+            } else {
+                DrawText(s, 0, p - s);
+                RGBForeColor(&gBrandColor);
+                DrawText(gBrandText, 0, strlen(gBrandText));
+                s = p + strlen(gBrandText);
+                RGBForeColor(&gTextColor);
+            }
+        } while (p);
+        
         x+= bannerWidth;
     } while (x < wRect.right);
     
@@ -599,6 +664,31 @@ void drawBanner(GrafPtr aPort) {
     RGBBackColor(&saveBackColor);
 
     SetGWorld(savePort, saveGDH);
+}
+
+
+int GetBrandID()
+{
+    char buf[1024];
+    long iBrandId;
+    OSErr err;
+
+    iBrandId = 0;   // Default value
+    
+    err = GetpathToBOINCManagerApp(buf, sizeof(buf));
+    if (err)    // If we couldn't find BOINCManager.app, try default path
+        strcpy(buf, "/Applications/BOINCManager.app");    // 
+        
+    if (err == noErr) {
+        strcat(buf, "/Contents/Resources/Branding");
+        FILE *f = fopen(buf, "r");
+        if (f) {
+            fscanf(f, "BrandId=%ld\n", &iBrandId);
+            fclose(f);
+        }
+    }
+    
+    return iBrandId;
 }
 
 
