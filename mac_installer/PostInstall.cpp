@@ -33,6 +33,7 @@
 
 void Initialize(void);	/* function prototypes */
 void SetUIDBackToUser (void);
+long GetBrandID(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
 static OSErr QuitBOINCManager(OSType signature);
@@ -49,6 +50,7 @@ int main(int argc, char *argv[])
     long response;
     ProcessSerialNumber	ourProcess, installerPSN;
     short itemHit;
+    long brandID = 0;
     group *grp;
     char s[256];
     int NumberOfLoginItems, Counter, i;
@@ -91,6 +93,14 @@ int main(int argc, char *argv[])
 	ExitToShell();
     }
 
+    brandID = GetBrandID();
+    if (brandID == 1) {
+    
+    
+    
+    
+    }
+    
     Success = false;
     
     // The BOINC Manager and Core Client have the set-user-ID-on-execution 
@@ -201,6 +211,24 @@ void Initialize()	/* Initialize some managers */
     if (err != noErr)
         ExitToShell();
 }
+
+
+long GetBrandID()
+{
+    long iBrandId;
+    OSErr err;
+
+    iBrandId = 0;   // Default value
+    
+    FILE *f = fopen("/Contents/Resources/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandId);
+        fclose(f);
+    }
+    
+    return iBrandId;
+}
+
 
 // ---------------------------------------------------------------------------
 /* This runs through the process list looking for the indicated application */
