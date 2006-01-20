@@ -225,9 +225,15 @@ OSStatus initBOINCApp() {
     }
     
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
-    if (err)    // If we couldn't find BOINCManager.app, try default path
-        strcpy(boincPath, "/Applications/BOINCManager.app");    // 
-        
+    if (err) {   // If we couldn't find BOINCManager.app, try default path
+        strcpy(boincPath, "/Applications/");
+        if (gBrandId)
+            strcat(boincPath, gBrandText);
+        else
+            strcat(boincPath, "BOINCManager");
+            strcat(boincPath, ".app");
+    }
+    
     strcat(boincPath, "/Contents/Resources/boinc");
 
     if ( (myPid = fork()) < 0)
@@ -676,16 +682,21 @@ int GetBrandID()
     iBrandId = 0;   // Default value
     
     err = GetpathToBOINCManagerApp(buf, sizeof(buf));
-    if (err)    // If we couldn't find BOINCManager.app, try default path
-        strcpy(buf, "/Applications/BOINCManager.app");    // 
+    if (err) {     // If we couldn't find our application bundle, try default path
+        strcpy(buf, "/Applications/");
+        if (gBrandId)
+            strcat(buf, gBrandText);
+        else
+            strcat(buf, "BOINCManager");
+        strcat(buf, ".app");
+    }
         
-    if (err == noErr) {
-        strcat(buf, "/Contents/Resources/Branding");
-        FILE *f = fopen(buf, "r");
-        if (f) {
-            fscanf(f, "BrandId=%ld\n", &iBrandId);
-            fclose(f);
-        }
+    strcat(buf, "/Contents/Resources/Branding");
+
+    FILE *f = fopen(buf, "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandId);
+        fclose(f);
     }
     
     return iBrandId;

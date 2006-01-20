@@ -40,6 +40,8 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     err = FixInfoPlistFile("./Info.plist");
     if (err) retval = err;
+    err = FixInfoPlistFile("./GR_Info.plist");
+    if (err) retval = err;
     err = FixInfoPlistFile("./Installer-Info.plist");
     if (err) retval = err;
     err = FixInfoPlistFile("./ScreenSaver-Info.plist");

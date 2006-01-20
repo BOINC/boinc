@@ -23,10 +23,18 @@ exit 0
 fi
 
 ## XCode 2.x has separate directories for Development and Deployment build products
-if [ -d mac_build/build/Deployment/ ]; then
-BUILDPATH="mac_build/build/Deployment"
+if [ "$4" = "-dev" ]; then
+    if [ -d mac_build/build/Development/ ]; then
+        BUILDPATH="mac_build/build/Development"
+    else
+        BUILDPATH="mac_build/build"
+    fi
 else
-BUILDPATH="mac_build/build"
+    if [ -d mac_build/build/Deployment/ ]; then
+        BUILDPATH="mac_build/build/Deployment"
+    else
+        BUILDPATH="mac_build/build"
+    fi
 fi
 
 sudo rm -dfR ../BOINC_Installer/Installer\ Resources/

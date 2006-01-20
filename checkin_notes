@@ -681,13 +681,19 @@ Charlie 20 Jan 2006
     screensaver changes for GR. 
     Remove obsolete files from XCode project (net_xfer.C,h, http.C,h, 
     proxy.C,h)
+    Update release script to allow development test builds.
+    Update installer for Grid Republic.
 
-    mac_build/
-        Info.plist
-        GR_Info.plist (new)
     client/
         mac/
-            GR-icon_MAC.icns (new)
+            GridRepublic.icns (new)
+            SetVersion.C
     clientgui/
         mac/
             mac_saver_module.cpp
+    mac_build/
+        Info.plist
+        GR_Info.plist (new)
+    mac_installer/
+        release_boinc.sh
+        Postinstall.cpp

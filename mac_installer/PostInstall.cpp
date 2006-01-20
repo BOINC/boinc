@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     int NumberOfLoginItems, Counter, i;
     pid_t installerPID = 0, coreClientPID = 0;
     FSRef fileRef;
-    OSStatus err;
+    OSStatus err, err_fsref;
 
     Initialize();
 
@@ -91,14 +91,6 @@ int main(int argc, char *argv[])
 	system ("rm -rf /Library/Receipts/BOINC.pkg");
 	
 	ExitToShell();
-    }
-
-    brandID = GetBrandID();
-    if (brandID == 1) {
-    
-    
-    
-    
     }
     
     Success = false;
@@ -143,6 +135,29 @@ int main(int argc, char *argv[])
     sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
     system (s);
 
+    brandID = GetBrandID();
+    if (brandID == 1) {
+	system ("rm -rf /Applications/GridRepublic.app");
+        system ("mv -f /Applications/BOINCManager.app/ /Applications/GridRepublic.app/");
+        system ("mv -f /Applications/GridRepublic.app/Contents/Info.plist /Applications/GridRepublic.app/Contents/BOINC_Info.plist");
+        system ("cp -fp /Applications/GridRepublic.app/Contents/Resources/GR_Info.plist /Applications/GridRepublic.app/Contents/Info.plist");
+        system ("mv -f /Applications/GridRepublic.app/Contents/MacOS/BOINCManager /Applications/GridRepublic.app/Contents/MacOS/GridRepublic");
+        system ("cp -fp Contents/Resources/Branding /Applications/GridRepublic.app/Contents/Resources/Branding");
+	system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");
+        system ("mv -f /Library/Screen\\ Savers/BOINCSaver.saver /Library/Screen\\ Savers/GridRepublic.saver");
+    } else {
+	system ("rm -rf /Applications/GridRepublic.app");               // Installing BOINC over GridRepublic
+	system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");  // Installing BOINC over GridRepublic
+    }
+
+    if (brandID == 1)
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic.app", &fileRef, NULL);
+    else
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
+    
+    if (err_fsref == noErr)
+        err = LSRegisterFSRef(&fileRef, true);
+        
     // Installer is running as root.  We must setuid back to the logged in user 
     //  in order to add a startup item to the user's login preferences
 
@@ -166,9 +181,15 @@ int main(int argc, char *argv[])
             
         if (strcmp(p, "BOINCMANAGER.APP") == 0)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+        if (strcmp(p, "GRIDREPUBLIC.APP") == 0)
+            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
     }
 
-    Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
+    if (brandID == 1)
+        Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
+                            "/Applications/GridRepublic.app", kDoNotHideOnLaunch);
+    else
+        Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
 
     // Launch BOINC Manager when user closes installer or after 15 seconds
@@ -179,8 +200,7 @@ int main(int argc, char *argv[])
             break;
     }
 
-    err = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
-    if (err == noErr)
+    if (err_fsref == noErr)
         err = LSOpenFSRef(&fileRef, NULL);
 
     return 0;
@@ -216,11 +236,10 @@ void Initialize()	/* Initialize some managers */
 long GetBrandID()
 {
     long iBrandId;
-    OSErr err;
 
     iBrandId = 0;   // Default value
     
-    FILE *f = fopen("/Contents/Resources/Branding", "r");
+    FILE *f = fopen("Contents/Resources/Branding", "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &iBrandId);
         fclose(f);

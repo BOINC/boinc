@@ -226,7 +226,7 @@
 		DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40CDF907F0386A0096C645 /* SystemMenu.bundle */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DDEB3AD50980CD180087E200 /* GR_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3AD40980CD180087E200 /* GR_Info.plist */; };
-		DDEB3AE60980CF890087E200 /* GR-icon_MAC.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3AE50980CF890087E200 /* GR-icon_MAC.icns */; };
+		DDEB3CA90981084A0087E200 /* GridRepublic.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3CA80981084A0087E200 /* GridRepublic.icns */; };
 		DDEF38900802B73500E87552 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
 		DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
@@ -868,7 +868,7 @@
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDEB3AD40980CD180087E200 /* GR_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = GR_Info.plist; sourceTree = "<group>"; };
-		DDEB3AE50980CF890087E200 /* GR-icon_MAC.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "GR-icon_MAC.icns"; path = "../client/mac/GR-icon_MAC.icns"; sourceTree = SOURCE_ROOT; };
+		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
 		DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
@@ -1055,8 +1055,8 @@
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DD64E7D507D89DB800B176C8 /* Info.plist */,
 				DDEB3AD40980CD180087E200 /* GR_Info.plist */,
-				DDEB3AE50980CF890087E200 /* GR-icon_MAC.icns */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
+				DDEB3CA80981084A0087E200 /* GridRepublic.icns */,
 				F51BDF4903086C46012012A7 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -2054,7 +2054,7 @@
 				DD095F5A07D883E500362260 /* BOINCMgr.icns in Resources */,
 				DD095F5B07D883E600362260 /* InfoPlist.strings in Resources */,
 				DDEB3AD50980CD180087E200 /* GR_Info.plist in Resources */,
-				DDEB3AE60980CF890087E200 /* GR-icon_MAC.icns in Resources */,
+				DDEB3CA90981084A0087E200 /* GridRepublic.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
