@@ -303,7 +303,7 @@ done:
 bool ACTIVE_TASK::finish_file_present() {
     char path[256];
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, BOINC_FINISH_CALLED_FILE);
-    return boinc_file_exists(path);
+    return (boinc_file_exists(path) != 0);
 }
 
 void ACTIVE_TASK_SET::send_trickle_downs() {

@@ -232,7 +232,6 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     NET_XFER* nxf = NULL;
     bool time_passed = false;
     CURLMsg *pcurlMsg = NULL;
-    char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
@@ -335,7 +334,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 nxf->http_op_retval = nxf->response;
             }
         } else {
-            msg_printf(0, MSG_ERROR, "Network error: %s", nxf->strCurlResult);
+            msg_printf(0, MSG_ERROR, "HTTP error: %s", nxf->strCurlResult);
             nxf->http_op_retval = ERR_HTTP_ERROR;
         }
 
