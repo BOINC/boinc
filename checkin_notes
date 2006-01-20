@@ -694,6 +694,8 @@ Charlie 20 Jan 2006
     mac_build/
         Info.plist
         GR_Info.plist (new)
+        boinc.xcodeproj/
+            project.pbxproj
     mac_installer/
         release_boinc.sh
         Postinstall.cpp
