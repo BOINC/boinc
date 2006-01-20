@@ -666,3 +666,11 @@ David  20 Jan 2006
 
     client/
         file_xfer.C
+
+David  20 Jan 2006
+    - suppress "Expect: 100 continue" in HTTP header.
+        Apparently this causes problems with some proxies
+        (from Ian Hay)
+
+    client/
+        http_curl.C
