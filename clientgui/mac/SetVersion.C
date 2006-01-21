@@ -21,8 +21,8 @@
 
 int IsFileCurrent(char* filePath);
 int FixInfoPlistFile(char* myPath);
-int FixInfoPlist_Strings(void);
-int MakeInstallerInfoPlistFile(void);
+int FixInfoPlist_Strings(char* myPath, char* brand);
+int MakeInstallerInfoPlistFile(char* myPath, char* brand);
 
 int main(int argc, char** argv) {
     int retval = 0, err;
@@ -36,7 +36,9 @@ int main(int argc, char** argv) {
     printf("%s\n", myPath);       // For debugging
 #endif
 
-    err = FixInfoPlist_Strings();
+    err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC");
+    if (err) retval = err;
+    err = FixInfoPlist_Strings("./GR-InfoPlist.strings", "GridRepublic");
     if (err) retval = err;
     err = FixInfoPlistFile("./Info.plist");
     if (err) retval = err;
@@ -46,9 +48,13 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     err = FixInfoPlistFile("./ScreenSaver-Info.plist");
     if (err) retval = err;
+    err = FixInfoPlistFile("./GR-ScreenSaver-Info.plist");
+    if (err) retval = err;
     err = FixInfoPlistFile("./SystemMenu-Info.plist");
     if (err) retval = err;
-    err = MakeInstallerInfoPlistFile();
+    err = MakeInstallerInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
+    if (err) retval = err;
+    err = MakeInstallerInfoPlistFile("./GR-Pkg-Info.plist", "GridRepublic");
     return retval;
 }
 
@@ -75,10 +81,9 @@ int IsFileCurrent(char* filePath) {
 }
 
 
-int FixInfoPlist_Strings() {
+int FixInfoPlist_Strings(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
-    char *myPath = "./English.lproj/InfoPlist.strings";
     
     if (IsFileCurrent(myPath))
         return 0;
@@ -87,9 +92,9 @@ int FixInfoPlist_Strings() {
     if (f)
     {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
-        fprintf(f, "CFBundleName = \"BOINC\";\n");
-        fprintf(f, "CFBundleShortVersionString = \"BOINC version %s\";\n", BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"BOINC version %s, Copyright 2005 University of California.\";\n", BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleName = \"%s\";\n", brand);
+        fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2005 University of California.\";\n", brand, BOINC_VERSION_STRING);
         retval = fclose(f);
     }
     else {
@@ -176,10 +181,9 @@ bail:
 }
 
 
-int MakeInstallerInfoPlistFile() {
+int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
-    char *myPath = "./Pkg-Info.plist";
     
     if (IsFileCurrent(myPath))
         return 0;
@@ -191,7 +195,7 @@ int MakeInstallerInfoPlistFile() {
         fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
         fprintf(f, "<plist version=\"1.0\">\n<dict>\n");
         fprintf(f, "\t<key>CFBundleGetInfoString</key>\n");
-        fprintf(f, "\t<string>BOINC Manager %s</string>\n", BOINC_VERSION_STRING);
+        fprintf(f, "\t<string>%s %s</string>\n", brand, BOINC_VERSION_STRING);
         fprintf(f, "\t<key>CFBundleIdentifier</key>\n\t<string>edu.berkeley.boinc</string>\n");
         fprintf(f, "\t<key>CFBundleShortVersionString</key>\n");
         fprintf(f, "\t<string>%s</string>\n", BOINC_VERSION_STRING);

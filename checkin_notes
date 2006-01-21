@@ -717,3 +717,42 @@ David  20 Jan 2006
     clientgui/
         Events.h
         ViewStatistics.C,h
+
+Charlie 21 Jan 2006
+    -Mac: Changes for Grid Republic: manager determinea branding before 
+      launching client; create new release script for GR; GR screen saver 
+      displays GR icon in system preferences dialog; data directory is 
+      "GridRepublic Data" if a GR install; installing BOINC over an 
+      existing GR installation or GR over existing BOINC installation 
+      renames data directory and performs other necessary tasks to ensure 
+      continued processing of existing work.  (But user's screensaver 
+      selection is not changed automatically.)
+      
+   clientgui/
+        BOINCGUIApp.cpp - Set up branding before launching boinc client.
+        mac/
+            mac_saver_module.cpp
+            gridrepublic.tiff
+            SetVersion.C
+
+    mac_installer/
+        release_boinc.sh
+        PostInstall.cpp
+        postinstall
+        postupgrade
+        preinstall (new)
+        preupgrade (new)
+        release_GridRepublic.sh (new)
+        GR-preinstall (new)
+        GR-preupgrade (new)
+        GR-Description.plist (new)
+        GR_Branding (new)
+        GR-ReadMe.rtf (new)
+        GR-Description.plist (new)
+
+    mac_build/
+        GR-InfoPlist.strings (new)
+        GR-ScreenSaver-Info.plist (new)
+        boinc.xcodeproj/
+            project.pbxproj
+      

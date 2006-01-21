@@ -225,8 +225,6 @@
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
 		DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40CDF907F0386A0096C645 /* SystemMenu.bundle */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
-		DDEB3AD50980CD180087E200 /* GR_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3AD40980CD180087E200 /* GR_Info.plist */; };
-		DDEB3CA90981084A0087E200 /* GridRepublic.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDEB3CA80981084A0087E200 /* GridRepublic.icns */; };
 		DDEF38900802B73500E87552 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
 		DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
@@ -873,6 +871,12 @@
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
 		DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
 		DDF166AA08DF898A00C8C4A5 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
+		DDF1F47A09822C3400482C89 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preinstall; path = ../mac_installer/preinstall; sourceTree = SOURCE_ROOT; };
+		DDF1F47B09822C3400482C89 /* preupgrade */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preupgrade; path = ../mac_installer/preupgrade; sourceTree = SOURCE_ROOT; };
+		DDF1F4A409822F8A00482C89 /* GR-Branding */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "GR-Branding"; path = "../mac_installer/GR-Branding"; sourceTree = SOURCE_ROOT; };
+		DDF1F4BC0982307300482C89 /* GR-preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = "GR-preinstall"; path = "../mac_installer/GR-preinstall"; sourceTree = SOURCE_ROOT; };
+		DDF1F4BD0982307300482C89 /* GR-preupgrade */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = "GR-preupgrade"; path = "../mac_installer/GR-preupgrade"; sourceTree = SOURCE_ROOT; };
+		DDF1F5550982531600482C89 /* GR-ScreenSaver-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "GR-ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../client/mac/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		F5159562029EB02001F5651B /* md5.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = md5.c; path = ../lib/md5.c; sourceTree = SOURCE_ROOT; };
@@ -1044,6 +1048,7 @@
 				DD40CDFA07F0386B0096C645 /* SystemMenu-Info.plist */,
 				DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */,
 				DD1277B5081F3D67007B5DE1 /* Installer-Info.plist */,
+				DDF1F5550982531600482C89 /* GR-ScreenSaver-Info.plist */,
 			);
 			name = "¬´PROJECTNAME¬ª";
 			sourceTree = "<group>";
@@ -1054,10 +1059,11 @@
 				DD0C5A8A0816711400CEC5D7 /* boinc.tiff */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DD64E7D507D89DB800B176C8 /* Info.plist */,
-				DDEB3AD40980CD180087E200 /* GR_Info.plist */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
-				DDEB3CA80981084A0087E200 /* GridRepublic.icns */,
 				F51BDF4903086C46012012A7 /* InfoPlist.strings */,
+				DDEB3AD40980CD180087E200 /* GR_Info.plist */,
+				DDEB3CA80981084A0087E200 /* GridRepublic.icns */,
+				DDF1F4A409822F8A00482C89 /* GR-Branding */,
 			);
 			name = Resources;
 			sourceTree = SOURCE_ROOT;
@@ -1080,8 +1086,12 @@
 				DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */,
 				DD1277BF081F3E73007B5DE1 /* LoginItemAPI.h */,
 				DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */,
+				DDF1F47A09822C3400482C89 /* preinstall */,
+				DDF1F47B09822C3400482C89 /* preupgrade */,
 				DDB8D5A5081FC8C700A5A1E8 /* postinstall */,
 				DD127880081F464E007B5DE1 /* postupgrade */,
+				DDF1F4BC0982307300482C89 /* GR-preinstall */,
+				DDF1F4BD0982307300482C89 /* GR-preupgrade */,
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
@@ -2053,8 +2063,6 @@
 				DD095EF407D87B1600362260 /* boinc in Resources */,
 				DD095F5A07D883E500362260 /* BOINCMgr.icns in Resources */,
 				DD095F5B07D883E600362260 /* InfoPlist.strings in Resources */,
-				DDEB3AD50980CD180087E200 /* GR_Info.plist in Resources */,
-				DDEB3CA90981084A0087E200 /* GridRepublic.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

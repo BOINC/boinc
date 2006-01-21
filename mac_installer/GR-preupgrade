@@ -1,0 +1,11 @@
+#!/bin/csh
+
+##
+# Pre-Upgrade Script for Macintosh GridRepublic for OS X revised 1/21/06
+##
+
+
+# If we are replacing an earlier BOINC installation, fix the data directory name before installing
+mv -n "/Library/Application Support/BOINC Data" "/Library/Application Support/GridRepublic Data"
+
+exit 0

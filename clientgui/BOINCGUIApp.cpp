@@ -199,6 +199,12 @@ bool CBOINCGUIApp::OnInit() {
 
 #endif
 
+    // Setup the branding scheme
+    m_pBranding = new CBrandingScheme;
+    wxASSERT(m_pBranding);
+
+    m_pBranding->OnInit(m_pConfig);
+    
 #ifdef __WXMAC__
 
     wxString strDirectory = wxEmptyString;
@@ -214,15 +220,16 @@ bool CBOINCGUIApp::OnInit() {
     // The mac installer sets the "setuid & setgid" bits for the 
     // BOINC Manager and core client so any user can run them and 
     // they can operate on shared data.
-    strDirectory = wxT("/Library/Application Support");
+    strDirectory = wxT("/Library/Application Support/");
 #endif
 
     success = ::wxSetWorkingDirectory(strDirectory);
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
-        strDirectory += wxT("/BOINC Data");
+        strDirectory += m_pBranding->GetProjectName();
+        strDirectory += wxT(" Data");
         if (! wxDirExists(strDirectory))
-            success = wxMkdir(wxT("BOINC Data"), 0777);    // Does nothing if dir exists
+            success = wxMkdir(m_pBranding->GetProjectName() + wxT(" Data"), 0777);    // Does nothing if dir exists
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
@@ -302,13 +309,6 @@ bool CBOINCGUIApp::OnInit() {
     if (!wxApp::OnInit()) {
         return false;
     }
-
-    // Setup the branding scheme
-    m_pBranding = new CBrandingScheme;
-    wxASSERT(m_pBranding);
-
-    m_pBranding->OnInit(m_pConfig);
-
 
     // Initialize the main document
     m_pDocument = new CMainDocument();

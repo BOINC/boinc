@@ -242,10 +242,12 @@ OSStatus initBOINCApp() {
     {
 #if 0   // Code for separate data in each user's private directory
         strcpy(buf, getenv("HOME"));
-        strcat(buf, "/Library/Application Support/BOINC Data");
+        strcat(buf, "/Library/Application Support/");
 #else   // All users share the same data
-        strcpy(buf, "/Library/Application Support/BOINC Data");
+        strcpy(buf, "/Library/Application Support/");
 #endif
+        strcat(buf, gBrandText);
+        strcat(buf, " Data");
         status = chdir(buf);
         if (status) {
             perror("chdir");
