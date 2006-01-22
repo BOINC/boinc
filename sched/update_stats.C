@@ -53,7 +53,7 @@ int update_users() {
     char buf[256];
 
     while (!user.enumerate()) {
-        if (user.expavg_time > update_time_cutoff) continue;
+        if (user.expavg_time > update_time_cutoff || user.expavg_credit==0.0) continue;
         update_average(0, 0, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
         sprintf(
             buf,"expavg_credit=%f, expavg_time=%f",
@@ -75,7 +75,7 @@ int update_hosts() {
     char buf[256];
 
     while (!host.enumerate()) {
-        if (host.expavg_time > update_time_cutoff) continue;
+        if (host.expavg_time > update_time_cutoff || host.expavg_credit==0.0) continue;
         update_average(0, 0, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
         sprintf(
             buf,"expavg_credit=%f, expavg_time=%f",
@@ -103,6 +103,13 @@ int get_team_totals(TEAM& team) {
     retval = user.count(nusers, buf);
     if (retval) return retval;
 
+    if (team.nusers != nusers) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "updating member count for [TEAM#%d]: database has %d users, count shows %d\n",
+            team.id, team.nusers, nusers
+        );
+    }
     team.nusers = nusers;
 
     return 0;
@@ -128,12 +135,12 @@ int update_teams() {
             );
             continue;
         }
-        if (team.expavg_time < update_time_cutoff) {
+        if (team.expavg_time < update_time_cutoff && team.expavg_credit!=0.0) {
             update_average(0, 0, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
         }
         sprintf(
-            buf, "expavg_credit=%f, expavg_time=%f",
-            team.expavg_credit, team.expavg_time
+            buf, "expavg_credit=%f, expavg_time=%f, nusers=%d",
+            team.expavg_credit, team.expavg_time, team.nusers
         );
         retval = team.update_field(buf);
         if (retval) {

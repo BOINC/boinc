@@ -755,3 +755,16 @@ Charlie 21 Jan 2006
         boinc.xcodeproj/
             project.pbxproj
       
+Bruce  22 Jan 2006
+    - update_stats program.  Fix 'bug of omission' where member counts
+      of teams are calculated but were not written back into the database.
+      Also, change algorithm so that for hosts/teams/users, when the RAC
+      (Recent Average Credit) values have decayed to exactly 0.0 (double
+      precision) then neither expavg_credit nor expavg_time are updated.
+      In this way, by looking at the value of expavg_time, you can see
+      exactly WHEN the RAC decayed to zero.  This effectively indicates
+      the 'drop-out-date' for the host/team/user.
+
+    sched/
+        update_stats.C
+
