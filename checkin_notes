@@ -829,18 +829,23 @@ Charlie 23 Jan 2006
       modified for other brands by changing a few variable definitions.
       Changed name of GR Manager to "GridRepublic Manager" from just 
       "GridRepublic."
+      Restore my change of 1/21/06 which was lost: manager determines 
+      branding before launching client.  
+      Remove mac_build/Installer-info.plist and replace with 
+      mac_build/Installer-info.plist (CVS is case-sensitive).
 
-
-        mac/
-            SetVersion.C
-
+   clientgui/
+        BOINCGUIApp.cpp
+    mac/
+        SetVersion.C
     mac_build/
         GR_Info.plist (Remove)
         GR-InfoPlist.strings (Remove)
         GR-ScreenSaver-Info.plist (Remove)
+        Installer-info.plist (Remove)
+        Installer-info.plist (Add)
         boinc.xcodeproj/
             project.pbxproj
-
     mac_installer/
         GR-ReadMe.rtf
         PostInstall.cpp
