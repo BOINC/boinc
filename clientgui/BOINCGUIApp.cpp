@@ -52,7 +52,7 @@
 #ifdef __WXMSW__
 typedef BOOL (*pfnClientLibraryStartup)();
 typedef void (*pfnClientLibraryShutdown)();
-typedef int  (*pfnBOINCIsNetworkAlive)(LPDWORD lpdwFlags);
+typedef int  (*pfnBOINCIsNetworkAlive)(long* lpdwFlags);
 typedef int  (*pfnBOINCIsNetworkAlwaysOnline)();
 typedef DWORD (*pfnBOINCGetIdleTickCount)();
 #endif
@@ -834,7 +834,7 @@ int CBOINCGUIApp::ClientLibraryShutdown() {
 }
 
 
-int CBOINCGUIApp::IsNetworkAlive(LPDWORD lpdwFlags) {
+int CBOINCGUIApp::IsNetworkAlive(long* lpdwFlags) {
 #ifdef __WXMSW__
     if(m_hClientLibraryDll) {
         pfnBOINCIsNetworkAlive fn;

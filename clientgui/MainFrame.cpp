@@ -1589,7 +1589,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             bool                is_online = false;
             int                 want_network = 0;
             int                 answer = 0;
-            DWORD               dwConnectionFlags = 
+            long                dwConnectionFlags = 
                 NETWORK_ALIVE_LAN | NETWORK_ALIVE_WAN | NETWORK_ALIVE_AOL;
             wxString            strConnectionName = wxEmptyString;
             wxString            strConnectionUsername = wxEmptyString;

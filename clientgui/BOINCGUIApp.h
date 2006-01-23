@@ -141,7 +141,7 @@ public:
 
     bool            OnInit();
 
-    int             IsNetworkAlive(LPDWORD lpdwFlags);
+    int             IsNetworkAlive(long* lpdwFlags);
     int             IsNetworkAlwaysOnline();
     int             UpdateSystemIdleDetection();
 
