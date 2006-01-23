@@ -361,7 +361,7 @@ private:
     bool rr_misses_deadline(double, double);
     bool edf_misses_deadline(double);
     void set_scheduler_modes();
-    void generate_new_host_cpid(PROJECT*);
+    void generate_new_host_cpid();
 
 // --------------- cs_statefile.C:
 public:

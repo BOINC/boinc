@@ -856,3 +856,11 @@ Charlie 23 Jan 2006
         GR-Description.plist (Remove)
         GR-preinstall (Remove)
         GR-preupgrade (Remove)
+
+David  23 Jan 2006
+    - Core client: D'oh!  When change host CPID,
+        need to notify ALL projects, even the one we just contacted.
+
+    client/
+        client_state.h
+        cs_scheduler.C

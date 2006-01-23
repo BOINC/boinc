@@ -750,7 +750,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.hostid) {
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;
-        generate_new_host_cpid(project);
+        generate_new_host_cpid();
     }
 
     // see if we have a new venue from this project
@@ -1424,6 +1424,7 @@ double CLIENT_STATE::work_needed_secs() {
 }
 
 void CLIENT_STATE::scale_duration_correction_factors(double factor) {
+    if (factor <= 0) return;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         p->duration_correction_factor *= factor;
@@ -1434,14 +1435,11 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
 // If we're using an account manager, do scheduler RPCs to all projects
 // to propagate the CPID
 //
-void CLIENT_STATE::generate_new_host_cpid(PROJECT* p) {
+void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
     if (strlen(acct_mgr_info.login_name)) {
         for (unsigned int i=0; i<projects.size(); i++) {
-            PROJECT* pp = projects[i];
-            if (pp != p) {
-                pp->sched_rpc_pending = true;
-            }
+            projects[i]->sched_rpc_pending = true;
         }
     }
 }
