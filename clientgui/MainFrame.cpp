@@ -35,8 +35,9 @@
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
-#include "DlgOptions.h"
 #include "DlgDialupCredentials.h"
+#include "DlgGenericMessage.h"
+#include "DlgOptions.h"
 #include "DlgSelectComputer.h"
 #include "wizardex.h"
 #include "BOINCWizards.h"
@@ -193,6 +194,7 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     // Configuration Settings
     m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
+    m_iDisplayExitWarning = 1;
 
     m_iNetworkConnectionType = ID_NETWORKAUTODETECT;
     m_strNetworkDialupConnectionName = wxEmptyString;
@@ -654,6 +656,7 @@ bool CMainFrame::SaveState() {
 
     pConfig->Write(wxT("Language"), m_iSelectedLanguage);
     pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
+    pConfig->Write(wxT("DisplayExitWarning"), m_iDisplayExitWarning);
 
     pConfig->Write(wxT("NetworkConnectionType"), m_iNetworkConnectionType);
     pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
@@ -768,6 +771,7 @@ bool CMainFrame::RestoreState() {
 
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
     pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
+    pConfig->Read(wxT("DisplayExitWarning"), &m_iDisplayExitWarning, 1L);
 
     pConfig->Read(wxT("NetworkConnectionType"), &m_iNetworkConnectionType, ID_NETWORKAUTODETECT);
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
@@ -1006,7 +1010,43 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnExit - Function Begin"));
 
-    Close(true);
+    if (m_iDisplayExitWarning &&
+        wxGetApp().GetBrand()->IsBranded() && 
+        !wxGetApp().GetBrand()->GetExitMessage().IsEmpty()) {
+
+        CDlgGenericMessage* pDlg = new CDlgGenericMessage(this);
+        long                lAnswer = 0;
+
+        wxString strMessage;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetExitMessage().IsEmpty()) {
+            strMessage = wxGetApp().GetBrand()->GetExitMessage();
+        } else {
+            strMessage = 
+                _("This will shut down your tasks until it restarts automatically\n"
+                  "following your user preferences. Close window to close the manager\n"
+                  "without stopping the tasks.");
+        }
+
+        pDlg->SetTitle(_("Close Confirmation"));
+        pDlg->m_DialogMessage->SetLabel(strMessage);
+        pDlg->Fit();
+        pDlg->Centre();
+
+        lAnswer = pDlg->ShowModal();
+        if (wxID_OK == lAnswer) {
+            if (pDlg->m_DialogDisableMessage->GetValue()) {
+                m_iDisplayExitWarning = 0;
+            }
+            Close(true);
+        }
+
+        if (pDlg)
+            pDlg->Destroy();
+
+    } else {
+        Close(true);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnExit - Function End"));
 }

@@ -55,6 +55,7 @@ private:
     wxString    m_strAMWizardTitle;
     wxBitmap    m_bitmapAMWizardLogo;
     wxString    m_strAMWizardAttachMessage;
+    wxString    m_strExitMessage;
 
 public:
     bool        IsBranded() { return m_bIsBranded; }
@@ -75,6 +76,7 @@ public:
     wxString    GetAMWizardTitle() { return m_strAMWizardTitle; }
     wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }
     wxString    GetAMWizardSuccessMessage() { return m_strAMWizardAttachMessage; }
+    wxString    GetExitMessage() { return m_strExitMessage; }
 
     bool        OnInit( wxConfigBase* pConfig );
 };

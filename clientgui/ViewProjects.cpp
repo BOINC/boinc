@@ -104,32 +104,32 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Update"),
-        _("Report all completed work, get latest credit, "
-          "get latest preferences, and possibly get more work."),
+        _("Report all completed tasks, get latest credit, "
+          "get latest preferences, and possibly get more tasks."),
         ID_TASK_PROJECT_UPDATE 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Suspend"),
-        _("Suspend work for this project."),
+        _("Suspend tasks for this project."),
         ID_TASK_PROJECT_SUSPEND 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
-        _("No new work"),
-        _("Don't get new work for this project."),
+        _("No new tasks"),
+        _("Don't get new tasks for this project."),
         ID_TASK_PROJECT_NONEWWORK 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Reset project"),
-        _("Delete all files and work associated with this project, "
-          "and get new work.  "
+        _("Delete all files and tasks associated with this project, "
+          "and get new tasks.  "
           "You can update the project "
-          "first to report any completed work."),
+          "first to report any completed tasks."),
         ID_TASK_PROJECT_RESET 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -137,8 +137,8 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 	pItem = new CTaskItem(
         _("Detach"),
         _("Detach computer from this project.  "
-          "Work in progress will be lost "
-          "(use 'Update' first to report any completed work)."),
+          "Tasks in progress will be lost "
+          "(use 'Update' first to report any completed tasks)."),
         ID_TASK_PROJECT_DETACH 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -248,11 +248,11 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
 
     PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
     if (project->dont_request_more_work) {
-        pFrame->UpdateStatusText(_("Telling project to allow additional work downloads..."));
+        pFrame->UpdateStatusText(_("Telling project to allow additional task downloads..."));
         pDoc->ProjectAllowMoreWork(m_pListPane->GetFirstSelected());
         pFrame->UpdateStatusText(wxT(""));
     } else {
-        pFrame->UpdateStatusText(_("Telling project to not fetch additional work..."));
+        pFrame->UpdateStatusText(_("Telling project to not fetch any additional tasks..."));
         pDoc->ProjectNoMoreWork(m_pListPane->GetFirstSelected());
         pFrame->UpdateStatusText(wxT(""));
     }
@@ -556,11 +556,11 @@ void CViewProjects::UpdateSelection() {
         if (project) {
             if (project->suspended_via_gui) {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this project.")
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume tasks for this project.")
                 );
             } else {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this project.")
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend tasks for this project.")
                 );
             }
         }
@@ -568,11 +568,11 @@ void CViewProjects::UpdateSelection() {
         if (project) {
             if (project->dont_request_more_work) {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_NOWORK], _("Allow new work"), _("Allow fetching new work for this project.")
+                    pGroup->m_Tasks[BTN_NOWORK], _("Allow new tasks"), _("Allow fetching new tasks for this project.")
                 );
             } else {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_NOWORK], _("No new work"), _("Don't fetch new work for this project.")
+                    pGroup->m_Tasks[BTN_NOWORK], _("No new tasks"), _("Don't fetch new tasks for this project.")
                 );
             }
         }
@@ -673,7 +673,7 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& status) const {
             append_to_status(status, _("Suspended by user"));
         }
         if (project->dont_request_more_work) {
-            append_to_status(status, _("Won't get new work"));
+            append_to_status(status, _("Won't get new tasks"));
         }
         if (project->sched_rpc_pending) {
             append_to_status(status, _("Scheduler request pending"));

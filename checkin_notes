@@ -768,7 +768,7 @@ Bruce  22 Jan 2006
     sched/
         update_stats.C
 
-Rom    23 Jan 2007
+Rom    23 Jan 2006
     - On Windows use the System Event Notification Service to determine
         network connectivity instead of using InternetGetConnectedState
         since it was proving to be unreliable.
@@ -804,3 +804,17 @@ Rom    23 Jan 2007
         network.C, .h
     win_build/
         boinc_dll.vcproj
+
+Rom    23 Jan 2006
+    - Add an File/Exit warning for CPDNBBC so that the users know they will
+        be stopping any executing tasks.
+    - Update the Project and Work views changing 'work' to 'tasks'
+    
+    clientgui/
+        BOINCGUI.pjd
+        BOINCGUIApp.cpp, .h
+        DlgGenericMessage.cpp, .h (Added)
+        MainFrame.cpp, .h
+        Makefile.am
+        ViewProjects.cpp
+        ViewWork.cpp

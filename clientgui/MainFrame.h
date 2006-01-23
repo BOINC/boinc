@@ -139,6 +139,7 @@ private:
 
     int             m_iSelectedLanguage;
     int             m_iReminderFrequency;
+    int             m_iDisplayExitWarning;
 
     int             m_iNetworkConnectionType;
     wxString        m_strNetworkDialupConnectionName;

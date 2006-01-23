@@ -127,6 +127,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
             m_strAMWizardAttachMessage = wxEmptyString;
+            m_strExitMessage = wxEmptyString;
             break;
         case 2:
             // Running as a CPDNBBC client.
@@ -159,6 +160,10 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
             m_strAMWizardAttachMessage = wxEmptyString;
+            m_strExitMessage = 
+                _("This will shut down your experiment until it restarts automatically\n"
+                  "following your user preferences. Close window to close the manager\n"
+                  "without stopping the experiment.");
             break;
         default:
             // Running in native mode without any branding
@@ -179,6 +184,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAPWizardAccountInfoText = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
             m_strAMWizardAttachMessage = wxEmptyString;
+            m_strExitMessage = wxEmptyString;
             break;
     }
 

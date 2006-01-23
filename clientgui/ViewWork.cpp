@@ -147,7 +147,7 @@ CViewWork::~CViewWork() {
 
 
 wxString& CViewWork::GetViewName() {
-    static wxString strViewName(_("Work"));
+    static wxString strViewName(_("Tasks"));
     return strViewName;
 }
 
@@ -172,11 +172,11 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
 
     RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
     if (result->suspended_via_gui) {
-        pFrame->UpdateStatusText(_("Resuming result..."));
+        pFrame->UpdateStatusText(_("Resuming task..."));
         pDoc->WorkResume(m_pListPane->GetFirstSelected());
         pFrame->UpdateStatusText(wxT(""));
     } else {
-        pFrame->UpdateStatusText(_("Suspending result..."));
+        pFrame->UpdateStatusText(_("Suspending task..."));
         pDoc->WorkSuspend(m_pListPane->GetFirstSelected());
         pFrame->UpdateStatusText(wxT(""));
     }
@@ -202,7 +202,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-    pFrame->UpdateStatusText(_("Showing graphics for result..."));
+    pFrame->UpdateStatusText(_("Showing graphics for task..."));
 
     // TODO: implement hide as well as show
 #ifdef _WIN32
@@ -258,13 +258,13 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Aborting result..."));
 
     strMessage.Printf(
-        _("Are you sure you want to abort this result '%s'?"), 
+        _("Are you sure you want to abort this task '%s'?"), 
         pDoc->result(m_pListPane->GetFirstSelected())->name.c_str()
     );
 
     iAnswer = ::wxMessageBox(
         strMessage,
-        _("Abort result"),
+        _("Abort task"),
         wxYES_NO | wxICON_QUESTION,
         this
     );
@@ -483,11 +483,11 @@ void CViewWork::UpdateSelection() {
         if (result) {
             if (result->suspended_via_gui) {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this result.")
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this task.")
                 );
             } else {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this result.")
+                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this task.")
                 );
             }
             if (result->supports_graphics) {
