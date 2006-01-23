@@ -100,8 +100,8 @@ protected:
     bool            ProcessExists(pid_t thePID);
 #endif
 
-    int             StartupSystemIdleDetection();
-    int             ShutdownSystemIdleDetection();
+    int             ClientLibraryStartup();
+    int             ClientLibraryShutdown();
 
     wxConfig*        m_pConfig;
     wxLocale*        m_pLocale;
@@ -124,7 +124,7 @@ protected:
 
 #ifdef __WXMSW__
     HANDLE           m_hBOINCCoreProcess;
-    HINSTANCE        m_hIdleDetectionDll;
+    HINSTANCE        m_hClientLibraryDll;
 #endif
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
@@ -139,6 +139,8 @@ public:
 
     bool            OnInit();
 
+    int             IsNetworkAlive(LPDWORD lpdwFlags);
+    int             IsNetworkAlwaysOnline();
     int             UpdateSystemIdleDetection();
 
     CBrandingScheme* GetBrand()                  { return m_pBranding; }

@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "hyperlink.h"
+#include "network.h"
 #include "BOINCGUIApp.h"
 #include "MainFrame.h"
 #include "Events.h"
@@ -1548,6 +1549,8 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             bool                is_online = false;
             int                 want_network = 0;
             int                 answer = 0;
+            DWORD               dwConnectionFlags = 
+                NETWORK_ALIVE_LAN | NETWORK_ALIVE_WAN | NETWORK_ALIVE_AOL;
             wxString            strConnectionName = wxEmptyString;
             wxString            strConnectionUsername = wxEmptyString;
             wxString            strConnectionPassword = wxEmptyString;
@@ -1576,7 +1579,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 tsLastDialupIsAlreadyOnlineCheck = wxDateTime::Now() - dtLastDialupIsAlreadyOnlineCheck;
                 if (tsLastDialupIsAlreadyOnlineCheck.GetSeconds() > 60) {
                     dtLastDialupIsAlreadyOnlineCheck = wxDateTime::Now();
-                    is_already_online = m_pDialupManager->IsAlwaysOnline();
+                    is_already_online = wxGetApp().IsNetworkAlwaysOnline() ? true : false;
                 }
 
                 // Are we configured to detect a network or told one already exists?
@@ -1596,7 +1599,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
                     // cache the various states
                     is_dialing = m_pDialupManager->IsDialing();
-                    is_online = m_pDialupManager->IsOnline();
+                    is_online = wxGetApp().IsNetworkAlive(&dwConnectionFlags) ? true : false;
                     pDoc->rpc.network_query(want_network);
 
                     wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Dialup Flags"));

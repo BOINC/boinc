@@ -28,6 +28,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "diagnostics.h"
+#include "network.h"
 #include "MainFrame.h"
 #include "Events.h"
 #include "MainDocument.h"
@@ -49,9 +50,11 @@
 
 
 #ifdef __WXMSW__
-typedef BOOL (CALLBACK* IdleTrackerInit)();
-typedef void (CALLBACK* IdleTrackerTerm)();
-typedef DWORD (CALLBACK* IdleTrackerGetIdleTickCount)();
+typedef BOOL (*pfnClientLibraryStartup)();
+typedef void (*pfnClientLibraryShutdown)();
+typedef int  (*pfnBOINCIsNetworkAlive)(LPDWORD lpdwFlags);
+typedef int  (*pfnBOINCIsNetworkAlwaysOnline)();
+typedef DWORD (*pfnBOINCGetIdleTickCount)();
 #endif
 
 IMPLEMENT_APP(CBOINCGUIApp)
@@ -184,6 +187,19 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
 
 
 bool CBOINCGUIApp::OnInit() {
+
+    // Setup variables with default values
+    m_bBOINCStartedByManager = false;
+    m_bFrameVisible = true;
+    m_lBOINCCoreProcessId = 0;
+#ifdef __WXMSW__
+    m_hBOINCCoreProcess = NULL;
+    m_hClientLibraryDll = NULL;
+#endif
+	m_strDefaultWindowStation = wxT("");
+    m_strDefaultDesktop = wxT("");
+    m_strDefaultDisplay = wxT("");
+
 #ifdef __WXMSW__
 
     TCHAR   szPath[MAX_PATH-1];
@@ -198,13 +214,6 @@ bool CBOINCGUIApp::OnInit() {
     }
 
 #endif
-
-    // Setup the branding scheme
-    m_pBranding = new CBrandingScheme;
-    wxASSERT(m_pBranding);
-
-    m_pBranding->OnInit(m_pConfig);
-    
 #ifdef __WXMAC__
 
     wxString strDirectory = wxEmptyString;
@@ -236,22 +245,25 @@ bool CBOINCGUIApp::OnInit() {
 
 #endif  // __WXMAC__
 
+
     // Setup application and company information
     SetAppName(wxT("BOINC Manager"));
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
 
 
-    // Setup variables with default values
-    m_bBOINCStartedByManager = false;
-    m_bFrameVisible = true;
-    m_lBOINCCoreProcessId = 0;
-#ifdef __WXMSW__
-    m_hBOINCCoreProcess = NULL;
-    m_hIdleDetectionDll = NULL;
-#endif
-	m_strDefaultWindowStation = wxT("");
-    m_strDefaultDesktop = wxT("");
-    m_strDefaultDisplay = wxT("");
+    // Initialize the configuration storage module
+    m_pConfig = new wxConfig(GetAppName());
+    wxConfigBase::Set(m_pConfig);
+    wxASSERT(m_pConfig);
+
+    m_pConfig->SetPath(wxT("/"));
+
+
+    // Setup the branding scheme
+    m_pBranding = new CBrandingScheme;
+    wxASSERT(m_pBranding);
+
+    m_pBranding->OnInit(m_pConfig);
 
 
     // Initialize the BOINC Diagnostics Framework
@@ -270,13 +282,6 @@ bool CBOINCGUIApp::OnInit() {
         "stdoutgui",
         "stderrgui"
     );
-
-    // Initialize the configuration storage module
-    m_pConfig = new wxConfig(GetAppName());
-    wxConfigBase::Set(m_pConfig);
-    wxASSERT(m_pConfig);
-
-    m_pConfig->SetPath(wxT("/"));
 
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
@@ -343,7 +348,7 @@ bool CBOINCGUIApp::OnInit() {
     DetectDisplayInfo();
 
     // Startup the System Idle Detection code
-    StartupSystemIdleDetection();
+    ClientLibraryStartup();
 
     // Detect if we need to start the BOINC Core Client due to configuration
     StartupBOINCCore();
@@ -396,7 +401,7 @@ int CBOINCGUIApp::OnExit() {
     ShutdownBOINCCore();
 
     // Shutdown the System Idle Detection code
-    ShutdownSystemIdleDetection();
+    ClientLibraryShutdown();
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
     if (m_pTaskBarIcon) {
@@ -779,21 +784,21 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 #endif
 
 
-wxInt32 CBOINCGUIApp::StartupSystemIdleDetection() {
+int CBOINCGUIApp::ClientLibraryStartup() {
 #ifdef __WXMSW__
     // load dll and start idle detection
-    m_hIdleDetectionDll = LoadLibrary("boinc.dll");
-    if(m_hIdleDetectionDll) {
-        IdleTrackerInit fn;
-        fn = (IdleTrackerInit)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerInit"));
+    m_hClientLibraryDll = LoadLibrary("boinc.dll");
+    if(m_hClientLibraryDll) {
+        pfnClientLibraryStartup fn;
+        fn = (pfnClientLibraryStartup)GetProcAddress(m_hClientLibraryDll, wxT("ClientLibraryStartup"));
         if(!fn) {
-            FreeLibrary(m_hIdleDetectionDll);
-            m_hIdleDetectionDll = NULL;
+            FreeLibrary(m_hClientLibraryDll);
+            m_hClientLibraryDll = NULL;
             return -1;
         } else {
             if(!fn()) {
-                FreeLibrary(m_hIdleDetectionDll);
-                m_hIdleDetectionDll = NULL;
+                FreeLibrary(m_hClientLibraryDll);
+                m_hClientLibraryDll = NULL;
                 return -1;
             }
         }
@@ -803,29 +808,61 @@ wxInt32 CBOINCGUIApp::StartupSystemIdleDetection() {
 }
 
 
-wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection() {
+int CBOINCGUIApp::ClientLibraryShutdown() {
 #ifdef __WXMSW__
-    if(m_hIdleDetectionDll) {
-        IdleTrackerTerm fn;
-        fn = (IdleTrackerTerm)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerTerm"));
+    if(m_hClientLibraryDll) {
+        pfnClientLibraryShutdown fn;
+        fn = (pfnClientLibraryShutdown)GetProcAddress(m_hClientLibraryDll, wxT("ClientLibraryShutdown"));
         if(fn) {
             fn();
         } else {
             return -1;
         }
-        FreeLibrary(m_hIdleDetectionDll);
-        m_hIdleDetectionDll = NULL;
+        FreeLibrary(m_hClientLibraryDll);
+        m_hClientLibraryDll = NULL;
     }
 #endif
     return 0;
 }
 
 
-wxInt32 CBOINCGUIApp::UpdateSystemIdleDetection() {
+int CBOINCGUIApp::IsNetworkAlive(LPDWORD lpdwFlags) {
 #ifdef __WXMSW__
-    if (m_hIdleDetectionDll) {
-        IdleTrackerGetIdleTickCount fn;
-        fn = (IdleTrackerGetIdleTickCount)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerGetIdleTickCount"));
+    if(m_hClientLibraryDll) {
+        pfnBOINCIsNetworkAlive fn;
+        fn = (pfnBOINCIsNetworkAlive)GetProcAddress(m_hClientLibraryDll, wxT("BOINCIsNetworkAlive"));
+        if(fn) {
+            return fn(lpdwFlags);
+        } else {
+            return -1;
+        }
+    }
+#endif
+    return TRUE;
+}
+
+
+int CBOINCGUIApp::IsNetworkAlwaysOnline() {
+#ifdef __WXMSW__
+    if(m_hClientLibraryDll) {
+        pfnBOINCIsNetworkAlwaysOnline fn;
+        fn = (pfnBOINCIsNetworkAlwaysOnline)GetProcAddress(m_hClientLibraryDll, wxT("BOINCIsNetworkAlwaysOnline"));
+        if(fn) {
+            return fn();
+        } else {
+            return -1;
+        }
+    }
+#endif
+    return TRUE;
+}
+
+
+int CBOINCGUIApp::UpdateSystemIdleDetection() {
+#ifdef __WXMSW__
+    if (m_hClientLibraryDll) {
+        pfnBOINCGetIdleTickCount fn;
+        fn = (pfnBOINCGetIdleTickCount)GetProcAddress(m_hClientLibraryDll, wxT("BOINCGetIdleTickCount"));
         if(fn) {
             fn();
         } else {

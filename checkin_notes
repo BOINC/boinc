@@ -768,3 +768,39 @@ Bruce  22 Jan 2006
     sched/
         update_stats.C
 
+Rom    23 Jan 2007
+    - On Windows use the System Event Notification Service to determine
+        network connectivity instead of using InternetGetConnectedState
+        since it was proving to be unreliable.
+        
+      NOTE: This is a big change on Windows.  SENS uses COM as it's
+        communication infrastructure and so therefore boinc.dll now has
+        to be regsvr32'ed before network notification messages will be
+        sent to the client.  If, for whatever reason SENS isn't working
+        we'll fall back to InternetGetConnectedState.
+        
+    client/
+        main.C
+    client/win/
+        hostinfo_win.cpp
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        BOINCGUIApp.cpp, .h
+        MainFrame.cpp
+        ProjectPropertiesPage.cpp
+    clientlib/win/
+        boinc_dll.cpp, .h (Added)
+        BOINCSENSSink.cpp, .h (Added)
+        Identification.cpp, .h (Added)
+        IdleTracker.cpp, .h (Added)
+        NetworkTracker.cpp, .h (Added)
+        resource.h (Added)
+        SENSLogonSubscriptions.h (Added)
+        SENSNetworkSubscriptions.h (Added)
+        SENSOnNowSubscriptions.h (Added)
+        SENSSubscriptions.h (Added)
+        stdafx.cpp, .h (Added)
+    lib/
+        network.C, .h
+    win_build/
+        boinc_dll.vcproj

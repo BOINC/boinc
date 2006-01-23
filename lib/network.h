@@ -56,6 +56,20 @@ typedef int boinc_socklen_t;
 typedef BOINC_SOCKLEN_T boinc_socklen_t;
 #endif
 
+
+#ifndef NETWORK_ALIVE_LAN
+#define NETWORK_ALIVE_LAN   0x00000001
+#endif
+
+#ifndef NETWORK_ALIVE_WAN
+#define NETWORK_ALIVE_WAN   0x00000002
+#endif
+
+#ifndef NETWORK_ALIVE_AOL
+#define NETWORK_ALIVE_AOL   0x00000004
+#endif
+
+
 #define CONNECTED_STATE_NOT_CONNECTED   0
 #define CONNECTED_STATE_CONNECTED       1
 #define CONNECTED_STATE_UNKNOWN         2

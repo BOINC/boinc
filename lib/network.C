@@ -180,23 +180,37 @@ int get_socket_error(int fd) {
 #if defined(_WIN32) && defined(USE_WINSOCK)
 
 typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD lpdwFlags, IN DWORD dwReserved);
+typedef int  (*pfnBOINCIsNetworkAlive)(LPDWORD lpdwFlags);
 
 int get_connected_state( ) {
     int online = 0;
     static bool first=true;
-    static HMODULE libmodule;
+    static HMODULE lib_wininet_module;
     static GetStateProc GetState;
+    static HMODULE lib_boinc_module;
+    static pfnBOINCIsNetworkAlive BOINCIsNetworkAlive;
     DWORD connectionFlags;
 
     if (first) {
-        libmodule = LoadLibrary("wininet.dll");
-        if (libmodule) {
-            GetState = (GetStateProc) GetProcAddress(libmodule, "InternetGetConnectedState");
+        lib_wininet_module = LoadLibrary("wininet.dll");
+        if (lib_wininet_module) {
+            GetState = (GetStateProc) GetProcAddress(lib_wininet_module, "InternetGetConnectedState");
+        }
+        lib_boinc_module = LoadLibrary("boinc.dll");
+        if (lib_boinc_module) {
+            BOINCIsNetworkAlive = (pfnBOINCIsNetworkAlive) GetProcAddress(lib_boinc_module, "BOINCIsNetworkAlive");
         }
         first = false;
     }
-    if (libmodule && GetState) {
-        online = (*GetState)(&connectionFlags, 0);
+    if (lib_boinc_module && BOINCIsNetworkAlive) {
+        connectionFlags = NETWORK_ALIVE_LAN | NETWORK_ALIVE_WAN | NETWORK_ALIVE_AOL;
+        online = BOINCIsNetworkAlive(&connectionFlags);
+        if (online) {
+            return CONNECTED_STATE_CONNECTED;
+        }
+    }
+    if (lib_wininet_module && GetState) {
+        online = GetState(&connectionFlags, 0);
         if (online) {
             return CONNECTED_STATE_CONNECTED;
         } else {

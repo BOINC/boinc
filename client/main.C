@@ -28,13 +28,13 @@
 #include "win_service.h"
 #include "win_util.h"
 
-extern HINSTANCE g_hIdleDetectionDll;
+extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWin9xMonitorSystemThread = NULL;
 static DWORD g_Win9xMonitorSystemThreadID = NULL;
 static BOOL g_bIsWin9x = FALSE;
 
-typedef BOOL (CALLBACK* IdleTrackerInit)();
-typedef void (CALLBACK* IdleTrackerTerm)();
+typedef BOOL (CALLBACK* ClientLibraryStartup)();
+typedef void (CALLBACK* ClientLibraryShutdown)();
 #ifndef _T
 #define _T(X) X
 #endif
@@ -558,8 +558,8 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    g_hIdleDetectionDll = LoadLibrary("boinc.dll");
-    if(!g_hIdleDetectionDll) {
+    g_hClientLibraryDll = LoadLibrary("boinc.dll");
+    if(!g_hClientLibraryDll) {
         printf(
             "BOINC Core Client Error Message\n"
             "Failed to initialize the BOINC Idle Detection Interface\n"
@@ -567,16 +567,16 @@ int main(int argc, char** argv) {
         );
     }
 
-    if(g_hIdleDetectionDll) {
-        IdleTrackerInit fnIdleTrackerInit;
-        fnIdleTrackerInit = (IdleTrackerInit)GetProcAddress(g_hIdleDetectionDll, _T("IdleTrackerInit"));
-        if(!fnIdleTrackerInit) {
-            FreeLibrary(g_hIdleDetectionDll);
-            g_hIdleDetectionDll = NULL;
+    if(g_hClientLibraryDll) {
+        ClientLibraryStartup fnClientLibraryStartup;
+        fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
+        if(!fnClientLibraryStartup) {
+            FreeLibrary(g_hClientLibraryDll);
+            g_hClientLibraryDll = NULL;
         } else {
-            if(!fnIdleTrackerInit()) {
-                FreeLibrary(g_hIdleDetectionDll);
-                g_hIdleDetectionDll = NULL;
+            if(!fnClientLibraryStartup()) {
+                FreeLibrary(g_hClientLibraryDll);
+                g_hClientLibraryDll = NULL;
             }
         }
     }
@@ -617,19 +617,19 @@ int main(int argc, char** argv) {
 #endif
 
 #ifdef _WIN32
-    if(g_hIdleDetectionDll) {
-        IdleTrackerTerm fnIdleTrackerTerm;
-        fnIdleTrackerTerm = (IdleTrackerTerm)GetProcAddress(g_hIdleDetectionDll, _T("IdleTrackerTerm"));
-        if(fnIdleTrackerTerm) {
-            fnIdleTrackerTerm();
+    if(g_hClientLibraryDll) {
+        ClientLibraryShutdown fnClientLibraryShutdown;
+        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryShutdown"));
+        if(fnClientLibraryShutdown) {
+            fnClientLibraryShutdown();
         }
-        if(!FreeLibrary(g_hIdleDetectionDll)) {
+        if(!FreeLibrary(g_hClientLibraryDll)) {
             printf(
                 "BOINC Core Client Error Message\n"
                 "Failed to cleanup the BOINC Idle Detection Interface\n"
             );
         }
-        g_hIdleDetectionDll = NULL;
+        g_hClientLibraryDll = NULL;
     }
 
 #ifdef USE_WINSOCK

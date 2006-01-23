@@ -26,7 +26,7 @@
 #include "hostinfo_network.h"
 #include "hostinfo.h"
 
-HINSTANCE g_hIdleDetectionDll;
+HINSTANCE g_hClientLibraryDll;
 
 // Memory Status Structure for Win2K and WinXP based systems.
 typedef struct _MYMEMORYSTATUSEX {  
@@ -426,9 +426,9 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     typedef DWORD (CALLBACK* GetFn)();
-    static GetFn fn = (GetFn)GetProcAddress(g_hIdleDetectionDll, "IdleTrackerGetIdleTickCount");
+    static GetFn fn = (GetFn)GetProcAddress(g_hClientLibraryDll, "BOINCGetIdleTickCount");
 
-    if (g_hIdleDetectionDll) {
+    if (g_hClientLibraryDll) {
         if (fn) {
             double seconds_idle = fn() / 1000;
             double seconds_time_to_run = 60 * idle_time_to_run;
