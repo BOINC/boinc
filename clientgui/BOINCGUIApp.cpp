@@ -206,6 +206,18 @@ bool CBOINCGUIApp::OnInit() {
     m_strDefaultDesktop = wxT("");
     m_strDefaultDisplay = wxT("");
 
+    // Setup application and company information
+    SetAppName(wxT("BOINC Manager"));
+    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
+
+
+    // Initialize the configuration storage module
+    m_pConfig = new wxConfig(GetAppName());
+    wxConfigBase::Set(m_pConfig);
+    wxASSERT(m_pConfig);
+
+    m_pConfig->SetPath(wxT("/"));
+
 #ifdef __WXMSW__
 
     TCHAR   szPath[MAX_PATH-1];
@@ -222,6 +234,9 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     // Setup the branding scheme
+    // NOTE: SetAppName(), SetVendorName(), and the creation of the m_pConfig
+    //   variable need to be done before the branding object can be used on
+    //   any platform other than the Mac.
     m_pBranding = new CBrandingScheme;
     wxASSERT(m_pBranding);
 
@@ -258,18 +273,6 @@ bool CBOINCGUIApp::OnInit() {
 
 #endif  // __WXMAC__
 
-
-    // Setup application and company information
-    SetAppName(wxT("BOINC Manager"));
-    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
-
-
-    // Initialize the configuration storage module
-    m_pConfig = new wxConfig(GetAppName());
-    wxConfigBase::Set(m_pConfig);
-    wxASSERT(m_pConfig);
-
-    m_pConfig->SetPath(wxT("/"));
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
