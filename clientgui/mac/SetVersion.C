@@ -38,23 +38,15 @@ int main(int argc, char** argv) {
 
     err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC");
     if (err) retval = err;
-    err = FixInfoPlist_Strings("./GR-InfoPlist.strings", "GridRepublic");
-    if (err) retval = err;
     err = FixInfoPlistFile("./Info.plist");
-    if (err) retval = err;
-    err = FixInfoPlistFile("./GR_Info.plist");
     if (err) retval = err;
     err = FixInfoPlistFile("./Installer-Info.plist");
     if (err) retval = err;
     err = FixInfoPlistFile("./ScreenSaver-Info.plist");
     if (err) retval = err;
-    err = FixInfoPlistFile("./GR-ScreenSaver-Info.plist");
-    if (err) retval = err;
     err = FixInfoPlistFile("./SystemMenu-Info.plist");
     if (err) retval = err;
     err = MakeInstallerInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
-    if (err) retval = err;
-    err = MakeInstallerInfoPlistFile("./GR-Pkg-Info.plist", "GridRepublic");
     return retval;
 }
 

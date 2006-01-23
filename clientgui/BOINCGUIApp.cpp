@@ -220,6 +220,13 @@ bool CBOINCGUIApp::OnInit() {
     }
 
 #endif
+
+    // Setup the branding scheme
+    m_pBranding = new CBrandingScheme;
+    wxASSERT(m_pBranding);
+
+    m_pBranding->OnInit(m_pConfig);
+
 #ifdef __WXMAC__
 
     wxString strDirectory = wxEmptyString;
@@ -263,14 +270,6 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pConfig);
 
     m_pConfig->SetPath(wxT("/"));
-
-
-    // Setup the branding scheme
-    m_pBranding = new CBrandingScheme;
-    wxASSERT(m_pBranding);
-
-    m_pBranding->OnInit(m_pConfig);
-
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =

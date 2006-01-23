@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 11/7/05 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 1/23/06 by Charlie Fenton
 ##
 
 ## Usage:
@@ -14,6 +14,10 @@
 ##
 ## This will create a director "BOINC_Installer" in the parent directory of 
 ## the current directory
+##
+## For testing only, you can use the development build by adding a fourth argument -dev
+## For example, if the version is 3.2.1:
+##     source [path_to_this_script] 3 2 1 -dev
 
 if [ $# -lt 3 ]; then
 echo "Usage:"
@@ -47,7 +51,7 @@ mkdir -p ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_Installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
-cp -fp mac_installer/preupgrade ../BOINC_Installer/Installer\ Resources/
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 

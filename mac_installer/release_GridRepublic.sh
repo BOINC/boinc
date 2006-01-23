@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 1/21/06 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 1/23/06 by Charlie Fenton
 ##
 
 ## Usage:
@@ -14,6 +14,22 @@
 ##
 ## This will create a director "BOINC_Installer" in the parent directory of 
 ## the current directory
+##
+## For testing only, you can use the development build by adding a fourth argument -dev
+## For example, if the version is 3.2.1:
+##     source [path_to_this_script] 3 2 1 -dev
+
+## For different branding, modify the following 9 variables:
+PR_PATH="../BOINC_Installer/GR_Pkg_Root"
+IR_PATH="../BOINC_Installer/GR_Installer_Resources"
+NEW_DIR_PATH="../BOINC_Installer/New_Release_GR_$1_$2_$3"
+README_FILE="mac_installer/GR-ReadMe.rtf"
+BRANDING_FILE="mac_installer/GR-Branding"
+ICNS_FILE="GridRepublic.icns"
+SAVER_SYSPREF_ICON_PATH="clientgui/mac/GridRepublic.tiff"
+BRAND_NAME="GridRepublic"
+LC_BRAND_NAME="gridrepublic"
+
 
 if [ $# -lt 3 ]; then
 echo "Usage:"
@@ -39,99 +55,122 @@ else
     fi
 fi
 
-sudo rm -dfR ../BOINC_Installer/GR_Installer\ Resources/
-sudo rm -dfR ../BOINC_Installer/GR_Pkg_Root
+sudo rm -dfR ${IR_PATH}
+sudo rm -dfR ${PR_PATH}
 
-mkdir -p ../BOINC_Installer/GR_Installer\ Resources/
+mkdir -p ${IR_PATH}
 
-cp -fp mac_Installer/License.rtf ../BOINC_Installer/GR_Installer\ Resources/
-cp -fp mac_installer/GR-ReadMe.rtf ../BOINC_Installer/GR_Installer\ Resources/ReadMe.rtf
-cp -fp mac_installer/GR-preinstall ../BOINC_Installer/GR_Installer\ Resources/preinstall
-cp -fp mac_installer/GR-preupgrade ../BOINC_Installer/GR_Installer\ Resources/preupgrade
-cp -fp mac_installer/postinstall ../BOINC_Installer/GR_Installer\ Resources/
-cp -fp mac_installer/postupgrade ../BOINC_Installer/GR_Installer\ Resources/
+cp -fp mac_Installer/License.rtf ${IR_PATH}/
+cp -fp "${README_FILE}" ${IR_PATH}/ReadMe.rtf
 
-cp -fpR $BUILDPATH/Postinstall.app ../BOINC_Installer/GR_Installer\ Resources/
+# Create the installer's preinstall and preupgrade scripts from the standard preinstall script
+cp -fp mac_installer/preinstall ${IR_PATH}/
+sed -i "" s/BOINC/temp/g ${IR_PATH}/preinstall
+sed -i "" s/${BRAND_NAME}/BOINC/g ${IR_PATH}/preinstall
+sed -i "" s/temp/${BRAND_NAME}/g ${IR_PATH}/preinstall
+cp -fp ${IR_PATH}/preinstall ${IR_PATH}/preupgrade
 
-mkdir -p ../BOINC_Installer/GR_Pkg_Root
-mkdir -p ../BOINC_Installer/GR_Pkg_Root/Applications
-mkdir -p ../BOINC_Installer/GR_Pkg_Root/Library
-mkdir -p ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers
-mkdir -p ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support
-mkdir -p ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support/GridRepublic\ Data
-mkdir -p ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support/GridRepublic\ Data/locale
+cp -fp mac_installer/postinstall ${IR_PATH}/
+cp -fp mac_installer/postupgrade ${IR_PATH}/
 
-cp -fpR $BUILDPATH/BOINCManager.app ../BOINC_Installer/GR_Pkg_Root/Applications/
+cp -fpR $BUILDPATH/Postinstall.app ${IR_PATH}/
 
-cp -fpR $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/
+mkdir -p ${PR_PATH}
+mkdir -p ${PR_PATH}/Applications
+mkdir -p ${PR_PATH}/Library
+mkdir -p ${PR_PATH}/Library/Screen\ Savers
+mkdir -p ${PR_PATH}/Library/Application\ Support
+mkdir -p ${PR_PATH}/Library/Application\ Support/${BRAND_NAME}\ Data
+mkdir -p ${PR_PATH}/Library/Application\ Support/${BRAND_NAME}\ Data/locale
+
+cp -fpR $BUILDPATH/BOINCManager.app ${PR_PATH}/Applications/
+
+cp -fpR $BUILDPATH/BOINCSaver.saver ${PR_PATH}/Library/Screen\ Savers/
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
-## cp -fpR locale/client/ ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
-## sudo rm -dfR ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
+## cp -fpR locale/client/ ${PR_PATH}/Library/Application\ Support/BOINC\ Data/locale
+## sudo rm -dfR ${PR_PATH}/Library/Application\ Support/BOINC\ Data/locale/CVS
 ## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh)
-find locale/client -name '*.mo' | cut -d '/' -f 3 | awk '{print "-p \"../BOINC_Installer/GR_Pkg_Root/Library/Application Support/GridRepublic\ Data/locale/"$0"\""}' | xargs mkdir
-find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk '{print "cp \"locale/client/"$0"\" \"../BOINC_Installer/GR_Pkg_Root/Library/Application Support/GridRepublic\ Data/locale/"$0"\""}' | bash
+find locale/client -name '*.mo' | cut -d '/' -f 3 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "-p \"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | xargs mkdir
+find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "cp \"locale/client/"$0"\" \"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | bash
 
 ## Modify for Grid Republic
 # Rename the Manager's bundle and its executable inside the bundle
-mv -f ../BOINC_Installer/GR_Pkg_Root/Applications/BOINCManager.app/ ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/
-mv -f ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/MacOS/BOINCManager ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/MacOS/GridRepublic
+mv -f ${PR_PATH}/Applications/BOINCManager.app/ ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/
+mv -f ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/MacOS/BOINCManager ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/MacOS/${BRAND_NAME}\ Manager
 
-# Replace the Manager's info.plist, InfoPlist.strings, BOINCMgr.icns
-cp -fp mac_build/GR_Info.plist ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/Info.plist
-cp -fp mac_build/GR-InfoPlist.strings ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/Resources/English.lproj/InfoPlist.strings
-cp -fp client/mac/GridRepublic.icns ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/Resources/GridRepublic.icns
-rm -f ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/Resources/BOINCMgr.icns
+# Update the Manager's info.plist, InfoPlist.strings files
+sed -i "" s/BOINCManager/${BRAND_NAME}\ Manager/g ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/Info.plist
+sed -i "" s/BOINCMgr.icns/"${ICNS_FILE}"/g ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/Info.plist
+sed -i "" s/BOINC/${BRAND_NAME}/g ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/Resources/English.lproj/InfoPlist.strings
+
+# Replace the Manager's BOINCMgr.icns file
+cp -fp "client/mac/${ICNS_FILE}" "${PR_PATH}/Applications/${BRAND_NAME} Manager.app/Contents/Resources/${ICNS_FILE}"
+rm -f ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/Resources/BOINCMgr.icns
 
 # Copy Branding file into both Application Bundle and Installer Package
-cp -fp mac_installer/GR-Branding ../BOINC_Installer/GR_Pkg_Root/Applications/GridRepublic.app/Contents/Resources/Branding
-cp -fp mac_installer/GR-Branding ../BOINC_Installer/GR_Installer\ Resources/Branding
+cp -fp "${BRANDING_FILE}" ${PR_PATH}/Applications/${BRAND_NAME}\ Manager.app/Contents/Resources/Branding
+cp -fp "${BRANDING_FILE}" ${IR_PATH}/Branding
 
 # Rename the screensaver bundle and its executable inside the bundle
-mv -f ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/BOINCSaver.saver ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/GridRepublic.saver
-mv -f ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/GridRepublic.saver/Contents/MacOS/BOINCSaver ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/GridRepublic.saver/Contents/MacOS/GridRepublic
+mv -f ${PR_PATH}/Library/Screen\ Savers/BOINCSaver.saver ${PR_PATH}/Library/Screen\ Savers/${BRAND_NAME}.saver
+mv -f ${PR_PATH}/Library/Screen\ Savers/${BRAND_NAME}.saver/Contents/MacOS/BOINCSaver ${PR_PATH}/Library/Screen\ Savers/${BRAND_NAME}.saver/Contents/MacOS/${BRAND_NAME}
 
-# Replace screensaver's info.plist, InfoPlist.strings, boinc.tif
-cp -fp mac_build/GR-ScreenSaver-Info.plist ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/GridRepublic.saver/Contents/Info.plist
-cp -fp mac_build/GR-InfoPlist.strings ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/GridRepublic.saver/Contents/Resources/English.lproj/InfoPlist.strings
-cp -fp clientgui/mac/gridrepublic.tiff ../BOINC_Installer/GR_Pkg_Root/Library/Screen\ Savers/GridRepublic.saver/Contents/Resources/boinc.tiff
+# Update screensaver's info.plist, InfoPlist.strings files
+sed -i "" s/BOINCSaver/${BRAND_NAME}/g ${PR_PATH}/Library/Screen\ Savers/${BRAND_NAME}.saver/Contents/Info.plist
+sed -i "" s/BOINC/${BRAND_NAME}/g ${PR_PATH}/Library/Screen\ Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings
+
+# Replace screensaver's boinc.tif file
+cp -fp "${SAVER_SYSPREF_ICON_PATH}" ${PR_PATH}/Library/Screen\ Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.tiff
 
 ## Fix up ownership and permissions
-sudo chown -R root:admin ../BOINC_Installer/GR_Pkg_Root/*
-sudo chmod -R 775 ../BOINC_Installer/GR_Pkg_Root/*
-sudo chmod 1775 ../BOINC_Installer/GR_Pkg_Root/Library
+sudo chown -R root:admin ${PR_PATH}/*
+sudo chmod -R 775 ${PR_PATH}/*
+sudo chmod 1775 ${PR_PATH}/Library
 
-sudo chown -R 501:admin ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support/*
-sudo chmod -R 755 ../BOINC_Installer/GR_Pkg_Root/Library/Application\ Support/*
+sudo chown -R 501:admin ${PR_PATH}/Library/Application\ Support/*
+sudo chmod -R 755 ${PR_PATH}/Library/Application\ Support/*
 
-sudo chown -R root:admin ../BOINC_Installer/GR_Installer\ Resources/*
-sudo chmod -R 755 ../BOINC_Installer/GR_Installer\ Resources/*
+sudo chown -R root:admin ${IR_PATH}/*
+sudo chmod -R 755 ${IR_PATH}/*
 
-sudo rm -dfR ../BOINC_Installer/New_Release_GR_$1_$2_$3/
+sudo rm -dfR ${NEW_DIR_PATH}/
 
-mkdir -p ../BOINC_Installer/New_Release_GR_$1_$2_$3/
-mkdir -p ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_powerpc
-mkdir -p ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_powerpc-apple-darwin
-mkdir -p ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_SymbolTables
+mkdir -p ${NEW_DIR_PATH}/
+mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc
+mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin
+mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
 
-cp -fp mac_installer/GR-ReadMe.rtf ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
-sudo chown -R 501:admin ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
-sudo chmod -R 755 ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
+cp -fp "${README_FILE}" ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
+sudo chown -R 501:admin ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
+sudo chmod -R 755 ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
 
-cp -fpR $BUILDPATH/boinc ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_powerpc-apple-darwin/
-cp -fpR $BUILDPATH/boinc_cmd ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_powerpc-apple-darwin/
-sudo chown -R root:admin ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_powerpc-apple-darwin/*
-sudo chmod -R 755 ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_powerpc-apple-darwin/*
+cp -fpR $BUILDPATH/boinc ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/
+cp -fpR $BUILDPATH/boinc_cmd ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/
+sudo chown -R root:admin ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/*
+sudo chmod -R 755 ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/*
 
-cp -fpR $BUILDPATH/SymbolTables ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_SymbolTables/
+cp -fpR $BUILDPATH/SymbolTables ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables/
 
-/Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_GR_$1_$2_$3/gridrepublic_$1.$2.$3_macOSX_powerpc/GridRepublic.pkg -f ../BOINC_Installer/GR_Pkg_Root -r ../BOINC_Installer/GR_Installer\ Resources/ -i mac_build/GR-Pkg-Info.plist -d mac_Installer/GR-Description.plist -ds 
+# Make temporary copies of Pkg-Info.plist and Description.plist for PackageMaker and update for this branding
+cp -fp mac_build/Pkg-Info.plist ${NEW_DIR_PATH}
+cp -fp mac_Installer/Description.plist ${NEW_DIR_PATH}
+sed -i "" s/BOINC/${BRAND_NAME}/g ${NEW_DIR_PATH}/Pkg-Info.plist
+sed -i "" s/BOINC/${BRAND_NAME}/g ${NEW_DIR_PATH}/Description.plist
 
-cd ../BOINC_Installer/New_Release_GR_$1_$2_$3
-zip -rq gridrepublic_$1.$2.$3_macOSX_powerpc.zip gridrepublic_$1.$2.$3_macOSX_powerpc
-zip -rq gridrepublic_$1.$2.$3_powerpc-apple-darwin.zip gridrepublic_$1.$2.$3_powerpc-apple-darwin
-zip -rq gridrepublic_$1.$2.$3_macOSX_SymbolTables.zip gridrepublic_$1.$2.$3_macOSX_SymbolTables
+# Build the installer package
+/Developer/Tools/packagemaker -build -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/${BRAND_NAME}.pkg -f ${PR_PATH} -r ${IR_PATH} -i ${NEW_DIR_PATH}/Pkg-Info.plist -d ${NEW_DIR_PATH}/Description.plist -ds 
+
+# Remove temporary copies of Pkg-Info.plist and Description.plist
+rm ${NEW_DIR_PATH}/Pkg-Info.plist
+rm ${NEW_DIR_PATH}/Description.plist
+
+# Compress the products
+cd ${NEW_DIR_PATH}
+zip -rq ${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc
+zip -rq ${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin.zip ${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin
+zip -rq ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
 
 popd
 return 0

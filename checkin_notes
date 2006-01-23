@@ -719,7 +719,7 @@ David  20 Jan 2006
         ViewStatistics.C,h
 
 Charlie 21 Jan 2006
-    -Mac: Changes for Grid Republic: manager determinea branding before 
+    -Mac: Changes for Grid Republic: manager determines branding before 
       launching client; create new release script for GR; GR screen saver 
       displays GR icon in system preferences dialog; data directory is 
       "GridRepublic Data" if a GR install; installing BOINC over an 
@@ -818,3 +818,36 @@ Rom    23 Jan 2006
         Makefile.am
         ViewProjects.cpp
         ViewWork.cpp
+
+Charlie 23 Jan 2006
+    -Mac: Improve GridRepublic release script so it uses sed commands 
+      to convert standard BOINC plist, preinstall and preupgrade files 
+      for Grid Republic; standard BOINC release script creates preupgrade 
+      script by copying preinstall script;  these changes eliminate the 
+      need for seven files I checked in earlier.
+      Also generalize Grid Republic release script so it can easily be 
+      modified for other brands by changing a few variable definitions.
+      Changed name of GR Manager to "GridRepublic Manager" from just 
+      "GridRepublic."
+
+
+        mac/
+            SetVersion.C
+
+    mac_build/
+        GR_Info.plist (Remove)
+        GR-InfoPlist.strings (Remove)
+        GR-ScreenSaver-Info.plist (Remove)
+        boinc.xcodeproj/
+            project.pbxproj
+
+    mac_installer/
+        GR-ReadMe.rtf
+        PostInstall.cpp
+        preinstall
+        release_boinc.sh
+        release_GridRepublic.sh
+        preupgrade (Remove)
+        GR-Description.plist (Remove)
+        GR-preinstall (Remove)
+        GR-preupgrade (Remove)

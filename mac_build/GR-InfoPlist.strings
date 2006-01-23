@@ -1,5 +1,0 @@
-/* Localized versions of Info.plist keys */
-
-CFBundleName = "GridRepublic";
-CFBundleShortVersionString = "GridRepublic version 5.3.13";
-CFBundleGetInfoString = "GridRepublic version 5.3.13, Copyright 2005 University of California.";
