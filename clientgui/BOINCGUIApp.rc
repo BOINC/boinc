@@ -34,6 +34,10 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 APP_ICON                ICON                    "res\\gridrepublic.ico"
 APP_ICON2               ICON                    "res\\gridrepublic2.ico"
 
+#elif defined(_CPDNBBC)
+
+APP_ICON                ICON                    "res\\cpdnbbc.ico"
+
 #else
 
 APP_ICON                ICON                    "res\\boincguiApp.ico"

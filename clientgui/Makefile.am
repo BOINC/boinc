@@ -36,6 +36,7 @@ boinc_gui_SOURCES = \
     MainFrame.cpp \
     stdwx.cpp \
     ValidateAccountKey.cpp \
+    ValidateEmailAddress.cpp \
     ValidateURL.cpp \
     ViewMessages.cpp \
     ViewProjects.cpp \

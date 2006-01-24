@@ -41,11 +41,14 @@
 #else
 #include "res/boinc.xpm"
 #include "res/gridrepublic.xpm"
+#include "res/cpdnbbc16.xpm"
+#include "res/cpdnbbc32.xpm"
 #endif
 
 #include "res/boincsm.xpm"
 #include "res/attachprojectwizard.xpm"
 #include "res/gridrepublicamwizard.xpm"
+#include "res/cpdnbbcapwizard.xpm"
 ////@end XPM images
 
 
@@ -132,33 +135,33 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
         case 2:
             // Running as a CPDNBBC client.
             m_strApplicationName = wxT("The BOINC Manager for the BBC Climate Change Experiment");
-            m_iconApplicationIcon = wxIcon(boinc_xpm);
-            m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
+            m_iconApplicationIcon = wxIcon(cpdnbbc16_xpm);
+            m_bitmapApplicationLogo = wxBitmap(cpdnbbc32_xpm);
             m_strCompanyName = wxT("ClimatePrediction.net");
             m_strCompanyWebsite = wxT("http://bbc.cpdn.org/beta/");
             m_strProjectName = wxT("BBC Climate Change Experiment");
             m_bDefaultTabSpecified = true;
             m_iDefaultTab = ID_LIST_WORKVIEW - ID_LIST_BASE;
             m_strAPWizardTitle = _("Start Project");
-            m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_bitmapAPWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
             m_strAPWizardAccountInfoText = 
-                _("Please enter an e-mail address and password to participate in our\n"
-                  "interactive user forum and receive occasional project announcements.\n"
-                  "You can block all e-mails from the project on your \"preferences\"\n"
-                  "page whenever you like, and we will not pass on your e-mail address\n"
-                  "to any third party. You can still run the experiment if you enter a\n"
-                  "dummy address, but you will not be able to join in the user forum.");
+                _("Please enter an email address and password.\n"
+                  "\n"
+                  "You will need your email address if you want to change your account\n"
+                  "options or use our message boards.\n"
+                  "\n"
+                  "We will send you occasional emails. You can stop these at aynt time.\n"
+                  "We will not pass your email address on to others.\n");
             m_strAPWizardCompletionTitle = 
                 _("Project Started");
             m_strAPWizardCompletionBrandedMessage =
                 _("Congratulations, you have now successfully started your Climate\n"
                   "Change Experiment.\n");
             m_strAPWizardCompletionMessage =
-                _("Click Finish to close. This will automatically launch a web browser\n"
-                  "that will tell more about your experiment and how to customize your\n"
-                  "settings.");
+                _("Click finish to exit. You will be taken to a web page which tells\n"
+                  "you more about your model.\n");
             m_strAMWizardTitle = wxEmptyString;
-            m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_bitmapAMWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = 
                 _("This will shut down your experiment until it restarts automatically\n"

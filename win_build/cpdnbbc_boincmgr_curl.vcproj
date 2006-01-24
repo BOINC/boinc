@@ -311,6 +311,30 @@
 				RelativePath="..\clientgui\res\boincsm.xpm">
 			</File>
 			<File
+				RelativePath="..\clientgui\res\cpdnbbc.ico">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\cpdnbbc16.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\cpdnbbc32.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\cpdnbbcapwizard.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\gridrepublic.ico">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\gridrepublic.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\gridrepublic2.ico">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\gridrepublicamwizard.xpm">
+			</File>
+			<File
 				RelativePath="..\clientgui\res\mess.xpm">
 			</File>
 			<File
@@ -523,6 +547,12 @@
 				RelativePath="..\clientgui\ValidateAccountKey.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\ValidateEmailAddress.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\ValidateEmailAddress.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\ValidateURL.cpp">
 			</File>
 			<File
@@ -589,6 +619,12 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgDialupCredentials.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgGenericMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgGenericMessage.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgOptions.cpp">

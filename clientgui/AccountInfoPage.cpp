@@ -27,6 +27,7 @@
 #include "BOINCGUIApp.h"
 #include "wx/valgen.h"
 #include "wx/valtext.h"
+#include "ValidateEmailAddress.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "AccountInfoPage.h"
@@ -191,7 +192,7 @@ void CAccountInfoPage::CreateControls()
     }
 
     // Set validators
-    m_AccountEmailAddressCtrl->SetValidator( wxGenericValidator(& m_strAccountEmailAddress) );
+    m_AccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
     m_AccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountPassword) );
     if (!IS_ACCOUNTMANAGERWIZARD()) {
         m_AccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountConfirmPassword) );

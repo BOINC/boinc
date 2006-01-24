@@ -871,3 +871,17 @@ Charlie 23 Jan 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    24 Jan 2006
+    - String and graphics changes for CPDNBBC.
+    - Add email address validation to the wizards.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        BOINCGUIApp.cpp
+        BOINCGUIApp.rc
+        ValidateEmailAddress.cpp, .h (Added)
+
+Rom    24 Jan 2006 (HEAD)
+    - Tag for 5.3.14 release, all platforms
+      boinc_core_release_5_3_14
