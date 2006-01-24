@@ -39,6 +39,9 @@
 
 static const char *run_mode_name[] = {"", "always", "auto", "never"};
 
+// do an account manager RPC;
+// if url is null, detach from current account manager
+//
 int ACCT_MGR_OP::do_rpc(
     std::string url, std::string name, std::string password_hash
 ) {
@@ -57,6 +60,10 @@ int ACCT_MGR_OP::do_rpc(
         boinc_delete_file(ACCT_MGR_URL_FILENAME);
         boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
         error_num = 0;
+        for (i=0; i<gstate.projects.size(); i++) {
+            PROJECT* p = gstate.projects[i];
+            p->attached_via_acct_mgr = false;
+        }
         return 0;
     }
 

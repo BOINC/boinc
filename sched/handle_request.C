@@ -930,8 +930,8 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         safe_strcpy(mfh.xml, md.msg_text.c_str());
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
-            "got msg from host; variety %s text %s\n",
-            mfh.variety, mfh.xml
+            "got msg from host; variety %s \n",
+            mfh.variety
         );
         retval = mfh.insert();
         if (retval) {

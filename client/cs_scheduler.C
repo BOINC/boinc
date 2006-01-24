@@ -743,16 +743,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         return ERR_PROJECT_DOWN;
     }
 
-    // The project returns a hostid only if it has created a new host record.
-    // In that case we should reset RPC seqno
-    // and generate a new host CPID
-    //
-    if (sr.hostid) {
-        project->hostid = sr.hostid;
-        project->rpc_seqno = 0;
-        generate_new_host_cpid();
-    }
-
     // see if we have a new venue from this project
     //
     if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
@@ -1024,6 +1014,17 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (x > project->min_rpc_time) project->min_rpc_time = x;
     } else {
         project->min_rpc_time = 0;
+    }
+
+    // The project returns a hostid only if it has created a new host record.
+    // In that case we should reset RPC seqno
+    // and generate a new host CPID
+    //
+    if (sr.hostid) {
+        project->hostid = sr.hostid;
+        project->rpc_seqno = 0;
+        generate_new_host_cpid();
+        msg_printf(project, MSG_INFO, "Generated new host CPID: %s", host_info.host_cpid);
     }
 
     set_client_state_dirty("handle_scheduler_reply");
@@ -1432,15 +1433,13 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
 }
 
 // Choose a new host CPID.
-// If we're using an account manager, do scheduler RPCs to all projects
-// to propagate the CPID
+// Do scheduler RPCs to all projects to propagate the CPID
 //
 void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
-    if (strlen(acct_mgr_info.login_name)) {
-        for (unsigned int i=0; i<projects.size(); i++) {
-            projects[i]->sched_rpc_pending = true;
-        }
+    for (unsigned int i=0; i<projects.size(); i++) {
+        projects[i]->sched_rpc_pending = true;
+        projects[i]->min_rpc_time = 0;
     }
 }
 

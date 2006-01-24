@@ -894,3 +894,30 @@ Rom    24 Jan 2005
         
     clientgui/
         MainFrame.cpp
+
+David  24 Jan 2005
+	- core client: move code that deals with generating new host CPID
+		to the end of handle_scheduler_reply(),
+		after the part that clears sched_rpc_pending and sets min_rpc_time,
+		since if we generate a new host CPID
+		we're going to modify these (to request another RPC).
+		Also: in this case request an immediate scheduler RPC to all projects
+		whether or not we're using an account manager.
+	- core client: if detach from account manager,
+		clear "attached_via_acct_mgr" flag on all projects
+	- database: change type of xml field in msg_to_host and msg_from_host
+		from text (64KB limit)
+		to medium_text (16MB limit, but use at most 256KB)
+	- scheduler: don't print trickle message contents (swamps logfile)
+		(the latter two from Carl Christensen)
+
+	client/
+		acct_mgr.C
+		cs_scheduler.C
+	clientgui/
+		Events.h
+	db/
+		boinc_db.h
+		schema.sql
+	sched/
+		handle_request.C

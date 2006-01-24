@@ -255,7 +255,7 @@ create table msg_from_host (
     hostid              integer     not null,
     variety             varchar(254) not null,
     handled             smallint    not null,
-    xml                 text,
+    xml                 mediumtext,
     primary key (id)
 ) type=InnoDB;
 
@@ -265,7 +265,7 @@ create table msg_to_host (
     hostid              integer     not null,
     variety             varchar(254) not null,
     handled             smallint    not null,
-    xml                 text,
+    xml                 mediumtext,
     primary key (id)
 ) type=InnoDB;
 

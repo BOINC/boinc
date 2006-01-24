@@ -38,6 +38,8 @@ extern DB_CONN boinc_db;
 // Large is for fields with user-supplied text, and preferences
 
 #define LARGE_BLOB_SIZE   65536
+#define MSG_FROM_HOST_BLOB_SIZE 262144
+#define MSG_TO_HOST_BLOB_SIZE 262144
 
 // Dummy name for file xfers
 #define FILE_MOVER "move_file"
@@ -449,7 +451,7 @@ struct MSG_FROM_HOST {
     int hostid;
     char variety[256];              // project-defined; what kind of msg
     bool handled;                   // message handler has processed this
-    char xml[LARGE_BLOB_SIZE];
+    char xml[MSG_FROM_HOST_BLOB_SIZE];
     void clear();
 };
 
@@ -459,7 +461,7 @@ struct MSG_TO_HOST {
     int hostid;
     char variety[256];              // project-defined; what kind of msg
     bool handled;                   // scheduler has sent this
-    char xml[LARGE_BLOB_SIZE];      // text to include in sched reply
+    char xml[MSG_TO_HOST_BLOB_SIZE];      // text to include in sched reply
     void clear();
 };
 
