@@ -86,7 +86,7 @@ int CLIENT_STATE::parse_state_file() {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             retval = 0;
-            break;
+            goto done;
         } else if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);
@@ -331,6 +331,11 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
         } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
     }
+
+    // if get here, we must have reached end of state file
+    // without finding </client_state> tag.
+    //
+    retval = ERR_XML_PARSE;
 done:
     fclose(f);
 

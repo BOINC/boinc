@@ -886,7 +886,7 @@ Rom    24 Jan 2006 (HEAD)
     - Tag for 5.3.14 release, all platforms
       boinc_core_release_5_3_14
 
-Rom    24 Jan 2005
+Rom    24 Jan 2006
     - Bug Fix: Remove the last line of the function that handles the 
         launching of the wizards on first execution which was causing
         the manager to switch over to the messages tab no matter if the
@@ -895,7 +895,7 @@ Rom    24 Jan 2005
     clientgui/
         MainFrame.cpp
 
-David  24 Jan 2005
+David  24 Jan 2006
 	- core client: move code that deals with generating new host CPID
 		to the end of handle_scheduler_reply(),
 		after the part that clears sched_rpc_pending and sets min_rpc_time,
@@ -921,3 +921,9 @@ David  24 Jan 2005
 		schema.sql
 	sched/
 		handle_request.C
+
+David  24 Jan 2006
+    - core client: statefile read fails if don't find </state_file>
+
+    client/
+        cs_statefile.C
