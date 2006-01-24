@@ -885,3 +885,12 @@ Rom    24 Jan 2006
 Rom    24 Jan 2006 (HEAD)
     - Tag for 5.3.14 release, all platforms
       boinc_core_release_5_3_14
+
+Rom    24 Jan 2005
+    - Bug Fix: Remove the last line of the function that handles the 
+        launching of the wizards on first execution which was causing
+        the manager to switch over to the messages tab no matter if the
+        wizard completed successfully or not.
+        
+    clientgui/
+        MainFrame.cpp

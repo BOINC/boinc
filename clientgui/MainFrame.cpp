@@ -1483,8 +1483,6 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         m_pFrameRenderTimer->Start();
         m_pFrameListPanelRenderTimer->Start();
         m_pDocumentPollTimer->Start();
-
-        m_pNotebook->SetSelection(ID_TASK_MESSAGESVIEW - ID_TASK_BASE);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
