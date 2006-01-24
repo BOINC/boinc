@@ -864,3 +864,10 @@ David  23 Jan 2006
     client/
         client_state.h
         cs_scheduler.C
+        
+Charlie 23 Jan 2006
+    -Mac: Add new files DlgGenericMessage.cpp, .h to XCode project .
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

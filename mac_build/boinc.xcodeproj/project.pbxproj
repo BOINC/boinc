@@ -171,6 +171,7 @@
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB5060E0958247800181B75 /* libwx_mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB5060D0958247800181B75 /* libwx_mac.a */; };
 		DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB506F80958446900181B75 /* ProxyInfoPage.cpp */; };
+		DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
 		DDD74D8B07CF48E80065AC9D /* app_control.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B4807C5AC4C0043025C /* app_control.C */; };
@@ -863,6 +864,8 @@
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDB506F90958446900181B75 /* ProxyInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProxyInfoPage.h; path = ../clientgui/ProxyInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
+		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
+		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDEB3AD40980CD180087E200 /* GR_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = GR_Info.plist; sourceTree = "<group>"; };
@@ -1100,6 +1103,8 @@
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
 			children = (
+				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
+				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */,
 				DD58C41908F3343F00C1DF66 /* AccountInfoPage.h */,
 				DD58C41A08F3343F00C1DF66 /* AccountKeyPage.cpp */,
@@ -2217,6 +2222,7 @@
 				DDA9D3BC09189A8C0060E7A7 /* Mac_GUI.cpp in Sources */,
 				DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */,
 				DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */,
+				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
