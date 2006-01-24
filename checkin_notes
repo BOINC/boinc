@@ -923,7 +923,7 @@ David  24 Jan 2006
 		handle_request.C
 
 David  24 Jan 2006
-    - core client: statefile read fails if don't find </state_file>
+    - core client: statefile read fails if don't find </client_state>
 
     client/
         cs_statefile.C
