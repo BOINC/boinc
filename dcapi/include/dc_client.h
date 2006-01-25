@@ -47,7 +47,7 @@ int DC_Init(void);
  */
 int DC_ResolveFileName(
     int type,
-    conts char *requestedFileName,
+    const char *requestedFileName,
     char       *actualFileName,
     int maxlength
 );
