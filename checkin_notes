@@ -941,3 +941,11 @@ Charlie 24 Jan 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    24 Jan 2006
+    - Bug Fix: Fix a blocking compilation issue on the Mac with the new
+        email validation class.
+        
+    clientgui/
+        ValidateEmailAddress.cpp
+        
