@@ -3,12 +3,13 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/syslog.h>
 #include <unistd.h>
 #include <errno.h>
 #include <time.h>
 
 #include "dc_client.h"
-#include "dc.h"
+#include "logger.c"
 
 static time_t result_time = 0;
 static time_t ckpt_time = 0;
@@ -60,7 +61,7 @@ int DC_CheckpointMade(void)
 
 /** Finalize client API if needed.
  */ 
-void DC_Finish(void)
+void DC_Finish(int exitcode)
 {
 }
 
