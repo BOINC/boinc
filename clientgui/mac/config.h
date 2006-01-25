@@ -324,7 +324,13 @@
 /* #undef HAVE__PROC_SELF_STAT */
 
 /* Host for this compilation */
+#ifdef __ppc__
 #define HOSTTYPE "powerpc-apple-darwin"
+#endif
+
+#ifdef __i386__
+#define HOSTTYPE "i686-apple-darwin"
+#endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */
 /* #undef LARGEFILE_BREAKS_CXX */

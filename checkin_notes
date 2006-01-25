@@ -934,9 +934,12 @@ Charlie 24 Jan 2006
       so library links properly for Intel Macs (but backtrace is disabled).
       Fix compile error by excluding CPDNBBC client code from Mac builds.
       Remove obsolete XCode project; update build script to use new project.
+      Set plaform correctly for powerpc-apple-darwin and i686-apple-darwin.
 
     clientgui/
         BOINCGUIApp.cpp
+        mac/
+            config.h
     lib/
         mac_backtrace.C
     mac_build/
@@ -945,6 +948,7 @@ Charlie 24 Jan 2006
             project.pbxproj
         boinc.pbproj/
             project.pbxproj (Remove)
+            config.h
 
 Rom    24 Jan 2006
     - Bug Fix: Fix a blocking compilation issue on the Mac with the new
