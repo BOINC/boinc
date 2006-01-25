@@ -15,10 +15,10 @@ extern "C" {
 #define DC_ERROR 1
 
 /* For the DC_ResolveFileName function */
-#define INPUT_FILE	0
-#define OUTPUT_FILE	1
-#define CKPT_FILE	2
-#define TEMP_FILE	3
+#define DC_FILE_IN	0
+#define DC_FILE_OUT	1
+#define DC_FILE_CKPT	2
+#define DC_FILE_TMP	3
 
 
 /** Inicialize the client API.
