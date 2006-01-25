@@ -171,6 +171,7 @@
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB5060E0958247800181B75 /* libwx_mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB5060D0958247800181B75 /* libwx_mac.a */; };
 		DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB506F80958446900181B75 /* ProxyInfoPage.cpp */; };
+		DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */; };
 		DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
@@ -646,7 +647,7 @@
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		DD02098A095A47540012D9DE /* AccountManagerStatusPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerStatusPage.cpp; path = ../clientgui/AccountManagerStatusPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD02098E095A476F0012D9DE /* AccountManagerStatusPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerStatusPage.h; path = ../clientgui/AccountManagerStatusPage.h; sourceTree = SOURCE_ROOT; };
-		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_saver_module.cpp; path = ../clientgui/mac/mac_saver_module.cpp; sourceTree = SOURCE_ROOT; };
 		DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_ModuleView.h; path = ../clientgui/mac/Mac_Saver_ModuleView.h; sourceTree = SOURCE_ROOT; };
 		DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Mac_Saver_ModuleView.m; path = ../clientgui/mac/Mac_Saver_ModuleView.m; sourceTree = SOURCE_ROOT; };
@@ -864,6 +865,8 @@
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDB506F90958446900181B75 /* ProxyInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProxyInfoPage.h; path = ../clientgui/ProxyInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
+		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
+		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1181,6 +1184,8 @@
 				DD58C46208F334EA00C1DF66 /* UnavailablePage.h */,
 				DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */,
 				DD81C46607C5D29F0098A04D /* ValidateAccountKey.h */,
+				DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */,
+				DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */,
 				DD81C42607C5D1D70098A04D /* ValidateURL.cpp */,
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
 				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
@@ -2223,6 +2228,7 @@
 				DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */,
 				DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */,
 				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
+				DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

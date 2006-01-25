@@ -132,6 +132,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = wxEmptyString;
             break;
+#ifndef __APPLE__
         case 2:
             // Running as a CPDNBBC client.
             m_strApplicationName = wxT("The BOINC Manager for the BBC Climate Change Experiment");
@@ -168,6 +169,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
                   "following your user preferences. Close window to close the manager\n"
                   "without stopping the experiment.");
             break;
+#endif  __APPLE__
         default:
             // Running in native mode without any branding
             m_strApplicationName = wxT("BOINC Manager");

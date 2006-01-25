@@ -929,8 +929,15 @@ David  24 Jan 2006
         cs_statefile.C
 
 Charlie 24 Jan 2006
-    -Mac: Change conditional compile #ifdef __ppc__ in mac_backtrace.C 
+    -Mac: Add new files ValidateEmailAddress.cpp, .h to XCode project.
+      Change conditional compile #ifdef __ppc__ in mac_backtrace.C 
       so library links properly for Intel Macs (but backtrace is disabled).
+      Fix compile error by excluding CPDNBBC client code from Mac builds.
 
+    clientgui/
+        BOINCGUIApp.cpp
     lib/
         mac_backtrace.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
