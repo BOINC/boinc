@@ -43,12 +43,12 @@
 #include "res/gridrepublic.xpm"
 #include "res/cpdnbbc16.xpm"
 #include "res/cpdnbbc32.xpm"
+#include "res/cpdnbbcapwizard.xpm"
 #endif
 
 #include "res/boincsm.xpm"
 #include "res/attachprojectwizard.xpm"
 #include "res/gridrepublicamwizard.xpm"
-#include "res/cpdnbbcapwizard.xpm"
 ////@end XPM images
 
 

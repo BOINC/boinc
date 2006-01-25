@@ -69,4 +69,4 @@ echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac
 exit 1
 fi
 
-xcodebuild -project boinc.pbproj -target Build_All -buildstyle $style $doclean build NEXTROOT=$sdkname SDKROOT=$sdkname
+xcodebuild -project boinc.xcodeproj -target Build_All -buildstyle $style $doclean build NEXTROOT=$sdkname SDKROOT=$sdkname

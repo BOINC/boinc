@@ -933,6 +933,7 @@ Charlie 24 Jan 2006
       Change conditional compile #ifdef __ppc__ in mac_backtrace.C 
       so library links properly for Intel Macs (but backtrace is disabled).
       Fix compile error by excluding CPDNBBC client code from Mac builds.
+      Remove obsolete XCode project
 
     clientgui/
         BOINCGUIApp.cpp
@@ -941,6 +942,8 @@ Charlie 24 Jan 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+        boinc.pbproj/
+            project.pbxproj (Remove)
 
 Rom    24 Jan 2006
     - Bug Fix: Fix a blocking compilation issue on the Mac with the new
