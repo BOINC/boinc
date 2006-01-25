@@ -137,6 +137,7 @@ public:
     bool suspended_via_gui;
     bool dont_request_more_work;
     bool scheduler_rpc_in_progress;
+    bool attached_via_acct_mgr;
 
     // NOTE: if you add any data items, update copy() to include them
 

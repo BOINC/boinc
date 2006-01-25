@@ -1001,3 +1001,10 @@ David  25 Jan 2006
         am_seti_info.php
     lib/
         util.C
+
+David  25 Jan 2006
+    - add "added_via_acct_mgr" flag to GUI RPC PROJECT structure
+
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

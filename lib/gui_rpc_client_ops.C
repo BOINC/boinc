@@ -147,6 +147,10 @@ int PROJECT::parse(MIOFILE& in) {
             scheduler_rpc_in_progress = true;
             continue;
         }
+        else if (match_tag(buf, "<attached_via_acct_mgr/>")) {
+            attached_via_acct_mgr = true;
+            continue;
+        }
         else if (match_tag(buf, "<gui_urls>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</gui_urls>")) break;

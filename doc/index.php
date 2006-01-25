@@ -68,15 +68,15 @@ resources.
     your computer will be kept busy even when one project has no work.
     <p>
     To participate:
-    <a href=projects.php>select projects</a>, then
-    <a href=download.php><b>download</b></a> and run BOINC software,
-    and enter the project's URL
-    (to get the URL: visit the project's web site,
+    <ul>
+    <li> <a href=projects.php>Select projects</a>
+    <li> <a href=download.php>Download</a> and run BOINC software
+    <li> Enter the project's URL (visit the project's web site,
     and copy the URL from your browser's address field).
-    <p>
-    <a href=links.php>Web sites for BOINC participants</a>.
-    <p>
-    <a href=participate.php>... more</a>
+    </ul>
+    <a href=participate.php>More info</a> 
+    | <a href=links.php>Web sites </a>
+    | <a href=dev/>Message boards</a>
 
     <br><br>
   </td></tr>
