@@ -36,6 +36,8 @@
 #include "AccountInfoPage.h"
 #include "AccountManagerProcessingPage.h"
 #include "CompletionPage.h"
+#include "CompletionUpdatePage.h"
+#include "CompletionRemovePage.h"
 #include "CompletionErrorPage.h"
 #include "NotDetectedPage.h"
 #include "UnavailablePage.h"
@@ -44,6 +46,7 @@
 #include "ProxyPage.h"
 
 ////@begin XPM images
+#include "res/attachprojectwizard.xpm"
 ////@end XPM images
   
 /*!
@@ -92,6 +95,8 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     m_AccountInfoPage = NULL;
     m_AccountManagerProcessingPage = NULL;
     m_CompletionPage = NULL;
+    m_CompletionUpdatePage = NULL;
+    m_CompletionRemovePage = NULL;
     m_CompletionErrorPage = NULL;
     m_ErrNotDetectedPage = NULL;
     m_ErrUnavailablePage = NULL;
@@ -108,7 +113,9 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
 
     // Wizard Detection
     IsAttachToProjectWizard = false;
-    IsAccountManagerWizard = true;
+    IsAccountManagerAttachWizard = true;
+    IsAccountManagerUpdateWizard = true;
+    IsAccountManagerRemoveWizard = true;
  
     // Global wizard status
     project_config.clear();
@@ -118,9 +125,9 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
 
     wxBitmap wizardBitmap;
     if (wxGetApp().GetBrand()->IsBranded()) {
-        wizardBitmap = *(wxGetApp().GetBrand()->GetAMWizardLogo());
+        wizardBitmap = wxBitmap(*(wxGetApp().GetBrand()->GetAMWizardLogo()));
     } else {
-        wizardBitmap = GetBitmapResource(wxT("res/attachprojectwizard.xpm"));
+        wizardBitmap = wxBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     }
 ////@begin CWizardAccountManager creation
     CBOINCBaseWizard::Create( parent, id, _("Attach to Account Manager"), wizardBitmap, pos );
@@ -169,6 +176,14 @@ void CWizardAccountManager::CreateControls()
     m_CompletionPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_CompletionPage);
+    m_CompletionUpdatePage = new CCompletionUpdatePage;
+    m_CompletionUpdatePage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_CompletionUpdatePage);
+    m_CompletionRemovePage = new CCompletionRemovePage;
+    m_CompletionRemovePage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_CompletionRemovePage);
     m_CompletionErrorPage = new CCompletionErrorPage;
     m_CompletionErrorPage->Create( itemWizard1 );
 
@@ -204,6 +219,8 @@ void CWizardAccountManager::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROCESSINGPAGE, m_AccountManagerProcessingPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), ID_COMPLETIONPAGE, m_CompletionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionUpdatePage = id: '%d', location: '%p'"), ID_COMPLETIONUPDATEPAGE, m_CompletionUpdatePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionRemovePage = id: '%d', location: '%p'"), ID_COMPLETIONREMOVEPAGE, m_CompletionRemovePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), ID_COMPLETIONERRORPAGE, m_CompletionErrorPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), ID_ERRNOTDETECTEDPAGE, m_ErrNotDetectedPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), ID_ERRUNAVAILABLEPAGE, m_ErrUnavailablePage);
@@ -255,10 +272,19 @@ bool CWizardAccountManager::Run() {
     if ( ami.acct_mgr_url.size() && !ami.have_credentials && m_AccountManagerStatusPage) {
         m_AccountManagerStatusPage->m_AcctManagerUpdateCtrl->SetValue(true);
         m_AccountManagerStatusPage->m_AcctManagerRemoveCtrl->SetValue(false);
+        IsAccountManagerAttachWizard = false;
+        IsAccountManagerUpdateWizard = true;
+        IsAccountManagerRemoveWizard = false;
         return RunWizard(m_AccountInfoPage);
     } else if ( ami.acct_mgr_url.size() && m_AccountManagerStatusPage) {
+        IsAccountManagerAttachWizard = false;
+        IsAccountManagerUpdateWizard = true;
+        IsAccountManagerRemoveWizard = true;
         return RunWizard(m_AccountManagerStatusPage);
     } else if (m_WelcomePage) {
+        IsAccountManagerAttachWizard = true;
+        IsAccountManagerUpdateWizard = false;
+        IsAccountManagerRemoveWizard = false;
         return RunWizard(m_WelcomePage);
     }
 
@@ -282,6 +308,11 @@ wxBitmap CWizardAccountManager::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
 ////@begin CWizardAccountManager bitmap retrieval
+    if (name == wxT("res/attachprojectwizard.xpm"))
+    {
+        wxBitmap bitmap(attachprojectwizard_xpm);
+        return bitmap;
+    }
     return wxNullBitmap;
 ////@end CWizardAccountManager bitmap retrieval
 }
@@ -307,6 +338,8 @@ bool CWizardAccountManager::HasNextPage( wxWizardPageEx* page )
     bool bNoNextPageDetected = false;
 
     bNoNextPageDetected |= (page == m_CompletionPage);
+    bNoNextPageDetected |= (page == m_CompletionUpdatePage);
+    bNoNextPageDetected |= (page == m_CompletionRemovePage);
     bNoNextPageDetected |= (page == m_CompletionErrorPage);
     bNoNextPageDetected |= (page == m_ErrNotDetectedPage);
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
@@ -323,7 +356,15 @@ bool CWizardAccountManager::HasNextPage( wxWizardPageEx* page )
  
 bool CWizardAccountManager::HasPrevPage( wxWizardPageEx* page )
 {
-    if ((page == m_WelcomePage) || (page == m_CompletionErrorPage))
+    bool bNoPrevPageDetected = false;
+
+    bNoPrevPageDetected |= (page == m_WelcomePage);
+    bNoPrevPageDetected |= (page == m_CompletionPage);
+    bNoPrevPageDetected |= (page == m_CompletionUpdatePage);
+    bNoPrevPageDetected |= (page == m_CompletionRemovePage);
+    bNoPrevPageDetected |= (page == m_CompletionErrorPage);
+
+    if (bNoPrevPageDetected)
         return false;
     return true;
 }
@@ -379,6 +420,12 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
  
         if (ID_COMPLETIONPAGE == ulPageID)
             pPage = m_CompletionPage;
+ 
+        if (ID_COMPLETIONUPDATEPAGE == ulPageID)
+            pPage = m_CompletionUpdatePage;
+ 
+        if (ID_COMPLETIONREMOVEPAGE == ulPageID)
+            pPage = m_CompletionRemovePage;
  
         if (ID_COMPLETIONERRORPAGE == ulPageID)
             pPage = m_CompletionErrorPage;

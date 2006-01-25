@@ -108,7 +108,7 @@ void CErrUnavailablePage::CreateControls()
         itemBoxSizer97->Add(itemStaticText100, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
-    if (IS_ACCOUNTMANAGERWIZARD()) {
+    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         itemStaticText98->Create( itemWizardPage96, wxID_STATIC, _("Account manager temporarily unavailable"), wxDefaultPosition, wxDefaultSize, 0 );
         itemStaticText98->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
         itemBoxSizer97->Add(itemStaticText98, 0, wxALIGN_LEFT|wxALL, 5);

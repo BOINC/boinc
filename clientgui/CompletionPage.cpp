@@ -145,7 +145,7 @@ void CCompletionPage::CreateControls()
         itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
-    if (IS_ACCOUNTMANAGERWIZARD()) {
+    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         wxString strTitle;
         if (wxGetApp().GetBrand()->IsBranded()) {
             // %s is the project name

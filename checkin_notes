@@ -963,3 +963,29 @@ David  24 Jan 2006
 
     api/
         boinc_api_fortran.C
+
+Rom    25 Jan 2006
+    - Bug Fix: Fix the wizard so that it can display customized graphics
+        on the welcome page.
+    - Bug Fix: Display the minimum password length in the wizard.
+    - Bug Fix: Add two new pages for dealing with account manager updates
+        and removal from account managers.  Text needs some work though.
+
+    clientgui/
+        AccountInfoPage.cpp, .h
+        AccountManagerProcessingPage.cpp
+        AccountManagerStatusPage.cpp
+        BOINCBaseWizard.cpp, .h
+        BOINCGUIApp.cpp
+        BOINCWizards.h
+        CompletionErrorPage.cpp
+        CompletionPage.cpp
+        CompletionRemovePage.cpp, .h (Added)
+        CompletionUpdatePage.cpp, .h (Added)
+        NotDetectedPage.cpp
+        ProxyPage.cpp
+        UnavailablePage.cpp
+        WelcomePage.cpp
+        WizardAccountManager.cpp, .h
+        WizardAttachProject.cpp
+        wizardex.cpp

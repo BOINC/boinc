@@ -30,7 +30,6 @@
 #include "WelcomePage.h"
 
 ////@begin XPM images
-#include "res/attachprojectwizard.xpm"
 ////@end XPM images
 
 
@@ -112,7 +111,7 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
 ////@end CWelcomePage member initialisation
  
 ////@begin CWelcomePage creation
-    wxBitmap wizardBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
+    wxBitmap wizardBitmap(wxNullBitmap);
     wxWizardPageEx::Create( parent, wizardBitmap );
 
     CreateControls();
@@ -145,7 +144,7 @@ void CWelcomePage::CreateControls()
         itemBoxSizer3->Add(m_Description, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
-    if (IS_ACCOUNTMANAGERWIZARD()) {
+    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         m_Title->Create( itemWizardPage2, wxID_STATIC, _("Account manager"), wxDefaultPosition, wxDefaultSize, 0 );
         m_Title->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
         itemBoxSizer3->Add(m_Title, 0, wxALIGN_LEFT|wxALL, 5);
@@ -234,7 +233,7 @@ void CWelcomePage::CreateControls()
 ////@end CWelcomePage content construction
 
 }
- 
+
 /*!
  * Gets the previous page.
  */
@@ -255,7 +254,7 @@ wxWizardPageEx* CWelcomePage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } else if (IS_ATTACHTOPROJECTWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_PROJECTINFOPAGE);
-    } else if (IS_ACCOUNTMANAGERWIZARD()) {
+    } else if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERINFOPAGE);
     }
     return NULL;
@@ -278,11 +277,6 @@ wxBitmap CWelcomePage::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
 ////@begin CWelcomePage bitmap retrieval
-    if (name == wxT("res/attachprojectwizard.xpm"))
-    {
-        wxBitmap bitmap(attachprojectwizard_xpm);
-        return bitmap;
-    }
     return wxNullBitmap;
 ////@end CWelcomePage bitmap retrieval
 }

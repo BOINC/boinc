@@ -118,7 +118,7 @@ void CAccountInfoPage::CreateControls()
     itemStaticText58->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer57->Add(itemStaticText58, 0, wxALIGN_LEFT|wxGROW|wxALL, 5);
 
-    if (!IS_ACCOUNTMANAGERWIZARD()) {
+    if (!IS_ACCOUNTMANAGERATTACHWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
         m_AccountQuestion = new wxStaticText;
         m_AccountQuestion->Create( itemWizardPage56, wxID_STATIC, _T("Are you already running this project?"), wxDefaultPosition, wxDefaultSize, 0 );
         itemBoxSizer57->Add(m_AccountQuestion, 0, wxALIGN_LEFT|wxALL, 5);
@@ -155,7 +155,7 @@ void CAccountInfoPage::CreateControls()
         itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
-    wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(3, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(4, 2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
     itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxGROW|wxALL, 0);
 
@@ -175,7 +175,7 @@ void CAccountInfoPage::CreateControls()
     m_AccountPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
     itemFlexGridSizer64->Add(m_AccountPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    if (!IS_ACCOUNTMANAGERWIZARD()) {
+    if (!IS_ACCOUNTMANAGERATTACHWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
         m_AccountConfirmPasswordStaticCtrl = new wxStaticText;
         m_AccountConfirmPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, _("C&onfirm password:"), wxDefaultPosition, wxDefaultSize, 0 );
         itemFlexGridSizer64->Add(m_AccountConfirmPasswordStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -183,18 +183,19 @@ void CAccountInfoPage::CreateControls()
         m_AccountConfirmPasswordCtrl = new wxTextCtrl;
         m_AccountConfirmPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDCTRL, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
         itemFlexGridSizer64->Add(m_AccountConfirmPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-        itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-        m_AccountTransitionWarning = new wxStaticText;
-        m_AccountTransitionWarning->Create( itemWizardPage56, wxID_STATIC, _("If you haven't set a password, copy and paste your account\nkey into the Password box."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer57->Add(m_AccountTransitionWarning, 0, wxALIGN_LEFT|wxALL, 5);
     }
+
+    itemFlexGridSizer64->Add( 0, 0 );
+
+    m_AccountPasswordRequirmentsCtrl = new wxStaticText;
+    m_AccountPasswordRequirmentsCtrl->Create( itemWizardPage56, ID_ACCOUNTREQUIREMENTSSTATICCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    m_AccountPasswordRequirmentsCtrl->SetFont(wxFont(7, wxDEFAULT, wxNORMAL, wxNORMAL, FALSE));
+    itemFlexGridSizer64->Add(m_AccountPasswordRequirmentsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     m_AccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
     m_AccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountPassword) );
-    if (!IS_ACCOUNTMANAGERWIZARD()) {
+    if (!IS_ACCOUNTMANAGERATTACHWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
         m_AccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountConfirmPassword) );
     }
 ////@end CAccountInfoPage content construction
@@ -221,7 +222,7 @@ wxWizardPageEx* CAccountInfoPage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } else if (IS_ATTACHTOPROJECTWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
-    } else if (IS_ACCOUNTMANAGERWIZARD()) {
+    } else if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
     }
     return NULL;
@@ -271,15 +272,14 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
     static bool bRunOnce = true;
     if (bRunOnce) {
         bRunOnce = false;
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
+        if (!IS_ACCOUNTMANAGERATTACHWIZARD()) {
             m_AccountCreateCtrl->SetValue(TRUE);
             m_AccountUseExistingCtrl->SetValue(FALSE);
-            m_AccountTransitionWarning->Hide();
         }
     }
 
     if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
+        if (!IS_ACCOUNTMANAGERATTACHWIZARD()) {
             m_AccountCreateCtrl->SetValue(false);
             m_AccountUseExistingCtrl->SetValue(true);
             m_AccountConfirmPasswordStaticCtrl->Hide();
@@ -319,6 +319,12 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event )
             _("Email address:")
         );
     }
+
+    if (((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length) {
+        wxString str;
+        str.Printf(_("minimum length %d"), ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length);
+        m_AccountPasswordRequirmentsCtrl->SetLabel( str );
+    }
  
     Fit();
 
@@ -338,7 +344,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Attach to project");
         }
-        if (IS_ACCOUNTMANAGERWIZARD()) {
+        if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
             strTitle = _("Attach to account manager");
         }
         wxString strMessage = wxT("");
@@ -354,7 +360,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
                     iMinLength
                 );
             }
-            if (IS_ACCOUNTMANAGERWIZARD()) {
+            if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
                 strMessage.Printf(
                     _("The minimum password length for this account manager is %d. Please choose a different password."),
                     iMinLength
@@ -364,7 +370,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
             bDisplayError = true;
         }
 
-        if (!IS_ACCOUNTMANAGERWIZARD() && m_AccountCreateCtrl->GetValue()) {
+        if (!IS_ACCOUNTMANAGERATTACHWIZARD() && m_AccountCreateCtrl->GetValue()) {
             // Verify that the password and confirmation password math.
             if (m_AccountPasswordCtrl->GetValue() != m_AccountConfirmPasswordCtrl->GetValue()) {
                 strMessage = _("The password and confirmation password do not match. Please type them again.");
@@ -399,7 +405,7 @@ void CAccountInfoPage::OnCancel( wxWizardExEvent& event ) {
 void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event ) {
     m_AccountConfirmPasswordStaticCtrl->Hide();
     m_AccountConfirmPasswordCtrl->Hide();
-    m_AccountTransitionWarning->Show();
+    m_AccountEmailAddressCtrl->SetFocus();
     Fit();
 }
   
@@ -410,7 +416,7 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
 void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
     m_AccountConfirmPasswordStaticCtrl->Show();
     m_AccountConfirmPasswordCtrl->Show();
-    m_AccountTransitionWarning->Hide();
+    m_AccountEmailAddressCtrl->SetFocus();
     Fit();
 }
 

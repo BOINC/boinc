@@ -110,7 +110,7 @@ void CCompletionErrorPage::CreateControls()
         itemBoxSizer86->Add(itemStaticText89, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
-    if (IS_ACCOUNTMANAGERWIZARD()) {
+    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         itemStaticText87->Create( itemWizardPage85, wxID_STATIC, _("Failed to attach to account manager"), wxDefaultPosition, wxDefaultSize, 0 );
         itemStaticText87->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
         itemBoxSizer86->Add(itemStaticText87, 0, wxALIGN_LEFT|wxALL, 5);

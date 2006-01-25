@@ -102,7 +102,7 @@ public:
     wxTextCtrl* m_AccountPasswordCtrl;
     wxStaticText* m_AccountConfirmPasswordStaticCtrl;
     wxTextCtrl* m_AccountConfirmPasswordCtrl;
-    wxStaticText* m_AccountTransitionWarning;
+    wxStaticText* m_AccountPasswordRequirmentsCtrl;
     wxString m_strAccountEmailAddress;
     wxString m_strAccountPassword;
     wxString m_strAccountConfirmPassword;

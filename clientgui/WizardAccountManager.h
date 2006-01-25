@@ -110,6 +110,8 @@ public:
     CAccountInfoPage* m_AccountInfoPage;
     CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
     CCompletionPage* m_CompletionPage;
+    CCompletionUpdatePage* m_CompletionUpdatePage;
+    CCompletionRemovePage* m_CompletionRemovePage;
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrNotDetectedPage* m_ErrNotDetectedPage;
     CErrUnavailablePage* m_ErrUnavailablePage;

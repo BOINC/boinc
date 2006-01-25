@@ -46,6 +46,7 @@
 #include "ProxyPage.h"
 
 ////@begin XPM images
+#include "res/attachprojectwizard.xpm"
 ////@end XPM images
 
 
@@ -115,7 +116,9 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
  
     // Wizard Detection
     IsAttachToProjectWizard = true;
-    IsAccountManagerWizard = false;
+    IsAccountManagerAttachWizard = false;
+    IsAccountManagerUpdateWizard = false;
+    IsAccountManagerRemoveWizard = false;
 
     // Global wizard status
     project_config.clear();
@@ -129,9 +132,9 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
  
     wxBitmap wizardBitmap;
     if (wxGetApp().GetBrand()->IsBranded()) {
-        wizardBitmap = *(wxGetApp().GetBrand()->GetAPWizardLogo());
+        wizardBitmap = wxBitmap(*(wxGetApp().GetBrand()->GetAPWizardLogo()));
     } else {
-        wizardBitmap = GetBitmapResource(wxT("res/attachprojectwizard.xpm"));
+        wizardBitmap = wxBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     }
 ////@begin CWizardAttachProject creation
     CBOINCBaseWizard::Create( parent, id, _("Attach to Project"), wizardBitmap, pos );
@@ -295,6 +298,11 @@ wxBitmap CWizardAttachProject::GetBitmapResource( const wxString& name )
 {
     // Bitmap retrieval
 ////@begin CWizardAttachProject bitmap retrieval
+    if (name == wxT("res/attachprojectwizard.xpm"))
+    {
+        wxBitmap bitmap(attachprojectwizard_xpm);
+        return bitmap;
+    }
     return wxNullBitmap;
 ////@end CWizardAttachProject bitmap retrieval
 }

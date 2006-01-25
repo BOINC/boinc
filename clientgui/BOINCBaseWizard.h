@@ -72,7 +72,9 @@ public:
 
     /// Wizard Detection
     bool IsAttachToProjectWizard;
-    bool IsAccountManagerWizard;
+    bool IsAccountManagerAttachWizard;
+    bool IsAccountManagerUpdateWizard;
+    bool IsAccountManagerRemoveWizard;
 
     /// Global Wizard Status
     PROJECT_CONFIG      project_config;

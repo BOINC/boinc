@@ -101,7 +101,7 @@ void CAccountManagerStatusPage::CreateControls()
     itemWizardPage111->SetSizer(itemBoxSizer112);
 
     wxStaticText* itemStaticText113 = new wxStaticText;
-    itemStaticText113->Create( itemWizardPage111, wxID_STATIC, _("Account Manager Status"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText113->Create( itemWizardPage111, wxID_STATIC, _("Account Manager"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText113->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer112->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -143,7 +143,7 @@ void CAccountManagerStatusPage::CreateControls()
     itemBoxSizer12->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText14 = new wxStaticText;
-    itemStaticText14->Create( itemWizardPage111, wxID_STATIC, _("Updates BOINC with the latest settings from the account manager."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText14->Create( itemWizardPage111, wxID_STATIC, _("Get latest settings from account manager."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer12->Add(itemStaticText14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_AcctManagerRemoveCtrl = new wxRadioButton;
@@ -157,7 +157,7 @@ void CAccountManagerStatusPage::CreateControls()
     itemBoxSizer16->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText18 = new wxStaticText;
-    itemStaticText18->Create( itemWizardPage111, wxID_STATIC, _("Removes BOINC from account manager control."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText18->Create( itemWizardPage111, wxID_STATIC, _("Stop using account manager."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer16->Add(itemStaticText18, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
@@ -192,9 +192,15 @@ wxWizardPageEx* CAccountManagerStatusPage::GetNext() const
     } else if (m_AcctManagerUpdateCtrl->GetValue()) {
         // We are supposed to update and we do not have credentials to the
         //   account manager
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerAttachWizard = false;
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerUpdateWizard = true;
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerRemoveWizard = false;
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else if (m_AcctManagerRemoveCtrl->GetValue()) {
         // We are supposed to the account manager
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerAttachWizard = false;
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerUpdateWizard = false;
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerRemoveWizard = true;
         ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->SetProjectURL(wxEmptyString);
         ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->SetAccountEmailAddress(wxEmptyString);
         ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->SetAccountPassword(wxEmptyString);

@@ -55,6 +55,8 @@ boinc_gui_SOURCES = \
     BOINCBaseWizard.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
+    CompletionUpdatePage.cpp \
+    CompletionRemovePage.cpp \
     NoInternetConnectionPage.cpp \
     NotDetectedPage.cpp \
     NotFoundPage.cpp \

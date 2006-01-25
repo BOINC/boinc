@@ -112,7 +112,7 @@ void CErrNotDetectedPage::CreateControls()
         itemBoxSizer91->Add(itemStaticText95, 0, wxALIGN_LEFT|wxALL, 5);
     }
 
-    if (IS_ACCOUNTMANAGERWIZARD()) {
+    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
         itemStaticText92->Create( itemWizardPage90, wxID_STATIC, _("Account manager not found"), wxDefaultPosition, wxDefaultSize, 0 );
         itemStaticText92->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
         itemBoxSizer91->Add(itemStaticText92, 0, wxALIGN_LEFT|wxALL, 5);

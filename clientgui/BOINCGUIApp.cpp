@@ -47,7 +47,6 @@
 #endif
 
 #include "res/boincsm.xpm"
-#include "res/attachprojectwizard.xpm"
 #include "res/gridrepublicamwizard.xpm"
 ////@end XPM images
 
@@ -151,7 +150,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
                   "You will need your email address if you want to change your account\n"
                   "options or use our message boards.\n"
                   "\n"
-                  "We will send you occasional emails. You can stop these at aynt time.\n"
+                  "We will send you occasional emails. You can stop these at any time.\n"
                   "We will not pass your email address on to others.\n");
             m_strAPWizardCompletionTitle = 
                 _("Project Started");
@@ -181,13 +180,13 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_bDefaultTabSpecified = false;
             m_iDefaultTab = 0;
             m_strAPWizardTitle = wxEmptyString;
-            m_bitmapAPWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_bitmapAPWizardLogo = wxNullBitmap;
             m_strAPWizardCompletionTitle = wxEmptyString;
             m_strAPWizardCompletionBrandedMessage = wxEmptyString;
             m_strAPWizardCompletionMessage = wxEmptyString;
             m_strAMWizardTitle = wxEmptyString;
             m_strAPWizardAccountInfoText = wxEmptyString;
-            m_bitmapAMWizardLogo = wxBitmap(attachprojectwizard_xpm);
+            m_bitmapAMWizardLogo = wxNullBitmap;
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = wxEmptyString;
             break;

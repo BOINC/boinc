@@ -255,21 +255,18 @@ void wxWizardEx::AddBitmapRow(wxBoxSizer *mainColumn)
     );
 
 #if wxUSE_STATBMP
-    if ( m_bitmap.Ok() )
-    {
-        m_statbmp = new wxStaticBitmap(this, wxID_ANY, m_bitmap);
-        m_sizerBmpAndPage->Add(
-            m_statbmp,
-            0, // No horizontal stretching
-            wxALL, // Border all around, top alignment
-            5 // Border width
-        );
-        m_sizerBmpAndPage->Add(
-            5,0,
-            0, // No horizontal stretching
-            wxEXPAND // No border, (mostly useless) vertical stretching
-        );
-    }
+    m_statbmp = new wxStaticBitmap(this, wxID_ANY, m_bitmap);
+    m_sizerBmpAndPage->Add(
+        m_statbmp,
+        0, // No horizontal stretching
+        wxALL, // Border all around, top alignment
+        5 // Border width
+    );
+    m_sizerBmpAndPage->Add(
+        5,0,
+        0, // No horizontal stretching
+        wxEXPAND // No border, (mostly useless) vertical stretching
+    );
 #endif
 
     // Added to m_sizerBmpAndPage in FinishLayout
@@ -529,7 +526,8 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     // 1) a default bitmap was selected in constructor
     // 2) this page was constructed with a bitmap
     // 3) this bitmap is not the previous bitmap
-    if ( m_statbmp && (bmpCur != bmpPrev) )
+    if ( (m_statbmp && (bmpCur != bmpPrev)) ||
+         (m_statbmp && (bmpCur == wxNullBitmap)))
     {
         wxBitmap bmp;
         if ( bmpIsDefault )

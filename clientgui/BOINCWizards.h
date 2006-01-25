@@ -44,6 +44,8 @@
 #define ID_ERRALREADYEXISTSPAGE 10110
 #define ID_ERRPROXYINFOPAGE 10111
 #define ID_ERRPROXYPAGE 10112
+#define ID_COMPLETIONUPDATEPAGE 10113
+#define ID_COMPLETIONREMOVEPAGE 10114
 
 // Attach to Project Wizard Pages
 #define ID_PROJECTINFOPAGE 10200
@@ -99,6 +101,7 @@
 #define ID_ACCOUNTPASSWORDCTRL 11405
 #define ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL 11406
 #define ID_ACCOUNTCONFIRMPASSWORDCTRL 11407
+#define ID_ACCOUNTREQUIREMENTSSTATICCTRL 11408
 
 // Proxy Page Controls
 #define ID_PROXYHTTPSERVERSTATICCTRL 11500
@@ -132,6 +135,8 @@ class CWelcomePage;
 class CAccountKeyPage;
 class CAccountInfoPage;
 class CCompletionPage;
+class CCompletionUpdatePage;
+class CCompletionRemovePage;
 class CCompletionErrorPage;
 class CErrNotDetectedPage;
 class CErrUnavailablePage;
@@ -169,8 +174,14 @@ class CErrProxyPage;
 #define IS_ATTACHTOPROJECTWIZARD() \
     ((CBOINCBaseWizard*)GetParent())->IsAttachToProjectWizard
 
-#define IS_ACCOUNTMANAGERWIZARD() \
-    ((CBOINCBaseWizard*)GetParent())->IsAccountManagerWizard
+#define IS_ACCOUNTMANAGERATTACHWIZARD() \
+    ((CBOINCBaseWizard*)GetParent())->IsAccountManagerAttachWizard
+
+#define IS_ACCOUNTMANAGERUPDATEWIZARD() \
+    ((CBOINCBaseWizard*)GetParent())->IsAccountManagerUpdateWizard
+
+#define IS_ACCOUNTMANAGERREMOVEWIZARD() \
+    ((CBOINCBaseWizard*)GetParent())->IsAccountManagerRemoveWizard
 
 
 // Commonly defined macros
