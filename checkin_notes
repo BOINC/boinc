@@ -927,3 +927,10 @@ David  24 Jan 2006
 
     client/
         cs_statefile.C
+
+Charlie 24 Jan 2006
+    -Mac: Change conditional compile #ifdef __ppc__ in mac_backtrace.C 
+      so library links properly for Intel Macs (but backtrace is disabled).
+
+    lib/
+        mac_backtrace.C

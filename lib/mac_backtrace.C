@@ -49,7 +49,6 @@
 *
 */
 
-#ifdef __ppc__
 
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
@@ -78,6 +77,7 @@ static int OutputFrames(const MacBTPPCFrame *frameArray, unsigned long frameCoun
 
 
 void PrintBacktrace(void) {
+#ifdef __ppc__
         int                 err;
         MacBTPPCFrame       frames[kFrameCount];
         unsigned long       frameCount;
@@ -95,8 +95,11 @@ void PrintBacktrace(void) {
                 }
                 err = OutputFrames(frames, validFrames, true);
         }
+#endif  // __ppc__
 }
 
+
+#ifdef __ppc__
 
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
