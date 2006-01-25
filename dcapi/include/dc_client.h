@@ -11,8 +11,10 @@ extern "C" {
 #endif
 
 /* For return value */
-#define DC_OK	 0
-#define DC_ERROR 1
+/*enum {
+	DC_OK,
+	DC_ERROR
+};*/
 
 /* For the DC_ResolveFileName function */
 #define DC_FILE_IN	0
@@ -106,7 +108,7 @@ int DC_FractionDone(double fraction);
  *  Tell DC to finish this work unit and start a new one.
  *  It should be called as the last function and then exit.
  */
-void DC_Finish(void);
+void DC_Finish(int exitcode);
 
 #ifdef __cplusplus
 }
