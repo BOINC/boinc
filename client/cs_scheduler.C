@@ -86,6 +86,10 @@ int CLIENT_STATE::proj_min_results(PROJECT* p, double subset_resource_share) {
 void PROJECT::set_min_rpc_time(double future_time) {
     if (future_time > min_rpc_time) {
         min_rpc_time = future_time;
+        msg_printf(this, MSG_INFO,
+            "Deferring scheduler requests for %s\n",
+            timediff_format(min_rpc_time - gstate.now).c_str()
+        );
     }
     min_report_min_rpc_time = 0;
 }

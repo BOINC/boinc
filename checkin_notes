@@ -1008,3 +1008,9 @@ David  25 Jan 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  25 Jan 2006
+    - core client: added "Deferring scheduler requests for X" messages
+
+    client/
+        cs_scheduler.C
