@@ -242,6 +242,7 @@ private:
     bool garbage_collect();
     bool garbage_collect_always();
     bool update_results();
+    void free_mem();
 
 // --------------- cs_account.C:
 public:

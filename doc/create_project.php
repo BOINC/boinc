@@ -83,7 +83,7 @@ Creating a BOINC project
 <li> <a href=tool_xadd.php>Adding applications/platforms</a>
 <li> <a href=tool_update_versions.php>Adding application versions</a>
 <li> <a href=project_cookbook.php>Project creation cookbook</a>
-<li> <a href=http://j4cques.blogspot.com/>Another cookbook, from Jacques Jontignie</a>
+<li> <a href=http://j4cques.blogspot.com/>Another cookbook, from Jacques Fontignie</a>
 <li> <a href=bashford_cookbook.txt>Another cookbook, from Don Bashford</a>
 </ul>
 <li> <a href=tool_start.php>Project control</a>

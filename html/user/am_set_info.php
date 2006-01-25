@@ -91,17 +91,20 @@ if ($password_hash) {
     $query .= " passwd_hash='$password_hash', ";
 }
 
-// the seti_id=seti_id is to make it legal if no fields updated
-//
-$query = "update user set $query seti_id=seti_id where id=$user->id";
-$result = mysql_query($query);
-if ($result) {
-    if ($old_email_addr) {
-        send_verify_email($old_email_addr, $email_addr, $user);
+if (strlen($query)) {
+    $query = "update user set $query where id=$user->id";
+    $result = mysql_query($query);
+    if ($result) {
+        if ($old_email_addr) {
+            send_verify_email($old_email_addr, $email_addr, $user);
+        }
+        success("");
+    } else {
+        error("database error: ".mysql_error());
     }
-    success("");
 } else {
-    error("database error: ".mysql_error());
+    success("");
 }
+
 
 ?>

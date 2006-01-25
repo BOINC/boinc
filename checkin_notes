@@ -989,3 +989,15 @@ Rom    25 Jan 2006
         WizardAccountManager.cpp, .h
         WizardAttachProject.cpp
         wizardex.cpp
+
+David  25 Jan 2006
+    - core client: add declarations of free_mem() functions
+        (but still comment them out)
+
+    client/
+        app.h
+        client_state.h
+    html/user/
+        am_seti_info.php
+    lib/
+        util.C

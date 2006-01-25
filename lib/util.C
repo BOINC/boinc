@@ -571,18 +571,18 @@ string timediff_format(double diff) {
     int hours = tdiff % 24;
     tdiff /= 24;
     if (!tdiff) {
-        sprintf(buf, "%d hours, %d minutes, and %d seconds", hours, min, sex);
+        sprintf(buf, "%d hours, %d minutes and %d seconds", hours, min, sex);
         return buf;
     }
 
     int days = tdiff % 7;
     tdiff /= 7;
     if (!tdiff) {
-        sprintf(buf, "%d days, %d hours, %d minutes, and %d seconds", days, hours, min, sex);
+        sprintf(buf, "%d days, %d hours, %d minutes and %d seconds", days, hours, min, sex);
         return buf;
     }
 
-    sprintf(buf, "%d weeks, %d days, %d hours, %d minutes, and %d seconds", (int)tdiff, days, hours, min, sex);
+    sprintf(buf, "%d weeks, %d days, %d hours, %d minutes and %d seconds", (int)tdiff, days, hours, min, sex);
     return buf;
 }
 

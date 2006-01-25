@@ -70,7 +70,9 @@ resources.
     To participate:
     <a href=projects.php>select projects</a>, then
     <a href=download.php><b>download</b></a> and run BOINC software,
-    and enter the projects' URLs.
+    and enter the project's URL
+    (to get the URL: visit the project's web site,
+    and copy the URL from your browser's address field).
     <p>
     <a href=links.php>Web sites for BOINC participants</a>.
     <p>

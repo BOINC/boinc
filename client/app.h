@@ -222,6 +222,7 @@ public:
     void upload_notify_app(FILE_INFO*);
     bool want_network();
     void network_available();
+    void free_mem();
 
     // screensaver-related functions
     ACTIVE_TASK* get_ss_app();
