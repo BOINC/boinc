@@ -126,22 +126,22 @@ int ACCT_MGR_OP::do_rpc(
     }
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (p->attached_via_acct_mgr) {
-            fprintf(f,
-                "   <project>\n"
-                "      <url>%s</url>\n"
-                "      <project_name>%s</project_name>\n"
-                "      <suspended_via_gui>%d</suspended_via_gui>\n"
-                "      <account_key>%s</account_key>\n"
-                "      <hostid>%d</hostid>\n"
-                "   </project>\n",
-                p->master_url,
-                p->project_name,
-                p->suspended_via_gui,
-                p->authenticator,
-                p->hostid
-            );
-        }
+        fprintf(f,
+            "   <project>\n"
+            "      <url>%s</url>\n"
+            "      <project_name>%s</project_name>\n"
+            "      <suspended_via_gui>%d</suspended_via_gui>\n"
+            "      <account_key>%s</account_key>\n"
+            "      <hostid>%d</hostid>\n"
+            "%s"
+            "   </project>\n",
+            p->master_url,
+            p->project_name,
+            p->suspended_via_gui,
+            p->authenticator,
+            p->hostid,
+            p->attached_via_acct_mgr?"      <attached_via_acct_mgr/>\n":""
+        );
     }
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);

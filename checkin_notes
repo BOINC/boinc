@@ -1014,3 +1014,10 @@ David  25 Jan 2006
 
     client/
         cs_scheduler.C
+
+David  25 Jan 2006
+    - account manager RPC request now lists all projects;
+        <attached_via_acct_mgr/> is included for those attached via AMS
+
+    client/
+        acct_mgr.C

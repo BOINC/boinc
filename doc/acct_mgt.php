@@ -205,6 +205,7 @@ list_item("input", html_text("
        <suspended_via_gui>0</suspended_via_gui>
        <account_key>397d250e02ec02be8141b8d109d5ec73e5</account_key>
        <hostid>NNN</hostid>
+       [ <attached_via_acct_mgr/> ]
     </project>
     [ <gui_rpc_port>N</gui_rpc_port> ]
     [ <gui_rpc_password>xxxx</gui_rpc_password> ]
