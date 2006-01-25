@@ -29,7 +29,7 @@ echo "Development (debug) build"
 style="Development"
 else
 echo "Deployment (release) build"
-style="Deployment"
+style="ppc_Deployment"
 fi
 
 if [ "$1" = "-noclean" ] || [ "$2" = "-noclean" ]; then
@@ -60,13 +60,10 @@ echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions 
 echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
 exit 1
 fi
-elif [ "$major" = "7" ]; then
-echo "Building BOINC under System 10.3"
-sdkname=""
 else
-echo "ERROR: Building BOINC requires System 10.3 or later.  For details, see build instructions at "
+echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at "
 echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
 exit 1
 fi
 
-xcodebuild -project boinc.xcodeproj -target Build_All -buildstyle $style $doclean build NEXTROOT=$sdkname SDKROOT=$sdkname
+xcodebuild -project boinc.xcodeproj -target Build_All -configuration $style $doclean build NEXTROOT=$sdkname SDKROOT=$sdkname
