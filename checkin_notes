@@ -1021,3 +1021,17 @@ David  25 Jan 2006
 
     client/
         acct_mgr.C
+
+David  25 Jan 2006
+    - Initialize result.batch to workunit.batch
+        This required adding a batch field to TRANSITIONER_ITEM.
+        (for Rosetta@home)
+
+    Note: if you're using the batch field for anything,
+    you should add indices on it to workunit and/or result
+
+
+    db/
+        boinc_db.C,h
+    tools/
+        backend_lib.C

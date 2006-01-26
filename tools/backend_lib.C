@@ -322,11 +322,9 @@ static int process_wu_template(
     return 0;
 }
 
-// Set the time-varying fields of a result to their initial state.
-// This is used to create clones of existing results,
-// so set only the time-varying fields
+// initialize an about-to-be-created result, given its WU
 //
-void initialize_result(DB_RESULT& result, TRANSITIONER_ITEM& wu) {
+static void initialize_result(DB_RESULT& result, TRANSITIONER_ITEM& wu) {
     result.id = 0;
     result.create_time = time(0);
     result.workunitid = wu.id;
@@ -346,6 +344,7 @@ void initialize_result(DB_RESULT& result, TRANSITIONER_ITEM& wu) {
     result.granted_credit = 0;
     result.appid = wu.appid;
     result.priority = wu.priority;
+    result.batch = wu.batch;
 }
 
 // Create a new result for the given WU.

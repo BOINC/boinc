@@ -482,6 +482,7 @@ struct TRANSITIONER_ITEM {
     int target_nresults;
     char result_template_file[64];
     int priority;
+    int batch;
     int res_id;
     char res_name[256];
     int res_report_deadline;

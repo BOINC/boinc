@@ -851,6 +851,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     target_nresults = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
     priority = atoi(r[i++]);
+    batch = atoi(r[i++]);
 
     // use safe_atoi() from here on cuz they might not be there
     //
@@ -908,6 +909,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.target_nresults, "
             "   wu.result_template_file, "
             "   wu.priority, "
+            "   wu.batch, "
             "   res.id, "
             "   res.name, "
             "   res.report_deadline, "
