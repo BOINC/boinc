@@ -1035,3 +1035,10 @@ David  25 Jan 2006
         boinc_db.C,h
     tools/
         backend_lib.C
+
+David  26 Jan 2006
+    - core client: always use HTTP 1.1
+        (from Carl Christensen)
+
+    client/
+        http_curl.C

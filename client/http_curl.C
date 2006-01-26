@@ -334,8 +334,8 @@ The checking this option controls is of the identity that the server claims. The
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, 300L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
     
-    // force curl to use HTTP/1.0 (which the old BOINC http libraries did)
-    //curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+    // force curl to use HTTP/1.1
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 5L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
