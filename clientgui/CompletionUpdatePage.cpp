@@ -179,11 +179,11 @@ void CCompletionUpdatePage::OnPageChanged( wxWizardExEvent& event ) {
         // %s is the project name
         //    i.e. 'GridRepublic'
         strTitle.Printf(
-            _("Updating %s successful!"),
+            _("Update from %s completed."),
             wxGetApp().GetBrand()->GetProjectName().c_str()
         );
     } else {
-        strTitle = _("Update successful!");
+        strTitle = _("Update completed.");
     }
 
     m_pCompletionTitle->SetLabel( strTitle );

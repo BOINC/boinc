@@ -307,8 +307,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountUseExistingCtrl->Hide();
         m_pAccountInformationStaticCtrl->Hide();
         m_pAccountManagerInformationStaticCtrl->SetLabel(
-            _("Please provide the email address and password you used on\n"
-              "the website so that your projects and preferences can be retrieved.")
+            _("Enter the email address and password you used on\n"
+              "the web site.")
         );
         m_pAccountConfirmPasswordStaticCtrl->Hide();
         m_pAccountConfirmPasswordCtrl->Hide();
@@ -347,8 +347,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
         if (m_pAccountManagerInformationStaticCtrl) {
             m_pAccountManagerInformationStaticCtrl->SetLabel(
-                _("Please provide the username and password you used on\n"
-                "the website so that your projects and preferences can be retrieved.")
+                _("Enter the username and password you used on\n"
+                "the web site.")
             );
         }
         m_pAccountEmailAddressStaticCtrl->SetLabel(
@@ -357,8 +357,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     } else {
         if (m_pAccountManagerInformationStaticCtrl) {
             m_pAccountManagerInformationStaticCtrl->SetLabel(
-                _("Please provide the email address and password you used on\n"
-                "the website so that your projects and preferences can be retrieved.")
+                _("Enter the email address and password you used on\n"
+                "the web site.")
             );
         }
         m_pAccountEmailAddressStaticCtrl->SetLabel(

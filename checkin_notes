@@ -1074,3 +1074,14 @@ David  27 Jan 2006
 
     m4/
         kc_mysql.m4
+
+David  27 Jan 2006
+    - Manager:
+        "Website" is still not a word.
+        Don't use exclamation points.
+
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp
+        CompletionRemovePage.cpp
+        CompletionUpdatePage.cpp

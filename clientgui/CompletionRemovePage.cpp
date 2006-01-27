@@ -179,7 +179,7 @@ void CCompletionRemovePage::OnPageChanged( wxWizardExEvent& event ) {
         // %s is the project name
         //    i.e. 'GridRepublic'
         strTitle.Printf(
-            _("Removal from %s successful!"),
+            _("Removal from %s completed."),
             wxGetApp().GetBrand()->GetProjectName().c_str()
         );
     } else {

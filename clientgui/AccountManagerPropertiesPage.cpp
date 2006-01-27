@@ -169,7 +169,7 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
     wxASSERT(m_pProgressIndicator);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Communicating with website\nPlease wait...")
+        _("Communicating with server -\nplease wait.")
     );
 
     SetProjectPropertiesSucceeded(false);
