@@ -110,6 +110,7 @@ void CCompletionPage::CreateControls()
 
     m_pCompletionWelcome = new wxStaticText;
     m_pCompletionWelcome->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pCompletionWelcome->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE));
     itemBoxSizer80->Add(m_pCompletionWelcome, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pCompletionBrandedMessage = new wxStaticText;

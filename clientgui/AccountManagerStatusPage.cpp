@@ -198,6 +198,8 @@ wxWizardPageEx* CAccountManagerStatusPage::GetNext() const
     } else if (m_pAcctManagerUpdateCtrl->GetValue() && ((CWizardAccountManager*)GetParent())->m_bCredentialsCached) {
         // We are supposed to update and we already have credentials to the
         //   account manager
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerUpdateWizard = true;
+        ((CWizardAccountManager*)GetParent())->IsAccountManagerRemoveWizard = false;
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
     } else if (m_pAcctManagerUpdateCtrl->GetValue()) {
         // We are supposed to update and we do not have credentials to the
