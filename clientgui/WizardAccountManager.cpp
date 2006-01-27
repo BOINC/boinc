@@ -113,9 +113,9 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
 
     // Wizard Detection
     IsAttachToProjectWizard = false;
-    IsAccountManagerAttachWizard = true;
-    IsAccountManagerUpdateWizard = true;
-    IsAccountManagerRemoveWizard = true;
+    IsAccountManagerWizard = true;
+    IsAccountManagerUpdateWizard = false;
+    IsAccountManagerRemoveWizard = false;
  
     // Global wizard status
     project_config.clear();
@@ -270,21 +270,14 @@ bool CWizardAccountManager::Run() {
     }
 
     if ( ami.acct_mgr_url.size() && !ami.have_credentials && m_AccountManagerStatusPage) {
-        m_AccountManagerStatusPage->m_AcctManagerUpdateCtrl->SetValue(true);
-        m_AccountManagerStatusPage->m_AcctManagerRemoveCtrl->SetValue(false);
-        IsAccountManagerAttachWizard = false;
+        m_AccountManagerStatusPage->m_pAcctManagerUpdateCtrl->SetValue(true);
+        m_AccountManagerStatusPage->m_pAcctManagerRemoveCtrl->SetValue(false);
         IsAccountManagerUpdateWizard = true;
         IsAccountManagerRemoveWizard = false;
         return RunWizard(m_AccountInfoPage);
     } else if ( ami.acct_mgr_url.size() && m_AccountManagerStatusPage) {
-        IsAccountManagerAttachWizard = false;
-        IsAccountManagerUpdateWizard = true;
-        IsAccountManagerRemoveWizard = true;
         return RunWizard(m_AccountManagerStatusPage);
     } else if (m_WelcomePage) {
-        IsAccountManagerAttachWizard = true;
-        IsAccountManagerUpdateWizard = false;
-        IsAccountManagerRemoveWizard = false;
         return RunWizard(m_WelcomePage);
     }
 
@@ -477,19 +470,19 @@ void CWizardAccountManager::_ProcessCancelEvent( wxWizardExEvent& event ) {
     // Page specific rules - Disable the validator(s)
     if (wxYES == iRetVal) {
         if (page == m_AccountManagerInfoPage) {
-            m_AccountManagerInfoPage->m_AccountManagerUrlCtrl->SetValidator(wxDefaultValidator);
+            m_AccountManagerInfoPage->m_pProjectUrlCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_AccountInfoPage) {
-            m_AccountInfoPage->m_AccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
-            m_AccountInfoPage->m_AccountPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_AccountInfoPage->m_pAccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
+            m_AccountInfoPage->m_pAccountPasswordCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_ErrProxyPage) {
-            m_ErrProxyPage->m_ProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSPasswordCtrl->SetValidator(wxDefaultValidator);
         }
     }
 

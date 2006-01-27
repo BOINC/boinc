@@ -70,6 +70,8 @@ CErrAlreadyExistsPage::CErrAlreadyExistsPage( CBOINCBaseWizard* parent )
 bool CErrAlreadyExistsPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrAlreadyExistsPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrAlreadyExistsPage member initialisation
  
 ////@begin CErrAlreadyExistsPage creation
@@ -90,22 +92,21 @@ bool CErrAlreadyExistsPage::Create( CBOINCBaseWizard* parent )
 void CErrAlreadyExistsPage::CreateControls()
 {    
 ////@begin CErrAlreadyExistsPage content construction
-    CErrAlreadyExistsPage* itemWizardPage116 = this;
+    CErrAlreadyExistsPage* itemWizardPage96 = this;
 
-    wxBoxSizer* itemBoxSizer117 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage116->SetSizer(itemBoxSizer117);
+    wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage96->SetSizer(itemBoxSizer97);
 
-    wxStaticText* itemStaticText118 = new wxStaticText;
-    itemStaticText118->Create( itemWizardPage116, wxID_STATIC, _("Email address already in use"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText118->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer117->Add(itemStaticText118, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer97->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer117->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText120 = new wxStaticText;
-    itemStaticText120->Create( itemWizardPage116, wxID_STATIC, _("An account with that email address already exists and has a\ndifferent password than the one you entered.\n\nPlease visit the project's web site and follow the instructions there."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer117->Add(itemStaticText120, 0, wxALIGN_LEFT|wxALL, 5);
-
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrAlreadyExistsPage content construction
 }
  
@@ -166,7 +167,34 @@ wxIcon CErrAlreadyExistsPage::GetIconResource( const wxString& name )
  */
  
 void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Username already in use")
+        );
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("An account with that username already exists and has a\n"
+              "different password than the one you entered.\n"
+              "\n"
+              "Please visit the project's web site and follow the instructions there.")
+        );
+    } else {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Email address already in use")
+        );
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("An account with that email address already exists and has a\n"
+              "different password than the one you entered.\n"
+              "\n"
+              "Please visit the project's web site and follow the instructions there.")
+        );
+    }
+
+    Fit();
 }
   
 /*!

@@ -75,6 +75,16 @@ CAccountManagerStatusPage::CAccountManagerStatusPage( CBOINCBaseWizard* parent )
 bool CAccountManagerStatusPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountManagerStatusPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pAcctManagerDescriptionStaticCtrl = NULL;
+    m_pAcctManagerNameStaticCtrl = NULL;
+    m_pAcctManagerNameCtrl = NULL;
+    m_pAcctManagerURLStaticCtrl = NULL;
+    m_pAcctManagerURLCtrl = NULL;
+    m_pAcctManagerUpdateCtrl = NULL;
+    m_pAcctManagerUpdateDescriptionStaticCtrl = NULL;
+    m_pAcctManagerRemoveCtrl = NULL;
+    m_pAcctManagerRemoveDescriptionStaticCtrl = NULL;
 ////@end CAccountManagerStatusPage member initialisation
 
 ////@begin CAccountManagerStatusPage creation
@@ -100,69 +110,69 @@ void CAccountManagerStatusPage::CreateControls()
     wxBoxSizer* itemBoxSizer112 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage111->SetSizer(itemBoxSizer112);
 
-    wxStaticText* itemStaticText113 = new wxStaticText;
-    itemStaticText113->Create( itemWizardPage111, wxID_STATIC, _("Account Manager"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText113->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer112->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage111, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer112->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer112->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText4 = new wxStaticText;
-    itemStaticText4->Create( itemWizardPage111, wxID_STATIC, _("Your current account manager is:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer112->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
+    m_pAcctManagerDescriptionStaticCtrl = new wxStaticText;
+    m_pAcctManagerDescriptionStaticCtrl->Create( itemWizardPage111, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer112->Add(m_pAcctManagerDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
 
     wxFlexGridSizer* itemFlexGridSizer5 = new wxFlexGridSizer(2, 2, 0, 0);
     itemBoxSizer112->Add(itemFlexGridSizer5, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxStaticText* itemStaticText6 = new wxStaticText;
-    itemStaticText6->Create( itemWizardPage111, wxID_STATIC, _("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_pAcctManagerNameStaticCtrl = new wxStaticText;
+    m_pAcctManagerNameStaticCtrl->Create( itemWizardPage111, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer5->Add(m_pAcctManagerNameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    m_AcctManagerNameCtrl = new wxStaticText;
-    m_AcctManagerNameCtrl->Create( itemWizardPage111, ID_ACCTMANAGERNAMECTRL, _("foo"), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer5->Add(m_AcctManagerNameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pAcctManagerNameCtrl = new wxStaticText;
+    m_pAcctManagerNameCtrl->Create( itemWizardPage111, ID_ACCTMANAGERNAMECTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer5->Add(m_pAcctManagerNameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText8 = new wxStaticText;
-    itemStaticText8->Create( itemWizardPage111, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_pAcctManagerURLStaticCtrl = new wxStaticText;
+    m_pAcctManagerURLStaticCtrl->Create( itemWizardPage111, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer5->Add(m_pAcctManagerURLStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    m_AcctManagerURLCtrl = new wxHyperLink;
-    m_AcctManagerURLCtrl->Create( itemWizardPage111, ID_ACCTMANAGERLINKCTRL, wxT("http://a/b/c"), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer5->Add(m_AcctManagerURLCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pAcctManagerURLCtrl = new wxHyperLink;
+    m_pAcctManagerURLCtrl->Create( itemWizardPage111, ID_ACCTMANAGERLINKCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer5->Add(m_pAcctManagerURLCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemBoxSizer112->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_AcctManagerUpdateCtrl = new wxRadioButton;
-    m_AcctManagerUpdateCtrl->Create( itemWizardPage111, ID_ACCTMANAGERUPDATECTRL, _("Update"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_AcctManagerUpdateCtrl->SetValue(FALSE);
-    itemBoxSizer112->Add(m_AcctManagerUpdateCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pAcctManagerUpdateCtrl = new wxRadioButton;
+    m_pAcctManagerUpdateCtrl->Create( itemWizardPage111, ID_ACCTMANAGERUPDATECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pAcctManagerUpdateCtrl->SetValue(FALSE);
+    itemBoxSizer112->Add(m_pAcctManagerUpdateCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer112->Add(itemBoxSizer12, 0, wxALIGN_LEFT|wxALL, 0);
 
     itemBoxSizer12->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText14 = new wxStaticText;
-    itemStaticText14->Create( itemWizardPage111, wxID_STATIC, _("Get latest settings from account manager."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer12->Add(itemStaticText14, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pAcctManagerUpdateDescriptionStaticCtrl = new wxStaticText;
+    m_pAcctManagerUpdateDescriptionStaticCtrl->Create( itemWizardPage111, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer12->Add(m_pAcctManagerUpdateDescriptionStaticCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_AcctManagerRemoveCtrl = new wxRadioButton;
-    m_AcctManagerRemoveCtrl->Create( itemWizardPage111, ID_ACCTMANAGERREMOVECTRL, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_AcctManagerRemoveCtrl->SetValue(FALSE);
-    itemBoxSizer112->Add(m_AcctManagerRemoveCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pAcctManagerRemoveCtrl = new wxRadioButton;
+    m_pAcctManagerRemoveCtrl->Create( itemWizardPage111, ID_ACCTMANAGERREMOVECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pAcctManagerRemoveCtrl->SetValue(FALSE);
+    itemBoxSizer112->Add(m_pAcctManagerRemoveCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer16 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer112->Add(itemBoxSizer16, 0, wxALIGN_LEFT|wxALL, 0);
 
     itemBoxSizer16->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText18 = new wxStaticText;
-    itemStaticText18->Create( itemWizardPage111, wxID_STATIC, _("Stop using account manager."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer16->Add(itemStaticText18, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pAcctManagerRemoveDescriptionStaticCtrl = new wxStaticText;
+    m_pAcctManagerRemoveDescriptionStaticCtrl->Create( itemWizardPage111, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer16->Add(m_pAcctManagerRemoveDescriptionStaticCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
-    m_AcctManagerNameCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerName) );
-    m_AcctManagerURLCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );
+    m_pAcctManagerNameCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerName) );
+    m_pAcctManagerURLCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerURL) );
 
 ////@end CAccountManagerStatusPage content construction
 }
@@ -185,20 +195,18 @@ wxWizardPageEx* CAccountManagerStatusPage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (m_AcctManagerUpdateCtrl->GetValue() && ((CWizardAccountManager*)GetParent())->m_bCredentialsCached) {
+    } else if (m_pAcctManagerUpdateCtrl->GetValue() && ((CWizardAccountManager*)GetParent())->m_bCredentialsCached) {
         // We are supposed to update and we already have credentials to the
         //   account manager
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
-    } else if (m_AcctManagerUpdateCtrl->GetValue()) {
+    } else if (m_pAcctManagerUpdateCtrl->GetValue()) {
         // We are supposed to update and we do not have credentials to the
         //   account manager
-        ((CWizardAccountManager*)GetParent())->IsAccountManagerAttachWizard = false;
         ((CWizardAccountManager*)GetParent())->IsAccountManagerUpdateWizard = true;
         ((CWizardAccountManager*)GetParent())->IsAccountManagerRemoveWizard = false;
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (m_AcctManagerRemoveCtrl->GetValue()) {
+    } else if (m_pAcctManagerRemoveCtrl->GetValue()) {
         // We are supposed to the account manager
-        ((CWizardAccountManager*)GetParent())->IsAccountManagerAttachWizard = false;
         ((CWizardAccountManager*)GetParent())->IsAccountManagerUpdateWizard = false;
         ((CWizardAccountManager*)GetParent())->IsAccountManagerRemoveWizard = true;
         ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->SetProjectURL(wxEmptyString);
@@ -250,9 +258,49 @@ wxIcon CAccountManagerStatusPage::GetIconResource( const wxString& name )
 void CAccountManagerStatusPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    // Update the Acctount Manager URL and Name static text boxes
-    m_AcctManagerNameCtrl->SetLabel(((CWizardAccountManager*)GetParent())->m_strProjectName);
-    m_AcctManagerURLCtrl->SetLabel(((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL());
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pAcctManagerDescriptionStaticCtrl);
+    wxASSERT(m_pAcctManagerNameStaticCtrl);
+    wxASSERT(m_pAcctManagerNameCtrl);
+    wxASSERT(m_pAcctManagerURLStaticCtrl);
+    wxASSERT(m_pAcctManagerURLCtrl);
+    wxASSERT(m_pAcctManagerUpdateCtrl);
+    wxASSERT(m_pAcctManagerUpdateDescriptionStaticCtrl);
+    wxASSERT(m_pAcctManagerRemoveCtrl);
+    wxASSERT(m_pAcctManagerRemoveDescriptionStaticCtrl);
+
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Account Manager")
+    );
+    m_pAcctManagerDescriptionStaticCtrl->SetLabel(
+        _("Your current account manager is:")
+    );
+    m_pAcctManagerNameStaticCtrl->SetLabel(
+        _("Name:")
+    );
+    m_pAcctManagerNameCtrl->SetLabel(
+        ((CWizardAccountManager*)GetParent())->m_strProjectName
+    );
+    m_pAcctManagerNameStaticCtrl->SetLabel(
+        _("URL:")
+    );
+    m_pAcctManagerURLCtrl->SetLabel(
+        ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL()
+    );
+    m_pAcctManagerUpdateCtrl->SetLabel(
+        _("Update")
+    );
+    m_pAcctManagerUpdateDescriptionStaticCtrl->SetLabel(
+        _("Get latest settings from account manager.")
+    );
+    m_pAcctManagerRemoveCtrl->SetLabel(
+        _("Remove")
+    );
+    m_pAcctManagerRemoveDescriptionStaticCtrl->SetLabel(
+        _("Stop using account manager.")
+    );
+
     Fit();
 }
 

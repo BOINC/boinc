@@ -74,6 +74,9 @@ public:
     static bool ShowToolTips();
 
 ////@begin CErrProxyInfoPage member variables
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pDescriptionStaticCtrl;
+    wxStaticText* m_pDirectionsStaticCtrl;
 ////@end CErrProxyInfoPage member variables
 };
 

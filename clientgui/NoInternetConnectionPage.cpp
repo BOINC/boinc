@@ -70,6 +70,8 @@ CErrNoInternetConnectionPage::CErrNoInternetConnectionPage( CBOINCBaseWizard* pa
 bool CErrNoInternetConnectionPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrNoInternetConnectionPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrNoInternetConnectionPage member initialisation
 
 ////@begin CErrNoInternetConnectionPage creation
@@ -89,22 +91,21 @@ bool CErrNoInternetConnectionPage::Create( CBOINCBaseWizard* parent )
 void CErrNoInternetConnectionPage::CreateControls()
 {    
 ////@begin CErrNoInternetConnectionPage content construction
-    CErrNoInternetConnectionPage* itemWizardPage106 = this;
+    CErrNoInternetConnectionPage* itemWizardPage96 = this;
 
-    wxBoxSizer* itemBoxSizer107 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage106->SetSizer(itemBoxSizer107);
+    wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage96->SetSizer(itemBoxSizer97);
 
-    wxStaticText* itemStaticText108 = new wxStaticText;
-    itemStaticText108->Create( itemWizardPage106, wxID_STATIC, _("No Internet connection"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText108->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer107->Add(itemStaticText108, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer97->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer107->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText110 = new wxStaticText;
-    itemStaticText110->Create( itemWizardPage106, wxID_STATIC, _("Please connect to the Internet and try again."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer107->Add(itemStaticText110, 0, wxALIGN_LEFT|wxALL, 5);
-
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrNoInternetConnectionPage content construction
 }
 
@@ -164,7 +165,19 @@ wxIcon CErrNoInternetConnectionPage::GetIconResource( const wxString& name )
  */
 
 void CErrNoInternetConnectionPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("No Internet connection")
+    );
+    m_pDirectionsStaticCtrl->SetLabel(
+        _("Please connect to the Internet and try again.")
+    );
+
+    Fit();
 }
   
 /*!

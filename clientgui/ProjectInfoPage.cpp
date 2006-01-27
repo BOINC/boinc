@@ -73,8 +73,13 @@ CProjectInfoPage::CProjectInfoPage( CBOINCBaseWizard* parent )
 bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CProjectInfoPage member initialisation
-    m_ProjectUrlStaticCtrl = NULL;
-    m_ProjectUrlCtrl = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pDescriptionStaticCtrl = NULL;
+    m_pDescription2StaticCtrl = NULL;
+    m_pProjectUrlStaticCtrl = NULL;
+    m_pProjectUrlCtrl = NULL;
+    m_pBOINCPromoStaticCtrl = NULL;
+    m_pBOINCPromoUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
  
 ////@begin CProjectInfoPage creation
@@ -84,7 +89,6 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CProjectInfoPage creation
-
     return TRUE;
 }
  
@@ -100,20 +104,20 @@ void CProjectInfoPage::CreateControls()
     wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage23->SetSizer(itemBoxSizer24);
 
-    wxStaticText* itemStaticText25 = new wxStaticText;
-    itemStaticText25->Create( itemWizardPage23, wxID_STATIC, _("Project URL"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText25->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer24->Add(itemStaticText25, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer24->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText26 = new wxStaticText;
-    itemStaticText26->Create( itemWizardPage23, wxID_STATIC, _("Enter the URL of the project's web site."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(itemStaticText26, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pDescriptionStaticCtrl = new wxStaticText;
+    m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText28 = new wxStaticText;
-    itemStaticText28->Create( itemWizardPage23, wxID_STATIC, _("You can copy and paste the URL from your browser's address bar."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(itemStaticText28, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pDescription2StaticCtrl = new wxStaticText;
+    m_pDescription2StaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer24->Add(m_pDescription2StaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -121,26 +125,26 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer30->AddGrowableCol(1);
     itemBoxSizer24->Add(itemFlexGridSizer30, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_ProjectUrlStaticCtrl = new wxStaticText;
-    m_ProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, _("Project &URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer30->Add(m_ProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectUrlStaticCtrl = new wxStaticText;
+    m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer30->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_ProjectUrlCtrl = new wxTextCtrl;
-    m_ProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, _T(""), wxDefaultPosition, wxSize(250, -1), 0 );
-    itemFlexGridSizer30->Add(m_ProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectUrlCtrl = new wxTextCtrl;
+    m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer30->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText34 = new wxStaticText;
-    itemStaticText34->Create( itemWizardPage23, wxID_STATIC, _("For a list of BOINC-based projects go to:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(itemStaticText34, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pBOINCPromoStaticCtrl = new wxStaticText;
+    m_pBOINCPromoStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer24->Add(m_pBOINCPromoStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxHyperLink* itemHyperLink35 = new wxHyperLink;
-    itemHyperLink35->Create( itemWizardPage23, ID_BOINCHYPERLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemBoxSizer24->Add(itemHyperLink35, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pBOINCPromoUrlCtrl = new wxHyperLink;
+    m_pBOINCPromoUrlCtrl->Create( itemWizardPage23, ID_BOINCHYPERLINK, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    itemBoxSizer24->Add(m_pBOINCPromoUrlCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     // Set validators
-    m_ProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
+    m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
 ////@end CProjectInfoPage content construction
 }
  
@@ -205,7 +209,38 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& name )
  */
 
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
-    if (m_ProjectUrlCtrl) m_ProjectUrlCtrl->SetFocus();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDescriptionStaticCtrl);
+    wxASSERT(m_pDescription2StaticCtrl);
+    wxASSERT(m_pProjectUrlStaticCtrl);
+    wxASSERT(m_pProjectUrlCtrl);
+    wxASSERT(m_pBOINCPromoStaticCtrl);
+    wxASSERT(m_pBOINCPromoUrlCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Project URL")
+    );
+    m_pDescriptionStaticCtrl->SetLabel(
+        _("Enter the URL of the project's web site.")
+    );
+    m_pDescription2StaticCtrl->SetLabel(
+        _("You can copy and paste the URL from your browser's address bar.")
+    );
+    m_pProjectUrlStaticCtrl->SetLabel(
+        _("Project &URL:")
+    );
+    m_pBOINCPromoStaticCtrl->SetLabel(
+        _("For a list of BOINC-based projects go to:")
+    );
+    m_pBOINCPromoUrlCtrl->SetLabel(
+        wxT("http://boinc.berkeley.edu/")
+    );
+
+    m_pProjectUrlCtrl->SetFocus();
+
+    Fit();
 }
   
 /*!

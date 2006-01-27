@@ -70,6 +70,8 @@ CErrAlreadyAttachedPage::CErrAlreadyAttachedPage( CBOINCBaseWizard* parent )
 bool CErrAlreadyAttachedPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrAlreadyAttachedPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrAlreadyAttachedPage member initialisation
 
 ////@begin CErrAlreadyAttachedPage creation
@@ -89,22 +91,21 @@ bool CErrAlreadyAttachedPage::Create( CBOINCBaseWizard* parent )
 void CErrAlreadyAttachedPage::CreateControls()
 {    
 ////@begin CErrAlreadyAttachedPage content construction
-    CErrAlreadyAttachedPage* itemWizardPage101 = this;
+    CErrAlreadyAttachedPage* itemWizardPage96 = this;
 
-    wxBoxSizer* itemBoxSizer102 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage101->SetSizer(itemBoxSizer102);
+    wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage96->SetSizer(itemBoxSizer97);
 
-    wxStaticText* itemStaticText103 = new wxStaticText;
-    itemStaticText103->Create( itemWizardPage101, wxID_STATIC, _("Already attached to project"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText103->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer102->Add(itemStaticText103, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer97->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer102->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText105 = new wxStaticText;
-    itemStaticText105->Create( itemWizardPage101, wxID_STATIC, _("You are already attached to this project."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer102->Add(itemStaticText105, 0, wxALIGN_LEFT|wxALL, 5);
-
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrAlreadyAttachedPage content construction
 }
 
@@ -164,7 +165,19 @@ wxIcon CErrAlreadyAttachedPage::GetIconResource( const wxString& name )
  */
 
 void CErrAlreadyAttachedPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Already attached to project")
+    );
+    m_pDirectionsStaticCtrl->SetLabel(
+        _("You are already attached to this project.")
+    );
+
+    Fit();
 }
 
 /*!

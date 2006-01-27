@@ -70,6 +70,8 @@ CErrNotFoundPage::CErrNotFoundPage( CBOINCBaseWizard* parent )
 bool CErrNotFoundPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrNotFoundPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrNotFoundPage member initialisation
  
 ////@begin CErrNotFoundPage creation
@@ -90,22 +92,21 @@ bool CErrNotFoundPage::Create( CBOINCBaseWizard* parent )
 void CErrNotFoundPage::CreateControls()
 {    
 ////@begin CErrNotFoundPage content construction
-    CErrNotFoundPage* itemWizardPage111 = this;
+    CErrNotFoundPage* itemWizardPage96 = this;
 
-    wxBoxSizer* itemBoxSizer112 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage111->SetSizer(itemBoxSizer112);
+    wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage96->SetSizer(itemBoxSizer97);
 
-    wxStaticText* itemStaticText113 = new wxStaticText;
-    itemStaticText113->Create( itemWizardPage111, wxID_STATIC, _("Account not found"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText113->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer112->Add(itemStaticText113, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer97->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer112->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_NotFoundDescriptionStaticCtrl = new wxStaticText;
-    m_NotFoundDescriptionStaticCtrl->Create( itemWizardPage111, wxID_STATIC, _("Check the email address and password, and try again."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer112->Add(m_NotFoundDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrNotFoundPage content construction
 }
  
@@ -167,16 +168,23 @@ wxIcon CErrNotFoundPage::GetIconResource( const wxString& name )
 void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Account not found")
+    );
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
-        m_NotFoundDescriptionStaticCtrl->SetLabel(
+        m_pDirectionsStaticCtrl->SetLabel(
             _("Check the username and password, and try again.")
         );
     } else {
-        m_NotFoundDescriptionStaticCtrl->SetLabel(
+        m_pDirectionsStaticCtrl->SetLabel(
             _("Check the email address and password, and try again.")
         );
     }
- 
+
     Fit();
 }
 

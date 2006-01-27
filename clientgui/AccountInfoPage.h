@@ -92,17 +92,19 @@ public:
     static bool ShowToolTips();
 
 ////@begin CAccountInfoPage member variables
-    wxStaticText* m_AccountQuestion;
-    wxStaticText* m_AccountManagerInformation;
-    wxRadioButton* m_AccountCreateCtrl;
-    wxRadioButton* m_AccountUseExistingCtrl;
-    wxStaticText* m_AccountEmailAddressStaticCtrl;
-    wxTextCtrl* m_AccountEmailAddressCtrl;
-    wxStaticText* m_AccountPasswordStaticCtrl;
-    wxTextCtrl* m_AccountPasswordCtrl;
-    wxStaticText* m_AccountConfirmPasswordStaticCtrl;
-    wxTextCtrl* m_AccountConfirmPasswordCtrl;
-    wxStaticText* m_AccountPasswordRequirmentsCtrl;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pAccountQuestionStaticCtrl;
+    wxStaticText* m_pAccountManagerInformationStaticCtrl;
+    wxRadioButton* m_pAccountCreateCtrl;
+    wxRadioButton* m_pAccountUseExistingCtrl;
+    wxStaticText* m_pAccountInformationStaticCtrl;
+    wxStaticText* m_pAccountEmailAddressStaticCtrl;
+    wxTextCtrl* m_pAccountEmailAddressCtrl;
+    wxStaticText* m_pAccountPasswordStaticCtrl;
+    wxTextCtrl* m_pAccountPasswordCtrl;
+    wxStaticText* m_pAccountConfirmPasswordStaticCtrl;
+    wxTextCtrl* m_pAccountConfirmPasswordCtrl;
+    wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl;
     wxString m_strAccountEmailAddress;
     wxString m_strAccountPassword;
     wxString m_strAccountConfirmPassword;

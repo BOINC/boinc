@@ -80,8 +80,13 @@ public:
     static bool ShowToolTips();
 
 ////@begin CProjectInfoPage member variables
-    wxStaticText* m_ProjectUrlStaticCtrl;
-    wxTextCtrl* m_ProjectUrlCtrl;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pDescriptionStaticCtrl;
+    wxStaticText* m_pDescription2StaticCtrl;
+    wxStaticText* m_pProjectUrlStaticCtrl;
+    wxTextCtrl* m_pProjectUrlCtrl;
+    wxStaticText* m_pBOINCPromoStaticCtrl;
+    wxHyperLink* m_pBOINCPromoUrlCtrl;
     wxString m_strProjectURL;
 ////@end CProjectInfoPage member variables
 };

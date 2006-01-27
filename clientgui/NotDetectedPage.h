@@ -74,6 +74,8 @@ public:
     static bool ShowToolTips();
 
 ////@begin CErrNotDetectedPage member variables
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pDirectionsStaticCtrl;
 ////@end CErrNotDetectedPage member variables
 };
 

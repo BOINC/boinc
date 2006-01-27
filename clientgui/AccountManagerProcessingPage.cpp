@@ -97,7 +97,8 @@ CAccountManagerProcessingPage::CAccountManagerProcessingPage( CBOINCBaseWizard* 
 bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountManagerProcessingPage member initialisation
-    m_ProgressIndicator = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pProgressIndicator = NULL;
 ////@end CAccountManagerProcessingPage member initialisation
  
     m_bProjectCommunitcationsSucceeded = false;
@@ -123,34 +124,33 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
 void CAccountManagerProcessingPage::CreateControls()
 {    
 ////@begin CAccountManagerProcessingPage content construction
-    CAccountManagerProcessingPage* itemWizardPage51 = this;
+    CAccountManagerProcessingPage* itemWizardPage36 = this;
 
-    wxBoxSizer* itemBoxSizer52 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage51->SetSizer(itemBoxSizer52);
+    wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage36->SetSizer(itemBoxSizer37);
 
-    wxStaticText* itemStaticText53 = new wxStaticText;
-    itemStaticText53->Create( itemWizardPage51, wxID_STATIC, _("Communicating with website\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText53->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer52->Add(itemStaticText53, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage36, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer37->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer52->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer37->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer55 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer55->AddGrowableRow(0);
-    itemFlexGridSizer55->AddGrowableCol(0);
-    itemFlexGridSizer55->AddGrowableCol(1);
-    itemFlexGridSizer55->AddGrowableCol(2);
-    itemBoxSizer52->Add(itemFlexGridSizer55, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer40 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer40->AddGrowableRow(0);
+    itemFlexGridSizer40->AddGrowableCol(0);
+    itemFlexGridSizer40->AddGrowableCol(1);
+    itemFlexGridSizer40->AddGrowableCol(2);
+    itemBoxSizer37->Add(itemFlexGridSizer40, 0, wxGROW|wxALL, 5);
 
-    itemFlexGridSizer55->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 
-    wxBitmap m_AttachProjectProgressBitmap(itemWizardPage51->GetBitmapResource(wxT("res/wizprogress01.xpm")));
-    m_ProgressIndicator = new wxStaticBitmap;
-    m_ProgressIndicator->Create( itemWizardPage51, ID_PROGRESSCTRL, m_AttachProjectProgressBitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemFlexGridSizer55->Add(m_ProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
+    m_pProgressIndicator = new wxStaticBitmap;
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemFlexGridSizer55->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
-
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 ////@end CAccountManagerProcessingPage content construction
 }
 
@@ -161,6 +161,13 @@ void CAccountManagerProcessingPage::CreateControls()
 void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
+ 
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pProgressIndicator);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Communicating with website\nPlease wait...")
+    );
 
     SetProjectCommunitcationsSucceeded(false);
     SetProjectUnavailable(false);
@@ -169,6 +176,8 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
  
     CAccountManagerProcessingPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
+
+    Fit();
 }
 
 /*!
@@ -206,7 +215,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             ((CWizardAccountManager*)GetParent())->DisableNextButton();
             ((CWizardAccountManager*)GetParent())->DisableBackButton();
 
-            StartProgress(m_ProgressIndicator);
+            StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_BEGIN);
             break;
         case ATTACHACCTMGR_ATTACHACCTMGR_BEGIN:
@@ -239,7 +248,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.acct_mgr_rpc_poll(reply);
 
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -250,21 +259,21 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             } else {
                 SetProjectAttachSucceeded(false);
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     strBuffer += _T("An internal server error has occurred.\n");
-                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 } else {
-                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     for (i=0; i<reply.messages.size(); i++) {
                         strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
                     }
-                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
         case ATTACHACCTMGR_CLEANUP:
-            FinishProgress(m_ProgressIndicator);
+            FinishProgress(m_pProgressIndicator);
             SetNextState(ATTACHACCTMGR_END);
             break;
         default:
@@ -303,15 +312,15 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (GetProjectAttachSucceeded() && IS_ACCOUNTMANAGERATTACHWIZARD()) {
-        // We were successful in creating or retrieving an account
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
     } else if (GetProjectAttachSucceeded() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
         // We were successful in updating the client account
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONUPDATEPAGE);
     } else if (GetProjectAttachSucceeded() && IS_ACCOUNTMANAGERREMOVEWIZARD()) {
         // We were successful in removing the client from the account manager
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONREMOVEPAGE);
+    } else if (GetProjectAttachSucceeded()) {
+        // We were successful in creating or retrieving an account
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
     } else {
         // The project much be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);

@@ -43,7 +43,7 @@ CBOINCBaseWizard::CBOINCBaseWizard() :
     wxWizardEx()
 {
     IsAttachToProjectWizard = false;
-    IsAccountManagerAttachWizard = false;
+    IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
 }
@@ -52,7 +52,7 @@ CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& tit
     wxWizardEx(parent, id, title, bitmap, pos, style)
 {
     IsAttachToProjectWizard = false;
-    IsAccountManagerAttachWizard = false;
+    IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
 }

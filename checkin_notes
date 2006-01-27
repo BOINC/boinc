@@ -1042,3 +1042,19 @@ David  26 Jan 2006
 
     client/
         http_curl.C
+
+Rom    26 Jan 2006
+    - Bug Fix: Overhaul the wizard control creation process.  The RAD tool
+        we used broke the process into two parts and arranged things where
+        the bulk of the control creation and text assignment happened
+        during dialog contruction.  This causes problems since not all of
+        the relevant data is available at dialog construction, such as
+        account manager name or project name.
+        
+        The new scheme creates all the controls during dialog creation and
+        sets the associated text to null.  When the OnPageChanged event is
+        fired we'll go and make all the necessary changes to the control text
+        as well as hide and show the correct controls.
+        
+    clientgui/
+		<All wizard related files>

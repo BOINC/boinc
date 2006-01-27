@@ -70,6 +70,8 @@ CErrNotDetectedPage::CErrNotDetectedPage( CBOINCBaseWizard* parent )
 bool CErrNotDetectedPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrNotDetectedPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrNotDetectedPage member initialisation
  
 ////@begin CErrNotDetectedPage creation
@@ -90,42 +92,21 @@ bool CErrNotDetectedPage::Create( CBOINCBaseWizard* parent )
 void CErrNotDetectedPage::CreateControls()
 {    
 ////@begin CErrNotDetectedPage content construction
-    CErrNotDetectedPage* itemWizardPage90 = this;
+    CErrNotDetectedPage* itemWizardPage96 = this;
 
-    wxBoxSizer* itemBoxSizer91 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage90->SetSizer(itemBoxSizer91);
+    wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage96->SetSizer(itemBoxSizer97);
 
-    wxStaticText* itemStaticText92 = new wxStaticText;
-    wxStaticText* itemStaticText94 = new wxStaticText;
-    wxStaticText* itemStaticText95 = new wxStaticText;
-    if (IS_ATTACHTOPROJECTWIZARD()) {
-        itemStaticText92->Create( itemWizardPage90, wxID_STATIC, _("Project not found"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText92->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer91->Add(itemStaticText92, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer97->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-        itemBoxSizer91->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-        itemStaticText94->Create( itemWizardPage90, wxID_STATIC, _("The URL you supplied is not that of a BOINC-based project."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer91->Add(itemStaticText94, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemStaticText95->Create( itemWizardPage90, wxID_STATIC, _("Please check the URL and try again."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer91->Add(itemStaticText95, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
-    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
-        itemStaticText92->Create( itemWizardPage90, wxID_STATIC, _("Account manager not found"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText92->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer91->Add(itemStaticText92, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer91->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemStaticText94->Create( itemWizardPage90, wxID_STATIC, _("The URL you supplied is not that of a BOINC-based account\nmanager."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer91->Add(itemStaticText94, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemStaticText95->Create( itemWizardPage90, wxID_STATIC, _("Please check the URL and try again."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer91->Add(itemStaticText95, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrNotDetectedPage content construction
 }
  
@@ -185,7 +166,35 @@ wxIcon CErrNotDetectedPage::GetIconResource( const wxString& name )
  */
  
 void CErrNotDetectedPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    if (IS_ATTACHTOPROJECTWIZARD()) {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Project not found")
+        );
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("The URL you supplied is not that of a BOINC-based project.\n"
+              "\n"
+              "Please check the URL and try again.")
+        );
+    } else if (IS_ACCOUNTMANAGERWIZARD()) {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Account manager not found")
+        );
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("The URL you supplied is not that of a BOINC-based account\n"
+              "manager.\n"
+              "\n"
+              "Please check the URL and try again.")
+        );
+    } else {
+        wxASSERT(FALSE);
+    }
+
+    Fit();
 }
   
 /*!

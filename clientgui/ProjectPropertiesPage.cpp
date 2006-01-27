@@ -96,7 +96,8 @@ CProjectPropertiesPage::CProjectPropertiesPage( CBOINCBaseWizard* parent )
 bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CProjectPropertiesPage member initialisation
-    m_ProgressIndicator = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pProgressIndicator = NULL;
 ////@end CProjectPropertiesPage member initialisation
  
     m_bProjectPropertiesSucceeded = false;
@@ -132,10 +133,10 @@ void CProjectPropertiesPage::CreateControls()
     wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage36->SetSizer(itemBoxSizer37);
 
-    wxStaticText* itemStaticText38 = new wxStaticText;
-    itemStaticText38->Create( itemWizardPage36, wxID_STATIC, _("Communicating with project\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText38->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer37->Add(itemStaticText38, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage36, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer37->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer37->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -148,13 +149,12 @@ void CProjectPropertiesPage::CreateControls()
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 
-    wxBitmap m_ProjectPropertiesProgressBitmap(itemWizardPage36->GetBitmapResource(wxT("res/wizprogress01.xpm")));
-    m_ProgressIndicator = new wxStaticBitmap;
-    m_ProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, m_ProjectPropertiesProgressBitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemFlexGridSizer40->Add(m_ProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
+    m_pProgressIndicator = new wxStaticBitmap;
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
-
 ////@end CProjectPropertiesPage content construction
 }
  
@@ -317,10 +317,16 @@ wxIcon CProjectPropertiesPage::GetIconResource( const wxString& name )
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE
  */
  
-void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event )
-{
+void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
  
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pProgressIndicator);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Communicating with project\nPlease wait...")
+    );
+
     SetProjectPropertiesSucceeded(false);
     SetProjectPropertiesURLFailure(false);
     SetProjectAccountCreationDisabled(false);
@@ -332,6 +338,8 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 
     CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
+
+    Fit();
 }
   
 /*!
@@ -364,7 +372,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
         case PROJPROP_INIT:
             ((CWizardAttachProject*)GetParent())->DisableNextButton();
             ((CWizardAttachProject*)GetParent())->DisableBackButton();
-            StartProgress(m_ProgressIndicator);
+            StartProgress(m_pProgressIndicator);
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
         case PROJPROP_RETRPROJECTPROPERTIES_BEGIN:
@@ -390,7 +398,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.get_project_config_poll(*pc);
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -466,7 +474,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -500,7 +508,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -528,7 +536,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
             SetNextState(PROJPROP_CLEANUP);
             break;
         case PROJPROP_CLEANUP:
-            FinishProgress(m_ProgressIndicator);
+            FinishProgress(m_pProgressIndicator);
             SetNextState(PROJPROP_END);
             break;
         default:

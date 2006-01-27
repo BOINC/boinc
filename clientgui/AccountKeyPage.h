@@ -77,8 +77,12 @@ public:
     static bool ShowToolTips();
 
 ////@begin CAccountKeyPage member variables
-    wxStaticText* m_AccountKeyStaticCtrl;
-    wxTextCtrl* m_AccountKeyCtrl;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pDirectionsStaticCtrl;
+    wxStaticText* m_pAccountKeyExampleDescriptionStaticCtrl;
+    wxStaticText* m_pAccountKeyExampleStaticCtrl;
+    wxStaticText* m_pAccountKeyStaticCtrl;
+    wxTextCtrl* m_pAccountKeyCtrl;
     wxString m_strAccountKey;
 ////@end CAccountKeyPage member variables
 };

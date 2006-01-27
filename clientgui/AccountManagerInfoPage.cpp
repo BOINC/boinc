@@ -73,8 +73,13 @@ CAccountManagerInfoPage::CAccountManagerInfoPage( CBOINCBaseWizard* parent )
 bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountManagerInfoPage member initialisation
-    m_AccountManagerUrlStaticCtrl = NULL;
-    m_AccountManagerUrlCtrl = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pDescriptionStaticCtrl = NULL;
+    m_pDescription2StaticCtrl = NULL;
+    m_pProjectUrlStaticCtrl = NULL;
+    m_pProjectUrlCtrl = NULL;
+    m_pBOINCPromoStaticCtrl = NULL;
+    m_pBOINCPromoUrlCtrl = NULL;
 ////@end CAccountManagerInfoPage member initialisation
 
 ////@begin CAccountManagerInfoPage creation
@@ -94,52 +99,52 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
 void CAccountManagerInfoPage::CreateControls()
 {    
 ////@begin CAccountManagerInfoPage content construction
-    CAccountManagerInfoPage* itemWizardPage21 = this;
+    CAccountManagerInfoPage* itemWizardPage23 = this;
 
-    wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage21->SetSizer(itemBoxSizer22);
+    wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage23->SetSizer(itemBoxSizer24);
 
-    wxStaticText* itemStaticText23 = new wxStaticText;
-    itemStaticText23->Create( itemWizardPage21, wxID_STATIC, _("Account Manager URL"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText23->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer22->Add(itemStaticText23, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer24->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText24 = new wxStaticText;
-    itemStaticText24->Create( itemWizardPage21, wxID_STATIC, _("Enter the URL of the account manager's web site."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pDescriptionStaticCtrl = new wxStaticText;
+    m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer22->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText26 = new wxStaticText;
-    itemStaticText26->Create( itemWizardPage21, wxID_STATIC, _("You can copy and paste the URL from your browser's address bar."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer22->Add(itemStaticText26, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pDescription2StaticCtrl = new wxStaticText;
+    m_pDescription2StaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer24->Add(m_pDescription2StaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer22->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer28 = new wxFlexGridSizer(1, 2, 0, 0);
-    itemFlexGridSizer28->AddGrowableCol(1);
-    itemBoxSizer22->Add(itemFlexGridSizer28, 0, wxALIGN_LEFT|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer30 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer30->AddGrowableCol(1);
+    itemBoxSizer24->Add(itemFlexGridSizer30, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_AccountManagerUrlStaticCtrl = new wxStaticText;
-    m_AccountManagerUrlStaticCtrl->Create( itemWizardPage21, ID_PROJECTURLSTATICCTRL, _("Account Manager &URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer28->Add(m_AccountManagerUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectUrlStaticCtrl = new wxStaticText;
+    m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer30->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_AccountManagerUrlCtrl = new wxTextCtrl;
-    m_AccountManagerUrlCtrl->Create( itemWizardPage21, ID_PROJECTURLCTRL, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer28->Add(m_AccountManagerUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectUrlCtrl = new wxTextCtrl;
+    m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer30->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemBoxSizer22->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText32 = new wxStaticText;
-    itemStaticText32->Create( itemWizardPage21, wxID_STATIC, _("For a list of BOINC-based account managers go to:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer22->Add(itemStaticText32, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pBOINCPromoStaticCtrl = new wxStaticText;
+    m_pBOINCPromoStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer24->Add(m_pBOINCPromoStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxHyperLink* itemHyperLink33 = new wxHyperLink;
-    itemHyperLink33->Create( itemWizardPage21, ID_BOINCHYPERLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemBoxSizer22->Add(itemHyperLink33, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pBOINCPromoUrlCtrl = new wxHyperLink;
+    m_pBOINCPromoUrlCtrl->Create( itemWizardPage23, ID_BOINCHYPERLINK, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    itemBoxSizer24->Add(m_pBOINCPromoUrlCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     // Set validators
-    m_AccountManagerUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
+    m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
 ////@end CAccountManagerInfoPage content construction
 }
 
@@ -148,7 +153,38 @@ void CAccountManagerInfoPage::CreateControls()
  */
 
 void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
-    if (m_AccountManagerUrlCtrl) m_AccountManagerUrlCtrl->SetFocus();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDescriptionStaticCtrl);
+    wxASSERT(m_pDescription2StaticCtrl);
+    wxASSERT(m_pProjectUrlStaticCtrl);
+    wxASSERT(m_pProjectUrlCtrl);
+    wxASSERT(m_pBOINCPromoStaticCtrl);
+    wxASSERT(m_pBOINCPromoUrlCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Account Manager URL")
+    );
+    m_pDescriptionStaticCtrl->SetLabel(
+        _("Enter the URL of the account manager's web site.")
+    );
+    m_pDescription2StaticCtrl->SetLabel(
+        _("You can copy and paste the URL from your browser's address bar.")
+    );
+    m_pProjectUrlStaticCtrl->SetLabel(
+        _("Account Manager &URL:")
+    );
+    m_pBOINCPromoStaticCtrl->SetLabel(
+        _("For a list of BOINC-based account managers go to:")
+    );
+    m_pBOINCPromoUrlCtrl->SetLabel(
+        wxT("http://boinc.berkeley.edu/")
+    );
+
+    m_pProjectUrlCtrl->SetFocus();
+
+    Fit();
 }
 
 /*!

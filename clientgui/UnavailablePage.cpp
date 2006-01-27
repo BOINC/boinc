@@ -70,6 +70,8 @@ CErrUnavailablePage::CErrUnavailablePage( CBOINCBaseWizard* parent )
 bool CErrUnavailablePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrUnavailablePage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrUnavailablePage member initialisation
  
 ////@begin CErrUnavailablePage creation
@@ -95,30 +97,16 @@ void CErrUnavailablePage::CreateControls()
     wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage96->SetSizer(itemBoxSizer97);
 
-    wxStaticText* itemStaticText98 = new wxStaticText;
-    wxStaticText* itemStaticText100 = new wxStaticText;
-    if (IS_ATTACHTOPROJECTWIZARD()) {
-        itemStaticText98->Create( itemWizardPage96, wxID_STATIC, _("Project temporarily unavailable"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText98->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer97->Add(itemStaticText98, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer97->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-        itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-        itemStaticText100->Create( itemWizardPage96, wxID_STATIC, _("The project is temporarily unavailable.\n\nPlease try again later."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer97->Add(itemStaticText100, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
-    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
-        itemStaticText98->Create( itemWizardPage96, wxID_STATIC, _("Account manager temporarily unavailable"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText98->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer97->Add(itemStaticText98, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer97->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemStaticText100->Create( itemWizardPage96, wxID_STATIC, _("The account manager is temporarily unavailable.\n\nPlease try again later."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer97->Add(itemStaticText100, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrUnavailablePage content construction
 }
   
@@ -180,7 +168,30 @@ wxIcon CErrUnavailablePage::GetIconResource( const wxString& name )
  */
 
 void CErrUnavailablePage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    if (IS_ATTACHTOPROJECTWIZARD()) {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Project temporarily unavailable")
+        );
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("The project is temporarily unavailable.\n\nPlease try again later.")
+        );
+    } else if (IS_ACCOUNTMANAGERWIZARD()) {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Account manager temporarily unavailable")
+        );
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("The account manager is temporarily unavailable.\n\nPlease try again later.")
+        );
+    } else {
+        wxASSERT(FALSE);
+    }
+
+    Fit();
 }
  
 /*!

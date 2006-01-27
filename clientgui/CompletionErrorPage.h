@@ -74,8 +74,11 @@ public:
     static bool ShowToolTips();
 
 ////@begin CCompletionErrorPage member variables
-    wxStaticBoxSizer* m_ServerMessagesStaticBoxSizer;
-    wxStaticText* m_ServerMessages;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pDirectionsStaticCtrl;
+    wxStaticBox* m_pServerMessagesDescriptionCtrl;
+    wxStaticBoxSizer* m_pServerMessagesStaticBoxSizerCtrl;
+    wxStaticText* m_pServerMessagesCtrl;
 ////@end CCompletionErrorPage member variables
 };
 

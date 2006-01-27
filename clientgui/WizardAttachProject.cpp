@@ -116,7 +116,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
  
     // Wizard Detection
     IsAttachToProjectWizard = true;
-    IsAccountManagerAttachWizard = false;
+    IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
 
@@ -461,22 +461,22 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     // Page specific rules - Disable the validator(s)
     if (wxYES == iRetVal) {
         if (page == m_ProjectInfoPage) {
-            m_ProjectInfoPage->m_ProjectUrlCtrl->SetValidator(wxDefaultValidator);
+            m_ProjectInfoPage->m_pProjectUrlCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_AccountKeyPage) {
-            m_AccountKeyPage->m_AccountKeyCtrl->SetValidator(wxDefaultValidator);
+            m_AccountKeyPage->m_pAccountKeyCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_AccountInfoPage) {
-            m_AccountInfoPage->m_AccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
-            m_AccountInfoPage->m_AccountPasswordCtrl->SetValidator(wxDefaultValidator);
-            m_AccountInfoPage->m_AccountConfirmPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_AccountInfoPage->m_pAccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
+            m_AccountInfoPage->m_pAccountPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_AccountInfoPage->m_pAccountConfirmPasswordCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_ErrProxyPage) {
-            m_ErrProxyPage->m_ProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
-            m_ErrProxyPage->m_ProxySOCKSPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPUsernameCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxyHTTPPasswordCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSServerCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSPortCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSUsernameCtrl->SetValidator(wxDefaultValidator);
+            m_ErrProxyPage->m_pProxySOCKSPasswordCtrl->SetValidator(wxDefaultValidator);
         }
     }
 

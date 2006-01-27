@@ -74,10 +74,8 @@ CCompletionUpdatePage::CCompletionUpdatePage( CBOINCBaseWizard* parent )
 bool CCompletionUpdatePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionUpdatePage member initialisation
-    m_CompletionTitle = NULL;
-    m_CompletionWelcome = NULL;
-    m_CompletionBrandedMessage = NULL;
-    m_CompletionMessage = NULL;
+    m_pCompletionTitle = NULL;
+    m_pCompletionMessage = NULL;
 ////@end CCompletionUpdatePage member initialisation
  
 ////@begin CCompletionUpdatePage creation
@@ -103,27 +101,14 @@ void CCompletionUpdatePage::CreateControls()
     wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage79->SetSizer(itemBoxSizer80);
 
-    wxString strTitle;
-    if (wxGetApp().GetBrand()->IsBranded()) {
-        // %s is the project name
-        //    i.e. 'GridRepublic'
-        strTitle.Printf(
-            _("Updating %s successful!"),
-            wxGetApp().GetBrand()->GetProjectName().c_str()
-        );
-    } else {
-        strTitle = _("Update successful!");
-    }
+    m_pCompletionTitle = new wxStaticText;
+    m_pCompletionTitle->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pCompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
+    itemBoxSizer80->Add(m_pCompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_CompletionTitle = new wxStaticText;
-    m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, strTitle, wxDefaultPosition, wxDefaultSize, 0 );
-    m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
-    itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_CompletionMessage = new wxStaticText;
-    m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("Click Finish to close."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
-
+    m_pCompletionMessage = new wxStaticText;
+    m_pCompletionMessage->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer80->Add(m_pCompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CCompletionUpdatePage content construction
 }
   
@@ -186,11 +171,28 @@ wxIcon CCompletionUpdatePage::GetIconResource( const wxString& name )
 void CCompletionUpdatePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    if (IS_ATTACHTOPROJECTWIZARD() && ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
-        m_CompletionMessage->SetLabel(_("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."));
+    wxASSERT(m_pCompletionTitle);
+    wxASSERT(m_pCompletionMessage);
+
+    wxString strTitle;
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        // %s is the project name
+        //    i.e. 'GridRepublic'
+        strTitle.Printf(
+            _("Updating %s successful!"),
+            wxGetApp().GetBrand()->GetProjectName().c_str()
+        );
     } else {
-        m_CompletionMessage->SetLabel(_("Click Finish to close."));
+        strTitle = _("Update successful!");
     }
+
+    m_pCompletionTitle->SetLabel( strTitle );
+
+    m_pCompletionMessage->SetLabel(
+        _("Click Finish to close.")
+    );
+
+    Fit();
 }
   
 /*!

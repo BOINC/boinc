@@ -77,41 +77,24 @@ public:
     static bool ShowToolTips();
 
 ////@begin CWelcomePage member variables
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pDescriptionStaticCtrl;
+    wxStaticText* m_pDirectionsStaticCtrl;
 #if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrProjectPropertiesCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrProjectCommCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrProjectPropertiesURLCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrAccountCreationDisabledCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrClientAccountCreationDisabledCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrAccountAlreadyExistsCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrProjectAlreadyAttachedCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrProjectAttachFailureCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrGoogleCommCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrYahooCommCtrl;
-#endif
-#if defined(__WXDEBUG__)
-    wxCheckBox* m_ErrNetDetectionCtrl;
+    wxStaticBox* m_pErrDescriptionCtrl; 
+    wxCheckBox* m_pErrProjectPropertiesCtrl;
+    wxCheckBox* m_pErrProjectCommCtrl;
+    wxCheckBox* m_pErrProjectPropertiesURLCtrl;
+    wxCheckBox* m_pErrAccountCreationDisabledCtrl;
+    wxCheckBox* m_pErrClientAccountCreationDisabledCtrl;
+    wxCheckBox* m_pErrAccountAlreadyExistsCtrl;
+    wxCheckBox* m_pErrProjectAlreadyAttachedCtrl;
+    wxCheckBox* m_pErrProjectAttachFailureCtrl;
+    wxCheckBox* m_pErrGoogleCommCtrl;
+    wxCheckBox* m_pErrYahooCommCtrl;
+    wxCheckBox* m_pErrNetDetectionCtrl;
 #endif
 ////@end CWelcomePage member variables
-    int iWizardID;
 };
 
 #endif // _WIZ_WELCOMEPAGE_H_

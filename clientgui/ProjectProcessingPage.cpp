@@ -99,7 +99,8 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
 {
  
 ////@begin CProjectProcessingPage member initialisation
-    m_ProgressIndicator = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pProgressIndicator = NULL;
 ////@end CProjectProcessingPage member initialisation
  
     m_bProjectCommunitcationsSucceeded = false;
@@ -127,34 +128,33 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
 void CProjectProcessingPage::CreateControls()
 {    
 ////@begin CProjectProcessingPage content construction
-    CProjectProcessingPage* itemWizardPage71 = this;
+    CProjectProcessingPage* itemWizardPage36 = this;
 
-    wxBoxSizer* itemBoxSizer72 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage71->SetSizer(itemBoxSizer72);
+    wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage36->SetSizer(itemBoxSizer37);
 
-    wxStaticText* itemStaticText73 = new wxStaticText;
-    itemStaticText73->Create( itemWizardPage71, wxID_STATIC, _("Communicating with project\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText73->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer72->Add(itemStaticText73, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage36, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer37->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer72->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer37->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer75 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer75->AddGrowableRow(0);
-    itemFlexGridSizer75->AddGrowableCol(0);
-    itemFlexGridSizer75->AddGrowableCol(1);
-    itemFlexGridSizer75->AddGrowableCol(2);
-    itemBoxSizer72->Add(itemFlexGridSizer75, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer40 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer40->AddGrowableRow(0);
+    itemFlexGridSizer40->AddGrowableCol(0);
+    itemFlexGridSizer40->AddGrowableCol(1);
+    itemFlexGridSizer40->AddGrowableCol(2);
+    itemBoxSizer37->Add(itemFlexGridSizer40, 0, wxGROW|wxALL, 5);
 
-    itemFlexGridSizer75->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 
-    wxBitmap m_AttachProjectProgressBitmap(itemWizardPage71->GetBitmapResource(wxT("res/wizprogress01.xpm")));
-    m_ProgressIndicator = new wxStaticBitmap;
-    m_ProgressIndicator->Create( itemWizardPage71, ID_PROGRESSCTRL, m_AttachProjectProgressBitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemFlexGridSizer75->Add(m_ProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
+    m_pProgressIndicator = new wxStaticBitmap;
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemFlexGridSizer75->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
-
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 ////@end CProjectProcessingPage content construction
 }
   
@@ -310,6 +310,13 @@ wxIcon CProjectProcessingPage::GetIconResource( const wxString& name )
  
 void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
+ 
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pProgressIndicator);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Communicating with project\nPlease wait...")
+    );
 
     SetProjectCommunitcationsSucceeded(false);
     SetProjectUnavailable(false);
@@ -318,6 +325,8 @@ void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
  
     CProjectProcessingPageEvent TransitionEvent(wxEVT_PROJECTPROCESSING_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
+
+    Fit();
 }
   
 /*!
@@ -354,7 +363,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
             ((CWizardAttachProject*)GetParent())->DisableNextButton();
             ((CWizardAttachProject*)GetParent())->DisableBackButton();
 
-            StartProgress(m_ProgressIndicator);
+            StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
             break;
         case ATTACHPROJECT_ACCOUNTQUERY_BEGIN:
@@ -375,7 +384,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                 }
                 SetProjectCommunitcationsSucceeded(true);
             } else {
-                if (((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
+                if (((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
                     if (!((CWizardAttachProject*)GetParent())->project_config.uses_username) {
                         ai->email_addr = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
                         ai->user_name = ::wxGetUserName().c_str();
@@ -400,7 +409,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                         iReturnValue = pDoc->rpc.create_account_poll(*ao);
 
-                        IncrementProgress(m_ProgressIndicator);
+                        IncrementProgress(m_pProgressIndicator);
 
                         ::wxMilliSleep(500);
                         ::wxSafeYield(GetParent());
@@ -433,7 +442,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                         iReturnValue = pDoc->rpc.lookup_account_poll(*ao);
 
-                        IncrementProgress(m_ProgressIndicator);
+                        IncrementProgress(m_pProgressIndicator);
 
                         ::wxMilliSleep(500);
                         ::wxSafeYield(GetParent());
@@ -455,14 +464,14 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         SetProjectAccountNotFound(false);
                     }
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("An internal server error has occurred.\n");
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
                 }
             }
@@ -502,7 +511,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                     iReturnValue = pDoc->rpc.project_attach_poll(reply);
 
-                    IncrementProgress(m_ProgressIndicator);
+                    IncrementProgress(m_pProgressIndicator);
 
                     ::wxMilliSleep(500);
                     ::wxSafeYield(GetParent());
@@ -516,15 +525,15 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                 } else {
                     SetProjectAttachSucceeded(false);
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("An internal server error has occurred.\n");
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     } else {
-                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->GetLabel();
+                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         for (i=0; i<reply.messages.size(); i++) {
                             strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
                         }
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_ServerMessages->SetLabel(strBuffer);
+                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
                 }
             } else {
@@ -533,7 +542,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
             SetNextState(ATTACHPROJECT_CLEANUP);
             break;
         case ATTACHPROJECT_CLEANUP:
-            FinishProgress(m_ProgressIndicator);
+            FinishProgress(m_pProgressIndicator);
             SetNextState(ATTACHPROJECT_END);
             break;
         default:

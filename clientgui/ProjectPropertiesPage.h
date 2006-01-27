@@ -148,9 +148,9 @@ public:
     void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CProjectPropertiesPage member variables
-    wxStaticBitmap* m_ProgressIndicator;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticBitmap* m_pProgressIndicator;
 ////@end CProjectPropertiesPage member variables
-
     bool m_bProjectPropertiesSucceeded;
     bool m_bProjectPropertiesURLFailure;
     bool m_bProjectAccountCreationDisabled;

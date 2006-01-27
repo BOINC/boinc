@@ -96,7 +96,8 @@ CAccountManagerPropertiesPage::CAccountManagerPropertiesPage( CBOINCBaseWizard* 
 bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountManagerPropertiesPage member initialisation
-    m_ProgressIndicator = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pProgressIndicator = NULL;
 ////@end CAccountManagerPropertiesPage member initialisation
  
     m_bProjectPropertiesSucceeded = false;
@@ -126,34 +127,33 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
 void CAccountManagerPropertiesPage::CreateControls()
 {    
 ////@begin CAccountManagerPropertiesPage content construction
-    CAccountManagerPropertiesPage* itemWizardPage34 = this;
+    CAccountManagerPropertiesPage* itemWizardPage36 = this;
 
-    wxBoxSizer* itemBoxSizer35 = new wxBoxSizer(wxVERTICAL);
-    itemWizardPage34->SetSizer(itemBoxSizer35);
+    wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
+    itemWizardPage36->SetSizer(itemBoxSizer37);
 
-    wxStaticText* itemStaticText36 = new wxStaticText;
-    itemStaticText36->Create( itemWizardPage34, wxID_STATIC, _("Communicating with website\nPlease wait..."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText36->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer35->Add(itemStaticText36, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage36, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer37->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer35->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer37->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer38 = new wxFlexGridSizer(1, 3, 0, 0);
-    itemFlexGridSizer38->AddGrowableRow(0);
-    itemFlexGridSizer38->AddGrowableCol(0);
-    itemFlexGridSizer38->AddGrowableCol(1);
-    itemFlexGridSizer38->AddGrowableCol(2);
-    itemBoxSizer35->Add(itemFlexGridSizer38, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer40 = new wxFlexGridSizer(1, 3, 0, 0);
+    itemFlexGridSizer40->AddGrowableRow(0);
+    itemFlexGridSizer40->AddGrowableCol(0);
+    itemFlexGridSizer40->AddGrowableCol(1);
+    itemFlexGridSizer40->AddGrowableCol(2);
+    itemBoxSizer37->Add(itemFlexGridSizer40, 0, wxGROW|wxALL, 5);
 
-    itemFlexGridSizer38->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 
-    wxBitmap m_ProjectPropertiesProgressBitmap(itemWizardPage34->GetBitmapResource(wxT("res/wizprogress01.xpm")));
-    m_ProgressIndicator = new wxStaticBitmap;
-    m_ProgressIndicator->Create( itemWizardPage34, ID_PROGRESSCTRL, m_ProjectPropertiesProgressBitmap, wxDefaultPosition, wxSize(184, 48), 0 );
-    itemFlexGridSizer38->Add(m_ProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
+    m_pProgressIndicator = new wxStaticBitmap;
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
+    itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemFlexGridSizer38->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
-
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
 ////@end CAccountManagerPropertiesPage content construction
 }
 
@@ -165,6 +165,13 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
  
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pProgressIndicator);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Communicating with website\nPlease wait...")
+    );
+
     SetProjectPropertiesSucceeded(false);
     SetProjectPropertiesURLFailure(false);
     SetProjectAccountCreationDisabled(false);
@@ -176,6 +183,8 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 
     CAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
+
+    Fit();
 }
 
 /*!
@@ -208,7 +217,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         case ACCTMGRPROP_INIT:
             ((CWizardAccountManager*)GetParent())->DisableNextButton();
             ((CWizardAccountManager*)GetParent())->DisableBackButton();
-            StartProgress(m_ProgressIndicator);
+            StartProgress(m_pProgressIndicator);
             SetNextState(ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
         case ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN:
@@ -234,7 +243,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.get_project_config_poll(*pc);
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -300,7 +309,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -334,7 +343,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_ProgressIndicator);
+                IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
                 ::wxSafeYield(GetParent());
@@ -362,7 +371,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             SetNextState(ACCTMGRPROP_CLEANUP);
             break;
         case ACCTMGRPROP_CLEANUP:
-            FinishProgress(m_ProgressIndicator);
+            FinishProgress(m_pProgressIndicator);
             SetNextState(ACCTMGRPROP_END);
             break;
         default:

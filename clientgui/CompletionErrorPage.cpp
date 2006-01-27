@@ -70,8 +70,11 @@ CCompletionErrorPage::CCompletionErrorPage( CBOINCBaseWizard* parent )
 bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionErrorPage member initialisation
-    m_ServerMessagesStaticBoxSizer = NULL;
-    m_ServerMessages = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
+    m_pServerMessagesDescriptionCtrl = NULL;
+    m_pServerMessagesStaticBoxSizerCtrl = NULL;
+    m_pServerMessagesCtrl = NULL;
 ////@end CCompletionErrorPage member initialisation
  
 ////@begin CCompletionErrorPage creation
@@ -97,39 +100,26 @@ void CCompletionErrorPage::CreateControls()
     wxBoxSizer* itemBoxSizer86 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage85->SetSizer(itemBoxSizer86);
 
-    wxStaticText* itemStaticText87 = new wxStaticText;
-    wxStaticText* itemStaticText89 = new wxStaticText;
-    if (IS_ATTACHTOPROJECTWIZARD()) {
-        itemStaticText87->Create( itemWizardPage85, wxID_STATIC, _("Failed to attach to project"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText87->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer86->Add(itemStaticText87, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemStaticText89->Create( itemWizardPage85, wxID_STATIC, _("Click Finish to close."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer86->Add(itemStaticText89, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
-    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
-        itemStaticText87->Create( itemWizardPage85, wxID_STATIC, _("Failed to attach to account manager"), wxDefaultPosition, wxDefaultSize, 0 );
-        itemStaticText87->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-        itemBoxSizer86->Add(itemStaticText87, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemStaticText89->Create( itemWizardPage85, wxID_STATIC, _("Click Finish to close."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer86->Add(itemStaticText89, 0, wxALIGN_LEFT|wxALL, 5);
-    }
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage85, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer86->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticBox* itemStaticBoxSizer3Static = new wxStaticBox(itemWizardPage85, wxID_ANY, _("Messages from server:"));
-    m_ServerMessagesStaticBoxSizer = new wxStaticBoxSizer(itemStaticBoxSizer3Static, wxVERTICAL);
-    itemBoxSizer86->Add(m_ServerMessagesStaticBoxSizer, 0, wxGROW|wxALL, 5);
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage85, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer86->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_ServerMessages = new wxStaticText;
-    m_ServerMessages->Create( itemWizardPage85, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
-    m_ServerMessagesStaticBoxSizer->Add(m_ServerMessages, 0, wxGROW|wxALL, 5);
+    itemBoxSizer86->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    m_pServerMessagesDescriptionCtrl = new wxStaticBox(itemWizardPage85, wxID_ANY, wxEmptyString);
+    m_pServerMessagesStaticBoxSizerCtrl = new wxStaticBoxSizer(m_pServerMessagesDescriptionCtrl, wxVERTICAL);
+    itemBoxSizer86->Add(m_pServerMessagesStaticBoxSizerCtrl, 0, wxGROW|wxALL, 5);
+
+    m_pServerMessagesCtrl = new wxStaticText;
+    m_pServerMessagesCtrl->Create( itemWizardPage85, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pServerMessagesStaticBoxSizerCtrl->Add(m_pServerMessagesCtrl, 0, wxGROW|wxALL, 5);
 ////@end CCompletionErrorPage content construction
 }
  
@@ -193,13 +183,50 @@ wxIcon CCompletionErrorPage::GetIconResource( const wxString& name )
 void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    if (CHECK_CLOSINGINPROGRESS()) {
-        m_ServerMessagesStaticBoxSizer->GetStaticBox()->Hide();
-        m_ServerMessages->Hide();
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+    wxASSERT(m_pServerMessagesDescriptionCtrl);
+    wxASSERT(m_pServerMessagesStaticBoxSizerCtrl);
+    wxASSERT(m_pServerMessagesCtrl);
+
+    if (IS_ATTACHTOPROJECTWIZARD()) {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Failed to attach to project")
+        );
+    } else if (IS_ACCOUNTMANAGERWIZARD()) {
+        if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
+            m_pTitleStaticCtrl->SetLabel(
+                _("Failed to update account manager")
+            );
+        } else if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
+            m_pTitleStaticCtrl->SetLabel(
+                _("Failed to remove account manager")
+            );
+        } else {
+            m_pTitleStaticCtrl->SetLabel(
+                _("Failed to attach to account manager")
+            );
+        }
     } else {
-        m_ServerMessagesStaticBoxSizer->GetStaticBox()->Show();
-        m_ServerMessages->Show();
+        wxASSERT(FALSE);
     }
+
+    m_pDirectionsStaticCtrl->SetLabel(
+        _("Click Finish to close.")
+    );
+    m_pServerMessagesDescriptionCtrl->SetLabel(
+        _("Messages from server:")
+    );
+
+    if (CHECK_CLOSINGINPROGRESS()) {
+        m_pServerMessagesDescriptionCtrl->Hide();
+        m_pServerMessagesCtrl->Hide();
+    } else {
+        m_pServerMessagesDescriptionCtrl->Show();
+        m_pServerMessagesCtrl->Show();
+    }
+
+    Fit();
 }
  
 /*!

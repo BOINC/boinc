@@ -71,8 +71,12 @@ CAccountKeyPage::CAccountKeyPage( CBOINCBaseWizard* parent )
 bool CAccountKeyPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountKeyPage member initialisation
-    m_AccountKeyStaticCtrl = NULL;
-    m_AccountKeyCtrl = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
+    m_pAccountKeyExampleDescriptionStaticCtrl = NULL;
+    m_pAccountKeyExampleStaticCtrl = NULL;
+    m_pAccountKeyStaticCtrl = NULL;
+    m_pAccountKeyCtrl = NULL;
 ////@end CAccountKeyPage member initialisation
  
 ////@begin CAccountKeyPage creation
@@ -99,29 +103,25 @@ void CAccountKeyPage::CreateControls()
     wxBoxSizer* itemBoxSizer45 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage44->SetSizer(itemBoxSizer45);
 
-    wxStaticText* itemStaticText46 = new wxStaticText;
-    itemStaticText46->Create( itemWizardPage44, wxID_STATIC, _("Enter account key"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText46->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer45->Add(itemStaticText46, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage44, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer45->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer45->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText48 = new wxStaticText;
-    itemStaticText48->Create( itemWizardPage44, wxID_STATIC, _("This project uses an \"account key\" to identify you."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer45->Add(itemStaticText48, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage44, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer45->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText49 = new wxStaticText;
-    itemStaticText49->Create( itemWizardPage44, wxID_STATIC, _("Go to the project's web site to create an account. Your account\nkey will be emailed to you."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer45->Add(itemStaticText49, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pAccountKeyExampleDescriptionStaticCtrl = new wxStaticText;
+    m_pAccountKeyExampleDescriptionStaticCtrl->Create( itemWizardPage44, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer45->Add(m_pAccountKeyExampleDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText50 = new wxStaticText;
-    itemStaticText50->Create( itemWizardPage44, wxID_STATIC, _("An account key looks like:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer45->Add(itemStaticText50, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxStaticText* itemStaticText51 = new wxStaticText;
-    itemStaticText51->Create( itemWizardPage44, wxID_STATIC, _("82412313ac88e9a3638f66ea82186948"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText51->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, FALSE, _T("Courier New")));
-    itemBoxSizer45->Add(itemStaticText51, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+    m_pAccountKeyExampleStaticCtrl = new wxStaticText;
+    m_pAccountKeyExampleStaticCtrl->Create( itemWizardPage44, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pAccountKeyExampleStaticCtrl->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, FALSE, _T("Courier New")));
+    itemBoxSizer45->Add(m_pAccountKeyExampleStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
     itemBoxSizer45->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
@@ -129,18 +129,17 @@ void CAccountKeyPage::CreateControls()
     itemFlexGridSizer53->AddGrowableCol(1);
     itemBoxSizer45->Add(itemFlexGridSizer53, 0, wxGROW|wxALL, 5);
 
-    m_AccountKeyStaticCtrl = new wxStaticText;
-    m_AccountKeyStaticCtrl->Create( itemWizardPage44, ID_ACCOUNTKEYSTATICCTRL, _("Account key:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer53->Add(m_AccountKeyStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pAccountKeyStaticCtrl = new wxStaticText;
+    m_pAccountKeyStaticCtrl->Create( itemWizardPage44, ID_ACCOUNTKEYSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer53->Add(m_pAccountKeyStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_AccountKeyCtrl = new wxTextCtrl;
-    m_AccountKeyCtrl->Create( itemWizardPage44, ID_ACCOUNTKEYCTRL, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer53->Add(m_AccountKeyCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pAccountKeyCtrl = new wxTextCtrl;
+    m_pAccountKeyCtrl->Create( itemWizardPage44, ID_ACCOUNTKEYCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer53->Add(m_pAccountKeyCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
-    m_AccountKeyCtrl->SetValidator( CValidateAccountKey( & m_strAccountKey) );
+    m_pAccountKeyCtrl->SetValidator( CValidateAccountKey( & m_strAccountKey) );
 ////@end CAccountKeyPage content construction
- 
 }
   
 /*!
@@ -205,7 +204,36 @@ wxIcon CAccountKeyPage::GetIconResource( const wxString& name )
  */
  
 void CAccountKeyPage::OnPageChanged( wxWizardExEvent& event ) {
-    if (m_AccountKeyCtrl) m_AccountKeyCtrl->SetFocus();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+    wxASSERT(m_pAccountKeyExampleDescriptionStaticCtrl);
+    wxASSERT(m_pAccountKeyExampleStaticCtrl);
+    wxASSERT(m_pAccountKeyStaticCtrl);
+    wxASSERT(m_pAccountKeyCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Enter account key")
+    );
+    m_pDirectionsStaticCtrl->SetLabel(
+        _("This project uses an \"account key\" to identify you.\n"
+          "\n"
+          "Go to the project's web site to create an account. Your account\n"
+          "key will be emailed to you.")
+    );
+    m_pAccountKeyExampleDescriptionStaticCtrl->SetLabel(
+        _("An account key looks like:")
+    );
+    m_pAccountKeyExampleStaticCtrl->SetLabel(
+        _("82412313ac88e9a3638f66ea82186948")
+    );
+    m_pAccountKeyStaticCtrl->SetLabel(
+        _("Account key:")
+    );
+
+    m_pAccountKeyCtrl->SetFocus();
+    Fit();
 }
   
 /*!

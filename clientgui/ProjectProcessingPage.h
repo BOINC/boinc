@@ -135,9 +135,9 @@ public:
     void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CProjectProcessingPage member variables
-    wxStaticBitmap* m_ProgressIndicator;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticBitmap* m_pProgressIndicator;
 ////@end CProjectProcessingPage member variables
-
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
     bool m_bProjectAccountNotFound;

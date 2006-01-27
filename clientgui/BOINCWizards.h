@@ -148,6 +148,11 @@ class CErrProxyInfoPage;
 class CErrProxyPage;
 
 
+// Forward declare special controls
+//
+class wxHyperLink;
+
+
 // Diagnostics Tools
 //
 #define WIZDEBUG_ERRPROJECTPROPERTIES                 0x00000001
@@ -174,8 +179,8 @@ class CErrProxyPage;
 #define IS_ATTACHTOPROJECTWIZARD() \
     ((CBOINCBaseWizard*)GetParent())->IsAttachToProjectWizard
 
-#define IS_ACCOUNTMANAGERATTACHWIZARD() \
-    ((CBOINCBaseWizard*)GetParent())->IsAccountManagerAttachWizard
+#define IS_ACCOUNTMANAGERWIZARD() \
+    ((CBOINCBaseWizard*)GetParent())->IsAccountManagerWizard
 
 #define IS_ACCOUNTMANAGERUPDATEWIZARD() \
     ((CBOINCBaseWizard*)GetParent())->IsAccountManagerUpdateWizard

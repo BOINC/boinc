@@ -74,10 +74,10 @@ CCompletionPage::CCompletionPage( CBOINCBaseWizard* parent )
 bool CCompletionPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionPage member initialisation
-    m_CompletionTitle = NULL;
-    m_CompletionWelcome = NULL;
-    m_CompletionBrandedMessage = NULL;
-    m_CompletionMessage = NULL;
+    m_pCompletionTitle = NULL;
+    m_pCompletionWelcome = NULL;
+    m_pCompletionBrandedMessage = NULL;
+    m_pCompletionMessage = NULL;
 ////@end CCompletionPage member initialisation
  
 ////@begin CCompletionPage creation
@@ -103,104 +103,22 @@ void CCompletionPage::CreateControls()
     wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage79->SetSizer(itemBoxSizer80);
 
-    if (IS_ATTACHTOPROJECTWIZARD()) {
+    m_pCompletionTitle = new wxStaticText;
+    m_pCompletionTitle->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pCompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
+    itemBoxSizer80->Add(m_pCompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
 
-        wxString strTitle;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionTitle().IsEmpty()) {
-            strTitle = wxGetApp().GetBrand()->GetAPWizardCompletionTitle();
-        } else {
-            strTitle = _("Attached to project");
-        }
+    m_pCompletionWelcome = new wxStaticText;
+    m_pCompletionWelcome->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer80->Add(m_pCompletionWelcome, 0, wxALIGN_LEFT|wxALL, 5);
 
-        m_CompletionTitle = new wxStaticText;
-        m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, strTitle, wxDefaultPosition, wxDefaultSize, 0 );
-        m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
-        itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pCompletionBrandedMessage = new wxStaticText;
+    m_pCompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer80->Add(m_pCompletionBrandedMessage, 0, wxALIGN_LEFT|wxALL, 5);
 
-        wxString strBrandedMessage;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage().IsEmpty()) {
-            strBrandedMessage = wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage();
-        } else {
-            strBrandedMessage = _("You are now successfully attached to this project.");
-        }
-
-        m_CompletionBrandedMessage = new wxStaticText;
-        m_CompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, strBrandedMessage, wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer80->Add(m_CompletionBrandedMessage, 0, wxALIGN_LEFT|wxALL, 5);
-
-        itemBoxSizer80->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-        wxString strMessage;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
-            strMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
-        } else {
-            strMessage = _("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences.");
-        }
-
-        m_CompletionMessage = new wxStaticText;
-        m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, strMessage, wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
-    if (IS_ACCOUNTMANAGERATTACHWIZARD()) {
-        wxString strTitle;
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            // %s is the project name
-            //    i.e. 'GridRepublic'
-            strTitle.Printf(
-                _("Attached to %s"),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
-            );
-        } else {
-            strTitle = _("Attached to account manager");
-        }
-
-        m_CompletionTitle = new wxStaticText;
-        m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, strTitle, wxDefaultPosition, wxDefaultSize, 0 );
-        m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
-        itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
-
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            // %s is the project name
-            //    i.e. 'GridRepublic'
-            wxString strWelcome;
-            strWelcome.Printf(
-                _("Welcome to %s!"),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
-            );
-            m_CompletionWelcome = new wxStaticText;
-            m_CompletionWelcome->Create( itemWizardPage79, wxID_STATIC, strWelcome, wxDefaultPosition, wxDefaultSize, 0 );
-            m_CompletionWelcome->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
-            itemBoxSizer80->Add(m_CompletionWelcome, 0, wxALIGN_LEFT|wxALL, 5);
-        }
-
-        wxString strBrandedMessage;
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            // 1st %s is the project name
-            //    i.e. 'GridRepublic'
-            // 2nd %s is the account manager success message
-            strBrandedMessage.Printf(
-                _("You are now successfully attached to the %s system.\n"
-                  "%s"),
-                wxGetApp().GetBrand()->GetProjectName().c_str(),
-                wxGetApp().GetBrand()->GetAMWizardSuccessMessage().c_str()
-            );
-        } else {
-            strBrandedMessage = _("You are now successfully attached to this account manager.");
-        }
-
-        m_CompletionBrandedMessage = new wxStaticText;
-        m_CompletionBrandedMessage->Create( itemWizardPage79, wxID_STATIC, strBrandedMessage, wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer80->Add(m_CompletionBrandedMessage, 0, wxALIGN_LEFT|wxALL, 5);
-
-        m_CompletionMessage = new wxStaticText;
-        m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("Click Finish to close."), wxDefaultPosition, wxDefaultSize, 0 );
-        itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
-    }
-
+    m_pCompletionMessage = new wxStaticText;
+    m_pCompletionMessage->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer80->Add(m_pCompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CCompletionPage content construction
 }
   
@@ -263,10 +181,94 @@ wxIcon CCompletionPage::GetIconResource( const wxString& name )
 void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    if (IS_ATTACHTOPROJECTWIZARD() && ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_AccountCreateCtrl->GetValue()) {
-        m_CompletionMessage->SetLabel(_("When you click Finish, your web browser will go to a page where\nyou can set your account name and preferences."));
-    } else {
-        m_CompletionMessage->SetLabel(_("Click Finish to close."));
+    wxASSERT(m_pCompletionTitle);
+    wxASSERT(m_pCompletionWelcome);
+    wxASSERT(m_pCompletionBrandedMessage);
+    wxASSERT(m_pCompletionMessage);
+
+    if (IS_ATTACHTOPROJECTWIZARD()) {
+        wxString strTitle;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardCompletionTitle().IsEmpty()) {
+            strTitle = wxGetApp().GetBrand()->GetAPWizardCompletionTitle();
+        } else {
+            strTitle = _("Attached to project");
+        }
+
+        m_pCompletionTitle->SetLabel( strTitle );
+
+        m_pCompletionWelcome->Hide();
+
+        wxString strBrandedMessage;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage().IsEmpty()) {
+            strBrandedMessage = wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage();
+        } else {
+            strBrandedMessage = _("You are now successfully attached to this project.");
+        }
+
+        m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
+
+        wxString strMessage;
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
+            strMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
+        } else {
+            strMessage = 
+                _("When you click Finish, your web browser will go to a page where\n"
+                  "you can set your account name and preferences.");
+        }
+
+
+        m_pCompletionMessage->SetLabel( strMessage );
+    } else if (IS_ACCOUNTMANAGERWIZARD()) {
+        wxString strTitle;
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            // %s is the project name
+            //    i.e. 'GridRepublic'
+            strTitle.Printf(
+                _("Attached to %s"),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
+        } else {
+            strTitle = _("Attached to account manager");
+        }
+
+        m_pCompletionTitle->SetLabel( strTitle );
+
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            // %s is the project name
+            //    i.e. 'GridRepublic'
+            wxString strWelcome;
+            strWelcome.Printf(
+                _("Welcome to %s!"),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
+
+            m_pCompletionWelcome->Show();
+            m_pCompletionWelcome->SetLabel( strWelcome );
+        }
+
+        wxString strBrandedMessage;
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            // 1st %s is the project name
+            //    i.e. 'GridRepublic'
+            // 2nd %s is the account manager success message
+            strBrandedMessage.Printf(
+                _("You are now successfully attached to the %s system.\n"
+                  "%s"),
+                wxGetApp().GetBrand()->GetProjectName().c_str(),
+                wxGetApp().GetBrand()->GetAMWizardSuccessMessage().c_str()
+            );
+        } else {
+            strBrandedMessage = _("You are now successfully attached to this account manager.");
+        }
+
+        m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
+
+        m_pCompletionMessage->SetLabel(
+            _("Click Finish to close.")
+        );
     }
 }
   

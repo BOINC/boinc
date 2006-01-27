@@ -70,6 +70,9 @@ CErrProxyInfoPage::CErrProxyInfoPage( CBOINCBaseWizard* parent )
 bool CErrProxyInfoPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CErrProxyInfoPage member initialisation
+    m_pTitleStaticCtrl = NULL;
+    m_pDescriptionStaticCtrl = NULL;
+    m_pDirectionsStaticCtrl = NULL;
 ////@end CErrProxyInfoPage member initialisation
   
 ////@begin CErrProxyInfoPage creation
@@ -95,29 +98,22 @@ void CErrProxyInfoPage::CreateControls()
     wxBoxSizer* itemBoxSizer127 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage126->SetSizer(itemBoxSizer127);
 
-    wxStaticText* itemStaticText128 = new wxStaticText;
-    itemStaticText128->Create( itemWizardPage126, wxID_STATIC, 
-        _("Network communication failure"),
-        wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText128->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer127->Add(itemStaticText128, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pTitleStaticCtrl = new wxStaticText;
+    m_pTitleStaticCtrl->Create( itemWizardPage126, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer127->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxStaticText* itemStaticText130 = new wxStaticText;
-    itemStaticText130->Create( itemWizardPage126, wxID_STATIC, 
-        _("BOINC failed to communicate on the Internet. The most likely\n"
-          "reasons are:\n"
-          "\n"
-          "1) Personal firewall software is blocking BOINC. You must\n"
-          "configure your personal firewall to let BOINC communicate\n"
-          "on port 80. Once this is fixed, click Back to try again.\n"
-          "\n"
-          "2) You are using a proxy server and BOINC needs to know\n"
-          "about it.\n"
-          "\n"
-          "Click Next to configure BOINC's proxy settings.\n"),
-          wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer127->Add(itemStaticText130, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer127->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
+    m_pDescriptionStaticCtrl = new wxStaticText;
+    m_pDescriptionStaticCtrl->Create( itemWizardPage126, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer127->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    itemBoxSizer127->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    m_pDirectionsStaticCtrl = new wxStaticText;
+    m_pDirectionsStaticCtrl->Create( itemWizardPage126, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer127->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CErrProxyInfoPage content construction
 }
   
@@ -184,7 +180,31 @@ wxIcon CErrProxyInfoPage::GetIconResource( const wxString& name )
  */
 
 void CErrProxyInfoPage::OnPageChanged( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pDescriptionStaticCtrl);
+    wxASSERT(m_pDirectionsStaticCtrl);
+
+    m_pTitleStaticCtrl->SetLabel(
+        _("Network communication failure")
+    );
+    m_pDescriptionStaticCtrl->SetLabel(
+        _("BOINC failed to communicate on the Internet. The most likely\n"
+          "reasons are:\n"
+          "\n"
+          "1) Personal firewall software is blocking BOINC. You must\n"
+          "configure your personal firewall to let BOINC communicate\n"
+          "on port 80. Once this is fixed, click Back to try again.\n"
+          "\n"
+          "2) You are using a proxy server and BOINC needs to know\n"
+          "about it.")
+    );
+    m_pDirectionsStaticCtrl->SetLabel(
+        _("Click Next to configure BOINC's proxy settings.")
+    );
+
+    Fit();
 }
   
 /*!

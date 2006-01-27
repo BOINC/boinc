@@ -74,10 +74,8 @@ CCompletionRemovePage::CCompletionRemovePage( CBOINCBaseWizard* parent )
 bool CCompletionRemovePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CCompletionRemovePage member initialisation
-    m_CompletionTitle = NULL;
-    m_CompletionWelcome = NULL;
-    m_CompletionBrandedMessage = NULL;
-    m_CompletionMessage = NULL;
+    m_pCompletionTitle = NULL;
+    m_pCompletionMessage = NULL;
 ////@end CCompletionRemovePage member initialisation
  
 ////@begin CCompletionRemovePage creation
@@ -103,27 +101,14 @@ void CCompletionRemovePage::CreateControls()
     wxBoxSizer* itemBoxSizer80 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage79->SetSizer(itemBoxSizer80);
 
-    wxString strTitle;
-    if (wxGetApp().GetBrand()->IsBranded()) {
-        // %s is the project name
-        //    i.e. 'GridRepublic'
-        strTitle.Printf(
-            _("Removal from %s successful!"),
-            wxGetApp().GetBrand()->GetProjectName().c_str()
-        );
-    } else {
-        strTitle = _("Removal succeeded!");
-    }
+    m_pCompletionTitle = new wxStaticText;
+    m_pCompletionTitle->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pCompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
+    itemBoxSizer80->Add(m_pCompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_CompletionTitle = new wxStaticText;
-    m_CompletionTitle->Create( itemWizardPage79, wxID_STATIC, strTitle, wxDefaultPosition, wxDefaultSize, 0 );
-    m_CompletionTitle->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, wxT("Verdana")));
-    itemBoxSizer80->Add(m_CompletionTitle, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_CompletionMessage = new wxStaticText;
-    m_CompletionMessage->Create( itemWizardPage79, wxID_STATIC, _("Click Finish to close."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer80->Add(m_CompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
-
+    m_pCompletionMessage = new wxStaticText;
+    m_pCompletionMessage->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer80->Add(m_pCompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
 ////@end CCompletionRemovePage content construction
 }
   
@@ -185,6 +170,29 @@ wxIcon CCompletionRemovePage::GetIconResource( const wxString& name )
  
 void CCompletionRemovePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
+
+    wxASSERT(m_pCompletionTitle);
+    wxASSERT(m_pCompletionMessage);
+
+    wxString strTitle;
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        // %s is the project name
+        //    i.e. 'GridRepublic'
+        strTitle.Printf(
+            _("Removal from %s successful!"),
+            wxGetApp().GetBrand()->GetProjectName().c_str()
+        );
+    } else {
+        strTitle = _("Removal succeeded!");
+    }
+
+    m_pCompletionTitle->SetLabel( strTitle );
+
+    m_pCompletionMessage->SetLabel(
+        _("Click Finish to close.")
+    );
+
+    Fit();
 }
   
 /*!

@@ -130,9 +130,9 @@ public:
     void FinishProgress(wxStaticBitmap* pBitmap);
 
 ////@begin CAccountManagerProcessingPage member variables
-    wxStaticBitmap* m_ProgressIndicator;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticBitmap* m_pProgressIndicator;
 ////@end CAccountManagerProcessingPage member variables
-
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
     bool m_bProjectAccountAlreadyExists;

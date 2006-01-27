@@ -72,7 +72,7 @@ public:
 
     /// Wizard Detection
     bool IsAttachToProjectWizard;
-    bool IsAccountManagerAttachWizard;
+    bool IsAccountManagerWizard;
     bool IsAccountManagerUpdateWizard;
     bool IsAccountManagerRemoveWizard;
 

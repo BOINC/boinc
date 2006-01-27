@@ -101,23 +101,28 @@ public:
     static bool ShowToolTips();
 
 ////@begin CErrProxyPage member variables
-    wxStaticText* m_ProxyHTTPServerStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPServerCtrl;
-    wxStaticText* m_ProxyHTTPPortStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPPortCtrl;
-    wxStaticText* m_ProxyHTTPUsernameStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPUsernameCtrl;
-    wxStaticText* m_ProxyHTTPPasswordStaticCtrl;
-    wxTextCtrl* m_ProxyHTTPPasswordCtrl;
-    wxButton* m_ProxyHTTPAutodetectCtrl;
-    wxStaticText* m_ProxySOCKSServerStaticCtrl;
-    wxTextCtrl* m_ProxySOCKSServerCtrl;
-    wxStaticText* m_ProxySOCKSPortStaticCtrl;
-    wxTextCtrl* m_ProxySOCKSPortCtrl;
-    wxStaticText* m_ProxySOCKSUsernameStaticCtrl;
-    wxTextCtrl* m_ProxySOCKSUsernameCtrl;
-    wxStaticText* m_ProxySOCKSPasswordStaticCtrl;
-    wxTextCtrl* m_ProxySOCKSPasswordCtrl;
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticBox* m_pProxyHTTPDescriptionCtrl; 
+    wxStaticText* m_pProxyHTTPServerStaticCtrl;
+    wxTextCtrl* m_pProxyHTTPServerCtrl;
+    wxStaticText* m_pProxyHTTPPortStaticCtrl;
+    wxTextCtrl* m_pProxyHTTPPortCtrl;
+    wxStaticText* m_pProxyHTTPUsernameStaticCtrl;
+    wxTextCtrl* m_pProxyHTTPUsernameCtrl;
+    wxStaticText* m_pProxyHTTPPasswordStaticCtrl;
+    wxTextCtrl* m_pProxyHTTPPasswordCtrl;
+#if 0
+    wxButton* m_pProxyHTTPAutodetectCtrl;
+#endif
+    wxStaticBox* m_pProxySOCKSDescriptionCtrl; 
+    wxStaticText* m_pProxySOCKSServerStaticCtrl;
+    wxTextCtrl* m_pProxySOCKSServerCtrl;
+    wxStaticText* m_pProxySOCKSPortStaticCtrl;
+    wxTextCtrl* m_pProxySOCKSPortCtrl;
+    wxStaticText* m_pProxySOCKSUsernameStaticCtrl;
+    wxTextCtrl* m_pProxySOCKSUsernameCtrl;
+    wxStaticText* m_pProxySOCKSPasswordStaticCtrl;
+    wxTextCtrl* m_pProxySOCKSPasswordCtrl;
     wxString m_strProxyHTTPServer;
     wxString m_strProxyHTTPPort;
     wxString m_strProxyHTTPUsername;

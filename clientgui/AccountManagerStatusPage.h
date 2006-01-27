@@ -74,13 +74,19 @@ public:
     static bool ShowToolTips();
 
 ////@begin CAccountManagerStatusPage member variables
-    wxStaticText* m_AcctManagerNameCtrl;
-    wxHyperLink* m_AcctManagerURLCtrl;
-    wxRadioButton* m_AcctManagerUpdateCtrl;
-    wxRadioButton* m_AcctManagerRemoveCtrl;
-////@end CAccountManagerStatusPage member variables
+    wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pAcctManagerDescriptionStaticCtrl;
+    wxStaticText* m_pAcctManagerNameStaticCtrl;
+    wxStaticText* m_pAcctManagerNameCtrl;
+    wxStaticText* m_pAcctManagerURLStaticCtrl;
+    wxHyperLink* m_pAcctManagerURLCtrl;
+    wxRadioButton* m_pAcctManagerUpdateCtrl;
+    wxStaticText* m_pAcctManagerUpdateDescriptionStaticCtrl;
+    wxRadioButton* m_pAcctManagerRemoveCtrl;
+    wxStaticText* m_pAcctManagerRemoveDescriptionStaticCtrl;
     wxString m_strAcctManagerName;
     wxString m_strAcctManagerURL;
+////@end CAccountManagerStatusPage member variables
 };
 
 
