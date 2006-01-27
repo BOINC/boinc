@@ -1068,4 +1068,9 @@ Rom    27 Jan 2006
         boinc_ss.rc
         win_screensaver.cpp, .h
 
- 
+David  27 Jan 2006
+    - server build fix for Mac OS X 10.3
+        (from Derek Wright)
+
+    m4/
+        kc_mysql.m4
