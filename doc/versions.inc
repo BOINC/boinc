@@ -118,18 +118,15 @@ $changes_5 = "
       </ul>
 ";
 
-$w5215= array(
-    "num"=>"5.2.15",
+$w5315= array(
+    "num"=>"5.3.15",
     "status"=>"Development version",
-    "file"=>"boinc_5.2.15_windows_intelx86.exe",
-    "date"=>"28 Dec 2005",
+    "file"=>"boinc_5.3.15_windows_intelx86.exe",
+    "date"=>"27 Jan 2006",
     "type"=>"win_new",
-    "features"=>"<ul>
-    <li> Dial-up features now work with all installation types.
-    <li> The BOINC Manager can now be controlled using only the keyboard.
-".$features_5."
-".$dev_changes."
-".$changes_5."
+    "features"=>"
+    <ul>
+    <li> Improved network detection on Windows.
     </ul>
     ",
     "bugs"=>"<ul>
@@ -450,7 +447,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5215,
+        $w5315,
         $w5213,
         $w445,
     )
