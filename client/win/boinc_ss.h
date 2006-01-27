@@ -4,6 +4,7 @@
 //
 #define IDI_MAIN_ICON                        1
 #define IDS_DESCRIPTION                      1
+#define IDS_SHORTCUTNAME                     2
 #define DLG_CONFIG                           104
 #define IDB_BOINCSPLAT                       108
 #define IDC_BLANK                            1000

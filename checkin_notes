@@ -1058,3 +1058,14 @@ Rom    26 Jan 2006
         
     clientgui/
 		<All wizard related files>
+
+Rom    27 Jan 2006
+    - Bug Fix: The screensaver should properly detect the shortcut for all
+        branded clients.
+        
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+
+ 

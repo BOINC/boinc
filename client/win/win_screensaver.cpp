@@ -588,6 +588,7 @@ BOOL CScreensaver::IsConfigStartupBOINC() {
 	BOOL				bRetVal;
 	BOOL				bCheckFileExists;
 	TCHAR				szBuffer[MAX_PATH];
+	TCHAR				szShortcutBuffer[MAX_PATH];
 	HANDLE				hFileHandle;
     HMODULE				hShell32;
 	MYSHGETFOLDERPATH	pfnMySHGetFolderPath = NULL;
@@ -595,6 +596,9 @@ BOOL CScreensaver::IsConfigStartupBOINC() {
 
 	// Lets set the default value to FALSE
 	bRetVal = FALSE;
+
+    // Load the shortcut filename into the shortcut buffer.
+    LoadString(NULL, IDS_SHORTCUTNAME, szShortcutBuffer, sizeof(szShortcutBuffer)/sizeof(TCHAR));
 
 	// Attempt to link to dynamic function if it exists
     hShell32 = LoadLibrary(_T("SHELL32.DLL"));
@@ -612,7 +616,8 @@ BOOL CScreensaver::IsConfigStartupBOINC() {
 		if (NULL != pfnMySHGetFolderPath) {
 			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
 				BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-				if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), BOINC_SHORTCUT_NAME, sizeof(BOINC_SHORTCUT_NAME)))) {
+                StringCchCatN(szBuffer, sizeof(szBuffer), _T("\\"), sizeof(_T("\\"))/sizeof(TCHAR));
+				if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), szShortcutBuffer, sizeof(szShortcutBuffer)/sizeof(TCHAR)))) {
 					BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 					bCheckFileExists = TRUE;
 				} else {
@@ -647,7 +652,8 @@ BOOL CScreensaver::IsConfigStartupBOINC() {
 				if (NULL != pfnMySHGetFolderPath) {
 					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
 						BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-						if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), BOINC_SHORTCUT_NAME, sizeof(BOINC_SHORTCUT_NAME)))) {
+                            StringCchCatN(szBuffer, sizeof(szBuffer), _T("\\"), sizeof(_T("\\"))/sizeof(TCHAR));
+				            if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), szShortcutBuffer, sizeof(szShortcutBuffer)/sizeof(TCHAR)))) {
 							BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 							bCheckFileExists = TRUE;
 						} else {

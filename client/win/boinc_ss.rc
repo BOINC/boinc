@@ -205,9 +205,13 @@ IDI_MAIN_ICON           ICON                    "res\\Scricon3.ico"
 // Bitmap
 //
 
-#ifdef _GRIDREPUBLIC
+#if defined(_GRIDREPUBLIC)
 
 IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
+
+#elif defined(_CPDNBBC)
+
+IDB_BOINCSPLAT          BITMAP                  "res\\cpdnbbc.bmp"
 
 #else
 
@@ -246,7 +250,7 @@ STRINGTABLE
 BEGIN
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the Climate Change Experiment screensaver."
     IDS_ERR_BOINCNOTDETECTED 
-                            "Climate Change Experiment is not running.\n\nPlease launch Climate Change Experiment to display graphics."
+                            "Climate Change Experiment is not running.\n\nPlease launch Climate Change Experiment\nto display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
                             "Climate Change Experiment is not running.\n(Automatic Startup not detected)\n\nWe recommend running Climate Change Experiment at startup;\nplease reinstall Climate Change Experiment and select this option."
     IDS_ERR_BOINCSUSPENDED  "Climate Change Experiment is currently suspended."
@@ -295,6 +299,7 @@ END
 STRINGTABLE 
 BEGIN
     IDS_DESCRIPTION         "GridRepublic"
+    IDS_SHORTCUTNAME        "GridRepublic Manager.lnk"
 END
 
 #elif defined(_CPDNBBC)
@@ -302,6 +307,7 @@ END
 STRINGTABLE 
 BEGIN
     IDS_DESCRIPTION         "Climate Change Experiment"
+    IDS_SHORTCUTNAME        "Climate Change Experiment Manager.lnk"
 END
 
 #else
@@ -309,6 +315,7 @@ END
 STRINGTABLE 
 BEGIN
     IDS_DESCRIPTION         "BOINC"
+    IDS_SHORTCUTNAME        "BOINC Manager.lnk"
 END
 
 #endif
