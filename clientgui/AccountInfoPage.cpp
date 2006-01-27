@@ -147,8 +147,6 @@ void CAccountInfoPage::CreateControls()
     m_pAccountManagerInformationStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer57->Add(m_pAccountManagerInformationStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer57->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
     wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(4, 2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
     itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxGROW|wxALL, 0);
@@ -302,11 +300,18 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
             );
         }
+        m_pAccountManagerInformationStaticCtrl->Hide();
     } else {
+        m_pAccountQuestionStaticCtrl->Hide();
+        m_pAccountCreateCtrl->Hide();
+        m_pAccountUseExistingCtrl->Hide();
+        m_pAccountInformationStaticCtrl->Hide();
         m_pAccountManagerInformationStaticCtrl->SetLabel(
             _("Please provide the email address and password you used on\n"
               "the website so that your projects and preferences can be retrieved.")
         );
+        m_pAccountConfirmPasswordStaticCtrl->Hide();
+        m_pAccountConfirmPasswordCtrl->Hide();
     }
 
     m_pAccountEmailAddressStaticCtrl->SetLabel(

@@ -138,28 +138,27 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_iconApplicationIcon = wxIcon(cpdnbbc16_xpm);
             m_bitmapApplicationLogo = wxBitmap(cpdnbbc32_xpm);
             m_strCompanyName = wxT("ClimatePrediction.net");
-            m_strCompanyWebsite = wxT("http://bbc.cpdn.org/beta/");
+            m_strCompanyWebsite = wxT("http://bbc.cpdn.org/");
             m_strProjectName = wxT("BBC Climate Change Experiment");
             m_bDefaultTabSpecified = true;
             m_iDefaultTab = ID_LIST_WORKVIEW - ID_LIST_BASE;
             m_strAPWizardTitle = _("Start Project");
             m_bitmapAPWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
             m_strAPWizardAccountInfoText = 
-                _("Please enter an email address and password.\n"
-                  "\n"
-                  "You will need your email address if you want to change your account\n"
-                  "options or use our message boards.\n"
+                _("Please enter an email address and password. You will need your email\n"
+                  "address if you want to change your account options or use our message\n"
+                  "boards.\n"
                   "\n"
                   "We will send you occasional emails. You can stop these at any time.\n"
-                  "We will not pass your email address on to others.\n");
+                  "We will not pass your email address on to others.");
             m_strAPWizardCompletionTitle = 
                 _("Project Started");
             m_strAPWizardCompletionBrandedMessage =
                 _("Congratulations, you have now successfully started your Climate\n"
-                  "Change Experiment.\n");
+                  "Change Experiment.");
             m_strAPWizardCompletionMessage =
                 _("Click finish to exit. You will be taken to a web page which tells\n"
-                  "you more about your model.\n");
+                  "you more about your model.");
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
             m_strAMWizardAttachMessage = wxEmptyString;
