@@ -81,6 +81,7 @@ public:
     std::vector<APP_VERSION*> app_versions;
     std::vector<WORKUNIT*> workunits;
     std::vector<RESULT*> results;
+    std::vector<CPU> cpus;
 
     NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;
@@ -150,6 +151,7 @@ public:
         // Don't do CPU.  See check_suspend_activities for logic
     bool network_suspended;
         // Don't do network.  See check_suspend_network for logic
+    double network_last_unsuspended;
 	bool executing_as_daemon;
         // true if --daemon is on the commandline
         // this means we are running as a daemon on unix,
@@ -186,6 +188,8 @@ private:
     double total_cpu_time_this_period;
 	bool work_fetch_no_new_work;
 	bool cpu_earliest_deadline_first;
+    long rr_last_results_fail_count;
+    long rr_results_fail_count;
 
 // --------------- acct_mgr.C:
 public:
@@ -231,6 +235,7 @@ public:
     bool want_network();
     void network_available();
     bool no_gui_rpc;
+    bool network_id_intermittent() const;
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);
@@ -288,8 +293,8 @@ private:
     int choose_version_num(char*, SCHEDULER_REPLY&);
     int app_finished(ACTIVE_TASK&);
     void assign_results_to_projects();
-    bool schedule_largest_debt_project(double expected_pay_off);
-    bool schedule_earliest_deadline_result();
+    bool schedule_largest_debt_project(double expected_pay_off, int cpu_index);
+    bool schedule_earliest_deadline_result(int cpu_index);
     bool start_apps();
     bool schedule_cpus();
     bool handle_finished_apps();
@@ -338,11 +343,13 @@ private:
 // --------------- cs_scheduler.C:
 public:
     double work_needed_secs();
+    void force_reschedule_all_cpus();
     PROJECT* next_project_master_pending();
     PROJECT* next_project_need_work();
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     int compute_work_requests();
+    bool network_is_intermittent() const;
     SCHEDULER_OP* scheduler_op;
     void scale_duration_correction_factors(double);
 private:
@@ -359,7 +366,7 @@ private:
     bool no_work_for_a_cpu();
     int proj_min_results(PROJECT*, double);
     bool round_robin_misses_deadline(double, double);
-    bool rr_misses_deadline(double, double);
+    bool rr_misses_deadline(double, double, bool);
     bool edf_misses_deadline(double);
     void set_scheduler_modes();
     void generate_new_host_cpid();

@@ -237,6 +237,7 @@ int CLIENT_STATE::suspend_network(int reason) {
 
 int CLIENT_STATE::resume_network() {
     msg_printf(NULL, MSG_INFO, "Resuming network activity");
+    network_last_unsuspended = now;
     return 0;
 }
 

@@ -1095,3 +1095,14 @@ David  27 Jan 2006
 
     client/
         cs_apps.C
+
+David  27 Jan 2006
+    - core client: various scheduler fixes
+        (from John McLeod)
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C

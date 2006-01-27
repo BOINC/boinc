@@ -125,6 +125,8 @@ CLIENT_STATE::CLIENT_STATE() {
     have_tentative_project = false;
     new_version_check_time = 0;
     detach_console = false;
+
+    rr_results_fail_count = rr_last_results_fail_count = 0;
 }
 
 #if 0
@@ -1445,5 +1447,13 @@ double calculate_exponential_backoff( int n, double MIN, double MAX) {
     return rand_range(MIN, rmax);
 }
 
+bool CLIENT_STATE::network_is_intermittent() const
+{
+    if (global_prefs.net_start_hour != global_prefs.net_end_hour) return true;
+    if (global_prefs.confirm_before_connecting) return true;
+    if ((now - network_last_unsuspended) < SECONDS_PER_DAY * 7) return true;
+    if ((now - network_last_unsuspended) < global_prefs.work_buf_min_days * SECONDS_PER_DAY) return true;
+    return false;
+}
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

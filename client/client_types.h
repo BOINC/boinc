@@ -241,6 +241,7 @@ public:
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects
 
+    int deadline_problem_count;
     bool contactable();
         // not suspended and not deferred and not no more work
     bool runnable();
@@ -399,6 +400,7 @@ struct RESULT {
     char name[256];
     char wu_name[256];
     double report_deadline;
+    double computation_deadline();
     std::vector<FILE_REF> output_files;
     bool ready_to_report;
         // we're ready to report this result to the server;
@@ -466,7 +468,20 @@ struct RESULT {
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
+    bool deadline_problem;
+};
 
+struct CPU {
+public:
+    CPU();
+    ~CPU();
+
+    void schedule_result(RESULT * result);
+
+    double sched_last_time;
+    bool must_schedule;
+    RESULT *result;
+private:
 };
 
 #endif
