@@ -271,6 +271,8 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             _("Click Finish to close.")
         );
     }
+
+    Fit();
 }
   
 /*!

@@ -373,7 +373,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
  
     m_pAccountEmailAddressCtrl->SetFocus();
-
     Fit();
 }
   

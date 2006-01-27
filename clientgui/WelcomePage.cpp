@@ -351,7 +351,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         _("To continue, click Next.")
     );
 
-    GetSizer()->Fit(this);
+    Fit();
 }
   
 /*!

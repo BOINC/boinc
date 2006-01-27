@@ -183,7 +183,6 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pProjectUrlCtrl->SetFocus();
-
     Fit();
 }
 
