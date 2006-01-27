@@ -1085,3 +1085,9 @@ David  27 Jan 2006
         AccountManagerPropertiesPage.cpp
         CompletionRemovePage.cpp
         CompletionUpdatePage.cpp
+
+David  27 Jan 2006
+    - core client: fix calculation of STD/LTD
+
+    client/
+        cs_apps.C

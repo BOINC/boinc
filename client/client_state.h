@@ -448,4 +448,9 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
+#ifdef NEW_CPU_SCHED
+class CPU_SCHEDULER {
+};
+#endif
+
 #endif

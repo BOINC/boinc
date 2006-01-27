@@ -420,7 +420,7 @@ void CLIENT_STATE::adjust_debts() {
     double total_long_term_debt = 0;
     double total_short_term_debt = 0;
     double prrs, rrs;
-    int nprojects = 0;
+    int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
     double wall_cpu_time = gstate.now - cpu_sched_last_time;
@@ -459,21 +459,21 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
-        nprojects++;
 
         // adjust long-term debts
         //
         if (p->potentially_runnable()) {
+            nprojects++;
             share_frac = p->resource_share/prrs;
             p->long_term_debt += share_frac*total_wall_cpu_time_this_period
-                - p->wall_cpu_time_this_period
-            ;
+                - p->wall_cpu_time_this_period;
+            total_long_term_debt += p->long_term_debt;
         }
-        total_long_term_debt += p->long_term_debt;
 
         // adjust short term debts
         //
         if (p->runnable()) {
+            nrprojects++;
             share_frac = p->resource_share/rrs;
             p->short_term_debt += share_frac*total_wall_cpu_time_this_period
                 - p->wall_cpu_time_this_period
@@ -497,7 +497,10 @@ void CLIENT_STATE::adjust_debts() {
     //  normalize so mean is zero, and limit abs value at MAX_DEBT
     //
     double avg_long_term_debt = total_long_term_debt / nprojects;
-    double avg_short_term_debt = total_short_term_debt / nprojects;
+    double avg_short_term_debt = 0;
+    if (nrprojects) {
+        total_short_term_debt / nrprojects;
+    }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
@@ -512,7 +515,9 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = p->short_term_debt;
             //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);
         }
-        p->long_term_debt -= avg_long_term_debt;
+        if (p->potentially_runnable()) {
+            p->long_term_debt -= avg_long_term_debt;
+        }
     }
 }
 

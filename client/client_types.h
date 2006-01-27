@@ -295,6 +295,9 @@ public:
     bool checked;
         // temporary used when scanning projects
 
+#ifdef NEW_CPU_SCHED
+    void compute_cpu_share_needed();
+#endif
 
     // vars related to file-transfer backoff
     // file_xfer_failures_up: count of consecutive upload failures
@@ -435,13 +438,6 @@ struct RESULT {
         // this may be NULL after result is finished
     PROJECT* project;
 
-    // temporaries used in CLIENT_STATE::rr_misses_deadline():
-    double rrsim_cpu_left;
-    double rrsim_finish_delay;
-
-    bool already_selected;
-        // used to keep cpu scheduler from scheduling a result twice
-        // transient; used only within schedule_cpus()
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);
@@ -452,6 +448,9 @@ struct RESULT {
     void reset_files();
     FILE_REF* lookup_file(FILE_INFO*);
     FILE_INFO* lookup_file_logical(const char*);
+
+    // stuff related to CPU scheduling
+
     double estimated_cpu_time();
     double estimated_cpu_time_uncorrected();
     double estimated_cpu_time_remaining();
@@ -461,6 +460,13 @@ struct RESULT {
     bool runnable_soon();
         // downloading or downloaded,
         // not finished, suspended, project not suspended
+    // temporaries used in CLIENT_STATE::rr_misses_deadline():
+    double rrsim_cpu_left;
+    double rrsim_finish_delay;
+    bool already_selected;
+        // used to keep cpu scheduler from scheduling a result twice
+        // transient; used only within schedule_cpus()
+
 };
 
 #endif
