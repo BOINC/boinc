@@ -321,7 +321,7 @@ int CLIENT_STATE::schedule_result(RESULT* rp) {
 // among those that have a runnable result.
 // Return true iff a task was scheduled.
 //
-bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
+bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off, int cpu_index) {
     PROJECT *best_project = NULL;
     double best_debt = -MAX_DEBT;
     bool first = true;
@@ -340,6 +340,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     if (!best_project) return false;
 
     schedule_result(best_project->next_runnable_result);
+    cpus[cpu_index].schedule_result(best_project->next_runnable_result);
     best_project->anticipated_debt -= expected_pay_off;
     best_project->next_runnable_result = 0;
     return true;
@@ -348,7 +349,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 // Schedule the active task with the earliest deadline
 // Return true iff a task was scheduled.
 //
-bool CLIENT_STATE::schedule_earliest_deadline_result() {
+bool CLIENT_STATE::schedule_earliest_deadline_result(int cpu_index) {
     PROJECT *best_project = NULL;
     RESULT *best_result = NULL;
     double earliest_deadline=0;
@@ -360,6 +361,7 @@ bool CLIENT_STATE::schedule_earliest_deadline_result() {
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
+        if (!rp->project->deadline_problem_count) continue;
         if (first || rp->report_deadline < earliest_deadline) {
             first = false;
             best_project = rp->project;
@@ -371,7 +373,9 @@ bool CLIENT_STATE::schedule_earliest_deadline_result() {
 
 //    msg_printf(0, MSG_INFO, "earliest deadline: %f %s", earliest_deadline, best_result->name);
     schedule_result(best_result);
+    cpus[cpu_index].schedule_result(best_result);
     best_result->already_selected = true;
+    --best_result->project->deadline_problem_count;
     return true;
 }
 
@@ -499,7 +503,7 @@ void CLIENT_STATE::adjust_debts() {
     double avg_long_term_debt = total_long_term_debt / nprojects;
     double avg_short_term_debt = 0;
     if (nrprojects) {
-        total_short_term_debt / nrprojects;
+        avg_short_term_debt = total_short_term_debt / nrprojects;
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -538,20 +542,45 @@ bool CLIENT_STATE::schedule_cpus() {
     if (projects.size() == 0) return false;
     if (results.size() == 0) return false;
 
+    // the results mark must be removed before the CPUs are checked.
+    for (i=0; i<results.size(); i++) {
+        results[i]->already_selected = false;
+    }
     // Reschedule every cpu_sched_period seconds,
     // or if must_schedule_cpus is set
     // (meaning a new result is available, or a CPU has been freed).
     //
-    elapsed_time = gstate.now - cpu_sched_last_time;
-    if (must_schedule_cpus) {
-        must_schedule_cpus = false;
-        scope_messages.printf("CLIENT_STATE::schedule_cpus(): must schedule\n");
-    } else {
-        if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
-            return false;
+    for (i = 0; i < cpus.size(); ++i)
+    {
+        if (cpus[i].must_schedule)
+        {
+            must_schedule_cpus = true;
+            scope_messages.printf("CLIENT_STATE::schedule_cpus(): must schedule CPU %d\n", i);
         }
-        scope_messages.printf("CLIENT_STATE::schedule_cpus(): time %f\n", elapsed_time);
+        else
+        {
+            try {
+                cpus[i].result->already_selected = true;
+                elapsed_time = gstate.now - cpus[i].sched_last_time;
+                if ((elapsed_time < (global_prefs.cpu_scheduling_period_minutes * 60)) && (cpus[i].result->state < RESULT_COMPUTE_ERROR)) continue;
+            }
+            catch (...) {// if there is a cpu object with a null or deleted result, we need to re-schedule.
+            }
+            scope_messages.printf("CLIENT_STATE::schedule_cpus(): time %f CPU %d\n", elapsed_time, i);
+            // TODO test for projects that have not recently had a checkpoint and do not let them switch.
+            cpus[i].must_schedule = true;
+            must_schedule_cpus = true;
+            try {
+                cpus[i].result->already_selected = false;
+            }
+            catch(...)
+            {}
+        }
     }
+
+    if (!must_schedule_cpus)
+        return false;
+    must_schedule_cpus = false;
 
     // mark file xfer results as completed;
     // TODO: why do this here??
@@ -563,9 +592,6 @@ bool CLIENT_STATE::schedule_cpus() {
     for (i=0; i<projects.size(); i++) {
         projects[i]->next_runnable_result = NULL;
         projects[i]->nactive_uploads = 0;
-    }
-    for (i=0; i<results.size(); i++) {
-        results[i]->already_selected = false;
     }
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         FILE_XFER* fxp = file_xfers->file_xfers[i];
@@ -591,12 +617,23 @@ bool CLIENT_STATE::schedule_cpus() {
 
     expected_pay_off = total_wall_cpu_time_this_period / ncpus;
     for (j=0; j<ncpus; j++) {
-        if (cpu_earliest_deadline_first) {
-            if (!schedule_earliest_deadline_result()) break;
-        } else {
-            assign_results_to_projects();
-            if (!schedule_largest_debt_project(expected_pay_off)) break;
+        if (cpus[j].must_schedule)
+        {
+            if (cpu_earliest_deadline_first) {
+                if (!schedule_earliest_deadline_result(j)) {
+                    assign_results_to_projects();
+                    if (!schedule_largest_debt_project(expected_pay_off, j)) break;
+                }
+            } else {
+                assign_results_to_projects();
+                if (!schedule_largest_debt_project(expected_pay_off, j)) break;
+            }
         }
+        else
+        {
+            schedule_result(cpus[j].result);
+        }
+        cpus[j].must_schedule = false;
     }
 
     // schedule new non CPU intensive tasks
@@ -664,12 +701,15 @@ int CLIENT_STATE::restart_tasks() {
 }
 
 void CLIENT_STATE::set_ncpus() {
+//    int ncpus;
     if (host_info.p_ncpus > 0) {
         ncpus = host_info.p_ncpus;
     } else {
         ncpus = 1;
     }
     if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
+    if (ncpus != cpus.size())
+        cpus.resize(ncpus);
 }
 
 inline double force_fraction(double f) {
