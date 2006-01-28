@@ -1059,12 +1059,14 @@ bool CLIENT_STATE::should_get_work() {
         return true;
     }
 
+#ifndef NEW_CPU_SCHED
     // if the CPU started this time period overloaded,
     // let it process for a while to get out of the CPU overload state.
     // unless there is an override of some sort.
     if (!work_fetch_no_new_work || must_schedule_cpus) {
         set_scheduler_modes();
     }
+#endif
 
     return !work_fetch_no_new_work;
 }
@@ -1242,107 +1244,7 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool
     return deadline_missed;
 }
 
-#if 0
-// simulate weighted round-robin scheduling,
-// and see if any result misses its deadline.
-//
-bool CLIENT_STATE::round_robin_misses_deadline(
-    double per_cpu_proc_rate, double rrs
-) {
-    std::vector <double> booked_to;
-    int k;
-    unsigned int i, j;
-    RESULT* rp;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
-
-    for (k=0; k<ncpus; k++) {
-        booked_to.push_back(now);
-    }
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (!p->runnable()) continue;
-        double project_proc_rate;
-        if (rrs) {
-            project_proc_rate = per_cpu_proc_rate * (p->resource_share/rrs);
-        } else {
-            project_proc_rate = per_cpu_proc_rate;      // TODO - fix
-        }
-        for (j=0; j<results.size(); j++) {
-            rp = results[j];
-            if (rp->project != p) continue;
-            if (!rp->runnable()) continue;
-            double first = booked_to[0];
-            int ifirst = 0;
-            for (k=1; k<ncpus; k++) {
-                if (booked_to[k] < first) {
-                    first = booked_to[k];
-                    ifirst = k;
-                }
-            }
-            booked_to[ifirst] += rp->estimated_cpu_time_remaining()/project_proc_rate;
-            scope_messages.printf("set_scheduler_modes() result %s: est %f, deadline %f\n",
-                rp->name, booked_to[ifirst], rp->report_deadline
-            );
-            if (booked_to[ifirst] > rp->report_deadline) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-#endif
-
-#if 0
-// Simulate what will happen if we do EDF schedule starting now.
-// Go through non-done results in EDF order,
-// keeping track in "booked_to" of how long each CPU is occupied
-//
-bool CLIENT_STATE::edf_misses_deadline(double per_cpu_proc_rate) {
-    std::map<double, RESULT*>::iterator it;
-    std::map<double, RESULT*> results_by_deadline;
-    std::vector <double> booked_to;
-    unsigned int i;
-    int j;
-    RESULT* rp;
-
-    for (j=0; j<ncpus; j++) {
-        booked_to.push_back(now);
-    }
-
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
-        if (rp->computing_done()) continue;
-        if (rp->project->non_cpu_intensive) continue;
-        results_by_deadline[rp->report_deadline] = rp;
-    }
-
-    for (
-        it = results_by_deadline.begin();
-        it != results_by_deadline.end();
-        it++
-    ) {
-        rp = (*it).second;
-
-        // find the CPU that will be free first
-        //
-        double lowest_book = booked_to[0];
-        int lowest_booked_cpu = 0;
-        for (j=1; j<ncpus; j++) {
-            if (booked_to[j] < lowest_book) {
-                lowest_book = booked_to[j];
-                lowest_booked_cpu = j;
-            }
-        }
-        booked_to[lowest_booked_cpu] += rp->estimated_cpu_time_remaining()
-            /(per_cpu_proc_rate*CPU_PESSIMISM_FACTOR);
-        if (booked_to[lowest_booked_cpu] > rp->report_deadline) {
-            return true;
-        }
-    }
-    return false;
-}
-#endif
+#ifndef NEW_CPU_SCHED
 
 // Decide on modes for work-fetch and CPU sched policies.
 // Namely, set the variables
@@ -1447,6 +1349,7 @@ void CLIENT_STATE::set_scheduler_modes() {
     work_fetch_no_new_work = should_not_fetch_work;
     cpu_earliest_deadline_first = result_has_deadline_problem;
 }
+#endif
 
 double CLIENT_STATE::work_needed_secs() {
     // Note that one CPDN result with 30 days remaining will not keep 4 CPUs busy today.
@@ -1479,12 +1382,13 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
     }
 }
 
-void CLIENT_STATE::force_reschedule_all_cpus()
-{
+#ifndef NEW_CPU_SCHED
+void CLIENT_STATE::force_reschedule_all_cpus() {
     for (std::vector<CPU>::iterator it = cpus.begin(); it != cpus.end(); ++it) {
         (*it).must_schedule = true;
     }
 }
+#endif
 
 // Choose a new host CPID.
 // Do scheduler RPCs to all projects to propagate the CPID

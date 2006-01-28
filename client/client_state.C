@@ -457,6 +457,9 @@ bool CLIENT_STATE::poll_slow_events() {
 
     check_suspend_activities(suspend_reason);
 
+#ifdef NEW_CPU_SCHED
+    cpu_scheduler.make_schedule();
+#else
     // Restart tasks on startup.
     // Do this here (rather than CLIENT_STATE::init())
     // so that if we do benchmark on startup,
@@ -468,6 +471,7 @@ bool CLIENT_STATE::poll_slow_events() {
         restart_tasks();
         tasks_restarted = true;
     }
+#endif
 
     // suspend or resume activities (but only if already did startup)
     //
@@ -542,9 +546,13 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
+#ifdef NEW_CPU_SCHED
+    cpu_scheduler.enforce();
+#else
     if (!tasks_suspended) {
         POLL_ACTION(schedule_cpus          , schedule_cpus          );
     }
+#endif
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
     }

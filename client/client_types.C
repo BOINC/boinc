@@ -1547,6 +1547,7 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
     return 0;
 }
 
+#ifndef NEW_CPU_SCHED
 CPU::CPU()
 :
 sched_last_time(0),
@@ -1565,5 +1566,5 @@ void CPU::schedule_result(RESULT * r)
     result = r;
     sched_last_time = gstate.now;
 }
-
+#endif
 const char *BOINC_RCSID_b81ff9a584 = "$Id$";

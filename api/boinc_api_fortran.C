@@ -116,17 +116,16 @@ void boinc_calling_thread_cpu_time_(double* d) {
     boinc_calling_thread_cpu_time(*d);
 }
 
-void boinc_zip_(
-    int zipmode, const char* zipfile, const char* unzippath,
-    int zipfile_len, int unzippath_len
+void boinc_zip_(int* zipmode, const char* zipfile,
+    const char* path, int zipfile_len, int path_len
 ) {
-     //zipmode = 0 to unzip, 1 to zip
-     //zipfile, unzippath = FORTRAN variables of type CHARACTER
-     STRING_FROM_FORTRAN zipfileff(zipfile, zipfile_len);
-     STRING_FROM_FORTRAN unzippathff(unzippath, unzippath_len);
-     zipfileff.strip_whitespace();
-     unzippathff.strip_whitespace();
-     boinc_zip(zipmode, zipfileff.c_str(), unzippathff.c_str());
+    //zipmode = 0 to unzip or 1 to zip. FORTRAN variable of type INTEGER.
+    //zipfile, path = FORTRAN variables of type CHARACTER.
+    STRING_FROM_FORTRAN zipfileff(zipfile, zipfile_len);
+    STRING_FROM_FORTRAN pathff(path, path_len);
+    zipfileff.strip_whitespace();
+    pathff.strip_whitespace();
+    boinc_zip(*zipmode,zipfileff.c_str(),pathff.c_str());
 } 
 
 }   // extern "C"

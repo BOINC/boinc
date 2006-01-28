@@ -1106,3 +1106,16 @@ David  27 Jan 2006
         cs_prefs.C
         cs_scheduler.C
         cs_statefile.C
+
+David  27 Jan 2006
+    - core client: initial checkin of new CPU scheduling code
+        (in a very incomplete state).
+        To enable it, define NEW_CPU_SCHED in a couple of .h files
+
+    api/
+        boinc_api_fortran.C
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
