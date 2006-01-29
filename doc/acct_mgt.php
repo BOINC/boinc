@@ -261,7 +261,7 @@ list_item("action",
     Identifies the host.
     <dt>previous_host_cpid
     <dd>
-    The host identified passed in the previous RPC.
+    The host identifier passed in the previous RPC.
     Host identifiers can change occasionally.
     This lets the account manager maintain host identity.
     <dt> domain_name
