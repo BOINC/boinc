@@ -563,9 +563,13 @@ if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_releas
    echo "----------"
    echo "NOTE: Building portable client binaries"
    echo "----------"
-
-SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
+   
+   SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+        
+   SAH_CHECK_LDFLAG([-lSystemStubs],[LIBS="${LIBS} -lSystemStubs"])
+   echo DEBUG: LIBS=${LIBS} >&5
+
 fi
 
 
