@@ -168,7 +168,7 @@ wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
 }
 
 
-void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
+void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
@@ -209,6 +209,14 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event) {
 
         if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
             m_pListPane->EnsureVisible(iDocCount - 1);
+        }
+
+        // If no item has been selected yet, select the first item.
+        if ((m_pListPane->GetSelectedItemCount() == 0) &&
+            (m_pListPane->GetItemCount() >= 1)) {
+
+            long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
+            m_pListPane->SetItemState(0, desiredstate, desiredstate);
         }
 
         UpdateSelection();
@@ -395,14 +403,6 @@ void CBOINCBaseView::EmptyTasks() {
 
     
 void CBOINCBaseView::PreUpdateSelection(){
-    if (m_pListPane) {
-        if ((m_pListPane->GetSelectedItemCount() == 0) &&
-            (m_pListPane->GetItemCount() >= 1)) {
-
-            long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-            m_pListPane->SetItemState(0, desiredstate, desiredstate);
-        }
-    }
 }
 
 
