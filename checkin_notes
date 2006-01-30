@@ -1147,5 +1147,10 @@ Reinhard 30 Jan 2006
      ./configure.ac
 
 
+David  30 Jan 2006
+	- updates to new scheduler code (commented out)
 
-
+	client
+		client_state.h
+		client_types.h
+		cs_apps.C

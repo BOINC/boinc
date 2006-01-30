@@ -77,6 +77,7 @@ struct CPU_SCHEDULER {
     void do_accounting();
     void make_schedule();
     void enforce();
+    void clear_tasks();
 };
 #endif
 
@@ -281,9 +282,9 @@ private:
     void adjust_debts();
     bool must_schedule_cpus;
     double total_resource_share();
-    double runnable_resource_share();
     double potentially_runnable_resource_share();
 public:
+    double runnable_resource_share();
     void request_schedule_cpus(const char*);
         // Reschedule CPUs ASAP.  Called when:
         // - core client starts (CS::init())

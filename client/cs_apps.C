@@ -827,7 +827,7 @@ void PROJECT::compute_cpu_share_needed() {
                 double cs = wcn/dt;
                 if (cs > cpu_share) {
                     double x = (wcn + cpu_share*(time-gstate.now))/(r->report_deadline-gstate.now);
-                    r->cpu_share = cpu_share - x;
+                    r->cpu_share = x - cpu_share;
                     cpu_share = x;
                 } else {
                     r->cpu_share = 0;
@@ -843,8 +843,9 @@ void PROJECT::compute_cpu_share_needed() {
     needed_cpu_share = cpu_share;
 }
 
-bool PROJECT::has_emergency() {
-    return needed_cpu_share > working_cpu_share;
+bool PROJECT::has_emergency(double rrs) {
+    double cpu_share = gstate.ncpus*resource_share/rrs;
+    return needed_cpu_share > cpu_share;
 }
 
 // given a CPU share, choose results to run,
@@ -858,6 +859,8 @@ void PROJECT::allocate(double cpu_share_left) {
         RESULT* r = presults[i].p;
         if (r->cpu_share) {
             gstate.schedule_result(r);
+            ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(r);
+            atp->scheduler_state = CPU_SCHED_SCHEDULED;
             if (r->cpu_share > cpu_share_left) {
                 r->cpu_share = cpu_share_left;
             }
@@ -868,6 +871,19 @@ void PROJECT::allocate(double cpu_share_left) {
 }
 
 #define EMERGENCY_LIMIT 86400*7
+
+void CPU_SCHEDULER::clear_tasks() {
+    ACTIVE_TASK* atp;
+    unsigned int i;
+    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+        atp = gstate.active_tasks.active_tasks[i];
+        if (atp->non_cpu_intensive) {
+            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
+        } else {
+            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+        }
+    }
+}
 
 void CPU_SCHEDULER::do_accounting() {
     unsigned int i;
@@ -884,7 +900,7 @@ void CPU_SCHEDULER::do_accounting() {
     //for each result R in schedule
     //    R.std += r.cpu_share/dt
     }
-
+#if 0
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->in_emergency) {
@@ -900,6 +916,7 @@ void CPU_SCHEDULER::do_accounting() {
             }
         }
     }
+#endif
 }
 
 // Called whenever something happens that could change the schedule;
@@ -908,20 +925,22 @@ void CPU_SCHEDULER::do_accounting() {
 // than expected (which could change the schedule)
 //
 void CPU_SCHEDULER::make_schedule() {
-    bool have_emergency = false;
+    bool have_emergency=false;
     double non_emergency_rs = 0, cs, cpu_share_left;
     PROJECT* p;
     unsigned int i;
+    double rrs = gstate.runnable_resource_share();
 
-    do_accounting();
+    clear_tasks();
 
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
+        if (!p->runnable()) continue;
         p->compute_cpu_share_needed();
-        if (p->has_emergency() && p->emergency_eligible) {
+        if (p->has_emergency(rrs)) {
             have_emergency = true;
         } else {
-            non_emergency_rs += p->working_cpu_share;
+            non_emergency_rs += p->resource_share;
         }
     }
 
@@ -929,7 +948,8 @@ void CPU_SCHEDULER::make_schedule() {
     if (have_emergency) {
         for (i=0; i<gstate.projects.size(); i++) {
             p = gstate.projects[i];
-            if (p->has_emergency() && p->emergency_eligible) {
+            if (!p->runnable()) continue;
+            if (p->has_emergency(rrs)) {
                 p->allocate(cpu_share_left);
                 if (cpu_share_left <= 0) break;
             }
@@ -937,8 +957,9 @@ void CPU_SCHEDULER::make_schedule() {
         if (cpu_share_left) {
             for (i=0; i<gstate.projects.size(); i++) {
                 p = gstate.projects[i];
-                if (!p->has_emergency() || p->emergency_eligible) {
-                    cs = cpu_share_left*p->working_cpu_share/non_emergency_rs;
+                if (!p->runnable()) continue;
+                if (!p->has_emergency(rrs)) {
+                    cs = cpu_share_left*p->resource_share/non_emergency_rs;
                     p->allocate(cs);
                 }
             }
@@ -946,7 +967,8 @@ void CPU_SCHEDULER::make_schedule() {
     } else {
         for (i=0; i<gstate.projects.size(); i++) {
             p = gstate.projects[i];
-            cs = cpu_share_left*p->working_cpu_share/non_emergency_rs;
+            if (!p->runnable()) continue;
+            cs = cpu_share_left*p->resource_share/non_emergency_rs;
             p->allocate(cs);
         }
     }

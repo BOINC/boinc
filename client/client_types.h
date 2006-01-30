@@ -56,7 +56,7 @@
 #define FILE_PRESENT        1
 
 #ifdef NEW_CPU_SCHED
-    class PRESULT;
+struct PRESULT;
 #endif
 
 class FILE_INFO {
@@ -304,15 +304,12 @@ public:
 
 #ifdef NEW_CPU_SCHED
     double cpu_share;
-    double working_cpu_share;
     double needed_cpu_share;
     bool in_emergency;
-    double emergency_budget;
     double emergency_resource_share;
-    double emergency_eligible;
     void get_ordered_runnable_results(std::vector<PRESULT>&);
     void compute_cpu_share_needed();
-    bool has_emergency();
+    bool has_emergency(double);
     void allocate(double);
 #endif
 
