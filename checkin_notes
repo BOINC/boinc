@@ -1132,3 +1132,11 @@ Charlie 30 Jan 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Reinhard 30 Jan 2006
+     - updated boincmgr build for MacOSX:
+	* added Mac_GUI.cpp, MacGUI.pch and Security.Framework
+
+     clientgui/
+         Makefile.am
+         MainFrame.cpp
