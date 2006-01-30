@@ -309,7 +309,6 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         } else if (parse_int(buf, "<user_network_request>", user_network_request)) {
             continue;
-        } else if (parse_double(buf, "<network_last_unsuspended>", network_last_unsuspended)) {
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
         } else if (parse_int(buf, "<core_client_release>", old_release)) {
@@ -426,8 +425,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
         "<user_run_request>%d</user_run_request>\n"
-        "<user_network_request>%f</user_network_request>\n"
-        "<network_last_unsuspended>%d</network_last_unsuspended>\n"
+        "<user_network_request>%d</user_network_request>\n"
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n",
         platform_name,
@@ -436,7 +434,6 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         core_client_release,
         user_run_request,
         user_network_request,
-        network_last_unsuspended,
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time
     );

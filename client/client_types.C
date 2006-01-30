@@ -99,7 +99,6 @@ void PROJECT::init() {
     work_request = 0;
     work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
-    deadline_problem_count = 0;
 }
 
 // parse project fields from client_state.xml
@@ -1477,18 +1476,6 @@ double RESULT::estimated_cpu_time_remaining() {
     return estimated_cpu_time();
 }
 
-double RESULT::computation_deadline() {
-    double compute_deadline = report_deadline - 
-        (gstate.global_prefs.cpu_scheduling_period_minutes*60 + // the number of seconds between task switches (some people are setting this to be a couple of days).
-        SECONDS_PER_DAY); // one day of slack
-    if (::gstate.network_is_intermittent()) {
-        // only needed if the network connection is unreliable.
-        compute_deadline -= gstate.global_prefs.work_buf_min_days*SECONDS_PER_DAY; // the number of seconds possible between INet connections
-    }
-    return compute_deadline;
-}
-
-
 // The given result has just completed successfully.
 // Update the correction factor used to predict
 // completion time for this project's results
@@ -1547,24 +1534,4 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
     return 0;
 }
 
-#ifndef NEW_CPU_SCHED
-CPU::CPU()
-:
-sched_last_time(0),
-must_schedule(true),  // a new one MUST be scheduled right now.
-result(NULL)
-{
-}
-
-CPU::~CPU()
-{
-    gstate.request_schedule_cpus("Reduction in CPUs");
-}
-
-void CPU::schedule_result(RESULT * r)
-{
-    result = r;
-    sched_last_time = gstate.now;
-}
-#endif
 const char *BOINC_RCSID_b81ff9a584 = "$Id$";

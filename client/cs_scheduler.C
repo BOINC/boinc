@@ -442,7 +442,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (have_sporadic_connection) {
             return p;
         }
-        if (gstate.now > r->computation_deadline()) {
+        if (gstate.now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
             return p;
         }
         if (gstate.now > r->completed_time + global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
@@ -537,9 +537,7 @@ int CLIENT_STATE::compute_work_requests() {
         overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
     } else if (global_work_need > 0) {
         scope_messages.printf("compute_work_requests(): global work needed is greater than zero\n");
-        // disconnected hosts need to keep the queue full at all times that they are connected.
-        // always connected hosts do not need to be as agressive at keeping the queue full.
-        overall_work_fetch_urgency = network_is_intermittent() ? WORK_FETCH_NEED_IMMEDIATELY : WORK_FETCH_NEED;
+        overall_work_fetch_urgency = WORK_FETCH_NEED;
     } else {
         overall_work_fetch_urgency = WORK_FETCH_OK;
     }
@@ -617,7 +615,7 @@ int CLIENT_STATE::compute_work_requests() {
             p->work_request = max(0.0,
                 //(2*work_min_period - estimated_time_to_starvation)
                 (work_min_period - estimated_time_to_starvation)
-                * avg_proc_rate() * p->resource_share / prrs
+                * ncpus
             );
 
         } else if (overall_work_fetch_urgency > WORK_FETCH_OK) {
@@ -637,12 +635,6 @@ int CLIENT_STATE::compute_work_requests() {
         global_work_need, overall_work_fetch_urgency
     );
 
-    // Make certain that there is only one project with a positive work request.
-    PROJECT * next_proj = next_project_need_work();
-    for (i = 0; i < projects.size(); ++i)
-    {
-        if (projects[i] != next_proj) projects[i]->work_request = 0.0;
-    }
     return 0;
 }
 
@@ -1062,8 +1054,8 @@ bool CLIENT_STATE::should_get_work() {
 #ifndef NEW_CPU_SCHED
     // if the CPU started this time period overloaded,
     // let it process for a while to get out of the CPU overload state.
-    // unless there is an override of some sort.
-    if (!work_fetch_no_new_work || must_schedule_cpus) {
+    //
+    if (!work_fetch_no_new_work) {
         set_scheduler_modes();
     }
 #endif
@@ -1113,14 +1105,13 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 
 // return true if round-robin scheduling will miss a deadline
 //
-bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool current_work_only) {
+bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
     vector<RESULT*> active;
     unsigned int i;
     double x;
     vector<RESULT*>::iterator it;
-    bool deadline_missed = false;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
@@ -1133,7 +1124,6 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool
         p->pending.clear();
     }
 
-    rr_results_fail_count = 0;
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
@@ -1142,7 +1132,6 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool
         if (rp->aborted_via_gui) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
-        rp->deadline_problem = false;
         p = rp->project;
         if (p->active.size() < (unsigned int)ncpus) {
             active.push_back(rp);
@@ -1176,17 +1165,12 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool
 
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
-        double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->computation_deadline();
+        double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->report_deadline;
         if (diff > 0) {
-            if (current_work_only) {
-                scope_messages.printf(
-                    "rr_sim: result %s misses deadline by %f\n", rpbest->name, diff
-                );
-                rpbest->deadline_problem = true;
-                deadline_missed = true;
-                ++rr_results_fail_count;
-            }
-            else return true;
+            scope_messages.printf(
+                "rr_sim: result %s misses deadline by %f\n", rpbest->name, diff
+            );
+            return true;
         }
 
         // remove *rpbest from active set,
@@ -1240,8 +1224,8 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool
 
         sim_now += rpbest->rrsim_finish_delay;
     }
-    if (!deadline_missed) scope_messages.printf( "rr_sim: deadlines met\n");
-    return deadline_missed;
+    scope_messages.printf( "rr_sim: deadlines met\n");
+    return false;
 }
 
 #ifndef NEW_CPU_SCHED
@@ -1253,19 +1237,20 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs, bool
 // and print a message if we're changing their value
 //
 void CLIENT_STATE::set_scheduler_modes() {
+    RESULT* rp;
     unsigned int i;
     bool should_not_fetch_work = false;
-    bool result_has_deadline_problem = false;
+    bool use_earliest_deadline_first = false;
     double total_proc_rate = avg_proc_rate();
     double per_cpu_proc_rate = total_proc_rate/ncpus;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
     double rrs = runnable_resource_share();
-    if (rr_misses_deadline(per_cpu_proc_rate, rrs, true)) {
+    if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
         // if round robin would miss a deadline, use EDF
         //
-        result_has_deadline_problem = true;
+        use_earliest_deadline_first = true;
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
         }
@@ -1276,7 +1261,7 @@ void CLIENT_STATE::set_scheduler_modes() {
         PROJECT* p = next_project_need_work();
         if (p && !p->runnable()) {
             rrs += p->resource_share;
-            if (rr_misses_deadline(per_cpu_proc_rate, rrs, false)) {
+            if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
                 should_not_fetch_work = true;
             }
         }
@@ -1310,11 +1295,6 @@ void CLIENT_STATE::set_scheduler_modes() {
     }
 #endif
 
-    for (i = 0; i < projects.size(); ++i) projects[i]->deadline_problem_count = 0;
-
-    for (i = 0; i < results.size(); ++i) {
-        if (results[i]->deadline_problem) ++results[i]->project->deadline_problem_count;
-    }
     // display only when the policy changes to avoid once per second
     //
     if (work_fetch_no_new_work && !should_not_fetch_work) {
@@ -1329,49 +1309,33 @@ void CLIENT_STATE::set_scheduler_modes() {
         );
     }
 
-    if (cpu_earliest_deadline_first && !result_has_deadline_problem) {
+    if (cpu_earliest_deadline_first && !use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
             "Resuming round-robin CPU scheduling."
         );
     }
-    if (!cpu_earliest_deadline_first && result_has_deadline_problem) {
+    if (!cpu_earliest_deadline_first && use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
             "Using critical-deadline-first scheduling because computer is overcommitted."
         );
     }
 
-    if (rr_results_fail_count > rr_last_results_fail_count) {
-        force_reschedule_all_cpus();
-    }
-    rr_last_results_fail_count = rr_results_fail_count;
-
-
     work_fetch_no_new_work = should_not_fetch_work;
-    cpu_earliest_deadline_first = result_has_deadline_problem;
+    cpu_earliest_deadline_first = use_earliest_deadline_first;
 }
 #endif
 
 double CLIENT_STATE::work_needed_secs() {
-    // Note that one CPDN result with 30 days remaining will not keep 4 CPUs busy today.
-    std::vector <double> work_for_cpu;
-    work_for_cpu.resize(ncpus);
-    for( int i = 0; i < ncpus; ++i) work_for_cpu[i] = 0;
+    double total_work = 0;
     for( unsigned int i = 0; i < results.size(); ++i) {
         if (results[i]->project->non_cpu_intensive) continue;
-        int best_cpu = 0;
-        for (int j = 1; j < ncpus; ++j)
-        {
-            if (work_for_cpu[j] < work_for_cpu[best_cpu])
-                best_cpu = j;
-        }
-        work_for_cpu[best_cpu] += results[i]->estimated_cpu_time_remaining();
+        total_work += results[i]->estimated_cpu_time_remaining();
     }
-    double total_work_need = 0;
-    for (int i =0; i < ncpus; ++i) {
-        double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY*avg_proc_rate()/ncpus - work_for_cpu[i];
-        if (x < 0) total_work_need += x;
+    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY*avg_proc_rate() - total_work;
+    if (x < 0) {
+        return 0;
     }
-    return total_work_need;
+    return x;
 }
 
 void CLIENT_STATE::scale_duration_correction_factors(double factor) {
@@ -1381,14 +1345,6 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         p->duration_correction_factor *= factor;
     }
 }
-
-#ifndef NEW_CPU_SCHED
-void CLIENT_STATE::force_reschedule_all_cpus() {
-    for (std::vector<CPU>::iterator it = cpus.begin(); it != cpus.end(); ++it) {
-        (*it).must_schedule = true;
-    }
-}
-#endif
 
 // Choose a new host CPID.
 // Do scheduler RPCs to all projects to propagate the CPID

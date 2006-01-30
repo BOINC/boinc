@@ -1154,3 +1154,15 @@ David  30 Jan 2006
 		client_state.h
 		client_types.h
 		cs_apps.C
+
+David  30 Jan 2006
+    - back out scheduler changes of 27 Jan.
+        They caused write of statefile in infinite loop in some cases
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C
