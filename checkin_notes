@@ -1127,7 +1127,7 @@ Reinhard 30 Jan 2006
      ./autosetup
 
 Charlie 30 Jan 2006
-    -Mac: Fix path to Mac_GUI.cpp in XCode project.
+    -Mac: XCode project fixes: path to Mac_GUI.cpp; remove GR_Info.plist.
 
     mac_build/
         boinc.xcodeproj/
