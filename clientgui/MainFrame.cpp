@@ -21,6 +21,10 @@
 #pragma implementation "MainFrame.h"
 #endif
 
+#ifdef __APPLE__
+#include "mac/MacGUI.pch"
+#endif
+
 #include "stdwx.h"
 #include "hyperlink.h"
 #include "network.h"

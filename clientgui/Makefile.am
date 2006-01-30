@@ -7,11 +7,13 @@ LIBS += @CLIENTLIBS@
 
 
 if OS_DARWIN
-   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa
+   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework Security
    mac_sources = mac/SystemMenu.m \
                  mac/mac_saver_module.cpp \
                  mac/Mac_Saver_ModuleView.m \
-                 mac/MacSysMenu.cpp 
+                 mac/MacSysMenu.cpp \
+                 mac/Mac_GUI.cpp
+
     mac_headers = mac/*.h
 else
    mac_headers =
