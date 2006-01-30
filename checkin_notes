@@ -1125,3 +1125,10 @@ Reinhard 30 Jan 2006
 	* make version-checks more robust if '--version' is not supported
 	* removed libtool-check: libtool is shipped with boinc, this check therefore pointless
      ./autosetup
+
+Charlie 30 Jan 2006
+    -Mac: Fix path to Mac_GUI.cpp in XCode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
