@@ -1119,3 +1119,9 @@ David  27 Jan 2006
         client_types.C,h
         cs_apps.C
         cs_scheduler.C
+
+Reinhard 30 Jan 2006
+     - improved _autosetup: 
+	* make version-checks more robust if '--version' is not supported
+	* removed libtool-check: libtool is shipped with boinc, this check therefore pointless
+     ./autosetup
