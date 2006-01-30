@@ -35,11 +35,14 @@ check_version()
 	version=0
 	success=no
     else
-	cmdline="$fullpath --version 2>/dev/null";
-	version=`$cmdline`;
+	cmdline="$fullpath --version";
+	if ! version=`($cmdline 2>/dev/null)` 2>/dev/null; then
+	    version="0";
+	fi
 	if [ -n "${version}" ]; then
 	    version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]"."j[2] ; if ((m*1)>0) { print m ; break; } } }'`
-	    success=`echo $version $desired | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
+	    if [ -z "$version" ]; then version=0; fi
+	    success=`echo "$version" "$desired" | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
 	else
 	    version=0
 	    success=no
@@ -63,17 +66,17 @@ check_version()
   echo "Bootstrapping configure script and makefiles:"
 
   ## ---------- first check santity of the installed versions of the build-system
+  ## in case there's GNU drop-in tools available, set these
 
-  ## some sorry systems don't have proper GNU-make... build one
+  ## some sorry systems don't have proper GNU-make...
   if check_version make 3.79; then
       echo >/dev/null
   else
       if check_version gmake 3.79; then
-	echo >/dev/null
+	  have_gmake=yes;
       else
 	echo "Couldn't find a new-enough version of GNU 'make', please install one!";
 	exit 1;
-      # build_lsc_aux "make-3.80"
       fi
   fi
 
@@ -84,14 +87,6 @@ check_version()
       echo "Couldn't find a new-enough version of 'm4', please install one!";
       exit 1;
       # build_lsc_aux "m4-1.4.1"
-  fi
-
-  if check_version libtool 1.4; then
-      echo >/dev/null
-  else
-      echo "Couldn't find a new-enough version of 'libtool', please install one!";
-      exit 1;
-      # build_lsc_aux "libtool-1.5.6"
   fi
 
   if check_version pkg-config 0.15; then
