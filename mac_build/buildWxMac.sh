@@ -6,7 +6,14 @@
 #    wxWindowsB.xcodeproj.
 # Do NOT use the wxWindows.xcodeproj supplied with the package.
 #
-# You will need to add a file to the project's list.  To do this:
+# You will need to make two changes to the project's list of files.  
+# To do this:
+#
+# In the left hand column of the new project window, click on the 
+#   disclosure triangles next to each level until you see the hierarchy 
+#   wxWindowsB : src : regex.
+# Click on regex and press the delete key on your keyboard.  In the 
+#  dialog which appears, select "Delete References."
 #
 # In the left hand column of the new project window, click on the 
 #   disclosure triangles next to each level until you see the hierarchy 

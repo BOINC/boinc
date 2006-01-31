@@ -3259,7 +3259,6 @@
 					"../../wxMac-2.6.2/src/build/Deployment",
 					../lib,
 					/usr/lib/gcc/darwin/,
-					"$(SRCROOT)/../../wxMac-2.6.2/src/build/Deployment",
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
@@ -3318,7 +3317,6 @@
 					"../../wxMac-2.6.2/src/build/Deployment",
 					../lib,
 					/usr/lib/gcc/darwin/3.3,
-					"$(SRCROOT)/../../wxMac-2.6.2/src/build/Deployment",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
@@ -3373,7 +3371,6 @@
 					"../../wxMac-2.6.1/osx-build/lib",
 					../lib,
 					/usr/lib/gcc/darwin/3.3,
-					"$(SRCROOT)/../../wxMac-2.6.2/src/build/Deployment",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
@@ -4017,7 +4014,6 @@
 					"../../wxMac-2.6.2/src/build/Deployment/",
 					../lib,
 					/usr/lib/gcc/darwin/4.0,
-					"$(SRCROOT)/../../wxMac-2.6.2/src/build/Deployment",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (

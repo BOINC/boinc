@@ -212,12 +212,18 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         }
 
         // If no item has been selected yet, select the first item.
-        if ((m_pListPane->GetSelectedItemCount() == 0) &&
+#ifdef __WXMSW__
+         if ((m_pListPane->GetSelectedItemCount() == 0) &&
             (m_pListPane->GetItemCount() >= 1)) {
 
             long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
             m_pListPane->SetItemState(0, desiredstate, desiredstate);
         }
+#else
+         if (m_pListPane->GetFirstSelected() < 0)
+            m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
+                                            wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
+#endif
 
         UpdateSelection();
 
