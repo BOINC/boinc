@@ -868,7 +868,7 @@
 		DD81C60307C5D8630098A04D /* gui_rpc_client.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_rpc_client.h; path = ../lib/gui_rpc_client.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../../../../Moon/BOINC_Mac/_boinc_head/clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
+		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.C; path = ../clientgui/mac/SetVersion.C; sourceTree = SOURCE_ROOT; };
 		DDB5060D0958247800181B75 /* libwx_mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac.a; path = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a"; sourceTree = SOURCE_ROOT; };
