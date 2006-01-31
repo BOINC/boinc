@@ -35,7 +35,13 @@ function type_text($type) {
     }
 }
 
-$features_5 = "
+$features_53 = "
+    <li> Customized clients can now be created.
+    <li> Account manager support has been enhanced.
+    <li> Farm manager support has been added.
+";
+
+$features_52 = "
     <li> You attach to projects using your own email address and password.
         Long, random 'account keys' are no longer used.
     <li> BOINC checks for proxy configuration problems
@@ -51,28 +57,15 @@ $features_5 = "
     <li> BOINC supports 'Account Management Systems' (to be announced).
 ";
 
-$dev_changes= "
-    <li>Changes since 5.2.14
+$changes_53 = "
+    <li>Changes since 5.3.15
       <ul>
-        <li>Use curl error messages for network errors. Maybe more useful information
-            will be displayed than what was previously displayed.
-        <li>Fixed another problem which could prevent BOINC Manager from connecting 
-            to core client.
-        <li>Mac only: we are now building with newer tools and libraries: XCode 2.2, 
-            WxWidgets 2.6.2, libcurl 7.15.1.
-        <li>Mac only: in anticipation of Intel-based Macs, the Mac BOINC Manager package 
-            name now specifies the cpu architecture: boinc_5.2.15_macOSX_powerpc.zip.
-      </ul>
-    <li>Changes since 5.2.13
-      <ul>
-        <li>The manager should now correctly detect if the core client is
-            currently running on the machine.
-        <li>Mac: Only administrators can attach to a new project (for improved security).
-        <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
+        <li>CPU scheduler reverted back to previous scheme.
+        <li>Item selection on Linix and Mac fixed in list view controls.
       </ul>
 ";
 
-$changes_5 = "
+$changes_52 = "
     <li>Changes since 5.2.12
       <ul>
         <li>Localization updates.
@@ -118,15 +111,36 @@ $changes_5 = "
       </ul>
 ";
 
-$w5315= array(
-    "num"=>"5.3.15",
+$dev_changes_52= "
+    <li>Changes since 5.2.14
+      <ul>
+        <li>Use curl error messages for network errors. Maybe more useful information
+            will be displayed than what was previously displayed.
+        <li>Fixed another problem which could prevent BOINC Manager from connecting 
+            to core client.
+        <li>Mac only: we are now building with newer tools and libraries: XCode 2.2, 
+            WxWidgets 2.6.2, libcurl 7.15.1.
+        <li>Mac only: in anticipation of Intel-based Macs, the Mac BOINC Manager package 
+            name now specifies the cpu architecture: boinc_5.2.15_macOSX_powerpc.zip.
+      </ul>
+    <li>Changes since 5.2.13
+      <ul>
+        <li>The manager should now correctly detect if the core client is
+            currently running on the machine.
+        <li>Mac: Only administrators can attach to a new project (for improved security).
+        <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
+      </ul>
+";
+
+$w5316= array(
+    "num"=>"5.3.16",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.15_windows_intelx86.exe",
-    "date"=>"27 Jan 2006",
+    "file"=>"boinc_5.3.16_windows_intelx86.exe",
+    "date"=>"30 Jan 2006",
     "type"=>"win_new",
-    "features"=>"
-    <ul>
-    <li> Improved network detection on Windows.
+    "features"=>"<ul>
+".$features_53."
+".$changes_53."
     </ul>
     ",
     "bugs"=>"<ul>
@@ -151,8 +165,8 @@ $w5213= array(
     "features"=>"<ul>
     <li> Dial-up features now work with all installation types.
     <li> The BOINC Manager can now be controlled using only the keyboard.
-".$features_5."
-".$changes_5."
+".$features_52."
+".$changes_52."
     </ul>
     ",
     "bugs"=>"<ul>
@@ -255,9 +269,9 @@ $m5215 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
-".$features_5."
-".$dev_changes."
-".$changes_5."
+".$features_52."
+".$dev_changes_52."
+".$changes_52."
      </ul>
     ",
     "bugs"=>"
@@ -279,7 +293,7 @@ $m5214 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
-".$features_5."
+".$features_52."
     <li>Changes since 5.2.13
       <ul>
         <li>The manager should now correctly detect if the core client is
@@ -287,7 +301,7 @@ $m5214 = array(
         <li>Mac: Only administrators can attach to a new project (for improved security).
         <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
       </ul>
-".$changes_5."
+".$changes_52."
      </ul>
     ",
     "bugs"=>"
@@ -309,8 +323,8 @@ $m5213 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
-".$features_5."
-".$changes_5."
+".$features_52."
+".$changes_52."
      </ul>
     ",
     "bugs"=>"
@@ -375,15 +389,15 @@ $m443s = array(
     "
 );
 
-$l5215 = array(
-    "num"=>"5.2.15",
+$l5316 = array(
+    "num"=>"5.3.16",
     "status"=>"Development version",
-    "file"=>"boinc_5.2.15_i686-pc-linux-gnu.sh",
-    "date"=>"28 Dec 2005",
+    "file"=>"boinc_5.3.16_i686-pc-linux-gnu.sh",
+    "date"=>"30 Jan 2006",
     "type"=>"sea",
     "features"=>"<ul>
-".$features_5."
-".$changes_5."
+".$features_53."
+".$changes_53."
     </ul>
     "
 );
@@ -395,8 +409,8 @@ $l5213 = array(
     "date"=>"29 Nov 2005",
     "type"=>"sea",
     "features"=>"<ul>
-".$features_5."
-".$changes_5."
+".$features_52."
+".$changes_52."
     </ul>
     "
 );
@@ -447,7 +461,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5315,
+        $w5316,
         $w5213,
         $w445,
     )
@@ -471,7 +485,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5215,
+        $l5316,
         $l5213,
         $l443,
     )
