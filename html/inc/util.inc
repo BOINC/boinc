@@ -238,7 +238,8 @@ function rowify($string) {
 function row_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<td>$h</th>";
+        if (!$h) $h = '<br>';
+        echo "<td>$h</td>";
     }
     echo "</tr>\n";
 }

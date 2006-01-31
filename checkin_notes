@@ -1222,3 +1222,13 @@ David  31 Jan 2006
     client/
         client_types.C,h
         cs_apps.C
+
+David  31 Jan 2006
+    - add "table stats" web page
+        (from Carl Christensen)
+
+    html/
+        inc/
+            util.inc
+        ops/
+            sample_table_stats.php

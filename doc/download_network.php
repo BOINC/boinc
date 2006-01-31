@@ -3,10 +3,11 @@
 require_once("docutil.php");
 require_once("download_network.inc");
 
-page_head("Download BOINC add-on software");
+page_head("BOINC add-on software");
 echo "
     <p>
-    You can download applications in several categories.
+    A number of programs that complement or enhance BOINC are available.
+    Note that:
     <ul>
     <li>
     These applications are not endorsed by BOINC and

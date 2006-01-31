@@ -76,6 +76,7 @@ resources.
     </ul>
     <a href=participate.php>More info</a> 
     | <a href=links.php>Web sites </a>
+    | <a href=download_network.php>Add-ons</a>
     | <a href=dev/>Message boards</a>
 
     <br><br>
