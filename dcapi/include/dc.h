@@ -85,10 +85,12 @@ typedef dc_result* DC_Result;
  *      application Application client name
  *      arguments   Command line argument for the client
  *
- *  Return:  DC_OK on success
- *              >1 on error
+ *  Return: DC_Workunit type.  This is the number of the WU.
+ * 	    The functions bellow will need this DC_Workunit.
+ *	    If the value of this DC_Workunit is minus, it means ERROR!
+ * 	    If it is 0 or higher, its OK!
  */
-int DC_createWU (const char *application_client,
+DC_Workunit DC_createWU (const char *application_client,
 		 const char *arguments);
 
 /** Specify an input file for the work unit.

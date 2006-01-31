@@ -132,7 +132,7 @@ int DC_init(const char *project_name __attribute__((unused)), const char *applic
 }
 
 
-int DC_createWU (const char *application_client,
+DC_Workunit DC_createWU (const char *application_client,
 		 const char *arguments)
 {
     char dir[256];
