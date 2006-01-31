@@ -220,7 +220,8 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
             m_pListPane->SetItemState(0, desiredstate, desiredstate);
         }
 #else
-         if (m_pListPane->GetFirstSelected() < 0)
+         if ((m_pListPane->GetFirstSelected() < 0) &&
+            (m_pListPane->GetItemCount() >= 1))
             m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
                                             wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
 #endif
