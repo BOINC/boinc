@@ -1183,6 +1183,14 @@ David  30 Jan 2006
         client_types.C,h
         cs_apps.C
 
-Rom    27 Jan 2006 (HEAD)
+Rom    30 Jan 2006 (HEAD)
     - Tag for 5.3.16 release, all platforms
       boinc_core_release_5_3_16
+
+Charlie 30 Jan 2006
+    -Mac: Undo change of 1/20/06 to Info.plist: restore manager to Dock because 
+        use of NSUIElement also eliminated menu bar.
+
+    mac_build/
+        Info.plist
+ 
