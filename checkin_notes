@@ -1174,3 +1174,10 @@ Rom    30 Jan 2006
     clientgui/
         BOINCBaseView.cpp
         BOINCListCtrl.cpp
+
+David  30 Jan 2006
+    - fixes for LTD calculation (from James Drews)
+
+    client/
+        client_types.C,h
+        cs_apps.C
