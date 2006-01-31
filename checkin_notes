@@ -1194,3 +1194,10 @@ Charlie 30 Jan 2006
     mac_build/
         Info.plist
  
+ Rom    31 Jan 2006
+     - Bug Fix: If the wizard is configured for usernames, do not use the email
+         address validator on the account info page.
+         
+     clientgui/
+         AccountInfoPage.cpp
+ 

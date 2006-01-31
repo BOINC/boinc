@@ -183,7 +183,8 @@ void CAccountInfoPage::CreateControls()
     itemFlexGridSizer64->Add(m_pAccountPasswordRequirmentsStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
-    m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
+    // m_pAccountEmailAddressCtrl is setup when the OnPageChange event is fired since
+    //   it can be a username or an email address.
     m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountPassword) );
     m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountConfirmPassword) );
 ////@end CAccountInfoPage content construction
@@ -354,6 +355,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountEmailAddressStaticCtrl->SetLabel(
             _("Username:")
         );
+        m_pAccountEmailAddressCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountEmailAddress) );
     } else {
         if (m_pAccountManagerInformationStaticCtrl) {
             m_pAccountManagerInformationStaticCtrl->SetLabel(
@@ -364,6 +366,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountEmailAddressStaticCtrl->SetLabel(
             _("Email address:")
         );
+        m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
     }
 
     if (((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length) {
