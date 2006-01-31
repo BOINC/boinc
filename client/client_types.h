@@ -255,8 +255,6 @@ public:
         // has a result in downloading state
     bool potentially_runnable();
         // runnable or contactable or downloading
-    bool debt_adjust_allowed();
-        // long term debt adjustment is allowed
 
     // temps used in CLIENT_STATE::rr_misses_deadline();
     std::vector<RESULT*>active;

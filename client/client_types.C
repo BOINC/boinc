@@ -421,13 +421,6 @@ bool PROJECT::potentially_runnable() {
     return false;
 }
 
-bool PROJECT::debt_adjust_allowed() {
-    if (non_cpu_intensive) return false;
-    if (suspended_via_gui) return false;
-    if (dont_request_more_work && !runnable()) return false;
-    return true;
-}
-
 double PROJECT::next_file_xfer_time(const bool is_upload) {
     return (is_upload ? next_file_xfer_up : next_file_xfer_down);
 }

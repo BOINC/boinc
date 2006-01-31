@@ -1209,10 +1209,16 @@ Charlie 31 Jan 2006
         boinc.xcodeproj/
             project.pbxproj
 
- Rom    31 Jan 2006
+Rom    31 Jan 2006
      - Bug Fix: If the wizard is configured for usernames, do not use the email
          address validator on the account info page.
          
      clientgui/
          AccountInfoPage.cpp
 
+David  31 Jan 2006
+    - Back out changes to LTD calculation
+
+    client/
+        client_types.C,h
+        cs_apps.C

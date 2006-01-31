@@ -413,7 +413,7 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
     double x = 0;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        if (p->debt_adjust_allowed()) {
+        if (p->potentially_runnable()) {
             x += p->resource_share;
         }
     }
@@ -471,7 +471,7 @@ void CLIENT_STATE::adjust_debts() {
 
         // adjust long-term debts
         //
-        if (p->debt_adjust_allowed()) {
+        if (p->potentially_runnable()) {
             nprojects++;
             share_frac = p->resource_share/prrs;
             p->long_term_debt += share_frac*total_wall_cpu_time_this_period
@@ -524,7 +524,7 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = p->short_term_debt;
             //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);
         }
-        if (p->debt_adjust_allowed()) {
+        if (p->potentially_runnable()) {
             p->long_term_debt -= avg_long_term_debt;
         }
     }
