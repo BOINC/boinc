@@ -83,6 +83,10 @@
 		DD1929D90918A2F100C31BCF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */; };
 		DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
+		DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */; };
+		DD3196AC098EF183002EB538 /* CompletionRemovePage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD3196A8098EF183002EB538 /* CompletionRemovePage.h */; };
+		DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */; };
+		DD3196AE098EF183002EB538 /* CompletionUpdatePage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.C */; };
 		DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */; };
@@ -628,6 +632,8 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */,
+				DD3196AC098EF183002EB538 /* CompletionRemovePage.h in CopyFiles */,
+				DD3196AE098EF183002EB538 /* CompletionUpdatePage.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +672,10 @@
 		DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacSysMenu.h; path = ../clientgui/mac/MacSysMenu.h; sourceTree = SOURCE_ROOT; };
 		DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MacSysMenu.cpp; path = ../clientgui/mac/MacSysMenu.cpp; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
+		DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionRemovePage.cpp; path = ../clientgui/CompletionRemovePage.cpp; sourceTree = SOURCE_ROOT; };
+		DD3196A8098EF183002EB538 /* CompletionRemovePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionRemovePage.h; path = ../clientgui/CompletionRemovePage.h; sourceTree = SOURCE_ROOT; };
+		DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionUpdatePage.cpp; path = ../clientgui/CompletionUpdatePage.cpp; sourceTree = SOURCE_ROOT; };
+		DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionUpdatePage.h; path = ../clientgui/CompletionUpdatePage.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F108B5BAF500768630 /* gui_http.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_http.C; path = ../client/gui_http.C; sourceTree = SOURCE_ROOT; };
 		DD33C6F208B5BAF500768630 /* gui_http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_http.h; path = ../client/gui_http.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F608B5BB4500768630 /* acct_setup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acct_setup.h; path = ../client/acct_setup.h; sourceTree = SOURCE_ROOT; };
@@ -1140,6 +1150,10 @@
 				DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */,
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
 				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
+				DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */,
+				DD3196A8098EF183002EB538 /* CompletionRemovePage.h */,
+				DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */,
+				DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
 				DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */,
 				DD58C43C08F3347D00C1DF66 /* DlgDialupCredentials.h */,
@@ -2227,6 +2241,8 @@
 				DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */,
 				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
 				DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */,
+				DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */,
+				DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
