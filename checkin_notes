@@ -1190,23 +1190,17 @@ Rom    30 Jan 2006 (HEAD)
 Charlie 30 Jan 2006
     -Mac: Undo change of 1/20/06 to Info.plist: restore manager to Dock because 
         use of NSUIElement also eliminated menu bar.
+        (Tagged new Info.plist for boinc_core_release_5_3_16.)
 
     mac_build/
         Info.plist
         
- Rom    31 Jan 2006
-     - Bug Fix: If the wizard is configured for usernames, do not use the email
-         address validator on the account info page.
-         
-     clientgui/
-         AccountInfoPage.cpp
-
 Charlie 31 Jan 2006
     -Mac: Remove redundant second link with libwx_mac.a.
        Fix buildWxMac.sh script to fix wxRegEx problems. 
        Fix bug so a new default item is selected when the old selected item 
        is deleted within a single selection list control.
-    
+       (Tagged changed files for boinc_core_release_5_3_16.)
     clientgui/
         BOINCBaseView.cpp
     
@@ -1214,3 +1208,11 @@ Charlie 31 Jan 2006
         buildWxMac.sh
         boinc.xcodeproj/
             project.pbxproj
+
+ Rom    31 Jan 2006
+     - Bug Fix: If the wizard is configured for usernames, do not use the email
+         address validator on the account info page.
+         
+     clientgui/
+         AccountInfoPage.cpp
+
