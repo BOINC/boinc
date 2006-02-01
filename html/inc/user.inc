@@ -32,7 +32,10 @@ function show_user_stats_private($user) {
     row1("Account statistics");
     row2(PROJECT." member since", date_str($user->create_time));
     show_credit($user);
-    //row2("Pending credit", "<a href=pending.php>View</a>");
+    $config = get_config();
+    if (parse_bool($config, "show_results")) {
+        row2("Pending credit", "<a href=pending.php>View</a>");
+    }
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
         $x = "<a href=team_display.php?teamid=$team->id>$team->name</a>
@@ -138,7 +141,7 @@ function show_profile_link($user) {
 // it has info that other users aren't supposed to see
 
 function show_user_page_private($user) {
-	$config = get_config();
+    $config = get_config();
     start_table("width=100%");
     show_user_info_private($user);
     show_user_stats_private($user);

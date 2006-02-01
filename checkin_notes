@@ -1242,3 +1242,13 @@ David  31 Jan 2006
 
     html/inc/
         user.inc
+
+Bruce 31 Jan 2006
+    - user web: modify David's change just above.  Make 'pending
+      credit link display only if 'show_results' enabled in
+      project config.xml file.
+
+    html/
+        inc/
+            user.inc
+
