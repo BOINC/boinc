@@ -151,11 +151,11 @@ AC_DEFUN([SZDG_BOINC_CLIENT], [
 	AC_CHECK_HEADERS([boinc_api.h filesys.h diagnostics.h],, [no_boinc=yes])
 	AC_LANG_PUSH([C++])
 	AC_CHECK_LIB([boinc_api], [boinc_init], [true], [no_boinc=yes],
-		[-lboinc -lpthread -lz -lm])
+		[-lboinc -lpthread -lm])
 	AC_LANG_POP([C++])
 	LDFLAGS="$save_LDFLAGS"
 	CPPFLAGS="$save_CPPFLAGS"
 
-	BOINC_CLIENT_LIBS="-lboinc_api $BOINC_COMMON_LIBS -Wl,-Bstatic -lstdc++ -Wl,-Bdynamic -lpthread -lz -lm"
+	BOINC_CLIENT_LIBS="-lboinc_api $BOINC_COMMON_LIBS -Wl,-Bstatic -lstdc++ -Wl,-Bdynamic -lpthread -lm"
 	AC_SUBST([BOINC_CLIENT_LIBS])
 ])
