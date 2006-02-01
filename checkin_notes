@@ -1344,3 +1344,19 @@ David  1 Feb 2006
         user/
             create_team.php (new)
             team_create_action.php
+
+David  1 Feb 2006
+    - Core client: there's a feature where certain GUI RPCs
+        enable network communication (if it would otherwise be disabled)
+        for 5 minutes or so.
+        This set of RPCs was too large.
+        Restrict it to things like attach/update project etc.,
+        for which network communication is clearly required.
+    - core client: parse <want_network> elements in status messages from apps.
+        I had forgotten to do this.
+        This should finally allow F@h to work with modem users.
+
+    client/
+        app.h
+        app_control.C
+        gui_rpc_server_ops.C

@@ -124,6 +124,8 @@ public:
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
     int non_cpu_intensive;
     int want_network;
+        // This task wants to do network comm (for F@h)
+        // this is passed via share-memory message (app_status channel)
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;
@@ -220,8 +222,8 @@ public:
     void report_overdue();
     void handle_upload_files();
     void upload_notify_app(FILE_INFO*);
-    bool want_network();
-    void network_available();
+    bool want_network();    // does any task want network?
+    void network_available();   // notify tasks that network is available
     void free_mem();
 
     // screensaver-related functions
