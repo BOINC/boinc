@@ -5,23 +5,11 @@ require_once("../inc/db.inc");
 require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
+require_once("../inc/team_types.inc");
 
 function show_team_create_account_url($team) {
     $url = URL_BASE."create_account_form.php?teamid=$team->id";
     row2("Create team account URL<br><font size=-2>Accounts created via this URL will belong to this team and will have the project preferences of its founder</font>", "<a href=$url>$url</a>");
-}
-
-function team_type_name($type) {
-    switch ($type) {
-    case 1: return "Unclassified";
-    case 2: return "Company";
-    case 3: return "Primary school";
-    case 4: return "Secondary school";
-    case 5: return "Junior college";
-    case 6: return "University or department";
-    case 7: return "Government agency";
-    }
-    return "Unknown";
 }
 
 function display_team_page($team, $offset, $sort_by) {
@@ -194,6 +182,7 @@ function user_join_team($team, $user) {
 }
 
 function team_edit_form($team, $label, $url) {
+    global $team_types;
     echo "<form method=post action=$url>\n";
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
@@ -234,19 +223,13 @@ function team_edit_form($team, $label, $url) {
     $x7 = $team->type==7?"checked":"";
     if ($team==null) $x1 = "checked";
     row2("Type of team:",
-        "<input type=radio name=type value=1 $x1> Other
-        <br>
-        <input type=radio name=type value=2 $x2> Company
-        <br>
-        <input type=radio name=type value=3 $x3> Primary School
-        <br>
-        <input type=radio name=type value=4 $x4> Secondary School
-        <br>
-        <input type=radio name=type value=5 $x5> Junior College
-        <br>
-        <input type=radio name=type value=6 $x6> University or Department
-        <br>
-        <input type=radio name=type value=7 $x7> Government Agency"
+        "    <input type=radio name=type value=1 $x1>".$team_types[1]."
+        <br> <input type=radio name=type value=2 $x2>".$team_types[2]."
+        <br> <input type=radio name=type value=3 $x3>".$team_types[3]."
+        <br> <input type=radio name=type value=4 $x4>".$team_types[4]."
+        <br> <input type=radio name=type value=5 $x5>".$team_types[5]."
+        <br> <input type=radio name=type value=6 $x6>".$team_types[6]."
+        <br> <input type=radio name=type value=7 $x7>".$team_types[7]
     );
     row2_init("Country",
         "<select name=country>"

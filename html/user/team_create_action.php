@@ -18,9 +18,17 @@ if (strstr($url, "http://")) {
     $url = substr($url, 7);
 }
 $type = process_user_text(strip_tags(post_str("type", true))); 
+if (!is_valid_team_type($type)) {
+    $type = 'None';
+}
+
 $name_html = process_user_text(post_str("name_html", true));
 $description = process_user_text(post_str("description", true));
 $country = process_user_text(post_str("country", true));
+
+if (!is_valid_country($country)) {
+    $country = 'None';
+}
 
 $query = sprintf(
     "insert into team (userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",

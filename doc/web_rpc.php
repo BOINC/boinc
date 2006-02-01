@@ -244,6 +244,39 @@ list_item("action",
 );
 list_end();
 echo "
+<h3>Create team</h3>
+";
+list_start();
+list_item("URL",
+    "project/create_team.php"
+);
+list_item("input",
+    "account_key: identifies team founder
+<br>name: name of team
+<br>url: team URL (optional)
+<br>type: one of the types listed <a href=team_types.php>here</a>.
+<br>name_html: team name, HTML (optional)
+<br>description: text describing team (optional)
+<br>country: team country (optional; if present,
+must be one of the countries listed <a href=countries.php>here</a>.
+");
+list_item("output",
+    html_text("<create_team_reply>
+    <success/>
+    <teamid>N</teamid>
+</create_team_reply>
+
+or
+
+<create_team_reply>
+    <error>messages</error>
+</create_team_reply>
+"));
+list_item("action",
+    "Creates a team"
+);
+list_end();
+echo "
 <h3>Look up teams</h3>
 ";
 list_start();

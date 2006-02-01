@@ -2,8 +2,6 @@
 // $Id$
 // list of countries taken from http://www.cia.gov
 
-require_once("../inc/geoip.inc"); 
-
 $countries = array(
     "None",
     "International",
@@ -238,6 +236,8 @@ $countries = array(
 
 function print_country_select($selected_country="None") {
     global $countries;
+
+    require_once("../inc/geoip.inc"); 
 
     //See if we can find the user's country and select it as default:
     $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);

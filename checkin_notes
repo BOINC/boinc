@@ -1330,3 +1330,17 @@ Rom    1 Feb 2006
         xfer.xpm
     lib/
         util.C
+
+David  1 Feb 2006
+    - added web RPC for creating teams
+    - on team creation (whether via RPC or web interface)
+        make sure the country name and team type or legitimate
+
+    html/
+        inc/
+            countries.inc
+            team.inc
+            team_types.inc (new)
+        user/
+            create_team.php (new)
+            team_create_action.php
