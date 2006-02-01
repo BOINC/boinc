@@ -17,6 +17,7 @@ if test "$ac_cv_c_compiler_gnu" = yes; then
 fi
 
 SZDG_BOINC_SERVER
+SZDG_BOINC_CLIENT
 if test "$no_boinc" != yes; then
 	AC_CHECK_HEADERS([uuid/uuid.h],, [AC_MSG_ERROR([libuuid headers are missing])])
 	AC_CHECK_LIB([uuid], [uuid_generate], [true], [AC_MSG_ERROR([libuuid is missing])])
