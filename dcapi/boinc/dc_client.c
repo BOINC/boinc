@@ -6,7 +6,9 @@
 # include "boinc_api.h"
 # include "filesys.h"
 # include "diagnostics.h"
+# include "graphics_api.h"
 
+#include "dc.h"
 #include "dc_client.h"
 
 int DC_Init(void)
@@ -14,9 +16,9 @@ int DC_Init(void)
   int retval;
 
   retval = boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR);
-  if (retval) return(retval);
+  if (retval) return retval;
   retval = boinc_init();
-  if (retval) retval(retval);
+  if (retval) return retval;
   
   return DC_OK;
 }
@@ -26,7 +28,7 @@ int DC_ResolveFileName(int type, const char *requestedFileName, char *actualFile
   int retval;
 
   retval = boinc_resolve_filename(requestedFileName, actualFileName, maxlength);
-  if (retval) return(retval);
+  if (retval) return retval;
 
   return DC_OK;
 }
@@ -65,11 +67,11 @@ void DC_Finish(int exitcode)
   boinc_finish(exitcode);
 }
 
-void app_graphics_init() {}
+void app_graphics_init(void) {}
 void app_graphics_resize(int width, int height){}
 void app_graphics_render(int xs, int ys, double time_of_day) {}
-void app_graphics_reread_prefs() {}
+void app_graphics_reread_prefs(void) {}
 void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right ){}
 void boinc_app_mouse_button(int x, int y, int which, bool is_down){}
-void boinc_app_key_press(int, int){}
-void boinc_app_key_release(int, int){}
+void boinc_app_key_press(int x, int y){}
+void boinc_app_key_release(int x, int y){}
