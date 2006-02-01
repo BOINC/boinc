@@ -1237,8 +1237,10 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
 // and print a message if we're changing their value
 //
 void CLIENT_STATE::set_scheduler_modes() {
+#if 0
     RESULT* rp;
     unsigned int i;
+#endif
     bool should_not_fetch_work = false;
     bool use_earliest_deadline_first = false;
     double total_proc_rate = avg_proc_rate();

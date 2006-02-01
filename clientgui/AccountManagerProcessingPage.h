@@ -115,6 +115,9 @@ public:
     bool GetProjectAccountAlreadyExists() const { return m_bProjectAccountAlreadyExists ; }
     void SetProjectAccountAlreadyExists(bool value) { m_bProjectAccountAlreadyExists = value ; }
 
+    bool GetProjectAccountNotFound() const { return m_bProjectAccountNotFound ; }
+    void SetProjectAccountNotFound(bool value) { m_bProjectAccountNotFound = value ; }
+
     bool GetProjectAttachSucceeded() const { return m_bProjectAttachSucceeded ; }
     void SetProjectAttachSucceeded(bool value) { m_bProjectAttachSucceeded = value ; }
 
@@ -131,10 +134,12 @@ public:
 
 ////@begin CAccountManagerProcessingPage member variables
     wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pPleaseWaitStaticCtrl;
     wxStaticBitmap* m_pProgressIndicator;
 ////@end CAccountManagerProcessingPage member variables
     bool m_bProjectCommunitcationsSucceeded;
     bool m_bProjectUnavailable;
+    bool m_bProjectAccountNotFound;
     bool m_bProjectAccountAlreadyExists;
     bool m_bProjectAttachSucceeded;
     int m_iBitmapIndex;

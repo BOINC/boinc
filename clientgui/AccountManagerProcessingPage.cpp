@@ -98,6 +98,7 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountManagerProcessingPage member initialisation
     m_pTitleStaticCtrl = NULL;
+    m_pPleaseWaitStaticCtrl = NULL;
     m_pProgressIndicator = NULL;
 ////@end CAccountManagerProcessingPage member initialisation
  
@@ -134,6 +135,10 @@ void CAccountManagerProcessingPage::CreateControls()
     m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer37->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
+    m_pPleaseWaitStaticCtrl = new wxStaticText;
+    m_pPleaseWaitStaticCtrl->Create( itemWizardPage36, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer37->Add(m_pPleaseWaitStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+
     itemBoxSizer37->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer40 = new wxFlexGridSizer(1, 3, 0, 0);
@@ -162,11 +167,31 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
  
-    wxASSERT(m_pTitleStaticCtrl);
-    wxASSERT(m_pProgressIndicator);
+    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
 
-    m_pTitleStaticCtrl->SetLabel(
-        _("Communicating with website\nPlease wait...")
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pPleaseWaitStaticCtrl);
+    wxASSERT(m_pProgressIndicator);
+    wxASSERT(pWAM);
+
+    if (!pWAM->m_strProjectName.IsEmpty()) {
+        wxString str;
+
+        // %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        str.Printf(_("Communicating with %s."), pWAM->m_strProjectName.c_str());
+
+        m_pTitleStaticCtrl->SetLabel(
+            str
+        );
+    } else {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Communicating with server.")
+        );
+    }
+
+    m_pPleaseWaitStaticCtrl->SetLabel(
+        _("Please wait...")
     );
 
     SetProjectCommunitcationsSucceeded(false);
@@ -258,6 +283,16 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 SetProjectAttachSucceeded(true);
             } else {
                 SetProjectAttachSucceeded(false);
+
+                if ((ERR_NOT_FOUND == reply.error_num) ||
+                    (ERR_BAD_EMAIL_ADDR == reply.error_num) ||
+                    (ERR_BAD_PASSWD == reply.error_num) ||
+                    CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
+                    SetProjectAccountNotFound(true);
+                } else {
+                    SetProjectAccountNotFound(false);
+                }
+
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     strBuffer += _T("An internal server error has occurred.\n");
@@ -321,6 +356,9 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
+    } else if (!GetProjectCommunitcationsSucceeded() && GetProjectAccountNotFound()) {
+        // The requested account does not exist or the password is bad
+        return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
     } else {
         // The project much be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);

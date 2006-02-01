@@ -79,10 +79,9 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 ////@begin CAccountInfoPage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pAccountQuestionStaticCtrl = NULL;
-    m_pAccountManagerInformationStaticCtrl = NULL;
+    m_pAccountInformationStaticCtrl = NULL;
     m_pAccountCreateCtrl = NULL;
     m_pAccountUseExistingCtrl = NULL;
-    m_pAccountInformationStaticCtrl = NULL;
     m_pAccountEmailAddressStaticCtrl = NULL;
     m_pAccountEmailAddressCtrl = NULL;
     m_pAccountPasswordStaticCtrl = NULL;
@@ -142,10 +141,6 @@ void CAccountInfoPage::CreateControls()
     m_pAccountInformationStaticCtrl = new wxStaticText;
     m_pAccountInformationStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer57->Add(m_pAccountInformationStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pAccountManagerInformationStaticCtrl = new wxStaticText;
-    m_pAccountManagerInformationStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer57->Add(m_pAccountManagerInformationStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(4, 2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
@@ -259,10 +254,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pAccountQuestionStaticCtrl);
-    wxASSERT(m_pAccountManagerInformationStaticCtrl);
+    wxASSERT(m_pAccountInformationStaticCtrl);
     wxASSERT(m_pAccountCreateCtrl);
     wxASSERT(m_pAccountUseExistingCtrl);
-    wxASSERT(m_pAccountInformationStaticCtrl);
     wxASSERT(m_pAccountEmailAddressStaticCtrl);
     wxASSERT(m_pAccountEmailAddressCtrl);
     wxASSERT(m_pAccountPasswordStaticCtrl);
@@ -301,23 +295,20 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
             );
         }
-        m_pAccountManagerInformationStaticCtrl->Hide();
     } else {
         m_pAccountQuestionStaticCtrl->Hide();
         m_pAccountCreateCtrl->Hide();
         m_pAccountUseExistingCtrl->Hide();
-        m_pAccountInformationStaticCtrl->Hide();
-        m_pAccountManagerInformationStaticCtrl->SetLabel(
-            _("Enter the email address and password you used on\n"
-              "the web site.")
-        );
+        if (wxGetApp().GetBrand()->IsBranded() && 
+            !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
+            m_pAccountInformationStaticCtrl->SetLabel(
+                wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
+            );
+        }
         m_pAccountConfirmPasswordStaticCtrl->Hide();
         m_pAccountConfirmPasswordCtrl->Hide();
     }
 
-    m_pAccountEmailAddressStaticCtrl->SetLabel(
-        _("&Email address:")
-    );
     m_pAccountPasswordStaticCtrl->SetLabel(
         _("&Password:")
     );
@@ -346,25 +337,59 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
-        if (m_pAccountManagerInformationStaticCtrl) {
-            m_pAccountManagerInformationStaticCtrl->SetLabel(
-                _("Enter the username and password you used on\n"
-                "the web site.")
-            );
+        if (!IS_ACCOUNTMANAGERWIZARD()) {
+            if (wxGetApp().GetBrand()->IsBranded() && 
+                !wxGetApp().GetBrand()->GetAPWizardAccountInfoText().IsEmpty()) {
+                m_pAccountInformationStaticCtrl->SetLabel(
+                    wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
+                );
+            }
+        } else {
+            if (wxGetApp().GetBrand()->IsBranded() && 
+                !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
+                m_pAccountInformationStaticCtrl->SetLabel(
+                    wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
+                );
+            }
+        }
+        if (m_pAccountInformationStaticCtrl) {
+            if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
+                m_pAccountInformationStaticCtrl->SetLabel(
+                    _("Enter the username and password you used on\n"
+                    "the web site.")
+                );
+            }
         }
         m_pAccountEmailAddressStaticCtrl->SetLabel(
-            _("Username:")
+            _("&Username:")
         );
         m_pAccountEmailAddressCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountEmailAddress) );
     } else {
-        if (m_pAccountManagerInformationStaticCtrl) {
-            m_pAccountManagerInformationStaticCtrl->SetLabel(
-                _("Enter the email address and password you used on\n"
-                "the web site.")
-            );
+        if (!IS_ACCOUNTMANAGERWIZARD()) {
+            if (wxGetApp().GetBrand()->IsBranded() && 
+                !wxGetApp().GetBrand()->GetAPWizardAccountInfoText().IsEmpty()) {
+                m_pAccountInformationStaticCtrl->SetLabel(
+                    wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
+                );
+            }
+        } else {
+            if (wxGetApp().GetBrand()->IsBranded() && 
+                !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
+                m_pAccountInformationStaticCtrl->SetLabel(
+                    wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
+                );
+            }
+        }
+        if (m_pAccountInformationStaticCtrl) {
+            if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
+                m_pAccountInformationStaticCtrl->SetLabel(
+                    _("Enter the email address and password you used on\n"
+                    "the web site.")
+                );
+            }
         }
         m_pAccountEmailAddressStaticCtrl->SetLabel(
-            _("Email address:")
+            _("&Email address:")
         );
         m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
     }

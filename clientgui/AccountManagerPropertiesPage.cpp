@@ -97,6 +97,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CAccountManagerPropertiesPage member initialisation
     m_pTitleStaticCtrl = NULL;
+    m_pPleaseWaitStaticCtrl = NULL;
     m_pProgressIndicator = NULL;
 ////@end CAccountManagerPropertiesPage member initialisation
  
@@ -137,6 +138,10 @@ void CAccountManagerPropertiesPage::CreateControls()
     m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer37->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
+    m_pPleaseWaitStaticCtrl = new wxStaticText;
+    m_pPleaseWaitStaticCtrl->Create( itemWizardPage36, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer37->Add(m_pPleaseWaitStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+
     itemBoxSizer37->Add(5, 80, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer40 = new wxFlexGridSizer(1, 3, 0, 0);
@@ -165,11 +170,31 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
  
-    wxASSERT(m_pTitleStaticCtrl);
-    wxASSERT(m_pProgressIndicator);
+    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
 
-    m_pTitleStaticCtrl->SetLabel(
-        _("Communicating with server -\nplease wait.")
+    wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pPleaseWaitStaticCtrl);
+    wxASSERT(m_pProgressIndicator);
+    wxASSERT(pWAM);
+
+    if (!pWAM->m_strProjectName.IsEmpty()) {
+        wxString str;
+
+        // %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        str.Printf(_("Communicating with %s."), pWAM->m_strProjectName.c_str());
+
+        m_pTitleStaticCtrl->SetLabel(
+            str
+        );
+    } else {
+        m_pTitleStaticCtrl->SetLabel(
+            _("Communicating with server.")
+        );
+    }
+
+    m_pPleaseWaitStaticCtrl->SetLabel(
+        _("Please wait...")
     );
 
     SetProjectPropertiesSucceeded(false);
@@ -201,8 +226,9 @@ void CAccountManagerPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  
 void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPageEvent& event )
 {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-    PROJECT_CONFIG* pc       = &((CWizardAccountManager*)GetParent())->project_config;
+    CMainDocument* pDoc         = wxGetApp().GetDocument();
+    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
+    PROJECT_CONFIG* pc          = &pWAM->project_config;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -215,8 +241,8 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
  
     switch(GetCurrentState()) {
         case ACCTMGRPROP_INIT:
-            ((CWizardAccountManager*)GetParent())->DisableNextButton();
-            ((CWizardAccountManager*)GetParent())->DisableBackButton();
+            pWAM->DisableNextButton();
+            pWAM->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
@@ -226,7 +252,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         case ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE:
             // Attempt to retrieve the project's account creation policies
             pDoc->rpc.get_project_config(
-                ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL().c_str()
+                pWAM->m_AccountManagerInfoPage->GetProjectURL().c_str()
             );
  
             // Wait until we are done processing the request.
@@ -273,6 +299,8 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 } else {
                     SetProjectClientAccountCreationDisabled(false);
                 }
+
+                pWAM->m_strProjectName = pc->name.c_str();
  
                 SetNextState(ACCTMGRPROP_CLEANUP);
             } else {

@@ -42,6 +42,7 @@
 #include "NotDetectedPage.h"
 #include "UnavailablePage.h"
 #include "NoInternetConnectionPage.h"
+#include "NotFoundPage.h"
 #include "ProxyInfoPage.h"
 #include "ProxyPage.h"
 
@@ -101,6 +102,7 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     m_ErrNotDetectedPage = NULL;
     m_ErrUnavailablePage = NULL;
     m_ErrNoInternetConnectionPage = NULL;
+    m_ErrNotFoundPage = NULL;
     m_ErrProxyInfoPage = NULL;
     m_ErrProxyPage = NULL;
 ////@end CWizardAccountManager member initialisation
@@ -200,6 +202,10 @@ void CWizardAccountManager::CreateControls()
     m_ErrNoInternetConnectionPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_ErrNoInternetConnectionPage);
+    m_ErrNotFoundPage = new CErrNotFoundPage;
+    m_ErrNotFoundPage->Create( itemWizard1 );
+
+    itemWizard1->FitToPage(m_ErrNotFoundPage);
     m_ErrProxyInfoPage = new CErrProxyInfoPage;
     m_ErrProxyInfoPage->Create( itemWizard1 );
 
@@ -225,6 +231,7 @@ void CWizardAccountManager::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), ID_ERRNOTDETECTEDPAGE, m_ErrNotDetectedPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), ID_ERRUNAVAILABLEPAGE, m_ErrUnavailablePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), ID_ERRNOINTERNETCONNECTIONPAGE, m_ErrNoInternetConnectionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), ID_ERRNOTFOUNDPAGE, m_ErrNotFoundPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), ID_ERRPROXYINFOPAGE, m_ErrProxyInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), ID_ERRPROXYPAGE, m_ErrProxyPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls - End Page Map"));
@@ -269,13 +276,9 @@ bool CWizardAccountManager::Run() {
         m_bCredentialsCached = ami.have_credentials;
     }
 
-    if ( ami.acct_mgr_url.size() && !ami.have_credentials && m_AccountManagerStatusPage) {
-        m_AccountManagerStatusPage->m_pAcctManagerUpdateCtrl->SetValue(true);
-        m_AccountManagerStatusPage->m_pAcctManagerRemoveCtrl->SetValue(false);
-        IsAccountManagerUpdateWizard = true;
-        IsAccountManagerRemoveWizard = false;
-        return RunWizard(m_AccountInfoPage);
-    } else if ( ami.acct_mgr_url.size() && m_AccountManagerStatusPage) {
+    if ( ami.acct_mgr_url.size() && !ami.have_credentials && m_AccountManagerPropertiesPage) {
+        return RunWizard(m_AccountManagerPropertiesPage);
+    } else if ( ami.acct_mgr_url.size() && ami.have_credentials && m_AccountManagerStatusPage) {
         return RunWizard(m_AccountManagerStatusPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
@@ -337,6 +340,7 @@ bool CWizardAccountManager::HasNextPage( wxWizardPageEx* page )
     bNoNextPageDetected |= (page == m_ErrNotDetectedPage);
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
     bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
+    bNoNextPageDetected |= (page == m_ErrNotFoundPage);
  
     if (bNoNextPageDetected)
         return false;
@@ -431,6 +435,9 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
  
         if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
             pPage = m_ErrNoInternetConnectionPage;
+ 
+        if (ID_ERRNOTFOUNDPAGE == ulPageID)
+            pPage = m_ErrNotFoundPage;
  
          if (ID_ERRPROXYINFOPAGE == ulPageID)
             pPage = m_ErrProxyInfoPage;

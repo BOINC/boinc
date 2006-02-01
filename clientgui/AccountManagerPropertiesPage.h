@@ -146,6 +146,7 @@ public:
 
 ////@begin CAccountManagerPropertiesPage member variables
     wxStaticText* m_pTitleStaticCtrl;
+    wxStaticText* m_pPleaseWaitStaticCtrl;
     wxStaticBitmap* m_pProgressIndicator;
 ////@end CAccountManagerPropertiesPage member variables
     bool m_bProjectPropertiesSucceeded;

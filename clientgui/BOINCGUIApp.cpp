@@ -128,6 +128,10 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAPWizardCompletionMessage = wxEmptyString;
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
+            m_strAMWizardAccountInfoText = 
+                _("Please provide the email address and password you used to register\n"
+                  "at GridRepublic. (if you have not yet created an account at\n"
+                  "GridRepublic, please do so at http://www.gridrepublic.org");
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = wxEmptyString;
             break;
@@ -161,6 +165,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
                   "you more about your model.");
             m_strAMWizardTitle = wxEmptyString;
             m_bitmapAMWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
+            m_strAMWizardAccountInfoText = wxEmptyString;
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = 
                 _("This will shut down your experiment until it restarts automatically\n"
@@ -186,6 +191,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAMWizardTitle = wxEmptyString;
             m_strAPWizardAccountInfoText = wxEmptyString;
             m_bitmapAMWizardLogo = wxNullBitmap;
+            m_strAMWizardAccountInfoText = wxEmptyString;
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = wxEmptyString;
             break;

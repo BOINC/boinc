@@ -198,10 +198,12 @@ int ACCT_MGR_OP::parse(FILE* f) {
 
     accounts.clear();
     error_str = "";
+    error_num = 0;
     repeat_sec = 0;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</acct_mgr_reply>")) return 0;
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
+        if (parse_int(buf, "<error_num>", error_num)) continue;
         if (parse_str(buf, "<error>", error_str)) continue;
         if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
         if (parse_str(buf, "<message>", message)) {
@@ -243,19 +245,26 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         } else {
             retval = ERR_FOPEN;
         }
-    } else if (error_str.size()) {
-        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", error_str.c_str());
-        retval = ERR_XML_PARSE;     // ?? what should we use here ??
     } else {
-        retval = http_op_retval;
+        error_num = http_op_retval;
     }
-    error_num = retval;
-    if (retval) {
-        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", boincerror(retval));
-        return;
-    } else {
-        msg_printf(NULL, MSG_INFO, "Account manager contact succeeded");
+
+    // check both error_str and error_num since an account manager may only
+    // return a BOINC based error code for password failures or invalid
+    // email addresses
+    //
+    if (error_str.size()) {
+        msg_printf(NULL, MSG_ERROR, "Account manager error: %d %s", error_num, error_str.c_str());
+        if (!error_num) {
+            error_num = ERR_XML_PARSE;
+        }
+    } else if (error_num) {
+        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", boincerror(error_num));
     }
+
+    if (error_num) return;
+
+    msg_printf(NULL, MSG_INFO, "Account manager contact succeeded");
 
     // demand a signing key
     //
@@ -428,6 +437,15 @@ int ACCT_MGR_INFO::init() {
 
 bool ACCT_MGR_INFO::poll() {
     if (gstate.acct_mgr_op.error_num == ERR_IN_PROGRESS) return false;
+
+    // if we do not any any credentials we shouldn't attempt to contact
+    // the account manager should should reject us anyway for a bad
+    // login.  This also avoids the bug where the content of
+    // acct_mgr_url.xml is overwritten with incomplete information such
+    // as the account manager name.
+    //
+    if (!strlen(login_name) && !strlen(password_hash)) return false;
+
     if (gstate.now > next_rpc_time) {
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(acct_mgr_url, login_name, password_hash);

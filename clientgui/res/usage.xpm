@@ -20,11 +20,7 @@
 /* XPM */
 static const char *usage_xpm[] = {
 "16 16 3 1",
-#ifdef __APPLE__
 "  	c None",
-#else
-" 	c #FF00FF",
-#endif
 ".	c #000000",
 "X	c #0000FF",
 "                ",

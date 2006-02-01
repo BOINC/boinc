@@ -54,6 +54,7 @@ private:
     wxString    m_strAPWizardCompletionMessage;
     wxString    m_strAMWizardTitle;
     wxBitmap    m_bitmapAMWizardLogo;
+    wxString    m_strAMWizardAccountInfoText;
     wxString    m_strAMWizardAttachMessage;
     wxString    m_strExitMessage;
 
@@ -75,6 +76,7 @@ public:
     wxString    GetAPWizardCompletionMessage() { return m_strAPWizardCompletionMessage; }
     wxString    GetAMWizardTitle() { return m_strAMWizardTitle; }
     wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }
+    wxString    GetAMWizardAccountInfoText() { return m_strAMWizardAccountInfoText; }
     wxString    GetAMWizardSuccessMessage() { return m_strAMWizardAttachMessage; }
     wxString    GetExitMessage() { return m_strExitMessage; }
 

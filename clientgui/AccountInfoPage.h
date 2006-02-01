@@ -94,7 +94,6 @@ public:
 ////@begin CAccountInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pAccountQuestionStaticCtrl;
-    wxStaticText* m_pAccountManagerInformationStaticCtrl;
     wxRadioButton* m_pAccountCreateCtrl;
     wxRadioButton* m_pAccountUseExistingCtrl;
     wxStaticText* m_pAccountInformationStaticCtrl;

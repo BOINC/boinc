@@ -1291,3 +1291,42 @@ Charlie 1 Feb 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    1 Feb 2006
+    - Bug Fix: The account manager wizard wasn't actually calling the
+        get_project_config routine and so various account manager
+        specific settings were not being picked up.
+    - Bug Fix: Include the account manager name in the wizard
+        communication dialogs if we have it.
+    - Bug Fix: Account manager errors were no longer being bubbled
+        up to the manager.  The manager was declaring everything a
+        success and displaying the success page.
+    - Bug Fix: Add 'Account not Found' to the account manager wizard.
+    - Bug Fix: Don't attempt an account manager rpc until after a
+        proper username and password have been specified.  Various
+        attributes in the acct_mgr_url.xml were being nulled out
+        since the handle_reply function wasn't properly detecting the
+        account not found condition, or any condition where only an
+        error number was returned.
+    - Bug Fix: Keep the tab graphics consistant across all the
+        platforms.
+        
+    client/
+        acct_mgr.C
+        cs_scheduler.C
+    clientgui/
+        AccountInfoPage.cpp, .h
+        AccountManagerProcessingPage.cpp, .h
+        AccountManagerPropertiesPage.cpp, .h
+        BOINCGUIApp.cpp, .h
+        MainFrame.cpp
+        ProjectProcessingPage.cpp
+        WizardAccountManager.cpp, .h
+    clientgui/res/
+        mess.xpm
+        proj.xpm
+        result.xpm
+        usage.xpm
+        xfer.xpm
+    lib/
+        util.C

@@ -453,16 +453,22 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     SetProjectCommunitcationsSucceeded(true);
                 } else {
                     SetProjectCommunitcationsSucceeded(false);
+
                     if ((ERR_NONUNIQUE_EMAIL == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
                         SetProjectAccountAlreadyExists(true);
                     } else {
                         SetProjectAccountAlreadyExists(false);
                     }
-                    if ((ERR_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
+
+                    if ((ERR_NOT_FOUND == ao->error_num) ||
+                        (ERR_BAD_EMAIL_ADDR == ao->error_num) ||
+                        (ERR_BAD_PASSWD == ao->error_num) ||
+                        CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
                         SetProjectAccountNotFound(true);
                     } else {
                         SetProjectAccountNotFound(false);
                     }
+
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                         wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");

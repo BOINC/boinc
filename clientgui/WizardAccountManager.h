@@ -116,6 +116,7 @@ public:
     CErrNotDetectedPage* m_ErrNotDetectedPage;
     CErrUnavailablePage* m_ErrUnavailablePage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
+    CErrNotFoundPage* m_ErrNotFoundPage;
     CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyPage* m_ErrProxyPage;
 ////@end CWizardAccountManager member variables
