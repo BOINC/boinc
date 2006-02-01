@@ -1252,3 +1252,26 @@ Bruce 31 Jan 2006
         inc/
             user.inc
 
+David  31 Jan 2005
+	- core client: finish logic for recovering from state file write failures.
+		For some reason I'd done the write part but not the read part.
+		write:
+			1) write "next"
+			2) rename "current" to "prev"
+			3) rename "next" to "current"
+		read:
+			if "next" is valid, use it
+				(in case failure between 1 and 2)
+				In principle we should rename "next" to "current" here,
+				but I didn't bother doing this.
+			else if "current" is valid use it
+				(normal case)
+			else if "prev" is valid use it
+				(in case 3) failed and file got deleted)
+
+		"is valid" means that the file has a <state_file> tag,
+		followed later by a </state_file> tag
+
+	client/
+		cs_statefile.C
+

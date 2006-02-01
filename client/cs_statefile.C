@@ -36,11 +36,30 @@ void CLIENT_STATE::set_client_state_dirty(const char* source) {
     client_state_dirty = true;
 }
 
+static bool valid_state_file(char* fname) {
+    char buf[256];
+    FILE* f = boinc_fopen(fname, "r");
+    if (!f) return false;
+    fgets(buf, 256, f);
+    if (!match_tag(buf, "<client_state>")) {
+        fclose(f);
+        return false;
+    }
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</client_state>")) {
+            fclose(f);
+            return true;
+        }
+    }
+    fclose(f);
+    return false;
+}
+
 // Parse the client_state.xml file
 //
 int CLIENT_STATE::parse_state_file() {
-    char buf[256];
     PROJECT *project=NULL;
+    char buf[256];
     int retval=0;
     int failnum;
     const char *fname;
@@ -50,10 +69,12 @@ int CLIENT_STATE::parse_state_file() {
     // Look for a valid state file:
     // First the regular one, then the "next" one.
     //
-    if (boinc_file_exists(STATE_FILE_NAME)) {
-        fname = STATE_FILE_NAME;
-    } else if (boinc_file_exists(STATE_FILE_NEXT)) {
+    if (valid_state_file(STATE_FILE_NEXT)) {
         fname = STATE_FILE_NEXT;
+    } else if (valid_state_file(STATE_FILE_NAME)) {
+        fname = STATE_FILE_NAME;
+    } else if (boinc_file_exists(STATE_FILE_PREV)) {
+        fname = STATE_FILE_PREV;
     } else {
         scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
 
@@ -68,25 +89,9 @@ int CLIENT_STATE::parse_state_file() {
     FILE* f = fopen(fname, "r");
     MIOFILE mf;
     mf.init_file(f);
-    fgets(buf, 256, f);
-    if (!match_tag(buf, "<client_state>")) {
-
-        // if file is invalid (probably empty), try the previous statefile
-        //
-        fclose(f);
-        f = fopen(STATE_FILE_PREV, "r");
-        mf.init_file(f);
-        fgets(buf, 256, f);
-        if (!match_tag(buf, "<client_state>")) {
-            msg_printf(NULL, MSG_ERROR, "Missing open tag in state file.\n");
-            retval = ERR_XML_PARSE;
-            goto done;
-        }
-    }
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
-            retval = 0;
-            goto done;
+            break;
         } else if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);
@@ -331,15 +336,8 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
         } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
     }
-
-    // if get here, we must have reached end of state file
-    // without finding </client_state> tag.
-    //
-    retval = ERR_XML_PARSE;
-done:
     fclose(f);
-
-    return retval;
+    return 0;
 }
 
 
