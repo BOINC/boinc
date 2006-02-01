@@ -61,7 +61,7 @@ $changes_53 = "
     <li>Changes since 5.3.15
       <ul>
         <li>CPU scheduler reverted back to previous scheme.
-        <li>Item selection on Linix and Mac fixed in list view controls.
+        <li>Item selection on Linux and Mac fixed in list view controls.
       </ul>
 ";
 
@@ -111,24 +111,15 @@ $changes_52 = "
       </ul>
 ";
 
-$dev_changes_52= "
-    <li>Changes since 5.2.14
+$mac_changes_53= "
+    <li>Macintosh only:
       <ul>
-        <li>Use curl error messages for network errors. Maybe more useful information
-            will be displayed than what was previously displayed.
-        <li>Fixed another problem which could prevent BOINC Manager from connecting 
-            to core client.
-        <li>Mac only: we are now building with newer tools and libraries: XCode 2.2, 
+        <li>MWe are now building with newer tools and libraries: XCode 2.2, 
             WxWidgets 2.6.2, libcurl 7.15.1.
-        <li>Mac only: in anticipation of Intel-based Macs, the Mac BOINC Manager package 
-            name now specifies the cpu architecture: boinc_5.2.15_macOSX_powerpc.zip.
-      </ul>
-    <li>Changes since 5.2.13
-      <ul>
-        <li>The manager should now correctly detect if the core client is
-            currently running on the machine.
-        <li>Mac: Only administrators can attach to a new project (for improved security).
-        <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
+        <li>In anticipation of Intel-based Macs, the Mac BOINC Manager package 
+            name now specifies the cpu architecture: boinc_5.3.16_macOSX_powerpc.zip.
+        <li>Only administrators can attach to a new project (for improved security).
+        <li>No longer crashes if there is a space character in the path to BOINCManager.
       </ul>
 ";
 
@@ -254,11 +245,11 @@ $w419 = array(
     "
 );
 
-$m5215 = array(
-    "num"=>"5.2.15",
+$m5316 = array(
+    "num"=>"5.3.16",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.2.15_macOSX_powerpc.zip",
-    "date"=>"24 December 2005",
+    "file"=>"boinc_5.3.16_macOSX_powerpc.zip",
+    "date"=>"31 January 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
      <li>
@@ -269,39 +260,9 @@ $m5215 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
-".$features_52."
-".$dev_changes_52."
-".$changes_52."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-$m5214 = array(
-    "num"=>"5.2.14",
-    "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.2.14_macOSX.zip",
-    "date"=>"6 December 2005",
-    "type"=>"mac_advanced",
-     "features"=>"<ul>
-     <li>
-     BOINC now works with OS 10.3.0 or higher.
-     <li>
-     Closing the BOINC Manager window now hides the application, and vice-versa.
-     <li>
-     The installer no longer always sets ownership to user 501. If the installing user 
-     has admin privileges, that user becomes the owner; otherwise the first non-root 
-     admin user becomes the owner.
-".$features_52."
-    <li>Changes since 5.2.13
-      <ul>
-        <li>The manager should now correctly detect if the core client is
-            currently running on the machine.
-        <li>Mac: Only administrators can attach to a new project (for improved security).
-        <li>Mac: No longer crashes if there is a space character in the path to BOINCManager.
-      </ul>
-".$changes_52."
+".$features_53."
+".$mac_changes_53."
+".$changes_53."
      </ul>
     ",
     "bugs"=>"
@@ -470,8 +431,7 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5215,
-        $m5214,
+        $m5316,
         $m5213,
         $m5213s,
         $m5213c,
