@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = libdc-boinc.la libdc-client-boinc.la
 
 AM_CPPFLAGS = -I$(top_srcdir)/common $(BOINC_SERVER_CPPFLAGS)
+AM_LDFLAGS = $(BOINC_LDFLAGS)
 
 libdc_boinc_la_SOURCES = \
 		assimilator.C \
@@ -18,3 +19,5 @@ libdc_boinc_la_LIBADD = \
 
 libdc_client_boinc_la_SOURCES = \
 		dc_client.c
+libdc_client_boinc_la_LIBADD = \
+		$(BOINC_CLIENT_LIBS)
