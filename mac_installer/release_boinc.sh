@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 1/23/06 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 1/31/06 by Charlie Fenton
 ##
 
 ## Usage:
@@ -36,8 +36,8 @@ if [ "$4" = "-dev" ]; then
         BUILDPATH="mac_build/build"
     fi
 else
-    if [ -d mac_build/build/Deployment/ ]; then
-        BUILDPATH="mac_build/build/Deployment"
+    if [ -d mac_build/build/ppc_Deployment/ ]; then
+        BUILDPATH="mac_build/build/ppc_Deployment"
     else
         BUILDPATH="mac_build/build"
     fi

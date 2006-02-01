@@ -1200,14 +1200,18 @@ Charlie 31 Jan 2006
        Fix buildWxMac.sh script to fix wxRegEx problems. 
        Fix bug so a new default item is selected when the old selected item 
        is deleted within a single selection list control.
+       Update release scripts for separate ppc_Deployment build directory.
        (Tagged changed files for boinc_core_release_5_3_16.)
+       
     clientgui/
         BOINCBaseView.cpp
-    
     mac_build/
         buildWxMac.sh
         boinc.xcodeproj/
             project.pbxproj
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
 
 Rom    31 Jan 2006
      - Bug Fix: If the wizard is configured for usernames, do not use the email
