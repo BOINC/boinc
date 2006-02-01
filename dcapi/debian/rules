@@ -30,7 +30,7 @@ config.status: configure
 	dh_testdir
 	# Add here commands to configure the package.
 	# autoreconf
-	/bin/bash -xv ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
+	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
 		--prefix=/usr \
 		--disable-maintainer-mode \
 		CFLAGS="$(CFLAGS)"
