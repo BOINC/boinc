@@ -1,3 +1,9 @@
+dcapi (0.2-2) unstable; urgency=low
+
+  * New release with client API for BOINC.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed,  1 Feb 2006 16:35:27 +0100
+
 dcapi (0.2-1) unstable; urgency=low
 
   * Initial release.
