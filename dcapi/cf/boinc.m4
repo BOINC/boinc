@@ -156,6 +156,10 @@ AC_DEFUN([SZDG_BOINC_CLIENT], [
 	LDFLAGS="$save_LDFLAGS"
 	CPPFLAGS="$save_CPPFLAGS"
 
+	if test "$with_boinc" = yes && test "$no_boinc" = yes; then
+		AC_MSG_ERROR([BOINC development environment was not found])
+	fi
+
 	BOINC_CLIENT_LIBS="-lboinc_api $BOINC_COMMON_LIBS -Wl,-Bstatic -lstdc++ -Wl,-Bdynamic -lpthread -lm"
 	AC_SUBST([BOINC_CLIENT_LIBS])
 ])
