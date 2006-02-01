@@ -58,7 +58,6 @@ AC_DEFUN([SZDG_BOINC_COMMON], [
 		])
 
 		BOINC_COMMON_LIBS="-lsched -lboinc"
-		BOINC_CPPFLAGS="$BOINC_CPPFLAGS"
 
 		if test "$boinc_cv_use_rsaeuro" = yes; then
 			if test -d "$BOINC_INCLUDES/RSAEuro/source"; then
@@ -145,12 +144,17 @@ dnl
 AC_DEFUN([SZDG_BOINC_CLIENT], [
 	AC_REQUIRE([SZDG_BOINC_COMMON])
 
+	save_CPPFLAGS="$CPPFLAGS"
 	CPPFLAGS="$CPPFLAGS $BOINC_CPPFLAGS"
+	save_LDFLAGS="LDFLAGS $BOINC_LDFLAGS"
+	LDFLAGS="$LDFLAGS $BOINC_LDFLAGS"
 	AC_CHECK_HEADERS([boinc_api.h filesys.h diagnostics.h],, [no_boinc=yes])
 	AC_LANG_PUSH([C++])
 	AC_CHECK_LIB([boinc_api], [boinc_init], [true], [no_boinc=yes],
 		[-lboinc -lpthread -lz -lm])
 	AC_LANG_POP([C++])
+	LDFLAGS="$save_LDFLAGS"
+	CPPFLAGS="$save_CPPFLAGS"
 
 	BOINC_CLIENT_LIBS="-lboinc_api $BOINC_COMMON_LIBS -Wl,-Bstatic -lstdc++ -Wl,-Bdynamic -lpthread -lz -lm"
 	AC_SUBST([BOINC_CLIENT_LIBS])
