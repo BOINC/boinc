@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libdc-boinc.la
+lib_LTLIBRARIES = libdc-boinc.la libdc-client-boinc.la
 
 AM_CPPFLAGS = -I$(top_srcdir)/common $(BOINC_SERVER_CPPFLAGS)
 
@@ -15,3 +15,6 @@ libdc_boinc_la_SOURCES = \
 libdc_boinc_la_LIBADD = \
 		../common/libdc-common.la \
 		$(BOINC_SERVER_LIBS)
+
+libdc_client_boinc_la_SOURCES = \
+		dc_client.c
