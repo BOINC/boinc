@@ -79,17 +79,15 @@ resources.
     | <a href=download_network.php>Add-ons</a>
     | <a href=dev/>Message boards</a>
 
-    <br><br>
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Create a volunteer computing project</h2></td></tr>
   <tr><td>
     Scientists with computationally-intensive tasks
     may be able to use BOINC.
-    A BOINC project requires just a single Linux server,
-    and can provide computing power equivalent
+    A BOINC project with a single Linux server
+    can provide computing power equivalent
     to a cluster with tens of thousands of CPUs.
-      <a href=create_project.php>... more</a>
-    <br><br>
+    <p><a href=create_project.php>More info</a> 
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Software</h2></td></tr>
   <tr><td>

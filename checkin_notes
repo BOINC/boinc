@@ -1232,3 +1232,9 @@ David  31 Jan 2006
             util.inc
         ops/
             sample_table_stats.php
+
+David  31 Jan 2006
+    - user web: remove "pending credit" link from user page
+
+    html/inc/
+        user.inc

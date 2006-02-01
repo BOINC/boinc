@@ -32,7 +32,7 @@ function show_user_stats_private($user) {
     row1("Account statistics");
     row2(PROJECT." member since", date_str($user->create_time));
     show_credit($user);
-    row2("Pending credit", "<a href=pending.php>View</a>");
+    //row2("Pending credit", "<a href=pending.php>View</a>");
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
         $x = "<a href=team_display.php?teamid=$team->id>$team->name</a>
