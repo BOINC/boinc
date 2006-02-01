@@ -20,7 +20,11 @@
 /* XPM */
 static const char *xfer_xpm[] = {
 "16 16 4 1",
+#ifdef __APPLE__
+"  	c None",
+#else
 " 	c #FF00FF",
+#endif
 ".	c #000000",
 "X	c #808080",
 "o	c #C0C0C0",

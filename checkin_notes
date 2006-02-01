@@ -1275,3 +1275,19 @@ David  31 Jan 2005
 	client/
 		cs_statefile.C
 
+Charlie 1 Feb 2006
+    -Mac: Changes for Intel Macs.
+       
+    clientgui/
+        MainFrame.cpp
+        mac/
+            MacGUI.pch
+        res/
+            mess.xpm
+            proj.xpm
+            result.xpm
+            usage.xpm
+            xfer.xpm
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

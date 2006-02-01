@@ -563,7 +563,11 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
         m_pNotebook->SetImageList(pImageList);
     }
     
+#ifdef __WXMAC__
+    iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()));
+#else
     iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()), wxColour(255, 0, 255));
+#endif
     m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebookPage - Function End"));

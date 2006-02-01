@@ -30,6 +30,8 @@
  
 #define WX_PRECOMP
 
+#define HAVE_SSIZE_T
+
 #include "stdwx.h"
 
 #include "config.h"
