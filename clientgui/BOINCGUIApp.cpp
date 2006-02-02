@@ -112,11 +112,11 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
     switch (iBrandId) {
         case 1:
             // Running as a GridRepublic client.
-            m_strApplicationName = wxT("GridRepublic Manager");
+            m_strApplicationName = wxT("GridRepublic Desktop");
             m_iconApplicationIcon = wxIcon(gridrepublic_xpm);
             m_bitmapApplicationLogo = wxBitmap(gridrepublic_xpm);
             m_strCompanyName = wxT("GridRepublic");
-            m_strCompanyWebsite = wxT("http://www.gridrepublic.com/");
+            m_strCompanyWebsite = wxT("http://www.gridrepublic.org/");
             m_strProjectName = wxT("GridRepublic");
             m_strAPWizardTitle = wxEmptyString;
             m_bDefaultTabSpecified = false;

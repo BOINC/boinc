@@ -73,6 +73,8 @@ public:
     void OnCommandsRetryCommunications( wxCommandEvent& event );
 
     void OnProjectsAttachToAccountManager( wxCommandEvent& event );
+    void OnAccountManagerUpdate( wxCommandEvent& event );
+    void OnAccountManagerDetach( wxCommandEvent& event );
     void OnProjectsAttachToProject( wxCommandEvent& event );
 
     void OnOptionsOptions( wxCommandEvent& event );

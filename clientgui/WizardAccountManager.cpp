@@ -242,7 +242,7 @@ void CWizardAccountManager::CreateControls()
  * Runs the wizard.
  */
 
-bool CWizardAccountManager::Run() {
+bool CWizardAccountManager::Run(int action) {
     ACCT_MGR_INFO ami;
     CMainDocument*            pDoc = wxGetApp().GetDocument();
 
@@ -276,10 +276,20 @@ bool CWizardAccountManager::Run() {
         m_bCredentialsCached = ami.have_credentials;
     }
 
-    if ( ami.acct_mgr_url.size() && !ami.have_credentials && m_AccountManagerPropertiesPage) {
+    if ( ami.acct_mgr_url.size() && !ami.have_credentials) {
         return RunWizard(m_AccountManagerPropertiesPage);
-    } else if ( ami.acct_mgr_url.size() && ami.have_credentials && m_AccountManagerStatusPage) {
-        return RunWizard(m_AccountManagerStatusPage);
+    } else if ( ami.acct_mgr_url.size() && ami.have_credentials && (action == ACCOUNTMANAGER_UPDATE)) {
+        IsAccountManagerUpdateWizard = true;
+        IsAccountManagerRemoveWizard = false;
+        return RunWizard(m_AccountManagerProcessingPage);
+    } else if ( ami.acct_mgr_url.size() && ami.have_credentials && (action == ACCOUNTMANAGER_DETACH)) {
+        IsAccountManagerUpdateWizard = false;
+        IsAccountManagerRemoveWizard = true;
+        m_AccountManagerInfoPage->SetProjectURL(wxEmptyString);
+        m_AccountInfoPage->SetAccountEmailAddress(wxEmptyString);
+        m_AccountInfoPage->SetAccountPassword(wxEmptyString);
+        m_bCredentialsCached = false;
+        return RunWizard(m_AccountManagerProcessingPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
     }

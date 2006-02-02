@@ -159,8 +159,10 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CMainFrame::OnNetworkSelection)
     EVT_MENU(ID_PROJECTSATTACHACCOUNTMANAGER, CMainFrame::OnProjectsAttachToAccountManager)
+    EVT_MENU(ID_TOOLSAMUPDATENOW, CMainFrame::OnAccountManagerUpdate)
+    EVT_MENU(ID_ADVANCEDAMDEFECT, CMainFrame::OnAccountManagerDetach)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CMainFrame::OnProjectsAttachToProject)
-    EVT_MENU(ID_COMMADSRETRYCOMMUNICATIONS, CMainFrame::OnCommandsRetryCommunications)
+    EVT_MENU(ID_COMMANDSRETRYCOMMUNICATIONS, CMainFrame::OnCommandsRetryCommunications)
     EVT_MENU(ID_OPTIONSOPTIONS, CMainFrame::OnOptionsOptions)
     EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
@@ -320,25 +322,23 @@ CMainFrame::~CMainFrame() {
 
 
 bool CMainFrame::CreateMenu() {
-    wxString strMenuName;
-    wxString strMenuDescription;
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    ACCT_MGR_INFO      ami;
+    bool               is_acct_mgr_detected = false;
+    wxString           strMenuName;
+    wxString           strMenuDescription;
+    
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    // Account managers have a different menu arrangement
+    pDoc->rpc.acct_mgr_info(ami);
+    is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
 
     // File menu
     wxMenu *menuFile = new wxMenu;
-
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strMenuDescription.Printf(
-        _("Connect to another computer running %s"), 
-        wxGetApp().GetBrand()->GetProjectName().c_str()
-    );
-    menuFile->Append(
-        ID_FILESELECTCOMPUTER, 
-        _("Select computer..."),
-        strMenuDescription
-    );
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -352,77 +352,113 @@ bool CMainFrame::CreateMenu() {
         strMenuDescription
     );
 
-    // Commands menu
-    wxMenu *menuCommands = new wxMenu;
+    // Tools menu
+    wxMenu *menuTools = new wxMenu;
 
-    menuCommands->AppendRadioItem(
+    if (!is_acct_mgr_detected) {
+        menuTools->Append(
+            ID_PROJECTSATTACHPROJECT, 
+            _("Attach to &project"),
+            _("Attach to a project to begin processing work")
+        );
+        menuTools->Append(
+            ID_PROJECTSATTACHACCOUNTMANAGER, 
+            _("&Account manager"),
+            _("Attach to an account manager")
+        );
+    } else {
+        menuTools->Append(
+            ID_TOOLSAMUPDATENOW, 
+            _("&Update now"),
+            _("Reterive the latest settings from the account manager")
+        );
+    }
+
+    // Activity menu
+    wxMenu *menuActivity = new wxMenu;
+
+    menuActivity->AppendRadioItem(
         ID_FILEACTIVITYRUNALWAYS,
         _("&Run always"),
         _("Does work regardless of preferences")
     );
-    menuCommands->AppendRadioItem(
+    menuActivity->AppendRadioItem(
         ID_FILEACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
         _("Does work according to your preferences")
     );
-    menuCommands->AppendRadioItem(
+    menuActivity->AppendRadioItem(
         ID_FILEACTIVITYSUSPEND,
         _("&Suspend"),
         _("Stops work regardless of preferences")
     );
 
-    menuCommands->AppendSeparator();
+    menuActivity->AppendSeparator();
 
-    menuCommands->AppendRadioItem(
+    menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNALWAYS,
         _("&Network activity always available"),
         _("Does network activity regardless of preferences")
     );
-    menuCommands->AppendRadioItem(
+    menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNBASEDONPREPERENCES,
         _("Network activity based on &preferences"),
         _("Does network activity according to your preferences")
     );
-    menuCommands->AppendRadioItem(
+    menuActivity->AppendRadioItem(
         ID_FILENETWORKSUSPEND,
         _("&Network activity suspended"),
         _("Stops BOINC network activity")
     );
 
-    menuCommands->AppendSeparator();
-
-    menuCommands->Append(
-        ID_COMMADSRETRYCOMMUNICATIONS, 
-        _("Retry &communications"),
-        _("Report completed work, get latest credit, "
-          "get latest preferences, and possibly get more work.")
-    );
-    menuCommands->Append(
-        ID_FILERUNBENCHMARKS, 
-        _("Run &benchmarks"),
-        _("Runs BOINC CPU benchmarks")
-    );
-
-    // Projects menu
-    wxMenu *menuProjects = new wxMenu;
-    menuProjects->Append(
-        ID_PROJECTSATTACHPROJECT, 
-        _("Attach to &project"),
-        _("Attach to a project to begin processing work")
-    );
-    menuProjects->Append(
-        ID_PROJECTSATTACHACCOUNTMANAGER, 
-        _("&Account manager"),
-        _("Attach to an account manager")
-    );
-
-    // Options menu
-    wxMenu *menuOptions = new wxMenu;
-    menuOptions->Append(
+    // Advanced menu
+    wxMenu *menuAdvanced = new wxMenu;
+    menuAdvanced->Append(
         ID_OPTIONSOPTIONS, 
         _("&Options"),
         _("Configure GUI options and proxy settings")
     );
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuDescription.Printf(
+        _("Connect to another computer running %s"), 
+        wxGetApp().GetBrand()->GetProjectName().c_str()
+    );
+    menuAdvanced->Append(
+        ID_FILESELECTCOMPUTER, 
+        _("Select computer..."),
+        strMenuDescription
+    );
+    menuAdvanced->Append(
+        ID_FILERUNBENCHMARKS, 
+        _("Run CPU &benchmarks"),
+        _("Runs BOINC CPU benchmarks")
+    );
+    menuAdvanced->Append(
+        ID_COMMANDSRETRYCOMMUNICATIONS, 
+        _("Retry &communications"),
+        _("Report completed work, get latest credit, "
+          "get latest preferences, and possibly get more work.")
+    );
+    if (is_acct_mgr_detected) {
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strMenuName.Printf(
+            _("&Defect from %s"), 
+            ami.acct_mgr_name.c_str()
+        );
+        menuAdvanced->Append(
+            ID_ADVANCEDAMDEFECT, 
+            strMenuName,
+            _("Remove client from account manager control.")
+        );
+        menuAdvanced->Append(
+            ID_PROJECTSATTACHPROJECT, 
+            _("Attach to &project"),
+            _("Attach to a project to begin processing work")
+        );
+    }
+
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
@@ -484,22 +520,27 @@ bool CMainFrame::CreateMenu() {
         _("&File")
     );
     m_pMenubar->Append(
-        menuCommands,
-        _("&Commands")
+        menuTools,
+        _("&Tools")
     );
     m_pMenubar->Append(
-        menuProjects,
-        _("&Projects")
+        menuActivity,
+        _("&Activity")
     );
     m_pMenubar->Append(
-        menuOptions,
-        _("&Options")
+        menuAdvanced,
+        _("A&dvanced")
     );
     m_pMenubar->Append(
         menuHelp,
         _("&Help")
     );
+
+    wxMenuBar* m_pOldMenubar = GetMenuBar();
     SetMenuBar(m_pMenubar);
+    if (m_pOldMenubar) {
+        delete m_pOldMenubar;
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function End"));
     return true;
@@ -589,7 +630,6 @@ bool CMainFrame::CreateStatusbar() {
 
 bool CMainFrame::DeleteMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteMenu - Function Begin"));
-
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::DeleteMenu - Function End"));
     return true;
 }
@@ -1077,7 +1117,7 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
 
         CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
-        pWizard->Run();
+        pWizard->Run(ACCOUNTMANAGER_ATTACH);
 
         if (pWizard)
             pWizard->Destroy();
@@ -1093,6 +1133,86 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnProjectsAttachToAccountManager - Function End"));
+}
+
+
+void CMainFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAccountManagerUpdate - Function Begin"));
+
+    CMainDocument*            pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+#ifdef __WXMAC__
+    if (!Mac_Authorize())
+        return;
+#endif
+
+    if (pDoc->IsConnected()) {
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
+
+        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
+
+        pWizard->Run(ACCOUNTMANAGER_UPDATE);
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        FireRefreshView();
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAccountManagerUpdate - Function End"));
+}
+
+
+void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAccountManagerDetach - Function Begin"));
+
+    CMainDocument*            pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+#ifdef __WXMAC__
+    if (!Mac_Authorize())
+        return;
+#endif
+
+    if (pDoc->IsConnected()) {
+        m_pRefreshStateTimer->Stop();
+        m_pFrameRenderTimer->Stop();
+        m_pFrameListPanelRenderTimer->Stop();
+        m_pDocumentPollTimer->Stop();
+
+        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
+
+        pWizard->Run(ACCOUNTMANAGER_DETACH);
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        FireRefreshView();
+
+        m_pRefreshStateTimer->Start();
+        m_pFrameRenderTimer->Start();
+        m_pFrameListPanelRenderTimer->Start();
+        m_pDocumentPollTimer->Start();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAccountManagerDetach - Function End"));
 }
 
 
@@ -1436,6 +1556,9 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    // Update the menus
+    DeleteMenu();
+    CreateMenu();
 
     // Only present one of the wizards if no projects are currently
     //   detected.

@@ -35,7 +35,7 @@
 #define ID_FILENETWORKRUNALWAYS                 6012
 #define ID_FILENETWORKRUNBASEDONPREPERENCES     6013
 #define ID_FILENETWORKSUSPEND                   6014
-#define ID_COMMADSRETRYCOMMUNICATIONS           6015
+#define ID_COMMANDSRETRYCOMMUNICATIONS          6015
 #define ID_FILERUNBENCHMARKS                    6016
 #define ID_FILESELECTCOMPUTER                   6017
 #define ID_PROJECTSATTACHACCOUNTMANAGER         6018
@@ -49,6 +49,8 @@
 #define ID_TB_NETWORKRUNALWAYS                  6026
 #define ID_TB_NETWORKRUNBASEDONPREPERENCES      6027
 #define ID_TB_NETWORKSUSPEND                    6028
+#define ID_TOOLSAMUPDATENOW                     6029
+#define ID_ADVANCEDAMDEFECT                     6030
 #define ID_LIST_BASE                            7000
 #define ID_LIST_PROJECTSVIEW                    7000
 #define ID_LIST_WORKVIEW                        7001

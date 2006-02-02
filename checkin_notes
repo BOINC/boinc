@@ -1372,3 +1372,12 @@ Rom    2 Feb 2006
         ProjectProcessingPage.cpp
     lib/
         gui_rpc_client.h
+
+Rom    2 Feb 2006
+    - Setup new menu layout
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        Events.h
+        MainFrame.cpp, .h
+        WizardAccountManager.cpp, .h
