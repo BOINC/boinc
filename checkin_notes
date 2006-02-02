@@ -1409,3 +1409,8 @@ Rom    2 Feb 2006
         gridrepublic16.xpm (Added)
         gridrepublic32.xpm (Added)
         gridrepublic.ico
+
+Rom    2 Feb 2006 (HEAD)
+    - Tag for 5.3.17 release, all platforms
+      boinc_core_release_5_3_17
+
