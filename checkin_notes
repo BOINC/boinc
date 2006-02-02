@@ -1394,3 +1394,14 @@ Charlie 2 Feb 2006
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+Rom    2 Feb 2006
+    - Update GridRepublic Icons
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCGUIApp.rc
+    clientgui/res/
+        gridrepublic16.xpm (Added)
+        gridrepublic32.xpm (Added)
+        gridrepublic.ico

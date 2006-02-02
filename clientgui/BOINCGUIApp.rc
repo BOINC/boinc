@@ -32,7 +32,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #ifdef _GRIDREPUBLIC
 
 APP_ICON                ICON                    "res\\gridrepublic.ico"
-APP_ICON2               ICON                    "res\\gridrepublic2.ico"
 
 #elif defined(_CPDNBBC)
 
