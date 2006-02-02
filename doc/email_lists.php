@@ -18,6 +18,7 @@ for SETI@home or other BOINC projects.
 Help for SETI@home is available on the
 <a href=http://setiathome.berkeley.edu/forum_help_desk.php>SETI@home message boards</a>
 and help for BOINC is available at the
+<a href=dev/>BOINC message boards</a> or the
 <a href=http://boinc-doc.net/boinc-wiki/>BOINC Wiki</a>.
 
 </font></b>

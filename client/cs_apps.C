@@ -423,6 +423,9 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
 #ifndef NEW_CPU_SCHED
 
 // adjust project debts (short, long-term)
+// NOTE: currently there's the assumption that the only
+// non-final call is from schedule_cpus(),
+// since that's where total_wall_cpu_time_this_period etc. are zeroed.
 //
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
@@ -467,11 +470,21 @@ void CLIENT_STATE::adjust_debts() {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
+        // potentially_runnable() can be false right after a result completes,
+        // but we still need to update its LTD.
+        // In this case its wall_cpu_time_this_period will be nonzero.
+        //
+        if (!(p->potentially_runnable()) && p->wall_cpu_time_this_period)
+            prrs += p->resource_share;
+    }
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
         if (p->non_cpu_intensive) continue;
 
         // adjust long-term debts
         //
-        if (p->potentially_runnable()) {
+        if (p->potentially_runnable() || p->wall_cpu_time_this_period) {
             nprojects++;
             share_frac = p->resource_share/prrs;
             p->long_term_debt += share_frac*total_wall_cpu_time_this_period
@@ -524,7 +537,7 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = p->short_term_debt;
             //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);
         }
-        if (p->potentially_runnable()) {
+        if (p->potentially_runnable() || p->wall_cpu_time_this_period) {
             p->long_term_debt -= avg_long_term_debt;
         }
     }

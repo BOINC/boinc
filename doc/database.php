@@ -4,12 +4,8 @@ page_head("The BOINC database");
 echo "
 
 <p>
-Normally you don't have to directly examine or manipulate the
-BOINC database.
-If you need to, you can use the MySQL command-line interpreter
-or BOINC's <a href=html_ops.php>administrative web interface</a>.
-<p>
-The database tables are as follows: 
+BOINC stores information in a MySQL database.
+The main tables are:
 ";
 list_start();
 list_item("platform",
@@ -38,5 +34,13 @@ Includes a 'state' (whether the result has been dispatched).
 Stores a number of items relevant only after the
 result has been returned: CPU time, exit status, and validation status. ");
 list_end();
+echo "
+<p>
+The database is created by the
+<a href=make_project.php>make_project</a> script.
+Normally you don't have to directly examine or manipulate the database.
+If you need to, you can use the MySQL command-line interpreter
+or BOINC's <a href=html_ops.php>administrative web interface</a>.
+";
 page_tail();
 ?>

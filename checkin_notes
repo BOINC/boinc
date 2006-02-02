@@ -1057,7 +1057,7 @@ Rom    26 Jan 2006
         as well as hide and show the correct controls.
         
     clientgui/
-		<All wizard related files>
+        <All wizard related files>
 
 Rom    27 Jan 2006
     - Bug Fix: The screensaver should properly detect the shortcut for all
@@ -1122,8 +1122,8 @@ David  27 Jan 2006
 
 Reinhard 30 Jan 2006
      - improved _autosetup: 
-	* make version-checks more robust if '--version' is not supported
-	* removed libtool-check: libtool is shipped with boinc, this check therefore pointless
+    * make version-checks more robust if '--version' is not supported
+    * removed libtool-check: libtool is shipped with boinc, this check therefore pointless
      ./autosetup
 
 Charlie 30 Jan 2006
@@ -1136,7 +1136,7 @@ Charlie 30 Jan 2006
 
 Reinhard 30 Jan 2006
      - updated boincmgr build for MacOSX:
-	* added Mac_GUI.cpp, MacGUI.pch and Security.Framework
+    * added Mac_GUI.cpp, MacGUI.pch and Security.Framework
 
      clientgui/
          Makefile.am
@@ -1144,17 +1144,17 @@ Reinhard 30 Jan 2006
 
 Reinhard 30 Jan 2006
      - applied Derek Wright's patch to get --enable-release-client working on MacOS10.4
-	(this simply adds a check for '-lSystemStubs') [can't test this myself on 10.4 right now]
+    (this simply adds a check for '-lSystemStubs') [can't test this myself on 10.4 right now]
      ./configure.ac
 
 
 David  30 Jan 2006
-	- updates to new scheduler code (commented out)
+    - updates to new scheduler code (commented out)
 
-	client
-		client_state.h
-		client_types.h
-		cs_apps.C
+    client
+        client_state.h
+        client_types.h
+        cs_apps.C
 
 David  30 Jan 2006
     - back out scheduler changes of 27 Jan.
@@ -1253,27 +1253,27 @@ Bruce 31 Jan 2006
             user.inc
 
 David  31 Jan 2005
-	- core client: finish logic for recovering from state file write failures.
-		For some reason I'd done the write part but not the read part.
-		write:
-			1) write "next"
-			2) rename "current" to "prev"
-			3) rename "next" to "current"
-		read:
-			if "next" is valid, use it
-				(in case failure between 1 and 2)
-				In principle we should rename "next" to "current" here,
-				but I didn't bother doing this.
-			else if "current" is valid use it
-				(normal case)
-			else if "prev" is valid use it
-				(in case 3) failed and file got deleted)
+    - core client: finish logic for recovering from state file write failures.
+        For some reason I'd done the write part but not the read part.
+        write:
+            1) write "next"
+            2) rename "current" to "prev"
+            3) rename "next" to "current"
+        read:
+            if "next" is valid, use it
+                (in case failure between 1 and 2)
+                In principle we should rename "next" to "current" here,
+                but I didn't bother doing this.
+            else if "current" is valid use it
+                (normal case)
+            else if "prev" is valid use it
+                (in case 3) failed and file got deleted)
 
-		"is valid" means that the file has a <state_file> tag,
-		followed later by a </state_file> tag
+        "is valid" means that the file has a <state_file> tag,
+        followed later by a </state_file> tag
 
-	client/
-		cs_statefile.C
+    client/
+        cs_statefile.C
 
 Charlie 1 Feb 2006
     -Mac: Changes for Intel Macs.
@@ -1422,9 +1422,17 @@ David  2 Feb 2006
         am_set_info.php
 
 David  2 Feb 2006
-	- core client: small logic error in statefile read
-		(for "prev", use is_valid_statefile() instead
-		of boinc_file_exists())
+    - core client: small logic error in statefile read
+        (for "prev", use is_valid_statefile() instead
+        of boinc_file_exists())
 
-	client/
-		cs_statefile.C
+    client/
+        cs_statefile.C
+
+David  2 Feb 2005
+    - core client: correctly update long-term debt when a project
+        finishes its last result and becomes no longer "potentially runnable".
+        From James Drews.
+
+    client/
+        cs_apps.C

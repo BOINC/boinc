@@ -1,7 +1,8 @@
 <?php
 
-//Scale an image using the most powerfull GD software available on the server
+//Scale an image using the most powerful GD software available on the server
 //while keeping aspect ratio the same
+//
 function intelligently_scale_image($sourcefile, $fw, $fh) {
     $gd_info = gd_info();
     $newGD = (strstr($gd_info["GD Version"], "2.0")!="");
@@ -28,9 +29,9 @@ function intelligently_scale_image($sourcefile, $fw, $fh) {
     }
 
     if ($newGD){
-	$tempImage = imageCreateTrueColor($tempw, $temph);
-	imageAntiAlias($tempImage, true);
-	imagecopyresampled($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
+        $tempImage = imageCreateTrueColor($tempw, $temph);
+        imageAntiAlias($tempImage, true);
+        imagecopyresampled($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
     } else {
         $tempImage = imageCreate($tempw, $temph);
         imagecopyresized($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
@@ -47,12 +48,12 @@ function intelligently_scale_image($sourcefile, $fw, $fh) {
     }
 
     if ($newGD){
-	$destImage = imageCreateTrueColor($fw, $fh);
-	imageAntiAlias($tempImage, true);
-	imagecopyresampled($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
+        $destImage = imageCreateTrueColor($fw, $fh);
+        imageAntiAlias($tempImage, true);
+        imagecopyresampled($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
     } else {
-	$destImage = imageCreate($fw, $fh);
-	imagecopyresized($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
+        $destImage = imageCreate($fw, $fh);
+        imagecopyresized($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
     }
 
     return $destImage; //imageJpeg($destImage, $destfile, $jpegquality);

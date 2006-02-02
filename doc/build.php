@@ -184,10 +184,8 @@ or fiddle with Makefiles.
 
 <li>
 MySQL can be the bottleneck in a BOINC server.
-You may want to learn about (or hire someone who knows about)
-MySQL performance.
-For example, read about the
-<a href=http://dev.mysql.com/tech-resources/articles/mysql-query-cache.html>MySQL query cache</a>.
+To optimize its performance, read about
+<a href=mysql_config.php>configuring MySQL for BOINC</a>.
 
 <li>
 <a href=mysql_cluster.txt>Notes on running MySQL on a cluster</a>.

@@ -12,8 +12,12 @@
         <user_friendly_name>Solaris/SPARC</user_friendly_name>
     </platform>
     <platform>
+        <name>i686-apple-darwin</name>
+        <user_friendly_name>Mac OS X (Intel)</user_friendly_name>
+    </platform>
+    <platform>
         <name>powerpc-apple-darwin</name>
-        <user_friendly_name>Mac OS X</user_friendly_name>
+        <user_friendly_name>Mac OS X (PowerPC)</user_friendly_name>
     </platform>
     <platform>
         <name>anonymous</name>
