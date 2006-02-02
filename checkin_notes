@@ -1360,3 +1360,15 @@ David  1 Feb 2006
         app.h
         app_control.C
         gui_rpc_server_ops.C
+
+Rom    2 Feb 2006
+    - Bug Fix: Always use the ai.email_addr field for the user identifier for
+        both the create_account and lookup_account RPCs.  ai.user_name is only
+        used to prepopulate the post account creation setup form.
+        
+    client/
+        acct_setup.h
+    clientgui/
+        ProjectProcessingPage.cpp
+    lib/
+        gui_rpc_client.h

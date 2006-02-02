@@ -343,9 +343,10 @@ void CProjectProcessingPage::OnCancel( wxWizardExEvent& event ) {
  
 void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
 {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-    ACCOUNT_IN* ai           = &((CWizardAttachProject*)GetParent())->account_in;
-    ACCOUNT_OUT* ao          = &((CWizardAttachProject*)GetParent())->account_out;
+    CMainDocument* pDoc        = wxGetApp().GetDocument();
+    CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
+    ACCOUNT_IN* ai             = &pWAP->account_in;
+    ACCOUNT_OUT* ao            = &pWAP->account_out;
     unsigned int i;
     PROJECT_ATTACH_REPLY reply;
     wxString strBuffer = wxEmptyString;
@@ -360,8 +361,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
  
     switch(GetCurrentState()) {
         case ATTACHPROJECT_INIT:
-            ((CWizardAttachProject*)GetParent())->DisableNextButton();
-            ((CWizardAttachProject*)GetParent())->DisableBackButton();
+            pWAP->DisableNextButton();
+            pWAP->DisableBackButton();
 
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
@@ -374,25 +375,22 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
             ai->clear();
             ao->clear();
 
-            ai->url = ((CWizardAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str();
+            ai->url = pWAP->m_ProjectInfoPage->GetProjectURL().c_str();
 
-            if (!((CWizardAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.IsEmpty() ||
-                ((CWizardAttachProject*)GetParent())->m_bCredentialsCached
+            if (!pWAP->m_AccountKeyPage->m_strAccountKey.IsEmpty() ||
+                pWAP->m_bCredentialsCached
             ) {
-                if (!((CWizardAttachProject*)GetParent())->m_bCredentialsCached) {
-                    ao->authenticator = ((CWizardAttachProject*)GetParent())->m_AccountKeyPage->m_strAccountKey.c_str();
+                if (!pWAP->m_bCredentialsCached) {
+                    ao->authenticator = pWAP->m_AccountKeyPage->m_strAccountKey.c_str();
                 }
                 SetProjectCommunitcationsSucceeded(true);
             } else {
-                if (((CWizardAttachProject*)GetParent())->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
-                    if (!((CWizardAttachProject*)GetParent())->project_config.uses_username) {
-                        ai->email_addr = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-                        ai->user_name = ::wxGetUserName().c_str();
-                    } else {
-                        ai->email_addr = wxT("");
-                        ai->user_name = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-                    }
-                    ai->passwd = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
+                // Setup initial values for both the create and lookup API
+                ai->email_addr = pWAP->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+                ai->passwd = pWAP->m_AccountInfoPage->GetAccountPassword().c_str();
+                ai->user_name = ::wxGetUserName().c_str();
+
+                if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
                     pDoc->rpc.create_account(*ai);
 
                     // Wait until we are done processing the request.
@@ -402,7 +400,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     iReturnValue = ERR_IN_PROGRESS;
                     while (ERR_IN_PROGRESS == iReturnValue &&
                         tsExecutionTime.GetSeconds() <= 60 &&
-                        !((CWizardAttachProject*)GetParent())->IsCancelInProgress()
+                        !pWAP->IsCancelInProgress()
                         )
                     {
                         dtCurrentExecutionTime = wxDateTime::Now();
@@ -416,16 +414,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     }
 
                     if ((!iReturnValue) && !ao->error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTCOMM)) {
-                        ((CWizardAttachProject*)GetParent())->SetAccountCreatedSuccessfully(true);
+                        pWAP->SetAccountCreatedSuccessfully(true);
                     }
                 } else {
-                    if (!((CWizardAttachProject*)GetParent())->project_config.uses_username) {
-                        ai->email_addr = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-                    } else {
-                        ai->user_name = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-                    }
-                    ai->passwd = ((CWizardAttachProject*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
-
                     pDoc->rpc.lookup_account(*ai);
  
                     // Wait until we are done processing the request.
@@ -470,14 +461,14 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     }
 
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        wxString strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        wxString strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        wxString strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("An internal server error has occurred.\n");
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
                 }
             }
@@ -489,7 +480,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
             if (GetProjectCommunitcationsSucceeded()) {
                 // Attempt to attach to the project.
-                if (((CWizardAttachProject*)GetParent())->m_bCredentialsCached) {
+                if (pWAP->m_bCredentialsCached) {
                     pDoc->rpc.project_attach(
                         ai->url.c_str(),
                         ao->authenticator.c_str(),
@@ -525,21 +516,21 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
      
                 if (!iReturnValue && !reply.error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                     SetProjectAttachSucceeded(true);
-                    ((CWizardAttachProject*)GetParent())->SetAttachedToProjectSuccessfully(true);
-                    ((CWizardAttachProject*)GetParent())->SetProjectURL(ai->url.c_str());
-                    ((CWizardAttachProject*)GetParent())->SetProjectAuthenticator(ao->authenticator.c_str());
+                    pWAP->SetAttachedToProjectSuccessfully(true);
+                    pWAP->SetProjectURL(ai->url.c_str());
+                    pWAP->SetProjectAuthenticator(ao->authenticator.c_str());
                 } else {
                     SetProjectAttachSucceeded(false);
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("An internal server error has occurred.\n");
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     } else {
-                        strBuffer = ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         for (i=0; i<reply.messages.size(); i++) {
                             strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
                         }
-                        ((CWizardAttachProject*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
                 }
             } else {
@@ -554,9 +545,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            ((CWizardAttachProject*)GetParent())->EnableNextButton();
-            ((CWizardAttachProject*)GetParent())->EnableBackButton();
-            ((CWizardAttachProject*)GetParent())->SimulateNextButton();
+            pWAP->EnableNextButton();
+            pWAP->EnableBackButton();
+            pWAP->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }
