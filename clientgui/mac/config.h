@@ -330,6 +330,8 @@
 
 #ifdef __i386__
 #define HOSTTYPE "i686-apple-darwin"
+#undef HOSTTYPE                         /***** TEMPORARY FOR TESTING *****/
+#define HOSTTYPE "powerpc-apple-darwin" /***** TEMPORARY FOR TESTING *****/
 #endif
 
 /* "Define to 1 if largefile support causes missing symbols in C++" */

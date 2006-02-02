@@ -138,18 +138,18 @@ sudo chmod -R 755 ${IR_PATH}/*
 sudo rm -dfR ${NEW_DIR_PATH}/
 
 mkdir -p ${NEW_DIR_PATH}/
-mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc
-mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin
+mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal
+mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin
 mkdir -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
 
-cp -fp "${README_FILE}" ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
-sudo chown -R 501:admin ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
-sudo chmod -R 755 ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/ReadMe.rtf
+cp -fp "${README_FILE}" ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf
+sudo chown -R 501:admin ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf
+sudo chmod -R 755 ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf
 
-cp -fpR $BUILDPATH/boinc ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/
-cp -fpR $BUILDPATH/boinc_cmd ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/
-sudo chown -R root:admin ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/*
-sudo chmod -R 755 ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin/*
+cp -fpR $BUILDPATH/boinc ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/
+cp -fpR $BUILDPATH/boinc_cmd ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/
+sudo chown -R root:admin ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/*
+sudo chmod -R 755 ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/*
 
 cp -fpR $BUILDPATH/SymbolTables ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables/
 
@@ -160,7 +160,7 @@ sed -i "" s/BOINC/${BRAND_NAME}/g ${NEW_DIR_PATH}/Pkg-Info.plist
 sed -i "" s/BOINC/${BRAND_NAME}/g ${NEW_DIR_PATH}/Description.plist
 
 # Build the installer package
-/Developer/Tools/packagemaker -build -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc/${BRAND_NAME}.pkg -f ${PR_PATH} -r ${IR_PATH} -i ${NEW_DIR_PATH}/Pkg-Info.plist -d ${NEW_DIR_PATH}/Description.plist -ds 
+/Developer/Tools/packagemaker -build -p ${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME}.pkg -f ${PR_PATH} -r ${IR_PATH} -i ${NEW_DIR_PATH}/Pkg-Info.plist -d ${NEW_DIR_PATH}/Description.plist -ds 
 
 # Remove temporary copies of Pkg-Info.plist and Description.plist
 rm ${NEW_DIR_PATH}/Pkg-Info.plist
@@ -168,8 +168,8 @@ rm ${NEW_DIR_PATH}/Description.plist
 
 # Compress the products
 cd ${NEW_DIR_PATH}
-zip -rq ${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_powerpc
-zip -rq ${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin.zip ${LC_BRAND_NAME}_$1.$2.$3_powerpc-apple-darwin
+zip -rq ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal
+zip -rq ${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin.zip ${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin
 zip -rq ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
 
 popd
