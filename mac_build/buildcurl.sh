@@ -47,7 +47,6 @@ export CPPFLAGS=""
 ./configure --enable-shared=NO --host=i386 --build=i386
 if [  $? -ne 0 ]; then exit 1; fi
 
-## export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
