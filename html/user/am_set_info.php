@@ -92,7 +92,10 @@ if ($password_hash) {
 }
 
 if (strlen($query)) {
-    $query = "update user set $query where id=$user->id";
+    // the seti_id=seti_id is to make the query valid,
+    // since $query ends with a comma at this point
+    //
+    $query = "update user set $query seti_id=seti_id where id=$user->id";
     $result = mysql_query($query);
     if ($result) {
         if ($old_email_addr) {
