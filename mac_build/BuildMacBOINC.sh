@@ -25,18 +25,18 @@
 ##
 
 if [ "$1" = "-dev" ] || [ "$2" = "-dev" ]; then
-echo "Development (debug) build"
-style="Development"
+    echo "Development (debug) build"
+    style="Development"
 else
-echo "Deployment (release) build"
-style="ppc_Deployment"
+    echo "Deployment (release) build"
+    style="Deployment"
 fi
 
 if [ "$1" = "-noclean" ] || [ "$2" = "-noclean" ]; then
-doclean=""
+    doclean=""
 else
-echo "Clean all"
-doclean="clean "
+    echo "Clean all"
+    doclean="clean "
 fi
 
 version=`uname -r`;
@@ -53,17 +53,15 @@ minor=`echo $version | sed 's/[0-9]*[.]\([0-9]*\).*/\1/' `;
 
 if [ "$major" = "8" ]; then
 echo "Building BOINC under System 10.4"
-if [ -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-sdkname="/Developer/SDKs/MacOSX10.3.9.sdk"
-else
-echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at "
-echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
+if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
+    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at "
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
 exit 1
 fi
 else
-echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at "
-echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
+    echo "ERROR: Building BOINC requires System 10.4 or later.  For details, see build instructions at "
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/mac_build.html"
 exit 1
 fi
 
-xcodebuild -project boinc.xcodeproj -target Build_All -configuration $style $doclean build NEXTROOT=$sdkname SDKROOT=$sdkname
+xcodebuild -project boinc.xcodeproj -target Build_All -configuration $style $doclean build

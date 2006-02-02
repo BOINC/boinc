@@ -1381,3 +1381,16 @@ Rom    2 Feb 2006
         Events.h
         MainFrame.cpp, .h
         WizardAccountManager.cpp, .h
+
+Charlie 2 Feb 2006
+    -Mac: Changes for Universal Binaries.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        buildcurl.sh
+        buildjpeg.sh
+        BuildMacBOINC.sh
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh

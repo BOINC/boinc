@@ -48,8 +48,8 @@ if [ "$4" = "-dev" ]; then
         BUILDPATH="mac_build/build"
     fi
 else
-    if [ -d mac_build/build/ppc_Deployment/ ]; then
-        BUILDPATH="mac_build/build/ppc_Deployment"
+    if [ -d mac_build/build/Deployment/ ]; then
+        BUILDPATH="mac_build/build/Deployment"
     else
         BUILDPATH="mac_build/build"
     fi
