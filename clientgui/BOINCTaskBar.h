@@ -40,6 +40,7 @@ public:
     CTaskBarIcon(wxString title, wxIcon* icon);
     ~CTaskBarIcon();
 
+    void OnOpenWebsite(wxCommandEvent& event);
     void OnOpen(wxCommandEvent& event);
     void OnActivitySelection(wxCommandEvent& event);
     void OnNetworkSelection(wxCommandEvent& event);

@@ -51,6 +51,7 @@
 #define ID_TB_NETWORKSUSPEND                    6028
 #define ID_TOOLSAMUPDATENOW                     6029
 #define ID_ADVANCEDAMDEFECT                     6030
+#define ID_OPENWEBSITE                          6031
 #define ID_LIST_BASE                            7000
 #define ID_LIST_PROJECTSVIEW                    7000
 #define ID_LIST_WORKVIEW                        7001

@@ -33,6 +33,7 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
+    EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU_RANGE(ID_TB_ACTIVITYRUNALWAYS, ID_TB_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
     EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
@@ -128,6 +129,27 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
         ::SetForegroundWindow((HWND)pFrame->GetHandle());
 #endif
 	}
+}
+
+
+void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
+    ResetTaskBar();
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CMainFrame*        pFrame = wxGetApp().GetFrame();
+    ACCT_MGR_INFO      ami;
+    wxString           url;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
+    pDoc->rpc.acct_mgr_info(ami);
+
+    url = ami.acct_mgr_url.c_str();
+
+    pFrame->ExecuteBrowserLink(url);
 }
 
 
@@ -414,10 +436,28 @@ void CTaskBarIcon::CreateContextMenu() {
 
 
 wxMenu *CTaskBarIcon::BuildContextMenu() {
-    wxMenu*        menu          = new wxMenu;
-    wxString       menuName;
-    wxASSERT(menu);
 
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    ACCT_MGR_INFO      ami;
+    bool               is_acct_mgr_detected = false;
+    wxMenu*            menu          = new wxMenu;
+    wxString           menuName;
+
+    wxASSERT(menu);
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    // Account managers have a different menu arrangement
+    pDoc->rpc.acct_mgr_info(ami);
+    is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+
+    if (is_acct_mgr_detected) {
+        menuName.Printf(
+            _("&Open %s web site..."),
+            wxGetApp().GetBrand()->GetProjectName().c_str()
+        );
+        menu->Append(ID_OPENWEBSITE, menuName, wxEmptyString);
+    }
 
     menuName.Printf(
         _("&Open %s..."),

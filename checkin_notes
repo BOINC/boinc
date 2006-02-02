@@ -1397,10 +1397,14 @@ Charlie 2 Feb 2006
 
 Rom    2 Feb 2006
     - Update GridRepublic Icons
+    - Add aditional menu item for the task tray when managed via an account
+        manager.
     
     clientgui/
         BOINCGUIApp.cpp
         BOINCGUIApp.rc
+        BOINCTaskBar.cpp, .h
+        Events.h
     clientgui/res/
         gridrepublic16.xpm (Added)
         gridrepublic32.xpm (Added)
