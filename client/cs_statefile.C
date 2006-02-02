@@ -73,7 +73,7 @@ int CLIENT_STATE::parse_state_file() {
         fname = STATE_FILE_NEXT;
     } else if (valid_state_file(STATE_FILE_NAME)) {
         fname = STATE_FILE_NAME;
-    } else if (boinc_file_exists(STATE_FILE_PREV)) {
+    } else if (valid_state_file(STATE_FILE_PREV)) {
         fname = STATE_FILE_PREV;
     } else {
         scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");

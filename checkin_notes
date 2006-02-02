@@ -1420,3 +1420,11 @@ David  2 Feb 2006
 
     html/user
         am_set_info.php
+
+David  2 Feb 2006
+	- core client: small logic error in statefile read
+		(for "prev", use is_valid_statefile() instead
+		of boinc_file_exists())
+
+	client/
+		cs_statefile.C
