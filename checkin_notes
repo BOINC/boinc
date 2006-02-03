@@ -1436,3 +1436,11 @@ David  2 Feb 2005
 
     client/
         cs_apps.C
+
+David  2 Feb 2005
+    - core client: long-term debt is modified only over
+        potentially runnable projects,
+        but it's averaged and normalized over all projects.
+
+    client/
+        cs_apps.C

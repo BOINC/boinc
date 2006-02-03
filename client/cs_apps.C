@@ -481,16 +481,16 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
+        nprojects++;
 
         // adjust long-term debts
         //
         if (p->potentially_runnable() || p->wall_cpu_time_this_period) {
-            nprojects++;
             share_frac = p->resource_share/prrs;
             p->long_term_debt += share_frac*total_wall_cpu_time_this_period
                 - p->wall_cpu_time_this_period;
-            total_long_term_debt += p->long_term_debt;
         }
+        total_long_term_debt += p->long_term_debt;
 
         // adjust short term debts
         //
@@ -537,9 +537,8 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = p->short_term_debt;
             //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);
         }
-        if (p->potentially_runnable() || p->wall_cpu_time_this_period) {
-            p->long_term_debt -= avg_long_term_debt;
-        }
+
+        p->long_term_debt -= avg_long_term_debt;
     }
 }
 
