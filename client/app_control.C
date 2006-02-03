@@ -77,14 +77,24 @@ bool ACTIVE_TASK::process_exists() {
 int ACTIVE_TASK::request_exit() {
     if (!app_client_shm.shm) return 1;
     process_control_queue.msg_queue_send(
-        "<quit/>",
+		"<quit/>",
         app_client_shm.shm->process_control_request
     );
     return 0;
 }
 
-// send a kill signal.
-// This is not caught by the process
+// Send an abort message.
+//
+int ACTIVE_TASK::request_abort() {
+    if (!app_client_shm.shm) return 1;
+    process_control_queue.msg_queue_send(
+		"<abort/>",
+        app_client_shm.shm->process_control_request
+    );
+    return 0;
+}
+
+// Kill the task by OS-specific means.
 //
 int ACTIVE_TASK::kill_task() {
 #ifdef _WIN32
@@ -529,13 +539,17 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     return did_anything;
 }
 
-// If process is running, send it a kill signal
-// This is done when app has exceeded CPU, disk, or mem limits
+// If process is running, send it an "abort" message,
+// and if it doesn't exit within 5 seconds,
+// kill it by OS-specific mechanism (e.g. KILL signal).
+// This is done when app has exceeded CPU, disk, or mem limits,
+// or when the user has requested it.
 //
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
         task_state = PROCESS_ABORT_PENDING;
-        kill_task();
+        abort_time = gstate.now;
+		request_abort();
     } else {
         task_state = PROCESS_ABORTED;
     }

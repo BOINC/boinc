@@ -194,7 +194,7 @@ void ACTIVE_TASK_SET::free_mem() {
 }
 #endif
 
-// Do period checks on running apps:
+// Do periodic checks on running apps:
 // - get latest CPU time and % done info
 // - check if any has exited, and clean up
 // - see if any has exceeded its CPU or disk space limits, and abort it
@@ -211,9 +211,16 @@ bool ACTIVE_TASK_SET::poll() {
     graphics_poll();
     process_control_poll();
     action |= check_rsc_limits_exceeded();
-    if (get_msgs()) {
-        action = true;
+    action |= get_msgs();
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->task_state == PROCESS_ABORT_PENDING) {
+            if (gstate.now > atp->abort_time + 5.0) {
+                atp->kill_task();
+            }
+        }
     }
+
     if (action) {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }

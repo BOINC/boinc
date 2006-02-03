@@ -126,6 +126,8 @@ public:
     int want_network;
         // This task wants to do network comm (for F@h)
         // this is passed via share-memory message (app_status channel)
+    double abort_time;      // when we sent an abort message to this app
+                            // kill it 5 seconds later if it doesn't exit
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     MSG_QUEUE graphics_request_queue;
@@ -154,6 +156,7 @@ public:
     int request_exit();
         // ask the process to exit gracefully,
         // i.e. by sending a <quit> message
+    int request_abort();                // send "abort" message
     bool process_exists();
     int kill_task();
         // Kill process forcibly,

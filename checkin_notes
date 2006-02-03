@@ -1444,3 +1444,30 @@ David  2 Feb 2005
 
     client/
         cs_apps.C
+
+David  3 Feb 2005
+	- Allow apps to do cleanup when they're aborted.
+		- Add abort_request to BOINC_STATUS structure
+		- API library: handle <abort/> message
+		- Change boinc_get_status() arg from reference
+			to pointer (for easier FORTRAN interface).
+			This is an API change, but I think only CPDN uses this.
+		- ACTIVE_TASK_SET::poll():
+			Check for processes that are ABORT_PENDING
+			for more than 5 seconds, and kill them
+
+		From Carl Christensen, somewhat modified.
+		I changed the way tasks are aborted.
+		The core client can't sleep; that locks up the UI.
+		So we can't sleep 5 seconds waiting for an app to exit
+		after sending it an <abort/> message
+		(existing apps don't recognize this message).
+		Instead, send it the <abort/> message,
+		set its state to PROCESS_ABORT_PENDING,
+		and check it from the polling loop 5 seconds later.
+
+	api/
+		boinc_api.C,h
+	client/
+		app.C,h
+		app_control.C

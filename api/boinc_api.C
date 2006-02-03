@@ -262,6 +262,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     boinc_status.no_heartbeat = false;
     boinc_status.suspended = false;
     boinc_status.quit_request = false;
+    boinc_status.abort_request = false;
 
     if (options.main_program) {
         // make sure we're the only app running in this slot
@@ -309,10 +310,11 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     return 0;
 }
 
-int boinc_get_status(BOINC_STATUS& s) {
-    s.no_heartbeat = boinc_status.no_heartbeat;
-    s.suspended = boinc_status.suspended;
-    s.quit_request = boinc_status.quit_request;
+int boinc_get_status(BOINC_STATUS *s) {
+    s->no_heartbeat = boinc_status.no_heartbeat;
+    s->suspended = boinc_status.suspended;
+    s->quit_request = boinc_status.quit_request;
+    s->abort_request = boinc_status.abort_request;
     return 0;
 }
 
@@ -572,6 +574,12 @@ static void handle_process_control_msg() {
 
         if (match_tag(buf, "<quit/>")) {
             boinc_status.quit_request = true;
+            if (options.direct_process_action) {
+                boinc_exit(0);
+            }
+        }
+        if (match_tag(buf, "<abort/>")) {
+            boinc_status.abort_request = true;
             if (options.direct_process_action) {
                 boinc_exit(0);
             }
