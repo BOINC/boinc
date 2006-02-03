@@ -84,9 +84,7 @@
 		DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */; };
 		DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
 		DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */; };
-		DD3196AC098EF183002EB538 /* CompletionRemovePage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD3196A8098EF183002EB538 /* CompletionRemovePage.h */; };
 		DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */; };
-		DD3196AE098EF183002EB538 /* CompletionUpdatePage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.C */; };
 		DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */; };
@@ -632,8 +630,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */,
-				DD3196AC098EF183002EB538 /* CompletionRemovePage.h in CopyFiles */,
-				DD3196AE098EF183002EB538 /* CompletionUpdatePage.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2151,7 +2147,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n${BUILT_PRODUCTS_DIR}/SetVersion\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build\"\ncp -fp \"${SRCROOT}/Info.plist\" \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/Installer.build\"\ncp -fp \"${SRCROOT}/Installer-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/Installer.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build\"\ncp -fp \"${SRCROOT}/ScreenSaver-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build\"\ncp -fp \"${SRCROOT}/SystemMenu-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build/Info.plist\"\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build\"\ncp -fp \"${SRCROOT}/Info.plist\" \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/Installer.build\"\ncp -fp \"${SRCROOT}/Installer-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/Installer.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build\"\ncp -fp \"${SRCROOT}/ScreenSaver-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build\"\ncp -fp \"${SRCROOT}/SystemMenu-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build/Info.plist\"\n";
 		};
 		DDCDB29708CEDCE400E4F573 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2724,6 +2720,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = boinc;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
 				UNSTRIPPED_PRODUCT = YES;
@@ -2874,6 +2871,7 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-lboinc";
 				OTHER_REZFLAGS = "";
 				PREBINDING = NO;
