@@ -42,7 +42,7 @@ if (!is_valid_email_addr($email_addr)) {
                     The email address of your account is now
                     $email_addr.
                     <p>
-                    We have send an email message to that address.
+                    We have sent an email message to that address.
                     <p>
                     To validate the new address, visit the link in the email.
                 ";
