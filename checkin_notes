@@ -1517,3 +1517,12 @@ Charlie 2 Feb 2006
         app.h
         app_graphics.C
         app_start.C
+
+David  6 Feb 2006
+    - Slight refinement to next-earlier checkin.
+        Set want_network_flag only if the request to the reference network site
+        results in a CURLE_COULDNT_RESOLVE_HOST Curl error code.
+
+    client/
+        acct_setup.C,h
+        gui_http.C,h

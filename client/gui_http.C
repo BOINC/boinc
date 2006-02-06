@@ -74,7 +74,7 @@ bool GUI_HTTP::poll() {
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {
         gstate.http_ops->remove(&http_op);
-        gui_http_op->handle_reply(http_op.http_op_retval);
+        gui_http_op->handle_reply(http_op.http_op_retval, http_op.CurlResult);
         gui_http_op = NULL;
         state = GUI_HTTP_STATE_IDLE;
     }

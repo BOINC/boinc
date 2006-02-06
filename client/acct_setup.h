@@ -56,7 +56,7 @@ struct GET_PROJECT_CONFIG_OP: public GUI_HTTP_OP {
 
     virtual ~GET_PROJECT_CONFIG_OP(){}
     int do_rpc(string url);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval, int);
     GET_PROJECT_CONFIG_OP(){error_num = BOINC_SUCCESS;}
 };
 
@@ -66,7 +66,7 @@ struct LOOKUP_ACCOUNT_OP: public GUI_HTTP_OP {
 
     virtual ~LOOKUP_ACCOUNT_OP(){}
     int do_rpc(ACCOUNT_IN&);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval, int);
     LOOKUP_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
@@ -76,7 +76,7 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
 
     virtual ~CREATE_ACCOUNT_OP(){}
     int do_rpc(ACCOUNT_IN&);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval, int);
     CREATE_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
@@ -85,7 +85,7 @@ struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
 
     virtual ~LOOKUP_WEBSITE_OP(){}
     int do_rpc(std::string&);
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval, int);
     LOOKUP_WEBSITE_OP(){error_num = BOINC_SUCCESS;}
 };
 
@@ -94,7 +94,7 @@ struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
 
     virtual ~GET_CURRENT_VERSION_OP(){}
     int do_rpc();
-    virtual void handle_reply(int http_op_retval);
+    virtual void handle_reply(int http_op_retval, int);
     GET_CURRENT_VERSION_OP(){error_num = BOINC_SUCCESS;}
 };
 

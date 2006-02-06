@@ -101,7 +101,7 @@ int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
     return retval;
 }
 
-void GET_PROJECT_CONFIG_OP::handle_reply(int http_op_retval) {
+void GET_PROJECT_CONFIG_OP::handle_reply(int http_op_retval, int) {
     if (http_op_retval) {
         error_num = http_op_retval;
     } else {
@@ -130,7 +130,7 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     return retval;
 }
 
-void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
+void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval, int) {
     if (http_op_retval) {
         error_num = http_op_retval;
     } else {
@@ -159,7 +159,7 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     return retval;
 }
 
-void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
+void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval, int) {
     if (http_op_retval) {
         error_num = http_op_retval;
     } else {
@@ -186,7 +186,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     return retval;
 }
 
-void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
+void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval, int CurlResult) {
     error_num = http_op_retval;
 
     // if we couldn't contact a reference web site,
@@ -194,7 +194,7 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     // (usually no physical network connection).
     // Set a flag that will signal the Manager to that effect
     //
-    if (error_num) {
+    if (CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
         gstate.want_network_flag = true;
     }
 }
@@ -245,7 +245,7 @@ static bool parse_version(FILE* f, char* new_version) {
     return false;
 }
 
-void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
+void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval, int) {
     char buf[256], new_version[256];
     if (http_op_retval) {
         error_num = http_op_retval;
