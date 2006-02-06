@@ -1478,3 +1478,12 @@ David  6 Feb 2005
     client/
         cs_statefile.C
         gui_rpc_server_ops.C
+
+Rom    6 Feb 2006
+    - Bug Fix: when running as a Windows Service we should use
+        suspend_task/resume_task and suspend_network/resume_network
+        instead of setting the activity states.
+        
+    client/
+        client_state.h
+        main.C

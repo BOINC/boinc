@@ -145,11 +145,13 @@ void quit_client() {
 }
 
 void suspend_client() {
-    gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+    gstate.suspend_tasks(SUSPEND_REASON_USER_REQ);
+    gstate.suspend_network(SUSPEND_REASON_USER_REQ);
 }
 
 void resume_client() {
-    gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+    gstate.resume_tasks();
+    gstate.resume_network();
 }
 
 // Trap logoff and shutdown events on Win9x so we can clean ourselves up.

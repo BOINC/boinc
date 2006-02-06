@@ -341,13 +341,13 @@ public:
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);
     int allowed_project_disk_usage(double&);
-private:
-    void check_suspend_activities(int&);
     int suspend_tasks(int reason);
     int resume_tasks();
-    void check_suspend_network(int&);
     int suspend_network(int reason);
     int resume_network();
+private:
+    void check_suspend_activities(int&);
+    void check_suspend_network(int&);
     void install_global_prefs();
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);
