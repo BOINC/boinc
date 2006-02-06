@@ -66,12 +66,14 @@ using std::vector;
 //
 #define NET_XFER_TIMEOUT    600
 
-CURLM* g_curlMulti = NULL;  // global curl for this module, can handle http & https
+CURLM* g_curlMulti = NULL;
 
 // the file descriptor sets need to be global so libcurl has access always
+//
 fd_set read_fds, write_fds, error_fds;
 
-// call these once at the start of the program and once at the end (init & cleanup of course)
+// call these once at the start of the program and once at the end
+//
 int curl_init() {
     curl_global_init(CURL_GLOBAL_ALL);
     g_curlMulti = curl_multi_init();
@@ -95,11 +97,11 @@ void NET_XFER::reset() {
     is_connected = false;
     want_download = false;
     want_upload = false;
-    do_file_io = true;  // CMC Note: should I default to true, i.e. this does all i/o?
+    do_file_io = true;
     io_done = false;
     fileIn = NULL;
     fileOut = NULL;
-    io_ready = true;  // don't allow higher levels to do i/o?
+    io_ready = true;
     error = 0;
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
@@ -125,7 +127,8 @@ NET_XFER::~NET_XFER() {
 }
 
 void NET_XFER::close_socket() {
-    // CMC: this just cleans up the curlEasy, and "spoofs" the old close_socket
+    // this cleans up the curlEasy, and "spoofs" the old close_socket
+    //
     if (pcurlList) {
         curl_slist_free_all(pcurlList);
         pcurlList = NULL;
@@ -195,9 +198,6 @@ NET_XFER_SET::NET_XFER_SET() {
     bytes_down = 0;
 }
 
-// Connect to a server,
-// and if successful insert the NET_XFER object into the set
-//
 int NET_XFER_SET::insert(NET_XFER* nxp) {
     net_xfers.push_back(nxp);
     return 0;
@@ -223,7 +223,9 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 
 void NET_XFER_SET::get_fdset(FDSET_GROUP& fg) {
     CURLMcode curlMErr;
-    curlMErr = curl_multi_fdset(g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd);
+    curlMErr = curl_multi_fdset(
+        g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd
+    );
     //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
 }
 
@@ -265,6 +267,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     }
 
     // read messages from curl that may have come in from the above loop
+    //
     while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
         // if we have a msg, then somebody finished
         // can check also with pcurlMsg->msg == CURLMSG_DONE
@@ -304,9 +307,12 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
         }
 
         // the op is done if curl_multi_msg_read gave us a msg for this http_op
+        //
         nxf->http_op_state = HTTP_STATE_DONE;
 
-        // added a more useful error string (just pass the curl string up for now)
+        // added a more useful error string
+        // (just pass the curl string up for now)
+        //
         nxf->CurlResult = pcurlMsg->data.result;
         safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
 
@@ -334,6 +340,16 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 nxf->http_op_retval = nxf->response;
             }
         } else {
+            // If we couldn't resolve hostname,
+            // it could be because there's no physical network connection.
+            // Find out for sure by trying to contact google
+            //
+            if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
+                std::string url = "http://www.google.com";
+                gstate.lookup_website_op.do_rpc(url);
+            } else {
+                gstate.want_network_flag = false;
+            }
             msg_printf(0, MSG_ERROR, "HTTP error: %s", nxf->strCurlResult);
             nxf->http_op_retval = ERR_HTTP_ERROR;
         }
@@ -347,11 +363,12 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             file_size(nxf->outfile, dSize);
             nxf->fileOut = boinc_fopen(nxf->outfile, "rb");
             if (!nxf->fileOut) { // ack, can't open back up!
-                nxf->response = 1; // flag as a bad response for a possible retry later
+                nxf->response = 1;
+                    // flag as a bad response for a possible retry later
             } else {
                 fseek(nxf->fileOut, 0, SEEK_SET);
                 // CMC Note: req1 is a pointer to "header" which is 4096
-                memset(nxf->req1, 0x00, 4096);
+                memset(nxf->req1, 0, 4096);
                 fread(nxf->req1, 1, (size_t) dSize, nxf->fileOut); 
             }
         }

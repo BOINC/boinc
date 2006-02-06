@@ -1487,3 +1487,20 @@ Rom    6 Feb 2006
     client/
         client_state.h
         main.C
+
+David  6 Feb 2005
+    - Core client: when we switched to Curl, we lost the code
+        that sets gstate.want_network_flag when name resolution fails.
+        I restored this to the Curl code.
+
+    - The above is a kludge for detecting lack of physical connection.
+        But name resolution can fail for reasons other than lack of
+        physical connection; e.g. hostname might be bad.
+        So if get name resolution failure,
+        try to contact a reference web site,
+        and only if that also fails set want_network_flag.
+
+    client/
+        acct_setup.C
+        client_state.C,h
+        net_xfer_curl.C

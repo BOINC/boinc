@@ -188,6 +188,15 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
 
 void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     error_num = http_op_retval;
+
+    // if we couldn't contact a reference web site,
+    // we can assume there's a problem that requires user attention
+    // (usually no physical network connection).
+    // Set a flag that will signal the Manager to that effect
+    //
+    if (error_num) {
+        gstate.want_network_flag = true;
+    }
 }
 
 int GET_CURRENT_VERSION_OP::do_rpc() {

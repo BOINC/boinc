@@ -1393,15 +1393,15 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     return 0;
 }
 
-// Return true if the core client wants a network connection.
-// Don't return false if we've actually been using the network
-// in the last 10 seconds (so that polling mechanisms
-// have a change to trigger)
+// Return true if the core client wants a network connection,
+// or if we've been using the network in the last 10 seconds
+// (so that polling mechanisms have a change to trigger)
 //
 bool CLIENT_STATE::want_network() {
     static double last_true_return=0;
 
     if (http_ops->nops()) goto return_true;
+        // if we're using network, return true
     if (network_suspended) goto return_false;
     if (want_network_flag) goto return_true;
     if (active_tasks.want_network()) goto return_true;

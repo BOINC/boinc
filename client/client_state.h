@@ -241,7 +241,19 @@ public:
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
     bool want_network_flag;
+        // client wants to do network comm and no physical connection exists.
+        // Initially false; set whenever a Curl operation
+        // returns CURLE_COULDNT_RESOLVE_HOST;
+        // cleared whenever a Curl operation returns anything else
+        // TODO: is this the best way to do this?
+        // won't it set this flag when user enters URL with
+        // non-existent URL, e.g.?
+        //
     bool have_sporadic_connection;
+        // we have a network connection, but it's likely to go away soon,
+        // so do as much network comm as possible
+        // (e.g. report completed results)
+        //
     bool want_network();
     void network_available();
     bool no_gui_rpc;
