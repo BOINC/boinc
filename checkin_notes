@@ -1504,3 +1504,16 @@ David  6 Feb 2005
         acct_setup.C
         client_state.C,h
         net_xfer_curl.C
+
+Charlie 2 Feb 2006
+    -Mac: Changes for Universal Binaries: when running on an Intel Mac, 
+       read mach header of project application to determine if it has 
+       Intel native executable or only PowerPC executable.  If emulating 
+       PowerPC on an Intel Mac, treat the application as not supporting 
+       graphics.  This works around a crash bug when displaying graphics 
+       under PPC emulation.
+       
+    client/
+        app.h
+        app_graphics.C
+        app_start.C

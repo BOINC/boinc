@@ -74,6 +74,13 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     GRAPHICS_MSG gm;
     char buf[MSG_CHANNEL_SIZE];
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
+#if (defined(__APPLE__) && defined(__i386__))
+    // PowerPC apps emulated on i386 Macs crash if running graphics
+    if (powerpc_emulated_on_i386) {
+        graphics_mode_acked = MODE_UNSUPPORTED;
+        return;
+    }
+#endif
 
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
@@ -183,6 +190,11 @@ void ACTIVE_TASK_SET::graphics_poll() {
 }
 
 bool ACTIVE_TASK::supports_graphics() {
+#if (defined(__APPLE__) && defined(__i386__))
+    // PowerPC apps emulated on i386 Macs crash if running graphics
+    if (powerpc_emulated_on_i386)
+        return false;
+#endif
     return (graphics_mode_acked != MODE_UNSUPPORTED);
 }
 

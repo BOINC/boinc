@@ -45,6 +45,13 @@
 #include <process.h>
 #endif
 
+#if (defined(__APPLE__) && defined(__i386__))
+#include <mach-o/loader.h>
+#include <mach-o/fat.h>
+#include <mach/machine.h>
+#include <libkern/OSByteOrder.h>
+#endif
+
 using std::vector;
 
 #include "filesys.h"
@@ -501,6 +508,11 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     app_client_shm.reset_msgs();
 
+#if (defined(__APPLE__) && defined(__i386__))
+    // PowerPC apps emulated on i386 Macs crash if running graphics
+    powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
+#endif
+
     pid = fork();
     if (pid == -1) {
         task_state = PROCESS_COULDNT_START;
@@ -687,5 +699,56 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
     return 0;
 }
 
+#if (defined(__APPLE__) && defined(__i386__))
+
+union headeru {
+    fat_header fat;
+    mach_header mach;
+};
+
+// Read the mach-o headers to determine the architectures supported by executable file.
+// Returns 1 if application can run natively on i386 Macs, else returns 0.
+int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
+    FILE *f;
+    int result = 0;
+    
+    headeru myHeader;
+    fat_arch fatHeader;
+    
+    uint32_t n, i, len;
+    
+    f = boinc_fopen(exec_path, "rb");
+    if (!f)
+        return result;          // Should never happen
+    
+    myHeader.fat.magic = 0;
+    myHeader.fat.nfat_arch = 0;
+    
+    fread(&myHeader, 1, sizeof(fat_header), f);
+    switch (myHeader.mach.magic) {
+    case MH_MAGIC:
+        if (myHeader.mach.cputype == CPU_TYPE_I386)
+            result = 1;        // Single-architecture i386 file
+        break;
+    case FAT_CIGAM:
+        n = _OSSwapInt32(myHeader.fat.nfat_arch);   // Multiple architecture (fat) file
+        for (i=0; i<n; i++) {
+            len = fread(&fatHeader, 1, sizeof(fat_arch), f);
+            if (len < sizeof(fat_arch))
+                break;          // Should never happen
+            if (fatHeader.cputype == OSSwapConstInt32(CPU_TYPE_I386)) {
+                result = 1;
+                break;
+            }
+        }
+        break;
+    default:
+        break;
+    }
+
+    fclose (f);
+    return result;
+}
+#endif
 
 const char *BOINC_RCSID_be8bae8cbb = "$Id$";
