@@ -166,7 +166,6 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
 static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     int retval;
-    bool reschedule=false, write_state=false;
 
     PROJECT* p = get_project(buf, fout);
     if (!p) {

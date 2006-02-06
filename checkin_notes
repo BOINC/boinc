@@ -1471,3 +1471,10 @@ David  3 Feb 2005
 	client/
 		app.C,h
 		app_control.C
+
+David  6 Feb 2005
+    - compile warning fixes
+
+    client/
+        cs_statefile.C
+        gui_rpc_server_ops.C

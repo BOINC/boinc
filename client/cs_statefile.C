@@ -36,7 +36,7 @@ void CLIENT_STATE::set_client_state_dirty(const char* source) {
     client_state_dirty = true;
 }
 
-static bool valid_state_file(char* fname) {
+static bool valid_state_file(const char* fname) {
     char buf[256];
     FILE* f = boinc_fopen(fname, "r");
     if (!f) return false;

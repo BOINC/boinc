@@ -27,13 +27,13 @@ Each flag must be set in either the main or worker programs, but not both.
 
 <pre>
 struct BOINC_OPTIONS {
-	int main_program;
-	int check_heartbeat;
-	int handle_trickle_ups;
-	int handle_trickle_downs;
-	int handle_process_control;
-	int handle send_status_msgs;
-	int direct_process_action;
+    int main_program;
+    int check_heartbeat;
+    int handle_trickle_ups;
+    int handle_trickle_downs;
+    int handle_process_control;
+    int handle send_status_msgs;
+    int direct_process_action;
 };
 
 int boinc_init_options(BOINC_OPTIONS&amp;);
@@ -41,35 +41,35 @@ int boinc_init_options(BOINC_OPTIONS&amp;);
 ";
 list_start();
 list_item("main_program",
-	"Set this in the main program."
+    "Set this in the main program."
 );
 list_item("check_heartbeat",
-	"If set, the program monitors 'heartbeat' messages from the core client.
-	If the heartbeat stops, the result depends on the direct_process_action
-	flag (see below)."
+    "If set, the program monitors 'heartbeat' messages from the core client.
+    If the heartbeat stops, the result depends on the direct_process_action
+    flag (see below)."
 );
 list_item("handle_trickle_ups",
-	"If set, the program can send trickle-up messages."
+    "If set, the program can send trickle-up messages."
 );
 list_item("handle_trickle_downs",
-	"If set, the program can receive trickle-down messages."
+    "If set, the program can receive trickle-down messages."
 );
 list_item("handle_process_control",
-	"If set, the program will handle 'suspend', 'resume', and 'quit'
-	messages from the core client.
-	The action depends on the direct_process_action flag."
+    "If set, the program will handle 'suspend', 'resume', and 'quit'
+    messages from the core client.
+    The action depends on the direct_process_action flag."
 );
 list_item("send_status_msgs",
-	"If set, the program will report its CPU time and fraction
-	done to the core client.  Set in worker programs."
+    "If set, the program will report its CPU time and fraction
+    done to the core client.  Set in worker programs."
 );
 list_item("direct_process_action",
-	"If set, the program will respond to quit messages and heartbeat
-	failures by exiting, and will respond to suspend and resume
-	messages by suspending and resuming.
-	Otherwise, these events will result in changes to
-	the BOINC_STATUS structure,
-	which can be polled using boinc_get_status()."
+    "If set, the program will respond to quit messages and heartbeat
+    failures by exiting, and will respond to suspend and resume
+    messages by suspending and resuming.
+    Otherwise, these events will result in changes to
+    the BOINC_STATUS structure,
+    which can be polled using boinc_get_status()."
 );
 list_end();
 echo "
@@ -87,12 +87,12 @@ for each remaining worker program:
     aid.fraction_done_end = y
     boinc_write_init_data_file()
     run the app
-	wait for the app to finish
-		poll
+    wait for the app to finish
+        poll
     write main state file
-	if last app:
-		break
-    boinc_parse_init_data_file()	// reads CPU time from app_init.xml file
+    if last app:
+        break
+    boinc_parse_init_data_file()    // reads CPU time from app_init.xml file
 boinc_finish()
 </pre>
 where x and y are the appropriate fraction done range limits.
@@ -109,7 +109,7 @@ boinc_init_options(options);
 do work, calling boinc_fraction_done() with values from 0 to 1,
 and boinc_time_to_checkpoint(), occasionally
 ...
-boinc_finish();		// this writes final CPU time to app_init.xml file
+boinc_finish();        // this writes final CPU time to app_init.xml file
 
 </pre>
 

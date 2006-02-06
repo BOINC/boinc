@@ -114,12 +114,15 @@ $changes_52 = "
 $mac_changes_53= "
     <li>Macintosh only:
       <ul>
-        <li>MWe are now building with newer tools and libraries: XCode 2.2, 
+        <li> We are now building with newer tools and libraries: XCode 2.2, 
             WxWidgets 2.6.2, libcurl 7.15.1.
-        <li>In anticipation of Intel-based Macs, the Mac BOINC Manager package 
-            name now specifies the cpu architecture: boinc_5.3.16_macOSX_powerpc.zip.
-        <li>Only administrators can attach to a new project (for improved security).
-        <li>No longer crashes if there is a space character in the path to BOINCManager.
+        <li> In anticipation of Intel-based Macs, the Mac BOINC Manager package 
+            name now specifies the CPU architecture:
+            boinc_5.3.16_macOSX_powerpc.zip.
+        <li> Only administrators can attach to a new project
+            (for improved security).
+        <li> No longer crashes if there is a space character
+            in the path to BOINCManager.
       </ul>
 ";
 
