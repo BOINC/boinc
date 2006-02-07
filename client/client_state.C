@@ -238,6 +238,11 @@ void CLIENT_STATE::read_global_prefs() {
         }
         show_global_prefs_source(found_venue);
     }
+    read_global_prefs_override();
+}
+
+void CLIENT_STATE::read_global_prefs_override() {
+    bool found_venue;
     FILE* f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
     if (f) {
         MIOFILE mf;

@@ -1720,4 +1720,9 @@ int RPC_CLIENT::get_newer_version(std::string& version) {
     return 0;
 }
 
+int RPC_CLIENT::read_global_prefs_override() {
+    RPC rpc(this);
+    return rpc.do_rpc("<read_global_prefs_override/>");
+}
+
 const char *BOINC_RCSID_90e8b8d168="$Id$";

@@ -580,6 +580,7 @@ public:
     int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_config_file=false);
     int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
     int get_newer_version(std::string&);
+    int read_global_prefs_override();
 };
 
 struct RPC {

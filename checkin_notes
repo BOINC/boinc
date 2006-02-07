@@ -1578,3 +1578,13 @@ David  7 Feb 2006
         test_net_xfer.C (removed)
     lib/
         prefs.C,h
+
+David  7 Feb 2006
+	- Add GUI RPC for rereading global prefs override file
+
+	client/
+		client_state.C,h
+		gui_rpc_server_ops.C
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C

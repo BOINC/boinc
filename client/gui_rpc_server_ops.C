@@ -882,8 +882,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_run_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<quit")) {
         handle_quit(request_msg, mf);
-        } else if (match_tag(request_msg, "<acct_mgr_info")) {
-            handle_acct_mgr_info(request_msg, mf);
+    } else if (match_tag(request_msg, "<acct_mgr_info")) {
+        handle_acct_mgr_info(request_msg, mf);
+    } else if (match_tag(request_msg, "<read_global_prefs_override/>")) {
+        gstate.read_global_prefs_override();
     } else {
 
         // RPCs after this point enable network communication

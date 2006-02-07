@@ -224,6 +224,7 @@ public:
     CLIENT_STATE();
     void show_host_info();
     void read_global_prefs();
+    void read_global_prefs_override();
     int init();
     bool poll_slow_events();
         // Never blocks.
