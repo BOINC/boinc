@@ -1505,7 +1505,7 @@ David  6 Feb 2005
         client_state.C,h
         net_xfer_curl.C
 
-Charlie 2 Feb 2006
+Charlie 6 Feb 2006
     -Mac: Changes for Universal Binaries: when running on an Intel Mac, 
        read mach header of project application to determine if it has 
        Intel native executable or only PowerPC executable.  If emulating 
@@ -1555,3 +1555,11 @@ David  6 Feb 2006
         msg_log.h
     py/Boinc
         setup_projects.py
+
+Charlie 7 Feb 2006
+    -Mac: Adjust XCode project for David's warnings fix.  We now build on Mac 
+       with no warnings!
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

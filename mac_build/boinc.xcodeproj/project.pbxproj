@@ -2551,7 +2551,6 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
-					"-Wno-non-virtual-dtor",
 				);
 				ZERO_LINK = NO;
 			};
@@ -2585,7 +2584,6 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
-					"-Wno-non-virtual-dtor",
 				);
 				ZERO_LINK = NO;
 			};
@@ -2728,7 +2726,6 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
-					"-Wno-non-virtual-dtor",
 				);
 				ZERO_LINK = NO;
 			};
