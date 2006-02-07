@@ -1524,6 +1524,7 @@ Charlie 2 Feb 2006
     clientgui/
         BOINCBaseView.cpp
         BOINCGUIApp.cpp
+        ViewStatistics.cpp
     lib/
         mac_backtrace.C
         shmem.C
