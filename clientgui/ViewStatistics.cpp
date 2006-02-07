@@ -364,7 +364,7 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 //Init drawing
 	wxPaintDC dc (this);
 
-	wxCoord width = 0, height = 0, heading_height=0;
+	wxCoord width = 0, height = 0;
 	wxCoord rectangle_x_start=0, rectangle_y_start=0;
 	wxCoord rectangle_x_end=0, rectangle_y_end=0;
 
@@ -544,7 +544,6 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	//Find minimum/maximum value
 		double min_val_y=10e32, max_val_y=0;
 		double min_val_x=10e32, max_val_x=0;
-		wxCoord project_name_max_width=0;
 		
 		wxInt32 count=-1;
 		for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();i!=proj->projects.end(); ++i) {

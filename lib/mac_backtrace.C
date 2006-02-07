@@ -71,10 +71,11 @@ enum {
 
 #define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
 
+#ifdef __ppc__
 static void PrintNameOfThisApp(void);
 static void PrintOSVersion(char *minorVersion);
 static int OutputFrames(const MacBTPPCFrame *frameArray, unsigned long frameCount, unsigned char lookupSymbolNames);
-
+#endif
 
 void PrintBacktrace(void) {
 #ifdef __ppc__

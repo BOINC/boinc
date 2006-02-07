@@ -114,8 +114,13 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
         case 1:
             // Running as a GridRepublic client.
             m_strApplicationName = wxT("GridRepublic Desktop");
+#ifdef __APPLE__
+            m_iconApplicationIcon = wxIcon(gridrepublic_xpm);
+            m_bitmapApplicationLogo = wxBitmap(gridrepublic_xpm);
+#else
             m_iconApplicationIcon = wxIcon(gridrepublic16_xpm);
             m_bitmapApplicationLogo = wxBitmap(gridrepublic32_xpm);
+#endif
             m_strCompanyName = wxT("GridRepublic");
             m_strCompanyWebsite = wxT("http://www.gridrepublic.org/");
             m_strProjectName = wxT("GridRepublic");

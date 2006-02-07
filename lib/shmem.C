@@ -220,7 +220,7 @@ int print_shmem_info(key_t key) {
     shmctl(id, IPC_STAT, &buf);
     fprintf(
         stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",
-        (unsigned int)key, id, buf.shm_segsz, (int)buf.shm_nattch
+        (unsigned int)key, id, (int)buf.shm_segsz, (int)buf.shm_nattch
     );
 
     return 0;

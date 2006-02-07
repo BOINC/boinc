@@ -1512,11 +1512,23 @@ Charlie 2 Feb 2006
        PowerPC on an Intel Mac, treat the application as not supporting 
        graphics.  This works around a crash bug when displaying graphics 
        under PPC emulation.
-       
+    Fix multiple compiler warnings and one error.
+    
+    api/
+        gutil.C
+        mac_icon.C
     client/
         app.h
         app_graphics.C
         app_start.C
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp
+    lib/
+        mac_backtrace.C
+        shmem.C
+    mac_installer/
+        LoginItemAPI.c
 
 David  6 Feb 2006
     - Slight refinement to next-earlier checkin.

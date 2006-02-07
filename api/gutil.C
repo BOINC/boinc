@@ -41,6 +41,9 @@ extern "C" {
 #include <cstring>
 #include <cmath>
 #include <csetjmp>
+#ifdef __APPLE__
+#undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
+#endif
 extern "C"{
 #include <jpeglib.h>
 }

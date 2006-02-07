@@ -428,10 +428,7 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
     unsigned int        i;
     CTaskItemGroup*     pGroup = NULL;
     CTaskItem*          pItem = NULL;
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 

@@ -240,7 +240,7 @@ char* ReturnLoginItemPropertyAtIndex(CFStringRef WhosPreferencesToList, int Requ
     CFStringRef PathKey, HideKey;
     CFBooleanRef HideValue;
 	
-    char* StringToReturn;
+    char* StringToReturn = NULL;
     char* TempString;
     
     //Doing a sanity check on the request type passed in.  If request type doesn't match something we know we return NULL representing an error

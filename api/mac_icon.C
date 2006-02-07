@@ -61,8 +61,8 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
     int retry;
 
     /* get finder spec for this file */
-    CHECK_OSERR(FSPathMakeRef((StringPtr)filename, &fsref, NULL));
-    CHECK_OSERR(FSGetCatalogInfo(&fsref, NULL, NULL, NULL, &fsspec, NULL));
+    CHECK_OSERR((int)FSPathMakeRef((StringPtr)filename, &fsref, NULL));
+    CHECK_OSERR(FSGetCatalogInfo(&fsref, nil, NULL, NULL, &fsspec, NULL));
 
     /* Open the resource fork for writing, create it if it does not exist.
         On a dual-processor system, the other cpu may have the resource fork 
