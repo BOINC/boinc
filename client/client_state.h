@@ -223,6 +223,7 @@ public:
 public:
     CLIENT_STATE();
     void show_host_info();
+    void read_global_prefs();
     int init();
     bool poll_slow_events();
         // Never blocks.

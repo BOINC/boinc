@@ -48,7 +48,6 @@ using std::string;
 
 #define MAX_PROJ_PREFS_LEN  65536
     // max length of project-specific prefs
-    // TODO: get rid of this
 
 void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
@@ -71,9 +70,9 @@ int CLIENT_STATE::allowed_disk_usage(double& size) {
 
     percent_space = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
 
-    min_val = host_info.d_free - global_prefs.disk_min_free_gb*(1024.*1024.*1024.);
+    min_val = host_info.d_free - global_prefs.disk_min_free_gb*1e9;
 
-    size = min(min(global_prefs.disk_max_used_gb*(1024.*1024.*1024.), percent_space), min_val);
+    size = min(min(global_prefs.disk_max_used_gb*(1e9), percent_space), min_val);
     if (size < 0) size = 0;
     return 0;
 }

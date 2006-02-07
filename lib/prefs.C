@@ -35,8 +35,8 @@
 
 // The following values determine how the client behaves
 // if there are no global prefs (e.g. on our very first RPC).
-// - Should impose minimal restrictions, so that the client can do the RPC
-// and get the global prefs from the server
+// These should impose minimal restrictions,
+// so that the client can do the RPC and get the global prefs from the server
 //
 void GLOBAL_PREFS::defaults() {
     run_on_batteries = true;
@@ -86,7 +86,21 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
     defaults();
 }
 
-// Parse XML global prefs.
+// Parse XML global prefs, setting defaults first.
+//
+int GLOBAL_PREFS::parse(
+    MIOFILE& in, const char* host_venue, bool& found_venue
+) {
+    defaults();
+    clear_bools();
+
+    strcpy(source_project, "");
+    strcpy(source_scheduler, "");
+    return parse_override(in, host_venue, found_venue);
+}
+
+// Parse global prefs, overriding whatever is currently in the structure.
+//
 // If host_venue is nonempty and we find an element of the form
 // <venue name="X">
 //   ...
@@ -94,15 +108,11 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 // where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
-int GLOBAL_PREFS::parse(MIOFILE& in, const char* host_venue, bool& found_venue) {
+int GLOBAL_PREFS::parse_override(
+    MIOFILE& in, const char* host_venue, bool& found_venue
+) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
-
-    defaults();
-    clear_bools();
-
-    strcpy(source_project, "");
-    strcpy(source_scheduler, "");
 
     found_venue = false;
     while (in.fgets(buf, 256)) {
@@ -142,11 +152,9 @@ int GLOBAL_PREFS::parse(MIOFILE& in, const char* host_venue, bool& found_venue) 
             continue;
         } else if (match_tag(buf, "</global_preferences>")) {
             break;
-        } else if (match_tag(buf, "<run_on_batteries/>")) {
-            run_on_batteries = true;
+        } else if (parse_bool(buf, "run_on_batteries", run_on_batteries)) {
             continue;
-        } else if (match_tag(buf, "<run_if_user_active/>")) {
-            run_if_user_active = true;
+        } else if (parse_bool(buf, "run_if_user_active", run_if_user_active)) {
             continue;
         } else if (parse_int(buf, "<start_hour>", start_hour)) {
             continue;
@@ -156,26 +164,18 @@ int GLOBAL_PREFS::parse(MIOFILE& in, const char* host_venue, bool& found_venue) 
             continue;
         } else if (parse_int(buf, "<net_end_hour>", net_end_hour)) {
             continue;
-        } else if (match_tag(buf, "<leave_apps_in_memory/>")) {
-            leave_apps_in_memory = true;
+        } else if (parse_bool(buf, "leave_apps_in_memory", leave_apps_in_memory)) {
             continue;
-        } else if (match_tag(buf, "<confirm_before_connecting/>")) {
-            confirm_before_connecting = true;
+        } else if (parse_bool(buf, "confirm_before_connecting", confirm_before_connecting)) {
             continue;
-        } else if (match_tag(buf, "<hangup_if_dialed/>")) {
-            hangup_if_dialed = true;
+        } else if (parse_bool(buf, "hangup_if_dialed", hangup_if_dialed)) {
             continue;
-        } else if (match_tag(buf, "<run_minimized/>")) {
-            run_minimized = true;
+        } else if (parse_bool(buf, "run_minimized", run_minimized)) {
             continue;
-        } else if (match_tag(buf, "<run_on_startup/>")) {
-            run_on_startup = true;
+        } else if (parse_bool(buf, "run_on_startup", run_on_startup)) {
             continue;
-        } else if (match_tag(buf, "<dont_verify_images/>")) {
-            dont_verify_images = true;
+        } else if (parse_bool(buf, "dont_verify_images", dont_verify_images)) {
             continue;
-        //} else if (parse_double(buf, "<work_buf_max_days>", work_buf_max_days)) {
-        //    continue;
         } else if (parse_double(buf, "<work_buf_min_days>", work_buf_min_days)) {
             continue;
         } else if (parse_int(buf, "<max_cpus>", max_cpus)) {

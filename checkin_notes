@@ -1563,3 +1563,18 @@ Charlie 7 Feb 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  7 Feb 2006
+    - Core client: check for a file "global_prefs_override.xml"
+        that overrides the global prefs obtained from server.
+        This lets people manually tweak prefs on a given host,
+        or develop add-on programs that do so.
+    - Remove programs that tested old HTTP code
+
+    client/
+        client_state.C,h
+        test_file_xfer.C (removed)
+        test_http.C (removed)
+        test_net_xfer.C (removed)
+    lib/
+        prefs.C,h

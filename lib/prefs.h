@@ -68,6 +68,7 @@ struct GLOBAL_PREFS {
     void defaults();
     void clear_bools();
     int parse(MIOFILE&, const char* venue, bool& found_venue);
+    int parse_override(MIOFILE&, const char* venue, bool& found_venue);
     int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(MIOFILE&);
 };

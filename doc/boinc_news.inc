@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("February 6, 2006",
+    "The <a href=http://boinc.bio.wzw.tum.de/boincsimap/>Similarity
+    Matrix of Proteins (SIMAP)</a> project is now in production.
+    SIMAP, based at the Technical University of Munich,
+    uses volunteer computers to calculate similarities between proteins.
+    It provides a public database of the resulting data,
+    which plays a key role in many bioinformatics research projects.
+    SIMAP is the first German BOINC-based project."
+),
 array("December 15, 2005",
     "A <a href=http://www.nature.com/news/2005/051212/full/051212-10.html>story
     about SETI@home's transition to BOINC</a> appears in the Nature web site."

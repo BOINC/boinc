@@ -26,6 +26,10 @@ Here are some submissions:
 ... and <a href=logos/>many variants</a> in different sizes and colors,
 and for specific countries.
 </td></tr>
+<tr> <td>Jim Paulis</td><td>
+<a href=images/BOINC_logo.jpg><img src=images/BOINC_logo_240.jpg></a>
+... and several variants
+</td></tr>
 <tr> <td>Eduardo Ascarrunz</td>
 <td>
 <a href=images/BOINC_01.png><img height=90 src=images/BOINC_01.png></a>

@@ -55,6 +55,7 @@ extern void get_master_filename(PROJECT&, char*);
 #define STATE_FILE_NAME             "client_state.xml"
 #define STATE_FILE_PREV             "client_state_prev.xml"
 #define GLOBAL_PREFS_FILE_NAME      "global_prefs.xml"
+#define GLOBAL_PREFS_OVERRIDE_FILE  "global_prefs_override.xml"
 #define MASTER_BASE                 "master_"
 #define SCHED_OP_REQUEST_BASE       "sched_request_"
 #define SCHED_OP_REPLY_BASE         "sched_reply_"
