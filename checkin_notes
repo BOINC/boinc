@@ -1528,6 +1528,9 @@ Charlie 2 Feb 2006
     lib/
         mac_backtrace.C
         shmem.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
     mac_installer/
         LoginItemAPI.c
 
