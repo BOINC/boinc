@@ -1542,3 +1542,16 @@ David  6 Feb 2006
     client/
         acct_setup.C,h
         gui_http.C,h
+
+David  6 Feb 2006
+    - try to get rid of gcc4 warnings about virtual destructors
+    - project creation bug fix (from Andre Kerstens)
+
+    api/
+        graphics_data.h
+    client/
+        client_msgs.h
+    lib/
+        msg_log.h
+    py/Boinc
+        setup_projects.py

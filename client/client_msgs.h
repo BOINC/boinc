@@ -94,6 +94,7 @@ public:
         DEBUG_SCRSAVE
     };
     CLIENT_MSG_LOG(): MSG_LOG(stdout) {}
+    ~CLIENT_MSG_LOG(){}
 };
 
 extern CLIENT_MSG_LOG log_messages;

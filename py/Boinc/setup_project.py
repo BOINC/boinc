@@ -463,7 +463,7 @@ class Project:
             self.dir('html/user/forum_index.php'))
         install(srcdir('html/user', 'sample_rss_main.php'),
             self.dir('html/user/rss_main.php'))
-        install(srcdir('html/user', 'sample_server_status.php'),
+        install(srcdir('html/ops', 'sample_server_status.php'),
             self.dir('html/user/server_status.php'))
 
 
