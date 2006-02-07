@@ -167,6 +167,11 @@ list_item_func(
     "Tells the core client that a network connection is available,
     and that it should do as much network activity as it can."
 );
+list_item_func(
+    "read_global_prefs_override()",
+    "Tells the core client to reread the 'global_prefs_override.xml' file,
+    modifying the global preferences according to its contents."
+);
 list_end();
 echo "
 <p>

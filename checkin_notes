@@ -1588,3 +1588,11 @@ David  7 Feb 2006
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+David  7 Feb 2006
+    - remove the "new CPU scheduler" code I added a couple weeks ago (sigh)
+
+    client/
+        client_state.h
+        client_types.h
+        cs_apps.C

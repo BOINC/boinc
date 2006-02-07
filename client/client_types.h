@@ -22,8 +22,6 @@
 // client_state.C  (to cross-link objects)
 //
 
-//#define NEW_CPU_SCHED
-
 #ifndef _CLIENT_TYPES_
 #define _CLIENT_TYPES_
 
@@ -54,10 +52,6 @@
 //
 #define FILE_NOT_PRESENT    0
 #define FILE_PRESENT        1
-
-#ifdef NEW_CPU_SCHED
-struct PRESULT;
-#endif
 
 class FILE_INFO {
 public:
@@ -301,17 +295,6 @@ public:
     bool checked;
         // temporary used when scanning projects
 
-#ifdef NEW_CPU_SCHED
-    double cpu_share;
-    double needed_cpu_share;
-    bool in_emergency;
-    double emergency_resource_share;
-    void get_ordered_runnable_results(std::vector<PRESULT>&);
-    void compute_cpu_share_needed();
-    bool has_emergency(double);
-    void allocate(double);
-#endif
-
     // vars related to file-transfer backoff
     // file_xfer_failures_up: count of consecutive upload failures
     // next_file_xfer_up: when to start trying uploads again
@@ -479,19 +462,6 @@ struct RESULT {
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
-#ifdef NEW_CPU_SCHED
-    double cpu_share;
-#endif
 };
-
-#ifdef NEW_CPU_SCHED
-struct PRESULT {
-    RESULT* p;
-};
-inline bool operator<(const PRESULT& a, const PRESULT& b) {
-    return a.p->report_deadline < b.p->report_deadline;
-}
-#endif
-
 
 #endif

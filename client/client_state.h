@@ -20,8 +20,6 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
-//#define NEW_CPU_SCHED
-
 #ifndef _WIN32
 #include <vector>
 #include <ctime>
@@ -72,15 +70,6 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_DISK_SIZE = 32
 };
 
-#ifdef NEW_CPU_SCHED
-struct CPU_SCHEDULER {
-    void do_accounting();
-    void make_schedule();
-    void enforce();
-    void clear_tasks();
-};
-#endif
-
 // CLIENT_STATE encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //
@@ -92,9 +81,6 @@ public:
     std::vector<APP_VERSION*> app_versions;
     std::vector<WORKUNIT*> workunits;
     std::vector<RESULT*> results;
-#ifdef NEW_CPU_SCHED
-    CPU_SCHEDULER cpu_scheduler;
-#endif
 
     NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;
@@ -315,12 +301,10 @@ private:
 
     int choose_version_num(char*, SCHEDULER_REPLY&);
     int app_finished(ACTIVE_TASK&);
-#ifndef NEW_CPU_SCHED
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
     bool schedule_earliest_deadline_result();
     bool schedule_cpus();
-#endif
     bool start_apps();
     bool handle_finished_apps();
     void handle_file_xfer_apps();

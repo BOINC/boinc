@@ -225,8 +225,6 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 }
 
 
-#ifndef NEW_CPU_SCHED
-
 // Choose a "best" runnable result for each project
 //
 // Values are returned in project->next_runnable_result
@@ -304,7 +302,6 @@ void CLIENT_STATE::assign_results_to_projects() {
     }
 }
 
-#endif
 
 // if there's not an active task for the result, make one
 //
@@ -321,7 +318,6 @@ int CLIENT_STATE::schedule_result(RESULT* rp) {
     return 0;
 }
 
-#ifndef NEW_CPU_SCHED
 
 // Schedule an active task for the project with the largest anticipated debt
 // among those that have a runnable result.
@@ -380,7 +376,6 @@ bool CLIENT_STATE::schedule_earliest_deadline_result() {
     best_result->already_selected = true;
     return true;
 }
-#endif
 
 // find total resource shares of all projects
 //
@@ -420,7 +415,6 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
     return x;
 }
 
-#ifndef NEW_CPU_SCHED
 
 // adjust project debts (short, long-term)
 // NOTE: currently there's the assumption that the only
@@ -685,7 +679,6 @@ bool CLIENT_STATE::schedule_cpus() {
 int CLIENT_STATE::restart_tasks() {
     return active_tasks.restart_tasks(ncpus);
 }
-#endif
 
 void CLIENT_STATE::set_ncpus() {
     if (host_info.p_ncpus > 0) {
@@ -757,212 +750,5 @@ void CLIENT_STATE::request_schedule_cpus(const char* where) {
     must_schedule_cpus = true;
     msg_printf(0, MSG_INFO, "Rescheduling CPU: %s", where);
 }
-
-#ifdef NEW_CPU_SCHED
-
-void PROJECT::get_ordered_runnable_results(vector<PRESULT>& presults) {
-    presults.clear();
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (!rp->runnable()) continue;
-        PRESULT pr;
-        pr.p = rp;
-        presults.push_back(pr);
-    }
-    sort(presults.begin(), presults.end());
-}
-
-// compute the immediate CPU shares needed for each result,
-// and for the project, to meet all deadlines
-// and finish past-due work as quickly as possible
-// 
-void PROJECT::compute_cpu_share_needed() {
-    cpu_share = 0;
-    double time = gstate.now, dt, wcn, x;
-    vector<PRESULT> presults;
-    unsigned int i;
-
-    get_ordered_runnable_results(presults);
-    for (i=0; i<presults.size(); i++) {
-        RESULT* r = presults[i].p;
-        if (r->report_deadline < gstate.now) {
-            cpu_share += 1;
-            r->cpu_share = 1;
-        } else {
-            dt = r->report_deadline - time;
-            if (dt) {
-                wcn = r->estimated_cpu_time_remaining();
-                double cs = wcn/dt;
-                if (cs > cpu_share) {
-                    double x = (wcn + cpu_share*(time-gstate.now))/(r->report_deadline-gstate.now);
-                    r->cpu_share = x - cpu_share;
-                    cpu_share = x;
-                } else {
-                    r->cpu_share = 0;
-                }
-            } else {
-                x = wcn/(time-gstate.now)-cpu_share;
-                cpu_share += x;
-                r->cpu_share = x;
-            }
-        }
-        time = r->report_deadline;
-    }
-    needed_cpu_share = cpu_share;
-}
-
-bool PROJECT::has_emergency(double rrs) {
-    double cpu_share = gstate.ncpus*resource_share/rrs;
-    return needed_cpu_share > cpu_share;
-}
-
-// given a CPU share, choose results to run,
-// and assign their CPU shares
-//
-void PROJECT::allocate(double cpu_share_left) {
-    vector<PRESULT> presults;
-
-    get_ordered_runnable_results(presults);
-    for (unsigned i=0; i<presults.size(); i++) {
-        RESULT* r = presults[i].p;
-        if (r->cpu_share) {
-            gstate.schedule_result(r);
-            ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(r);
-            atp->scheduler_state = CPU_SCHED_SCHEDULED;
-            if (r->cpu_share > cpu_share_left) {
-                r->cpu_share = cpu_share_left;
-            }
-            cpu_share_left -= r->cpu_share;
-            if (cpu_share_left == 0) break;
-        }
-    }
-}
-
-#define EMERGENCY_LIMIT 86400*7
-
-void CPU_SCHEDULER::clear_tasks() {
-    ACTIVE_TASK* atp;
-    unsigned int i;
-    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-        atp = gstate.active_tasks.active_tasks[i];
-        if (atp->non_cpu_intensive) {
-            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-        } else {
-            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-        }
-    }
-}
-
-void CPU_SCHEDULER::do_accounting() {
-    unsigned int i;
-    static double last_time;
-    double dt = gstate.now - last_time;
-    last_time = gstate.now;
-
-    for (i=0; i<gstate.results.size(); i++) {
-        RESULT* r = gstate.results[i];
-        ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(r);
-        if (!atp) continue;
-    //for each running result R
-    //    R.std -= dt;
-    //for each result R in schedule
-    //    R.std += r.cpu_share/dt
-    }
-#if 0
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p->in_emergency) {
-            p->emergency_budget -= dt*p->emergency_resource_share;
-            if (p->emergency_budget < 0) {
-                p->emergency_eligible = false;
-            }
-        } else {
-            p->emergency_budget += dt;
-            if (p->emergency_budget > EMERGENCY_LIMIT) {
-                p->emergency_eligible = true;
-                p->emergency_budget = EMERGENCY_LIMIT;
-            }
-        }
-    }
-#endif
-}
-
-// Called whenever something happens that could change the schedule;
-// Also called periodically (every few hours)
-// in case results in a schedule are going slower or faster
-// than expected (which could change the schedule)
-//
-void CPU_SCHEDULER::make_schedule() {
-    bool have_emergency=false;
-    double non_emergency_rs = 0, cs, cpu_share_left;
-    PROJECT* p;
-    unsigned int i;
-    double rrs = gstate.runnable_resource_share();
-
-    clear_tasks();
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (!p->runnable()) continue;
-        p->compute_cpu_share_needed();
-        if (p->has_emergency(rrs)) {
-            have_emergency = true;
-        } else {
-            non_emergency_rs += p->resource_share;
-        }
-    }
-
-    cpu_share_left = gstate.ncpus;
-    if (have_emergency) {
-        for (i=0; i<gstate.projects.size(); i++) {
-            p = gstate.projects[i];
-            if (!p->runnable()) continue;
-            if (p->has_emergency(rrs)) {
-                p->allocate(cpu_share_left);
-                if (cpu_share_left <= 0) break;
-            }
-        }
-        if (cpu_share_left) {
-            for (i=0; i<gstate.projects.size(); i++) {
-                p = gstate.projects[i];
-                if (!p->runnable()) continue;
-                if (!p->has_emergency(rrs)) {
-                    cs = cpu_share_left*p->resource_share/non_emergency_rs;
-                    p->allocate(cs);
-                }
-            }
-        }
-    } else {
-        for (i=0; i<gstate.projects.size(); i++) {
-            p = gstate.projects[i];
-            if (!p->runnable()) continue;
-            cs = cpu_share_left*p->resource_share/non_emergency_rs;
-            p->allocate(cs);
-        }
-    }
-}
-
-// called every ~10 seconds to time-slice among results in a schedule
-// Handle checkpoint detection here.
-// make_schedule() has already been called.
-//
-void CPU_SCHEDULER::enforce() {
-    static bool first = true;
-
-    if (first) {
-        //for results R in schedule by decreasing STD
-        //    start R
-        first = false;
-        return;
-    }
-
-    do_accounting();
-
-    //for each running task T not in schedule
-    //    T.abort
-}
-
-#endif
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";
