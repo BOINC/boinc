@@ -1051,14 +1051,12 @@ bool CLIENT_STATE::should_get_work() {
         return true;
     }
 
-#ifndef NEW_CPU_SCHED
     // if the CPU started this time period overloaded,
     // let it process for a while to get out of the CPU overload state.
     //
     if (!work_fetch_no_new_work) {
         set_scheduler_modes();
     }
-#endif
 
     return !work_fetch_no_new_work;
 }
@@ -1228,8 +1226,6 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     return false;
 }
 
-#ifndef NEW_CPU_SCHED
-
 // Decide on modes for work-fetch and CPU sched policies.
 // Namely, set the variables
 // - work_fetch_no_new_work
@@ -1325,7 +1321,6 @@ void CLIENT_STATE::set_scheduler_modes() {
     work_fetch_no_new_work = should_not_fetch_work;
     cpu_earliest_deadline_first = use_earliest_deadline_first;
 }
-#endif
 
 double CLIENT_STATE::work_needed_secs() {
     double total_work = 0;

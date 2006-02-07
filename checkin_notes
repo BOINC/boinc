@@ -1596,3 +1596,4 @@ David  7 Feb 2006
         client_state.h
         client_types.h
         cs_apps.C
+        cs_scheduler.C
