@@ -1055,7 +1055,7 @@ bool CLIENT_STATE::should_get_work() {
     // let it process for a while to get out of the CPU overload state.
     //
     if (!work_fetch_no_new_work) {
-        set_scheduler_modes();
+        set_work_fetch_mode();
     }
 
     return !work_fetch_no_new_work;
@@ -1226,29 +1226,17 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     return false;
 }
 
-// Decide on modes for work-fetch and CPU sched policies.
-// Namely, set the variables
-// - work_fetch_no_new_work
-// - cpu_earliest_deadline_first
-// and print a message if we're changing their value
+// Decide on work-fetch policy
+// Namely, set the variable work_fetch_no_new_work
+// and print a message if we're changing its value
 //
-void CLIENT_STATE::set_scheduler_modes() {
-#if 0
-    RESULT* rp;
-    unsigned int i;
-#endif
+void CLIENT_STATE::set_work_fetch_mode() {
     bool should_not_fetch_work = false;
-    bool use_earliest_deadline_first = false;
     double total_proc_rate = avg_proc_rate();
     double per_cpu_proc_rate = total_proc_rate/ncpus;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
-
     double rrs = runnable_resource_share();
+
     if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
-        // if round robin would miss a deadline, use EDF
-        //
-        use_earliest_deadline_first = true;
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
         }
@@ -1264,41 +1252,8 @@ void CLIENT_STATE::set_scheduler_modes() {
             }
         }
     }
-
-#if 0
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
-        if (rp->computing_done()) continue;
-        if (rp->project->non_cpu_intensive) continue;
-
-        // Is the nearest deadline within a day?
-        //
-        if (rp->report_deadline - gstate.now < 60 * 60 * 24) {
-            result_has_deadline_problem = true; 
-            rp->deadline_problem = true;
-            scope_messages.printf(
-                "set_scheduler_modes(): Less than 1 day until deadline.\n"
-            );
-        }
-
-        // is there a deadline < twice the users connect period?
-        //
-        if (rp->report_deadline - gstate.now < global_prefs.work_buf_min_days * SECONDS_PER_DAY * 2) {
-            result_has_deadline_problem = true;
-            rp->deadline_problem = true;
-            scope_messages.printf(
-                "set_scheduler_modes(): Deadline is before reconnect time.\n"
-            );
-        }
-    }
-#endif
-
-    // display only when the policy changes to avoid once per second
-    //
     if (work_fetch_no_new_work && !should_not_fetch_work) {
-        msg_printf(NULL, MSG_INFO,
-            "Allowing work fetch again."
-        );
+        msg_printf(NULL, MSG_INFO, "Allowing work fetch again.");
     }
 
     if (!work_fetch_no_new_work && should_not_fetch_work) {
@@ -1306,6 +1261,25 @@ void CLIENT_STATE::set_scheduler_modes() {
             "Suspending work fetch because computer is overcommitted."
         );
     }
+    work_fetch_no_new_work = should_not_fetch_work;
+}
+
+// Decide on CPU sched policy
+// Namely, set the variable cpu_earliest_deadline_first
+// and print a message if we're changing its value
+//
+void CLIENT_STATE::set_scheduler_mode() {
+    bool use_earliest_deadline_first = false;
+    double total_proc_rate = avg_proc_rate();
+    double per_cpu_proc_rate = total_proc_rate/ncpus;
+    double rrs = runnable_resource_share();
+
+    if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
+        // if round robin would miss a deadline, use EDF
+        //
+        use_earliest_deadline_first = true;
+    }
+
 
     if (cpu_earliest_deadline_first && !use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
@@ -1314,11 +1288,9 @@ void CLIENT_STATE::set_scheduler_modes() {
     }
     if (!cpu_earliest_deadline_first && use_earliest_deadline_first) {
         msg_printf(NULL, MSG_INFO,
-            "Using critical-deadline-first scheduling because computer is overcommitted."
+            "Using earliest-deadline-first scheduling because computer is overcommitted."
         );
     }
-
-    work_fetch_no_new_work = should_not_fetch_work;
     cpu_earliest_deadline_first = use_earliest_deadline_first;
 }
 

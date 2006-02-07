@@ -1597,3 +1597,15 @@ David  7 Feb 2006
         client_types.h
         cs_apps.C
         cs_scheduler.C
+
+David  7 Feb 2006
+    - Unravel the CPU scheduler code a little:
+        - split set_scheduler_modes() into two functions,
+            set_scheduler_mode() and set_work_fetch_mode().
+        - make a separate function, enforce_schedule(),
+            that does the actual starting and stopping of processes
+
+    client/
+        client_state.h
+        cs_apps.C
+        cs_scheduler.C

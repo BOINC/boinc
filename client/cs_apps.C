@@ -544,11 +544,9 @@ bool CLIENT_STATE::schedule_cpus() {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
-    int retval, j;
-    double vm_limit, elapsed_time;
+    int j;
+    double elapsed_time;
     unsigned int i;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
     if (projects.size() == 0) return false;
     if (results.size() == 0) return false;
@@ -561,12 +559,10 @@ bool CLIENT_STATE::schedule_cpus() {
     elapsed_time = gstate.now - cpu_sched_last_time;
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
-        scope_messages.printf("CLIENT_STATE::schedule_cpus(): must schedule\n");
     } else {
         if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
-        scope_messages.printf("CLIENT_STATE::schedule_cpus(): time %f\n", elapsed_time);
     }
 
     // mark file xfer results as completed;
@@ -590,11 +586,11 @@ bool CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    set_scheduler_modes();
+    set_scheduler_mode();
     adjust_debts();
 
     // mark active tasks as preempted
-    // MUST DO THIS AFTER accumulate_work()
+    // MUST DO THIS AFTER adjust_debts()
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
@@ -624,13 +620,34 @@ bool CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    // preempt, start, and resume tasks
+    enforce_schedule();
+
+    // reset work accounting
+    // do this at the end of schedule_cpus() because
+    // wall_cpu_time_this_period's can change as apps finish
     //
-    vm_limit = (global_prefs.vm_max_used_pct/100.)*host_info.m_swap;
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        p->wall_cpu_time_this_period = 0;
+    }
+    total_wall_cpu_time_this_period = 0;
+    total_cpu_time_this_period = 0;
+    cpu_sched_last_time = gstate.now;
+
+    set_client_state_dirty("schedule_cpus");
+    return true;
+}
+
+// preempt, start, and resume tasks
+//
+void CLIENT_STATE::enforce_schedule() {
+    double vm_limit = (global_prefs.vm_max_used_pct/100.)*host_info.m_swap;
+    unsigned int i;
+    ACTIVE_TASK *atp;
+    int retval;
+
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        scope_messages.printf("CLIENT_STATE::schedule_cpus(): project %s result %s state %d\n", 
-            atp->result->project->project_name, atp->result->name, atp->scheduler_state);
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
@@ -655,23 +672,7 @@ bool CLIENT_STATE::schedule_cpus() {
         }
         atp->cpu_time_at_last_sched = atp->current_cpu_time;
     }
-
-    // reset work accounting
-    // doing this at the end of schedule_cpus() because
-    // wall_cpu_time_this_period's can change as apps finish
-    //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        p->wall_cpu_time_this_period = 0;
-    }
-    total_wall_cpu_time_this_period = 0;
-    total_cpu_time_this_period = 0;
-    cpu_sched_last_time = gstate.now;
-
-    set_client_state_dirty("schedule_cpus");
-    return true;
 }
-
 
 // This is called when the client is initialized.
 // Try to restart any tasks that were running when we last shut down.

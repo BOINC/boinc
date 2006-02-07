@@ -305,6 +305,7 @@ private:
     bool schedule_largest_debt_project(double expected_pay_off);
     bool schedule_earliest_deadline_result();
     bool schedule_cpus();
+    void enforce_schedule();
     bool start_apps();
     bool handle_finished_apps();
     void handle_file_xfer_apps();
@@ -375,7 +376,8 @@ private:
     int proj_min_results(PROJECT*, double);
     bool rr_misses_deadline(double, double);
     bool edf_misses_deadline(double);
-    void set_scheduler_modes();
+    void set_scheduler_mode();
+    void set_work_fetch_mode();
     void generate_new_host_cpid();
 
 // --------------- cs_statefile.C:
