@@ -1609,3 +1609,16 @@ David  7 Feb 2006
         client_state.h
         cs_apps.C
         cs_scheduler.C
+
+Bruce 7 Feb 2006
+    - Added a script (originally provided by DA, I think) to
+      send mass email to project participants.  The script allows
+      one to select the TYPE of user, including 'all', 'active',
+      'lapsed', 'unsuccessful' and so on.  Also appends a 'how to opt
+      out' message at the end. Do NOT use this script without testing it.
+
+    html/
+        ops/
+            mass_email.php
+            index.php
+

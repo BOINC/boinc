@@ -40,6 +40,7 @@ echo "
     <li><a href=\"cancel_wu_form.php\">Cancel workunits</a>
     <li><a href=\"manage_special_users.php\">Manage special users</a>
     <li><a href=\"problem_host.php\">Email user with misconfigured host</a>
+    <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a>
 
     </ul>
     </table>
