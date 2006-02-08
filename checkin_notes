@@ -1628,3 +1628,13 @@ David  7 Feb 2006
 
 	clientgui/
 		View*.cpp
+
+Charlie 8 Feb 2006
+    -Mac: Enhance BOINC command-line build script with new options 
+      to build only the 3 BOINC libraries (libboinc, gfxlibboinc and 
+      api_libboinc), only 2 targets (boinc client and boinc_cmd), or 
+      a combination of these two (5 targets).  The default is still 
+      Build_all, which also builds the BOINC Manager.
+      
+    mac_build/
+        BuildMacBOINC.sh
