@@ -28,10 +28,6 @@ static char yesno[2][4] = {"no", "yes"};
 
 static char *sleepinterval;
 
-#ifndef __GNUC__
-#define __attribute__(x)
-#endif
-
 /* CONSTRAINTS
 
    1. One application client is supported (because of assimilation)
@@ -218,13 +214,24 @@ int DC_cancelWU (DC_Workunit wu)
     return dc_wu_destroy(wu);
 }
 
+int DC_suspendWU(DC_Workunit wu)
+{
+    DC_log(LOG_WARNING, "DC_suspendWU is not implemented yet\n");
+    return DC_OK;
+}
+
+int DC_resubmitWU(DC_Workunit wu)
+{
+    DC_log(LOG_WARNING, "DC_resubmitWU is not implemented yet\n");
+    return DC_OK;
+}
+
 int DC_destroyWU(DC_Workunit wu)
 {
     return dc_wu_destroy(wu);
 }
 
 int DC_checkForResult(int  timeout,
-		      //int  (*cb_check_result)(DC_Result result), 
 		      void (*cb_assimilate_result)(DC_Result result)
 		      ) 
 {
