@@ -13,11 +13,7 @@ extern "C" {
 
 #include <sys/syslog.h>
 #include <stdarg.h>
-
-enum {
-	DC_OK,
-	DC_ERROR
-};
+#include <dc_common.h>
 
 typedef enum {
 	DC_RESULT_ACCEPT,
@@ -137,6 +133,32 @@ int DC_submitWU (DC_Workunit wu);
  */
 int DC_cancelWU (DC_Workunit wu);
 
+
+/** DC_suspend.
+ *  It cancels the running of the given work unit.
+ *  It is not deleted from the hdd, or from the memmory,
+ *  only from the execution system.
+ *
+ *  return: DC_OK
+ *
+ *  Comment: This has no meaning on BOINC, so nothing will happen with the
+ *           running client, but you will not get back the results even if
+ *           the wu is finished.
+ *           Even this feature is not implemented yet.
+ */
+int DC_suspendWU(DC_Workunit wu);
+
+
+/** DC_resubmit.
+ *  It restarts the given, suspended work unit.
+ *
+ *  return: DC_OK;
+ *
+ *  Comment: In BOINC based implementation, nothing happens to the client
+ *           but from now on you can get back the results.
+ *           Even this feature is not implemented yet.
+ */
+int DC_resubmitWU(DC_Workunit wu);
 
 /** Check for results.
  *  Waits for available results and returns the first.
