@@ -31,6 +31,7 @@ boinc_client_SOURCES = \
     client_msgs.C \
     client_state.C \
     client_types.C \
+    cpu_sched.C \
     cs_account.C \
     cs_apps.C \
     cs_benchmark.C \

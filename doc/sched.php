@@ -8,8 +8,7 @@ This document describes two related parts of the BOINC core client
 <dl>
 <dt><b>CPU scheduling policy</b>
 <dd>
-Of the set of results that are runnable (see below),
-which ones to execute?
+Of the results that are runnable, which ones to execute?
 BOINC will generally execute NCPUS results at once,
 where NCPUS is the minimum of the physical number of CPUs
 (counting hyperthreading) and the user's 'max_cpus' general preference.
@@ -33,8 +32,8 @@ may not have any value to the project and may not be granted credit).
 so that NCPUS processors will be busy for at least
 min_queue days (min_queue is a user preference).
 <li> Project resource shares should be honored over the long term.
-<li> If a computer is attached to multiple projects,
-    execution should rotate among projects on a frequent basis.
+<li> Variety: if a computer is attached to multiple projects,
+execution should rotate among projects on a frequent basis.
 </ul>
 The policies are designed to accommodate all scenarios,
 including those with computers that are slow or are attached
@@ -68,7 +67,7 @@ of meeting deadlines, at the expense of variety.
 <h3>Wall CPU time</h3>
 A result's <b>wall CPU time</b> is the amount of wall-clock time
 its process has been runnable at the OS level.
-The actual CPU time may be much less than this,
+The actual CPU time may be less than this,
 e.g. if the process does a lot of paging,
 or if other (non-BOINC) processing jobs run at the same time.
 <p>
@@ -102,7 +101,6 @@ A result is <b>runnable soon</b> if
 <h3>Project states</h3>
 A project is <b>runnable</b> if
 <ul>
-<li> It's not suspended, and
 <li> it has at least one runnable result
 </ul>
 
@@ -152,60 +150,16 @@ and maximum short-term debt is no greater than 86400 (i.e. one day).
 
 <p>
 <b>Long-term debt</b> is used by the work-fetch policy.
-It is adjusted over the set of potentially runnable projects.
+It is defined for all projects,
+and adjusted over the set of potentially runnable projects.
 It is normalized so that average long-term debt is zero.
-
-<h3>Required time fraction</h3>
-
-A result's <b>required time fraction</b> (RTF) is its
-estimated remaining CPU time divided by the time to its deadline.
-SHOULD WE ALSO TAKE INTO ACCOUNT FACTORS BESIDES CPU TIME?
-
-<p>
-A result's <b>cumulative required time fraction</b> (CRTF)
-of a result R is the estimated remaining CPU time
-of R and all results with earlier deadlines,
-divided by the time until R's deadline.
-
-<p>
-Example:
-<table cellpadding=6 border=1>
-<tr>
-    <th>Result</th>
-    <th>Remaining CPU time</th>
-    <th>Time until deadline</th>
-    <th>RTF</th>
-    <th>CRTF</th>
-</tr>
-<tr>
-    <td>A</td>
-    <td>5 hours</td>
-    <td>50 hours</td>
-    <td>0.1</td>
-    <td>0.1</td>
-</tr>
-<tr>
-    <td>B</td>
-    <td>76 hours</td>
-    <td>100 hours</td>
-    <td>0.76</td>
-    <td>0.81</td>
-</tr>
-<tr>
-    <td>C</td>
-    <td>500 hours</td>
-    <td>5000 hours</td>
-    <td>0.1</td>
-    <td>0.12</td>
-</tr>
-</table>
 
 <h2>The CPU scheduling policy</h2>
 <p>
-The CPU scheduler has two modes, <b>normal</b> and
+The CPU scheduler has two modes, <b>round-robin</b> and
 <b>Earliest Deadline First (EDF)</b>.
-In normal mode, the CPU scheduler runs the project(s)
-with the greatest short-term debt.
+In round-robin mode, the CPU scheduler runs the results whose projects
+have the greatest short-term debt.
 Specifically:
 <ol>
 <li> Set the 'anticipated debt' of each project to its short-term debt

@@ -1638,3 +1638,16 @@ Charlie 8 Feb 2006
       
     mac_build/
         BuildMacBOINC.sh
+
+David  8 Feb 2006
+    - Move CPU scheduling code to a new file, cpu_sched.C
+    - PHP: use $_POST, not $HTTP_POST_VARS
+
+    client/
+        Makefile.am
+        client_state.h
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C
+    html/user/
+        create_account_action.php

@@ -258,6 +258,17 @@ private:
     bool update_results();
     void free_mem();
 
+// --------------- cpu_sched.C:
+private:
+    void adjust_debts();
+    bool must_schedule_cpus;
+    bool schedule_cpus();
+    bool no_work_for_a_cpu();
+    bool rr_misses_deadline(double, double);
+    bool edf_misses_deadline(double);
+    void set_scheduler_mode();
+public:
+
 // --------------- cs_account.C:
 public:
     bool have_tentative_project;
@@ -273,8 +284,6 @@ private:
 
 // --------------- cs_apps.C:
 private:
-    void adjust_debts();
-    bool must_schedule_cpus;
     double total_resource_share();
     double potentially_runnable_resource_share();
 public:
@@ -304,7 +313,6 @@ private:
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
     bool schedule_earliest_deadline_result();
-    bool schedule_cpus();
     void enforce_schedule();
     bool start_apps();
     bool handle_finished_apps();
@@ -372,11 +380,7 @@ private:
     double time_until_work_done(PROJECT*, int, double);
     double avg_proc_rate();
     bool should_get_work();
-    bool no_work_for_a_cpu();
     int proj_min_results(PROJECT*, double);
-    bool rr_misses_deadline(double, double);
-    bool edf_misses_deadline(double);
-    void set_scheduler_mode();
     void set_work_fetch_mode();
     void generate_new_host_cpid();
 

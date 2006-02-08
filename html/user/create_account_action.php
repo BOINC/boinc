@@ -50,7 +50,7 @@ if ($new_name != strip_tags($new_name)) {
 }
 
 
-$new_email_addr = process_user_text($HTTP_POST_VARS["new_email_addr"]);
+$new_email_addr = process_user_text($_POST["new_email_addr"]);
 $new_email_addr = strtolower($new_email_addr);
 if (!is_valid_email_addr($new_email_addr)) {
     show_error("Invalid email address:
