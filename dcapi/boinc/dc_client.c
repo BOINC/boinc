@@ -1,15 +1,19 @@
-/* BOINC includes */
-# ifdef _WIN32
-# include "boinc_win.h"
-# include "util.h"
-# endif
-# include "boinc_api.h"
-# include "filesys.h"
-# include "diagnostics.h"
-# include "graphics_api.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-#include "dc.h"
-#include "dc_client.h"
+/* BOINC includes */
+#ifdef _WIN32
+#include <boinc_win.h>
+#include <util.h>
+#endif
+#include <boinc_api.h>
+#include <filesys.h>
+#include <diagnostics.h>
+#include <graphics_api.h>
+
+#include <dc.h>
+#include <dc_client.h>
 
 int DC_Init(void)
 {
