@@ -26,7 +26,7 @@ int DC_Init(void)
   return DC_OK;
 }
 
-int DC_ResolveFileName(int type, const char *requestedFileName, char *actualFileName, int maxlength)
+int DC_ResolveFileName(DC_Filetype type, const char *requestedFileName, char *actualFileName, int maxlength)
 {
   int retval;
 

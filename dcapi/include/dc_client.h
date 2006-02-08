@@ -13,10 +13,12 @@ extern "C" {
 #include <dc_common.h>
 
 /* For the DC_ResolveFileName function */
-#define DC_FILE_IN	0
-#define DC_FILE_OUT	1
-#define DC_FILE_CKPT	2
-#define DC_FILE_TMP	3
+typedef enum {
+	DC_FILE_IN,
+	DC_FILE_OUT,
+	DC_FILE_CKPT,
+	DC_FILE_TMP
+} DC_Filetype;
 
 
 /** Inicialize the client API.
@@ -44,7 +46,7 @@ int DC_Init(void);
  * Return: DC_OK always
  */
 int DC_ResolveFileName(
-    int type,
+    DC_Filetype type,
     const char *requestedFileName,
     char       *actualFileName,
     int maxlength
