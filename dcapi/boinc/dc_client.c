@@ -12,7 +12,6 @@
 #include <diagnostics.h>
 #include <graphics_api.h>
 
-#include <dc.h>
 #include <dc_client.h>
 
 int DC_Init(void)
