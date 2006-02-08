@@ -10,11 +10,7 @@
 extern "C" {
 #endif
 
-/* For return value */
-/*enum {
-	DC_OK,
-	DC_ERROR
-};*/
+#include <dc_common.h>
 
 /* For the DC_ResolveFileName function */
 #define DC_FILE_IN	0
