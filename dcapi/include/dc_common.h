@@ -15,6 +15,11 @@ enum {
 	DC_ERROR
 };
 
+/* Support non-gcc compatible compilers */
+#ifndef __GNUC__
+#define __attribute__(x)
+#endif
+
 #ifdef __cplusplus
 }
 #endif
