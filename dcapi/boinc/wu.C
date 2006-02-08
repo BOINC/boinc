@@ -3,8 +3,6 @@
 #endif
 
 /* Include BOINC Headers */
-//#include "rsaeuro.h"
-//#include "crypt.h"
 #include <backend_lib.h>
 #include <sched_util.h>
 
@@ -14,10 +12,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-//#include <uuid/uuid.h>
 #include <sched_config.h>
 
-#include "dc.h"
+#include <dc.h>
 #include "wu.h"
 #include "result.h"
 

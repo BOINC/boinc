@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-#include "dc.h"
+#include <dc.h>
 
 /** init workunit module.
  *  'projectroot' is the path to the directory where the
