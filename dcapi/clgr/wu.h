@@ -18,7 +18,7 @@ extern "C" {
 void dc_wu_init(const char *projectroot,const char *workdir_id, const char* exec_dir);
 
 /** add new wu which has been created */
-int dc_wu_create(const char *clientname, 
+DC_Workunit dc_wu_create(const char *clientname, 
 		 const char *arguments);
 
 /** add input files to a wu */
