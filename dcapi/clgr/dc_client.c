@@ -8,8 +8,8 @@
 #include <errno.h>
 #include <time.h>
 
-#include "dc_client.h"
-#include "logger.c"
+#include <dc_client.h>
+#include <logger.c>
 
 static time_t result_time = 0;
 static time_t ckpt_time = 0;
@@ -61,22 +61,30 @@ int DC_CheckpointMade(void)
 
 /** Reolves a filename needed by the client application!
  */
-int DC_ResolveFileName(int type,
+int DC_ResolveFileName(DC_Filetype type,
 		       const char *requestedFileName,
 		       char *actualFileName,
 		       int maxlength
 		       )
 {
-  if (type == 0){
-    snprintf(actualFileName, maxlength, "./input/%s", requestedFileName);
-  }else if (type == 1){
-    snprintf(actualFileName, maxlength, "./output/%s", requestedFileName);
-  }else if (type == 2){
-    snprintf(actualFileName, maxlength, "./ckpt/%s", requestedFileName);
-  }else if (type == 3){
-    snprintf(actualFileName, maxlength, "./tmp/%s", requestedFileName);
-  }else return DC_ERROR;
-  return DC_OK;
+    switch (type)
+    {
+	case DC_FILE_IN:
+	    snprintf(actualFileName, maxlength, "./input/%s", requestedFileName);
+	    break;
+	case DC_FILE_OUT:
+	    snprintf(actualFileName, maxlength, "./output/%s", requestedFileName);
+	    break;
+	case DC_FILE_CKPT:
+	    snprintf(actualFileName, maxlength, "./ckpt/%s", requestedFileName);
+	    break;
+	case DC_FILE_TMP:
+	    snprintf(actualFileName, maxlength, "./tmp/%s", requestedFileName);
+	    break;
+	default:
+	    return DC_ERROR;
+    }
+    return DC_OK;
 }
 
 /** Finalize client API if needed.
