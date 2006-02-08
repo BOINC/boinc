@@ -16,8 +16,6 @@ extern "C" {
 #include <dc_common.h>
 
 typedef enum {
-	DC_RESULT_ACCEPT,
-	DC_RESULT_INVALID,
 	DC_RESULT_FINAL,
 	DC_RESULT_SUB
 } DC_ResultStatus;
@@ -186,22 +184,32 @@ int DC_checkForResult(int  timeout,
                 It will be deallocated automatically after the return 
                 from assimilation.
 
-   int cb_check_result( DC_Result result)
+   int cb_check_result(DC_Result result)
 
        Checking the result when it is available.
        Return DC_RESULT_ACCEPT  if result is accepted
               DC_RESULT_INVALID if result is invalid
 
 
-   void cb_assimilate_result( DC_Result result)
+   void cb_assimilate_result(DC_Result result)
 
        Assimilate the result within the application.
        On return, the result will be deleted within DC.
 
 */
 
-void DC_log(int level, const char *fmt, ...);
-void DC_vlog(int level, const char *fmt, va_list args);
+/** Logging function, like printf
+ *  In configfile (given at DC_Init()), you can define to which level logging information
+ *  will be printed, and also, to which file it should be printed:
+ *  LogLevel = Debug (or Error, Warning, Notice, Info, Debug)
+ *  LogFile  = dsp.log
+ *
+ *  Logging levels: LOG_ERR, LOG_WARNING, LOG_NOTICE, LOG_INFO, LOG_DEBUG
+ */
+void DC_log(int level, const char *fmt, ...)
+	__attribute__((format(printf, 2, 3)));
+void DC_vlog(int level, const char *fmt, va_list args)
+	__attribute__((format(printf, 2, 0)));
 
 #ifdef __cplusplus
 }
