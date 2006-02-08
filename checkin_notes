@@ -1622,3 +1622,9 @@ Bruce 7 Feb 2006
             mass_email.php
             index.php
 
+David  7 Feb 2006
+	- Manager: change "Tasks" to "Commands".
+		We're using "Tasks" to mean work now.
+
+	clientgui/
+		View*.cpp

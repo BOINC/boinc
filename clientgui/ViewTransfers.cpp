@@ -89,7 +89,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     //
     // Setup View
     //
-	pGroup = new CTaskItemGroup( _("Tasks") );
+	pGroup = new CTaskItemGroup( _("Commands") );
 	m_TaskGroups.push_back( pGroup );
 
 	pItem = new CTaskItem(

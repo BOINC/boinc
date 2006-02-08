@@ -631,7 +631,7 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
     Layout();
 
-	pGroup = new CTaskItemGroup( _("Tasks") );
+	pGroup = new CTaskItemGroup( _("Commands") );
 	m_TaskGroups.push_back( pGroup );
 
 	pItem = new CTaskItem(
