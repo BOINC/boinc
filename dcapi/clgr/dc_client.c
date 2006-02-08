@@ -9,7 +9,6 @@
 #include <time.h>
 
 #include <dc_client.h>
-#include <logger.c>
 
 static time_t result_time = 0;
 static time_t ckpt_time = 0;
@@ -33,7 +32,7 @@ static int dc_client_writeout(void)
       fclose(out);
    }
    else {
-      DC_log(LOG_ERR, "dc-client: Cannot open file %s", statfilename);
+      // DC_log(LOG_ERR, "dc-client: Cannot open file %s", statfilename);
       retval = DC_ERROR;
    }
    return retval;
