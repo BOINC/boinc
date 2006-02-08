@@ -59,6 +59,26 @@ int DC_CheckpointMade(void)
   return dc_client_writeout();
 }
 
+/** Reolves a filename needed by the client application!
+ */
+int DC_ResolveFileName(int type,
+		       const char *requestedFileName,
+		       char *actualFileName,
+		       int maxlength
+		       )
+{
+  if (type == 0){
+    snprintf(actualFileName, maxlength, "./input/%s", requestedFileName);
+  }else if (type == 1){
+    snprintf(actualFileName, maxlength, "./output/%s", requestedFileName);
+  }else if (type == 2){
+    snprintf(actualFileName, maxlength, "./ckpt/%s", requestedFileName);
+  }else if (type == 3){
+    snprintf(actualFileName, maxlength, "./tmp/%s", requestedFileName);
+  }else return DC_ERROR;
+  return DC_OK;
+}
+
 /** Finalize client API if needed.
  */ 
 void DC_Finish(int exitcode)

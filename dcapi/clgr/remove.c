@@ -4,9 +4,10 @@
 
 #include "defines.h"
 #include "dc.h"
+#include "remove.h"
 
 
-static int remove_wu(char *wuname, char *workdir)
+int remove_wu(char *wuname)
 {
 	FILE *f;
 	char syscmd[512], buf[512];
