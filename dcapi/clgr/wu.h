@@ -35,6 +35,7 @@ int dc_wu_setPriority(DC_Workunit wu, int priority);
 int dc_wu_submitWU(DC_Workunit wu);
 
 int dc_wu_destroy(DC_Workunit wu);
+int dc_wu_cancel(DC_Workunit wu);
 
 int dc_wu_suspend(DC_Workunit wu);
 int dc_wu_resubmit(DC_Workunit wu);

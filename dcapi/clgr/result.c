@@ -40,30 +40,12 @@ int dc_result_addOutputFile(DC_Result result, char *filename)
 */
 void dc_result_free(DC_Result result)
 {
-    dc_result *res;
     if (result != NULL) {
-	res = (dc_result *) result;
-	if (res->name != NULL) {
-	    free(res->name);
-	    res->name = NULL;
-	}
-	if (res->outfiles_dir != NULL) {
-	    free(res->outfiles_dir);
-	    res->outfiles_dir = NULL;
-	}
-	if (res->std_out != NULL) {
-	    free(res->std_out);
-	    res->std_out = NULL;
-	}
-        if (res->std_err != NULL) {
-            free(res->std_err);
-            res->std_err = NULL;
-        }
-        if (res->sys_log != NULL) {
-            free(res->sys_log);
-            res->sys_log = NULL;
-        }
-	
-	free(res);
-    }
+	if (result->name != NULL) free(result->name);
+	if (result->outfiles_dir != NULL) free(result->outfiles_dir);
+	if (result->std_out != NULL) free(result->std_out);
+	if (result->std_err != NULL) free(result->std_err);
+	if (result->sys_log != NULL) free(result->sys_log);
+	free(result);
+    }							
 }

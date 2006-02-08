@@ -5,10 +5,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-//#ifndef MAX_INFILES
 #include "defines.h"
-//#endif
 #include "dc.h"
+#include "submit.h"
 
 static int create_work_dir(const char *work_dir_base, const char *workdir_id, const char *work_dir_num);
 static int create_jobdir_structure(void);
@@ -18,10 +17,8 @@ static int copy_inputfiles(int num_of_infiles,const char *infiles[MAX_INFILES],
 		                    const char *localfilenames[MAX_INFILES], const char *work_dir);
 static char *job_submit(const char *work_dir);
 static char *retreive_id(const char *result);
-static char *locate_path(void);
-static int set_path_normal(const char *path);
 
-static char *locate_path(void)
+static char *get_path(void)
 {
 	char buf[1024];
 
@@ -29,16 +26,7 @@ static char *locate_path(void)
 	return strdup(buf);
 }
 
-static int set_path_normal(const char *path)
-{
-	
-	if (chdir(path) != 0) return DC_ERROR;
-	//else DC_log(LOG_DEBUG," *** Actual path has been set to '%s'", path);
-	
-	return DC_OK;
-}
-
-static char *submit(const char *work_dir_base, const char *work_dir_id, const char *work_dir_num,
+char *submit(const char *work_dir_base, const char *work_dir_id, const char *work_dir_num,
 		const char *executable_dir, const char *executable, const char *job_name, 
 		const char *args, int num_of_infiles, 
 		const char *infiles[MAX_INFILES], const char *localfilenames[MAX_INFILES])
@@ -48,13 +36,12 @@ static char *submit(const char *work_dir_base, const char *work_dir_id, const ch
 	char work_dir[512];
 	sprintf(work_dir, "%s/%s/%s", work_dir_base, work_dir_id, work_dir_num);
 	
-	//DC_log(LOG_DEBUG,"function_submit_called_OK");
-
-	pwd = locate_path();
+	pwd = get_path();
 
 	/* create workdir */
 	if(create_work_dir(work_dir_base, work_dir_id, work_dir_num) != DC_OK)
 	{
+	    chdir(pwd);
 	    free(pwd);
 	    return NULL;
 	}
@@ -65,6 +52,7 @@ static char *submit(const char *work_dir_base, const char *work_dir_id, const ch
 	/***************************/
 	if(create_jobdir_structure() != DC_OK)
 	{
+		chdir(pwd);
 		free(pwd);
 		return NULL;
 	}
@@ -75,16 +63,20 @@ static char *submit(const char *work_dir_base, const char *work_dir_id, const ch
 	/**********************/
 	if(create_submit_file(job_name, executable, args) != DC_OK)
 	{
+		chdir(pwd);
 		free(pwd);
 		return NULL;
 	}
-	//DC_log(LOG_DEBUG,"Submit file created!");
+
+	// change back the System directory to the original
+	chdir(pwd);
 
 	  /***************************/
 	 /* copy executables in bin */
 	/***************************/
 	if(copy_executables(executable_dir, work_dir) != DC_OK)
 	{
+		chdir(pwd);
 		free(pwd);
 		return NULL;
 	}
@@ -96,6 +88,7 @@ static char *submit(const char *work_dir_base, const char *work_dir_id, const ch
 	if(copy_inputfiles(num_of_infiles, infiles, 
 			    localfilenames, work_dir) != DC_OK)
 	{
+		chdir(pwd);
 		free(pwd);
 		return NULL;
 	}
@@ -104,7 +97,7 @@ static char *submit(const char *work_dir_base, const char *work_dir_id, const ch
 	id = job_submit(work_dir);
 	//DC_log(LOG_DEBUG,"'%s' job submitted!", id);
 
-	if(set_path_normal(pwd) == DC_ERROR)
+	if(chdir(pwd))
 	{
 		free(pwd);
 		return NULL;
@@ -115,14 +108,14 @@ static char *submit(const char *work_dir_base, const char *work_dir_id, const ch
 
 }
 
-static int resubmit(char *workdir, char *wu_name[1])
+int resubmit(char *workdir, char *wu_name[1])
 {
         char *pwd;
 	char *id;
 
 	//DC_log(LOG_DEBUG,"SUBMIT: workdir: '%s'", workdir);
 	
-        pwd = locate_path();
+        pwd = get_path();
 
 	//DC_log(LOG_DEBUG,"SUBMIT: locate path: '%s'", pwd);
 	
@@ -130,7 +123,7 @@ static int resubmit(char *workdir, char *wu_name[1])
 
 	//DC_log(LOG_DEBUG,"SUBMIT: wuname: '%s'", id);
 
-	if(set_path_normal(pwd) == DC_ERROR)
+	if(chdir(pwd))
 	{
 	    free(pwd);
 	    return DC_ERROR;
@@ -229,30 +222,22 @@ int create_submit_file(const char *job_name, const char *executable,
 	if(f != NULL)
 	{
 		/* jobname */
-		fprintf(f, "[");
-		fprintf(f, job_name);
-		fprintf(f, "]");
-		fprintf(f, "\n");
+		fprintf(f, "[%s]\n", job_name);
 
 		/* executable */
-		fprintf(f, "executable = ");
-		fprintf(f, executable);
-		fprintf(f, "\n");
+		fprintf(f, "executable = %s\n", executable);
 
 		/* arguments */
-		fprintf(f, "arguments = ");
-		fprintf(f, args);
-		fprintf(f, "\n");	
+		fprintf(f, "arguments = %s\n", args);
 
 		/* arg type */
-		fprintf(f, "type = seq");
+		fprintf(f, "type = seq\n");
 
 		/* These (3) lines make the job run on sztaki.testlab */
 		//fprintf(f, "\n");
 		//fprintf(f, "resource_id = https://n0.sztaki-testlab.grid/\n");
-		//fprintf(f, "mercury = true");
+		fprintf(f, "mercury = true\n");
 		
-
 		fclose(f);
 		return DC_OK;
 	}else{
@@ -262,10 +247,9 @@ int create_submit_file(const char *job_name, const char *executable,
 
 int copy_executables(const char *executable_dir, const char *work_dir)
 {
-	//FILE *cp_cmd;
 	char command[2024];
 	
-	chdir("../../..");
+	//chdir("../../..");
 	snprintf(command, 2024, "cp -r %s/* %s/bin/", executable_dir, work_dir);
 	if (system(command) == -1) return DC_ERROR;
 	
@@ -277,7 +261,6 @@ int copy_inputfiles(int num_of_infiles, const char *infiles[MAX_INFILES],
 {
 	int i;
 	char command[2024];
-	//FILE *cp_cmd;
 	
 	for(i=0; i < num_of_infiles; i++)
 	{

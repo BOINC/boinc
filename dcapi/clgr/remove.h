@@ -9,7 +9,7 @@ extern "C" {
  * Arguments: 
  *   - wuname:  the name of the selected job in the info system*/
 	
-int remove_wu(char *wuname, char *workdir);
+int remove_wu(char *wuname);
 
 #ifdef __cplusplus
 }

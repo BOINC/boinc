@@ -1,13 +1,14 @@
-#include<stdio.h>
-#include<string.h>
-#include<time.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
-#include"defines.h"
-#include"dc.h"
+#include "defines.h"
+#include "dc.h"
+#include "status.h"
 
 
-static int ask_status(const char *wu_name, int *status, time_t *subresult_time, time_t *ckpt_time)
+int ask_status(const char *wu_name, int *status, time_t *subresult_time, time_t *ckpt_time)
 {
     FILE *clgr_status;
     char command[512];
@@ -15,16 +16,13 @@ static int ask_status(const char *wu_name, int *status, time_t *subresult_time, 
     char variable[512];
     char *value;
     char clgr_string[32];
-    int len; //n_of_lines = 0;
+    int len;
     int back = STATE_UNKNOWN;
-    //int i;
     
     DC_log(LOG_DEBUG,"STATUS: wu_name: '%s'", wu_name);
     
     sprintf(command, "clgr_status -l -i %s", wu_name);
-
     clgr_status = popen(command, "r");
-    
         
     /********************/
     /* reset variables */
@@ -36,22 +34,14 @@ static int ask_status(const char *wu_name, int *status, time_t *subresult_time, 
     /*******************************/
     while(!feof(clgr_status))
     {    
-	//n_of_lines++;
 	fgets(result, sizeof(result), clgr_status);
 	
 	if ((strchr(result,'=')) == NULL) break;
-	
-	//DC_log(LOG_DEBUG,"%s", result);
-
-	/*****************************/
-	/* retreive variable string */
-	/***************************/
 	
 	len = strcspn(result, " =");
 	if( len < 512)
 	{
 	    snprintf(variable, len+1, "%s", result);
-	    //DC_log(LOG_DEBUG,"STATUS: variable_name: '%s'", variable);
 	}
 	else {
             DC_log(LOG_ERR, "status.c: status field longer than 512 chars");
@@ -60,11 +50,6 @@ static int ask_status(const char *wu_name, int *status, time_t *subresult_time, 
 
 	if(!strcmp(variable, "status"))
 	{    
-    	    /***************************/
-    	    /* retreive STATUS string */
-    	    /*************************/
-   
-	    /*value = result;*/
     	    value = (char *)strchr(result, '=');
     	    value++;
     	    value++;
@@ -84,7 +69,6 @@ static int ask_status(const char *wu_name, int *status, time_t *subresult_time, 
 	       back = STATE_SUBMITTED;
 	    else 
 	       back = STATE_UNDEFINED;
-    	    //DC_log(LOG_DEBUG,"STATUS: status retreived successfully!");
 	}
 	else if(!strcmp(variable, "subresult_time"))
 	{
@@ -121,13 +105,6 @@ static int ask_status(const char *wu_name, int *status, time_t *subresult_time, 
     }
     pclose(clgr_status);
 
-    // If the CLGR system doesn't found target wu.
- /*   if (n_of_lines == 1){
-        DC_log(LOG_ERR,"STATUS: No status found for %s workunit.", wu_name);
-	*status = STATE_UNKNOWN;
-	return DC_ERROR;
-    }
- */ 
     *status = back;
     DC_log(LOG_DEBUG, "STATUS: status retreived successfully!");
     return DC_OK;

@@ -1,16 +1,17 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<sys/stat.h>
-#include<sys/types.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "defines.h"
 #include "dc.h"
+#include "get_out.h"
 
 static char *extract_id(const char *wu_name);
 
-static char *locate_path(void)
+static char *get_path(void)
 {
 	char buf[1024];
 
@@ -18,14 +19,6 @@ static char *locate_path(void)
 	return strdup(buf);
 }
 
-static int set_path_normal(const char *path)
-{
-        if (chdir(path) != 0) return DC_ERROR;
-        //else DC_log(LOG_DEBUG," *** Actual path has been set to '%s' ", path);
-		
-        return DC_OK;
-}
-			        
 static int exit_code(char *filename)
 {
         FILE *log;
@@ -46,7 +39,7 @@ static int exit_code(char *filename)
 			// search for a line that contains 'terminated.'
 			while((tmp1 = strtok(NULL, " ")) != NULL)
 			{
-				if(strcmp(tmp1, "terminated.") == 0)
+				if(strcmp(tmp1, "terminated.\n") == 0)
 				{
 					// if found, than read the line coming after
 					fgets(line, sizeof(line), log);
@@ -69,7 +62,7 @@ static int exit_code(char *filename)
 }
 
 
-static int get_out(const char *wu_name, const char *work_dir,
+int get_out(const char *wu_name, const char *work_dir,
 	char *output_dir[1], char *result_name[1],
         char *std_out[1], char *std_err[1], char *sys_log[1], int *exitcode, int IsFinished)
 { 
@@ -84,13 +77,12 @@ static int get_out(const char *wu_name, const char *work_dir,
     FILE *clgr_getout;
     char command[512];
     char result[512];
-    //int space_counter = 0;
     
     DC_log(LOG_DEBUG,"GET_OUT: started..."); 
     
-    pwd = locate_path();
+    pwd = get_path();
 
-    set_path_normal(work_dir);
+    chdir(work_dir);
 
     if(IsFinished == GETOUT_FINISHED)
 	/* SATATE=FINISHED, get_out results and delete from clustergrid  */
@@ -103,13 +95,12 @@ static int get_out(const char *wu_name, const char *work_dir,
 
     if(clgr_getout == NULL)
     {
+	    chdir(pwd);
 	    DC_log(LOG_ERR,"Cannot make 'clgr_getout' command.");
 	    return DC_ERROR;
-    }else
-    {
-	    fgets(result, sizeof(result), clgr_getout);	
-	    pclose(clgr_getout);
     }
+    fgets(result, sizeof(result), clgr_getout);	
+    pclose(clgr_getout);
 
     /* search for 'ok' after the third space, string 'result' is NOT modified */
     id = strdup(result);
@@ -117,32 +108,29 @@ static int get_out(const char *wu_name, const char *work_dir,
     id = strtok(NULL, " ");
     id = strtok(NULL, " ");
     id = strtok(NULL, " ");    
-	//DC_log(LOG_DEBUG,"***%s***",result);
-	//DC_log(LOG_DEBUG,"***%s***",id); 
 
     if(!strcmp(id, "ok"))
     {
+	chdir(pwd);
 	DC_log(LOG_ERR,"Clgr_getout error message: '%s'", result);
 	return DC_ERROR;
     }
         
     DC_log(LOG_DEBUG,"%s job finished.",wu_name);
 
-////////////////////////////////////////
     i = 0;
-    
     id = (char *)extract_id(wu_name);
     result_name[0] = strdup(wu_name);
 
-    DC_log(LOG_DEBUG,"***result_name: %s", result_name[0]);
+    DC_log(LOG_DEBUG,"GET_OUT: result_name: %s", result_name[0]);
 
     sprintf(outputdir, "%s/output", work_dir);
 
-    set_path_normal(pwd);
+    chdir(pwd);
     
     if(chdir(outputdir) != 0)
     {
-	DC_log(LOG_ERR,"Cannot move into %s dir.",outputdir);
+	DC_log(LOG_ERR,"GET_OUT: Cannot move into %s dir.",outputdir);
 	return DC_ERROR;
     }
     
@@ -159,6 +147,7 @@ static int get_out(const char *wu_name, const char *work_dir,
     }
     else
     {
+	DC_log(LOG_DEBUG, "GET_OUT: no subresult output file found!");
         std_out[0] = NULL;
     }
     
@@ -173,6 +162,7 @@ static int get_out(const char *wu_name, const char *work_dir,
     }
     else
     {
+	DC_log(LOG_DEBUG, "GET_OUT: no subresult error file found!");
         std_err[0] = NULL;
     }
     
@@ -188,10 +178,11 @@ static int get_out(const char *wu_name, const char *work_dir,
     }
     else
     {
+	DC_log(LOG_DEBUG, "GET_OUT: no subresult log file found!");
         sys_log[0] = NULL;
     }
 
-    set_path_normal(pwd);
+    chdir(pwd);
     free(pwd);
 
     return 0;
