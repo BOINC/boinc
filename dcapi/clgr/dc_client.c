@@ -42,7 +42,7 @@ static int dc_client_writeout(void)
 
 /** Notify master (somehow) that a subresult is provided 
  */ 
-int DC_SendResult(char **files,  // output files
+int DC_sendResult(char **files,  // output files
 		  int nfiles     // number of output files
 		  )
 {
@@ -53,7 +53,7 @@ int DC_SendResult(char **files,  // output files
 
 /** Notify master (somehow) that a user-level checkpoint is provided 
  */ 
-int DC_CheckpointMade(void)
+int DC_checkpointMade(void)
 {
   ckpt_time = time(NULL);
   return dc_client_writeout();
@@ -61,7 +61,7 @@ int DC_CheckpointMade(void)
 
 /** Reolves a filename needed by the client application!
  */
-int DC_ResolveFileName(DC_Filetype type,
+int DC_resolveFileName(DC_Filetype type,
 		       const char *requestedFileName,
 		       char *actualFileName,
 		       int maxlength
@@ -89,7 +89,7 @@ int DC_ResolveFileName(DC_Filetype type,
 
 /** Finalize client API if needed.
  */ 
-void DC_Finish(int exitcode)
+void DC_finish(int exitcode)
 {
 }
 

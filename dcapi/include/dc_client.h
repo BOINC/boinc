@@ -26,7 +26,7 @@ typedef enum {
  *
  *  Return: DC_OK
  */
-int DC_Init(void);
+int DC_init(void);
 
 /** File name resolution
  * The real name (and path) of an input/output file may be different from what
@@ -43,7 +43,7 @@ int DC_Init(void);
  *
  * Return: DC_OK always
  */
-int DC_ResolveFileName(
+int DC_resolveFileName(
     DC_Filetype type,
     const char *requestedFileName,
     char       *actualFileName,
@@ -57,7 +57,7 @@ int DC_ResolveFileName(
  *
  *  Return: DC_OK
  */
-int DC_SendResult(char **files,
+int DC_sendResult(char **files,
 		  int nfiles
 		  );
 
@@ -68,12 +68,12 @@ int DC_SendResult(char **files,
  *           BOINC provides such functionality, for ClusterGrid,
  *           the api answers Yes every 5 minutes.
  */
-int DC_TimeToCheckpoint(void);
+int DC_timeToCheckpoint(void);
 
 /** User/level checkpoint made.
  *  Return: DC_OK
  */
-int DC_CheckpointMade(void);
+int DC_checkpointMade(void);
 
 
 /** Check if work can be continued. (Ask master)
@@ -85,7 +85,7 @@ int DC_CheckpointMade(void);
  *  Return: 0   No, finish
  *          1   Yes, continue (or after timeout)
  */
-int DC_ContinueWork(void);
+int DC_continueWork(void);
 
 
 /** Informs about the fraction already done!
@@ -94,14 +94,14 @@ int DC_ContinueWork(void);
  *
  *  Return: DC_OK
  */
-int DC_FractionDone(double fraction);
+int DC_fractionDone(double fraction);
 
 
 /** Finish computation.
  *  Tell DC to finish this work unit and start a new one.
  *  It should be called as the last function and then exit.
  */
-void DC_Finish(int exitcode);
+void DC_finish(int exitcode);
 
 #ifdef __cplusplus
 }
