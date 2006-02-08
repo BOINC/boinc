@@ -14,7 +14,7 @@
 
 #include <dc_client.h>
 
-int DC_Init(void)
+int DC_init(void)
 {
   int retval;
 
@@ -26,7 +26,7 @@ int DC_Init(void)
   return DC_OK;
 }
 
-int DC_ResolveFileName(DC_Filetype type, const char *requestedFileName, char *actualFileName, int maxlength)
+int DC_resolveFileName(DC_Filetype type, const char *requestedFileName, char *actualFileName, int maxlength)
 {
   int retval;
 
@@ -36,36 +36,36 @@ int DC_ResolveFileName(DC_Filetype type, const char *requestedFileName, char *ac
   return DC_OK;
 }
 
-int DC_SendResult(char **files, int nfiles)
+int DC_sendResult(char **files, int nfiles)
 {
   // not implemented yet!!
 
   return DC_OK;
 }
 
-int DC_TimeToCheckpoint(void)
+int DC_timeToCheckpoint(void)
 {
   return boinc_time_to_checkpoint();
 }
 
-int DC_CheckpointMade(void)
+int DC_checkpointMade(void)
 {
   return boinc_checkpoint_completed();
 }
 
-int DC_ContinueWork(void)
+int DC_continueWork(void)
 {
   // not implemented yet!!
 
   return 1; // yes, continue work.
 }
 
-int DC_FractionDone(double fraction)
+int DC_fractionDone(double fraction)
 {
   return boinc_fraction_done(fraction);
 }
 
-void DC_Finish(int exitcode)
+void DC_finish(int exitcode)
 {
   boinc_finish(exitcode);
 }
