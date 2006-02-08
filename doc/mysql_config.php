@@ -36,7 +36,7 @@ just depending on the query activity against each table in the project
 among other.
 
 <p> 
-MySQLsoftware  is available in 32 bit and 64 bit binaries for downloading.
+MySQL software  is available in 32 bit and 64 bit binaries for downloading.
 Using 32 bit MySQL requires that all RAM resources
 that are assigned to the various Db engines,
 must sum to no more than 2GB of RAM.
@@ -148,11 +148,11 @@ disk drives since this will help to minimize down times in case of failures.
 <h2>Normal Operations</h2>
 <h3>General</h3>
 
-For normal operations or production the are some considerations that
+For normal operations or production there are some considerations that
 should be addressed to enable the project personnel to
 provide reliable service.
-For example rhere should be a reliable power supply with UPS protection
-for avoiding uncontrolled shutdowns.
+For example there should be a reliable power supply with UPS protection
+to avoid uncontrolled shutdowns.
 The temperature of the hardware operations room should be regulated
 to hardware specifications to avoid premature aging/failure
 of hardware components.
@@ -478,7 +478,10 @@ mysqladmin  extended-status  10
 </h2>Performance Tweaking</h2>
 <h3>General</h3>
 
-Config: my.cnf options for files, RAM, IO options
+An often overlooked area of performance is the requirement for reliable power and air conditioning.  Power failures can eliminate all the benefits accrued by careful planning for hardware and software installations.  Experience is that unreliable power can lead to days of recovery with data loss and subscriber discontent.   Similarly, insufficient cooling accelerates the aging of hardware components and can cause data corruption and downtime more frequently than the one would expect given the hardware specs.
+<pre>
+There are several parameters in my.cnf that can be adjusted (within limits) for better throughput.  Then the distribution of MySQL files to specified disk subsystems, allocation of RAM and   Config: my.cnf options for files, RAM, IO options
+</pre>
 
  
 <h3>MySQL Configuration</h3>
