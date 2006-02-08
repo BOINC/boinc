@@ -28,19 +28,17 @@ typedef enum {
  */
 int DC_Init(void);
 
-
 /** File name resolution
- * The real file name (and path) of an input/output file may be different from what
+ * The real name (and path) of an input/output file may be different from what
  * the application expects. It should ask the API about the actual path.
  * It may want to open input file 'inp.txt' in the actual directory but
  * the actual file may be e.g. '../project/szdg_lpds_sztaki_hu_szdg/inp.txt09247814354'
  *
- * The first "type" parameter decides what is the type of the requested file:
- * --> input: 0, output: 1, ckpt: 2, tmp: 3
+ * The first "type" parameter decides what is the type of the requested file.
  *
  * Usage:
  *   char fname[256];
- *   dc_ResolveFileName(INPUT_FILE, "inp.txt", fname, 256);
+ *   DC_ResolveFileName(DC_FILE_IN, "inp.txt", fname, sizeof(fname));
  *   f = fopen(fname);
  *
  * Return: DC_OK always
@@ -51,7 +49,6 @@ int DC_ResolveFileName(
     char       *actualFileName,
     int maxlength
 );
-
 
 /** Send a (partial) result back to the master.
  *  Parameters:
@@ -64,7 +61,6 @@ int DC_SendResult(char **files,
 		  int nfiles
 		  );
 
-
 /** Is it time to make a checkpoint?
  *  Return: 0 No, 1 Yes
  *
@@ -73,7 +69,6 @@ int DC_SendResult(char **files,
  *           the api answers Yes every 5 minutes.
  */
 int DC_TimeToCheckpoint(void);
-
 
 /** User/level checkpoint made.
  *  Return: DC_OK
