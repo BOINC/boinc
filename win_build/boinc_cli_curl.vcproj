@@ -266,6 +266,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\cpu_sched.C">
+			</File>
+			<File
 				RelativePath="..\Lib\Crypt.c">
 				<FileConfiguration
 					Name="Debug|Win32">

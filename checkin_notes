@@ -1651,3 +1651,5 @@ David  8 Feb 2006
         cs_scheduler.C
     html/user/
         create_account_action.php
+	win_build/
+		boinc_cli_curl.vcproj
