@@ -37,12 +37,13 @@ public:
 
     void poll();
 
-    int NotifyNeedConnection();
+    int NotifyUserNeedConnection();
+
     int Connect();
     int ConnectionSucceeded();
     int ConnectionFailed();
 
-    int ConnectionDetected();
+    int NetworkAvailable();
 
     int Disconnect();
 

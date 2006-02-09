@@ -71,7 +71,6 @@ size_t CBOINCDialUpManager::GetISPNames(wxArrayString& names) {
 
 
 void CBOINCDialUpManager::poll() {
-
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CMainFrame*         pFrame = wxGetApp().GetFrame();
 
@@ -115,28 +114,45 @@ void CBOINCDialUpManager::poll() {
             m_dtLastDialupRequest = wxDateTime((time_t)0);
         }
 
+        // Log out the trace information for debugging purposes.
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Dialup Flags"));
+        wxLogTrace(wxT("Function Status"), 
+            wxT("CBOINCDialUpManager::poll - -- bIsOnline = '%d', bIsDialing = '%d', m_bWasDialing = '%d', bWantConnection = '%d'"),
+            bIsOnline, bIsDialing, m_bWasDialing, bWantConnection
+        );
+        wxLogTrace(wxT("Function Status"),
+            wxT("CBOINCDialUpManager::poll - -- m_bResetTimers = '%d', m_bNotifyConnectionAvailable = '%d', m_bConnectedSuccessfully = '%d'"),
+            m_bResetTimers, m_bNotifyConnectionAvailable, m_bConnectedSuccessfully
+        );
+        wxLogTrace(wxT("Function Status"),
+            wxT("CBOINCDialUpManager::poll - -- confirm_before_connecting = '%d', hangup_if_dialed = '%d'"),
+            pDoc->state.global_prefs.confirm_before_connecting, pDoc->state.global_prefs.hangup_if_dialed
+        );
 
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection)
         {
-            wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Internet connection needed"));
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Internet connection needed"));
             if (!pFrame->IsShown()) {
                 // BOINC Manager is hidden and displaying a dialog might interupt what they
                 //   are doing.
-                NotifyNeedConnection();
+                NotifyUserNeedConnection();
             } else {
                 // BOINC Manager is visable and can process user input.
                 Connect();
             }
         } else if (!bIsDialing && !m_bWasDialing) {
+            // We are not doing anything now, were we up to something before?
             if (bIsOnline && bWantConnection && m_bConnectedSuccessfully && !m_bNotifyConnectionAvailable) {
-                wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, notifing user of update to all projects"));
-                ConnectionDetected();
+                // Ah ha, we are online and we initiated the connection, so we need to
+                //   notify the CC that the network is available.
+                NetworkAvailable();
             } else if (bIsOnline && bWantDisconnect && m_bConnectedSuccessfully ) {
-                wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, disconnect requested via the CC."));
+                // We are online, and the CC says it is safe to disconnect.  Since we
+                //   initiated the connection we need to disconnect now.
                 Disconnect();
             }
         } else if (!bIsDialing && m_bWasDialing) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - We were dialing and now we are not, detect success or failure of the connection."));
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - We were dialing and now we are not, detect success or failure of the connection."));
             m_bWasDialing = false;
             m_bResetTimers = true;
             if (bIsOnline) {
@@ -145,14 +161,14 @@ void CBOINCDialUpManager::poll() {
                 ConnectionFailed();
             }
         } else if (bIsDialing && !m_bWasDialing) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - We are now dialing, where before we were not."));
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - We are now dialing, where before we were not."));
             m_bWasDialing = true;
         }
     }
 }
 
 
-int CBOINCDialUpManager::NotifyNeedConnection() {
+int CBOINCDialUpManager::NotifyUserNeedConnection() {
     CMainFrame*         pFrame = wxGetApp().GetFrame();
     wxTimeSpan          tsLastDialupAlertSent;
     wxString            strDialogMessage = wxEmptyString;
@@ -162,7 +178,7 @@ int CBOINCDialUpManager::NotifyNeedConnection() {
 
     tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
     if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Manager not shown, notify instead"));
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Manager not shown, notify instead"));
 
         m_dtLastDialupAlertSent = wxDateTime::Now();
 
@@ -207,7 +223,7 @@ int CBOINCDialUpManager::Connect() {
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
     if (tsLastDialupRequest.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Begin connection process"));
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Begin connection process"));
 
         m_dtLastDialupRequest = wxDateTime::Now();
 
@@ -320,7 +336,7 @@ int CBOINCDialUpManager::ConnectionFailed() {
 }
 
 
-int CBOINCDialUpManager::ConnectionDetected() {
+int CBOINCDialUpManager::NetworkAvailable() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CMainFrame*         pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
@@ -329,6 +345,8 @@ int CBOINCDialUpManager::ConnectionDetected() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+
+    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Connection Detected, notifing user of update to all projects"));
 
     m_bNotifyConnectionAvailable = true;
 
@@ -368,8 +386,11 @@ int CBOINCDialUpManager::Disconnect() {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
+
+    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Connection Detected, disconnect requested via the CC."));
+
     if (pDoc->state.global_prefs.hangup_if_dialed) {
-        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, Don't need the network, Hanging up."));
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Connection Detected, Don't need the network, Hanging up."));
         if (m_pDialupManager->HangUp()) {
 
             // %s is the project name
