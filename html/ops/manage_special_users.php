@@ -22,9 +22,9 @@ $result = mysql_query("SELECT prefs.userid, prefs.special_user, user.name
                        WHERE special_user > '0' and prefs.userid=user.id");
 for($i=1;$i<=mysql_num_rows($result);$i++){
 	$foo = mysql_fetch_object($result);
-    echo "<tr><form action=\"manage_special_users_action.php\" method=\"POST\">\n";
+    echo "<form action=\"manage_special_users_action.php\" method=\"POST\">\n";
     echo "<input type=\"hidden\" name=\"userid\" value=\"$foo->userid\"
-          <td>$foo->name</td>";
+          <tr><td>$foo->name</td>";
     for ($j=0;$j<=6;$j++) {
         $bit = substr($foo->special_user, $j, 1);
         echo "<td><input type=\"checkbox\" name=\"".$j."\" value=\"1\"";

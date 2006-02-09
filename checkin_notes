@@ -1674,3 +1674,11 @@ David  8 Feb 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Bruce 9 Feb 2006
+    - Ops page bug fix from Carl Christensen for manage special users page.
+
+    html/
+        ops/
+            manage_special_users.php
+
