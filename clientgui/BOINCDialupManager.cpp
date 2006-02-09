@@ -139,7 +139,7 @@ void CBOINCDialUpManager::poll() {
             wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - We were dialing and now we are not, detect success or failure of the connection."));
             m_bWasDialing = false;
             m_bResetTimers = true;
-            if (bIsDialing) {
+            if (bIsOnline) {
                 ConnectionSucceeded();
             } else {
                 ConnectionFailed();
