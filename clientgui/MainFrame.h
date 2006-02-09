@@ -46,6 +46,8 @@ private:
 };
 
 
+class CBOINCDialUpManager;
+
 class CMainFrameEvent;
 class CMainFrameAlertEvent;
 
@@ -105,6 +107,10 @@ public:
     void FireRefreshView();
     void FireConnect();
 
+    int       GetReminderFrequency() { return m_iReminderFrequency; }
+    wxString  GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
+    bool      GetDialupPromptForCredentials() { return m_bNetworkDialupPromptCredentials; }
+
     void ShowConnectionBadPasswordAlert();
     void ShowConnectionFailedAlert();
     void ShowNotCurrentlyConnectedAlert();
@@ -135,7 +141,7 @@ private:
 #ifdef __WXMSW__
     wxDynamicLibrary m_WININET;
     wxDynamicLibrary m_RASAPI32;
-    wxDialUpManager* m_pDialupManager;
+    CBOINCDialUpManager* m_pDialupManager;
 #endif
     wxString        m_strBaseTitle;
 

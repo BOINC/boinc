@@ -27,11 +27,11 @@
 
 #include "stdwx.h"
 #include "hyperlink.h"
-#include "network.h"
 #include "BOINCGUIApp.h"
 #include "MainFrame.h"
 #include "Events.h"
 #include "BOINCBaseView.h"
+#include "BOINCDialUpManager.h"
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
@@ -39,7 +39,6 @@
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
-#include "DlgDialupCredentials.h"
 #include "DlgGenericMessage.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
@@ -230,7 +229,7 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     //   wxDialUpManager->IsAlwaysOnline happen quicker.
     m_WININET.Load(wxT("WININET"));
     if (m_RASAPI32.Load(wxT("RASAPI32"))) {
-        m_pDialupManager = wxDialUpManager::Create();
+        m_pDialupManager = new CBOINCDialUpManager();
         wxASSERT(m_pDialupManager->IsOk());
     } else {
         m_pDialupManager = NULL;
@@ -251,7 +250,7 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
 
     m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
+    m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
     m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
 
     // Limit the number of times the UI can update itself to two times a second
@@ -1698,315 +1697,12 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             bAlreadyRunOnce = true;
         }
 
+        // Check to see if there is anything that we need to do from the
+        //   dial up user perspective.
 #ifdef __WXMSW__
         if (pDoc->IsConnected()) {
-            static wxDateTime   dtLastDialupIsAlreadyOnlineCheck = wxDateTime((time_t)0);
-            static wxDateTime   dtLastDialupAlertSent = wxDateTime((time_t)0);
-            static wxDateTime   dtLastDialupRequest = wxDateTime((time_t)0);
-            static wxDateTime   dtFirstDialupDisconnectEvent = wxDateTime((time_t)0);
-            static bool         already_notified_update_all_projects = false;
-            static bool         connected_successfully = false;
-            static bool         reset_timers = false;
-            static bool         was_dialing = false;
-            static bool         is_already_online = true;
-            bool                should_check_connection = false;
-            bool                is_dialing = false;
-            bool                is_online = false;
-            int                 want_network = 0;
-            int                 answer = 0;
-            long                dwConnectionFlags = 
-                NETWORK_ALIVE_LAN | NETWORK_ALIVE_WAN | NETWORK_ALIVE_AOL;
-            wxString            strConnectionName = wxEmptyString;
-            wxString            strConnectionUsername = wxEmptyString;
-            wxString            strConnectionPassword = wxEmptyString;
-            wxString            strBuffer = wxEmptyString;
-            wxTimeSpan          tsLastDialupIsAlreadyOnlineCheck;
-            wxTimeSpan          tsLastDialupAlertSent;
-            wxTimeSpan          tsLastDialupRequest;
-            wxTimeSpan          tsFirstDialupDisconnectEvent;
-            wxString            strDialogTitle = wxEmptyString;
-            wxString            strDialogMessage = wxEmptyString;
-
-
-            // Construct the default dialog title for dial-up messages
-            //
-            // %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            strDialogTitle.Printf(
-                _("%s - Network Status"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str()
-            );
-
-
-            if (m_pDialupManager && pDoc) {
-                // Update the always online flag every 60 seconds.  This call is expensive
-                //   on slow machines.
-                tsLastDialupIsAlreadyOnlineCheck = wxDateTime::Now() - dtLastDialupIsAlreadyOnlineCheck;
-                if (tsLastDialupIsAlreadyOnlineCheck.GetSeconds() > 60) {
-                    dtLastDialupIsAlreadyOnlineCheck = wxDateTime::Now();
-                    is_already_online = wxGetApp().IsNetworkAlwaysOnline() ? true : false;
-                }
-
-                // Are we configured to detect a network or told one already exists?
-                if (ID_NETWORKLAN != m_iNetworkConnectionType) {
-                    if (ID_NETWORKDIALUP == m_iNetworkConnectionType) {
-                        should_check_connection = true;
-                    }
-                    if (ID_NETWORKAUTODETECT == m_iNetworkConnectionType) {
-                        if (!is_already_online) {
-                            should_check_connection = true;
-                        }
-                    }
-                }
-
-                if (should_check_connection) {
-                    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-                    // cache the various states
-                    is_dialing = m_pDialupManager->IsDialing();
-                    is_online = wxGetApp().IsNetworkAlive(&dwConnectionFlags) ? true : false;
-                    pDoc->rpc.network_query(want_network);
-
-                    wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Dialup Flags"));
-                    wxLogTrace(wxT("Function Status"), 
-                        wxT("CMainFrame::OnFrameRender - -- is_online = '%d', is_dialing = '%d', was_dialing = '%d', want_network = '%d'"),
-                        is_online, is_dialing, was_dialing, want_network
-                    );
-                    wxLogTrace(wxT("Function Status"),
-                        wxT("CMainFrame::OnFrameRender - -- reset_timers = '%d', already_notified_update_all_projects = '%d', connected_successfully = '%d'"),
-                        reset_timers, already_notified_update_all_projects, connected_successfully
-                    );
-                    wxLogTrace(wxT("Function Status"),
-                        wxT("CMainFrame::OnFrameRender - -- confirm_before_connecting = '%d', hangup_if_dialed = '%d'"),
-                        pDoc->state.global_prefs.confirm_before_connecting, pDoc->state.global_prefs.hangup_if_dialed
-                    );
-
-                    // If we have received any connection event, then we should reset the
-                    //   dtLastDialupAlertSent and dtLastDialupRequest variables
-                    //   so that if we are disconnected without completing the user will
-                    //   be notifed in a prompt fashion.
-                    if (reset_timers) {
-                        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Resetting dial-up notification timers"));
-
-                        reset_timers = false;
-                        dtLastDialupAlertSent = wxDateTime((time_t)0);
-                        dtLastDialupRequest = wxDateTime((time_t)0);
-                    }
-
-                    if (!is_online && !is_dialing && !was_dialing && want_network)
-                    {
-                        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Internet connection needed"));
-                        if (!IsShown()) {
-                            // BOINC Manager is hidden and displaying a dialog might interupt what they
-                            //   are doing.
-                            tsLastDialupAlertSent = wxDateTime::Now() - dtLastDialupAlertSent;
-                            if (tsLastDialupAlertSent.GetSeconds() >= (m_iReminderFrequency * 60)) {
-                                wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Manager not shown, notify instead"));
-
-                                dtLastDialupAlertSent = wxDateTime::Now();
-
-                                // 1st %s is the project name
-                                //    i.e. 'BOINC', 'GridRepublic'
-                                // 2st %s is the application name
-                                //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-                                strDialogMessage.Printf(
-                                    _("%s needs a connection to the Internet to perform some "
-                                      "maintenance, open the %s to connect up and "
-                                      "perform the needed work."),
-                                    wxGetApp().GetBrand()->GetProjectName().c_str(),
-                                    wxGetApp().GetBrand()->GetApplicationName().c_str()
-                                );
-
-                                ShowAlert(
-                                    strDialogTitle,
-                                    strDialogMessage,
-                                    wxICON_INFORMATION,
-                                    true
-                                );
-                            }
-                        } else {
-                            // BOINC Manager is visable and can process user input.
-                            tsLastDialupRequest = wxDateTime::Now() - dtLastDialupRequest;
-                            if (tsLastDialupRequest.GetSeconds() >= (m_iReminderFrequency * 60)) {
-                                wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Begin connection process"));
-
-                                dtLastDialupRequest = wxDateTime::Now();
-
-                                if(pDoc->state.global_prefs.confirm_before_connecting) {
-                                    // %s is the project name
-                                    //    i.e. 'BOINC', 'GridRepublic'
-                                    strDialogMessage.Printf(
-                                        _("%s needs to connect to the network.\nMay it do so now?"),
-                                        wxGetApp().GetBrand()->GetProjectName().c_str()
-                                    );
-                                    answer = ::wxMessageBox(
-                                        strDialogMessage,
-                                        strDialogTitle,
-                                        wxYES_NO | wxICON_QUESTION,
-                                        this
-                                    );
-                                } else {
-                                    // %s is the project name
-                                    //    i.e. 'BOINC', 'GridRepublic'
-                                    strDialogMessage.Printf(
-                                        _("%s is connecting to the internet."),
-                                        wxGetApp().GetBrand()->GetProjectName().c_str()
-                                    );
-                                    ShowAlert(
-                                        strDialogTitle,
-                                        strDialogMessage,
-                                        wxICON_INFORMATION,
-                                        true
-                                    );
-                                    answer = wxYES;
-                                }
-
-                                // Are we allow to connect?
-                                if (wxYES == answer) {
-                                    if (m_strNetworkDialupConnectionName.size())
-                                        strConnectionName = m_strNetworkDialupConnectionName;
-
-                                    if (m_bNetworkDialupPromptCredentials) {
-                                        CDlgDialupCredentials* pDlgDialupCredentials = new CDlgDialupCredentials(this);
-
-                                        answer = pDlgDialupCredentials->ShowModal();
-                                        if (wxID_OK == answer) {
-                                            strConnectionUsername = pDlgDialupCredentials->GetUsername();
-                                            strConnectionPassword = pDlgDialupCredentials->GetPassword();
-                                        }
-
-                                        if (pDlgDialupCredentials) {
-                                            pDlgDialupCredentials->Destroy();
-                                        }
-                                    }
-
-                                    already_notified_update_all_projects = false;
-                                    connected_successfully = false;
-                                    m_pDialupManager->Dial(strConnectionName, strConnectionUsername, strConnectionPassword, true);
-                                }
-                            }
-                        }
-                    } else if (!is_dialing && !was_dialing) {
-                        if (is_online && want_network && connected_successfully && !already_notified_update_all_projects) {
-                            wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, notifing user of update to all projects"));
-
-                            already_notified_update_all_projects = true;
-
-                            // We are already online but BOINC for some reason is in a state
-                            //   where it belives it has some pending work to do, so give it
-                            //   a nudge
-
-                            // %s is the project name
-                            //    i.e. 'BOINC', 'GridRepublic'
-                            strDialogMessage.Printf(
-                                _("%s has detected it is now connected to the internet. "
-                                  "Updating all projects and retrying all transfers."),
-                                wxGetApp().GetBrand()->GetProjectName().c_str()
-                            );
-
-                            ShowAlert(
-                                strDialogTitle,
-                                strDialogMessage,
-                                wxICON_INFORMATION,
-                                true
-                            );
-
-                            // Sleep for a couple of seconds to let the network interface finish
-                            //   initializing.
-                            ::wxSleep(2);
-
-                            // Signal BOINC to update all projects and transfers.
-                            pDoc->rpc.network_available();
-
-                        } else if (is_online && !want_network && connected_successfully) {
-                            wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, Don't need the network, We successfully connected."));
-
-                            // Should we disconnect now? The first time we see the disconnect event
-                            //   we should ignore it and wait for 5 seconds to see if it is really
-                            //   safe to disconnect.
-                            if (wxDateTime((time_t)0) == dtFirstDialupDisconnectEvent) {
-                                dtFirstDialupDisconnectEvent = wxDateTime::Now();
-                            }
-                            tsFirstDialupDisconnectEvent = wxDateTime::Now() - dtFirstDialupDisconnectEvent;
-                            if (tsFirstDialupDisconnectEvent.GetSeconds() >= 5) {
-                                if (pDoc->state.global_prefs.hangup_if_dialed) {
-                                    wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - Connection Detected, Don't need the network, Hanging up."));
-                                    if (m_pDialupManager->HangUp()) {
-
-                                        // %s is the project name
-                                        //    i.e. 'BOINC', 'GridRepublic'
-                                        strDialogMessage.Printf(
-                                            _("%s has successfully disconnected from the internet."),
-                                            wxGetApp().GetBrand()->GetProjectName().c_str()
-                                        );
-                                        ShowAlert(
-                                            strDialogTitle,
-                                            strDialogMessage,
-                                            wxICON_INFORMATION,
-                                            true
-                                        );
-                                        connected_successfully = false;
-
-                                    } else {
-
-                                        // %s is the project name
-                                        //    i.e. 'BOINC', 'GridRepublic'
-                                        strDialogMessage.Printf(
-                                            _("%s failed to disconnected from the internet."),
-                                            wxGetApp().GetBrand()->GetProjectName().c_str()
-                                        );
-                                        ShowAlert(
-                                            strDialogTitle,
-                                            strDialogMessage,
-                                            wxICON_ERROR
-                                        );
-
-                                    }
-                                }
-                            }
-                        }
-                    } else if (!is_dialing && was_dialing) {
-                        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - We were dialing and now we are not, detect success or failure of the connection."));
-                        was_dialing = false;
-                        reset_timers = true;
-                        if (is_online) {
-
-                            // %s is the project name
-                            //    i.e. 'BOINC', 'GridRepublic'
-                            strDialogMessage.Printf(
-                                _("%s has successfully connected to the internet."),
-                                wxGetApp().GetBrand()->GetProjectName().c_str()
-                            );
-                            ShowAlert(
-                                strDialogTitle,
-                                strDialogMessage,
-                                wxICON_INFORMATION,
-                                true
-                            );
-                            connected_successfully = true;
-
-                        } else {
-
-                            // %s is the project name
-                            //    i.e. 'BOINC', 'GridRepublic'
-                            strDialogMessage.Printf(
-                                _("%s failed to connect to the internet."),
-                                wxGetApp().GetBrand()->GetProjectName().c_str()
-                            );
-                            ShowAlert(
-                                strDialogTitle,
-                                strDialogMessage,
-                                wxICON_ERROR,
-                                true
-                            );
-                            connected_successfully = false;
-
-                        }
-                    } else if (is_dialing && !was_dialing) {
-                        wxLogTrace(wxT("Function Status"), wxT("CMainFrame::OnFrameRender - We are now dialing, where before we were not."));
-                        was_dialing = true;
-                    }
-                }
+            if (m_pDialupManager) {
+                m_pDialupManager->poll();
             }
         }
 #endif

@@ -1682,3 +1682,14 @@ Bruce 9 Feb 2006
         ops/
             manage_special_users.php
 
+
+Rom    9 Feb 2006
+    - Integrate BOINC Manager into David's last API change.
+    - Breakout the dial up functionality into its own class.
+    - Increase the refresh rate of the list view to 1 second.
+    - Terminology change in the project tab.  credit = work done.
+    
+    clientgui/
+        BOINCDialupManager.cpp, .h (Added)
+        MainFrame.cpp, .h
+        ViewProjects.cpp
