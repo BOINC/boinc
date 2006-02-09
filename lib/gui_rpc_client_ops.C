@@ -1113,15 +1113,15 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
     return 0;
 }
 
-int RPC_CLIENT::network_status(int& status) {
+int RPC_CLIENT::network_query(int& want_network) {
     RPC rpc(this);
     int retval;
     char buf[256];
 
-    retval = rpc.do_rpc("<network_status/>\n");
+    retval = rpc.do_rpc("<network_query/>\n");
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
-        if (parse_int(buf, "<status>", status)) {
+        if (parse_int(buf, "<want_network>", want_network)) {
             return 0;
         }
     }
