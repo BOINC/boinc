@@ -195,7 +195,7 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval, int CurlResult) {
     // Set a flag that will signal the Manager to that effect
     //
     if (CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
-        gstate.want_network_flag = true;
+        gstate.need_physical_connection = true;
     }
 }
 

@@ -1653,3 +1653,20 @@ David  8 Feb 2006
         create_account_action.php
 	win_build/
 		boinc_cli_curl.vcproj
+
+David  8 Feb 2006
+    - Change the way the manager learns about the core client's network status.
+        Replace the <network_query> GUI RPC with a new one, <network_status>
+        It returns:
+        0 if currently have network connections
+        1 if need a physical connection
+        2 if don't have connections, and don't need any
+
+    client/
+        acct_setup.C
+        client_state.C,h
+        gui_rpc_server_ops.C
+        net_xfer_curl.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

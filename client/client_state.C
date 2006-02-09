@@ -119,7 +119,7 @@ CLIENT_STATE::CLIENT_STATE() {
     cpu_sched_last_time = 0;
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
-    want_network_flag = false;
+    need_physical_connection = false;
     have_sporadic_connection = false;
     no_gui_rpc = false;
     have_tentative_project = false;
@@ -1415,27 +1415,26 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     return 0;
 }
 
-// Return true if the core client wants a network connection,
-// or if we've been using the network in the last 10 seconds
+// Return:
+// 0 if we have network connections open
+// 1 if we need a physical connection
+// 2 if we don't have any connections, and don't need any
+// There's a 10-second slop factor;
+// if we've done network comm in the last 10 seconds,
+// we act as if we're doing it now.
 // (so that polling mechanisms have a change to trigger)
 //
-bool CLIENT_STATE::want_network() {
-    static double last_true_return=0;
+int CLIENT_STATE::network_status() {
+    static double last_comm_time=0;
 
-    if (http_ops->nops()) goto return_true;
-        // if we're using network, return true
-    if (network_suspended) goto return_false;
-    if (want_network_flag) goto return_true;
-    if (active_tasks.want_network()) goto return_true;
-return_false:
-    if ((now - last_true_return) > 10) {
-        have_sporadic_connection = false;
-        return false;
+    if (http_ops->nops()) {
+        last_comm_time = now;
     }
-    return true;
-return_true:
-    last_true_return = now;
-    return true;
+    if (now - last_comm_time < 10) return 0;
+    if (need_physical_connection) return 1;
+    if (active_tasks.want_network()) return 1;
+    have_sporadic_connection = false;
+    return 2;
 }
 
 // There's now a network connection, after some period of disconnection.

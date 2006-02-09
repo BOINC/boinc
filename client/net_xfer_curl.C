@@ -258,12 +258,11 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     // get the data waiting for transfer in or out
     // use timeout value so that we don't hog CPU in this loop
     //
-    bool got_data = false;
     while (1) {
         curlMErr = curl_multi_perform(g_curlMulti, &iRunning);
         if (curlMErr != CURLM_CALL_MULTI_PERFORM) break;
+        gstate.need_physical_connection = false;
         if (dtime() - gstate.now > timeout) break;
-        got_data = true;
     }
 
     // read messages from curl that may have come in from the above loop
@@ -348,7 +347,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 std::string url = "http://www.google.com";
                 gstate.lookup_website_op.do_rpc(url);
             } else {
-                gstate.want_network_flag = false;
+                gstate.need_physical_connection = false;
             }
             msg_printf(0, MSG_ERROR, "HTTP error: %s", nxf->strCurlResult);
             nxf->http_op_retval = ERR_HTTP_ERROR;

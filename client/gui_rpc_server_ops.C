@@ -514,11 +514,8 @@ static void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
-static void handle_network_query(char*, MIOFILE& fout) {
-    fout.printf(
-        "<want_network>%d</want_network>\n",
-        gstate.want_network()?1:0
-    );
+static void handle_network_status(char*, MIOFILE& fout) {
+    fout.printf("<status>%d</status>\n", gstate.network_status());
 }
 
 static void handle_network_available(char*, MIOFILE&) {
@@ -856,8 +853,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
         handle_get_statistics(request_msg, mf);
-    } else if (match_tag(request_msg, "<network_query")) {
-        handle_network_query(request_msg, mf);
+    } else if (match_tag(request_msg, "<network_status")) {
+        handle_network_status(request_msg, mf);
     } else if (match_tag(request_msg, "<network_available")) {
         handle_network_available(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {

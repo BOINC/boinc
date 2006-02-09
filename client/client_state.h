@@ -228,21 +228,21 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
-    bool want_network_flag;
+    bool need_physical_connection;
         // client wants to do network comm and no physical connection exists.
         // Initially false; set whenever a Curl operation
-        // returns CURLE_COULDNT_RESOLVE_HOST;
-        // cleared whenever a Curl operation returns anything else
-        // TODO: is this the best way to do this?
-        // won't it set this flag when user enters URL with
-        // non-existent URL, e.g.?
+        // returns CURLE_COULDNT_RESOLVE_HOST,
+        // and a subsequent request to a highly-available site
+        // also returns CURLE_COULDNT_RESOLVE_HOST.
+        // cleared whenever we transfer data, or an operation
+        // returns some other value
         //
     bool have_sporadic_connection;
         // we have a network connection, but it's likely to go away soon,
         // so do as much network comm as possible
         // (e.g. report completed results)
         //
-    bool want_network();
+    int network_status();
     void network_available();
     bool no_gui_rpc;
 private:
@@ -260,12 +260,15 @@ private:
 
 // --------------- cpu_sched.C:
 private:
-    void adjust_debts();
     bool must_schedule_cpus;
+    void assign_results_to_projects();
+    bool schedule_largest_debt_project(double expected_pay_off);
+    bool schedule_earliest_deadline_result();
+    void adjust_debts();
     bool schedule_cpus();
+    void enforce_schedule();
     bool no_work_for_a_cpu();
     bool rr_misses_deadline(double, double);
-    bool edf_misses_deadline(double);
     void set_scheduler_mode();
 public:
 
@@ -310,10 +313,6 @@ private:
 
     int choose_version_num(char*, SCHEDULER_REPLY&);
     int app_finished(ACTIVE_TASK&);
-    void assign_results_to_projects();
-    bool schedule_largest_debt_project(double expected_pay_off);
-    bool schedule_earliest_deadline_result();
-    void enforce_schedule();
     bool start_apps();
     bool handle_finished_apps();
     void handle_file_xfer_apps();
