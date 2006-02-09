@@ -1654,6 +1654,10 @@ David  8 Feb 2006
 	win_build/
 		boinc_cli_curl.vcproj
 
+Rom    8 Feb 2006 (HEAD)
+    - Tag for 5.3.18 release, all platforms
+      boinc_core_release_5_3_18
+
 David  8 Feb 2006
     - Change the way the manager learns about the core client's network status.
         Replace the <network_query> GUI RPC with a new one, <network_status>
