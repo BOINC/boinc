@@ -310,7 +310,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     m_pAccountPasswordStaticCtrl->SetLabel(
-        _("&Password:")
+        _("Choose a &password:")
     );
     m_pAccountConfirmPasswordStaticCtrl->SetLabel(
         _("C&onfirm password:")
