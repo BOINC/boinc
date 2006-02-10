@@ -1703,7 +1703,7 @@ Charlie 8 Feb 2006
     lib/
         MoreAddrToSym.C,h (Added)
         mac_backtrace.C,h
-        more_backtrace.C,h (Added)
+        moreBacktrace.C,h (Added)
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
