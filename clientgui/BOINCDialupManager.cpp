@@ -117,8 +117,8 @@ void CBOINCDialUpManager::poll() {
         // Log out the trace information for debugging purposes.
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Dialup Flags"));
         wxLogTrace(wxT("Function Status"), 
-            wxT("CBOINCDialUpManager::poll - -- bIsOnline = '%d', bIsDialing = '%d', m_bWasDialing = '%d', bWantConnection = '%d'"),
-            bIsOnline, bIsDialing, m_bWasDialing, bWantConnection
+            wxT("CBOINCDialUpManager::poll - -- bIsOnline = '%d', bIsDialing = '%d', m_bWasDialing = '%d', iNetworkStatus = '%d', bWantConnection = '%d'"),
+            bIsOnline, bIsDialing, m_bWasDialing, iNetworkStatus, bWantConnection
         );
         wxLogTrace(wxT("Function Status"),
             wxT("CBOINCDialUpManager::poll - -- m_bResetTimers = '%d', m_bNotifyConnectionAvailable = '%d', m_bConnectedSuccessfully = '%d'"),
