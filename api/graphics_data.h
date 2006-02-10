@@ -60,7 +60,7 @@
 //
 class GRAPHICS_BUFFER {
 public:
-    virtual ~GRAPHICS_BUFFER();
+    virtual ~GRAPHICS_BUFFER() {}
     virtual void clear();
     int state;
 };

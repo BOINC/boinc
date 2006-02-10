@@ -1693,3 +1693,17 @@ Rom    9 Feb 2006
         BOINCDialupManager.cpp, .h (Added)
         MainFrame.cpp, .h
         ViewProjects.cpp
+
+Charlie 8 Feb 2006
+    - Mac: Add backtrace capability for Intel-based Macs.  
+        Fix a link error with SETI@home.
+    
+    api/
+        graphics_data.h
+    lib/
+        MoreAddrToSym.C,h (Added)
+        mac_backtrace.C,h
+        more_backtrace.C,h (Added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
