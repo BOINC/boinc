@@ -257,7 +257,7 @@ BEGIN
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "Climate Change Experiment is currently idle."
     IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
-                            "Climate Change Experiment is not attached to any projects.\nYou can attach to projects using\nthe Climate Change Experiment website."
+                            "Climate Change Experiment is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
     IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
                             "Climate Change Experiment system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
