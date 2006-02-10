@@ -1701,9 +1701,9 @@ Charlie 8 Feb 2006
     api/
         graphics_data.h
     lib/
-        MoreAddrToSym.C,h (Added)
+        MoreAddrToSym.c,h (Added)
         mac_backtrace.C,h
-        moreBacktrace.C,h (Added)
+        MoreBacktrace.c,h (Added)
     mac_build/
         boinc.xcodeproj/
             project.pbxproj

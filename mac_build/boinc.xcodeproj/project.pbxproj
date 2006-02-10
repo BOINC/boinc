@@ -82,12 +82,12 @@
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1929D90918A2F100C31BCF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1D4B46099CFBEE00007F5A /* BOINCDialupManager.cpp */; };
-		DD2B9B40099C78D700136663 /* MoreAddrToSym.C in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.C */; };
+		DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2B9B41099C78D700136663 /* MoreBacktrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.C */; };
 		DD2B9CB0099C9BA000136663 /* MoreBacktrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.C */; };
-		DD2B9CB1099C9BA100136663 /* MoreAddrToSym.C in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.C */; };
+		DD2B9CB1099C9BA100136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2B9CB2099C9BAD00136663 /* MoreBacktrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.C */; };
-		DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.C in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.C */; };
+		DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */; };
 		DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
 		DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */; };
@@ -656,7 +656,7 @@
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		DD02098A095A47540012D9DE /* AccountManagerStatusPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerStatusPage.cpp; path = ../clientgui/AccountManagerStatusPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD02098E095A476F0012D9DE /* AccountManagerStatusPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerStatusPage.h; path = ../clientgui/AccountManagerStatusPage.h; sourceTree = SOURCE_ROOT; };
-		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_saver_module.cpp; path = ../clientgui/mac/mac_saver_module.cpp; sourceTree = SOURCE_ROOT; };
 		DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_ModuleView.h; path = ../clientgui/mac/Mac_Saver_ModuleView.h; sourceTree = SOURCE_ROOT; };
 		DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Mac_Saver_ModuleView.m; path = ../clientgui/mac/Mac_Saver_ModuleView.m; sourceTree = SOURCE_ROOT; };
@@ -672,7 +672,7 @@
 		DD1D4B47099CFBEE00007F5A /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD1F0AC2082205B900AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
-		DD2B9B3C099C78D700136663 /* MoreAddrToSym.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MoreAddrToSym.C; sourceTree = "<group>"; };
+		DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MoreAddrToSym.c; sourceTree = "<group>"; };
 		DD2B9B3D099C78D700136663 /* MoreAddrToSym.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreAddrToSym.h; sourceTree = "<group>"; };
 		DD2B9B3E099C78D700136663 /* MoreBacktrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MoreBacktrace.C; sourceTree = "<group>"; };
 		DD2B9B3F099C78D700136663 /* MoreBacktrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreBacktrace.h; sourceTree = "<group>"; };
@@ -1284,7 +1284,7 @@
 				DD344BD407C5B1150043025C /* miofile.h */,
 				DD344BD507C5B1150043025C /* miofile.C */,
 				DD344BDA07C5B11E0043025C /* msg_log.C */,
-				DD2B9B3C099C78D700136663 /* MoreAddrToSym.C */,
+				DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */,
 				DD2B9B3D099C78D700136663 /* MoreAddrToSym.h */,
 				DD2B9B3E099C78D700136663 /* MoreBacktrace.C */,
 				DD2B9B3F099C78D700136663 /* MoreBacktrace.h */,
@@ -2259,7 +2259,7 @@
 				DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */,
 				DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */,
 				DD2B9CB2099C9BAD00136663 /* MoreBacktrace.C in Sources */,
-				DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.C in Sources */,
+				DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.c in Sources */,
 				DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2310,7 +2310,7 @@
 				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.C in Sources */,
 				DD52C81408B5D484008D9AA4 /* network.C in Sources */,
 				DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */,
-				DD2B9B40099C78D700136663 /* MoreAddrToSym.C in Sources */,
+				DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */,
 				DD2B9B41099C78D700136663 /* MoreBacktrace.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2451,7 +2451,7 @@
 				DD33C70408B5BEDE00768630 /* http_curl.C in Sources */,
 				DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */,
 				DD2B9CB0099C9BA000136663 /* MoreBacktrace.C in Sources */,
-				DD2B9CB1099C9BA100136663 /* MoreAddrToSym.C in Sources */,
+				DD2B9CB1099C9BA100136663 /* MoreAddrToSym.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
