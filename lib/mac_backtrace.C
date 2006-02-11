@@ -251,6 +251,7 @@ static int OutputFrames(const MoreBTFrame *frameArray, unsigned long frameCount,
                     if (symbol.symbolName[0]) {
                         fprintf(stderr, "%s + 0x%llx", 
                                         symbol.symbolName, symbol.symbolOffset);
+                        free( (void *) symbol.symbolName);
                     }
                 }
 
