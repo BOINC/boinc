@@ -1695,7 +1695,8 @@ Rom    9 Feb 2006
         ViewProjects.cpp
 
 Charlie 8 Feb 2006
-    - Mac: Add backtrace capability for Intel-based Macs.  
+    - Mac: Add backtrace capability for Intel-based Macs. Add new 
+        sources BOINCDialupManager.cpp, .h, cpu_sched.C to project.
         Fix a link error with SETI@home.
     
     api/

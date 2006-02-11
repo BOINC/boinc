@@ -80,6 +80,7 @@
 		DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */; };
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DD16BF7C099D6C90003E4B69 /* cpu_sched.C in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.C */; };
 		DD1929D90918A2F100C31BCF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1D4B46099CFBEE00007F5A /* BOINCDialupManager.cpp */; };
 		DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
@@ -656,7 +657,7 @@
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		DD02098A095A47540012D9DE /* AccountManagerStatusPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerStatusPage.cpp; path = ../clientgui/AccountManagerStatusPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD02098E095A476F0012D9DE /* AccountManagerStatusPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerStatusPage.h; path = ../clientgui/AccountManagerStatusPage.h; sourceTree = SOURCE_ROOT; };
-		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_saver_module.cpp; path = ../clientgui/mac/mac_saver_module.cpp; sourceTree = SOURCE_ROOT; };
 		DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_ModuleView.h; path = ../clientgui/mac/Mac_Saver_ModuleView.h; sourceTree = SOURCE_ROOT; };
 		DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Mac_Saver_ModuleView.m; path = ../clientgui/mac/Mac_Saver_ModuleView.m; sourceTree = SOURCE_ROOT; };
@@ -667,10 +668,11 @@
 		DD1277BF081F3E73007B5DE1 /* LoginItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoginItemAPI.h; path = ../mac_installer/LoginItemAPI.h; sourceTree = SOURCE_ROOT; };
 		DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PostInstall.cpp; path = ../mac_installer/PostInstall.cpp; sourceTree = SOURCE_ROOT; };
 		DD127880081F464E007B5DE1 /* postupgrade */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postupgrade; path = ../mac_installer/postupgrade; sourceTree = SOURCE_ROOT; };
+		DD16BF7B099D6C90003E4B69 /* cpu_sched.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpu_sched.C; path = ../client/cpu_sched.C; sourceTree = SOURCE_ROOT; };
+		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		DD1D4B46099CFBEE00007F5A /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD1D4B47099CFBEE00007F5A /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
-		DD1F0AC2082205B900AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MoreAddrToSym.c; sourceTree = "<group>"; };
 		DD2B9B3D099C78D700136663 /* MoreAddrToSym.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreAddrToSym.h; sourceTree = "<group>"; };
@@ -1076,12 +1078,12 @@
 			isa = PBXGroup;
 			children = (
 				DD0C5A8A0816711400CEC5D7 /* boinc.tiff */,
-				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
-				DD64E7D507D89DB800B176C8 /* Info.plist */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
-				F51BDF4903086C46012012A7 /* InfoPlist.strings */,
+				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* GridRepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
+				DD64E7D507D89DB800B176C8 /* Info.plist */,
+				F51BDF4903086C46012012A7 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = SOURCE_ROOT;
@@ -1123,8 +1125,6 @@
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
 			children = (
-				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
-				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */,
 				DD58C41908F3343F00C1DF66 /* AccountInfoPage.h */,
 				DD58C41A08F3343F00C1DF66 /* AccountKeyPage.cpp */,
@@ -1160,14 +1160,16 @@
 				DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */,
 				DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */,
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
-				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */,
 				DD3196A8098EF183002EB538 /* CompletionRemovePage.h */,
 				DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */,
 				DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */,
+				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
 				DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */,
 				DD58C43C08F3347D00C1DF66 /* DlgDialupCredentials.h */,
+				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
+				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
 				DD81C43907C5D2240098A04D /* DlgOptions.h */,
 				DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */,
@@ -1313,7 +1315,6 @@
 		F54B8FBE02AC0A0C01FB7237 /* client */ = {
 			isa = PBXGroup;
 			children = (
-				DD1F0AC2082205B900AFC5FA /* MacGUI.pch */,
 				DD344B3D07C5ABF40043025C /* acct_mgr.C */,
 				DD344B3E07C5ABF40043025C /* acct_mgr.h */,
 				DD33C6F608B5BB4500768630 /* acct_setup.h */,
@@ -1331,6 +1332,8 @@
 				F54B8FC502AC0A0C01FB7237 /* client_types.C */,
 				F54B8FC602AC0A0C01FB7237 /* client_types.h */,
 				DD81C3D507C5CEB50098A04D /* cpp.h */,
+				DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */,
+				DD16BF7B099D6C90003E4B69 /* cpu_sched.C */,
 				DD344B7907C5AD970043025C /* cs_account.C */,
 				F54B8FC702AC0A0C01FB7237 /* cs_apps.C */,
 				DD344B7F07C5ADC30043025C /* cs_benchmark.C */,
@@ -1417,9 +1420,9 @@
 			isa = PBXGroup;
 			children = (
 				DD30446A0864332D00D73756 /* config.h */,
+				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
-				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */,
 				DD40CDFE07F038990096C645 /* SystemMenu.m */,
 				DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */,
@@ -2190,77 +2193,77 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD58C42608F3343F00C1DF66 /* AccountInfoPage.cpp in Sources */,
+				DD58C42808F3343F00C1DF66 /* AccountKeyPage.cpp in Sources */,
+				DD58C42A08F3343F00C1DF66 /* AccountManagerInfoPage.cpp in Sources */,
+				DD58C42C08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp in Sources */,
+				DD58C42E08F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp in Sources */,
+				DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */,
+				DD58C43008F3343F00C1DF66 /* AlreadyAttachedPage.cpp in Sources */,
+				DD58C43208F3343F00C1DF66 /* AlreadyExistsPage.cpp in Sources */,
 				DD095F1407D882DD00362260 /* BOINCBaseView.cpp in Sources */,
+				DD58C43D08F3347D00C1DF66 /* BOINCBaseWizard.cpp in Sources */,
+				DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */,
 				DD095F1607D882E700362260 /* BOINCGUIApp.cpp in Sources */,
 				DD095F1807D882E900362260 /* BOINCListCtrl.cpp in Sources */,
 				DD4DD0A207EAA648008A6468 /* BOINCTaskBar.cpp in Sources */,
 				DD095F1C07D882EB00362260 /* BOINCTaskCtrl.cpp in Sources */,
+				DD58C44008F3347D00C1DF66 /* CompletionErrorPage.cpp in Sources */,
+				DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */,
+				DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */,
+				DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */,
+				DD095F4507D8838F00362260 /* diagnostics.C in Sources */,
 				DD095F1E07D882EE00362260 /* DlgAbout.cpp in Sources */,
+				DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */,
+				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
 				DD095F2407D882F200362260 /* DlgOptions.cpp in Sources */,
+				DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */,
+				DD095F4807D8839200362260 /* filesys.C in Sources */,
+				DD73E36108A06E8200656EB1 /* gui_rpc_client.C in Sources */,
+				DD73E3B708A0809800656EB1 /* gui_rpc_client_ops.C in Sources */,
+				DD73E3B808A0809800656EB1 /* gui_rpc_client_print.C in Sources */,
+				DD73E3BF08A0837800656EB1 /* hostinfo.C in Sources */,
+				DD73E39E08A0757F00656EB1 /* hyperlink.cpp in Sources */,
+				DD73E3A508A078AF00656EB1 /* Localization.cpp in Sources */,
 				DD095F2707D882F400362260 /* LogBOINC.cpp in Sources */,
 				DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */,
+				DDF166C808DF8D0F00C8C4A5 /* mac_backtrace.C in Sources */,
+				DDA9D3BC09189A8C0060E7A7 /* Mac_GUI.cpp in Sources */,
 				DD095F2907D882F600362260 /* MainDocument.cpp in Sources */,
 				DD095F2B07D882FB00362260 /* MainFrame.cpp in Sources */,
+				DD095F4C07D883A800362260 /* md5.c in Sources */,
+				DD095F4E07D883A900362260 /* md5_file.C in Sources */,
+				DD095F5007D883AB00362260 /* mfile.C in Sources */,
+				DD095F5307D883AD00362260 /* miofile.C in Sources */,
+				DD2B9CB2099C9BAD00136663 /* MoreBacktrace.c in Sources */,
+				DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.c in Sources */,
+				DD7E49CD080F9B09002716F9 /* network.C in Sources */,
+				DD58C45208F334B500C1DF66 /* NoInternetConnectionPage.cpp in Sources */,
+				DD58C45408F334B500C1DF66 /* NotDetectedPage.cpp in Sources */,
+				DD58C45608F334B500C1DF66 /* NotFoundPage.cpp in Sources */,
+				DD095F5407D883AF00362260 /* parse.C in Sources */,
+				DD0A06F20869A288007CD86E /* prefs.C in Sources */,
+				DD58C45808F334B500C1DF66 /* ProjectInfoPage.cpp in Sources */,
+				DD58C45A08F334B500C1DF66 /* ProjectProcessingPage.cpp in Sources */,
+				DD58C45C08F334B500C1DF66 /* ProjectPropertiesPage.cpp in Sources */,
+				DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */,
+				DD58C46B08F334EA00C1DF66 /* ProxyPage.cpp in Sources */,
 				DD095F2D07D882FC00362260 /* stdwx.cpp in Sources */,
+				DD095F5807D883C000362260 /* util.C in Sources */,
 				DD095F2F07D882FF00362260 /* ValidateAccountKey.cpp in Sources */,
+				DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */,
 				DD095F3107D8830100362260 /* ValidateURL.cpp in Sources */,
 				DD095F3307D8830200362260 /* ViewMessages.cpp in Sources */,
 				DD095F3507D8830400362260 /* ViewProjects.cpp in Sources */,
 				DD095F3707D8830500362260 /* ViewResources.cpp in Sources */,
 				DD095F3907D8830700362260 /* ViewTransfers.cpp in Sources */,
 				DD095F3B07D8830800362260 /* ViewWork.cpp in Sources */,
-				DD095F4507D8838F00362260 /* diagnostics.C in Sources */,
-				DD095F4807D8839200362260 /* filesys.C in Sources */,
-				DD095F4C07D883A800362260 /* md5.c in Sources */,
-				DD095F4E07D883A900362260 /* md5_file.C in Sources */,
-				DD095F5007D883AB00362260 /* mfile.C in Sources */,
-				DD095F5307D883AD00362260 /* miofile.C in Sources */,
-				DD095F5407D883AF00362260 /* parse.C in Sources */,
-				DD095F5807D883C000362260 /* util.C in Sources */,
-				DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */,
 				DDEF38900802B73500E87552 /* ViewStatistics.cpp in Sources */,
-				DD7E49CD080F9B09002716F9 /* network.C in Sources */,
-				DD0A06F20869A288007CD86E /* prefs.C in Sources */,
-				DD73E36108A06E8200656EB1 /* gui_rpc_client.C in Sources */,
-				DD73E39E08A0757F00656EB1 /* hyperlink.cpp in Sources */,
-				DD73E3A508A078AF00656EB1 /* Localization.cpp in Sources */,
-				DD73E3B708A0809800656EB1 /* gui_rpc_client_ops.C in Sources */,
-				DD73E3B808A0809800656EB1 /* gui_rpc_client_print.C in Sources */,
-				DD73E3BF08A0837800656EB1 /* hostinfo.C in Sources */,
-				DDF166C808DF8D0F00C8C4A5 /* mac_backtrace.C in Sources */,
-				DD58C42608F3343F00C1DF66 /* AccountInfoPage.cpp in Sources */,
-				DD58C42808F3343F00C1DF66 /* AccountKeyPage.cpp in Sources */,
-				DD58C42A08F3343F00C1DF66 /* AccountManagerInfoPage.cpp in Sources */,
-				DD58C42C08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp in Sources */,
-				DD58C42E08F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp in Sources */,
-				DD58C43008F3343F00C1DF66 /* AlreadyAttachedPage.cpp in Sources */,
-				DD58C43208F3343F00C1DF66 /* AlreadyExistsPage.cpp in Sources */,
-				DD58C43D08F3347D00C1DF66 /* BOINCBaseWizard.cpp in Sources */,
-				DD58C44008F3347D00C1DF66 /* CompletionErrorPage.cpp in Sources */,
-				DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */,
-				DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */,
-				DD58C45208F334B500C1DF66 /* NoInternetConnectionPage.cpp in Sources */,
-				DD58C45408F334B500C1DF66 /* NotDetectedPage.cpp in Sources */,
-				DD58C45608F334B500C1DF66 /* NotFoundPage.cpp in Sources */,
-				DD58C45808F334B500C1DF66 /* ProjectInfoPage.cpp in Sources */,
-				DD58C45A08F334B500C1DF66 /* ProjectProcessingPage.cpp in Sources */,
-				DD58C45C08F334B500C1DF66 /* ProjectPropertiesPage.cpp in Sources */,
-				DD58C46B08F334EA00C1DF66 /* ProxyPage.cpp in Sources */,
 				DD58C46E08F334EA00C1DF66 /* UnavailablePage.cpp in Sources */,
 				DD58C47008F334EA00C1DF66 /* WelcomePage.cpp in Sources */,
 				DD58C47208F334EA00C1DF66 /* WizardAccountManager.cpp in Sources */,
 				DD58C47408F334EA00C1DF66 /* WizardAttachProject.cpp in Sources */,
 				DD58C47608F334EA00C1DF66 /* wizardex.cpp in Sources */,
-				DDA9D3BC09189A8C0060E7A7 /* Mac_GUI.cpp in Sources */,
-				DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */,
-				DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */,
-				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
-				DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */,
-				DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */,
-				DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */,
-				DD2B9CB2099C9BAD00136663 /* MoreBacktrace.c in Sources */,
-				DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.c in Sources */,
-				DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2290,28 +2293,28 @@
 				DD407A4F07D2FB7100163EF5 /* base64.C in Sources */,
 				DD407A5107D2FB7800163EF5 /* crypt.C in Sources */,
 				DD407A5307D2FB7C00163EF5 /* diagnostics.C in Sources */,
+				DD407AB907D2FC7D00163EF5 /* exception.C in Sources */,
 				DD407A5507D2FB8400163EF5 /* filesys.C in Sources */,
+				DD52C81108B5D44D008D9AA4 /* gui_rpc_client.C in Sources */,
+				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.C in Sources */,
+				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.C in Sources */,
 				DD407A5807D2FB8D00163EF5 /* hostinfo.C in Sources */,
 				DD407A5907D2FB9A00163EF5 /* language.C in Sources */,
+				DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */,
 				DD407A5B07D2FBA000163EF5 /* md5.c in Sources */,
 				DD407A5D07D2FBA300163EF5 /* md5_file.C in Sources */,
+				DD407ABB07D2FC7D00163EF5 /* mem_usage.C in Sources */,
 				DD407A5F07D2FBAE00163EF5 /* mfile.C in Sources */,
 				DD407A6207D2FBB300163EF5 /* miofile.C in Sources */,
+				DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */,
+				DD2B9B41099C78D700136663 /* MoreBacktrace.c in Sources */,
 				DD407A6307D2FBB600163EF5 /* msg_log.C in Sources */,
+				DD52C81408B5D484008D9AA4 /* network.C in Sources */,
 				DD407A6507D2FBBA00163EF5 /* parse.C in Sources */,
 				DD407A6707D2FBBD00163EF5 /* prefs.C in Sources */,
 				DD407A6907D2FBC200163EF5 /* proxy_info.C in Sources */,
 				DD407A6B07D2FBC700163EF5 /* shmem.C in Sources */,
 				DD407A6D07D2FBD100163EF5 /* util.C in Sources */,
-				DD407AB907D2FC7D00163EF5 /* exception.C in Sources */,
-				DD407ABB07D2FC7D00163EF5 /* mem_usage.C in Sources */,
-				DD52C81108B5D44D008D9AA4 /* gui_rpc_client.C in Sources */,
-				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.C in Sources */,
-				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.C in Sources */,
-				DD52C81408B5D484008D9AA4 /* network.C in Sources */,
-				DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */,
-				DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */,
-				DD2B9B41099C78D700136663 /* MoreBacktrace.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2323,11 +2326,11 @@
 				DD40825C07D3076400163EF5 /* graphics_data.C in Sources */,
 				DD40825E07D3076400163EF5 /* graphics_impl.C in Sources */,
 				DD40826007D3076400163EF5 /* gutil.C in Sources */,
+				DD6D82DE08131B72008F7200 /* macglutfix.m in Sources */,
 				DD40826207D3076400163EF5 /* reduce_lib.C in Sources */,
 				DD40826307D3076400163EF5 /* reduce_main.C in Sources */,
-				DD40826507D3076400163EF5 /* x_opengl.C in Sources */,
-				DD6D82DE08131B72008F7200 /* macglutfix.m in Sources */,
 				DD4EC61108A0A083009AA08F /* texture.C in Sources */,
+				DD40826507D3076400163EF5 /* x_opengl.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2351,11 +2354,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */,
 				DD69FEF708416C9A00C01361 /* boinc_cmd.C in Sources */,
-				DD69FF0C084171CF00C01361 /* network.C in Sources */,
+				DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */,
 				DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.C in Sources */,
 				DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.C in Sources */,
+				DD69FF0C084171CF00C01361 /* network.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2363,10 +2366,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.C in Sources */,
+				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */,
+				DDFD5F270818F329002B23D4 /* filesys.C in Sources */,
+				DD73E3A708A07CA600656EB1 /* hostinfo.C in Sources */,
 				DD0C595B0816573E00CEC5D7 /* mac_saver_module.cpp in Sources */,
 				DD0C595D0816573E00CEC5D7 /* Mac_Saver_ModuleView.m in Sources */,
-				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.C in Sources */,
-				DDFD5F270818F329002B23D4 /* filesys.C in Sources */,
 				DDFD5F280818F33C002B23D4 /* md5.c in Sources */,
 				DDFD5F290818F346002B23D4 /* md5_file.C in Sources */,
 				DDFD5F2A0818F34F002B23D4 /* mfile.C in Sources */,
@@ -2375,8 +2380,6 @@
 				DDFD5F2D0818F372002B23D4 /* parse.C in Sources */,
 				DDFD5F2E0818F3A1002B23D4 /* util.C in Sources */,
 				DD0A06F50869A2D2007CD86E /* prefs.C in Sources */,
-				DD73E3A708A07CA600656EB1 /* hostinfo.C in Sources */,
-				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2393,14 +2396,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */,
+				DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */,
 				DDD74D8A07CF48E70065AC9D /* app.C in Sources */,
 				DDD74D8B07CF48E80065AC9D /* app_control.C in Sources */,
 				DDD74D8C07CF48E90065AC9D /* app_graphics.C in Sources */,
+				DDD74DC307CF492A0065AC9D /* app_ipc.C in Sources */,
 				DDD74D8D07CF48EA0065AC9D /* app_start.C in Sources */,
 				DDD74D8E07CF48EB0065AC9D /* check_state.C in Sources */,
 				DDD74D8F07CF48EC0065AC9D /* client_msgs.C in Sources */,
 				DDD74D9007CF48ED0065AC9D /* client_state.C in Sources */,
 				DDD74D9107CF48EE0065AC9D /* client_types.C in Sources */,
+				DD16BF7C099D6C90003E4B69 /* cpu_sched.C in Sources */,
 				DDD74D9207CF48EF0065AC9D /* cs_account.C in Sources */,
 				DDD74D9307CF48F00065AC9D /* cs_apps.C in Sources */,
 				DDD74D9407CF48F10065AC9D /* cs_benchmark.C in Sources */,
@@ -2426,32 +2432,30 @@
 				DDD74DAC07CF490D0065AC9D /* ss_logic.C in Sources */,
 				DDD74DAD07CF490E0065AC9D /* time_stats.C in Sources */,
 				DDD74DAE07CF490F0065AC9D /* whetstone.C in Sources */,
-				DDD74DC307CF492A0065AC9D /* app_ipc.C in Sources */,
 				DDD74DC407CF492A0065AC9D /* base64.C in Sources */,
 				DDD74DC507CF492B0065AC9D /* crypt.C in Sources */,
 				DDD74DC607CF492C0065AC9D /* diagnostics.C in Sources */,
 				DDD74DC707CF492D0065AC9D /* filesys.C in Sources */,
+				DD33C6F308B5BAF500768630 /* gui_http.C in Sources */,
+				DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.C in Sources */,
 				DDD74DC807CF492E0065AC9D /* hostinfo.C in Sources */,
+				DD33C70408B5BEDE00768630 /* http_curl.C in Sources */,
 				DDD74DCA07CF49300065AC9D /* language.C in Sources */,
+				DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */,
+				DD2B9CB0099C9BA000136663 /* MoreBacktrace.c in Sources */,
+				DD2B9CB1099C9BA100136663 /* MoreAddrToSym.c in Sources */,
 				DDD74DCB07CF49310065AC9D /* md5.c in Sources */,
 				DDD74DCC07CF49320065AC9D /* md5_file.C in Sources */,
 				DDD74DCD07CF49330065AC9D /* mfile.C in Sources */,
 				DDD74DCE07CF49390065AC9D /* miofile.C in Sources */,
 				DDD74DCF07CF493A0065AC9D /* msg_log.C in Sources */,
+				DD6D0A8707E9A61E007F882B /* network.C in Sources */,
+				DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */,
 				DDD74DD007CF493B0065AC9D /* parse.C in Sources */,
 				DDD74DD107CF493C0065AC9D /* prefs.C in Sources */,
 				DDD74DD207CF493C0065AC9D /* proxy_info.C in Sources */,
 				DDD74DD307CF493D0065AC9D /* shmem.C in Sources */,
 				DDD74DD407CF493E0065AC9D /* util.C in Sources */,
-				DD6D0A8707E9A61E007F882B /* network.C in Sources */,
-				DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.C in Sources */,
-				DD33C6F308B5BAF500768630 /* gui_http.C in Sources */,
-				DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */,
-				DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */,
-				DD33C70408B5BEDE00768630 /* http_curl.C in Sources */,
-				DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */,
-				DD2B9CB0099C9BA000136663 /* MoreBacktrace.c in Sources */,
-				DD2B9CB1099C9BA100136663 /* MoreAddrToSym.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
