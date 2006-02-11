@@ -37,29 +37,26 @@ resources.
     BOINC lets you donate computing power
     to scientific research projects such as:
     <ul>
-    <li>
-    <a href=http://climateprediction.net>Climateprediction.net</a>:
-    study climate change
-    <li>
-    <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
-    search for gravitational signals emitted by pulsars
-    <li>
-    <a href=http://lhcathome.cern.ch/>LHC@home</a>:
-    improve the design of the CERN LHC particle accelerator
-    <li>
-    <a href=http://predictor.scripps.edu>Predictor@home</a>:
-    investigate protein-related diseases
-    <li>
-    <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>:
-    help researchers develop cures for human diseases
-    <li><a href=http://setiathome.berkeley.edu/>SETI@home</a>:
-    Look for radio evidence of extraterrestrial life
-    <li><a href=http://boinc.bio.wzw.tum.de/boincsimap/>SIMAP</a>:
+    <li> <a href=http://climateprediction.net>Climateprediction.net</a>:
+        study climate change
+    <li> <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
+        search for gravitational signals emitted by pulsars
+    <li> <a href=http://lhcathome.cern.ch/>LHC@home</a>:
+        improve the design of the CERN LHC particle accelerator
+    <li> <a href=http://predictor.scripps.edu>Predictor@home</a>:
+        investigate protein-related diseases
+    <li> <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>:
+        help researchers develop cures for human diseases
+    <li> <a href=http://setiathome.berkeley.edu/>SETI@home</a>:
+        Look for radio evidence of extraterrestrial life
+    <li> <a href=http://boinc.bio.wzw.tum.de/boincsimap/>SIMAP</a>:
         calculate protein similarity data for use by many biological
         research projects.
+    <li> <a href=http://szdg.lpds.sztaki.hu/szdg/>SZTAKI Desktop Grid</a>:
+        search for generalized binary number systems.
     <li> <a href=http://www.worldcommunitygrid.org/>World Community Grid</a>:
         advance our knowledge of human disease. (Requires 5.2.1 or greater)
-    <li><a href=http://www.cellcomputing.net/>Cell Computing</a>
+    <li> <a href=http://www.cellcomputing.net/>Cell Computing</a>
         biomedical research
         (Japanese; requires nonstandard client software)
     </ul>

@@ -1708,3 +1708,12 @@ Charlie 8 Feb 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  10 Feb 2005
+    - cosmetic
+
+    client/
+        client_msgs.h
+        client_types.h
+        cpu_sched.C
+        cs_scheduler.C

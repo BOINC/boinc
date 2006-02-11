@@ -91,6 +91,7 @@ public:
         DEBUG_POLL,        // show what polls are responding
         DEBUG_GUIRPC,
         DEBUG_SCHED_CPU,
+        DEBUG_WORK_FETCH,
         DEBUG_SCRSAVE
     };
     CLIENT_MSG_LOG(): MSG_LOG(stdout) {}

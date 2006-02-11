@@ -147,7 +147,7 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 
 // Return the best project to fetch work from, NULL if none
 //
-// Basically, pick the one with largest long term debt - amount of current work
+// Pick the one with largest (long term debt - amount of current work)
 //
 // PRECONDITIONS:
 //   - work_request_urgency and work_request set for all projects
@@ -160,7 +160,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     unsigned int i;
     double prrs = potentially_runnable_resource_share();
 
-    for (i=0; i<projects.size(); ++i) {
+    for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->work_request_urgency == WORK_FETCH_DONT_NEED) continue;
         if (p->work_request == 0) continue;
@@ -502,11 +502,11 @@ double CLIENT_STATE::time_until_work_done(
     }
 }
 
-// Compute:
-// - work_request and work_request_urgency for all projects.
+// Top-level function for work fetch policy.
+// Outputs:
 // - overall_work_fetch_urgency
-//
-// Only set non-zero work requests for projects that are contactable
+// - for each contactable project:
+//     - work_request and work_request_urgency
 //
 int CLIENT_STATE::compute_work_requests() {
     unsigned int i;
@@ -517,7 +517,7 @@ int CLIENT_STATE::compute_work_requests() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
-    for (i = 0; i < projects.size(); ++i) {
+    for (i=0; i< projects.size(); i++) {
         projects[i]->work_request_urgency = WORK_FETCH_DONT_NEED;
         projects[i]->work_request = 0;
     }
@@ -556,7 +556,7 @@ int CLIENT_STATE::compute_work_requests() {
     // Then estimate how long it's going to be until we have fewer
     // than this # of results remaining.
     //
-    for (i=0; i<projects.size(); ++i) {
+    for (i=0; i<projects.size(); i++) {
         PROJECT *p = projects[i];
 
         p->work_request = 0;
@@ -1034,14 +1034,17 @@ int CLIENT_STATE::handle_scheduler_reply(
 }
 
 bool CLIENT_STATE::should_get_work() {
-    // if there are fewer runnable results then CPUS, we need more work.
+    // if there are fewer runnable results than CPUS, we need more work.
     //
     if (no_work_for_a_cpu()) return true;
 
     double tot_cpu_time_remaining = 0;
-    for (unsigned int i = 0; i < results.size();++i) {
+    for (unsigned int i=0; i<results.size(); i++) {
         tot_cpu_time_remaining += results[i]->estimated_cpu_time_remaining();
     }
+
+    // ????? shouldn't we scale by ncpus?  by avg_proc_rate()??
+    //
     if (tot_cpu_time_remaining < global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
         return true;
     }
@@ -1096,7 +1099,7 @@ void CLIENT_STATE::set_work_fetch_mode() {
 
 double CLIENT_STATE::work_needed_secs() {
     double total_work = 0;
-    for( unsigned int i = 0; i < results.size(); ++i) {
+    for(unsigned int i=0; i<results.size(); i++) {
         if (results[i]->project->non_cpu_intensive) continue;
         total_work += results[i]->estimated_cpu_time_remaining();
     }

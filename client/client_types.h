@@ -254,6 +254,7 @@ public:
     std::vector<RESULT*>active;
     std::vector<RESULT*>pending;
     double rrsim_proc_rate;
+        // fraction of each CPU this project will get in RR simulation
     void set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs);
 
     // "debt" is how much CPU time we owe this project relative to others
@@ -284,7 +285,7 @@ public:
         // X seconds of wall-clock time to complete,
         // taking into account
         // 1) other projects and resource share;
-        // 2) on_frac and active_frac
+        // 2) on_frac, active_frac, and cpu_effiency
         // see doc/work_req.php
     int work_request_urgency;
 

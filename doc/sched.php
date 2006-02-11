@@ -186,76 +186,127 @@ when the end of the user-specified scheduling period is reached,
 when new results become runnable,
 or when the user performs a UI interaction
 (e.g. suspending or resuming a project or result).
-
-
-<h2>The work-fetch policy</h2>
-
-<p>
-X is the estimated wall time by which the number of
-runnable results will fall below NCPUS.
-<p>
-min_queue is the user's network-connection period general preference.
-<p>
-work_fetch_OK is a flag set by the mode selection algorithm (see below).
-<p>
-The work-fetch policy maintains an 'overall urgency':
+It does the following:
 <ul>
-<li>
-<b>NEED_IMMEDIATELY</b>:
-    there is at least one idle CPU
-<li>
-<b>NEED</b>:
-    X &lt; min_queue 
-<li>
-<b>OK</b>:
-    X &gt; min_queue, work_fetch_OK is true
-<li>
-<b>DONT_NEED</b>:
-    work_fetch_OK is false
-</ul>
-
-<p>
-In addition, the work-fetch policy maintains a per-project work-fetch mode:
-<p>
-R(P) = fractional resource share of P
-<p>
-X(P) = estimated wall time when number of runnable results for P
-will fall below NCPUS*R(P)
-<ul>
-<li>
-<b>NEED_IMMEDIATELY</b>:
-    no results of P are runnable soon.
-<li>
-<b>NEED</b>:
-    X(P) &lt; min_queue * R(P)
-<li>
-<b>OK</b>:
-    X(P) > min_queue * R(P),
-    and P is not suspended or deferred or no-new-work
-<li>
-<b>DONT_NEED</b>:
-    P is suspended or deferred or no-new-work
-</ul>
-
-<p>
-
-<h2>Mode selection</h2>
-<p>
-Work_fetch_OK is set to false if either
-<ul>
-<li> The sum of all RTFs is > 0.8
-<li> The CRTF of any result is > 0.8
-</ul>
-
-EDF mode is used if either
-<ul>
-<li> The CRTF of any result is > 0.8
-<li> The deadline of any result is earlier than one day from now
-<li> The deadline of any result is less than
-2 * min_queue from now.
+<li> Do a simulation of round-robin scheduling
+applied to the current work queue.
+<li> If all results meet their deadlines,
+    use round-robin; otherwise, use EDF.
 </ul>
 
 
+<h2>Work-fetch policy</h2>
+
+<p>
+The work-fetch policy is defined in terms of a basic function
+<pre>
+time_until_work_done(project, N, subset_resource_share)
+    // estimate wall time until the number of uncompleted results
+    // for this project will reach N,
+    // given the total resource share for a set of competing projects
+</pre>
+<p>
+The work-fetch policy function is called every 5 seconds
+(or as needed) by the scheduler RPC polling function.
+</pre>
+It sets the following variables:
+<ul>
+<li> <b>global urgency</b>: one of
+    <ul>
+    <li><b>DONT_NEED</b>: CPU scheduler is in EDF mode,
+        or fetching additional work would make it so.
+    <li><b>OK</b>: we have enough work, but it's OK to get more
+    <li><b>NEED</b>: a CPU will be idle within min_queue
+    <li><b>NEED_IMMEDIATELY</b>: a CPU is idle.
+    </ul>
+<li> For each project P
+    <br>
+    N = ncpus*(relative resource share)
+    <br>
+    prrs = potentially runnable resource share
+    <br>
+    X = time_until_work_done(P, N-1, prrs)
+    <ul>
+    <li><b>project urgency</b>
+        <ul>
+        <li><b>DONT_NEED</b>: P is suspended or deferred or no-new-work
+        <li><b>OK</b>: X > min_queue
+        <li><b>NEED</b>: X > 0
+        <li><b>NEED_IMMEDIATELY</b>: X == 0
+        </ul>
+    <li> <b>work request size</b>
+    (the number of seconds of work to request,
+    if we do a scheduler RPC to this project).
+    </ul>
+</ul>
+
+<p>
+The scheduler RPC mechanism may select a project to contact
+because of a user request, an outstanding trickle-up message,
+or a result that is overdue for reporting.
+If it does so, it will also request work from that project.
+
+<p>
+Otherwise, the RPC mechanism calls the following function and
+gets work from that project, if any.
+<pre>
+next_project_need_work()
+    if global_urgency == DONT_NEED return null
+    Pbest = null;
+    for each project P
+        if P.urgency != DONT_NEED and P.work_request_size > 0
+        if P.urgency == OK and global_urgency == OK
+            continue
+        P.score = P.long_term_debt - time_until_work_done(P, 0, prrs)
+        if Pbest
+            if P.score > Pbest.score
+                Pbest = P
+        else
+            Pbest = p
+    return Pbest
+</pre>
+
+<p>
+The work-fetch policy function is as follows:
+<pre>
+// compute global urgency
+
+x = delay until number of runnable results will be < ncpus
+if x == 0
+    global_urgency = NEED_IMMEDIATELY
+else
+    if CPU scheduling mode is EDF
+        global_urgency = DONT_NEED
+    else
+        P = project with greatest long-term debt
+        suppose we got work from P
+        if round-robin would then miss a deadline
+            global_urgency = DONT_NEED
+        else
+            if x &lt; min_queue
+                global_urgency = NEED
+            else
+                global_urgency = OK
+    
+// compute per-project urgencies and work request sizes
+
+if global_urgency != DONT_NEED
+    for each project P
+        N = ncpus/(fractional potentially runnable resource_share)
+            (i.e. number of results we need on hand to
+            keep enough CPUs busy to maintain resource share)
+        x = time until # of runnable results for P will fall below N
+        if x == 0
+            P.urgency = NEED_IMMEDIATELY
+        else if x < min_queue
+            P.urgency = NEED
+            P.work_request_size = min_queue - x
+        else if global_urgency > OK
+            P.urgency = OK
+            P.work_request_size = 1
+        else
+            P.urgency = DONT_NEED
+</pre>
 
 ";
 page_tail();

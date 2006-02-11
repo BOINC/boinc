@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("February 8, 2006",
+    "The <a href=http://szdg.lpds.sztaki.hu/szdg/>SZTAKI Desktop Grid</a>
+    is now in production.
+    The project, based at the MTA-SZTAKI Laboratory of Parallel
+    and Distributed Systems in Budapest, Hungary, is attempting
+    to find all the generalized binary number systems
+    (bases are matrices and digits are vectors) up to dimension 11."
+),
 array("February 6, 2006",
     "The <a href=http://boinc.bio.wzw.tum.de/boincsimap/>Similarity
     Matrix of Proteins (SIMAP)</a> project is now in production.

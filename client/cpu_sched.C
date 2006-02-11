@@ -422,34 +422,6 @@ void CLIENT_STATE::enforce_schedule() {
     }
 }
 
-// set the project's rrsim_proc_rate:
-// the fraction of each CPU that it will get in round-robin mode
-//
-void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
-    int nactive = (int)active.size();
-    if (nactive == 0) return;
-    double x;
-    if (rrs) {
-        x = resource_share/rrs;
-    } else {
-        x = 1;      // TODO - fix
-    }
-
-    // if this project has fewer active results than CPUs,
-    // scale up its share to reflect this
-    //
-    if (nactive < gstate.ncpus) {
-        x *= ((double)gstate.ncpus)/nactive;
-    }
-
-    // But its rate on a given CPU can't exceed the CPU speed
-    //
-    if (x>1) {
-        x = 1;
-    }
-    rrsim_proc_rate = x*per_cpu_proc_rate*CPU_PESSIMISM_FACTOR;
-}
-
 // return true if we don't have enough runnable tasks to keep all CPUs busy
 //
 bool CLIENT_STATE::no_work_for_a_cpu() {
@@ -465,7 +437,39 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
     return ncpus > count;
 }
 
-// return true if round-robin scheduling will miss a deadline
+// Set the project's rrsim_proc_rate:
+// the fraction of each CPU that it will get in round-robin mode.
+// Precondition: the project's "active" array is populated
+//
+void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
+    int nactive = (int)active.size();
+    if (nactive == 0) return;
+    double x;
+
+    if (rrs) {
+        x = resource_share/rrs;
+    } else {
+        x = 1;      // pathological case; maybe should be 1/# runnable projects
+    }
+
+    // if this project has fewer active results than CPUs,
+    // scale up its share to reflect this
+    //
+    if (nactive < gstate.ncpus) {
+        x *= ((double)gstate.ncpus)/nactive;
+    }
+
+    // But its rate on a given CPU can't exceed 1
+    //
+    if (x>1) {
+        x = 1;
+    }
+    rrsim_proc_rate = x*per_cpu_proc_rate*CPU_PESSIMISM_FACTOR;
+}
+
+// return true if round-robin scheduling will miss a deadline.
+// per_cpu_proc_rate is the expected number of CPU seconds per wall second
+// on each CPU; rrs is the resource share of runnable projects
 //
 bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
     PROJECT* p, *pbest;
@@ -485,7 +489,6 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
         p->active.clear();
         p->pending.clear();
     }
-
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
@@ -596,8 +599,10 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
 //
 void CLIENT_STATE::set_scheduler_mode() {
     bool use_earliest_deadline_first = false;
-    double total_proc_rate = avg_proc_rate();
-    double per_cpu_proc_rate = total_proc_rate/ncpus;
+    double per_cpu_proc_rate = avg_proc_rate()/ncpus;
+        // how many CPU seconds per wall second we get on each CPU,
+        // taking into account on_frac, active_frac, and cpu_efficiency
+
     double rrs = runnable_resource_share();
 
     if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
