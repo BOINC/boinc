@@ -1723,3 +1723,16 @@ Charlie 10 Feb 2006
     
     lib/
         mac_backtrace.C
+
+David  11 Feb 2006
+    - user web: add links to combined stats sites from user page;
+        reorganize user page.
+    - user web: enable pending credit page as long as
+        config file has <show_result/>
+
+    html/
+        inc/
+            stats_sites.inc (new)
+            user.inc
+        user/
+            pending.php

@@ -4,7 +4,8 @@
 
     // show results with pending credit for this user
 
-    if (true) {
+    $config = get_config();
+    if (!parse_bool($config, "show_results")) {
         echo "This feature is turned off temporarily";
         page_tail();
         exit();
