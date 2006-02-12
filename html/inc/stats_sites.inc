@@ -10,6 +10,11 @@ $cpid_stats_sites = array(
     array("BOINC Combined Statistics",
         "http://boinc.netsoft-online.com/get_user.php?cpid=%s&html=1"
     ),
+    array("The Knights Who Say 'Ni!'",
+        "http://stats.kwsn.net/user.php?proj=all&cpid=%s"
+    ),
 );
+
+shuffle($cpid_stats_sites);
 
 ?>
