@@ -48,18 +48,19 @@ typedef int DC_Workunit;
 
 #define MAX_OUTFILES 4
 typedef struct {
-    char *name;          // unique string ID of the Result
-    DC_Workunit wu;           // workunit index in the WUtable
-    char *outfiles_dir;  // directory of output files
-    char *outfiles[MAX_OUTFILES];    // output files
-    int  noutfiles;      // number of output files
+    char *name;				// unique string ID of the Result
+    DC_Workunit wu;			// workunit index in the WUtable
+    DC_ResultStatus status;		// status of the workunit
+    int exitcode;			// the exit code of the client program
+
+    char *outfiles_dir;			// directory of output files
+    char *outfiles[MAX_OUTFILES];	// output files
+    int  noutfiles;			// number of output files
 
     /* clgr-specific fields */
     char *std_out;
     char *std_err;
     char *sys_log;
-    int exitcode;
-    DC_ResultStatus status;
 } dc_result;
 
 /* Result.
@@ -110,13 +111,6 @@ int DC_setInput (DC_Workunit wu, char * URL, char * localFileName);
 int DC_setPriority (DC_Workunit wu, int priority);
 
 
-/** Destroy allocated memory for a given work unit.
- *  Return:  DC_OK on success
- *              >1 on error
- */
-int DC_destroyWU(DC_Workunit wu);
-
-
 /** Submit work unit
  *  Lets DC to submit a workunit to a client machine.
  *  Return:  DC_OK on submission success 
@@ -124,13 +118,11 @@ int DC_destroyWU(DC_Workunit wu);
  */
 int DC_submitWU (DC_Workunit wu);
 
-
 /** Cancel all computations for a given work unit.
- *
+ *  All files will be deleted.
  *  Return: DC_OK 
  */
 int DC_cancelWU (DC_Workunit wu);
-
 
 /** DC_suspend.
  *  It cancels the running of the given work unit.
@@ -146,7 +138,6 @@ int DC_cancelWU (DC_Workunit wu);
  */
 int DC_suspendWU(DC_Workunit wu);
 
-
 /** DC_resubmit.
  *  It restarts the given, suspended work unit.
  *
@@ -157,6 +148,13 @@ int DC_suspendWU(DC_Workunit wu);
  *           Even this feature is not implemented yet.
  */
 int DC_resubmitWU(DC_Workunit wu);
+
+/** Destroy allocated memory for a given work unit.
+ *  Return:  DC_OK on success
+ *              >1 on error
+ */
+int DC_destroyWU(DC_Workunit wu);
+
 
 /** Check for results.
  *  Waits for available results and returns the first.
@@ -171,10 +169,8 @@ int DC_resubmitWU(DC_Workunit wu);
  *     func2      callback function for assimilating result within the application
  */
 int DC_checkForResult(int  timeout,
-		      //int  (*cb_check_result)(DC_Result result), 
 		      void (*cb_assimilate_result)(DC_Result result)
 		      );
-
 
 /* Callback functions
    These functions should be provided by the application.
