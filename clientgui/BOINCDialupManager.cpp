@@ -25,6 +25,7 @@
 #include "network.h"
 #include "BOINCGUIApp.h"
 #include "diagnostics.h"
+#include "error_numbers.h"
 #include "BOINCDialUpManager.h"
 #include "DlgOptions.h"
 #include "DlgDialupCredentials.h"
@@ -36,12 +37,14 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
 
     m_dtLastDialupAlertSent = wxDateTime((time_t)0);
     m_dtLastDialupRequest = wxDateTime((time_t)0);
-    m_dtFirstDialupDisconnectEvent = wxDateTime((time_t)0);
+    m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
+    m_bSetConnectionTimer = false;
     m_bNotifyConnectionAvailable = false;
     m_bConnectedSuccessfully = false;
     m_bResetTimers = false;
     m_bWasDialing = false;
     m_iNetworkStatus = 0;
+    m_iConnectAttemptRetVal = 0;
 
 
     // Construct the default dialog title for dial-up messages
@@ -79,8 +82,6 @@ void CBOINCDialUpManager::poll() {
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
     int                 iNetworkStatus = 0;
-    long                dwConnectionFlags = 
-        NETWORK_ALIVE_LAN | NETWORK_ALIVE_WAN | NETWORK_ALIVE_AOL;
     wxString            strDialogMessage = wxEmptyString;
 
 
@@ -98,7 +99,7 @@ void CBOINCDialUpManager::poll() {
         //   to the outside world.
         pDoc->rpc.network_status(iNetworkStatus);
         bIsDialing = m_pDialupManager->IsDialing();
-        bIsOnline = wxGetApp().IsNetworkAlive(&dwConnectionFlags) ? true : false;
+        bIsOnline = iNetworkStatus == 0 ? true : false;
         bWantConnection = iNetworkStatus == 1 ? true : false;
         bWantDisconnect = iNetworkStatus == 2 ? true : false;
 
@@ -110,8 +111,10 @@ void CBOINCDialUpManager::poll() {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Resetting dial-up notification timers"));
 
             m_bResetTimers = false;
+            m_bSetConnectionTimer = false;
             m_dtLastDialupAlertSent = wxDateTime((time_t)0);
             m_dtLastDialupRequest = wxDateTime((time_t)0);
+            m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
         }
 
         // Log out the trace information for debugging purposes.
@@ -131,13 +134,14 @@ void CBOINCDialUpManager::poll() {
 
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection)
         {
-            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Internet connection needed"));
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));
             if (!pFrame->IsShown()) {
                 // BOINC Manager is hidden and displaying a dialog might interupt what they
                 //   are doing.
                 NotifyUserNeedConnection();
             } else {
                 // BOINC Manager is visable and can process user input.
+                m_bSetConnectionTimer = true;
                 Connect();
             }
         } else if (!bIsDialing && !m_bWasDialing) {
@@ -145,23 +149,48 @@ void CBOINCDialUpManager::poll() {
             if (bIsOnline && bWantConnection && m_bConnectedSuccessfully && !m_bNotifyConnectionAvailable) {
                 // Ah ha, we are online and we initiated the connection, so we need to
                 //   notify the CC that the network is available.
+                wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsOnline && bWantConnection && m_bConnectedSuccessfully && !m_bNotifyConnectionAvailable"));
                 NetworkAvailable();
             } else if (bIsOnline && bWantDisconnect && m_bConnectedSuccessfully ) {
                 // We are online, and the CC says it is safe to disconnect.  Since we
                 //   initiated the connection we need to disconnect now.
+                wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsOnline && bWantDisconnect && m_bConnectedSuccessfully"));
                 Disconnect();
             }
         } else if (!bIsDialing && m_bWasDialing) {
-            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - We were dialing and now we are not, detect success or failure of the connection."));
+            // We initiated a connection attempt and now we are either online or failed to
+            //   connect because of a modem error or a users credentials were wrong.
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsDialing && m_bWasDialing"));
+
+            if (m_bSetConnectionTimer) {
+                m_bSetConnectionTimer = true;
+                m_dtDialupConnectionTimeout = wxDateTime::Now();
+                m_iConnectAttemptRetVal = ERR_NO_NETWORK_CONNECTION;
+            }
+
+            wxTimeSpan tsTimeout = wxDateTime::Now() - m_dtDialupConnectionTimeout;
+            if (30 > tsTimeout.GetSeconds()) {
+                if(m_iConnectAttemptRetVal != BOINC_SUCCESS) {
+                    if (m_iConnectAttemptRetVal != ERR_IN_PROGRESS) {
+                        // Attempt to successfully download the Google homepage
+                        pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
+                    }
+                    m_iConnectAttemptRetVal = pDoc->rpc.lookup_website_poll();
+                    return;
+                }
+            }
+
             m_bWasDialing = false;
             m_bResetTimers = true;
-            if (bIsOnline) {
+            if (!m_iConnectAttemptRetVal) {
                 ConnectionSucceeded();
             } else {
                 ConnectionFailed();
             }
         } else if (bIsDialing && !m_bWasDialing) {
-            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - We are now dialing, where before we were not."));
+            // Setup the state machine so that it knows when we have finished the connection
+            //   attempt.
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsDialing && !m_bWasDialing"));
             m_bWasDialing = true;
         }
     }
@@ -178,7 +207,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection() {
 
     tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
     if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Manager not shown, notify instead"));
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NotifyUserNeedConnection - Manager not shown, notify instead"));
 
         m_dtLastDialupAlertSent = wxDateTime::Now();
 
@@ -211,74 +240,81 @@ int CBOINCDialUpManager::Connect() {
     CMainFrame*         pFrame = wxGetApp().GetFrame();
     wxTimeSpan          tsLastDialupRequest;
     int                 iAnswer;
-    wxString            strConnectionName = wxEmptyString;
-    wxString            strConnectionUsername = wxEmptyString;
-    wxString            strConnectionPassword = wxEmptyString;
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(pDoc);
+    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
     if (tsLastDialupRequest.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Begin connection process"));
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Connect - Begin connection process"));
 
         m_dtLastDialupRequest = wxDateTime::Now();
 
-        if(pDoc->state.global_prefs.confirm_before_connecting) {
-            // %s is the project name
-            //    i.e. 'BOINC', 'GridRepublic'
-            strDialogMessage.Printf(
-                _("%s needs to connect to the network.\nMay it do so now?"),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
-            );
-            iAnswer = ::wxMessageBox(
-                strDialogMessage,
-                m_strDialogTitle,
-                wxYES_NO | wxICON_QUESTION,
-                pFrame
-            );
+        if(pFrame->GetDialupConnectionName().size()) {
+            // We have a valid connection name that we can dial.
+            if(pDoc->state.global_prefs.confirm_before_connecting) {
+                // %s is the project name
+                //    i.e. 'BOINC', 'GridRepublic'
+                strDialogMessage.Printf(
+                    _("%s needs to connect to the Internet.\nMay it do so now?"),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+                iAnswer = ::wxMessageBox(
+                    strDialogMessage,
+                    m_strDialogTitle,
+                    wxYES_NO | wxICON_QUESTION,
+                    pFrame
+                );
+            } else {
+                // %s is the project name
+                //    i.e. 'BOINC', 'GridRepublic'
+                strDialogMessage.Printf(
+                    _("%s is connecting to the Internet."),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+                pFrame->ShowAlert(
+                    m_strDialogTitle,
+                    strDialogMessage,
+                    wxICON_INFORMATION,
+                    true
+                );
+                iAnswer = wxYES;
+            }
+
+            // Are we allow to connect?
+            if (wxYES == iAnswer) {
+                m_bNotifyConnectionAvailable = false;
+                m_bConnectedSuccessfully = false;
+                m_pDialupManager->Dial(
+                    pFrame->GetDialupConnectionName(),
+                    wxEmptyString,
+                    wxEmptyString,
+                    true
+                );
+            }
         } else {
+            // The user hasn't given us a valid connection to dial.  Inform them
+            //   that we need a connection and that they may need to set a default
+            //   connection.
+
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
-                _("%s is connecting to the internet."),
+                _("%s is unable to communicate with a project and no default connection is specified.\n"
+                  "Please connect up to the Internet or specify a default connection via the connections\n"
+                  "tab in the Options dialog off of the advanced menu."),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
+
             pFrame->ShowAlert(
                 m_strDialogTitle,
                 strDialogMessage,
                 wxICON_INFORMATION,
-                true
+                false
             );
-            iAnswer = wxYES;
-        }
-
-        // Are we allow to connect?
-        if (wxYES == iAnswer) {
-            if (pFrame->GetDialupConnectionName().size()) {
-                strConnectionName = pFrame->GetDialupConnectionName();
-            }
-
-            if (pFrame->GetDialupPromptForCredentials()) {
-                CDlgDialupCredentials* pDlgDialupCredentials = new CDlgDialupCredentials(pFrame);
-
-                iAnswer = pDlgDialupCredentials->ShowModal();
-                if (wxID_OK == iAnswer) {
-                    strConnectionUsername = pDlgDialupCredentials->GetUsername();
-                    strConnectionPassword = pDlgDialupCredentials->GetPassword();
-                }
-
-                if (pDlgDialupCredentials) {
-                    pDlgDialupCredentials->Destroy();
-                }
-            }
-
-            m_bNotifyConnectionAvailable = false;
-            m_bConnectedSuccessfully = false;
-            m_pDialupManager->Dial(strConnectionName, strConnectionUsername, strConnectionPassword, true);
         }
     }
 
@@ -296,7 +332,7 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s has successfully connected to the internet."),
+        _("%s has successfully connected to the Internet."),
         wxGetApp().GetBrand()->GetProjectName().c_str()
     );
     pFrame->ShowAlert(
@@ -321,7 +357,7 @@ int CBOINCDialUpManager::ConnectionFailed() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s failed to connect to the internet."),
+        _("%s failed to connect to the Internet."),
         wxGetApp().GetBrand()->GetProjectName().c_str()
     );
     pFrame->ShowAlert(
@@ -346,7 +382,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
-    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Connection Detected, notifing user of update to all projects"));
+    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NetworkAvailable - Connection Detected, notifing user of update to all projects"));
 
     m_bNotifyConnectionAvailable = true;
 
@@ -357,8 +393,8 @@ int CBOINCDialUpManager::NetworkAvailable() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s has detected it is now connected to the internet. "
-            "Updating all projects and retrying all transfers."),
+        _("%s has detected it is now connected to the Internet. "
+          "Updating all projects and retrying all transfers."),
         wxGetApp().GetBrand()->GetProjectName().c_str()
     );
 
@@ -387,16 +423,16 @@ int CBOINCDialUpManager::Disconnect() {
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
 
 
-    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Connection Detected, disconnect requested via the CC."));
+    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Disconnect - Connection Detected, disconnect requested via the CC."));
 
     if (pDoc->state.global_prefs.hangup_if_dialed) {
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Connection Detected, Don't need the network, Hanging up."));
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Disconnect - Connection Detected, Don't need the network, Hanging up."));
         if (m_pDialupManager->HangUp()) {
 
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
-                _("%s has successfully disconnected from the internet."),
+                _("%s has successfully disconnected from the Internet."),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
             pFrame->ShowAlert(
@@ -412,7 +448,7 @@ int CBOINCDialUpManager::Disconnect() {
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
-                _("%s failed to disconnected from the internet."),
+                _("%s failed to disconnected from the Internet."),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
             pFrame->ShowAlert(

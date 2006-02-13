@@ -50,36 +50,12 @@ BEGIN_EVENT_TABLE(CDlgOptions, wxDialog)
 ////@begin CDlgOptions event table entries
     EVT_NOTEBOOK_PAGE_CHANGED( ID_NOTEBOOK, CDlgOptions::OnNotebookPageChanged )
     EVT_UPDATE_UI( ID_NOTEBOOK, CDlgOptions::OnNotebookUpdate )
-
-#if defined(__WXMSW__)
-    EVT_RADIOBUTTON( ID_NETWORKAUTODETECT, CDlgOptions::OnNetworkAutoDetectSelected )
-    EVT_UPDATE_UI( ID_NETWORKAUTODETECT, CDlgOptions::OnNetworkAutoDetectUpdate )
-#endif
-
-#if defined(__WXMSW__)
-    EVT_RADIOBUTTON( ID_NETWORKLAN, CDlgOptions::OnNetworkLANSelected )
-    EVT_UPDATE_UI( ID_NETWORKLAN, CDlgOptions::OnNetworkLANUpdate )
-#endif
-
-#if defined(__WXMSW__)
-    EVT_RADIOBUTTON( ID_NETWORKDIALUP, CDlgOptions::OnNetworkDialupSelected )
-    EVT_UPDATE_UI( ID_NETWORKDIALUP, CDlgOptions::OnNetworkDialupUpdate )
-#endif
-
-#if defined(__WXMSW__)
     EVT_BUTTON( ID_DIALUPSETDEFAULT, CDlgOptions::OnDialupSetDefaultClick )
-#endif
-
-#if defined(__WXMSW__)
     EVT_BUTTON( ID_DIALUPCLEARDEFAULT, CDlgOptions::OnDialupClearDefaultClick )
-#endif
-
     EVT_CHECKBOX( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlClick )
     EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlUpdate )
-
     EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlClick )
     EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlUpdate )
-
 ////@end CDlgOptions event table entries
 
 END_EVENT_TABLE()
@@ -106,36 +82,12 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
 ////@begin CDlgOptions member initialisation
     m_LanguageSelectionCtrl = NULL;
     m_ReminderFrequencyCtrl = NULL;
-#if defined(__WXMSW__)
-    m_NetworkAutomaticDetectionCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
-    m_NetworkUseLANCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
-    m_NetworkUseDialupCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
     m_DialupStaticBoxCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
     m_DialupSetDefaultCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
     m_DialupClearDefaultCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
     m_DialupDefaultConnectionTextCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
     m_DialupDefaultConnectionCtrl = NULL;
-#endif
-#if defined(__WXMSW__)
-    m_DialupPromptCredentials = NULL;
-#endif
     m_EnableHTTPProxyCtrl = NULL;
     m_HTTPAddressCtrl = NULL;
     m_HTTPPortCtrl = NULL;
@@ -205,26 +157,10 @@ void CDlgOptions::CreateControls()
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
 
-#if defined(__WXMSW__)
     wxPanel* itemPanel11 = new wxPanel;
     itemPanel11->Create( itemNotebook3, ID_CONNECTONS, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxVERTICAL);
     itemPanel11->SetSizer(itemBoxSizer12);
-
-    m_NetworkAutomaticDetectionCtrl = new wxRadioButton;
-    m_NetworkAutomaticDetectionCtrl->Create( itemPanel11, ID_NETWORKAUTODETECT, _("&Automatically detect network connection settings"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-    m_NetworkAutomaticDetectionCtrl->SetValue(TRUE);
-    itemBoxSizer12->Add(m_NetworkAutomaticDetectionCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_NetworkUseLANCtrl = new wxRadioButton;
-    m_NetworkUseLANCtrl->Create( itemPanel11, ID_NETWORKLAN, _("Use my &Local Area Network(LAN) connection"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_NetworkUseLANCtrl->SetValue(FALSE);
-    itemBoxSizer12->Add(m_NetworkUseLANCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_NetworkUseDialupCtrl = new wxRadioButton;
-    m_NetworkUseDialupCtrl->Create( itemPanel11, ID_NETWORKDIALUP, _("Use my &Dial-up and Virtual Private Network connection"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_NetworkUseDialupCtrl->SetValue(FALSE);
-    itemBoxSizer12->Add(m_NetworkUseDialupCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     wxStaticBox* itemStaticBoxSizer16Static = new wxStaticBox(itemPanel11, wxID_ANY, _("Dial-up and Virtual Private Network settings"));
     m_DialupStaticBoxCtrl = new wxStaticBoxSizer(itemStaticBoxSizer16Static, wxVERTICAL);
@@ -259,18 +195,7 @@ void CDlgOptions::CreateControls()
     m_DialupDefaultConnectionCtrl->Create( itemPanel11, ID_DIALUPDEFAULTCONNECTION, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer22->Add(m_DialupDefaultConnectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer25 = new wxFlexGridSizer(1, 1, 0, 0);
-    m_DialupStaticBoxCtrl->Add(itemFlexGridSizer25, 0, wxGROW|wxALL, 5);
-    m_DialupPromptCredentials = new wxCheckBox;
-    m_DialupPromptCredentials->Create( itemPanel11, ID_DIALUPPROMPTUSERNAMEPASSWORD, _("&Prompt for username and password"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_DialupPromptCredentials->SetValue(FALSE);
-    itemFlexGridSizer25->Add(m_DialupPromptCredentials, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-#endif
-
-#if defined(__WXMSW__)
     itemNotebook3->AddPage(itemPanel11, _("Connections"));
-#endif
 
     wxPanel* itemPanel27 = new wxPanel;
     itemPanel27->Create( itemNotebook3, ID_HTTPPROXY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -422,124 +347,6 @@ void CDlgOptions::OnNotebookUpdate(wxUpdateUIEvent& event)
 }
 
 
-#if defined(__WXMSW__)
-/*!
- * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKAUTODETECT
- */
-
-void CDlgOptions::OnNetworkAutoDetectSelected( wxCommandEvent& event )
-{
-    if (event.IsChecked()) {
-        m_DialupConnectionsCtrl->Enable(false);
-        m_DialupSetDefaultCtrl->Enable(false);
-        m_DialupClearDefaultCtrl->Enable(false);
-        m_DialupDefaultConnectionTextCtrl->Enable(false);
-        m_DialupDefaultConnectionCtrl->Enable(false);
-        m_DialupPromptCredentials->Enable(false);
-    }
-}
-
-#endif
-
-
-#if defined(__WXMSW__)
-/*!
- * wxEVT_UPDATE_UI event handler for ID_NETWORKAUTODETECT
- */
-
-void CDlgOptions::OnNetworkAutoDetectUpdate( wxUpdateUIEvent& WXUNUSED(event) )
-{
-    if (m_NetworkAutomaticDetectionCtrl->GetValue()) {
-        m_DialupConnectionsCtrl->Enable(false);
-        m_DialupSetDefaultCtrl->Enable(false);
-        m_DialupClearDefaultCtrl->Enable(false);
-        m_DialupDefaultConnectionTextCtrl->Enable(false);
-        m_DialupDefaultConnectionCtrl->Enable(false);
-        m_DialupPromptCredentials->Enable(false);
-    }
-}
-#endif
-
-
-#if defined(__WXMSW__)
-/*!
- * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKLAN
- */
-
-void CDlgOptions::OnNetworkLANSelected( wxCommandEvent& event )
-{
-    if (event.IsChecked()) {
-        m_DialupConnectionsCtrl->Enable(false);
-        m_DialupSetDefaultCtrl->Enable(false);
-        m_DialupClearDefaultCtrl->Enable(false);
-        m_DialupDefaultConnectionTextCtrl->Enable(false);
-        m_DialupDefaultConnectionCtrl->Enable(false);
-        m_DialupPromptCredentials->Enable(false);
-    }
-}
-
-#endif
-
-
-#if defined(__WXMSW__)
-/*!
- * wxEVT_UPDATE_UI event handler for ID_NETWORKLAN
- */
-
-void CDlgOptions::OnNetworkLANUpdate( wxUpdateUIEvent& WXUNUSED(event) )
-{
-    if (m_NetworkUseLANCtrl->GetValue()) {
-        m_DialupConnectionsCtrl->Enable(false);
-        m_DialupSetDefaultCtrl->Enable(false);
-        m_DialupClearDefaultCtrl->Enable(false);
-        m_DialupDefaultConnectionTextCtrl->Enable(false);
-        m_DialupDefaultConnectionCtrl->Enable(false);
-        m_DialupPromptCredentials->Enable(false);
-    }
-}
-#endif
-
-
-#if defined(__WXMSW__)
-/*!
- * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKDIALUP
- */
-
-void CDlgOptions::OnNetworkDialupSelected( wxCommandEvent& event )
-{
-    if (event.IsChecked()) {
-        m_DialupConnectionsCtrl->Enable(true);
-        m_DialupSetDefaultCtrl->Enable(true);
-        m_DialupClearDefaultCtrl->Enable(true);
-        m_DialupDefaultConnectionTextCtrl->Enable(true);
-        m_DialupDefaultConnectionCtrl->Enable(true);
-        m_DialupPromptCredentials->Enable(true);
-    }
-}
-
-#endif
-
-
-#if defined(__WXMSW__)
-/*!
- * wxEVT_UPDATE_UI event handler for ID_NETWORKDIALUP
- */
-
-void CDlgOptions::OnNetworkDialupUpdate( wxUpdateUIEvent& WXUNUSED(event) )
-{
-    if (m_NetworkUseDialupCtrl->GetValue()) {
-        m_DialupConnectionsCtrl->Enable(true);
-        m_DialupSetDefaultCtrl->Enable(true);
-        m_DialupClearDefaultCtrl->Enable(true);
-        m_DialupDefaultConnectionTextCtrl->Enable(true);
-        m_DialupDefaultConnectionCtrl->Enable(true);
-        m_DialupPromptCredentials->Enable(true);
-    }
-}
-#endif
-
-
-#if defined(__WXMSW__)
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
  */
@@ -548,10 +355,8 @@ void CDlgOptions::OnDialupSetDefaultClick( wxCommandEvent& WXUNUSED(event) )
 {
     m_DialupDefaultConnectionCtrl->SetLabel(m_DialupConnectionsCtrl->GetStringSelection());
 }
-#endif
 
 
-#if defined(__WXMSW__)
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPCLEARDEFAULT
  */
@@ -560,7 +365,6 @@ void CDlgOptions::OnDialupClearDefaultClick( wxCommandEvent& WXUNUSED(event) )
 {
     m_DialupDefaultConnectionCtrl->SetLabel(wxEmptyString);
 }
-#endif
 
 
 /*!
@@ -644,7 +448,6 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
 }
 
 
-#ifdef __WXMSW__
 wxString CDlgOptions::GetDefaultDialupConnection() const
 {
     return m_DialupDefaultConnectionCtrl->GetLabel(); 
@@ -656,47 +459,6 @@ void CDlgOptions::SetDefaultDialupConnection(wxString value)
     m_DialupDefaultConnectionCtrl->SetLabel(value);
 }
 
-
-int CDlgOptions::GetDefaultConnectionType() const
-{
-    if (m_NetworkAutomaticDetectionCtrl->GetValue())
-        return ID_NETWORKAUTODETECT;
-
-    if (m_NetworkUseLANCtrl->GetValue())
-        return ID_NETWORKLAN;
-
-    if (m_NetworkUseDialupCtrl->GetValue())
-        return ID_NETWORKDIALUP;
-
-    return 0;
-}
-
-
-void CDlgOptions::SetDefaultConnectionType(int value)
-{
-    if (ID_NETWORKAUTODETECT == value)
-        m_NetworkAutomaticDetectionCtrl->SetValue(true);
-
-    if (ID_NETWORKLAN == value)
-        m_NetworkUseLANCtrl->SetValue(true);
-
-    if (ID_NETWORKDIALUP == value)
-        m_NetworkUseDialupCtrl->SetValue(true);
-}
-
-
-bool CDlgOptions::GetDefaultDialupPromptCredentials() const
-{
-    return m_DialupPromptCredentials->GetValue();
-}
-
-
-void CDlgOptions::SetDefaultDialupPromptCredentials(bool value)
-{
-    m_DialupPromptCredentials->SetValue(value);
-}
-
-#endif // __WXMSW__
 
 /*!
  * Should we show tooltips?
@@ -732,8 +494,6 @@ wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CDlgOptions icon retrieval
 }
-
-
 
 
 const char *BOINC_RCSID_5743f67054="$Id$";

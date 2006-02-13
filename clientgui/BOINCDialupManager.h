@@ -52,12 +52,14 @@ protected:
     wxDialUpManager* m_pDialupManager;
     wxDateTime       m_dtLastDialupAlertSent;
     wxDateTime       m_dtLastDialupRequest;
-    wxDateTime       m_dtFirstDialupDisconnectEvent;
+    wxDateTime       m_dtDialupConnectionTimeout;
+    bool             m_bSetConnectionTimer;
     bool             m_bNotifyConnectionAvailable;
     bool             m_bConnectedSuccessfully;
     bool             m_bResetTimers;
     bool             m_bWasDialing;
     int              m_iNetworkStatus;
+    int              m_iConnectAttemptRetVal;
 
     wxString         m_strDialogTitle;
 };

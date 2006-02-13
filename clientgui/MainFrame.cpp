@@ -201,9 +201,7 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     m_iReminderFrequency = 0;
     m_iDisplayExitWarning = 1;
 
-    m_iNetworkConnectionType = ID_NETWORKAUTODETECT;
     m_strNetworkDialupConnectionName = wxEmptyString;
-    m_bNetworkDialupPromptCredentials = false;
 
 
     // Working Variables
@@ -224,17 +222,8 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     SetStatusBarPane(0);
 
 
-#ifdef __WXMSW__
-    // Prefetch and Load Wininet.dll so that any calls to
-    //   wxDialUpManager->IsAlwaysOnline happen quicker.
-    m_WININET.Load(wxT("WININET"));
-    if (m_RASAPI32.Load(wxT("RASAPI32"))) {
-        m_pDialupManager = new CBOINCDialUpManager();
-        wxASSERT(m_pDialupManager->IsOk());
-    } else {
-        m_pDialupManager = NULL;
-    }
-#endif
+    m_pDialupManager = new CBOINCDialUpManager();
+    wxASSERT(m_pDialupManager->IsOk());
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -701,9 +690,7 @@ bool CMainFrame::SaveState() {
     pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
     pConfig->Write(wxT("DisplayExitWarning"), m_iDisplayExitWarning);
 
-    pConfig->Write(wxT("NetworkConnectionType"), m_iNetworkConnectionType);
     pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
-    pConfig->Write(wxT("NetworkDialupPromptCredentials"), m_bNetworkDialupPromptCredentials);
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
@@ -816,9 +803,7 @@ bool CMainFrame::RestoreState() {
     pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
     pConfig->Read(wxT("DisplayExitWarning"), &m_iDisplayExitWarning, 1L);
 
-    pConfig->Read(wxT("NetworkConnectionType"), &m_iNetworkConnectionType, ID_NETWORKAUTODETECT);
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
-    pConfig->Read(wxT("NetworkDialupPromptCredentials"), &m_bNetworkDialupPromptCredentials, false);
 
     if (wxGetApp().GetBrand()->IsBranded() && 
         wxGetApp().GetBrand()->IsDefaultTabSpecified()) {
@@ -1300,30 +1285,17 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     pDlg->m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
 
-#ifdef __WXMSW__
     // Connection Tab
     if (m_pDialupManager) {
         m_pDialupManager->GetISPNames(astrDialupConnections);
 
         pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
-        pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
-        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
-        pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
     } else {
         pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
-        pDlg->SetDefaultConnectionType(m_iNetworkConnectionType);
-        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
-        pDlg->SetDefaultDialupPromptCredentials(m_bNetworkDialupPromptCredentials);
 
-        pDlg->m_NetworkAutomaticDetectionCtrl->Disable();
-        pDlg->m_NetworkUseLANCtrl->Disable();
-        pDlg->m_NetworkUseDialupCtrl->Disable();
-        pDlg->m_DialupConnectionsCtrl->Disable();
         pDlg->m_DialupSetDefaultCtrl->Disable();
         pDlg->m_DialupClearDefaultCtrl->Disable();
-        pDlg->m_DialupPromptCredentials->Disable();
     }
-#endif
 
     // Proxy Tabs
     bRetrievedProxyConfiguration = (0 == pDoc->GetProxyConfiguration());
@@ -1386,12 +1358,8 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
         m_iReminderFrequency = pDlg->m_ReminderFrequencyCtrl->GetValue();
 
-#ifdef __WXMSW__
         // Connection Tab
-        m_iNetworkConnectionType = pDlg->GetDefaultConnectionType();
         m_strNetworkDialupConnectionName = pDlg->GetDefaultDialupConnection();
-        m_bNetworkDialupPromptCredentials = pDlg->GetDefaultDialupPromptCredentials();
-#endif
 
         // Proxy Tabs
         if (bRetrievedProxyConfiguration) {
@@ -1699,13 +1667,11 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
         // Check to see if there is anything that we need to do from the
         //   dial up user perspective.
-#ifdef __WXMSW__
         if (pDoc->IsConnected()) {
             if (m_pDialupManager) {
                 m_pDialupManager->poll();
             }
         }
-#endif
 
         if (IsShown()) {
             if (pDoc) {

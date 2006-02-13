@@ -1742,3 +1742,16 @@ David  11 Feb 2006
 
     html/inc/
         user.inc
+
+Rom    13 Feb 2006
+    - Fix dialup functionality
+    - Numerious fixes for CPDN
+    - Enable dialup on platforms other than Windows.
+    
+    clientgui/
+        BOINCDialupManager.cpp, .h
+        DlgDialupCredentials.h
+        DlgOptions.cpp, .h
+        DlgSelectComputer.h
+        MainFrame.cpp, .h
+        

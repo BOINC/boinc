@@ -46,7 +46,7 @@
 ////@begin control identifiers
 #define ID_DIALOG 10000
 #define SYMBOL_CDLGOPTIONS_STYLE wxDEFAULT_DIALOG_STYLE
-#define SYMBOL_CDLGOPTIONS_TITLE _("Options")
+#define SYMBOL_CDLGOPTIONS_TITLE _("BOINC Manager - Options")
 #define SYMBOL_CDLGOPTIONS_IDNAME ID_DIALOG
 #define SYMBOL_CDLGOPTIONS_SIZE wxDefaultSize
 #define SYMBOL_CDLGOPTIONS_POSITION wxDefaultPosition
@@ -117,40 +117,12 @@ public:
     /// wxEVT_UPDATE_UI event handler for ID_NOTEBOOK
     void OnNotebookUpdate( wxUpdateUIEvent& event );
 
-#if defined(__WXMSW__)
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKAUTODETECT
-    void OnNetworkAutoDetectSelected( wxCommandEvent& event );
-
-    /// wxEVT_UPDATE_UI event handler for ID_NETWORKAUTODETECT
-    void OnNetworkAutoDetectUpdate( wxUpdateUIEvent& event );
-
-#endif
-#if defined(__WXMSW__)
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKLAN
-    void OnNetworkLANSelected( wxCommandEvent& event );
-
-    /// wxEVT_UPDATE_UI event handler for ID_NETWORKLAN
-    void OnNetworkLANUpdate( wxUpdateUIEvent& event );
-
-#endif
-#if defined(__WXMSW__)
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_NETWORKDIALUP
-    void OnNetworkDialupSelected( wxCommandEvent& event );
-
-    /// wxEVT_UPDATE_UI event handler for ID_NETWORKDIALUP
-    void OnNetworkDialupUpdate( wxUpdateUIEvent& event );
-
-#endif
-#if defined(__WXMSW__)
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
     void OnDialupSetDefaultClick( wxCommandEvent& event );
 
-#endif
-#if defined(__WXMSW__)
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPCLEARDEFAULT
     void OnDialupClearDefaultClick( wxCommandEvent& event );
 
-#endif
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
     void OnEnableHTTPProxyCtrlClick( wxCommandEvent& event );
 
@@ -165,16 +137,8 @@ public:
 
 ////@end CDlgOptions event handler declarations
 
-#if defined(__WXMSW__)
     wxString GetDefaultDialupConnection() const;
     void SetDefaultDialupConnection(wxString value);
-
-    int GetDefaultConnectionType() const;
-    void SetDefaultConnectionType(int value);
-
-    bool GetDefaultDialupPromptCredentials() const;
-    void SetDefaultDialupPromptCredentials(bool value);
-#endif
 
 ////@begin CDlgOptions member function declarations
 
@@ -191,36 +155,12 @@ public:
 ////@begin CDlgOptions member variables
     wxComboBox* m_LanguageSelectionCtrl;
     wxSlider* m_ReminderFrequencyCtrl;
-#if defined(__WXMSW__)
-    wxRadioButton* m_NetworkAutomaticDetectionCtrl;
-#endif
-#if defined(__WXMSW__)
-    wxRadioButton* m_NetworkUseLANCtrl;
-#endif
-#if defined(__WXMSW__)
-    wxRadioButton* m_NetworkUseDialupCtrl;
-#endif
-#if defined(__WXMSW__)
     wxStaticBoxSizer* m_DialupStaticBoxCtrl;
-#endif
-#if defined(__WXMSW__)
     wxListBox* m_DialupConnectionsCtrl;
-#endif
-#if defined(__WXMSW__)
     wxButton* m_DialupSetDefaultCtrl;
-#endif
-#if defined(__WXMSW__)
     wxButton* m_DialupClearDefaultCtrl;
-#endif
-#if defined(__WXMSW__)
     wxStaticText* m_DialupDefaultConnectionTextCtrl;
-#endif
-#if defined(__WXMSW__)
     wxStaticText* m_DialupDefaultConnectionCtrl;
-#endif
-#if defined(__WXMSW__)
-    wxCheckBox* m_DialupPromptCredentials;
-#endif
     wxCheckBox* m_EnableHTTPProxyCtrl;
     wxTextCtrl* m_HTTPAddressCtrl;
     wxTextCtrl* m_HTTPPortCtrl;
