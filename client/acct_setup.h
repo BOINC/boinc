@@ -82,11 +82,15 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
 
 struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
     int error_num;
+    bool checking_network;
 
     virtual ~LOOKUP_WEBSITE_OP(){}
     int do_rpc(std::string&);
     virtual void handle_reply(int http_op_retval, int);
-    LOOKUP_WEBSITE_OP(){error_num = BOINC_SUCCESS;}
+    LOOKUP_WEBSITE_OP(){
+        error_num = BOINC_SUCCESS;
+        checking_network = false;
+    }
 };
 
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {

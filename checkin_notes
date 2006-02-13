@@ -1765,3 +1765,19 @@ Rom    13 Feb 2006
         
     clientgui/
         BOINCTaskBar.cpp
+
+David  13 Feb 2006
+	- core client: changes to the way we check
+		for presence of network connection.
+		Don't check for DNS failures,
+		since these won't show up for ~24 hours in some cases.
+		Instead, if we get any HTTP failure,
+		try an HTTP op to a high-availability URL,
+		and if that fails assume it's because of lack of network.
+
+		NOTE: this checkin prints lots of messages for debugging
+
+	client/
+		acct_setup.C,h
+		client_state.C
+		net_xfer_curl.C

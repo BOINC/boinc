@@ -177,6 +177,7 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval, int) {
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
 
+    msg_printf(0, MSG_INFO, "web site RPC to %s", url.c_str());
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
@@ -194,8 +195,14 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval, int CurlResult) {
     // (usually no physical network connection).
     // Set a flag that will signal the Manager to that effect
     //
-    if (CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
-        gstate.need_physical_connection = true;
+    if (checking_network) {
+        if (CurlResult) {
+            gstate.need_physical_connection = true;
+            msg_printf(0, MSG_INFO, "Network check: failure");
+        } else {
+            msg_printf(0, MSG_INFO, "Network check: success");
+        }
+        checking_network = false;
     }
 }
 

@@ -338,16 +338,16 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             } else {
                 nxf->http_op_retval = nxf->response;
             }
+            gstate.need_physical_connection = false;
         } else {
-            // If we couldn't resolve hostname,
+            // If operation failed,
             // it could be because there's no physical network connection.
             // Find out for sure by trying to contact google
             //
-            if (nxf->CurlResult == CURLE_COULDNT_RESOLVE_HOST) {
+            if (!gstate.lookup_website_op.checking_network) {
+                gstate.lookup_website_op.checking_network = true;
                 std::string url = "http://www.google.com";
                 gstate.lookup_website_op.do_rpc(url);
-            } else {
-                gstate.need_physical_connection = false;
             }
             msg_printf(0, MSG_ERROR, "HTTP error: %s", nxf->strCurlResult);
             nxf->http_op_retval = ERR_HTTP_ERROR;
