@@ -1781,3 +1781,9 @@ David  13 Feb 2006
 		acct_setup.C,h
 		client_state.C
 		net_xfer_curl.C
+
+David  13 Feb 2006
+    - make test_uc.py work again
+
+    test/
+        testbase.py

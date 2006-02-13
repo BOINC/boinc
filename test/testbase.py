@@ -509,7 +509,7 @@ class Host:
         self.global_prefs = None
         self.log_flags = 'log_flags.xml'
         self.host_dir = os.path.join(options.hosts_dir, self.name)
-        self.defargs = "-exit_when_idle -skip_cpu_benchmarks -debug_fake_exponential_backoff -return_results_immediately"
+        self.defargs = "-exit_when_idle -skip_cpu_benchmarks -return_results_immediately"
         # self.defargs = "-exit_when_idle -skip_cpu_benchmarks -sched_retry_delay_bin 1"
 
     def add_user(self, user, project):
