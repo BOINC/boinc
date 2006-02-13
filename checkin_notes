@@ -1758,3 +1758,10 @@ Rom    13 Feb 2006
 Rom    13 Feb 2006 (HEAD)
     - Tag for 5.3.19 release, all platforms
       boinc_core_release_5_3_19
+
+Rom    13 Feb 2006
+    - Bug Fix: Fix a possible invalid pointer issue with the taskbar
+        notifications.
+        
+    clientgui/
+        BOINCTaskBar.cpp

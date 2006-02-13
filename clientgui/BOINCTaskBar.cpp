@@ -286,22 +286,22 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
-                strMessage.Printf(
-                    _("%s%s is currently suspended...\n"),
-                    strMessage.c_str(),
+                strBuffer.Printf(
+                    _("%s is currently suspended...\n"),
                     wxGetApp().GetBrand()->GetProjectName().c_str()
                 );
+                strMessage += strBuffer;
             }
 
             if (bNetworkSuspended) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
-                strMessage.Printf(
-                    _("%s%s networking is currently suspended...\n"),
-                    strMessage.c_str(),
+                strBuffer.Printf(
+                    _("%s networking is currently suspended...\n"),
                     wxGetApp().GetBrand()->GetProjectName().c_str()
                 );
+                strMessage += strBuffer;
             }
 
             if (strMessage.Length() > 0) {
@@ -337,24 +337,24 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             // 3rd %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
-            strMessage.Printf(
-                _("%s%s is currently reconnecting to a %s client...\n"),
-                strMessage.c_str(),
+            strBuffer.Printf(
+                _("%s is currently reconnecting to a %s client...\n"),
                 wxGetApp().GetBrand()->GetApplicationName().c_str(),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
+            strMessage += strBuffer;
         } else {
             // 1st %s is the previous instance of the message
             // 2nd %s is the application name
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             // 3rd %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
-            strMessage.Printf(
-                _("%s%s is not currently connected to a %s client...\n"),
-                strMessage.c_str(),
+            strBuffer.Printf(
+                _("%s is not currently connected to a %s client...\n"),
                 wxGetApp().GetBrand()->GetApplicationName().c_str(),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
+            strMessage += strBuffer;
         }
 
         SetBalloon(m_iconTaskBarIcon, strTitle, strMessage);
