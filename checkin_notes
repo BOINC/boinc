@@ -1736,3 +1736,9 @@ David  11 Feb 2006
             user.inc
         user/
             pending.php
+
+David  11 Feb 2006
+    - web tweaks
+
+    html/inc/
+        user.inc

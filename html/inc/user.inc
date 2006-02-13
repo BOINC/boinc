@@ -33,12 +33,16 @@ require_once("../inc/stats_sites.inc");
 //
 function show_user_stats_private($user) {
     global $cpid_stats_sites;
-    row1("Account statistics");
+    row1("Work done");
+    row2(PROJECT." member since", date_str($user->create_time));
     show_credit($user);
     $config = get_config();
     if (parse_bool($config, "show_results")) {
         row2("Pending credit", "<a href=pending.php>View</a>");
     }
+    row2("Computers on this account",
+        "<a href=hosts_user.php>View</a>"
+    );
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $x = "";
@@ -50,6 +54,7 @@ function show_user_stats_private($user) {
     $x .= "<br><font size=-2>Cross-project ID: $cpid</font>\n";
     row2("Cross-project statistics", $x);
     row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
+    row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
 }
 
 // show static user info (private)
@@ -73,6 +78,7 @@ function show_user_info_private($user) {
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     row2("Change", "<a href=edit_email_form.php>email address</a> | <a href=edit_passwd_form.php>password</a> | <a href=edit_user_info_form.php>other account info</a>");
+    row2("", "<a href=logout.php>Log out</a>");
 
     row1("Community");
 
@@ -158,13 +164,6 @@ function show_user_page_private($user) {
       require_once("../project/donations.inc");
       show_user_donations_private($user);
     }
-    row1("Other");
-    row2("", "<a href=logout.php>Log out</a>");
-    row2("Computers on this account",
-        "<a href=hosts_user.php>View computers</a>"
-    );
-    row2(PROJECT." member since", date_str($user->create_time));
-    row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
     end_table();
 }
 

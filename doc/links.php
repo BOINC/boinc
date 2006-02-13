@@ -78,6 +78,7 @@ language("Dutch", array(
 ));
 language("English", array(
     site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),
+    site("http://www.bc-team.org/", "BOINC Confederation"),
     site("http://theclangers.net/", "The Clangers"),
     site("http://www.free-dc.org/", "Free-DC"),
     site("http://forums.anandtech.com/categories.aspx?catid=39&entercat=y", "TeAm Anandtech"),
@@ -111,6 +112,7 @@ language("German", array(
     site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
     site("http://www.boinc-halle-saale.de", "BOINC@Halle/Saale"),
+    site("http://www.bc-team.org/", "BOINC Confederation"),
     site("http://www.boincfun.tk/", "BOINCfun"),
     site("http://www.setigermany.de", "SETI.Germany"),
     site("http://www.sar-hessen.de", "Team Science and Research Hessen"),
