@@ -1754,4 +1754,7 @@ Rom    13 Feb 2006
         DlgOptions.cpp, .h
         DlgSelectComputer.h
         MainFrame.cpp, .h
-        
+
+Rom    13 Feb 2006 (HEAD)
+    - Tag for 5.3.19 release, all platforms
+      boinc_core_release_5_3_19
