@@ -2,13 +2,14 @@
 
 require_once("docutil.php");
 
-include("stats_sites.dat");
+include("../html/inc/stats_sites.inc");
 
 page_head("Web sites for BOINC statistics");
 echo "
 <p>
 The following web sites show statistics for one or more BOINC projects:
 ";
+shuffle($stats_sites);
 site_list($stats_sites);
 echo "
 These sites use XML-format data exported by BOINC projects.
@@ -24,6 +25,7 @@ The following sites offer dynamically-generated
 images showing your statistics in BOINC projects.
 Use these in your email or message-board signature.
 ";
+shuffle($sig_sites);
 site_list($sig_sites);
 
 page_tail();

@@ -1,7 +1,7 @@
 <?php
 require_once("docutil.php");
 
-include("stats_sites.dat");
+include("../html/inc/stats_sites.inc");
 
 function show_link($language, $name, $url) {
     list_item($language, "<a href=$url>$name</a>");

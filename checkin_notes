@@ -1830,3 +1830,18 @@ Rom    14 Feb 2006
         ProjectInfoPage.cpp
         ProxyPage.cpp
         ViewProjects.cpp
+
+David  14 Feb 2006
+    - user web: on "Statistics" page, remove the XML mumbo-jumbo.
+        Show a list of all current stats sites,
+        and sites that provide signature images.
+        The central repository for these lists is html/inc/stats_sites.inc
+
+    html/
+        doc/
+            stats_sites.dat (removed)
+        inc/
+            stats_sites.inc
+            user.inc
+        user/
+            stats.php
