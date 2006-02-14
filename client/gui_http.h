@@ -31,7 +31,7 @@ using std::string;
 // base class for various types of ops
 //
 struct GUI_HTTP_OP {
-    virtual void handle_reply(int, int) {}
+    virtual void handle_reply(int) {}
     GUI_HTTP_OP(){}
     virtual ~GUI_HTTP_OP(){}
 };

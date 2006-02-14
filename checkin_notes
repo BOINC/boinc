@@ -1796,3 +1796,13 @@ Rom    13 Feb 2006
         
     clientgui/
         BOINCDialupManager.cpp
+
+David  14 Feb 2006
+	- fix bug that broke account manager attach
+	- removed 2nd arg (CurlError) from handle_reply functions.
+		We were using this to check for DNS failure,
+		but we're not doing this anymore.
+
+	client/
+		acct_setup.C,h
+		gui_http.C,h
