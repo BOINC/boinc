@@ -43,11 +43,7 @@
 #define ID_OPTIONSOPTIONS                       6020
 #define ID_HELPBOINC                            6021
 #define ID_HELPBOINCMANAGER                     6022
-#define ID_TB_ACTIVITYRUNALWAYS                 6023
-#define ID_TB_ACTIVITYRUNBASEDONPREPERENCES     6024
 #define ID_TB_ACTIVITYSUSPEND                   6025
-#define ID_TB_NETWORKRUNALWAYS                  6026
-#define ID_TB_NETWORKRUNBASEDONPREPERENCES      6027
 #define ID_TB_NETWORKSUSPEND                    6028
 #define ID_TOOLSAMUPDATENOW                     6029
 #define ID_ADVANCEDAMDEFECT                     6030

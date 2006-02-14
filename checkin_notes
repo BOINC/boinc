@@ -1822,10 +1822,16 @@ Rom    14 Feb 2006
         seems like it is selected and has focus.
     - Bug Fix: Disable the detach button when the project is managed
         via an account manager.  This only affects the project tab.
+    - Feature Change: Trim down the number of menu items in the taskbar
+        context menu by making the suspend activities and suspend
+        network acivities menu checkbox items.  When the items are checked
+        they are suspended, and when they are unchecked they are set to be
+        based on preferences.
         
     clientgui/
         AccountInfoPage.cpp
         AccountKeyPage.cpp
+        BOINCTaskBar.cpp
         MainFrame.cpp
         ProjectInfoPage.cpp
         ProxyPage.cpp

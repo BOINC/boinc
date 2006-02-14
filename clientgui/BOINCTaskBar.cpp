@@ -34,8 +34,8 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
-    EVT_MENU_RANGE(ID_TB_ACTIVITYRUNALWAYS, ID_TB_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
-    EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
+    EVT_MENU(ID_TB_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
+    EVT_MENU(ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
@@ -161,16 +161,10 @@ void CTaskBarIcon::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch(event.GetId()) {
-    case ID_TB_ACTIVITYRUNALWAYS:
-        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS);
-        break;
-    case ID_TB_ACTIVITYSUSPEND:
+    if (event.IsChecked()) {
         pDoc->SetActivityRunMode(RUN_MODE_NEVER);
-        break;
-    case ID_TB_ACTIVITYRUNBASEDONPREPERENCES:
+    } else {
         pDoc->SetActivityRunMode(RUN_MODE_AUTO);
-        break;
     }
 }
 
@@ -183,16 +177,10 @@ void CTaskBarIcon::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch(event.GetId()) {
-    case ID_TB_NETWORKRUNALWAYS:
-        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
-        break;
-    case ID_TB_NETWORKSUSPEND:
+    if (event.IsChecked()) {
         pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
-        break;
-    case ID_TB_NETWORKRUNBASEDONPREPERENCES:
+    } else {
         pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
-        break;
     }
 }
 
@@ -453,7 +441,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     if (is_acct_mgr_detected) {
         menuName.Printf(
-            _("&Open %s web site..."),
+            _("&Open %s Web..."),
             wxGetApp().GetBrand()->GetProjectName().c_str()
         );
         menu->Append(ID_OPENWEBSITE, menuName, wxEmptyString);
@@ -481,13 +469,9 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
 #endif
     menu->AppendSeparator();
-    menu->AppendRadioItem(ID_TB_ACTIVITYRUNALWAYS, _("&Run always"), wxEmptyString);
-    menu->AppendRadioItem(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, _("Run based on &preferences"), wxEmptyString);
-    menu->AppendRadioItem(ID_TB_ACTIVITYSUSPEND, _("&Suspend"), wxEmptyString);
+    menu->AppendCheckItem(ID_TB_ACTIVITYSUSPEND, _("&Suspend activities"), wxEmptyString);
     menu->AppendSeparator();
-    menu->AppendRadioItem(ID_TB_NETWORKRUNALWAYS, _("&Network activity always available"), wxEmptyString);
-    menu->AppendRadioItem(ID_TB_NETWORKRUNBASEDONPREPERENCES, _("Network activity based on &preferences"), wxEmptyString);
-    menu->AppendRadioItem(ID_TB_NETWORKSUSPEND, _("&Network activity suspended"), wxEmptyString);
+    menu->AppendCheckItem(ID_TB_NETWORKSUSPEND, _("Suspend &network activities"), wxEmptyString);
     menu->AppendSeparator();
 
     menuName.Printf(
@@ -504,38 +488,25 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
 void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     CMainDocument* pDoc          = wxGetApp().GetDocument();
-    wxInt32        iActivityMode = -1;
-    wxInt32        iNetworkMode  = -1;
+    wxInt32        iMode = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetActivityRunMode(iActivityMode);
-    switch(iActivityMode) {
-    case RUN_MODE_ALWAYS:
-        menu->Check(ID_TB_ACTIVITYRUNALWAYS, true);
-        break;
-    case RUN_MODE_NEVER:
+    pDoc->GetActivityRunMode(iMode);
+    if (RUN_MODE_NEVER == iMode) {
         menu->Check(ID_TB_ACTIVITYSUSPEND, true);
-        break;
-    case RUN_MODE_AUTO:
-        menu->Check(ID_TB_ACTIVITYRUNBASEDONPREPERENCES, true);
-        break;
+    } else {
+        menu->Check(ID_TB_ACTIVITYSUSPEND, false);
     }
 
-    pDoc->GetNetworkRunMode(iNetworkMode);
-    switch(iNetworkMode) {
-    case RUN_MODE_ALWAYS:
-        menu->Check(ID_TB_NETWORKRUNALWAYS, true);
-        break;
-    case RUN_MODE_AUTO:
-        menu->Check(ID_TB_NETWORKRUNBASEDONPREPERENCES, true);
-        break;
-    case RUN_MODE_NEVER:
+    pDoc->GetNetworkRunMode(iMode);
+    if (RUN_MODE_NEVER == iMode) {
         menu->Check(ID_TB_NETWORKSUSPEND, true);
-        break;
+    } else {
+        menu->Check(ID_TB_NETWORKSUSPEND, false);
     }
-    
+
 #ifdef __WXMAC__
 //    WindowRef win = ActiveNonFloatingWindow();
     WindowRef win = FrontWindow();
