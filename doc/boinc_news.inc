@@ -1,6 +1,25 @@
 <?
 
 $project_news = array(
+array("February 14, 2006",
+    "BOINC and Climateprediction.net have joined forces with the BBC
+    to launch a new experiment -- a full simulation of climate change
+    from 1920 to 2080.
+    The experiment is described on
+    a BBC television documentary <b>Meltdown</b>
+    (BBC-4, February 20th, for UK BOINCers).
+    Simplified client software is available
+    at <a href=http://bbc.co.uk/climatechange>bbc.co.uk/climatechange</a>.
+    Experienced BOINCers can attach to http://bbc.cpdn.org
+    (check out the new graphics!).
+    Be warned that a 160-year climate simulation is a long workunit even
+    by Climateprediction.net's extravagant standards.
+    But if you have a fast machine and are prepared to give
+    us first call on your CPU, just for the next couple of months,
+    then you could see your results in a second BBC television programme
+    scheduled for May.
+    "
+),
 array("February 8, 2006",
     "The <a href=http://szdg.lpds.sztaki.hu/szdg/>SZTAKI Desktop Grid</a>
     is now in production.

@@ -1806,3 +1806,10 @@ David  14 Feb 2006
 	client/
 		acct_setup.C,h
 		gui_http.C,h
+
+David  14 Feb 2006
+    - core client: on Windows, use commit mode ("wc") for state file
+        (from Walt Gribben)
+
+    client
+        cs_statefile.C

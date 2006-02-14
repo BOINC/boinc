@@ -349,7 +349,11 @@ int CLIENT_STATE::write_state_file() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
+#ifdef _WIN32
+    retval = mf.open(STATE_FILE_NEXT, "wc");
+#else
     retval = mf.open(STATE_FILE_NEXT, "w");
+#endif
     if (retval) {
         msg_printf(0, MSG_ERROR,
             "Can't open temporary state file: %s %s",
