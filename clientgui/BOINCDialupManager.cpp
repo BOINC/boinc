@@ -342,6 +342,7 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
         true
     );
     m_bConnectedSuccessfully = true;
+    m_bNotifyConnectionAvailable = false;
 
     return 0;
 }
