@@ -1787,3 +1787,12 @@ David  13 Feb 2006
 
     test/
         testbase.py
+
+Rom    13 Feb 2006
+    - Bug Fix: Fix a few issues that were introduced with the new dial up
+        manager functionality.  Variables that were once seperate are now
+        mutually exclusive and so two conditions would never have fired
+        when traversing the state machine.
+        
+    clientgui/
+        BOINCDialupManager.cpp

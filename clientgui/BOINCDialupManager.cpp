@@ -151,10 +151,10 @@ void CBOINCDialUpManager::poll() {
                 //   notify the CC that the network is available.
                 wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsOnline && m_bConnectedSuccessfully && m_bNotifyConnectionAvailable"));
                 NetworkAvailable();
-            } else if (bIsOnline && bWantDisconnect && m_bConnectedSuccessfully ) {
+            } else if (bWantDisconnect && m_bConnectedSuccessfully) {
                 // We are online, and the CC says it is safe to disconnect.  Since we
                 //   initiated the connection we need to disconnect now.
-                wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsOnline && bWantDisconnect && m_bConnectedSuccessfully"));
+                wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bWantDisconnect && m_bConnectedSuccessfully"));
                 Disconnect();
             }
         } else if (!bIsDialing && m_bWasDialing) {
