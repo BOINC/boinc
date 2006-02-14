@@ -577,7 +577,11 @@ void CViewProjects::UpdateSelection() {
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
-        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
+        if (project->attached_via_acct_mgr) {
+            m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
+        } else {
+            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
+        }
 
         CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, project);
 

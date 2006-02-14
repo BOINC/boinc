@@ -1820,6 +1820,8 @@ Rom    14 Feb 2006
     - Bug Fix: Call Fit() before setting focus to any of the controls.
         Fit() messes up the input focus even though the control still
         seems like it is selected and has focus.
+    - Bug Fix: Disable the detach button when the project is managed
+        via an account manager.  This only affects the project tab.
         
     clientgui/
         AccountInfoPage.cpp
@@ -1827,3 +1829,4 @@ Rom    14 Feb 2006
         MainFrame.cpp
         ProjectInfoPage.cpp
         ProxyPage.cpp
+        ViewProjects.cpp
