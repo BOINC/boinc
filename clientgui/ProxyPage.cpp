@@ -323,67 +323,64 @@ void CErrProxyPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProxySOCKSPasswordStaticCtrl);
     wxASSERT(m_pProxySOCKSPasswordCtrl);
 
-    if (event.GetDirection() == true) {
-        // Moving from the previous page, update text and get state
+    // Moving from the previous page, update text and get state
 
-        m_pTitleStaticCtrl->SetLabel(
-            _("Proxy configuration")
-        );
-        m_pProxyHTTPDescriptionCtrl->SetLabel(
-            _("HTTP proxy")
-        );
-        m_pProxyHTTPServerStaticCtrl->SetLabel(
-            _("Server:")
-        );
-        m_pProxyHTTPPortStaticCtrl->SetLabel(
-            _("Port:")
-        );
-        m_pProxyHTTPUsernameStaticCtrl->SetLabel(
-            _("User Name:")
-        );
-        m_pProxyHTTPPasswordStaticCtrl->SetLabel(
-            _("Password:")
-        );
+    m_pTitleStaticCtrl->SetLabel(
+        _("Proxy configuration")
+    );
+    m_pProxyHTTPDescriptionCtrl->SetLabel(
+        _("HTTP proxy")
+    );
+    m_pProxyHTTPServerStaticCtrl->SetLabel(
+        _("Server:")
+    );
+    m_pProxyHTTPPortStaticCtrl->SetLabel(
+        _("Port:")
+    );
+    m_pProxyHTTPUsernameStaticCtrl->SetLabel(
+        _("User Name:")
+    );
+    m_pProxyHTTPPasswordStaticCtrl->SetLabel(
+        _("Password:")
+    );
 #if 0
-        m_pProxyHTTPAutodetectCtrl->SetLabel(
-            _("Autodetect")
-        );
+    m_pProxyHTTPAutodetectCtrl->SetLabel(
+        _("Autodetect")
+    );
 #endif
-        m_pProxySOCKSDescriptionCtrl->SetLabel(
-            _("SOCKS proxy")
-        );
-        m_pProxySOCKSServerStaticCtrl->SetLabel(
-            _("Server:")
-        );
-        m_pProxySOCKSPortStaticCtrl->SetLabel(
-            _("Port:")
-        );
-        m_pProxySOCKSUsernameStaticCtrl->SetLabel(
-            _("User Name:")
-        );
-        m_pProxySOCKSPasswordStaticCtrl->SetLabel(
-            _("Password:")
-        );
+    m_pProxySOCKSDescriptionCtrl->SetLabel(
+        _("SOCKS proxy")
+    );
+    m_pProxySOCKSServerStaticCtrl->SetLabel(
+        _("Server:")
+    );
+    m_pProxySOCKSPortStaticCtrl->SetLabel(
+        _("Port:")
+    );
+    m_pProxySOCKSUsernameStaticCtrl->SetLabel(
+        _("User Name:")
+    );
+    m_pProxySOCKSPasswordStaticCtrl->SetLabel(
+        _("Password:")
+    );
 
-        pDoc->GetProxyConfiguration();
-        m_pProxyHTTPServerCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
-        m_pProxyHTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
-        m_pProxyHTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
+    pDoc->GetProxyConfiguration();
+    m_pProxyHTTPServerCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
+    m_pProxyHTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
+    m_pProxyHTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
 
-        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
-        m_pProxyHTTPPortCtrl->SetValue(strBuffer);
+    strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
+    m_pProxyHTTPPortCtrl->SetValue(strBuffer);
 
-        m_pProxySOCKSServerCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
-        m_pProxySOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
-        m_pProxySOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
+    m_pProxySOCKSServerCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
+    m_pProxySOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
+    m_pProxySOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
 
-        strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
-        m_pProxySOCKSPortCtrl->SetValue(strBuffer);
-
-        m_pProxyHTTPServerCtrl->SetFocus();
-    }
+    strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
+    m_pProxySOCKSPortCtrl->SetValue(strBuffer);
 
     Fit();
+    m_pProxyHTTPServerCtrl->SetFocus();
 }
  
 /*!

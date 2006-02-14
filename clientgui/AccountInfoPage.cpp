@@ -400,8 +400,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
     }
  
-    m_pAccountEmailAddressCtrl->SetFocus();
     Fit();
+    m_pAccountEmailAddressCtrl->SetFocus();
 }
   
 /*!

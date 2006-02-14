@@ -1813,3 +1813,17 @@ David  14 Feb 2006
 
     client
         cs_statefile.C
+
+Rom    14 Feb 2006
+    - Bug Fix: After any of the wizards have been executed, recreate the
+        menus.
+    - Bug Fix: Call Fit() before setting focus to any of the controls.
+        Fit() messes up the input focus even though the control still
+        seems like it is selected and has focus.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountKeyPage.cpp
+        MainFrame.cpp
+        ProjectInfoPage.cpp
+        ProxyPage.cpp

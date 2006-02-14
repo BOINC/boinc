@@ -232,8 +232,8 @@ void CAccountKeyPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Account key:")
     );
 
-    m_pAccountKeyCtrl->SetFocus();
     Fit();
+    m_pAccountKeyCtrl->SetFocus();
 }
   
 /*!

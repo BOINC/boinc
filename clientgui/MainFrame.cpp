@@ -1106,6 +1106,8 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
         if (pWizard)
             pWizard->Destroy();
 
+        DeleteMenu();
+        CreateMenu();
         FireRefreshView();
 
         m_pRefreshStateTimer->Start();
@@ -1146,6 +1148,8 @@ void CMainFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
         if (pWizard)
             pWizard->Destroy();
 
+        DeleteMenu();
+        CreateMenu();
         FireRefreshView();
 
         m_pRefreshStateTimer->Start();
@@ -1186,6 +1190,8 @@ void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         if (pWizard)
             pWizard->Destroy();
 
+        DeleteMenu();
+        CreateMenu();
         FireRefreshView();
 
         m_pRefreshStateTimer->Start();
@@ -1229,6 +1235,9 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
 
         if (pWizard)
             pWizard->Destroy();
+
+        DeleteMenu();
+        CreateMenu();
 
         m_pRefreshStateTimer->Start();
         m_pFrameRenderTimer->Start();
