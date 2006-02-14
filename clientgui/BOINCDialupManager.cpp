@@ -163,7 +163,7 @@ void CBOINCDialUpManager::poll() {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsDialing && m_bWasDialing"));
 
             if (m_bSetConnectionTimer) {
-                m_bSetConnectionTimer = true;
+                m_bSetConnectionTimer = false;
                 m_dtDialupConnectionTimeout = wxDateTime::Now();
                 m_iConnectAttemptRetVal = ERR_NO_NETWORK_CONNECTION;
             }
