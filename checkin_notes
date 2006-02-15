@@ -1870,3 +1870,12 @@ Rom    14 Feb 2006
 
     clientgui/
         ViewTransfers.cpp
+
+Rom    15 Feb 2005
+    - Spec Change: Adjust the refresh rate for list view items to 1 second.
+        This was previously done in the constructor for CMainFrame but was
+        later changed in SetFrameListPanelRenderTimerRate() for deal with
+        CPU utilization on Mac's.
+        
+    clientgui/
+        MainFrame.cpp

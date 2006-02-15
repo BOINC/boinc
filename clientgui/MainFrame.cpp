@@ -1862,7 +1862,7 @@ void CMainFrame::SetFrameListPanelRenderTimerRate() {
         
         if (m_pFrameListPanelRenderTimer->IsRunning())
             m_pFrameListPanelRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Start(5000);  // Refresh every 5 seconds
+        m_pFrameListPanelRenderTimer->Start(1000);  // Refresh every 1 seconds
         return;
     }
     
@@ -1879,7 +1879,7 @@ void CMainFrame::SetFrameListPanelRenderTimerRate() {
         m_pFrameListPanelRenderTimer->Start(60000); // Refresh every 1 minute
         break;
     default:
-        m_pFrameListPanelRenderTimer->Start(5000);  // Refresh every 5 seconds
+        m_pFrameListPanelRenderTimer->Start(1000);  // Refresh every 1 seconds
         break;
     }
 }
