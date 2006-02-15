@@ -1,3 +1,11 @@
+dcapi (0.2-3) unstable; urgency=low
+
+  * Fix build dependencies.
+  * Header cleanups.
+  * Clustergrid implementation synchronized with the clgr branch.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 15 Feb 2006 14:01:48 +0100
+
 dcapi (0.2-2) unstable; urgency=low
 
   * New release with client API for BOINC.
