@@ -357,8 +357,8 @@ bool CMainFrame::CreateMenu() {
     } else {
         menuTools->Append(
             ID_TOOLSAMUPDATENOW, 
-            _("&Update now"),
-            _("Reterive the latest settings from the account manager")
+            _("&Synchronize with ")+wxString(ami.acct_mgr_name.c_str()),
+            _("Get current settings from ")+wxString(ami.acct_mgr_name.c_str())
         );
     }
 
@@ -368,17 +368,17 @@ bool CMainFrame::CreateMenu() {
     menuActivity->AppendRadioItem(
         ID_FILEACTIVITYRUNALWAYS,
         _("&Run always"),
-        _("Does work regardless of preferences")
+        _("Do work regardless of preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILEACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
-        _("Does work according to your preferences")
+        _("Do work according to your preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILEACTIVITYSUSPEND,
         _("&Suspend"),
-        _("Stops work regardless of preferences")
+        _("Stop work regardless of preferences")
     );
 
     menuActivity->AppendSeparator();
@@ -386,17 +386,17 @@ bool CMainFrame::CreateMenu() {
     menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNALWAYS,
         _("&Network activity always available"),
-        _("Does network activity regardless of preferences")
+        _("Do network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNBASEDONPREPERENCES,
         _("Network activity based on &preferences"),
-        _("Does network activity according to your preferences")
+        _("Do network activity according to your preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILENETWORKSUSPEND,
         _("&Network activity suspended"),
-        _("Stops BOINC network activity")
+        _("Stop BOINC network activity")
     );
 
     // Advanced menu

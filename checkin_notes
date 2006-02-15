@@ -1851,3 +1851,11 @@ David  14 Feb 2006
             user.inc
         user/
             stats.php
+
+David  14 Feb 2006
+	- Manager: rename menu item from "Update now"
+		to "Synchronize with [name of account manager]".
+		Fixed some spelling/grammar.
+
+	clientgui/
+		MainFrame.cpp
