@@ -1897,3 +1897,14 @@ David  15 Feb 2006
 
 	clientgui/
 		MainFrame.cpp
+
+Rom    15 Feb 2006
+    - Bug Fix: Force a project state update even when we are looking at
+        the tasks tab.  Copy the updated project state to the existing global
+        state structure.
+        
+    clientgui/
+        MainDocument.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

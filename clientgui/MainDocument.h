@@ -145,7 +145,6 @@ private:
     int                         CachedProjectStatusUpdate();
 
 public:
-    PROJECTS                    project_status;
     PROJECT*                    project(unsigned int);
     float                       m_fProjectTotalResourceShare;
 

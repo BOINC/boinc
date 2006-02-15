@@ -386,7 +386,6 @@ int CMainDocument::ResetState() {
     rpc.close();
     state.clear();
     host.clear_host_info();
-    project_status.clear();
     results.clear();
     messages.clear();
     ft.clear();
@@ -584,15 +583,15 @@ int CMainDocument::CachedProjectStatusUpdate() {
     int i = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_project_status(project_status);
+        iRetVal = rpc.get_project_status(state);
         if (iRetVal) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
-            m_pNetworkConnection->SetStateDisconnected();
+            ForceCacheUpdate();
         }
 
         m_fProjectTotalResourceShare = 0.0;
-        for (i=0; i < (long)project_status.projects.size(); i++) {
-            m_fProjectTotalResourceShare += project_status.projects.at(i)->resource_share;
+        for (i=0; i < (long)state.projects.size(); i++) {
+            m_fProjectTotalResourceShare += state.projects.at(i)->resource_share;
         }
     }
 
@@ -610,8 +609,8 @@ PROJECT* CMainDocument::project(unsigned int i) {
     //   which will cause an exception which can be trapped and return a NULL
     //   pointer when the exception is thrown.
     try {
-        if (!project_status.projects.empty())
-            pProject = project_status.projects.at(i);
+        if (!state.projects.empty())
+            pProject = state.projects.at(i);
     }
     catch (std::out_of_range e) {
         pProject = NULL;
@@ -624,11 +623,11 @@ PROJECT* CMainDocument::project(unsigned int i) {
 int CMainDocument::GetProjectCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedProjectStatusUpdate();
+    CachedStateUpdate();
 
-    if (!project_status.projects.empty())
-        iCount = project_status.projects.size();
+    if (!state.projects.empty())
+        iCount = state.projects.size();
 
     return iCount;
 }
@@ -735,7 +734,7 @@ int CMainDocument::CachedResultsStatusUpdate() {
         iRetVal = rpc.get_results(results);
         if (iRetVal) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
-            m_pNetworkConnection->SetStateDisconnected();
+            ForceCacheUpdate();
         }
     }
 
@@ -767,8 +766,9 @@ RESULT* CMainDocument::result(unsigned int i) {
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
+    CachedProjectStatusUpdate();
     CachedResultsStatusUpdate();
+    CachedStateUpdate();
 
     if (!results.results.empty())
         iCount = results.results.size();
@@ -932,7 +932,7 @@ int CMainDocument::CachedFileTransfersUpdate() {
         iRetVal = rpc.get_file_transfers(ft);
         if (iRetVal) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
-            m_pNetworkConnection->SetStateDisconnected();
+            ForceCacheUpdate();
         }
     }
 
@@ -1007,7 +1007,7 @@ int CMainDocument::CachedResourceStatusUpdate() {
         iRetVal = rpc.get_disk_usage(resource_status);
         if (iRetVal) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
-            m_pNetworkConnection->SetStateDisconnected();
+            ForceCacheUpdate();
         }
     }
 
@@ -1058,7 +1058,7 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
         iRetVal = rpc.get_statistics(statistics_status);
         if (iRetVal) {
             wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
-            m_pNetworkConnection->SetStateDisconnected();
+            ForceCacheUpdate();
         }
     }
 

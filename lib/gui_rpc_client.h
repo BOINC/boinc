@@ -531,6 +531,7 @@ public:
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
+    int get_project_status(CC_STATE&);
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);
     int show_graphics(

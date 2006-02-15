@@ -1047,6 +1047,32 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
     return 0;
 }
 
+int RPC_CLIENT::get_project_status(CC_STATE& state) {
+    char buf[256];
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<get_project_status/>\n");
+    if (retval) return retval;
+
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</projects>")) break;
+        else if (match_tag(buf, "<project>")) {
+            PROJECT* project = new PROJECT();
+            PROJECT* state_project;
+            project->parse(rpc.fin);
+            state_project = state.lookup_project(project->master_url);
+            if (state_project && (project->master_url == state_project->master_url)) {
+                state_project->copy(*project);
+            } else {
+                return ERR_NOT_FOUND;
+            }
+            continue;
+        }
+    }
+    return 0;
+}
+
 int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
     char buf[256];
     RPC rpc(this);
