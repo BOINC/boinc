@@ -86,7 +86,6 @@ int DC_destroyWU(DC_Workunit wu)
 }
 
 int DC_checkForResult(int  timeout,
-		      /*int  cb_check_result(), */
 		      void cb_assimilate_result(DC_Result result)
 		      ) 
 {
