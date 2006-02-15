@@ -1859,3 +1859,11 @@ David  14 Feb 2006
 
 	clientgui/
 		MainFrame.cpp
+
+Rom    14 Feb 2006
+    - Spec Change: Transfers should be 0% until data is actually transfered.
+    - Spec Change: Warn a user that aborting a file transfer will invalidate
+        a task and report an error.
+
+    clientgui/
+        ViewTransfers.cpp

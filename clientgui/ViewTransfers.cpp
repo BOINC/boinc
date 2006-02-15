@@ -184,8 +184,11 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Aborting transfer..."));
 
     strMessage.Printf(
-        _("Are you sure you want to abort this file transfer '%s'?"), 
-        pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str());
+        _("Are you sure you want to abort this file transfer '%s'?\n"
+          "NOTE: Aborting a transfer will invalidate a task and you\n"
+          "will not receive credit for it."), 
+        pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str()
+    );
 
     iAnswer = ::wxMessageBox(
         strMessage,
@@ -393,12 +396,7 @@ wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const 
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        if (transfer->xfer_active) {
-            fBytesSent = transfer->bytes_xferred;
-        } else {
-            fBytesSent = transfer->nbytes;
-        }
-
+        fBytesSent = transfer->bytes_xferred;
         fFileSize = transfer->nbytes;
     }
 
@@ -409,9 +407,11 @@ wxInt32 CViewTransfers::FormatProgress(wxInt32 item, wxString& strBuffer) const 
         fBytesSent = fFileSize;
     }
 
-    wxASSERT(fFileSize);
-
-    strBuffer.Printf(wxT("%.2f%%"), (100 * (fBytesSent / fFileSize)));
+    if ( 0.0 == fFileSize ) {
+        strBuffer = wxT("0%");
+    } else {
+        strBuffer.Printf(wxT("%.2f%%"), (100 * (fBytesSent / fFileSize)));
+    }
 
     return 0;
 }
@@ -427,11 +427,7 @@ wxInt32 CViewTransfers::FormatSize(wxInt32 item, wxString& strBuffer) const {
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        if (transfer->xfer_active)
-            fBytesSent = transfer->bytes_xferred;
-        else
-            fBytesSent = transfer->nbytes;
-
+        fBytesSent = transfer->bytes_xferred;
         fFileSize = transfer->nbytes;
     }
 
