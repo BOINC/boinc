@@ -355,10 +355,22 @@ bool CMainFrame::CreateMenu() {
             _("Attach to an account manager")
         );
     } else {
+        // %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        strMenuName.Printf(
+            _("&Synchronize with %s"), 
+            ami.acct_mgr_name.c_str()
+        );
+        // %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        strMenuDescription.Printf(
+            _("Get current settings from %s"), 
+            ami.acct_mgr_name.c_str()
+        );
         menuTools->Append(
             ID_TOOLSAMUPDATENOW, 
-            _("&Synchronize with ")+wxString(ami.acct_mgr_name.c_str()),
-            _("Get current settings from ")+wxString(ami.acct_mgr_name.c_str())
+            strMenuName,
+            strMenuDescription
         );
     }
 
@@ -429,8 +441,8 @@ bool CMainFrame::CreateMenu() {
           "get latest preferences, and possibly get more work.")
     );
     if (is_acct_mgr_detected) {
-        // %s is the application name
-        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        // %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
         strMenuName.Printf(
             _("&Defect from %s"), 
             ami.acct_mgr_name.c_str()

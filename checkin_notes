@@ -1864,6 +1864,9 @@ Rom    14 Feb 2006
     - Spec Change: Transfers should be 0% until data is actually transfered.
     - Spec Change: Warn a user that aborting a file transfer will invalidate
         a task and report an error.
+    - Add some comments around the Update Now menu item so the localizers
+        know what information is expected and make the string contruction
+        the same as with the other menu items.
 
     clientgui/
         ViewTransfers.cpp
