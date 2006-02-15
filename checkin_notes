@@ -1891,3 +1891,9 @@ David  15 Feb 2006
 
     client/
         client_state.C
+
+David  15 Feb 2006
+	- Manager: fix menu strings and remove erroneous comments
+
+	clientgui/
+		MainFrame.cpp

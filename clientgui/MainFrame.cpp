@@ -347,7 +347,7 @@ bool CMainFrame::CreateMenu() {
         menuTools->Append(
             ID_PROJECTSATTACHPROJECT, 
             _("Attach to &project"),
-            _("Attach to a project to begin processing work")
+            _("Attach to a project")
         );
         menuTools->Append(
             ID_PROJECTSATTACHACCOUNTMANAGER, 
@@ -355,14 +355,10 @@ bool CMainFrame::CreateMenu() {
             _("Attach to an account manager")
         );
     } else {
-        // %s is the project name
-        //    i.e. 'BOINC', 'GridRepublic'
         strMenuName.Printf(
             _("&Synchronize with %s"), 
             ami.acct_mgr_name.c_str()
         );
-        // %s is the project name
-        //    i.e. 'BOINC', 'GridRepublic'
         strMenuDescription.Printf(
             _("Get current settings from %s"), 
             ami.acct_mgr_name.c_str()
@@ -380,12 +376,12 @@ bool CMainFrame::CreateMenu() {
     menuActivity->AppendRadioItem(
         ID_FILEACTIVITYRUNALWAYS,
         _("&Run always"),
-        _("Do work regardless of preferences")
+        _("Allow work regardless of preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILEACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
-        _("Do work according to your preferences")
+        _("Allow work according to your preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILEACTIVITYSUSPEND,
@@ -398,12 +394,12 @@ bool CMainFrame::CreateMenu() {
     menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNALWAYS,
         _("&Network activity always available"),
-        _("Do network activity regardless of preferences")
+        _("Allow network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNBASEDONPREPERENCES,
         _("Network activity based on &preferences"),
-        _("Do network activity according to your preferences")
+        _("Allow network activity according to your preferences")
     );
     menuActivity->AppendRadioItem(
         ID_FILENETWORKSUSPEND,
@@ -441,8 +437,6 @@ bool CMainFrame::CreateMenu() {
           "get latest preferences, and possibly get more work.")
     );
     if (is_acct_mgr_detected) {
-        // %s is the project name
-        //    i.e. 'BOINC', 'GridRepublic'
         strMenuName.Printf(
             _("&Defect from %s"), 
             ami.acct_mgr_name.c_str()
