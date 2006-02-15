@@ -151,8 +151,6 @@ echo " <td valign=top width=390><table border=0 cellpadding=8 cellspacing=0>
 <br>
 One of over 450,000 people around the world participating in
 BOINC-based projects.
-<p>
-Name:
 ";
 include("piecharts/$i.html");
 echo "

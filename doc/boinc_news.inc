@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("February 15, 2006",
+    "View <a href=http://news.bbc.co.uk/nolavconsole/ukfs_news/hi/newsid_4710000/newsid_4713000/bb_rm_4713004.stm>a video clip</a>
+    about the BBC Climate Change Experiment.
+    "
+),
 array("February 14, 2006",
     "BOINC and Climateprediction.net have joined forces with the BBC
     to launch a new experiment -- a full simulation of climate change

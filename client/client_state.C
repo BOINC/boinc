@@ -398,7 +398,15 @@ int CLIENT_STATE::init() {
     project_init.init();
 
     if (!no_gui_rpc) {
-        retval = gui_rpcs.init();
+        // When we're running at boot time,
+        // it may be a few seconds before we can socket/bind/listen.
+        // So retry a few times.
+        //
+        for (i=0; i<30; i++) {
+            retval = gui_rpcs.init();
+            if (!retval) break;
+            boinc_sleep(1.0);
+        }
         if (retval) return retval;
     }
 

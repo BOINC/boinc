@@ -1879,3 +1879,15 @@ Rom    15 Feb 2005
         
     clientgui/
         MainFrame.cpp
+
+David  15 Feb 2006
+    - core client: if socket/bind/listen on the GUI RPC socket fails,
+        sleep for a second and retry; repeat 30 times.
+        This will hopefully deal with situations on Windows
+        where we're running at boot time
+        and network comm doesn't work for a few seconds
+        (resulting in the core client exiting,
+        and the Manager being disconnected).
+
+    client/
+        client_state.C

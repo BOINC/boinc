@@ -155,30 +155,44 @@ and adjusted over the set of potentially runnable projects.
 It is normalized so that average long-term debt is zero.
 
 <h2>The CPU scheduling policy</h2>
+
 <p>
-The CPU scheduler has two modes, <b>round-robin</b> and
-<b>Earliest Deadline First (EDF)</b>.
-In round-robin mode, the CPU scheduler runs the results whose projects
-have the greatest short-term debt.
-Specifically:
+The CPU scheduler uses an earliest-deadline-first (EDF) policy
+for results that are in danger of missing their deadline,
+and round-robin among other projects if additional CPUs exist.
+This allows the client to meet deadlines that would otherwise be missed,
+while honoring resource shares over the long term.
+The scheduler uses the following data, which are obtained
+by a simulation of round-robin scheduling
+applied to the current work queue:
+<ul>
+<li> deadline_missed(R): whether result R would miss
+its deadline with round-robin scheduling.
+<li> deadlines_missed(P):
+the number of results of P whose deadlines would
+be missed with round-robin scheduling.
+</ul>
+The scheduling policy is:
 <ol>
+<li> Find the project P for which deadlines_missed(P)>0,
+and whose earliest deadline is earliest.
+<li> Schedule deadline_missed(P)
+results of P in order of increasing deadline,
+with preference to those already running.
+<li> If there are more CPUs, and other projects for which
+deadlines_missed(P)>0, go to 1.
+<li> If all CPUs are scheduled, stop;
+otherwise continue to the next step, considering
+only projects with deadlines_missed==0.
 <li> Set the 'anticipated debt' of each project to its short-term debt
 <li> Find the project P with the greatest anticipated debt,
-    select one of P's runnable results
-    (picking one that is already running, if possible)
-    and schedule that result.
+select one of P's runnable results
+(picking one that is already running, if possible)
+and schedule that result.
 <li> Decrement P's anticipated debt by the 'expected payoff'
     (the total wall CPU in the last period divided by NCPUS).
-<li> Repeat steps 2 and 3 for additional CPUs
+<li> Repeat steps 6 and 7 for additional CPUs
 </ol>
-Over the long term, this results in a round-robin policy,
-weighted by resource shares.
-
-<p>
-In EDF mode, the CPU scheduler
-schedules the runnable results with the earliest deadlines.
-This allows the client to meet deadlines that would otherwise be missed.
-
 
 <p>
 The CPU scheduler runs when a result is completed,
@@ -186,14 +200,6 @@ when the end of the user-specified scheduling period is reached,
 when new results become runnable,
 or when the user performs a UI interaction
 (e.g. suspending or resuming a project or result).
-It does the following:
-<ul>
-<li> Do a simulation of round-robin scheduling
-applied to the current work queue.
-<li> If all results meet their deadlines,
-    use round-robin; otherwise, use EDF.
-</ul>
-
 
 <h2>Work-fetch policy</h2>
 
@@ -239,7 +245,11 @@ It sets the following variable for each project P:
     <li>
     0 if time_until_work_done(P) > min_queue
     <li>
-    0 if CPU scheduler is in EDF mode and no CPU is idle
+    0 if CPU scheduler scheduled all CPUs by EDF
+    <li>
+    0 if P.long_term_debt < -(CPU sched interval)
+        (project has been using more than its share of CPU;
+         e.g. repeatedly doing short-deadline results).
     <li>
     otherwise:
     (min_queue*ncpus*prrs(P)) - (estimated wall time of queued work)
@@ -256,6 +266,16 @@ P.work_request_size>0 and
 P.long_term_debt - time_until_work_done(P) is greatest
 </pre>
 and gets work from that project.
+<hr>
+Scheduler request must include:
+whether sporadic network connection (period);
+whether in EDF mode.
+Resource fractions?
+<p>
+Scheduler reply should include (it no work sent)
+if reason is because we're overloaded.
+<p>
+If last response was 'no work', don't accumulate LTD.
 
 ";
 page_tail();
