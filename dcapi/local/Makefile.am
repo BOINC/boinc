@@ -1,4 +1,8 @@
-lib_LTLIBRARIES = libdc-local.la
+lib_LTLIBRARIES =
+
+if BUILD_MASTER
+lib_LTLIBRARIES += libdc-local.la
+endif
 
 AM_CPPFLAGS = -I$(top_srcdir)/common
 
