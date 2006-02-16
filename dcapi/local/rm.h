@@ -17,6 +17,12 @@ int dc_rm_setInput(DC_Workunit wu, char * URL, char * localFileName);
 /** submit a wu */
 int dc_rm_submitWU(DC_Workunit wu);
 
+/** suspend a wu */
+int dc_rm_suspendWU(DC_Workunit wu);
+
+/** resubmit a wu */
+int dc_rm_resubmitWU(DC_Workunit wu);
+
 /** free memory used by this wu */
 int dc_rm_destroyWU(DC_Workunit wu);
 

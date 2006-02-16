@@ -205,6 +205,16 @@ int dc_rm_submitWU (DC_Workunit wu)
     return DC_OK;
 }
 
+int dc_rm_suspendWU(DC_Workunit wu)
+{
+    return 0;
+}
+
+int dc_rm_resubmitWU(DC_Workunit wu)
+{
+    return 0;
+}
+
 int dc_rm_destroyWU(DC_Workunit wu)
 {
     int ndx = (int)wu;
