@@ -31,10 +31,9 @@
 #include "WizardAccountManager.h"
 #include "WelcomePage.h"
 #include "AccountManagerInfoPage.h"
-#include "AccountManagerStatusPage.h"
 #include "AccountManagerPropertiesPage.h"
-#include "AccountInfoPage.h"
 #include "AccountManagerProcessingPage.h"
+#include "AccountInfoPage.h"
 #include "CompletionPage.h"
 #include "CompletionErrorPage.h"
 #include "NotDetectedPage.h"
@@ -89,10 +88,9 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
 ////@begin CWizardAccountManager member initialisation
     m_WelcomePage = NULL;
     m_AccountManagerInfoPage = NULL;
-    m_AccountManagerStatusPage = NULL;
     m_AccountManagerPropertiesPage = NULL;
-    m_AccountInfoPage = NULL;
     m_AccountManagerProcessingPage = NULL;
+    m_AccountInfoPage = NULL;
     m_CompletionPage = NULL;
     m_CompletionErrorPage = NULL;
     m_ErrNotDetectedPage = NULL;
@@ -154,10 +152,6 @@ void CWizardAccountManager::CreateControls()
     m_AccountManagerInfoPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_AccountManagerInfoPage);
-    m_AccountManagerStatusPage = new CAccountManagerStatusPage;
-    m_AccountManagerStatusPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_AccountManagerStatusPage);
     m_AccountManagerPropertiesPage = new CAccountManagerPropertiesPage;
     m_AccountManagerPropertiesPage->Create( itemWizard1 );
 
@@ -208,7 +202,6 @@ void CWizardAccountManager::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls - Begin Page Map"));
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERINFOPAGE, m_AccountManagerInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerStatusPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERSTATUSPAGE, m_AccountManagerStatusPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROPERTIESPAGE, m_AccountManagerPropertiesPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROCESSINGPAGE, m_AccountManagerProcessingPage);
@@ -394,9 +387,6 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
  
         if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
             pPage = m_AccountManagerInfoPage;
- 
-        if (ID_ACCOUNTMANAGERSTATUSPAGE == ulPageID)
-            pPage = m_AccountManagerStatusPage;
  
         if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
             pPage = m_AccountManagerPropertiesPage;

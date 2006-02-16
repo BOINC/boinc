@@ -30,7 +30,6 @@
 
 ////@begin forward declarations
 class CAccountManagerInfoPage;
-class CAccountManagerStatusPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 ////@end forward declarations
@@ -108,10 +107,9 @@ public:
 ////@begin CWizardAccountManager member variables
     CWelcomePage* m_WelcomePage;
     CAccountManagerInfoPage* m_AccountManagerInfoPage;
-    CAccountManagerStatusPage* m_AccountManagerStatusPage;
     CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
-    CAccountInfoPage* m_AccountInfoPage;
     CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
+    CAccountInfoPage* m_AccountInfoPage;
     CCompletionPage* m_CompletionPage;
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrNotDetectedPage* m_ErrNotDetectedPage;
