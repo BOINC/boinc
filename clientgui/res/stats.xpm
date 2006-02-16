@@ -18,28 +18,28 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static const char *usage_xpm[] = {
+static const char *stats_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 4 1",
 ". c Black",
 "  c None",
-"o c #747675",
-"X c #BBBEB4",
+"X c #858385",
+"o c #BBBEB4",
 /* pixels */
 "                ",
-"      ....      ",
-"    ..XXooo.    ",
-"   .XXXXoooo.   ",
-"  .XXXXXooooo.  ",
-"  .XXXXXooooX.  ",
-" .XXXXXXoooXXX. ",
-" .XXXXXXooXXXX. ",
-" .XXXXXXXXXXXX. ",
-" .XXXXXXXXXXXX. ",
-"  .XXXXXXXXXX.  ",
-"  .XXXXXXXXXX.  ",
-"   .XXXXXXXX.   ",
-"    ..XXXX..    ",
-"      ....      ",
+"                ",
+" .              ",
+" .              ",
+" .     XXX      ",
+" . XXX XoX      ",
+" . XoX XoX      ",
+" . XoX XoX      ",
+" . XoX XoX      ",
+" . XoX XoX XXX  ",
+" . XoX XoX XoX  ",
+" . XoX XoX XoX  ",
+" . XoX XoX XoX  ",
+" . XoX XoX XoX  ",
+" .............. ",
 "                "
 };

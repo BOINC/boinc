@@ -31,6 +31,9 @@
 #include "util.h"
 
 
+#include "res/stats.xpm"
+
+
 BEGIN_EVENT_TABLE (CPaintStatistics, wxPanel)
     EVT_PAINT(CPaintStatistics::OnPaint)
     EVT_SIZE(CPaintStatistics::OnSize)
@@ -716,6 +719,11 @@ wxString& CViewStatistics::GetViewName() {
     static wxString strViewName(_("Statistics"));
     return strViewName;
 }
+
+const char** CViewStatistics::GetViewIcon() {
+    return stats_xpm;
+}
+
 
 void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function Begin"));

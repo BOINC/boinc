@@ -328,6 +328,9 @@
 				RelativePath="..\clientgui\res\result.xpm">
 			</File>
 			<File
+				RelativePath="..\clientgui\res\stats.xpm">
+			</File>
+			<File
 				RelativePath="..\clientgui\res\usage.xpm">
 			</File>
 			<File

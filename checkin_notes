@@ -1930,3 +1930,12 @@ Charlie 16 Feb 2006
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+Rom    16 Feb 2006
+    - Modify the disk usage and statistics tab icons
+    
+    clientgui/
+        ViewStatistics.cpp, .h
+    clientgui/res/
+        stats.xpm (Added)
+        usage.xpm

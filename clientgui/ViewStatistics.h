@@ -74,6 +74,7 @@ public:
     ~CViewStatistics();
 
     virtual wxString&       GetViewName();
+    virtual const char**    GetViewIcon();
 
     void                    OnStatisticsUserTotal( wxCommandEvent& event );
     void                    OnStatisticsUserAverage( wxCommandEvent& event );
