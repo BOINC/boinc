@@ -31,7 +31,7 @@
 #include "MainFrame.h"
 #include "Events.h"
 #include "BOINCBaseView.h"
-#include "BOINCDialUpManager.h"
+#include "BOINCDialupManager.h"
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
@@ -47,6 +47,9 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
+#ifdef __WXMAC__
+#include "mac/MacGUI.pch"
+#endif
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
