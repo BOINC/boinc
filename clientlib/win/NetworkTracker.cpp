@@ -42,16 +42,12 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
     BOOL bCachePopulated = FALSE;
     PNETWORK_CONNECTION pNetworkConnection = NULL;
 
-    ATLTRACE(TEXT("BOINCIsNetworkAlive - Function Begin\n"));
-
     // Check cached connection state
     if (!gpNetworkConnections.empty()) {
-        ATLTRACE(TEXT("BOINCIsNetworkAlive - Using cached connection list\n"));
         bCachePopulated = TRUE;
         for (i=0; i<gpNetworkConnections.size(); i++) {
             pNetworkConnection = gpNetworkConnections[i];
             if (pNetworkConnection->ulType & *lpdwFlags) {
-                ATLTRACE(TEXT("BOINCIsNetworkAlive - Cached connection type found\n"));
                 bReturnValue = TRUE;
             }
         }
@@ -60,7 +56,6 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
     // If we do not have any cached information, then fall back to other
     //   methods
     if (!bCachePopulated) {
-        ATLTRACE(TEXT("BOINCIsNetworkAlive - Calling SENS IsNetworkAlive()\n"));
         bReturnValue = IsNetworkAlive( lpdwFlags );
         if (!bReturnValue) {
             DWORD current_flags = NULL;
@@ -77,7 +72,6 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
             if (NETWORK_ALIVE_AOL & *lpdwFlags)
                 desired_flags |= INTERNET_CONNECTION_LAN | INTERNET_CONNECTION_MODEM;
 
-            ATLTRACE(TEXT("BOINCIsNetworkAlive - Calling InternetGetConnectedState()\n"));
             BOOL retval = InternetGetConnectedState(&current_flags, 0);
             if (retval && (current_flags & desired_flags)) {
                 bReturnValue = TRUE;
@@ -87,8 +81,6 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
         }
     }
 
-    ATLTRACE(TEXT("BOINCIsNetworkAlive - Returning '%d'\n"), bReturnValue);
-    ATLTRACE(TEXT("BOINCIsNetworkAlive - Function End\n"));
     return bReturnValue;
 }
 
@@ -98,12 +90,8 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlwaysOnline()
     BOOL bReturnValue = FALSE;
     DWORD dwFlags = NETWORK_ALIVE_LAN;
 
-    ATLTRACE(TEXT("BOINCIsNetworkAlwaysOnline - Function Begin\n"));
-
     bReturnValue = BOINCIsNetworkAlive(&dwFlags);
 
-    ATLTRACE(TEXT("BOINCIsNetworkAlwaysOnline - Returning '%d'\n"), bReturnValue);
-    ATLTRACE(TEXT("BOINCIsNetworkAlwaysOnline - Function End\n"));
     return bReturnValue;
 }
 

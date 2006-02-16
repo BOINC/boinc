@@ -1937,6 +1937,7 @@ Rom    16 Feb 2006
         defect from an account manager
     - Remove CompletionUpdatePage.cpp and CompletionRemovePage.cpp
     - Remove AccountManagerStatusPage.cpp
+    - Remove trace messages from boinc dll.
     
     clientgui/
         AccountManagerProcessingPage.cpp
@@ -1951,3 +1952,6 @@ Rom    16 Feb 2006
     clientgui/res/
         stats.xpm (Added)
         usage.xpm
+    clientlib/win/
+        BOINCSENSSink.cpp
+        NetworkTracker.cpp

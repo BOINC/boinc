@@ -43,9 +43,6 @@ void CBOINCSENSSink::FinalRelease()
 HRESULT CBOINCSENSSink::ConnectionMade(BSTR bstrConnection, unsigned long ulType, SENS_QOCINFO * lpQOCInfo)
 {
     USES_CONVERSION;
-    ATLTRACE(TEXT("ConnectionMade: Connection: '%s' Type '%d'\n"), COLE2T(bstrConnection), ulType);
-    ATLTRACE(TEXT("ConnectionMade:  dwSize '%d' dwFlags: '%d' dwOutSpeed '%d' dwInSpeed '%d'\n"), 
-        lpQOCInfo->dwSize, lpQOCInfo->dwFlags, lpQOCInfo->dwOutSpeed, lpQOCInfo->dwInSpeed);
     std::vector<PNETWORK_CONNECTION>::iterator iter;
     BOOL bCachedConnectionFound = FALSE;
 
@@ -62,7 +59,6 @@ HRESULT CBOINCSENSSink::ConnectionMade(BSTR bstrConnection, unsigned long ulType
     }
 
     if (!bCachedConnectionFound) {
-        ATLTRACE(TEXT("ConnectionMade: Creating new record.\n"));
         PNETWORK_CONNECTION pNetworkConnection = new NETWORK_CONNECTION;
         pNetworkConnection->bstrConnection = bstrConnection;
         pNetworkConnection->ulType = ulType;
@@ -76,7 +72,6 @@ HRESULT CBOINCSENSSink::ConnectionMade(BSTR bstrConnection, unsigned long ulType
 HRESULT CBOINCSENSSink::ConnectionMadeNoQOCInfo(BSTR bstrConnection, unsigned long ulType)
 {
     USES_CONVERSION;
-    ATLTRACE(TEXT("ConnectionMadeNoQOCInfo: Connection: '%s' Type '%d'\n"), COLE2T(bstrConnection), ulType);
     std::vector<PNETWORK_CONNECTION>::iterator iter;
     BOOL bCachedConnectionFound = FALSE;
 
@@ -105,7 +100,6 @@ HRESULT CBOINCSENSSink::ConnectionMadeNoQOCInfo(BSTR bstrConnection, unsigned lo
 HRESULT CBOINCSENSSink::ConnectionLost(BSTR bstrConnection, unsigned long ulType)
 {
     USES_CONVERSION;
-    ATLTRACE(TEXT("ConnectionLost: Connection: '%s' Type '%d'\n"), COLE2T(bstrConnection), ulType);
     std::vector<PNETWORK_CONNECTION>::iterator iter;
     for (iter = gpNetworkConnections.begin(); iter != gpNetworkConnections.end(); iter++) {
         if ((*iter)->bstrConnection == bstrConnection) {

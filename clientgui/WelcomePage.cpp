@@ -318,7 +318,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         );
         strBuffer.Printf(
             _("We'll now remove this computer from %s.  You will\n"
-              "be responisible for managing the BOINC client software from\n"
+              "be responsible for managing the BOINC client software from\n"
               "now on."), 
             pWAM->m_strProjectName.c_str()
         );
