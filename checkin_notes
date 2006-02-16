@@ -1955,3 +1955,17 @@ Rom    16 Feb 2006
     clientlib/win/
         BOINCSENSSink.cpp
         NetworkTracker.cpp
+
+David  16 Feb 2006
+    - core client: bug fix (hopefully) for situation where
+        a server or proxy doesn't understand Range: in HTTP header,
+        and sends us the entire file when we just want the tail.
+        Solution: if we asked for a partial transfer,
+        and we got a 200 HTTP return,
+        and the file is bigger than it's supposed to be,
+        trim off the part that was there initially.
+    - remove NET_XFER::strCurlResult, file_read_buf* fields
+
+    client/
+        file_xfer.C,h
+        net_xfer_curl.C,h

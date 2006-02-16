@@ -3,12 +3,15 @@
 $light_blue="#d8e8ff";
 $med_blue="#c0d0f0";
 
-function last_mod() {
-    return gmdate("g:i A \U\T\C, F d Y", filemtime($_SERVER["SCRIPT_FILENAME"]));
+function last_mod($datefile) {
+    return gmdate("g:i A \U\T\C, F d Y", filemtime($datefile));
 }
 
-function page_head($title) {
-    $d = last_mod();
+function page_head($title, $datefile=null) {
+    if (!$datefile) {
+        $datefile = $_SERVER["SCRIPT_FILENAME"];
+    }
+    $d = last_mod($datefile);
     echo "<html>
         <head>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>

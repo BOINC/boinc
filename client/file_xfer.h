@@ -38,10 +38,12 @@ public:
     bool file_size_query;
     bool is_upload;
     double starting_size;
-        // File size at start of transfer.
-        // This is used to to implement a "minimum download increment"
+        // File size at start of transfer, used for:
+        // 1) a "minimum download increment"
         // that rejects partial downloads of less than 5K,
         // since these may be error messages from proxies.
+        // 2) lets us recover when server ignored Range request
+        // and sent us whole file
 
     FILE_XFER();
     ~FILE_XFER();

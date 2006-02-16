@@ -55,7 +55,6 @@ net_xfer object status codes (using libcurl):
 nxf->response          maps to HTTP_STATUS_* (from http_curl.h)
 nxf->http_op_state     maps to HTTP_STATE_*  (from http_curl.h)
 nxf->CurlError is a curl specific code  (maps to the CURLE_* enums in curl/curl.h)
-nxf->strCurlError is a human-readable msg (i.e. "couldn't connect to server")
 */
 
 class NET_XFER {
@@ -74,7 +73,6 @@ public:
     char* req1;
 	bool bSentHeader;  // CMC -- a flag that I already sent the header
 	CURLcode CurlResult;   // CMC -- send up curl result code
-	char strCurlResult[_MAX_PATH];  // CMC -- 'human-readable' string with result info
 
     // int socket;  // CMC -- deprecated, net_xfer's via curlEasy handle above
     char hostname[256];     // The host we're connecting to (possibly a proxy)
@@ -105,8 +103,6 @@ public:
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
 	double content_length;
-    char file_read_buf[MAX_BLOCKSIZE];
-    int file_read_buf_offset, file_read_buf_len;
     int seconds_until_timeout;
 
 	// CMC - moved from http_op

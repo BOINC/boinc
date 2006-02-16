@@ -197,6 +197,8 @@ bool FILE_XFER_SET::poll() {
     FILE_XFER* fxp;
     bool action = false;
     static double last_time=0;
+    char pathname[256];
+    double size;
 
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
@@ -266,9 +268,6 @@ bool FILE_XFER_SET::poll() {
         // since it may be a proxy error message
         //
         if (!fxp->is_upload && fxp->fip->nbytes) {
-            char pathname[256];
-            double size;
-
             get_pathname(fxp->fip, pathname);
             if (file_size(pathname, size)) continue;
             if (size == fxp->fip->nbytes) continue;
@@ -279,6 +278,35 @@ bool FILE_XFER_SET::poll() {
                     fxp->fip->name
                 );
                 boinc_truncate(pathname, fxp->starting_size);
+            }
+        }
+
+        // for downloads: if we requested a partial transfer,
+        // and the HTTP response is 200,
+        // and the file is larger than it should be,
+        // the server or proxy must have sent us the entire file
+        // (i.e. it doesn't understand Range: requests).
+        // In this case, trim off the initial part of the file
+        //
+        if (!fxp->is_upload && fxp->starting_size
+            && fxp->response==HTTP_STATUS_OK
+        ) {
+            get_pathname(fxp->fip, pathname);
+            if (file_size(pathname, size)) continue;
+            if (size > fxp->fip->nbytes) {
+                FILE* f1 = boinc_fopen(pathname, "rb");
+                FILE* f2 = boinc_fopen(TEMP_FILE_NAME, "wb");
+                if (f1 && f2) {
+                    fseek(f1, (long)fxp->starting_size, SEEK_SET);
+                    copy_stream(f1, f2);
+                    fclose(f1);
+                    fclose(f2);
+                    f1 = boinc_fopen(TEMP_FILE_NAME, "rb");
+                    f2 = boinc_fopen(pathname, "wb");
+                    copy_stream(f1, f2);
+                    fclose(f1);
+                    fclose(f2);
+                }
             }
         }
     }

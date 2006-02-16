@@ -92,7 +92,6 @@ void NET_XFER::reset() {
     strcpy(infile, "");
     strcpy(outfile, "");
     CurlResult = CURLE_OK;
-    strcpy(strCurlResult, "");
     bTempOutfile = true;
     is_connected = false;
     want_download = false;
@@ -103,8 +102,6 @@ void NET_XFER::reset() {
     fileOut = NULL;
     io_ready = true;
     error = 0;
-    file_read_buf_offset = 0;
-    file_read_buf_len = 0;
     bytes_xferred = 0;
     xfer_speed = 0;
     bSentHeader = false;
@@ -285,7 +282,8 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
         // included with Mac OS X 10.3.9
         //
         curlErr = curl_easy_getinfo(nxf->curlEasy, 
-            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error);
+            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &nxf->error
+        );
 
         nxf->io_done = true;
         nxf->io_ready = false;
@@ -309,27 +307,8 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
         //
         nxf->http_op_state = HTTP_STATE_DONE;
 
-        // added a more useful error string
-        // (just pass the curl string up for now)
-        //
         nxf->CurlResult = pcurlMsg->data.result;
-        safe_strcpy(nxf->strCurlResult, curl_easy_strerror(nxf->CurlResult));
 
-        // optional, example use, non-zero CurlResult has a useful error string:
-        //if (nxf->CurlResult) fprintf(stdout, "Error: %s\n", nxf->strCurlResult);
-
-        // 200 is a good HTTP response code
-        // It may not mean the data received is "good"
-        // (the calling program will have to check/parse that)
-        // but it at least means that the server operation
-        // went through fine
-        //
-        // NOTE: http_op_retval is multipurposed,
-        // it can also contain any error code that BOINC would return
-        // for IO errors and DNS errors.
-        // We need to translate between the curl error codes and the equiv.
-        // BOINC error codes here.
-        //
         if (nxf->CurlResult == CURLE_OK) {
             if ((nxf->response/100)*100 == HTTP_STATUS_OK) {
                 nxf->http_op_retval = 0;  
@@ -349,7 +328,9 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 std::string url = "http://www.google.com";
                 gstate.lookup_website_op.do_rpc(url);
             }
-            msg_printf(0, MSG_ERROR, "HTTP error: %s", nxf->strCurlResult);
+            msg_printf(0, MSG_ERROR,
+                "HTTP error: %s", curl_easy_strerror(nxf->CurlResult)
+            );
             nxf->http_op_retval = ERR_HTTP_ERROR;
         }
 
