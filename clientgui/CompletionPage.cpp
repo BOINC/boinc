@@ -220,56 +220,103 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                   "you can set your account name and preferences.");
         }
 
-
         m_pCompletionMessage->SetLabel( strMessage );
+
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
-        wxString strTitle;
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            // %s is the project name
-            //    i.e. 'GridRepublic'
-            strTitle.Printf(
-                _("Attached to %s"),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+
+        if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
+            // Update completed
+
+            wxString strTitle;
+            if (wxGetApp().GetBrand()->IsBranded()) {
+                // %s is the project name
+                //    i.e. 'GridRepublic'
+                strTitle.Printf(
+                    _("Update from %s completed."),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+            } else {
+                strTitle = _("Update completed.");
+            }
+
+            m_pCompletionTitle->SetLabel( strTitle );
+
+            m_pCompletionMessage->SetLabel(
+                _("Click Finish to close.")
             );
+
+        } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
+            // Remove Completed
+
+            wxString strTitle;
+            if (wxGetApp().GetBrand()->IsBranded()) {
+                // %s is the project name
+                //    i.e. 'GridRepublic'
+                strTitle.Printf(
+                    _("Removal from %s completed."),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+            } else {
+                strTitle = _("Removal succeeded!");
+            }
+
+            m_pCompletionTitle->SetLabel( strTitle );
+
+            m_pCompletionMessage->SetLabel(
+                _("Click Finish to close.")
+            );
+
         } else {
-            strTitle = _("Attached to account manager");
-        }
+            // Attach Completed
 
-        m_pCompletionTitle->SetLabel( strTitle );
+            wxString strTitle;
+            if (wxGetApp().GetBrand()->IsBranded()) {
+                // %s is the project name
+                //    i.e. 'GridRepublic'
+                strTitle.Printf(
+                    _("Attached to %s"),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+            } else {
+                strTitle = _("Attached to account manager");
+            }
 
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            // %s is the project name
-            //    i.e. 'GridRepublic'
-            wxString strWelcome;
-            strWelcome.Printf(
-                _("Welcome to %s!"),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+            m_pCompletionTitle->SetLabel( strTitle );
+
+            if (wxGetApp().GetBrand()->IsBranded()) {
+                // %s is the project name
+                //    i.e. 'GridRepublic'
+                wxString strWelcome;
+                strWelcome.Printf(
+                    _("Welcome to %s!"),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+
+                m_pCompletionWelcome->Show();
+                m_pCompletionWelcome->SetLabel( strWelcome );
+            }
+
+            wxString strBrandedMessage;
+            if (wxGetApp().GetBrand()->IsBranded()) {
+                // 1st %s is the project name
+                //    i.e. 'GridRepublic'
+                // 2nd %s is the account manager success message
+                strBrandedMessage.Printf(
+                    _("You are now successfully attached to the %s system.\n"
+                    "%s"),
+                    wxGetApp().GetBrand()->GetProjectName().c_str(),
+                    wxGetApp().GetBrand()->GetAMWizardSuccessMessage().c_str()
+                );
+            } else {
+                strBrandedMessage = _("You are now successfully attached to this account manager.");
+            }
+
+            m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
+
+            m_pCompletionMessage->SetLabel(
+                _("Click Finish to close.")
             );
-
-            m_pCompletionWelcome->Show();
-            m_pCompletionWelcome->SetLabel( strWelcome );
         }
-
-        wxString strBrandedMessage;
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            // 1st %s is the project name
-            //    i.e. 'GridRepublic'
-            // 2nd %s is the account manager success message
-            strBrandedMessage.Printf(
-                _("You are now successfully attached to the %s system.\n"
-                  "%s"),
-                wxGetApp().GetBrand()->GetProjectName().c_str(),
-                wxGetApp().GetBrand()->GetAMWizardSuccessMessage().c_str()
-            );
-        } else {
-            strBrandedMessage = _("You are now successfully attached to this account manager.");
-        }
-
-        m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
-
-        m_pCompletionMessage->SetLabel(
-            _("Click Finish to close.")
-        );
     }
 
     Fit();

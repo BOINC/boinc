@@ -27,6 +27,8 @@
 #include "BOINCGUIApp.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
+#include "WizardAccountManager.h"
 #include "WelcomePage.h"
 
 ////@begin XPM images
@@ -225,6 +227,8 @@ wxWizardPageEx* CWelcomePage::GetNext() const
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } else if (IS_ATTACHTOPROJECTWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_PROJECTINFOPAGE);
+    } else if (IS_ACCOUNTMANAGERUPDATEWIZARD() || IS_ACCOUNTMANAGERREMOVEWIZARD()) {
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERINFOPAGE);
     }
@@ -271,6 +275,14 @@ wxIcon CWelcomePage::GetIconResource( const wxString& name )
 void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+    // Be careful about which pointer you use in which scenario.
+    wxString strBuffer = wxEmptyString;
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
+
+
+    wxASSERT(pWAP);
+    wxASSERT(pWAM);
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
@@ -295,6 +307,23 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         );
         m_pDescriptionStaticCtrl->SetLabel(
             _("We'll now guide you through the process of attaching to a project.")
+        );
+    } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
+        strBuffer.Printf(
+            _("&Defect from %s"), 
+            pWAM->m_strProjectName.c_str()
+        );
+        m_pTitleStaticCtrl->SetLabel(
+            strBuffer
+        );
+        strBuffer.Printf(
+            _("We'll now remove this computer from %s.  You will\n"
+              "be responisible for managing the BOINC client software from\n"
+              "now on."), 
+            pWAM->m_strProjectName.c_str()
+        );
+        m_pDescriptionStaticCtrl->SetLabel(
+            strBuffer
         );
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
         m_pTitleStaticCtrl->SetLabel(

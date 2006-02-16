@@ -44,8 +44,6 @@
 #define ID_ERRALREADYEXISTSPAGE 10110
 #define ID_ERRPROXYINFOPAGE 10111
 #define ID_ERRPROXYPAGE 10112
-#define ID_COMPLETIONUPDATEPAGE 10113
-#define ID_COMPLETIONREMOVEPAGE 10114
 
 // Attach to Project Wizard Pages
 #define ID_PROJECTINFOPAGE 10200
@@ -135,8 +133,6 @@ class CWelcomePage;
 class CAccountKeyPage;
 class CAccountInfoPage;
 class CCompletionPage;
-class CCompletionUpdatePage;
-class CCompletionRemovePage;
 class CCompletionErrorPage;
 class CErrNotDetectedPage;
 class CErrUnavailablePage;

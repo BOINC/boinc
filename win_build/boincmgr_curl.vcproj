@@ -446,18 +446,6 @@
 				RelativePath="..\clientgui\CompletionPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\CompletionRemovePage.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\CompletionRemovePage.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\CompletionUpdatePage.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\CompletionUpdatePage.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\NoInternetConnectionPage.cpp">
 			</File>
 			<File

@@ -347,12 +347,6 @@ wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (GetProjectAttachSucceeded() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
-        // We were successful in updating the client account
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONUPDATEPAGE);
-    } else if (GetProjectAttachSucceeded() && IS_ACCOUNTMANAGERREMOVEWIZARD()) {
-        // We were successful in removing the client from the account manager
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONREMOVEPAGE);
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);

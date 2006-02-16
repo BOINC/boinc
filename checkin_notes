@@ -1933,9 +1933,21 @@ Charlie 16 Feb 2006
 
 Rom    16 Feb 2006
     - Modify the disk usage and statistics tab icons
+    - Add a worning before the account manager wizard will actually
+        defect from an account manager
+    - Remove CompletionUpdatePage.cpp and CompletionRemovePage.cpp
+    - Remove AccountManagerStatusPage.cpp
     
     clientgui/
+        AccountManagerProcessingPage.cpp
+        BOINCWizards.h
+        CompletionPage.cpp
         ViewStatistics.cpp, .h
+        WelcomePage.cpp
+        WizardAccountManager.cpp, .h
+        CompletionUpdatePage.cpp, .h (Removed)
+        CompletionRemovePage.cpp, .h (Removed)
+        AccountManagerStatusPage.cpp, .h (Removed)
     clientgui/res/
         stats.xpm (Added)
         usage.xpm

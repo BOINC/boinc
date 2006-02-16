@@ -36,8 +36,6 @@
 #include "AccountInfoPage.h"
 #include "AccountManagerProcessingPage.h"
 #include "CompletionPage.h"
-#include "CompletionUpdatePage.h"
-#include "CompletionRemovePage.h"
 #include "CompletionErrorPage.h"
 #include "NotDetectedPage.h"
 #include "UnavailablePage.h"
@@ -96,8 +94,6 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     m_AccountInfoPage = NULL;
     m_AccountManagerProcessingPage = NULL;
     m_CompletionPage = NULL;
-    m_CompletionUpdatePage = NULL;
-    m_CompletionRemovePage = NULL;
     m_CompletionErrorPage = NULL;
     m_ErrNotDetectedPage = NULL;
     m_ErrUnavailablePage = NULL;
@@ -178,14 +174,6 @@ void CWizardAccountManager::CreateControls()
     m_CompletionPage->Create( itemWizard1 );
 
     itemWizard1->FitToPage(m_CompletionPage);
-    m_CompletionUpdatePage = new CCompletionUpdatePage;
-    m_CompletionUpdatePage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_CompletionUpdatePage);
-    m_CompletionRemovePage = new CCompletionRemovePage;
-    m_CompletionRemovePage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_CompletionRemovePage);
     m_CompletionErrorPage = new CCompletionErrorPage;
     m_CompletionErrorPage->Create( itemWizard1 );
 
@@ -225,8 +213,6 @@ void CWizardAccountManager::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROCESSINGPAGE, m_AccountManagerProcessingPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), ID_COMPLETIONPAGE, m_CompletionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionUpdatePage = id: '%d', location: '%p'"), ID_COMPLETIONUPDATEPAGE, m_CompletionUpdatePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionRemovePage = id: '%d', location: '%p'"), ID_COMPLETIONREMOVEPAGE, m_CompletionRemovePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), ID_COMPLETIONERRORPAGE, m_CompletionErrorPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), ID_ERRNOTDETECTEDPAGE, m_ErrNotDetectedPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), ID_ERRUNAVAILABLEPAGE, m_ErrUnavailablePage);
@@ -289,7 +275,7 @@ bool CWizardAccountManager::Run(int action) {
         m_AccountInfoPage->SetAccountEmailAddress(wxEmptyString);
         m_AccountInfoPage->SetAccountPassword(wxEmptyString);
         m_bCredentialsCached = false;
-        return RunWizard(m_AccountManagerProcessingPage);
+        return RunWizard(m_WelcomePage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
     }
@@ -344,8 +330,6 @@ bool CWizardAccountManager::HasNextPage( wxWizardPageEx* page )
     bool bNoNextPageDetected = false;
 
     bNoNextPageDetected |= (page == m_CompletionPage);
-    bNoNextPageDetected |= (page == m_CompletionUpdatePage);
-    bNoNextPageDetected |= (page == m_CompletionRemovePage);
     bNoNextPageDetected |= (page == m_CompletionErrorPage);
     bNoNextPageDetected |= (page == m_ErrNotDetectedPage);
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
@@ -367,8 +351,6 @@ bool CWizardAccountManager::HasPrevPage( wxWizardPageEx* page )
 
     bNoPrevPageDetected |= (page == m_WelcomePage);
     bNoPrevPageDetected |= (page == m_CompletionPage);
-    bNoPrevPageDetected |= (page == m_CompletionUpdatePage);
-    bNoPrevPageDetected |= (page == m_CompletionRemovePage);
     bNoPrevPageDetected |= (page == m_CompletionErrorPage);
 
     if (bNoPrevPageDetected)
@@ -427,12 +409,6 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
  
         if (ID_COMPLETIONPAGE == ulPageID)
             pPage = m_CompletionPage;
- 
-        if (ID_COMPLETIONUPDATEPAGE == ulPageID)
-            pPage = m_CompletionUpdatePage;
- 
-        if (ID_COMPLETIONREMOVEPAGE == ulPageID)
-            pPage = m_CompletionRemovePage;
  
         if (ID_COMPLETIONERRORPAGE == ulPageID)
             pPage = m_CompletionErrorPage;
