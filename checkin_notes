@@ -1938,12 +1938,16 @@ Rom    16 Feb 2006
     - Remove CompletionUpdatePage.cpp and CompletionRemovePage.cpp
     - Remove AccountManagerStatusPage.cpp
     - Remove trace messages from boinc dll.
+    - Followup Eric's last change that delt with prematurly showing
+        100% progress for tasks due to rounding with a change to
+        file transfer progress using the same scheme.
     
     clientgui/
         AccountManagerProcessingPage.cpp
         BOINCWizards.h
         CompletionPage.cpp
         ViewStatistics.cpp, .h
+        ViewTransfers.cpp
         WelcomePage.cpp
         WizardAccountManager.cpp, .h
         CompletionUpdatePage.cpp, .h (Removed)
@@ -1969,3 +1973,11 @@ David  16 Feb 2006
     client/
         file_xfer.C,h
         net_xfer_curl.C,h
+
+Rom    16 Feb 2006
+    - Followup Eric's last change that delt with prematurly showing
+        100% progress for tasks due to rounding with a change to
+        file transfer progress using the same scheme.
+    
+    clientgui/
+        ViewTransfers.cpp
