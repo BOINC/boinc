@@ -1922,7 +1922,11 @@ Charlie 16 Feb 2006
         menu unless it contains other items in addition to Exit.
     - Dialup manager doesn't work on Mac or Linux, so compile it and 
         Options dialog Connections tab only for Windows.
+    - Fix a small bug in release scripts.
     
     clientgui/
         MainDocument.cpp
         DlgOptions.cpp
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh

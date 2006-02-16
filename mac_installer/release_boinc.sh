@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 1/31/06 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 2/16/06 by Charlie Fenton
 ##
 
 ## Usage:
@@ -74,7 +74,7 @@ cp -fpR $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ 
 ## cp -fpR locale/client/ ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 ## sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale/CVS
 ## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh)
-find locale/client -name '*.mo' | cut -d '/' -f 3 | awk '{print "-p \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | xargs mkdir
+find locale/client -name '*.mo' | cut -d '/' -f 3 | awk '{print "\"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | xargs mkdir -p
 find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk '{print "cp \"locale/client/"$0"\" \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | bash
 
 ## Fix up ownership and permissions

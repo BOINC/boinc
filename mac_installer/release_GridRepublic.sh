@@ -1,7 +1,7 @@
 #!/bin/csh
 
 ##
-# Release Script for Macintosh BOINC Manager 1/31/06 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 2/16/06 by Charlie Fenton
 ##
 
 ## Usage:
@@ -92,7 +92,7 @@ cp -fpR $BUILDPATH/BOINCSaver.saver ${PR_PATH}/Library/Screen\ Savers/
 ## cp -fpR locale/client/ ${PR_PATH}/Library/Application\ Support/BOINC\ Data/locale
 ## sudo rm -dfR ${PR_PATH}/Library/Application\ Support/BOINC\ Data/locale/CVS
 ## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh)
-find locale/client -name '*.mo' | cut -d '/' -f 3 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "-p \"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | xargs mkdir
+find locale/client -name '*.mo' | cut -d '/' -f 3 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "\"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | xargs mkdir -p 
 find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "cp \"locale/client/"$0"\" \"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | bash
 
 ## Modify for Grid Republic
