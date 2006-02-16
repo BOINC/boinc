@@ -141,6 +141,14 @@ function show_user_summary_public($user) {
     } else {
         row2("Computers", "hidden");
     }
+    # Does this project accept donations?
+    # If so, do you want to have a link next to user name as it appears on the web site?
+    if ($user->donated == 1) { 
+      require_once("../project/donations.inc");
+      $x .= DONATION_LINK;
+      row2("Donor",$x);
+      }
+
 }
 
 function show_profile_link($user) {
