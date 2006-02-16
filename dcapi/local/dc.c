@@ -79,6 +79,16 @@ int DC_cancelWU (DC_Workunit wu)
     return 1;
 }
 
+int DC_suspendWU (DC_Workunit wu)
+{
+    return dc_rm_suspendWU(wu);
+}
+
+int DC_resubmitWU(DC_Workunit wu)
+{
+    return dc_rm_resubmitWU(wu);
+}
+
 int DC_destroyWU(DC_Workunit wu)
 {
     dc_rm_destroyWU(wu);
