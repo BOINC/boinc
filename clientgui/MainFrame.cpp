@@ -222,8 +222,10 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     SetStatusBarPane(0);
 
 
+#ifdef __WXMSW__
     m_pDialupManager = new CBOINCDialUpManager();
     wxASSERT(m_pDialupManager->IsOk());
+#endif
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -509,10 +511,16 @@ bool CMainFrame::CreateMenu() {
 
     // construct menu
     m_pMenubar = new wxMenuBar;
-    m_pMenubar->Append(
-        menuFile,
-        _("&File")
-    );
+#ifdef __WXMAC__
+// WxWidgets automatically prevents the Exit item from showing in the File menu
+// because Mac OSX has its Quit item in "BOINCManager" menu, not in File menu.  
+// Don't show File menu on the Mac unless it has additional items.
+    if (menuFile->GetMenuItemCount() > 1)
+#endif
+        m_pMenubar->Append(
+            menuFile,
+            _("&File")
+        );
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
@@ -532,6 +540,9 @@ bool CMainFrame::CreateMenu() {
 
     wxMenuBar* m_pOldMenubar = GetMenuBar();
     SetMenuBar(m_pMenubar);
+#ifdef __WXMAC__
+    m_pMenubar->MacInstallMenuBar();
+#endif
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
@@ -1300,6 +1311,7 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     pDlg->m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
 
+#ifdef __WXMSW__
     // Connection Tab
     if (m_pDialupManager) {
         m_pDialupManager->GetISPNames(astrDialupConnections);
@@ -1311,6 +1323,7 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         pDlg->m_DialupSetDefaultCtrl->Disable();
         pDlg->m_DialupClearDefaultCtrl->Disable();
     }
+#endif
 
     // Proxy Tabs
     bRetrievedProxyConfiguration = (0 == pDoc->GetProxyConfiguration());
@@ -1373,8 +1386,10 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
         m_iReminderFrequency = pDlg->m_ReminderFrequencyCtrl->GetValue();
 
+#ifdef __WXMSW__
         // Connection Tab
         m_strNetworkDialupConnectionName = pDlg->GetDefaultDialupConnection();
+#endif
 
         // Proxy Tabs
         if (bRetrievedProxyConfiguration) {
@@ -1680,6 +1695,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             bAlreadyRunOnce = true;
         }
 
+#ifdef __WXMSW__
         // Check to see if there is anything that we need to do from the
         //   dial up user perspective.
         if (pDoc->IsConnected()) {
@@ -1687,6 +1703,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 m_pDialupManager->poll();
             }
         }
+#endif
 
         if (IsShown()) {
             if (pDoc) {

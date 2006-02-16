@@ -1915,3 +1915,14 @@ David  15 Feb 2006
 
     lib/
         crypt_prog.C
+
+Charlie 16 Feb 2006
+    - Mac: Fix menubar draw bug by calling MacInstallMenuBar().  
+    - Since Quit (Exit) is not in File menu on Mac OSX, don't show File 
+        menu unless it contains other items in addition to Exit.
+    - Dialup manager doesn't work on Mac or Linux, so compile it and 
+        Options dialog Connections tab only for Windows.
+    
+    clientgui/
+        MainDocument.cpp
+        DlgOptions.cpp

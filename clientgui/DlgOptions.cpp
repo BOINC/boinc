@@ -50,8 +50,10 @@ BEGIN_EVENT_TABLE(CDlgOptions, wxDialog)
 ////@begin CDlgOptions event table entries
     EVT_NOTEBOOK_PAGE_CHANGED( ID_NOTEBOOK, CDlgOptions::OnNotebookPageChanged )
     EVT_UPDATE_UI( ID_NOTEBOOK, CDlgOptions::OnNotebookUpdate )
+#if defined(__WXMSW__)
     EVT_BUTTON( ID_DIALUPSETDEFAULT, CDlgOptions::OnDialupSetDefaultClick )
     EVT_BUTTON( ID_DIALUPCLEARDEFAULT, CDlgOptions::OnDialupClearDefaultClick )
+#endif      // __WXMSW__
     EVT_CHECKBOX( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlClick )
     EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlUpdate )
     EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlClick )
@@ -83,11 +85,13 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_LanguageSelectionCtrl = NULL;
     m_ReminderFrequencyCtrl = NULL;
     m_DialupStaticBoxCtrl = NULL;
+#if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
     m_DialupSetDefaultCtrl = NULL;
     m_DialupClearDefaultCtrl = NULL;
     m_DialupDefaultConnectionTextCtrl = NULL;
     m_DialupDefaultConnectionCtrl = NULL;
+#endif      // __WXMSW__
     m_EnableHTTPProxyCtrl = NULL;
     m_HTTPAddressCtrl = NULL;
     m_HTTPPortCtrl = NULL;
@@ -157,6 +161,7 @@ void CDlgOptions::CreateControls()
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
 
+#if defined(__WXMSW__)
     wxPanel* itemPanel11 = new wxPanel;
     itemPanel11->Create( itemNotebook3, ID_CONNECTONS, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxVERTICAL);
@@ -196,6 +201,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer22->Add(m_DialupDefaultConnectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel11, _("Connections"));
+#endif      // __WXMSW__
 
     wxPanel* itemPanel27 = new wxPanel;
     itemPanel27->Create( itemNotebook3, ID_HTTPPROXY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -347,6 +353,7 @@ void CDlgOptions::OnNotebookUpdate(wxUpdateUIEvent& event)
 }
 
 
+#if defined(__WXMSW__)
 /*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_DIALUPSETDEFAULT
  */
@@ -365,7 +372,7 @@ void CDlgOptions::OnDialupClearDefaultClick( wxCommandEvent& WXUNUSED(event) )
 {
     m_DialupDefaultConnectionCtrl->SetLabel(wxEmptyString);
 }
-
+#endif      // __WXMSW__
 
 /*!
  * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_ENABLEHTTPPROXYCTRL
@@ -448,6 +455,7 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
 }
 
 
+#if defined(__WXMSW__)
 wxString CDlgOptions::GetDefaultDialupConnection() const
 {
     return m_DialupDefaultConnectionCtrl->GetLabel(); 
@@ -458,6 +466,7 @@ void CDlgOptions::SetDefaultDialupConnection(wxString value)
 {
     m_DialupDefaultConnectionCtrl->SetLabel(value);
 }
+#endif      // __WXMSW__
 
 
 /*!
