@@ -36,7 +36,9 @@ check_version()
 	success=no
     else
 	cmdline="$fullpath --version";
-	if ! version=`($cmdline 2>/dev/null)` 2>/dev/null; then
+	if version=`($cmdline 2>/dev/null)` 2>/dev/null; then
+	    echo >/dev/null
+	else
 	    version="0";
 	fi
 	if [ -n "${version}" ]; then
