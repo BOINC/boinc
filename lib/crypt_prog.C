@@ -34,7 +34,11 @@
 // -test_crypt private_keyfile public_keyfile
 //                  test encrypt/decrypt
 
+#if defined(_WIN32)
+#include <windows.h>
+#else
 #include "config.h"
+#endif
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -48,12 +52,29 @@ void die(const char* p) {
 
 unsigned int random_int() {
     unsigned int n;
+#if defined(_WIN32)
+    HMODULE hLib=LoadLibrary((LPCWSTR)"ADVAPI32.DLL");
+    if (!hLib) {
+        die("Can't load ADVAPI32.DLL");
+    }
+    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
+    (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
+    if (pfn) {
+        char buff[32];
+        ULONG ulCbBuff = sizeof(buff);
+        if(pfn(buff,ulCbBuff)) {
+            // use buff full of random goop
+            memcpy(&n,buff,sizeof(n));
+        }
+    }
+    FreeLibrary(hLib);
+#else
     FILE* f = fopen("/dev/random", "r");
     if (!f) {
-        fprintf(stderr, "can't open /dev/random\n");
-        exit(1);
+        die("can't open /dev/random\n");
     }
     fread(&n, sizeof(n), 1, f);
+#endif
     return n;
 }
 

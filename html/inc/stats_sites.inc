@@ -29,7 +29,7 @@ $stats_sites = array(
         "developed by Hydnum Repandum."
     ),
     array("http://www.boincstats.com/",
-        "www.boincstats.com",
+        "BOINCStats",
         "by Willy de Zutter"
     ),
     array("http://www.dc-vault.com",
@@ -43,7 +43,7 @@ $stats_sites = array(
         ""
     ),
     array("http://www.boinc.dk/index.php?page=statistics",
-        "http://www.boinc.dk",
+        "BOINC.dk",
         "developed by Janus Kristensen (email: stats at boinc.dk)."
     ),
     //array("http://stats.boincbzh.net/BZHwds/index.php",

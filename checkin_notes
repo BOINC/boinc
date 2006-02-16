@@ -1446,31 +1446,31 @@ David  2 Feb 2005
         cs_apps.C
 
 David  3 Feb 2005
-	- Allow apps to do cleanup when they're aborted.
-		- Add abort_request to BOINC_STATUS structure
-		- API library: handle <abort/> message
-		- Change boinc_get_status() arg from reference
-			to pointer (for easier FORTRAN interface).
-			This is an API change, but I think only CPDN uses this.
-		- ACTIVE_TASK_SET::poll():
-			Check for processes that are ABORT_PENDING
-			for more than 5 seconds, and kill them
+    - Allow apps to do cleanup when they're aborted.
+        - Add abort_request to BOINC_STATUS structure
+        - API library: handle <abort/> message
+        - Change boinc_get_status() arg from reference
+            to pointer (for easier FORTRAN interface).
+            This is an API change, but I think only CPDN uses this.
+        - ACTIVE_TASK_SET::poll():
+            Check for processes that are ABORT_PENDING
+            for more than 5 seconds, and kill them
 
-		From Carl Christensen, somewhat modified.
-		I changed the way tasks are aborted.
-		The core client can't sleep; that locks up the UI.
-		So we can't sleep 5 seconds waiting for an app to exit
-		after sending it an <abort/> message
-		(existing apps don't recognize this message).
-		Instead, send it the <abort/> message,
-		set its state to PROCESS_ABORT_PENDING,
-		and check it from the polling loop 5 seconds later.
+        From Carl Christensen, somewhat modified.
+        I changed the way tasks are aborted.
+        The core client can't sleep; that locks up the UI.
+        So we can't sleep 5 seconds waiting for an app to exit
+        after sending it an <abort/> message
+        (existing apps don't recognize this message).
+        Instead, send it the <abort/> message,
+        set its state to PROCESS_ABORT_PENDING,
+        and check it from the polling loop 5 seconds later.
 
-	api/
-		boinc_api.C,h
-	client/
-		app.C,h
-		app_control.C
+    api/
+        boinc_api.C,h
+    client/
+        app.C,h
+        app_control.C
 
 David  6 Feb 2005
     - compile warning fixes
@@ -1580,14 +1580,14 @@ David  7 Feb 2006
         prefs.C,h
 
 David  7 Feb 2006
-	- Add GUI RPC for rereading global prefs override file
+    - Add GUI RPC for rereading global prefs override file
 
-	client/
-		client_state.C,h
-		gui_rpc_server_ops.C
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        client_state.C,h
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 David  7 Feb 2006
     - remove the "new CPU scheduler" code I added a couple weeks ago (sigh)
@@ -1623,11 +1623,11 @@ Bruce 7 Feb 2006
             index.php
 
 David  7 Feb 2006
-	- Manager: change "Tasks" to "Commands".
-		We're using "Tasks" to mean work now.
+    - Manager: change "Tasks" to "Commands".
+        We're using "Tasks" to mean work now.
 
-	clientgui/
-		View*.cpp
+    clientgui/
+        View*.cpp
 
 Charlie 8 Feb 2006
     -Mac: Enhance BOINC command-line build script with new options 
@@ -1651,8 +1651,8 @@ David  8 Feb 2006
         cs_scheduler.C
     html/user/
         create_account_action.php
-	win_build/
-		boinc_cli_curl.vcproj
+    win_build/
+        boinc_cli_curl.vcproj
 
 Rom    8 Feb 2006 (HEAD)
     - Tag for 5.3.18 release, all platforms
@@ -1767,20 +1767,20 @@ Rom    13 Feb 2006
         BOINCTaskBar.cpp
 
 David  13 Feb 2006
-	- core client: changes to the way we check
-		for presence of network connection.
-		Don't check for DNS failures,
-		since these won't show up for ~24 hours in some cases.
-		Instead, if we get any HTTP failure,
-		try an HTTP op to a high-availability URL,
-		and if that fails assume it's because of lack of network.
+    - core client: changes to the way we check
+        for presence of network connection.
+        Don't check for DNS failures,
+        since these won't show up for ~24 hours in some cases.
+        Instead, if we get any HTTP failure,
+        try an HTTP op to a high-availability URL,
+        and if that fails assume it's because of lack of network.
 
-		NOTE: this checkin prints lots of messages for debugging
+        NOTE: this checkin prints lots of messages for debugging
 
-	client/
-		acct_setup.C,h
-		client_state.C
-		net_xfer_curl.C
+    client/
+        acct_setup.C,h
+        client_state.C
+        net_xfer_curl.C
 
 David  13 Feb 2006
     - make test_uc.py work again
@@ -1798,14 +1798,14 @@ Rom    13 Feb 2006
         BOINCDialupManager.cpp
 
 David  14 Feb 2006
-	- fix bug that broke account manager attach
-	- removed 2nd arg (CurlError) from handle_reply functions.
-		We were using this to check for DNS failure,
-		but we're not doing this anymore.
+    - fix bug that broke account manager attach
+    - removed 2nd arg (CurlError) from handle_reply functions.
+        We were using this to check for DNS failure,
+        but we're not doing this anymore.
 
-	client/
-		acct_setup.C,h
-		gui_http.C,h
+    client/
+        acct_setup.C,h
+        gui_http.C,h
 
 David  14 Feb 2006
     - core client: on Windows, use commit mode ("wc") for state file
@@ -1853,12 +1853,12 @@ David  14 Feb 2006
             stats.php
 
 David  14 Feb 2006
-	- Manager: rename menu item from "Update now"
-		to "Synchronize with [name of account manager]".
-		Fixed some spelling/grammar.
+    - Manager: rename menu item from "Update now"
+        to "Synchronize with [name of account manager]".
+        Fixed some spelling/grammar.
 
-	clientgui/
-		MainFrame.cpp
+    clientgui/
+        MainFrame.cpp
 
 Rom    14 Feb 2006
     - Spec Change: Transfers should be 0% until data is actually transfered.
@@ -1893,10 +1893,10 @@ David  15 Feb 2006
         client_state.C
 
 David  15 Feb 2006
-	- Manager: fix menu strings and remove erroneous comments
+    - Manager: fix menu strings and remove erroneous comments
 
-	clientgui/
-		MainFrame.cpp
+    clientgui/
+        MainFrame.cpp
 
 Rom    15 Feb 2006
     - Bug Fix: Force a project state update even when we are looking at
@@ -1908,3 +1908,10 @@ Rom    15 Feb 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  15 Feb 2006
+    - make crypt_prog work on Windows
+        (from James Drews)
+
+    lib/
+        crypt_prog.C
