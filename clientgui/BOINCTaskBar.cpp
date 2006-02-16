@@ -313,10 +313,10 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                         state_result->project->get_name(project_name);
                         strProjectName = wxString(project_name.c_str());
                     }
-                    fProgress = result->fraction_done;
+                    fProgress = floor(result->fraction_done*10000)/100;
                 }
 
-                strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress * 100);
+                strBuffer.Printf(wxT("%s: %.2f%%\n"), strProjectName.c_str(), fProgress );
                 strMessage += strBuffer;
             }
         } else if (pDoc->IsReconnecting()) {

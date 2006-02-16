@@ -614,7 +614,7 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 
     if (result) {
         if (result->active_task) {
-            fBuffer = result->fraction_done * 100;
+            fBuffer = floor(result->fraction_done * 10000)/100;
         } else {
             if(result->state < RESULT_COMPUTE_ERROR) {
                 fBuffer = 0.0;
