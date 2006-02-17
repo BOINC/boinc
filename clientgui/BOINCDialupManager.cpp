@@ -461,7 +461,7 @@ int CBOINCDialUpManager::Disconnect() {
 }
 
 
-void CMainFrame::ResetReminderTimers() {
+void CBOINCDialUpManager::ResetReminderTimers() {
     m_dtLastDialupAlertSent = wxDateTime((time_t)0);
     m_dtLastDialupRequest = wxDateTime((time_t)0);
     m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
