@@ -40,7 +40,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD02098A095A47540012D9DE /* AccountManagerStatusPage.cpp */; };
 		DD095EF407D87B1600362260 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD095F1407D882DD00362260 /* BOINCBaseView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */; };
 		DD095F1607D882E700362260 /* BOINCGUIApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */; };
@@ -91,8 +90,6 @@
 		DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */; };
 		DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
-		DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */; };
-		DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.C */; };
 		DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */; };
@@ -655,8 +652,6 @@
 		AA8FCBF50486CFD000A80164 /* language.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = language.h; path = ../lib/language.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.C; path = ../lib/shmem.C; sourceTree = SOURCE_ROOT; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
-		DD02098A095A47540012D9DE /* AccountManagerStatusPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerStatusPage.cpp; path = ../clientgui/AccountManagerStatusPage.cpp; sourceTree = SOURCE_ROOT; };
-		DD02098E095A476F0012D9DE /* AccountManagerStatusPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerStatusPage.h; path = ../clientgui/AccountManagerStatusPage.h; sourceTree = SOURCE_ROOT; };
 		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_saver_module.cpp; path = ../clientgui/mac/mac_saver_module.cpp; sourceTree = SOURCE_ROOT; };
 		DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_ModuleView.h; path = ../clientgui/mac/Mac_Saver_ModuleView.h; sourceTree = SOURCE_ROOT; };
@@ -683,10 +678,6 @@
 		DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacSysMenu.h; path = ../clientgui/mac/MacSysMenu.h; sourceTree = SOURCE_ROOT; };
 		DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MacSysMenu.cpp; path = ../clientgui/mac/MacSysMenu.cpp; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
-		DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionRemovePage.cpp; path = ../clientgui/CompletionRemovePage.cpp; sourceTree = SOURCE_ROOT; };
-		DD3196A8098EF183002EB538 /* CompletionRemovePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionRemovePage.h; path = ../clientgui/CompletionRemovePage.h; sourceTree = SOURCE_ROOT; };
-		DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionUpdatePage.cpp; path = ../clientgui/CompletionUpdatePage.cpp; sourceTree = SOURCE_ROOT; };
-		DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionUpdatePage.h; path = ../clientgui/CompletionUpdatePage.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F108B5BAF500768630 /* gui_http.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_http.C; path = ../client/gui_http.C; sourceTree = SOURCE_ROOT; };
 		DD33C6F208B5BAF500768630 /* gui_http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_http.h; path = ../client/gui_http.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F608B5BB4500768630 /* acct_setup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acct_setup.h; path = ../client/acct_setup.h; sourceTree = SOURCE_ROOT; };
@@ -1135,8 +1126,6 @@
 				DD58C41F08F3343F00C1DF66 /* AccountManagerProcessingPage.h */,
 				DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */,
 				DD58C42108F3343F00C1DF66 /* AccountManagerPropertiesPage.h */,
-				DD02098A095A47540012D9DE /* AccountManagerStatusPage.cpp */,
-				DD02098E095A476F0012D9DE /* AccountManagerStatusPage.h */,
 				DD58C42208F3343F00C1DF66 /* AlreadyAttachedPage.cpp */,
 				DD58C42308F3343F00C1DF66 /* AlreadyAttachedPage.h */,
 				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
@@ -1160,10 +1149,6 @@
 				DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */,
 				DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */,
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
-				DD3196A7098EF183002EB538 /* CompletionRemovePage.cpp */,
-				DD3196A8098EF183002EB538 /* CompletionRemovePage.h */,
-				DD3196A9098EF183002EB538 /* CompletionUpdatePage.cpp */,
-				DD3196AA098EF183002EB538 /* CompletionUpdatePage.h */,
 				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
 				DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */,
@@ -2198,7 +2183,6 @@
 				DD58C42A08F3343F00C1DF66 /* AccountManagerInfoPage.cpp in Sources */,
 				DD58C42C08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp in Sources */,
 				DD58C42E08F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp in Sources */,
-				DD02098B095A47540012D9DE /* AccountManagerStatusPage.cpp in Sources */,
 				DD58C43008F3343F00C1DF66 /* AlreadyAttachedPage.cpp in Sources */,
 				DD58C43208F3343F00C1DF66 /* AlreadyExistsPage.cpp in Sources */,
 				DD095F1407D882DD00362260 /* BOINCBaseView.cpp in Sources */,
@@ -2210,8 +2194,6 @@
 				DD095F1C07D882EB00362260 /* BOINCTaskCtrl.cpp in Sources */,
 				DD58C44008F3347D00C1DF66 /* CompletionErrorPage.cpp in Sources */,
 				DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */,
-				DD3196AB098EF183002EB538 /* CompletionRemovePage.cpp in Sources */,
-				DD3196AD098EF183002EB538 /* CompletionUpdatePage.cpp in Sources */,
 				DD095F4507D8838F00362260 /* diagnostics.C in Sources */,
 				DD095F1E07D882EE00362260 /* DlgAbout.cpp in Sources */,
 				DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */,

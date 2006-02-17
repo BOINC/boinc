@@ -1987,3 +1987,14 @@ David  16 Feb 2006
 
     clientgui/
         Makefile.am
+
+Charlie 17 Feb 2006
+    - Mac: Remove obsolete files from XCode project (CompletionUpdatePage.cpp, 
+        .h, CompletionRemovePage.cpp, .h, AccountManagerStatusPage.cpp, .h)
+    - Remove unused variable pWAP to fix compiler warning.
+
+    clientgui/
+        WelcomePage.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

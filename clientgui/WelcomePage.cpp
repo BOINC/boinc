@@ -277,11 +277,9 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 
     // Be careful about which pointer you use in which scenario.
     wxString strBuffer = wxEmptyString;
-    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
 
 
-    wxASSERT(pWAP);
     wxASSERT(pWAM);
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
