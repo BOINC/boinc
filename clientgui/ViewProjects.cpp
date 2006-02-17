@@ -195,6 +195,7 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
 
     m_bForceUpdateSelection = true;
     UpdateSelection();
+    pFrame->ResetReminderTimers();
     pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function End"));

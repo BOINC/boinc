@@ -100,8 +100,7 @@ public:
     void OnRefreshView( CMainFrameEvent& event );
     void OnConnect( CMainFrameEvent& event );
 
-    void SetFrameListPanelRenderTimerRate();
-    void UpdateStatusText( const wxChar* szStatus );
+    void ExecuteBrowserLink( const wxString& strLink );
 
     void FireInitialize();
     void FireRefreshView();
@@ -110,6 +109,12 @@ public:
     int       GetReminderFrequency() { return m_iReminderFrequency; }
     wxString  GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
     bool      GetDialupPromptForCredentials() { return m_bNetworkDialupPromptCredentials; }
+
+    void ResetReminderTimers();
+
+    void SetFrameListPanelRenderTimerRate();  // TODO: refactor out of the frame and put the
+                                              //   relevent code in OnPageChanged function
+                                              //   and the base/statistics view.
 
     void ShowConnectionBadPasswordAlert();
     void ShowConnectionFailedAlert();
@@ -122,7 +127,7 @@ public:
         const MainFrameAlertEventType alert_event_type = AlertNormal
     );
 
-    void ExecuteBrowserLink( const wxString& strLink );
+    void UpdateStatusText( const wxChar* szStatus );
 
 #ifdef __WXMAC__
     bool Show( bool show = true );

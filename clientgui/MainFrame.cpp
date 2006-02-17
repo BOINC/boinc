@@ -1171,6 +1171,7 @@ void CMainFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
         DeleteMenu();
         CreateMenu();
         FireRefreshView();
+        ResetReminderTimers();
 
         m_pRefreshStateTimer->Start();
         m_pFrameRenderTimer->Start();
@@ -1875,6 +1876,37 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 }
 
 
+void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
+    wxHyperLink::ExecuteLink(strLink);
+}
+
+
+void CMainFrame::FireInitialize() {
+    CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
+    AddPendingEvent(event);
+}
+
+
+void CMainFrame::FireRefreshView() {
+    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
+    AddPendingEvent(event);
+}
+
+
+void CMainFrame::FireConnect() {
+    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
+    AddPendingEvent(event);
+}
+
+
+void CMainFrame::ResetReminderTimers() {
+    wxASSERT(m_pDialupManager);
+    wxASSERT(wxDynamicCast(m_pDialupManager, CBOINCDialUpManager));
+
+    m_pDialupManager->ResetReminderTimers();
+}
+
+
 void CMainFrame::SetFrameListPanelRenderTimerRate() {
     static wxWindowID   previousPane = -1;
     static int          connectedCount = 0;
@@ -1917,31 +1949,6 @@ void CMainFrame::SetFrameListPanelRenderTimerRate() {
         m_pFrameListPanelRenderTimer->Start(1000);  // Refresh every 1 seconds
         break;
     }
-}
-
-
-void CMainFrame::UpdateStatusText(const wxChar* szStatus) {
-    wxString strStatus = szStatus;
-    m_pStatusbar->SetStatusText(strStatus);
-    ::wxSleep(0);
-}
-
-
-void CMainFrame::FireInitialize() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::FireRefreshView() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::FireConnect() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
-    AddPendingEvent(event);
 }
 
 
@@ -2046,8 +2053,10 @@ void CMainFrame::ShowAlert( const wxString title, const wxString message, const 
 }
 
 
-void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
-    wxHyperLink::ExecuteLink(strLink);
+void CMainFrame::UpdateStatusText(const wxChar* szStatus) {
+    wxString strStatus = szStatus;
+    m_pStatusbar->SetStatusText(strStatus);
+    ::wxSleep(0);
 }
 
 

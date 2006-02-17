@@ -35,9 +35,7 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
     m_pDialupManager = wxDialUpManager::Create();
     wxASSERT(m_pDialupManager->IsOk());
 
-    m_dtLastDialupAlertSent = wxDateTime((time_t)0);
-    m_dtLastDialupRequest = wxDateTime((time_t)0);
-    m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
+    ResetReminderTimers();
     m_bSetConnectionTimer = false;
     m_bNotifyConnectionAvailable = false;
     m_bConnectedSuccessfully = false;
@@ -112,9 +110,7 @@ void CBOINCDialUpManager::poll() {
 
             m_bResetTimers = false;
             m_bSetConnectionTimer = false;
-            m_dtLastDialupAlertSent = wxDateTime((time_t)0);
-            m_dtLastDialupRequest = wxDateTime((time_t)0);
-            m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
+            ResetReminderTimers();
         }
 
         // Log out the trace information for debugging purposes.
@@ -462,5 +458,12 @@ int CBOINCDialUpManager::Disconnect() {
     }
 
     return 0;
+}
+
+
+void CMainFrame::ResetReminderTimers() {
+    m_dtLastDialupAlertSent = wxDateTime((time_t)0);
+    m_dtLastDialupRequest = wxDateTime((time_t)0);
+    m_dtDialupConnectionTimeout = wxDateTime((time_t)0);
 }
 

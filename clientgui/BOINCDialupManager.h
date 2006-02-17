@@ -47,6 +47,7 @@ public:
 
     int Disconnect();
 
+    void ResetReminderTimers();
 
 protected:
     wxDialUpManager* m_pDialupManager;

@@ -159,6 +159,7 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
+    pFrame->ResetReminderTimers();
     pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function End"));

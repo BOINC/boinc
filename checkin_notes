@@ -2025,3 +2025,12 @@ Rom    17 Feb 2006
         WizardAccountManager.cpp
         WizardAttachProject.cpp
 
+Rom    17 Feb 2006
+    - Bug Fix: Reset the reminder timers when the user updates something.
+    
+    clientgui/
+        BOINCDialupManager.cpp, .h
+        MainFrame.cpp, .h
+        ViewProjects.cpp
+        ViewTransfers.cpp
+
