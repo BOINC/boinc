@@ -76,7 +76,7 @@ function show_profile_creation_page($user) {
     //
     $profile = get_profile($user->id);
     if (isset($_POST['submit']) && $_POST['submit']) {
-        process_create_results($user, $profile);
+        process_create_profile($user, $profile);
         exit();
     }
 
@@ -151,7 +151,6 @@ function offensive_profile_warning($verify_flag) {
 }
 
 function show_picture_option($profile) {
-
     row1("Picture");
 
     $warning = "";
@@ -170,11 +169,10 @@ function show_picture_option($profile) {
 <p>
 To replace it,
 click the \"Browse\" button and select a JPEG or PNG file (50KB or less).
-<input name=\"picture\" type=\"file\"><br>
+<input name=picture type=file><br>
 <p>
-To remove it from your profile,
-check this box:
-<input type=\"checkbox\" name=\"delete_pic\">
+To remove it from your profile, check this box:
+<input type=checkbox name=delete_pic>
 <p>
 </td></tr>";
         rowify("<br>");
@@ -186,7 +184,7 @@ If you would like include a picture with your profile,
 click the \"Browse\" button and select a JPEG or PNG file.
 Please select images of 50KB or less.
 <p>
-<input name=\"picture\" type=\"file\">
+<input name=picture type=file>
         ");
         rowify("<br>");
     }
@@ -230,7 +228,7 @@ function delete_user_pictures($userid) {
 // $profile is null if user doesn't already have a profile.
 // Don't assign to $profile->x if this is the case.
 //
-function process_create_results($user, $profile) {
+function process_create_profile($user, $profile) {
     $response1 = $_POST['response1'];
     $response2 = $_POST['response2'];
     $language = $_POST['language'];

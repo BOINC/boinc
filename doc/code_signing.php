@@ -20,8 +20,7 @@ and possibly the end of all BOINC projects.
 </b>
 <ul>
 <li> Choose a computer
-(an old, slow one is fine) to act as your
-'code signing machine'.
+(an old, slow one is fine) to act as your 'code signing machine'.
 After being set up,
 this computer <b>must remain physically secure
 and disconnected from the network</b>
@@ -32,10 +31,9 @@ the code-signing machine.
 A USB-connected disk or CD-RW will work,
 or if your files are small you can use a floppy disk.
 <li>
-Install boinc/lib/crypt_prog on the code signing machine
-(it's easiest if the machine runs
-Unix/Linux, but it should be easy to compile
-crypt_prog for Windows too).
+Install <a href=key_setup>crypt_prog</a> on the code signing machine
+(it's easiest if the machine runs Unix/Linux;
+Windows can be used but requires Visual Studio 2003).
 
 <li>
 Run 'crypt_prog -genkey' to create a code-signing key pair.

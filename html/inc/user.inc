@@ -103,7 +103,7 @@ function show_user_info_private($user) {
     } else {
         row2("Team", "None (<a href=team.php>find a team</a>)");
     }
-    $tot=total_posts($user);
+    $tot = total_posts($user);
     if ($tot) {
         row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
     }
@@ -141,14 +141,16 @@ function show_user_summary_public($user) {
     } else {
         row2("Computers", "hidden");
     }
-    # Does this project accept donations?
-    # If so, do you want to have a link next to user name as it appears on the web site?
-    if ($user->donated == 1) { 
-      require_once("../project/donations.inc");
-      $x .= DONATION_LINK;
-      row2("Donor",$x);
-      }
+    $tot = total_posts($user);
+    if ($tot) {
+        row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
+    }
 
+    if ($user->donated == 1) { 
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+        row2("Donor",$x);
+    }
 }
 
 function show_profile_link($user) {
@@ -169,7 +171,8 @@ function show_user_page_private($user) {
 
     // Does this project accept donations? Then put in a project specific
     // function to show user donation information in ../project/donations.inc
-	if (parse_bool($config, "donations_accepted")) {
+    //
+    if (parse_bool($config, "donations_accepted")) {
       require_once("../project/donations.inc");
       show_user_donations_private($user);
     }

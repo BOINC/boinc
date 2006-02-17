@@ -2034,3 +2034,14 @@ Rom    17 Feb 2006
         ViewProjects.cpp
         ViewTransfers.cpp
 
+David  17 Feb 2006
+    - user web: restore posts link on public user page
+        (not sure how it got deleted)
+    - minor code cleanup
+
+    html/
+        inc/
+            profile.inc
+            user.inc
+        user/
+            delete_profile.php

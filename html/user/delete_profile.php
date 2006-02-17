@@ -15,22 +15,19 @@ page_head("Profile delete confirmation");
 
 echo "<form action=", $_SERVER['PHP_SELF'], " method=\"POST\">";
 
-start_table_noborder();
-row1("Delete your profile");
-
-rowify("
+echo "
     <h2>Are you sure?</h2><p>
     Deleted profiles are gone forever and cannot be recovered --
     you will have to start from scratch
     if you want another profile in the future.
-");
-rowify(
-    "<br>If you're sure, click the \"Delete\" button below
-    to remove your profile from our database."
-);
-echo "<tr><td align=\"center\"><br><input type=\"submit\" name=\"delete\" value=\"Delete\"></td></tr>";
-end_table();
-echo "</form>";
+    <p>
+    If you're sure, click 'Delete'
+    to remove your profile from our database.
+
+    <p>
+    <input type=submit name=delete value=Delete>
+    </form>
+";
 
 page_tail();
 

@@ -68,8 +68,6 @@ If hackers break into an account manager server,
 they could potentially cause the account manager
 to instruct all its clients to attach to malicious a BOINC project
 that runs a malicious application.
-
-<p>
 To prevent this type of attack, the URLs distributed by
 an account manager are digitally signed.
 Each AM has its own <b>signing key</b> pair.
@@ -79,19 +77,17 @@ The private key should be stored only on a physically secure,
 non-connected host that is used to sign URLs.
 
 <p>
-To sign URLs, download the BOINC software on a Linux machine,
-and compile the program that generates keys and signs things (lib/crypt_prog).
-Then generate a key pair and generate signatures for your URLs.
+To sign URLs, compile <a href=key_setup.php>crypt_prog</a>,
+BOINC's encryption utility program.
+(Instructions for downloading and compiling code
+are <a href=compile.php>here</a>.)
+Generate a key pair and generate signatures for your URLs.
 At some point you'll need to commit to a permanent key pair,
 at which point you should move the private key to
-the signing machine (disconnected) and make sure there are
-no copies of it elsewhere.
-Make a copy or two on CD-ROM also, or just print it out on paper.
-
-<p>
-Instructions for downloading/compiling code are <a href=compile.php>here</a>.
-<p>
-Instructions for using the crypto program are <a href=key_setup.php>here</a>
+the signing machine (disconnected).
+Make a copy or two on CD-ROM also, and/or print it out on paper;
+keep these in a safe place.
+Delete all other copies of the private key.
 
 <h2>Farm managers</h2>
 <p>

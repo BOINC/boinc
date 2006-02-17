@@ -3,7 +3,11 @@ require_once("docutil.php");
 page_head("The encryption utility");
 echo "
 <p>
-The program <b>lib/crypt_prog</b> performs various encryption tasks.
+The program <code>lib/crypt_prog</code> performs various encryption tasks.
+<p>
+crypt_prog is built by the standard build procedure on Unix systems.
+You can also build it on Windows (with Visual Studio 2003)
+using the project file <code>win_build/crypt_prog.vcproj</code>.
 
 <h2>Creating encryption keys</h2>
 <dl>
