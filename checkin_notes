@@ -1998,3 +1998,13 @@ Charlie 17 Feb 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    17 Feb 2006
+    - Bug Fix: Remove the defect account manager functionality from the wizard
+        and put it into it's own routine per David's request.
+    - Bug Fix: Fix the context menu item indentation problem on the task bar.
+    
+    clientgui/
+        BOINCDialupManager.cpp
+        BOINCTaskBar.cpp
+        MainFrame.cpp

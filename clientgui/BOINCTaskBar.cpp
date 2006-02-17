@@ -411,14 +411,26 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 void CTaskBarIcon::CreateContextMenu() {
     ResetTaskBar();
 
-    wxMenu *menu = BuildContextMenu();
+    wxMenu*     menu     = BuildContextMenu();
+    wxMenuItem* menuItem = NULL;
+    wxFont      font     = wxNullFont;
 
     // These should be in Windows Task Bar Menu but not in Mac's Dock menu
     menu->AppendSeparator();
     menu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
 
-    PopupMenu(menu);
+#ifdef __WXMSW__
+    menuItem = menu->FindItem(wxID_EXIT);
+    menu->Remove(menuItem);
 
+    font = menuItem->GetFont();
+    font.SetWeight(wxFONTWEIGHT_NORMAL);
+    menuItem->SetFont(font);
+
+    menu->Append(menuItem);
+#endif
+
+    PopupMenu(menu);
     delete menu;
 }
 
@@ -429,7 +441,10 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
     wxMenu*            menu          = new wxMenu;
-    wxString           menuName;
+    wxMenuItem*        menuItem      = NULL;
+    wxString           menuName      = wxEmptyString;
+    wxFont             font          = wxNullFont;
+    size_t             loc = 0;
 
     wxASSERT(menu);
     wxASSERT(pDoc);
@@ -441,38 +456,20 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     if (is_acct_mgr_detected) {
         menuName.Printf(
-            _("&Open %s Web..."),
+            _("Open %s Web..."),
             wxGetApp().GetBrand()->GetProjectName().c_str()
         );
         menu->Append(ID_OPENWEBSITE, menuName, wxEmptyString);
     }
 
     menuName.Printf(
-        _("&Open %s..."),
+        _("Open %s..."),
         wxGetApp().GetBrand()->GetApplicationName().c_str()
     );
-#ifdef __WXMSW__
-
-    wxMenuItem*    menuItem      = NULL;
-
-    wxFont font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
-    font.SetWeight(wxBOLD);
-
-    menuItem = new wxMenuItem(menu, wxID_OPEN, menuName, wxEmptyString);
-    menuItem->SetFont(font);
-
-    menu->Append(menuItem);
-
-#else
-
     menu->Append(wxID_OPEN, menuName, wxEmptyString);
 
-#endif
-    menu->AppendSeparator();
     menu->AppendCheckItem(ID_TB_ACTIVITYSUSPEND, _("&Suspend activities"), wxEmptyString);
-    menu->AppendSeparator();
     menu->AppendCheckItem(ID_TB_NETWORKSUSPEND, _("Suspend &network activities"), wxEmptyString);
-    menu->AppendSeparator();
 
     menuName.Printf(
         _("&About %s..."),
@@ -481,8 +478,33 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     menu->Append(wxID_ABOUT, menuName, wxEmptyString);
 
+#ifdef __WXMSW__
+    for (loc = 0; loc < menu->GetMenuItemCount(); loc++) {
+        menuItem = menu->FindItemByPosition(loc);
+        menu->Remove(menuItem);
+
+        font = menuItem->GetFont();
+        if (menuItem->GetId() != wxID_OPEN) {
+            font.SetWeight(wxFONTWEIGHT_NORMAL);
+        } else {
+            font.SetWeight(wxFONTWEIGHT_BOLD);
+        }
+        menuItem->SetFont(font);
+
+        menu->Insert(loc, menuItem);
+    }
+#endif
+
+    if (is_acct_mgr_detected) {
+        menu->InsertSeparator(4);
+        menu->InsertSeparator(2);
+    } else {
+        menu->InsertSeparator(3);
+        menu->InsertSeparator(1);
+    }
+
     AdjustMenuItems(menu);
-    
+
     return menu;
 }
 

@@ -1187,7 +1187,11 @@ void CMainFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
 void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAccountManagerDetach - Function Begin"));
 
-    CMainDocument*            pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc           = wxGetApp().GetDocument();
+    wxInt32        iAnswer        = 0; 
+    wxString       strTitle       = wxEmptyString;
+    wxString       strMessage     = wxEmptyString;
+    ACCT_MGR_INFO  ami;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1198,26 +1202,43 @@ void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
 #endif
 
     if (pDoc->IsConnected()) {
-        m_pRefreshStateTimer->Stop();
-        m_pFrameRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Stop();
-        m_pDocumentPollTimer->Stop();
 
-        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
+        pDoc->rpc.acct_mgr_info(ami);
 
-        pWizard->Run(ACCOUNTMANAGER_DETACH);
+        strTitle.Printf(
+            _("BOINC Manager - Detach from %s"), 
+            ami.acct_mgr_name.c_str()
+        );
+        strMessage.Printf(
+            _("If you defect from %s,\n"
+              "you'll keep all your current projects,\n"
+              "but you'll have to manage projects manually.\n"
+              "\n"
+              "Do you want to defect from %s?"), 
+            ami.acct_mgr_name.c_str(),
+            ami.acct_mgr_name.c_str()
+        );
 
-        if (pWizard)
-            pWizard->Destroy();
+        iAnswer = ::wxMessageBox(
+            strMessage,
+            strTitle,
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
+
+        if (wxYES == iAnswer) {
+            pDoc->rpc.acct_mgr_rpc(
+                NULL,
+                NULL,
+                NULL,
+                false
+            );
+        }
 
         DeleteMenu();
         CreateMenu();
         FireRefreshView();
 
-        m_pRefreshStateTimer->Start();
-        m_pFrameRenderTimer->Start();
-        m_pFrameListPanelRenderTimer->Start();
-        m_pDocumentPollTimer->Start();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }

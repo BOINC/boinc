@@ -118,6 +118,7 @@ void CBOINCDialUpManager::poll() {
         }
 
         // Log out the trace information for debugging purposes.
+        /*
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Dialup Flags"));
         wxLogTrace(wxT("Function Status"), 
             wxT("CBOINCDialUpManager::poll - -- bIsOnline = '%d', bIsDialing = '%d', m_bWasDialing = '%d', iNetworkStatus = '%d', bWantConnection = '%d'"),
@@ -131,6 +132,7 @@ void CBOINCDialUpManager::poll() {
             wxT("CBOINCDialUpManager::poll - -- confirm_before_connecting = '%d', hangup_if_dialed = '%d'"),
             pDoc->state.global_prefs.confirm_before_connecting, pDoc->state.global_prefs.hangup_if_dialed
         );
+        */
 
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection)
         {
