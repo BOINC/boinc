@@ -1981,3 +1981,9 @@ Rom    16 Feb 2006
     
     clientgui/
         ViewTransfers.cpp
+
+David  16 Feb 2006
+    - clientgui compile on unix
+
+    clientgui/
+        Makefile.am

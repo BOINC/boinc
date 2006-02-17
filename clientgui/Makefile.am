@@ -49,7 +49,6 @@ boinc_gui_SOURCES = \
     AccountInfoPage.cpp \
     AccountKeyPage.cpp \
     AccountManagerInfoPage.cpp \
-    AccountManagerStatusPage.cpp \
     AccountManagerProcessingPage.cpp \
     AccountManagerPropertiesPage.cpp \
     AlreadyAttachedPage.cpp \
@@ -57,8 +56,6 @@ boinc_gui_SOURCES = \
     BOINCBaseWizard.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
-    CompletionUpdatePage.cpp \
-    CompletionRemovePage.cpp \
     NoInternetConnectionPage.cpp \
     NotDetectedPage.cpp \
     NotFoundPage.cpp \

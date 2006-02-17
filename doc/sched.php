@@ -1,10 +1,9 @@
 <?php
 require_once("docutil.php");
-page_head("Client scheduling");
+page_head("Client scheduling policies");
 echo "
 
-This document describes two related parts of the BOINC core client
-(version 4.36 and later):
+This document describes two related parts of the BOINC core client:
 <dl>
 <dt><b>CPU scheduling policy</b>
 <dd>
@@ -25,7 +24,7 @@ The goals of the CPU scheduler and work-fetch policies are
 (in descending priority):
 <ul>
 <li> Results should be completed and reported by their deadline
-(results reported after their deadline
+(because results reported after their deadline
 may not have any value to the project and may not be granted credit).
 <li> NCPUS processors should be kept busy.
 <li> At any given point, enough work should be kept on hand
@@ -127,7 +126,7 @@ A project is <b>potentially runnable</b> if
 Intuitively, a project's 'debt' is how much work is owed to it,
 relative to other projects.
 BOINC uses two types of debt;
-each is defined related to a set S of projects.
+each is defined for a set S of projects.
 In each case, the debt is recalculated periodically as follows:
 <ul>
 <li> A = the wall CPU time used by projects in S during this period
