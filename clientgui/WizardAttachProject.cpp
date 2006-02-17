@@ -130,6 +130,17 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     project_authenticator = wxEmptyString;
     m_bCredentialsCached = false;
  
+    wxString strTitle;
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        if (!wxGetApp().GetBrand()->GetAPWizardTitle().IsEmpty()) {
+            strTitle = wxGetApp().GetBrand()->GetAPWizardTitle();
+        } else {
+            strTitle = wxGetApp().GetBrand()->GetApplicationName();
+        }
+    } else {
+        strTitle = _("BOINC Manager");
+    }
+
     wxBitmap wizardBitmap;
     if (wxGetApp().GetBrand()->IsBranded()) {
         wizardBitmap = wxBitmap(*(wxGetApp().GetBrand()->GetAPWizardLogo()));
@@ -137,7 +148,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
         wizardBitmap = wxBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     }
 ////@begin CWizardAttachProject creation
-    CBOINCBaseWizard::Create( parent, id, _("Attach to Project"), wizardBitmap, pos );
+    CBOINCBaseWizard::Create( parent, id, strTitle, wizardBitmap, pos );
 
     CreateControls();
 ////@end CWizardAttachProject creation
@@ -248,24 +259,8 @@ void CWizardAttachProject::CreateControls()
  * Runs the wizard.
  */
  
-bool CWizardAttachProject::Run( wxString& strName, wxString& strURL, bool bCredentialsCached )
-{
+bool CWizardAttachProject::Run( wxString& strName, wxString& strURL, bool bCredentialsCached ) {
     if (strURL.Length()) {
-        if (strName.Length()) {
-            wxString strTitle;
-
-            if (wxGetApp().GetBrand()->IsBranded() && 
-                !wxGetApp().GetBrand()->GetAPWizardTitle().IsEmpty()) {
-                strTitle = wxGetApp().GetBrand()->GetAPWizardTitle();
-            } else {
-                strTitle = GetTitle();
-            }
-            project_name = strName;
-            strTitle += wxT(" - ") + strName;
-
-            SetTitle(strTitle);
-        }
-
         m_ProjectInfoPage->SetProjectURL( strURL );
         m_bCredentialsCached = bCredentialsCached;
     }

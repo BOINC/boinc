@@ -119,6 +119,17 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     m_strProjectName.Empty();
     m_bCredentialsCached = false;
 
+    wxString strTitle;
+    if (wxGetApp().GetBrand()->IsBranded()) {
+        if (!wxGetApp().GetBrand()->GetAMWizardTitle().IsEmpty()) {
+            strTitle = wxGetApp().GetBrand()->GetAMWizardTitle();
+        } else {
+            strTitle = wxGetApp().GetBrand()->GetApplicationName();
+        }
+    } else {
+        strTitle = _("BOINC Manager");
+    }
+
     wxBitmap wizardBitmap;
     if (wxGetApp().GetBrand()->IsBranded()) {
         wizardBitmap = wxBitmap(*(wxGetApp().GetBrand()->GetAMWizardLogo()));
@@ -126,7 +137,7 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
         wizardBitmap = wxBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
     }
 ////@begin CWizardAccountManager creation
-    CBOINCBaseWizard::Create( parent, id, _("Attach to Account Manager"), wizardBitmap, pos );
+    CBOINCBaseWizard::Create( parent, id, strTitle, wizardBitmap, pos );
 
     CreateControls();
 ////@end CWizardAccountManager creation
@@ -231,25 +242,6 @@ bool CWizardAccountManager::Run(int action) {
     pDoc->rpc.acct_mgr_info(ami);
 
     if (ami.acct_mgr_url.size()) {
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            wxString strTitle;
-
-            // %s is the project name
-            //    i.e. 'GridRepublic'
-            strTitle.Printf(
-                _("Attach to %s"),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
-            );
-
-            SetTitle(strTitle);
-        } else if (ami.acct_mgr_name.size()) {
-            wxString strTitle;
-            strTitle = GetTitle();
-            strTitle += wxT(" - ");
-            strTitle += ami.acct_mgr_name.c_str();
-            SetTitle(strTitle);
-        }
-
         m_AccountManagerInfoPage->SetProjectURL( ami.acct_mgr_url.c_str() );
         m_strProjectName = ami.acct_mgr_name.c_str();
         m_bCredentialsCached = ami.have_credentials;

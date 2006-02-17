@@ -2017,3 +2017,11 @@ David  17 Feb 2006
 	win_build/
 		crypt_prog.vcproj
 
+Rom    17 Feb 2006
+    - Bug Fix: Adjust the dialog title code for both the attach to project wizard
+        and the attach to account manager wizard per David's request.
+        
+    clientgui/
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+
