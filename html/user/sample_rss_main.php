@@ -5,6 +5,8 @@
 // - for more informations about RSS see RSS 2.0 Specification:
 //   http://blogs.law.harvard.edu/tech/rss
 
+// Check your page with http://feedvalidator.org/                                                                                                                                     
+
 // Create and send out http header
 //
 header ("Expires: " . gmdate('D, d M Y H:i:s', time()) . " GMT");
@@ -29,7 +31,7 @@ require_once("../project/project_news.inc");
 // Create channel header and open XML content
 //
 $description = "BOINC project ".PROJECT.": Main page News";
-$channel_image = URL_BASE . "/rss_image.jpg";
+$channel_image = URL_BASE . "rss_image.gif";
 $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
@@ -56,11 +58,15 @@ for( $item=0; $item < $news; $item++ ) {
     $j = $tot - $item;
     if( count($project_news[$item]) == 2) {
         $d = strtotime($project_news[$item][0]);
-        $d = strftime("%a, %d %b %Y", $d);
+// Time format is required by RSS standard.  Note that one can
+// replace GMT with %Z, however on the E@H server we use UTC
+// which is not considered valid.
+//
+        $d = strftime("%a, %d %b %Y %T GMT", $d);
         echo "<item>
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
             <link>".URL_BASE."all_news.php#$j</link>
-            <guid>$item</guid>
+            <guid isPermaLink=\"false\">".PROJECT."_$item</guid>
             <description>".strip_tags($project_news[$item][1])."</description>
             <pubDate>$d</pubDate>
             </item>
