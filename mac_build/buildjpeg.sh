@@ -70,9 +70,9 @@ if [  $? -ne 0 ]; then exit 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS="-arch i386"
-export CPPFLAGS="-arch i386"
-export CFLAGS="-arch i386"
+export LDFLAGS=""
+export CPPFLAGS=""
+export CFLAGS=""
 ./configure --disable-shared --host=i386
 if [  $? -ne 0 ]; then exit 1; fi
 
