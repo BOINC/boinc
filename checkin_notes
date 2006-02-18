@@ -2110,3 +2110,9 @@ Bruce 18 Feb 2006
         user/
             sample_rss_main.php
 
+Charlie 18 Feb 2006
+    - Mac: - Fix compiler setting which caused bug when building on PowerPC.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
