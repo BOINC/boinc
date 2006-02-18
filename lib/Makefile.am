@@ -35,7 +35,11 @@ EXTRA_DIST = *.h *.C
 if OS_DARWIN
 mac_sources = 			\
 	mac_backtrace.C 	\
-	mac_backtrace.h 
+	mac_backtrace.h  	\
+	MoreAddrToSym.c  	\
+	MoreAddrToSym.h  	\
+	MoreBacktrace.c  	\
+	MoreBacktrace.h
 else
 mac_sources = 
 endif

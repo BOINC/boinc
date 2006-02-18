@@ -2070,6 +2070,9 @@ Walt   17 Feb 2006
 
 Charlie 17 Feb 2006
     - Mac: - Fix unused variable compiler warnings.
+    - added MoreAddrToSym.c, h, MoreBacktrace.c, h to Makefile
 
+     lib/
+         Makefile.am
     clientgui/
         BOINCTaskBar.cpp
