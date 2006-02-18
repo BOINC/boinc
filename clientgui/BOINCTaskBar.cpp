@@ -406,7 +406,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     return menu;
 }
 
-#endif
+#else  // ! __WXMAC__
 
 void CTaskBarIcon::CreateContextMenu() {
     ResetTaskBar();
@@ -434,6 +434,7 @@ void CTaskBarIcon::CreateContextMenu() {
     delete menu;
 }
 
+#endif  // ! __WXMAC__
 
 wxMenu *CTaskBarIcon::BuildContextMenu() {
 
@@ -441,10 +442,12 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
     wxMenu*            menu          = new wxMenu;
-    wxMenuItem*        menuItem      = NULL;
     wxString           menuName      = wxEmptyString;
     wxFont             font          = wxNullFont;
+#ifdef __WXMSW__
+    wxMenuItem*        menuItem      = NULL;
     size_t             loc = 0;
+#endif
 
     wxASSERT(menu);
     wxASSERT(pDoc);

@@ -2067,3 +2067,9 @@ Walt   17 Feb 2006
         pers_file_xfer.C, .h
     lib/
         gui_rpc_client_ops.C
+
+Charlie 17 Feb 2006
+    - Mac: - Fix unused variable compiler warnings.
+
+    clientgui/
+        BOINCTaskBar.cpp
