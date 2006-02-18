@@ -2045,3 +2045,9 @@ David  17 Feb 2006
             user.inc
         user/
             delete_profile.php
+
+David  17 Feb 2006
+    - core client: remove network_status messages
+
+    client/
+        client_state.C

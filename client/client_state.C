@@ -1439,18 +1439,18 @@ int CLIENT_STATE::network_status() {
         last_comm_time = now;
     }
     if (now - last_comm_time < 10) {
-        msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
+        //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
         return 0;
     }
     if (need_physical_connection) {
-        msg_printf(0, MSG_INFO, "need phys conn; return 1");
+        //msg_printf(0, MSG_INFO, "need phys conn; return 1");
         return 1;
     }
     if (active_tasks.want_network()) {
         return 1;
     }
     have_sporadic_connection = false;
-    msg_printf(0, MSG_INFO, "returning 2");
+    //msg_printf(0, MSG_INFO, "returning 2");
     return 2;
 }
 
