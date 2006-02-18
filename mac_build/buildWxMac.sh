@@ -1,39 +1,44 @@
-# To build the wxMac-2.6.2 library for BOINC as a Universal Binary:
+#!/bin/sh
+
+# Berkeley Open Infrastructure for Network Computing
+# http://boinc.berkeley.edu
+# Copyright (C) 2005 University of California
 #
-# Before running this script, you must first prepare the XCode project:
+# This is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation;
+# either version 2.1 of the License, or (at your option) any later version.
 #
-# Open wxWindows.xcode to upgrade it for XCode 2.2, and name the new file 
-#    wxWindowsB.xcodeproj.
-# Do NOT use the wxWindows.xcodeproj supplied with the package.
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
 #
-# You will need to make two changes to the project's list of files.  
-# To do this:
+# To view the GNU Lesser General Public License visit
+# http://www.gnu.org/copyleft/lesser.html
+# or write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# In the left hand column of the new project window, click on the 
-#   disclosure triangles next to each level until you see the hierarchy 
-#   wxWindowsB : src : regex.
-# Click on regex and press the delete key on your keyboard.  In the 
-#  dialog which appears, select "Delete References."
 #
-# In the left hand column of the new project window, click on the 
-#   disclosure triangles next to each level until you see the hierarchy 
-#   wxWindowsB : src : mac/corefoundation.
-# Control-click on mac/corefoundation and select Add / Existing Files.
-# Select the file src/mac/corefoundation/utilsexc_base.cpp and press 
-#   the "Add" button.
-# Select Reference Type = "Relative to Project", Text Encoding = 
-#  "Mac OS Roman", "Recursively create groups..." and select (check) 
-#   all 4 wx* targets.
-# Click the "Add" button and close the project or quit XCode.
-# 
+# Script to build the wxMac-2.6.2 library for BOINC as a Universal Binary
 #
-# In Terminal, CD to the wxMac-2.6.2 directory.
-#    cd [path]/wxMac-2.6.2/
-# then run this script:
-#    source [ path_to_this_script ] [ -clean ]
+# by Charlie Fenton    2/17/06
 #
-# the -clean argument will force a full rebuild.
+## Before running this script, you must first copy the special XCode 
+## project
+##    boinc/mac_build/wxMac-BOINC.xcodeproj 
+## to 
+##    wxMac-2.6.2/src/
 #
+#
+## In Terminal, CD to the wxMac-2.6.2 directory.
+##    cd [path]/wxMac-2.6.2/
+## then run this script:
+##    source [ path_to_this_script ] [ -clean ]
+##
+## the -clean argument will force a full rebuild.
+#
+
 
 if [ "$1" = "-clean" ]; then
   doclean="clean "
@@ -58,7 +63,7 @@ else
 
 rm -f src/build/Deployment/libwx_mac.a
 
-xcodebuild -project src/wxWindowsB.xcodeproj -target wxStaticRelease  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a"
+xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticRelease  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_mac_ppc.a"
 
 if [  $? -ne 0 ]; then exit 1; fi
 fi
@@ -70,7 +75,7 @@ else
 
 rm -f src/build/Deployment/libwx_mac.a
 
-xcodebuild -project src/wxWindowsB.xcodeproj -target wxStaticRelease  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a"
+xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticRelease  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_mac_i386.a"
 
 if [  $? -ne 0 ]; then exit 1; fi
 fi
@@ -91,7 +96,7 @@ else
 
 rm -f src/build/Deployment/libwx_macd.a
 
-xcodebuild -project src/wxWindowsB.xcodeproj -target wxStaticDebug  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a"
+xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticDebug  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk ARCHS="ppc" EXECUTABLE_NAME="libwx_macd_ppc.a"
 
 if [  $? -ne 0 ]; then exit 1; fi
 fi
@@ -102,7 +107,7 @@ else
 
 rm -f src/build/Deployment/libwx_macd.a
 
-xcodebuild -project src/wxWindowsB.xcodeproj -target wxStaticDebug  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a"
+xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticDebug  -configuration Deployment $doclean build GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386" EXECUTABLE_NAME="libwx_macd_i386.a"
 
 if [  $? -ne 0 ]; then exit 1; fi
 fi
