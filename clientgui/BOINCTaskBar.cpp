@@ -352,6 +352,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 #endif // __WXMSW__
 
 
+#ifndef __WXMAC__
 #ifdef __WXMSW__
 void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
     CreateContextMenu();
@@ -363,6 +364,7 @@ void CTaskBarIcon::OnContextMenu(wxTaskBarIconEvent& WXUNUSED(event)) {
 #endif
 
 
+#ifdef __WXMSW__
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
         m_bButtonPressed = true;
@@ -378,7 +380,8 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
         }
     }
 }
-
+#endif
+#endif  // !__WXMAC__
 
 void CTaskBarIcon::ResetTaskBar() {
 #ifdef __WXMSW___

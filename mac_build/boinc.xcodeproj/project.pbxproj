@@ -81,7 +81,6 @@
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.C in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.C */; };
 		DD1929D90918A2F100C31BCF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
-		DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1D4B46099CFBEE00007F5A /* BOINCDialupManager.cpp */; };
 		DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2B9B41099C78D700136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
 		DD2B9CB0099C9BA000136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
@@ -690,8 +689,6 @@
 		DD16BF7B099D6C90003E4B69 /* cpu_sched.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpu_sched.C; path = ../client/cpu_sched.C; sourceTree = SOURCE_ROOT; };
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		DD1D4B46099CFBEE00007F5A /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
-		DD1D4B47099CFBEE00007F5A /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MoreAddrToSym.c; sourceTree = "<group>"; };
 		DD2B9B3D099C78D700136663 /* MoreAddrToSym.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreAddrToSym.h; sourceTree = "<group>"; };
@@ -1158,8 +1155,6 @@
 				DD81C43407C5D2240098A04D /* BOINCBaseView.h */,
 				DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */,
 				DD58C43508F3347D00C1DF66 /* BOINCBaseWizard.h */,
-				DD1D4B46099CFBEE00007F5A /* BOINCDialupManager.cpp */,
-				DD1D4B47099CFBEE00007F5A /* BOINCDialupManager.h */,
 				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 				DD81C43B07C5D2240098A04D /* BOINCGUIApp.h */,
 				DD81C40407C5D1020098A04D /* BOINCListCtrl.cpp */,
@@ -2214,7 +2209,6 @@
 				DD58C43208F3343F00C1DF66 /* AlreadyExistsPage.cpp in Sources */,
 				DD095F1407D882DD00362260 /* BOINCBaseView.cpp in Sources */,
 				DD58C43D08F3347D00C1DF66 /* BOINCBaseWizard.cpp in Sources */,
-				DD1D4B48099CFBEE00007F5A /* BOINCDialupManager.cpp in Sources */,
 				DD095F1607D882E700362260 /* BOINCGUIApp.cpp in Sources */,
 				DD095F1807D882E900362260 /* BOINCListCtrl.cpp in Sources */,
 				DD4DD0A207EAA648008A6468 /* BOINCTaskBar.cpp in Sources */,

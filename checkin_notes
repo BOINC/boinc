@@ -2112,10 +2112,13 @@ Bruce 18 Feb 2006
 
 Charlie 18 Feb 2006
     - Mac: - Fix compiler setting which caused bug when building on PowerPC.
-    - Fix compiler error.
+    - Fix compiler errors and crash bug.
     
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
     client/
         client_state.C
+    clientgui/
+        BOINCTaskBar.cpp
+        MainFrame.cpp

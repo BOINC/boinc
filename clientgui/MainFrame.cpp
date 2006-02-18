@@ -1900,10 +1900,12 @@ void CMainFrame::FireConnect() {
 
 
 void CMainFrame::ResetReminderTimers() {
+#ifdef __WXMSW__
     wxASSERT(m_pDialupManager);
     wxASSERT(wxDynamicCast(m_pDialupManager, CBOINCDialUpManager));
 
     m_pDialupManager->ResetReminderTimers();
+#endif
 }
 
 
