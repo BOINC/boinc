@@ -48,6 +48,7 @@ PERS_FILE_XFER::PERS_FILE_XFER() {
     first_request_time = gstate.now;
     next_request_time = first_request_time;
     time_so_far = 0;
+    last_bytes_xferred = 0;
     fip = NULL;
     fxp = NULL;
 }
@@ -181,6 +182,9 @@ bool PERS_FILE_XFER::poll() {
         retval = start_xfer();
         return (retval == 0);
     }
+
+    // copy bytes_xferred for use in GUI
+    last_bytes_xferred = fxp->bytes_xferred;
 
     // don't count suspended periods in total time
     //
@@ -391,8 +395,9 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
             continue;
         }
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
+        else if (parse_double(buf, "<last_bytes_xferred>", last_bytes_xferred)) continue;
         else {
-            msg_printf(fip->project, MSG_ERROR,
+            msg_printf(NULL, MSG_ERROR,
                 "Unparsed line in file transfer info: %s", buf
             );
         }
@@ -409,8 +414,9 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
         "        <first_request_time>%f</first_request_time>\n"
         "        <next_request_time>%f</next_request_time>\n"
         "        <time_so_far>%f</time_so_far>\n"
+        "        <last_bytes_xferred>%f</last_bytes_xferred>\n"
         "    </persistent_file_xfer>\n",
-        nretry, first_request_time, next_request_time, time_so_far
+        nretry, first_request_time, next_request_time, time_so_far, last_bytes_xferred
     );
     if (fxp) {
         fout.printf(
@@ -434,6 +440,7 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
 //
 void PERS_FILE_XFER::suspend() {
     if (fxp) {
+        last_bytes_xferred = fxp->bytes_xferred;  // save bytes transferred
         gstate.file_xfers->remove(fxp);     // this removes from http_op_set too
         delete fxp;
         fxp = 0;

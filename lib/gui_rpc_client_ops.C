@@ -406,7 +406,7 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
         else if (parse_int(buf, "<status>", status)) continue;
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
-        else if (parse_double(buf, "<bytes_xferred>", bytes_xferred)) continue;
+        else if (parse_double(buf, "<last_bytes_xferred>", bytes_xferred)) continue;
         else if (parse_double(buf, "<file_offset>", file_offset)) continue;
         else if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
         else if (parse_str(buf, "<hostname>", hostname)) continue;

@@ -2051,3 +2051,19 @@ David  17 Feb 2006
 
     client/
         client_state.C
+
+Walt   17 Feb 2006
+    - bug fix: Fix core client crash on startup when an unknown tag is part of
+      <pers_file_xfer> XML structure.
+    - core client, GUI RPC: changed persistent file transfers to save the count
+      of bytes transferred.  Previously the count was only available when the
+      file transfer was active.
+       -Adds member last_bytes_xferred to PERS_FILE_XFER class.
+       -Adds <last_bytes_xferred> tag to the XML structure and GUI RPC ops.
+       -GUI RPC op FILE_TRANSFER::parse is changed to get the count of bytes
+        transferred (bytes_xferred) from <last_bytes_xferred>. 
+
+    client/
+        pers_file_xfer.C, .h
+    lib/
+        gui_rpc_client_ops.C
