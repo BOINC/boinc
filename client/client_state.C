@@ -29,6 +29,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstdarg>
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
 #endif
 
 #include "parse.h"
