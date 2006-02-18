@@ -16,6 +16,15 @@ Director and architect.  Contact him at davea at ssl.berkeley.edu.
 <dd>
 Developer.
 Contact him at rwalton at ssl.berkeley.edu.
+
+<dt><b>Charlie Fenton</b>
+<dd>
+Developer.
+
+<dt><b>Walt Gribben</b>
+<dd>
+Developer.
+
 </dl>
 
 <h2>Development organization</h2>

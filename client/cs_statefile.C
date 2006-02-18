@@ -308,8 +308,8 @@ int CLIENT_STATE::parse_state_file() {
                     "Can't parse active tasks in state file"
                 );
             }
-        } else if (match_tag(buf, "<platform_name>")) {
-            // should match our current platform name
+        } else if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
+            continue;
         } else if (parse_int(buf, "<user_run_request>", user_run_request)) {
             continue;
         } else if (parse_int(buf, "<user_network_request>", user_network_request)) {

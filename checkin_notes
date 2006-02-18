@@ -2087,3 +2087,17 @@ Charlie 17 Feb 2006
         setupForBOINC.sh
         wxMac-BOINC.xcodeproj/  (added)
             project.pbxproj     (added)
+
+David  17 Feb 2005
+    - If statefile doesn't have right platform name, reset all projects.
+        This is intended to deal with the case where someone
+        copies all their files from a Mac/PPC to a Mac/Intel
+        and expects everything to work.
+        (suggested by Charlie Fenton).
+    - minor code cleanup
+
+    client/
+        check_state.C
+        client_state.C,h
+        cs_statefile.C
+        http_curl.C

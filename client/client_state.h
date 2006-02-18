@@ -25,6 +25,9 @@
 #include <ctime>
 #endif
 
+using std::string;
+using std::vector;
+
 #include "acct_mgr.h"
 #include "acct_setup.h"
 #include "app.h"
@@ -75,12 +78,12 @@ enum SUSPEND_REASON {
 //
 class CLIENT_STATE {
 public:
-    std::vector<PROJECT*> projects;
-    std::vector<APP*> apps;
-    std::vector<FILE_INFO*> file_infos;
-    std::vector<APP_VERSION*> app_versions;
-    std::vector<WORKUNIT*> workunits;
-    std::vector<RESULT*> results;
+    vector<PROJECT*> projects;
+    vector<APP*> apps;
+    vector<FILE_INFO*> file_infos;
+    vector<APP_VERSION*> app_versions;
+    vector<WORKUNIT*> workunits;
+    vector<RESULT*> results;
 
     NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;
@@ -100,6 +103,7 @@ public:
     int core_client_major_version;
     int core_client_minor_version;
     int core_client_release;
+    string statefile_platform_name;
     int file_xfer_giveup_period;
     int user_run_request;
         // values above (USER_RUN_REQUEST_*)
@@ -203,7 +207,7 @@ public:
     GET_CURRENT_VERSION_OP get_current_version_op;
     void new_version_check();
     double new_version_check_time;
-    std::string newer_version;
+    string newer_version;
 
 // --------------- client_state.C:
 public:
@@ -256,7 +260,6 @@ private:
     bool garbage_collect();
     bool garbage_collect_always();
     bool update_results();
-    void free_mem();
 
 // --------------- cpu_sched.C:
 private:
@@ -427,6 +430,7 @@ public:
     void check_file_xfer(FILE_XFER&);
 
     void check_all();
+    void free_mem();
 
 #if 0
 // ------------------ cs_data.C:

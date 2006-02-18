@@ -21,26 +21,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
-#if HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#if HAVE_SYS_WAIT_H
-#include <sys/wait.h>
-#endif
-#if HAVE_SYS_SIGNAL_H
-#include <sys/signal.h>
-#endif
-#if HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
@@ -63,8 +46,6 @@
 #include "client_state.h"
 
 using std::max;
-using std::string;
-using std::vector;
 
 CLIENT_STATE gstate;
 
@@ -127,70 +108,6 @@ CLIENT_STATE::CLIENT_STATE() {
     detach_console = false;
 }
 
-#if 0
-// Deallocate memory.  Can be used to check for memory leaks.
-// Turned off for now.
-//
-void CLIENT_STATE::free_mem() {
-    vector<PROJECT*>::iterator proj_iter;
-    vector<APP*>::iterator app_iter;
-    vector<FILE_INFO*>::iterator fi_iter;
-    vector<APP_VERSION*>::iterator av_iter;
-    vector<WORKUNIT*>::iterator wu_iter;
-    vector<RESULT*>::iterator res_iter;
-    PROJECT *proj;
-    APP *app;
-    FILE_INFO *fi;
-    APP_VERSION *av;
-    WORKUNIT *wu;
-    RESULT *res;
-
-    proj_iter = projects.begin();
-    while (proj_iter != projects.end()) {
-        proj = projects[0];
-        proj_iter = projects.erase(proj_iter);
-        delete proj;
-    }
-
-    app_iter = apps.begin();
-    while (app_iter != apps.end()) {
-        app = apps[0];
-        app_iter = apps.erase(app_iter);
-        delete app;
-    }
-
-    fi_iter = file_infos.begin();
-    while (fi_iter != file_infos.end()) {
-        fi = file_infos[0];
-        fi_iter = file_infos.erase(fi_iter);
-        delete fi;
-    }
-
-    av_iter = app_versions.begin();
-    while (av_iter != app_versions.end()) {
-        av = app_versions[0];
-        av_iter = app_versions.erase(av_iter);
-        delete av;
-    }
-
-    wu_iter = workunits.begin();
-    while (wu_iter != workunits.end()) {
-        wu = workunits[0];
-        wu_iter = workunits.erase(wu_iter);
-        delete wu;
-    }
-
-    res_iter = results.begin();
-    while (res_iter != results.end()) {
-        res = results[0];
-        res_iter = results.erase(res_iter);
-        delete res;
-    }
-
-    active_tasks.free_mem();
-}
-#endif
-
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
     msg_printf(NULL, MSG_INFO,
@@ -207,10 +124,7 @@ void CLIENT_STATE::show_host_info() {
 
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO,
-        "Disk: %s total, %s free",
-        buf, buf2
-    );
+    msg_printf(NULL, MSG_INFO, "Disk: %s total, %s free", buf, buf2);
 }
 
 // Get global preferences.
@@ -287,7 +201,7 @@ int CLIENT_STATE::init() {
 
     // if we are running as anybody other than localsystem
     // and executing as a daemon then app graphics won't work.
-    // display a note at startup reminding user  of that.
+    // display a note at startup reminding user of that.
     //
 #ifdef _WIN32
     DWORD  buf_size = sizeof(buf);
@@ -304,7 +218,6 @@ int CLIENT_STATE::init() {
     }
 #endif
 
-    // Parse various files
     parse_account_files();
     parse_statistics_files();
 
@@ -408,6 +321,20 @@ int CLIENT_STATE::init() {
             boinc_sleep(1.0);
         }
         if (retval) return retval;
+    }
+
+    // Has platform name changed?  If so reset all.
+    // This could happen e.g. if user copies files from PPC to Intel Mac
+    //
+    if (strcmp(platform_name, statefile_platform_name.c_str())) {
+        msg_printf(NULL, MSG_INFO,
+            "Platform changed from %s to %s - resetting projects",
+            statefile_platform_name.c_str(), platform_name
+        );
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            reset_project(p);
+        }
     }
 
     return 0;

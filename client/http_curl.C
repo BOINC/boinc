@@ -46,10 +46,7 @@
 
 #define HTTP_BLOCKSIZE  16384
 
-using std::string;
-using std::istringstream;
 using std::vector;
-using std::getline;
 
 extern CURLM* g_curlMulti;  // global curl multi handle for http/s
 static char g_user_agent_string[256] = {""};
