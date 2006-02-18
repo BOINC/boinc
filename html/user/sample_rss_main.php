@@ -58,17 +58,13 @@ for( $item=0; $item < $news; $item++ ) {
     $j = $tot - $item;
     if( count($project_news[$item]) == 2) {
         $d = strtotime($project_news[$item][0]);
-// Time format is required by RSS standard.  Note that one can
-// replace GMT with %Z, however on the E@H server we use UTC
-// which is not considered valid.
-//
-        $d = strftime("%a, %d %b %Y %T GMT", $d);
+        $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
         echo "<item>
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
             <link>".URL_BASE."all_news.php#$j</link>
             <guid isPermaLink=\"false\">".PROJECT."_$item</guid>
             <description>".strip_tags($project_news[$item][1])."</description>
-            <pubDate>$d</pubDate>
+            <pubDate>$news_date</pubDate>
             </item>
         ";
     }
