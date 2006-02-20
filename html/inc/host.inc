@@ -152,29 +152,6 @@ function show_host($host, $private, $ipprivate) {
 
 }
 
-// The following is used to show a user's hosts
-//
-function user_host_table_start($private) {
-    start_table();
-    echo "<tr>";
-    echo "<th>Computer ID<br><font size=-2>Click for more info</font></th>\n";
-    if ($private) {
-        echo "<th>Name</th>\n
-        ";
-    } else {
-        echo "<th>Rank</th>";
-    }
-    echo "
-        <th>Recent average credit</th>
-        <th>Total credit</th>
-        <th>CPU type</th>
-        <th>Operating system</th>
-    ";
-    $config = get_config();
-    if (parse_bool($config, "show_results")) echo "<th>Results</th>";
-    echo "<th>Last contact</th></tr>";
-}
-
 // the following is used for list of top hosts
 //
 function top_host_table_start($sort_by) {
