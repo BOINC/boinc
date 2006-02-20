@@ -176,6 +176,7 @@ show_name("Alex A. dos Santos");
 show_name("Steven Schweda");
 show_name("Josef W. Segur");
 show_name("Jens Seidler");
+show_name("Rytis Slatkevicius");
 show_name("Peter Smithson");
 show_name("Christian S&oslash;ttrup");
 show_name("Michela Taufer");

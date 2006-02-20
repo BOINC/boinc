@@ -146,6 +146,14 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
     ";
 }
 
+// was result invalid or timed out?
+//
+function bad_result($result) {
+    if ($result->validate_state == 2) return true;
+    if (!$result->received_time && ($result->report_deadline < time())) return true;
+    return false;
+}
+
 function show_result_row(
     $result, $show_wu_link, $show_host_link, $show_result_link
 ) {
@@ -172,9 +180,11 @@ function show_result_row(
     $result_granted_credit = format_credit($result->granted_credit);
     $result_claimed_credit = result_claimed_credit_string($result, $result_claimed_credit);
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit); 
-    echo "
-        <tr>
-    ";
+    if (bad_result($result)) {
+        echo "<tr class=invalid_result>";
+    } else {
+        echo "<tr>";
+    }
     if ($show_result_link) {
         echo "<td><a href=\"result.php?resultid=$result->id\">$result->id</a></td>\n";
     }

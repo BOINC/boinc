@@ -19,7 +19,7 @@ function site($url, $name) {
     return "<a href=$url>$name</a>";
 }
 
-page_head("Web sites for BOINC participants");
+page_head("Web resources for BOINC participants");
 
 echo "
 <table cellpadding=8><tr><td valign=top>
@@ -77,6 +77,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://symbion.madnezz.com/", "Symbion"),
     site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),
     site("http://www.bc-team.org/", "BOINC Confederation"),
     site("http://theclangers.net/", "The Clangers"),
@@ -108,6 +109,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://boinccast.podhost.de/", "BOINCcast (Podcast)"),
     site("http://www.boinc-team.de/", "BOINC@Heidelberg"),
     site("http://www.crunching-family.wins.info/", "Crunching Family"),
     site("http://www.boinc.at/", "www.boinc.at"),
@@ -142,7 +144,8 @@ language("Portuguese", array(
     site( "http://portugalathome.pt.vu/", "Portugal@home")
 ));
 language("Russian", array(
-    site("http://www.boinc.narod.ru", "www.boinc.narod.ru")
+    site("http://www.boinc.ru", "BOINC.ru")
+    site("http://distributed.ru", "distributed.ru")
 ));
 //show_link(
 //    "Serbian",

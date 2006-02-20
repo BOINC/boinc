@@ -2122,3 +2122,13 @@ Charlie 18 Feb 2006
     clientgui/
         BOINCTaskBar.cpp
         MainFrame.cpp
+
+David  19 Feb 2006
+    - user web: show error results with pink background
+        (from Rytis Slatkevicius)
+
+    html/
+        inc/
+            result.inc
+        user/
+            white.css

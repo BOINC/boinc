@@ -178,7 +178,10 @@ tr.postseperator{
         background-color: rgb(200,200,200);
         height:4px;
 }
-tr.postseperator td{
+tr.postseperator td {
         border-top: 1px solid rgb(170,170,170);
         border-bottom: 1px      solid rgb(170,170,170);
+}
+.invalid_result td {
+    background-color: #ffcccc;
 }

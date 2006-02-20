@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("February 19, 2006",
+    "<a href=http://boinccast.podhost.de/>BOINCcast</a>
+    is the first German Podcast about BOINC.
+    Weekly episodes of 5 minutes length will explain Distributed Computing
+    and the Goals of BOINC to the German public,
+    and will present and explain the projects that use BOINC.
+    "
+),
 array("February 15, 2006",
     "View <a href=http://news.bbc.co.uk/nolavconsole/ukfs_news/hi/newsid_4710000/newsid_4713000/bb_rm_4713004.stm>a video clip</a>
     about the BBC Climate Change Experiment.
