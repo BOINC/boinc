@@ -2149,3 +2149,18 @@ Charlie 21 Feb 2006
             mac_saver_module.cpp
     lib/
         mac_backtrace.C
+
+Rom    21 Feb 2006
+    - Check in new suspend menu code.
+    - Bug Fix: Fix memory leak condition in gui rpc.
+    - Bug Fix: Copy gui_urls from new project class to the old class when
+        updating project stats.
+    - Bug Fix: Make sure the default connection is properly displayed
+        in the connection tab.
+        
+    clientgui/
+        BOINCTaskBar.cpp, .h
+        Events.h
+        MainFrame.cpp
+    lib/
+        gui_rpc_client_ops.C

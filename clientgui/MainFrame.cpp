@@ -1342,9 +1342,8 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         m_pDialupManager->GetISPNames(astrDialupConnections);
 
         pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
     } else {
-        pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
-
         pDlg->m_DialupSetDefaultCtrl->Disable();
         pDlg->m_DialupClearDefaultCtrl->Disable();
     }

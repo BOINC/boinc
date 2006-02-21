@@ -98,6 +98,7 @@ void PROJECT::copy(PROJECT& p) {
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
     scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
+    gui_urls = p.gui_urls;
 }
 
 int PROJECT::parse(MIOFILE& in) {
@@ -1050,7 +1051,7 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
 int RPC_CLIENT::get_project_status(CC_STATE& state) {
     char buf[256];
     RPC rpc(this);
-    int retval;
+    int retval = 0;
 
     retval = rpc.do_rpc("<get_project_status/>\n");
     if (retval) return retval;
@@ -1065,12 +1066,13 @@ int RPC_CLIENT::get_project_status(CC_STATE& state) {
             if (state_project && (project->master_url == state_project->master_url)) {
                 state_project->copy(*project);
             } else {
-                return ERR_NOT_FOUND;
+                retval = ERR_NOT_FOUND;
             }
+            delete project;
             continue;
         }
     }
-    return 0;
+    return retval;
 }
 
 int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
