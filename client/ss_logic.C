@@ -94,6 +94,9 @@ void SS_LOGIC::reset() {
         scope_messages.printf("SS_LOGIC::reset(): resetting %s\n", atp->result->name);
         atp->request_graphics_mode(m);
         atp->is_ss_app = false;
+#ifdef __APPLE__
+        atp->graphics_mode_ack_timeout = gstate.now;    // Set Mac screensaver safety timer
+#endif
     }
 }
 

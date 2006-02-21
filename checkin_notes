@@ -2132,3 +2132,20 @@ David  19 Feb 2006
             result.inc
         user/
             white.css
+
+Charlie 21 Feb 2006
+    - Mac: Add safety timer to kill application if screensaver hangs.
+    - Improve screensaver display when no graphics: don't display 0.00% 
+        when client has not yet returned fraction_done; better message.
+    - Add time/date stamp to backtrace output.
+
+    client/
+        app_graphics.C
+        ss_logic.C
+        app.C
+        app.h
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+    lib/
+        mac_backtrace.C

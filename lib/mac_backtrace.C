@@ -61,6 +61,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <time.h>
 
 #include "mac_backtrace.h"
 #include "MoreBacktrace.h"
@@ -84,9 +85,13 @@ void PrintBacktrace(void) {
         unsigned long       frameCount;
         unsigned long       validFrames;
         char                OSMinorVersion;
+        time_t              t;
 
         PrintNameOfThisApp();
         PrintOSVersion(&OSMinorVersion);
+
+        time(&t);
+        fputs(asctime(localtime(&t)), stderr);
 
         frameCount = sizeof(frames) / sizeof(*frames);
         err = MoreBacktraceMachSelf(0, 0, frames, frameCount, &validFrames);

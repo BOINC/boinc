@@ -186,6 +186,36 @@ void ACTIVE_TASK_SET::graphics_poll() {
             atp->app_client_shm.shm->graphics_request
         );
         atp->check_graphics_mode_ack();
+
+#ifdef __APPLE__    
+        // If screensaver application has not responded to our request to exit MODE_FULLSCREEN after 
+        // 2 seconds, then assume it has hung and kill it, so it doesn't block access to the computer.
+        // First try an exit request.  If it has not exit after 2 more seconds, kill it.
+        if (atp->graphics_mode_ack_timeout)     // If we are waiting for app to stop screensaver mode 
+            if ( atp->is_ss_app  || (atp->graphics_mode_acked != MODE_FULLSCREEN) ) {
+                atp->exit_requested = false;
+                atp->graphics_mode_ack_timeout = 0.0;   // Reset Mac screensaver safety timer
+            }
+            
+        if (atp->graphics_mode_ack_timeout) {
+            if (gstate.now > atp->graphics_mode_ack_timeout + 2.0) {
+                if (atp->has_task_exited()) {                           // Successfully exited
+                    atp->exit_requested = false;
+                    atp->graphics_mode_ack_timeout = 0.0;               // Reset safety timer
+                } else {
+                    if (! atp->exit_requested) {
+                        atp->exit_requested = true;
+                        atp->request_exit();                            // Request exit after 2 seconds
+                        atp->graphics_mode_ack_timeout = gstate.now;    // Wait 2 more seconds for app to exit
+                    } else {
+                        atp->exit_requested = false;
+                        atp->graphics_mode_ack_timeout = 0.0;           // Reset safety timer
+                        atp->kill_task();                   // Kill app if exit request failed after 2 seconds
+                    }
+                }
+            }
+        }
+#endif
     }
 }
 

@@ -141,7 +141,7 @@ const char *  ConnectingCCMsg = "Connecting to BOINC application.";
 const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
 const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
 const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
-const char *  BOINCNoGraphicAppsExecutingMsg = "BOINC  ";
+const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support screensaver graphics: ";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
 const char *  BOINCTestmodeMg = "This BOINC screensaver does not support Test mode";
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
@@ -454,6 +454,7 @@ OSStatus RPCThread(void* param) {
     bool            bIsDownloaded   = false;
     int             iResultCount    = 0;
     int             iIndex          = 0;
+    double          percent_done;
 
     while (true) {
         if (gQuitRPCThread)     // If main thread has requested we exit
@@ -532,10 +533,12 @@ OSStatus RPCThread(void* param) {
 
                             pProject = state.lookup_project(results.results.at(iIndex)->project_url);
                             if (pProject != NULL) {
-                                len = sprintf(statusBuf, ("    %s: %.2f%%"), 
-                                    pProject->project_name.c_str(),
-                                    results.results.at(iIndex)->fraction_done * 100 
-                                );
+                                percent_done = results.results.at(iIndex)->fraction_done * 100;
+                                if (percent_done < 0.01)
+                                    len = sprintf(statusBuf, ("    %s"), pProject->project_name.c_str());
+                                 else    // Display percent_done only after we have a valid value
+                                   len = sprintf(statusBuf, ("    %s: %.2f%%"), 
+                                        pProject->project_name.c_str(), percent_done);
 
                                 strlcat(msgBuf, statusBuf, sizeof(msgBuf));
                             }       // end if (pProject != NULL)
