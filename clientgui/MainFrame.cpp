@@ -928,6 +928,15 @@ void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#if defined(__WXMSW__) || defined(__WXMAC__)
+    CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
+
+    wxASSERT(pTaskbar);
+    wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
+
+    pTaskbar->ResetSuspendState();
+#endif
+
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
         pDoc->SetActivityRunMode(RUN_MODE_ALWAYS);
@@ -951,6 +960,15 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+#if defined(__WXMSW__) || defined(__WXMAC__)
+    CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
+
+    wxASSERT(pTaskbar);
+    wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
+
+    pTaskbar->ResetSuspendState();
+#endif
 
     switch(event.GetId()) {
     case ID_FILENETWORKRUNALWAYS:

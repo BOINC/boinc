@@ -82,6 +82,7 @@ public:
 #endif
 
     wxIcon     m_iconTaskBarIcon;
+    void       ResetSuspendState();
 
 private:
     wxDateTime m_dtLastHoverDetected;
@@ -91,11 +92,9 @@ private:
 
     bool       m_bButtonPressed;
 
-    int        m_iSuspendId;
     int        m_iPreviousActivityMode;
     int        m_iPreviousNetworkMode;
 
-    void       ResetSuspendState();
     void       ResetTaskBar();
 
     void       CreateContextMenu();

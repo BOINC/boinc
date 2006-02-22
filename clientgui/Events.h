@@ -47,13 +47,7 @@
 #define ID_ADVANCEDAMDEFECT                     6030
 #define ID_OPENWEBSITE                          6031
 #define ID_TB_TIMER                             6800
-#define ID_TB_SUSPENDNONE                       6801
-#define ID_TB_SUSPEND30                         6802
-#define ID_TB_SUSPEND60                         6803
-#define ID_TB_SUSPEND120                        6804
-#define ID_TB_SUSPEND240                        6805
-#define ID_TB_SUSPEND480                        6806
-#define ID_TB_SUSPENDINDEFINITELY               6807
+#define ID_TB_SUSPEND                           6801
 #define ID_LIST_BASE                            7000
 #define ID_LIST_PROJECTSVIEW                    7000
 #define ID_LIST_WORKVIEW                        7001

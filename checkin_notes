@@ -2213,7 +2213,7 @@ Charlie 22 Feb 2006
         HowToBuildBOINC_XCode.rtf
         setupForBOINC.sh
 
-Rom    22 Feb 2005
+Rom    22 Feb 2006
     - Bug Fix: ACCOUNT_OUT::parse should not return after encountering the
         error_num element.
     - Bug Fix: Make sure we are looking at the ACCOUNT_OUT messages array
@@ -2224,4 +2224,13 @@ Rom    22 Feb 2005
     lib/
         gui_rpc_client_ops.C
 
+Rom    22 Feb 2006
+    - Bug Fix: We seem to be having trouble with sub menus on the Mac.  So
+        we will make the Snooze menu item a checkbox menu item and default
+        it to an hour. 
+
+    clientgui/
+        BOINCTaskBar.cpp, .h
+        Events.h
+        MainFrame.cpp
 

@@ -35,7 +35,7 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
-    EVT_MENU_RANGE(ID_TB_SUSPENDNONE, ID_TB_SUSPENDINDEFINITELY, CTaskBarIcon::OnSuspend)
+    EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspend)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
@@ -62,10 +62,8 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon) :
     m_dtLastHoverDetected = wxDateTime((time_t)0);
     m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
 
-    m_iSuspendId = ID_TB_SUSPENDNONE;
     m_iPreviousActivityMode = RUN_MODE_AUTO;
     m_iPreviousNetworkMode = RUN_MODE_AUTO;
-
 
     m_pTimer = new wxTimer(this, ID_TB_TIMER);
 
@@ -77,8 +75,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon) :
 
 CTaskBarIcon::~CTaskBarIcon() {
     RemoveIcon();
-
-    m_iSuspendId = 0;
 
     if (m_pTimer) {
         m_pTimer->Stop();
@@ -119,7 +115,6 @@ void CTaskBarIcon::OnTimer(wxTimerEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     m_pTimer->Stop();
-    m_iSuspendId = ID_TB_SUSPENDNONE;
     pDoc->SetActivityRunMode(m_iPreviousActivityMode);
     pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
 
@@ -186,48 +181,44 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 
 void CTaskBarIcon::OnSuspend(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspend - Function Begin"));
-
-    ResetTaskBar();
-
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+    wxInt32        iActivityMode = -1;
+    wxInt32        iNetworkMode  = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_iSuspendId = event.GetId();
 
-    switch(m_iSuspendId) {
-        case ID_TB_SUSPENDNONE:
-            pDoc->SetActivityRunMode(m_iPreviousActivityMode);
-            pDoc->SetNetworkRunMode(m_iPreviousActivityMode);
-            m_pTimer->Stop();
-            break;
-        case ID_TB_SUSPEND30: 
-            m_pTimer->Start(30*60*1000);  // Send event every 30 minutes
-            break;
-        case ID_TB_SUSPEND60: 
-            m_pTimer->Start(60*60*1000);  // Send event every 60 minutes
-            break;
-        case ID_TB_SUSPEND120: 
-            m_pTimer->Start(120*60*1000); // Send event every 120 minutes
-            break;
-        case ID_TB_SUSPEND240: 
-            m_pTimer->Start(240*60*1000); // Send event every 240 minutes
-            break;
-        case ID_TB_SUSPEND480: 
-            m_pTimer->Start(480*60*1000); // Send event every 480 minutes
-            break;
-        case ID_TB_SUSPENDINDEFINITELY: 
-            m_pTimer->Stop();
-            break;
-    }
+    ResetTaskBar();
 
-    pDoc->GetActivityRunMode(m_iPreviousActivityMode);
-    pDoc->GetNetworkRunMode(m_iPreviousNetworkMode);
+    pDoc->GetActivityRunMode(iActivityMode);
+    pDoc->GetNetworkRunMode(iNetworkMode);
 
-    if (ID_TB_SUSPENDNONE != m_iSuspendId) {
+    if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iNetworkMode) &&
+        (RUN_MODE_NEVER == m_iPreviousActivityMode) && (RUN_MODE_NEVER == m_iPreviousActivityMode)) {
+
+        m_pTimer->Stop();
+
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO);
+        pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
+
+    } else if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iNetworkMode)) {
+
+        m_pTimer->Stop();
+
+        pDoc->SetActivityRunMode(m_iPreviousActivityMode);
+        pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
+
+    } else {
+
+        m_pTimer->Start(60*60*1000);  // Send event every 60 minutes
+
+        m_iPreviousActivityMode = iActivityMode;
+        m_iPreviousNetworkMode = iNetworkMode;
+
         pDoc->SetActivityRunMode(RUN_MODE_NEVER);
         pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
+
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspend - Function End"));
@@ -432,6 +423,12 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
 #endif
 #endif  // !__WXMAC__
 
+
+void CTaskBarIcon::ResetSuspendState() {
+    m_pTimer->Stop();
+}
+
+
 void CTaskBarIcon::ResetTaskBar() {
 #ifdef __WXMSW___
     SetBalloon(m_iconTaskBarIcon, wxT(""), wxT(""));
@@ -494,7 +491,6 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
     wxMenu*            pMenu         = new wxMenu;
-    wxMenu*            pSuspendMenu  = new wxMenu;
     wxMenuItem*        pMenuItem     = NULL;
     wxString           menuName      = wxEmptyString;
     wxFont             font          = wxNullFont;
@@ -525,16 +521,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     );
     pMenu->Append(wxID_OPEN, menuName, wxEmptyString);
 
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPENDNONE, _("&Wakeup"), wxEmptyString);
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPEND30, _("&30 minutes"), wxEmptyString);
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPEND60, _("&1 hour"), wxEmptyString);
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPEND120, _("&2 hours"), wxEmptyString);
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPEND240, _("&4 hours"), wxEmptyString);
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPEND480, _("&8 hours"), wxEmptyString);
-    pSuspendMenu->AppendRadioItem(ID_TB_SUSPENDINDEFINITELY, _("&Indefinitely"), wxEmptyString);
-
-    pMenuItem = pMenu->Append(wxID_ANY, _("Snooze"), wxEmptyString);
-    pMenuItem->SetSubMenu(pSuspendMenu);
+    pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
 
     menuName.Printf(
         _("&About %s..."),
@@ -575,12 +562,20 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
 void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     CMainDocument* pDoc          = wxGetApp().GetDocument();
-    wxInt32        iMode = -1;
+    wxInt32        iActivityMode = -1;
+    wxInt32        iNetworkMode  = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    menu->Check(m_iSuspendId, true);
+    pDoc->GetActivityRunMode(iActivityMode);
+    pDoc->GetNetworkRunMode(iNetworkMode);
+
+    if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iActivityMode)) {
+        menu->Check(ID_TB_SUSPEND, true);
+    } else {
+        menu->Check(ID_TB_SUSPEND, false);
+    }
     
 #ifdef __WXMAC__
 //    WindowRef win = ActiveNonFloatingWindow();
