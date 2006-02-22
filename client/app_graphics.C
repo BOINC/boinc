@@ -207,6 +207,7 @@ void ACTIVE_TASK_SET::graphics_poll() {
                         atp->exit_requested = true;
                         atp->request_exit();                            // Request exit after 2 seconds
                         atp->graphics_mode_ack_timeout = gstate.now;    // Wait 2 more seconds for app to exit
+                        msg_printf(atp->wup->project, MSG_ERROR, "%s not responding to screensaver, exiting", atp->app_version->app_name);
                     } else {
                         atp->exit_requested = false;
                         atp->graphics_mode_ack_timeout = 0.0;           // Reset safety timer
