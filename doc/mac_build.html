@@ -11,16 +11,15 @@
     p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
     p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px Helvetica}
     p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #000000}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #000000}
     p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #4e007c}
     p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #0000ef}
     p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; min-height: 16.0px}
-    span.s1 {font: 12.0px Helvetica; color: #000000}
+    span.s1 {font: 12.0px Helvetica}
     span.s2 {font: 13.0px Courier}
-    span.s3 {font: 12.0px Helvetica}
-    span.s4 {text-decoration: underline}
-    span.s5 {text-decoration: underline ; color: #0000ef}
+    span.s3 {text-decoration: underline}
+    span.s4 {text-decoration: underline ; color: #0000ef}
     span.Apple-tab-span {white-space:pre}
   </style>
 </head>
@@ -82,7 +81,11 @@
 <p class="p2"><br></p>
 <p class="p4"><i>XCode 2.2 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building wxMac-2.6.2 and curl-7.15.1 require autoconf 2.59 and automake 1.93 or later. <span class="Apple-converted-space"> </span></i></p>
 <p class="p2"><i></i><br></p>
-<p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org.<span class="Apple-converted-space">  </span>XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.<span class="Apple-converted-space">  </span>If you install there, you must also set your PATH environment variable to include that location.<span class="Apple-converted-space">  </span>The scripts referenced below do this automatically.</i></p>
+<p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org: <span class="Apple-converted-space"> </span></i></p>
+<p class="p6"><a href="http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz">http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz</a></p>
+<p class="p6"><a href="http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz">http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz</a></p>
+<p class="p2"><i></i><br></p>
+<p class="p4"><i>XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.<span class="Apple-converted-space">  </span>If you install there, you must also set your PATH environment variable to include that location.<span class="Apple-converted-space">  </span>The scripts referenced below do this automatically.</i></p>
 <p class="p2"><br></p>
 <p class="p4">As stated above, all BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.<span class="Apple-converted-space">  </span>All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling. <span class="Apple-converted-space"> </span></p>
 <p class="p2"><br></p>
@@ -99,31 +102,32 @@
 <p class="p2"><br></p>
 <p class="p4">Important: do not change the names of any of these 3 directories.</p>
 <p class="p2"><br></p>
-<p class="p4">[3] Get the BOINC source tree from CVS, and put it in the same BOINC_dev folder.<span class="Apple-converted-space">  </span>To do this:</p>
+<p class="p4">[3] Get the BOINC source tree from CVS, and put it in the same BOINC_dev folder.<span class="Apple-converted-space">  </span>To do this, type the following in Terminal:</p>
 <p class="p2"><br></p>
-<p class="p4"><span class="s2">cd {path}</span>BOINC_dev/</p>
-<p class="p6">cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc<span class="s3"> <span class="Apple-converted-space"> </span></span></p>
+<p class="p6">cd {path}BOINC_dev/</p>
+<p class="p5">cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc<span class="s1"> <span class="Apple-converted-space"> </span></span></p>
 <p class="p2"><br></p>
 <p class="p4">(You may change the name of the boinc directory to anything you wish.)</p>
 <p class="p2"><br></p>
+<p class="p4">The command above retrieves the source code from the HEAD or development branch of the CVS repository.<span class="Apple-converted-space">  </span>For more information on getting the BOINC source code, see:</p>
+<p class="p6"><a href="http://boinc.berkeley.edu/source_code.php">http://boinc.berkeley.edu/source_code.php</a></p>
+<p class="p2"><br></p>
 <p class="p4">[4] Run the script to build the curl, jpeg and wxMac libraries as follows:</p>
 <p class="p2"><br></p>
-<p class="p6">cd {path}BOINC_dev/mac_build</p>
-<p class="p6">source setupForBoinc.sh</p>
+<p class="p5">cd {path}BOINC_dev/mac_build</p>
+<p class="p5">source setupForBoinc.sh -clean</p>
 <p class="p2"><br></p>
-<p class="p4">If you wish to force a full rebuild of everything, use the -clean argument:</p>
-<p class="p2"><br></p>
-<p class="p6">source setupForBoinc.sh -clean</p>
+<p class="p4">If you don't wish to force a full rebuild of everything, omit the -clean argument.</p>
 <p class="p2"><br></p>
 <p class="p4">Note: this script builds curl first, followed by jpeg and finally wxMac.<span class="Apple-converted-space">  </span>If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build curl and jpeg.<span class="Apple-converted-space">  </span>Likewise, if you only downloaded curl because you need neither graphics nor the BOINC Manager, the script will build curl before quitting.</p>
 <p class="p2"><br></p>
 <p class="p4">[5] Build BOINC as follows:</p>
 <p class="p2"><br></p>
-<p class="p6">cd {path}BOINC_dev/mac_build</p>
-<p class="p6">source BuildMacBOINC.sh</p>
+<p class="p5">cd {path}BOINC_dev/mac_build</p>
+<p class="p5">source BuildMacBOINC.sh</p>
 <p class="p2"><br></p>
 <p class="p4">The complete syntax for this script is</p>
-<p class="p6">source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]</p>
+<p class="p5">source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client]</p>
 <p class="p2"><br></p>
 <p class="p4">The options for BuildMacBOINC.sh are:</p>
 <p class="p4"><span class="Apple-tab-span">	</span>-dev<span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>build the development (debug) version (native architecture only).<span class="Apple-converted-space"> </span></p>
@@ -171,8 +175,8 @@
 <p class="p4">So it is important to make a native Intel application available as soon as possible.</p>
 <p class="p2"><br></p>
 <p class="p4">It is very easy to add a new platform to your server with the xadd utility.<span class="Apple-converted-space">  </span>For directions on how to do this, see these web pages:</p>
-<p class="p7"><span class="s4"><a href="http://boinc.berkeley.edu/platform.php">http://boinc.berkeley.edu/platform.php</a></span></p>
-<p class="p8"><span class="s4"><a href="http://boinc.berkeley.edu/tool_xadd.php">http://boinc.berkeley.edu/tool_xadd.php<span class="s5"></span></a></span></p>
+<p class="p7"><span class="s3"><a href="http://boinc.berkeley.edu/platform.php">http://boinc.berkeley.edu/platform.php</a></span></p>
+<p class="p8"><span class="s3"><a href="http://boinc.berkeley.edu/tool_xadd.php">http://boinc.berkeley.edu/tool_xadd.php<span class="s4"></span></a></span></p>
 <p class="p2"><br></p>
 <p class="p4">BOINC supports all PowerPC Macs running OS 10.3.0 or later, and all Intel Macs.<span class="Apple-converted-space">  </span>(The Intel Macs themselves require OS 10.4.4 or later.)</p>
 <p class="p2"><br></p>
@@ -191,13 +195,13 @@
 <p class="p4">Note that the BOINC libraries (and any third-party libraries) which you link with your applications must be built with the same configuration as the application itself.<span class="Apple-converted-space">  </span>Follow the instructions earlier in this document to build the needed libraries.</p>
 <p class="p2"><br></p>
 <p class="p4">Additional information on building Unix applications universal can<span class="Apple-converted-space">  </span>be found here:</p>
-<p class="p6"><a href="http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html">http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html</a></p>
+<p class="p5"><a href="http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html">http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html</a></p>
 <p class="p9"><br></p>
 <p class="p4">and here:</p>
-<p class="p6"><a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html">http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html</a></p>
+<p class="p5"><a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html">http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html</a></p>
 <p class="p9"><br></p>
 <p class="p4">For information on making your code work with GCC 4:</p>
-<p class="p6"><a href="http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html">http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html</a></p>
+<p class="p5"><a href="http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html">http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html</a></p>
 <p class="p2"><br></p>
 </body>
 </html>

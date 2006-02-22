@@ -1,7 +1,7 @@
 {\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf350
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fswiss\fcharset77 Helvetica-Oblique;
 \f3\fmodern\fcharset77 Courier;}
-{\colortbl;\red255\green255\blue255;\red78\green0\blue124;\red0\green0\blue239;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue239;\red78\green0\blue124;}
 \margl1440\margr1440\vieww10800\viewh8780\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
@@ -81,19 +81,22 @@ After building the libraries as Universal Binaries using the second method, you 
 \
 wxMac-2.6.2 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
-\f3\fs26 \cf0 http://www.wxwidgets.org}}
-\f3\fs26 \cf0 \
+\f3\fs26 http://www.wxwidgets.org}}
+\f3\fs26 \
 
-\f1\fs24 \cf0 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.2.tar.gz"}}{\fldrslt 
-\f3\fs26 \cf0 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.2.tar.gz}}\
+\f1\fs24 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.2.tar.gz"}}{\fldrslt 
+\f3\fs26 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.2.tar.gz}}\
 \
 curl-7.15.1:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f3\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.15.1.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.15.1.tar.gz}}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f1\fs24 \cf0 \
 jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a library):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
 \f3\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.ijg.org"}}{\fldrslt http://www.ijg.org}}\
 	{\field{\*\fldinst{HYPERLINK "ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz"}}{\fldrslt ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz}}\
@@ -106,7 +109,16 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 \f1\i0   
 \f2\i To determine the version number, type "autoconf --version" or "automake --version" .  Building wxMac-2.6.2 and curl-7.15.1 require autoconf 2.59 and automake 1.93 or later.  \
 \
-Upgrades for autoconf and automake are available from www.gnu.org.  XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.  If you install there, you must also set your PATH environment variable to include that location.  The scripts referenced below do this automatically.\
+Upgrades for autoconf and automake are available from www.gnu.org:  \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz"}}{\fldrslt 
+\f3\i0\fs26 \cf0 http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz}}
+\f3\i0\fs26 \cf2 \ul \ulc2 \
+{\field{\*\fldinst{HYPERLINK "http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz"}}{\fldrslt \cf0 \ulnone http://ftp.gnu.org/gnu/automake/automake-1.9.3.tar.gz}}\cf0 \ulnone \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2\i\fs24 \cf0 \
+XCode installed these utilities in the /usr/bin/ directory, but the upgrades by default will install in /usr/local/bin/.  If you install there, you must also set your PATH environment variable to include that location.  The scripts referenced below do this automatically.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\i0 \cf0 \
@@ -127,12 +139,12 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 a
 \
 Important: do not change the names of any of these 3 directories.\
 \
-[3] Get the BOINC source tree from CVS, and put it in the same BOINC_dev folder.  To do this:\
+[3] Get the BOINC source tree from CVS, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:\
 \
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 cd \{path\}
-\f1\fs24 BOINC_dev/\
+\f3\fs26 \cf0 cd \{path\}BOINC_dev/
+\f1\fs24 \cf0 \
 
 \f3\fs26 cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
 \f1\fs24   \
@@ -140,19 +152,19 @@ Important: do not change the names of any of these 3 directories.\
 \cf0 \
 (You may change the name of the boinc directory to anything you wish.)\
 \
+The command above retrieves the source code from the HEAD or development branch of the CVS repository.  For more information on getting the BOINC source code, see:\
+{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/source_code.php"}}{\fldrslt 
+\f3\fs26 \cf0 http://boinc.berkeley.edu/source_code.php}}\
+\
 [4] Run the script to build the curl, jpeg and wxMac libraries as follows:\
 \
 \pard\pardeftab720\ql\qnatural
 
 \f3\fs26 \cf0 cd \{path\}BOINC_dev/mac_build\
-source setupForBoinc.sh
+source setupForBoinc.sh -clean
 \f1\fs24 \
 \
-If you wish to force a full rebuild of everything, use the -clean argument:\
-\
-
-\f3\fs26 source setupForBoinc.sh -clean
-\f1\fs24 \
+If you don't wish to force a full rebuild of everything, omit the -clean argument.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 Note: this script builds curl first, followed by jpeg and finally wxMac.  If you haven't downloaded wxMac because you aren't building the BOINC Manager, the script will build curl and jpeg.  Likewise, if you only downloaded curl because you need neither graphics nor the BOINC Manager, the script will build curl before quitting.\
@@ -229,10 +241,10 @@ So it is important to make a native Intel application available as soon as possi
 It is very easy to add a new platform to your server with the xadd utility.  For directions on how to do this, see these web pages:\
 \pard\pardeftab720\ql\qnatural
 {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/platform.php"}}{\fldrslt 
-\f3\fs26 \cf2 \ul \ulc2 http://boinc.berkeley.edu/platform.php}}
+\f3\fs26 \cf3 \ul \ulc3 http://boinc.berkeley.edu/platform.php}}
 \f3\fs26 \
 \pard\pardeftab720\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/tool_xadd.php"}}{\fldrslt \cf3 \ul \ulc3 http://boinc.berkeley.edu/tool_xadd.php}}
+{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/tool_xadd.php"}}{\fldrslt \cf2 \ul \ulc2 http://boinc.berkeley.edu/tool_xadd.php}}
 \f1\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
