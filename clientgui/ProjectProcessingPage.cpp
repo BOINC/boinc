@@ -470,8 +470,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     } else if (BOINC_SUCCESS != ao->error_num) {
                         strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                        for (i=0; i<reply.messages.size(); i++) {
-                            strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                        for (i=0; i<ao->messages.size(); i++) {
+                            strBuffer += wxString(ao->messages[i].c_str()) + wxString(wxT("\n"));
                         }
                         pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }

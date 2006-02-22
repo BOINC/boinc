@@ -2212,3 +2212,16 @@ Charlie 22 Feb 2006
     mac_build/
         HowToBuildBOINC_XCode.rtf
         setupForBOINC.sh
+
+Rom    22 Feb 2005
+    - Bug Fix: ACCOUNT_OUT::parse should not return after encountering the
+        error_num element.
+    - Bug Fix: Make sure we are looking at the ACCOUNT_OUT messages array
+        instead of the attach to project response.
+        
+    clientgui/
+        ProjectProcessingPage.cpp
+    lib/
+        gui_rpc_client_ops.C
+
+

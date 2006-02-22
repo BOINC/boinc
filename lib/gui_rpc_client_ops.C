@@ -878,12 +878,10 @@ ACCOUNT_OUT::~ACCOUNT_OUT() {
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
     std::string msg;
-
     clear();
-
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</account_out>")) return 0; 
-        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
+        else if (parse_int(buf, "<error_num>", error_num)) continue;
         else if (parse_str(buf, "<authenticator>", authenticator)) continue;
         else if (parse_str(buf, "<message>", msg)) {
             messages.push_back(msg);
