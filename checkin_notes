@@ -2164,3 +2164,13 @@ Rom    21 Feb 2006
         MainFrame.cpp
     lib/
         gui_rpc_client_ops.C
+
+Rom    21 Feb 2006
+    - Spec Change: Add the ability for the ACCOUNT_OUT rpc structure to contain
+        custom project error messages
+        
+    clientgui/
+        ProjectProcessingPage.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

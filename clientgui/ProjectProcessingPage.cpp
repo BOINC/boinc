@@ -461,15 +461,21 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     }
 
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        wxString strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
                         pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
-                    }
-                    if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        wxString strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         strBuffer += _T("An internal server error has occurred.\n");
                         pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    } else if (BOINC_SUCCESS != ao->error_num) {
+                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        for (i=0; i<reply.messages.size(); i++) {
+                            strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                        }
+                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
+
                 }
             }
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);

@@ -478,6 +478,8 @@ struct ACCOUNT_IN {
 
 struct ACCOUNT_OUT {
     int error_num;
+    std::vector<std::string>messages;
+
     std::string authenticator;
 
     ACCOUNT_OUT();
