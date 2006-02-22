@@ -2138,6 +2138,7 @@ Charlie 21 Feb 2006
     - Improve screensaver display when no graphics: don't display 0.00% 
         when client has not yet returned fraction_done; better message.
     - Add time/date stamp to backtrace output.
+    - Update ReadMe files for universal binaries and version 5.3.19.
 
     client/
         app_graphics.C
@@ -2149,6 +2150,10 @@ Charlie 21 Feb 2006
             mac_saver_module.cpp
     lib/
         mac_backtrace.C
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        
 
 Rom    21 Feb 2006
     - Check in new suspend menu code.
