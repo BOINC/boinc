@@ -2203,3 +2203,12 @@ Bruce 22 Feb 2006
             hosts_user.php
             sample_rss_main.php
 
+Charlie 22 Feb 2006
+    - Mac: Update build instructions and scripts for Intel Macs and Universal 
+        Binaries.
+    
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
