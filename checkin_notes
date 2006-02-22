@@ -2234,3 +2234,14 @@ Rom    22 Feb 2006
         Events.h
         MainFrame.cpp
 
+David  22 Feb 2006
+    - core client: configure Curl to not accept self-signed SSL certificates.
+        Projects that use SSL will have to get SSL certificates
+        from Thawte, Verisign etc.
+        This prevents certain man-in-the-middle attacks.
+    - core client: configure Curl to accept any encoding (including gzip)
+
+    (both from Kevin Reed, WCG)
+
+    client/
+        http_curl.C

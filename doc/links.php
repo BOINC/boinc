@@ -77,6 +77,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://www.ukboincteam.org.uk/", "UK BOINC Team"),
     site("http://symbion.madnezz.com/", "Symbion"),
     site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),
     site("http://www.bc-team.org/", "BOINC Confederation"),
@@ -144,7 +145,7 @@ language("Portuguese", array(
     site( "http://portugalathome.pt.vu/", "Portugal@home")
 ));
 language("Russian", array(
-    site("http://www.boinc.ru", "BOINC.ru")
+    site("http://www.boinc.ru", "BOINC.ru"),
     site("http://distributed.ru", "distributed.ru")
 ));
 //show_link(

@@ -277,6 +277,10 @@ To select the <b>BOINC screensaver</b>:
     <li> <b>Mac OS X</b>: select System Preferences under the Apple menu and
         click on \"Screen Saver\".
     </ul>
+ <p>
+ For dialup configuration in Windows, see the <a href=dialup.php>
+ Dial-up Connections</a> page.
+
 ";
 page_tail();
 ?>
