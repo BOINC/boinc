@@ -11,7 +11,7 @@
 //
 header ("Expires: " . gmdate('D, d M Y H:i:s', time()) . " GMT");
 header ("Last-Modified: " . gmdate('D, d M Y H:i:s') . " GMT");
-header ("Content-Type: text/xml");
+header ("Content-Type: application/xml");
 
 // Get or set display options
 // - from 1 to 9 News could be set by option news, default is up to 9
@@ -59,10 +59,11 @@ for( $item=0; $item < $news; $item++ ) {
     if( count($project_news[$item]) == 2) {
         $d = strtotime($project_news[$item][0]);
         $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
+        $unique_url=URL_BASE."all_news.php#$j";
         echo "<item>
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
-            <link>".URL_BASE."all_news.php#$j</link>
-            <guid isPermaLink=\"false\">".PROJECT."_$item</guid>
+            <link>$unique_url</link>
+            <guid isPermaLink=\"true\">$unique_url</guid>
             <description>".strip_tags($project_news[$item][1])."</description>
             <pubDate>$news_date</pubDate>
             </item>

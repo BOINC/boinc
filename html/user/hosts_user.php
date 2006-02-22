@@ -40,9 +40,14 @@ function user_host_table_start($private) {
 
 
 db_init();
+
+// get the _GET variables which determine how to display the page
+//
 $userid = get_int("userid", true);
 $show_all = get_int("show_all", true);
-if (!$show_all) $show_all = 0;
+if (!$show_all) $show_all=0;
+$sort = get_str("sort", true);
+if (!$sort) $sort = "rpc_time";
 
 $user = get_logged_in_user(false);
 if ($user && $user->id == $userid) {
@@ -54,13 +59,7 @@ if ($userid) {
         error_page("No such user");
     }
     $caching=true;
-    $list=make_GET_list("", "");
-    if (!strncmp($list, "?", 1)) {
-        $cache_args=substr($list, 1);
-    } else {
-        // should never happen
-        $cache_args="userid=$userid&show_all=$show_all";
-    }
+    $cache_args="userid=$userid&show_all=$show_all&sort=$sort";
     start_cache(USER_PAGE_TTL, $cache_args);
     if ($user->show_hosts) {
         page_head("Computers belonging to $user->name");
@@ -85,7 +84,6 @@ if ($userid) {
 }
 
 $sort_clause = "rpc_time desc";
-$sort = get_str("sort", true);
 if ($sort == "total_credit") $sort_clause = "total_credit desc";
 if ($sort == "total_credit_reversed") $sort_clause = "total_credit";
 if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";

@@ -2133,6 +2133,18 @@ David  19 Feb 2006
         user/
             white.css
 
+Bruce 20 Feb 2006
+     - user web: allow sorting of columns of host data for a given user. I
+       have done this in a general way, which should permit any page to
+       be easily modified to permit sorting by any column.
+
+    html/
+        inc/
+            util.inc
+            host.inc
+        user/
+            hosts_user.php
+
 Charlie 21 Feb 2006
     - Mac: Add safety timer to kill application if screensaver hangs.
     - Improve screensaver display when no graphics: don't display 0.00% 
@@ -2179,3 +2191,15 @@ Rom    21 Feb 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Bruce 22 Feb 2006
+    - User web pages.  Make RSS feed type application/xml rather than text/xml.
+      Make RSS feed link permanent guid rather than temporary.
+    - Better caching mechanism for hosts_user.php to prevent malicious user
+      from passing _GET[] strings that would lead to unbounded cache usage.
+
+    html/
+        user/
+            hosts_user.php
+            sample_rss_main.php
+
