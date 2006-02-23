@@ -7,8 +7,9 @@
 #include <time.h>
 #include <stdlib.h>
 
-#include "dc.h"
-#include "cfg.h"
+#include <dc.h>
+#include <dc_internal.h>
+
 #include "rm.h"
 
 static char *projectname;
@@ -26,9 +27,9 @@ int DC_init(const char *project_name,
     projectname = strdup(project_name);
     appname     = strdup(application_name);
 
-    if (dc_cfg_parse(configfile) != DC_CFG_OK) return DC_ERROR;
+    if (_DC_parseCfg(configfile)) return DC_ERROR;
 
-    workdir    = dc_cfg_get("WorkingDirectory");
+    workdir    = _DC_getCfgStr("WorkingDirectory");
     if (workdir == NULL) {
 	DC_log(LOG_ERR, 
 	       "Working directory cannot be determined from the config file\n");
@@ -36,7 +37,7 @@ int DC_init(const char *project_name,
     }
     DC_log(LOG_INFO, "init: WorkingDir=%s\n", workdir);
 
-    sleepinterval    = dc_cfg_get("CheckResultSleepInterval");
+    sleepinterval    = _DC_getCfgStr("CheckResultSleepInterval");
     if (sleepinterval == NULL) {
         DC_log(LOG_WARNING,
             "Check for Result sleeping interval cannot be determined from the config file\nDefault value is 5 sec.");

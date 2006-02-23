@@ -13,7 +13,8 @@
 #include <uuid/uuid.h>
 
 #include <dc.h>
-#include <cfg.h>
+#include <dc_internal.h>
+
 #include "wu.h"
 #include "assimilator.h"
 #include "result.h"
@@ -44,13 +45,13 @@ int DC_init(const char *project_name __attribute__((unused)), const char *applic
 
     appname     = strdup(application_name);
 
-    if (dc_cfg_parse(configfile) != DC_CFG_OK) return DC_ERROR;
-    workdir    = dc_cfg_get("WorkingDirectory");
-    boincprojectrootdir = dc_cfg_get("BoincProjectRootDirectory");
-    wutemplate = dc_cfg_get("WUTemplatePath");
-    resulttemplate = dc_cfg_get("ResultTemplatePath");
-    uploadkeyfile    = dc_cfg_get("UploadPrivateKey");
-    sleepinterval    = dc_cfg_get("CheckResultSleepInterval");
+    if (_DC_parseCfg(configfile)) return DC_ERROR;
+    workdir    = _DC_getCfgStr("WorkingDirectory");
+    boincprojectrootdir = _DC_getCfgStr("BoincProjectRootDirectory");
+    wutemplate = _DC_getCfgStr("WUTemplatePath");
+    resulttemplate = _DC_getCfgStr("ResultTemplatePath");
+    uploadkeyfile    = _DC_getCfgStr("UploadPrivateKey");
+    sleepinterval    = _DC_getCfgStr("CheckResultSleepInterval");
 
     if (workdir == NULL) {
 	DC_log(LOG_ERR, 
