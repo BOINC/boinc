@@ -578,12 +578,12 @@ static void handle_process_control_msg() {
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
         if (match_tag(buf, "<suspend/>")) {
             boinc_status.suspended = true;
-            boinc_suspend_activities();
+            suspend_activities();
         }
 
         if (match_tag(buf, "<resume/>")) {
             boinc_status.suspended = false;
-            boinc_resume_activities();
+            resume_activities();
         }
 
         if (match_tag(buf, "<quit/>")) {
