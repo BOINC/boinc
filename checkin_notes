@@ -2245,3 +2245,11 @@ David  22 Feb 2006
 
     client/
         http_curl.C
+
+David  22 Feb 2006
+    - temporarily back out the above SSL change,
+        since it appears that Curl doesn't have a CA bundle by default,
+        so all SSL connections fail.
+
+    client/
+        http_curl.C

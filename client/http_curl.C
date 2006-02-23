@@ -291,7 +291,7 @@ The checking this option controls is of the identity that the server claims. The
     // (cert not 3rd party trusted)
     // if non-zero below, you need a valid 3rd party CA (i.e. Verisign, Thawte)
     //
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 0L);
 
     // set the user agent as this boinc client & version
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
