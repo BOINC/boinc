@@ -460,22 +460,20 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                         SetProjectAccountNotFound(false);
                     }
 
+                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                        strBuffer += _T("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
-                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                        strBuffer += 
+                            _("Required wizard file(s) are missing from the target server.\n"
+                              "(lookup_account.php/create_account.php)\n");
                     } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                        strBuffer += _T("An internal server error has occurred.\n");
-                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
-                    } else if (BOINC_SUCCESS != ao->error_num) {
-                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                        strBuffer += 
+                            _("An internal server error has occurred.\n");
+                    } else {
                         for (i=0; i<ao->messages.size(); i++) {
                             strBuffer += wxString(ao->messages[i].c_str()) + wxString(wxT("\n"));
                         }
-                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
-
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
             }
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
@@ -527,17 +525,17 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     pWAP->SetProjectAuthenticator(ao->authenticator.c_str());
                 } else {
                     SetProjectAttachSucceeded(false);
+
+                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                        strBuffer += _T("An internal server error has occurred.\n");
-                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                        strBuffer += 
+                            _("An internal server error has occurred.\n");
                     } else {
-                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                         for (i=0; i<reply.messages.size(); i++) {
                             strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
                         }
-                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                     }
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
             } else {
                 SetProjectAttachSucceeded(false);

@@ -108,7 +108,6 @@ public:
 
     int       GetReminderFrequency() { return m_iReminderFrequency; }
     wxString  GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
-    bool      GetDialupPromptForCredentials() { return m_bNetworkDialupPromptCredentials; }
 
     void ResetReminderTimers();
 

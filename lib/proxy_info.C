@@ -21,8 +21,11 @@
 #include "boinc_win.h"
 #endif
 
+#ifndef _WIN32
 #include "config.h"
 #include <string>
+#endif
+
 using std::string;
 
 #include "parse.h"

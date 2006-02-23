@@ -2263,3 +2263,14 @@ Rom    22 Feb 2006
     api/
         boinc_api.C, .h
         windows_opengl.C
+
+Rom    22 Feb 2006
+    - Code Cleanup
+    - Make S@H enhanced compile again on Windows.
+    
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        MainFrame.h
+        ProjectProcessingPage.cpp
+    lib/
+        proxy_info.C

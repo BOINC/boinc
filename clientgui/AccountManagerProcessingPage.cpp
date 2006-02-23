@@ -219,7 +219,8 @@ void CAccountManagerProcessingPage::OnCancel( wxWizardExEvent& event ) {
  
 void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& event )
 {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CMainDocument* pDoc         = wxGetApp().GetDocument();
+    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -237,8 +238,8 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
  
     switch(GetCurrentState()) {
         case ATTACHACCTMGR_INIT:
-            ((CWizardAccountManager*)GetParent())->DisableNextButton();
-            ((CWizardAccountManager*)GetParent())->DisableBackButton();
+            pWAM->DisableNextButton();
+            pWAM->DisableBackButton();
 
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_BEGIN);
@@ -248,14 +249,14 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             break;
         case ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE:
             // Attempt to attach to the accout manager.
-            url = ((CWizardAccountManager*)GetParent())->m_AccountManagerInfoPage->GetProjectURL().c_str();
-            username = ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-            password = ((CWizardAccountManager*)GetParent())->m_AccountInfoPage->GetAccountPassword().c_str();
+            url = pWAM->m_AccountManagerInfoPage->GetProjectURL().c_str();
+            username = pWAM->m_AccountInfoPage->GetAccountEmailAddress().c_str();
+            password = pWAM->m_AccountInfoPage->GetAccountPassword().c_str();
             pDoc->rpc.acct_mgr_rpc(
                 url.c_str(),
                 username.c_str(),
                 password.c_str(),
-                ((CWizardAccountManager*)GetParent())->m_bCredentialsCached
+                pWAM->m_bCredentialsCached
             );
     
             // Wait until we are done processing the request.
@@ -293,17 +294,16 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                     SetProjectAccountNotFound(false);
                 }
 
+                strBuffer = pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
-                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                    strBuffer += _T("An internal server error has occurred.\n");
-                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    strBuffer += 
+                        _("An internal server error has occurred.\n");
                 } else {
-                    strBuffer = ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     for (i=0; i<reply.messages.size(); i++) {
                         strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
                     }
-                    ((CWizardAccountManager*)GetParent())->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
+                pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
@@ -314,9 +314,9 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            ((CWizardAccountManager*)GetParent())->EnableNextButton();
-            ((CWizardAccountManager*)GetParent())->EnableBackButton();
-            ((CWizardAccountManager*)GetParent())->SimulateNextButton();
+            pWAM->EnableNextButton();
+            pWAM->EnableBackButton();
+            pWAM->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }
