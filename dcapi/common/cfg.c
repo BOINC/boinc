@@ -3,126 +3,125 @@
 #include <stdio.h>
 #include <errno.h>
 
-#include "cfg.h"
-#include "dc.h"
+#include <dc_internal.h>
 
 /* Private functions */
-static char * dc_cfg_cutLeadingWhiteSpace(char *line);
-void          dc_cfg_cutTrailingWhiteSpace(char *line);
+void dc_cfg_cutTrailingWhiteSpace(char *line);
 static int tokenise(char *line, char *separators, char *tokens[], int max);
 
-typedef struct {
-    char *name;
-    char *value;
-} NameValuePair;
+struct pair
+{
+	char *name;
+	char *value;
+};
 
-static NameValuePair *pairs;
+static struct pair *pairs;
 static int n_pairs;
 
 /* Public functions */
-int dc_cfg_parse(const char *cfgfile)
+int _DC_parseCfg(const char *cfgfile)
 {
-    FILE *cfg;
-    char line[1024];
-    char *str;
+	FILE *cfg;
+	char line[1024];
+	char *str;
 #   define MAX_TOKEN 3
-    char *tokens[MAX_TOKEN];
-    int tokenCount;
+	char *tokens[MAX_TOKEN];
+	int tokenCount;
 
-    if ((cfg = fopen(cfgfile, "r")) == NULL) {
-	fprintf(stderr, "Config file %s cannot be opened\nErrno=%d %s",
-	       cfgfile, errno, strerror(errno));
-	return DC_CFG_FILENOTEXISTS;
-    }
-
-    while (fgets(line, 1024, cfg) != NULL) {
-	str = dc_cfg_cutLeadingWhiteSpace(line);
-
-	if (str[0] == '\0' || str[0] == '\n') continue; /* empty */
-	if (str[0] == '#') continue; /* comment */
-
-	tokenCount = tokenise(line, "=\n", tokens, MAX_TOKEN);
-	if (tokenCount == 2) {
-	    NameValuePair *tmp;
-
-	    tmp = realloc(pairs, (n_pairs + 1) * sizeof(*tmp));
-	    if (!tmp) {
-		fprintf(stderr, "Out of memory while parsing config file\n");
-		return DC_CFG_OUTOFMEM;
-	    }
-	    pairs = tmp;
-	    pairs[n_pairs].name = strdup(tokens[0]);
-	    pairs[n_pairs].value = strdup(tokens[1]);
-	    n_pairs++;
+	if ((cfg = fopen(cfgfile, "r")) == NULL)
+	{
+		fprintf(stderr, "Config file %s cannot be opened: %s\n",
+			cfgfile, strerror(errno));
+		return -1;
 	}
-	else {
-	    fprintf(stderr, 
-		   "Cannot understand in config file %s the line %s",
-		   cfgfile, line);
+
+	while (fgets(line, 1024, cfg) != NULL)
+	{
+		/* Cut leading white space */
+		for (str = line; *str == ' ' || *str == '\t'; str++)
+			/* Nothing */;
+
+		/* Skip empty lines and comments */
+		if (!*str || *str == '\n' || *str == '#')
+			continue;
+
+		tokenCount = tokenise(line, "=\n", tokens, MAX_TOKEN);
+		if (tokenCount == 2)
+		{
+			struct pair *tmp;
+
+			tmp = realloc(pairs, (n_pairs + 1) * sizeof(*tmp));
+			if (!tmp)
+			{
+				fprintf(stderr, "Out of memory while parsing "
+					"config file\n");
+				return -1;
+			}
+			pairs = tmp;
+			pairs[n_pairs].name = strdup(tokens[0]);
+			pairs[n_pairs].value = strdup(tokens[1]);
+			n_pairs++;
+		}
+		else
+		{
+			fprintf(stderr, "Cannot understand in config file %s "
+				"the line %s", cfgfile, line);
+			return -1;
+		}
 	}
-    }
-    return DC_CFG_OK;
+	return 0;
 }
 
-char *dc_cfg_get(char *name) 
+const char *_DC_getCfgStr(const char *name)
 {
-  /* Return the value of the name=value pair */
-    int i = 0;
+	int i;
 
-    if (name == NULL) return NULL;
+	if (!name)
+		return NULL;
 
-    while (i < n_pairs) { 
-	if (pairs[i].name != NULL && 
-	    !strcmp(pairs[i].name, name))
-	    return pairs[i].value;
-	i++;
-    }
-
-    return NULL;
-}
-
-static char *dc_cfg_cutLeadingWhiteSpace(char *line)
-{
-    /* go until white spaces are in front of the string */
-    char *str = line;
-    while (str[0] == ' ' || str[0] == '\t') str++;
-    return str;
+	for (i = 0; i < n_pairs; i++)
+	{
+		if (pairs[i].name && !strcmp(pairs[i].name, name))
+			return pairs[i].value;
+	}
+	return NULL;
 }
 
 void dc_cfg_cutTrailingWhiteSpace(char *line)
 {
-    /* go until white spaces are at the end of the string */
-    char *str = line;
-    int len = strlen(line);
-    if (len > 0) {
-	str = line+len-1;
-	while (len > 0 && 
-	       (str[0] == ' ' || str[0] == '\t')) {
-	    str[0]='\0';
-	    str--;
+	/* go until white spaces are at the end of the string */
+	char *str = line;
+	int len = strlen(line);
+	if (len > 0)
+	{
+		str = line + len - 1;
+		while (len > 0 && (str[0] == ' ' || str[0] == '\t'))
+		{
+			str[0] = '\0';
+			str--;
+		}
 	}
-    }
 }
 
 /* break string into tokens and save tokens in arrays */
 static int tokenise(char *line, char *separators, char *tokens[], int max)
 {
-   int i = 0;
-   char *pch;
-   
-   pch = strtok( line, separators );  /* get 1st token addr */
-   while( pch != NULL )               /* repeat for each token */
-   {
-      if ( i < max )
-      {
-         /* strip leading and trailing spaces and
-	    save token in array 
-	 */
-	  tokens[i] = dc_cfg_cutLeadingWhiteSpace(pch);    
-	  dc_cfg_cutTrailingWhiteSpace(tokens[i]);
-      }
-      pch = strtok( NULL, separators );  /* next token address */
-      i++;
-   }
-   return( i );
+	int i = 0;
+	char *pch;
+
+	pch = strtok(line, separators);	/* get 1st token addr */
+	while (pch)			/* repeat for each token */
+	{
+		if (i < max)
+		{
+			/* Cut leading white space */
+			while (*pch == ' ' || *pch == '\t')
+				pch++;
+			tokens[i] = pch;
+			dc_cfg_cutTrailingWhiteSpace(tokens[i]);
+		}
+		pch = strtok(NULL, separators);	/* next token address */
+		i++;
+	}
+	return i;
 }
