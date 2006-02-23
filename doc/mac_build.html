@@ -12,17 +12,15 @@
     p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px Helvetica}
     p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
     p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Lucida Grande; min-height: 15.0px}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px Helvetica; color: #000000}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; min-height: 14.0px}
-    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #4e007c}
-    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #0000ef}
-    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; min-height: 16.0px}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Lucida Grande; min-height: 15.0px}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; min-height: 14.0px}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #4e007c}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #0000ef}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; min-height: 16.0px}
     span.s1 {font: 12.0px Helvetica}
     span.s2 {font: 13.0px Courier}
-    span.s3 {color: #000000}
+    span.s3 {font: 12.0px Courier; color: #000000}
     span.s4 {text-decoration: underline}
     span.s5 {text-decoration: underline ; color: #0000ef}
     span.Apple-tab-span {white-space:pre}
@@ -155,13 +153,13 @@
 <p class="p2"><br></p>
 <p class="p4"><span class="Apple-converted-space"> </span>Both -lib and -client may be specified to build five targets (no BOINC Manager.)</p>
 <p class="p2"><br></p>
-<p class="p6"><span class="s3"><b>Note:</b> </span>You may find three XCode projects in the BOINC_dev/boinc/mac_build/ directory:<span class="Apple-converted-space"> </span></p>
-<p class="p6"><span class="Apple-converted-space">  </span>• <b>boinc.pbproj</b> is obsolete and should no longer be used.</p>
-<p class="p6"><span class="Apple-converted-space">  </span>• <b>wxMac-BOINC.xcodeproj</b> is used to build the wxMac-2.6.2 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.<span class="Apple-converted-space">  </span>Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts.<span class="Apple-converted-space"> </span></p>
-<p class="p6"><span class="Apple-converted-space">  </span>• <b>boinc.xcodeproj</b> builds BOINC.<span class="Apple-converted-space">  </span>It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.<span class="Apple-converted-space">  </span>It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.<span class="Apple-converted-space">  </span>The Development build configuration builds only the native architecture and is uised for debugging.<span class="Apple-converted-space">  </span>The Deployment build configuration builds a universal binary and is suitable for release builds.</p>
-<p class="p7"><br></p>
+<p class="p4"><b>Note:</b> You may find three XCode projects in the BOINC_dev/boinc/mac_build/ directory:<span class="Apple-converted-space"> </span></p>
+<p class="p4"><span class="Apple-converted-space">  </span>• <b>boinc.pbproj</b> is obsolete and should no longer be used.</p>
+<p class="p4"><span class="Apple-converted-space">  </span>• <b>wxMac-BOINC.xcodeproj</b> is used to build the wxMac-2.6.2 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.<span class="Apple-converted-space">  </span>Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts.<span class="Apple-converted-space"> </span></p>
+<p class="p4"><span class="Apple-converted-space">  </span>• <b>boinc.xcodeproj</b> builds BOINC.<span class="Apple-converted-space">  </span>It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.<span class="Apple-converted-space">  </span>It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.<span class="Apple-converted-space">  </span>The Development build configuration builds only the native architecture and is used for debugging.<span class="Apple-converted-space">  </span>The Deployment build configuration builds a universal binary and is suitable for release builds.</p>
+<p class="p6"><br></p>
 <p class="p2"><br></p>
-<p class="p8"><b>Building BOINC Manager Installer</b></p>
+<p class="p1"><b>Building BOINC Manager Installer</b></p>
 <p class="p2"><br></p>
 <p class="p4">To build the Installer for the BOINC Manager, if the BOINC version number is x.y.z, type the following in Terminal:</p>
 <p class="p2"><br></p>
@@ -170,12 +168,12 @@
 <p class="p2"><br></p>
 <p class="p4">Substitute the 3 parts of the BOINC version number for x y and z in the above.<span class="Apple-converted-space">  </span>For example, to build the installer for BOINC version 5.3.19, the command would be</p>
 <p class="p5">source {path}BOINC_dev/boinc/mac_installer/release_boinc.sh 5 3 19</p>
-<p class="p2"><br></p>
-<p class="p9">This will create a directory "BOINC_Installer" in the BOINC_dev directory</p>
-<p class="p10"><br></p>
-<p class="p9">To build version 5.3.19 of the Grid Republic flavor of BOINC, you would type:<span class="Apple-converted-space"> </span></p>
+<p class="p7">This will create a directory "BOINC_Installer/New_Release_5_3_19" in the BOINC_dev directory.</p>
+<p class="p8"><br></p>
+<p class="p7">To build version 5.3.19 of the Grid Republic flavor of BOINC, you would type:<span class="s3"><span class="Apple-converted-space"> </span></span></p>
 <p class="p5">cd {path}BOINC_dev/boinc/</p>
 <p class="p5">source {path}BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 3 19</p>
+<p class="p7">This will create a directory "BOINC_Installer/New_Release_GR_5_3_19" in the BOINC_dev directory.</p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>
 <p class="p1"><b>Building project applications</b></p>
@@ -207,8 +205,8 @@
 <p class="p4">So it is important to make a native Intel application available as soon as possible.</p>
 <p class="p2"><br></p>
 <p class="p4">It is very easy to add a new platform to your server with the xadd utility.<span class="Apple-converted-space">  </span>For directions on how to do this, see these web pages:</p>
-<p class="p11"><span class="s4"><a href="http://boinc.berkeley.edu/platform.php">http://boinc.berkeley.edu/platform.php</a></span></p>
-<p class="p12"><span class="s4"><a href="http://boinc.berkeley.edu/tool_xadd.php">http://boinc.berkeley.edu/tool_xadd.php<span class="s5"></span></a></span></p>
+<p class="p9"><span class="s4"><a href="http://boinc.berkeley.edu/platform.php">http://boinc.berkeley.edu/platform.php</a></span></p>
+<p class="p10"><span class="s4"><a href="http://boinc.berkeley.edu/tool_xadd.php">http://boinc.berkeley.edu/tool_xadd.php<span class="s5"></span></a></span></p>
 <p class="p2"><br></p>
 <p class="p4">BOINC supports all PowerPC Macs running OS 10.3.0 or later, and all Intel Macs.<span class="Apple-converted-space">  </span>(The Intel Macs themselves require OS 10.4.4 or later.)</p>
 <p class="p2"><br></p>
@@ -228,10 +226,10 @@
 <p class="p2"><br></p>
 <p class="p4">Additional information on building Unix applications universal can<span class="Apple-converted-space">  </span>be found here:</p>
 <p class="p5"><a href="http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html">http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html</a></p>
-<p class="p13"><br></p>
+<p class="p11"><br></p>
 <p class="p4">and here:</p>
 <p class="p5"><a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html">http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html</a></p>
-<p class="p13"><br></p>
+<p class="p11"><br></p>
 <p class="p4">For information on making your code work with GCC 4:</p>
 <p class="p5"><a href="http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html">http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html</a></p>
 <p class="p2"><br></p>
