@@ -487,6 +487,34 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
+// this can be called from the graphics thread
+//
+int suspend_activities() {
+#ifdef _WIN32
+    if (options.direct_process_action) {
+        // in Windows this is called from a separate "timer thread",
+        // and Windows lets us suspend the worker thread
+        //
+        SuspendThread(worker_thread_handle);
+    }
+#endif
+    return 0;
+}
+
+// this can be called from the graphics thread
+//
+int resume_activities() {
+#ifdef _WIN32
+    if (options.direct_process_action) {
+        // in Windows this is called from a separate "timer thread",
+        // and Windows lets us resume the worker thread
+        //
+        ResumeThread(worker_thread_handle);
+    }
+#endif
+    return 0;
+}
+
 static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
@@ -550,26 +578,12 @@ static void handle_process_control_msg() {
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
         if (match_tag(buf, "<suspend/>")) {
             boinc_status.suspended = true;
-#ifdef _WIN32
-            if (options.direct_process_action) {
-                // in Windows this is called from a separate "timer thread",
-                // and Windows lets us suspend the worker thread
-                //
-                SuspendThread(worker_thread_handle);
-            }
-#endif
+            boinc_suspend_activities();
         }
 
         if (match_tag(buf, "<resume/>")) {
             boinc_status.suspended = false;
-#ifdef _WIN32
-            if (options.direct_process_action) {
-                // in Windows this is called from a separate "timer thread",
-                // and Windows lets us resume the worker thread
-                //
-                ResumeThread(worker_thread_handle);
-            }
-#endif
+            boinc_resume_activities();
         }
 
         if (match_tag(buf, "<quit/>")) {

@@ -2253,3 +2253,13 @@ David  22 Feb 2006
 
     client/
         http_curl.C
+
+Rom    22 Feb 2006
+    - Bug Fix: Close down the OpenGL handles as well as the window handles
+        when boinc_finish() is called.
+    - Bug Fix: Add better power management handling to science applications
+        if they have a lingering graphics window open.
+        
+    api/
+        boinc_api.C, .h
+        windows_opengl.C

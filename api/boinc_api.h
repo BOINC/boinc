@@ -117,6 +117,8 @@ extern HANDLE worker_thread_handle;
 #else
 extern void block_sigalrm();
 #endif
+extern int suspend_activities(void);
+extern int resume_activities(void);
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int set_worker_timer(void);
 extern void (*stop_graphics_thread_ptr)();

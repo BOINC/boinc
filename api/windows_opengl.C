@@ -25,7 +25,8 @@
 #include "graphics_impl.h"
 
 
-#define BOINC_WINDOW_CLASS_NAME "BOINC_app"
+#define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
+#define WM_SHUTDOWNGFX              WM_USER+1
 
 const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
@@ -370,8 +371,17 @@ LRESULT CALLBACK WndProc(
         }
         return 0;
     case WM_POWERBROADCAST:
-        if (PBT_APMQUERYSUSPEND == wParam && current_graphics_mode == MODE_FULLSCREEN) {
+        if (PBT_APMSUSPEND == wParam) {
             set_mode(MODE_HIDE_GRAPHICS);
+            suspend_activities();
+            return TRUE;
+        } 
+        if (PBT_APMQUERYSUSPENDFAILED == wParam || PBT_APMRESUMESUSPEND == wParam) {
+            set_mode(acked_graphics_mode);
+            resume_activities();
+            return TRUE;
+        }
+        if (PBT_APMQUERYSUSPEND == wParam) {
             return TRUE;
         }
         break;
@@ -395,6 +405,9 @@ LRESULT CALLBACK WndProc(
         }          
         if(!window_ready) return 0;    
         app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
+        return 0;
+    case WM_SHUTDOWNGFX:
+        set_mode(MODE_HIDE_GRAPHICS);
         return 0;
     default:
         if ( WM_BOINCSFW == uMsg ) {
@@ -509,7 +522,7 @@ static void stop_graphics_thread() {
     // Close down open window and clean up
     //
     if (!boinc_is_standalone()) {
-        SendMessage(hWnd, WM_DESTROY, NULL, NULL);
+        SendMessage(hWnd, WM_SHUTDOWNGFX, NULL, NULL);
     }
 }
 
