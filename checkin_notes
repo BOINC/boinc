@@ -2274,3 +2274,7 @@ Rom    22 Feb 2006
         ProjectProcessingPage.cpp
     lib/
         proxy_info.C
+
+Rom    23 Feb 2006 (HEAD)
+    - Tag for 5.3.20 release, all platforms
+      boinc_core_release_5_3_20
