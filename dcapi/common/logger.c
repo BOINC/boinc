@@ -6,8 +6,8 @@
 #include <errno.h>
 #include <time.h>
 
-#include "cfg.h"
-#include "dc.h"
+#include <dc.h>
+#include <dc_internal.h>
 
 static int loglevel = -1;
 static FILE *logfile;
@@ -23,12 +23,12 @@ static const char *levels[] =
 
 static void init_log(void)
 {
-	char *val;
+	const char *val;
 
 	/* Default level */
 	loglevel = LOG_NOTICE;
 
-	val = dc_cfg_get("LogLevel");
+	val = _DC_getCfgStr("LogLevel");
 	if (val)
 	{
 		if (val[0] >= '0' && val[0] <= '9')
@@ -48,7 +48,7 @@ static void init_log(void)
 		}
 	}
 
-	val = dc_cfg_get("LogFile");
+	val = _DC_getCfgStr("LogFile");
 	if (val)
 	{
 		logfile = fopen(val, "a");

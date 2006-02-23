@@ -7,8 +7,9 @@
 #include <errno.h>
 #include <time.h>
 
-#include "dc.h"
-#include "cfg.h"
+#include <dc.h>
+#include <dc_internal.h>
+
 #include "wu.h"
 #include "result.h"
 
@@ -28,10 +29,10 @@ int DC_init(const char *project_name, const char *application_name, const char *
     projectname = strdup(project_name);
     appname     = strdup(application_name);
 
-    if (dc_cfg_parse(configfile) != DC_CFG_OK) return DC_ERROR;
-    workdir    = dc_cfg_get("WorkingDirectory");
-    executabledir = dc_cfg_get("Executabledir");
-    sleepinterval    = dc_cfg_get("CheckResultSleepInterval");
+    if (_DC_parseCfg(configfile)) return DC_ERROR;
+    workdir    = _DC_getCfgStr("WorkingDirectory");
+    executabledir = _DC_getCfgStr("Executabledir");
+    sleepinterval    = _DC_getCfgStr("CheckResultSleepInterval");
 
     if (workdir == NULL) {
 	DC_log(LOG_ERR,
