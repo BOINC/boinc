@@ -397,10 +397,11 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     dtStartExecutionTime = wxDateTime::Now();
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = ERR_IN_PROGRESS;
-                    while (ERR_IN_PROGRESS == iReturnValue &&
+                    ao->error_num = ERR_IN_PROGRESS;
+                    while (
+                        ERR_IN_PROGRESS == ao->error_num && !iReturnValue &&
                         tsExecutionTime.GetSeconds() <= 60 &&
-                        !pWAP->IsCancelInProgress()
+                        !CHECK_CLOSINGINPROGRESS()
                         )
                     {
                         dtCurrentExecutionTime = wxDateTime::Now();
@@ -423,8 +424,9 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                     dtStartExecutionTime = wxDateTime::Now();
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                    iReturnValue = ERR_IN_PROGRESS;
-                    while (ERR_IN_PROGRESS == iReturnValue &&
+                    ao->error_num = ERR_IN_PROGRESS;
+                    while (
+                        ERR_IN_PROGRESS == ao->error_num && !iReturnValue &&
                         tsExecutionTime.GetSeconds() <= 60 &&
                         !CHECK_CLOSINGINPROGRESS()
                         )

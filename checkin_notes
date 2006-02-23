@@ -2285,3 +2285,10 @@ Walt   23 Feb 2006
     
     client/
         pers_file_xfer.C
+
+Rom    23 Feb 2006
+    - Bug Fix: When changing how return values are handled, make sure the callers
+        know about the API change.
+        
+    clientgui/
+        ProjectProcessingPage.cpp
