@@ -2278,3 +2278,10 @@ Rom    22 Feb 2006
 Rom    23 Feb 2006 (HEAD)
     - Tag for 5.3.20 release, all platforms
       boinc_core_release_5_3_20
+
+Walt   23 Feb 2006
+    - Bug Fix: last_bytes_xferred was only counting the current bytes transferrred
+        on uploads.
+    
+    client/
+        pers_file_xfer.C

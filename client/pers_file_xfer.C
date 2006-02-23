@@ -185,6 +185,9 @@ bool PERS_FILE_XFER::poll() {
 
     // copy bytes_xferred for use in GUI
     last_bytes_xferred = fxp->bytes_xferred;
+    if (fxp->is_upload) {
+        last_bytes_xferred += fxp->file_offset;
+    }
 
     // don't count suspended periods in total time
     //
@@ -441,6 +444,9 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
 void PERS_FILE_XFER::suspend() {
     if (fxp) {
         last_bytes_xferred = fxp->bytes_xferred;  // save bytes transferred
+        if (fxp->is_upload) {
+            last_bytes_xferred += fxp->file_offset;
+        }
         gstate.file_xfers->remove(fxp);     // this removes from http_op_set too
         delete fxp;
         fxp = 0;
