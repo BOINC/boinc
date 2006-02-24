@@ -442,7 +442,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5320,
+        $w5321,
         $w5213,
         $w445,
     )
@@ -465,7 +465,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5320,
+        $l5321,
         $l5213,
         $l443,
     )
