@@ -2315,3 +2315,7 @@ Rom    23 Feb 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Rom    24 Feb 2006 (HEAD)
+    - Tag for 5.3.21 release, all platforms
+      boinc_core_release_5_3_21
