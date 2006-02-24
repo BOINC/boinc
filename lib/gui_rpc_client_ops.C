@@ -98,6 +98,7 @@ void PROJECT::copy(PROJECT& p) {
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
     scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
+    attached_via_acct_mgr = p.attached_via_acct_mgr;
     gui_urls = p.gui_urls;
 }
 
@@ -190,6 +191,7 @@ void PROJECT::clear() {
     suspended_via_gui = false;
     dont_request_more_work = false;
     scheduler_rpc_in_progress = false;
+    attached_via_acct_mgr = false;
     gui_urls.clear();
     statistics.clear();
 }

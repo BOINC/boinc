@@ -75,6 +75,7 @@ void PROJECT::print() {
     printf("   master_fetch_failures: %d\n", master_fetch_failures);
     printf("   master fetch pending: %s\n", master_url_fetch_pending?"yes":"no");
     printf("   scheduler RPC pending: %s\n", sched_rpc_pending?"yes":"no");
+    printf("   attached via Account Manager: %s\n", attached_via_acct_mgr?"yes":"no");
     printf("   tentative: %s\n", tentative?"yes":"no");
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");

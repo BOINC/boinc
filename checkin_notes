@@ -2292,3 +2292,13 @@ Rom    23 Feb 2006
         
     clientgui/
         ProjectProcessingPage.cpp
+
+Walt   23 Feb 2006
+    - Bug Fix: PROJECT::attach_via_acct_mgr flag wasn't being initialized or copied, 
+        causing the manager to incorrectly disabled the detach button.   Also added
+        the flag to PROJECT::print().
+    
+    lib/
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C
+
