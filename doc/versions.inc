@@ -58,6 +58,11 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.20
+      <ul>
+        <li>Fixed a few issues with attaching and detaching from projects.
+        <li>Fixed an issue with reporting file transfer size.
+      </ul>
     <li>Changes since 5.3.16
       <ul>
         <li>Dialup functionality has been streamlined and should support
@@ -138,11 +143,11 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5320= array(
-    "num"=>"5.3.20",
+$w5321= array(
+    "num"=>"5.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.20_windows_intelx86.exe",
-    "date"=>"23 Feb 2006",
+    "file"=>"boinc_5.3.21_windows_intelx86.exe",
+    "date"=>"24 Feb 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_53."
@@ -365,11 +370,11 @@ $m443s = array(
     "
 );
 
-$l5320 = array(
-    "num"=>"5.3.20",
+$l5321 = array(
+    "num"=>"5.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.20_i686-pc-linux-gnu.sh",
-    "date"=>"23 Feb 2006",
+    "file"=>"boinc_5.3.21_i686-pc-linux-gnu.sh",
+    "date"=>"24 Feb 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_53."
