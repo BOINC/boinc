@@ -491,10 +491,10 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
     wxMenu*            pMenu         = new wxMenu;
-    wxMenuItem*        pMenuItem     = NULL;
     wxString           menuName      = wxEmptyString;
     wxFont             font          = wxNullFont;
 #ifdef __WXMSW__
+    wxMenuItem*        pMenuItem     = NULL;
     wxMenuItem*        menuItem      = NULL;
     size_t             loc = 0;
 #endif

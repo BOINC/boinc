@@ -2302,3 +2302,8 @@ Walt   23 Feb 2006
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
 
+Charlie 23 Feb 2006
+    - Mac: Fix compiler warning.
+     
+    clientgui/
+        BOINCTaskBar.cpp
