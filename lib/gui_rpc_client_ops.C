@@ -1056,22 +1056,32 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
 }
 
 int RPC_CLIENT::get_project_status(CC_STATE& state) {
-    char buf[256];
-    RPC rpc(this);
     int retval = 0;
+    unsigned int i;
+    char buf[256];
+    PROJECT* project = NULL;
+    PROJECT* state_project = NULL;
+
+    RPC rpc(this);
 
     retval = rpc.do_rpc("<get_project_status/>\n");
     if (retval) return retval;
 
+    // flag for delete
+    for (i=0; i<state.projects.size(); i++) {
+        project = state.projects[i];
+        project->flag_for_delete = true;
+    }
+
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</projects>")) break;
         else if (match_tag(buf, "<project>")) {
-            PROJECT* project = new PROJECT();
-            PROJECT* state_project;
+            project = new PROJECT();
             project->parse(rpc.fin);
             state_project = state.lookup_project(project->master_url);
             if (state_project && (project->master_url == state_project->master_url)) {
                 state_project->copy(*project);
+                state_project->flag_for_delete = false;
             } else {
                 retval = ERR_NOT_FOUND;
             }
@@ -1079,6 +1089,17 @@ int RPC_CLIENT::get_project_status(CC_STATE& state) {
             continue;
         }
     }
+
+    // Anything need to be deleted?
+    if (!retval) {
+        for (i=0; i<state.projects.size(); i++) {
+            project = state.projects[i];
+            if (project->flag_for_delete) {
+                retval = ERR_FILE_MISSING;
+            }
+        }
+    }
+
     return retval;
 }
 

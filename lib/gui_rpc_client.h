@@ -150,6 +150,9 @@ public:
     void get_name(std::string&);
     void copy(PROJECT&);        // copy to this object
 
+    // used to keep track of whether or not this record needs to be deleted
+    bool flag_for_delete;
+
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
 };

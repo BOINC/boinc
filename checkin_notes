@@ -2307,3 +2307,11 @@ Charlie 23 Feb 2006
      
     clientgui/
         BOINCTaskBar.cpp
+
+Rom    23 Feb 2006
+    - Bug Fix: The new project copy operation instead of replace had the drawback
+        of not deleting a project from the listview after a project detach operaton.
+        
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
