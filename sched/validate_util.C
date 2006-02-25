@@ -179,7 +179,11 @@ int generic_check_set(
             // set validate state for each result
             //
             for (j=0; j!=n; j++) {
-                results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
+                if (config.max_claimed_credit && results[j].claimed_credit > config.max_claimed_credit) {
+                    results[j].validate_state = VALIDATE_STATE_INVALID;
+                } else {
+                    results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
+                }
             }
             canonicalid = results[i].id;
             credit = median_mean_credit(results);
@@ -230,8 +234,11 @@ int generic_check_pair(
     }
 
     retval = check_pair_with_data_f(r1, data1, r2, data2, match);
-    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
-
+    if (config.max_claimed_credit && r1.claimed_credit > config.max_claimed_credit) {
+        r1.validate_state = VALIDATE_STATE_INVALID;
+    } else {
+        r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
+    }
     cleanup_result_f(r1, data1);
     cleanup_result_f(r2, data2);
 

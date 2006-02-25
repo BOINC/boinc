@@ -79,10 +79,12 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_int(buf, "<min_core_client_version>", min_core_client_version);
     parse_int(buf, "<min_core_client_version_announced>", min_core_client_version_announced);
     parse_int(buf, "<min_core_client_upgrade_deadline>", min_core_client_upgrade_deadline);
+    parse_int(buf, "<max_claimed_credit>", max_claimed_credit);
     parse_bool(buf, "choose_download_url_by_timezone", choose_download_url_by_timezone);
     parse_bool(buf, "cache_md5_info", cache_md5_info);
     parse_bool(buf, "nowork_skip", nowork_skip);
     parse_bool(buf, "resend_lost_results", resend_lost_results);
+    parse_bool(buf, "grant_claimed_credit", grant_claimed_credit);
     if (parse_double(buf, "<fp_benchmark_weight>", fp_benchmark_weight)) {
         use_benchmark_weights = true;
     }

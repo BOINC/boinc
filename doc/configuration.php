@@ -60,6 +60,8 @@ htmlspecialchars("
     [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
     [ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
     [ <sched_disk_space_check_hardcoded/> ]
+    [ <max_claimed_credit>X</max_claimed_credit ]
+    [ <grant_claimed_credit/> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -332,6 +334,20 @@ list_item("sched_disk_space_check_hardcoded", "Controls how the
     get the default disk space usage settings from config.xml, but
     haven't updated their scheduler to do the same.    
 ");
+
+list_item("max_claimed_credit",
+    "If a result claims more credit than this, mark it as invalid."
+);
+list_item("grant_claimed_credit",
+    "If set, grant the claimed credit,
+    regardless of what other results for this workunit claimed.
+    These is useful for projects where
+    different instances of the same job
+    can do much different amounts of work.
+    "
+);
+
+
 
 list_end();
 

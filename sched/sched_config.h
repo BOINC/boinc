@@ -55,6 +55,7 @@ public:
     bool delete_from_self;
 #endif
     bool use_transactions;
+    bool grant_claimed_credit;
     int daily_result_quota;     // max results per host per day
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     int uldl_dir_levels;
@@ -63,6 +64,7 @@ public:
     int min_core_client_version;
     int min_core_client_version_announced;
     int min_core_client_upgrade_deadline;
+    int max_claimed_credit;
     bool choose_download_url_by_timezone;
     bool cache_md5_info;
     bool nowork_skip;

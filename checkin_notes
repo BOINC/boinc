@@ -2359,3 +2359,22 @@ Rom    24 Feb 2006 (HEAD)
     - Tag for 5.3.22 release, all platforms
       boinc_core_release_5_3_22
 
+David  24 Feb 2006
+    - Add new config file options, which are typically used together:
+        <max_claimed_credit> (double)
+            If a result claims more credit than this, mark it as invalid
+        <grant_claimed_credit> (bool)
+            Grant the claimed credit,
+            regardless of what other results for this workunit claimed.
+        These are used by Rosetta@home, which has the unusual
+        property that different instances of the same job
+        can do much different amounts of work,
+        depending on the user's project settings.
+
+        (from David Kim)
+
+    sched/
+        sched_config.C
+        sched_config.h
+        validate_util.C
+        sched/validator.C

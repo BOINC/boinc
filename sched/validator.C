@@ -176,6 +176,7 @@ void handle_wu(
     TRANSITION_TIME transition_time = NO_CHANGE;
     int retval = 0, canonicalid = 0, x;
     double credit = 0;
+    double granted_credit = 0;
     unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
@@ -253,7 +254,7 @@ void handle_wu(
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
-                result.granted_credit = wu.canonical_credit;
+                result.granted_credit = (config.grant_claimed_credit) ? result.claimed_credit : wu.canonical_credit;
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
@@ -363,7 +364,8 @@ void handle_wu(
                     // grant credit for valid results
                     //
                     update_result = true;
-                    retval = grant_credit(result, credit);
+                    granted_credit = (config.grant_claimed_credit) ? result.claimed_credit : credit;
+                    retval = grant_credit(result, granted_credit);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::MSG_DEBUG,
@@ -371,7 +373,7 @@ void handle_wu(
                             result.id, result.name, retval
                         );
                     }
-                    result.granted_credit = credit;
+                    result.granted_credit = granted_credit;
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_NORMAL,
                         "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
