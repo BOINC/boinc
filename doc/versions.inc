@@ -148,7 +148,7 @@ $mac_changes_53= "
             from the new i686-apple-darwin platform when running on an Intel Mac.
         <li>As of 24 Feb 2006, only the upper_case alpha test project and the 
             production SETI@home project have applications for this platform.  
-            An Intel-Mac build for Einstein@home is under develpment and should 
+            An Intel-Mac build for Einstein@home is under development and should 
             be available soon.
         <li> Upgrade warning: You may lose unreported results if you are upgrading 
             from a version of BOINC earlier than 5.3.21, or if you are transferring 
