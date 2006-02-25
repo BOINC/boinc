@@ -157,33 +157,9 @@ void NET_XFER::close_file() {
     }
 }
 
-void NET_XFER::init(char* host, int p, int b) {
+void NET_XFER::init() {
     reset();
-    safe_strcpy(hostname, host);
-    port = p;
-    blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
     start_time = gstate.now;
-    reset_timeout();
-}
-
-bool NET_XFER::check_timeout(bool time_passed) {
-    if (seconds_until_timeout == 0) {
-        io_done = true;
-        error = ERR_TIMEOUT;
-        return true;
-    }
-    if (time_passed) {
-        seconds_until_timeout--;
-    }
-    return false;
-}
-
-void NET_XFER::reset_timeout() {
-    seconds_until_timeout = NET_XFER_TIMEOUT;
-}
-
-char* NET_XFER::get_hostname() {
-    return hostname;
 }
 
 NET_XFER_SET::NET_XFER_SET() {

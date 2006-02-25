@@ -69,32 +69,14 @@ public:
     HTTP_OP();
     ~HTTP_OP();
 
-	// proxy info
     PROXY_INFO pi;
 
-    int port;
-    char filename[256];
-    char url_hostname[256];
-
-	// CMC added this to "preserve" the url for libcurl use,
-	// as we don't really need to do all the parsing stuff
 	char m_url[256];  
 	char szCurlProxyUserPwd[128]; // string needed for proxy username/password
 
-        // the hostname part of the URL.
-        // May not be the host we connect to (if using proxy)
     int content_length;
     double file_offset;
     char request_header[4096];
-    //HTTP_REPLY_HEADER hrh;
-	// move these to net_xfer
-	/*
-    int http_op_state;     // values below
-    int http_op_type;
-    int http_op_retval;
-	*/
-        // zero if success, or a BOINC error code, or an HTTP status code
-////    bool proxy_auth_done;
 
     //int init_head(const char* url);
     int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);
@@ -112,8 +94,8 @@ private:
 	// internal use in the class -- takes an init_get/post/post2 and turns it into
 	// an appropriate libcurl request
 	int libcurl_exec(const char* url, const char* in = NULL, const char* out = NULL, 
-		double offset = 0.0f, bool bPost = true);
-
+		double offset = 0.0f, bool bPost = true
+    );
 };
 
 // global function used by libcurl to write http replies to disk

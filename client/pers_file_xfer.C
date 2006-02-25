@@ -427,12 +427,12 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
             "        <bytes_xferred>%f</bytes_xferred>\n"
             "        <file_offset>%f</file_offset>\n"
             "        <xfer_speed>%f</xfer_speed>\n"
-            "        <hostname>%s</hostname>\n"
+            "        <url>%s</url>\n"
             "    </file_xfer>\n",
             fxp->bytes_xferred,
             fxp->file_offset,
             fxp->xfer_speed,
-            fxp->get_hostname()
+            fxp->m_url
         );
     }
     return 0;

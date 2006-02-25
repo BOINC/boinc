@@ -135,9 +135,7 @@ void get_user_agent_string() {
 }
 
 HTTP_OP::HTTP_OP() {
-    strcpy(m_url, "");  // CMC added this to "preserve" the url for libcurl
-    strcpy(url_hostname, "");
-    strcpy(filename, "");
+    strcpy(m_url, "");
     content_length = 0;
     file_offset = 0;
     strcpy(request_header, "");
@@ -161,9 +159,7 @@ int HTTP_OP::init_get(
     }
     req1 = NULL;  // not using req1, but init_post2 uses it
     file_offset = off;
-    safe_strcpy(m_url, url);
-    parse_url(url, url_hostname, port, filename);
-    NET_XFER::init(url_hostname, port, HTTP_BLOCKSIZE);
+    NET_XFER::init();
     // usually have an outfile on a get
     if (off != 0) {
         bytes_xferred = off;
@@ -184,9 +180,6 @@ int HTTP_OP::init_post(
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
     req1 = NULL;  // not using req1, but init_post2 uses it
 
-    strcpy(m_url, url);
-    parse_url(url, url_hostname, port, filename);
-
     if (in) {
         // we should pretty much always have an in file for _post, optional in _post2
         strcpy(infile, in);
@@ -194,8 +187,7 @@ int HTTP_OP::init_post(
         if (retval) return retval;  // this will return 0 or ERR_NOT_FOUND
         content_length = (int)size;
     }
-    //PROXY::init(url_hostname, port);
-    NET_XFER::init(url_hostname,port, HTTP_BLOCKSIZE);
+    NET_XFER::init();
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
@@ -206,14 +198,14 @@ int HTTP_OP::init_post(
 // polling at the net_xfer level
 //
 int HTTP_OP::libcurl_exec(
-    const char* , const char* in, const char* out, double offset, bool bPost
+    const char* url, const char* in, const char* out, double offset, bool bPost
 ) {
     CURLMcode curlMErr;
     CURLcode curlErr;
-    //char proxy_buf[256];
     char strTmp[128];
 
-    // get user agent string
+    safe_strcpy(m_url, url);
+
     if (g_user_agent_string[0] == 0x00) {
         get_user_agent_string();
     }
@@ -296,33 +288,6 @@ The checking this option controls is of the identity that the server claims. The
     // set the user agent as this boinc client & version
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
 
-    // note: custom headers here means EVERYTHING needs to be set here,
-    // including form content types.  Probably best just to set the user agent above
-    // and let libcurl handle the headers.
-
-    // create custom header for BOINC
-#if 0 
-    pcurlList = curl_slist_append(pcurlList, "Pragma: no-cache");
-    pcurlList = curl_slist_append(pcurlList, "Cache-Control: no-cache");
-
-    pcurlList = curl_slist_append(pcurlList, g_user_agent_string);
-
-    //sprintf(strTmp, "Host: %s:%d", url_hostname, port); 
-    //pcurlList = curl_slist_append(pcurlList, strTmp);
-    if (offset>0.0f) {
-        file_offset = offset;
-        sprintf(strTmp, "Range: bytes=%.0f-", offset);
-        pcurlList = curl_slist_append(pcurlList, strTmp);
-    }
-    pcurlList = curl_slist_append(pcurlList, "Connection: close");
-    pcurlList = curl_slist_append(pcurlList, "Accept: *\/*");
-
-    //        "Proxy-Authorization: Basic %s\015\012"
-    if (pcurlList) { // send custom headers if required
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
-    }
-#endif
-
     // bypass any signal handlers that curl may want to install
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
     // bypass progress meter
@@ -339,7 +304,7 @@ The checking this option controls is of the identity that the server claims. The
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 5L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "deflate");
 
     // setup any proxy they may need
     setupProxyCurl();
@@ -477,11 +442,7 @@ int HTTP_OP::init_post2(
     double size;
     //char proxy_buf[256];
 
-    strcpy(m_url, url);
-    parse_url(url, url_hostname, port, filename);
-    //PROXY::init(url_hostname, port);
-    //NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
-    NET_XFER::init(url_hostname,port, HTTP_BLOCKSIZE);
+    NET_XFER::init();
     req1 = r1;
     if (in) {
         safe_strcpy(infile, in);

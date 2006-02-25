@@ -39,8 +39,6 @@ extern CURLM* g_curlMulti; // the global libcurl multi handle
 // The following classes implement polling (non-blocking) I/O
 // between a disk file (or memory block) and a socket
 
-#define MAX_BLOCKSIZE   16384
-
 // global functions for starting & stopping libcurl
 extern int curl_init();
 extern int curl_cleanup();
@@ -74,8 +72,6 @@ public:
 	bool bSentHeader;  // CMC -- a flag that I already sent the header
 	CURLcode CurlResult;   // CMC -- send up curl result code
 
-    // int socket;  // CMC -- deprecated, net_xfer's via curlEasy handle above
-    char hostname[256];     // The host we're connecting to (possibly a proxy)
     bool is_connected;
     bool want_download;     // at most one should be true
     bool want_upload;
@@ -97,13 +93,10 @@ public:
         // (used if !do_file_io)
     long error;
 	long response;
-    int port;
-    int blocksize;
     double start_time;
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
 	double content_length;
-    int seconds_until_timeout;
 
 	// CMC - moved from http_op
 	int http_op_state;     // values below
@@ -113,17 +106,12 @@ public:
     NET_XFER();
     ~NET_XFER();
     void reset();
-    void init(char* host, int port, int blocksize);
+    void init();
     int get_ip_addr(int &ip_addr);
-    //int open_server();
     void close_socket();
     void close_file();
-    // int do_xfer(int&);  // CMC not needed for libcurl
     void update_speed();
     void got_error();
-    char* get_hostname();
-    bool check_timeout(bool);
-    void reset_timeout();
 };
 
 // bandwidth limitation is implemented at this level, as follows:
@@ -147,11 +135,6 @@ public:
 
     void get_fdset(FDSET_GROUP&);
     void got_select(FDSET_GROUP&, double);
-#if 0
-    bool poll();
-    int net_sleep(double);
-    int do_select(double& bytes_transferred, double timeout);
-#endif
     NET_XFER* lookup_curl(CURL* pcurl);   // lookup by easycurl handle
 };
 

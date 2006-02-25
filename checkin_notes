@@ -2319,3 +2319,24 @@ Rom    23 Feb 2006
 Rom    24 Feb 2006 (HEAD)
     - Tag for 5.3.21 release, all platforms
       boinc_core_release_5_3_21
+
+David  24 Feb 2006
+	- remove "gzip" from list of encodings accepted by Curl;
+		having it in the list breaks existing projects
+		that use .gz files and decompress them in the app
+		(e.g. Einstein and CPDN).
+		We can fix this by adding a <gzip/> element in <file_info>; 
+		I'll do this later.
+	- Remove old HTTP code and data that's deprecated by Curl
+		(e.g. timeout, blocksize stuff; stuff related
+		to parsing URL into host/port/file/)
+		remove commented-out code.
+	- GUI RPC: a <file_xfer> elements now includes
+		a <url> rather than a <hostname>.
+		This change doesn't affect the BOINC Manager,
+		which I believe is the only client of this RPC
+
+	client/
+		http_curl.C,h
+		net_xfer_curl.C,h
+		pers_file_xfer.C
