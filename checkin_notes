@@ -2354,3 +2354,8 @@ David  24 Feb 2006
 
     sched/
         sched_array.C
+
+Rom    24 Feb 2006 (HEAD)
+    - Tag for 5.3.22 release, all platforms
+      boinc_core_release_5_3_22
+
