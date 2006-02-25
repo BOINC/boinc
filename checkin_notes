@@ -2378,3 +2378,10 @@ David  24 Feb 2006
         sched_config.h
         validate_util.C
         sched/validator.C
+        
+Charlie 25 Feb 2006
+    - Mac: Fix a small bug in release scripts whhich made the zip 
+        files larger than necessary.
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
