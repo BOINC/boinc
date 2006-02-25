@@ -58,6 +58,10 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.21
+      <ul>
+        <li>Partial fix for projects who are already using compression.
+      </ul>
     <li>Changes since 5.3.20
       <ul>
         <li>Fixed a few issues with attaching and detaching from projects.
@@ -161,10 +165,10 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5321= array(
-    "num"=>"5.3.21",
+$w5322= array(
+    "num"=>"5.3.22",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.21_windows_intelx86.exe",
+    "file"=>"boinc_5.3.22_windows_intelx86.exe",
     "date"=>"24 Feb 2006",
     "type"=>"win_new",
     "features"=>"<ul>
@@ -409,10 +413,10 @@ $m443s = array(
     "
 );
 
-$l5321 = array(
-    "num"=>"5.3.21",
+$l5322 = array(
+    "num"=>"5.3.22",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.21_i686-pc-linux-gnu.sh",
+    "file"=>"boinc_5.3.22_i686-pc-linux-gnu.sh",
     "date"=>"24 Feb 2006",
     "type"=>"sea",
     "features"=>"<ul>
@@ -481,7 +485,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5321,
+        $w5322,
         $w5213,
         $w445,
     )
@@ -505,7 +509,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5321,
+        $l5322,
         $l5213,
         $l443,
     )
