@@ -131,11 +131,29 @@ $changes_52 = "
 $mac_changes_53= "
     <li>Macintosh only:
       <ul>
+        <li> To support Intel-based Macs, the Mac BOINC Manager package, 
+            stand-alone BOINC client and command-line tool boinc_cmd are 
+            now universal binaries, which contain executables for both Intel 
+            and PowerPC macs in the same files.  This is indicated by the 
+            new download package names: boinc_5.3.21_macOSX_universal.zip and 
+            boinc_5.3.21_universal-apple-darwin.zip.  
+        <li> We have added a new platform for science project applications 
+            to run on Intel Macs: i686-apple-darwin.  The new universal binary 
+            Mac clients automatically request applications from the old 
+            powerpc-apple-darwin platform when running on a PowerPC Mac, and 
+            from the new i686-apple-darwin platform when running on an Intel Mac.
+        <li>As of 24 Feb 2006, only the upper_case alpha test project and the 
+            production SETI@home project have applications for this platform.  
+            An Intel-Mac build for Einstein@home is under develpment and should 
+            be available soon.
+        <li> Upgrade warning: You may lose unreported results if you are upgrading 
+            from a version of BOINC earlier than 5.3.21, or if you are transferring 
+            BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to 
+            a PowerPC Mac.  To prevent this, open BOINC Manager window, select 
+            the Projects tab, select each project and  press the Update button.  
+            Then select the Tasks tab and make sure there are no tasks "Ready to report."            
         <li> We are now building with newer tools and libraries: XCode 2.2, 
             WxWidgets 2.6.2, libcurl 7.15.1.
-        <li> In anticipation of Intel-based Macs, the Mac BOINC Manager package 
-            name now specifies the CPU architecture:
-            boinc_5.3.16_macOSX_powerpc.zip.
         <li> Only administrators can attach to a new project
             (for improved security).
         <li> No longer crashes if there is a space character
@@ -265,13 +283,16 @@ $w419 = array(
     "
 );
 
-$m5316 = array(
-    "num"=>"5.3.16",
+$m5321 = array(
+    "num"=>"5.3.21",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.3.16_macOSX_powerpc.zip",
-    "date"=>"31 January 2006",
+    "file"=>"boinc_5.3.21_macOSX_universal.zip",
+    "date"=>"24 February 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
+".$features_53."
+".$mac_changes_53."
+".$changes_53."
      <li>
      BOINC now works with OS 10.3.0 or higher.
      <li>
@@ -280,9 +301,6 @@ $m5316 = array(
      The installer no longer always sets ownership to user 501. If the installing user 
      has admin privileges, that user becomes the owner; otherwise the first non-root 
      admin user becomes the owner.
-".$features_53."
-".$mac_changes_53."
-".$changes_53."
      </ul>
     ",
     "bugs"=>"
@@ -307,6 +325,27 @@ $m5213 = array(
 ".$features_52."
 ".$changes_52."
      </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+$m5321c = array(
+    "num"=>"5.3.21",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.3.21_universal-apple-darwin.zip",
+    "date"=>"24 February 2006",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$features_53."
+".$mac_changes_53."
+".$changes_53."
+     <li>
+     BOINC now works with OS 10.3.0 or higher.
+    <li>
+    We are now including a tool with command line interface to control boinc within the 
+    default distribution
+    </ul>
     ",
     "bugs"=>"
     "
@@ -451,7 +490,8 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5316,
+        $m5321,
+        $m5321c,
         $m5213,
         $m5213s,
         $m5213c,
