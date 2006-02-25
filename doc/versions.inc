@@ -155,7 +155,7 @@ $mac_changes_53= "
             BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to 
             a PowerPC Mac.  To prevent this, open BOINC Manager window, select 
             the Projects tab, select each project and  press the Update button.  
-            Then select the Tasks tab and make sure there are no tasks "Ready to report."            
+            Then select the Tasks tab and make sure there are no tasks \"Ready to report.\"            
         <li> We are now building with newer tools and libraries: XCode 2.2, 
             WxWidgets 2.6.2, libcurl 7.15.1.
         <li> Only administrators can attach to a new project
