@@ -335,7 +335,7 @@ $m5213 = array(
 );
 
 $m5322c = array(
-    "num"=>"5.3.21",
+    "num"=>"5.3.22",
     "status"=>"Development version (Unix command-line version)",
     "file"=>"boinc_5.3.22_universal-apple-darwin.zip",
     "date"=>"25 February 2006",
