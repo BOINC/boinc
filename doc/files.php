@@ -50,7 +50,7 @@ list_item("url",
 list_item("md5_cksum", "The MD5 checksum of the file."
 );
 list_item("nbytes",
-    "the size of the file in bytes (may be greater than 2^32)."
+    "the size of the file in bytes."
 );
 list_item("max_nbytes",
     "The maximum allowable size of the file in bytes (may be greater than 2^32).
@@ -171,6 +171,51 @@ deletes input and output files that are no longer needed.
 This can be suppressed using the 'no_delete' flag,
 or using command-line options to the file deleter.
 </ul>
+
+<a name=compression></a>
+<h3>File compression</h3>
+
+<p>
+Starting with version 5.4, the BOINC client
+is able to handle HTTP Content-Encoding types 'deflate' (zlib algorithm)
+and 'gzip' (gzip algorithm).
+The client decompresses these files 'on the fly' and
+stores them on disk in uncompressed form.
+<p>
+Projects can set this encoding in two ways:
+
+<ul>
+<li>
+Use the Apache 2.0 mod_deflate module to automatically
+compress files on the fly.
+This method will work with all BOINC clients,
+but it will do compression only for 5.4+ clients.
+
+<li>
+Compress their workunits when they create them and use
+a filename suffix such as '.gz'.
+In httpd.conf make sure that the following line is present:
+<pre>
+AddEncoding x-gzip .gz
+</pre>
+This will add the content encoding to the header so that
+the client will decompress the file automatically.
+This method has the advantage of reducing server disk usage
+and server CPU load,
+but it will only work with 5.4+ clients.
+Use the 'min_core_version' field of the app_version table to enforce this.
+
+</ul>
+
+You can also use these in conjunction because the mod_deflate module
+allows you to exempt certain filetypes from on-the-fly compression.
+
+<p>
+Neither of these methods stores files in compressed form on the client.
+For this, you must do compression at the application level.
+The BOINC source distribution includes
+<a href=boinc_zip.txt>a version of the zip library</a>
+designed for use by BOINC applications on any platform.
 ";
 page_tail();
 ?>

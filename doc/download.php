@@ -33,6 +33,10 @@ switch(rand(0,4)) {
     case 4: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
 }
 
+if ($dev) {
+    $url_base = "dl/";
+}
+
 function dl_item($x, $y) {
     global $light_blue;
     echo "<tr><td valign=top  align=right width=30% bgcolor=$light_blue>$x</td>

@@ -75,10 +75,13 @@ resources.
     <li> Enter the project's URL (visit the project's web site,
     and copy the URL from your browser's address field).
     </ul>
-    <a href=participate.php>More info</a> 
-    | <a href=links.php>Web sites </a>
-    | <a href=download_network.php>Add-ons</a>
-    | <a href=dev/>Message boards</a>
+    <center>
+    <a href=participate.php><b>More info</a> 
+    | <a href=download.php><b>Download</a>
+    | <a href=links.php><b>Web sites </a>
+    | <a href=download_network.php><b>Add-ons</a>
+    | <a href=dev/><b>Message boards</a>
+    </center>
 
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Create a volunteer computing project</h2></td></tr>

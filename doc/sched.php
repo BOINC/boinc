@@ -27,16 +27,13 @@ The goals of the CPU scheduler and work-fetch policies are
 (because results reported after their deadline
 may not have any value to the project and may not be granted credit).
 <li> NCPUS processors should be kept busy.
-<li> At any given point, enough work should be kept on hand
+<li> At any given point, a computer should have enough work
 so that NCPUS processors will be busy for at least
 min_queue days (min_queue is a user preference).
 <li> Project resource shares should be honored over the long term.
 <li> Variety: if a computer is attached to multiple projects,
 execution should rotate among projects on a frequent basis.
 </ul>
-The policies are designed to accommodate all scenarios,
-including those with computers that are slow or are attached
-to a large number of projects.
 
 <p>
 In previous versions of BOINC,
@@ -54,9 +51,8 @@ A computer attached to 10 projects might
 have work for only a few (perhaps only one) at a given time.
 <li>
 If deadlines are threatened,
-the CPU scheduling policy switches to a mode
-(earliest deadline first) that optimizes the likelihood
-of meeting deadlines, at the expense of variety.
+the CPU scheduling policy optimizes the likelihood of meeting deadlines,
+at the expense of variety.
 </ul>
 
 
@@ -153,17 +149,16 @@ It is defined for all projects,
 and adjusted over the set of potentially runnable projects.
 It is normalized so that average long-term debt is zero.
 
-<h2>The CPU scheduling policy</h2>
+<h2>CPU scheduling policy</h2>
 
 <p>
 The CPU scheduler uses an earliest-deadline-first (EDF) policy
 for results that are in danger of missing their deadline,
-and round-robin among other projects if additional CPUs exist.
+and weighted round-robin among other projects if additional CPUs exist.
 This allows the client to meet deadlines that would otherwise be missed,
 while honoring resource shares over the long term.
 The scheduler uses the following data, which are obtained
-by a simulation of round-robin scheduling
-applied to the current work queue:
+by a simulation of round-robin scheduling applied to the current work queue:
 <ul>
 <li> deadline_missed(R): whether result R would miss
 its deadline with round-robin scheduling.
@@ -199,6 +194,12 @@ when the end of the user-specified scheduling period is reached,
 when new results become runnable,
 or when the user performs a UI interaction
 (e.g. suspending or resuming a project or result).
+
+<p>
+The CPU scheduler produces a list of results to run,
+but they are not necessarily run immediately;
+the enforcement of the schedule is done asynchronously.
+A currently
 
 <h2>Work-fetch policy</h2>
 

@@ -2340,3 +2340,17 @@ David  24 Feb 2006
 		http_curl.C,h
 		net_xfer_curl.C,h
 		pers_file_xfer.C
+
+David  24 Feb 2006
+    - Scheduler: increment the infeasible count for a result
+        in a slot that cannot be sent to a host because
+        the workunit has already be assigned to a different platform.
+        This helps projects that use homogenous redundancy
+        because once the result is marked infeasible
+        it will be checked for compatibility for a given host first,
+        thus leaving results for workunits that have not yet
+        been assigned free for other hosts.
+        (from Kevin Reed, WCG)
+
+    sched/
+        sched_array.C

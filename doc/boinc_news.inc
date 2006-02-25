@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("February 22, 2006",
+    "BOINC announces its
+    <a href=mac_intel.php>support for the Macintosh/Intel platform</a>.
+    "
+),
 array("February 19, 2006",
     "<a href=http://boinccast.podhost.de/>BOINCcast</a>
     is the first German Podcast about BOINC.

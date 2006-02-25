@@ -136,10 +136,34 @@ everyone else should connect to that process.
 <li> Do General Tests from a modem, ISDN, or VPN-connected computer.
 <br>see the <a href=dialup.php>Dial-up Connections</a> page
 for details about dial-up connections.
-<li> Test 'confirm before connect' preference.
-<li> Test 'Disconnect when done' preference.
-<li> Do these tests with both single-user and Service-mode install (Windows).
-</ul>
+  <li> Test the connection options:
+  <ul><li>set default connection
+      <li>verify the manager uses the defaunt connection
+      <li>proper notification when default hasn't been set
+  </ul>
+  <li> Test 'confirm before connect' preference.
+     <br>'confirm' not set:
+  <ul>
+     <li>Test connections are automatically made when 'confirm' isn't set
+     <li>Test proper operation when no user is logged on (service install)
+  </ul>
+     'confirm' set:
+  <ul>
+    <li>Check proper operation with both 'yes' and 'no' replies to the 
+       confirmation dialog
+    <li>Check proper operation when confirm dialog is ignored
+       <br>dialog should disappear after a few minutes, with another
+           prompt later
+       <br>(fill in times)
+    <li>With manager running only in the systray, check balloon popup
+        indicating BOINC needs a network connection
+  </ul>
+  <li> Test 'Disconnect when done' preference.
+  <li> Check that network activity is retried when dialup connection
+       is established - pending scheduler requests and file transfers
+       get retried.
+  <li> Do these tests with both single-user and Service-mode install (Windows).
+  </ul>
 <h3>Tests for computers with personal firewalls</h3>
 <ul>
 <li> Do General tests on a computer that uses a personal firewall

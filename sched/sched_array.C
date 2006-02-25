@@ -168,7 +168,16 @@ void scan_work_array(
             if (already_sent_to_different_platform(
                 sreq, wu_result.workunit, reply.wreq
             )) {
-                goto dont_send;
+ 				log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                    "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
+                    reply.host.id, wu.id, wu.name
+                );
+                // Mark the workunit as infeasible.
+                // This ensures that work already assigned to a platform
+                // is processed first.
+                //
+ 				wu_result.infeasible_count++;
+ 				goto dont_send;
             }
         }
 
