@@ -23,16 +23,13 @@
 # Master script to build Universal Binary libraries needed by BOINC:
 # curl-7.15.1, jpeg-6b and wxMac-2.6.2
 #
-# by Charlie Fenton 2/22/06
+# by Charlie Fenton 2/27/06
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
 #
-# Before running this script, you must first prepare the wxMac-2.6.2 
-# package.  Read and follow the directions for this in the script 
-# buildWxMac.sh; it is in the same folder as this script.
-#
-## In Terminal, CD to the wxMac-2.6.2 directory.
+## In Terminal, cd to the mac_build directory of the boinc tree; for 
+## example:
 ##     cd [path]/boinc/mac_build/
 ## then run this script:
 ##     source setupForBoinc.sh [ -clean ]
@@ -48,11 +45,11 @@ echo "------- BUILD CURL-7.15.1 --------"
 echo "----------------------------------"
 echo ""
 
-pushd ./
+SCRIPT_DIR=`pwd`
 
 cd ../../curl-7.15.1/
 if [  $? -ne 0 ]; then exit 1; fi
-source "${DIRSTACK[1]}/buildcurl.sh"
+source "${SCRIPT_DIR}/buildcurl.sh"
 if [  $? -ne 0 ]; then exit 1; fi
 
 echo ""
@@ -61,12 +58,11 @@ echo "--------- BUILD JPEG-6B ----------"
 echo "----------------------------------"
 echo ""
 
-popd
-pushd ./
+cd "${SCRIPT_DIR}"
 
 cd ../../jpeg-6b/
 if [  $? -ne 0 ]; then exit 1; fi
-source "${DIRSTACK[1]}/buildjpeg.sh"
+source "${SCRIPT_DIR}/buildjpeg.sh"
 if [  $? -ne 0 ]; then exit 1; fi
 
 echo ""
@@ -75,15 +71,14 @@ echo "------- BUILD wxMac-2.6.2 --------"
 echo "----------------------------------"
 echo ""
 
-popd
-pushd ./
+cd "${SCRIPT_DIR}"
 
 cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.6.2/src/
 
 cd ../../wxMac-2.6.2/
 if [  $? -ne 0 ]; then exit 1; fi
-source "${DIRSTACK[1]}/buildWxMac.sh"
+source "${SCRIPT_DIR}/buildWxMac.sh"
 if [  $? -ne 0 ]; then exit 1; fi
 
-popd
-exit 0
+cd "${SCRIPT_DIR}"
+return 0

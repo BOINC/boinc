@@ -109,9 +109,9 @@ cp -fpR $BUILDPATH/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
-zip -rq boinc_$1.$2.$3_macOSX_universal.zip boinc_$1.$2.$3_macOSX_universal
-zip -rq boinc_$1.$2.$3_universal-apple-darwin.zip boinc_$1.$2.$3_universal-apple-darwin
-zip -rq boinc_$1.$2.$3_macOSX_SymbolTables.zip boinc_$1.$2.$3_macOSX_SymbolTables
+zip -rqy boinc_$1.$2.$3_macOSX_universal.zip boinc_$1.$2.$3_macOSX_universal
+zip -rqy boinc_$1.$2.$3_universal-apple-darwin.zip boinc_$1.$2.$3_universal-apple-darwin
+zip -rqy boinc_$1.$2.$3_macOSX_SymbolTables.zip boinc_$1.$2.$3_macOSX_SymbolTables
 
 popd
 return 0
