@@ -22,7 +22,7 @@
 #
 # Script to build the wxMac-2.6.2 library for BOINC as a Universal Binary
 #
-# by Charlie Fenton    2/17/06
+# by Charlie Fenton    2/27/06
 #
 ## Before running this script, you must first copy the special XCode 
 ## project
@@ -112,8 +112,8 @@ xcodebuild -project src/wxMac-BOINC.xcodeproj -target wxStaticDebug  -configurat
 if [  $? -ne 0 ]; then exit 1; fi
 fi
 
-if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_macd_ppc.a ]; then
-    echo "libwx_macd_ppc.a already built"
+if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_macd.a ]; then
+    echo "libwx_macd.a already built"
 else
 
 lipo -create src/build/Deployment/libwx_macd_ppc.a src/build/Deployment/libwx_macd_i386.a -output src/build/Deployment/libwx_macd.a

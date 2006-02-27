@@ -2387,7 +2387,9 @@ Charlie 25 Feb 2006
         release_GridRepublic.sh
 
 Charlie 27 Feb 2006
-    - Mac: Fix tilde expansion bug in build script.
+    - Mac: Fix tilde expansion bug in setupForBOINC build script.
+    - Fix bug in buildWxMac build script.
     
     mac_build/
         setupForBOINC.sh
+        buildWxMac.sh
