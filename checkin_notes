@@ -2410,3 +2410,9 @@ Bruce 27 Feb 2006
         user/
             hosts_user.php
 
+Rom    27 Feb 2006
+    - Bug Fix: Restore the encoding behavior back to 5.2 defaults until
+        we have a better solution in place.
+        
+    client/
+        http_curl.C

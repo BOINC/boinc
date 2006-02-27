@@ -304,7 +304,7 @@ The checking this option controls is of the identity that the server claims. The
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 5L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "deflate");
+    //curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "deflate");
 
     // setup any proxy they may need
     setupProxyCurl();
