@@ -11,17 +11,19 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 2/22/06\
+Last updated 2/27/06\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 5.3.19 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
 \
-Contents:\
+Contents of this document:\
 \'a5 Important requirements for building BOINC software for the Mac.\
 \'a5 Building BOINC libraries to link with project applications.\
 \'a5 Building BOINC Manager, BOINC Client and BOINC libraries.\
 \'a5 Building BOINC Manager Installer.\
-\'a5 Building project applications / upgrading applications for Macs with Intel processors.\
+\'a5 Building project applications.\
+\'a5 Upgrading applications for Macs with Intel processors.\
+\'a5 Adding a Finder icon to your application\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -269,6 +271,7 @@ source \{path\}BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 3 19\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\b\fs28 \cf0 Building project applications\
+\
 Upgrading applications for Macs with Intel processors
 \f1\b0\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -354,4 +357,35 @@ Note that the BOINC libraries (and any third-party libraries) which you link wit
 \pard\pardeftab720\ql\qnatural
 
 \f1\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
+
+\f0\b\fs28 \cf0 Adding a Finder icon to your application
+\f1\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+There is an optional api setMacIcon() in the libboinc_api.a library.  This allows science applications to \CocoaLigature0 display an application icon in the Dock) and in the Finder.   (The icon does not appear in the Dock until the application displays graphics.)  To implement this, do the following:\
+\
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural\pardirnatural
+\cf0 (1)Use "/Developer/Applications/utilities/Icon Composer.app" to create a xxx.icns file.  (Use any name you wish instead of xxx.)\
+\
+(2) Convert the xxx.icns file to an app_icon.h file as follows: in Terminal, run: \
+
+\f3 source MakeAppIcon_h <source_file_path> <dest_file_path> \
+
+\f1 (The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)  Add the app_icon.h file to your science application's project.\
+\
+(3) In the science application's main(), add \
+
+\f3 #include "app_icon.h" 
+\f1 \
+and call:\
+
+\f3   setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));\
+
+\f1 \
+(4) The science application must link with Carbon.framework to use \CocoaLigature1 setMacIcon()\CocoaLigature0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \CocoaLigature1 \
+\pard\pardeftab720\ql\qnatural
+\cf0 \
 }

@@ -2389,7 +2389,12 @@ Charlie 25 Feb 2006
 Charlie 27 Feb 2006
     - Mac: Fix tilde expansion bug in setupForBOINC build script.
     - Fix bug in buildWxMac build script.
+    - Update build instructions to restore info on adding an icon 
+        to a science application.
     
+    doc/
+        mac_build.html
     mac_build/
+        HowToBuildBOINC_XCode.rtf
         setupForBOINC.sh
         buildWxMac.sh

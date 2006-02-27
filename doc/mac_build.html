@@ -14,9 +14,11 @@
     p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier}
     p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Lucida Grande; min-height: 15.0px}
     p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; min-height: 14.0px}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #4e007c}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #0000ef}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; min-height: 16.0px}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px Helvetica; min-height: 17.0px}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #4e007c}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #0000ef}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; min-height: 16.0px}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier}
     span.s1 {font: 12.0px Helvetica}
     span.s2 {font: 13.0px Courier}
     span.s3 {font: 12.0px Courier}
@@ -29,16 +31,18 @@
 <p class="p1"><b>Building BOINC Clients and Applications on Macintosh OSX</b></p>
 <p class="p2"><br></p>
 <p class="p3">Written by Charlie Fenton</p>
-<p class="p3">Last updated 2/22/06</p>
+<p class="p3">Last updated 2/27/06</p>
 <p class="p2"><br></p>
 <p class="p4">This document applies to BOINC version 5.3.19 and later.<span class="Apple-converted-space">  </span>It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX. <span class="Apple-converted-space"> </span></p>
 <p class="p2"><br></p>
-<p class="p4">Contents:</p>
+<p class="p4">Contents of this document:</p>
 <p class="p4">• Important requirements for building BOINC software for the Mac.</p>
 <p class="p4">• Building BOINC libraries to link with project applications.</p>
 <p class="p4">• Building BOINC Manager, BOINC Client and BOINC libraries.</p>
 <p class="p4">• Building BOINC Manager Installer.</p>
-<p class="p4">• Building project applications / upgrading applications for Macs with Intel processors.</p>
+<p class="p4">• Building project applications.</p>
+<p class="p4">• Upgrading applications for Macs with Intel processors.</p>
+<p class="p4">• Adding a Finder icon to your application</p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>
 <p class="p1"><b>Important requirements for building BOINC software for the Mac</b></p>
@@ -176,6 +180,7 @@
 <p class="p2"><br></p>
 <p class="p2"><br></p>
 <p class="p1"><b>Building project applications</b></p>
+<p class="p8"><b></b><br></p>
 <p class="p1"><b>Upgrading applications for Macs with Intel processors</b></p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>
@@ -204,8 +209,8 @@
 <p class="p4">So it is important to make a native Intel application available as soon as possible.</p>
 <p class="p2"><br></p>
 <p class="p4">It is very easy to add a new platform to your server with the xadd utility.<span class="Apple-converted-space">  </span>For directions on how to do this, see these web pages:</p>
-<p class="p8"><span class="s4"><a href="http://boinc.berkeley.edu/platform.php">http://boinc.berkeley.edu/platform.php</a></span></p>
-<p class="p9"><span class="s4"><a href="http://boinc.berkeley.edu/tool_xadd.php">http://boinc.berkeley.edu/tool_xadd.php<span class="s5"></span></a></span></p>
+<p class="p9"><span class="s4"><a href="http://boinc.berkeley.edu/platform.php">http://boinc.berkeley.edu/platform.php</a></span></p>
+<p class="p10"><span class="s4"><a href="http://boinc.berkeley.edu/tool_xadd.php">http://boinc.berkeley.edu/tool_xadd.php<span class="s5"></span></a></span></p>
 <p class="p2"><br></p>
 <p class="p4">BOINC supports all PowerPC Macs running OS 10.3.0 or later, and all Intel Macs.<span class="Apple-converted-space">  </span>(The Intel Macs themselves require OS 10.4.4 or later.)</p>
 <p class="p2"><br></p>
@@ -225,12 +230,30 @@
 <p class="p2"><br></p>
 <p class="p4">Additional information on building Unix applications universal can<span class="Apple-converted-space">  </span>be found here:</p>
 <p class="p5"><a href="http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html">http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_3.html</a></p>
-<p class="p10"><br></p>
+<p class="p11"><br></p>
 <p class="p4">and here:</p>
 <p class="p5"><a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html">http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_compiling/chapter_2_section_7.html</a></p>
-<p class="p10"><br></p>
+<p class="p11"><br></p>
 <p class="p4">For information on making your code work with GCC 4:</p>
 <p class="p5"><a href="http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html">http://developer.apple.com/releasenotes/DeveloperTools/GCC40PortingReleaseNotes/index.html</a></p>
+<p class="p2"><br></p>
+<p class="p1"><b>Adding a Finder icon to your application</b></p>
+<p class="p2"><br></p>
+<p class="p4">There is an optional api setMacIcon() in the libboinc_api.a library.<span class="Apple-converted-space">  </span>This allows science applications to display an application icon in the Dock) and in the Finder. <span class="Apple-converted-space">  </span>(The icon does not appear in the Dock until the application displays graphics.)<span class="Apple-converted-space">  </span>To implement this, do the following:</p>
+<p class="p2"><br></p>
+<p class="p4">(1)Use "/Developer/Applications/utilities/Icon Composer.app" to create a xxx.icns file.<span class="Apple-converted-space">  </span>(Use any name you wish instead of xxx.)</p>
+<p class="p2"><br></p>
+<p class="p4">(2) Convert the xxx.icns file to an app_icon.h file as follows: in Terminal, run:<span class="Apple-converted-space"> </span></p>
+<p class="p12">source MakeAppIcon_h &lt;source_file_path&gt; &lt;dest_file_path&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p4">(The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)<span class="Apple-converted-space">  </span>Add the app_icon.h file to your science application's project.</p>
+<p class="p2"><br></p>
+<p class="p4">(3) In the science application's main(), add<span class="Apple-converted-space"> </span></p>
+<p class="p12">#include "app_icon.h"<span class="Apple-converted-space"> </span></p>
+<p class="p4">and call:</p>
+<p class="p12"><span class="Apple-converted-space">  </span>setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));</p>
+<p class="p2"><br></p>
+<p class="p4">(4) The science application must link with Carbon.framework to use setMacIcon().</p>
+<p class="p2"><br></p>
 <p class="p2"><br></p>
 </body>
 </html>
