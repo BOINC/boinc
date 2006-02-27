@@ -2416,3 +2416,10 @@ Rom    27 Feb 2006
         
     client/
         http_curl.C
+
+Rom    27 Feb 2006
+    - Expose Windows detection code in the DLL to BOINC proper.
+    
+    clientlib/win/
+        Identification.cpp
+        Identification.h

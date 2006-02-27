@@ -25,7 +25,7 @@
 /**
  * Find out if we are on a Windows 2000 compatible system
  **/
-BOOL IsWindows2000Compatible()
+EXTERN_C __declspec(dllexport) BOOL IsWindows2000Compatible()
 {
    OSVERSIONINFO osvi;
    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
@@ -45,7 +45,7 @@ BOOL IsWindows2000Compatible()
  * we perform a "lazy" bind to the new product suite
  * APIs that were first introduced on that platform.
  **/
-BOOL IsTerminalServicesEnabled()
+EXTERN_C __declspec(dllexport) BOOL IsTerminalServicesEnabled()
 {
     BOOL    bResult = FALSE;    // assume Terminal Services is not enabled
 
@@ -109,7 +109,7 @@ BOOL IsTerminalServicesEnabled()
  * to the product suite information stored in the registry.
  * This only works on the Terminal Server 4.0 platform.
  **/
-BOOL ValidateProductSuite (LPSTR SuiteName)
+EXTERN_C __declspec(dllexport) BOOL ValidateProductSuite (LPSTR SuiteName)
 {
     BOOL rVal = FALSE;
     LONG Rslt;

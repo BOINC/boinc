@@ -19,6 +19,6 @@
 
 #pragma once
 
-extern BOOL IsWindows2000Compatible();
-extern BOOL IsTerminalServicesEnabled();
-extern BOOL ValidateProductSuite (LPSTR SuiteName);
+EXTERN_C __declspec(dllexport) BOOL IsWindows2000Compatible();
+EXTERN_C __declspec(dllexport) BOOL IsTerminalServicesEnabled();
+EXTERN_C __declspec(dllexport) BOOL ValidateProductSuite (LPSTR SuiteName);
