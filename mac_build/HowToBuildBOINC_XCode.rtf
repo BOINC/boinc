@@ -150,7 +150,7 @@ Important: do not change the names of any of these 3 directories.\
 \
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 cd \{path\}BOINC_dev/
+\f3\fs26 \cf0 cd \{path\}/BOINC_dev/
 \f1\fs24 \
 
 \f3\fs26 cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
@@ -168,7 +168,7 @@ The command above retrieves the source code from the HEAD or development branch 
 \
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 cd \{path\}BOINC_dev/boinc/mac_build/\
+\f3\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
 source setupForBoinc.sh -clean
 \f1\fs24 \
 \
@@ -181,7 +181,7 @@ Note: this script builds curl first, followed by jpeg and finally wxMac.  If you
 \
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 cd \{path\}BOINC_dev/boinc/mac_build/\
+\f3\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/mac_build/\
 source BuildMacBOINC.sh
 \f1\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -238,15 +238,15 @@ To build the Installer for the BOINC Manager, if the BOINC version number is x.y
 \
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 cd \{path\}BOINC_dev/boinc/\
-source \{path\}BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
+\f3\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
+source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 
 \f1\fs24 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above.  For example, to build the installer for BOINC version 5.3.19, the command would be\
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 source \{path\}BOINC_dev/boinc/mac_installer/release_boinc.sh 5 3 19\
+\f3\fs26 \cf0 source \{path\}/BOINC_dev/boinc/mac_installer/release_boinc.sh 5 3 19\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_5_3_19" in the BOINC_dev directory.
@@ -258,8 +258,8 @@ source \{path\}BOINC_dev/boinc/mac_installer/release_boinc.sh x y z\
 \f1 \
 \pard\pardeftab720\ql\qnatural
 
-\f3\fs26 \cf0 cd \{path\}BOINC_dev/boinc/\
-source \{path\}BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 3 19\
+\f3\fs26 \cf0 cd \{path\}/BOINC_dev/boinc/\
+source \{path\}/BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 3 19\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_GR_5_3_19" in the BOINC_dev directory.
@@ -370,9 +370,13 @@ There is an optional api setMacIcon() in the libboinc_api.a library.  This allow
 \
 (2) Convert the xxx.icns file to an app_icon.h file as follows: in Terminal, run: \
 
-\f3 source MakeAppIcon_h <source_file_path> <dest_file_path> \
+\f3 \{path\}/MakeAppIcon_h \{source_file_path\}/
+\f1 xxx.icns
+\f3  \{dest_file_path\}/\'8c
+\f1 app_icon.h
+\f3 \
 
-\f1 (The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)  Add the app_icon.h file to your science application's project.\
+\f1 (The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project in the "boinc/mac_build/build/" directory.)  Add the app_icon.h file to your science application's project.\
 \
 (3) In the science application's main(), add \
 

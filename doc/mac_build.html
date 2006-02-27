@@ -114,7 +114,7 @@
 <p class="p2"><br></p>
 <p class="p4">[3] Get the BOINC source tree from CVS, and put it in the same BOINC_dev folder.<span class="Apple-converted-space">  </span>To do this, type the following in Terminal:</p>
 <p class="p2"><br></p>
-<p class="p5">cd {path}BOINC_dev/</p>
+<p class="p5">cd {path}/BOINC_dev/</p>
 <p class="p5">cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc<span class="s1"> <span class="Apple-converted-space"> </span></span></p>
 <p class="p2"><br></p>
 <p class="p4">(You may change the name of the boinc directory to anything you wish.)</p>
@@ -124,7 +124,7 @@
 <p class="p2"><br></p>
 <p class="p4">[4] Run the script to build the curl, jpeg and wxMac libraries as follows:</p>
 <p class="p2"><br></p>
-<p class="p5">cd {path}BOINC_dev/boinc/mac_build/</p>
+<p class="p5">cd {path}/BOINC_dev/boinc/mac_build/</p>
 <p class="p5">source setupForBoinc.sh -clean</p>
 <p class="p2"><br></p>
 <p class="p4">If you don't wish to force a full rebuild of everything, omit the -clean argument.</p>
@@ -133,7 +133,7 @@
 <p class="p2"><br></p>
 <p class="p4">[5] Build BOINC as follows:</p>
 <p class="p2"><br></p>
-<p class="p5">cd {path}BOINC_dev/boinc/mac_build/</p>
+<p class="p5">cd {path}/BOINC_dev/boinc/mac_build/</p>
 <p class="p5">source BuildMacBOINC.sh</p>
 <p class="p2"><br></p>
 <p class="p4">The complete syntax for this script is</p>
@@ -166,16 +166,16 @@
 <p class="p2"><br></p>
 <p class="p4">To build the Installer for the BOINC Manager, if the BOINC version number is x.y.z, you must be logged in as an administrator.<span class="Apple-converted-space">  </span>Type the following in Terminal, then enter your administrator password when prompted by the script:</p>
 <p class="p2"><br></p>
-<p class="p5">cd {path}BOINC_dev/boinc/</p>
-<p class="p5">source {path}BOINC_dev/boinc/mac_installer/release_boinc.sh x y z</p>
+<p class="p5">cd {path}/BOINC_dev/boinc/</p>
+<p class="p5">source {path}/BOINC_dev/boinc/mac_installer/release_boinc.sh x y z</p>
 <p class="p2"><br></p>
 <p class="p4">Substitute the 3 parts of the BOINC version number for x y and z in the above.<span class="Apple-converted-space">  </span>For example, to build the installer for BOINC version 5.3.19, the command would be</p>
-<p class="p5">source {path}BOINC_dev/boinc/mac_installer/release_boinc.sh 5 3 19</p>
+<p class="p5">source {path}/BOINC_dev/boinc/mac_installer/release_boinc.sh 5 3 19</p>
 <p class="p4">This will create a directory "BOINC_Installer/New_Release_5_3_19" in the BOINC_dev directory.</p>
 <p class="p7"><br></p>
 <p class="p4">To build version 5.3.19 of the Grid Republic flavor of BOINC, you would type:<span class="s3"><span class="Apple-converted-space"> </span></span></p>
-<p class="p5">cd {path}BOINC_dev/boinc/</p>
-<p class="p5">source {path}BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 3 19</p>
+<p class="p5">cd {path}/BOINC_dev/boinc/</p>
+<p class="p5">source {path}/BOINC_dev/boinc/mac_installer/release_GridRepublic.sh 5 3 19</p>
 <p class="p4">This will create a directory "BOINC_Installer/New_Release_GR_5_3_19" in the BOINC_dev directory.</p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>
@@ -244,8 +244,8 @@
 <p class="p4">(1)Use "/Developer/Applications/utilities/Icon Composer.app" to create a xxx.icns file.<span class="Apple-converted-space">  </span>(Use any name you wish instead of xxx.)</p>
 <p class="p2"><br></p>
 <p class="p4">(2) Convert the xxx.icns file to an app_icon.h file as follows: in Terminal, run:<span class="Apple-converted-space"> </span></p>
-<p class="p12">source MakeAppIcon_h &lt;source_file_path&gt; &lt;dest_file_path&gt;<span class="Apple-converted-space"> </span></p>
-<p class="p4">(The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project iin the "boinc/mac_build/build/" directory.)<span class="Apple-converted-space">  </span>Add the app_icon.h file to your science application's project.</p>
+<p class="p12">{path}/MakeAppIcon_h {source_file_path}/<span class="s1">xxx.icns</span> {dest_file_path}/å<span class="s1">app_icon.h</span></p>
+<p class="p4">(The MakeAppIcon_h command-line utility is built by the Mac boinc XCode project in the "boinc/mac_build/build/" directory.)<span class="Apple-converted-space">  </span>Add the app_icon.h file to your science application's project.</p>
 <p class="p2"><br></p>
 <p class="p4">(3) In the science application's main(), add<span class="Apple-converted-space"> </span></p>
 <p class="p12">#include "app_icon.h"<span class="Apple-converted-space"> </span></p>
