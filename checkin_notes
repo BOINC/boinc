@@ -2391,6 +2391,7 @@ Charlie 27 Feb 2006
     - Fix bug in buildWxMac build script.
     - Update build instructions to restore info on adding an icon 
         to a science application.
+    - Fix minor bug in diagnostic error message in setMacRsrcForFile().
     
     doc/
         mac_build.html
@@ -2398,3 +2399,5 @@ Charlie 27 Feb 2006
         HowToBuildBOINC_XCode.rtf
         setupForBOINC.sh
         buildWxMac.sh
+    api/
+        mac_icon.C

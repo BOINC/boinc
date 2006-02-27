@@ -46,7 +46,7 @@ char MacPListData[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 /* checks for an OS error, reports the line number and returns */
 #define CHECK_OSERR(e) {\
   if (e) {\
-    fprintf(stderr,"MacOS Error %d occured in Mac_Lib.c line %d\n",e,__LINE__);\
+    fprintf(stderr,"MacOS Error %d occured in %s line %d\n",e,__FILE__,__LINE__);\
     return(e); } }
 
 // Adds ther specified resource to the file given as an argument.
