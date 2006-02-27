@@ -2401,3 +2401,12 @@ Charlie 27 Feb 2006
         buildWxMac.sh
     api/
         mac_icon.C
+
+Bruce 27 Feb 2006
+    - User web page to show hosts: check all GET[] values to 
+      be sure they are legal/allowed.
+
+    html/
+        user/
+            hosts_user.php
+

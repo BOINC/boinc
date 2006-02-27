@@ -43,13 +43,39 @@ db_init();
 
 // get the _GET variables which determine how to display the page
 //
-$userid = get_int("userid", true);
 $show_all = get_int("show_all", true);
-if (!$show_all) $show_all=0;
+if ($show_all != 1) {
+    // default value -- show last 30 days
+    $show_all = 0;
+    $_GET['show_all'] = 0;
+}
+
 $sort = get_str("sort", true);
-if (!$sort) $sort = "rpc_time";
+if ($sort == "total_credit") $sort_clause = "total_credit desc";
+else if ($sort == "total_credit_reversed") $sort_clause = "total_credit";
+else if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
+else if ($sort == "expavg_credit_reversed") $sort_clause = "expavg_credit";
+else if ($sort == "name") $sort_clause = "domain_name";
+else if ($sort == "name_reversed") $sort_clause = "domain_name desc";
+else if ($sort == "id") $sort_clause = "id";
+else if ($sort == "id_reversed") $sort_clause = "id desc";
+else if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
+else if ($sort == "expavg_credit_reversed") $sort_clause = "expavg_credit ";
+else if ($sort == "cpu") $sort_clause = "p_model";
+else if ($sort == "cpu_reversed") $sort_clause = "p_model desc";
+else if ($sort == "os") $sort_clause = "os_name, os_version";
+else if ($sort == "os_reversed") $sort_clause = "os_name desc, os_version";
+else if ($sort == "rpc_time_reversed") $sort_clause = "rpc_time";
+else {
+    // default value -- sort by RPC time
+    $sort = "rpc_time";
+    $sort_clause = "rpc_time desc"; 
+    $_GET['sort']=$sort;
+}
 
 $user = get_logged_in_user(false);
+$userid = get_int("userid", true);
+
 if ($user && $user->id == $userid) {
     $userid = 0;
 }
@@ -59,6 +85,8 @@ if ($userid) {
         error_page("No such user");
     }
     $caching=true;
+    // At this point, we know that (1) $userid, $show_all and $sort all have
+    // valid values.
     $cache_args="userid=$userid&show_all=$show_all&sort=$sort";
     start_cache(USER_PAGE_TTL, $cache_args);
     if ($user->show_hosts) {
@@ -82,24 +110,6 @@ if ($userid) {
     user_host_table_start(true);
     $private = true;
 }
-
-$sort_clause = "rpc_time desc";
-if ($sort == "total_credit") $sort_clause = "total_credit desc";
-if ($sort == "total_credit_reversed") $sort_clause = "total_credit";
-if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
-if ($sort == "expavg_credit_reversed") $sort_clause = "expavg_credit";
-if ($sort == "name") $sort_clause = "domain_name";
-if ($sort == "name_reversed") $sort_clause = "domain_name desc";
-if ($sort == "id") $sort_clause = "id";
-if ($sort == "id_reversed") $sort_clause = "id desc";
-if ($sort == "expavg_credit") $sort_clause = "expavg_credit desc";
-if ($sort == "expavg_credit_reversed") $sort_clause = "expavg_credit ";
-if ($sort == "cpu") $sort_clause = "p_model";
-if ($sort == "cpu_reversed") $sort_clause = "p_model desc";
-if ($sort == "os") $sort_clause = "os_name, os_version";
-if ($sort == "os_reversed") $sort_clause = "os_name desc, os_version";
-if ($sort == "rpc_time") $sort_clause = "rpc_time desc"; 
-if ($sort == "rpc_time_reversed") $sort_clause = "rpc_time"; 
 
 $now = time();
 $old_hosts=0;
