@@ -2380,8 +2380,14 @@ David  24 Feb 2006
         sched/validator.C
         
 Charlie 25 Feb 2006
-    - Mac: Fix a small bug in release scripts whhich made the zip 
+    - Mac: Fix a small bug in release scripts which made the zip 
         files larger than necessary.
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+Charlie 27 Feb 2006
+    - Mac: Fix tilde expansion bug in build script.
+    
+    mac_build/
+        setupForBOINC.sh
