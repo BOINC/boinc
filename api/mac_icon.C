@@ -110,54 +110,6 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
 }
 
 
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
-    char *p = buf;
-    size_t len = buflen;
-    size_t datalen = 0;
-
-    *buf = '\0';
-    while (datalen < (buflen - 1)) {
-        fgets(p, len, f);
-        if (feof(f)) break;
-        if (ferror(f) && (errno != EINTR)) break;
-        if (strchr(buf, '\n')) break;
-        datalen = strlen(buf);
-        p = buf + datalen;
-        len -= datalen;
-    }
-    return (buf[0] ? buf : NULL);
-}
-
-
-void getPathToThisApp(char* pathBuf, size_t bufSize) {
-    FILE *f;
-    char buf[64], *c;
-    pid_t myPID = getpid();
-    int i;
-    
-    *pathBuf = 0;    // in case of failure
-    
-    sprintf(buf, "ps -p %d -o command", myPID);
-    f = popen(buf,  "r");
-    if (!f)
-        return;
-    PersistentFGets(pathBuf, bufSize, f);  // Skip over line of column headings
-    PersistentFGets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
-    fclose(f);
-
-    c = strstr(pathBuf, " -"); 
-    if (c)
-        *c = 0;     // Strip off any command-line arguments
-        
-    for (i=strlen(pathBuf)-1; i>=0; --i) {
-        if (pathBuf[i] <= ' ')
-            pathBuf[i] = 0;  // Strip off trailing spaces, newlines, etc.
-        else
-            break;
-    }
-}
-
-
 // Adds plst resource 0 to the file given as an argument.  This 
 // identifies the applciation to the OS as an NSUIElement, so 
 // that the application does not show in the Dock and it has no 
