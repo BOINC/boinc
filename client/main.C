@@ -318,7 +318,7 @@ int check_unique_instance() {
     }
     strcat( buf, RUN_MUTEX);
 
-    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
+    HANDLE h = CreateMutex(NULL, true, buf);
     if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
         return ERR_ALREADY_RUNNING;
     }
