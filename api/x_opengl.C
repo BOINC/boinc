@@ -431,7 +431,7 @@ void xwin_graphics_event_loop() {
     } else {
         if (!glut_is_initialized) {
 #ifdef __APPLE__
-                setMacPList(aid.app_name);
+                setMacPList();
 #endif
 	        set_mode(MODE_HIDE_GRAPHICS);
 	        while ( current_graphics_mode == MODE_HIDE_GRAPHICS ) {

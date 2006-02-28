@@ -110,17 +110,74 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
 }
 
 
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
+void getPathToThisApp(char* pathBuf, size_t bufSize) {
+    FILE *f;
+    char buf[64], *c;
+    pid_t myPID = getpid();
+    int i;
+    
+    *pathBuf = 0;    // in case of failure
+    
+    // Before launching this project application, the BOINC client set the 
+    // current directory to the slot directory which contains this application 
+    // (or the soft-link to it.)  So all we need for the path to this 
+    // application is the file name.  We use the -c option so ps strips off 
+    // any command-line arguments for us.
+    sprintf(buf, "ps -cp %d -o command=", myPID);
+    f = popen(buf,  "r");
+    if (!f)
+        return;
+    PersistentFGets(pathBuf, bufSize, f);  // Skip over line of column headings
+    PersistentFGets(pathBuf, bufSize, f);  // Get the UNIX command which ran us
+    fclose(f);
+
+    c = strstr(pathBuf, " -"); 
+    if (c)
+        *c = 0;     // Strip off any command-line arguments
+        
+    for (i=strlen(pathBuf)-1; i>=0; --i) {
+        if (pathBuf[i] <= ' ')
+            pathBuf[i] = 0;  // Strip off trailing spaces, newlines, etc.
+        else
+            break;
+    }
+}
+
+
 // Adds plst resource 0 to the file given as an argument.  This 
 // identifies the applciation to the OS as an NSUIElement, so 
 // that the application does not show in the Dock and it has no 
 // menu bar.
-int setMacPList(char *filename) {
-    char path[1024];
+int setMacPList() {
+    char path[1024], resolvedPath[1024];;
     StringPtr rsrcName = (StringPtr)"\pApplication PList";
 
-    setMacRsrcForFile(filename, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName);
-    boinc_resolve_filename(filename, path, sizeof(path));
-    return(setMacRsrcForFile(path, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName));
+    getPathToThisApp(path, sizeof(path));
+    if (path[0] == 0)
+        return -1; // Should never happen
+    
+    setMacRsrcForFile(path, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName);
+    boinc_resolve_filename(path, resolvedPath, sizeof(resolvedPath));
+    return(setMacRsrcForFile(resolvedPath, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName));
 }
 
 

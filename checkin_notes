@@ -2424,14 +2424,6 @@ Rom    27 Feb 2006
         Identification.cpp
         Identification.h
 
-Charlie 27 Feb 2006
-    - Mac: Get path for setMacPList in a more reilable way.
-    
-    api/
-        boinc_api.h
-        mac_icon.C
-        x_openGL.C
-
 Walt   27 Feb 2006
     - Bug Fix: On Win2k and later, use global mutex so only one
         instance of the core client runs at a time.
@@ -2440,3 +2432,11 @@ Walt   27 Feb 2006
         main.C
     cliend/win
         win_util.h
+
+Charlie 28 Feb 2006
+    - Mac: Get path for setMacPList in a more reilable way.
+    
+    api/
+        boinc_api.h
+        mac_icon.C
+        x_openGL.C
