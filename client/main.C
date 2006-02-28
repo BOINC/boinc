@@ -33,6 +33,7 @@ static HANDLE g_hWin9xMonitorSystemThread = NULL;
 static DWORD g_Win9xMonitorSystemThreadID = NULL;
 static BOOL g_bIsWin9x = FALSE;
 
+typedef BOOL (*pfnIsWindows2000Compatible)();
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
 typedef void (CALLBACK* ClientLibraryShutdown)();
 #ifndef _T
@@ -292,9 +293,31 @@ static FILE_LOCK file_lock;
 
 int check_unique_instance() {
 #ifdef _WIN32
-    // on Windows, we set a mutex so that the screensaver
-    // can find out that the core client is running
+
+    // on Windows, we set a mutex so that only one copy
+    // of the core client can run at a time
     //
+    BOOL bIsWin2k = FALSE;
+    g_hClientLibraryDll = LoadLibrary("boinc.dll");
+    char buf[MAX_PATH] = "";
+
+    if (g_hClientLibraryDll) {   
+        pfnIsWindows2000Compatible fn;
+        fn = (pfnIsWindows2000Compatible)GetProcAddress(g_hClientLibraryDll, _T("IsWindows2000Compatible"));
+        if (fn) {
+            bIsWin2k = fn();
+        }
+        FreeLibrary(g_hClientLibraryDll);        
+        g_hClientLibraryDll = NULL;
+        }
+    
+    // Global mutex on Win2k and later
+    //
+    if (bIsWin2k) {
+        strcpy(buf, "Global\\");
+    }
+    strcat( buf, RUN_MUTEX);
+
     HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
     if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
         return ERR_ALREADY_RUNNING;

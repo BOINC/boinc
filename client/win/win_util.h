@@ -28,9 +28,9 @@ int UtilInitOSVersion( void );
 #define START_SS_MSG		"BOINC_SS_START"
 #define STOP_SS_MSG			"BOINC_SS_END"
 #define SHOW_WIN_MSG		"BOINC_SHOW_MESSAGE"
-#define RUN_MUTEX			"BOINC_MUTEX"
 #define NET_ACTIVITY_MSG    "BOINC_NET_ACTIVITY"
 
+#define RUN_MUTEX			"BoincSingleInstance"
 #define REG_BLANK_NAME		"Blank"
 #define REG_BLANK_TIME      "Blank Time"
 #define REG_GRID_REPUBLIC   "Grid Republic"
