@@ -304,7 +304,15 @@ The checking this option controls is of the identity that the server claims. The
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 5L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
-    //curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "deflate");
+
+    // if we tell Curl to accept any encoding (e.g. deflate)
+    // it seems to accept them all, which screws up projects that
+    // use gzip at the application level.
+    // So, detect this and don't accept any encoding in that case
+    //
+    if (!out || !ends_with(std::string(out), std::string(".gz"))) {
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
+    }
 
     // setup any proxy they may need
     setupProxyCurl();

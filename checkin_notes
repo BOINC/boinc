@@ -2440,3 +2440,25 @@ Charlie 28 Feb 2006
         boinc_api.h
         mac_icon.C
         x_openGL.C
+
+David  28 Feb 2006
+	- Continuing saga of Curl encodings.
+		It seems like if you call set CURLOPT_ENCODING
+		with any value, even "identity",
+		it will accept any encoding.
+		This breaks projects that do application-level gzip.
+		Solution: if the filename ends with ".gz",
+		don't set CURLOPT_ENCODING.
+		Otherwise set it to "" (accept all).
+		NOTE: I think this supports current requirements
+		(for "deflate" to work, and for app-level gzip to work).
+		At some point I'll implement BOINC-level gzip.
+	- Fix the format of <error_msg> elements within <file_info>.
+		Need a CR between the last line and the </error_msg> tag.
+	- In the course of testing I found that a <file_info>
+		with no <url>s will crash the core client.
+		Fixed this.
+	client/
+		client_types.C
+		file_xfer.C
+		http_curl.C

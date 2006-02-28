@@ -714,7 +714,8 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         }
     }
     if (!error_msg.empty()) {
-        out.printf("    <error_msg>\n%s</error_msg>\n", error_msg.c_str());
+        strip_whitespace(error_msg);
+        out.printf("    <error_msg>\n%s\n</error_msg>\n", error_msg.c_str());
     }
     out.printf("</file_info>\n");
 #if 0
@@ -773,6 +774,9 @@ int FILE_INFO::delete_file() {
 // NULL return means there is no URL of the requested type
 //
 const char* FILE_INFO::get_init_url(bool is_upload) {
+    if (!urls.size()) {
+        return NULL;
+    }
 
 // if a project supplies multiple URLs, try them in order
 // (e.g. in Einstein@home they're ordered by proximity to client).
@@ -809,6 +813,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
 // NULL return means you've tried them all.
 //
 const char* FILE_INFO::get_next_url(bool is_upload) {
+    if (!urls.size()) return NULL;
     while(1) {
         current_url = (current_url + 1)%urls.size();
         if (current_url == start_url) {
