@@ -162,17 +162,13 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
 // identifies the applciation to the OS as an NSUIElement, so 
 // that the application does not show in the Dock and it has no 
 // menu bar.
-int setMacPList() {
-    char path[1024], resolvedPath[1024];;
+int setMacPList(char *filename) {
+    char path[1024];
     StringPtr rsrcName = (StringPtr)"\pApplication PList";
 
-    getPathToThisApp(path, sizeof(path));
-    if (path[0] == 0)
-        return -1; // Should never happen
-    
-    setMacRsrcForFile(path, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName);
-    boinc_resolve_filename(path, resolvedPath, sizeof(resolvedPath));
-    return(setMacRsrcForFile(resolvedPath, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName));
+    setMacRsrcForFile(filename, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName);
+    boinc_resolve_filename(filename, path, sizeof(path));
+    return(setMacRsrcForFile(path, MacPListData, sizeof(MacPListData), 'plst', 0, rsrcName));
 }
 
 

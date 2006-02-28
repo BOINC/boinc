@@ -2423,3 +2423,11 @@ Rom    27 Feb 2006
     clientlib/win/
         Identification.cpp
         Identification.h
+
+Charlie 27 Feb 2006
+    - Mac: Get path for setMacPList in a more reilable way.
+    
+    api/
+        boinc_api.h
+        mac_icon.C
+        x_openGL.C

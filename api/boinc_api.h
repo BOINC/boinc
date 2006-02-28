@@ -85,7 +85,7 @@ extern void boinc_ops_cumulative(double fp, double integer);
 extern int boinc_receive_trickle_down(char* buf, int len);
 
 #ifdef __APPLE__
-extern int setMacPList(void);
+extern int setMacPList(char *filename);
 extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #endif
 
