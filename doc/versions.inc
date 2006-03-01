@@ -58,6 +58,12 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.22
+      <ul>
+        <li>Fix detech from account manager problem.
+        <li>Fix multiple boinc.exe execution problems when 
+            Fast-User-Switching was used in conjunction with services.
+      </ul>
     <li>Changes since 5.3.21
       <ul>
         <li>Partial fix for projects who are already using compression.
@@ -165,11 +171,11 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5322= array(
-    "num"=>"5.3.22",
+$w5323= array(
+    "num"=>"5.3.23",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.22_windows_intelx86.exe",
-    "date"=>"24 Feb 2006",
+    "file"=>"boinc_5.3.23_windows_intelx86.exe",
+    "date"=>"1 Mar 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_53."
@@ -413,11 +419,11 @@ $m443s = array(
     "
 );
 
-$l5322 = array(
-    "num"=>"5.3.22",
+$l5323 = array(
+    "num"=>"5.3.23",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.22_i686-pc-linux-gnu.sh",
-    "date"=>"24 Feb 2006",
+    "file"=>"boinc_5.3.23_i686-pc-linux-gnu.sh",
+    "date"=>"1 Mar 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_53."
@@ -485,7 +491,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5322,
+        $w5323,
         $w5213,
         $w445,
     )
@@ -509,7 +515,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5322,
+        $l5323,
         $l5213,
         $l443,
     )
