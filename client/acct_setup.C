@@ -126,12 +126,20 @@ void GET_PROJECT_CONFIG_OP::handle_reply(int http_op_retval) {
 int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     int retval;
     string url;
+    string parameter;
 
     url = ai.url;
     canonicalize_master_url(url);
 
-    url += "lookup_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash;
-    escape_url(url);
+    url += "lookup_account.php?email_addr=";
+    parameter = ai.email_addr;
+    escape_url(parameter);
+    url += parameter;
+
+    url += "&passwd_hash=";
+    parameter = ai.passwd_hash;
+    escape_url(parameter);
+    url += parameter;
 
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_ACCOUNT_FILENAME);
     if (retval) {
@@ -160,12 +168,25 @@ void LOOKUP_ACCOUNT_OP::handle_reply(int http_op_retval) {
 int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     int retval;
     string url;
+    string parameter;
 
     url = ai.url;
     canonicalize_master_url(url);
 
-    url += "create_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash+"&user_name="+ai.user_name;
-    escape_url(url);
+    url += "create_account.php?email_addr=";
+    parameter = ai.email_addr;
+    escape_url(parameter);
+    url += parameter;
+
+    url += "&passwd_hash=";
+    parameter = ai.passwd_hash;
+    escape_url(parameter);
+    url += parameter;
+
+    url += "&user_name=";
+    parameter = ai.user_name;
+    escape_url(parameter);
+    url += parameter;
 
     retval = gstate.gui_http.do_rpc(this, url, CREATE_ACCOUNT_FILENAME);
     if (retval) {
