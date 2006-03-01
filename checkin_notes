@@ -2462,3 +2462,15 @@ David  28 Feb 2006
 		client_types.C
 		file_xfer.C
 		http_curl.C
+
+Rom    1 Mar 2006
+    - Bug Fix: Make detach from account managers work again.
+    - Bug Fix: url encode the lookup account and create account
+        rpcs.  Canonicalize the urls before use.
+        
+    client/
+        acct_setup.C
+    clientgui/
+        MainFrame.cpp
+    lib/
+        util.C, .h

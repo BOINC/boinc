@@ -410,6 +410,27 @@ void unescape_url(char *url) {
     url[x] = '\0';
 }
 
+void unescape_url_safe(char *url, int url_size) {
+    int x,y;
+
+    for (x=0,y=0; url[y] && (x<url_size);++x,++y) {
+        if ((url[x] = url[y]) == '%') {
+            url[x] = x2c(&url[y+1]);
+            y+=2;
+        }
+    }
+    url[x] = '\0';
+}
+
+// unescape_url needs to be able to handle potentially hostile
+// urls.
+void unescape_url(string& url) {
+    char buf[1024];
+    strncpy(buf, url.c_str(), sizeof(buf));
+    unescape_url_safe(buf, sizeof(buf));
+    url = buf;
+}
+
 void escape_url(char *in, char*out) {
     int x, y;
     for (x=0, y=0; in[x]; ++x) {
@@ -428,6 +449,34 @@ void escape_url(char *in, char*out) {
         }
     }
     out[y] = 0;
+}
+
+void escape_url_safe(const char *in, char*out, int out_size) {
+    int x, y;
+    for (x=0, y=0; in[x] && (y<out_size); ++x) {
+        if (isalnum(in[x])) {
+            out[y] = in[x];
+            ++y;
+        } else {
+            out[y] = '%';
+            ++y;
+            out[y] = 0;
+            char buf[256];
+            sprintf(buf, "%d", (char)in[x]);
+            c2x(buf);
+            strcat(out, buf);
+            y += 2;
+        }
+    }
+    out[y] = 0;
+}
+
+// escape_url needs to be able to handle potentially hostile
+// urls
+void escape_url(string& url) {
+    char buf[1024];
+    escape_url_safe(url.c_str(), buf, sizeof(buf));
+    url = buf;
 }
 
 // Escape a URL for the project directory, cutting off the "http://",

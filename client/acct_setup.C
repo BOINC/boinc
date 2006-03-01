@@ -88,10 +88,17 @@ void ACCOUNT_IN::parse(char* buf) {
 
 int GET_PROJECT_CONFIG_OP::do_rpc(string master_url) {
     int retval;
-    string url = master_url + "get_project_config.php";
+    string url;
+
+    url = master_url;
+    canonicalize_master_url(url);
+
+    url += "get_project_config.php";
+
     msg_printf(NULL, MSG_INFO,
         "Fetching configuration file from %s", url.c_str()
     );
+
     retval = gstate.gui_http.do_rpc(this, url, GET_PROJECT_CONFIG_FILENAME);
     if (retval) {
         error_num = retval;
@@ -120,7 +127,12 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     int retval;
     string url;
 
-    url = ai.url + "/lookup_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash;
+    url = ai.url;
+    canonicalize_master_url(url);
+
+    url += "lookup_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash;
+    escape_url(url);
+
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_ACCOUNT_FILENAME);
     if (retval) {
         error_num = retval;
@@ -149,7 +161,12 @@ int CREATE_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     int retval;
     string url;
 
-    url = ai.url + "/create_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash+"&user_name="+ai.user_name;
+    url = ai.url;
+    canonicalize_master_url(url);
+
+    url += "create_account.php?email_addr="+ai.email_addr+"&passwd_hash="+ai.passwd_hash+"&user_name="+ai.user_name;
+    escape_url(url);
+
     retval = gstate.gui_http.do_rpc(this, url, CREATE_ACCOUNT_FILENAME);
     if (retval) {
         error_num = retval;

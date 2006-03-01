@@ -1246,10 +1246,11 @@ void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         );
 
         if (wxYES == iAnswer) {
+            std::string url, name, passwd;
             pDoc->rpc.acct_mgr_rpc(
-                NULL,
-                NULL,
-                NULL,
+                url.c_str(),
+                name.c_str(),
+                passwd.c_str(),
                 false
             );
         }
