@@ -2474,3 +2474,7 @@ Rom    1 Mar 2006
         MainFrame.cpp
     lib/
         util.C, .h
+
+Rom    1 Mar 2006 (HEAD)
+    - Tag for 5.3.23 release, all platforms
+      boinc_core_release_5_3_23
