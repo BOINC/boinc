@@ -177,19 +177,20 @@ void copy_stream(FILE* in, FILE* out) {
 
 // append to a malloc'd string
 //
-void strcatdup(char*& p, char* buf) {
+int strcatdup(char*& p, char* buf) {
     p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
     if (!p) {
-        fprintf(stderr, "strcatdup: realloc failed\n");
-        exit(1);
+        return ERR_MALLOC;
     }
     strcat(p, buf);
+    return 0;
 }
 
 // copy from a file to a malloc'd string until the end tag is reached
 //
 int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
     char buf[256];
+    int retval;
 
     char* p = strdup("");
     while (fgets(buf, 256, in)) {
@@ -197,9 +198,9 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
             *pp = p;
             return 0;
         }
-        strcatdup(p, buf);
+        retval = strcatdup(p, buf);
+        if (retval) return retval;
     }
-    fprintf(stderr, "dup_element_contents(): no end tag\n");
     return ERR_XML_PARSE;
 }
 
@@ -219,7 +220,6 @@ int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
         strcat(p, buf);
         len -= n;
     }
-    fprintf(stderr, "copy_element_contents(): no end tag\n");
     return ERR_XML_PARSE;
 }
 
@@ -233,7 +233,6 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
         }
         str += buf;
     }
-    fprintf(stderr, "copy_element_contents(): no end tag\n");
     return ERR_XML_PARSE;
 }
 
@@ -251,12 +250,14 @@ void file_to_str(FILE* in, string& str) {
 int read_file_malloc(const char* pathname, char*& str) {
     char buf[256];
     FILE* f;
+    int retval;
 
     f = fopen(pathname, "r");
     if (!f) return ERR_FOPEN;
     str = strdup("");
     while (fgets(buf, 256, f)) {
-        strcatdup(str, buf);
+        retval = strcatdup(str, buf);
+        if (retval) return retval;
     }
     fclose(f);
     return 0;

@@ -38,7 +38,7 @@ extern bool parse_bool(const char*, const char*, bool&);
 extern bool match_tag(const char*, const char*);
 extern bool match_tag(const std::string &, const char*);
 extern void copy_stream(FILE* in, FILE* out);
-extern void strcatdup(char*& p, char* buf);
+extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
 extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len);
 extern int copy_element_contents(FILE* in, const char* end_tag, std::string&);

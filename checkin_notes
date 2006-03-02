@@ -2524,3 +2524,21 @@ David  2 Mar 2006
 
     client/
         cs_scheduler.C
+
+David  2 Mar 2006
+    - core client: tighten up XML parsing.
+        When we use copy_element_contents() or dup_element_contents()
+        and don't find the end tag, that's an error,
+        and probably means we skipped over a bunch of critical elements.
+        Fix places where we ignored this error.
+    - don't do fprintf(stderr) from util functions
+    - have strcatdup() return an error
+        (rather than write to stderr and exit()) if realloc() fails
+
+    client/
+        schedule_op.C
+    lib/
+        gui_rpc_client.C
+        parse.C,h
+    sched/
+        file_upload_handler.C

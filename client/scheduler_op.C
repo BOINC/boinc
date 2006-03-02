@@ -624,7 +624,13 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 "</global_preferences>",
                 &global_prefs_xml
             );
-            if (retval) return ERR_XML_PARSE;
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse global prefs in scheduler reply: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
             msg_printf(project, MSG_INFO,
                 "General preferences have been updated"
             );
@@ -634,13 +640,24 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 "</project_preferences>",
                 &project_prefs_xml
             );
-            if (retval) return ERR_XML_PARSE;
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse project prefs in scheduler reply: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
         } else if (match_tag(buf, "<gui_urls>")) {
             std::string foo;
             retval = copy_element_contents(in, "</gui_urls>", foo);
-            if (!retval) {
-                project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse GUI URLs in scheduler reply: %s",
+                    boincerror(retval)
+                );
+                return retval;
             }
+            project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
 #if 0
         } else if (match_tag(buf, "<deletion_policy_priority/>")) {
@@ -669,7 +686,13 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 "</code_sign_key_signature>",
                 &code_sign_key_signature
             );
-            if (retval) return ERR_XML_PARSE;
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't parse code sign key signature in scheduler reply: %s",
+                    boincerror(retval)
+                );
+                return ERR_XML_PARSE;
+            }
         } else if (match_tag(buf, "<app>")) {
             APP app;
             retval = app.parse(mf);

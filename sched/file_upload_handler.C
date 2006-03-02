@@ -77,7 +77,8 @@ int FILE_INFO::parse(FILE* in) {
             if (retval) return retval;
             continue;
         }
-        strcatdup(signed_xml, buf);
+        retval = strcatdup(signed_xml, buf);
+        if (retval) return retval;
         if (parse_str(buf, "<name>", name, sizeof(name))) {
             strcpy(this_filename, name);
             continue;
