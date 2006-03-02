@@ -378,7 +378,7 @@ LRESULT CALLBACK WndProc(
         } 
         if (PBT_APMQUERYSUSPENDFAILED == wParam || PBT_APMRESUMESUSPEND == wParam) {
             set_mode(acked_graphics_mode);
-            resume_activities();
+            restore_activities();
             return TRUE;
         }
         if (PBT_APMQUERYSUSPEND == wParam) {

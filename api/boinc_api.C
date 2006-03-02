@@ -515,6 +515,18 @@ int resume_activities() {
     return 0;
 }
 
+// this can be called from the graphics thread
+//
+int restore_activities() {
+    int retval;
+    if (boinc_status.suspended) {
+        retval = suspend_activities();
+    } else {
+        retval = resume_activities();
+    }
+    return retval;
+}
+
 static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {

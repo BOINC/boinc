@@ -2487,3 +2487,15 @@ David  1 Mar 2006
     client/
         acct_mgr.C
         hostinfo_unix.C
+
+Rom    2 Mar 2006
+    - Bug Fix: When Windows resumes from hibernation return the application to
+        it's previously desired state instead of blindly resuming it.
+    - Bug Fix: Copy all the project data except the master_url for each project
+        status update.
+        
+    api/
+        boinc_api.C, .h
+        windows_opengl.C
+    lib/
+        gui_rpc_client_ops.C

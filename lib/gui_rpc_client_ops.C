@@ -83,6 +83,9 @@ void PROJECT::get_name(std::string& s) {
 
 void PROJECT::copy(PROJECT& p) {
     resource_share = p.resource_share;
+    project_name = p.project_name;
+    user_name = p.user_name;
+    team_name = p.team_name;
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     host_total_credit = p.host_total_credit;
@@ -97,6 +100,7 @@ void PROJECT::copy(PROJECT& p) {
     non_cpu_intensive = p.non_cpu_intensive;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
+    tentative = p.tentative;
     scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     gui_urls = p.gui_urls;
