@@ -181,13 +181,12 @@ be missed with round-robin scheduling.
 </ul>
 The scheduling policy is:
 <ol>
-<li> Find the result R (not scheduled yet)
-for which deadline_missed(R)
-and whose deadline is earliest.
-Tiebreaker: preference to result already running.
-<li> If such an R exists, schedule R
-<li> If there are more CPUs, and unscheduled results
-deadline_missed(R), go to 1.
+<li> Let P be the project with the earliest-deadline runnable result
+among projects with deadlines_missed(P)>0.
+Let R be P's earliest-deadline runnable result not scheduled yet.
+Tiebreaker: least index in result array.
+<li> If such an R exists, schedule R and decrement deadlines_missed(P).
+<li> If there are more CPUs, and projects with deadlines_missed(P)>0, go to 1.
 <li> If all CPUs are scheduled, stop.
 <li> Set the 'anticipated debt' of each project to its short-term debt
 <li> Find the project P with the greatest anticipated debt,
@@ -287,15 +286,23 @@ which is the number of seconds of work to request
 if we do a scheduler RPC to P.
 This is computed as follows:
 <pre>
+for each project P
     if P is suspended, deferred, overworked, or no-new-work
-        return 0
-    if time_until_work_done(P) > min_queue or CPU scheduler scheduled all CPUs by EDF
-        if time_until_cpu_free() < min_queue
-            return 1
+        P.work_request_size = 0
+    else
+        if time_until_work_done(P) > min_queue or CPU scheduler scheduled all CPUs by EDF
+            if time_until_cpu_free() < min_queue
+                P.work_request_size = 1
+            else
+                P.work_request_size = 0
         else
-            return 0
-    y = estimated wall time of P's queued work
-    return max(1, (min_queue*ncpus*frs(P)) - y)
+            y = estimated wall time of P's queued work
+            P.work_request_size = max(1, (min_queue*ncpus*frs(P)) - y)
+
+if time_until_cpu_free() < min_queue and P.work_request_size==0 for all P
+    for each project P
+        if P is overworked
+            P.work_request_size = 1
 </pre>
 
 <p>
@@ -329,14 +336,13 @@ The scheduler won't send results whose deadlines are less than
 now + min_queue.
 <li>
 The scheduler does an EDF simulation of the initial workload
-to see what results meet their deadline.
+to determine by how much each result misses its deadline.
 For each result R being considered for sending,
 the scheduler does an EDF simulation.
-If R meets its deadline,
-all results that missed their deadlines do so by
-no more than they did previously,
-and all results that originally met their deadline still do,
-R is sent.
+If R meets its deadline
+(optional if the project does not need strict adherence),
+and no result misses its deadline by more than it did previously, R is sent.
+
 <li>
 If the scheduler has work but doesn't send any because of deadline misses,
 it returns a 'no work because of deadlines' flag.

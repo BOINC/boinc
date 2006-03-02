@@ -2514,3 +2514,13 @@ Rom    2 Mar 2006
         boinc.sln
         boinc_dll.vcproj
         boincmgr_curl.vcproj
+
+David  2 Mar 2006
+    - core client: is a scheduler RPC is pending to a project,
+        do it even if project is suspended via GUI.
+        This is needed to propagate host CPIDs for GridRepublic.
+        It also seems like the right semantics for update requests via GUI
+        (i.e. Update should override Suspended)
+
+    client/
+        cs_scheduler.C
