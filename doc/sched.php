@@ -169,15 +169,20 @@ for results that are in danger of missing their deadline,
 and weighted round-robin among other projects if additional CPUs exist.
 This allows the client to meet deadlines that would otherwise be missed,
 while honoring resource shares over the long term.
-The scheduler uses the following data,
-which are obtained by doing a simulation of round-robin scheduling
-applied to the current work queue:
+<p>
+The scheduler starts by doing a simulation of round-robin scheduling
+applied to the current work queue.
+This produces the following outputs:
 <ul>
-<li> deadline_missed(R): whether result R would miss
-its deadline with round-robin scheduling.
+<li> deadline_missed(R): whether result R misses its deadline.
 <li> deadlines_missed(P):
-the number of results of P whose deadlines would
-be missed with round-robin scheduling.
+the number of results R of P for which deadline_missed(R).
+<li> total_work_before_minq:
+the wall CPU time used in the next min_queue seconds
+(this is used by the work-fetch policy, see below).
+<li> work_before_minq(P):
+the wall CPU time used by project P in the next min_queue seconds
+(this is used by the work-fetch policy, see below).
 </ul>
 The scheduling policy is:
 <ol>
@@ -253,31 +258,15 @@ P's fractional resource share among fetchable projects.
 </blockquote>
 
 <pre>
-min_results(project P)
+work_to_fill_buf(P)
 </pre>
-<blockquote>
-The minimum number of runnable results needed to
-maintain P's resource share on this machine: namely,
-<br>
-ceil(ncpus*frs(P))
-</blockquote>
-
+The amount of work needed to keep P busy for the next min_queue seconds,
+namely:
 <pre>
-time_until_work_done(project P)
+    y = min_queue*ncpus - work_before_minq(P)
+    if (y <= 0) return 0
+    return y/frs(P)
 </pre>
-<blockquote>
-The estimated wall time until the number of
-uncompleted results for this project will reach min_results(P)-1,
-assuming round-robin scheduling among currently fetchable projects.
-</blockquote>
-
-<pre>
-time_until_free_cpu()
-</pre>
-<blockquote>
-The estimated wall time until there is a free CPU,
-assuming round-robin scheduling among currently fetchable projects.
-</blockquote>
 <p>
 The work-fetch policy function is called every few minutes
 (or as needed) by the scheduler RPC polling function.
@@ -290,19 +279,25 @@ for each project P
     if P is suspended, deferred, overworked, or no-new-work
         P.work_request_size = 0
     else
-        if time_until_work_done(P) > min_queue or CPU scheduler scheduled all CPUs by EDF
-            if time_until_cpu_free() < min_queue
-                P.work_request_size = 1
-            else
-                P.work_request_size = 0
-        else
-            y = estimated wall time of P's queued work
-            P.work_request_size = max(1, (min_queue*ncpus*frs(P)) - y)
+        P.work_request_size = work_to_fill_buf(P)
 
-if time_until_cpu_free() < min_queue and P.work_request_size==0 for all P
-    for each project P
-        if P is overworked
+if min_queue*ncpus > total_work_before_minq
+    if P.work_request_size==0 for all P
+        for each project P
+            if P is suspended, deferred, overworked, or no-new-work
+                continue
             P.work_request_size = 1
+
+    if global_work_need>0 and P.work_request_size==0 for all P
+        for each project P
+            if P is suspended, deferred, or no-new-work
+                continue
+            P.work_request_size = 1
+
+    if P.work_request_size>0 for some P
+        Normalize P.work_request_size so that they
+        sum to min_queue*ncpus - total_work_before_minq
+        and are proportional to P.resource_share
 </pre>
 
 <p>
@@ -313,7 +308,7 @@ If it does so, it will also request work from that project.
 Otherwise, the RPC mechanism chooses the project P for which
 <pre>
 P.work_request_size>0 and
-P.long_term_debt - time_until_work_done(P) is greatest
+P.long_term_debt + work_to_fill_buf(P) is greatest
 </pre>
 and gets work from that project.
 <hr>
