@@ -9,6 +9,7 @@ function show_link($language, $name, $url) {
 
 function language($lang, $sites) {
     echo "<tr><td bgcolor=eeeeee valign=top>$lang</td><td>\n";
+    shuffle($sites);
     foreach ($sites as $s) {
         echo "$s<br>\n";
     }
@@ -27,7 +28,7 @@ echo "
 User-editable
 sites with information and documentation about BOINC.
 <ul>
-<li> <a href=http://boinc-doc.net/boinc-wiki/>The Unofficial BOINC Wiki</a> (in English)
+<li> <a href=http://boinc-wiki.ath.cx/>The Unofficial BOINC Wiki</a> (in English)
 <li> <a href=http://www.seti-argentina.com.ar/instrucciones-boinc-manager>BOINC Argentina</a> (in Spanish)
 <li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
 <li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
@@ -77,6 +78,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://sirans-boincnews.com/", "Siran's BOINC Projects News Site"),
     site("http://www.ukboincteam.org.uk/", "UK BOINC Team"),
     site("http://symbion.madnezz.com/", "Symbion"),
     site("http://scotlandsseti.blogspot.com/", "Megacruncher's Blog"),

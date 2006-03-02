@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("February 24, 2006",
+    "A significant step has been made towards integrating
+    BOINC and Grid software:
+    beginning with Condor version 6.7.17,
+    Condor can be configured to run BOINC when it has no other work to perform.
+    This capability is described in <a href=http://www.cs.wisc.edu/condor/manual/v6.7/3_13Setting_Up.html#SECTION004138000000000000000>the Condor manual</a>.
+    "
+),
 array("February 22, 2006",
     "BOINC announces its
     <a href=mac_intel.php>support for the Macintosh/Intel platform</a>.

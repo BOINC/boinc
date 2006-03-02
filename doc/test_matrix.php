@@ -129,7 +129,7 @@ everyone else should connect to that process.
     (log out and in, and check the Message tab).
 <li> Verify that users other than
     admin and installing users
-    can run the Manager and connect to the running core client.
+    can't run the Manager and connect to the running core client.
 </ul>
 <h3>Tests for modem-connected computers</h3>
 <ul>
@@ -211,6 +211,19 @@ run screensaver
 <li> Try to connect to core client
 with bad password, from host not on list, etc.
 
+</ul>
+
+<h3>Account manager functions</h3>
+<ul>
+<li> Attach to and detach from an account manager
+such as GridRepublic or BOINCStats.
+<li> Verify that the core client periodically synchronizes with
+the account manager.
+<li> Verify that the core client won't let you detach from
+a project that you attached via the account manager.
+<li> NOTE: If you find bugs in the account manager itself,
+report them directly to the account manager admins,
+not to BOINC Alpha.
 </ul>
 ";
 ?>

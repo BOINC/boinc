@@ -83,8 +83,8 @@ Each area is managed by an 'owner'.
 </tr>
 <tr>
     <td>Wiki-based documentation</td>
+    <td>Christopher Malton and Rytis Slatkevicius</td>
     <td>Paul Buck</td>
-    <td><br></td>
 </tr>
 <tr>
     <td>Windows installer and screensaver</td>

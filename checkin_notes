@@ -2478,3 +2478,12 @@ Rom    1 Mar 2006
 Rom    1 Mar 2006 (HEAD)
     - Tag for 5.3.23 release, all platforms
       boinc_core_release_5_3_23
+
+David  1 Mar 2006
+    - Core client: don't lose <send_gui_rpc_info/> tag from acct mgr URL file
+        when make acct mgr RPC
+    - Core client: make RAM size measurement work on HPUX > 4GB
+
+    client/
+        acct_mgr.C
+        hostinfo_unix.C

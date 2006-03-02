@@ -27,6 +27,7 @@ echo "
     <br>Run BOINC on uncommon platforms,
         or inspect the source code before you run it.
 <li> <a href=acct_mgrs.php>Account managers</a>
+<li> <a href=http://www.cs.wisc.edu/condor/manual/v6.7/3_13Setting_Up.html#SECTION004138000000000000000>BOINC as a Condor backfill job</a>
 </ul>
 <p>
 <h3>Web sites</h3>

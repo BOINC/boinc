@@ -16,7 +16,7 @@ have no control over the creation of BOINC-based projects,
 and in general do not endorse them.
 The BOINC web sites lists some, but not all, projects.
 A more complete list is on the
-<a href=http://boinc-doc.net/boinc-wiki/index.php?title=Catalog_of_BOINC_Powered_Projects>BOINC Wiki</a>.
+<a href=http://boinc-wiki.ath.cx/index.php?title=Catalog_of_BOINC_Powered_Projects>BOINC Wiki</a>.
 
 <p>
 When you participate in a project,

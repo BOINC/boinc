@@ -467,7 +467,7 @@ int HOST_INFO::get_host_info() {
 #elif defined(_HPUX_SOURCE)
     struct pst_static pst; 
     pstat_getstatic(&pst, sizeof(pst), (size_t)1, 0);
-    m_nbytes = (double)pst.physical_memory * (double)pst.page_size;
+    m_nbytes = (long double)pst.physical_memory * (long double)pst.page_size;
 #elif defined(__osf__)
     // Tru64 UNIX.
     // 2005-12-26 SMS.

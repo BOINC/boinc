@@ -80,43 +80,54 @@ This screws up the scheduler.
 
 
 <h3>Result states</h3>
-A result is <b>runnable</b> if
+R is <b>runnable</b> if
 <ul>
-<li> Neither it nor its project is suspended, and
-<li> its files have been downloaded, and
-<li> it hasn't finished computing
+<li> Neither R nor R.project is suspended, and
+<li> R's files have been downloaded, and
+<li> R hasn't finished computing
 </ul>
-A result is <b>runnable soon</b> if
-<ul>
-<li> Neither it nor its project is suspended, and
-<li> it hasn't finished computing
-</ul>
-
 
 <h3>Project states</h3>
-A project is <b>runnable</b> if
+P is <b>runnable</b> if
 <ul>
-<li> it has at least one runnable result
+<li> P has at least one runnable result
+(this implies that P is not suspended).
 </ul>
 
-A project is <b>downloading</b> if
+P is <b>downloading</b> if
 <ul>
-<li> It's not suspended, and
-<li> it has at least one result whose files are being downloaded
+<li> P is not suspended, and
+<li> P has at least one result whose files are being downloaded
+and none of the downloads is deferred.
 </ul>
 
-A project is <b>contactable</b> if
+P is <b>fetchable</b>
+(i.e. the work-fetch policy allows work to be fetched from it) if
 <ul>
-<li> It's not suspended, and
-<li> its master file has already been fetched, and
-<li> it's not deferred (i.e. its minimum RPC time is in the past), and
-<li> it's no-new-work flag is not set
+<li> P is not suspended, and
+<li> P is not deferred (i.e. its minimum RPC time is in the past), and
+<li> P's no-new-work flag is not set, and
+<li> P is not overworked (see definition below), and
+<li> a fetch of P's master file is not pending
 </ul>
 
-A project is <b>potentially runnable</b> if
+P is <b>latency-limited</b> if
 <ul>
-<li> It's either runnable, downloading, or contactable.
+<li> The client's last scheduler RPC to P returned
+a 'no work because of deadlines' flag, and
+<li> the RPC reply's delay request has not yet elapsed.
 </ul>
+This means that P has work available,
+but didn't send any because the work's deadlines couldn't be met
+given the existing work queue.
+<p>
+P is <b>potentially runnable</b> if
+<ul>
+<li> P is either runnable, downloading, fetchable, overworked,
+or latency-limited.
+</ul>
+This means that, to the best of the client's knowledge,
+it could do work for P if it wanted to.
 
 <h3>Debt</h3>
 Intuitively, a project's 'debt' is how much work is owed to it,
@@ -134,20 +145,21 @@ In each case, the debt is recalculated periodically as follows:
    <li> P.debt += W - P.wall_cpu_time (i.e. what P should have gotten
            minus what it got).
     </ul>
-<li> P.debt is normalized (e.g. so that the mean or minimum is zero).
+<li> P.debt is normalized so that the mean or minimum is zero.
 </ul>
 
 
 <b>Short-term debt</b> is used by the CPU scheduler.
 It is adjusted over the set of runnable projects.
 It is normalized so that minimum short-term debt is zero,
-and maximum short-term debt is no greater than 86400 (i.e. one day).
+and maximum short-term debt is no greater than 86,400 (i.e. one day).
 
 <p>
 <b>Long-term debt</b> is used by the work-fetch policy.
 It is defined for all projects,
 and adjusted over the set of potentially runnable projects.
-It is normalized so that average long-term debt is zero.
+It is normalized so that average long-term debt,
+over all project, is zero.
 
 <h2>CPU scheduling policy</h2>
 
@@ -157,8 +169,9 @@ for results that are in danger of missing their deadline,
 and weighted round-robin among other projects if additional CPUs exist.
 This allows the client to meet deadlines that would otherwise be missed,
 while honoring resource shares over the long term.
-The scheduler uses the following data, which are obtained
-by a simulation of round-robin scheduling applied to the current work queue:
+The scheduler uses the following data,
+which are obtained by doing a simulation of round-robin scheduling
+applied to the current work queue:
 <ul>
 <li> deadline_missed(R): whether result R would miss
 its deadline with round-robin scheduling.
@@ -168,23 +181,21 @@ be missed with round-robin scheduling.
 </ul>
 The scheduling policy is:
 <ol>
-<li> Find the project P for which deadlines_missed(P)>0,
-and whose earliest deadline is earliest.
-<li> Schedule deadline_missed(P)
-results of P in order of increasing deadline,
-with preference to those already running.
-<li> If there are more CPUs, and other projects for which
-deadlines_missed(P)>0, go to 1.
-<li> If all CPUs are scheduled, stop;
-otherwise continue to the next step, considering
-only projects with deadlines_missed==0.
+<li> Find the result R (not scheduled yet)
+for which deadline_missed(R)
+and whose deadline is earliest.
+Tiebreaker: preference to result already running.
+<li> If such an R exists, schedule R
+<li> If there are more CPUs, and unscheduled results
+deadline_missed(R), go to 1.
+<li> If all CPUs are scheduled, stop.
 <li> Set the 'anticipated debt' of each project to its short-term debt
 <li> Find the project P with the greatest anticipated debt,
 select one of P's runnable results
 (picking one that is already running, if possible)
 and schedule that result.
 <li> Decrement P's anticipated debt by the 'expected payoff'
-    (the total wall CPU in the last period divided by NCPUS).
+(the scheduling period divided by NCPUS).
 <li> Repeat steps 6 and 7 for additional CPUs
 </ol>
 
@@ -196,20 +207,50 @@ or when the user performs a UI interaction
 (e.g. suspending or resuming a project or result).
 
 <p>
-The CPU scheduler produces a list of results to run,
-but they are not necessarily run immediately;
-the enforcement of the schedule is done asynchronously.
-A currently
+The CPU scheduler decides what result should run,
+but it doesn't enforce this decision
+(by preempting, resuming and starting applications).
+This enforcement is done by a separate function,
+which runs periodically, and is also called by
+the CPU scheduler at its conclusion.
+The following rules apply to application preemption:
+<ul>
+<li> If the 'leave in memory' preference is not set,
+an application scheduled for preemption is allowed to run for
+up to sched_interval/2 additional seconds, or until it checkpoints.
+<li>
+The above does not apply for application being preempted
+to run a result R for which deadline_missed(R).
+<li> If an application has never checkpointed,
+it is always left in memory on preemption.
+</ul>
+
 
 <h2>Work-fetch policy</h2>
 
 <p>
+When a result runs in EDF mode,
+its project may get more than its share of CPU time.
+The work-fetch policy is responsible for
+ensuring that this doesn't happen repeatedly.
+It does this by suppressing work fetch for the project.
+<p>
+A project P is <b>overworked</b> if
+<ul>
+<li> P.long_term_debt < -sched_period
+</ul>
+<p>
+This condition occurs if P's results run in EDF mode
+(and in extreme cases, when a project with large negative LTD
+is detached).
+
+<p>
 The work-fetch policy uses the functions
 <pre>
-prrs(project P)
+frs(project P)
 </pre>
 <blockquote>
-P's fractional resource share among potentially runnable projects.
+P's fractional resource share among fetchable projects.
 </blockquote>
 
 <pre>
@@ -219,41 +260,43 @@ min_results(project P)
 The minimum number of runnable results needed to
 maintain P's resource share on this machine: namely,
 <br>
-ceil(ncpus*prrs(P))
+ceil(ncpus*frs(P))
 </blockquote>
+
 <pre>
 time_until_work_done(project P)
 </pre>
 <blockquote>
 The estimated wall time until the number of
 uncompleted results for this project will reach min_results(P)-1,
-assuming round-robin scheduling among
-the current potentially runnable projects.
+assuming round-robin scheduling among currently fetchable projects.
+</blockquote>
+
+<pre>
+time_until_free_cpu()
+</pre>
+<blockquote>
+The estimated wall time until there is a free CPU,
+assuming round-robin scheduling among currently fetchable projects.
 </blockquote>
 <p>
-The work-fetch policy function is called every 5 seconds
+The work-fetch policy function is called every few minutes
 (or as needed) by the scheduler RPC polling function.
+It sets the variable <b>work_request_size(P)</b> for each project P,
+which is the number of seconds of work to request
+if we do a scheduler RPC to P.
+This is computed as follows:
+<pre>
+    if P is suspended, deferred, overworked, or no-new-work
+        return 0
+    if time_until_work_done(P) > min_queue or CPU scheduler scheduled all CPUs by EDF
+        if time_until_cpu_free() < min_queue
+            return 1
+        else
+            return 0
+    y = estimated wall time of P's queued work
+    return max(1, (min_queue*ncpus*frs(P)) - y)
 </pre>
-It sets the following variable for each project P:
-<p>
-    <b>work_request_size(P)</b>:
-    the number of seconds of work to request if we do a scheduler RPC to P.
-    This is
-    <ul>
-    <li>
-    0 if P is suspended, deferred, or no-new-work
-    <li>
-    0 if time_until_work_done(P) > min_queue
-    <li>
-    0 if CPU scheduler scheduled all CPUs by EDF
-    <li>
-    0 if P.long_term_debt < -(CPU sched interval)
-        (project has been using more than its share of CPU;
-         e.g. repeatedly doing short-deadline results).
-    <li>
-    otherwise:
-    (min_queue*ncpus*prrs(P)) - (estimated wall time of queued work)
-    </ul>
 
 <p>
 The scheduler RPC mechanism may select a project to contact
@@ -267,16 +310,66 @@ P.long_term_debt - time_until_work_done(P) is greatest
 </pre>
 and gets work from that project.
 <hr>
-Scheduler request must include:
-whether sporadic network connection (period);
-whether in EDF mode.
-Resource fractions?
+<h2>Scheduler work-send policy</h2>
 <p>
-Scheduler reply should include (it no work sent)
-if reason is because we're overloaded.
+NOTE: the following has not been implemented,
+and is independent of the above policies.
 <p>
-If last response was 'no work', don't accumulate LTD.
+The scheduler should avoid sending results whose
+deadlines are likely to be missed,
+or which are likely to cause existing results to miss their deadlines.
+This will be accomplished as follows:
+<ul>
+<li>
+Scheduler requests includes connection period,
+list of queued result (with estimated time remaining and deadline)
+and project resource fractions.
+<li>
+The scheduler won't send results whose deadlines are less than
+now + min_queue.
+<li>
+The scheduler does an EDF simulation of the initial workload
+to see what results meet their deadline.
+For each result R being considered for sending,
+the scheduler does an EDF simulation.
+If R meets its deadline,
+all results that missed their deadlines do so by
+no more than they did previously,
+and all results that originally met their deadline still do,
+R is sent.
+<li>
+If the scheduler has work but doesn't send any because of deadline misses,
+it returns a 'no work because of deadlines' flag.
+If the last RPC to a project returned this flag,
+it is marked as latency-limited and accumulates LTD.
+</ul>
+<hr>
+<h2>Describing scenarios</h2>
+<p>
+We encourage the use of the following notation for
+describing scheduling scenarios
+(times are given in hours):
+<p>
+P(C, D, R)
+<p>
+This describes a project with
+<ul>
+<li> C = CPU time per task
+<li> D = delay bound
+<li> R = fractional resource share
+</ul>
 
+A scenario is described by a list of project,
+plus the following optional parameters:
+<ul>
+<li> NCPUS: number of CPUS (default 1)
+<li> min_queue
+</ul>
+
+Hence a typical scenario description is:
+<pre>
+(P1(1000, 2000, .5), P2(1, 10, .5), NCPUS=4)
+</pre>
 ";
 page_tail();
 ?>

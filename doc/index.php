@@ -30,7 +30,7 @@ resources.
 <td valign=top>
 <table width=100% border=0 cellspacing=0 cellpadding=8>
   <tr><td bgcolor=$light_blue>
-    <h2>&nbsp;Donate computing power</h2>
+    <h2>&nbsp;Participate</h2>
   </td></tr>
   <tr><td>
     <p>
@@ -63,18 +63,18 @@ resources.
     </ul>
     <p>
     You can participate in more than one project,
-    and you control the fraction of your computing power
-    that goes to each project.
+    and you control how much of your computing power
+    goes to each project.
     If you participate in several projects,
     your computer will be kept busy even when one project has no work.
     <p>
     To participate:
-    <ul>
+    <ol>
     <li> <a href=projects.php>Select projects</a>
     <li> <a href=download.php>Download</a> and run BOINC software
     <li> Enter the project's URL (visit the project's web site,
     and copy the URL from your browser's address field).
-    </ul>
+    </ol>
     <center>
     <a href=participate.php><b>More info</a> 
     | <a href=download.php><b>Download</a>
@@ -86,12 +86,20 @@ resources.
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Create a volunteer computing project</h2></td></tr>
   <tr><td>
-    Scientists with computationally-intensive tasks
-    may be able to use BOINC.
+    If you are a scientist with a computationally-intensive task,
+    you may be able to use BOINC.
     A BOINC project with a single Linux server
     can provide computing power equivalent
     to a cluster with tens of thousands of CPUs.
-    <p><a href=create_project.php>More info</a> 
+    <p>
+    If you lack the resources (manpower, server capacity,
+    or network bandwidth) to operate a BOINC project directly,
+    organizations such as World Community Grid may be able
+    to assist you.
+    Please <a href=contact.php>contact us</a> for information.
+    <center>
+    <p><b><a href=create_project.php>More info</a> 
+    </center>
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Software</h2></td></tr>
   <tr><td>

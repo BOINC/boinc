@@ -95,10 +95,10 @@ int ACCT_MGR_OP::do_rpc(
         gstate.core_client_release,
         run_mode_name[gstate.user_run_request]
     );
-    if (strlen(ami.previous_host_cpid)) {
+    if (strlen(gstate.acct_mgr_info.previous_host_cpid)) {
         fprintf(f,
             "   <previous_host_cpid>%s</previous_host_cpid>\n",
-            ami.previous_host_cpid
+            gstate.acct_mgr_info.previous_host_cpid
         );
     }
     if (gstate.acct_mgr_info.send_gui_rpc_info) {
@@ -284,7 +284,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     }
 
     if (sig_ok) {
-        gstate.acct_mgr_info = ami;
+        strcpy(gstate.acct_mgr_info.acct_mgr_name, ami.acct_mgr_name);
+        strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
 
         // attach to new projects
         //
@@ -318,7 +319,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         }
     }
 
-    strcpy(ami.previous_host_cpid, gstate.host_info.host_cpid);
+    strcpy(gstate.acct_mgr_info.previous_host_cpid, gstate.host_info.host_cpid);
     if (repeat_sec) {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + repeat_sec;
     } else {
@@ -340,7 +341,7 @@ int ACCT_MGR_INFO::write_info() {
                 acct_mgr_name,
                 acct_mgr_url
             );
-            if (send_gui_rpc_info) fprintf(p,"   <send_gui_rpc_info/>\n");
+            if (send_gui_rpc_info) fprintf(p,"    <send_gui_rpc_info/>\n");
             if (strlen(signing_key)) {
                 fprintf(p, 
                     "    <signing_key>\n%s</signing_key>\n",
@@ -405,9 +406,7 @@ int ACCT_MGR_INFO::init() {
         if (match_tag(buf, "</acct_mgr>")) break;
         else if (parse_str(buf, "<name>", acct_mgr_name, 256)) continue;
         else if (parse_str(buf, "<url>", acct_mgr_url, 256)) continue;
-        else if (match_tag(buf, "<send_gui_rpc_info/>")) {
-            send_gui_rpc_info = true;
-        }
+        else if (parse_bool(buf, "send_gui_rpc_info", send_gui_rpc_info)) continue;
         else if (match_tag(buf, "<signing_key>")) {
             retval = copy_element_contents(
                 p,
