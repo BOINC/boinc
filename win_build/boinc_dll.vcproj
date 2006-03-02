@@ -168,6 +168,9 @@
 				RelativePath="..\clientlib\win\NetworkTracker.cpp">
 			</File>
 			<File
+				RelativePath="..\clientlib\win\Service.cpp">
+			</File>
+			<File
 				RelativePath="..\clientlib\win\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">

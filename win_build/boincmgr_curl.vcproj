@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="boincmgr"
 	ProjectGUID="{06113715-AC51-4E91-8B9D-C987CABE0920}"
+	RootNamespace="boincmgr"
 	SccProjectName=""
 	SccLocalPath=""
 	Keyword="MFCProj">
@@ -40,10 +41,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26_adv.lib wxbase26.lib wxbase26_net.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26_adv.lib wxbase26.lib wxbase26_net.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib boinc_dll.lib"
 				OutputFile="$(OutDir)/boincmgr.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib;$(WXWIN)\contrib\lib"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/boincmgr.pdb"
@@ -107,10 +108,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26d_adv.lib wxbase26d.lib wxbase26d_net.lib wxmsw26d_core.lib wxmsw26d_html.lib wxregexd.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26d_adv.lib wxbase26d.lib wxbase26d_net.lib wxmsw26d_core.lib wxmsw26d_html.lib wxregexd.lib boinc_dll.lib"
 				OutputFile="$(OutDir)/boincmgr.exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib;$(WXWIN)\contrib\lib"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/boincmgr.pdb"

@@ -53,11 +53,18 @@
 
 
 #ifdef __WXMSW__
-typedef BOOL (*pfnClientLibraryStartup)();
-typedef void (*pfnClientLibraryShutdown)();
-typedef int  (*pfnBOINCIsNetworkAlive)(long* lpdwFlags);
-typedef int  (*pfnBOINCIsNetworkAlwaysOnline)();
-typedef DWORD (*pfnBOINCGetIdleTickCount)();
+EXTERN_C BOOL  IsBOINCServiceInstalled();
+EXTERN_C BOOL  IsBOINCServiceStarting();
+EXTERN_C BOOL  IsBOINCServiceRunning();
+EXTERN_C BOOL  IsBOINCServiceStopping();
+EXTERN_C BOOL  IsBOINCServiceStopped();
+EXTERN_C BOOL  StartBOINCService();
+EXTERN_C BOOL  StopBOINCService();
+EXTERN_C BOOL  ClientLibraryStartup();
+EXTERN_C void  ClientLibraryShutdown();
+EXTERN_C int   BOINCIsNetworkAlive(long* lpdwFlags);
+EXTERN_C int   BOINCIsNetworkAlwaysOnline();
+EXTERN_C DWORD BOINCGetIdleTickCount();
 #endif
 
 IMPLEMENT_APP(CBOINCGUIApp)
@@ -536,9 +543,22 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     int retval;
     bool running;
     RPC_CLIENT rpc;
+
+#ifdef __WXMSW__
+
+    if (IsBOINCServiceInstalled()) {
+        running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
+    } else {
+        retval = rpc.init("localhost");  // synchronous is OK since local
+        running = (retval == 0);
+        rpc.close();
+    }
+    
+#else
     retval = rpc.init("localhost");  // synchronous is OK since local
     running = (retval == 0);
     rpc.close();
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function End"));
     return running;
@@ -809,23 +829,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 
 int CBOINCGUIApp::ClientLibraryStartup() {
 #ifdef __WXMSW__
-    // load dll and start idle detection
-    m_hClientLibraryDll = LoadLibrary("boinc.dll");
-    if(m_hClientLibraryDll) {
-        pfnClientLibraryStartup fn;
-        fn = (pfnClientLibraryStartup)GetProcAddress(m_hClientLibraryDll, wxT("ClientLibraryStartup"));
-        if(!fn) {
-            FreeLibrary(m_hClientLibraryDll);
-            m_hClientLibraryDll = NULL;
-            return -1;
-        } else {
-            if(!fn()) {
-                FreeLibrary(m_hClientLibraryDll);
-                m_hClientLibraryDll = NULL;
-                return -1;
-            }
-        }
-    }
+    ::ClientLibraryStartup();
 #endif
     return 0;
 }
@@ -833,17 +837,7 @@ int CBOINCGUIApp::ClientLibraryStartup() {
 
 int CBOINCGUIApp::ClientLibraryShutdown() {
 #ifdef __WXMSW__
-    if(m_hClientLibraryDll) {
-        pfnClientLibraryShutdown fn;
-        fn = (pfnClientLibraryShutdown)GetProcAddress(m_hClientLibraryDll, wxT("ClientLibraryShutdown"));
-        if(fn) {
-            fn();
-        } else {
-            return -1;
-        }
-        FreeLibrary(m_hClientLibraryDll);
-        m_hClientLibraryDll = NULL;
-    }
+    ::ClientLibraryShutdown();
 #endif
     return 0;
 }
@@ -851,15 +845,7 @@ int CBOINCGUIApp::ClientLibraryShutdown() {
 
 int CBOINCGUIApp::IsNetworkAlive(long* lpdwFlags) {
 #ifdef __WXMSW__
-    if(m_hClientLibraryDll) {
-        pfnBOINCIsNetworkAlive fn;
-        fn = (pfnBOINCIsNetworkAlive)GetProcAddress(m_hClientLibraryDll, wxT("BOINCIsNetworkAlive"));
-        if(fn) {
-            return fn(lpdwFlags);
-        } else {
-            return -1;
-        }
-    }
+    return BOINCIsNetworkAlive(lpdwFlags);
 #endif
     return TRUE;
 }
@@ -867,15 +853,7 @@ int CBOINCGUIApp::IsNetworkAlive(long* lpdwFlags) {
 
 int CBOINCGUIApp::IsNetworkAlwaysOnline() {
 #ifdef __WXMSW__
-    if(m_hClientLibraryDll) {
-        pfnBOINCIsNetworkAlwaysOnline fn;
-        fn = (pfnBOINCIsNetworkAlwaysOnline)GetProcAddress(m_hClientLibraryDll, wxT("BOINCIsNetworkAlwaysOnline"));
-        if(fn) {
-            return fn();
-        } else {
-            return -1;
-        }
-    }
+    return BOINCIsNetworkAlwaysOnline();
 #endif
     return TRUE;
 }
@@ -883,15 +861,7 @@ int CBOINCGUIApp::IsNetworkAlwaysOnline() {
 
 int CBOINCGUIApp::UpdateSystemIdleDetection() {
 #ifdef __WXMSW__
-    if (m_hClientLibraryDll) {
-        pfnBOINCGetIdleTickCount fn;
-        fn = (pfnBOINCGetIdleTickCount)GetProcAddress(m_hClientLibraryDll, wxT("BOINCGetIdleTickCount"));
-        if(fn) {
-            fn();
-        } else {
-            return -1;
-        }
-    }
+    return BOINCGetIdleTickCount();
 #endif
     return 0;
 }

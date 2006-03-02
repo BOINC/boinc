@@ -21,6 +21,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_cmd", "boinccmd.vcpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincmgr", "boincmgr_curl.vcproj", "{06113715-AC51-4E91-8B9D-C987CABE0920}"
 	ProjectSection(ProjectDependencies) = postProject
+		{B06280CB-82A4-46DE-8956-602643078BDF} = {B06280CB-82A4-46DE-8956-602643078BDF}
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E} = {C04F0FCC-BB5D-4627-8656-6173B28BD69E}
 	EndProjectSection
 EndProject

@@ -2499,3 +2499,18 @@ Rom    2 Mar 2006
         windows_opengl.C
     lib/
         gui_rpc_client_ops.C
+
+Rom    2 Mar 2006
+    - Further refinements to the core client launch code when the core client
+        has been configured as a service.
+        
+      NOTE: boincmgr.exe now explictly depends on boinc.dll
+        
+    clientgui/
+        BOINCGUIApp.cpp
+    clientlib/win/
+        Service.cpp
+    win_build/
+        boinc.sln
+        boinc_dll.vcproj
+        boincmgr_curl.vcproj
