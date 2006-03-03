@@ -264,7 +264,11 @@ make_new_host:
 
         reply.host = host;
         reply.hostid = reply.host.id;
-        // this tells client to updates its host ID
+            // this tells client to updates its host ID
+        sreq.rpc_seqno = 0;
+            // this value eventually gets written to host DB record;
+            // for new hosts it must be zero.
+            // This kludge forces this.
     }
 
     // have user record in reply.user at this point
@@ -377,6 +381,10 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     return 0;
 }
 
+// update the DB record to the values in "xhost"
+// "initial_host" stores the current DB values;
+// update only those fields that have changed
+//
 static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     DB_HOST host;
     int retval;

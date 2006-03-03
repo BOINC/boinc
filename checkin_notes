@@ -2561,3 +2561,11 @@ David  3 Mar 2006
 
 	client/
 		cs_scheduler.C
+
+David  3 Mar 2006
+    - scheduler: server-side fix for above bug.
+        If we create a new host record,
+        pretend that the client sent rpc_seqno 0
+
+    sched/
+        handle_request.C
