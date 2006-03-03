@@ -2549,3 +2549,15 @@ David  2 Mar 2006
 
     client/
         cs_scheduler.C
+
+David  3 Mar 2006
+	- core client: on scheduler RPC, if our host ID is zero,
+		set RPC seqno to zero also.
+		This avoids a bug where the scheduler creates a new host record
+		with rpc_seqno zero, and then on the next RPC creates
+		ANOTHER host record because the client's rpc_seqno is > 0
+	- core client: propagate host CPID change only
+		if we're using an account manager.
+
+	client/
+		cs_scheduler.C

@@ -237,6 +237,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         prrs_fraction = 1;
     }
 
+    // if hostid is zero, rpc_seqno better be also
+    //
+    if (!p->hostid) {
+        p->rpc_seqno = 0;
+    }
+
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
     fprintf(f,
@@ -1025,6 +1031,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     // and generate a new host CPID
     //
     if (sr.hostid) {
+        //msg_printf(project, MSG_INFO, "Changing host ID from %d to %d", project->hostid, sr.hostid);
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;
         generate_new_host_cpid();
@@ -1123,13 +1130,16 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
 }
 
 // Choose a new host CPID.
-// Do scheduler RPCs to all projects to propagate the CPID
+// If using account manager,
+// do scheduler RPCs to all projects to propagate the CPID
 //
 void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
-    for (unsigned int i=0; i<projects.size(); i++) {
-        projects[i]->sched_rpc_pending = true;
-        projects[i]->min_rpc_time = now + 15;
+    if (strlen(acct_mgr_info.acct_mgr_url)) {
+        for (unsigned int i=0; i<projects.size(); i++) {
+            projects[i]->sched_rpc_pending = true;
+            projects[i]->min_rpc_time = now + 15;
+        }
     }
 }
 
