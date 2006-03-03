@@ -32,6 +32,8 @@
 
 
 CBOINCDialUpManager::CBOINCDialUpManager() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::CBOINCDialUpManager - Function Begin"));
+
     m_pDialupManager = wxDialUpManager::Create();
     wxASSERT(m_pDialupManager->IsOk());
 
@@ -53,11 +55,17 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
         _("%s - Network Status"),
         wxGetApp().GetBrand()->GetApplicationName().c_str()
     );
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::CBOINCDialUpManager - Function End"));
 }
 
 
 CBOINCDialUpManager::~CBOINCDialUpManager() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::~CBOINCDialUpManager - Function Begin"));
+
     delete m_pDialupManager;
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::~CBOINCDialUpManager - Function End"));
 }
 
 
