@@ -312,7 +312,7 @@ done:
 
 bool ACTIVE_TASK::finish_file_present() {
     char path[256];
-    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, BOINC_FINISH_CALLED_FILE);
+    sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     return (boinc_file_exists(path) != 0);
 }
 
@@ -564,7 +564,7 @@ bool ACTIVE_TASK::read_stderr_file() {
     std::string stderr_file;
     char path[256];
 
-    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
+    sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (boinc_file_exists(path) && !read_file_string(path, stderr_file)) {
         // truncate stderr output to 63KB;
         // it's unlikely that more than that will be useful

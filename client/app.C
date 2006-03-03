@@ -256,10 +256,10 @@ int ACTIVE_TASK::move_trickle_file() {
     int retval;
 
     get_project_dir(result->project, project_dir);
-    sprintf(old_path, "%s%strickle_up.xml", slot_dir, PATH_SEPARATOR);
+    sprintf(old_path, "%s/trickle_up.xml", slot_dir);
     sprintf(new_path,
-        "%s%strickle_up_%s_%d.xml",
-        project_dir, PATH_SEPARATOR, result->name, (int)time(0)
+        "%s/trickle_up_%s_%d.xml",
+        project_dir, result->name, (int)time(0)
     );
     retval = boinc_rename(old_path, new_path);
 

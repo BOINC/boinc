@@ -307,7 +307,7 @@ int clean_out_dir(const char* dirpath) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        sprintf(path, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
+        sprintf(path, "%s/%s", dirpath,  filename);
         clean_out_dir(path);
         boinc_rmdir(path);
         retval = boinc_delete_file(path);
@@ -334,7 +334,7 @@ int dir_size(const char* dirpath, double& size) {
     while (1) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        sprintf(subdir, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
+        sprintf(subdir, "%s/%s", dirpath, filename);
 
         // We don't know if this entry is a file or a directory.
         // dir_size() will return -1 if it's a file
@@ -485,7 +485,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
         p = strchr(q, '/');
         if (!p) break;
         *p = 0;
-        sprintf(newpath, "%s%s%s", oldpath, PATH_SEPARATOR, q);
+        sprintf(newpath, "%s/%s", oldpath, q);
         retval = boinc_mkdir(newpath);
         if (retval) return retval;
         strcpy(oldpath, newpath);
@@ -544,7 +544,7 @@ void relative_to_absolute(const char* relname, char* path) {
     getcwd(path, 256);
 #endif
     if (strlen(relname)) {
-        strcat(path, PATH_SEPARATOR);
+        strcat(path, "/");
         strcat(path, relname);
     }
 }

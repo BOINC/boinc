@@ -139,6 +139,7 @@ language("Japanese", array(
         "translation by Komori Hitoshi")
 ));
 language("Polish", array(
+    site("http://www.boinc.org.pl/", "Team boinc.pl"),
     site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
     site("http://www.boincatpoland.org", "BOINC@Poland"),
     site("http://www.boinc.pl", "www.boinc.pl")

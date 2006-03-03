@@ -60,7 +60,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         *p = '_';
         t = atoi(p+1);
 
-        sprintf(path, "%s%s%s", project_dir, PATH_SEPARATOR, fname);
+        sprintf(path, "%s/%s", project_dir, fname);
         retval = read_file_malloc(path, file_contents);
         if (retval) continue;
         fprintf(f,
@@ -78,7 +78,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         // append .sent to filename, so we'll know which ones to delete later
         //
         if (!ends_with(fname, ".sent")) {
-            sprintf(newpath, "%s%s%s.sent", project_dir, PATH_SEPARATOR, fname);
+            sprintf(newpath, "%s/%s.sent", project_dir, fname);
             boinc_rename(path, newpath);
         }
     }
@@ -100,7 +100,7 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
         strcpy(fname, fn.c_str());
         if (!starts_with(fname, "trickle_up")) continue;
         if (!ends_with(fname, ".sent")) continue;
-        sprintf(path, "%s%s%s", project_dir, PATH_SEPARATOR, fname);
+        sprintf(path, "%s/%s", project_dir, fname);
         boinc_delete_file(path);
     }
     return 0;
@@ -124,7 +124,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
             if (!rp) return ERR_NULL;
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (!atp) return ERR_NULL;
-            sprintf(path, "%s%strickle_down_%d", atp->slot_dir, PATH_SEPARATOR, send_time);
+            sprintf(path, "%s/trickle_down_%d", atp->slot_dir, send_time);
             FILE* f = fopen(path, "w");
             if (!f) return ERR_FOPEN;
             fputs(body.c_str(), f);

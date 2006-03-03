@@ -477,7 +477,7 @@ void CLIENT_STATE::check_anonymous() {
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         get_project_dir(p, dir);
-        sprintf(path, "%s%s%s", dir, PATH_SEPARATOR, APP_INFO_FILE_NAME);
+        sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
         msg_printf(p, MSG_INFO,

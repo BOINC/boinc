@@ -2569,3 +2569,22 @@ David  3 Mar 2006
 
     sched/
         handle_request.C
+
+David  3 Mar 2006
+    - On project attach: if PROJECT/app_info.xml exists,
+        don't clear out the project directory.
+        This makes life easier for people who use anonymous platform;
+        they don't have to re-download apps.
+        (suggested by Lars Bausch)
+    - Eliminate the PATH_SEPARATOR symbol.  Just use /
+
+    client/
+        app.C
+        app_control.C
+        app_start.C
+        cs_account.C
+        cs_statefile.C
+        cs_trickle.C
+        file_names.C
+    lib/
+        filesys.C,h

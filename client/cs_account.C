@@ -351,7 +351,7 @@ int CLIENT_STATE::add_project(
     const char* master_url, const char* _auth,
     bool attached_via_acct_mgr
 ) {
-    char path[256], canonical_master_url[256], auth[256];
+    char path[256], canonical_master_url[256], auth[256], dir[256];
     PROJECT* project;
     FILE* f;
     int retval;
@@ -371,7 +371,7 @@ int CLIENT_STATE::add_project(
         return ERR_AUTHENTICATOR;
     }
 
-    // check if this project is already running
+    // check if we're already attached to this project
     //
     if (lookup_project(canonical_master_url)) {
         msg_printf(0, MSG_ERROR, "Already attached to %s", canonical_master_url);
@@ -398,8 +398,14 @@ int CLIENT_STATE::add_project(
     if (retval) return retval;
 
     // remove any old files
+    // (unless PROJECT/app_info.xml is found, so that
+    // people using anonymous platform don't have to get apps again)
     //
-    retval = remove_project_dir(*project);
+    get_project_dir(project, dir);
+    sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
+    if (!boinc_file_exists(path)) {
+        retval = remove_project_dir(*project);
+    }
 
     retval = make_project_dir(*project);
     if (retval) return retval;

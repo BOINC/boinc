@@ -51,7 +51,7 @@ void escape_project_url(char *in, char* out) {
 void get_project_dir(PROJECT* p, char* path) {
     char buf[256];
     escape_project_url(p->master_url, buf);
-    sprintf(path, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+    sprintf(path, "%s/%s", PROJECTS_DIR, buf);
 }
 
 // Gets the pathname of a file
@@ -65,7 +65,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
     //
     if (p) {
         get_project_dir(p, buf);
-        sprintf(path, "%s%s%s", buf, PATH_SEPARATOR, fip->name);
+        sprintf(path, "%s/%s", buf, fip->name);
     } else {
         strcpy(path, fip->name);
     }
@@ -95,7 +95,7 @@ void get_master_filename(PROJECT& project, char* buf) {
 // Returns the location of a numbered slot directory
 //
 void get_slot_dir(int slot, char* path) {
-    sprintf(path, "%s%s%d", SLOTS_DIR, PATH_SEPARATOR, slot);
+    sprintf(path, "%s/%d", SLOTS_DIR, slot);
 }
 
 // Create the directory for the project p

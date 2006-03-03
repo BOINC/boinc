@@ -98,8 +98,8 @@ int ACTIVE_TASK::link_user_files() {
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) continue;
         get_pathname(fip, file_path);
-        sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
-        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+        sprintf(link_path, "%s/%s", slot_dir, strlen(fref.open_name)?fref.open_name:fip->name);
+        sprintf(buf, "../../%s", file_path);
         retval = boinc_link(buf, link_path);
         if (retval) return retval;
     }
@@ -130,7 +130,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 
 #else
     char init_data_path[256];
-    sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
+    sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
 	// ftok() only works if there's a file at the given location
 	//
@@ -190,7 +190,7 @@ int ACTIVE_TASK::write_app_init_file() {
     //
     aid.wu_cpu_time = episode_start_cpu_time;
 
-    sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
+    sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
     f = boinc_fopen(init_data_path, "w");
     if (!f) {
         msg_printf(wup->project, MSG_ERROR,
@@ -219,10 +219,10 @@ static int setup_file(
     int retval;
 
     sprintf(link_path,
-        "%s%s%s", slot_dir, PATH_SEPARATOR,
-        strlen(fref.open_name)?fref.open_name:fip->name
+        "%s/%s",
+        slot_dir, strlen(fref.open_name)?fref.open_name:fip->name
     );
-    sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+    sprintf(buf, "../../%s", file_path );
     if (fref.copy_file) {
         retval = boinc_copy(file_path, link_path);
         if (retval) {
@@ -470,7 +470,7 @@ int ACTIVE_TASK::start(bool first_time) {
 	strcpy(cmdline, wup->command_line.c_str());
 	parse_command_line(cmdline, argv+1);
 	debug_print_argv(argv);
-	sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
+	sprintf(buf, "../../%s", exec_path );
 	pid = spawnv(P_NOWAIT, buf, argv);
 	if (pid == -1) {
 		msg_printf(wup->project, MSG_ERROR,
@@ -545,7 +545,7 @@ int ACTIVE_TASK::start(bool first_time) {
         strcpy(cmdline, wup->command_line.c_str());
         parse_command_line(cmdline, argv+1);
         debug_print_argv(argv);
-        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
+        sprintf(buf, "../../%s", exec_path );
         retval = execv(buf, argv);
         msg_printf(wup->project, MSG_ERROR,
             "Process creation (%s) failed: %s\n", buf, boincerror(retval)

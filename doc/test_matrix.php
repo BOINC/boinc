@@ -225,5 +225,12 @@ a project that you attached via the account manager.
 report them directly to the account manager admins,
 not to BOINC Alpha.
 </ul>
+
+<h3>Trickle message and intermediate file uploads</h3>
+<ul>
+<li> Let CPDN run long enough so that it does
+a trickly-up request and an intermediate file upload.
+Make sure that these succeed.
+</ul>
 ";
 ?>
