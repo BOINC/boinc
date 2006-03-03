@@ -2542,3 +2542,10 @@ David  2 Mar 2006
         parse.C,h
     sched/
         file_upload_handler.C
+
+David  2 Mar 2006
+    - core client: when host CPID changes,
+        delay the resulting scheduler RPCs by 15 seconds
+
+    client/
+        cs_scheduler.C

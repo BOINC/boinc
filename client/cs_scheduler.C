@@ -1129,7 +1129,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
     for (unsigned int i=0; i<projects.size(); i++) {
         projects[i]->sched_rpc_pending = true;
-        projects[i]->min_rpc_time = 0;
+        projects[i]->min_rpc_time = now + 15;
     }
 }
 
