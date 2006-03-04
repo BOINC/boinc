@@ -531,7 +531,11 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
             if (bNetworkSuspended) {
                 strBuffer = _("Suspended");
             } else {
-                strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
+                if (transfer->xfer_active) {
+                    strBuffer = transfer->generated_locally? _("Uploading") : _("Downloading");
+                } else {
+                    strBuffer = transfer->generated_locally? _("Upload pending") : _("Download pending");
+                }
             }
         }
     }

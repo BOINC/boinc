@@ -2588,3 +2588,14 @@ David  3 Mar 2006
         file_names.C
     lib/
         filesys.C,h
+
+Walt   3 Mar 2006
+    - GUI RPC: change to <file_transfers> to include files to be
+        transferred that don't have a pers_file_xfer object yet. 
+    - Manager: Don't show 'uploading' or 'downloading' unless file
+        transfer is active.
+
+    client/
+        cs_statefile.C
+    clientgui/
+        ViewTransfers.cpp

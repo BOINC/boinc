@@ -622,7 +622,9 @@ int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     f.printf("<file_transfers>\n");
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
-        if (fip->pers_file_xfer) {
+        if (fip->pers_file_xfer
+           || (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded)
+        ) {
             fip->write_gui(f);
         }
     }
