@@ -349,6 +349,8 @@ def install_boinc_files(dest_dir):
           'boincxml.py', 'configxml.py', 'database.py',
           'db_base.py', 'db_mid.py', 'projectxml.py',
           'sched_messages.py', 'tools.py', 'util.py', 'version.py' ])
+    map(lambda (s): install(srcdir('sched',s), dir('',s)),
+        [ 'db_dump_spec.xml' ])
 
 
 class Project:

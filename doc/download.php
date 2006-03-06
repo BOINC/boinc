@@ -165,8 +165,9 @@ function show_platform($short_name, $p, $dev) {
     }
 }
 
-function show_platform_xml($short_name, $p) {
+function show_platform_xml($short_name, $p, $dev) {
     foreach ($p["versions"] as $i=>$v) {
+        if (!$dev && is_dev($v)) continue;
         show_version_xml($v, $p);
     }
 }
@@ -197,7 +198,7 @@ if ($xml) {
 <versions>
 ";
     foreach($platforms as $short_name=>$p) {
-        show_platform_xml($short_name, $p);
+        show_platform_xml($short_name, $p, $dev);
     }
     echo "</versions>\n";
 } else {

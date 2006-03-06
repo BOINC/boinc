@@ -2,8 +2,19 @@
 require_once("docutil.php");
 page_head("Core client command-line options, configuration files, and environment variables");
 echo "
+The BOINC core client can be controlled by command-line options,
+configuration files, and environment variables.
+<p>
+<b>These features are generally useful only for
+advanced users.</b>
+
 <h3>Configuration files</h3>
+<p>
+BOINC uses the following configuration files.
+You can pre-populate these files to control BOINC in various ways.
 <ul>
+<li> <a href=client_files.php>Account files</a>: each done
+describes an attached project.
 <li> <a href=prefs_override.php>global_prefs_override.xml</a>: override global prefernces
 <li> <a href=client_msgs.php>log_flags.xml</a>: control message logging
 <li> <a href=gui_rpc.php>remote_hosts.cfg</a>: hosts from which remote GUI RPCs is allowed

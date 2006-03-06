@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("March 5, 2006",
+    "Tony/Knightrider/Chuggybus has created BOINC coinage.
+    See the <a href=images/coins/>large</a>
+    and <a href=images/coins_small>small</a> versions.
+    The Latin text means 'Berkeley open and shared resources'.
+    "
+),
 array("March 3, 2006",
     "<a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a>
     announces the public release of the first chemistry BOINC project.

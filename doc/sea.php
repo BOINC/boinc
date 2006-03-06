@@ -1,7 +1,13 @@
 <?php
 require_once("docutil.php");
-page_head("Installing a self-extracting archive");
+page_head("Installing a self-extracting archive (Unix/Linux)");
 echo "
+BOINC for Unix/Linux is available as a self-extracting archive.
+The download files have names like
+<pre>
+boinc_5.2.13_i686-pc-linux-gnu.sh
+</pre>
+
 This type of installation
 requires that you be familiar with the
 UNIX command-line interface.

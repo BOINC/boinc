@@ -1,7 +1,13 @@
 <?php
 require_once("docutil.php");
-page_head("Installing the command-line client");
+page_head("Installing the core client executable");
 echo "
+For some platforms, you can download the BOINC 'core client' by itself.
+The download files have names like:
+<pre>
+boinc_5.2.13_powerpc-apple-darwin.zip
+boinc_4.19_sparc-sun-solaris2.7.gz
+</pre>
 This type of installation requires that you be familiar with the
 UNIX command-line interface.
 
@@ -22,8 +28,9 @@ if your browser has not done it for you.
 </ul>
 
 <p>
-The core client has a number of other
-<a href=client_unix.php>command-line options</a>.
+The core client is controlled by a number of other
+<a href=client_unix.php>command-line options,
+configuration files, and environment variables</a>.
 <p>
 You may want to
 <a href=auto_start.php>automatically start the core client</a>

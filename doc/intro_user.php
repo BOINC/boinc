@@ -5,17 +5,14 @@ require_once("docutil.php");
 page_head("Getting started");
 
 echo "
-It's easy to participate in a BOINC project.
-<ul>
-<li> <b><a href=download.php>Download</a> and install BOINC.</b>
+<h2>How it works</h2>
+It's easy to participate in a BOINC project:
+<a href=download.php>download</a> and install BOINC.</b>
 You will be asked to enter the project's URL, your email address,
 and a password.
-</ul>
 That's it!
 <p>
-<h2>How it works</h2>
-When you run BOINC on your PC,
-it works as follows (see below):
+When you run BOINC on your PC, it does the following:
 <br>
 <center>
 <img hspace=10 vspace=8 src=http://boinc.berkeley.edu/comm_simple.png>

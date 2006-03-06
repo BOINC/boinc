@@ -84,6 +84,12 @@ The 'B in a circle' icon was designed by Tim Lan.
 The Mac variant was contributed by Juho Viitasalo.
 <p>
 
+<h2>Coinage</h2>
+Tony/Knightrider/Chuggybus has created BOINC coinage.
+See the <a href=images/coins/>large</a>
+and <a href=images/coins_small>small</a> versions.
+The Latin text means 'Berkeley open and shared resources'.
+
 <h2>Wallpaper</h2>
 <table cellpadding=8 border=1>
 <tr><th>Artist</th><th>Images</th></tr>

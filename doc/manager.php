@@ -10,14 +10,16 @@ processor resources, and is normally started at boot time.
 <br>On Mac OS X, it is represented by icons in both the menubar and the Dock.
 <!-- ** ROM ** is there an equivalent on Linux to the system tray icon? -->
 
-<img src=mgrsystraymenu.png>
 
 <p>
 On Windows:
     <ul>
     <li>Double-click on the icon to open the BOINC manager window.
-    <li>Right-click on the icon to access its menu.
+    <li>Right-click on the icon to access its menu (shown below).
     </ul>
+<br>
+<img src=mgrsystraymenu.png>
+<br>
 On Mac OS X:
     <ul>
     <li>Click on the icon in the menubar or Dock and hold the

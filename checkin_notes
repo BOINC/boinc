@@ -2625,3 +2625,17 @@ Rom    6 Mar 2006
     locale/client/en_US
         BOINC Manager.mo
         BOINC Manager.po
+
+David  6 Mar 2006
+    - add db_dump_spec.xml to source tree (in sched/)
+        and copy it when create new project
+    - Core client: after read_global_prefs_override GUI RPC,
+        request CPU reschedule (in case #CPUs changed)
+
+    client/
+        file_names.h
+        gui_rpc_server_ops.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        db_dump_spec.xml (new)
