@@ -2618,3 +2618,10 @@ Rom    6 Mar 2006
 Rom    6 Mar 2006 (HEAD)
     - Tag for 5.3.24 release, all platforms
       boinc_core_release_5_3_24
+
+Rom    6 Mar 2006
+    - Update localization Template
+    
+    locale/client/en_US
+        BOINC Manager.mo
+        BOINC Manager.po
