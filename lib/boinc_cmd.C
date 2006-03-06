@@ -420,6 +420,8 @@ int main(int argc, char** argv) {
         } else {
             cao.print();
         }
+    } else if (!strcmp(cmd, "--read_global_prefs_override")) {
+        retval = rpc.read_global_prefs_override();
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {

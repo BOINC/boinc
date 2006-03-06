@@ -2639,3 +2639,9 @@ David  6 Mar 2006
         setup_project.py
     sched/
         db_dump_spec.xml (new)
+
+David  6 Mar 2006
+    - boinc_cmd: add --read_global_prefs_override command
+
+    lib/
+        boinc_cmd.C

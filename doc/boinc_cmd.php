@@ -115,6 +115,11 @@ list_item(
     or display (X11) to use.
     "
 );
+list_item("--read_global_prefs_override",
+    "Tell the core client to read the <code>global_prefs_override.xml</code>
+    file, and incorporate any global preferences indicated there.
+    "
+);
 list_item("--quit", "");
 list_end();
 
