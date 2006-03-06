@@ -489,6 +489,7 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
     );
     m_pAccountConfirmPasswordStaticCtrl->Hide();
     m_pAccountConfirmPasswordCtrl->Hide();
+    m_pAccountPasswordRequirmentsStaticCtrl->Hide();
     m_pAccountEmailAddressCtrl->SetFocus();
     Fit();
 }
@@ -503,6 +504,7 @@ void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
     );
     m_pAccountConfirmPasswordStaticCtrl->Show();
     m_pAccountConfirmPasswordCtrl->Show();
+    m_pAccountPasswordRequirmentsStaticCtrl->Show();
     m_pAccountEmailAddressCtrl->SetFocus();
     Fit();
 }
