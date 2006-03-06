@@ -182,6 +182,8 @@ wxIcon CCompletionPage::GetIconResource( const wxString& name )
 void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+    CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
+
     wxASSERT(m_pCompletionTitle);
     wxASSERT(m_pCompletionWelcome);
     wxASSERT(m_pCompletionBrandedMessage);
@@ -210,17 +212,23 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
         m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
 
-        wxString strMessage;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
-            strMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
-        } else {
-            strMessage = 
-                _("When you click Finish, your web browser will go to a page where\n"
-                  "you can set your account name and preferences.");
-        }
+        if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
+            wxString strMessage;
+            if (wxGetApp().GetBrand()->IsBranded() && 
+                !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
+                strMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
+            } else {
+                strMessage = 
+                    _("When you click Finish, your web browser will go to a page where\n"
+                    "you can set your account name and preferences.");
+            }
 
-        m_pCompletionMessage->SetLabel( strMessage );
+            m_pCompletionMessage->SetLabel( strMessage );
+        } else {
+            m_pCompletionMessage->SetLabel(
+                _("Click Finish to close.")
+            );
+        }
 
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
 

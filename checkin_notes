@@ -2606,3 +2606,11 @@ David  5 Mar 2006
     client/
         cs_scheduler.C
         file_names.h
+
+Rom    6 Mar 2006
+    - Bug Fix: Fix a couple text issues when using an existing account
+        in the wizard
+        
+    clientgui/
+        AccountInfoPage.cpp
+        CompletionPage.cpp

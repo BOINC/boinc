@@ -309,9 +309,16 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountConfirmPasswordCtrl->Hide();
     }
 
-    m_pAccountPasswordStaticCtrl->SetLabel(
-        _("Choose a &password:")
-    );
+    if (m_pAccountUseExistingCtrl->GetValue()) {
+        m_pAccountPasswordStaticCtrl->SetLabel(
+            _("&Password:")
+        );
+    } else {
+        m_pAccountPasswordStaticCtrl->SetLabel(
+            _("Choose a &password:")
+        );
+    }
+
     m_pAccountConfirmPasswordStaticCtrl->SetLabel(
         _("C&onfirm password:")
     );
@@ -477,6 +484,9 @@ void CAccountInfoPage::OnCancel( wxWizardExEvent& event ) {
  */
  
 void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event ) {
+    m_pAccountPasswordStaticCtrl->SetLabel(
+        _("&Password:")
+    );
     m_pAccountConfirmPasswordStaticCtrl->Hide();
     m_pAccountConfirmPasswordCtrl->Hide();
     m_pAccountEmailAddressCtrl->SetFocus();
@@ -488,6 +498,9 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
  */
  
 void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
+    m_pAccountPasswordStaticCtrl->SetLabel(
+        _("Choose a &password:")
+    );
     m_pAccountConfirmPasswordStaticCtrl->Show();
     m_pAccountConfirmPasswordCtrl->Show();
     m_pAccountEmailAddressCtrl->SetFocus();
