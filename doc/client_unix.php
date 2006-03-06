@@ -1,7 +1,18 @@
 <?php
 require_once("docutil.php");
-page_head("Core client command-line options");
+page_head("Core client command-line options, configuration files, and environment variables");
 echo "
+<h3>Configuration files</h3>
+<ul>
+<li> <a href=prefs_override.php>global_prefs_override.xml</a>: override global prefernces
+<li> <a href=client_msgs.php>log_flags.xml</a>: control message logging
+<li> <a href=gui_rpc.php>remote_hosts.cfg</a>: hosts from which remote GUI RPCs is allowed
+<li> <a href=gui_rpc.php>gui_rpc_auth.cfg</a>: GUI RPC password
+<li> <a href=client_startup.php>project_init.xml</a>: startup project
+<li> <a href=client_startup.php>acct_mgr_url.xml</a>: account manager URL
+<li> <a href=client_startup.php>acct_mgr_login.xml</a>: account manager login
+</ul>
+<h3>Command-line options</h3>
 <p>
 The core client has
 command-line options that provide minimal control
@@ -11,7 +22,6 @@ More detailed control, and the ability to interact
 with a running client, is provided by the
 <a href=boinc_cmd.php>BOINC command tool</a>.
 <p>
-<h3>Command-line options</h3>
 ";
 list_start();
 list_item("-help",

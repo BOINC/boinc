@@ -8,6 +8,8 @@ echo "
 
 The follow email lists are available.
 Click to subscribe or post to a list.
+Because of spam problems,
+you must subscribe to a list in order to post to it.
 
 <p>
 <b><font size=+1 color=#f00000>

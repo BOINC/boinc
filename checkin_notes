@@ -2599,3 +2599,10 @@ Walt   3 Mar 2006
         cs_statefile.C
     clientgui/
         ViewTransfers.cpp
+
+David  5 Mar 2006
+    - Maybe fix bug where work fetch stopped
+
+    client/
+        cs_scheduler.C
+        file_names.h

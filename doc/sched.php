@@ -245,8 +245,10 @@ A project P is <b>overworked</b> if
 </ul>
 <p>
 This condition occurs if P's results run in EDF mode
-(and in extreme cases, when a project with large negative LTD
-is detached).
+(and in extreme cases, when a project with large negative LTD is detached).
+The work-fetch policy avoids getting work from overworked projects.
+This prevents a situation where a project with short deadlines
+monopolizes the CPU.
 
 <p>
 The work-fetch policy uses the functions
@@ -288,7 +290,7 @@ if min_queue*ncpus > total_work_before_minq
                 continue
             P.work_request_size = 1
 
-    if global_work_need>0 and P.work_request_size==0 for all P
+    if P.work_request_size==0 for all P
         for each project P
             if P is suspended, deferred, or no-new-work
                 continue

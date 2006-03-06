@@ -1060,12 +1060,7 @@ bool CLIENT_STATE::should_get_work() {
         return true;
     }
 
-    // if the CPU started this time period overloaded,
-    // let it process for a while to get out of the CPU overload state.
-    //
-    if (!work_fetch_no_new_work) {
-        set_work_fetch_mode();
-    }
+    set_work_fetch_mode();
 
     return !work_fetch_no_new_work;
 }
