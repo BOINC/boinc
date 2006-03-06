@@ -58,6 +58,17 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.23
+      <ul>
+        <li>Possible fix to work-fetch policy where the client failed to
+            get more work before running empty.
+        <li>Fix for multiple host creation bug.
+        <li>Fix RAM size detection on HPUX.
+        <li>Fix name, team, and project name changes in the manager,
+        <li>Preserve project directory contents when reattaching to a
+            project that uses the anonymous platform mechinism.
+        <li>More upload/download display fixes.
+      </ul>
     <li>Changes since 5.3.22
       <ul>
         <li>Fix detech from account manager problem.
@@ -171,11 +182,11 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5323= array(
-    "num"=>"5.3.23",
+$w5324= array(
+    "num"=>"5.3.24",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.23_windows_intelx86.exe",
-    "date"=>"1 Mar 2006",
+    "file"=>"boinc_5.3.24_windows_intelx86.exe",
+    "date"=>"6 Mar 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_53."
@@ -419,11 +430,11 @@ $m443s = array(
     "
 );
 
-$l5323 = array(
-    "num"=>"5.3.23",
+$l5324 = array(
+    "num"=>"5.3.24",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.23_i686-pc-linux-gnu.sh",
-    "date"=>"1 Mar 2006",
+    "file"=>"boinc_5.3.24_i686-pc-linux-gnu.sh",
+    "date"=>"6 Mar 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_53."
@@ -491,7 +502,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5323,
+        $w5324,
         $w5213,
         $w445,
     )
@@ -515,7 +526,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5323,
+        $l5324,
         $l5213,
         $l443,
     )
