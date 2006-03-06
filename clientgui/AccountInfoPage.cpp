@@ -299,6 +299,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountQuestionStaticCtrl->Hide();
         m_pAccountCreateCtrl->Hide();
         m_pAccountUseExistingCtrl->Hide();
+        m_pAccountPasswordRequirmentsStaticCtrl->Hide();
+
         if (wxGetApp().GetBrand()->IsBranded() && 
             !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
             m_pAccountInformationStaticCtrl->SetLabel(
