@@ -2686,3 +2686,11 @@ David  7 Mar 2006
 		scheduler_op.C
 	lib/
 		error_numbers.C
+
+Rom    7 Mar 2006
+    - Bug Fix: Somewhere along the line, the code to store the account
+        manager login name and password hash was removed from the source
+        tree.  Put it back in.
+        
+    client/
+        acct_mgr.C

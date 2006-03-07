@@ -72,6 +72,7 @@ int ACCT_MGR_OP::do_rpc(
         error_num = ERR_INVALID_URL;
         return 0;
     }
+
     strcpy(ami.acct_mgr_url, url.c_str());
     strcpy(ami.acct_mgr_name, "");
     strcpy(ami.login_name, name.c_str());
@@ -286,6 +287,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     if (sig_ok) {
         strcpy(gstate.acct_mgr_info.acct_mgr_name, ami.acct_mgr_name);
         strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
+        strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
+        strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
 
         // attach to new projects
         //
