@@ -414,6 +414,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<scheduler_version>%d</scheduler_version>\n",
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
     );
+    if (strlen(config.master_url)) {
+        fprintf(fout,
+            "<master_url>%s</master_url>\n",
+            config.master_url
+        );
+    }
 
     // if the scheduler has requested a delay OR the sysadmin has configured
     // the scheduler with a minimum time between RPCs, send a delay request.

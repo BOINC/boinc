@@ -2652,3 +2652,15 @@ Rom    7 Mar 2006
         
     clientgui/
         MainFrame.cpp
+
+David  7 Mar 2006
+    - scheduler: add <master_url> element to reply
+        (Lets clients check that they have the right project URL)
+    - core client: if a project is suspended, and a scheduler RPC fails,
+        clear the sched_rpc_pending flag so we don't keep retrying
+
+    client/
+        scheduler_op.C
+    sched/
+        sched_config.C,h
+        server_types.C

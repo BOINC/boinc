@@ -43,6 +43,7 @@ int SCHED_CONFIG::parse(char* buf) {
     default_disk_max_used_pct = 50.;
     default_disk_min_free_gb = .001;
 
+    parse_str(buf, "<master_url>", master_url, sizeof(master_url));
     parse_str(buf, "<long_name>", long_name, sizeof(long_name));
     parse_str(buf, "<db_name>", db_name, sizeof(db_name));
     parse_str(buf, "<db_user>", db_user, sizeof(db_user));

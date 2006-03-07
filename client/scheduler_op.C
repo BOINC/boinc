@@ -467,6 +467,12 @@ bool SCHEDULER_OP::poll() {
                 if (url_index == (int) cur_proj->scheduler_urls.size()) {
                     backoff(cur_proj, "No schedulers responded");
                     scheduler_op_done = true;
+
+                    // if project suspended, don't retry failed RPC
+                    //
+                    if (cur_proj->suspended_via_gui) {
+                        cur_proj->sched_rpc_pending = false;
+                    }
                 }
             } else {
                 if (log_flags.sched_ops) {
