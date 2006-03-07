@@ -2645,3 +2645,10 @@ David  6 Mar 2006
 
     lib/
         boinc_cmd.C
+
+Rom    7 Mar 2006
+    - Start the account manager wizard anytime their is an acct_mgr_url.xml
+        file and no credentials.
+        
+    clientgui/
+        MainFrame.cpp

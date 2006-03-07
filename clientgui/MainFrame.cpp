@@ -1591,6 +1591,13 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CWizardAccountManager* pAMWizard = NULL;
+    CWizardAttachProject* pAPWizard = NULL;
+    wxString strName = wxEmptyString;
+    wxString strURL = wxEmptyString;
+    bool bCachedCredentials = false;
+    ACCT_MGR_INFO ami;
+    PROJECT_INIT_STATUS pis;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
@@ -1602,55 +1609,46 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
 
     // Only present one of the wizards if no projects are currently
     //   detected.
-    if (0 >= pDoc->GetProjectCount()) {
-        m_pRefreshStateTimer->Stop();
-        m_pFrameRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Stop();
-        m_pDocumentPollTimer->Stop();
+    m_pRefreshStateTimer->Stop();
+    m_pFrameRenderTimer->Stop();
+    m_pFrameListPanelRenderTimer->Stop();
+    m_pDocumentPollTimer->Stop();
 
-        CWizardAttachProject* pAPWizard = NULL;
-        CWizardAccountManager* pAMWizard = NULL;
-        wxString strName = wxEmptyString;
-        wxString strURL = wxEmptyString;
-        bool bCachedCredentials = false;
-        ACCT_MGR_INFO ami;
-        PROJECT_INIT_STATUS pis;
-
-        pDoc->rpc.acct_mgr_info(ami);
-        if (ami.acct_mgr_url.size()) {
-            pAMWizard = new CWizardAccountManager(this);
-            if (pAMWizard->Run()) {
-                // If successful, hide the main window
-                Hide();
-            } else {
-                // If failure, display the messages tab
-                m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
-            }
+    pDoc->rpc.acct_mgr_info(ami);
+    if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        pAMWizard = new CWizardAccountManager(this);
+        if (pAMWizard->Run()) {
+            // If successful, hide the main window
+            Hide();
         } else {
-            pAPWizard = new CWizardAttachProject(this);
-            pDoc->rpc.get_project_init_status(pis);
-            strName = pis.name.c_str();
-            strURL = pis.url.c_str();
-            bCachedCredentials = pis.url.length() && pis.has_account_key;
-            if (pAPWizard->Run(strName, strURL, bCachedCredentials)) {
-                // If successful, display the work tab
-                m_pNotebook->SetSelection(ID_LIST_WORKVIEW - ID_LIST_BASE);
-            } else {
-                // If failure, display the messages tab
-                m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
-            }
+            // If failure, display the messages tab
+            m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
         }
+    } else if (0 >= pDoc->GetProjectCount()) {
+        pAPWizard = new CWizardAttachProject(this);
+        pDoc->rpc.get_project_init_status(pis);
+        strName = pis.name.c_str();
+        strURL = pis.url.c_str();
+        bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        if (pAMWizard)
-            pAMWizard->Destroy();
-        if (pAPWizard)
-            pAPWizard->Destroy();
-
-        m_pRefreshStateTimer->Start();
-        m_pFrameRenderTimer->Start();
-        m_pFrameListPanelRenderTimer->Start();
-        m_pDocumentPollTimer->Start();
+        if (pAPWizard->Run(strName, strURL, bCachedCredentials)) {
+            // If successful, display the work tab
+            m_pNotebook->SetSelection(ID_LIST_WORKVIEW - ID_LIST_BASE);
+        } else {
+            // If failure, display the messages tab
+            m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+        }
     }
+
+    m_pRefreshStateTimer->Start();
+    m_pFrameRenderTimer->Start();
+    m_pFrameListPanelRenderTimer->Start();
+    m_pDocumentPollTimer->Start();
+
+    if (pAMWizard)
+        pAMWizard->Destroy();
+    if (pAPWizard)
+        pAPWizard->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function End"));
 }
