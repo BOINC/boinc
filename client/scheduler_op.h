@@ -110,6 +110,7 @@ struct SCHEDULER_REPLY {
     char* project_prefs_xml;
         // not including <project_preferences> tags
         // may include <venue> elements
+    char master_url[256];
     char host_venue[256];
     unsigned int user_create_time;
     std::vector<APP> apps;

@@ -569,6 +569,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     global_prefs_xml = 0;
     project_prefs_xml = 0;
     strcpy(host_venue, "");
+    strcpy(master_url, "");
     code_sign_key = 0;
     code_sign_key_signature = 0;
     message_ack = false;
@@ -613,6 +614,32 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             return 0;
         }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
+        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+            if (strcmp(master_url, project->master_url)) {
+                msg_printf(project, MSG_ERROR,
+                    "You are attached to this project under the wrong URL"
+                );
+                msg_printf(project, MSG_ERROR,
+                    "The correct URL is %s", master_url
+                );
+                PROJECT* p2 = gstate.lookup_project(master_url);
+                if (p2) {
+                    msg_printf(project, MSG_ERROR,
+                        "Duplicate attachment detected - detach all projects named %s",
+                        project->project_name
+                    );
+                    msg_printf(project, MSG_ERROR,
+                        "Then reattach to %s", master_url
+                    );
+                } else {
+                    msg_printf(project, MSG_ERROR,
+                        "Detach this project, then reattach to %s",
+                        master_url
+                    );
+                }
+            }
+            continue;
+        }
         else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;

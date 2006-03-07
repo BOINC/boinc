@@ -2664,3 +2664,16 @@ David  7 Mar 2006
     sched/
         sched_config.C,h
         server_types.C
+
+David  7 Mar 2006
+	- core client: print project URL in startup message
+	- core client: is <master_url> is present in a scheduler reply,
+		and it doesn't match project's master URL,
+		print error messages advising detach/reattach.
+		If there's another project with that URL,
+		tell user to detach them both, since (in the BOINC Manager)
+		there's no way to distinguish them.
+
+	client/
+		client_state.C
+		scheduler_op.C,h

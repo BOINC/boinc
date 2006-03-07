@@ -281,7 +281,8 @@ int CLIENT_STATE::init() {
             strcpy(buf, "not assigned yet");
         }
         msg_printf(p, MSG_INFO,
-            "Computer ID: %s; location: %s; project prefs: %s",
+            "URL: %s; Computer ID: %s; location: %s; project prefs: %s",
+            p->master_url,
             buf, p->host_venue,
             p->using_venue_specific_prefs?p->host_venue:"default"
         );
