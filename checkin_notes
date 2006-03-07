@@ -2677,3 +2677,12 @@ David  7 Mar 2006
 	client/
 		client_state.C
 		scheduler_op.C,h
+
+David  7 Mar 2006
+	- don't allow attaching a project with same name as existing project
+
+	client/
+		cs_scheduler.C
+		scheduler_op.C
+	lib/
+		error_numbers.C

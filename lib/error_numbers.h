@@ -166,6 +166,8 @@
 #define ERR_FFLUSH          -216 
 #define ERR_FSYNC           -217
 #define ERR_TRUNCATE        -218
+#define ERR_WRONG_URL       -219
+#define ERR_DUP_NAME        -220
 
 
 // PLEASE: add a text description of your error to 

@@ -717,6 +717,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[256], filename[256];
     std::string old_gui_urls = project->gui_urls;
+    PROJECT* p2;
 
     nresults = 0;
     contacted_sched_server = true;
@@ -730,6 +731,62 @@ int CLIENT_STATE::handle_scheduler_reply(
     retval = sr.parse(f, project);
     fclose(f);
     if (retval) return retval;
+
+    // check that master URL is correct
+    //
+    if (strlen(sr.master_url)) {
+        canonicalize_master_url(sr.master_url);
+        if (strcmp(sr.master_url, project->master_url)) {
+            msg_printf(project, MSG_ERROR,
+                "You are using the wrong URL for this project"
+            );
+            msg_printf(project, MSG_ERROR,
+                "The correct URL is %s", sr.master_url
+            );
+            if (project->tentative) {
+                return ERR_WRONG_URL;
+            }
+            p2 = gstate.lookup_project(sr.master_url);
+            if (p2) {
+                msg_printf(project, MSG_ERROR,
+                    "Duplicate attachment detected - detach all projects named %s",
+                    project->project_name
+                );
+                msg_printf(project, MSG_ERROR,
+                    "Then reattach to %s", sr.master_url
+                );
+            } else {
+                msg_printf(project, MSG_ERROR,
+                    "Detach this project, then reattach to %s",
+                    sr.master_url
+                );
+            }
+        }
+    }
+
+    // make sure we don't already have a project of same name
+    //
+    if (project->tentative) {
+        bool dup_name = false;
+        for (i=0; i<gstate.projects.size(); i++) {
+            p2 = gstate.projects[i];
+            if (project == p2) continue;
+            if (!strcmp(p2->project_name, project->project_name)) {
+                dup_name = true;
+                break;
+            }
+        }
+        if (dup_name) {
+            msg_printf(project, MSG_ERROR,
+                "Already attached to a project named %s (possibly with wrong URL)",
+                project->project_name
+            );
+            msg_printf(project, MSG_ERROR,
+                "Consider detaching this project, then trying again"
+            );
+            return ERR_DUP_NAME;
+        }
+    }
 
     // on the off chance that this is the initial RPC for a project
     // being attached, copy messages to a safe place
