@@ -1,5 +1,5 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "BOINC";
-CFBundleShortVersionString = "BOINC version 5.3.22";
-CFBundleGetInfoString = "BOINC version 5.3.22, Copyright 2005 University of California.";
+CFBundleShortVersionString = "BOINC version 5.3.23";
+CFBundleGetInfoString = "BOINC version 5.3.23, Copyright 2005 University of California.";
