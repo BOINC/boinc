@@ -297,7 +297,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         }
     } else {
         m_pAccountQuestionStaticCtrl->Hide();
+        m_pAccountCreateCtrl->SetValue(FALSE);
         m_pAccountCreateCtrl->Hide();
+        m_pAccountUseExistingCtrl->SetValue(TRUE);
         m_pAccountUseExistingCtrl->Hide();
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
 

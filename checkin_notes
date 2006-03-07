@@ -2694,3 +2694,10 @@ Rom    7 Mar 2006
         
     client/
         acct_mgr.C
+
+Rom    7 Mar 2006
+    - Bug Fix: Choose a password nit for account managers.
+    
+    clientgui/
+        AccountInfoPage.cpp
+
