@@ -211,17 +211,26 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
         wxASSERT(FALSE);
     }
 
-    m_pDirectionsStaticCtrl->SetLabel(
-        _("Click Finish to close.")
-    );
-    m_pServerMessagesDescriptionCtrl->SetLabel(
-        _("Messages from server:")
-    );
+    if (m_pServerMessagesCtrl->GetLabel().IsEmpty()) {
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("An error has occurred, please check the messages tab for further\n"
+              "details.\n"
+              "\n"
+              "Click Finish to close.")
+        );
+    } else {
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("Click Finish to close.")
+        );
+    }
 
-    if (CHECK_CLOSINGINPROGRESS()) {
+    if (CHECK_CLOSINGINPROGRESS() || m_pServerMessagesCtrl->GetLabel().IsEmpty()) {
         m_pServerMessagesDescriptionCtrl->Hide();
         m_pServerMessagesCtrl->Hide();
     } else {
+        m_pServerMessagesDescriptionCtrl->SetLabel(
+            _("Messages from server:")
+        );
         m_pServerMessagesDescriptionCtrl->Show();
         m_pServerMessagesCtrl->Show();
     }

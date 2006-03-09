@@ -333,6 +333,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             m_pAccountUseExistingCtrl->SetValue(true);
             m_pAccountConfirmPasswordStaticCtrl->Hide();
             m_pAccountConfirmPasswordCtrl->Hide();
+            m_pAccountPasswordRequirmentsStaticCtrl->Hide();
 
             m_pAccountCreateCtrl->Disable();
         }

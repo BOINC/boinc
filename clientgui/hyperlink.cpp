@@ -59,15 +59,15 @@ bool wxHyperLink::Create (wxWindow *parent,
 
     // create static text
     okay = wxStaticText::Create (parent, id, label, pos, size, style, name);
-    wxASSERT_MSG (okay, _("Failed to create wxStaticText, needed by wxHyperLink!"));
+    wxASSERT_MSG (okay, wxT("Failed to create wxStaticText, needed by wxHyperLink!"));
 
     // initialize variables
     m_URL = wxEmptyString;
     m_Marked = false;
     m_Visited = false;
-    m_MarkedColour = wxColour (_T("DARK GREY"));
-    m_NormalColour = wxColour (_T("BLUE"));
-    m_VisitedColour = wxColour (_T("PURPLE"));
+    m_MarkedColour = wxColour (wxT("DARK GREY"));
+    m_NormalColour = wxColour (wxT("BLUE"));
+    m_VisitedColour = wxColour (wxT("PURPLE"));
     m_HoverCursor = wxCursor (wxCURSOR_HAND);
 
     // set foreground colour

@@ -2704,3 +2704,26 @@ Rom    7 Mar 2006
 Rom    6 Mar 2006 (HEAD)
     - Tag for 5.3.25 release, all platforms
       boinc_core_release_5_3_25
+
+Rom    9 Mar 2006
+    - Bug Fix: Don't display the minimum password length when a project
+        has account creation disabled in the attach to project wizard.
+    - Bug Fix: Hide the messages from server static box if there are
+        no messages from the server to report.  Instead tell the user
+        to check the messages tab.
+    - Bug Fix: Make the next and back button go back to the account
+        info page when an invalid username or password are used.
+    - Bug Fix: Don't use Next and Back buttons in the Statistics view.
+        Localizers need different text because of the changes in context.
+    - Bug Fix: Don't allow an error message to be localized.
+    - Bug Fix: Where possible use a safer string copy function. 
+        Defence in depth and all that.
+    
+    client/
+        acct_mgr.C
+    clientgui/
+        AccountInfoPage.cpp
+        CompletionErrorPage.cpp
+        hyperlink.cpp
+        NotFoundPage.cpp
+        ViewStatistics.cpp

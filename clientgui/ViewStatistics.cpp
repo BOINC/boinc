@@ -669,13 +669,13 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 	m_TaskGroups.push_back( pGroup );
 
 	pItem = new CTaskItem(
-        _("< &Back"),
+        _("< &Previous project"),
         wxT(""),
         ID_TASK_STATISTICS_PREVPROJECT 
     );
     pGroup->m_Tasks.push_back( pItem );
 	pItem = new CTaskItem(
-        _("&Next >"),
+        _("&Next project >"),
         wxT(""),
         ID_TASK_STATISTICS_NEXTPROJECT 
     );

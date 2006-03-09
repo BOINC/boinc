@@ -50,7 +50,7 @@ int ACCT_MGR_OP::do_rpc(
     char buf[256], password[256];
     FILE *pwdf;
 
-    strcpy(buf, url.c_str());
+    strlcpy(buf, url.c_str(), sizeof(buf));
 
     error_num = ERR_IN_PROGRESS;
 
@@ -73,10 +73,10 @@ int ACCT_MGR_OP::do_rpc(
         return 0;
     }
 
-    strcpy(ami.acct_mgr_url, url.c_str());
-    strcpy(ami.acct_mgr_name, "");
-    strcpy(ami.login_name, name.c_str());
-    strcpy(ami.password_hash, password_hash.c_str());
+    strlcpy(ami.acct_mgr_url, url.c_str(), sizeof(ami.acct_mgr_url));
+    strlcpy(ami.acct_mgr_name, "", sizeof(ami.acct_mgr_name));
+    strlcpy(ami.login_name, name.c_str(), sizeof(ami.login_name));
+    strlcpy(ami.password_hash, password_hash.c_str(), sizeof(ami.password_hash));
 
     FILE* f = boinc_fopen(ACCT_MGR_REQUEST_FILENAME, "w");
     if (!f) return ERR_FOPEN;

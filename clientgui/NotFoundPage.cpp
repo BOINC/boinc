@@ -125,7 +125,7 @@ wxWizardPageEx* CErrNotFoundPage::GetPrev() const
 
 wxWizardPageEx* CErrNotFoundPage::GetNext() const
 {
-    return NULL;
+    return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
 }
  
 /*!
