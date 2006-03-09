@@ -1,5 +1,5 @@
 lib_LTLIBRARIES =
-AM_CPPFLAGS = -I$(top_srcdir)/common
+AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
 
 if BUILD_MASTER
 lib_LTLIBRARIES += libdc-boinc.la
@@ -9,18 +9,18 @@ if BUILD_CLIENT
 lib_LTLIBRARIES += libdc-client-boinc.la
 endif
 
-AM_LDFLAGS = $(BOINC_LDFLAGS)
+AM_LDFLAGS = $(BOINC_LDFLAGS) $(GLIB_LIBS)
+
+noinst_HEADERS = dc_boinc.h
 
 libdc_boinc_la_SOURCES = \
-		assimilator.C \
-		assimilator.h \
 		dc.c \
+		config.C \
+		assimilator.C \
 		result.c \
-		result.h \
 		validate_util.C \
 		validate_util.h \
-		wu.C \
-		wu.h
+		wu.C
 libdc_boinc_la_LIBADD = \
 		../common/libdc-common.la \
 		$(BOINC_SERVER_LIBS)
