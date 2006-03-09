@@ -36,6 +36,7 @@ typedef enum {
 			   shutdown as far as the infrastructure is concerned,
 			   so you should check the exit status and/or other
 			   output. */
+	DC_WU_SUSPENDED,/* The work unit is suspended */
 	DC_WU_ABORTED,	/* The WU was aborted for some reason (infrastructure
 			   failure, no canonical result, or by calling
 			   DC_cancel()) */
@@ -70,6 +71,14 @@ typedef struct _DC_Workunit	DC_Workunit;
 /* Opaque type representing a result */
 typedef struct _DC_Result	DC_Result;
 
+/* Descriptor of a physical file */
+typedef struct _DC_PhysicalFile	DC_PhysicalFile;
+struct _DC_PhysicalFile
+{
+	char			*label;
+	char			*path;
+};
+
 /* Description of a DC-API event */
 typedef struct _DC_Event	DC_Event;
 struct _DC_Event
@@ -78,11 +87,7 @@ struct _DC_Event
 	union
 	{
 		DC_Result	*result;
-		struct
-		{
-			char	*path;
-			char	*label;
-		};
+		DC_PhysicalFile	*subresult;
 		char		*message;
 	};
 };
@@ -126,12 +131,12 @@ typedef void (*DC_MessageCallback)(DC_Workunit *wu, const char *message);
 
 /** Initializes the DC-API.
  *
- * @config_file: Name of the config file to use. If %NULL, DC_init will look
+ * @configFile: Name of the config file to use. If %NULL, DC_init will look
  * 	for a file named 'dc_api.conf' in the current directory.
  *
  * @Returns: 0 if successful or an error code.
  */
-int DC_init(const char *config_file);
+int DC_init(const char *configFile);
 
 /** Prints a message to the log file.
  *
