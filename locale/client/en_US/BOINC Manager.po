@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-06 12:29-0800\n"
+"PO-Revision-Date: 2006-03-09 02:26-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -30,69 +30,69 @@ msgstr ""
 msgid "&Yes, existing user"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:316
-#: clientgui/AccountInfoPage.cpp:490
+#: clientgui/AccountInfoPage.cpp:318
+#: clientgui/AccountInfoPage.cpp:493
 msgid "&Password:"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:320
-#: clientgui/AccountInfoPage.cpp:505
+#: clientgui/AccountInfoPage.cpp:322
+#: clientgui/AccountInfoPage.cpp:508
 msgid "Choose a &password:"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:325
+#: clientgui/AccountInfoPage.cpp:327
 msgid "C&onfirm password:"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:367
+#: clientgui/AccountInfoPage.cpp:370
 msgid ""
 "Enter the username and password you used on\n"
 "the web site."
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:373
+#: clientgui/AccountInfoPage.cpp:376
 msgid "&Username:"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:395
+#: clientgui/AccountInfoPage.cpp:398
 msgid ""
 "Enter the email address and password you used on\n"
 "the web site."
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:401
+#: clientgui/AccountInfoPage.cpp:404
 msgid "&Email address:"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:408
+#: clientgui/AccountInfoPage.cpp:411
 #, c-format
 msgid "minimum length %d"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:427
+#: clientgui/AccountInfoPage.cpp:430
 #: clientgui/WelcomePage.cpp:304
 msgid "Attach to project"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:429
+#: clientgui/AccountInfoPage.cpp:432
 msgid "Update account manager"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:431
+#: clientgui/AccountInfoPage.cpp:434
 msgid "Attach to account manager"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:442
+#: clientgui/AccountInfoPage.cpp:445
 #, c-format
 msgid "The minimum password length for this project is %d. Please choose a different password."
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:448
+#: clientgui/AccountInfoPage.cpp:451
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please choose a different password."
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:459
+#: clientgui/AccountInfoPage.cpp:462
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
 
@@ -376,7 +376,15 @@ msgstr ""
 msgid "Failed to attach to account manager"
 msgstr ""
 
-#: clientgui/CompletionErrorPage.cpp:215
+#: clientgui/CompletionErrorPage.cpp:216
+msgid ""
+"An error has occurred, please check the messages tab for further\n"
+"details.\n"
+"\n"
+"Click Finish to close."
+msgstr ""
+
+#: clientgui/CompletionErrorPage.cpp:223
 #: clientgui/CompletionPage.cpp:229
 #: clientgui/CompletionPage.cpp:253
 #: clientgui/CompletionPage.cpp:274
@@ -384,7 +392,7 @@ msgstr ""
 msgid "Click Finish to close."
 msgstr ""
 
-#: clientgui/CompletionErrorPage.cpp:218
+#: clientgui/CompletionErrorPage.cpp:232
 msgid "Messages from server:"
 msgstr ""
 
@@ -606,10 +614,6 @@ msgstr ""
 
 #: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
-msgstr ""
-
-#: clientgui/hyperlink.cpp:62
-msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 msgstr ""
 
 #: clientgui/hyperlink.cpp:207
@@ -1060,49 +1064,49 @@ msgstr ""
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1813
-#: clientgui/MainFrame.cpp:1816
+#: clientgui/MainFrame.cpp:1811
+#: clientgui/MainFrame.cpp:1814
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1814
+#: clientgui/MainFrame.cpp:1812
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1817
+#: clientgui/MainFrame.cpp:1815
 #, c-format
 msgid "Connected to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1983
+#: clientgui/MainFrame.cpp:1981
 #, c-format
 msgid "%s - Connection Error"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1989
+#: clientgui/MainFrame.cpp:1987
 msgid "The password you have provided is incorrect, please try again."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2006
+#: clientgui/MainFrame.cpp:2004
 #, c-format
 msgid "%s - Connection Failed"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2015
+#: clientgui/MainFrame.cpp:2013
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2042
+#: clientgui/MainFrame.cpp:2040
 #, c-format
 msgid "%s - Connection Status"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2053
+#: clientgui/MainFrame.cpp:2051
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -1549,14 +1553,11 @@ msgid "Show host average"
 msgstr ""
 
 #: clientgui/ViewStatistics.cpp:672
-#: clientgui/wizardex.cpp:365
-msgid "< &Back"
+msgid "< &Previous project"
 msgstr ""
 
 #: clientgui/ViewStatistics.cpp:678
-#: clientgui/wizardex.cpp:359
-#: clientgui/wizardex.cpp:551
-msgid "&Next >"
+msgid "&Next project >"
 msgstr ""
 
 #: clientgui/ViewStatistics.cpp:684
@@ -1912,6 +1913,15 @@ msgstr ""
 #: clientgui/WizardAccountManager.cpp:436
 #: clientgui/WizardAttachProject.cpp:447
 msgid "Question"
+msgstr ""
+
+#: clientgui/wizardex.cpp:359
+#: clientgui/wizardex.cpp:551
+msgid "&Next >"
+msgstr ""
+
+#: clientgui/wizardex.cpp:365
+msgid "< &Back"
 msgstr ""
 
 #: clientgui/wizardex.cpp:549
