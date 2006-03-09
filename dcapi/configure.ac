@@ -19,6 +19,8 @@ fi
 AC_ARG_ENABLE([client], AS_HELP_STRING([--disable-client], [do not build the client application]),, [enable_client=yes])
 AC_ARG_ENABLE([master], AS_HELP_STRING([--disable-master], [do not build the master application]),, [enable_master=yes])
 
+AM_PATH_GLIB_2_0([2.6.0],,[AC_MSG_ERROR([glib2 is missing])])
+
 AM_CONDITIONAL([BUILD_CLIENT], [test "$enable_client" = yes])
 AM_CONDITIONAL([BUILD_MASTER], [test "$enable_master" = yes])
 
