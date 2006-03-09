@@ -14,8 +14,9 @@ AM_LDFLAGS = $(BOINC_LDFLAGS) $(GLIB_LIBS)
 noinst_HEADERS = dc_boinc.h
 
 libdc_boinc_la_SOURCES = \
-		dc.c \
 		config.C \
+		dc.c \
+		db.C \
 		assimilator.C \
 		result.c \
 		validate_util.C \
