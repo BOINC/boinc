@@ -2727,3 +2727,10 @@ Rom    9 Mar 2006
         hyperlink.cpp
         NotFoundPage.cpp
         ViewStatistics.cpp
+
+David  9 Mar 2006
+    - core client: generate a new host CPID only if we sent a nonzero host ID
+        to the scheduler and it returned a (different) host ID
+
+    client/
+        cs_scheduler.C

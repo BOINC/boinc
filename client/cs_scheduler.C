@@ -1084,15 +1084,23 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     // The project returns a hostid only if it has created a new host record.
-    // In that case we should reset RPC seqno
-    // and generate a new host CPID
+    // In that case reset RPC seqno
     //
     if (sr.hostid) {
+        if (project->hostid) {
+            // if we already have a host ID for this project,
+            // we must have sent it a stale seqno,
+            // which usually means our state file was copied from another host.
+            // So generate a new host CPID.
+            //
+            generate_new_host_cpid();
+            msg_printf(project, MSG_INFO,
+                "Generated new host CPID: %s", host_info.host_cpid
+            );
+        }
         //msg_printf(project, MSG_INFO, "Changing host ID from %d to %d", project->hostid, sr.hostid);
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;
-        generate_new_host_cpid();
-        msg_printf(project, MSG_INFO, "Generated new host CPID: %s", host_info.host_cpid);
     }
 
     set_client_state_dirty("handle_scheduler_reply");

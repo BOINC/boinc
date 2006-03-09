@@ -112,6 +112,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.dc-gemeinschaft.de/", "DC - Gemeinschaft"),
     site("http://boinccast.podhost.de/", "BOINCcast (Podcast)"),
     site("http://www.boinc-team.de/", "BOINC@Heidelberg"),
     site("http://www.crunching-family.wins.info/", "Crunching Family"),
@@ -160,6 +161,7 @@ language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));
 language("Spanish", array(
+    site("http://efren-canarias.blogcindario.com/", "El Pais De La Computacion"),
     site("http://www.canalboinc.org/modules/news/", "Canal BOINC"),
     site("http://www.boinc-ecuador.com/", "BOINC - Ecuador"),
     site("http://www.hispaseti.org/", "HispaSeti"),
