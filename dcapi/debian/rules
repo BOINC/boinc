@@ -35,6 +35,9 @@ config.status: configure
 		--disable-maintainer-mode \
 		CFLAGS="$(CFLAGS)"
 
+configure: configure.ac cf/boinc.m4
+	autoreconf --install --symlink
+
 build-arch: config.status build-arch-stamp
 build-arch-stamp:
 	dh_testdir
