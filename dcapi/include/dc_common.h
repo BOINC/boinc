@@ -22,6 +22,7 @@ extern "C" {
 /* API error codes */
 enum {
 	DC_OK,			/* No error */
+	DC_ERR_CONFIG,		/* Configuration error */
 	DC_ERR_NOTIMPL,		/* Not implemented by the API or by the
 				   underlying grid infrastructure */
 	DC_ERR_UNKNOWN_WU,	/* Unknown WU identifier */
@@ -48,13 +49,13 @@ typedef enum {
 
 /* File classification when passing a physical file name to DC-API */
 typedef enum {
-	DC_FILE_REGULAR,		/* Not persistent, needs copy */
-	DC_FILE_PERSISTENT,		/* Persistent, link is enough */
-	DC_FILE_VOLATILE		/* DC-API should remove the original */
+	DC_FILE_REGULAR,	/* Not persistent, needs copy */
+	DC_FILE_PERSISTENT,	/* Persistent, link is enough */
+	DC_FILE_VOLATILE	/* DC-API should remove the original */
 } DC_FileMode;
 
-/* Maximum length of messages sent between the client and the master */
-#define DC_MAX_MESSAGE_LENGTH	16384
+/* Default name of the configuration file */
+#define DC_CONFIG_FILE		"dc-api.conf"
 
 
 /********************************************************************
