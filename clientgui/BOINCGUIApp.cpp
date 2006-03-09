@@ -144,7 +144,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             m_strAMWizardAccountInfoText = 
                 _("Please provide the email address and password you used to register\n"
                   "at GridRepublic. (if you have not yet created an account at\n"
-                  "GridRepublic, please do so at http://www.gridrepublic.org");
+                  "GridRepublic, please do so at http://www.gridrepublic.org)");
             m_strAMWizardAttachMessage = wxEmptyString;
             m_strExitMessage = wxEmptyString;
             break;
