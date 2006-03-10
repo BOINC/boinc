@@ -6,9 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <dc.h>
-#include "result.h"
-#include "wu.h"
+#include "dc_boinc.h"
 
 
 DC_Result dc_result_create(char *name, char *wuname, char *dir)

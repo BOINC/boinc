@@ -2,482 +2,549 @@
 #include <config.h>
 #endif
 
-/* Include BOINC Headers */
-#include <backend_lib.h>
-#include <sched_util.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
+#include <glib.h>
+
+#include <sched_util.h>
 #include <sched_config.h>
+#include <backend_lib.h>
 
-#include <dc.h>
-#include "wu.h"
-#include "result.h"
+#include "dc_boinc.h"
 
-extern SCHED_CONFIG config;
+extern SCHED_CONFIG dc_boinc_config;
 
-/* PRIVATE */
-
-/* maximum number of work units */
-#define MAX_N_WU 10024
-
-/* States of the work unit.
- * In this implementation, submitted = running!
- * Running state is therefore not used below.
- */
-
-#define STATE_INVALID   0
-#define STATE_CREATED   1
-#define STATE_SUBMITTED 2
-#define STATE_RUNNING   3
-#define STATE_FINISHED  4
-
-static char *state_strings[5] = {"invalid", "created", "submitted", 
-				 "running", "finished"};
-
-/* Define meximum number of input files */
-#define MAX_INFILES 4
-
-typedef struct {
-    char        *wuname;
-    char        *clientname;
-    char        *arguments;
-    char        *workdir;
-    char        *wutemplate;
-    char        *resulttemplate;
-    char       *infiles[MAX_INFILES];
-    int         ninfiles;
-    int         state;
-    int         priority;
-} dc_wu;
-
-
-static dc_wu wutable[MAX_N_WU];
-static int wu_max, wu_sum;
-
-//static int dc_wu_findByName(char *wuname);
-static int dc_wu_findByState(int state, int from);
-//int dc_wu_getWUbyName(const char *wuname);
-
-static char *dc_projectRootDir;
-static char *dc_uploadPrivateFile;
-
-/* PUBLIC */
-
-int dc_wu_findByName(char *wuname)
+DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
+	int subresults, const char *tag)
 {
-   int ndx = 0;
-   int ex = 0;
+	char uuid_str[37];
+	DC_Workunit *wu;
+	GString *str;
+	int ret;
 
-   while (ndx < MAX_N_WU && !ex) {
-       if (wutable[ndx].wuname != NULL &&
-	   !strcmp(wutable[ndx].wuname, wuname)) ex = 1;
-       else {
-         ndx++;
-       }
-   }
-   return ndx;
-}
-
-void dc_wu_init(const char *projectroot, const char *uploadkeyfile)
-{
-    int i;
-    for (i = 0; i < MAX_N_WU; i++) {
-	wutable[i].wuname  = NULL;
-	wutable[i].clientname  = NULL;
-	wutable[i].arguments  = NULL;
-	wutable[i].workdir = NULL;
-	wutable[i].wutemplate = NULL;
-	wutable[i].resulttemplate = NULL;
-	wutable[i].ninfiles = 0;
-	wutable[i].state = STATE_INVALID;
-	wutable[i].priority = 100;
-    }
-    wu_max = wu_sum = 0;
-
-    dc_projectRootDir = strdup(projectroot);
-    dc_uploadPrivateFile = strdup(uploadkeyfile);
-}
-
-DC_Workunit dc_wu_create(const char *wu_name, const char *clientname, 
-		 const char *arguments, const char *workdir, 
-		 const char *wutemplate, const char *resulttemplate)
-{
-    int ndx = 0;
-    int ex = 0;
-
-    /* Look for an empty slow in dc_wu table */
-    while (ndx < MAX_N_WU && !ex) {
-	if (wutable[ndx].state == STATE_INVALID) ex = 1;
-	else ndx++;
-    }
-    if (ndx == MAX_N_WU) {
-	DC_log(LOG_ERR, "Too many work units (%d) at once",
-	       MAX_N_WU);
-	return -1;
-    }
-    if (ndx > wu_max) wu_max = ndx;
-    wu_sum++;
-
-
-    //DC_log(LOG_DEBUG," *** The name of the new wu is : '%s'",wu_name);
-    //DC_log(LOG_DEBUG," *** The name of the old wu is : '%s'",wutable[ndx].wuname);
-    
-    
-    /* Fill in information */ 
-    wutable[ndx].wuname = NULL;
-    wutable[ndx].wuname   = strdup(wu_name);
-    wutable[ndx].clientname    = strdup(clientname);
-    wutable[ndx].arguments    = strdup(arguments);
-    wutable[ndx].workdir = strdup(workdir);
-    wutable[ndx].wutemplate    = strdup(wutemplate);
-    wutable[ndx].resulttemplate    = strdup(resulttemplate);
-    wutable[ndx].state   = STATE_CREATED;
-    wutable[ndx].ninfiles = 0;
-
-    DC_log(LOG_DEBUG,"The name of the created wu is : '%s'     ##%d##",wutable[ndx].wuname, ndx);
-    
-    return (ndx);
-
-}
-
-void dc_wu_getFileName_fromPath(const char *path, char *fn)
-{
-    /* memory for fn should be allocated before calling this function! */
-    char *lastdelim;
-    lastdelim = strrchr( path, '/');
-    if (lastdelim == NULL) 
-	strcpy(fn, (char *) path);
-    else if (strlen(lastdelim) == 0) 
-	fn[0]='\0';
-    else 
-	strcpy(fn, lastdelim+1);
-}
-
-int dc_wu_setInput(DC_Workunit wu, const char *url, const char* localfilename)
-{
-    char downloadpath[256], syscmd[1024], download_dir[256];
-    char filename[256], downloadfilename[256];
-
-    if ((wu >= MAX_N_WU) || (wu < 0)) return DC_ERROR;
-
-    if (wutable[wu].ninfiles >= MAX_INFILES-1) {
-	DC_log( LOG_ERR, "Too many input files for one wu!");
-	return DC_ERROR;
-    }
-
-    /* Copy input files (extended by _'wuname') into boinc download directory */
-    dc_wu_getFileName_fromPath(url, filename);
-    if (filename == NULL) {
-	DC_log(LOG_ERR, "File name is not given in URL '%s'", url);
-    }
-
-    snprintf(downloadfilename, 256, "%s_%s", filename, wutable[wu].wuname);
-//    snprintf(downloadpath, 256, "%s/download/%s", dc_projectRootDir, downloadfilename);
-    snprintf(download_dir, 256, "%s/download", dc_projectRootDir);
-    
-#if BOINC_VERSION == 4
-    dir_hier_path(downloadfilename, download_dir, config.uldl_dir_fanout, true, downloadpath, true);
-#else
-    dir_hier_path(downloadfilename, download_dir, config.uldl_dir_fanout, downloadpath, true);
-#endif
-
-    snprintf(syscmd, 1024, "cp %s %s", url, downloadpath);
-    DC_log(LOG_DEBUG, "system command: '%s'", syscmd);
-
-    if (system(syscmd) == -1) return DC_ERROR;
-
-    wutable[wu].infiles[wutable[wu].ninfiles] = strdup(downloadfilename);
-    DC_log( LOG_DEBUG, "Input file '%s' added to wu '%s' and copied into %s     ##%d##",
-	    wutable[wu].infiles[wutable[wu].ninfiles], wutable[wu].wuname, downloadpath, wu);
-
-    wutable[wu].ninfiles++;
-
-    return DC_OK;
-}
-
-
-int dc_wu_setPriority(DC_Workunit wu, int priority)
-{
-    if ((wu >= MAX_N_WU) || (wu < 0)) return DC_ERROR;
-    wutable[wu].priority = priority;
-    return DC_OK;
-}
-
-int dc_wu_destroy(DC_Workunit wu)
-{
-    if ((wu >= MAX_N_WU) || (wu < 0)) return DC_ERROR;
-
-    if (wutable[wu].wuname != NULL) free(wutable[wu].wuname);
-    if (wutable[wu].clientname != NULL) free(wutable[wu].clientname);
-    if (wutable[wu].arguments != NULL) free(wutable[wu].arguments);
-    if (wutable[wu].workdir != NULL) free(wutable[wu].workdir);
-    if (wutable[wu].wutemplate != NULL) free(wutable[wu].wutemplate);
-    if (wutable[wu].resulttemplate != NULL) free(wutable[wu].resulttemplate);
-    wutable[wu].state = STATE_INVALID;
-    return DC_OK;
-}
-
-
-int dc_wu_createBoincWU(DC_Workunit wu, char *uploadkeyfile, char *boincRootDir)
-{
-    /* char infile_dir[256], download_url[256], upload_url[256];*/
-    char wutempl_orig[4096], wutempl[4096];
-    char resulttempl_relativepath[256];
-    char buf[512];
-    R_RSA_PRIVATE_KEY key;
-    DB_WORKUNIT bwu;
-    DB_APP app;
-    char db_name[256], db_passwd[256],db_user[256],db_host[256];
-    SCHED_CONFIG config;
-    int retval;
-
-    if ((wu >= MAX_N_WU) || (wu < 0)) return DC_ERROR;
-
-    DC_log(LOG_DEBUG, "Create a wu for boinc based on info:\n"
-	   "wuname = '%s', clientname = '%s', arguments = '%s', workdir = '%s' "
-	   "wutemplate = '%s', resulttemplate = '%s'", 
-	   wutable[wu].wuname, wutable[wu].clientname, wutable[wu].arguments, wutable[wu].workdir,
-	   wutable[wu].wutemplate, wutable[wu].resulttemplate);
-    
-    DC_log(LOG_DEBUG, "\t1. Read upload private key from: %s", uploadkeyfile);
-    retval = read_key_file(uploadkeyfile, key);
-    if (retval) {
-        DC_log(LOG_ERR, "wu.c: can't read key: %d", retval);
-        return DC_ERROR;
-    }
-
-    DC_log(LOG_DEBUG, "\t2. Read wu template file: %s", wutable[wu].wutemplate);
-    retval = read_filename(wutable[wu].wutemplate, wutempl_orig, 4096);
-    if (retval) {
-	DC_log(LOG_ERR, "wu.c: can't read template file: %d", retval);
-        return DC_ERROR;
-    } else { // insert command line arguments into the template
-      char *ptr = strstr(wutempl_orig, "</command_line>");
-      ptr[0] = '\0';
-      strcpy(wutempl, wutempl_orig);
-      strcat(wutempl, wutable[wu].arguments);
-      ptr[0] = '<';
-      strcat(wutempl, ptr);
-      DC_log(LOG_DEBUG, "********\nWU Templ='%s'\n**********", wutempl);
-    }
-
-
-    
-
-    DC_log(LOG_DEBUG, "\t3. Determine result template relative path");
-    dc_wu_getFileName_fromPath(wutable[wu].resulttemplate, buf);
-    snprintf(resulttempl_relativepath, 256, "templates/%s", buf);
-    DC_log(LOG_DEBUG, "\t   %s -> %s", wutable[wu].resulttemplate, resulttempl_relativepath);
-
-    
-    DC_log(LOG_DEBUG, "\t3. Parse boinc project config file");
-    retval = config.parse_file(boincRootDir);
-    if (retval) {
-        DC_log(LOG_ERR, "Can't parse config file: %d", retval);
-        return DC_ERROR;
-    } else {
-        strcpy(db_name, config.db_name);
-        strcpy(db_passwd, config.db_passwd);
-        strcpy(db_user, config.db_user);
-        strcpy(db_host, config.db_host);
-    }
-
-
-    strcpy(app.name, wutable[wu].clientname);
-    DC_log(LOG_DEBUG, 
-	   "\t4. Init MySQL connection and get appid for client %s\n"
-	   "\t   DB name=%s, host=%s, user=%s", 
-	   app.name, db_name, db_host, db_user);
-    retval = boinc_db.open(db_name, db_host, db_user, db_passwd);
-    if (retval) {
-        DC_log(LOG_ERR, "wu.c: error opening database: %d", retval );
-        return DC_ERROR;
-    }
-    sprintf(buf, "where name='%s'", app.name);
-    retval = app.lookup(buf);
-    if (retval) {
-        DC_log(LOG_ERR, "wu.c: app not found in database");
-        return DC_ERROR;
-    } else {
-	DC_log(LOG_DEBUG, "\t   Application id in database = %d", app.id); 
-    }
-    
-
-    DC_log(LOG_DEBUG, "\t5. Create Boinc workunit");
-
-    /*
-    snprintf(infile_dir, 256, "%s/download", dc_projectRootDir);
-    snprintf(download_url, 256, "http://n24.hpcc.sztaki.hu/proba1/download");
-    snprintf(upload_url, 256, "http://n24.hpcc.sztaki.hu/proba1/upload");
-    */
-
-    strncpy(bwu.name, wutable[wu].wuname, 256);
-    bwu.appid = app.id;
-    bwu.batch = 1;
-    bwu.rsc_fpops_est = 200000 ;
-    bwu.rsc_fpops_bound = 2000000000 ;
-    bwu.rsc_memory_bound = 2000000;
-    bwu.rsc_disk_bound = 2000000;
-    bwu.delay_bound = 720000;
-    
-    DC_log(LOG_DEBUG, 
-	   "\t   Call Boinc create_work with parameters:\n"
-	   "\t   appid = %d, wutempl = '%50.50s...'\n"
-	   "\t   resulttemplate = '%s' and '%s'\n"
-	   "\t   # of inputfiles = %d, //key.mod = '%40.40s'...",
-	   bwu.appid, wutempl, resulttempl_relativepath, wutable[wu].resulttemplate,
-	   wutable[wu].ninfiles/*, key.modulus*/);
-
-    //DC_log(LOG_DEBUG, "\t  *** This is the 1. checkpoint !!! ***  ");
-
-
-
-    retval = create_work(
-        bwu,
-	wutempl,                  // WU template, contents, not path
-	resulttempl_relativepath, // Result template filename, relative to project root
-	wutable[wu].resulttemplate,     // Result template, absolute path,
-	const_cast<const char **>(wutable[wu].infiles), // array of input file names
-	wutable[wu].ninfiles,
-	//key,                      // upload authentication key
-	config                    // data from config.xml
-	);
-
-    //DC_log(LOG_DEBUG, "\t  *** This is the 2. checkpoint !!! ***  ");
-
-    if (retval) {
-        DC_log(LOG_ERR, "wu.c, cannot create workunit: %d", retval);
-	return DC_ERROR;
-    }
-
-    boinc_db.close();
-
-
-    return DC_OK;
-
-}
-
-
-
-#ifdef NEVERDEFINED
-int dc_wu_wuCreated(char *wuname, char *workdir)
-{
-    int ndx = 0;
-    int ex = 0;
-    while (ndx < MAX_N_WU && !ex) {
-	if (wutable[ndx].state == STATE_INVALID) ex = 1;
-	else ndx++;
-    }
-    if (ndx == MAX_N_WU) {
-	DC_log(LOG_ERR, "Too many work units (%d) at once",
-	       MAX_N_WU);
-	return DC_ERROR;
-    }
-    if (ndx > wu_max) wu_max = ndx;
-    wu_sum++;
-
-    wutable[ndx].name    = strdup(wuname);
-    wutable[ndx].workdir = strdup(workdir);
-    wutable[ndx].state   = STATE_CREATED;
-
-    return DC_OK;
-}
-
-int dc_wu_wuSubmitted(char *wuname)
-{
-    int ndx = dc_rm_findByName(wuname);
-    if ((ndx >= MAX_N_WU) || (wundx < 0)){
-	DC_log(LOG_ERR, 
-	       "Work unit (%s) not created before submission",
-	       wuname);
-	return DC_ERROR;
-    }
-    
-    wutable[ndx].state = STATE_SUBMITTED;
-  
-    return DC_OK;
-}
-
-
-
-int dc_wu_checkForResult(DC_Result **result) 
-{
-    char cmd[256];
-    char name[256];
-    int  retval;
-    int  ndx = 0;
-    int  ex  = 0;
-
-    ndx = dc_wu_findByState(STATE_SUBMITTED, ndx);
-    while ((ndx < MAX_N_WU) && (ndx >= 0)) {
-
-	/* check here somehow if a WU is completed */
-
-	if (retval == 1) { /* process finished (not exists) */
-
-	    wutable[ndx].state = STATE_FINISHED;
-
-	    return DC_RM_RESULTEXISTS;
-	}
-	else if (retval < 0) { /* error */
-	    return DC_ERROR;
+	if (!clientName)
+	{
+		DC_log(LOG_ERR, "DC_createWU: clientName is not supplied");
+		return NULL;
 	}
 
+	wu = g_new0(DC_Workunit, 1);
+	wu->client_name = g_strdup(clientName);
+	wu->argv = g_strdupv((char **)arguments);
 
-	ndx = dc_wu_findByState(STATE_SUBMITTED, ndx+1);
-    }
-    return DC_RM_NORESULT;
+	for (wu->argc = 0; arguments && arguments[wu->argc]; wu->argc++)
+		/* Nothing */;
+
+	wu->subresults = subresults;
+	wu->tag = g_strdup(tag);
+
+	uuid_generate(wu->uuid);
+	uuid_unparse_lower(wu->uuid, uuid_str);
+	wu->uuid_str = g_strdup(uuid_str);
+
+	/* Calculate & create the working directory. The working directory
+	 * has the form:
+	 * <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid>
+	 * Where <hash> is the first 2 hex digits of the uuid
+	 */
+	str = g_string_new(_DC_getCfgStr(CFG_WORKDIR));
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append(str, ".dcapi-");
+	g_string_append(str, project_uuid_str);
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append_printf(str, "%02x", wu->uuid[0]);
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append(str, uuid_str);
+
+	ret = g_mkdir_with_parents(str->str, 0700);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "Failed to create WU working directory %s: %s",
+			str->str, strerror(errno));
+		DC_destroyWU(wu);
+		return NULL;
+	}
+
+	wu->workdir = str->str;
+	g_string_free(str, FALSE);
+
+	return wu;
 }
-#endif
 
-void dc_wu_log(void)
+static char *get_workdir_path(DC_Workunit *wu, const char *label,
+	WorkdirFile type)
 {
-    int i;
-    DC_log(LOG_DEBUG, "----------------------------------------");
-    DC_log(LOG_DEBUG, "DC has the following info about WUs");
-    DC_log(LOG_DEBUG, "Number of workunits = %d", 
-	   wu_sum);
-    DC_log(LOG_DEBUG, "Table info: wu_max = %d, wu_sum = %d",
-	   wu_max, wu_sum);
-    DC_log(LOG_DEBUG, "Table list:");
-    DC_log(LOG_DEBUG, "Name        State      WorkDir");
-    for (i = 0; i <= wu_max; i++) {
-	DC_log(LOG_DEBUG, "%s\t%s\t%s",
-	       wutable[i].wuname, 
-	       state_strings[wutable[i].state], 
-	       wutable[i].workdir);
-    }
-    DC_log(LOG_DEBUG, "-----------------------------------------");
+
+	return g_strdup_printf("%s%cin_%s", wu->workdir, G_DIR_SEPARATOR, label);
 }
 
-static int dc_wu_findByState(int state, int from)
+void DC_destroyWU(DC_Workunit *wu)
 {
-   int ndx = from;
-   int ex = 0;
-   while (ndx < MAX_N_WU && !ex) {
-       if (wutable[ndx].state == state) ex = 1;
-       else ndx++;
-   }
-   return ndx;
+	if (!wu)
+		return;
+
+	switch (wu->state)
+	{
+		case DC_WU_RUNNING:
+			/* XXX Abort the work unit */
+			break;
+		default:
+			break;
+	}
+
+	while (wu->input_files)
+	{
+		char *path = get_workdir_path(wu,
+			(const char *)wu->input_files->data, FILE_IN);
+		unlink(path);
+		g_free(path);
+		g_free(wu->input_files->data);
+		wu->input_files = g_list_delete_link(wu->input_files,
+			wu->input_files);
+	}
+
+	while (wu->output_files)
+	{
+		g_free(wu->output_files->data);
+		wu->output_files = g_list_delete_link(wu->output_files,
+			wu->output_files);
+	}
+
+	if (wu->ckpt_name)
+	{
+		char *path = get_workdir_path(wu, wu->ckpt_name, FILE_CKPT);
+		unlink(path);
+		g_free(path);
+		g_free(wu->ckpt_name);
+	}
+
+	if (wu->workdir)
+	{
+		const char *name;
+		GDir *dir;
+		int ret;
+
+		dir = g_dir_open(wu->workdir, 0, NULL);
+		/* The work directory should not contain any extra files, but
+		 * just in case */
+		while (dir && (name = g_dir_read_name(dir)))
+		{
+			GString *str = g_string_new(wu->workdir);
+			g_string_append_c(str, G_DIR_SEPARATOR);
+			g_string_append(str, name);
+			DC_log(LOG_INFO, "Removing unknown file %s",
+				str->str);
+			unlink(str->str);
+			g_string_free(str, TRUE);
+		}
+		if (dir)
+			g_dir_close(dir);
+
+		ret = rmdir(wu->workdir);
+		if (ret)
+			DC_log(LOG_WARNING, "Failed to remove WU working "
+				"directory %s: %s", wu->workdir,
+				strerror(errno));
+		g_free(wu->workdir);
+	}
+
+	g_free(wu->uuid_str);
+	g_free(wu->client_name);
+	g_strfreev(wu->argv);
+	g_free(wu->tag);
+
+	g_free(wu);
 }
-/*
-int dc_wu_getWUbyName(const char *wuname)
+
+static int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 {
+	GList *l;
 
-  char *wu_name;
-  strcpy (wu_name, wuname);
-
-  static int ndx = dc_wu_findByName(wu_name);
-  if (ndx == MAX_N_WU)
-  {
-    return NULL;
-  }else{
-    return (ndx);
-  }
+	if (strchr(logicalFileName, '/') || strchr(logicalFileName, '\\'))
+	{
+		DC_log(LOG_ERR, "Illegal characters in logical file name %s",
+			logicalFileName);
+		return DC_ERR_BADPARAM;
+	}
+	for (l = wu->input_files; l; l = l->next)
+	{
+		if (!strcmp((char *)l->data, logicalFileName))
+		{
+			DC_log(LOG_ERR, "File %s is already registered as an "
+				"input file", logicalFileName);
+			return DC_ERR_BADPARAM;
+		}
+	}
+	for (l = wu->output_files; l; l = l->next)
+	{
+		if (!strcmp((char *)l->data, logicalFileName))
+		{
+			DC_log(LOG_ERR, "File %s is already registered as an "
+				"output file", logicalFileName);
+			return DC_ERR_BADPARAM;
+		}
+	}
+	return 0;
 }
-*/
+
+int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
+	DC_FileMode fileMode)
+{
+	char *workpath;
+	int ret;
+
+	/* Sanity checks */
+	ret = check_logical_name(wu, logicalFileName);
+	if (ret)
+		return ret;
+
+	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
+	 * does not exceed the max. number of file slots */
+
+	workpath = get_workdir_path(wu, logicalFileName, FILE_IN);
+	switch (fileMode)
+	{
+		case DC_FILE_REGULAR:
+		{
+			GString *cmd;
+			char *quoted;
+
+			cmd = g_string_new("/bin/cp -a ");
+			quoted = g_shell_quote(URL);
+			g_string_append(cmd, quoted);
+			g_free(quoted);
+			g_string_append_c(cmd, ' ');
+			quoted = g_shell_quote(workpath);
+			g_string_append(cmd, quoted);
+			g_free(quoted);
+
+			/* XXX Re-implement this in C to save the overhead
+			 * of shell invocation */
+			ret = system(cmd->str);
+			if (ret)
+			{
+				DC_log(LOG_ERR, "Executing \"%s\" failed: %s",
+					cmd->str, strerror(errno));
+				g_string_free(cmd, TRUE);
+				g_free(workpath);
+				return DC_ERR_BADPARAM; /* XXX */
+			}
+			g_string_free(cmd, TRUE);
+			break;
+		}
+		case DC_FILE_PERSISTENT:
+			ret = link(URL, workpath);
+			if (ret)
+			{
+				DC_log(LOG_ERR, "Failed to link %s to %s: %s",
+					URL, workpath, strerror(errno));
+				g_free(workpath);
+				return DC_ERR_BADPARAM; /* XXX */
+			}
+			/* XXX Further optimization: remember that the file was
+			 * persistent and add <sticky/> and <report_on_rpc/>
+			 * tags to the <file_info> description in the WU
+			 * template */
+			break;
+		case DC_FILE_VOLATILE:
+			ret = rename(URL, workpath);
+			if (ret)
+			{
+				DC_log(LOG_ERR, "Failed to rename %s to %s: %s",
+					URL, workpath, strerror(errno));
+				g_free(workpath);
+				return DC_ERR_BADPARAM; /* XXX */
+			}
+			break;
+	}
+
+	wu->input_files = g_list_append(wu->input_files,
+		g_strdup(logicalFileName));
+	wu->num_inputs++;
+	g_free(workpath);
+	return 0;
+}
+
+int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
+{
+	int ret;
+
+	/* Sanity checks */
+	ret = check_logical_name(wu, logicalFileName);
+	if (ret)
+		return ret;
+
+	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
+	 * does not exceed the max. number of file slots */
+
+	wu->output_files = g_list_append(wu->output_files,
+		g_strdup(logicalFileName));
+	wu->num_outputs++;
+	return 0;
+}
+
+static char *get_input_download_path(DC_Workunit *wu, const char *label)
+{
+	char path[PATH_MAX], *filename;
+	filename = g_strdup_printf("%s_%s", label, wu->uuid_str);
+	dir_hier_path(filename, _DC_getDownloadDir(), _DC_getUldlDirFanout(),
+		path, TRUE);
+	g_free(filename);
+	return g_strdup(path);
+}
+
+/* This function installs input files to the Boinc download directory */
+static int install_input_files(DC_Workunit *wu)
+{
+	char *src, *dest;
+	GList *l;
+	int ret;
+
+	for (l = wu->input_files; l; l = l->next)
+	{
+		src = get_workdir_path(wu, (char *)l->data, FILE_IN);
+		dest = get_input_download_path(wu, (char *)l->data);
+		ret = link(src, dest);
+		if (ret)
+		{
+			DC_log(LOG_ERR, "Failed to install file %s to the "
+				"Boinc download directory at %s", src, dest);
+			g_free(src);
+			g_free(dest);
+			return DC_ERR_INTERNAL;
+		}
+		g_free(src);
+		g_free(dest);
+	}
+
+	/* During resume, we have to install the checkpoint file as well */
+	if (wu->ckpt_name)
+	{
+		src = get_workdir_path(wu, wu->ckpt_name, FILE_CKPT);
+		dest = get_input_download_path(wu, wu->ckpt_name);
+		ret = link(src, dest);
+		if (ret)
+		{
+			DC_log(LOG_ERR, "Failed to install file %s to the "
+				"Boinc download directory at %s", src, dest);
+			g_free(src);
+			g_free(dest);
+			return DC_ERR_INTERNAL;
+		}
+		g_free(src);
+		g_free(dest);
+	}
+
+	return 0;
+}
+
+static char *generate_wu_template(DC_Workunit *wu)
+{
+	GString *tmpl;
+	GList *l;
+	char *p;
+	int i;
+
+	/* Generate the file info block */
+	tmpl = g_string_new("<file_info>\n");
+	for (i = 0; i < wu->num_inputs; i++)
+		g_string_append_printf(tmpl, "\t<number>%d</number>\n", i);
+	g_string_append(tmpl, "</file_info>\n");
+
+	/* Generate the workunit description */
+	g_string_append(tmpl, "<workunit>\n");
+	for (i = 0, l = wu->input_files; l && i < wu->num_inputs;
+			l = l->next, i++)
+	{
+		g_string_append(tmpl, "\t<file_ref>\n");
+		g_string_append_printf(tmpl,
+			"\t\t<file_number>%d</file_number>\n", i);
+		g_string_append_printf(tmpl,
+			"\t\t<open_name>%s</open_name>\n", (char *)l->data);
+		g_string_append(tmpl, "\t</file_ref>\n");
+	}
+
+	/* XXX Should qoute the individual arguments */
+	p = g_strjoinv(" ", wu->argv);
+	g_string_append_printf(tmpl,
+		"\t<command_line>%s</command_line>\n", p);
+	g_free(p);
+
+	g_string_append(tmpl,
+		"\t<rsc_fpops_est>1e13</rsc_fpops_est>\n"); /* XXX Check */
+	g_string_append(tmpl,
+		"\t<rsc_fpops_bound>1e15</rsc_fpops_bound>\n"); /* XXX Check */
+	g_string_append(tmpl,
+		"\t<rsc_memory_bound>10000000</rsc_memory_bound>\n");
+	g_string_append(tmpl,
+		"\t<rsc_disk_bound>1000000</rsc_disk_bound>\n");
+	g_string_append(tmpl,
+		"\t<delay_bound>360000</delay_bound>\n");
+	g_string_append(tmpl,
+		"\t<min_quorum>1</min_quorum>\n");
+	g_string_append(tmpl,
+		"\t<target_nresults>1</target_nresults>\n");
+	g_string_append(tmpl,
+		"\t<max_error_results>3</max_error_results>\n");
+	g_string_append(tmpl,
+		"\t<max_success_results>3</max_total_results>\n");
+	g_string_append(tmpl,
+		"\t<max_total_results>4</max_total_results>\n");
+
+	p = tmpl->str;
+	g_string_free(tmpl, FALSE);
+	return p;
+}
+
+static char *generate_result_template(DC_Workunit *wu)
+{
+	char *file, *abspath;
+	FILE *tmpl;
+	GList *l;
+	int i;
+
+	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
+		wu->uuid_str);
+	abspath = g_strdup_printf("%s%c%s", _DC_getProjectRoot(),
+		G_DIR_SEPARATOR, file);
+
+	tmpl = fopen(abspath, "w");
+	if (!tmpl)
+	{
+		DC_log(LOG_ERR, "Failed to create result template %s: %s",
+			abspath, strerror(errno));
+		g_free(file);
+		g_free(abspath);
+		return NULL;
+	}
+
+	/* We need a slot for
+	 * - every output file
+	 * - every possible subresult
+	 * - the checkpoint file */
+	for (i = 0; i < wu->num_outputs + wu->subresults + 1; i++)
+	{
+		fprintf(tmpl, "<file_info>\n");
+		fprintf(tmpl, "\t<name><OUTFILE_%d/></name>\n", i);
+		fprintf(tmpl, "\t<generated_locally/>\n");
+		fprintf(tmpl, "\t<upload_when_present/>\n");
+		fprintf(tmpl, "\t<max_nbytes>262144</max_nbytes>\n"); /* XXX */
+		fprintf(tmpl, "\t<url><UPLOAD_URL/></url>\n");
+		fprintf(tmpl, "</file_info>\n");
+	}
+
+	fprintf(tmpl, "<result>\n");
+	/* The output templates */
+	for (l = wu->output_files, i = 0; l && i < wu->num_outputs;
+			l = l->next, i++)
+	{
+		fprintf(tmpl, "\t<file_ref>\n");
+		fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i);
+		fprintf(tmpl, "\t\t<open_name>%s</open_name>\n",
+			(char *)l->data);
+		fprintf(tmpl, "\t</file_ref>\n");
+	}
+
+	/* The subresult templates */
+	while (i < wu->num_outputs + wu->subresults)
+	{
+		fprintf(tmpl, "\t<file_ref>\n");
+		fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i);
+		fprintf(tmpl, "\t\t<open_name>_dc_subresult_%d</open_name>\n", /* XXX check name */
+			i - wu->num_outputs);
+		fprintf(tmpl, "\t</file_ref>\n");
+		i++;
+	}
+
+	/* The checkpoint template */
+	fprintf(tmpl, "\t<file_ref>\n");
+	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i);
+	fprintf(tmpl, "\t\t<open_name>_dc_checkpoint</open_name>\n"); /* XXX check name */
+	fprintf(tmpl, "\t</file_ref>\n");
+
+	fprintf(tmpl, "</result>\n");
+	fclose(tmpl);
+
+	g_free(abspath);
+	return file;
+}
+
+static int lookup_appid(DC_Workunit *wu)
+{
+	char *query;
+	DB_APP app;
+
+	query = g_strdup_printf("WHERE name = '%s'", wu->client_name);
+	if (app.lookup(query))
+	{
+		DC_log(LOG_ERR, "Failed to look up application %s",
+			wu->client_name);
+		g_free(query);
+		return -1;
+	}
+	g_free(query);
+	return app.get_id();
+}
+
+int DC_submitWU(DC_Workunit *wu)
+{
+	char **infiles, *wu_name, *result_path;
+	char *wu_template, *result_template_file;
+	DB_WORKUNIT bwu;
+	int i, ret;
+	GList *l;
+
+	ret = install_input_files(wu);
+	if (ret)
+		return ret;
+
+	if (wu->tag)
+		wu_name = g_strdup_printf("%s_%s_%s", project_uuid_str,
+			wu->uuid_str, wu->tag);
+	else
+		wu_name = g_strdup_printf("%s_%s", project_uuid_str,
+			wu->uuid_str);
+	strncpy(bwu.name, wu_name, sizeof(bwu.name));
+	g_free(wu_name);
+
+	bwu.appid = lookup_appid(wu);
+	if (bwu.appid == -1)
+		return DC_ERR_DATABASE;
+
+	/* XXX Make these compatible with the template */
+	bwu.batch = 1;
+	bwu.rsc_fpops_est = 200000 ;
+	bwu.rsc_fpops_bound = 2000000000 ;
+	bwu.rsc_memory_bound = 2000000;
+	bwu.rsc_disk_bound = 2000000;
+	bwu.delay_bound = 720000;
+
+	wu_template = generate_wu_template(wu);
+	result_template_file = generate_result_template(wu);
+	result_path = g_strdup_printf("%s%c%s", _DC_getProjectRoot(),
+		G_DIR_SEPARATOR, result_template_file);
+
+	infiles = g_new0(char *, wu->num_inputs + 1);
+	for (l = wu->input_files, i = 0; l && i < wu->num_inputs;
+			l = l->next, i++)
+		infiles[i] = g_strdup((char *)l->data);
+
+	ret = create_work(bwu, wu_template, result_template_file, result_path,
+		const_cast<const char **>(infiles), wu->num_inputs,
+		dc_boinc_config);
+	g_free(result_path);
+	g_strfreev(infiles);
+	g_free(result_template_file);
+	g_free(wu_template);
+
+	if (ret)
+	{
+		DC_log(LOG_ERR, "Failed to create Boinc work unit");
+		return DC_ERR_DATABASE;
+	}
+
+	return 0;
+}

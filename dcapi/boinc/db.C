@@ -6,6 +6,7 @@
 #include <config.h>
 #endif
 
+#include <sched_config.h>
 #include <boinc_db.h>
 
 #include "dc_boinc.h"
