@@ -23,10 +23,13 @@ extern "C" {
 enum {
 	DC_OK,			/* No error */
 	DC_ERR_CONFIG,		/* Configuration error */
+	DC_ERR_DATABASE,	/* Error with the internal data base */
 	DC_ERR_NOTIMPL,		/* Not implemented by the API or by the
 				   underlying grid infrastructure */
 	DC_ERR_UNKNOWN_WU,	/* Unknown WU identifier */
 	DC_ERR_TIMEOUT,		/* Timeout */
+	DC_ERR_BADPARAM,	/* Bad function parameter */
+	DC_ERR_INTERNAL,	/* Internal error */
 };
 
 /* Flags describing what capabilities does the underlying grid system
