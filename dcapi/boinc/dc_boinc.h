@@ -19,6 +19,18 @@ extern "C" {
 #define CFG_INSTANCEUUID	"InstanceUUID"
 #define CFG_CONFIGXML		"BoincConfigXML"
 
+/* File types in the working directory */
+typedef enum
+{
+	FILE_IN,
+	FILE_OUT,
+	FILE_CKPT,
+	FILE_DCAPI
+} WorkdirFile;
+
+/* Name of the result template file */
+#define RESULT_TEMPLATE		"result_template.xml"
+
 
 /********************************************************************
  * Data types
@@ -35,10 +47,11 @@ struct _DC_Workunit
 
 	/* State of the WU */
 	uuid_t			uuid;
+	char			*uuid_str;
 	DC_WUState		state;
 	char			*workdir;
 
-	/* Input file definitions. Elements are of type DC_PhysicalFile */
+	/* Input file definitions. Elements are of type char * */
 	GList			*input_files;
 	int			num_inputs;
 
@@ -46,8 +59,8 @@ struct _DC_Workunit
 	GList			*output_files;
 	int			num_outputs;
 
-	/* Path of the checkpoint file, if exists */
-	char			*ckpt_path;
+	/* Name of the checkpoint file, if exists (relative to workdir) */
+	char			*ckpt_name;
 };
 
 struct _DC_Result
@@ -70,6 +83,8 @@ extern DC_ResultCallback	_dc_resultcb;
 extern DC_SubresultCallback	_dc_subresultcb;
 extern DC_MessageCallback	_dc_messagecb;
 
+extern char project_uuid_str[];
+
 
 /********************************************************************
  * Function prototypes
@@ -78,23 +93,32 @@ extern DC_MessageCallback	_dc_messagecb;
 /* Parses the project's config.xml */
 int _DC_parseConfigXML(const char *file) G_GNUC_INTERNAL;
 
+/* Get the project's root directory */
+char *_DC_getProjectRoot(void) G_GNUC_INTERNAL;
+
 /* Returns the Boinc upload directory */
-const char *_DC_getUploadDir(void) G_GNUC_INTERNAL;
+char *_DC_getUploadDir(void) G_GNUC_INTERNAL;
+
+/* Returns the Boinc download directory */
+char *_DC_getDownloadDir(void) G_GNUC_INTERNAL;
 
 /* Returns the Boinc upload/download hashing */
 int _DC_getUldlDirFanout(void) G_GNUC_INTERNAL;
 
 /* Returns the database name */
-const char *_DC_getDBName(void) G_GNUC_INTERNAL;
+char *_DC_getDBName(void) G_GNUC_INTERNAL;
 
 /* Returns the database host */
-const char *_DC_getDBHost(void) G_GNUC_INTERNAL;
+char *_DC_getDBHost(void) G_GNUC_INTERNAL;
 
 /* Returns the database user ID */
-const char *_DC_getDBUser(void) G_GNUC_INTERNAL;
+char *_DC_getDBUser(void) G_GNUC_INTERNAL;
 
 /* Returns the database password */
-const char *_DC_getDBPasswd(void) G_GNUC_INTERNAL;
+char *_DC_getDBPasswd(void) G_GNUC_INTERNAL;
+
+/* Initializes the database connection */
+int _DC_initDB(void) G_GNUC_INTERNAL;
 
 /********************************************************************
  * XXX Everything below needs to be checked & redesigned
@@ -120,24 +144,8 @@ DC_Result  *dc_result_create(char *name, char *wuname, char *dir);
 int        dc_result_addOutputFile(DC_Result *result, char *filename);
 void       dc_result_free(DC_Result *result);
 
-/** init workunit module.
- *  'projectroot' is the path to the directory where the
- *  actual project is installed e.g. /usr/boinc/projects/proba.
- *  'uploadkeyfile' is the upload private key file for the 
- *  installed boinc project, e.g. /usr/boinc/keys/upload_private
- */
-void dc_wu_init(const char *projectroot, const char *uploadkeyfile);
-
-/** add new wu which has been created */
-DC_Workunit dc_wu_create(const char *wuname, const char *clientname, 
-		 const char *arguments, const char *workdir, 
-		 const char *wutemplate, const char *resulttemplate);
-
 /** add input files to a wu */
 int dc_wu_setInput(DC_Workunit *wu, const char *url, const char* localfilename);
-
-/** set priority of a wu */
-int dc_wu_setPriority(DC_Workunit *wu, int priority);
 
 /** Create the wu within Boinc (i.e. submit from application into Boinc)
  *  uploadkeyfile: upload_private key
@@ -145,12 +153,8 @@ int dc_wu_setPriority(DC_Workunit *wu, int priority);
  */
 int dc_wu_createBoincWU(DC_Workunit *wu, char *uploadkeyfile, char *boincRootDir);
 
-int dc_wu_destroy(DC_Workunit *wu);
-
 /* Return the workunit index from the WUtable that matches the name */
 int dc_wu_findByName(char *wuname);
-
-void dc_wu_log(void); /* print internal data */
 
 #ifdef __cplusplus
 }

@@ -10,9 +10,7 @@
 #include <vector>
 #include <strings.h>
 
-#include <dc.h>
-#include "result.h"
-#include "assimilator.h"
+#include "dc_boinc.h"
 
 #include <boinc_db.h>
 #include <parse.h>
@@ -34,7 +32,7 @@ static DB_APP app;
 
 void assimilate_handler(
    WORKUNIT& wu, vector<RESULT>& results, RESULT& canonical_result,
-   void (*cb_assimilate_result)(DC_Result result)) 
+   void (*cb_assimilate_result)(DC_Result *result)) 
 {
     if (wu.canonical_resultid) {
 	string output_file_name;
@@ -57,7 +55,7 @@ void assimilate_handler(
 		   filename, config.upload_dir);
 
 	    /* Create a DC_Result and pass it to the callback function */
-	    DC_Result dcresult = dc_result_create(filename, wu.name, config.upload_dir);
+	    DC_Result *dcresult = dc_result_create(filename, wu.name, config.upload_dir);
 	    dc_result_addOutputFile(dcresult, filename);
 
 	    if (get_output_file_path(canonical_result, output_file_name))
@@ -107,7 +105,7 @@ void assimilate_handler(
 // assimilate one WU that needs it
 // return nonzero if did anything
 //
-bool do_pass(APP& app, void (*cb_assimilate_result)(DC_Result result)) {
+bool do_pass(APP& app, void (*cb_assimilate_result)(DC_Result *result)) {
     DB_WORKUNIT wu;
     DB_RESULT canonical_result, result;
     bool did_something = false;

@@ -17,11 +17,11 @@ libdc_boinc_la_SOURCES = \
 		config.C \
 		dc.c \
 		db.C \
+		wu.C \
 		assimilator.C \
 		result.c \
 		validate_util.C \
-		validate_util.h \
-		wu.C
+		validate_util.h
 libdc_boinc_la_LIBADD = \
 		../common/libdc-common.la \
 		$(BOINC_SERVER_LIBS)
