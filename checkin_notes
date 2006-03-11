@@ -2755,3 +2755,10 @@ David  9 Mar 2006
 
     sched/
         handle_request.C
+
+David  9 Mar 2006
+    - core client: if change host CPID, do immediate notification
+        only of projects managed via account manager
+
+    client/
+        cs_scheduler.C
