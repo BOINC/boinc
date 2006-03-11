@@ -11,9 +11,9 @@ array("March 5, 2006",
 array("March 3, 2006",
     "<a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a>
     announces the public release of the first chemistry BOINC project.
-    This project studies the structure and reactivity of molecules
-    using Quantum Chemistry, whose vastly complex equations
-    require huge amounts of computing power.
+    This project, based at the University of M&uuml;nster in Germany,
+    studies the structure and reactivity of molecules using Quantum Chemistry,
+    whose vastly complex equations require huge amounts of computing power.
     "
 ),
 array("February 24, 2006",

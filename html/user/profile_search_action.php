@@ -10,8 +10,8 @@ function show_profile_link($profile, $n) {
 
 db_init();
 
-$search_string = $_GET['search_string'];
-$offset = $_GET['offset'];
+$search_string = get_str('search_string');
+$offset = get_int('offset', true);
 if (!$offset) $offset=0;
 $count = 10;
 

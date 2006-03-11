@@ -2734,3 +2734,24 @@ David  9 Mar 2006
 
     client/
         cs_scheduler.C
+
+David  9 Mar 2006
+    - user web: minor fixes
+
+    html/user/
+        debug.php (removed)
+        profile_search_action.php
+        user_search_action.php
+
+David  9 Mar 2006
+    - Scheduler: avoid creating redundant host records.
+        If a scheduler request has zero host ID but non-blank host CPID,
+        see if there's a host record in the DB with that CPID;
+        if so, pick the most recent (i.e. largest ID)
+        and use it (rather than creating a new host record).
+
+        This change means that when you detach/reattach to a project,
+        you won't get a new host record.  Woo hoo!
+
+    sched/
+        handle_request.C

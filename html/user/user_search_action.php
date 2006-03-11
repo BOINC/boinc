@@ -60,9 +60,7 @@ $default_sort = 'id';
 $allowed_order = array('id', 'name', 'create_time','country', 'total_credit', 'expavg_credit');
 $nice_names    = array('', 'sorted by name', 'sorted by date joined', 'sorted by country', 'sorted by total credit', 'sorted by recent average credit');
 
-/* Sanity check on order */
-if (!isset ($_GET['order']) || 
-    !in_array ($_GET['order'], $allowed_order)) {
+if (!isset ($_GET['order']) || !in_array ($_GET['order'], $allowed_order)) {
     $order = $default_sort;
     $nice_name='';
 } else {
@@ -70,7 +68,7 @@ if (!isset ($_GET['order']) ||
     $nice_name = $nice_names[array_search($order, $allowed_order)];
 }
 
-if (isset($_GET['search_string'])) $search_string = $_GET['search_string'];
+$search_string = get_str('search_string');
 
 if (isset($_GET['offset'])) $offset = $_GET['offset'];
 if (!is_numeric($offset) || $offset<0) $offset=0;
@@ -91,8 +89,7 @@ page_head("Search results");
 
 if (strlen($search_string)>=3) {
     $urls = urlencode($search_string);
-    $s = str_replace('_', '\\\\_', $search_string);
-    $s = str_replace('%', '\\\\%', $s);
+    $s = escape_pattern($search_string);
     $q = "select * from user where name like '$s%' order by $order $upordown limit $offset,$count";
     $result = mysql_query($q);
     

@@ -1190,13 +1190,13 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
 }
 
 // Choose a new host CPID.
-// If using account manager,
-// do scheduler RPCs to all projects to propagate the CPID
+// If using account manager, do scheduler RPCs
+// to all acct-mgr-attached projects to propagate the CPID
 //
 void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
-    if (strlen(acct_mgr_info.acct_mgr_url)) {
-        for (unsigned int i=0; i<projects.size(); i++) {
+    for (unsigned int i=0; i<projects.size(); i++) {
+        if (projects[i]->attached_via_acct_mgr) {
             projects[i]->sched_rpc_pending = true;
             projects[i]->min_rpc_time = now + 15;
         }

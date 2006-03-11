@@ -108,6 +108,23 @@ void unlock_sched(SCHEDULER_REPLY& reply) {
     close(reply.lockfile_fd);
 }
 
+// find the user's most recent host with given host CPID
+//
+bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
+    char buf[256], buf2[256];
+    sprintf(buf, "%s%s", host_cpid, user.email_addr);
+    md5_block((const unsigned char*)buf, strlen(buf), buf2);
+
+    sprintf(buf,
+        "where userid=%d and host_cpid='%s' order by id desc", user.id, buf2
+    );
+    if (!host.enumerate(buf)) {
+        host.end_enumerate();
+        return true;
+    }
+    return false;
+}
+
 // Based on the info in the request message,
 // look up the host and its user, and make sure the authenticator matches.
 // Some special cases:
@@ -118,7 +135,7 @@ void unlock_sched(SCHEDULER_REPLY& reply) {
 //     then follow links to find the proper host
 //
 // POSTCONDITION:
-// If this returns zero, then:
+// If this function returns zero, then:
 // - reply.host contains a valid host record (possibly new)
 // - reply.user contains a valid user record
 // - if user belongs to a team, reply.team contains team record
@@ -165,8 +182,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
 
         strlcpy(
-            user.authenticator, sreq.authenticator,
-            sizeof(user.authenticator)
+            user.authenticator, sreq.authenticator, sizeof(user.authenticator)
         );
         sprintf(buf, "where authenticator='%s'", user.authenticator);
         retval = user.lookup(buf);
@@ -215,8 +231,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             goto make_new_host;
         }
     } else {
-
-        // here no hostid was given; we'll have to create a new host record
+        // Here no hostid was given, or the ID was bad.
+        // Look up the user, then create a new host record
         //
 lookup_user_and_make_new_host:
         strlcpy(
@@ -241,7 +257,25 @@ lookup_user_and_make_new_host:
             return ERR_AUTHENTICATOR;
         }
         reply.user = user;
+
+        // If host CPID is present,
+        // scan backwards through this user's hosts,
+        // looking for one with the same host CPID.
+        // If we find one, it means the user detached and reattached.
+        // Use the existing host record.
+        //
+        if (strlen(sreq.host.host_cpid)) {
+            if (find_host_by_cpid(user, sreq.host.host_cpid, host)) {
+                goto got_host;
+            }
+        }
+
 make_new_host:
+        // either of the above cases,
+        // or host ID didn't match user ID,
+        // or RPC seqno was too low.
+        //
+        // Create a new host.
         // reply.user is filled in and valid at this point
         //
         host = sreq.host;
@@ -262,6 +296,7 @@ make_new_host:
         }
         host.id = boinc_db.insert_id();
 
+got_host:
         reply.host = host;
         reply.hostid = reply.host.id;
             // this tells client to updates its host ID
@@ -287,7 +322,7 @@ make_new_host:
         reply.email_hash
     );
 
-    // see if new cross-project ID
+    // if new user CPID, update user record
     //
     if (strlen(sreq.cross_project_id)) {
         if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
