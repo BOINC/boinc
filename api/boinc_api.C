@@ -402,6 +402,11 @@ void boinc_exit(int status) {
     fflush(NULL);
     _exit(status);
 #else
+#ifdef _WIN32
+	if (options.terminate_on_exit) {
+	    TerminateProcess(GetCurrentProcess(), status);
+	}
+#endif
     exit(status);
 #endif
 }
@@ -607,7 +612,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<abort/>")) {
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
-                boinc_exit(0);
+				boinc_exit(0);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {

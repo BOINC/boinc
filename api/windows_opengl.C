@@ -363,7 +363,7 @@ LRESULT CALLBACK WndProc(
         return 0;
     case WM_CLOSE:
         if (boinc_is_standalone()) {
-            exit(0);
+            boinc_exit(0);
         } else {
             if (current_graphics_mode != MODE_FULLSCREEN) {
                 set_mode(MODE_HIDE_GRAPHICS);

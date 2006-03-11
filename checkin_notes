@@ -2762,3 +2762,14 @@ David  9 Mar 2006
 
     client/
         cs_scheduler.C
+
+Rom    11 Mar 2006
+    - Allow science applications to request to be terminated at exit instead
+        of a regular exit.  This causes the OS to shutdown the threads and
+        process before cleaning up the rest of the stuff and keeps the
+        pesky access violations at bay when shutting down.
+    - Use the same shutdown logic when running in standalone mode.
+        
+    api/
+        boinc_api.C, .h
+        windows_opengl.C
