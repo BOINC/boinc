@@ -108,7 +108,7 @@ void unlock_sched(SCHEDULER_REPLY& reply) {
     close(reply.lockfile_fd);
 }
 
-// find the user's most recent host with given host CPID
+// find the user's most recently-created host with given host CPID
 //
 bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     char buf[256], buf2[256];
@@ -123,6 +123,33 @@ bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
         return true;
     }
     return false;
+}
+
+// scan in-progress results for the given host,
+// and mark them as done, client error
+//
+void mark_results_aborted(DB_HOST& host) {
+    char buf[256], buf2[256];
+    DB_RESULT result;
+    sprintf(buf, "where hostid=%d and server_state=%d",
+        host.id,
+        RESULT_SERVER_STATE_IN_PROGRESS
+    );
+    while (!result.enumerate(buf)) {
+        sprintf(buf2,
+            "server_state=%d, outcome=%d",
+            RESULT_SERVER_STATE_OVER,
+            RESULT_OUTCOME_CLIENT_ERROR
+        );
+        result.update_field(buf2);
+
+        // and trigger WU transition
+        //
+        DB_WORKUNIT wu;
+        wu.id = result.workunitid;
+        sprintf(buf2, "transition_time=%d", time(0));
+        wu.update_field(buf2);
+    }
 }
 
 // Based on the info in the request message,
@@ -262,10 +289,12 @@ lookup_user_and_make_new_host:
         // scan backwards through this user's hosts,
         // looking for one with the same host CPID.
         // If we find one, it means the user detached and reattached.
-        // Use the existing host record.
+        // Use the existing host record,
+        // and mark in-progress results as aborted.
         //
         if (strlen(sreq.host.host_cpid)) {
             if (find_host_by_cpid(user, sreq.host.host_cpid, host)) {
+                mark_results_aborted(host);
                 goto got_host;
             }
         }

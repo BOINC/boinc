@@ -66,7 +66,7 @@ int result_suffix(char* name) {
     return 0;
 }
 
-// The given result just timed out.
+// A result just timed out.
 // Update the host's avg_turnaround and max_results_day.
 //
 int penalize_host(int hostid, double delay_bound) {

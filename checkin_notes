@@ -2773,3 +2773,17 @@ Rom    11 Mar 2006
     api/
         boinc_api.C, .h
         windows_opengl.C
+
+David  11 Mar 2006
+    - Scheduler (see checkin of 9 Mar): When we use a host record
+        based on host CPID (presumably because user detached/reattached)
+        mark all in-progress results as over, client error.
+        This prevents them from being resent.
+        Avoid a situation where a result causes problems on a host,
+        user detaches/reattaches to clear things up,
+        and then the host gets sent the same result again.
+        (from Bruce Allen)
+
+    sched/
+        handle_request.C
+        transitioner.C
