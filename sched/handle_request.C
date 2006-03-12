@@ -110,7 +110,7 @@ void unlock_sched(SCHEDULER_REPLY& reply) {
 
 // find the user's most recently-created host with given host CPID
 //
-bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
+static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     char buf[256], buf2[256];
     sprintf(buf, "%s%s", host_cpid, user.email_addr);
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
@@ -128,7 +128,7 @@ bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
 // scan in-progress results for the given host,
 // and mark them as done, client error
 //
-void mark_results_aborted(DB_HOST& host) {
+static void mark_results_aborted(DB_HOST& host) {
     char buf[256], buf2[256];
     DB_RESULT result;
     sprintf(buf, "where hostid=%d and server_state=%d",
