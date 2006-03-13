@@ -4,8 +4,10 @@ page_head("Papers related to BOINC");
 echo"
 
 <a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>
-<br> David P. Anderson
-<br> Submitted for publication
+<br> David P. Anderson and Gilles Fedak
+<br> IEEE/ACM International Symposium on Cluster Computing and the Grid,
+    Singapore, May 16-19, 2006.
+
 <hr>
 <a href=http://www.climateprediction.net/science/pubs/cpdn-computing.pdf>The Challenge of Volunteer Computing With Lengthy Climate Model Simulations</a>
 <br>

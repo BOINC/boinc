@@ -2813,3 +2813,11 @@ David  11 Mar 2006
     sched/
         handle_request.C
         transitioner.C
+
+David  13 Mar 2006
+    - change arg of boinc_init_options() from BOINC_OPTIONS&
+        to BOINC_OPTIONS* (so you can call it from C)
+
+    api/
+        boinc_api.C,h
+        graphics_lib.C

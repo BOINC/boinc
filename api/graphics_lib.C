@@ -148,7 +148,7 @@ no_graphics:
     // library dependencies on machine (eg, no X11, no GL libraries,
     // etc) or unable to find needed symbol in library
     //
-    boinc_init_options(opt);
+    boinc_init_options(&opt);
     worker();
     
     // worker() should call boinc_finish so we should NEVER get here!

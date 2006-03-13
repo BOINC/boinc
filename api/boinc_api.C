@@ -243,12 +243,12 @@ static bool update_app_progress(
 //
 int boinc_init() {
     boinc_options_defaults(options);
-    return boinc_init_options(options);
+    return boinc_init_options(&options);
 }
 
-int boinc_init_options(BOINC_OPTIONS& opt) {
+int boinc_init_options(BOINC_OPTIONS* opt) {
     int retval;
-    retval = boinc_init_options_general(opt);
+    retval = boinc_init_options_general(*opt);
     if (retval) return retval;
     return set_worker_timer();
 }
