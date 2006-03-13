@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-07 16:27+0200\n"
+"PO-Revision-Date: 2006-03-09 21:09+0200\n"
 "Last-Translator: Son Goku 3SSJ <timeros@gmail.com>\n"
-"Language-Team: AMD Powered @ Home Team <timeros@gmail.com>\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-5\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,21 +30,21 @@ msgstr "&Не, нов потребител"
 msgid "&Yes, existing user"
 msgstr "&Да, съществуващ потребител"
 
-#: clientgui/AccountInfoPage.cpp:316
-#: clientgui/AccountInfoPage.cpp:490
+#: clientgui/AccountInfoPage.cpp:318
+#: clientgui/AccountInfoPage.cpp:493
 msgid "&Password:"
 msgstr "Парола:"
 
-#: clientgui/AccountInfoPage.cpp:320
-#: clientgui/AccountInfoPage.cpp:505
+#: clientgui/AccountInfoPage.cpp:322
+#: clientgui/AccountInfoPage.cpp:508
 msgid "Choose a &password:"
 msgstr "Избери си &парола:"
 
-#: clientgui/AccountInfoPage.cpp:325
+#: clientgui/AccountInfoPage.cpp:327
 msgid "C&onfirm password:"
 msgstr "Потвърди паролата: "
 
-#: clientgui/AccountInfoPage.cpp:367
+#: clientgui/AccountInfoPage.cpp:370
 msgid ""
 "Enter the username and password you used on\n"
 "the web site."
@@ -52,11 +52,11 @@ msgstr ""
 "Въведи потребителското име и паролата, които\n"
 "си използвал на уеб сайта. "
 
-#: clientgui/AccountInfoPage.cpp:373
+#: clientgui/AccountInfoPage.cpp:376
 msgid "&Username:"
 msgstr "Потребит. име:"
 
-#: clientgui/AccountInfoPage.cpp:395
+#: clientgui/AccountInfoPage.cpp:398
 msgid ""
 "Enter the email address and password you used on\n"
 "the web site."
@@ -64,39 +64,39 @@ msgstr ""
 "Въведи email адреса и паролата, които си използвал\n"
 "на уеб сайта. "
 
-#: clientgui/AccountInfoPage.cpp:401
+#: clientgui/AccountInfoPage.cpp:404
 msgid "&Email address:"
 msgstr "Email адрес:"
 
-#: clientgui/AccountInfoPage.cpp:408
+#: clientgui/AccountInfoPage.cpp:411
 #, c-format
 msgid "minimum length %d"
 msgstr "минимална дължина %d"
 
-#: clientgui/AccountInfoPage.cpp:427
+#: clientgui/AccountInfoPage.cpp:430
 #: clientgui/WelcomePage.cpp:304
 msgid "Attach to project"
 msgstr "Влез в проект"
 
-#: clientgui/AccountInfoPage.cpp:429
+#: clientgui/AccountInfoPage.cpp:432
 msgid "Update account manager"
 msgstr "Обнови акаунт менажера"
 
-#: clientgui/AccountInfoPage.cpp:431
+#: clientgui/AccountInfoPage.cpp:434
 msgid "Attach to account manager"
 msgstr "Прикрепи Акаунт Менажера"
 
-#: clientgui/AccountInfoPage.cpp:442
+#: clientgui/AccountInfoPage.cpp:445
 #, c-format
 msgid "The minimum password length for this project is %d. Please choose a different password."
 msgstr "Минималната дължина на паролата за този проект е %d. Моля изберете друга парола."
 
-#: clientgui/AccountInfoPage.cpp:448
+#: clientgui/AccountInfoPage.cpp:451
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please choose a different password."
 msgstr "Минималната дължина на паролата за този акаунт менажер е %d. Моля посочете друга парола. "
 
-#: clientgui/AccountInfoPage.cpp:459
+#: clientgui/AccountInfoPage.cpp:462
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr "Паролата и повторената парола не са еднакви. Моля напишете ги отново. "
 
@@ -139,7 +139,7 @@ msgstr "Въведете URL-то на уеб сайта на акаунт менажера"
 #: clientgui/AccountManagerInfoPage.cpp:173
 #: clientgui/ProjectInfoPage.cpp:229
 msgid "You can copy and paste the URL from your browser's address bar."
-msgstr "Можеш да копираш и пейстнеш URLто от твоя браузър. "
+msgstr "Можеш да копираш и пейстнеш URLто от адресния панел на твоя браузър. "
 
 #: clientgui/AccountManagerInfoPage.cpp:176
 msgid "Account Manager &URL:"
@@ -279,7 +279,7 @@ msgstr "%s не успя да се изключи от Интернет. "
 msgid ""
 "Please provide the email address and password you used to register\n"
 "at GridRepublic. (if you have not yet created an account at\n"
-"GridRepublic, please do so at http://www.gridrepublic.org"
+"GridRepublic, please do so at http://www.gridrepublic.org)"
 msgstr ""
 "Моля въведи email адреса и паролата, които използва при регистрацията\n"
 "в GridRepublic. (ако все още не си си създал акаунт в\n"
@@ -413,7 +413,19 @@ msgstr "Неуспех при премахването на акаунт менажера"
 msgid "Failed to attach to account manager"
 msgstr "Неуспех при прикрепянето към акаунт менажера. "
 
-#: clientgui/CompletionErrorPage.cpp:215
+#: clientgui/CompletionErrorPage.cpp:216
+msgid ""
+"An error has occurred, please check the messages tab for further\n"
+"details.\n"
+"\n"
+"Click Finish to close."
+msgstr ""
+"получи се гршка, моля провери таба със съобщенията за\n"
+"повече подробности\n"
+"\n"
+"Натиснете край за да затворите прозореца. "
+
+#: clientgui/CompletionErrorPage.cpp:223
 #: clientgui/CompletionPage.cpp:229
 #: clientgui/CompletionPage.cpp:253
 #: clientgui/CompletionPage.cpp:274
@@ -421,7 +433,7 @@ msgstr "Неуспех при прикрепянето към акаунт менажера. "
 msgid "Click Finish to close."
 msgstr "Натисни Приключи, за да затвориш прозореца. "
 
-#: clientgui/CompletionErrorPage.cpp:218
+#: clientgui/CompletionErrorPage.cpp:232
 msgid "Messages from server:"
 msgstr "Съобщения от сървъра: "
 
@@ -585,7 +597,7 @@ msgstr "Dial-up и Virtual Private Network настройки"
 
 #: clientgui/DlgOptions.cpp:184
 msgid "&Set Default"
-msgstr "И&збери стойност по подразбиране"
+msgstr "И&збере стойност по подразбиране"
 
 #: clientgui/DlgOptions.cpp:189
 msgid "&Clear Default"
@@ -650,10 +662,6 @@ msgstr "SOCKS прокси"
 #: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
 msgstr "Име на хоста:"
-
-#: clientgui/hyperlink.cpp:62
-msgid "Failed to create wxStaticText, needed by wxHyperLink!"
-msgstr "Неуспех при създаването на wxStaticText, изискван от wxHyperLink!"
 
 #: clientgui/hyperlink.cpp:207
 #, c-format
@@ -1117,37 +1125,37 @@ msgstr "%s -Избор на език"
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "Езикът по подразбиране на %sбеше променен, за да влезе в сила промяната трябва да рестартираш %s."
 
-#: clientgui/MainFrame.cpp:1813
-#: clientgui/MainFrame.cpp:1816
+#: clientgui/MainFrame.cpp:1811
+#: clientgui/MainFrame.cpp:1814
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1814
+#: clientgui/MainFrame.cpp:1812
 #, c-format
 msgid "Connecting to %s"
 msgstr "Свързване към %s"
 
-#: clientgui/MainFrame.cpp:1817
+#: clientgui/MainFrame.cpp:1815
 #, c-format
 msgid "Connected to %s"
 msgstr "Свързан към %s"
 
-#: clientgui/MainFrame.cpp:1983
+#: clientgui/MainFrame.cpp:1981
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Грешка при връзката"
 
-#: clientgui/MainFrame.cpp:1989
+#: clientgui/MainFrame.cpp:1987
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Паролата, която въведохте е грешна, моля опитайте отново. "
 
-#: clientgui/MainFrame.cpp:2006
+#: clientgui/MainFrame.cpp:2004
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - Връзката провалена"
 
-#: clientgui/MainFrame.cpp:2015
+#: clientgui/MainFrame.cpp:2013
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -1156,12 +1164,12 @@ msgstr ""
 "%sне можа да се свърже към %s клиент.\n"
 "Изкаш ли да опиташ отново?"
 
-#: clientgui/MainFrame.cpp:2042
+#: clientgui/MainFrame.cpp:2040
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Статус на връзката"
 
-#: clientgui/MainFrame.cpp:2053
+#: clientgui/MainFrame.cpp:2051
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -1644,15 +1652,12 @@ msgid "Show host average"
 msgstr "Среден кредит на хоста"
 
 #: clientgui/ViewStatistics.cpp:672
-#: clientgui/wizardex.cpp:365
-msgid "< &Back"
-msgstr "< На&зад"
+msgid "< &Previous project"
+msgstr "< &Предходен проект"
 
 #: clientgui/ViewStatistics.cpp:678
-#: clientgui/wizardex.cpp:359
-#: clientgui/wizardex.cpp:551
-msgid "&Next >"
-msgstr "На&пред >"
+msgid "&Next project >"
+msgstr "&Следващ проект >"
 
 #: clientgui/ViewStatistics.cpp:684
 msgid "Mode view"
@@ -2016,6 +2021,15 @@ msgstr "Съгурни ли сте че искате да се откажете?"
 #: clientgui/WizardAttachProject.cpp:447
 msgid "Question"
 msgstr "Въпрос"
+
+#: clientgui/wizardex.cpp:359
+#: clientgui/wizardex.cpp:551
+msgid "&Next >"
+msgstr "На&пред >"
+
+#: clientgui/wizardex.cpp:365
+msgid "< &Back"
+msgstr "< На&зад"
 
 #: clientgui/wizardex.cpp:549
 msgid "&Finish"
