@@ -2796,10 +2796,6 @@ Rom    11 Mar 2006
       the same time and then starts the shutdown process for the
       process.
 
-    NOTE: Any state file modifications need to be guarded by
-        boinc_begin_critical_section() and 
-        boinc_end_critical_section() calls to avoid corruption.
-        
     api/
         boinc_api.C, .h
         windows_opengl.C
