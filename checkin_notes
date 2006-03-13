@@ -2764,11 +2764,41 @@ David  9 Mar 2006
         cs_scheduler.C
 
 Rom    11 Mar 2006
-    - Allow science applications to request to be terminated at exit instead
-        of a regular exit.  This causes the OS to shutdown the threads and
-        process before cleaning up the rest of the stuff and keeps the
-        pesky access violations at bay when shutting down.
-    - Use the same shutdown logic when running in standalone mode.
+    Problem:  On Windows it seems like random crashes occur with
+      the science application is trying to shutdown.
+
+    Cause:  When a science application that supports graphics is
+      running on Windows it is generally running with three threads.
+
+        Worker: normally contains the science package and normally
+          does the bulk of the memory allocations and de-allocations.
+
+        Graphics: normally just reads what the worker thread has
+          produced and displays it in a graphics window.  Memory
+          allocations are normally handled on the stack or as
+          global variables which are only used via the graphics
+          thread.
+
+        Timer: normally handles the IPC to and from the core client.
+
+    When the quit request is received from the core client the timer
+      thread would call exit which in turn would cause the C Runtime
+      Library to clean up after itself before calling the ExitProcess
+      Windows API which would actually stop the threads and exit the
+      process.  The thread that calls ExitProcess causes the heaps to
+      be freed before the other threads have been stopped.  The
+      greater the number of allocations the longer the graphics and
+      worker threads are left running and the greater the chance of 
+      touching an address of memory that has been freed.
+
+    Solution: Instead of calling exit call TerminateProcess. 
+      TerminateProcess causes the OS to halt all executing threads at
+      the same time and then starts the shutdown process for the
+      process.
+
+    NOTE: Any state file modifications need to be guarded by
+        boinc_begin_critical_section() and 
+        boinc_end_critical_section() calls to avoid corruption.
         
     api/
         boinc_api.C, .h
