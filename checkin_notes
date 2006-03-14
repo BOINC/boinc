@@ -2823,7 +2823,7 @@ David  13 Mar 2006
         graphics_lib.C
 
 Walt   13 Mar 2006
-    - Bug Fix: in boinc-exit, all platforms, call fflush(NULL) so
+    - Bug Fix: in boinc_exit(), all platforms, call fflush(NULL) so
       output buffers get flushed.  Moves the call outside the #ifdef.
     - Bug Fix: Account manager shouldn't be contacted if the network
         is suspended.  This affects the automatic (every hour)
