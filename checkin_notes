@@ -2833,3 +2833,7 @@ Walt   13 Mar 2006
         boinc_api.C
     client/
         client_state.C
+
+Rom    14 Mar 2006 (HEAD)
+    - Tag for 5.3.26 release, all platforms
+      boinc_core_release_5_3_26
