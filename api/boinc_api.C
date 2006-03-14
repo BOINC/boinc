@@ -394,12 +394,15 @@ void boinc_exit(int status) {
     //
     file_lock.unlock(LOCKFILE);
 
+    // flush all the output buffers
+    //
+    fflush(NULL);
+
     // on Mac, calling exit() can lead to infinite exit-atexit loops,
     // while _exit() seems to behave nicely.
     // This is not pretty but unless someone finds a cleaner solution, 
     // we handle the Mac-case separately .
 #ifdef __APPLE_CC__
-    fflush(NULL);
     _exit(status);
 #else
 #ifdef _WIN32
