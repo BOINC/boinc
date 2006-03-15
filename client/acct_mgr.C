@@ -285,6 +285,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     }
 
     if (sig_ok) {
+        strcpy(gstate.acct_mgr_info.acct_mgr_url, ami.acct_mgr_url);
         strcpy(gstate.acct_mgr_info.acct_mgr_name, ami.acct_mgr_name);
         strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
         strcpy(gstate.acct_mgr_info.login_name, ami.login_name);

@@ -2843,3 +2843,11 @@ Charlie  14 Mar 2006
 
     api/
         boinc_api.C,h
+
+Rom    14 Mar 2006
+    - Bug Fix: Copy over the account manager url from the rpc to
+        the global account manager structure so that the
+        acct_mgr_url.xml file can be created.
+        
+    client/
+        acct_mgr.C
