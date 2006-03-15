@@ -5,6 +5,25 @@ require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 
+// do a very cursory check that the given text is valid;
+// for now, just make sure it has the given start and end tags,
+// and at least one \n in the middle.
+// Ideally, we'd like to check that it's valid XML
+//
+function bad_xml($text, $start, $end) {
+    $text = trim($text);
+    if (strstr($text, $start) != $text) {
+        return "No start tag";
+    }
+    if (strstr($text, $end) != $end) {
+        return "No end tag";
+    }
+    if (!strstr($text, "\n")) {
+        return "No CR";
+    }
+    return "";
+}
+
 function reply($x) {
     echo "<am_set_info_reply>
     $x
@@ -23,7 +42,7 @@ function success($x) {
 
 db_init();
 
-xml_header();
+//xml_header();
 
 $auth = process_user_text($_GET["account_key"]);
 $user = lookup_user_auth($auth);
@@ -58,9 +77,19 @@ if ($postal_code) {
     $query .= " postal_code='$postal_code', ";
 }
 if ($global_prefs) {
+    $global_prefs = str_replace("\\r\\n", "\n", $global_prefs);
+    $x = bad_xml($global_prefs, "<global_preferences>", "</global_preferences>");
+    if ($x) {
+        error("Invalid global preferences: $x");
+    }
     $query .= " global_prefs='$global_prefs', ";
 }
 if ($project_prefs) {
+    $project_prefs = str_replace("\\r\\n", "\n", $project_prefs);
+    $x = bad_xml($project_prefs, "<project_preferences>", "</project_preferences>");
+    if ($x) {
+        error("Invalid project preferences: $x");
+    }
     $query .= " project_prefs='$project_prefs', ";
 }
 if ($url) {

@@ -323,6 +323,19 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         }
     }
 
+    // Do a scheduler RPC to some AMS-managed project,
+    // to get new preferences if any.
+    // This is a kludge.
+    // Would be nice to do this only if prefs have actually changed.
+    //
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (p->attached_via_acct_mgr && p->min_rpc_time==0) {
+            p->sched_rpc_pending = true;
+            break;
+        }
+    }
+
     strcpy(gstate.acct_mgr_info.previous_host_cpid, gstate.host_info.host_cpid);
     if (repeat_sec) {
         gstate.acct_mgr_info.next_rpc_time = gstate.now + repeat_sec;

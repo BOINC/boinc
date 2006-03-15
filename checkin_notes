@@ -2858,3 +2858,16 @@ David  15 Mar 2006
 
     api/
         boinc_api.C,h
+
+David  15 Mar 2006
+    - core client: if an account manager RPC succeeds,
+        do a scheduler RPC to a project that was attached via the AMS,
+        in case the user updated preferences.
+    - web RPC to set user info: make sure global and project
+        preferences are valid XML
+        (well, at least make sure they have start/end tags)
+
+    client/
+        acct_mgr.C
+    html/user/
+        am_set_info.php
