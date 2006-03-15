@@ -168,10 +168,9 @@ $mac_changes_53= "
             Mac clients automatically request applications from the old 
             powerpc-apple-darwin platform when running on a PowerPC Mac, and 
             from the new i686-apple-darwin platform when running on an Intel Mac.
-        <li>As of 24 Feb 2006, only the upper_case alpha test project and the 
-            production SETI@home project have applications for this platform.  
-            An Intel-Mac build for Einstein@home is under development and should 
-            be available soon.
+        <li>As of 14 March 2006, only the upper_case alpha test project, the 
+            production SETI@home project and Einstein@home have applications 
+            for this platform.  
         <li> Upgrade warning: You may lose unreported results if you are upgrading 
             from a version of BOINC earlier than 5.3.21, or if you are transferring 
             BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to 
@@ -309,11 +308,11 @@ $w419 = array(
     "
 );
 
-$m5324 = array(
-    "num"=>"5.3.24",
+$m5326 = array(
+    "num"=>"5.3.26",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.3.24_macOSX_universal.zip",
-    "date"=>"7 March 2006",
+    "file"=>"boinc_5.3.26_macOSX_universal.zip",
+    "date"=>"14 March 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_53."
@@ -356,11 +355,11 @@ $m5213 = array(
     "
 );
 
-$m5324c = array(
-    "num"=>"5.3.24",
+$m5326c = array(
+    "num"=>"5.3.26",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.3.24_universal-apple-darwin.zip",
-    "date"=>"7 March 2006",
+    "file"=>"boinc_5.3.26_universal-apple-darwin.zip",
+    "date"=>"14 March 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_53."
@@ -516,8 +515,8 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5324,
-        $m5324c,
+        $m5326,
+        $m5326c,
         $m5213,
         $m5213s,
         $m5213c,
