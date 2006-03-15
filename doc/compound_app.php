@@ -36,7 +36,7 @@ struct BOINC_OPTIONS {
     int direct_process_action;
 };
 
-int boinc_init_options(BOINC_OPTIONS&amp;);
+int boinc_init_options(BOINC_OPTIONS*);
 </pre>
 ";
 list_start();
@@ -80,7 +80,7 @@ BOINC_OPTIONS options;
 
 options.main_program = true;
 ...
-boinc_init_options(options)
+boinc_init_options(&amp;options)
 read main state file
 for each remaining worker program:
     aid.fraction_done_start = x
@@ -104,7 +104,7 @@ BOINC_OPTIONS options;
 
 options.main_program = false;
 ...
-boinc_init_options(options);
+boinc_init_options(&amp;options);
 ...
 do work, calling boinc_fraction_done() with values from 0 to 1,
 and boinc_time_to_checkpoint(), occasionally

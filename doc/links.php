@@ -108,7 +108,7 @@ language("Finnish", array(
 ));
 language("French", array(
     site("http://boincfrance.org", "BOINCFRANCE.ORG"),
-    site("http://www.boinc-fr.net", "www.boinc-fr.net"),
+    site("http://www.boinc-af.org", "L'Alliance Francophone"),
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(

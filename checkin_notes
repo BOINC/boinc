@@ -2851,3 +2851,10 @@ Rom    14 Mar 2006
         
     client/
         acct_mgr.C
+
+David  15 Mar 2006
+    - API: add boinc_get_fraction_done(): call this from graphics thread
+        to get latest fraction done reported by worker thread.
+
+    api/
+        boinc_api.C,h

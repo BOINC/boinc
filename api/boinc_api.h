@@ -25,6 +25,7 @@
 #endif
 
 // ANSI C API BEGINS HERE
+// Do not put implementation stuff here
 
 #ifdef __cplusplus
 extern "C" {
@@ -66,7 +67,6 @@ struct BOINC_STATUS {
 
 extern int boinc_init(void);
 extern int boinc_finish(int status);
-extern void boinc_exit (int status);
 extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_parse_init_data_file(void);
 extern int boinc_write_init_data_file(void);
@@ -92,6 +92,7 @@ extern int boinc_receive_trickle_down(char* buf, int len);
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
 #endif
+extern double boinc_get_fraction_done();
 
 #ifdef __APPLE__
 extern int setMacPList(void);
@@ -128,6 +129,7 @@ extern int suspend_activities(void);
 extern int resume_activities(void);
 extern int restore_activities(void);
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
+extern void boinc_exit(int status);
 extern int set_worker_timer(void);
 extern void (*stop_graphics_thread_ptr)();
 

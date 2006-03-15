@@ -187,10 +187,14 @@ To keep this display current, an application should periodically call
 The <code>fraction_done</code> argument is an estimate of the
 workunit fraction complete (0 to 1).
 This function is fast and can be called frequently.
-The sequence of arguments in successive calls should
-be non-decreasing.
+The sequence of arguments in successive calls should be non-decreasing.
 An application should never 'reset' and start over
 if an error occurs; it should exit with an error code.
+<pre>
+   double boinc_get_fraction_done();
+</pre>
+returns the last value set, or -1 if none has been set
+(this would typically be called from graphics code).
 
 <p>
 The following functions get information from the core client;

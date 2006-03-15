@@ -822,6 +822,14 @@ int boinc_fraction_done(double x) {
     return 0;
 }
 
+// for use by graphics code.
+// Caller should check for values outside [0..1];
+// that means undefined (no information available).
+//
+double boinc_get_fraction_done() {
+    return fraction_done;
+}
+
 int boinc_receive_trickle_down(char* buf, int len) {
     std::string filename;
     char path[256];
