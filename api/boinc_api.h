@@ -88,8 +88,10 @@ extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);
 extern int boinc_receive_trickle_down(char* buf, int len);
+#ifndef __OBJC__
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
+#endif
 
 #ifdef __APPLE__
 extern int setMacPList(void);
