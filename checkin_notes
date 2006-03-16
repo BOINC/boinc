@@ -2888,3 +2888,13 @@ Rom    16 Mar 2006
     client/
         app.C
         client_state.C, .h
+
+Bruce 16 March 2006
+    - Make 'last-modified' and '<lastBuildDate>' entries in RSS feed
+      correctly correspond to the last time the project_news.inc file
+      was modified.
+
+    html/
+        user/
+            sample_rss_main.php
+

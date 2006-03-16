@@ -9,8 +9,15 @@
 
 // Create and send out http header
 //
+
+// Get unix time that last modification was made to the news source
+//
+$last_mod_time=filemtime("../project/project_news.inc");
+
+// Now construct header
+//
 header ("Expires: " . gmdate('D, d M Y H:i:s', time()) . " GMT");
-header ("Last-Modified: " . gmdate('D, d M Y H:i:s') . " GMT");
+header ("Last-Modified: " . gmdate('D, d M Y H:i:s', $last_mod_time) . " GMT");
 header ("Content-Type: application/xml");
 
 // Get or set display options
