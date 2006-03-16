@@ -2882,8 +2882,8 @@ Charlie  16 Mar 2006
 
 Rom    16 Mar 2006
     - Bug Fix: If we detect a condition in which we really can't display
-        graphics, then we should notifity the GUI's that graphics are
-        enabled via the ACTIVE_TASK::write function.
+        graphics, then we should notify the GUI's that graphics are
+        not enabled via the ACTIVE_TASK::write function.
         
     client/
         app.C
