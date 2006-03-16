@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
+#include "Identification.h"
 #include "IdleTracker.h"
 #include "NetworkTracker.h"
 
@@ -41,8 +42,10 @@ EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 {
     if (!IdleTrackerStartup())
         return FALSE;
-    if (!NetworkTrackerStartup())
-        return FALSE;
+    if (IsWindows2000Compatible()) {
+        if (!NetworkTrackerStartup())
+            return FALSE;
+    }
 
     return TRUE;
 }
@@ -50,6 +53,8 @@ EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 EXTERN_C __declspec(dllexport) void ClientLibraryShutdown()
 {
     IdleTrackerShutdown();
-    NetworkTrackerShutdown();
+    if (IsWindows2000Compatible()) {
+        NetworkTrackerShutdown();
+    }
 }
 

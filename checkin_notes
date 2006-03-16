@@ -2898,3 +2898,11 @@ Bruce 16 March 2006
         user/
             sample_rss_main.php
 
+Rom    16 Mar 2006
+    - Bug Fix: Only allow the SENS Event Notification registration to
+        happen on Windows 2000 machines or better.  This appears to
+        resolve explorer crashing on Win9x machines during shutdown.
+        
+    clientlib/win/
+        boinc_dll.cpp
+        NetworkTracker.cpp

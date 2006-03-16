@@ -36,7 +36,6 @@ std::vector<PNETWORK_CONNECTION>    gpNetworkConnections;
 
 EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
 {
-    USES_CONVERSION;
     unsigned int i = 0;
     BOOL bReturnValue = FALSE;
     BOOL bCachePopulated = FALSE;
@@ -87,12 +86,8 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
 
 EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlwaysOnline()
 {
-    BOOL bReturnValue = FALSE;
     DWORD dwFlags = NETWORK_ALIVE_LAN;
-
-    bReturnValue = BOINCIsNetworkAlive(&dwFlags);
-
-    return bReturnValue;
+    return BOINCIsNetworkAlive(&dwFlags);
 }
 
 
