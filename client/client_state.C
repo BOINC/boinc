@@ -97,6 +97,7 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_giveup = PERS_GIVEUP;
     executing_as_daemon = false;
     redirect_io = false;
+    disable_graphics = false;
     work_fetch_no_new_work = false;
     cpu_earliest_deadline_first = false;
 
@@ -218,6 +219,7 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO,
             "No application graphics will be available."
         );
+        disable_graphics = true;
     }
 #endif
 

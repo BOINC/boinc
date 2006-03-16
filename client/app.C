@@ -352,7 +352,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         vm_bytes,
         rss_bytes
     );
-    if (supports_graphics()) {
+    if (supports_graphics() && !gstate.disable_graphics) {
         fout.printf(
             "   <supports_graphics/>\n"
             "   <graphics_mode_acked>%d</graphics_mode_acked>\n",

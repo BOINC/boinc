@@ -160,6 +160,11 @@ public:
         // or as a service on Windows
     bool redirect_io;
         // redirect stdout, stderr to log files
+    bool disable_graphics;
+        // a condition has ocurred in which we know graphics will
+        // not be able to be displayed for the user.  So the
+        // manager and any other application should disable the
+        // ability to request graphics in the UI.
     bool detach_console;
     double now;
     const char* platform_name;

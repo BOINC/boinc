@@ -2879,3 +2879,12 @@ Charlie  16 Mar 2006
 
     api/
         boinc_api.h
+
+Rom    16 Mar 2006
+    - Bug Fix: If we detect a condition in which we really can't display
+        graphics, then we should notifity the GUI's that graphics are
+        enabled via the ACTIVE_TASK::write function.
+        
+    client/
+        app.C
+        client_state.C, .h
