@@ -2842,7 +2842,7 @@ Charlie  14 Mar 2006
     - Fix compiler bug due to BOINC_OPTIONS* when using objective-C.
 
     api/
-        boinc_api.C,h
+        boinc_api.h
 
 Rom    14 Mar 2006
     - Bug Fix: Copy over the account manager url from the rpc to
@@ -2871,3 +2871,11 @@ David  15 Mar 2006
         acct_mgr.C
     html/user/
         am_set_info.php
+
+Charlie  16 Mar 2006
+    - Add typedef to BOINC_OPTIONS and BOINC_STATUS so boinc_get_status() 
+        and boinc_init_options() declarations compile without errors 
+        when using straight C and objective-C with GCC-4.0.
+
+    api/
+        boinc_api.h

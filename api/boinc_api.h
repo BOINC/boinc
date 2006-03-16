@@ -30,7 +30,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-struct BOINC_OPTIONS {
+typedef struct BOINC_OPTIONS {
     int main_program;
         // this is the main program, so
         // - lock a lock file in the slot directory
@@ -55,15 +55,15 @@ struct BOINC_OPTIONS {
 	    // up, such as threads and memory.  So terminate the app
 	    // and use a checkpoint to recover from the issue during
 	    // the next execution.
-};
+} BOINC_OPTIONS;
 
-struct BOINC_STATUS {
+typedef struct BOINC_STATUS {
     int no_heartbeat;
     int suspended;
     int quit_request;
     int reread_init_data_file;
     int abort_request;
-};
+} BOINC_STATUS;
 
 extern int boinc_init(void);
 extern int boinc_finish(int status);
@@ -88,10 +88,8 @@ extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);
 extern int boinc_receive_trickle_down(char* buf, int len);
-#ifndef __OBJC__
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
-#endif
 extern double boinc_get_fraction_done();
 
 #ifdef __APPLE__
