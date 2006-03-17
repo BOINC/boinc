@@ -25,7 +25,7 @@
 #endif
 
 #ifdef _WIN32
-#include "version.h"
+#include "../version.h"
 #else
 #include "config.h"
 #include <sys/types.h>

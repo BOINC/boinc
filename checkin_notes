@@ -2969,4 +2969,8 @@ Bruce 17 Mar 2006
         sched_resend.C
         sched_locality.C
 
+David  17 Mar 2006
+    - compile fix (from James Drews)
 
+    lib/
+        gui_rpc_client_print.C
