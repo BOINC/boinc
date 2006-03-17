@@ -2974,3 +2974,10 @@ David  17 Mar 2006
 
     lib/
         gui_rpc_client_print.C
+
+Rom    17 Mar 2006
+    - Bug Fix: Allow generic read/write/execute for users in the user group
+        for the shared installation type.
+        
+    win_build/installerv2
+        BOINC.ism
