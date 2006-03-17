@@ -2983,6 +2983,9 @@ Rom    17 Mar 2006
         BOINC.ism
 
 David  17 Mar 2006
+    - Add <prefs_mod_time> and <prefs_source_project> elements
+        to account manager requests;
+        tells the AMS what version of global prefs we have
     - Add optional <update/> tag in <account> elements
         of account manager replies.
         This tells the core client to do a scheduler RPC to the project.

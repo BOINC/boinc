@@ -87,14 +87,18 @@ int ACCT_MGR_OP::do_rpc(
         "   <host_cpid>%s</host_cpid>\n"
         "   <domain_name>%s</domain_name>\n"
         "   <client_version>%d.%d.%d</client_version>\n"
-        "   <run_mode>%s</run_mode>\n",
+        "   <run_mode>%s</run_mode>\n"
+        "   <prefs_mod_time>%d</prefs_mod_time>\n"
+        "   <prefs_source_project>%s</prefs_source_project>\n",
         name.c_str(), password_hash.c_str(),
         gstate.host_info.host_cpid,
         gstate.host_info.domain_name,
         gstate.core_client_major_version,
         gstate.core_client_minor_version,
         gstate.core_client_release,
-        run_mode_name[gstate.user_run_request]
+        run_mode_name[gstate.user_run_request],
+        gstate.global_prefs.mod_time,
+        gstate.global_prefs.source_project
     );
     if (strlen(gstate.acct_mgr_info.previous_host_cpid)) {
         fprintf(f,
