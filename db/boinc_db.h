@@ -560,7 +560,7 @@ class DB_RESULT : public DB_BASE, public RESULT {
 public:
     DB_RESULT(DB_CONN* p=0);
     int get_id();
-    int update_subset();
+    int mark_as_sent(int old_server_state);
     void db_print(char*);
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);

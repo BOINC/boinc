@@ -12,12 +12,12 @@ General comments about graphics:
 <ul>
 
 <li>
-The graphics often provide a
-visualization of what the application is doing scientifically.
-The graphics code must run concurrently with the science code,
-and must share data structures with it.
-This can be done using any of
-several <b>process structures</b>.
+It is desirable for the graphics to provide a
+visualization of what the application is currently doing.
+Usually the easiest way to do this is for
+the graphics code to run concurrently with the science code,
+and to share data structures with it.
+This can be done using any of several <b>process structures</b>.
 For example, you can use separate threads in a single address space,
 or shared memory between separate programs.
 BOINC supports various process structures (see below).

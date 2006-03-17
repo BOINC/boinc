@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("March 15, 2006",
+    "The <a href=http://attribution.cpdn.org/>Seasonal Attribution Project</a>,
+    a spin-off of Climateprediction.net,
+    seeks to determine the extent to which extreme weather events
+    are attributable to human-induced climate change.
+    Its application is a high-resolution simulation of the world's climate,
+    and is recommended only for computers
+    with at least 1 GB of RAM, and a 2.4GHz Pentium or faster processor.
+    "
+),
 array("March 5, 2006",
     "Tony/Knightrider/Chuggybus has created BOINC coinage.
     See the <a href=images/coins/>large</a>

@@ -166,7 +166,7 @@ bool resend_lost_work(
                 possibly_give_result_new_deadline(result, wu, reply)
             ) {
                 result.report_deadline = time(0);
-                retval = result.update_subset();
+                retval = result.mark_as_sent(result.server_state);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_CRITICAL,

@@ -2906,3 +2906,17 @@ Rom    16 Mar 2006
     clientlib/win/
         boinc_dll.cpp
         NetworkTracker.cpp
+
+David  16 Mar 2006
+    - scheduler: when mark a result as sent, make sure its
+        server_state is what we expected (e.g. UNSENT).
+        This guards against two scheduler instances trying to
+        send the same result at about the same time.
+        (from Bruce Allen)
+
+    db/
+        boinc_db.C,h
+        db_base.C,h
+    sched/
+        sched_resend.C
+        sched_send.C

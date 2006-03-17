@@ -62,6 +62,7 @@ public:
     DB_CONN();
     int open(char* name, char* host, char* user, char* passwd);
     int do_query(const char*);
+    int affected_rows();
     void close();
     int insert_id();
     void print_error(const char*);

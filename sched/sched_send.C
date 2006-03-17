@@ -590,6 +590,7 @@ int add_result_to_reply(
     result.hostid = reply.host.id;
     result.userid = reply.user.id;
     result.sent_time = time(0);
+    int old_server_state = result.server_state;
 
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
         // We are sending this result for the first time
@@ -617,7 +618,7 @@ int add_result_to_reply(
             result.id, reply.host.id
         );
     }
-    retval = result.update_subset();
+    retval = result.mark_as_sent(old_server_state);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,

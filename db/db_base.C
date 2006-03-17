@@ -63,6 +63,10 @@ int DB_CONN::do_query(const char* p) {
     return retval;
 }
 
+int DB_CONN::affected_rows() {
+    return mysql_affected_rows(mysql);
+}
+
 int DB_CONN::insert_id() {
     int retval;
     MYSQL_ROW row;

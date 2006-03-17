@@ -112,6 +112,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.seti-leipzig.de/", "SETI-Leipzig"),
     site("http://www.dc-gemeinschaft.de/", "DC - Gemeinschaft"),
     site("http://boinccast.podhost.de/", "BOINCcast (Podcast)"),
     site("http://www.boinc-team.de/", "BOINC@Heidelberg"),

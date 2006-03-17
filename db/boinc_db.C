@@ -736,16 +736,22 @@ void DB_RESULT::db_print_values(char* buf){
     UNESCAPE(stderr_out);
 }
 
-// called from scheduler when dispatch this result
+// called from scheduler when dispatch this result.
+// The "... and server_state=%d" is a safeguard against
+// the case where another scheduler tries to send this result at the same time
 //
-int DB_RESULT::update_subset() {
+int DB_RESULT::mark_as_sent(int old_server_state) {
     char query[MAX_QUERY_LEN];
+    int retval;
 
     sprintf(query,
-        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d where id=%d",
-        server_state, hostid, userid, sent_time, report_deadline, id
+        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d where id=%d and server_state=%d",
+        server_state, hostid, userid, sent_time, report_deadline, id,
+        old_server_state
     );
-    return db->do_query(query);
+    retval = db->do_query(query);
+    if (retval) return retval;
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
 }
 
 void DB_RESULT::db_parse(MYSQL_ROW &r) {
