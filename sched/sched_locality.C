@@ -610,7 +610,11 @@ static int send_results_for_file(
                     "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%d], returning %d\n",
                     i, result.id, retval_send
                 );
-            } else {
+            // If another scheduler instance 'snatched' the result
+            // from under our noses, then possibly_send_result()
+            // will return ERR_DB_NOT_FOUND
+            //
+            } else if (retval_send != ERR_DB_NOT_FOUND) {
                 log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                     "possibly_send_result [RESULT#%d]: %s\n",
                     result.id, boincerror(retval_send)

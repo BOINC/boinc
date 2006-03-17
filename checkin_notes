@@ -2967,4 +2967,6 @@ Bruce 17 Mar 2006
     sched/
         sched_send.C
         sched_resend.C
+        sched_locality.C
+
 
