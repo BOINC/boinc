@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <mysql/mysql.h>
 
 #include "error_numbers.h"
 #include "util.h"
@@ -64,7 +65,9 @@ int DB_CONN::do_query(const char* p) {
 }
 
 int DB_CONN::affected_rows() {
-    return mysql_affected_rows(mysql);
+    unsigned long x = (unsigned long)mysql_affected_rows(mysql);
+    //fprintf(stderr, "x: %lu i: %d\n", x, (int)x);
+    return (int)x;
 }
 
 int DB_CONN::insert_id() {

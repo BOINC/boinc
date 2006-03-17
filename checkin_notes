@@ -2927,3 +2927,9 @@ Bruce 16 Mar 2006
     db/
         boinc_db.C
 
+David  17 Mar 2006
+    - fix mysql_affected_rows() problem: needed to include mysql.h
+
+    db/
+        boinc_db.C
+        db_base.C
