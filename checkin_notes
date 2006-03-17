@@ -2990,6 +2990,8 @@ David  17 Mar 2006
         and wants the core client to get them;
         put <update/> in the <account> element for one of
         the projects to which prefs were successfully sent.
+    - Core client: remove code (from 15 Mar) that contacts a project
+        after every successful AMS operation.
 
     client/
         acct_mgr.C,h
