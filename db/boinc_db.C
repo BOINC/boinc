@@ -752,6 +752,7 @@ int DB_RESULT::mark_as_sent(int old_server_state) {
     retval = db->do_query(query);
     if (retval) return retval;
     if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
+    return 0;
 }
 
 void DB_RESULT::db_parse(MYSQL_ROW &r) {
