@@ -239,7 +239,6 @@ typedef MODULEENTRY32 *  LPMODULEENTRY32;
 #pragma pack( pop )
 
 
-
 static bool GetModuleListTH32(ModuleList& modules, DWORD pid, FILE *fLogFile)
 {
   // CreateToolhelp32Snapshot()
@@ -300,7 +299,6 @@ static bool GetModuleListTH32(ModuleList& modules, DWORD pid, FILE *fLogFile)
 
   return modules.size() != 0;
 }  // GetModuleListTH32
-
 
 // **************************************** PSAPI ************************
 typedef struct _MODULEINFO {
@@ -435,12 +433,18 @@ static int InitStackWalk(void)
   // old: offer all the functions that are in the NT5 lib
   // 02-12-19: Now we only support dbghelp.dll!
   //           To use it on NT you have to install the redistrubutable for DBGHELP.DLL
-  g_hImagehlpDll = LoadLibrary( _T("dbghelp.dll") );
+  g_hImagehlpDll = LoadLibrary( _T("..\\..\\dbghelp.dll") ); // Possibly the "Program Files\BOINC"
+                                                             // directory.
   if ( g_hImagehlpDll == NULL )
   {
-    printf( "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
-    g_bInitialized = FALSE;
-    return 1;
+    fprintf( stderr, "LoadLibrary( \"..\\..\\dbghelp.dll\" ): GetLastError = %lu\n", gle );
+    g_hImagehlpDll = LoadLibrary( _T("dbghelp.dll") ); 
+    if ( g_hImagehlpDll == NULL )
+    {
+        fprintf( stderr, "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
+        g_bInitialized = FALSE;
+        return 1;
+    }
   }
 
   pSC = (tSC) GetProcAddress( g_hImagehlpDll, "SymCleanup" );
@@ -460,7 +464,7 @@ static int InitStackWalk(void)
     pSGO == NULL || pSGSFA == NULL || pSI == NULL || pSSO == NULL ||
     pSW == NULL || pUDSN == NULL || pSLM == NULL )
   {
-    printf( "GetProcAddress(): some required function not found.\n" );
+    fprintf( stderr, "GetProcAddress(): some required function not found.\n" );
     FreeLibrary( g_hImagehlpDll );
     g_bInitialized = FALSE;
     return 1;

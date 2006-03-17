@@ -37,6 +37,7 @@
 
 
 ////@begin XPM images
+#include "res/boincsm.xpm"
 ////@end XPM images
 
 /*!
@@ -100,9 +101,13 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
         );
         m_AboutBOINCTitleCtrl->SetLabel(buf);
 
-        m_AboutBOINCLogoCtrl->SetBitmap(
-            *(wxGetApp().GetBrand()->GetApplicationLogo())
-        );
+        wxBitmap bmp;
+        if (wxGetApp().GetBrand()->IsBranded()) {
+            bmp = wxBitmap(*(wxGetApp().GetBrand()->GetApplicationLogo()));
+        } else {
+            bmp = wxBitmap(boincsm_xpm);
+        }
+        m_AboutBOINCLogoCtrl->SetBitmap(bmp);
 
         m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
 
@@ -202,10 +207,9 @@ bool CDlgAbout::ShowToolTips() {
  * Get bitmap resources
  */
 
-wxBitmap CDlgAbout::GetBitmapResource(const wxString& name) {
+wxBitmap CDlgAbout::GetBitmapResource(const wxString& WXUNUSED(name)) {
     // Bitmap retrieval
 ////@begin CDlgAbout bitmap retrieval
-    wxUnusedVar(name);
     return wxNullBitmap;
 ////@end CDlgAbout bitmap retrieval
 }
@@ -214,10 +218,9 @@ wxBitmap CDlgAbout::GetBitmapResource(const wxString& name) {
  * Get icon resources
  */
 
-wxIcon CDlgAbout::GetIconResource(const wxString& name) {
+wxIcon CDlgAbout::GetIconResource(const wxString& WXUNUSED(name)) {
     // Icon retrieval
 ////@begin CDlgAbout icon retrieval
-    wxUnusedVar(name);
     return wxNullIcon;
 ////@end CDlgAbout icon retrieval
 }

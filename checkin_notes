@@ -2933,3 +2933,24 @@ David  17 Mar 2006
     db/
         boinc_db.C
         db_base.C
+
+Rom    17 Mar 2006
+    - Bug Fix: Stackwalker was using printf's to describe errors during
+        initialization, so I'm changing them to fprintf(stderr, "") style
+        messages so we can at least get more information about the
+        initialization error.
+    - Bug Fix: In fixing the bug above I noticed that the code to
+        load the dbghelp.dll library wasn't attempting to look
+        in the BOINC installation folder for it when executing as part
+        of the science applications.  Check in the BOINC installation
+        directory first then fall back to the search path.
+    - Bug Fix: Treat the about box bitmap the same as the wizard bitmaps
+        which gets rid of the transparent whole where the BOINC splat
+        logo should be.  The BBC and GridRepublic logos show up correctly
+        but the BOINC splat logo doesn't want to be seen.  I'll take care
+        of that in a following release.
+        
+    clientgui/
+        DlgAbout.cpp
+    lib/
+        stackwalker_win.cpp
