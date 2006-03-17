@@ -619,13 +619,19 @@ int add_result_to_reply(
         );
     }
     retval = result.mark_as_sent(old_server_state);
-    if (retval) {
+    if (retval==ERR_DB_NOT_FOUND) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
+            result.id, reply.host.id
+        );
+    } else if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
             "add_result_to_reply: can't update result: %d\n", retval
         );
-        return retval;
     }
+    if (retval) return retval;
 
     wu_seconds_filled = estimate_wallclock_duration(wu, request, reply);
     log_messages.printf(

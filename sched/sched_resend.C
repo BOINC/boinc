@@ -167,13 +167,20 @@ bool resend_lost_work(
             ) {
                 result.report_deadline = time(0);
                 retval = result.mark_as_sent(result.server_state);
-                if (retval) {
+                if (retval==ERR_DB_NOT_FOUND) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_CRITICAL,
+                        "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
+                        result.id, reply.host.id
+                    );
+                } else if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_CRITICAL,
                         "resend_lost_result: can't update result deadline: %d\n", retval
                     );
-                    continue;
                 }
+                if (retval) continue;
+
                 retval = update_wu_transition_time(wu, result.report_deadline);
                 if (retval) {
                     log_messages.printf(
