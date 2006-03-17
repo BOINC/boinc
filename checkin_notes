@@ -2954,3 +2954,7 @@ Rom    17 Mar 2006
         DlgAbout.cpp
     lib/
         stackwalker_win.cpp
+
+Rom    17 Mar 2006 (HEAD)
+    - Tag for 5.3.27 release, all platforms
+      boinc_core_release_5_3_27
