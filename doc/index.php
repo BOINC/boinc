@@ -4,8 +4,9 @@ require_once("boinc_news.inc");
 require_once("../html/inc/news.inc");
 
 $projects = array(
-    "<a href=http://climateprediction.net>Climateprediction.net</a>
-        and <a href=http://bbc.cpdn.org>BBC Climate Change Experiment</a>:
+    "<a href=http://climateprediction.net>Climateprediction.net</a>,
+        <a href=http://bbc.cpdn.org>BBC Climate Change Experiment</a>,
+        and <a href=http://attribution.cpdn.org/>Seasonal Attribution Project</a>:
         study climate change.",
     "<a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
         search for gravitational signals emitted by pulsars.",

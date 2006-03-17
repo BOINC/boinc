@@ -239,6 +239,7 @@ f72103eb0995be77cac54f253c0ba639a814d3293646ae11894e9d1367a98790
 .
          </url_signature>
          <authenticator>KEY</authenticator>
+         [ <update/> ]
          [ <detach/> ]
       </account>
         ...
@@ -294,6 +295,9 @@ list_item("action",
     <dd>The account's authenticator.
     <dt>detach
     <dd>If present, the client should detach this project.
+    <dt>update
+    <dd>If present, the client should contact this project
+        to get new global preferences.
     </dl>
     NOTE: the XML must be as above, with the &lt;url>
     and &lt;authenticator> elements on a single line,

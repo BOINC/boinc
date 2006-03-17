@@ -2981,3 +2981,17 @@ Rom    17 Mar 2006
         
     win_build/installerv2
         BOINC.ism
+
+David  17 Mar 2006
+    - Add optional <update/> tag in <account> elements
+        of account manager replies.
+        This tells the core client to do a scheduler RPC to the project.
+        The account manager should set this when it has updated prefs
+        and wants the core client to get them;
+        put <update/> in the <account> element for one of
+        the projects to which prefs were successfully sent.
+
+    client/
+        acct_mgr.C,h
+    doc/
+        acct_mgt.php

@@ -166,6 +166,7 @@ int AM_ACCOUNT::parse(FILE* f) {
     int retval;
 
     detach = false;
+    update = false;
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
@@ -188,6 +189,7 @@ int AM_ACCOUNT::parse(FILE* f) {
         }
         if (parse_str(buf, "<authenticator>", authenticator)) continue;
         if (parse_bool(buf, "detach", detach)) continue;
+        if (parse_bool(buf, "update", update)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -312,27 +314,25 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     } else {
                         msg_printf(pp, MSG_INFO, "Already attached");
                         pp->attached_via_acct_mgr = true;
+
+                        // initiate a scheduler RPC if requested by AMS
+                        //
+                        if (acct.update) {
+                            pp->sched_rpc_pending = true;
+                            pp->min_rpc_time = 0;
+                        }
                     }
                 }
             } else {
                 if (!acct.detach) {
-                    msg_printf(NULL, MSG_INFO, "Attaching to %s", acct.url.c_str());
-                    gstate.add_project(acct.url.c_str(), acct.authenticator.c_str(), true);
+                    msg_printf(NULL, MSG_INFO,
+                        "Attaching to %s", acct.url.c_str()
+                    );
+                    gstate.add_project(
+                        acct.url.c_str(), acct.authenticator.c_str(), true
+                    );
                 }
             }
-        }
-    }
-
-    // Do a scheduler RPC to some AMS-managed project,
-    // to get new preferences if any.
-    // This is a kludge.
-    // Would be nice to do this only if prefs have actually changed.
-    //
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p->attached_via_acct_mgr && p->min_rpc_time==0) {
-            p->sched_rpc_pending = true;
-            break;
         }
     }
 

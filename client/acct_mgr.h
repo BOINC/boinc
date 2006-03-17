@@ -62,6 +62,7 @@ struct AM_ACCOUNT {
     std::string authenticator;
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
+    bool update;
 
     int parse(FILE*);
     AM_ACCOUNT() {}
