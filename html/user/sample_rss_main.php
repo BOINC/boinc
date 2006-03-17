@@ -13,11 +13,12 @@
 // Get unix time that last modification was made to the news source
 //
 $last_mod_time=filemtime("../project/project_news.inc");
+$create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT'; 
 
 // Now construct header
 //
 header ("Expires: " . gmdate('D, d M Y H:i:s', time()) . " GMT");
-header ("Last-Modified: " . gmdate('D, d M Y H:i:s', $last_mod_time) . " GMT");
+header ("Last-Modified: " . $create_date);
 header ("Content-Type: application/xml");
 
 // Get or set display options
@@ -39,7 +40,6 @@ require_once("../project/project_news.inc");
 //
 $description = "BOINC project ".PROJECT.": Main page News";
 $channel_image = URL_BASE . "rss_image.gif";
-$create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     <rss version=\"2.0\">
