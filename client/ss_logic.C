@@ -128,6 +128,12 @@ void SS_LOGIC::poll() {
         return;
     }
 
+    if (gstate.disable_graphics) {
+        reset();
+        ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+        return;
+    }
+
 
     // check if it's time to go to black screen
     //

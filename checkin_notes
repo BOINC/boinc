@@ -3000,3 +3000,16 @@ David  17 Mar 2006
         acct_mgr.C,h
     doc/
         acct_mgt.php
+
+Rom    17 Mar 2006
+    - Bug Fix: If graphics have been disabled because the client configuration
+        cannot handle them, then report back to the screensaver that graphics
+        are not available instead of cycling through them.
+        
+        This also reduces the bug surface area for applications who are having
+        problems with application graphics since it avoids spinning up the
+        graphics window even though it cannot be seen.
+        
+    client/
+        ss_logic.C
+
