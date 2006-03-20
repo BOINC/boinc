@@ -18,6 +18,7 @@ extern "C" {
 #define CFG_WORKDIR		"WorkingDirectory"
 #define CFG_INSTANCEUUID	"InstanceUUID"
 #define CFG_CONFIGXML		"BoincConfigXML"
+#define CFG_PROJECTROOT		"ProjectRootDir"
 
 /* File types in the working directory */
 typedef enum
@@ -46,6 +47,7 @@ struct _DC_Workunit
 	int			subresults;
 
 	/* State of the WU */
+	char			*name;
 	uuid_t			uuid;
 	char			*uuid_str;
 	DC_WUState		state;
@@ -93,9 +95,6 @@ extern char project_uuid_str[];
 /* Parses the project's config.xml */
 int _DC_parseConfigXML(const char *file) G_GNUC_INTERNAL;
 
-/* Get the project's root directory */
-char *_DC_getProjectRoot(void) G_GNUC_INTERNAL;
-
 /* Returns the Boinc upload directory */
 char *_DC_getUploadDir(void) G_GNUC_INTERNAL;
 
@@ -120,41 +119,22 @@ char *_DC_getDBPasswd(void) G_GNUC_INTERNAL;
 /* Initializes the database connection */
 int _DC_initDB(void) G_GNUC_INTERNAL;
 
-/********************************************************************
- * XXX Everything below needs to be checked & redesigned
- */
+/* Allocates a physical file descriptor */
+DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
+	const char *path) G_GNUC_INTERNAL;
 
-/**
- *  'projectroot' is the path to the directory where the
- *  actual project is installed e.g. /usr/boinc/projects/proba.
- *  'appname' should be the application client name!
-*/
-int dc_assimilator_init(char * projectroot, char * appname);
+/* De-allocates a physical file descriptor */
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file) G_GNUC_INTERNAL;
 
-/** Check for results.
- *  Waits for available results and returns the first.
- *  Return:  DC_OK on success
- *              >1 on error
- *  Parameters:
- *     func1      callback function for processing a result by the master app
- */
-int dc_assimilator_dopass(void (*cb_assimilate_result)(DC_Result result));
+/* Creates a new DC_Result */
+DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in)
+	G_GNUC_INTERNAL;
 
-DC_Result  *dc_result_create(char *name, char *wuname, char *dir);
-int        dc_result_addOutputFile(DC_Result *result, char *filename);
-void       dc_result_free(DC_Result *result);
+/* Destroys a DC_Result */
+void _DC_destroyResult(DC_Result *result) G_GNUC_INTERNAL;
 
-/** add input files to a wu */
-int dc_wu_setInput(DC_Workunit *wu, const char *url, const char* localfilename);
-
-/** Create the wu within Boinc (i.e. submit from application into Boinc)
- *  uploadkeyfile: upload_private key
- *  boincRootDir: the actual projects dir. config.xml should be there
- */
-int dc_wu_createBoincWU(DC_Workunit *wu, char *uploadkeyfile, char *boincRootDir);
-
-/* Return the workunit index from the WUtable that matches the name */
-int dc_wu_findByName(char *wuname);
+/* Looks up a WU by name */
+DC_Workunit *_DC_getWUByName(const char *name) G_GNUC_INTERNAL;
 
 #ifdef __cplusplus
 }
