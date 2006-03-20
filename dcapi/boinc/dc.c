@@ -47,6 +47,13 @@ int DC_init(const char *config_file)
 		return ret;
 	}
 
+	if (!_DC_getCfgStr(CFG_PROJECTROOT))
+	{
+		DC_log(LOG_ERR, "%s is not specified in the config file",
+			CFG_PROJECTROOT);
+		return DC_ERR_CONFIG;
+	}
+
 	/* Check & switch to the working directory */
 	cfgval = _DC_getCfgStr(CFG_WORKDIR);
 	if (!cfgval)
@@ -136,7 +143,6 @@ void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
 	_dc_messagecb = msgcb;
 }
 
-/* Allocate a physical file descriptor */
 DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 	const char *path)
 {
@@ -149,7 +155,6 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 	return file;
 }
 
-/* De-allocate a physical file descriptor */
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
 {
 	if (!file)

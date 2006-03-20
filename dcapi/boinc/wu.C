@@ -17,6 +17,8 @@
 
 extern SCHED_CONFIG dc_boinc_config;
 
+static GHashTable *wu_table;
+
 DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	int subresults, const char *tag)
 {
@@ -45,6 +47,12 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	uuid_unparse_lower(wu->uuid, uuid_str);
 	wu->uuid_str = g_strdup(uuid_str);
 
+	if (tag)
+		wu->name = g_strdup_printf("%s_%s_%s", project_uuid_str,
+			uuid_str, tag);
+	else
+		wu->name = g_strdup_printf("%s_%s", project_uuid_str, uuid_str);
+
 	/* Calculate & create the working directory. The working directory
 	 * has the form:
 	 * <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid>
@@ -71,6 +79,11 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	wu->workdir = str->str;
 	g_string_free(str, FALSE);
 
+	if (!wu_table)
+		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
+			NULL, NULL);
+	g_hash_table_insert(wu_table, wu->name, wu);
+
 	return wu;
 }
 
@@ -85,6 +98,9 @@ void DC_destroyWU(DC_Workunit *wu)
 {
 	if (!wu)
 		return;
+
+	if (wu_table)
+		g_hash_table_remove(wu_table, wu->name);
 
 	switch (wu->state)
 	{
@@ -155,6 +171,7 @@ void DC_destroyWU(DC_Workunit *wu)
 	g_free(wu->client_name);
 	g_strfreev(wu->argv);
 	g_free(wu->tag);
+	g_free(wu->name);
 
 	g_free(wu);
 }
@@ -408,7 +425,7 @@ static char *generate_result_template(DC_Workunit *wu)
 
 	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
 		wu->uuid_str);
-	abspath = g_strdup_printf("%s%c%s", _DC_getProjectRoot(),
+	abspath = g_strdup_printf("%s%c%s", _DC_getCfgStr(CFG_PROJECTROOT),
 		G_DIR_SEPARATOR, file);
 
 	tmpl = fopen(abspath, "w");
@@ -491,7 +508,7 @@ static int lookup_appid(DC_Workunit *wu)
 
 int DC_submitWU(DC_Workunit *wu)
 {
-	char **infiles, *wu_name, *result_path;
+	char **infiles, *result_path;
 	char *wu_template, *result_template_file;
 	DB_WORKUNIT bwu;
 	int i, ret;
@@ -501,14 +518,7 @@ int DC_submitWU(DC_Workunit *wu)
 	if (ret)
 		return ret;
 
-	if (wu->tag)
-		wu_name = g_strdup_printf("%s_%s_%s", project_uuid_str,
-			wu->uuid_str, wu->tag);
-	else
-		wu_name = g_strdup_printf("%s_%s", project_uuid_str,
-			wu->uuid_str);
-	strncpy(bwu.name, wu_name, sizeof(bwu.name));
-	g_free(wu_name);
+	strncpy(bwu.name, wu->name, sizeof(bwu.name));
 
 	bwu.appid = lookup_appid(wu);
 	if (bwu.appid == -1)
@@ -524,7 +534,7 @@ int DC_submitWU(DC_Workunit *wu)
 
 	wu_template = generate_wu_template(wu);
 	result_template_file = generate_result_template(wu);
-	result_path = g_strdup_printf("%s%c%s", _DC_getProjectRoot(),
+	result_path = g_strdup_printf("%s%c%s", _DC_getCfgStr(CFG_PROJECTROOT),
 		G_DIR_SEPARATOR, result_template_file);
 
 	infiles = g_new0(char *, wu->num_inputs + 1);
