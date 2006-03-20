@@ -3013,3 +3013,11 @@ Rom    17 Mar 2006
     client/
         ss_logic.C
 
+Bruce 20 Mar 2006
+    - User web pages: outcome validate error was being reported as unknown.
+
+    html/
+        inc/
+            result.inc
+
+

@@ -247,6 +247,7 @@ function outcome_string($s) {
     case 3: return "Client error";
     case 4: return "No reply";
     case 5: return "Didn't need";
+    case 6: return "Validate error";
     }
     return "Unknown";
 }
