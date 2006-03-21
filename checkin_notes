@@ -3084,3 +3084,7 @@ Walt  21 Mar 2005
     
     client/
         http_curl.C
+
+Rom    21 Mar 2006 (HEAD)
+    - Tag for 5.3.28 release, all platforms
+      boinc_core_release_5_3_28
