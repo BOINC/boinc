@@ -630,7 +630,7 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
     case CURLIOCMD_RESTARTREAD:
         phop->lSeek = 0;
         phop->bytes_xferred = phop->file_offset;
-        phop->bSentHeader = FALSE;
+        phop->bSentHeader = false;
         break;
     default: // should never get here
         return CURLIOE_UNKNOWNCMD;
@@ -686,7 +686,7 @@ void HTTP_OP::setupProxyCurl() {
                 pi.http_server_name, pi.http_server_port,
                 pi.http_user_name, pi.http_user_passwd);
 */
-            auth_flag = TRUE;
+            auth_flag = true;
             if (auth_type) {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
             } else {
