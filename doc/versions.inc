@@ -58,6 +58,14 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.27
+      <ul>
+        <li>Localization Updates.
+        <li>Account manager fixes when updating preferences.
+        <li>Partial file transfer fix.
+        <li>Proxy authentication issues on file upload fix.
+        <li>Shared install permission bug fix.
+      </ul>
     <li>Changes since 5.3.26
       <ul>
         <li>Account Manager fixes.
@@ -198,11 +206,11 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5327= array(
-    "num"=>"5.3.27",
+$w5328= array(
+    "num"=>"5.3.28",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.27_windows_intelx86.exe",
-    "date"=>"17 Mar 2006",
+    "file"=>"boinc_5.3.28_windows_intelx86.exe",
+    "date"=>"21 Mar 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_53."
@@ -446,11 +454,11 @@ $m443s = array(
     "
 );
 
-$l5327 = array(
-    "num"=>"5.3.27",
+$l5328 = array(
+    "num"=>"5.3.28",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.27_i686-pc-linux-gnu.sh",
-    "date"=>"17 Mar 2006",
+    "file"=>"boinc_5.3.28_i686-pc-linux-gnu.sh",
+    "date"=>"21 Mar 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_53."
@@ -518,7 +526,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5327,
+        $w5328,
         $w5213,
         $w445,
     )
@@ -542,7 +550,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5327,
+        $l5328,
         $l5213,
         $l443,
     )
