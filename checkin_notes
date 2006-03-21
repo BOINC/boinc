@@ -3039,3 +3039,17 @@ David  20 Mar 2005
 
     html/user/
         get_project_config.php
+
+Walt   20 Mar 2005
+    - Bug fix: Fix issues with proxy authorization:
+       -libcurl resends 'post' requests when negotiating authorization
+        type with the proxy server, needed curl callback function to
+        rewind the data.
+       -add variables to NET_XFER to save proxy server authorization type.
+        NET_XFER::auth_flag is BOOL, TRUE = proxy server uses authorization
+        NET_XFER::auth_type: 0 = libcurl negotiates auth type
+                            ~0 = authorization type libcurl used with proxy
+
+    client/
+        http_xfer.C,h
+        net_xfer_curl.C,h

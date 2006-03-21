@@ -101,6 +101,7 @@ private:
 // global function used by libcurl to write http replies to disk
 size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop);
 size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop);
+curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop);
 
 // represents a set of HTTP requests in progress
 //

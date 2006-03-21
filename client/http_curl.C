@@ -414,6 +414,10 @@ The checking this option controls is of the identity that the server claims. The
         // note that in my lib_write I'm sending in a pointer to this instance of HTTP_OP
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
 
+        // callback function to rewind input file 
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
+
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_POST, 1L);
     } else {  // GET
         want_upload = false;
@@ -618,6 +622,23 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     return stRead;
 }
 
+curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
+    // reset input stream to beginning - resends header
+    // and restarts data back to starting point
+
+    switch(cmd) {
+    case CURLIOCMD_RESTARTREAD:
+        phop->lSeek = 0;
+        phop->bytes_xferred = phop->file_offset;
+        phop->bSentHeader = FALSE;
+        break;
+    default: // should never get here
+        return CURLIOE_UNKNOWNCMD;
+    }
+    return CURLIOE_OK;
+}
+
+
 void HTTP_OP::setupProxyCurl() {
     // CMC: use the libcurl proxy routines with this object's proxy information struct 
     /* PROXY_INFO pi useful members:
@@ -665,8 +686,13 @@ void HTTP_OP::setupProxyCurl() {
                 pi.http_server_name, pi.http_server_port,
                 pi.http_user_name, pi.http_user_passwd);
 */
+            auth_flag = TRUE;
+            if (auth_type) {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
+            } else {
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+            }       
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
         }
     } else {    
@@ -680,8 +706,13 @@ void HTTP_OP::setupProxyCurl() {
                 strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
             ) {
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);            
+                auth_flag = TRUE;
+                if (auth_type) {
+                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
+                } else {
+                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+                }
             }
         }
     }

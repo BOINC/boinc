@@ -115,6 +115,8 @@ NET_XFER::NET_XFER() {
     pcurlFormEnd = NULL;
     pByte = NULL;
     lSeek = 0;
+    auth_flag = FALSE;
+    auth_type = 0;
     reset();
 }
 
@@ -273,16 +275,22 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             );
         }
         if (nxf->want_upload) {
-            bytes_up += nxf->bytes_xferred;
+            bytes_up += nxf->bytes_xferred;  
             curlErr = curl_easy_getinfo(nxf->curlEasy, 
                 CURLINFO_SPEED_UPLOAD, &nxf->xfer_speed
             );
         }
 
+        // if proxy/socks server uses authentication and its not set yet,
+        // get what last transfer used
+        if (nxf->auth_flag && !nxf->auth_type) {
+            curlErr = curl_easy_getinfo(nxf->curlEasy, 
+                CURLINFO_PROXYAUTH_AVAIL, &nxf->auth_type);
+        }
+
         // the op is done if curl_multi_msg_read gave us a msg for this http_op
         //
-        nxf->http_op_state = HTTP_STATE_DONE;
-
+        nxf->http_op_state = HTTP_STATE_DONE;        
         nxf->CurlResult = pcurlMsg->data.result;
 
         if (nxf->CurlResult == CURLE_OK) {

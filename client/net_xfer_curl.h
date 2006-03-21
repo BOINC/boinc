@@ -103,6 +103,10 @@ public:
     int http_op_type;
     int http_op_retval;
 
+    // save authorization types supported by proxy/socks server
+    bool auth_flag;       // TRUE = server uses authorization
+    long auth_type;       // 0 = haven't contacted server yet.
+
     NET_XFER();
     ~NET_XFER();
     void reset();
