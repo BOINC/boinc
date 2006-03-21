@@ -3051,5 +3051,5 @@ Walt   20 Mar 2005
                             ~0 = authorization type libcurl used with proxy
 
     client/
-        http_xfer.C,h
+        http_curl.C,h
         net_xfer_curl.C,h
