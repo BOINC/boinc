@@ -3020,4 +3020,8 @@ Bruce 20 Mar 2006
         inc/
             result.inc
 
+Charlie  20 Mar 2006
+    - Add /Library/Receipts/BOINC.pkg to list of files to remove for uninstall.
 
+    doc/
+        mac_advanced.php
