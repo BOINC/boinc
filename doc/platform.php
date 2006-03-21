@@ -99,7 +99,7 @@ These are stored in the host record.
 
 <p>
 Second, applications that recognize even more specific
-architecure information can pass it back to the core client
+architecture information can pass it back to the core client
 using the <b>boinc_architecture()</b>
 function from <a href=api.php>the BOINC API</a>.
 This passes a string (project-specific, but typically in XML)

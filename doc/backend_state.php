@@ -89,7 +89,7 @@ list_item("error_mask",
     <li> Transitioner sets COULDNT_SEND_RESULT if some result couldn't be sent.
     <li> Transitioner sets TOO_MANY_RESULTS if too many error results
     <li> Transitioner sets TOO_MANY_TOTAL_RESULTS if too many total results
-    <li> Validater sets TOO_MANY_SUCCESS_RESULTS if no consensus
+    <li> Validator sets TOO_MANY_SUCCESS_RESULTS if no consensus
         and too many success results
     </ul>
     "

@@ -255,7 +255,7 @@ DefaultType application/octet-stream
 </pre>
 Suppose Apache runs as user 'apache'
 and BOINC daemons runs as user 'boincadm'.
-Directories created by apache need to be writeable to boincadm.
+Directories created by apache need to be writable to boincadm.
 This can be done in any of several ways:
 <ul>
 <li> Use Apache's suexec mechanism
@@ -279,7 +279,7 @@ Add these two lines to the beginning of the apache start script
 </pre>
 Apache will need to be stopped/restarted for this to take effect.
 
-Now any file apache creates should have group writeable permissions
+Now any file apache creates should have group writable permissions
 (thanks to the umask) and user boincadm, who now belongs to group
 apache, should be able to update/delete these files.
 </ul>

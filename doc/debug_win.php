@@ -23,14 +23,14 @@ the version of BOINC you are running.
 there should be some diagnostic information recorded in stderrdae.txt for 
 BOINC and stderrgui.txt for the BOINC Manager.
 
-<p>The diagnostic information we are looking for is called a callstack which 
+<p>The diagnostic information we are looking for is called a call stack which 
 is described below.
 
-<h2>Callstacks</h2>
-<p>Callstacks help us identify where the problem is by telling us which file
+<h2>Call stacks</h2>
+<p>Call stacks help us identify where the problem is by telling us which file
 and what line number in the source code the error occurred in.
 
-<p>Here is an example of a good callstack:
+<p>Here is an example of a good call stack:
 <pre>
 ***UNHANDLED EXCEPTION****
 Reason: Access Violation (0xc0000005) at address 0x00411A87 write attempt to address 0x00000000
@@ -40,7 +40,7 @@ Reason: Access Violation (0xc0000005) at address 0x00411A87 write attempt to add
 1: c:\\boincsrc\\main\\boinc\\client\\client_state.c(431) +0 bytes (CLIENT_STATE::do_something)
 </pre>
 
-<p>Here is an example of a bad callstack:
+<p>Here is an example of a bad call stack:
 <pre>
 ***UNHANDLED EXCEPTION****
 Reason: Access Violation (0xc0000005) at address 0x7C34FEDC read attempt to address 0x05595D90
@@ -52,9 +52,9 @@ Reason: Access Violation (0xc0000005) at address 0x7C34FEDC read attempt to addr
 1: SymGetLineFromAddr(): GetLastError = 126
 </pre>
 
-<h2>Extracting callstacks</h2>
-<p>If we need a callstack to help solve a problem that doesn't manifest itself as a crash you
-can still extract a callstack from a running program using some freeware tools Microsoft
+<h2>Extracting call stacks</h2>
+<p>If we need a call stack to help solve a problem that doesn't manifest itself as a crash you
+can still extract a call stack from a running program using some freeware tools Microsoft
 publishes called Debugging Tools for Windows.
 
 <p>The Debugging Tools for Windows can be found here:
@@ -65,11 +65,11 @@ Once these tools are installed on your machine and the symbol files are extracte
 BOINC installation directory you can run 'WinDBG.exe' and attach to the 'BOINC.exe' process
 through the file menu to begin your debugging session.
 Once 'WinDBG.exe' has attached itself 
-to 'BOINC.exe' you can view the callstack by typing 'kb' in the command window
+to 'BOINC.exe' you can view the call stack by typing 'kb' in the command window
 and then hitting enter.
 
 <p>
-Here is an example of the output 'WinDBG.exe' displays when it dumps a callstack:
+Here is an example of the output 'WinDBG.exe' displays when it dumps a call stack:
 <pre>
 ChildEBP RetAddr  Args to Child              
 0012fafc 7c821364 77e42439 00000000 0012fb40 ntdll!KiFastSystemCallRet
@@ -89,7 +89,7 @@ ChildEBP RetAddr  Args to Child
 
 <p>
 Warning: You may need to add the BOINC directory to 'WinDBG.exe' symbol search path from the
-File menu in order to get a valid callstack.
+File menu in order to get a valid call stack.
 ";
 page_tail();
 ?>

@@ -38,34 +38,37 @@ To get started, look at the BOINC bug database, fix a bug or two,
 and send your patches to the appropriate area owner.
 The following medium-to-large development projects are available:
 <ul>
-<li> Replace db_base.py with <a href=http://sqlobject.org/>SQLObject</a>.
+<li> Applications
+<ul>
+<li> Write and document an example simple application,
+with project file from Windows and configure/Make files for Unix,
+that does nontrivial graphics.
+<li> Write an example compound application.
+</ul>
+<li> Core client:
+<ul>
+<li> Rewrite the CPU scheduler and work fetch policies
+to match the design document.
+<li> Write a simulator for the CPU scheduler and work fetch policies.
+
+<li> Log result start/ends (for use by 3rd-party software like BoincView).
+
+<li> Prevent disk space usage from
+exceeding user preferences, and enforce resource shares,
+with file deletion according to project policy.
+</ul>
+
 <li> BOINC Manager:
+<ul>
 Change the Statistics tab to use a single graph
 with lines of different colors or styles for different projects.
 
-<li> BOINC Manager:
-Show progress bars for file transfers and in-progress results.
+<li> Show progress bars for file transfers and in-progress results.
 
-<li> BOINC Manager:
-Use pie charts for disk usage
+<li> Show pie charts for disk usage
+<li> Sortable columns in Work tab.
+</ul>
 
-<li> Show when new versions of the core client and/or BOINC Manager
-are available.
-Could show in status line of Manager,
-as a balloon, or in Messages.
-
-<li> BOINC Manager: sortable columns in Work tab.
-
-<li> Support local editing of preferences
-(could be done in the Manager or a separate app).
-
-<li> Core client: write a log file of result start/ends.
-(for use by 3rd-party software like BoincView).
-
-<li> Disk space management: prevent disk space usage from
-exceeding user preferences,
-    and enforce resource shares,
-    with file deletion according to project policy.
 
 </ul>
 Please check with davea at ssl.berkeley.edu

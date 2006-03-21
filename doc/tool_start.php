@@ -2,47 +2,67 @@
 require_once("docutil.php");
 page_head("Project control");
 echo "
-<h2>Starting and stopping a project</h2>
+<h2>Trigger files</h2>
+<p>
+The following files (in the project root directory)
+can be used to turn off various parts of a project.
+<pre>
+   stop_sched
+</pre>
+Have the scheduler return 'project down' messages.
+<pre>
+   stop_daemons
+</pre>
+Tell all daemon process to exit.
 
-While a project is <b>stopped</b>, its daemons are stopped,
-the scheduler returns 'project down' messages,
-and the web site displays a 'Project down' page.
-No database accesses occur while a project is stopped.
-A project should be stopped during most maintenance functions
+<pre>
+   stop_web
+</pre>
+Have the web site return 'project down' messages
+for all functions that require database access.
+
+<p>
+The presence of a file triggers the function.
+For example, to turn off data-driven web pages, type
+<pre>
+   touch stop_web
+</pre>
+and to them back on, type
+<pre>
+   rm stop_web
+</pre>
+
+<p>
+If all three files are present, no database access will occur.
+You should do this during most maintenance functions
 (such as upgrading software).
-<p>
-The following scripts (in bin/) control a project:
-<p>
-<b>start</b>
-<p>
-Start the project.
-<p>
-<b>stop</b>
-<p>
-Stop the project.
-<p>
-<b>cron (invoked as 'start --cron')</b>
-<p>
-If the project is started, perform all periodic tasks
-that are past due, and start any daemons that aren't running.
+
+<h2>Project control scripts</h2>
+
+The following Python scripts control a project:
+<pre>
+   bin/start
+</pre>
+Start the project: start all daemons,
+and remove the stop_sched and stop_daemon files.
+<pre>
+   bin/stop
+</pre>
+Stop the project (create the stop_sched and stop_daemon files)
+<pre>
+   bin/start --cron
+</pre>
+If the project is started, perform all periodic tasks that are past due,
+and start any daemons that aren't running.
 Otherwise do nothing.
-<p>
-<b>status</b>
-<p>
+<pre>
+   bin/status
+</pre>
 Show whether the project is stopped.
 Show the status of all daemons.
 Show the status of all periodic tasks
 (e.g., when they were last executed).
 
-<h2>Turning off the scheduler</h2>
-
-If you want to turn off the scheduler but leave everything else running,
-create a file
-<pre>
-stop_sched
-</pre>
-in the project directory.
-Remove it to reactivate the scheduler.
 ";
 page_tail();
 ?>

@@ -161,7 +161,7 @@ echo "
   making the binaries and libraries in that directory and any extra
   files to distribute.
 <p>
-  Usually you will want to run <code>make</code> from the toplevel
+  Usually you will want to run <code>make</code> from the top level
   (the directory containing the file <code>configure</code>), but
   sometimes it is useful to run <code>make</code> and <code>make
     check</code> in certain subdirectories (e.g. <code>client/</code>).

@@ -10,7 +10,7 @@ floating-point ops/sec, and memory bandwidth are measured separately.
 They are measured by a process executing at the same priority as BOINC
 applications, so the results will be affected by other processes.
 These measurements are taken when the client starts for the first time,
-and once every month afterwards.
+and once every month thereafter.
 <li> <b>Number of CPUs</b>:  By default, the number of simultaneous
 slot directories will be set to this number unless otherwise indicated
 by user preferences.

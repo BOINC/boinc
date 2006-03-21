@@ -18,14 +18,22 @@ echo "<project_config>
     <name>$long_name</name>
 ";
 
-if ($disable_account_creation) {
-    echo "    <account_creation_disabled/>\n";
-}
-if ($client_account_creation_disabled) {
-    echo "    <client_account_creation_disabled/>\n";
+if (project_is_stopped()) {
+    echo "
+        <error_num>-183</error_num>
+    ";
+} else {
+    if ($disable_account_creation) {
+        echo "    <account_creation_disabled/>\n";
+    }
+    if ($client_account_creation_disabled) {
+        echo "    <client_account_creation_disabled/>\n";
+    }
+    echo "
+        <min_passwd_length>$min_passwd_length</min_passwd_length>
+    ";
 }
 echo "
-    <min_passwd_length>$min_passwd_length</min_passwd_length>
 </project_config>
 ";
 

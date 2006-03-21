@@ -139,7 +139,7 @@ logs so that they are not too big.");
 list_item("sched_lockfile_dir",
     "Enables scheduler locking (recommended) and specifies
     directory where scheduler lockfiles are stored.
-    Must be writeable to the Apache user.
+    Must be writable to the Apache user.
 ");
 list_item("profile_screening",
     "If present, don't show profile pictures until they've been
@@ -323,7 +323,7 @@ list_item("default_disk_min_free_gb", "Sets the default value for
     it to  set the initial value when displaying or editing 
     preferences the  first time, or when the user never saved them.
     Also, the scheduler uses this setting to override any smaller
-    preference from the host, it enforces a 'minumum free disk space'
+    preference from the host, it enforces a 'minimum free disk space'
     to keep from filling up the drive.  Recommend setting this no
     smaller than .001 (1MB or 1,000,000 bytes).  Default is .001.
 ");

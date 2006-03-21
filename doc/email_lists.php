@@ -62,7 +62,7 @@ echo "
 <p>
 Dec 2 2005: some people are reporting that their postings
 to these email lists never appear.
-Here's a reply from our system admininistrator:
+Here's a reply from our system administrator:
 <blockquote>
 My first guess is that the barracuda antispam system is matching their email address or email sending server to a DNSBL (blacklist) and dropping the message. We use several popular DNSBL's to either block or tag blatant spam (spamcop, spamhaus, etc.) The lists we use are usually pretty good at only listing blatant spammers, but sometimes valid addresses are listed for short periods until they can get delisted. This typically happens when a spammer is using an ISP with DHCP addresses -- the spammer gets caught, the dhcp address goes to someone else and that person gets screwed.
 

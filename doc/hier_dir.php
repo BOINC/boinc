@@ -62,7 +62,7 @@ Secondly, your validator and assimilator should call
 ".html_text("
 int get_output_file_path(RESULT const& result, string& path);
 ")."
-to get the paths of output files in the hiearchy.
+to get the paths of output files in the hierarchy.
 If your application has multiple output files,
 you'll need to generalize this function.
 

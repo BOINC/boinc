@@ -3028,3 +3028,14 @@ Charlie  20 Mar 2006
     mac_installer/
         GR-ReadMe.rtf
         ReadMe.rtf
+
+David  20 Mar 2005
+    - If a project's web site is turned off
+        (i.e. if the stop_web file is present)
+        the get_project_config.php script returns a ERR_PROJECT_DOWN error,
+        so that the BOINC Manager's Attach Project Wizard
+        will show a "project not available" message
+        before asking for email/password
+
+    html/user/
+        get_project_config.php

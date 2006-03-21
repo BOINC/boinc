@@ -195,6 +195,8 @@ list_item("input", html_text("
     <domain_name>host.domain</domain_name>
     <client_version>5.3.2</client_version>
     <run_mode>auto</run_mode>
+    <prefs_mod_time>1133905881</prefs_mod_time>
+    <prefs_source_project>http://setiathome.berkeley.edu/</prefs_source_project>
     <project>
        <url>http://setiathome.berkeley.edu/</url>
        <project_name>SETI@home</project_name>
@@ -203,6 +205,7 @@ list_item("input", html_text("
        <hostid>NNN</hostid>
        [ <attached_via_acct_mgr/> ]
     </project>
+    [ ... other projects ]
     [ <gui_rpc_port>N</gui_rpc_port> ]
     [ <gui_rpc_password>xxxx</gui_rpc_password> ]
     ...

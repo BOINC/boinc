@@ -21,6 +21,8 @@ param1=val1&param2=val2&...&paramn=valn
 ")."
 where param1 ... paramN are the parameter names,
 and val1 ... valn are the values.
+Parameter values must be URL-encoded
+(for example, using PHP's <code>urlencode</code> function).
 <li>
 The output is XML.
 </ul>

@@ -15,7 +15,7 @@ Your bug may have already been fixed.
 
 <li> Use BOINC's
 <a href=http://bbugs.axpr.net/>external bug database</a>
-(which is readable and writeable).
+(which is readable and writable).
 
 ";
 if (1) {
