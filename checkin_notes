@@ -3072,3 +3072,10 @@ Rom    21 Mar 2005
     lib/
         diagnostics.C, .h
         stackwalker_win.cpp, .h
+
+Rom    21 Mar 2005
+    - Move the structure out of the header into the .C file
+    
+    lib/
+        diagnostics.C, .h
+    

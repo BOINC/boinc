@@ -79,17 +79,7 @@ extern int diagnostics_init(
 extern int diagnostics_cycle_logs();
 
 
-// This structure is used to keep track of stuff nessassary
-//   to dump backtraces for all threads during an abort or
-//   crash.  This is platform specific in nature since it
-//   depends on the OS datatypes.
 #ifdef _WIN32
-
-typedef struct _BOINC_THREADLIST {
-    char    name[256];
-    DWORD   thread_id;
-    HANDLE  thread_handle;
-} BOINC_THREADLIST, *PBOINC_THREADLIST;
 
 extern int diagnostics_set_aborted_via_gui_flag();
 extern int diagnostics_set_thread_info( int thread_type, DWORD thread_id, HANDLE thread_handle );

@@ -69,6 +69,16 @@ static FILE* stderr_file;
 
 #ifdef _WIN32
 
+// This structure is used to keep track of stuff nessassary
+//   to dump backtraces for all threads during an abort or
+//   crash.  This is platform specific in nature since it
+//   depends on the OS datatypes.
+typedef struct _BOINC_THREADLIST {
+    char    name[256];
+    DWORD   thread_id;
+    HANDLE  thread_handle;
+} BOINC_THREADLIST, *PBOINC_THREADLIST;
+
 static BOINC_THREADLIST diagnostics_threads[BOINC_THREADTYPE_COUNT];
 
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);

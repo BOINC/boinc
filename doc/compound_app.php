@@ -34,6 +34,7 @@ struct BOINC_OPTIONS {
     int handle_process_control;
     int handle send_status_msgs;
     int direct_process_action;
+    int terminate_on_exit;
 };
 
 int boinc_init_options(BOINC_OPTIONS*);
@@ -70,6 +71,12 @@ list_item("direct_process_action",
     Otherwise, these events will result in changes to
     the BOINC_STATUS structure,
     which can be polled using boinc_get_status()."
+);
+list_item("terminate_on_exit",
+    "If set, boinc_exit() will clean up what it knows about and then call
+    TerminateProcess() which causes all threads to stop before the OS
+    attempts to clean up.  This is similiar to SIGKILL on *nix machines. 
+    (Windows Only)"
 );
 list_end();
 echo "
