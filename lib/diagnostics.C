@@ -59,6 +59,7 @@
 
 
 static int   flags;
+static int   aborted_via_gui;
 static char  stdout_log[256];
 static char  stdout_archive[256];
 static FILE* stdout_file;
@@ -66,8 +67,9 @@ static char  stderr_log[256];
 static char  stderr_archive[256];
 static FILE* stderr_file;
 
-
 #ifdef _WIN32
+
+static BOINC_THREADLIST diagnostics_threads[BOINC_THREADTYPE_COUNT];
 
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal );
@@ -178,7 +180,21 @@ int diagnostics_init(
     }
 
 
-#if defined(_WIN32) && defined(_DEBUG)
+#if defined(_WIN32)
+
+    // Initialize the thread list structure
+    //   The data for this structure should be set by
+    //   boinc_init or boinc_init_graphics.
+    int i;
+    for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
+        diagnostics_threads[i].thread_id = NULL;
+        diagnostics_threads[i].thread_handle = NULL;
+    }
+    strcpy(diagnostics_threads[BOINC_THREADTYPE_TIMER].name, "Timer");
+    strcpy(diagnostics_threads[BOINC_THREADTYPE_WORKER].name, "Worker");
+    strcpy(diagnostics_threads[BOINC_THREADTYPE_GRAPHICS].name, "Graphics");
+
+#if defined(_DEBUG)
 
     _CrtSetReportHook( boinc_message_reporting );
 
@@ -191,7 +207,8 @@ int diagnostics_init(
         else
             SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
 
-#endif // defined(_WIN32) && defined(_DEBUG)
+#endif // defined(_DEBUG)
+#endif // defined(_WIN32)
 
 
     // Install unhandled exception filters and signal traps.
@@ -253,6 +270,22 @@ int diagnostics_cycle_logs() {
 
 #ifdef _WIN32
 
+int diagnostics_set_aborted_via_gui_flag() {
+    aborted_via_gui = 1;
+    return 0;
+}
+
+int diagnostics_set_thread_info( int thread_type, DWORD thread_id, HANDLE thread_handle ) {
+    diagnostics_threads[thread_type].thread_id = thread_id;
+    diagnostics_threads[thread_type].thread_handle = thread_handle;
+    return 0;
+}
+
+int diagnostics_is_thread_type_initialized( int thread_type ) {
+    return (diagnostics_threads[thread_type].thread_id != NULL);
+}
+
+
 // Used to unwind the stack and spew the callstack to stderr. Terminate the
 //   process afterwards and return the exception code as the exit code.
 //
@@ -289,8 +322,10 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
     DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
 
-    char  status[256];
-    char  substatus[256];
+    char    status[256];
+    char    substatus[256];
+    int     i;
+    CONTEXT c;
 
     static long   lDetectNestedException = 0;
 
@@ -394,15 +429,57 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
     // Unwind the stack and spew it to stderr
-    if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED )
-        StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
+    if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED ) {
+
+		InitStackWalk();
+        fprintf( stderr, "\n" );
+        fflush( stderr );
+
+        // Suspend the other threads.
+        for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
+            if ((GetCurrentThreadId() != diagnostics_threads[i].thread_id) && diagnostics_threads[i].thread_id) {
+				// Suspend the thread before getting the threads context, otherwise
+                //   it'll be junk.
+                SuspendThread(diagnostics_threads[i].thread_handle);
+            }
+        }
+
+        // Dump the offending thread's stack first.
+        for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
+            if (GetCurrentThreadId() == diagnostics_threads[i].thread_id) {
+                fprintf( stderr, "Dump of the %s(offending) thread:\n", diagnostics_threads[i].name );
+                StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
+                fflush( stderr );
+            }
+        }
+
+        // Dump the other threads stack.
+        for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
+            if ((GetCurrentThreadId() != diagnostics_threads[i].thread_id) && diagnostics_threads[i].thread_id) {
+                // Get the thread context
+                memset(&c, 0, sizeof(CONTEXT));
+                c.ContextFlags = CONTEXT_FULL;
+				GetThreadContext(diagnostics_threads[i].thread_handle, &c);
+
+				// Dump the thread's stack.
+				fprintf( stderr, "Dump of the %s thread:\n", diagnostics_threads[i].name, c.Ebp, c.Eip );
+                StackwalkThread( diagnostics_threads[i].thread_handle, &c, NULL );
+                fflush( stderr );
+            }
+        }
+
+    }
 #endif
 
     fprintf( stderr, "Exiting...\n" );
     fflush( stderr );
 
     // Force terminate the app letting BOINC know an exception has occurred.
-    TerminateProcess( GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode );
+    if (aborted_via_gui) {
+        TerminateProcess( GetCurrentProcess(), ERR_ABORTED_VIA_GUI );
+    } else {
+        TerminateProcess( GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode );
+    }
 
     // We won't make it to this point, but make the compiler happy anyway.
     return 1;

@@ -537,6 +537,10 @@ void win_graphics_event_loop() {
     GetVersionEx(&osvi);
     is_windows_9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
 
+    // Initialize the graphics thread info for diagnostic
+    //   purposes.
+    diagnostics_set_thread_info(BOINC_THREADTYPE_GRAPHICS, 
+        GetCurrentThreadId(), OpenThread(THREAD_ALL_ACCESS, FALSE, GetCurrentThreadId()));
 
     // Register window class and graphics mode message
     reg_win_class();

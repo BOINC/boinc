@@ -615,7 +615,13 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<abort/>")) {
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
+#ifdef _WIN32
+                diagnostics_set_aborted_via_gui_flag();
+                // Cause a controlled assert and dump the callstacks.
+                DebugBreak();
+#else
 				boinc_exit(0);
+#endif
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {
@@ -634,6 +640,16 @@ static void CALLBACK worker_timer(
 #else
 static void worker_timer(int /*a*/) {
 #endif
+
+#ifdef _WIN32
+    // Initialize the timer thread info for diagnostic
+    //   purposes.
+    if (!diagnostics_is_thread_type_initialized(BOINC_THREADTYPE_TIMER)) {
+        diagnostics_set_thread_info(BOINC_THREADTYPE_TIMER, 
+        GetCurrentThreadId(), OpenThread(THREAD_ALL_ACCESS, FALSE, GetCurrentThreadId()));
+    }
+#endif
+
     interrupt_count++;
     if (!ready_to_checkpoint) {
         time_until_checkpoint -= TIMER_PERIOD;
@@ -723,6 +739,11 @@ int set_worker_timer() {
     int retval=0;
 
 #ifdef _WIN32
+    // Initialize the worker thread info for diagnostic
+    //   purposes.
+    diagnostics_set_thread_info(BOINC_THREADTYPE_WORKER, 
+        GetCurrentThreadId(), OpenThread(THREAD_ALL_ACCESS, FALSE, GetCurrentThreadId()));
+
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),
@@ -733,7 +754,7 @@ int set_worker_timer() {
         DUPLICATE_SAME_ACCESS
     );
 
-    // Use Windows multimedia timer, since it is more accurate
+	// Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop
     //
     timer_id = timeSetEvent(

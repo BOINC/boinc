@@ -3053,3 +3053,22 @@ Walt   20 Mar 2005
     client/
         http_curl.C,h
         net_xfer_curl.C,h
+
+Rom    21 Mar 2005
+    - BOINC API: When an application is being aborted, dump the backtraces for
+        the timer, worker, and graphics threads. (Windows Only)
+        
+        This helps with applications that are stuck in an endless loop for
+          some reason.  We should no longer need to solicit users with debugging
+          experience to track down these kinds of issues anymore.  When the
+          user aborts the workunit the needed data should show up in stderr.
+          From there the user can post a message in the forum and go on about
+          their business.
+        
+    api/
+        boinc_api.C
+        graphics_impl.C
+        windows_opengl.C
+    lib/
+        diagnostics.C, .h
+        stackwalker_win.cpp, .h

@@ -51,6 +51,12 @@
 #define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
 #define BOINC_DIAG_HEAPCHECKEVERYALLOC      0x00000800L
 
+// thread types used for dumping backtraces
+//
+#define BOINC_THREADTYPE_COUNT             3
+#define BOINC_THREADTYPE_TIMER             0
+#define BOINC_THREADTYPE_WORKER            1
+#define BOINC_THREADTYPE_GRAPHICS          2
 
 // filenames
 //
@@ -58,11 +64,9 @@
 #define BOINC_DIAG_STDOUT                  "stdout"
 
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 // These are functions common to all platforms
 extern int boinc_init_diagnostics(int flags);
@@ -73,6 +77,25 @@ extern int diagnostics_init(
     int flags, const char* stdout_prefix, const char* stderr_prefix
 );
 extern int diagnostics_cycle_logs();
+
+
+// This structure is used to keep track of stuff nessassary
+//   to dump backtraces for all threads during an abort or
+//   crash.  This is platform specific in nature since it
+//   depends on the OS datatypes.
+#ifdef _WIN32
+
+typedef struct _BOINC_THREADLIST {
+    char    name[256];
+    DWORD   thread_id;
+    HANDLE  thread_handle;
+} BOINC_THREADLIST, *PBOINC_THREADLIST;
+
+extern int diagnostics_set_aborted_via_gui_flag();
+extern int diagnostics_set_thread_info( int thread_type, DWORD thread_id, HANDLE thread_handle );
+extern int diagnostics_is_thread_type_initialized( int thread_type );
+
+#endif
 
 
 // These are functions that are specific to Unix

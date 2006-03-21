@@ -424,7 +424,7 @@ static void EnumAndLoadModuleSymbols( HANDLE hProcess, DWORD pid, FILE *fLogFile
   }
 }  // EnumAndLoadModuleSymbols
 
-static int InitStackWalk(void)
+int InitStackWalk()
 {
   if (g_bInitialized != FALSE)
     return 0;  // already initialized
@@ -433,15 +433,15 @@ static int InitStackWalk(void)
   // old: offer all the functions that are in the NT5 lib
   // 02-12-19: Now we only support dbghelp.dll!
   //           To use it on NT you have to install the redistrubutable for DBGHELP.DLL
-  g_hImagehlpDll = LoadLibrary( _T("..\\..\\dbghelp.dll") ); // Possibly the "Program Files\BOINC"
-                                                             // directory.
+  g_hImagehlpDll = LoadLibrary( _T("dbghelp.dll") ); 
   if ( g_hImagehlpDll == NULL )
   {
-    fprintf( stderr, "LoadLibrary( \"..\\..\\dbghelp.dll\" ): GetLastError = %lu\n", gle );
-    g_hImagehlpDll = LoadLibrary( _T("dbghelp.dll") ); 
+    fprintf( stderr, "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
+    g_hImagehlpDll = LoadLibrary( _T("..\\..\\dbghelp.dll") ); // Possibly the "Program Files\BOINC"
+                                                               // directory.
     if ( g_hImagehlpDll == NULL )
     {
-        fprintf( stderr, "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
+        fprintf( stderr, "LoadLibrary( \"..\\..\\dbghelp.dll\" ): GetLastError = %lu\n", gle );
         g_bInitialized = FALSE;
         return 1;
     }
@@ -648,10 +648,44 @@ DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile)
   if (g_CallstackOutputType == ACOutput_XML)
     _ftprintf(fFile, _T("</EXCEPTION>\n"));
 
-  fclose(fFile);
+  //fclose(fFile);
 
   return status;
 }  // StackwalkFilter
+
+void StackwalkThread( HANDLE hThread, CONTEXT* c, LPCTSTR pszLogFile)
+{
+  FILE *fFile = stderr;  // default to stderr
+
+  if (pszLogFile != NULL) {  // a filename is available
+    // Open the logfile
+    fFile = _tfopen(pszLogFile, _T("a"));
+    if (fFile != NULL) {  // Is the file too big?
+      long size;
+      fseek(fFile, 0, SEEK_END);
+      size = ftell(fFile);  // Get the size of the file
+      if (size >= LOG_FILE_MAX_SIZE) {
+        TCHAR *pszTemp = (TCHAR*) malloc(MAX_PATH);
+        // It is too big...
+        fclose(fFile);
+        _tcscpy(pszTemp, pszLogFile);
+        _tcscat(pszTemp, _T(".old"));
+        _tremove(pszTemp);  // Remove an old file, if exists
+        _trename(pszLogFile, pszTemp);  // rename the actual file
+        fFile = _tfopen(pszLogFile, _T("w"));  // open new file
+        free(pszTemp);
+      }
+    }
+  }  // if (pszLogFile != NULL) 
+  if (fFile == NULL) {
+    fFile = stderr;
+  }
+
+  ShowStack( hThread, *c, fFile);
+
+  //fclose(fFile);
+}
+
 
 void ShowStack( HANDLE hThread, CONTEXT& c, LPCTSTR pszLogFile)
 {
@@ -683,7 +717,7 @@ void ShowStack( HANDLE hThread, CONTEXT& c, LPCTSTR pszLogFile)
 
   ShowStack( hThread, c, fFile);
 
-  fclose(fFile);
+  //fclose(fFile);
 }
 
 
