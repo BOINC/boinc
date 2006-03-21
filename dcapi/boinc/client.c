@@ -2,6 +2,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 /* BOINC includes */
 #ifdef _WIN32
 #include <boinc_win.h>
@@ -16,59 +18,55 @@
 
 int DC_init(void)
 {
-  int retval;
-
-  retval = boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR);
-  if (retval) return retval;
-  retval = boinc_init();
-  if (retval) return retval;
-  
-  return DC_OK;
+	if (boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR))
+		return DC_ERR_INTERNAL;
+	if (boinc_init())
+		return DC_ERR_INTERNAL;
+	return 0;
 }
 
-int DC_resolveFileName(DC_Filetype type, const char *requestedFileName, char *actualFileName, int maxlength)
+/* XXX Add handling for DC_CHECKPOINT_FILE */
+char *DC_resolveFileName(DC_Filetype type, const char *logicalFileName)
 {
-  int retval;
+	char buf[PATH_MAX];
 
-  retval = boinc_resolve_filename(requestedFileName, actualFileName, maxlength);
-  if (retval) return retval;
-
-  return DC_OK;
+	if (boinc_resolve_filename(logicalFileName, buf, sizeof(buf)))
+		return NULL;
+	return strdup(buf);
 }
 
-int DC_sendResult(char **files, int nfiles)
+int DC_sendResult(const char *logicalFileName, const char *path,
+	DC_FileMode fileMode)
 {
-  // not implemented yet!!
-
-  return DC_OK;
+	return DC_ERR_NOTIMPL;
 }
 
-int DC_timeToCheckpoint(void)
+DC_Event DC_checkEvent(void **data)
 {
-  return boinc_time_to_checkpoint();
+	if (boinc_time_to_checkpoint())
+		return DC_EVENT_DO_CHECKPOINT;
+	return DC_EVENT_NONE;
 }
 
-int DC_checkpointMade(void)
+void DC_checkpointMade(const char *filename)
 {
-  return boinc_checkpoint_completed();
+	boinc_checkpoint_completed();
 }
 
-int DC_continueWork(void)
+void DC_fractionDone(double fraction)
 {
-  // not implemented yet!!
-
-  return 1; // yes, continue work.
-}
-
-int DC_fractionDone(double fraction)
-{
-  return boinc_fraction_done(fraction);
+	boinc_fraction_done(fraction);
 }
 
 void DC_finish(int exitcode)
 {
-  boinc_finish(exitcode);
+	boinc_finish(exitcode);
 }
+
+/********************************************************************
+ * Provide empty implementation for some functions required by the
+ * BOINC libraries
+ */
 
 void app_graphics_init(void) {}
 void app_graphics_resize(int width, int height){}
