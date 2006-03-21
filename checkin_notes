@@ -3078,4 +3078,9 @@ Rom    21 Mar 2005
     
     lib/
         diagnostics.C, .h
+
+Walt  21 Mar 2005
+    - Bug Fix: Don't use Range: header when resuming file uploads
     
+    client/
+        http_curl.C

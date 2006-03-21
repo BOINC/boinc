@@ -320,8 +320,8 @@ The checking this option controls is of the identity that the server claims. The
     // set the content type in the header (defined at the top -- app/octect-stream)
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
-	// set the file offset for resumable uploads & downloads
-	if (offset>0.0f) {
+	// set the file offset for resumable downloads
+	if (!bPost && offset>0.0f) {
         file_offset = offset;
         sprintf(strTmp, "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, strTmp);
