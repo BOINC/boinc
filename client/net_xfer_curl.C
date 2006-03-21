@@ -115,7 +115,7 @@ NET_XFER::NET_XFER() {
     pcurlFormEnd = NULL;
     pByte = NULL;
     lSeek = 0;
-    auth_flag = FALSE;
+    auth_flag = false;
     auth_type = 0;
     reset();
 }
