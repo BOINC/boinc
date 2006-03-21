@@ -26,7 +26,7 @@ libdc_boinc_la_LIBADD = \
 libdc_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_SERVER_CPPFLAGS)
 
 libdc_client_boinc_la_SOURCES = \
-		dc_client.c
+		client.c
 libdc_client_boinc_la_LIBADD = \
 		$(BOINC_CLIENT_LIBS)
 libdc_client_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_CPPFLAGS)
