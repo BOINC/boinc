@@ -707,7 +707,7 @@ void HTTP_OP::setupProxyCurl() {
             ) {
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);            
-                auth_flag = TRUE;
+                auth_flag = true;
                 if (auth_type) {
                     curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
                 } else {

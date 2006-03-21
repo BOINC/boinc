@@ -3094,3 +3094,5 @@ Rom    21 Mar 2006
     
     client/
         http_curl.C
+        net_xfer_curl.C
+
