@@ -59,7 +59,6 @@
 
 
 static int   flags;
-static int   aborted_via_gui;
 static char  stdout_log[256];
 static char  stdout_archive[256];
 static FILE* stdout_file;

@@ -3096,3 +3096,10 @@ Rom    21 Mar 2006
         http_curl.C
         net_xfer_curl.C
 
+Charlie  21 Mar 2006
+    - Mac: fix compiler "unused variable" warning.
+      Please remember to remove unused variables from source files 
+      before checking them in.
+
+    lib/
+        diagnostics.C
