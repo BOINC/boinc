@@ -67,6 +67,7 @@ static char  stderr_archive[256];
 static FILE* stderr_file;
 
 #ifdef _WIN32
+static int   aborted_via_gui;
 
 // This structure is used to keep track of stuff nessassary
 //   to dump backtraces for all threads during an abort or
