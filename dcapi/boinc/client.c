@@ -2,8 +2,12 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 /* BOINC includes */
 #ifdef _WIN32
@@ -14,6 +18,7 @@
 #include <filesys.h>
 #include <diagnostics.h>
 #include <graphics_api.h>
+#include <parse.h>
 
 #include <dc_client.h>
 #include "common_defs.h"
@@ -21,18 +26,40 @@
 static int ckpt_generation;
 static char *last_complete_ckpt;
 static char active_ckpt[PATH_MAX];
+static char wu_name[256];
 
 int DC_init(void)
 {
-	char buf[PATH_MAX];
+	char path[PATH_MAX], *buf;
+	struct stat st;
+	FILE *f;
+	int ret;
 
 	if (boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR))
 		return DC_ERR_INTERNAL;
 	if (boinc_init())
 		return DC_ERR_INTERNAL;
 
-	if (!boinc_resolve_filename(CKPT_LABEL, buf, sizeof(buf)))
-		last_complete_ckpt = strdup(buf);
+	if (!boinc_resolve_filename(CKPT_LABEL, path, sizeof(path)))
+		last_complete_ckpt = strdup(path);
+
+	ret = stat("init_data.xml", &st);
+	if (ret)
+		return DC_ERR_INTERNAL;
+
+	f = boinc_fopen("init_data.xml", "r");
+	if (!f)
+		return DC_ERR_INTERNAL;
+
+	buf = malloc(st.st_size + 1);
+	fread(buf, st.st_size, 1, f);
+	fclose(f);
+	buf[st.st_size] = '\0';
+
+	ret = parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name));
+	free(buf);
+	if (!ret)
+		return DC_ERR_INTERNAL;
 
 	return 0;
 }
