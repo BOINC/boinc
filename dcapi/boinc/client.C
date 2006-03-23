@@ -40,7 +40,7 @@ int DC_init(void)
 	if (boinc_init())
 		return DC_ERR_INTERNAL;
 
-	if (!boinc_resolve_filename(CKPT_LABEL, path, sizeof(path)))
+	if (!boinc_resolve_filename(CKPT_LABEL_IN, path, sizeof(path)))
 		last_complete_ckpt = strdup(path);
 
 	ret = stat("init_data.xml", &st);
@@ -51,7 +51,7 @@ int DC_init(void)
 	if (!f)
 		return DC_ERR_INTERNAL;
 
-	buf = malloc(st.st_size + 1);
+	buf = (char *)malloc(st.st_size + 1);
 	fread(buf, st.st_size, 1, f);
 	fclose(f);
 	buf[st.st_size] = '\0';
@@ -101,11 +101,56 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 	return DC_ERR_NOTIMPL;
 }
 
+static void handle_special_msg(const char *message)
+{
+	/* XXX Implement it */
+}
+
 DC_Event DC_checkEvent(void **data)
 {
+	char *buf;
+
+	*data = NULL;
+
+	/* Check for checkpoint requests */
 	if (boinc_time_to_checkpoint())
 		return DC_EVENT_DO_CHECKPOINT;
+
+	/* Check for messages */
+	buf = (char *)malloc(MAX_MESSAGE_SIZE);
+	if (buf)
+	{
+		int ret;
+
+		ret = boinc_receive_trickle_down(buf, MAX_MESSAGE_SIZE);
+		if (ret)
+		{
+			if (!strncmp(buf, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
+			{
+				handle_special_msg(buf);
+				free(buf);
+				return DC_EVENT_NONE;
+			}
+
+			*data = buf;
+			return DC_EVENT_MESSAGE;
+		}
+		free(buf);
+	}
+
 	return DC_EVENT_NONE;
+}
+
+void DC_destroyEvent(DC_Event event, void *data)
+{
+	switch (event)
+	{
+		case DC_EVENT_MESSAGE:
+			free(data);
+			break;
+		default:
+			break;
+	}
 }
 
 void DC_checkpointMade(const char *filename)
@@ -123,6 +168,16 @@ void DC_fractionDone(double fraction)
 void DC_finish(int exitcode)
 {
 	boinc_finish(exitcode);
+}
+
+int DC_sendMessage(const char *message)
+{
+	return boinc_send_trickle_up(wu_name, (char *)message);
+}
+
+int DC_getMaxMessageSize(void)
+{
+	return MAX_MESSAGE_SIZE;
 }
 
 /********************************************************************
