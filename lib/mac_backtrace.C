@@ -80,28 +80,59 @@ static void PrintOSVersion(char *minorVersion);
 static int OutputFrames(const MoreBTFrame *frameArray, unsigned long frameCount, unsigned char lookupSymbolNames);
 
 void PrintBacktrace(void) {
-        int                 err;
-        MoreBTFrame         frames[kFrameCount];
-        unsigned long       frameCount;
-        unsigned long       validFrames;
-        char                OSMinorVersion;
-        time_t              t;
+    int                         err;
+    MoreBTFrame                 frames[kFrameCount];
+    unsigned long               frameCount;
+    unsigned long               validFrames;
+    char                        OSMinorVersion;
+    time_t                      t;
+    int                         didSuspend;
+    task_t                      targetTask;
+    thread_array_t		threadList;
+    thread_t                    currentThread;
+    mach_msg_type_number_t	threadCount, thisThread;
 
-        PrintNameOfThisApp();
-        PrintOSVersion(&OSMinorVersion);
 
-        time(&t);
-        fputs(asctime(localtime(&t)), stderr);
+    PrintNameOfThisApp();
+    PrintOSVersion(&OSMinorVersion);
 
-        frameCount = sizeof(frames) / sizeof(*frames);
-        err = MoreBacktraceMachSelf(0, 0, frames, frameCount, &validFrames);
-        if (err == 0) {
-                if (validFrames > frameCount) {
-                        validFrames = frameCount;
-                }
-                err = OutputFrames(frames, validFrames, true);
+    time(&t);
+    fputs(asctime(localtime(&t)), stderr);
+
+    frameCount = sizeof(frames) / sizeof(*frames);
+    err = MoreBacktraceMachSelf(0, 0, frames, frameCount, &validFrames);      // Calling task first
+    if (err == 0) {
+        if (validFrames > frameCount) {
+            validFrames = frameCount;
         }
-        fflush(stderr);
+        err = OutputFrames(frames, validFrames, true);
+    }
+    fflush(stderr);
+
+
+    targetTask = mach_task_self();
+    currentThread = mach_thread_self();
+    err = task_threads(targetTask, &threadList, &threadCount);
+    if (threadList != NULL) {
+        for (thisThread = 0; thisThread < threadCount; thisThread++) {
+
+            if (threadList[thisThread] != currentThread) {      // Calling task cannot call thread_get_state on itself
+                err = thread_suspend(threadList[thisThread]);
+                didSuspend = (err == 0);
+                err = MoreBacktraceMachThread(targetTask, threadList[thisThread], 0, 0, frames, frameCount, &validFrames);
+                if (didSuspend)
+                    thread_resume(threadList[thisThread]);
+                if (err == 0) {
+                    if (validFrames > frameCount) {
+                        validFrames = frameCount;
+                    }
+                    fprintf(stderr, "\nThread number %d: ", thisThread);
+                    err = OutputFrames(frames, validFrames, true);
+                }
+                fflush(stderr);
+            }
+        }
+    }
 }
 
 
@@ -227,7 +258,7 @@ static int OutputFrames(const MoreBTFrame *frameArray, unsigned long frameCount,
         if ((frameCount >= SKIPFRAME) && (frameArray[SKIPFRAME-1].flags & kMoreBTSignalHandlerMask))
             skipframe = SKIPFRAME;
         
-        fputs("Stack Frame backtrace:\n #  Flags Frame Addr  Caller PC   Return Address Symbol\n"
+        fputs("Stack frame backtrace:\n #  Flags Frame Addr  Caller PC   Return Address Symbol\n"
                         "===  ===  ==========  ==========  =====================\n", stderr);
         
         for (frameIndex = skipframe; frameIndex < frameCount; frameIndex++) {

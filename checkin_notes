@@ -3150,3 +3150,11 @@ Rom    22 Mar 2006
         
     api/
         boinc_api.C, .h
+
+Charlie  23 Mar 2006
+    - Mac: Backtrace now always dumps all threads.  User abort calls 
+    
+    api/
+        boinc_api.C
+    lib/
+        mac_backtrace.C

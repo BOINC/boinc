@@ -54,6 +54,10 @@ using namespace std;
 
 #include "boinc_api.h"
 
+#ifdef __APPLE__
+#include "mac_backtrace.h"
+#endif
+
 // The BOINC API has various functions:
 // - check heartbeat from core client, exit if none
 // - handle trickle up/down messages
@@ -621,6 +625,9 @@ static void handle_process_control_msg() {
                 // Cause a controlled assert and dump the callstacks.
                 DebugBreak();
 #else
+#ifdef __APPLE__
+                PrintBacktrace();
+#endif
 				boinc_exit(0);
 #endif
             }
