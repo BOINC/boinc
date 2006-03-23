@@ -151,6 +151,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 	file = g_new(DC_PhysicalFile, 1);
 	file->label = g_strdup(label);
 	file->path = g_strdup(path);
+	file->mode = DC_FILE_REGULAR;
 
 	return file;
 }
