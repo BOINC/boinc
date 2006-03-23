@@ -856,6 +856,7 @@ void ACTIVE_TASK::send_network_available() {
 bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     int new_non_cpu_intensive;
+    double fd;
 
     if (!app_client_shm.shm) {
         msg_printf(result->project, MSG_INFO,
@@ -867,8 +868,14 @@ bool ACTIVE_TASK::get_app_status_msg() {
         return false;
     }
     want_network = 0;
-    fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
-    parse_double(msg_buf, "<fraction_done>", fraction_done);
+    current_cpu_time = checkpoint_cpu_time = 0.0;
+    if (parse_double(msg_buf, "<fraction_done>", fd)) {
+        // fraction_done will be reported as zero
+        // until the app's first call to boinc_fraction_done().
+        // So ignore zeros.
+        //
+        if (fd) fraction_done = fd;
+    }
     parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
     parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
     parse_double(msg_buf, "<vm_bytes>", vm_bytes);

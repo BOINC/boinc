@@ -3174,3 +3174,13 @@ Rom    23 Mar 2006
         BOINCTaskBar.h
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp
+
+David  23 Mar 2006
+    - Core client: ignore <fraction_done>0</fraction_done> from apps.
+        If an app is being restarted,
+        and hasn't called boinc_fraction_done() yet,
+        the fraction done will be reported as zero even
+        though the actual fraction done is nonzero.
+
+    client/
+        app_control.C

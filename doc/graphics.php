@@ -291,6 +291,9 @@ TEXTURE_DESC
 Represents an image (JPEG, Targa, BMP, PNG, or RGB)
 displayed in 3 dimensions.
 </dl>
+<p>
+The file api/txf_util.C has support functions from
+drawing nice-looking 3D text.
 
 <h3>Static graphics</h3>
 <p>

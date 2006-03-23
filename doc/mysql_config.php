@@ -6,11 +6,11 @@ page_head("Configuring MySQL for BOINC");
 echo "
 <h2>Introduction</h2>
 
-The note discusses how MySQL may be set up and used for BOINC Projects.
-The various projects that use BOINC have varying Db traffic characteristics
-and this note relates to our experiences with the SETI_BOINC project,
-so may not be entirely applicable to all projects.
-Note that the SETI_BOINC project currently uses MySQL 4.0+
+The note discusses how MySQL may be configured for BOINC Projects.
+BOINC-based projects have varying DB traffic characteristics
+and this note relates to our experiences with SETI@home,
+so it may not be entirely applicable to all projects.
+SETI@home currently uses MySQL 4.0+
 and we expect to upgrade to 4.1 shortly and 5.0 later.
 Our project uses only a single instantiation of the MySQL code file
 and this note does not discuss the operation of multiple instances of MySQL
@@ -19,26 +19,26 @@ on a single server.
 <p> 
 
 All MySQL products and documentation are available at http://www.mysql.com/.
-Our experience has been of using MySQL with Sun Solaris and Linux OSes
-and would imagine MySQL on MS Windows or Mac OS X may be somewhat different.
+Our experience has been of using MySQL with Sun Solaris and Linux OSes.
+MySQL on MS Windows or Mac OS X may be somewhat different.
 
 
-<h2>MySQL Db Engines (or Table Types)</h2>
+<h2>MySQL DB Engines (or Table Types)</h2>
 <h3>General</h3>
 
-The MySQL software comprises a number of Db engines.
-For SETI_BOINC Db only 2 are used, Innodb and MyISAM.
+The MySQL software comprises a number of DB engines.
+For SETI@home DB only 2 are used, Innodb and MyISAM.
 They have different features and are used according to
 the performance requirements of the project.
 One can use all of the different engines (or table types)
-or just a single one in a MySQL Db,
+or just a single one in a MySQL DB,
 just depending on the query activity against each table in the project
 among other.
 
 <p> 
 MySQL software  is available in 32 bit and 64 bit binaries for downloading.
 Using 32 bit MySQL requires that all RAM resources
-that are assigned to the various Db engines,
+that are assigned to the various DB engines,
 must sum to no more than 2GB of RAM.
 There is no such limitation with 64 bit MySQL and large amounts
 of RAM help Innodb performance. 
@@ -46,9 +46,9 @@ of RAM help Innodb performance.
 <h3>MyISAM</h3>
 
 The MyISAM engine requires the least amount of computer resources
-can be used where there is a low Db activity requirement.
+can be used where there is a low DB activity requirement.
 For example with query rates lower that 5/sec this table type may be adequate.
-Also if one does not have a dedicated Db server this may be a good choice
+Also if one does not have a dedicated DB server this may be a good choice
 for all the tables since it consumes much less computer resources.
 It has the advantages of allowing long text indices against
 tables which Innodb does not allow.
@@ -63,15 +63,15 @@ so will occasionally trash indices and will need rebuilding.
 In commercial banking environments it would not be a good idea
 to keep account balances in this table type since there is
 no guarantee that transactions even if completed and printed will
-remain in the Db.
+remain in the DB.
 MyISAM updates its tables synchronously and uses memory locks to avoid data
 collisions.
-In SETI_BOINC, MyISAM  is used for the forum tables and logging
+In SETI@home, MyISAM  is used for the forum tables and logging
 that have relatively low query rates.
 
 <h3>Innodb</h3>
 
-The Innodb engine is used for most of the tables in SETI_BOINC project.
+The Innodb engine is used for most of the tables in SETI@home project.
 It processes multiple simultaneous queries against its tables.
 It is a versioning DB engine that holds an image of the table
 at the start of a query and maintains it until that query is completed.
@@ -90,7 +90,7 @@ and the tables and indices are managed internally within these OS/Innodb files.
 It is important that these files are located on high performance devices.
 The transaction log files should be located on independent high performance
 media (away from the Innodb files) for sustained high transaction rates.
-At Db shutdown all modified buffers have to be flushed into the transaction
+At DB shutdown all modified buffers have to be flushed into the transaction
 logs before MySQL goes away, so slow performance drives for
 the transaction log could delay shutdown for over 30 minutes
 when there are a large number of .modified buffers. to be flushed.
@@ -108,7 +108,7 @@ There are 64-bit versions of MySQL for Linux and Solaris OSes.
 
 <p>
 This is by no means the only hardware that will work with BOINC/MySQL,
-however SETI_BOINC uses this type of hardware and serves over 350K user
+however SETI@home uses this type of hardware and serves over 350K user
 and over 630K hosts.
 If your requirements are smaller,
 then many 32bit hardware and OSes may be perfectly adequate.
@@ -170,14 +170,14 @@ of the hardware resources that are available.
  define where these files are assigned.
  For example the base data directory for MySQL tables etc
  in Linux is /var/lib/MySQL.
- For SETI_BOINC we assigned this to directory to another data partition
+ For SETI@home we assigned this to directory to another data partition
  /mydisks/a/apps/mysql/data/,
  to ensure that there was enough space and performance.
  It made it easy to do physical backups without including
  additional files that were not related to the database. 
 
 <p> 
-Here are some other file directory assignments for the SETI_BOINC environment:
+Here are some other file directory assignments for the SETI@home environment:
 <pre>
  
 

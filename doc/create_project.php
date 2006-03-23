@@ -144,6 +144,7 @@ Miscellaneous
 <li> <a href=db_dump.php#task>Export credit data as XML</a>
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>
 <li> <a href=boinc_version.php>Versions of BOINC</a>
+<li> <a href=mysql_config.php>Configuring MySQL for BOINC</a>
 </ul>
 ";
 page_tail();
