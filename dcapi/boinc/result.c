@@ -140,6 +140,8 @@ DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in)
 		return NULL;
 	}
 
+	result->wu->state = DC_WU_FINISHED;
+
 	memset(&rctx, 0, sizeof(rctx));
 	rctx.result = result;
 	
