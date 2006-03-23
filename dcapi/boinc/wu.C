@@ -435,6 +435,8 @@ static char *generate_wu_template(DC_Workunit *wu)
 	tmpl = g_string_new("<file_info>\n");
 	for (i = 0; i < wu->num_inputs; i++)
 		g_string_append_printf(tmpl, "\t<number>%d</number>\n", i);
+	if (wu->ckpt_name)
+		g_string_append_printf(tmpl, "\t<number>%d</number>\n", i);
 	g_string_append(tmpl, "</file_info>\n");
 
 	/* Generate the workunit description */
@@ -449,6 +451,15 @@ static char *generate_wu_template(DC_Workunit *wu)
 			"\t\t<file_number>%d</file_number>\n", i);
 		g_string_append_printf(tmpl,
 			"\t\t<open_name>%s</open_name>\n", file->label);
+		g_string_append(tmpl, "\t</file_ref>\n");
+	}
+	if (wu->ckpt_name)
+	{
+		g_string_append(tmpl, "\t<file_ref>\n");
+		g_string_append_printf(tmpl,
+			"\t\t<file_number>%d</file_number>\n", i);
+		g_string_append_printf(tmpl,
+			"\t\t<open_name>%s</open_name>\n", CKPT_LABEL_IN);
 		g_string_append(tmpl, "\t</file_ref>\n");
 	}
 
@@ -547,7 +558,7 @@ static char *generate_result_template(DC_Workunit *wu)
 	/* The checkpoint template */
 	fprintf(tmpl, "\t<file_ref>\n");
 	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i);
-	fprintf(tmpl, "\t\t<open_name>%s</open_name>\n", CKPT_LABEL);
+	fprintf(tmpl, "\t\t<open_name>%s</open_name>\n", CKPT_LABEL_OUT);
 	fprintf(tmpl, "\t</file_ref>\n");
 
 	fprintf(tmpl, "</result>\n");
