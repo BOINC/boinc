@@ -445,6 +445,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 SetProjectPropertiesSucceeded(false);
                 bSuccessfulCondition = 
                     (!iReturnValue) && (HTTP_STATUS_NOT_FOUND == pc->error_num) ||
+                    (!iReturnValue) && (HTTP_STATUS_MOVED_PERM == pc->error_num) ||
+                    (!iReturnValue) && (HTTP_STATUS_MOVED_TEMP == pc->error_num) ||
                     (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {

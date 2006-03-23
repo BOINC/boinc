@@ -3164,8 +3164,13 @@ Rom    23 Mar 2006
         boinc_exit(ERR_ABORTED_VIA_GUI).
     - Remove a duplicated class identifier so that the manager will
         with g++ 4.1
+    - Bug Fix: Treat 301 and 302 http status codes as a
+        get_project_config.php error so that the invalid project page
+        comes up, instead of the unavailable page.
         
     api/
         boinc_api.C
     clientgui/
         BOINCTaskBar.h
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
