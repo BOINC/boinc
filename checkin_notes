@@ -3158,3 +3158,14 @@ Charlie  23 Mar 2006
         boinc_api.C
     lib/
         mac_backtrace.C
+
+Rom    23 Mar 2006
+    - Fix the boinc_exit(0) call when an abort happens to 
+        boinc_exit(ERR_ABORTED_VIA_GUI).
+    - Remove a duplicated class identifier so that the manager will
+        with g++ 4.1
+        
+    api/
+        boinc_api.C
+    clientgui/
+        BOINCTaskBar.h

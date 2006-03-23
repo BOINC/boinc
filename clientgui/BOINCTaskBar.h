@@ -76,7 +76,7 @@ public:
 #endif
 
 #ifndef __WXMSW__
-    inline bool CTaskBarIcon::IsBalloonsSupported() {
+    inline bool IsBalloonsSupported() {
         return false;
     }
 #endif

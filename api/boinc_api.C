@@ -620,16 +620,14 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<abort/>")) {
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
-#ifdef _WIN32
-                diagnostics_set_aborted_via_gui_flag();
+#if   defined(_WIN32)
                 // Cause a controlled assert and dump the callstacks.
+                diagnostics_set_aborted_via_gui_flag();
                 DebugBreak();
-#else
-#ifdef __APPLE__
+#elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
-				boinc_exit(0);
-#endif
+				boinc_exit(ERR_ABORTED_VIA_GUI);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {
