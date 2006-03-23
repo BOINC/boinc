@@ -3143,3 +3143,10 @@ Rom    22 Mar 2006
         ViewTransfers.cpp
         ViewWork.cpp
         WizardAccountManager.cpp
+
+Rom    22 Mar 2006
+    - Remove the TerminateProcess kludge and make it part of the default
+        behavior.
+        
+    api/
+        boinc_api.C, .h

@@ -49,12 +49,6 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
-	int terminate_on_exit;
-	    // some applications have unpredictable issues with calling
-	    // exit when various resources haven't already been cleaned
-	    // up, such as threads and memory.  So terminate the app
-	    // and use a checkpoint to recover from the issue during
-	    // the next execution.
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {
@@ -139,7 +133,6 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.handle_process_control = true;
     b.send_status_msgs = true;
     b.direct_process_action = true;
-	b.terminate_on_exit = false;
 }
 
 

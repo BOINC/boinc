@@ -381,7 +381,7 @@ int boinc_finish(int status) {
 
 
 // unlock the lockfile and call the appropriate exit function
-// This is called from the worker thread or the timer thread.
+// This is called from the worker, timer, and graphics threads.
 //
 void boinc_exit(int status) {
     // Shutdown graphics thread if it is running
@@ -398,18 +398,19 @@ void boinc_exit(int status) {
     //
     fflush(NULL);
 
-    // on Mac, calling exit() can lead to infinite exit-atexit loops,
-    // while _exit() seems to behave nicely.
-    // This is not pretty but unless someone finds a cleaner solution, 
-    // we handle the Mac-case separately .
-#ifdef __APPLE_CC__
+    // various platforms have various issues with shutting down
+    // a process while an unspecified number of threads are still
+    // executing or triggering endless exit()/atexit() loops. Use
+    // alternate methods to shutdown the application on those
+    // platforms.
+#if   defined(_WIN32)
+    // Halts all the threads and then cleans up.
+    TerminateProcess(GetCurrentProcess(), status);
+#elif defined(__APPLE_CC__)
+    // stops endless exit()/atexit() loops.
     _exit(status);
 #else
-#ifdef _WIN32
-	if (options.terminate_on_exit) {
-	    TerminateProcess(GetCurrentProcess(), status);
-	}
-#endif
+    // POSIX exit call.
     exit(status);
 #endif
 }
