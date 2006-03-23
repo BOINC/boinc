@@ -292,10 +292,8 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
-wxString CBOINCBaseView::OnListGetItemText(
-    long WXUNUSED(item), long WXUNUSED(column)
-) const {
-    return wxString("Undefined");
+wxString CBOINCBaseView::OnListGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
+    return wxString(wxT("Undefined"));
 }
 
 
@@ -472,8 +470,8 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
                 // Project defined urls
                 for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
                     pItem = new CTaskItem(
-                        _(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)),
-                        _(wxString(project->gui_urls[i].description.c_str(), wxConvUTF8)),
+                        wxGetTranslation(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)),
+                        wxGetTranslation(wxString(project->gui_urls[i].description.c_str(), wxConvUTF8)),
                         wxString(project->gui_urls[i].url.c_str(), wxConvUTF8),
                         ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
                     );
