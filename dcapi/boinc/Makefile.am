@@ -11,7 +11,7 @@ endif
 
 AM_LDFLAGS = $(BOINC_LDFLAGS) $(GLIB_LIBS)
 
-noinst_HEADERS = dc_boinc.h
+noinst_HEADERS = common_defs.h dc_boinc.h
 
 libdc_boinc_la_SOURCES = \
 		config.C \
