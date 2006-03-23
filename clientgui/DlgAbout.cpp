@@ -73,7 +73,7 @@ CDlgAbout::CDlgAbout(wxWindow* parent, wxWindowID id, const wxString& caption, c
 
 bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
 ////@begin CDlgAbout member initialisation
-    m_strVersion = BOINC_VERSION_STRING;
+    m_strVersion = wxT(BOINC_VERSION_STRING);
     m_AboutBOINCTitleCtrl = NULL;
     m_AboutBOINCLogoCtrl = NULL;
     m_AboutBOINCSloganCtrl = NULL;

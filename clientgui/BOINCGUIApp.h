@@ -137,9 +137,9 @@ protected:
 
 public:
 
-    std::string     m_strDefaultWindowStation;
-    std::string     m_strDefaultDesktop;
-    std::string     m_strDefaultDisplay;
+    wxString        m_strDefaultWindowStation;
+    wxString        m_strDefaultDesktop;
+    wxString        m_strDefaultDisplay;
 
     bool            OnInit();
 

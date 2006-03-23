@@ -252,7 +252,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         case ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE:
             // Attempt to retrieve the project's account creation policies
             pDoc->rpc.get_project_config(
-                pWAM->m_AccountManagerInfoPage->GetProjectURL().c_str()
+                (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str()
             );
  
             // Wait until we are done processing the request.
@@ -300,7 +300,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                     SetProjectClientAccountCreationDisabled(false);
                 }
 
-                pWAM->m_strProjectName = pc->name.c_str();
+                pWAM->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
  
                 SetNextState(ACCTMGRPROP_CLEANUP);
             } else {
@@ -405,9 +405,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            ((CWizardAccountManager*)GetParent())->EnableNextButton();
-            ((CWizardAccountManager*)GetParent())->EnableBackButton();
-            ((CWizardAccountManager*)GetParent())->SimulateNextButton();
+            pWAM->EnableNextButton();
+            pWAM->EnableBackButton();
+            pWAM->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }

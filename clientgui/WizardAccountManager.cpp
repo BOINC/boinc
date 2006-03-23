@@ -242,8 +242,8 @@ bool CWizardAccountManager::Run(int action) {
     pDoc->rpc.acct_mgr_info(ami);
 
     if (ami.acct_mgr_url.size()) {
-        m_AccountManagerInfoPage->SetProjectURL( ami.acct_mgr_url.c_str() );
-        m_strProjectName = ami.acct_mgr_name.c_str();
+        m_AccountManagerInfoPage->SetProjectURL( wxString(ami.acct_mgr_url.c_str(), wxConvUTF8) );
+        m_strProjectName = wxString(ami.acct_mgr_name.c_str(), wxConvUTF8);
         m_bCredentialsCached = ami.have_credentials;
     }
 

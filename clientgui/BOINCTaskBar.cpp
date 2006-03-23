@@ -173,7 +173,7 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 
     pDoc->rpc.acct_mgr_info(ami);
 
-    url = ami.acct_mgr_url.c_str();
+    url = wxString(ami.acct_mgr_url.c_str(), wxConvUTF8);
 
     pFrame->ExecuteBrowserLink(url);
 }

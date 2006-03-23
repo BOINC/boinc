@@ -171,7 +171,7 @@ void CPaintStatistics::DrawMainHead(wxPaintDC &dc, const wxString head_name, wxC
 //----Draw Legend----
 void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, wxInt32 SelProj, bool bColour, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end){
 	dc.SetFont(m_font_bold);
-	wxString head_name="";
+	wxString head_name=wxT("");
 	wxCoord project_name_max_width=0;
 	double radius1=1;
 	wxInt32 count=-1;
@@ -185,8 +185,8 @@ void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument
 		if (statistic) {
 			state_project = pDoc->state.lookup_project(statistic->master_url);
 			if (state_project) {
-			state_project->get_name(project_name);
-			head_name = wxString(project_name.c_str());
+			    state_project->get_name(project_name);
+			    head_name = wxString(project_name.c_str(), wxConvUTF8);
 			}
 		}
 		wxCoord w_temp, h_temp, des_temp, lead_temp;
@@ -213,8 +213,8 @@ void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument
 		if (statistic) {
 			state_project = pDoc->state.lookup_project(statistic->master_url);
 			if (state_project) {
-			state_project->get_name(project_name);
-			head_name = wxString(project_name.c_str());
+			    state_project->get_name(project_name);
+			    head_name = wxString(project_name.c_str(), wxConvUTF8);
 			}
 		}
 		wxCoord w_temp, h_temp, des_temp, lead_temp;
@@ -287,12 +287,12 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
 	
-	dc.GetTextExtent(wxString::Format(" %.1f", max_val_y), &w_temp, &h_temp, &des_temp, &lead_temp);
+	dc.GetTextExtent(wxString::Format(wxT(" %.1f"), max_val_y), &w_temp, &h_temp, &des_temp, &lead_temp);
 
 	x_start+=(w_temp+2);
 	y_end-=(h_temp+2);
 	
-	dc.GetTextExtent(" ", &w_temp, &h_temp, &des_temp, &lead_temp);
+	dc.GetTextExtent(wxT(" "), &w_temp, &h_temp, &des_temp, &lead_temp);
 
 	x_end-=w_temp;
 	double radius1=(double)(h_temp/2.0);
@@ -301,7 +301,7 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 	wxDateTime dtTemp1;
 	wxString strBuffer1;
 	dtTemp1.Set((time_t)max_val_x);
-	strBuffer1=dtTemp1.Format("%d.%b.%y");
+	strBuffer1=dtTemp1.Format(wxT("%d.%b.%y"));
 	dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
 	
 	double d_x=(double)(w_temp/2.0);
@@ -328,14 +328,14 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 	double d_oy_val=(double)(max_val_y-min_val_y)/d_oy_count;
 
 	for (double ny=0; ny<=d_oy_count;++ny){
-		dc.GetTextExtent(wxString::Format("%.1f", min_val_y+ny*d_oy_val), &w_temp, &h_temp, &des_temp, &lead_temp);
-		dc.DrawText(wxString::Format("%.1f", min_val_y+ny*d_oy_val),(wxCoord)(x_start-w_temp-2-d_x),(wxCoord)(y_end-ny*d_oy-h_temp/2.0));
+		dc.GetTextExtent(wxString::Format(wxT("%.1f"), min_val_y+ny*d_oy_val), &w_temp, &h_temp, &des_temp, &lead_temp);
+		dc.DrawText(wxString::Format(wxT("%.1f"), min_val_y+ny*d_oy_val),(wxCoord)(x_start-w_temp-2-d_x),(wxCoord)(y_end-ny*d_oy-h_temp/2.0));
 		dc.DrawLine((wxCoord)(x_start-d_x+1),(wxCoord)(y_end-ny*d_oy),(wxCoord)(x_end+d_x),(wxCoord)(y_end-ny*d_oy));
 	}
 
 //Draw day numbers and lines marking the days
 	dtTemp1.Set((time_t)max_val_x);
-	strBuffer1=dtTemp1.Format("%d.%b.%y");
+	strBuffer1=dtTemp1.Format(wxT("%d.%b.%y"));
 	dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
 
 	wxInt32 d_ox_count=1;
@@ -348,7 +348,7 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 
 	for (double nx=0; nx<=d_ox_count;++nx){
 		dtTemp1.Set((time_t)(min_val_x+nx*d_ox_val));
-		strBuffer1=dtTemp1.Format("%d.%b.%y");
+		strBuffer1=dtTemp1.Format(wxT("%d.%b.%y"));
 		dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
 		dc.DrawText(strBuffer1, (wxCoord)(x_start-w_temp/2.0+nx*d_ox), (wxCoord)(y_end+d_y));
 		dc.DrawLine((wxCoord)(x_start+nx*d_ox),(wxCoord)(y_start-d_y+1), (wxCoord)(x_start+nx*d_ox),(wxCoord)(y_end+d_y));
@@ -454,8 +454,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 			if (statistic) {
 				state_project = pDoc->state.lookup_project(statistic->master_url);
 				if (state_project) {
-				state_project->get_name(project_name);
-				head_name = wxString(project_name.c_str());
+				    state_project->get_name(project_name);
+				    head_name = wxString(project_name.c_str(), wxConvUTF8);
 				}
 			}
 		///Draw heading
@@ -513,8 +513,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 			if (statistic) {
 				state_project = pDoc->state.lookup_project(statistic->master_url);
 				if (state_project) {
-				state_project->get_name(project_name);
-				head_name = wxString(project_name.c_str());
+				    state_project->get_name(project_name);
+				    head_name = wxString(project_name.c_str(), wxConvUTF8);
 				}
 			}
 		///Draw heading

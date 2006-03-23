@@ -315,17 +315,17 @@ int CBOINCBaseView::GetDocCount() {
 
 
 wxString CBOINCBaseView::OnDocGetItemText(long WXUNUSED(item), long WXUNUSED(column)) const {
-    return wxString("Undefined");
+    return wxString(wxT("Undefined"));
 }
 
 
 wxString CBOINCBaseView::OnDocGetItemImage(long WXUNUSED(item)) const {
-    return wxString("Undefined");
+    return wxString(wxT("Undefined"));
 }
 
 
 wxString CBOINCBaseView::OnDocGetItemAttr(long WXUNUSED(item)) const {
-    return wxString("Undefined");
+    return wxString(wxT("Undefined"));
 }
 
 
@@ -461,9 +461,9 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
 
                 // Default project url
                 pItem = new CTaskItem(
-                    project->project_name.c_str(), 
+                    wxString(project->project_name.c_str(), wxConvUTF8), 
                     wxT(""), 
-                    project->master_url.c_str(),
+                    wxString(project->master_url.c_str(), wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
                 pGroup->m_Tasks.push_back(pItem);
@@ -472,9 +472,9 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
                 // Project defined urls
                 for (i=0;(i<project->gui_urls.size())&&(i<=ID_TASK_PROJECT_WEB_PROJDEF_MAX);i++) {
                     pItem = new CTaskItem(
-                        _(project->gui_urls[i].name.c_str()),
-                        _(project->gui_urls[i].description.c_str()),
-                        project->gui_urls[i].url.c_str(),
+                        _(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)),
+                        _(wxString(project->gui_urls[i].description.c_str(), wxConvUTF8)),
+                        wxString(project->gui_urls[i].url.c_str(), wxConvUTF8),
                         ID_TASK_PROJECT_WEB_PROJDEF_MIN + 1 + i
                     );
                     pGroup->m_Tasks.push_back(pItem);
@@ -502,7 +502,7 @@ void CBOINCBaseView::append_to_status(wxString& existing, const wxChar* addition
     if (existing.size() == 0) {
         existing = additional;
     } else {
-        existing = existing + ", " + additional;
+        existing = existing + wxT(", ") + additional;
     }
 }
 

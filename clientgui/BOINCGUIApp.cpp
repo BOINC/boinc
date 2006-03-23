@@ -509,7 +509,7 @@ void CBOINCGUIApp::DetectDisplayInfo() {
     }
 
 #else
-    char* p = getenv("DISPLAY");
+    wxString p = wxString(getenv("DISPLAY"), wxConvUTF8);
     if (p) m_strDefaultDisplay = p;
 #endif
 
@@ -631,7 +631,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
 #ifndef __WXMSW__
         // copy the path to the boinmgr from argv[0]
-        strncpy(szExecutableDirectory, wxGetApp().argv[0], sizeof(szExecutableDirectory));
+        strncpy((char*)szExecutableDirectory, (const char*)wxGetApp().argv[0], sizeof(szExecutableDirectory));
 #endif 
 
         // We are only interested in the path component of the fully qualified path.

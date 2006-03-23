@@ -63,7 +63,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
     bool ok = TRUE;
     std::string canonicalize_url;
 
-    canonicalize_url = control->GetValue().Trim().Trim(false).c_str();  // trim spaces before and after
+    canonicalize_url = control->GetValue().Trim().Trim(false).mb_str();  // trim spaces before and after
 
     if (canonicalize_url.size() == 0) {
         ok = FALSE;
@@ -71,9 +71,9 @@ bool CValidateURL::Validate(wxWindow *parent) {
         m_errormsg = _("Please specify a URL.\nFor example:\nhttp://www.example.com/");
     } else {
         canonicalize_master_url(canonicalize_url);
-        wxURI uri(canonicalize_url.c_str());
-        wxURL url(canonicalize_url.c_str());
-        wxString strURL(canonicalize_url.c_str());
+        wxURI uri(wxString(canonicalize_url.c_str(), wxConvUTF8));
+        wxURL url(wxString(canonicalize_url.c_str(), wxConvUTF8));
+        wxString strURL(canonicalize_url.c_str(), wxConvUTF8);
         wxString strServer(uri.GetServer());
         int iServerDotLocation = strServer.Find(wxT("."));
         int iFirstPart = strServer.Mid(0, iServerDotLocation).Length();
@@ -129,7 +129,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
     }
 
     if (ok) {
-        control->SetValue(canonicalize_url.c_str());
+        control->SetValue(wxString(canonicalize_url.c_str(), wxConvUTF8));
     }
 
     return ok;

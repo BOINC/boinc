@@ -249,9 +249,9 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             break;
         case ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE:
             // Attempt to attach to the accout manager.
-            url = pWAM->m_AccountManagerInfoPage->GetProjectURL().c_str();
-            username = pWAM->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-            password = pWAM->m_AccountInfoPage->GetAccountPassword().c_str();
+            url = (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+            username = (const char*)pWAM->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+            password = (const char*)pWAM->m_AccountInfoPage->GetAccountPassword().mb_str();
             pDoc->rpc.acct_mgr_rpc(
                 url.c_str(),
                 username.c_str(),
@@ -300,7 +300,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         _("An internal server error has occurred.\n");
                 } else {
                     for (i=0; i<reply.messages.size(); i++) {
-                        strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                        strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
                 }
                 pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);

@@ -32,7 +32,7 @@ class CPaintStatistics : public wxPanel
 {
 public:
 	CPaintStatistics();
-	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel");
+	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel"));
 	
 	void DrawMainHead(wxPaintDC &dc, const wxString head_name, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
 	

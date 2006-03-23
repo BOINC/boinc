@@ -216,7 +216,7 @@ wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) con
         state_project = doc->state.lookup_project(resource->master_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(project_name.c_str());
+            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
         }
     }
 

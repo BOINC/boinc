@@ -225,9 +225,9 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
         pDoc->WorkShowGraphics(
             m_pListPane->GetFirstSelected(),
             false,
-            wxGetApp().m_strDefaultWindowStation,
-            wxGetApp().m_strDefaultDesktop,
-            wxGetApp().m_strDefaultDisplay
+            (const char*)wxGetApp().m_strDefaultWindowStation.mb_str(),
+            (const char*)wxGetApp().m_strDefaultDesktop.mb_str(),
+            (const char*)wxGetApp().m_strDefaultDisplay.mb_str()
         );
     }
 
@@ -522,7 +522,7 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
         state_result = doc->state.lookup_result(result->project_url, result->name);
         if (state_result) {
             state_result->project->get_name(project_name);
-            strBuffer = wxString(project_name.c_str());
+            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
         } else {
             doc->ForceCacheUpdate();
         }
@@ -543,14 +543,14 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
     if (result) {
         state_result = doc->state.lookup_result(result->project_url, result->name);
         if (state_result) {
-            wxString strLocale = setlocale(LC_NUMERIC, NULL);
+            wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
             setlocale(LC_NUMERIC, "C");
             strBuffer.Printf(
                 wxT("%s %.2f"), 
-                state_result->wup->avp->app_name.c_str(),
+                wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str(),
                 state_result->wup->avp->version_num/100.0
             );
-            setlocale(LC_NUMERIC, strLocale.c_str());
+            setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
         } else {
             doc->ForceCacheUpdate();
         }
@@ -566,7 +566,7 @@ wxInt32 CViewWork::FormatName(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(result);
 
     if (result) {
-        strBuffer = wxString(result->name.c_str());
+        strBuffer = wxString(result->name.c_str(), wxConvUTF8);
     }
 
     return 0;

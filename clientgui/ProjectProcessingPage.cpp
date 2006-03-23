@@ -375,20 +375,20 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
             ai->clear();
             ao->clear();
 
-            ai->url = pWAP->m_ProjectInfoPage->GetProjectURL().c_str();
+            ai->url = (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str();
 
             if (!pWAP->m_AccountKeyPage->m_strAccountKey.IsEmpty() ||
                 pWAP->m_bCredentialsCached
             ) {
                 if (!pWAP->m_bCredentialsCached) {
-                    ao->authenticator = pWAP->m_AccountKeyPage->m_strAccountKey.c_str();
+                    ao->authenticator = (const char*)pWAP->m_AccountKeyPage->m_strAccountKey.mb_str();
                 }
                 SetProjectCommunitcationsSucceeded(true);
             } else {
                 // Setup initial values for both the create and lookup API
-                ai->email_addr = pWAP->m_AccountInfoPage->GetAccountEmailAddress().c_str();
-                ai->passwd = pWAP->m_AccountInfoPage->GetAccountPassword().c_str();
-                ai->user_name = ::wxGetUserName().c_str();
+                ai->email_addr = (const char*)pWAP->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                ai->passwd = (const char*)pWAP->m_AccountInfoPage->GetAccountPassword().mb_str();
+                ai->user_name = (const char*)::wxGetUserName().mb_str();
 
                 if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
                     pDoc->rpc.create_account(*ai);
@@ -472,7 +472,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                             _("An internal server error has occurred.\n");
                     } else {
                         for (i=0; i<ao->messages.size(); i++) {
-                            strBuffer += wxString(ao->messages[i].c_str()) + wxString(wxT("\n"));
+                            strBuffer += wxString(ao->messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
                     pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
@@ -523,8 +523,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                 if (!iReturnValue && !reply.error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                     SetProjectAttachSucceeded(true);
                     pWAP->SetAttachedToProjectSuccessfully(true);
-                    pWAP->SetProjectURL(ai->url.c_str());
-                    pWAP->SetProjectAuthenticator(ao->authenticator.c_str());
+                    pWAP->SetProjectURL(wxString(ai->url.c_str(), wxConvUTF8));
+                    pWAP->SetProjectAuthenticator(wxString(ao->authenticator.c_str(), wxConvUTF8));
                 } else {
                     SetProjectAttachSucceeded(false);
 
@@ -534,10 +534,10 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
                             _("An internal server error has occurred.\n");
                     } else {
                         for (i=0; i<reply.messages.size(); i++) {
-                            strBuffer += wxString(reply.messages[i].c_str()) + wxString(wxT("\n"));
+                            strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(wxString(strBuffer, wxConvUTF8));
                 }
             } else {
                 SetProjectAttachSucceeded(false);

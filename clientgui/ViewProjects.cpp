@@ -601,7 +601,7 @@ wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 
     if (project) {
         project->get_name(project_name);
-        strBuffer = wxString(project_name.c_str());
+        strBuffer = wxString(project_name.c_str(), wxConvUTF8);
     }
 
     return 0;
@@ -612,7 +612,7 @@ wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) cons
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
     if (project) {
-        strBuffer = wxString(project->user_name.c_str());
+        strBuffer = wxString(project->user_name.c_str(), wxConvUTF8);
     }
 
     return 0;
@@ -623,7 +623,7 @@ wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
     if (project) {
-        strBuffer = wxString(project->team_name.c_str());
+        strBuffer = wxString(project->team_name.c_str(), wxConvUTF8);
     }
 
     return 0;

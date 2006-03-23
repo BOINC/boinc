@@ -365,16 +365,16 @@ void CErrProxyPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     pDoc->GetProxyConfiguration();
-    m_pProxyHTTPServerCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
-    m_pProxyHTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
-    m_pProxyHTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
+    m_pProxyHTTPServerCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
+    m_pProxyHTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
+    m_pProxyHTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
 
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
     m_pProxyHTTPPortCtrl->SetValue(strBuffer);
 
-    m_pProxySOCKSServerCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
-    m_pProxySOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
-    m_pProxySOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
+    m_pProxySOCKSServerCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
+    m_pProxySOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
+    m_pProxySOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
 
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
     m_pProxySOCKSPortCtrl->SetValue(strBuffer);
@@ -398,18 +398,18 @@ void CErrProxyPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == true) {
         // Moving to the next page, save state
         pDoc->proxy_info.use_http_proxy = (m_pProxyHTTPServerCtrl->GetValue().Length() > 0);
-        pDoc->proxy_info.http_server_name = m_pProxyHTTPServerCtrl->GetValue().c_str();
-        pDoc->proxy_info.http_user_name = m_pProxyHTTPUsernameCtrl->GetValue().c_str();
-        pDoc->proxy_info.http_user_passwd = m_pProxyHTTPPasswordCtrl->GetValue().c_str();
+        pDoc->proxy_info.http_server_name = (const char*)m_pProxyHTTPServerCtrl->GetValue().mb_str();
+        pDoc->proxy_info.http_user_name = (const char*)m_pProxyHTTPUsernameCtrl->GetValue().mb_str();
+        pDoc->proxy_info.http_user_passwd = (const char*)m_pProxyHTTPPasswordCtrl->GetValue().mb_str();
 
         strBuffer = m_pProxyHTTPPortCtrl->GetValue();
         strBuffer.ToLong((long*)&iBuffer);
         pDoc->proxy_info.http_server_port = iBuffer;
 
         pDoc->proxy_info.use_socks_proxy = (m_pProxySOCKSServerCtrl->GetValue().Length() > 0);
-        pDoc->proxy_info.socks_server_name = m_pProxySOCKSServerCtrl->GetValue().c_str();
-        pDoc->proxy_info.socks5_user_name = m_pProxySOCKSUsernameCtrl->GetValue().c_str();
-        pDoc->proxy_info.socks5_user_passwd = m_pProxySOCKSPasswordCtrl->GetValue().c_str();
+        pDoc->proxy_info.socks_server_name = (const char*)m_pProxySOCKSServerCtrl->GetValue().mb_str();
+        pDoc->proxy_info.socks5_user_name = (const char*)m_pProxySOCKSUsernameCtrl->GetValue().mb_str();
+        pDoc->proxy_info.socks5_user_passwd = (const char*)m_pProxySOCKSPasswordCtrl->GetValue().mb_str();
 
         strBuffer = m_pProxySOCKSPortCtrl->GetValue();
         strBuffer.ToLong((long*)&iBuffer);

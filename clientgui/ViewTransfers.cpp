@@ -375,7 +375,7 @@ wxInt32 CViewTransfers::FormatProjectName(wxInt32 item, wxString& strBuffer) con
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        strBuffer = wxString(transfer->project_name.c_str());
+        strBuffer = wxString(transfer->project_name.c_str(), wxConvUTF8);
     }
     return 0;
 }
@@ -385,7 +385,7 @@ wxInt32 CViewTransfers::FormatFileName(wxInt32 item, wxString& strBuffer) const 
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        strBuffer = wxString(transfer->name.c_str());
+        strBuffer = wxString(transfer->name.c_str(), wxConvUTF8);
     }
     return 0;
 }

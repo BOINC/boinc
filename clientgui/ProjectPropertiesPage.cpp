@@ -356,8 +356,9 @@ void CProjectPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  
 void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
 {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-    PROJECT_CONFIG* pc       = &((CWizardAttachProject*)GetParent())->project_config;
+    CMainDocument* pDoc        = wxGetApp().GetDocument();
+    CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
+    PROJECT_CONFIG* pc         = &((CWizardAttachProject*)GetParent())->project_config;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -370,8 +371,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
  
     switch(GetCurrentState()) {
         case PROJPROP_INIT:
-            ((CWizardAttachProject*)GetParent())->DisableNextButton();
-            ((CWizardAttachProject*)GetParent())->DisableBackButton();
+            pWAP->DisableNextButton();
+            pWAP->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
@@ -381,7 +382,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
         case PROJPROP_RETRPROJECTPROPERTIES_EXECUTE:
             // Attempt to retrieve the project's account creation policies
             pDoc->rpc.get_project_config(
-                ((CWizardAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str()
+                (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str()
             );
  
             // Wait until we are done processing the request.
@@ -423,7 +424,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 }
 
                 bSuccessfulCondition = (ERR_ALREADY_ATTACHED == pDoc->rpc.project_attach(
-                    ((CWizardAttachProject*)GetParent())->m_ProjectInfoPage->GetProjectURL().c_str(),
+                    (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str(),
                     ""
                 ));
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTALREADYATTACHED)) {
@@ -542,9 +543,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            ((CWizardAttachProject*)GetParent())->EnableNextButton();
-            ((CWizardAttachProject*)GetParent())->EnableBackButton();
-            ((CWizardAttachProject*)GetParent())->SimulateNextButton();
+            pWAP->EnableNextButton();
+            pWAP->EnableBackButton();
+            pWAP->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }

@@ -63,7 +63,7 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
             buf[n] = 0;
         }
     }
-    strPassword = buf;
+    strPassword = wxString(buf, wxConvUTF8);
 }
 
 // TODO: get rid of "reconnecting" stuff
@@ -86,7 +86,7 @@ void* CNetworkConnection::Poll() {
                 m_bUseDefaultPassword = FALSE;
             }
 
-            retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.c_str());
+            retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.mb_str());
             if (!retval) {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Connection Success"));
                 SetStateSuccess(m_strNewComputerName, m_strNewComputerPassword);
@@ -127,7 +127,7 @@ void* CNetworkConnection::Poll() {
             if (IsComputerNameLocal(strComputer)) {
                 retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.c_str(), 60., false);
+                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60., false);
             }
 
             if (!retval) {
@@ -268,7 +268,7 @@ CMainDocument::CMainDocument() {
 
     retval = WSAStartup(MAKEWORD(1, 1), &wsdata);
     if (retval) {
-        wxLogTrace(wxT("Function Status"), "CMainDocument::CMainDocument - Winsock Initialization Failure '%d'", retval);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CMainDocument - Winsock Initialization Failure '%d'"), retval);
     }
 #endif
 
@@ -322,7 +322,7 @@ int CMainDocument::CachedStateUpdate() {
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
         retval = rpc.get_state(state);
         if (retval) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get State Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -330,7 +330,7 @@ int CMainDocument::CachedStateUpdate() {
 
         retval = rpc.get_host_info(host);
         if (retval) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
 
@@ -585,7 +585,7 @@ int CMainDocument::CachedProjectStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_project_status(state);
         if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'"), iRetVal);
             ForceCacheUpdate();
         }
 
@@ -634,7 +634,7 @@ int CMainDocument::GetProjectCount() {
 
 
 int CMainDocument::ProjectAttach(const wxString& strURL, const wxString& strAccountKey) {
-    return rpc.project_attach(strURL.c_str(), strAccountKey.c_str());
+    return rpc.project_attach((const char*)strURL.mb_str(), (const char*)strAccountKey.mb_str());
 }
 
 
@@ -645,7 +645,7 @@ int CMainDocument::ProjectDetach(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("detach"));
+        iRetVal = rpc.project_op((*pProject), "detach");
 
     return iRetVal;
 }
@@ -658,7 +658,7 @@ int CMainDocument::ProjectUpdate(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("update"));
+        iRetVal = rpc.project_op((*pProject), "update");
 
     return iRetVal;
 }
@@ -671,7 +671,7 @@ int CMainDocument::ProjectReset(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("reset"));
+        iRetVal = rpc.project_op((*pProject), "reset");
 
     return iRetVal;
 }
@@ -684,7 +684,7 @@ int CMainDocument::ProjectSuspend(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("suspend"));
+        iRetVal = rpc.project_op((*pProject), "suspend");
 
     return iRetVal;
 }
@@ -697,7 +697,7 @@ int CMainDocument::ProjectResume(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("resume"));
+        iRetVal = rpc.project_op((*pProject), "resume");
 
     return iRetVal;
 }
@@ -709,7 +709,7 @@ int CMainDocument::ProjectNoMoreWork(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("nomorework"));
+        iRetVal = rpc.project_op((*pProject), "nomorework");
 
     return iRetVal;
 }
@@ -721,7 +721,7 @@ int CMainDocument::ProjectAllowMoreWork(int iIndex) {
     pProject = project(iIndex);
 
     if (pProject)
-        iRetVal = rpc.project_op((*pProject), wxT("allowmorework"));
+        iRetVal = rpc.project_op((*pProject), "allowmorework");
 
     return iRetVal;
 }
@@ -733,7 +733,7 @@ int CMainDocument::CachedResultsStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_results(results);
         if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), iRetVal);
             ForceCacheUpdate();
         }
     }
@@ -787,7 +787,7 @@ int CMainDocument::WorkSuspend(int iIndex) {
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
         if (pStateResult) {
-            iRetVal = rpc.result_op((*pStateResult), wxT("suspend"));
+            iRetVal = rpc.result_op((*pStateResult), "suspend");
         } else {
             ForceCacheUpdate();
         }
@@ -807,7 +807,7 @@ int CMainDocument::WorkResume(int iIndex) {
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
         if (pStateResult) {
-            iRetVal = rpc.result_op((*pStateResult), wxT("resume"));
+            iRetVal = rpc.result_op((*pStateResult), "resume");
         } else {
             ForceCacheUpdate();
         }
@@ -850,7 +850,7 @@ int CMainDocument::WorkAbort(int iIndex) {
     if (pResult) {
         pStateResult = state.lookup_result(pResult->project_url, pResult->name);
         if (pStateResult) {
-            iRetVal = rpc.result_op((*pStateResult), wxT("abort"));
+            iRetVal = rpc.result_op((*pStateResult), "abort");
         } else {
             ForceCacheUpdate();
         }
@@ -870,7 +870,7 @@ int CMainDocument::CachedMessageUpdate() {
     if (IsConnected()) {
         retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (retval) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
@@ -931,7 +931,7 @@ int CMainDocument::CachedFileTransfersUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_file_transfers(ft);
         if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'"), iRetVal);
             ForceCacheUpdate();
         }
     }
@@ -981,7 +981,7 @@ int CMainDocument::TransferRetryNow(int iIndex) {
     pFT = file_transfer(iIndex);
 
     if (pFT)
-        iRetVal = rpc.file_transfer_op((*pFT), wxT("retry"));
+        iRetVal = rpc.file_transfer_op((*pFT), "retry");
 
     return iRetVal;
 }
@@ -994,7 +994,7 @@ int CMainDocument::TransferAbort(int iIndex) {
     pFT = file_transfer(iIndex);
 
     if (pFT)
-        iRetVal = rpc.file_transfer_op((*pFT), wxT("abort"));
+        iRetVal = rpc.file_transfer_op((*pFT), "abort");
 
     return iRetVal;
 }
@@ -1006,7 +1006,7 @@ int CMainDocument::CachedResourceStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_disk_usage(resource_status);
         if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'"), iRetVal);
             ForceCacheUpdate();
         }
     }
@@ -1057,7 +1057,7 @@ int CMainDocument::CachedStatisticsStatusUpdate() {
     if (IsConnected()) {
         iRetVal = rpc.get_statistics(statistics_status);
         if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), "CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
+            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'"), iRetVal);
             ForceCacheUpdate();
         }
     }
@@ -1108,7 +1108,7 @@ int CMainDocument::GetProxyConfiguration() {
 
     iRetVal = rpc.get_proxy_settings(proxy_info);
     if (iRetVal) {
-        wxLogTrace(wxT("Function Status"), "CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", iRetVal);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'"), iRetVal);
     }
 
     return iRetVal;
@@ -1127,7 +1127,7 @@ int CMainDocument::SetProxyConfiguration() {
 
     iRetVal = rpc.set_proxy_settings(proxy_info);
     if (iRetVal) {
-        wxLogTrace(wxT("Function Status"), "CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", iRetVal);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'"), iRetVal);
     }
 
     return iRetVal;

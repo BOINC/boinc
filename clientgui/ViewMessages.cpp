@@ -288,7 +288,7 @@ wxInt32 CViewMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-        strBuffer = wxString(message->project.c_str());
+        strBuffer = wxString(message->project.c_str(), wxConvUTF8);
     }
 
     return 0;
@@ -330,7 +330,7 @@ wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-        strBuffer = wxString(message->body.c_str());
+        strBuffer = wxString(message->body.c_str(), wxConvUTF8);
     }
 
     strBuffer.Replace(wxT("\n"), wxT(""), true);

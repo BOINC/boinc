@@ -1381,17 +1381,17 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     }
 
     pDlg->m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
-    pDlg->m_HTTPAddressCtrl->SetValue(pDoc->proxy_info.http_server_name.c_str());
-    pDlg->m_HTTPUsernameCtrl->SetValue(pDoc->proxy_info.http_user_name.c_str());
-    pDlg->m_HTTPPasswordCtrl->SetValue(pDoc->proxy_info.http_user_passwd.c_str());
+    pDlg->m_HTTPAddressCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
+    pDlg->m_HTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
+    pDlg->m_HTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
 
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
     pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
 
     pDlg->m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
-    pDlg->m_SOCKSAddressCtrl->SetValue(pDoc->proxy_info.socks_server_name.c_str());
-    pDlg->m_SOCKSUsernameCtrl->SetValue(pDoc->proxy_info.socks5_user_name.c_str());
-    pDlg->m_SOCKSPasswordCtrl->SetValue(pDoc->proxy_info.socks5_user_passwd.c_str());
+    pDlg->m_SOCKSAddressCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
+    pDlg->m_SOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
+    pDlg->m_SOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
 
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
     pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
@@ -1437,18 +1437,18 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         // Proxy Tabs
         if (bRetrievedProxyConfiguration) {
             pDoc->proxy_info.use_http_proxy = pDlg->m_EnableHTTPProxyCtrl->GetValue();
-            pDoc->proxy_info.http_server_name = pDlg->m_HTTPAddressCtrl->GetValue().c_str();
-            pDoc->proxy_info.http_user_name = pDlg->m_HTTPUsernameCtrl->GetValue().c_str();
-            pDoc->proxy_info.http_user_passwd = pDlg->m_HTTPPasswordCtrl->GetValue().c_str();
+            pDoc->proxy_info.http_server_name = (const char*)pDlg->m_HTTPAddressCtrl->GetValue().mb_str();
+            pDoc->proxy_info.http_user_name = (const char*)pDlg->m_HTTPUsernameCtrl->GetValue().mb_str();
+            pDoc->proxy_info.http_user_passwd = (const char*)pDlg->m_HTTPPasswordCtrl->GetValue().mb_str();
 
             strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
             strBuffer.ToLong((long*)&iBuffer);
             pDoc->proxy_info.http_server_port = iBuffer;
 
             pDoc->proxy_info.use_socks_proxy = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
-            pDoc->proxy_info.socks_server_name = pDlg->m_SOCKSAddressCtrl->GetValue().c_str();
-            pDoc->proxy_info.socks5_user_name = pDlg->m_SOCKSUsernameCtrl->GetValue().c_str();
-            pDoc->proxy_info.socks5_user_passwd = pDlg->m_SOCKSPasswordCtrl->GetValue().c_str();
+            pDoc->proxy_info.socks_server_name = (const char*)pDlg->m_SOCKSAddressCtrl->GetValue().mb_str();
+            pDoc->proxy_info.socks5_user_name = (const char*)pDlg->m_SOCKSUsernameCtrl->GetValue().mb_str();
+            pDoc->proxy_info.socks5_user_passwd = (const char*)pDlg->m_SOCKSPasswordCtrl->GetValue().mb_str();
 
             strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
             strBuffer.ToLong((long*)&iBuffer);
@@ -1627,8 +1627,8 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     } else if (0 >= pDoc->GetProjectCount()) {
         pAPWizard = new CWizardAttachProject(this);
         pDoc->rpc.get_project_init_status(pis);
-        strName = pis.name.c_str();
-        strURL = pis.url.c_str();
+        strName = wxString(pis.name.c_str(), wxConvUTF8);
+        strURL = wxString(pis.url.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
         if (pAPWizard->Run(strName, strURL, bCachedCredentials)) {
@@ -1794,7 +1794,7 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                     wxString strComputerName = wxEmptyString;
                     wxString strStatusText = wxEmptyString;
                     wxString strTitle = m_strBaseTitle;
-                    wxString strLocale = setlocale(LC_NUMERIC, NULL);
+                    wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
      
                     if (pDoc->IsReconnecting())
                         pDoc->GetConnectingComputerName(strComputerName);
