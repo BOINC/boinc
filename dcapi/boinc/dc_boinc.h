@@ -10,6 +10,8 @@ extern "C" {
 #include <uuid/uuid.h>
 #include <glib.h>
 
+#include "common_defs.h"
+
 /********************************************************************
  * Constants
  */
@@ -53,7 +55,7 @@ struct _DC_Workunit
 	DC_WUState		state;
 	char			*workdir;
 
-	/* Input file definitions. Elements are of type char * */
+	/* Input file definitions. Elements are of type DC_LogicalFile */
 	GList			*input_files;
 	int			num_inputs;
 
