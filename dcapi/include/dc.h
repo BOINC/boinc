@@ -77,6 +77,7 @@ struct _DC_PhysicalFile
 {
 	char			*label;
 	char			*path;
+	DC_FileMode		mode;
 };
 
 /* Description of a DC-API event */
@@ -171,7 +172,7 @@ void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
  *
  * @Returns: 0 if at least one event was processed, an error code otherwise.
  */
-int DC_processResult(int timeout);
+int DC_processEvents(int timeout);
 
 /** Checks for events and return them.
  *
