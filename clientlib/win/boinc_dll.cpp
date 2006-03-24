@@ -40,6 +40,11 @@ public:
 
 EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 {
+
+    // Startup the COM Framework
+    if (FAILED(CoInitializeEx(NULL, NULL)))
+        return FALSE;
+
     if (!IdleTrackerStartup())
         return FALSE;
     if (IsWindows2000Compatible()) {
@@ -56,5 +61,8 @@ EXTERN_C __declspec(dllexport) void ClientLibraryShutdown()
     if (IsWindows2000Compatible()) {
         NetworkTrackerShutdown();
     }
+
+    // Cleanup the COM Framework.
+    CoUninitialize();
 }
 

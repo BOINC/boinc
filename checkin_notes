@@ -3193,3 +3193,9 @@ David  23 Mar 2006
 
     tools/
         make_project
+
+Rom    23 Mar 2006
+    - Bug Fix: Fix a COM initialization error within BOINC DLL.
+    
+    clientlib/lib/
+        boinc_dll.cpp
