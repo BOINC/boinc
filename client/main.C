@@ -298,7 +298,6 @@ int check_unique_instance() {
     // of the core client can run at a time
     //
     BOOL bIsWin2k = FALSE;
-    g_hClientLibraryDll = LoadLibrary("boinc.dll");
     char buf[MAX_PATH] = "";
 
     if (g_hClientLibraryDll) {   
@@ -307,9 +306,7 @@ int check_unique_instance() {
         if (fn) {
             bIsWin2k = fn();
         }
-        FreeLibrary(g_hClientLibraryDll);        
-        g_hClientLibraryDll = NULL;
-        }
+    }
     
     // Global mutex on Win2k and later
     //
@@ -331,8 +328,6 @@ int check_unique_instance() {
 }
 
 static void init_core_client(int argc, char** argv) {
-    int retval;
-
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
@@ -380,11 +375,6 @@ static void init_core_client(int argc, char** argv) {
         "stderrdae"
     );
 
-    retval = check_unique_instance();
-    if (retval) {
-        msg_printf(NULL, MSG_INFO, "Another instance of BOINC is running");
-        exit(1);
-    }
 
 	// Win32 - detach from console if requested
 #ifdef _WIN32
@@ -545,6 +535,24 @@ int main(int argc, char** argv) {
 	curl_init();
 
 #ifdef _WIN32
+    
+    g_hClientLibraryDll = LoadLibrary("boinc.dll");
+    if(!g_hClientLibraryDll) {
+        char errmsg[256];
+        DWORD errcode = GetLastError();
+        printf(
+            "BOINC Core Client Error Message\n"
+            "Failed to initialize the BOINC Idle Detection Interface\n"
+            "BOINC will not be able to determine if the user is idle or not...\n"
+            "Load failed: %s\n", windows_error_string( errmsg, sizeof(errmsg))
+        );
+    }
+
+    retval = check_unique_instance();
+    if (retval) {
+        msg_printf(NULL, MSG_INFO, "Another instance of BOINC is running");
+        exit(1);
+    }
 
     // Figure out if we're on Win9x
     OSVERSIONINFO osvi;
@@ -583,25 +591,15 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    g_hClientLibraryDll = LoadLibrary("boinc.dll");
-    if(!g_hClientLibraryDll) {
-        printf(
-            "BOINC Core Client Error Message\n"
-            "Failed to initialize the BOINC Idle Detection Interface\n"
-            "BOINC will not be able to determine if the user is idle or not...\n"
-        );
-    }
-
     if(g_hClientLibraryDll) {
         ClientLibraryStartup fnClientLibraryStartup;
         fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
-        if(!fnClientLibraryStartup) {
-            FreeLibrary(g_hClientLibraryDll);
-            g_hClientLibraryDll = NULL;
-        } else {
+        if(fnClientLibraryStartup) {
             if(!fnClientLibraryStartup()) {
-                FreeLibrary(g_hClientLibraryDll);
-                g_hClientLibraryDll = NULL;
+                printf(
+                    "BOINC Core Client Error Message\n"
+                    "Failed to initialize Client Library interface\n"
+                );
             }
         }
     }

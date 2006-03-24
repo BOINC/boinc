@@ -3207,3 +3207,14 @@ Rom    23 Mar 2006
 
     tools/
         make_project
+
+Walt   23 Mar 2006
+    - Bug Fix: Multiple load/unloads of boinc.dll messed up the
+        idle detection routine.  Removed redundant load/free module
+        code so dll is loaded once in beginning, unloaded at program
+        end.
+    
+    client
+        main.C
+    client/win
+        hostinfo_win.C

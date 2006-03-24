@@ -428,12 +428,10 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     typedef DWORD (CALLBACK* GetFn)();
     static GetFn fn = (GetFn)GetProcAddress(g_hClientLibraryDll, "BOINCGetIdleTickCount");
 
-    if (g_hClientLibraryDll) {
-        if (fn) {
-            double seconds_idle = fn() / 1000;
-            double seconds_time_to_run = 60 * idle_time_to_run;
-            return seconds_idle > seconds_time_to_run;
-        }
+    if (g_hClientLibraryDll && fn) {
+        double seconds_idle = fn() / 1000;
+        double seconds_time_to_run = 60 * idle_time_to_run;
+        return seconds_idle > seconds_time_to_run;
     }
 
     return false;
