@@ -154,7 +154,7 @@ defopt('cgi_url'       , 'URL_BASE/PROJECT_cgi')
 
 defopt('user_name'     , USER, isdir=False)
 defopt('project_root'  , HOME+'/projects/PROJECT')
-defopt('key_dir'       , HOME+'/projects/PROJECT/keys')
+defopt('key_dir'       , options.project_root+'keys')
 
 defopt('db_name'       , 'PROJECT', isdir=False)
 defopt('db_user'       , 'USER_NAME', isdir=False)
@@ -163,12 +163,12 @@ defopt('db_host'       , '', isdir=False)
 
 print "Creating project '%s' (short name '%s'):" %(project_longname, project_shortname)
 for k in [
-    'key_dir',
     'project_root',
     'url_base',
     'html_user_url',
     'html_ops_url',
     'cgi_url',
+    'key_dir',
     'db_name',
     'db_host',
     ]:
@@ -241,6 +241,7 @@ print >>open(httpd_conf_template_filename,'w'), '''
 
     <Directory "%(proot)s/cgi-bin">
         Options ExecCGI
+        AllowOverride AuthConfig
         Order allow,deny
         Allow from all
     </Directory>

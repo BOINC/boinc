@@ -3184,3 +3184,12 @@ David  23 Mar 2006
 
     client/
         app_control.C
+
+David  23 Mar 2006
+    - make_project:
+        - allow use of .htaccess in cgi-bin
+        - if --project_root is specified, put the key_dir there too
+    (from Eric Myers)
+
+    tools/
+        make_project
