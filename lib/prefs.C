@@ -68,7 +68,7 @@ void GLOBAL_PREFS::defaults() {
 
     // don't initialize source_project, source_scheduler here
     // since they are outside of <venue> elements
-};
+}
 
 // before parsing
 void GLOBAL_PREFS::clear_bools() {
