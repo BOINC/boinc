@@ -325,6 +325,7 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
     install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
+    install_glob(srcdir('html/user/img/*'), dir('html/user/img'))
     install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
     install_glob(srcdir('html/languages/project_specific_translations/*.po'), dir('html/languages/project_specific_translations/'))
 

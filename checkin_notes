@@ -3199,3 +3199,11 @@ Rom    23 Mar 2006
     
     clientlib/lib/
         boinc_dll.cpp
+
+Rom    23 Mar 2006
+    - make_project:
+        - Copy missing images
+    (from Eric Myers)
+
+    tools/
+        make_project
