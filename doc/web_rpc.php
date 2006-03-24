@@ -319,5 +319,40 @@ list_item("action",
 );
 list_end();
 
+echo "
+<h3>Get team member list</h3>
+";
+list_start();
+list_item('URL',
+    'project/team_email_list.php?teamid=X&account_key=Y&xml=1'
+);
+list_item("input",
+    'teamid: database ID of team
+    <br>account_key: account key of team founder'
+);
+list_item("output",
+    html_text("<users>
+    <user>
+        <id>1</id>
+        <email_addr>pdq@usndathoople.edu</email_addr>
+        <cpid>232f381c79336f0bd8df02bbce2f2217</cpid>
+        <create_time>1076897105</create_time>
+        <name>David</name>
+        <country>United States</country>
+        <total_credit>9.907264</total_credit>
+        <expavg_credit>0.023264</expavg_credit>
+        <expavg_time>1142628426.48937</expavg_time>
+        <url>usndathoople.edu/~pdq</url>
+        <has_profile>1</has_profile>
+    </user>
+    [ ... ]
+</users>")
+);
+list_item('action',
+    'Show list of team members.
+    Requires authentication by team founder.'
+);
+list_end();
+
 page_tail();
 ?>

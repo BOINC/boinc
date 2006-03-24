@@ -49,14 +49,32 @@ function show_user_xml($user, $show_hosts) {
     <url>".htmlspecialchars($user->url)."</url>
     <has_profile>$user->has_profile</has_profile>
 ";
-    $result = mysql_query("select * from host where userid=$user->id");
     if ($show_hosts) {
+        $result = mysql_query("select * from host where userid=$user->id");
         echo "   <venue>$user->venue</venue>\n";
         while ($host = mysql_fetch_object($result)) {
             show_host_xml($host);
         }
     }
 echo"</user>
+";
+}
+
+function show_team_member($user) {
+    $cpid = md5($user->cross_project_id.$user->email_addr);
+    echo "<user>
+    <id>$user->id</id>
+    <email_addr>$user->email_addr</email_addr>
+    <cpid>$cpid</cpid>
+    <create_time>$user->create_time</create_time>
+    <name>".htmlspecialchars($user->name)."</name>
+    <country>$user->country</country>
+    <total_credit>$user->total_credit</total_credit>
+    <expavg_credit>$user->expavg_credit</expavg_credit>
+    <expavg_time>$user->expavg_time</expavg_time>
+    <url>".htmlspecialchars($user->url)."</url>
+    <has_profile>$user->has_profile</has_profile>
+</user>
 ";
 }
 

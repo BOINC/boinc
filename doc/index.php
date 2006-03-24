@@ -90,11 +90,11 @@ echo "
     and copy the URL from your browser's address field).
     </ol>
     <center>
-    <a href=participate.php><b>More info</a> 
+    <a href=participate.php><b><nobr>More info</nobr></a> 
     | <a href=download.php><b>Download</a>
-    | <a href=links.php><b>Web sites </a>
+    | <a href=links.php><b><nobr>Web sites</nobr></a>
     | <a href=download_network.php><b>Add-ons</a>
-    | <a href=dev/><b>Message boards</a>
+    | <a href=dev/><b><nobr>Message boards</nobr></a>
     </center>
 
   </td></tr>

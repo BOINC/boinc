@@ -3218,3 +3218,19 @@ Walt   23 Mar 2006
         main.C
     client/win
         hostinfo_win.C
+
+David  24 Mar 2006
+    - Let team founders get lists of team members
+        (including their email addresses) via XML RPC.
+        The URL is PROJECT/team_email_list.php?teamid=X&account_key=Y&xml=1
+
+        This feature lets cross-project teams more easily get their
+        combined email-address list.
+        It doesn't change BOINC's privacy policy;
+        team founders could always get member email addresses.
+
+    html/
+        inc/
+            xml.inc
+        user/
+            team_email_list.php

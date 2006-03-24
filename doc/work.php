@@ -57,7 +57,7 @@ list_item(
     If this bound is exceeded, the application will be aborted."
 );
 list_item(
-    "rsc_mem_bound",
+    "rsc_memory_bound",
     "A bound on the virtual memory working set size.
     The workunit will only be sent to hosts with
     at least this much available RAM.
