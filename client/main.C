@@ -547,6 +547,7 @@ int main(int argc, char** argv) {
             "Load failed: %s\n", windows_error_string( errmsg, sizeof(errmsg))
         );
     }
+#endif
 
     retval = check_unique_instance();
     if (retval) {
@@ -554,6 +555,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+#ifdef _WIN32
     // Figure out if we're on Win9x
     OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
