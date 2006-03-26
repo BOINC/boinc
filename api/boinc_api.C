@@ -651,8 +651,21 @@ static void worker_timer(int /*a*/) {
     // Initialize the timer thread info for diagnostic
     //   purposes.
     if (!diagnostics_is_thread_type_initialized(BOINC_THREADTYPE_TIMER)) {
-        diagnostics_set_thread_info(BOINC_THREADTYPE_TIMER, 
-        GetCurrentThreadId(), OpenThread(THREAD_ALL_ACCESS, FALSE, GetCurrentThreadId()));
+        HANDLE hTimerThread;
+        DuplicateHandle(
+            GetCurrentProcess(),
+            GetCurrentThread(),
+            GetCurrentProcess(),
+            &hTimerThread,
+            0,
+            FALSE,
+            DUPLICATE_SAME_ACCESS
+        );
+        diagnostics_set_thread_info(
+            BOINC_THREADTYPE_TIMER, 
+            GetCurrentThreadId(),
+            hTimerThread
+        );
     }
 #endif
 
@@ -745,11 +758,6 @@ int set_worker_timer() {
     int retval=0;
 
 #ifdef _WIN32
-    // Initialize the worker thread info for diagnostic
-    //   purposes.
-    diagnostics_set_thread_info(BOINC_THREADTYPE_WORKER, 
-        GetCurrentThreadId(), OpenThread(THREAD_ALL_ACCESS, FALSE, GetCurrentThreadId()));
-
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),
@@ -758,6 +766,14 @@ int set_worker_timer() {
         0,
         FALSE,
         DUPLICATE_SAME_ACCESS
+    );
+
+    // Initialize the worker thread info for diagnostic
+    //   purposes.
+    diagnostics_set_thread_info(
+        BOINC_THREADTYPE_WORKER, 
+        GetCurrentThreadId(),
+        worker_thread_handle
     );
 
 	// Use Windows multimedia timer, since it is more accurate

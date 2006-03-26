@@ -3247,3 +3247,12 @@ Walt   25 Mar 2006
         main.C
     lib
         boinc_cmd.C
+
+Rom    26 Mar 2006
+    - BOINC API: OpenThread() doesn't exist on Win98 or Win95, so get the
+        thread handle by way of DuplicateHandle() since GetCurrentThread()
+        just returns a -2.
+        
+    api/
+        boinc_api.C
+        windows_opengl.C
