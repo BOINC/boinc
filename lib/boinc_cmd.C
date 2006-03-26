@@ -68,7 +68,7 @@ Commands:\n\
  --result url result_name {suspend | resume | abort | graphics_window | graphics_fullscreen}\n\
  --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
  --project_attach url auth\n\
- --file_transfer {retry | abort} url filename\n\
+ --file_transfer url filename {retry | abort}\n\
  --get_run_mode\n\
  --set_run_mode {always | auto | never}\n\
  --get_network_mode\n\
@@ -266,6 +266,10 @@ int main(int argc, char** argv) {
             retval = rpc.project_op(project, "detach");
         } else if (!strcmp(op, "update")) {
             retval = rpc.project_op(project, "update");
+        } else if (!strcmp(op, "suspend")) {
+            retval = rpc.project_op(project, "suspend");
+        } else if (!strcmp(op, "resume")) {
+            retval = rpc.project_op(project, "resume");
         } else if (!strcmp(op, "nomorework")) {
             retval = rpc.project_op(project, "nomorework");
         } else if (!strcmp(op, "allowmorework")) {

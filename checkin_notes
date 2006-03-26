@@ -3234,3 +3234,16 @@ David  24 Mar 2006
             xml.inc
         user/
             team_email_list.php
+
+Walt   25 Mar 2006
+    - Cleanup unused code left over from testing, adjust temporary
+        buffer size so error messages don't overflow
+    - BugFix: Fix couple of problems with boinc_cmd:
+        --project command options 'suspend' and 'resume' shown as valid
+          but they weren't being parsed.
+        --file_transfer help text shows options in wrong order
+    
+    client
+        main.C
+    lib
+        boinc_cmd.C

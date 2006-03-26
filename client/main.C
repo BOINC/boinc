@@ -538,8 +538,7 @@ int main(int argc, char** argv) {
     
     g_hClientLibraryDll = LoadLibrary("boinc.dll");
     if(!g_hClientLibraryDll) {
-        char errmsg[256];
-        DWORD errcode = GetLastError();
+        char errmsg[1024];
         printf(
             "BOINC Core Client Error Message\n"
             "Failed to initialize the BOINC Idle Detection Interface\n"
