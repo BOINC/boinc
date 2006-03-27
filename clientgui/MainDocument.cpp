@@ -48,6 +48,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
 CNetworkConnection::~CNetworkConnection() {
 }
 
+
 void CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
 
@@ -66,9 +67,8 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
     strPassword = wxString(buf, wxConvUTF8);
 }
 
-// TODO: get rid of "reconnecting" stuff
 
-void* CNetworkConnection::Poll() {
+void CNetworkConnection::Poll() {
     int retval;
     wxString strComputer = wxEmptyString;
     wxString strComputerPassword = wxEmptyString;
@@ -138,8 +138,6 @@ void* CNetworkConnection::Poll() {
             }
         }
     }
-
-    return NULL;
 }
 
 

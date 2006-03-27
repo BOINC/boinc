@@ -33,9 +33,9 @@ public:
     CNetworkConnection(CMainDocument* pDocument);
     ~CNetworkConnection();
 
-    virtual void*  Poll();
+    void           Poll();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
-    void           ForceReconnect() { m_bForceReconnect = true; };
+    void           ForceReconnect() { m_bForceReconnect = true; m_bConnected = false; };
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
     int            GetConnectingComputerName(wxString& strMachine);

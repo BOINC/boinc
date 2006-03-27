@@ -700,24 +700,35 @@ void CBOINCGUIApp::StartupBOINCCore() {
 void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32  iCount = 0;
     bool     bClientQuit = false;
+    wxString strConnectedCompter = wxEmptyString;
     DWORD    dwExitCode;
-	wxString strMachineName = wxT("localhost");
 
     if (m_bBOINCStartedByManager) {
 		// The user may have gone off to look at another machine on the network, and
 		//   we don't want to leave any dangling processes if we started them up.
-		m_pDocument->Connect(strMachineName);
-        if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-            if (STILL_ACTIVE == dwExitCode) {
-                m_pDocument->CoreClientQuit();
-                for (iCount = 0; iCount <= 10; iCount++) {
-                    if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                        if (STILL_ACTIVE != dwExitCode) {
-                            bClientQuit = true;
-                            continue;
+        //   Wait for up to 10 seconds to finish the async reconnection
+		m_pDocument->Connect(wxT("localhost"), wxEmptyString, true, true);
+        for (iCount = 0; iCount <= 10; iCount++) {
+            if (m_pDocument->IsConnected()) {
+                continue;
+            }
+            ::Sleep(1);
+        }
+
+        m_pDocument->GetConnectedComputerName(strConnectedCompter);
+        if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
+            if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                if (STILL_ACTIVE == dwExitCode) {
+                    m_pDocument->CoreClientQuit();
+                    for (iCount = 0; iCount <= 10; iCount++) {
+                        if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                            if (STILL_ACTIVE != dwExitCode) {
+                                bClientQuit = true;
+                                continue;
+                            }
                         }
+                        ::Sleep(1);
                     }
-                    ::Sleep(1);
                 }
             }
         }
@@ -777,17 +788,26 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
     wxString strMachineName = wxT("localhost");
 
     if (m_bBOINCStartedByManager) {
-        // The user may have gone off to look at another machine on the network, and
-        //   we don't want to leave any dangling processes if we started them up.
-        m_pDocument->Connect(strMachineName);
-        
-        if (ProcessExists(m_lBOINCCoreProcessId)) {
-            m_pDocument->CoreClientQuit();
-            for (iCount = 0; iCount <= 10; iCount++) {
-                if (!ProcessExists(m_lBOINCCoreProcessId))
-                    return;
+		// The user may have gone off to look at another machine on the network, and
+		//   we don't want to leave any dangling processes if we started them up.
+        //   Wait for up to 10 seconds to finish the async reconnection
+		m_pDocument->Connect(wxT("localhost"), wxEmptyString, true, true);
+        for (iCount = 0; iCount <= 10; iCount++) {
+            if (m_pDocument->IsConnected()) {
+                continue;
+            }
+            ::Sleep(1);
+        }
+        m_pDocument->GetConnectedComputerName(strConnectedCompter);
+        if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
+            if (ProcessExists(m_lBOINCCoreProcessId)) {
+                m_pDocument->CoreClientQuit();
+                for (iCount = 0; iCount <= 10; iCount++) {
+                    if (!ProcessExists(m_lBOINCCoreProcessId))
+                        return;
 
-                ::wxSleep(1);
+                    ::wxSleep(1);
+                }
             }
         }
         
@@ -806,15 +826,25 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
     if (m_bBOINCStartedByManager) {
 		// The user may have gone off to look at another machine on the network, and
 		//   we don't want to leave any dangling processes if we started them up.
-		m_pDocument->Connect(strMachineName);
-        if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
-            m_pDocument->CoreClientQuit();
-            for (iCount = 0; iCount <= 10; iCount++) {
-                if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
-                    bClientQuit = true;
-                    continue;
+        //   Wait for up to 10 seconds to finish the async reconnection
+		m_pDocument->Connect(wxT("localhost"), wxEmptyString, true, true);
+        for (iCount = 0; iCount <= 10; iCount++) {
+            if (m_pDocument->IsConnected()) {
+                continue;
+            }
+            ::Sleep(1);
+        }
+        m_pDocument->GetConnectedComputerName(strConnectedCompter);
+        if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
+            if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
+                m_pDocument->CoreClientQuit();
+                for (iCount = 0; iCount <= 10; iCount++) {
+                    if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
+                        bClientQuit = true;
+                        continue;
+                    }
+                    ::wxSleep(1);
                 }
-                ::wxSleep(1);
             }
         }
 

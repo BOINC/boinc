@@ -3284,3 +3284,14 @@ Rom    26 Mar 2006
         ViewWork.cpp
     locale/client/en_US/
         BOINC Manager.mo, .po
+
+Rom    26 Mar 2006
+    - Bug Fix: Since we changed over to async connections the manager has been
+        shutting down which ever client is was currently connected to.  So
+        wait until we have successfully reconnected to the local BOINC client
+        and verify we are connected to the local BOINC client before sending
+        the quit command.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp, .h
