@@ -38,15 +38,15 @@
 
 // official HTTP status codes
 //
-#define HTTP_STATUS_OK              200
-#define HTTP_STATUS_PARTIAL_CONTENT 206
-#define HTTP_STATUS_RANGE_REQUEST_ERROR    416
-#define HTTP_STATUS_MOVED_PERM      301
-#define HTTP_STATUS_MOVED_TEMP      302
-#define HTTP_STATUS_NOT_FOUND       404
-#define HTTP_STATUS_PROXY_AUTH_REQ  407
-#define HTTP_STATUS_INTERNAL_SERVER_ERROR  500
-#define HTTP_STATUS_SERVICE_UNAVAILABLE    503
+#define HTTP_STATUS_OK                              200
+#define HTTP_STATUS_PARTIAL_CONTENT                 206
+#define HTTP_STATUS_RANGE_REQUEST_ERROR             416
+#define HTTP_STATUS_MOVED_PERM                      301
+#define HTTP_STATUS_MOVED_TEMP                      302
+#define HTTP_STATUS_NOT_FOUND                       404
+#define HTTP_STATUS_PROXY_AUTH_REQ                  407
+#define HTTP_STATUS_INTERNAL_SERVER_ERROR           500
+#define HTTP_STATUS_SERVICE_UNAVAILABLE             503
 
 #define RUN_MODE_ALWAYS                             0
 #define RUN_MODE_NEVER                              1
@@ -74,21 +74,31 @@
 #define SS_STATUS_QUIT                              8
 #define SS_STATUS_NOPROJECTSDETECTED                9
 
+// see lib/app_ipc.h for explanation
+//
+#define MODE_UNSUPPORTED                            0
+#define MODE_HIDE_GRAPHICS                          1
+#define MODE_WINDOW                                 2
+#define MODE_FULLSCREEN                             3
+#define MODE_BLANKSCREEN                            4
+#define MODE_REREAD_PREFS                           5
+#define MODE_QUIT                                   6
+
 // These MUST match the constants in client/client_msgs.h
 //
-#define MSG_PRIORITY_INFO               1
+#define MSG_PRIORITY_INFO                           1
     // show message in black
-#define MSG_PRIORITY_ERROR              2
+#define MSG_PRIORITY_ERROR                          2
     // show message in red
-#define MSG_PRIORITY_ALERT_INFO         4
+#define MSG_PRIORITY_ALERT_INFO                     4
     // show message in a modal dialog
-#define MSG_PRIORITY_ALERT_ERROR        5
+#define MSG_PRIORITY_ALERT_ERROR                    5
     // show error message in a modal dialog
 
 // Which websites can we look up?
 //
-#define LOOKUP_GOOGLE                   1
-#define LOOKUP_YAHOO                    2
+#define LOOKUP_GOOGLE                               1
+#define LOOKUP_YAHOO                                2
 
 struct GUI_URL {
     std::string name;
@@ -540,7 +550,7 @@ public:
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);
     int show_graphics(
-        const char* project, const char* result_name, bool full_screen,
+        const char* project, const char* result_name, int graphics_mode,
         DISPLAY_INFO&
     );
     int project_op(PROJECT&, const char* op);

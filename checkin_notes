@@ -3256,3 +3256,21 @@ Rom    26 Mar 2006
     api/
         boinc_api.C
         windows_opengl.C
+
+Rom    26 Mar 2006
+    - Bug Fix: Finish the implementation of the "Hide Graphics" button.
+    - Bug Fix: Don't enable the "Copy selected message" button until at least
+        one message is highlighted.
+        
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        MainDocument.cpp, .h
+        ViewMessages.cpp
+        ViewWork.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    locale/client/en_US/
+        BOINC Manager.mo, .po

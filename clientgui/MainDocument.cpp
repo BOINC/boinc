@@ -817,23 +817,24 @@ int CMainDocument::WorkResume(int iIndex) {
 }
 
 
-int CMainDocument::WorkShowGraphics(int iIndex, bool bFullScreen,
-    std::string WindowStation, std::string Desktop, std::string Display) {
+int CMainDocument::WorkShowGraphics(int iIndex, int iGraphicsMode,
+    const wxString& strWindowStation, const wxString& strDesktop, const wxString& strDisplay) {
     RESULT* pResult = NULL;
     int iRetVal = 0;
 
     pResult = result(iIndex);
-
     if (pResult) {
         DISPLAY_INFO di;
-        strcpy(di.window_station, WindowStation.c_str());
-        strcpy(di.desktop, Desktop.c_str());
-        strcpy(di.display, Display.c_str());
+        strcpy(di.window_station, strWindowStation.mb_str());
+        strcpy(di.desktop, strDesktop.mb_str());
+        strcpy(di.display, strDisplay.mb_str());
 
         iRetVal = rpc.show_graphics(
-            pResult->project_url.c_str(), pResult->name.c_str(),
-            bFullScreen, di
-      );
+            pResult->project_url.c_str(),
+            pResult->name.c_str(),
+            iGraphicsMode,
+            di
+        );
     }
 
     return iRetVal;

@@ -126,8 +126,10 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
     GRAPHICS_MSG gm;
     ACTIVE_TASK* atp;
 
-    if (match_tag(buf, "<full_screen/>")) {
+    if        (match_tag(buf, "<full_screen/>")) {
         gm.mode = MODE_FULLSCREEN;
+    } else if (match_tag(buf, "<hide/>")) {
+        gm.mode = MODE_HIDE_GRAPHICS;
     } else {
         gm.mode = MODE_WINDOW;
     }

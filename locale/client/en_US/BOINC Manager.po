@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-09 10:11-0800\n"
+"PO-Revision-Date: 2006-03-26 19:42-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
 
-#: clientgui/BOINCBaseView.cpp:459
+#: clientgui/BOINCBaseView.cpp:457
 msgid "Web sites"
 msgstr ""
 
@@ -453,45 +453,45 @@ msgstr ""
 msgid "You are now successfully attached to this account manager."
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:92
+#: clientgui/DlgAbout.cpp:93
 #, c-format
 msgid "About %s"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:98
+#: clientgui/DlgAbout.cpp:99
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:133
+#: clientgui/DlgAbout.cpp:138
 #: clientgui/WizardAccountManager.cpp:130
 #: clientgui/WizardAttachProject.cpp:141
 msgid "BOINC Manager"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:152
+#: clientgui/DlgAbout.cpp:157
 msgid "Version:"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:160
+#: clientgui/DlgAbout.cpp:165
 msgid "Copyright:"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:164
+#: clientgui/DlgAbout.cpp:169
 msgid ""
 "(C) 2003-2006 University of California at Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:168
+#: clientgui/DlgAbout.cpp:173
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:172
+#: clientgui/DlgAbout.cpp:177
 msgid "A software platform for distributed computing using volunteered computer resources"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:184
+#: clientgui/DlgAbout.cpp:189
 #: clientgui/DlgDialupCredentials.cpp:136
 #: clientgui/DlgGenericMessage.cpp:122
 #: clientgui/DlgOptions.cpp:324
@@ -1308,7 +1308,7 @@ msgstr ""
 msgid "'%s' does not contain a valid path."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewMessages.cpp:78
 #: clientgui/ViewProjects.cpp:102
 #: clientgui/ViewStatistics.cpp:637
 #: clientgui/ViewTransfers.cpp:92
@@ -1316,23 +1316,23 @@ msgstr ""
 msgid "Commands"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:78
+#: clientgui/ViewMessages.cpp:82
 msgid "Copy all messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:79
+#: clientgui/ViewMessages.cpp:83
 msgid "Copy all the messages to the clipboard."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessages.cpp:89
 msgid "Copy selected messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:86
+#: clientgui/ViewMessages.cpp:90
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewMessages.cpp:102
 #: clientgui/ViewProjects.cpp:150
 #: clientgui/ViewResources.cpp:76
 #: clientgui/ViewStatistics.cpp:668
@@ -1341,23 +1341,23 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:99
+#: clientgui/ViewMessages.cpp:103
 msgid "Time"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:100
+#: clientgui/ViewMessages.cpp:104
 msgid "Message"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:124
+#: clientgui/ViewMessages.cpp:128
 msgid "Messages"
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:146
+#: clientgui/ViewMessages.cpp:150
 msgid "Copying all messages to the clipboard..."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewMessages.cpp:182
 #: clientgui/ViewTransfers.cpp:185
 msgid "Aborting transfer..."
 msgstr ""
@@ -1373,7 +1373,7 @@ msgstr ""
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:564
 #: clientgui/ViewWork.cpp:111
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:504
 msgid "Suspend"
 msgstr ""
 
@@ -1480,12 +1480,12 @@ msgid "Detach from Project"
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:375
-#: clientgui/ViewWork.cpp:295
+#: clientgui/ViewWork.cpp:306
 msgid "Launching browser..."
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:560
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:498
 msgid "Resume"
 msgstr ""
 
@@ -1506,7 +1506,7 @@ msgid "Don't fetch new tasks for this project."
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:678
-#: clientgui/ViewWork.cpp:707
+#: clientgui/ViewWork.cpp:740
 msgid "Suspended by user"
 msgstr ""
 
@@ -1666,12 +1666,12 @@ msgid "Retry in "
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:728
 msgid "Download failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:734
+#: clientgui/ViewWork.cpp:767
 msgid "Upload failed"
 msgstr ""
 
@@ -1681,12 +1681,12 @@ msgid "Suspended"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:769
 msgid "Uploading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:697
+#: clientgui/ViewWork.cpp:730
 msgid "Downloading"
 msgstr ""
 
@@ -1700,10 +1700,14 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:104
 #: clientgui/ViewWork.cpp:213
+#: clientgui/ViewWork.cpp:519
+#: clientgui/ViewWork.cpp:527
 msgid "Show graphics"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:520
+#: clientgui/ViewWork.cpp:528
 msgid "Show application graphics in a window."
 msgstr ""
 
@@ -1759,75 +1763,83 @@ msgstr ""
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:269
 msgid "Aborting result..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:272
 #, c-format
 msgid "Are you sure you want to abort this task '%s'?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:278
 msgid "Abort task"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:499
 msgid "Resume work for this task."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:505
 msgid "Suspend work for this task."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:691
+#: clientgui/ViewWork.cpp:513
+msgid "Hide graphics"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:514
+msgid "Hide application graphics window."
+msgstr ""
+
+#: clientgui/ViewWork.cpp:724
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:703
-#: clientgui/ViewWork.cpp:727
+#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:760
 msgid "Aborted by user"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:705
+#: clientgui/ViewWork.cpp:738
 msgid "Project suspended by user"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:709
+#: clientgui/ViewWork.cpp:742
 msgid "Activities suspended"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:745
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:747
 msgid "Preempted"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:716
-#: clientgui/ViewWork.cpp:719
+#: clientgui/ViewWork.cpp:749
+#: clientgui/ViewWork.cpp:752
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:729
+#: clientgui/ViewWork.cpp:762
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:741
+#: clientgui/ViewWork.cpp:774
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:743
+#: clientgui/ViewWork.cpp:776
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:745
+#: clientgui/ViewWork.cpp:778
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:753
+#: clientgui/ViewWork.cpp:786
 msgid "Activities suspended by user"
 msgstr ""
 

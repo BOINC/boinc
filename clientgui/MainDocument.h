@@ -174,7 +174,13 @@ public:
 
     int                         WorkSuspend(int iIndex);
     int                         WorkResume(int iIndex);
-    int                         WorkShowGraphics(int iIndex, bool bFullScreen, std::string, std::string, std::string);
+    int                         WorkShowGraphics(
+                                    int iIndex,
+                                    int iGraphicsMode,
+                                    const wxString& strWindowStation,
+                                    const wxString& strDesktop,
+                                    const wxString& strDisplay
+                                );
     int                         WorkAbort(int iIndex);
 
 

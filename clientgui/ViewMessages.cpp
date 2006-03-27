@@ -37,6 +37,10 @@
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
+// buttons in the "tasks" area
+#define BTN_COPYALL      0
+#define BTN_COPYSELECTED 1
+
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
@@ -279,7 +283,17 @@ bool CViewMessages::EnsureLastItemVisible() {
 
 
 void CViewMessages::UpdateSelection() {
+    CTaskItemGroup*     pGroup = NULL;
+
     CBOINCBaseView::PreUpdateSelection();
+
+    pGroup = m_TaskGroups[0];
+    if (m_pListPane->GetSelectedItemCount()) {
+        m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_COPYSELECTED]);
+    } else {
+        m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_COPYSELECTED]);
+    }
+
     CBOINCBaseView::PostUpdateSelection();
 }
 

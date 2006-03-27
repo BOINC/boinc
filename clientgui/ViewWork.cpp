@@ -222,13 +222,24 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-        pDoc->WorkShowGraphics(
-            m_pListPane->GetFirstSelected(),
-            false,
-            (const char*)wxGetApp().m_strDefaultWindowStation.mb_str(),
-            (const char*)wxGetApp().m_strDefaultDesktop.mb_str(),
-            (const char*)wxGetApp().m_strDefaultDisplay.mb_str()
-        );
+        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+        if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
+            pDoc->WorkShowGraphics(
+                m_pListPane->GetFirstSelected(),
+                MODE_HIDE_GRAPHICS,
+                wxGetApp().m_strDefaultWindowStation,
+                wxGetApp().m_strDefaultDesktop,
+                wxGetApp().m_strDefaultDisplay
+            );
+        } else {
+            pDoc->WorkShowGraphics(
+                m_pListPane->GetFirstSelected(),
+                MODE_WINDOW,
+                wxGetApp().m_strDefaultWindowStation,
+                wxGetApp().m_strDefaultDesktop,
+                wxGetApp().m_strDefaultDisplay
+            );
+        }
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -483,17 +494,39 @@ void CViewWork::UpdateSelection() {
         if (result) {
             if (result->suspended_via_gui) {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND], _("Resume"), _("Resume work for this task.")
+                    pGroup->m_Tasks[BTN_SUSPEND],
+                    _("Resume"),
+                    _("Resume work for this task.")
                 );
             } else {
                 m_pTaskPane->UpdateTask(
-                    pGroup->m_Tasks[BTN_SUSPEND], _("Suspend"), _("Suspend work for this task.")
+                    pGroup->m_Tasks[BTN_SUSPEND],
+                    _("Suspend"),
+                    _("Suspend work for this task.")
                 );
             }
             if (result->supports_graphics) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+                if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
+                    m_pTaskPane->UpdateTask(
+                        pGroup->m_Tasks[BTN_GRAPHICS],
+                        _("Hide graphics"),
+                        _("Hide application graphics window.")
+                    );
+                } else {
+                    m_pTaskPane->UpdateTask(
+                        pGroup->m_Tasks[BTN_GRAPHICS],
+                        _("Show graphics"),
+                        _("Show application graphics in a window.")
+                    );
+                }
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_GRAPHICS],
+                    _("Show graphics"),
+                    _("Show application graphics in a window.")
+                );
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);

@@ -323,6 +323,7 @@ int RESULT::parse(MIOFILE& in) {
             supports_graphics = true;
             continue;
         }
+        else if (parse_int(buf, "<graphics_mode_acked>", graphics_mode_acked)) continue;
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
@@ -1220,7 +1221,7 @@ void DISPLAY_INFO::print_str(char* p) {
 }
 
 int RPC_CLIENT::show_graphics(
-    const char* project_url, const char* result_name, bool full_screen,
+    const char* project_url, const char* result_name, int graphics_mode,
     DISPLAY_INFO& di
 ) {
     char buf[1024];
@@ -1230,10 +1231,12 @@ int RPC_CLIENT::show_graphics(
         "<result_show_graphics>\n"
         "   <project_url>%s</project_url>\n"
         "   <result_name>%s</result_name>\n"
-        "%s",
+        "%s%s%s",
         project_url,
         result_name,
-        full_screen?"   <full_screen/>\n":""
+        graphics_mode == MODE_HIDE_GRAPHICS?"   <hide/>\n":"",
+        graphics_mode == MODE_WINDOW       ?"   <window/>\n":"",
+        graphics_mode == MODE_FULLSCREEN   ?"   <full_screen/>\n":""
     );
     di.print_str(buf);
     strcat(buf, "</result_show_graphics>\n");

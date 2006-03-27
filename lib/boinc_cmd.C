@@ -248,11 +248,11 @@ int main(int argc, char** argv) {
         } else if (!strcmp(op, "graphics_window")) {
             DISPLAY_INFO di;
             parse_display_args(argv, i, di);
-            retval = rpc.show_graphics(project_url, name, false, di);
+            retval = rpc.show_graphics(project_url, name, MODE_WINDOW, di);
         } else if (!strcmp(op, "graphics_fullscreen")) {
             DISPLAY_INFO di;
             parse_display_args(argv, i, di);
-            retval = rpc.show_graphics(project_url, name, true, di);
+            retval = rpc.show_graphics(project_url, name, MODE_FULLSCREEN, di);
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }
