@@ -3303,3 +3303,11 @@ Rom    27 Mar 2006
         
     clientgui/
         BOINCListCtrl.cpp
+
+Rom    27 Mar 2006
+    - Bug Fix: Make sure that the thread that has caused an exception dumps
+        it's callstack even if it didn't register itself to the diagnostics
+        functions.
+        
+    lib/
+        diagnostics.C

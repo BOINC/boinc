@@ -335,6 +335,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     char    status[256];
     char    substatus[256];
     int     i;
+    bool    bDumpedException;
     CONTEXT c;
 
     static long   lDetectNestedException = 0;
@@ -455,12 +456,19 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
         }
 
         // Dump the offending thread's stack first.
+        bDumpedException = false;
         for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
             if (GetCurrentThreadId() == diagnostics_threads[i].thread_id) {
                 fprintf( stderr, "Dump of the %s(offending) thread:\n", diagnostics_threads[i].name );
                 StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
                 fflush( stderr );
+                bDumpedException = true;
             }
+        }
+        if (!bDumpedException) {
+            fprintf( stderr, "Dump of the (offending) thread:\n" );
+            StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
+            fflush( stderr );
         }
 
         // Dump the other threads stack.
