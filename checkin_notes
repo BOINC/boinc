@@ -3274,3 +3274,13 @@ Rom    26 Mar 2006
         gui_rpc_client_ops.C
     locale/client/en_US/
         BOINC Manager.mo, .po
+
+Rom    26 Mar 2006
+    - Bug Fix: Provide that little extra tid bit of information that might keep
+        somebody from aborting a CPDN task when it is 70% complete and not over
+        due.
+        
+    clientgui/
+        ViewWork.cpp
+    locale/client/en_US/
+        BOINC Manager.mo, .po

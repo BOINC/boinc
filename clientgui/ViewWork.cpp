@@ -254,10 +254,15 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
+    wxInt32  iAnswer        = 0;
+    wxInt32  iResult        = 0;
     wxString strMessage     = wxEmptyString;
+    wxString strName        = wxEmptyString;
+    wxString strProgress    = wxEmptyString;
+    wxString strStatus      = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
+    RESULT* result          = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -268,9 +273,17 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Aborting result..."));
 
+    iResult = m_pListPane->GetFirstSelected();
+    FormatName(iResult, strName);
+    FormatProgress(iResult, strProgress);
+    FormatStatus(iResult, strStatus);
+
     strMessage.Printf(
-        _("Are you sure you want to abort this task '%s'?"), 
-        pDoc->result(m_pListPane->GetFirstSelected())->name.c_str()
+        _("Are you sure you want to abort this task '%s'?\n"
+          "(Progress: %s, Status: %s)"), 
+        strName.c_str(),
+        strProgress.c_str(),
+        strStatus.c_str()
     );
 
     iAnswer = ::wxMessageBox(

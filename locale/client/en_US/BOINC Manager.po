@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-26 19:42-0800\n"
+"PO-Revision-Date: 2006-03-26 22:59-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -1373,7 +1373,7 @@ msgstr ""
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:564
 #: clientgui/ViewWork.cpp:111
-#: clientgui/ViewWork.cpp:504
+#: clientgui/ViewWork.cpp:517
 msgid "Suspend"
 msgstr ""
 
@@ -1480,12 +1480,12 @@ msgid "Detach from Project"
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:375
-#: clientgui/ViewWork.cpp:306
+#: clientgui/ViewWork.cpp:319
 msgid "Launching browser..."
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:560
-#: clientgui/ViewWork.cpp:498
+#: clientgui/ViewWork.cpp:511
 msgid "Resume"
 msgstr ""
 
@@ -1506,7 +1506,7 @@ msgid "Don't fetch new tasks for this project."
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:678
-#: clientgui/ViewWork.cpp:740
+#: clientgui/ViewWork.cpp:753
 msgid "Suspended by user"
 msgstr ""
 
@@ -1666,12 +1666,12 @@ msgid "Retry in "
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:728
+#: clientgui/ViewWork.cpp:741
 msgid "Download failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:767
+#: clientgui/ViewWork.cpp:780
 msgid "Upload failed"
 msgstr ""
 
@@ -1681,12 +1681,12 @@ msgid "Suspended"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:769
+#: clientgui/ViewWork.cpp:782
 msgid "Uploading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:730
+#: clientgui/ViewWork.cpp:743
 msgid "Downloading"
 msgstr ""
 
@@ -1700,14 +1700,14 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:104
 #: clientgui/ViewWork.cpp:213
-#: clientgui/ViewWork.cpp:519
-#: clientgui/ViewWork.cpp:527
+#: clientgui/ViewWork.cpp:532
+#: clientgui/ViewWork.cpp:540
 msgid "Show graphics"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:105
-#: clientgui/ViewWork.cpp:520
-#: clientgui/ViewWork.cpp:528
+#: clientgui/ViewWork.cpp:533
+#: clientgui/ViewWork.cpp:541
 msgid "Show application graphics in a window."
 msgstr ""
 
@@ -1763,83 +1763,85 @@ msgstr ""
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:269
+#: clientgui/ViewWork.cpp:274
 msgid "Aborting result..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:272
+#: clientgui/ViewWork.cpp:282
 #, c-format
-msgid "Are you sure you want to abort this task '%s'?"
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s, Status: %s)"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:278
+#: clientgui/ViewWork.cpp:291
 msgid "Abort task"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:499
+#: clientgui/ViewWork.cpp:512
 msgid "Resume work for this task."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:505
+#: clientgui/ViewWork.cpp:518
 msgid "Suspend work for this task."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:513
+#: clientgui/ViewWork.cpp:526
 msgid "Hide graphics"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:514
+#: clientgui/ViewWork.cpp:527
 msgid "Hide application graphics window."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:724
+#: clientgui/ViewWork.cpp:737
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:736
-#: clientgui/ViewWork.cpp:760
+#: clientgui/ViewWork.cpp:749
+#: clientgui/ViewWork.cpp:773
 msgid "Aborted by user"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:738
+#: clientgui/ViewWork.cpp:751
 msgid "Project suspended by user"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:742
+#: clientgui/ViewWork.cpp:755
 msgid "Activities suspended"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:745
+#: clientgui/ViewWork.cpp:758
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:747
+#: clientgui/ViewWork.cpp:760
 msgid "Preempted"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:749
-#: clientgui/ViewWork.cpp:752
+#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWork.cpp:765
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWork.cpp:775
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:774
+#: clientgui/ViewWork.cpp:787
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:776
+#: clientgui/ViewWork.cpp:789
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:778
+#: clientgui/ViewWork.cpp:791
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:786
+#: clientgui/ViewWork.cpp:799
 msgid "Activities suspended by user"
 msgstr ""
 
