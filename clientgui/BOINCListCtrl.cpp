@@ -122,11 +122,15 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
 
-        pConfig->Read(wxT("Width"), &iTempValue, 80);
-        liColumnInfo.SetWidth(iTempValue);
+        pConfig->Read(wxT("Width"), &iTempValue, -1);
+        if (-1 != iTempValue) {
+            liColumnInfo.SetWidth(iTempValue);
+        }
 
-        pConfig->Read(wxT("Format"), &iTempValue, 0);
-        liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
+        pConfig->Read(wxT("Format"), &iTempValue, -1);
+        if (-1 != iTempValue) {
+            liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
+        }
 
         SetColumn(iIndex, liColumnInfo);
     }

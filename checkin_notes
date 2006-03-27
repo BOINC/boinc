@@ -3295,3 +3295,11 @@ Rom    26 Mar 2006
     clientgui/
         BOINCGUIApp.cpp
         MainDocument.cpp, .h
+
+Rom    27 Mar 2006
+    - Bug Fix: When choosing a default value for something, use a value that
+        connot be confused with valid data otherwise you might overwrite valid
+        default values setup during object creation.
+        
+    clientgui/
+        BOINCListCtrl.cpp
