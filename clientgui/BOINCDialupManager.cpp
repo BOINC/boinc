@@ -94,7 +94,6 @@ void CBOINCDialUpManager::poll() {
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
     int                 iNetworkStatus = 0;
-    wxTimeSpan          tsLastDialupAlertSent;
     wxString            strDialogMessage = wxEmptyString;
 
 
@@ -147,28 +146,59 @@ void CBOINCDialUpManager::poll() {
         );
         */
 
-#ifndef __WXMSW__           // just pop up alert box on non-MS Windows systems
+#ifndef __WXMSW__           // notification logic for non MS-Windows systems
+        wxTimeSpan          tsLastDialupAlertSent;
+
         if (!bIsOnline && bWantConnection) {
-            tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
-            if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-                wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
+            wxTimeSpan          tsLastDialupAlertSent;
 
-                m_dtLastDialupAlertSent = wxDateTime::Now();
+            if (pFrame->IsShown()) {
+                // manager window is visible, put up notification
+                tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
+                if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
+                    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
+                    m_dtLastDialupAlertSent = wxDateTime::Now();
 
-                // %s is the project name
-                //    i.e. 'BOINC', 'GridRepublic'
-                strDialogMessage.Printf(
-                    _("%s is unable to communicate with a project and needs an Internet "
-                      "connection.  Please connect to the Internet, then select the 'retry "
-                      "communications' item off the advanced menu."),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
-                );
-                pFrame->ShowAlert(
-                    m_strDialogTitle,
-                    strDialogMessage,
-                    wxICON_INFORMATION,      
-                    false
-                );
+                    // %s is the project name
+                    //    i.e. 'BOINC', 'GridRepublic'
+                    strDialogMessage.Printf(
+                        _("%s is unable to communicate with a project and needs an Internet "
+                          "connection.  Please connect to the Internet, then select the 'retry "
+                          "communications' item off the advanced menu."),
+                        wxGetApp().GetBrand()->GetProjectName().c_str()
+                    );
+                    
+                    pFrame->ShowAlert(
+                        m_strDialogTitle,
+                        strDialogMessage,
+                        wxICON_INFORMATION,      
+                        false
+                    );
+                }
+            } else {
+                // window is not visible, show alert
+                tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
+                if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
+                    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Need Internet Connection Alert"));
+                    m_dtLastDialupAlertSent = wxDateTime::Now();
+
+                    // %s is the project name
+                    //    i.e. 'BOINC', 'GridRepublic'
+                    strDialogMessage.Printf(
+                        _("%s is unable to communicate with a project and needs an Internet "
+                          "connection.  Please connect to the Internet then open the %s and "
+                          "'retry communications'."),
+                        wxGetApp().GetBrand()->GetProjectName().c_str(),
+                        wxGetApp().GetBrand()->GetApplicationName().c_str()
+                    );
+                    
+                    pFrame->ShowAlert(
+                        m_strDialogTitle,
+                        strDialogMessage,
+                        wxICON_INFORMATION,      
+                        true
+                    );
+                }
             }
         }
 

@@ -3350,3 +3350,10 @@ Rom    28 Mar 2006
     clientgui/
         BOINCGUIApp.cpp
         ViewWork.cpp
+
+Walt   28 Mar 2006
+    - Bug Fix: Use alert box for 'need Internet connection' message when
+        manager window is hidden.
+       
+    clientgui/
+        BOINCDialupManager.cpp
