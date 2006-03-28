@@ -26,7 +26,7 @@
 #include "BOINCGUIApp.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
-#include "BOINCDialUpManager.h"
+#include "BOINCDialupManager.h"
 #include "DlgOptions.h"
 #include "DlgDialupCredentials.h"
 
@@ -34,9 +34,10 @@
 CBOINCDialUpManager::CBOINCDialUpManager() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::CBOINCDialUpManager - Function Begin"));
 
+#ifdef __WXMSW__
     m_pDialupManager = wxDialUpManager::Create();
     wxASSERT(m_pDialupManager->IsOk());
-
+#endif
     ResetReminderTimers();
     m_bSetConnectionTimer = false;
     m_bNotifyConnectionAvailable = false;
@@ -63,14 +64,19 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
 CBOINCDialUpManager::~CBOINCDialUpManager() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::~CBOINCDialUpManager - Function Begin"));
 
+#ifdef __WXMSW__
     delete m_pDialupManager;
-
+#endif
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::~CBOINCDialUpManager - Function End"));
 }
 
 
 bool CBOINCDialUpManager::IsOk() {
+#ifdef __WXMSW__
     return m_pDialupManager->IsOk();
+#else
+    return true;
+#endif
 }
 
 
@@ -88,6 +94,7 @@ void CBOINCDialUpManager::poll() {
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
     int                 iNetworkStatus = 0;
+    wxTimeSpan          tsLastDialupAlertSent;
     wxString            strDialogMessage = wxEmptyString;
 
 
@@ -104,7 +111,10 @@ void CBOINCDialUpManager::poll() {
         //   success or failure of the dialup device to establish a connection
         //   to the outside world.
         pDoc->rpc.network_status(iNetworkStatus);
+#ifdef __WXMSW__
         bIsDialing = m_pDialupManager->IsDialing();
+#endif
+        bIsDialing = false;
         bIsOnline = iNetworkStatus == 0 ? true : false;
         bWantConnection = iNetworkStatus == 1 ? true : false;
         bWantDisconnect = iNetworkStatus == 2 ? true : false;
@@ -138,6 +148,32 @@ void CBOINCDialUpManager::poll() {
         );
         */
 
+#ifndef __WXMSW__           // just pop up alert box on non-MS Windows systems
+        if (!bIsOnline && bWantConnection) {
+            tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
+            if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
+                wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
+
+                m_dtLastDialupAlertSent = wxDateTime::Now();
+
+                // %s is the project name
+                //    i.e. 'BOINC', 'GridRepublic'
+                strDialogMessage.Printf(
+                    _("%s is unable to communicate with a project and needs an Internet "
+                      "connection.  Please connect to the Internet, then select the 'retry "
+                      "communications' item off the advanced menu."),
+                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                );
+                pFrame->ShowAlert(
+                    m_strDialogTitle,
+                    strDialogMessage,
+                    wxICON_INFORMATION,      
+                    false
+                );
+            }
+        }
+
+#else               // dialer stuff for MS-Windows systems
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection)
         {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));
@@ -199,6 +235,7 @@ void CBOINCDialUpManager::poll() {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - bIsDialing && !m_bWasDialing"));
             m_bWasDialing = true;
         }
+#endif
     }
 }
 

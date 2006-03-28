@@ -3311,3 +3311,12 @@ Rom    27 Mar 2006
         
     lib/
         diagnostics.C
+
+Walt   27 Mar 2006
+    - Enable some CBOINCDialupManager functions for non MS-Windows platforms.
+        As the auto-dialer doesn't work on these systems, just display a 
+        notification box telling the user an Internet connection is needed.
+        
+    clientgui/
+        MainFrame.cpp
+        CBOINCDialupManager.cpp

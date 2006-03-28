@@ -225,10 +225,8 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     SetStatusBarPane(0);
 
 
-#ifdef __WXMSW__
     m_pDialupManager = new CBOINCDialUpManager();
     wxASSERT(m_pDialupManager->IsOk());
-#endif
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
