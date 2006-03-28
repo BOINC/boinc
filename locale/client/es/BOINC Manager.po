@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-13 22:54+0100\n"
+"PO-Revision-Date: 2006-03-27 13:59+0100\n"
 "Last-Translator: Alejandro Martín Covarrubias <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -213,7 +213,7 @@ msgstr ""
 "\n"
 "Por favor visite la página web del proyecto y siga allí las intrucciones."
 
-#: clientgui/BOINCBaseView.cpp:459
+#: clientgui/BOINCBaseView.cpp:457
 msgid "Web sites"
 msgstr "Páginas web"
 
@@ -500,31 +500,31 @@ msgstr ""
 msgid "You are now successfully attached to this account manager."
 msgstr "Usted se ha unido con éxito a éste administrador de cuentas."
 
-#: clientgui/DlgAbout.cpp:92
+#: clientgui/DlgAbout.cpp:93
 #, c-format
 msgid "About %s"
 msgstr "Acerca de %s"
 
-#: clientgui/DlgAbout.cpp:98
+#: clientgui/DlgAbout.cpp:99
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/DlgAbout.cpp:133
+#: clientgui/DlgAbout.cpp:138
 #: clientgui/WizardAccountManager.cpp:130
 #: clientgui/WizardAttachProject.cpp:141
 msgid "BOINC Manager"
 msgstr "Administrador BOINC"
 
-#: clientgui/DlgAbout.cpp:152
+#: clientgui/DlgAbout.cpp:157
 msgid "Version:"
 msgstr "Versión:"
 
-#: clientgui/DlgAbout.cpp:160
+#: clientgui/DlgAbout.cpp:165
 msgid "Copyright:"
 msgstr "Copyright:"
 
-#: clientgui/DlgAbout.cpp:164
+#: clientgui/DlgAbout.cpp:169
 msgid ""
 "(C) 2003-2006 University of California at Berkeley.\n"
 "All Rights Reserved."
@@ -532,15 +532,15 @@ msgstr ""
 "(C) 2003-2006 Universidad de California en Berkeley.\n"
 "Reservados Todos los Derechos."
 
-#: clientgui/DlgAbout.cpp:168
+#: clientgui/DlgAbout.cpp:173
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
-#: clientgui/DlgAbout.cpp:172
+#: clientgui/DlgAbout.cpp:177
 msgid "A software platform for distributed computing using volunteered computer resources"
 msgstr "Una plataforma de software para la computación distribuida utilizando recursos de computadoras ofrecidos voluntariamente"
 
-#: clientgui/DlgAbout.cpp:184
+#: clientgui/DlgAbout.cpp:189
 #: clientgui/DlgDialupCredentials.cpp:136
 #: clientgui/DlgGenericMessage.cpp:122
 #: clientgui/DlgOptions.cpp:324
@@ -888,11 +888,11 @@ msgstr "Investigación"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Aprenda acerca de los proyectos albergados en la Trama Mundial de la Comunidad"
 
-#: clientgui/MainDocument.cpp:320
+#: clientgui/MainDocument.cpp:318
 msgid "Retrieving system state; please wait..."
 msgstr "Recuperando estado del sistema; por favor espere..."
 
-#: clientgui/MainDocument.cpp:329
+#: clientgui/MainDocument.cpp:327
 msgid "Retrieving host information; please wait..."
 msgstr "Recuperando información del ordenador; por favor espere..."
 
@@ -1410,7 +1410,7 @@ msgstr "'%s' no contiene un nombre válido de ordenador."
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' no contiene una ruta válida."
 
-#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewMessages.cpp:78
 #: clientgui/ViewProjects.cpp:102
 #: clientgui/ViewStatistics.cpp:637
 #: clientgui/ViewTransfers.cpp:92
@@ -1418,23 +1418,23 @@ msgstr "'%s' no contiene una ruta válida."
 msgid "Commands"
 msgstr "Comandos"
 
-#: clientgui/ViewMessages.cpp:78
+#: clientgui/ViewMessages.cpp:82
 msgid "Copy all messages"
 msgstr "Copiar todos los mensajes"
 
-#: clientgui/ViewMessages.cpp:79
+#: clientgui/ViewMessages.cpp:83
 msgid "Copy all the messages to the clipboard."
 msgstr "Copia todos los mensajes al portapapeles"
 
-#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessages.cpp:89
 msgid "Copy selected messages"
 msgstr "Copiar los mensajes seleccionados"
 
-#: clientgui/ViewMessages.cpp:86
+#: clientgui/ViewMessages.cpp:90
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr "Copia los mensajes seleccionados al portapapeles. Puede seleccionar múltiples mensajes manteniendo pulsadas las teclas Shift y/o Control mientras hace click en los mensajes."
 
-#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewMessages.cpp:102
 #: clientgui/ViewProjects.cpp:150
 #: clientgui/ViewResources.cpp:76
 #: clientgui/ViewStatistics.cpp:668
@@ -1443,23 +1443,23 @@ msgstr "Copia los mensajes seleccionados al portapapeles. Puede seleccionar múlt
 msgid "Project"
 msgstr "Proyecto"
 
-#: clientgui/ViewMessages.cpp:99
+#: clientgui/ViewMessages.cpp:103
 msgid "Time"
 msgstr "Hora"
 
-#: clientgui/ViewMessages.cpp:100
+#: clientgui/ViewMessages.cpp:104
 msgid "Message"
 msgstr "Mensaje"
 
-#: clientgui/ViewMessages.cpp:124
+#: clientgui/ViewMessages.cpp:128
 msgid "Messages"
 msgstr "Mensajes"
 
-#: clientgui/ViewMessages.cpp:146
+#: clientgui/ViewMessages.cpp:150
 msgid "Copying all messages to the clipboard..."
 msgstr "Copiando todos los mensajes al portapapeles..."
 
-#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewMessages.cpp:182
 #: clientgui/ViewTransfers.cpp:185
 msgid "Aborting transfer..."
 msgstr "Cancelando la transferencia..."
@@ -1475,7 +1475,7 @@ msgstr "Envia todas las tareas completadas, actualiza los créditos, actualiza su
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:564
 #: clientgui/ViewWork.cpp:111
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:517
 msgid "Suspend"
 msgstr "Suspender"
 
@@ -1582,12 +1582,12 @@ msgid "Detach from Project"
 msgstr "Separarse del proyecto"
 
 #: clientgui/ViewProjects.cpp:375
-#: clientgui/ViewWork.cpp:295
+#: clientgui/ViewWork.cpp:319
 msgid "Launching browser..."
 msgstr "Lanzando navegador..."
 
 #: clientgui/ViewProjects.cpp:560
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:511
 msgid "Resume"
 msgstr "Reanudar"
 
@@ -1608,7 +1608,7 @@ msgid "Don't fetch new tasks for this project."
 msgstr "No pide más tareas para éste proyecto."
 
 #: clientgui/ViewProjects.cpp:678
-#: clientgui/ViewWork.cpp:707
+#: clientgui/ViewWork.cpp:753
 msgid "Suspended by user"
 msgstr "Suspendido por el usuario"
 
@@ -1771,12 +1771,12 @@ msgid "Retry in "
 msgstr "Reintentar en "
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:741
 msgid "Download failed"
 msgstr "Descarga fallida"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:734
+#: clientgui/ViewWork.cpp:780
 msgid "Upload failed"
 msgstr "Envío fallido"
 
@@ -1786,12 +1786,12 @@ msgid "Suspended"
 msgstr "Suspendido"
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:782
 msgid "Uploading"
 msgstr "Enviando"
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:697
+#: clientgui/ViewWork.cpp:743
 msgid "Downloading"
 msgstr "Descargando"
 
@@ -1805,10 +1805,14 @@ msgstr "Descarga pendiente"
 
 #: clientgui/ViewWork.cpp:104
 #: clientgui/ViewWork.cpp:213
+#: clientgui/ViewWork.cpp:532
+#: clientgui/ViewWork.cpp:540
 msgid "Show graphics"
 msgstr "Mostrar gráficos"
 
 #: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:533
+#: clientgui/ViewWork.cpp:541
 msgid "Show application graphics in a window."
 msgstr "Muestra los gráficos de la aplicación en una ventana"
 
@@ -1864,75 +1868,87 @@ msgstr "Mostrando gráficos para la tarea..."
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "¿Está seguro que desea mostrar los gráficos en un ordenador remoto?"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:274
 msgid "Aborting result..."
 msgstr "Cancelando resultado..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:282
 #, c-format
-msgid "Are you sure you want to abort this task '%s'?"
-msgstr "¿Está seguro de querer cancelar ésta tarea '%s'?"
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s, Status: %s)"
+msgstr ""
+"¿Está seguro de querer cancelar ésta tarea '%s'?\n"
+"(Progreso: %s, Estado: %s)"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:291
 msgid "Abort task"
 msgstr "Cancelar tarea"
 
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:512
 msgid "Resume work for this task."
 msgstr "Reanudar el trabajo para ésta tarea."
 
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:518
 msgid "Suspend work for this task."
 msgstr "Suspende el trabajo para ésta tarea."
 
-#: clientgui/ViewWork.cpp:691
+#: clientgui/ViewWork.cpp:526
+msgid "Hide graphics"
+msgstr "Ocultar gráficos"
+
+#: clientgui/ViewWork.cpp:527
+msgid "Hide application graphics window."
+msgstr "Oculta la ventana de gráficos de la aplicación."
+
+#: clientgui/ViewWork.cpp:737
 msgid "New"
 msgstr "Nuevo"
 
-#: clientgui/ViewWork.cpp:703
-#: clientgui/ViewWork.cpp:727
+#: clientgui/ViewWork.cpp:749
+#: clientgui/ViewWork.cpp:773
 msgid "Aborted by user"
 msgstr "Abortado por el usuario"
 
-#: clientgui/ViewWork.cpp:705
+#: clientgui/ViewWork.cpp:751
 msgid "Project suspended by user"
 msgstr "Proyecto suspendido por el usuario"
 
-#: clientgui/ViewWork.cpp:709
+#: clientgui/ViewWork.cpp:755
 msgid "Activities suspended"
 msgstr "Actividades suspendidas"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:758
 msgid "Running"
 msgstr "Ejecutando"
 
-#: clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:760
 msgid "Preempted"
 msgstr "Preasignado"
 
-#: clientgui/ViewWork.cpp:716
-#: clientgui/ViewWork.cpp:719
+#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWork.cpp:765
 msgid "Ready to run"
 msgstr "Listo para ejecutar"
 
-#: clientgui/ViewWork.cpp:729
+#: clientgui/ViewWork.cpp:775
 msgid "Computation error"
 msgstr "Error de cálculo"
 
-#: clientgui/ViewWork.cpp:741
+#: clientgui/ViewWork.cpp:787
 msgid "Acknowledged"
 msgstr "Aceptado"
 
-#: clientgui/ViewWork.cpp:743
+#: clientgui/ViewWork.cpp:789
 msgid "Ready to report"
 msgstr "Listo para informar"
 
-#: clientgui/ViewWork.cpp:745
+#: clientgui/ViewWork.cpp:791
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Error: estado inválido '%d'"
 
-#: clientgui/ViewWork.cpp:753
+#: clientgui/ViewWork.cpp:799
 msgid "Activities suspended by user"
 msgstr "Actividades suspendidas por el usuario"
 

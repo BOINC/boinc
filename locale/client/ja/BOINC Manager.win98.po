@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.4 and based on English po v1.30\n"
+"Project-Id-Version: BOINC Manager 5.4 and based on English po v1.32\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-11 10:13 +0900\n"
+"PO-Revision-Date: 2006-03-26 22:59-0800\n"
 "Last-Translator: Komori Hitoshi <ucepod@hikaru.jp>\n"
 "Language-Team: Japanese Translators\n"
 "MIME-Version: 1.0\n"
@@ -225,7 +225,7 @@ msgstr ""
 "\n"
 "プロジェクトのウェブサイトに行って、そこにある指示に従って下さい。"
 
-#: clientgui/BOINCBaseView.cpp:459
+#: clientgui/BOINCBaseView.cpp:457
 msgid "Web sites"
 msgstr "ウェブサイト"
 
@@ -517,45 +517,45 @@ msgstr ""
 msgid "You are now successfully attached to this account manager."
 msgstr "アカウント・マネージャへの接続に成功しました。"
 
-#: clientgui/DlgAbout.cpp:92
+#: clientgui/DlgAbout.cpp:93
 #, c-format
 msgid "About %s"
 msgstr "%s について"
 
-#: clientgui/DlgAbout.cpp:98
+#: clientgui/DlgAbout.cpp:99
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:133
+#: clientgui/DlgAbout.cpp:138
 #: clientgui/WizardAccountManager.cpp:130
 #: clientgui/WizardAttachProject.cpp:141
 msgid "BOINC Manager"
 msgstr "BOINC マネージャ"
 
-#: clientgui/DlgAbout.cpp:152
+#: clientgui/DlgAbout.cpp:157
 msgid "Version:"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:160
+#: clientgui/DlgAbout.cpp:165
 msgid "Copyright:"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:164
+#: clientgui/DlgAbout.cpp:169
 msgid ""
 "(C) 2003-2006 University of California at Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:168
+#: clientgui/DlgAbout.cpp:173
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 
-#: clientgui/DlgAbout.cpp:172
+#: clientgui/DlgAbout.cpp:177
 msgid "A software platform for distributed computing using volunteered computer resources"
 msgstr "ボランティア計算資源を使う分散コンピューティングのためのソフトウェアプラットフォーム"
 
-#: clientgui/DlgAbout.cpp:184
+#: clientgui/DlgAbout.cpp:189
 #: clientgui/DlgDialupCredentials.cpp:136
 #: clientgui/DlgGenericMessage.cpp:122
 #: clientgui/DlgOptions.cpp:324
@@ -1435,7 +1435,7 @@ msgstr "'%s' に、有効なホスト名が含まれていません。"
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' に有効なパス名が含まれていません。 "
 
-#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewMessages.cpp:78
 #: clientgui/ViewProjects.cpp:102
 #: clientgui/ViewStatistics.cpp:637
 #: clientgui/ViewTransfers.cpp:92
@@ -1443,23 +1443,23 @@ msgstr "'%s' に有効なパス名が含まれていません。 "
 msgid "Commands"
 msgstr "操作"
 
-#: clientgui/ViewMessages.cpp:78
+#: clientgui/ViewMessages.cpp:82
 msgid "Copy all messages"
 msgstr "全メッセージをコピー"
 
-#: clientgui/ViewMessages.cpp:79
+#: clientgui/ViewMessages.cpp:83
 msgid "Copy all the messages to the clipboard."
 msgstr "全メッセージをクリップボードにコピーします。 "
 
-#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessages.cpp:89
 msgid "Copy selected messages"
 msgstr "選択したメッセージをコピー"
 
-#: clientgui/ViewMessages.cpp:86
+#: clientgui/ViewMessages.cpp:90
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr "選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
-#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewMessages.cpp:102
 #: clientgui/ViewProjects.cpp:150
 #: clientgui/ViewResources.cpp:76
 #: clientgui/ViewStatistics.cpp:668
@@ -1468,23 +1468,23 @@ msgstr "選択したメッセージをクリップボードにコピーします。シフトキーまたはコント
 msgid "Project"
 msgstr "プロジェクト"
 
-#: clientgui/ViewMessages.cpp:99
+#: clientgui/ViewMessages.cpp:103
 msgid "Time"
 msgstr "日時"
 
-#: clientgui/ViewMessages.cpp:100
+#: clientgui/ViewMessages.cpp:104
 msgid "Message"
 msgstr "メッセージ"
 
-#: clientgui/ViewMessages.cpp:124
+#: clientgui/ViewMessages.cpp:128
 msgid "Messages"
 msgstr "メッセージ"
 
-#: clientgui/ViewMessages.cpp:146
+#: clientgui/ViewMessages.cpp:150
 msgid "Copying all messages to the clipboard..."
 msgstr "全メッセージをクリップボードにコピーしています..."
 
-#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewMessages.cpp:182
 #: clientgui/ViewTransfers.cpp:185
 msgid "Aborting transfer..."
 msgstr "ファイル転送の中止処理をしています..."
@@ -1500,7 +1500,7 @@ msgstr "完了したタスクを報告し、最新の功績 (credit) とプレファレンス (好みの設定
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:564
 #: clientgui/ViewWork.cpp:111
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:517
 msgid "Suspend"
 msgstr "一時停止"
 
@@ -1607,12 +1607,12 @@ msgid "Detach from Project"
 msgstr "プロジェクトから離脱"
 
 #: clientgui/ViewProjects.cpp:375
-#: clientgui/ViewWork.cpp:295
+#: clientgui/ViewWork.cpp:319
 msgid "Launching browser..."
 msgstr "ブラウザを起動中..."
 
 #: clientgui/ViewProjects.cpp:560
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:511
 msgid "Resume"
 msgstr "再開"
 
@@ -1633,7 +1633,7 @@ msgid "Don't fetch new tasks for this project."
 msgstr "このプロジェクトについて新しいタスクの取得を禁止します"
 
 #: clientgui/ViewProjects.cpp:678
-#: clientgui/ViewWork.cpp:707
+#: clientgui/ViewWork.cpp:753
 msgid "Suspended by user"
 msgstr "参加者の指示により一時停止中"
 
@@ -1796,12 +1796,12 @@ msgid "Retry in "
 msgstr "右記の時間内に再試行："
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:741
 msgid "Download failed"
 msgstr "ダウンロード失敗"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:734
+#: clientgui/ViewWork.cpp:780
 msgid "Upload failed"
 msgstr "アップロード失敗"
 
@@ -1811,12 +1811,12 @@ msgid "Suspended"
 msgstr "一時停止状態"
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:782
 msgid "Uploading"
 msgstr "アップロード処理中"
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:697
+#: clientgui/ViewWork.cpp:743
 msgid "Downloading"
 msgstr "ダウンロード処理中"
 
@@ -1830,10 +1830,14 @@ msgstr "ダウンロード保留中"
 
 #: clientgui/ViewWork.cpp:104
 #: clientgui/ViewWork.cpp:213
+#: clientgui/ViewWork.cpp:532
+#: clientgui/ViewWork.cpp:540
 msgid "Show graphics"
 msgstr "グラフィクスを表示"
 
 #: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:533
+#: clientgui/ViewWork.cpp:541
 msgid "Show application graphics in a window."
 msgstr "ウィンドウを開いてアプリケーションのグラフィクスを表示"
 
@@ -1889,75 +1893,87 @@ msgstr "タスクについてのグラフィクスを表示しています..."
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "グラフィクスを別の計算機に表示してよろしいですか？"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:274
 msgid "Aborting result..."
 msgstr "リザルトの中止処理をしています..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:282
 #, c-format
-msgid "Are you sure you want to abort this task '%s'?"
-msgstr "このタスク '%s' を中止してよろしいですか？"
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s, Status: %s)"
+msgstr ""
+"このタスク '%s' を中止してよろしいですか？\n"
+"(進捗状況： %s, 状態： %s)"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:291
 msgid "Abort task"
 msgstr "タスクを中止"
 
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:512
 msgid "Resume work for this task."
 msgstr "この仕事を再開します。"
 
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:518
 msgid "Suspend work for this task."
 msgstr "このタスクに対する仕事を一時停止します。"
 
-#: clientgui/ViewWork.cpp:691
+#: clientgui/ViewWork.cpp:526
+msgid "Hide graphics"
+msgstr "グラフィクスを非表示"
+
+#: clientgui/ViewWork.cpp:527
+msgid "Hide application graphics window."
+msgstr "アプリケーションのグラフィック・ウィンドウを非表示にします。"
+
+#: clientgui/ViewWork.cpp:737
 msgid "New"
 msgstr "新規"
 
-#: clientgui/ViewWork.cpp:703
-#: clientgui/ViewWork.cpp:727
+#: clientgui/ViewWork.cpp:749
+#: clientgui/ViewWork.cpp:773
 msgid "Aborted by user"
 msgstr "参加者によって中止"
 
-#: clientgui/ViewWork.cpp:705
+#: clientgui/ViewWork.cpp:751
 msgid "Project suspended by user"
 msgstr "参加者によってプロジェクト一時停止"
 
-#: clientgui/ViewWork.cpp:709
+#: clientgui/ViewWork.cpp:755
 msgid "Activities suspended"
 msgstr "活動を一時停止中"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:758
 msgid "Running"
 msgstr "実行中"
 
-#: clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:760
 msgid "Preempted"
 msgstr "中断中"
 
-#: clientgui/ViewWork.cpp:716
-#: clientgui/ViewWork.cpp:719
+#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWork.cpp:765
 msgid "Ready to run"
 msgstr "実行待機"
 
-#: clientgui/ViewWork.cpp:729
+#: clientgui/ViewWork.cpp:775
 msgid "Computation error"
 msgstr "計算エラー"
 
-#: clientgui/ViewWork.cpp:741
+#: clientgui/ViewWork.cpp:787
 msgid "Acknowledged"
 msgstr "サーバ確認済み"
 
-#: clientgui/ViewWork.cpp:743
+#: clientgui/ViewWork.cpp:789
 msgid "Ready to report"
 msgstr "報告待機"
 
-#: clientgui/ViewWork.cpp:745
+#: clientgui/ViewWork.cpp:791
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "エラー： 無効状態 '%d'"
 
-#: clientgui/ViewWork.cpp:753
+#: clientgui/ViewWork.cpp:799
 msgid "Activities suspended by user"
 msgstr "参加者により活動を一時停止"
 
