@@ -785,7 +785,7 @@ bool CBOINCGUIApp::ProcessExists(pid_t thePID)
 // wxProcess::Exists and wxKill are unimplemented in WxMac-2.6.0
 void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32 iCount = 0;
-    wxString strMachineName = wxT("localhost");
+    wxString strConnectedCompter = wxEmptyString;
 
     if (m_bBOINCStartedByManager) {
 		// The user may have gone off to look at another machine on the network, and
@@ -821,7 +821,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 void CBOINCGUIApp::ShutdownBOINCCore() {
     wxInt32 iCount = 0;
     bool    bClientQuit = false;
-	wxString strMachineName = wxT("localhost");
+    wxString strConnectedCompter = wxEmptyString;
 
     if (m_bBOINCStartedByManager) {
 		// The user may have gone off to look at another machine on the network, and
