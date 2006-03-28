@@ -114,7 +114,6 @@ void CBOINCDialUpManager::poll() {
 #ifdef __WXMSW__
         bIsDialing = m_pDialupManager->IsDialing();
 #endif
-        bIsDialing = false;
         bIsOnline = iNetworkStatus == 0 ? true : false;
         bWantConnection = iNetworkStatus == 1 ? true : false;
         bWantDisconnect = iNetworkStatus == 2 ? true : false;
