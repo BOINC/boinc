@@ -727,7 +727,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
                                 continue;
                             }
                         }
-                        ::Sleep(1);
+                        ::wxSleep(1);
                     }
                 }
             }
