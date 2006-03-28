@@ -185,7 +185,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
                   "following your user preferences. Close window to close the manager\n"
                   "without stopping the experiment.");
             break;
-#endif  __APPLE__
+#endif  // __APPLE__
         default:
             // Running in native mode without any branding
             m_strApplicationName = wxT("BOINC Manager");
