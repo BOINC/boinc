@@ -3345,7 +3345,8 @@ Rom    28 Mar 2006
         down.  This should resolve the issue of CDocument::Poll() not being
         called on shutdown when a connection to the local BOINC client
         needs to be reestablished.
+    - Bug Fix: Disable the 'Hide graphics' button for now.
         
     clientgui/
         BOINCGUIApp.cpp
-        
+        ViewWork.cpp

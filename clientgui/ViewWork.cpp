@@ -222,6 +222,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
+/*
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
         if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
             pDoc->WorkShowGraphics(
@@ -232,6 +233,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
                 wxGetApp().m_strDefaultDisplay
             );
         } else {
+*/
             pDoc->WorkShowGraphics(
                 m_pListPane->GetFirstSelected(),
                 MODE_WINDOW,
@@ -239,7 +241,9 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
                 wxGetApp().m_strDefaultDesktop,
                 wxGetApp().m_strDefaultDisplay
             );
+/*
         }
+*/
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -520,6 +524,7 @@ void CViewWork::UpdateSelection() {
             }
             if (result->supports_graphics) {
                 m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+/*
                 if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
                     m_pTaskPane->UpdateTask(
                         pGroup->m_Tasks[BTN_GRAPHICS],
@@ -533,13 +538,16 @@ void CViewWork::UpdateSelection() {
                         _("Show application graphics in a window.")
                     );
                 }
+*/
             } else {
                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+/*
                 m_pTaskPane->UpdateTask(
                     pGroup->m_Tasks[BTN_GRAPHICS],
                     _("Show graphics"),
                     _("Show application graphics in a window.")
                 );
+*/
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
