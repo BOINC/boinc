@@ -3331,3 +3331,10 @@ Walt   27 Mar 2006
 Rom    27 Mar 2006 (HEAD)
     - Tag for 5.3.29 release, all platforms
       boinc_core_release_5_3_29
+
+Walt   28 Mar 2006
+    - Bug Fix: 'Need Internet connection' message wasn't being displayed
+        on non MS-Windows systems.  
+       
+    clientgui/
+        MainFrame.cpp

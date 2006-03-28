@@ -1734,7 +1734,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
             bAlreadyRunOnce = true;
         }
 
-#ifdef __WXMSW__
         // Check to see if there is anything that we need to do from the
         //   dial up user perspective.
         if (pDoc->IsConnected()) {
@@ -1742,7 +1741,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
                 m_pDialupManager->poll();
             }
         }
-#endif
 
         if (IsShown()) {
             if (pDoc) {
