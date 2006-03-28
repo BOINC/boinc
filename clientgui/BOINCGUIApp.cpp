@@ -712,7 +712,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             if (m_pDocument->IsConnected()) {
                 continue;
             }
-            ::Sleep(1);
+            ::wxSleep(1);
         }
 
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
@@ -796,7 +796,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             if (m_pDocument->IsConnected()) {
                 continue;
             }
-            ::Sleep(1);
+            ::wxSleep(1);
         }
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
@@ -832,7 +832,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             if (m_pDocument->IsConnected()) {
                 continue;
             }
-            ::Sleep(1);
+            ::wxSleep(1);
         }
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
