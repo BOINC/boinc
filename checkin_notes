@@ -3328,4 +3328,6 @@ Walt   27 Mar 2006
         BOINCDialupManager.cpp, h
         Makefile.am
 
-
+Rom    27 Mar 2006 (HEAD)
+    - Tag for 5.3.29 release, all platforms
+      boinc_core_release_5_3_29
