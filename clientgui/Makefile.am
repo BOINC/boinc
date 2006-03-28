@@ -24,6 +24,7 @@ bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
     BOINCBaseView.cpp \
+    BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \

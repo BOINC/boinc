@@ -21,7 +21,7 @@
 #define _BOINCDIALUPMANAGER_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCDialUpManager.cpp"
+#pragma interface "BOINCDialupManager.cpp"
 #endif
 
 

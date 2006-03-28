@@ -3319,4 +3319,13 @@ Walt   27 Mar 2006
         
     clientgui/
         MainFrame.cpp
-        CBOINCDialupManager.cpp
+        BOINCDialupManager.cpp
+
+Walt   27 Mar 2006
+    - Second half of CBOINCDialupManager changes
+
+    clientgui/
+        BOINCDialupManager.cpp, h
+        Makefile.am
+
+
