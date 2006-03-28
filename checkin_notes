@@ -3338,3 +3338,14 @@ Walt   28 Mar 2006
        
     clientgui/
         MainFrame.cpp
+
+Rom    28 Mar 2006
+    - Bug Fix: On non-windows systems be sure to call the wxApp::Yield()
+        function to process outstanding window messages when shutting
+        down.  This should resolve the issue of CDocument::Poll() not being
+        called on shutdown when a connection to the local BOINC client
+        needs to be reestablished.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        
