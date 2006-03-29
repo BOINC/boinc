@@ -266,7 +266,6 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxString strStatus      = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CMainFrame* pFrame      = wxGetApp().GetFrame();
-    RESULT* result          = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);

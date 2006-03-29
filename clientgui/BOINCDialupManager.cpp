@@ -89,7 +89,9 @@ void CBOINCDialUpManager::poll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CMainFrame*         pFrame = wxGetApp().GetFrame();
 
+#ifdef __WXMSW__
     bool                bIsDialing = false;
+#endif
     bool                bIsOnline = false;
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;

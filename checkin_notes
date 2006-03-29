@@ -3367,3 +3367,10 @@ Rom    28 Mar 2006
     clientgui/
         BOINCGUIApp.cpp
         MainFrame.cpp
+
+Charlie 28 Mar 2006
+    - Mac: Fix compiler warnings.
+    
+    clientgui/
+        BOINCDialupManager.cpp
+        ViewWork.cpp
