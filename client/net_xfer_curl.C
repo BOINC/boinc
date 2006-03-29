@@ -21,18 +21,8 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#ifndef _CONSOLE
-#include "stdafx.h"
-#include "wingui_mainwindow.h"
-#else
 #include "boinc_win.h"
-#endif
-
-#include "win_util.h"
-
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
