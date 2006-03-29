@@ -89,9 +89,6 @@ void CBOINCDialUpManager::poll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CMainFrame*         pFrame = wxGetApp().GetFrame();
 
-#ifdef __WXMSW__
-    bool                bIsDialing = false;
-#endif
     bool                bIsOnline = false;
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
@@ -112,9 +109,7 @@ void CBOINCDialUpManager::poll() {
         //   success or failure of the dialup device to establish a connection
         //   to the outside world.
         pDoc->rpc.network_status(iNetworkStatus);
-#ifdef __WXMSW__
-        bIsDialing = m_pDialupManager->IsDialing();
-#endif
+
         bIsOnline = iNetworkStatus == 0 ? true : false;
         bWantConnection = iNetworkStatus == 1 ? true : false;
         bWantDisconnect = iNetworkStatus == 2 ? true : false;
@@ -154,8 +149,9 @@ void CBOINCDialUpManager::poll() {
         if (!bIsOnline && bWantConnection) {
             wxTimeSpan          tsLastDialupAlertSent;
 
-            if (pFrame->IsShown()) {
-                // manager window is visible, put up notification
+            // Make sure window is visable and active, don't want the message box
+            // to pop up on top of anything else
+            if (pFrame->IsShown()&&pFrame->IsActive()) {
                 tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
                 if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
                     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
@@ -177,34 +173,42 @@ void CBOINCDialUpManager::poll() {
                         false
                     );
                 }
-            } else {
+            } 
+/*
+// this section commented out until taskbar/systray notification alerts are implemented
+              else {
                 // window is not visible, show alert
-                tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
-                if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-                    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Need Internet Connection Alert"));
-                    m_dtLastDialupAlertSent = wxDateTime::Now();
+                CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
+                wxASSERT(pTaskbar);
+                if (pTaskbar && pTaskbar->IsBalloonsSupported()) {
+                    tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
+                    if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
+                        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Need Internet Connection Alert"));
+                        m_dtLastDialupAlertSent = wxDateTime::Now();
 
-                    // %s is the project name
-                    //    i.e. 'BOINC', 'GridRepublic'
-                    strDialogMessage.Printf(
-                        _("%s is unable to communicate with a project and needs an Internet "
-                          "connection.  Please connect to the Internet then open the %s and "
-                          "'retry communications'."),
-                        wxGetApp().GetBrand()->GetProjectName().c_str(),
-                        wxGetApp().GetBrand()->GetApplicationName().c_str()
-                    );
+                        // %s is the project name
+                        //    i.e. 'BOINC', 'GridRepublic'
+                        strDialogMessage.Printf(
+                            _("%s is unable to communicate with a project and needs an Internet "
+                              "connection.  Please connect to the Internet then open the %s and "
+                              "'retry communications'."),
+                            wxGetApp().GetBrand()->GetProjectName().c_str(),
+                            wxGetApp().GetBrand()->GetApplicationName().c_str()
+                        );
                     
-                    pFrame->ShowAlert(
-                        m_strDialogTitle,
-                        strDialogMessage,
-                        wxICON_INFORMATION,      
-                        true
-                    );
+                        pFrame->ShowAlert(
+                            m_strDialogTitle,
+                            strDialogMessage,
+                            wxICON_INFORMATION,      
+                            true
+                        );
+                    }
                 }
             }
-        }
-
+*/
+        } 
 #else               // dialer stuff for MS-Windows systems
+        bool  bIsDialing = m_pDialupManager->IsDialing();
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection)
         {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));

@@ -3374,3 +3374,11 @@ Charlie 28 Mar 2006
     clientgui/
         BOINCDialupManager.cpp
         ViewWork.cpp
+
+Walt   28 Mar 2006
+    - Bug Fix: Show 'needs Internet connection' dialog only when the 
+        manager is the foreground window.  Comment out the alert messages
+        until they're implement in non-MS-Windows platforms
+       
+    clientgui/
+        BOINCDialupManager.cpp
