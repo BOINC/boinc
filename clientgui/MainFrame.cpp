@@ -1578,7 +1578,20 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
         );
     }
 #else
-    ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+    // Notification only events on platforms other than Windows are currently
+    //   discarded.  On the Mac a model dialog box for a hidden window causes
+    //   the menus to be locked and the application to become unresponsive. On
+    //   Linux the application is restored and input focus is set on the
+    //   notification which interrupts whatever the user was up to.
+    if (IsShown() && !event.m_notification_only) {
+        if (!event.m_notification_only) {
+            int retval = 0;
+            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+            if (event.m_alert_event_type == AlertProcessResponse) {
+                event.ProcessResponse(retval);
+            }
+        }
+    }
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function End"));

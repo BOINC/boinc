@@ -3361,6 +3361,9 @@ Walt   28 Mar 2006
 Rom    28 Mar 2006
     - Bug Fix: Try a different method to notify the local BOINC CC that it
         needs to shutdown on all platforms.
+    - Bug Fix: Discard notification only events for platforms other than
+        Windows until we can figure out a better way to display them.
         
     clientgui/
         BOINCGUIApp.cpp
+        MainFrame.cpp
