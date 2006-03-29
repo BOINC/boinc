@@ -72,7 +72,6 @@ $changes_53 = "
         <li>Fraction done is not checked for until after the app has called
             boinc_fraction_done() at least once. 
         <li>Fix idle detection code on Windows.
-        <li>Enabled the \"Hide graphics\" button.
         <li>Disable the \"Copy selected message\" button until a message has
             been selected.
         <li>Add additional text to the abort workunit message which displays
@@ -350,11 +349,11 @@ $w419 = array(
     "
 );
 
-$m5328 = array(
-    "num"=>"5.3.28",
+$m5330 = array(
+    "num"=>"5.3.30",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.3.28_macOSX_universal.zip",
-    "date"=>"21 March 2006",
+    "file"=>"boinc_5.3.30_macOSX_universal.zip",
+    "date"=>"29 March 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_53."
@@ -397,11 +396,11 @@ $m5213 = array(
     "
 );
 
-$m5328c = array(
-    "num"=>"5.3.28",
+$m5330c = array(
+    "num"=>"5.3.30",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.3.28_universal-apple-darwin.zip",
-    "date"=>"21 March 2006",
+    "file"=>"boinc_5.3.30_universal-apple-darwin.zip",
+    "date"=>"29 March 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_53."
@@ -557,8 +556,8 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5328,
-        $m5328c,
+        $m5330,
+        $m5330c,
         $m5213,
         $m5213s,
         $m5213c,
