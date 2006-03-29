@@ -3357,3 +3357,10 @@ Walt   28 Mar 2006
        
     clientgui/
         BOINCDialupManager.cpp
+
+Rom    28 Mar 2006
+    - Bug Fix: Try a different method to notify the local BOINC CC that it
+        needs to shutdown on all platforms.
+        
+    clientgui/
+        BOINCGUIApp.cpp

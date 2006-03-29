@@ -698,29 +698,33 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #if defined(__WXMSW__)
 
 void CBOINCGUIApp::ShutdownBOINCCore() {
-    wxInt32  iCount = 0;
-    bool     bClientQuit = false;
-    wxString strConnectedCompter = wxEmptyString;
-    DWORD    dwExitCode;
+    wxInt32    iCount = 0;
+    DWORD      dwExitCode = 0;
+    bool       bClientQuit = false;
+    wxString   strConnectedCompter = wxEmptyString;
 
     if (m_bBOINCStartedByManager) {
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
-		    // The user may have gone off to look at another machine on the network, and
-		    //   we don't want to leave any dangling processes if we started them up.
-            //   Wait for up to 10 seconds to finish the async reconnection
-		    m_pDocument->Connect(wxT("localhost"), wxEmptyString, true, true);
-            for (iCount = 0; iCount <= 10; iCount++) {
-                if (m_pDocument->IsConnected()) {
-                    continue;
+            RPC_CLIENT rpc;
+            if (!rpc.init("localhost")) {
+                if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                    if (STILL_ACTIVE == dwExitCode) {
+                        rpc.quit();
+                        for (iCount = 0; iCount <= 10; iCount++) {
+                            if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                                if (STILL_ACTIVE != dwExitCode) {
+                                    bClientQuit = true;
+                                    continue;
+                                }
+                            }
+                            ::wxSleep(1);
+                        }
+                    }
                 }
-                Yield(true);      // Process outstanding window messages
-                ::wxSleep(1);
             }
-        }
-
-        m_pDocument->GetConnectedComputerName(strConnectedCompter);
-        if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
+            rpc.close();
+        } else {
             if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                 if (STILL_ACTIVE == dwExitCode) {
                     m_pDocument->CoreClientQuit();
@@ -794,21 +798,19 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
     if (m_bBOINCStartedByManager) {
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
-		    // The user may have gone off to look at another machine on the network, and
-		    //   we don't want to leave any dangling processes if we started them up.
-            //   Wait for up to 10 seconds to finish the async reconnection
-		    m_pDocument->Connect(wxT("localhost"), wxEmptyString, true, true);
-            for (iCount = 0; iCount <= 10; iCount++) {
-                if (m_pDocument->IsConnected()) {
-                    continue;
+            RPC_CLIENT rpc;
+            if (!rpc.init("localhost")) {
+                if (ProcessExists(m_lBOINCCoreProcessId)) {
+                    rpc.quit();
+                    for (iCount = 0; iCount <= 10; iCount++) {
+                        if (!ProcessExists(m_lBOINCCoreProcessId))
+                            return;
+                        ::wxSleep(1);
+                    }
                 }
-                Yield(true);      // Process outstanding window messages
-                ::wxSleep(1);
             }
-        }
-
-        m_pDocument->GetConnectedComputerName(strConnectedCompter);
-        if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
+            rpc.close();
+        } else {
             if (ProcessExists(m_lBOINCCoreProcessId)) {
                 m_pDocument->CoreClientQuit();
                 for (iCount = 0; iCount <= 10; iCount++) {
@@ -835,21 +837,21 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
     if (m_bBOINCStartedByManager) {
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
-		    // The user may have gone off to look at another machine on the network, and
-		    //   we don't want to leave any dangling processes if we started them up.
-            //   Wait for up to 10 seconds to finish the async reconnection
-		    m_pDocument->Connect(wxT("localhost"), wxEmptyString, true, true);
-            for (iCount = 0; iCount <= 10; iCount++) {
-                if (m_pDocument->IsConnected()) {
-                    continue;
+            RPC_CLIENT rpc;
+            if (!rpc.init("localhost")) {
+                if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
+                    rpc.quit();
+                    for (iCount = 0; iCount <= 10; iCount++) {
+                        if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
+                            bClientQuit = true;
+                            continue;
+                        }
+                        ::wxSleep(1);
+                    }
                 }
-                Yield(true);      // Process outstanding window messages
-                ::wxSleep(1);
             }
-        }
-
-        m_pDocument->GetConnectedComputerName(strConnectedCompter);
-        if (m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
+            rpc.close();
+        } else {
             if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
                 m_pDocument->CoreClientQuit();
                 for (iCount = 0; iCount <= 10; iCount++) {
