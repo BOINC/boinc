@@ -58,6 +58,13 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.29
+      <ul>
+        <li>Localization Updates.
+        <li>Fixed BOINC Manager shutdown logic for all platforms.  Previously
+              it only worked for Windows.
+        <li>Add RPC and SENS dependency to BOINC when running as a service.
+      </ul>
     <li>Changes since 5.3.28
       <ul>
         <li>Localization Updates.
@@ -221,11 +228,11 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5329= array(
-    "num"=>"5.3.29",
+$w5330= array(
+    "num"=>"5.3.30",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.29_windows_intelx86.exe",
-    "date"=>"28 Mar 2006",
+    "file"=>"boinc_5.3.30_windows_intelx86.exe",
+    "date"=>"29 Mar 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_53."
@@ -469,11 +476,11 @@ $m443s = array(
     "
 );
 
-$l5329 = array(
-    "num"=>"5.3.29",
+$l5330 = array(
+    "num"=>"5.3.30",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.29_i686-pc-linux-gnu.sh",
-    "date"=>"28 Mar 2006",
+    "file"=>"boinc_5.3.30_i686-pc-linux-gnu.sh",
+    "date"=>"29 Mar 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_53."
@@ -541,7 +548,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5329,
+        $w5330,
         $w5213,
         $w445,
     )
@@ -565,7 +572,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5329,
+        $l5330,
         $l5213,
         $l443,
     )
