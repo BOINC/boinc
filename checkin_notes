@@ -3386,3 +3386,10 @@ Walt   28 Mar 2006
 Rom    30 Mar 2006 (HEAD)
     - Tag for 5.3.30 release, all platforms
       boinc_core_release_5_3_30
+
+Walt   28 Mar 2006
+    - Bug Fix: Manager window always shows 'active' on MAC, so check
+        whether application has the focus instead.
+       
+    clientgui/
+        BOINCDialupManager.cpp
