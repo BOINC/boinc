@@ -151,7 +151,7 @@ void CBOINCDialUpManager::poll() {
 
             // Make sure window is visable and active, don't want the message box
             // to pop up on top of anything else
-            if (pFrame->IsShown()&&pFrame->IsActive()) {
+            if (pFrame->IsShown() && pFrame->IsActive()) {
                 tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
                 if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
                     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
