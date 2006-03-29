@@ -702,12 +702,15 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
     DWORD      dwExitCode = 0;
     bool       bClientQuit = false;
     wxString   strConnectedCompter = wxEmptyString;
+    wxString   strPassword = wxEmptyString;
 
     if (m_bBOINCStartedByManager) {
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
             RPC_CLIENT rpc;
             if (!rpc.init("localhost")) {
+                m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
+                rpc.authorize(strPassword.c_str());
                 if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                     if (STILL_ACTIVE == dwExitCode) {
                         rpc.quit();
@@ -792,14 +795,17 @@ bool CBOINCGUIApp::ProcessExists(pid_t thePID)
 
 // wxProcess::Exists and wxKill are unimplemented in WxMac-2.6.0
 void CBOINCGUIApp::ShutdownBOINCCore() {
-    wxInt32 iCount = 0;
-    wxString strConnectedCompter = wxEmptyString;
+    wxInt32    iCount = 0;
+    wxString   strConnectedCompter = wxEmptyString;
+    wxString   strPassword = wxEmptyString;
 
     if (m_bBOINCStartedByManager) {
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
             RPC_CLIENT rpc;
             if (!rpc.init("localhost")) {
+                m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
+                rpc.authorize(strPassword.c_str());
                 if (ProcessExists(m_lBOINCCoreProcessId)) {
                     rpc.quit();
                     for (iCount = 0; iCount <= 10; iCount++) {
@@ -830,15 +836,18 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 #else
 
 void CBOINCGUIApp::ShutdownBOINCCore() {
-    wxInt32 iCount = 0;
-    bool    bClientQuit = false;
-    wxString strConnectedCompter = wxEmptyString;
+    wxInt32    iCount = 0;
+    bool       bClientQuit = false;
+    wxString   strConnectedCompter = wxEmptyString;
+    wxString   strPassword = wxEmptyString;
 
     if (m_bBOINCStartedByManager) {
         m_pDocument->GetConnectedComputerName(strConnectedCompter);
         if (!m_pDocument->IsComputerNameLocal(strConnectedCompter)) {
             RPC_CLIENT rpc;
             if (!rpc.init("localhost")) {
+                m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
+                rpc.authorize(strPassword.c_str());
                 if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
                     rpc.quit();
                     for (iCount = 0; iCount <= 10; iCount++) {
