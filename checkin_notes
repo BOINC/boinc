@@ -3429,7 +3429,7 @@ Rom    30 Mar 2006
     - Change the Windows installer so that the DLLs that BOINC
         is dependant on are are contained in a seperate component
         that is always installed and removed duplicate references
-        from the install type specific compinents.  This shrinks
+        from the install type specific components.  This shrinks
         the install package by 2MB.
         
     clientlib/win/
