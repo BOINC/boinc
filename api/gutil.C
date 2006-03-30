@@ -24,6 +24,8 @@
 #endif
 
 #ifdef _WIN32
+
+#ifndef SANS_JPEGLIB
 #ifdef __cplusplus
 extern "C" {
 #include "jpeglib.h"
@@ -31,6 +33,8 @@ extern "C" {
 #else
 #include "jpeglib.h"
 #endif
+#endif
+
 #include "bmplib.h"
 #include "tgalib.h"
 #endif
