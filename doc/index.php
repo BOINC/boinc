@@ -14,7 +14,7 @@ $projects = array(
         improve the design of the CERN LHC particle accelerator",
     "<a href=http://predictor.scripps.edu>Predictor@home</a>:
         investigate protein-related diseases.",
-    "<a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home<a>:
+    "<a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home</a>:
         help researchers develop cures for human diseases.",
     "<a href=http://setiathome.berkeley.edu/>SETI@home</a>:
         Look for radio evidence of extraterrestrial life.",
@@ -90,11 +90,11 @@ echo "
     and copy the URL from your browser's address field).
     </ol>
     <center>
-    <a href=participate.php><b><nobr>More info</nobr></a> 
-    | <a href=download.php><b>Download</a>
-    | <a href=links.php><b><nobr>Web sites</nobr></a>
-    | <a href=download_network.php><b>Add-ons</a>
-    | <a href=dev/><b><nobr>Message boards</nobr></a>
+    <a href=participate.php><b><nobr>More info</nobr></b></a> 
+    | <a href=download.php><b>Download</b></a>
+    | <a href=links.php><b><nobr>Web sites</nobr></b></a>
+    | <a href=download_network.php><b>Add-ons</b></a>
+    | <a href=dev/><b><nobr>Message boards</nobr></b></a>
     </center>
 
   </td></tr>
@@ -112,13 +112,13 @@ echo "
     to assist you.
     Please <a href=contact.php>contact us</a> for information.
     <center>
-    <p><b><a href=create_project.php>More info</a> 
+    <p><b><a href=create_project.php>More info</a></b>
     </center>
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Software</h2></td></tr>
   <tr><td>
       <ul>
-      <li> <a href=compile.php>Getting and building BOINC software</>
+      <li> <a href=compile.php>Getting and building BOINC software</a>
       <li> <a href=boinc_dev.php>Software development process</a>
       <li> <a href=translation.php>Translation</a> of web and GUI text
       <li> Write <a href=download_network.php>'add-on' software</a>:

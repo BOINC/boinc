@@ -3411,3 +3411,14 @@ David  29 Mar 2006
             team_email_list.php
     lib/
         boinc_cmd.C
+
+David  30 Mar 2006
+    - API: move code that uses GLUT character-drawing functions
+        to a separate file (gutil_text.C).
+        This makes it easier for apps to not include GLUT.
+    - API: if you compile gutil.C with -DSANS_JPEGLIB,
+        you won't get any calls to jpeglib functions.
+
+    api/
+        gutil.C
+        gutil_text.C

@@ -15,6 +15,7 @@ graphics_api_files = 	\
 	graphics_data.C 	\
     graphics_impl.C     \
 	gutil.C	            \
+	gutil_text.C	    \
 	reduce_main.C		\
     reduce_lib.C        \
     texture.C           \
@@ -37,6 +38,7 @@ graphics_impl_files =   \
     graphics_impl.C     \
     graphics_impl_lib.C \
 	gutil.C	            \
+	gutil_text.C	    \
 	reduce_lib.C		\
     texture.C           \
 	x_opengl.C
