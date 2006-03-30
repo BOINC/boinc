@@ -40,16 +40,15 @@ public:
 
 EXTERN_C __declspec(dllexport) BOOL ClientLibraryStartup()
 {
-
-    // Startup the COM Framework
-    if (FAILED(CoInitializeEx(NULL, NULL)))
-        return FALSE;
-
     if (!IdleTrackerStartup())
         return FALSE;
+
     if (IsWindows2000Compatible()) {
-        if (!NetworkTrackerStartup())
-            return FALSE;
+        // For now try to start it up and ignore any possible
+        //   error from this.  It is not critical path even though
+        //   we might be using it more in the future.
+        CoInitializeEx(NULL, NULL);
+        NetworkTrackerStartup();
     }
 
     return TRUE;
