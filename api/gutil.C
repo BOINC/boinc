@@ -48,9 +48,13 @@ extern "C" {
 #ifdef __APPLE__
 #undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
 #endif
+
+#ifndef SANS_JPEGLIB
 extern "C"{
 #include <jpeglib.h>
 }
+#endif
+
 #endif
 
 #include "boinc_gl.h"
