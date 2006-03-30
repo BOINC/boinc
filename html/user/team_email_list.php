@@ -23,19 +23,20 @@ if ($xml) {
     if (!$team) {
         error("no such team");
     }
+    $show_email = true;
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);
     if (!$user || $team->userid != $user->id) {
-        error("not founder");
+        $show_email = false;
     }
     echo "<users>
-    ";
+";
     $result = mysql_query("select * from user where teamid=$team->id");
     while ($user = mysql_fetch_object($result)) {
-        show_team_member($user);
+        show_team_member($user, $show_email);
     } 
     echo "</users>
-    ";
+";
     exit();
 }
 

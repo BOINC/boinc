@@ -3393,3 +3393,21 @@ Walt   28 Mar 2006
        
     clientgui/
         BOINCDialupManager.cpp
+
+David  29 Mar 2006
+    - boinc_cmd: fix
+        boinc_cmd --project X resume
+        and
+        boinc_cmd --project X suspend
+    - user web: RPC to get team membership:
+        if account_key missing, show members but omit email addresses
+
+    html/
+        inc/
+            xml.inc
+        ops/
+            mass_email.php
+        user/
+            team_email_list.php
+    lib/
+        boinc_cmd.C

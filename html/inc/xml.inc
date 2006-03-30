@@ -60,12 +60,16 @@ echo"</user>
 ";
 }
 
-function show_team_member($user) {
+function show_team_member($user, $show_email) {
     $cpid = md5($user->cross_project_id.$user->email_addr);
     echo "<user>
     <id>$user->id</id>
-    <email_addr>$user->email_addr</email_addr>
-    <cpid>$cpid</cpid>
+";
+    if ($show_email) {
+        echo "<email_addr>$user->email_addr</email_addr>
+";
+    }
+    echo "<cpid>$cpid</cpid>
     <create_time>$user->create_time</create_time>
     <name>".htmlspecialchars($user->name)."</name>
     <country>$user->country</country>

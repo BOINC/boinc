@@ -97,7 +97,8 @@ language("English", array(
     //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
 ));
 language("Estonian", array(
-    site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee")
+    site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee"),
+    site("http://setimehed.net/", "setimehed.net"),
 ));
 language("Finnish", array(
     site( "http://www.universe-examiners.org/",

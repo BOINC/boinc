@@ -1,15 +1,13 @@
 <?php
 
-/*
-   This is a script for sending mass email to project participants.
-   Test it first and use it with care, to avoid alienating your
-   project's volunteers.
+//   This is a script for sending mass email to project participants.
+//   Test it first and use it with care, to avoid alienating your
+//   project's volunteers.
 
-   Note also that the queries such as the one to find lapsed users
-   assume that the project keeps the results in the DB for some interval
-   such as a week, before purging them.  So active users will always
-   have at least one result in the database.
-*/
+//   Note also that the queries such as the one to find lapsed users
+//   assume that the project keeps the results in the DB for some interval
+//   such as a week, before purging them.  So active users will always
+//   have at least one result in the database.
 
 require_once("../inc/db.inc");
 require_once("../inc/util_ops.inc");

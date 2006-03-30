@@ -262,6 +262,10 @@ int main(int argc, char** argv) {
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "reset")) {
             retval = rpc.project_op(project, "reset");
+        } else if (!strcmp(op, "suspend")) {
+            retval = rpc.project_op(project, "suspend");
+        } else if (!strcmp(op, "resume")) {
+            retval = rpc.project_op(project, "resume");
         } else if (!strcmp(op, "detach")) {
             retval = rpc.project_op(project, "detach");
         } else if (!strcmp(op, "update")) {

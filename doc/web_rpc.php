@@ -328,7 +328,7 @@ list_item('URL',
 );
 list_item("input",
     'teamid: database ID of team
-    <br>account_key: account key of team founder'
+    <br>account_key: account key of team founder (optional)'
 );
 list_item("output",
     html_text("<users>
@@ -350,7 +350,7 @@ list_item("output",
 );
 list_item('action',
     'Show list of team members.
-    Requires authentication by team founder.'
+    If account key is that of team founder, show email addresses.'
 );
 list_end();
 
