@@ -833,7 +833,6 @@ bool CLIENT_STATE::garbage_collect_always() {
     bool action = false, found;
     string error_msgs;
     PROJECT* project;
-    char buf[1024];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -897,7 +896,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             }
         }
         bool found_error = false;
-        std::string error_str;
+        string error_str;
         for (i=0; i<rp->output_files.size(); i++) {
             // If one of the output files had an upload failure,
             // mark the result as done and report the error.
@@ -906,9 +905,11 @@ bool CLIENT_STATE::garbage_collect_always() {
             //
             if (!rp->ready_to_report) {
                 fip = rp->output_files[i].file_info;
-                if (fip->had_failure(failnum, buf)) {
+                if (fip->had_failure(failnum)) {
+                    string msg;
+                    fip->failure_message(msg);
                     found_error = true;
-                    error_str += buf;
+                    error_str += msg;
                 }
             }
             rp->output_files[i].file_info->ref_cnt++;

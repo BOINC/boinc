@@ -3436,3 +3436,26 @@ Rom    30 Mar 2006
         boinc_dll.cpp
     win_build/installerv2/
         BOINC.ism
+
+David  30 Mar 2006
+	- Core client: fix nasty crash bug.
+		If a result had a lot of output files, its failure message
+		(originating from X)
+		could exceed 1024 chars.
+		It gets passed up to show_message(),
+		and is copied (by strcpy()) into a 1024-char buffer.  Crash!
+		Fixed this by using strlcpy() instead.
+	- Core client: return file errors in a std::string instead of char*
+	- Core client: in generating XML descriptions of file failures,
+		insert <error_message>X</error_message> elements
+		only if there's a message.
+
+	At some point we should replace char[N] with std::string
+	everywhere in the code.
+	Fix-size buffers are crashes waiting to happen.
+	I wish you could sprintf() to a string.
+
+	client/
+		client_state.C
+		client_types.C,h
+		main.C

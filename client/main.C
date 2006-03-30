@@ -96,7 +96,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
     // Cycle the log files if we need to
     diagnostics_cycle_logs();
 
-    strcpy(message, msg);
+    strlcpy(message, msg, sizeof(message));
     while (strlen(message)&&message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
     }

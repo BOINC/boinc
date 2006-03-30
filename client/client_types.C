@@ -886,24 +886,32 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 // Returns true if the file had an unrecoverable error
 // (couldn't download, RSA/MD5 check failed, etc)
 //
-bool FILE_INFO::had_failure(int& failnum, char* buf) {
+bool FILE_INFO::had_failure(int& failnum) {
     if (status != FILE_NOT_PRESENT && status != FILE_PRESENT) {
         failnum = status;
-        if (buf) {
-            sprintf(buf,
-                "<file_xfer_error>\n"
-                "  <file_name>%s</file_name>\n"
-                "  <error_code>%d</error_code>\n"
-                "  <error_message>%s</error_message>\n"
-                "</file_xfer_error>\n",
-                name,
-                status,
-                error_msg.c_str()
-            );
-        }
         return true;
     }
     return false;
+}
+
+void FILE_INFO::failure_message(string& s) {
+    char buf[1024];
+    sprintf(buf,
+        "<file_xfer_error>\n"
+        "  <file_name>%s</file_name>\n"
+        "  <error_code>%d</error_code>\n",
+        name,
+        status
+    );
+    s = buf;
+    if (error_msg.size()) {
+        sprintf(buf,
+            "  <error_message>%s</error_message>\n",
+            error_msg.c_str()
+            );
+        s = s + buf;
+    }
+    s = s + "</file_xfer_error>\n";
 }
 
 #if 0
@@ -976,13 +984,14 @@ void APP_VERSION::get_file_errors(string& str) {
     int errnum;
     unsigned int i;
     FILE_INFO* fip;
-    char buf[1024];
+    string msg;
 
     str = "couldn't get input files:\n";
     for (i=0; i<app_files.size();i++) {
         fip = app_files[i].file_info;
-        if (fip->had_failure(errnum, buf)) {
-            str = str + buf;
+        if (fip->had_failure(errnum)) {
+            fip->failure_message(msg);
+            str = str + msg;
         }
     }
 }
@@ -1158,13 +1167,14 @@ void WORKUNIT::get_file_errors(string& str) {
     int x;
     unsigned int i;
     FILE_INFO* fip;
-    char buf[1024];
+    string msg;
 
     str = "couldn't get input files:\n";
     for (i=0;i<input_files.size();i++) {
         fip = input_files[i].file_info;
-        if (fip->had_failure(x, buf)) {
-            str = str + buf;
+        if (fip->had_failure(x)) {
+            fip->failure_message(msg);
+            str = str + msg;
         }
     }
 }
