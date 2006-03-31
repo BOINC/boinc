@@ -611,9 +611,9 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
-    int i;
 
 #ifdef _WIN32
+    int i;
     int len;
     char *commandLine;
     STARTUPINFO si;
@@ -677,6 +677,8 @@ int main(int argc, char** argv) {
         }
     }
 #elif defined linux
+    int i;
+    
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
             syslog(LOG_DAEMON, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);

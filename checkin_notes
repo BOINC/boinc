@@ -3478,3 +3478,18 @@ Rom    30 Mar 2006
 Rom    30 Mar 2006 (HEAD)
     - Tag for 5.3.31 release, all platforms
       boinc_core_release_5_3_31
+
+Charlie 30 Mar 2006
+    - Mac: Fix "unused variable" compiler warning.
+    - Mac: "Fix" bug 460: Mac OS X automatically puts a "Preferences" item 
+      in the BOINC menu, but we don't use it so it was disabled.  This was 
+      confusing some users, so hide (delete) this menu item.
+    - Mac: add gutil_text.C to project.
+      
+    client/
+        main.C
+    clientgui/
+        MainFrame.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

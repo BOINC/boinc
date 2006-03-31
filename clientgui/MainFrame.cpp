@@ -547,6 +547,15 @@ bool CMainFrame::CreateMenu() {
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
+    
+#ifdef __WXMAC__
+    MenuRef prefsMenuRef;
+    MenuItemIndex prefsMenuItemIndex;
+
+    // Hide Mac OS X's standard Preferences menu ite, since we don't use it
+    if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
+        ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
+ #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function End"));
     return true;
