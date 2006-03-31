@@ -31,6 +31,7 @@
 #include "filesys.h"
 
 #include "boinc_gl.h"
+#include "boinc_glut.h"
 #include "graphics_api.h"
 #include "graphics_impl.h"
 

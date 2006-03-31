@@ -52,6 +52,7 @@ extern "C"{
 #endif
 
 #include "boinc_gl.h"
+#include "boinc_glut.h"
 
 #include "filesys.h"
 #include "util.h"

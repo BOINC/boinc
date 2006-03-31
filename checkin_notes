@@ -3493,3 +3493,13 @@ Charlie 30 Mar 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  30 Mar 2006
+    - API: move GLUT-related includes to a separate file,
+        which is included only from files that need it.
+
+    api/
+        boinc_gl.h
+        boinc_glut.h (new)
+        gutil_text.C
+        x_opengl.C
