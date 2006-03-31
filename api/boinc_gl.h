@@ -32,6 +32,10 @@
 
 #elif defined(__APPLE_CC__)
 
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glu.h>
+
+
 #else // !_WIN32, !__APPLE_CC__
 #include "config.h"
 
