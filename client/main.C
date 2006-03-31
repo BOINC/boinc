@@ -398,7 +398,11 @@ static void init_core_client(int argc, char** argv) {
 // Windows: install console controls
 #ifdef _WIN32
     if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
-        fprintf(stderr, "Failed to register the console control handler\n");
+        if (!gstate.executing_as_daemon) {
+            fprintf(stderr, "Failed to register the console control handler\n");
+        } else {
+            LogEventErrorMessage(TEXT("Failed to register the console control handler\n"));
+        }
         exit(1);
     } else {
         printf(
@@ -410,12 +414,113 @@ static void init_core_client(int argc, char** argv) {
 
 int boinc_main_loop() {
     int retval;
+#ifdef _WIN32
+    char event_message[2048];
+#endif
+
+
+#ifdef _WIN32
+    g_hClientLibraryDll = LoadLibrary("boinc.dll");
+    if(!g_hClientLibraryDll) {
+        stprintf(event_message, 
+            TEXT("BOINC Core Client Error Message\n"
+                 "Failed to initialize the BOINC Client Library.\n"
+                 "Load failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+        );
+        if (!gstate.executing_as_daemon) {
+            fprintf(stderr, event_message);
+        } else {
+            LogEventErrorMessage(event_message);
+        }
+    }
+#endif
+
+
+    retval = check_unique_instance();
+    if (retval) {
+        fprintf(stderr, 
+            "Another instance of BOINC is running\n"
+        );
+#ifdef _WIN32
+        if (!gstate.executing_as_daemon) {
+            LogEventErrorMessage(
+                TEXT("Another instance of BOINC is running")
+            );
+        }
+#endif
+        return ERR_EXEC;
+    }
+
+
+    // Initialize WinSock
+#if defined(_WIN32) && defined(USE_WINSOCK)
+    if ( WinsockInitialize() != 0 ) {
+        if (!gstate.executing_as_daemon) {
+            fprintf(stderr,
+                TEXT("BOINC Core Client Error Message\n"
+                     "Failed to initialize the Windows Sockets interface\n"
+                     "Terminating Application...\n")
+            );
+        } else {
+            LogEventErrorMessage(
+                TEXT("BOINC Core Client Error Message\n"
+                     "Failed to initialize the Windows Sockets interface\n"
+                     "Terminating Application...\n")
+            );
+        }
+        return ERR_IO;
+    }
+#endif
+
+
+	curl_init();
+
+
+#ifdef _WIN32
+
+    if(g_hClientLibraryDll) {
+        ClientLibraryStartup fnClientLibraryStartup;
+        fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
+        if(fnClientLibraryStartup) {
+            if(!fnClientLibraryStartup()) {
+                stprintf(event_message, 
+                    TEXT("BOINC Core Client Error Message\n"
+                        "Failed to initialize the BOINC Idle Detection Interface.\n"
+                        "BOINC will not be able to determine if the user is idle or not...\n"
+                        "Load failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                );
+                if (!gstate.executing_as_daemon) {
+                    fprintf(stderr, event_message);
+                } else {
+                    LogEventErrorMessage(event_message);
+                }
+            }
+        }
+    }
+
+#endif
 
     retval = gstate.init();
     if (retval) {
         fprintf(stderr, "gstate.init() failed: %d\n", retval);
-        exit(retval);
+#ifdef _WIN32
+        if (gstate.executing_as_daemon) {
+            stprintf(event_message, TEXT("gstate.init() failed: %d\n"), retval);
+            LogEventErrorMessage(event_message);
+        }
+#endif
+        return retval;
     }
+
+
+#ifdef _WIN32
+    if (gstate.executing_as_daemon) {
+        LogEventInfoMessage(
+            TEXT("BOINC service is initialization completed, now begining process execution...\n")
+        );
+    }
+#endif
+
 
     // must parse env vars after gstate.init();
     // otherwise items will get overwritten with state file info
@@ -453,13 +558,78 @@ int boinc_main_loop() {
     }
     gstate.quit_activities();
 
+
+#ifdef _WIN32
+    if(g_hClientLibraryDll) {
+        ClientLibraryShutdown fnClientLibraryShutdown;
+        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryShutdown"));
+        if(fnClientLibraryShutdown) {
+            fnClientLibraryShutdown();
+        }
+        if(!FreeLibrary(g_hClientLibraryDll)) {
+            stprintf(event_message, 
+                TEXT("BOINC Core Client Error Message\n"
+                    "Failed to cleanup the BOINC Idle Detection Interface\n"
+                    "Unload failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+            );
+            if (!gstate.executing_as_daemon) {
+                fprintf(stderr, event_message);
+            } else {
+                LogEventErrorMessage(event_message);
+            }
+        }
+        g_hClientLibraryDll = NULL;
+    }
+
+#ifdef USE_WINSOCK
+    if ( WinsockCleanup() != 0 ) {
+        stprintf(event_message, 
+            TEXT("BOINC Core Client Error Message\n"
+                "Failed to cleanup the Windows Sockets interface\n"
+                "Unload failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+        );
+        if (!gstate.executing_as_daemon) {
+            fprintf(stderr, event_message);
+        } else {
+            LogEventErrorMessage(event_message);
+        }
+        return ERR_IO;
+    }
+#endif
+
+    if (g_bIsWin9x && g_Win9xMonitorSystemThreadID)
+	    PostThreadMessage(g_Win9xMonitorSystemThreadID, WM_QUIT, 0, 0);
+
+#endif
+
+	curl_cleanup();
+
+    boinc_cleanup_completed = true;
+
     return 0;
 }
 
 int main(int argc, char** argv) {
     int retval = 0;
+    int i;
 
 #ifdef _WIN32
+    int len;
+    char *commandLine;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    // Allow the system to know it is running as a Windows service
+    // and adjust it's diagnostics schemes accordingly.
+    if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
+        if ( stricmp( "daemon", argv[1]+1 ) == 0 ) {
+            gstate.executing_as_daemon = true;
+            LogEventInfoMessage(
+                TEXT("BOINC service is initializing...\n")
+            );
+        }
+    }
+
     // This bit of silliness is required to properly detach when run from within a command
     // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return
     // control to the user until the spawned program exits, detaching from the console is
@@ -469,13 +639,6 @@ int main(int argc, char** argv) {
     // well, and returns control to the user.  Meanwhile the second invocation will grok the
     // -detach_phase_two flag, and detach itself from the console, finally getting us to
     // where we want to be.
-
-    int i;
-    int len;
-    char *commandLine;
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-
     for (i = 1; i < argc; i++) {
         // FIXME FIXME.  Duplicate instances of -detach may cause this to be
         // executed unnecessarily.  At worst, I think it leads to a few extra
@@ -514,7 +677,6 @@ int main(int argc, char** argv) {
         }
     }
 #elif defined linux
-    int i;
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
             syslog(LOG_DAEMON, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
@@ -531,28 +693,6 @@ int main(int argc, char** argv) {
     boinc_cleanup_completed = false;
 
     init_core_client(argc, argv);
-
-	curl_init();
-
-#ifdef _WIN32
-    
-    g_hClientLibraryDll = LoadLibrary("boinc.dll");
-    if(!g_hClientLibraryDll) {
-        char errmsg[1024];
-        printf(
-            "BOINC Core Client Error Message\n"
-            "Failed to initialize the BOINC Idle Detection Interface\n"
-            "BOINC will not be able to determine if the user is idle or not...\n"
-            "Load failed: %s\n", windows_error_string( errmsg, sizeof(errmsg))
-        );
-    }
-#endif
-
-    retval = check_unique_instance();
-    if (retval) {
-        msg_printf(NULL, MSG_INFO, "Another instance of BOINC is running");
-        exit(1);
-    }
 
 #ifdef _WIN32
     // Figure out if we're on Win9x
@@ -580,31 +720,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Initialize WinSock
-#ifdef USE_WINSOCK
-    if ( WinsockInitialize() != 0 ) {
-        printf(
-            "BOINC Core Client Error Message\n"
-            "Failed to initialize the Windows Sockets interface\n"
-            "Terminating Application...\n"
-        );
-        return ERR_IO;
-    }
-#endif
-
-    if(g_hClientLibraryDll) {
-        ClientLibraryStartup fnClientLibraryStartup;
-        fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
-        if(fnClientLibraryStartup) {
-            if(!fnClientLibraryStartup()) {
-                printf(
-                    "BOINC Core Client Error Message\n"
-                    "Failed to initialize Client Library interface\n"
-                );
-            }
-        }
-    }
-
 
     SERVICE_TABLE_ENTRY dispatchTable[] = {
         { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
@@ -613,10 +728,6 @@ int main(int argc, char** argv) {
 
     if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
         if ( stricmp( "daemon", argv[1]+1 ) == 0 ) {
-
-            // allow the system to know it is running as a Windows service
-            // and adjust it's diagnostics schemes accordingly.
-            gstate.executing_as_daemon = true;
 
             printf( "\nStartServiceCtrlDispatcher being called.\n" );
             printf( "This may take several seconds.  Please wait.\n" );
@@ -639,41 +750,6 @@ int main(int argc, char** argv) {
 
     retval = boinc_main_loop();
 #endif
-
-#ifdef _WIN32
-    if(g_hClientLibraryDll) {
-        ClientLibraryShutdown fnClientLibraryShutdown;
-        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryShutdown"));
-        if(fnClientLibraryShutdown) {
-            fnClientLibraryShutdown();
-        }
-        if(!FreeLibrary(g_hClientLibraryDll)) {
-            printf(
-                "BOINC Core Client Error Message\n"
-                "Failed to cleanup the BOINC Idle Detection Interface\n"
-            );
-        }
-        g_hClientLibraryDll = NULL;
-    }
-
-#ifdef USE_WINSOCK
-    if ( WinsockCleanup() != 0 ) {
-        printf(
-            "BOINC Core Client Error Message\n"
-            "Failed to cleanup the Windows Sockets interface\n"
-        );
-        return ERR_IO;
-    }
-#endif
-
-    if (g_bIsWin9x && g_Win9xMonitorSystemThreadID)
-	    PostThreadMessage(g_Win9xMonitorSystemThreadID, WM_QUIT, 0, 0);
-
-#endif
-
-	curl_cleanup();
-
-    boinc_cleanup_completed = true;
 
     return retval;
 }

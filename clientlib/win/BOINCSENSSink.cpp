@@ -112,63 +112,63 @@ HRESULT CBOINCSENSSink::ConnectionLost(BSTR bstrConnection, unsigned long ulType
 
 HRESULT CBOINCSENSSink::DestinationReachable(BSTR bstrDestination, BSTR bstrConnection, unsigned long ulType, SENS_QOCINFO * lpQOCInfo)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::DestinationReachableNoQOCInfo(BSTR bstrDestination, BSTR bstrConnection, unsigned long ulType)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 // ISensOnNow Methods
 HRESULT CBOINCSENSSink::OnACPower()
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::OnBatteryPower(unsigned long dwBatteryLifePercent)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::BatteryLow(unsigned long dwBatteryLifePercent)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 // ISensLogon Methods
 HRESULT CBOINCSENSSink::Logon(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::Logoff(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::StartShell(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::DisplayLock(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::DisplayUnlock(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::StartScreenSaver(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CBOINCSENSSink::StopScreenSaver(BSTR bstrUserName)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 

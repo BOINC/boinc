@@ -3459,3 +3459,18 @@ David  30 Mar 2006
 		client_state.C
 		client_types.C,h
 		main.C
+
+Rom    30 Mar 2006
+    - Bug Fix: Initializing some of the dependant DLLs on Windows was
+        causing us to bump up against the 30 second marker and making
+        the service control manager think something was wrong and kill
+        the BOINC service on boot.  I moved the bulk of the 
+        initialization code to boinc_main_loop which is called by the
+        service control manager when running as a service.  This change
+        will keep this from happening in the future if we take on any more
+        dependencies.
+        
+    client/
+        main.C
+    clientlib/win/
+        BOINCSENSSink.cpp
