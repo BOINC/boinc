@@ -13,7 +13,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcproj
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_cmd", "boinccmd.vcproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccmd", "boinccmd.vcproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E} = {C04F0FCC-BB5D-4627-8656-6173B28BD69E}
@@ -37,10 +37,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "upper_case", "upper_case.vc
 	ProjectSection(ProjectDependencies) = postProject
 		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_gui", "boinc_gui.vcproj", "{78BA7B4E-4E37-4CAB-B954-CD906AC0E011}"
-	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
 Global
@@ -81,8 +77,6 @@ Global
 		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug.Build.0 = Debug|Win32
 		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release.ActiveCfg = Release|Win32
 		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release.Build.0 = Release|Win32
-		{78BA7B4E-4E37-4CAB-B954-CD906AC0E011}.Debug.ActiveCfg = Debug|Win32
-		{78BA7B4E-4E37-4CAB-B954-CD906AC0E011}.Release.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

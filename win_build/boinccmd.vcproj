@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="boinc_cmd"
+	Name="boinccmd"
 	ProjectGUID="{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
 	RootNamespace="boinc_guirpctest"
 	SccProjectName=""

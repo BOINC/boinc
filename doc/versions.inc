@@ -58,6 +58,14 @@ $features_52 = "
 ";
 
 $changes_53 = "
+    <li>Changes since 5.3.30
+      <ul>
+        <li>Localization Updates.
+        <li>Reworked the service startup code so that DLL initialization happens
+            after the call to the service control manager.
+        <li>Reorganized the installer components to shrink the installation
+            package.
+      </ul>
     <li>Changes since 5.3.29
       <ul>
         <li>Localization Updates.
@@ -227,11 +235,11 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5330= array(
-    "num"=>"5.3.30",
+$w5331= array(
+    "num"=>"5.3.31",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.30_windows_intelx86.exe",
-    "date"=>"29 Mar 2006",
+    "file"=>"boinc_5.3.31_windows_intelx86.exe",
+    "date"=>"30 Mar 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_53."
@@ -475,10 +483,10 @@ $m443s = array(
     "
 );
 
-$l5330 = array(
-    "num"=>"5.3.30",
+$l5331 = array(
+    "num"=>"5.3.31",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.30_i686-pc-linux-gnu.sh",
+    "file"=>"boinc_5.3.31_i686-pc-linux-gnu.sh",
     "date"=>"29 Mar 2006",
     "type"=>"sea",
     "features"=>"<ul>
@@ -547,7 +555,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5330,
+        $w5331,
         $w5213,
         $w445,
     )
@@ -571,7 +579,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5330,
+        $l5331,
         $l5213,
         $l443,
     )
