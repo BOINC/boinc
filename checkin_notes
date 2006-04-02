@@ -3503,3 +3503,11 @@ David  30 Mar 2006
         boinc_glut.h (new)
         gutil_text.C
         x_opengl.C
+
+Eric	2 Apr 2006
+    - Added stream memory bandwidth benchmark.  Still needs modifications 
+      to timing logic and possibly changes to allow multiple threads or 
+      processes.  This is not yet added to Makefiles or called from the code.
+
+    client/
+    	stream.C (new)
