@@ -2001,8 +2001,8 @@ Charlie 17 Feb 2006
 
 Rom    17 Feb 2006
     - Bug Fix: Remove the defect account manager functionality
-		from the wizard and put it into it's own routine
-		per David's request.
+        from the wizard and put it into it's own routine
+        per David's request.
     - Bug Fix: Fix the context menu item indentation problem on the task bar.
     
     clientgui/
@@ -2011,11 +2011,11 @@ Rom    17 Feb 2006
         MainFrame.cpp
 
 David  17 Feb 2006
-	- Add Visual Studio project file for crypt_prog
-		(from James Drews)
+    - Add Visual Studio project file for crypt_prog
+        (from James Drews)
 
-	win_build/
-		crypt_prog.vcproj
+    win_build/
+        crypt_prog.vcproj
 
 Rom    17 Feb 2006
     - Bug Fix: Adjust the dialog title code for both the attach to project wizard
@@ -2321,25 +2321,25 @@ Rom    24 Feb 2006 (HEAD)
       boinc_core_release_5_3_21
 
 David  24 Feb 2006
-	- remove "gzip" from list of encodings accepted by Curl;
-		having it in the list breaks existing projects
-		that use .gz files and decompress them in the app
-		(e.g. Einstein and CPDN).
-		We can fix this by adding a <gzip/> element in <file_info>; 
-		I'll do this later.
-	- Remove old HTTP code and data that's deprecated by Curl
-		(e.g. timeout, blocksize stuff; stuff related
-		to parsing URL into host/port/file/)
-		remove commented-out code.
-	- GUI RPC: a <file_xfer> elements now includes
-		a <url> rather than a <hostname>.
-		This change doesn't affect the BOINC Manager,
-		which I believe is the only client of this RPC
+    - remove "gzip" from list of encodings accepted by Curl;
+        having it in the list breaks existing projects
+        that use .gz files and decompress them in the app
+        (e.g. Einstein and CPDN).
+        We can fix this by adding a <gzip/> element in <file_info>; 
+        I'll do this later.
+    - Remove old HTTP code and data that's deprecated by Curl
+        (e.g. timeout, blocksize stuff; stuff related
+        to parsing URL into host/port/file/)
+        remove commented-out code.
+    - GUI RPC: a <file_xfer> elements now includes
+        a <url> rather than a <hostname>.
+        This change doesn't affect the BOINC Manager,
+        which I believe is the only client of this RPC
 
-	client/
-		http_curl.C,h
-		net_xfer_curl.C,h
-		pers_file_xfer.C
+    client/
+        http_curl.C,h
+        net_xfer_curl.C,h
+        pers_file_xfer.C
 
 David  24 Feb 2006
     - Scheduler: increment the infeasible count for a result
@@ -2442,26 +2442,26 @@ Charlie 28 Feb 2006
         x_openGL.C
 
 David  28 Feb 2006
-	- Continuing saga of Curl encodings.
-		It seems like if you call set CURLOPT_ENCODING
-		with any value, even "identity",
-		it will accept any encoding.
-		This breaks projects that do application-level gzip.
-		Solution: if the filename ends with ".gz",
-		don't set CURLOPT_ENCODING.
-		Otherwise set it to "" (accept all).
-		NOTE: I think this supports current requirements
-		(for "deflate" to work, and for app-level gzip to work).
-		At some point I'll implement BOINC-level gzip.
-	- Fix the format of <error_msg> elements within <file_info>.
-		Need a CR between the last line and the </error_msg> tag.
-	- In the course of testing I found that a <file_info>
-		with no <url>s will crash the core client.
-		Fixed this.
-	client/
-		client_types.C
-		file_xfer.C
-		http_curl.C
+    - Continuing saga of Curl encodings.
+        It seems like if you call set CURLOPT_ENCODING
+        with any value, even "identity",
+        it will accept any encoding.
+        This breaks projects that do application-level gzip.
+        Solution: if the filename ends with ".gz",
+        don't set CURLOPT_ENCODING.
+        Otherwise set it to "" (accept all).
+        NOTE: I think this supports current requirements
+        (for "deflate" to work, and for app-level gzip to work).
+        At some point I'll implement BOINC-level gzip.
+    - Fix the format of <error_msg> elements within <file_info>.
+        Need a CR between the last line and the </error_msg> tag.
+    - In the course of testing I found that a <file_info>
+        with no <url>s will crash the core client.
+        Fixed this.
+    client/
+        client_types.C
+        file_xfer.C
+        http_curl.C
 
 Rom    1 Mar 2006
     - Bug Fix: Make detach from account managers work again.
@@ -2551,16 +2551,16 @@ David  2 Mar 2006
         cs_scheduler.C
 
 David  3 Mar 2006
-	- core client: on scheduler RPC, if our host ID is zero,
-		set RPC seqno to zero also.
-		This avoids a bug where the scheduler creates a new host record
-		with rpc_seqno zero, and then on the next RPC creates
-		ANOTHER host record because the client's rpc_seqno is > 0
-	- core client: propagate host CPID change only
-		if we're using an account manager.
+    - core client: on scheduler RPC, if our host ID is zero,
+        set RPC seqno to zero also.
+        This avoids a bug where the scheduler creates a new host record
+        with rpc_seqno zero, and then on the next RPC creates
+        ANOTHER host record because the client's rpc_seqno is > 0
+    - core client: propagate host CPID change only
+        if we're using an account manager.
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 David  3 Mar 2006
     - scheduler: server-side fix for above bug.
@@ -2666,26 +2666,26 @@ David  7 Mar 2006
         server_types.C
 
 David  7 Mar 2006
-	- core client: print project URL in startup message
-	- core client: is <master_url> is present in a scheduler reply,
-		and it doesn't match project's master URL,
-		print error messages advising detach/reattach.
-		If there's another project with that URL,
-		tell user to detach them both, since (in the BOINC Manager)
-		there's no way to distinguish them.
+    - core client: print project URL in startup message
+    - core client: is <master_url> is present in a scheduler reply,
+        and it doesn't match project's master URL,
+        print error messages advising detach/reattach.
+        If there's another project with that URL,
+        tell user to detach them both, since (in the BOINC Manager)
+        there's no way to distinguish them.
 
-	client/
-		client_state.C
-		scheduler_op.C,h
+    client/
+        client_state.C
+        scheduler_op.C,h
 
 David  7 Mar 2006
-	- don't allow attaching a project with same name as existing project
+    - don't allow attaching a project with same name as existing project
 
-	client/
-		cs_scheduler.C
-		scheduler_op.C
-	lib/
-		error_numbers.C
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        error_numbers.C
 
 Rom    7 Mar 2006
     - Bug Fix: Somewhere along the line, the code to store the account
@@ -3105,18 +3105,18 @@ Charlie  21 Mar 2006
         diagnostics.C
 
 David  22 Mar 2006
-	- API: Added some code for drawing characters
-		in a variety of fonts, sizes, textures etc.
-		Also added font files;
-		you'll need to bundle them with your application.
-		See http://www.opengl.org//resources/code/samples/mjktips/TexFont/TexFont.html
-		From Tolu Aina.
-		
-	api/
-		texfont.c,h
-		txf_util.C
-		txf/
-			*.txf
+    - API: Added some code for drawing characters
+        in a variety of fonts, sizes, textures etc.
+        Also added font files;
+        you'll need to bundle them with your application.
+        See http://www.opengl.org//resources/code/samples/mjktips/TexFont/TexFont.html
+        From Tolu Aina.
+        
+    api/
+        texfont.c,h
+        txf_util.C
+        txf/
+            *.txf
 
 Rom    22 Mar 2006
     - Make moincmgr compile cleanly on Linux distro's where the
@@ -3438,27 +3438,27 @@ Rom    30 Mar 2006
         BOINC.ism
 
 David  30 Mar 2006
-	- Core client: fix nasty crash bug.
-		If a result had a lot of output files, its failure message
-		(originating from X)
-		could exceed 1024 chars.
-		It gets passed up to show_message(),
-		and is copied (by strcpy()) into a 1024-char buffer.  Crash!
-		Fixed this by using strlcpy() instead.
-	- Core client: return file errors in a std::string instead of char*
-	- Core client: in generating XML descriptions of file failures,
-		insert <error_message>X</error_message> elements
-		only if there's a message.
+    - Core client: fix nasty crash bug.
+        If a result had a lot of output files, its failure message
+        (originating from X)
+        could exceed 1024 chars.
+        It gets passed up to show_message(),
+        and is copied (by strcpy()) into a 1024-char buffer.  Crash!
+        Fixed this by using strlcpy() instead.
+    - Core client: return file errors in a std::string instead of char*
+    - Core client: in generating XML descriptions of file failures,
+        insert <error_message>X</error_message> elements
+        only if there's a message.
 
-	At some point we should replace char[N] with std::string
-	everywhere in the code.
-	Fix-size buffers are crashes waiting to happen.
-	I wish you could sprintf() to a string.
+    At some point we should replace char[N] with std::string
+    everywhere in the code.
+    Fix-size buffers are crashes waiting to happen.
+    I wish you could sprintf() to a string.
 
-	client/
-		client_state.C
-		client_types.C,h
-		main.C
+    client/
+        client_state.C
+        client_types.C,h
+        main.C
 
 Rom    30 Mar 2006
     - Bug Fix: Initializing some of the dependant DLLs on Windows was
@@ -3504,10 +3504,16 @@ David  30 Mar 2006
         gutil_text.C
         x_opengl.C
 
-Eric	2 Apr 2006
+Eric    2 Apr 2006
     - Added stream memory bandwidth benchmark.  Still needs modifications 
       to timing logic and possibly changes to allow multiple threads or 
       processes.  This is not yet added to Makefiles or called from the code.
 
     client/
-    	stream.C (new)
+        stream.C (new)
+
+David  3 Apr 2006
+    - Add script to find results with no corresponding workunit
+
+    html/ops/
+        db_cleanse.php
