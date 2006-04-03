@@ -18,14 +18,19 @@ if (!$user) {
         Try reentering your email address.<p>
     ";
 } else {
-    $user->email_addr = $email_addr;
-    page_head("Mailed account key");
-    $retval = send_auth_email($user, false);
-    if ($retval) {
-        email_sent_message($email_addr);
-    } else {
-        echo "Can't send email to $user->email_addr: $retval";
-    }
+	if (substr($user->authenticator, 0, 1) == 'x') {
+		page_head("Account Currently Disabled");
+		echo "This account has been administratively disabled.";
+	} else {
+		$user->email_addr = $email_addr;
+		page_head("Mailed account key");
+		$retval = send_auth_email($user, false);
+		if ($retval) {
+			email_sent_message($email_addr);
+		} else {
+			echo "Can't send email to $user->email_addr: $retval";
+		}
+	}
 }
 
 page_tail();
