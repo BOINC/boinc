@@ -7,11 +7,14 @@ extern "C" {
 #endif
 
 /* Prefix of subresult file labels */
-#define SUBRESULT_PFX		"_dc_subresult_"
+#define SUBRESULT_PFX		"dc_subresult_"
 
 /* Logical names of the checkpoint file */
-#define CKPT_LABEL_IN		"_dc_checkpoint_in"
-#define CKPT_LABEL_OUT		"_dc_checkpoint_out"
+#define CKPT_LABEL_IN		"dc_checkpoint.in"
+#define CKPT_LABEL_OUT		"dc_checkpoint.out"
+
+/* Name of the client-side config. file */
+#define CLIENTCONF_LABEL	"dc_client.conf"
 
 /* Maximum allowed message length */
 #define MAX_MESSAGE_SIZE	16384

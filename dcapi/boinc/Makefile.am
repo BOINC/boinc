@@ -18,8 +18,8 @@ libdc_boinc_la_SOURCES = \
 		dc.c \
 		db.C \
 		events.C \
-		wu.C \
-		result.c
+		result.c \
+		wu.C
 libdc_boinc_la_LIBADD = \
 		../common/libdc-common.la \
 		$(BOINC_SERVER_LIBS)

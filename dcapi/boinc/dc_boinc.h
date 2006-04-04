@@ -88,6 +88,7 @@ extern DC_SubresultCallback	_dc_subresultcb;
 extern DC_MessageCallback	_dc_messagecb;
 
 extern char project_uuid_str[];
+extern uuid_t project_uuid;
 
 
 /********************************************************************
@@ -137,6 +138,9 @@ void _DC_destroyResult(DC_Result *result) G_GNUC_INTERNAL;
 
 /* Looks up a WU by name */
 DC_Workunit *_DC_getWUByName(const char *name) G_GNUC_INTERNAL;
+
+/* Parses <file_ref> definitions in an XML document */
+GList *_DC_parseFileRefs(const char *xml_doc, int *num_files) G_GNUC_INTERNAL;
 
 #ifdef __cplusplus
 }

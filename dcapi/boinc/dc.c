@@ -10,6 +10,45 @@
 #include "dc_boinc.h"
 
 /********************************************************************
+ * Data type definitions
+ */
+
+/* Current element being parsed. We are not interested in most of the elements
+ * and also assume that the XML document is always valid */
+typedef enum
+{
+	UNKNOWN,
+	FILE_NAME,
+	OPEN_NAME
+} element_type;
+
+/* The private state of the XML parser */
+typedef struct _fileref_ctx	fileref_ctx;
+struct _fileref_ctx
+{
+	element_type		curr_element;
+	char			*label;
+	char			*path;
+	GList			*file_list;
+	int			num_files;
+};
+
+
+/********************************************************************
+ * Prototypes
+ */
+
+/* XML parser callback functions */
+static void fileref_start(GMarkupParseContext *ctx, const char *element_name,
+	const char **attr_names, const char **attr_values, void *ptr,
+	GError **error);
+static void fileref_end(GMarkupParseContext *ctx, const char *element_name,
+	void *ptr, GError **error);
+static void fileref_text(GMarkupParseContext *ctx, const char *text,
+	gsize text_len, void *ptr, GError **error);
+
+
+/********************************************************************
  * Global variables
  */
 
@@ -17,13 +56,17 @@ DC_ResultCallback	_dc_resultcb;
 DC_SubresultCallback	_dc_subresultcb;
 DC_MessageCallback	_dc_messagecb;
 
-static uuid_t project_uuid;
+uuid_t project_uuid;
 char project_uuid_str[37];
 
-/* Must match the definition of WorkdirFile */
-static const char *const workdir_prefixes[] =
+/* XML parser descriptor */
+static const GMarkupParser fileref_parser =
 {
-	"in_", "out_", "ckpt", "dc_"
+	fileref_start,
+	fileref_end,
+	fileref_text,
+	NULL,
+	NULL
 };
 
 
@@ -166,3 +209,110 @@ void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
 	g_free(file);
 }
 
+/********************************************************************
+ * XML file definition parser
+ */
+
+static void fileref_start(GMarkupParseContext *ctx, const char *element_name,
+	const char **attr_names, const char **attr_values, void *ptr,
+	GError **error)
+{
+	fileref_ctx *fctx = ptr;
+
+	if (attr_names)
+	{
+		*error = g_error_new(G_MARKUP_ERROR,
+			G_MARKUP_ERROR_UNKNOWN_ATTRIBUTE,
+			"Attributes are not recognized in BOINC-generated XML");
+		return;
+	}
+
+	if (!strcmp(element_name, "file_ref"))
+	{
+		g_free(fctx->label);
+		g_free(fctx->path);
+		fctx->label = NULL;
+		fctx->path = NULL;
+	}
+	else if (!strcmp(element_name, "file_name"))
+		fctx->curr_element = FILE_NAME;
+	else if (!strcmp(element_name, "open_name"))
+		fctx->curr_element = OPEN_NAME;
+}
+
+static void fileref_end(GMarkupParseContext *ctx, const char *element_name,
+	void *ptr, GError **error)
+{
+	fileref_ctx *fctx = ptr;
+
+	if (!strcmp(element_name, "file_ref"))
+	{
+		DC_PhysicalFile *file;
+
+		file = _DC_createPhysicalFile(fctx->label, fctx->path);
+		g_free(fctx->label);
+		g_free(fctx->path);
+		fctx->label = NULL;
+		fctx->path = NULL;
+		fctx->file_list = g_list_append(fctx->file_list, file);
+		fctx->num_files++;
+	}
+	fctx->curr_element = UNKNOWN;
+}
+
+static void fileref_text(GMarkupParseContext *ctx, const char *text,
+	gsize text_len, void *ptr, GError **error)
+{
+	fileref_ctx *fctx = ptr;
+
+	switch (fctx->curr_element)
+	{
+		case FILE_NAME:
+			fctx->path = g_strndup(text, text_len);
+			break;
+		case OPEN_NAME:
+			fctx->label = g_strndup(text, text_len);
+			break;
+		default:
+			break;
+	}
+}
+
+GList *_DC_parseFileRefs(const char *xml_doc, int *num_files)
+{
+	GMarkupParseContext *ctx;
+	fileref_ctx fctx;
+	GError *error;
+
+	memset(&fctx, 0, sizeof(fctx));
+
+	ctx = g_markup_parse_context_new(&fileref_parser, 0, &fctx, NULL);
+	if (!g_markup_parse_context_parse(ctx, xml_doc, strlen(xml_doc),
+			&error))
+		goto error;
+	if (!g_markup_parse_context_end_parse(ctx, &error))
+		goto error;
+	g_markup_parse_context_free(ctx);
+	if (num_files)
+		*num_files = fctx.num_files;
+	g_free(fctx.label);
+	g_free(fctx.path);
+	return fctx.file_list;
+
+error:
+	while (fctx.file_list)
+	{
+		_DC_destroyPhysicalFile(fctx.file_list->data);
+		fctx.file_list = g_list_delete_link(fctx.file_list,
+			fctx.file_list);
+	}
+
+	DC_log(LOG_ERR, "Failed to parse result XML description: %s",
+		error->message);
+	g_error_free(error);
+	g_markup_parse_context_free(ctx);
+	g_free(fctx.label);
+	g_free(fctx.path);
+
+	return NULL;
+}
