@@ -9,10 +9,91 @@ require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 
 set_time_limit(0);
-$config = get_config();
-$db_name = parse_config($config, "<db_name>");
-system("mysql $db_name -e \"select id from workunit\" | tail +2 | sort -n > dbc_wu.dat");
-system("mysql $db_name -e \"select workunitid, id from result \" | tail +2 | sort -n > dbc_res.dat");
-system("join -v 1 dbc_res.dat dbc_wu.dat > dbc_diff.dat");
+
+// get lists of current results and WUs.
+// Do selects in this order so that we'll get all relevant results
+//
+function get_lists() {
+    $config = get_config();
+    $db_name = parse_config($config, "<db_name>");
+    $db_host = parse_config($config, "<db_host>");
+    system("mysql $db_name -h $db_host -e \"select workunitid, id from result \" | tail +2 | sort -n > dbc_res.dat");
+    system("mysql $db_name -h $db_host -e \"select id from workunit\" | tail +2 | sort -n > dbc_wu.dat");
+}
+
+// N.B.: on Linux we can use join -v to find results without WU.
+// But for some reason this doesn't work on Solaris (*&^@#).
+// So we roll our own.
+// Note: it's
+//
+function join_lists() {
+    $fwu = fopen('dbc_wu.dat', 'r');
+    $fres = fopen('dbc_res.dat', 'r');
+    $fout = fopen('dbc_out.dat', 'w');
+    $wuid = 0;
+    $n = 0;
+    while (1) {
+        $n++;
+        if ($n % 1000 == 0) echo "$n\n";
+        $x = fgets($fres);
+        if (!$x) break;
+        list($reswuid, $resid) = sscanf($x, "%d %d");
+        if (feof($fwu)) {
+            fputs($fout, "$resid\n");
+            continue;
+        }
+        while ($wuid < $reswuid) {
+            $y = fgets($fwu);
+            if (!$y) {
+                $wuid = 999999999999;
+                break;
+            }
+            sscanf($y, "%d", $wuid);
+        }
+        if ($wuid == $reswuid) continue;
+        if ($wuid > $reswuid) {
+            fputs($fout, "$resid\n");
+            continue;
+        }
+    }
+}
+
+// It would be better to have db_purge delete the results
+// (and write them to XML archive)
+// but it's not clear how to do this.
+// So just delete them.
+//
+function delete_results() {
+    db_init();
+    $f = fopen('dbc_out.dat', 'r');
+    while (1) {
+        $x = fgets($f);
+        if (!$x) break;
+        $n = sscanf($x, "%d", $resid);
+        if ($n != 1) {
+            echo "bad line: $x\n";
+            continue;
+        }
+        $result = lookup_result($resid);
+        if (!$result) {
+            echo "no result $resultid\n";
+            continue;
+        }
+        $wu = lookup_wu($result->workunitid);
+        if ($wu) {
+            echo "result has WU: $resid\n";
+            continue;
+        }
+        echo "deleting $resid\n";
+
+        // uncomment the following to actually delete
+
+        //mysql_query("delete from result where id=$resid");
+    }
+}
+
+get_lists();
+join_lists();
+delete_results();
 
 ?>
