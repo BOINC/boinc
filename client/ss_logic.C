@@ -187,6 +187,7 @@ void SS_LOGIC::poll() {
         if (atp) {
             scope_messages.printf("SS_LOGIC::poll(): picked %s, request restart\n", atp->result->name);
             ask_app(atp, saved_graphics_msg);
+            ss_status = SS_STATUS_ENABLED;
             ss_change_time = gstate.now;
         } else {
             scope_messages.printf("SS_LOGIC::poll(): no app found\n");

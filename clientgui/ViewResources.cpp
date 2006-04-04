@@ -74,7 +74,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_DISKSPACE, _("Disk Space"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_DISKSPACE, _("Disk Space"), wxLIST_FORMAT_RIGHT, -1);
 
     UpdateSelection();
 }

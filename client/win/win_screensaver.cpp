@@ -1058,7 +1058,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
         }
 
         BOINCTRACE(_T("CScreensaver::SaverProc - End Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
-        if (bScreenSaverStarting) {
+        if (bScreenSaverStarting || (SS_STATUS_ENABLED != m_iStatus)) {
             Sleep(1000);
         } else {
             Sleep(10000);

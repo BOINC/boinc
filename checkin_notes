@@ -3517,3 +3517,21 @@ David  3 Apr 2006
 
     html/ops/
         db_cleanse.php
+
+Rom    3 Apr 2006
+    - Bug Fix: When switching from any state to SS_STATUS_ENABLED make sure
+        we set the ss_status back to SS_STATUS_ENABLED.
+    - Bug Fix: Increase the screensaver polling frequency when the
+        screensaver is set to anything other than SS_STATUS_ENABLED.  This
+        makes the status messages disappear faster when the graphics app
+        is started again.
+    - Bug Fix: Right justify Work:Progress and Disk:Diskspace list view
+        columns.
+        
+    client/
+        ss_logic.C
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        ViewResources.cpp
+        ViewWork.cpp
