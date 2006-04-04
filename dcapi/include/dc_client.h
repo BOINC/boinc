@@ -37,7 +37,8 @@ typedef enum {
 typedef enum {
 	DC_EVENT_NONE,
 	DC_EVENT_DO_CHECKPOINT,
-	DC_EVENT_FINISH
+	DC_EVENT_FINISH,
+	DC_EVENT_MESSAGE
 } DC_Event;
 
 
@@ -104,6 +105,13 @@ int DC_sendMessage(const char *message);
  * @Returns: the event code.
  */
 DC_Event DC_checkEvent(void **data);
+
+/** Destroys the event-specific data returned by DC_checkEvent()
+ *
+ * @event: the received event
+ * @data: the data returned by DC_checkEvent()
+ */
+void DC_destroyEvent(DC_Event event, void *data);
 
 /** Indicates that an application-level checkpoint has completed.
  *
