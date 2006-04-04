@@ -23,10 +23,40 @@
 #include <dc_client.h>
 #include "common_defs.h"
 
+/********************************************************************
+ * Global variables
+ */
+
 static int ckpt_generation;
 static char *last_complete_ckpt;
 static char active_ckpt[PATH_MAX];
 static char wu_name[256];
+
+/********************************************************************
+ * Common API functions
+ */
+
+int DC_getMaxMessageSize(void)
+{
+	return MAX_MESSAGE_SIZE;
+}
+
+int DC_getMaxSubresults(void)
+{
+	/* XXX Return the actually defined subresults */
+	return 10;
+}
+
+DC_GridCapabilities DC_getGridCapabilities(void)
+{
+	/* XXX Add DC_GC_SUBRESULT when it is implemented */
+	return (DC_GridCapabilities)(DC_GC_EXITCODE | DC_GC_STDERR |
+		DC_GC_MESSAGING);
+}
+
+/********************************************************************
+ * Client API functions
+ */
 
 int DC_init(void)
 {
@@ -101,6 +131,11 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 	return DC_ERR_NOTIMPL;
 }
 
+int DC_sendMessage(const char *message)
+{
+	return boinc_send_trickle_up(wu_name, (char *)message);
+}
+
 static void handle_special_msg(const char *message)
 {
 	/* XXX Implement it */
@@ -168,16 +203,6 @@ void DC_fractionDone(double fraction)
 void DC_finish(int exitcode)
 {
 	boinc_finish(exitcode);
-}
-
-int DC_sendMessage(const char *message)
-{
-	return boinc_send_trickle_up(wu_name, (char *)message);
-}
-
-int DC_getMaxMessageSize(void)
-{
-	return MAX_MESSAGE_SIZE;
 }
 
 /********************************************************************
