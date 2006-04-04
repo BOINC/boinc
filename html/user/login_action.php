@@ -17,6 +17,10 @@ if ($mode == "Log in with email/password") {
     if (!$user) {
         error_page("No account found with email address $email_addr");
     }
+	if (substr($user->authenticator, 0, 1) == 'x'){
+		//User has been bad so we are going to take away ability to post for awhile.
+		error_page("This account has been administratively disabled.");
+	}
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
         page_head("Login failed");
@@ -61,6 +65,10 @@ $result = mysql_query($query);
 if ($result) {
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
+}
+if (substr($user->authenticator, 0, 1) == 'x'){
+	//User has been bad so we are going to take away ability to post for awhile.
+	error_page("This account has been administratively disabled.");
 }
 if (!$user) {
     page_head("Log in");
