@@ -6,10 +6,10 @@ echo "
 The <b>BOINC manager</b> program is available for Windows, Mac OS X
 and Linux.  It controls the use of your computer's disk, network, and
 processor resources, and is normally started at boot time.
+<br>
 <br>On Windows, the BOINC Manager is represented by an icon in the system tray.
 <br>On Mac OS X, it is represented by icons in both the menubar and the Dock.
 <!-- ** ROM ** is there an equivalent on Linux to the system tray icon? -->
-
 
 <p>
 On Windows:
@@ -29,25 +29,14 @@ On Mac OS X:
 The icon menu choices are:
 <ul>
 <li> <b>Open BOINC Manager</b>: opens the current BOINC Manager.
-<li> <b>Run always</b>: do work, regardless of preferences.
-<li> <b>Run based on preferences</b>: do work
-    when your <a href=prefs.php>preferences</a> allow it.
-<li> <b>Suspend</b>: stop work (computation and file transfer).
-<li> <b>Network activity always available</b>: always allow BOINC to
-contact the project servers when it needs to.
-<li> <b>Network activity based on preferences</b>: allow BOINC to contact
-the project servers only when your <a href=prefs.php>preferences</a>
-allow it.
-<li> <b>Network activity suspended</b>: setting this keeps BOINC
-from attempting to contact any of the project servers.  It is useful
-for those on dial-up connections who do not want to be bothered with
-BOINC prompting to connect or disconnect for a time.
+<li> <b>Snooze</b>: stop work (computation and file transfer).
 <li> <b>About BOINC Manager</b>:  displays useful information about the
 BOINC Manager.
 <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
 No further work will take place until you run the BOINC manager again.
 <br>(On Mac OS X, this menu item is called <b>Quit</b>.)
 </ul>
+<br>
 <img src=mgrsystrayballoon.png>
 <p>
 Hovering over the BOINC icon will display a status balloon which contains
@@ -57,19 +46,23 @@ computer it is connected to (Windows only).
 <h2>Projects</h2>
 <p>Shows the projects in which this computer is participating.
 <img src=mgrprojects.png>
+<p>
 
+<h3>Status messages</h3>
 <ul>
 <li>Suspended by user:
     The project is currently suspended.
 <li>Retry in ...:
     The client will wait the specified amount of time before attempting
     to contact the project server again.
-<li>Won't get new work:
+<li>Won't get new tasks:
     The project will not fill the cache for this project
-    when it runs out of work.
+    when it runs out of tasks.
 </ul>
 
+<h3>Commands</h3>
 <p>Click on a project name to enable the following additional buttons:
+
 <ul>
 <li> <b>Allow new work</b>:
     Allow the project to download additional work, if needed.
@@ -82,7 +75,7 @@ computer it is connected to (Windows only).
     and start from scratch.
     Use this if BOINC has become stuck for some reason.
 <li> <b>Resume</b>:
-    Resumes processing of a previous suspended project.
+    Resumes processing of a previously suspended project.
 <li> <b>Suspend</b>:
     Suspends any further processing of this project.
 <li> <b>Update</b>:
@@ -91,15 +84,16 @@ computer it is connected to (Windows only).
     get more work if necessary,
     and get your latest <a href=prefs.php>preferences</a>.
 </ul>
+<h3>Web sites</h3>
 
 <p>Project administrators can add <a href=gui_urls.php>buttons</a>
    to the manager to quickly navigate the project website.
 
-<h2>Work</h2>
-<p>Shows the work units currently on your computer.
+<h2>Tasks</h2>
+<p>Shows the tasks currently on your computer.
 <img src=mgrwork.png>
 
-<p>Each work unit is either:
+<p>Each task is either:
     <ul>
 <li>Aborted by user:
     Result has been aborted.
@@ -115,9 +109,18 @@ computer it is connected to (Windows only).
 <li>Running:
     Elapsed CPU time and estimated percent done is shown.
 <li>Suspended by user:
-    Result has been suspended.
+    Result has been suspended by the user.  Use the 'Resume' button on 
+    this tab to resume the result.
 <li>Uploading:
     Output files are being uploaded.
+<li>Activities Suspended:
+    BOINC is suspended, either thru the Command->Suspend menu item or 
+    benchmarks are running
+<li>Project suspended by user:
+    Project has been suspended by user.  Use the 'Resume' button on the
+    Projects tab to resume the project.
+</ul>
+
 </ul>
 
 <p>Click on a result name to enable the following additional buttons:
@@ -126,7 +129,8 @@ computer it is connected to (Windows only).
     Abort processing for a result. NOTE: This will prevent you from receiving
     credit for any work already completed.
 <li> <b>Resume</b>:
-    Resumes processing of a previous suspended result.
+    Resumes processing of a previously suspended result.  
+    Note, this applies to tasks with status 'Suspended by user'.
 <li> <b>Show graphics</b>:
     Open a window showing application graphics.
 <li> <b>Suspend</b>:
@@ -165,6 +169,7 @@ computer it is connected to (Windows only).
     Messages can be sorted by project or time.
     You can <a href=client_msgs.php>control what messages are shown</a>.
     Messages are also written to a file 'stdoutdae.txt'.
+<br>
 <img src=mgrmessages.png>
 
 <p>Click on one or more messages to enable the following additional buttons:
@@ -205,15 +210,26 @@ The BOINC manager has the following menus:
 <ul>
 <li> <b>File</b>
     <ul>
-    <li><b>Select Computer</b>: Allows you to control BOINC on a different
-        computer
-<!--  ** ROM ** is this correct?  Please add more details as appropriate -->
     <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
         No further work will take place until you run the BOINC manager again.
         <br>(On Mac OS X, this is under the BOINC menu as <b>Quit BOINC</b>.)
     </ul>
 
-<li> <b>Commands</b>
+<br>
+<li> <b>Tools</b>
+    <ul>
+    <li> <b>Attach to project</b>:
+        enroll this computer in a project.
+        You must have already created an account with the project.
+        You will be asked to enter the project's URL and either your account key
+        or your email address and password, depending on the project.
+<!-- ** ROM ** Please add a link to a page with details on using the Wizard. -->
+    <li> <b>Account Manager</b>: attach to one or more new projects using an
+        account manager web site.  See <a href=/acct_mgrs.php>Account managers</a>
+    </ul>
+
+<br>
+<li> <b>Activity</b>
     <ul>
     <li> <b>Run always</b>: do work, regardless of preferences.
     <li> <b>Run based on preferences</b>: do work
@@ -228,27 +244,15 @@ The BOINC manager has the following menus:
         from attempting to contact any of the project servers.  It is useful
         for those on dial-up connections who do not want to be bothered with
         BOINC prompting to connect or disconnect for a time.
-    <li><b>Retry Communications</b>: retry any deferred communications.
-    <li><b>Run Benchmarks</b>:
-        run benchmark functions, which measure the speed of your processor.
-        BOINC does this automatically,
-        but you can repeat it whenever you want.
-        The results are shown in the Messages tab.
-    </ul>
- 
-<li> <b>Projects</b>
-    <ul>
-    <li> <b>Attach to new project</b>:
-        enroll this computer in a project.
-        You must have already created an account with the project.
-        You will be asked to enter the project's URL and either your account key
-        or your email address and password, depending on the project.
-<!-- ** ROM ** Please add a link to a page with details on using the Wizard. -->
-    <li> <b>Account Manager</b>: attach to one or more new projects using an
-        account manager web site.  See <a href=/acct_mgrs.php>Account managers</a>
+        <br><br>Note: Selecting an option that requires contacting a project will
+        temporarily enable network activity regardless of this setting.  It
+        includes updating a project, retrying file transfers, retrying 
+        communications and attaching to projects.  The network will remain
+        enabled for five  minutes.
     </ul>
 
-<li> <b>Options</b>
+<br>
+<li> <b>Advanced</b>
     <ul>
     <li> <b>Options</b>: opens a dialog allowing you to select your preferred
         language, how often you wish to be reminded of the need to connect to
@@ -258,7 +262,19 @@ The BOINC manager has the following menus:
         <br>Windows only: use this dialog to tell BOINC your method of connecting
         to the Internet.
 <!--  ** ROM ** Please add a link to a page with details on using this dialog. -->
+    <li><b>Select Computer</b>: Allows you to control BOINC on a different
+        computer
+<!--  ** ROM ** is this correct?  Please add more details as appropriate -->
+
+    <li><b>Run Benchmarks</b>:
+        run benchmark functions, which measure the speed of your processor.
+        BOINC does this automatically,
+        but you can repeat it whenever you want.
+        The results are shown in the Messages tab.
+    <li><b>Retry Communications</b>: retry any deferred communications.
     </ul>
+
+<br>
 <li> <b>Help</b>
     <ul>
     <li> <b>BOINC Manager</b>: open a web page with instructions for using the

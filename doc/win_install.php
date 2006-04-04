@@ -17,11 +17,10 @@ BOINC is listed in the Start menu of the installing user,
 but not other users.
 <p>
 The 'Show graphics' command in the BOINC manager
-will work only for the installing user.
-The BOINC screensaver will only show application
+works only for the installing user.
+The BOINC screensaver only shows application
 graphics only for the installing user
-(other users can run the screensaver but will see
-textual information only).
+(other users can run the screensaver but will see textual information only).
 
 <h2>Shared installation</h2>
 <p>
@@ -32,14 +31,10 @@ BOINC is listed in the Start menu of all users.
 <p>
 While BOINC is running, it runs as a particular user
 (either the first user to log in, or the first to run BOINC).
-The 'Show graphics' command in the BOINC manager,
-will work only for this user.
-The BOINC screensaver will only show application
-graphics only for this user
-(other users can run the screensaver but will see
-textual information only).
-
-
+The 'Show graphics' command in the BOINC manager
+works only for this user.
+The BOINC screensaver shows application graphics only for this user
+(other users can run the screensaver but will see textual information only).
 
 <h2>Service installation</h2>
 <p>
@@ -54,22 +49,24 @@ The BOINC screensaver will only show textual information.
 
 <h2>Customizing the installer</h2>
 <p>
-The new BOINC installer is an MSI package.
+The BOINC installer is an MSI package.
 
 <h3>Active Directory Deployment</h3>
 
 Suppose you want to modify it so that you can
 deploy BOINC across a Windows network using Active Directory,
-and have all the PCs attached to a particular account.
-Here is how to do this:
+and have all the PCs attached to a particular set of accounts.
+Here's how to do this:
 
 
 <ul>
 <li> Download the BOINC client package and execute it with the /a parameter.
-<li> Drop the files to a share that can be accessed by all the computers on the network.
+<li> Move the files to a directory that can be accessed
+by all the computers on the network.
 <li> Using <a href=http://support.microsoft.com/kb/255905/EN-US/>Microsoft ORCA</a>,
 or some other MSI packaging tool, create an MSI Transform that contains the 
-account_*.xml files of the projects you have already attached too on another machine
+account_*.xml files of the projects you have already attached to
+on another machine
 plus the following parameters:
     <ul>
     <li>Single-user install:<br>

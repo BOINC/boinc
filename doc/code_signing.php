@@ -31,7 +31,7 @@ the code-signing machine.
 A USB-connected disk or CD-RW will work,
 or if your files are small you can use a floppy disk.
 <li>
-Install <a href=key_setup>crypt_prog</a> on the code signing machine
+Install <a href=key_setup.php>crypt_prog</a> on the code signing machine
 (it's easiest if the machine runs Unix/Linux;
 Windows can be used but requires Visual Studio 2003).
 

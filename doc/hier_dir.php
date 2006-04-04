@@ -41,21 +41,17 @@ the right directory before calling <a href=tools_work.php>create_work()</a>.
 To do this, it can use the function
 ".html_text("
 int dir_hier_path(
-    const char* filename, const char* root, int fanout, bool newhash, char* result, bool make_directory_if_needed
+    const char* filename, const char* root, int fanout, char* result,
+    bool make_directory_if_needed=false
 );
 ")."
 This takes a name of the input file
 and the absolute path of the root of the download hierarchy
 (typically the download_dir element from config.xml)
 and returns the absolute path of the file in the hierarchy.
-For new projects, newhash should be set to true.  This argument may eventually
-disappear: it was added to work around a poor initial choice of hashing
-function for determining fanout directory names.  Generally make_directory_if_needed should also be set to true: this creates a fanout directory if needed
+Generally make_directory_if_needed should be set to true:
+this creates a fanout directory if needed
 to accomodate a particular file.
-
-Note: you may see this function occuring at times with the final argument
-missing.  In this case C++ defaults to setting make_directory_if_needed==false.
-[DAVID: PLEASE CONFIRM!]
 
 <p>
 Secondly, your validator and assimilator should call

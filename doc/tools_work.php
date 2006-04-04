@@ -137,15 +137,15 @@ dir_hier_path(
     const char* filename,
     const char* root,       // root of download directory
     int fanout,             // from config.xml
-    bool new_hash,          // use true here
-    char* result            // path of file in hierarchy
+    char* result,           // path of file in hierarchy
+    bool create_dir=false   // create dir if it's not there
 );
 </pre>
 If you're using scripts, you can invoke the program
 <pre>
 dir_hier_path filename
 </pre>
-It prints the full pathname.
+It prints the full pathname and creates the directory if needed.
 Run this in the project's root directory.
 For example:
 <pre>

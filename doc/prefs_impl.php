@@ -113,11 +113,11 @@ Project preferences are represented by an XML element of the form:
         </project_specific>
     </venue>
 </project_preferences>
-")."`
+")."
 
 On the client, the project prefs are stored
 in a file account_XXX.xml,
-which has the additional elements <lt;master_url> and <lt;authenticator>.
+which has the additional elements <lt;master_url&gt; and <lt;authenticator&gt;.
 <p>
 A scheduler RPC reply always includes project prefs.
 <p>

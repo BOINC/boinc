@@ -3535,3 +3535,10 @@ Rom    3 Apr 2006
     clientgui/
         ViewResources.cpp
         ViewWork.cpp
+
+David  4 Apr 2006
+    - back end: have the "dir_hier_path" script create the fanout directory
+        if it's not there.
+
+    tools/
+        dir_hier_path.C

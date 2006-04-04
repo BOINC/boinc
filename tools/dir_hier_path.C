@@ -20,7 +20,8 @@
 // dir_hier_path filename
 //
 // Run this in a project's root directory.
-// Prints the absolute path of the file in the download hierarchy
+// Prints the absolute path of the file in the download hierarchy,
+// and creates the directory if needed.
 
 #include "config.h"
 #include <stdio.h>
@@ -40,7 +41,7 @@ int main(int /*argc*/, char** argv) {
         exit(1);
     }
 
-    dir_hier_path(argv[1], "", config.uldl_dir_fanout, path);
+    dir_hier_path(argv[1], "", config.uldl_dir_fanout, path, true);
     printf("%s%s\n", config.download_dir, path);
 }
 

@@ -1,6 +1,21 @@
 <?
 
 $project_news = array(
+array("April 4, 2006",
+    "Windows users: new versions of
+    <a href=http://www.microsoft.com/hardware/mouseandkeyboard/DownloadResult.aspx?prod=m_wom20&os=xp&lang=en&driverVersion=IntelliPoint%205.5>Intellipoint</a>
+    and <a href=http://www.microsoft.com/hardware/mouseandkeyboard/DownloadResult.aspx?prod=m_wNMK&os=xp&lang=en&driverVersion=IntelliType%20Pro%205.5>Intellitype</a>
+    are available from Microsoft.
+    Upgrading to these may fix problems with the BOINC screensaver.
+    "
+),
+array("April 3, 2006",
+    "<a href=http://boincstats.com>BOINCstats.com</a> is one of
+    several excellent web sites showing BOINC statistics.
+    It's available in a number of languages, now including
+    <a href=http://cn.boincstats.com/>Chinese</a>.
+    "
+),
 array("March 15, 2006",
     "The <a href=http://attribution.cpdn.org/>Seasonal Attribution Project</a>,
     a spin-off of Climateprediction.net,
