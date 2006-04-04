@@ -25,6 +25,11 @@ if (time()-$logged_in_user->last_post<$forum->post_min_interval){
     //Tell the user to wait a while before creating any more posts
     error_page(tr(FORUM_ERR_INTERVAL));
 }
+if (substr($logged_in_user->authenticator, 0, 1) == 'x'){
+    //User has been bad so we are going to take away ability to post for awhile.
+    error_page("This account has been administratively disabled.");
+}
+
 $title = post_str("title", true);
 $content = post_str("content", true);
 if ($title && $content) {

@@ -50,6 +50,11 @@ if (time()-$logged_in_user->last_post<$forum->post_min_interval){
         This delay has been enforced to protect against abuse of the system.");
 }
 
+if (substr($logged_in_user->authenticator, 0, 1) == 'x'){
+    //User has been bad so we are going to take away ability to post for awhile.
+    error_page("This account has been administratively disabled.");
+}
+
 if ($category->is_helpdesk) {
     if (!$sort_style) {
         $sort_style = getSortStyle($logged_in_user,"answer");
