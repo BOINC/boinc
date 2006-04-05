@@ -692,6 +692,7 @@
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
+		DD252F3009E3E014006454D7 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
 		DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MoreAddrToSym.c; sourceTree = "<group>"; };
 		DD2B9B3D099C78D700136663 /* MoreAddrToSym.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreAddrToSym.h; sourceTree = "<group>"; };
 		DD2B9B3E099C78D700136663 /* MoreBacktrace.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MoreBacktrace.c; sourceTree = "<group>"; };
@@ -1410,6 +1411,7 @@
 				DD40825207D3076400163EF5 /* graphics_data.h */,
 				DD40825307D3076400163EF5 /* graphics_impl.C */,
 				DD40825407D3076400163EF5 /* graphics_impl.h */,
+				DD252F3009E3E014006454D7 /* boinc_glut.h */,
 				DD64DF0409DCC5E000668B3A /* gutil_text.C */,
 				DD40825507D3076400163EF5 /* gutil.C */,
 				DD40825607D3076400163EF5 /* gutil.h */,

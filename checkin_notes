@@ -3572,3 +3572,15 @@ Rom    5 Apr 2006
         
     clientgui/
         AccountInfoPage.cpp
+
+Charlie 5 Apr 2006
+    - Mac: New shell script to sets up Mac to run BOINC Client as 
+        a daemon / service.  Note: when running as a daemon, the 
+        graphics (screensaver and "Show Graphics" button) work only 
+        if BOINC's owner is the logged in user.
+    - Added boinc_glut.h to XCode project.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        Make_BOINC_Service.sh (new)
