@@ -530,7 +530,7 @@ bool CLIENT_STATE::rr_misses_deadline(double per_cpu_proc_rate, double rrs) {
 
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
-        double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->report_deadline;
+        double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->computation_deadline();
         if (diff > 0) {
             scope_messages.printf(
                 "rr_sim: result %s misses deadline by %f\n", rpbest->name, diff

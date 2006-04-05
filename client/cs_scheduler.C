@@ -447,13 +447,17 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (have_sporadic_connection) {
             return p;
         }
-        if (gstate.now > r->report_deadline - REPORT_DEADLINE_CUSHION) {
+        double cushion = std::max(
+            (double)REPORT_DEADLINE_CUSHION,
+            global_prefs.work_buf_min_days * SECONDS_PER_DAY
+        );
+        if (gstate.now > r->report_deadline - cushion) {
             return p;
         }
         if (gstate.now > r->completed_time + global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
             return p;
         }
-    }
+}
 
     return 0;
 }

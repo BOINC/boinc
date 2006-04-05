@@ -3548,3 +3548,18 @@ David  4 Apr 2006
 
     html/ops/
         db_cleanse.php
+
+David  4 Apr 2006
+    - core client: define a result's "computation deadline":
+        it's report deadline minus network connect period
+        and minus cpu scheduling period.
+        Use this, rather than report deadline, in CPU scheduling.
+    - take network connect period into account in deciding
+        when results have to be reported
+
+    (from John McLeod)
+
+    client/
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C

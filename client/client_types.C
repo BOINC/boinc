@@ -1230,6 +1230,20 @@ void RESULT::clear() {
     project = NULL;
 }
 
+// Results must be complete early enough to report before the report deadline.
+// Not all hosts are connected all of the time.
+//
+double RESULT::computation_deadline() {
+    return report_deadline - (
+        gstate.global_prefs.work_buf_min_days * SECONDS_PER_DAY
+            // Seconds that the host will not be connected to the Internet
+        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
+            // Seconds that the CPU may be busy with some other result
+        + SECONDS_PER_DAY
+            // Deadline cusion
+    );
+}
+
 // parse a <result> element from scheduling server.
 //
 int RESULT::parse_server(MIOFILE& in) {

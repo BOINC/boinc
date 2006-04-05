@@ -464,6 +464,7 @@ struct RESULT {
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
+    double computation_deadline();
 };
 
 #endif
