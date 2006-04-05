@@ -275,6 +275,29 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         }
     }
 
+    if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
+        m_pAccountQuestionStaticCtrl->Hide();
+        m_pAccountCreateCtrl->SetValue(false);
+        m_pAccountCreateCtrl->Hide();
+        m_pAccountUseExistingCtrl->SetValue(true);
+        m_pAccountUseExistingCtrl->Hide();
+        m_pAccountConfirmPasswordStaticCtrl->Hide();
+        m_pAccountConfirmPasswordCtrl->Hide();
+        m_pAccountPasswordRequirmentsStaticCtrl->Hide();
+    }
+
+    if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
+        if (!IS_ACCOUNTMANAGERWIZARD()) {
+            m_pAccountCreateCtrl->SetValue(false);
+            m_pAccountCreateCtrl->Disable();
+            m_pAccountUseExistingCtrl->SetValue(true);
+            m_pAccountConfirmPasswordStaticCtrl->Hide();
+            m_pAccountConfirmPasswordCtrl->Hide();
+            m_pAccountPasswordRequirmentsStaticCtrl->Hide();
+        }
+    }
+
+
     m_pTitleStaticCtrl->SetLabel(
         _("User information")
     );
@@ -296,21 +319,12 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             );
         }
     } else {
-        m_pAccountQuestionStaticCtrl->Hide();
-        m_pAccountCreateCtrl->SetValue(FALSE);
-        m_pAccountCreateCtrl->Hide();
-        m_pAccountUseExistingCtrl->SetValue(TRUE);
-        m_pAccountUseExistingCtrl->Hide();
-        m_pAccountPasswordRequirmentsStaticCtrl->Hide();
-
         if (wxGetApp().GetBrand()->IsBranded() && 
             !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
             m_pAccountInformationStaticCtrl->SetLabel(
                 wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
             );
         }
-        m_pAccountConfirmPasswordStaticCtrl->Hide();
-        m_pAccountConfirmPasswordCtrl->Hide();
     }
 
     if (m_pAccountUseExistingCtrl->GetValue()) {
@@ -326,18 +340,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pAccountConfirmPasswordStaticCtrl->SetLabel(
         _("C&onfirm password:")
     );
-
-    if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
-            m_pAccountCreateCtrl->SetValue(false);
-            m_pAccountUseExistingCtrl->SetValue(true);
-            m_pAccountConfirmPasswordStaticCtrl->Hide();
-            m_pAccountConfirmPasswordCtrl->Hide();
-            m_pAccountPasswordRequirmentsStaticCtrl->Hide();
-
-            m_pAccountCreateCtrl->Disable();
-        }
-    }
 
     if (!((CBOINCBaseWizard*)GetParent())->project_name.IsEmpty()) {
         wxString strQuestion;

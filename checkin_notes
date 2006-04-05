@@ -3563,3 +3563,12 @@ David  4 Apr 2006
         client_types.C,h
         cpu_sched.C
         cs_scheduler.C
+
+Rom    5 Apr 2006
+    - Bug Fix: Set the AccountInfo.cpp control states before
+        attempting to set the text for the controls.  Otherwise
+        we'll see text that says 'choose a password' instead
+        of 'password'.
+        
+    clientgui/
+        AccountInfoPage.cpp
