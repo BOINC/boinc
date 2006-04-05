@@ -71,6 +71,7 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 extern SCHED_CONFIG dc_boinc_config;
 
 static GHashTable *wu_table;
+static int num_wus;
 
 static const struct tag_desc tags[] =
 {
@@ -377,6 +378,7 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
 			NULL, NULL);
 	g_hash_table_insert(wu_table, wu->name, wu);
+	++num_wus;
 
 	return wu;
 }
@@ -388,6 +390,7 @@ void DC_destroyWU(DC_Workunit *wu)
 
 	if (wu_table)
 		g_hash_table_remove(wu_table, wu->name);
+	--num_wus;
 
 	switch (wu->state)
 	{
@@ -960,6 +963,7 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
 			NULL, NULL);
 	g_hash_table_insert(wu_table, wu->name, wu);
+	++num_wus;
 
 	return wu;
 
@@ -1026,4 +1030,46 @@ DC_Workunit *_DC_getWUByName(const char *name)
 #endif
 
 	return load_from_disk(uuid);
+}
+
+int DC_getWUNumber(DC_WUState state)
+{
+	DB_BASE db("", &boinc_db);
+	int val, ret;
+	char *query;
+
+	switch (state)
+	{
+		case DC_WU_READY:
+			/* XXX Should walk the wu_table */
+			return -1;
+		case DC_WU_RUNNING:
+			query = g_strdup_printf("SELECT COUNT(*) "
+				"FROM workunit wu, result res WHERE "
+				"wu.name LIKE '%s\\_%%' AND "
+				"(res.server_state = 2 OR res.server_state = 4)",
+				project_uuid_str);
+			ret = db.get_integer(val, query);
+			g_free(query);
+			if (ret)
+				return -1;
+			return val;
+		case DC_WU_FINISHED:
+			query = g_strdup_printf("SELECT COUNT(*) "
+				"FROM workunit wu WHERE "
+				"wu.name LIKE '%s\\_%%' AND "
+				"wu.assimilate_state = %d",
+				project_uuid_str, ASSIMILATE_READY);
+			ret = db.get_integer(val, query);
+			g_free(query);
+			if (ret)
+				return -1;
+			break;
+		case DC_WU_SUSPENDED:
+		case DC_WU_ABORTED:
+		case DC_WU_UNKNOWN:
+		default:
+			return -1;
+	}
+
 }
