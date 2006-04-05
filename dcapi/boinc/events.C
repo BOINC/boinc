@@ -24,7 +24,7 @@ int DC_processEvents(int timeout)
 	}
 
 	/* XXX Check LIMIT value */
-	query = g_strdup_printf("WHERE name LIKE '%s_%%' "
+	query = g_strdup_printf("WHERE name LIKE '%s\\_%%' "
 		"AND assimilate_state = %d LIMIT 100", project_uuid_str,
 		ASSIMILATE_READY);
 	while (!wu.enumerate(query))
@@ -74,15 +74,15 @@ static DC_Event *look_for_results(const char *wuFilter, const char *wuName,
 	char *query;
 
 	if (wuFilter)
-		query = g_strdup_printf("WHERE name LIKE '%s_%%_%s' "
+		query = g_strdup_printf("WHERE name LIKE '%s\\_%%\\_%s' "
 			"AND assimilate_state = %d LIMIT 1", project_uuid_str,
 			wuFilter, ASSIMILATE_READY);
 	else if (wuName)
-		query = g_strdup_printf("WHERE name LIKE '%s_%s%%' "
+		query = g_strdup_printf("WHERE name LIKE '%s\\_%s%%' "
 			"AND assimilate_state = %d LIMIT 1", project_uuid_str,
 			wuName, ASSIMILATE_READY);
 	else
-		query = g_strdup_printf("WHERE name LIKE '%s_%%' "
+		query = g_strdup_printf("WHERE name LIKE '%s\\_%%' "
 			"AND assimilate_state = %d LIMIT 1", project_uuid_str,
 			ASSIMILATE_READY);
 
