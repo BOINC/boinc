@@ -101,23 +101,59 @@ static const GMarkupParser wudesc_parser =
  * form: <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid> Where <hash>
  * is the first 2 hex digits of the uuid
  */
-static char *get_workdir(const uuid_t uuid, const char *uuid_str)
+static char *get_workdir(const uuid_t uuid, int create)
 {
+	char *tmp, uuid_str[37];
 	GString *str;
-	char *tmp;
+	int ret;
+
+	uuid_unparse_lower(uuid, uuid_str);
 
 	str = g_string_new(_DC_getCfgStr(CFG_WORKDIR));
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append(str, ".dcapi-");
 	g_string_append(str, project_uuid_str);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append_printf(str, "%02x", uuid[0]);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append(str, uuid_str);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
 
 	tmp = str->str;
 	g_string_free(str, FALSE);
 	return tmp;
+
+error:
+	DC_log(LOG_ERR, "Failed to create WU working directory %s: %s",
+		str->str, strerror(errno));
+	g_string_free(str, TRUE);
+	return NULL;
 }
 
 /* Get the full path of a file in the WU's working directory */
@@ -154,7 +190,10 @@ static FILE *open_workdir_file(DC_Workunit *wu, const char *label,
  * without path components */
 static char *get_input_download_name(DC_Workunit *wu, const char *label)
 {
-	return g_strdup_printf("%s_%s", label, wu->uuid_str);
+	char uuid_str[37];
+
+	uuid_unparse_lower(wu->uuid, uuid_str);
+	return g_strdup_printf("%s_%s", label, uuid_str);
 }
 
 /* Returns the full path of the input file in the BOINC download hierarchy */
@@ -167,16 +206,6 @@ static char *get_input_download_path(DC_Workunit *wu, const char *label)
 		path, TRUE);
 	g_free(filename);
 	return g_strdup(path);
-}
-
-/* Calculate the WU name from the uuid and tag */
-static char *build_wu_name(const char *uuid_str, const char *tag)
-{
-	if (tag)
-		return g_strdup_printf("%s_%s_%s", project_uuid_str,
-			uuid_str, tag);
-	else
-		return g_strdup_printf("%s_%s", project_uuid_str, uuid_str);
 }
 
 static int copy_file(const char *src, const char *dst)
@@ -243,6 +272,19 @@ static int copy_file(const char *src, const char *dst)
 		return -1;
 	}
 	return 0;
+}
+
+static int wu_uuid_equal(const void *a, const void *b)
+{
+	return uuid_compare((const unsigned char *)a,
+		(const unsigned char *)b) == 0;
+}
+
+static unsigned wu_uuid_hash(const void *ptr)
+{
+	guint32 *h = (guint *)ptr;
+
+	return h[0] ^ h[1] ^ h[2] ^ h[3];
 }
 
 /********************************************************************
@@ -339,7 +381,6 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	int subresults, const char *tag)
 {
 	DC_Workunit *wu;
-	int ret;
 
 	if (!clientName)
 	{
@@ -358,26 +399,18 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	wu->tag = g_strdup(tag);
 
 	uuid_generate(wu->uuid);
-	wu->uuid_str = (char *)malloc(37);
-	uuid_unparse_lower(wu->uuid, wu->uuid_str);
 
-	/* We only need to store wu->name because it is the hash key */
-	/* XXX Use wu->uuid as hash key and get rid of wu->name */
-	wu->name = build_wu_name(wu->uuid_str, wu->tag);
-	wu->workdir = get_workdir(wu->uuid, wu->uuid_str);
-	ret = g_mkdir_with_parents(wu->workdir, 0700);
-	if (ret)
+	wu->workdir = get_workdir(wu->uuid, TRUE);
+	if (!wu->workdir)
 	{
-		DC_log(LOG_ERR, "Failed to create WU working directory %s: %s",
-			wu->workdir, strerror(errno));
 		DC_destroyWU(wu);
 		return NULL;
 	}
 
 	if (!wu_table)
-		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
+		wu_table = g_hash_table_new_full(wu_uuid_hash, wu_uuid_equal,
 			NULL, NULL);
-	g_hash_table_insert(wu_table, wu->name, wu);
+	g_hash_table_insert(wu_table, wu->uuid, wu);
 	++num_wus;
 
 	return wu;
@@ -389,7 +422,7 @@ void DC_destroyWU(DC_Workunit *wu)
 		return;
 
 	if (wu_table)
-		g_hash_table_remove(wu_table, wu->name);
+		g_hash_table_remove(wu_table, wu->uuid);
 	--num_wus;
 
 	switch (wu->state)
@@ -456,11 +489,9 @@ void DC_destroyWU(DC_Workunit *wu)
 		g_free(wu->workdir);
 	}
 
-	g_free(wu->uuid_str);
 	g_free(wu->client_name);
 	g_strfreev(wu->argv);
 	g_free(wu->tag);
-	g_free(wu->name);
 
 	g_free(wu);
 }
@@ -708,13 +739,14 @@ static char *generate_wu_template(DC_Workunit *wu)
 
 static char *generate_result_template(DC_Workunit *wu)
 {
-	char *file, *abspath;
+	char *file, *abspath, uuid_str[37];
 	FILE *tmpl;
 	GList *l;
 	int i;
 
+	uuid_unparse_lower(wu->uuid, uuid_str);
 	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
-		wu->uuid_str);
+		uuid_str);
 	abspath = g_strdup_printf("%s%c%s", _DC_getCfgStr(CFG_PROJECTROOT),
 		G_DIR_SEPARATOR, file);
 
@@ -798,8 +830,8 @@ static int lookup_appid(DC_Workunit *wu)
 
 int DC_submitWU(DC_Workunit *wu)
 {
-	char **infiles, *result_path;
-	char *wu_template, *result_template_file;
+	char *wu_template, *result_template_file, **infiles, *result_path,
+		uuid_str[37];
 	int i, ret, ninputs;
 	DB_WORKUNIT bwu;
 	GList *l;
@@ -808,7 +840,13 @@ int DC_submitWU(DC_Workunit *wu)
 	if (ret)
 		return ret;
 
-	strncpy(bwu.name, wu->name, sizeof(bwu.name));
+	uuid_unparse_lower(wu->uuid, uuid_str);
+	if (wu->tag)
+		snprintf(bwu.name, sizeof(bwu.name), "%s_%s_%s",
+			project_uuid_str, uuid_str, wu->tag);
+	else
+		snprintf(bwu.name, sizeof(bwu.name), "%s_%s",
+			project_uuid_str, uuid_str);
 
 	bwu.appid = lookup_appid(wu);
 	if (bwu.appid == -1)
@@ -866,6 +904,7 @@ int DC_submitWU(DC_Workunit *wu)
 char *DC_serialize(DC_Workunit *wu)
 {
 	DC_PhysicalFile *file;
+	char id[2 * 36 + 2];
 	GList *l;
 	FILE *f;
 	int i;
@@ -890,7 +929,15 @@ char *DC_serialize(DC_Workunit *wu)
 	fprintf(f, "<subresults>%d</subresults>\n", wu->subresults);
 	fclose(f);
 
-	return g_strdup(wu->name);
+	strncpy(id, project_uuid_str, sizeof(id));
+	id[36] = '_';
+	uuid_unparse_lower(wu->uuid, id + 37);
+	return strdup(id);
+}
+
+DC_Workunit *DC_unserialize(const char *id)
+{
+	return _DC_getWUByName(id);
 }
 
 #if 0
@@ -914,15 +961,14 @@ static DC_Workunit *load_from_boinc_db(const char *name)
 
 static DC_Workunit *load_from_disk(const uuid_t uuid)
 {
-	char uuid_str[37], *workdir, buf[256];
 	GMarkupParseContext *ctx;
 	struct parser_state pctx;
+	char *workdir, buf[256];
 	DC_Workunit *wu;
 	GError *error;
 	FILE *f;
 
-	uuid_unparse_lower(uuid, uuid_str);
-	workdir = get_workdir(uuid, uuid_str);
+	workdir = get_workdir(uuid, FALSE);
 	if (!g_file_test(workdir, G_FILE_TEST_IS_DIR))
 	{
 		g_free(workdir);
@@ -932,7 +978,6 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 	wu = g_new0(DC_Workunit, 1);
 	wu->workdir = workdir;
 	memcpy(wu->uuid, uuid, sizeof(wu->uuid));
-	wu->uuid_str = g_strdup(uuid_str);
 
 	f = open_workdir_file(wu, "wu_desc", FILE_DCAPI, "r");
 	if (!f)
@@ -957,12 +1002,10 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 	g_markup_parse_context_free(ctx);
 	fclose(f);
 
-	wu->name = build_wu_name(wu->uuid_str, wu->tag);
-
 	if (!wu_table)
-		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
+		wu_table = g_hash_table_new_full(wu_uuid_hash, wu_uuid_equal,
 			NULL, NULL);
-	g_hash_table_insert(wu_table, wu->name, wu);
+	g_hash_table_insert(wu_table, wu->uuid, wu);
 	++num_wus;
 
 	return wu;
@@ -984,13 +1027,6 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	uuid_t uuid;
 	int ret;
 
-	if (wu_table)
-	{
-		wu = (DC_Workunit *)g_hash_table_lookup(wu_table, name);
-		if (wu)
-			return wu;
-	}
-
 	/* Check if the WU belongs to this application */
 	uuid_str = g_strndup(name, 36);
 	ret = uuid_parse(uuid_str, uuid);
@@ -1007,7 +1043,8 @@ DC_Workunit *_DC_getWUByName(const char *name)
 		return NULL;
 	}
 
-	if (name[36] != '_')
+	/* WU name syntax: <uuid> '_' <uuid> [ '_' <tag> ] */
+	if (name[36] != '_' || (strlen(name) >= 73 && name[73] != '_'))
 	{
 		DC_log(LOG_ERR, "Illegal WU name syntax");
 		return NULL;
@@ -1021,6 +1058,13 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	{
 		DC_log(LOG_ERR, "WU name contains illegal UUID");
 		return NULL;
+	}
+
+	if (wu_table)
+	{
+		wu = (DC_Workunit *)g_hash_table_lookup(wu_table, uuid);
+		if (wu)
+			return wu;
 	}
 
 #if 0
