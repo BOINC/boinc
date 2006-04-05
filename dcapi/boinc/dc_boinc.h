@@ -49,9 +49,7 @@ struct _DC_Workunit
 	int			subresults;
 
 	/* State of the WU */
-	char			*name;
 	uuid_t			uuid;
-	char			*uuid_str;
 	DC_WUState		state;
 	char			*workdir;
 

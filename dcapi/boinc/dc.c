@@ -170,7 +170,7 @@ int DC_getMaxMessageSize(void)
 
 int DC_getMaxSubresults(void)
 {
-	return 20; /* XXX */
+	return 100; /* XXX */
 }
 
 DC_GridCapabilities DC_getGridCapabilities(void)

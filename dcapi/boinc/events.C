@@ -126,9 +126,11 @@ DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
 
 DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
+	char uuid_str[36];
 	DC_Event *event;
 
-	event = look_for_results(NULL, wu->name, timeout);
+	uuid_unparse_lower(wu->uuid, uuid_str);
+	event = look_for_results(NULL, uuid_str, timeout);
 /*
 	if (!event)
 		event = look_for_notifications(...)
