@@ -25,11 +25,14 @@ On Mac OS X:
     <li>Click on the icon in the menubar or Dock and hold the
     button down until the menu appears.
     </ul>
+<a name=icon>
 <p>
 The icon menu choices are:
 <ul>
 <li> <b>Open BOINC Manager</b>: opens the current BOINC Manager.
-<li> <b>Snooze</b>: stop work (computation and file transfer).
+<li> <b>Snooze</b>: stop work (computation and file transfer) for
+one hour or until you cancel it.
+See also <a href=#activity>Activity menu</a>.
 <li> <b>About BOINC Manager</b>:  displays useful information about the
 BOINC Manager.
 <li> <b>Exit</b>:  exit the BOINC manager and all running BOINC applications.
@@ -44,7 +47,9 @@ the project it is currently working on, how far along it is, and which
 computer it is connected to (Windows only).
 <h1>BOINC Manager Tabs</h1>
 <h2>Projects</h2>
-<p>Shows the projects in which this computer is participating.
+<p>
+Shows the projects in which this computer is participating.
+<br><br>
 <img src=mgrprojects.png>
 <p>
 
@@ -52,28 +57,31 @@ computer it is connected to (Windows only).
 <ul>
 <li>Suspended by user:
     The project is currently suspended.
-<li>Retry in ...:
+<li> Communication deferred ...:
     The client will wait the specified amount of time before attempting
     to contact the project server again.
+    If no communication is required at that point, none will be attempted.
 <li>Won't get new tasks:
     The project will not fill the cache for this project
     when it runs out of tasks.
 </ul>
 
 <h3>Commands</h3>
-<p>Click on a project name to enable the following additional buttons:
+<p>
+Click on a project name to enable the following additional buttons:
 
 <ul>
-<li> <b>Allow new work</b>:
+<li> <b>Allow new tasks</b>:
     Allow the project to download additional work, if needed.
 <li> <b>Detach</b>:
     Your computer will stop working for the project.
-<li> <b>No new work</b>:
+<li> <b>No new tasks</b>:
     Do not download any additional work for this project.
 <li> <b>Reset project</b>:
     Stop the project's current work, if any,
     and start from scratch.
     Use this if BOINC has become stuck for some reason.
+    Any unreported results and tasks in progress will be discarded.
 <li> <b>Resume</b>:
     Resumes processing of a previously suspended project.
 <li> <b>Suspend</b>:
@@ -91,10 +99,13 @@ computer it is connected to (Windows only).
 
 <h2>Tasks</h2>
 <p>Shows the tasks currently on your computer.
+<br><br>
 <img src=mgrwork.png>
+<br>
 
-<p>Each task is either:
-    <ul>
+<p>
+Each task is either:
+<ul>
 <li>Aborted by user:
     Result has been aborted.
 <li>Downloading:
@@ -109,12 +120,12 @@ computer it is connected to (Windows only).
 <li>Running:
     Elapsed CPU time and estimated percent done is shown.
 <li>Suspended by user:
-    Result has been suspended by the user.  Use the 'Resume' button on 
-    this tab to resume the result.
+    Task has been suspended by the user.
+    Use the 'Resume' button on this tab to resume the task.
 <li>Uploading:
     Output files are being uploaded.
 <li>Activities Suspended:
-    BOINC is suspended, either thru the Command->Suspend menu item or 
+    BOINC is suspended, either by the Command->Suspend menu item or 
     benchmarks are running
 <li>Project suspended by user:
     Project has been suspended by user.  Use the 'Resume' button on the
@@ -123,23 +134,26 @@ computer it is connected to (Windows only).
 
 </ul>
 
-<p>Click on a result name to enable the following additional buttons:
+<p>
+Click on a result name to enable the following additional buttons:
 <ul>
 <li> <b>Abort</b>:
     Abort processing for a result. NOTE: This will prevent you from receiving
     credit for any work already completed.
 <li> <b>Resume</b>:
-    Resumes processing of a previously suspended result.  
+    Resumes processing of a previously suspended task.  
     Note, this applies to tasks with status 'Suspended by user'.
 <li> <b>Show graphics</b>:
     Open a window showing application graphics.
 <li> <b>Suspend</b>:
-    Suspends any further processing of this result.
+    Suspends any further processing of this task.
 </ul>
 
 <h2>Transfers</h2>
-<p>Shows file transfers (uploads and downloads).
+<p>
+Shows file transfers (uploads and downloads).
     These may be ready to start, in progress, and completed.
+<br><br>
 <img src=mgrtransfers.png>
 
 <ul>
@@ -147,12 +161,12 @@ computer it is connected to (Windows only).
     Result has been aborted and will be reported to the project server
     as a computational error.
 <li>Downloading:
-    Input files are being downloaded.
+    Your computer is receiving data from the project server.
 <li>Retry in ...:
     The client will wait the specified amount of time before attempting
     to contact the project server again.
 <li>Uploading:
-    Output files are being uploaded.
+    Your computer is sending data to the project server.
 </ul>
 
 <p>Click on a file name to enable the following additional buttons:
@@ -165,43 +179,50 @@ computer it is connected to (Windows only).
 </ul>
 
 <h2>Messages</h2>
-<p>Shows status and error messages.
-    Messages can be sorted by project or time.
+<p>
+Shows status and error messages.
     You can <a href=client_msgs.php>control what messages are shown</a>.
     Messages are also written to a file 'stdoutdae.txt'.
 <br>
 <img src=mgrmessages.png>
 
-<p>Click on one or more messages to enable the following additional buttons:
+<p>
+Click on one or more messages to enable the following additional buttons:
 <ul>
 <li> <b>Copy all messages</b>:
     Copies all the messages to the clipboard.
 <li> <b>Copy selected messages</b>:
-    Copies the highlighted messages to the clipboard. NOTE: To highlight a message
-    hold down the CTRL key and then click on the messages you want to store in the
-    clipboard.  When done click on the 'Copy selected messages' button to copy them
+    Copies the highlighted messages to the clipboard.
+    NOTE: To highlight a message
+    hold down the CTRL key (Windows) or Command key (Mac)
+    and then click on the messages you want to store in the clipboard.
+    When done click on the 'Copy selected messages' button to copy them
     to the clipboard.
 </ul>
 
 <h2>Statistics</h2>
-<p>Shows some simple charts and graphs about the user and host progress
+<p>
+Shows some simple charts and graphs about the user and host progress
+<br><br>
 <img src=mgrstatistics.png>
-<p>NOTE: This feature requires three connections to each project scheduler on three
+<p>
+NOTE: This feature requires three connections to each project scheduler on three
    different days before it starts to work properly.
 <p>Click on any of the buttons to change to a different chart:
 <ul>
 <li> <b>Show user total</b>:
     Shows the user's credit totals for each project.
 <li> <b>Show user average</b>:
-    Shows the users's credit averages for each project.
+    Shows the user's credit averages for each project.
 <li> <b>Show host total</b>:
-    Shows the host's credit totals for each project.
+    Shows this computer's credit totals for each project.
 <li> <b>Show host average</b>:
-    Shows the host's credit averages for each project.
+    Shows this computer's credit averages for each project.
 </ul>
 
 <h2>Disk</h2>
 <p>This shows how much disk space is currently being used by each project.
+<br><br>
 <img src=mgrdisk.png>
 
 <h1>BOINC Manager Menus</h1>
@@ -220,15 +241,16 @@ The BOINC manager has the following menus:
     <ul>
     <li> <b>Attach to project</b>:
         enroll this computer in a project.
-        You must have already created an account with the project.
-        You will be asked to enter the project's URL and either your account key
-        or your email address and password, depending on the project.
+        You will be asked to enter the project's URL and
+        your email address and password.
 <!-- ** ROM ** Please add a link to a page with details on using the Wizard. -->
     <li> <b>Account Manager</b>: attach to one or more new projects using an
-        account manager web site.  See <a href=/acct_mgrs.php>Account managers</a>
+        account manager web site.
+        See <a href=/acct_mgrs.php>Account managers</a>
     </ul>
 
 <br>
+<a name=activity>
 <li> <b>Activity</b>
     <ul>
     <li> <b>Run always</b>: do work, regardless of preferences.
@@ -250,6 +272,18 @@ The BOINC manager has the following menus:
         communications and attaching to projects.  The network will remain
         enabled for five  minutes.
     </ul>
+Notes:
+<ul>
+<li> Selecting an option that requires contacting a project
+will temporarily enable network activity regardless of this setting.
+This includes updating a project, retrying file transfers,
+retrying communications and attaching to projects.
+Network activity will remain enabled for five minutes.
+<li> Selecting <b>Snooze</b> from the <a href=#icon>icon menu</a>
+overrides this setting for one hour.
+Selecting <b>Run always</b> or <b>Run based on preferences</b>
+cancels <b>Snooze</b>.
+</ul>
 
 <br>
 <li> <b>Advanced</b>
@@ -277,8 +311,9 @@ The BOINC manager has the following menus:
 <br>
 <li> <b>Help</b>
     <ul>
-    <li> <b>BOINC Manager</b>: open a web page with instructions for using the
-        BOINC manager.  The F1 function key also does this.
+    <li> <b>BOINC Manager</b>:
+        open this web page with instructions for using the BOINC manager.
+        The F1 function key also does this.
     <li> <b>BOINC website</b>: open the main BOINC web page.
     <li> <b>About BOINC Manager</b>: show BOINC manager version number (on Mac OS X,
         this command is under the BOINC menu.)
