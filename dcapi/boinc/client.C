@@ -56,6 +56,7 @@ int DC_getMaxSubresults(void)
 	while ((d = readdir(dir)))
 		if (!strncasecmp(d->d_name, SUBRESULT_PFX, strlen(SUBRESULT_PFX)))
 			nsubs++;
+	closedir(dir);
 	return nsubs;
 }
 
