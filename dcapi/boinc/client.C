@@ -41,17 +41,28 @@ int DC_getMaxMessageSize(void)
 	return MAX_MESSAGE_SIZE;
 }
 
+/* Determine the number of allowed subresults by counting all output files
+ * that have a name starting with SUBRESULT_PFX */
 int DC_getMaxSubresults(void)
 {
-	/* XXX Return the actually defined subresults */
-	return 10;
+	struct dirent *d;
+	int nsubs;
+	DIR *dir;
+
+	dir = opendir(".");
+	if (!dir)
+		return 0;
+	nsubs = 0;
+	while ((d = readdir(dir)))
+		if (!strncasecmp(d->d_name, SUBRESULT_PFX, strlen(SUBRESULT_PFX)))
+			nsubs++;
+	return nsubs;
 }
 
 DC_GridCapabilities DC_getGridCapabilities(void)
 {
-	/* XXX Add DC_GC_SUBRESULT when it is implemented */
 	return (DC_GridCapabilities)(DC_GC_EXITCODE | DC_GC_STDERR |
-		DC_GC_MESSAGING);
+		DC_GC_SUBRESULT | DC_GC_MESSAGING);
 }
 
 /********************************************************************
