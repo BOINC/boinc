@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-03-10 14:05+0500\n"
-"Last-Translator: mifistor <mifistor_x@yahoo.com>\n"
+"PO-Revision-Date: 2006-03-29 20:01+0500\n"
+"Last-Translator: mifistor_x <mifistor_x@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
@@ -224,7 +224,7 @@ msgstr ""
 "\n"
 "Посетите домашнюю страницу проекта для получения инструкций."
 
-#: clientgui/BOINCBaseView.cpp:459
+#: clientgui/BOINCBaseView.cpp:457
 msgid "Web sites"
 msgstr "Ссылки"
 
@@ -536,31 +536,31 @@ msgstr ""
 "Соединение с указанным менеджером проектов\n"
 "успешно установлено."
 
-#: clientgui/DlgAbout.cpp:92
+#: clientgui/DlgAbout.cpp:93
 #, c-format
 msgid "About %s"
 msgstr "О %s"
 
-#: clientgui/DlgAbout.cpp:98
+#: clientgui/DlgAbout.cpp:99
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/DlgAbout.cpp:133
+#: clientgui/DlgAbout.cpp:138
 #: clientgui/WizardAccountManager.cpp:130
 #: clientgui/WizardAttachProject.cpp:141
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
-#: clientgui/DlgAbout.cpp:152
+#: clientgui/DlgAbout.cpp:157
 msgid "Version:"
 msgstr "Версия:"
 
-#: clientgui/DlgAbout.cpp:160
+#: clientgui/DlgAbout.cpp:165
 msgid "Copyright:"
 msgstr "Авторские права:"
 
-#: clientgui/DlgAbout.cpp:164
+#: clientgui/DlgAbout.cpp:169
 msgid ""
 "(C) 2003-2006 University of California at Berkeley.\n"
 "All Rights Reserved."
@@ -568,19 +568,19 @@ msgstr ""
 "(C) 2003-2006 Калифорнийский университет Беркли \n"
 "Все права защищены."
 
-#: clientgui/DlgAbout.cpp:168
+#: clientgui/DlgAbout.cpp:173
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 "BOINC - Berkeley Open Infrastructure for Network Computing\n"
 "Открытая Инфрастуктура для Распределенных Вычислений университета Беркли"
 
-#: clientgui/DlgAbout.cpp:172
+#: clientgui/DlgAbout.cpp:177
 msgid "A software platform for distributed computing using volunteered computer resources"
 msgstr ""
 "Программная платформа для организации распределённых вычислений\n"
 " с использованием компьютеров добровольцев"
 
-#: clientgui/DlgAbout.cpp:184
+#: clientgui/DlgAbout.cpp:189
 #: clientgui/DlgDialupCredentials.cpp:136
 #: clientgui/DlgGenericMessage.cpp:122
 #: clientgui/DlgOptions.cpp:324
@@ -1500,7 +1500,7 @@ msgstr "Компьютер (хост) с именем: \"%s\" не найден."
 msgid "'%s' does not contain a valid path."
 msgstr "Указанный путь: \"%s\" не существует."
 
-#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewMessages.cpp:78
 #: clientgui/ViewProjects.cpp:102
 #: clientgui/ViewStatistics.cpp:637
 #: clientgui/ViewTransfers.cpp:92
@@ -1508,23 +1508,23 @@ msgstr "Указанный путь: \"%s\" не существует."
 msgid "Commands"
 msgstr "Действия"
 
-#: clientgui/ViewMessages.cpp:78
+#: clientgui/ViewMessages.cpp:82
 msgid "Copy all messages"
 msgstr "Копировать все"
 
-#: clientgui/ViewMessages.cpp:79
+#: clientgui/ViewMessages.cpp:83
 msgid "Copy all the messages to the clipboard."
 msgstr "Копировать все сообщения в буфер обмена"
 
-#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessages.cpp:89
 msgid "Copy selected messages"
 msgstr "Копировать выделенное"
 
-#: clientgui/ViewMessages.cpp:86
+#: clientgui/ViewMessages.cpp:90
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr "Копировать выделенные сообщения в буфер обмена. Можно использовать SHIFT и CTRL для выделения нескольких сообщений."
 
-#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewMessages.cpp:102
 #: clientgui/ViewProjects.cpp:150
 #: clientgui/ViewResources.cpp:76
 #: clientgui/ViewStatistics.cpp:668
@@ -1533,23 +1533,23 @@ msgstr "Копировать выделенные сообщения в буфер обмена. Можно использовать SHIFT
 msgid "Project"
 msgstr "Проект"
 
-#: clientgui/ViewMessages.cpp:99
+#: clientgui/ViewMessages.cpp:103
 msgid "Time"
 msgstr "Время"
 
-#: clientgui/ViewMessages.cpp:100
+#: clientgui/ViewMessages.cpp:104
 msgid "Message"
 msgstr "Сообщение"
 
-#: clientgui/ViewMessages.cpp:124
+#: clientgui/ViewMessages.cpp:128
 msgid "Messages"
 msgstr "Сообщения"
 
-#: clientgui/ViewMessages.cpp:146
+#: clientgui/ViewMessages.cpp:150
 msgid "Copying all messages to the clipboard..."
 msgstr "Копируются все сообщения в буфер обмена..."
 
-#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewMessages.cpp:182
 #: clientgui/ViewTransfers.cpp:185
 msgid "Aborting transfer..."
 msgstr "Прерывание передачи данных с последующим удалением передаваемого файла..."
@@ -1565,7 +1565,7 @@ msgstr "Получить информацию с сервера проекта: о подтверждении передачи завершен
 #: clientgui/ViewProjects.cpp:114
 #: clientgui/ViewProjects.cpp:564
 #: clientgui/ViewWork.cpp:111
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:517
 msgid "Suspend"
 msgstr "Приостановить"
 
@@ -1679,12 +1679,12 @@ msgid "Detach from Project"
 msgstr "Отсоединение от проекта"
 
 #: clientgui/ViewProjects.cpp:375
-#: clientgui/ViewWork.cpp:295
+#: clientgui/ViewWork.cpp:319
 msgid "Launching browser..."
 msgstr "Загружается браузер..."
 
 #: clientgui/ViewProjects.cpp:560
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:511
 msgid "Resume"
 msgstr "Запустить"
 
@@ -1706,7 +1706,7 @@ msgid "Don't fetch new tasks for this project."
 msgstr "Не запрашивать новые задания с сервера проекта"
 
 #: clientgui/ViewProjects.cpp:678
-#: clientgui/ViewWork.cpp:707
+#: clientgui/ViewWork.cpp:753
 msgid "Suspended by user"
 msgstr "Приостановлено пользователем"
 
@@ -1874,12 +1874,12 @@ msgid "Retry in "
 msgstr "Повтор через "
 
 #: clientgui/ViewTransfers.cpp:527
-#: clientgui/ViewWork.cpp:695
+#: clientgui/ViewWork.cpp:741
 msgid "Download failed"
 msgstr "Ошибка загрузки данных"
 
 #: clientgui/ViewTransfers.cpp:529
-#: clientgui/ViewWork.cpp:734
+#: clientgui/ViewWork.cpp:780
 msgid "Upload failed"
 msgstr "Ошибка отправки данных"
 
@@ -1889,12 +1889,12 @@ msgid "Suspended"
 msgstr "Приостановлена"
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:782
 msgid "Uploading"
 msgstr "Отправка данных"
 
 #: clientgui/ViewTransfers.cpp:535
-#: clientgui/ViewWork.cpp:697
+#: clientgui/ViewWork.cpp:743
 msgid "Downloading"
 msgstr "Загрузка данных"
 
@@ -1910,10 +1910,14 @@ msgstr "Ожидание загрузки данных"
 
 #: clientgui/ViewWork.cpp:104
 #: clientgui/ViewWork.cpp:213
+#: clientgui/ViewWork.cpp:532
+#: clientgui/ViewWork.cpp:540
 msgid "Show graphics"
 msgstr "Показать графику"
 
 #: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:533
+#: clientgui/ViewWork.cpp:541
 msgid "Show application graphics in a window."
 msgstr "Показать окно приложения с графической информацией"
 
@@ -1969,75 +1973,87 @@ msgstr "Открывается окно приложения с графической информацией..."
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Вы уверены, что хотите показать графическое окно для приложения на удаленном компьютере?"
 
-#: clientgui/ViewWork.cpp:258
+#: clientgui/ViewWork.cpp:274
 msgid "Aborting result..."
 msgstr "Прерывается обработка выделенного задания..."
 
-#: clientgui/ViewWork.cpp:261
+#: clientgui/ViewWork.cpp:282
 #, c-format
-msgid "Are you sure you want to abort this task '%s'?"
-msgstr "Вы уверены, что хотите прервать обработку выделенного задания \"%s\"?"
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s, Status: %s)"
+msgstr ""
+"Вы уверены, что хотите прервать обработку выделенного задания \"%s\"?\n"
+"(Прогресс: %s, Состояние: %s)"
 
-#: clientgui/ViewWork.cpp:267
+#: clientgui/ViewWork.cpp:291
 msgid "Abort task"
 msgstr "Прерывание обработки задания"
 
-#: clientgui/ViewWork.cpp:486
+#: clientgui/ViewWork.cpp:512
 msgid "Resume work for this task."
 msgstr "Продолжить обработку выделенного задания."
 
-#: clientgui/ViewWork.cpp:490
+#: clientgui/ViewWork.cpp:518
 msgid "Suspend work for this task."
 msgstr "Приостановить обработку выделенного задания"
 
-#: clientgui/ViewWork.cpp:691
+#: clientgui/ViewWork.cpp:526
+msgid "Hide graphics"
+msgstr "Скрыть графику"
+
+#: clientgui/ViewWork.cpp:527
+msgid "Hide application graphics window."
+msgstr "Закрыть окно приложения с графической информацией"
+
+#: clientgui/ViewWork.cpp:737
 msgid "New"
 msgstr "Новое"
 
-#: clientgui/ViewWork.cpp:703
-#: clientgui/ViewWork.cpp:727
+#: clientgui/ViewWork.cpp:749
+#: clientgui/ViewWork.cpp:773
 msgid "Aborted by user"
 msgstr "Прервано пользователем"
 
-#: clientgui/ViewWork.cpp:705
+#: clientgui/ViewWork.cpp:751
 msgid "Project suspended by user"
 msgstr "Проект приостановлен пользователем"
 
-#: clientgui/ViewWork.cpp:709
+#: clientgui/ViewWork.cpp:755
 msgid "Activities suspended"
 msgstr "Пауза"
 
-#: clientgui/ViewWork.cpp:712
+#: clientgui/ViewWork.cpp:758
 msgid "Running"
 msgstr "Работает"
 
-#: clientgui/ViewWork.cpp:714
+#: clientgui/ViewWork.cpp:760
 msgid "Preempted"
 msgstr "Приостановлено с последующим продолжением обработки"
 
-#: clientgui/ViewWork.cpp:716
-#: clientgui/ViewWork.cpp:719
+#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWork.cpp:765
 msgid "Ready to run"
 msgstr "Готово к запуску"
 
-#: clientgui/ViewWork.cpp:729
+#: clientgui/ViewWork.cpp:775
 msgid "Computation error"
 msgstr "Ошибка вычислений"
 
-#: clientgui/ViewWork.cpp:741
+#: clientgui/ViewWork.cpp:787
 msgid "Acknowledged"
 msgstr "Признано"
 
-#: clientgui/ViewWork.cpp:743
+#: clientgui/ViewWork.cpp:789
 msgid "Ready to report"
 msgstr "Ожидается подтверждение о приеме данных"
 
-#: clientgui/ViewWork.cpp:745
+#: clientgui/ViewWork.cpp:791
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Ошибка: invalid state \"%d\""
 
-#: clientgui/ViewWork.cpp:753
+#: clientgui/ViewWork.cpp:799
 msgid "Activities suspended by user"
 msgstr "Приостановлено пользователем"
 
@@ -2179,11 +2195,11 @@ msgstr "BOINC менеджер - подключение к компьютеру"
 # //-------------------------my-------------------------------
 # my Predictor@home
 msgid "Info about Russia"
-msgstr "Просмотр информации о команде, к которой вы присоединились: Russia"
+msgstr "Информация о команде Russia"
 
 # my Predictor@home
 msgid "Info about www.elite-games.ru"
-msgstr "Просмотр информации о команде, к которой вы присоединились: www.elite-games.ru"
+msgstr "Информация о команде www.elite-games.ru"
 
 # my Seti@home
 msgid "View information about your team: Russia"
@@ -2249,6 +2265,16 @@ msgstr "Узнать больше"
 msgid "More on QMC@HOME"
 msgstr "Получить больше информации о проекте QMC@HOME"
 
+# my QMC@HOME
+#: clientgui/Localization.cpp:125
+msgid "Project infos"
+msgstr "Информация о проекте"
+
+# my QMC@HOME
+#: clientgui/Localization.cpp:125
+msgid "More on QMC@HOME workunits"
+msgstr "Получить больше информации о проекте QMC@HOME"
+
 # my RALPH@home
 msgid "Correspond with other users on the RALPH@home message boards"
 msgstr "Форум для общения с другими участниками проекта RALPH@home"
@@ -2260,4 +2286,9 @@ msgstr "Просмотр и изменение настроек вашей учётной записи и вашего профиля в пр
 # my RALPH@home
 msgid "View a listing of all the computers on which you are running RALPH@home"
 msgstr "Просмотр информации о ваших компьютерах, участвующих в обработке заданий проекта RALPH@home"
+
+# //-------------------------old-------------------------------
+# v1.31
+msgid "Are you sure you want to abort this task '%s'?"
+msgstr "Вы уверены, что хотите прервать обработку выделенного задания \"%s\"?"
 
