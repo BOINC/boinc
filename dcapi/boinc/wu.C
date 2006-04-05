@@ -1049,7 +1049,7 @@ int DC_getWUNumber(DC_WUState state)
 				"wu.name LIKE '%s\\_%%' AND "
 				"(res.server_state = 2 OR res.server_state = 4)",
 				project_uuid_str);
-			ret = db.get_integer(val, query);
+			ret = db.get_integer(query, val);
 			g_free(query);
 			if (ret)
 				return -1;
@@ -1060,11 +1060,11 @@ int DC_getWUNumber(DC_WUState state)
 				"wu.name LIKE '%s\\_%%' AND "
 				"wu.assimilate_state = %d",
 				project_uuid_str, ASSIMILATE_READY);
-			ret = db.get_integer(val, query);
+			ret = db.get_integer(query, val);
 			g_free(query);
 			if (ret)
 				return -1;
-			break;
+			return val;
 		case DC_WU_SUSPENDED:
 		case DC_WU_ABORTED:
 		case DC_WU_UNKNOWN:
