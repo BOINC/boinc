@@ -87,34 +87,32 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
 
     // Change the various dialog items for the branded manager
     //
+    wxString buf = wxEmptyString;
+    buf.Printf(
+        _("About %s"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
+    SetTitle(buf);
+
+    buf.Printf(
+        _("%s"),
+        wxGetApp().GetBrand()->GetApplicationName().c_str()
+    );
+    m_AboutBOINCTitleCtrl->SetLabel(buf);
+
+    wxBitmap bmp;
     if (wxGetApp().GetBrand()->IsBranded()) {
-        wxString buf = wxEmptyString;
-        buf.Printf(
-            _("About %s"),
-            wxGetApp().GetBrand()->GetApplicationName().c_str()
-        );
-        SetTitle(buf);
-
-        buf.Printf(
-            _("%s"),
-            wxGetApp().GetBrand()->GetApplicationName().c_str()
-        );
-        m_AboutBOINCTitleCtrl->SetLabel(buf);
-
-        wxBitmap bmp;
-        if (wxGetApp().GetBrand()->IsBranded()) {
-            bmp = wxBitmap(*(wxGetApp().GetBrand()->GetApplicationLogo()));
-        } else {
-            bmp = wxBitmap(boincsm_xpm);
-        }
-        m_AboutBOINCLogoCtrl->SetBitmap(bmp);
-
-        m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
-
-        m_AboutBOINCURLCtrl->SetLabel(
-            wxGetApp().GetBrand()->GetCompanyWebsite().c_str()
-        );
+        bmp = wxBitmap(*(wxGetApp().GetBrand()->GetApplicationLogo()));
+    } else {
+        bmp = wxBitmap(boincsm_xpm);
     }
+    m_AboutBOINCLogoCtrl->SetBitmap(bmp);
+
+    m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
+
+    m_AboutBOINCURLCtrl->SetLabel(
+        wxGetApp().GetBrand()->GetCompanyWebsite().c_str()
+    );
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);

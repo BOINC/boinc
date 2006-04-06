@@ -3615,3 +3615,10 @@ Rom    6 Apr 2006 (From Frank S. Thomas)
         
     clientgui/
         MainDocument.cpp
+
+Rom    6 Apr 2006 (From Darrel Holz)
+    - Bug Fix: Fix the Logo display for BOINC when not running as a branded
+        client.
+        
+    clientgui/
+        DlgAbout.cpp
