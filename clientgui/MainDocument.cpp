@@ -252,6 +252,7 @@ void CNetworkConnection::SetStateDisconnected() {
     if (pFrame && !m_bFrameShutdownDetected) {
         wxASSERT(wxDynamicCast(pFrame, CMainFrame));
         m_bConnected = false;
+        m_bReconnecting = false;
     }
 }
 

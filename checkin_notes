@@ -3608,3 +3608,10 @@ Rom    6 Apr 2006
         ProxyInfoPage.cpp
         WizardAccountManager.cpp
         WizardAttachProject.cpp
+
+Rom    6 Apr 2006 (From Frank S. Thomas)
+    - Bug Fix: Allow a connection request to reset a connection attempt
+        to the local computer or another computer.
+        
+    clientgui/
+        MainDocument.cpp
