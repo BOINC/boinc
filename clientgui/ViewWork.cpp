@@ -667,7 +667,7 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
 
     if (result) {
         if (result->active_task) {
-            fBuffer = floor(result->fraction_done * 10000)/100;
+            fBuffer = floor(result->fraction_done * 100000)/1000;
         } else {
             if(result->state < RESULT_COMPUTE_ERROR) {
                 fBuffer = 0.0;
@@ -677,7 +677,7 @@ wxInt32 CViewWork::FormatProgress(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    strBuffer.Printf(wxT("%.2f%%"), fBuffer);
+    strBuffer.Printf(wxT("%.3f%%"), fBuffer);
 
     return 0;
 }

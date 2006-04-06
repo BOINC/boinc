@@ -3584,3 +3584,16 @@ Charlie 5 Apr 2006
         boinc.xcodeproj/
             project.pbxproj
         Make_BOINC_Service.sh (new)
+
+Rom    5 Apr 2006
+    - Bug Fix: Change the progress field to display xx.xxx% since
+        some projects use that to debug looping issues.
+    - Bug Fix: In the screensaver make sure that the foreground window
+        is either a screensaver window or a BOINC application window.
+        If another window is the foreground window, shutdown the
+        screensaver.
+        
+    client/win
+        win_screensaver.cpp
+    clientgui/
+        ViewWork.cpp

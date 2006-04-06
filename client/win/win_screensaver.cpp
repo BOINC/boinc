@@ -921,14 +921,17 @@ typedef long (STDAPICALLTYPE* MYBROADCASTSYSTEMMESSAGE)(DWORD dwFlags, LPDWORD l
 DWORD WINAPI CScreensaver::DataManagementProc() {
     BOOL    bErrorMode;
     BOOL    bRetVal;
+    BOOL    bForegroundWindowIsScreensaver;
     HRESULT hrError;
     HWND    hwndBOINCGraphicsWindow = NULL;
     HWND    hwndForegroundWindow = NULL;
+    DWORD   iMonitor = 0;
     int     iReturnValue = 0;
     time_t  tThreadCreateTime = 0;
     bool    bScreenSaverStarting = false;
     HMODULE	hUser32;
 	MYBROADCASTSYSTEMMESSAGE pfnMyBroadcastSystemMessage = NULL;
+    INTERNALMONITORINFO* pMonitorInfo = NULL;
 
 
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
@@ -981,13 +984,18 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
             if (m_bCoreNotified) {
                 switch (m_iStatus) {
                     case SS_STATUS_ENABLED:
+                        // When running in screensaver mode the only two valid conditions for z-order
+                        //   is that either the screensaver or graphics application is the foreground
+                        //   application.  If this is not true, then blow out of the screensaver.
                         hwndBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
                         if (NULL != hwndBOINCGraphicsWindow) {
+                            // Graphics Application.
                             hwndForegroundWindow = GetForegroundWindow();
+                            // If the graphics application is not the top most window try and force it
+                            //   to the top.
                             if (hwndForegroundWindow != hwndBOINCGraphicsWindow) {
                                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
                                 SetForegroundWindow(hwndBOINCGraphicsWindow);
-
                                 hwndForegroundWindow = GetForegroundWindow();
                                 if (hwndForegroundWindow != hwndBOINCGraphicsWindow) {
                                     BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
@@ -1020,6 +1028,20 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 	                                // Free the dynamically linked to library
 	                                FreeLibrary(hUser32);
                                 }
+                            }
+                        } else {
+                            // Graphics application does not exist. So check that one of the windows
+                            //   assigned to each monitor is the foreground window.
+                            bForegroundWindowIsScreensaver = FALSE;
+                            hwndForegroundWindow = GetForegroundWindow();
+                            for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
+                                pMonitorInfo = &m_Monitors[iMonitor];
+                                if (pMonitorInfo->hWnd == hwndForegroundWindow) {
+                                    bForegroundWindowIsScreensaver = TRUE;
+                                }
+                            }
+                            if (!bForegroundWindowIsScreensaver) {
+                                ShutdownSaver();
                             }
                         }
                         SetError(FALSE, 0);
