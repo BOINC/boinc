@@ -319,7 +319,6 @@ bool CWizardAccountManager::HasNextPage( wxWizardPageEx* page )
     bNoNextPageDetected |= (page == m_ErrNotDetectedPage);
     bNoNextPageDetected |= (page == m_ErrUnavailablePage);
     bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
-    bNoNextPageDetected |= (page == m_ErrNotFoundPage);
  
     if (bNoNextPageDetected)
         return false;

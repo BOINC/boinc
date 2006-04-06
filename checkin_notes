@@ -3597,3 +3597,14 @@ Rom    5 Apr 2006
         win_screensaver.cpp
     clientgui/
         ViewWork.cpp
+
+Rom    6 Apr 2006
+    - Bug Fix: Add some text about connectivity problems to the proxy
+        into page.
+    - Bug Fix: Remove the code that was keeping the 'Not Found' page from
+        going to the 'Account Info' page.
+        
+    clientgui/
+        ProxyInfoPage.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
