@@ -962,6 +962,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
             rpc.close();
             rpc.init(NULL);
             m_bResetCoreState = TRUE;
+            m_bCoreNotified = FALSE;
 
             if (!m_bBOINCConfigChecked) {
                 m_bBOINCConfigChecked = TRUE;
@@ -975,8 +976,6 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                     SetError(TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP);
                 }
             }
-
-		    m_bCoreNotified = FALSE;
         } else {
             // Reset the error flags.
             SetError(FALSE, 0);
@@ -1044,10 +1043,8 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 ShutdownSaver();
                             }
                         }
-                        SetError(FALSE, 0);
                         break;
                     case SS_STATUS_BLANKED:
-                        SetError(FALSE, 0);
                         break;
                     case SS_STATUS_BOINCSUSPENDED:
                         SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
@@ -1064,9 +1061,6 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                 }
             }
         }
-
-        BOINCTRACE(_T("CScreensaver::DataManagementProc - Checkpoint Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
-
 
         GetError(bErrorMode, hrError, NULL, 0);
         if (SS_STATUS_QUIT == m_iStatus && m_bCoreNotified) {
