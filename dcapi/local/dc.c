@@ -1,149 +1,133 @@
-#include <stdio.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <errno.h>
-#include <time.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <glib.h>
 
-#include <dc.h>
-#include <dc_internal.h>
+#include "dc_local.h"
 
-#include "rm.h"
+/********************************************************************
+ * Global variables
+ */
 
-static char *projectname;
-static char *appname;
-static char *workdir;
-static char *sleepinterval;
+DC_ResultCallback	_dc_resultcb;
+DC_SubresultCallback	_dc_subresultcb;
+DC_MessageCallback	_dc_messagecb;
 
-/* CHEAT 
-static char workdir_fixed[] = "/home/pnorbert/SETI/dcapi/examples/workdir";
-*/
-int DC_init(const char *project_name, 
-	    const char *application_name, 
-	    const char *configfile)
+static uuid_t project_uuid;
+
+/********************************************************************
+ * API functions
+ */
+
+int DC_init(const char *config_file)
 {
-    projectname = strdup(project_name);
-    appname     = strdup(application_name);
+	const char *cfgval;
+	int ret;
 
-    if (_DC_parseCfg(configfile)) return DC_ERROR;
+	if (!config_file)
+		config_file = DC_CONFIG_FILE;
 
-    workdir    = _DC_getCfgStr("WorkingDirectory");
-    if (workdir == NULL) {
-	DC_log(LOG_ERR, 
-	       "Working directory cannot be determined from the config file\n");
-	return DC_ERROR;
-    }
-    DC_log(LOG_INFO, "init: WorkingDir=%s\n", workdir);
-
-    sleepinterval    = _DC_getCfgStr("CheckResultSleepInterval");
-    if (sleepinterval == NULL) {
-        DC_log(LOG_WARNING,
-            "Check for Result sleeping interval cannot be determined from the config file\nDefault value is 5 sec.");
-        strcpy(sleepinterval,"5");
-    }
-    DC_log(LOG_INFO, "init: Sleeping interval when checking for results=%s\n", 
-	   sleepinterval);
-
-
-    /* CHEAT 
-    workdir    = workdir_fixed;
-    */
-
-    dc_rm_init();  /* init resource manager */
-    return DC_OK;
-}
-
-
-int DC_createWU (const char *application_client,
-		 const char *arguments)
-{
-    return dc_rm_wuCreate(application_client, arguments, workdir);
-}
-
-int DC_setInput (DC_Workunit wu, char * URL, char * localFileName)
-{
-    return dc_rm_setInput(wu, URL, localFileName);
-}
-
-
-int DC_submitWU (DC_Workunit wu)
-{
-    return dc_rm_submitWU(wu);
-}
-
-
-int DC_cancelWU (DC_Workunit wu)
-{
-    printf("DC_cancelWU is not implemented yet\n");
-    return 1;
-}
-
-int DC_suspendWU (DC_Workunit wu)
-{
-    return dc_rm_suspendWU(wu);
-}
-
-int DC_resubmitWU(DC_Workunit wu)
-{
-    return dc_rm_resubmitWU(wu);
-}
-
-int DC_destroyWU(DC_Workunit wu)
-{
-    dc_rm_destroyWU(wu);
-    return 0;
-}
-
-int DC_checkForResult(int  timeout,
-		      void cb_assimilate_result(DC_Result result)
-		      ) 
-{
-    dc_result result;
-    int retval;
-    int ex = 0;
-    int sleeptime = atoi(sleepinterval);
-    time_t tstart = time(NULL);
-
-    if (sleeptime < 1) sleeptime = 1;
- 
-
-    while (!ex) {
-	ex = 1;
-	retval = dc_rm_checkForResult(&result);
-	if (retval == DC_RM_RESULTEXISTS) {
-
-	    /*if (cb_check_result(result) == DC_RESULT_ACCEPT)*/
-		cb_assimilate_result((DC_Result)&result);
-
-            /* rmdir Does not work because dir should be empty first */
-            /*
-	    if (rmdir(result->outfiles_dir)) {
-		DC_log(LOG_ERR, 
-		       "Cannot delete directory: %s\nerrno=%d  %s\n", 
-		       result->outfiles_dir, errno, strerror(errno));
-		return DC_ERROR;
-	    }
-            */
-
-		dc_rm_freeResult(result);
-
+	ret = _DC_parseCfg(config_file);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "The DC-API cannot be initialized without a "
+			"config file");
+		return ret;
 	}
-	else if (retval == DC_RM_NORESULT) {
-	    if (timeout==0) ex = 0;  /* stay in loop, blocking */
-            if (timeout > 0 &&                /* blocking mode        */
-		time(NULL) < tstart+timeout   /* timeout (>0) not exceeded */
-		) 
-		ex = 0;
+
+	/* Check the working directory */
+	cfgval = _DC_getCfgStr(CFG_WORKDIR);
+	if (!cfgval)
+	{
+		DC_log(LOG_ERR, "%s is not specified in the config file",
+			CFG_WORKDIR);
+		return DC_ERR_CONFIG;
 	}
-	else if (retval == DC_ERROR) {
-	    return DC_ERROR;
+
+	/* Check sleep interval */
+	cfgval = _DC_getCfgStr(CFG_SLEEPINTERVAL);
+	if (!cfgval)
+	{
+		DC_log(LOG_WARNING, "%s is not specified in the config file. Default value is %d sec",
+			CFG_SLEEPINTERVAL, DEFAULT_SLEEP_INTERVAL);
+		sleep_interval = DEFAULT_SLEEP_INTERVAL;
 	}
-	if (!ex) sleep(sleeptime);
-    }
-    return DC_OK;
+	else
+	{
+		sleep_interval = atoi(cfgval);
+		if (sleep_interval < 1) sleep_interval = 1;
+	}
+
+	/* Check the project UUID */
+	cfgval = _DC_getCfgStr(CFG_INSTANCEUUID);
+	if (!cfgval)
+	{
+		DC_log(LOG_ERR, "%s is not set in the config file",
+			CFG_INSTANCEUUID);
+		return DC_ERR_CONFIG;
+	}
+
+	ret = uuid_parse((char *)cfgval, project_uuid);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "Invalid project UUID");
+		return DC_ERR_CONFIG;
+	}
+
+	/* Enforce a canonical string representation of the UUID */
+	uuid_unparse_lower(project_uuid, project_uuid_str);
+
+	return DC_OK;
 }
 
+int DC_getMaxMessageSize(void)
+{
+	return MAX_MESSAGE_SIZE;
+}
 
+int DC_getMaxSubresults(void)
+{
+	return MAX_SUBRESULTS;
+}
+
+DC_GridCapabilities DC_getGridCapabilities(void)
+{
+	return (DC_GridCapabilities) (DC_GC_EXITCODE | DC_GC_SUBRESULT | DC_GC_MESSAGING);
+}
+
+void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
+	DC_MessageCallback msgcb)
+{
+	_dc_resultcb = resultcb;
+	_dc_subresultcb = subresultcb;
+	_dc_messagecb = msgcb;
+}
+
+DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
+	const char *path)
+{
+	DC_PhysicalFile *file;
+
+	file = g_new(DC_PhysicalFile, 1);
+	file->label = g_strdup(label);
+	file->path = g_strdup(path);
+	file->mode = DC_FILE_REGULAR;
+
+	return file;
+}
+
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
+{
+	if (!file)
+		return;
+
+	g_free(file->label);
+	g_free(file->path);
+	g_free(file);
+}
 

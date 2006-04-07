@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include <dc_client.h>
+#include "common_defs.h"
 
 static time_t ckpt_start;
 static time_t ckpt_freq = 10; /* Checkpoint frequency in seconds */
@@ -13,17 +14,30 @@ int DC_init(void)
   return DC_OK;
 }
 
-int DC_resolveFileName(DC_Filetype type, const char *requestedFileName, char *actualFileName, int maxlength)
+char *DC_resolveFileName(DC_Filetype type, const char *logicalFileName)
 {
-  snprintf(actualFileName, maxlength, requestedFileName);
-  return DC_OK;
+  return (char *)logicalFileName;
 }
 
-int DC_sendResult(char **files, int nfiles)
+int DC_sendResult(const char *logicalFileName, const char *path, DC_FileMode fileMode)
 {
   // not implemented yet!!
 
   return DC_OK;
+}
+
+int DC_sendMessage(const char *message)
+{
+  // not implemented yet!!
+
+  return DC_OK;
+}
+
+DC_Event DC_checkEvent(void **data)
+{
+  // not impl.
+
+  return DC_EVENT_NONE;
 }
 
 int DC_timeToCheckpoint(void)
@@ -35,10 +49,9 @@ int DC_timeToCheckpoint(void)
   return 0;
 }
 
-int DC_checkpointMade(void)
+void DC_checkpointMade(const char *fileName)
 {
   ckpt_start = time(NULL);
-  return DC_OK;
 }
 
 int DC_continueWork(void)
@@ -48,9 +61,9 @@ int DC_continueWork(void)
   return 1; // yes, continue work.
 }
 
-int DC_fractionDone(double fraction)
+void DC_fractionDone(double fraction)
 {
-  return DC_OK;
+
 }
 
 void DC_finish(int exitcode)
