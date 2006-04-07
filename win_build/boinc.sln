@@ -29,16 +29,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc_api", "libboincapi.vcproj", "{0BC1DB36-030A-4321-B387-1CEE2611E329}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "upper_case", "upper_case.vcproj", "{8281D898-0E64-44EB-8356-4F0336F19A35}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
-		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -69,14 +59,6 @@ Global
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Debug.Build.0 = Debug|Win32
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Release.ActiveCfg = Release|Win32
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Release.Build.0 = Release|Win32
-		{0BC1DB36-030A-4321-B387-1CEE2611E329}.Debug.ActiveCfg = Debug|Win32
-		{0BC1DB36-030A-4321-B387-1CEE2611E329}.Debug.Build.0 = Debug|Win32
-		{0BC1DB36-030A-4321-B387-1CEE2611E329}.Release.ActiveCfg = Release|Win32
-		{0BC1DB36-030A-4321-B387-1CEE2611E329}.Release.Build.0 = Release|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug.ActiveCfg = Debug|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Debug.Build.0 = Debug|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release.ActiveCfg = Release|Win32
-		{8281D898-0E64-44EB-8356-4F0336F19A35}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
