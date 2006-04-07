@@ -3622,3 +3622,10 @@ Rom    6 Apr 2006 (From Darrel Holz)
         
     clientgui/
         DlgAbout.cpp
+
+Charlie 7 Apr 2006
+    - Mac: Fix bug in shell script to sets up Mac to run BOINC Client as 
+        a daemon / service.
+        
+    mac_build/
+        Make_BOINC_Service.sh
