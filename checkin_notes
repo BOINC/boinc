@@ -3629,3 +3629,12 @@ Charlie 7 Apr 2006
         
     mac_build/
         Make_BOINC_Service.sh
+
+David  7 Apr 2006
+	- add graphics to sample app
+
+	api/
+		gutil.C
+		txt_util.C
+	apps/
+		upper_case.C

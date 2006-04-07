@@ -107,6 +107,7 @@ void mode_unshaded() {
 // to the full window.  You must call ortho_done() when done.
 //
 void mode_ortho() {
+    glDisable(GL_DEPTH_TEST);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -538,7 +539,6 @@ Vertex g_quadVertices[] = {
     { 1.0f,1.0f,  1.0f, 1.0f, 0.0f },
     { 0.0f,1.0f, -1.0f, 1.0f, 0.0f }
 };
-float white[4] = {1., 1., 1., 1.};
 
 // read a PPM file
 // to generate PPM from JPEG:

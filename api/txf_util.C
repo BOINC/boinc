@@ -20,14 +20,22 @@
 // Interface functions for tex_info stuff.
 // Contributed by Tolu Aina
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
+#include "filesys.h"
+
 #include "texfont.h"
 #include "txf_util.h"
+
+static TexFont* txf[TXF_NUM_FONT];
 
 // load fonts. call once.
 //
 void txf_load_fonts(char* dir) {
     char filename[_MAX_PATH];
-    for ( int i = 0 ; i < TXF_NUM_FONT; i++ ){
+    for (int i=0 ; i<TXF_NUM_FONT; i++){
 		sprintf(filename, "%s/%s", dir, font_names[i]);
 		if (is_file(filename)) {
 			txf[i] = txfLoadFont(filename);

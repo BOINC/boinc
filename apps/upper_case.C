@@ -41,6 +41,8 @@
 #include <unistd.h>
 #endif
 
+#define BOINC_APP_GRAPHICS
+
 #ifdef BOINC_APP_GRAPHICS
 #include "boinc_gl.h"
 #include "graphics_api.h"
@@ -256,7 +258,7 @@ bool app_render(int xs, int ys, double time_of_day) {
     glColor3f(1,1,1);
 
     glRasterPos2f(xPos, yPos);
-    glPrint(main_font, display_buf);
+    //glPrint(main_font, display_buf);
 
     xPos += xDelta;
     yPos += yDelta;
@@ -264,13 +266,13 @@ bool app_render(int xs, int ys, double time_of_day) {
     if (yPos < -1 || yPos > 1) yDelta *= -1;
 
     glRasterPos2f(-0.9, 0.9);
-    glPrint(main_font, "User: %s", uc_aid.user_name);
+    //glPrint(main_font, "User: %s", uc_aid.user_name);
 
     glRasterPos2f(-0.9, 0.8);
-    glPrint(main_font, "Team: %s", uc_aid.team_name);
+    //glPrint(main_font, "Team: %s", uc_aid.team_name);
 
     glRasterPos2f(-0.9, 0.7);
-    glPrint(main_font, "CPU Time: %f", uc_aid.wu_cpu_time);
+    //glPrint(main_font, "CPU Time: %f", uc_aid.wu_cpu_time);
 
     return true;                                        // Everything Went OK
 }
