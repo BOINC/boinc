@@ -35,9 +35,6 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
-				AssemblerListingLocation="Release"
-				ObjectFile="Release"
-				ProgramDataBaseFileName="Release"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
@@ -62,7 +59,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="Release/upper_case.tlb"
+				TypeLibraryName=""
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -103,9 +100,6 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
-				AssemblerListingLocation="Debug"
-				ObjectFile="Debug"
-				ProgramDataBaseFileName="Debug"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -131,7 +125,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="Debug/upper_case.tlb"
+				TypeLibraryName=""
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
