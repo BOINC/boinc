@@ -1,0 +1,13 @@
+David  7 April 2006
+	- extended upper_case so that it draws graphics
+		(text, image, bouncing ball)
+		NOTE: to get this to work, you have to put in your build dir:
+			- file called "logo.jpg" (the image)
+			- Helvetica.txf
+			- a file called "in" (any old text)
+	- added text functions to library
+
+    uppercase/
+        upper_case.C
+	win_build/
+		libboincapi.vcproj

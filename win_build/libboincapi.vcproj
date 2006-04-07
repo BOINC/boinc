@@ -156,7 +156,13 @@
 				RelativePath="..\..\boinc\api\reduce_main.C">
 			</File>
 			<File
+				RelativePath="..\..\boinc\api\texfont.c">
+			</File>
+			<File
 				RelativePath="..\..\boinc\api\texture.C">
+			</File>
+			<File
+				RelativePath="..\..\boinc\api\txf_util.C">
 			</File>
 			<File
 				RelativePath="..\..\boinc\api\windows_opengl.C">
@@ -191,7 +197,13 @@
 				RelativePath="..\..\boinc\api\gutil.h">
 			</File>
 			<File
+				RelativePath="..\..\boinc\api\texfont.h">
+			</File>
+			<File
 				RelativePath="..\..\boinc\api\texture.h">
+			</File>
+			<File
+				RelativePath="..\..\boinc\api\txf_util.h">
 			</File>
 		</Filter>
 		<Filter
