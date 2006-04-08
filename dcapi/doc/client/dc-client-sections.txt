@@ -3,8 +3,9 @@
 <FILE>dc_client</FILE>
 <INCLUDE>dc_client.h</INCLUDE>
 
-DC_Filetype
+DC_FileType
 DC_CHECKPOINT_FILE
+DC_EventType
 DC_Event
 
 <SUBSECTION>

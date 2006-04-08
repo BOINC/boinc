@@ -28,18 +28,33 @@ typedef enum {
 	DC_FILE_IN,
 	DC_FILE_OUT,
 	DC_FILE_TMP
-} DC_Filetype;
+} DC_FileType;
 
 /* Special handle for the checkpoint file */
 #define DC_CHECKPOINT_FILE	"__DC_CHECKPOINT_"
 
 /* Control events */
 typedef enum {
-	DC_EVENT_NONE,
-	DC_EVENT_DO_CHECKPOINT,
-	DC_EVENT_FINISH,
-	DC_EVENT_MESSAGE
-} DC_Event;
+	DC_EVENT_DO_CHECKPOINT,	/* Checkpointing is requested */
+	DC_EVENT_FINISH,	/* Computation should be aborted */
+	DC_EVENT_MESSAGE	/* A message has arrived */
+} DC_EventType;
+
+
+/********************************************************************
+ * Data types
+ */
+
+/* Description of a DC-API event */
+typedef struct _DC_Event	DC_Event;
+struct _DC_Event
+{
+	DC_EventType		type;
+	union
+	{
+		char		*message;
+	};
+};
 
 
 /********************************************************************
@@ -50,7 +65,7 @@ typedef enum {
 int DC_init(void);
 
 /* Resolves the local name of input/output files. */
-char *DC_resolveFileName(DC_Filetype type, const char *logicalFileName);
+char *DC_resolveFileName(DC_FileType type, const char *logicalFileName);
 
 /* Sends a sub-result back to the master. */
 int DC_sendResult(const char *logicalFileName, const char *path,
@@ -60,10 +75,10 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 int DC_sendMessage(const char *message);
 
 /* Checks for application control events. */
-DC_Event DC_checkEvent(void **data);
+DC_Event *DC_checkEvent(void);
 
 /* Destroys the event-specific data returned by DC_checkEvent(). */
-void DC_destroyEvent(DC_Event event, void *data);
+void DC_destroyEvent(DC_Event *event);
 
 /* Indicates that an application-level checkpoint has completed. */
 void DC_checkpointMade(const char *fileName);

@@ -106,7 +106,7 @@ int DC_init(void)
 	return 0;
 }
 
-char *DC_resolveFileName(DC_Filetype type, const char *logicalFileName)
+char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 {
 	char buf[PATH_MAX];
 
@@ -153,15 +153,23 @@ static void handle_special_msg(const char *message)
 	/* XXX Implement it */
 }
 
-DC_Event DC_checkEvent(void **data)
+static DC_Event *new_event(DC_EventType type)
 {
-	char *buf;
+	DC_Event *event;
 
-	*data = NULL;
+	event = (DC_Event *)calloc(1, sizeof(DC_Event));
+	event->type = type;
+	return event;
+}
+
+DC_Event *DC_checkEvent(void)
+{
+	DC_Event *event;
+	char *buf;
 
 	/* Check for checkpoint requests */
 	if (boinc_time_to_checkpoint())
-		return DC_EVENT_DO_CHECKPOINT;
+		return new_event(DC_EVENT_DO_CHECKPOINT);
 
 	/* Check for messages */
 	buf = (char *)malloc(MAX_MESSAGE_SIZE);
@@ -176,24 +184,28 @@ DC_Event DC_checkEvent(void **data)
 			{
 				handle_special_msg(buf);
 				free(buf);
-				return DC_EVENT_NONE;
+				return NULL;
 			}
 
-			*data = buf;
-			return DC_EVENT_MESSAGE;
+			event = new_event(DC_EVENT_MESSAGE);
+			event->message = buf;
+			return event;
 		}
 		free(buf);
 	}
 
-	return DC_EVENT_NONE;
+	return NULL;
 }
 
-void DC_destroyEvent(DC_Event event, void *data)
+void DC_destroyEvent(DC_Event *event)
 {
-	switch (event)
+	if (!event)
+		return;
+
+	switch (event->type)
 	{
 		case DC_EVENT_MESSAGE:
-			free(data);
+			free(event->message);
 			break;
 		default:
 			break;

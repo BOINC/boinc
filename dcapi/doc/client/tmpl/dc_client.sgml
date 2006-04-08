@@ -18,7 +18,7 @@ applications on the client side.
 <!-- ##### SECTION Stability_Level ##### -->
 
 
-<!-- ##### ENUM DC_Filetype ##### -->
+<!-- ##### ENUM DC_FileType ##### -->
 <para>
 File types for the DC_resolveFileName() function. Some grid infrastructures
 use different locations for storing files of different usage, therefore DC-API
@@ -38,15 +38,24 @@ for details about checkpoint file usage.
 
 
 
-<!-- ##### ENUM DC_Event ##### -->
+<!-- ##### ENUM DC_EventType ##### -->
 <para>
-Events received from the master.
+Event types that can be received.
 </para>
 
-@DC_EVENT_NONE: nothing happened.
 @DC_EVENT_DO_CHECKPOINT: a checkpoint should be made.
 @DC_EVENT_FINISH: the computation should be aborted.
 @DC_EVENT_MESSAGE: a message has arrived.
+
+
+<!-- ##### STRUCT DC_Event ##### -->
+<para>
+Event received from the master.
+</para>
+
+@type: type of the event.
+@message: contents of the message if @type is %DC_EVENT_MESSAGE.
+
 
 <!-- ##### FUNCTION DC_init ##### -->
 <para>
@@ -161,18 +170,17 @@ can be determined by calling DC_getMaxMessageSize().
 Checks for client control events.
 </para>
 
-@data: output pointer for event-specific data. It should always be destroyed
-	using DC_destroyEvent().
-@Returns: the code of the event occured.
+@Returns: a #DC_Event or %NULL if there are no outstanding events. The returned
+	event should be destroyed using DC_destroyEvent() when it is no longer
+	needed.
 
 
 <!-- ##### FUNCTION DC_destroyEvent ##### -->
 <para>
-Destroys the event-specific data returned by DC_checkEvent().
+Destroys an event returned by DC_checkEvent().
 </para>
 
-@event: the code of the received event.
-@data: the data returned by DC_checkEvent().
+@event: the event to destroy.
 
 
 <!-- ##### FUNCTION DC_checkpointMade ##### -->
