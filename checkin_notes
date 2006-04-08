@@ -3643,12 +3643,6 @@ Charlie 7 Apr 2006
     - Mac: If launching client as a daemon / service at system startup, retry 
        gethostbyname() for up to 10 seconds if needed, to allow system  
        support to become available.
-    - Set up XCode project to pass BOINC client the command-line arguments 
-           -redirectio -dir "/Library/Application Support/BOINC Data/" 
-       when running undre debug
 
     client/
         hostinfo_network.C
-    mac_build/
-        boinc.xcodeproj/
-            project.pbxproj
