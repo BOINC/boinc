@@ -29,6 +29,8 @@ AM_CONDITIONAL([BUILD_MASTER], [test "$enable_master" = yes])
 
 AM_PATH_GLIB_2_0([2.6.0],,[AC_MSG_ERROR([glib2 is missing])])
 
+GTK_DOC_CHECK([1.3])
+
 dnl ===================================================================
 dnl BOINC backend
 dnl
@@ -87,5 +89,8 @@ AC_CONFIG_FILES([Makefile \
 	common/Makefile \
 	boinc/Makefile \
 	local/Makefile \
-	clgr/Makefile])
+	clgr/Makefile \
+	doc/Makefile \
+	doc/client/Makefile \
+	doc/master/Makefile])
 AC_OUTPUT

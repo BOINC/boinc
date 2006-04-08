@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>DC-API Master Reference Manual</title>
+  </bookinfo>
+
+  <chapter>
+    <title>DC-API: Master Side</title>
+    <xi:include href="xml/dc_common.xml"/>
+    <xi:include href="xml/dc.xml"/>
+  </chapter>
+</book>

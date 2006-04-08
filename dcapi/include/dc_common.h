@@ -20,7 +20,7 @@ extern "C" {
  */
 
 /* API error codes */
-enum {
+typedef enum {
 	DC_OK,			/* No error */
 	DC_ERR_CONFIG,		/* Configuration error */
 	DC_ERR_DATABASE,	/* Error with the internal data base */
@@ -30,7 +30,7 @@ enum {
 	DC_ERR_TIMEOUT,		/* Timeout */
 	DC_ERR_BADPARAM,	/* Bad function parameter */
 	DC_ERR_INTERNAL,	/* Internal error */
-};
+} DC_ErrorCode;
 
 /* Flags describing what capabilities does the underlying grid system
  * support */
@@ -75,26 +75,13 @@ typedef enum {
  * Function prototypes
  */
 
-/** Determines the maximum allowed message length.
- *
- * @Returns: the message length in bytes.
- */
+/* Determines the maximum allowed message length. */
 int DC_getMaxMessageSize(void);
 
-/** Determines the maximum number of sub-results.
- * On the master side, it returns the maximum value that can be passed to
- * DC_createWU(). On the client side, it returns the actual value for the
- * running WU.
- *
- * @Returns: the max. number of sub-results.
- */
+/* Determines the maximum number of sub-results. */
 int DC_getMaxSubresults(void);
 
-/** Determines the basic capabilities of the underlying grid infrastructure.
- *
- * @Returns: the grid capabilities: values of #DC_GridCapabilities constants
- * OR'ed together.
- */
+/* Determines the basic capabilities of the underlying grid infrastructure. */
 DC_GridCapabilities DC_getGridCapabilities(void);
 
 #ifdef __cplusplus

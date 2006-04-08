@@ -8,6 +8,9 @@
  *
  * Copyright MTA SZTAKI, 2006
  */
+
+/* <Tell gtk-doc that this is a private_header> */
+
 #ifndef __DC_INTERNAL_H_
 #define __DC_INTERNAL_H_
 
@@ -19,7 +22,7 @@ extern "C" {
  * Function prototypes
  */
 
-/** Parses the config file and stores its contents in memory.
+/* Parses the config file and stores its contents in memory.
  *
  * @cfgfile: the name of the config file. May not be %NULL.
  * 
@@ -27,7 +30,7 @@ extern "C" {
  */
 int _DC_parseCfg(const char *cfgfile);
 
-/** Gets the value for the given key.
+/* Gets the value for the given key.
  * 
  * @name: the name of the key to query.
  *

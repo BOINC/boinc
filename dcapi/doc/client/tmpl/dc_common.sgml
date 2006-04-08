@@ -1,0 +1,96 @@
+<!-- ##### SECTION Title ##### -->
+Common
+
+<!-- ##### SECTION Short_Description ##### -->
+functionality available on both the client and master side.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The functions and definitions described below are available at both the
+client and master side of DC-API in the same form, but may have a
+slightly different meaning.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM DC_ErrorCode ##### -->
+<para>
+Error codes returned by DC-API functions.
+</para>
+
+@DC_OK: no error.
+@DC_ERR_CONFIG: configuration error (syntax error, illegal or missing values).
+@DC_ERR_DATABASE: database error.
+@DC_ERR_NOTIMPL: the function is not implemented.
+@DC_ERR_UNKNOWN_WU: the work unit is not known to DC-API.
+@DC_ERR_TIMEOUT: the operation timed out.
+@DC_ERR_BADPARAM: the function was passed illegal parameters.
+@DC_ERR_INTERNAL: an internal error occured in DC-API.
+
+<!-- ##### ENUM DC_GridCapabilities ##### -->
+<para>
+These flags define the capabilities of the underlying grid system.
+</para>
+
+@DC_GC_EXITCODE: the client's exit code is propagated to the master.
+@DC_GC_STDOUT: the client's standard output is sent back to the master.
+@DC_GC_STDERR: the client's standard error is sent back to the master.
+@DC_GC_LOG: infrastructure-specific log files are available.
+@DC_GC_SUSPEND: suspending of work units is supported.
+@DC_GC_SUBRESULT: subresults are supported.
+@DC_GC_MESSAGING: message sending is supported.
+
+<!-- ##### ENUM DC_FileMode ##### -->
+<para>
+Tells how should DC-API treat physical files passed to it.
+</para>
+
+@DC_FILE_REGULAR: the application wishes to continue using the file, so DC-API
+	must make an internal copy of it.
+@DC_FILE_PERSISTENT: the application guarantees that the file will not change
+	and will not be deleted during the lifetime of the application. This
+	lets DC-API use symbolic or hard links instead of copying to save space.
+@DC_FILE_VOLATILE: the application does not want to use the file in any way in
+	the future. DC-API will remove the file when it is no longer needed.
+
+<!-- ##### MACRO DC_CONFIG_FILE ##### -->
+<para>
+Default name of the DC-API configuration file. Currently it is not used on the
+client side.
+</para>
+
+
+
+<!-- ##### FUNCTION DC_getMaxMessageSize ##### -->
+<para>
+Returns the maximum length of a message that the client can send using
+DC_sendMessage() to the master.
+</para>
+
+@Returns: the maximum allowed message size.
+
+
+<!-- ##### FUNCTION DC_getMaxSubresults ##### -->
+<para>
+Returns the number of sub-result files the client can send to the master
+during its lifetime. This number is set by the master when it creates the
+work unit.
+</para>
+
+@Returns: the number of sub-results allowed.
+
+
+<!-- ##### FUNCTION DC_getGridCapabilities ##### -->
+<para>
+Determines the capabilities of the underlying grid infrastructure.
+</para>
+
+@Returns: the appropriate #DC_GridCapabilities constants OR'ed together.
+
+
