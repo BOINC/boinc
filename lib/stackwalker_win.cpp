@@ -592,7 +592,6 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
         // if this returns ERROR_INVALID_ADDRESS (487) or ERROR_NOACCESS (998), you can
         // assume that either you are done, or that the stack is so hosed that the next
         // deeper frame could not be found.
-        // CONTEXT need not to be suplied if imageTyp is IMAGE_FILE_MACHINE_I386!
         bRetVal = pSW(
             IMAGE_FILE_MACHINE_I386,
             hSWProcess,
@@ -698,8 +697,18 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
         }
     } // for ( frameNum )
 
-    if ( gle != 0 )
-        _ftprintf(stderr, _T("\nStackWalk(): GetLastError = %lu\n"), gle );
+	switch(gle)
+	{
+		case ERROR_INVALID_ADDRESS:
+			_ftprintf(stderr, _T("\nStackWalk(): ERROR_INVALID_ADDRESS (%lu) - Possible stack corruption.\n"), gle );
+			break;
+		case ERROR_NOACCESS:
+	        _ftprintf(stderr, _T("\nStackWalk(): ERROR_NOACCESS (%lu) - Possible stack corruption.\n"), gle );
+			break;
+		default:
+	        _ftprintf(stderr, _T("\nStackWalk(): GetLastError = %lu\n"), gle );
+			break;
+	}
 
     fflush(stderr);
 
