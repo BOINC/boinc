@@ -345,6 +345,21 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
         TerminateProcess( GetCurrentProcess(), (UINT)ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED );
     }
 
+    // Suspend the other threads.
+    for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
+        if ((GetCurrentThreadId() != diagnostics_threads[i].thread_id) && diagnostics_threads[i].thread_id) {
+			// Suspend the thread before getting the threads context, otherwise
+            //   it'll be junk.
+            SuspendThread(diagnostics_threads[i].thread_handle);
+        }
+    }
+
+    // Kickstart the debugger extensions
+ 	DebuggerInitialize();
+
+    // Dump any useful information
+    DebuggerDisplayDiagnostics();
+    
     switch ( exceptionCode ) {
         case EXCEPTION_ACCESS_VIOLATION:
             strcpy( status, "Access Violation");
@@ -430,7 +445,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
             break;
     }
 
-    fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n" );
+    fprintf( stderr, "\n*** UNHANDLED EXCEPTION ****\n" );
     if ( EXCEPTION_ACCESS_VIOLATION == exceptionCode ) {
         fprintf( stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus );
     } else {
@@ -441,33 +456,21 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
     // Unwind the stack and spew it to stderr
     if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED ) {
-
-		InitStackWalk();
-        fprintf( stderr, "\n" );
-        fflush( stderr );
-
-        // Suspend the other threads.
-        for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
-            if ((GetCurrentThreadId() != diagnostics_threads[i].thread_id) && diagnostics_threads[i].thread_id) {
-				// Suspend the thread before getting the threads context, otherwise
-                //   it'll be junk.
-                SuspendThread(diagnostics_threads[i].thread_handle);
-            }
-        }
-
         // Dump the offending thread's stack first.
         bDumpedException = false;
         for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
             if (GetCurrentThreadId() == diagnostics_threads[i].thread_id) {
-                fprintf( stderr, "Dump of the %s(offending) thread:\n", diagnostics_threads[i].name );
-                StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
+                fprintf( stderr, "*** Dump of the %s(offending) thread: ***\n", diagnostics_threads[i].name );
+                StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER );
+                fprintf( stderr, "\n" );
                 fflush( stderr );
                 bDumpedException = true;
             }
         }
         if (!bDumpedException) {
-            fprintf( stderr, "Dump of the (offending) thread:\n" );
-            StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL );
+            fprintf( stderr, "*** Dump of the (offending) thread: ***\n" );
+            StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER );
+            fprintf( stderr, "\n" );
             fflush( stderr );
         }
 
@@ -480,8 +483,9 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 				GetThreadContext(diagnostics_threads[i].thread_handle, &c);
 
 				// Dump the thread's stack.
-				fprintf( stderr, "Dump of the %s thread:\n", diagnostics_threads[i].name, c.Ebp, c.Eip );
-                StackwalkThread( diagnostics_threads[i].thread_handle, &c, NULL );
+				fprintf( stderr, "*** Dump of the %s thread: ***\n", diagnostics_threads[i].name );
+                StackwalkThread( diagnostics_threads[i].thread_handle, &c );
+				fprintf( stderr, "\n" );
                 fflush( stderr );
             }
         }

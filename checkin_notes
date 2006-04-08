@@ -3646,3 +3646,11 @@ Charlie 7 Apr 2006
 
     client/
         hostinfo_network.C
+
+Rom    8 Apr 2006
+    - Bug Fix: Make stackwalker more useful on Windows by dumping the function
+        pointers and registers for each thread.  Cut away all the extra code.
+        
+    lib/
+        diagnostics.C
+        stackwalker_win.cpp, .h
