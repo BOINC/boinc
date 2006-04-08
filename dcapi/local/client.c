@@ -14,7 +14,7 @@ int DC_init(void)
   return DC_OK;
 }
 
-char *DC_resolveFileName(DC_Filetype type, const char *logicalFileName)
+char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 {
   return (char *)logicalFileName;
 }
@@ -33,11 +33,16 @@ int DC_sendMessage(const char *message)
   return DC_OK;
 }
 
-DC_Event DC_checkEvent(void **data)
+DC_Event *DC_checkEvent(void)
 {
   // not impl.
 
   return DC_EVENT_NONE;
+}
+
+void DC_destroyEvent(DC_Event *event)
+{
+  // not impl.
 }
 
 int DC_timeToCheckpoint(void)
