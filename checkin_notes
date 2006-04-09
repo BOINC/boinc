@@ -3654,3 +3654,19 @@ Rom    8 Apr 2006
     lib/
         diagnostics.C
         stackwalker_win.cpp, .h
+
+Rom    9 Apr 2006
+    - Bug Fix: Add a check to stackwalker so that if it detects it is running on
+        Win9x it'll switch over to the Win9x compatible dbghelp.dll.  After
+        checking it out, it doesn't require any changes to the stack walker code
+        as it has the 64 bit function exports.  So all that was required was
+        just changing which DLL was used to get the function pointers.
+    - Bug Fix: Upgrade to the latest stable debugging tools from Microsoft.
+    
+    lib/
+        stackwalker_win.cpp
+    win_build/installerv2/redist/Windows/x86/
+        dbghelp.dll
+        dbghelp95.dll (Added)
+        srcsrv.dll (Added)
+        symsrv.dll (Added)

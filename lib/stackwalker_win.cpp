@@ -202,13 +202,6 @@ static HINSTANCE g_hSymSrvDll = NULL;
 static HINSTANCE g_hSrcSrvDll = NULL;
 static CRITICAL_SECTION g_csFileOpenClose = {0};
 
-ULONG64 gSymbolBuffer[
-    (sizeof(SYMBOL_INFO) +
-    MAX_SYM_NAME*sizeof(TCHAR) +
-    sizeof(ULONG64) - 1) /
-    sizeof(ULONG64)
-];
-PSYMBOL_INFO gpSymbol = (PSYMBOL_INFO)gSymbolBuffer;
 
 // ##########################################################################################
 // ##########################################################################################
@@ -312,28 +305,56 @@ int DebuggerInitialize()
     if (g_bInitialized != FALSE)
         return 0;
 
-    g_hDbgHelpDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\dbghelp.dll") );
-    if ( g_hDbgHelpDll == NULL )
+    OSVERSIONINFO osvi;
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+
+    GetVersionEx((OSVERSIONINFO*)&osvi);
+
+    // If Win9x use the old dbghelp.dll (5.0.2195.1)
+    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId)
     {
-        g_hDbgHelpDll = LoadLibrary( _T("dbghelp.dll") ); 
+        // Ours is named dbghelp95.dll
+        g_hDbgHelpDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\dbghelp95.dll") );
         if ( g_hDbgHelpDll == NULL )
         {
-            _ftprintf( stderr, "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
-            g_bInitialized = FALSE;
-            return 1;
+            // Last ditch effort use original name in case some other
+            //   application installed it into the system path.
+            g_hDbgHelpDll = LoadLibrary( _T("dbghelp.dll") ); 
+            if ( g_hDbgHelpDll == NULL )
+            {
+                _ftprintf( stderr, "LoadLibrary( \"dbghelp95.dll\" ): GetLastError = %lu\n", gle );
+                g_bInitialized = FALSE;
+                return 1;
+            }
         }
     }
-
-    g_hSymSrvDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\symsrv.dll") );
-    if ( g_hSymSrvDll == NULL )
+    else
     {
-        g_hSymSrvDll = LoadLibrary( _T("symsrv.dll") ); 
-    }
+        // Anything newer use the latest and greatest
+        g_hDbgHelpDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\dbghelp.dll") );
+        if ( g_hDbgHelpDll == NULL )
+        {
+            g_hDbgHelpDll = LoadLibrary( _T("dbghelp.dll") ); 
+            if ( g_hDbgHelpDll == NULL )
+            {
+                _ftprintf( stderr, "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
+                g_bInitialized = FALSE;
+                return 1;
+            }
+        }
 
-    g_hSrcSrvDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\srcsrv.dll") );
-    if ( g_hSrcSrvDll == NULL )
-    {
-        g_hSrcSrvDll = LoadLibrary( _T("srcsrv.dll") ); 
+        g_hSymSrvDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\symsrv.dll") );
+        if ( g_hSymSrvDll == NULL )
+        {
+            g_hSymSrvDll = LoadLibrary( _T("symsrv.dll") ); 
+        }
+
+        g_hSrcSrvDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\srcsrv.dll") );
+        if ( g_hSrcSrvDll == NULL )
+        {
+            g_hSrcSrvDll = LoadLibrary( _T("srcsrv.dll") ); 
+        }
     }
 
     pIAV = (tIAV) GetProcAddress( g_hDbgHelpDll, "ImagehlpApiVersion" );
@@ -431,8 +452,8 @@ int DebuggerInitialize()
 
     // SymGetOptions()
     symOptions = pSGO();
-    symOptions |= SYMOPT_LOAD_LINES;
     symOptions |= SYMOPT_DEBUG;
+    symOptions |= SYMOPT_LOAD_LINES;
     symOptions |= SYMOPT_NO_PROMPTS;
     symOptions &= ~SYMOPT_UNDNAME;
     pSSO( symOptions ); // SymSetOptions()
@@ -535,6 +556,15 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
     IMAGEHLP_LINE64 Line;
     STACKFRAME64 StackFrame;
 
+    ULONG64 SymbolBuffer[
+        (sizeof(SYMBOL_INFO) +
+        MAX_SYM_NAME*sizeof(TCHAR) +
+        sizeof(ULONG64) - 1) /
+        sizeof(ULONG64)
+    ];
+    PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)SymbolBuffer;
+
+
     if (g_bInitialized == FALSE)
     {
         _ftprintf(stderr, _T("Stackwalker not initialized (or was not able to initialize)!\n"));
@@ -576,9 +606,9 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
     StackFrame.AddrFrame.Offset = Context.Ebp;
     StackFrame.AddrFrame.Mode = AddrModeFlat;
 
-    memset( gpSymbol, '\0', sizeof(gSymbolBuffer) );
-    gpSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-    gpSymbol->MaxNameLen = MAX_SYM_NAME;
+    memset( pSymbol, '\0', sizeof(SymbolBuffer) );
+    pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+    pSymbol->MaxNameLen = MAX_SYM_NAME;
 
     memset( &Line, '\0', sizeof(IMAGEHLP_LINE64) );
     Line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
@@ -617,15 +647,17 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
             // show procedure info (SymFromAddr())
             undName[0] = 0;
             offsetFromSymbol = 0;
-            if ( !pSFA( hSWProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, gpSymbol ) )
+            if ( !pSFA( hSWProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol ) )
             {
                 if ( gle != 487 )
-                    _ftprintf(stderr, _T("SymFromAddr(): GetLastError = %lu\n"), gle );
+                {
+                    _ftprintf(stderr, _T("SymFromAddr(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
+                }
             }
             else
             {
                 // UnDecorateSymbolName()
-                pUDSN( gpSymbol->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY );
+                pUDSN( pSymbol->Name, undName, MAX_SYM_NAME, UNDNAME_NAME_ONLY );
             }
 
             // show line number info (SymGetLineFromAddr())
@@ -634,14 +666,14 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
             {
                 if ( (gle != 487) && (frameNum > 0) )  // ignore error for first frame
                 {
-                    _ftprintf(stderr, _T("SymGetLineFromAddr(): GetLastError = %lu\n"), gle );
+                    _ftprintf(stderr, _T("SymGetLineFromAddr(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
                 }
             }
 
             // show module info (SymGetModuleInfo())
             if ( !pSGMI( hSWProcess, StackFrame.AddrPC.Offset, &Module ) )
             {
-                _ftprintf(stderr, _T("SymGetModuleInfo(): GetLastError = %lu\n"), gle );
+                _ftprintf(stderr, _T("SymGetModuleInfo(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
             }
         } // we seem to have a valid PC
 
