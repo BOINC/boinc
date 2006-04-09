@@ -697,17 +697,18 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
         }
     } // for ( frameNum )
 
-	switch(gle)
-	{
-		case ERROR_INVALID_ADDRESS:
-			_ftprintf(stderr, _T("\nStackWalk(): ERROR_INVALID_ADDRESS (%lu) - Possible stack corruption.\n"), gle );
-			break;
-		case ERROR_NOACCESS:
-	        _ftprintf(stderr, _T("\nStackWalk(): ERROR_NOACCESS (%lu) - Possible stack corruption.\n"), gle );
-			break;
-		default:
-	        _ftprintf(stderr, _T("\nStackWalk(): GetLastError = %lu\n"), gle );
-			break;
+	switch(gle){
+    case ERROR_SUCCESS:
+        break;
+    case ERROR_INVALID_ADDRESS:
+        _ftprintf(stderr, _T("\nStackWalk(): ERROR_INVALID_ADDRESS (%lu) - Possible stack corruption.\n"), gle );
+        break;
+    case ERROR_NOACCESS:
+        _ftprintf(stderr, _T("\nStackWalk(): ERROR_NOACCESS (%lu) - Possible stack corruption.\n"), gle );
+    	break;
+    default:
+        _ftprintf(stderr, _T("\nStackWalk(): GetLastError = %lu\n"), gle );
+        break;
 	}
 
     fflush(stderr);
