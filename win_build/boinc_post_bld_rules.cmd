@@ -61,3 +61,8 @@ if not exist %OUTPUTDIR%\symsrv.yes (
     echo Coping symsrv.yes to the output directory...
     copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\symsrv.yes" "%OUTPUTDIR%"
 )
+
+if not exist %OUTPUTDIR%\srcsrv.dll (
+    echo Coping srcsrv.dll to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\srcsrv.dll" "%OUTPUTDIR%"
+)
