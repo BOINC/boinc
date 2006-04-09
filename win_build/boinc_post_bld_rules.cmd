@@ -47,6 +47,11 @@ if not exist %OUTPUTDIR%\dbghelp.dll (
     copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\dbghelp.dll" "%OUTPUTDIR%"
 )
 
+if not exist %OUTPUTDIR%\dbghelp95.dll (
+    echo Coping dbghelp95 to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\dbghelp95.dll" "%OUTPUTDIR%"
+)
+
 if not exist %OUTPUTDIR%\symsrv.dll (
     echo Coping symsrv to the output directory...
     copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\symsrv.dll" "%OUTPUTDIR%"
