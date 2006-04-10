@@ -14,8 +14,6 @@
 
 static GHashTable *wu_table;
 
-char project_uuid_str[37];
-
 /********************************************************************
  * Functions
  */
@@ -438,6 +436,107 @@ int DC_submitWU(DC_Workunit *wu)
 
 	wu->pid = pid;
 	wu->state = DC_WU_RUNNING;
+
+	return DC_OK;
+}
+
+DC_Workunit *_DC_getWUByName(const char *name)
+{
+	DC_Workunit *wu;
+	char *uuid_str;
+	uuid_t uuid;
+	int ret;
+
+	if (wu_table)
+	{
+		wu = (DC_Workunit *)g_hash_table_lookup(wu_table, name);
+		if (wu)
+			return wu;
+	}
+
+	/* Check if the WU belongs to this application */
+	uuid_str = g_strndup(name, 36);
+	ret = uuid_parse(uuid_str, uuid);
+	g_free(uuid_str);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "WU name contains illegal UUID");
+		return NULL;
+	}
+
+	if (uuid_compare(uuid, project_uuid))
+	{
+		DC_log(LOG_WARNING, "WU does not belong to this application");
+		return NULL;
+	}
+
+	if (name[36] != '_')
+	{
+		DC_log(LOG_ERR, "Illegal WU name syntax");
+		return NULL;
+	}
+
+	/* Check the WU's UUID */
+	uuid_str = g_strndup(name + 37, 36);
+	ret = uuid_parse(uuid_str, uuid);
+	g_free(uuid_str);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "WU name contains illegal UUID");
+		return NULL;
+	}
+
+//	return load_from_disk(uuid);
+
+	return NULL;
+}
+
+void _DC_testWUEvents(gpointer key, DC_Workunit *wu, gpointer user_data)
+{
+	DC_Result *result;
+	char syscmd[256];
+	int retval;
+
+	snprintf(syscmd, 256, "ps -p %d >/dev/null", wu->pid);
+	retval = system(syscmd);
+
+	/* retval == 0 means that the process is still in output of ps
+		but it can be <defunct>.
+		So check it again.
+	*/
+	if (retval == 0) {
+		snprintf(syscmd, 256, "ps -p %d | grep defunct >/dev/null",
+			wu->pid);
+		retval = system(syscmd);
+		if (retval == 0) retval = 1; /* defunct means finished */
+		else if (retval == 1) retval = 0;
+	}
+	if (retval == 1) { /* process finished (not exists) */
+		/* create the result object */
+		DC_log(LOG_INFO, "Work unit %s with pid %d is found to be finished\n",
+			wu->name, wu->pid);
+		wu->state = DC_WU_FINISHED;
+
+		result = _DC_createResult(wu->name);
+		if (result)
+		{
+			_dc_resultcb(result->wu, result);
+			_DC_destroyResult(result);
+		}
+	}
+
+	return;
+}
+
+int _DC_searchForEvents()
+{
+	if (!wu_table)
+	{
+		DC_log(LOG_WARNING, "Searching for events is only usefull if there is any running work unit!");
+		return DC_ERR_BADPARAM;
+	}
+
+	g_hash_table_foreach(wu_table, (GHFunc)_DC_testWUEvents, NULL);
 
 	return DC_OK;
 }
