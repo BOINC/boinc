@@ -18,7 +18,9 @@ DC_ResultCallback	_dc_resultcb;
 DC_SubresultCallback	_dc_subresultcb;
 DC_MessageCallback	_dc_messagecb;
 
-static uuid_t project_uuid;
+char project_uuid_str[37];
+uuid_t project_uuid;
+int sleep_interval;
 
 /********************************************************************
  * API functions
