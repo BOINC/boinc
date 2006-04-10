@@ -6,7 +6,7 @@
 /* Function prototypes */
 static DC_Workunit * createWU(void);
 
-static void callback_result(DC_Workunit *wu, DC_Result *result)
+static void callbackResult(DC_Workunit *wu, DC_Result *result)
 {
 	printf("Callback function for result destroying WU.\n");
 
@@ -14,14 +14,14 @@ static void callback_result(DC_Workunit *wu, DC_Result *result)
 	return;
 }
 
-static void callback_subresult(DC_Workunit *wu, const char*, const char*)
+static void callbackSubresult(DC_Workunit *wu, const char*, const char*)
 {
 	// not impl yet
 
 	return;
 }
 
-static void callback_message(DC_Workunit *wu, const char*)
+static void callbackMessage(DC_Workunit *wu, const char*)
 {
 	// not impl yet
 
@@ -33,7 +33,7 @@ int main( int argc, char *argv[])
 {
 	DC_Workunit *wu;
 	int retval;
-	char ch;
+	//char ch;
 
 	retval = DC_init("local.conf");
 	if (retval != DC_OK) {
@@ -42,7 +42,7 @@ int main( int argc, char *argv[])
 	}
 	printf("DC_init returned OK.\n");
 
-	DC_setcb(dc_cb_result, dc_cb_subresult, dc_cb_message);
+	DC_setcb(callbackResult, callbackSubresult, callbackMessage);
 
 	wu = createWU();
 
