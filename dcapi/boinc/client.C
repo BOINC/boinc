@@ -21,15 +21,23 @@
 #include <parse.h>
 
 #include <dc_client.h>
+#include <dc_internal.h>
+
 #include "common_defs.h"
 
 /********************************************************************
  * Global variables
  */
 
+/* Checkpoint file generation counter */
 static int ckpt_generation;
+/* Name of the last completed checkpoint file */
 static char *last_complete_ckpt;
+/* Name of the active (not yet completed) checkpoint file */
 static char active_ckpt[PATH_MAX];
+/* Number of subresults already sent */
+static int subresult_cnt;
+/* Name of the current work unit */
 static char wu_name[256];
 
 /********************************************************************
@@ -140,18 +148,67 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 int DC_sendResult(const char *logicalFileName, const char *path,
 	DC_FileMode mode)
 {
-	/* XXX */
-	return DC_ERR_NOTIMPL;
+	char label[32], new_path[PATH_MAX], msg[PATH_MAX];
+	std::string str;
+	int ret;
+
+	snprintf(label, sizeof(label), "%s%d", SUBRESULT_PFX, ++subresult_cnt);
+	if (boinc_resolve_filename(label, new_path, sizeof(new_path)))
+		return DC_ERR_INTERNAL;
+
+	switch (mode)
+	{
+		case DC_FILE_REGULAR:
+			ret = _DC_copyFile(path, new_path);
+			if (ret)
+				return DC_ERR_SYSTEM;
+			break;
+		case DC_FILE_PERSISTENT:
+			ret = link(path, new_path);
+			if (!ret)
+				break;
+			/* The client system may not support hard links so
+			 * fall back to copying silently */
+			ret = _DC_copyFile(path, new_path);
+			if (ret)
+				return DC_ERR_SYSTEM;
+			break;
+		case DC_FILE_VOLATILE:
+			ret = rename(path, new_path);
+			if (!ret)
+				break;
+			/* If renaming fails, fall back to copying, but in this
+			 * case we are also responsible for deleting the
+			 * original */
+			ret = _DC_copyFile(path, new_path);
+			if (ret)
+				return DC_ERR_SYSTEM;
+			break;
+	}
+
+	/* Stupid C++ */
+	str = label;
+	ret = boinc_upload_file(str);
+	if (ret)
+	{
+		unlink(new_path);
+		return DC_ERR_INTERNAL;
+	}
+
+	snprintf(msg, sizeof(msg), "%s upload %s", DCAPI_MSG_PFX, label);
+	DC_sendMessage(msg);
+
+	/* If we had to copy volatile files, delete the original only when
+	 * we are sure the upload will happen */
+	if (mode == DC_FILE_VOLATILE)
+		unlink(path);
+	return 0;
 }
 
 int DC_sendMessage(const char *message)
 {
+	/* We use the WU's name as the variety */
 	return boinc_send_trickle_up(wu_name, (char *)message);
-}
-
-static void handle_special_msg(const char *message)
-{
-	/* XXX Implement it */
 }
 
 static DC_Event *new_event(DC_EventType type)
@@ -163,10 +220,17 @@ static DC_Event *new_event(DC_EventType type)
 	return event;
 }
 
+static DC_Event *handle_special_msg(const char *message)
+{
+	/* XXX Implement it */
+	return NULL;
+}
+
 DC_Event *DC_checkEvent(void)
 {
 	DC_Event *event;
 	char *buf;
+	int ret;
 
 	/* Check for checkpoint requests */
 	if (boinc_time_to_checkpoint())
@@ -174,26 +238,28 @@ DC_Event *DC_checkEvent(void)
 
 	/* Check for messages */
 	buf = (char *)malloc(MAX_MESSAGE_SIZE);
-	if (buf)
+	if (!buf)
+		/* Let's hope the error is transient and we can deliver the
+		 * message when DC_checkEvent() is called for the next time */
+		return NULL;
+
+	/* Check for trickle-down messages and also handle internal
+	 * communication */
+	ret = boinc_receive_trickle_down(buf, MAX_MESSAGE_SIZE);
+	if (ret)
 	{
-		int ret;
-
-		ret = boinc_receive_trickle_down(buf, MAX_MESSAGE_SIZE);
-		if (ret)
+		if (!strncmp(buf, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
 		{
-			if (!strncmp(buf, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
-			{
-				handle_special_msg(buf);
-				free(buf);
-				return NULL;
-			}
-
-			event = new_event(DC_EVENT_MESSAGE);
-			event->message = buf;
+			event = handle_special_msg(buf);
+			free(buf);
 			return event;
 		}
-		free(buf);
+
+		event = new_event(DC_EVENT_MESSAGE);
+		event->message = buf;
+		return event;
 	}
+	free(buf);
 
 	return NULL;
 }
@@ -215,9 +281,10 @@ void DC_destroyEvent(DC_Event *event)
 
 void DC_checkpointMade(const char *filename)
 {
-	boinc_checkpoint_completed();
+	/* XXX Compare filename to active_ckpt and warn on mismatch */
 	free(last_complete_ckpt);
 	last_complete_ckpt = strdup(filename);
+	boinc_checkpoint_completed();
 }
 
 void DC_fractionDone(double fraction)
