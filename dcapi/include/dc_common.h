@@ -29,6 +29,7 @@ typedef enum {
 	DC_ERR_UNKNOWN_WU,	/* Unknown WU identifier */
 	DC_ERR_TIMEOUT,		/* Timeout */
 	DC_ERR_BADPARAM,	/* Bad function parameter */
+	DC_ERR_SYSTEM,		/* A system call has failed, check errno */
 	DC_ERR_INTERNAL,	/* Internal error */
 } DC_ErrorCode;
 
