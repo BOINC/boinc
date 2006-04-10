@@ -38,6 +38,9 @@ int _DC_parseCfg(const char *cfgfile);
  */
 const char *_DC_getCfgStr(const char *name);
 
+/* Copies a file */
+int _DC_copyFile(const char *src, const char *dst);
+
 #ifdef __cplusplus
 }
 #endif
