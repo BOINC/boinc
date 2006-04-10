@@ -9,13 +9,13 @@
 
 int DC_processEvents(int timeout)
 {
-
 	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
 	{
 		DC_log(LOG_ERR, "DC_processEvents: callbacks are not set up");
 		return DC_ERR_CONFIG;
 	}
 
+	_DC_searchForEvents();
 
 	return 0;
 }

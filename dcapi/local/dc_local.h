@@ -91,13 +91,21 @@ extern DC_SubresultCallback	_dc_subresultcb;
 extern DC_MessageCallback	_dc_messagecb;
 
 extern char project_uuid_str[37]; 
+extern uuid_t project_uuid;
 extern int sleep_interval;
 
 /********************************************************************
  * Function prototypes
  */
 
-int rm_init(const char *config_workdir, const char *config_uuid);
+/* Allocates a physical file descriptor */
+DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
+        const char *path);
+
+/* De-allocates a physical file descriptor */
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
+
+int _DC_searchForEvents();
 
 /* Parses the project's config.xml */
 int _DC_parseConfigXML(const char *file);
@@ -134,7 +142,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
 
 /* Creates a new DC_Result */
-DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in);
+DC_Result *_DC_createResult(const char *wu_name);
 
 /* Destroys a DC_Result */
 void _DC_destroyResult(DC_Result *result);
