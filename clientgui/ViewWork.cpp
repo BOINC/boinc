@@ -28,7 +28,7 @@
 #include "BOINCListCtrl.h"
 #include "ViewWork.h"
 #include "Events.h"
-#include "../lib/error_numbers.h"
+#include "error_numbers.h"
 
 #include "res/result.xpm"
 
@@ -548,12 +548,14 @@ void CViewWork::UpdateSelection() {
                 );
 */
             }
+
+            project = pDoc->state.lookup_project(result->project_url);
+            CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, project);
+        } else {
+            CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, NULL);
         }
+
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
-
-        project = pDoc->state.lookup_project(result->project_url);
-        CBOINCBaseView::UpdateWebsiteSelection(GRP_WEBSITES, project);
-
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }

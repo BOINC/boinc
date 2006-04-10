@@ -3678,3 +3678,12 @@ Rom    9 Apr 2006
     lib/
         diagnostics.C, .h
         stackwalker_win.cpp, .h
+
+Rom    10 Apr 2006
+    - Bug Fix: Fix a crash condition where a result maybe in the list view but
+        may have already been cycled out of the system.  There is a brief
+        period of time where the result is being sent back to the scheduler and
+        the user may switch back to the work tab where this crash would occur.
+        
+    clientgui/
+        ViewWork.cpp
