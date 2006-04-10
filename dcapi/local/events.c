@@ -24,7 +24,7 @@ int DC_processEvents(int timeout)
 static DC_Event *look_for_results(const char *wuFilter, const char *wuName,
 	int timeout)
 {
-	DC_Event *event;
+	DC_Event *event = NULL;
 
 	return event;
 }
@@ -47,7 +47,7 @@ DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	return event;
 }
 
-void DC_DestroyEvent(DC_Event *event)
+void DC_destroyEvent(DC_Event *event)
 {
 	if (!event)
 		return;
