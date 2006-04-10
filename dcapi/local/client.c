@@ -45,6 +45,7 @@ void DC_destroyEvent(DC_Event *event)
   // not impl.
 }
 
+#if 0
 int DC_timeToCheckpoint(void)
 {
   time_t current;
@@ -53,6 +54,7 @@ int DC_timeToCheckpoint(void)
     return 1;
   return 0;
 }
+#endif
 
 void DC_checkpointMade(const char *fileName)
 {
