@@ -3,14 +3,35 @@
 
 #include "dc.h"
 
-/* Global variables */
-static DC_Workunit *wu;
-
 /* Function prototypes */
-static int createWU(void);
+static DC_Workunit * createWU(void);
+
+static void callback_result(DC_Workunit *wu, DC_Result *result)
+{
+	printf("Callback function for result destroying WU.\n");
+
+	DC_destroyWU(wu);
+	return;
+}
+
+static void callback_subresult(DC_Workunit *wu, const char*, const char*)
+{
+	// not impl yet
+
+	return;
+}
+
+static void callback_message(DC_Workunit *wu, const char*)
+{
+	// not impl yet
+
+	return;
+}
+
 
 int main( int argc, char *argv[])
 {
+	DC_Workunit *wu;
 	int retval;
 	char ch;
 
@@ -21,25 +42,32 @@ int main( int argc, char *argv[])
 	}
 	printf("DC_init returned OK.\n");
 
-	createWU();
+	DC_setcb(dc_cb_result, dc_cb_subresult, dc_cb_message);
 
-//	DC_submitWU(wu);
+	wu = createWU();
 
-	ch = getchar();
+	DC_submitWU(wu);
 
-	DC_destroyWU(wu);
+	retval = DC_processEvents(10);
+
+	if (retval)
+	{
+		printf("Error:  Not processed the WU in 10 sec.  retval = %d\n", retval);
+	}
+
+	printf("Exit application\n");
 
 	return 0;
 }
 
-static int createWU(void)
+static DC_Workunit * createWU(void)
 {
+	DC_Workunit *wu;
 	char *clientname;
 	const char *arguments[2];
 	int subresults;
 	char *tag;
 
-//	clientname = strdup("/home/vida/szdg/dcapi/trunk/local/test/execdir/uppercase-client");
 	clientname = strdup("execdir/uppercase-client");
 	tag = strdup("testing");
 	subresults = 5;
@@ -47,6 +75,8 @@ static int createWU(void)
 	arguments[1] = strdup("-argument2");
 	wu = DC_createWU(clientname, arguments, subresults, tag);
 
-//	DC_addWUInput(wu, "in.txt", "master.c", DC_FILE_PERSISTENT);
-//	DC_addWUOutput(wu, "out.txt");
+	DC_addWUInput(wu, "in.txt", "master.c", DC_FILE_PERSISTENT);
+	DC_addWUOutput(wu, "out.txt");
+
+	return (wu);
 }
