@@ -2,12 +2,13 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <glib.h>
 
 #include <sched_util.h>
@@ -29,9 +30,6 @@ typedef enum
 	WU_CLIENT_ARG,
 	WU_SUBRESULTS,
 } wu_tag;
-
-/* Buffer size used when copying a file */
-#define COPY_BUFSIZE		65536
 
 
 /********************************************************************
@@ -206,72 +204,6 @@ static char *get_input_download_path(DC_Workunit *wu, const char *label)
 		path, TRUE);
 	g_free(filename);
 	return g_strdup(path);
-}
-
-static int copy_file(const char *src, const char *dst)
-{
-	int sfd, dfd;
-	ssize_t ret;
-	char *buf;
-
-	buf = (char *)g_malloc(COPY_BUFSIZE);
-	sfd = open(src, O_RDONLY);
-	if (sfd == -1)
-	{
-		DC_log(LOG_ERR, "Failed to open %s for copying: %s", src,
-			strerror(errno));
-		g_free(buf);
-		return -1;
-	}
-	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC);
-	if (dfd == -1)
-	{
-		DC_log(LOG_ERR, "Failed to create %s: %s", dst, strerror(errno));
-		g_free(buf);
-		close(sfd);
-		return -1;
-	}
-
-	while ((ret = read(sfd, buf, COPY_BUFSIZE)) > 0)
-	{
-		char *ptr = buf;
-		while (ret)
-		{
-			ssize_t ret2 = write(dfd, ptr, ret);
-			if (ret2 < 0)
-			{
-				DC_log(LOG_ERR, "Error writing to %s: %s", dst,
-					strerror(errno));
-				close(sfd);
-				close(dfd);
-				unlink(dst);
-				g_free(buf);
-				return -1;
-			}
-			ret -= ret2;
-			ptr += ret2;
-		}
-	}
-
-	if (ret < 0)
-	{
-		DC_log(LOG_ERR, "Error reading from %s: %s", src, strerror(errno));
-		close(sfd);
-		close(dfd);
-		g_free(buf);
-		unlink(dst);
-		return -1;
-	}
-
-	g_free(buf);
-	close(sfd);
-	if (close(dfd))
-	{
-		DC_log(LOG_ERR, "Error writing to %s: %s", dst, strerror(errno));
-		unlink(dst);
-		return -1;
-	}
-	return 0;
 }
 
 static int wu_uuid_equal(const void *a, const void *b)
@@ -554,7 +486,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	switch (fileMode)
 	{
 		case DC_FILE_REGULAR:
-			ret = copy_file(URL, file->path);
+			ret = _DC_copyFile(URL, file->path);
 			if (ret)
 			{
 				_DC_destroyPhysicalFile(file);
