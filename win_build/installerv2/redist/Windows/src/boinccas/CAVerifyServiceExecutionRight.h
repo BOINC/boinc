@@ -30,7 +30,7 @@ public:
     ~CAVerifyServiceExecutionRight();
     virtual UINT OnExecution();
 
-};
+}
 
 
 #endif

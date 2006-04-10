@@ -139,6 +139,9 @@
 				RelativePath=".\CAShutdownBOINCManager.cpp">
 			</File>
 			<File
+				RelativePath=".\CASoftwareNeedsUpgrade.cpp">
+			</File>
+			<File
 				RelativePath=".\CAValidateSetupType.cpp">
 			</File>
 			<File
@@ -171,6 +174,9 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownBOINCManager.h">
+			</File>
+			<File
+				RelativePath=".\CASoftwareNeedsUpgrade.h">
 			</File>
 			<File
 				RelativePath=".\CAValidateSetupType.h">

@@ -30,7 +30,7 @@ public:
     ~CAValidateServiceAccount();
     virtual UINT OnExecution();
 
-};
+}
 
 
 #endif

@@ -20,10 +20,10 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CADetectOldInstaller.h"
+#include "CASoftwareNeedsUpgrade.h"
 
-#define CUSTOMACTION_NAME               _T("CADetectOldInstaller")
-#define CUSTOMACTION_PROGRESSTITLE      _T("")
+#define CUSTOMACTION_NAME               _T("CASoftwareNeedsUpgrade")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Verifying software compatibility levels")
 
 
 /////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CADetectOldInstall::CADetectOldInstall(MSIHANDLE hMSIHandle) :
+CASoftwareNeedsUpgrade::CASoftwareNeedsUpgrade(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -45,7 +45,7 @@ CADetectOldInstall::CADetectOldInstall(MSIHANDLE hMSIHandle) :
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CADetectOldInstall::~CADetectOldInstall()
+CASoftwareNeedsUpgrade::~CASoftwareNeedsUpgrade()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -58,19 +58,59 @@ CADetectOldInstall::~CADetectOldInstall()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CADetectOldInstall::OnExecution()
+UINT CASoftwareNeedsUpgrade::OnExecution()
 {
     UINT    uiReturnValue = 0;
     HKEY    hKey;
+    TCHAR   szVersion[128];
+    DWORD   dwBufLen = (sizeof(szVersion)/sizeof(TCHAR));
     LONG    lRet;
 
     lRet = RegOpenKeyEx(
         HKEY_LOCAL_MACHINE,
-        _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\BOINC"),
+        _T("SOFTWARE\\Microsoft\\IntelliPoint"),
         0,
         KEY_QUERY_VALUE,
         &hKey
     );
+    if ( lRet != ERROR_SUCCESS )
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Microsoft IntelliPoint NOT Detected.")
+        );
+    }
+    else
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Microsoft IntelliPoint Detected.")
+        );
+
+        lRet = RegQueryValueEx(
+            hKey,
+            "Version",
+            NULL,
+            NULL,
+            (LPBYTE) szVersion,
+            &dwBufLen
+        );
+        
+        if( (lRet != ERROR_SUCCESS) || (dwBufLen > BUFSIZE) )
+        return FALSE;
+    }
+
+
+
+
 
     if ( lRet == ERROR_SUCCESS )
     {
@@ -112,20 +152,80 @@ UINT CADetectOldInstall::OnExecution()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    DetectOldInstaller
+// Function:    
 //
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall DetectOldInstaller(MSIHANDLE hInstall)
+void VersionCheck(const tstring strPackage, const tstring strPackageLocation, const tstring strPackageProperty)
+{
+    HKEY    hKey;
+    TCHAR   szVersion[128];
+    DWORD   dwBufLen = (sizeof(szVersion)/sizeof(TCHAR));
+    LONG    lRet;
+
+    lRet = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE,
+        _T("SOFTWARE\\Microsoft\\IntelliPoint"),
+        0,
+        KEY_QUERY_VALUE,
+        &hKey
+    );
+    if ( lRet != ERROR_SUCCESS )
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Microsoft IntelliPoint NOT Detected.")
+        );
+    }
+    else
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Microsoft IntelliPoint Detected.")
+        );
+
+        lRet = RegQueryValueEx(
+            hKey,
+            "Version",
+            NULL,
+            NULL,
+            (LPBYTE) szVersion,
+            &dwBufLen
+        );
+        
+        if( (lRet != ERROR_SUCCESS) || (dwBufLen > BUFSIZE) )
+        return FALSE;
+    }
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    ValidateSetupType
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT __stdcall SoftwareNeedsUpgrade(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CADetectOldInstall* pCA = new CADetectOldInstall(hInstall);
+    CASoftwareNeedsUpgrade* pCA = new CASoftwareNeedsUpgrade(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
     return uiReturnValue;
 }
 
-const char *BOINC_RCSID_9bbe764317="$Id$";
+
+
+const char *BOINC_RCSID_d533f80c52="$Id$";

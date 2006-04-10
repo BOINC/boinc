@@ -30,7 +30,7 @@ public:
     ~CAGetAdministratorsGroupName();
     virtual UINT OnExecution();
 
-};
+}
 
 
 #endif

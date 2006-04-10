@@ -18,18 +18,23 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef _CAVALIDATESETUPTYPE_H_
-#define _CAVALIDATESETUPTYPE_H_
+#ifndef _CASOFTWARENEEDSUPGRADE_H_
+#define _CASOFTWARENEEDSUPGRADE_H_
 
 
-class CAValidateSetupType : public BOINCCABase
+class CASoftwareNeedsUpgrade : public BOINCCABase
 {
 public:
 
-    CAValidateSetupType(MSIHANDLE hMSIHandle);
-    ~CAValidateSetupType();
+    CASoftwareNeedsUpgrade(MSIHANDLE hMSIHandle);
+    ~CASoftwareNeedsUpgrade();
     virtual UINT OnExecution();
 
+    void VersionCheck(
+        const tstring strPackage,
+        const tstring strPackageLocation,
+        const tstring strPackageProperty
+    );
 }
 
 

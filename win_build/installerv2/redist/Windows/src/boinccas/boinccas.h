@@ -100,7 +100,7 @@ protected:
     tstring     m_strActionName;
     tstring     m_strProgressTtle;
 
-};
+}
 
 #endif
 

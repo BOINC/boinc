@@ -30,7 +30,7 @@ public:
     ~CAPopulateServiceAccount();
     virtual UINT OnExecution();
 
-};
+}
 
 
 #endif

@@ -30,7 +30,7 @@ public:
     ~CAVerifyServicePassword();
     virtual UINT OnExecution();
 
-};
+}
 
 
 #endif
