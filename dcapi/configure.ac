@@ -31,6 +31,8 @@ AM_PATH_GLIB_2_0([2.6.0],,[AC_MSG_ERROR([glib2 is missing])])
 
 GTK_DOC_CHECK([1.3])
 
+BACKENDS=
+
 dnl ===================================================================
 dnl BOINC backend
 dnl
@@ -52,11 +54,10 @@ if test "$enable_backend_boinc" = yes; then
 	if test "$no_boinc" = yes; then
 		AC_MSG_ERROR([BOINC development environment was not found])
 	fi
-else
-	no_boinc=yes
+	BACKENDS="$BACKENDS boinc"
 fi
 
-AM_CONDITIONAL([WITH_BOINC], [test "$no_boinc" != yes])
+AM_CONDITIONAL([WITH_BOINC], [test "$enable_backend_boinc" = yes])
 
 dnl ===================================================================
 dnl ClusterGrid backend
@@ -64,10 +65,29 @@ dnl
 
 AC_ARG_ENABLE([backend-clgr],
 	AS_HELP_STRING([--enable-backend-clgr],
-		[enable the ClusterGrid backend @<:@default=yes@:>@]),,
-	[enable_backend_clgr=yes])
+		[enable the ClusterGrid backend @<:@default=no@:>@]),,
+	[enable_backend_clgr=no])
+
+if test "$enable_backend_clgr" = yes; then
+	BACKENDS="$BACKENDS clgr"
+fi
 
 AM_CONDITIONAL([WITH_CLGR], [test "$enable_backend_clgr" = yes])
+
+dnl ===================================================================
+dnl Condor backend
+dnl
+
+AC_ARG_ENABLE([backend-condor],
+	AS_HELP_STRING([--enable-backend-condor],
+		[enable the Condor backend @<:@default=no@:>@]),,
+	[enable_backend_condor=no])
+
+if test "$enable_backend_condor" = yes; then
+	BACKENDS="$BACKENDS condor"
+fi
+
+AM_CONDITIONAL([WITH_CONDOR], [test "$enable_backend_condor" = yes])
 
 dnl ===================================================================
 dnl Local backend
@@ -76,7 +96,11 @@ dnl
 AC_ARG_ENABLE([backend-local],
 	AS_HELP_STRING([--enable-backend-local],
 		[enable the local backend @<:@default=yes@:>@]),,
-	[enable_local=yes])
+	[enable_backend_local=yes])
+
+if test "$enable_backend_local" = yes; then
+	BACKENDS="$BACKENDS local"
+fi
 
 AM_CONDITIONAL([WITH_LOCAL], [test "$enable_backend_local" == yes])
 
@@ -84,12 +108,17 @@ dnl ===================================================================
 dnl Generate output files
 dnl
 
+echo ""
+echo "Enabled backends: $BACKENDS"
+echo ""
+
 AC_CONFIG_FILES([Makefile \
 	include/Makefile \
 	common/Makefile \
 	boinc/Makefile \
 	local/Makefile \
 	clgr/Makefile \
+	condor/Makefile \
 	doc/Makefile \
 	doc/client/Makefile \
 	doc/master/Makefile])

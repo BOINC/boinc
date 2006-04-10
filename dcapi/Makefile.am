@@ -11,6 +11,10 @@ if WITH_CLGR
 SUBDIRS += clgr
 endif
 
+if WITH_CONDOR
+SUBDIRS += condor
+endif
+
 if WITH_LOCAL
 SUBDIRS += local
 endif
