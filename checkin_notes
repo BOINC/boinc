@@ -3670,3 +3670,11 @@ Rom    9 Apr 2006
         dbghelp95.dll (Added)
         srcsrv.dll (Added)
         symsrv.dll (Added)
+
+Rom    9 Apr 2006
+    - Put the infrastructure in place to be able to use Symbol Servers.  This
+        is just the basics.  Many details need to be worked out.
+        
+    lib/
+        diagnostics.C, .h
+        stackwalker_win.cpp, .h

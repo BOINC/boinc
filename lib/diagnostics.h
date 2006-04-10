@@ -50,6 +50,8 @@
 #define BOINC_DIAG_TRACETOSTDERR            0x00000200L
 #define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
 #define BOINC_DIAG_HEAPCHECKEVERYALLOC      0x00000800L
+#define BOINC_DIAG_BOINCAPPLICATION         0x00001000L
+
 
 // thread types used for dumping backtraces
 //

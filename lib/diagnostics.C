@@ -48,23 +48,28 @@
 #include <execinfo.h>
 #endif
 
-#include "diagnostics.h"
+
+#include "app_ipc.h"
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
+#include "parse.h"
+#include "diagnostics.h"
 
 
 #define MAX_STDERR_FILE_SIZE        2048*1024
 #define MAX_STDOUT_FILE_SIZE        2048*1024
 
 
-static int   flags;
-static char  stdout_log[256];
-static char  stdout_archive[256];
-static FILE* stdout_file;
-static char  stderr_log[256];
-static char  stderr_archive[256];
-static FILE* stderr_file;
+static int         flags;
+static char        stdout_log[256];
+static char        stdout_archive[256];
+static FILE*       stdout_file;
+static char        stderr_log[256];
+static char        stderr_archive[256];
+static FILE*       stderr_file;
+static char        boinc_dir[256];
+static char        symstore[256];
 
 #ifdef _WIN32
 static int   aborted_via_gui;
@@ -94,7 +99,8 @@ static void boinc_catch_signal(int signal);
 // stub function for initializing the diagnostics environment.
 //
 int boinc_init_diagnostics(int _flags) {
-    return diagnostics_init( _flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR );
+    int modified_flags = BOINC_DIAG_BOINCAPPLICATION | _flags;
+    return diagnostics_init( modified_flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR );
 }
 
 
@@ -138,6 +144,8 @@ int diagnostics_init(
     snprintf(stdout_archive, sizeof(stdout_archive), "%s.old", stdout_prefix);
     snprintf(stderr_log, sizeof(stderr_log), "%s.txt", stderr_prefix);
     snprintf(stderr_archive, sizeof(stderr_archive), "%s.old", stderr_prefix);
+    strcpy(boinc_dir, "");
+    strcpy(symstore, "");
 
 
     // Check for invalid parameter combinations
@@ -161,28 +169,28 @@ int diagnostics_init(
 
 
     // Redirect stderr and/or stdout streams, if requested
-    if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
+    if ( flags & BOINC_DIAG_REDIRECTSTDERR ) {
         stderr_file = freopen(stderr_log, "a", stderr);
         if ( NULL == stderr_file ) {
             return ERR_FOPEN;
         }
     }
 
-    if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
+    if ( flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
         stderr_file = freopen(stderr_log, "w", stderr);
         if ( NULL == stderr_file ) {
             return ERR_FOPEN;
         }
     }
 
-    if (flags & BOINC_DIAG_REDIRECTSTDOUT ) {
+    if ( flags & BOINC_DIAG_REDIRECTSTDOUT ) {
         stdout_file = freopen(stdout_log, "a", stdout);
         if ( NULL == stdout_file ) {
             return ERR_FOPEN;
         }
     }
 
-    if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
+    if ( flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
         stdout_file = freopen(stdout_log, "w", stdout);
         if ( NULL == stdout_file ) {
             return ERR_FOPEN;
@@ -208,11 +216,11 @@ int diagnostics_init(
 
     _CrtSetReportHook( boinc_message_reporting );
 
-    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
+    if ( flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
         SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
 
-    if (flags & BOINC_DIAG_HEAPCHECKENABLED )
-        if (flags & BOINC_DIAG_HEAPCHECKEVERYALLOC )
+    if ( flags & BOINC_DIAG_HEAPCHECKENABLED )
+        if ( flags & BOINC_DIAG_HEAPCHECKEVERYALLOC )
             SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_ALWAYS_DF );
         else
             SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
@@ -224,6 +232,24 @@ int diagnostics_init(
     // Install unhandled exception filters and signal traps.
     if ( BOINC_SUCCESS != boinc_install_signal_handlers() ) {
         return ERR_SIGNAL_OP;
+    }
+
+
+    // Store the location of the BOINC directory for future use
+    if ( flags & BOINC_DIAG_BOINCAPPLICATION ) {
+        char    buf[256];
+        MIOFILE mf;
+        FILE*   p;
+
+        p = fopen(INIT_DATA_FILE, "r");
+        if (!p) return ERR_FOPEN;
+        mf.init_file(p);
+        while(mf.fgets(buf, sizeof(buf))) {
+            if (match_tag(buf, "</app_init_data>")) break;
+            else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
+            else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
+        }
+        fclose(p);
     }
 
     return BOINC_SUCCESS;
@@ -355,7 +381,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     }
 
     // Kickstart the debugger extensions
- 	DebuggerInitialize();
+ 	DebuggerInitialize( boinc_dir, symstore );
 
     // Dump any useful information
     DebuggerDisplayDiagnostics();

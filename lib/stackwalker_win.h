@@ -32,10 +32,10 @@
 extern "C" {
 #endif
 
-extern int DebuggerInitialize();
+extern int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore );
 extern int DebuggerDisplayDiagnostics();
-extern DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status);
-extern void StackwalkThread( HANDLE hThread, CONTEXT* c);
+extern DWORD StackwalkFilter( EXCEPTION_POINTERS* ep, DWORD status );
+extern void StackwalkThread( HANDLE hThread, CONTEXT* c );
 
 #ifdef __cplusplus
 }

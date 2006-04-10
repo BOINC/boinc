@@ -210,13 +210,40 @@ static CRITICAL_SECTION g_csFileOpenClose = {0};
 
 
 // Write Date/Time to specified file (will also work after 2038)
-static void WriteDateTime() {
+void DebuggerWriteDateTime() {
     TCHAR pszTemp[11], pszTemp2[11];
 
     _tstrdate( pszTemp );
     _tstrtime( pszTemp2 );
 
     _ftprintf(stderr, _T("%s %s"), pszTemp, pszTemp2 );
+}
+
+
+bool DebuggerLoadLibrary( 
+    HINSTANCE* lphInstance, const std::string strBOINCLocation, const std::string strLibrary
+)
+{
+    std::string strTargetLibrary;
+
+    if (strBOINCLocation.empty()) {
+        strTargetLibrary = strLibrary;
+    } else {
+        strTargetLibrary = strBOINCLocation + "\\" + strLibrary;
+    }
+
+    *lphInstance = LoadLibraryA( strTargetLibrary.c_str() );
+    if ( *lphInstance == NULL )
+    {
+        strTargetLibrary = strLibrary;
+        *lphInstance = LoadLibraryA( strTargetLibrary.c_str() );
+        if ( *lphInstance == NULL )
+        {
+            _ftprintf( stderr, "LoadLibraryA( %s ): GetLastError = %lu\n", strLibrary.c_str(), gle );
+            return false;
+        }
+    }
+    return true;
 }
 
 
@@ -227,12 +254,15 @@ BOOL CALLBACK SymRegisterCallbackProc(HANDLE hProcess, ULONG ActionCode, ULONG64
 
     switch(ActionCode) {
         case CBA_DEBUG_INFO:
-            _ftprintf(stderr, _T("DEBUG: %s\n"), CallbackData);
+            _ftprintf(stderr, _T("DEBUG: %s\n"), (PCTSTR)CallbackData);
             bRetVal = TRUE;
             break;
         case CBA_DEFERRED_SYMBOL_LOAD_COMPLETE:
             pModule = (PIMAGEHLP_DEFERRED_SYMBOL_LOAD64)CallbackData;
-            _ftprintf(stderr, _T("MODLOAD: %.8x %s (Symbols Loaded)\n"), pModule->BaseOfImage, pModule->FileName);
+            _ftprintf(stderr, _T("ModLoad: "));
+            _ftprintf(stderr, _T("%.8x "), pModule->BaseOfImage);
+            _ftprintf(stderr, _T("%s "), pModule->FileName);
+            _ftprintf(stderr, _T("\n"));
             bRetVal = TRUE;
             break;
     }
@@ -300,30 +330,23 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID
 
 
 
-int DebuggerInitialize()
+int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore )
 {
+    using namespace std;
+
     if (g_bInitialized != FALSE)
         return 0;
 
     OSVERSIONINFO osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-
     GetVersionEx((OSVERSIONINFO*)&osvi);
 
     // If Win9x use the old dbghelp.dll (5.0.2195.1)
     if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId)
     {
-        // Ours is named dbghelp95.dll
-        g_hDbgHelpDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\dbghelp95.dll") );
-        if ( g_hDbgHelpDll == NULL )
-        {
-            // Last ditch effort use original name in case some other
-            //   application installed it into the system path.
-            g_hDbgHelpDll = LoadLibrary( _T("dbghelp.dll") ); 
-            if ( g_hDbgHelpDll == NULL )
-            {
-                _ftprintf( stderr, "LoadLibrary( \"dbghelp95.dll\" ): GetLastError = %lu\n", gle );
+        if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp95.dll")) {
+            if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
                 g_bInitialized = FALSE;
                 return 1;
             }
@@ -331,30 +354,12 @@ int DebuggerInitialize()
     }
     else
     {
-        // Anything newer use the latest and greatest
-        g_hDbgHelpDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\dbghelp.dll") );
-        if ( g_hDbgHelpDll == NULL )
-        {
-            g_hDbgHelpDll = LoadLibrary( _T("dbghelp.dll") ); 
-            if ( g_hDbgHelpDll == NULL )
-            {
-                _ftprintf( stderr, "LoadLibrary( \"dbghelp.dll\" ): GetLastError = %lu\n", gle );
-                g_bInitialized = FALSE;
-                return 1;
-            }
+        if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
+            g_bInitialized = FALSE;
+            return 1;
         }
-
-        g_hSymSrvDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\symsrv.dll") );
-        if ( g_hSymSrvDll == NULL )
-        {
-            g_hSymSrvDll = LoadLibrary( _T("symsrv.dll") ); 
-        }
-
-        g_hSrcSrvDll = LoadLibrary( _T("C:\\Program Files\\BOINC\\srcsrv.dll") );
-        if ( g_hSrcSrvDll == NULL )
-        {
-            g_hSrcSrvDll = LoadLibrary( _T("srcsrv.dll") ); 
-        }
+        DebuggerLoadLibrary(&g_hSymSrvDll, pszBOINCLocation, "symsrv.dll");
+        DebuggerLoadLibrary(&g_hSrcSrvDll, pszBOINCLocation, "srcsrv.dll");
     }
 
     pIAV = (tIAV) GetProcAddress( g_hDbgHelpDll, "ImagehlpApiVersion" );
@@ -393,7 +398,11 @@ int DebuggerInitialize()
     CHAR* tt;
     CHAR* p;
     DWORD symOptions; // symbol handler settings
-    std::string symSearchPath;
+    string strLocalSymbolStore;
+    string strSymbolSearchPath;
+
+    static const basic_string<char>::size_type npos = -1;
+
 
     // NOTE: normally, the exe directory and the current directory should be taken
     // from the target process. The current dir would be gotten through injection
@@ -403,11 +412,12 @@ int DebuggerInitialize()
     if (!tt) return 1;  // not enough memory...
 
     // build symbol search path from:
-    symSearchPath = "";
+    strLocalSymbolStore = "";
+    strSymbolSearchPath = "";
 
     // current directory
     if ( GetCurrentDirectoryA( TTBUFLEN, tt ) )
-        symSearchPath += tt + std::string( ";" );
+        strSymbolSearchPath += tt + string( ";" );
 
     // dir with executable
     if ( GetModuleFileNameA( 0, tt, TTBUFLEN ) )
@@ -425,25 +435,46 @@ int DebuggerInitialize()
             if ( *p == ':' ) // we leave colons in place
                 ++p;
             *p = '\0'; // eliminate the exe name and last path sep
-            symSearchPath += tt + std::string( ";" );
+            strSymbolSearchPath += tt + string( ";" );
         }
     }
 
     // environment variable _NT_SYMBOL_PATH
     if ( GetEnvironmentVariableA( "_NT_SYMBOL_PATH", tt, TTBUFLEN ) )
-        symSearchPath += tt + std::string( ";" );
+        strSymbolSearchPath += tt + string( ";" );
     // environment variable _NT_ALTERNATE_SYMBOL_PATH
     if ( GetEnvironmentVariableA( "_NT_ALTERNATE_SYMBOL_PATH", tt, TTBUFLEN ) )
-        symSearchPath += tt + std::string( ";" );
+        strSymbolSearchPath += tt + string( ";" );
+
+    if ( GetTempPathA( TTBUFLEN, tt ) )
+        strLocalSymbolStore += tt + string("symbols");
 
     // microsoft public symbol server
-    symSearchPath += std::string( "srv*c:\\windows\\symbols*http://msdl.microsoft.com/download/symbols;" );
+    if (npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
+        strSymbolSearchPath += 
+            string( "srv*" ) + strLocalSymbolStore + 
+            string( "*http://msdl.microsoft.com/download/symbols;" );
+    }
 
-    if ( symSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon
-        symSearchPath = symSearchPath.substr( 0, symSearchPath.size() - 1 );
+    // project symbol server
+    if ((npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
+        strSymbolSearchPath += 
+            string( "srv*" ) + strLocalSymbolStore + string( "*" ) +
+            string( pszSymbolStore );
+    }
+
+    // boinc symbol server
+    if (npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
+        strSymbolSearchPath += 
+            string( "srv*" ) + strLocalSymbolStore + 
+            string( "*http://boinc.berkeley.edu/symstore;" );
+    }
+
+    if ( strSymbolSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon
+        strSymbolSearchPath = strSymbolSearchPath.substr( 0, strSymbolSearchPath.size() - 1 );
 
     // init symbol handler stuff (SymInitialize())
-    if ( ! pSI(GetCurrentProcess(), symSearchPath.c_str(), TRUE ) )
+    if ( ! pSI(GetCurrentProcess(), strSymbolSearchPath.c_str(), TRUE ) )
     {
         _ftprintf(stderr, _T("SymInitialize(): GetLastError = %lu\n"), gle );
         if (tt) free( tt );
@@ -479,7 +510,7 @@ int DebuggerDisplayDiagnostics()
     _ftprintf( stderr, _T("BOINC Windows Debugger  Version %s\n"), BOINC_VERSION_STRING);
     _ftprintf( stderr, _T("\n"));
     _ftprintf( stderr, _T("Dump Timestamp    : "));
-    WriteDateTime();
+    DebuggerWriteDateTime();
     _ftprintf( stderr, _T("\n"));
     _ftprintf( stderr, _T("Debugger Engine   : %d.%d.%d.%d\n"), lpDV->MajorVersion, lpDV->MinorVersion, lpDV->Revision, lpDV->Reserved);
     _ftprintf( stderr, _T("Symbol Search Path: %s\n"), buf);
