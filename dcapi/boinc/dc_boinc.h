@@ -48,10 +48,14 @@ struct _DC_Workunit
 	char			*tag;
 	int			subresults;
 
-	/* State of the WU */
+	/* The WU's UUID */
 	uuid_t			uuid;
+	/* State of the WU */
 	DC_WUState		state;
+	/* The WU's working directory */
 	char			*workdir;
+	/* The WU's ID in the Boinc database */
+	int			db_id;
 
 	/* Input file definitions. Elements are of type DC_LogicalFile */
 	GList			*input_files;
@@ -128,17 +132,23 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file) G_GNUC_INTERNAL;
 
 /* Creates a new DC_Result */
-DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in)
-	G_GNUC_INTERNAL;
+DC_Result *_DC_createResult(const char *wu_name, int db_id,
+	const char *xml_doc_in) G_GNUC_INTERNAL;
 
 /* Destroys a DC_Result */
 void _DC_destroyResult(DC_Result *result) G_GNUC_INTERNAL;
+
+/* Get the name of the WU used in the database */
+char *_DC_getWUName(DC_Workunit *wu) G_GNUC_INTERNAL;
 
 /* Looks up a WU by name */
 DC_Workunit *_DC_getWUByName(const char *name) G_GNUC_INTERNAL;
 
 /* Parses <file_ref> definitions in an XML document */
 GList *_DC_parseFileRefs(const char *xml_doc, int *num_files) G_GNUC_INTERNAL;
+
+/* Marks a work unit as completed in the database */
+void _DC_resultCompleted(DC_Result *result) G_GNUC_INTERNAL;
 
 #ifdef __cplusplus
 }
