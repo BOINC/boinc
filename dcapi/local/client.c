@@ -37,7 +37,7 @@ DC_Event *DC_checkEvent(void)
 {
   // not impl.
 
-  return DC_EVENT_NONE;
+  return NULL;
 }
 
 void DC_destroyEvent(DC_Event *event)
@@ -57,13 +57,6 @@ int DC_timeToCheckpoint(void)
 void DC_checkpointMade(const char *fileName)
 {
   ckpt_start = time(NULL);
-}
-
-int DC_continueWork(void)
-{
-  // not implemented yet!!
-
-  return 1; // yes, continue work.
 }
 
 void DC_fractionDone(double fraction)

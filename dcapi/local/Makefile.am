@@ -8,12 +8,12 @@ if BUILD_CLIENT
 lib_LTLIBRARIES += libdc-client-local.la
 endif
 
-AM_CPPFLAGS = -I$(top_srcdir)/common
+AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
 
 libdc_local_la_SOURCES = \
 		dc.c \
 		rm.c \
-		event.c
-libdc_local_la_LIBADD = ../common/libdc-common.la
+		events.c
+libdc_local_la_LIBADD = ../common/libdc-common.la $(GLIB_LIBS)
 
 libdc_client_local_la_SOURCES = client.c
