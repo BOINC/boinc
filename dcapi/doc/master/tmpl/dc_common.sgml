@@ -31,6 +31,7 @@ Error codes returned by DC-API functions.
 @DC_ERR_UNKNOWN_WU: the work unit is not known to DC-API.
 @DC_ERR_TIMEOUT: the operation timed out.
 @DC_ERR_BADPARAM: the function was passed illegal parameters.
+@DC_ERR_SYSTEM: a system call has failed, check errno for the reason.
 @DC_ERR_INTERNAL: an internal error occured in DC-API.
 
 <!-- ##### ENUM DC_GridCapabilities ##### -->

@@ -47,7 +47,6 @@ Event types that can be received.
 @DC_EVENT_FINISH: the computation should be aborted.
 @DC_EVENT_MESSAGE: a message has arrived.
 
-
 <!-- ##### STRUCT DC_Event ##### -->
 <para>
 Event received from the master.
@@ -55,7 +54,6 @@ Event received from the master.
 
 @type: type of the event.
 @message: contents of the message if @type is %DC_EVENT_MESSAGE.
-
 
 <!-- ##### FUNCTION DC_init ##### -->
 <para>
