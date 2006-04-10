@@ -3688,6 +3688,16 @@ Rom    10 Apr 2006
     clientgui/
         ViewWork.cpp
 
-Rom    30 Mar 2006 (boinc_core_release_5_4)
+Rom    10 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.0 release, all platforms
       boinc_core_release_5_4
+
+Charlie 10 Apr 2006
+    - Extend Mac screensaver safety timer of 21 Feb 2006 to all platforms.
+      (checked this in to both HEAD and boinc_core_release_5_4 branches.)
+    
+    client/
+        app_graphics.C
+        ss_logic.C
+        app.C
+        app.h

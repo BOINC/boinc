@@ -87,10 +87,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     is_ss_app = false;
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
-#ifdef __APPLE__    
     graphics_mode_ack_timeout = 0;
     exit_requested = false;
-#endif
     fraction_done = 0;
     episode_start_cpu_time = 0;
     cpu_time_at_last_sched = 0;
