@@ -48,16 +48,11 @@ int DC_processEvents(int timeout)
 		}
 
 		/* Call the callback function */
-		result = _DC_createResult(wu.name, canonical_result.xml_doc_in);
+		result = _DC_createResult(wu.name, wu.id, canonical_result.xml_doc_in);
 		if (!result)
 			continue;
 		_dc_resultcb(result->wu, result);
 		_DC_destroyResult(result);
-
-		/* Mark the work unit as completed */
-		wu.assimilate_state = ASSIMILATE_DONE;
-		wu.transition_time = time(0);
-		wu.update();
 	}
 
 	g_free(query);
@@ -102,12 +97,13 @@ static DC_Event *look_for_results(const char *wuFilter, const char *wuName,
 
 	event = g_new(DC_Event, 1);
 	event->type = DC_EVENT_RESULT;
-	event->result = _DC_createResult(wu.name, result.xml_doc_in);
+	event->result = _DC_createResult(wu.name, wu.id, result.xml_doc_in);
 	if (!event->result)
 	{
 		g_free(event);
 		return NULL;
 	}
+	event->wu = event->result->wu;
 
 	return event;
 }

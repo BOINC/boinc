@@ -138,8 +138,9 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 }
 
 int DC_sendResult(const char *logicalFileName, const char *path,
-	DC_FileMode fileMode)
+	DC_FileMode mode)
 {
+	/* XXX */
 	return DC_ERR_NOTIMPL;
 }
 

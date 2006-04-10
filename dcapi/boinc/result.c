@@ -12,7 +12,8 @@
  * Functions
  */
 
-DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in)
+DC_Result *_DC_createResult(const char *wu_name, int db_id,
+	const char *xml_doc_in)
 {
 	DC_Result *result;
 
@@ -24,6 +25,9 @@ DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in)
 		g_free(result);
 		return NULL;
 	}
+
+	if (!result->wu->db_id)
+		result->wu->db_id = db_id;
 
 	result->wu->state = DC_WU_FINISHED;
 
@@ -39,6 +43,9 @@ DC_Result *_DC_createResult(const char *wu_name, const char *xml_doc_in)
 
 void _DC_destroyResult(DC_Result *result)
 {
+	/* Mark the work unit as completed in the database */
+	_DC_resultCompleted(result);
+
 	while (result->output_files)
 	{
 		_DC_destroyPhysicalFile(result->output_files->data);

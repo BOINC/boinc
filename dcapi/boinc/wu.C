@@ -664,8 +664,8 @@ static int install_input_files(DC_Workunit *wu)
 
 static char *generate_wu_template(DC_Workunit *wu)
 {
+	GString *tmpl, *cmd;
 	int i, num_inputs;
-	GString *tmpl;
 	GList *l;
 	char *p;
 
@@ -705,11 +705,21 @@ static char *generate_wu_template(DC_Workunit *wu)
 		g_string_append(tmpl, "\t</file_ref>\n");
 	}
 
-	/* XXX Should qoute the individual arguments */
-	p = g_strjoinv(" ", wu->argv);
+	/* Concatenate the shell-quoted argv elements into a single string */
+	cmd = g_string_new("");
+	for (i = 0; i < wu->argc; i++)
+	{
+		char *quoted;
+
+		if (i)
+			g_string_append_c(cmd, ' ');
+		quoted = g_shell_quote(wu->argv[i]);
+		g_string_append(cmd, quoted);
+		g_free(quoted);
+	}
 	g_string_append_printf(tmpl,
-		"\t<command_line>%s</command_line>\n", p);
-	g_free(p);
+		"\t<command_line>%s</command_line>\n", cmd->str);
+	g_string_free(cmd, TRUE);
 
 	g_string_append(tmpl,
 		"\t<rsc_fpops_est>1e13</rsc_fpops_est>\n"); /* XXX Check */
@@ -828,37 +838,46 @@ static int lookup_appid(DC_Workunit *wu)
 	return app.get_id();
 }
 
+char *_DC_getWUName(DC_Workunit *wu)
+{
+	char uuid_str[37];
+
+	uuid_unparse_lower(wu->uuid, uuid_str);
+	if (wu->tag)
+		return g_strdup_printf("%s_%s_%s", project_uuid_str, uuid_str,
+			wu->tag);
+	else
+		return g_strdup_printf("%s_%s", project_uuid_str, uuid_str);
+}
+
 int DC_submitWU(DC_Workunit *wu)
 {
-	char *wu_template, *result_template_file, **infiles, *result_path,
-		uuid_str[37];
+	char *wu_template, *result_template_file, **infiles, *result_path, *name;
 	int i, ret, ninputs;
-	DB_WORKUNIT bwu;
+	DB_WORKUNIT dbwu;
 	GList *l;
 
 	ret = install_input_files(wu);
 	if (ret)
 		return ret;
 
-	uuid_unparse_lower(wu->uuid, uuid_str);
-	if (wu->tag)
-		snprintf(bwu.name, sizeof(bwu.name), "%s_%s_%s",
-			project_uuid_str, uuid_str, wu->tag);
-	else
-		snprintf(bwu.name, sizeof(bwu.name), "%s_%s",
-			project_uuid_str, uuid_str);
+	dbwu.clear();
 
-	bwu.appid = lookup_appid(wu);
-	if (bwu.appid == -1)
+	name = _DC_getWUName(wu);
+	snprintf(dbwu.name, sizeof(dbwu.name), "%s", name);
+	g_free(name);
+
+	dbwu.appid = lookup_appid(wu);
+	if (dbwu.appid == -1)
 		return DC_ERR_DATABASE;
 
 	/* XXX Make these compatible with the template */
-	bwu.batch = 1;
-	bwu.rsc_fpops_est = 200000 ;
-	bwu.rsc_fpops_bound = 2000000000 ;
-	bwu.rsc_memory_bound = 2000000;
-	bwu.rsc_disk_bound = 2000000;
-	bwu.delay_bound = 720000;
+	dbwu.batch = 1;
+	dbwu.rsc_fpops_est = 200000;
+	dbwu.rsc_fpops_bound = 2000000000;
+	dbwu.rsc_memory_bound = 2000000;
+	dbwu.rsc_disk_bound = 2000000;
+	dbwu.delay_bound = 720000;
 
 	wu_template = generate_wu_template(wu);
 	result_template_file = generate_result_template(wu);
@@ -882,7 +901,7 @@ int DC_submitWU(DC_Workunit *wu)
 	/* Terminator so we can use g_strfreev() later */
 	infiles[i] = NULL;
 
-	ret = create_work(bwu, wu_template, result_template_file, result_path,
+	ret = create_work(dbwu, wu_template, result_template_file, result_path,
 		const_cast<const char **>(infiles), wu->num_inputs,
 		dc_boinc_config);
 	g_free(result_path);
@@ -1076,6 +1095,15 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	return load_from_disk(uuid);
 }
 
+static void count_ready(void *key, void *value, void *ptr)
+{
+	DC_Workunit *wu = (DC_Workunit *)value;
+	int *count = (int *)ptr;
+
+	if (wu->state == DC_WU_READY)
+		++(*count);
+}
+
 int DC_getWUNumber(DC_WUState state)
 {
 	DB_BASE db("", &boinc_db);
@@ -1085,8 +1113,11 @@ int DC_getWUNumber(DC_WUState state)
 	switch (state)
 	{
 		case DC_WU_READY:
-			/* XXX Should walk the wu_table */
-			return -1;
+			val = 0;
+			if (wu_table)
+				g_hash_table_foreach(wu_table, count_ready,
+					&val);
+			return val;
 		case DC_WU_RUNNING:
 			query = g_strdup_printf("SELECT COUNT(*) "
 				"FROM workunit wu, result res WHERE "
@@ -1115,5 +1146,4 @@ int DC_getWUNumber(DC_WUState state)
 		default:
 			return -1;
 	}
-
 }
