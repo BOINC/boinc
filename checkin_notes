@@ -3707,4 +3707,4 @@ Charlie 11 Apr 2006
     
     api/
         texfont.c,h
-        txf_util.C
+        txf_util.C,h
