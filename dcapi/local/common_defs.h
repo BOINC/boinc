@@ -9,15 +9,23 @@ extern "C" {
 /* Prefix of subresult file labels */
 #define SUBRESULT_PFX		"dc_subresult_"
 
+/* Logical names of the standard output file */
+#define STDOUT_LABEL		"dc_stdout"
+
+/* Logical names of the standard error file */
+#define STDERR_LABEL		"dc_stderr"
+
 /* Logical names of the checkpoint file */
-#define CKPT_LABEL_IN		"dc_checkpoint.in"
-#define CKPT_LABEL_OUT		"dc_checkpoint.out"
+#define CKPT_LABEL		"dc_checkpoint"
 
 /* Name of the client-side config. file */
 #define CLIENTCONF_LABEL	"dc_client.conf"
 
 /* Maximum allowed message length */
 #define MAX_MESSAGE_SIZE	16384
+
+/* Maximum allowed message length */
+#define MAX_SUBRESULTS		100
 
 /* Prefix for internal messages between the client-side and master-side DC-API */
 #define DCAPI_MSG_PFX		"__dcapi__"
