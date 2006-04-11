@@ -35,6 +35,12 @@ function type_text($type) {
     }
 }
 
+$features_54 = "
+    <li> Customized clients can now be created.
+    <li> Account manager support has been enhanced.
+    <li> Farm manager support has been added.
+";
+
 $features_53 = "
     <li> Customized clients can now be created.
     <li> Account manager support has been enhanced.
@@ -56,6 +62,8 @@ $features_52 = "
     <li> Alert boxes now provide feedback when certain errors occur.
     <li> BOINC supports 'Account Management Systems' (to be announced).
 ";
+
+$changes_54 = "";
 
 $changes_53 = "
     <li>Changes since 5.3.30
@@ -235,15 +243,15 @@ $mac_changes_53= "
       </ul>
 ";
 
-$w5331= array(
-    "num"=>"5.3.31",
+$w540= array(
+    "num"=>"5.4.0",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.31_windows_intelx86.exe",
-    "date"=>"30 Mar 2006",
+    "file"=>"boinc_5.4.0_windows_intelx86.exe",
+    "date"=>"10 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
-".$features_53."
-".$changes_53."
+".$features_54."
+".$changes_54."
     </ul>
     ",
     "bugs"=>"<ul>
@@ -483,15 +491,15 @@ $m443s = array(
     "
 );
 
-$l5331 = array(
-    "num"=>"5.3.31",
+$l540 = array(
+    "num"=>"5.4.0",
     "status"=>"Development version",
-    "file"=>"boinc_5.3.31_i686-pc-linux-gnu.sh",
-    "date"=>"29 Mar 2006",
+    "file"=>"boinc_5.4.0_i686-pc-linux-gnu.sh",
+    "date"=>"10 Apr 2006",
     "type"=>"sea",
     "features"=>"<ul>
-".$features_53."
-".$changes_53."
+".$features_54."
+".$changes_54."
     </ul>
     "
 );
@@ -555,7 +563,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5331,
+        $w540,
         $w5213,
         $w445,
     )
@@ -579,7 +587,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5331,
+        $l540,
         $l5213,
         $l443,
     )
