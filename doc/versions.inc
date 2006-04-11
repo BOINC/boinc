@@ -211,15 +211,15 @@ $changes_52 = "
       </ul>
 ";
 
-$mac_changes_53= "
+$mac_changes_54= "
     <li>Macintosh only:
       <ul>
         <li> To support Intel-based Macs, the Mac BOINC Manager package, 
             stand-alone BOINC client and command-line tool boinc_cmd are 
             now universal binaries, which contain executables for both Intel 
             and PowerPC macs in the same files.  This is indicated by the 
-            new download package names: boinc_5.3.21_macOSX_universal.zip and 
-            boinc_5.3.21_universal-apple-darwin.zip.  
+            new download package names: boinc_5.4.0_macOSX_universal.zip and 
+            boinc_5.4.0_universal-apple-darwin.zip.  
         <li> We have added a new platform for science project applications 
             to run on Intel Macs: i686-apple-darwin.  The new universal binary 
             Mac clients automatically request applications from the old 
@@ -229,7 +229,7 @@ $mac_changes_53= "
             production SETI@home project and Einstein@home have applications 
             for this platform.  
         <li> Upgrade warning: You may lose unreported results if you are upgrading 
-            from a version of BOINC earlier than 5.3.21, or if you are transferring 
+            from a version of BOINC earlier than 5.4.0, or if you are transferring 
             BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to 
             a PowerPC Mac.  To prevent this, open BOINC Manager window, select 
             the Projects tab, select each project and  press the Update button.  
@@ -373,6 +373,7 @@ $m540 = array(
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_54."
+".$mac_changes_54."
 ".$changes_54."
 ".$changes_53."
      <li>
@@ -420,6 +421,7 @@ $m540c = array(
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_54."
+".$mac_changes_54."
 ".$changes_54."
 ".$changes_53."
      <li>
