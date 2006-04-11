@@ -115,6 +115,8 @@ static char *get_workdir_path(DC_Workunit *wu, const char *label,
 
 void DC_destroyWU(DC_Workunit *wu)
 {
+	char *path;
+
 	if (!wu)
 		return;
 
@@ -152,15 +154,21 @@ void DC_destroyWU(DC_Workunit *wu)
 			wu->output_files);
 	}
 
-/*	if (wu->ckpt_name)  // XXX
-	{
-		//char *path = get_workdir_path(wu, wu->ckpt_name, FILE_CKPT);
-		char *path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, DC_CHECKPOINT_FILE);
-		unlink(path);
-		g_free(path);
-		//g_free(wu->ckpt_name);
-	}
-*/
+	/* checkpoint file */
+	path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, CKPT_LABEL);
+	unlink(path);
+	g_free(path);
+
+	/* standard output file */
+	path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, STDOUT_LABEL);
+	unlink(path);
+	g_free(path);
+
+	/* standard error file */
+	path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, STDERR_LABEL);
+	unlink(path);
+	g_free(path);
+
 	if (wu->client_name)
 	{
 		char *path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, wu->client_name);
@@ -321,9 +329,6 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	if (ret)
 		return ret;
 
-	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
-	 * does not exceed the max. number of file slots */
-
 	workpath = get_workdir_path(wu, logicalFileName, FILE_IN);
 	file = _DC_createPhysicalFile(logicalFileName, workpath);
 	g_free(workpath);
@@ -378,9 +383,6 @@ int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	if (ret)
 		return ret;
 
-	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
-	 * does not exceed the max. number of file slots */
-
 	wu->output_files = g_list_append(wu->output_files,
 		g_strdup(logicalFileName));
 	wu->num_outputs++;
@@ -426,8 +428,12 @@ int DC_submitWU(DC_Workunit *wu)
 			return DC_ERR_BADPARAM;
 		}
 
+		/* hook up stdout and stderr to specially-named files */
+		freopen(STDOUT_LABEL, "a", stdout);
+		freopen(STDERR_LABEL, "a", stderr);
+
 		/* execute the client */
-		DC_log(LOG_INFO, "Execute: %s", wu->client_name);
+		DC_log(LOG_INFO, "Work unit : %s executes: %s", wu->name, wu->client_name);
 		execv(wu->client_name, wu->argv);
 		DC_log(LOG_ERR, "Cannot execute. Errno=%d  %s\n",
 			errno, strerror(errno));
@@ -486,8 +492,7 @@ DC_Workunit *_DC_getWUByName(const char *name)
 		return NULL;
 	}
 
-//	return load_from_disk(uuid);
-
+	DC_log(LOG_ERR, "WU %s not found!", name);
 	return NULL;
 }
 
@@ -513,7 +518,7 @@ void _DC_testWUEvents(gpointer key, DC_Workunit *wu, gpointer user_data)
 	}
 	if (retval == 1) { /* process finished (not exists) */
 		/* create the result object */
-		DC_log(LOG_INFO, "Work unit %s with pid %d is found to be finished\n",
+		DC_log(LOG_INFO, "Work unit %s with pid %d is found to be finished",
 			wu->name, wu->pid);
 		wu->state = DC_WU_FINISHED;
 
