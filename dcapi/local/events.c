@@ -9,31 +9,39 @@
 
 int DC_processEvents(int timeout)
 {
+	int retval;
+	static time_t start, current;
+
 	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
 	{
 		DC_log(LOG_ERR, "DC_processEvents: callbacks are not set up");
 		return DC_ERR_CONFIG;
 	}
 
-	_DC_searchForEvents();
+	DC_log(LOG_INFO, "DC_processEvents: Searching for events ...");
 
-	return 0;
-}
+	start = time(NULL);
+	while (1)
+	{
+		retval = _DC_searchForEvents(); 	/* implemted in rm.c */
+		if (retval)
+			return retval;
 
-/* Look for a single result that matches the filter */
-static DC_Event *look_for_results(const char *wuFilter, const char *wuName,
-	int timeout)
-{
-	DC_Event *event = NULL;
-
-	return event;
+		current = time(NULL);
+		if (current - start > timeout)
+		{
+			DC_log(LOG_INFO, "DC_processEvents: timeout is over ... returning");
+			return 0;
+		}
+		sleep(sleep_interval);
+	}
 }
 
 DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
 {
 	DC_Event *event;
 
-	event = look_for_results(wuFilter, NULL, timeout);
+//	event = look_for_results(wuFilter, NULL, timeout);
 
 	return event;
 }
@@ -41,8 +49,6 @@ DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
 DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
 	DC_Event *event;
-
-	event = look_for_results(NULL, wu->name, timeout);
 
 	return event;
 }
