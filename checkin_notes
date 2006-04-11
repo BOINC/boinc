@@ -11,3 +11,10 @@ David  7 April 2006
         upper_case.C
 	win_build/
 		libboincapi.vcproj
+
+Charlie 11 April 2006
+        - Mac: updated XCode project for upper_case
+
+    mac_build/
+        UpperCase.xcodeproj/
+            project.pbxproj
