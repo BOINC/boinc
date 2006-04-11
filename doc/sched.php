@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Client scheduling policies");
 echo "
 
-This document describes two related parts of the BOINC core client:
+This document describes three related parts of the BOINC core client:
 <dl>
 <dt><b>CPU scheduling policy</b>
 <dd>
@@ -11,6 +11,12 @@ Of the results that are runnable, which ones to execute?
 BOINC will generally execute NCPUS results at once,
 where NCPUS is the minimum of the physical number of CPUs
 (counting hyperthreading) and the user's 'max_cpus' general preference.
+
+<dt><b>CPU scheduling enforcement</b>
+<dd>
+When to actually enforce (by preemption) the schedule?
+Sometimes it's preferable to delay the preemption of
+an application until it checkpoints.
 
 <dt><b>Work-fetch policy</b>
 <dd>
@@ -211,6 +217,7 @@ when new results become runnable,
 or when the user performs a UI interaction
 (e.g. suspending or resuming a project or result).
 
+<h2>CPU scheduling enforcement</h2>
 <p>
 The CPU scheduler decides what result should run,
 but it doesn't enforce this decision

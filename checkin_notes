@@ -3708,3 +3708,14 @@ Charlie 11 Apr 2006
     api/
         texfont.c,h
         txf_util.C,h
+
+David  11 Apr 2006
+    - rename sample en.po so update won't overwrite project's file
+        (from Eric Myers)
+    - use "request" instead of "RPC" in user-visible messages
+
+    html/languages/project_specific_translations/
+        en.po (removed)
+        sample_en.po (new)
+    sched/
+        handle_request.C

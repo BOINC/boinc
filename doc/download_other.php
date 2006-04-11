@@ -49,11 +49,6 @@ list_item_array(array(
     "BOINC core client and SETI@home app"
 ));
 list_item_array(array(
-    "<a href=http://interreality.org/~reed/sw/boinc/>http://interreality.org/~reed/sw/boinc/</a>",
-    "Debian Linux",
-    "BOINC client and manager"
-));
-list_item_array(array(
     "SETI@BOINC (<a href=http://www.marisan.nl/seti/>English</a>,
     <a href=http://www.marisan.nl/seti/index_nl.htm>Dutch</a>)",
     "Windows",
@@ -66,9 +61,14 @@ list_item_array(array(
     "BOINC, SETI@home"
 ));
 list_item_array(array(
-    "<a href=http://wiki.debian.org/BOINC#Installation>Debian.org</a>",
-    "Debian Linux on AMD64 and x86",
-    "BOINC core client and manager"
+    "
+    <a href=http://alioth.debian.org/projects/pkg-boinc/>alioth.debian.org</a>;
+    installation instructions at
+    <a href=http://wiki.debian.org/BOINC#Installation>wiki.debian.org</a>",
+    "Debian Linux on alpha, amd64, arm, hppa, 
+    i386, ia64, kfreebsd-i386, m68k, mips, mipsel, powerpc, s390 and sparc",
+    "<a href=http://packages.debian.org/boinc-client>BOINC core client</a>
+    and <a href=http://packages.debian.org/boinc-manager>BOINC manager</a>"
 ));
 list_item_array(array(
     "<a href=http://www.guntec.de/Crunch3r>Matthias Pilch</a>",

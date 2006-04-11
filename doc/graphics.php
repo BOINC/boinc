@@ -184,7 +184,7 @@ if the main program handles them, it must convey them to the graphics program.
 <p>
 Programs that use BOINC graphics must supply the following functions:
 <pre>
-    int app_graphics_render(int xs, ys, double time_of_day);
+    void app_graphics_render(int xs, ys, double time_of_day);
 </pre>
 This will be called periodically in the graphics thread.
 It should generate the current graphic.

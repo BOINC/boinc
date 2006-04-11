@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("April 6, 2006",
+    "Thanks to the efforts of
+    <a href=http://alioth.debian.org/projects/pkg-boinc/>volunteers</a>,
+    BOINC is now officially part of the Debian Linux distribution.
+    Packages for the BOINC
+    <a href=http://packages.debian.org/boinc-client>core client</a>
+    and <a href=http://packages.debian.org/boinc-manager>Manager</a>
+    are available for 13 different platforms
+    (alpha, amd64, arm, hppa, 
+    i386, ia64, kfreebsd-i386, m68k, mips, mipsel, powerpc, s390 and sparc).
+"),
 array("April 4, 2006",
     "Windows users: new versions of
     <a href=http://www.microsoft.com/hardware/mouseandkeyboard/DownloadResult.aspx?prod=m_wom20&os=xp&lang=en&driverVersion=IntelliPoint%205.5>Intellipoint</a>
@@ -36,7 +47,7 @@ array("March 5, 2006",
 array("March 3, 2006",
     "<a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a>
     announces the public release of the first chemistry BOINC project.
-    This project, based at the University of M&uuml;nster in Germany,
+    This project, based at the University of M&#200;nster in Germany,
     studies the structure and reactivity of molecules using Quantum Chemistry,
     whose vastly complex equations require huge amounts of computing power.
     "

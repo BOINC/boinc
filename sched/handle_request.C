@@ -1204,10 +1204,10 @@ void process_request(
                 ok_to_send_work = false;
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_NORMAL,
-                    "Not sending work - last RPC too recent: %f\n", diff
+                    "Not sending work - last request too recent: %f\n", diff
                 );
                 sprintf(buf,
-                    "Not sending work - last RPC too recent: %d sec", (int)diff
+                    "Not sending work - last request too recent: %d sec", (int)diff
                 );
                 USER_MESSAGE um(buf, "low");
                 reply.insert_message(um);

@@ -18,6 +18,7 @@ On Windows:
     <li>Right-click on the icon to access its menu (shown below).
     </ul>
 <br>
+<a name=icon>
 <img src=mgrsystraymenu.png>
 <br>
 On Mac OS X:
@@ -25,7 +26,6 @@ On Mac OS X:
     <li>Click on the icon in the menubar or Dock and hold the
     button down until the menu appears.
     </ul>
-<a name=icon>
 <p>
 The icon menu choices are:
 <ul>
@@ -208,7 +208,8 @@ Shows some simple charts and graphs about the user and host progress
 <p>
 NOTE: This feature requires three connections to each project scheduler on three
    different days before it starts to work properly.
-<p>Click on any of the buttons to change to a different chart:
+<h3>Command view</h3>
+Click on any of the buttons to change to a different chart:
 <ul>
 <li> <b>Show user total</b>:
     Shows the user's credit totals for each project.
@@ -218,6 +219,28 @@ NOTE: This feature requires three connections to each project scheduler on three
     Shows this computer's credit totals for each project.
 <li> <b>Show host average</b>:
     Shows this computer's credit averages for each project.
+</ul>
+
+<h3>Project</h3>
+Switch between projects when displaying one project at a time:
+<ul>
+<li> <b>Previous project</b>:
+    Click this button to select the previous project.
+<li> <b>Next project</b>:
+    Click this button to select the next project
+</ul>
+<h3>Mode view</h3>
+Click on any of the buttons to change the view:
+<ul>
+<li> <b>All projects</b>:
+    Show all projects, one chart per project
+<li> <b>One project</b>:
+    Shows one project at a time.
+    The chart and a list of projects will be shown,
+    <br>switch between
+    them using 'previous project' and 'next project' buttons.
+<li> <b> All projects(sum)</b>
+    Shows all projects in one chart.
 </ul>
 
 <h2>Disk</h2>
@@ -266,22 +289,19 @@ The BOINC manager has the following menus:
         from attempting to contact any of the project servers.  It is useful
         for those on dial-up connections who do not want to be bothered with
         BOINC prompting to connect or disconnect for a time.
-        <br><br>Note: Selecting an option that requires contacting a project will
-        temporarily enable network activity regardless of this setting.  It
-        includes updating a project, retrying file transfers, retrying 
-        communications and attaching to projects.  The network will remain
-        enabled for five  minutes.
     </ul>
+<br>
 Notes:
 <ul>
 <li> Selecting an option that requires contacting a project
-will temporarily enable network activity regardless of this setting.
+will temporarily enable network activity regardless of the network setting.
 This includes updating a project, retrying file transfers,
 retrying communications and attaching to projects.
 Network activity will remain enabled for five minutes.
 <li> Selecting <b>Snooze</b> from the <a href=#icon>icon menu</a>
-overrides this setting for one hour.
-Selecting <b>Run always</b> or <b>Run based on preferences</b>
+overrides the 'run....' setting and suspends activity for one hour.
+Unselecting <b>Snooze</b>, or Selecting the <b>Activity</b> menu items
+<b>Run always</b> or <b>Run based on preferences</b>
 cancels <b>Snooze</b>.
 </ul>
 
