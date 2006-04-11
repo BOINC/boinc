@@ -6,7 +6,17 @@
 #ifndef __TEXFONT_H__
 #define __TEXFONT_H__
 
+#ifdef _WIN32
 #include <GL/gl.h>
+#endif
+
+#ifdef __APPLE_CC__
+#include <OpenGL/gl.h>
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define TXF_FORMAT_BYTE		0
 #define TXF_FORMAT_BITMAP	1
@@ -123,5 +133,9 @@ extern void txfRenderFancyString(
 	TexFont * txf,
 	char *string,
 	int len);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // __TEXFONT_H__ 

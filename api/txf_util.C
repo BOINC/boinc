@@ -29,6 +29,10 @@
 #include "texfont.h"
 #include "txf_util.h"
 
+#ifndef _MAX_PATH
+#define _MAX_PATH 256
+#endif 
+
 static TexFont* txf[TXF_NUM_FONT];
 
 // load fonts. call once.

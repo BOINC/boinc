@@ -23,6 +23,10 @@
 #ifndef _TXF_UTIL_
 #define _TXF_UTIL_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern void txf_load_fonts(char* dir);
 extern void txf_render_string(
 	float alpha_value,
@@ -34,5 +38,9 @@ extern void txf_render_string(
 	int i,                        // font index see texfont.h 
 	char * s				  	  // string ptr
 );
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif

@@ -17,7 +17,14 @@
 #include <windows.h>
 #endif
 
-#include <GL/glu.h>
+#ifdef _WIN32
+#include <GL/gl.h>
+#endif
+
+#ifdef __APPLE_CC__
+#include <OpenGL/gl.h>
+#endif
+
 
 #include "texfont.h"
 

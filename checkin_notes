@@ -3701,3 +3701,10 @@ Charlie 10 Apr 2006
         ss_logic.C
         app.C
         app.h
+
+Charlie 11 Apr 2006
+    - Changes to allow building upper_case application on Mac.
+    
+    api/
+        texfont.c,h
+        txf_util.C
