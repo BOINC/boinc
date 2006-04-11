@@ -124,13 +124,14 @@ int main(int argc, char **argv) {
 	fprintf(stderr, "APP: Error while the initialize. Return value = %d.\n", retval);
 	DC_finish(retval);
     }
-    fprintf(stderr, "APP: Init successful.\n");
+    fprintf(stdout, "APP: Init successful.\n");
 
     init_files();
-    fprintf(stderr, "APP: Starting from line %d.\n", frac_current_pos+1);
+    fprintf(stdout, "APP: Starting from line %d.\n", frac_current_pos+1);
 
     do_work();
-    fprintf(stderr, "APP: Work finished.\n");
+    fprintf(stdout, "APP: Work finished.\n");
+    fprintf(stderr, "APP: This is only a test error message.\n");
 
     DC_finish(0);
     return(0);	// Tho' we never reach this line
