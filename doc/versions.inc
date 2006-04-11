@@ -365,15 +365,15 @@ $w419 = array(
     "
 );
 
-$m5331 = array(
-    "num"=>"5.3.31",
+$m540 = array(
+    "num"=>"5.4.0",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.3.31_macOSX_universal.zip",
-    "date"=>"30 March 2006",
+    "file"=>"boinc_5.4.0_macOSX_universal.zip",
+    "date"=>"11 April 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
-".$features_53."
-".$mac_changes_53."
+".$features_54."
+".$changes_54."
 ".$changes_53."
      <li>
      BOINC now works with OS 10.3.0 or higher.
@@ -412,15 +412,15 @@ $m5213 = array(
     "
 );
 
-$m5331c = array(
-    "num"=>"5.3.31",
+$m540c = array(
+    "num"=>"5.4.0",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.3.31_universal-apple-darwin.zip",
-    "date"=>"30 March 2006",
+    "file"=>"boinc_5.4.0_universal-apple-darwin.zip",
+    "date"=>"11 April 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
-".$features_53."
-".$mac_changes_53."
+".$features_54."
+".$changes_54."
 ".$changes_53."
      <li>
      BOINC now works with OS 10.3.0 or higher.
@@ -572,8 +572,8 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5331,
-        $m5331c,
+        $m540,
+        $m540c,
         $m5213,
         $m5213s,
         $m5213c,
