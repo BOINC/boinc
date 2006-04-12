@@ -23,4 +23,7 @@ David  12 Apr 2006
     - split out graphics code into separate file
 
     uppercase/
-        uc_graphics.C
+        uc_graphics.C (new)
+		upper_case.C
+	win_build/
+		upper_case.vcproj

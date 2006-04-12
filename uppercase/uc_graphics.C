@@ -25,6 +25,7 @@
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
 int width, height;
+APP_INIT_DATA uc_aid;
 
 static void initlights() {
    GLfloat ambient[] = {1., 1., 1., 1.0};
@@ -36,6 +37,7 @@ static void initlights() {
 }
 
 void app_graphics_init() {
+    boinc_get_init_data(uc_aid);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     txf_load_fonts(".");
     logo.load_image_file("logo.jpg");

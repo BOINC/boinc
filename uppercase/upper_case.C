@@ -43,6 +43,10 @@
 
 #define BOINC_APP_GRAPHICS
 
+#ifdef BOINC_APP_GRAPHICS
+#include "graphics_api.h"
+#endif
+
 #include "diagnostics.h"
 #include "util.h"
 #include "filesys.h"
@@ -59,7 +63,6 @@ bool run_slow;
 bool raise_signal;
 bool random_exit;
 double cpu_time=20;
-APP_INIT_DATA uc_aid;
 
 int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
@@ -112,8 +115,6 @@ void worker() {
     char resolved_name[512];
     MFILE out;
     FILE* state, *in;
-
-    boinc_get_init_data(uc_aid);
 
     boinc_resolve_filename(INPUT_FILENAME, resolved_name, sizeof(resolved_name));
     in = boinc_fopen(resolved_name, "r");
