@@ -1,16 +1,16 @@
 David  7 April 2006
-	- extended upper_case so that it draws graphics
-		(text, image, bouncing ball)
-		NOTE: to get this to work, you have to put in your build dir:
-			- file called "logo.jpg" (the image)
-			- Helvetica.txf
-			- a file called "in" (any old text)
-	- added text functions to library
+    - extended upper_case so that it draws graphics
+        (text, image, bouncing ball)
+        NOTE: to get this to work, you have to put in your build dir:
+            - file called "logo.jpg" (the image)
+            - Helvetica.txf
+            - a file called "in" (any old text)
+    - added text functions to library
 
     uppercase/
         upper_case.C
-	win_build/
-		libboincapi.vcproj
+    win_build/
+        libboincapi.vcproj
 
 Charlie 11 April 2006
         - Mac: updated XCode project for upper_case
@@ -18,3 +18,9 @@ Charlie 11 April 2006
     mac_build/
         UpperCase.xcodeproj/
             project.pbxproj
+
+David  12 Apr 2006
+    - split out graphics code into separate file
+
+    uppercase/
+        uc_graphics.C
