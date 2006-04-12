@@ -3746,3 +3746,20 @@ Rom    11 Apr 2006
         win_screensaver.cpp, .h
     clientgui/
         AccountInfoPage.cpp
+
+Eric K 12 Apr 2006
+    - Changed some function defines to inlines (i.e. formerly "#define read
+      _read" becomes "static inline read(...) {return read(...);})  These 
+      defines were breaking some classes that had methods named read().
+    - Altered boinc_fopen() to call _fsopen under _WIN32 with the sharing
+      flags set to the most permissive value.  This may solve some of the
+      virus scanner locking problems.
+    - Fixed some problems with non-MSC compilers with diagnostics.[Ch]
+    - Added checks for stdint.h and inttypes.h to configure.ac
+    
+    lib/
+        boinc_win.h
+        filesys.C
+        diagnostics.[Ch]
+        configure.ac
+
