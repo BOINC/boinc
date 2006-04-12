@@ -35,7 +35,7 @@ DC_Result *_DC_createResult(const char *wu_name)
 		f = fopen(logicalName, "r");
 		if (f != NULL) /* File exists */
 		{
-			file = _DC_createPhysicalFile((char *)l->data, result->wu->workdir);
+			file = _DC_createPhysicalFile((char *)l->data, logicalName);
 			result->output_files = g_list_append(result->output_files, file);
 			result->num_outputs++;
 			fclose(f);
@@ -56,3 +56,42 @@ void _DC_destroyResult(DC_Result *result)
 	}
 	g_free(result);
 }
+
+unsigned DC_getResultCapabilities(DC_Result *result)
+{
+	return (DC_GC_STDOUT | DC_GC_STDERR);
+}
+
+DC_Workunit *DC_getResultWU(DC_Result *result)
+{
+	return result->wu;
+}
+
+int DC_getResultExit(DC_Result *result)
+{
+	// XXX Not impl.
+
+	return 0;
+}
+
+char *DC_getResultOutput(DC_Result *result, const char *logicalFileName)
+{
+	char *physicalFileName;
+	GList *l;
+
+	for (l = result->output_files; l; l = l->next)
+	{
+		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
+
+		if(!strcmp(file->label, logicalFileName))
+		{
+			physicalFileName = strdup(file->path);
+			return physicalFileName;
+		}
+	}	
+
+	DC_log(LOG_ERR, "DC_getResultOutput: The %s file is not part of the given result", logicalFileName);
+
+	return NULL;
+}
+
