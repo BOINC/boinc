@@ -496,8 +496,9 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	return NULL;
 }
 
-void _DC_testWUEvents(gpointer key, DC_Workunit *wu, gpointer user_data)
+void testWUEvents(void *key, void *value, void *ptr)
 {
+	DC_Workunit *wu = (DC_Workunit *)value;
 	DC_Result *result;
 	char syscmd[256];
 	int retval;
@@ -541,7 +542,52 @@ int _DC_searchForEvents()
 		return DC_ERR_BADPARAM;
 	}
 
-	g_hash_table_foreach(wu_table, (GHFunc)_DC_testWUEvents, NULL);
+	g_hash_table_foreach(wu_table, (GHFunc)testWUEvents, NULL);
 
 	return DC_OK;
 }
+
+static DC_WUState matchState;
+void countState(void *key, void *value, void *ptr)
+{
+	DC_Workunit *wu = (DC_Workunit *)value;
+	int *count = (int *)ptr;
+
+	if (wu->state == matchState) ++(*count);
+}
+
+int DC_getWUNumber(DC_WUState state)
+{
+	int val = 0;
+
+	matchState = state;
+	g_hash_table_foreach(wu_table, (GHFunc)countState, &val);
+
+	return val;
+}
+
+char *DC_getWUId(DC_Workunit *wu)
+{
+	char *id, *ret;
+
+	id = g_strdup_printf("%d", wu->pid);
+	ret = strdup(id);
+
+	g_free(id);
+	return ret;
+}
+
+char *DC_getWUTag(DC_Workunit *wu)
+{
+	char *tag;
+
+	tag = strdup(wu->tag);
+
+	return tag;
+}
+
+int DC_setWUPriority(DC_Workunit *wu, int priority)
+{
+	return 0;
+}
+
