@@ -45,24 +45,23 @@
 #endif
 
 
-// Define the stuff needed to actually do a set foreground window on
-//   Windows 2000 or later machines.
-//
-#ifndef BSF_ALLOWSFW
-#define BSF_ALLOWSFW                    0x00000080
-#endif
+static MYGETLASTINPUTINFO       gspfnMyGetLastInputInfo = NULL;
+static MYISHUNGAPPWINDOW        gspfnMyIsHungAppWindow = NULL;
+static MYBROADCASTSYSTEMMESSAGE gspfnMyBroadcastSystemMessage = NULL;
+static CScreensaver*            gspScreensaver = NULL;
+static HMODULE                  gshUser32 = NULL;
 
-const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
+const UINT                WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
-static CScreensaver* gs_pScreensaver = NULL;
 
 INT WINAPI WinMain(
     HINSTANCE hInstance, HINSTANCE UNUSED(hPrevInstance), LPSTR UNUSED(lpCmdLine), int UNUSED(nCmdShow)
 ) {
     HRESULT      hr;
+    CScreensaver BOINCSS;
     int          retval;
     WSADATA      wsdata;
-    CScreensaver BOINCSS;
+    BOOL         bIs95 = FALSE;
 
 #ifdef _DEBUG
     // Initialize Diagnostics when compiled for debug
@@ -80,6 +79,27 @@ INT WINAPI WinMain(
     }
 #endif
 
+    // Figure out if we're on Win9x
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx(&osvi);
+    bIs95 =   (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) &&
+              ((osvi.dwMajorVersion == 4) && (osvi.dwMinorVersion == 0));
+
+    // Load dynamically linked modules
+    gshUser32 = LoadLibrary(_T("USER32.DLL"));
+
+    // Map function pointers
+    if (gshUser32) {
+        gspfnMyGetLastInputInfo = (MYGETLASTINPUTINFO) GetProcAddress(gshUser32, _T("GetLastInputInfo"));
+        gspfnMyIsHungAppWindow = (MYISHUNGAPPWINDOW) GetProcAddress(gshUser32, _T("IsHungAppWindow"));
+        if (bIs95) {
+            gspfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(gshUser32, _T("BroadcastSystemMessage"));
+        } else {
+            gspfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(gshUser32, _T("BroadcastSystemMessageA"));
+        }
+    }
+
     retval = WSAStartup(MAKEWORD(1, 1), &wsdata);
     if (retval) {
         BOINCTRACE("WinMain - Winsock Initialization Failure '%d'\n", retval);
@@ -91,18 +111,28 @@ INT WINAPI WinMain(
         WSACleanup();
         return 0;
     }
+
     retval = BOINCSS.Run();
+
     WSACleanup();
+
+    // Clean up function pointers.
+    gspfnMyGetLastInputInfo = NULL;
+    gspfnMyIsHungAppWindow = NULL;
+    gspfnMyBroadcastSystemMessage = NULL;
+
+    // Free modules
+    FreeLibrary(gshUser32);
+    
     return retval;
 }
 
 
 CScreensaver::CScreensaver() {
-    gs_pScreensaver = this;
+    gspScreensaver = this;
 
     m_bCheckingSaverPassword = FALSE;
     m_bIs9x = FALSE;
-    m_bIs95 = FALSE;
     m_dwSaverMouseMoveCount = 0;
     m_hWnd = NULL;
     m_hWndParent = NULL;
@@ -131,6 +161,8 @@ CScreensaver::CScreensaver() {
 
 	ZeroMemory(m_Monitors, sizeof(m_Monitors));
     m_dwNumMonitors = 0;
+
+    m_dwLastInputTimeAtStartup = 0;
 }
 
 
@@ -150,8 +182,16 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
-    m_bIs95 = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) &&
-              ((osvi.dwMajorVersion == 4) && (osvi.dwMinorVersion == 0));
+
+    // Store last input value if it exists
+    if (gspfnMyGetLastInputInfo) {
+        LASTINPUTINFO lii;
+        lii.cbSize = sizeof(LASTINPUTINFO);
+
+        gspfnMyGetLastInputInfo(&lii);
+
+        m_dwLastInputTimeAtStartup = lii.dwTime;
+    }
 
     // Enumerate Monitors
     EnumMonitors();
@@ -851,6 +891,7 @@ BOOL CScreensaver::GetTextForError(
         SCRAPPERR_BOINCNOPROJECTSDETECTED, IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED,
 		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING,
 		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_BOINCSCREENSAVERLOADING,
+		SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING, IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);
@@ -914,13 +955,8 @@ BOOL CScreensaver::DestoryDataManagementThread() {
 // Do what needs to be done to update the text that is displayed
 //   to the user
 //
-
-// Define dynamically linked to function
-typedef long (STDAPICALLTYPE* MYBROADCASTSYSTEMMESSAGE)(DWORD dwFlags, LPDWORD lpdwRecipients, UINT uiMessage, WPARAM wParam, LPARAM lParam);
-
 DWORD WINAPI CScreensaver::DataManagementProc() {
     BOOL    bErrorMode;
-    BOOL    bRetVal;
     BOOL    bForegroundWindowIsScreensaver;
     HRESULT hrError;
     HWND    hwndBOINCGraphicsWindow = NULL;
@@ -929,8 +965,6 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     int     iReturnValue = 0;
     time_t  tThreadCreateTime = 0;
     bool    bScreenSaverStarting = false;
-    HMODULE	hUser32;
-	MYBROADCASTSYSTEMMESSAGE pfnMyBroadcastSystemMessage = NULL;
     INTERNALMONITORINFO* pMonitorInfo = NULL;
 
 
@@ -987,7 +1021,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                         //   is that either the screensaver or graphics application is the foreground
                         //   application.  If this is not true, then blow out of the screensaver.
                         hwndBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
-                        if (NULL != hwndBOINCGraphicsWindow) {
+                        if (hwndBOINCGraphicsWindow) {
                             // Graphics Application.
                             hwndForegroundWindow = GetForegroundWindow();
                             // If the graphics application is not the top most window try and force it
@@ -999,23 +1033,10 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 if (hwndForegroundWindow != hwndBOINCGraphicsWindow) {
                                     BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
 
-	                                // Lets set the default value to FALSE
-	                                bRetVal = FALSE;
-
-	                                // Attempt to link to dynamic function if it exists
-                                    hUser32 = LoadLibrary(_T("USER32.DLL"));
-                                    if (NULL != hUser32) {
-                                        if (m_bIs95) {
-		                                    pfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(hUser32, _T("BroadcastSystemMessage"));
-                                        } else {
-		                                    pfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(hUser32, _T("BroadcastSystemMessageA"));
-                                        }
-                                    }
-
                                     // This may be needed on Windows 2000 or better machines
-                                    if (NULL != pfnMyBroadcastSystemMessage) {
+                                    if (gspfnMyBroadcastSystemMessage) {
                                         DWORD dwComponents = BSM_APPLICATIONS;
-                                        (pfnMyBroadcastSystemMessage)(
+                                        gspfnMyBroadcastSystemMessage(
                                             BSF_ALLOWSFW, 
                                             &dwComponents,
                                             WM_BOINCSFW,
@@ -1024,8 +1045,35 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                         );
                                     }
 
-	                                // Free the dynamically linked to library
-	                                FreeLibrary(hUser32);
+                                }
+                            } else {
+                                // Science application has focus, and is visible.
+                                //
+                                // Some science application take a really long time to display something on their
+                                // window, during this time the window will appear to eat keyboard and mouse event
+                                // messages and not respond to other system events.  These windows are considered
+                                // ghost windows, normally they have an outline and can be moved around and resized.
+                                // In the science application case where the borders are hidden from view, the
+                                // window just takes on the background of the previous window which happens to be
+                                // the black screensaver window owned by this process.
+                                //
+                                // Here we need to plug into the operating systems heartbeat mechinism for windows
+                                // and verify that their hasn't been any keyboard or mouse activity.  If there has
+                                // we should hide the window from this process and exit out of the screensaver to
+                                // return control back to the user as quickly as possible.
+                                if (gspfnMyIsHungAppWindow && gspfnMyGetLastInputInfo) {
+                                    if (gspfnMyIsHungAppWindow(hwndBOINCGraphicsWindow)) {
+                                        LASTINPUTINFO lii;
+                                        lii.cbSize = sizeof(LASTINPUTINFO);
+
+                                        gspfnMyGetLastInputInfo(&lii);
+
+                                        if (m_dwLastInputTimeAtStartup != lii.dwTime) {
+                                            ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
+                                            ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
+                                            ShutdownSaver();
+                                        }
+                                    }
                                 }
                             }
                         } else {
@@ -1040,7 +1088,14 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 }
                             }
                             if (!bForegroundWindowIsScreensaver) {
+                                // This can happen because of a personal firewall notifications or some
+                                //   funky IM client that thinks it has to notify the user even when in
+                                //   screensaver mode.
                                 ShutdownSaver();
+                            } else {
+                                // Application has been selected, and graphics should be up before too
+                                //   long.
+                                SetError(TRUE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
                             }
                         }
                         break;
@@ -1087,7 +1142,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 //       "this" pointer.
 //
 DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
-    return gs_pScreensaver->DataManagementProc();
+    return gspScreensaver->DataManagementProc();
 }
 
 
@@ -1513,7 +1568,7 @@ INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARA
 LRESULT CALLBACK CScreensaver::SaverProcStub(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
-    return gs_pScreensaver->SaverProc(hWnd, uMsg, wParam, lParam);
+    return gspScreensaver->SaverProc(hWnd, uMsg, wParam, lParam);
 }
 
 
@@ -1522,7 +1577,7 @@ LRESULT CALLBACK CScreensaver::SaverProcStub(
 INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub(
     HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
-    return gs_pScreensaver->ConfigureDialogProc(hwndDlg, uMsg, wParam, lParam);
+    return gspScreensaver->ConfigureDialogProc(hwndDlg, uMsg, wParam, lParam);
 }
 
 

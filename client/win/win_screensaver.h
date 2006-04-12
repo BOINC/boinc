@@ -22,6 +22,7 @@
 #define SCRAPPERR_BOINCNOPROJECTSDETECTED                   0x82000006
 #define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING              0x82000007  
 #define SCRAPPERR_BOINCSCREENSAVERLOADING                   0x82000008
+#define SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING              0x82000009
 #define SCRAPPERR_NOPREVIEW                                 0x8200000f
 
 
@@ -32,6 +33,7 @@
 #define NO_ADAPTER                                0xffffffff
 #define NO_MONITOR                                0xffffffff
 
+#define BSF_ALLOWSFW                              0x00000080
 
 #define BOINC_WINDOW_CLASS_NAME                   _T("BOINC_app")
 
@@ -46,10 +48,6 @@ enum SaverMode
     sm_test,           // Test mode
     sm_passwordchange  // Change password
 };
-
-
-// Prototype for VerifyScreenSavePwd() in password.cpl, used on Win9x
-typedef BOOL (PASCAL * VERIFYPWDPROC) (HWND);
 
 
 //-----------------------------------------------------------------------------
@@ -74,9 +72,23 @@ struct INTERNALMONITORINFO
 };
 
 
-// Use the following structure rather than DISPLAY_DEVICE, since some old 
-// versions of DISPLAY_DEVICE are missing the last two fields and this can
-// cause problems with EnumDisplayDevices on Windows 2000.
+//-----------------------------------------------------------------------------
+// Name: struct LASTINPUTINFO
+// Desc: Structure for holding input idle detection values on Win2k+
+//       systems.
+//-----------------------------------------------------------------------------
+typedef struct tagLASTINPUTINFO {
+    UINT cbSize;
+    DWORD dwTime;
+} LASTINPUTINFO, *PLASTINPUTINFO;
+
+
+//-----------------------------------------------------------------------------
+// Name: struct INTERNALMONITORINFO
+// Desc: Use the following structure rather than DISPLAY_DEVICE, since some
+//       old versions of DISPLAY_DEVICE are missing the last two fields and
+//       this can cause problems with EnumDisplayDevices on Windows 2000.
+//-----------------------------------------------------------------------------
 struct DISPLAY_DEVICE_FULL
 {
     DWORD  cb;
@@ -86,6 +98,19 @@ struct DISPLAY_DEVICE_FULL
     TCHAR  DeviceID[128];
     TCHAR  DeviceKey[128];
 };
+
+
+// Prototype for VerifyScreenSavePwd() in password.cpl, used on Win9x
+typedef BOOL (PASCAL * VERIFYPWDPROC)(HWND);
+
+// Prototype for GetLastInputInto() in user32.dll, used on Win2k or better.
+typedef BOOL (WINAPI *MYGETLASTINPUTINFO)(PLASTINPUTINFO);
+
+// Prototype for GetLastInputInto() in user32.dll, used on Win2k or better.
+typedef BOOL (WINAPI *MYISHUNGAPPWINDOW)(HWND hWnd);
+
+// Prototype for BroadcastSystemMessage() in user32.dll.
+typedef long (WINAPI *MYBROADCASTSYSTEMMESSAGE)(DWORD dwFlags, LPDWORD lpdwRecipients, UINT uiMessage, WPARAM wParam, LPARAM lParam);
 
 
 //-----------------------------------------------------------------------------
@@ -189,7 +214,6 @@ protected:
     BOOL					m_bWaitForInputIdle;  // Used to pause when preview starts
     DWORD					m_dwSaverMouseMoveCount;
     BOOL					m_bIs9x;
-    BOOL					m_bIs95;
     HINSTANCE				m_hPasswordDLL;
     VERIFYPWDPROC			m_VerifySaverPassword;
     BOOL					m_bCheckingSaverPassword;
@@ -203,7 +227,7 @@ protected:
 
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
 
-
+    DWORD                   m_dwLastInputTimeAtStartup;
 };
 
 #endif

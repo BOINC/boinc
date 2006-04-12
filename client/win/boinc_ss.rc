@@ -242,6 +242,8 @@ BEGIN
                             "GridRepublic system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "GridRepublic screensaver loading"
+    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
+                            "Application found, graphics loading...\n\nPlease wait..."
 END
 
 #elif defined(_CPDNBBC)
@@ -262,6 +264,8 @@ BEGIN
                             "Climate Change Experiment system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "Climate Change Experiment screensaver loading"
+    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
+                            "Application found, graphics loading...\n\nPlease wait..."
 END
 
 #else
@@ -282,6 +286,8 @@ BEGIN
                             "BOINC system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "BOINC screensaver loading"
+    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
+                            "Application found, graphics loading...\n\nPlease wait..."
 END
 
 #endif

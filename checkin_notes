@@ -3719,3 +3719,30 @@ David  11 Apr 2006
         sample_en.po (new)
     sched/
         handle_request.C
+
+Rom    11 Apr 2006
+    - Bug Fix: Account creation controls should be disabled for all
+        account manager code paths, not just update.
+    - Bug Fix: Extend the timeout for the graphics mode ack to 30
+        seconds in the screensaver poll function to give LHC and
+        CPDN more time to create and display their graphics window
+        when going into screensaver mode.
+    - Bug Fix: Add some extra logic to the screensaver to handle
+        detection of idle user input without needing to be the
+        active window.  If the science application window hasn't
+        processed a window message for 5 seconds do an additional
+        check to determine if any mouse or keyboard activity has
+        been detected.  If activity has been detected, shutdown the
+        screensaver system.
+    - Bug Fix: Add a please wait message to the screensaver for
+        applications that take a long time before they display
+        their own graphics.
+        
+    client/
+        ss_logic.C
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+    clientgui/
+        AccountInfoPage.cpp
