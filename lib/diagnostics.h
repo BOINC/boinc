@@ -33,6 +33,8 @@
 
 #ifndef _WIN32
 #include <signal.h>
+#else 
+#include "boinc_win.h"
 #endif
 
 

@@ -380,11 +380,13 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
         }
     }
 
+#if !defined(__MINGW32__) && !defined(__CYGWIN__)
     // Kickstart the debugger extensions
  	DebuggerInitialize( boinc_dir, symstore );
 
     // Dump any useful information
     DebuggerDisplayDiagnostics();
+#endif
     
     switch ( exceptionCode ) {
         case EXCEPTION_ACCESS_VIOLATION:
