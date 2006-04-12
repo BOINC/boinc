@@ -44,13 +44,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
-				OutputFile="Build\Debug\boinc.scr"
+				OutputFile="Build\Debug\seed.scr"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Debug/boinc_scr.pdb"
+				ProgramDatabaseFile=".\Build\Debug/seed.pdb"
 				SubSystem="2"
 				StackReserveSize="0"
 				StackCommitSize="0"
@@ -125,12 +125,12 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
-				OutputFile="Build\Release/boinc.scr"
+				OutputFile="Build\Release/seed.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/boinc_scr.pdb"
+				ProgramDatabaseFile=".\Build\Release/seed.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				TargetMachine="1"/>
@@ -305,34 +305,22 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"/>
+						PreprocessorDefinitions="_DEBUG;_SEED"
+						AdditionalIncludeDirectories=".."/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"/>
+						PreprocessorDefinitions="NDEBUG;_SEED"
+						AdditionalIncludeDirectories=".."/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\client\win\res\cpdnbbc.bmp">
-			</File>
-			<File
-				RelativePath="..\client\win\res\cpdnbbc.ico">
 			</File>
 			<File
 				RelativePath="..\client\win\res\gridrepublic.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\gridrepublic.ico">
-			</File>
-			<File
 				RelativePath="..\client\win\res\Scricon3.ico">
-			</File>
-			<File
-				RelativePath="..\client\win\res\seed.bmp">
 			</File>
 		</Filter>
 	</Files>

@@ -38,17 +38,20 @@
 #ifdef __APPLE__
 #include "res/boinc_mac.xpm"
 #include "res/gridrepublic_mac.xpm"
-#else
+#endif
+
 #include "res/boinc.xpm"
+#include "res/boincsm.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
+#include "res/gridrepublicamwizard.xpm"
 #include "res/cpdnbbc16.xpm"
 #include "res/cpdnbbc32.xpm"
 #include "res/cpdnbbcapwizard.xpm"
-#endif
-
-#include "res/boincsm.xpm"
-#include "res/gridrepublicamwizard.xpm"
+#include "res/seed16.xpm"
+#include "res/seed32.xpm"
+#include "res/seedamwizard.xpm"
+#include "res/seedapwizard.xpm"
 ////@end XPM images
 
 
@@ -184,6 +187,28 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
                 _("This will shut down your experiment until it restarts automatically\n"
                   "following your user preferences. Close window to close the manager\n"
                   "without stopping the experiment.");
+            break;
+        case 3:
+            // Running as a Seed client.
+            m_strApplicationName = wxT("seed@home Client");
+            m_iconApplicationIcon = wxIcon(seed16_xpm);
+            m_bitmapApplicationLogo = wxBitmap(seed32_xpm);
+            m_strCompanyName = wxT("Seed");
+            m_strCompanyWebsite = wxT("http://www.seedmagazine.com/");
+            m_strProjectName = wxT("seed@home");
+            m_bDefaultTabSpecified = false;
+            m_iDefaultTab = 0;
+            m_strAPWizardTitle = wxEmptyString;
+            m_bitmapAPWizardLogo = wxBitmap(seedapwizard_xpm);
+            m_strAPWizardCompletionTitle = wxEmptyString;
+            m_strAPWizardCompletionBrandedMessage = wxEmptyString;
+            m_strAPWizardCompletionMessage = wxEmptyString;
+            m_strAMWizardTitle = wxEmptyString;
+            m_strAPWizardAccountInfoText = wxEmptyString;
+            m_bitmapAMWizardLogo = wxBitmap(seedamwizard_xpm);
+            m_strAMWizardAccountInfoText = wxEmptyString;
+            m_strAMWizardAttachMessage = wxEmptyString;
+            m_strExitMessage = wxEmptyString;
             break;
 #endif  // __APPLE__
         default:
