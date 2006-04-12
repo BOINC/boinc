@@ -63,6 +63,7 @@
 #define WIN32_EXTRA_LEAN      // Trims even farther.
 
 #include <windows.h>
+#include <share.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 /* If we're not running under CYGWIN use windows networking */
@@ -168,18 +169,26 @@
 #endif
 
 #ifndef __CYGWIN32__
+// Some of these have been changed from defines to inlines, primarily because the
+// define version changes the names of methods with classes.  For example foo::read()
+// becomes foo::_read().
+#if !defined(inline) && defined(_MSC_VER)
+#define inline __inline
+#endif
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
 #define stprintf                _stprintf
-#define stricmp                 _stricmp
-#define fdopen                  _fdopen
-#define dup                     _dup
-#define unlink                  _unlink
-#define strdup                  _strdup
-#define read                    _read
-#define stat                    _stat
-#define finite                  _finite
-#define chdir                   _chdir
+static inline int stricmp(const char *s1, const char *s2) { return _stricmp(s1,s2); }
+static inline FILE *fdopen(int fd, const char *mode) { return _fdopen(fd,mode); }
+static inline int dup(int i) { return _dup(i); }
+static inline int unlink(const char *fn) { return _unlink(fn); }
+static inline char *strdup(const char *s) { return _strdup(s); }
+static inline int read(int fd, void *buf, unsigned int nbyte) {return _read(fd,buf,nbyte);}
+static inline int stat(const char *fn,struct stat *buf) { 
+	return _stat(fn,(struct _stat *)(buf)); 
+}
+static inline int finite(double x) { return _finite(x); }
+static inline int chdir(const char *d) { return _chdir(d); }
 #endif
 
 // On the Win32 platform include file and line number information for each
