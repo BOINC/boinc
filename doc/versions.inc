@@ -63,7 +63,14 @@ $features_52 = "
     <li> BOINC supports 'Account Management Systems' (to be announced).
 ";
 
-$changes_54 = "";
+$changes_54 = "
+    <li>Changes since 5.4.0
+      <ul>
+        <li>Screensaver fixes when running on a machine without a graphics
+            accelerator.
+        <li>Account manager display issue.
+      </ul>
+";
 
 $changes_53 = "
     <li>Changes since 5.3.30
@@ -243,11 +250,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w540= array(
-    "num"=>"5.4.0",
+$w541= array(
+    "num"=>"5.4.1",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.0_windows_intelx86.exe",
-    "date"=>"10 Apr 2006",
+    "file"=>"boinc_5.4.1_windows_intelx86.exe",
+    "date"=>"11 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -493,11 +500,11 @@ $m443s = array(
     "
 );
 
-$l540 = array(
-    "num"=>"5.4.0",
+$l541 = array(
+    "num"=>"5.4.1",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.0_i686-pc-linux-gnu.sh",
-    "date"=>"10 Apr 2006",
+    "file"=>"boinc_5.4.1_i686-pc-linux-gnu.sh",
+    "date"=>"11 Apr 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -565,7 +572,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w540,
+        $w541,
         $w5213,
         $w445,
     )
@@ -589,7 +596,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l540,
+        $l541,
         $l5213,
         $l443,
     )
