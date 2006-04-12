@@ -3728,3 +3728,7 @@ Rom    11 Apr 2006
         win_screensaver.cpp, .h
     clientgui/
         AccountInfoPage.cpp
+
+Rom    11 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.1 release, all platforms
+      boinc_core_release_5_4_1
