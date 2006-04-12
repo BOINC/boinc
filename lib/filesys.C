@@ -371,7 +371,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     if (!f) {
         for (int i=0; i<5; i++) {
             boinc_sleep(drand());
-            f = fopen(path, mode);
+            f = _fsopen(path, mode, _SH_DENYNO);
             if (f) break;
         }
     }
