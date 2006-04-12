@@ -65,13 +65,15 @@ INT WINAPI WinMain(
 
 #ifdef _DEBUG
     // Initialize Diagnostics when compiled for debug
-    retval = boinc_init_diagnostics (
+    retval = diagnostics_init (
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
         BOINC_DIAG_ARCHIVESTDERR |
         BOINC_DIAG_REDIRECTSTDERR |
-        BOINC_DIAG_TRACETOSTDERR
+        BOINC_DIAG_TRACETOSTDERR,
+        "stdoutscr",
+        "stderrscr"
    );
     if (retval) {
         BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
@@ -892,6 +894,7 @@ BOOL CScreensaver::GetTextForError(
 		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING,
 		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_BOINCSCREENSAVERLOADING,
 		SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING, IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING,
+		SCRAPPERR_BOINCSHUTDOWNEVENT, IDS_ERR_BOINCSHUTDOWNEVENT,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);
@@ -1011,9 +1014,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                 }
             }
         } else {
-            // Reset the error flags.
             SetError(FALSE, 0);
-
             if (m_bCoreNotified) {
                 switch (m_iStatus) {
                     case SS_STATUS_ENABLED:
@@ -1057,22 +1058,23 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 // window just takes on the background of the previous window which happens to be
                                 // the black screensaver window owned by this process.
                                 //
-                                // Here we need to plug into the operating systems heartbeat mechinism for windows
-                                // and verify that their hasn't been any keyboard or mouse activity.  If there has
+                                // Verify that their hasn't been any keyboard or mouse activity.  If there has
                                 // we should hide the window from this process and exit out of the screensaver to
                                 // return control back to the user as quickly as possible.
-                                if (gspfnMyIsHungAppWindow && gspfnMyGetLastInputInfo) {
-                                    if (gspfnMyIsHungAppWindow(hwndBOINCGraphicsWindow)) {
-                                        LASTINPUTINFO lii;
-                                        lii.cbSize = sizeof(LASTINPUTINFO);
+                                BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected and is the foreground window.\n"));
+                                if (gspfnMyGetLastInputInfo) {
+                                    BOINCTRACE(_T("CScreensaver::DataManagementProc - Checking idle actvity.\n"));
+                                    LASTINPUTINFO lii;
+                                    lii.cbSize = sizeof(LASTINPUTINFO);
 
-                                        gspfnMyGetLastInputInfo(&lii);
+                                    gspfnMyGetLastInputInfo(&lii);
 
-                                        if (m_dwLastInputTimeAtStartup != lii.dwTime) {
-                                            ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
-                                            ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
-                                            ShutdownSaver();
-                                        }
+                                    if (m_dwLastInputTimeAtStartup != lii.dwTime) {
+                                        BOINCTRACE(_T("CScreensaver::DataManagementProc - Activity Detected.\n"));
+                                        ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
+                                        ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
+                                        SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+                                        ShutdownSaver();
                                     }
                                 }
                             }
@@ -1091,11 +1093,9 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 // This can happen because of a personal firewall notifications or some
                                 //   funky IM client that thinks it has to notify the user even when in
                                 //   screensaver mode.
+                                BOINCTRACE(_T("CScreensaver::DataManagementProc - Unknown foreground window detected, shutdown the screensaver.\n"));
+                                SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
                                 ShutdownSaver();
-                            } else {
-                                // Application has been selected, and graphics should be up before too
-                                //   long.
-                                SetError(TRUE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
                             }
                         }
                         break;
