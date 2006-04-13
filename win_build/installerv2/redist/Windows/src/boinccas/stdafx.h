@@ -52,8 +52,8 @@
 #define _WIN32_MSI 200          // that supports file hashing. This is version 2.0.
 #endif
 
-#define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
-#define WIN32_EXTRA_LEAN      // Trims even farther.
+//#define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
+//#define WIN32_EXTRA_LEAN      // Trims even farther.
 
 
 // Windows Header Files:
@@ -86,3 +86,4 @@
 #endif
 
 #endif
+

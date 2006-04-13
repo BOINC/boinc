@@ -30,7 +30,7 @@ public:
     ~CAShutdownBOINCManager();
     virtual UINT OnExecution();
 
-}
+};
 
 
 #endif

@@ -9,4 +9,3 @@ EXPORTS
 	DetectOldInstaller
 	ShutdownBOINCManager
 	ValidateSetupType
-	SoftwareNeedsUpgrade

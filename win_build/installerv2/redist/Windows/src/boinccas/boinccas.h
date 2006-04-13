@@ -98,9 +98,8 @@ protected:
     PMSIHANDLE  m_phLogInfoRec;
 
     tstring     m_strActionName;
-    tstring     m_strProgressTtle;
-
-}
+    tstring     m_strProgressTitle;
+};
 
 #endif
 

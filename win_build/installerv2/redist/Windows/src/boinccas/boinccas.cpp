@@ -31,24 +31,22 @@
 /////////////////////////////////////////////////////////////////////
 
 BOINCCABase::BOINCCABase(
-    MSIHANDLE     hMSIHandle, 
-    const tstring strActionName,
-    const tstring strProgressTtle
+    MSIHANDLE hMSIHandle, 
+    const tstring strActionName, 
+    const tstring strProgressTitle
     )
 {
 
     // Store the parameters for later use
     m_hMSIHandle = hMSIHandle;
     m_strActionName = strActionName;
-    m_strProgressTtle = strProgressTtle;
-
+    m_strProgressTitle = strProgressTitle;
 
     // Initialize all other values to zero or null
 	m_phActionStartRec = NULL;
 	m_phActionDataRec = NULL;
     m_phProgressRec = NULL;
     m_phLogInfoRec = NULL;
-
 }
 
 
@@ -87,7 +85,7 @@ BOINCCABase::~BOINCCABase()
     }
 
     m_strActionName.clear();
-    m_strProgressTtle.clear();
+    m_strProgressTitle.clear();
 
 }
 
@@ -180,7 +178,7 @@ UINT BOINCCABase::OnInitialize()
     assert(NULL != m_phActionStartRec);
 
     MsiRecordSetString(m_phActionStartRec, 1, m_strActionName.c_str());
-    MsiRecordSetString(m_phActionStartRec, 2, m_strProgressTtle.c_str());
+    MsiRecordSetString(m_phActionStartRec, 2, m_strProgressTitle.c_str());
     MsiRecordSetString(m_phActionStartRec, 3, _T("[1]"));
     uiReturnValue = MsiProcessMessage(m_hMSIHandle, INSTALLMESSAGE_ACTIONSTART, m_phActionStartRec);
 	if ((uiReturnValue == IDCANCEL))

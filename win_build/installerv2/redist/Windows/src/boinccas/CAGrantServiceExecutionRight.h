@@ -30,7 +30,7 @@ public:
     ~CAGrantServiceExecutionRight();
     virtual UINT OnExecution();
 
-}
+};
 
 
 #endif

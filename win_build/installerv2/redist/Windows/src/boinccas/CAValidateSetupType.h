@@ -30,7 +30,7 @@ public:
     ~CAValidateSetupType();
     virtual UINT OnExecution();
 
-}
+};
 
 
 #endif

@@ -30,7 +30,7 @@ public:
     ~CADetectOldInstall();
     virtual UINT OnExecution();
 
-}
+};
 
 
 #endif

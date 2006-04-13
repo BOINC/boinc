@@ -93,7 +93,7 @@ UINT CAShutdownBOINCManager::OnExecution()
         }
         uiLoopCounter++;
     }
-    while ( (NULL != hWndBOINCManagerSystray) && ( 20 >= uiLoopCounter ) );
+    while ( (NULL != hWndBOINCManagerSystray) && ( 30 >= uiLoopCounter ) );
 
     if ( NULL != hWndBOINCManagerSystray )
     {
