@@ -3794,3 +3794,11 @@ David  13 Apr 2006
         edit_forum_preferences_action.php
     lib/
         diagnostics.C
+
+David  13 Apr 2006
+	- graphics API: in txf_load_fonts(),
+		use boinc_resolve_filename() so that font files
+		can be in the project dir
+
+	api/
+		txf_util.C

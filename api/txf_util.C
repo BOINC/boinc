@@ -25,6 +25,7 @@
 #endif
 
 #include "filesys.h"
+#include "boinc_api.h"
 
 #include "texfont.h"
 #include "txf_util.h"
@@ -38,11 +39,12 @@ static TexFont* txf[TXF_NUM_FONT];
 // load fonts. call once.
 //
 void txf_load_fonts(char* dir) {
-    char filename[_MAX_PATH];
+    char vpath[_MAX_PATH], phys_path[_MAX_PATH];
     for (int i=0 ; i<TXF_NUM_FONT; i++){
-		sprintf(filename, "%s/%s", dir, font_names[i]);
-		if (is_file(filename)) {
-			txf[i] = txfLoadFont(filename);
+		sprintf(vpath, "%s/%s", dir, font_names[i]);
+        boinc_resolve_filename(vpath, phys_path, sizeof(phys_path));
+		if (is_file(phys_path)) {
+			txf[i] = txfLoadFont(phys_path);
 			if(txf[i]) CreateTexFont(txf[i], 0, GL_TRUE);
 		}
     }	
