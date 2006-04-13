@@ -993,7 +993,8 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
     BOOL    bForegroundWindowIsScreensaver;
     HRESULT hrError;
     HWND    hwndBOINCGraphicsWindow = NULL;
-    HWND    hwndForegroundWindow = NULL;
+    HWND    hwndForeWindow = NULL;
+    HWND    hwndForeParent = NULL;
     DWORD   iMonitor = 0;
     int     iReturnValue = 0;
     time_t  tThreadCreateTime = 0;
@@ -1055,14 +1056,14 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                         hwndBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
                         if (hwndBOINCGraphicsWindow) {
                             // Graphics Application.
-                            hwndForegroundWindow = GetForegroundWindow();
+                            hwndForeWindow = GetForegroundWindow();
                             // If the graphics application is not the top most window try and force it
                             //   to the top.
-                            if (hwndForegroundWindow != hwndBOINCGraphicsWindow) {
+                            if (hwndForeWindow != hwndBOINCGraphicsWindow) {
                                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
                                 SetForegroundWindow(hwndBOINCGraphicsWindow);
-                                hwndForegroundWindow = GetForegroundWindow();
-                                if (hwndForegroundWindow != hwndBOINCGraphicsWindow) {
+                                hwndForeWindow = GetForegroundWindow();
+                                if (hwndForeWindow != hwndBOINCGraphicsWindow) {
                                     BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
 
                                     // This may be needed on Windows 2000 or better machines
@@ -1104,7 +1105,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                         ShowWindow(hwndBOINCGraphicsWindow, SW_MINIMIZE);
                                         ShowWindow(hwndBOINCGraphicsWindow, SW_FORCEMINIMIZE);
                                         SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                                        ShutdownSaver();
+                                        SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                                     }
                                 }
                             }
@@ -1112,10 +1113,13 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                             // Graphics application does not exist. So check that one of the windows
                             //   assigned to each monitor is the foreground window.
                             bForegroundWindowIsScreensaver = FALSE;
-                            hwndForegroundWindow = GetForegroundWindow();
+                            hwndForeWindow = GetForegroundWindow();
+                            hwndForeParent = GetParent(hwndForeWindow);
                             for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
                                 pMonitorInfo = &m_Monitors[iMonitor];
-                                if (pMonitorInfo->hWnd == hwndForegroundWindow) {
+                                if ((pMonitorInfo->hWnd == hwndForeWindow) ||
+                                    (pMonitorInfo->hWnd == hwndForeParent))
+                                {
                                     bForegroundWindowIsScreensaver = TRUE;
                                 }
                             }
@@ -1125,7 +1129,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 //   screensaver mode.
                                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Unknown foreground window detected, shutdown the screensaver.\n"));
                                 SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                                ShutdownSaver();
+                                SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                             }
                         }
                         break;
@@ -1150,7 +1154,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
         GetError(bErrorMode, hrError, NULL, 0);
         if (SS_STATUS_QUIT == m_iStatus && m_bCoreNotified) {
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Shutdown BOINC Screensaver\n"));
-            ShutdownSaver();
+            SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
         } else {
             if (!bErrorMode && !m_bCoreNotified) {
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Startup BOINC Screensaver\n"));
@@ -1521,6 +1525,11 @@ LRESULT CScreensaver::SaverProc(
         case WM_POWERBROADCAST:
             if (wParam == PBT_APMQUERYSUSPEND && gspfnMyVerifyPwdProc == NULL)
                 InterruptSaver();
+            break;
+        case WM_INTERRUPTSAVER:
+            if (hWnd == m_Monitors[0].hWnd) {
+                InterruptSaver();
+            }
             break;
     }
 

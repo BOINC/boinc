@@ -35,6 +35,7 @@
 #define NO_MONITOR                                0xffffffff
 
 #define BSF_ALLOWSFW                              0x00000080
+#define WM_INTERRUPTSAVER                         WM_USER+1
 
 #define BOINC_WINDOW_CLASS_NAME                   _T("BOINC_app")
 

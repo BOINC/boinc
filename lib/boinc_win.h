@@ -38,7 +38,7 @@
 // platforms we are going to disable the deprecation warnings if we are compiling
 // on Visual Studio 2005
 #if _MSC_VER >= 1400
-#pragma warning(disable: 4996) // function deprecation
+#define _CRT_SECURE_NO_DEPRECATE
 #endif
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
