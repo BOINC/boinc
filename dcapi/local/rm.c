@@ -64,7 +64,7 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	 * <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid>
 	 * Where <hash> is the first 2 hex digits of the uuid
 	 */
-	str = g_string_new(_DC_getCfgStr(CFG_WORKDIR));
+	str = g_string_new(DC_getCfgStr(CFG_WORKDIR));
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append(str, ".dcapi-");
 	g_string_append(str, project_uuid_str);

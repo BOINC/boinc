@@ -29,6 +29,9 @@ DC_ErrorCode
 DC_GridCapabilities
 DC_FileMode
 DC_CONFIG_FILE
+DC_getCfgStr
+DC_log
+DC_vlog
 
 <SUBSECTION>
 DC_getMaxMessageSize

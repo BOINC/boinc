@@ -43,7 +43,7 @@ int DC_init(const char *config_file)
 	}
 
 	/* Check the working directory */
-	cfgval = _DC_getCfgStr(CFG_WORKDIR);
+	cfgval = DC_getCfgStr(CFG_WORKDIR);
 	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "%s is not specified in the config file",
@@ -52,7 +52,7 @@ int DC_init(const char *config_file)
 	}
 
 	/* Check sleep interval */
-	cfgval = _DC_getCfgStr(CFG_SLEEPINTERVAL);
+	cfgval = DC_getCfgStr(CFG_SLEEPINTERVAL);
 	if (!cfgval)
 	{
 		DC_log(LOG_WARNING, "%s is not specified in the config file. Default value is %d sec",
@@ -66,7 +66,7 @@ int DC_init(const char *config_file)
 	}
 
 	/* Check the project UUID */
-	cfgval = _DC_getCfgStr(CFG_INSTANCEUUID);
+	cfgval = DC_getCfgStr(CFG_INSTANCEUUID);
 	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "%s is not set in the config file",

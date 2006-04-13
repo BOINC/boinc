@@ -90,7 +90,7 @@ int DC_init(const char *config_file)
 		return ret;
 	}
 
-	if (!_DC_getCfgStr(CFG_PROJECTROOT))
+	if (!DC_getCfgStr(CFG_PROJECTROOT))
 	{
 		DC_log(LOG_ERR, "%s is not specified in the config file",
 			CFG_PROJECTROOT);
@@ -98,7 +98,7 @@ int DC_init(const char *config_file)
 	}
 
 	/* Check & switch to the working directory */
-	cfgval = _DC_getCfgStr(CFG_WORKDIR);
+	cfgval = DC_getCfgStr(CFG_WORKDIR);
 	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "%s is not specified in the config file",
@@ -116,7 +116,7 @@ int DC_init(const char *config_file)
 	}
 
 	/* Check the project UUID */
-	cfgval = _DC_getCfgStr(CFG_INSTANCEUUID);
+	cfgval = DC_getCfgStr(CFG_INSTANCEUUID);
 	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "%s is not set in the config file",
@@ -135,7 +135,7 @@ int DC_init(const char *config_file)
 	uuid_unparse_lower(project_uuid, project_uuid_str);
 
 	/* Check the project's configuration */
-	cfgval = _DC_getCfgStr(CFG_CONFIGXML);
+	cfgval = DC_getCfgStr(CFG_CONFIGXML);
 	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "%s is not set in the config file",

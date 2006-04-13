@@ -30,14 +30,6 @@ extern "C" {
  */
 int _DC_parseCfg(const char *cfgfile);
 
-/* Gets the value for the given key.
- * 
- * @name: the name of the key to query.
- *
- * @Returns: the value for the key. 
- */
-const char *_DC_getCfgStr(const char *name);
-
 /* Copies a file */
 int _DC_copyFile(const char *src, const char *dst);
 

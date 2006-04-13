@@ -95,3 +95,25 @@ Determines the capabilities of the underlying grid infrastructure.
 @Returns: the appropriate #DC_GridCapabilities constants OR'ed together.
 
 
+<!-- ##### FUNCTION DC_log ##### -->
+<para>
+Emits a message to the master's log file.
+</para>
+
+@level: the severity of the. The level codes defined for the system's syslog()
+	function should be used.
+@fmt: format of the message, as per printf().
+@Varargs: any extra arguments required by @fmt.
+
+
+<!-- ##### FUNCTION DC_vlog ##### -->
+<para>
+Emits a message to the master's log file.
+</para>
+
+@level: the severity of the. The level codes defined for the system's syslog()
+	function should be used.
+@fmt: format of the message, as per printf().
+@args: any extra arguments required by @fmt.
+
+

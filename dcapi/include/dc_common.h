@@ -15,6 +15,9 @@
 extern "C" {
 #endif
 
+#include <sys/syslog.h>
+#include <stdarg.h>
+
 /********************************************************************
  * Constant definitions
  */
@@ -63,16 +66,6 @@ typedef enum {
 
 
 /********************************************************************
- * Macro definitions
- */
-
-/* Support non-gcc compatible compilers */
-#ifndef __GNUC__
-#define __attribute__(x)
-#endif
-
-
-/********************************************************************
  * Function prototypes
  */
 
@@ -84,6 +77,15 @@ int DC_getMaxSubresults(void);
 
 /* Determines the basic capabilities of the underlying grid infrastructure. */
 DC_GridCapabilities DC_getGridCapabilities(void);
+
+/* Prints a message to the log file. */
+void DC_log(int level, const char *fmt, ...)
+	__attribute__((format(printf, 2, 3)));
+void DC_vlog(int level, const char *fmt, va_list args)
+	__attribute__((format(printf, 2, 0)));
+
+/* Returns the value belonging ot the specified key in the config. file */
+const char *DC_getCfgStr(const char *name);
 
 #ifdef __cplusplus
 }

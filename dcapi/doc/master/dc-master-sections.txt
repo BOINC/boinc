@@ -18,8 +18,6 @@ DC_MessageCallback
 
 <SUBSECTION>
 DC_init
-DC_log
-DC_vlog
 DC_setcb
 
 <SUBSECTION>
@@ -62,6 +60,9 @@ DC_ErrorCode
 DC_GridCapabilities
 DC_FileMode
 DC_CONFIG_FILE
+DC_getCfgStr
+DC_log
+DC_vlog
 
 <SUBSECTION>
 DC_getMaxMessageSize

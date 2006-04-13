@@ -17,9 +17,6 @@
 extern "C" {
 #endif
 
-#include <sys/syslog.h>
-#include <stdarg.h>
-
 #include <dc_common.h>
 
 /********************************************************************
@@ -111,12 +108,6 @@ typedef void (*DC_MessageCallback)(DC_Workunit *wu, const char *message);
 
 /* Initializes the DC-API. */
 int DC_init(const char *configFile);
-
-/* Prints a message to the log file. */
-void DC_log(int level, const char *fmt, ...)
-	__attribute__((format(printf, 2, 3)));
-void DC_vlog(int level, const char *fmt, va_list args)
-	__attribute__((format(printf, 2, 0)));
 
 /* Sets the callback functions that will be called when a particular event. */
 void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
