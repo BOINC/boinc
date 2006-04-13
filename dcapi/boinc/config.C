@@ -1,8 +1,11 @@
 /*
- * Wrapper code for accessing Boinc project configuration values (config.xml)
- * from C
+ * config. C - Wrapper code for accessing Boinc project configuration values
+ *
+ * Authors:
+ *	Gábor Gombás <gombasg@sztaki.hu>
+ *
+ * Copyright (c) 2006 MTA SZTAKI
  */
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

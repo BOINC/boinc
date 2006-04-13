@@ -1,3 +1,11 @@
+/*
+ * dc_boinc.h - Common definitions for the master side of the BOINC DC-API backend
+ *
+ * Authors:
+ *	Gábor Gombás <gombasg@sztaki.hu>
+ *
+ * Copyright (c) 2006 MTA SZTAKI
+ */
 #ifndef __DC_BOINC_H_
 #define __DC_BOINC_H_
 

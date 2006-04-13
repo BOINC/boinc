@@ -1,7 +1,11 @@
 /*
- * Wrapper code for accessing the Boinc database from C
+ * db.c - Wrapper code for accessing the Boinc database from C
+ *
+ * Authors:
+ *	Gábor Gombás <gombasg@sztaki.hu>
+ *
+ * Copyright (c) 2006 MTA SZTAKI
  */
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
