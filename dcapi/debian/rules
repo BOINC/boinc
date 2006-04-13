@@ -38,7 +38,6 @@ config.status: configure
 		--prefix=/usr \
 		--disable-maintainer-mode \
 		--disable-backend-clgr \
-		--disable-backend-local \
 		CFLAGS="$(CFLAGS)"
 
 configure: configure.ac cf/boinc.m4
