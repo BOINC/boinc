@@ -1,4 +1,11 @@
-/* Definitions common for both the server and client side */
+/*
+ * common_defs.h - Definitions common for both the server and client side
+ *
+ * Authors:
+ *	Gábor Gombás <gombasg@sztaki.hu>
+ *
+ * Copyright (c) 2006 MTA SZTAKI
+ */
 #ifndef COMMON_DEFS_H
 #define COMMON_DEFS_H
 
@@ -13,14 +20,18 @@ extern "C" {
 #define CKPT_LABEL_IN		"dc_checkpoint.in"
 #define CKPT_LABEL_OUT		"dc_checkpoint.out"
 
-/* Name of the client-side config. file */
-#define CLIENTCONF_LABEL	"dc_client.conf"
-
 /* Maximum allowed message length */
 #define MAX_MESSAGE_SIZE	16384
 
 /* Prefix for internal messages between the client-side and master-side DC-API */
 #define DCAPI_MSG_PFX		"__dcapi__"
+
+/* Internal message that a subresult has been uploaded */
+#define DC_MSG_UPLOAD		"UPLOAD"
+/* Internal message telling that the client should suspend */
+#define DC_MSG_SUSPEND		"SUSPEND"
+/* Internal message for cancelling the client computation */
+#define DC_MSG_CANCEL		"CANCEL"
 
 #ifdef __cplusplus
 }
