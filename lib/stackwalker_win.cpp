@@ -123,6 +123,20 @@ typedef struct _SYMBOL_INFO {
     CHAR        Name[1];          // Name of symbol
 } SYMBOL_INFO, *PSYMBOL_INFO;
 
+typedef struct _tagSTACKFRAME64 {
+    ADDRESS64   AddrPC;               // program counter
+    ADDRESS64   AddrReturn;           // return address
+    ADDRESS64   AddrFrame;            // frame pointer
+    ADDRESS64   AddrStack;            // stack pointer
+    ADDRESS64   AddrBStore;           // backing store pointer
+    PVOID       FuncTableEntry;       // pointer to pdata/fpo or NULL
+    DWORD64     Params[4];            // possible arguments to the function
+    BOOL        Far;                  // WOW far call
+    BOOL        Virtual;              // is this a virtual frame?
+    DWORD64     Reserved[3];
+    KDHELP64    KdHelp;
+} STACKFRAME64, *LPSTACKFRAME64;
+
 typedef BOOL
 (CALLBACK *PSYM_ENUMMODULES_CALLBACK64)(
     PSTR ModuleName,
