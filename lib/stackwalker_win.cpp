@@ -78,11 +78,23 @@ typedef enum {
     AddrModeFlat
 } ADDRESS_MODE;
 
-typedef struct _tagADDRESS64 {
+typedef struct _ADDRESS64 {
     DWORD64       Offset;
     WORD          Segment;
     ADDRESS_MODE  Mode;
 } ADDRESS64, *LPADDRESS64;
+
+typedef struct _KDHELP64 {
+    DWORD64 Thread;
+    DWORD   ThCallbackStack;
+    DWORD   ThCallbackBStore;
+    DWORD   NextCallback;
+    DWORD   FramePointer;
+    DWORD64 KiCallUserMode;
+    DWORD64 KeUserCallbackDispatcher;
+    DWORD64 SystemRangeStart;
+    DWORD64 Reserved[8];
+} KDHELP64, *PKDHELP64;
 
 typedef struct _IMAGEHLP_LINE64 {
     DWORD                       SizeOfStruct;           // set to sizeof(IMAGEHLP_LINE64)
@@ -123,7 +135,7 @@ typedef struct _SYMBOL_INFO {
     CHAR        Name[1];          // Name of symbol
 } SYMBOL_INFO, *PSYMBOL_INFO;
 
-typedef struct _tagSTACKFRAME64 {
+typedef struct _STACKFRAME64 {
     ADDRESS64   AddrPC;               // program counter
     ADDRESS64   AddrReturn;           // return address
     ADDRESS64   AddrFrame;            // frame pointer
