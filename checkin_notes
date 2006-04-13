@@ -3763,3 +3763,9 @@ Eric K 12 Apr 2006
         diagnostics.[Ch]
         configure.ac
 
+Rom    12 Apr 2006
+    - Bug Fix: Fix a crash on Win9x when leaving the screensaver and
+        password protection is enabled.
+        
+    client/win/
+        win_screensaver.cpp, .h

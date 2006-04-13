@@ -45,13 +45,15 @@
 #endif
 
 
+static HMODULE                  gshUser32 = NULL;
+static HMODULE                  gshPasswordCPL = NULL;
+static VERIFYPWDPROC            gspfnMyVerifyPwdProc = NULL;
 static MYGETLASTINPUTINFO       gspfnMyGetLastInputInfo = NULL;
 static MYISHUNGAPPWINDOW        gspfnMyIsHungAppWindow = NULL;
 static MYBROADCASTSYSTEMMESSAGE gspfnMyBroadcastSystemMessage = NULL;
 static CScreensaver*            gspScreensaver = NULL;
-static HMODULE                  gshUser32 = NULL;
 
-const UINT                WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
+const UINT                      WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
 
 INT WINAPI WinMain(
@@ -62,6 +64,11 @@ INT WINAPI WinMain(
     int          retval;
     WSADATA      wsdata;
     BOOL         bIs95 = FALSE;
+    BOOL         bIs9x = FALSE;
+    DWORD        dwVal;
+    DWORD        dwSize = sizeof(dwVal); 
+    HKEY         hKey;
+
 
 #ifdef _DEBUG
     // Initialize Diagnostics when compiled for debug
@@ -85,11 +92,15 @@ INT WINAPI WinMain(
     OSVERSIONINFO osvi; 
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
+    bIs9x =   osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;
     bIs95 =   (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) &&
               ((osvi.dwMajorVersion == 4) && (osvi.dwMinorVersion == 0));
 
     // Load dynamically linked modules
     gshUser32 = LoadLibrary(_T("USER32.DLL"));
+    if (bIs9x) {
+        gshPasswordCPL = LoadLibrary(_T("PASSWORD.CPL"));
+    }
 
     // Map function pointers
     if (gshUser32) {
@@ -99,6 +110,14 @@ INT WINAPI WinMain(
             gspfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(gshUser32, _T("BroadcastSystemMessage"));
         } else {
             gspfnMyBroadcastSystemMessage = (MYBROADCASTSYSTEMMESSAGE) GetProcAddress(gshUser32, _T("BroadcastSystemMessageA"));
+        }
+    }
+    if (gshPasswordCPL) {
+        if (RegOpenKey(HKEY_CURRENT_USER , REGSTR_PATH_SCREENSAVE , &hKey) == ERROR_SUCCESS) { 
+             if ((RegQueryValueEx(hKey, REGSTR_VALUE_USESCRPASSWORD, NULL, NULL, (BYTE *)&dwVal, &dwSize) == ERROR_SUCCESS) && dwVal) { 
+                gspfnMyVerifyPwdProc = (VERIFYPWDPROC)GetProcAddress(gshPasswordCPL, _T("VerifyScreenSavePwd"));
+                RegCloseKey(hKey);
+            }
         }
     }
 
@@ -122,9 +141,14 @@ INT WINAPI WinMain(
     gspfnMyGetLastInputInfo = NULL;
     gspfnMyIsHungAppWindow = NULL;
     gspfnMyBroadcastSystemMessage = NULL;
+    gspfnMyVerifyPwdProc = NULL;
 
     // Free modules
     FreeLibrary(gshUser32);
+    if (gshPasswordCPL) {
+        FreeLibrary(gshPasswordCPL);
+        gshPasswordCPL = NULL;
+    }
     
     return retval;
 }
@@ -138,8 +162,6 @@ CScreensaver::CScreensaver() {
     m_dwSaverMouseMoveCount = 0;
     m_hWnd = NULL;
     m_hWndParent = NULL;
-    m_hPasswordDLL = NULL;
-    m_VerifySaverPassword = NULL;
     
     m_bAllScreensSame = FALSE;
     m_bWindowed = FALSE;
@@ -622,10 +644,6 @@ int CScreensaver::UtilGetRegStartupStr(LPCTSTR name, LPTSTR str) {
 
 // Determine if BOINC is configured to automatically start at logon/startup.
 //
-
-// Define dynamically linked to function
-typedef HRESULT (STDAPICALLTYPE* MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken, DWORD dwFlags, LPSTR pszPath);
-
 BOOL CScreensaver::IsConfigStartupBOINC() {
 	BOOL				bRetVal;
 	BOOL				bCheckFileExists;
@@ -736,6 +754,9 @@ BOOL CScreensaver::IsConfigStartupBOINC() {
 	return bRetVal;
 }
 
+
+
+
 // Desc: Create the infrastructure for thread safe acccess to the infrastructure
 //       layer of the screen saver.
 //
@@ -747,6 +768,9 @@ BOOL CScreensaver::CreateInfrastructureMutexes() {
     }
     return TRUE;
 }
+
+
+
 
 // Provide a thread-safe implementation for retrieving the current
 //       error condition.
@@ -827,6 +851,8 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
     return bRetVal; 
 }
 
+
+
 // Update the error message
 //
 VOID CScreensaver::UpdateErrorBoxText() {
@@ -869,6 +895,8 @@ VOID CScreensaver::UpdateErrorBoxText() {
     }
     BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Updated Text '%s'\n"), m_szError);
 }
+
+
 
 
 // Translate an HRESULT error code into a string that can be displayed
@@ -955,6 +983,8 @@ BOOL CScreensaver::DestoryDataManagementThread() {
 }
 
 
+
+
 // Do what needs to be done to update the text that is displayed
 //   to the user
 //
@@ -1013,6 +1043,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                     SetError(TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP);
                 }
             }
+
         } else {
             SetError(FALSE, 0);
             if (m_bCoreNotified) {
@@ -1045,7 +1076,6 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                             NULL
                                         );
                                     }
-
                                 }
                             } else {
                                 // Science application has focus, and is visible.
@@ -1138,12 +1168,16 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 }
 
 
+
+
 // This function forwards to DataManagementProc, which has access to the
 //       "this" pointer.
 //
 DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
     return gspScreensaver->DataManagementProc();
 }
+
+
 
 
 // Notifies BOINC that it has to start the screensaver in full screen mode.
@@ -1328,26 +1362,6 @@ HRESULT CScreensaver::CreateSaverWindow() {
 // Run the screensaver graphics - may be preview, test or full-on mode
 //
 HRESULT CScreensaver::DoSaver() {
-    // If we're in full on mode, and on 9x, then need to load the password DLL
-    if (m_SaverMode == sm_full && m_bIs9x) {
-        // Only do this if the password is set - check registry:
-        HKEY hKey; 
-        if (RegOpenKey(HKEY_CURRENT_USER , REGSTR_PATH_SCREENSAVE , &hKey) == ERROR_SUCCESS) { 
-            DWORD dwVal;
-            DWORD dwSize = sizeof(dwVal); 
- 
-            if ((RegQueryValueEx(
-                hKey, REGSTR_VALUE_USESCRPASSWORD, NULL, NULL,
-                (BYTE *)&dwVal, &dwSize) == ERROR_SUCCESS) && dwVal
-            ) { 
-                m_hPasswordDLL = LoadLibrary(_T("PASSWORD.CPL"));
-                if (m_hPasswordDLL)
-                    m_VerifySaverPassword = (VERIFYPWDPROC)GetProcAddress(m_hPasswordDLL, _T("VerifyScreenSavePwd"));
-                RegCloseKey(hKey);
-            }
-        }
-    }
-
     // Flag as screensaver running if in full on mode
     if (m_SaverMode == sm_full) {
         BOOL bUnused;
@@ -1505,7 +1519,7 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_POWERBROADCAST:
-            if (wParam == PBT_APMQUERYSUSPEND && m_VerifySaverPassword == NULL)
+            if (wParam == PBT_APMQUERYSUSPEND && gspfnMyVerifyPwdProc == NULL)
                 InterruptSaver();
             break;
     }
@@ -1590,12 +1604,6 @@ VOID CScreensaver::ShutdownSaver() {
         SystemParametersInfo(SPI_SCREENSAVERRUNNING, FALSE, &bUnused, 0);
     }
 
-    // Unload the password DLL (if we loaded it)
-    if (m_hPasswordDLL != NULL) {
-        FreeLibrary(m_hPasswordDLL);
-        m_hPasswordDLL = NULL;
-    }
-
 	ShutdownBOINC();
 
     // Post message to drop out of message loop
@@ -1617,16 +1625,14 @@ VOID CScreensaver::ShutdownSaver() {
 VOID CScreensaver::InterruptSaver() {
     BOOL bPasswordOkay = FALSE;
 
-    if (m_SaverMode == sm_test ||
-        m_SaverMode == sm_full && !m_bCheckingSaverPassword
-    ) {
+    if (m_SaverMode == sm_test || m_SaverMode == sm_full && !m_bCheckingSaverPassword) {
         if (m_bIs9x && m_SaverMode == sm_full) {
             // If no VerifyPassword function, then no password is set 
             // or we're not on 9x. 
-            if (m_VerifySaverPassword != NULL) {
+            if (gspfnMyVerifyPwdProc != NULL) {
                 m_bCheckingSaverPassword = TRUE;
 
-                bPasswordOkay = m_VerifySaverPassword(m_hWnd);
+                bPasswordOkay = gspfnMyVerifyPwdProc(m_hWnd);
 
                 m_bCheckingSaverPassword = FALSE;
 
@@ -1634,7 +1640,6 @@ VOID CScreensaver::InterruptSaver() {
                     // Back to screen saving...
                     SetCursor(NULL);
                     m_dwSaverMouseMoveCount = 0;
-
                     return;
                 }
             }
