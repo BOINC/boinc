@@ -600,7 +600,7 @@ void boinc_trace(const char *pszFormat, ...) {
 
         va_end(ptr);
 
-        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "TRACE: %s", szBuffer);
+        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "TRACE[%d]: %s", GetCurrentThreadId(), szBuffer);
     }
 }
 

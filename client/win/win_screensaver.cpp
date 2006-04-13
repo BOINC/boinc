@@ -294,11 +294,6 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 INT CScreensaver::Run() {
     HRESULT hr;
 
-    // Create the data management thread to talk with the daemon
-    if (!CreateDataManagementThread()) {
-        return E_FAIL;
-    }
-
     // Parse the command line and do the appropriate thing
     switch (m_SaverMode) {
     case sm_config:
@@ -312,21 +307,25 @@ INT CScreensaver::Run() {
     case sm_preview:
     case sm_test:
     case sm_full:
+        // Create the data management thread to talk with the daemon
+        if (!CreateDataManagementThread()) {
+            return E_FAIL;
+        }
+
         if (FAILED(hr = DoSaver())) {
             DisplayErrorMsg(hr);
+        }
+
+        // Create the data management thread to talk with the daemon
+        //
+        if (!DestoryDataManagementThread()) {
+            return E_FAIL;
         }
         break;
         
     case sm_passwordchange:
         ChangePassword();
         break;
-    }
-
-
-    // Create the data management thread to talk with the daemon
-    //
-    if (!DestoryDataManagementThread()) {
-        return E_FAIL;
     }
 
     return 0;
@@ -1296,10 +1295,9 @@ HRESULT CScreensaver::CreateSaverWindow() {
             GetClientRect(m_hWndParent, &rc);
             dwStyle = WS_VISIBLE | WS_CHILD;
             AdjustWindowRect(&rc, dwStyle, FALSE);
-            m_hWnd = CreateWindow(_T(
-                "BOINCPrimarySaverWndClass"), m_strWindowTitle, dwStyle, 
-                rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 
-                m_hWndParent, NULL, m_hInstance, this
+            m_hWnd = CreateWindow(_T("BOINCPrimarySaverWndClass"),
+                m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right-rc.left,
+                rc.bottom-rc.top, m_hWndParent, NULL, m_hInstance, this
             );
             m_Monitors[0].hWnd = m_hWnd;
             GetClientRect(m_hWnd, &m_rcRenderTotal);
@@ -1312,10 +1310,9 @@ HRESULT CScreensaver::CreateSaverWindow() {
             rc.bottom = rc.top+400;
             dwStyle = WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
             AdjustWindowRect(&rc, dwStyle, FALSE);
-            m_hWnd = CreateWindow(
-                 _T("BOINCPrimarySaverWndClass"), m_strWindowTitle, dwStyle, 
-                rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 
-                NULL, NULL, m_hInstance, this
+            m_hWnd = CreateWindow(_T("BOINCPrimarySaverWndClass"),
+                m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right-rc.left,
+                rc.bottom-rc.top, NULL, NULL, m_hInstance, this
             );
             m_Monitors[0].hWnd = m_hWnd;
             GetClientRect(m_hWnd, &m_rcRenderTotal);
@@ -1334,11 +1331,11 @@ HRESULT CScreensaver::CreateSaverWindow() {
 						continue;
 					rc = pMonitorInfo->rcScreen;
 					if (0 == iMonitor) {
-						pMonitorInfo->hWnd = CreateWindowEx(WS_EX_TOPMOST, _T("BOINCPrimarySaverWndClass"), 
+						pMonitorInfo->hWnd = CreateWindowEx(NULL, _T("BOINCPrimarySaverWndClass"), 
 							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left, 
 							rc.bottom - rc.top, NULL, NULL, m_hInstance, this);
 					} else {
-						pMonitorInfo->hWnd = CreateWindowEx(WS_EX_TOPMOST, _T("BOINCGenericSaverWndClass"), 
+						pMonitorInfo->hWnd = CreateWindowEx(NULL, _T("BOINCGenericSaverWndClass"), 
 							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left, 
 							rc.bottom - rc.top, NULL, NULL, m_hInstance, this);
 					}
@@ -1413,6 +1410,8 @@ LRESULT CScreensaver::SaverProc(
     }
 #endif
 
+    BOINCTRACE(_T("CScreensaver::SaverProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
+
     switch (uMsg) {
         case WM_TIMER:
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_TIMER\n"));
@@ -1421,6 +1420,7 @@ LRESULT CScreensaver::SaverProc(
 					// Initial idle time is done, proceed with initialization.
 					m_bWaitForInputIdle = FALSE;
 					KillTimer(hWnd, 1);
+                    return 0;
                     break;
 				case 2:
                     // Create a screen saver window on the primary display if 
@@ -1430,6 +1430,7 @@ LRESULT CScreensaver::SaverProc(
                     // Update the position of the box every second so that it
                     //   does not end up off the visible area of the screen.
 				    UpdateErrorBox();
+                    return 0;
                     break;
             }
             break;
@@ -1462,7 +1463,6 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_MOUSEMOVE:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_MOUSEMOVE\n"));
             if (m_SaverMode != sm_test) {
                 static INT xPrev = -1;
                 static INT yPrev = -1;
@@ -1472,8 +1472,10 @@ LRESULT CScreensaver::SaverProc(
                     xPrev = xCur;
                     yPrev = yCur;
                     m_dwSaverMouseMoveCount++;
-                    if (m_dwSaverMouseMoveCount > 5)
+                    if (m_dwSaverMouseMoveCount > 5) {
+                        BOINCTRACE(_T("CScreensaver::SaverProc Received WM_MOUSEMOVE and time to InterruptSaver()\n"));
                         InterruptSaver();
+                    }
                 }
             }
             return 0;
@@ -1507,7 +1509,7 @@ LRESULT CScreensaver::SaverProc(
                     case SC_PREVWINDOW:
                     case SC_SCREENSAVE:
                     case SC_CLOSE:
-                        return FALSE;
+                        return 0;
                 }
             }
             break;
@@ -1541,9 +1543,6 @@ LRESULT CScreensaver::SaverProc(
             }
             break;
     }
-
-    BOINCTRACE(_T("CScreensaver::SaverProc [%d] hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), dwMonitor, hWnd, uMsg, wParam, lParam);
-
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
@@ -1643,19 +1642,24 @@ VOID CScreensaver::ShutdownSaver() {
 VOID CScreensaver::InterruptSaver() {
     BOOL bPasswordOkay = FALSE;
 
+    BOINCTRACE(_T("CScreensaver::InterruptSaver Function Begin\n"));
     if (m_SaverMode == sm_test || m_SaverMode == sm_full && !m_bCheckingSaverPassword) {
         if (m_bIs9x && m_SaverMode == sm_full) {
             // If no VerifyPassword function, then no password is set 
             // or we're not on 9x. 
             if (gspfnMyVerifyPwdProc) {
+                BOINCTRACE(_T("CScreensaver::InterruptSaver Win9x Detected and Password Configured\n"));
                 m_bCheckingSaverPassword = TRUE;
 
+                BOINCTRACE(_T("CScreensaver::InterruptSaver Calling VerifyScreenSavePwd\n"));
                 bPasswordOkay = gspfnMyVerifyPwdProc(m_hWnd);
+                BOINCTRACE(_T("CScreensaver::InterruptSaver Finished\n"));
 
                 m_bCheckingSaverPassword = FALSE;
 
                 if (!bPasswordOkay) {
                     // Back to screen saving...
+                    BOINCTRACE(_T("CScreensaver::InterruptSaver Incorrect Password Given, Resetting m_dwSaverMouseMoveCount\n"));
                     SetCursor(NULL);
                     m_dwSaverMouseMoveCount = 0;
                     return;
@@ -1663,7 +1667,23 @@ VOID CScreensaver::InterruptSaver() {
             }
         }
         ShutdownSaver();
+    } else {
+        if (m_bIs9x && m_SaverMode == sm_full && m_bCheckingSaverPassword) {
+            // Win9x sucks so bad the darn password dialog can get stuck behind the
+            // screensaver window.  Which leaves the screensaver in a state where
+            // you have to reboot the machine.
+            HWND hwndPassword = FindWindow(_T("#32770"), _T("Windows Screen Saver"));
+            HWND hwndForeWindow = GetForegroundWindow();
+            if (hwndPassword) {
+                BOINCTRACE(_T("CScreensaver::InterruptSaver Password Dialog Detected\n"));
+                if (hwndPassword != hwndForeWindow) {
+                    BOINCTRACE(_T("CScreensaver::InterruptSaver Password Dialog is NOT the foreground window, bringing to foreground\n"));
+                    SetForegroundWindow(hwndPassword);
+                }
+            }
+        }
     }
+    BOINCTRACE(_T("CScreensaver::InterruptSaver Function End\n"));
 }
 
 

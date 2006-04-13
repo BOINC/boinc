@@ -3766,6 +3766,12 @@ Eric K 12 Apr 2006
 Rom    12 Apr 2006
     - Bug Fix: Fix a crash on Win9x when leaving the screensaver and
         password protection is enabled.
+    - Bug Fix: Do not allow the Win9x password dialog to get stuck behind
+        the main screensaver windows, otherwise the only thing you can do
+        is reboot the machine.
+    - Include the thread id with trace statements.
         
     client/win/
         win_screensaver.cpp, .h
+    lib/
+        diagnostics.C
