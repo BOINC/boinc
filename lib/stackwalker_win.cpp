@@ -64,13 +64,6 @@ typedef enum {
     NumSymTypes
 } SYM_TYPE_EX;
 
-typedef enum {
-    AddrMode1616,
-    AddrMode1632,
-    AddrModeReal,
-    AddrModeFlat
-} ADDRESS_MODE;
-
 typedef struct _ADDRESS64 {
     DWORD64       Offset;
     WORD          Segment;
