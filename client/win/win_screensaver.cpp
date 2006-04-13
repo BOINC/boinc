@@ -1629,7 +1629,7 @@ VOID CScreensaver::InterruptSaver() {
         if (m_bIs9x && m_SaverMode == sm_full) {
             // If no VerifyPassword function, then no password is set 
             // or we're not on 9x. 
-            if (gspfnMyVerifyPwdProc != NULL) {
+            if (gspfnMyVerifyPwdProc) {
                 m_bCheckingSaverPassword = TRUE;
 
                 bPasswordOkay = gspfnMyVerifyPwdProc(m_hWnd);
@@ -1647,6 +1647,7 @@ VOID CScreensaver::InterruptSaver() {
         ShutdownSaver();
     }
 }
+
 
 
 
