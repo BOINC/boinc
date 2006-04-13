@@ -1,9 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
 # The name of the module, e.g. 'glib'.
-DOC_MODULE=dc-master
+DOC_MODULE=dc-common
 
-ID_PREFIX=master_
+# When generating XML IDs, prefix every ID starting with $(SYMBOL_PREFIX)
+# with $(ID_PREFIX)
+SYMBOL_PREFIX=
+ID_PREFIX=
 
 # The top-level SGML file. You can change this if you want to.
 DOC_MAIN_SGML_FILE=../dc-docs.xml
@@ -19,7 +22,7 @@ SCAN_OPTIONS=
 
 # Extra options to supply to gtkdoc-mkdb.
 # e.g. MKDB_OPTIONS=--sgml-mode --output-format=xml
-MKDB_OPTIONS=--sgml-mode --output-format=xml --outputallsymbols
+MKDB_OPTIONS=--sgml-mode --output-format=xml
 
 # Extra options to supply to gtkdoc-mktmpl
 # e.g. MKTMPL_OPTIONS=--only-section-tmpl
@@ -28,12 +31,12 @@ MKTMPL_OPTIONS=
 # Used for dependencies. The docs will be rebuilt if any of these change.
 # e.g. HFILE_GLOB=$(top_srcdir)/gtk/*.h
 # e.g. CFILE_GLOB=$(top_srcdir)/gtk/*.c
-HFILE_GLOB=../../include/dc.h
+HFILE_GLOB=../../include/dc_common.h
 CFILE_GLOB=
 
 # Header files to ignore when scanning.
 # e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h
-IGNORE_HFILES=config.h dc_client.h dc_common.h
+IGNORE_HFILES=config.h dc.h dc_client.h
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
 # e.g. content_files=running.sgml building.sgml changes-2.0.sgml
@@ -117,8 +120,9 @@ sgml-build.stamp: tmpl.stamp $(CFILE_GLOB) $(srcdir)/tmpl/*.sgml $(expand_conten
 	cd $(srcdir) && \
 	gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --output-format=xml --expand-content-files="$(expand_content_files)" --main-sgml-file=$(DOC_MAIN_SGML_FILE) $(MKDB_OPTIONS)
 	for i in $(srcdir)/xml/*.xml; do \
-	  [ ! -z "$(ID_PREFIX)" ] && \
-	    $(srcdir)/../fixsymbols.pl $(DOC_MODULE)-symbols.txt "$$i" $(ID_PREFIX); \
+	  sed -e 's/id="$(SYMBOL_PREFIX)/id="$(ID_PREFIX)$(SYMBOL_PREFIX)/' \
+	    -e 's/linkend="$(SYMBOL_PREFIX)/linkend="$(ID_PREFIX)$(SYMBOL_PREFIX)/' "$$i" > "$$i.tmp"; \
+	  mv -f "$$i.tmp" "$$i"; \
 	done
 	touch sgml-build.stamp
 

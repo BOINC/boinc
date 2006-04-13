@@ -62,37 +62,18 @@ Tells how should DC-API treat physical files passed to it.
 
 <!-- ##### MACRO DC_CONFIG_FILE ##### -->
 <para>
-Default name of the DC-API configuration file. Currently it is not used on the
-client side.
+Default name of the DC-API configuration file.
 </para>
 
 
 
-<!-- ##### FUNCTION DC_getMaxMessageSize ##### -->
+<!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>
-Returns the maximum length of a message that the client can send using
-DC_sendMessage() to the master.
+Returns the value belonging to the specified key @name in the configuration file.
 </para>
 
-@Returns: the maximum allowed message size.
-
-
-<!-- ##### FUNCTION DC_getMaxSubresults ##### -->
-<para>
-Returns the number of sub-result files the client can send to the master
-during its lifetime. This number is set by the master when it creates the
-work unit.
-</para>
-
-@Returns: the number of sub-results allowed.
-
-
-<!-- ##### FUNCTION DC_getGridCapabilities ##### -->
-<para>
-Determines the capabilities of the underlying grid infrastructure.
-</para>
-
-@Returns: the appropriate #DC_GridCapabilities constants OR'ed together.
+@name: the key to look up.
+@Returns: the value belonging to the key or %NULL if it is not defined in the config file.
 
 
 <!-- ##### FUNCTION DC_log ##### -->
@@ -115,5 +96,35 @@ Emits a message to the master's log file.
 	function should be used.
 @fmt: format of the message, as per printf().
 @args: any extra arguments required by @fmt.
+
+
+<!-- ##### FUNCTION DC_getMaxMessageSize ##### -->
+<para>
+Returns the maximum length of a message that DC_sendMessage() (client side) and
+DC_sendWUMessage() (master side) accepts.
+</para>
+
+@Returns: the maximum allowed message size.
+
+
+<!-- ##### FUNCTION DC_getMaxSubresults ##### -->
+<para>
+On the master side, returns the maximum number of sub-result files that can be
+specified when creating a new work unit.
+</para>
+<para>
+On the client side, returns the number of sub-results the client is still
+allowed to send.
+</para>
+
+@Returns: the number of sub-results allowed.
+
+
+<!-- ##### FUNCTION DC_getGridCapabilities ##### -->
+<para>
+Determines the capabilities of the underlying grid infrastructure.
+</para>
+
+@Returns: the appropriate #DC_GridCapabilities constants OR'ed together.
 
 
