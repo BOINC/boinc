@@ -30,9 +30,9 @@ int DC_init(const char *project_name, const char *application_name, const char *
     appname     = strdup(application_name);
 
     if (_DC_parseCfg(configfile)) return DC_ERROR;
-    workdir    = _DC_getCfgStr("WorkingDirectory");
-    executabledir = _DC_getCfgStr("Executabledir");
-    sleepinterval    = _DC_getCfgStr("CheckResultSleepInterval");
+    workdir    = DC_getCfgStr("WorkingDirectory");
+    executabledir = DC_getCfgStr("Executabledir");
+    sleepinterval    = DC_getCfgStr("CheckResultSleepInterval");
 
     if (workdir == NULL) {
 	DC_log(LOG_ERR,

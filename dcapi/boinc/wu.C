@@ -107,7 +107,7 @@ static char *get_workdir(const uuid_t uuid, int create)
 
 	uuid_unparse_lower(uuid, uuid_str);
 
-	str = g_string_new(_DC_getCfgStr(CFG_WORKDIR));
+	str = g_string_new(DC_getCfgStr(CFG_WORKDIR));
 	if (create)
 	{
 		ret = mkdir(str->str, 0755);
@@ -490,17 +490,19 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 			if (ret)
 			{
 				_DC_destroyPhysicalFile(file);
-				return DC_ERR_BADPARAM; /* XXX */
+				return ret;
 			}
 			break;
 		case DC_FILE_PERSISTENT:
 			ret = link(URL, file->path);
 			if (ret)
 			{
+				ret = errno;
 				DC_log(LOG_ERR, "Failed to link %s to %s: %s",
-					URL, file->path, strerror(errno));
+					URL, file->path, strerror(ret));
 				_DC_destroyPhysicalFile(file);
-				return DC_ERR_BADPARAM; /* XXX */
+				errno = ret;
+				return DC_ERR_SYSTEM;
 			}
 			/* Remember the file mode */
 			file->mode = DC_FILE_PERSISTENT;
@@ -509,10 +511,12 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 			ret = rename(URL, file->path);
 			if (ret)
 			{
+				ret = errno;
 				DC_log(LOG_ERR, "Failed to rename %s to %s: %s",
-					URL, file->path, strerror(errno));
+					URL, file->path, strerror(ret));
 				_DC_destroyPhysicalFile(file);
-				return DC_ERR_BADPARAM; /* XXX */
+				errno = ret;
+				return DC_ERR_SYSTEM;
 			}
 			break;
 		default:
@@ -689,7 +693,7 @@ static char *generate_result_template(DC_Workunit *wu)
 	uuid_unparse_lower(wu->uuid, uuid_str);
 	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
 		uuid_str);
-	abspath = g_strdup_printf("%s%c%s", _DC_getCfgStr(CFG_PROJECTROOT),
+	abspath = g_strdup_printf("%s%c%s", DC_getCfgStr(CFG_PROJECTROOT),
 		G_DIR_SEPARATOR, file);
 
 	tmpl = fopen(abspath, "w");
@@ -813,7 +817,7 @@ int DC_submitWU(DC_Workunit *wu)
 
 	wu_template = generate_wu_template(wu);
 	result_template_file = generate_result_template(wu);
-	result_path = g_strdup_printf("%s%c%s", _DC_getCfgStr(CFG_PROJECTROOT),
+	result_path = g_strdup_printf("%s%c%s", DC_getCfgStr(CFG_PROJECTROOT),
 		G_DIR_SEPARATOR, result_template_file);
 
 	/* Create the input file name array as required by create_work() */

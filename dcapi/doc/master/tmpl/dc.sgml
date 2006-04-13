@@ -144,28 +144,6 @@ before calling any other DC-API functions.
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
-<!-- ##### FUNCTION DC_log ##### -->
-<para>
-Emits a message to the master's log file.
-</para>
-
-@level: the severity of the. The level codes defined for the system's syslog()
-	function should be used.
-@fmt: format of the message, as per printf().
-@Varargs: any extra arguments required by @fmt.
-
-
-<!-- ##### FUNCTION DC_vlog ##### -->
-<para>
-Emits a message to the master's log file.
-</para>
-
-@level: the severity of the. The level codes defined for the system's syslog()
-	function should be used.
-@fmt: format of the message, as per printf().
-@args: any extra arguments required by @fmt.
-
-
 <!-- ##### FUNCTION DC_setcb ##### -->
 <para>
 Sets the callback functions to be used for event reporting.

@@ -28,7 +28,7 @@ static void init_log(void)
 	/* Default level */
 	loglevel = LOG_NOTICE;
 
-	val = _DC_getCfgStr("LogLevel");
+	val = DC_getCfgStr("LogLevel");
 	if (val)
 	{
 		if (val[0] >= '0' && val[0] <= '9')
@@ -45,10 +45,15 @@ static void init_log(void)
 					break;
 				}
 			}
+
+			if (i >= sizeof(levels) / sizeof(levels[0]))
+				fprintf(stderr, "WARNING: Unknown log level "
+					"specified in the config file, "
+					"using 'Notice'\n");
 		}
 	}
 
-	val = _DC_getCfgStr("LogFile");
+	val = DC_getCfgStr("LogFile");
 	if (val)
 	{
 		logfile = fopen(val, "a");
