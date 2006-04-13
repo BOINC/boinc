@@ -19,14 +19,15 @@ $newfile=IMAGE_PATH.$user->id."_avatar.jpg";
 if ($avatar_type<0 or $avatar_type>3) $avatar_type=0;
 if ($avatar_type==0){
     if (file_exists($newfile)){
-        unset($newfile);      //Delete the file on the server if the user
-                              //decides not to use an avatar
-                              // - or should it be kept?
+        //Delete the file on the server if the user
+        //decides not to use an avatar - or should it be kept?
+        //
+        unset($newfile);
     }
     $avatar_url="";
 } elseif ($avatar_type==2){
     if ($_FILES['picture']['tmp_name']!=""){
-            $file=$_FILES['picture']['tmp_name'];
+        $file=$_FILES['picture']['tmp_name'];
         $size = getImageSize($file);
 //        print_r($size);flush();
         if ($size[2]!=2 and $size[2]!=3){
@@ -71,28 +72,39 @@ $forum_sort = $HTTP_POST_VARS["forum_sort"];
 $thread_sort = $HTTP_POST_VARS["thread_sort"];
 $faq_sort = $HTTP_POST_VARS["faq_sort"];
 $answer_sort = $HTTP_POST_VARS["answer_sort"];
-$forum_sorting=mysql_escape_string(implode("|",array($forum_sort,$thread_sort,$faq_sort,$answer_sort)));
-$has_prefs=mysql_query("select * from forum_preferences where userid='".$user->id."'");
+$forum_sorting=mysql_escape_string(
+    implode("|",array($forum_sort,$thread_sort,$faq_sort,$answer_sort))
+);
+$has_prefs=mysql_query(
+    "select * from forum_preferences where userid='".$user->id."'"
+);
 
+//see if we should add any users to the ignorelist
+//
 $ignorelist = $user->ignorelist;
-if ($add_user_to_filter){					//see if we should add any users to the ignorelist
+if ($add_user_to_filter){
     $user_to_add = trim($HTTP_POST_VARS["forum_filter_user"]);
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
-	$ignorelist.="|".$user_to_add;
+        $ignorelist.="|".$user_to_add;
     }
 }
 
-$ignored_users = explode("|",$ignorelist);			//split the list into an array
-$ignored_users = array_unique($ignored_users);			//a user can only be on the list once
-natsort($ignored_users);					//sort the list by userid in natural order
-$ignored_users=array_values($ignored_users);			//reindex
+//split the list into an array
+//
+$ignored_users = explode("|",$ignorelist);
+
+//a user can only be on the list once
+//
+$ignored_users = array_unique($ignored_users);
+natsort($ignored_users);         //sort the list by userid in natural order
+$ignored_users=array_values($ignored_users);            //reindex
 $real_ignorelist = "";
 for ($i=1;$i<sizeof($ignored_users);$i++){
     if ($ignored_users[$i]!="" and $HTTP_POST_VARS["remove".trim($ignored_users[$i])]!=""){
-	//this user will be removed
+        //this user will be removed
     } else {
-	//the user should be in the new list
-	$real_ignorelist.="|".$ignored_users[$i];
+        //the user should be in the new list
+        $real_ignorelist.="|".$ignored_users[$i];
     }
 }
 
@@ -114,12 +126,13 @@ $result = mysql_query(
         jump_to_unread='".$jump_to_unread."',
         hide_signatures='".$hide_signatures."',
         low_rating_threshold='".$low_rating_threshold."',
-	ignorelist='".$real_ignorelist."',
+    ignorelist='".$real_ignorelist."',
         high_rating_threshold='".$high_rating_threshold."',
-	minimum_wrap_postcount='".$minimum_wrap_postcount."',
-	display_wrap_postcount='".$display_wrap_postcount."'
+    minimum_wrap_postcount='".$minimum_wrap_postcount."',
+    display_wrap_postcount='".$display_wrap_postcount."'
     where userid=$user->id"
 );
+
 if ($result) {
     echo mysql_error();
     Header("Location: edit_forum_preferences_form.php");

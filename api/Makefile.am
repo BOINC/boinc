@@ -18,7 +18,9 @@ graphics_api_files = 	\
 	gutil_text.C	    \
 	reduce_main.C		\
     reduce_lib.C        \
+    texfont.c           \
     texture.C           \
+    txf_util.C          \
 	x_opengl.C
 
 if OS_DARWIN
@@ -40,7 +42,9 @@ graphics_impl_files =   \
 	gutil.C	            \
 	gutil_text.C	    \
 	reduce_lib.C		\
+    texfont.c           \
     texture.C           \
+    txf_util.C          \
 	x_opengl.C
 
 EXTRA_DIST = *.h

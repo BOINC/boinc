@@ -6,13 +6,7 @@
 #ifndef __TEXFONT_H__
 #define __TEXFONT_H__
 
-#ifdef _WIN32
-#include <GL/gl.h>
-#endif
-
-#ifdef __APPLE_CC__
-#include <OpenGL/gl.h>
-#endif
+#include "boinc_gl.h"
 
 #ifdef __cplusplus
 extern "C" {

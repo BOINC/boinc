@@ -3775,3 +3775,22 @@ Rom    12 Apr 2006
         win_screensaver.cpp, .h
     lib/
         diagnostics.C
+
+David  13 Apr 2006
+    - Add texfont stuff to API makefile
+    - Unix graphics API: when looking for .so graphics file,
+        if it's not a symlink file, prepend "./" to the name
+        so that ldopen() will find it.
+    - diagnostics: don't buffer stderr
+
+    api/
+        Makefile.am
+        graphics_lib.C
+        gutil.h
+        texfont.h
+    client/
+        acct_setup.C
+    html/user/
+        edit_forum_preferences_action.php
+    lib/
+        diagnostics.C

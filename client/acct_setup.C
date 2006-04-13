@@ -215,7 +215,7 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
 
-    msg_printf(0, MSG_INFO, "web site RPC to %s", url.c_str());
+    msg_printf(0, MSG_INFO, "Checking network: attempting connection to %s", url.c_str());
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;

@@ -24,6 +24,8 @@
 #ifndef GUTIL_H
 #define GUTIL_H
 
+#include <string.h>
+
 struct COLOR {
     float r;
     float g;

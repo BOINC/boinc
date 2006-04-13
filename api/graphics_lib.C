@@ -94,6 +94,12 @@ int boinc_init_options_graphics_lib(
         );
         goto no_graphics;
     }
+
+    // if it's not a symlink, put "./" in front of it
+    //
+    if (!strcmp(graphics_lib, resolved_name)) {
+        sprintf(resolved_name, "./%s", graphics_lib);
+    }
   
     // get handle for shared library.
     // This handle is a global variable, so it can be declared 'extern'

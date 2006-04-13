@@ -87,7 +87,7 @@ typedef struct _BOINC_THREADLIST {
 static BOINC_THREADLIST diagnostics_threads[BOINC_THREADTYPE_COUNT];
 
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal );
+int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal);
 
 #else
 
@@ -100,7 +100,7 @@ static void boinc_catch_signal(int signal);
 //
 int boinc_init_diagnostics(int _flags) {
     int modified_flags = BOINC_DIAG_BOINCAPPLICATION | _flags;
-    return diagnostics_init( modified_flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR );
+    return diagnostics_init(modified_flags, BOINC_DIAG_STDOUT, BOINC_DIAG_STDERR);
 }
 
 
@@ -115,7 +115,7 @@ int boinc_finish_diag() {
 //
 int boinc_install_signal_handlers() {
 #ifdef _WIN32
-    SetUnhandledExceptionFilter( boinc_catch_signal );
+    SetUnhandledExceptionFilter(boinc_catch_signal);
 #else  //_WIN32
 
     // register handlers for fatal internal signals
@@ -149,50 +149,52 @@ int diagnostics_init(
 
 
     // Check for invalid parameter combinations
-    if ( ( flags & BOINC_DIAG_REDIRECTSTDERR ) && ( flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) ) {
+    if ((flags & BOINC_DIAG_REDIRECTSTDERR) && (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE)) {
         return ERR_INVALID_PARAM;
     }
 
-    if ( ( flags & BOINC_DIAG_REDIRECTSTDOUT ) && ( flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) ) {
+    if ((flags & BOINC_DIAG_REDIRECTSTDOUT) && (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE)) {
         return ERR_INVALID_PARAM;
     }
 
 
     // Archive any old stderr.txt and stdout.txt files, if requested
-    if ( flags & BOINC_DIAG_ARCHIVESTDERR ) {
+    if (flags & BOINC_DIAG_ARCHIVESTDERR) {
         boinc_copy(stderr_log, stderr_archive);
     }
 
-    if ( flags & BOINC_DIAG_ARCHIVESTDOUT) {
-        boinc_copy( stdout_log, stdout_archive );
+    if (flags & BOINC_DIAG_ARCHIVESTDOUT) {
+        boinc_copy(stdout_log, stdout_archive);
     }
 
 
-    // Redirect stderr and/or stdout streams, if requested
-    if ( flags & BOINC_DIAG_REDIRECTSTDERR ) {
+    // Redirect stderr and/or stdout, if requested
+    //
+    if (flags & BOINC_DIAG_REDIRECTSTDERR) {
         stderr_file = freopen(stderr_log, "a", stderr);
-        if ( NULL == stderr_file ) {
+        if (!stderr_file) {
             return ERR_FOPEN;
         }
+        setbuf(stderr_file, 0);
     }
 
-    if ( flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE) {
         stderr_file = freopen(stderr_log, "w", stderr);
-        if ( NULL == stderr_file ) {
+        if (NULL == stderr_file) {
             return ERR_FOPEN;
         }
     }
 
-    if ( flags & BOINC_DIAG_REDIRECTSTDOUT ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
         stdout_file = freopen(stdout_log, "a", stdout);
-        if ( NULL == stdout_file ) {
+        if (NULL == stdout_file) {
             return ERR_FOPEN;
         }
     }
 
-    if ( flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
+    if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
         stdout_file = freopen(stdout_log, "w", stdout);
-        if ( NULL == stdout_file ) {
+        if (NULL == stdout_file) {
             return ERR_FOPEN;
         }
     }
@@ -214,29 +216,29 @@ int diagnostics_init(
 
 #if defined(_DEBUG)
 
-    _CrtSetReportHook( boinc_message_reporting );
+    _CrtSetReportHook(boinc_message_reporting);
 
-    if ( flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
-        SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
+    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED)
+        SET_CRT_DEBUG_FIELD(_CRTDBG_LEAK_CHECK_DF);
 
-    if ( flags & BOINC_DIAG_HEAPCHECKENABLED )
-        if ( flags & BOINC_DIAG_HEAPCHECKEVERYALLOC )
-            SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_ALWAYS_DF );
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED)
+        if (flags & BOINC_DIAG_HEAPCHECKEVERYALLOC)
+            SET_CRT_DEBUG_FIELD(_CRTDBG_CHECK_ALWAYS_DF);
         else
-            SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
+            SET_CRT_DEBUG_FIELD(_CRTDBG_CHECK_EVERY_1024_DF);
 
 #endif // defined(_DEBUG)
 #endif // defined(_WIN32)
 
 
     // Install unhandled exception filters and signal traps.
-    if ( BOINC_SUCCESS != boinc_install_signal_handlers() ) {
+    if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
         return ERR_SIGNAL_OP;
     }
 
 
     // Store the location of the BOINC directory for future use
-    if ( flags & BOINC_DIAG_BOINCAPPLICATION ) {
+    if (flags & BOINC_DIAG_BOINCAPPLICATION) {
         char    buf[256];
         MIOFILE mf;
         FILE*   p;
@@ -276,10 +278,10 @@ int diagnostics_cycle_logs() {
         file_size(stderr_log, f_size);
 #endif
         if (MAX_STDERR_FILE_SIZE < f_size) {
-            fclose( stderr_file );
+            fclose(stderr_file);
             boinc_copy(stderr_log, stderr_archive);
-            stderr_file = freopen( stderr_log, "w", stderr );
-            if ( NULL == stderr_file ) return ERR_FOPEN;
+            stderr_file = freopen(stderr_log, "w", stderr);
+            if (NULL == stderr_file) return ERR_FOPEN;
         }
     }
 
@@ -293,10 +295,10 @@ int diagnostics_cycle_logs() {
         file_size(stdout_log, f_size);
 #endif
         if (MAX_STDOUT_FILE_SIZE < f_size) {
-            fclose( stdout_file );
-            boinc_copy( stdout_log, stdout_archive );
-            stdout_file = freopen( stdout_log, "w", stdout );
-            if ( NULL == stdout_file ) return ERR_FOPEN;
+            fclose(stdout_file);
+            boinc_copy(stdout_log, stdout_archive);
+            stdout_file = freopen(stdout_log, "w", stdout);
+            if (NULL == stdout_file) return ERR_FOPEN;
         }
     }
 
@@ -311,13 +313,13 @@ int diagnostics_set_aborted_via_gui_flag() {
     return 0;
 }
 
-int diagnostics_set_thread_info( int thread_type, DWORD thread_id, HANDLE thread_handle ) {
+int diagnostics_set_thread_info(int thread_type, DWORD thread_id, HANDLE thread_handle) {
     diagnostics_threads[thread_type].thread_id = thread_id;
     diagnostics_threads[thread_type].thread_handle = thread_handle;
     return 0;
 }
 
-int diagnostics_is_thread_type_initialized( int thread_type ) {
+int diagnostics_is_thread_type_initialized(int thread_type) {
     return (diagnostics_threads[thread_type].thread_id != NULL);
 }
 
@@ -332,7 +334,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 /*
     // Snagged from the latest stackwalker code base.  This allows us to grab
     //   callstacks even in a stack overflow scenario
-    if ( pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW )
+    if (pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW)
     {
         static char MyStack[1024*128];  // be sure that we have enought space...
         // it assumes that DS and SS are the same!!! (this is the case for Win32)
@@ -346,11 +348,11 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 #ifdef _DEBUG
 
-    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
-        CLEAR_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
+    if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED)
+        CLEAR_CRT_DEBUG_FIELD(_CRTDBG_LEAK_CHECK_DF);
 
-    if (flags & BOINC_DIAG_HEAPCHECKENABLED )
-        CLEAR_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
+    if (flags & BOINC_DIAG_HEAPCHECKENABLED)
+        CLEAR_CRT_DEBUG_FIELD(_CRTDBG_CHECK_EVERY_1024_DF);
 
 #endif // _DEBUG
 
@@ -367,8 +369,8 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     static long   lDetectNestedException = 0;
 
     // If we've been in this procedure before, something went wrong so we immediately exit
-    if ( InterlockedIncrement(&lDetectNestedException) > 1 ) {
-        TerminateProcess( GetCurrentProcess(), (UINT)ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED );
+    if (InterlockedIncrement(&lDetectNestedException) > 1) {
+        TerminateProcess(GetCurrentProcess(), (UINT)ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED);
     }
 
     // Suspend the other threads.
@@ -382,124 +384,124 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 #if !defined(__MINGW32__) && !defined(__CYGWIN__)
     // Kickstart the debugger extensions
- 	DebuggerInitialize( boinc_dir, symstore );
+ 	DebuggerInitialize(boinc_dir, symstore);
 
     // Dump any useful information
     DebuggerDisplayDiagnostics();
 #endif
     
-    switch ( exceptionCode ) {
+    switch (exceptionCode) {
         case EXCEPTION_ACCESS_VIOLATION:
-            strcpy( status, "Access Violation");
-            if ( pExPtrs->ExceptionRecord->NumberParameters == 2 ) {
-                switch( pExPtrs->ExceptionRecord->ExceptionInformation[0] ) {
+            strcpy(status, "Access Violation");
+            if (pExPtrs->ExceptionRecord->NumberParameters == 2) {
+                switch(pExPtrs->ExceptionRecord->ExceptionInformation[0]) {
                 case 0: // read attempt
-                    sprintf( substatus, "read attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
+                    sprintf(substatus, "read attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1]);
                     break;
                 case 1: // write attempt
-                    sprintf( substatus, "write attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
+                    sprintf(substatus, "write attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1]);
                     break;
                 }
             }
             break;
         case EXCEPTION_DATATYPE_MISALIGNMENT:
-            strcpy( status, "Data Type Misalignment");
+            strcpy(status, "Data Type Misalignment");
             break;
         case EXCEPTION_BREAKPOINT:
-            strcpy( status, "Breakpoint Encountered");
+            strcpy(status, "Breakpoint Encountered");
             break;
         case EXCEPTION_SINGLE_STEP:
-            strcpy( status, "Single Instruction Executed");
+            strcpy(status, "Single Instruction Executed");
             break;
         case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-            strcpy( status, "Array Bounds Exceeded");
+            strcpy(status, "Array Bounds Exceeded");
             break;
         case EXCEPTION_FLT_DENORMAL_OPERAND:
-            strcpy( status, "Float Denormal Operand");
+            strcpy(status, "Float Denormal Operand");
             break;
         case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-            strcpy( status, "Divide by Zero");
+            strcpy(status, "Divide by Zero");
             break;
         case EXCEPTION_FLT_INEXACT_RESULT:
-            strcpy( status, "Float Inexact Result");
+            strcpy(status, "Float Inexact Result");
             break;
         case EXCEPTION_FLT_INVALID_OPERATION:
-            strcpy( status, "Float Invalid Operation");
+            strcpy(status, "Float Invalid Operation");
             break;
         case EXCEPTION_FLT_OVERFLOW:
-            strcpy( status, "Float Overflow");
+            strcpy(status, "Float Overflow");
             break;
         case EXCEPTION_FLT_STACK_CHECK:
-            strcpy( status, "Float Stack Check");
+            strcpy(status, "Float Stack Check");
             break;
         case EXCEPTION_FLT_UNDERFLOW:
-            strcpy( status, "Float Underflow");
+            strcpy(status, "Float Underflow");
             break;
         case EXCEPTION_INT_DIVIDE_BY_ZERO:
-            strcpy( status, "Integer Divide by Zero");
+            strcpy(status, "Integer Divide by Zero");
             break;
         case EXCEPTION_INT_OVERFLOW:
-            strcpy( status, "Integer Overflow");
+            strcpy(status, "Integer Overflow");
             break;
         case EXCEPTION_PRIV_INSTRUCTION:
-            strcpy( status, "Privileged Instruction");
+            strcpy(status, "Privileged Instruction");
             break;
         case EXCEPTION_IN_PAGE_ERROR:
-            strcpy( status, "In Page Error");
+            strcpy(status, "In Page Error");
             break;
         case EXCEPTION_ILLEGAL_INSTRUCTION:
-            strcpy( status, "Illegal Instruction");
+            strcpy(status, "Illegal Instruction");
             break;
         case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-            strcpy( status, "Noncontinuable Exception");
+            strcpy(status, "Noncontinuable Exception");
             break;
         case EXCEPTION_STACK_OVERFLOW:
-            strcpy( status, "Stack Overflow");
+            strcpy(status, "Stack Overflow");
             break;
         case EXCEPTION_INVALID_DISPOSITION:
-            strcpy( status, "Invalid Disposition");
+            strcpy(status, "Invalid Disposition");
             break;
         case EXCEPTION_GUARD_PAGE:
-            strcpy( status, "Guard Page Violation");
+            strcpy(status, "Guard Page Violation");
             break;
         case EXCEPTION_INVALID_HANDLE:
-            strcpy( status, "Invalid Handle");
+            strcpy(status, "Invalid Handle");
             break;
         case CONTROL_C_EXIT:
-            strcpy( status, "Ctrl+C Exit");
+            strcpy(status, "Ctrl+C Exit");
             break;
         default:
-            strcpy( status, "Unknown exception");
+            strcpy(status, "Unknown exception");
             break;
     }
 
-    fprintf( stderr, "\n*** UNHANDLED EXCEPTION ****\n" );
-    if ( EXCEPTION_ACCESS_VIOLATION == exceptionCode ) {
-        fprintf( stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus );
+    fprintf(stderr, "\n*** UNHANDLED EXCEPTION ****\n");
+    if (EXCEPTION_ACCESS_VIOLATION == exceptionCode) {
+        fprintf(stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus);
     } else {
-        fprintf( stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr );
+        fprintf(stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr);
     }
-    fflush( stderr );
+    fflush(stderr);
 
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
     // Unwind the stack and spew it to stderr
-    if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED ) {
+    if (flags & BOINC_DIAG_DUMPCALLSTACKENABLED) {
         // Dump the offending thread's stack first.
         bDumpedException = false;
         for (i=0; i < BOINC_THREADTYPE_COUNT; i++) {
             if (GetCurrentThreadId() == diagnostics_threads[i].thread_id) {
-                fprintf( stderr, "*** Dump of the %s(offending) thread: ***\n", diagnostics_threads[i].name );
-                StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER );
-                fprintf( stderr, "\n" );
-                fflush( stderr );
+                fprintf(stderr, "*** Dump of the %s(offending) thread: ***\n", diagnostics_threads[i].name);
+                StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER);
+                fprintf(stderr, "\n");
+                fflush(stderr);
                 bDumpedException = true;
             }
         }
         if (!bDumpedException) {
-            fprintf( stderr, "*** Dump of the (offending) thread: ***\n" );
-            StackwalkFilter( pExPtrs, EXCEPTION_EXECUTE_HANDLER );
-            fprintf( stderr, "\n" );
-            fflush( stderr );
+            fprintf(stderr, "*** Dump of the (offending) thread: ***\n");
+            StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER);
+            fprintf(stderr, "\n");
+            fflush(stderr);
         }
 
         // Dump the other threads stack.
@@ -511,24 +513,24 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 				GetThreadContext(diagnostics_threads[i].thread_handle, &c);
 
 				// Dump the thread's stack.
-				fprintf( stderr, "*** Dump of the %s thread: ***\n", diagnostics_threads[i].name );
-                StackwalkThread( diagnostics_threads[i].thread_handle, &c );
-				fprintf( stderr, "\n" );
-                fflush( stderr );
+				fprintf(stderr, "*** Dump of the %s thread: ***\n", diagnostics_threads[i].name);
+                StackwalkThread(diagnostics_threads[i].thread_handle, &c);
+				fprintf(stderr, "\n");
+                fflush(stderr);
             }
         }
 
     }
 #endif
 
-    fprintf( stderr, "Exiting...\n" );
-    fflush( stderr );
+    fprintf(stderr, "Exiting...\n");
+    fflush(stderr);
 
     // Force terminate the app letting BOINC know an exception has occurred.
     if (aborted_via_gui) {
-        TerminateProcess( GetCurrentProcess(), ERR_ABORTED_VIA_GUI );
+        TerminateProcess(GetCurrentProcess(), ERR_ABORTED_VIA_GUI);
     } else {
-        TerminateProcess( GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode );
+        TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
     }
 
     // We won't make it to this point, but make the compiler happy anyway.
@@ -541,7 +543,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 // Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
 //
-int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
+int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     (*retVal) = 0;
 
     switch(reportType){
@@ -551,14 +553,14 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 
             OutputDebugString(szMsg);            // Reports string to the debugger output window
 
-            if (flags & BOINC_DIAG_TRACETOSTDERR ) {
-                fprintf( stderr, szMsg );
-                fflush( stderr );
+            if (flags & BOINC_DIAG_TRACETOSTDERR) {
+                fprintf(stderr, szMsg);
+                fflush(stderr);
             }
 
-            if (flags & BOINC_DIAG_TRACETOSTDOUT ) {
-                fprintf( stdout, szMsg );
-                fflush( stdout );
+            if (flags & BOINC_DIAG_TRACETOSTDOUT) {
+                fprintf(stdout, szMsg);
+                fflush(stdout);
             }
 
             break;
@@ -568,8 +570,8 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
             OutputDebugString(szMsg);           // Reports string to the debugger output window
             OutputDebugString("\n");            // Reports string to the debugger output window
 
-            fprintf( stderr, "ASSERT: %s\n", szMsg );
-            fflush( stderr );
+            fprintf(stderr, "ASSERT: %s\n", szMsg);
+            fflush(stderr);
 
             (*retVal) = 1;
             break;
@@ -589,7 +591,7 @@ void boinc_trace(const char *pszFormat, ...) {
     // Trace messages should only be reported if running as a standalone
     //   application or told too.
     if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
-         (flags & BOINC_DIAG_TRACETOSTDOUT) ) {
+         (flags & BOINC_DIAG_TRACETOSTDOUT)) {
 
         memset(szBuffer, 0, sizeof(szBuffer));
 
@@ -642,8 +644,8 @@ void boinc_info_release(const char *pszFormat, ...){
 
     va_end(ptr);
 
-    fprintf( stderr, "%s", szBuffer );
-    fflush( stderr );
+    fprintf(stderr, "%s", szBuffer);
+    fflush(stderr);
 }
 
 #endif // _DEBUG
@@ -664,7 +666,7 @@ void boinc_trace(const char *pszFormat, ...) {
     // Trace messages should only be reported if running as a standalone
     //   application or told too.
     if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
-         (flags & BOINC_DIAG_TRACETOSTDOUT) ) {
+         (flags & BOINC_DIAG_TRACETOSTDOUT)) {
 
         memset(szBuffer, 0, sizeof(szBuffer));
 
@@ -675,14 +677,14 @@ void boinc_trace(const char *pszFormat, ...) {
 
         va_end(ptr);
 
-        if (flags & BOINC_DIAG_TRACETOSTDERR ) {
-            fprintf( stderr, "TRACE: %s", szBuffer );
-            fflush( stderr );
+        if (flags & BOINC_DIAG_TRACETOSTDERR) {
+            fprintf(stderr, "TRACE: %s", szBuffer);
+            fflush(stderr);
         }
 
-        if (flags & BOINC_DIAG_TRACETOSTDOUT ) {
-            fprintf( stdout, "TRACE: %s", szBuffer );
-            fflush( stdout );
+        if (flags & BOINC_DIAG_TRACETOSTDOUT) {
+            fprintf(stdout, "TRACE: %s", szBuffer);
+            fflush(stdout);
         }
     }
 }
@@ -703,8 +705,8 @@ void boinc_info_debug(const char *pszFormat, ...){
 
     va_end(ptr);
 
-    fprintf( stderr, "%s", szBuffer );
-    fflush( stderr );
+    fprintf(stderr, "%s", szBuffer);
+    fflush(stderr);
 }
 
 
@@ -726,8 +728,8 @@ void boinc_info_release(const char *pszFormat, ...){
 
     va_end(ptr);
 
-    fprintf( stderr, "%s", szBuffer );
-    fflush( stderr );
+    fprintf(stderr, "%s", szBuffer);
+    fflush(stderr);
 }
 
 #endif // _DEBUG
