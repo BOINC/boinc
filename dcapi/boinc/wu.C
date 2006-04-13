@@ -1,3 +1,11 @@
+/*
+ * wu.C - BOINC work unit management
+ *
+ * Authors:
+ *	Gábor Gombás <gombasg@sztaki.hu>
+ *
+ * Copyright (c) 2006 MTA SZTAKI
+ */
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
