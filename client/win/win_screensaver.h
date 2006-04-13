@@ -35,6 +35,8 @@
 #define NO_MONITOR                                0xffffffff
 
 #define BSF_ALLOWSFW                              0x00000080
+#define WM_SETTIMER                               WM_USER+1
+#define WM_INTERRUPTSAVER                         WM_USER+2
 
 #define BOINC_WINDOW_CLASS_NAME                   _T("BOINC_app")
 
@@ -102,7 +104,7 @@ struct DISPLAY_DEVICE_FULL
 
 
 // Prototype for VerifyScreenSavePwd() in password.cpl, used on Win9x
-typedef BOOL (PASCAL * VERIFYPWDPROC)(HWND);
+typedef BOOL (WINAPI *VERIFYPWDPROC)(HWND);
 
 // Prototype for GetLastInputInto() in user32.dll, used on Win2k or better.
 typedef BOOL (WINAPI *MYGETLASTINPUTINFO)(PLASTINPUTINFO);
@@ -112,6 +114,9 @@ typedef BOOL (WINAPI *MYISHUNGAPPWINDOW)(HWND hWnd);
 
 // Prototype for BroadcastSystemMessage() in user32.dll.
 typedef long (WINAPI *MYBROADCASTSYSTEMMESSAGE)(DWORD dwFlags, LPDWORD lpdwRecipients, UINT uiMessage, WPARAM wParam, LPARAM lParam);
+
+// Prototype for SHGetFolderPath() in shlwapi.dll.
+typedef HRESULT (WINAPI *MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken, DWORD dwFlags, LPSTR pszPath);
 
 
 //-----------------------------------------------------------------------------
@@ -215,8 +220,6 @@ protected:
     BOOL					m_bWaitForInputIdle;  // Used to pause when preview starts
     DWORD					m_dwSaverMouseMoveCount;
     BOOL					m_bIs9x;
-    HINSTANCE				m_hPasswordDLL;
-    VERIFYPWDPROC			m_VerifySaverPassword;
     BOOL					m_bCheckingSaverPassword;
     BOOL					m_bWindowed;
 

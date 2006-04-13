@@ -385,7 +385,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
     // Dump any useful information
     DebuggerDisplayDiagnostics();
-    
+
     switch ( exceptionCode ) {
         case EXCEPTION_ACCESS_VIOLATION:
             strcpy( status, "Access Violation");
@@ -598,7 +598,7 @@ void boinc_trace(const char *pszFormat, ...) {
 
         va_end(ptr);
 
-        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "TRACE: %s", szBuffer);
+        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "TRACE[%d]: %s", GetCurrentThreadId(), szBuffer);
     }
 }
 
