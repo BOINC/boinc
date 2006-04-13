@@ -42,6 +42,16 @@ typedef enum {
 
 
 /********************************************************************
+ * Macro definitions
+ */
+
+/* Support non-gcc compatible compilers */
+#ifndef __GNUC__
+#define __attribute__(x)
+#endif
+
+
+/********************************************************************
  * Data types
  */
 
@@ -87,7 +97,7 @@ void DC_checkpointMade(const char *fileName);
 void DC_fractionDone(double fraction);
 
 /* Finishes computation. */
-void DC_finish(int exitcode);
+void DC_finish(int exitcode) __attribute__((__noreturn__));
 
 #ifdef __cplusplus
 }
