@@ -121,5 +121,6 @@ AC_CONFIG_FILES([Makefile \
 	condor/Makefile \
 	doc/Makefile \
 	doc/client/Makefile \
+	doc/common/Makefile \
 	doc/master/Makefile])
 AC_OUTPUT
