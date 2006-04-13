@@ -8,7 +8,6 @@
 
   <chapter>
     <title>DC-API: Master Side</title>
-    <xi:include href="xml/dc_common.xml"/>
     <xi:include href="xml/dc.xml"/>
   </chapter>
 </book>

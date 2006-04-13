@@ -20,22 +20,3 @@ DC_fractionDone
 DC_finish
 </SECTION>
 
-<SECTION>
-<TITLE>common</TITLE>
-<FILE>dc_common</FILE>
-<INCLUDE>dc_client.h</INCLUDE>
-
-DC_ErrorCode
-DC_GridCapabilities
-DC_FileMode
-DC_CONFIG_FILE
-DC_getCfgStr
-DC_log
-DC_vlog
-
-<SUBSECTION>
-DC_getMaxMessageSize
-DC_getMaxSubresults
-DC_getGridCapabilities
-</SECTION>
-

@@ -4,13 +4,14 @@
 
 <book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
   <bookinfo>
-    <title>DC-API Client Reference Manual</title>
+    <title>DC-API Manual</title>
   </bookinfo>
 
-  <chapter>
-    <title>DC-API: Client Side</title>
-    <xi:include href="xml/dc_common.xml"/>
-    <xi:include href="xml/dc_client.xml"/>
+  <chapter id="reference">
+    <title>Reference</title>
+    <xi:include href="common/xml/dc_common.xml"/>
+    <xi:include href="client/xml/dc_client.xml"/>
+    <xi:include href="master/xml/dc.xml"/>
   </chapter>
 </book>
 <!-- vim: set ai sw=2: -->
