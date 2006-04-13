@@ -45,6 +45,7 @@
 
 #ifdef BOINC_APP_GRAPHICS
 #include "graphics_api.h"
+#include "graphics_lib.h"
 #endif
 
 #include "diagnostics.h"
@@ -227,7 +228,13 @@ int main(int argc, char **argv) {
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
 
 #ifdef BOINC_APP_GRAPHICS
+#if defined(_WIN32) || defined(__APPLE__)
     retval = boinc_init_graphics(worker);
+#else
+    setbuf(stderr, 0);
+    fprintf(stderr, "About to call graphics init\n");
+    retval = boinc_init_graphics_lib(worker, argv[0]);
+#endif
     if (retval) exit(retval);
 #else
     retval = boinc_init();

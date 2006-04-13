@@ -27,3 +27,11 @@ David  12 Apr 2006
 		upper_case.C
 	win_build/
 		upper_case.vcproj
+
+David  13 Apr 2006
+    - got graphics to work under Linux; added a Makefile
+
+    uppercase/
+        Makefile (new)
+        README (new)
+        upper_case.C
