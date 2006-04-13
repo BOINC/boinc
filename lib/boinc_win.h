@@ -168,27 +168,21 @@
 #include <set>
 #endif
 
-#ifndef __CYGWIN32__
-// Some of these have been changed from defines to inlines, primarily because the
-// define version changes the names of methods with classes.  For example foo::read()
-// becomes foo::_read().
-#if !defined(inline) && defined(_MSC_VER)
-#define inline __inline
-#endif
+#ifndef __CYGWIN__
+
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
 #define stprintf                _stprintf
-static inline int stricmp(const char *s1, const char *s2) { return _stricmp(s1,s2); }
-static inline FILE *fdopen(int fd, const char *mode) { return _fdopen(fd,mode); }
-static inline int dup(int i) { return _dup(i); }
-static inline int unlink(const char *fn) { return _unlink(fn); }
-static inline char *strdup(const char *s) { return _strdup(s); }
-static inline int read(int fd, void *buf, unsigned int nbyte) {return _read(fd,buf,nbyte);}
-static inline int stat(const char *fn,struct stat *buf) { 
-	return _stat(fn,(struct _stat *)(buf)); 
-}
-static inline int finite(double x) { return _finite(x); }
-static inline int chdir(const char *d) { return _chdir(d); }
+#define stricmp					_stricmp
+#define strdup					_strdup
+#define fdopen					_fdopen
+#define dup						_dup
+#define unlink					_unlink
+#define read					_read
+#define stat					_stat
+#define chdir					_chdir
+#define finite					_finite
+
 #endif
 
 // On the Win32 platform include file and line number information for each
