@@ -53,9 +53,123 @@
 
 
 #define gle (GetLastError())
-#define lenof(a) (sizeof(a) / sizeof((a)[0]))
-#define IMGSYMLEN ( sizeof IMAGEHLP_SYMBOL )
 #define TTBUFLEN 8096 // for a temp buffer (2^13)
+
+
+#if defined(__MINGW32__) || defined(__CYGWIN32__)
+
+typedef enum {
+    SymNone = 0,
+    SymCoff,
+    SymCv,
+    SymPdb,
+    SymExport,
+    SymDeferred,
+    SymSym,       // .sym file
+    SymDia,
+    SymVirtual,
+    NumSymTypes
+} SYM_TYPE;
+
+typedef enum {
+    AddrMode1616,
+    AddrMode1632,
+    AddrModeReal,
+    AddrModeFlat
+} ADDRESS_MODE;
+
+typedef struct _tagADDRESS64 {
+    DWORD64       Offset;
+    WORD          Segment;
+    ADDRESS_MODE  Mode;
+} ADDRESS64, *LPADDRESS64;
+
+typedef struct _IMAGEHLP_LINE64 {
+    DWORD                       SizeOfStruct;           // set to sizeof(IMAGEHLP_LINE64)
+    PVOID                       Key;                    // internal
+    DWORD                       LineNumber;             // line number in file
+    PCHAR                       FileName;               // full filename
+    DWORD64                     Address;                // first instruction of line
+} IMAGEHLP_LINE64, *PIMAGEHLP_LINE64;
+
+typedef struct _IMAGEHLP_MODULE64 {
+    DWORD                       SizeOfStruct;           // set to sizeof(IMAGEHLP_MODULE64)
+    DWORD64                     BaseOfImage;            // base load address of module
+    DWORD                       ImageSize;              // virtual size of the loaded module
+    DWORD                       TimeDateStamp;          // date/time stamp from pe header
+    DWORD                       CheckSum;               // checksum from the pe header
+    DWORD                       NumSyms;                // number of symbols in the symbol table
+    SYM_TYPE                    SymType;                // type of symbols loaded
+    CHAR                        ModuleName[32];         // module name
+    CHAR                        ImageName[256];         // image name
+    CHAR                        LoadedImageName[256];   // symbol file name
+} IMAGEHLP_MODULE64, *PIMAGEHLP_MODULE64;
+
+typedef struct _SYMBOL_INFO {
+    ULONG       SizeOfStruct;
+    ULONG       TypeIndex;        // Type Index of symbol
+    ULONG64     Reserved[2];
+    ULONG       info;
+    ULONG       Size;
+    ULONG64     ModBase;          // Base Address of module comtaining this symbol
+    ULONG       Flags;
+    ULONG64     Value;            // Value of symbol, ValuePresent should be 1
+    ULONG64     Address;          // Address of symbol including base address of module
+    ULONG       Register;         // register holding value or pointer to value
+    ULONG       Scope;            // scope of the symbol
+    ULONG       Tag;              // pdb classification
+    ULONG       NameLen;          // Actual length of name
+    ULONG       MaxNameLen;
+    CHAR        Name[1];          // Name of symbol
+} SYMBOL_INFO, *PSYMBOL_INFO;
+
+typedef BOOL
+(CALLBACK *PSYM_ENUMMODULES_CALLBACK64)(
+    PSTR ModuleName,
+    DWORD64 BaseOfDll,
+    PVOID UserContext
+    );
+
+typedef BOOL
+(CALLBACK *PSYMBOL_REGISTERED_CALLBACK64)(
+    HANDLE  hProcess,
+    ULONG   ActionCode,
+    ULONG64 CallbackData,
+    ULONG64 UserContext
+    );
+
+typedef
+BOOL
+(__stdcall *PREAD_PROCESS_MEMORY_ROUTINE64)(
+    HANDLE      hProcess,
+    DWORD64     qwBaseAddress,
+    PVOID       lpBuffer,
+    DWORD       nSize,
+    LPDWORD     lpNumberOfBytesRead
+    );
+
+typedef
+PVOID
+(__stdcall *PFUNCTION_TABLE_ACCESS_ROUTINE64)(
+    HANDLE  hProcess,
+    DWORD64 AddrBase
+    );
+
+typedef
+DWORD64
+(__stdcall *PGET_MODULE_BASE_ROUTINE64)(
+    HANDLE  hProcess,
+    DWORD64 Address
+    );
+
+DWORD64
+(__stdcall *PTRANSLATE_ADDRESS_ROUTINE64)(
+    HANDLE    hProcess,
+    HANDLE    hThread,
+    LPADDRESS64 lpaddr
+    );
+
+#endif
 
 
 // ImagehlpApiVersion()
