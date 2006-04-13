@@ -267,7 +267,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
         m_bWaitForInputIdle = TRUE;
 
         // Post a message to mark the end of the initial group of window messages
-        PostMessage(m_hWnd, WM_USER, 0, 0);
+        PostMessage(m_hWnd, WM_SETTIMER, 0, 0);
 
         MSG msg;
         while(m_bWaitForInputIdle) {
@@ -1414,13 +1414,8 @@ LRESULT CScreensaver::SaverProc(
 #endif
 
     switch (uMsg) {
-        case WM_USER:
-            // All initialization messages have gone through.  Allow
-            // 500ms of idle time, then proceed with initialization.
-            SetTimer(hWnd, 1, 500, NULL);
-            break;
-
         case WM_TIMER:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_TIMER\n"));
 			switch (wParam) { 
 				case 1: 
 					// Initial idle time is done, proceed with initialization.
@@ -1467,6 +1462,7 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_MOUSEMOVE:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_MOUSEMOVE\n"));
             if (m_SaverMode != sm_test) {
                 static INT xPrev = -1;
                 static INT yPrev = -1;
@@ -1487,6 +1483,7 @@ LRESULT CScreensaver::SaverProc(
         case WM_LBUTTONDOWN:
         case WM_RBUTTONDOWN:
         case WM_MBUTTONDOWN:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_KEYDOWN | WM_LBUTTONDOWN | WM_RBUTTONDOWN | WM_MBUTTONDOWN\n"));
             if (m_SaverMode != sm_test) {
                 InterruptSaver();
             }
@@ -1515,6 +1512,7 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_SETCURSOR:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SETCURSOR\n"));
             if (m_SaverMode == sm_full && !m_bCheckingSaverPassword) {
                 // Hide cursor
                 SetCursor(NULL);
@@ -1523,10 +1521,20 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_POWERBROADCAST:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_POWERBROADCAST\n"));
             if (wParam == PBT_APMQUERYSUSPEND && gspfnMyVerifyPwdProc == NULL)
                 InterruptSaver();
             break;
+
+        case WM_SETTIMER:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SETTIMER\n"));
+            // All initialization messages have gone through.  Allow
+            // 500ms of idle time, then proceed with initialization.
+            SetTimer(hWnd, 1, 500, NULL);
+            break;
+
         case WM_INTERRUPTSAVER:
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
             if (hWnd == m_Monitors[0].hWnd) {
                 InterruptSaver();
             }
