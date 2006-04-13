@@ -18,6 +18,3 @@ endif
 if WITH_LOCAL
 SUBDIRS += local
 endif
-
-gtk-doc.make cf/gtk-doc.m4:
-	gtkdocize --copy
