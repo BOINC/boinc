@@ -3745,3 +3745,7 @@ Rom    12 Apr 2006
         win_screensaver.cpp, .h
     lib/
         diagnostics.C
+
+Rom    12 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.2 release, all platforms
+      boinc_core_release_5_4_2
