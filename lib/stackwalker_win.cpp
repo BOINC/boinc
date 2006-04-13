@@ -58,26 +58,11 @@
 
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 
-#undef SymNone
-#undef SymCoff
-#undef SymCv
-#undef SymPdb
-#undef SymExport
-#undef SymDeferred
-#undef SymSym
-
 typedef enum {
-    SymNone = 0,
-    SymCoff,
-    SymCv,
-    SymPdb,
-    SymExport,
-    SymDeferred,
-    SymSym,       // .sym file
-    SymDia,
+    SymDia = 7,
     SymVirtual,
     NumSymTypes
-} SYM_TYPE;
+} SYM_TYPE_EX;
 
 typedef enum {
     AddrMode1616,
