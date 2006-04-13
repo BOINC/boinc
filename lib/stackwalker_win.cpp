@@ -174,6 +174,7 @@ DWORD64
     DWORD64 Address
     );
 
+typedef
 DWORD64
 (__stdcall *PTRANSLATE_ADDRESS_ROUTINE64)(
     HANDLE    hProcess,
