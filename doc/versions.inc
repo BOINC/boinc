@@ -64,6 +64,11 @@ $features_52 = "
 ";
 
 $changes_54 = "
+    <li>Changes since 5.4.1
+      <ul>
+        <li>Fix a crash when running under Win9x and screen saver passwords
+            are enabled.
+      </ul>
     <li>Changes since 5.4.0
       <ul>
         <li>Screensaver fixes when running on a machine without a graphics
@@ -250,11 +255,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w541= array(
-    "num"=>"5.4.1",
+$w542= array(
+    "num"=>"5.4.2",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.1_windows_intelx86.exe",
-    "date"=>"11 Apr 2006",
+    "file"=>"boinc_5.4.2_windows_intelx86.exe",
+    "date"=>"12 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -500,11 +505,11 @@ $m443s = array(
     "
 );
 
-$l541 = array(
-    "num"=>"5.4.1",
+$l542 = array(
+    "num"=>"5.4.2",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.1_i686-pc-linux-gnu.sh",
-    "date"=>"11 Apr 2006",
+    "file"=>"boinc_5.4.2_i686-pc-linux-gnu.sh",
+    "date"=>"12 Apr 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -572,7 +577,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w541,
+        $w542,
         $w5213,
         $w445,
     )
@@ -596,7 +601,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l541,
+        $l542,
         $l5213,
         $l443,
     )
