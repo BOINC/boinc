@@ -1500,6 +1500,7 @@ LRESULT CScreensaver::SaverProc(
             break;
 
         case WM_SYSCOMMAND: 
+            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SYSCOMMAND\n"));
             if (m_SaverMode == sm_full) {
                 switch (wParam) {
                     case SC_NEXTWINDOW:
