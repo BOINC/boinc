@@ -1,3 +1,11 @@
+/*
+ * events.C - BOINC event handling
+ *
+ * Authors:
+ *	Gábor Gombás <gombasg@sztaki.hu>
+ *
+ * Copyright (c) 2006 MTA SZTAKI
+ */
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -10,23 +18,20 @@
 #include <boinc_db.h>
 #include <sched_util.h>
 #include <sched_msgs.h>
+#include <parse.h>
 
-int DC_processEvents(int timeout)
+static int process_results(void)
 {
 	DC_Result *result;
 	DB_WORKUNIT wu;
 	char *query;
-
-	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
-	{
-		DC_log(LOG_ERR, "DC_processEvents: callbacks are not set up");
-		return DC_ERR_CONFIG;
-	}
+	int done;
 
 	/* XXX Check LIMIT value */
 	query = g_strdup_printf("WHERE name LIKE '%s\\_%%' "
 		"AND assimilate_state = %d LIMIT 100", project_uuid_str,
 		ASSIMILATE_READY);
+	done = 0;
 	while (!wu.enumerate(query))
 	{
 		DB_RESULT canonical_result;
@@ -53,10 +58,123 @@ int DC_processEvents(int timeout)
 			continue;
 		_dc_resultcb(result->wu, result);
 		_DC_destroyResult(result);
+		done++;
 	}
 
 	g_free(query);
-	return 0;
+	return done;
+}
+
+static void handle_special_msg(DC_Workunit *wu, const char *msg)
+{
+	if (!strncmp(msg, DC_MSG_UPLOAD, strlen(DC_MSG_UPLOAD)))
+	{
+		char *p, *q, *subresult_name, *client_label, path[PATH_MAX];
+
+		p = strchr(msg, ':');
+		if (!p)
+			return;
+		q = strchr(p + 1, ':');
+		if (!q)
+			return;
+
+		subresult_name = g_strndup(p + 1, (q - p) - 1);
+		client_label = g_strdup(q + 1);
+
+		if (strchr(subresult_name, G_DIR_SEPARATOR))
+		{
+			DC_log(LOG_ERR, "Client sent insecure subresult name, "
+				"ignoring");
+			g_free(subresult_name);
+			g_free(client_label);
+			return;
+		}
+
+		dir_hier_path(subresult_name, _DC_getUploadDir(),
+			_DC_getUldlDirFanout(), path, FALSE);
+		g_free(subresult_name);
+		_dc_subresultcb(wu, client_label, path);
+		g_free(client_label);
+	}
+	else
+		DC_log(LOG_WARNING, "Received unknown control message %s",
+			msg);
+}
+
+static int process_messages(void)
+{
+	DB_MSG_FROM_HOST msg;
+	char *query, *buf;
+	DC_Workunit *wu;
+	int done, ret;
+
+	query = g_strdup_printf("WHERE variety LIKE '%s\\_'", project_uuid_str);
+	buf = (char *)g_malloc(MAX_MESSAGE_SIZE);
+	done = 0;
+	while (!msg.enumerate(query))
+	{
+		wu = _DC_getWUByName(msg.variety);
+		if (!wu)
+		{
+			DC_log(LOG_WARNING, "Received message for unknown "
+				"WU %s", msg.variety);
+			goto handled;
+		}
+
+		ret = parse_str(msg.xml, "<message>", buf, MAX_MESSAGE_SIZE);
+		if (!ret)
+		{
+			DC_log(LOG_WARNING, "Failed to parse message %s",
+				msg.xml);
+			goto handled;
+		}
+
+		if (!strncmp(buf, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
+			handle_special_msg(wu, buf + strlen(DCAPI_MSG_PFX) + 1);
+		else
+			_dc_messagecb(wu, buf);
+		done++;
+handled:
+		msg.handled = true;
+		msg.update();
+	}
+	g_free(query);
+	g_free(buf);
+	return done;
+}
+
+int DC_processEvents(int timeout)
+{
+	time_t end, now;
+	int done;
+
+	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
+	{
+		DC_log(LOG_ERR, "DC_processEvents: callbacks are not set up");
+		return DC_ERR_CONFIG;
+	}
+
+	end = time(NULL) + timeout;
+	done = 0;
+	while (1)
+	{
+		done += process_results();
+		done += process_messages();
+		if (done)
+			break;
+
+		now = time(NULL);
+		if (now >= end)
+			break;
+
+		/* Be nice to the database and sleep for a long time */
+		if (end - now < 15)
+			sleep(end - now);
+		else
+			sleep(15);
+	}
+
+	return done ? 0 : DC_ERR_TIMEOUT;
 }
 
 /* Look for a single result that matches the filter */
