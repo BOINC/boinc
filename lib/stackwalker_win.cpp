@@ -58,6 +58,14 @@
 
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 
+#undef SymNone
+#undef SymCoff
+#undef SymCv
+#undef SymPdb
+#undef SymExport
+#undef SymDeferred
+#undef SymSym
+
 typedef enum {
     SymNone = 0,
     SymCoff,
