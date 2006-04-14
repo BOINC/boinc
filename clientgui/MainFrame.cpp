@@ -1372,7 +1372,7 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             // %s is the application name
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             strDialogMessage.Printf(
-                _("The %s's default language has been changed, in order for this "
+                _("The %s's default language has been changed, in order for this\n"
                   "change to take affect you must restart the %s."),
                 wxGetApp().GetBrand()->GetApplicationName().c_str(),
                 wxGetApp().GetBrand()->GetApplicationName().c_str()
@@ -1381,7 +1381,7 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             ShowAlert(
                 strDialogTitle,
                 strDialogMessage,
-                wxICON_INFORMATION
+                wxOK | wxICON_INFORMATION
            );
         }
 
@@ -2054,7 +2054,7 @@ void CMainFrame::ShowConnectionBadPasswordAlert() {
     ShowAlert(
         strDialogTitle,
         _("The password you have provided is incorrect, please try again."),
-        wxICON_ERROR
+        wxOK | wxICON_ERROR
     );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionBadPasswordAlert - Function End"));
@@ -2127,7 +2127,7 @@ void CMainFrame::ShowNotCurrentlyConnectedAlert() {
     ShowAlert(
         strDialogTitle,
         strDialogMessage,
-        wxICON_ERROR
+        wxOK | wxICON_ERROR
     );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function End"));
@@ -2156,9 +2156,10 @@ bool CMainFrame::Show(bool show) {
     if (show) {
         SetFrontProcess(&psn);  // Shows process if hidden
         SetWindowDimensions();
-    } else
+    } else {
         if (IsProcessVisible(&psn))
             ShowHideProcess(&psn, false);
+    }
     
     return wxFrame::Show(show);
 }

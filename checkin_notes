@@ -3779,3 +3779,11 @@ Charlie 14 Apr 2006
       
     clientgui/
         MainFrame.cpp, .h
+
+Rom    14 Apr 2006
+    - Bug Fix: Apparently Windows and Mac message boxes by default have an OK
+        button and Linux does not.  So add wxOK to all the alerts sent.
+        
+    clientgui/
+        BOINCDialupManager.cpp
+        MainFrame.cpp
