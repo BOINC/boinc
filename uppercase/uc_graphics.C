@@ -17,6 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// graphics code for upper_case
+
 #include "gutil.h"
 #include "boinc_gl.h"
 #include "graphics_api.h"
@@ -24,10 +26,15 @@
 
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
-int width, height;
+int width, height;      // window dimensions
 APP_INIT_DATA uc_aid;
+bool mouse_down = false;
+int mouse_x, mouse_y;
+double pitch_angle, roll_angle, viewpoint_distance=10;
 
-static void initlights() {
+// set up lighting model
+//
+static void init_lights() {
    GLfloat ambient[] = {1., 1., 1., 1.0};
    GLfloat position[] = {-13.0, 6.0, 20.0, 1.0};
    GLfloat dir[] = {-1, -.5, -3, 1.0};
@@ -37,16 +44,14 @@ static void initlights() {
 }
 
 void app_graphics_init() {
+    int viewport[4];
     boinc_get_init_data(uc_aid);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     txf_load_fonts(".");
     logo.load_image_file("logo.jpg");
-    initlights();
-    int viewport[4];
+    init_lights();
     get_viewport(viewport);
-    int w = viewport[2];
-    int h = viewport[3];
-    app_graphics_resize(w,h);
+    app_graphics_resize(viewport[2], viewport[3]);
 }
 
 static void draw_logo() {
@@ -73,7 +78,7 @@ static void draw_text() {
     txf_render_string(.1, x, y+.2, 0, 500, white, 0, buf);
 }
 
-static void draw_sphere() {
+static void draw_3d_stuff() {
     static float x=0, y=0, z=10;
     static float dx=0.3, dy=0.2, dz=0.5;
     x += dx;
@@ -87,6 +92,7 @@ static void draw_sphere() {
     pos[1] = y;
     pos[2] = z;
     drawSphere(pos, 4);
+    drawCylinder(false, pos, 6, 6);
 }
 
 void set_viewpoint(double dist) {
@@ -101,7 +107,8 @@ void set_viewpoint(double dist) {
         0,-.8,0,      // where we're looking
         0.0, 1.0, 0.      // up is in positive Y direction
     );
-
+    glRotated(pitch_angle, 1., 0., 0);
+    glRotated(roll_angle, 0., 1., 0);
 }
 
 static void app_init_camera(double dist) {
@@ -124,11 +131,12 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     draw_logo();
     ortho_done();
 
-    app_init_camera(10);
+    app_init_camera(viewpoint_distance);
+
     scale_screen(width, height);
     GLfloat color[4] = {.7, .2, .5, 1};
     mode_shaded(color);
-    draw_sphere();
+    draw_3d_stuff();
 
     scale_screen(width, height);
     mode_unshaded();
@@ -142,25 +150,36 @@ void app_graphics_resize(int w, int h){
     height = h;
     glViewport(0, 0, w, h);
 }
+
 void app_graphics_reread_prefs(){}
-void boinc_app_mouse_move(
-    int x, int y,       // new coords of cursor
-    bool left,          // whether left mouse button is down
-    bool middle,
-    bool right
-){}
 
-void boinc_app_mouse_button(
-    int x, int y,       // coords of cursor
-    int which,          // which button (0/1/2)
-    bool is_down        // true iff button is now down
-){}
+void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right) {
+    if (left) {
+        pitch_angle += (y-mouse_y)*.1;
+        roll_angle += (x-mouse_x)*.1;
+        mouse_y = y;
+        mouse_x = x;
+    } else if (right) {
+        double d = (y-mouse_y);
+        viewpoint_distance *= exp(d/100.);
+        mouse_y = y;
+        mouse_x = x;
+    } else {
+        mouse_down = false;
+    }
+}
 
-void boinc_app_key_press(
-    int, int            // system-specific key encodings
-){}
+void boinc_app_mouse_button(int x, int y, int which, bool is_down) {
+    if (is_down) {
+        mouse_down = true;
+        mouse_x = x;
+        mouse_y = y;
+    } else {
+        mouse_down = false;
+    }
+}
 
-void boinc_app_key_release(
-    int, int            // system-specific key encodings
-){}
+void boinc_app_key_press(int, int){}
+
+void boinc_app_key_release(int, int){}
 

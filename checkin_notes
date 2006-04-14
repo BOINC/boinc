@@ -35,3 +35,9 @@ David  13 Apr 2006
         Makefile (new)
         README (new)
         upper_case.C
+
+David  13 Apr 2006
+	- handle mouse events
+
+	uppercase/
+		uc_graphics.C
