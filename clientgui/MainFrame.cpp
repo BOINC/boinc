@@ -1502,14 +1502,14 @@ void CMainFrame::OnShow(wxShowEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function Begin"));
 
     if (event.GetShow())
-        GetWindowDimensions();
+        SetWindowDimensions();
     
     event.Skip();
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function End"));
 }
 
     
-void CMainFrame::GetWindowDimensions() {
+void CMainFrame::SetWindowDimensions() {
     static bool bFirstTime = true;
 
     if (bFirstTime) {
@@ -2155,7 +2155,7 @@ bool CMainFrame::Show(bool show) {
     GetCurrentProcess(&psn);
     if (show) {
         SetFrontProcess(&psn);  // Shows process if hidden
-        GetWindowDimensions();
+        SetWindowDimensions();
     } else
         if (IsProcessVisible(&psn))
             ShowHideProcess(&psn, false);

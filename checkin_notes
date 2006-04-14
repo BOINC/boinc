@@ -3773,8 +3773,8 @@ Rom    13 Apr 2006 (boinc_core_release_5_4)
 
 Charlie 14 Apr 2006
     - Mac: OnShow() is not implemented in wxMac-2.6.2, so move code from 
-      CMainFrame::OnShow() into new method CMainFrame::GetWindowDimensions(). 
-      Call GetWindowDimensions() from CMainFrame::OnShow() and also from 
+      CMainFrame::OnShow() into new method CMainFrame::SetWindowDimensions(). 
+      Call SetWindowDimensions() from CMainFrame::OnShow() and also from 
       Mac-only method CMainFrame::Show().
       
     clientgui/

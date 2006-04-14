@@ -88,7 +88,7 @@ public:
 
     void OnClose( wxCloseEvent& event );
     void OnShow( wxShowEvent& event );
-    void GetWindowDimensions();
+    void SetWindowDimensions();
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
