@@ -3815,3 +3815,10 @@ Rom    13 Apr 2006
         MainFrame.cpp, .h
     lib/
         boinc_win.h
+
+Rom    13 Apr 2006
+    - Bug Fix: Fix a shutdown bug that was causing the manager to wait
+        the full 10 seconds before closing itself.
+        
+    clientgui/
+        BOINCGUIApp.cpp

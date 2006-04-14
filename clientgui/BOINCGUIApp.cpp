@@ -720,6 +720,8 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #if defined(__WXMSW__)
 
 void CBOINCGUIApp::ShutdownBOINCCore() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Function Begin"));
+
     wxInt32    iCount = 0;
     DWORD      dwExitCode = 0;
     bool       bClientQuit = false;
@@ -739,10 +741,12 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
                         for (iCount = 0; iCount <= 10; iCount++) {
                             if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                                 if (STILL_ACTIVE != dwExitCode) {
+                                    wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - (localhost) Application Exit Detected"));
                                     bClientQuit = true;
-                                    continue;
+                                    break;
                                 }
                             }
+                            wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
                             ::wxSleep(1);
                         }
                     }
@@ -756,10 +760,12 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
                     for (iCount = 0; iCount <= 10; iCount++) {
                         if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                             if (STILL_ACTIVE != dwExitCode) {
+                                wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Application Exit Detected"));
                                 bClientQuit = true;
-                                continue;
+                                break;
                             }
                         }
+                        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
                         ::wxSleep(1);
                     }
                 }
@@ -770,6 +776,8 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             ::wxKill(m_lBOINCCoreProcessId);
         }
     }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::ShutdownBOINCCore - Function End"));
 }
 
 #elif defined(__WXMAC__)
@@ -875,7 +883,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
                     for (iCount = 0; iCount <= 10; iCount++) {
                         if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
                             bClientQuit = true;
-                            continue;
+                            break;
                         }
                         ::wxSleep(1);
                     }
@@ -888,7 +896,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
                 for (iCount = 0; iCount <= 10; iCount++) {
                     if (!bClientQuit && !wxProcess::Exists(m_lBOINCCoreProcessId)) {
                         bClientQuit = true;
-                        continue;
+                        break;
                     }
                     ::wxSleep(1);
                 }
