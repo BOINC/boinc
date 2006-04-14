@@ -87,6 +87,7 @@ public:
     void OnHelpAbout( wxCommandEvent& event );
 
     void OnClose( wxCloseEvent& event );
+    void OnShow( wxShowEvent& event );
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );

@@ -441,9 +441,6 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
         GetCurrentProcess(&psn);
         ShowHideProcess(&psn, false);
-#else
-        m_pFrame->Show();
-        m_pFrame->Show(false);
 #endif
 	}
 

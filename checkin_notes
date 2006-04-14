@@ -3802,3 +3802,16 @@ David  13 Apr 2006
 
 	api/
 		txf_util.C
+
+Rom    13 Apr 2006
+    - Bug Fix: Adjust the startup sequence on Windows a bit so that the
+        window doesn't flicker.  Another perk is that on startup the
+        window won't display itself until it can fully deal with user
+        input.
+    - Define some basic data types for MINGW and CYGWIN
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp, .h
+    lib/
+        boinc_win.h

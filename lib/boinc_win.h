@@ -66,6 +66,7 @@
 #include <share.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
+
 /* If we're not running under CYGWIN use windows networking */
 #undef USE_WINSOCK
 #define USE_WINSOCK 1
@@ -73,6 +74,7 @@
 #include <wininet.h>
 
 #else 
+
 /* Under cygwin, curl was probably compiled to use <sys/socket.h> */
 #include <unistd.h>
 #include <sys/types.h>
@@ -86,6 +88,7 @@
 #define _WINSOCK2_H
 #define _WININET_H
 #define _WININETAPI_
+
 #endif
 
 #include <process.h>
@@ -103,9 +106,24 @@
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <crtdbg.h>
 #endif
+
 #if !defined(__CYGWIN32__)
 #include <tchar.h>
+#else
+
+#ifndef _TCHAR_DEFINED
+typedef char TCHAR, *PTCHAR;
+typedef unsigned char TBYTE , *PTBYTE ;
+#define _TCHAR_DEFINED
+#endif /* !_TCHAR_DEFINED */
+
+typedef LPSTR LPTCH, PTCH;
+typedef LPSTR PTSTR, LPTSTR, PUTSTR, LPUTSTR;
+typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
+#define __TEXT(quote) quote
+
 #endif
+
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <crtdbg.h>
 #endif
