@@ -58,9 +58,9 @@ Developing a BOINC application
 </ul>
 <li> Application development
 <ul>
+<li><a href=example.php>Example application</a>
 <li><a href=app_dev.php>Application development tips</a>
 <li> <a href=app_debug.php>Application debugging</a>
-<li><a href=myers.txt>App development cookbook</a> (courtesy of Eric Myers from Vassar)
 </ul>
 <li><a href=fortran.php>FORTRAN applications</a>
 <li><a href=compound_app.php>Compound applications</a>

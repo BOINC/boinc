@@ -539,6 +539,12 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         freopen(STDERR_FILE, "a", stderr);
 
+        // set idle process priority
+#ifdef HAVE_SETPRIORITY
+        if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
+            perror("setpriority");
+        }
+#endif
         argv[0] = exec_name;
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
@@ -555,13 +561,6 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
-
-    // set idle process priority
-#ifdef HAVE_SETPRIORITY
-    if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
-        perror("setpriority");
-    }
-#endif
 
 #endif
     task_state = PROCESS_EXECUTING;

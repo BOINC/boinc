@@ -1,6 +1,21 @@
 <?
 
 $project_news = array(
+array("April 13, 2006",
+    "According to various <a href=links.php>statistics sites</a>,
+    over one million computers have now contributed
+    processing power to BOINC projects.
+    We're currently achieving a sustained processing rate
+    of over 400 TeraFLOPS - the world's most powerful supercomputer
+    by a wide margin.
+    Congratulations and thanks to everyone!
+"),
+array("April 13, 2006",
+    "We have developed an <a href=example.php>example application</a>,
+    together with project files and Makefiles for Windows, Mac, and Linux.
+    The application demonstrates how to do checkpoint/restart and graphics.
+    Projects can use this as a framework for building their own applications.
+"),
 array("April 6, 2006",
     "Thanks to the efforts of
     <a href=http://alioth.debian.org/projects/pkg-boinc/>volunteers</a>,

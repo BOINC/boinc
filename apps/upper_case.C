@@ -25,6 +25,11 @@
 // -exit:     exit with status -10 (for testing exit handler)
 //
 
+// NOTE: this is NOT a sample BOINC application.
+// Look in boinc_samples/uppercase for that.
+// This is a bare-bones application (no graphics)
+// that's used by the test_uc.py script.
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -41,13 +46,6 @@
 #include <unistd.h>
 #endif
 
-#define BOINC_APP_GRAPHICS
-
-#ifdef BOINC_APP_GRAPHICS
-#include "boinc_gl.h"
-#include "graphics_api.h"
-#endif
-
 #include "diagnostics.h"
 #include "util.h"
 #include "filesys.h"
@@ -59,12 +57,6 @@ using std::string;
 #define CHECKPOINT_FILE "upper_case_state"
 #define INPUT_FILENAME "in"
 #define OUTPUT_FILENAME "out"
-
-#ifdef BOINC_APP_GRAPHICS
-char display_buf[10];
-double xPos=0, yPos=0;
-double xDelta=0.03, yDelta=0.07;
-#endif
 
 bool run_slow;
 bool raise_signal;
@@ -160,9 +152,6 @@ void worker() {
         c = fgetc(in);
 
         if (c == EOF) break;
-#ifdef BOINC_APP_GRAPHICS
-        sprintf(display_buf, "%c -> %c", c, toupper(c));
-#endif
         c = toupper(c);
         out._putchar(c);
         nchars++;
@@ -236,47 +225,9 @@ int main(int argc, char **argv) {
 
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
 
-#ifdef BOINC_APP_GRAPHICS
-    strcpy(display_buf, "(none)\0");
-    retval = boinc_init_graphics(worker);
-    if (retval) exit(retval);
-#else
     retval = boinc_init();
     if (retval) exit(retval);
     worker();
-#endif
 }
-
-#ifdef BOINC_APP_GRAPHICS
-extern GLuint main_font;
-
-void app_init_gl() {}
-
-bool app_render(int xs, int ys, double time_of_day) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
-    glLoadIdentity();                                    // Reset The Current Modelview Matrix
-    glColor3f(1,1,1);
-
-    glRasterPos2f(xPos, yPos);
-    //glPrint(main_font, display_buf);
-
-    xPos += xDelta;
-    yPos += yDelta;
-    if (xPos < -1 || xPos > 1) xDelta *= -1;
-    if (yPos < -1 || yPos > 1) yDelta *= -1;
-
-    glRasterPos2f(-0.9, 0.9);
-    //glPrint(main_font, "User: %s", uc_aid.user_name);
-
-    glRasterPos2f(-0.9, 0.8);
-    //glPrint(main_font, "Team: %s", uc_aid.team_name);
-
-    glRasterPos2f(-0.9, 0.7);
-    //glPrint(main_font, "CPU Time: %f", uc_aid.wu_cpu_time);
-
-    return true;                                        // Everything Went OK
-}
-
-#endif
 
 const char *BOINC_RCSID_33ac47a071 = "$Id$";

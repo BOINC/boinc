@@ -4,16 +4,27 @@ require_once("docutil.php");
 page_head("Getting source code");
 echo "
 
-<p>
-You will need certain
-<a href=build.php>software prerequisites</a>
-before compiling BOINC.
+<h2>CVS repositories</h2>
 
-<h2>CVS branches</h2>
+The BOINC source code is maintained two CVS modules:
+<ul>
+<li><b>boinc</b> contains the source code for all parts of BOINC itself
+(client, server, web, database).
+<li><b>boinc_samples</b> contains a sample BOINC application, <b>upper_case</b>,
+together with Windows and Mac project files and a Linux makefile
+for building the application.
+It also includes some bits of code (GLUT, jpeglib, etc.)
+that many applications will need, but which are not part of BOINC.
+
+</ul>
+If you are developing an application,
+you should check out these modules in the same parent directory.
+
+<h2>CVS tags</h2>
 <p>
-The BOINC source code is maintained in CVS.
-The trunk is the development version,
-which may not compile or run.
+In the <b>boinc</b> module,
+the trunk is the development version;
+it may not compile or run.
 Other versions are tagged as follows:
 <dl>
 <dt>
@@ -51,16 +62,14 @@ cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout -r 
 to get the stable version.
 <p>
 <li>
-Browse the CVS repository via a
-<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/>web-based interface</a>
-(this is useful for getting individual files,
- or seeing the revision history).
+Browse the 
+<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/>boinc</a>
+or
+<a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc_samples/>boinc_samples</a> modules
+via a web-based interface.
+This is useful for getting individual files, or seeing the revision history.
+
 </ul>
-<p>
-The BOINC source code is about 20-25 Mbytes.
-<p>
-Source code for a typical BOINC application,
-SETI@home, is <a href=http://setiweb.ssl.berkeley.edu/sah/sah_porting.php>here</a>.
 
 ";
 

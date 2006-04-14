@@ -3835,3 +3835,19 @@ Charlie 14 Apr 2006
     clientgui/
         BOINCGUIApp.cpp
         MainFrame.cpp, .h
+
+David  14 Apr 2006
+    - Core client: change the way that application priority is set on Unix
+        Old: fork/exec app, then setpriority(pid)
+            PROBLEM: race condition.  When the app starts,
+            it's initially at regular priority.
+            If it immediately creates another process,
+            the child process has regular priority
+            (and continues to even after the app's priority is lowered).
+        New: fork, lower priority, exec.
+        (From Mike Fleetwood)
+
+    apps/
+        upper_case.C
+    client/
+        app_start.C
