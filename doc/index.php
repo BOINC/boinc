@@ -24,10 +24,7 @@ $projects = array(
     "<a href=http://szdg.lpds.sztaki.hu/szdg/>SZTAKI Desktop Grid</a>:
         search for generalized binary number systems.",
     "<a href=http://www.worldcommunitygrid.org/>World Community Grid</a>:
-        advance our knowledge of human disease (requires 5.2.1 or greater).",
-    "<a href=http://www.cellcomputing.net/>Cell Computing</a>
-        biomedical research
-        (Japanese; requires nonstandard client software).",
+        advance our knowledge of human disease.",
     "<a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a>:
         study the structure and reactivity of molecules
         using Quantum Chemistry.",
@@ -38,21 +35,19 @@ echo "
 <head>
 <link rel=\"shortcut icon\" href=\"iconsmall.ico\">
 <link rel=\"stylesheet\" type=text/css href=white.css>
-<title>Berkeley Open Infrastructure for Network Computing (BOINC)</title>
-<meta name=description content=\"BOINC is a software platform for developing public-participation distributed computing projects\">
+<title>BOINC</title>
+<meta name=description content=\"BOINC is an open-source software platform for computing using volunteered resources\">
 <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
-<body bgcolor=#ffffff text=#000088 link=#000088 vlink=#000088>
+<body bgcolor=#ffffff>
 <img hspace=30 vspace=10 align=left src=logo/logo_small.png>
-<center>
-<br>
 <h1>Berkeley Open Infrastructure for Network Computing</h1>
-An open-source software platform for computing using volunteered
-resources.
-    <a href=intro.php>... more</a>
 <br>
+";
+search_form();
+echo "
 </center>
-
+</div>
 <br clear=all>
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>
@@ -64,6 +59,7 @@ resources.
   </td></tr>
   <tr><td>
     <p>
+    BOINC is a software platform for volunteer computing.
     BOINC lets you donate computing power
     to scientific research projects such as:
     <ul>
@@ -135,6 +131,7 @@ echo "
   <tr><td bgcolor=$light_blue><h2>Other info</h2></td></tr>
   <tr><td>
     <ul>
+    <li> <a href=intro.php>Overview</a>
     <li> <a href=contact.php>Personnel and contributors</a>
     <li> BOINC <a href=email_lists.php>email lists</a>
     <li> BOINC <a href=dev/>message boards</a>
@@ -142,14 +139,6 @@ echo "
     <li> <a href=logo.php>Logos and graphics</a>
     </ul>
     <br>
-    <form method=get action=http://google.com/search>
-    <input type=hidden name=domains value=http://boinc.berkeley.edu>
-    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
-    <nobr>
-    <input class=small name=q size=30>
-    <input type=submit value='Site search'>
-    </nobr>
-    </form>
   </td></tr>
 <tr><td>
 <img align=left src=nsf.gif>

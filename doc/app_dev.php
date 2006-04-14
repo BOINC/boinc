@@ -10,12 +10,8 @@ For areas that are different (e.g. scanning directories)
 BOINC supplies some generic functions with implementations for all platforms.
 Similar code may be available from other open-source projects.
 
-<h2>Stack traces</h2>
 <p>
-You can use Stackwalker to generate symbolic stack traces
-if your application crashes.
-These traces will be returned in the
-'stderr_out' field of results.
+LIST THEM
 
 <h2>Windows-specific issues</h2>
 <ul>

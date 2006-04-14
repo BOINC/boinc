@@ -13,14 +13,22 @@ code {
 
 a:link {
 	color: blue;
+    text-decoration: none;
 }
 
 a:visited {
 	color: blue;
+    text-decoration: none;
 }
 
 a:active {
 	color: blue;
+}
+
+a:hover {
+	color: blue;
+    text-decoration: underline;
+	font-weight: bold;
 }
 
 body , table , input , select {

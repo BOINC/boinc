@@ -3851,3 +3851,10 @@ David  14 Apr 2006
         upper_case.C
     client/
         app_start.C
+
+David  14 Apr 2006
+    - User web: add Web RPC for setting forum preferences
+        (repurpose existing script)
+
+    html/user
+        edit_forum_preferences_action.php

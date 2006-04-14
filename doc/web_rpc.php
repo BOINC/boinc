@@ -354,5 +354,50 @@ list_item('action',
 );
 list_end();
 
+echo "<h3>Set forum preferences</h3>
+";
+
+list_start();
+list_item('URL',
+    'project/edit_forum_preferences_action.php
+    <br>
+    NOTE: this uses POST, not GET
+    '
+);
+list_item('input',
+    'account_key
+    <br>avatar_url
+    <br>avatar_select
+    <br>forum_images_as_links
+    <br>forum_link_externally
+    <br>forum_hide_avatars
+    <br>forum_hide_signatures
+    <br>forum_jump_to_unread
+    <br>forum_ignore_sticky_posts
+    <br>forum_low_rating_threshold
+    <br>forum_high_rating_threshold
+    <br>forum_minimum_wrap_poastcound
+    <br>forum_display_wrap_poastcound
+    <br>signature_enabled
+    <br>signature
+    <br>forum_sort
+    <br>thread_sort
+    <br>faq_sort
+    <br>answer_sort
+    <br>forum_filter_user
+    <br>[ removeID ... ]
+'
+);
+list_item('output',
+    '<code>&lt;success/></code>
+    or <code>&lt;error>XXX&lt;/error></code>
+    '
+);
+list_item('action',
+    'Update user\'s forum preferences'
+);
+list_end();
+
+
 page_tail();
 ?>

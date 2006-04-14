@@ -7,9 +7,22 @@ require_once("../inc/util.inc");
 require_once("../inc/image.inc");
 require_once("../inc/forum.inc");
 
-
 db_init();
-$user = get_logged_in_user();
+
+$xml = false;
+$auth = post_str("account_key", true);
+if ($auth) {
+    require_once("../inc/xml.inc");
+    $xml = true;
+    xml_header();
+    $auth = process_user_text($auth);
+    $user = lookup_user_auth($auth);
+    if (!$user) {
+        xml_error("invalid account key");
+    }
+} else {
+    $user = get_logged_in_user();
+}
 $user = getForumPreferences($user);
 
 $avatar_url = mysql_escape_string($HTTP_POST_VARS["avatar_url"]);
@@ -108,9 +121,17 @@ for ($i=1;$i<sizeof($ignored_users);$i++){
     }
 }
 
-if ($minimum_wrap_postcount<0) $minimum_wrap_postcount=0;
-if ($display_wrap_postcount>$minimum_wrap_postcount) $display_wrap_postcount=round($minimum_wrap_postcount/2);
-if ($display_wrap_postcount<5) $display_wrap_postcount=5;
+if ($minimum_wrap_postcount<0) {
+    $minimum_wrap_postcount=0;
+}
+
+if ($display_wrap_postcount>$minimum_wrap_postcount) {
+    $display_wrap_postcount=round($minimum_wrap_postcount/2);
+}
+
+if ($display_wrap_postcount<5) {
+    $display_wrap_postcount=5;
+}
 
 $result = mysql_query(
     "update forum_preferences set 
@@ -126,21 +147,31 @@ $result = mysql_query(
         jump_to_unread='".$jump_to_unread."',
         hide_signatures='".$hide_signatures."',
         low_rating_threshold='".$low_rating_threshold."',
-    ignorelist='".$real_ignorelist."',
+        ignorelist='".$real_ignorelist."',
         high_rating_threshold='".$high_rating_threshold."',
-    minimum_wrap_postcount='".$minimum_wrap_postcount."',
-    display_wrap_postcount='".$display_wrap_postcount."'
-    where userid=$user->id"
+        minimum_wrap_postcount='".$minimum_wrap_postcount."',
+        display_wrap_postcount='".$display_wrap_postcount."'
+        where userid=$user->id"
 );
 
-if ($result) {
-    echo mysql_error();
-    Header("Location: edit_forum_preferences_form.php");
+if ($xml) {
+    if ($result) {
+        echo "<success/>\n";
+    } else {
+        echo "<error>\n";
+        echo mysql_error();
+        echo "</error>\n";
+    }
 } else {
-    page_head("Forum preferences update");
-    echo "Couldn't update forum preferences.<br>\n";
-    echo mysql_error();
-    page_tail();
+    if ($result) {
+        echo mysql_error();
+        Header("Location: edit_forum_preferences_form.php");
+    } else {
+        page_head("Forum preferences update");
+        echo "Couldn't update forum preferences.<br>\n";
+        echo mysql_error();
+        page_tail();
+    }
 }
 
 ?>

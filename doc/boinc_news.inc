@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("April 14, 2006",
+    "The CERN Courier's Computer Newsletter features an article on
+    <a href=http://www.cerncourier.com/articles/cnl/3/4/13/1>BOINC activities at CERN</a>.
+"),
 array("April 13, 2006",
     "According to various <a href=links.php>statistics sites</a>,
     over one million computers have now contributed

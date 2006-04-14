@@ -1,5 +1,17 @@
 <?php
 
+function search_form() {
+    echo "<form method=get action=http://google.com/search>
+    <input type=hidden name=domains value=http://boinc.berkeley.edu>
+    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
+    <nobr>
+    <input class=small name=q size=30>
+    <input type=image name=submit src=images/search.gif alt=Search>
+    </nobr>
+    </form>
+";
+}
+
 $light_blue="#d8e8ff";
 $med_blue="#c0d0f0";
 
@@ -7,11 +19,7 @@ function last_mod($datefile) {
     return gmdate("g:i A \U\T\C, F d Y", filemtime($datefile));
 }
 
-function page_head($title, $datefile=null) {
-    if (!$datefile) {
-        $datefile = $_SERVER["SCRIPT_FILENAME"];
-    }
-    $d = last_mod($datefile);
+function page_head($title) {
     echo "<html>
         <head>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>
@@ -23,8 +31,10 @@ function page_head($title, $datefile=null) {
         <tr>
         <td><center><h1>$title</h1></center>
         <td align=right><a href=index.php><img src=logo/logo_small.png></a>
-            <br>
-            <nobr><font size='2'>Last modified $d</font></nobr>
+        <br>
+";
+        search_form();
+echo "
         </td>
         </tr></table>
         <hr size=1>
@@ -34,23 +44,28 @@ function page_head($title, $datefile=null) {
 function copyright() {
     $y = date("Y ");
     echo "
-        <font color=888888>
         Copyright &copy; $y University of California.
         Permission is granted to copy, distribute and/or modify this document
         under the terms of the GNU Free Documentation License,
-        Version 1.2 or any later version published by the Free Software Foundation.</font>
+        Version 1.2 or any later version published by the Free Software Foundation.
     ";
 }
 
 function page_tail() {
+    $datefile = $_SERVER["SCRIPT_FILENAME"];
+    $d = last_mod($datefile);
     echo "
         <hr size=1>
         <center>
         <a href=\"/\">Return to BOINC main page</a>
         </center><p>
+            <br>
+            <font color=888888>
+            <font size='2'>Last modified $d.<br>
     ";
     copyright();
     echo "
+        </font>
         </body>
         </html>
     ";
