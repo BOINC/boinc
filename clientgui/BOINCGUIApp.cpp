@@ -38,9 +38,10 @@
 #ifdef __APPLE__
 #include "res/boinc_mac.xpm"
 #include "res/gridrepublic_mac.xpm"
+#else
+#include "res/boinc.xpm"
 #endif
 
-#include "res/boinc.xpm"
 #include "res/boincsm.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
