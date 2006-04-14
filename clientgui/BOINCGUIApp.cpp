@@ -44,7 +44,6 @@
 #include "res/cpdnbbc32.xpm"
 #include "res/cpdnbbcapwizard.xpm"
 #endif
-
 #include "res/boincsm.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
