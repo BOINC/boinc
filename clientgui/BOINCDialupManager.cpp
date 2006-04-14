@@ -160,16 +160,16 @@ void CBOINCDialUpManager::poll() {
                     // %s is the project name
                     //    i.e. 'BOINC', 'GridRepublic'
                     strDialogMessage.Printf(
-                        _("%s is unable to communicate with a project and needs an Internet "
-                          "connection.  Please connect to the Internet, then select the 'retry "
-                          "communications' item off the advanced menu."),
+                        _("%s is unable to communicate with a project and needs an Internet connection.\n"
+                          "Please connect to the Internet, then select the 'retry communications' "
+                          "item off the advanced menu."),
                         wxGetApp().GetBrand()->GetProjectName().c_str()
                     );
                     
                     pFrame->ShowAlert(
                         m_strDialogTitle,
                         strDialogMessage,
-                        wxICON_INFORMATION,      
+                        wxOK | wxICON_INFORMATION,      
                         false
                     );
                 }
@@ -199,7 +199,7 @@ void CBOINCDialUpManager::poll() {
                         pFrame->ShowAlert(
                             m_strDialogTitle,
                             strDialogMessage,
-                            wxICON_INFORMATION,      
+                            wxOK | wxICON_INFORMATION,      
                             true
                         );
                     }
@@ -294,9 +294,8 @@ int CBOINCDialUpManager::NotifyUserNeedConnection() {
         // 2st %s is the application name
         //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strDialogMessage.Printf(
-            _("%s needs a connection to the Internet to perform some "
-                "maintenance, open the %s to connect up and "
-                "perform the needed work."),
+            _("%s needs a connection to the Internet to perform some maintenance, open the %s to connect"
+              "up and perform the needed work."),
             wxGetApp().GetBrand()->GetProjectName().c_str(),
             wxGetApp().GetBrand()->GetApplicationName().c_str()
         );
@@ -304,7 +303,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection() {
         pFrame->ShowAlert(
             m_strDialogTitle,
             strDialogMessage,
-            wxICON_INFORMATION,
+            wxOK | wxICON_INFORMATION,
             true
         );
     }
@@ -356,7 +355,7 @@ int CBOINCDialUpManager::Connect() {
                 pFrame->ShowAlert(
                     m_strDialogTitle,
                     strDialogMessage,
-                    wxICON_INFORMATION,
+                    wxOK | wxICON_INFORMATION,
                     true
                 );
                 iAnswer = wxYES;
@@ -390,7 +389,7 @@ int CBOINCDialUpManager::Connect() {
             pFrame->ShowAlert(
                 m_strDialogTitle,
                 strDialogMessage,
-                wxICON_INFORMATION,
+                wxOK | wxICON_INFORMATION,
                 false
             );
         }
@@ -416,7 +415,7 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
     pFrame->ShowAlert(
         m_strDialogTitle,
         strDialogMessage,
-        wxICON_INFORMATION,
+        wxOK | wxICON_INFORMATION,
         true
     );
     m_bConnectedSuccessfully = true;
@@ -441,7 +440,7 @@ int CBOINCDialUpManager::ConnectionFailed() {
     pFrame->ShowAlert(
         m_strDialogTitle,
         strDialogMessage,
-        wxICON_ERROR,
+        wxOK | wxICON_ERROR,
         true
     );
     m_bConnectedSuccessfully = false;
@@ -471,7 +470,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s has detected it is now connected to the Internet. "
+        _("%s has detected it is now connected to the Internet.\n"
           "Updating all projects and retrying all transfers."),
         wxGetApp().GetBrand()->GetProjectName().c_str()
     );
@@ -479,7 +478,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
     pFrame->ShowAlert(
         m_strDialogTitle,
         strDialogMessage,
-        wxICON_INFORMATION,
+        wxOK | wxICON_INFORMATION,
         true
     );
 
@@ -516,7 +515,7 @@ int CBOINCDialUpManager::Disconnect() {
             pFrame->ShowAlert(
                 m_strDialogTitle,
                 strDialogMessage,
-                wxICON_INFORMATION,
+                wxOK | wxICON_INFORMATION,
                 true
             );
             m_bConnectedSuccessfully = false;
@@ -532,7 +531,7 @@ int CBOINCDialUpManager::Disconnect() {
             pFrame->ShowAlert(
                 m_strDialogTitle,
                 strDialogMessage,
-                wxICON_ERROR
+                wxOK | wxICON_ERROR
             );
         }
     }

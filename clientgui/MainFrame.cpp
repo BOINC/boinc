@@ -1389,7 +1389,7 @@ void CMainFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             ShowAlert(
                 strDialogTitle,
                 strDialogMessage,
-                wxICON_INFORMATION
+                wxOK | wxICON_INFORMATION
            );
         }
 
@@ -2074,7 +2074,7 @@ void CMainFrame::ShowConnectionBadPasswordAlert() {
     ShowAlert(
         strDialogTitle,
         _("The password you have provided is incorrect, please try again."),
-        wxICON_ERROR
+        wxOK | wxICON_ERROR
     );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionBadPasswordAlert - Function End"));
@@ -2147,7 +2147,7 @@ void CMainFrame::ShowNotCurrentlyConnectedAlert() {
     ShowAlert(
         strDialogTitle,
         strDialogMessage,
-        wxICON_ERROR
+        wxOK | wxICON_ERROR
     );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function End"));
