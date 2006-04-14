@@ -38,13 +38,10 @@
 #ifdef __APPLE__
 #include "res/boinc_mac.xpm"
 #include "res/gridrepublic_mac.xpm"
-#endif
-
+#else
 #include "res/boinc.xpm"
-#include "res/boincsm.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
-#include "res/gridrepublicamwizard.xpm"
 #include "res/cpdnbbc16.xpm"
 #include "res/cpdnbbc32.xpm"
 #include "res/cpdnbbcapwizard.xpm"
@@ -52,6 +49,9 @@
 #include "res/seed32.xpm"
 #include "res/seedamwizard.xpm"
 #include "res/seedapwizard.xpm"
+#endif
+#include "res/boincsm.xpm"
+#include "res/gridrepublicamwizard.xpm"
 ////@end XPM images
 
 

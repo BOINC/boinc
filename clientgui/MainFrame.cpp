@@ -205,6 +205,11 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     m_iReminderFrequency = 0;
     m_iDisplayExitWarning = 1;
 
+    m_Top = 30;
+    m_Left = 30;
+    m_Width = 800;
+    m_Height = 600;
+
     m_strNetworkDialupConnectionName = wxEmptyString;
 
 
@@ -726,14 +731,20 @@ bool CMainFrame::SaveState() {
 #if defined(__WXMSW__) || defined(__WXMAC__)
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
 #endif
+
     if (!IsIconized() && !IsMaximized()) {
-        pConfig->Write(wxT("Width"), GetSize().GetWidth());
-        pConfig->Write(wxT("Height"), GetSize().GetHeight());
-#ifdef __WXMAC__
-        pConfig->Write(wxT("XPos"),GetPosition().x);
-        pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif
+        m_Width = GetSize().GetWidth();
+        m_Height = GetSize().GetHeight();
+        m_Left = GetPosition().x;
+        m_Top = GetPosition().y;
     }
+
+    pConfig->Write(wxT("Width"), m_Width);
+    pConfig->Write(wxT("Height"), m_Height);
+#ifdef __WXMAC__
+    pConfig->Write(wxT("XPos"), m_Left);
+    pConfig->Write(wxT("YPos"), m_Top);
+#endif
 
 
     //
@@ -1502,14 +1513,28 @@ void CMainFrame::OnShow(wxShowEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function Begin"));
 
     if (event.GetShow())
+        SetWindowDimensions();
+    else
         GetWindowDimensions();
     
     event.Skip();
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function End"));
 }
 
-    
+
 void CMainFrame::GetWindowDimensions() {
+    if (!IsIconized() && !IsMaximized()) {
+#ifdef __WXMAC__
+        m_Top = GetPosition().y;
+        m_Left = GetPosition().x;
+#endif
+        m_Width = GetSize().GetWidth();
+        m_Height = GetSize().GetHeight();
+    }
+}
+    
+
+void CMainFrame::SetWindowDimensions() {
     static bool bFirstTime = true;
 
     if (bFirstTime) {
@@ -2155,10 +2180,12 @@ bool CMainFrame::Show(bool show) {
     GetCurrentProcess(&psn);
     if (show) {
         SetFrontProcess(&psn);  // Shows process if hidden
+        SetWindowDimensions();
+    } else {
         GetWindowDimensions();
-    } else
         if (IsProcessVisible(&psn))
             ShowHideProcess(&psn, false);
+    }
     
     return wxFrame::Show(show);
 }

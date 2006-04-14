@@ -3828,6 +3828,10 @@ Charlie 14 Apr 2006
       CMainFrame::OnShow() into new method CMainFrame::GetWindowDimensions(). 
       Call GetWindowDimensions() from CMainFrame::OnShow() and also from 
       Mac-only method CMainFrame::Show().
+    - Mac: Fix compile errors due to xpm files.
+    - Save main window dimensions on Hide so SaveState can write them even 
+      if the window is hidden before application exit.
       
     clientgui/
+        BOINCGUIApp.cpp
         MainFrame.cpp, .h

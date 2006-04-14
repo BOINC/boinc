@@ -88,6 +88,7 @@ public:
 
     void OnClose( wxCloseEvent& event );
     void OnShow( wxShowEvent& event );
+    void SetWindowDimensions();
     void GetWindowDimensions();
 
     void OnRefreshState( wxTimerEvent& event );
@@ -157,6 +158,11 @@ private:
     bool            m_bNetworkDialupPromptCredentials;
 
     wxArrayString   m_aSelectedComputerMRU;
+
+    long            m_Top;
+    long            m_Left;
+    long            m_Height;
+    long            m_Width;
 
     bool            CreateMenu();
     bool            DeleteMenu();
