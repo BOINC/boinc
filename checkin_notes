@@ -3770,3 +3770,12 @@ Rom    13 Apr 2006
 Rom    13 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.3 release, all platforms
       boinc_core_release_5_4_3
+
+Charlie 14 Apr 2006
+    - Mac: OnShow() is not implemented in wxMac-2.6.2, so move code from 
+      CMainFrame::OnShow() into new method CMainFrame::GetWindowDimensions(). 
+      Call GetWindowDimensions() from CMainFrame::OnShow() and also from 
+      Mac-only method CMainFrame::Show().
+      
+    clientgui/
+        MainFrame.cpp, .h
