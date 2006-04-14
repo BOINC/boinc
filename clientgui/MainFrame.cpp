@@ -1500,9 +1500,19 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 
 void CMainFrame::OnShow(wxShowEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function Begin"));
+
+    if (event.GetShow())
+        GetWindowDimensions();
+    
+    event.Skip();
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function End"));
+}
+
+    
+void CMainFrame::GetWindowDimensions() {
     static bool bFirstTime = true;
 
-    if (bFirstTime && event.GetShow()) {
+    if (bFirstTime) {
         bFirstTime = false;
 
         wxString        strBaseConfigLocation = wxString(wxT("/"));
@@ -1564,9 +1574,6 @@ void CMainFrame::OnShow(wxShowEvent& event) {
         Maximize(bWindowMaximized);
 #endif
     }
-
-	event.Skip();
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function End"));
 }
 
 
@@ -2148,6 +2155,7 @@ bool CMainFrame::Show(bool show) {
     GetCurrentProcess(&psn);
     if (show) {
         SetFrontProcess(&psn);  // Shows process if hidden
+        GetWindowDimensions();
     } else
         if (IsProcessVisible(&psn))
             ShowHideProcess(&psn, false);

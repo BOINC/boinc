@@ -3822,3 +3822,12 @@ Rom    13 Apr 2006
         
     clientgui/
         BOINCGUIApp.cpp
+
+Charlie 14 Apr 2006
+    - Mac: OnShow() is not implemented in wxMac-2.6.2, so move code from 
+      CMainFrame::OnShow() into new method CMainFrame::GetWindowDimensions(). 
+      Call GetWindowDimensions() from CMainFrame::OnShow() and also from 
+      Mac-only method CMainFrame::Show().
+      
+    clientgui/
+        MainFrame.cpp, .h
