@@ -733,10 +733,7 @@ bool CMainFrame::SaveState() {
 #endif
 
     if (!IsIconized() && !IsMaximized()) {
-        m_Width = GetSize().GetWidth();
-        m_Height = GetSize().GetHeight();
-        m_Left = GetPosition().x;
-        m_Top = GetPosition().y;
+        GetWindowDimensions();
     }
 
     pConfig->Write(wxT("Width"), m_Width);
@@ -1524,10 +1521,8 @@ void CMainFrame::OnShow(wxShowEvent& event) {
 
 void CMainFrame::GetWindowDimensions() {
     if (!IsIconized() && !IsMaximized()) {
-#ifdef __WXMAC__
         m_Top = GetPosition().y;
         m_Left = GetPosition().x;
-#endif
         m_Width = GetSize().GetWidth();
         m_Height = GetSize().GetHeight();
     }
