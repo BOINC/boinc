@@ -38,17 +38,16 @@
 #ifdef __APPLE__
 #include "res/boinc_mac.xpm"
 #include "res/gridrepublic_mac.xpm"
-#else
+#endif
+
 #include "res/boinc.xpm"
+#include "res/boincsm.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
+#include "res/gridrepublicamwizard.xpm"
 #include "res/cpdnbbc16.xpm"
 #include "res/cpdnbbc32.xpm"
 #include "res/cpdnbbcapwizard.xpm"
-#endif
-
-#include "res/boincsm.xpm"
-#include "res/gridrepublicamwizard.xpm"
 ////@end XPM images
 
 
@@ -416,9 +415,6 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
         GetCurrentProcess(&psn);
         ShowHideProcess(&psn, false);
-#else
-        m_pFrame->Show();
-        m_pFrame->Show(false);
 #endif
 	}
 

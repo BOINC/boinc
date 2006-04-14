@@ -3749,3 +3749,17 @@ Rom    12 Apr 2006
 Rom    12 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.2 release, all platforms
       boinc_core_release_5_4_2
+
+Rom    13 Apr 2006
+    - Bug Fix: Adjust the startup sequence on Windows a bit so that the
+        window doesn't flicker.  Another perk is that on startup the
+        window won't display itself until it can fully deal with user
+        input.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp, .h
+
+Rom    12 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.3 release, all platforms
+      boinc_core_release_5_4_3

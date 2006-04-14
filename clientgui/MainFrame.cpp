@@ -171,6 +171,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnHelpAbout)
     EVT_CLOSE(CMainFrame::OnClose)
+    EVT_SHOW(CMainFrame::OnShow)
     EVT_MAINFRAME_ALERT(CMainFrame::OnAlert)
     EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
     EVT_MAINFRAME_INITIALIZED(CMainFrame::OnInitialized)
@@ -796,17 +797,8 @@ bool CMainFrame::RestoreState() {
     wxString        strValue = wxEmptyString;
     long            iIndex = 0;
     long            iPageCount = 0;
+    long            iCurrentPage;
     bool            bKeepEnumerating = false;
-    bool            bWindowIconized = false;
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    bool            bWindowMaximized = false;
-#endif
-#ifdef __WXMAC__
-    long            iTop = 0;
-    long            iLeft = 0;
-#endif
-    long            iHeight = 0;
-    long            iWidth = 0;
 
 
     wxASSERT(pConfig);
@@ -821,9 +813,6 @@ bool CMainFrame::RestoreState() {
     //
     // Restore Frame State
     //
-    int         iCurrentPage;
-
-
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
@@ -839,43 +828,6 @@ bool CMainFrame::RestoreState() {
         pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
-
-    pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
-#endif
-    pConfig->Read(wxT("Width"), &iWidth, 800);
-    pConfig->Read(wxT("Height"), &iHeight, 600);
-
-#ifdef __WXMAC__
-    pConfig->Read(wxT("YPos"), &iTop, 30);
-    pConfig->Read(wxT("XPos"), &iLeft, 30);
-
-    // If the user has changed the arrangement of multiple 
-    // displays, make sure the window title bar is still on-screen.
-    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-    RgnHandle displayRgn = NewRgn();
-    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-    Rect menuRect = ((**GetMainDevice())).gdRect;
-    menuRect.bottom = GetMBarHeight() + menuRect.top;
-    RgnHandle menuRgn = NewRgn();
-    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-    if (!RectInRgn(&titleRect, displayRgn))
-        iTop = iLeft = 30;
-    DisposeRgn(menuRgn);
-    DisposeRgn(displayRgn);
-
-    SetSize(iLeft, iTop, iWidth, iHeight);
-#else       // ! __WXMAC__
-    SetSize(-1, -1, iWidth, iHeight);
-    Iconize(bWindowIconized);
-#endif
-
-#ifdef __WXMSW__ 
-    Maximize(bWindowMaximized);
-#endif
 
     //
     // Restore Page(s) State
@@ -1546,6 +1498,78 @@ void CMainFrame::OnClose(wxCloseEvent& event) {
 }
 
 
+void CMainFrame::OnShow(wxShowEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function Begin"));
+    static bool bFirstTime = true;
+
+    if (bFirstTime && event.GetShow()) {
+        bFirstTime = false;
+
+        wxString        strBaseConfigLocation = wxString(wxT("/"));
+        wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+        bool            bWindowIconized = false;
+    #if defined(__WXMSW__) || defined(__WXMAC__)
+        bool            bWindowMaximized = false;
+    #endif
+    #ifdef __WXMAC__
+        long            iTop = 0;
+        long            iLeft = 0;
+    #endif
+        long            iHeight = 0;
+        long            iWidth = 0;
+
+
+        wxASSERT(pConfig);
+
+        //
+        // Restore Frame State
+        //
+
+
+        pConfig->SetPath(strBaseConfigLocation);
+
+        pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
+#if defined(__WXMSW__) || defined(__WXMAC__)
+        pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
+#endif
+        pConfig->Read(wxT("Width"), &iWidth, 800);
+        pConfig->Read(wxT("Height"), &iHeight, 600);
+
+#ifdef __WXMAC__
+        pConfig->Read(wxT("YPos"), &iTop, 30);
+        pConfig->Read(wxT("XPos"), &iLeft, 30);
+
+        // If the user has changed the arrangement of multiple 
+        // displays, make sure the window title bar is still on-screen.
+        Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
+        InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+        RgnHandle displayRgn = NewRgn();
+        CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+        Rect menuRect = ((**GetMainDevice())).gdRect;
+        menuRect.bottom = GetMBarHeight() + menuRect.top;
+        RgnHandle menuRgn = NewRgn();
+        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+        if (!RectInRgn(&titleRect, displayRgn))
+            iTop = iLeft = 30;
+        DisposeRgn(menuRgn);
+        DisposeRgn(displayRgn);
+
+        SetSize(iLeft, iTop, iWidth, iHeight);
+#else       // ! __WXMAC__
+        SetSize(-1, -1, iWidth, iHeight);
+#endif
+
+#ifdef __WXMSW__ 
+        Maximize(bWindowMaximized);
+#endif
+    }
+
+	event.Skip();
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnShow - Function End"));
+}
+
+
 void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
 
@@ -1556,6 +1580,11 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
         if (!event.m_notification_only) {
             int retval = 0;
+
+            if (!IsShown()) {
+                Show();
+            }
+
             retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
             if (event.m_alert_event_type == AlertProcessResponse) {
                 event.ProcessResponse(retval);
@@ -1595,6 +1624,11 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
     if (IsShown() && !event.m_notification_only) {
         if (!event.m_notification_only) {
             int retval = 0;
+
+            if (!IsShown()) {
+                Show();
+            }
+
             retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
             if (event.m_alert_event_type == AlertProcessResponse) {
                 event.ProcessResponse(retval);
@@ -1637,6 +1671,11 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
         pAMWizard = new CWizardAccountManager(this);
+
+        if (!IsShown()) {
+            Show();
+        }
+
         if (pAMWizard->Run()) {
             // If successful, hide the main window
             Hide();
@@ -1646,6 +1685,11 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
         }
     } else if (0 >= pDoc->GetProjectCount()) {
         pAPWizard = new CWizardAttachProject(this);
+
+        if (!IsShown()) {
+            Show();
+        }
+
         pDoc->rpc.get_project_init_status(pis);
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
