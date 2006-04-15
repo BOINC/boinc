@@ -380,9 +380,9 @@ int CBOINCDialUpManager::Connect() {
             // %s is the project name
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
-                _("%s is unable to communicate with a project and no default connection is specified.\n"
-                  "Please connect up to the Internet or specify a default connection via the connections\n"
-                  "tab in the Options dialog off of the advanced menu."),
+                _("%s couldn't do Internet communication, and no default connection is selected.\n"
+                  "Please connect to the Internet, or select a default connection\n"
+                  "using Advanced/Options/Connections."),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
 
