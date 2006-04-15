@@ -69,6 +69,8 @@ static char        stderr_log[256];
 static char        stderr_archive[256];
 static FILE*       stderr_file;
 static char        boinc_dir[256];
+static int         boinc_proxy_enabled;
+static char        boinc_proxy[256];
 static char        symstore[256];
 
 #ifdef _WIN32
@@ -145,6 +147,8 @@ int diagnostics_init(
     snprintf(stderr_log, sizeof(stderr_log), "%s.txt", stderr_prefix);
     snprintf(stderr_archive, sizeof(stderr_archive), "%s.old", stderr_prefix);
     strcpy(boinc_dir, "");
+    boinc_proxy_enabled = 0;
+    strcpy(boinc_proxy, "");
     strcpy(symstore, "");
 
 
@@ -240,8 +244,14 @@ int diagnostics_init(
     // Store the location of the BOINC directory for future use
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
         char    buf[256];
+        char    proxy_address[256];
+        int     proxy_port;
         MIOFILE mf;
         FILE*   p;
+
+        strcpy(buf, "");
+        strcpy(proxy_address, "");
+        proxy_port = 0;
 
         p = fopen(INIT_DATA_FILE, "r");
         if (!p) return ERR_FOPEN;
@@ -250,8 +260,18 @@ int diagnostics_init(
             if (match_tag(buf, "</app_init_data>")) break;
             else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
             else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
+            else if (match_tag(buf, "<use_http_proxy/>")) boinc_proxy_enabled = TRUE;
+            else if (parse_str(buf, "<http_server_name>", proxy_address, 256)) continue;
+            else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
         }
         fclose(p);
+
+        if (strlen(proxy_address)) {
+            if (sizeof(boinc_proxy) > 
+                snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port)) {
+                boinc_proxy[255] = '\0';
+            }
+        }
     }
 
     return BOINC_SUCCESS;
@@ -384,7 +404,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
 #if !defined(__MINGW32__) && !defined(__CYGWIN__)
     // Kickstart the debugger extensions
- 	DebuggerInitialize(boinc_dir, symstore);
+ 	DebuggerInitialize(boinc_dir, symstore, boinc_proxy_enabled, boinc_proxy);
 
     // Dump any useful information
     DebuggerDisplayDiagnostics();
