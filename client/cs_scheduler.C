@@ -86,7 +86,6 @@ void PROJECT::set_min_rpc_time(double future_time) {
             timediff_format(min_rpc_time - gstate.now).c_str()
         );
     }
-    min_report_min_rpc_time = 0;
 }
 
 // Return true iff we should not contact the project yet.

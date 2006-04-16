@@ -3879,5 +3879,9 @@ Rom    15 Apr 2006
         diagnostics.C
         stackwalker_win.cpp, .h
 
-        
-    
+David  16 Apr 2006
+	- core client: get rid of min_report_rpc_time
+
+	client/
+		client_types.C,h
+		cs_scheduler.C

@@ -207,8 +207,6 @@ public:
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
                                   // of this project (or zero)
-    double min_report_min_rpc_time; // when to next report on min_rpc_time
-                                    // (or zero)
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences

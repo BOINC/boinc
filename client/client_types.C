@@ -78,7 +78,6 @@ void PROJECT::init() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
-    min_report_min_rpc_time = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     trickle_up_pending = false;
