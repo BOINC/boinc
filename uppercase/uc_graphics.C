@@ -19,6 +19,12 @@
 
 // graphics code for upper_case
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#include "config.h"
+#endif
+
 #include "gutil.h"
 #include "boinc_gl.h"
 #include "graphics_api.h"
