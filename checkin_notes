@@ -3898,3 +3898,20 @@ Rom    16 Apr 2006
     
     lib/
         stackwalker_win.cpp
+
+Charlie 17 Apr 2006
+    - Mac bug fix: If window was never opened, window dimensions were never 
+        read from preferences, so SaveState wrote bad values in preferences.
+    - Mac: Don't customize name of BOINC Data directory for branding; change 
+        "GridRepublic Manager" to "GridRepublic Desktop; make branding script 
+        more robust if there is a space in any file or directory name or path.
+      
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp
+    mac_installer/
+        GR-ReadMe.rtf
+        PostInstall.cpp
+        preinstall
+        release_boinc.sh
+        release_GridRepublic.sh

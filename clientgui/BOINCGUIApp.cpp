@@ -310,10 +310,12 @@ bool CBOINCGUIApp::OnInit() {
     success = ::wxSetWorkingDirectory(strDirectory);
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
-        strDirectory += m_pBranding->GetProjectName();
-        strDirectory += wxT(" Data");
+//        strDirectory += m_pBranding->GetProjectName();
+//        strDirectory += wxT(" Data");
+        strDirectory += wxT("BOINC Data");  // We don't customize BOINC Data directory name for branding
         if (! wxDirExists(strDirectory))
-            success = wxMkdir(m_pBranding->GetProjectName() + wxT(" Data"), 0777);    // Does nothing if dir exists
+//            success = wxMkdir(m_pBranding->GetProjectName() + wxT(" Data"), 0777);    // Does nothing if dir exists
+            success = wxMkdir(m_pBranding->GetProjectName() + wxT("BOINC Data"), 0777);    // Does nothing if dir exists
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }

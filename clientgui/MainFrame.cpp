@@ -837,6 +837,33 @@ bool CMainFrame::RestoreState() {
         m_pNotebook->SetSelection(iCurrentPage);
     }
 
+#ifdef __WXMAC__
+    // Read window dimensions now, so SaveState can write them even if we never open the window
+    pConfig->Read(wxT("Width"), &m_Width, 800);
+    pConfig->Read(wxT("Height"), &m_Height, 600);
+
+    pConfig->Read(wxT("YPos"), &m_Top, 30);
+    pConfig->Read(wxT("XPos"), &m_Left, 30);
+
+    // If the user has changed the arrangement of multiple 
+    // displays, make sure the window title bar is still on-screen.
+    Rect titleRect = {m_Top, m_Left, m_Top+22, m_Left+m_Width };
+    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+    RgnHandle displayRgn = NewRgn();
+    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+    Rect menuRect = ((**GetMainDevice())).gdRect;
+    menuRect.bottom = GetMBarHeight() + menuRect.top;
+    RgnHandle menuRgn = NewRgn();
+    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+    if (!RectInRgn(&titleRect, displayRgn))
+        m_Top = m_Left = 30;
+    DisposeRgn(menuRgn);
+    DisposeRgn(displayRgn);
+
+    SetSize(m_Left, m_Top, m_Width, m_Height);
+#endif
+
     //
     // Restore Page(s) State
     //
@@ -1530,6 +1557,7 @@ void CMainFrame::GetWindowDimensions() {
     
 
 void CMainFrame::SetWindowDimensions() {
+#ifndef __WXMAC__
     static bool bFirstTime = true;
 
     if (bFirstTime) {
@@ -1538,16 +1566,9 @@ void CMainFrame::SetWindowDimensions() {
         wxString        strBaseConfigLocation = wxString(wxT("/"));
         wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
         bool            bWindowIconized = false;
-    #if defined(__WXMSW__) || defined(__WXMAC__)
+#ifdef __WXMSW__ 
         bool            bWindowMaximized = false;
-    #endif
-    #ifdef __WXMAC__
-        long            iTop = 0;
-        long            iLeft = 0;
-    #endif
-        long            iHeight = 0;
-        long            iWidth = 0;
-
+#endif
 
         wxASSERT(pConfig);
 
@@ -1555,45 +1576,19 @@ void CMainFrame::SetWindowDimensions() {
         // Restore Frame State
         //
 
-
         pConfig->SetPath(strBaseConfigLocation);
 
         pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
-#if defined(__WXMSW__) || defined(__WXMAC__)
-        pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
-#endif
-        pConfig->Read(wxT("Width"), &iWidth, 800);
-        pConfig->Read(wxT("Height"), &iHeight, 600);
-
-#ifdef __WXMAC__
-        pConfig->Read(wxT("YPos"), &iTop, 30);
-        pConfig->Read(wxT("XPos"), &iLeft, 30);
-
-        // If the user has changed the arrangement of multiple 
-        // displays, make sure the window title bar is still on-screen.
-        Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-        InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-        RgnHandle displayRgn = NewRgn();
-        CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-        Rect menuRect = ((**GetMainDevice())).gdRect;
-        menuRect.bottom = GetMBarHeight() + menuRect.top;
-        RgnHandle menuRgn = NewRgn();
-        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-        if (!RectInRgn(&titleRect, displayRgn))
-            iTop = iLeft = 30;
-        DisposeRgn(menuRgn);
-        DisposeRgn(displayRgn);
-
-        SetSize(iLeft, iTop, iWidth, iHeight);
-#else       // ! __WXMAC__
-        SetSize(-1, -1, iWidth, iHeight);
-#endif
+        pConfig->Read(wxT("Width"), &m_Width, 800);
+        pConfig->Read(wxT("Height"), &m_Height, 600);
+        SetSize(-1, -1, m_Width, m_Height);
 
 #ifdef __WXMSW__ 
+        pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
         Maximize(bWindowMaximized);
 #endif
     }
+#endif  // ! __WXMAC__
 }
 
 
@@ -2175,7 +2170,6 @@ bool CMainFrame::Show(bool show) {
     GetCurrentProcess(&psn);
     if (show) {
         SetFrontProcess(&psn);  // Shows process if hidden
-        SetWindowDimensions();
     } else {
         GetWindowDimensions();
         if (IsProcessVisible(&psn))

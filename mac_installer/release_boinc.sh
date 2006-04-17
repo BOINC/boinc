@@ -23,7 +23,7 @@ if [ $# -lt 3 ]; then
 echo "Usage:"
 echo "   cd [path]/boinc"
 echo "   source [path_to_this_script] major_version minor_version revision_number"
-exit 0
+return 1
 fi
 
 pushd ./
@@ -50,8 +50,9 @@ mkdir -p ../BOINC_Installer/Installer\ Resources/
 
 cp -fp mac_Installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
-cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
-cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
+#### We don't customize BOINC Data directory name for branding
+#### cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
+#### cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 
