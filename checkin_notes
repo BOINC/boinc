@@ -3956,3 +3956,14 @@ David  17 Apr 2006
 		db_purge.C
 		server_types.C
 
+David  17 Apr 2006
+    - GUI RPC: add an optional <project_suspended_via_gui/>
+        tag to <result> elements.
+        This tells the Manager that the project is suspended
+        without having to do a separate get_projects GUI RPC
+
+    client/
+        client_types.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

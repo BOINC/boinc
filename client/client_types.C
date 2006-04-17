@@ -1385,6 +1385,9 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (ready_to_report) out.printf("    <ready_to_report/>\n");
         if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
         if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
+        if (project->suspended_via_gui) {
+            out.printf("    <project_suspended_via_gui/>\n");
+        }
         if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"

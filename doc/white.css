@@ -14,20 +14,23 @@ code {
 a:link {
 	color: blue;
     text-decoration: none;
+	font-weight: bold;
 }
 
 a:visited {
 	color: blue;
     text-decoration: none;
+	font-weight: bold;
 }
 
 a:active {
 	color: blue;
+	font-weight: bold;
 }
 
 a:hover {
-	color: blue;
-    text-decoration: underline;
+    color: rgb(80,180,255);
+#text-decoration: underline;
 	font-weight: bold;
 }
 
