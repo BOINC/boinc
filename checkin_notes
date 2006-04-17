@@ -3885,3 +3885,10 @@ David  16 Apr 2006
 	client/
 		client_types.C,h
 		cs_scheduler.C
+
+Rom    16 Apr 2006
+    - Bug Fix: Add cache timestamps for project, task, transfers, statistics,
+        and resources.
+        
+    clientgui/
+        MainDocument.cpp, .h
