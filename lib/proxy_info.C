@@ -33,7 +33,7 @@ using std::string;
 #include "proxy_info.h"
 
 int PROXY_INFO::parse(MIOFILE& in) {
-    char buf[256];
+    char buf[256], buf2[1024];
     string s5un, s5up, hun, hup, temp;
 
     memset(this, 0, sizeof(PROXY_INFO));
@@ -47,24 +47,20 @@ int PROXY_INFO::parse(MIOFILE& in) {
         else if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
         else if (parse_str(buf, "<http_server_name>", http_server_name, sizeof(http_server_name))) continue;
         else if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
-        else if (parse_str(buf, "<socks5_user_name>", s5un)) {
-            xml_unescape(s5un, temp);
-            strcpy(socks5_user_name, temp.c_str());
+        else if (parse_str(buf, "<socks5_user_name>", buf2, 1024)) {
+            xml_unescape(buf2, socks5_user_name);
             continue;
         }
-        else if (parse_str(buf, "<socks5_user_passwd>", s5up)) {
-            xml_unescape(s5up, temp);
-            strcpy(socks5_user_passwd, temp.c_str());
+        else if (parse_str(buf, "<socks5_user_passwd>", buf2, 1024)) {
+            xml_unescape(buf, socks5_user_passwd);
             continue;
         }
-        else if (parse_str(buf, "<http_user_name>", hun)) {
-            xml_unescape(hun, temp);
-            strcpy(http_user_name, temp.c_str());
+        else if (parse_str(buf, "<http_user_name>", buf2, 1024)) {
+            xml_unescape(buf2, http_user_name);
             continue;
         }
-        else if (parse_str(buf, "<http_user_passwd>", hup)) {
-            xml_unescape(hup, temp);
-            strcpy(http_user_passwd, temp.c_str());
+        else if (parse_str(buf, "<http_user_passwd>", buf2, 1024)) {
+            xml_unescape(buf, http_user_passwd);
             continue;
         }
     }
@@ -72,7 +68,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
 }
 
 int PROXY_INFO::write(MIOFILE& out) {
-    string s5un, s5up, hun, hup;
+    char s5un[1024], s5up[1024], hun[1024], hup[1024];
     xml_escape(socks5_user_name, s5un);
     xml_escape(socks5_user_passwd, s5up);
     xml_escape(http_user_name, hun);
@@ -100,10 +96,10 @@ int PROXY_INFO::write(MIOFILE& out) {
         socks_server_port,
         http_server_name,
         http_server_port,
-        s5un.c_str(),
-        s5up.c_str(),
-        hun.c_str(),
-        hup.c_str()
+        s5un,
+        s5up,
+        hun,
+        hup
     );
     return 0;
 }

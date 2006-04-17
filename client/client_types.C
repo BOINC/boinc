@@ -183,16 +183,14 @@ int PROJECT::parse_state(MIOFILE& in) {
 //
 int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     unsigned int i;
-    string u1, u2, t1, t2;
+    char un[1024], tn[1024];
 
     out.printf(
         "<project>\n"
     );
 
-    u1 = user_name;
-    xml_escape(u1, u2);
-    t1 = team_name;
-    xml_escape(t1, t2);
+    xml_escape(user_name, un);
+    xml_escape(team_name, tn);
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
@@ -218,8 +216,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
-        u2.c_str(),
-        t2.c_str(),
+        un,
+        tn,
         email_hash,
         cross_project_id,
         user_total_credit,

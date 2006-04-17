@@ -3937,3 +3937,22 @@ Rom    17 Apr 2006
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  17 Apr 2006
+	- get rid of the versions of xml_escape() and xml_unescape()
+		that take std::string args.
+		These are too inefficient.
+	- boolean constant is "true", not "TRUE"
+
+	client/
+		client_types.C
+	lib/
+		app_ipc.C
+		diagnostics.C
+		parse.C,h
+		proxy_info.C
+	sched/
+		db_dump.C
+		db_purge.C
+		server_types.C
+

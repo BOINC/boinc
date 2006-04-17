@@ -406,7 +406,6 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
-    string u1, u2, t1, t2;
     char buf[LARGE_BLOB_SIZE];
 
     fprintf(fout,
@@ -481,14 +480,13 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     );
 
     if (user.id) {
-        u1 = user.name;
-        xml_escape(u1, u2);
+        xml_escape(user.name, buf);
         fprintf(fout,
             "<user_name>%s</user_name>\n"
             "<user_total_credit>%f</user_total_credit>\n"
             "<user_expavg_credit>%f</user_expavg_credit>\n"
             "<user_create_time>%d</user_create_time>\n",
-            u2.c_str(),
+            buf,
             user.total_credit,
             user.expavg_credit,
             user.create_time
@@ -537,11 +535,10 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     // might want to send team credit too.
     //
     if (team.id) {
-        t1 = team.name;
-        xml_escape(t1, t2);
+        xml_escape(team.name, buf);
         fprintf(fout,
             "<team_name>%s</team_name>\n",
-            t2.c_str()
+            buf
         );
     } else {
         fprintf(fout,

@@ -289,7 +289,7 @@ void NUMBERED_ZFILE::set_id(int id) {
 
 void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
-    string p_vendor, p_model, os_name, os_version;
+    char p_vendor[1024], p_model[1024], os_name[1024], os_version[1024];
 
     xml_escape(host.p_vendor, p_vendor);
     xml_escape(host.p_model, p_model);
@@ -328,10 +328,10 @@ void write_host(HOST& host, FILE* f, bool detail) {
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
-        p_vendor.c_str(),
-        p_model.c_str(),
-        os_name.c_str(),
-        os_version.c_str()
+        p_vendor,
+        p_model,
+        os_name,
+        os_version
     );
     if (detail) {
         fprintf(f,
@@ -378,7 +378,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     char buf[1024];
     char cpid[MD5_LEN];
 
-    string name, url;
+    char name[1024], url[1024];
     xml_escape(user.name, name);
     xml_escape(user.url, url);
 
@@ -397,7 +397,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
         " <expavg_time>%f</expavg_time>\n"
         " <cpid>%s</cpid>\n",
         user.id,
-        name.c_str(),
+        name,
         user.country,
         user.create_time,
         user.total_credit,
@@ -408,7 +408,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     if (strlen(user.url)) {
         fprintf(f,
             " <url>%s</url>\n",
-            url.c_str()
+            url
         );
     }
     if (user.teamid) {
@@ -447,8 +447,8 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
 void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
     char buf[256];
-    string name;
-    string url, name_html, description;
+    char name[1024];
+    char url[1024], name_html[1024], description[1024];
     int retval;
 
     xml_escape(team.name, name);
@@ -465,7 +465,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         " <nusers>%d</nusers>\n",
         team.id,
         team.type,
-        name.c_str(),
+        name,
         team.userid,
         team.total_credit,
         team.expavg_credit,
@@ -477,11 +477,11 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     //
     retval = user.lookup_id(team.userid);
     if (!retval) {
-        string fname;
+        char fname[1024];
         xml_escape(user.name, fname);
         fprintf(f,
             "  <founder_name>%s</founder_name>\n",
-            fname.c_str()
+            fname
         );
     }
 
@@ -493,21 +493,21 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         xml_escape(team.url, url);
         fprintf(f,
             " <url>%s</url>\n",
-            url.c_str()
+            url
         );
     }
     if (strlen(team.name_html)) {
         xml_escape(team.name_html, name_html);
         fprintf(f,
             "<name_html>%s</name_html>\n",
-            name_html.c_str()
+            name_html
         );
     }
     if (strlen(team.description)) {
         xml_escape(team.description, description);
         fprintf(f,
             "<description>%s</description>\n",
-            description.c_str()
+            description
         );
     }
     fprintf(f,
