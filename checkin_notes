@@ -3892,3 +3892,9 @@ Rom    16 Apr 2006
         
     clientgui/
         MainDocument.cpp, .h
+
+Rom    16 Apr 2006
+    - Bug Fix: Include file version informaton in the debugger module list
+    
+    lib/
+        stackwalker_win.cpp

@@ -314,21 +314,44 @@ typedef DWORD (__stdcall *tUDSN)(
 );
 tUDSN pUDSN = NULL;
 
-// SetDllDirectory
-typedef BOOL (__stdcall *tSDD)(
-  LPCTSTR lpPathName
-);
-
-// SetDllDirectory
-typedef BOOL (__stdcall *tSDD)(
-  LPCTSTR lpPathName
-);
-
 // SymbolServerSetOptions
 typedef BOOL (__stdcall *tSSSO)(
-  UINT_PTR options,
-  ULONG64 data
+    UINT_PTR options,
+    ULONG64 data
 );
+tSSSO pSSSO = NULL;
+
+// SetDllDirectory
+typedef BOOL (__stdcall *tSDD)(
+    LPCTSTR lpPathName
+);
+tSDD pSDD = NULL;
+
+
+// GetFileVersionInfoSize 
+typedef BOOL (__stdcall *tGFVIS)(
+    LPCSTR lptstrFilename,
+    LPDWORD lpdwHandle
+);
+tGFVIS pGFVIS = NULL;
+
+// GetFileVersionInfo 
+typedef BOOL (__stdcall *tGFVI)(
+    LPCSTR lptstrFilename,
+    DWORD dwHandle,
+    DWORD dwLen,
+    LPVOID lpData
+);
+tGFVI pGFVI = NULL;
+
+// VerQueryValue 
+typedef BOOL (__stdcall *tVQV)(
+    const LPVOID pBlock,
+    LPTSTR lpSubBlock,
+    LPVOID *lplpBuffer,
+    PUINT puLen
+);
+tVQV pVQV = NULL;
 
 
 #ifndef SYMOPT_NO_PROMPTS
@@ -351,9 +374,10 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& c);
 static BOOL g_bInitialized = FALSE;
 static HANDLE g_hProcess = NULL;
 static DWORD g_dwShowCount = 0;  // increase at every ShowStack-Call
-static HINSTANCE g_hDbgHelpDll = NULL;
-static HINSTANCE g_hSymSrvDll = NULL;
-static HINSTANCE g_hSrcSrvDll = NULL;
+static HMODULE g_hDbgHelpDll = NULL;
+static HMODULE g_hSymSrvDll = NULL;
+static HMODULE g_hSrcSrvDll = NULL;
+static HMODULE g_hVersionDll = NULL;
 static CRITICAL_SECTION g_csFileOpenClose = {0};
 
 
@@ -472,13 +496,39 @@ BOOL CALLBACK SymRegisterCallbackProc(HANDLE hProcess, ULONG ActionCode, ULONG64
 
 BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID UserContext)
 {
-    IMAGEHLP_MODULE64 Module;
-    char type[MAX_SYM_NAME];
+    IMAGEHLP_MODULE64   Module;
+    char                szSymbolType[32];
+    DWORD               dwHandle;
+    LPVOID              lpData;
+    DWORD               dwSize;
+    char                szQuery[256];
+    LPVOID              lpVar;
+    UINT                uiVarSize;
+    VS_FIXEDFILEINFO*   pFileInfo;
+    char                szVersionInfo[24];
+    char                szCompanyName[256];
+    char                szProductName[256];
+    char                szFileVersion[256];
+    char                szProductVersion[256];
+    bool                bFileVersionSupported = false;
+    bool                bFileVersionRetrieved = false;
+
+    struct LANGANDCODEPAGE {
+        WORD wLanguage;
+        WORD wCodePage;
+    } *lpTranslate;
+
 
     memset( &Module, '\0', sizeof(IMAGEHLP_MODULE64) );
     Module.SizeOfStruct = sizeof(IMAGEHLP_MODULE64);
 
-    memset( &type, '\0', sizeof type );
+    memset( &szSymbolType, '\0', sizeof(szSymbolType) );
+    memset( &szQuery, '\0', sizeof(szQuery) );
+    memset( &szVersionInfo, '\0', sizeof(szVersionInfo) );
+    memset( &szCompanyName, '\0', sizeof(szCompanyName) );
+    memset( &szProductName, '\0', sizeof(szProductName) );
+    memset( &szFileVersion, '\0', sizeof(szFileVersion) );
+    memset( &szProductVersion, '\0', sizeof(szProductVersion) );
 
     if ( !pSGMI( g_hProcess, BaseOfDll, &Module ) )
     {
@@ -489,38 +539,130 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID
         switch ( Module.SymType )
         {
             case SymNone:
-                strcpy( type, "-nosymbols-" );
+                strcpy( szSymbolType, "-nosymbols-" );
                 break;
             case SymCoff:
-                strcpy( type, "COFF" );
+                strcpy( szSymbolType, "COFF" );
                 break;
             case SymCv:
-                strcpy( type, "CV" );
+                strcpy( szSymbolType, "CV" );
                 break;
             case SymPdb:
-                strcpy( type, "PDB" );
+                strcpy( szSymbolType, "PDB" );
                 break;
             case SymExport:
-                strcpy( type, "-exported-" );
+                strcpy( szSymbolType, "-exported-" );
                 break;
             case SymDeferred:
-                strcpy( type, "-deferred-" );
+                strcpy( szSymbolType, "-deferred-" );
                 break;
             case SymSym:
-                strcpy( type, "SYM" );
+                strcpy( szSymbolType, "SYM" );
                 break;
             default:
-                _snprintf( type, sizeof type, "symtype=%ld", (long) Module.SymType );
+                _snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
                 break;
         }
     }
 
+    // Get File Version Information
+    //
+    bFileVersionSupported = (NULL != pGFVIS) && (NULL != pGFVI) && (NULL != pVQV);
+    if (bFileVersionSupported) {
+
+        dwSize = pGFVIS(Module.LoadedImageName, &dwHandle);
+        if (dwSize) {
+            lpData = (LPVOID)malloc(dwSize);
+            if(pGFVI(Module.LoadedImageName, dwHandle, dwSize, lpData)) {
+                bFileVersionRetrieved = true;
+
+                // Which language should be used to lookup the structure?
+                strcpy(szQuery, "\\VarFileInfo\\Translation");
+                pVQV(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
+
+
+                // Version specified as part of the root record.
+                if (pVQV(lpData, "\\", (LPVOID*)&pFileInfo, &uiVarSize)) {
+                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%d.%d.%d.%d", 
+                        HIWORD(pFileInfo->dwFileVersionMS),
+                        LOWORD(pFileInfo->dwFileVersionMS),
+                        HIWORD(pFileInfo->dwFileVersionLS),
+                        LOWORD(pFileInfo->dwFileVersionLS)
+                    );                }
+
+                // Company Name.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\CompanyName",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", lpVar);
+                    if ((sizeof(szCompanyName) == uiVarSize) || (-1 == uiVarSize)) {
+                        szCompanyName[255] = '\0';
+                    }
+                } else {
+                    _ftprintf(stderr, _T("Get Company Name Failed.\n"));
+                }
+
+                // Product Name.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\ProductName",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", lpVar);
+                    if ((sizeof(szProductName) == uiVarSize) || (-1 == uiVarSize)) {
+                        szProductName[255] = '\0';
+                    }
+                } else {
+                    _ftprintf(stderr, _T("Get Product Name Failed.\n"));
+                }
+
+                // File Version.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\FileVersion",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", lpVar);
+                    if ((sizeof(szFileVersion) == uiVarSize) || (-1 == uiVarSize)) {
+                        szFileVersion[255] = '\0';
+                    }
+                }
+
+                // Product Version.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\ProductVersion",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", lpVar);
+                    if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
+                        szProductVersion[255] = '\0';
+                    }
+                }
+
+                free(lpData);
+            }
+        }
+    }
+
     _ftprintf(stderr, _T("ModLoad: "));
-    _ftprintf(stderr, _T("%.8x ")              , Module.BaseOfImage);
-    _ftprintf(stderr, _T("%.8x ")              , Module.ImageSize);
-    _ftprintf(stderr, _T("%s ")                , Module.LoadedImageName);
-    _ftprintf(stderr, _T("(%s Symbols Loaded)"), type);
+    _ftprintf(stderr, _T("%.8x ")                          , Module.BaseOfImage);
+    _ftprintf(stderr, _T("%.8x ")                          , Module.ImageSize);
+    _ftprintf(stderr, _T("%s ")                            , Module.LoadedImageName);
+    if (bFileVersionSupported && bFileVersionRetrieved) {
+        _ftprintf(stderr, _T("(%s) ")                      , szVersionInfo);
+    }
+    _ftprintf(stderr, _T("(%s Symbols Loaded)")            , szSymbolType);
     _ftprintf(stderr, _T("\n"));
+    if (bFileVersionSupported && bFileVersionRetrieved) {
+        _ftprintf(stderr, _T("    File Version   : %s\n")  , szFileVersion);
+        _ftprintf(stderr, _T("    Company Name   : %s\n")  , szCompanyName);
+        _ftprintf(stderr, _T("    Product Name   : %s\n")  , szProductName);
+        _ftprintf(stderr, _T("    Product Version: %s\n")  , szProductVersion);
+        _ftprintf(stderr, _T("\n"));
+    }
     fflush(stderr);
 
     return TRUE;
@@ -563,7 +705,6 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if ((VER_PLATFORM_WIN32_NT == osvi.dwPlatformId) &&
         (5 == osvi.dwMajorVersion) && (1 == osvi.dwMinorVersion))
     {
-        tSDD pSDD = NULL;
         HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
         if (hKernel32) {
             pSDD = (tSDD)GetProcAddress( hKernel32, "SetDllDirectoryA" );
@@ -571,6 +712,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
                 _ftprintf(stderr, _T("SetDllDirectory(): GetLastError = %lu\n"), gle );
             }
             FreeLibrary(hKernel32);
+            hKernel32 = NULL;
+            pSDD = NULL;
         }
     }
 
@@ -588,9 +731,10 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
             g_bInitialized = FALSE;
             return 1;
         }
+
         DebuggerLoadLibrary(&g_hSymSrvDll, pszBOINCLocation, "symsrv.dll");
         if (g_hSymSrvDll) {
-            tSSSO pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
+            pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
             if (pSSSO) {
                 if (!pSSSO(SSRVOPT_TRACE, TRUE)) {
                     _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Trace Failed, GetLastError = %lu\n"), gle);
@@ -608,7 +752,15 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
                 }
             }
         }
+
         DebuggerLoadLibrary(&g_hSrcSrvDll, pszBOINCLocation, "srcsrv.dll");
+
+        DebuggerLoadLibrary(&g_hVersionDll, pszBOINCLocation, "version.dll");
+        if (g_hVersionDll) {
+            pGFVIS = (tGFVIS)GetProcAddress(g_hVersionDll, "GetFileVersionInfoSizeA");
+            pGFVI = (tGFVI)GetProcAddress(g_hVersionDll, "GetFileVersionInfoA");
+            pVQV = (tVQV)GetProcAddress(g_hVersionDll, "VerQueryValueA");
+        }
     }
 
     pIAV = (tIAV) GetProcAddress( g_hDbgHelpDll, "ImagehlpApiVersion" );
