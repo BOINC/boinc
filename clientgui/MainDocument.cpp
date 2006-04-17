@@ -284,11 +284,20 @@ CMainDocument::CMainDocument() {
     m_dtCachedActivityStateTimestamp = wxDateTime((time_t)0);
     m_dtCachedActivityRunModeTimestamp = wxDateTime((time_t)0);
     m_dtCachedNetworkRunModeTimestamp = wxDateTime((time_t)0);
+    m_dtCachedProjecStatusTimestamp = wxDateTime((time_t)0);
+    m_dtCachedResultsTimestamp = wxDateTime((time_t)0);
+    m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
+    m_dtResourceStatusTimestamp = wxDateTime((time_t)0);
+    m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
 }
 
 
 CMainDocument::~CMainDocument() {
-    // ??? huh?
+    m_dtStatisticsStatusTimestamp = wxDateTime::Now();
+    m_dtResourceStatusTimestamp = wxDateTime::Now();
+    m_dtFileTransfersTimestamp = wxDateTime::Now();
+    m_dtCachedResultsTimestamp = wxDateTime::Now();
+    m_dtCachedProjecStatusTimestamp = wxDateTime::Now();
     m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityStateTimestamp = wxDateTime::Now();
