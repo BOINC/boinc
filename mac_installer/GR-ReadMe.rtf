@@ -26,7 +26,7 @@ This is a
 \
 
 \f0\b Upgrade warning: You may lose unreported results
-\f1\b0  if you are upgrading from a version of GridRepublic earlier than 5.3.21, or if you are transferring GridRepublic Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to a PowerPC Mac.  To prevent this, open GridRepublic Desktop's window, select the 
+\f1\b0  if you are upgrading from a version of GridRepublic earlier than 5.3.21, or if you are transferring GridRepublic or BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to a PowerPC Mac.  To prevent this, open GridRepublic Desktop's window, select the 
 \f2\i Projects
 \f1\i0  tab, select each project and  press the 
 \f2\i Update
@@ -50,13 +50,13 @@ The installer places two items onto your hard drive: GridRepublic Desktop.app in
 \
 It also sets GridRepublic Desktop as one of the items to automatically start whenever the user is logged in.  You can add or remove Login Items by using the Accounts Pane in the System Preferences (accessible from the Apple menu).  (These items are called "Login Items" in OS 10.4 or "Startup Items" in OS 10.3.)\
 \
-The installer creates the GridRepublic Data folder in your /Library/Application Support folder.  If you have previously been running GridRepublic in a different folder, copy your data into this folder.  \
+The installer creates the BOINC Data folder in your /Library/Application Support folder.  If you have previously been running GridRepublic or BOINC in a different folder, copy your data into this folder.  \
 \
-All users who log in on the same Macintosh will share one set of GridRepublic data, ensuring that work units are processed in the most timely manner.  However, the installer sets GridRepublic Desktop as a Startup item only for the user who ran the installer.  To have GridRepublic Desktop start automatically when other users log in, add it to each user's Startup Items as described above.\
+All users who log in on the same Macintosh will share one set of GridRepublic or BOINC data, ensuring that work units are processed in the most timely manner.  However, the installer sets GridRepublic Desktop as a Startup item only for the user who ran the installer.  To have GridRepublic Desktop start automatically when other users log in, add it to each user's Startup Items as described above.\
 \
 You can move GridRepublic Desktop to any folder you wish.  If you do so, you will need to update the information in each user's Startup Items.  In most cases, the GridRepublic screen saver should still work properly.  If it does not, move GridRepublic Desktop back to the Applications folder.\
 \
-The installer sets the "setuid" permission flag for the GridRepublic Desktop, which allows it to write to the shared GridRepublic Data regardless of which user is logged in.  If you copy GridRepublic Desktop or the GridRepublic core client to your computer without using the installer, some users may not be able to run it properly.\
+The installer sets the "setuid" permission flag for the GridRepublic Desktop, which allows it to write to the shared BOINC Data folder regardless of which user is logged in.  If you copy GridRepublic Desktop or the GridRepublic core client to your computer without using the installer, some users may not be able to run it properly.\
 \
 \pard\pardeftab720\ql\qnatural
 \cf0 To completely remove (
@@ -72,7 +72,7 @@ The installer sets the "setuid" permission flag for the GridRepublic Desktop, wh
 \f0\b /Library/Screen Savers/
 \f1\b0  folder)\
 {\listtext	\'a5	}\'a5 the 
-\f0\b GridRepublic Data/
+\f0\b BOINC Data/
 \f1\b0  folder (from your
 \f0\b /Library/Applications Support/
 \f1\b0  folder.)\
