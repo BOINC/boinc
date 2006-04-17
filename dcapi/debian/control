@@ -9,7 +9,15 @@ Package: libdcapi-dev
 Section: libdevel
 Priority: extra
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Distributed Computing Platform API
+Depends: ${shlibs:Depends}, ${misc:Depends}, pkg-config
+Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
+
+Package: libdcapi-doc
+Section: doc
+Priority: extra
+Architecture: all
+Description: Distributed Computing Platform API - Documentation
+ This package contains the documentation for the Distributed Computing
+ Platform.

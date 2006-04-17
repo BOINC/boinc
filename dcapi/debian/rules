@@ -38,6 +38,8 @@ config.status: configure
 		--prefix=/usr \
 		--disable-maintainer-mode \
 		--disable-backend-clgr \
+		--enable-gtk-doc \
+		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
 		CFLAGS="$(CFLAGS)"
 
 configure: configure.ac cf/boinc.m4
@@ -155,6 +157,6 @@ binary-arch: build install
 	dh_md5sums -a
 	dh_builddeb -a
 
-#binary: binary-indep binary-arch
-binary: binary-arch
+binary: binary-indep binary-arch
+
 .PHONY: build clean binary-indep binary-arch binary install
