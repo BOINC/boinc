@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: DC-API BOINC Master
 Description: BOINC master implementation for DC-API
 Version: @PACKAGE_VERSION@
-Requires.private: glib-2.0
-Libs: -L${libdir} -ldc-boinc @BOINC_MASTER_LIBS@
+Requires: glib-2.0 uuid
+Libs: -L${libdir} -ldc-boinc @BOINC_SERVER_LIBS@
