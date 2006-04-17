@@ -247,10 +247,10 @@ $mac_changes_54= "
             production SETI@home project and Einstein@home have applications 
             for this platform.  
         <li> Upgrade warning: You may lose unreported results if you are upgrading 
-            from a version of BOINC earlier than 5.4.0, or if you are transferring 
-            BOINC Data from a PowerPC Mac to an Intel Mac, or from an Intel Mac to 
-            a PowerPC Mac.  To prevent this, open BOINC Manager window, select 
-            the Projects tab, select each project and  press the Update button.  
+            from a version of BOINC earlier than 5.4.0 on an Intel Mac, or if you are 
+            transferring BOINC Data from a PowerPC Mac to an Intel Mac, or from an 
+            Intel Mac to a PowerPC Mac.  To prevent this, open BOINC Manager window, 
+            select the Projects tab, select each project and  press the Update button.  
             Then select the Tasks tab and make sure there are no tasks \"Ready to report.\"            
         <li> We are now building with newer tools and libraries: XCode 2.2, 
             WxWidgets 2.6.2, libcurl 7.15.1.
