@@ -727,7 +727,6 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     bool           bNetworkSuspended = false;
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT*        result = wxGetApp().GetDocument()->result(item);
-    PROJECT* project;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
