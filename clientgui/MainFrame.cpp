@@ -837,11 +837,11 @@ bool CMainFrame::RestoreState() {
         m_pNotebook->SetSelection(iCurrentPage);
     }
 
-#ifdef __WXMAC__
     // Read window dimensions now, so SaveState can write them even if we never open the window
     pConfig->Read(wxT("Width"), &m_Width, 800);
     pConfig->Read(wxT("Height"), &m_Height, 600);
 
+#ifdef __WXMAC__
     pConfig->Read(wxT("YPos"), &m_Top, 30);
     pConfig->Read(wxT("XPos"), &m_Left, 30);
 
