@@ -3872,7 +3872,7 @@ Rom    15 Apr 2006
     - Enable trace debugging for various components that the Windows debugging
         environment uses.  This only works with tools that can trap
         OutputDebugString based messages.  It is something we may support in
-        a future release.  If beghelp.dll or symsrv.dll ever use their
+        a future release.  If dbghelp.dll or symsrv.dll ever use their
         callbacks, that output will be logged to stderr.txt
         
     lib/
