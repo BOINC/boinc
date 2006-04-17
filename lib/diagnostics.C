@@ -266,9 +266,9 @@ int diagnostics_init(
         }
         fclose(p);
 
-        if (strlen(proxy_address)) {
-            if (sizeof(boinc_proxy) > 
-                snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port)) {
+        if (boinc_proxy_enabled) {
+            int buffer_used = snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port);
+            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) { 
                 boinc_proxy[255] = '\0';
             }
         }
