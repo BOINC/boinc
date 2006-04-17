@@ -8,7 +8,7 @@ echo "
 
 <table>
   <tr>
-    <td bgcolor='light gray'>
+    <td bgcolor=ddddff>
       <pre>
 ModLoad: 00400000 00060000 C:\BOINCSRC\Main\boinc_samples\win_build\Release\uppercase_5.10_windows_intelx86.exe (PDB Symbols Loaded)
 ModLoad: 7c800000 000c0000 C:\WINDOWS\system32\ntdll.dll (5.2.3790.1830) (PDB Symbols Loaded)
