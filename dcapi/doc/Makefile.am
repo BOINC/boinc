@@ -30,7 +30,7 @@ FIXXREF_OPTIONS=
 #
 GPATH = $(srcdir)
 
-TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
+TARGET_DIR=$(HTML_DIR)
 
 EXTRA_DIST = 				\
 	$(content_files)		\
