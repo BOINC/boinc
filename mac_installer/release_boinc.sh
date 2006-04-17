@@ -50,6 +50,9 @@ mkdir -p ../BOINC_Installer/Installer\ Resources/
 
 cp -fp mac_Installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
+# Update version number
+sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
+
 #### We don't customize BOINC Data directory name for branding
 #### cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
 #### cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
@@ -96,7 +99,7 @@ mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables
 
-cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
+cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
 sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
 

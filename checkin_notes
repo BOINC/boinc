@@ -3905,6 +3905,7 @@ Charlie 17 Apr 2006
     - Mac: Don't customize name of BOINC Data directory for branding; change 
         "GridRepublic Manager" to "GridRepublic Desktop; make branding script 
         more robust if there is a space in any file or directory name or path.
+    - Mac: Release scripts automatically update ReadMe version numbers.
     - Mac: clarify that upgrade warning from older versions applies only to 
         Intel Macs.
       

@@ -62,6 +62,8 @@ mkdir -p "${IR_PATH}"
 
 cp -fp mac_Installer/License.rtf "${IR_PATH}/"
 cp -fp "${README_FILE}" "${IR_PATH}/ReadMe.rtf"
+# Update version number
+sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 
 # Create the installer's preinstall and preupgrade scripts from the standard preinstall script
 ##### We've decided not to customize BOINC Data directory name for branding
@@ -152,7 +154,7 @@ sudo rm -dfR "${NEW_DIR_PATH}/"
 mkdir -p "${NEW_DIR_PATH}/"
 mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal"
 
-cp -fp "${README_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
+cp -fp "${IR_PATH}/ReadMe.rtf" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
 sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
 sudo chmod -R 755 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
 
