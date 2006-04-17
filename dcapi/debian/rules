@@ -113,11 +113,11 @@ binary-indep: build install
 #	dh_installpam -i
 #	dh_installmime -i
 #	dh_installinit -i
-	dh_installcron -i
+#	dh_installcron -i
 #	dh_installman -i
-	dh_installinfo -i
+#	dh_installinfo -i
 #	dh_undocumented -i
-#	dh_installchangelogs -k checkin_notes -i
+	dh_installchangelogs -i
 	dh_link -i
 	dh_compress -i -X.php
 	dh_fixperms -i
@@ -134,17 +134,17 @@ binary-arch: build install
 	dh_installdebconf -a
 	dh_installdocs -a
 	dh_installexamples -a
-	dh_installmenu -a
+#	dh_installmenu -a
 #	dh_installlogrotate -a
 #	dh_installemacsen -a
 #	dh_installpam -a
 #	dh_installmime -a
 #	dh_installinit -a
-	dh_installcron -a
+#	dh_installcron -a
 #	dh_installman -a
-	dh_installinfo -a
+#	dh_installinfo -a
 #	dh_undocumented -a
-#	dh_installchangelogs -k checkin_notes -a
+	dh_installchangelogs -a
 	$(DH_STRIP) -a
 	dh_link -a
 	dh_compress -a
