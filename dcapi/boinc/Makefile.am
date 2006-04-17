@@ -9,6 +9,9 @@ if BUILD_CLIENT
 lib_LTLIBRARIES += libdc-client-boinc.la
 endif
 
+pkgconfigdir = ${libdir}/pkgconfig
+pkgconfig_DATA = dcapi-boinc-client.pc dcapi-boinc-master.pc
+
 AM_LDFLAGS = $(BOINC_LDFLAGS) $(GLIB_LIBS)
 
 noinst_HEADERS = common_defs.h dc_boinc.h

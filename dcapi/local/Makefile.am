@@ -8,6 +8,9 @@ if BUILD_CLIENT
 lib_LTLIBRARIES += libdc-client-local.la
 endif
 
+pkgconfigdir = ${libdir}/pkgconfig
+pkgconfig_DATA = dcapi-local-client.pc dcapi-local-master.pc
+
 AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
 
 libdc_local_la_SOURCES = \
