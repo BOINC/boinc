@@ -3923,7 +3923,17 @@ Charlie 17 Apr 2006
 
 Rom    17 Apr 2006
     - Clean up the caching scheme used in the manager
+    - Remove the message cache update for all tabs except
+        the messages tab.
+    - Remove the project update from the work tab.  Use a new flag being
+        introduced to show if the project has been suspended via GUI.
 
     clientgui/
         MainDocument.cpp
         MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

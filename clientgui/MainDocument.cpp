@@ -631,7 +631,6 @@ int CMainDocument::GetProjectCount() {
     int iCount = -1;
 
     CachedProjectStatusUpdate();
-    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!state.projects.empty())
@@ -781,9 +780,7 @@ RESULT* CMainDocument::result(unsigned int i) {
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
 
-    CachedProjectStatusUpdate();
     CachedResultsStatusUpdate();
-    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!results.results.empty())
@@ -989,7 +986,6 @@ int CMainDocument::GetTransferCount() {
     int iCount = 0;
 
     CachedFileTransfersUpdate();
-    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!ft.file_transfers.empty())
@@ -1073,7 +1069,6 @@ int CMainDocument::GetResourceCount() {
     int iCount = -1;
 
     CachedResourceStatusUpdate();
-    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!resource_status.projects.empty())
@@ -1132,7 +1127,6 @@ int CMainDocument::GetStatisticsCount() {
     int iCount = -1;
 
     CachedStatisticsStatusUpdate();
-    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!statistics_status.projects.empty())
