@@ -1934,7 +1934,6 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     FireRefreshView();
-    pDoc->CachedMessageUpdate();
     SetFrameListPanelRenderTimerRate();   // Set to refresh every 5 or 60 seconds
 }
 

@@ -374,8 +374,9 @@ int CMainDocument::OnPoll() {
 
 
 int CMainDocument::OnRefreshState() {
-    if (IsConnected())
+    if (IsConnected()) {
         CachedStateUpdate();
+    }
 
     return 0;
 }
@@ -630,6 +631,7 @@ int CMainDocument::GetProjectCount() {
     int iCount = -1;
 
     CachedProjectStatusUpdate();
+    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!state.projects.empty())
@@ -781,6 +783,7 @@ int CMainDocument::GetWorkCount() {
 
     CachedProjectStatusUpdate();
     CachedResultsStatusUpdate();
+    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!results.results.empty())
@@ -922,8 +925,8 @@ MESSAGE* CMainDocument::message(unsigned int i) {
 int CMainDocument::GetMessageCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedMessageUpdate();
+    CachedStateUpdate();
 
     if (!messages.messages.empty())
         iCount = messages.messages.size();
@@ -985,8 +988,9 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
 int CMainDocument::GetTransferCount() {
     int iCount = 0;
 
-    CachedStateUpdate();
     CachedFileTransfersUpdate();
+    CachedMessageUpdate();
+    CachedStateUpdate();
 
     if (!ft.file_transfers.empty())
         iCount = ft.file_transfers.size();
@@ -1068,8 +1072,9 @@ PROJECT* CMainDocument::resource(unsigned int i) {
 int CMainDocument::GetResourceCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedResourceStatusUpdate();
+    CachedMessageUpdate();
+    CachedStateUpdate();
 
     if (!resource_status.projects.empty())
         iCount = resource_status.projects.size();
@@ -1126,8 +1131,9 @@ PROJECT* CMainDocument::statistic(unsigned int i) {
 int CMainDocument::GetStatisticsCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedStatisticsStatusUpdate();
+    CachedMessageUpdate();
+    CachedStateUpdate();
 
     if (!statistics_status.projects.empty())
         iCount = statistics_status.projects.size();
