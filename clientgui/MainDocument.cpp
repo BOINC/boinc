@@ -579,19 +579,26 @@ int CMainDocument::CoreClientQuit() {
 
 int CMainDocument::CachedProjectStatusUpdate() {
     int     iRetVal = 0;
-    int i = 0;
+    int     i = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_project_status(state);
-        if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'"), iRetVal);
-            ForceCacheUpdate();
-        }
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedProjecStatusTimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtCachedProjecStatusTimestamp = wxDateTime::Now();
 
-        m_fProjectTotalResourceShare = 0.0;
-        for (i=0; i < (long)state.projects.size(); i++) {
-            m_fProjectTotalResourceShare += state.projects.at(i)->resource_share;
+            iRetVal = rpc.get_project_status(state);
+            if (iRetVal) {
+                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'"), iRetVal);
+                ForceCacheUpdate();
+            }
+
+            m_fProjectTotalResourceShare = 0.0;
+            for (i=0; i < (long)state.projects.size(); i++) {
+                m_fProjectTotalResourceShare += state.projects.at(i)->resource_share;
+            }
         }
+    } else {
+        iRetVal = -1;
     }
 
     return iRetVal;
@@ -730,11 +737,18 @@ int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_results(results);
-        if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), iRetVal);
-            ForceCacheUpdate();
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedResultsTimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtCachedResultsTimestamp = wxDateTime::Now();
+
+            iRetVal = rpc.get_results(results);
+            if (iRetVal) {
+                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), iRetVal);
+                ForceCacheUpdate();
+            }
         }
+    } else {
+        iRetVal = -1;
     }
 
     return iRetVal;
@@ -929,11 +943,18 @@ int CMainDocument::CachedFileTransfersUpdate() {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_file_transfers(ft);
-        if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'"), iRetVal);
-            ForceCacheUpdate();
+        wxTimeSpan ts(wxDateTime::Now() - m_dtFileTransfersTimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtFileTransfersTimestamp = wxDateTime::Now();
+
+            iRetVal = rpc.get_file_transfers(ft);
+            if (iRetVal) {
+                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'"), iRetVal);
+                ForceCacheUpdate();
+            }
         }
+    } else {
+        iRetVal = -1;
     }
 
     return iRetVal;
@@ -1004,11 +1025,18 @@ int CMainDocument::CachedResourceStatusUpdate() {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_disk_usage(resource_status);
-        if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'"), iRetVal);
-            ForceCacheUpdate();
+        wxTimeSpan ts(wxDateTime::Now() - m_dtResourceStatusTimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtResourceStatusTimestamp = wxDateTime::Now();
+
+            iRetVal = rpc.get_disk_usage(resource_status);
+            if (iRetVal) {
+                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'"), iRetVal);
+                ForceCacheUpdate();
+            }
         }
+    } else {
+        iRetVal = -1;
     }
 
     return iRetVal;
@@ -1052,14 +1080,20 @@ int CMainDocument::GetResourceCount() {
 
 int CMainDocument::CachedStatisticsStatusUpdate() {
     int     iRetVal = 0;
-    wxString    strEmpty = wxEmptyString;
 
     if (IsConnected()) {
-        iRetVal = rpc.get_statistics(statistics_status);
-        if (iRetVal) {
-            wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'"), iRetVal);
-            ForceCacheUpdate();
+        wxTimeSpan ts(wxDateTime::Now() - m_dtStatisticsStatusTimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtStatisticsStatusTimestamp = wxDateTime::Now();
+
+            iRetVal = rpc.get_statistics(statistics_status);
+            if (iRetVal) {
+                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'"), iRetVal);
+                ForceCacheUpdate();
+            }
         }
+    } else {
+        iRetVal = -1;
     }
 
     return iRetVal;

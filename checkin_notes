@@ -3787,3 +3787,11 @@ Rom    14 Apr 2006
     clientgui/
         BOINCDialupManager.cpp
         MainFrame.cpp
+
+
+Rom    16 Apr 2006
+    - Bug Fix: Add cache timestamps for project, task, transfers, statistics,
+        and resources.
+        
+    clientgui/
+        MainDocument.cpp, .h
