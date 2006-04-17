@@ -6,9 +6,9 @@ echo "
 
 <h4>Debugger version</h4>
 
-<table>
+<table width=100%>
   <tr>
-    <td bgcolor=ddddff>
+    <td bgcolor=ddddff width=100%>
       <pre>
 BOINC Windows Runtime Debugger Version 5.5.0
 
@@ -22,13 +22,21 @@ srv*C:\\DOCUME~1\\romw\\LOCALS~1\\Temp\\symbols*http://boinc.berkeley.edu/symsto
     </td>
   </tr>
 </table>
-
-
+<p>
+This area provides some basic information about the version of the BOINC debugger 
+being used, when the crash occured, and what the internal version of the Windows
+debugger technology is being used.
+<p>
+Symbol search paths are used to inform the debugger where it might be able to
+find the symbol files related to the modules loaded in memory.  Entries prefixed with
+'srv*' are used to denote a web based symbol store.  DbgHelp will use them if
+symsrv can be loaded at the time of the crash.
+<p>
 <h4>Module List</h4>
 
-<table>
+<table width=100%>
   <tr>
-    <td bgcolor=ddddff>
+    <td bgcolor=ddddff width=100%>
       <pre>
 ModLoad: 00400000 00060000 C:\\BOINCSRC\\Main\\boinc_samples\\win_build\\Release\\uppercase_5.10_windows_intelx86.exe (PDB Symbols Loaded)
 ModLoad: 7c800000 000c0000 C:\\WINDOWS\\system32\\ntdll.dll (5.2.3790.1830) (PDB Symbols Loaded)
@@ -40,13 +48,19 @@ ModLoad: 7c800000 000c0000 C:\\WINDOWS\\system32\\ntdll.dll (5.2.3790.1830) (PDB
     </td>
   </tr>
 </table>
-
-
+<p>
+Information about which modules were loaded into the processes memory space can be 
+found here. The first hexdecimal value is the address in memory in which the module
+was loaded, the second hexdecimal is the size of the module.
+<p>
+If a version record was found inside the module, it'll be dumped out as part of the
+module list dump.
+<p>
 <h4>Exception Record</h4>
 
-<table>
+<table width=100%>
   <tr>
-    <td bgcolor=ddddff>
+    <td bgcolor=ddddff width=100%>
       <pre>
 *** UNHANDLED EXCEPTION ****
 Reason: Breakpoint Encountered (0x80000003) at address 0x7C822583
@@ -54,13 +68,14 @@ Reason: Breakpoint Encountered (0x80000003) at address 0x7C822583
     </td>
   </tr>
 </table>
+<p>
 
 
-<h4>Exception Record</h4>
+<h4>Stack traces</h4>
 
-<table>
+<table width=100%>
   <tr>
-    <td bgcolor=ddddff>
+    <td bgcolor=ddddff width=100%>
       <pre>
 *** Dump of the Worker(offending) thread: ***
 eax=00000000 ebx=00000000 ecx=77e4245b edx=7c82ed54 esi=77e424a8 edi=00454f20

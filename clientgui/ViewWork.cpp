@@ -336,12 +336,7 @@ void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
 
 
 wxInt32 CViewWork::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetWorkCount();
+    return wxGetApp().GetDocument()->GetWorkCount();
 }
 
 

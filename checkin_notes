@@ -3920,3 +3920,10 @@ Charlie 17 Apr 2006
         release_GridRepublic.sh
     doc/
         versions.inc
+
+Rom    17 Apr 2006
+    - Clean up the caching scheme used in the manager
+
+    clientgui/
+        MainDocument.cpp
+        MainFrame.cpp
