@@ -116,9 +116,15 @@ AC_CONFIG_FILES([Makefile \
 	include/Makefile \
 	common/Makefile \
 	boinc/Makefile \
+	boinc/dcapi-boinc-client.pc \
+	boinc/dcapi-boinc-master.pc \
 	local/Makefile \
+	local/dcapi-local-client.pc \
+	local/dcapi-local-master.pc \
 	clgr/Makefile \
 	condor/Makefile \
+	condor/dcapi-condor-client.pc \
+	condor/dcapi-condor-master.pc \
 	doc/Makefile \
 	doc/client/Makefile \
 	doc/common/Makefile \
