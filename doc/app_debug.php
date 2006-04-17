@@ -86,7 +86,10 @@ BOINC Windows Runtime Debugger Version 5.5.0
 
 Dump Timestamp    : 04/16/06 23:41:39
 Debugger Engine   : 4.0.5.0
-Symbol Search Path: C:\BOINCSRC\Main\boinc_samples\win_build\Release;C:\BOINCSRC\Main\boinc_samples\win_build\Release;srv*c:\windows\symbols*http://msdl.microsoft.com/download/symbols;srv*C:\DOCUME~1\romw\LOCALS~1\Temp\symbols*http://boinc.berkeley.edu/symstore
+Symbol Search Path: C:\BOINCSRC\Main\boinc_samples\win_build\Release;
+C:\BOINCSRC\Main\boinc_samples\win_build\Release;
+srv*c:\windows\symbols*http://msdl.microsoft.com/download/symbols;
+srv*C:\DOCUME~1\romw\LOCALS~1\Temp\symbols*http://boinc.berkeley.edu/symstore
 
 
 ModLoad: 00400000 00060000 C:\BOINCSRC\Main\boinc_samples\win_build\Release\uppercase_5.10_windows_intelx86.exe (PDB Symbols Loaded)
