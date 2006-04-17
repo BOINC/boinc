@@ -1,90 +1,38 @@
 <?php
 require_once("docutil.php");
-page_head("Application debugging");
+page_head("Application debugging on Windows");
 echo "
-Some suggestions for debugging applications:
+<h3>Anatomy of a Windows stack trace</h3>
 
-<h3>Standalone mode</h3>
+<h4>Module List</h4>
 
-When you have built your application
-and linked it with the BOINC libraries,
-you can run it in 'standalone mode' (without a BOINC core client present).
-To do this, put instances of all input files in the same directory.
-(with the proper logical, not physical, names).
-The application should run and produce output files
-(also with their logical names).
-You can run the program under a debugger.
+<table>
+  <tr>
+    <td bgcolor='yellow'>
+      <pre>
+ModLoad: 00400000 00060000 C:\BOINCSRC\Main\boinc_samples\win_build\Release\uppercase_5.10_windows_intelx86.exe (PDB Symbols Loaded)
+ModLoad: 7c800000 000c0000 C:\WINDOWS\system32\ntdll.dll (5.2.3790.1830) (PDB Symbols Loaded)
+    File Version   : 5.2.3790.1830 (srv03_sp1_rtm.050324-1447)
+    Company Name   : Microsoft Corporation
+    Product Name   : Microsoft® Windows® Operating System
+    Product Version: 5.2.3790.1830
 
-<p>
-When you run an application in standalone mode,
-the BOINC API will recognize this and take it into account.
-A couple of things to note:
-<ul>
-<li> If your application does graphics, it will open a graphics window.
-Closing this window will exit your application.
-<li> boinc_time_to_checkpoint() will always return false,
-so your application will never checkpoint.
-</ul>
+ModLoad: 77e40000 00102000 C:\WINDOWS\system32\kernel32.dll (5.2.3790.1830) (PDB Symbols Loaded)
+    File Version   : 5.2.3790.1830 (srv03_sp1_rtm.050324-1447)
+    Company Name   : Microsoft Corporation
+    Product Name   : Microsoft® Windows® Operating System
+    Product Version: 5.2.3790.1830
 
+ModLoad: 5e8d0000 000ce000 C:\WINDOWS\system32\OPENGL32.dll (5.2.3790.1830) (PDB Symbols Loaded)
+    File Version   : 5.2.3790.1830 (srv03_sp1_rtm.050324-1447)
+    Company Name   : Microsoft Corporation
+    Product Name   : Microsoft® Windows® Operating System
+    Product Version: 5.2.3790.1830
+      </pre>
+    </td>
+  </tr>
+</table>
 
-<h3>Using the anonymous platform mechanism</h3>
-
-Once your application works in standalone mode
-you'll want to run it from the BOINC core client.
-This will exercise the various forms of interaction
-with the core client.
-
-<p>
-To get this process started, create a test project,
-add an application version and some work,
-then run the core client.
-It will download everything and run your application,
-which will possibly crash.
-
-<p>
-At this point you'll want to start experimenting with your application.
-It would be very tedious to create a new
-application version for each change.
-It's far easier to use BOINC's
-<a href=anonymous_platform.php>anonymous platform</a> mechanism.
-To do this:
-<ul>
-<li> Following the <a href=anonymous_platform.php>directions</a>,
-create a file 'app_info.xml' in the client's project_* directory,
-with the appropriate name and version number of your application.
-<li> Each time your build a new version of your application,
-copy the executable into the project_* directory,
-making sure it has the appropriate name.
-Then restart the core client.
-</ul>
-
-<p>
-On Unix, it's possible to attach a debugger to a running process.
-Use 'ps' to find the process ID of your application, then
-something like
-<pre>
-gdb exec_filename PID
-</pre>
-to attach a debugger to it.
-
-<h3>Getting and deciphering stack traces</h3>
-<p>
-Once your application is working on your own computers,
-you're ready to test it with outside computers
-(alpha testers initially).
-It may crash on some computers, e.g. because their
-software or hardware is different from yours.
-You'll get some information back in the stderr_txt field
-of the results.
-If your application called boinc_init_diagnostics()
-with the BOINC_DIAG_DUMPCALLSTACKENABLED flag set,
-and you included symbols,
-hopefully you'll get symbolic stack traces.
-<p>
-
-<p>
-Here is an example of a stack trace on Windows:
-<p>
 <pre>
 BOINC Windows Runtime Debugger Version 5.5.0
 
