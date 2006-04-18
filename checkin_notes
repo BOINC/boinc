@@ -3982,3 +3982,10 @@ Walt   17 Apr 2006
         
     lib/
         proxy_info.C
+
+Rom    18 Apr 2006
+    - Bug Fix: Move the project_suspended_via_gui flag from the
+        client state file write routine to the gui write routine.
+        
+    client/
+        client_types.C
