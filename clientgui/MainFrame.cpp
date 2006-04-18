@@ -1928,11 +1928,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
 
 void CMainFrame::OnListPanelRender(wxTimerEvent&) {
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     FireRefreshView();
     SetFrameListPanelRenderTimerRate();   // Set to refresh every 5 or 60 seconds
 }
