@@ -20,12 +20,13 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-#else
-#include "boinc_win.h"
+#include <math.h>
 #endif
 
 // return true if the tag appears in the line

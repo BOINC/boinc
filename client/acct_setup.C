@@ -236,9 +236,11 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     if (checking_network) {
         if (http_op_retval) {
             gstate.need_physical_connection = true;
-            msg_printf(0, MSG_INFO, "Network check: failure");
+            msg_printf(0, MSG_INFO, "Access to reference web site failed -");
+            msg_printf(0, MSG_INFO, "check network connection or proxy configuration.");
         } else {
-            msg_printf(0, MSG_INFO, "Network check: success");
+            msg_printf(0, MSG_INFO, "Access to reference web site succeeded -");
+            msg_printf(0, MSG_INFO, "project servers may be temporarily down.");
         }
         checking_network = false;
     }

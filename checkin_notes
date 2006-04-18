@@ -3998,3 +3998,12 @@ David  18 Apr 2006
 
 	lib/
 		parse.C,h
+
+David  18 Apr 2006
+    - core client: better messages on network check
+    - unix compile fix
+
+    client/
+        acct_setup.C
+    lib/
+        parse.h
