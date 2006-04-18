@@ -3893,3 +3893,10 @@ Rom    17 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.4 release, all platforms
       boinc_core_release_5_4_4
 
+
+Walt   17 Apr 2006
+    - Bug Fix: Fix a problem where it was passing the xml tag line
+        instead of the string to xml_unescape.
+        
+    lib/
+        proxy_info.C

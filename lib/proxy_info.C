@@ -52,7 +52,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_str(buf, "<socks5_user_passwd>", buf2, 1024)) {
-            xml_unescape(buf, socks5_user_passwd);
+            xml_unescape(buf2, socks5_user_passwd);
             continue;
         }
         else if (parse_str(buf, "<http_user_name>", buf2, 1024)) {
@@ -60,7 +60,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_str(buf, "<http_user_passwd>", buf2, 1024)) {
-            xml_unescape(buf, http_user_passwd);
+            xml_unescape(buf2, http_user_passwd);
             continue;
         }
     }
