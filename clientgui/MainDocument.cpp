@@ -284,11 +284,20 @@ CMainDocument::CMainDocument() {
     m_dtCachedActivityStateTimestamp = wxDateTime((time_t)0);
     m_dtCachedActivityRunModeTimestamp = wxDateTime((time_t)0);
     m_dtCachedNetworkRunModeTimestamp = wxDateTime((time_t)0);
+    m_dtCachedProjecStatusTimestamp = wxDateTime((time_t)0);
+    m_dtCachedResultsTimestamp = wxDateTime((time_t)0);
+    m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
+    m_dtResourceStatusTimestamp = wxDateTime((time_t)0);
+    m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
 }
 
 
 CMainDocument::~CMainDocument() {
-    // ??? huh?
+    m_dtStatisticsStatusTimestamp = wxDateTime::Now();
+    m_dtResourceStatusTimestamp = wxDateTime::Now();
+    m_dtFileTransfersTimestamp = wxDateTime::Now();
+    m_dtCachedResultsTimestamp = wxDateTime::Now();
+    m_dtCachedProjecStatusTimestamp = wxDateTime::Now();
     m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityStateTimestamp = wxDateTime::Now();
@@ -374,8 +383,9 @@ int CMainDocument::OnPoll() {
 
 
 int CMainDocument::OnRefreshState() {
-    if (IsConnected())
+    if (IsConnected()) {
         CachedStateUpdate();
+    }
 
     return 0;
 }
@@ -779,7 +789,6 @@ RESULT* CMainDocument::result(unsigned int i) {
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
 
-    CachedProjectStatusUpdate();
     CachedResultsStatusUpdate();
     CachedStateUpdate();
 
@@ -922,8 +931,8 @@ MESSAGE* CMainDocument::message(unsigned int i) {
 int CMainDocument::GetMessageCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedMessageUpdate();
+    CachedStateUpdate();
 
     if (!messages.messages.empty())
         iCount = messages.messages.size();
@@ -985,8 +994,8 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
 int CMainDocument::GetTransferCount() {
     int iCount = 0;
 
-    CachedStateUpdate();
     CachedFileTransfersUpdate();
+    CachedStateUpdate();
 
     if (!ft.file_transfers.empty())
         iCount = ft.file_transfers.size();
@@ -1068,8 +1077,8 @@ PROJECT* CMainDocument::resource(unsigned int i) {
 int CMainDocument::GetResourceCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedResourceStatusUpdate();
+    CachedStateUpdate();
 
     if (!resource_status.projects.empty())
         iCount = resource_status.projects.size();
@@ -1126,8 +1135,8 @@ PROJECT* CMainDocument::statistic(unsigned int i) {
 int CMainDocument::GetStatisticsCount() {
     int iCount = -1;
 
-    CachedStateUpdate();
     CachedStatisticsStatusUpdate();
+    CachedStateUpdate();
 
     if (!statistics_status.projects.empty())
         iCount = statistics_status.projects.size();

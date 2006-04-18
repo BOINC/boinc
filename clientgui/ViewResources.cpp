@@ -98,12 +98,7 @@ const char** CViewResources::GetViewIcon() {
 
 
 wxInt32 CViewResources::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetResourceCount();
+    return wxGetApp().GetDocument()->GetResourceCount();
 }
 
 

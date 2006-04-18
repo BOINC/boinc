@@ -260,7 +260,7 @@ int diagnostics_init(
             if (match_tag(buf, "</app_init_data>")) break;
             else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
             else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
-            else if (match_tag(buf, "<use_http_proxy/>")) boinc_proxy_enabled = TRUE;
+            else if (match_tag(buf, "<use_http_proxy/>")) boinc_proxy_enabled = true;
             else if (parse_str(buf, "<http_server_name>", proxy_address, 256)) continue;
             else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
         }

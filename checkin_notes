@@ -41,7 +41,7 @@ David  4 Jan 2006
     db/
         db_base.C
     lib/
-        app_ipc.Cfile://localhost/Volumes/Iris/Eudora%20Attachments/2006%2003%2005%20reg.xls
+        app_ipc.C
         diagnostics.C
         filesys.C
         language.C
@@ -3834,3 +3834,57 @@ Charlie 17 Apr 2006
         preinstall
         release_boinc.sh
         release_GridRepublic.sh
+
+Rom    17 Apr 2006
+    - Clean up the caching scheme used in the manager
+    - Remove the message cache update for all tabs except
+        the messages tab.
+    - Remove the project update from the work tab.  Use a new flag being
+        introduced to show if the project has been suspended via GUI.
+
+    clientgui/
+        MainDocument.cpp
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+
+David  17 Apr 2006
+	- get rid of the versions of xml_escape() and xml_unescape()
+		that take std::string args.
+		These are too inefficient.
+	- boolean constant is "true", not "TRUE"
+
+	client/
+		client_types.C
+	lib/
+		app_ipc.C
+		diagnostics.C
+		parse.C,h
+		proxy_info.C
+	sched/
+		db_dump.C
+		db_purge.C
+		server_types.C
+
+David  17 Apr 2006
+    - GUI RPC: add an optional <project_suspended_via_gui/>
+        tag to <result> elements.
+        This tells the Manager that the project is suspended
+        without having to do a separate get_projects GUI RPC
+
+    client/
+        client_types.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+Rom    17 Apr 2006
+    - Use the boolean flag now defined in the result instead of
+        looking it up in the project structure.
+        
+    clientgui/
+        ViewWork.cpp

@@ -837,11 +837,11 @@ bool CMainFrame::RestoreState() {
         m_pNotebook->SetSelection(iCurrentPage);
     }
 
-#ifdef __WXMAC__
     // Read window dimensions now, so SaveState can write them even if we never open the window
     pConfig->Read(wxT("Width"), &m_Width, 800);
     pConfig->Read(wxT("Height"), &m_Height, 600);
 
+#ifdef __WXMAC__
     pConfig->Read(wxT("YPos"), &m_Top, 30);
     pConfig->Read(wxT("XPos"), &m_Left, 30);
 
@@ -1554,8 +1554,8 @@ void CMainFrame::GetWindowDimensions() {
         m_Height = GetSize().GetHeight();
     }
 }
-
     
+
 void CMainFrame::SetWindowDimensions() {
 #ifndef __WXMAC__
     static bool bFirstTime = true;
@@ -1568,7 +1568,7 @@ void CMainFrame::SetWindowDimensions() {
         bool            bWindowIconized = false;
 #ifdef __WXMSW__ 
         bool            bWindowMaximized = false;
-    #endif
+#endif
 
         wxASSERT(pConfig);
 
@@ -1934,7 +1934,6 @@ void CMainFrame::OnListPanelRender(wxTimerEvent&) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     FireRefreshView();
-    pDoc->CachedMessageUpdate();
     SetFrameListPanelRenderTimerRate();   // Set to refresh every 5 or 60 seconds
 }
 

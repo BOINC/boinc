@@ -231,6 +231,7 @@ public:
     int signal;
     std::string stderr_out;
     bool suspended_via_gui;
+    bool project_suspended_via_gui;
     bool aborted_via_gui;
 
     // the following defined if active

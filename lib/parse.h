@@ -50,9 +50,8 @@ extern void replace_element_contents(
 extern bool remove_element(char* buf, const char* start, const char* end);
 extern bool str_replace(char* str, const char* old, const char* neww);
 extern char* sgets(char* buf, int len, char* &in);
-extern void xml_escape(std::string&, std::string&);
-extern void xml_escape(char*, std::string&);
-extern void xml_unescape(std::string&, std::string&);
+extern void xml_escape(const char*, char*);
+extern void xml_unescape(const char*, char*);
 extern void extract_venue(char*, char*, char*);
 extern int skip_unrecognized(char* buf, FILE*);
 
