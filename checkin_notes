@@ -4014,6 +4014,8 @@ Charlie 18 Apr 2006
 
     api/
         texfont.c,h
+    clientgui/
+        MainFrame.cpp
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
