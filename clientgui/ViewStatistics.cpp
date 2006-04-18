@@ -923,12 +923,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 void CViewStatistics::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-	if (pDoc->GetStatisticsCount()) {
+	if (wxGetApp().GetDocument()->GetStatisticsCount()) {
 		m_PaintStatistics->Refresh();
 	}
 }

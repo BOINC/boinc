@@ -187,7 +187,6 @@ void ACTIVE_TASK_SET::graphics_poll() {
         );
         atp->check_graphics_mode_ack();
 
-#ifdef __APPLE__    
         // If screensaver application has not responded to our request to exit MODE_FULLSCREEN after 
         // 2 seconds, then assume it has hung and kill it, so it doesn't block access to the computer.
         // First try an exit request.  If it has not exit after 2 more seconds, kill it.
@@ -216,7 +215,6 @@ void ACTIVE_TASK_SET::graphics_poll() {
                 }
             }
         }
-#endif
     }
 }
 

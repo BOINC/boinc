@@ -143,6 +143,7 @@ public:
     //
 private:
     int                         CachedProjectStatusUpdate();
+    wxDateTime                  m_dtCachedProjecStatusTimestamp;
 
 public:
     PROJECT*                    project(unsigned int);
@@ -165,6 +166,7 @@ public:
     //
 private:
     int                         CachedResultsStatusUpdate();
+    wxDateTime                  m_dtCachedResultsTimestamp;
 
 public:
     RESULTS                     results;
@@ -206,8 +208,8 @@ public:
     // Transfers Tab
     //
 private:
-
     int                         CachedFileTransfersUpdate();
+    wxDateTime                  m_dtFileTransfersTimestamp;
 
 public:
     FILE_TRANSFERS              ft;
@@ -223,8 +225,8 @@ public:
     // Resources Tab
     //
 private:
-
     int                         CachedResourceStatusUpdate();
+    wxDateTime                  m_dtResourceStatusTimestamp;
 
 public:
     PROJECTS                    resource_status;
@@ -237,8 +239,8 @@ public:
 	// Statistics Tab
 	//
 private:
-
     int                         CachedStatisticsStatusUpdate();
+    wxDateTime                  m_dtStatisticsStatusTimestamp;
 
 public:
 	PROJECTS                    statistics_status;

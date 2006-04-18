@@ -3688,6 +3688,226 @@ Rom    10 Apr 2006
     clientgui/
         ViewWork.cpp
 
-Rom    30 Mar 2006 (boinc_core_release_5_4)
+Rom    10 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.0 release, all platforms
       boinc_core_release_5_4
+
+Charlie 10 Apr 2006
+    - Extend Mac screensaver safety timer of 21 Feb 2006 to all platforms.
+      (checked this in to both HEAD and boinc_core_release_5_4 branches.)
+    
+    client/
+        app_graphics.C
+        ss_logic.C
+        app.C
+        app.h
+
+Rom    11 Apr 2006
+    - Bug Fix: Account creation controls should be disabled for all
+        account manager code paths, not just update.
+    - Bug Fix: Extend the timeout for the graphics mode ack to 30
+        seconds in the screensaver poll function to give LHC and
+        CPDN more time to create and display their graphics window
+        when going into screensaver mode.
+    - Bug Fix: Add some extra logic to the screensaver to handle
+        detection of idle user input without needing to be the
+        active window.  If the science application window hasn't
+        processed a window message for 5 seconds do an additional
+        check to determine if any mouse or keyboard activity has
+        been detected.  If activity has been detected, shutdown the
+        screensaver system.
+    - Bug Fix: Add a please wait message to the screensaver for
+        applications that take a long time before they display
+        their own graphics.
+        
+    client/
+        ss_logic.C
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+    clientgui/
+        AccountInfoPage.cpp
+
+Rom    11 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.1 release, all platforms
+      boinc_core_release_5_4_1
+
+Rom    12 Apr 2006
+    - Bug Fix: Fix a crash on Win9x when leaving the screensaver and
+        password protection is enabled.
+    - Bug Fix: Do not allow the Win9x password dialog to get stuck behind
+        the main screensaver windows, otherwise the only thing you can do
+        is reboot the machine.
+    - Include the thread id with trace statements.
+        
+    client/win/
+        win_screensaver.cpp, .h
+    lib/
+        diagnostics.C
+
+David  13 Apr 2006
+	- graphics API: in txf_load_fonts(),
+		use boinc_resolve_filename() so that font files
+		can be in the project dir
+
+	api/
+		txf_util.C
+
+Rom    12 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.2 release, all platforms
+      boinc_core_release_5_4_2
+
+Rom    13 Apr 2006
+    - Bug Fix: Adjust the startup sequence on Windows a bit so that the
+        window doesn't flicker.  Another perk is that on startup the
+        window won't display itself until it can fully deal with user
+        input.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp, .h
+
+Rom    13 Apr 2006
+    - Bug Fix: Fix a shutdown bug that was causing the manager to wait
+        the full 10 seconds before closing itself.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+
+Rom    13 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.3 release, all platforms
+      boinc_core_release_5_4_3
+
+Charlie 14 Apr 2006
+    - Mac: OnShow() is not implemented in wxMac-2.6.2, so move code from 
+      CMainFrame::OnShow() into new method CMainFrame::SetWindowDimensions(). 
+      Call SetWindowDimensions() from CMainFrame::OnShow() and also from 
+      Mac-only method CMainFrame::Show().
+      
+    clientgui/
+        MainFrame.cpp, .h
+
+Rom    14 Apr 2006
+    - Bug Fix: Apparently Windows and Mac message boxes by default have an OK
+        button and Linux does not.  So add wxOK to all the alerts sent.
+        
+    clientgui/
+        BOINCDialupManager.cpp
+        MainFrame.cpp
+
+
+Rom    15 Apr 2006
+    - Enable proxy support to retrieve symbols from a web based symbol store.
+    - Enable trace debugging for various components that the Windows debugging
+        environment uses.  This only works with tools that can trap
+        OutputDebugString based messages.  It is something we may support in
+        a future release.  If dbghelp.dll or symsrv.dll ever use their
+        callbacks, that output will be logged to stderr.txt
+        
+    lib/
+        diagnostics.C
+        stackwalker_win.cpp, .h
+
+Rom    16 Apr 2006
+    - Bug Fix: Add cache timestamps for project, task, transfers, statistics,
+        and resources.
+        
+    clientgui/
+        MainDocument.cpp, .h
+
+Rom    16 Apr 2006
+    - Bug Fix: Include file version informaton in the debugger module list
+    
+    lib/
+        stackwalker_win.cpp
+
+Charlie 17 Apr 2006
+    - Mac bug fix: If window was never opened, window dimensions were never 
+        read from preferences, so SaveState wrote bad values in preferences.
+    - Mac: Don't customize name of BOINC Data directory for branding; change 
+        "GridRepublic Manager" to "GridRepublic Desktop; make branding script 
+        more robust if there is a space in any file or directory name or path.
+    - Mac: Release scripts automatically update ReadMe version numbers.
+    - Mac: clarify that upgrade warning from older versions applies only to 
+        Intel Macs.
+      
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        PostInstall.cpp
+        preinstall
+        release_boinc.sh
+        release_GridRepublic.sh
+
+Rom    17 Apr 2006
+    - Clean up the caching scheme used in the manager
+    - Remove the message cache update for all tabs except
+        the messages tab.
+    - Remove the project update from the work tab.  Use a new flag being
+        introduced to show if the project has been suspended via GUI.
+
+    clientgui/
+        MainDocument.cpp
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+
+David  17 Apr 2006
+	- get rid of the versions of xml_escape() and xml_unescape()
+		that take std::string args.
+		These are too inefficient.
+	- boolean constant is "true", not "TRUE"
+
+	client/
+		client_types.C
+	lib/
+		app_ipc.C
+		diagnostics.C
+		parse.C,h
+		proxy_info.C
+	sched/
+		db_dump.C
+		db_purge.C
+		server_types.C
+
+David  17 Apr 2006
+    - GUI RPC: add an optional <project_suspended_via_gui/>
+        tag to <result> elements.
+        This tells the Manager that the project is suspended
+        without having to do a separate get_projects GUI RPC
+
+    client/
+        client_types.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+Rom    17 Apr 2006
+    - Use the boolean flag now defined in the result instead of
+        looking it up in the project structure.
+        
+    clientgui/
+        ViewWork.cpp
+
+Rom    17 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.4 release, all platforms
+      boinc_core_release_5_4_4
+
+
+Charlie 18 Apr 2006
+    - Mac: Add texfont.C,h and txf_util.C,h to XCode project for building 
+        graphics library; fix compiler warning.
+
+    api/
+        texfont.c,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
