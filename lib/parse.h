@@ -28,15 +28,47 @@
 #include "boinc_win.h"
 #endif
 
+// return true if the tag appears in the line
+//
+inline bool match_tag(const char* buf, const char* tag) {
+    if (strstr(buf, tag)) return true;
+    return false;
+}
+
+inline bool match_tag(const std::string &s, const char* tag) {
+    return match_tag(s.c_str(), tag);
+}
+
+// parse an integer of the form <tag>1234</tag>
+// return true if it's there
+// Note: this doesn't check for the end tag
+//
+inline bool parse_int(const char* buf, const char* tag, int& x) {
+    const char* p = strstr(buf, tag);
+    if (!p) return false;
+    x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
+    return true;
+}
+
+// Same, for doubles
+//
+inline bool parse_double(const char* buf, const char* tag, double& x) {
+    double y;
+    const char* p = strstr(buf, tag);
+    if (!p) return false;
+    y = atof(p+strlen(tag));
+    if (finite(y)) {
+        x = y;
+        return true;
+    }
+    return false;
+}
+
 extern bool parse(char* , char* );
-extern bool parse_int(const char* buf, const char*tag, int&);
-extern bool parse_double(const char*, const char*, double&);
 extern bool parse_str(const char*, const char*, char*, int);
 extern bool parse_str(const char* buf, const char* tag, std::string& dest);
 extern void parse_attr(const char* buf, const char* attrname, char* out, int len);
 extern bool parse_bool(const char*, const char*, bool&);
-extern bool match_tag(const char*, const char*);
-extern bool match_tag(const std::string &, const char*);
 extern void copy_stream(FILE* in, FILE* out);
 extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);

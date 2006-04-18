@@ -3989,3 +3989,12 @@ Rom    18 Apr 2006
         
     client/
         client_types.C
+
+David  18 Apr 2006
+	- make match_tag(), parse_int(), parse_double() into inlines
+	- remove setlocale() calls from parse_int(), parse_double().
+		Numbers in XML (including GUI RPCs) are always in standard format.
+		Whoever writes XML (e.g. the Manager) must ensure this.
+
+	lib/
+		parse.C,h
