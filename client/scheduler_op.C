@@ -180,7 +180,11 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
         p->master_fetch_failures++;
     }
 
-    p->nrpc_failures++;
+    // if network is down, don't count it as RPC failure
+    //
+    if (!gstate.need_physical_connection) {
+        p->nrpc_failures++;
+    }
 
     int n = p->nrpc_failures;
     if (n > gstate.retry_cap) n = gstate.retry_cap;

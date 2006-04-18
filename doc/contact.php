@@ -10,7 +10,7 @@ Project staff are:
 <dl>
 <dt> <b>Dr. David P. Anderson</b>
 <dd>
-Director and architect.  Contact him at davea at ssl.berkeley.edu.
+Director, architect and developer.  Contact him at davea at ssl.berkeley.edu.
 
 <dt><b>Rom Walton</b>
 <dd>

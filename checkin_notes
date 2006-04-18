@@ -4019,3 +4019,13 @@ Charlie 18 Apr 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  18 Apr 2006
+    - if no physical network connection (gstate.need_physical_connection is set)
+        then don't increment failure count for file transfers
+        and scheduler RPCs.
+        (avoid ending up with 2-week backoff when network is down for a while.)
+
+    client/
+        pers_file_xfer.C
+        scheduler_op.C
