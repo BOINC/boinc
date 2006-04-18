@@ -64,6 +64,12 @@ $features_52 = "
 ";
 
 $changes_54 = "
+    <li>Changes since 5.4.3
+      <ul>
+        <li>Performance Enhancements.
+        <li>Improve dialogs on Linux so they fit well on the screen and have
+            OK buttons.
+      </ul>
     <li>Changes since 5.4.2
       <ul>
         <li>Fixed a shutdown problem which was causing the manager to linger
@@ -261,11 +267,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w543= array(
-    "num"=>"5.4.3",
+$w544= array(
+    "num"=>"5.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.3_windows_intelx86.exe",
-    "date"=>"13 Apr 2006",
+    "file"=>"boinc_5.4.4_windows_intelx86.exe",
+    "date"=>"17 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -511,11 +517,11 @@ $m443s = array(
     "
 );
 
-$l543 = array(
-    "num"=>"5.4.3",
+$l544 = array(
+    "num"=>"5.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.3_i686-pc-linux-gnu.sh",
-    "date"=>"13 Apr 2006",
+    "file"=>"boinc_5.4.4_i686-pc-linux-gnu.sh",
+    "date"=>"17 Apr 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -583,7 +589,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w543,
+        $w544,
         $w5213,
         $w445,
     )
@@ -607,7 +613,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l543,
+        $l544,
         $l5213,
         $l443,
     )
