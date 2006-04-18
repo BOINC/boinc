@@ -3888,3 +3888,8 @@ Rom    17 Apr 2006
         
     clientgui/
         ViewWork.cpp
+
+Rom    17 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.4 release, all platforms
+      boinc_core_release_5_4_4
+
