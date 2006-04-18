@@ -3746,6 +3746,14 @@ Rom    12 Apr 2006
     lib/
         diagnostics.C
 
+David  13 Apr 2006
+	- graphics API: in txf_load_fonts(),
+		use boinc_resolve_filename() so that font files
+		can be in the project dir
+
+	api/
+		txf_util.C
+
 Rom    12 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.2 release, all platforms
       boinc_core_release_5_4_2
@@ -3894,16 +3902,12 @@ Rom    17 Apr 2006 (boinc_core_release_5_4)
       boinc_core_release_5_4_4
 
 
-Walt   17 Apr 2006
-    - Bug Fix: Fix a problem where it was passing the xml tag line
-        instead of the string to xml_unescape.
-        
-    lib/
-        proxy_info.C
+Charlie 18 Apr 2006
+    - Mac: Add texfont.C,h and txf_util.C,h to XCode project for building 
+        graphics library; fix compiler warning.
 
-Rom    18 Apr 2006
-    - Bug Fix: Move the project_suspended_via_gui flag from the
-        client state file write routine to the gui write routine.
-        
-    client/
-        client_types.C
+    api/
+        texfont.c,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
