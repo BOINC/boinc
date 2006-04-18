@@ -3975,3 +3975,10 @@ Rom    17 Apr 2006
         
     clientgui/
         ViewWork.cpp
+
+Walt   17 Apr 2006
+    - Bug Fix: Fix a problem where it was passing the xml tag line
+        instead of the string to xml_unescape.
+        
+    lib/
+        proxy_info.C
