@@ -4007,3 +4007,13 @@ David  18 Apr 2006
         acct_setup.C
     lib/
         parse.h
+
+Charlie 18 Apr 2006
+    - Mac: Add texfont.C,h and txf_util.C,h to XCode project for building 
+        graphics library; fix compiler warning.
+
+    api/
+        texfont.c,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

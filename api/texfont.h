@@ -17,39 +17,7 @@ extern "C" {
 
 #define TXF_NUM_FONT	   28
 
-static const char *font_names [] = 
-{
-	"Helvetica.txf",                   // 0. This is the default 
-	"Helvetica-Bold.txf",		       // 1
-	"Helvetica-Oblique.txf",	       // 2
-	"Helvetica-BoldOblique.txf",       // 3
-	"AvantGarde-Book.txf",             // 4
-	"AvantGarde-BookOblique.txf",      // 5
-	"AvantGarde-Demi.txf",		       // 6
-	"AvantGarde-DemiOblique.txf",      // 7
-	"Bookman-Light.txf",		       // 8
-	"Bookman-LightItalic.txf",	       // 9
-	"Bookman-Demi.txf",			       // 10
-	"Bookman-DemiItalic.txf",	       // 11
-	"Courier.txf",				       // 12
-	"Courier-Bold.txf",			       // 13
-	"Courier-Oblique.txf",		       // 14
-	"Courier-BoldOblique.txf",	       // 15
-	"NewCenturySchlbk-Roman.txf",      // 16
-	"NewCenturySchlbk-Italic.txf",	   // 17
-	"NewCenturySchlbk-Bold.txf",       // 18
-	"NewCenturySchlbk-BoldItalic.txf", // 19
-	"Palatino-Roman.txf",		       // 20
-	"Palatino-Italic.txf",		       // 21
-	"Palatino-Bold.txf",		       // 22
-	"Palatino-BoldItalic.txf",	       // 23
-	"Times-Roman.txf",			       // 24
-	"Times-Italic.txf",			       // 25
-	"Times-Bold.txf",			       // 26
-	"Times-BoldItalic.txf",		       // 27
-	"ZapfChancery-MediumItalic.txf",   // 28
-	 NULL
-} ;
+extern const char *font_names [];
 
 
 typedef struct {
