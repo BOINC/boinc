@@ -92,10 +92,9 @@ list_item("no_delete",
     indicates that the file should NOT be removed from the data server's
     download directory when the workunit is completed.
     Use this if a particular input file or files are used by more than one
-    workunit, or will be used by future workunits."
-);
-list_item("no_delete",
-    "If present for an output (result) file,
+    workunit, or will be used by future workunits.
+    <p>
+    If present for an output (result) file,
     indicates that the file should NOT be removed from the data server's upload
     directory when the corresponding workunit is completed.
     Use with caution - this may cause your upload directory to overflow."

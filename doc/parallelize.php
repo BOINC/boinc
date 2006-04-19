@@ -6,13 +6,12 @@ echo "
 BOINC is designed to support applications
 that have large computation requirements,
 storage requirements, or both.
-If a project can attract a million participants,
-it could gain access to dozens of TeraFLOPs of CPU power
-and perhaps a Petabyte of storage.
+A project can gain access to many TeraFLOPs of CPU power
+and Terabytes of storage.
 
 <p>
-However, because the resources of a BOINC project are
-unreliable and sporadically-connected Internet PCs,
+However, because the resources of a BOINC project are volunteered,
+(and therefore unreliable and sporadically-connected)
 an application must have several properties to effectively use BOINC:
 
 <dl>
@@ -37,7 +36,8 @@ which may be expensive and/or slow.
 As a rule of thumb,
 if your application produces or consumes more than
 a gigabyte of data per day of CPU time,
-then it may be cheaper to use in-house cluster computing.
+then it may be cheaper to use in-house cluster computing
+rather than volunteer computing.
 <dt>
 <b>Fault tolerance</b>
 <dd>
@@ -46,7 +46,7 @@ cannot be assumed to be correct.
 Redundant computing can be used to reduce the error probability,
 but not all the way to zero.
 If your application relies on 100% correctness,
-you shouldn't use BOINC.
+this may be a problem.
 
 </dl>
 ";

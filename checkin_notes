@@ -4051,3 +4051,11 @@ Rom    18 Apr 2006
         
     lib/
         gui_rpc_client_ops.C
+
+David  19 Apr 2006
+    - scheduler: put \n after global and project prefs in reply message;
+        otherwise, if those fields don't have \n,
+        we end up with 2 elements on 1 line and it doesn't parse right.
+
+    sched/
+        server_types.C

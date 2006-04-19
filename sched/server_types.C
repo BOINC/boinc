@@ -508,11 +508,13 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
         if (send_global_prefs) {
             fputs(user.global_prefs, fout);
+            fputs("\n", fout);
         }
 
         // always send project prefs
         //
         fputs(user.project_prefs, fout);
+        fputs("\n", fout);
 
     }
     if (hostid) {
