@@ -215,10 +215,12 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
 
-    msg_printf(0, MSG_INFO, "Checking network: attempting connection to %s", url.c_str());
+    msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
+        gstate.need_physical_connection = true;
+        msg_printf(0, MSG_INFO, "Access to reference web site failed - check network connection or proxy configuration.");
     } else {
         error_num = ERR_IN_PROGRESS;
     }
@@ -236,11 +238,9 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     if (checking_network) {
         if (http_op_retval) {
             gstate.need_physical_connection = true;
-            msg_printf(0, MSG_INFO, "Access to reference web site failed -");
-            msg_printf(0, MSG_INFO, "check network connection or proxy configuration.");
+            msg_printf(0, MSG_INFO, "Access to reference site failed - check network connection or proxy configuration.");
         } else {
-            msg_printf(0, MSG_INFO, "Access to reference web site succeeded -");
-            msg_printf(0, MSG_INFO, "project servers may be temporarily down.");
+            msg_printf(0, MSG_INFO, "Access to reference site succeeded - project servers may be temporarily down.");
         }
         checking_network = false;
     }

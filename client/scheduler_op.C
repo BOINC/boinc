@@ -158,7 +158,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
 // are handled elsewhere; no need to detach from projects here.
 //
 void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
-    msg_printf(p, MSG_ERROR, error_msg);
+    if (error_msg) msg_printf(p, MSG_ERROR, error_msg);
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         msg_printf(p, MSG_ERROR,
@@ -185,6 +185,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     if (!gstate.need_physical_connection) {
         p->nrpc_failures++;
     }
+    //msg_printf(p, MSG_INFO, "nrpc_failures %d need_conn %d", p->nrpc_failures, gstate.need_physical_connection);
 
     int n = p->nrpc_failures;
     if (n > gstate.retry_cap) n = gstate.retry_cap;
@@ -452,9 +453,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(cur_proj, MSG_ERROR,
-                        "Scheduler request to %s failed: %s",
-                        cur_proj->get_scheduler_url(url_index, url_random),
-                        boincerror(http_op.http_op_retval)
+                        "Scheduler request failed: %s", http_op.error_msg
                     );
                 }
 
@@ -469,7 +468,7 @@ bool SCHEDULER_OP::poll() {
                     if (!retval) return true;
                 }
                 if (url_index == (int) cur_proj->scheduler_urls.size()) {
-                    backoff(cur_proj, "No schedulers responded");
+                    backoff(cur_proj, 0);
                     scheduler_op_done = true;
 
                     // if project suspended, don't retry failed RPC
@@ -481,9 +480,7 @@ bool SCHEDULER_OP::poll() {
             } else {
                 if (log_flags.sched_ops) {
                     msg_printf(
-                        cur_proj, MSG_INFO,
-                        "Scheduler request to %s succeeded",
-                        cur_proj->get_scheduler_url(url_index, url_random)
+                        cur_proj, MSG_INFO, "Scheduler request succeeded"
                     );
                 }
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);

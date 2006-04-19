@@ -4029,3 +4029,14 @@ David  18 Apr 2006
     client/
         pers_file_xfer.C
         scheduler_op.C
+
+David  18 Apr 2006
+	- improve network-related messages
+		Add error_msg field to NET_XFER.
+		Put Curl error messages here; print them at a higher level,
+		where we can give the context
+
+	client/
+		acct_setup.C
+		net_xfer_curl.C,h
+		scheduler_op.C
