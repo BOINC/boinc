@@ -58,6 +58,68 @@
 
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 
+typedef PCSTR PCTSTR;
+#define MAX_SYM_NAME            2000
+
+#define SYMOPT_LOAD_ANYTHING            0x00000040
+#define SYMOPT_IGNORE_CVREC             0x00000080
+#define SYMOPT_NO_UNQUALIFIED_LOADS     0x00000100
+#define SYMOPT_FAIL_CRITICAL_ERRORS     0x00000200
+#define SYMOPT_EXACT_SYMBOLS            0x00000400
+#define SYMOPT_ALLOW_ABSOLUTE_SYMBOLS   0x00000800
+#define SYMOPT_IGNORE_NT_SYMPATH        0x00001000
+#define SYMOPT_INCLUDE_32BIT_MODULES    0x00002000
+#define SYMOPT_PUBLICS_ONLY             0x00004000
+#define SYMOPT_NO_PUBLICS               0x00008000
+#define SYMOPT_AUTO_PUBLICS             0x00010000
+#define SYMOPT_NO_IMAGE_SEARCH          0x00020000
+#define SYMOPT_SECURE                   0x00040000
+#define SYMOPT_NO_PROMPTS               0x00080000
+#define SYMOPT_DEBUG                    0x80000000
+
+
+#define SSRVOPT_CALLBACK            0x0001
+#define SSRVOPT_DWORD               0x0002
+#define SSRVOPT_DWORDPTR            0x0004
+#define SSRVOPT_GUIDPTR             0x0008
+#define SSRVOPT_OLDGUIDPTR          0x0010
+#define SSRVOPT_UNATTENDED          0x0020
+#define SSRVOPT_NOCOPY              0x0040
+#define SSRVOPT_PARENTWIN           0x0080
+#define SSRVOPT_PARAMTYPE           0x0100
+#define SSRVOPT_SECURE              0x0200
+#define SSRVOPT_TRACE               0x0400
+#define SSRVOPT_SETCONTEXT          0x0800
+#define SSRVOPT_PROXY               0x1000
+#define SSRVOPT_DOWNSTREAM_STORE    0x2000
+#define SSRVOPT_RESET               ((ULONG_PTR)-1)
+
+#define SSRVACTION_TRACE        1
+#define SSRVACTION_QUERYCANCEL  2
+#define SSRVACTION_EVENT        3
+
+#define CBA_READ_MEMORY                         0x00000006
+#define CBA_DEFERRED_SYMBOL_LOAD_CANCEL         0x00000007
+#define CBA_SET_OPTIONS                         0x00000008
+#define CBA_EVENT                               0x00000010
+#define CBA_DEFERRED_SYMBOL_LOAD_PARTIAL        0x00000020
+#define CBA_DEBUG_INFO                          0x10000000
+
+enum {
+    sevInfo = 0,
+    sevProblem,
+    sevAttn,
+    sevFatal,
+    sevMax
+};
+
+typedef struct _IMAGEHLP_CBA_EVENT {
+    DWORD severity;                                     
+    DWORD code;                                         
+    PCHAR desc;                                         
+    PVOID object;                                  
+} IMAGEHLP_CBA_EVENT, *PIMAGEHLP_CBA_EVENT;
+
 typedef enum {
     SymDia = 7,
     SymVirtual,

@@ -36,7 +36,7 @@
 #include "config.h"
 #endif
 
-#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN32__)
+#if defined(_WIN32) && !defined(__CYGWIN32__)
 #include "stackwalker_win.h"
 #endif
 
@@ -402,7 +402,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
         }
     }
 
-#if !defined(__MINGW32__) && !defined(__CYGWIN__)
+#if !defined(__CYGWIN__)
     // Kickstart the debugger extensions
  	DebuggerInitialize(boinc_dir, symstore, boinc_proxy_enabled, boinc_proxy);
 
