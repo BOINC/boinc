@@ -21,6 +21,34 @@
 // 1) functions to clear and parse the various structs
 // 2) actual GUI RPCs
 
+// The core client expects all data to be formatted to the "C" locale,
+// each GUI RPC should retrieve the current locale then switch to the
+// "C" locale before formatting messages or parsing results. After all
+// work is completed revert back to the original locale.
+//
+// Template:
+//
+// int RPC_CLIENT::template_function( args ) {
+//     int retval;
+//     std::string locale;
+//     char buf[256];
+//     RPC rpc(this);
+//
+//     locale = setlocale(LC_ALL, NULL);
+//     setlocale(LC_ALL, "C");
+//
+//     <do something useful>
+//
+//     setlocale(LC_ALL, locale.c_str());
+//
+//     return retval;
+// }
+//
+// NOTE: Failing to revert back to the original locale will cause
+//   formatting failures for any software that has been localized or
+//   displays localized data.
+
+
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
@@ -933,206 +961,247 @@ void LOOKUP_WEBSITE::clear() {
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
+    int retval;
+    std::string locale;
     char buf[256];
     PROJECT* project = NULL;
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     state.clear();
 
     retval = rpc.do_rpc("<get_state/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "<unauthorized")) {
-            return ERR_AUTHENTICATOR;
-        }
-        if (match_tag(buf, "</client_state>")) break;
-        else if (parse_int(buf, "<major_version>", client_major_version)) continue;
-        else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
-        else if (parse_int(buf, "<release>", client_release)) continue;
-        else if (match_tag(buf, "<project>")) {
-            project = new PROJECT();
-            project->parse(rpc.fin);
-            state.projects.push_back(project);
-            continue;
-        }
-        else if (match_tag(buf, "<app>")) {
-            APP* app = new APP();
-            app->parse(rpc.fin);
-            app->project = project;
-            state.apps.push_back(app);
-            continue;
-        }
-        else if (match_tag(buf, "<app_version>")) {
-            APP_VERSION* app_version = new APP_VERSION();
-            app_version->parse(rpc.fin);
-            app_version->project = project;
-            app_version->app = state.lookup_app(project, app_version->app_name);
-            state.app_versions.push_back(app_version);
-            continue;
-        }
-        else if (match_tag(buf, "<workunit>")) {
-            WORKUNIT* wu = new WORKUNIT();
-            wu->parse(rpc.fin);
-            wu->project = project;
-            wu->app = state.lookup_app(project, wu->app_name);
-            wu->avp = state.lookup_app_version(project, wu->app_name, wu->version_num);
-            state.wus.push_back(wu);
-            continue;
-        }
-        else if (match_tag(buf, "<result>")) {
-            RESULT* result = new RESULT();
-            result->parse(rpc.fin);
-            result->project = project;
-            result->wup = state.lookup_wu(project, result->wu_name);
-            result->app = result->wup->app;
-            state.results.push_back(result);
-            continue;
-        }
-        else if (match_tag(buf, "<global_preferences>")) {
-            bool flag = false;
-            state.global_prefs.parse(rpc.fin, "", flag);
-            continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "<unauthorized")) {
+                retval = ERR_AUTHENTICATOR;
+                break;
+            }
+            if (match_tag(buf, "</client_state>")) break;
+            else if (parse_int(buf, "<major_version>", client_major_version)) continue;
+            else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
+            else if (parse_int(buf, "<release>", client_release)) continue;
+            else if (match_tag(buf, "<project>")) {
+                project = new PROJECT();
+                project->parse(rpc.fin);
+                state.projects.push_back(project);
+                continue;
+            }
+            else if (match_tag(buf, "<app>")) {
+                APP* app = new APP();
+                app->parse(rpc.fin);
+                app->project = project;
+                state.apps.push_back(app);
+                continue;
+            }
+            else if (match_tag(buf, "<app_version>")) {
+                APP_VERSION* app_version = new APP_VERSION();
+                app_version->parse(rpc.fin);
+                app_version->project = project;
+                app_version->app = state.lookup_app(project, app_version->app_name);
+                state.app_versions.push_back(app_version);
+                continue;
+            }
+            else if (match_tag(buf, "<workunit>")) {
+                WORKUNIT* wu = new WORKUNIT();
+                wu->parse(rpc.fin);
+                wu->project = project;
+                wu->app = state.lookup_app(project, wu->app_name);
+                wu->avp = state.lookup_app_version(project, wu->app_name, wu->version_num);
+                state.wus.push_back(wu);
+                continue;
+            }
+            else if (match_tag(buf, "<result>")) {
+                RESULT* result = new RESULT();
+                result->parse(rpc.fin);
+                result->project = project;
+                result->wup = state.lookup_wu(project, result->wu_name);
+                result->app = result->wup->app;
+                state.results.push_back(result);
+                continue;
+            }
+            else if (match_tag(buf, "<global_preferences>")) {
+                bool flag = false;
+                state.global_prefs.parse(rpc.fin, "", flag);
+                continue;
+            }
         }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_results(RESULTS& t) {
-    char buf[256];
     int retval;
+    std::string locale;
+    char buf[256];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     t.clear();
 
     retval = rpc.do_rpc("<get_results/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</results>")) break;
-        else if (match_tag(buf, "<result>")) {
-            RESULT* rp = new RESULT();
-            rp->parse(rpc.fin);
-            t.results.push_back(rp);
-            continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</results>")) break;
+            else if (match_tag(buf, "<result>")) {
+                RESULT* rp = new RESULT();
+                rp->parse(rpc.fin);
+                t.results.push_back(rp);
+                continue;
+            }
         }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
-    char buf[256];
     int retval;
+    std::string locale;
+    char buf[256];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     t.clear();
 
     retval = rpc.do_rpc("<get_file_transfers/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</file_transfers>")) break;
-        else if (match_tag(buf, "<file_transfer>")) {
-            FILE_TRANSFER* fip = new FILE_TRANSFER();
-            fip->parse(rpc.fin);
-            t.file_transfers.push_back(fip);
-            continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</file_transfers>")) break;
+            else if (match_tag(buf, "<file_transfer>")) {
+                FILE_TRANSFER* fip = new FILE_TRANSFER();
+                fip->parse(rpc.fin);
+                t.file_transfers.push_back(fip);
+                continue;
+            }
         }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_project_status(PROJECTS& p) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     p.clear();
 
     retval = rpc.do_rpc("<get_project_status/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</projects>")) break;
-        else if (match_tag(buf, "<project>")) {
-            PROJECT* project = new PROJECT();
-            project->parse(rpc.fin);
-            p.projects.push_back(project);
-            continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</projects>")) break;
+            else if (match_tag(buf, "<project>")) {
+                PROJECT* project = new PROJECT();
+                project->parse(rpc.fin);
+                p.projects.push_back(project);
+                continue;
+            }
         }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_project_status(CC_STATE& state) {
-    int retval = 0;
+    int retval;
+    std::string locale;
     unsigned int i;
     char buf[256];
     PROJECT* project = NULL;
     PROJECT* state_project = NULL;
-
     RPC rpc(this);
 
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
     retval = rpc.do_rpc("<get_project_status/>\n");
-    if (retval) return retval;
-
-    // flag for delete
-    for (i=0; i<state.projects.size(); i++) {
-        project = state.projects[i];
-        project->flag_for_delete = true;
-    }
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</projects>")) break;
-        else if (match_tag(buf, "<project>")) {
-            project = new PROJECT();
-            project->parse(rpc.fin);
-            state_project = state.lookup_project(project->master_url);
-            if (state_project && (project->master_url == state_project->master_url)) {
-                state_project->copy(*project);
-                state_project->flag_for_delete = false;
-            } else {
-                retval = ERR_NOT_FOUND;
-            }
-            delete project;
-            continue;
-        }
-    }
-
-    // Anything need to be deleted?
     if (!retval) {
+        // flag for delete
         for (i=0; i<state.projects.size(); i++) {
             project = state.projects[i];
-            if (project->flag_for_delete) {
-                retval = ERR_FILE_MISSING;
+            project->flag_for_delete = true;
+        }
+
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</projects>")) break;
+            else if (match_tag(buf, "<project>")) {
+                project = new PROJECT();
+                project->parse(rpc.fin);
+                state_project = state.lookup_project(project->master_url);
+                if (state_project && (project->master_url == state_project->master_url)) {
+                    state_project->copy(*project);
+                    state_project->flag_for_delete = false;
+                } else {
+                    retval = ERR_NOT_FOUND;
+                }
+                delete project;
+                continue;
+            }
+        }
+
+        // Anything need to be deleted?
+        if (!retval) {
+            for (i=0; i<state.projects.size(); i++) {
+                project = state.projects[i];
+                if (project->flag_for_delete) {
+                    retval = ERR_FILE_MISSING;
+                }
             }
         }
     }
+
+    setlocale(LC_ALL, locale.c_str());
 
     return retval;
 }
 
 int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     p.clear();
 
     retval = rpc.do_rpc("<get_disk_usage/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</projects>")) break;
-        else if (match_tag(buf, "<project>")) {
-            PROJECT* project = new PROJECT();
-            project->parse(rpc.fin);
-            p.projects.push_back(project);
-            continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</projects>")) break;
+            else if (match_tag(buf, "<project>")) {
+                PROJECT* project = new PROJECT();
+                project->parse(rpc.fin);
+                p.projects.push_back(project);
+                continue;
+            }
         }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int DAILY_STATS::parse(MIOFILE& in) {
@@ -1149,62 +1218,87 @@ int DAILY_STATS::parse(MIOFILE& in) {
 }
 
 int RPC_CLIENT::get_statistics(PROJECTS& p) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_statistics/>\n");
-    if (retval) return retval;
+    if (!retval) {
+        p.clear();
 
-    p.clear();
+        while (rpc.fin.fgets(buf, 256)) {
+            if (retval) break;
+            if (match_tag(buf, "</statistics>")) break;
+            else if (match_tag(buf, "<project_statistics>")) {
+                PROJECT* project = new PROJECT();
+                p.projects.push_back(project);
 
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</statistics>")) break;
-        else if (match_tag(buf, "<project_statistics>")) {
-            PROJECT* project = new PROJECT();
-            p.projects.push_back(project);
-
-            while (rpc.fin.fgets(buf, 256)) {
-                if (match_tag(buf, "</project_statistics>")) break;
-                else if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
-                else if (match_tag(buf, "<daily_statistics>")) {
-                    DAILY_STATS ds;
-                    retval = ds.parse(rpc.fin);
-                    if (retval) return retval;
-                    p.projects.back()->statistics.push_back(ds);
+                while (rpc.fin.fgets(buf, 256)) {
+                    if (match_tag(buf, "</project_statistics>")) break;
+                    else if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
+                    else if (match_tag(buf, "<daily_statistics>")) {
+                        DAILY_STATS ds;
+                        retval = ds.parse(rpc.fin);
+                        if (retval) break;
+                        p.projects.back()->statistics.push_back(ds);
+                    }
                 }
             }
         }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::network_status(int& status) {
-    RPC rpc(this);
-    int retval;
+    int retval = -1;
+    int checkpoint;
+    std::string locale;
     char buf[256];
+    RPC rpc(this);
 
-    retval = rpc.do_rpc("<network_status/>\n");
-    if (retval) return retval;
-    while (rpc.fin.fgets(buf, 256)) {
-        if (parse_int(buf, "<status>", status)) {
-            return 0;
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
+    checkpoint = rpc.do_rpc("<network_status/>\n");
+    if (!checkpoint) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (parse_int(buf, "<status>", status)) {
+                retval = 0;
+            }
         }
+    } else {
+        retval = checkpoint;
     }
-    return -1;
+
+    setlocale(LC_NUMERIC, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::network_available() {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<network_available/>\n");
-    if (retval) return retval;
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 void DISPLAY_INFO::print_str(char* p) {
-    char buf[256];
+    char buf[768];
     if (strlen(window_station)) {
         sprintf(buf,
             "   <window_station>%s</window_station>\n", window_station
@@ -1229,8 +1323,13 @@ int RPC_CLIENT::show_graphics(
     const char* project_url, const char* result_name, int graphics_mode,
     DISPLAY_INFO& di
 ) {
-    char buf[1024];
+    int retval;
+    std::string locale;
+    char buf[1536];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf, 
         "<result_show_graphics>\n"
@@ -1245,14 +1344,23 @@ int RPC_CLIENT::show_graphics(
     );
     di.print_str(buf);
     strcat(buf, "</result_show_graphics>\n");
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
-    char buf[256];
-    const char *tag;
     int retval;
+    std::string locale;
+    char buf[512];
+    const char *tag;
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     if (!strcmp(op, "reset")) {
         tag = "project_reset";
@@ -1279,15 +1387,24 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         project.master_url.c_str(),
         tag
     );
-    retval =  rpc.do_rpc(buf);
-    if (retval) return retval;
-    return rpc.parse_reply();
+    retval = rpc.do_rpc(buf);
+    if (!retval) {
+        retval = rpc.parse_reply();
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_config_file) {
-    char buf[256];
     int retval;
+    std::string locale;
+    char buf[768];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     if (use_config_file) {
         sprintf(buf,
@@ -1305,19 +1422,32 @@ int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_confi
         );
     }
 
-    retval =  rpc.do_rpc(buf);
-    if (retval) return retval;
-    return rpc.parse_reply();
+    retval = rpc.do_rpc(buf);
+    if (!retval) {
+        retval = rpc.parse_reply();
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::project_attach_poll(PROJECT_ATTACH_REPLY& reply) {
-    RPC rpc(this);
     int retval;
-    std::string msg;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<project_attach_poll/>\n");
-    if (retval) return retval;
-    return reply.parse(rpc.fin);
+    if (!retval) {
+        retval = reply.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 const char* RPC_CLIENT::mode_name(int mode) {
@@ -1331,8 +1461,13 @@ const char* RPC_CLIENT::mode_name(int mode) {
 }
 
 int RPC_CLIENT::set_run_mode(int mode) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf, 
         "<set_run_mode>\n"
@@ -1340,30 +1475,47 @@ int RPC_CLIENT::set_run_mode(int mode) {
         "</set_run_mode>\n",
         mode_name(mode)
     );
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_run_mode(int& mode) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_run_mode/>\n");
-    if (retval) return retval;
-
-    mode = -1;
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</run_mode>")) break;
-        else if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
-        else if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
-        else if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
+    if (!retval) {
+        mode = -1;
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</run_mode>")) break;
+            else if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
+            else if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
+            else if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
+        }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::set_network_mode(int mode) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf,
         "<set_network_mode>\n"
@@ -1371,75 +1523,104 @@ int RPC_CLIENT::set_network_mode(int mode) {
         "</set_network_mode>\n",
         mode_name(mode)
     );
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_network_mode(int& mode) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_network_mode/>\n");
-    if (retval) return retval;
-
-    mode = -1;
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</network_mode>")) break;
-        if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
-        if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
-        if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
+    if (!retval) {
+        mode = -1;
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</network_mode>")) break;
+            if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
+            if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
+            if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
+        }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_activity_state(bool& activities_suspended, bool& network_suspended) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     activities_suspended = false;
     network_suspended = false;
 
     retval = rpc.do_rpc("<get_activity_state/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</activity_state>")) break;
-        else if (match_tag(buf, "<activities_suspended/>")) {
-            activities_suspended = true;
-            continue;
-        }
-        else if (match_tag(buf, "<network_suspended/>")) {
-            network_suspended = true;
-            continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</activity_state>")) break;
+            else if (match_tag(buf, "<activities_suspended/>")) {
+                activities_suspended = true;
+                continue;
+            }
+            else if (match_tag(buf, "<network_suspended/>")) {
+                network_suspended = true;
+                continue;
+            }
         }
     }
 
-    return 0;
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_screensaver_mode(int& status) {
+    int retval;
+    std::string locale;
     char buf[256];
     RPC rpc(this);
-    int retval;
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_screensaver_mode/>\n");
-    if (retval) return retval;
-
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</screensaver_mode>")) break;
-        else if (parse_int(buf, "<status>", status)) continue;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</screensaver_mode>")) break;
+            else if (parse_int(buf, "<status>", status)) continue;
+        }
     }
-    BOINCTRACE("Receiving: get_screensaver_mode\nstatus = %d\n", status);
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::set_screensaver_mode(
     bool enabled, double blank_time,
     DISPLAY_INFO& di
 ) {
-    char buf[256];
+    int retval;
+    std::string locale;
+    char buf[1024];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf,
         "<set_screensaver_mode>\n"
@@ -1451,18 +1632,36 @@ int RPC_CLIENT::set_screensaver_mode(
     di.print_str(buf);
     strcat(buf, "</set_screensaver_mode>\n");
 
-    BOINCTRACE("Sending: set_screensaver_mode\n%s\n", buf);
-    return rpc.do_rpc(buf);
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::run_benchmarks() {
+    int retval;
+    std::string locale;
     RPC rpc(this);
-    return rpc.do_rpc("<run_benchmarks/>\n");
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
+    retval = rpc.do_rpc("<run_benchmarks/>\n");
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
-    char buf[1024];
+    int retval;
+    std::string locale;
+    char buf[1792];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf,
         "<set_proxy_settings>\n%s%s%s"
@@ -1491,23 +1690,40 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
         pi.socks5_user_name.c_str(),
         pi.socks5_user_passwd.c_str()
     );
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_proxy_settings(GR_PROXY_INFO& p) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_proxy_settings/>");
-    if (retval) return retval;
+    if (!retval) {
+        retval = p.parse(rpc.fin);
+    }
 
-    return p.parse(rpc.fin);
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
-    char buf[4096];
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    char buf[256];
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf,
         "<get_messages>\n"
@@ -1515,26 +1731,34 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
         "</get_messages>\n",
         seqno
     );
-    retval = rpc.do_rpc(buf);
-    if (retval) return retval;
 
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "</msgs>")) break;
-        else if (match_tag(buf, "<msg>")) {
-            MESSAGE* message = new MESSAGE();
-            message->parse(rpc.fin);
-            msgs.messages.push_back(message);
-            continue;
+    retval = rpc.do_rpc(buf);
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</msgs>")) break;
+            else if (match_tag(buf, "<msg>")) {
+                MESSAGE* message = new MESSAGE();
+                message->parse(rpc.fin);
+                msgs.messages.push_back(message);
+                continue;
+            }
         }
     }
 
-    return 0;
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
-    char buf[4096];
+    int retval;
+    std::string locale;
+    char buf[768];
     const char *tag;
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     if (!strcmp(op, "retry")) {
         tag = "retry_file_transfer";
@@ -1553,13 +1777,23 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
         ft.name.c_str(),
         tag
     );
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::result_op(RESULT& result, const char* op) {
-    char buf[4096];
+    int retval;
+    std::string locale;
+    char buf[768];
     const char *tag;
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     if (!strcmp(op, "abort")) {
         tag = "abort_result";
@@ -1570,6 +1804,7 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
     } else {
         return -1;
     }
+
     sprintf(buf,
         "<%s>\n"
         "   <project_url>%s</project_url>\n"
@@ -1580,28 +1815,57 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         result.name.c_str(),
         tag
     );
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_host_info(HOST_INFO& h) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_host_info/>");
-    if (retval) return retval;
+    if (!retval) {
+        retval = h.parse(rpc.fin);
+    }
 
-    return h.parse(rpc.fin);
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 
 int RPC_CLIENT::quit() {
+    int retval;
+    std::string locale;
     RPC rpc(this);
-    return rpc.do_rpc("<quit/>\n");
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
+    retval = rpc.do_rpc("<quit/>\n");
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_config_file) {
-    char buf[4096];
+    int retval;
+    std::string locale;
+    char buf[1024];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
     if (use_config_file) {
         sprintf(buf,
             "<acct_mgr_rpc>\n"
@@ -1618,40 +1882,77 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             url, name, password
         );
     }
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& r) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<acct_mgr_rpc_poll/>\n");
-    if (retval) return retval;
-    return r.parse(rpc.fin);
+    if (!retval) {
+        retval = r.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::acct_mgr_info(ACCT_MGR_INFO& ami) {
     int retval;
+    std::string locale;
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
     retval = rpc.do_rpc("<acct_mgr_info/>\n");
-    if (retval) return retval;
-    return ami.parse(rpc.fin);
+    if (!retval) {
+        retval = ami.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_project_init_status(PROJECT_INIT_STATUS& pis) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_project_init_status/>\n");
-    if (retval) return retval;
-    return pis.parse(rpc.fin);
+    if (!retval) {
+        retval = pis.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 
 int RPC_CLIENT::get_project_config(std::string url) {
-    char buf[4096];
     int retval;
+    std::string locale;
+    char buf[512];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     sprintf(buf,
         "<get_project_config>\n"
@@ -1661,17 +1962,31 @@ int RPC_CLIENT::get_project_config(std::string url) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (retval) return retval;
-    return rpc.parse_reply();
+    if (!retval) {
+        retval = rpc.parse_reply();
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_project_config_poll/>\n");
-    if (retval) return retval;
-    return pc.parse(rpc.fin);
+    if (retval) {
+        retval = pc.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 static string get_passwd_hash(string passwd, string email_addr) {
@@ -1679,9 +1994,13 @@ static string get_passwd_hash(string passwd, string email_addr) {
 
 }
 int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
-    char buf[4096];
     int retval;
+    std::string locale;
+    char buf[1024];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
@@ -1697,23 +2016,41 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (retval) return retval;
-    return rpc.parse_reply();
+    if (retval) {
+        retval = rpc.parse_reply();
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<lookup_account_poll/>\n");
-    if (retval) return retval;
-    return ao.parse(rpc.fin);
+    if (!retval) {
+        retval = ao.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
-    char buf[4096];
     int retval;
+    std::string locale;
+    char buf[1280];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
@@ -1731,22 +2068,42 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (retval) return retval;
-    return rpc.parse_reply();
+    if (retval!) {
+        retval = rpc.parse_reply();
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<create_account_poll/>\n");
-    if (retval) return retval;
-    return ao.parse(rpc.fin);
+    if (!retval) {
+        retval = ao.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::lookup_website(int website_id) {
-    char buf[4096];
+    int retval;
+    std::string locale;
+    char buf[256];
     RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
     switch (website_id) {
     case LOOKUP_GOOGLE:
     case LOOKUP_YAHOO:
@@ -1754,6 +2111,7 @@ int RPC_CLIENT::lookup_website(int website_id) {
     default:
         return ERR_INVALID_PARAM;
     }
+
     sprintf(buf,
         "<lookup_website>\n"
         "    %s%s\n"
@@ -1761,36 +2119,68 @@ int RPC_CLIENT::lookup_website(int website_id) {
         (LOOKUP_GOOGLE == website_id)?"<google/>":"",
         (LOOKUP_YAHOO == website_id)?"<yahoo/>":""
     );
-    return rpc.do_rpc(buf);
+
+    retval = rpc.do_rpc(buf);
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::lookup_website_poll() {
-    RPC rpc(this);
-    LOOKUP_WEBSITE lw;
     int retval;
+    std::string locale;
+    LOOKUP_WEBSITE lw;
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<lookup_website_poll/>\n");
-    if (retval) return retval;
-    return lw.parse(rpc.fin);
+    if (!retval) {
+        retval = lw.parse(rpc.fin);
+    }
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::get_newer_version(std::string& version) {
-    RPC rpc(this);
     int retval;
+    std::string locale;
     char buf[256];
+    RPC rpc(this);
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
 
     version = "";
     retval = rpc.do_rpc("<get_newer_version/>\n");
-    if (retval) return retval;
-    while (rpc.fin.fgets(buf, 256)) {
-        parse_str(buf, "<newer_version>", version);
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            parse_str(buf, "<newer_version>", version);
+        }
     }
-    return 0;
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 int RPC_CLIENT::read_global_prefs_override() {
+    int retval;
+    std::string locale;
     RPC rpc(this);
-    return rpc.do_rpc("<read_global_prefs_override/>");
+
+    locale = setlocale(LC_ALL, NULL);
+    setlocale(LC_ALL, "C");
+
+    retval = rpc.do_rpc("<read_global_prefs_override/>");
+
+    setlocale(LC_ALL, locale.c_str());
+
+    return retval;
 }
 
 const char *BOINC_RCSID_90e8b8d168="$Id$";

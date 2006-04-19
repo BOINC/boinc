@@ -32,7 +32,6 @@
 #include "config.h"
 #include <cstring>
 #include <cstdlib>
-#include <locale>
 #include <string>
 #include <math.h>
 #if HAVE_IEEEFP_H

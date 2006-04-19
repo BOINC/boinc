@@ -4040,3 +4040,14 @@ David  18 Apr 2006
 		acct_setup.C
 		net_xfer_curl.C,h
 		scheduler_op.C
+
+Rom    18 Apr 2006
+    - Bug Fix: setlocale is needed in environments where the C runtime library
+        will attempt to use the current locales' numerical formating rules to
+        extract integer or floating point numbers.  The core client doesn't
+        observe local formating rules and defaults to the "C" locale.  When
+        parsing data from the CC be sure to flip the locale to "C" and return
+        it when your done.
+        
+    lib/
+        gui_rpc_client_ops.C
