@@ -50,47 +50,6 @@
 
 using std::string;
 
-// return true if the tag appears in the line
-//
-bool match_tag(const char* buf, const char* tag) {
-    if (strstr(buf, tag)) return true;
-    return false;
-}
-
-bool match_tag(const std::string &s, const char* tag) {
-    return match_tag(s.c_str(), tag);
-}
-
-// parse an integer of the form <tag>1234</tag>
-// return true if it's there
-// Note: this doesn't check for the end tag
-//
-bool parse_int(const char* buf, const char* tag, int& x) {
-    const char* p = strstr(buf, tag);
-    if (!p) return false;
-    std::string strLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
-    x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
-    setlocale(LC_NUMERIC, strLocale.c_str());
-    return true;
-}
-
-// Same, for doubles
-//
-bool parse_double(const char* buf, const char* tag, double& x) {
-    double y;
-    const char* p = strstr(buf, tag);
-    if (!p) return false;
-    std::string strLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
-    y = atof(p+strlen(tag));
-    setlocale(LC_NUMERIC, strLocale.c_str());
-    if (finite(y)) {
-        x = y;
-        return true;
-    }
-    return false;
-}
 
 
 // Parse a boolean; tag is of form "foobar"
@@ -133,12 +92,12 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
-    ++p;
+    p++;
     const char* q = strchr(p, '<');
     if (!q) return false;
     len = (int)(q-p);
     if (len >= destlen) len = destlen-1;
-    strncpy(tempbuf, p, len);
+    memcpy(tempbuf, p, len);
     tempbuf[len] = 0;
     strip_whitespace(tempbuf);
     xml_unescape(tempbuf, dest);

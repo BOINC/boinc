@@ -3901,6 +3901,23 @@ Rom    17 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.4 release, all platforms
       boinc_core_release_5_4_4
 
+David  18 Apr 2006
+	- make match_tag(), parse_int(), parse_double() into inlines
+	- remove setlocale() calls from parse_int(), parse_double().
+		Numbers in XML (including GUI RPCs) are always in standard format.
+		Whoever writes XML (e.g. the Manager) must ensure this.
+
+	lib/
+		parse.C,h
+
+David  18 Apr 2006
+    - core client: better messages on network check
+    - unix compile fix
+
+    client/
+        acct_setup.C
+    lib/
+        parse.h
 
 Charlie 18 Apr 2006
     - Mac: Add texfont.C,h and txf_util.C,h to XCode project for building 
@@ -3913,3 +3930,13 @@ Charlie 18 Apr 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  18 Apr 2006
+    - if no physical network connection (gstate.need_physical_connection is set)
+        then don't increment failure count for file transfers
+        and scheduler RPCs.
+        (avoid ending up with 2-week backoff when network is down for a while.)
+
+    client/
+        pers_file_xfer.C
+        scheduler_op.C
