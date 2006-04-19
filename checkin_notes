@@ -4059,3 +4059,20 @@ David  19 Apr 2006
 
     sched/
         server_types.C
+
+
+Walt   19 Apr 2006
+    - Code cleanup: remove duplicate calls to xml_unescape.
+    - Bug Fix: Change HTTP redirect limit to 50
+    - Bug Fix: Fix problems with socks5 proxys:
+        - Auth negotiation is handled by libcurl, remove that from BOINC
+        - Set connection timeouts to 20 seconds
+          *NOTE* Using socks5 proxies will cause BOINC to block until a
+          connection is made to the end server.  BOINC will 'lock up'
+          until the connection attempt completes or times out.
+
+    client/
+         http_curl.C
+    lib/
+        proxy_info.C
+
