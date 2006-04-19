@@ -53,6 +53,11 @@
 #define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
 #define BOINC_DIAG_HEAPCHECKEVERYALLOC      0x00000800L
 #define BOINC_DIAG_BOINCAPPLICATION         0x00001000L
+#define BOINC_DIAG_USEDEFULATS              BOINC_DIAG_DUMPCALLSTACKENABLED | \
+                                            BOINC_DIAG_HEAPCHECKENABLED | \
+                                            BOINC_DIAG_MEMORYLEAKCHECKENABLED | \
+                                            BOINC_DIAG_REDIRECTSTDERR | \
+                                            BOINC_DIAG_TRACETOSTDERR
 
 
 // thread types used for dumping backtraces
@@ -73,6 +78,7 @@ extern "C" {
 #endif
 
 // These are functions common to all platforms
+extern int is_diagnostics_initialized();
 extern int boinc_init_diagnostics(int flags);
 extern int boinc_finish_diag();
 extern int boinc_install_signal_handlers();

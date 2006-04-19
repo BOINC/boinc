@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include "diagnostics.h"
 #include "boinc_api.h"
 #include "graphics_impl.h"
 #include "graphics_api.h"
@@ -41,6 +42,11 @@ static void init_main_state() {
 }
 
 int boinc_init_graphics(void (*worker)()) {
+    int retval;
+    if (!is_diagnostics_initialized()) {
+        retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
+        if (retval) return retval;
+    }
     init_main_state();
     return boinc_init_graphics_impl(worker, &boinc_main_state);
 }

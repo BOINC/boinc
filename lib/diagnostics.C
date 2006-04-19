@@ -61,6 +61,7 @@
 #define MAX_STDOUT_FILE_SIZE        2048*1024
 
 
+static int         diagnostics_initialized = false;
 static int         flags;
 static char        stdout_log[256];
 static char        stdout_archive[256];
@@ -96,6 +97,13 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal);
 static void boinc_catch_signal(int signal);
 
 #endif
+
+
+// has the diagnostics library been initialized?.
+//
+int is_diagnostics_initialized(){
+    return diagnostics_initialized;
+}
 
 
 // stub function for initializing the diagnostics environment.
@@ -140,7 +148,6 @@ int boinc_install_signal_handlers() {
 int diagnostics_init(
     int _flags, const char* stdout_prefix, const char* stderr_prefix
 ) {
-
     flags = _flags;
     snprintf(stdout_log, sizeof(stdout_log), "%s.txt", stdout_prefix);
     snprintf(stdout_archive, sizeof(stdout_archive), "%s.old", stdout_prefix);
@@ -260,7 +267,10 @@ int diagnostics_init(
             if (match_tag(buf, "</app_init_data>")) break;
             else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
             else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
-            else if (match_tag(buf, "<use_http_proxy/>")) boinc_proxy_enabled = true;
+            else if (match_tag(buf, "<use_http_proxy/>")) {
+                boinc_proxy_enabled = true;
+                continue;
+            }
             else if (parse_str(buf, "<http_server_name>", proxy_address, 256)) continue;
             else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
         }
@@ -273,6 +283,11 @@ int diagnostics_init(
             }
         }
     }
+
+
+    // We have completed initializing the diagnostics system.
+    diagnostics_initialized = true;
+
 
     return BOINC_SUCCESS;
 }

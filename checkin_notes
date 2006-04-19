@@ -4060,7 +4060,6 @@ David  19 Apr 2006
     sched/
         server_types.C
 
-
 Walt   19 Apr 2006
     - Code cleanup: remove duplicate calls to xml_unescape.
     - Bug Fix: Change HTTP redirect limit to 50
@@ -4072,7 +4071,17 @@ Walt   19 Apr 2006
           until the connection attempt completes or times out.
 
     client/
-         http_curl.C
+        http_curl.C
     lib/
         proxy_info.C
 
+Rom    19 Apr 2006
+    - If an application hasn't initialized the diagnostics system, provide
+        reasonable defaults and initialize it for them.  This only handles
+        the boinc_init() and boinc_init_graphics() cases.
+        
+    api/
+        boinc_api.C
+        graphics_api.C
+    lib/
+        diagnostics.C, .h
