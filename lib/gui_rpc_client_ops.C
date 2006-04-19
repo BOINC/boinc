@@ -64,6 +64,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
+#include <locale>
 #endif
 
 #include "diagnostics.h"
