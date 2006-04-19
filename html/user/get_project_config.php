@@ -32,6 +32,10 @@ if (project_is_stopped()) {
     echo "
         <min_passwd_length>$min_passwd_length</min_passwd_length>
     ";
+    $forum_version = parse_config($config, '<forum_version');
+    if ($forum_version> {
+        echo "    <forum_version>$forum_version</forum_version>\n";
+    }
 }
 echo "
 </project_config>

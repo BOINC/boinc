@@ -80,9 +80,7 @@ Why not use actual CPU time instead?
 <li> The measurement of actual CPU time depends on apps to
 report it correctly.
 Sometimes apps have bugs that cause them to always report zero.
-This screws up the scheduler.
 </ul>
-
 
 
 <h3>Result states</h3>
@@ -176,20 +174,39 @@ and weighted round-robin among other projects if additional CPUs exist.
 This allows the client to meet deadlines that would otherwise be missed,
 while honoring resource shares over the long term.
 <p>
-The scheduler starts by doing a simulation of round-robin scheduling
+The scheduler starts by doing a simulation of weighted round-robin scheduling
 applied to the current work queue.
 This produces the following outputs:
 <ul>
 <li> deadline_missed(R): whether result R misses its deadline.
 <li> deadlines_missed(P):
 the number of results R of P for which deadline_missed(R).
-<li> total_work_before_minq:
-the wall CPU time used in the next min_queue seconds
+<li> total_shortfall:
+the additional wall CPU time needed to keep all CPUs busy
+for the next min_queue seconds
 (this is used by the work-fetch policy, see below).
-<li> work_before_minq(P):
-the wall CPU time used by project P in the next min_queue seconds
+<li> shortfall(P):
+the additional wall CPU time needed for project P
+to keep it from running out of work in the next min_queue seconds
 (this is used by the work-fetch policy, see below).
 </ul>
+<p>
+In the example below, projects A and B have resource shares
+2 and 1 respectively.
+A has results A1 and A2, and B has result B1.
+The computer has two CPUs.
+From time 0 to 4 all three results run with equal weighting.
+At time 4 result A2 finishes.
+From time 4 to 8, project A gets only a 0.5 share
+because it has only one result.
+At time 8, result A1 finishes.
+<p>
+In this case, shortfall(A) is 4,
+and total_shortfall is 2.
+
+<br>
+<img src=rr_sim.png>
+<br>
 The scheduling policy is:
 <ol>
 <li> Let P be the project with the earliest-deadline runnable result
@@ -241,12 +258,6 @@ it is always left in memory on preemption.
 <h2>Work-fetch policy</h2>
 
 <p>
-When a result runs in EDF mode,
-its project may get more than its share of CPU time.
-The work-fetch policy is responsible for
-ensuring that this doesn't happen repeatedly.
-It does this by suppressing work fetch for the project.
-<p>
 A project P is <b>overworked</b> if
 <ul>
 <li> P.long_term_debt < -sched_period
@@ -256,7 +267,7 @@ This condition occurs if P's results run in EDF mode
 (and in extreme cases, when a project with large negative LTD is detached).
 The work-fetch policy avoids getting work from overworked projects.
 This prevents a situation where a project with short deadlines
-monopolizes the CPU.
+gets more than its share of CPU time.
 
 <p>
 The work-fetch policy uses the functions
@@ -267,16 +278,6 @@ frs(project P)
 P's fractional resource share among fetchable projects.
 </blockquote>
 
-<pre>
-work_to_fill_buf(P)
-</pre>
-The amount of work needed to keep P busy for the next min_queue seconds,
-namely:
-<pre>
-    y = min_queue*ncpus - work_before_minq(P)
-    if (y <= 0) return 0
-    return y/frs(P)
-</pre>
 <p>
 The work-fetch policy function is called every few minutes
 (or as needed) by the scheduler RPC polling function.
@@ -289,9 +290,9 @@ for each project P
     if P is suspended, deferred, overworked, or no-new-work
         P.work_request_size = 0
     else
-        P.work_request_size = work_to_fill_buf(P)
+        P.work_request_size = shortfall(P)
 
-if min_queue*ncpus > total_work_before_minq
+if total_shortfall > 0
     if P.work_request_size==0 for all P
         for each project P
             if P is suspended, deferred, overworked, or no-new-work
@@ -305,8 +306,7 @@ if min_queue*ncpus > total_work_before_minq
             P.work_request_size = 1
 
     if P.work_request_size>0 for some P
-        Normalize P.work_request_size so that they
-        sum to min_queue*ncpus - total_work_before_minq
+        Normalize P.work_request_size so that they sum to total_shortfall
         and are proportional to P.resource_share
 </pre>
 
@@ -318,7 +318,7 @@ If it does so, it will also request work from that project.
 Otherwise, the RPC mechanism chooses the project P for which
 <pre>
 P.work_request_size>0 and
-P.long_term_debt + work_to_fill_buf(P) is greatest
+P.long_term_debt + shortfall(P) is greatest
 </pre>
 and gets work from that project.
 <hr>
