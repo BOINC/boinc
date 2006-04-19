@@ -2069,7 +2069,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (retval!) {
+    if (!retval) {
         retval = rpc.parse_reply();
     }
 
