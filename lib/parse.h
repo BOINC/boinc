@@ -27,6 +27,9 @@
 #include <cstdlib>
 #include <string>
 #include <math.h>
+#if HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
 #endif
 
 // return true if the tag appears in the line
