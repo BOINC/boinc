@@ -4006,3 +4006,7 @@ Rom    19 Apr 2006
         <various files>
     zlib/
         <various files>
+
+Rom    19 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.5 release, all platforms
+      boinc_core_release_5_4_5
