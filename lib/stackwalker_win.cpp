@@ -934,12 +934,16 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if (tt) 
         free( tt );
 
-
-    // SymGetOptions()
-    symOptions = pSGO();
-    symOptions |= SYMOPT_LOAD_LINES;
+    // Setting symbol options to the WinDbg defaults.
+    symOptions = NULL;
+    symOptions |= SYMOPT_CASE_INSENSITIVE
+    symOptions |= SYMOPT_DEFERRED_LOADS
+    symOptions |= SYMOPT_LOAD_LINES
+    symOptions |= SYMOPT_OMAP_FIND_NEAREST
+    symOptions |= SYMOPT_FAIL_CRITICAL_ERRORS
+    symOptions |= SYMOPT_AUTO_PUBLICS
+    symOptions |= SYMOPT_NO_IMAGE_SEARCH
     symOptions |= SYMOPT_DEBUG;
-    symOptions &= ~SYMOPT_UNDNAME;
     pSSO( symOptions ); // SymSetOptions()
 
     // init symbol handler stuff (SymInitialize())
