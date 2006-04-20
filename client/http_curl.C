@@ -301,7 +301,7 @@ The checking this option controls is of the identity that the server claims. The
     
     // force curl to use HTTP/1.1
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 5L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
 
@@ -701,18 +701,17 @@ void HTTP_OP::setupProxyCurl() {
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
+            // libcurl uses blocking sockets with socks proxy, so limit timeout.
+            // - imlemented with local patch to libcurl
+            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
 
             if (
                 strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
             ) {
+                auth_flag = false;
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);            
-                auth_flag = true;
-                if (auth_type) {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
-                } else {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
-                }
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
         }
     }

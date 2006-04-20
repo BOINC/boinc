@@ -33,7 +33,7 @@ using std::string;
 #include "proxy_info.h"
 
 int PROXY_INFO::parse(MIOFILE& in) {
-    char buf[256], buf2[1024];
+    char buf[1024];
     string s5un, s5up, hun, hup, temp;
 
     memset(this, 0, sizeof(PROXY_INFO));
@@ -47,22 +47,10 @@ int PROXY_INFO::parse(MIOFILE& in) {
         else if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
         else if (parse_str(buf, "<http_server_name>", http_server_name, sizeof(http_server_name))) continue;
         else if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
-        else if (parse_str(buf, "<socks5_user_name>", buf2, 1024)) {
-            xml_unescape(buf2, socks5_user_name);
-            continue;
-        }
-        else if (parse_str(buf, "<socks5_user_passwd>", buf2, 1024)) {
-            xml_unescape(buf2, socks5_user_passwd);
-            continue;
-        }
-        else if (parse_str(buf, "<http_user_name>", buf2, 1024)) {
-            xml_unescape(buf2, http_user_name);
-            continue;
-        }
-        else if (parse_str(buf, "<http_user_passwd>", buf2, 1024)) {
-            xml_unescape(buf2, http_user_passwd);
-            continue;
-        }
+        else if (parse_str(buf, "<socks5_user_name>", socks5_user_name,sizeof(socks5_user_name))) continue;
+        else if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd,sizeof(socks5_user_passwd))) continue;
+        else if (parse_str(buf, "<http_user_name>", http_user_name,sizeof(http_user_name))) continue;
+        else if (parse_str(buf, "<http_user_passwd>", http_user_passwd,sizeof(http_user_passwd))) continue;
     }
     return ERR_XML_PARSE;
 }
