@@ -699,9 +699,11 @@ int RAND_pseudo_bytes(unsigned char *buf,int num);
 #define bn_check_top(a) \
 	do { \
 		const BIGNUM *_bnum2 = (a); \
-		assert((_bnum2->top == 0) || \
+		if (_bnum2 != NULL) { \
+			assert((_bnum2->top == 0) || \
 				(_bnum2->d[_bnum2->top - 1] != 0)); \
-		bn_pollute(_bnum2); \
+			bn_pollute(_bnum2); \
+		} \
 	} while(0)
 
 #define bn_fix_top(a)		bn_check_top(a)
@@ -731,6 +733,18 @@ void     bn_sqr_words(BN_ULONG *rp, const BN_ULONG *ap, int num);
 BN_ULONG bn_div_words(BN_ULONG h, BN_ULONG l, BN_ULONG d);
 BN_ULONG bn_add_words(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp,int num);
 BN_ULONG bn_sub_words(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp,int num);
+
+/* Primes from RFC 2409 */
+BIGNUM *get_rfc2409_prime_768(BIGNUM *bn);
+BIGNUM *get_rfc2409_prime_1024(BIGNUM *bn);
+
+/* Primes from RFC 3526 */
+BIGNUM *get_rfc3526_prime_1536(BIGNUM *bn);
+BIGNUM *get_rfc3526_prime_2048(BIGNUM *bn);
+BIGNUM *get_rfc3526_prime_3072(BIGNUM *bn);
+BIGNUM *get_rfc3526_prime_4096(BIGNUM *bn);
+BIGNUM *get_rfc3526_prime_6144(BIGNUM *bn);
+BIGNUM *get_rfc3526_prime_8192(BIGNUM *bn);
 
 int BN_bntest_rand(BIGNUM *rnd, int bits, int top,int bottom);
 

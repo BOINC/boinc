@@ -1,3 +1,5 @@
+#ifndef __CURL_MPRINTF_H
+#define __CURL_MPRINTF_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -5,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2004, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2005, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -20,9 +22,6 @@
  *
  * $Id$
  ***************************************************************************/
-
-#ifndef H_MPRINTF
-#define H_MPRINTF
 
 #include <stdarg.h>
 #include <stdio.h> /* needed for FILE */
@@ -53,4 +52,4 @@ CURL_EXTERN char *curl_mvaprintf(const char *format, va_list args);
 # define vaprintf curl_mvaprintf
 #endif
 
-#endif /* H_MPRINTF */
+#endif /* __CURL_MPRINTF_H */

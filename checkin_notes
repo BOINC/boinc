@@ -4085,3 +4085,13 @@ Rom    19 Apr 2006
         graphics_api.C
     lib/
         diagnostics.C, .h
+
+Rom    19 Apr 2006
+    - Update dependancies.
+    
+    curl/
+        <various files>
+    openssl/
+        <various files>
+    zlib/
+        <various files>
