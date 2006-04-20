@@ -937,7 +937,6 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     // Setting symbol options to the WinDbg defaults.
     symOptions = NULL;
     symOptions |= SYMOPT_CASE_INSENSITIVE;
-    symOptions |= SYMOPT_DEFERRED_LOADS;
     symOptions |= SYMOPT_LOAD_LINES;
     symOptions |= SYMOPT_OMAP_FIND_NEAREST;
     symOptions |= SYMOPT_FAIL_CRITICAL_ERRORS;
