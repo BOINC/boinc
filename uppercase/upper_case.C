@@ -209,7 +209,8 @@ int main(int argc, char **argv) {
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_REDIRECTSTDERR
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_TRACETOSTDERR
     );
 
     // NOTE: if you change output here, remember to change the output that

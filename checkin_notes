@@ -41,3 +41,10 @@ David  13 Apr 2006
 
 	uppercase/
 		uc_graphics.C
+
+David  21 Apr 2006
+    - resolve logo filename
+
+    uppercase/
+        uc_graphics.C
+        upper_case.C

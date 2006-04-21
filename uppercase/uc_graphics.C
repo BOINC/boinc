@@ -22,6 +22,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#include <math.h>
 #include "config.h"
 #endif
 
@@ -50,11 +51,14 @@ static void init_lights() {
 }
 
 void app_graphics_init() {
+    char path[256];
     int viewport[4];
+
     boinc_get_init_data(uc_aid);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     txf_load_fonts(".");
-    logo.load_image_file("logo.jpg");
+    boinc_resolve_filename("logo.jpg", path, sizeof(path));
+    logo.load_image_file(path);
     init_lights();
     get_viewport(viewport);
     app_graphics_resize(viewport[2], viewport[3]);
