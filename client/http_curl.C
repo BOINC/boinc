@@ -650,7 +650,6 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
     return CURLIOE_OK;
 }
 
-static
 int libcurl_debugfunction(CURL *handle, curl_infotype type,
             unsigned char *data, size_t size, HTTP_OP* phop)
 {
@@ -658,7 +657,7 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
     char hdr[100];
     char buf[1024];
     size_t mysize;
-    static trace_count = 1;
+    static int trace_count = 1;
     
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
