@@ -652,44 +652,45 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
 
 static
 int libcurl_debugfunction(CURL *handle, curl_infotype type,
-             unsigned char *data, size_t size, HTTP_OP* phop)
+            unsigned char *data, size_t size, HTTP_OP* phop)
 {
-  const char *text;
-  char hdr[100];
-  char buf[1024];
-  size_t mysize;
-  static trace_count = 1;
+    const char *text;
+    char hdr[100];
+    char buf[1024];
+    size_t mysize;
+    static trace_count = 1;
     
-  SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
-  (void)handle; /* prevent compiler warning */
+    (void)handle; /* prevent compiler warning */
 
-  if (phop->trace_id == 0) {
-      phop->trace_id = trace_count;
-      trace_count++;
-  }
+    if (phop->trace_id == 0) {
+        phop->trace_id = trace_count;
+        trace_count++;
+    }
 
-  switch (type) {
-  case CURLINFO_TEXT:
-      scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
+    switch (type) {
+    case CURLINFO_TEXT:
+        scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
+        return 0;
+    case CURLINFO_HEADER_OUT:
+        text = "Sent header to server:";
+        break;
+    case CURLINFO_HEADER_IN:
+        text = "Received header from server:";
+        break;
+    default: /* in case a new one is introduced to shock us */
+       return 0;
+    }
+
+    sprintf( hdr,"[ID#%i] %s", phop->trace_id, text);
+    mysize = min(size, sizeof(buf)-1);
+    strncpy(buf, (char *)data, mysize);
+    buf[mysize]='\0';
+    scope_messages.printf("%s %s\n", hdr, buf);
     return 0;
-  case CURLINFO_HEADER_OUT:
-      text = "Sent header to server:";
-    break;
-  case CURLINFO_HEADER_IN:
-      text = "Received header from server:";
-    break;
-   default: /* in case a new one is introduced to shock us */
-    return 0;
-  }
-
-  sprintf( hdr,"[ID#%i] %s", phop->trace_id, text);
-  mysize = min(size, sizeof(buf)-1);
-  strncpy(buf, (char *)data, mysize);
-  buf[mysize]='\0';
-  scope_messages.printf("%s %s\n", hdr, buf);
-  return 0;
 }
+
 
 void HTTP_OP::setupProxyCurl() {
     // CMC: use the libcurl proxy routines with this object's proxy information struct 
