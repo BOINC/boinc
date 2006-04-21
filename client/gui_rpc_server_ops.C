@@ -604,6 +604,7 @@ static void handle_create_account_poll(char*, MIOFILE& fout) {
     }
 }
 
+#if 0
 static void handle_lookup_website(char* buf, MIOFILE& fout) {
     std::string url;
     if (match_tag(buf, "<yahoo")) {
@@ -627,6 +628,7 @@ static void handle_lookup_website_poll(char*, MIOFILE& fout) {
         gstate.lookup_website_op.error_num
     );
 }
+#endif
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
     string url, authenticator;
@@ -915,10 +917,12 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_create_account(request_msg, mf);
         } else if (match_tag(request_msg, "<create_account_poll")) {
             handle_create_account_poll(request_msg, mf);
+#if 0
         } else if (match_tag(request_msg, "<lookup_website>")) {
             handle_lookup_website(request_msg, mf);
         } else if (match_tag(request_msg, "<lookup_website_poll")) {
             handle_lookup_website_poll(request_msg, mf);
+#endif
         } else if (match_tag(request_msg, "<project_attach>")) {
             handle_project_attach(request_msg, mf);
         } else if (match_tag(request_msg, "<project_attach_poll")) {

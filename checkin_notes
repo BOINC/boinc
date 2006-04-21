@@ -4109,3 +4109,22 @@ Rom    21 Apr 2006
         
     lib/
         gui_rpc_client_ops.C
+
+David  21 Apr 2006
+    - Slight philosophy change in deciding whether network
+        communication is working
+        (e.g. by checking a reference web site when an HTTP operation fails):
+        the core client, not the Manager, is in charge of this.
+    - Eliminate the lookup_website() and lookup_website_poll() GUI RPCs
+    - Add a new possible return value to the "network_status" GUI RPC:
+        3 means the client is currently trying to access a reference web site.
+        Check back in a few seconds to see the outcome.
+
+    client/
+        acct_setup.C,h
+        client_state.C
+        gui_rpc_server_ops.C
+        net_xfer_curl.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

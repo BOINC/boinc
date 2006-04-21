@@ -1361,6 +1361,8 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 // 0 if we have network connections open
 // 1 if we need a physical connection
 // 2 if we don't have any connections, and don't need any
+// 3 if a website lookup is pending (try again later)
+//
 // There's a 10-second slop factor;
 // if we've done network comm in the last 10 seconds,
 // we act as if we're doing it now.
@@ -1375,6 +1377,9 @@ int CLIENT_STATE::network_status() {
     if (now - last_comm_time < 10) {
         //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
         return 0;
+    }
+    if (lookup_website_op.error_num == ERR_IN_PROGRESS) {
+        return 3;
     }
     if (need_physical_connection) {
         //msg_printf(0, MSG_INFO, "need phys conn; return 1");

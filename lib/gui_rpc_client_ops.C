@@ -2096,6 +2096,7 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
     return retval;
 }
 
+#if 0
 int RPC_CLIENT::lookup_website(int website_id) {
     int retval;
     std::string locale;
@@ -2146,6 +2147,7 @@ int RPC_CLIENT::lookup_website_poll() {
 
     return retval;
 }
+#endif
 
 int RPC_CLIENT::get_newer_version(std::string& version) {
     int retval;

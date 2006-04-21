@@ -80,16 +80,18 @@ struct CREATE_ACCOUNT_OP: public GUI_HTTP_OP {
     CREATE_ACCOUNT_OP(){error_num = BOINC_SUCCESS;}
 };
 
+// This is used to access a reference website (like yahoo or google)
+// that is assumed to be 100% available.
+// It is used ONLY from the HTTP code, when a transaction fails
+//
 struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
     int error_num;
-    bool checking_network;
 
     virtual ~LOOKUP_WEBSITE_OP(){}
     int do_rpc(std::string&);
     virtual void handle_reply(int http_op_retval);
     LOOKUP_WEBSITE_OP(){
         error_num = BOINC_SUCCESS;
-        checking_network = false;
     }
 };
 

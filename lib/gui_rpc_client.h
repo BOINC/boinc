@@ -95,10 +95,12 @@
 #define MSG_PRIORITY_ALERT_ERROR                    5
     // show error message in a modal dialog
 
+#if 0
 // Which websites can we look up?
 //
 #define LOOKUP_GOOGLE                               1
 #define LOOKUP_YAHOO                                2
+#endif
 
 struct GUI_URL {
     std::string name;
@@ -590,8 +592,10 @@ public:
     int lookup_account_poll(ACCOUNT_OUT&);
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
+#if 0
     int lookup_website(int);
     int lookup_website_poll();
+#endif
     int project_attach(const char* url, const char* auth, bool use_config_file=false);
     int project_attach_poll(PROJECT_ATTACH_REPLY&);
     int acct_mgr_rpc(const char* url, const char* name, const char* passwd, bool use_config_file=false);

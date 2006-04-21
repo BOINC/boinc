@@ -298,8 +298,9 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             // it could be because there's no physical network connection.
             // Find out for sure by trying to contact google
             //
-            if (!gstate.lookup_website_op.checking_network && !gstate.need_physical_connection) {
-                gstate.lookup_website_op.checking_network = true;
+            if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
+                && !gstate.need_physical_connection
+            ) {
                 std::string url = "http://www.google.com";
                 //msg_printf(0, MSG_ERROR, "need_phys_conn %d trying google", gstate.need_physical_connection);
                 gstate.lookup_website_op.do_rpc(url);
