@@ -671,11 +671,11 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
 
     switch (type) {
     case CURLINFO_TEXT:
-       scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
-       return 0;
+        scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
+        return 0;
     case CURLINFO_HEADER_OUT:
         text = "Sent header to server:";
-    break;
+        break;
     case CURLINFO_HEADER_IN:
         text = "Received header from server:";
         break;
