@@ -14,7 +14,8 @@ where NCPUS is the minimum of the physical number of CPUs
 
 <dt><b>CPU scheduling enforcement</b>
 <dd>
-When to actually enforce (by preemption) the schedule?
+When to actually enforce the schedule
+(i.e. by preempting and starting tasks)?
 Sometimes it's preferable to delay the preemption of
 an application until it checkpoints.
 
@@ -26,9 +27,8 @@ and how much work should it ask for?
 </dl>
 
 <p>
-The goals of the CPU scheduler and work-fetch policies are
-(in descending priority):
-<ul>
+The goals of these policies are (in descending priority):
+<ol>
 <li> Results should be completed and reported by their deadline
 (because results reported after their deadline
 may not have any value to the project and may not be granted credit).
@@ -39,7 +39,7 @@ min_queue days (min_queue is a user preference).
 <li> Project resource shares should be honored over the long term.
 <li> Variety: if a computer is attached to multiple projects,
 execution should rotate among projects on a frequent basis.
-</ul>
+</ol>
 
 <p>
 In previous versions of BOINC,
@@ -66,22 +66,56 @@ at the expense of variety.
 <h2>Concepts and terms</h2>
 
 <h3>Wall CPU time</h3>
-A result's <b>wall CPU time</b> is the amount of wall-clock time
-its process has been runnable at the OS level.
+<p>
+<b>Wall CPU time</b> is the amount of wall-clock time
+a process has been runnable at the OS level.
 The actual CPU time may be less than this,
 e.g. if the process does a lot of paging,
 or if other (non-BOINC) processing jobs run at the same time.
 <p>
-BOINC uses wall CPU time as the measure of how much resource
-has been given to each project.
-Why not use actual CPU time instead?
-<ul>
-<li> Wall CPU time is more fair in the case of paging apps.
-<li> The measurement of actual CPU time depends on apps to
-report it correctly.
-Sometimes apps have bugs that cause them to always report zero.
-</ul>
+BOINC uses wall CPU time as the measure of CPU resource usage.
+Wall CPU time is more fair than actual CPU time in the case of paging apps.
+In addition, the measurement of actual CPU time depends on apps to
+report it correctly, and they may not do this.
 
+<h3>Normalized CPU time</h3>
+<p>
+The <b>normalized CPU time</b> of a result is an estimate
+of the wall time it will take to complete, taking into account
+<ul>
+<li> the fraction of time BOINC runs ('on-fraction')
+<li> the fraction of time computation is enabled ('active-fraction')
+<li> CPU efficiency (the ratio of actual CPU to wall CPU)
+</ul>
+but not taking into account the project's resource share.
+
+<h3>Project-normalized CPU time</h3>
+<p>
+The <b>project-normalized CPU time</b> of a result is an estimate
+of the wall time it will take to complete, taking into account
+the above factors plus the project's resource share
+relative to other potentially runnable projects.
+<p>
+The 'work_req' element of a scheduler RPC request
+is in units of project-normalized CPU time.
+In deciding how much work to send,
+the scheduler must take into account
+the project's resource share fraction,
+and the host's on-fraction and active-fraction.
+
+<p>
+For example, suppose a host has 1 GFLOP/sec CPUs,
+the project's resource share fraction is 0.5,
+the host's on-fraction is 0.8
+and the host's active-fraction is 0.9.
+Then the expected processing rate per CPU is
+
+<pre>
+(1 GFLOP/sec)*0.5*0.8*0.9 = 0.36 GFLOP/sec
+</pre>
+
+If the host requests 1000 project-normalized CPU seconds of work,
+the scheduler should send it at least 360 GFLOPs of work.
 
 <h3>Result states</h3>
 R is <b>runnable</b> if
@@ -176,19 +210,18 @@ while honoring resource shares over the long term.
 <p>
 The scheduler starts by doing a simulation of weighted round-robin scheduling
 applied to the current work queue.
-This produces the following outputs:
+The simulation takes into account on-fraction and active-fraction.
+It produces the following outputs:
 <ul>
 <li> deadline_missed(R): whether result R misses its deadline.
 <li> deadlines_missed(P):
 the number of results R of P for which deadline_missed(R).
 <li> total_shortfall:
-the additional wall CPU time needed to keep all CPUs busy
-for the next min_queue seconds
-(this is used by the work-fetch policy, see below).
+the additional normalized CPU time needed to keep all CPUs busy
+for the next min_queue seconds.
 <li> shortfall(P):
-the additional wall CPU time needed for project P
-to keep it from running out of work in the next min_queue seconds
-(this is used by the work-fetch policy, see below).
+the additional normalized CPU time needed for project P
+to keep it from running out of work in the next min_queue seconds.
 </ul>
 <p>
 In the example below, projects A and B have resource shares
@@ -201,8 +234,7 @@ From time 4 to 8, project A gets only a 0.5 share
 because it has only one result.
 At time 8, result A1 finishes.
 <p>
-In this case, shortfall(A) is 4,
-and total_shortfall is 2.
+In this case, shortfall(A) is 4, shortfall(B) is 0, and total_shortfall is 2.
 
 <br>
 <img src=rr_sim.png>
@@ -281,7 +313,7 @@ P's fractional resource share among fetchable projects.
 <p>
 The work-fetch policy function is called every few minutes
 (or as needed) by the scheduler RPC polling function.
-It sets the variable <b>work_request_size(P)</b> for each project P,
+It sets the variable <b>P.work_request_size</b> for each project P,
 which is the number of seconds of work to request
 if we do a scheduler RPC to P.
 This is computed as follows:
@@ -320,7 +352,11 @@ Otherwise, the RPC mechanism chooses the project P for which
 P.work_request_size>0 and
 P.long_term_debt + shortfall(P) is greatest
 </pre>
-and gets work from that project.
+and requests work from that project.
+Note: P.work_request_size is in units of normalized CPU time,
+so the actual work request is P.work_request_size
+divided by P's resource share fraction relative to
+potentially runnable projects.
 <hr>
 <h2>Scheduler work-send policy</h2>
 <p>

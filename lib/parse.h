@@ -23,6 +23,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <string>

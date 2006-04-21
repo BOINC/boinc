@@ -279,13 +279,13 @@ public:
         // Don't start new results if these exceeds 2.
 
     double work_request;
-        // the unit is "normalized CPU seconds",
+        // the unit is "project-normalized CPU seconds",
         // i.e. the work should take 1 CPU on this host
         // X seconds of wall-clock time to complete,
         // taking into account
-        // 1) other projects and resource share;
+        // 1) this project's fractional resource share
         // 2) on_frac, active_frac, and cpu_effiency
-        // see doc/work_req.php
+        // see doc/sched.php
     int work_request_urgency;
 
     int nresults_returned;
