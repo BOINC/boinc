@@ -440,7 +440,7 @@ The checking this option controls is of the identity that the server claims. The
     if (log_flags.net_xfer_debug) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
+      curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
     }
 
     // last but not least, add this to the curl_multi
@@ -650,7 +650,6 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
     return CURLIOE_OK;
 }
 
-static
 int libcurl_debugfunction(CURL *handle, curl_infotype type,
             unsigned char *data, size_t size, HTTP_OP* phop)
 {
@@ -658,7 +657,7 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
     char hdr[100];
     char buf[1024];
     size_t mysize;
-    static trace_count = 1;
+    static int trace_count = 1;
     
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
@@ -690,6 +689,7 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
     scope_messages.printf("%s %s\n", hdr, buf);
     return 0;
 }
+
 
 void HTTP_OP::setupProxyCurl() {
     // CMC: use the libcurl proxy routines with this object's proxy information struct 
