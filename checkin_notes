@@ -4102,3 +4102,10 @@ Walt   20 Apr 2006
     
     client/
         http_curl.C,h
+
+Rom    21 Apr 2006
+    - Bug Fix: Fix the account lookup and get project config rpcs which
+        I broke fixing the setlocale stuff.
+        
+    lib/
+        gui_rpc_client_ops.C
