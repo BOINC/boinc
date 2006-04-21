@@ -4007,13 +4007,13 @@ Rom    19 Apr 2006
     zlib/
         <various files>
 
-Rom    19 Apr 2006 (boinc_core_release_5_4)
-    - Tag for 5.4.5 release, all platforms
-      boinc_core_release_5_4_5
-
 Walt   20 Apr 2006
     - Enable network tracing when <net_xfer_debug> log_flag is set.
         Dumps libcurl info messages and http header information.
     
     client/
         http_curl.C,h
+
+Rom    20 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.5 release, all platforms
+      boinc_core_release_5_4_5
