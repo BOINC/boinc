@@ -812,7 +812,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
                         _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
                     }
                 } else {
-                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)NULL) {
+                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)NULL)) {
                         _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
                     }
                 }
