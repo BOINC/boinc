@@ -64,9 +64,20 @@ $features_52 = "
 ";
 
 $changes_54 = "
+    <li>Changes since 5.4.4
+      <ul>
+        <li>More performance enhancements.
+        <li>Connection failures due to network issues do not cause a backoff
+            event. Retries are set for one minute.
+        <li>SOCKS5 authentication bug fixes.  It should now work.
+        <li>HTTP authentication bug fixes.  Last round of performance enhancments
+            broke http auth.
+        <li>Better network communitcation tracing through <net_xfer_debug> flag
+            in log_flags.xml.
+      </ul>
     <li>Changes since 5.4.3
       <ul>
-        <li>Performance Enhancements.
+        <li>Performance enhancements.
         <li>Improve dialogs on Linux so they fit well on the screen and have
             OK buttons.
       </ul>
@@ -267,11 +278,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w544= array(
-    "num"=>"5.4.4",
+$w545= array(
+    "num"=>"5.4.5",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.4_windows_intelx86.exe",
-    "date"=>"17 Apr 2006",
+    "file"=>"boinc_5.4.5_windows_intelx86.exe",
+    "date"=>"21 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -589,7 +600,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w544,
+        $w545,
         $w5213,
         $w445,
     )
