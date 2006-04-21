@@ -4017,3 +4017,10 @@ Walt   20 Apr 2006
 Rom    20 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.5 release, all platforms
       boinc_core_release_5_4_5
+
+Rom    21 Apr 2006
+    - Bug Fix: Fix the account lookup and get project config rpcs which
+        I broke fixing the setlocale stuff.
+        
+    lib/
+        gui_rpc_client_ops.C

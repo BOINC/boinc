@@ -1981,7 +1981,7 @@ int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
     setlocale(LC_ALL, "C");
 
     retval = rpc.do_rpc("<get_project_config_poll/>\n");
-    if (retval) {
+    if (!retval) {
         retval = pc.parse(rpc.fin);
     }
 
@@ -2017,7 +2017,7 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     );
 
     retval =  rpc.do_rpc(buf);
-    if (retval) {
+    if (!retval) {
         retval = rpc.parse_reply();
     }
 
