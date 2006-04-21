@@ -98,4 +98,3 @@ void idea_encrypt(unsigned long *in, IDEA_KEY_SCHEDULE *ks);
 #endif
 
 #endif
-

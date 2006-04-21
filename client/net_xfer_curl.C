@@ -81,6 +81,7 @@ void NET_XFER::reset() {
     req1 = NULL;
     strcpy(infile, "");
     strcpy(outfile, "");
+    strcpy(error_msg, "");
     CurlResult = CURLE_OK;
     bTempOutfile = true;
     is_connected = false;
@@ -226,7 +227,6 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     while (1) {
         curlMErr = curl_multi_perform(g_curlMulti, &iRunning);
         if (curlMErr != CURLM_CALL_MULTI_PERFORM) break;
-        gstate.need_physical_connection = false;
         if (dtime() - gstate.now > timeout) break;
     }
 
@@ -293,18 +293,17 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             }
             gstate.need_physical_connection = false;
         } else {
+            strcpy(nxf->error_msg, curl_easy_strerror(nxf->CurlResult));
             // If operation failed,
             // it could be because there's no physical network connection.
             // Find out for sure by trying to contact google
             //
-            if (!gstate.lookup_website_op.checking_network) {
+            if (!gstate.lookup_website_op.checking_network && !gstate.need_physical_connection) {
                 gstate.lookup_website_op.checking_network = true;
                 std::string url = "http://www.google.com";
+                //msg_printf(0, MSG_ERROR, "need_phys_conn %d trying google", gstate.need_physical_connection);
                 gstate.lookup_website_op.do_rpc(url);
             }
-            msg_printf(0, MSG_ERROR,
-                "HTTP error: %s", curl_easy_strerror(nxf->CurlResult)
-            );
             nxf->http_op_retval = ERR_HTTP_ERROR;
         }
 
