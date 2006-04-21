@@ -4095,3 +4095,10 @@ Rom    19 Apr 2006
         <various files>
     zlib/
         <various files>
+
+Walt   20 Apr 2006
+    - Enable network tracing when <net_xfer_debug> log_flag is set.
+        Dumps libcurl info messages and http header information.
+    
+    client/
+        http_curl.C,h

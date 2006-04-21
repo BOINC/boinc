@@ -33,6 +33,8 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
+#include "client_msgs.h"
+#include "log_flags.h"
 #include "util.h"
 
 //#include "network.h"
@@ -46,6 +48,7 @@
 
 #define HTTP_BLOCKSIZE  16384
 
+using std::min;
 using std::vector;
 
 extern CURLM* g_curlMulti;  // global curl multi handle for http/s
@@ -142,6 +145,7 @@ HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
+    trace_id = 0;
 }
 
 HTTP_OP::~HTTP_OP() {
@@ -432,7 +436,15 @@ The checking this option controls is of the identity that the server claims. The
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
     }
 
+    // turn on debug info if tracing enabled
+    if (log_flags.net_xfer_debug) {
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
+      curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
+    }
+
     // last but not least, add this to the curl_multi
+
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
         msg_printf(0, MSG_ERROR, "Couldn't add curlEasy handle to curlMulti");
@@ -638,6 +650,46 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
     return CURLIOE_OK;
 }
 
+static
+int libcurl_debugfunction(CURL *handle, curl_infotype type,
+             unsigned char *data, size_t size, HTTP_OP* phop)
+{
+  const char *text;
+  char hdr[100];
+  char buf[1024];
+  size_t mysize;
+  static trace_count = 1;
+    
+  SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
+
+  (void)handle; /* prevent compiler warning */
+
+  if (phop->trace_id == 0) {
+      phop->trace_id = trace_count;
+      trace_count++;
+  }
+
+  switch (type) {
+  case CURLINFO_TEXT:
+      scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
+    return 0;
+  case CURLINFO_HEADER_OUT:
+      text = "Sent header to server:";
+    break;
+  case CURLINFO_HEADER_IN:
+      text = "Received header from server:";
+    break;
+   default: /* in case a new one is introduced to shock us */
+    return 0;
+  }
+
+  sprintf( hdr,"[ID#%i] %s", phop->trace_id, text);
+  mysize = min(size, sizeof(buf)-1);
+  strncpy(buf, (char *)data, mysize);
+  buf[mysize]='\0';
+  scope_messages.printf("%s %s\n", hdr, buf);
+  return 0;
+}
 
 void HTTP_OP::setupProxyCurl() {
     // CMC: use the libcurl proxy routines with this object's proxy information struct 
