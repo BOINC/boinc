@@ -798,17 +798,21 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         if (g_hSymSrvDll) {
             pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
             if (pSSSO) {
-                if (!pSSSO(SSRVOPT_TRACE, TRUE)) {
+                if (!pSSSO(SSRVOPT_TRACE, (ULONG64)TRUE)) {
                     _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Trace Failed, GetLastError = %lu\n"), gle);
                 }
                 if (!pSSSO(SSRVOPT_CALLBACK, (ULONG64)SymbolServerCallbackProc)) {
                     _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Callback Failed, GetLastError = %lu\n"), gle);
                 }
-                if (!pSSSO(SSRVOPT_UNATTENDED, TRUE)) {
+                if (!pSSSO(SSRVOPT_UNATTENDED, (ULONG64)TRUE)) {
                     _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Unattended Failed, GetLastError = %lu\n"), gle);
                 }
                 if (bProxyEnabled) {
                     if (!pSSSO(SSRVOPT_PROXY, (ULONG64)pszProxyServer)) {
+                        _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
+                    }
+                } else {
+                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)NULL) {
                         _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
                     }
                 }
@@ -943,6 +947,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     symOptions |= SYMOPT_AUTO_PUBLICS;
     symOptions |= SYMOPT_NO_IMAGE_SEARCH;
     symOptions |= SYMOPT_DEBUG;
+    symOptions |= SYMOPT_NO_PROMPTS;
     pSSO( symOptions ); // SymSetOptions()
 
     // init symbol handler stuff (SymInitialize())
