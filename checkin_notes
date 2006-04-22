@@ -4146,3 +4146,16 @@ Walt   21 Apr 2006
 
     client/
         http_curl.C
+
+David  21 Apr 2006
+	- Kludge to make things work even when a project left out
+		a </gui_url> tag in its GUI URL list.
+	- comment out google/yahoo code in the BOINC Manager.
+		Rom: please finish this job
+
+	clientgui/
+		AccountManagerPropertiesPage.cpp
+		BOINCDialupManager.cpp
+		ProjectPropertiesPage.cpp
+	lib/
+		gui_rpc_client_ops.C

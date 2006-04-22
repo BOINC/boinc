@@ -82,6 +82,7 @@ int GUI_URL::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</gui_url>")) return 0;
+        if (match_tag(buf, "</gui_urls>")) break;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<description>", description)) continue;
         else if (parse_str(buf, "<url>", url)) continue;
@@ -187,9 +188,8 @@ int PROJECT::parse(MIOFILE& in) {
                 else if (match_tag(buf, "<gui_url>")) {
                     GUI_URL gu;
                     retval = gu.parse(in);
-                    if (!retval) {
-                        gui_urls.push_back(gu);
-                    }
+                    if (retval) break;
+                    gui_urls.push_back(gu);
                 }
             }
             continue;

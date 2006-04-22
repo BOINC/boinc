@@ -319,6 +319,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetNextState(ACCTMGRPROP_COMMUNICATEYAHOO_BEGIN);
             }
             break;
+#if 0
         case ACCTMGRPROP_COMMUNICATEYAHOO_BEGIN:
             SetNextState(ACCTMGRPROP_COMMUNICATEYAHOO_EXECUTE);
             break;
@@ -384,7 +385,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             } else {
                 SetCommunicateGoogleSucceeded(false);
             }
-
+#endif
             SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN);
             break;
         case ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN:

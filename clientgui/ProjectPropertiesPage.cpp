@@ -457,6 +457,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 SetNextState(PROJPROP_COMMUNICATEYAHOO_BEGIN);
             }
             break;
+#if 0
         case PROJPROP_COMMUNICATEYAHOO_BEGIN:
             SetNextState(PROJPROP_COMMUNICATEYAHOO_EXECUTE);
             break;
@@ -525,6 +526,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
 
             SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
             break;
+#endif
         case PROJPROP_DETERMINENETWORKSTATUS_BEGIN:
             SetNextState(PROJPROP_DETERMINENETWORKSTATUS_EXECUTE);
             break;

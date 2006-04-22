@@ -248,11 +248,13 @@ void CBOINCDialUpManager::poll() {
             wxTimeSpan tsTimeout = wxDateTime::Now() - m_dtDialupConnectionTimeout;
             if (30 > tsTimeout.GetSeconds()) {
                 if(m_iConnectAttemptRetVal != BOINC_SUCCESS) {
+#if 0
                     if (m_iConnectAttemptRetVal != ERR_IN_PROGRESS) {
                         // Attempt to successfully download the Google homepage
                         pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
                     }
                     m_iConnectAttemptRetVal = pDoc->rpc.lookup_website_poll();
+#endif
                     return;
                 }
             }
