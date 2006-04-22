@@ -4141,7 +4141,7 @@ David  21 Apr 2006
 
 Walt   21 Apr 2006
     - Bug fix: When tracing network activity, increment trace_id when request
-        is created.  ALl the trace records for that network operation will have
+        is created.  All the trace records for that network operation will have
         the same request number.
 
     client/
@@ -4159,3 +4159,9 @@ David  21 Apr 2006
 		ProjectPropertiesPage.cpp
 	lib/
 		gui_rpc_client_ops.C
+
+Walt   22 Apr 2006
+    - Bug fix: Don't use NTLM authorization for proxys.
+
+    client/
+        http_curl.C
