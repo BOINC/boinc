@@ -28,6 +28,7 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <locale.h>
 #endif
 
 #include "miofile.h"
@@ -613,4 +614,15 @@ struct RPC {
     ~RPC();
     int do_rpc(const char*);
     int parse_reply();
+};
+
+struct SET_LOCALE {
+    char* locale;
+    inline SET_LOCALE() {
+        locale = setlocale(LC_ALL, NULL);
+        setlocale(LC_ALL, "C");
+    }
+    inline ~SET_LOCALE() {
+        setlocale(LC_ALL, locale);
+    }
 };

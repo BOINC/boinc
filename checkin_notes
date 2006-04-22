@@ -4128,3 +4128,13 @@ David  21 Apr 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  21 Apr 2006
+    - use an object constructor/destructor to do setlocale() stuff.
+        Use char* instead of string (??)
+
+        Coding style: never have the same lines of code appear over and over
+
+    lib
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
