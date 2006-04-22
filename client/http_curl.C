@@ -438,9 +438,11 @@ The checking this option controls is of the identity that the server claims. The
 
     // turn on debug info if tracing enabled
     if (log_flags.net_xfer_debug) {
+        static int trace_count = 0;
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
-      curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
+        trace_id = trace_count++;
     }
 
     // last but not least, add this to the curl_multi
@@ -657,16 +659,10 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
     char hdr[100];
     char buf[1024];
     size_t mysize;
-    static int trace_count = 1;
     
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
     (void)handle; /* prevent compiler warning */
-
-    if (phop->trace_id == 0) {
-        phop->trace_id = trace_count;
-        trace_count++;
-    }
 
     switch (type) {
     case CURLINFO_TEXT:
@@ -742,7 +738,7 @@ void HTTP_OP::setupProxyCurl() {
             if (auth_type) {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
             } else {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
             }       
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
@@ -763,7 +759,7 @@ void HTTP_OP::setupProxyCurl() {
                 auth_flag = false;
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);            
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
             }
         }
     }
