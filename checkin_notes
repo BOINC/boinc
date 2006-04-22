@@ -4138,3 +4138,11 @@ David  21 Apr 2006
     lib
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Walt   21 Apr 2006
+    - Bug fix: When tracing network activity, increment trace_id when request
+        is created.  ALl the trace records for that network operation will have
+        the same request number.
+
+    client/
+        http_curl.C
