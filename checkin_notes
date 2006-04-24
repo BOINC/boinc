@@ -4165,3 +4165,9 @@ Walt   22 Apr 2006
 
     client/
         http_curl.C
+
+David  23 Apr 2006
+    - core client: add missing \n to error string for failed results
+
+    client/
+        client_state.C
