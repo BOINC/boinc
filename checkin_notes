@@ -4171,3 +4171,9 @@ David  23 Apr 2006
 
     client/
         client_state.C
+
+Rom    24 Apr 2006
+    - Bug Fix: Fix a connection to a remote machine bug.
+    
+    clientgui/
+        MainDocument.h
