@@ -4049,3 +4049,9 @@ Rom    24 Apr 2006
 Rom    24 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.6 release, all platforms
       boinc_core_release_5_4_6
+
+Rom    25 Apr 2006
+    - Bug Fix: Fix for missing includes.
+    
+    client/
+        cpu_sched.C
