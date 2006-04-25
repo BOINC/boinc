@@ -35,7 +35,7 @@ public:
 
     void           Poll();
     void           FireReconnectEvent() { m_bConnectEvent = true; };
-    void           ForceReconnect() { m_bForceReconnect = true; m_bConnected = false; };
+    void           ForceReconnect() { m_bForceReconnect = true; SetStateDisconnected(); };
     int            FrameShutdownDetected();
     int            GetConnectedComputerName(wxString& strMachine);
     int            GetConnectingComputerName(wxString& strMachine);
