@@ -32,7 +32,6 @@
 #include "config.h"
 #include <cstring>
 #include <cstdlib>
-#include <locale>
 #include <string>
 #include <math.h>
 #if HAVE_IEEEFP_H
@@ -50,47 +49,6 @@
 
 using std::string;
 
-// return true if the tag appears in the line
-//
-bool match_tag(const char* buf, const char* tag) {
-    if (strstr(buf, tag)) return true;
-    return false;
-}
-
-bool match_tag(const std::string &s, const char* tag) {
-    return match_tag(s.c_str(), tag);
-}
-
-// parse an integer of the form <tag>1234</tag>
-// return true if it's there
-// Note: this doesn't check for the end tag
-//
-bool parse_int(const char* buf, const char* tag, int& x) {
-    const char* p = strstr(buf, tag);
-    if (!p) return false;
-    std::string strLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
-    x = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
-    setlocale(LC_NUMERIC, strLocale.c_str());
-    return true;
-}
-
-// Same, for doubles
-//
-bool parse_double(const char* buf, const char* tag, double& x) {
-    double y;
-    const char* p = strstr(buf, tag);
-    if (!p) return false;
-    std::string strLocale = setlocale(LC_NUMERIC, NULL);
-    setlocale(LC_NUMERIC, "C");
-    y = atof(p+strlen(tag));
-    setlocale(LC_NUMERIC, strLocale.c_str());
-    if (finite(y)) {
-        x = y;
-        return true;
-    }
-    return false;
-}
 
 
 // Parse a boolean; tag is of form "foobar"
@@ -120,9 +78,11 @@ bool parse_bool(const char* buf, const char* tag, bool& result) {
 // Strips white space from ends.
 // Use "<tag", not "<tag>", if there might be attributes
 //
-bool parse_str(const char* buf, const char* tag, string& dest) {
+bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     string str;
     const char* p;
+    char tempbuf[1024];
+    int len;
 
     // sanity check on NULL and empty cases. 
     if (!buf || !tag || !strlen(tag))
@@ -131,19 +91,22 @@ bool parse_str(const char* buf, const char* tag, string& dest) {
     p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
-    ++p;
+    p++;
     const char* q = strchr(p, '<');
     if (!q) return false;
-    str.assign(p, q-p);
-    strip_whitespace(str);
-    xml_unescape(str, dest);
+    len = (int)(q-p);
+    if (len >= destlen) len = destlen-1;
+    memcpy(tempbuf, p, len);
+    tempbuf[len] = 0;
+    strip_whitespace(tempbuf);
+    xml_unescape(tempbuf, dest);
     return true;
 }
 
-bool parse_str(const char* buf, const char* tag, char* dest, int len) {
-    string str;
-    if (!parse_str(buf, tag, str)) return false;
-    strlcpy(dest, str.c_str(), len);
+bool parse_str(const char* buf, const char* tag, string& dest) {
+    char tempbuf[1024];
+    if (!parse_str(buf, tag, tempbuf, 1024)) return false;
+    dest = tempbuf;
     return true;
 }
 
@@ -349,62 +312,64 @@ char* sgets(char* buf, int len, char*& in) {
     return buf;
 }
 
-void xml_escape(string& in, string& out) {
-    int i;
-    char buf[256];
+// NOTE: these used to take std::string instead of char* args.
+// But this performed poorly.
+//
+void xml_escape(const char* in, char* out) {
+    char buf[256], *p;
 
-    out = "";
-    for (i=0; i<(int)in.length(); i++) {
-        int x = (int) in[i];
+    p = out;
+
+    for (; *in; in++) {
+        int x = (int) *in;
         x &= 0xff;   // just in case
-        if (in[i] == '<') {
-            out += "&lt;";
-        } else if (in[i] == '&') {
-            out += "&amp;";
+        if (x == '<') {
+            strcpy(p, "&lt;");
+            p += 4;
+        } else if (x == '&') {
+            strcpy(p, "&amp;");
+            p += 5;
         } else if (x>127) {
             sprintf(buf, "&#%d;", x);
-            out += buf;
+            strcpy(p, buf);
+            p += strlen(buf);
         } else if (x<32) {
             switch(x) {
             case 9:
             case 10:
             case 13:
                 sprintf(buf, "&#%d;", x);
-                out += buf;
+                strcpy(p, buf);
+                p += strlen(buf);
                 break;
             }
         } else {
-            out += in[i];
+            *p++ = x;
         }
     }
+    *p = 0;
 }
 
-void xml_escape(char* in, string& out) {
-    string foo = in;
-    xml_escape(foo, out);
-}
-
-void xml_unescape(string& in, string& out) {
-    size_t i;
-    out = "";
-    for (i=0; i<in.length();) {
-        if (in.substr(i, 4) == "&lt;") {
-            out += "<";
-            i += 4;
-        } else if (in.substr(i, 5) == "&amp;") {
-            out += "&";
-            i += 5;
-        } else if (in.substr(i, 2) == "&#") {
-            char c = atoi(in.substr(i+2, 3).c_str());
-            out += c;
-            i = in.find(";", i);
-            if (i==std::string::npos) break;
-            i++;
+void xml_unescape(const char* in, char* out) {
+    char* p = out;
+    while (*in) {
+        if (!strncmp(in, "&lt;", 4)) {
+            *p++ = '<';
+            in += 4;
+        } else if (!strncmp(in, "&amp;", 5)) {
+            *p++ = '&';
+            in += 5;
+        } else if (!strncmp(in, "&#", 2)) {
+            in += 2;
+            char c = atoi(in);
+            *p++ = c;
+            in = strchr(in, ';');
+            if (in) in++;
         } else {
-            out += in[i];
-            i++;
+            *p++ = *in++;
         }
     }
+    *p = 0;
 }
 
 // we got an unrecognized line.

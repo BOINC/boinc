@@ -85,18 +85,22 @@ int main(int argc, char *argv[])
         if (brandID == 1) {
             StandardAlert (kAlertStopAlert, "\pSorry, GridRepublic requires system 10.3 or higher.",
                                                 NULL, NULL, &itemHit);
-            system ("rm -rf /Applications/GridRepublic\\ Manager.app");
+            system ("rm -rf /Applications/GridRepublic\\ Desktop.app");
             system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");
-            system ("rm -rf /Library/Application\\ Support/GridRepublic\\ Data");
+// We don't customize BOINC Data directory name for branding
+//            system ("rm -rf /Library/Application\\ Support/GridRepublic\\ Data");
             system ("rm -rf /Library/Receipts/GridRepublic.pkg");
             StandardAlert (kAlertStopAlert, "\pSorry, BOINC requires system 10.3 or higher.",
                                                 NULL, NULL, &itemHit);
 	} else {
             system ("rm -rf /Applications/BOINCManager.app");
             system ("rm -rf /Library/Screen\\ Savers/BOINCSaver.saver");
-            system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
+// We don't customize BOINC Data directory name for branding
+//            system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
             system ("rm -rf /Library/Receipts/BOINC.pkg");
         }
+
+        system ("rm -rf /Library/Application\\ Support/BOINC\\ Data");
 
         err = kill(installerPID, SIGKILL);
 
@@ -135,41 +139,48 @@ int main(int argc, char *argv[])
 
     // Set owner of BOINCManager and contents, including core client
    if (brandID == 1) {
-        sprintf(s, "chown -Rf %s /Applications/GridRepublic\\ Manager.app", p);
+        sprintf(s, "chown -Rf %s /Applications/GridRepublic\\ Desktop.app", p);
         system (s);
 
         // Set owner of BOINC Screen Saver
         sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/GridRepublic.saver", p);
         system (s);
 
-        // Set owner of BOINC Data
-        sprintf(s, "chown -Rf %s /Library/Application\\ Support/GridRepublic\\ Data", p);
-        system (s);
+//      We don't customize BOINC Data directory name for branding
+        // Set owner of GridRepublic Data
+//        sprintf(s, "chown -Rf %s /Library/Application\\ Support/GridRepublic\\ Data", p);
+//        system (s);
 
  	system ("rm -rf /Applications/BOINCManager.app");
 	system ("rm -rf /Library/Screen\\ Savers/BOINCSaver.saver");        // Installing GridRepublic over BOINC
-	system ("chmod -R a+s /Applications/GridRepublic\\ Manager.app");   // Installing GridRepublic over BOINC
+	system ("chmod -R a+s /Applications/GridRepublic\\ Desktop.app");   // Installing GridRepublic over BOINC
 
-        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Manager.app", &fileRef, NULL);
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     } else {
         sprintf(s, "chown -Rf %s /Applications/BOINCManager.app", p);
         system (s);
 
+// We don't customize BOINC Data directory name for branding
         // Set owner of BOINC Screen Saver
-        sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/BOINCSaver.saver", p);
-        system (s);
+//        sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/BOINCSaver.saver", p);
+//        system (s);
 
         // Set owner of BOINC Data
         sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
         system (s);
 
-	system ("rm -rf /Applications/GridRepublic\\ Manager.app");     // Installing BOINC over GridRepublic
+	system ("rm -rf /Applications/GridRepublic\\ Desktop.app");     // Installing BOINC over GridRepublic
 	system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");  // Installing BOINC over GridRepublic
 	system ("chmod -R a+s /Applications/BOINCManager.app");
 
         err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }
     
+// We don't customize BOINC Data directory name for branding
+    // Set owner of BOINC Data
+    sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
+    system (s);
+
     if (err_fsref == noErr)
         err = LSRegisterFSRef(&fileRef, true);
     
@@ -196,13 +207,13 @@ int main(int argc, char *argv[])
             
         if (strcmp(p, "BOINCMANAGER.APP") == 0)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-        if (strcmp(p, "GRIDREPUBLIC MANAGER.APP") == 0)
+        if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
     }
 
     if (brandID == 1)
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
-                            "/Applications/GridRepublic Manager.app", kDoNotHideOnLaunch);
+                            "/Applications/GridRepublic Desktop.app", kDoNotHideOnLaunch);
     else
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);

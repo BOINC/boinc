@@ -352,7 +352,11 @@ void PERS_FILE_XFER::retry_or_backoff() {
 void PERS_FILE_XFER::do_backoff() {
     double backoff = 0;
 
-    nretry++;
+    // don't count it as a server failure if network is down
+    //
+    if (!gstate.need_physical_connection) {
+        nretry++;
+    }
 
     // Do an exponential backoff of e^nretry seconds,
     // keeping within the bounds of pers_retry_delay_min and
