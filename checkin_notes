@@ -4045,3 +4045,7 @@ Rom    24 Apr 2006
     
     clientgui/
         MainDocument.h
+
+Rom    24 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.6 release, all platforms
+      boinc_core_release_5_4_6
