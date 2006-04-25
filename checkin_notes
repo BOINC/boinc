@@ -4177,3 +4177,9 @@ Rom    24 Apr 2006
     
     clientgui/
         MainDocument.h
+
+Rom    25 Apr 2006
+    - Bug Fix: Fix for missing includes.
+    
+    client/
+        cpu_sched.C
