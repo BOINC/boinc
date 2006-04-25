@@ -4183,3 +4183,12 @@ Rom    25 Apr 2006
     
     client/
         cpu_sched.C
+
+Rom    25 Apr 2006
+    - Bug Fix: PPM files need to be closed when we are finished using them
+        or we'll experience a handle leak
+    - Bug Fix: After drawing the PPM bitmap on an OpenGL surface, free the
+        memory.
+
+    api/
+        gutil.C
