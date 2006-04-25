@@ -64,6 +64,11 @@ $features_52 = "
 ";
 
 $changes_54 = "
+    <li>Changes since 5.4.5
+      <ul>
+        <li>Attach to project wizard fixed.
+        <li>NTLM Authentication for HTTP Proxies disabled.
+      </ul>
     <li>Changes since 5.4.4
       <ul>
         <li>More performance enhancements.
@@ -278,11 +283,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w545= array(
-    "num"=>"5.4.5",
+$w546= array(
+    "num"=>"5.4.6",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.5_windows_intelx86.exe",
-    "date"=>"21 Apr 2006",
+    "file"=>"boinc_5.4.6_windows_intelx86.exe",
+    "date"=>"24 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -400,11 +405,11 @@ $w419 = array(
     "
 );
 
-$m544 = array(
-    "num"=>"5.4.4",
+$m546 = array(
+    "num"=>"5.4.6",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.4.4_macOSX_universal.zip",
-    "date"=>"17 April 2006",
+    "file"=>"boinc_5.4.6_macOSX_universal.zip",
+    "date"=>"24 April 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_54."
@@ -448,11 +453,11 @@ $m5213 = array(
     "
 );
 
-$m544c = array(
-    "num"=>"5.4.4",
+$m546c = array(
+    "num"=>"5.4.6",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.4.4_universal-apple-darwin.zip",
-    "date"=>"17 April 2006",
+    "file"=>"boinc_5.4.6_universal-apple-darwin.zip",
+    "date"=>"24 April 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_54."
@@ -528,11 +533,11 @@ $m443s = array(
     "
 );
 
-$l544 = array(
-    "num"=>"5.4.4",
+$l546 = array(
+    "num"=>"5.4.6",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.4_i686-pc-linux-gnu.sh",
-    "date"=>"17 Apr 2006",
+    "file"=>"boinc_5.4.6_i686-pc-linux-gnu.sh",
+    "date"=>"24 Apr 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -600,7 +605,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w545,
+        $w546,
         $w5213,
         $w445,
     )
@@ -609,8 +614,8 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m544,
-        $m544c,
+        $m546,
+        $m546c,
         $m5213,
         $m5213s,
         $m5213c,
@@ -624,7 +629,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l544,
+        $l546,
         $l5213,
         $l443,
     )
