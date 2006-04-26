@@ -691,12 +691,39 @@ static char *generate_wu_template(DC_Workunit *wu)
 	return p;
 }
 
+static char *emit_file_info(FILE *tmpl, int idx, int auto_upload)
+{
+	fprintf(tmpl, "<file_info>\n");
+	fprintf(tmpl, "\t<name><OUTFILE_%d/></name>\n", idx);
+	fprintf(tmpl, "\t<generated_locally/>\n");
+	if (auto_upload)
+		fprintf(tmpl, "\t<upload_when_present/>\n");
+	fprintf(tmpl, "\t<max_nbytes>262144</max_nbytes>\n"); /* XXX */
+	fprintf(tmpl, "\t<url><UPLOAD_URL/></url>\n");
+	fprintf(tmpl, "</file_info>\n");
+}
+
+static char *emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+	G_GNUC_PRINTF(3, 4);
+static char *emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	fprintf(tmpl, "\t<file_ref>\n");
+	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", idx);
+	fprintf(tmpl, "\t\t<open_name>");
+	vfprintf(tmpl, fmt, ap);
+	fprintf(tmpl, "</open_name>\n");
+	fprintf(tmpl, "\t</file_ref>\n");
+}
+
 static char *generate_result_template(DC_Workunit *wu)
 {
 	char *file, *abspath, uuid_str[37];
+	int i, file_cnt;
 	FILE *tmpl;
 	GList *l;
-	int i;
 
 	uuid_unparse_lower(wu->uuid, uuid_str);
 	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
@@ -714,49 +741,29 @@ static char *generate_result_template(DC_Workunit *wu)
 		return NULL;
 	}
 
-	/* We need a slot for
-	 * - every output file
-	 * - every possible subresult
-	 * - the checkpoint file */
-	for (i = 0; i < wu->num_outputs + wu->subresults + 1; i++)
-	{
-		fprintf(tmpl, "<file_info>\n");
-		fprintf(tmpl, "\t<name><OUTFILE_%d/></name>\n", i);
-		fprintf(tmpl, "\t<generated_locally/>\n");
-		fprintf(tmpl, "\t<upload_when_present/>\n");
-		fprintf(tmpl, "\t<max_nbytes>262144</max_nbytes>\n"); /* XXX */
-		fprintf(tmpl, "\t<url><UPLOAD_URL/></url>\n");
-		fprintf(tmpl, "</file_info>\n");
-	}
+	file_cnt = 0;
+	/* Slots for output files */
+	for (i = 0; i < wu->num_outputs; i++)
+		emit_file_info(tmpl, file_cnt++, TRUE);
+	/* Slots for subresults - no automatic uploading */
+	for (i = 0; i < wu->num_subresults; i++)
+		emit_file_info(tmpl, file_cnt++, FALSE);
+	/* Slot for the checkpoint file */
+	emit_file_info(tmpl, file_cnt++, TRUE);
 
 	fprintf(tmpl, "<result>\n");
+	file_cnt = 0;
 	/* The output templates */
-	for (l = wu->output_files, i = 0; l && i < wu->num_outputs;
-			l = l->next, i++)
-	{
-		fprintf(tmpl, "\t<file_ref>\n");
-		fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i);
-		fprintf(tmpl, "\t\t<open_name>%s</open_name>\n",
-			(char *)l->data);
-		fprintf(tmpl, "\t</file_ref>\n");
-	}
+	for (l = wu->output_files; l; l = l->next)
+		emit_file_ref(tmpl, file_cnt++, "%s", (char *)l->data);
 
 	/* The subresult templates */
-	while (i < wu->num_outputs + wu->subresults)
-	{
-		fprintf(tmpl, "\t<file_ref>\n");
-		fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i);
-		fprintf(tmpl, "\t\t<open_name>%s%d</open_name>\n",
-			SUBRESULT_PFX, i - wu->num_outputs);
-		fprintf(tmpl, "\t</file_ref>\n");
-		i++;
-	}
+	for (i = 0; i < wu->subresults; i++)
+		emit_file_ref(tmpl, file_cnt, "%s%d", SUBRESULT_PFX,
+			file_cnt++);
 
 	/* The checkpoint template */
-	fprintf(tmpl, "\t<file_ref>\n");
-	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", i++);
-	fprintf(tmpl, "\t\t<open_name>%s</open_name>\n", CKPT_LABEL_OUT);
-	fprintf(tmpl, "\t</file_ref>\n");
+	emit_file_ref(tmpl, file_cnt++, "%s", CKPT_LABEL_OUT);
 
 	fprintf(tmpl, "</result>\n");
 	fclose(tmpl);
