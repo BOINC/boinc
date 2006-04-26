@@ -4192,3 +4192,11 @@ Rom    25 Apr 2006
 
     api/
         gutil.C
+
+Rom    25 Apr 2006
+    - Bug Fix: Hide everything about a thread if it has been closed to
+        prevent identity information being disclosed as part of the
+        subject line.
+
+    html/user/
+        forum_thread.php
