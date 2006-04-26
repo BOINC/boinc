@@ -136,6 +136,9 @@
 				RelativePath=".\CADetectOldInstaller.cpp">
 			</File>
 			<File
+				RelativePath=".\CAShutdownBOINC.cpp">
+			</File>
+			<File
 				RelativePath=".\CAShutdownBOINCManager.cpp">
 			</File>
 			<File
@@ -168,6 +171,9 @@
 			</File>
 			<File
 				RelativePath=".\CADetectOldInstaller.h">
+			</File>
+			<File
+				RelativePath=".\CAShutdownBOINC.h">
 			</File>
 			<File
 				RelativePath=".\CAShutdownBOINCManager.h">
