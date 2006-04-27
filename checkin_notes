@@ -4069,7 +4069,7 @@ Walt   27 Apr 2006
     - Bug Fix: Restore the same locale category that was saved
 
     lib/
-        gui_rpc_client.C
+        gui_rpc_client_ops.C
 
 Charlie 27 Apr 06
     -Mac: Change XCode project. build instructions and build scripts to use 
@@ -4084,3 +4084,14 @@ Charlie 27 Apr 06
         HowToBuildBOINC_XCode.rtf
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    27 Apr 2006
+    - Bug Fix: Create a BOINC Service shutdown custom action for the installer
+        since the installer technology wants to wait until after it has found
+        out which files are in use to shutdown the service.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAShutdownBOINC.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/x86/
+        boinccas95.dll
+        boinccas.dll
