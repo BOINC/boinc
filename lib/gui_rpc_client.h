@@ -617,12 +617,12 @@ struct RPC {
 };
 
 struct SET_LOCALE {
-    char* locale;
+    std::string locale;
     inline SET_LOCALE() {
         locale = setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "C");
     }
     inline ~SET_LOCALE() {
-        setlocale(LC_ALL, locale);
+        setlocale(LC_ALL, locale.c_str());
     }
 };

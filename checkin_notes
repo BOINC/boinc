@@ -4200,3 +4200,9 @@ Rom    25 Apr 2006
 
     html/user/
         forum_thread.php
+
+Walt   25 Apr 2006
+    - Bug Fix: Save local copy of locale so it gets restored properly later.
+
+    lib/
+        gui_rpc_client.h
