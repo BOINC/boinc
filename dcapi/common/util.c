@@ -2,6 +2,7 @@
 #include <config.h>
 #endif
 
+#include <strings.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -114,7 +115,7 @@ int _DC_processSuffix(long *value, const char *suffix)
 		*value *= 60;
 	else if (!strcasecmp(suffix, "h") || !strcasecmp(suffix, "hour"))
 		*value *= 60 * 60;
-	else if (!strcacecmp(suffix, "day"))
+	else if (!strcasecmp(suffix, "day"))
 		*value *= 24 * 60 * 60;
 	else
 		return -1;
