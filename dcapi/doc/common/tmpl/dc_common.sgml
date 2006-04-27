@@ -73,7 +73,22 @@ Returns the value belonging to the specified key @name in the configuration file
 </para>
 
 @name: the key to look up.
-@Returns: the value belonging to the key or %NULL if it is not defined in the config file.
+@Returns: the value belonging to the key or %NULL if it is not defined in the
+	config file. The returned value must be deallocated using free() when it is
+	no longer needed.
+
+
+<!-- ##### FUNCTION DC_getCfgInt ##### -->
+<para>
+Returns the integer value belonging to the specified key @name in the configuration
+file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
+</para>
+
+@name: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a number.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
 
 
 <!-- ##### FUNCTION DC_log ##### -->

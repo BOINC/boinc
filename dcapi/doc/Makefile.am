@@ -37,6 +37,7 @@ EXTRA_DIST = 				\
 	$(HTML_IMAGES)			\
 	$(DOC_MAIN_SGML_FILE)
 
+CONTENT_STAMPS = client/sgml.stamp master/sgml.stamp common/sgml.stamp
 DOC_STAMPS = html-build.stamp $(srcdir)/html.stamp
 
 CLEANFILES = $(DOC_STAMPS)
@@ -44,7 +45,7 @@ CLEANFILES = $(DOC_STAMPS)
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
-html-build.stamp: $(DOC_MAIN_SGML_FILE) $(content_files)
+html-build.stamp: $(DOC_MAIN_SGML_FILE) $(content_files) $(CONTENT_STAMPS)
 	@echo 'gtk-doc: Building HTML'
 	@-chmod -R u+w $(srcdir)
 	rm -rf $(srcdir)/html 
