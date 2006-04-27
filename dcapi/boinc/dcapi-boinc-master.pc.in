@@ -7,4 +7,4 @@ Name: DC-API BOINC Master
 Description: BOINC master implementation for DC-API
 Version: @PACKAGE_VERSION@
 Requires: glib-2.0 uuid
-Libs: -L${libdir} -ldc-boinc @BOINC_SERVER_LIBS@
+Libs: -L${libdir} -ldc-boinc @BOINC_SERVER_LIBS@ -lm
