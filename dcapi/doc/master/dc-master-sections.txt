@@ -45,6 +45,10 @@ DC_destroyWU
 DC_sendWUMessage
 
 <SUBSECTION>
+DC_getClientCfgStr
+DC_getClientCfgInt
+
+<SUBSECTION>
 DC_getResultCapabilities
 DC_getResultWU
 DC_getResultExit
