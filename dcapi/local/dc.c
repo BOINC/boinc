@@ -28,7 +28,7 @@ int sleep_interval;
 
 int DC_init(const char *config_file)
 {
-	const char *cfgval;
+	char *cfgval;
 	int ret;
 
 	if (!config_file)
@@ -50,20 +50,12 @@ int DC_init(const char *config_file)
 			CFG_WORKDIR);
 		return DC_ERR_CONFIG;
 	}
+	free(cfgval);
 
 	/* Check sleep interval */
-	cfgval = DC_getCfgStr(CFG_SLEEPINTERVAL);
-	if (!cfgval)
-	{
-		DC_log(LOG_WARNING, "%s is not specified in the config file. Default value is %d sec",
-			CFG_SLEEPINTERVAL, DEFAULT_SLEEP_INTERVAL);
-		sleep_interval = DEFAULT_SLEEP_INTERVAL;
-	}
-	else
-	{
-		sleep_interval = atoi(cfgval);
-		if (sleep_interval < 1) sleep_interval = 1;
-	}
+	sleep_interval = DC_getCfgInt(CFG_SLEEPINTERVAL, DEFAULT_SLEEP_INTERVAL);
+	if (sleep_interval < 1)
+		sleep_interval = 1;
 
 	/* Check the project UUID */
 	cfgval = DC_getCfgStr(CFG_INSTANCEUUID);
@@ -78,8 +70,10 @@ int DC_init(const char *config_file)
 	if (ret)
 	{
 		DC_log(LOG_ERR, "Invalid project UUID");
+		free(cfgval);
 		return DC_ERR_CONFIG;
 	}
+	free(cfgval);
 
 	/* Enforce a canonical string representation of the UUID */
 	uuid_unparse_lower(project_uuid, project_uuid_str);

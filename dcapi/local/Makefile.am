@@ -17,6 +17,7 @@ libdc_local_la_SOURCES = \
 		dc.c \
 		rm.c \
 		events.c
-libdc_local_la_LIBADD = ../common/libdc-common.la $(GLIB_LIBS)
+libdc_local_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
 
 libdc_client_local_la_SOURCES = client.c
+libdc_client_local_la_LIBADD = ../common/libdc-common-client.la
