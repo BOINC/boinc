@@ -22,16 +22,14 @@ extern "C" {
  * Function prototypes
  */
 
-/* Parses the config file and stores its contents in memory.
- *
- * @cfgfile: the name of the config file. May not be %NULL.
- * 
- * @Returns: 0 if successful or an error code.
- */
+/* Parses a configuration file */
 int _DC_parseCfg(const char *cfgfile);
 
 /* Copies a file */
 int _DC_copyFile(const char *src, const char *dst);
+
+/* Processes a unit suffix and adjust the value accordingly */
+int _DC_processSuffix(long *value, const char *suffix)
 
 #ifdef __cplusplus
 }

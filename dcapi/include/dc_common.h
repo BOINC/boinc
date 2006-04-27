@@ -84,8 +84,12 @@ void DC_log(int level, const char *fmt, ...)
 void DC_vlog(int level, const char *fmt, va_list args)
 	__attribute__((format(printf, 2, 0)));
 
-/* Returns the value belonging ot the specified key in the config. file */
-const char *DC_getCfgStr(const char *name);
+/* Returns the value associated with the specified key in the config. file */
+char *DC_getCfgStr(const char *name);
+
+/* Returns the integer value associated with the specified key in the config.
+ * file */
+int DC_getCfgInt(const char *name, int defaultValue);
 
 #ifdef __cplusplus
 }

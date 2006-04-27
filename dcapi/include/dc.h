@@ -128,6 +128,14 @@ void DC_destroyEvent(DC_Event *event);
 /* Queries the number of WUs known to the API in the given state. */
 int DC_getWUNumber(DC_WUState state);
 
+/* Queries per-client configuration variables */
+char *DC_getClientCfgStr(const char *clientName, const char *key,
+	int fallbackGlobal);
+
+/* Queries per-client configuration variables */
+int DC_getClientCfgInt(const char *clientName, const char *key,
+	int defaultValue, int fallbackGlobal);
+
 /********************************************************************
  * Function prototypes: Work unit management
  */

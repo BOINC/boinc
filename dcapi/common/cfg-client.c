@@ -120,7 +120,7 @@ int _DC_parseCfg(const char *cfgfile)
 	return 0;
 }
 
-const char *DC_getCfgStr(const char *key)
+char *DC_getCfgStr(const char *key)
 {
 	int i;
 
@@ -130,7 +130,34 @@ const char *DC_getCfgStr(const char *key)
 	for (i = 0; i < n_pairs; i++)
 	{
 		if (pairs[i].key && !strcmp(pairs[i].key, key))
-			return pairs[i].value;
+			return strdup(pairs[i].value);
 	}
 	return NULL;
+}
+
+int DC_getCfgInt(const char *key, int defaultValue)
+{
+	int i, val;
+	char *p;
+
+	if (!key)
+		return defaultValue;
+
+	for (i = 0; i < n_pairs; i++)
+	{
+		if (pairs[i].key && !strcmp(pairs[i].key, key))
+			break;
+	}
+	if (i >= n_pairs)
+		return defaultValue;
+
+	val = strtol(pairs[i].value, &p, 10);
+	/* Check for unit suffixes */
+	if (p && *p && _DC_processSuffix(&val, p))
+	{
+		DC_log(LOG_WARNING, "Configuration value for key %s is not "
+			"a valid number, ignoring", key);
+		return defaultValue;
+	}
+	return val;
 }
