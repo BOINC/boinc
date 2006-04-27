@@ -4064,3 +4064,9 @@ Rom    25 Apr 2006
 
     api/
         gutil.C
+
+Walt   27 Apr 2006
+    - Bug Fix: Restore the same locale category that was saved
+
+    lib/
+        gui_rpc_client.C

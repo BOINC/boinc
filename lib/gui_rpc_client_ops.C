@@ -1278,7 +1278,7 @@ int RPC_CLIENT::network_status(int& status) {
         retval = checkpoint;
     }
 
-    setlocale(LC_NUMERIC, locale.c_str());
+    setlocale(LC_ALL, locale.c_str());
 
     return retval;
 }
