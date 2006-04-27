@@ -58,39 +58,81 @@ CAShutdownBOINC::~CAShutdownBOINC()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
+
+// OpenSCManager()
+typedef SC_HANDLE (WINAPI *tOSCM)(
+    LPCSTR lpMachineName,
+    LPCSTR lpDatabaseName,
+    DWORD  dwDesiredAccess
+);
+
+// OpenService()
+typedef SC_HANDLE (WINAPI *tOS)(
+    SC_HANDLE hSCManager,
+    LPCSTR    lpServiceName,
+    DWORD     dwDesiredAccess
+);
+
+// ControlService()
+typedef SC_HANDLE (WINAPI *tCS)(
+    SC_HANDLE           hService,
+    DWORD               dwControl,
+    LPSERVICE_STATUS    lpServiceStatus
+);
+
 UINT CAShutdownBOINC::OnExecution()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
     UINT uiReturn = ERROR_SUCCESS;
+    tOSCM pOSCM = NULL;
+    tOS pOS = NULL;
+    tCS pCS = NULL;
 
-    schSCManager = OpenSCManager( 
-        NULL,                    // local machine 
-        NULL,                    // ServicesActive database 
-        GENERIC_READ);           // full access rights 
 
-    if (schSCManager)
-    {
-        schService = OpenService( 
-            schSCManager,            // SCM database 
-            _T("BOINC"),             // service name
-            GENERIC_READ | GENERIC_EXECUTE); 
-     
-        if (schService) 
-        {
-            if (!ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus))
-            {
-                uiReturn = ERROR_INSTALL_FAILURE;
-            }
+    HMODULE hAdvapi32 = LoadLibrary(_T("advapi32.dll"));
+    if (hAdvapi32) {
+        pOSCM = (tOSCM)GetProcAddress(hAdvapi32, _T("OpenSCManagerA"));
+        pOS = (tOS)GetProcAddress(hAdvapi32, _T("OpenServiceA"));
+        pCS = (tCS)GetProcAddress(hAdvapi32, _T("ControlService"));
+        if (!pOSCM && !pOS && !pCS) {
+            FreeLibrary(hAdvapi32);
+            hAdvapi32 = NULL;
+            pOSCM = NULL;
+            pOS = NULL;
+            pCS = NULL;
         }
     }
 
-    if (schSCManager)
-        CloseServiceHandle(schSCManager);
+    if (pOSCM && pOS && pCS) {
+        schSCManager = pOSCM( 
+            NULL,                    // local machine 
+            NULL,                    // ServicesActive database 
+            GENERIC_READ);           // full access rights 
 
-    if (schService)
-        CloseServiceHandle(schService);
+        if (schSCManager)
+        {
+            schService = pOS( 
+                schSCManager,            // SCM database 
+                _T("BOINC"),             // service name
+                GENERIC_READ | GENERIC_EXECUTE); 
+         
+            if (schService) 
+            {
+                if (!pCS(schService, SERVICE_CONTROL_STOP, &ssStatus))
+                {
+                    uiReturn = ERROR_INSTALL_FAILURE;
+                }
+            }
+        }
+
+        if (schSCManager)
+            CloseServiceHandle(schSCManager);
+
+        if (schService)
+            CloseServiceHandle(schService);
+    }
 
     return uiReturn;
 }
