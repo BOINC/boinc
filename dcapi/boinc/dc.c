@@ -10,8 +10,9 @@
 #include <config.h>
 #endif
 
-#include <unistd.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <errno.h>
 #include <glib.h>
 
@@ -26,19 +27,29 @@
 typedef enum
 {
 	UNKNOWN,
+	NAME,
 	FILE_NAME,
 	OPEN_NAME
 } element_type;
+
+typedef enum
+{
+	INSIDE_FILE_INFO	= (1 << 0),
+	GENERATED_LOCALLY	= (1 << 1),
+	UPLOAD_WHEN_PRESENT	= (1 << 2)
+} element_flags;
 
 /* The private state of the XML parser */
 typedef struct _fileref_ctx	fileref_ctx;
 struct _fileref_ctx
 {
-	element_type		curr_element;
+	element_type		element;
+	element_flags		flags;
 	char			*label;
 	char			*path;
 	GList			*file_list;
 	int			num_files;
+	GHashTable		*file_info;
 };
 
 
@@ -84,7 +95,7 @@ static const GMarkupParser fileref_parser =
 
 int DC_init(const char *config_file)
 {
-	const char *cfgval;
+	char *cfgval;
 	int ret;
 
 	if (!config_file)
@@ -98,12 +109,14 @@ int DC_init(const char *config_file)
 		return ret;
 	}
 
-	if (!DC_getCfgStr(CFG_PROJECTROOT))
+	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
+	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "%s is not specified in the config file",
 			CFG_PROJECTROOT);
 		return DC_ERR_CONFIG;
 	}
+	free(cfgval);
 
 	/* Check & switch to the working directory */
 	cfgval = DC_getCfgStr(CFG_WORKDIR);
@@ -120,8 +133,10 @@ int DC_init(const char *config_file)
 	{
 		DC_log(LOG_ERR, "Failed to set the current directory to %s: %s",
 			cfgval, strerror(errno));
+		free(cfgval);
 		return DC_ERR_CONFIG;
 	}
+	free(cfgval);
 
 	/* Check the project UUID */
 	cfgval = DC_getCfgStr(CFG_INSTANCEUUID);
@@ -135,9 +150,11 @@ int DC_init(const char *config_file)
 	ret = uuid_parse((char *)cfgval, project_uuid);
 	if (ret)
 	{
-		DC_log(LOG_ERR, "Invalid project UUID");
+		DC_log(LOG_ERR, "Invalid project UUID %s", cfgval);
+		free(cfgval);
 		return DC_ERR_CONFIG;
 	}
+	free(cfgval);
 
 	/* Enforce a canonical string representation of the UUID */
 	uuid_unparse_lower(project_uuid, project_uuid_str);
@@ -156,10 +173,12 @@ int DC_init(const char *config_file)
 	{
 		DC_log(LOG_ERR, "Failed to access the project's configuration "
 			"at %s: %s", cfgval, strerror(errno));
+		free(cfgval);
 		return DC_ERR_CONFIG;
 	}
 
 	ret = _DC_parseConfigXML(cfgval);
+	free(cfgval);
 	if (ret)
 		return ret;
 
@@ -243,9 +262,20 @@ static void fileref_start(GMarkupParseContext *ctx, const char *element_name,
 		fctx->path = NULL;
 	}
 	else if (!strcmp(element_name, "file_name"))
-		fctx->curr_element = FILE_NAME;
+		fctx->element = FILE_NAME;
 	else if (!strcmp(element_name, "open_name"))
-		fctx->curr_element = OPEN_NAME;
+		fctx->element = OPEN_NAME;
+	else if (!strcmp(element_name, "file_info"))
+		fctx->flags |= INSIDE_FILE_INFO;
+	else if (fctx->flags & INSIDE_FILE_INFO)
+	{
+		if (!strcmp(element_name, "name"))
+			fctx->element = NAME;
+		else if (!strcmp(element_name, "generated_locally"))
+			fctx->flags |= GENERATED_LOCALLY;
+		else if (!strcmp(element_name, "upload_when_present"))
+			fctx->flags |= UPLOAD_WHEN_PRESENT;
+	}
 }
 
 static void fileref_end(GMarkupParseContext *ctx, const char *element_name,
@@ -265,7 +295,16 @@ static void fileref_end(GMarkupParseContext *ctx, const char *element_name,
 		fctx->file_list = g_list_append(fctx->file_list, file);
 		fctx->num_files++;
 	}
-	fctx->curr_element = UNKNOWN;
+	else if (!strcmp(element_name, "file_info"))
+	{
+		fctx->flags = 0;
+
+		g_hash_table_insert(fctx->file_info, fctx->path,
+			GINT_TO_POINTER(fctx->flags));
+		fctx->path = NULL;
+	}
+
+	fctx->element = UNKNOWN;
 }
 
 static void fileref_text(GMarkupParseContext *ctx, const char *text,
@@ -273,8 +312,9 @@ static void fileref_text(GMarkupParseContext *ctx, const char *text,
 {
 	fileref_ctx *fctx = ptr;
 
-	switch (fctx->curr_element)
+	switch (fctx->element)
 	{
+		case NAME:
 		case FILE_NAME:
 			fctx->path = g_strndup(text, text_len);
 			break;
@@ -293,6 +333,8 @@ GList *_DC_parseFileRefs(const char *xml_doc, int *num_files)
 	GError *error;
 
 	memset(&fctx, 0, sizeof(fctx));
+	fctx.file_info = g_hash_table_new_full(g_str_hash, g_str_equal,
+		g_free, NULL);
 
 	ctx = g_markup_parse_context_new(&fileref_parser, 0, &fctx, NULL);
 	if (!g_markup_parse_context_parse(ctx, xml_doc, strlen(xml_doc),
@@ -300,9 +342,12 @@ GList *_DC_parseFileRefs(const char *xml_doc, int *num_files)
 		goto error;
 	if (!g_markup_parse_context_end_parse(ctx, &error))
 		goto error;
-	g_markup_parse_context_free(ctx);
 	if (num_files)
 		*num_files = fctx.num_files;
+
+out:
+	g_markup_parse_context_free(ctx);
+	g_hash_table_destroy(fctx.file_info);
 	g_free(fctx.label);
 	g_free(fctx.path);
 	return fctx.file_list;
@@ -318,9 +363,5 @@ error:
 	DC_log(LOG_ERR, "Failed to parse result XML description: %s",
 		error->message);
 	g_error_free(error);
-	g_markup_parse_context_free(ctx);
-	g_free(fctx.label);
-	g_free(fctx.path);
-
-	return NULL;
+	goto out;
 }
