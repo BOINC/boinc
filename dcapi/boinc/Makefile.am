@@ -24,8 +24,9 @@ libdc_boinc_la_SOURCES = \
 		result.c \
 		wu.C
 libdc_boinc_la_LIBADD = \
-		../common/libdc-common.la \
-		$(BOINC_SERVER_LIBS)
+		../common/libdc-common-master.la \
+		$(BOINC_SERVER_LIBS) \
+		-lm
 libdc_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_SERVER_CPPFLAGS)
 
 libdc_client_boinc_la_SOURCES = \

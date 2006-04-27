@@ -24,11 +24,22 @@ extern "C" {
  * Constants
  */
 
-/* DCAPI configuration keys */
+/* Master's working directory (absolute path) */
 #define CFG_WORKDIR		"WorkingDirectory"
+/* Application instance UUID */
 #define CFG_INSTANCEUUID	"InstanceUUID"
+/* Location of config.xml */
 #define CFG_CONFIGXML		"BoincConfigXML"
+/* The root direcory of the BOINC project */
 #define CFG_PROJECTROOT		"ProjectRootDir"
+/* Level of redundancy (per-client) */
+#define CFG_REDUNDANCY		"Redundancy"
+/* Max. size of output files, including subresults & checkpoint (per-client) */
+#define CFG_MAXOUTPUT		"MaxOutputSize"
+/* Max. memory usage (per-client) */
+#define CFG_MAXMEMUSAGE		"MaxMemUsage"
+/* Max. disk usage (per-client) */
+#define CFG_MAXDISKUSAGE	"MaxDiskUsage"
 
 /* File types in the working directory */
 typedef enum

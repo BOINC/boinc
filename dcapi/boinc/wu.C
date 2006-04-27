@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <glib.h>
+#include <math.h>
 
 #include <sched_util.h>
 #include <sched_config.h>
@@ -55,6 +56,23 @@ struct parser_state
 	wu_tag			curr_tag;
 	DC_FileMode		curr_mode;
 	DC_Workunit		*wu;
+};
+
+struct wu_params
+{
+	/* Resource control */
+	double			rsc_fpops_est;
+	double			rsc_fpops_bound;
+	double			rsc_memory_bound;
+	double			rsc_disk_bound;
+
+	/* Redundancy */
+	int			delay_bound;
+	int			min_quorum;
+	int			target_nresults;
+	int			max_error_results;
+	int			max_total_results;
+	int			max_success_results;
 };
 
 
@@ -109,13 +127,18 @@ static const GMarkupParser wudesc_parser =
  */
 static char *get_workdir(const uuid_t uuid, int create)
 {
-	char *tmp, uuid_str[37];
+	char *tmp, uuid_str[37], *cfgval;
 	GString *str;
 	int ret;
 
 	uuid_unparse_lower(uuid, uuid_str);
 
-	str = g_string_new(DC_getCfgStr(CFG_WORKDIR));
+	cfgval = DC_getCfgStr(CFG_WORKDIR);
+	if (!cfgval)
+		return NULL;
+	str = g_string_new(cfgval);
+	free(cfgval);
+
 	if (create)
 	{
 		ret = mkdir(str->str, 0755);
@@ -606,12 +629,54 @@ static int install_input_files(DC_Workunit *wu)
 	return 0;
 }
 
+static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
+{
+	memset(params, 0, sizeof(*params));
+
+	/* XXX */
+	params->rsc_fpops_est = 1e13;
+	params->rsc_fpops_bound = 1e15;
+	params->rsc_memory_bound = DC_getClientCfgInt(wu->client_name,
+		CFG_MAXMEMUSAGE, 128 << 20, TRUE);
+	params->rsc_disk_bound = DC_getClientCfgInt(wu->client_name,
+		CFG_MAXDISKUSAGE, 64 << 20, TRUE);
+	params->delay_bound = 360000;
+
+	params->min_quorum = DC_getClientCfgInt(wu->client_name,
+		CFG_REDUNDANCY, 1, TRUE);
+	if (params->min_quorum < 1)
+		params->min_quorum = 1;
+	if (params->min_quorum == 2)
+	{
+		DC_log(LOG_NOTICE, "Quorum of 2 does not make sense for "
+			"application %s, increasing to 3", wu->client_name);
+		params->min_quorum++;
+	}
+
+	/* Calculate with logarithmic error */
+	if (params->min_quorum == 1)
+		params->target_nresults = 1;
+	else
+		params->target_nresults = params->min_quorum +
+			(int)log(params->min_quorum);
+
+	params->max_error_results = params->target_nresults +
+		(int)log(params->min_quorum + 2) + 1;
+	params->max_total_results = (params->target_nresults +
+		(int)log(params->min_quorum + 2)) * 2;
+	params->max_success_results = params->target_nresults +
+		(int)log(params->min_quorum + 2) + 1;
+}
+
 static char *generate_wu_template(DC_Workunit *wu)
 {
+	struct wu_params params;
 	GString *tmpl, *cmd;
 	int i, num_inputs;
 	GList *l;
 	char *p;
+
+	fill_wu_params(wu, &params);
 
 	/* Generate the file info block */
 	num_inputs = wu->num_inputs;
@@ -665,47 +730,54 @@ static char *generate_wu_template(DC_Workunit *wu)
 		"\t<command_line>%s</command_line>\n", cmd->str);
 	g_string_free(cmd, TRUE);
 
-	g_string_append(tmpl,
-		"\t<rsc_fpops_est>1e13</rsc_fpops_est>\n"); /* XXX Check */
-	g_string_append(tmpl,
-		"\t<rsc_fpops_bound>1e15</rsc_fpops_bound>\n"); /* XXX Check */
-	g_string_append(tmpl,
-		"\t<rsc_memory_bound>10000000</rsc_memory_bound>\n");
-	g_string_append(tmpl,
-		"\t<rsc_disk_bound>1000000</rsc_disk_bound>\n");
-	g_string_append(tmpl,
-		"\t<delay_bound>360000</delay_bound>\n");
-	g_string_append(tmpl,
-		"\t<min_quorum>1</min_quorum>\n");
-	g_string_append(tmpl,
-		"\t<target_nresults>1</target_nresults>\n");
-	g_string_append(tmpl,
-		"\t<max_error_results>3</max_error_results>\n");
-	g_string_append(tmpl,
-		"\t<max_success_results>3</max_total_results>\n");
-	g_string_append(tmpl,
-		"\t<max_total_results>4</max_total_results>\n");
+	g_string_append_printf(tmpl,
+		"\t<rsc_fpops_est>%g</rsc_fpops_est>\n", params.rsc_fpops_est);
+	g_string_append_printf(tmpl,
+		"\t<rsc_fpops_bound>%g</rsc_fpops_bound>\n",
+		params.rsc_fpops_bound);
+	g_string_append_printf(tmpl,
+		"\t<rsc_memory_bound>%g</rsc_memory_bound>\n",
+		params.rsc_memory_bound);
+	g_string_append_printf(tmpl,
+		"\t<rsc_disk_bound>%g</rsc_disk_bound>\n",
+		params.rsc_disk_bound);
+	g_string_append_printf(tmpl,
+		"\t<delay_bound>%d</delay_bound>\n", params.delay_bound);
+	g_string_append_printf(tmpl,
+		"\t<min_quorum>%d</min_quorum>\n", params.min_quorum);
+	g_string_append_printf(tmpl,
+		"\t<target_nresults>%d</target_nresults>\n",
+		params.target_nresults);
+	g_string_append_printf(tmpl,
+		"\t<max_error_results>%d</max_error_results>\n",
+		params.max_error_results);
+	g_string_append_printf(tmpl,
+		"\t<max_success_results>%d</max_success_results>\n",
+		params.max_success_results);
+	g_string_append_printf(tmpl,
+		"\t<max_total_results>%d</max_total_results>\n",
+		params.max_total_results);
 
 	p = tmpl->str;
 	g_string_free(tmpl, FALSE);
 	return p;
 }
 
-static char *emit_file_info(FILE *tmpl, int idx, int auto_upload)
+static void emit_file_info(FILE *tmpl, int idx, int auto_upload, int max_output)
 {
 	fprintf(tmpl, "<file_info>\n");
 	fprintf(tmpl, "\t<name><OUTFILE_%d/></name>\n", idx);
 	fprintf(tmpl, "\t<generated_locally/>\n");
 	if (auto_upload)
 		fprintf(tmpl, "\t<upload_when_present/>\n");
-	fprintf(tmpl, "\t<max_nbytes>262144</max_nbytes>\n"); /* XXX */
+	fprintf(tmpl, "\t<max_nbytes>%d</max_nbytes>\n", max_output);
 	fprintf(tmpl, "\t<url><UPLOAD_URL/></url>\n");
 	fprintf(tmpl, "</file_info>\n");
 }
 
-static char *emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+static void emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 	G_GNUC_PRINTF(3, 4);
-static char *emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+static void emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 {
 	va_list ap;
 
@@ -720,16 +792,22 @@ static char *emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 
 static char *generate_result_template(DC_Workunit *wu)
 {
-	char *file, *abspath, uuid_str[37];
-	int i, file_cnt;
+	char *file, *abspath, uuid_str[37], *cfgval;
+	int i, file_cnt, max_output_size;
 	FILE *tmpl;
 	GList *l;
 
 	uuid_unparse_lower(wu->uuid, uuid_str);
 	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
 		uuid_str);
-	abspath = g_strdup_printf("%s%c%s", DC_getCfgStr(CFG_PROJECTROOT),
-		G_DIR_SEPARATOR, file);
+	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
+	if (!cfgval)
+	{
+		g_free(file);
+		return NULL;
+	}
+	abspath = g_strdup_printf("%s%c%s", cfgval, G_DIR_SEPARATOR, file);
+	free(cfgval);
 
 	tmpl = fopen(abspath, "w");
 	if (!tmpl)
@@ -741,15 +819,17 @@ static char *generate_result_template(DC_Workunit *wu)
 		return NULL;
 	}
 
+	max_output_size = DC_getClientCfgInt(wu->client_name, CFG_MAXOUTPUT,
+		256 * 1024, TRUE);
 	file_cnt = 0;
 	/* Slots for output files */
 	for (i = 0; i < wu->num_outputs; i++)
-		emit_file_info(tmpl, file_cnt++, TRUE);
+		emit_file_info(tmpl, file_cnt++, TRUE, max_output_size);
 	/* Slots for subresults - no automatic uploading */
-	for (i = 0; i < wu->num_subresults; i++)
-		emit_file_info(tmpl, file_cnt++, FALSE);
+	for (i = 0; i < wu->subresults; i++)
+		emit_file_info(tmpl, file_cnt++, FALSE, max_output_size);
 	/* Slot for the checkpoint file */
-	emit_file_info(tmpl, file_cnt++, TRUE);
+	emit_file_info(tmpl, file_cnt++, TRUE, max_output_size);
 
 	fprintf(tmpl, "<result>\n");
 	file_cnt = 0;
@@ -759,8 +839,10 @@ static char *generate_result_template(DC_Workunit *wu)
 
 	/* The subresult templates */
 	for (i = 0; i < wu->subresults; i++)
-		emit_file_ref(tmpl, file_cnt, "%s%d", SUBRESULT_PFX,
-			file_cnt++);
+	{
+		emit_file_ref(tmpl, file_cnt, "%s%d", SUBRESULT_PFX, file_cnt);
+		file_cnt++;
+	}
 
 	/* The checkpoint template */
 	emit_file_ref(tmpl, file_cnt++, "%s", CKPT_LABEL_OUT);
@@ -803,7 +885,9 @@ char *_DC_getWUName(DC_Workunit *wu)
 
 int DC_submitWU(DC_Workunit *wu)
 {
-	char *wu_template, *result_template_file, **infiles, *result_path, *name;
+	char *wu_template, *result_template_file, **infiles, *result_path,
+	     *name, *cfgval;
+	struct wu_params params;
 	int i, ret, ninputs;
 	DB_WORKUNIT dbwu;
 	GList *l;
@@ -822,18 +906,25 @@ int DC_submitWU(DC_Workunit *wu)
 	if (dbwu.appid == -1)
 		return DC_ERR_DATABASE;
 
-	/* XXX Make these compatible with the template */
+	fill_wu_params(wu, &params);
 	dbwu.batch = 1;
-	dbwu.rsc_fpops_est = 200000;
-	dbwu.rsc_fpops_bound = 2000000000;
-	dbwu.rsc_memory_bound = 2000000;
-	dbwu.rsc_disk_bound = 2000000;
-	dbwu.delay_bound = 720000;
+	dbwu.rsc_fpops_est = params.rsc_fpops_est;
+	dbwu.rsc_fpops_bound = params.rsc_fpops_bound;
+	dbwu.rsc_memory_bound = params.rsc_memory_bound;
+	dbwu.rsc_disk_bound = params.rsc_disk_bound;
+	dbwu.delay_bound = params.delay_bound;
 
 	wu_template = generate_wu_template(wu);
 	result_template_file = generate_result_template(wu);
-	result_path = g_strdup_printf("%s%c%s", DC_getCfgStr(CFG_PROJECTROOT),
-		G_DIR_SEPARATOR, result_template_file);
+	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
+	if (!cfgval)
+	{
+		errno = ENOMEM;
+		return DC_ERR_SYSTEM;
+	}
+	result_path = g_strdup_printf("%s%c%s", cfgval, G_DIR_SEPARATOR,
+		result_template_file);
+	free(cfgval);
 
 	/* Create the input file name array as required by create_work() */
 	ninputs = wu->num_inputs;
