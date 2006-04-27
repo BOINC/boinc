@@ -100,7 +100,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
 
 /* Calls a g_hash_table_foreach function for the wu_table */
-int _DC_searchForEvents();
+int _DC_searchForEvents(void);
 
 /* Creates a new DC_Result */
 DC_Result *_DC_createResult(const char *wu_name);
