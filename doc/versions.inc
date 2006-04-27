@@ -275,7 +275,7 @@ $mac_changes_54= "
             select the Projects tab, select each project and  press the Update button.  
             Then select the Tasks tab and make sure there are no tasks \"Ready to report.\"            
         <li> We are now building with newer tools and libraries: XCode 2.2, 
-            WxWidgets 2.6.2, libcurl 7.15.1.
+            WxWidgets 2.6.2, libcurl 7.15.3.
         <li> Only administrators can attach to a new project
             (for improved security).
         <li> No longer crashes if there is a space character

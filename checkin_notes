@@ -4206,3 +4206,17 @@ Walt   26 Apr 2006
 
     lib/
         gui_rpc_client.h
+
+Charlie 27 Apr 06
+    -Mac: Change XCode project. build instructions and build scripts to use 
+      curl-7.15.3 and to apply Walt's patch to curl-7.15.3/lib/url.c file.
+      
+    doc/
+        mac_build.html
+    mac_build/
+        buildcurl.sh
+        buildjpeg.sh
+        setupForBOINC.sh
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj

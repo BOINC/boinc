@@ -2752,7 +2752,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -2766,7 +2766,7 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -3490,7 +3490,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a";
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -3504,7 +3504,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -3536,7 +3536,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/lib/gcc/darwin/3.3,
@@ -3553,7 +3553,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -3578,7 +3578,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/lib/gcc/darwin/3.3,
@@ -3600,7 +3600,7 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -4406,7 +4406,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/lib/gcc/darwin/4.0,
@@ -4421,7 +4421,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
