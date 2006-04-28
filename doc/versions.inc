@@ -64,6 +64,11 @@ $features_52 = "
 ";
 
 $changes_54 = "
+    <li>Changes since 5.4.6
+      <ul>
+        <li>Use the correct localized formatting for dates, time, and numerical
+            values when displaying messages.
+      </ul>
     <li>Changes since 5.4.5
       <ul>
         <li>Attach to project wizard fixed.
@@ -283,11 +288,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w546= array(
-    "num"=>"5.4.6",
+$w547= array(
+    "num"=>"5.4.7",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.6_windows_intelx86.exe",
-    "date"=>"24 Apr 2006",
+    "file"=>"boinc_5.4.7_windows_intelx86.exe",
+    "date"=>"28 Apr 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -533,11 +538,11 @@ $m443s = array(
     "
 );
 
-$l546 = array(
-    "num"=>"5.4.6",
+$l547 = array(
+    "num"=>"5.4.7",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.6_i686-pc-linux-gnu.sh",
-    "date"=>"24 Apr 2006",
+    "file"=>"boinc_5.4.7_i686-pc-linux-gnu.sh",
+    "date"=>"28 Apr 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -605,7 +610,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w546,
+        $w547,
         $w5213,
         $w445,
     )
@@ -629,7 +634,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l546,
+        $l547,
         $l5213,
         $l443,
     )
