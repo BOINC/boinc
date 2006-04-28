@@ -4127,3 +4127,8 @@ David  28 Apr 2006
         app_start.C
         cs_apps.C
         cs_files.C
+
+Rom    28 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.7 release, all platforms
+      boinc_core_release_5_4_7
+
