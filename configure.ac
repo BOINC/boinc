@@ -469,15 +469,15 @@ dnl check for wxWidgets
 if test "${enable_client_release}" = yes ; then
    echo 'Portable client-build: checking for  *static* wx-libs ...'
     if test "${enable_debug}" = yes ; then
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --debug=yes)
     else
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --debug=no)
     fi
 else
     if test "${enable_debug}" = yes ; then
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --debug=yes)
     else
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
+        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --debug=no)
     fi
 fi
 

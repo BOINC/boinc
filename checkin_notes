@@ -4286,3 +4286,14 @@ David  28 Apr 2006
         sample_index.php
     tools/
         backend_lib.C
+
+Rom    28 Apr 2006 (by Frank S. Thomas)
+    - Bug Fix: The shutdown procedure should be passing ANSI strings to
+        the GUI RPC's instead of Unicode strings.
+    - Bug Fix: Remove the --no-unicode flags from configure.ac when trying
+        to determine which wxWidget libraries to use.
+    
+    /
+        configure.ac
+    clientgui/
+        BOINCGUIApp.cpp
