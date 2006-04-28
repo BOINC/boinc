@@ -21,10 +21,6 @@
 #include "boinc_win.h"
 #endif
 
-#ifndef _WIN32
-#include <cassert>
-#endif
-
 #include "client_msgs.h"
 #include "client_state.h"
 
@@ -75,7 +71,6 @@ void CLIENT_STATE::assign_results_to_projects() {
         ACTIVE_TASK *next_atp = lookup_active_task_by_result(
             project->next_runnable_result
         );
-        assert(next_atp != NULL);
 
         if ((next_atp->task_state == PROCESS_UNINITIALIZED && atp->process_exists())
             || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
