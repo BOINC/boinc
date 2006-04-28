@@ -1,20 +1,26 @@
-/* jconfig.vc --- jconfig.h for Microsoft Visual C++ on Windows 95 or NT. */
-/* see jconfig.doc for explanations */
+/* jconfig.h Modified for multiple platforms */
 
-#ifndef _WIN32
-#include "config.h"
-#else
+#ifdef _WIN32
 #include "win-config.h"
+#elif ( ! defined(__APPLE__))
+#include "config.h"
 #endif
 
 #define HAVE_PROTOTYPES
 #define HAVE_UNSIGNED_CHAR
 #define HAVE_UNSIGNED_SHORT
-/* #define void char */
-/* #define const */
+#ifdef __APPLE__
+#undef void
+#undef const
+#define HAVE_STDDEF_H 
+#define HAVE_STDLIB_H 
+#define INLINE __inline__
+/* These are for configuring the JPEG memory manager. */
+#undef DEFAULT_MAX_MEM
+#undef NO_MKTEMP
+#define HAVE_SYS_TYPES_H
+#endif
 #undef CHAR_IS_UNSIGNED
-/* #define HAVE_STDDEF_H */
-/* #define HAVE_STDLIB_H */
 #undef NEED_BSD_STRINGS
 #ifdef HAVE_SYS_TYPES_H
 #define NEED_SYS_TYPES_H
@@ -25,11 +31,13 @@
 #undef NEED_SHORT_EXTERNAL_NAMES
 #undef INCOMPLETE_TYPES_BROKEN
 
+#ifndef __APPLE__
 /* Define "boolean" as unsigned char, not int, per Windows custom */
 #ifndef __RPCNDR_H__		/* don't conflict if rpcndr.h already read */
 typedef unsigned char boolean;
 #endif
 #define HAVE_BOOLEAN		/* prevent jmorecfg.h from redefining it */
+#endif
 
 
 #ifdef JPEG_INTERNALS

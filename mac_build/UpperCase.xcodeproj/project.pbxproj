@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DD00F4BB09EBA4050024857D /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD00F4BA09EBA4050024857D /* txf_util.C */; };
 		DD00F6AC09EBA9710024857D /* jcapimin.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F66A09EBA9710024857D /* jcapimin.c */; };
 		DD00F6AD09EBA9710024857D /* jcapistd.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F66B09EBA9710024857D /* jcapistd.c */; };
 		DD00F6AE09EBA9710024857D /* jccoefct.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F66C09EBA9710024857D /* jccoefct.c */; };
@@ -61,11 +60,11 @@
 		DD00F6E909EBA9710024857D /* rdrle.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F6A709EBA9710024857D /* rdrle.c */; };
 		DD00F6EA09EBA9710024857D /* rdswitch.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F6A809EBA9710024857D /* rdswitch.c */; };
 		DD00F6EB09EBA9710024857D /* rdtarga.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F6A909EBA9710024857D /* rdtarga.c */; };
-		DD00F70309EBAAB30024857D /* texfont.c in Sources */ = {isa = PBXBuildFile; fileRef = DD00F70009EBAAB30024857D /* texfont.c */; };
 		DD00F82709EBAEAE0024857D /* upper_case.C in Sources */ = {isa = PBXBuildFile; fileRef = DD00F82609EBAEAE0024857D /* upper_case.C */; };
 		DD760E68094E56DB002CACC4 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DD760E69094E56DB002CACC4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DD760E6A094E56DB002CACC4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
+		DD7952F00A01AC9000E783C3 /* uc_graphics.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7952EF0A01AC9000E783C3 /* uc_graphics.C */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -133,7 +132,6 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* upper_case */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = upper_case; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD00F4BA09EBA4050024857D /* txf_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.C; path = ../../boinc/api/txf_util.C; sourceTree = SOURCE_ROOT; };
 		DD00F66809EBA9710024857D /* cderror.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cderror.h; path = ../jpeglib/cderror.h; sourceTree = SOURCE_ROOT; };
 		DD00F66909EBA9710024857D /* cdjpeg.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cdjpeg.h; path = ../jpeglib/cdjpeg.h; sourceTree = SOURCE_ROOT; };
 		DD00F66A09EBA9710024857D /* jcapimin.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = jcapimin.c; path = ../jpeglib/jcapimin.c; sourceTree = SOURCE_ROOT; };
@@ -200,14 +198,12 @@
 		DD00F6A709EBA9710024857D /* rdrle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = rdrle.c; path = ../jpeglib/rdrle.c; sourceTree = SOURCE_ROOT; };
 		DD00F6A809EBA9710024857D /* rdswitch.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = rdswitch.c; path = ../jpeglib/rdswitch.c; sourceTree = SOURCE_ROOT; };
 		DD00F6A909EBA9710024857D /* rdtarga.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = rdtarga.c; path = ../jpeglib/rdtarga.c; sourceTree = SOURCE_ROOT; };
-		DD00F70009EBAAB30024857D /* texfont.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = texfont.c; path = ../../boinc/api/texfont.c; sourceTree = SOURCE_ROOT; };
-		DD00F70109EBAAB30024857D /* texfont.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texfont.h; path = ../../boinc/api/texfont.h; sourceTree = SOURCE_ROOT; };
-		DD00F70209EBAAB30024857D /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../../boinc/api/txf_util.h; sourceTree = SOURCE_ROOT; };
 		DD00F81609EBADB60024857D /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		DD00F82609EBAEAE0024857D /* upper_case.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = upper_case.C; path = ../uppercase/upper_case.C; sourceTree = SOURCE_ROOT; };
 		DD760E65094E56DB002CACC4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		DD760E66094E56DB002CACC4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		DD760E67094E56DB002CACC4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		DD7952EF0A01AC9000E783C3 /* uc_graphics.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = uc_graphics.C; path = ../uppercase/uc_graphics.C; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,10 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				DD00F82609EBAEAE0024857D /* upper_case.C */,
-				DD00F4BA09EBA4050024857D /* txf_util.C */,
-				DD00F70209EBAAB30024857D /* txf_util.h */,
-				DD00F70009EBAAB30024857D /* texfont.c */,
-				DD00F70109EBAAB30024857D /* texfont.h */,
+				DD7952EF0A01AC9000E783C3 /* uc_graphics.C */,
 				DD00F66509EBA9320024857D /* jpeg */,
 			);
 			name = Source;
@@ -418,7 +411,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD00F4BB09EBA4050024857D /* txf_util.C in Sources */,
 				DD00F6AC09EBA9710024857D /* jcapimin.c in Sources */,
 				DD00F6AD09EBA9710024857D /* jcapistd.c in Sources */,
 				DD00F6AE09EBA9710024857D /* jccoefct.c in Sources */,
@@ -472,8 +464,8 @@
 				DD00F6E909EBA9710024857D /* rdrle.c in Sources */,
 				DD00F6EA09EBA9710024857D /* rdswitch.c in Sources */,
 				DD00F6EB09EBA9710024857D /* rdtarga.c in Sources */,
-				DD00F70309EBAAB30024857D /* texfont.c in Sources */,
 				DD00F82709EBAEAE0024857D /* upper_case.C in Sources */,
+				DD7952F00A01AC9000E783C3 /* uc_graphics.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

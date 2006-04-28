@@ -13,7 +13,7 @@ David  7 April 2006
         libboincapi.vcproj
 
 Charlie 11 April 2006
-        - Mac: updated XCode project for upper_case
+    - Mac: updated XCode project for upper_case
 
     mac_build/
         UpperCase.xcodeproj/
@@ -48,3 +48,14 @@ David  21 Apr 2006
     uppercase/
         uc_graphics.C
         upper_case.C
+
+Charlie 27 April 2006
+    - Mac: updated XCode project for upper_case, fixed 
+        jconfig.h to be cross-platform.  upper_case now 
+        works fully on Intel and PowerPC Macs.
+    
+    jpeglib/
+        jconfig.h
+    mac_build/
+        UpperCase.xcodeproj/
+            project.pbxproj
