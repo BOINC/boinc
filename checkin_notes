@@ -4249,3 +4249,12 @@ Charlie 28 Apr 2006
         Make_BOINC_Service.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  28 Apr 2006
+    - create_work (both program and function): handle
+        <command_line> element in WU template file
+
+    html/inc/
+        stats_sites.inc
+    tools/
+        backend_lib.C

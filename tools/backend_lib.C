@@ -44,6 +44,8 @@
 #define FCGI_ToFILE(x) (x)
 #endif
 
+using std::string;
+
 static struct random_init {
     random_init() {
     srand48(getpid() + time(0));
@@ -169,7 +171,7 @@ static int process_wu_template(
 ) {
     char* p;
     char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
-    std::string out;
+    string out, cmdline;
     int retval, file_number;
     double nbytes;
     char open_name[256];
@@ -280,6 +282,14 @@ static int process_wu_template(
                     break;
                 }
             }
+        } else if (parse_str(p, "<command_line>", cmdline)) {
+            if (command_line) {
+                fprintf(stderr, "Can't specify command line twice");
+                return ERR_XML_PARSE;
+            }
+            out += "<command_line>\n";
+            out += cmdline;
+            out += "\n</command_line>\n";
         } else if (parse_double(p, "<rsc_fpops_est>", wu.rsc_fpops_est)) {
             continue;
         } else if (parse_double(p, "<rsc_fpops_bound>", wu.rsc_fpops_bound)) {

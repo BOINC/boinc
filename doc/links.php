@@ -43,7 +43,13 @@ Show if the servers of various projects are up or down.
 </td><td valign=top>
 <h2>Credit statistics</h2>
 ";
+shuffle($stats_sites);
 site_list($stats_sites);
+echo "
+<h2>Team statistics</h2>
+";
+shuffle($team_stats_sites);
+site_list($team_stats_sites);
 echo "
 </td></tr></table>
 <h2>Information, message boards, and teams</h2>

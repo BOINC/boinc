@@ -1,21 +1,11 @@
 <?php
 
-$cpid_stats_sites = array(
-    array("BOINCStats",
-        "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&id=%s"
-    ),
-    array("BOINC Statistics for the WORLD!",
-        "http://www.boincsynergy.com/stats/boinc-individual.php?cpid=%s"
-    ),
-    array("BOINC Combined Statistics",
-        "http://boinc.netsoft-online.com/get_user.php?cpid=%s&html=1"
-    ),
-    array("The Knights Who Say 'Ni!'",
-        "http://stats.kwsn.net/user.php?proj=all&cpid=%s"
-    ),
-);
-
 $stats_sites = array(
+    array(
+        "http://www.boincuk.com/globalprojectstats.php",
+        "BOINC UK",
+        ""
+    ),
     array("http://www.setisynergy.com/stats/index.php",
         "BOINC Statistics for the WORLD!",
         "developed by Zain Upton (email: zain.upton at setisynergy.com)"
@@ -36,8 +26,6 @@ $stats_sites = array(
         "DC-Vault",
         "Include non-BOINC projects"
     ),
-    array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
-    array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.seti.nl/boinc_team.php",
         "SETI@Netherlands stats page",
         ""
@@ -59,6 +47,11 @@ $stats_sites = array(
         "Team OcUK stats",
         ""
     ),
+);
+
+$team_stats_sites = array(
+    array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
+    array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.bigbee.be/comp/boinc/index.php",
         "Boinc.be team stats",
         ""
@@ -66,6 +59,10 @@ $stats_sites = array(
 );
 
 $sig_sites = array(
+    array("BOINC UK",
+        "http://www.boincuk.com/show3.php",
+        "Highly configurable!"
+    ),
     array("http://boinc.mundayweb.com/",
         "http://boinc.mundayweb.com",
         "user-configurable stats counters. Cool!"

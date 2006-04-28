@@ -241,14 +241,15 @@ In this case, shortfall(A) is 4, shortfall(B) is 0, and total_shortfall is 2.
 <br>
 The scheduling policy is:
 <ol>
+<li> Set the 'anticipated debt' of each project to its short-term debt
 <li> Let P be the project with the earliest-deadline runnable result
 among projects with deadlines_missed(P)>0.
 Let R be P's earliest-deadline runnable result not scheduled yet.
 Tiebreaker: least index in result array.
-<li> If such an R exists, schedule R and decrement deadlines_missed(P).
+<li> If such an R exists, schedule R,
+    decrement P's anticipated debt, and decrement deadlines_missed(P).
 <li> If there are more CPUs, and projects with deadlines_missed(P)>0, go to 1.
 <li> If all CPUs are scheduled, stop.
-<li> Set the 'anticipated debt' of each project to its short-term debt
 <li> Find the project P with the greatest anticipated debt,
 select one of P's runnable results
 (picking one that is already running, if possible,
