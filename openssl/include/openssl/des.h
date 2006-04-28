@@ -242,4 +242,3 @@ int DES_read_2passwords(DES_cblock *key1, DES_cblock *key2, const char *prompt,
 #endif
 
 #endif
-

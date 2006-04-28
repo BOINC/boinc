@@ -67,6 +67,7 @@ public:
 	long lSeek;  // this is a pointer within the file we're reading
     char infile[_MAX_PATH];
     char outfile[_MAX_PATH];
+    char error_msg[256];    // put Curl error message here
 	bool bTempOutfile; // CMC -- flag that outfile is really a tempfile we should delete
     char* req1;
 	bool bSentHeader;  // CMC -- a flag that I already sent the header

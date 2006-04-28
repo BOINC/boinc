@@ -264,9 +264,8 @@ int archive_result(DB_RESULT& result) {
         result.id
     );
 
-    string r1, r2;
-    r1= result.stderr_out;
-    xml_escape(r1, r2);
+    char buf[LARGE_BLOB_SIZE];
+    xml_escape(result.stderr_out, buf);
 
     fprintf(
         re_stream,
@@ -312,7 +311,7 @@ int archive_result(DB_RESULT& result) {
         result.cpu_time,
         result.xml_doc_in,
         result.xml_doc_out,
-        r2.c_str(),
+        buf,
         result.batch,
         result.file_delete_state,
         result.validate_state,

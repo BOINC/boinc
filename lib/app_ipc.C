@@ -78,7 +78,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
-    string str1, str2;
+    char buf[1024];
     fprintf(f,
         "<app_init_data>\n"
         "<major_version>%d</major_version>\n"
@@ -97,14 +97,12 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
     if (strlen(ai.team_name)) {
-        str1 = ai.team_name;
-        xml_escape(str1, str2);
-        fprintf(f, "<team_name>%s</team_name>\n", str2.c_str());
+        xml_escape(ai.team_name, buf);
+        fprintf(f, "<team_name>%s</team_name>\n", buf);
     }
     if (strlen(ai.user_name)) {
-        str1 = ai.user_name;
-        xml_escape(str1, str2);
-        fprintf(f, "<user_name>%s</user_name>\n", str2.c_str());
+        xml_escape(ai.user_name, buf);
+        fprintf(f, "<user_name>%s</user_name>\n", buf);
     }
     if (strlen(ai.project_dir)) {
         fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);

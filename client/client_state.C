@@ -1125,7 +1125,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);
 
-    sprintf( buf, "<message>%s\n</message>\n", err_msg);
+    sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
     res.stderr_out.append(buf);
 
     switch(res.state) {

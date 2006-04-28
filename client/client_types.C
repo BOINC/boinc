@@ -78,7 +78,6 @@ void PROJECT::init() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
-    min_report_min_rpc_time = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     trickle_up_pending = false;
@@ -184,16 +183,14 @@ int PROJECT::parse_state(MIOFILE& in) {
 //
 int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     unsigned int i;
-    string u1, u2, t1, t2;
+    char un[1024], tn[1024];
 
     out.printf(
         "<project>\n"
     );
 
-    u1 = user_name;
-    xml_escape(u1, u2);
-    t1 = team_name;
-    xml_escape(t1, t2);
+    xml_escape(user_name, un);
+    xml_escape(team_name, tn);
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
@@ -219,8 +216,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
-        u2.c_str(),
-        t2.c_str(),
+        un,
+        tn,
         email_hash,
         cross_project_id,
         user_total_credit,
@@ -1428,6 +1425,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
     if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
+    if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
     if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {

@@ -129,6 +129,7 @@
 				ProgramDatabaseFile=".\Build\Release/boinccmd.pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
+				SetChecksum="TRUE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"

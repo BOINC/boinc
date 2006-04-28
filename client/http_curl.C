@@ -33,6 +33,8 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
+#include "client_msgs.h"
+#include "log_flags.h"
 #include "util.h"
 
 //#include "network.h"
@@ -46,6 +48,7 @@
 
 #define HTTP_BLOCKSIZE  16384
 
+using std::min;
 using std::vector;
 
 extern CURLM* g_curlMulti;  // global curl multi handle for http/s
@@ -142,6 +145,7 @@ HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
+    trace_id = 0;
 }
 
 HTTP_OP::~HTTP_OP() {
@@ -301,7 +305,7 @@ The checking this option controls is of the identity that the server claims. The
     
     // force curl to use HTTP/1.1
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 5L);
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
 
@@ -432,7 +436,17 @@ The checking this option controls is of the identity that the server claims. The
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPGET, 1L);
     }
 
+    // turn on debug info if tracing enabled
+    if (log_flags.net_xfer_debug) {
+        static int trace_count = 0;
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
+        trace_id = trace_count++;
+    }
+
     // last but not least, add this to the curl_multi
+
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
         msg_printf(0, MSG_ERROR, "Couldn't add curlEasy handle to curlMulti");
@@ -638,6 +652,40 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
     return CURLIOE_OK;
 }
 
+int libcurl_debugfunction(CURL *handle, curl_infotype type,
+            unsigned char *data, size_t size, HTTP_OP* phop)
+{
+    const char *text;
+    char hdr[100];
+    char buf[1024];
+    size_t mysize;
+    
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
+
+    (void)handle; /* prevent compiler warning */
+
+    switch (type) {
+    case CURLINFO_TEXT:
+        scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
+        return 0;
+    case CURLINFO_HEADER_OUT:
+        text = "Sent header to server:";
+        break;
+    case CURLINFO_HEADER_IN:
+        text = "Received header from server:";
+        break;
+    default: /* in case a new one is introduced to shock us */
+       return 0;
+    }
+
+    sprintf( hdr,"[ID#%i] %s", phop->trace_id, text);
+    mysize = min(size, sizeof(buf)-1);
+    strncpy(buf, (char *)data, mysize);
+    buf[mysize]='\0';
+    scope_messages.printf("%s %s\n", hdr, buf);
+    return 0;
+}
+
 
 void HTTP_OP::setupProxyCurl() {
     // CMC: use the libcurl proxy routines with this object's proxy information struct 
@@ -690,7 +738,7 @@ void HTTP_OP::setupProxyCurl() {
             if (auth_type) {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
             } else {
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
             }       
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
@@ -701,18 +749,17 @@ void HTTP_OP::setupProxyCurl() {
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
+            // libcurl uses blocking sockets with socks proxy, so limit timeout.
+            // - imlemented with local patch to libcurl
+            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
 
             if (
                 strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
             ) {
+                auth_flag = false;
                 sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);            
-                auth_flag = true;
-                if (auth_type) {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, auth_type);
-                } else {
-                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
-                }
+                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
             }
         }
     }

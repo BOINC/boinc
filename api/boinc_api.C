@@ -246,12 +246,21 @@ static bool update_app_progress(
 // the following 2 functions are used for apps without graphics
 //
 int boinc_init() {
+    int retval;
+    if (!is_diagnostics_initialized()) {
+        retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
+        if (retval) return retval;
+    }
     boinc_options_defaults(options);
     return boinc_init_options(&options);
 }
 
 int boinc_init_options(BOINC_OPTIONS* opt) {
     int retval;
+    if (!is_diagnostics_initialized()) {
+        retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
+        if (retval) return retval;
+    }
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
     return set_worker_timer();
