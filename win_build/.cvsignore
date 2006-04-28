@@ -6,3 +6,4 @@ _boinc_dll.tlb
 _boinc_dll_i.c
 _boinc_dll_p.c
 boinc.ncb
+dlldata.c
