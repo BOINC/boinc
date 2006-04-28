@@ -114,11 +114,15 @@ echo "
     </td>
     </tr></table>
 <font color=ffffff>
+<!--
 ";
 
 include 'schedulers.txt';
 
-echo "</font>\n";
+echo "
+-->
+</font>
+";
 
 if ($caching) {
     page_tail_main(true);

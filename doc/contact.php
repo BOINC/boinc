@@ -182,6 +182,7 @@ show_name("Peter Smithson");
 show_name("Christian S&oslash;ttrup");
 show_name("Michela Taufer");
 show_name("Frank S. Thomas");
+show_name("Roberto Virga");
 show_name("Mathias Walter");
 show_name("Rom Walton");
 show_name("Oliver Wang");

@@ -158,7 +158,6 @@ static void write_md5_info(
     return;
 }
 
-
 // process WU template
 //
 static int process_wu_template(
@@ -180,6 +179,7 @@ static int process_wu_template(
     out = "";
     for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
         if (match_tag(p, "<file_info>")) {
+            bool generated_locally = false;
             file_number = -1;
             out += "<file_info>\n";
             while (1) {
@@ -187,58 +187,72 @@ static int process_wu_template(
                 if (!p) break;
                 if (parse_int(p, "<number>", file_number)) {
                     continue;
+                } else if (parse_bool(p, "generated_locally", generated_locally)) {
+                    continue;
                 } else if (match_tag(p, "</file_info>")) {
                     if (file_number < 0) {
                         fprintf(stderr, "No file number found\n");
                         return ERR_XML_PARSE;
                     }
                     if (file_number >= ninfiles) {
-                        fprintf(stderr, "Too few input files given; need at least %d\n", file_number+1);
+                        fprintf(stderr,
+                            "Too few input files given; need at least %d\n",
+                            file_number+1
+                        );
                         return ERR_XML_PARSE;
                     }
-                    dir_hier_path(
-                        infiles[file_number], config.download_dir,
-                        config.uldl_dir_fanout, path, true
-                    );
-
-                    // if file isn't found in hierarchy,
-                    // look for it at top level and copy
-                    //
-                    if (!boinc_file_exists(path)) {
-                        sprintf(top_download_path,
-                            "%s/%s",config.download_dir,
+                    if (generated_locally) {
+                        sprintf(buf,
+                            "    <name>%s</name>\n"
+                            "    <generated_locally/>\n"
+                            "</file_info>]n",
                             infiles[file_number]
                         );
-                        boinc_copy(top_download_path, path);
-                    }
+                    } else {
+                        dir_hier_path(
+                            infiles[file_number], config.download_dir,
+                            config.uldl_dir_fanout, path, true
+                        );
 
-                    if (!config.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
-
-                        retval = md5_file(path, md5, nbytes);
-                        if (retval) {
-                            fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
-                            return retval;
+                        // if file isn't found in hierarchy,
+                        // look for it at top level and copy
+                        //
+                        if (!boinc_file_exists(path)) {
+                            sprintf(top_download_path,
+                                "%s/%s",config.download_dir,
+                                infiles[file_number]
+                            );
+                            boinc_copy(top_download_path, path);
                         }
-                        else if (config.cache_md5_info) {
-                            write_md5_info(path, md5, nbytes);
-                        }
-                    }
 
-                    dir_hier_url(
-                        infiles[file_number], config.download_url,
-                        config.uldl_dir_fanout, url
-                    );
-                    sprintf(buf,
-                        "    <name>%s</name>\n"
-                        "    <url>%s</url>\n"
-                        "    <md5_cksum>%s</md5_cksum>\n"
-                        "    <nbytes>%.0f</nbytes>\n"
-                        "</file_info>\n",
-                        infiles[file_number],
-                        url,
-                        md5,
-                        nbytes
-                    );
+                        if (!config.cache_md5_info || !got_md5_info(path, md5, &nbytes)) {
+
+                            retval = md5_file(path, md5, nbytes);
+                            if (retval) {
+                                fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
+                                return retval;
+                            }
+                            else if (config.cache_md5_info) {
+                                write_md5_info(path, md5, nbytes);
+                            }
+                        }
+
+                        dir_hier_url(
+                            infiles[file_number], config.download_url,
+                            config.uldl_dir_fanout, url
+                        );
+                        sprintf(buf,
+                            "    <name>%s</name>\n"
+                            "    <url>%s</url>\n"
+                            "    <md5_cksum>%s</md5_cksum>\n"
+                            "    <nbytes>%.0f</nbytes>\n"
+                            "</file_info>\n",
+                            infiles[file_number],
+                            url,
+                            md5,
+                            nbytes
+                        );
+                    }
                     out += buf;
                     break;
                 } else {
