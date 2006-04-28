@@ -59,8 +59,9 @@ $team_stats_sites = array(
 );
 
 $sig_sites = array(
-    array("BOINC UK",
+    array(
         "http://www.boincuk.com/show3.php",
+        "BOINC UK",
         "Highly configurable!"
     ),
     array("http://boinc.mundayweb.com/",
