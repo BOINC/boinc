@@ -107,8 +107,10 @@ cat >> ~/boincStartupTemp/boinc << ENDOFFILE
 
 StartService ()
 {
-            ConsoleMessage "Starting BOINC"
+        if [ -d "/Library/Application Support/BOINC Data" ]; then 
+            echo "Starting BOINC"
             /Applications/BOINCManager.app/Contents/Resources/boinc -redirectio -dir "/Library/Application Support/BOINC Data/" &
+        fi
 }
 
 StopService ()

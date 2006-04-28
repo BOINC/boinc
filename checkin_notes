@@ -4234,6 +4234,18 @@ Rom    27 Apr 2006
 
 Charlie 28 Apr 2006
     - Mac: Fix bug of 17 April creating BOINC Data directory.
-    
+    - Change shell script which sets up Mac to run BOINC Client as a
+        daemon / service to launch BOINC only if BOINC Data directory
+        exists.
+    - Flush output of SetVersion and add Run Script phases to XCode project to 
+        insure that updated info.plist file with correct version number is put 
+        into the BOINC Manager, ScreenSaver, SystemMenu and PostInstall bundles.
+        
     clientgui/
         BOINCGUIApp.cpp
+        Mac/
+            SetVersion.C
+    mac_build/
+        Make_BOINC_Service.sh
+        boinc.xcodeproj/
+            project.pbxproj
