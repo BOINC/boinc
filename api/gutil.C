@@ -59,15 +59,10 @@ extern "C"{
 
 #include "boinc_gl.h"
 
-#include "boinc_api.h"
 #include "filesys.h"
 #include "util.h"
 
 #include "gutil.h"
-
-#ifndef _MAX_PATH
-#define _MAX_PATH 256
-#endif 
 
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
@@ -556,10 +551,8 @@ int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
     char img_type;
     unsigned char* array;
     int i;
-    char phys_path[_MAX_PATH];
 
-    boinc_resolve_filename(name, phys_path, sizeof(phys_path));
-    f = boinc_fopen(phys_path, "rb");
+    f = boinc_fopen(name, "rb");
     if (!f) return -1;
     do {fgets(buf, 256, f);} while (buf[0] == '#');
     if (buf[0] != 'P') {
@@ -694,10 +687,8 @@ tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
-        char phys_path[_MAX_PATH];
-        
-        boinc_resolve_filename(filename, phys_path, sizeof(phys_path));
-	if((pFile = boinc_fopen(phys_path, "rb")) == NULL) {
+
+	if((pFile = boinc_fopen(filename, "rb")) == NULL) {
 		fprintf(stderr,"Unable to load JPG File!");
 		return NULL;
 	}
@@ -841,9 +832,7 @@ int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
 int TEXTURE_DESC::load_image_file(const char* filename) {
     int retval;
     FILE* f;
-    char phys_path[_MAX_PATH];
-    boinc_resolve_filename(filename, phys_path, sizeof(phys_path));
-    f = boinc_fopen(phys_path, "r");
+    f = boinc_fopen(filename, "r");
     if (!f) goto done;
     fclose(f);
 
