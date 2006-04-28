@@ -1469,6 +1469,7 @@
 				DD095EEF07D87AE900362260 /* Frameworks */,
 				DDD7F08807F0692D00BA3B90 /* CopyFiles */,
 				DD8F75CB088D159D001AFCCA /* ShellScript */,
+				DD5FD5B20A02351A0093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826EE08641BE00070CDB8 /* PBXBuildRule */,
@@ -1572,6 +1573,7 @@
 				DD1277AF081F3D67007B5DE1 /* Resources */,
 				DD1277B0081F3D67007B5DE1 /* Sources */,
 				DD1277B1081F3D67007B5DE1 /* Frameworks */,
+				DD5FD59B0A0234400093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826FA08641C5B0070CDB8 /* PBXBuildRule */,
@@ -1777,6 +1779,7 @@
 				DD40CDF507F0386A0096C645 /* Resources */,
 				DD40CDF607F0386A0096C645 /* Sources */,
 				DD40CDF707F0386A0096C645 /* Frameworks */,
+				DD5FD5830A0232F30093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826F108641BFC0070CDB8 /* PBXBuildRule */,
@@ -1916,6 +1919,7 @@
 				DD96AFF50811075000A06F22 /* Resources */,
 				DD96AFF60811075000A06F22 /* Sources */,
 				DD96AFF70811075000A06F22 /* Frameworks */,
+				DD5FD5990A0233D60093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826F708641C420070CDB8 /* PBXBuildRule */,
@@ -2168,6 +2172,66 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\nfi";
 		};
+		DD5FD5830A0232F30093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/SystemMenu-Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SystemMenu.bundle/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/SystemMenu-Info.plist\" \"${BUILT_PRODUCTS_DIR}/SystemMenu.bundle/Contents/Info.plist\"";
+		};
+		DD5FD5990A0233D60093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/ScreenSaver-Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/ScreenSaver-Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Info.plist\"";
+		};
+		DD5FD59B0A0234400093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
+		};
+		DD5FD5B20A02351A0093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Info.plist\"";
+		};
 		DD8F75CB088D159D001AFCCA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -2181,7 +2245,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2196,7 +2260,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build\"\ncp -fp \"${SRCROOT}/Info.plist\" \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/Installer.build\"\ncp -fp \"${SRCROOT}/Installer-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/Installer.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build\"\ncp -fp \"${SRCROOT}/ScreenSaver-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build\"\ncp -fp \"${SRCROOT}/SystemMenu-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build/Info.plist\"\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
 		};
 		DDCDB29708CEDCE400E4F573 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
