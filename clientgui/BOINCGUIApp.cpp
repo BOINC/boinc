@@ -707,7 +707,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             RPC_CLIENT rpc;
             if (!rpc.init("localhost")) {
                 m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize(strPassword.c_str());
+                rpc.authorize((const char*)strPassword.mb_str());
                 if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                     if (STILL_ACTIVE == dwExitCode) {
                         rpc.quit();
@@ -808,7 +808,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             RPC_CLIENT rpc;
             if (!rpc.init("localhost")) {
                 m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize(strPassword.c_str());
+                rpc.authorize((const char*)strPassword.mb_str());
                 if (ProcessExists(m_lBOINCCoreProcessId)) {
                     rpc.quit();
                     for (iCount = 0; iCount <= 10; iCount++) {
@@ -850,7 +850,7 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
             RPC_CLIENT rpc;
             if (!rpc.init("localhost")) {
                 m_pDocument->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize(strPassword.c_str());
+                rpc.authorize((const char*)strPassword.mb_str());
                 if (wxProcess::Exists(m_lBOINCCoreProcessId)) {
                     rpc.quit();
                     for (iCount = 0; iCount <= 10; iCount++) {
