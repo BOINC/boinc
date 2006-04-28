@@ -4261,3 +4261,17 @@ David  28 Apr 2006
         stats_sites.inc
     tools/
         backend_lib.C
+
+David  28 Apr 2006
+    - core client: if an input file has <generated_locally/> set,
+        don't try to download it.
+        This allows apps to use "initialization" files
+        that are large and/or computationally expensive to generate.
+        The app generates the file once,
+        and it will be available (assuming <sticky/> is set)
+        for subsequent workunits.
+
+    client/
+        app_start.C
+        cs_apps.C
+        cs_files.C

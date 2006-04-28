@@ -335,25 +335,20 @@ int ACTIVE_TASK::start(bool first_time) {
         return ERR_NOT_FOUND;
     }
 
-    // set up input files
+    // set up input, output files
     //
-    for (i=0; i<wup->input_files.size(); i++) {
-        fref = wup->input_files[i];
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path);
-        if (first_time) {
+    if (first_time) {
+        for (i=0; i<wup->input_files.size(); i++) {
+            fref = wup->input_files[i];
+            fip = fref.file_info;
+            get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
-    }
-
-    // set up output files
-    //
-    for (i=0; i<result->output_files.size(); i++) {
-        fref = result->output_files[i];
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path);
-        if (first_time) {
+        for (i=0; i<result->output_files.size(); i++) {
+            fref = result->output_files[i];
+            fip = fref.file_info;
+            get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
