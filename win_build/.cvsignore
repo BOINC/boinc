@@ -1,2 +1,9 @@
 boinc.suo
 Build
+dlldata.c
+_boinc_dll.idl
+_boinc_dll.tlb
+_boinc_dll_i.c
+_boinc_dll_p.c
+boinc.ncb
+_boinc_dll.h
