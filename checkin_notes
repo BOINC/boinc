@@ -4231,3 +4231,9 @@ Rom    27 Apr 2006
     win_build/installerv2/redist/Windows/x86/
         boinccas95.dll
         boinccas.dll
+
+Charlie 28 Apr 2006
+    - Mac: Fix bug of 17 April creating BOINC Data directory.
+    
+    clientgui/
+        BOINCGUIApp.cpp
