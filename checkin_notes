@@ -49,6 +49,7 @@ David  21 Apr 2006
         uc_graphics.C
         upper_case.C
 
+
 Charlie 27 April 2006
     - Mac: updated XCode project for upper_case, fixed 
         jconfig.h to be cross-platform.  upper_case now 
@@ -59,3 +60,11 @@ Charlie 27 April 2006
     mac_build/
         UpperCase.xcodeproj/
             project.pbxproj
+
+David  29 Apr 2006
+	- use project preferences (<color_scheme>) for graphics color
+	- remove -exit, -signal options from upper_case
+
+	uppercase/
+        uc_graphics.C
+		upper_case.C

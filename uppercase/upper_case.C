@@ -20,9 +20,7 @@
 // read "in", convert to UC, write to "out"
 // command line options:
 // -run_slow: sleep 1 second after each character, useful for debugging
-// -cpu_time N: use about N CPU seconds
-// -signal:   raise SIGHUP signal (for testing signal handler)
-// -exit:     exit with status -10 (for testing exit handler)
+// -cpu_time N: use about N CPU seconds after copying files
 //
 
 #ifdef _WIN32
@@ -159,17 +157,6 @@ void worker() {
             boinc_sleep(1.);
         }
 
-#ifdef HAVE_SIGNAL_H
-        if (raise_signal) {
-            raise(SIGHUP);
-        }
-#endif
-        if (random_exit) {
-            if (drand() < 0.05) {
-                exit(-10);
-            }
-        }
-
         int flag = boinc_time_to_checkpoint();
         if (flag) {
             retval = do_checkpoint(out, nchars);
@@ -196,10 +183,6 @@ void worker() {
             use_some_cpu();
         }
     }
-
-    if (random_exit) exit(-10);
-    fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", nchars);
-
     boinc_finish(0);
 }
 
@@ -213,27 +196,18 @@ int main(int argc, char **argv) {
         BOINC_DIAG_TRACETOSTDERR
     );
 
-    // NOTE: if you change output here, remember to change the output that
-    // test_uc.py pattern-matches against.
-
     for (i=0; i<argc; i++) {
-        fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) {
             cpu_time = atof(argv[++i]);
         }
-        if (!strcmp(argv[i], "-signal")) raise_signal = true;
-        if (!strcmp(argv[i], "-exit")) random_exit = true;
     }
-
-    fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
 
 #ifdef BOINC_APP_GRAPHICS
 #if defined(_WIN32) || defined(__APPLE__)
     retval = boinc_init_graphics(worker);
 #else
     setbuf(stderr, 0);
-    fprintf(stderr, "About to call graphics init\n");
     retval = boinc_init_graphics_lib(worker, argv[0]);
 #endif
     if (retval) exit(retval);

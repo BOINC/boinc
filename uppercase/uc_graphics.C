@@ -26,6 +26,7 @@
 #include "config.h"
 #endif
 
+#include "parse.h"
 #include "gutil.h"
 #include "boinc_gl.h"
 #include "graphics_api.h"
@@ -38,6 +39,27 @@ APP_INIT_DATA uc_aid;
 bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
+float color[4] = {.7, .2, .5, 1};
+
+static void parse_project_prefs(char* buf) {
+    char cs[256];
+    COLOR c;
+    double hue;
+    if (parse_str(buf, "<color_scheme>", cs, 256)) {
+        if (!strcmp(cs, "Tahiti Sunset")) {
+            hue = .9;
+        } else if (!strcmp(cs, "Desert Sands")) {
+            hue = .1;
+        } else {
+            hue = .5;
+        }
+        HLStoRGB(hue, .5, .5, c);
+        color[0] = c.r;
+        color[1] = c.g;
+        color[2] = c.b;
+        color[3] = 1;
+    }
+}
 
 // set up lighting model
 //
@@ -55,6 +77,7 @@ void app_graphics_init() {
     int viewport[4];
 
     boinc_get_init_data(uc_aid);
+    parse_project_prefs(uc_aid.project_preferences);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     txf_load_fonts(".");
     boinc_resolve_filename("logo.jpg", path, sizeof(path));
@@ -113,9 +136,9 @@ void set_viewpoint(double dist) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
-        x, y, z,  // eye position
-        0,-.8,0,      // where we're looking
-        0.0, 1.0, 0.      // up is in positive Y direction
+        x, y, z,        // eye position
+        0,-.8,0,        // where we're looking
+        0.0, 1.0, 0.    // up is in positive Y direction
     );
     glRotated(pitch_angle, 1., 0., 0);
     glRotated(roll_angle, 0., 1., 0);
@@ -128,7 +151,7 @@ static void app_init_camera(double dist) {
         45.0,       // field of view in degree
         1.0,        // aspect ratio
         1.0,        // Z near clip
-        1000.0     // Z far
+        1000.0      // Z far
     );
     set_viewpoint(dist);
 }
@@ -144,7 +167,6 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     app_init_camera(viewpoint_distance);
 
     scale_screen(width, height);
-    GLfloat color[4] = {.7, .2, .5, 1};
     mode_shaded(color);
     draw_3d_stuff();
 
