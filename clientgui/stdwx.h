@@ -105,6 +105,8 @@
 #if !defined(__CYGWIN32__) && !defined(__MINGW32__)
 #include <crtdbg.h>
 #endif
+#include <dbghelp.h>
+#include <tlhelp32.h>
 #include <share.h>
 #include <ole2.h>
 #include <oleauto.h>

@@ -253,7 +253,7 @@ static bool update_app_progress(
 //
 int boinc_init() {
     int retval;
-    if (!is_diagnostics_initialized()) {
+    if (!diagnostics_is_initialized()) {
         retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
         if (retval) return retval;
     }
@@ -263,7 +263,7 @@ int boinc_init() {
 
 int boinc_init_options(BOINC_OPTIONS* opt) {
     int retval;
-    if (!is_diagnostics_initialized()) {
+    if (!diagnostics_is_initialized()) {
         retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
         if (retval) return retval;
     }
@@ -635,9 +635,9 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<abort/>")) {
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
+                diagnostics_aborted_via_gui();
 #if   defined(_WIN32)
                 // Cause a controlled assert and dump the callstacks.
-                diagnostics_set_aborted_via_gui_flag();
                 DebugBreak();
 #elif defined(__APPLE__)
                 PrintBacktrace();
@@ -665,23 +665,7 @@ static void worker_timer(int /*a*/) {
 #ifdef _WIN32
     // Initialize the timer thread info for diagnostic
     //   purposes.
-    if (!diagnostics_is_thread_type_initialized(BOINC_THREADTYPE_TIMER)) {
-        HANDLE hTimerThread;
-        DuplicateHandle(
-            GetCurrentProcess(),
-            GetCurrentThread(),
-            GetCurrentProcess(),
-            &hTimerThread,
-            0,
-            FALSE,
-            DUPLICATE_SAME_ACCESS
-        );
-        diagnostics_set_thread_info(
-            BOINC_THREADTYPE_TIMER, 
-            GetCurrentThreadId(),
-            hTimerThread
-        );
-    }
+    diagnostics_set_thread_name("Timer");
 #endif
 
     interrupt_count++;
@@ -783,13 +767,11 @@ int set_worker_timer() {
         DUPLICATE_SAME_ACCESS
     );
 
+
     // Initialize the worker thread info for diagnostic
     //   purposes.
-    diagnostics_set_thread_info(
-        BOINC_THREADTYPE_WORKER, 
-        GetCurrentThreadId(),
-        worker_thread_handle
-    );
+    diagnostics_set_thread_name("Worker");
+
 
 	// Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop

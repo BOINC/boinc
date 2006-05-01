@@ -43,7 +43,7 @@ static void init_main_state() {
 
 int boinc_init_graphics(void (*worker)()) {
     int retval;
-    if (!is_diagnostics_initialized()) {
+    if (!diagnostics_is_initialized()) {
         retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
         if (retval) return retval;
     }

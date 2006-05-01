@@ -21,20 +21,15 @@
 #define _BOINC_DIAGNOSTICS_
 
 
-// NOTE: No other includes should be included from this file.
-//       Whatever is defined in this file should fit into
-//       any existing frameworks that might be used by BOINC.
-//
+#ifdef _WIN32
+#include "boinc_win.h"
+#else 
+#include <signal.h>
 #ifdef __cplusplus
 #include <cassert>
 #else
 #include <assert.h>
 #endif
-
-#ifndef _WIN32
-#include <signal.h>
-#else 
-#include "boinc_win.h"
 #endif
 
 
@@ -60,13 +55,6 @@
                                             BOINC_DIAG_TRACETOSTDERR
 
 
-// thread types used for dumping backtraces
-//
-#define BOINC_THREADTYPE_COUNT             3
-#define BOINC_THREADTYPE_TIMER             0
-#define BOINC_THREADTYPE_WORKER            1
-#define BOINC_THREADTYPE_GRAPHICS          2
-
 // filenames
 //
 #define BOINC_DIAG_STDERR                  "stderr"
@@ -77,24 +65,39 @@
 extern "C" {
 #endif
 
+
 // These are functions common to all platforms
-extern int is_diagnostics_initialized();
-extern int boinc_init_diagnostics(int flags);
-extern int boinc_finish_diag();
+extern int boinc_init_diagnostics( int flags );
 extern int boinc_install_signal_handlers();
+extern int boinc_finish_diag();
 
 extern int diagnostics_init(
     int flags, const char* stdout_prefix, const char* stderr_prefix
 );
+extern int diagnostics_is_initialized();
+extern int diagnostics_is_flag_set( int flags );
+
+// Properties
+extern char* diagnostics_get_boinc_dir();
+extern char* diagnostics_get_symstore();
+extern int diagnostics_is_proxy_enabled();
+extern char* diagnostics_get_proxy();
+
+extern int diagnostics_is_aborted_via_gui();
+extern int diagnostics_aborted_via_gui();
+
+// Log rotation
 extern int diagnostics_cycle_logs();
 
+// Thread Tracking
+extern int diagnostics_init_thread_list();
+extern int diagnostics_set_thread_name( char* name );
 
+// Message Monitoring
+extern int diagnostics_init_message_monitor();
+extern int diagnostics_message_monitor_dump();
 #ifdef _WIN32
-
-extern int diagnostics_set_aborted_via_gui_flag();
-extern int diagnostics_set_thread_info( int thread_type, DWORD thread_id, HANDLE thread_handle );
-extern int diagnostics_is_thread_type_initialized( int thread_type );
-
+DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter);
 #endif
 
 
@@ -117,7 +120,6 @@ extern void boinc_info_release(const char *pszFormat, ...);
 #ifdef __cplusplus
 }
 #endif
-
 
 
 #ifdef _WIN32

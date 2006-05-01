@@ -176,6 +176,9 @@
 				RelativePath="..\lib\diagnostics.C">
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics_win.C">
+			</File>
+			<File
 				RelativePath="..\lib\exception.C">
 			</File>
 			<File
@@ -283,6 +286,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\prefs.h">
+			</File>
+			<File
+				RelativePath="..\lib\stackwalker_imports.h">
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">

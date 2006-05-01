@@ -133,6 +133,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics_win.C">
+			</File>
+			<File
 				RelativePath="..\lib\exception.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -289,6 +292,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\result_state.h">
+			</File>
+			<File
+				RelativePath="..\lib\stackwalker_imports.h">
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">

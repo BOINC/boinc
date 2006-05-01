@@ -539,21 +539,7 @@ void win_graphics_event_loop() {
 
     // Initialize the graphics thread info for diagnostic
     //   purposes.
-    HANDLE hGraphicsThread;
-    DuplicateHandle(
-        GetCurrentProcess(),
-        GetCurrentThread(),
-        GetCurrentProcess(),
-        &hGraphicsThread,
-        0,
-        FALSE,
-        DUPLICATE_SAME_ACCESS
-    );
-    diagnostics_set_thread_info(
-        BOINC_THREADTYPE_GRAPHICS, 
-        GetCurrentThreadId(),
-        hGraphicsThread
-    );
+    diagnostics_set_thread_name("Graphics");
 
     // Register window class and graphics mode message
     reg_win_class();

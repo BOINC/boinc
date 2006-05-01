@@ -4322,3 +4322,32 @@ David  1 May 2006
 
 	api/
 		boinc_api.C
+
+Rom    1 May 2006
+    - Windows Runtime Debugger Update:
+    
+      New Features:
+          1. Enumerates and dumps the backtraces for all threads within
+             the process space.
+          2. Monitors and records data sent to the debugger viewport via
+             OutputDebugStringA and OutputDebugStringW
+          3. Displays the thread id and process id within the output.
+          4. Display the topmost window titles, class, processid, and
+             thread id.
+             
+    api/
+        boinc_api.C
+        graphics_api.C
+        windows_opengl.C
+    clientgui/
+        stdwx.h
+    lib/
+        boinc_win.h
+        diagnostics.C, .h
+        diagnostics_win.C (Added)
+        stackwalker_imports.h (Added)
+        stackwalker_win.cpp
+    win_build/
+        boinc_ss.vcproj
+        boincmgr_curl.vcproj
+        libboinc.vcproj

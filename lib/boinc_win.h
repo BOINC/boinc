@@ -101,6 +101,9 @@
 #include <commctrl.h>
 #include <raserror.h>
 #include <mmsystem.h>
+#include <dbghelp.h>
+#include <tlhelp32.h>
+
 #if !defined(__CYGWIN32__)
 #include <direct.h>
 #endif
@@ -132,6 +135,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <delayimp.h>
 #endif
+
 // All projects should be using std::min and std::max instead of the Windows
 //   version of the symbols.
 #undef min
