@@ -384,8 +384,6 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
         case _CRT_WARN:
         case _CRT_ERROR:
 
-            OutputDebugString(szMsg);            // Reports string to the debugger output window
-
             if (flags & BOINC_DIAG_TRACETOSTDERR) {
                 fprintf(stderr, szMsg);
                 fflush(stderr);
@@ -398,10 +396,6 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
 
             break;
         case _CRT_ASSERT:
-
-            OutputDebugString("ASSERT: ");      // Reports string to the debugger output window
-            OutputDebugString(szMsg);           // Reports string to the debugger output window
-            OutputDebugString("\n");            // Reports string to the debugger output window
 
             fprintf(stderr, "ASSERT: %s\n", szMsg);
             fflush(stderr);
