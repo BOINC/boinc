@@ -489,39 +489,6 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Used to unwind the stack and spew the callstack to stderr. Terminate the
 //   process afterwards and return the exception code as the exit code.
 //
