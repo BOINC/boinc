@@ -183,7 +183,11 @@ void app_graphics_resize(int w, int h){
     glViewport(0, 0, w, h);
 }
 
-void app_graphics_reread_prefs(){}
+void app_graphics_reread_prefs(){
+    boinc_parse_init_data_file();
+    boinc_get_init_data(uc_aid);
+    parse_project_prefs(uc_aid.project_preferences);
+}
 
 void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right) {
     if (left) {
