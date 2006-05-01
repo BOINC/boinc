@@ -4351,3 +4351,10 @@ Rom    1 May 2006
         boinc_ss.vcproj
         boincmgr_curl.vcproj
         libboinc.vcproj
+
+Charlie 1 May 2006
+    - Mac: Fix bugs when linking with wxMac-2.6.3.
+    
+    clientgui/
+        mac/
+            MacSysMenu.cpp

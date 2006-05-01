@@ -170,6 +170,20 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
 
             pMSM = wxGetApp().GetMacSystemMenu();
                 
+            // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
+            //  wxID_PREFERENCES to kHICommandPreferences
+            switch (commandID) {
+            case kHICommandAbout:
+                commandID = wxID_ABOUT;
+                break;
+            case kHICommandPreferences:
+                commandID = wxID_PREFERENCES;
+                break;
+            case kHICommandQuit:
+                commandID = wxID_EXIT;
+                break;
+            }
+                
             if (commandID == wxID_ABOUT)
                 pMSM->SetOpeningAboutDlg(true);
                 
@@ -183,7 +197,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             baseMenu = (pMSM->GetCurrentMenu());
             baseMenuRef = (MenuRef)(baseMenu->GetHMenu());
         
-            err = GetIndMenuItemWithCommandID(baseMenuRef, commandID, 1, NULL, &menuItemIndex);
+            err = GetIndMenuItemWithCommandID(baseMenuRef, command.commandID, 1, NULL, &menuItemIndex);
             if (err)
                 return eventNotHandledErr;  // Command not found in our menu
                 
