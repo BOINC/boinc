@@ -179,6 +179,7 @@ static int setup_shared_mem() {
 //
 static int boinc_worker_thread_cpu_time(double& cpu) {
 #ifdef _WIN32
+    int retval;
     if (options.all_threads_cpu_time) {
         retval = boinc_process_cpu_time(cpu);
     } else {
