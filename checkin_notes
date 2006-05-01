@@ -4310,3 +4310,9 @@ David  30 Apr 2006
         cs_scheduler.C
     lib/
         util.C,h
+
+David  1 May 2006
+    - Web RPC: return flag if user is founder of their team
+
+    html/user/
+        am_get_info.php

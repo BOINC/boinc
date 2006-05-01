@@ -35,8 +35,7 @@ $country = urlencode($user->country);
 $postal_code = urlencode($user->postal_code);
 $url = urlencode($user->url);
 
-success(
-"<id>$user->id</id>
+$ret = "<id>$user->id</id>
 <name>$name</name>
 <country>$country</country>
 <postal_code>$postal_code</postal_code>
@@ -50,7 +49,15 @@ $user->project_prefs
 <send_email>$user->send_email</send_email>
 <show_hosts>$user->show_hosts</show_hosts>
 <teamid>$user->teamid</teamid>
-<venue>$user->venue</venue>
-");
+<venue>$user->venue</venue>";
+
+if ($user->teamid) {
+    $team = lookup_team($user->teamid);
+    if ($team->userid == $user->id) {
+        $ret = $ret . "<teamfounder/>\n";
+    }
+}
+
+success($ret);
 
 ?>

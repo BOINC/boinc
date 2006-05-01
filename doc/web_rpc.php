@@ -109,6 +109,7 @@ list_item("output",
     <send_email>SEND_EMAIL</send_email>
     <show_hosts>SHOW_HOSTS</show_hosts>
     <teamid>N</teamid>
+    [ <teamfounder/> ]
     <venue>X</venue>
 </am_get_info_reply>
 
