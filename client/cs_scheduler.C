@@ -751,16 +751,22 @@ int CLIENT_STATE::handle_scheduler_reply(
             }
             p2 = gstate.lookup_project(sr.master_url);
             if (p2) {
-                msg_printf(project, MSG_ERROR,
-                    "Duplicate attachment detected - detach all projects named %s",
+                msg_printf(project, MSG_INFO,
+                    "You seem to be attached to this project twice"
+                );
+                msg_printf(project, MSG_INFO,
+                    "We suggest that you detach projects named %s,",
                     project->project_name
                 );
-                msg_printf(project, MSG_ERROR,
-                    "Then reattach to %s", sr.master_url
+                msg_printf(project, MSG_INFO,
+                    "then reattach to %s", sr.master_url
                 );
             } else {
-                msg_printf(project, MSG_ERROR,
-                    "Detach this project, then reattach to %s",
+                msg_printf(project, MSG_INFO,
+                    "Using the wrong URL can cause problems in some cases."
+                );
+                msg_printf(project, MSG_INFO,
+                    "When convenient, detach this project, then reattach to %s",
                     sr.master_url
                 );
             }

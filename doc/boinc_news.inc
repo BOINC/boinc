@@ -1,9 +1,16 @@
 <?
 
 $project_news = array(
+array("April 30, 2006",
+    "<img align=right width=75 height=66 src=images/Logo_blau.jpg> The latest German <a href=http://boinccast.podhost.de/>BOINCcast</a>
+    discusses ClimatePrediction.net;
+    earlier BOINCcasts cover SIMAP, LHC@home, and uFluids.
+    <br>
+    "
+),
 array("April 14, 2006",
     "The CERN Courier's Computer Newsletter features an article on
-    <a href=http://www.cerncourier.com/articles/cnl/3/4/13/1>BOINC activities at CERN</a>.
+    <a href=http://www.cerncourier.com/articles/cnl/3/4/14/1>BOINC activities at CERN</a>.
 "),
 array("April 13, 2006",
     "According to various <a href=links.php>statistics sites</a>,

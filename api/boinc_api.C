@@ -179,7 +179,12 @@ static int setup_shared_mem() {
 //
 static int boinc_worker_thread_cpu_time(double& cpu) {
 #ifdef _WIN32
-    if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
+    if (options.all_threads_cpu_time) {
+        retval = boinc_process_cpu_time(cpu);
+    } else {
+        retval = boinc_thread_cpu_time(worker_thread_handle, cpu);
+    }
+    if (retval) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
@@ -851,7 +856,7 @@ int boinc_time_to_checkpoint() {
 
 int boinc_checkpoint_completed() {
     double cur_cpu;
-    boinc_calling_thread_cpu_time(cur_cpu);
+    boinc_worker_thread_cpu_time(cur_cpu);
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
     update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);

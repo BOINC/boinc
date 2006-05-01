@@ -767,6 +767,29 @@ int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
     return 0;
 }
 
+int boinc_process_cpu_time(double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetProcessTimes(
+        GetCurrentProcess(), &creationTime, &exitTime, &kernelTime, &userTime)
+    ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart  = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart    = userTime.dwLowDateTime;
+        tUser.HighPart   = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    } else {
+        return -1;
+    }
+    return 0;
+}
+
 static void get_elapsed_time(double& cpu) {
     static bool first = true;
     static DWORD first_count = 0;

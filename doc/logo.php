@@ -13,6 +13,9 @@ Hi-res versions of the logo:
 <li>
 The BOINC logo uses the Planet Benson font from
 <a href=http://www.larabiefonts.com>Larabie Fonts</a>.
+<li>
+An icon for BOINC-related Podcasts, from Christian Beer:
+<img align=top src=images/Logo_blau.jpg>
 
 </ul>
 We welcome alternative ideas.

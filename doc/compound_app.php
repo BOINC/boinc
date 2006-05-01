@@ -71,6 +71,11 @@ list_item("direct_process_action",
     the BOINC_STATUS structure,
     which can be polled using boinc_get_status()."
 );
+list_item("all_threads_cpu_time",
+    "If set, the CPU of all threads (not just the worker thread)
+    will be counted.
+    For apps that do computation in more than one thread."
+);
 list_end();
 echo "
 <p>
@@ -103,6 +108,7 @@ Typical worker program logic is:
 BOINC_OPTIONS options;
 
 options.main_program = false;
+options.send_status_msgs = true;
 ...
 boinc_init_options(&amp;options);
 ...

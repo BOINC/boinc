@@ -30,7 +30,14 @@ list_item(
 list_item(
     "input files",
     "A list of the input files: their names,
-    and the names by which the application refers to them."
+    and the names by which the application refers to them.
+    Typically these file are downloaded from a data server.
+    However, if the &lt;generate_locally/&gt; element is present,
+    the file is generated on the client
+    (typically by an earlier instance of the same application).
+    Applications should use file locking to prevent
+    two jobs from generating the file at the same time.
+    "
 );
 list_item(
     "priority",

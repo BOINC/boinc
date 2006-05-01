@@ -4297,3 +4297,16 @@ Rom    28 Apr 2006 (by Frank S. Thomas)
         configure.ac
     clientgui/
         BOINCGUIApp.cpp
+
+David  30 Apr 2006
+    - API: add all_threads_cpu_time flag to BOINC_OPTIONS
+        for applications that have more than one CPU-intensive thread.
+        Measure the CPU time of whole process, not just worker thread.
+    - Less insistent messages when client has worng URL for project
+
+    api/
+        boinc_api.C,h
+    client/
+        cs_scheduler.C
+    lib/
+        util.C,h

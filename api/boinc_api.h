@@ -49,6 +49,9 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
+    int all_threads_cpu_time;
+        // count the CPU time of all threads
+        // (for apps that have multiple worker threads)
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {
