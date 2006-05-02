@@ -271,6 +271,7 @@ int wu_is_infeasible(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
     int reason = 0;
+    unsigned int i;
     
     // Check to see if the user has set application preferences.
     // If they have then only send work for the allowed applications
@@ -278,7 +279,7 @@ int wu_is_infeasible(
     find_allowed_projects(reply, &app_ids);
     if (app_ids.size() > 0) {
     	bool app_allowed = false;
-    	for(int i=0; i<app_ids.size(); i++) {
+    	for(i=0; i<app_ids.size(); i++) {
     		if (wu.appid==app_ids[i]) {
     			app_allowed = true;
     			break;

@@ -643,10 +643,8 @@ struct WORK_ITEM {
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
-    // CURSOR cursor;
     int enumerate(
-        int limit, const char* select_clause, const char* order_clause,
-        bool all_apps
+        int limit, const char* select_clause, const char* order_clause
     );
         // used by feeder
     int read_result();

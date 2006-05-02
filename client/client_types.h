@@ -156,15 +156,6 @@ public:
     char master_url[256];       // url of site that contains scheduler tags
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
-#if 0
-                                        // deletion policy, least recently used
-    bool deletion_policy_priority;       // deletion policy, priority of files
-    bool deletion_policy_expire;         // deletion policy, delete expired files first
-    double share_size;          // size allocated by the resource share
-                                // used for enforcement of boundaries but isn't one itself
-    double size;                // the total size of all the files in all subfolder
-                                // of the project
-#endif
     std::string project_prefs;
         // without the enclosing <project_preferences> tags.
         // May include <venue> elements

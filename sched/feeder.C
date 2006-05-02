@@ -241,8 +241,11 @@ static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisi
         	in_second_pass = true;
         	ncollisions = 0;
         }
-   		retval = wi->enumerate(enum_size, mod_select_clause, order_clause, all_apps);
-   		// if retval is not 0 (i.e. true), then we have reached the end of the result and we need to requery the database
+   		retval = wi->enumerate(enum_size, mod_select_clause, order_clause);
+   		// if retval is not 0 (i.e. true),
+        // then we have reached the end of the result
+        // and we need to requery the database
+        //
     	if ( retval ) {
     		*restarted_enum = true;
 			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
@@ -279,10 +282,9 @@ static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisi
 
 static void scan_work_array(
     vector<DB_WORK_ITEM>* work_items,
-    int& nadditions, int& ncollisions, int& /*ninfeasible*/,
-    bool& no_wus
+    int& nadditions, int& ncollisions, int& /*ninfeasible*/
 ) {
-    int i, j, retval;
+    int i;
     bool found;
     bool restarted_enum[ssp->napps];
     DB_WORK_ITEM* wi;
@@ -290,18 +292,20 @@ static void scan_work_array(
     int work_item_index;
     int enum_size;
     
-  	for(int i=0; i < ssp->napps; i++) {
+  	for(i=0; i < ssp->napps; i++) {
     	restarted_enum[i] = false;
     }
 
     for (i=0; i<ssp->nwu_results; i++) {
-    	// If all_apps is set then every nth item in the shared memory segment will be assigned to the 
-    	// application stored in that index in ssp->apps
+    	// If all_apps is set then every nth item in the shared memory segment
+        // will be assigned to the application stored in that index in ssp->apps
         //
     	if (all_apps) {
     		work_item_index = i % ssp->napps;
     		enum_size = ENUM_LIMIT/ssp->napps;
-    		sprintf(mod_select_clause,"%s and result.appid=%d",select_clause,ssp->apps[work_item_index].id);
+    		sprintf(mod_select_clause,"%s and result.appid=%d",
+                select_clause, ssp->apps[work_item_index].id
+            );
     	} else {
     		work_item_index = 0;
     		enum_size = ENUM_LIMIT;
@@ -315,7 +319,7 @@ static void scan_work_array(
        	  	if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
     			wu_result.state = WR_STATE_EMPTY;
 				log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-                    "remove result [RESULT#%d] from slot %d becuase it is stale\n",
+                    "remove result [RESULT#%d] from slot %d because it is stale\n",
                     wu_result.resultid, i);
             } else {
             	break;
@@ -330,7 +334,10 @@ static void scan_work_array(
 #endif
 
         case WR_STATE_EMPTY:
-            found = find_work_item(wi, &restarted_enum[work_item_index], ncollisions, work_item_index, enum_size, mod_select_clause);
+            found = find_work_item(
+                wi, &restarted_enum[work_item_index], ncollisions,
+                work_item_index, enum_size, mod_select_clause
+            );
             if (found) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_NORMAL,
@@ -386,7 +393,6 @@ void feeder_loop() {
     int nadditions, ncollisions, ninfeasible;
     vector<DB_WORK_ITEM> work_items;
     DB_WORK_ITEM* wi;
-    bool no_wus;
     
     if (all_apps) {   
     	for(int i=0; i<ssp->napps; i++) {
@@ -402,11 +408,8 @@ void feeder_loop() {
         nadditions = 0;
         ncollisions = 0;
         ninfeasible = 0;
-        no_wus = false;
 
-        scan_work_array(
-            &work_items, nadditions, ncollisions, ninfeasible, no_wus
-        );
+        scan_work_array(&work_items, nadditions, ncollisions, ninfeasible);
 
         ssp->ready = true;
 
@@ -425,10 +428,6 @@ void feeder_loop() {
             boinc_sleep(sleep_interval);
         } else {
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Added %d results to array\n", nadditions);
-        }
-        if (no_wus) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "No results available; sleeping %.2f sec\n", sleep_interval);
-            boinc_sleep(sleep_interval);
         }
         if (ncollisions) {
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Some results already in array - sleeping %.2f sec\n", sleep_interval);

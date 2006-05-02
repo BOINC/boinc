@@ -147,7 +147,7 @@ static void mark_results_aborted(DB_HOST& host) {
         //
         DB_WORKUNIT wu;
         wu.id = result.workunitid;
-        sprintf(buf2, "transition_time=%d", time(0));
+        sprintf(buf2, "transition_time=%d", (int)time(0));
         wu.update_field(buf2);
     }
 }

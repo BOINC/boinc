@@ -4426,3 +4426,18 @@ David  2 May 2006
 		sched_shmem.h
 		server_types.h
 		show_shmem.C
+
+David  2 May 2006
+    - got the above checkin compiling on linux
+    - server: removed all_apps arg to DB_WORK_ITEM::enumerate()
+    - removed some unused code in client
+
+    client/
+        client_state.C
+        client_types.h
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
+        handle_request.C
+        sched_send.C

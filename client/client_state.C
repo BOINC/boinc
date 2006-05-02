@@ -1004,9 +1004,6 @@ bool CLIENT_STATE::garbage_collect_always() {
                 delete fip->pers_file_xfer;
                 fip->pers_file_xfer = 0;
             }
-#if 0
-            fip->project->size -= fip->nbytes;
-#endif
             fip->delete_file();
             scope_messages.printf(
                 "CLIENT_STATE::garbage_collect(): deleting file %s\n",
