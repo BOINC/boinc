@@ -253,7 +253,6 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
     // Create the screen saver window(s)
     if (m_SaverMode == sm_preview || 
-        m_SaverMode == sm_test    || 
         m_SaverMode == sm_full
     ) {
         if (FAILED(hr = CreateSaverWindow())) {
@@ -304,8 +303,16 @@ INT CScreensaver::Run() {
         }
         break;
         
-    case sm_preview:
     case sm_test:
+
+        int iCurrentStatus;
+        rpc.init(NULL);
+        rpc.get_screensaver_mode(iCurrentStatus);
+        rpc.close();
+
+        break;
+
+    case sm_preview:
     case sm_full:
         // Create the data management thread to talk with the daemon
         if (!CreateDataManagementThread()) {

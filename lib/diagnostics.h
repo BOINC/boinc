@@ -92,6 +92,7 @@ extern int diagnostics_cycle_logs();
 // Thread Tracking
 extern int diagnostics_init_thread_list();
 extern int diagnostics_set_thread_name( char* name );
+extern int diagnostics_set_thread_exempt_suspend();
 
 // Message Monitoring
 extern int diagnostics_init_message_monitor();

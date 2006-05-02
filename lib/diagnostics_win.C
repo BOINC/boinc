@@ -45,6 +45,7 @@
 //   depends on the OS datatypes.
 typedef struct _BOINC_THREADLISTENTRY {
     std::string name;
+    BOOL        exempt_from_suspend;
     DWORD       thread_id;
     HANDLE      thread_handle;
 } BOINC_THREADLISTENTRY, *PBOINC_THREADLISTENTRY;
@@ -157,6 +158,7 @@ int diagnostics_enum_thread_list() {
 
             if (!pThreadEntry) {
                 pThreadEntry = new BOINC_THREADLISTENTRY;
+                pThreadEntry->exempt_from_suspend = FALSE;
                 pThreadEntry->thread_id = te32.th32ThreadID;
                 if (pOT) {
                     hThread = pOT(
@@ -218,9 +220,36 @@ int diagnostics_set_thread_name( char* name ) {
 
         pThreadEntry = new BOINC_THREADLISTENTRY;
         pThreadEntry->name = name;
+        pThreadEntry->exempt_from_suspend = FALSE;
         pThreadEntry->thread_id = GetCurrentThreadId();
         pThreadEntry->thread_handle = hThread;
         diagnostics_threads.push_back(pThreadEntry);
+    }
+
+    // Release the Mutex
+    ReleaseMutex(hThreadListSync);
+
+    return 0;
+}
+
+
+// Set the current threads name to make it easy to know what the
+//   thread is supposed to be doing.
+int diagnostics_set_thread_exempt_suspend() {
+    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+    unsigned int i;
+
+
+    // Wait for the ThreadListSync mutex before writing updates
+    WaitForSingleObject(hThreadListSync, INFINITE);
+
+    for (i=0; i<diagnostics_threads.size(); i++) {
+        if (diagnostics_threads[i]) {
+            if (GetCurrentThreadId() == diagnostics_threads[i]->thread_id) {
+                pThreadEntry = diagnostics_threads[i];
+                pThreadEntry->exempt_from_suspend = TRUE;
+            }
+        }
     }
 
     // Release the Mutex
@@ -294,9 +323,9 @@ int diagnostics_init_message_monitor() {
         InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
         SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
 
-        hMessageAckEvent = CreateEvent(&sa, TRUE, FALSE, "DBWIN_BUFFER_READY");
-        hMessageReadyEvent = CreateEvent(&sa, TRUE, FALSE, "DBWIN_DATA_READY");
-        hMessageQuitEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+        hMessageAckEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
+        hMessageReadyEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
+        hMessageQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
         hMessageSharedMap = CreateFileMapping(
             INVALID_HANDLE_VALUE,    // use paging file
@@ -309,7 +338,7 @@ int diagnostics_init_message_monitor() {
 
         pMessageBuffer = (PDEBUGGERMESSAGE)MapViewOfFile(
             hMessageSharedMap,
-            FILE_MAP_READ,
+            FILE_MAP_READ | FILE_MAP_WRITE,
             0,                       // file offset high
             0,                       // file offset low
             sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
@@ -349,7 +378,7 @@ int diagnostics_message_monitor_dump() {
         pMessageEntry = diagnostics_monitor_messages[i];
         fprintf(
             stderr, 
-            "[%s] %s\n",
+            "[%s] %s",
             time_to_string(pMessageEntry->timestamp),
             pMessageEntry->message.c_str()
         );
@@ -364,6 +393,13 @@ int diagnostics_message_monitor_dump() {
 }
 
 
+// This thread monitors the shared memory buffer used to pass debug messages
+//   around.  due to an anomaly in the Windows debug environment it is
+//   suggested that a sleep(0) be introduced before any 
+//   SetEvent/ResetEvent/PulseEvent function is called.
+//
+// See: http://support.microsoft.com/kb/q173260/
+//
 DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
     DWORD       dwEvent = NULL;
     DWORD       dwCurrentProcessId = NULL;
@@ -377,6 +413,8 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
 
     // Set our friendly name
     diagnostics_set_thread_name("Debug Message Monitor");
+    diagnostics_set_thread_exempt_suspend();
+
 
     // Which events do we want to wait for?
     hEvents[0] = hMessageQuitEvent;
@@ -386,6 +424,7 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
     dwCurrentProcessId = GetCurrentProcessId();
 
     // Signal that the buffer is ready for action.
+    Sleep(0);
     SetEvent(hMessageAckEvent);
 
     while (bContinue) {
@@ -393,14 +432,8 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
             2,           // number of objects in array
             hEvents,     // array of objects
             FALSE,       // wait for any
-            INFINITE     // indefinite wait
+            INFINITE     // wait
         );
-
-        // Keep anything happening to the buffer until we figure out what to
-        //   do with it.
-        ResetEvent(hMessageAckEvent);
-        ResetEvent(hMessageReadyEvent);
-
         switch(dwEvent) {
             // hMessageQuitEvent was signaled.
             case WAIT_OBJECT_0 + 0:
@@ -445,6 +478,7 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
 
                     if (dwRepeatMessageCounter > 4) {
                         // Buffer is ready to receive a new message.
+                        Sleep(0);
                         SetEvent(hMessageAckEvent);
 
                         dwRepeatMessageCounter = 0;
@@ -452,8 +486,9 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
                         strRepeatMessage = "";
                     } else {
                         // Let another application have a go at the message.
+                        Sleep(0);
                         SetEvent(hMessageReadyEvent);
-                        Sleep(250);
+                        Sleep(100);
                     }
                 } else {
                     // A message for us to process
@@ -479,7 +514,11 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
                     // Release the Mutex
                     ReleaseMutex(hMessageMonitorSync);
 
+                    // Clear out the old message
+                    ZeroMemory(pMessageBuffer, sizeof(DEBUGGERMESSAGE));
+
                     // Buffer is ready to receive a new message.
+                    Sleep(0);
                     SetEvent(hMessageAckEvent);
                 }
                 break;
@@ -568,7 +607,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
         if ((GetCurrentThreadId() != pThreadEntry->thread_id) && pThreadEntry->thread_id) {
 			// Suspend the thread before getting the threads context, otherwise
             //   it'll be junk.
-            if (pThreadEntry->thread_handle) {
+            if (!pThreadEntry->exempt_from_suspend && pThreadEntry->thread_handle) {
                 SuspendThread(pThreadEntry->thread_handle);
             }
         }
@@ -712,20 +751,22 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
         for (i=0; i<diagnostics_threads.size(); i++) {
             pThreadEntry = diagnostics_threads[i];
             if ((GetCurrentThreadId() != pThreadEntry->thread_id) && pThreadEntry->thread_id) {
-                // Get the thread context
-                memset(&c, 0, sizeof(CONTEXT));
-                c.ContextFlags = CONTEXT_FULL;
-				GetThreadContext(pThreadEntry->thread_handle, &c);
+                if (!pThreadEntry->exempt_from_suspend) {
+                    // Get the thread context
+                    memset(&c, 0, sizeof(CONTEXT));
+                    c.ContextFlags = CONTEXT_FULL;
+				    GetThreadContext(pThreadEntry->thread_handle, &c);
 
-				// Dump the thread's stack.
-                fprintf(
-                    stderr,
-                    "*** Dump of the %s thread (%x): ***\n",
-                    pThreadEntry->name.c_str(),
-                    pThreadEntry->thread_id
-                );
-                StackwalkThread(pThreadEntry->thread_handle, &c);
-				fprintf(stderr, "\n");
+				    // Dump the thread's stack.
+                    fprintf(
+                        stderr,
+                        "*** Dump of the %s thread (%x): ***\n",
+                        pThreadEntry->name.c_str(),
+                        pThreadEntry->thread_id
+                    );
+                    StackwalkThread(pThreadEntry->thread_handle, &c);
+				    fprintf(stderr, "\n");
+                }
             }
         }
     }

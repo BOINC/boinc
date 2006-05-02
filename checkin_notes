@@ -4358,3 +4358,25 @@ Charlie 1 May 2006
     clientgui/
         mac/
             MacSysMenu.cpp
+
+Rom    1 May 2006
+    - Add a commandline option to the screensaver to do a simple RPC
+        so that we can trick the firewall packages into displaying
+        a dialog asking for user approval before the real screensaver
+        ever launches.
+    - Fix the remaining issues with the Windows Runtime Debugger so
+        that it can now trap DBGHELP.DLL and SYMSRV.DLL messages and
+        log them as part of the crash.
+    - Remove some extra verbose messages from stdout and stderr in
+        the client library.
+        
+    client/win/
+        win_screensaver.cpp
+    clientlib/win/
+        NetworkTracker.cpp
+    lib/
+        diagnostics.h
+        diagnostics_win.C
+
+        
+      
