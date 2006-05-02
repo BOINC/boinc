@@ -27,6 +27,12 @@ int DC_processEvents(int timeout)
 		if (retval)
 			return retval;
 
+		if (DC_getWUNumber(DC_WU_RUNNING) == 0)
+		{
+			DC_log(LOG_INFO, "DC_processEvents: No more running workunits ... returning");
+			return 0;
+		}
+
 		current = time(NULL);
 		if (current - start > timeout)
 		{
