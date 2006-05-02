@@ -42,7 +42,7 @@ function success($x) {
 
 db_init();
 
-//xml_header();
+xml_header();
 
 $auth = process_user_text($_GET["account_key"]);
 $user = lookup_user_auth($auth);
