@@ -26,7 +26,10 @@
 //  [ -priority_order ]   order by "priority" field of result
 //  [ -mod n i ]          handle only results with (id mod n) == i
 //  [ -sleep_interval x ]   sleep x seconds if nothing to do
-//  [ -allapps ]  gets workunits for all apps in the app table
+//  [ -allapps ]  		  interleave results from all applications uniformly
+//  [ -purge_stale x ]    remove work items from the shared memory segment
+//                        that have been there for longer then x minutes
+//                        but haven't been assigned
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
@@ -89,6 +92,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <vector>
+using std::vector;
 
 #include "boinc_db.h"
 #include "shmem.h"
@@ -101,7 +106,7 @@
 #include "sched_msgs.h"
 
 #define DEFAULT_SLEEP_INTERVAL  5
-#define ENUM_LIMIT 1000
+#define ENUM_LIMIT MAX_WU_RESULTS*2
 
 // The following parameters determine the feeder's policy
 // for purging "infeasible" results,
@@ -134,6 +139,7 @@ const char* order_clause="";
 char select_clause[256];
 double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
+int purge_stale_time = 0;
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -211,19 +217,110 @@ static int remove_infeasible(int i) {
 }
 #endif
 
+// loop through until a valid work item is found
+// A valid work item is one is not already on the shared memory segment
+// Errors that can occur:
+//     * No valid work item found even after restarting the enumeration - ACTION: return false
+//     * The work item can be for a app that doesn't exist in the database - ACTION: exit application
+// Existing code was moved into this new method in order to improve the readability of the code
+
+ 
+static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisions, int work_item_index, int enum_size, char mod_select_clause[]) {
+	bool in_second_pass = false;
+	bool found = false;
+	int retval, j;
+	
+	if ( !wi->cursor.active && *restarted_enum) {
+		return false;
+	} else if ( !wi->cursor.active ) {
+		in_second_pass = true;
+	}
+	do {
+        // if we have restarted the enum then we are in the second pass
+        if ( !in_second_pass && *restarted_enum ) {
+        	in_second_pass = true;
+        	ncollisions = 0;
+        }
+   		retval = wi->enumerate(enum_size, mod_select_clause, order_clause, all_apps);
+   		// if retval is not 0 (i.e. true), then we have reached the end of the result and we need to requery the database
+    	if ( retval ) {
+    		*restarted_enum = true;
+			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            	"restarted enumeration for appid %d\n", ssp->apps[work_item_index].id);
+        } else {
+        	// Check for a work item with an invalid application id
+            if (!ssp->have_app(wi->wu.appid)) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_CRITICAL,
+                    "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
+                    wi->res_id, wi->wu.appid
+                );
+                exit(1);
+            }
+            
+            // Check for collision
+            // If collision, then advance to the next workitem
+            found = true; // be hopeful!
+            for (j=0; j<ssp->nwu_results; j++) {
+                if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi->res_id) {
+                    ncollisions++;
+                    found = false;  // not found if it is a collision
+                    break;
+                }
+            }    		
+    	}
+    // exit conditions
+    // (in_second_pass && retval) means if we have looped a second time and reached the 
+    //       end of the result set without find a workitem.  This is an error.
+    // found means that we identified a valid work item
+	} while ( (!in_second_pass || !retval) && !found);
+	return found;
+}
+
 static void scan_work_array(
-    DB_WORK_ITEM& wi,
+    vector<DB_WORK_ITEM>* work_items,
     int& nadditions, int& ncollisions, int& /*ninfeasible*/,
     bool& no_wus
 ) {
     int i, j, retval;
-    bool collision, restarted_enum = false;
+    bool found;
+    bool restarted_enum[ssp->napps];
+    DB_WORK_ITEM* wi;
+    char mod_select_clause[256];
+    int work_item_index;
+    int enum_size;
+    
+  	for(int i=0; i < ssp->napps; i++) {
+    	restarted_enum[i] = false;
+    }
 
     for (i=0; i<ssp->nwu_results; i++) {
+    	// If all_apps is set then every nth item in the shared memory segment will be assigned to the 
+    	// application stored in that index in ssp->apps
+        //
+    	if (all_apps) {
+    		work_item_index = i % ssp->napps;
+    		enum_size = ENUM_LIMIT/ssp->napps;
+    		sprintf(mod_select_clause,"%s and result.appid=%d",select_clause,ssp->apps[work_item_index].id);
+    	} else {
+    		work_item_index = 0;
+    		enum_size = ENUM_LIMIT;
+    		sprintf(mod_select_clause,"%s",select_clause);
+    	}
+    	wi = &((*work_items).at(work_item_index));
+    	
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch (wu_result.state) {
-#ifdef REMOVE_INFEASIBLE_ENTRIES
         case WR_STATE_PRESENT:
+       	  	if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
+    			wu_result.state = WR_STATE_EMPTY;
+				log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                    "remove result [RESULT#%d] from slot %d becuase it is stale\n",
+                    wu_result.resultid, i);
+            } else {
+            	break;
+        	}
+#ifdef REMOVE_INFEASIBLE_ENTRIES
             if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
                 remove_infeasible(i);
             } else if (wu_result.infeasible_count > MAX_INFEASIBLE_THRESHOLD) {
@@ -231,78 +328,20 @@ static void scan_work_array(
             }
             break;
 #endif
+
         case WR_STATE_EMPTY:
-            retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause, all_apps);
-            if (retval) {
-                if (retval != ERR_DB_NOT_FOUND) {
-                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-                        "Database error %d - exiting\n", retval
-                    );
-                    exit(retval);
-                }
-
-                // if we already restarted the enum on this array scan,
-                // there's no point in doing it again.
-                //
-                if (restarted_enum) {
-                    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                        "already restarted enum on this array scan\n"
-                    );
-                    return;
-                }
-
-                // restart the enumeration
-                //
-                restarted_enum = true;
-                retval = wi.enumerate(ENUM_LIMIT, select_clause, order_clause, all_apps);
-                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                    "restarting enumeration\n"
-                );
-                if (retval) {
-                    if (retval != ERR_DB_NOT_FOUND) {
-                        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-                            "Database error %d - exiting\n", retval
-                        );
-                        exit(retval);
-                    }
-                    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                        "enumeration restart returned nothing\n"
-                    );
-                    no_wus = true;
-                    return;
-                }
-            }
-
-            // at this point "wi" has an item
-
-            if (!ssp->have_app(wi.wu.appid)) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
-                    "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
-                    wi.res_id, wi.wu.appid
-                );
-                exit(1);
-            }
-            collision = false;
-            for (j=0; j<ssp->nwu_results; j++) {
-                if (ssp->wu_results[j].state != WR_STATE_EMPTY
-                    && ssp->wu_results[j].resultid == wi.res_id
-                ) {
-                    ncollisions++;
-                    collision = true;
-                    break;
-                }
-            }
-            if (!collision) {
+            found = find_work_item(wi, &restarted_enum[work_item_index], ncollisions, work_item_index, enum_size, mod_select_clause);
+            if (found) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_NORMAL,
                     "adding result [RESULT#%d] in slot %d\n",
-                    wi.res_id, i
+                    wi->res_id, i
                 );
-                wu_result.resultid = wi.res_id;
-                wu_result.workunit = wi.wu;
+                wu_result.resultid = wi->res_id;
+                wu_result.workunit = wi->wu;
                 wu_result.state = WR_STATE_PRESENT;
                 wu_result.infeasible_count = 0;
+                wu_result.time_added_to_shared_memory = time(NULL);
                 nadditions++;
             }
             break;
@@ -345,8 +384,19 @@ static int remove_most_infeasible() {
 
 void feeder_loop() {
     int nadditions, ncollisions, ninfeasible;
-    DB_WORK_ITEM wi;
+    vector<DB_WORK_ITEM> work_items;
+    DB_WORK_ITEM* wi;
     bool no_wus;
+    
+    if (all_apps) {   
+    	for(int i=0; i<ssp->napps; i++) {
+    		wi = new DB_WORK_ITEM();
+    		work_items.push_back(*wi);
+    	}
+    } else {
+    	wi = new DB_WORK_ITEM();
+    	work_items.push_back(*wi);
+    }
 
     while (1) {
         nadditions = 0;
@@ -355,7 +405,7 @@ void feeder_loop() {
         no_wus = false;
 
         scan_work_array(
-            wi, nadditions, ncollisions, ninfeasible, no_wus
+            &work_items, nadditions, ncollisions, ninfeasible, no_wus
         );
 
         ssp->ready = true;
@@ -415,6 +465,10 @@ int main(int argc, char** argv) {
             all_apps = true;
         } else if (!strcmp(argv[i], "-priority_order")) {
             order_clause = "order by priority desc ";
+        } else if (!strcmp(argv[i], "-priority_order_create_time")) {
+            order_clause = "order by priority desc, workunit.create_time ";
+        } else if (!strcmp(argv[i], "-purge_stale")) {
+            purge_stale_time = atoi(argv[++i])*60;
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);

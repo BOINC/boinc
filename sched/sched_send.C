@@ -243,6 +243,20 @@ static double estimate_wallclock_duration(
     return ewd;
 }
 
+int find_allowed_projects(SCHEDULER_REPLY& reply, std::vector<int> *app_ids) {
+    char buf[8096];
+   	std::string str;
+   	extract_venue(reply.user.project_prefs, reply.host.venue, buf);
+   	str = buf;
+	unsigned int pos = 0;
+	int temp_int;
+	while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
+		(*app_ids).push_back(temp_int);
+		pos = str.find("<app_id>", pos) + 1;
+	}
+	return 0;
+}
+
 // if the WU can't be executed on the host, return a bitmap of reasons why.
 // Reasons include:
 // 1) the host doesn't have enough memory;
@@ -257,6 +271,26 @@ int wu_is_infeasible(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
     int reason = 0;
+    
+    // Check to see if the user has set application preferences.
+    // If they have then only send work for the allowed applications
+    std::vector<int> app_ids;
+    find_allowed_projects(reply, &app_ids);
+    if (app_ids.size() > 0) {
+    	bool app_allowed = false;
+    	for(int i=0; i<app_ids.size(); i++) {
+    		if (wu.appid==app_ids[i]) {
+    			app_allowed = true;
+    			break;
+    		}
+    	}
+    	if (!app_allowed) {
+        	reply.wreq.no_allowed_apps_available = true;
+    		reason |= INFEASIBLE_APP_SETTING;
+			log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,"[USER#%d] [WU#%d] workunit infeasable becuase this user doesn't want work for this application\n",reply.user.id, wu.id);
+    	}
+    }
+    	
 
     double m_nbytes = reply.host.m_nbytes;
     if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
@@ -517,7 +551,7 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
         //
-        if (wreq.insufficient_disk || wreq.insufficient_speed || wreq.insufficient_mem) {
+        if (wreq.insufficient_disk || wreq.insufficient_speed || wreq.insufficient_mem || wreq.no_allowed_apps_available) {
             return false;
         }
     }
@@ -752,6 +786,13 @@ int send_work(
             USER_MESSAGE um("(there was work for other platforms)", "high");
             reply.insert_message(um);
             reply.set_delay(3600*24);
+        }
+        if (reply.wreq.no_allowed_apps_available) {
+            USER_MESSAGE um(
+                "(There was work but not for the applications you have allowed.  Please check your settings on the website.)",
+                "high"
+            );
+            reply.insert_message(um);
         }
         if (reply.wreq.insufficient_disk) {
             USER_MESSAGE um(

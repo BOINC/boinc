@@ -51,6 +51,7 @@ struct WU_RESULT {
     int infeasible_count;
     WORKUNIT workunit;
     int resultid;
+    int time_added_to_shared_memory;
 };
 
 struct SCHED_SHMEM {

@@ -4401,3 +4401,28 @@ Rom    2 May 2006
     clientgui/
         BOINCGUIApp.cpp
         wizardex.cpp
+
+David  2 May 2006
+	- feeder: change the way -allapps work, so that results
+		from different apps alternate in shared memory.
+		This ensures that when an RPC returns >1 result,
+		they'll be for different apps.
+		TODO: make the ratio configurable.
+	- feeder: add -priority_order_create_time:
+		enumerate results by increasing workunit create time
+	- feeder: add -purge_stale X option: removes items that have been
+		in shared memory more than X minutes.
+	- scheduler: parse user project preference for elements
+		of the form <app_id>N</app_id>.
+		If any are found, only send the user work for those applications.
+
+	TODO: document the above
+
+	All the above from Kevin Reed of World Community Grid
+
+	sched/
+		feeder.C
+		sched_send.C,h
+		sched_shmem.h
+		server_types.h
+		show_shmem.C

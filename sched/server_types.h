@@ -42,6 +42,7 @@ struct WORK_REQ {
     bool insufficient_disk;
     bool insufficient_mem;
     bool insufficient_speed;
+    bool no_allowed_apps_available;
     bool excessive_work_buf;
     bool no_app_version;
     bool hr_reject_temp;
