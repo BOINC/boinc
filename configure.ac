@@ -47,6 +47,12 @@ else
     fi
 fi
 
+AC_ARG_ENABLE(unicode, 
+    AS_HELP_STRING([--disable-unicode],
+                   [disable building the manager with unicode support]),
+    [enable_unicode=no],
+    [enable_unicode=yes])
+
 
 dnl ======================================================================
 dnl some vodoo required for building portable client-binary (client, clientgui)
@@ -469,15 +475,31 @@ dnl check for wxWidgets
 if test "${enable_client_release}" = yes ; then
    echo 'Portable client-build: checking for  *static* wx-libs ...'
     if test "${enable_debug}" = yes ; then
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --debug=yes)
+        if test "${enable_unicode}" = yes ; then
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=yes)
+        else
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
+        fi
     else
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --debug=no)
+        if test "${enable_unicode}" = yes ; then
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=no)
+        else
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
+        fi
     fi
 else
     if test "${enable_debug}" = yes ; then
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --debug=yes)
+        if test "${enable_unicode}" = yes ; then
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=yes)
+        else
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
+        fi
     else
-        AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --debug=no)
+        if test "${enable_unicode}" = yes ; then
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=no)
+        else
+            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
+        fi
     fi
 fi
 
