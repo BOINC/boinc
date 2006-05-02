@@ -510,9 +510,6 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     // position and show the new page
     (void)m_page->TransferDataToWindow();
 
-    // wxWizardSizer::RecalcSizes wants to be called when m_page changes
-    m_sizerPage->RecalcSizes();
-
     // check if bitmap needs to be updated
     // update default flag as well
     if ( m_page->GetBitmap().Ok() )
@@ -556,6 +553,9 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     // send the change event to the new page now
     wxWizardExEvent event(wxEVT_WIZARDEX_PAGE_CHANGED, GetId(), goingForward, m_page);
     (void)m_page->GetEventHandler()->ProcessEvent(event);
+
+    // wxWizardSizer::RecalcSizes wants to be called when m_page changes
+    m_sizerPage->RecalcSizes();
 
     // and finally show it
     m_page->Show();
