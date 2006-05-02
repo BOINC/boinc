@@ -955,18 +955,7 @@ int CBOINCGUIApp::StartBOINCScreensaverTest() {
 #ifdef __WXMSW__
     wxString strExecute = wxEmptyString;
     wxChar   szExecutableDirectory[4096];
-    PROCESS_INFORMATION pi;
-    STARTUPINFO         si;
-    BOOL                bProcessStarted;
-
     memset(szExecutableDirectory, 0, sizeof(szExecutableDirectory));
-    memset(&pi, 0, sizeof(pi));
-    memset(&si, 0, sizeof(si));
-
-    si.cb = sizeof(si);
-    si.dwFlags = STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-
 
     // On Windows the screensaver is located in the Windows directory.
     GetWindowsDirectory(
@@ -974,21 +963,9 @@ int CBOINCGUIApp::StartBOINCScreensaverTest() {
         (sizeof(szExecutableDirectory) / sizeof(wxChar))
     );
 
-    // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = wxT("\"") + wxString(szExecutableDirectory) + wxT("\\boinc.scr\" /test");
-
-    bProcessStarted = CreateProcess(
-        NULL,
-        (LPTSTR)strExecute.c_str(),
-        NULL,
-        NULL,
-        FALSE,
-        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-        NULL,
-        szExecutableDirectory,
-        &si,
-        &pi
-    );
+    // Append boinc.scr to the end of the strExecute string and get ready to rock
+    strExecute = wxT("\"") + wxString(szExecutableDirectory) + wxT("\\boinc.scr\" /t");
+    ::wxExecute(strExecute);
 #endif
     return 0;
 }

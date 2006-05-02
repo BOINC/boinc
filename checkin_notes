@@ -4390,5 +4390,14 @@ Rom    2 May 2006
         BOINCGUIApp.cpp, .h
         MainFrame.cpp
 
+Rom    2 May 2006
+    - Bug Fix: Calculate the page size after the OnChangedEvent is fired
+        and then set the dialog size.  Should keep the wizard pages from
+        clipping the text.
+    - Bug Fix: Change the process execution code to use wxExecute since
+        it is async.  If for some reason the old screensaver doesn't
+        get replaced by setup, we don't want to block the main UI thread.
         
-      
+    clientgui/
+        BOINCGUIApp.cpp
+        wizardex.cpp

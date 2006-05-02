@@ -518,6 +518,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics_win.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\error_numbers.h">
