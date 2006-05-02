@@ -4378,5 +4378,17 @@ Rom    1 May 2006
         diagnostics.h
         diagnostics_win.C
 
+Rom    2 May 2006
+    - Have the BOINC Manager perform the screensaver test everytime
+        is successfully makes a connection to the localhost core
+        client.  It executes so fast it doesn't even show up in the
+        process list and if the user ever switches firewall packages
+        it'll at least prevent the machine from going into limbo
+        when the screensaver is spposed to shutdown.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        MainFrame.cpp
+
         
       

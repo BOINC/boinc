@@ -1669,6 +1669,7 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CWizardAccountManager* pAMWizard = NULL;
     CWizardAttachProject* pAPWizard = NULL;
+    wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
     bool bCachedCredentials = false;
@@ -1689,6 +1690,15 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
     m_pFrameRenderTimer->Stop();
     m_pFrameListPanelRenderTimer->Stop();
     m_pDocumentPollTimer->Stop();
+
+
+    // If we are connected to the localhost, run a really quick screensaver
+    //   test to trigger a firewall popup.
+    pDoc->GetConnectedComputerName(strComputer);
+    if (pDoc->IsComputerNameLocal(strComputer)) {
+        wxGetApp().StartBOINCScreensaverTest();
+    }
+
 
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
