@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "dc_local.h"
 
@@ -59,7 +62,7 @@ void _DC_destroyResult(DC_Result *result)
 
 unsigned DC_getResultCapabilities(DC_Result *result)
 {
-	return (DC_GC_STDOUT | DC_GC_STDERR);
+	return (DC_GC_STDOUT | DC_GC_STDERR | DC_GC_EXITCODE);
 }
 
 DC_Workunit *DC_getResultWU(DC_Result *result)
@@ -69,9 +72,26 @@ DC_Workunit *DC_getResultWU(DC_Result *result)
 
 int DC_getResultExit(DC_Result *result)
 {
-	// XXX Not impl.
+	int status;
+	pid_t retval, pid;
 
-	return 0;
+	pid = (pid_t)result->wu->pid;
+
+	retval = waitpid(pid, &status, WNOHANG);
+	if (retval != pid)
+	{
+		DC_log(LOG_ERR, "DC_getResultExit: wu with pid %d not exited according to waitpid. retval: %d",
+			 pid, retval);
+		return -1;
+	}
+
+	if (!WIFEXITED(status))
+	{
+		DC_log(LOG_WARNING, "DC_getResultExit: wu with pid %d terminated not normally.", pid);
+		return -1;
+	}
+
+	return WEXITSTATUS(status);
 }
 
 char *DC_getResultOutput(DC_Result *result, const char *logicalFileName)
@@ -89,6 +109,22 @@ char *DC_getResultOutput(DC_Result *result, const char *logicalFileName)
 			return physicalFileName;
 		}
 	}	
+
+	if (!strcmp(logicalFileName, DC_RESULT_STDOUT))
+	{
+		char *tmp = g_strdup_printf("%s%c%s", result->wu->workdir, G_DIR_SEPARATOR, STDOUT_LABEL);
+		physicalFileName = strdup(tmp);
+		g_free(tmp);
+		return physicalFileName;
+	}
+
+	if (!strcmp(logicalFileName, DC_RESULT_STDERR))
+	{
+		char *tmp = g_strdup_printf("%s%c%s", result->wu->workdir, G_DIR_SEPARATOR, STDERR_LABEL);
+		physicalFileName = strdup(tmp);
+		g_free(tmp);
+		return physicalFileName;
+	}
 
 	DC_log(LOG_ERR, "DC_getResultOutput: The %s file is not part of the given result", logicalFileName);
 
