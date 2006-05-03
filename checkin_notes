@@ -4441,3 +4441,13 @@ David  2 May 2006
         feeder.C
         handle_request.C
         sched_send.C
+
+Walt   2 May 2006
+    - Display HTTP status message or code when its not 1xx or 2xx.
+    - Add a few more HTTP status messges to boincerror().
+
+    client/
+        net_xfer_curl.C
+    lib/
+        util.C
+  

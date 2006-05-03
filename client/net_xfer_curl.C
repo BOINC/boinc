@@ -289,7 +289,14 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
             } else if ((nxf->response/100)*100 == HTTP_STATUS_CONTINUE) {
                 continue;
             } else {
+                // Got a response from server but its not OK or CONTINUE,
+                // so save response with error message to display later.
                 nxf->http_op_retval = nxf->response;
+                if (nxf->response >= 400) {
+                    strcpy(nxf->error_msg, boincerror(nxf->response));
+                } else {
+                    sprintf(nxf->error_msg, " HTTP error %d", nxf->response);
+                }
             }
             gstate.need_physical_connection = false;
         } else {

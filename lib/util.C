@@ -1027,7 +1027,10 @@ const char* boincerror(int which_error) {
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";
         case 500: return "HTTP internal server error";
+        case 501: return "HTTP not implemented";
+        case 502: return "HTTP bad gateway";
         case 503: return "HTTP service unavailable";
+        case 504: return "HTTP gateway timeout";
     }
     static char buf[128];
     sprintf(buf, "Error %d", which_error);
