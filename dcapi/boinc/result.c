@@ -62,3 +62,35 @@ void _DC_destroyResult(DC_Result *result)
 	}
 	g_free(result);
 }
+
+unsigned DC_getResultCapabilities(const DC_Result *result)
+{
+	/* XXX Att STDOUT and STDERR handling */
+	return DC_GC_EXITCODE;
+}
+
+DC_Workunit *DC_getResultWU(DC_Result *result)
+{
+	return result->wu;
+}
+
+int DC_getResultExit(const DC_Result *result)
+{
+	return result->exit_code;
+}
+
+char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
+{
+	GList *l;
+
+	/* XXX Att STDOUT and STDERR handling */
+	for (l = result->output_files; l; l = l->next)
+	{
+		DC_PhysicalFile *file = l->data;
+
+		if (!strcmp(file->label, logicalFileName))
+			return strdup(file->path);
+	}
+
+	return NULL;
+}
