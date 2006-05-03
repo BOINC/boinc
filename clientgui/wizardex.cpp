@@ -555,7 +555,10 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     (void)m_page->GetEventHandler()->ProcessEvent(event);
 
     // wxWizardSizer::RecalcSizes wants to be called when m_page changes
-    m_sizerPage->RecalcSizes();
+    GetSizer()->RecalcSizes();
+    GetSizer()->SetSizeHints(this);
+    Fit();
+    //SetSize(GetSizer()->CalcMin());
 
     // and finally show it
     m_page->Show();
