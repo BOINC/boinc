@@ -4450,4 +4450,11 @@ Walt   2 May 2006
         net_xfer_curl.C
     lib/
         util.C
-  
+
+Rom    3 May 2006
+    - Bug Fix: To keep the Mac from clipping text in the wizard
+        increase the default width of a wizard page.  The width
+        of each character is wider with the Mac fonts.
+        
+    clientgui/
+        wizardex.cpp

@@ -555,9 +555,7 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     (void)m_page->GetEventHandler()->ProcessEvent(event);
 
     // wxWizardSizer::RecalcSizes wants to be called when m_page changes
-    GetSizer()->RecalcSizes();
-    GetSizer()->SetSizeHints(this);
-    Fit();
+    m_sizerPage->RecalcSizes();
 
     // and finally show it
     m_page->Show();
@@ -610,6 +608,15 @@ void wxWizardEx::SetBorder(int border)
 
 wxSize wxWizardEx::GetManualPageSize() const
 {
+#ifdef __WXMAC__
+    // default width and height of the page
+    static const int DEFAULT_PAGE_WIDTH = 500;
+    //static const int DEFAULT_PAGE_HEIGHT = 290;
+    // For compatibility with 2.4: there's too much
+    // space under the bitmap, probably due to differences in
+    // the sizer implementation. This makes it reasonable again.
+    static const int DEFAULT_PAGE_HEIGHT = 270;
+#else
     // default width and height of the page
     static const int DEFAULT_PAGE_WIDTH = 270;
     //static const int DEFAULT_PAGE_HEIGHT = 290;
@@ -617,6 +624,7 @@ wxSize wxWizardEx::GetManualPageSize() const
     // space under the bitmap, probably due to differences in
     // the sizer implementation. This makes it reasonable again.
     static const int DEFAULT_PAGE_HEIGHT = 270;
+#endif
 
     wxSize totalPageSize(DEFAULT_PAGE_WIDTH,DEFAULT_PAGE_HEIGHT);
 
