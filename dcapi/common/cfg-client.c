@@ -137,8 +137,9 @@ char *DC_getCfgStr(const char *key)
 
 int DC_getCfgInt(const char *key, int defaultValue)
 {
-	int i, val;
+	long val;
 	char *p;
+	int i;
 
 	if (!key)
 		return defaultValue;
