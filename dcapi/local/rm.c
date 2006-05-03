@@ -568,7 +568,7 @@ int DC_getWUNumber(DC_WUState state)
 	return val;
 }
 
-char *DC_getWUId(DC_Workunit *wu)
+char *DC_getWUId(const DC_Workunit *wu)
 {
 	char *id, *ret;
 
@@ -579,7 +579,7 @@ char *DC_getWUId(DC_Workunit *wu)
 	return ret;
 }
 
-char *DC_getWUTag(DC_Workunit *wu)
+char *DC_getWUTag(const DC_Workunit *wu)
 {
 	char *tag;
 
