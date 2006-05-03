@@ -1026,7 +1026,7 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 	struct parser_state pctx;
 	char *workdir, buf[256];
 	DC_Workunit *wu;
-	GError *error;
+	GError *error = NULL;
 	FILE *f;
 
 	workdir = get_workdir(uuid, FALSE);

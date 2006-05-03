@@ -37,7 +37,7 @@ static GKeyFile *config;
 
 int _DC_parseCfg(const char *cfgfile)
 {
-	GError *error;
+	GError *error = NULL;
 	int ret;
 
 	/* Should not happen */

@@ -330,7 +330,7 @@ GList *_DC_parseFileRefs(const char *xml_doc, int *num_files)
 {
 	GMarkupParseContext *ctx;
 	fileref_ctx fctx;
-	GError *error;
+	GError *error = NULL;
 
 	memset(&fctx, 0, sizeof(fctx));
 	fctx.file_info = g_hash_table_new_full(g_str_hash, g_str_equal,
