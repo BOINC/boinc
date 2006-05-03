@@ -4179,3 +4179,12 @@ Rom    2 May 2006
     clientgui/
         BOINCGUIApp.cpp
         wizardex.cpp
+
+Walt   2 May 2006
+    - Display HTTP status message or code when its not 1xx or 2xx.
+    - Add a few more HTTP status messges to boincerror().
+
+    client/
+        net_xfer_curl.C
+    lib/
+        util.C
