@@ -558,7 +558,6 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     GetSizer()->RecalcSizes();
     GetSizer()->SetSizeHints(this);
     Fit();
-    //SetSize(GetSizer()->CalcMin());
 
     // and finally show it
     m_page->Show();
