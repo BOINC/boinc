@@ -131,11 +131,11 @@ int DC_init(void)
 		last_complete_ckpt = strdup(path);
 
 	/* Extract the WU name from init_data.xml */
-	ret = stat("init_data.xml", &st);
+	ret = stat(INIT_DATA_FILE, &st);
 	if (ret)
 		return DC_ERR_INTERNAL;
 
-	f = boinc_fopen("init_data.xml", "r");
+	f = boinc_fopen(INIT_DATA_FILE, "r");
 	if (!f)
 		return DC_ERR_INTERNAL;
 
