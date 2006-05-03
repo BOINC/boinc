@@ -871,7 +871,7 @@ static int lookup_appid(DC_Workunit *wu)
 	return app.get_id();
 }
 
-char *_DC_getWUName(DC_Workunit *wu)
+char *_DC_getWUName(const DC_Workunit *wu)
 {
 	char uuid_str[37];
 
@@ -1188,4 +1188,51 @@ int DC_getWUNumber(DC_WUState state)
 		default:
 			return -1;
 	}
+}
+
+char *DC_getWUTag(const DC_Workunit *wu)
+{
+	return strdup(wu->tag);
+}
+
+char *DC_getWUId(const DC_Workunit *wu)
+{
+	char *name, *tmp;
+
+	name = _DC_getWUName(wu);
+	if (g_mem_is_system_malloc())
+		return name;
+	tmp = strdup(name);
+	g_free(name);
+	return tmp;
+}
+
+int DC_setWUPriority(DC_Workunit *wu)
+{
+	return DC_ERR_NOTIMPL;
+}
+
+DC_WUState DC_getWUState(DC_Workunit *wu)
+{
+	return wu->state;
+}
+
+int DC_cancelWU(DC_Workunit *wu)
+{
+	return DC_ERR_NOTIMPL;
+}
+
+int DC_suspendWU(DC_Workunit *wu)
+{
+	return DC_ERR_NOTIMPL;
+}
+
+int DC_resumeWU(DC_Workunit *wu)
+{
+	return DC_ERR_NOTIMPL;
+}
+
+int DC_sendWUMessage(DC_Workunit *wu, const char *message)
+{
+	return DC_ERR_NOTIMPL;
 }
