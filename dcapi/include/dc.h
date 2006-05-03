@@ -167,10 +167,10 @@ DC_WUState DC_getWUState(DC_Workunit *wu);
 int DC_submitWU(DC_Workunit *wu);
 
 /* Queries the low-level ID of the work unit. */
-char *DC_getWUId(DC_Workunit *wu);
+char *DC_getWUId(const DC_Workunit *wu);
 
 /* Queries the tag of a work unit. */
-char *DC_getWUTag(DC_Workunit *wu);
+char *DC_getWUTag(const DC_Workunit *wu);
 
 /* Cancels all computations for a given work unit. */
 int DC_cancelWU(DC_Workunit *wu);
@@ -192,16 +192,16 @@ int DC_sendWUMessage(DC_Workunit *wu, const char *message);
  */
 
 /* Queries what optional fields are present in the result. */
-unsigned DC_getResultCapabilities(DC_Result *result);
+unsigned DC_getResultCapabilities(const DC_Result *result);
 
 /* Returns the WU that generated this result. */
 DC_Workunit *DC_getResultWU(DC_Result *result);
 
 /* Returns the exit code of the client application. */
-int DC_getResultExit(DC_Result *result);
+int DC_getResultExit(const DC_Result *result);
 
 /* Returns the local name of an output file. */
-char *DC_getResultOutput(DC_Result *result, const char *logicalFileName);
+char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName);
 
 #ifdef __cplusplus
 }
