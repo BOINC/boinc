@@ -157,6 +157,8 @@
 		DD6381460870DB78007A2F8E /* mac_icon.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.C */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.C */; };
 		DD64DF0509DCC5E000668B3A /* gutil_text.C in Sources */ = {isa = PBXBuildFile; fileRef = DD64DF0409DCC5E000668B3A /* gutil_text.C */; };
+		DD65020A09F599B9008E8A3A /* texfont.c in Sources */ = {isa = PBXBuildFile; fileRef = DD65020609F599B9008E8A3A /* texfont.c */; };
+		DD65020B09F599B9008E8A3A /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.C */; };
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
 		DD69FEF708416C9A00C01361 /* boinc_cmd.C in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.C */; };
 		DD69FF0C084171CF00C01361 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
@@ -839,6 +841,10 @@
 		DD6381F80870DD83007A2F8E /* make_app_icon_h.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = make_app_icon_h.C; sourceTree = "<group>"; };
 		DD64DF0409DCC5E000668B3A /* gutil_text.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gutil_text.C; path = ../api/gutil_text.C; sourceTree = SOURCE_ROOT; };
 		DD64E7D507D89DB800B176C8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		DD65020609F599B9008E8A3A /* texfont.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = texfont.c; path = ../api/texfont.c; sourceTree = SOURCE_ROOT; };
+		DD65020709F599B9008E8A3A /* texfont.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texfont.h; path = ../api/texfont.h; sourceTree = SOURCE_ROOT; };
+		DD65020809F599B9008E8A3A /* txf_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.C; path = ../api/txf_util.C; sourceTree = SOURCE_ROOT; };
+		DD65020909F599B9008E8A3A /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../api/txf_util.h; sourceTree = SOURCE_ROOT; };
 		DD69FEE808416C1300C01361 /* boinc_cmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_cmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD69FEF608416C9A00C01361 /* boinc_cmd.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_cmd.C; path = ../lib/boinc_cmd.C; sourceTree = SOURCE_ROOT; };
 		DD6D0A8507E9A61B007F882B /* network.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = network.C; path = ../lib/network.C; sourceTree = SOURCE_ROOT; };
@@ -1421,8 +1427,12 @@
 				DD40825707D3076400163EF5 /* reduce_lib.C */,
 				DD40825807D3076400163EF5 /* reduce_main.C */,
 				DD40825907D3076400163EF5 /* reduce.h */,
+				DD65020609F599B9008E8A3A /* texfont.c */,
+				DD65020709F599B9008E8A3A /* texfont.h */,
 				DD4EC60F08A0A083009AA08F /* texture.C */,
 				DD4EC61008A0A083009AA08F /* texture.h */,
+				DD65020809F599B9008E8A3A /* txf_util.C */,
+				DD65020909F599B9008E8A3A /* txf_util.h */,
 				DD40825A07D3076400163EF5 /* x_opengl.C */,
 				DD40825B07D3076400163EF5 /* x_opengl.h */,
 			);
@@ -1459,6 +1469,7 @@
 				DD095EEF07D87AE900362260 /* Frameworks */,
 				DDD7F08807F0692D00BA3B90 /* CopyFiles */,
 				DD8F75CB088D159D001AFCCA /* ShellScript */,
+				DD5FD5B20A02351A0093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826EE08641BE00070CDB8 /* PBXBuildRule */,
@@ -1562,6 +1573,7 @@
 				DD1277AF081F3D67007B5DE1 /* Resources */,
 				DD1277B0081F3D67007B5DE1 /* Sources */,
 				DD1277B1081F3D67007B5DE1 /* Frameworks */,
+				DD5FD59B0A0234400093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826FA08641C5B0070CDB8 /* PBXBuildRule */,
@@ -1767,6 +1779,7 @@
 				DD40CDF507F0386A0096C645 /* Resources */,
 				DD40CDF607F0386A0096C645 /* Sources */,
 				DD40CDF707F0386A0096C645 /* Frameworks */,
+				DD5FD5830A0232F30093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826F108641BFC0070CDB8 /* PBXBuildRule */,
@@ -1906,6 +1919,7 @@
 				DD96AFF50811075000A06F22 /* Resources */,
 				DD96AFF60811075000A06F22 /* Sources */,
 				DD96AFF70811075000A06F22 /* Frameworks */,
+				DD5FD5990A0233D60093C19F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826F708641C420070CDB8 /* PBXBuildRule */,
@@ -2158,6 +2172,66 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\nfi";
 		};
+		DD5FD5830A0232F30093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/SystemMenu-Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SystemMenu.bundle/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/SystemMenu-Info.plist\" \"${BUILT_PRODUCTS_DIR}/SystemMenu.bundle/Contents/Info.plist\"";
+		};
+		DD5FD5990A0233D60093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/ScreenSaver-Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/ScreenSaver-Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINCSaver.saver/Contents/Info.plist\"";
+		};
+		DD5FD59B0A0234400093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
+		};
+		DD5FD5B20A02351A0093C19F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Info.plist",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Info.plist\"";
+		};
 		DD8F75CB088D159D001AFCCA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -2171,7 +2245,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2186,7 +2260,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build\"\ncp -fp \"${SRCROOT}/Info.plist\" \"${CONFIGURATION_TEMP_DIR}/mgr_boinc.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/Installer.build\"\ncp -fp \"${SRCROOT}/Installer-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/Installer.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build\"\ncp -fp \"${SRCROOT}/ScreenSaver-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/ScreenSaver.build/Info.plist\"\nmkdir -p \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build\"\ncp -fp \"${SRCROOT}/SystemMenu-Info.plist\" \"${CONFIGURATION_TEMP_DIR}/SystemMenu.build/Info.plist\"\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
 		};
 		DDCDB29708CEDCE400E4F573 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2346,6 +2420,8 @@
 				DD4EC61108A0A083009AA08F /* texture.C in Sources */,
 				DD40826507D3076400163EF5 /* x_opengl.C in Sources */,
 				DD64DF0509DCC5E000668B3A /* gutil_text.C in Sources */,
+				DD65020A09F599B9008E8A3A /* texfont.c in Sources */,
+				DD65020B09F599B9008E8A3A /* txf_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2740,7 +2816,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -2754,7 +2830,7 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -3478,7 +3554,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a";
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -3492,7 +3568,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -3524,7 +3600,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/lib/gcc/darwin/3.3,
@@ -3541,7 +3617,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -3566,7 +3642,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/lib/gcc/darwin/3.3,
@@ -3588,7 +3664,7 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",
@@ -4394,7 +4470,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/lib/gcc/darwin/4.0,
@@ -4409,7 +4485,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.1/lib/.libs/libcurl.a",
+					"../../curl-7.15.3/lib/.libs/libcurl.a",
 					"-framework Carbon",
 					"-lcrypto",
 					"-lssl",

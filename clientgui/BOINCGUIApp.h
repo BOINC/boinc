@@ -147,6 +147,8 @@ public:
     int             IsNetworkAlwaysOnline();
     int             UpdateSystemIdleDetection();
 
+    int             StartBOINCScreensaverTest();
+
     CBrandingScheme* GetBrand()                  { return m_pBranding; }
     CMainFrame*     GetFrame()                   { return m_pFrame; }
     CMainDocument*  GetDocument()                { return m_pDocument; }

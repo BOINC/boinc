@@ -574,7 +574,9 @@ int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
         fread(array, 3, w*h, f);
         break;
     }
+
     *arrayp = array;
+    fclose(f);
     return 0;
 }
 
@@ -767,6 +769,9 @@ int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = width;
     ysize = height;
+    if (pixels) {
+        free(pixels);
+    }
 	return 0;
 }
 

@@ -4,8 +4,8 @@
 # Pre-Install / Pre-Upgrade Script for Macintosh BOINC Manager for OS X revised 1/23/06
 ##
 
-
 # If we are replacing an earlier GridRepublic installation, fix the data directory name before installing
-mv -n "/Library/Application Support/GridRepublic Data" "/Library/Application Support/BOINC Data"
+## We don't customize BOINC Data directory name for branding
+## mv -n "/Library/Application Support/GridRepublic Data" "/Library/Application Support/BOINC Data"
 
 exit 0

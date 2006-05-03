@@ -43,7 +43,7 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
 
     atp->request_graphics_mode(m);
     atp->is_ss_app = true;
-    ack_deadline = gstate.now + 5.0;
+    ack_deadline = gstate.now + 30.0;
     scope_messages.printf(
         "SS_LOGIC::ask_app(): starting %s current time %f deadline %f \n",
         atp->result->name, gstate.now, ack_deadline
@@ -94,9 +94,7 @@ void SS_LOGIC::reset() {
         scope_messages.printf("SS_LOGIC::reset(): resetting %s\n", atp->result->name);
         atp->request_graphics_mode(m);
         atp->is_ss_app = false;
-#ifdef __APPLE__
         atp->graphics_mode_ack_timeout = gstate.now;    // Set Mac screensaver safety timer
-#endif
     }
 }
 

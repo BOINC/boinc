@@ -32,7 +32,7 @@
 extern "C" {
 #endif
 
-extern int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore );
+extern int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bProxyEnabled, LPCSTR pszProxyServer );
 extern int DebuggerDisplayDiagnostics();
 extern DWORD StackwalkFilter( EXCEPTION_POINTERS* ep, DWORD status );
 extern void StackwalkThread( HANDLE hThread, CONTEXT* c );

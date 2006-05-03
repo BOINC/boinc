@@ -212,12 +212,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 
 
 wxInt32 CViewTransfers::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetTransferCount();
+    return wxGetApp().GetDocument()->GetTransferCount();
 }
 
 
