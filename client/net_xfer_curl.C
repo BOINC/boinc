@@ -295,7 +295,7 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
                 if (nxf->response >= 400) {
                     strcpy(nxf->error_msg, boincerror(nxf->response));
                 } else {
-                    sprintf(nxf->error_msg, " HTTP error %d", nxf->response);
+                    sprintf(nxf->error_msg, "HTTP error %d", nxf->response);
                 }
             }
             gstate.need_physical_connection = false;
