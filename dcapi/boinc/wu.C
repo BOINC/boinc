@@ -962,7 +962,7 @@ int DC_submitWU(DC_Workunit *wu)
 	return 0;
 }
 
-char *DC_serialize(DC_Workunit *wu)
+char *DC_serializeWU(DC_Workunit *wu)
 {
 	DC_PhysicalFile *file;
 	char id[2 * 36 + 2];
@@ -996,9 +996,9 @@ char *DC_serialize(DC_Workunit *wu)
 	return strdup(id);
 }
 
-DC_Workunit *DC_unserialize(const char *id)
+DC_Workunit *DC_deserializeWU(const char *buf)
 {
-	return _DC_getWUByName(id);
+	return _DC_getWUByName(buf);
 }
 
 #if 0
@@ -1207,7 +1207,7 @@ char *DC_getWUId(const DC_Workunit *wu)
 	return tmp;
 }
 
-int DC_setWUPriority(DC_Workunit *wu)
+int DC_setWUPriority(DC_Workunit *wu, int priority)
 {
 	return DC_ERR_NOTIMPL;
 }
