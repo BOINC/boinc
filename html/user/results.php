@@ -38,6 +38,9 @@ $i = 0;
 $query = "select * from result where $clause order by id desc limit $offset,".($results_per_page+1);
 $result = mysql_query($query);
 $number_of_results = mysql_affected_rows();
+echo show_result_navigation(
+    $clause, $number_of_results, $offset, $results_per_page
+);
 while ($res = mysql_fetch_object($result) and $i<$results_per_page) {
     show_result_row($res, true, false, true);
     $i++;
@@ -45,12 +48,9 @@ while ($res = mysql_fetch_object($result) and $i<$results_per_page) {
 mysql_free_result($result);
 echo "</table>\n";
 
-if ($number_of_results > $results_per_page) {
-    $offset = $offset+$results_per_page;
-    echo "
-        <br><center><a href=\"results.php?$clause&offset=$offset\">Next $results_per_page results</a></center>
-    ";
-}
+echo show_result_navigation(
+    $clause, $number_of_results, $offset, $results_per_page
+);
 
 page_tail();
 ?>

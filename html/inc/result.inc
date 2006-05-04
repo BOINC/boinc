@@ -287,4 +287,22 @@ function show_result($result) {
     end_table();
 }
 
+function show_result_navigation(
+    $clause, $number_of_results, $offset, $results_per_page
+) {
+    echo "<br><center>";
+    if ($offset >= $results_per_page) {
+        $offset_p = $offset-$results_per_page;
+        echo "<a href=results.php?$clause&offset=$offset_p>Previous $results_per_page</a>";
+    }
+    if (($offset >= $results_per_page) && ($number_of_results > $results_per_page)) {
+        echo "&nbsp;|&nbsp;";
+    }
+    if ($number_of_results > $results_per_page) {
+        $offset_n = $offset+$results_per_page;
+        echo "<a href=results.php?$clause&offset=$offset_n>Next $results_per_page</a></center><br>";
+    } else {
+        echo "</center><br><br>";
+    }
+}
 ?>

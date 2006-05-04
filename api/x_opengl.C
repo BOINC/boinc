@@ -46,7 +46,7 @@ static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
 static bool glut_is_initialized = false;
-static jmp_buf jbuf;	// longjump/setjump for exit/signal handler
+static jmp_buf jbuf;    // longjump/setjump for exit/signal handler
 static struct sigaction original_signal_handler; // store previous ABRT signal-handler
 static void set_mode(int mode);
 static void restart(void);
@@ -54,7 +54,7 @@ static void boinc_glut_init(void);
 
 static APP_INIT_DATA aid;
 
-extern pthread_t graphics_thread;	// thread info
+extern pthread_t graphics_thread;    // thread info
 extern pthread_t worker_thread;
 
 // possible longjmp-values to signal from where we jumped:
@@ -320,20 +320,28 @@ void restart() {
     // 
     if (glut_is_initialized ) {
 #ifdef __APPLE__
-	if (boinc_is_standalone())
-            app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
-	else
-            app_debug_msg("Assuming user pressed 'quit'... means we're exiting now.\n");
+        if (boinc_is_standalone()) {
+            app_debug_msg(
+                "Assuming user pressed 'close'... means we're exiting now.\n"
+            );
+        } else {
+            app_debug_msg(
+                "Assuming user pressed 'quit'... means we're exiting now.\n"
+            );
+        }
 
-	if (boinc_delete_file(LOCKFILE) != 0)
+        if (boinc_delete_file(LOCKFILE) != 0) {
             perror ("Failed to remove lockfile..\n");
-	return;
+        }
+        return;
 #else
-        if (boinc_is_standalone())
-        {
-            app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
-            if (boinc_delete_file(LOCKFILE) != 0)
+        if (boinc_is_standalone()) {
+            app_debug_msg(
+                "Assuming user pressed 'close'... means we're exiting now.\n"
+            );
+            if (boinc_delete_file(LOCKFILE) != 0) {
                 perror ("Failed to remove lockfile..\n");
+            }
             return;
         }
 #endif
@@ -367,10 +375,10 @@ void restart_sig(int /*signal_number*/) {
         fprintf(stderr, "Caught SIGABRT in non-graphics thread\n");
         app_debug_msg("Caught SIGABRT in non-graphics thread. Trying to call previous ABRT-handler...\n");
         if (sigaction(SIGABRT, &original_signal_handler, NULL)) {
-	        perror("Unable to restore SIGABRT signal handler in non-graphics thread\n");
-	        // what to do? call abort(3)??  call exit(nonzero)???
-	        // Here we just return.
-	    } else {
+            perror("Unable to restore SIGABRT signal handler in non-graphics thread\n");
+            // what to do? call abort(3)??  call exit(nonzero)???
+            // Here we just return.
+        } else {
             // we could conceivably try to call the old signal handler
             // directly.  But this means checking how its flags/masks
             // are set, making sure it's not NULL (for no action) and so
@@ -422,30 +430,32 @@ void xwin_graphics_event_loop() {
     if (boinc_is_standalone()) {
         if (restarted) {
             while(1) {
-                sleep(1);	// assuming glutInit() failed: put graphics-thread to sleep
+                sleep(1);    // assuming glutInit() failed: put graphics-thread to sleep
             }
         } else {
-	        // open the graphics-window
+            // open the graphics-window
             set_mode(MODE_WINDOW);
             glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
         }
     } else {
         if (!glut_is_initialized) {
 #ifdef __APPLE__
-                setMacPList();
+            setMacPList();
 #endif
-	        set_mode(MODE_HIDE_GRAPHICS);
-	        while ( current_graphics_mode == MODE_HIDE_GRAPHICS ) {
-	            app_debug_msg ("Graphics-thread now waiting for client-message...\n");
-	            wait_for_initial_message();
-	            app_debug_msg ("got a graphics-message from client... \n");
-	            timer_handler(0);
-	        }
-	    } else
+            set_mode(MODE_HIDE_GRAPHICS);
+            while ( current_graphics_mode == MODE_HIDE_GRAPHICS ) {
+                app_debug_msg(
+                    "Graphics-thread now waiting for client-message...\n"
+                );
+                wait_for_initial_message();
+                app_debug_msg ("got a graphics-message from client... \n");
+                timer_handler(0);
+            }
+        } else
             // here glut has been initialized previously
             // probably the user pressed window-'close'
             //
-            set_mode(MODE_HIDE_GRAPHICS);	// close any previously open windows
+            set_mode(MODE_HIDE_GRAPHICS);    // close any previously open windows
     }
 
     // ok we should be ready & initialized by now to call glutMainLoop()
@@ -469,19 +479,19 @@ void app_debug_msg (const char* fmt, ...) {
     if (boinc_slotdir == NULL) {
         char *tmp, *ptr;
         if ((tmp = getcwd(NULL, 0)) == NULL) {
-	        perror ("failed to get working directory using getcwd()");
-	        boinc_slotdir = (char*)calloc(1, 20);
-	        strcpy( boinc_slotdir, "[unknown]");
-	    } else {
-	        if ( (ptr = strrchr(tmp, '/')) == NULL) {
-	            ptr = tmp;
+            perror ("failed to get working directory using getcwd()");
+            boinc_slotdir = (char*)calloc(1, 20);
+            strcpy( boinc_slotdir, "[unknown]");
+        } else {
+            if ( (ptr = strrchr(tmp, '/')) == NULL) {
+                ptr = tmp;
             } else {
                 ptr ++;
             }
-	        boinc_slotdir = (char*)calloc(1, strlen(ptr)+1);
-	        strcpy(boinc_slotdir, ptr);
-	        free (tmp);
-	    }
+            boinc_slotdir = (char*)calloc(1, strlen(ptr)+1);
+            strcpy(boinc_slotdir, ptr);
+            free(tmp);
+        }
     }
   
     vsnprintf (buffer, 5000, fmt, args);

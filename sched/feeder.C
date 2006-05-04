@@ -23,7 +23,9 @@
 //  [ -asynch ]           fork and run in a separate process
 //  [ -d x ]              debug level x
 //  [ -random_order ]     order by "random" field of result
-//  [ -priority_order ]   order by "priority" field of result
+//  [ -priority_order ]   order by decreasing "priority" field of result
+//  [ -priority_order_create_time ]
+//                        order by priority, then by increasing WU create time
 //  [ -mod n i ]          handle only results with (id mod n) == i
 //  [ -sleep_interval x ]   sleep x seconds if nothing to do
 //  [ -allapps ]  		  interleave results from all applications uniformly

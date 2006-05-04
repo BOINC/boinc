@@ -29,7 +29,7 @@ a:active {
 }
 
 a:hover {
-    color: rgb(80,180,255);
+    color: rgb(200,80,80);
 #text-decoration: underline;
 	font-weight: bold;
 }

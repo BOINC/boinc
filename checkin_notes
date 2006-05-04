@@ -4458,3 +4458,18 @@ Rom    3 May 2006
         
     clientgui/
         wizardex.cpp
+
+David  3 May 2006
+    - user web: add "previous 20" link to result list page
+        (from Rytis Slatkevicius)
+    - code formatting, comments
+
+    api/
+        x_opengl.C
+    html/
+        user/
+            results.php
+        inc/
+            result.inc
+    sched/
+        feeder.C
