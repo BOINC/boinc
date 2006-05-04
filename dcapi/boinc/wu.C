@@ -757,6 +757,7 @@ static char *generate_wu_template(DC_Workunit *wu)
 	g_string_append_printf(tmpl,
 		"\t<max_total_results>%d</max_total_results>\n",
 		params.max_total_results);
+	g_string_append(tmpl, "</workunit>\n");
 
 	p = tmpl->str;
 	g_string_free(tmpl, FALSE);
