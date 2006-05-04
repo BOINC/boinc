@@ -12,8 +12,6 @@ function type_text($type) {
             return "Core client only (command-line)";
         case "sea":
             return "Self-extracting archive";
-        case "mac_simple":
-            return "Menubar (simple GUI)";
         case "mac_advanced":
             return "Standard GUI";
         }
@@ -27,8 +25,6 @@ function type_text($type) {
             return "<a href=bare_core.php>Core client only (command-line)</a>";
         case "sea":
             return "<a href=sea.php>Self-extracting archive</a>";
-        case "mac_simple":
-            return "<a href=menubar.php>Menubar (simple GUI)</a>";
         case "mac_advanced":
             return "<a href=mac_advanced.php>Standard GUI</a>";
         }
@@ -418,11 +414,11 @@ $w419 = array(
     "
 );
 
-$m547 = array(
-    "num"=>"5.4.7",
+$m548 = array(
+    "num"=>"5.4.8",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.4.7_macOSX_universal.zip",
-    "date"=>"28 April 2006",
+    "file"=>"boinc_5.4.8_macOSX_universal.zip",
+    "date"=>"3 May 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$features_54."
@@ -466,11 +462,11 @@ $m5213 = array(
     "
 );
 
-$m547c = array(
-    "num"=>"5.4.7",
+$m548c = array(
+    "num"=>"5.4.8",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.4.7_universal-apple-darwin.zip",
-    "date"=>"28 April 2006",
+    "file"=>"boinc_5.4.8_universal-apple-darwin.zip",
+    "date"=>"3 May 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$features_54."
@@ -506,17 +502,6 @@ $m5213c = array(
     "
 );
 
-$m5213s = array(
-    "num"=>"5.2.13",
-    "status"=>"Recommended version (simple GUI)",
-    "file"=>"boinc_menubar_v5.2.13_mac.zip",
-    "date"=>"29 November 2005",
-    "type"=>"mac_simple",
-    "features"=>"<ul><li>Includes improved BOINC client
-     </ul>
-    "
-);
-
 $m443 = array(
     "num"=>"4.43",
     "status"=>"Older version (standard GUI)",
@@ -532,17 +517,6 @@ $m443c = array(
     "date"=>"21 May 2005",
     "type"=>"bare_core",
     "bugs"=>"
-    "
-);
-
-$m443s = array(
-    "num"=>"4.43.4",
-    "status"=>"Older version (simple GUI)",
-    "file"=>"boinc_menubar_v4.43_(4)_mac.zip",
-    "date"=>"23 May 2005",
-    "type"=>"mac_simple",
-    "features"=>"<ul><li>Includes improved BOINC client
-     </ul>
     "
 );
 
@@ -627,14 +601,12 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m547,
-        $m547c,
+        $m548,
+        $m548c,
         $m5213,
-        $m5213s,
         $m5213c,
         $m443,
-        $m443c,
-        $m443s
+        $m443c
     )
 );
 $linux = array(
