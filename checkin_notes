@@ -4200,3 +4200,10 @@ Rom    3 May 2006
 Rom    3 May 2006 (boinc_core_release_5_4)
     - Tag for 5.4.8 release, all platforms
       boinc_core_release_5_4_8
+
+David  30 Apr 2006
+    - Less insistent messages when client has worng URL for project
+
+    client/
+        cs_scheduler.C
+
