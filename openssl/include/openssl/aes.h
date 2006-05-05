@@ -125,4 +125,3 @@ void AES_ctr128_encrypt(const unsigned char *in, unsigned char *out,
 #endif
 
 #endif /* !HEADER_AES_H */
-

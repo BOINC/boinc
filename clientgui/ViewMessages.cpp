@@ -204,12 +204,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 
 
 wxInt32 CViewMessages::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetMessageCount();
+    return wxGetApp().GetDocument()->GetMessageCount();
 }
 
 

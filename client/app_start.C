@@ -335,25 +335,20 @@ int ACTIVE_TASK::start(bool first_time) {
         return ERR_NOT_FOUND;
     }
 
-    // set up input files
+    // set up input, output files
     //
-    for (i=0; i<wup->input_files.size(); i++) {
-        fref = wup->input_files[i];
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path);
-        if (first_time) {
+    if (first_time) {
+        for (i=0; i<wup->input_files.size(); i++) {
+            fref = wup->input_files[i];
+            fip = fref.file_info;
+            get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
-    }
-
-    // set up output files
-    //
-    for (i=0; i<result->output_files.size(); i++) {
-        fref = result->output_files[i];
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path);
-        if (first_time) {
+        for (i=0; i<result->output_files.size(); i++) {
+            fref = result->output_files[i];
+            fip = fref.file_info;
+            get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
@@ -539,6 +534,12 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         freopen(STDERR_FILE, "a", stderr);
 
+        // set idle process priority
+#ifdef HAVE_SETPRIORITY
+        if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
+            perror("setpriority");
+        }
+#endif
         argv[0] = exec_name;
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
@@ -555,13 +556,6 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
-
-    // set idle process priority
-#ifdef HAVE_SETPRIORITY
-    if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
-        perror("setpriority");
-    }
-#endif
 
 #endif
     task_state = PROCESS_EXECUTING;

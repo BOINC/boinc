@@ -116,6 +116,10 @@
 extern "C" {
 #endif
 
+#ifdef _
+#undef _
+#endif
+
 typedef unsigned char _ossl_old_des_cblock[8];
 typedef struct _ossl_old_des_ks_struct
 	{
@@ -439,4 +443,3 @@ void _ossl_096_des_random_seed(des_cblock *key);
 #include <openssl/ui_compat.h>
 
 #endif
-
