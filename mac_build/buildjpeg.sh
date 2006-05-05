@@ -40,26 +40,21 @@ if [ "$1" != "-clean" ]; then
   fi
 fi
 
-
-## cd [path]/jpeg-6b/
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 export LDFLAGS="-arch ppc"
 export CPPFLAGS="-arch ppc"
-export CFLAGS="-arch ppc"
+export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 
 ./configure --disable-shared --host=ppc
 if [  $? -ne 0 ]; then exit 1; fi
-
-export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
-export CPPFLAGS="-I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3 -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++ -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++/ppc-darwin -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
 
 rm -f libjpeg_ppc.a
 rm -f libjpeg_i386.a
 rm -f libjpeg.a
 make clean
 
-make
+make -e
 if [  $? -ne 0 ]; then exit 1; fi
 mv -f libjpeg.a libjpeg_ppc.a
 
@@ -70,7 +65,8 @@ export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS=""
 export CPPFLAGS=""
-export CFLAGS=""
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+
 ./configure --disable-shared --host=i386
 if [  $? -ne 0 ]; then exit 1; fi
 
@@ -87,5 +83,6 @@ if [  $? -ne 0 ]; then exit 1; fi
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
+export SDKROOT=""
 
 return 0

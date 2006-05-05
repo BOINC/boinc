@@ -23,7 +23,7 @@
 # Script to build Macintosh Universal Binary library of curl-7.15.3 for
 # use in building BOINC.
 #
-# by Charlie Fenton 4/27/06
+# by Charlie Fenton 5/5/06
 #
 ## In Terminal, CD to the curl-7.15.3 directory.
 ##     cd [path]/curl-7.15.3/
@@ -44,8 +44,10 @@ fi
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
 export LDFLAGS="-arch ppc"
-export CPPFLAGS="-arch ppc"
 export CFLAGS="-arch ppc"
+export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
+
+## ./configure --enable-shared=NO --host=ppc --build=ppc
 ./configure --enable-shared=NO --host=ppc --build=ppc CPPFLAGS="-arch ppc -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3 -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++ -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++/ppc-darwin -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
 if [  $? -ne 0 ]; then exit 1; fi
 
@@ -69,6 +71,8 @@ export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS=""
 export CPPFLAGS=""
 export CFLAGS=""
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+
 ./configure --enable-shared=NO --host=i386 --build=i386
 if [  $? -ne 0 ]; then exit 1; fi
 
@@ -85,5 +89,7 @@ if [  $? -ne 0 ]; then exit 1; fi
 export CC="";export CXX=""
 export LDFLAGS=""
 export CPPFLAGS=""
+export CFLAGS=""
+export SDKROOT=""
 
 return 0

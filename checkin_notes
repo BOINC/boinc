@@ -4482,3 +4482,9 @@ Rom    4 May 2006
     client/win/
         win_service.cpp
 
+Charlie 5 May 2006
+    - Mac: Clean up build scripts for jpeg and curl.
+    
+    mac_build/
+        buildcurl.sh
+        buildjpeg.sh
