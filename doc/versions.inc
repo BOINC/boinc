@@ -60,6 +60,10 @@ $features_52 = "
 ";
 
 $changes_54 = "
+    <li>Changes since 5.4.8
+      <ul>
+        <li>Changed the master url messages from errors to warnings.
+      </ul>
     <li>Changes since 5.4.7
       <ul>
         <li>Notify the firewall and security packages of the screensaver's need
@@ -292,11 +296,11 @@ $mac_changes_54= "
       </ul>
 ";
 
-$w548= array(
-    "num"=>"5.4.8",
+$w549= array(
+    "num"=>"5.4.9",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.8_windows_intelx86.exe",
-    "date"=>"3 May 2006",
+    "file"=>"boinc_5.4.9_windows_intelx86.exe",
+    "date"=>"5 May 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -520,11 +524,11 @@ $m443c = array(
     "
 );
 
-$l548 = array(
-    "num"=>"5.4.8",
+$l549 = array(
+    "num"=>"5.4.9",
     "status"=>"Development version",
-    "file"=>"boinc_5.4.8_i686-pc-linux-gnu.sh",
-    "date"=>"3 May 2006",
+    "file"=>"boinc_5.4.9_i686-pc-linux-gnu.sh",
+    "date"=>"5 May 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -592,7 +596,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w548,
+        $w549,
         $w5213,
         $w445,
     )
@@ -614,7 +618,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l548,
+        $l549,
         $l5213,
         $l443,
     )
