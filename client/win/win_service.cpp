@@ -114,7 +114,7 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         // error.
         case SERVICE_CONTROL_STOP:
 		case SERVICE_CONTROL_SHUTDOWN:
-            ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 10000);
+            ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 30000);
 			quit_client();
             return;
 
