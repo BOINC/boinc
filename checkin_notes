@@ -4488,3 +4488,10 @@ Charlie 5 May 2006
     mac_build/
         buildcurl.sh
         buildjpeg.sh
+
+David  5 May 2006
+    - web user: fix typo
+        (from David Braun)
+
+    html/user/
+        get_project_config.php
