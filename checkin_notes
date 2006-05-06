@@ -4495,3 +4495,12 @@ David  5 May 2006
 
     html/user/
         get_project_config.php
+
+David  5 May 2006
+    - GUI RPC sockets need to be close-on-exec
+        (otherwise applications inherit them)
+    - compile fix: change longs to ints
+
+    client/
+        gui_rpc_server.C
+        net_xfer_curl.h

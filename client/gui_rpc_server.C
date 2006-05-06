@@ -38,6 +38,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 #endif
 
 #include "util.h"
@@ -154,12 +155,12 @@ int GUI_RPC_CONN_SET::init() {
     get_allowed_hosts();
     get_password();
 
-    lsock = socket(AF_INET, SOCK_STREAM, 0);
-    if (lsock < 0) {
+    retval = boinc_socket(lsock);
+    if (retval) {
         msg_printf(NULL, MSG_ERROR,
             "GUI RPC failed to create socket: %d", lsock
         );
-        return ERR_SOCKET;
+        return retval;
     }
 
     memset(&addr, 0, sizeof(addr));
@@ -283,6 +284,12 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         if (sock == -1) {
             return;
         }
+
+        // apps shouldn't inherit the socket!
+        //
+#ifndef _WIN32
+        fcntl(sock, F_SETFD, FD_CLOEXEC);
+#endif
 
         int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
 

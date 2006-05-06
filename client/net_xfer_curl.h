@@ -92,8 +92,8 @@ public:
     bool io_ready;
         // Signals higher layers that they can read or write socket now
         // (used if !do_file_io)
-    long error;
-	long response;
+    int error;
+	int response;
     double start_time;
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
