@@ -84,30 +84,37 @@ extern int diagnostics_is_proxy_enabled();
 extern char* diagnostics_get_proxy();
 
 extern int diagnostics_is_aborted_via_gui();
-extern int diagnostics_aborted_via_gui();
+extern int diagnostics_set_aborted_via_gui();
 
 // Log rotation
 extern int diagnostics_cycle_logs();
 
 // Thread Tracking
 extern int diagnostics_init_thread_list();
+extern int diagnostics_finish_thread_list();
+extern int diagnostics_update_thread_list();
 extern int diagnostics_set_thread_name( char* name );
 extern int diagnostics_set_thread_exempt_suspend();
+extern int diagnostics_set_thread_graphics();
+extern int diagnostics_set_thread_worker();
 
 // Message Monitoring
 extern int diagnostics_init_message_monitor();
-extern int diagnostics_message_monitor_dump();
+extern int diagnostics_finish_message_monitor();
 #ifdef _WIN32
-DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter);
+extern DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter);
 #endif
 
-
-// These are functions that are specific to Unix
-#ifndef _WIN32
-
+// Unhandled exception monitor
+extern int diagnostics_init_unhandled_exception_monitor();
+extern int diagnostics_finish_unhandled_exception_monitor();
+#ifdef _WIN32
+extern DWORD WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
+extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+#else
+extern void boinc_catch_signal(int signal);
 extern void boinc_set_signal_handler(int sig, void(*handler)(int));
 extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
-
 #endif
 
 

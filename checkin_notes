@@ -4504,3 +4504,32 @@ David  5 May 2006
     client/
         gui_rpc_server.C
         net_xfer_curl.h
+
+Rom    8 May 2006
+    - Windows Runtime Debugger Update:
+    
+        1. ERR_NESTED_UNHANDLED_EXCEPTIONS no longer exist.
+        2. Stack overflow conditions no longer cause the exception
+             handling code to blow up.
+             
+        When a thread has an unhandled exception it stores the
+          exception pointer record in the thread list, signals the
+          unhandled exception monitor and then goes to sleep waiting
+          on a mutex that it will never be and to aquire.
+          
+        If any other threads throw an unhandled exception they'll
+          store their exception records and go to sleep.
+          
+        The unhandled exception monitor wakes up when signaled and
+          suspends all the non-excempt threads and proceeds to dump
+          all the information it has aquired on them to stderr.
+          
+    api/
+        boinc_api.C
+        windows_opengl.C
+    lib/
+        diagnostics.C, .h
+        diagnostics_win.C, .h
+        error_numbers.h
+        stackwalker_win.cpp
+

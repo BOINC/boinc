@@ -540,6 +540,7 @@ void win_graphics_event_loop() {
     // Initialize the graphics thread info for diagnostic
     //   purposes.
     diagnostics_set_thread_name("Graphics");
+    diagnostics_set_thread_graphics();
 
     // Register window class and graphics mode message
     reg_win_class();

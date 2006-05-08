@@ -635,7 +635,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<abort/>")) {
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
-                diagnostics_aborted_via_gui();
+                diagnostics_set_aborted_via_gui();
 #if   defined(_WIN32)
                 // Cause a controlled assert and dump the callstacks.
                 DebugBreak();
@@ -771,7 +771,7 @@ int set_worker_timer() {
     // Initialize the worker thread info for diagnostic
     //   purposes.
     diagnostics_set_thread_name("Worker");
-
+    diagnostics_set_thread_worker();
 
 	// Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop

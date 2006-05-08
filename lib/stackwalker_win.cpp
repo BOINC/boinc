@@ -46,7 +46,6 @@
 #include "boinc_win.h"
 #endif
 
-#include "version.h"
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"
 
@@ -95,17 +94,6 @@ static CRITICAL_SECTION g_csFileOpenClose = {0};
 // ##########################################################################################
 // ##########################################################################################
 // ##########################################################################################
-
-
-// Write Date/Time to specified file (will also work after 2038)
-void DebuggerWriteDateTime() {
-    TCHAR pszTemp[11], pszTemp2[11];
-
-    _tstrdate( pszTemp );
-    _tstrtime( pszTemp2 );
-
-    _ftprintf(stderr, _T("%s %s"), pszTemp, pszTemp2 );
-}
 
 
 bool DebuggerLoadLibrary( 
@@ -619,14 +607,6 @@ int DebuggerDisplayDiagnostics()
     lpDV = pIAV();
     pSGSP(g_hProcess, buf, TTBUFLEN);
 
-    _ftprintf( stderr, _T("\n\n"));
-    _ftprintf( stderr, _T("BOINC Windows Runtime Debugger Version %s\n"), BOINC_VERSION_STRING);
-    _ftprintf( stderr, _T("\n"));
-    _ftprintf( stderr, _T("Dump Timestamp    : "));
-    DebuggerWriteDateTime();
-    _ftprintf( stderr, _T("\n"));
-    _ftprintf( stderr, _T("Current Process ID: %x\n"), GetCurrentProcessId());
-    _ftprintf( stderr, _T("Current Thread ID : %x\n"), GetCurrentThreadId());
     _ftprintf( stderr, _T("Debugger Engine   : %d.%d.%d.%d\n"), lpDV->MajorVersion, lpDV->MinorVersion, lpDV->Revision, lpDV->Reserved);
     _ftprintf( stderr, _T("Symbol Search Path: %s\n"), buf);
     _ftprintf( stderr, _T("\n\n"));
@@ -636,7 +616,7 @@ int DebuggerDisplayDiagnostics()
         _ftprintf(stderr, _T("SymEnumerateModules64(): GetLastError = %lu\n"), gle );
     }
 
-    _ftprintf( stderr, _T("\n"));
+    _ftprintf( stderr, _T("\n\n"));
 
     LeaveCriticalSection(&g_csFileOpenClose);
 
@@ -717,6 +697,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     EnterCriticalSection(&g_csFileOpenClose);
     InterlockedIncrement((long*) &g_dwShowCount);  // erhöhe counter
 
+    _ftprintf(stderr, _T("- Registers -\n"));
 
     // Dump the Context data
     _ftprintf(stderr, 
@@ -733,6 +714,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     );
 
     // Stack Header
+    _ftprintf(stderr, _T("- Callstack -\n"));
     _ftprintf(stderr, _T("ChildEBP RetAddr  Args to Child\n"));
     fflush( stderr );
 

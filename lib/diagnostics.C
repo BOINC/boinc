@@ -73,10 +73,7 @@ static int         aborted_via_gui;
 
 
 #ifdef _WIN32
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal);
-#else
-static void boinc_catch_signal(int signal);
 #endif
 
 
@@ -198,7 +195,8 @@ int diagnostics_init(
     //   The data for this structure should be set by
     //   boinc_init or boinc_init_graphics.
     diagnostics_init_thread_list();
-
+    
+    diagnostics_init_unhandled_exception_monitor();
     diagnostics_init_message_monitor();
 
 #if defined(_DEBUG)
@@ -310,7 +308,7 @@ char* diagnostics_get_proxy() {
 
 
 // Set the value of the flag
-int diagnostics_aborted_via_gui() {
+int diagnostics_set_aborted_via_gui() {
     aborted_via_gui = 1;
     return 0;
 }
