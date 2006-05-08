@@ -4532,4 +4532,11 @@ Rom    8 May 2006
         diagnostics_win.C, .h
         error_numbers.h
         stackwalker_win.cpp
+        util.C
 
+Charlie 8 May 2006
+    - Mac: Add callback glutPassiveMotionFunc(mouse_move) to dismiss 
+        screensaver on mouse move when no mouse button is pressed.
+        
+    api/
+        x_opengl.C

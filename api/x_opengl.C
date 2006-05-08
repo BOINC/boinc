@@ -118,6 +118,12 @@ void mouse_click_move(int x, int y){
     }
 }
 
+void mouse_move(int x, int y) {
+    if (current_graphics_mode == MODE_FULLSCREEN){
+        set_mode(MODE_HIDE_GRAPHICS);
+    }
+}
+
 static void maybe_render() {
     int width, height;
     if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
@@ -166,6 +172,7 @@ static void make_new_window(int mode) {
     glutKeyboardUpFunc(keyboardU);
     glutMouseFunc(mouse_click);
     glutMotionFunc(mouse_click_move);
+    glutPassiveMotionFunc(mouse_move);
     glutDisplayFunc(maybe_render); 
     glEnable(GL_DEPTH_TEST);    
 #ifdef __APPLE__

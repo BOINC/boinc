@@ -973,7 +973,6 @@ const char* boincerror(int which_error) {
         case ERR_NOT_FOUND: return "not found";
         case ERR_NO_EXIT_STATUS: return "no exit status in scheduler request";
         case ERR_FILE_MISSING: return "file missing";
-        case ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED: return "nested unhandled exception";
         case ERR_SEMGET: return "system get semaphore";
         case ERR_SEMCTL: return "system control semaphore";
         case ERR_SEMOP: return "system op semaphore";
