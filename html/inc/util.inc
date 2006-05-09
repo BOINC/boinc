@@ -33,7 +33,8 @@ function db_init() {
 // for the session (if any)
 //
 function init_session() {
-    $url = parse_url(MASTER_URL);
+    $master_url = parse_config(get_config(), "<master_url>");
+    $url = parse_url($master_url);
     $path = $url['path'];
     if (strlen($path)) {
         session_set_cookie_params(0, $path);
@@ -438,7 +439,7 @@ function project_is_stopped() {
 function user_links($user) {
     $x = "<a href=show_user.php?userid=$user->id>$user->name</a>";
     if ($user->has_profile) {
-        $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=head_20.png></a>";
+        $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=img/head_20.png></a>";
     }
     # Does this project accept donations?
     # If so, do you want to have a link next to user name as it appears on the web site?

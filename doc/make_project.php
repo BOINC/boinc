@@ -3,14 +3,18 @@ require_once("docutil.php");
 page_head("The make_project script");
 echo "
 <p>
-BOINC provides a script <code>make_project</code>
-for creating the server components of a BOINC project.
-It has been tested on Linux and Solaris.
-
-<p>
-First, install all components listed in the
+The <code>make_project</code> script creates
+the server components of a BOINC project.
+To use it:
+<ol>
+<li>
+Install all components listed in the
 <a href=build.php>Software Prerequisites</a> page.
-Then run the <code>make_project</code> script.
+<li>
+<a href=compile.php>Get and build</a> the BOINC software.
+<li>
+Run the <code>make_project</code> script.
+</ol>
 For example:
 <pre>
     cd tools/

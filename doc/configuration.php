@@ -12,6 +12,11 @@ echo "<!-- \$Id$ -->\n";
 echo"
 A project is described by a configuration file
 named <b>config.xml</b> in the project's directory.
+This file is created, with default values, by the
+<a href=make_project.php>make_project</a> script.
+However, you will probably need to change or add some items
+during the life of your project.
+<p>
 A config.xml file looks like this:
 <pre>",
 htmlspecialchars("

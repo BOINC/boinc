@@ -251,7 +251,7 @@ print '''Done installing files.
 
 Steps to complete installation:
 
-1. Set permissions for Apache:
+1. Change Apache configuration:
 
    cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf && apachectl restart
 

@@ -325,9 +325,9 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
     install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
+    install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
     install_glob(srcdir('html/user/img/*'), dir('html/user/img'))
     install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
-    install_glob(srcdir('html/languages/project_specific_translations/*.po'), dir('html/languages/project_specific_translations/'))
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
@@ -430,6 +430,7 @@ class Project:
             if not os.path.exists(self.keydir(key)): return False
         return True
 
+    # create new project.  Called only from make_project
     def install_project(self, scheduler_file = None):
         if os.path.exists(self.dir()):
             raise SystemExit('Project directory "%s" already exists; this would clobber it!'%self.dir())
@@ -468,6 +469,8 @@ class Project:
             self.dir('html/user/rss_main.php'))
         install(srcdir('html/ops', 'sample_server_status.php'),
             self.dir('html/user/server_status.php'))
+        install(srcdir('html/languages/project_specific_translations/sample_en.po'), self.dir('html/languages/project_specific_translations/en.po'))
+        install(srcdir('tools/project.xml'), self.dir('project.xml'))
 
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))

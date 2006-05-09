@@ -4548,3 +4548,30 @@ Walt  8 May 2006
         
     client/
         client_state.C
+
+David  9 May 2006
+    - Remove the constant MASTER_URL from html/project/project.inc.
+        Instead, use the <master_url> element from config.xml.
+    - PHP translation code: check for existence of last_compile_timer
+        before getting its mod time (avoid error msg)
+    - small fixes so the web site created by make_project
+        doesn't have broken links and images
+    - updates to sample front page
+    - make_project: copy a few additional files (e.g. graphics, en.po)
+
+    html/
+        inc/
+            email.inc
+            translation.inc
+            util.inc
+        languages/translations/
+            en.po
+        project.sample/
+            project.inc
+        user/
+            intro.php (removed)
+            sample_index.php
+    py/Boinc/
+        setup_project.py
+    tools/
+        make_project

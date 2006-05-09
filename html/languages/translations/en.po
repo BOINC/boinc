@@ -45,7 +45,7 @@ msgstr "Installed"
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Rules and Policies"
+msgstr "Read our rules and policies"
 
 msgid "RULES_ONLY_AUTH"
 msgstr "Run $PROJECT only on authorized computers"
@@ -174,10 +174,10 @@ msgid "CREATE_AC_ZIP"
 msgstr "Postal or ZIP Code"
 
 msgid "CREATE_AC_CREATE"
-msgstr "Create Account"
+msgstr "Create account"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "Account Creation is Disabled"
+msgstr "Account creation is disabled"
 
 msgid "CREATE_AC_DISABLED_TEXT"
 msgstr "Account creation is disabled for $PROJECT at the moment. "

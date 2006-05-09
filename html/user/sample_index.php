@@ -13,22 +13,23 @@ require_once("../project/project_news.inc");
 
 
 function show_nav() {
+    $config = get_config();
+    $master_url = parse_config($config, "<master_url>");
     echo "
         <h3>Join ".PROJECT." </h3>
         <p>
-        <ul>
+        <ol>
         <li><a href=info.php>".tr(RULES_TITLE)."</a>
-        <li><a href=http://boinc.berkeley.edu/intro_user.php>Getting started</a>
-        <li><a href=create_account_form.php>".tr(CREATE_AC_CREATE)."</a>
-        <li><a href=apps.php>".tr(APPS_TITLE)."</a>
-        </ul>
+        <li><a target = _new href=http://boinc.berkeley.edu/download.php>Download BOINC</a>
+        <li> When prompted, enter <b>$master_url</b>
+        </ol>
 
         <h3>Returning participants</h3>
         <ul>
         <li><a href=home.php>Your account</a> - view stats, modify preferences
         <li><a href=team.php>Teams</a> - create or join a team
-        <li><a href=http://boinc.berkeley.edu/download.php>Download BOINC</a>
         <li><a href=download_network.php>Add-ons</a>
+        <li><a href=apps.php>".tr(APPS_TITLE)."</a>
         </ul>
         <h3>Community</h3>
         <ul>
@@ -110,7 +111,7 @@ if (count($project_news > 5)) {
 echo "
     <p>
     <font size=-2>News is available as an
-    <a href=rss_main.php>RSS feed</a> <img src=xml.gif>.</font>
+    <a href=rss_main.php>RSS feed</a> <img src=img/xml.gif>.</font>
     </td>
     </tr></table>
 <font color=ffffff>

@@ -93,9 +93,13 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     // and place it in an include file in the directory
     //
 
-    $interface = parseLanguageInterface($langdir.$transdir.$lang_project_default.".po");
+    $interface = parseLanguageInterface(
+        $langdir.$transdir.$lang_project_default.".po"
+    );
     if (!$fh = fopen($langdir.$compdir."language_interface.inc","w")) {
-        language_log("Could not access $langdir $compdir - please check permissions",2);
+        language_log(
+            "Could not access $langdir $compdir - please check permissions",2
+        );
         exit;
     }
     fwrite($fh, "<?php\n");
@@ -117,10 +121,14 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
                 if ($file==".." or $file=="."){
                 } else if (substr($file,-3)==".po"){
                     //only files ending in .po
-                    language_log("----------------Compiling $file---------------",0);
-                    $language = parseLanguage($langdir.$transdir.$file, $interface);
+                    language_log("-------------Compiling $file------------",0);
+                    $language = parseLanguage(
+                        $langdir.$transdir.$file, $interface
+                    );
                     if (!$fh = fopen($langdir.$compdir.$file.".inc","w")) {
-                        language_log("ERROR: could not access $langdir $compdir - please check permissions",2);
+                        language_log(
+                            "ERROR: could not access $langdir $compdir - please check permissions",2
+                        );
                         exit;
                     }
                     fwrite($fh, "<?php\n");
@@ -224,7 +232,11 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
 
 //    return false;                //Uncomment this to speed up things when you know that you will manually recompile the languages when updated...
     
-    $last_compile = filemtime($langdir."last_compile_timer");
+    $last_compile = 0;
+    if (file_exists($langdir."last_compile_timer")) {
+        $last_compile = filemtime($langdir."last_compile_timer");
+    }
+
     //This file gets touched each time a compile finishes
 
     if (is_dir($langdir.$transdir)) {
@@ -426,7 +438,7 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
 
 } else {
     language_log("Could not load language interface.",2);
-    echo "ERROR: Could not load language interface. This is a fatal error, exitting.";
+    echo "ERROR: Could not load language interface. This is a fatal error, exiting.";
     flush;
     exit;
 }

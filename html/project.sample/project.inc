@@ -4,9 +4,9 @@
 // Modify it to suit your project.
 // Put your version in html/project/project.inc
 
+$master_url = parse_config(get_config(), "<master_url>");
 define("PROJECT", "Test Project");
-define("MASTER_URL", "http://a.b.c");
-define("URL_BASE", "http://a.b.c/");
+define("URL_BASE", $master_url);
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
@@ -14,8 +14,10 @@ define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
 define("STYLESHEET", "white.css");
 define("COPYRIGHT_HOLDER", "Test Group");
-define("SYS_ADMIN_EMAIL", "foo@a.b.c");
-$forum_post_reporting_admin->email_addr="bar@a.b.c";  //The email/mailinglist that will receive user reported forum posts (offensive etc.)
+define("SYS_ADMIN_EMAIL", "admin@$master_url");
+$forum_post_reporting_admin->email_addr="admin@$master_url";
+    //The email/mailinglist that will receive user reported forum posts
+    // (offensive etc.)
 
 function project_banner($title) {
     // Put your project title and logo here

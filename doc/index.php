@@ -72,25 +72,36 @@ foreach ($projects as $p) {
 echo "
     </ul>
     <p>
-    You can participate in more than one project,
-    and you control how much of your computing power
-    goes to each project.
-    If you participate in several projects,
+    You can participate in several projects,
+    and you control how much of your computing power goes to each.
+    This ensures that
     your computer will be kept busy even when one project has no work.
     <p>
     To participate:
     <ol>
     <li> <a href=projects.php>Select projects</a>
     <li> <a href=download.php>Download</a> and run BOINC software
-    <li> Enter the project's URL (visit the project's web site,
+    <li> Enter the projects' URLs (visit each project's web site,
     and copy the URL from your browser's address field).
     </ol>
     <center>
-    <a href=participate.php><b><nobr>More info</nobr></b></a> 
-    | <a href=download.php><b>Download</b></a>
-    | <a href=links.php><b><nobr>Web sites</nobr></b></a>
-    | <a href=download_network.php><b>Add-ons</b></a>
-    | <a href=dev/><b><nobr>Message boards</nobr></b></a>
+    <table cellpadding=1 width=100%><tr>
+    <td bgcolor=$med_blue align=middle>
+        <a href=participate.php><b><nobr>More info</nobr></b></a> 
+    </td>
+    <td bgcolor=$med_blue align=middle>
+        <a href=download.php><b>Download</b></a>
+    </td>
+    <td bgcolor=$med_blue align=middle>
+        <a href=links.php><b><nobr>Web sites</nobr></b></a>
+    </td>
+    <td bgcolor=$med_blue align=middle>
+        <a href=download_network.php><b>Add-ons</b></a>
+    </td>
+    <td bgcolor=$med_blue align=middle>
+        <a href=dev/><b><nobr>Message boards</nobr></b></a>
+    </td>
+    </tr></table>
     </center>
 
   </td></tr>
@@ -108,8 +119,12 @@ echo "
     to assist you.
     Please <a href=contact.php>contact us</a> for information.
     <center>
-    <p><b><a href=create_project.php>More info</a></b>
+    <table cellpadding=1><tr>
+    <td bgcolor=$med_blue align=middle>
+        <a href=create_project.php><b>Documentation</b></a>
+    </td>
     </center>
+    </tr></table>
   </td></tr>
   <tr><td bgcolor=$light_blue><h2>Software</h2></td></tr>
   <tr><td>

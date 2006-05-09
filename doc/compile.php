@@ -23,7 +23,6 @@ echo "
 <h3>Other information</h3>
 <ul>
 <li> <a href=test.php>Test applications and scripts</a>
-<li> <a href=ssl_build.txt>Build instructions for SSL (Secure Socket Layer) client</a>
 <li> <a href=private_label.txt>Graphics files needed for
 a 'private-label' BOINC client</a>.
 </ul>

@@ -3,6 +3,9 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
+$config = get_config();
+$master_url = parse_config($config, "<master_url>");
+
 if (isset($USE_PHPMAILER)) {
     if ($USE_PHPMAILER) {
         require_once("../inc/phpmailer/class.phpmailer.php");
@@ -56,6 +59,7 @@ To validate the new address, visit the URL:
 // 3) the user requested account key for existing account
 //
 function send_auth_email($user, $is_new) {
+    global $master_url;
     $body = "";
 
     if ($is_new) {
@@ -63,7 +67,7 @@ function send_auth_email($user, $is_new) {
         $body = "Welcome to ".PROJECT.".
 
 This email confirms your account with ".PROJECT.":
-    Project URL:         ".MASTER_URL."
+    Project URL:         $master_url
     Account Key:         $user->authenticator
 
     User name:           $user->name
@@ -72,7 +76,7 @@ This email confirms your account with ".PROJECT.":
     } else {
         $subject = PROJECT." information for $user->name";
         $body = "Your ".PROJECT." account information is:
-    Project URL:         ".MASTER_URL."
+    Project URL:         $master_url
     Account Key:         $user->authenticator
 
     User name:           $user->name
@@ -82,7 +86,7 @@ This email confirms your account with ".PROJECT.":
 
 $body .= "
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL."
+For further information and assistance with ".PROJECT." go to $master_url
 ";
     return send_email($user, $subject, $body);
 }
@@ -125,6 +129,7 @@ function is_valid_email_addr($addr) {
 //////////////////////////////////////////////
 
 function send_moderation_email($user, $thread,  $post, $message) {
+    global $master_url;
     $body = "";
 
     $subject = PROJECT." forum moderation notice for $user->name";
@@ -132,7 +137,7 @@ function send_moderation_email($user, $thread,  $post, $message) {
 
 This email is sent to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->title."
-    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->id."
+    Link:           $master_url/forum_thread.php?id=".$thread->id."
     
 The moderator gave this explanation to why your post was moderated:
 ".$message;
@@ -141,12 +146,13 @@ $body .= "
 This was the contents of your post:
 ".$post->content."
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For further information and assistance with ".PROJECT." go to $master_url";
     return send_email($user, $subject, $body);
 
 }
 
 function send_thread_moderation_email($user, $thread, $message) {
+    global $master_url;
     $body = "";
 
     $subject = PROJECT." forum moderation notice for $user->name";
@@ -154,18 +160,19 @@ function send_thread_moderation_email($user, $thread, $message) {
 
 This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->title."
-    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->id."
+    Link:           $master_url/forum_thread.php?id=".$thread->id."
     
 The moderator gave this explanation to why your thread was moderated:
 ".$message;
 $body .= "
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For further information and assistance with ".PROJECT." go to $master_url";
     return send_email($user, $subject, $body);
 
 }
 
 function send_problem_email($user, $host) {
+    global $master_url;
     $body = "";
 	
     $host_content = "ID: ".$host->id."
@@ -233,13 +240,14 @@ $body .= "
 This is the content of our database:
 " . $host_content."
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For further information and assistance with ".PROJECT." go to $master_url";
     echo nl2br($body) . "<br><br>"; 
     return send_email($user, $subject, $body);
 
 }
 
 function send_report_post_email($user, $thread,  $post, $message) {
+    global $master_url;
     global $forum_post_reporting_admin;
     
     $body = "";
@@ -250,7 +258,7 @@ function send_report_post_email($user, $thread,  $post, $message) {
 This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
     Thread:         ".$thread->title."
     Post:           ".$post->id."
-    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->id."#".$post->id."
+    Link:           $master_url/forum_thread.php?id=".$thread->id."#".$post->id."
     
 The reporting user gave this explanation to why the post was reported:
 ".$message."
@@ -258,7 +266,7 @@ The reporting user gave this explanation to why the post was reported:
 This was the contents of the post:
 ".$post->content."
 
-For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+For further information and assistance with ".PROJECT." go to $master_url";
     //Security check, do we have an admin?
     if (!$forum_post_reporting_admin) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
     return send_email($forum_post_reporting_admin, $subject, $body);
