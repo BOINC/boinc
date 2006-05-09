@@ -8,11 +8,11 @@ extern "C" {
 #include "condor_defs.h"
 
 
-  extern int check_logical_name(DC_Workunit *wu,
-				const char *logicalFileName);
-  extern char *get_workdir_path(DC_Workunit *wu,
-				const char *label,
-				WorkdirFile type);
+  extern int wu_check_logical_name(DC_Workunit *wu,
+				   const char *logicalFileName);
+  extern char *wu_get_workdir_path(DC_Workunit *wu,
+				   const char *label,
+				   WorkdirFile type);
 
 
 #ifdef __cplusplus
