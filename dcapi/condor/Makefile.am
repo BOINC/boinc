@@ -13,8 +13,11 @@ pkgconfig_DATA = dcapi-condor-client.pc dcapi-condor-master.pc
 
 AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
 
-libdc_condor_la_SOURCES = 
+libdc_condor_la_SOURCES = condor_server.cc \
+			  condor_common.c \
+			  condor_wu.c
 libdc_condor_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
 
-libdc_client_condor_la_SOURCES = 
+libdc_client_condor_la_SOURCES = condor_client.c \
+				 condor_common.c
 libdc_client_condor_la_LIBADD = ../common/libdc-common-client.la
