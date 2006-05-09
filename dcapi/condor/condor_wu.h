@@ -13,6 +13,7 @@ extern "C" {
   extern char *wu_get_workdir_path(DC_Workunit *wu,
 				   const char *label,
 				   WorkdirFile type);
+  extern int wu_gen_condor_submit(DC_Workunit *wu);
 
 
 #ifdef __cplusplus
