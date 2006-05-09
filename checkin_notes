@@ -4547,4 +4547,4 @@ Walt  8 May 2006
          sleep before breaking out of it.
         
     client/
-        client_state..C
+        client_state.C
