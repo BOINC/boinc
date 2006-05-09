@@ -362,6 +362,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     struct timeval tv;
     now = dtime();
     double end_time = now + x;
+    int loops = 0;
 
     while (1) {
         curl_fds.zero();
@@ -386,6 +387,15 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         gui_rpcs.got_select(all_fds);
 
         if (n==0) break;
+
+        // Limit number of times thru this loop.  Can get
+        // stuck in while loop, if network isn't available,
+        // DNS lookups tend to eat CPU cycles.
+        //
+        if (loops++ > 99) {
+            boinc_sleep(.01);
+            break;
+        }
 
         now = dtime();
         if (now > end_time) break;

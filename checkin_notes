@@ -4540,3 +4540,11 @@ Charlie 8 May 2006
         
     api/
         x_opengl.C
+
+Walt  8 May 2006
+    - Bug fix:  DNS lookup when network was unavailable consumed all
+         available CPU.  Fix limits times thru loop and adds a short
+         sleep before breaking out of it.
+        
+    client/
+        client_state..C
