@@ -1215,12 +1215,8 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 
 DC_WUState DC_getWUState(DC_Workunit *wu)
 {
+	/* XXX Look up from the DB */
 	return wu->state;
-}
-
-int DC_cancelWU(DC_Workunit *wu)
-{
-	return DC_ERR_NOTIMPL;
 }
 
 int DC_suspendWU(DC_Workunit *wu)
@@ -1229,11 +1225,6 @@ int DC_suspendWU(DC_Workunit *wu)
 }
 
 int DC_resumeWU(DC_Workunit *wu)
-{
-	return DC_ERR_NOTIMPL;
-}
-
-int DC_sendWUMessage(DC_Workunit *wu, const char *message)
 {
 	return DC_ERR_NOTIMPL;
 }

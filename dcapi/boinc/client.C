@@ -302,8 +302,16 @@ static DC_Event *new_event(DC_EventType type)
 
 static DC_Event *handle_special_msg(const char *message)
 {
-	if (!strcmp(message, DC_MSG_CANCEL))
+	if (!strncmp(message, DC_MSG_CANCEL, strlen(DC_MSG_CANCEL)) &&
+			message[strlen(DC_MSG_CANCEL)] == ':')
 	{
+		if (strcmp(message + strlen(DC_MSG_CANCEL) + 1, wu_name))
+		{
+			DC_log(LOG_WARNING, "Received CANCEL message for "
+				"unknown WU %s",
+				message + strlen(DC_MSG_CANCEL) + 1);
+			return NULL;
+		}
 		client_state = STATE_FINISH;
 		return new_event(DC_EVENT_FINISH);
 	}
@@ -355,7 +363,8 @@ DC_Event *DC_checkEvent(void)
 			return NULL;
 		}
 
-		if (!strncmp(msg, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
+		if (!strncmp(msg, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)) &&
+				msg[strlen(DCAPI_MSG_PFX)] == ':')
 		{
 			event = handle_special_msg(msg +
 				strlen(DCAPI_MSG_PFX) + 1);
