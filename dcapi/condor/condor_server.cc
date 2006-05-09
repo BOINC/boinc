@@ -120,6 +120,36 @@ void DC_destroyWU(DC_Workunit *wu)
   if (wu_table)
     g_hash_table_remove(wu_table, wu->name);
 
+  if (wu->workdir)
+    {
+      const char *name;
+      GDir *dir;
+      int ret;
+      
+      dir= g_dir_open(wu->workdir, 0, NULL);
+      /* The work directory should not contain any extra files, but
+       * just in case */
+      while (dir && (name= g_dir_read_name(dir)))
+	{
+	  GString *str= g_string_new(wu->workdir);
+	  g_string_append_c(str, G_DIR_SEPARATOR);
+	  g_string_append(str, name);
+	  DC_log(LOG_INFO, "Removing unknown file %s",
+		 str->str);
+	  unlink(str->str);
+	  g_string_free(str, TRUE);
+	}
+      if (dir)
+	g_dir_close(dir);
+      
+      ret= rmdir(wu->workdir);
+      if (ret)
+	DC_log(LOG_WARNING, "Failed to remove WU working "
+	       "directory %s: %s", wu->workdir,
+	       strerror(errno));
+      g_free(wu->workdir);
+    }
+  
   g_free(wu->client_name);
   g_free(wu->uuid_str);
   g_strfreev(wu->argv);
