@@ -171,11 +171,11 @@ int DC_addWUInput(DC_Workunit *wu,
   int ret;
 
   /* Sanity checks */
-  ret= check_logical_name(wu, logicalFileName);
+  ret= wu_check_logical_name(wu, logicalFileName);
   if (ret)
     return(ret);
 
-  workpath= get_workdir_path(wu, logicalFileName, FILE_IN);
+  workpath= wu_get_workdir_path(wu, logicalFileName, FILE_IN);
   file= _DC_createPhysicalFile(logicalFileName, workpath);
   g_free(workpath);
   if (!file)

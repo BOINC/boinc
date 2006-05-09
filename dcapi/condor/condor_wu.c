@@ -9,7 +9,7 @@
 /*****************************************************************************/
 
 /* Check if the logical name is not already registered */
-int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
+int wu_check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 {
   GList *l;
 
@@ -43,9 +43,9 @@ int check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 }
 
 
-char *get_workdir_path(DC_Workunit *wu,
-		       const char *label,
-		       WorkdirFile type)
+char *wu_get_workdir_path(DC_Workunit *wu,
+			  const char *label,
+			  WorkdirFile type)
 {
   return g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, label);
 }
