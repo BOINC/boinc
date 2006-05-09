@@ -1,5 +1,5 @@
 /*
- * db.c - Wrapper code for accessing the Boinc database from C
+ * db.C - Wrapper code for accessing the Boinc database from C
  *
  * Authors:
  *	Gábor Gombás <gombasg@sztaki.hu>
@@ -12,6 +12,9 @@
 
 #include <sched_config.h>
 #include <boinc_db.h>
+#include <parse.h>
+
+#include <string>
 
 #include "dc_boinc.h"
 
@@ -46,7 +49,14 @@ static int lookup_db_id(DC_Workunit *wu)
 	g_free(query);
 
 	if (ret)
+	{
+		char *name = _DC_getWUName(wu);
+
+		DC_log(LOG_ERR, "Failed to look up the ID of WU %s", name);
+		g_free(name);
+		wu->state = DC_WU_UNKNOWN;
 		return DC_ERR_DATABASE;
+	}
 	wu->db_id = dbwu.get_id();
 	return 0;
 }
@@ -56,18 +66,9 @@ void _DC_resultCompleted(DC_Result *result)
 	char *query;
 	int ret;
 
-	if (!result->wu->db_id)
-	{
-		ret = lookup_db_id(result->wu);
-		if (ret)
-		{
-			char *name = _DC_getWUName(result->wu);
-
-			DC_log(LOG_ERR, "Failed to look up the ID of WU %s",
-				name);
-			return;
-		}
-	}
+	ret = lookup_db_id(result->wu);
+	if (ret)
+		return;
 
 	/* We could use DB_WORKUNIT but that would require doing a SELECT
 	 * before the UPDATE, which is unneccessary */
@@ -77,4 +78,80 @@ void _DC_resultCompleted(DC_Result *result)
 		result->wu->db_id);
 	boinc_db.do_query(query);
 	g_free(query);
+
+	result->wu->state = DC_WU_FINISHED;
+}
+
+int DC_cancelWU(DC_Workunit *wu)
+{
+	char *query, *name;
+	int ret;
+
+	ret = lookup_db_id(wu);
+	if (ret)
+		return ret;
+
+	name = _DC_getWUName(wu);
+	query = g_strdup_printf("%s:%s:%s", DCAPI_MSG_PFX, DC_MSG_CANCEL, name);
+	DC_sendWUMessage(wu, query);
+	g_free(name);
+	g_free(query);
+
+	query = g_strdup_printf("UPDATE result "
+		"SET server_state = %d, outcome = %d "
+		"WHERE server_state = %d AND workunitid = %d",
+		RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+		RESULT_SERVER_STATE_UNSENT, wu->db_id);
+	boinc_db.do_query(query);
+	g_free(query);
+
+	query = g_strdup_printf("UPDATE workunit "
+		"SET error_mask = error_mask | %d "
+		"WHERE id = %d",
+		WU_ERROR_CANCELLED, wu->db_id);
+	boinc_db.do_query(query);
+	g_free(query);
+
+	wu->state = DC_WU_ABORTED;
+	return 0;
+}
+
+int DC_sendWUMessage(DC_Workunit *wu, const char *message)
+{
+	char *query, *name;
+	DB_RESULT result;
+	int ret;
+
+	ret = lookup_db_id(wu);
+	if (ret)
+		return ret;
+
+	name = _DC_getWUName(wu);
+	query = g_strdup_printf("WHERE workunitid = %d AND server_state = %d",
+		wu->db_id, RESULT_SERVER_STATE_IN_PROGRESS);
+	while (!result.enumerate(query))
+	{
+		DB_MSG_TO_HOST msg;
+
+		msg.clear();
+		msg.create_time = time(NULL);
+		msg.hostid = result.hostid;
+		msg.handled = false;
+
+		std::string xmlin, xmlout;
+		xmlin = message;
+		xml_escape(xmlin, xmlout);
+		snprintf(msg.xml, sizeof(msg.xml), "<message>%s</message>",
+			xmlout.c_str());
+
+		snprintf(msg.variety, sizeof(msg.variety), "%s", name);
+
+		if (msg.insert())
+			DC_log(LOG_WARNING, "Failed to send message to host %d",
+				result.hostid);
+	}
+	g_free(name);
+	g_free(query);
+
+	return 0;
 }
