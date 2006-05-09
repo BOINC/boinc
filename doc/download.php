@@ -235,8 +235,12 @@ if ($xml) {
             <li> <a href=download_other.php>download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
-            Note: BOINC is not available for Mac OS 9 or earlier.
+            BOINC is not available for Mac OS 9 or earlier.
             There are no plans to develop an OS 9 version.
+            <p>
+            The Windows BOINC client can be
+            <a href=win_deploy.php>deployed across a Windows network
+            using Active Directory</a>.
         ";
     }
     echo "

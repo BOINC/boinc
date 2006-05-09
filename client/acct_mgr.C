@@ -316,7 +316,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                             "Already attached under another account"
                         );
                     } else {
-                        msg_printf(pp, MSG_INFO, "Already attached");
+                        //msg_printf(pp, MSG_INFO, "Already attached");
                         pp->attached_via_acct_mgr = true;
 
                         // initiate a scheduler RPC if requested by AMS

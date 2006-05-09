@@ -4575,3 +4575,9 @@ David  9 May 2006
         setup_project.py
     tools/
         make_project
+
+David  9 May 2006
+    - core client: remove account mgr "already attached" message
+
+    client/
+        acct_mgr.C
