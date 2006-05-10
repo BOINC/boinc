@@ -36,4 +36,4 @@ ts_LDADD	= ../common/libdc-common-client.la \
 tm_SOURCES 	= tm.c
 tm_LDADD	= ../common/libdc-common-master.la \
 		  libdc-condor.la \
-		  -luuid
+		  -luuid -lstdc++
