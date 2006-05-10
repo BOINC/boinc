@@ -40,6 +40,10 @@ extern "C" {
 #define CFG_MAXMEMUSAGE		"MaxMemUsage"
 /* Max. disk usage (per-client) */
 #define CFG_MAXDISKUSAGE	"MaxDiskUsage"
+/* Estimated number of floating point operations */
+#define CFG_FPOPS_EST		"EstimatedFPOps"
+/* Max. number of floating point operations */
+#define CFG_MAXFPOPS		"MaxFPOps"
 
 /* File types in the working directory */
 typedef enum
@@ -168,6 +172,9 @@ GList *_DC_parseFileRefs(const char *xml_doc, int *num_files) G_GNUC_INTERNAL;
 
 /* Marks a work unit as completed in the database */
 void _DC_resultCompleted(DC_Result *result) G_GNUC_INTERNAL;
+
+/* Updates the WU state from the database */
+void _DC_updateWUState(DC_Workunit *wu) G_GNUC_INTERNAL;
 
 #ifdef __cplusplus
 }
