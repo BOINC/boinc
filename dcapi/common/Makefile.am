@@ -5,7 +5,7 @@ libdc_common_master_la_SOURCES = \
 		cfg-master.c \
 		logger.c \
 		util.c
-libdc_common_laster_la_LIBADD = $(GLIB_LIBS)
+libdc_common_master_la_LIBADD = $(GLIB_LIBS)
 
 libdc_common_client_la_SOURCES = \
 		cfg-client.c \
