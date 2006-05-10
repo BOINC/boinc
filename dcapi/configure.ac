@@ -81,7 +81,7 @@ dnl
 AC_ARG_ENABLE([backend-condor],
 	AS_HELP_STRING([--enable-backend-condor],
 		[enable the Condor backend @<:@default=no@:>@]),,
-	[enable_backend_condor=no])
+	[enable_backend_condor=yes])
 
 if test "$enable_backend_condor" = yes; then
 	BACKENDS="$BACKENDS condor"
