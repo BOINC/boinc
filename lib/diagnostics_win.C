@@ -1275,7 +1275,7 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
 
     if (pThreadEntry->crash_state == ThreadStateWaiting) {
         strThreadWaitReason += "Wait Reason: ";
-        strThreadWaitReason += diagnostics_format_thread_state(pThreadEntry->crash_wait_reason);
+        strThreadWaitReason += diagnostics_format_thread_wait_reason(pThreadEntry->crash_wait_reason);
         strThreadWaitReason += ", ";
 
     }
