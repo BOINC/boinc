@@ -29,7 +29,7 @@ int _DC_parseCfg(const char *cfgfile);
 int _DC_copyFile(const char *src, const char *dst);
 
 /* Processes a unit suffix and adjust the value accordingly */
-int _DC_processSuffix(long *value, const char *suffix);
+long long _DC_processSuffix(const char *suffix);
 
 #ifdef __cplusplus
 }
