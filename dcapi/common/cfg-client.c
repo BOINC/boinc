@@ -154,11 +154,16 @@ int DC_getCfgInt(const char *key, int defaultValue)
 
 	val = strtol(pairs[i].value, &p, 10);
 	/* Check for unit suffixes */
-	if (p && *p && _DC_processSuffix(&val, p))
+	if (p && *p)
 	{
-		DC_log(LOG_WARNING, "Configuration value for key %s is not "
-			"a valid number, ignoring", key);
-		return defaultValue;
+		long mult = _DC_processSuffix(p);
+		if (mult == -1)
+		{
+			DC_log(LOG_WARNING, "Configuration value for key %s "
+				"is not a valid number, ignoring", key);
+			return defaultValue;
+		}
+		val *= mult;
 	}
 	return val;
 }

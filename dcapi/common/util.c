@@ -101,23 +101,21 @@ error:
 	return -1;
 }
 
-int _DC_processSuffix(long *value, const char *suffix)
+long long _DC_processSuffix(const char *suffix)
 {
 	while (*suffix == ' ' || *suffix == '\t')
 		suffix++;
 	if (!strcasecmp(suffix, "kb") || !strcasecmp(suffix, "kib"))
-		*value <<= 10;
+		return 1ll << 10;
 	else if (!strcasecmp(suffix, "mb") || !strcasecmp(suffix, "mib"))
-		*value <<= 20;
+		return 1ll << 20;
 	else if (!strcasecmp(suffix, "gb") || !strcasecmp(suffix, "gib"))
-		*value <<= 30;
+		return 1ll << 30;
 	else if (!strcasecmp(suffix, "min"))
-		*value *= 60;
+		return 60ll;
 	else if (!strcasecmp(suffix, "h") || !strcasecmp(suffix, "hour"))
-		*value *= 60 * 60;
+		return 60ll * 60;
 	else if (!strcasecmp(suffix, "day"))
-		*value *= 24 * 60 * 60;
-	else
-		return -1;
-	return 0;
+		return 24ll * 60 * 60;
+	return -1;
 }

@@ -90,13 +90,54 @@ static int getCfgInt(const char *group, const char *key, int defaultValue,
 
 	retval = strtol(value, &p, 10);
 	/* Check for unit suffixes */
-	if (p && *p && _DC_processSuffix(&retval, p))
+	if (p && *p)
 	{
-		DC_log(LOG_WARNING, "Configuration value for key %s is not "
-			"a valid number, ignoring", key);
-		g_free(value);
+		long mult = _DC_processSuffix(p);
+		if (mult == -1)
+		{
+			DC_log(LOG_WARNING, "Configuration value for key %s "
+				"is not a valid number, ignoring", key);
+			g_free(value);
+			*err = 1;
+			return defaultValue;
+		}
+		retval *= mult;
+	}
+
+	g_free(value);
+	*err = 0;
+	return retval;
+}
+
+static double getCfgDouble(const char *group, const char *key,
+	double defaultValue, int *err)
+{
+	char *value, *p;
+	double retval;
+
+	if (!config || !key)
+		return defaultValue;
+
+	value = g_key_file_get_value(config, group, key, NULL);
+	if (!value)
+	{
 		*err = 1;
 		return defaultValue;
+	}
+
+	retval = strtod(value, &p);
+	if (p && *p)
+	{
+		long long mult = _DC_processSuffix(p);
+		if (mult == -1)
+		{
+			DC_log(LOG_WARNING, "Configuration value for key %s "
+				"is not a valid number, ignoring", key);
+			g_free(value);
+			*err = 1;
+			return defaultValue;
+		}
+		retval *= mult;
 	}
 
 	g_free(value);
@@ -146,5 +187,23 @@ int DC_getClientCfgInt(const char *clientName, const char *key,
 	g_free(group);
 	if (err)
 		val = getCfgInt(MASTER_GROUP, key, defaultValue, &err);
+	return val;
+}
+
+double DC_getClientCfgDouble(const char *clientName, const char *key,
+	double defaultValue, int fallbackGlobal)
+{
+	char *group;
+	double val;
+	int err;
+
+	if (!clientName)
+		return defaultValue;
+
+	group = g_strdup_printf("Client-%s", clientName);
+	val = getCfgDouble(group, key, defaultValue, &err);
+	g_free(group);
+	if (err)
+		val = getCfgDouble(MASTER_GROUP, key, defaultValue, &err);
 	return val;
 }

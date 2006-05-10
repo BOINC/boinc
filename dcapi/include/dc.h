@@ -136,6 +136,10 @@ char *DC_getClientCfgStr(const char *clientName, const char *key,
 int DC_getClientCfgInt(const char *clientName, const char *key,
 	int defaultValue, int fallbackGlobal);
 
+/* Queries per-client configuration variables */
+double DC_getClientCfgDouble(const char *clientName, const char *key,
+	double defaultValue, int fallbackGlobal);
+
 /********************************************************************
  * Function prototypes: Work unit management
  */
