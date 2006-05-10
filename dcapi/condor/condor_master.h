@@ -1,5 +1,5 @@
-#ifndef _DC_API_CONDOR_SERVER_H_
-#define _DC_API_CONDOR_SERVER_H_
+#ifndef _DC_API_CONDOR_MASTER_H_
+#define _DC_API_CONDOR_MASTER_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,3 +18,5 @@ extern "C" {
 #endif
 
 #endif
+
+/* End of condor/condor_master.h */
