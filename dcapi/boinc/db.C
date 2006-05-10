@@ -82,6 +82,39 @@ void _DC_resultCompleted(DC_Result *result)
 	result->wu->state = DC_WU_FINISHED;
 }
 
+void _DC_updateWUState(DC_Workunit *wu)
+{
+	DB_WORKUNIT dbwu;
+	int ret;
+
+	if (wu->db_id)
+		ret = dbwu.lookup_id(wu->db_id);
+	else
+	{
+		char *name, *query;
+
+		/* Open-code lookup_db_id to avoid a second database lookup */
+		name = _DC_getWUName(wu);
+		query = g_strdup_printf("WHERE name = '%s'", name);
+		g_free(name);
+		ret = dbwu.lookup(query);
+		g_free(query);
+		if (!ret)
+			wu->db_id = dbwu.id;
+	}
+
+	if (ret)
+		wu->state = DC_WU_UNKNOWN;
+	else if (dbwu.error_mask)
+		/* If any bits in the error mask are set, the scheduler won't
+		 * send out new results */
+		wu->state = DC_WU_ABORTED;
+	else if (dbwu.assimilate_state == ASSIMILATE_DONE)
+		wu->state = DC_WU_FINISHED;
+	else
+		wu->state = DC_WU_RUNNING;
+}
+
 int DC_cancelWU(DC_Workunit *wu)
 {
 	char *query, *name;

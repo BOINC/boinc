@@ -391,7 +391,7 @@ void DC_destroyWU(DC_Workunit *wu)
 	switch (wu->state)
 	{
 		case DC_WU_RUNNING:
-			/* XXX Abort the work unit */
+			DC_cancelWU(wu);
 			break;
 		default:
 			break;
@@ -633,13 +633,15 @@ static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
 {
 	memset(params, 0, sizeof(*params));
 
-	/* XXX */
-	params->rsc_fpops_est = 1e13;
-	params->rsc_fpops_bound = 1e15;
-	params->rsc_memory_bound = DC_getClientCfgInt(wu->client_name,
+	params->rsc_fpops_est = DC_getClientCfgDouble(wu->client_name,
+		CFG_FPOPS_EST, 1e13, TRUE);
+	params->rsc_fpops_bound = DC_getClientCfgDouble(wu->client_name,
+		CFG_MAXFPOPS, 1e15, TRUE);
+	params->rsc_memory_bound = DC_getClientCfgDouble(wu->client_name,
 		CFG_MAXMEMUSAGE, 128 << 20, TRUE);
-	params->rsc_disk_bound = DC_getClientCfgInt(wu->client_name,
+	params->rsc_disk_bound = DC_getClientCfgDouble(wu->client_name,
 		CFG_MAXDISKUSAGE, 64 << 20, TRUE);
+	/* XXX */
 	params->delay_bound = 360000;
 
 	params->min_quorum = DC_getClientCfgInt(wu->client_name,
@@ -1070,6 +1072,8 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 	g_hash_table_insert(wu_table, wu->uuid, wu);
 	++num_wus;
 
+	_DC_updateWUState(wu);
+
 	return wu;
 
 error:
@@ -1165,8 +1169,10 @@ int DC_getWUNumber(DC_WUState state)
 			query = g_strdup_printf("SELECT COUNT(*) "
 				"FROM workunit wu, result res WHERE "
 				"wu.name LIKE '%s\\_%%' AND "
-				"(res.server_state = 2 OR res.server_state = 4)",
-				project_uuid_str);
+				"res.workunitid = wu.id AND "
+				"(res.server_state = %d OR res.server_state = %d)",
+				project_uuid_str, RESULT_SERVER_STATE_UNSENT,
+				RESULT_SERVER_STATE_IN_PROGRESS);
 			ret = db.get_integer(query, val);
 			g_free(query);
 			if (ret)
@@ -1183,8 +1189,19 @@ int DC_getWUNumber(DC_WUState state)
 			if (ret)
 				return -1;
 			return val;
-		case DC_WU_SUSPENDED:
 		case DC_WU_ABORTED:
+			query = g_strdup_printf("SELECT COUNT(*) "
+				"FROM workunit wu WHERE "
+				"wu.name LIKE '%s\\_%%' AND "
+				"wu.error_mask != 0",
+				project_uuid_str);
+			ret = db.get_integer(query, val);
+			g_free(query);
+			if (ret)
+				return -1;
+			return val;
+		case DC_WU_SUSPENDED:
+			/* XXX */
 		case DC_WU_UNKNOWN:
 		default:
 			return -1;
@@ -1215,7 +1232,6 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 
 DC_WUState DC_getWUState(DC_Workunit *wu)
 {
-	/* XXX Look up from the DB */
 	return wu->state;
 }
 
