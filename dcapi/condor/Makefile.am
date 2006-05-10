@@ -21,3 +21,12 @@ libdc_condor_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
 libdc_client_condor_la_SOURCES = condor_client.c \
 				 condor_common.c
 libdc_client_condor_la_LIBADD = ../common/libdc-common-client.la
+
+appdir		= $(libdir)/dcapi/condor
+app_PROGRAMS	= tc ts
+
+tc_SOURCES	= tc.c
+tc_LDADD	= ../common/libdc-common-client.la libdc-client-condor.la
+
+ts_SOURCES 	= ts.c
+ts_LDADD	= ../common/libdc-common-master.la libdc-condor.la -luuid
