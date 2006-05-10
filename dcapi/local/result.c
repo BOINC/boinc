@@ -53,14 +53,14 @@ void _DC_destroyResult(DC_Result *result)
 {
 	while (result->output_files)
 	{
-		_DC_destroyPhysicalFile((_DC_PhysicalFile *)result->output_files->data);
+		_DC_destroyPhysicalFile((DC_PhysicalFile *)result->output_files->data);
 		result->output_files = g_list_delete_link(result->output_files,
 			result->output_files);
 	}
 	g_free(result);
 }
 
-unsigned DC_getResultCapabilities(DC_Result *result)
+unsigned DC_getResultCapabilities(const DC_Result *result)
 {
 	return (DC_GC_STDOUT | DC_GC_STDERR | DC_GC_EXITCODE);
 }
@@ -70,7 +70,7 @@ DC_Workunit *DC_getResultWU(DC_Result *result)
 	return result->wu;
 }
 
-int DC_getResultExit(DC_Result *result)
+int DC_getResultExit(const DC_Result *result)
 {
 	int status;
 	pid_t retval, pid;
@@ -94,7 +94,7 @@ int DC_getResultExit(DC_Result *result)
 	return WEXITSTATUS(status);
 }
 
-char *DC_getResultOutput(DC_Result *result, const char *logicalFileName)
+char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
 	char *physicalFileName;
 	GList *l;

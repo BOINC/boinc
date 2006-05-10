@@ -16,7 +16,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
 libdc_local_la_SOURCES = \
 		dc.c \
 		rm.c \
-		events.c
+		events.c \
+		result.c
 libdc_local_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
 
 libdc_client_local_la_SOURCES = client.c
