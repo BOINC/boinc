@@ -4581,3 +4581,11 @@ David  9 May 2006
 
     client/
         acct_mgr.C
+
+Rom    10 May 2006
+    - IsDebuggerPresent first appeared in the Win98 timeframe, dynamically
+        link to it if it is there, otherwise assume that the debugger is not
+        present.
+        
+    lib/
+        diagnostics_win.C

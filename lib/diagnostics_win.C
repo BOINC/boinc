@@ -43,6 +43,9 @@ typedef NTSTATUS (WINAPI *tNTQSI)(
     PULONG ReturnLength
 );
 
+// IsDebuggerPresent
+typedef BOOL (WINAPI *tIDP)();
+
 // CreateToolhelp32Snapshot
 typedef HANDLE (WINAPI *tCT32S)(DWORD dwFlags, DWORD dwProcessID);
 // Thread32First
@@ -805,6 +808,8 @@ int diagnostics_init_message_monitor() {
     DWORD  dwThreadId;
     PBOINC_MESSAGEMONITORENTRY pMessageEntry = NULL;
     std::vector<PBOINC_MESSAGEMONITORENTRY>::iterator message_iter;
+    HMODULE hKernel32Lib;
+    tIDP pIDP = NULL;
 
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
@@ -828,45 +833,50 @@ int diagnostics_init_message_monitor() {
         if (pMessageEntry) delete pMessageEntry;
     }
 
+    // If a debugger is present then let it capture the debugger messages
+    hKernel32Lib = LoadLibrary("kernel32.dll");
+    pIDP = (tIDP) GetProcAddress(hKernel32Lib, "IsDebuggerPresent");
 
-    if (!IsDebuggerPresent()) {
+    if (pIDP) {
+        if (!pIDP()) {
+            InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+            SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
 
-        InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
-        SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
+            hMessageAckEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
+            hMessageReadyEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
+            hMessageQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            hMessageQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-        hMessageAckEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
-        hMessageReadyEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
-        hMessageQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-        hMessageQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            hMessageSharedMap = CreateFileMapping(
+                INVALID_HANDLE_VALUE,    // use paging file
+                &sa,                     // default security 
+                PAGE_READWRITE,          // read/write access
+                0,                       // max. object size 
+                sizeof(DEBUGGERMESSAGE), // buffer size  
+                "DBWIN_BUFFER"           // name of mapping object
+            );
 
-        hMessageSharedMap = CreateFileMapping(
-            INVALID_HANDLE_VALUE,    // use paging file
-            &sa,                     // default security 
-            PAGE_READWRITE,          // read/write access
-            0,                       // max. object size 
-            sizeof(DEBUGGERMESSAGE), // buffer size  
-            "DBWIN_BUFFER"           // name of mapping object
-        );
+            pMessageBuffer = (PDEBUGGERMESSAGE)MapViewOfFile(
+                hMessageSharedMap,
+                FILE_MAP_READ | FILE_MAP_WRITE,
+                0,                       // file offset high
+                0,                       // file offset low
+                sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
+            );
 
-        pMessageBuffer = (PDEBUGGERMESSAGE)MapViewOfFile(
-            hMessageSharedMap,
-            FILE_MAP_READ | FILE_MAP_WRITE,
-            0,                       // file offset high
-            0,                       // file offset low
-            sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
-        );
-
-        hMessageMonitorThread = CreateThread(
-            NULL,
-            0,
-            diagnostics_message_monitor,
-            0,
-            0,
-            &dwThreadId
-        );
-    } else {
-        retval = ERROR_NOT_SUPPORTED;
+            hMessageMonitorThread = CreateThread(
+                NULL,
+                0,
+                diagnostics_message_monitor,
+                0,
+                0,
+                &dwThreadId
+            );
+        } else {
+            retval = ERROR_NOT_SUPPORTED;
+        }
     }
+    if (hKernel32Lib) FreeLibrary(hKernel32Lib);
 
 
     // Release the Mutex
