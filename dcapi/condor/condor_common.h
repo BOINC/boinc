@@ -14,3 +14,5 @@ extern "C" {
 #endif
 
 #endif
+
+/* End of condor/condor_common.h */

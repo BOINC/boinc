@@ -64,4 +64,4 @@ void DC_finish(int exitcode)
 }
 
 
-/* End of condor/client.c */
+/* End of condor/condor_slave.c */

@@ -7,7 +7,7 @@
 
 #include "dc.h"
 
-#include "condor_server.h"
+#include "condor_master.h"
 #include "condor_common.h"
 #include "condor_defs.h"
 #include "condor_wu.h"
@@ -417,4 +417,4 @@ void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
 }
 
 
-/* End of condor/server.c */
+/* End of condor/condor_master.cc */

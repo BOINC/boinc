@@ -104,4 +104,4 @@ int copy_file(const char *src, const char *dst)
 }
 
 
-/* End of condor/common.c */
+/* End of condor/condor_common.c */
