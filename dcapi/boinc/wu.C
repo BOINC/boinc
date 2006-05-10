@@ -784,7 +784,7 @@ static void emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 
 	va_start(ap, fmt);
 	fprintf(tmpl, "\t<file_ref>\n");
-	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></name>\n", idx);
+	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></file_name>\n", idx);
 	fprintf(tmpl, "\t\t<open_name>");
 	vfprintf(tmpl, fmt, ap);
 	fprintf(tmpl, "</open_name>\n");
