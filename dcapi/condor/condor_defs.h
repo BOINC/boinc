@@ -10,40 +10,40 @@ extern "C" {
 #include "dc.h"
 #include "dc_internal.h"
 
-  extern char project_uuid_str[37];
+extern char project_uuid_str[37];
 
-  struct _DC_Workunit
-  {
-    char *client_name;
-    char **argv;
-    int argc;
-    char *tag;
-    int subresults;
+struct _DC_Workunit
+{
+	char *client_name;
+	char **argv;
+	int argc;
+	char *tag;
+	int subresults;
     
-    char *name;
-    uuid_t uuid;
-    char *uuid_str;
-    DC_WUState state;
+	char *name;
+	uuid_t uuid;
+	char *uuid_str;
+	DC_WUState state;
     
-    char *condor_id;
-    char *workdir;
+	char *condor_id;
+	char *workdir;
      
-    GList *input_files;
-    GList *output_files;
-  };
+	GList *input_files;
+	GList *output_files;
+};
 
-  struct _DC_Result
-  {
-    DC_Workunit *wu;
-  };
+struct _DC_Result
+{
+	DC_Workunit *wu;
+};
 
-  typedef enum
-    {
-      FILE_IN,
-      FILE_OUT,
-      FILE_CKPT,
-      FILE_DCAPI
-    } WorkdirFile;
+typedef enum
+{
+	FILE_IN,
+	FILE_OUT,
+	FILE_CKPT,
+	FILE_DCAPI
+} WorkdirFile;
 
 #define CFG_WORKDIR	"WorkingDirectory"
 

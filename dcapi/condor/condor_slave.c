@@ -4,7 +4,7 @@
 /* Initializes the client API. */
 int DC_init(void)
 {
-  return(0);
+	return(0);
 }
 
 
@@ -12,7 +12,7 @@ int DC_init(void)
 char *DC_resolveFileName(DC_FileType type,
 			 const char *logicalFileName)
 {
-  return(0);
+	return(0);
 }
 
 
@@ -21,21 +21,21 @@ int DC_sendResult(const char *logicalFileName,
 		  const char *path,
 		  DC_FileMode fileMode)
 {
-  return(0);
+	return(0);
 }
 
 
 /* Sends a message to the master. */
 int DC_sendMessage(const char *message)
 {
-  return(0);
+	return(0);
 }
 
 
 /* Checks for application control events. */
 DC_Event *DC_checkEvent(void)
 {
-  return(0);
+	return(0);
 }
 
 
@@ -60,7 +60,7 @@ void DC_fractionDone(double fraction)
 /* Finishes computation. */
 void DC_finish(int exitcode)
 {
-  for (;;) ;
+	for (;;) ;
 }
 
 
