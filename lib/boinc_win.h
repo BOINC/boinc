@@ -148,6 +148,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <malloc.h>
 
 #ifdef __cplusplus
 #include <cassert>
@@ -155,6 +156,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <cerrno>
 #include <cmath>
 #include <csetjmp>
+#include <csignal>
 #include <cstdarg>
 #include <cstdlib>
 #include <cstdio>
@@ -168,6 +170,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <errno.h>
 #include <math.h>
 #include <setjmp.h>
+#include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -191,6 +194,20 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <map>
 #include <set>
 #endif
+
+
+#ifndef SIGRTMAX
+#if defined(_SIGRTMAX)
+#define SIGRTMAX _SIGRTMAX
+#elif defined(NSIG)
+#define SIGRTMAX (NSIG-1)
+#else
+#define SIGRTMAX 32
+#endif
+#endif
+
+
+
 
 #ifndef __CYGWIN__
 

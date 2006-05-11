@@ -35,8 +35,6 @@
 #include "util.h"
 
 
-
-
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
     ULONG SystemInformationClass,
@@ -1623,18 +1621,11 @@ DWORD WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
     return 0;
 }
 
-#include <csignal>
-#ifndef SIGRTMAX
-#if defined(_SIGRTMAX)
-#define SIGRTMAX _SIGRTMAX
-#elif defined(NSIG)
-#define SIGRTMAX (NSIG-1)
-#else
-#define SIGRTMAX 32
-#endif
-#endif
 
 static int no_reset[SIGRTMAX+1];
+static int no_ignore[SIGRTMAX+1];
+static int setup_arrays=0;
+
 
 void setup_no_reset() {
   no_reset[SIGILL]=1;
@@ -1647,7 +1638,6 @@ void setup_no_reset() {
   no_reset[SIGINT]=1;
 };
 
-static int no_ignore[SIGRTMAX+1];
 
 void setup_no_ignore() {
 #ifdef SIGKILL
@@ -1659,9 +1649,6 @@ void setup_no_ignore() {
   no_ignore[SIGSEGV]=1;
 };
 
-static int setup_arrays=0;
-
-
 
 LONG pass_to_signal_handler(int signum) {
     void (*handler)(int);
@@ -1671,12 +1658,14 @@ LONG pass_to_signal_handler(int signum) {
         setup_no_ignore();
         setup_no_reset();
     }
-    handler=signal(signum,SIG_DFL);
+
     // Are we using the default signal handler?
     // If so return to the exception handler.
+    handler=signal(signum,SIG_DFL);
     if (handler==SIG_DFL) {
        return EXCEPTION_CONTINUE_SEARCH;
     }
+
     // Should we ignore this signal?
     if (handler==SIG_IGN) {
         signal(signum,handler);
@@ -1688,18 +1677,17 @@ LONG pass_to_signal_handler(int signum) {
             return EXCEPTION_CONTINUE_SEARCH; 
         }
     }
-//  Call our signal handler, this probably won't return...
+
+    // Call our signal handler, this probably won't return...
     handler(signum);
-//  if it does, reset the signal handler if appropriate.
+
+    // if it does, reset the signal handler if appropriate.
     if (no_reset[signum]) signal(signum,handler);
-//  try to continue execution
+
+    // try to continue execution
     return EXCEPTION_CONTINUE_EXECUTION;
 }
 
-#include <float.h>
-extern "C" {
-void __cdecl _fpreset(void);
-}
 
 // Allow apps to install signal handlers for some exceptions that bypass
 // the boinc diagnostics.  This translates the Windows exceptions into
@@ -1766,8 +1754,9 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
 
     // Check whether somone has installed a standard C signal handler to
     // handle this exception. 
-    if (diagnostics_check_signal_handlers(pExPtrs) == EXCEPTION_CONTINUE_EXECUTION)
-       return EXCEPTION_CONTINUE_EXECUTION;
+    if (diagnostics_check_signal_handlers(pExPtrs) == EXCEPTION_CONTINUE_EXECUTION) {
+        return EXCEPTION_CONTINUE_EXECUTION;
+    }
 
     // Store the exception record pointers.
     diagnostics_set_thread_exception_record(pExPtrs);

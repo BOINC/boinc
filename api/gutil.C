@@ -45,6 +45,12 @@ extern "C" {
 #include <cstring>
 #include <cmath>
 #include <csetjmp>
+#if defined(HAVE_MALLOC_H) || defined(_WIN32)
+#include <malloc.h>
+#endif
+#if defined(HAVE_ALLOCA_H)
+#include <alloca.h>
+#endif
 #ifdef __APPLE__
 #undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
 #endif
@@ -682,13 +688,6 @@ my_error_exit (j_common_ptr cinfo)
   (*cinfo->err->output_message) (cinfo);
   longjmp(myerr->setjmp_buffer, 1);
 }
-
-#if defined(HAVE_MALLOC_H) || defined(_WIN32)
-#include <malloc.h>
-#endif
-#if defined(HAVE_ALLOCA_H)
-#include <alloca.h>
-#endif
 
 tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;

@@ -4631,3 +4631,11 @@ Eric K	11 May 2006
     lib/
         diagnostics_win.C
 
+Rom    10 May 2006
+    - Make the BOINC sample uppercase build again.
+    
+    api/
+        gutil.C
+    lib/
+        boinc_win.h
+        diagnostics_win.C
