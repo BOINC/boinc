@@ -683,10 +683,21 @@ my_error_exit (j_common_ptr cinfo)
   longjmp(myerr->setjmp_buffer, 1);
 }
 
+#if defined(HAVE_MALLOC_H) || defined(_WIN32)
+#include <malloc.h>
+#endif
+#if defined(HAVE_ALLOCA_H)
+#include <alloca.h>
+#endif
+
 tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
+#if defined(HAVE_ALLOCA) || defined(_WIN32)
+	alloca(16);  // Force a frame pointer even when compiled with 
+                 // -fomit-frame-pointer
+#endif
 
 	if((pFile = boinc_fopen(filename, "rb")) == NULL) {
 		fprintf(stderr,"Unable to load JPG File!");

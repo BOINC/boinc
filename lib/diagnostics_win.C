@@ -35,6 +35,8 @@
 #include "util.h"
 
 
+
+
 // NtQuerySystemInformation
 typedef NTSTATUS (WINAPI *tNTQSI)(
     ULONG SystemInformationClass,
@@ -1621,11 +1623,151 @@ DWORD WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
     return 0;
 }
 
+#include <csignal>
+#ifndef SIGRTMAX
+#if defined(_SIGRTMAX)
+#define SIGRTMAX _SIGRTMAX
+#elif defined(NSIG)
+#define SIGRTMAX (NSIG-1)
+#else
+#define SIGRTMAX 32
+#endif
+#endif
+
+static int no_reset[SIGRTMAX+1];
+
+void setup_no_reset() {
+  no_reset[SIGILL]=1;
+#ifdef SIGTRAP
+  no_reset[SIGTRAP]=1;
+#endif
+#ifdef SIGPRIV
+  no_reset[SIGPRIV]=1;
+#endif
+  no_reset[SIGINT]=1;
+};
+
+static int no_ignore[SIGRTMAX+1];
+
+void setup_no_ignore() {
+#ifdef SIGKILL
+  no_ignore[SIGKILL]=1;
+#endif
+#ifdef SIGSTOP
+  no_ignore[SIGSTOP]=1;
+#endif
+  no_ignore[SIGSEGV]=1;
+};
+
+static int setup_arrays=0;
+
+
+
+LONG pass_to_signal_handler(int signum) {
+    void (*handler)(int);
+    
+    if (!setup_arrays) {
+        setup_arrays=1;
+        setup_no_ignore();
+        setup_no_reset();
+    }
+    handler=signal(signum,SIG_DFL);
+    // Are we using the default signal handler?
+    // If so return to the exception handler.
+    if (handler==SIG_DFL) {
+       return EXCEPTION_CONTINUE_SEARCH;
+    }
+    // Should we ignore this signal?
+    if (handler==SIG_IGN) {
+        signal(signum,handler);
+        // Are we allowed to?
+        if (!no_ignore[signum]) {
+            // Yes? Attempt to ignore the exception.
+            return EXCEPTION_CONTINUE_EXECUTION;
+        } else {  
+            return EXCEPTION_CONTINUE_SEARCH; 
+        }
+    }
+//  Call our signal handler, this probably won't return...
+    handler(signum);
+//  if it does, reset the signal handler if appropriate.
+    if (no_reset[signum]) signal(signum,handler);
+//  try to continue execution
+    return EXCEPTION_CONTINUE_EXECUTION;
+}
+
+#include <float.h>
+extern "C" {
+void __cdecl _fpreset(void);
+}
+
+// Allow apps to install signal handlers for some exceptions that bypass
+// the boinc diagnostics.  This translates the Windows exceptions into
+// standard signals.
+LONG diagnostics_check_signal_handlers(PEXCEPTION_POINTERS pExPtrs) {
+    switch (pExPtrs->ExceptionRecord->ExceptionCode) {
+      case CONTROL_C_EXIT:                
+                                       return pass_to_signal_handler(SIGINT);
+      case EXCEPTION_BREAKPOINT:
+      case EXCEPTION_SINGLE_STEP:
+#ifdef SIGTRAP
+                                       return pass_to_signal_handler(SIGTRAP);
+#else
+                                       break;
+#endif
+      case EXCEPTION_FLT_DENORMAL_OPERAND:
+      case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+      case EXCEPTION_FLT_INEXACT_RESULT:
+      case EXCEPTION_FLT_INVALID_OPERATION:
+      case EXCEPTION_FLT_OVERFLOW:
+      case EXCEPTION_FLT_UNDERFLOW:      
+                                       {
+                                         LONG rv=pass_to_signal_handler(SIGFPE);
+                                         /* MS claims ignoring an FP signal
+                                          * results in an unknown FP state.
+                                          * Does an _fpreset() help?
+                                          */
+                                         if (rv != EXCEPTION_CONTINUE_SEARCH) 
+                                             _fpreset();
+                                         return rv;
+                                       }
+      case EXCEPTION_INT_DIVIDE_BY_ZERO:
+      case EXCEPTION_INT_OVERFLOW:
+                                       return pass_to_signal_handler(SIGFPE);
+      case EXCEPTION_PRIV_INSTRUCTION:
+#ifdef SIGPRIV
+                                       return pass_to_signal_handler(SIGPRIV);
+                                       // nobreak
+#endif
+      case EXCEPTION_ILLEGAL_INSTRUCTION:
+                                       return pass_to_signal_handler(SIGILL);
+                                       // nobreak
+      case EXCEPTION_DATATYPE_MISALIGNMENT:
+#ifdef SIGBUS
+                                       return pass_to_signal_handler(SIGBUS);
+                                       // nobreak
+#endif
+      case EXCEPTION_STACK_OVERFLOW:
+      case EXCEPTION_ACCESS_VIOLATION:
+      case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+      case EXCEPTION_IN_PAGE_ERROR:
+                                       return pass_to_signal_handler(SIGSEGV);
+                                       // nobreak
+      default:                         break;
+    }
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
 
 // Let the unhandled exception monitor take care of logging the exception data.
 //   Store the exception pointers and then singal the exception monitor to start
 //   partying on the data.
 LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
+
+    // Check whether somone has installed a standard C signal handler to
+    // handle this exception. 
+    if (diagnostics_check_signal_handlers(pExPtrs) == EXCEPTION_CONTINUE_EXECUTION)
+       return EXCEPTION_CONTINUE_EXECUTION;
 
     // Store the exception record pointers.
     diagnostics_set_thread_exception_record(pExPtrs);
@@ -1637,7 +1779,7 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
     WaitForSingleObject(hExceptionMonitorHalt, INFINITE);
 
     // We won't make it to this point, but make the compiler happy anyway.
-    return 0;
+    return EXCEPTION_CONTINUE_SEARCH;
 }
 
 

@@ -4598,3 +4598,36 @@ Rom    10 May 2006
         
     lib/
         diagnostics_win.C
+
+Eric K	11 May 2006
+    - (pthreads) Put a mutex around the cpu time calculation in
+      boinc_worker_thread_cpu_time().  If called from multiple
+      threads, this would occasionally report the wrong CPU time,
+      which could cause applications to abort.
+    - (unix) Added check of return value from getrusage() and retry on
+      failure.
+    - (WIN32) Added check of return value from timeSetEvent() and retry
+      on failure.
+    - (WIN32) Added timeKillEvent() calls to the boinc_exit() function
+      ensure that timers are freed properly.
+    - Added function boinc_timer_thread_active() function that apps can
+      call to see if the timer thread was properly created.
+    - Added function boinc_worker_timer() that application worker threads
+      can call in their main loop.  This function will communicate with the
+      core client if the timer thread was not created.
+    - Added a dummy call to alloca() in LoadJPG to prevent failure of 
+      setjmp/longjmp in the case that the frame pointer is optimized away.
+      This should be done on all functions where setjmp is called because
+      on some platforms longjmp will segfault if the frame pointer doesn't
+      exist.  Some compilers aren't smart enough to know this.
+    - (WIN32) Added code to the windows exception handler to allow it pass 
+      exceptions to the standard C signal handlers in the case where the 
+      signal handlers have been overridden.
+
+    api/
+        boinc_api.C
+        boinc_api.h
+        gutil.C
+    lib/
+        diagnostics_win.C
+

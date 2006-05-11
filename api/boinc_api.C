@@ -118,6 +118,7 @@ static int non_cpu_intensive = 0;
 static int want_network = 0;
 static int have_network = 1;
 
+
 #define TIMER_PERIOD 1
     // period of worker-thread timer interrupts.
     // This determines the resolution of fraction done and CPU time reporting
@@ -135,6 +136,7 @@ HANDLE worker_thread_handle;
 static MMRESULT timer_id;
 #else
 static pthread_t timer_thread_handle;
+static pthread_mutex_t timer_mutex=PTHREAD_MUTEX_INITIALIZER;
 static struct rusage worker_thread_ru;
 #endif
 
@@ -189,10 +191,13 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
-    cpu = (double)worker_thread_ru.ru_utime.tv_sec
+    if (!pthread_mutex_lock(&timer_mutex)) {
+      cpu = (double)worker_thread_ru.ru_utime.tv_sec
         + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
-    cpu += (double)worker_thread_ru.ru_stime.tv_sec
+      cpu += (double)worker_thread_ru.ru_stime.tv_sec
         + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
+      pthread_mutex_unlock(&timer_mutex);
+    }
 #endif
     return 0;
 }
@@ -381,7 +386,10 @@ int boinc_finish(int status) {
     }
 #ifdef _WIN32
     // Stop the timer
-    timeKillEvent(timer_id);
+    if (timer_id) {
+      timeKillEvent(timer_id);
+      timer_id=0;
+    }
     CloseHandle(worker_thread_handle);
 #endif
     if (options.main_program && status==0) {
@@ -403,6 +411,15 @@ int boinc_finish(int status) {
 // This is called from the worker, timer, and graphics threads.
 //
 void boinc_exit(int status) {
+
+#ifdef _WIN32
+    // Free up the windows timer event, so Win98 doesn't run out.
+    if (timer_id) {
+      timeKillEvent(timer_id);
+      timer_id=0;
+    }
+#endif
+
     // Shutdown graphics thread if it is running
     //
     if (stop_graphics_thread_ptr) {
@@ -654,6 +671,8 @@ static void handle_process_control_msg() {
     }
 }
 
+static int timer_thread_created=1;
+
 #ifdef _WIN32
 static void CALLBACK worker_timer(
     UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2
@@ -665,7 +684,7 @@ static void worker_timer(int /*a*/) {
 #ifdef _WIN32
     // Initialize the timer thread info for diagnostic
     //   purposes.
-    diagnostics_set_thread_name("Timer");
+    if (timer_thread_created) diagnostics_set_thread_name("Timer");
 #endif
 
     interrupt_count++;
@@ -729,6 +748,26 @@ static void worker_timer(int /*a*/) {
 #endif
 }
 
+
+void boinc_worker_timer() {
+  static time_t last_call=time(0);
+  // timer of last resort if timer thread initialization fails.
+  if (timer_thread_created) {
+    return;
+  } else {
+    int diff=time(0)-last_call;
+    while (diff>=TIMER_PERIOD) {
+      diff-=TIMER_PERIOD;
+      last_call+=TIMER_PERIOD;
+#ifdef _WIN32
+      worker_timer(0,0,0,0,0);
+#else
+      worker_timer(0);
+#endif
+    }
+  }  
+}      
+      
 #ifndef _WIN32
 void* timer_thread(void*) {
     block_sigalrm();
@@ -740,15 +779,27 @@ void* timer_thread(void*) {
 }
 
 void worker_signal_handler(int) {
-    getrusage(RUSAGE_SELF, &worker_thread_ru);
+// getrusage can return an error, so try a few times if it returns an error.
+    if (!pthread_mutex_trylock(&timer_mutex)) {
+      int i=0;
+      while (getrusage(RUSAGE_SELF, &worker_thread_ru) && i<10) i++;
+      pthread_mutex_unlock(&timer_mutex);
+    }
     if (options.direct_process_action) {
         while (boinc_status.suspended) {
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
     }
 }
-
 #endif
+
+
+
+// Allow apps to check the status of the timer thread and do something
+// about it if the thread creation failed (i.e. WIN9X)
+int boinc_timer_thread_active() {
+    return timer_thread_created;
+}
 
 // set up timer actitivies.
 // This is called only and always by the worker thread
@@ -774,16 +825,26 @@ int set_worker_timer() {
     diagnostics_set_thread_worker();
 
 	// Use Windows multimedia timer, since it is more accurate
-    // than SetTimer and doesn't require an associated event loop
+    // than SetTimer and doesn't require an associated event loop.
+    // Try more than once if it fails the first time.
     //
-    timer_id = timeSetEvent(
+    int i=0;
+    while ((timer_id = timeSetEvent(
         (int)(TIMER_PERIOD*1000), // uDelay
         (int)(TIMER_PERIOD*1000), // uResolution
         worker_timer, // lpTimeProc
-        NULL, // dwUser
+        0, // dwUser
         TIME_PERIODIC  // fuEvent
-    );
-
+        )==0) 
+        && (i++ < 10)
+    ) ; /* do nothing */ 
+    
+    if (i>10) {
+        fprintf(stderr, "set_worker_timer(): timeSetEvent() failed.\n");
+        timer_thread_created=0;
+    }
+    timer_thread_created=1;
+    
     // lower our priority here
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
@@ -791,7 +852,9 @@ int set_worker_timer() {
     retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
+        timer_thread_created=0;
     }
+    timer_thread_created=1;
 
     struct sigaction sa;
     itimerval value;

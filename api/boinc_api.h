@@ -88,6 +88,10 @@ extern int boinc_receive_trickle_down(char* buf, int len);
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);
 extern double boinc_get_fraction_done();
+// Allow check of timer thread creation success.
+extern int boinc_timer_thread_active();
+// Allow apps to call the timer event if all else fails.
+extern void boinc_worker_timer();
 
 #ifdef __APPLE__
 extern int setMacPList(void);
