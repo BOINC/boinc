@@ -56,6 +56,45 @@ typedef BOOL (WINAPI *tT32N)(HANDLE hSnapshot, LPTHREADENTRY32 lpte);
 typedef HANDLE (WINAPI *tOT)(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId);
 
 
+// Look in the registry for the specified value user the BOINC diagnostics
+//   hive.
+BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lpdwSize, LPBYTE lpData) {
+	LONG  lRetVal;
+	HKEY  hKey;
+
+    // Detect platform information
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx(&osvi);
+
+    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
+		lRetVal = RegOpenKeyEx(
+            HKEY_LOCAL_MACHINE, 
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics"),  
+			NULL, 
+            KEY_READ,
+            &hKey
+        );
+		if (lRetVal != ERROR_SUCCESS) return FALSE;
+	} else {
+		lRetVal = RegOpenKeyEx(
+            HKEY_CURRENT_USER,
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics"),  
+			NULL,
+            KEY_READ,
+            &hKey
+        );
+		if (lRetVal != ERROR_SUCCESS) return FALSE;
+	}
+
+	lRetVal = RegQueryValueEx(hKey, lpName, NULL, lpdwType, lpData, lpdwSize);
+
+	RegCloseKey(hKey);
+
+	return (lRetVal == ERROR_SUCCESS);
+}
+
+
 // Provide a set of API's which can be used to display more friendly
 //   information about each thread.  These should also be used to
 //   dump the callstacks for each executing thread when an unhandled
@@ -668,30 +707,14 @@ int diagnostics_set_thread_worker() {
 //
 char* diagnostics_format_thread_state(int thread_state) {
     switch(thread_state) {
-        case ThreadStateInitialized:
-            return "Initialized";
-            break;
-        case ThreadStateReady:
-            return "Ready";
-            break;
-        case ThreadStateRunning:
-            return "Running";
-            break;
-        case ThreadStateStandby:
-            return "Standby";
-            break;
-        case ThreadStateTerminated:
-            return "Terminated";
-            break;
-        case ThreadStateWaiting:
-            return "Waiting";
-            break;
-        case ThreadStateTransition:
-            return "Transition";
-            break;
-        default: 
-            return "Unknown";
-            break;
+        case ThreadStateInitialized: return "Initialized";
+        case ThreadStateReady: return "Ready";
+        case ThreadStateRunning: return "Running";
+        case ThreadStateStandby: return "Standby";
+        case ThreadStateTerminated: return "Terminated";
+        case ThreadStateWaiting: return "Waiting";
+        case ThreadStateTransition: return "Transition";
+        default: return "Unknown";
     }
     return "";
 }
@@ -703,69 +726,27 @@ char* diagnostics_format_thread_state(int thread_state) {
 //
 char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
     switch(thread_wait_reason) {
-        case ThreadWaitReasonExecutive:
-            return "Executive";
-            break;
-        case ThreadWaitReasonFreePage:
-            return "FreePage";
-            break;
-        case ThreadWaitReasonPageIn:
-            return "PageIn";
-            break;
-        case ThreadWaitReasonPoolAllocation:
-            return "PoolAllocation";
-            break;
-        case ThreadWaitReasonDelayExecution:
-            return "ExecutionDelay";
-            break;
-        case ThreadWaitReasonSuspended:
-            return "Suspended";
-            break;
-        case ThreadWaitReasonUserRequest:
-            return "UserRequest";
-            break;
-        case ThreadWaitReasonWrExecutive:
-            return "Executive";
-            break;
-        case ThreadWaitReasonWrFreePage:
-            return "FreePage";
-            break;
-        case ThreadWaitReasonWrPageIn:
-            return "PageIn";
-            break;
-        case ThreadWaitReasonWrPoolAllocation:
-            return "PoolAllocation";
-            break;
-        case ThreadWaitReasonWrDelayExecution:
-            return "ExecutionDelay";
-            break;
-        case ThreadWaitReasonWrSuspended:
-            return "Suspended";
-            break;
-        case ThreadWaitReasonWrUserRequest:
-            return "UserRequest";
-            break;
-        case ThreadWaitReasonWrEventPairHigh:
-            return "EventPairHigh";
-            break;
-        case ThreadWaitReasonWrEventPairLow:
-            return "EventPairLow";
-            break;
-        case ThreadWaitReasonWrLpcReceive:
-            return "LPCReceive";
-            break;
-        case ThreadWaitReasonWrLpcReply:
-            return "LPCReply";
-            break;
-        case ThreadWaitReasonWrVirtualMemory:
-            return "VirtualMemory";
-            break;
-        case ThreadWaitReasonWrPageOut:
-            return "PageOut";
-            break;
-        default:
-            return "Unknown";
-            break;
+        case ThreadWaitReasonExecutive: return "Executive";
+        case ThreadWaitReasonFreePage: return "FreePage";
+        case ThreadWaitReasonPageIn: return "PageIn";
+        case ThreadWaitReasonPoolAllocation: return "PoolAllocation";
+        case ThreadWaitReasonDelayExecution: return "ExecutionDelay";
+        case ThreadWaitReasonSuspended: return "Suspended";
+        case ThreadWaitReasonUserRequest: return "UserRequest";
+        case ThreadWaitReasonWrExecutive: return "Executive";
+        case ThreadWaitReasonWrFreePage: return "FreePage";
+        case ThreadWaitReasonWrPageIn: return "PageIn";
+        case ThreadWaitReasonWrPoolAllocation: return "PoolAllocation";
+        case ThreadWaitReasonWrDelayExecution: return "ExecutionDelay";
+        case ThreadWaitReasonWrSuspended: return "Suspended";
+        case ThreadWaitReasonWrUserRequest: return "UserRequest";
+        case ThreadWaitReasonWrEventPairHigh: return "EventPairHigh";
+        case ThreadWaitReasonWrEventPairLow: return "EventPairLow";
+        case ThreadWaitReasonWrLpcReceive: return "LPCReceive";
+        case ThreadWaitReasonWrLpcReply: return "LPCReply";
+        case ThreadWaitReasonWrVirtualMemory: return "VirtualMemory";
+        case ThreadWaitReasonWrPageOut: return "PageOut";
+        default: return "Unknown";
     }
     return "";
 }
@@ -805,7 +786,10 @@ static HANDLE hMessageQuitFinishedEvent;
 int diagnostics_init_message_monitor() {
     int retval = 0;
     unsigned int i;
-    DWORD  dwThreadId;
+    DWORD dwThreadId;
+    DWORD dwType;
+    DWORD dwSize;
+    DWORD dwCaptureMessages;
     PBOINC_MESSAGEMONITORENTRY pMessageEntry = NULL;
     std::vector<PBOINC_MESSAGEMONITORENTRY>::iterator message_iter;
     HMODULE hKernel32Lib;
@@ -833,12 +817,32 @@ int diagnostics_init_message_monitor() {
         if (pMessageEntry) delete pMessageEntry;
     }
 
+    // Check the registry to see if we are aloud to capture debugger messages.
+    //   Apparently many audio and visual payback programs dump serious
+    //   amounts of data to the debugger viewport even on a release build.
+    //   When this feature is enabled it slows down the replay of DVDs and CDs
+    //   such that they become jerky and unpleasent to watch or listen too.
+    //
+    // We'll turn it off by default, but keep it around just in case we need
+    //   it.
+    //
+    dwCaptureMessages = 0;
+    dwType = REG_DWORD;
+    dwSize = sizeof(dwCaptureMessages);
+    diagnostics_get_registry_value(
+        "CaptureMessages",
+        &dwType,
+        &dwSize,
+        (LPBYTE)&dwCaptureMessages
+    );
+
+
     // If a debugger is present then let it capture the debugger messages
     hKernel32Lib = LoadLibrary("kernel32.dll");
     pIDP = (tIDP) GetProcAddress(hKernel32Lib, "IsDebuggerPresent");
 
     if (pIDP) {
-        if (!pIDP()) {
+        if (!pIDP() && dwCaptureMessages) {
             InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
             SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
 

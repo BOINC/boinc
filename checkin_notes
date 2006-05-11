@@ -4589,3 +4589,12 @@ Rom    10 May 2006
         
     lib/
         diagnostics_win.C
+
+Rom    10 May 2006
+    - Make the capturing of debugger messages configurable via the registry.
+        Some software that plays music and DVDs is a little to chatty and
+        when we are capturing debugger output it causes the playback software
+        to freak out and become unplayable.
+        
+    lib/
+        diagnostics_win.C
