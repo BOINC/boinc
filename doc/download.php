@@ -22,7 +22,10 @@ $type_name = $_GET["type"];
 
 require_once("versions.inc");
 
-// $url_base = "http://boinc.berkeley.edu/dl/";
+$url_base = "http://boinc.berkeley.edu/dl/";
+
+/*
+
 // $url_base = "http://boinc2.ssl.berkeley.edu/boinc/dl/";
 
 switch(rand(0,3)) {
@@ -32,6 +35,8 @@ switch(rand(0,3)) {
     case 3: $url_base = "http://einstein.aset.psu.edu/download/boinc/dl/"; break;
     //case 4: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
 }
+
+*/
 
 if ($dev) {
     $url_base = "dl/";
