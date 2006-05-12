@@ -16,7 +16,7 @@ AM_LDFLAGS = $(BOINC_LDFLAGS) $(GLIB_LIBS)
 
 noinst_HEADERS	= condor_common.h condor_defs.h condor_master.h condor_wu.h
 
-libdc_condor_la_SOURCES = condor_master.c \
+libdc_condor_la_SOURCES = condor_master.cc \
 			  condor_common.c \
 			  condor_wu.c
 libdc_condor_la_LIBADD = ../common/libdc-common-master.la \
