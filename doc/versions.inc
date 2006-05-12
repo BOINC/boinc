@@ -298,7 +298,7 @@ $mac_changes_54= "
 
 $w549= array(
     "num"=>"5.4.9",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.4.9_windows_intelx86.exe",
     "date"=>"5 May 2006",
     "type"=>"win_new",
@@ -322,7 +322,7 @@ $w549= array(
 
 $w5213= array(
     "num"=>"5.2.13",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_5.2.13_windows_intelx86.exe",
     "date"=>"29 Nov 2005",
     "type"=>"win_new",
@@ -420,7 +420,7 @@ $w419 = array(
 
 $m549 = array(
     "num"=>"5.4.9",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.4.9_macOSX_universal.zip",
     "date"=>"5 May 2006",
     "type"=>"mac_advanced",
@@ -445,7 +445,7 @@ $m549 = array(
 
 $m5213 = array(
     "num"=>"5.2.13",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_5.2.13_macOSX.zip",
     "date"=>"29 November 2005",
     "type"=>"mac_advanced",
@@ -468,7 +468,7 @@ $m5213 = array(
 
 $m549c = array(
     "num"=>"5.4.9",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.4.9_universal-apple-darwin.zip",
     "date"=>"5 May 2006",
     "type"=>"bare_core",
@@ -490,7 +490,7 @@ $m549c = array(
 
 $m5213c = array(
     "num"=>"5.2.13",
-    "status"=>"Unix command-line version",
+    "status"=>"Older Unix command-line version",
     "file"=>"boinc_5.2.13_powerpc-apple-darwin.zip",
     "date"=>"29 November 2005",
     "type"=>"bare_core",
@@ -526,7 +526,7 @@ $m443c = array(
 
 $l549 = array(
     "num"=>"5.4.9",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.4.9_i686-pc-linux-gnu.sh",
     "date"=>"5 May 2006",
     "type"=>"sea",
@@ -539,7 +539,7 @@ $l549 = array(
 
 $l5213 = array(
     "num"=>"5.2.13",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_5.2.13_i686-pc-linux-gnu.sh",
     "date"=>"29 Nov 2005",
     "type"=>"sea",
