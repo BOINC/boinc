@@ -86,9 +86,6 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 {
 	char uuid_str[37];
 	DC_Workunit *wu;
-	char *p;
-	char *clientStr;
-	const char *cfgval;
 
 	if (subresults > MAX_SUBRESULTS){
 		DC_log(LOG_ERR, "DC_createWU: The given subresult number: %d is too high. (max:%d)",
@@ -134,36 +131,20 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 		return NULL;
 	}
 
-	clientStr = g_strdup_printf("client-%s-linux", clientName);
-	cfgval = DC_getCfgStr(clientStr);
+	wu->client_name = DC_getClientCfgStr(clientName, "name", FALSE);
+	wu->client_path = DC_getClientCfgStr(clientName, "path", FALSE);
 
-	if (!cfgval)
+	if (!wu->client_name || !wu->client_path)
 	{
-		DC_log(LOG_ERR, "Failed to create WU. Unknown client name: %s", clientName);
-		DC_log(LOG_ERR, "Define client application in the config file:  client-%s-linux", clientName);
+		DC_log(LOG_ERR, "Failed to create WU. Cannot find client name\n"
+			"Define client application in the config file:\n"
+			"[Client-%s]\nname = <client name>\npath = <client path>", clientName);
 		DC_destroyWU(wu);
-		g_free(clientStr);
 		return NULL;
-	}
-
-	p = strrchr(cfgval, '/');
-	if (p == NULL)
-	{
-		wu->client_name = g_strdup(cfgval);
-		wu->client_path = g_strdup(".");
-	}
-	else
-	{
-		wu->client_path = g_strdup(cfgval);
-		wu->client_path[strlen(wu->client_path)-strlen(p)] = 0;
-		p++;
-		wu->client_name = g_strdup(p);
 	}
 
 	DC_log(LOG_DEBUG, "client path: %s,     client name: %s    from client: %s",
 		wu->client_path, wu->client_name, clientName);
-
-	g_free(clientStr);
 
 	if (!wu_table)
 		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
