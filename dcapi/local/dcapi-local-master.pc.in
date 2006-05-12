@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: DC-API Local Master
 Description: Local master implementation for DC-API
 Version: @PACKAGE_VERSION@
-Requires.private: glib-2.0
+Requires: glib-2.0 uuid
 Libs: -L${libdir} -ldc-local
