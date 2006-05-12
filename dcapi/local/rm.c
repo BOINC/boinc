@@ -9,6 +9,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <glib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "dc_local.h"
 
@@ -18,14 +20,75 @@ static GHashTable *wu_table;
  * Functions
  */
 
+static char *get_workdir(const uuid_t uuid, int create)
+{
+	char *tmp, uuid_str[37], *cfgval;
+	GString *str;
+	int ret;
+
+	uuid_unparse_lower(uuid, uuid_str);
+
+	cfgval = DC_getCfgStr(CFG_WORKDIR);
+	if (!cfgval)
+		return NULL;
+	str = g_string_new(cfgval);
+	free(cfgval);
+
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append(str, ".dcapi-");
+	g_string_append(str, project_uuid_str);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append_printf(str, "%02x", uuid[0]);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	g_string_append_c(str, G_DIR_SEPARATOR);
+	g_string_append(str, uuid_str);
+	if (create)
+	{
+		ret = mkdir(str->str, 0755);
+		if (ret && errno != EEXIST)
+			goto error;
+	}
+
+	tmp = str->str;
+	g_string_free(str, FALSE);
+	return tmp;
+
+error:
+	DC_log(LOG_ERR, "Failed to create WU working directory %s: %s",
+		str->str, strerror(errno));
+	g_string_free(str, TRUE);
+	return NULL;
+}
+
+
 DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	int subresults, const char *tag)
 {
-	char uuid_str[37], *cfgval;
+	char uuid_str[37];
 	DC_Workunit *wu;
-	GString *str;
-	int ret;
 	char *p;
+	char *clientStr;
+	const char *cfgval;
 
 	if (subresults > MAX_SUBRESULTS){
 		DC_log(LOG_ERR, "DC_createWU: The given subresult number: %d is too high. (max:%d)",
@@ -64,42 +127,43 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	 * <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid>
 	 * Where <hash> is the first 2 hex digits of the uuid
 	 */
-	cfgval = DC_getCfgStr(CFG_WORKDIR);
-	str = g_string_new(cfgval);
-	free(cfgval);
-	g_string_append_c(str, G_DIR_SEPARATOR);
-	g_string_append(str, ".dcapi-");
-	g_string_append(str, project_uuid_str);
-	g_string_append_c(str, G_DIR_SEPARATOR);
-	g_string_append_printf(str, "%02x", wu->uuid[0]);
-	g_string_append_c(str, G_DIR_SEPARATOR);
-	g_string_append(str, uuid_str);
-
-	ret = g_mkdir_with_parents(str->str, 0700);
-	if (ret)
+	wu->workdir = get_workdir(wu->uuid, TRUE);
+	if (!wu->workdir)
 	{
-		DC_log(LOG_ERR, "Failed to create WU working directory %s: %s",
-			str->str, strerror(errno));
 		DC_destroyWU(wu);
 		return NULL;
 	}
 
-	wu->workdir = str->str;
-	g_string_free(str, FALSE);
+	clientStr = g_strdup_printf("client-%s-linux", clientName);
+	cfgval = DC_getCfgStr(clientStr);
 
-	p = strrchr(clientName, '/');
+	if (!cfgval)
+	{
+		DC_log(LOG_ERR, "Failed to create WU. Unknown client name: %s", clientName);
+		DC_log(LOG_ERR, "Define client application in the config file:  client-%s-linux", clientName);
+		DC_destroyWU(wu);
+		g_free(clientStr);
+		return NULL;
+	}
+
+	p = strrchr(cfgval, '/');
 	if (p == NULL)
-        {
-                wu->client_name = g_strdup(clientName);
-                wu->client_path = g_strdup(".");
-        }
-        else
-        {
-                wu->client_path = g_strdup(clientName);
-                wu->client_path[strlen(wu->client_path)-strlen(p)] = 0;
-                p++;
-                wu->client_name = g_strdup(p);
-        }
+	{
+		wu->client_name = g_strdup(cfgval);
+		wu->client_path = g_strdup(".");
+	}
+	else
+	{
+		wu->client_path = g_strdup(cfgval);
+		wu->client_path[strlen(wu->client_path)-strlen(p)] = 0;
+		p++;
+		wu->client_name = g_strdup(p);
+	}
+
+	DC_log(LOG_DEBUG, "client path: %s,     client name: %s    from client: %s",
+		wu->client_path, wu->client_name, clientName);
+
+	g_free(clientStr);
 
 	if (!wu_table)
 		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
@@ -108,6 +172,7 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 
 	return wu;
 }
+
 
 static char *get_workdir_path(DC_Workunit *wu, const char *label,
 	WorkdirFile type)
