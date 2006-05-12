@@ -32,9 +32,18 @@ function type_text($type) {
 }
 
 $features_54 = "
-    <li> Customized clients can now be created.
-    <li> Account manager support has been enhanced.
-    <li> Farm manager support has been added.
+    <li> You can use your favorite account manager to easily attach to new
+projects.  Please see <a href=\"http://boinc.berkeley.edu/\">BOINC</a> for a list
+of account managers and what they could be used for.
+    <li> Better personal firewall support for the screensaver.  For those who
+were experiencing lockups when the screensaver was activated, this release
+should fix that problem.
+    <li> Preferences can be overridden when a global_prefs_override.xml is
+specified.  Please see <a href=\"http://boinc.berkeley.edu/prefs_override.php\">
+Preference Override</a>.
+    <li> Better notification about BOINCs network access needs.
+    <li> SOCKS5 proxies should now work properly.
+    <li> Many small bug fixes that improve the overall quality of our software.
 ";
 
 $features_53 = "
@@ -316,6 +325,9 @@ $w549= array(
     <li>
     If BOINC runs at the same time as Windows XP 3-D screensavers,
     the system becomes sluggish and unresponsive.
+    <li>
+    If you use a proxy server, please hold off upgrading for now.  We have
+    a fix in the works for proxies that use NTLM authentication.
     </ul>
     "
 );
