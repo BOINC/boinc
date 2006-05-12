@@ -23,7 +23,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				GlobalOptimizations="TRUE"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
+				AdditionalIncludeDirectories="../;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -50,6 +50,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				SetChecksum="TRUE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
