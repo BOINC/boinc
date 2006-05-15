@@ -859,8 +859,9 @@ int set_worker_timer() {
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
         timer_thread_created=0;
+    } else {
+      timer_thread_created=1;
     }
-    timer_thread_created=1;
 
     struct sigaction sa;
     itimerval value;
