@@ -151,7 +151,6 @@ int diagnostics_init_thread_list() {
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
     std::vector<PBOINC_THREADLISTENTRY>::iterator thread_iter;
 
-
     // Create a Mutex that can be used to syncronize data access
     //   to the global thread list.
     hThreadListSync = CreateMutex(NULL, TRUE, NULL);
@@ -178,7 +177,6 @@ int diagnostics_finish_thread_list() {
     unsigned int i;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
     std::vector<PBOINC_THREADLISTENTRY>::iterator thread_iter;
-
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);
@@ -584,7 +582,6 @@ int diagnostics_update_thread_list() {
 int diagnostics_set_thread_name( char* name ) {
     HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);

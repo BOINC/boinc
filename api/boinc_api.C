@@ -88,6 +88,9 @@ static volatile int time_until_checkpoint;
     // time until enable checkpoint
 static volatile int time_until_fraction_done_update;
     // time until report fraction done to core client
+static int timer_thread_created;
+    // applications may decide to use a different method
+    // of handling cpu accounting if thread creation fails.
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
@@ -671,22 +674,7 @@ static void handle_process_control_msg() {
     }
 }
 
-static int timer_thread_created=1;
-
-#ifdef _WIN32
-static void CALLBACK worker_timer(
-    UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2
-) {
-#else
 static void worker_timer(int /*a*/) {
-#endif
-
-#ifdef _WIN32
-    // Initialize the timer thread info for diagnostic
-    //   purposes.
-    if (timer_thread_created) diagnostics_set_thread_name("Timer");
-#endif
-
     interrupt_count++;
     if (!ready_to_checkpoint) {
         time_until_checkpoint -= TIMER_PERIOD;
@@ -739,35 +727,71 @@ static void worker_timer(int /*a*/) {
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
     }
-#ifdef _WIN32
-    // poor man's CPU time accounting for Win9x
-    //
-    if (!boinc_status.suspended) {
-        nrunning_ticks++;
-    }
-#endif
 }
 
 
 void boinc_worker_timer() {
-    static time_t last_call=time(0);
-    time_t now=time(0);
-    // timer of last resort if timer thread initialization fails.
-    if (!timer_thread_created) {
-        int diff=now-last_call;
-        while (diff>=TIMER_PERIOD) {
-          diff-=TIMER_PERIOD;
-          last_call+=TIMER_PERIOD;
-#ifdef _WIN32
-          worker_timer(0,0,0,0,0);
-#else
-          worker_timer(0);
-#endif
-        }
-    }      
+  static time_t last_call=time(0);
+  // timer of last resort if timer thread initialization fails.
+  if (timer_thread_created) {
+    return;
+  } else {
+    int diff=time(0)-last_call;
+    while (diff>=TIMER_PERIOD) {
+      diff-=TIMER_PERIOD;
+      last_call+=TIMER_PERIOD;
+      worker_timer(0);
+    }
+  }  
 }      
 
-#ifndef _WIN32
+
+#ifdef _WIN32
+
+static HANDLE timer_quit_event;
+UINT WINAPI timer_thread(void *) {
+    DWORD        dwEvent = NULL;
+    BOOL         bContinue = TRUE;
+
+    // Initialize the timer thread info for diagnostic
+    //   purposes.
+    diagnostics_set_thread_name("Timer");
+
+    // Create the event that can be used to shutdown the timer
+    //   thread.
+    timer_quit_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (!timer_quit_event) {
+        fprintf(stderr, "timer_thread(): CreateEvent() failed, GLE %d.\n", GetLastError());
+    }
+
+    while (bContinue) {
+        dwEvent = WaitForSingleObject( 
+            timer_quit_event, 
+            TIMER_PERIOD*1000     
+        );
+        switch(dwEvent) {
+            case WAIT_OBJECT_0:
+                // timer_quit_event was signaled.
+                bContinue = FALSE;
+                break;
+            case WAIT_TIMEOUT:
+                // process any shared memory messages.
+                worker_timer(0);
+
+                // poor man's CPU time accounting for Win9x
+                //
+                if (!boinc_status.suspended) {
+                    nrunning_ticks++;
+                }
+                break;
+        }
+    }
+
+    return 0;
+}
+
+#else
+
 void* timer_thread(void*) {
     block_sigalrm();
     while(1) {
@@ -790,6 +814,7 @@ void worker_signal_handler(int) {
         }
     }
 }
+
 #endif
 
 
@@ -807,6 +832,7 @@ int set_worker_timer() {
     int retval=0;
 
 #ifdef _WIN32
+
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),
@@ -823,44 +849,38 @@ int set_worker_timer() {
     diagnostics_set_thread_name("Worker");
     diagnostics_set_thread_worker();
 
-      // Use Windows multimedia timer, since it is more accurate
-    // than SetTimer and doesn't require an associated event loop.
-    // Try more than once if it fails the first time.
-    //
-    int i=0;
-    while ((timer_id = timeSetEvent(
-        (int)(TIMER_PERIOD*1000), // uDelay
-        (int)(TIMER_PERIOD*1000), // uResolution
-        worker_timer, // lpTimeProc
-        0, // dwUser
-        TIME_PERIODIC  // fuEvent
-        )==0) 
-        && (i++ < 10)
-    ) ; /* do nothing */ 
-    
-    if (i>10) {
-        fprintf(stderr, "set_worker_timer(): timeSetEvent() failed.\n");
+    // Create the timer thread to deal with shared memory control
+    // messages.
+    uintptr_t thread;
+    thread = _beginthreadex(
+        NULL,
+        0,
+        timer_thread,
+        0,
+        0,
+        NULL
+    );
+
+    if (!thread) {
+        fprintf(stderr, "set_worker_timer(): _beginthreadex() failed, errno %d\n", errno);
+        retval = errno;
         timer_thread_created=0;
     } else {
-        boinc_sleep(3.1*TIMER_PERIOD);
-        if (!interrupt_count) {
-            fprintf(stderr, "set_worker_timer(): timer failed to initialize.\n");
-            timer_thread_created=0;
-        } else {
-            timer_thread_created=1;
-        }
+        timer_thread_created=1;
     }
     
     // lower our priority here
     //
     SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
+
 #else
+
     retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
         timer_thread_created=0;
     } else {
-      timer_thread_created=1;
+        timer_thread_created=1;
     }
 
     struct sigaction sa;
@@ -880,7 +900,9 @@ int set_worker_timer() {
     if (retval) {
         perror("boinc set_worker_timer() setitimer");
     }
+
 #endif
+
     return retval;
 }
 

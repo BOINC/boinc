@@ -4677,3 +4677,9 @@ Eric K	15 May 2006
     lib/
         boinc_win.h
        
+Rom    15 May 2006
+    - Switch the setTimerEvent to using a thread.  setTimerEvent has to many
+        restrictions on it which may cause deadlocks.
+        
+    api/
+        boinc_api.C
