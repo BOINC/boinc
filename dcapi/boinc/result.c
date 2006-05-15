@@ -81,6 +81,7 @@ int DC_getResultExit(const DC_Result *result)
 
 char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
+	char path[PATH_MAX];
 	GList *l;
 
 	/* XXX Att STDOUT and STDERR handling */
@@ -88,8 +89,12 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 	{
 		DC_PhysicalFile *file = l->data;
 
-		if (!strcmp(file->label, logicalFileName))
-			return strdup(file->path);
+		if (strcmp(file->label, logicalFileName))
+			continue;
+
+		dir_hier_path(file->path, _DC_getUploadDir(),
+			_DC_getUldlDirFanout(), path, FALSE);
+		return strdup(path);
 	}
 
 	return NULL;
