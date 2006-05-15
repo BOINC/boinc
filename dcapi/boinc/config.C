@@ -11,6 +11,7 @@
 #endif
 
 #include <sched_config.h>
+#include <sched_util.h>
 
 #include "dc_boinc.h"
 
@@ -63,4 +64,16 @@ char *_DC_getDBUser(void)
 char *_DC_getDBPasswd(void)
 {
 	return dc_boinc_config.db_passwd;
+}
+
+char *_DC_hierPath(const char *src, int upload)
+{
+	char path[PATH_MAX];
+
+	/* Simplification: always create the directory in the download
+	 * hierarchy, but never in the upload hierarchy */
+	dir_hier_path(src, upload ? dc_boinc_config.upload_dir :
+			dc_boinc_config.download_dir,
+		dc_boinc_config.uldl_dir_fanout, path, upload ? FALSE : TRUE);
+	return g_strdup(path);
 }
