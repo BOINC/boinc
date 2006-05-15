@@ -1,0 +1,12 @@
+# example of how to create a workunit
+
+# copy the input file from a known place into the download hierarchy
+#
+cp download/input `bin/dir_hier_path input`
+
+# Run create_work to create the WU.
+# The WU name ("wu_nodelete") includes the string "nodelete".
+# This causes the file deleter to not delete its input files,
+# so that we can use make_work.
+#
+bin/create_work -appname uppercase -wu_name wu_nodelete -wu_template templates/uc_wu -result_template templates/uc_result input

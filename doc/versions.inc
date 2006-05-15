@@ -32,18 +32,26 @@ function type_text($type) {
 }
 
 $features_54 = "
-    <li> You can use your favorite account manager to easily attach to new
-projects.  Please see <a href=\"http://boinc.berkeley.edu/\">BOINC</a> for a list
-of account managers and what they could be used for.
-    <li> Better personal firewall support for the screensaver.  For those who
-were experiencing lockups when the screensaver was activated, this release
-should fix that problem.
-    <li> Preferences can be overridden when a global_prefs_override.xml is
-specified.  Please see <a href=\"http://boinc.berkeley.edu/prefs_override.php\">
-Preference Override</a>.
-    <li> Better notification about BOINCs network access needs.
-    <li> SOCKS5 proxies should now work properly.
-    <li> Many small bug fixes that improve the overall quality of our software.
+    <li>
+    BOINC now lets you use 'Account managers' - special web sites
+    that let you browse BOINC projects, attach/detach,
+    change resource share and settings,
+    all with point-and-click simplicity.
+    Account managers are also great if you have several computers -
+    you just have to make changes once.
+    A couple of excellent account managers are nearly ready for use;
+    stay tuned to the
+    <a href=http://boinc.berkeley.edu/>BOINC web site</a> for details.
+    <li>
+    Fixes a bug where a personal firewall prevents the BOINC screensaver
+    from running, causing your computer to lock up.
+    <li>
+    General preferences can be overridden by a local file
+    details are <a href=http://boinc.berkeley.edu/prefs_override.php>here</a>.
+    <li>
+    BOINC now alerts you whenever it needs you
+    to create a network connection.
+    <li> SOCKS5 proxies are now supported.
 ";
 
 $features_53 = "
@@ -97,9 +105,9 @@ $changes_54 = "
         <li>Connection failures due to network issues do not cause a backoff
             event. Retries are set for one minute.
         <li>SOCKS5 authentication bug fixes.  It should now work.
-        <li>HTTP authentication bug fixes.  Last round of performance enhancments
+        <li>HTTP authentication bug fixes.  Last round of performance enhancements
             broke http auth.
-        <li>Better network communitcation tracing through <net_xfer_debug> flag
+        <li>Better network tracing through &lt;net_xfer_debug&gt; flag
             in log_flags.xml.
       </ul>
     <li>Changes since 5.4.3
@@ -190,7 +198,7 @@ $changes_53 = "
         <li>Fix RAM size detection on HPUX.
         <li>Fix name, team, and project name changes in the manager,
         <li>Preserve project directory contents when reattaching to a
-            project that uses the anonymous platform mechinism.
+            project that uses the anonymous platform mechanism.
         <li>More upload/download display fixes.
       </ul>
     <li>Changes since 5.3.22
@@ -409,7 +417,7 @@ $w445= array(
     <li>
     Graphics sometimes do not work with ATI Graphics card.
     This bug has been fixed, but it requires new applications to be built.  Please check 
-    with the various projects to find out when they'll release a new applicaton with the fix.
+    with the various projects to find out when they'll release a new application with the fix.
     </ul>
     "
 );

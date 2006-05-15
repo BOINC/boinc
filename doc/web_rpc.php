@@ -25,6 +25,12 @@ Parameter values must be URL-encoded
 (for example, using PHP's <code>urlencode</code> function).
 <li>
 The output is XML.
+<li>
+If the project's <a href=project_config.php>get_project_config.php</a> file
+includes a <code>&lt;rpc_prefix&gt;</code> element,
+its content should be used as the URL prefix;
+otherwise use the project's master URL.
+
 </ul>
 
 <h3>Create account</h3>

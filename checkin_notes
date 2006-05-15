@@ -4639,3 +4639,23 @@ Rom    10 May 2006
     lib/
         boinc_win.h
         diagnostics_win.C
+
+David  15 May 2006
+    - make_project: copy example templates to templates/
+    - removed lib/language* (not used)
+
+    client/
+        client_state.C,h
+        file_names.h
+    html/inc/
+        news.inc
+        stats_sites.inc
+    lib/
+        language.C,h (removed)
+        Makefile.am
+    py/Boinc/
+        setup_project.py
+    test/
+        uc_result
+    tools/
+        create_work_example

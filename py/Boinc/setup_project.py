@@ -471,6 +471,9 @@ class Project:
             self.dir('html/user/server_status.php'))
         install(srcdir('html/languages/project_specific_translations/sample_en.po'), self.dir('html/languages/project_specific_translations/en.po'))
         install(srcdir('tools/project.xml'), self.dir('project.xml'))
+        install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
+        install(srcdir('test/uc_wu_nodelete'), self.dir('templates/uc_wu'))
+        install(srcdir('tools/create_work_example'), self.dir('bin/create_work_example'))
 
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))

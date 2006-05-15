@@ -1,6 +1,26 @@
 <?
 
 $project_news = array(
+array("May 11, 2006",
+    "Version 5.4 of the BOINC client software has been released.
+    This version lets you use <a href=acct_mgt.php>account managers</a> -
+    special web sites that let you browse BOINC projects,
+    attach/detach, change resource share and settings,
+    all with point-and-click simplicity.
+    Account managers are also great if you have several computers -
+    you make changes on the web site,
+    and they take effect on all of your computers.
+    A couple of excellent account managers are nearly ready for use;
+    stay tuned for details."
+),
+array("May 9, 2006",
+    "The first-ever
+    <a href=http://www.seti.cat/web/?q=node/18>BOINC birthday cake</a>
+    appeared at the 7th SETI@home-Catalonia Meeting
+    (and 1st BOINC-Catalonia Meeting), held in Girona last April 22nd.
+    Also: <a href=http://www.boinc.cat>BOINC.cat</a>,
+    a BOINC site in Catalan, has recently opened.
+"),
 array("April 30, 2006",
     "<img align=right width=75 height=66 src=images/Logo_blau.jpg> The latest German <a href=http://boinccast.podhost.de/>BOINCcast</a>
     discusses ClimatePrediction.net;
@@ -73,7 +93,7 @@ array("March 5, 2006",
 array("March 3, 2006",
     "<a href=http://qah.uni-muenster.de/>Quantum Monte Carlo at Home</a>
     announces the public release of the first chemistry BOINC project.
-    This project, based at the University of M&#200;nster in Germany,
+    This project, based at the University of M&uuml;nster in Germany,
     studies the structure and reactivity of molecules using Quantum Chemistry,
     whose vastly complex equations require huge amounts of computing power.
     "

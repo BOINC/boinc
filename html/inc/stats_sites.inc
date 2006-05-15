@@ -73,6 +73,9 @@ $team_stats_sites = array(
         "Boinc.be team stats",
         ""
     ),
+    array("http://www.seti-teamartbell.com/",
+        "Team Art Bell", ""
+    ),
 );
 
 $sig_sites = array(

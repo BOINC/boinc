@@ -62,6 +62,9 @@ echo "
 language("Belgium (Dutch/French/English)", array(
     site("http://www.boinc.be", "www.boinc.be")
 ));
+language("Catalan", array(
+    site("http://www.boinc.cat", "BOINC.cat"),
+));
 language("Chinese", array(
     site("http://boinc.equn.com/", "boinc.equn.com")
 ));

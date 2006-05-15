@@ -182,8 +182,6 @@ int CLIENT_STATE::init() {
     now = dtime();
     scheduler_op->url_random = drand();
 
-    language.read_language_file(LANGUAGE_FILE_NAME);
-
     const char* debug_str="";
 #ifdef _DEBUG
     debug_str = " (DEBUG)";

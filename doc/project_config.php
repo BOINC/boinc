@@ -5,7 +5,7 @@ echo "
 Each BOINC project and account manager must provide an XML document
 at the address
 <pre>
-http://PROJECT_URL.get_project_config.php
+http://PROJECT_URL/get_project_config.php
 </pre>
 This document has the structure
 ".html_text("
@@ -16,6 +16,7 @@ This document has the structure
     [ <uses_username/> ]
     [ <account_creation_disabled/> ]
     [ <client_account_creation_disabled/> ]
+    [ <rpc_prefix>URL</rpc_prefix> ]
     [ <error_num>N</error_num> ]
 </project_config>
 ")."
@@ -39,6 +40,9 @@ list_item("client_account_creation_disabled",
 );
 list_item("min_passwd_length",
     "Minimum password length (for new account creation)"
+);
+list_item("rpc_prefix",
+    "Prefix to use for web RPCs, instead of the master URL."
 );
 list_item("error_num",
     "The project is currently down.  A BOINC error number is returned."

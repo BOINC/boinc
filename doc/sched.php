@@ -199,16 +199,10 @@ and adjusted over the set of potentially runnable projects.
 It is normalized so that average long-term debt,
 over all project, is zero.
 
-<h2>CPU scheduling policy</h2>
-
+<h2>Round-robin simulation</h2>
 <p>
-The CPU scheduler uses an earliest-deadline-first (EDF) policy
-for results that are in danger of missing their deadline,
-and weighted round-robin among other projects if additional CPUs exist.
-This allows the client to meet deadlines that would otherwise be missed,
-while honoring resource shares over the long term.
-<p>
-The scheduler starts by doing a simulation of weighted round-robin scheduling
+The CPU scheduling and work fetch policies use the results
+of a simulation of weighted round-robin scheduling
 applied to the current work queue.
 The simulation takes into account on-fraction and active-fraction.
 It produces the following outputs:
@@ -239,6 +233,14 @@ In this case, shortfall(A) is 4, shortfall(B) is 0, and total_shortfall is 2.
 <br>
 <img src=rr_sim.png>
 <br>
+<h2>CPU scheduling policy</h2>
+
+<p>
+The CPU scheduler uses an earliest-deadline-first (EDF) policy
+for results that are in danger of missing their deadline,
+and weighted round-robin among other projects if additional CPUs exist.
+This allows the client to meet deadlines that would otherwise be missed,
+while honoring resource shares over the long term.
 The scheduling policy is:
 <ol>
 <li> Set the 'anticipated debt' of each project to its short-term debt
@@ -267,25 +269,27 @@ when new results become runnable,
 or when the user performs a UI interaction
 (e.g. suspending or resuming a project or result).
 
-<h2>CPU scheduling enforcement</h2>
+<h2>CPU schedule enforcement</h2>
 <p>
-The CPU scheduler decides what result should run,
-but it doesn't enforce this decision
-(by preempting, resuming and starting applications).
-This enforcement is done by a separate function,
-which runs periodically, and is also called by
-the CPU scheduler at its conclusion.
-The following rules apply to application preemption:
+The CPU scheduler decides what results should run,
+but it doesn't enforce this decision.
+This enforcement is done by a separate
+<b>scheduler enforcement function</b>,
+which is called by the CPU scheduler at its conclusion
+and which also runs periodically.
+Let X be the set of scheduled results that are not currently running,
+let Y be the set of running results that are not scheduled,
+and let T be the time the scheduler last ran.
+The enforcement policy is as follows:
 <ul>
-<li> If the 'leave in memory' preference is not set,
-an application scheduled for preemption is allowed to run for
-up to sched_interval/2 additional seconds, or until it checkpoints.
-<li>
-The above does not apply for application being preempted
-to run a result R for which deadline_missed(R).
-<li> If an application has never checkpointed,
-it is always left in memory on preemption.
+<li> If deadline_missed(R) for some R in X,
+then preempt a result in Y, and run R.
+Repeat.
+<li> If there is a result R in Y that
+checkpointed more recently than T,
+then preempt R and run a result in X.
 </ul>
+
 
 
 <h2>Work-fetch policy</h2>
@@ -355,7 +359,8 @@ P.long_term_debt + shortfall(P) is greatest
 </pre>
 and requests work from that project.
 Note: P.work_request_size is in units of normalized CPU time,
-so the actual work request is P.work_request_size
+so the actual work request (which is in units of project-normalized CPU time)
+is P.work_request_size
 divided by P's resource share fraction relative to
 potentially runnable projects.
 <hr>

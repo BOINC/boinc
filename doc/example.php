@@ -5,7 +5,7 @@ page_head("Example application");
 
 echo "
 A full-featured example BOINC application.
-in in a separate CVS module, <b>boinc_samples</b>
+It's in a separate CVS module, <b>boinc_samples</b>
 (check this out in the same parent directory as boinc,
 and the relative paths will work).
 The application is called 'upper_case'.

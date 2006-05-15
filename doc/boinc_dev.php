@@ -40,21 +40,20 @@ The following medium-to-large development projects are available:
 <ul>
 <li> Applications
 <ul>
-<li> Write and document an example simple application,
-with project file from Windows and configure/Make files for Unix,
-that does nontrivial graphics.
-<li> Write an example compound application.
+<li> Write an example compound application
+(and suggest API revisions to make this easier).
 </ul>
 <li> Core client:
 <ul>
 <li> Rewrite the CPU scheduler and work fetch policies
-to match the design document.
-<li> Write a simulator for the CPU scheduler and work fetch policies.
+to match the design document (John McLeod is working on this).
+<li> After the above is done,
+write a simulator for the CPU scheduler and work fetch policies.
 
 <li> Log result start/ends (for use by 3rd-party software like BoincView).
 
-<li> Prevent disk space usage from
-exceeding user preferences, and enforce resource shares,
+<li> Prevent disk space usage from exceeding user preferences,
+and enforce resource shares,
 with file deletion according to project policy.
 </ul>
 
