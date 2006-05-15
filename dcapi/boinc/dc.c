@@ -246,7 +246,7 @@ static void fileref_start(GMarkupParseContext *ctx, const char *element_name,
 {
 	fileref_ctx *fctx = ptr;
 
-	if (attr_names)
+	if (attr_names && attr_names[0])
 	{
 		*error = g_error_new(G_MARKUP_ERROR,
 			G_MARKUP_ERROR_UNKNOWN_ATTRIBUTE,
