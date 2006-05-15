@@ -127,6 +127,13 @@ int DC_init(const char *config_file)
 		return DC_ERR_CONFIG;
 	}
 
+	if (*cfgval != G_DIR_SEPARATOR)
+	{
+		DC_log(LOG_ERR, "The working directory must be an "
+			"absolute path");
+		return DC_ERR_CONFIG;
+	}
+
 	/* If we are started as a BOINC daemon, then the current dir is
 	 * <projectroot>/bin, so we must change to the working directory */
 	if (chdir(cfgval))
