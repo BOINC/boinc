@@ -176,6 +176,9 @@ void _DC_resultCompleted(DC_Result *result) G_GNUC_INTERNAL;
 /* Updates the WU state from the database */
 void _DC_updateWUState(DC_Workunit *wu) G_GNUC_INTERNAL;
 
+/* C wrapper around dir_hier_path() */
+char *_DC_hierPath(const char *src, int upload) G_GNUC_INTERNAL;
+
 #ifdef __cplusplus
 }
 #endif

@@ -228,13 +228,12 @@ static char *get_input_download_name(DC_Workunit *wu, const char *label)
 /* Returns the full path of the input file in the BOINC download hierarchy */
 static char *get_input_download_path(DC_Workunit *wu, const char *label)
 {
-	char path[PATH_MAX], *filename;
+	char *filename, *path;
 
 	filename = get_input_download_name(wu, label);
-	dir_hier_path(filename, _DC_getDownloadDir(), _DC_getUldlDirFanout(),
-		path, TRUE);
+	path = _DC_hierPath(filename, FALSE);
 	g_free(filename);
-	return g_strdup(path);
+	return path;
 }
 
 static int wu_uuid_equal(const void *a, const void *b)
