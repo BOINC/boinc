@@ -47,6 +47,9 @@ extern "C" {
 #include <csetjmp>
 #if defined(HAVE_MALLOC_H) || defined(_WIN32)
 #include <malloc.h>
+#if defined(__MINGW32__) && !defined(alloca)
+#define alloca(x) _alloca(x)
+#endif
 #endif
 #if defined(HAVE_ALLOCA_H)
 #include <alloca.h>

@@ -659,7 +659,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
-				boinc_exit(ERR_ABORTED_VIA_GUI);
+                        boinc_exit(ERR_ABORTED_VIA_GUI);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {
@@ -750,24 +750,23 @@ static void worker_timer(int /*a*/) {
 
 
 void boinc_worker_timer() {
-  static time_t last_call=time(0);
-  // timer of last resort if timer thread initialization fails.
-  if (timer_thread_created) {
-    return;
-  } else {
-    int diff=time(0)-last_call;
-    while (diff>=TIMER_PERIOD) {
-      diff-=TIMER_PERIOD;
-      last_call+=TIMER_PERIOD;
+    static time_t last_call=time(0);
+    time_t now=time(0);
+    // timer of last resort if timer thread initialization fails.
+    if (!timer_thread_created) {
+        int diff=now-last_call;
+        while (diff>=TIMER_PERIOD) {
+          diff-=TIMER_PERIOD;
+          last_call+=TIMER_PERIOD;
 #ifdef _WIN32
-      worker_timer(0,0,0,0,0);
+          worker_timer(0,0,0,0,0);
 #else
-      worker_timer(0);
+          worker_timer(0);
 #endif
-    }
-  }  
+        }
+    }      
 }      
-      
+
 #ifndef _WIN32
 void* timer_thread(void*) {
     block_sigalrm();
@@ -824,7 +823,7 @@ int set_worker_timer() {
     diagnostics_set_thread_name("Worker");
     diagnostics_set_thread_worker();
 
-	// Use Windows multimedia timer, since it is more accurate
+      // Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop.
     // Try more than once if it fails the first time.
     //
@@ -842,8 +841,15 @@ int set_worker_timer() {
     if (i>10) {
         fprintf(stderr, "set_worker_timer(): timeSetEvent() failed.\n");
         timer_thread_created=0;
+    } else {
+        boinc_sleep(3.1*TIMER_PERIOD);
+        if (!interrupt_count) {
+            fprintf(stderr, "set_worker_timer(): timer failed to initialize.\n");
+            timer_thread_created=0;
+        } else {
+            timer_thread_created=1;
+        }
     }
-    timer_thread_created=1;
     
     // lower our priority here
     //

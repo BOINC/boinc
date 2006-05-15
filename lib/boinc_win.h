@@ -226,6 +226,17 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 
 #endif
 
+#ifdef __MINGW32__
+#ifdef __cplusplus
+extern "C" {
+#endif
+void __cdecl _fpreset (void);
+void __cdecl fpreset (void);
+#ifdef __cplusplus
+}
+#endif
+#endif
+
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
 #ifdef _DEBUG
