@@ -4659,3 +4659,21 @@ David  15 May 2006
         uc_result
     tools/
         create_work_example
+
+Eric K	15 May 2006
+    - Added check check for alloca.h and memory.h to configure.ac
+    - Added check for alloca and _alloca to configure.ac
+    - Structural change to boinc_worker_timer() to get rid of essentially
+      empty if clause.
+    - (WIN32) set_worker_timer() now checks that interrupt_count is incrementing
+      before assuming success.
+    - Added MINGW32 fix for missing alloca() define to gutil.C
+    - Added MINGW32/Dev-C++ fix for missing fpreset() prototypes to boinc_win.h
+
+    configure.ac
+    api/
+        boinc_api.C
+        gutil.C
+    lib/
+        boinc_win.h
+       
