@@ -36,7 +36,7 @@
 #include "exception.h"
 #include "boinc_ss.h"
 #include "win_screensaver.h"
-#include "win_util.h"
+#include "util.h"
 
 #ifdef _DEBUG
 #define UNUSED(x)

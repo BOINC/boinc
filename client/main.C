@@ -26,7 +26,6 @@
 #define _CONSOLE 1
 #include "boinc_win.h"
 #include "win_service.h"
-#include "win_util.h"
 
 extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWin9xMonitorSystemThread = NULL;

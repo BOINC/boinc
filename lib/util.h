@@ -96,6 +96,18 @@ static inline double drand() {
 #ifdef _WIN32
 
 #include <windows.h>
+
+#define START_SS_MSG		"BOINC_SS_START"
+#define STOP_SS_MSG			"BOINC_SS_END"
+#define SHOW_WIN_MSG		"BOINC_SHOW_MESSAGE"
+#define NET_ACTIVITY_MSG    "BOINC_NET_ACTIVITY"
+
+#define RUN_MUTEX			"BoincSingleInstance"
+#define REG_BLANK_NAME		"Blank"
+#define REG_BLANK_TIME      "Blank Time"
+#define REG_GRID_REPUBLIC   "Grid Republic"
+#define	REG_STARTUP_NAME	"BOINC"
+
 extern char* windows_error_string(char* pszBuf, int iSize);
 extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize

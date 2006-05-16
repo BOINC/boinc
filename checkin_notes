@@ -4714,3 +4714,32 @@ Rom    15 May 2006
         ProjectPropertiesPage.cpp, .h
     lib/
         hostinfo.C, .h
+
+Rom    15 May 2006
+    - Remove the old BOINC GUI app from the source tree.
+    - Remove the old BOINC client lib from the source tree.
+    
+    client/
+        file_names.C
+        main.C
+    cient/win/
+        StdAfx.cpp, .h (Removed)
+        boinc_dll.h (Removed)
+        boinc_dll.rc (Removed)
+        boinc_gui.h (Removed)
+        boinc_gui.rc (Removed)
+        win_idle_tracker.cpp, .h (Removed)
+        win_idle_tracker.def (Removed)
+        win_screensaver.cpp
+        win_util.cpp, .h (Removed)
+        wingui.cpp, .h (Removed)
+        wingui_dialog.cpp, .h (Removed)
+        wingui_listctrl.cpp, .h (Removed)
+        wingui_mainwindow.cpp, .h (Removed)
+        wingui_piectrl.cpp, .h (Removed)
+        wingui_proxydlg.cpp, .h (Removed)
+        wingui_sswindow.cpp, .h (Removed)
+    lib/
+        util.h
+    win_build/
+        boinc_gui.vcproj (Removed)
