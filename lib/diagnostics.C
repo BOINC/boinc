@@ -609,17 +609,17 @@ void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
 
 void boinc_catch_signal(int signal) {
     switch(signal) {
-        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup");
+        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup\n");
              return;
-        case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
-        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
-        case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
-        case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
-        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
-        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
-        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader");
+        case SIGINT: fprintf(stderr, "SIGINT: interrupt program\n"); break;
+        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction\n"); break;
+        case SIGABRT: fprintf(stderr, "SIGABRT: abort called\n"); break;
+        case SIGBUS: fprintf(stderr, "SIGBUS: bus error\n"); break;
+        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation\n"); break;
+        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument\n"); break;
+        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader\n");
             return;
-        default: fprintf(stderr, "unknown signal %d", signal); break;
+        default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
 
 #ifdef __GLIBC__
