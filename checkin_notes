@@ -4743,3 +4743,9 @@ Rom    15 May 2006
         util.h
     win_build/
         boinc_gui.vcproj (Removed)
+
+Rom    15 May 2006
+    - Another two files that can be deleted.
+    
+    lib/
+        exception.C, .h (Removed)
