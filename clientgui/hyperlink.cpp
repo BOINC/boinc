@@ -183,8 +183,8 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
     if (ft) {
         if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
 #ifdef __WXMAC__
-            cmd.Replace(wxT("<"), wxEmptyString);
-            cmd.Prepend(wxT("open ")); 
+            cmd.Replace(wxT(" <"), "\'");
+            cmd.Prepend(wxT("open \'")); 
 #else
             cmd.Replace(wxT("file://"), wxEmptyString);
 #endif

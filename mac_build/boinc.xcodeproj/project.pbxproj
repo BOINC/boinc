@@ -100,7 +100,6 @@
 		DD407A5307D2FB7C00163EF5 /* diagnostics.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.C */; };
 		DD407A5507D2FB8400163EF5 /* filesys.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.C */; };
 		DD407A5807D2FB8D00163EF5 /* hostinfo.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.C */; };
-		DD407A5907D2FB9A00163EF5 /* language.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8FCBF40486CFD000A80164 /* language.C */; };
 		DD407A5B07D2FBA000163EF5 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
 		DD407A5D07D2FBA300163EF5 /* md5_file.C in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.C */; };
 		DD407A5F07D2FBAE00163EF5 /* mfile.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.C */; };
@@ -223,7 +222,6 @@
 		DDD74DC607CF492C0065AC9D /* diagnostics.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.C */; };
 		DDD74DC707CF492D0065AC9D /* filesys.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.C */; };
 		DDD74DC807CF492E0065AC9D /* hostinfo.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.C */; };
-		DDD74DCA07CF49300065AC9D /* language.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8FCBF40486CFD000A80164 /* language.C */; };
 		DDD74DCB07CF49310065AC9D /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
 		DDD74DCC07CF49320065AC9D /* md5_file.C in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.C */; };
 		DDD74DCD07CF49330065AC9D /* mfile.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.C */; };
@@ -675,8 +673,6 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AA8B6B23046C366200A80164 /* ss_logic.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ss_logic.C; path = ../client/ss_logic.C; sourceTree = SOURCE_ROOT; };
 		AA8B6B24046C366200A80164 /* ss_logic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ss_logic.h; path = ../client/ss_logic.h; sourceTree = SOURCE_ROOT; };
-		AA8FCBF40486CFD000A80164 /* language.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = language.C; path = ../lib/language.C; sourceTree = SOURCE_ROOT; };
-		AA8FCBF50486CFD000A80164 /* language.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = language.h; path = ../lib/language.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = shmem.C; path = ../lib/shmem.C; sourceTree = SOURCE_ROOT; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		DD095EF107D87AE900362260 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1289,8 +1285,6 @@
 				DD81C60307C5D8630098A04D /* gui_rpc_client.h */,
 				DD344BB607C5AEEE0043025C /* hostinfo.C */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
-				AA8FCBF40486CFD000A80164 /* language.C */,
-				AA8FCBF50486CFD000A80164 /* language.h */,
 				DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */,
 				DDF166AA08DF898A00C8C4A5 /* mac_backtrace.h */,
 				F5159562029EB02001F5651B /* md5.c */,
@@ -2387,7 +2381,6 @@
 				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.C in Sources */,
 				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.C in Sources */,
 				DD407A5807D2FB8D00163EF5 /* hostinfo.C in Sources */,
-				DD407A5907D2FB9A00163EF5 /* language.C in Sources */,
 				DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */,
 				DD407A5B07D2FBA000163EF5 /* md5.c in Sources */,
 				DD407A5D07D2FBA300163EF5 /* md5_file.C in Sources */,
@@ -2531,7 +2524,6 @@
 				DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.C in Sources */,
 				DDD74DC807CF492E0065AC9D /* hostinfo.C in Sources */,
 				DD33C70408B5BEDE00768630 /* http_curl.C in Sources */,
-				DDD74DCA07CF49300065AC9D /* language.C in Sources */,
 				DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */,
 				DD2B9CB0099C9BA000136663 /* MoreBacktrace.c in Sources */,
 				DD2B9CB1099C9BA100136663 /* MoreAddrToSym.c in Sources */,

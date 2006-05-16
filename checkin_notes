@@ -4683,3 +4683,14 @@ Rom    15 May 2006
         
     api/
         boinc_api.C
+
+Charlie 16 May 2006
+    - Mac: Fix a bug if name of default browser contains spaces.
+      Remove obsolete files language.C,h from XCode project
+    
+    clientgui/
+        hyperlink.cpp
+    mac_build/
+        Make_BOINC_Service.sh
+        boinc.xcodeproj/
+            project.pbxproj
