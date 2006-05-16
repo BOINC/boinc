@@ -57,15 +57,17 @@ void HOST_INFO::clear_host_info() {
     p_membw = 0;
     p_calculated = 0;
 
-    strcpy(os_name, "");
-    strcpy(os_version, "");
-
     m_nbytes = 0;
     m_cache = 0;
     m_swap = 0;
 
     d_total = 0;
     d_free = 0;
+
+    strcpy(os_name, "");
+    strcpy(os_version, "");
+
+    strcpy(accelerators, "");
 }
 
 int HOST_INFO::parse(MIOFILE& in) {
@@ -96,13 +98,14 @@ int HOST_INFO::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
-        else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
-        else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;
         else if (parse_double(buf, "<d_total>", d_total)) continue;
         else if (parse_double(buf, "<d_free>", d_free)) continue;
+        else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
+        else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
+        else if (parse_str(buf, "<accelerators>", accelerators, sizeof(accelerators))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -124,13 +127,14 @@ int HOST_INFO::write(MIOFILE& out) {
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
         "    <p_calculated>%f</p_calculated>\n"
-        "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n"
         "    <m_nbytes>%f</m_nbytes>\n"
         "    <m_cache>%f</m_cache>\n"
         "    <m_swap>%f</m_swap>\n"
         "    <d_total>%f</d_total>\n"
         "    <d_free>%f</d_free>\n"
+        "    <os_name>%s</os_name>\n"
+        "    <os_version>%s</os_version>\n"
+        "    <accelerators>%s</accelerators>\n"
         "</host_info>\n",
         timezone,
         domain_name,
@@ -143,13 +147,14 @@ int HOST_INFO::write(MIOFILE& out) {
         p_iops,
         p_membw,
         p_calculated,
-        os_name,
-        os_version,
         m_nbytes,
         m_cache,
         m_swap,
         d_total,
-        d_free
+        d_free,
+        os_name,
+        os_version,
+        accelerators
     );
     return 0;
 }

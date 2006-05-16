@@ -454,79 +454,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
                 } else {
                     SetProjectPropertiesURLFailure(false);
                 }
-                SetNextState(PROJPROP_COMMUNICATEYAHOO_BEGIN);
+                SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
             }
             break;
-#if 0
-        case PROJPROP_COMMUNICATEYAHOO_BEGIN:
-            SetNextState(PROJPROP_COMMUNICATEYAHOO_EXECUTE);
-            break;
-        case PROJPROP_COMMUNICATEYAHOO_EXECUTE:
-            // Attempt to successfully download the Yahoo homepage
-            pDoc->rpc.lookup_website(LOOKUP_YAHOO);
- 
-            // Wait until we are done processing the request.
-            dtStartExecutionTime = wxDateTime::Now();
-            dtCurrentExecutionTime = wxDateTime::Now();
-            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-            iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue &&
-                   tsExecutionTime.GetSeconds() <= 60 &&
-                   !CHECK_CLOSINGINPROGRESS()
-                  )
-            {
-                dtCurrentExecutionTime = wxDateTime::Now();
-                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_pProgressIndicator);
-
-                ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
-            }
- 
-            if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRYAHOOCOMM)) {
-                SetCommunicateYahooSucceeded(true);
-            } else {
-                SetCommunicateYahooSucceeded(false);
-            }
-
-            SetNextState(PROJPROP_COMMUNICATEGOOGLE_BEGIN);
-            break;
-        case PROJPROP_COMMUNICATEGOOGLE_BEGIN:
-            SetNextState(PROJPROP_COMMUNICATEGOOGLE_EXECUTE);
-            break;
-        case PROJPROP_COMMUNICATEGOOGLE_EXECUTE:
-            // Attempt to successfully download the Google homepage
-            pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
- 
-            // Wait until we are done processing the request.
-            dtStartExecutionTime = wxDateTime::Now();
-            dtCurrentExecutionTime = wxDateTime::Now();
-            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-            iReturnValue = ERR_IN_PROGRESS;
-            while (ERR_IN_PROGRESS == iReturnValue &&
-                   tsExecutionTime.GetSeconds() <= 60 &&
-                   !CHECK_CLOSINGINPROGRESS()
-                  )
-            {
-                dtCurrentExecutionTime = wxDateTime::Now();
-                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                iReturnValue = pDoc->rpc.lookup_website_poll();
-                IncrementProgress(m_pProgressIndicator);
-
-                ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
-            }
- 
-            if ((BOINC_SUCCESS == iReturnValue) && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRGOOGLECOMM)) {
-                SetCommunicateGoogleSucceeded(true);
-            } else {
-                SetCommunicateGoogleSucceeded(false);
-            }
-
-            SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
-            break;
-#endif
         case PROJPROP_DETERMINENETWORKSTATUS_BEGIN:
             SetNextState(PROJPROP_DETERMINENETWORKSTATUS_EXECUTE);
             break;

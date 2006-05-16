@@ -4694,3 +4694,23 @@ Charlie 16 May 2006
         Make_BOINC_Service.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    15 May 2006
+    - Bug Fix: Change the account not found window title to login failed.
+    - Bug Fix: If a login call fails for an account manager turn off using
+        cached credentials for the next login request.
+    - Add a field to the host info structure called accelerators.  Right now
+        it just contains the name of the video card(s) in the computer on
+        Windows.  In the future it could also contain information such as
+        if CrealSpeed, PCI-X math accelerator, is installed on the system.
+    - Remove what is now dead code in the manager.
+    
+    client/win/
+        hostinfo_win.cpp
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        NotFoundPage.cpp
+        ProjectPropertiesPage.cpp, .h
+    lib/
+        hostinfo.C, .h

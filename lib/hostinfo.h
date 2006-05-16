@@ -48,15 +48,20 @@ public:
     double p_membw;
     double p_calculated;    // when benchmarks were last run, or zero
 
-    char os_name[256];
-    char os_version[256];
-
     double m_nbytes;     // Total amount of memory in bytes
     double m_cache;
     double m_swap;       // Total amount of swap space in bytes
 
     double d_total;      // Total amount of diskspace in bytes
     double d_free;       // Total amount of available diskspace in bytes
+
+    char os_name[256];
+    char os_version[256];
+
+    char accelerators[256];
+        // Next generation video cards are going to include physics engines
+        //   and other types of co-processors.  Collect the data for now.
+
 
     HOST_INFO();
     int parse(MIOFILE&);

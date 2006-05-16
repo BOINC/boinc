@@ -593,29 +593,6 @@
 				RelativePath="..\client\http_curl.C">
 			</File>
 			<File
-				RelativePath="..\lib\language.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Client\log_flags.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -842,9 +819,6 @@
 			</File>
 			<File
 				RelativePath="..\client\http_curl.h">
-			</File>
-			<File
-				RelativePath="..\lib\language.h">
 			</File>
 			<File
 				RelativePath="..\client\log_flags.h">

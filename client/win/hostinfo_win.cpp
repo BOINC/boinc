@@ -18,6 +18,8 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "boinc_win.h"
+#define COMPILE_MULTIMON_STUBS
+#include <multimon.h>
 
 #include "client_types.h"
 #include "filesys.h"
@@ -27,6 +29,7 @@
 #include "hostinfo.h"
 
 HINSTANCE g_hClientLibraryDll;
+
 
 // Memory Status Structure for Win2K and WinXP based systems.
 typedef struct _MYMEMORYSTATUSEX {  
@@ -42,6 +45,18 @@ typedef struct _MYMEMORYSTATUSEX {
 } MYMEMORYSTATUSEX, *LPMYMEMORYSTATUSEX;
 
 typedef BOOL (WINAPI *MYGLOBALMEMORYSTATUSEX)(LPMYMEMORYSTATUSEX lpBuffer);
+
+
+// Traverse the video adapters and flag them as potiential accelerators.
+struct INTERNALMONITORINFO
+{
+    DWORD  cb;
+    TCHAR  DeviceName[32];
+    TCHAR  DeviceString[128];
+    DWORD  StateFlags;
+    TCHAR  DeviceID[128];
+    TCHAR  DeviceKey[128];
+};
 
 
 // Returns the number of seconds difference from UTC
@@ -286,16 +301,8 @@ int HOST_INFO::get_host_info() {
         szSKU, szServicePack, szVersion );
 
 
-    // Detect the number of CPUs
-    SYSTEM_INFO SystemInfo;
-    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
-    ::GetSystemInfo( &SystemInfo );
+	timezone = get_timezone();
 
-    p_ncpus = SystemInfo.dwNumberOfProcessors;
-
-    // Detect the filesystem information
-	get_filesystem_info(d_total, d_free);
-    
 	// Open the WinSock dll so we can get host info
     WORD    wVersionRequested;
 	WSADATA wsdata;
@@ -310,8 +317,9 @@ int HOST_INFO::get_host_info() {
 	// Close the WinSock dll
 	WSACleanup();
 
-	timezone = get_timezone();
-
+    // Detect the filesystem information
+	get_filesystem_info(d_total, d_free);
+    
     // Detect the amount of memory the system has with the new API, if it doesn't
     //   exist, then use the older API.
     HMODULE hKernel32;
@@ -341,6 +349,13 @@ int HOST_INFO::get_host_info() {
         FreeLibrary(hKernel32);
     }
 	
+    // Detect the number of CPUs
+    SYSTEM_INFO SystemInfo;
+    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
+    ::GetSystemInfo( &SystemInfo );
+
+    p_ncpus = SystemInfo.dwNumberOfProcessors;
+
 	// gets processor vendor name and model name from registry, works for intel
 	char vendorName[256], processorName[256], identifierName[256];
 	HKEY hKey;
@@ -399,6 +414,34 @@ int HOST_INFO::get_host_info() {
     }
 
 	RegCloseKey(hKey);
+
+
+    // Detect video accelerators on the system.
+    DWORD iDevice = 0;
+    INTERNALMONITORINFO dispdev;
+    dispdev.cb = sizeof(dispdev);
+    while(EnumDisplayDevices(NULL, iDevice, (PDISPLAY_DEVICE)&dispdev, 0)) {
+        // Ignore NetMeeting's mirrored displays
+        if ((dispdev.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) == 0) {
+            // Is the entry already listed?
+            if (!strstr(accelerators, dispdev.DeviceString)) {
+                // Is this the first entry?
+                if (!strlen(accelerators)) {
+                    strncat(accelerators, dispdev.DeviceString, sizeof(accelerators));
+                } else {
+                    strncat(accelerators, "/", sizeof(accelerators));
+                    strncat(accelerators, dispdev.DeviceString, sizeof(accelerators));
+                }
+            }
+        }
+        iDevice++;
+    }
+
+
+    // TODO: Detect the ClearSpeed accelerator card(s)
+    // TODO: Detect any other types of accelerators that might be useful
+    //   for yhe scheduler to know about.
+
 
     if (!strlen(host_cpid)) {
         generate_host_cpid();
