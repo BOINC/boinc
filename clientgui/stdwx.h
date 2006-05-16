@@ -131,6 +131,7 @@
 
 // Standard Libraries
 //
+#include <malloc.h>
 
 // C headers
 #include <cassert>
