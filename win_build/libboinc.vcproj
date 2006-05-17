@@ -127,15 +127,6 @@
 				RelativePath="..\..\boinc\lib\diagnostics_win.C">
 			</File>
 			<File
-				RelativePath="..\..\boinc\lib\exception.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\boinc\lib\filesys.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -253,9 +244,6 @@
 			</File>
 			<File
 				RelativePath="..\..\boinc\lib\error_numbers.h">
-			</File>
-			<File
-				RelativePath="..\..\boinc\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\..\boinc\lib\filesys.h">
