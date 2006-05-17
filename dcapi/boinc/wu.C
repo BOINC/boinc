@@ -727,6 +727,14 @@ static char *generate_wu_template(DC_Workunit *wu)
 		g_string_append(cmd, quoted);
 		g_free(quoted);
 	}
+	/* Now do the escaping for MySQL */
+	for (i = 0; cmd->str[i]; i++)
+	{
+		if (cmd->str[i] != '\'' && cmd->str[i] != '\\')
+			continue;
+		g_string_insert_c(cmd, i, '\\');
+		i++;
+	}
 	g_string_append_printf(tmpl,
 		"\t<command_line>%s</command_line>\n", cmd->str);
 	g_string_free(cmd, TRUE);
