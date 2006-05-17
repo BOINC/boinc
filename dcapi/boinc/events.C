@@ -20,6 +20,9 @@
 #include <sched_msgs.h>
 #include <parse.h>
 
+/* Be nice to the database and sleep for a long time */
+#define SLEEP_UNIT		15
+
 static int process_results(void)
 {
 	DC_Result *result;
@@ -169,20 +172,14 @@ int DC_processEvents(int timeout)
 		now = time(NULL);
 		if (now >= end)
 			break;
-
-		/* Be nice to the database and sleep for a long time */
-		if (end - now < 15)
-			sleep(end - now);
-		else
-			sleep(15);
+		sleep(MIN(end - now, SLEEP_UNIT));
 	}
 
 	return done ? 0 : DC_ERR_TIMEOUT;
 }
 
 /* Look for a single result that matches the filter */
-static DC_Event *look_for_results(const char *wuFilter, const char *wuName,
-	int timeout)
+static DC_Event *look_for_results(const char *wuFilter, const char *wuName)
 {
 	DB_RESULT result;
 	DC_Event *event;
@@ -231,13 +228,25 @@ static DC_Event *look_for_results(const char *wuFilter, const char *wuName,
 
 DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
 {
+	time_t end, now;
 	DC_Event *event;
 
-	event = look_for_results(wuFilter, NULL, timeout);
+	end = time(NULL) + timeout;
+	while (1)
+	{
+		event = look_for_results(wuFilter, NULL);
+		if (event)
+			break;
 /*
-	if (!event)
-		event = look_for_notifications(...)
+		event = look_for_notifications(...);
+		if (event)
+			break;
 */
+		now = time(NULL);
+		if (now >= end)
+			break;
+		sleep(MIN(end - now, SLEEP_UNIT));
+	}
 	return event;
 }
 
@@ -245,13 +254,26 @@ DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
 	char uuid_str[36];
 	DC_Event *event;
+	time_t end, now;
 
 	uuid_unparse_lower(wu->uuid, uuid_str);
-	event = look_for_results(NULL, uuid_str, timeout);
+
+	end = time(NULL) + timeout;
+	while (1)
+	{
+		event = look_for_results(NULL, uuid_str);
+		if (event)
+			break;
 /*
-	if (!event)
-		event = look_for_notifications(...)
+		event = look_for_notifications(...);
+		if (event)
+			break;
 */
+		now = time(NULL);
+		if (now >= end)
+			break;
+		sleep(MIN(end - now, SLEEP_UNIT));
+	}
 	return event;
 }
 
