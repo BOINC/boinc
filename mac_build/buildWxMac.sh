@@ -20,19 +20,19 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build the wxMac-2.6.2 library for BOINC as a Universal Binary
+# Script to build the wxMac-2.6.3 library for BOINC as a Universal Binary
 #
-# by Charlie Fenton    2/27/06
+# by Charlie Fenton    5/17/06
 #
 ## Before running this script, you must first copy the special XCode 
 ## project
 ##    boinc/mac_build/wxMac-BOINC.xcodeproj 
 ## to 
-##    wxMac-2.6.2/src/
+##    wxMac-2.6.3/src/
 #
 #
-## In Terminal, CD to the wxMac-2.6.2 directory.
-##    cd [path]/wxMac-2.6.2/
+## In Terminal, CD to the wxMac-2.6.3 directory.
+##    cd [path]/wxMac-2.6.3/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ]
 ##

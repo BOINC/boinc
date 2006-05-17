@@ -110,7 +110,6 @@
 		DD407A6907D2FBC200163EF5 /* proxy_info.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.C */; };
 		DD407A6B07D2FBC700163EF5 /* shmem.C in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.C */; };
 		DD407A6D07D2FBD100163EF5 /* util.C in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.C */; };
-		DD407AB907D2FC7D00163EF5 /* exception.C in Sources */ = {isa = PBXBuildFile; fileRef = DD407AB507D2FC7D00163EF5 /* exception.C */; };
 		DD407ABB07D2FC7D00163EF5 /* mem_usage.C in Sources */ = {isa = PBXBuildFile; fileRef = DD407AB707D2FC7D00163EF5 /* mem_usage.C */; };
 		DD40824807D3068A00163EF5 /* graphics_api.C in Sources */ = {isa = PBXBuildFile; fileRef = F59DD6F7032FF0AF01A80164 /* graphics_api.C */; };
 		DD40825C07D3076400163EF5 /* graphics_data.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825107D3076400163EF5 /* graphics_data.C */; };
@@ -754,8 +753,6 @@
 		DD344BFB07C5B1A80043025C /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy.h; path = ../client/proxy.h; sourceTree = SOURCE_ROOT; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD407AB507D2FC7D00163EF5 /* exception.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = exception.C; path = ../lib/exception.C; sourceTree = SOURCE_ROOT; };
-		DD407AB607D2FC7D00163EF5 /* exception.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = exception.h; path = ../lib/exception.h; sourceTree = SOURCE_ROOT; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mem_usage.C; path = ../lib/mem_usage.C; sourceTree = SOURCE_ROOT; };
 		DD407AB807D2FC7D00163EF5 /* mem_usage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mem_usage.h; path = ../lib/mem_usage.h; sourceTree = SOURCE_ROOT; };
 		DD407ADC07D2FDF700163EF5 /* std_fixes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = std_fixes.h; path = ../lib/std_fixes.h; sourceTree = SOURCE_ROOT; };
@@ -902,7 +899,7 @@
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.C; path = ../clientgui/mac/SetVersion.C; sourceTree = SOURCE_ROOT; };
-		DDB5060D0958247800181B75 /* libwx_mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac.a; path = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a"; sourceTree = SOURCE_ROOT; };
+		DDB5060D0958247800181B75 /* libwx_mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac.a; path = "../../wxMac-2.6.3/src/build/Deployment/libwx_mac.a"; sourceTree = SOURCE_ROOT; };
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDB506F90958446900181B75 /* ProxyInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProxyInfoPage.h; path = ../clientgui/ProxyInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
@@ -1275,8 +1272,6 @@
 				DD344BA207C5AE5A0043025C /* diagnostics.C */,
 				DD344BA307C5AE5A0043025C /* diagnostics.h */,
 				F51DE2B302DE4D0301D42C55 /* error_numbers.h */,
-				DD407AB507D2FC7D00163EF5 /* exception.C */,
-				DD407AB607D2FC7D00163EF5 /* exception.h */,
 				F5EAD475031AEFF8018E201A /* filesys.C */,
 				F5EAD474031AEFF8018E201A /* filesys.h */,
 				DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */,
@@ -2375,7 +2370,6 @@
 				DD407A4F07D2FB7100163EF5 /* base64.C in Sources */,
 				DD407A5107D2FB7800163EF5 /* crypt.C in Sources */,
 				DD407A5307D2FB7C00163EF5 /* diagnostics.C in Sources */,
-				DD407AB907D2FC7D00163EF5 /* exception.C in Sources */,
 				DD407A5507D2FB8400163EF5 /* filesys.C in Sources */,
 				DD52C81108B5D44D008D9AA4 /* gui_rpc_client.C in Sources */,
 				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.C in Sources */,
@@ -2810,7 +2804,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -2891,13 +2885,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/include/wx/",
-					"../../wxMac-2.6.2/include",
+					"../../wxMac-2.6.3/src/build/include/wx/",
+					"../../wxMac-2.6.3/include",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/Deployment/",
+					"../../wxMac-2.6.3/src/build/Deployment/",
 					../lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3398,7 +3392,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = "../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a";
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = (
@@ -3444,10 +3438,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib/gcc/darwin/3.3,
-					"../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a",
-				);
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -3561,15 +3552,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/include/wx/",
-					"../../wxMac-2.6.2/include",
+					"../../wxMac-2.6.3/src/build/include/wx/",
+					"../../wxMac-2.6.3/include",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/Deployment",
+					"../../wxMac-2.6.3/src/build/Deployment/",
 					../lib,
-					/usr/lib/gcc/darwin/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
@@ -3619,15 +3609,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/include/wx/",
-					"../../wxMac-2.6.2/include",
+					"../../wxMac-2.6.3/src/build/include/wx/",
+					"../../wxMac-2.6.3/include",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/Deployment",
+					"../../wxMac-2.6.3/src/build/Deployment/",
 					../lib,
-					/usr/lib/gcc/darwin/3.3,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
@@ -4079,10 +4068,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "../../curl-7.15.3/include";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib/gcc/darwin/4.0,
-					"../../wxMac-2.6.2/src/build/Deployment/libwx_mac.a",
-				);
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4158,15 +4144,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/include/wx/",
-					"../../wxMac-2.6.2/include",
+					"../../wxMac-2.6.3/src/build/include/wx/",
+					"../../wxMac-2.6.3/include",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.6.2/src/build/Deployment/",
+					"../../wxMac-2.6.3/src/build/Deployment/",
 					../lib,
-					/usr/lib/gcc/darwin/4.0,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
