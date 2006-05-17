@@ -1,3 +1,7 @@
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
+
 #include "dc_client.h"
 
 #include <stdio.h>

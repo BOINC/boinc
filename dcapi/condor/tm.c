@@ -1,3 +1,7 @@
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

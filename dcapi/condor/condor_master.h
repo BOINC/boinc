@@ -1,3 +1,7 @@
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
+
 #ifndef _DC_API_CONDOR_MASTER_H_
 #define _DC_API_CONDOR_MASTER_H_
 
