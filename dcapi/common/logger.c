@@ -59,7 +59,7 @@ static void init_log(void)
 		logfile = fopen(val, "a");
 		if (!logfile)
 		{
-			fprintf(stderr, "Failed to open the log file %s: %s",
+			fprintf(stderr, "Failed to open the log file %s: %s\n",
 				val, strerror(errno));
 			exit(1);
 		}
