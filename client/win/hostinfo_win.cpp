@@ -480,6 +480,10 @@ BOOL test_processor_feature(DWORD feature) {
 
 
 // Detect to see if a processor feature is available for use
+
+// IsProcessorFeaturePresent()
+typedef BOOL (__stdcall *tIPFP)( IN DWORD dwFeature );
+
 BOOL is_processor_feature_supported(DWORD feature) {
     // Detect platform information
     OSVERSIONINFO osvi; 
@@ -491,7 +495,17 @@ BOOL is_processor_feature_supported(DWORD feature) {
         //   run a quick test.
         return test_processor_feature(feature);
     } else {
-        return IsProcessorFeaturePresent(feature);
+        HMODULE hKernel32Lib = GetModuleHandle("kernel32.dll");
+        tIPFP pIPFP = (tIPFP)GetProcAddress(hKernel32Lib, "IsProcessorFeaturePresent");
+        if (pIPFP) {
+            // IsProcessorFeaturePresent is available, use it.
+            return pIPFP(feature);
+        } else {
+            // Ooooppppssss, whichever version of Windows we are running on
+            //   doesn't support IsProcessorFeaturePresent, so just test things
+            //   out.
+            return test_processor_feature(feature);
+        }
     }
     return 0;
 }

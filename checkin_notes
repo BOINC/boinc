@@ -4809,3 +4809,11 @@ Rom    16 May 2006
     lib/
         diagnostics_win.C
         hostinfo.C, .h
+
+Rom    16 May 2006
+    - Core client needs to still support Win95, so make the processor
+        feature detection code work on Win95.
+        
+    client/win/
+        hostinfo_win.cpp
+        
