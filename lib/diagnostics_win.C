@@ -156,8 +156,7 @@ int diagnostics_init_thread_list() {
 
     size = diagnostics_threads.size();
     for (i=0; i<size; i++) {
-        delete diagnostics_threads[0];
-        diagnostics_threads.erase(diagnostics_threads.begin());
+        delete diagnostics_threads[i];
     }
     diagnostics_threads.clear();
 
@@ -179,8 +178,7 @@ int diagnostics_finish_thread_list() {
 
     size = diagnostics_threads.size();
     for (i=0; i<size; i++) {
-        delete diagnostics_threads[0];
-        diagnostics_threads.erase(diagnostics_threads.begin());
+        delete diagnostics_threads[i];
     }
     diagnostics_threads.clear();
 
@@ -813,8 +811,7 @@ int diagnostics_init_message_monitor() {
 
     // Clear out any previous messages.
     for (i=0; i<diagnostics_monitor_messages.size(); i++) {
-        delete diagnostics_monitor_messages[0];
-        diagnostics_monitor_messages.erase(diagnostics_monitor_messages.begin());
+        delete diagnostics_monitor_messages[i];
     }
     diagnostics_monitor_messages.clear();
 
@@ -910,8 +907,7 @@ int diagnostics_finish_message_monitor() {
 
     // Clear out any previous messages.
     for (i=0; i<diagnostics_monitor_messages.size(); i++) {
-        delete diagnostics_monitor_messages[0];
-        diagnostics_monitor_messages.erase(diagnostics_monitor_messages.begin());
+        delete diagnostics_monitor_messages[i];
     }
     diagnostics_monitor_messages.clear();
 

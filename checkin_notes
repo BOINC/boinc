@@ -4787,7 +4787,6 @@ Rom    16 May 2006
         diagnostics_win.C
 
 Charlie 16 May 2006
-
     - Mac: Update XCode roject, build instructions and build scripts 
         to use wxMac-2.6.3 instead of 2.6.2.
         Remove obsolete files exception.C,.h from XCode project.
@@ -4801,3 +4800,12 @@ Charlie 16 May 2006
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    16 May 2006
+    - Add a field to host info which contains CPU feature information.
+    
+    client/win/
+        hostinfo_win.cpp
+    lib/
+        diagnostics_win.C
+        hostinfo.C, .h

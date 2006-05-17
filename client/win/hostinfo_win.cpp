@@ -31,6 +31,25 @@
 HINSTANCE g_hClientLibraryDll;
 
 
+// Newer processor features than what is currently defined in
+//   Visual Studio 2003
+#ifndef PF_SSE_DAZ_MODE_AVAILABLE
+#define PF_SSE_DAZ_MODE_AVAILABLE          11   
+#endif
+#ifndef PF_NX_ENABLED
+#define PF_NX_ENABLED                      12   
+#endif
+#ifndef PF_SSE3_INSTRUCTIONS_AVAILABLE
+#define PF_SSE3_INSTRUCTIONS_AVAILABLE     13   
+#endif
+#ifndef PF_COMPARE_EXCHANGE128
+#define PF_COMPARE_EXCHANGE128             14   
+#endif
+#ifndef PF_COMPARE64_EXCHANGE128
+#define PF_COMPARE64_EXCHANGE128           15   
+#endif
+
+
 // Memory Status Structure for Win2K and WinXP based systems.
 typedef struct _MYMEMORYSTATUSEX {  
     DWORD dwLength;
@@ -61,20 +80,56 @@ struct INTERNALMONITORINFO
 
 // Returns the number of seconds difference from UTC
 //
-int get_timezone(void) {
-	TIME_ZONE_INFORMATION tzi;
-	ZeroMemory(&tzi, sizeof(TIME_ZONE_INFORMATION));
-	GetTimeZoneInformation(&tzi);
-	return -(tzi.Bias * 60);
+int get_timezone(int& timezone) {
+
+    TIME_ZONE_INFORMATION tzi;
+
+	memset(&tzi, '\0', sizeof(TIME_ZONE_INFORMATION));
+
+    GetTimeZoneInformation(&tzi);
+
+    timezone = -(tzi.Bias * 60);
+
+    return 0;
 }
 
-// Gets windows specific host information (not complete)
+
+// Returns the memory information
 //
-int HOST_INFO::get_host_info() {
+int get_memory_info(double& bytes, double& swap) {
+    HMODULE hKernel32Lib;
+    MYGLOBALMEMORYSTATUSEX myGlobalMemoryStatusEx;
+    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    if (hKernel32Lib) {
+        myGlobalMemoryStatusEx = (MYGLOBALMEMORYSTATUSEX) GetProcAddress(hKernel32Lib, "GlobalMemoryStatusEx");
+    }
 
-    ZeroMemory(os_name, sizeof(os_name));
-    ZeroMemory(os_version, sizeof(os_version));
+    if (hKernel32Lib && myGlobalMemoryStatusEx) {
+	    MYMEMORYSTATUSEX mStatusEx;
+	    ZeroMemory(&mStatusEx, sizeof(MYMEMORYSTATUSEX));
+	    mStatusEx.dwLength = sizeof(MYMEMORYSTATUSEX);
+	    (*myGlobalMemoryStatusEx)(&mStatusEx);
+        bytes = (double)mStatusEx.ullTotalPhys;
+        swap = (double)mStatusEx.ullTotalPageFile;
+    } else {
+	    MEMORYSTATUS mStatus;
+	    ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
+	    mStatus.dwLength = sizeof(MEMORYSTATUS);
+	    GlobalMemoryStatus(&mStatus);
+	    bytes = (double)mStatus.dwTotalPhys;
+	    swap = (double)mStatus.dwTotalPageFile;
+    }
 
+    return 0;
+}
+
+
+// Returns the OS name and version
+//
+int get_os_information(
+    char* os_name, int os_name_size, char* os_version, int os_version_size
+)
+{
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
     //   into os_name.
@@ -297,65 +352,18 @@ int HOST_INFO::get_host_info() {
             break;
     }
 
-    snprintf( os_version, sizeof(os_version), "%s%s%s",
-        szSKU, szServicePack, szVersion );
+    snprintf( os_version, os_version_size, "%s%s%s", szSKU, szServicePack, szVersion );
+
+    return 0;
+}
 
 
-	timezone = get_timezone();
-
-	// Open the WinSock dll so we can get host info
-    WORD    wVersionRequested;
-	WSADATA wsdata;
-	wVersionRequested = MAKEWORD(1, 1);
-	WSAStartup(wVersionRequested, &wsdata);
-
-	// Get host name/ip info
-    get_local_network_info(
-        domain_name, sizeof(domain_name), ip_addr, sizeof(ip_addr)
-    );
-
-	// Close the WinSock dll
-	WSACleanup();
-
-    // Detect the filesystem information
-	get_filesystem_info(d_total, d_free);
-    
-    // Detect the amount of memory the system has with the new API, if it doesn't
-    //   exist, then use the older API.
-    HMODULE hKernel32;
-    MYGLOBALMEMORYSTATUSEX myGlobalMemoryStatusEx;
-    hKernel32 = LoadLibrary("kernel32.dll");
-    if (hKernel32) {
-        myGlobalMemoryStatusEx = (MYGLOBALMEMORYSTATUSEX) GetProcAddress(hKernel32, "GlobalMemoryStatusEx");
-    }
-
-    if (hKernel32 && myGlobalMemoryStatusEx) {
-	    MYMEMORYSTATUSEX mStatusEx;
-	    ZeroMemory(&mStatusEx, sizeof(MYMEMORYSTATUSEX));
-	    mStatusEx.dwLength = sizeof(MYMEMORYSTATUSEX);
-	    (*myGlobalMemoryStatusEx)(&mStatusEx);
-        m_nbytes = (double)mStatusEx.ullTotalPhys;
-        m_swap = (double)mStatusEx.ullTotalPageFile;
-    } else {
-	    MEMORYSTATUS mStatus;
-	    ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
-	    mStatus.dwLength = sizeof(MEMORYSTATUS);
-	    GlobalMemoryStatus(&mStatus);
-	    m_nbytes = (double)mStatus.dwTotalPhys;
-	    m_swap = (double)mStatus.dwTotalPageFile;
-    }
-
-    if (hKernel32) {
-        FreeLibrary(hKernel32);
-    }
-	
-    // Detect the number of CPUs
-    SYSTEM_INFO SystemInfo;
-    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
-    ::GetSystemInfo( &SystemInfo );
-
-    p_ncpus = SystemInfo.dwNumberOfProcessors;
-
+// Returns the processor make and model
+//
+int get_processor_info(
+    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size
+)
+{
 	// gets processor vendor name and model name from registry, works for intel
 	char vendorName[256], processorName[256], identifierName[256];
 	HKEY hKey;
@@ -396,26 +404,139 @@ int HOST_INFO::get_host_info() {
 		if (retval == ERROR_SUCCESS) gotMHz = true;
 	}
 
-    if (gotVendIdent) strlcpy( p_vendor, vendorName, sizeof(p_vendor) );
-    else strlcpy( p_vendor, "Unknown", sizeof(p_vendor) );
+    if (gotVendIdent)
+        strlcpy( p_vendor, vendorName, p_vendor_size );
+    else
+        strlcpy( p_vendor, "Unknown", p_vendor_size );
 
     if (gotProcName) {
-        strlcpy( p_model, processorName, sizeof(p_model) );
+        strlcpy( p_model, processorName, p_model_size );
     } else if (gotIdent && gotMHz) {
         sprintf( p_model, "%s %dMHz", identifierName, procSpeed );
     } else if (gotVendIdent && gotMHz) {
         sprintf( p_model, "%s %dMHz", vendorName, procSpeed );
     } else if (gotIdent) {
-        strlcpy( p_model, identifierName, sizeof(p_model) );
+        strlcpy( p_model, identifierName, p_model_size );
     } else if (gotVendIdent) {
-        strlcpy( p_model, vendorName, sizeof(p_model) );
+        strlcpy( p_model, vendorName, p_model_size );
     } else {
-        strlcpy( p_model, "Unknown", sizeof(p_model) );
+        strlcpy( p_model, "Unknown", p_model_size );
     }
 
 	RegCloseKey(hKey);
 
+    return 0;
+}
 
+
+// Returns the CPU count
+//
+int get_processor_count(int& processor_count) {
+    SYSTEM_INFO SystemInfo;
+    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
+    ::GetSystemInfo( &SystemInfo );
+
+    processor_count = SystemInfo.dwNumberOfProcessors;
+    return 0;
+}
+
+
+// Check to see if a processor feature is available for use
+BOOL test_processor_feature(DWORD feature) {
+    __try {
+        switch (feature) {
+            case PF_XMMI_INSTRUCTIONS_AVAILABLE:
+                __asm {
+                    xorps xmm0, xmm0        // executing SSE instruction
+                }
+                break;
+            case PF_XMMI64_INSTRUCTIONS_AVAILABLE:
+                __asm {
+                    xorpd xmm0, xmm0        // executing SSE2 instruction
+                }
+                break;
+            case PF_3DNOW_INSTRUCTIONS_AVAILABLE:
+                __asm {
+                    pfrcp mm0, mm0          // executing 3DNow! instruction
+                    emms
+                }
+                break;
+            case PF_MMX_INSTRUCTIONS_AVAILABLE:
+                __asm {
+                    pxor mm0, mm0           // executing MMX instruction
+                    emms
+                }
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER) {
+        return 0;
+    }
+    return 1;
+}
+
+
+// Detect to see if a processor feature is available for use
+BOOL is_processor_feature_supported(DWORD feature) {
+    // Detect platform information
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx(&osvi);
+
+    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
+        // Win9x does have the IsProcessorFeaturePresent function, so just
+        //   run a quick test.
+        return test_processor_feature(feature);
+    } else {
+        return IsProcessorFeaturePresent(feature);
+    }
+    return 0;
+}
+
+
+// Returns the list of capabilities supported by both the processor
+// and operating system.  The feature list should use the same
+// identifiers as defined in Linux.
+//
+int get_processor_capabilities( char* capabilities, int capabilities_size ) {
+    if (is_processor_feature_supported(PF_RDTSC_INSTRUCTION_AVAILABLE)) {
+        strncat(capabilities, "tsc ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_PAE_ENABLED)) {
+        strncat(capabilities, "pae ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_NX_ENABLED)) {
+        strncat(capabilities, "nx ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_XMMI_INSTRUCTIONS_AVAILABLE)) {
+        strncat(capabilities, "sse ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_XMMI64_INSTRUCTIONS_AVAILABLE)) {
+        strncat(capabilities, "sse2 ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_SSE3_INSTRUCTIONS_AVAILABLE)) {
+        strncat(capabilities, "sse3 ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_3DNOW_INSTRUCTIONS_AVAILABLE)) {
+        strncat(capabilities, "3dnow ", capabilities_size - strlen(capabilities));
+    }
+    if (is_processor_feature_supported(PF_MMX_INSTRUCTIONS_AVAILABLE)) {
+        strncat(capabilities, "mmx ", capabilities_size - strlen(capabilities));
+    }
+    strip_whitespace(capabilities);
+    return 0;
+}
+
+
+// Returns the accelerator list.
+//
+int get_accelerators(
+    char* accelerators, int accelerators_size
+)
+{
     // Detect video accelerators on the system.
     DWORD iDevice = 0;
     INTERNALMONITORINFO dispdev;
@@ -427,21 +548,65 @@ int HOST_INFO::get_host_info() {
             if (!strstr(accelerators, dispdev.DeviceString)) {
                 // Is this the first entry?
                 if (!strlen(accelerators)) {
-                    strncat(accelerators, dispdev.DeviceString, sizeof(accelerators));
+                    strncat(accelerators, dispdev.DeviceString, accelerators_size - strlen(accelerators));
                 } else {
-                    strncat(accelerators, "/", sizeof(accelerators));
-                    strncat(accelerators, dispdev.DeviceString, sizeof(accelerators));
+                    strncat(accelerators, "/", accelerators_size - strlen(accelerators));
+                    strncat(accelerators, dispdev.DeviceString, accelerators_size - strlen(accelerators));
                 }
             }
         }
         iDevice++;
     }
 
-
     // TODO: Detect the ClearSpeed accelerator card(s)
     // TODO: Detect any other types of accelerators that might be useful
-    //   for yhe scheduler to know about.
+    //   for the scheduler to know about.
 
+    strip_whitespace(accelerators);
+    return 0;
+}
+
+
+// Gets windows specific host information (not complete)
+//
+int HOST_INFO::get_host_info() {
+
+    // Get timezone
+	get_timezone(timezone);
+
+    // Detect the filesystem information
+	get_filesystem_info(d_total, d_free);
+    
+    // Detect the amount of memory the system has
+    get_memory_info(m_nbytes, m_swap);
+
+    // Detect OS Information
+    get_os_information(
+        os_name, sizeof(os_name), os_version, sizeof(os_version)
+    );
+
+    // Detect proccessor make and model.
+    get_processor_info(
+        p_vendor, sizeof(p_vendor), p_model, sizeof(p_model)
+    );
+
+    // Detect the number of CPUs
+    get_processor_count(p_ncpus);
+
+    // Detect processor capabilities
+    get_processor_capabilities(
+        p_capabilities, sizeof(p_capabilities)
+    );
+
+    // Detect host name/ip info
+    get_local_network_info(
+        domain_name, sizeof(domain_name), ip_addr, sizeof(ip_addr)
+    );
+
+    // Detect which accelerators are installed on the system
+    get_accelerators(
+        accelerators, sizeof(accelerators)
+    );
 
     if (!strlen(host_cpid)) {
         generate_host_cpid();

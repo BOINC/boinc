@@ -34,7 +34,7 @@
 
 class HOST_INFO {
 public:
-    int timezone;    // local STANDARD time - UTC time (in seconds)
+    int timezone;                 // local STANDARD time - UTC time (in seconds)
     char domain_name[256];
     char serialnum[256];
     char ip_addr[256];
@@ -43,17 +43,20 @@ public:
     int p_ncpus;
     char p_vendor[256];
     char p_model[256];
+    char p_capabilities[256];
+        // which intruction sets are supported by the processor and operating
+        // system.
     double p_fpops;
     double p_iops;
     double p_membw;
-    double p_calculated;    // when benchmarks were last run, or zero
+    double p_calculated;          // when benchmarks were last run, or zero
 
-    double m_nbytes;     // Total amount of memory in bytes
+    double m_nbytes;              // Total amount of memory in bytes
     double m_cache;
-    double m_swap;       // Total amount of swap space in bytes
+    double m_swap;                // Total amount of swap space in bytes
 
-    double d_total;      // Total amount of diskspace in bytes
-    double d_free;       // Total amount of available diskspace in bytes
+    double d_total;               // Total amount of diskspace in bytes
+    double d_free;                // Total amount of available diskspace in bytes
 
     char os_name[256];
     char os_version[256];
