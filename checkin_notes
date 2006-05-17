@@ -4749,3 +4749,14 @@ Rom    15 May 2006
     
     lib/
         exception.C, .h (Removed)
+
+Rom    15 May 2006
+    - Remove some more code that isn't currently used, if we need it
+        it is still in the 5.2 and 5.4 branches.
+        
+    client/win/
+        cpuid_tbl.cpp, .h (Removed)
+        optBench.hpp (Removed)
+        opt_x86.h (Removed)
+        opt_x86cpu.cpp (Removed)
+        optimize.hpp (Removed)
