@@ -4760,3 +4760,16 @@ Rom    15 May 2006
         opt_x86.h (Removed)
         opt_x86cpu.cpp (Removed)
         optimize.hpp (Removed)
+
+David  16 May 2006
+	- remove references to exception.C,h
+	- save stat data for 30 days, not 30 records
+
+	client/
+		app_graphics.C
+		scheduler_op.C
+		win/
+			win_screensaver.cpp
+	win_build/
+		boinc_ss.vcproj
+		libboinc.vcproj

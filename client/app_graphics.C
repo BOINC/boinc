@@ -27,7 +27,6 @@
 #include "config.h"
 #endif
 
-#include "exception.h"
 #include "diagnostics.h"
 #include "client_state.h"
 #include "client_msgs.h"

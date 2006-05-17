@@ -33,7 +33,6 @@
 #include <strsafe.h>
 
 #include "diagnostics.h"
-#include "exception.h"
 #include "boinc_ss.h"
 #include "win_screensaver.h"
 #include "util.h"

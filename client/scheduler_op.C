@@ -595,9 +595,14 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // check if vector is empty or we have a new day
             if (project->statistics.empty() || project->statistics.back().day!=dday()) {
 
-                // check if max. number of statistics already saved
-                while (project->statistics.size()>30) {
-                    project->statistics.erase(project->statistics.begin());
+                // delete old stats
+                while (!project->statistics.empty()) {
+                    DAILY_STATS& ds = project->statistics[0];
+                    if (dday() - ds.day > 30*86400) {
+                        project->statistics.erase(project->statistics.begin());
+                    } else {
+                        break;
+                    }
                 }
 
                 DAILY_STATS nds;
