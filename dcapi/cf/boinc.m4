@@ -57,7 +57,7 @@ AC_DEFUN([SZDG_BOINC_COMMON], [
 			CPPFLAGS="$save_CPPFLAGS"
 		])
 
-		BOINC_COMMON_LIBS="-lsched -lboinc"
+		BOINC_COMMON_LIBS="-lboinc"
 
 		if test "$boinc_cv_use_rsaeuro" = yes; then
 			if test -d "$BOINC_INCLUDES/RSAEuro/source"; then
@@ -125,7 +125,7 @@ AC_DEFUN([SZDG_BOINC_SERVER], [
 
 	if test "$no_boinc" != yes; then
 		BOINC_SERVER_CPPFLAGS="$BOINC_CPPFLAGS $MYSQL_CPPFLAGS"
-		BOINC_SERVER_LIBS="$BOINC_COMMON_LIBS -lstdc++ $MYSQL_LIBS"
+		BOINC_SERVER_LIBS="-lsched $BOINC_COMMON_LIBS -lstdc++ $MYSQL_LIBS"
 	fi
 
 	AC_SUBST([BOINC_SERVER_CPPFLAGS])
