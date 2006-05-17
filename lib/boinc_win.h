@@ -104,36 +104,23 @@
 #include <dbghelp.h>
 #include <tlhelp32.h>
 
+#include <io.h>
 #if !defined(__CYGWIN32__)
 #include <direct.h>
-#endif
-#include <io.h>
-#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
-#include <crtdbg.h>
 #endif
 
 #if !defined(__CYGWIN32__)
 #include <tchar.h>
 #else
-
 #ifndef _TCHAR_DEFINED
 typedef char TCHAR, *PTCHAR;
 typedef unsigned char TBYTE , *PTBYTE ;
 #define _TCHAR_DEFINED
 #endif /* !_TCHAR_DEFINED */
-
 typedef LPSTR LPTCH, PTCH;
 typedef LPSTR PTSTR, LPTSTR, PUTSTR, LPUTSTR;
 typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #define __TEXT(quote) quote
-
-#endif
-
-#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
-#include <crtdbg.h>
-#endif
-#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
-#include <delayimp.h>
 #endif
 
 // All projects should be using std::min and std::max instead of the Windows
@@ -149,6 +136,11 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <sys/types.h>
 #include <fcntl.h>
 #include <malloc.h>
+
+#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
+#include <crtdbg.h>
+#include <delayimp.h>
+#endif
 
 #ifdef __cplusplus
 #include <cassert>

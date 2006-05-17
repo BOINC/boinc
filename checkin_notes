@@ -4773,3 +4773,15 @@ David  16 May 2006
 	win_build/
 		boinc_ss.vcproj
 		libboinc.vcproj
+
+Rom    16 May 2006
+    - Manually perform memory leak detection since we now terminate the
+        process before the memory leak detection stuff kicks in.
+    - Cleanup used diagnostic resources when boinc_exit() is called.
+
+    api/
+        boinc_api.C
+    lib/
+        boinc_win.h
+        diagnostics.C, .h
+        diagnostics_win.C

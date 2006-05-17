@@ -437,6 +437,11 @@ void boinc_exit(int status) {
     //
     fflush(NULL);
 
+    // Cleanup the diagnostics allocations and stuff. Dump any memory
+    // leaks if it is a debug build.
+    //
+    boinc_finish_diag();
+
     // various platforms have various issues with shutting down
     // a process while an unspecified number of threads are still
     // executing or triggering endless exit()/atexit() loops. Use

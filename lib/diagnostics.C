@@ -73,7 +73,10 @@ static int         aborted_via_gui;
 
 
 #ifdef _WIN32
-int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal);
+int __cdecl  boinc_message_reporting(int reportType, char *szMsg, int *retVal);
+_CrtMemState start_snapshot; 
+_CrtMemState finish_snapshot; 
+_CrtMemState difference_snapshot; 
 #endif
 
 
@@ -88,7 +91,7 @@ int boinc_init_diagnostics(int _flags) {
 // Used to cleanup the diagnostics environment.
 //
 int boinc_finish_diag() {
-    return BOINC_SUCCESS;
+    return diagnostics_finish();
 }
 
 
@@ -191,14 +194,6 @@ int diagnostics_init(
 
 #if defined(_WIN32)
 
-    // Initialize the thread list structure
-    //   The data for this structure should be set by
-    //   boinc_init or boinc_init_graphics.
-    diagnostics_init_thread_list();
-    
-    diagnostics_init_unhandled_exception_monitor();
-    diagnostics_init_message_monitor();
-
 #if defined(_DEBUG)
 
     _CrtSetReportHook(boinc_message_reporting);
@@ -215,7 +210,23 @@ int diagnostics_init(
         }
     }
 
+    if (flags & BOINC_DIAG_BOINCAPPLICATION) {
+        if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
+            _CrtMemCheckpoint(&start_snapshot); 
+        }
+    }
+
 #endif // defined(_DEBUG)
+
+    // Initialize the thread list structure
+    //   The data for this structure should be set by
+    //   boinc_init or boinc_init_graphics.
+    diagnostics_init_thread_list();
+
+    diagnostics_init_unhandled_exception_monitor();
+
+    diagnostics_init_message_monitor();
+
 #endif // defined(_WIN32)
 
 
@@ -264,6 +275,56 @@ int diagnostics_init(
     return BOINC_SUCCESS;
 }
 
+
+// Cleanup the diagnostic framework before dumping any memory leaks.
+//
+int diagnostics_finish() {
+
+#if defined(_WIN32)
+
+    // Shutdown the message monitor thread and handles
+    diagnostics_finish_message_monitor();
+
+    // Shutdown the unhandled exception filter thread and handles
+    diagnostics_finish_unhandled_exception_monitor();
+
+    // Cleanup internal thread list structures and free up any
+    //   used memory.
+    diagnostics_finish_thread_list();
+
+#ifdef _DEBUG
+
+    // Only perform the memory leak dump if it is a boinc application
+    //   and not the BOINC Manager, BOINC Core Client, or BOINC
+    //   Screen saver since they'll check on close.
+    if (flags & BOINC_DIAG_BOINCAPPLICATION) {
+        if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
+            _CrtMemCheckpoint(&finish_snapshot);
+            if (_CrtMemDifference(&difference_snapshot, &start_snapshot, &finish_snapshot)) {
+
+                fprintf( stderr, "\n\n");
+                fprintf( stderr, "**********\n");
+                fprintf( stderr, "**********\n");
+                fprintf( stderr, "\n");
+                fprintf( stderr, "Memory Leaks Detected!!!\n");
+                fprintf( stderr, "\n");
+                fprintf( stderr, "Memory Statistics:\n");
+                _CrtMemDumpStatistics(&difference_snapshot);
+                fprintf( stderr, "\n");
+                _CrtMemDumpAllObjectsSince(&difference_snapshot);
+                fprintf( stderr, "\n");
+            }
+        }
+    }
+
+#endif // defined(_DEBUG)
+#endif // defined(_WIN32)
+
+    // Set initalization flag to false.
+    diagnostics_initialized = false;
+
+    return BOINC_SUCCESS;
+}
 
 // has the diagnostics library been initialized?
 //

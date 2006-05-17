@@ -74,6 +74,7 @@ extern int boinc_finish_diag();
 extern int diagnostics_init(
     int flags, const char* stdout_prefix, const char* stderr_prefix
 );
+extern int diagnostics_finish();
 extern int diagnostics_is_initialized();
 extern int diagnostics_is_flag_set( int flags );
 

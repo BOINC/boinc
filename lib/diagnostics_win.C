@@ -106,7 +106,7 @@ BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lp
 //   crash.  This is platform specific in nature since it
 //   depends on the OS datatypes.
 typedef struct _BOINC_THREADLISTENTRY {
-    std::string         name;
+    char                name[256];
     DWORD               thread_id;
     HANDLE              thread_handle;
     BOOL                graphics_thread;
@@ -128,7 +128,7 @@ static HANDLE hThreadListSync;
 
 // Initialize the thread list entry.
 int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
-    entry->name.clear();
+    strncpy(entry->name, "", sizeof(entry->name));
     entry->thread_id = 0;
     entry->thread_handle = 0;
     entry->crash_suspend_exempt = FALSE;
@@ -147,22 +147,19 @@ int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
 // Initialize the thread list, which means empty it if anything is
 //   in it.
 int diagnostics_init_thread_list() {
-    unsigned int i;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-    std::vector<PBOINC_THREADLISTENTRY>::iterator thread_iter;
+    size_t i;
+    size_t size;
 
     // Create a Mutex that can be used to syncronize data access
     //   to the global thread list.
     hThreadListSync = CreateMutex(NULL, TRUE, NULL);
 
-    for (i=0; i<diagnostics_threads.size(); i++) {
-        pThreadEntry = diagnostics_threads[0];
-
-        thread_iter = diagnostics_threads.begin();
-        diagnostics_threads.erase(thread_iter);
-
-        if (pThreadEntry) delete pThreadEntry;
+    size = diagnostics_threads.size();
+    for (i=0; i<size; i++) {
+        delete diagnostics_threads[0];
+        diagnostics_threads.erase(diagnostics_threads.begin());
     }
+    diagnostics_threads.clear();
 
     // Release the Mutex
     ReleaseMutex(hThreadListSync);
@@ -174,21 +171,18 @@ int diagnostics_init_thread_list() {
 // Finish the thread list, which means empty it if anything is
 //   in it.
 int diagnostics_finish_thread_list() {
-    unsigned int i;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-    std::vector<PBOINC_THREADLISTENTRY>::iterator thread_iter;
+    size_t i;
+    size_t size;
 
     // Wait for the ThreadListSync mutex before writing updates
     WaitForSingleObject(hThreadListSync, INFINITE);
 
-    for (i=0; i<diagnostics_threads.size(); i++) {
-        pThreadEntry = diagnostics_threads[0];
-
-        thread_iter = diagnostics_threads.begin();
-        diagnostics_threads.erase(thread_iter);
-
-        if (pThreadEntry) delete pThreadEntry;
+    size = diagnostics_threads.size();
+    for (i=0; i<size; i++) {
+        delete diagnostics_threads[0];
+        diagnostics_threads.erase(diagnostics_threads.begin());
     }
+    diagnostics_threads.clear();
 
     // Release the Mutex
     ReleaseMutex(hThreadListSync);
@@ -223,7 +217,7 @@ PBOINC_THREADLISTENTRY diagnostics_find_thread_entry(DWORD dwThreadId) {
 int diagnostics_update_thread_list_9X() {
     HANDLE  hThreadSnap = INVALID_HANDLE_VALUE; 
     HANDLE  hThread = NULL;
-    HMODULE hKernel32 = NULL;
+    HMODULE hKernel32Lib = NULL;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
     tCT32S  pCT32S = NULL;
     tT32F   pT32F = NULL;
@@ -235,29 +229,26 @@ int diagnostics_update_thread_list_9X() {
     te32.dwSize = sizeof(te32); 
 
     // Dynamically link to the proper function pointers.
-    hKernel32 = LoadLibrary("kernel32.dll");
+    hKernel32Lib = GetModuleHandle("kernel32.dll");
 
-    pCT32S = (tCT32S) GetProcAddress( hKernel32, "CreateToolhelp32Snapshot" );
-    pT32F = (tT32F) GetProcAddress( hKernel32, "Thread32First" );
-    pT32N = (tT32N) GetProcAddress( hKernel32, "Thread32Next" );
-    pOT = (tOT) GetProcAddress( hKernel32, "OpenThread" );
+    pCT32S = (tCT32S) GetProcAddress( hKernel32Lib, "CreateToolhelp32Snapshot" );
+    pT32F = (tT32F) GetProcAddress( hKernel32Lib, "Thread32First" );
+    pT32N = (tT32N) GetProcAddress( hKernel32Lib, "Thread32Next" );
+    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     if (!pCT32S || !pT32F || !pT32N) {
-        CloseHandle( hKernel32 );
         return ERROR_NOT_SUPPORTED; 
     }
 
     // Take a snapshot of all running threads  
     hThreadSnap = pCT32S(TH32CS_SNAPTHREAD, 0); 
     if( hThreadSnap == INVALID_HANDLE_VALUE ) {
-        CloseHandle( hKernel32 );
         return GetLastError(); 
     }
 
     // Retrieve information about the first thread,
     // and exit if unsuccessful
     if( !pT32F( hThreadSnap, &te32 ) ) {
-        CloseHandle( hKernel32 );
         CloseHandle( hThreadSnap );
         return GetLastError();
     }
@@ -293,7 +284,6 @@ int diagnostics_update_thread_list_9X() {
     ReleaseMutex(hThreadListSync);
 
     CloseHandle(hThreadSnap);
-    CloseHandle(hKernel32);
 
     return 0;
 }
@@ -309,12 +299,11 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     int      retval = 0;
     NTSTATUS Status = STATUS_INFO_LENGTH_MISMATCH;
     HANDLE   hHeap  = GetProcessHeap();
-    HMODULE  hNTDll = NULL;
+    HMODULE  hNTDllLib = NULL;
     tNTQSI   pNTQSI = NULL;
 
-    hNTDll = LoadLibrary("ntdll.dll");
-
-    pNTQSI = (tNTQSI)GetProcAddress(hNTDll, "NtQuerySystemInformation");
+    hNTDllLib = GetModuleHandle("ntdll.dll");
+    pNTQSI = (tNTQSI)GetProcAddress(hNTDllLib, "NtQuerySystemInformation");
 
     do {
         *ppBuffer = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, *pcbBuffer);
@@ -338,10 +327,6 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         }
     } while (Status == STATUS_INFO_LENGTH_MISMATCH);
 
-    if (hNTDll) {
-        FreeLibrary(hNTDll);
-    }
-
     return retval;
 }
 
@@ -361,13 +346,13 @@ int diagnostics_update_thread_list_NT() {
     UINT                    uiSystemIndex = 0;
     UINT                    uiInternalIndex = 0;
     UINT                    uiInternalCount = 0;
-    HMODULE                 hKernel32;
+    HMODULE                 hKernel32Lib;
     tOT                     pOT = NULL;
 
 
     // Dynamically link to the proper function pointers.
-    hKernel32 = LoadLibrary("kernel32.dll");
-    pOT = (tOT) GetProcAddress( hKernel32, "OpenThread" );
+    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     // Get a snapshot of the process and thread information.
     diagnostics_get_process_information(&pBuffer, &cbBuffer);
@@ -406,7 +391,6 @@ int diagnostics_update_thread_list_NT() {
 
                     pThreadEntry = new BOINC_THREADLISTENTRY;
                     diagnostics_init_thread_entry(pThreadEntry);
-                    pThreadEntry->name = "";
                     pThreadEntry->thread_id = pThread->ClientId.UniqueThread;
                     pThreadEntry->thread_handle = hThread;
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
@@ -430,7 +414,6 @@ int diagnostics_update_thread_list_NT() {
 
     // Release resources
     if (hThreadListSync) ReleaseMutex(hThreadListSync);
-    if (hKernel32) CloseHandle(hKernel32);
     if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
 
     return 0;
@@ -452,13 +435,13 @@ int diagnostics_update_thread_list_XP() {
     UINT                    uiSystemIndex = 0;
     UINT                    uiInternalIndex = 0;
     UINT                    uiInternalCount = 0;
-    HMODULE                 hKernel32;
+    HMODULE                 hKernel32Lib;
     tOT                     pOT = NULL;
 
 
     // Dynamically link to the proper function pointers.
-    hKernel32 = LoadLibrary("kernel32.dll");
-    pOT = (tOT) GetProcAddress( hKernel32, "OpenThread" );
+    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     // Get a snapshot of the process and thread information.
     diagnostics_get_process_information(&pBuffer, &cbBuffer);
@@ -496,7 +479,6 @@ int diagnostics_update_thread_list_XP() {
 
                     pThreadEntry = new BOINC_THREADLISTENTRY;
                     diagnostics_init_thread_entry(pThreadEntry);
-                    pThreadEntry->name = "";
                     pThreadEntry->thread_id = pThread->ClientId.UniqueThread;
                     pThreadEntry->thread_handle = hThread;
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
@@ -520,7 +502,6 @@ int diagnostics_update_thread_list_XP() {
 
     // Release resources
     if (hThreadListSync) ReleaseMutex(hThreadListSync);
-    if (hKernel32) CloseHandle(hKernel32);
     if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
 
     return 0;
@@ -579,6 +560,31 @@ int diagnostics_update_thread_list() {
 
 // Set the current threads name to make it easy to know what the
 //   thread is supposed to be doing.
+typedef struct tagTHREADNAME_INFO
+{
+   DWORD dwType; // must be 0x1000
+   LPCSTR szName; // pointer to name (in user addr space)
+   DWORD dwThreadID; // thread ID (-1=caller thread)
+   DWORD dwFlags; // reserved for future use, must be zero
+} THREADNAME_INFO;
+
+void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
+{
+   THREADNAME_INFO info;
+   info.dwType = 0x1000;
+   info.szName = szThreadName;
+   info.dwThreadID = dwThreadID;
+   info.dwFlags = 0;
+
+   __try
+   {
+      RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (DWORD*)&info );
+   }
+   __except(EXCEPTION_CONTINUE_EXECUTION)
+   {
+   }
+}
+
 int diagnostics_set_thread_name( char* name ) {
     HANDLE hThread;
     PBOINC_THREADLISTENTRY pThreadEntry = NULL;
@@ -591,7 +597,7 @@ int diagnostics_set_thread_name( char* name ) {
     // If we already know about the thread, just set its name.  Otherwise
     //   create a new entry and then set the name to the new entry.
     if (pThreadEntry) {
-        pThreadEntry->name = name;
+        strncpy(pThreadEntry->name, name, sizeof(pThreadEntry->name));
     } else {
         DuplicateHandle(
             GetCurrentProcess(),
@@ -605,7 +611,7 @@ int diagnostics_set_thread_name( char* name ) {
 
         pThreadEntry = new BOINC_THREADLISTENTRY;
         diagnostics_init_thread_entry(pThreadEntry);
-        pThreadEntry->name = name;
+        strncpy(pThreadEntry->name, name, sizeof(pThreadEntry->name));
         pThreadEntry->thread_id = GetCurrentThreadId();
         pThreadEntry->thread_handle = hThread;
         diagnostics_threads.push_back(pThreadEntry);
@@ -613,6 +619,9 @@ int diagnostics_set_thread_name( char* name ) {
 
     // Release the Mutex
     ReleaseMutex(hThreadListSync);
+
+    // Set the thread name in the debugger
+    SetThreadName(pThreadEntry->thread_id, pThreadEntry->name);
 
     return 0;
 }
@@ -787,8 +796,6 @@ int diagnostics_init_message_monitor() {
     DWORD dwType;
     DWORD dwSize;
     DWORD dwCaptureMessages;
-    PBOINC_MESSAGEMONITORENTRY pMessageEntry = NULL;
-    std::vector<PBOINC_MESSAGEMONITORENTRY>::iterator message_iter;
     HMODULE hKernel32Lib;
     tIDP pIDP = NULL;
 
@@ -806,13 +813,10 @@ int diagnostics_init_message_monitor() {
 
     // Clear out any previous messages.
     for (i=0; i<diagnostics_monitor_messages.size(); i++) {
-        pMessageEntry = diagnostics_monitor_messages[0];
-
-        message_iter = diagnostics_monitor_messages.begin();
-        diagnostics_monitor_messages.erase(message_iter);
-
-        if (pMessageEntry) delete pMessageEntry;
+        delete diagnostics_monitor_messages[0];
+        diagnostics_monitor_messages.erase(diagnostics_monitor_messages.begin());
     }
+    diagnostics_monitor_messages.clear();
 
     // Check the registry to see if we are aloud to capture debugger messages.
     //   Apparently many audio and visual payback programs dump serious
@@ -835,7 +839,7 @@ int diagnostics_init_message_monitor() {
 
 
     // If a debugger is present then let it capture the debugger messages
-    hKernel32Lib = LoadLibrary("kernel32.dll");
+    hKernel32Lib = GetModuleHandle("kernel32.dll");
     pIDP = (tIDP) GetProcAddress(hKernel32Lib, "IsDebuggerPresent");
 
     if (pIDP) {
@@ -877,8 +881,6 @@ int diagnostics_init_message_monitor() {
             retval = ERROR_NOT_SUPPORTED;
         }
     }
-    if (hKernel32Lib) FreeLibrary(hKernel32Lib);
-
 
     // Release the Mutex
     ReleaseMutex(hMessageMonitorSync);
@@ -891,8 +893,6 @@ int diagnostics_init_message_monitor() {
 //   structures.
 int diagnostics_finish_message_monitor() {
     unsigned int i;
-    PBOINC_MESSAGEMONITORENTRY pMessageEntry = NULL;
-    std::vector<PBOINC_MESSAGEMONITORENTRY>::iterator message_iter;
 
     // Begin the cleanup process by means of shutting down the
     //   message monitoring thread.
@@ -910,13 +910,10 @@ int diagnostics_finish_message_monitor() {
 
     // Clear out any previous messages.
     for (i=0; i<diagnostics_monitor_messages.size(); i++) {
-        pMessageEntry = diagnostics_monitor_messages[0];
-
-        message_iter = diagnostics_monitor_messages.begin();
-        diagnostics_monitor_messages.erase(message_iter);
-
-        if (pMessageEntry) delete pMessageEntry;
+        delete diagnostics_monitor_messages[0];
+        diagnostics_monitor_messages.erase(diagnostics_monitor_messages.begin());
     }
+    diagnostics_monitor_messages.clear();
 
 
     // Cleanup the handles
@@ -927,8 +924,6 @@ int diagnostics_finish_message_monitor() {
     if (hMessageQuitEvent) CloseHandle(hMessageQuitEvent);
     if (hMessageQuitFinishedEvent) CloseHandle(hMessageQuitFinishedEvent);
     if (hMessageMonitorThread) CloseHandle(hMessageMonitorThread);
-
-    // Release and close the mutex.
     if (hMessageMonitorSync) CloseHandle(hMessageMonitorSync);
 
     return 0;
@@ -979,7 +974,6 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
     DWORD       dwRepeatMessageProcessId = 0;
     std::string strRepeatMessage;
     PBOINC_MESSAGEMONITORENTRY pMessageEntry = NULL;
-    std::vector<PBOINC_MESSAGEMONITORENTRY>::iterator message_iter;
     HANDLE      hEvents[2];
 
     // Set our friendly name
@@ -1074,12 +1068,8 @@ DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
 
                     // Trim back the number of messages in memory
                     if (diagnostics_monitor_messages.size() > 50) {
-                        pMessageEntry = diagnostics_monitor_messages[0];
-
-                        message_iter = diagnostics_monitor_messages.begin();
-                        diagnostics_monitor_messages.erase(message_iter);
-
-                        delete pMessageEntry;
+                        delete diagnostics_monitor_messages[0];
+                        diagnostics_monitor_messages.erase(diagnostics_monitor_messages.begin());
                     }
 
                     // Release the Mutex
@@ -1301,7 +1291,7 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
         "User Time: %f, "
         "Wait Time: %f\n"
         "\n",
-        pThreadEntry->name.c_str(),
+        pThreadEntry->name,
         pThreadEntry->thread_id,
         strThreadStatus.c_str(),
         strThreadWaitReason.c_str(),
@@ -1614,7 +1604,7 @@ DWORD WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
 
     // Notify the calling thread that the message monitoring thread is
     //   finished.
-    SetEvent(hMessageQuitFinishedEvent);
+    SetEvent(hExceptionQuitFinishedEvent);
     return 0;
 }
 
