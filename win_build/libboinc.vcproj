@@ -124,6 +124,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\boinc\lib\diagnostics_win.C">
+			</File>
+			<File
 				RelativePath="..\..\boinc\lib\exception.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -246,6 +249,9 @@
 				RelativePath="..\..\boinc\lib\diagnostics.h">
 			</File>
 			<File
+				RelativePath="..\..\boinc\lib\diagnostics_win.h">
+			</File>
+			<File
 				RelativePath="..\..\boinc\lib\error_numbers.h">
 			</File>
 			<File
@@ -268,6 +274,12 @@
 			</File>
 			<File
 				RelativePath="..\..\boinc\lib\parse.h">
+			</File>
+			<File
+				RelativePath="..\..\boinc\lib\stackwalker_imports.h">
+			</File>
+			<File
+				RelativePath="..\..\boinc\lib\stackwalker_win.h">
 			</File>
 			<File
 				RelativePath="..\..\boinc\lib\std_fixes.h">
