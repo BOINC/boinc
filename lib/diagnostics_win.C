@@ -1220,22 +1220,31 @@ int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
 
     window_info->hwnd = GetForegroundWindow();
 
-    GetWindowText(
-        window_info->hwnd, 
-        window_info->window_name,
-        sizeof(window_info->window_name)
-    );
-
-    GetClassName(
-        window_info->hwnd,
-        window_info->window_class,
-        sizeof(window_info->window_class)
-    );
-
     window_info->window_thread_id = GetWindowThreadProcessId(
         window_info->hwnd,
         &window_info->window_process_id
     );
+
+	// Only query the window text from windows in a different process space.
+	//   All threads that might have windows are suspended in this process
+	//   space and attempting to get the window text will deadlock the exception
+	//   handler.
+	if (window_info->window_process_id != GetCurrentProcessId()) {
+		GetWindowText(
+			window_info->hwnd, 
+			window_info->window_name,
+			sizeof(window_info->window_name)
+		);
+
+		GetClassName(
+			window_info->hwnd,
+			window_info->window_class,
+			sizeof(window_info->window_class)
+		);
+	} else {
+		strcpy(window_info->window_name, "");
+		strcpy(window_info->window_class, "");
+	}
 
     return 0;
 }

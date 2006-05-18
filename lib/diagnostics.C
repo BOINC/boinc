@@ -249,20 +249,21 @@ int diagnostics_init(
         proxy_port = 0;
 
         p = fopen(INIT_DATA_FILE, "r");
-        if (!p) return ERR_FOPEN;
-        mf.init_file(p);
-        while(mf.fgets(buf, sizeof(buf))) {
-            if (match_tag(buf, "</app_init_data>")) break;
-            else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
-            else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
-            else if (match_tag(buf, "<use_http_proxy/>")) {
-                boinc_proxy_enabled = true;
-                continue;
-            }
-            else if (parse_str(buf, "<http_server_name>", proxy_address, 256)) continue;
-            else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
-        }
-        fclose(p);
+		if (p) {
+			mf.init_file(p);
+			while(mf.fgets(buf, sizeof(buf))) {
+				if (match_tag(buf, "</app_init_data>")) break;
+				else if (parse_str(buf, "<boinc_dir>", boinc_dir, 256)) continue;
+				else if (parse_str(buf, "<project_symstore>", symstore, 256)) continue;
+				else if (match_tag(buf, "<use_http_proxy/>")) {
+					boinc_proxy_enabled = true;
+					continue;
+				}
+				else if (parse_str(buf, "<http_server_name>", proxy_address, 256)) continue;
+				else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
+			}
+			fclose(p);
+		}
 
         if (boinc_proxy_enabled) {
             int buffer_used = snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port);

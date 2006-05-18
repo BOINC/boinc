@@ -4816,4 +4816,21 @@ Rom    16 May 2006
         
     client/win/
         hostinfo_win.cpp
+
+Rom    16 May 2006
+    - Bug Fix: When an application is running in standalone mode the missing
+        init file should not cause the diagnostics_init() routine to return
+        an error.
+    - Bug Fix: Prevent the exception handling thread from stalling when the
+        foreground window happens to be from its own process space.  If you
+        were single stepping inside of a debugger then the process acted as
+        though it was deadlocked since the debugger had suspended the other
+        threads.
+    - Bug Fix: Initialize the diagnostics library even thuogh an alternate
+        entrypoint might have been used.
         
+    api/
+        graphics_api.C
+    lib/
+        diagnostics.C
+        diagnostics_win.C

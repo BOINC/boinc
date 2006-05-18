@@ -52,6 +52,11 @@ int boinc_init_graphics(void (*worker)()) {
 }
 
 int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*worker)()) {
+    int retval;
+    if (!diagnostics_is_initialized()) {
+        retval = boinc_init_diagnostics(BOINC_DIAG_USEDEFULATS);
+        if (retval) return retval;
+    }
     init_main_state();
     return boinc_init_options_graphics_impl(opt, worker, &boinc_main_state);
 }
