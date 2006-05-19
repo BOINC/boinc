@@ -103,14 +103,14 @@ extern int diagnostics_set_thread_worker();
 extern int diagnostics_init_message_monitor();
 extern int diagnostics_finish_message_monitor();
 #ifdef _WIN32
-extern DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter);
+extern UINT WINAPI diagnostics_message_monitor(LPVOID lpParameter);
 #endif
 
 // Unhandled exception monitor
 extern int diagnostics_init_unhandled_exception_monitor();
 extern int diagnostics_finish_unhandled_exception_monitor();
 #ifdef _WIN32
-extern DWORD WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
+extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 extern void boinc_catch_signal(int signal);

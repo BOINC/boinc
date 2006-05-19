@@ -4834,3 +4834,17 @@ Rom    16 May 2006
     lib/
         diagnostics.C
         diagnostics_win.C
+
+Rom    17 May 2006
+    - Add a check for the FPU and add it to the capabilities list for a
+        host.
+    - Bug Fix: Change CreateThread calls to _beginthreadex calls in
+        diagnostics_win.C to avoid having the CRT terminating a thread
+        when it attempt to use fprintf or any other CRT function when
+        memory is running really tight.
+        
+    client/win/
+        hostinfo_win.cpp
+    lib/
+        diagnostics.h
+        diagnostics_win.C

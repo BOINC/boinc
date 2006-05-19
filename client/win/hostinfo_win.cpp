@@ -516,6 +516,9 @@ BOOL is_processor_feature_supported(DWORD feature) {
 // identifiers as defined in Linux.
 //
 int get_processor_capabilities( char* capabilities, int capabilities_size ) {
+    if (!is_processor_feature_supported(PF_FLOATING_POINT_EMULATED)) {
+        strncat(capabilities, "fpu ", capabilities_size - strlen(capabilities));
+    }
     if (is_processor_feature_supported(PF_RDTSC_INSTRUCTION_AVAILABLE)) {
         strncat(capabilities, "tsc ", capabilities_size - strlen(capabilities));
     }

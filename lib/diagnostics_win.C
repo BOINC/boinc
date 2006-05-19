@@ -790,7 +790,6 @@ static HANDLE hMessageQuitFinishedEvent;
 int diagnostics_init_message_monitor() {
     int retval = 0;
     unsigned int i;
-    DWORD dwThreadId;
     DWORD dwType;
     DWORD dwSize;
     DWORD dwCaptureMessages;
@@ -866,13 +865,13 @@ int diagnostics_init_message_monitor() {
                 sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
             );
 
-            hMessageMonitorThread = CreateThread(
+            hMessageMonitorThread = (HANDLE)_beginthreadex(
                 NULL,
                 0,
                 diagnostics_message_monitor,
                 0,
                 0,
-                &dwThreadId
+                NULL
             );
         } else {
             retval = ERROR_NOT_SUPPORTED;
@@ -962,7 +961,7 @@ int diagnostics_message_monitor_dump() {
 //
 // See: http://support.microsoft.com/kb/q173260/
 //
-DWORD WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
+UINT WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
     DWORD       dwEvent = NULL;
     DWORD       dwCurrentProcessId = NULL;
     BOOL        bContinue = TRUE;
@@ -1138,7 +1137,6 @@ static HANDLE hExceptionQuitFinishedEvent;
 //   monitor thread.
 int diagnostics_init_unhandled_exception_monitor() {
     int retval = 0;
-    DWORD  dwThreadId;
 
     // Create a mutex that can be used to put any thread that has thrown
     //   an unhandled exception to sleep.
@@ -1155,13 +1153,13 @@ int diagnostics_init_unhandled_exception_monitor() {
     hExceptionQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
     // Create the thread that is going to monitor any unhandled exceptions
-    hExceptionMonitorThread = CreateThread(
+    hExceptionMonitorThread = (HANDLE)_beginthreadex(
         NULL,
         0,
         diagnostics_unhandled_exception_monitor,
         0,
         0,
-        &dwThreadId
+        NULL
     );
 
     return retval;
@@ -1460,7 +1458,7 @@ UINT diagnostics_determine_exit_code() {
 }
 
 
-DWORD WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
+UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
     DWORD        dwEvent = NULL;
     BOOL         bContinue = TRUE;
     HANDLE       hEvents[2];
