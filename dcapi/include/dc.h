@@ -10,8 +10,8 @@
  *
  * Copyright MTA SZTAKI, 2006
  */
-#ifndef __DC_H_
-#define __DC_H_
+#ifndef _DC_H_
+#define _DC_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,10 +45,10 @@ typedef enum {
 
 /* Possible event types */
 typedef enum {
-	DC_EVENT_RESULT,	/* A DC_Result is available */
-	DC_EVENT_SUBRESULT,	/* A sub-result is available */
-	DC_EVENT_MESSAGE	/* A message has arrived */
-} DC_EventType;
+	DC_MASTER_RESULT,	/* A DC_Result is available */
+	DC_MASTER_SUBRESULT,	/* A sub-result is available */
+	DC_MASTER_MESSAGE	/* A message has arrived */
+} DC_MasterEventType;
 
 
 /********************************************************************
@@ -71,10 +71,10 @@ struct _DC_PhysicalFile
 };
 
 /* Description of a DC-API event */
-typedef struct _DC_Event	DC_Event;
-struct _DC_Event
+typedef struct _DC_MasterEvent	DC_MasterEvent;
+struct _DC_MasterEvent
 {
-	DC_EventType		type;
+	DC_MasterEventType	type;
 	DC_Workunit		*wu;
 	union
 	{
@@ -100,23 +100,11 @@ typedef void (*DC_MessageCallback)(DC_Workunit *wu, const char *message);
  */
 
 /* Initializes the DC-API. */
-int DC_init(const char *configFile);
+int DC_initMaster(const char *configFile);
 
 /* Sets the callback functions that will be called when a particular event. */
-void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
-	DC_MessageCallback msgcb);
-
-/* Waits for events and processes them. */
-int DC_processEvents(int timeout);
-
-/* Checks for events and return them. */
-DC_Event *DC_waitEvent(const char *wuFilter, int timeout);
-
-/* Checks for events for a particular WU. */
-DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout);
-
-/* Destroys an event. */
-void DC_destroyEvent(DC_Event *event);
+void DC_setMasterCb(DC_ResultCallback resultcb,
+	DC_SubresultCallback subresultcb, DC_MessageCallback msgcb);
 
 /* Queries the number of WUs known to the API in the given state. */
 int DC_getWUNumber(DC_WUState state);
@@ -132,6 +120,22 @@ int DC_getClientCfgInt(const char *clientName, const char *key,
 /* Queries per-client configuration variables */
 double DC_getClientCfgDouble(const char *clientName, const char *key,
 	double defaultValue, int fallbackGlobal);
+
+/********************************************************************
+ * Function prototypes: Event processing
+ */
+
+/* Waits for events and processes them. */
+int DC_processMasterEvents(int timeout);
+
+/* Checks for events and return them. */
+DC_MasterEvent *DC_waitMasterEvent(const char *wuFilter, int timeout);
+
+/* Checks for events for a particular WU. */
+DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout);
+
+/* Destroys an event. */
+void DC_destroyMasterEvent(DC_MasterEvent *event);
 
 /********************************************************************
  * Function prototypes: Work unit management
@@ -204,4 +208,4 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName);
 }
 #endif
 
-#endif /* __DC_H_ */
+#endif /* _DC_H_ */

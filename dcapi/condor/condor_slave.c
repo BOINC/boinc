@@ -6,7 +6,7 @@
 
 
 /* Initializes the client API. */
-int DC_init(void)
+int DC_initClient(void)
 {
 	return(0);
 }
@@ -37,14 +37,14 @@ int DC_sendMessage(const char *message)
 
 
 /* Checks for application control events. */
-DC_Event *DC_checkEvent(void)
+DC_ClientEvent *DC_checkClientEvent(void)
 {
 	return(0);
 }
 
 
-/* Destroys the event-specific data returned by DC_checkEvent(). */
-void DC_destroyEvent(DC_Event *event)
+/* Destroys the event-specific data returned by DC_checkClientEvent(). */
+void DC_destroyClientEvent(DC_ClientEvent *event)
 {
 }
 
@@ -62,7 +62,7 @@ void DC_fractionDone(double fraction)
 
 
 /* Finishes computation. */
-void DC_finish(int exitcode)
+void DC_finishClient(int exitcode)
 {
 	for (;;) ;
 }

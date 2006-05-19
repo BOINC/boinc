@@ -95,7 +95,7 @@ int DC_getMaxSubresults(void)
 	return max_subresults;
 }
 
-DC_GridCapabilities DC_getGridCapabilities(void)
+unsigned DC_getGridCapabilities(void)
 {
 	char path[PATH_MAX];
 	unsigned caps;
@@ -111,14 +111,14 @@ DC_GridCapabilities DC_getGridCapabilities(void)
 	if (!boinc_resolve_filename(DC_LABEL_CLIENTLOG, path, sizeof(path)))
 		caps |= DC_GC_LOG;
 
-	return (DC_GridCapabilities)caps;
+	return caps;
 }
 
 /********************************************************************
  * Client API functions
  */
 
-int DC_init(void)
+int DC_initClient(void)
 {
 	char path[PATH_MAX], *buf, label[32];
 	struct stat st;
@@ -126,8 +126,8 @@ int DC_init(void)
 	FILE *f;
 
 	/* We leave the redirection to BOINC and only copy stdout.txt/stderr.txt
-	 * to the final output location in DC_finish(). This means BOINC can
-	 * rotate the files so they won't grow too big. */
+	 * to the final output location in DC_finishClient(). This means BOINC
+	 * can rotate the files so they won't grow too big. */
 	if (boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR |
 			BOINC_DIAG_REDIRECTSTDOUT))
 		return DC_ERR_INTERNAL;
@@ -333,16 +333,16 @@ int DC_sendMessage(const char *message)
 	return 0;
 }
 
-static DC_Event *new_event(DC_EventType type)
+static DC_ClientEvent *new_event(DC_ClientEventType type)
 {
-	DC_Event *event;
+	DC_ClientEvent *event;
 
-	event = (DC_Event *)calloc(1, sizeof(DC_Event));
+	event = (DC_ClientEvent *)calloc(1, sizeof(DC_ClientEvent));
 	event->type = type;
 	return event;
 }
 
-static DC_Event *handle_special_msg(const char *message)
+static DC_ClientEvent *handle_special_msg(const char *message)
 {
 	if (!strncmp(message, DC_MSG_CANCEL, strlen(DC_MSG_CANCEL)) &&
 			message[strlen(DC_MSG_CANCEL)] == ':')
@@ -355,12 +355,12 @@ static DC_Event *handle_special_msg(const char *message)
 			return NULL;
 		}
 		client_state = STATE_FINISH;
-		return new_event(DC_EVENT_FINISH);
+		return new_event(DC_CLIENT_FINISH);
 	}
 	if (!strcmp(message, DC_MSG_SUSPEND))
 	{
 		client_state = STATE_SUSPEND;
-		return new_event(DC_EVENT_DO_CHECKPOINT);
+		return new_event(DC_CLIENT_CHECKPOINT);
 	}
 
 	DC_log(LOG_WARNING, "Received unknown control message %s", message);
@@ -368,21 +368,21 @@ static DC_Event *handle_special_msg(const char *message)
 	return NULL;
 }
 
-DC_Event *DC_checkEvent(void)
+DC_ClientEvent *DC_checkClientEvent(void)
 {
-	DC_Event *event;
+	DC_ClientEvent *event;
 	char *buf, *msg;
 	int ret;
 
 	/* Check for checkpoint requests */
 	if (boinc_time_to_checkpoint())
-		return new_event(DC_EVENT_DO_CHECKPOINT);
+		return new_event(DC_CLIENT_CHECKPOINT);
 
 	/* Check for messages */
 	buf = (char *)malloc(MAX_MESSAGE_SIZE);
 	if (!buf)
 		/* Let's hope the error is transient and we can deliver the
-		 * message when DC_checkEvent() is called for the next time */
+		 * message when DC_checkClientEvent() is called for the next time */
 		return NULL;
 
 	/* Check for trickle-down messages and also handle internal
@@ -414,26 +414,26 @@ DC_Event *DC_checkEvent(void)
 			return event;
 		}
 
-		event = new_event(DC_EVENT_MESSAGE);
+		event = new_event(DC_CLIENT_MESSAGE);
 		event->message = buf;
 		return event;
 	}
 	free(buf);
 
 	if (client_state == STATE_FINISH)
-		return new_event(DC_EVENT_FINISH);
+		return new_event(DC_CLIENT_FINISH);
 
 	return NULL;
 }
 
-void DC_destroyEvent(DC_Event *event)
+void DC_destroyClientEvent(DC_ClientEvent *event)
 {
 	if (!event)
 		return;
 
 	switch (event->type)
 	{
-		case DC_EVENT_MESSAGE:
+		case DC_CLIENT_MESSAGE:
 			free(event->message);
 			break;
 		default:
@@ -477,7 +477,7 @@ void DC_fractionDone(double fraction)
 	boinc_fraction_done(fraction);
 }
 
-void DC_finish(int exitcode)
+void DC_finishClient(int exitcode)
 {
 	char path[PATH_MAX];
 	int ret;

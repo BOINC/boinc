@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	while(!finished)
 	{
 		printf("Starting DC_processEvents with parameter: 100\n");
-		retval = DC_processEvents(100);
+		retval = DC_processMasterEvents(100);
 		if (retval)
 		{
 			printf("Error:  No event processed in 100 sec.  retval = %d\n", retval);
@@ -127,7 +127,7 @@ int init(int argc, char *argv[])
 	}
 
 	printf("Initialise DC\n");
-	retval = DC_init("uppercase-demo-master.conf");
+	retval = DC_initMaster("uppercase-demo-master.conf");
 	if (retval != DC_OK)
 	{
 		printf("DC_init returned with error. Exit application.\n");
@@ -136,7 +136,7 @@ int init(int argc, char *argv[])
 	printf("DC_init returned with OK.\n");
 
 	printf("Set callback functions\n");
-	DC_setcb(callbackResult, callbackSubresult, callbackMessage);
+	DC_setMasterCb(callbackResult, callbackSubresult, callbackMessage);
 
 	printf("Get Grid capabilities:\n");
 	gc = DC_getGridCapabilities();

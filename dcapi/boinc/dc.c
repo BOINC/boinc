@@ -93,7 +93,7 @@ static const GMarkupParser fileref_parser =
  * API functions
  */
 
-int DC_init(const char *config_file)
+int DC_initMaster(const char *config_file)
 {
 	char *cfgval;
 	int ret;
@@ -207,14 +207,14 @@ int DC_getMaxSubresults(void)
 	return 100; /* XXX */
 }
 
-DC_GridCapabilities DC_getGridCapabilities(void)
+unsigned DC_getGridCapabilities(void)
 {
 	return DC_GC_EXITCODE | DC_GC_SUBRESULT | DC_GC_MESSAGING |
 		DC_GC_STDOUT | DC_GC_STDERR | DC_GC_LOG;
 }
 
-void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
-	DC_MessageCallback msgcb)
+void DC_setMasterCb(DC_ResultCallback resultcb,
+	DC_SubresultCallback subresultcb, DC_MessageCallback msgcb)
 {
 	_dc_resultcb = resultcb;
 	_dc_subresultcb = subresultcb;

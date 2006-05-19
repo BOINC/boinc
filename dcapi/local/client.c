@@ -19,7 +19,7 @@ int DC_getMaxSubresults(void)
         return MAX_SUBRESULTS;
 }
 
-DC_GridCapabilities DC_getGridCapabilities(void)
+unsigned DC_getGridCapabilities(void)
 {
         return (DC_GridCapabilities)(DC_GC_STDERR | DC_GC_STDOUT);
 }
@@ -28,7 +28,7 @@ DC_GridCapabilities DC_getGridCapabilities(void)
  * Client API functions
  */
 
-int DC_init(void)
+int DC_initClient(void)
 {
 	return 0;
 }
@@ -56,14 +56,14 @@ int DC_sendMessage(const char *message)
 	return DC_ERR_NOTIMPL;
 }
 
-DC_Event *DC_checkEvent(void)
+DC_ClientEvent *DC_checkClientEvent(void)
 {
 	// not implemented yet!
 
 	return NULL;
 }
 
-void DC_destroyEvent(DC_Event *event)
+void DC_destroyClientEvent(DC_ClientEvent *event)
 {
 	// not implemented yet!
 }
@@ -78,7 +78,7 @@ void DC_fractionDone(double fraction)
 	// Nothing to do with it.
 }
 
-void DC_finish(int exitcode)
+void DC_finishClient(int exitcode)
 {
 	// XXX Need to send a message to the master side of the DC_API!
 
