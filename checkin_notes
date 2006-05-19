@@ -4835,7 +4835,7 @@ Rom    16 May 2006
         diagnostics.C
         diagnostics_win.C
 
-Rom    17 May 2006
+Rom    19 May 2006
     - Add a check for the FPU and add it to the capabilities list for a
         host.
     - Bug Fix: Change CreateThread calls to _beginthreadex calls in
@@ -4848,3 +4848,9 @@ Rom    17 May 2006
     lib/
         diagnostics.h
         diagnostics_win.C
+
+Rom    19 May 2006
+    - Add the CPU flags for various flavors of *nix
+    
+    client/
+        hostinfo_unix.C
