@@ -6,8 +6,12 @@
 #include <errno.h>
 #include <time.h>
 
-#include <dc.h>
+#include <dc_common.h>
 #include <dc_internal.h>
+
+#if CLIENT
+#include <dc_client.h>
+#endif
 
 static int loglevel = -1;
 static FILE *logfile;
@@ -23,12 +27,12 @@ static const char *levels[] =
 
 static void init_log(void)
 {
-	const char *val;
+	char *val;
 
 	/* Default level */
 	loglevel = LOG_NOTICE;
 
-	val = DC_getCfgStr("LogLevel");
+	val = DC_getCfgStr(CFG_LOGLEVEL);
 	if (val)
 	{
 		if (val[0] >= '0' && val[0] <= '9')
@@ -51,11 +55,46 @@ static void init_log(void)
 					"specified in the config file, "
 					"using 'Notice'\n");
 		}
+		free(val);
 	}
 
-	val = DC_getCfgStr("LogFile");
+	val = DC_getCfgStr(CFG_LOGFILE);
 	if (val)
 	{
+		char *tmp;
+
+#if MASTER
+		/* If the log file is not an absolute path, open it
+		 * inside the working directory */
+		if (val[0] != '/')
+		{
+			char *dir;
+
+			dir = DC_getCfgStr(CFG_WORKDIR);
+			if (dir)
+			{
+				tmp = malloc(strlen(dir) + 1 + strlen(val) + 1);
+				sprintf(tmp, "%s/%s", dir, val);
+				free(dir);
+				free(val);
+				val = tmp;
+			}
+		}
+#endif /* MASTER */
+#if CLIENT
+		/* Try to resolve the file name first as an output file, and
+		 * if that fails, as a temporary file. If both fail, use the
+		 * file name verbatim. */
+		tmp = DC_resolveFileName(DC_FILE_OUT, val);
+		if (!tmp)
+			tmp = DC_resolveFileName(DC_FILE_TMP, val);
+		if (tmp)
+		{
+			free(val);
+			val = tmp;
+		}
+#endif /* CLIENT */
+
 		logfile = fopen(val, "a");
 		if (!logfile)
 		{
@@ -63,6 +102,7 @@ static void init_log(void)
 				val, strerror(errno));
 			exit(1);
 		}
+		free(val);
 	}
 	else
 		logfile = stdout;
