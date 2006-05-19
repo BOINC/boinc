@@ -88,6 +88,15 @@ Logical name of the client's ifrastructure log used with DC_getResultOutput().
 
 
 
+<!-- ##### STRUCT DC_PhysicalFile ##### -->
+<para>
+Describes a physical file.
+</para>
+
+@label: logical name of the file as used by the application.
+@path: the real path name of the file.
+@mode: usage mode of the file.
+
 <!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>
 Returns the value belonging to the specified key @name in the configuration file.

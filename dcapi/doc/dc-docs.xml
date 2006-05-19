@@ -9,9 +9,9 @@
 
   <chapter id="reference">
     <title>Reference</title>
-    <xi:include href="common/xml/dc_common.xml"/>
-    <xi:include href="client/xml/dc_client.xml"/>
-    <xi:include href="master/xml/dc.xml"/>
+    <xi:include href="xml/dc_common.xml"/>
+    <xi:include href="xml/dc_client.xml"/>
+    <xi:include href="xml/dc.xml"/>
   </chapter>
 </book>
 <!-- vim: set ai sw=2: -->
