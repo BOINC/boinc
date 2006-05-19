@@ -49,7 +49,6 @@ libboinc_a_SOURCES = \
     base64.C \
     crypt.C \
     diagnostics.C \
-    exception.C \
     filesys.C \
     gui_rpc_client.C \
     gui_rpc_client_ops.C \
@@ -75,7 +74,6 @@ include_HEADERS = 	\
     app_ipc.h 		\
     boinc_win.h 	\
     diagnostics.h 	\
-    exception.h 	\
     filesys.h 		\
     hostinfo.h		\
     mfile.h 		\
