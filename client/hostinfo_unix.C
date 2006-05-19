@@ -373,7 +373,7 @@ void parse_cpuinfo(HOST_INFO& host) {
 //
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
-    int system_found=0,model_found=0,flags_found=0;
+    int system_found=0,model_found=0,cache_found=0;flags_found=0;
     int n;
 
     FILE* f = fopen("/proc/cpuinfo", "r");
