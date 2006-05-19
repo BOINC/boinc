@@ -60,21 +60,6 @@ fi
 AM_CONDITIONAL([WITH_BOINC], [test "$enable_backend_boinc" = yes])
 
 dnl ===================================================================
-dnl ClusterGrid backend
-dnl
-
-AC_ARG_ENABLE([backend-clgr],
-	AS_HELP_STRING([--enable-backend-clgr],
-		[enable the ClusterGrid backend @<:@default=no@:>@]),,
-	[enable_backend_clgr=no])
-
-if test "$enable_backend_clgr" = yes; then
-	BACKENDS="$BACKENDS clgr"
-fi
-
-AM_CONDITIONAL([WITH_CLGR], [test "$enable_backend_clgr" = yes])
-
-dnl ===================================================================
 dnl Condor backend
 dnl
 
@@ -121,7 +106,6 @@ AC_CONFIG_FILES([Makefile \
 	local/Makefile \
 	local/dcapi-local-client.pc \
 	local/dcapi-local-master.pc \
-	clgr/Makefile \
 	condor/Makefile \
 	condor/dcapi-condor-client.pc \
 	condor/dcapi-condor-master.pc \
