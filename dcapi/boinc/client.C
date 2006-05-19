@@ -97,8 +97,21 @@ int DC_getMaxSubresults(void)
 
 DC_GridCapabilities DC_getGridCapabilities(void)
 {
-	return (DC_GridCapabilities)(DC_GC_EXITCODE | DC_GC_STDERR |
-		DC_GC_SUBRESULT | DC_GC_MESSAGING);
+	char path[PATH_MAX];
+	unsigned caps;
+
+	caps = DC_GC_EXITCODE | DC_GC_MESSAGING;
+	if (DC_getMaxSubresults())
+		caps |= DC_GC_SUBRESULT;
+
+	if (!boinc_resolve_filename(DC_LABEL_STDOUT, path, sizeof(path)))
+		caps |= DC_GC_STDOUT;
+	if (!boinc_resolve_filename(DC_LABEL_STDERR, path, sizeof(path)))
+		caps |= DC_GC_STDERR;
+	if (!boinc_resolve_filename(DC_LABEL_CLIENTLOG, path, sizeof(path)))
+		caps |= DC_GC_LOG;
+
+	return (DC_GridCapabilities)caps;
 }
 
 /********************************************************************
@@ -107,13 +120,18 @@ DC_GridCapabilities DC_getGridCapabilities(void)
 
 int DC_init(void)
 {
-	char path[PATH_MAX], *buf;
+	char path[PATH_MAX], *buf, label[32];
 	struct stat st;
+	int i, ret;
 	FILE *f;
-	int ret;
 
-	if (boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR))
+	/* We leave the redirection to BOINC and only copy stdout.txt/stderr.txt
+	 * to the final output location in DC_finish(). This means BOINC can
+	 * rotate the files so they won't grow too big. */
+	if (boinc_init_diagnostics(BOINC_DIAG_REDIRECTSTDERR |
+			BOINC_DIAG_REDIRECTSTDOUT))
 		return DC_ERR_INTERNAL;
+
 	if (boinc_init())
 		return DC_ERR_INTERNAL;
 
@@ -127,8 +145,8 @@ int DC_init(void)
 	}
 	/* If the application did not generate a checkpoint file before, check
 	 * if the master sent one */
-	else if (!boinc_resolve_filename(CKPT_LABEL_IN, path, sizeof(path)))
-		last_complete_ckpt = strdup(path);
+	else
+		last_complete_ckpt = DC_resolveFileName(DC_FILE_IN, CKPT_LABEL_IN);
 
 	/* Extract the WU name from init_data.xml */
 	ret = stat(INIT_DATA_FILE, &st);
@@ -159,6 +177,25 @@ int DC_init(void)
 	}
 	free(buf);
 
+	/* Initialize all optional output files as empty to prevent
+	 * <file_xfer_error>s */
+	for (i = 0; i < DC_getMaxSubresults(); i++)
+	{
+		snprintf(label, sizeof(label), "%s%d", SUBRESULT_PFX, i);
+		if (boinc_resolve_filename(label, path, sizeof(path)))
+			continue;
+		f = boinc_fopen(path, "w");
+		if (f)
+			fclose(f);
+	}
+	ret = boinc_resolve_filename(CKPT_LABEL_OUT, path, sizeof(path));
+	if (!ret)
+	{
+		f = boinc_fopen(path, "w");
+		if (f)
+			fclose(f);
+	}
+
 	DC_log(LOG_DEBUG, "DC-API initializef for work unit %s", wu_name);
 
 	return 0;
@@ -178,6 +215,11 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 		}
 		else if (type == DC_FILE_OUT)
 		{
+			/* Remove the previous checkpoint if it was not
+			 * finished */
+			if (strlen(active_ckpt))
+				unlink(active_ckpt);
+
 			snprintf(active_ckpt, sizeof(active_ckpt), "dc_ckpt_%d",
 				++ckpt_generation);
 			return strdup(active_ckpt);
@@ -421,6 +463,9 @@ void DC_checkpointMade(const char *filename)
 	unlink(last_complete_ckpt);
 	free(last_complete_ckpt);
 	last_complete_ckpt = strdup(filename);
+	/* Prevent it to be deleted by DC_resolveFileName() */
+	active_ckpt[0] = '\0';
+
 	boinc_checkpoint_completed();
 	
 	if (client_state == STATE_SUSPEND)
@@ -453,6 +498,12 @@ void DC_finish(int exitcode)
 	if (strlen(active_ckpt))
 		unlink(active_ckpt);
 	unlink(LAST_CKPT_FILE);
+
+	if (!boinc_resolve_filename(DC_LABEL_STDOUT, path, sizeof(path)))
+		_DC_copyFile("stdout.txt", path);
+
+	if (!boinc_resolve_filename(DC_LABEL_STDERR, path, sizeof(path)))
+		_DC_copyFile("stderr.txt", path);
 
 	boinc_finish(exitcode);
 	/* We should never get here, but boinc_finish() is not marked
