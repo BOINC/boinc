@@ -50,13 +50,6 @@ typedef enum {
 	DC_EVENT_MESSAGE	/* A message has arrived */
 } DC_EventType;
 
-/* Special result files, used by DC_getResultOutput() */
-#define DC_RESULT_STDOUT	"__DC_STDOUT_"	/* The client's standard
-						   output */
-#define DC_RESULT_STDERR	"__DC_STDERR_"	/* The client's standard
-						   error */
-#define DC_RESULT_LOG		"__DC_LOG_"	/* The system's log */
-
 
 /********************************************************************
  * Data types

@@ -41,27 +41,6 @@ Types of events the master application may receive.
 @DC_EVENT_SUBRESULT: a subresult has arrived.
 @DC_EVENT_MESSAGE: a message has arrived.
 
-<!-- ##### MACRO DC_RESULT_STDOUT ##### -->
-<para>
-Logical name of the client's standard output used with DC_getResultOutput().
-</para>
-
-
-
-<!-- ##### MACRO DC_RESULT_STDERR ##### -->
-<para>
-Logical name of the client's standard error used with DC_getResultOutput().
-</para>
-
-
-
-<!-- ##### MACRO DC_RESULT_LOG ##### -->
-<para>
-Logical name of the client's ifrastructure log used with DC_getResultOutput().
-</para>
-
-
-
 <!-- ##### STRUCT DC_Workunit ##### -->
 <para>
 Opaque type representing a work unit. A work unit consists of an executable
@@ -94,10 +73,10 @@ Describes an event received by the master application.
 </para>
 
 @type: the type of the event.
-@wu: 
+@wu: the work unit that generated the event.
 @result: the received #DC_Result if @type is %DC_EVENT_RESULT.
 @subresult: the received subresult if @type is %DC_EVENT_SUBRESULT.
-@message: 
+@message: the received message if @type is %DC_EVENT_MESSAGE.
 
 <!-- ##### USER_FUNCTION DC_ResultCallback ##### -->
 <para>
@@ -462,6 +441,23 @@ application @clientName in the configuration file.
 <para>
 Returns the integer value belonging to the specified key @key for the
 specific client application @clientName in the configuration
+file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
+</para>
+
+@clientName: the name of the client application.
+@key: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a number.
+@fallbackGlobal: if %TRUE and the key is not defined in the client configuration,
+	it will be looked up in the master configuration as well.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
+
+
+<!-- ##### FUNCTION DC_getClientCfgDouble ##### -->
+<para>
+Returns the double precision floating point value belonging to the specified
+key @key for the specific client application @clientName in the configuration
 file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
 </para>
 
