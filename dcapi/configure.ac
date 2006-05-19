@@ -95,6 +95,8 @@ dnl
 
 echo ""
 echo "Enabled backends: $BACKENDS"
+echo "Build master: $enable_master"
+echo "Build client: $enable_client"
 echo ""
 
 AC_CONFIG_FILES([Makefile \
@@ -109,8 +111,5 @@ AC_CONFIG_FILES([Makefile \
 	condor/Makefile \
 	condor/dcapi-condor-client.pc \
 	condor/dcapi-condor-master.pc \
-	doc/Makefile \
-	doc/client/Makefile \
-	doc/common/Makefile \
-	doc/master/Makefile])
+	doc/Makefile])
 AC_OUTPUT
