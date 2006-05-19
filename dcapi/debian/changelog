@@ -1,3 +1,12 @@
+dcapi (0.9-2) unstable; urgency=low
+
+  * Bugzilla bugs fixed:
+      #783: argumentek hibat okoznak
+      #784: DC_waitWUEvent nem var
+  * API change: make sure there are no clashes between the master and client
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Fri, 19 May 2006 16:57:36 +0200
+
 dcapi (0.9-1) unstable; urgency=low
 
   * New DC API version.
