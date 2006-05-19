@@ -9,7 +9,7 @@
  * Copyright MTA SZTAKI, 2006
  */
 
-/* <Tell gtk-doc that this is a private_header> */
+/* <private_header> */
 
 #ifndef __DC_INTERNAL_H_
 #define __DC_INTERNAL_H_
@@ -17,6 +17,20 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/********************************************************************
+ * Constants
+ */
+
+/* Master's working directory (absolute path) */
+#define CFG_WORKDIR		"WorkingDirectory"
+/* Application instance UUID */
+#define CFG_INSTANCEUUID	"InstanceUUID"
+/* Log level */
+#define CFG_LOGLEVEL		"LogLevel"
+/* Log file location */
+#define CFG_LOGFILE		"LogFile"
+
 
 /********************************************************************
  * Function prototypes

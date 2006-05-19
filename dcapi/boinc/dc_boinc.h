@@ -24,10 +24,6 @@ extern "C" {
  * Constants
  */
 
-/* Master's working directory (absolute path) */
-#define CFG_WORKDIR		"WorkingDirectory"
-/* Application instance UUID */
-#define CFG_INSTANCEUUID	"InstanceUUID"
 /* Location of config.xml */
 #define CFG_CONFIGXML		"BoincConfigXML"
 /* The root direcory of the BOINC project */

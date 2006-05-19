@@ -17,11 +17,9 @@ extern "C" {
  */
 
 /* DCAPI configuration keys */
-#define CFG_WORKDIR		"WorkingDirectory"
 #define CFG_SLEEPINTERVAL	"SleepingInterval"
-#define CFG_INSTANCEUUID        "InstanceUUID"
 
-#define DEFAULT_SLEEP_INTERVAL		5
+#define DEFAULT_SLEEP_INTERVAL	5
 
 /* File types in the working directory */
 typedef enum
