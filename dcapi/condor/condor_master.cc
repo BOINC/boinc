@@ -25,7 +25,7 @@ char project_uuid_str[37] = "";
 
 /* Initializes the DC-API. */
 int
-DC_init (const char *configFile)
+DC_initMaster (const char *configFile)
 {
 	int ret;
 	char *cfgval = NULL;
@@ -114,7 +114,7 @@ DC_createWU (const char *clientName,
 	g_string_free (str, FALSE);
 
 	if (!wu_table)
-		DC_init (NULL);
+		DC_initMaster (NULL);
 	g_hash_table_insert (wu_table, wu->name, wu);
 
 	return (wu);
@@ -251,7 +251,7 @@ DC_setWUPriority (DC_Workunit * wu, int priority)
 
 /* Sets the callback functions that will be called when a particular event. */
 void
-DC_setcb (DC_ResultCallback resultcb,
+DC_setMasterCb (DC_ResultCallback resultcb,
 	  DC_SubresultCallback subresultcb, DC_MessageCallback msgcb)
 {
 }
@@ -309,22 +309,22 @@ DC_getWUNumber (DC_WUState state)
 
 /* Waits for events and processes them. */
 int
-DC_processEvents (int timeout)
+DC_processMasterEvents (int timeout)
 {
 	return (0);
 }
 
 
 /* Checks for events and return them. */
-DC_Event *
-DC_waitEvent (const char *wuFilter, int timeout)
+DC_MasterEvent *
+DC_waitMasterEvent (const char *wuFilter, int timeout)
 {
 	return (0);
 }
 
 
 /* Checks for events for a particular WU. */
-DC_Event *
+DC_MasterEvent *
 DC_waitWUEvent (DC_Workunit * wu, int timeout)
 {
 	return (0);
@@ -333,7 +333,7 @@ DC_waitWUEvent (DC_Workunit * wu, int timeout)
 
 /* Destroys an event. */
 void
-DC_destroyEvent (DC_Event * event)
+DC_destroyMasterEvent (DC_MasterEvent * event)
 {
 }
 

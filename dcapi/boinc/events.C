@@ -149,14 +149,14 @@ handled:
 	return done;
 }
 
-int DC_processEvents(int timeout)
+int DC_processMasterEvents(int timeout)
 {
 	time_t end, now;
 	int done;
 
 	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
 	{
-		DC_log(LOG_ERR, "DC_processEvents: callbacks are not set up");
+		DC_log(LOG_ERR, "DC_processMasterEvents: callbacks are not set up");
 		return DC_ERR_CONFIG;
 	}
 
@@ -179,10 +179,10 @@ int DC_processEvents(int timeout)
 }
 
 /* Look for a single result that matches the filter */
-static DC_Event *look_for_results(const char *wuFilter, const char *wuName)
+static DC_MasterEvent *look_for_results(const char *wuFilter, const char *wuName)
 {
 	DB_RESULT result;
-	DC_Event *event;
+	DC_MasterEvent *event;
 	DB_WORKUNIT wu;
 	char *query;
 
@@ -213,8 +213,8 @@ static DC_Event *look_for_results(const char *wuFilter, const char *wuName)
 		return NULL;
 	}
 
-	event = g_new(DC_Event, 1);
-	event->type = DC_EVENT_RESULT;
+	event = g_new(DC_MasterEvent, 1);
+	event->type = DC_MASTER_RESULT;
 	event->result = _DC_createResult(wu.name, wu.id, result.xml_doc_in);
 	if (!event->result)
 	{
@@ -226,10 +226,10 @@ static DC_Event *look_for_results(const char *wuFilter, const char *wuName)
 	return event;
 }
 
-DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
+DC_MasterEvent *DC_waitMasterEvent(const char *wuFilter, int timeout)
 {
 	time_t end, now;
-	DC_Event *event;
+	DC_MasterEvent *event;
 
 	end = time(NULL) + timeout;
 	while (1)
@@ -250,10 +250,10 @@ DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
 	return event;
 }
 
-DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
+DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
 	char uuid_str[36];
-	DC_Event *event;
+	DC_MasterEvent *event;
 	time_t end, now;
 
 	uuid_unparse_lower(wu->uuid, uuid_str);
@@ -277,20 +277,20 @@ DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	return event;
 }
 
-void DC_DestroyEvent(DC_Event *event)
+void DC_DestroyMasterEvent(DC_MasterEvent *event)
 {
 	if (!event)
 		return;
 
 	switch (event->type)
 	{
-		case DC_EVENT_RESULT:
+		case DC_MASTER_RESULT:
 			_DC_destroyResult(event->result);
 			break;
-		case DC_EVENT_SUBRESULT:
+		case DC_MASTER_SUBRESULT:
 			_DC_destroyPhysicalFile(event->subresult);
 			break;
-		case DC_EVENT_MESSAGE:
+		case DC_MASTER_MESSAGE:
 			g_free(event->message);
 			break;
 		default:

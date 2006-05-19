@@ -32,7 +32,7 @@ int DC_getMaxSubresults(void)
 
 
 /* Determines the basic capabilities of the underlying grid infrastructure. */
-DC_GridCapabilities DC_getGridCapabilities(void)
+unsigned DC_getGridCapabilities(void)
 {
 	return(0);
 }

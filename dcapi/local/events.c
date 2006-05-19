@@ -7,18 +7,18 @@
 
 #include "dc_local.h"
 
-int DC_processEvents(int timeout)
+int DC_processMasterEvents(int timeout)
 {
 	int retval;
 	static time_t start, current;
 
 	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
 	{
-		DC_log(LOG_ERR, "DC_processEvents: callbacks are not set up");
+		DC_log(LOG_ERR, "DC_processMasterEvents: callbacks are not set up");
 		return DC_ERR_CONFIG;
 	}
 
-	DC_log(LOG_INFO, "DC_processEvents: Searching for events ...");
+	DC_log(LOG_INFO, "DC_processMasterEvents: Searching for events ...");
 
 	start = time(NULL);
 	while (1)
@@ -29,50 +29,50 @@ int DC_processEvents(int timeout)
 
 		if (DC_getWUNumber(DC_WU_RUNNING) == 0)
 		{
-			DC_log(LOG_INFO, "DC_processEvents: No more running workunits ... returning");
+			DC_log(LOG_INFO, "DC_processMasterEvents: No more running workunits ... returning");
 			return 0;
 		}
 
 		current = time(NULL);
 		if (current - start > timeout)
 		{
-			DC_log(LOG_INFO, "DC_processEvents: timeout is over ... returning");
+			DC_log(LOG_INFO, "DC_processMasterEvents: timeout is over ... returning");
 			return 0;
 		}
 		sleep(sleep_interval);
 	}
 }
 
-DC_Event *DC_waitEvent(const char *wuFilter, int timeout)
+DC_MasterEvent *DC_waitMasterEvent(const char *wuFilter, int timeout)
 {
-	DC_Event *event;
+	DC_MasterEvent *event;
 
 //	event = look_for_results(wuFilter, NULL, timeout);
 
 	return event;
 }
 
-DC_Event *DC_waitWUEvent(DC_Workunit *wu, int timeout)
+DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
-	DC_Event *event;
+	DC_MasterEvent *event;
 
 	return event;
 }
 
-void DC_destroyEvent(DC_Event *event)
+void DC_destroyMasterEvent(DC_MasterEvent *event)
 {
 	if (!event)
 		return;
 
 	switch (event->type)
 	{
-		case DC_EVENT_RESULT:
+		case DC_MASTER_RESULT:
 			_DC_destroyResult(event->result);
 			break;
-		case DC_EVENT_SUBRESULT:
+		case DC_MASTER_SUBRESULT:
 			_DC_destroyPhysicalFile(event->subresult);
 			break;
-		case DC_EVENT_MESSAGE:
+		case DC_MASTER_MESSAGE:
 			g_free(event->message);
 			break;
 		default:

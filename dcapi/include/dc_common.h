@@ -81,7 +81,7 @@ int DC_getMaxMessageSize(void);
 int DC_getMaxSubresults(void);
 
 /* Determines the basic capabilities of the underlying grid infrastructure. */
-DC_GridCapabilities DC_getGridCapabilities(void);
+unsigned DC_getGridCapabilities(void);
 
 /* Prints a message to the log file. */
 void DC_log(int level, const char *fmt, ...)

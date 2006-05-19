@@ -26,7 +26,7 @@ int sleep_interval;
  * API functions
  */
 
-int DC_init(const char *config_file)
+int DC_initMaster(const char *config_file)
 {
 	char *cfgval;
 	int ret;
@@ -91,12 +91,12 @@ int DC_getMaxSubresults(void)
 	return MAX_SUBRESULTS;
 }
 
-DC_GridCapabilities DC_getGridCapabilities(void)
+unsigned DC_getGridCapabilities(void)
 {
-	return (DC_GridCapabilities) (DC_GC_STDOUT | DC_GC_STDERR);
+	return DC_GC_STDOUT | DC_GC_STDERR;
 }
 
-void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
+void DC_setMasterCb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
 	DC_MessageCallback msgcb)
 {
 	_dc_resultcb = resultcb;

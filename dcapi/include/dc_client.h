@@ -10,8 +10,8 @@
  *
  * Copyright MTA SZTAKI, 2006
  */
-#ifndef __DCCLIENT_H_
-#define __DCCLIENT_H_
+#ifndef _DC_CLIENT_H_
+#define _DC_CLIENT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,10 +35,10 @@ typedef enum {
 
 /* Control events */
 typedef enum {
-	DC_EVENT_DO_CHECKPOINT,	/* Checkpointing is requested */
-	DC_EVENT_FINISH,	/* Computation should be aborted */
-	DC_EVENT_MESSAGE	/* A message has arrived */
-} DC_EventType;
+	DC_CLIENT_CHECKPOINT,	/* Checkpointing is requested */
+	DC_CLIENT_FINISH,	/* Computation should be aborted */
+	DC_CLIENT_MESSAGE	/* A message has arrived */
+} DC_ClientEventType;
 
 
 /********************************************************************
@@ -56,10 +56,10 @@ typedef enum {
  */
 
 /* Description of a DC-API event */
-typedef struct _DC_Event	DC_Event;
-struct _DC_Event
+typedef struct _DC_ClientEvent	DC_ClientEvent;
+struct _DC_ClientEvent
 {
-	DC_EventType		type;
+	DC_ClientEventType	type;
 	union
 	{
 		char		*message;
@@ -72,7 +72,7 @@ struct _DC_Event
  */
 
 /* Initializes the client API. */
-int DC_init(void);
+int DC_initClient(void);
 
 /* Resolves the local name of input/output files. */
 char *DC_resolveFileName(DC_FileType type, const char *logicalFileName);
@@ -85,10 +85,10 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 int DC_sendMessage(const char *message);
 
 /* Checks for application control events. */
-DC_Event *DC_checkEvent(void);
+DC_ClientEvent *DC_checkClientEvent(void);
 
-/* Destroys the event-specific data returned by DC_checkEvent(). */
-void DC_destroyEvent(DC_Event *event);
+/* Destroys the event-specific data returned by DC_checkClientEvent(). */
+void DC_destroyClientEvent(DC_ClientEvent *event);
 
 /* Indicates that an application-level checkpoint has completed. */
 void DC_checkpointMade(const char *fileName);
@@ -97,10 +97,10 @@ void DC_checkpointMade(const char *fileName);
 void DC_fractionDone(double fraction);
 
 /* Finishes computation. */
-void DC_finish(int exitcode) __attribute__((__noreturn__));
+void DC_finishClient(int exitcode) __attribute__((__noreturn__));
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+#endif /* _DC_CLIENT_H_ */

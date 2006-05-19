@@ -33,7 +33,7 @@ static int do_checkpoint(int frac_current_pos){
     ckptfile = fopen(ckptfile_physical, "w");
     if (ckptfile == NULL){
 	fprintf(stderr, "APP: cannot open checkpoint file for write!!\n");
-	DC_finish(6);
+	DC_finishClient(6);
     }
     fprintf(ckptfile, "%d", frac_current_pos);
     fclose(ckptfile);
@@ -41,7 +41,7 @@ static int do_checkpoint(int frac_current_pos){
     retval = fflush(outfile);
     if (retval) {
         fprintf(stderr, "APP: uppercase flush failed %d\n", retval);
-        DC_finish(5);
+        DC_finishClient(5);
     }
     
     return 0;
@@ -60,7 +60,7 @@ static void init_files(void){
     if (infile == NULL){
 	fprintf(stderr, "APP: Cannot open input file! Logical name: %s, physical name: %s.\n",
 			 infile_logical, infile_physical);
-	DC_finish(1);
+	DC_finishClient(1);
     }
     frac_init();
 
@@ -83,7 +83,7 @@ static void init_files(void){
     if (outfile == NULL){
 	fprintf(stderr, "APP: Cannot open output file! Logical name: %s, physical name: %s.\n",
 			 outfile_logical, outfile_physical);
-	DC_finish(2);
+	DC_finishClient(2);
     }
     fseek(outfile, frac_current_pos, SEEK_SET);
 }
@@ -104,7 +104,7 @@ static void do_work(void){
         if (1){
             if(do_checkpoint(frac_current_pos)){
                 fprintf(stderr, "APP: uppercase checkpoint failed.\n");
-                DC_finish(3);
+                DC_finishClient(3);
             }
   //          DC_checkpointMade();
         }
@@ -115,7 +115,7 @@ static void do_work(void){
     retval = fflush(outfile);
     if (retval) {
         fprintf(stderr, "APP: uppercase flush failed %d\n", retval);
-        DC_finish(5);
+        DC_finishClient(5);
     }
     fclose(outfile);
 }
@@ -123,10 +123,10 @@ static void do_work(void){
 int main(int argc, char **argv) {
     int retval = 0;
 
-    retval = DC_init();
+    retval = DC_initClient();
     if (retval) {
 	fprintf(stderr, "APP: Error while the initialize. Return value = %d.\n", retval);
-	DC_finish(retval);
+	DC_finishClient(retval);
     }
     fprintf(stdout, "APP: Init successful.\n");
 
@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
 
     DC_sendMessage("Client completed. Exiting.");
 
-    DC_finish(0);
+    DC_finishClient(0);
     return(0);	// Tho' we never reach this line
 }
 
