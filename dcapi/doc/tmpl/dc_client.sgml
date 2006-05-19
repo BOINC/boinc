@@ -38,24 +38,24 @@ for details about checkpoint file usage.
 
 
 
-<!-- ##### ENUM DC_EventType ##### -->
+<!-- ##### ENUM DC_ClientEventType ##### -->
 <para>
-Event types that can be received.
+ClientEvent types that can be received.
 </para>
 
-@DC_EVENT_DO_CHECKPOINT: a checkpoint should be made.
-@DC_EVENT_FINISH: the computation should be aborted.
-@DC_EVENT_MESSAGE: a message has arrived.
+@DC_CLIENT_CHECKPOINT: a checkpoint should be made.
+@DC_CLIENT_FINISH: the computation should be aborted.
+@DC_CLIENT_MESSAGE: a message has arrived.
 
-<!-- ##### STRUCT DC_Event ##### -->
+<!-- ##### STRUCT DC_ClientEvent ##### -->
 <para>
-Event received from the master.
+ClientEvent received from the master.
 </para>
 
 @type: type of the event.
 @message: contents of the message if @type is %DC_EVENT_MESSAGE.
 
-<!-- ##### FUNCTION DC_init ##### -->
+<!-- ##### FUNCTION DC_initClient ##### -->
 <para>
 Initializes the client API. This function must be called first before calling
 any other DC-API functions.
@@ -163,19 +163,19 @@ can be determined by calling DC_getMaxMessageSize().
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
-<!-- ##### FUNCTION DC_checkEvent ##### -->
+<!-- ##### FUNCTION DC_checkClientEvent ##### -->
 <para>
 Checks for client control events.
 </para>
 
-@Returns: a #DC_Event or %NULL if there are no outstanding events. The returned
-	event should be destroyed using DC_destroyEvent() when it is no longer
+@Returns: a #DC_ClientEvent or %NULL if there are no outstanding events. The returned
+	event should be destroyed using DC_destroyClientEvent() when it is no longer
 	needed.
 
 
-<!-- ##### FUNCTION DC_destroyEvent ##### -->
+<!-- ##### FUNCTION DC_destroyClientEvent ##### -->
 <para>
-Destroys an event returned by DC_checkEvent().
+Destroys an event returned by DC_checkClientEvent().
 </para>
 
 @event: the event to destroy.
@@ -203,7 +203,7 @@ time that will be needed for the computation.
 @fraction: the fraction of the work completed.
 
 
-<!-- ##### FUNCTION DC_finish ##### -->
+<!-- ##### FUNCTION DC_finishClient ##### -->
 <para>
 Finishes computation. Tells the DC-API to finish this work unit and start a
 new one.

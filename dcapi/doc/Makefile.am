@@ -1,10 +1,57 @@
-SUBDIRS = common client master
+## Process this file with automake to produce Makefile.in
+
+# We require automake 1.6 at least.
+AUTOMAKE_OPTIONS = 1.6
+
+# This is a blank Makefile.am for using gtk-doc.
+# Copy this to your project's API docs directory and modify the variables to
+# suit your project. See the GTK+ Makefiles in gtk+/docs/reference for examples
+# of using the various options.
 
 # The name of the module, e.g. 'glib'.
 DOC_MODULE=dc
 
 # The top-level SGML file. You can change this if you want to.
 DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.xml
+
+# The directory containing the source code. Relative to $(srcdir).
+# gtk-doc will search all .c & .h files beneath here for inline comments
+# documenting the functions and macros.
+# e.g. DOC_SOURCE_DIR=../../../gtk
+DOC_SOURCE_DIR=../include
+
+# Extra options to pass to gtkdoc-scangobj. Not normally needed.
+SCANGOBJ_OPTIONS=
+
+# Extra options to supply to gtkdoc-scan.
+# e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED" 
+SCAN_OPTIONS=
+
+# Extra options to supply to gtkdoc-mkdb.
+# e.g. MKDB_OPTIONS=--sgml-mode --output-format=xml
+MKDB_OPTIONS=--sgml-mode --output-format=xml
+
+# Extra options to supply to gtkdoc-mktmpl
+# e.g. MKTMPL_OPTIONS=--only-section-tmpl
+MKTMPL_OPTIONS=
+
+# Extra options to supply to gtkdoc-fixref. Not normally needed.
+# e.g. FIXXREF_OPTIONS=--extra-dir=../gdk-pixbuf/html --extra-dir=../gdk/html
+FIXXREF_OPTIONS=
+
+# Used for dependencies. The docs will be rebuilt if any of these change.
+# e.g. HFILE_GLOB=$(top_srcdir)/gtk/*.h
+# e.g. CFILE_GLOB=$(top_srcdir)/gtk/*.c
+HFILE_GLOB=../include/*.h
+CFILE_GLOB=
+
+# Header files to ignore when scanning.
+# e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h
+IGNORE_HFILES=config.h
+
+# Images to copy into HTML directory.
+# e.g. HTML_IMAGES=$(top_srcdir)/gtk/stock-icons/stock_about_24.png
+HTML_IMAGES=
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
 # e.g. content_files=running.sgml building.sgml changes-2.0.sgml
@@ -15,85 +62,17 @@ content_files=
 # e.g. expand_content_files=running.sgml
 expand_content_files=
 
-# Extra options to supply to gtkdoc-fixref. Not normally needed.
-# e.g. FIXXREF_OPTIONS=--extra-dir=../gdk-pixbuf/html --extra-dir=../gdk/html
-FIXXREF_OPTIONS=
+# CFLAGS and LDFLAGS for compiling gtkdoc-scangobj with your library.
+# Only needed if you are using gtkdoc-scangobj to dynamically query widget
+# signals and properties.
+# e.g. INCLUDES=-I$(top_srcdir) -I$(top_builddir) $(GTK_DEBUG_FLAGS)
+# e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
+INCLUDES=
+GTKDOC_LIBS=
 
-####################################
-# Everything below here is generic #
-####################################
+# This includes the standard gtk-doc make rules, copied by gtkdocize.
+include $(top_srcdir)/gtk-doc.make
 
-# We set GPATH here; this gives us semantics for GNU make
-# which are more like other make's VPATH, when it comes to
-# whether a source that is a target of one rule is then
-# searched for in VPATH/GPATH.
-#
-GPATH = $(srcdir)
-
-TARGET_DIR=$(HTML_DIR)
-
-EXTRA_DIST = 				\
-	$(content_files)		\
-	$(HTML_IMAGES)			\
-	$(DOC_MAIN_SGML_FILE)
-
-CONTENT_STAMPS = client/sgml.stamp master/sgml.stamp common/sgml.stamp
-DOC_STAMPS = html-build.stamp $(srcdir)/html.stamp
-
-CLEANFILES = $(DOC_STAMPS)
-
-if ENABLE_GTK_DOC
-all-local: html-build.stamp
-
-html-build.stamp: $(DOC_MAIN_SGML_FILE) $(content_files) $(CONTENT_STAMPS)
-	@echo 'gtk-doc: Building HTML'
-	@-chmod -R u+w $(srcdir)
-	rm -rf $(srcdir)/html 
-	mkdir $(srcdir)/html
-	cd $(srcdir)/html && gtkdoc-mkhtml $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
-	test "x$(HTML_IMAGES)" = "x" || ( cd $(srcdir) && cp $(HTML_IMAGES) html )
-	@echo 'gtk-doc: Fixing cross-references' 
-	cd $(srcdir) && gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
-	touch html-build.stamp
-else
-all-local:
-endif
-
-##############
-
-clean-local:
-	rm -f *~ *.bak
-
-maintainer-clean-local: clean
-	cd $(srcdir) && rm -rf html
-
-install-data-local:
-	installfiles=`echo $(srcdir)/html/*`; \
-	if test "$$installfiles" = '$(srcdir)/html/*'; \
-	then echo '-- Nothing to install' ; \
-	else \
-	  $(mkinstalldirs) $(DESTDIR)$(TARGET_DIR); \
-	  for i in $$installfiles; do \
-	    echo '-- Installing '$$i ; \
-	    $(INSTALL_DATA) $$i $(DESTDIR)$(TARGET_DIR); \
-	  done; \
-	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
-	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DESTDIR)$(TARGET_DIR) || :; \
-	fi
-
-uninstall-local:
-	rm -f $(DESTDIR)$(TARGET_DIR)/*
-
-if ENABLE_GTK_DOC
-dist-check-gtkdoc:
-else
-dist-check-gtkdoc:
-	@echo "*** gtk-doc must be installed and enabled in order to make dist"
-	@false
-endif
-
-dist-hook: dist-check-gtkdoc dist-hook-local
-	mkdir $(distdir)/html
-	-cp $(srcdir)/html/* $(distdir)/html
-
-.PHONY : dist-hook-local
+# Other files to distribute
+# e.g. EXTRA_DIST += version.xml.in
+EXTRA_DIST += 

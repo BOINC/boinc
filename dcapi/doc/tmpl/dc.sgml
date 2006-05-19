@@ -32,14 +32,14 @@ State of work units.
 	user calling DC_cancelWU().
 @DC_WU_UNKNOWN: DC-API is not able to determine the state of the work unit.
 
-<!-- ##### ENUM DC_EventType ##### -->
+<!-- ##### ENUM DC_MasterEventType ##### -->
 <para>
 Types of events the master application may receive.
 </para>
 
-@DC_EVENT_RESULT: a new #DC_Result is available.
-@DC_EVENT_SUBRESULT: a subresult has arrived.
-@DC_EVENT_MESSAGE: a message has arrived.
+@DC_MASTER_RESULT: a new #DC_Result is available.
+@DC_MASTER_SUBRESULT: a subresult has arrived.
+@DC_MASTER_MESSAGE: a message has arrived.
 
 <!-- ##### STRUCT DC_Workunit ##### -->
 <para>
@@ -58,25 +58,16 @@ output and error, and any log file created by the grid infrastructure.
 </para>
 
 
-<!-- ##### STRUCT DC_PhysicalFile ##### -->
-<para>
-Describes a physical file.
-</para>
-
-@label: logical name of the file as used by the application.
-@path: the real path name of the file.
-@mode: usage mode of the file.
-
-<!-- ##### STRUCT DC_Event ##### -->
+<!-- ##### STRUCT DC_MasterEvent ##### -->
 <para>
 Describes an event received by the master application.
 </para>
 
 @type: the type of the event.
 @wu: the work unit that generated the event.
-@result: the received #DC_Result if @type is %DC_EVENT_RESULT.
-@subresult: the received subresult if @type is %DC_EVENT_SUBRESULT.
-@message: the received message if @type is %DC_EVENT_MESSAGE.
+@result: the received #DC_Result if @type is %DC_MASTER_RESULT.
+@subresult: the received subresult if @type is %DC_MASTER_SUBRESULT.
+@message: the received message if @type is %DC_MASTER_MESSAGE.
 
 <!-- ##### USER_FUNCTION DC_ResultCallback ##### -->
 <para>
@@ -112,7 +103,7 @@ as invalid.
 @message: contents of the message.
 
 
-<!-- ##### FUNCTION DC_init ##### -->
+<!-- ##### FUNCTION DC_initMaster ##### -->
 <para>
 Initializes the master side of the DC-API. This function must be called first
 before calling any other DC-API functions.
@@ -123,7 +114,7 @@ before calling any other DC-API functions.
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
-<!-- ##### FUNCTION DC_setcb ##### -->
+<!-- ##### FUNCTION DC_setMasterCb ##### -->
 <para>
 Sets the callback functions to be used for event reporting.
 </para>
@@ -133,7 +124,7 @@ Sets the callback functions to be used for event reporting.
 @msgcb: the callback for reporting messages.
 
 
-<!-- ##### FUNCTION DC_processEvents ##### -->
+<!-- ##### FUNCTION DC_processMasterEvents ##### -->
 <para>
 Processes work unit events. In case of a work unit completes and its result is
 available, or if a message or a subresult has arrived, the appropriate callback
@@ -154,12 +145,12 @@ simply rename the files therefore preventing DC-API from deleting them.
 @Returns: 0 if successful or a #DC_ErrorCode.
 
 
-<!-- ##### FUNCTION DC_waitEvent ##### -->
+<!-- ##### FUNCTION DC_waitMasterEvent ##### -->
 <para>
 Checks for events and returns them directly. This function does not invoke any
 event-processing callbacks.
   <note>
-    Contrary to DC_processEvents(), the application is responsible for
+    Contrary to DC_processMasterEvents(), the application is responsible for
     destroying the returned event when it is no longer needed.
   </note>
 </para>
@@ -169,7 +160,7 @@ event-processing callbacks.
 @timeout: time to wait (in seconds) for an event to arrive. 0 means do not wait
 	if there are no events to process.
 @Returns: an event if one is available or %NULL if a timeout has occured. The
-	returned event must be destroyed using DC_destroyEvent() when it is
+	returned event must be destroyed using DC_destroyMasterEvent() when it is
 	no longer needed.
 
 
@@ -178,7 +169,7 @@ event-processing callbacks.
 Checks for events for a particular work unit. This function does not invoke any
 event-processing callbacks.
   <note>
-    Contrary to DC_processEvents(), the application is responsible for
+    Contrary to DC_processMasterEvents(), the application is responsible for
     destroying the returned event when it is no longer needed.
   </note>
 </para>
@@ -187,16 +178,16 @@ event-processing callbacks.
 @timeout: time to wait (in seconds) for an event to arrive. 0 means do not wait
 	if there are no events to process.
 @Returns: an event if one is available or %NULL if a timeout has occured. The
-	returned event must be destroyed using DC_destroyEvent() when it is
+	returned event must be destroyed using DC_destroyMasterEvent() when it is
 	no longer needed.
 
 
-<!-- ##### FUNCTION DC_destroyEvent ##### -->
+<!-- ##### FUNCTION DC_destroyMasterEvent ##### -->
 <para>
-Destroys a #DC_Event obtained by calling DC_waitEvent() or DC_waitWUEvent().
+Destroys a #DC_MasterEvent obtained by calling DC_waitMasterEvent() or DC_waitWUEvent().
 </para>
 
-@event: the #DC_Event to destroy.
+@event: the #DC_MasterEvent to destroy.
 
 
 <!-- ##### FUNCTION DC_getWUNumber ##### -->
