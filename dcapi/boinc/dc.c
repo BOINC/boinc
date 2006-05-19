@@ -209,7 +209,8 @@ int DC_getMaxSubresults(void)
 
 DC_GridCapabilities DC_getGridCapabilities(void)
 {
-	return DC_GC_EXITCODE | DC_GC_SUBRESULT | DC_GC_MESSAGING;
+	return DC_GC_EXITCODE | DC_GC_SUBRESULT | DC_GC_MESSAGING |
+		DC_GC_STDOUT | DC_GC_STDERR | DC_GC_LOG;
 }
 
 void DC_setcb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,

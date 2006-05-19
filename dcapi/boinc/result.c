@@ -10,9 +10,12 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <stdio.h>
 
 #include "dc_boinc.h"
 
@@ -63,10 +66,32 @@ void _DC_destroyResult(DC_Result *result)
 	g_free(result);
 }
 
-unsigned DC_getResultCapabilities(const DC_Result *result)
+DC_GridCapabilities DC_getResultCapabilities(const DC_Result *result)
 {
-	/* XXX Att STDOUT and STDERR handling */
-	return DC_GC_EXITCODE;
+	unsigned caps;
+	char *path;
+
+	caps = DC_GC_EXITCODE;
+	path = DC_getResultOutput(result, DC_LABEL_STDOUT);
+	if (path)
+	{
+		caps |= DC_GC_STDOUT;
+		free(path);
+	}
+	path = DC_getResultOutput(result, DC_LABEL_STDERR);
+	if (path)
+	{
+		caps |= DC_GC_STDERR;
+		free(path);
+	}
+	path = DC_getResultOutput(result, DC_LABEL_CLIENTLOG);
+	if (path)
+	{
+		caps |= DC_GC_LOG;
+		free(path);
+	}
+
+	return caps;
 }
 
 DC_Workunit *DC_getResultWU(DC_Result *result)
@@ -81,10 +106,11 @@ int DC_getResultExit(const DC_Result *result)
 
 char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
+	struct stat st;
 	char *path;
 	GList *l;
+	int ret;
 
-	/* XXX Att STDOUT and STDERR handling */
 	for (l = result->output_files; l; l = l->next)
 	{
 		DC_PhysicalFile *file = l->data;
@@ -93,6 +119,15 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 			continue;
 
 		path = _DC_hierPath(file->path, TRUE);
+
+		/* Treat empty files as non-existent */
+		ret = stat(path, &st);
+		if (ret || !st.st_size)
+		{
+			g_free(path);
+			return NULL;
+		}
+
 		if (!g_mem_is_system_malloc())
 		{
 			char *tmp;

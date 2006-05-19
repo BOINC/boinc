@@ -17,8 +17,8 @@ extern "C" {
 #define SUBRESULT_PFX		"dc_subresult_"
 
 /* Logical names of the checkpoint file */
-#define CKPT_LABEL_IN		"dc_checkpoint.in"
-#define CKPT_LABEL_OUT		"dc_checkpoint.out"
+#define CKPT_LABEL_IN		"dc_ckpt_in"
+#define CKPT_LABEL_OUT		"dc_ckpt_out"
 
 /* Maximum allowed message length */
 #define MAX_MESSAGE_SIZE	16384
