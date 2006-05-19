@@ -110,7 +110,7 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		}
 	}	
 
-	if (!strcmp(logicalFileName, DC_RESULT_STDOUT))
+	if (!strcmp(logicalFileName, DC_LABEL_STDOUT))
 	{
 		char *tmp = g_strdup_printf("%s%c%s", result->wu->workdir, G_DIR_SEPARATOR, STDOUT_LABEL);
 		physicalFileName = strdup(tmp);
@@ -118,7 +118,7 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		return physicalFileName;
 	}
 
-	if (!strcmp(logicalFileName, DC_RESULT_STDERR))
+	if (!strcmp(logicalFileName, DC_LABEL_STDERR))
 	{
 		char *tmp = g_strdup_printf("%s%c%s", result->wu->workdir, G_DIR_SEPARATOR, STDERR_LABEL);
 		physicalFileName = strdup(tmp);

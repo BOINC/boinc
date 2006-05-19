@@ -5,9 +5,6 @@
 
 DC_WUState
 DC_EventType
-DC_RESULT_STDOUT
-DC_RESULT_STDERR
-DC_RESULT_LOG
 DC_Workunit
 DC_Result
 DC_PhysicalFile
@@ -47,6 +44,7 @@ DC_sendWUMessage
 <SUBSECTION>
 DC_getClientCfgStr
 DC_getClientCfgInt
+DC_getClientCfgDouble
 
 <SUBSECTION>
 DC_getResultCapabilities

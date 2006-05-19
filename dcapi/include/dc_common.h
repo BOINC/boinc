@@ -64,6 +64,11 @@ typedef enum {
 /* Default name of the configuration file */
 #define DC_CONFIG_FILE		"dc-api.conf"
 
+/* Logical names for special files */
+#define DC_LABEL_STDOUT		"dc_stdout.txt"
+#define DC_LABEL_STDERR		"dc_stderr.txt"
+#define DC_LABEL_CLIENTLOG	"dc_clientlog.txt"
+
 
 /********************************************************************
  * Function prototypes

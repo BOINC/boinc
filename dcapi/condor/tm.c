@@ -252,7 +252,7 @@ static void callbackResult(DC_Workunit *wu_result, DC_Result *result)
 
 	if (testlevel != TEST_LOW_LVL)
 	{
-		outfile = DC_getResultOutput(result, DC_RESULT_STDOUT);
+		outfile = DC_getResultOutput(result, DC_LABEL_STDOUT);
 		if (!outfile)
 		{
 			printf("callbackResult: DC_getResultOutput returned with NULL for stdout. Exit application.\n");

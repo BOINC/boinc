@@ -67,6 +67,27 @@ Default name of the DC-API configuration file.
 
 
 
+<!-- ##### MACRO DC_LABEL_STDOUT ##### -->
+<para>
+Logical name of the client's standard output used with DC_getResultOutput().
+</para>
+
+
+
+<!-- ##### MACRO DC_LABEL_STDERR ##### -->
+<para>
+Logical name of the client's standard error used with DC_getResultOutput().
+</para>
+
+
+
+<!-- ##### MACRO DC_LABEL_CLIENTLOG ##### -->
+<para>
+Logical name of the client's ifrastructure log used with DC_getResultOutput().
+</para>
+
+
+
 <!-- ##### FUNCTION DC_getCfgStr ##### -->
 <para>
 Returns the value belonging to the specified key @name in the configuration file.

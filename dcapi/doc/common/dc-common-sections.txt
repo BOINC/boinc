@@ -7,6 +7,9 @@ DC_ErrorCode
 DC_GridCapabilities
 DC_FileMode
 DC_CONFIG_FILE
+DC_LABEL_STDOUT
+DC_LABEL_STDERR
+DC_LABEL_CLIENTLOG
 DC_getCfgStr
 DC_getCfgInt
 DC_log
