@@ -49,8 +49,6 @@ typedef enum
 	FILE_DCAPI
 } WorkdirFile;
 
-#define CFG_WORKDIR	"WorkingDirectory"
-
 
 #ifdef __cplusplus
 }
